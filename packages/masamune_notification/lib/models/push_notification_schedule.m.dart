@@ -21,6 +21,8 @@ class _$PushNotificationScheduleModelDocument
     with ModelRefMixin<PushNotificationScheduleModel> {
   _$PushNotificationScheduleModelDocument(super.modelQuery);
 
+  static const ModelAccessQuery? defaultModelAccessQuery = null;
+
   static final ModelAdapter? defaultModelAdapter = null;
 
   @override
@@ -40,6 +42,8 @@ class _$PushNotificationScheduleModelCollection
         FilterableCollectionMixin<_$PushNotificationScheduleModelDocument,
             _$_PushNotificationScheduleModelCollectionQuery> {
   _$PushNotificationScheduleModelCollection(super.modelQuery);
+
+  static const ModelAccessQuery? defaultModelAccessQuery = null;
 
   static final ModelAdapter? defaultModelAdapter = null;
 
@@ -95,11 +99,14 @@ class _$PushNotificationScheduleModelDocumentQuery {
   _$_PushNotificationScheduleModelDocumentQuery call(
     Object _id, {
     ModelAdapter? adapter,
+    ModelAccessQuery? accessQuery,
   }) {
     return _$_PushNotificationScheduleModelDocumentQuery(DocumentModelQuery(
       "plugins/scheduler/schedule/$_id",
       adapter: adapter ??
           _$PushNotificationScheduleModelDocument.defaultModelAdapter,
+      accessQuery: accessQuery ??
+          _$PushNotificationScheduleModelDocument.defaultModelAccessQuery,
     ));
   }
 }
@@ -124,12 +131,16 @@ class _$PushNotificationScheduleModelCollectionQuery {
   const _$PushNotificationScheduleModelCollectionQuery();
 
   @useResult
-  _$_PushNotificationScheduleModelCollectionQuery call(
-      {ModelAdapter? adapter}) {
+  _$_PushNotificationScheduleModelCollectionQuery call({
+    ModelAdapter? adapter,
+    ModelAccessQuery? accessQuery,
+  }) {
     return _$_PushNotificationScheduleModelCollectionQuery(CollectionModelQuery(
       "plugins/scheduler/schedule",
       adapter: adapter ??
           _$PushNotificationScheduleModelCollection.defaultModelAdapter,
+      accessQuery: accessQuery ??
+          _$PushNotificationScheduleModelCollection.defaultModelAccessQuery,
     ));
   }
 }
@@ -189,7 +200,7 @@ class _$PushNotificationScheduleModelFormQuery {
 
 @immutable
 class _$_PushNotificationScheduleModelFormQuery
-    extends ControllerQueryBase<FormController<PushNotificationScheduleModel>> {
+    extends FormControllerQueryBase<PushNotificationScheduleModel> {
   const _$_PushNotificationScheduleModelFormQuery(this.value);
 
   final PushNotificationScheduleModel value;

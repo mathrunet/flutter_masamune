@@ -81,7 +81,7 @@ class NotificationPageState extends State<NotificationPage> {
           await notification.send(
             title: "Notification",
             text: "Notification text",
-            target: "Topic Name",
+            topic: "Topic Name",
           );
         },
         child: const Icon(Icons.person),

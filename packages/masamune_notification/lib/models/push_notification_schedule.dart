@@ -150,26 +150,26 @@ typedef PushNotificationScheduleModelMirrorCollection
 
 /// [ModelServerCommandBase] for PUSH notification to [time].
 ///
-/// Enter the text for the notification in [title] or [text], and specify the token or topic string for the notification in [target].
+/// Enter the text for the notification in the [title] and [text] fields, and specify a token or topic string for the notification in the [tokens] and [topic] fields.
 ///
 /// **If you use this in firestore, please specify the fields `_time` and `_done` in CollectionID:`schedule` to create the index.**
 ///
 /// [time]にPUSH通知を行うための[ModelServerCommandBase]です。
 ///
-/// [title]や[text]に通知用の文言を入力し、[target]に通知用のトークンやトピックの文字列を指定します。
+/// [title]や[text]に通知用の文言を入力し、[tokens]や[topic]に通知用のトークンやトピックの文字列を指定します。
 ///
 /// **firestoreでこちらを利用する場合CollectionID:`schedule`で`_time`と`_done`のフィールドを指定してインデックスを作成してください。**
 class ModelServerCommandPushNotificationSchedule
     extends ModelServerCommandBase {
   /// [ModelServerCommandBase] for PUSH notification to [time].
   ///
-  /// Enter the text for the notification in [title] or [text], and specify the token or topic string for the notification in [target].
+  /// Enter the text for the notification in the [title] and [text] fields, and specify a token or topic string for the notification in the [tokens] and [topic] fields.
   ///
   /// **If you use this in firestore, please specify the fields `_time` and `_done` in CollectionID:`schedule` to create the index.**
   ///
   /// [time]にPUSH通知を行うための[ModelServerCommandBase]です。
   ///
-  /// [title]や[text]に通知用の文言を入力し、[target]に通知用のトークンやトピックの文字列を指定します。
+  /// [title]や[text]に通知用の文言を入力し、[tokens]や[topic]に通知用のトークンやトピックの文字列を指定します。
   ///
   /// **firestoreでこちらを利用する場合CollectionID:`schedule`で`_time`と`_done`のフィールドを指定してインデックスを作成してください。**
   const factory ModelServerCommandPushNotificationSchedule({
@@ -178,7 +178,8 @@ class ModelServerCommandPushNotificationSchedule
     required String text,
     String? channelId,
     DynamicMap? data,
-    required String target,
+    String? topic,
+    ModelToken? tokens,
     Uri? link,
   }) = _ModelServerCommandPushNotificationSchedule;
 
@@ -222,10 +223,15 @@ class ModelServerCommandPushNotificationSchedule
   /// 通知のデータ。
   DynamicMap? get data => throw UnimplementedError();
 
-  /// The token or topic of the notification.
+  /// Notification Topics.
   ///
-  /// 通知のトークンまたはトピック。
-  String get target => throw UnimplementedError();
+  /// 通知のトピック。
+  String? get topic => throw UnimplementedError();
+
+  /// List of tokens of notification.
+  ///
+  /// 通知のトークンのリスト。
+  ModelToken? get tokens => throw UnimplementedError();
 
   /// A link to transition from the notification.
   ///
@@ -261,8 +267,6 @@ class ModelServerCommandPushNotificationSchedule
 
   @override
   DynamicMap get privateParameters {
-    final regExp = RegExp(r"[a-zA-Z0-9]{11}:[0-9a-zA-Z_-]+");
-    final isToken = regExp.hasMatch(target);
     return {
       _kTitleKey: title,
       _kTextKey: text,
@@ -271,8 +275,8 @@ class ModelServerCommandPushNotificationSchedule
         if (data != null) ...data!,
         if (link != null) _kLinkKey: link!.path,
       },
-      _kTokenKey: isToken ? target : null,
-      _kTopicKey: isToken ? null : target,
+      _kTokenKey: tokens?.value,
+      _kTopicKey: topic,
     };
   }
 
@@ -293,7 +297,8 @@ class _ModelServerCommandPushNotificationSchedule
     required this.text,
     this.channelId,
     this.data,
-    required this.target,
+    this.topic,
+    this.tokens,
     this.link,
   }) : super._();
 
@@ -313,10 +318,13 @@ class _ModelServerCommandPushNotificationSchedule
   final DynamicMap? data;
 
   @override
-  final String target;
+  final Uri? link;
 
   @override
-  final Uri? link;
+  final String? topic;
+
+  @override
+  final ModelToken? tokens;
 }
 
 /// Abstract class for defining a document with a schedule for PUSH notifications.

@@ -15,10 +15,18 @@ class SendNotificationFunctionsAction
   const SendNotificationFunctionsAction({
     required this.title,
     required this.text,
-    required this.target,
+    this.tokens,
+    this.topic,
     this.channel,
     this.data,
-  });
+  })  : assert(
+          tokens != null || topic != null,
+          "[tokens] or [topic] is required",
+        ),
+        assert(
+          tokens == null || topic == null,
+          "[tokens] and [topic] cannot be set at the same time",
+        );
 
   /// Title of PUSH notification.
   ///
@@ -40,31 +48,37 @@ class SendNotificationFunctionsAction
   /// PUSH通知に含めるその他のデータ。
   final DynamicMap? data;
 
-  /// Send PUSH notifications to (topic name or token)
+  /// Destination of PUSH notifications (topic name)
   ///
-  /// PUSH通知の送信先（トピック名 or トークン）
-  final String target;
+  /// PUSH通知の送信先（トピック名）
+  final String? topic;
+
+  /// Destination of PUSH notifications (token)
+  ///
+  /// PUSH通知の送信先（トークン）
+  final ModelToken? tokens;
 
   @override
   String get action => "send_notification";
 
   @override
   DynamicMap? toMap() {
-    final regExp = RegExp(r"[a-zA-Z0-9]{11}:[0-9a-zA-Z_-]+");
-    final isToken = regExp.hasMatch(target);
-
     return {
       "title": title,
       "text": text,
       if (channel != null) "channel_id": channel,
       if (data != null) "data": data,
-      if (isToken) "token": target else "topic": target,
+      if (tokens != null) "token": tokens!.value else "topic": topic,
     };
   }
 
   @override
   SendNotificationFunctionsActionResponse toResponse(DynamicMap map) {
-    return const SendNotificationFunctionsActionResponse();
+    return SendNotificationFunctionsActionResponse(
+      map.getAsMap("results", {}).map(
+        (key, value) => MapEntry(key, value),
+      ),
+    );
   }
 }
 
@@ -75,5 +89,19 @@ class SendNotificationFunctionsActionResponse extends FunctionsActionResponse {
   /// Response to [FunctionsAction] to send PUSH notifications from the server side.
   ///
   /// PUSH通知をサーバー側から送るための[FunctionsAction]のレスポンス。
-  const SendNotificationFunctionsActionResponse();
+  const SendNotificationFunctionsActionResponse(this._results);
+
+  final DynamicMap _results;
+
+  /// List of tokens that have been successfully sent.
+  ///
+  /// 送信に成功したトークンの一覧。
+  List<String> get successTokens =>
+      _results.where((key, value) => value != null).keys.toList();
+
+  /// List of tokens that have failed to send.
+  ///
+  /// 送信に失敗したトークンの一覧。
+  List<String> get failedTokens =>
+      _results.where((key, value) => value == null).keys.toList();
 }

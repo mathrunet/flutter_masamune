@@ -172,30 +172,44 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
 
   /// Start the Functions for sending FCM notifications deployed in FirebaseFunctions.
   ///
-  /// Pass the title of the notification in [title], the content of the notification in [text], the PCM token or topic name in [target], the notification channel ID for Android in [channel], and other notification data in [data].
+  /// Please pass the notification title in [title], the content of the notification in [text], the PCM token in [tokens], the topic name in [topic], the notification channel ID for Android in [channel], and other notification data in [data].
+  ///
+  /// [tokens] and [topic] cannot be specified at the same time.
   ///
   /// See [SendNotificationFunctionsAction] for details.
   ///
   /// FirebaseFunctionsにデプロイされたFCM通知送信用のFunctionsを起動します。
   ///
-  /// [title]に通知タイトル、[text]に通知の内容、[target]にPCMトークン、もしくはトピック名、[channel]にAndroid用の通知チャンネルID、[data]にその他の通知データを渡してください。
+  /// [title]に通知タイトル、[text]に通知の内容、[tokens]にPCMトークン、[topic]にトピック名、[channel]にAndroid用の通知チャンネルID、[data]にその他の通知データを渡してください。
+  ///
+  /// [tokens]と[topic]は同時に指定することはできません。
   ///
   /// 詳しくは[SendNotificationFunctionsAction]を御覧ください。
-  Future<void> send({
+  Future<SendNotificationFunctionsActionResponse> send({
     required String title,
     required String text,
     String? channel,
     DynamicMap? data,
-    required String target,
+    String? topic,
+    ModelToken? tokens,
     Uri? link,
   }) async {
+    assert(
+      tokens != null || topic != null,
+      "[tokens] or [topic] is required",
+    );
+    assert(
+      tokens == null || topic == null,
+      "[tokens] and [topic] cannot be set at the same time",
+    );
     await listen();
     final f = adapter.functionsAdapter ?? FunctionsAdapter.primary;
-    await f.execute(
+    final res = await f.execute(
       SendNotificationFunctionsAction(
         title: title,
         text: text,
-        target: target,
+        topic: topic,
+        tokens: tokens,
         channel: adapter.androidNotificationChannelId,
         data: {
           if (data != null) ...data,
@@ -206,8 +220,10 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     _sendLog(PushNotificationLoggerEvent.send, parameters: {
       PushNotificationLoggerEvent.titleKey: title,
       PushNotificationLoggerEvent.bodyKey: text,
-      PushNotificationLoggerEvent.toKey: target,
+      PushNotificationLoggerEvent.toKey:
+          tokens != null ? tokens.toString() : topic,
     });
+    return res;
   }
 
   /// Register notifications in the database for scaling.
@@ -216,20 +232,33 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// Specify the title of the notification in [title]. Specify the body of the notification in [text].
   ///
+  /// Specify a PCM token in [tokens] and a topic name in [topic]. [tokens] and [topic] cannot be specified at the same time.
+  ///
   /// 通知をデータベースに登録してスケーリングを行います。
   ///
   /// [time]に通知を送信する日時を指定します。
   ///
   /// [title]に通知のタイトルを指定します。[text]に通知の本文を指定します。
+  ///
+  /// [tokens]にPCMトークン、[topic]にトピック名を指定します。[tokens]と[topic]は同時に指定することはできません。
   Future<void> scheduling({
     required DateTime time,
     required String title,
     required String text,
     String? channel,
     DynamicMap? data,
-    required String target,
+    String? topic,
+    ModelToken? tokens,
     Uri? link,
   }) async {
+    assert(
+      tokens != null || topic != null,
+      "[tokens] or [topic] is required",
+    );
+    assert(
+      tokens == null || topic == null,
+      "[tokens] and [topic] cannot be set at the same time",
+    );
     await listen();
     final m = adapter.modelAdapter ?? ModelAdapter.primary;
     final modelQuery = schedule
@@ -251,7 +280,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
               text: text,
               channelId: channel,
               data: data,
-              target: target,
+              tokens: tokens,
+              topic: topic,
               link: link,
             ),
           ) ??
@@ -262,7 +292,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
               text: text,
               channelId: channel,
               data: data,
-              target: target,
+              tokens: tokens,
+              topic: topic,
               link: link,
             ),
           ),

@@ -67,25 +67,25 @@ class _$PushNotificationScheduleModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_PushNotificationScheduleModelCopyWith<$Res>
+abstract class _$$PushNotificationScheduleModelImplCopyWith<$Res>
     implements $PushNotificationScheduleModelCopyWith<$Res> {
-  factory _$$_PushNotificationScheduleModelCopyWith(
-          _$_PushNotificationScheduleModel value,
-          $Res Function(_$_PushNotificationScheduleModel) then) =
-      __$$_PushNotificationScheduleModelCopyWithImpl<$Res>;
+  factory _$$PushNotificationScheduleModelImplCopyWith(
+          _$PushNotificationScheduleModelImpl value,
+          $Res Function(_$PushNotificationScheduleModelImpl) then) =
+      __$$PushNotificationScheduleModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({ModelServerCommandPushNotificationSchedule command});
 }
 
 /// @nodoc
-class __$$_PushNotificationScheduleModelCopyWithImpl<$Res>
+class __$$PushNotificationScheduleModelImplCopyWithImpl<$Res>
     extends _$PushNotificationScheduleModelCopyWithImpl<$Res,
-        _$_PushNotificationScheduleModel>
-    implements _$$_PushNotificationScheduleModelCopyWith<$Res> {
-  __$$_PushNotificationScheduleModelCopyWithImpl(
-      _$_PushNotificationScheduleModel _value,
-      $Res Function(_$_PushNotificationScheduleModel) _then)
+        _$PushNotificationScheduleModelImpl>
+    implements _$$PushNotificationScheduleModelImplCopyWith<$Res> {
+  __$$PushNotificationScheduleModelImplCopyWithImpl(
+      _$PushNotificationScheduleModelImpl _value,
+      $Res Function(_$PushNotificationScheduleModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -93,7 +93,7 @@ class __$$_PushNotificationScheduleModelCopyWithImpl<$Res>
   $Res call({
     Object? command = null,
   }) {
-    return _then(_$_PushNotificationScheduleModel(
+    return _then(_$PushNotificationScheduleModelImpl(
       command: null == command
           ? _value.command
           : command // ignore: cast_nullable_to_non_nullable
@@ -104,12 +104,14 @@ class __$$_PushNotificationScheduleModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PushNotificationScheduleModel extends _PushNotificationScheduleModel {
-  const _$_PushNotificationScheduleModel({required this.command}) : super._();
+class _$PushNotificationScheduleModelImpl
+    extends _PushNotificationScheduleModel {
+  const _$PushNotificationScheduleModelImpl({required this.command})
+      : super._();
 
-  factory _$_PushNotificationScheduleModel.fromJson(
+  factory _$PushNotificationScheduleModelImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$_PushNotificationScheduleModelFromJson(json);
+      _$$PushNotificationScheduleModelImplFromJson(json);
 
   @override
   final ModelServerCommandPushNotificationSchedule command;
@@ -123,7 +125,7 @@ class _$_PushNotificationScheduleModel extends _PushNotificationScheduleModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PushNotificationScheduleModel &&
+            other is _$PushNotificationScheduleModelImpl &&
             (identical(other.command, command) || other.command == command));
   }
 
@@ -134,13 +136,14 @@ class _$_PushNotificationScheduleModel extends _PushNotificationScheduleModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PushNotificationScheduleModelCopyWith<_$_PushNotificationScheduleModel>
-      get copyWith => __$$_PushNotificationScheduleModelCopyWithImpl<
-          _$_PushNotificationScheduleModel>(this, _$identity);
+  _$$PushNotificationScheduleModelImplCopyWith<
+          _$PushNotificationScheduleModelImpl>
+      get copyWith => __$$PushNotificationScheduleModelImplCopyWithImpl<
+          _$PushNotificationScheduleModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PushNotificationScheduleModelToJson(
+    return _$$PushNotificationScheduleModelImplToJson(
       this,
     );
   }
@@ -150,16 +153,17 @@ abstract class _PushNotificationScheduleModel
     extends PushNotificationScheduleModel {
   const factory _PushNotificationScheduleModel(
           {required final ModelServerCommandPushNotificationSchedule command}) =
-      _$_PushNotificationScheduleModel;
+      _$PushNotificationScheduleModelImpl;
   const _PushNotificationScheduleModel._() : super._();
 
   factory _PushNotificationScheduleModel.fromJson(Map<String, dynamic> json) =
-      _$_PushNotificationScheduleModel.fromJson;
+      _$PushNotificationScheduleModelImpl.fromJson;
 
   @override
   ModelServerCommandPushNotificationSchedule get command;
   @override
   @JsonKey(ignore: true)
-  _$$_PushNotificationScheduleModelCopyWith<_$_PushNotificationScheduleModel>
+  _$$PushNotificationScheduleModelImplCopyWith<
+          _$PushNotificationScheduleModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
