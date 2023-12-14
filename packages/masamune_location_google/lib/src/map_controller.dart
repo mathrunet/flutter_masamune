@@ -507,6 +507,14 @@ class MapController
           element.tileOverlayId.value == tileOverlay.tileOverlayId.value,
     );
   }
+
+  /// Take a snapshot of the map.
+  ///
+  /// マップのスナップショットを取得します。
+  Future<Uint8List?> takeSnapshot() async {
+    await initialize();
+    return await _controller?.takeSnapshot();
+  }
 }
 
 @immutable

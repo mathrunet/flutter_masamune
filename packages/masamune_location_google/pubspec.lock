@@ -407,14 +407,14 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.15.7"
+    version: "2.16.0"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "2.8.31"
+    version: "2.8.32"
   katana_prefs:
     dependency: "direct overridden"
     description:
@@ -449,7 +449,7 @@ packages:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "2.1.5"
+    version: "2.1.6"
   katana_shorten:
     dependency: "direct overridden"
     description:
@@ -531,7 +531,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.4.115"
+    version: "2.5.0"
   masamune_annotation:
     dependency: "direct overridden"
     description:
@@ -545,14 +545,14 @@ packages:
       path: "../masamune_location"
       relative: true
     source: path
-    version: "2.2.0"
+    version: "2.2.2"
   masamune_location_platform_interface:
     dependency: "direct overridden"
     description:
       path: "../masamune_location_platform_interface"
       relative: true
     source: path
-    version: "2.2.0"
+    version: "2.2.2"
   matcher:
     dependency: transitive
     description:
