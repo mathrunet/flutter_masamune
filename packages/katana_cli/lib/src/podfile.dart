@@ -61,7 +61,7 @@ enum PodfilePermissionType {
   /// Permissions for Bluetooth use.
   ///
   /// Bluetooth利用時のパーミッション。
-  bluetoothPeripheralUsage("PERMISSION_BLUETOOTH"),
+  bluetoothUsage("PERMISSION_BLUETOOTH"),
 
   /// Permissions when using voice recognition.
   ///

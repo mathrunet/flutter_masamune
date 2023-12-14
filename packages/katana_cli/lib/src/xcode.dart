@@ -424,6 +424,11 @@ enum XCodePermissionType {
   /// Bluetooth利用時のパーミッション。
   bluetoothPeripheralUsage("NSBluetoothPeripheralUsageDescription"),
 
+  /// Permissions for Bluetooth use.
+  ///
+  /// Bluetooth利用時のパーミッション。
+  bluetoothAlwaysUsage("NSBluetoothAlwaysUsageDescription"),
+
   /// Permissions when using Apple Music.
   ///
   /// Apple Music利用時のパーミッション。
