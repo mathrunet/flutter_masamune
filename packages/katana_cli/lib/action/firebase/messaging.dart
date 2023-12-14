@@ -2,10 +2,19 @@
 import 'dart:io';
 
 // Package imports:
+import 'package:image/image.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
+
+final _sizeListNotificationIcon = {
+  "android/app/src/main/res/mipmap-hdpi/ic_launcher_notification.png": 162,
+  "android/app/src/main/res/mipmap-mdpi/ic_launcher_notification.png": 108,
+  "android/app/src/main/res/mipmap-xhdpi/ic_launcher_notification.png": 216,
+  "android/app/src/main/res/mipmap-xxhdpi/ic_launcher_notification.png": 324,
+  "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_notification.png": 432,
+};
 
 /// Initialize FirebaseMessaging settings.
 ///
@@ -36,6 +45,7 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     final firebase = context.yaml.getAsMap("firebase");
     final messaging = firebase.getAsMap("messaging");
     final channelId = messaging.get("channel_id", "");
+    final notificationIcon = messaging.get("android_notification_icon", "");
     if (channelId.isEmpty) {
       error(
         "Channel ID is not specified in [firebase]->[messaging]->[channel_id]. Please specify any ID.",
@@ -76,6 +86,42 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         "notificationChannelId=$channelId",
       );
     }
+    if (notificationIcon.isNotEmpty) {
+      label("Create notification icon.");
+      final iconFile = File(notificationIcon);
+      if (!iconFile.existsSync()) {
+        error("Icon file not found in $notificationIcon.");
+        return;
+      }
+      final iconImage = decodeImage(iconFile.readAsBytesSync())!;
+      if (iconImage.width != 1024 || iconImage.height != 1024) {
+        error("Icon files should be 1024 x 1024.");
+        return;
+      }
+      for (final tmp in _sizeListNotificationIcon.entries) {
+        label("Resize & Save to ${tmp.key}");
+        final dir = Directory(tmp.key.parentPath());
+        if (!dir.existsSync()) {
+          await dir.create(recursive: true);
+        }
+        final file = File(tmp.key);
+        if (file.existsSync()) {
+          await file.delete();
+        }
+        final resized = adjustColor(
+          copyResize(
+            iconImage,
+            height: tmp.value,
+            width: tmp.value,
+            interpolation: Interpolation.average,
+          ),
+          mids: ColorUint8.rgb(255, 255, 255),
+          blacks: ColorUint8.rgb(255, 255, 255),
+          whites: ColorUint8.rgb(255, 255, 255),
+        );
+        await file.writeAsBytes(encodePng(resized, level: 9));
+      }
+    }
     label("Edit AndroidManifest.xml.");
     final file = File("android/app/src/main/AndroidManifest.xml");
     if (!file.existsSync()) {
@@ -89,6 +135,32 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     if (application.isEmpty) {
       throw Exception(
         "The structure of AndroidManifest.xml is broken. Do `katana create` to complete the initial setup of the project.",
+      );
+    }
+    if (notificationIcon.isNotEmpty &&
+        !application.first.children.any((p0) =>
+            p0 is XmlElement &&
+            p0.name.toString() == "meta-data" &&
+            (p0.findElements("action").firstOrNull?.attributes.any((item) =>
+                    item.name.toString() == "android:name" &&
+                    item.value ==
+                        "com.google.firebase.messaging.default_notification_icon") ??
+                false))) {
+      application.first.children.add(
+        XmlElement(
+          XmlName("meta-data"),
+          [
+            XmlAttribute(
+              XmlName("android:name"),
+              "com.google.firebase.messaging.default_notification_icon",
+            ),
+            XmlAttribute(
+              XmlName("android:resource"),
+              "@mipmap/ic_launcher_notification",
+            ),
+          ],
+          [],
+        ),
       );
     }
     if (!activity.first.children.any((p0) =>

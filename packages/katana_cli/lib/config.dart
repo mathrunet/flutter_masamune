@@ -292,11 +292,14 @@ ${showAllConfig ? """
   
   # Enable Firebase Messaging.
   # Specify ChannelNotificationId for Android in [channel_id].
+  # Specify an image path in [android_notification_icon] to set a notification icon for Android for whiteout.
   # Firebase Messagingを有効にします。
   # [channel_id]にAndroid用のChannelNotificationIdを指定してください。
+  # [android_notification_icon]に画像パスを指定するとAndroid用の白抜き用の通知アイコンを設定できます。
   messaging:
     enable: false
     channel_id: 
+    android_notification_icon: 
 
 ${showAllConfig ? """
 
