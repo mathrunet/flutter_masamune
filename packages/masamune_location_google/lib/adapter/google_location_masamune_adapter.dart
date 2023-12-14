@@ -13,6 +13,7 @@ class GoogleLocationMasamuneAdapter extends LocationMasamuneAdapter {
     super.defaultAccuracy,
     super.defaultDistanceFilterMeters,
     super.listenOnBoot,
+    super.enableBackgroundLocation,
   });
 
   /// Default map style.

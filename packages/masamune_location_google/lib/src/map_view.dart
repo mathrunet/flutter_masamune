@@ -58,6 +58,7 @@ class MapView extends StatefulWidget {
     this.onTap,
     this.style,
     this.onLongPress,
+    this.keepAlive = false,
   });
 
   /// Map style to be applied.
@@ -292,11 +293,20 @@ class MapView extends StatefulWidget {
   /// マップ上のその他のジェスチャーを指定したい場合こちらに追加します。
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
 
+  /// If placed in a list, whether or not it should not be discarded on scrolling.
+  ///
+  /// If `true`, it is not destroyed but retained.
+  ///
+  /// リストに配置された場合、スクロール時に破棄されないようにするかどうか。
+  ///
+  /// `true`の場合、破棄されず保持され続けます。
+  final bool keepAlive;
+
   @override
   State<StatefulWidget> createState() => _MapVewState();
 }
 
-class _MapVewState extends State<MapView> {
+class _MapVewState extends State<MapView> with AutomaticKeepAliveClientMixin {
   final Set<map.Marker> _marker = {};
 
   @override
@@ -326,6 +336,7 @@ class _MapVewState extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final adapter =
         MasamuneAdapterScope.of<GoogleLocationMasamuneAdapter>(context);
     final mapStyle = widget.style ?? adapter?.defaultMapStyle;
@@ -420,4 +431,7 @@ class _MapVewState extends State<MapView> {
     }
     setState(() {});
   }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
 }
