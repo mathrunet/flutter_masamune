@@ -709,3 +709,23 @@ class ModelSearchModelQuerySelector<TQuery extends ModelQueryBase>
     required super.modelQuery,
   });
 }
+
+/// [ModelQuerySelector] for [ModelToken].
+///
+/// [ModelToken]に対する[ModelQuerySelector]。
+@immutable
+class ModelTokenModelQuerySelector<TQuery extends ModelQueryBase>
+    extends ModelQuerySelector<ModelToken, TQuery>
+    with
+        _EqualQuerySelectorMixin<ModelToken, TQuery>,
+        _ContainsQuerySelectorMixin<ModelToken, TQuery>,
+        _ContainsAnyQuerySelectorMixin<ModelToken, TQuery> {
+  /// [ModelQuerySelector] for [ModelToken].
+  ///
+  /// [ModelToken]に対する[ModelQuerySelector]。
+  const ModelTokenModelQuerySelector({
+    required super.key,
+    required super.toQuery,
+    required super.modelQuery,
+  });
+}

@@ -56,6 +56,7 @@ String _querySelectorClass(ParamaterValue param, String queryClass) {
       case "ModelLocale":
       case "ModelLocalizedValue":
       case "ModelSearch":
+      case "ModelToken":
       case "ModelUri":
       case "ModelImageUri":
       case "ModelVideoUri":
