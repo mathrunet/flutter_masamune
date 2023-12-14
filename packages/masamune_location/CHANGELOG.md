@@ -1,3 +1,7 @@
+## 2.2.3
+
+ - **FIX**: Default update interval set to 1 second. ([05ff8a03](https://github.com/mathrunet/flutter_masamune/commit/05ff8a03fa6c9ed768fea28ad0852e4dde168f84))
+
 ## 2.2.2
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - Update a dependency to the latest release.
+
 ## 2.3.0
 
  - **FEAT**: Modified the interface to reflect ModelToken. ([3a2fda8d](https://github.com/mathrunet/flutter_masamune/commit/3a2fda8d6f0885383866bc9dcb73843d45807509))
