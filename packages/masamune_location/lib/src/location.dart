@@ -67,7 +67,7 @@ class Location
   final location.Location _location = location.Location();
 
   Timer? _timer;
-  Duration _updateInterval = const Duration(minutes: 1);
+  Duration _updateInterval = const Duration(seconds: 1);
   bool _updated = false;
   Completer<void>? _listenCompleter;
   Completer<void>? _initializeCompleter;
@@ -171,7 +171,7 @@ class Location
   Future<void> listen({
     LocationAccuracy? accuracy,
     double? distanceFilterMeters,
-    Duration updateInterval = const Duration(minutes: 1),
+    Duration updateInterval = const Duration(seconds: 1),
     Duration timeout = const Duration(seconds: 60),
   }) async {
     if (_listenCompleter != null) {
