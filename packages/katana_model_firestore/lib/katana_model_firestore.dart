@@ -44,6 +44,7 @@ part 'converter/firestore_model_ref_converter.dart';
 part 'converter/firestore_null_converter.dart';
 part 'converter/firestore_enum_converter.dart';
 part 'converter/firestore_basic_converter.dart';
+part 'converter/firestore_model_token_converter.dart';
 
 part 'adapter/listenable_firestore_model_adapter.dart';
 part 'adapter/firestore_model_adapter.dart';

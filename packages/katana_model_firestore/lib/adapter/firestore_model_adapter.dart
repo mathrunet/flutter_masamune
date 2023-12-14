@@ -154,6 +154,7 @@ class FirestoreModelAdapter extends ModelAdapter
     const FirestoreModelImageUriConverter(),
     const FirestoreModelVideoUriConverter(),
     const FirestoreModelSearchConverter(),
+    const FirestoreModelTokenConverter(),
     const FirestoreModelGeoValueConverter(),
     const FirestoreModelRefConverter(),
     const FirestoreEnumConverter(),

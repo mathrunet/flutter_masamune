@@ -136,6 +136,7 @@ abstract class ModelFieldValue<T> {
     const ModelImageUriConverter(),
     const ModelVideoUriConverter(),
     const ModelSearchConverter(),
+    const ModelTokenConverter(),
     const ModelRefConverter(),
   };
 
@@ -165,6 +166,7 @@ abstract class ModelFieldValue<T> {
     const ModelImageUriFilter(),
     const ModelVideoUriFilter(),
     const ModelSearchFilter(),
+    const ModelTokenFilter(),
     const ModelRefFilter(),
   };
 
@@ -1688,6 +1690,258 @@ class ModelSearchFilter extends ModelFieldValueFilter<ModelSearch> {
         target.get(kTypeFieldKey, "") == ModelSearch.typeString) {
       return filter(ModelSearch.fromJson(source).value,
           ModelSearch.fromJson(target).value);
+    }
+    return null;
+  }
+}
+
+/// Class for storing multiple tokens.
+///
+/// Can be used for token management of PUSH notifications, etc.
+///
+/// 複数トークンを保存するためのクラス。
+///
+/// PUSH通知のトークン管理等に利用可能です。
+@immutable
+class ModelToken extends ModelFieldValue<List<String>>
+    implements Comparable<ModelToken> {
+  /// Class for storing multiple tokens.
+  ///
+  /// Can be used for token management of PUSH notifications, etc.
+  ///
+  /// 複数トークンを保存するためのクラス。
+  ///
+  /// PUSH通知のトークン管理等に利用可能です。
+  const factory ModelToken(List<String> tokenList) = _ModelToken;
+
+  /// Used to disguise the retrieval of data from the server.
+  ///
+  /// Use for testing purposes.
+  ///
+  /// サーバーからのデータの取得に偽装するために利用します。
+  ///
+  /// テスト用途で用いてください。
+  const factory ModelToken.fromServer(List<String> tokenList) =
+      _ModelToken.fromServer;
+
+  /// Convert from [json] map to [ModelToken].
+  ///
+  /// [json]のマップから[ModelToken]に変換します。
+  factory ModelToken.fromJson(DynamicMap json) {
+    final list = json.getAsList<String>(kListKey);
+    return ModelToken.fromServer(list);
+  }
+
+  const ModelToken._(
+    List<String> value, [
+    ModelFieldValueSource source = ModelFieldValueSource.user,
+  ])  : _value = value,
+        _source = source;
+
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelToken";
+
+  /// Key to save the list.
+  ///
+  /// リストを保存しておくキー。
+  static const kListKey = "@list";
+
+  /// Key to store the data source.
+  ///
+  /// データソースを保存しておくキー。
+  static const kSourceKey = "@source";
+
+  @override
+  List<String> get value => _value ?? [];
+  final List<String>? _value;
+
+  final ModelFieldValueSource _source;
+
+  /// Register a new [token].
+  ///
+  /// 新しい[token]を登録します。
+  void add(String token) {
+    if (_value == null) {
+      return;
+    }
+    if (!_value!.contains(token)) {
+      _value!.add(token);
+    }
+  }
+
+  /// Delete [token].
+  ///
+  /// [token]を削除します。
+  void remove(String token) {
+    if (_value == null) {
+      return;
+    }
+    _value!.remove(token);
+  }
+
+  /// Delete all tokens.
+  ///
+  /// トークンをすべて削除します。
+  void clear() {
+    if (_value == null) {
+      return;
+    }
+    _value!.clear();
+  }
+
+  @override
+  String toString() {
+    return jsonEncode(value);
+  }
+
+  @override
+  DynamicMap toJson() => {
+        kTypeFieldKey: ModelToken.typeString,
+        kListKey: value,
+        kSourceKey: _source.name,
+      };
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode {
+    if (_value == null) {
+      return null.hashCode;
+    }
+    return Object.hashAll(_value!);
+  }
+
+  @override
+  int compareTo(ModelToken other) {
+    return value.join().compareTo(other.value.join());
+  }
+}
+
+@immutable
+class _ModelToken extends ModelToken
+    with ModelFieldValueAsMapMixin<List<String>> {
+  const _ModelToken(super.value) : super._();
+  const _ModelToken.fromServer(List<String> value)
+      : super._(value, ModelFieldValueSource.server);
+}
+
+/// [ModelFieldValueConverter] to enable automatic conversion of [ModelToken] as [ModelFieldValue].
+///
+/// [ModelToken]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+@immutable
+class ModelTokenConverter extends ModelFieldValueConverter<ModelToken> {
+  /// [ModelFieldValueConverter] to enable automatic conversion of [ModelToken] as [ModelFieldValue].
+  ///
+  /// [ModelToken]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+  const ModelTokenConverter();
+
+  @override
+  String get type => ModelToken.typeString;
+
+  @override
+  ModelToken fromJson(Map<String, Object?> map) {
+    return ModelToken.fromJson(map);
+  }
+
+  @override
+  Map<String, Object?> toJson(ModelToken value) {
+    return value.toJson();
+  }
+}
+
+/// Filter class to make [ModelToken] available to [ModelQuery.filters].
+///
+/// [ModelToken]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+@immutable
+class ModelTokenFilter extends ModelFieldValueFilter<ModelToken> {
+  /// Filter class to make [ModelToken] available to [ModelQuery.filters].
+  ///
+  /// [ModelToken]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+  const ModelTokenFilter();
+
+  @override
+  String get type => ModelToken.typeString;
+
+  @override
+  int? compare(dynamic a, dynamic b) {
+    return _hasMatch(a, b, (a, b) => a.toString().compareTo(b.toString()));
+  }
+
+  @override
+  bool? hasMatch(ModelQueryFilter filter, dynamic source) {
+    final target = filter.value;
+    switch (filter.type) {
+      case ModelQueryFilterType.equalTo:
+        return _hasMatch(
+          source,
+          target,
+          (source, target) => target.every((e) => source.contains(e)),
+        );
+      case ModelQueryFilterType.notEqualTo:
+      case ModelQueryFilterType.lessThan:
+      case ModelQueryFilterType.greaterThan:
+      case ModelQueryFilterType.lessThanOrEqualTo:
+      case ModelQueryFilterType.greaterThanOrEqualTo:
+        return null;
+      case ModelQueryFilterType.arrayContains:
+        return _hasMatch(
+          source,
+          target,
+          (source, target) => target.any((e) => source.contains(e)),
+        );
+      case ModelQueryFilterType.arrayContainsAny:
+        if (target is List && target.isNotEmpty) {
+          if (target.any((t) =>
+              _hasMatch(
+                source,
+                t,
+                (source, target) => target.any((e) => source.contains(e)),
+              ) ??
+              false)) {
+            return true;
+          }
+        }
+        return null;
+      case ModelQueryFilterType.whereIn:
+      case ModelQueryFilterType.whereNotIn:
+        return null;
+      default:
+        return null;
+    }
+  }
+
+  T? _hasMatch<T>(
+    dynamic source,
+    dynamic target,
+    T Function(List<String> source, List<String> target) filter,
+  ) {
+    if (source is ModelToken && target is ModelToken) {
+      return filter(source.value, target.value);
+    } else if (source is ModelToken && target is List) {
+      return filter(source.value, target.map((e) => e.toString()).toList());
+    } else if (source is List && target is ModelToken) {
+      return filter(source.map((e) => e.toString()).toList(), target.value);
+    } else if (source is ModelToken && target is String) {
+      return filter(source.value, [target]);
+    } else if (source is String && target is ModelToken) {
+      return filter([source], target.value);
+    } else if (source is ModelToken &&
+        target is DynamicMap &&
+        target.get(kTypeFieldKey, "") == ModelToken.typeString) {
+      return filter(source.value, ModelToken.fromJson(target).value);
+    } else if (source is DynamicMap &&
+        target is ModelToken &&
+        source.get(kTypeFieldKey, "") == ModelToken.typeString) {
+      return filter(ModelToken.fromJson(source).value, target.value);
+    } else if (source is DynamicMap &&
+        target is DynamicMap &&
+        source.get(kTypeFieldKey, "") == ModelToken.typeString &&
+        target.get(kTypeFieldKey, "") == ModelToken.typeString) {
+      return filter(
+          ModelToken.fromJson(source).value, ModelToken.fromJson(target).value);
     }
     return null;
   }
