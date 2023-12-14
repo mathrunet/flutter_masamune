@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - Update a dependency to the latest release.
+
 ## 2.2.1
 
  - **FIX**: Added keepAlive setting to MapView. ([068f7c5d](https://github.com/mathrunet/flutter_masamune/commit/068f7c5d0b136f1ed65127f65359c0f6999d17af))

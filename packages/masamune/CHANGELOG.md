@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: Add ModelToken. ([e6500b7b](https://github.com/mathrunet/flutter_masamune/commit/e6500b7b255e3dd7c3efa58646efc64f1c9731ad))
+
 ## 2.4.116
 
  - **FIX**: Correction of error messages. ([6ea9d6b8](https://github.com/mathrunet/flutter_masamune/commit/6ea9d6b815c7da5fa9c51b2e8b9d8dcc2e7d14e2))
