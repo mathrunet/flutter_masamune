@@ -1,3 +1,8 @@
+## 2.16.1
+
+ - **FIX**: All processing was made transactional internally. ([613fc08e](https://github.com/mathrunet/flutter_masamune/commit/613fc08eaad7ead1783b1283ee57a251d7ccff25))
+ - **FIX**: Implemented queues for reload and next for consecutive executions. ([7625650b](https://github.com/mathrunet/flutter_masamune/commit/7625650b6ac8a9efbc0f630d94bac9b67a69486d))
+
 ## 2.16.0
 
  - **FEAT**: Add ModelToken. ([401a43c3](https://github.com/mathrunet/flutter_masamune/commit/401a43c3befbf0bd2dbce510e380b2a5cdf1b22e))

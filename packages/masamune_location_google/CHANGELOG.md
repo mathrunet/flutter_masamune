@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - Update a dependency to the latest release.
+
 ## 2.3.0
 
  - **FEAT**: スナップショット機能の追加。. ([a1d4c0ee](https://github.com/mathrunet/flutter_masamune/commit/a1d4c0ee4f8a0b2e242128eaeda648e2c4c4c9cd))

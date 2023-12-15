@@ -1,3 +1,7 @@
+## 2.11.1
+
+ - Update a dependency to the latest release.
+
 ## 2.11.0
 
  - **FEAT**: Add ModelToken. ([401a43c3](https://github.com/mathrunet/flutter_masamune/commit/401a43c3befbf0bd2dbce510e380b2a5cdf1b22e))

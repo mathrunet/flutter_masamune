@@ -1,3 +1,7 @@
+## 2.11.8
+
+ - **DOCS**: Added description for Google login. ([fb0b2012](https://github.com/mathrunet/flutter_masamune/commit/fb0b2012145da307a450ece95dc10735c0479a78))
+
 ## 2.11.7
 
  - **FIX**: Added notification icon settings for Android. ([0cb631aa](https://github.com/mathrunet/flutter_masamune/commit/0cb631aaf226200428287368b8d87693aff3f70d))
