@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.12.1`](#katana_cli---v2121)
+
+---
+
+#### `katana_cli` - `v2.12.1`
+
+ - **FIX**: Fixed templates for tab and navigation. ([3b0c2bb5](https://github.com/mathrunet/flutter_masamune/commit/3b0c2bb5a2ecbef58e1c3a61d8124921475f21e3))
+
+
+## 2023-12-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.12.0`](#katana_cli---v2120)
 
 ---

@@ -1,3 +1,7 @@
+## 2.12.1
+
+ - **FIX**: Fixed templates for tab and navigation. ([3b0c2bb5](https://github.com/mathrunet/flutter_masamune/commit/3b0c2bb5a2ecbef58e1c3a61d8124921475f21e3))
+
 ## 2.12.0
 
  - **FIX**: Fixed a bug in adding icons. ([56ee79dd](https://github.com/mathrunet/flutter_masamune/commit/56ee79dd321e3cc5c5bbc76f93e379348d7de87a))
