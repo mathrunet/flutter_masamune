@@ -90,7 +90,7 @@ enum ${className}PageNavigation {
 
   /// The first navigation to display.
   // TODO: Specify the initial navigation.
-  static final ${className}PageTab initialNavigation = ${className}PageNavigation.navigation1;
+  static const ${className}PageNavigation initialNavigation = ${className}PageNavigation.navigation1;
 
   /// Get the label of ${className}PageNavigation.
   // TODO: Specify a label for each navigation.
@@ -173,9 +173,11 @@ class ${className}Page extends PageScopedWidget {
         currentIndex: nestedRouter.currentQuery?.key<${className}PageNavigation>()?.index ??
             ${className}PageNavigation.initialNavigation.index,
         onTap: (index) {
-          nestedRouter.push(
-            ${className}PageNavigation.values[index].routeQuery,
-          );
+          final routeQuery = TestPageNavigation.values[index].routeQuery;
+          if (routeQuery == null) {
+            return;
+          }
+          nestedRouter.push(routeQuery);
         },
         items: [
           ...${className}PageNavigation.values.map((e) {
@@ -186,7 +188,6 @@ class ${className}Page extends PageScopedWidget {
           }),
         ],
       ),
-    );
     );
   }
 }

@@ -90,7 +90,7 @@ enum ${className}PageTab {
 
   /// The first tab to display.
   // TODO: Specify the initial tab.
-  static final ${className}PageTab initialTab = ${className}PageTab.tab1;
+  static const ${className}PageTab initialTab = ${className}PageTab.tab1;
 
   /// Get the label of ${className}PageTab.
   // TODO: Specify a label for each tab.
@@ -164,7 +164,12 @@ class ${className}Page extends PageScopedWidget {
     return DefaultTabController(
       initialIndex: ${className}PageTab.initialTab.index,
       length: ${className}PageTab.values.length,
-      child: UniversalScaffold(),
+      child: UniversalScaffold(
+        appBar: UniversalAppBar(
+          bottom: tabBar,
+        ),
+        body: tabView,
+      ),
     );
   }
 }
