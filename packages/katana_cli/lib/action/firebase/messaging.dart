@@ -141,11 +141,10 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         !application.first.children.any((p0) =>
             p0 is XmlElement &&
             p0.name.toString() == "meta-data" &&
-            (p0.findElements("action").firstOrNull?.attributes.any((item) =>
-                    item.name.toString() == "android:name" &&
-                    item.value ==
-                        "com.google.firebase.messaging.default_notification_icon") ??
-                false))) {
+            (p0.attributes.any((item) =>
+                item.name.toString() == "android:name" &&
+                item.value ==
+                    "com.google.firebase.messaging.default_notification_icon")))) {
       application.first.children.add(
         XmlElement(
           XmlName("meta-data"),
