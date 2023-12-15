@@ -28,6 +28,7 @@ part of '/katana_model.dart';
 ///
 /// [value]値を取得できます。[value]のセットは禁止されており、[save]メソッドで更新を行ないます。
 abstract class DocumentBase<T> extends ChangeNotifier
+    with _LoadTransactionMixin
     implements ValueListenable<T?> {
   /// Define a document model for storing [T] types that inherit from [ChangeNotifier].
   ///
@@ -266,18 +267,21 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
   Future<T?> reload() async {
-    _reloadingCompleter = Completer();
-    try {
-      _loaded = false;
-      return await load();
-    } catch (e) {
-      _reloadingCompleter?.completeError(e);
-      _reloadingCompleter = null;
-      rethrow;
-    } finally {
-      _reloadingCompleter?.complete(value);
-      _reloadingCompleter = null;
-    }
+    await _enqueueToLoadTransaction(() async {
+      _reloadingCompleter = Completer();
+      try {
+        _loaded = false;
+        await load();
+      } catch (e) {
+        _reloadingCompleter?.completeError(e);
+        _reloadingCompleter = null;
+        rethrow;
+      } finally {
+        _reloadingCompleter?.complete(value);
+        _reloadingCompleter = null;
+      }
+    });
+    return value;
   }
 
   /// Data can be saved.

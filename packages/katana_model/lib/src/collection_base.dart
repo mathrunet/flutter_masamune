@@ -32,7 +32,7 @@ part of '/katana_model.dart';
 ///
 /// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[DocumentBase.save]で保存してください。
 abstract class CollectionBase<TModel extends DocumentBase>
-    extends ChangeNotifier implements List<TModel> {
+    extends ChangeNotifier with _LoadTransactionMixin implements List<TModel> {
   /// Define a collection model that includes [DocumentBase] as an element.
   ///
   /// Any changes made locally in the app will be notified and related objects will reflect the changes.
@@ -277,18 +277,21 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
   Future<CollectionBase<TModel>> reload() async {
-    _reloadingCompleter = Completer();
-    try {
-      _loaded = false;
-      return await load();
-    } catch (e) {
-      _reloadingCompleter?.completeError(e);
-      _reloadingCompleter = null;
-      rethrow;
-    } finally {
-      _reloadingCompleter?.complete(this);
-      _reloadingCompleter = null;
-    }
+    await _enqueueToLoadTransaction(() async {
+      _reloadingCompleter = Completer();
+      try {
+        _loaded = false;
+        await load();
+      } catch (e) {
+        _reloadingCompleter?.completeError(e);
+        _reloadingCompleter = null;
+        rethrow;
+      } finally {
+        _reloadingCompleter?.complete(this);
+        _reloadingCompleter = null;
+      }
+    });
+    return this;
   }
 
   /// If the number of elements is limited by [ModelQueryFilterType.limit], additional elements are loaded for the next limited number.
@@ -303,15 +306,17 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
   Future<CollectionBase<TModel>> next() async {
-    _loaded = false;
-    _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page + 1);
-    final prevLength = length;
-    final loaded = await load();
-    if (length == prevLength) {
-      _canNext = false;
-      _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page - 1);
-    }
-    return loaded;
+    await _enqueueToLoadTransaction(() async {
+      _loaded = false;
+      _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page + 1);
+      final prevLength = length;
+      await load();
+      if (length == prevLength) {
+        _canNext = false;
+        _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page - 1);
+      }
+    });
+    return this;
   }
 
   /// Get the number of elements in all collections existing in the database.
@@ -551,6 +556,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   void dispose() {
     super.dispose();
     _value.clear();
+    _transactionQueue.clear();
     modelQuery.adapter.disposeCollection(databaseQuery);
     for (final subscription in subscriptions) {
       subscription.cancel();
