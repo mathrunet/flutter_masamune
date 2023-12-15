@@ -28,7 +28,7 @@ part of '/katana_model.dart';
 ///
 /// [value]値を取得できます。[value]のセットは禁止されており、[save]メソッドで更新を行ないます。
 abstract class DocumentBase<T> extends ChangeNotifier
-    with _LoadTransactionMixin
+    with _InternalTransactionMixin
     implements ValueListenable<T?> {
   /// Define a document model for storing [T] types that inherit from [ChangeNotifier].
   ///
@@ -219,6 +219,22 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// 再読み込みを行いたい場合は[reload]メソッドを利用してください。
   Future<T?> load() async {
+    if (loaded) {
+      return value;
+    }
+    if (_loadCompleter != null) {
+      return loading!;
+    }
+    await _enqueueInternalTransaction(() async {
+      if (loaded) {
+        return;
+      }
+      await _load();
+    });
+    return value;
+  }
+
+  Future<T?> _load() async {
     if (_loadCompleter != null) {
       return loading!;
     }
@@ -267,11 +283,11 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
   Future<T?> reload() async {
-    await _enqueueToLoadTransaction(() async {
+    await _enqueueInternalTransaction(() async {
       _reloadingCompleter = Completer();
       try {
         _loaded = false;
-        await load();
+        await _load();
       } catch (e) {
         _reloadingCompleter?.completeError(e);
         _reloadingCompleter = null;
@@ -310,24 +326,29 @@ abstract class DocumentBase<T> extends ChangeNotifier
     if (_saveCompleter != null) {
       return saving!;
     }
-    try {
-      _saveCompleter = Completer<T?>();
-      await saveRequest(_filterOnSave(toMap(newValue)));
-      // TODO: とりあえず消したがうまくいかないようであればまた考える
-      // if (value != newValue) {
-      //   _value = newValue;
-      //   notifyListeners();
-      // }
-      _saveCompleter?.complete(value);
-      _saveCompleter = null;
-    } catch (e) {
-      _saveCompleter?.completeError(e);
-      _saveCompleter = null;
-      rethrow;
-    } finally {
-      _saveCompleter?.complete();
-      _saveCompleter = null;
-    }
+    await _enqueueInternalTransaction(() async {
+      if (_saveCompleter != null) {
+        return saving!;
+      }
+      try {
+        _saveCompleter = Completer<T?>();
+        await saveRequest(_filterOnSave(toMap(newValue)));
+        // TODO: とりあえず消したがうまくいかないようであればまた考える
+        // if (value != newValue) {
+        //   _value = newValue;
+        //   notifyListeners();
+        // }
+        _saveCompleter?.complete(value);
+        _saveCompleter = null;
+      } catch (e) {
+        _saveCompleter?.completeError(e);
+        _saveCompleter = null;
+        rethrow;
+      } finally {
+        _saveCompleter?.complete();
+        _saveCompleter = null;
+      }
+    });
   }
 
   /// Data can be deleted.
@@ -349,19 +370,24 @@ abstract class DocumentBase<T> extends ChangeNotifier
     if (_saveCompleter != null) {
       return saving!;
     }
-    try {
-      _saveCompleter = Completer<T?>();
-      await deleteRequest();
-      _saveCompleter?.complete(value);
-      _saveCompleter = null;
-    } catch (e) {
-      _saveCompleter?.completeError(e);
-      _saveCompleter = null;
-      rethrow;
-    } finally {
-      _saveCompleter?.complete();
-      _saveCompleter = null;
-    }
+    await _enqueueInternalTransaction(() async {
+      if (_saveCompleter != null) {
+        return saving!;
+      }
+      try {
+        _saveCompleter = Completer<T?>();
+        await deleteRequest();
+        _saveCompleter?.complete(value);
+        _saveCompleter = null;
+      } catch (e) {
+        _saveCompleter?.completeError(e);
+        _saveCompleter = null;
+        rethrow;
+      } finally {
+        _saveCompleter?.complete();
+        _saveCompleter = null;
+      }
+    });
   }
 
   /// {@macro model_transaction}

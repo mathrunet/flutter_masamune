@@ -32,7 +32,9 @@ part of '/katana_model.dart';
 ///
 /// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[DocumentBase.save]で保存してください。
 abstract class CollectionBase<TModel extends DocumentBase>
-    extends ChangeNotifier with _LoadTransactionMixin implements List<TModel> {
+    extends ChangeNotifier
+    with _InternalTransactionMixin
+    implements List<TModel> {
   /// Define a collection model that includes [DocumentBase] as an element.
   ///
   /// Any changes made locally in the app will be notified and related objects will reflect the changes.
@@ -228,6 +230,22 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// 再読み込みを行いたい場合は[reload]メソッドを利用してください。
   Future<CollectionBase<TModel>> load() async {
+    if (loaded) {
+      return this;
+    }
+    if (_loadCompleter != null) {
+      return loading!;
+    }
+    await _enqueueInternalTransaction(() async {
+      if (loaded) {
+        return;
+      }
+      await _load();
+    });
+    return this;
+  }
+
+  Future<CollectionBase<TModel>> _load() async {
     if (_loadCompleter != null) {
       return loading!;
     }
@@ -277,11 +295,11 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
   Future<CollectionBase<TModel>> reload() async {
-    await _enqueueToLoadTransaction(() async {
+    await _enqueueInternalTransaction(() async {
       _reloadingCompleter = Completer();
       try {
         _loaded = false;
-        await load();
+        await _load();
       } catch (e) {
         _reloadingCompleter?.completeError(e);
         _reloadingCompleter = null;
@@ -306,11 +324,11 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
   Future<CollectionBase<TModel>> next() async {
-    await _enqueueToLoadTransaction(() async {
+    await _enqueueInternalTransaction(() async {
       _loaded = false;
       _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page + 1);
       final prevLength = length;
-      await load();
+      await _load();
       if (length == prevLength) {
         _canNext = false;
         _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page - 1);

@@ -47,4 +47,4 @@ part 'src/model_field_value.dart';
 part 'src/model_geo_value.dart';
 part 'src/model_initial_value.dart';
 part 'src/model_access_query.dart';
-part 'src/load_transaction.dart';
+part 'src/internal_transaction.dart';
