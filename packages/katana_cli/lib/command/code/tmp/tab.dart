@@ -1,45 +1,38 @@
-part of "code.dart";
+part of "tmp.dart";
 
-/// Create a base class for the page.
+/// Create a template page for the tab.
 ///
-/// ページのベースクラスを作成します。
-class CodePageCliCommand extends CliCodeCommand {
-  /// Create a base class for the page.
+/// タブのテンプレートページを作成します。
+class CodeTmpTabCliCommand extends CliCodeCommand {
+  /// Create a template page for the tab.
   ///
-  /// ページのベースクラスを作成します。
-  const CodePageCliCommand();
+  /// タブのテンプレートページを作成します。
+  const CodeTmpTabCliCommand();
 
   @override
-  String get name => "page";
+  String get name => "template_tab";
 
   @override
-  String get prefix => "page";
+  String get prefix => "templateTab";
 
   @override
   String get directory => "lib/pages";
 
   @override
   String get description =>
-      "Create a base class for the page in `$directory/(filepath).dart`. ページのベースクラスを`$directory/(filepath).dart`に作成します。";
+      "Create a template for the tab page in `$directory/(filepath).dart`. タブページのテンプレートを`$directory/(filepath).dart`に作成します。";
 
   @override
   Future<void> exec(ExecContext context) async {
-    final path = context.args.get(2, "");
+    final path = context.args.get(3, "");
     if (path.isEmpty) {
       error(
-        "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code page [path]\r\n",
+        "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code tmp form [path]\r\n",
       );
       return;
     }
     final existsMain = File("lib/main.dart").existsSync();
-    label("Create a page class in `$directory/$path.dart`.");
-    final parentPath = path.parentPath();
-    if (parentPath.isNotEmpty) {
-      final parentDir = Directory("$directory/$parentPath");
-      if (!parentDir.existsSync()) {
-        await parentDir.create(recursive: true);
-      }
-    }
+    label("Create a tab template in `$directory/$path.dart`.");
     await generateDartCode(
       "$directory/$path",
       path,
@@ -89,6 +82,39 @@ part '$baseName.page.dart';
   @override
   String body(String path, String baseName, String className) {
     return """
+/// Define a list of tabs for use with ${className}Page.
+enum ${className}PageTab {
+  // TODO: Define the type of tabs.
+  tab1,
+  tab2;
+
+  /// The first tab to display.
+  // TODO: Specify the initial tab.
+  static final ${className}PageTab initialTab = ${className}PageTab.tab1;
+
+  /// Get the label of ${className}PageTab.
+  // TODO: Specify a label for each tab.
+  String get label {
+    switch (this) {
+      case ${className}PageTab.tab1:
+        return "Tab1";
+      case ${className}PageTab.tab2:
+        return "Tab2";
+    }
+  }
+
+  /// Get the view widget of ${className}PageTab.
+  // TODO: Specify a widget for each tab.
+  Widget get view {
+    switch (this) {
+      case ${className}PageTab.tab1:
+        return const Empty();
+      case ${className}PageTab.tab2:
+        return const Empty();
+    }
+  }
+}
+
 /// Page widget for $className.
 @immutable
 // TODO: Set the path for the page.
@@ -119,9 +145,27 @@ class ${className}Page extends PageScopedWidget {
     // TODO: Implement the variable loading process.
     \${4}
 
+    final tabBar = TabBar(
+      isScrollable: true,
+      indicatorSize: TabBarIndicatorSize.tab,
+      tabAlignment: TabAlignment.start,
+      tabs: [
+        ...${className}PageTab.values.map((e) => Tab(text: e.label)),
+      ],
+    );
+    final tabView = TabBarView(
+      children: [
+        ...${className}PageTab.values.map((e) => e.view),
+      ],
+    );
+
     // Describes the structure of the page.
     // TODO: Implement the view.
-    return \${5:UniversalScaffold()};
+    return DefaultTabController(
+      initialIndex: ${className}PageTab.initialTab.index,
+      length: ${className}PageTab.values.length,
+      child: UniversalScaffold(),
+    );
   }
 }
 """;

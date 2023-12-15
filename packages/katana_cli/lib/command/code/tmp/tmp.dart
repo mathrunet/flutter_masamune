@@ -8,6 +8,8 @@ import 'package:katana_cli/katana_cli.dart';
 
 part 'form.dart';
 part 'basic.dart';
+part 'tab.dart';
+part 'navigation.dart';
 
 /// Create a Dart/Flutter code template.
 ///
@@ -26,5 +28,7 @@ class CodeTmpCliCommand extends CliCommandGroup {
   Map<String, CliCommand> get commands => const {
         "form": CodeTmpFormCliCommand(),
         "basic": CodeTmpBasicCliCommand(),
+        "tab": CodeTmpTabCliCommand(),
+        "navigation": CodeTmpNavigationCliCommand(),
       };
 }
