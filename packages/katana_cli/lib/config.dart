@@ -190,6 +190,12 @@ ${showAllConfig ? """
       #    https://console.cloud.google.com/apis/credentials
       # 2. List the domain where the website is open in the "Authorized JavaScript Generator" field.
       #    e.g.) https://example.com
+      # Also, at the time of release, please follow the steps below to obtain the SHA-256 hash value of the app's signing certificate and add it to the Firebase configuration.
+      # If not added, Google Login will be disabled only for the build of the distribution.
+      # 1. open GooglePlayConsole and select your app.
+      # 2. Open [Settings]->[App Signature].
+      # 3. Copy the SHA-256 hash value listed.
+      # 4. In Firebase, go to [Project Settings]->[General]->[My Apps]->[Android Apps] and add the value you copied to [SHA Certificate Fingerprints].
       # Googleアカウントによるログインを行います。
       # Firebaseの設定から自動でGoogleログイン用の設定を取得します。
       # またFirebaseのコンソール（https://console.firebase.google.com/）から[Authentication]->[Sing-in method]を選択し`Google`を有効にしてください。
@@ -198,6 +204,12 @@ ${showAllConfig ? """
       #    https://console.cloud.google.com/apis/credentials 
       # 2. 「承認済みの JavaScript 生成元」にWebサイトを開いているドメインを記載します。
       #    例）https://example.com
+      # またリリース時には下記の手順でアプリの署名証明書のSHA-256ハッシュ値を取得し、Firebaseの設定に追加してください。
+      # 追加しない場合、配信のビルドのみGoogleログインが出来ない状態になります。
+      # 1. GooglePlayConsoleを開き、アプリを選択します。
+      # 2. [設定]->[アプリの署名]を開く。
+      # 3. 記載されているSHA-256ハッシュ値をコピーします。
+      # 4. Firebaseの[プロジェクトの設定]->[全般]->[マイアプリ]->Androidのアプリから[SHA証明書フィンガープリント]にコピーした値を追加します。
       google:
         enable: false
 
