@@ -1,3 +1,8 @@
+## 2.12.0
+
+ - **FIX**: Fixed a bug in adding icons. ([56ee79dd](https://github.com/mathrunet/flutter_masamune/commit/56ee79dd321e3cc5c5bbc76f93e379348d7de87a))
+ - **FEAT**: Add tab and navigation to Template. ([f97f8001](https://github.com/mathrunet/flutter_masamune/commit/f97f80016234d5db5247029de258cf44de2d9cf0))
+
 ## 2.11.8
 
  - **DOCS**: Added description for Google login. ([fb0b2012](https://github.com/mathrunet/flutter_masamune/commit/fb0b2012145da307a450ece95dc10735c0479a78))

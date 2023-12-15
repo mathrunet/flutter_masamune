@@ -15,6 +15,28 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.12.0`](#katana_cli---v2120)
+
+---
+
+#### `katana_cli` - `v2.12.0`
+
+ - **FIX**: Fixed a bug in adding icons. ([56ee79dd](https://github.com/mathrunet/flutter_masamune/commit/56ee79dd321e3cc5c5bbc76f93e379348d7de87a))
+ - **FEAT**: Add tab and navigation to Template. ([f97f8001](https://github.com/mathrunet/flutter_masamune/commit/f97f80016234d5db5247029de258cf44de2d9cf0))
+
+
+## 2023-12-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.11.8`](#katana_cli---v2118)
  - [`katana_model` - `v2.16.1`](#katana_model---v2161)
  - [`katana_model_local` - `v2.8.33`](#katana_model_local---v2833)
