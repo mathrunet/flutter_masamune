@@ -16,6 +16,7 @@ class StoreAndroidTokenCliCommand extends CliCommand {
   @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
+    final commandArg = context.args.get(3, "");
     final firebaseCommand = bin.get("firebase", "firebase");
     final purchase = context.yaml.getAsMap("purchase");
     final googlePlay = purchase.getAsMap("google_play");
@@ -71,37 +72,39 @@ class StoreAndroidTokenCliCommand extends CliCommand {
       );
       return;
     }
-    label("Add firebase functions");
-    final functions = Fuctions();
-    await functions.load();
-    if (!functions.functions.any((e) => e.startsWith("androidAuthCode"))) {
-      functions.functions.add("androidAuthCode()");
+    if (commandArg == "-d") {
+      label("Add firebase functions");
+      final functions = Fuctions();
+      await functions.load();
+      if (!functions.functions.any((e) => e.startsWith("androidAuthCode"))) {
+        functions.functions.add("androidAuthCode()");
+      }
+      if (!functions.functions.any((e) => e.startsWith("androidToken"))) {
+        functions.functions.add("androidToken()");
+      }
+      await functions.save();
+      await command(
+        "Set firebase functions config.",
+        [
+          firebaseCommand,
+          "functions:config:set",
+          "purchase.android.client_id=$googlePlayClientId",
+          "purchase.android.client_secret=$googlePlayClientSecret",
+          "purchase.android.redirect_uri=https://$region-$projectId.cloudfunctions.net/android_token",
+        ],
+        workingDirectory: "firebase",
+      );
+      await command(
+        "Deploy firebase functions.",
+        [
+          firebaseCommand,
+          "deploy",
+          "--only",
+          "functions",
+        ],
+        workingDirectory: "firebase",
+      );
     }
-    if (!functions.functions.any((e) => e.startsWith("androidToken"))) {
-      functions.functions.add("androidToken()");
-    }
-    await functions.save();
-    await command(
-      "Set firebase functions config.",
-      [
-        firebaseCommand,
-        "functions:config:set",
-        "purchase.android.client_id=$googlePlayClientId",
-        "purchase.android.client_secret=$googlePlayClientSecret",
-        "purchase.android.redirect_uri=https://$region-$projectId.cloudfunctions.net/android_token",
-      ],
-      workingDirectory: "firebase",
-    );
-    await command(
-      "Deploy firebase functions.",
-      [
-        firebaseCommand,
-        "deploy",
-        "--only",
-        "functions",
-      ],
-      workingDirectory: "firebase",
-    );
     await _runBrowser(
       "https://$region-$projectId.cloudfunctions.net/android_auth_code?id=$googlePlayClientId",
     );

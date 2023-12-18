@@ -500,6 +500,8 @@ purchase:
   # Follow the steps below to configure the settings.
   # 1. Obtain the OAuth client ID and client secret based on the URL below.
   #    https://mathru.notion.site/Android-1d4a60948a1446d7a82c010d96417a3d?pvs=4
+  #    ※ You need to create an OAuth consent screen. Please create it from the following URL.
+  #    https://console.cloud.google.com/apis/credentials/consent
   # 2. Set `enable` to `true` and enter the values you obtained for `oauth_client_id` and `oauth_client_secret`.
   # 3. Run `katana store android_token` to get a refresh token.
   # 4. Enter the obtained refresh token in the `refresh_token` field.
@@ -509,6 +511,8 @@ purchase:
   # 下記の手順で設定を行います。
   # 1. 下記URLを元にOAuthのクライアントIDとクライアントシークレットを取得します。
   #    https://mathru.notion.site/Android-1d4a60948a1446d7a82c010d96417a3d?pvs=4
+  #    ※OAuthの同意画面を作成する必要があります。下記のURLから作成してください。
+  #    https://console.cloud.google.com/apis/credentials/consent
   # 2. `enable`を`true`にし、`oauth_client_id`と`oauth_client_secret`に取得した値を入力します。
   # 3. `katana store android_token`を実行しリフレッシュトークンを取得します。
   # 4. 取得したリフレッシュトークンを`refresh_token`に入力します。

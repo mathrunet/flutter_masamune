@@ -213,9 +213,9 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           );
           _runCommandStack(
             line,
-            "? File firestore.rules already exists. Do you want to overwrite it",
+            "? File firestore.indexes.json already exists.",
             commandStack,
-            () => firestoreProcess.stdin.write("y\n"),
+            () => firestoreProcess.stdin.write("n\n"),
           );
           _runCommandStack(
             line,
@@ -249,6 +249,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           _runCommandStack(
             line,
             "? Are you ready to proceed?",
+            commandStack,
+            () => storageProcess.stdin.write("y\n"),
+          );
+          _runCommandStack(
+            line,
+            "? File storage.rules already exists.",
             commandStack,
             () => storageProcess.stdin.write("y\n"),
           );
