@@ -47,7 +47,7 @@ class AgoraScreen extends StatefulWidget {
   /// Specify [AgoraUser] obtained from [AgoraController.value].
   ///
   /// [AgoraController.value]から取得した[AgoraUser]を指定します。
-  final AgoraUser value;
+  final AgoraUser? value;
 
   /// Specifies the height of the screen.
   ///
@@ -97,8 +97,8 @@ class _AgoraScreenState extends State<AgoraScreen> {
   @override
   void initState() {
     super.initState();
-    widget.value._controller.addListener(_handledOnUpdate);
-    widget.value.addListener(_handledOnUpdate);
+    widget.value?._controller.addListener(_handledOnUpdate);
+    widget.value?.addListener(_handledOnUpdate);
   }
 
   void _handledOnUpdate() {
@@ -109,10 +109,10 @@ class _AgoraScreenState extends State<AgoraScreen> {
   void didUpdateWidget(covariant AgoraScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.value != oldWidget.value) {
-      oldWidget.value.removeListener(_handledOnUpdate);
-      oldWidget.value._controller.removeListener(_handledOnUpdate);
-      widget.value.addListener(_handledOnUpdate);
-      widget.value._controller.addListener(_handledOnUpdate);
+      oldWidget.value?.removeListener(_handledOnUpdate);
+      oldWidget.value?._controller.removeListener(_handledOnUpdate);
+      widget.value?.addListener(_handledOnUpdate);
+      widget.value?._controller.addListener(_handledOnUpdate);
       setState(() {});
     }
   }
@@ -120,15 +120,19 @@ class _AgoraScreenState extends State<AgoraScreen> {
   @override
   void dispose() {
     super.dispose();
-    widget.value._controller.removeListener(_handledOnUpdate);
-    widget.value.removeListener(_handledOnUpdate);
+    widget.value?._controller.removeListener(_handledOnUpdate);
+    widget.value?.removeListener(_handledOnUpdate);
   }
 
   @override
   Widget build(BuildContext context) {
-    final number = widget.value.number;
-    final channel = widget.value.channel;
-    final remoteState = widget.value.status;
+    final user = widget.value;
+    if (user == null) {
+      return const Empty();
+    }
+    final number = user.number;
+    final channel = user.channel;
+    final remoteState = user.status;
     if (AgoraController._engine == null || channel.isEmpty) {
       return const Empty();
     }
@@ -146,11 +150,10 @@ class _AgoraScreenState extends State<AgoraScreen> {
         ),
       );
     }
-    if (widget.value.isLocalUser) {
-      if (widget.value._controller.channelProfile ==
+    if (user.isLocalUser) {
+      if (user._controller.channelProfile ==
               ChannelProfileType.channelProfileLiveBroadcasting &&
-          widget.value._controller.clientRole ==
-              ClientRoleType.clientRoleAudience) {
+          user._controller.clientRole == ClientRoleType.clientRoleAudience) {
         return const Empty();
       }
       return AgoraVideoView(
