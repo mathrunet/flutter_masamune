@@ -16,7 +16,7 @@ class StoreAndroidTokenCliCommand extends CliCommand {
   @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
-    final commandArg = context.args.get(3, "");
+    final commandArg = context.args.get(2, "");
     final firebaseCommand = bin.get("firebase", "firebase");
     final purchase = context.yaml.getAsMap("purchase");
     final googlePlay = purchase.getAsMap("google_play");
@@ -72,7 +72,7 @@ class StoreAndroidTokenCliCommand extends CliCommand {
       );
       return;
     }
-    if (commandArg == "-d") {
+    if (commandArg != "-d") {
       label("Add firebase functions");
       final functions = Fuctions();
       await functions.load();
