@@ -1,3 +1,7 @@
+## 2.3.34
+
+ - **FIX**: AgoraScreen can be specified even when AgoraUser is null. ([a4ecdec8](https://github.com/mathrunet/flutter_masamune/commit/a4ecdec8463a343d3a584612da13ff0123c0a860))
+
 ## 2.3.33
 
  - Update a dependency to the latest release.

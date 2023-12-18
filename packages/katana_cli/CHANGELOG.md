@@ -1,3 +1,8 @@
+## 2.12.2
+
+ - **FIX**: Added an argument to skip Functions commands. ([b1c31aa3](https://github.com/mathrunet/flutter_masamune/commit/b1c31aa340bf355674ef7ac0f7c0a32a05616246))
+ - **FIX**: コマンド周りの不具合を修正. ([bf05b40f](https://github.com/mathrunet/flutter_masamune/commit/bf05b40f71aa5a2817e1a03d3124aa2b702ebe34))
+
 ## 2.12.1
 
  - **FIX**: Fixed templates for tab and navigation. ([3b0c2bb5](https://github.com/mathrunet/flutter_masamune/commit/3b0c2bb5a2ecbef58e1c3a61d8124921475f21e3))

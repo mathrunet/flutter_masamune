@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-12-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.12.2`](#katana_cli---v2122)
+ - [`masamune_agora` - `v2.3.34`](#masamune_agora---v2334)
+
+---
+
+#### `katana_cli` - `v2.12.2`
+
+ - **FIX**: Added an argument to skip Functions commands. ([b1c31aa3](https://github.com/mathrunet/flutter_masamune/commit/b1c31aa340bf355674ef7ac0f7c0a32a05616246))
+ - **FIX**: コマンド周りの不具合を修正. ([bf05b40f](https://github.com/mathrunet/flutter_masamune/commit/bf05b40f71aa5a2817e1a03d3124aa2b702ebe34))
+
+#### `masamune_agora` - `v2.3.34`
+
+ - **FIX**: AgoraScreen can be specified even when AgoraUser is null. ([a4ecdec8](https://github.com/mathrunet/flutter_masamune/commit/a4ecdec8463a343d3a584612da13ff0123c0a860))
+
+
 ## 2023-12-15
 
 ### Changes
