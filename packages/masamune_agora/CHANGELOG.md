@@ -1,3 +1,7 @@
+## 2.3.35
+
+ - **FIX**: Fixed a bug that UserAccount was not being retrieved properly. ([d670bc03](https://github.com/mathrunet/flutter_masamune/commit/d670bc03f731d8007297a4d4c653e61562978767))
+
 ## 2.3.34
 
  - **FIX**: AgoraScreen can be specified even when AgoraUser is null. ([a4ecdec8](https://github.com/mathrunet/flutter_masamune/commit/a4ecdec8463a343d3a584612da13ff0123c0a860))

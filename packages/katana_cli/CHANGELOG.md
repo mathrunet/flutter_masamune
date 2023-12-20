@@ -1,3 +1,7 @@
+## 2.12.3
+
+ - **FIX**: Fixed a bug in specifying parameters for functions in purchase. ([55e18bc0](https://github.com/mathrunet/flutter_masamune/commit/55e18bc0330fdfff26375eeffd0981d2517d1f1f))
+
 ## 2.12.2
 
  - **FIX**: Added an argument to skip Functions commands. ([b1c31aa3](https://github.com/mathrunet/flutter_masamune/commit/b1c31aa340bf355674ef7ac0f7c0a32a05616246))

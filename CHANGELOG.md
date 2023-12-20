@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-12-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.12.3`](#katana_cli---v2123)
+ - [`masamune_agora` - `v2.3.35`](#masamune_agora---v2335)
+
+---
+
+#### `katana_cli` - `v2.12.3`
+
+ - **FIX**: Fixed a bug in specifying parameters for functions in purchase. ([55e18bc0](https://github.com/mathrunet/flutter_masamune/commit/55e18bc0330fdfff26375eeffd0981d2517d1f1f))
+
+#### `masamune_agora` - `v2.3.35`
+
+ - **FIX**: Fixed a bug that UserAccount was not being retrieved properly. ([d670bc03](https://github.com/mathrunet/flutter_masamune/commit/d670bc03f731d8007297a4d4c653e61562978767))
+
+
 ## 2023-12-18
 
 ### Changes
