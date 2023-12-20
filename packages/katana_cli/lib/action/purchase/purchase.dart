@@ -6,6 +6,7 @@
 import 'dart:io';
 
 // Package imports:
+import 'package:katana_cli/config.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
@@ -144,7 +145,8 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         gradle.dependencies.add(
           GradleDependencies(
             group: "implementation",
-            packageName: "com.android.billingclient:billing:5.2.0",
+            packageName:
+                "com.android.billingclient:billing:${Config.androidBillingVersion}",
           ),
         );
       }
@@ -203,7 +205,7 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
               ),
               XmlAttribute(
                 XmlName("android:value"),
-                "5.2.0",
+                Config.androidBillingVersion,
               ),
             ],
             [],
@@ -257,8 +259,8 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         }
         if (!functions.functions
             .any((e) => e.startsWith("purchaseWebhookAndroid"))) {
-          functions.functions
-              .add("purchaseWebhookAndroid(\"$googlePlayPubsubTopic\")");
+          functions.functions.add(
+              "purchaseWebhookAndroid({topic: \"$googlePlayPubsubTopic\"})");
         }
       }
       await functions.save();

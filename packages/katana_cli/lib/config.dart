@@ -4,6 +4,11 @@
 class Config {
   Config._();
 
+  /// Version of the Android Billing Library.
+  ///
+  /// AndroidのBillingライブラリのバージョン。
+  static const String androidBillingVersion = "6.0.1";
+
   /// Contents of katana.yaml.
   ///
   /// katana.yamlの中身。
