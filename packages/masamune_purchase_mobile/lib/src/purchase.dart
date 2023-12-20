@@ -146,16 +146,22 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
         onDone: () {
           _initializeCompleter?.complete();
           _initializeCompleter = null;
+          _purchaseCompleter?.complete();
+          _purchaseCompleter = null;
           notifyListeners();
         },
         onDisposed: () {
           _initializeCompleter?.complete();
           _initializeCompleter = null;
+          _purchaseCompleter?.complete();
+          _purchaseCompleter = null;
           dispose();
         },
         onError: (e) {
           _initializeCompleter?.completeError(e);
           _initializeCompleter = null;
+          _purchaseCompleter?.completeError(e);
+          _purchaseCompleter = null;
         },
       );
       await adapter.initialize();
