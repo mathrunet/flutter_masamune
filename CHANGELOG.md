@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase_mobile` - `v2.5.125`](#masamune_purchase_mobile---v25125)
+ - [`masamune_module_point_ecosystem` - `v2.3.89`](#masamune_module_point_ecosystem---v2389)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.3.89`
+
+---
+
+#### `masamune_purchase_mobile` - `v2.5.125`
+
+ - **FIX**: Fixed a bug that prevented purchases from finishing. ([471759bc](https://github.com/mathrunet/flutter_masamune/commit/471759bc239f3108590c1a05f18b17da02279a27))
+
+
+## 2023-12-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.12.3`](#katana_cli---v2123)
  - [`masamune_agora` - `v2.3.35`](#masamune_agora---v2335)
 

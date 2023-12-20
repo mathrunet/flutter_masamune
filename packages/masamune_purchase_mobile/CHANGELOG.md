@@ -1,3 +1,7 @@
+## 2.5.125
+
+ - **FIX**: Fixed a bug that prevented purchases from finishing. ([471759bc](https://github.com/mathrunet/flutter_masamune/commit/471759bc239f3108590c1a05f18b17da02279a27))
+
 ## 2.5.124
 
  - Update a dependency to the latest release.
