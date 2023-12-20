@@ -568,13 +568,15 @@ class AgoraController
             final localUid = connection.localUid ?? 0;
             final data = value?.firstWhereOrNull((e) => e.number == localUid);
             if (data == null) {
-              value?.add(AgoraUser._(
+              final user = AgoraUser._(
                 controller: this,
+                name: userName,
                 number: localUid,
                 isLocalUser: true,
                 channel: connection.channelId,
                 status: RemoteVideoState.remoteVideoStateStarting,
-              ));
+              );
+              value?.add(user);
               if ((enableScreenCaptureOnConnect ??
                       adapter.enableScreenCaptureByDefault) &&
                   channelProfile ==
@@ -617,23 +619,28 @@ class AgoraController
           }
           data._setStatus(state);
         },
-        onUserJoined: (connection, remoteUid, elapsed) {
+        onUserJoined: (connection, remoteUid, elapsed) async {
           final data = value?.firstWhereOrNull((e) => e.number == remoteUid);
           if (data != null) {
             return;
           }
-          value?.add(AgoraUser._(
+          final user = AgoraUser._(
             controller: this,
             number: remoteUid,
             channel: connection.channelId,
             status: RemoteVideoState.remoteVideoStateStarting,
             isLocalUser: false,
-          ));
+          );
+          value?.add(user);
           _sendLog(AgoraLoggerEvent.join, parameters: {
             AgoraLoggerEvent.userNumberKey: remoteUid,
             AgoraLoggerEvent.isLocalUserKey: false,
           });
           notifyListeners();
+          final userInfo = await _engine?.getUserInfoByUid(remoteUid);
+          if (userInfo != null) {
+            user._setName(userInfo.userAccount ?? "");
+          }
         },
         onUserOffline: (connection, remoteUid, reason) {
           final data = value?.firstWhereOrNull((e) => e.number == remoteUid);
