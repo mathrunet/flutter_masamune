@@ -238,7 +238,7 @@ class Authentication extends ChangeNotifier {
       onUserStateChanged: notifyListeners,
     );
     _sendLog(AuthLoggerEvent.register, parameters: {
-      AuthLoggerEvent.userIdKey: userId,
+      AuthLoggerEvent.userIdKey: isSignedIn ? userId : null,
       AuthLoggerEvent.providerKey: provider.providerId,
     });
     return this;
@@ -257,7 +257,7 @@ class Authentication extends ChangeNotifier {
       onUserStateChanged: notifyListeners,
     );
     _sendLog(AuthLoggerEvent.registerOrSignIn, parameters: {
-      AuthLoggerEvent.userIdKey: userId,
+      AuthLoggerEvent.userIdKey: isSignedIn ? userId : null,
       AuthLoggerEvent.providerKey: provider.providerId,
     });
     return this;

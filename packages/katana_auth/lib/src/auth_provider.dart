@@ -247,6 +247,15 @@ abstract class ChangePhoneNumberAuthProvider extends ChangeAuthProvider {
   ///
   /// 変更用のSMSを送るためのロケール。
   Locale? get locale;
+
+  /// Country code.
+  ///
+  /// If you specify `[countryNumber]', the prefix ` [countryNumber]` is added to [phoneNumber].
+  ///
+  /// 国の番号。
+  ///
+  /// [countryNumber]を指定すると`+[countryNumber]`というプレフィックスが[phoneNumber]に付与されます。
+  String? get countryNumber;
 }
 
 /// {@template confirm_change_phone_number_auth_provider}

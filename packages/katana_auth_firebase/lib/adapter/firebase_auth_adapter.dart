@@ -2,7 +2,7 @@ part of "/katana_auth_firebase.dart";
 
 const _kUserEmailKey = "userEmail";
 const _kUserPhoneNumberKey = "userPhoneNumber";
-const _kSmsCodeKey = "smsCode";
+const _kSmsVerificationIdKey = "verificationId";
 const _kSecondaryAppName = "secondary";
 
 /// Model adapter with FirebaseAuth available.
@@ -339,7 +339,7 @@ class FirebaseAuthAdapter extends AuthAdapter {
       debugPrint("Please call initialize before using it.");
       return false;
     }
-    return _sharedPreferences.containsKey(_kSmsCodeKey.toSHA1()) ||
+    return _sharedPreferences.containsKey(_kSmsVerificationIdKey.toSHA1()) ||
         _sharedPreferences.containsKey(_kUserEmailKey.toSHA1()) ||
         _sharedPreferences.containsKey(_kUserPhoneNumberKey.toSHA1());
   }
@@ -536,16 +536,18 @@ class FirebaseAuthAdapter extends AuthAdapter {
       );
       onUserStateChanged.call();
     } else if (provider is SmsSignInAuthProvider) {
+      final phoneNumber =
+          "${provider.countryNumber.isEmpty ? "" : "+${provider.countryNumber}"}${provider.phoneNumber}";
       await _prepareProcessInternal();
       await database.setLanguageCode(
         provider.locale?.languageCode ?? defaultLocale.languageCode,
       );
       await _sharedPreferences.setString(
         _kUserPhoneNumberKey.toSHA1(),
-        provider.phoneNumber,
+        phoneNumber,
       );
       await database.verifyPhoneNumber(
-        phoneNumber: provider.phoneNumber,
+        phoneNumber: phoneNumber,
         verificationCompleted: (credential) async {
           if (_user != null) {
             if (!_user!.providerData.any(
@@ -564,16 +566,16 @@ class FirebaseAuthAdapter extends AuthAdapter {
         verificationFailed: (error) {
           throw error;
         },
-        codeSent: (verificationCode, [code]) async {
+        codeSent: (verificationId, [code]) async {
           await _sharedPreferences.setString(
-            _kSmsCodeKey.toSHA1(),
-            verificationCode,
+            _kSmsVerificationIdKey.toSHA1(),
+            verificationId,
           );
           onUserStateChanged.call();
         },
         codeAutoRetrievalTimeout: (verificationCode) async {
           await _sharedPreferences.setString(
-            _kSmsCodeKey.toSHA1(),
+            _kSmsVerificationIdKey.toSHA1(),
             verificationCode,
           );
           onUserStateChanged.call();
@@ -645,11 +647,16 @@ class FirebaseAuthAdapter extends AuthAdapter {
       await _prepareProcessInternal();
       final phoneNumber =
           _sharedPreferences.getString(_kUserPhoneNumberKey.toSHA1());
+      final verificationId =
+          _sharedPreferences.getString(_kSmsVerificationIdKey.toSHA1());
       if (phoneNumber.isEmpty) {
         throw Exception("Phone number is not saved.");
       }
+      if (verificationId.isEmpty) {
+        throw Exception("Sms verirication id is not saved.");
+      }
       final credential = PhoneAuthProvider.credential(
-        verificationId: phoneNumber!,
+        verificationId: verificationId!,
         smsCode: provider.code,
       );
       if (_user != null) {
@@ -664,7 +671,7 @@ class FirebaseAuthAdapter extends AuthAdapter {
         throw Exception("User is not found.");
       }
       await _sharedPreferences.remove(_kUserPhoneNumberKey.toSHA1());
-      await _sharedPreferences.remove(_kSmsCodeKey.toSHA1());
+      await _sharedPreferences.remove(_kSmsVerificationIdKey.toSHA1());
       onUserStateChanged.call();
     }
   }
@@ -764,16 +771,18 @@ class FirebaseAuthAdapter extends AuthAdapter {
       await _user!.reload();
       onUserStateChanged.call();
     } else if (provider is ChangePhoneNumberAuthProvider) {
+      final phoneNumber =
+          "${provider.countryNumber.isEmpty ? "" : "+${provider.countryNumber}"}${provider.phoneNumber}";
       await _prepareProcessInternal();
       await database.setLanguageCode(
         provider.locale?.languageCode ?? defaultLocale.languageCode,
       );
       await _sharedPreferences.setString(
         _kUserPhoneNumberKey.toSHA1(),
-        provider.phoneNumber,
+        phoneNumber,
       );
       await database.verifyPhoneNumber(
-        phoneNumber: provider.phoneNumber,
+        phoneNumber: phoneNumber,
         verificationCompleted: (credential) async {
           if (_user != null) {
             if (!_user!.providerData.any(
@@ -794,14 +803,14 @@ class FirebaseAuthAdapter extends AuthAdapter {
         },
         codeSent: (verificationCode, [code]) async {
           await _sharedPreferences.setString(
-            _kSmsCodeKey.toSHA1(),
+            _kSmsVerificationIdKey.toSHA1(),
             verificationCode,
           );
           onUserStateChanged.call();
         },
         codeAutoRetrievalTimeout: (verificationCode) async {
           await _sharedPreferences.setString(
-            _kSmsCodeKey.toSHA1(),
+            _kSmsVerificationIdKey.toSHA1(),
             verificationCode,
           );
           onUserStateChanged.call();
@@ -832,7 +841,7 @@ class FirebaseAuthAdapter extends AuthAdapter {
       await _user!.updatePhoneNumber(credential);
       await _user!.reload();
       await _sharedPreferences.remove(_kUserPhoneNumberKey.toSHA1());
-      await _sharedPreferences.remove(_kSmsCodeKey.toSHA1());
+      await _sharedPreferences.remove(_kSmsVerificationIdKey.toSHA1());
       onUserStateChanged.call();
     }
   }

@@ -22,14 +22,23 @@ class SmsAuthQuery {
   ///
   /// Pass the phone number in [phoneNumber] and the SMS language setting in [locale].
   ///
+  /// If you specify `[countryNumber]', the prefix ` [countryNumber]` is added to [phoneNumber].
+  ///
   /// [phoneNumber]で電話番号、[locale]にSMSの言語設定を渡します。
+  ///
+  /// [countryNumber]を指定すると`+[countryNumber]`というプレフィックスが[phoneNumber]に付与されます。
   ///
   /// {@macro sms_auth}
   static SmsSignInAuthProvider signIn({
     required String phoneNumber,
+    String? countryNumber,
     Locale? locale,
   }) {
-    return SmsSignInAuthProvider(phoneNumber: phoneNumber, locale: locale);
+    return SmsSignInAuthProvider(
+      phoneNumber: phoneNumber,
+      locale: locale,
+      countryNumber: countryNumber,
+    );
   }
 
   /// {@macro confirm_sign_in_auth_provider}
@@ -49,16 +58,22 @@ class SmsAuthQuery {
   ///
   /// Pass the phone number in [phoneNumber] and the SMS language setting in [locale].
   ///
+  /// If you specify `[countryNumber]', the prefix ` [countryNumber]` is added to [phoneNumber].
+  ///
   /// [phoneNumber]で電話番号、[locale]にSMSの言語設定を渡します。
+  ///
+  /// [countryNumber]を指定すると`+[countryNumber]`というプレフィックスが[phoneNumber]に付与されます。
   ///
   /// {@macro sms_auth}
   static SmsChangePhoneNumberAuthProvider changePhoneNumber({
     required String phoneNumber,
+    String? countryNumber,
     Locale? locale,
   }) {
     return SmsChangePhoneNumberAuthProvider(
       phoneNumber: phoneNumber,
       locale: locale,
+      countryNumber: countryNumber,
     );
   }
 
@@ -82,12 +97,17 @@ class SmsAuthQuery {
 ///
 /// Pass the phone number in [phoneNumber] and the SMS language setting in [locale].
 ///
+/// If you specify `[countryNumber]', the prefix ` [countryNumber]` is added to [phoneNumber].
+///
 /// [phoneNumber]で電話番号、[locale]にSMSの言語設定を渡します。
+///
+/// [countryNumber]を指定すると`+[countryNumber]`というプレフィックスが[phoneNumber]に付与されます。
 ///
 /// {@macro sms_auth}
 class SmsSignInAuthProvider extends SignInAuthProvider {
   const SmsSignInAuthProvider({
     required this.phoneNumber,
+    this.countryNumber,
     this.locale,
   });
 
@@ -104,6 +124,15 @@ class SmsSignInAuthProvider extends SignInAuthProvider {
   ///
   /// SMSの言語設定。
   final Locale? locale;
+
+  /// Country code.
+  ///
+  /// If you specify `[countryNumber]', the prefix ` [countryNumber]` is added to [phoneNumber].
+  ///
+  /// 国の番号。
+  ///
+  /// [countryNumber]を指定すると`+[countryNumber]`というプレフィックスが[phoneNumber]に付与されます。
+  final String? countryNumber;
 }
 
 /// {@macro confirm_sign_in_auth_provider}
@@ -153,6 +182,7 @@ class SmsChangePhoneNumberAuthProvider extends ChangePhoneNumberAuthProvider {
   const SmsChangePhoneNumberAuthProvider({
     required this.phoneNumber,
     this.locale,
+    this.countryNumber,
   });
 
   @override
@@ -163,6 +193,8 @@ class SmsChangePhoneNumberAuthProvider extends ChangePhoneNumberAuthProvider {
   final String phoneNumber;
   @override
   final Locale? locale;
+  @override
+  final String? countryNumber;
 }
 
 /// {@macro confirm_change_phone_number_auth_provider}
