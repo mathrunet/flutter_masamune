@@ -1,3 +1,7 @@
+## 2.17.0
+
+ - **FEAT**: Support for collection groups. ([7f390ce3](https://github.com/mathrunet/flutter_masamune/commit/7f390ce378ae4982f80d6c6fe97da1e259043709))
+
 ## 2.16.2
 
  - **FIX**: Add create method to ModelAdapterCollectionQuery. ([9b8ea924](https://github.com/mathrunet/flutter_masamune/commit/9b8ea924b5885286ab0acd13f0d9477f2075b9eb))

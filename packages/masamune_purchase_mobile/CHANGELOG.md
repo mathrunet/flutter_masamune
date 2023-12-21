@@ -1,3 +1,7 @@
+## 2.5.127
+
+ - Update a dependency to the latest release.
+
 ## 2.5.126
 
  - **FIX**: Transfer initialization of billing to each method. ([b71f9467](https://github.com/mathrunet/flutter_masamune/commit/b71f9467025b5da2e85cd6da50ba22d0cd013369))

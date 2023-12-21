@@ -1,3 +1,7 @@
+## 2.12.0
+
+ - **FEAT**: Support for collection groups. ([7f390ce3](https://github.com/mathrunet/flutter_masamune/commit/7f390ce378ae4982f80d6c6fe97da1e259043709))
+
 ## 2.11.2
 
  - Update a dependency to the latest release.
