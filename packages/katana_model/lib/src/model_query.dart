@@ -182,6 +182,28 @@ class CollectionModelQuery extends ModelQuery {
     );
   }
 
+  /// Including this will cause this collection to be treated as a collection group.
+  ///
+  /// When it comes to collection groups, all paths that contain the end of a path will be retrieved across the board.
+  ///
+  /// The collection group retrieves all documents across collections.
+  /// **Do not use a different schema for the document as it may lead to errors if the schema of the document is different.**
+  ///
+  /// これを含めることでこのコレクションをコレクショングループとして扱うようになります。
+  ///
+  /// コレクショングループになったときパスの最後が含まれるすべてのパスを横断的に取得するようになります。
+  ///
+  /// コレクショングループはコレクションを跨いだ全ドキュメントを取得します。
+  /// **ドキュメントのスキーマが違う場合エラーにつながる可能性があるのでドキュメントのスキーマが違う場合は利用しないでください。**
+  CollectionModelQuery collectionGroup() {
+    return _copyWithAddingFilter(filters: [
+      ...filters,
+      const ModelQueryFilter._(
+        type: ModelQueryFilterType.collectionGroup,
+      )
+    ]);
+  }
+
   /// You can filter only those elements for which the value for [key] matches the value for [value].
   ///
   /// [key]に対する値と[value]が一致する要素のみをフィルタリングすることができます。
@@ -820,6 +842,11 @@ class ModelQuery {
 ///
 /// ModelQueryのフィルタータイプを定義します。
 enum ModelQueryFilterType {
+  /// Treat the collection as a collection group and query for it.
+  ///
+  /// コレクションをコレクショングループとして扱いそのためのクエリを出す。
+  collectionGroup,
+
   /// A filter that checks for a match to a value in the data.
   ///
   /// データ中の値と一致するかどうかをチェックするフィルター。

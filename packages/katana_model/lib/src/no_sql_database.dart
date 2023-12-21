@@ -117,6 +117,10 @@ class NoSqlDatabase {
       _collectionListeners = {};
   final Map<Object?, List<MapEntry<String, DynamicMap>>> _collectionEntries =
       {};
+  final Map<String, Map<Object?, ModelAdapterCollectionQuery>>
+      _collectionGroupListeners = {};
+  final Map<Object?, List<MapEntry<String, DynamicMap>>>
+      _collectionGroupEntries = {};
 
   String _path(String original, String? prefix) {
     if (prefix.isEmpty) {
@@ -169,15 +173,28 @@ class NoSqlDatabase {
     ModelAdapterCollectionQuery query, {
     String? prefix,
   }) {
-    final trimPath = _path(query.query.path, prefix);
-    if (_collectionListeners.containsKey(trimPath)) {
-      final listener = _collectionListeners[trimPath]!;
-      if (listener.containsKey(query.origin)) {
-        return;
+    if (query.query.isCollectionGroup) {
+      final trimPath = _path(query.query.path, prefix).last();
+      if (_collectionGroupListeners.containsKey(trimPath)) {
+        final listener = _collectionGroupListeners[trimPath]!;
+        if (listener.containsKey(query.origin)) {
+          return;
+        }
+        listener[query.origin] = query;
+      } else {
+        _collectionGroupListeners[trimPath] = {query.origin: query};
       }
-      listener[query.origin] = query;
     } else {
-      _collectionListeners[trimPath] = {query.origin: query};
+      final trimPath = _path(query.query.path, prefix);
+      if (_collectionListeners.containsKey(trimPath)) {
+        final listener = _collectionListeners[trimPath]!;
+        if (listener.containsKey(query.origin)) {
+          return;
+        }
+        listener[query.origin] = query;
+      } else {
+        _collectionListeners[trimPath] = {query.origin: query};
+      }
     }
   }
 
@@ -215,9 +232,16 @@ class NoSqlDatabase {
     if (query == null) {
       return;
     }
-    final trimPath = _path(query.query.path, prefix);
-    if (_collectionListeners.containsKey(trimPath)) {
-      _collectionListeners[trimPath]!.remove(query.origin);
+    if (query.query.isCollectionGroup) {
+      final trimPath = _path(query.query.path, prefix).last();
+      if (_collectionGroupListeners.containsKey(trimPath)) {
+        _collectionGroupListeners[trimPath]!.remove(query.origin);
+      }
+    } else {
+      final trimPath = _path(query.query.path, prefix);
+      if (_collectionListeners.containsKey(trimPath)) {
+        _collectionListeners[trimPath]!.remove(query.origin);
+      }
     }
   }
 
@@ -349,7 +373,10 @@ class NoSqlDatabase {
     if (paths.isEmpty) {
       return null;
     }
-    final value = data._readFromPath(paths, 0);
+    final isCollectionGroup = query.query.isCollectionGroup;
+    final value = isCollectionGroup
+        ? data._readFromGroup(trimPath.last(), 0)
+        : data._readFromPath(paths, 0);
     if (value is! DynamicMap) {
       return null;
     }
@@ -377,7 +404,11 @@ class NoSqlDatabase {
       0,
       limitValue != null ? min(limitValue, entries.length) : null,
     );
-    _collectionEntries[query.origin] = List.from(limited);
+    if (isCollectionGroup) {
+      _collectionGroupEntries[query.origin] = List.from(limited);
+    } else {
+      _collectionEntries[query.origin] = List.from(limited);
+    }
     return Map<String, DynamicMap>.fromEntries(limited);
   }
 
@@ -406,6 +437,7 @@ class NoSqlDatabase {
     if (paths.isEmpty || value == null) {
       return value;
     }
+    final isCollectionGroup = query.query.isCollectionGroup;
     for (final tmp in value.entries) {
       final key = tmp.key;
       final val = Map<String, dynamic>.from(tmp.value);
@@ -438,7 +470,11 @@ class NoSqlDatabase {
       0,
       limitValue != null ? min(limitValue, entries.length) : null,
     );
-    _collectionEntries[query.origin] = List.from(limited);
+    if (isCollectionGroup) {
+      _collectionGroupEntries[query.origin] = List.from(limited);
+    } else {
+      _collectionEntries[query.origin] = List.from(limited);
+    }
     await onSaved?.call(this);
     return value;
   }
@@ -468,11 +504,12 @@ class NoSqlDatabase {
     final trimPath = _path(query.query.path, prefix);
     final res = <String, DynamicMap>{};
     for (final entry in _registeredInitialValue.entries) {
-      final parentPath = entry.key.parentPath().trimString("/");
+      final path = entry.key.trimQuery().trimString("/");
+      final parentPath = path.parentPath();
       if (parentPath != trimPath) {
         continue;
       }
-      final id = entry.key.last();
+      final id = path.last();
       final value = entry.value;
       res[id] = Map<String, dynamic>.from(value);
     }
@@ -781,6 +818,7 @@ class NoSqlDatabase {
     ModelAdapterDocumentQuery query,
   ) {
     final collectionPath = documentPath.parentPath();
+    final collectionGroupPath = collectionPath.last();
     if (_documentListeners.containsKey(documentPath)) {
       for (final element in _documentListeners[documentPath]?.values ??
           <ModelAdapterDocumentQuery>[]) {
@@ -918,6 +956,129 @@ class NoSqlDatabase {
         }
       }
     }
+    if (_collectionGroupListeners.containsKey(collectionGroupPath)) {
+      for (final element
+          in _collectionGroupListeners[collectionGroupPath]?.values ??
+              <ModelAdapterCollectionQuery>[]) {
+        final entries = _collectionGroupEntries[element.origin] ?? [];
+        switch (status) {
+          case ModelUpdateNotificationStatus.added:
+            if (!element.query.hasMatchAsMap(value)) {
+              continue;
+            }
+            final newIndex =
+                element.query.seekIndex(entries, value) ?? entries.length;
+            _collectionGroupEntries[element.origin] = entries
+              ..insert(newIndex, MapEntry(documentId, value));
+            element.callback?.call(
+              ModelUpdateNotification(
+                path: documentPath,
+                id: documentId,
+                status: status,
+                value: Map.from(value),
+                origin: query.origin,
+                oldIndex: null,
+                newIndex: newIndex,
+                listen: query.listen,
+                query: element.query,
+              ),
+            );
+            break;
+          case ModelUpdateNotificationStatus.modified:
+            if (element.query.hasMatchAsMap(value)) {
+              final oldIndex = entries.indexWhere(
+                (e) => e.key.trimQuery().trimString("/") == documentId,
+              );
+
+              if (oldIndex < 0) {
+                final newIndex =
+                    element.query.seekIndex(entries, value) ?? entries.length;
+                _collectionGroupEntries[element.origin] = entries
+                  ..insert(newIndex, MapEntry(documentId, value));
+                element.callback?.call(
+                  ModelUpdateNotification(
+                    path: documentPath,
+                    id: documentId,
+                    status: ModelUpdateNotificationStatus.added,
+                    value: Map.from(value),
+                    origin: query.origin,
+                    oldIndex: null,
+                    newIndex: newIndex,
+                    listen: query.listen,
+                    query: element.query,
+                  ),
+                );
+              } else {
+                var newIndex =
+                    element.query.seekIndex(entries, value) ?? oldIndex;
+                if (oldIndex < newIndex) {
+                  newIndex = newIndex - 1;
+                }
+                _collectionGroupEntries[element.origin] = entries
+                  ..removeAt(oldIndex)
+                  ..insert(newIndex, MapEntry(documentId, value));
+                element.callback?.call(
+                  ModelUpdateNotification(
+                    path: documentPath,
+                    id: documentId,
+                    status: status,
+                    value: Map.from(value),
+                    origin: query.origin,
+                    oldIndex: oldIndex < 0 ? null : oldIndex,
+                    newIndex: newIndex,
+                    listen: query.listen,
+                    query: element.query,
+                  ),
+                );
+              }
+            } else {
+              final oldIndex = entries.indexWhere(
+                (e) => e.key.trimQuery().trimString("/") == documentId,
+              );
+              if (oldIndex >= 0) {
+                _collectionGroupEntries[element.origin] = entries
+                  ..removeAt(oldIndex);
+                element.callback?.call(
+                  ModelUpdateNotification(
+                    path: documentPath,
+                    id: documentId,
+                    status: ModelUpdateNotificationStatus.removed,
+                    value: const {},
+                    origin: query.origin,
+                    oldIndex: oldIndex < 0 ? null : oldIndex,
+                    newIndex: null,
+                    listen: query.listen,
+                    query: element.query,
+                  ),
+                );
+              }
+            }
+            break;
+          case ModelUpdateNotificationStatus.removed:
+            final oldIndex = entries.indexWhere(
+              (e) => e.key.trimQuery().trimString("/") == documentId,
+            );
+            if (oldIndex >= 0) {
+              _collectionGroupEntries[element.origin] = entries
+                ..removeAt(oldIndex);
+              element.callback?.call(
+                ModelUpdateNotification(
+                  path: documentPath,
+                  id: documentId,
+                  status: status,
+                  value: const {},
+                  origin: query.origin,
+                  oldIndex: oldIndex < 0 ? null : oldIndex,
+                  newIndex: null,
+                  listen: query.listen,
+                  query: element.query,
+                ),
+              );
+            }
+            break;
+        }
+      }
+    }
   }
 
   int? _limitValue(ModelAdapterCollectionQuery query) {
@@ -932,6 +1093,20 @@ class NoSqlDatabase {
 }
 
 extension _NoSqlDatabaseDynamicMapExtensions on Map {
+  dynamic _readFromGroup(String groupId, int index) {
+    final res = <String, dynamic>{};
+    for (final tmp in entries) {
+      final key = tmp.key.toString().trimQuery().trimString("/");
+      final value = tmp.value;
+      final id = key.last();
+      if (id != groupId || value is! DynamicMap) {
+        continue;
+      }
+      res.addAll(value);
+    }
+    return res;
+  }
+
   dynamic _readFromPath(List<String> paths, int index) {
     if (paths.length % 2 == 0) {
       final collectionPath = paths.sublist(0, paths.length - 1).join("/");
@@ -980,5 +1155,11 @@ extension _NoSqlDatabaseDynamicMapExtensions on Map {
     final collection = getAsMap(collectionPath);
     collection.remove(documentId);
     this[collectionPath] = collection;
+  }
+}
+
+extension on CollectionModelQuery {
+  bool get isCollectionGroup {
+    return filters.any((e) => e.type == ModelQueryFilterType.collectionGroup);
   }
 }

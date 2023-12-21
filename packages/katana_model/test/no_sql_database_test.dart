@@ -262,6 +262,207 @@ void main() {
       "remove",
     ]);
   });
+  test("NoSqlDatabase.collectionGroup", () async {
+    final db = NoSqlDatabase();
+    final callbackCheckCollection = [];
+    final callbackCheck1 = [];
+    final callbackCheck2 = [];
+    var updateValue;
+    var collectionStatus;
+    var collectionOrigin;
+    var collectionOldPos;
+    var collectionNewPos;
+    collectionCallback(ModelUpdateNotification update) {
+      expect(update.origin.hashCode, collectionOrigin.hashCode);
+      switch (collectionStatus) {
+        case "add":
+          callbackCheckCollection.add(collectionStatus);
+          expect(update.value, updateValue);
+          expect(update.status, ModelUpdateNotificationStatus.added);
+          expect(update.oldIndex, collectionOldPos);
+          expect(update.newIndex, collectionNewPos);
+          break;
+        case "modify":
+          callbackCheckCollection.add(collectionStatus);
+          expect(update.value, updateValue);
+          expect(update.status, ModelUpdateNotificationStatus.modified);
+          expect(update.oldIndex, collectionOldPos);
+          expect(update.newIndex, collectionNewPos);
+          break;
+        case "remove":
+          callbackCheckCollection.add(collectionStatus);
+          expect(update.value, {});
+          expect(update.status, ModelUpdateNotificationStatus.removed);
+          expect(update.oldIndex, collectionOldPos);
+          expect(update.newIndex, collectionNewPos);
+          break;
+      }
+    }
+
+    final collectionQuery = ModelAdapterCollectionQuery(
+      query: const CollectionModelQuery("col/doc/test").collectionGroup(),
+      callback: collectionCallback,
+      origin: collectionOrigin,
+    );
+    var status1;
+    final origin1 = <String, dynamic>{};
+    callback1(ModelUpdateNotification update) {
+      expect(update.origin.hashCode, origin1.hashCode);
+      switch (status1) {
+        case "add":
+          callbackCheck1.add(status1);
+          expect(update.value, updateValue);
+          expect(update.status, ModelUpdateNotificationStatus.added);
+          break;
+        case "modify":
+          callbackCheck1.add(status1);
+          expect(update.value, updateValue);
+          expect(update.status, ModelUpdateNotificationStatus.modified);
+          break;
+        case "remove":
+          callbackCheck1.add(status1);
+          expect(update.value, {});
+          expect(update.status, ModelUpdateNotificationStatus.removed);
+          break;
+      }
+    }
+
+    var status2;
+    final origin2 = <String, dynamic>{};
+    callback2(ModelUpdateNotification update) {
+      expect(update.origin.hashCode, origin2.hashCode);
+      switch (status2) {
+        case "add":
+          callbackCheck2.add(status2);
+          expect(update.value, updateValue);
+          expect(update.status, ModelUpdateNotificationStatus.added);
+          break;
+        case "modify":
+          callbackCheck2.add(status2);
+          expect(update.value, updateValue);
+          expect(update.status, ModelUpdateNotificationStatus.modified);
+          break;
+        case "remove":
+          callbackCheck2.add(status2);
+          expect(update.value, {});
+          expect(update.status, ModelUpdateNotificationStatus.removed);
+          break;
+      }
+    }
+
+    final documentQuery1 = ModelAdapterDocumentQuery(
+      query: const DocumentModelQuery("col/doc1/test/0001"),
+      callback: callback1,
+      origin: origin1,
+    );
+    final documentQuery2 = ModelAdapterDocumentQuery(
+      query: const DocumentModelQuery("col/doc2/test/0002"),
+      callback: callback2,
+      origin: origin2,
+    );
+    expect(await db.loadCollection(collectionQuery), {});
+    updateValue = {
+      "num": 1,
+      "name": "aaa",
+      "text": "bbb",
+      "image": "ccc",
+    };
+    collectionOrigin = origin1;
+    collectionStatus = status1 = "add";
+    collectionOldPos = null;
+    collectionNewPos = 0;
+    await db.saveDocument(documentQuery1, updateValue);
+    updateValue = {
+      "num": 2,
+      "name": "ddd",
+      "text": "eee",
+      "image": "fff",
+    };
+    collectionOrigin = origin2;
+    collectionStatus = status2 = "add";
+    collectionOldPos = null;
+    collectionNewPos = 1;
+    await db.saveDocument(documentQuery2, updateValue);
+    expect(await db.loadCollection(collectionQuery), {
+      "0001": {
+        "num": 1,
+        "name": "aaa",
+        "text": "bbb",
+        "image": "ccc",
+      },
+      "0002": {
+        "num": 2,
+        "name": "ddd",
+        "text": "eee",
+        "image": "fff",
+      }
+    });
+    updateValue = {
+      "num": 1,
+      "name": "ggg",
+      "text": "hhh",
+      "image": "iii",
+    };
+    collectionOrigin = origin1;
+    collectionStatus = status1 = "modify";
+    collectionOldPos = 0;
+    collectionNewPos = 0;
+    await db.saveDocument(documentQuery1, updateValue);
+    updateValue = {
+      "num": 2,
+      "name": "jjj",
+      "text": "kkk",
+      "image": "lll",
+    };
+    collectionOrigin = origin2;
+    collectionStatus = status2 = "modify";
+    collectionOldPos = 1;
+    collectionNewPos = 1;
+    await db.saveDocument(documentQuery2, updateValue);
+    expect(await db.loadCollection(collectionQuery), {
+      "0001": {
+        "num": 1,
+        "name": "ggg",
+        "text": "hhh",
+        "image": "iii",
+      },
+      "0002": {
+        "num": 2,
+        "name": "jjj",
+        "text": "kkk",
+        "image": "lll",
+      }
+    });
+    collectionOrigin = origin1;
+    collectionStatus = status1 = "remove";
+    collectionOldPos = 0;
+    collectionNewPos = null;
+    await db.deleteDocument(documentQuery1);
+    expect(await db.loadCollection(collectionQuery), {
+      "0002": {
+        "num": 2,
+        "name": "jjj",
+        "text": "kkk",
+        "image": "lll",
+      }
+    });
+    collectionOrigin = origin2;
+    collectionStatus = status2 = "remove";
+    collectionOldPos = 0;
+    collectionNewPos = null;
+    await db.deleteDocument(documentQuery2);
+    expect(await db.loadCollection(collectionQuery), {});
+    expect(callbackCheck1, ["add", "modify", "remove"]);
+    expect(callbackCheck2, ["add", "modify", "remove"]);
+    expect(callbackCheckCollection, [
+      "add",
+      "add",
+      "modify",
+      "modify",
+      "remove",
+      "remove",
+    ]);
+  });
   test("NoSqlDatabase.sortedCollection", () async {
     final db = NoSqlDatabase();
     final callbackCheckCollection = [];

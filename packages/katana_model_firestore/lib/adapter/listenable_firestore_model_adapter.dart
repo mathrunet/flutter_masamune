@@ -784,7 +784,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
           final res = conveter.collectionQueries(
             items,
             () => _query(
-              database.collection(_path(query.query.path)),
+              _createCollection(query),
               query,
             ),
             filter,
@@ -804,7 +804,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
           final res = conveter.collectionQueries(
             items,
             () => _query(
-              database.collection(_path(query.query.path)),
+              _createCollection(query),
               query,
             ),
             filter,
@@ -824,7 +824,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
           final res = conveter.collectionQueries(
             items,
             () => _query(
-              database.collection(_path(query.query.path)),
+              _createCollection(query),
               query,
             ),
             filter,
@@ -844,7 +844,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
           final res = conveter.collectionQueries(
             items,
             () => _query(
-              database.collection(_path(query.query.path)),
+              _createCollection(query),
               query,
             ),
             filter,
@@ -859,10 +859,21 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     }
     return [
       _query(
-        database.collection(_path(query.query.path)),
+        _createCollection(query),
         query,
       )
     ];
+  }
+
+  Query<Map<String, dynamic>> _createCollection(
+      ModelAdapterCollectionQuery query) {
+    final path = _path(query.query.path);
+    if (query.query.filters
+        .any((e) => e.type == ModelQueryFilterType.collectionGroup)) {
+      return database.collectionGroup(path.last());
+    } else {
+      return database.collection(path);
+    }
   }
 
   ModelUpdateNotificationStatus _status(DocumentChangeType type) {
