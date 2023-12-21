@@ -551,6 +551,30 @@ class ModelAdapterCollectionQuery {
   /// `update`に変更された場合の情報が含まれています。
   final void Function(ModelUpdateNotification update)? callback;
 
+  /// Create a [ModelAdapterDocumentQuery] for a document under a collection using its own [CollectionModelQuery] and [id].
+  ///
+  /// If [id] is [Null], [uuid] (32-byte non-hyphenated string) is used.
+  ///
+  /// [origin], [callback] will be [null], and [listen] will be `false`.
+  ///
+  /// 自身の[CollectionModelQuery]と[id]を用いてコレクション配下のドキュメント用の[ModelAdapterDocumentQuery]を作成します。
+  ///
+  /// [id]が[Null]の場合は[uuid]（32バイトのハイフン無しの文字列）が利用されます。
+  ///
+  /// [origin]、[callback]は[Null]になり、[listen]は`false`になります。
+  ModelAdapterDocumentQuery create<T>([
+    String? id,
+  ]) {
+    return ModelAdapterDocumentQuery(
+      query: query.create(id),
+      origin: null,
+      callback: null,
+      listen: false,
+      headers: headers,
+      method: method,
+    );
+  }
+
   /// Change [headers] or [method], [page], and [query] and copy.
   ///
   /// Copied objects are recognized as the same object.
