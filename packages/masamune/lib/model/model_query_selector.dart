@@ -72,6 +72,23 @@ abstract class ModelQuerySelector<T, TQuery extends ModelQueryBase> {
   TQuery reset() {
     return _toQuery(_modelQuery.reset());
   }
+
+  /// Including this will cause this collection to be treated as a collection group.
+  ///
+  /// When it comes to collection groups, all paths that contain the end of a path will be retrieved across the board.
+  ///
+  /// The collection group retrieves all documents across collections.
+  /// **Do not use a different schema for the document as it may lead to errors if the schema of the document is different.**
+  ///
+  /// これを含めることでこのコレクションをコレクショングループとして扱うようになります。
+  ///
+  /// コレクショングループになったときパスの最後が含まれるすべてのパスを横断的に取得するようになります。
+  ///
+  /// コレクショングループはコレクションを跨いだ全ドキュメントを取得します。
+  /// **ドキュメントのスキーマが違う場合エラーにつながる可能性があるのでドキュメントのスキーマが違う場合は利用しないでください。**
+  TQuery collectionGroup() {
+    return _toQuery(_modelQuery.collectionGroup());
+  }
 }
 
 mixin _EqualQuerySelectorMixin<T, TQuery extends ModelQueryBase>
