@@ -1,6 +1,6 @@
 name: masamune_location_background
 description: Masamune plugin library for handling background location information in apps.
-version: 2.3.4
+version: 2.3.5
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_location_background
 
@@ -13,11 +13,11 @@ dependencies:
     sdk: flutter
     
   katana: ^2.9.2
-  masamune: ^2.5.2
+  masamune: ^2.5.3
   background_locator_2: ^2.0.0
   path_provider: ^2.0.8
   permission_handler: ^11.0.0
-  masamune_location_platform_interface: ^2.2.4
+  masamune_location_platform_interface: ^2.2.5
   universal_platform: ^1.0.0+1
   shared_preferences: ^2.2.2
 

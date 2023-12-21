@@ -1,3 +1,7 @@
+## 2.16.2
+
+ - **FIX**: Add create method to ModelAdapterCollectionQuery. ([9b8ea924](https://github.com/mathrunet/flutter_masamune/commit/9b8ea924b5885286ab0acd13f0d9477f2075b9eb))
+
 ## 2.16.1
 
  - **FIX**: All processing was made transactional internally. ([613fc08e](https://github.com/mathrunet/flutter_masamune/commit/613fc08eaad7ead1783b1283ee57a251d7ccff25))

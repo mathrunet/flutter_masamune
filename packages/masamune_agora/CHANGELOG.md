@@ -1,3 +1,7 @@
+## 2.3.36
+
+ - Update a dependency to the latest release.
+
 ## 2.3.35
 
  - **FIX**: Fixed a bug that UserAccount was not being retrieved properly. ([d670bc03](https://github.com/mathrunet/flutter_masamune/commit/d670bc03f731d8007297a4d4c653e61562978767))

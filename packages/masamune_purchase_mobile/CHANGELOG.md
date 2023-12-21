@@ -1,3 +1,7 @@
+## 2.5.126
+
+ - **FIX**: Transfer initialization of billing to each method. ([b71f9467](https://github.com/mathrunet/flutter_masamune/commit/b71f9467025b5da2e85cd6da50ba22d0cd013369))
+
 ## 2.5.125
 
  - **FIX**: Fixed a bug that prevented purchases from finishing. ([471759bc](https://github.com/mathrunet/flutter_masamune/commit/471759bc239f3108590c1a05f18b17da02279a27))
