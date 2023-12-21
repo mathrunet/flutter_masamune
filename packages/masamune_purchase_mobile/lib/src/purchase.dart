@@ -189,16 +189,12 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
   ///
   /// [initialize]でも自動実行されるのでIOSでリストアボタンを設置する必要がある場合にご利用ください。
   Future<void> restore() async {
-    if (!initialized) {
-      throw Exception(
-        "It has not been initialized. First, execute [initialize] to initialize.",
-      );
-    }
     if (_restoreompleter != null) {
       return _restoreompleter?.future;
     }
     _restoreompleter = Completer<void>();
     try {
+      await initialize();
       await adapter.restore(_products);
       await reload();
       _restoreompleter?.complete();
@@ -218,17 +214,13 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
   ///
   /// すべてのプロダクトの状態をサーバーから取得します。
   Future<void> load() async {
-    if (!initialized) {
-      throw Exception(
-        "It has not been initialized. First, execute [initialize] to initialize.",
-      );
-    }
     if (_loaded) {
       return;
     }
     _loaded = true;
     _loadCompleter = Completer<void>();
     try {
+      await initialize();
       for (final product in _products) {
         await product.load();
       }
@@ -261,22 +253,18 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
   ///
   /// [product]のアイテムを元に課金を行います。
   Future<void> purchase(PurchaseProduct product) async {
-    if (!initialized) {
-      throw Exception(
-        "It has not been initialized. First, execute [initialize] to initialize.",
-      );
-    }
     if (_purchaseCompleter != null) {
       return _purchaseCompleter?.future;
     }
-    final found = _products.firstWhereOrNull(
-      (p) => p.productId == product.productId,
-    );
-    if (found == null) {
-      throw Exception("Product not found: ${product.productId}");
-    }
     _purchaseCompleter = Completer<void>();
     try {
+      await initialize();
+      final found = _products.firstWhereOrNull(
+        (p) => p.productId == product.productId,
+      );
+      if (found == null) {
+        throw Exception("Product not found: ${product.productId}");
+      }
       await adapter.purchase(
         product: found,
         onDone: () {
