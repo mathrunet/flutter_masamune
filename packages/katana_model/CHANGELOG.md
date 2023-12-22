@@ -1,3 +1,7 @@
+## 2.18.0
+
+ - **FEAT**: Added clearAll method. ([8e2cb313](https://github.com/mathrunet/flutter_masamune/commit/8e2cb313fc56faebcdc62a1ecb76a58a1a4bfc30))
+
 ## 2.17.1
 
  - **FIX**: Change AsyncCountValue to AsyncModelValue and add loading. ([82702bc7](https://github.com/mathrunet/flutter_masamune/commit/82702bc7adef00ba73f6d039d02f98d6c6c7cb6c))

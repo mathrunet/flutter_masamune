@@ -1,3 +1,7 @@
+## 2.12.4
+
+ - **FIX**: Added the ability to add background color to adaptive icons. ([ba8074fd](https://github.com/mathrunet/flutter_masamune/commit/ba8074fda5eff650d92b030d7a820cb53cd38d69))
+
 ## 2.12.3
 
  - **FIX**: Fixed a bug in specifying parameters for functions in purchase. ([55e18bc0](https://github.com/mathrunet/flutter_masamune/commit/55e18bc0330fdfff26375eeffd0981d2517d1f1f))

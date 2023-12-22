@@ -1,3 +1,7 @@
+## 2.3.6
+
+ - Update a dependency to the latest release.
+
 ## 2.3.5
 
  - **FIX**: Fixed onLink to be executed without parameters. ([f97e30f0](https://github.com/mathrunet/flutter_masamune/commit/f97e30f0979057e92769efda698e51c70e18c9cd))
