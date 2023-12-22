@@ -579,6 +579,11 @@ class FirestoreModelAdapter extends ModelAdapter
     );
   }
 
+  @override
+  Future<void> clearAll() {
+    throw UnimplementedError("This function is not available.");
+  }
+
   DynamicMap _convertFrom(DynamicMap map) {
     final res = <String, dynamic>{};
 

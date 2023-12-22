@@ -739,6 +739,11 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
     );
   }
 
+  @override
+  Future<void> clearAll() {
+    throw UnimplementedError("This function is not available.");
+  }
+
   ModelAdapterDocumentQuery _replaceDocumentQuery(
     ModelAdapterDocumentQuery query,
   ) {

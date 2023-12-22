@@ -289,6 +289,15 @@ abstract class ModelAdapter {
     ModelAdapterDocumentQuery query,
   );
 
+  /// Delete all data in the database.
+  ///
+  /// All locally stored data will also be deleted, but remote data may not be deleted.
+  ///
+  /// データベース内のすべてのデータを削除します。
+  ///
+  /// ローカルに保存されているデータもすべて削除されますがリモートのデータは削除されない可能性があります。
+  Future<void> clearAll();
+
   @override
   String toString() {
     return "$runtimeType[$hashCode]";

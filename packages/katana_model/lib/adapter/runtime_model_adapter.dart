@@ -257,6 +257,12 @@ class RuntimeModelAdapter extends ModelAdapter {
     );
   }
 
+  @override
+  Future<void> clearAll() {
+    _assert();
+    return database.clearAll();
+  }
+
   String _path(String original) {
     if (prefix.isEmpty) {
       return original;

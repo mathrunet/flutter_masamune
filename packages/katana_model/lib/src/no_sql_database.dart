@@ -50,7 +50,7 @@ class NoSqlDatabase {
   ///
   /// Data can be added (updated) and deleted only in documents. Use [saveDocument] and [deleteDocument] respectively.
   ///
-  /// Callbacks for [onInitialize], [onLoad], [onSaved], and [onDeleted] can be passed when an object is created, making it possible to add processing that links with external databases, etc. when data is read or saved.
+  /// Callbacks for [onInitialize], [onLoad], [onSaved], [onDeleted], and [onClear] can be passed when creating an object, allowing for additional processing in conjunction with an external database, etc. when reading or saving data.
   ///
   /// When a document or collection is destroyed, use [removeDocumentListener] and [removeCollectionListener] to remove each document or collection from the monitoring target.
   ///
@@ -68,7 +68,7 @@ class NoSqlDatabase {
   ///
   /// データの追加（更新）、削除はドキュメントのみで行うことが可能です。それぞれ[saveDocument]、[deleteDocument]で行います。
   ///
-  /// オブジェクトの作成時に[onInitialize]、[onLoad]、[onSaved]、[onDeleted]のコールバックを渡すことができ、データの読み出し時や保存時などに外部のデータベース等との連携処理を追加することが可能です。
+  /// オブジェクトの作成時に[onInitialize]、[onLoad]、[onSaved]、[onDeleted]、[onClear]のコールバックを渡すことができ、データの読み出し時や保存時などに外部のデータベース等との連携処理を追加することが可能です。
   ///
   /// ドキュメントやコレクションが破棄される際は[removeDocumentListener]、[removeCollectionListener]で各ドキュメントやコレクションを監視対象から外してください。
   NoSqlDatabase({
@@ -76,6 +76,7 @@ class NoSqlDatabase {
     this.onLoad,
     this.onSaved,
     this.onDeleted,
+    this.onClear,
   });
 
   /// Location where real data is stored.
@@ -106,6 +107,11 @@ class NoSqlDatabase {
   ///
   /// Databaseの削除時に実行されます。
   final Future<void> Function(NoSqlDatabase database)? onDeleted;
+
+  /// Executed when all Database is deleted.
+  ///
+  /// Databaseの全削除時に実行されます。
+  final Future<void> Function(NoSqlDatabase database)? onClear;
 
   bool _initialized = false;
   Completer<void>? _completer;
@@ -665,6 +671,18 @@ class NoSqlDatabase {
       ModelUpdateNotificationStatus.removed,
       query,
     );
+    await onDeleted?.call(this);
+  }
+
+  /// Delete all data.
+  ///
+  /// No notification will be made.
+  ///
+  /// すべてのデータを削除します。
+  ///
+  /// 通知は行われません。
+  Future<void> clearAll() async {
+    data.clear();
     await onDeleted?.call(this);
   }
 

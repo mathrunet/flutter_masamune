@@ -669,6 +669,11 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
     );
   }
 
+  @override
+  Future<void> clearAll() {
+    throw UnimplementedError("This function is not available.");
+  }
+
   ModelAdapterCollectionQuery _replaceCollectionQuery(
     ModelAdapterCollectionQuery query,
   ) {

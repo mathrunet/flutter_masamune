@@ -102,6 +102,12 @@ class LocalModelAdapter extends ModelAdapter {
         database.data,
       );
     },
+    onClear: (database) async {
+      await DatabaseExporter.export(
+        "${await DatabaseExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
+        {},
+      );
+    },
   );
 
   /// Path prefix.
@@ -292,6 +298,12 @@ class LocalModelAdapter extends ModelAdapter {
     await wait(
       ref._batchList.map((tmp) => tmp.call()),
     );
+  }
+
+  @override
+  Future<void> clearAll() {
+    _assert();
+    return database.clearAll();
   }
 
   void _assert() {
