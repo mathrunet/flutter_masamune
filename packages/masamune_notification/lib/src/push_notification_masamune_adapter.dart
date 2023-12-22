@@ -77,7 +77,7 @@ abstract class PushNotificationMasamuneAdapter extends MasamuneAdapter {
   /// Callback when the URL is launched.
   ///
   /// URLが起動されたときのコールバック。
-  final FutureOr<void> Function(Uri? link)? onLink;
+  final FutureOr<void> Function(Uri? link, bool onOpenedApp)? onLink;
 
   @override
   void onInitScope(MasamuneAdapter adapter) {

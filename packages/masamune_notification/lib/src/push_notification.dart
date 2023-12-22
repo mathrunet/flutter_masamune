@@ -110,8 +110,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   /// Callback when the URL is launched.
   ///
   /// URLが起動されたときのコールバック。
-  FutureOr<void> Function(Uri? link)? get onLink => _onLink;
-  FutureOr<void> Function(Uri? link)? _onLink;
+  FutureOr<void> Function(Uri? link, bool onOpenedApp)? get onLink => _onLink;
+  FutureOr<void> Function(Uri? link, bool onOpenedApp)? _onLink;
 
   /// Obtain the FCM token for this terminal.
   ///
@@ -140,7 +140,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// [onLink]でURLが起動されたときのコールバックを指定することができます。
   Future<void> listen({
-    FutureOr<void> Function(Uri? link)? onLink,
+    FutureOr<void> Function(Uri? link, bool onOpenedApp)? onLink,
   }) async {
     if (_completer != null) {
       return _completer?.future;
@@ -341,7 +341,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     final onLink = this.onLink ?? adapter.onLink;
     if (onLink != null) {
       final uri = value.data.get(_linkKey, nullOfString)?.toUri();
-      await onLink.call(uri);
+      await onLink.call(uri, false);
     }
     _sendLog(PushNotificationLoggerEvent.receive, parameters: {
       PushNotificationLoggerEvent.titleKey: value.title,
@@ -356,7 +356,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     final onLink = this.onLink ?? adapter.onLink;
     if (onLink != null) {
       final uri = value.data.get(_linkKey, nullOfString)?.toUri();
-      await onLink.call(uri);
+      await onLink.call(uri, true);
     }
     _sendLog(PushNotificationLoggerEvent.receive, parameters: {
       PushNotificationLoggerEvent.titleKey: value.title,

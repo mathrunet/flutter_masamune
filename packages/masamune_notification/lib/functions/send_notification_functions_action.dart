@@ -65,7 +65,7 @@ class SendNotificationFunctionsAction
   DynamicMap? toMap() {
     return {
       "title": title,
-      "text": text,
+      "body": text,
       if (channel != null) "channel_id": channel,
       if (data != null) "data": data,
       if (tokens != null) "token": tokens!.value else "topic": topic,
