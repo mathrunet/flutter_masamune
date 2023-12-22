@@ -499,11 +499,31 @@ List<Spec> collectionModelQueryClass(
           ),
           Method(
             (m) => m
+              ..name = "collectionGroup"
+              ..lambda = true
+              ..returns = Reference("_\$_${model.name}CollectionQuery")
+              ..body = Code(
+                  "_\$_${model.name}CollectionQuery(modelQuery.collectionGroup())"),
+          ),
+          Method(
+            (m) => m
               ..name = "reset"
               ..lambda = true
               ..returns = Reference("_\$_${model.name}CollectionQuery")
               ..body =
                   Code("_\$_${model.name}CollectionQuery(modelQuery.reset())"),
+          ),
+          Method(
+            (m) => m
+              ..name = "uid"
+              ..type = MethodType.getter
+              ..lambda = true
+              ..returns = Reference(
+                "StringModelQuerySelector<_\$_${model.name}CollectionQuery>",
+              )
+              ..body = Code(
+                "StringModelQuerySelector<_\$_${model.name}CollectionQuery>(key: \"@uid\", toQuery: _toQuery, modelQuery: modelQuery)",
+              ),
           ),
           ...model.parameters.map((param) {
             return Method(
@@ -518,7 +538,8 @@ List<Spec> collectionModelQueryClass(
                   ),
                 )
                 ..body = Code(
-                    "${_querySelectorClass(param, "_\$_${model.name}CollectionQuery")}(key: \"${param.jsonKey}\", toQuery: _toQuery, modelQuery: modelQuery)"),
+                  "${_querySelectorClass(param, "_\$_${model.name}CollectionQuery")}(key: \"${param.jsonKey}\", toQuery: _toQuery, modelQuery: modelQuery)",
+                ),
             );
           }),
         ]),
@@ -913,6 +934,14 @@ List<Spec> collectionModelQueryClass(
             ),
             Method(
               (m) => m
+                ..name = "collectionGroup"
+                ..lambda = true
+                ..returns = Reference("_\$_${model.name}MirrorCollectionQuery")
+                ..body = Code(
+                    "_\$_${model.name}MirrorCollectionQuery(modelQuery.collectionGroup())"),
+            ),
+            Method(
+              (m) => m
                 ..name = "limitTo"
                 ..lambda = true
                 ..requiredParameters.addAll([
@@ -934,6 +963,18 @@ List<Spec> collectionModelQueryClass(
                 ..body = Code(
                     "_\$_${model.name}MirrorCollectionQuery(modelQuery.reset())"),
             ),
+            Method(
+              (m) => m
+                ..name = "uid"
+                ..type = MethodType.getter
+                ..lambda = true
+                ..returns = Reference(
+                  "StringModelQuerySelector<_\$_${model.name}MirrorCollectionQuery>",
+                )
+                ..body = Code(
+                  "StringModelQuerySelector<_\$_${model.name}MirrorCollectionQuery>(key: \"@uid\", toQuery: _toQuery, modelQuery: modelQuery)",
+                ),
+            ),
             ...model.parameters.map((param) {
               return Method(
                 (m) => m
@@ -947,7 +988,8 @@ List<Spec> collectionModelQueryClass(
                     ),
                   )
                   ..body = Code(
-                      "${_querySelectorClass(param, "_\$_${model.name}MirrorCollectionQuery")}(key: \"${param.jsonKey}\", toQuery: _toQuery, modelQuery: modelQuery)"),
+                    "${_querySelectorClass(param, "_\$_${model.name}MirrorCollectionQuery")}(key: \"${param.jsonKey}\", toQuery: _toQuery, modelQuery: modelQuery)",
+                  ),
               );
             }),
           ]),
