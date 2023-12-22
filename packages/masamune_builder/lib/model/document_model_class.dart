@@ -131,7 +131,7 @@ List<Spec> documentModelClass(
                   ),
                 ])
                 ..body = const Code(
-                    "final tr = transaction(); await tr.call((ref, doc) async { final mdoc = ref.read(mirror); await onSave?.call(ref); doc.save(newValue); mdoc.save(newValue); });"),
+                    "final tr = transaction(); await tr.call((ref, doc) async { final docTr = ref.read(doc); final mdocTr = ref.read(mirror); await onSave?.call(ref); docTr.save(newValue); mdocTr.save(newValue); });"),
             ),
             Method(
               (m) => m
@@ -155,7 +155,7 @@ List<Spec> documentModelClass(
                   ),
                 ])
                 ..body = const Code(
-                    "final tr = transaction(); await tr.call((ref, doc) async { final mdoc = ref.read(mirror); await onDelete?.call(ref); doc.delete(); mdoc.delete(); });"),
+                    "final tr = transaction(); await tr.call((ref, doc) async { final docTr = ref.read(doc); final mdocTr = ref.read(mirror); await onDelete?.call(ref); docTr.delete(); mdocTr.delete(); });"),
             ),
           ],
           if (searchable.isNotEmpty)
@@ -336,7 +336,7 @@ List<Spec> documentModelClass(
                   ),
                 ])
                 ..body = const Code(
-                    "final tr = transaction(); await tr.call((ref, doc) async { final mdoc = ref.read(mirror); await onSave?.call(ref); doc.save(newValue); mdoc.save(newValue); });"),
+                    "final tr = transaction(); await tr.call((ref, doc) async { final docTr = ref.read(doc); final mdocTr = ref.read(mirror); await onSave?.call(ref); docTr.save(newValue); mdocTr.save(newValue); });"),
             ),
             Method(
               (m) => m
@@ -360,7 +360,7 @@ List<Spec> documentModelClass(
                   ),
                 ])
                 ..body = const Code(
-                    "final tr = transaction(); await tr.call((ref, doc) async { final mdoc = ref.read(mirror); await onDelete?.call(ref); doc.delete(); mdoc.delete(); });"),
+                    "final tr = transaction(); await tr.call((ref, doc) async { final docTr = ref.read(doc); final mdocTr = ref.read(mirror); await onDelete?.call(ref); docTr.delete(); mdocTr.delete(); });"),
             ),
             if (searchable.isNotEmpty)
               Method(
