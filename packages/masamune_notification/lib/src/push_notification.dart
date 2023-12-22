@@ -110,8 +110,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   /// Callback when the URL is launched.
   ///
   /// URLが起動されたときのコールバック。
-  FutureOr<void> Function(Uri link)? get onLink => _onLink;
-  FutureOr<void> Function(Uri link)? _onLink;
+  FutureOr<void> Function(Uri? link)? get onLink => _onLink;
+  FutureOr<void> Function(Uri? link)? _onLink;
 
   /// Obtain the FCM token for this terminal.
   ///
@@ -140,7 +140,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// [onLink]でURLが起動されたときのコールバックを指定することができます。
   Future<void> listen({
-    FutureOr<void> Function(Uri link)? onLink,
+    FutureOr<void> Function(Uri? link)? onLink,
   }) async {
     if (_completer != null) {
       return _completer?.future;
@@ -339,11 +339,9 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   Future<void> _onMessage(PushNotificationValue value) async {
     _value = value;
     final onLink = this.onLink ?? adapter.onLink;
-    if (onLink != null && value.data.containsKey(_linkKey)) {
-      final uri = value.data.get(_linkKey, "").toUri();
-      if (uri != null) {
-        await onLink.call(uri);
-      }
+    if (onLink != null) {
+      final uri = value.data.get(_linkKey, nullOfString)?.toUri();
+      await onLink.call(uri);
     }
     _sendLog(PushNotificationLoggerEvent.receive, parameters: {
       PushNotificationLoggerEvent.titleKey: value.title,
@@ -356,11 +354,9 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   Future<void> _onMessageOpenedApp(PushNotificationValue value) async {
     _value = value;
     final onLink = this.onLink ?? adapter.onLink;
-    if (onLink != null && value.data.containsKey(_linkKey)) {
-      final uri = value.data.get(_linkKey, "").toUri();
-      if (uri != null) {
-        await onLink.call(uri);
-      }
+    if (onLink != null) {
+      final uri = value.data.get(_linkKey, nullOfString)?.toUri();
+      await onLink.call(uri);
     }
     _sendLog(PushNotificationLoggerEvent.receive, parameters: {
       PushNotificationLoggerEvent.titleKey: value.title,
