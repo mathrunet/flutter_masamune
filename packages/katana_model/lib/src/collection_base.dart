@@ -339,13 +339,20 @@ abstract class CollectionBase<TModel extends DocumentBase>
 
   /// Get the number of elements in all collections existing in the database.
   ///
-  /// [AsyncCountValue] is returned, wait a moment and then retrieve the value from [AsyncCountValue.value].
+  /// [AsyncModelValue] is returned, wait a moment and then retrieve the value from [AsyncModelValue.value].
+  ///
+  /// Normally, the value loaded the first time is retained, but if [reload] is set to `true`, it is loaded again.
   ///
   /// データベース上に存在するすべてのコレクションの要素数を取得します。
   ///
-  /// [AsyncCountValue]が返されるので少し待ったあと[AsyncCountValue.value]から値を取得してください。
-  AsyncCountValue count() {
-    _count ??= AsyncCountValue._(_countRequest());
+  /// [AsyncModelValue]が返されるので少し待ったあと[AsyncModelValue.value]から値を取得してください。
+  ///
+  /// 通常は初回に読み込んだ値が保持されますが[reload]を`true`にすると再度読み込みを行います。
+  AsyncModelValue count({bool reload = false}) {
+    if (reload) {
+      _count = null;
+    }
+    _count ??= AsyncModelValue._(_countRequest());
     return _count!;
   }
 
@@ -360,7 +367,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
     return count;
   }
 
-  AsyncCountValue? _count;
+  AsyncModelValue? _count;
 
   /// {@macro model_transaction}
   ///
