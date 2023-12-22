@@ -15,6 +15,54 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model_firestore` - `v2.13.1`](#katana_model_firestore---v2131)
+ - [`masamune_builder` - `v2.10.2`](#masamune_builder---v2102)
+ - [`masamune_deeplink` - `v2.1.99`](#masamune_deeplink---v2199)
+ - [`masamune_deeplink_firebase` - `v2.1.101`](#masamune_deeplink_firebase---v21101)
+ - [`masamune_notification` - `v2.3.7`](#masamune_notification---v237)
+ - [`masamune_notification_firebase` - `v2.4.68`](#masamune_notification_firebase---v2468)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_notification_firebase` - `v2.4.68`
+
+---
+
+#### `katana_model_firestore` - `v2.13.1`
+
+ - **FIX**: Fixed a bug that the date and time were not being written to the server properly. ([de2a492d](https://github.com/mathrunet/flutter_masamune/commit/de2a492d814764f8e7fd756684abeef88f582eac))
+
+#### `masamune_builder` - `v2.10.2`
+
+ - **FIX**: Fixed a bug where transactions were not being executed properly. ([2ff54066](https://github.com/mathrunet/flutter_masamune/commit/2ff5406605c5e70a8ac6371c4df5d15ce868b4f3))
+
+#### `masamune_deeplink` - `v2.1.99`
+
+ - **FIX**: Add onOpenedApp to onLink. ([bb2b6503](https://github.com/mathrunet/flutter_masamune/commit/bb2b6503516421375c0bf2d4014c1d51acceca4c))
+
+#### `masamune_deeplink_firebase` - `v2.1.101`
+
+ - **FIX**: Add onOpenedApp to onLink. ([bb2b6503](https://github.com/mathrunet/flutter_masamune/commit/bb2b6503516421375c0bf2d4014c1d51acceca4c))
+
+#### `masamune_notification` - `v2.3.7`
+
+ - **FIX**: Add onOpenedApp to onLinke. ([aecb29d0](https://github.com/mathrunet/flutter_masamune/commit/aecb29d0d3116b4a5645901622e4312d9b28e601))
+
+
+## 2023-12-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.12.4`](#katana_cli---v2124)
  - [`katana_model` - `v2.18.0`](#katana_model---v2180)
  - [`katana_model_firestore` - `v2.13.0`](#katana_model_firestore---v2130)
