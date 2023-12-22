@@ -116,6 +116,8 @@ class FirestoreModelTimestampConverter
               key: FieldValue.serverTimestamp()
             else
               key: Timestamp.fromMillisecondsSinceEpoch(val.toInt()),
+          } else ...{
+            key: Timestamp.fromMillisecondsSinceEpoch(val.toInt()),
           },
         };
       }
@@ -141,6 +143,8 @@ class FirestoreModelTimestampConverter
             } else {
               res.add(Timestamp.fromMillisecondsSinceEpoch(time.toInt()));
             }
+          } else {
+            res.add(Timestamp.fromMillisecondsSinceEpoch(time.toInt()));
           }
         }
         return {
@@ -174,6 +178,8 @@ class FirestoreModelTimestampConverter
               res[entry.key] =
                   Timestamp.fromMillisecondsSinceEpoch(time.toInt());
             }
+          } else {
+            res[entry.key] = Timestamp.fromMillisecondsSinceEpoch(time.toInt());
           }
         }
         return {
