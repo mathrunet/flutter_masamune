@@ -1,3 +1,7 @@
+## 2.10.1
+
+ - **FIX**: Add Query for collectionGroup. ([eca16ba7](https://github.com/mathrunet/flutter_masamune/commit/eca16ba7aed7c66832e7b1c7d145c8db21fe8859))
+
 ## 2.10.0
 
  - **FEAT**: Add ModelToken. ([e6500b7b](https://github.com/mathrunet/flutter_masamune/commit/e6500b7b255e3dd7c3efa58646efc64f1c9731ad))

@@ -1,3 +1,7 @@
+## 2.12.1
+
+ - **FIX**: Change AsyncCountValue to AsyncModelValue and add loading. ([82702bc7](https://github.com/mathrunet/flutter_masamune/commit/82702bc7adef00ba73f6d039d02f98d6c6c7cb6c))
+
 ## 2.12.0
 
  - **FEAT**: Support for collection groups. ([7f390ce3](https://github.com/mathrunet/flutter_masamune/commit/7f390ce378ae4982f80d6c6fe97da1e259043709))
