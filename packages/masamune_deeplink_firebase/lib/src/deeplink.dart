@@ -55,7 +55,7 @@ class Deeplink
   Uri? _value;
 
   Completer<void>? _completer;
-  FutureOr<void> Function(Uri link)? _onLink;
+  FutureOr<void> Function(Uri link, bool onOpenedApp)? _onLink;
   StreamSubscription<PendingDynamicLinkData>? _uriLinkStreamSubscription;
 
   /// Returns `true` if monitored.
@@ -104,7 +104,7 @@ class Deeplink
   ///
   /// DeepLinkを初期化してリンクの監視を開始します。
   Future<void> listen({
-    FutureOr<void> Function(Uri link)? onLink,
+    FutureOr<void> Function(Uri link, bool onOpenedApp)? onLink,
   }) async {
     if (listened) {
       return;
@@ -121,13 +121,13 @@ class Deeplink
       final dynamicLink = await _dynamicLink.getInitialLink();
       _uriLinkStreamSubscription ??=
           _dynamicLink.onLink.listen((dynamicLink) async {
-        await _onMessage(dynamicLink);
+        await _onMessage(dynamicLink, false);
       }, onError: (Object error) {
         _value = null;
         notifyListeners();
       });
       _sendLog(FirebaseDeeplinkLoggerEvent.listen, parameters: {});
-      await _onMessage(dynamicLink);
+      await _onMessage(dynamicLink, true);
       _completer?.complete();
       _completer = null;
     } catch (e) {
@@ -139,13 +139,14 @@ class Deeplink
     }
   }
 
-  Future<void> _onMessage(PendingDynamicLinkData? value) async {
+  Future<void> _onMessage(
+      PendingDynamicLinkData? value, bool onOpenedApp) async {
     _value = value?.link;
     if (_value != null) {
       _sendLog(FirebaseDeeplinkLoggerEvent.recieve, parameters: {
         FirebaseDeeplinkLoggerEvent.linkKey: _value.toString(),
       });
-      await (_onLink ?? adapter.onLink)?.call(_value!);
+      await (_onLink ?? adapter.onLink)?.call(_value!, onOpenedApp);
     }
     notifyListeners();
   }

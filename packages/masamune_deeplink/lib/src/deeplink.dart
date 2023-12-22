@@ -45,7 +45,7 @@ class Deeplink extends MasamuneControllerBase<Uri?, DeeplinkMasamuneAdapter> {
   Uri? _value;
 
   Completer<void>? _completer;
-  FutureOr<void> Function(Uri link)? _onLink;
+  FutureOr<void> Function(Uri link, bool onOpenedApp)? _onLink;
   StreamSubscription<Uri?>? _uriLinkStreamSubscription;
 
   /// Returns `true` if monitored.
@@ -57,7 +57,7 @@ class Deeplink extends MasamuneControllerBase<Uri?, DeeplinkMasamuneAdapter> {
   ///
   /// DeepLinkを初期化してリンクの監視を開始します。
   Future<void> listen({
-    FutureOr<void> Function(Uri link)? onLink,
+    FutureOr<void> Function(Uri link, bool onOpenedApp)? onLink,
   }) async {
     if (listened) {
       return;
@@ -71,13 +71,13 @@ class Deeplink extends MasamuneControllerBase<Uri?, DeeplinkMasamuneAdapter> {
       _onLink = onLink;
       final initialLink = await getInitialUri();
       _uriLinkStreamSubscription ??= uriLinkStream.listen((Uri? uri) async {
-        await _onMessage(initialLink);
+        await _onMessage(initialLink, false);
       }, onError: (Object error) {
         _value = null;
         notifyListeners();
       });
       _sendLog(DeeplinkLoggerEvent.listen, parameters: {});
-      await _onMessage(initialLink);
+      await _onMessage(initialLink, true);
       _completer?.complete();
       _completer = null;
     } catch (e) {
@@ -89,13 +89,13 @@ class Deeplink extends MasamuneControllerBase<Uri?, DeeplinkMasamuneAdapter> {
     }
   }
 
-  Future<void> _onMessage(Uri? value) async {
+  Future<void> _onMessage(Uri? value, bool onOpenedApp) async {
     _value = value;
     if (_value != null) {
       _sendLog(DeeplinkLoggerEvent.recieve, parameters: {
         DeeplinkLoggerEvent.linkKey: _value.toString(),
       });
-      await (_onLink ?? adapter.onLink)?.call(_value!);
+      await (_onLink ?? adapter.onLink)?.call(_value!, onOpenedApp);
     }
     notifyListeners();
   }
