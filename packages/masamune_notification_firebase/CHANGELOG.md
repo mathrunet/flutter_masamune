@@ -1,3 +1,7 @@
+## 2.4.69
+
+ - **FIX**: Fix to get the token first. ([dbdf8cf2](https://github.com/mathrunet/flutter_masamune/commit/dbdf8cf2e703407e58adc96d73c843bb081cc5ea))
+
 ## 2.4.68
 
  - Update a dependency to the latest release.
