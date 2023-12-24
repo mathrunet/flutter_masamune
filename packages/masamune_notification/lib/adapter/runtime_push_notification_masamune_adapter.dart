@@ -18,6 +18,7 @@ class RuntimePushNotificationMasamuneAdapter
     super.subscribeOnBoot = const [],
     super.loggerAdapters = const [],
     super.onLink,
+    super.onRetrievedToken,
   });
 
   static String? _token;

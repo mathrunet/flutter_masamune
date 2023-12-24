@@ -25,6 +25,7 @@ class FirebasePushNotificationMasamuneAdapter
     this.linuxOptions,
     super.loggerAdapters = const [],
     super.onLink,
+    super.onRetrievedToken,
   }) : _options = options;
 
   /// Options for initializing Firebase.

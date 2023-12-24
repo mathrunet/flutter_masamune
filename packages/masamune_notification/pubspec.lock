@@ -596,7 +596,7 @@ packages:
       path: "../masamune_builder"
       relative: true
     source: path
-    version: "2.10.1"
+    version: "2.10.2"
   masamune_scheduler:
     dependency: "direct main"
     description:

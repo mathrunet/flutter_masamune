@@ -17,6 +17,7 @@ abstract class PushNotificationMasamuneAdapter extends MasamuneAdapter {
     this.subscribeOnBoot = const [],
     this.loggerAdapters = const [],
     this.onLink,
+    this.onRetrievedToken,
   });
 
   /// You can retrieve the [PushNotificationMasamuneAdapter] first given by [MasamuneAdapterScope].
@@ -78,6 +79,11 @@ abstract class PushNotificationMasamuneAdapter extends MasamuneAdapter {
   ///
   /// URLが起動されたときのコールバック。
   final FutureOr<void> Function(Uri? link, bool onOpenedApp)? onLink;
+
+  /// Callback when token is obtained.
+  ///
+  /// トークンが取得された場合のコールバック。
+  final FutureOr<void> Function(String token)? onRetrievedToken;
 
   @override
   void onInitScope(MasamuneAdapter adapter) {

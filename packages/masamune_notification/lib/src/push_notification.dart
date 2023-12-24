@@ -81,6 +81,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   PushNotificationMasamuneAdapter get primaryAdapter =>
       PushNotificationMasamuneAdapter.primary;
 
+  String? _token;
   Completer<void>? _completer;
   PushNotificationListenResponse? _listenResponse;
 
@@ -115,13 +116,30 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
 
   /// Obtain the FCM token for this terminal.
   ///
+  /// The retrieved token is retained. If you want to update the token again, set [reload] to `true`.
+  ///
+  /// If the token is successfully retrieved, [onRetrievedToken] is executed. If [reload] is `false`, [onRetrievedToken] is not executed if the token has already been retrieved.
+  ///
   /// この端末のFCMトークンを取得します。
-  Future<String?> getToken() {
-    final token = adapter.getToken();
+  ///
+  /// 取得されたトークンは保持されます。再度トークンを更新したい場合は[reload]を`true`にしてください。
+  ///
+  /// トークンの取得に成功した場合[onRetrievedToken]が実行されます。[reload]が`false`の場合、トークンが既に取得されている場合は[onRetrievedToken]は実行されません。
+  Future<String?> getToken({
+    bool reload = false,
+    FutureOr<void> Function(String token)? onRetrievedToken,
+  }) async {
+    if (!reload && _token.isNotEmpty) {
+      return _token;
+    }
+    _token = await adapter.getToken();
+    if (_token.isNotEmpty) {
+      await (onRetrievedToken ?? adapter.onRetrievedToken)?.call(_token!);
+    }
     _sendLog(PushNotificationLoggerEvent.token, parameters: {
-      PushNotificationLoggerEvent.tokenKey: token,
+      PushNotificationLoggerEvent.tokenKey: _token,
     });
-    return token;
+    return _token;
   }
 
   /// Start receiving notifications.
@@ -132,6 +150,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// You can specify a callback when the URL is launched with [onLink].
   ///
+  /// The PUSH token is retrieved before the reception begins, but [onRetrievedToken] is executed if the token is successfully retrieved.
+  ///
   /// 通知の受け取りを開始します。
   ///
   /// 通知を取得した場合、[value]が更新され、[notifyListeners]が呼ばれます。
@@ -139,8 +159,11 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   /// [addListener]で状態を監視することで通知が来たときになにかしらの処理を行うことが可能です。
   ///
   /// [onLink]でURLが起動されたときのコールバックを指定することができます。
+  ///
+  /// 受け取りを開始する前にPUSHトークンを取得しますが、トークンの取得に成功した場合[onRetrievedToken]が実行されます。
   Future<void> listen({
     FutureOr<void> Function(Uri? link, bool onOpenedApp)? onLink,
+    FutureOr<void> Function(String token)? onRetrievedToken,
   }) async {
     if (_completer != null) {
       return _completer?.future;
@@ -151,6 +174,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     _completer = Completer();
     try {
       _onLink = onLink;
+      await getToken(onRetrievedToken: onRetrievedToken);
       _listenResponse = await adapter.listen(
         onMessage: _onMessage,
         onMessageOpenedApp: _onMessageOpenedApp,
