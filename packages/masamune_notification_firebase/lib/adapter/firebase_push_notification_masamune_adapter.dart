@@ -157,6 +157,7 @@ class FirebasePushNotificationMasamuneAdapter
   }) async {
     await FirebaseCore.initialize(options: options);
     await _messaging.setAutoInitEnabled(true);
+    await _getApnsToken().timeout(const Duration(seconds: 30));
     // ignore: cancel_subscriptions
     final onMessageSubscription = FirebaseMessaging.onMessage.listen(
       (message) => _onMessage(message, onMessage),
@@ -202,6 +203,19 @@ class FirebasePushNotificationMasamuneAdapter
       onMessageOpenedAppSubscription: onMessageOpenedAppSubscription,
       onMessageSubscription: onMessageSubscription,
     );
+  }
+
+  Future<void> _getApnsToken() async {
+    if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
+      String? apnsToken;
+      do {
+        apnsToken = await _messaging.getAPNSToken();
+        if (apnsToken != null) {
+          break;
+        }
+        await Future.delayed(const Duration(seconds: 1));
+      } while (apnsToken == null);
+    }
   }
 
   Future<void> _onMessage(RemoteMessage message,

@@ -727,7 +727,7 @@ packages:
       path: "../masamune_notification"
       relative: true
     source: path
-    version: "2.3.7"
+    version: "2.3.8"
   masamune_scheduler:
     dependency: "direct overridden"
     description:

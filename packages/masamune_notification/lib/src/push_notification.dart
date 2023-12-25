@@ -174,11 +174,11 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     _completer = Completer();
     try {
       _onLink = onLink;
-      await getToken(onRetrievedToken: onRetrievedToken);
       _listenResponse = await adapter.listen(
         onMessage: _onMessage,
         onMessageOpenedApp: _onMessageOpenedApp,
       );
+      await getToken(onRetrievedToken: onRetrievedToken);
       _listening = true;
       _sendLog(PushNotificationLoggerEvent.listen, parameters: {});
       _completer?.complete();
