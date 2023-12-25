@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-12-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_notification` - `v2.3.9`](#masamune_notification---v239)
+ - [`masamune_notification_firebase` - `v2.4.70`](#masamune_notification_firebase---v2470)
+
+---
+
+#### `masamune_notification` - `v2.3.9`
+
+ - **FIX**: Fixed a bug that Apns token was not retrieved. ([3c1b32b6](https://github.com/mathrunet/flutter_masamune/commit/3c1b32b6d0343430d8414e7fa12ce3ec2c874c6c))
+
+#### `masamune_notification_firebase` - `v2.4.70`
+
+ - **FIX**: Fixed a bug that Apns token was not retrieved. ([3c1b32b6](https://github.com/mathrunet/flutter_masamune/commit/3c1b32b6d0343430d8414e7fa12ce3ec2c874c6c))
+
+
 ## 2023-12-24
 
 ### Changes
