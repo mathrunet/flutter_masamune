@@ -255,6 +255,17 @@ extension MapExtensions<K, V> on Map<K, V> {
     return values.every((element) => containsValue(element));
   }
 
+  /// Clone another map from an existing map.
+  ///
+  /// All contents are shallow copies.
+  ///
+  /// 既存のマップから別のマップをクローンします。
+  ///
+  /// 中身はすべてシャローコピーです。
+  Map<K, V> clone() {
+    return Map<K, V>.from(this);
+  }
+
   /// If this object is Json encodable, `true` is returned.
   ///
   /// If a [List] or [Map] exists, its contents are also checked.

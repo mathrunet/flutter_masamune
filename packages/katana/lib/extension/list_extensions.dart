@@ -150,6 +150,21 @@ extension ListExtensions<T> on List<T> {
     return index >= 0 && index < length;
   }
 
+  /// Clone another listing from an existing listing.
+  ///
+  /// All contents are shallow copies.
+  ///
+  /// If [growable] is set to `true`, the returned list can be modified.
+  ///
+  /// 既存のリストから別のリストをクローンします。
+  ///
+  /// 中身はすべてシャローコピーです。
+  ///
+  /// [growable]を`true`にすると、返されるリストは変更可能になります。
+  List<T> clone({bool growable = false}) {
+    return List<T>.from(this, growable: growable);
+  }
+
   /// If this object is Json encodable, `true` is returned.
   ///
   /// If a [List] or [Map] exists, its contents are also checked.

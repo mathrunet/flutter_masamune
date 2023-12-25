@@ -18,6 +18,17 @@ extension SetExtensions<T> on Set<T> {
     return elements.every((element) => contains(element));
   }
 
+  /// Clone another set from an existing set.
+  ///
+  /// All contents are shallow copies.
+  ///
+  /// 既存のセットから別のセットをクローンします。
+  ///
+  /// 中身はすべてシャローコピーです。
+  Set<T> clone({bool growable = false}) {
+    return Set<T>.from(this);
+  }
+
   /// Returns `true` if the internals of [Set] and [others] are compared and match.
   ///
   /// [Set]と[others]の内部を比較して一致している場合`true`を返します。
