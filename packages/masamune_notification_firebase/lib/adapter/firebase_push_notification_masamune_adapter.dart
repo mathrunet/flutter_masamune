@@ -158,15 +158,6 @@ class FirebasePushNotificationMasamuneAdapter
     await FirebaseCore.initialize(options: options);
     await _messaging.setAutoInitEnabled(true);
     await _getApnsToken().timeout(const Duration(seconds: 30));
-    // ignore: cancel_subscriptions
-    final onMessageSubscription = FirebaseMessaging.onMessage.listen(
-      (message) => _onMessage(message, onMessage),
-    );
-    // ignore: cancel_subscriptions
-    final onMessageOpenedAppSubscription =
-        FirebaseMessaging.onMessageOpenedApp.listen(
-      (message) => _onMessageOpenedApp(message, onMessageOpenedApp),
-    );
     if (!kIsWeb && Platform.isAndroid) {
       await FlutterLocalNotificationsPlugin()
           .resolvePlatformSpecificImplementation<
@@ -196,6 +187,15 @@ class FirebasePushNotificationMasamuneAdapter
       sound: true,
     );
     final initialMessage = await _messaging.getInitialMessage();
+    // ignore: cancel_subscriptions
+    final onMessageSubscription = FirebaseMessaging.onMessage.listen(
+      (message) => _onMessage(message, onMessage),
+    );
+    // ignore: cancel_subscriptions
+    final onMessageOpenedAppSubscription =
+        FirebaseMessaging.onMessageOpenedApp.listen(
+      (message) => _onMessageOpenedApp(message, onMessageOpenedApp),
+    );
     if (initialMessage != null) {
       await _onMessageOpenedApp(initialMessage, onMessageOpenedApp);
     }
