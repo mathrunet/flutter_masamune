@@ -1,3 +1,7 @@
+## 2.1.102
+
+ - Update a dependency to the latest release.
+
 ## 2.1.101
 
  - **FIX**: Add onOpenedApp to onLink. ([bb2b6503](https://github.com/mathrunet/flutter_masamune/commit/bb2b6503516421375c0bf2d4014c1d51acceca4c))

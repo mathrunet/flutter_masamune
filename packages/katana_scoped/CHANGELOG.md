@@ -1,3 +1,7 @@
+## 2.1.7
+
+ - Update a dependency to the latest release.
+
 ## 2.1.6
 
  - **FIX**: Fixed a bug that prevented PERIODIC from working. ([02a42aca](https://github.com/mathrunet/flutter_masamune/commit/02a42aca6b4080424d4ba9b075be184a2ac94091))

@@ -1,3 +1,7 @@
+## 2.1.26
+
+ - Update a dependency to the latest release.
+
 ## 2.1.25
 
  - **FIX**: Fixes around SMS login. ([5b828d5d](https://github.com/mathrunet/flutter_masamune/commit/5b828d5de8d9c45527ac9ada6de265cdf5d12815))

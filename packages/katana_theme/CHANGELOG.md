@@ -1,3 +1,7 @@
+## 2.2.9
+
+ - Update a dependency to the latest release.
+
 ## 2.2.8
 
  - **FIX**: Bug fixes around File assets. ([babce48e](https://github.com/mathrunet/flutter_masamune/commit/babce48e06a167b1af5dfd4157dc10bc88e18a81))

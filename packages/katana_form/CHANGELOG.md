@@ -1,3 +1,7 @@
+## 2.10.2
+
+ - Update a dependency to the latest release.
+
 ## 2.10.1
 
  - **FIX**: Notice parameters are given. ([99d41995](https://github.com/mathrunet/flutter_masamune/commit/99d41995b4c8414a90a14bf29bd0d58f2b6bff66))

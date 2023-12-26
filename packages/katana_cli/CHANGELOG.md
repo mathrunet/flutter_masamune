@@ -1,3 +1,7 @@
+## 2.12.5
+
+ - **FIX**: Added BackgroundMode. ([e35bc871](https://github.com/mathrunet/flutter_masamune/commit/e35bc8714d38850c7527fe0d5b6bca09b11c7a39))
+
 ## 2.12.4
 
  - **FIX**: Added the ability to add background color to adaptive icons. ([ba8074fd](https://github.com/mathrunet/flutter_masamune/commit/ba8074fda5eff650d92b030d7a820cb53cd38d69))

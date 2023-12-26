@@ -1,3 +1,7 @@
+## 2.10.3
+
+ - Update a dependency to the latest release.
+
 ## 2.10.2
 
  - **FIX**: Fixed a bug where transactions were not being executed properly. ([2ff54066](https://github.com/mathrunet/flutter_masamune/commit/2ff5406605c5e70a8ac6371c4df5d15ce868b4f3))

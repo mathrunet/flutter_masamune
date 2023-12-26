@@ -1,3 +1,7 @@
+## 2.10.0
+
+ - **FEAT**: Add clone method to list object. ([8c5b4e63](https://github.com/mathrunet/flutter_masamune/commit/8c5b4e63e8919c968b9a4f7d781488c563f1ba93))
+
 ## 2.9.2
 
  - **FIX**: Added roundBy. ([df3ce3e5](https://github.com/mathrunet/flutter_masamune/commit/df3ce3e56564b12f7175ba3fe970b7206f3631f7))

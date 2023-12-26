@@ -1,3 +1,7 @@
+## 2.4.71
+
+ - Update a dependency to the latest release.
+
 ## 2.4.70
 
  - **FIX**: Fixed a bug that Apns token was not retrieved. ([3c1b32b6](https://github.com/mathrunet/flutter_masamune/commit/3c1b32b6d0343430d8414e7fa12ce3ec2c874c6c))

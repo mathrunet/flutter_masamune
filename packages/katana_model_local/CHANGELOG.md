@@ -1,3 +1,7 @@
+## 2.9.1
+
+ - Update a dependency to the latest release.
+
 ## 2.9.0
 
  - **FEAT**: Added clearAll method. ([8e2cb313](https://github.com/mathrunet/flutter_masamune/commit/8e2cb313fc56faebcdc62a1ecb76a58a1a4bfc30))

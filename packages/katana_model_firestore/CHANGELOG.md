@@ -1,3 +1,7 @@
+## 2.13.2
+
+ - Update a dependency to the latest release.
+
 ## 2.13.1
 
  - **FIX**: Fixed a bug that the date and time were not being written to the server properly. ([de2a492d](https://github.com/mathrunet/flutter_masamune/commit/de2a492d814764f8e7fd756684abeef88f582eac))
