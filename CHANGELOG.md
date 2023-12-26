@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_notification_firebase` - `v2.4.72`](#masamune_notification_firebase---v2472)
+
+---
+
+#### `masamune_notification_firebase` - `v2.4.72`
+
+ - **FIX**: データ取得の順番入れ替え. ([b2305182](https://github.com/mathrunet/flutter_masamune/commit/b23051824839ddc387eddf210358056df92c81d1))
+
+
+## 2023-12-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.10.0`](#katana---v2100)
  - [`katana_cli` - `v2.12.5`](#katana_cli---v2125)
  - [`masamune_location_platform_interface` - `v2.2.9`](#masamune_location_platform_interface---v229)
