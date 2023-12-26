@@ -123,5 +123,66 @@ class AppTextToSpeechCliAction extends CliCommand with CliActionMixin {
     await file.writeAsString(
       document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
     );
+    label("Edit Info.plist.");
+    final plist = File("ios/Runner/Info.plist");
+    final plistDocument = XmlDocument.parse(await plist.readAsString());
+    final dict = plistDocument.findAllElements("dict").firstOrNull;
+    if (dict == null) {
+      throw Exception(
+        "Could not find `dict` element in `ios/Runner/Info.plist`. File is corrupt.",
+      );
+    }
+    final node = dict.children.firstWhereOrNull((p0) {
+      return p0 is XmlElement &&
+          p0.name.toString() == "key" &&
+          p0.innerText == "UIBackgroundModes";
+    });
+    if (node == null) {
+      dict.children.addAll(
+        [
+          XmlElement(
+            XmlName("key"),
+            [],
+            [XmlText("UIBackgroundModes")],
+          ),
+          XmlElement(
+            XmlName("array"),
+            [],
+            [
+              XmlElement(
+                XmlName("string"),
+                [],
+                [XmlText("audio")],
+              )
+            ],
+          ),
+        ],
+      );
+    } else {
+      final next = node.nextElementSibling;
+      if (next is XmlElement && next.name.toString() == "array") {
+        if (!next.children.any(
+          (p1) =>
+              p1 is XmlElement &&
+              p1.name.toString() == "string" &&
+              p1.innerText == "audio",
+        )) {
+          next.children.add(
+            XmlElement(
+              XmlName("string"),
+              [],
+              [XmlText("audio")],
+            ),
+          );
+        }
+      } else {
+        throw Exception(
+          "The `ios/Runner/Info.plist` configuration is broken.",
+        );
+      }
+    }
+    await plist.writeAsString(
+      plistDocument.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
+    );
   }
 }
