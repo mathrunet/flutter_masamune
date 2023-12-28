@@ -1,3 +1,7 @@
+## 2.10.3
+
+ - **FIX**: Decimal points were not displayed properly, corrected. ([9b73dafd](https://github.com/mathrunet/flutter_masamune/commit/9b73dafde7967ab582f720f5d1b83938fd7611b3))
+
 ## 2.10.2
 
  - Update a dependency to the latest release.

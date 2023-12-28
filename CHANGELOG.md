@@ -3,6 +3,92 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-12-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v2.10.3`](#katana_form---v2103)
+ - [`masamune` - `v2.6.4`](#masamune---v264)
+ - [`masamune_location_platform_interface` - `v2.2.10`](#masamune_location_platform_interface---v2210)
+ - [`masamune_location_geocoding` - `v2.3.10`](#masamune_location_geocoding---v2310)
+ - [`masamune_location` - `v2.2.10`](#masamune_location---v2210)
+ - [`masamune_deeplink_firebase` - `v2.1.103`](#masamune_deeplink_firebase---v21103)
+ - [`masamune_auth_apple` - `v2.1.181`](#masamune_auth_apple---v21181)
+ - [`masamune_location_background` - `v2.3.10`](#masamune_location_background---v2310)
+ - [`masamune_scheduler` - `v2.1.64`](#masamune_scheduler---v2164)
+ - [`masamune_text_to_speech` - `v2.1.147`](#masamune_text_to_speech---v21147)
+ - [`masamune_agora` - `v2.3.41`](#masamune_agora---v2341)
+ - [`masamune_auth_google` - `v2.1.182`](#masamune_auth_google---v21182)
+ - [`masamune_ai_openai` - `v2.3.10`](#masamune_ai_openai---v2310)
+ - [`masamune_calendar` - `v2.1.31`](#masamune_calendar---v2131)
+ - [`masamune_picker` - `v2.1.180`](#masamune_picker---v21180)
+ - [`masamune_util` - `v2.1.159`](#masamune_util---v21159)
+ - [`masamune_universal_ui` - `v2.2.163`](#masamune_universal_ui---v22163)
+ - [`masamune_purchase_stripe` - `v3.3.128`](#masamune_purchase_stripe---v33128)
+ - [`masamune_notification` - `v2.3.11`](#masamune_notification---v2311)
+ - [`masamune_logger_firebase` - `v2.0.223`](#masamune_logger_firebase---v20223)
+ - [`masamune_introduction` - `v2.2.129`](#masamune_introduction---v22129)
+ - [`masamune_deeplink` - `v2.1.101`](#masamune_deeplink---v21101)
+ - [`masamune_speech_to_text` - `v2.1.150`](#masamune_speech_to_text---v21150)
+ - [`masamune_auth_facebook` - `v2.1.183`](#masamune_auth_facebook---v21183)
+ - [`masamune_location_google` - `v2.3.7`](#masamune_location_google---v237)
+ - [`masamune_module_point_ecosystem` - `v2.3.95`](#masamune_module_point_ecosystem---v2395)
+ - [`masamune_mail` - `v2.1.178`](#masamune_mail---v21178)
+ - [`masamune_module` - `v2.3.84`](#masamune_module---v2384)
+ - [`masamune_notification_firebase` - `v2.4.73`](#masamune_notification_firebase---v2473)
+ - [`masamune_ads_google` - `v2.3.15`](#masamune_ads_google---v2315)
+ - [`masamune_purchase_mobile` - `v2.5.131`](#masamune_purchase_mobile---v25131)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.6.4`
+ - `masamune_location_platform_interface` - `v2.2.10`
+ - `masamune_location_geocoding` - `v2.3.10`
+ - `masamune_location` - `v2.2.10`
+ - `masamune_deeplink_firebase` - `v2.1.103`
+ - `masamune_auth_apple` - `v2.1.181`
+ - `masamune_location_background` - `v2.3.10`
+ - `masamune_scheduler` - `v2.1.64`
+ - `masamune_text_to_speech` - `v2.1.147`
+ - `masamune_agora` - `v2.3.41`
+ - `masamune_auth_google` - `v2.1.182`
+ - `masamune_ai_openai` - `v2.3.10`
+ - `masamune_calendar` - `v2.1.31`
+ - `masamune_picker` - `v2.1.180`
+ - `masamune_util` - `v2.1.159`
+ - `masamune_universal_ui` - `v2.2.163`
+ - `masamune_purchase_stripe` - `v3.3.128`
+ - `masamune_notification` - `v2.3.11`
+ - `masamune_logger_firebase` - `v2.0.223`
+ - `masamune_introduction` - `v2.2.129`
+ - `masamune_deeplink` - `v2.1.101`
+ - `masamune_speech_to_text` - `v2.1.150`
+ - `masamune_auth_facebook` - `v2.1.183`
+ - `masamune_location_google` - `v2.3.7`
+ - `masamune_module_point_ecosystem` - `v2.3.95`
+ - `masamune_mail` - `v2.1.178`
+ - `masamune_module` - `v2.3.84`
+ - `masamune_notification_firebase` - `v2.4.73`
+ - `masamune_ads_google` - `v2.3.15`
+ - `masamune_purchase_mobile` - `v2.5.131`
+
+---
+
+#### `katana_form` - `v2.10.3`
+
+ - **FIX**: Decimal points were not displayed properly, corrected. ([9b73dafd](https://github.com/mathrunet/flutter_masamune/commit/9b73dafde7967ab582f720f5d1b83938fd7611b3))
+
+
 ## 2023-12-26
 
 ### Changes

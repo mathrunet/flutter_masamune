@@ -1,3 +1,7 @@
+## 2.4.73
+
+ - Update a dependency to the latest release.
+
 ## 2.4.72
 
  - **FIX**: データ取得の順番入れ替え. ([b2305182](https://github.com/mathrunet/flutter_masamune/commit/b23051824839ddc387eddf210358056df92c81d1))
