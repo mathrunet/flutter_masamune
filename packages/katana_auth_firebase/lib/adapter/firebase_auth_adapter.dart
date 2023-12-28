@@ -687,6 +687,23 @@ class FirebaseAuthAdapter extends AuthAdapter {
         ),
       );
       return true;
+    } else if (provider is SnsReAuthProvider) {
+      await _prepareProcessInternal();
+      final credential = await provider.credential();
+      final firebaseCredential = credential.signInMethod == "oauth"
+          ? OAuthProvider(credential.providerId).credential(
+              accessToken: credential.accessToken,
+              secret: credential.secret,
+              idToken: credential.idToken,
+            )
+          : AuthCredential(
+              providerId: credential.providerId,
+              signInMethod: credential.signInMethod,
+              token: credential.token,
+              accessToken: credential.accessToken,
+            );
+      await _user!.reauthenticateWithCredential(firebaseCredential);
+      return true;
     } else {
       throw Exception(
         "This provider is not supported: ${provider.runtimeType}",

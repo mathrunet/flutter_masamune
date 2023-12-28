@@ -22,6 +22,15 @@ const _kPasswordAuthProviderId = "password";
 class EmailAndPasswordAuthQuery {
   const EmailAndPasswordAuthQuery._();
 
+  /// ID that defines the provider's process.
+  ///
+  /// Basically, it is defined based on firebase's `PROVIDER_ID`.
+  ///
+  /// プロバイダーの処理を定義したID。
+  ///
+  /// 基本的にfirebaseの`PROVIDER_ID`をベースに定義されます。
+  static const String providerId = _kPasswordAuthProviderId;
+
   /// {@macro create_auth_provider}
   ///
   /// Please give us your email address in [email] and your password in [password].

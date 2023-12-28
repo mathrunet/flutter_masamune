@@ -18,6 +18,15 @@ const _kPhoneAuthProviderId = "phone";
 class SmsAuthQuery {
   const SmsAuthQuery._();
 
+  /// ID that defines the provider's process.
+  ///
+  /// Basically, it is defined based on firebase's `PROVIDER_ID`.
+  ///
+  /// プロバイダーの処理を定義したID。
+  ///
+  /// 基本的にfirebaseの`PROVIDER_ID`をベースに定義されます。
+  static const String providerId = _kPhoneAuthProviderId;
+
   /// {@macro sign_in_auth_provider}
   ///
   /// Pass the phone number in [phoneNumber] and the SMS language setting in [locale].

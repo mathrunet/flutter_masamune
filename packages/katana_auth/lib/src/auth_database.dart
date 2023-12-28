@@ -680,6 +680,8 @@ class AuthDatabase {
     }
     if (provider is EmailAndPasswordReAuthProvider) {
       return account.get(userPasswordKey, "") == provider.password;
+    } else if (provider is SnsReAuthProvider) {
+      return activeProviderIds.contains(provider.providerId);
     } else {
       throw Exception(
         "This provider is not supported: ${provider.runtimeType}",
