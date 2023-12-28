@@ -20,4 +20,4 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:masamune/masamune.dart';
 
 part 'adapter/facebook_auth_masamune_adapter.dart';
-part 'provider/facebook_sign_in_auth_provider.dart';
+part 'provider/facebook_auth_query.dart';

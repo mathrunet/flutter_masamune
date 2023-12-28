@@ -16,4 +16,4 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:masamune/masamune.dart';
 
 part 'adapter/google_auth_masamune_adapter.dart';
-part 'provider/google_sign_in_auth_provider.dart';
+part 'provider/google_auth_query.dart';

@@ -16,4 +16,4 @@ import 'package:masamune/masamune.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 part 'adapter/apple_auth_masamune_adapter.dart';
-part 'provider/apple_sign_in_auth_provider.dart';
+part 'provider/apple_auth_query.dart';
