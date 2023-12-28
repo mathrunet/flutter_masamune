@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Added method for sns re-authentication. ([ee53a041](https://github.com/mathrunet/flutter_masamune/commit/ee53a041a75bc145648ee579aefe2308c0f16597))
+
 ## 2.2.21
 
  - Update a dependency to the latest release.

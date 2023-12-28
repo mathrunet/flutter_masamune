@@ -15,6 +15,106 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_auth` - `v2.3.0`](#katana_auth---v230)
+ - [`katana_auth_firebase` - `v2.2.0`](#katana_auth_firebase---v220)
+ - [`masamune_auth_apple` - `v2.2.0`](#masamune_auth_apple---v220)
+ - [`masamune_auth_facebook` - `v2.2.0`](#masamune_auth_facebook---v220)
+ - [`masamune_auth_google` - `v2.2.0`](#masamune_auth_google---v220)
+ - [`masamune` - `v2.6.5`](#masamune---v265)
+ - [`masamune_location_platform_interface` - `v2.2.11`](#masamune_location_platform_interface---v2211)
+ - [`masamune_location` - `v2.2.11`](#masamune_location---v2211)
+ - [`masamune_location_geocoding` - `v2.3.11`](#masamune_location_geocoding---v2311)
+ - [`masamune_deeplink_firebase` - `v2.1.104`](#masamune_deeplink_firebase---v21104)
+ - [`masamune_location_background` - `v2.3.11`](#masamune_location_background---v2311)
+ - [`masamune_scheduler` - `v2.1.65`](#masamune_scheduler---v2165)
+ - [`masamune_text_to_speech` - `v2.1.148`](#masamune_text_to_speech---v21148)
+ - [`masamune_agora` - `v2.3.42`](#masamune_agora---v2342)
+ - [`masamune_ai_openai` - `v2.3.11`](#masamune_ai_openai---v2311)
+ - [`masamune_calendar` - `v2.1.32`](#masamune_calendar---v2132)
+ - [`masamune_picker` - `v2.1.181`](#masamune_picker---v21181)
+ - [`masamune_util` - `v2.1.160`](#masamune_util---v21160)
+ - [`masamune_universal_ui` - `v2.2.164`](#masamune_universal_ui---v22164)
+ - [`masamune_purchase_stripe` - `v3.3.129`](#masamune_purchase_stripe---v33129)
+ - [`masamune_notification` - `v2.3.12`](#masamune_notification---v2312)
+ - [`masamune_introduction` - `v2.2.130`](#masamune_introduction---v22130)
+ - [`masamune_logger_firebase` - `v2.0.224`](#masamune_logger_firebase---v20224)
+ - [`masamune_deeplink` - `v2.1.102`](#masamune_deeplink---v21102)
+ - [`masamune_speech_to_text` - `v2.1.151`](#masamune_speech_to_text---v21151)
+ - [`masamune_module_point_ecosystem` - `v2.3.96`](#masamune_module_point_ecosystem---v2396)
+ - [`masamune_location_google` - `v2.3.8`](#masamune_location_google---v238)
+ - [`masamune_mail` - `v2.1.179`](#masamune_mail---v21179)
+ - [`masamune_module` - `v2.3.85`](#masamune_module---v2385)
+ - [`masamune_notification_firebase` - `v2.4.74`](#masamune_notification_firebase---v2474)
+ - [`masamune_purchase_mobile` - `v2.5.132`](#masamune_purchase_mobile---v25132)
+ - [`masamune_ads_google` - `v2.3.16`](#masamune_ads_google---v2316)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.6.5`
+ - `masamune_location_platform_interface` - `v2.2.11`
+ - `masamune_location` - `v2.2.11`
+ - `masamune_location_geocoding` - `v2.3.11`
+ - `masamune_deeplink_firebase` - `v2.1.104`
+ - `masamune_location_background` - `v2.3.11`
+ - `masamune_scheduler` - `v2.1.65`
+ - `masamune_text_to_speech` - `v2.1.148`
+ - `masamune_agora` - `v2.3.42`
+ - `masamune_ai_openai` - `v2.3.11`
+ - `masamune_calendar` - `v2.1.32`
+ - `masamune_picker` - `v2.1.181`
+ - `masamune_util` - `v2.1.160`
+ - `masamune_universal_ui` - `v2.2.164`
+ - `masamune_purchase_stripe` - `v3.3.129`
+ - `masamune_notification` - `v2.3.12`
+ - `masamune_introduction` - `v2.2.130`
+ - `masamune_logger_firebase` - `v2.0.224`
+ - `masamune_deeplink` - `v2.1.102`
+ - `masamune_speech_to_text` - `v2.1.151`
+ - `masamune_module_point_ecosystem` - `v2.3.96`
+ - `masamune_location_google` - `v2.3.8`
+ - `masamune_mail` - `v2.1.179`
+ - `masamune_module` - `v2.3.85`
+ - `masamune_notification_firebase` - `v2.4.74`
+ - `masamune_purchase_mobile` - `v2.5.132`
+ - `masamune_ads_google` - `v2.3.16`
+
+---
+
+#### `katana_auth` - `v2.3.0`
+
+ - **FEAT**: Added method for sns re-authentication. ([ee53a041](https://github.com/mathrunet/flutter_masamune/commit/ee53a041a75bc145648ee579aefe2308c0f16597))
+
+#### `katana_auth_firebase` - `v2.2.0`
+
+ - **FEAT**: Added method for sns re-authentication. ([ee53a041](https://github.com/mathrunet/flutter_masamune/commit/ee53a041a75bc145648ee579aefe2308c0f16597))
+
+#### `masamune_auth_apple` - `v2.2.0`
+
+ - **FEAT**: Added method for sns re-authentication. ([6689ef09](https://github.com/mathrunet/flutter_masamune/commit/6689ef095f7a66cec94ce3e92861f999456d586e))
+
+#### `masamune_auth_facebook` - `v2.2.0`
+
+ - **FEAT**: Added method for sns re-authentication. ([6689ef09](https://github.com/mathrunet/flutter_masamune/commit/6689ef095f7a66cec94ce3e92861f999456d586e))
+
+#### `masamune_auth_google` - `v2.2.0`
+
+ - **FEAT**: Added method for sns re-authentication. ([6689ef09](https://github.com/mathrunet/flutter_masamune/commit/6689ef095f7a66cec94ce3e92861f999456d586e))
+
+
+## 2023-12-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v2.10.3`](#katana_form---v2103)
  - [`masamune` - `v2.6.4`](#masamune---v264)
  - [`masamune_location_platform_interface` - `v2.2.10`](#masamune_location_platform_interface---v2210)
