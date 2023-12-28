@@ -867,7 +867,10 @@ class FormNumFieldPicker {
   ///
   /// [context]に[BuildContext]が渡されます。[currentValue]に現在選択されている[num]が渡されます。
   Future<num?> build(BuildContext context, num? currentValue) async {
-    final length = (end - begin) ~/ interval;
+    final length = ((end - begin) / interval.toDouble()).round();
+    final selected =
+        (((currentValue ?? defaultValue ?? 0) - begin) / interval.toDouble())
+            .round();
     num? res;
     await Picker(
       height: 240,
@@ -879,7 +882,7 @@ class FormNumFieldPicker {
       confirmText: confirmText,
       cancelText: cancelText,
       selecteds: [
-        ((currentValue ?? defaultValue ?? 0) - begin) ~/ interval,
+        selected,
       ],
       adapter: PickerDataAdapter<num>(
         data: [
