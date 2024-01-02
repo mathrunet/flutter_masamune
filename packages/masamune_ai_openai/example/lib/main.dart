@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
 import 'package:masamune_ai_openai/masamune_ai_openai.dart';
 
+const assistantId = "asst_pHQG8FMoLnGmT7QvLGzBf9U8";
+
 final List<MasamuneAdapter> masamuneAdapters = [
   const OpenAIMasamuneAdapter(
-    apiKey: "APIKEY",
+    apiKey: "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",
   ),
 ];
 
@@ -35,13 +37,22 @@ class OpenAIPage extends StatefulWidget {
 }
 
 class OpenAIPagePageState extends State<OpenAIPage> {
-  final OpenAIChat _chat = OpenAIChat();
-  final OpenAIMedia _media = OpenAIMedia();
+  final OpenAIAssistantDocument _assistant =
+      OpenAIAssistantDocument(assistantId);
+  late final OpenAIThread _thread = OpenAIThread(assistant: _assistant);
   final TextEditingController _controller = TextEditingController();
   @override
   void initState() {
     super.initState();
-    _chat.addListener(_handledOnUpdate);
+    _assistant.addListener(_handledOnUpdate);
+    _thread.addListener(_handledOnUpdate);
+    _init();
+  }
+
+  Future<void> _init() async {
+    await _thread.connect(initialMessages: [
+      OpenAIMessage.fromUser(content: "こんにちは。本日はどうされましたか？"),
+    ]);
   }
 
   void _handledOnUpdate() {
@@ -51,8 +62,11 @@ class OpenAIPagePageState extends State<OpenAIPage> {
   @override
   void dispose() {
     super.dispose();
-    _chat.removeListener(_handledOnUpdate);
-    _chat.dispose();
+    _thread.disconnect();
+    _assistant.removeListener(_handledOnUpdate);
+    _thread.removeListener(_handledOnUpdate);
+    _assistant.dispose();
+    _thread.dispose();
   }
 
   @override
@@ -60,119 +74,124 @@ class OpenAIPagePageState extends State<OpenAIPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("App Demo"),
-        actions: [
-          Text(_chat.usageToken.toString()),
-        ],
       ),
       body: ListView(children: [
-        ..._chat.value.mapListenable(
-          (e) {
-            if (e.future != null) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return ListTile(
-              title: Text(e.value.text),
-              subtitle: Text(e.role.name),
-            );
-          },
-        ).insertEvery(const Divider(), 1),
+        ..._thread.value?.mapListenable(
+              (e) {
+                if (e.status == OpenAIMessageStatus.queued) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return ListTile(
+                  title: Text(e.value.text),
+                  subtitle: Text(e.role?.name ?? ""),
+                );
+              },
+            ).insertEvery(const Divider(), 1) ??
+            [],
       ]),
-      bottomSheet: Container(
+      bottomNavigationBar: Container(
         color: Theme.of(context).colorScheme.surface,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: FormTextField(
-                controller: _controller,
-                onSubmitted: (value) async {
+        child: SafeArea(
+          top: false,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: FormTextField(
+                  controller: _controller,
+                  onSubmitted: (value) async {
+                    if (value.isEmpty) {
+                      return;
+                    }
+                    _controller.text = "";
+                    await _thread.send(
+                      message: OpenAIMessage.fromUser(content: value!),
+                    );
+                  },
+                ),
+              ),
+              IconButton(
+                onPressed: () async {
+                  final value = _controller.text;
                   if (value.isEmpty) {
                     return;
                   }
                   _controller.text = "";
-                  await _chat.send(message: value!);
+                  await _thread.send(
+                    message: OpenAIMessage.fromUser(content: value),
+                  );
                 },
+                icon: const Icon(Icons.send),
               ),
-            ),
-            IconButton(
-              onPressed: () async {
-                final value = _controller.text;
-                if (value.isEmpty) {
-                  return;
-                }
-                _controller.text = "";
-                await _chat.send(message: value);
-              },
-              icon: const Icon(Icons.send),
-            ),
-            IconButton(
-              onPressed: () async {
-                final value = _controller.text;
-                if (value.isEmpty) {
-                  return;
-                }
-                _controller.text = "";
-                final res =
-                    await _media.create(value, count: 4).showIndicator(context);
-                // ignore: use_build_context_synchronously
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => GalleryPage(
-                      images: res ?? [],
-                    ),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.image),
-            )
-          ],
+              // IconButton(
+              //   onPressed: () async {
+              //     final value = _controller.text;
+              //     if (value.isEmpty) {
+              //       return;
+              //     }
+              //     _controller.text = "";
+              //     final res =
+              //         await _media.create(value, count: 4).showIndicator(context);
+              //     // ignore: use_build_context_synchronously
+              //     Navigator.of(context).push(
+              //       MaterialPageRoute(
+              //         builder: (context) => GalleryPage(
+              //           images: res ?? [],
+              //         ),
+              //       ),
+              //     );
+              //   },
+              //   icon: const Icon(Icons.image),
+              // )
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class GalleryPage extends StatelessWidget {
-  const GalleryPage({
-    super.key,
-    required this.images,
-  });
+// class GalleryPage extends StatelessWidget {
+//   const GalleryPage({
+//     super.key,
+//     required this.images,
+//   });
 
-  final List<OpenAIMediaImg> images;
+//   final List<OpenAIMediaImg> images;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Gallery"),
-      ),
-      body: GridBuilder.count(
-        source: images,
-        crossAxisCount: 2,
-        builder: (context, image, index) {
-          if (image.future != null) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return InkWell(
-            onTap: () async {
-              final res = await image.download().showIndicator(context);
-              // ignore: use_build_context_synchronously
-              Modal.alert(
-                context,
-                submitText: "Close",
-                title: "Success",
-                text: res.toString(),
-              );
-            },
-            child: Ink.image(image: image.image!),
-          );
-        },
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text("Gallery"),
+//       ),
+//       body: GridBuilder.count(
+//         source: images,
+//         crossAxisCount: 2,
+//         builder: (context, image, index) {
+//           if (image.future != null) {
+//             return const Center(
+//               child: CircularProgressIndicator(),
+//             );
+//           }
+//           return InkWell(
+//             onTap: () async {
+//               final res = await image.download().showIndicator(context);
+//               // ignore: use_build_context_synchronously
+//               Modal.alert(
+//                 context,
+//                 submitText: "Close",
+//                 title: "Success",
+//                 text: res.toString(),
+//               );
+//             },
+//             child: Ink.image(image: image.image!),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }

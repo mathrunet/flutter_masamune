@@ -14,7 +14,6 @@ dependencies:
     
   katana: ^2.10.0
   masamune: ^2.6.5
-  dart_openai: ^5.0.0
 dev_dependencies:
   test: ^1.24.0
   flutter_lints: ^3.0.0
