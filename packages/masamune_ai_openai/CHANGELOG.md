@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Fully compatible with Assistant, removed Chat area. ([b45e4c73](https://github.com/mathrunet/flutter_masamune/commit/b45e4c73556f22b6ccdde36b84968adb6f5b562a))
+
 ## 2.3.11
 
  - Update a dependency to the latest release.

@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ai_openai` - `v2.4.0`](#masamune_ai_openai---v240)
+
+---
+
+#### `masamune_ai_openai` - `v2.4.0`
+
+ - **FEAT**: Fully compatible with Assistant, removed Chat area. ([b45e4c73](https://github.com/mathrunet/flutter_masamune/commit/b45e4c73556f22b6ccdde36b84968adb6f5b562a))
+
+
 ## 2023-12-28
 
 ### Changes
