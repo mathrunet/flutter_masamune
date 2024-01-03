@@ -1,3 +1,7 @@
+## 2.4.2
+
+ - **FIX**: Correction of Example. ([bb4563de](https://github.com/mathrunet/flutter_masamune/commit/bb4563de84887b4198952694770ed541af26417a))
+
 ## 2.4.1
 
  - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))

@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ai_openai` - `v2.4.2`](#masamune_ai_openai---v242)
+
+---
+
+#### `masamune_ai_openai` - `v2.4.2`
+
+ - **FIX**: Correction of Example. ([bb4563de](https://github.com/mathrunet/flutter_masamune/commit/bb4563de84887b4198952694770ed541af26417a))
+
+
+## 2024-01-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.10.1`](#katana---v2101)
  - [`katana_auth` - `v2.3.1`](#katana_auth---v231)
  - [`katana_auth_firebase` - `v2.2.1`](#katana_auth_firebase---v221)
