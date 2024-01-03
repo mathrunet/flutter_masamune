@@ -1,3 +1,7 @@
+## 2.10.1
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
 ## 2.10.0
 
  - **FEAT**: Add clone method to list object. ([8c5b4e63](https://github.com/mathrunet/flutter_masamune/commit/8c5b4e63e8919c968b9a4f7d781488c563f1ba93))

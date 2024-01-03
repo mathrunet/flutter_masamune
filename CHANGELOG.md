@@ -15,6 +15,362 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana` - `v2.10.1`](#katana---v2101)
+ - [`katana_auth` - `v2.3.1`](#katana_auth---v231)
+ - [`katana_auth_firebase` - `v2.2.1`](#katana_auth_firebase---v221)
+ - [`katana_cli` - `v2.12.6`](#katana_cli---v2126)
+ - [`katana_firebase` - `v2.0.31`](#katana_firebase---v2031)
+ - [`katana_form` - `v2.10.4`](#katana_form---v2104)
+ - [`katana_functions` - `v2.4.28`](#katana_functions---v2428)
+ - [`katana_functions_firebase` - `v2.4.29`](#katana_functions_firebase---v2429)
+ - [`katana_indicator` - `v2.0.34`](#katana_indicator---v2034)
+ - [`katana_listenables` - `v2.0.35`](#katana_listenables---v2035)
+ - [`katana_listenables_annotation` - `v2.0.34`](#katana_listenables_annotation---v2034)
+ - [`katana_listenables_builder` - `v2.0.39`](#katana_listenables_builder---v2039)
+ - [`katana_localization` - `v2.1.10`](#katana_localization---v2110)
+ - [`katana_localization_annotation` - `v2.1.9`](#katana_localization_annotation---v219)
+ - [`katana_localization_builder` - `v2.1.9`](#katana_localization_builder---v219)
+ - [`katana_logger` - `v2.0.32`](#katana_logger---v2032)
+ - [`katana_model` - `v2.18.2`](#katana_model---v2182)
+ - [`katana_model_firestore` - `v2.13.3`](#katana_model_firestore---v2133)
+ - [`katana_model_local` - `v2.9.2`](#katana_model_local---v292)
+ - [`katana_model_openapi` - `v2.1.21`](#katana_model_openapi---v2121)
+ - [`katana_model_openapi_builder` - `v2.0.35`](#katana_model_openapi_builder---v2035)
+ - [`katana_prefs` - `v2.0.37`](#katana_prefs---v2037)
+ - [`katana_prefs_annotation` - `v2.0.34`](#katana_prefs_annotation---v2034)
+ - [`katana_prefs_builder` - `v2.0.39`](#katana_prefs_builder---v2039)
+ - [`katana_router` - `v2.0.61`](#katana_router---v2061)
+ - [`katana_router_annotation` - `v2.0.39`](#katana_router_annotation---v2039)
+ - [`katana_router_builder` - `v2.0.50`](#katana_router_builder---v2050)
+ - [`katana_scoped` - `v2.1.8`](#katana_scoped---v218)
+ - [`katana_shorten` - `v2.0.32`](#katana_shorten---v2032)
+ - [`katana_storage` - `v2.0.34`](#katana_storage---v2034)
+ - [`katana_storage_firebase` - `v2.0.35`](#katana_storage_firebase---v2035)
+ - [`katana_theme` - `v2.2.10`](#katana_theme---v2210)
+ - [`katana_theme_annotation` - `v2.0.37`](#katana_theme_annotation---v2037)
+ - [`katana_theme_builder` - `v2.1.17`](#katana_theme_builder---v2117)
+ - [`katana_ui` - `v2.5.25`](#katana_ui---v2525)
+ - [`masamune` - `v2.6.6`](#masamune---v266)
+ - [`masamune_ads_google` - `v2.3.17`](#masamune_ads_google---v2317)
+ - [`masamune_agora` - `v2.3.43`](#masamune_agora---v2343)
+ - [`masamune_ai_openai` - `v2.4.1`](#masamune_ai_openai---v241)
+ - [`masamune_annotation` - `v2.4.9`](#masamune_annotation---v249)
+ - [`masamune_auth_apple` - `v2.2.1`](#masamune_auth_apple---v221)
+ - [`masamune_auth_facebook` - `v2.2.1`](#masamune_auth_facebook---v221)
+ - [`masamune_auth_google` - `v2.2.1`](#masamune_auth_google---v221)
+ - [`masamune_builder` - `v2.10.4`](#masamune_builder---v2104)
+ - [`masamune_calendar` - `v2.1.33`](#masamune_calendar---v2133)
+ - [`masamune_deeplink` - `v2.1.103`](#masamune_deeplink---v21103)
+ - [`masamune_deeplink_firebase` - `v2.1.105`](#masamune_deeplink_firebase---v21105)
+ - [`masamune_introduction` - `v2.2.131`](#masamune_introduction---v22131)
+ - [`masamune_location` - `v2.2.12`](#masamune_location---v2212)
+ - [`masamune_location_background` - `v2.3.12`](#masamune_location_background---v2312)
+ - [`masamune_location_geocoding` - `v2.3.12`](#masamune_location_geocoding---v2312)
+ - [`masamune_location_google` - `v2.3.9`](#masamune_location_google---v239)
+ - [`masamune_location_platform_interface` - `v2.2.12`](#masamune_location_platform_interface---v2212)
+ - [`masamune_logger_firebase` - `v2.0.225`](#masamune_logger_firebase---v20225)
+ - [`masamune_mail` - `v2.1.180`](#masamune_mail---v21180)
+ - [`masamune_model_planetscale_annotation` - `v2.1.17`](#masamune_model_planetscale_annotation---v2117)
+ - [`masamune_module` - `v2.3.86`](#masamune_module---v2386)
+ - [`masamune_module_point_ecosystem` - `v2.3.97`](#masamune_module_point_ecosystem---v2397)
+ - [`masamune_notification` - `v2.3.13`](#masamune_notification---v2313)
+ - [`masamune_notification_firebase` - `v2.4.75`](#masamune_notification_firebase---v2475)
+ - [`masamune_picker` - `v2.1.182`](#masamune_picker---v21182)
+ - [`masamune_purchase_mobile` - `v2.5.133`](#masamune_purchase_mobile---v25133)
+ - [`masamune_purchase_stripe` - `v3.3.130`](#masamune_purchase_stripe---v33130)
+ - [`masamune_scheduler` - `v2.1.66`](#masamune_scheduler---v2166)
+ - [`masamune_speech_to_text` - `v2.1.152`](#masamune_speech_to_text---v21152)
+ - [`masamune_text_to_speech` - `v2.1.149`](#masamune_text_to_speech---v21149)
+ - [`masamune_universal_ui` - `v2.2.165`](#masamune_universal_ui---v22165)
+ - [`masamune_util` - `v2.1.161`](#masamune_util---v21161)
+
+---
+
+#### `katana` - `v2.10.1`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_auth` - `v2.3.1`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_auth_firebase` - `v2.2.1`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_cli` - `v2.12.6`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_firebase` - `v2.0.31`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_form` - `v2.10.4`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_functions` - `v2.4.28`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_functions_firebase` - `v2.4.29`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_indicator` - `v2.0.34`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_listenables` - `v2.0.35`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_listenables_annotation` - `v2.0.34`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_listenables_builder` - `v2.0.39`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_localization` - `v2.1.10`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_localization_annotation` - `v2.1.9`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_localization_builder` - `v2.1.9`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_logger` - `v2.0.32`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_model` - `v2.18.2`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_model_firestore` - `v2.13.3`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_model_local` - `v2.9.2`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_model_openapi` - `v2.1.21`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_model_openapi_builder` - `v2.0.35`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_prefs` - `v2.0.37`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_prefs_annotation` - `v2.0.34`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_prefs_builder` - `v2.0.39`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_router` - `v2.0.61`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_router_annotation` - `v2.0.39`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_router_builder` - `v2.0.50`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_scoped` - `v2.1.8`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_shorten` - `v2.0.32`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_storage` - `v2.0.34`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_storage_firebase` - `v2.0.35`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_theme` - `v2.2.10`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_theme_annotation` - `v2.0.37`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_theme_builder` - `v2.1.17`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `katana_ui` - `v2.5.25`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune` - `v2.6.6`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_ads_google` - `v2.3.17`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_agora` - `v2.3.43`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_ai_openai` - `v2.4.1`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_annotation` - `v2.4.9`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_auth_apple` - `v2.2.1`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_auth_facebook` - `v2.2.1`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_auth_google` - `v2.2.1`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_builder` - `v2.10.4`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_calendar` - `v2.1.33`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_deeplink` - `v2.1.103`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_deeplink_firebase` - `v2.1.105`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_introduction` - `v2.2.131`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_location` - `v2.2.12`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_location_background` - `v2.3.12`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_location_geocoding` - `v2.3.12`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_location_google` - `v2.3.9`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_location_platform_interface` - `v2.2.12`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_logger_firebase` - `v2.0.225`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_mail` - `v2.1.180`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_model_planetscale_annotation` - `v2.1.17`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_module` - `v2.3.86`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_module_point_ecosystem` - `v2.3.97`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_notification` - `v2.3.13`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_notification_firebase` - `v2.4.75`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_picker` - `v2.1.182`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_purchase_mobile` - `v2.5.133`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_purchase_stripe` - `v3.3.130`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_scheduler` - `v2.1.66`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_speech_to_text` - `v2.1.152`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_text_to_speech` - `v2.1.149`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_universal_ui` - `v2.2.165`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+#### `masamune_util` - `v2.1.161`
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
+
+## 2024-01-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_ai_openai` - `v2.4.0`](#masamune_ai_openai---v240)
 
 ---

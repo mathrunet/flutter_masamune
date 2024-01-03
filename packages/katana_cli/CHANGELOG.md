@@ -1,3 +1,7 @@
+## 2.12.6
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
 ## 2.12.5
 
  - **FIX**: Added BackgroundMode. ([e35bc871](https://github.com/mathrunet/flutter_masamune/commit/e35bc8714d38850c7527fe0d5b6bca09b11c7a39))

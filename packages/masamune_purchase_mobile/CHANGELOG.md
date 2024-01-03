@@ -1,3 +1,7 @@
+## 2.5.133
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
 ## 2.5.132
 
  - Update a dependency to the latest release.

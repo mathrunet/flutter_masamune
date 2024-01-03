@@ -1,6 +1,6 @@
 name: katana_model_openapi_builder
 description: Building system for katana model open-api plugin packages. Create models of adapters and freezed available in katana_model from the open API yaml.
-version: 2.0.34
+version: 2.0.35
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_model_openapi_builder
 
@@ -8,7 +8,7 @@ environment:
   sdk: ">=2.17.0 <4.0.0"
 
 dependencies: 
-  katana: ^2.10.0
+  katana: ^2.10.1
   build: ^2.3.0
   dart_style: ^2.2.3
   code_builder: ^4.2.0

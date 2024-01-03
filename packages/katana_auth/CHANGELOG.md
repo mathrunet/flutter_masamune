@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
+
 ## 2.3.0
 
  - **FEAT**: Added method for sns re-authentication. ([ee53a041](https://github.com/mathrunet/flutter_masamune/commit/ee53a041a75bc145648ee579aefe2308c0f16597))
