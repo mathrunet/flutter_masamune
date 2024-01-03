@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
 import 'package:masamune_ai_openai/masamune_ai_openai.dart';
 
-const assistantId = "asst_pHQG8FMoLnGmT7QvLGzBf9U8";
+const assistantId = "AssistantID";
 
 final List<MasamuneAdapter> masamuneAdapters = [
   const OpenAIMasamuneAdapter(
-    apiKey: "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",
+    apiKey: "sk-APIKey",
   ),
 ];
 
