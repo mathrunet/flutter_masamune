@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Plug-in for sending emails via Sendgrid, Gmail, etc. from servers, etc. using Functions.
 ///

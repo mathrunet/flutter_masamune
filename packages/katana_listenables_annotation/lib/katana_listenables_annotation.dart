@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// The annotation part of the package that allows Listenable values to be grouped together and treated as a ChangeNotifier.
 ///

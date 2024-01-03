@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// A package to make it easier to use Flutter's indicators (especially when waiting for processing in Future).
 ///

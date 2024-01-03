@@ -1,4 +1,4 @@
-// Copyright 2022 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// This package contains utility classes such as the Masamune package.
 ///

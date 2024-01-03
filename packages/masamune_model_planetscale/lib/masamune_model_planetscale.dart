@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// This library is designed to make Masamune's auto-generated models compatible with PlanetScale.
 ///

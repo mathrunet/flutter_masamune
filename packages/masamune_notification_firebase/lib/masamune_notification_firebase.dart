@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Package for receiving PUSH notifications using Firebase Messaging. Firebase Functions can also be used to send notifications.
 ///

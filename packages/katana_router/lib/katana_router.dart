@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// A package to automatically create routing configurations with build_runner to enable type-safe routing.
 ///

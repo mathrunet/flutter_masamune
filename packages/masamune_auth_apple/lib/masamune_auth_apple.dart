@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Authentication plugin for Masamune that can implement Apple sign-in, works only on IOS.
 ///

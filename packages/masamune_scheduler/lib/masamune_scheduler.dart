@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Masamune plug-in for scheduling data registration, etc. Must be linked to Functions.
 ///

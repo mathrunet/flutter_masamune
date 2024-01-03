@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Command line tool for Masamune/Katana Framework. It initializes the project and initializes the services.
 ///

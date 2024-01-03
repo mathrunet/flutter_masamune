@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Provides an adapter for use with Firebase Functions. Provides an interface to execute server-side processing in a type-safe manner.
 ///

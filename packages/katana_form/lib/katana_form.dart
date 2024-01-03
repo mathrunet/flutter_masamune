@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Package to provide FormController to define the use of forms and FormStyle to unify the look and feel of forms.
 ///

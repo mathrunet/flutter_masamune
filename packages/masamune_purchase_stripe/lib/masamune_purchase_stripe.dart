@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Masamune framework plugin for billing with Stripe; requires registration with Stripe.
 ///

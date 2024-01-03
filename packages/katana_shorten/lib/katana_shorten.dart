@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Flutter package to write Duration, EdgeInsets, etc. in short descriptions. Simple widgets are also provided.
 ///

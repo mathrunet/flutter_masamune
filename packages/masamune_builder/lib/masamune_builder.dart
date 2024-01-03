@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Building system for masamune framework. Automatic creation of models, themes, pages, and translation data.
 ///

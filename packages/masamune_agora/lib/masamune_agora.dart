@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Plug-in for Masamune framework to use Agora.io. Includes support for recording.
 ///

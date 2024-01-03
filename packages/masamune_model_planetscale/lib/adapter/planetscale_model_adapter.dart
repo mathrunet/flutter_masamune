@@ -354,6 +354,11 @@ class PlanetscaleModelAdapter extends ModelAdapter {
     );
   }
 
+  @override
+  Future<void> clearAll() {
+    throw UnimplementedError("This function is not available.");
+  }
+
   String _path(String original) {
     final path = original.trimQuery().trimString("/");
     final paths = path.split("/");

@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Building system for katana listenables packages. Create a ChangeNotifier that automatically groups multiple Listenables together.
 ///

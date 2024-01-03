@@ -95,6 +95,8 @@ class ParamaterValue {
       res.add("Prisma.JsonValue");
     } else if (typeString.startsWith("ModelSearch")) {
       res.add("Prisma.JsonValue");
+    } else if (typeString.startsWith("ModelToken")) {
+      res.add("Prisma.JsonValue");
     }
     if (typeString.endsWith("?")) {
       res.add("undefined");

@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// A multilingual package that automatically creates code that can retrieve data from Google spreadsheets and write type-safe code with method chaining.
 ///

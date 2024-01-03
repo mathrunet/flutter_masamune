@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Adapter classes for katana_model and model classes by freezed are automatically created from OepnAPI files.
 ///

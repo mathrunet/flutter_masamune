@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Masamune plugin to provide calendar functionality. The masamune framework is assumed to be used.
 ///

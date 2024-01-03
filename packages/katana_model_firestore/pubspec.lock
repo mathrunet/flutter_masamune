@@ -278,21 +278,21 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.9.2"
+    version: "2.10.0"
   katana_firebase:
     dependency: "direct main"
     description:
       path: "../katana_firebase"
       relative: true
     source: path
-    version: "2.0.29"
+    version: "2.0.30"
   katana_model:
     dependency: "direct main"
     description:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.17.1"
+    version: "2.18.1"
   lints:
     dependency: transitive
     description:

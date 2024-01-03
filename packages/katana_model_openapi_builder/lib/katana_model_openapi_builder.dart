@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Building system for katana model open-api plugin packages. Create models of adapters and freezed available in katana_model from the open API yaml.
 ///

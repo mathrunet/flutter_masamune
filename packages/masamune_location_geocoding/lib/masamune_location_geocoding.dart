@@ -1,4 +1,4 @@
-// Copyright 2024 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Masamune plugin for using Google Map Geocoding API with Firebase Functions.
 ///

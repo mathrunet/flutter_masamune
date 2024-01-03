@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Building system for katana prefs packages. The package for type-safe use of retrieving and storing Shared Preferences values, defining data in a Freezed-like fashion.
 ///

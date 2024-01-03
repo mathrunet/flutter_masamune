@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Package for retrieving files such as images and videos from terminal storage, cameras, etc.
 ///

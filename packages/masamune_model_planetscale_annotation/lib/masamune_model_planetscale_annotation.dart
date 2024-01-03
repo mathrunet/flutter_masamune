@@ -1,4 +1,4 @@
-// Copyright 2023 mathru. All rights reserved.
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// Define annotations to use the masamune model planetscale builder. Build with masamune_model_planetscale_builder using this annotation.
 ///
