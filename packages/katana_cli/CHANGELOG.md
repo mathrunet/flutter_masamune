@@ -1,3 +1,7 @@
+## 2.12.7
+
+ - **FIX**: Rename Android GitHubActions json file. ([eab7f9c4](https://github.com/mathrunet/flutter_masamune/commit/eab7f9c424da3e282efa12118a9b910406aeee4d))
+
 ## 2.12.6
 
  - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))

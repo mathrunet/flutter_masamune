@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.12.7`](#katana_cli---v2127)
+
+---
+
+#### `katana_cli` - `v2.12.7`
+
+ - **FIX**: Rename Android GitHubActions json file. ([eab7f9c4](https://github.com/mathrunet/flutter_masamune/commit/eab7f9c424da3e282efa12118a9b910406aeee4d))
+
+
 ## 2024-01-03
 
 ### Changes
