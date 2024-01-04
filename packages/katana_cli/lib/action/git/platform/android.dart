@@ -39,7 +39,7 @@ Future<void> buildAndroid(
   }
   final serviceAccountFile = await find(
     Directory("android"),
-    RegExp("([a-z]+)-([a-z]+)-([0-9]+)-([0-9]+)-([a-z0-9]+).json"),
+    RegExp("([a-z0-9_-]+).json"),
   );
   if (serviceAccountFile == null) {
     error(
