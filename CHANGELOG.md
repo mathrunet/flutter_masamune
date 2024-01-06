@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.12.8`](#katana_cli---v2128)
+
+---
+
+#### `katana_cli` - `v2.12.8`
+
+ - **FIX**: The default language of the AppStore is now configurable. ([52f2ee9b](https://github.com/mathrunet/flutter_masamune/commit/52f2ee9ba2df0c257a247cbe65403c2716118984))
+
+
 ## 2024-01-04
 
 ### Changes

@@ -1,3 +1,7 @@
+## 2.12.8
+
+ - **FIX**: The default language of the AppStore is now configurable. ([52f2ee9b](https://github.com/mathrunet/flutter_masamune/commit/52f2ee9ba2df0c257a247cbe65403c2716118984))
+
 ## 2.12.7
 
  - **FIX**: Rename Android GitHubActions json file. ([eab7f9c4](https://github.com/mathrunet/flutter_masamune/commit/eab7f9c424da3e282efa12118a9b910406aeee4d))
