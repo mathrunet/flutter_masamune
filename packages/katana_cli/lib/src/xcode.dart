@@ -20,6 +20,11 @@ class XCode {
   String get rawData => _rawData;
   late String _rawData;
 
+  /// PBXProject data.
+  ///
+  /// PBXProjectのデータ。
+  PBXProject? pbxProject;
+
   /// BuildFile data.
   ///
   /// BuildFileのデータ。
@@ -78,6 +83,7 @@ class XCode {
     _pbxVariantGroup = PBXVariantGroup._load(_rawData);
     _pbxBuildConfiguration = PBXBuildConfiguration._load(_rawData);
     _pbxFrameworksBuildPhase = PBXFrameworksBuildPhase._load(_rawData);
+    pbxProject = PBXProject._load(_rawData);
   }
 
   /// Data storage.
@@ -87,6 +93,7 @@ class XCode {
     if (_rawData.isEmpty) {
       throw Exception("No value. Please load data with [load].");
     }
+    _rawData = PBXProject._save(_rawData, pbxProject);
     _rawData = PBXVariantGroup._save(_rawData, _pbxVariantGroup);
     _rawData = PBXResourcesBuildPhase._save(_rawData, _pbxResourcesBuildPhase);
     _rawData = PBXGroup._save(_rawData, _pbxGroup);
@@ -1517,5 +1524,126 @@ class PBXFrameworksBuildPhaseFiles {
   @override
   String toString() {
     return "\t\t\t\t$id /* $fileName in $dirName */";
+  }
+}
+
+/// PBXProject data.
+///
+/// PBXProjectのデータ。
+class PBXProject {
+  /// PBXProject data.
+  ///
+  /// PBXProjectのデータ。
+  factory PBXProject({
+    required String code,
+    String defaultLocale = "en",
+    List<String> locales = const [],
+  }) {
+    return PBXProject._(
+      code: code,
+      defaultLocale: defaultLocale,
+      locales: locales,
+    );
+  }
+  PBXProject._({
+    required this.code,
+    this.defaultLocale = "en",
+    this.locales = const [],
+  });
+
+  static PBXProject? _load(String content) {
+    final region = RegExp(
+      r"/\* Begin PBXProject section \*/(?<code>[\s\S]+)/\* End PBXProject section \*/",
+    ).firstMatch(content);
+    if (region == null) {
+      return null;
+    }
+    final code = region.namedGroup("code") ?? "";
+    if (code.isEmpty) {
+      return null;
+    }
+    final developmentRegion =
+        RegExp(r'developmentRegion = (?<defaultRegion>[a-zA-Z]+);')
+                .firstMatch(code)
+                ?.namedGroup("defaultRegion") ??
+            "";
+    final regions = RegExp(r'knownRegions = \((?<regions>[^\)]+)\);')
+            .firstMatch(code)
+            ?.namedGroup("regions") ??
+        "";
+    final locales = regions
+        .split(",")
+        .mapAndRemoveEmpty((e) {
+          return e.trim().replaceAll("\"", "");
+        })
+        .toList()
+        .removeEmpty();
+    return PBXProject(
+      code: code,
+      defaultLocale: developmentRegion,
+      locales: [
+        ...locales,
+        if (!locales.contains("Base")) "Base",
+      ],
+    );
+  }
+
+  static String _save(String content, PBXProject? project) {
+    if (project == null) {
+      return content;
+    }
+    return content.replaceAll(
+      RegExp(
+        r"/\* Begin PBXProject section \*/(?<code>[\s\S]+)/\* End PBXProject section \*/",
+      ),
+      "/* Begin PBXProject section */${project.toString()}/* End PBXProject section */",
+    );
+  }
+
+  /// Value of `isa`.
+  ///
+  /// `isa`の値。
+  final String isa = "PBXProject";
+
+  /// Default locale.
+  ///
+  /// デフォルトロケール。
+  final String defaultLocale;
+
+  /// List of locales.
+  ///
+  /// ロケールの一覧。
+  final List<String> locales;
+
+  /// Other Codes.
+  ///
+  /// その他のコード。
+  final String code;
+
+  @override
+  String toString() {
+    return code
+        .replaceAll(RegExp(r'developmentRegion = (?<defaultRegion>[a-zA-Z]+);'),
+            "developmentRegion = $defaultLocale;")
+        .replaceAll(
+            RegExp(r'knownRegions = \((?<regions>[^\)]+)\);'),
+            "knownRegions = (\n${[
+              ...locales,
+              if (!locales.contains("Base")) "Base",
+            ].map((e) => '				$e').join(",\n")},\n			);");
+  }
+
+  /// Copy with new data.
+  ///
+  /// 新しいデータをコピーする。
+  PBXProject copyWith({
+    String? defaultLocale,
+    List<String>? locales,
+  }) {
+    return PBXProject(
+      code: code,
+      defaultLocale: defaultLocale ?? this.defaultLocale,
+      locales: locales ?? this.locales,
+    );
   }
 }

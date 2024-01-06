@@ -163,6 +163,13 @@ class AppInfo {
       if (defaultLocale.isNotEmpty) "": data[defaultLocale!]!,
       ...data,
     });
+    final xcode = XCode();
+    await xcode.load();
+    xcode.pbxProject = xcode.pbxProject?.copyWith(
+      defaultLocale: defaultLocale,
+      locales: data.keys.toList(),
+    );
+    await xcode.save();
   }
 
   static Future<void> _createAndroidResValues(
