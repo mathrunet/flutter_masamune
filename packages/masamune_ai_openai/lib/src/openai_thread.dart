@@ -31,7 +31,9 @@ class OpenAIThread
 
   String? _threadId;
   String? _runId;
-  Completer<void>? _completer;
+  Completer<OpenAIMessage?>? _connectingCompleter;
+  Completer<OpenAIMessage?>? _sendingCompleter;
+  Completer<void>? _disconnectingCompleter;
 
   Map<String, String> get _header {
     return {
@@ -48,14 +50,17 @@ class OpenAIThread
   /// スレッドを開始します。
   ///
   /// [initialMessages]に初期メッセージを渡すことができます。
-  Future<void> connect({List<OpenAIMessage>? initialMessages}) async {
+  Future<OpenAIMessage?> connect({
+    List<OpenAIMessage>? initialMessages,
+    String? additionalPrompt,
+  }) async {
     if (_threadId.isNotEmpty) {
-      return;
+      return null;
     }
-    if (_completer != null) {
-      return _completer!.future;
+    if (_connectingCompleter != null) {
+      return _connectingCompleter!.future;
     }
-    _completer = Completer();
+    _connectingCompleter = Completer();
     if (initialMessages.isNotEmpty) {
       final response = OpenAIMessage._();
       try {
@@ -65,6 +70,8 @@ class OpenAIThread
         ]);
         await assistant.load();
         notifyListeners();
+        final prompt =
+            "${assistant.value?.prompt ?? ""}${additionalPrompt ?? ""}";
         final resCreation = await Api.post(
           "https://api.openai.com/v1/threads/runs",
           headers: _header,
@@ -74,8 +81,7 @@ class OpenAIThread
               "messages": initialMessages?.map((e) => e.toJson()).toList(),
             },
             "model": assistant.value?.model.id ?? OpenAIModel.gpt35Turbo0613.id,
-            if (assistant.value?.prompt.isNotEmpty ?? false)
-              "instructions": assistant.value?.prompt,
+            if (prompt.isNotEmpty) "instructions": prompt,
             if (assistant.value?.tools.isNotEmpty ?? false)
               "tools": assistant.value?.tools.map((e) => e.toJson()).toList(),
           }),
@@ -89,18 +95,19 @@ class OpenAIThread
         await _run(jsonCreation);
         await _retriveMessage(response);
         notifyListeners();
-        _completer?.complete();
-        _completer = null;
+        _connectingCompleter?.complete(response);
+        _connectingCompleter = null;
+        return response;
       } catch (e) {
         _threadId = _runId = null;
         response._applyError(e.toString());
         notifyListeners();
-        _completer?.completeError(e);
-        _completer = null;
+        _connectingCompleter?.completeError(e);
+        _connectingCompleter = null;
         rethrow;
       } finally {
-        _completer?.complete();
-        _completer = null;
+        _connectingCompleter?.complete(response);
+        _connectingCompleter = null;
       }
     } else {
       try {
@@ -126,17 +133,18 @@ class OpenAIThread
         _threadId = jsonCreation.get("thread_id", "");
         await _run(jsonCreation);
         notifyListeners();
-        _completer?.complete();
-        _completer = null;
+        _connectingCompleter?.complete(null);
+        _connectingCompleter = null;
+        return null;
       } catch (e) {
         _threadId = _runId = null;
         notifyListeners();
-        _completer?.completeError(e);
-        _completer = null;
+        _connectingCompleter?.completeError(e);
+        _connectingCompleter = null;
         rethrow;
       } finally {
-        _completer?.complete();
-        _completer = null;
+        _connectingCompleter?.complete(null);
+        _connectingCompleter = null;
       }
     }
   }
@@ -148,32 +156,36 @@ class OpenAIThread
   /// [message]を送信します。
   ///
   /// [additionalPrompt]に追加のプロンプトを渡すことができます。
-  Future<void> send({
-    required OpenAIMessage message,
+  Future<OpenAIMessage?> send({
+    required OpenAIMessage? message,
     String? additionalPrompt,
   }) async {
     if (_threadId.isEmpty) {
       return Future.error("Not connected.");
     }
-    if (_completer != null) {
-      return _completer!.future;
+    if (_sendingCompleter != null) {
+      return _sendingCompleter!.future;
     }
-    _completer = Completer();
+    _sendingCompleter = Completer();
     final response = OpenAIMessage._();
     try {
-      value?.add(message);
+      if (message != null) {
+        value?.add(message);
+      }
       value?.add(response);
       notifyListeners();
-      final resCreateMessage = await Api.post(
-        "https://api.openai.com/v1/threads/$_threadId/messages",
-        headers: _header,
-        body: jsonEncode({
-          "role": "user",
-          "content": message.value.text,
-        }),
-      );
-      if (resCreateMessage.statusCode != 200) {
-        throw Exception("Failed to send message.");
+      if (message != null) {
+        final resCreateMessage = await Api.post(
+          "https://api.openai.com/v1/threads/$_threadId/messages",
+          headers: _header,
+          body: jsonEncode({
+            "role": "user",
+            "content": message.value.text,
+          }),
+        );
+        if (resCreateMessage.statusCode != 200) {
+          throw Exception("Failed to send message.");
+        }
       }
       // final jsonCreateMessage =
       //     jsonDecodeAsMap(utf8.decode(resCreateMessage.bodyBytes));
@@ -199,17 +211,18 @@ class OpenAIThread
       await _run(jsonCreationRun);
       await _retriveMessage(response);
       notifyListeners();
-      _completer?.complete();
-      _completer = null;
+      _sendingCompleter?.complete(response);
+      _sendingCompleter = null;
+      return response;
     } catch (e) {
       response._applyError(e.toString());
       notifyListeners();
-      _completer?.completeError(e);
-      _completer = null;
+      _sendingCompleter?.completeError(e);
+      _sendingCompleter = null;
       rethrow;
     } finally {
-      _completer?.complete();
-      _completer = null;
+      _sendingCompleter?.complete(response);
+      _sendingCompleter = null;
     }
   }
 
@@ -220,10 +233,12 @@ class OpenAIThread
     if (_threadId.isEmpty) {
       return;
     }
-    if (_completer != null) {
-      return _completer!.future;
+    await _connectingCompleter?.future;
+    await _sendingCompleter?.future;
+    if (_disconnectingCompleter != null) {
+      return _disconnectingCompleter!.future;
     }
-    _completer = Completer();
+    _disconnectingCompleter = Completer();
     try {
       final res = await Api.delete(
         "https://api.openai.com/v1/threads/$_threadId",
@@ -234,17 +249,17 @@ class OpenAIThread
       }
       _threadId = _runId = null;
       notifyListeners();
-      _completer?.complete();
-      _completer = null;
+      _disconnectingCompleter?.complete();
+      _disconnectingCompleter = null;
     } catch (e) {
       _threadId = _runId = null;
       notifyListeners();
-      _completer?.completeError(e);
-      _completer = null;
+      _disconnectingCompleter?.completeError(e);
+      _disconnectingCompleter = null;
       rethrow;
     } finally {
-      _completer?.complete();
-      _completer = null;
+      _disconnectingCompleter?.complete();
+      _disconnectingCompleter = null;
     }
   }
 
@@ -282,7 +297,7 @@ class OpenAIThread
     }
   }
 
-  Future<void> _retriveMessage(OpenAIMessage response) async {
+  Future<OpenAIMessage?> _retriveMessage(OpenAIMessage response) async {
     final resMessages = await Api.get(
       "https://api.openai.com/v1/threads/$_threadId/messages",
       headers: _header,
@@ -300,6 +315,7 @@ class OpenAIThread
     if (newestMessage != null) {
       response._applyFromJson(newestMessage);
     }
+    return response;
   }
 
   @override

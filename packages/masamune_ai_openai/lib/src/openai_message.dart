@@ -241,3 +241,18 @@ extension OpenAIMessageValueIterableExtensions on Iterable<OpenAIMessageValue> {
         .join("\n");
   }
 }
+
+/// Extension methods for [String].
+///
+/// [String]の拡張メソッドを提供します。
+extension OpenAIMessageStringExtensions on String? {
+  /// Convert to [OpenAIMessage].
+  ///
+  /// [OpenAIMessage]に変換します。
+  OpenAIMessage? toOpenAIUserMessage() {
+    if (isEmpty) {
+      return null;
+    }
+    return OpenAIMessage.fromUser(content: this!);
+  }
+}
