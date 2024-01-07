@@ -33,35 +33,65 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
     Widget? indicator,
   }) async {
     final futureOr = this;
+    DialogRoute<T>? route;
+    Completer<void>? completer;
     if (futureOr is Future<T>) {
+      completer = Completer<void>();
       var navigator = Navigator.of(context, rootNavigator: true);
-      final dialog = showDialog(
-        context: context,
-        barrierColor: barrierColor,
-        barrierDismissible: false,
-        builder: (context) {
-          navigator = Navigator.of(context);
-          return PopScope(
-            canPop: false,
-            child: indicator ??
-                Center(
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.white.withOpacity(
-                      0.5,
-                    ),
-                  ),
-                ),
-          );
-        },
-      );
+      final rootContext = navigator.context;
       futureOr.whenComplete(
         () async {
-          navigator.pop();
+          completer?.complete();
+          completer = null;
+          if (route != null) {
+            navigator.removeRoute(route!);
+            route = null;
+          }
         },
       );
-      await dialog;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (completer == null) {
+          return;
+        }
+        try {
+          final themes = InheritedTheme.capture(
+            from: context,
+            to: rootContext,
+          );
+          route = DialogRoute<T>(
+            context: rootContext,
+            builder: (_) {
+              return PopScope(
+                canPop: false,
+                child: indicator ??
+                    Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: Colors.white.withOpacity(
+                          0.5,
+                        ),
+                      ),
+                    ),
+              );
+            },
+            barrierColor: barrierColor,
+            barrierDismissible: false,
+            useSafeArea: true,
+            themes: themes,
+            traversalEdgeBehavior: TraversalEdgeBehavior.closedLoop,
+          );
+          if (route != null) {
+            navigator.push<T>(route!);
+          }
+        } catch (e) {
+          completer?.completeError(e);
+          completer = null;
+        } finally {
+          completer?.complete();
+          completer = null;
+        }
+      });
+      await completer?.future;
       final value = await this;
-      await Future<void>.delayed(Duration.zero);
       return value;
     } else {
       return await this;
