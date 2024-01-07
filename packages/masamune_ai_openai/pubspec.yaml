@@ -1,6 +1,6 @@
 name: masamune_ai_openai
 description: Plug-in to make OpenAI API available on Masamune Framework. API key registration is required separately.
-version: 2.4.2
+version: 2.4.3
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_ai_openai
 
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
     
   katana: ^2.10.1
-  masamune: ^2.6.6
+  masamune: ^2.6.7
 dev_dependencies:
   test: ^1.24.0
   flutter_lints: ^3.0.0

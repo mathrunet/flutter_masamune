@@ -1,3 +1,7 @@
+## 2.0.35
+
+ - **FIX**: Improved stability of the indicator. ([e8ffff26](https://github.com/mathrunet/flutter_masamune/commit/e8ffff267671caad76b4794a69cb742bc089143f))
+
 ## 2.0.34
 
  - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))

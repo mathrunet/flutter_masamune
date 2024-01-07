@@ -1,3 +1,7 @@
+## 2.4.3
+
+ - **FIX**: Modified to make it more accessible. ([260a7312](https://github.com/mathrunet/flutter_masamune/commit/260a7312e3a08d105328cd3d03fc3ebe0d16b74e))
+
 ## 2.4.2
 
  - **FIX**: Correction of Example. ([bb4563de](https://github.com/mathrunet/flutter_masamune/commit/bb4563de84887b4198952694770ed541af26417a))
