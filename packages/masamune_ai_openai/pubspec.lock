@@ -269,7 +269,7 @@ packages:
       path: "../katana_indicator"
       relative: true
     source: path
-    version: "2.0.34"
+    version: "2.0.35"
   katana_listenables:
     dependency: "direct overridden"
     description:
@@ -411,7 +411,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.6.6"
+    version: "2.6.7"
   masamune_annotation:
     dependency: "direct overridden"
     description:

@@ -52,7 +52,7 @@ class OpenAIThread
   /// [initialMessages]に初期メッセージを渡すことができます。
   Future<OpenAIMessage?> connect({
     List<OpenAIMessage>? initialMessages,
-    String? additionalPrompt,
+    String? prompt,
   }) async {
     if (_threadId.isNotEmpty) {
       return null;
@@ -61,6 +61,7 @@ class OpenAIThread
       return _connectingCompleter!.future;
     }
     _connectingCompleter = Completer();
+    prompt ??= assistant.value?.prompt;
     if (initialMessages.isNotEmpty) {
       final response = OpenAIMessage._();
       try {
@@ -70,8 +71,6 @@ class OpenAIThread
         ]);
         await assistant.load();
         notifyListeners();
-        final prompt =
-            "${assistant.value?.prompt ?? ""}${additionalPrompt ?? ""}";
         final resCreation = await Api.post(
           "https://api.openai.com/v1/threads/runs",
           headers: _header,
@@ -119,8 +118,7 @@ class OpenAIThread
           body: jsonEncode({
             "assistant_id": assistant.uid,
             "model": assistant.value?.model.id ?? OpenAIModel.gpt35Turbo0613.id,
-            if (assistant.value?.prompt.isNotEmpty ?? false)
-              "instructions": assistant.value?.prompt,
+            if (prompt.isNotEmpty) "instructions": prompt,
             if (assistant.value?.tools.isNotEmpty ?? false)
               "tools": assistant.value?.tools.map((e) => e.toJson()).toList(),
           }),
