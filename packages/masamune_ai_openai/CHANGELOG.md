@@ -1,3 +1,7 @@
+## 2.4.4
+
+ - **FIX**: Change thread content. ([12012547](https://github.com/mathrunet/flutter_masamune/commit/12012547fe7c1f9ddf86d07b029246646552886c))
+
 ## 2.4.3
 
  - **FIX**: Modified to make it more accessible. ([260a7312](https://github.com/mathrunet/flutter_masamune/commit/260a7312e3a08d105328cd3d03fc3ebe0d16b74e))

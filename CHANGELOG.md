@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ai_openai` - `v2.4.4`](#masamune_ai_openai---v244)
+
+---
+
+#### `masamune_ai_openai` - `v2.4.4`
+
+ - **FIX**: Change thread content. ([12012547](https://github.com/mathrunet/flutter_masamune/commit/12012547fe7c1f9ddf86d07b029246646552886c))
+
+
 ## 2024-01-07
 
 ### Changes
