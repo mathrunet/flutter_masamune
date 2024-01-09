@@ -370,7 +370,7 @@ class FirestoreModelAdapter extends ModelAdapter
         (reference) => reference.count().get(),
       ),
     );
-    final res = snapshot.fold<int>(0, (p, e) => p + e.count);
+    final res = snapshot.fold<int>(0, (p, e) => p + (e.count ?? 0));
     return res;
   }
 

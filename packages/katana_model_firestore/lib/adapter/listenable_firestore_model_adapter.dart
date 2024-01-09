@@ -358,7 +358,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
         query.copyWith(query: query.query.remove(ModelQueryFilterType.limit)),
       ).map((reference) => reference.count().get()),
     );
-    final res = snapshot.fold<int>(0, (p, e) => p + e.count);
+    final res = snapshot.fold<int>(0, (p, e) => p + (e.count ?? 0));
     return res;
   }
 
