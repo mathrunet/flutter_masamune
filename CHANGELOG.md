@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.12.9`](#katana_cli---v2129)
+
+---
+
+#### `katana_cli` - `v2.12.9`
+
+ - **FIX**: Bug fixes. ([d0d472c3](https://github.com/mathrunet/flutter_masamune/commit/d0d472c3efbc29d38e8a4f79bb0c067089d84af4))
+
+
+## 2024-01-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model_firestore` - `v2.13.4`](#katana_model_firestore---v2134)
 
 ---

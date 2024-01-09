@@ -1,3 +1,7 @@
+## 2.12.9
+
+ - **FIX**: Bug fixes. ([d0d472c3](https://github.com/mathrunet/flutter_masamune/commit/d0d472c3efbc29d38e8a4f79bb0c067089d84af4))
+
 ## 2.12.8
 
  - **FIX**: The default language of the AppStore is now configurable. ([52f2ee9b](https://github.com/mathrunet/flutter_masamune/commit/52f2ee9ba2df0c257a247cbe65403c2716118984))
