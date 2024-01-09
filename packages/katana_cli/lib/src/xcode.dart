@@ -1574,17 +1574,17 @@ class PBXProject {
     final locales = regions
         .split(",")
         .mapAndRemoveEmpty((e) {
-          return e.trim().replaceAll("\"", "");
+          return e.replaceAll("\"", "").replaceAll("'", "").trim();
         })
-        .toList()
-        .removeEmpty();
+        .where((e) => e.isNotEmpty)
+        .toList();
     return PBXProject(
       code: code,
       defaultLocale: developmentRegion,
       locales: [
         ...locales,
         if (!locales.contains("Base")) "Base",
-      ],
+      ].toList(),
     );
   }
 
@@ -1630,7 +1630,7 @@ class PBXProject {
             "knownRegions = (\n${[
               ...locales,
               if (!locales.contains("Base")) "Base",
-            ].map((e) => '				$e').join(",\n")},\n			);");
+            ].where((e) => e.isNotEmpty).map((e) => '				$e').join(",\n")},\n			);");
   }
 
   /// Copy with new data.
