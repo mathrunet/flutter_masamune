@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model_firestore` - `v2.13.4`](#katana_model_firestore---v2134)
+
+---
+
+#### `katana_model_firestore` - `v2.13.4`
+
+ - **FIX**: Fixed to match the fix on the Firestore side. ([6fece244](https://github.com/mathrunet/flutter_masamune/commit/6fece2446ff992a8f7070d8d24c5cb0aa65d0fa2))
+
+
 ## 2024-01-08
 
 ### Changes

@@ -1,3 +1,7 @@
+## 2.13.4
+
+ - **FIX**: Fixed to match the fix on the Firestore side. ([6fece244](https://github.com/mathrunet/flutter_masamune/commit/6fece2446ff992a8f7070d8d24c5cb0aa65d0fa2))
+
 ## 2.13.3
 
  - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
