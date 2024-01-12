@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ai_openai` - `v2.4.5`](#masamune_ai_openai---v245)
+ - [`masamune_builder` - `v2.10.5`](#masamune_builder---v2105)
+
+---
+
+#### `masamune_ai_openai` - `v2.4.5`
+
+ - **FIX**: High speed and optimization. ([60c291f2](https://github.com/mathrunet/flutter_masamune/commit/60c291f22646080d7ebe53b474b8423ba0f1548a))
+
+#### `masamune_builder` - `v2.10.5`
+
+ - **FIX**: Controller default values are now set correctly. ([b93c9d84](https://github.com/mathrunet/flutter_masamune/commit/b93c9d84a82e17c1f43259ca022efc873b3d9bb7))
+
+
 ## 2024-01-09
 
 ### Changes

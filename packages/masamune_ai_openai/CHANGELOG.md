@@ -1,3 +1,7 @@
+## 2.4.5
+
+ - **FIX**: High speed and optimization. ([60c291f2](https://github.com/mathrunet/flutter_masamune/commit/60c291f22646080d7ebe53b474b8423ba0f1548a))
+
 ## 2.4.4
 
  - **FIX**: Change thread content. ([12012547](https://github.com/mathrunet/flutter_masamune/commit/12012547fe7c1f9ddf86d07b029246646552886c))

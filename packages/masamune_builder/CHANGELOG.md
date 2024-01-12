@@ -1,3 +1,7 @@
+## 2.10.5
+
+ - **FIX**: Controller default values are now set correctly. ([b93c9d84](https://github.com/mathrunet/flutter_masamune/commit/b93c9d84a82e17c1f43259ca022efc873b3d9bb7))
+
 ## 2.10.4
 
  - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))
