@@ -31,7 +31,10 @@ List<Spec> controllerClass(
                       ..required = param.element.isRequired
                       ..named = true
                       ..type = Reference(param.type.aliasName)
-                      ..name = param.name,
+                      ..name = param.name
+                      ..defaultTo = param.element.defaultValueCode != null
+                          ? Code(param.element.defaultValueCode!)
+                          : null,
                   );
                 }),
               ])
@@ -67,7 +70,10 @@ List<Spec> controllerClass(
                       ..name = param.name
                       ..toThis = true
                       ..named = true
-                      ..required = param.required,
+                      ..required = param.required
+                      ..defaultTo = param.element.defaultValueCode != null
+                          ? Code(param.element.defaultValueCode!)
+                          : null,
                   );
                 }),
               ]),

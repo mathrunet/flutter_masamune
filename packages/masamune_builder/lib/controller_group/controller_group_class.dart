@@ -36,7 +36,10 @@ List<Spec> controllerGroupClass(
                       ..required = param.element.isRequired
                       ..named = true
                       ..type = Reference(functionType)
-                      ..name = param.name,
+                      ..name = param.name
+                      ..defaultTo = param.element.defaultValueCode != null
+                          ? Code(param.element.defaultValueCode!)
+                          : null,
                   );
                 }),
               ])
@@ -72,7 +75,10 @@ List<Spec> controllerGroupClass(
                       ..name = param.name
                       ..toThis = true
                       ..named = true
-                      ..required = param.required,
+                      ..required = param.required
+                      ..defaultTo = param.element.defaultValueCode != null
+                          ? Code(param.element.defaultValueCode!)
+                          : null,
                   );
                 }),
               ]),

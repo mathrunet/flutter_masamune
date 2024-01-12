@@ -263,77 +263,77 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.10.0"
+    version: "2.10.1"
   katana_listenables_annotation:
     dependency: "direct main"
     description:
       path: "../katana_listenables_annotation"
       relative: true
     source: path
-    version: "2.0.33"
+    version: "2.0.34"
   katana_listenables_builder:
     dependency: "direct main"
     description:
       path: "../katana_listenables_builder"
       relative: true
     source: path
-    version: "2.0.38"
+    version: "2.0.39"
   katana_localization_annotation:
     dependency: "direct main"
     description:
       path: "../katana_localization_annotation"
       relative: true
     source: path
-    version: "2.1.8"
+    version: "2.1.9"
   katana_localization_builder:
     dependency: "direct main"
     description:
       path: "../katana_localization_builder"
       relative: true
     source: path
-    version: "2.1.8"
+    version: "2.1.9"
   katana_prefs_annotation:
     dependency: "direct main"
     description:
       path: "../katana_prefs_annotation"
       relative: true
     source: path
-    version: "2.0.33"
+    version: "2.0.34"
   katana_prefs_builder:
     dependency: "direct main"
     description:
       path: "../katana_prefs_builder"
       relative: true
     source: path
-    version: "2.0.38"
+    version: "2.0.39"
   katana_router_annotation:
     dependency: "direct main"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "2.0.38"
+    version: "2.0.39"
   katana_router_builder:
     dependency: "direct main"
     description:
       path: "../katana_router_builder"
       relative: true
     source: path
-    version: "2.0.49"
+    version: "2.0.50"
   katana_theme_annotation:
     dependency: "direct main"
     description:
       path: "../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.0.36"
+    version: "2.0.37"
   katana_theme_builder:
     dependency: "direct main"
     description:
       path: "../katana_theme_builder"
       relative: true
     source: path
-    version: "2.1.16"
+    version: "2.1.17"
   lints:
     dependency: transitive
     description:
@@ -356,7 +356,7 @@ packages:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "2.4.8"
+    version: "2.4.9"
   matcher:
     dependency: transitive
     description:
