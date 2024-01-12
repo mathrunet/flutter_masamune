@@ -113,15 +113,9 @@ class OpenAIThread
         await assistant.load();
         notifyListeners();
         final resCreation = await Api.post(
-          "https://api.openai.com/v1/threads/runs",
+          "https://api.openai.com/v1/threads",
           headers: _header,
-          body: jsonEncode({
-            "assistant_id": assistant.uid,
-            "model": assistant.value?.model.id ?? OpenAIModel.gpt35Turbo0613.id,
-            if (prompt.isNotEmpty) "instructions": prompt,
-            if (assistant.value?.tools.isNotEmpty ?? false)
-              "tools": assistant.value?.tools.map((e) => e.toJson()).toList(),
-          }),
+          body: jsonEncode({}),
         );
         if (resCreation.statusCode != 200) {
           throw Exception("Failed to connect.");
