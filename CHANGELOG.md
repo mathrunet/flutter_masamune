@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.13.1`](#katana_cli---v2131)
+
+---
+
+#### `katana_cli` - `v2.13.1`
+
+ - **FIX**: Added GitIgnore settings. ([3a31e028](https://github.com/mathrunet/flutter_masamune/commit/3a31e02800c1d5ad19f1679e570c2651a1f64fe4))
+
+
+## 2024-01-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.13.0`](#katana_cli---v2130)
 
 ---

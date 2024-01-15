@@ -1,3 +1,7 @@
+## 2.13.1
+
+ - **FIX**: Added GitIgnore settings. ([3a31e028](https://github.com/mathrunet/flutter_masamune/commit/3a31e02800c1d5ad19f1679e570c2651a1f64fe4))
+
 ## 2.13.0
 
  - **FEAT**: Compatible with FirebaseFunctionsV2. ([7bf68993](https://github.com/mathrunet/flutter_masamune/commit/7bf68993a43958b5fce130cda419d562ca8c4f98))
