@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ai_openai` - `v2.4.6`](#masamune_ai_openai---v246)
+
+---
+
+#### `masamune_ai_openai` - `v2.4.6`
+
+ - **FIX**: Fixed a bug in case of no InitialMessage. ([5ba6deb5](https://github.com/mathrunet/flutter_masamune/commit/5ba6deb5275c1a08e2cd8061fa28d5ce7753263f))
+
+
+## 2024-01-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.13.1`](#katana_cli---v2131)
 
 ---

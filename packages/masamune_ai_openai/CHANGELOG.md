@@ -1,3 +1,7 @@
+## 2.4.6
+
+ - **FIX**: Fixed a bug in case of no InitialMessage. ([5ba6deb5](https://github.com/mathrunet/flutter_masamune/commit/5ba6deb5275c1a08e2cd8061fa28d5ce7753263f))
+
 ## 2.4.5
 
  - **FIX**: High speed and optimization. ([60c291f2](https://github.com/mathrunet/flutter_masamune/commit/60c291f22646080d7ebe53b474b8423ba0f1548a))
