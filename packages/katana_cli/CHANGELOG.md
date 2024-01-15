@@ -1,3 +1,7 @@
+## 2.13.0
+
+ - **FEAT**: Compatible with FirebaseFunctionsV2. ([7bf68993](https://github.com/mathrunet/flutter_masamune/commit/7bf68993a43958b5fce130cda419d562ca8c4f98))
+
 ## 2.12.9
 
  - **FIX**: Bug fixes. ([d0d472c3](https://github.com/mathrunet/flutter_masamune/commit/d0d472c3efbc29d38e8a4f79bb0c067089d84af4))

@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.13.0`](#katana_cli---v2130)
+
+---
+
+#### `katana_cli` - `v2.13.0`
+
+ - **FEAT**: Compatible with FirebaseFunctionsV2. ([7bf68993](https://github.com/mathrunet/flutter_masamune/commit/7bf68993a43958b5fce130cda419d562ca8c4f98))
+
+
 ## 2024-01-12
 
 ### Changes
