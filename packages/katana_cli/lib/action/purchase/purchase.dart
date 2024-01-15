@@ -264,23 +264,19 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         }
       }
       await functions.save();
-      await command(
-        "Set firebase functions config.",
-        [
-          firebaseCommand,
-          "functions:config:set",
-          "purchase.subscription_path=plugins/iap/subscription",
-          if (enableGooglePlay) ...[
-            "purchase.android.refresh_token=$googlePlayRefreshToken",
-            "purchase.android.client_id=$googlePlayClientId",
-            "purchase.android.client_secret=$googlePlayClientSecret",
-          ],
-          if (enableAppStore) ...[
-            "purchase.ios.shared_secret=$appStoreSharedSecret",
-          ],
-        ],
-        workingDirectory: "firebase",
-      );
+      label("Set firebase functions config.");
+      final env = FunctionsEnv();
+      await env.load();
+      env["PURCHASE_SUBSCRIPTIONPATH"] = "plugins/iap/subscription";
+      if (enableGooglePlay) {
+        env["PURCHASE_ANDROID_CLIENTID"] = googlePlayClientId;
+        env["PURCHASE_ANDROID_CLIENTSECRET"] = googlePlayClientSecret;
+        env["PURCHASE_ANDROID_REFRESHTOKEN"] = googlePlayRefreshToken;
+      }
+      if (enableAppStore) {
+        env["PURCHASE_IOS_SHAREDSECRET"] = appStoreSharedSecret;
+      }
+      await env.save();
       await command(
         "Deploy firebase functions.",
         [

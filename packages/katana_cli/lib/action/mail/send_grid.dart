@@ -79,15 +79,11 @@ class MailSendGridCliAction extends CliCommand with CliActionMixin {
       functions.functions.add("sendGrid()");
     }
     await functions.save();
-    await command(
-      "Set firebase functions config.",
-      [
-        firebaseCommand,
-        "functions:config:set",
-        "mail.sendgrid.api_key=${sendgrid.get("api_key", "")}",
-      ],
-      workingDirectory: "firebase",
-    );
+    label("Set firebase functions config.");
+    final env = FunctionsEnv();
+    await env.load();
+    env["MAIL_SENDGRID_APIKEY"] = sendgrid.get("api_key", "");
+    await env.save();
     await command(
       "Deploy firebase functions.",
       [

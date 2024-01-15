@@ -472,29 +472,27 @@ class StripeCliAction extends CliCommand with CliActionMixin {
         break;
     }
     await functions.save();
-    await command(
-      "Set firebase functions config.",
-      [
-        firebaseCommand,
-        "functions:config:set",
-        "purchase.stripe.secret_key=$secretKey",
-        "purchase.stripe.email_provider=$emailProvider",
-        "purchase.stripe.user_path=plugins/stripe/user",
-        "purchase.stripe.payment_path=payment",
-        "purchase.stripe.purchase_path=purchase",
-        if (webHookSecret.isNotEmpty)
-          "purchase.stripe.webhook_secret=$webHookSecret",
-        if (enableConnect && webHookConnectSecret.isNotEmpty)
-          "purchase.stripe.webhook_connect_secret=$webHookConnectSecret",
-        if (emailProvider == "gmail") ...[
-          "mail.gmail.id=${gmail.get("user_id", "")}",
-          "mail.gmail.password=${gmail.get("user_password", "")}",
-        ] else ...[
-          "mail.sendgrid.api_key=${sendgrid.get("api_key", "")}",
-        ]
-      ],
-      workingDirectory: "firebase",
-    );
+    label("Set firebase functions config.");
+    final env = FunctionsEnv();
+    await env.load();
+    env["PURCHASE_STRIPE_SECRETKEY"] = secretKey;
+    env["PURCHASE_STRIPE_EMAILPROVIDER"] = emailProvider;
+    env["PURCHASE_STRIPE_USERPATH"] = "plugins/stripe/user";
+    env["PURCHASE_STRIPE_PAYMENTPATH"] = "payment";
+    env["PURCHASE_STRIPE_PURCHASEPATH"] = "purchase";
+    if (webHookSecret.isNotEmpty) {
+      env["PURCHASE_STRIPE_WEBHOOKSECRET"] = webHookSecret!;
+    }
+    if (enableConnect && webHookConnectSecret.isNotEmpty) {
+      env["PURCHASE_STRIPE_WEBHOOKCONNECTSECRET"] = webHookConnectSecret!;
+    }
+    if (emailProvider == "gmail") {
+      env["MAIL_GMAIL_ID"] = gmail.get("user_id", "");
+      env["MAIL_GMAIL_PASSWORD"] = gmail.get("user_password", "");
+    } else {
+      env["MAIL_SENDGRID_APIKEY"] = sendgrid.get("api_key", "");
+    }
+    await env.save();
     await command(
       "Deploy firebase functions.",
       [

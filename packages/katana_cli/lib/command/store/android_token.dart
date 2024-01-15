@@ -83,17 +83,14 @@ class StoreAndroidTokenCliCommand extends CliCommand {
         functions.functions.add("androidToken()");
       }
       await functions.save();
-      await command(
-        "Set firebase functions config.",
-        [
-          firebaseCommand,
-          "functions:config:set",
-          "purchase.android.client_id=$googlePlayClientId",
-          "purchase.android.client_secret=$googlePlayClientSecret",
-          "purchase.android.redirect_uri=https://$region-$projectId.cloudfunctions.net/android_token",
-        ],
-        workingDirectory: "firebase",
-      );
+      label("Set firebase functions config.");
+      final env = FunctionsEnv();
+      await env.load();
+      env["PURCHASE_ANDROID_CLIENTID"] = googlePlayClientId;
+      env["PURCHASE_ANDROID_CLIENTSECRET"] = googlePlayClientSecret;
+      env["PURCHASE_ANDROID_REDIRECTURI"] =
+          "https://$region-$projectId.cloudfunctions.net/android_token";
+      await env.save();
       await command(
         "Deploy firebase functions.",
         [

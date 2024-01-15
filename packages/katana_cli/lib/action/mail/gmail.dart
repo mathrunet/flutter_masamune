@@ -86,16 +86,12 @@ class MailGmailCliAction extends CliCommand with CliActionMixin {
       functions.functions.add("gmail()");
     }
     await functions.save();
-    await command(
-      "Set firebase functions config.",
-      [
-        firebaseCommand,
-        "functions:config:set",
-        "mail.gmail.id=${gmail.get("user_id", "")}",
-        "mail.gmail.password=${gmail.get("user_password", "")}",
-      ],
-      workingDirectory: "firebase",
-    );
+    label("Set firebase functions config.");
+    final env = FunctionsEnv();
+    await env.load();
+    env["MAIL_GMAIL_ID"] = gmail.get("user_id", "");
+    env["MAIL_GMAIL_PASSWORD"] = gmail.get("user_password", "");
+    await env.save();
     await command(
       "Deploy firebase functions.",
       [

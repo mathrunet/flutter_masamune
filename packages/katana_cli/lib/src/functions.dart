@@ -8,6 +8,9 @@ import 'package:katana_cli/katana_cli.dart';
 ///
 /// Firebase FunctionsのFunctionを指定するためのクラス。
 class Fuctions {
+  /// Class for specifying Functions of Firebase Functions.
+  ///
+  /// Firebase FunctionsのFunctionを指定するためのクラス。
   Fuctions();
 
   static final _regExp = RegExp(
@@ -81,5 +84,64 @@ ${functions.map((e) {
 );""");
     final gradle = File("firebase/functions/src/index.ts");
     await gradle.writeAsString(_rawData);
+  }
+}
+
+/// Class for specifying environment variables of Firebase Functions.
+///
+/// Firebase Functionsの環境変数を指定するためのクラス。
+class FunctionsEnv {
+  /// Class for specifying environment variables of Firebase Functions.
+  ///
+  /// Firebase Functionsの環境変数を指定するためのクラス。
+  FunctionsEnv();
+
+  final Map<String, String> _env = {};
+
+  /// Get the environment variable.
+  ///
+  /// 環境変数を取得する。
+  operator [](String key) => _env[key];
+
+  /// Set the environment variable.
+  ///
+  /// 環境変数を設定する。
+  operator []=(String key, String value) => _env[key] = value;
+
+  /// Get the environment variable.
+  ///
+  /// 環境変数を取得する。
+  Future<void> load() async {
+    _env.clear();
+    final env = File("firebase/functions/.env");
+    if (!env.existsSync()) {
+      await env.create(recursive: true);
+    }
+    final envContent = await env.readAsString();
+    final envLines = envContent.split("\n");
+    for (final line in envLines) {
+      final index = line.trim().split("=");
+      if (index.length != 2) {
+        continue;
+      }
+      final key = index.first.trim();
+      final value = index.last.trim();
+      _env[key] = value;
+    }
+  }
+
+  /// Save environment variables.
+  ///
+  /// 環境変数を保存する。
+  Future<void> save() async {
+    final env = File("firebase/functions/.env");
+    if (!env.existsSync()) {
+      await env.create(recursive: true);
+    }
+    final buffer = StringBuffer();
+    for (final key in _env.keys) {
+      buffer.writeln("$key=${_env[key]}");
+    }
+    await env.writeAsString(buffer.toString());
   }
 }

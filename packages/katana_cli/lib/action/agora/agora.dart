@@ -86,16 +86,12 @@ class AgoraCliAction extends CliCommand with CliActionMixin {
       functions.functions.add("agoraCloudRecording()");
     }
     await functions.save();
-    await command(
-      "Set firebase functions config.",
-      [
-        firebaseCommand,
-        "functions:config:set",
-        "agora.app_id=$appId",
-        "agora.app_certificate=$appCertificate",
-      ],
-      workingDirectory: "firebase",
-    );
+    label("Set firebase functions config.");
+    final env = FunctionsEnv();
+    await env.load();
+    env["AGORA_APP_ID"] = appId;
+    env["AGORA_APP_CERTIFICATE"] = appCertificate;
+    await env.save();
     await command(
       "Deploy firebase functions.",
       [
