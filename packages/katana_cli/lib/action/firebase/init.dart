@@ -478,6 +478,21 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     gradle.android?.defaultConfig.minSdkVersion =
         "configProperties[\"flutter.minSdkVersion\"]";
     await gradle.save();
+    label("Rewrite `.gitignore`.");
+    final gitignore = File("firebase/.gitignore");
+    if (!gitignore.existsSync()) {
+      error("Cannot find `firebase/.gitignore`. Project is broken.");
+      return;
+    }
+    final gitignores = await gitignore.readAsLines();
+    if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
+      if (!gitignores.any((e) => e.startsWith(".env"))) {
+        gitignores.add(".env");
+      }
+    } else {
+      gitignores.removeWhere((e) => e.startsWith(".env"));
+    }
+    await gitignore.writeAsString(gitignores.join("\n"));
     await command(
       "Run firebase deploy",
       [
