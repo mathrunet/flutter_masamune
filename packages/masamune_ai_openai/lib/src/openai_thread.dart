@@ -122,8 +122,7 @@ class OpenAIThread
         }
         final jsonCreation =
             jsonDecodeAsMap(utf8.decode(resCreation.bodyBytes));
-        _threadId = jsonCreation.get("thread_id", "");
-        await _run(jsonCreation);
+        _threadId = jsonCreation.get("id", "");
         notifyListeners();
         _connectingCompleter?.complete(null);
         _connectingCompleter = null;
