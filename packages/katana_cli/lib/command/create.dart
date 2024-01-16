@@ -48,6 +48,7 @@ final importDevPackages = [
 /// その他の生成ファイル。
 const otherFiles = {
   "launch.json": LaunchCliCode(),
+  "settings.json": SettingsCliCode(),
 };
 
 final _faviconSize = [
@@ -1197,6 +1198,51 @@ class LaunchCliCode extends CliCode {
       "args": ["--dart-define=FLAVOR=prod", "--web-renderer", "html", "--web-port=5555", "--release"]
     }
   ]
+}
+""";
+  }
+}
+
+/// Contents of settings.json.
+///
+/// settings.jsonの中身。
+class SettingsCliCode extends CliCode {
+  /// Contents of settings.json.
+  ///
+  /// settings.jsonの中身。
+  const SettingsCliCode();
+
+  @override
+  String get name => "settings";
+
+  @override
+  String get prefix => "settings";
+
+  @override
+  String get directory => ".vscode";
+
+  @override
+  String get description =>
+      "Create settings.json for VSCode. VSCode用のsettings.jsonを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+{
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "*.dart": "$(capture).m.dart,$(capture).page.dart,$(capture).localize.dart,$(capture).theme.dart,$(capture).g.dart,$(capture).freezed.dart"
+    }
 }
 """;
   }
