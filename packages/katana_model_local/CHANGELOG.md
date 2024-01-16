@@ -1,3 +1,7 @@
+## 2.9.3
+
+ - **FIX**: Change count to aggregate. ([70d16a23](https://github.com/mathrunet/flutter_masamune/commit/70d16a23d368d9e581645a3e30b3ac7c659efce1))
+
 ## 2.9.2
 
  - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))

@@ -1,3 +1,7 @@
+## 2.13.6
+
+ - **FIX**: Change count to aggregate. ([70d16a23](https://github.com/mathrunet/flutter_masamune/commit/70d16a23d368d9e581645a3e30b3ac7c659efce1))
+
 ## 2.13.5
 
  - **FIX**: Firestore in-query limit raised. ([ab0ed795](https://github.com/mathrunet/flutter_masamune/commit/ab0ed795c72c1eaf545036212f9b937e765709b8))

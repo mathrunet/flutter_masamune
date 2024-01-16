@@ -1,3 +1,7 @@
+## 2.4.7
+
+ - **FIX**: Change count to aggregate. ([70d16a23](https://github.com/mathrunet/flutter_masamune/commit/70d16a23d368d9e581645a3e30b3ac7c659efce1))
+
 ## 2.4.6
 
  - **FIX**: Fixed a bug in case of no InitialMessage. ([5ba6deb5](https://github.com/mathrunet/flutter_masamune/commit/5ba6deb5275c1a08e2cd8061fa28d5ce7753263f))

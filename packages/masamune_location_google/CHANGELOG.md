@@ -1,3 +1,7 @@
+## 2.3.11
+
+ - **FIX**: Change the Example package. ([95b2f172](https://github.com/mathrunet/flutter_masamune/commit/95b2f1720c539ff92a82d88d95e3230ced08bb22))
+
 ## 2.3.10
 
  - Update a dependency to the latest release.
