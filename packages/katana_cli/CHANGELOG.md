@@ -1,3 +1,7 @@
+## 2.13.2
+
+ - **FIX**: Addition of Settings.json. ([908007c1](https://github.com/mathrunet/flutter_masamune/commit/908007c14b265ed97edc1e640bee8e3c1eb56d8f))
+
 ## 2.13.1
 
  - **FIX**: Added GitIgnore settings. ([3a31e028](https://github.com/mathrunet/flutter_masamune/commit/3a31e02800c1d5ad19f1679e570c2651a1f64fe4))

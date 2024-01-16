@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.13.2`](#katana_cli---v2132)
+
+---
+
+#### `katana_cli` - `v2.13.2`
+
+ - **FIX**: Addition of Settings.json. ([908007c1](https://github.com/mathrunet/flutter_masamune/commit/908007c14b265ed97edc1e640bee8e3c1eb56d8f))
+
+
 ## 2024-01-15
 
 ### Changes
