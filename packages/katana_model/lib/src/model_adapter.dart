@@ -97,14 +97,17 @@ abstract class ModelAdapter {
     ModelAdapterCollectionQuery query,
   );
 
-  /// Returns the number of all elements stored in the DB, including search criteria.
+  /// Aggregate queries against data collections to retrieve data.
   ///
-  /// Pass [query] to the platform set by the adapter to get the number of collections.
+  /// Pass [query] to the platform configured in the adapter to specify a collection and [aggregateQuery] to specify an aggregate query.
   ///
-  /// 検索条件を含めてDBに保存されているすべての要素の数を返します。
+  /// データコレクションに対しての集計クエリでデータを取得します。
   ///
-  /// アダプターで設定されたプラットフォームに[query]を渡してコレクションの数を取得します。
-  Future<int> loadCollectionCount(ModelAdapterCollectionQuery query);
+  /// アダプターで設定されたプラットフォームに[query]を渡してコレクションを指定し、[aggregateQuery]で集計クエリを指定します。
+  Future<num> loadAggregation(
+    ModelAdapterCollectionQuery query,
+    ModelAggregateQuery aggregateQuery,
+  );
 
   /// By passing the [query] and the [value] to be stored, the data is stored on the platform set by the adapter.
   ///

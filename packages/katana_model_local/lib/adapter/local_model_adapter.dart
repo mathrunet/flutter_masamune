@@ -139,13 +139,51 @@ class LocalModelAdapter extends ModelAdapter {
   }
 
   @override
-  Future<int> loadCollectionCount(ModelAdapterCollectionQuery query) async {
+  Future<num> loadAggregation(
+    ModelAdapterCollectionQuery query,
+    ModelAggregateQuery aggregateQuery,
+  ) async {
     _assert();
-    final data = await database.loadCollection(
-      query.copyWith(query: query.query.remove(ModelQueryFilterType.limit)),
-      prefix: prefix,
-    );
-    return data.length;
+    switch (aggregateQuery.type) {
+      case ModelAggregateQueryType.count:
+        final data = await database.loadCollection(
+          query.copyWith(query: query.query.remove(ModelQueryFilterType.limit)),
+          prefix: prefix,
+        );
+        return data.length;
+      case ModelAggregateQueryType.sum:
+        final key = aggregateQuery.key;
+        assert(
+          key.isNotEmpty,
+          "Enter [key] for [ModelAggregateQueryType.sum].",
+        );
+        final data = await database.loadCollection(
+          query.copyWith(query: query.query.remove(ModelQueryFilterType.limit)),
+          prefix: prefix,
+        );
+        if (data.isEmpty) {
+          return 0.0;
+        }
+        return data?.values.fold<double>(0.0, (p, e) => p + e.get(key!, 0.0)) ??
+            0.0;
+      case ModelAggregateQueryType.average:
+        final key = aggregateQuery.key;
+        assert(
+          aggregateQuery.key.isNotEmpty,
+          "Enter [key] for [ModelAggregateQueryType.average].",
+        );
+        final data = await database.loadCollection(
+          query.copyWith(query: query.query.remove(ModelQueryFilterType.limit)),
+          prefix: prefix,
+        );
+        if (data.isEmpty) {
+          return 0.0;
+        }
+        return (data?.values
+                    .fold<double>(0.0, (p, e) => p + e.get(key!, 0.0)) ??
+                0.0) /
+            data.length;
+    }
   }
 
   @override

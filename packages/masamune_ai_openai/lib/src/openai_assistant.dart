@@ -248,11 +248,6 @@ class _OpenAIAssistantAdapter extends ModelAdapter {
   }
 
   @override
-  Future<int> loadCollectionCount(ModelAdapterCollectionQuery query) {
-    throw UnsupportedError("This adapter is not supported this function.");
-  }
-
-  @override
   Future<void> saveDocument(
       ModelAdapterDocumentQuery query, DynamicMap value) async {
     final res = (await database.loadDocument(query)) ??
@@ -378,6 +373,12 @@ class _OpenAIAssistantAdapter extends ModelAdapter {
   @override
   void saveOnTransaction(ModelTransactionRef ref,
       ModelAdapterDocumentQuery query, DynamicMap value) {
+    throw UnsupportedError("This adapter is not supported this function.");
+  }
+
+  @override
+  Future<num> loadAggregation(
+      ModelAdapterCollectionQuery query, ModelAggregateQuery aggregateQuery) {
     throw UnsupportedError("This adapter is not supported this function.");
   }
 }

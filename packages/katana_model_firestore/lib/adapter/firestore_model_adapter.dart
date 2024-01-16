@@ -355,23 +355,64 @@ class FirestoreModelAdapter extends ModelAdapter
   }
 
   @override
-  Future<int> loadCollectionCount(
-    ModelAdapterCollectionQuery query, {
-    Iterable? retreivedList,
-  }) async {
+  Future<num> loadAggregation(
+    ModelAdapterCollectionQuery query,
+    ModelAggregateQuery aggregateQuery,
+  ) async {
     _assert();
     await FirebaseCore.initialize(options: options);
-    final snapshot = await Future.wait<AggregateQuerySnapshot>(
-      _collectionReference(
-        query.copyWith(
-          query: query.query.remove(ModelQueryFilterType.limit),
-        ),
-      ).map(
-        (reference) => reference.count().get(),
-      ),
-    );
-    final res = snapshot.fold<int>(0, (p, e) => p + (e.count ?? 0));
-    return res;
+    switch (aggregateQuery.type) {
+      case ModelAggregateQueryType.count:
+        final snapshot = await Future.wait<AggregateQuerySnapshot>(
+          _collectionReference(
+            query.copyWith(
+              query: query.query.remove(ModelQueryFilterType.limit),
+            ),
+          ).map(
+            (reference) => reference.count().get(),
+          ),
+        );
+        final res = snapshot.fold<int>(0, (p, e) => p + (e.count ?? 0));
+        return res;
+      case ModelAggregateQueryType.sum:
+        final key = aggregateQuery.key;
+        assert(
+          key.isNotEmpty,
+          "Enter [key] for [ModelAggregateQueryType.sum].",
+        );
+        final snapshot = await Future.wait<AggregateQuerySnapshot>(
+          _collectionReference(
+            query.copyWith(
+              query: query.query.remove(ModelQueryFilterType.limit),
+            ),
+          ).map(
+            (reference) => reference.aggregate(sum(key!)).get(),
+          ),
+        );
+        final res = snapshot.fold<double>(0.0, (p, e) => p + (e.count ?? 0.0));
+        return res;
+      case ModelAggregateQueryType.average:
+        final key = aggregateQuery.key;
+        assert(
+          aggregateQuery.key.isNotEmpty,
+          "Enter [key] for [ModelAggregateQueryType.average].",
+        );
+        final snapshot = await Future.wait<AggregateQuerySnapshot>(
+          _collectionReference(
+            query.copyWith(
+              query: query.query.remove(ModelQueryFilterType.limit),
+            ),
+          ).map(
+            (reference) => reference.aggregate(average(key!)).get(),
+          ),
+        );
+        if (snapshot.isEmpty) {
+          return 0.0;
+        }
+        final res = snapshot.fold<double>(0.0, (p, e) => p + (e.count ?? 0.0)) /
+            snapshot.length;
+        return res;
+    }
   }
 
   @override

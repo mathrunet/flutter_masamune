@@ -339,35 +339,24 @@ abstract class CollectionBase<TModel extends DocumentBase>
 
   /// Get the number of elements in all collections existing in the database.
   ///
-  /// [AsyncModelValue] is returned, wait a moment and then retrieve the value from [AsyncModelValue.value].
+  /// [AsyncAggregateValue] is returned, wait a moment and then retrieve the value from [AsyncAggregateValue.value].
   ///
-  /// Normally, the value loaded the first time is retained, but if [reload] is set to `true`, it is loaded again.
+  /// Values loaded with [load] are normally retained, but will be reloaded when [reload] is executed.
   ///
   /// データベース上に存在するすべてのコレクションの要素数を取得します。
   ///
-  /// [AsyncModelValue]が返されるので少し待ったあと[AsyncModelValue.value]から値を取得してください。
+  /// [AsyncAggregateValue]が返されるので少し待ったあと[AsyncAggregateValue.value]から値を取得してください。
   ///
-  /// 通常は初回に読み込んだ値が保持されますが[reload]を`true`にすると再度読み込みを行います。
-  AsyncModelValue count({bool reload = false}) {
-    if (reload) {
-      _count = null;
-    }
-    _count ??= AsyncModelValue._(_countRequest());
-    return _count!;
+  /// [load]で読み込んだ値は通常は保持されますが、[reload]を実行した場合は再度読み込まれます。
+  CollectionAggregateQuery aggregate(ModelAggregateQuery query) {
+    return CollectionAggregateQuery._(
+      query: query,
+      collection: this,
+      onFinished: notifyListeners,
+    );
   }
 
-  Future<int> _countRequest() async {
-    final count = await modelQuery.adapter.loadCollectionCount(databaseQuery);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      notifyListeners();
-    });
-    if (count < length) {
-      return length;
-    }
-    return count;
-  }
-
-  AsyncModelValue? _count;
+  final List<AsyncAggregateValue> _aggregate = [];
 
   /// {@macro model_transaction}
   ///
