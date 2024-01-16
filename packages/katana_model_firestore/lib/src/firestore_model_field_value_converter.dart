@@ -1,5 +1,8 @@
 part of '/katana_model_firestore.dart';
 
+const _kCollectionQuerySplitCount = 30;
+const _kCollectionQuerySplitCountOnNotIn = 10;
+
 /// Base class for converting [ModelFieldValue] for use in Firestore.
 ///
 /// Firestoreで利用するための[ModelFieldValue]の変換を行うベースクラス。
@@ -291,14 +294,14 @@ abstract class FirestoreModelFieldValueConverter {
             .map((e) => convertQueryValue(e, filter, query, adapter))
             .toList();
         final queries = <Query<DynamicMap>>[];
-        for (var i = 0; i < list.length; i += 10) {
+        for (var i = 0; i < list.length; i += _kCollectionQuerySplitCount) {
           queries.add(
             generator().where(
               filter.key!,
               arrayContainsAny: list
                   .sublist(
                     i,
-                    min(i + 10, list.length),
+                    min(i + _kCollectionQuerySplitCount, list.length),
                   )
                   .toList(),
             ),
@@ -310,14 +313,14 @@ abstract class FirestoreModelFieldValueConverter {
             .map((e) => convertQueryValue(e, filter, query, adapter))
             .toList();
         final queries = <Query<DynamicMap>>[];
-        for (var i = 0; i < list.length; i += 10) {
+        for (var i = 0; i < list.length; i += _kCollectionQuerySplitCount) {
           queries.add(
             generator().where(
               filter.key!,
               whereIn: list
                   .sublist(
                     i,
-                    min(i + 10, list.length),
+                    min(i + _kCollectionQuerySplitCount, list.length),
                   )
                   .toList(),
             ),
@@ -329,14 +332,16 @@ abstract class FirestoreModelFieldValueConverter {
             .map((e) => convertQueryValue(e, filter, query, adapter))
             .toList();
         final queries = <Query<DynamicMap>>[];
-        for (var i = 0; i < list.length; i += 10) {
+        for (var i = 0;
+            i < list.length;
+            i += _kCollectionQuerySplitCountOnNotIn) {
           queries.add(
             generator().where(
               filter.key!,
               whereNotIn: list
                   .sublist(
                     i,
-                    min(i + 10, list.length),
+                    min(i + _kCollectionQuerySplitCountOnNotIn, list.length),
                   )
                   .toList(),
             ),
