@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model_firestore` - `v2.13.5`](#katana_model_firestore---v2135)
+
+---
+
+#### `katana_model_firestore` - `v2.13.5`
+
+ - **FIX**: Firestore in-query limit raised. ([ab0ed795](https://github.com/mathrunet/flutter_masamune/commit/ab0ed795c72c1eaf545036212f9b937e765709b8))
+
+
+## 2024-01-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.13.2`](#katana_cli---v2132)
 
 ---

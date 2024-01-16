@@ -1,3 +1,7 @@
+## 2.13.5
+
+ - **FIX**: Firestore in-query limit raised. ([ab0ed795](https://github.com/mathrunet/flutter_masamune/commit/ab0ed795c72c1eaf545036212f9b937e765709b8))
+
 ## 2.13.4
 
  - **FIX**: Fixed to match the fix on the Firestore side. ([6fece244](https://github.com/mathrunet/flutter_masamune/commit/6fece2446ff992a8f7070d8d24c5cb0aa65d0fa2))
