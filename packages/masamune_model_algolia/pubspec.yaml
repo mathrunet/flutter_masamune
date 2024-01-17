@@ -17,7 +17,7 @@ dependencies:
   meta: ^1.8.0
 
   katana: ^2.10.1
-  masamune: ^2.6.8
+  masamune: ^2.6.9
   algolia_helper_flutter: ^0.5.0
 dev_dependencies:
   test: ^1.24.0

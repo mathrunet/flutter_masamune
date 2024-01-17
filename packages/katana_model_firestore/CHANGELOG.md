@@ -1,3 +1,7 @@
+## 2.13.7
+
+ - Update a dependency to the latest release.
+
 ## 2.13.6
 
  - **FIX**: Change count to aggregate. ([70d16a23](https://github.com/mathrunet/flutter_masamune/commit/70d16a23d368d9e581645a3e30b3ac7c659efce1))

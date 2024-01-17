@@ -1,3 +1,7 @@
+## 2.18.4
+
+ - **FIX**: Fixed a bug that the first time loading was not performed when Listen. ([e02ccbd9](https://github.com/mathrunet/flutter_masamune/commit/e02ccbd98be8deacce77275083af26673af42d55))
+
 ## 2.18.3
 
  - **FIX**: Change count to aggregate. ([70d16a23](https://github.com/mathrunet/flutter_masamune/commit/70d16a23d368d9e581645a3e30b3ac7c659efce1))
