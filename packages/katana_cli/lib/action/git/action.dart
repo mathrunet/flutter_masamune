@@ -40,7 +40,7 @@ class GitActionCliAction extends CliCommand with CliActionMixin {
     final platforms = action.get("platform", "").trimString(" ").split(" ");
     if (platforms.isEmpty) {
       error(
-        "Platform is not specified. Please pass the platform you want to support as a parameter, like `katana github action android ios web`. Supported platforms are `android`, `ios`, `web`, `windows`, `macos`, and `linux`.",
+        "Platform is not specified. Please pass the platform you want to support as a parameter. Supported platforms are `android`, `ios`, `web`, `windows`, `macos`, and `linux`.",
       );
       return;
     }
