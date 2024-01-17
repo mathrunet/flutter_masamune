@@ -434,10 +434,8 @@ abstract class DocumentBase<T> extends ChangeNotifier
       subscriptions.addAll(
         await modelQuery.adapter.listenDocument(databaseQuery),
       );
-      return null;
-    } else {
-      return await modelQuery.adapter.loadDocument(databaseQuery);
     }
+    return await modelQuery.adapter.loadDocument(databaseQuery);
   }
 
   /// Implement internal processing when [save] is executed.

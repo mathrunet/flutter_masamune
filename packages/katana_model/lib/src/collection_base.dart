@@ -457,10 +457,8 @@ abstract class CollectionBase<TModel extends DocumentBase>
       subscriptions.addAll(
         await modelQuery.adapter.listenCollection(databaseQuery),
       );
-      return null;
-    } else {
-      return await modelQuery.adapter.loadCollection(databaseQuery);
     }
+    return await modelQuery.adapter.loadCollection(databaseQuery);
   }
 
   /// Describe the callback process to pass to [ModelAdapterCollectionQuery.callback].
