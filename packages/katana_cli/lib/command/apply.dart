@@ -17,6 +17,7 @@ import 'package:katana_cli/action/app/speech_to_text.dart';
 import 'package:katana_cli/action/app/spread_sheet.dart';
 import 'package:katana_cli/action/app/text_to_speech.dart';
 import 'package:katana_cli/action/ecosystem/ecosystem.dart';
+import 'package:katana_cli/action/firebase/algolia.dart';
 import 'package:katana_cli/action/firebase/authentication.dart';
 import 'package:katana_cli/action/firebase/dynamic_links.dart';
 import 'package:katana_cli/action/firebase/init.dart';
@@ -52,6 +53,7 @@ const _actions = <CliActionMixin>[
   FirebaseSchedulerCliAction(),
   FirebaseMessagingCliAction(),
   FirebaseDynamicLinksCliAction(),
+  FirebaseAlogliaCliAction(),
   FirebaseTermsAndPrivacyCliAction(),
   GitActionCliAction(),
   GitPreCommitCliAction(),

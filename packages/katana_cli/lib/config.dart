@@ -285,6 +285,20 @@ ${showAllConfig ? """
     enable: false
     host:
 
+  # The contents of the target [path] document are indexed by Algolia and made searchable.
+  # Please enter Algolia's Application ID in [app_id] and Algolia's API Key in [api_key].
+  # Each can be confirmed and issued from the [API Key] screen of the [Settings] screen on the lower left of the dashboard.
+  # [path] must be a path for the collection.
+  # 対象の[path]のドキュメントの内容をAlgoliaにてインデックスし、検索可能にします。
+  # [app_id]にAlgoliaのApplication ID、[api_key]にAlgoliaのAPI Keyを記載してください。
+  # それぞれダッシュボードの左下の[Settings]画面の[API Key]の画面から確認・発行が可能です。
+  # [path]は必ずコレクション用のパスである必要があります。
+  algolia:
+    enable: false
+    path: 
+    app_id:
+    api_key:
+
 ${showAllConfig ? """
   
   # Deploy Terms of Use and Privacy Policy data to Firebase Hosting.
