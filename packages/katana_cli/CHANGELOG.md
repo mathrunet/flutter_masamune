@@ -1,3 +1,7 @@
+## 2.13.3
+
+ - **FIX**: Added Algolia. ([ea0efba8](https://github.com/mathrunet/flutter_masamune/commit/ea0efba8edf86797f7a8a475292a3684876dbd22))
+
 ## 2.13.2
 
  - **FIX**: Addition of Settings.json. ([908007c1](https://github.com/mathrunet/flutter_masamune/commit/908007c14b265ed97edc1e640bee8e3c1eb56d8f))

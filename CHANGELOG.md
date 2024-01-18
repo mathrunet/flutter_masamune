@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.13.3`](#katana_cli---v2133)
+
+---
+
+#### `katana_cli` - `v2.13.3`
+
+ - **FIX**: Added Algolia. ([ea0efba8](https://github.com/mathrunet/flutter_masamune/commit/ea0efba8edf86797f7a8a475292a3684876dbd22))
+
+
 ## 2024-01-17
 
 ### Changes
