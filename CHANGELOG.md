@@ -15,6 +15,28 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_model_algolia` - `v2.1.0`](#masamune_model_algolia---v210)
+
+---
+
+#### `masamune_model_algolia` - `v2.1.0`
+
+ - **FIX**: Publish enabled. ([c1f4791e](https://github.com/mathrunet/flutter_masamune/commit/c1f4791e528dbcebc8c56adfa56bd83ecfeddc6d))
+ - **FEAT**: Initial commit. ([96456c12](https://github.com/mathrunet/flutter_masamune/commit/96456c128a5b9a29903ce877a8612034dae79ba7))
+
+
+## 2024-01-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.13.3`](#katana_cli---v2133)
 
 ---
