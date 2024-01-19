@@ -6,11 +6,13 @@ part of '/masamune_model_algolia.dart';
 ///
 /// Only [loadCollection] is available.
 ///
+/// Give [firestoreModelAdapter] and use Firestore except for [loadCollection].
+///
 /// Algoliaを利用できるようにしたモデルアダプター。
 ///
 /// Algoliaのダッシュボードにて[applicationId]と[apiKey]を取得して与えてください。
 ///
-/// [loadCollection]のみ利用可能です。
+/// [firestoreModelAdapter]を与え[loadCollection]以外はFirestoreを利用するようにします。
 class AlgoliaModelAdapter extends ModelAdapter {
   /// Model adapter with Algolia available.
   ///
@@ -18,15 +20,20 @@ class AlgoliaModelAdapter extends ModelAdapter {
   ///
   /// Only [loadCollection] is available.
   ///
+  /// Give [firestoreModelAdapter] and use Firestore except for [loadCollection].
+  ///
   /// Algoliaを利用できるようにしたモデルアダプター。
   ///
   /// Algoliaのダッシュボードにて[applicationId]と[apiKey]を取得して与えてください。
   ///
-  /// [loadCollection]のみ利用可能です。
+  /// [firestoreModelAdapter]を与え[loadCollection]以外は
   const AlgoliaModelAdapter({
+    required this.firestoreModelAdapter,
     required this.applicationId,
     required this.apiKey,
   });
+
+  final FirestoreModelAdapterBase firestoreModelAdapter;
 
   /// Algolia application ID.
   ///
@@ -38,74 +45,95 @@ class AlgoliaModelAdapter extends ModelAdapter {
   /// AlgoliaのAPIキー。
   final String apiKey;
 
-  static final Map<String, _AlgoliaSearcherCache> _cache = {};
+  /// A special class can be registered as a [ModelFieldValue] by passing [FirestoreModelFieldValueConverter] to [converter].
+  ///
+  /// [FirestoreModelFieldValueConverter]を[converter]に渡すことで特殊なクラスを[ModelFieldValue]として登録することができます。
+  static void registerConverter(FirestoreModelFieldValueConverter converter) {
+    _converters.add(converter);
+  }
+
+  /// By passing [FirestoreModelFieldValueConverter] to [converter], you can release an already registered [FirestoreModelFieldValueConverter].
+  ///
+  /// [converter]に[FirestoreModelFieldValueConverter]を渡すことですでに登録されている[FirestoreModelFieldValueConverter]を解除することができます。
+  static void unregisterConverter(FirestoreModelFieldValueConverter converter) {
+    _converters.remove(converter);
+  }
+
+  static final Set<FirestoreModelFieldValueConverter> _converters = {
+    ...FirestoreModelFieldValueConverter.defaultConverters
+  }..removeWhere((element) => element is FirestoreModelRefConverter);
 
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
-    throw UnsupportedError("This function is not available.");
+    await firestoreModelAdapter.deleteDocument(query);
   }
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
-    throw UnsupportedError("This function is not available.");
+    return firestoreModelAdapter.loadDocument(query);
   }
 
   @override
-  void disposeCollection(ModelAdapterCollectionQuery query) {
-    final path = _path(query.query.path);
-    final indexName = path.last();
-    final cache = _cache[indexName];
-    cache?.subscription.cancel();
-    _cache.remove(indexName);
-  }
+  void disposeCollection(ModelAdapterCollectionQuery query) {}
 
   @override
   void disposeDocument(ModelAdapterDocumentQuery query) {
-    throw UnsupportedError("This function is not available.");
+    firestoreModelAdapter.disposeDocument(query);
   }
 
   @override
   Future<Map<String, DynamicMap>> loadCollection(
     ModelAdapterCollectionQuery query,
   ) async {
-    final cache = await _loadCollection(query);
-    return cache?.results ?? {};
+    final response = await _loadCollection(query);
+    return response?.results ?? {};
   }
 
-  Future<_AlgoliaSearcherCache?> _loadCollection(
+  Future<_AlgoliaResponce?> _loadCollection(
     ModelAdapterCollectionQuery query,
   ) async {
     final path = _path(query.query.path);
     final indexName = path.last();
-    final cache = _cache[indexName];
-    final searcher = cache?.searcher ??
-        HitsSearcher.create(
-          applicationID: applicationId,
-          apiKey: apiKey,
-          state: SearchState(
-            indexName: indexName,
-            page: _page(query),
-            hitsPerPage: _hitsPerPage(query),
-            query: _query(query),
-          ),
-        );
-    final stream = cache?.stream ?? searcher.responses;
-    final subscription = cache?.subscription ??
-        stream.listen(
-          (event) {
-            _update(indexName, event);
-          },
-        );
-    _cache[indexName] = cache ??
-        _AlgoliaSearcherCache(
+    Completer<void>? completer;
+    _AlgoliaResponce? response;
+    HitsSearcher? searcher;
+    StreamSubscription? subscription;
+    try {
+      completer = Completer<void>();
+      searcher = HitsSearcher.create(
+        applicationID: applicationId,
+        apiKey: apiKey,
+        state: SearchState(
           indexName: indexName,
-          searcher: searcher,
-          stream: stream,
-          subscription: subscription,
-        );
-    final event = await stream.last;
-    _update(indexName, event);
-    return cache;
+          page: _page(query),
+          hitsPerPage: _hitsPerPage(query),
+          query: _query(query),
+        ),
+      );
+      subscription = searcher.responses.listen(
+        (event) {
+          response = _update(query, event);
+          completer?.complete();
+          completer = null;
+        },
+        onError: (e) {
+          completer?.completeError(e);
+          completer = null;
+        },
+      );
+      await completer?.future;
+      completer = null;
+      return response;
+    } catch (e) {
+      completer?.completeError(e);
+      completer = null;
+      rethrow;
+    } finally {
+      subscription?.cancel();
+      searcher?.dispose();
+      completer?.complete();
+      completer = null;
+    }
   }
 
   @override
@@ -115,8 +143,8 @@ class AlgoliaModelAdapter extends ModelAdapter {
   ) async {
     switch (aggregateQuery.type) {
       case ModelAggregateQueryType.count:
-        final cache = await _loadCollection(query);
-        return cache?.length ?? 0;
+        final response = await _loadCollection(query);
+        return response?.length ?? 0;
       default:
         throw UnsupportedError("This function is not available.");
     }
@@ -127,7 +155,7 @@ class AlgoliaModelAdapter extends ModelAdapter {
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) async {
-    throw UnsupportedError("This function is not available.");
+    return firestoreModelAdapter.saveDocument(query, value);
   }
 
   @override
@@ -152,7 +180,7 @@ class AlgoliaModelAdapter extends ModelAdapter {
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
   ) {
-    throw UnsupportedError("This function is not available.");
+    return firestoreModelAdapter.deleteOnTransaction(ref, query);
   }
 
   @override
@@ -160,7 +188,7 @@ class AlgoliaModelAdapter extends ModelAdapter {
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
   ) async {
-    throw UnsupportedError("This function is not available.");
+    return firestoreModelAdapter.loadOnTransaction(ref, query);
   }
 
   @override
@@ -169,7 +197,7 @@ class AlgoliaModelAdapter extends ModelAdapter {
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) {
-    throw UnsupportedError("This function is not available.");
+    return firestoreModelAdapter.saveOnTransaction(ref, query, value);
   }
 
   @override
@@ -178,12 +206,12 @@ class AlgoliaModelAdapter extends ModelAdapter {
       ModelTransactionRef ref,
     ) transaction,
   ) async {
-    throw UnsupportedError("This function is not available.");
+    return firestoreModelAdapter.runTransaction(transaction);
   }
 
   @override
   void deleteOnBatch(ModelBatchRef ref, ModelAdapterDocumentQuery query) {
-    throw UnsupportedError("This function is not available.");
+    deleteOnBatch(ref, query);
   }
 
   @override
@@ -193,7 +221,7 @@ class AlgoliaModelAdapter extends ModelAdapter {
     ) batch,
     int splitLength,
   ) async {
-    throw UnsupportedError("This function is not available.");
+    return firestoreModelAdapter.runBatch(batch, splitLength);
   }
 
   @override
@@ -202,12 +230,12 @@ class AlgoliaModelAdapter extends ModelAdapter {
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) {
-    throw UnsupportedError("This function is not available.");
+    return firestoreModelAdapter.saveOnBatch(ref, query, value);
   }
 
   @override
   Future<void> clearAll() {
-    throw UnimplementedError("This function is not available.");
+    return firestoreModelAdapter.clearAll();
   }
 
   int? _page(
@@ -243,23 +271,44 @@ class AlgoliaModelAdapter extends ModelAdapter {
     return null;
   }
 
-  void _update(String indexName, SearchResponse response) {
-    final cache = _cache[indexName];
-    if (cache == null) {
-      return;
-    }
+  _AlgoliaResponce _update(
+    ModelAdapterCollectionQuery query,
+    SearchResponse response,
+  ) {
     final res = <String, DynamicMap>{};
     for (final hit in response.hits) {
       final key = hit.get(kUidFieldKey, "");
       if (key.isEmpty) {
         continue;
       }
-      res[key] = Map.from(hit);
+      res[key] = _convertFrom(Map.from(hit));
     }
-    _cache[indexName] = cache.copyWith(
+    return _AlgoliaResponce(
       results: res,
       length: response.nbHits,
     );
+  }
+
+  DynamicMap _convertFrom(DynamicMap map) {
+    final res = <String, dynamic>{};
+
+    for (final tmp in map.entries) {
+      final key = tmp.key;
+      final val = tmp.value;
+      DynamicMap? replaced;
+      for (final converter in _converters) {
+        replaced = converter.convertFrom(key, val, map);
+        if (replaced != null) {
+          break;
+        }
+      }
+      if (replaced != null) {
+        res.addAll(replaced);
+      } else {
+        res[key] = val;
+      }
+    }
+    return res;
   }
 
   String _path(String original) {
@@ -274,43 +323,19 @@ class AlgoliaModelAdapter extends ModelAdapter {
 
   @override
   int get hashCode {
-    return applicationId.hashCode ^ apiKey.hashCode;
+    return applicationId.hashCode ^
+        apiKey.hashCode ^
+        firestoreModelAdapter.hashCode;
   }
 }
 
 @immutable
-class _AlgoliaSearcherCache {
-  const _AlgoliaSearcherCache({
-    required this.indexName,
-    required this.searcher,
-    required this.stream,
-    required this.subscription,
-    this.results = const {},
-    this.length = 0,
+class _AlgoliaResponce {
+  const _AlgoliaResponce({
+    required this.results,
+    required this.length,
   });
 
-  final String indexName;
-  final HitsSearcher searcher;
-  final Stream<SearchResponse> stream;
-  final StreamSubscription<SearchResponse> subscription;
-
-  final Map<String, DynamicMap> results;
+  final Map<String, Map<String, dynamic>> results;
   final int length;
-
-  _AlgoliaSearcherCache copyWith({
-    Map<String, DynamicMap>? results,
-    int? length,
-  }) {
-    return _AlgoliaSearcherCache(
-      indexName: indexName,
-      searcher: searcher,
-      stream: stream,
-      subscription: subscription,
-      results: {
-        ...this.results,
-        if (results != null) ...results,
-      },
-      length: length ?? this.length,
-    );
-  }
 }
