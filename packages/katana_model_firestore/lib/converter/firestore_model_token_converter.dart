@@ -82,8 +82,7 @@ class FirestoreModelTokenConverter extends FirestoreModelFieldValueConverter {
     ModelQueryFilter filter,
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
-  ]
-  ) {
+  ]) {
     return (filter.value as ModelToken).value.join(",");
   }
 
@@ -93,8 +92,7 @@ class FirestoreModelTokenConverter extends FirestoreModelFieldValueConverter {
     ModelQueryFilter filter,
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
-  ]
-  ) {
+  ]) {
     return value is ModelToken;
   }
 
@@ -104,8 +102,7 @@ class FirestoreModelTokenConverter extends FirestoreModelFieldValueConverter {
     ModelQueryFilter filter,
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
-  ]
-  ) {
+  ]) {
     if (!enabledQuery(filter.value, filter, query, adapter)) {
       return null;
     }
@@ -153,8 +150,7 @@ class FirestoreModelTokenConverter extends FirestoreModelFieldValueConverter {
     ModelQueryFilter filter,
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
-  ]
-  ) {
+  ]) {
     if (!items.every((e) => enabledQuery(e, filter, query, adapter))) {
       return null;
     }

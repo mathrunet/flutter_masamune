@@ -18,8 +18,7 @@ class FirestoreNullConverter extends FirestoreModelFieldValueConverter {
     Object? value,
     DynamicMap original, [
     FirestoreModelAdapterBase? adapter,
-  ]
-  ) =>
+  ]) =>
       null;
 
   @override
@@ -28,8 +27,7 @@ class FirestoreNullConverter extends FirestoreModelFieldValueConverter {
     Object? value,
     DynamicMap original, [
     FirestoreModelAdapterBase? adapter,
-  ]
-  ) {
+  ]) {
     if (value is DynamicMap && original.containsKey(key)) {
       final originalMap = original[key];
       if (originalMap is Map) {
@@ -53,8 +51,7 @@ class FirestoreNullConverter extends FirestoreModelFieldValueConverter {
     ModelQueryFilter filter,
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
-  ]
-  ) {
+  ]) {
     return null;
   }
 
@@ -64,8 +61,7 @@ class FirestoreNullConverter extends FirestoreModelFieldValueConverter {
     ModelQueryFilter filter,
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
-  ]
-  ) {
+  ]) {
     return value == null;
   }
 }

@@ -138,8 +138,7 @@ class FirestoreModelVideoUriConverter
     ModelQueryFilter filter,
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
-  ]
-  ) {
+  ]) {
     return (filter.value as ModelVideoUri).value;
   }
 
@@ -149,8 +148,7 @@ class FirestoreModelVideoUriConverter
     ModelQueryFilter filter,
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
-  ]
-  ) {
+  ]) {
     return value is ModelVideoUri;
   }
 }
