@@ -13,6 +13,28 @@ abstract class FirestoreModelFieldValueConverter {
   /// Firestoreで利用するための[ModelFieldValue]の変換を行うベースクラス。
   const FirestoreModelFieldValueConverter();
 
+  /// List of converters for converting Firestore values.
+  ///
+  /// Firestoreの値を変換するためのコンバーター一覧。
+  static const Set<FirestoreModelFieldValueConverter> defaultConverters = {
+    FirestoreModelCommandBaseConverter(),
+    FirestoreModelCounterConverter(),
+    FirestoreModelTimestampConverter(),
+    FirestoreModelDateConverter(),
+    FirestoreModelLocaleConverter(),
+    FirestoreModelLocalizedValueConverter(),
+    FirestoreModelUriConverter(),
+    FirestoreModelImageUriConverter(),
+    FirestoreModelVideoUriConverter(),
+    FirestoreModelSearchConverter(),
+    FirestoreModelTokenConverter(),
+    FirestoreModelGeoValueConverter(),
+    FirestoreModelRefConverter(),
+    FirestoreEnumConverter(),
+    FirestoreNullConverter(),
+    FirestoreBasicConverter(),
+  };
+
   /// The type of [ModelFieldValue] that can be converted.
   ///
   /// 変換可能な[ModelFieldValue]の型。
@@ -36,9 +58,9 @@ abstract class FirestoreModelFieldValueConverter {
   DynamicMap? convertFrom(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  );
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]);
 
   /// Convert from [ModelFieldValue] to a type that can be managed by Firestore.
   ///
@@ -58,31 +80,31 @@ abstract class FirestoreModelFieldValueConverter {
   DynamicMap? convertTo(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  );
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]);
 
   bool enabledQuery(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  );
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]);
 
   String convertQueryKey(
     String key,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) =>
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) =>
       key;
 
   Object? convertQueryValue(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) =>
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) =>
       value;
 
   /// When querying Firestore, [key] is converted and returned.
@@ -91,9 +113,9 @@ abstract class FirestoreModelFieldValueConverter {
   Query<DynamicMap>? filterQuery(
     Query<DynamicMap> firestoreQuery,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (!enabledQuery(filter.value, filter, query, adapter)) {
       return null;
     }
@@ -237,9 +259,9 @@ abstract class FirestoreModelFieldValueConverter {
   Query<DynamicMap>? orderQuery(
     Query<DynamicMap> firestoreQuery,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (!enabledQuery(filter.value, filter, query, adapter)) {
       return null;
     }
@@ -282,9 +304,9 @@ abstract class FirestoreModelFieldValueConverter {
     List<Object?> items,
     Query<DynamicMap> Function() generator,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (!items.every((e) => enabledQuery(e, filter, query, adapter))) {
       return null;
     }
@@ -376,7 +398,7 @@ abstract class FirestoreModelFieldValueConverter {
 /// Base class for implementing [FirestoreModelAdapter].
 ///
 /// [FirestoreModelAdapter]を実装するためのベースクラス。
-abstract class FirestoreModelAdapterBase {
+abstract class FirestoreModelAdapterBase implements ModelAdapter {
   /// The Firestore database instance used in the adapter.
   ///
   /// アダプター内で利用しているFirestoreのデータベースインスタンス。

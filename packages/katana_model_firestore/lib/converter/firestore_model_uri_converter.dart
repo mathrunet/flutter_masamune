@@ -1,12 +1,12 @@
 part of '/katana_model_firestore.dart';
 
-/// FirestoreConverter for [ModelTimestamp].
+/// FirestoreConverter for [ModelUri].
 ///
-/// [ModelTimestamp]用のFirestoreConverter。
+/// [ModelUri]用のFirestoreConverter。
 class FirestoreModelUriConverter extends FirestoreModelFieldValueConverter {
-  /// FirestoreConverter for [ModelTimestamp].
+  /// FirestoreConverter for [ModelUri].
   ///
-  /// [ModelTimestamp]用のFirestoreConverter。
+  /// [ModelUri]用のFirestoreConverter。
   const FirestoreModelUriConverter();
 
   @override
@@ -16,9 +16,9 @@ class FirestoreModelUriConverter extends FirestoreModelFieldValueConverter {
   DynamicMap? convertFrom(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (value is List) {
       final targetKey = "#$key";
       final targetList = original
@@ -67,9 +67,9 @@ class FirestoreModelUriConverter extends FirestoreModelFieldValueConverter {
   DynamicMap? convertTo(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (value is DynamicMap && value.containsKey(_kTypeKey)) {
       final type = value.get(_kTypeKey, "");
       if (type == this.type) {
@@ -135,9 +135,9 @@ class FirestoreModelUriConverter extends FirestoreModelFieldValueConverter {
   Object? convertQueryValue(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return (filter.value as ModelUri).value;
   }
 
@@ -145,9 +145,9 @@ class FirestoreModelUriConverter extends FirestoreModelFieldValueConverter {
   bool enabledQuery(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return value is ModelUri;
   }
 }

@@ -16,9 +16,9 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
   DynamicMap? convertFrom(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (value is List) {
       final targetKey = "#$key";
       final targetMap = original.getAsMap(targetKey);
@@ -38,9 +38,9 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
   DynamicMap? convertTo(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (value is DynamicMap && value.containsKey(_kTypeKey)) {
       final type = value.get(_kTypeKey, "");
       if (type == this.type) {
@@ -80,9 +80,9 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
   Object? convertQueryValue(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return (filter.value as ModelSearch).value.join(",");
   }
 
@@ -90,9 +90,9 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
   bool enabledQuery(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return value is ModelSearch;
   }
 
@@ -100,9 +100,9 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
   Query<DynamicMap>? filterQuery(
     Query<DynamicMap> firestoreQuery,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (!enabledQuery(filter.value, filter, query, adapter)) {
       return null;
     }
@@ -148,9 +148,9 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
     List<Object?> items,
     Query<DynamicMap> Function() generator,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (!items.every((e) => enabledQuery(e, filter, query, adapter))) {
       return null;
     }

@@ -16,9 +16,9 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
   DynamicMap? convertFrom(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (value is List) {
       final targetKey = "#$key";
       final targetList = original
@@ -82,9 +82,14 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
         };
       }
     } else if (value is Timestamp) {
-      return {
-        key: ModelDate(value.toDate()).toJson(),
-      };
+      final targetKey = "#$key";
+      final targetMap = original.getAsMap(targetKey);
+      final type = targetMap.get(_kTypeKey, "");
+      if (type == this.type) {
+        return {
+          key: ModelDate(value.toDate()).toJson(),
+        };
+      }
     }
     return null;
   }
@@ -93,9 +98,9 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
   DynamicMap? convertTo(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (value is DynamicMap && value.containsKey(_kTypeKey)) {
       final type = value.get(_kTypeKey, "");
       if (type == this.type) {
@@ -173,9 +178,9 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
   Object? convertQueryValue(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return Timestamp.fromDate((value as ModelDate).value);
   }
 
@@ -183,9 +188,9 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
   bool enabledQuery(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return value is ModelDate;
   }
 }

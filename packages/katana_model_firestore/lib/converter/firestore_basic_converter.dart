@@ -16,27 +16,27 @@ class FirestoreBasicConverter extends FirestoreModelFieldValueConverter {
   DynamicMap? convertFrom(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) =>
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) =>
       null;
 
   @override
   DynamicMap? convertTo(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) =>
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) =>
       null;
 
   @override
   bool enabledQuery(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return true;
   }
 }

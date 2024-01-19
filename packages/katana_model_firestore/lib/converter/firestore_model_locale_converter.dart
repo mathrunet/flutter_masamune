@@ -16,9 +16,9 @@ class FirestoreModelLocaleConverter extends FirestoreModelFieldValueConverter {
   DynamicMap? convertFrom(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (value is List) {
       final targetKey = "#$key";
       final targetList = original
@@ -76,9 +76,9 @@ class FirestoreModelLocaleConverter extends FirestoreModelFieldValueConverter {
   DynamicMap? convertTo(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (value is DynamicMap && value.containsKey(_kTypeKey)) {
       final type = value.get(_kTypeKey, "");
       if (type == this.type) {
@@ -161,9 +161,9 @@ class FirestoreModelLocaleConverter extends FirestoreModelFieldValueConverter {
   Object? convertQueryValue(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return (filter.value as ModelLocale).value.toString();
   }
 
@@ -171,9 +171,9 @@ class FirestoreModelLocaleConverter extends FirestoreModelFieldValueConverter {
   bool enabledQuery(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return value is ModelLocale;
   }
 }

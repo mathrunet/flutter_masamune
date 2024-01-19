@@ -17,9 +17,9 @@ class FirestoreModelCommandBaseConverter
   DynamicMap? convertFrom(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (value is String) {
       final targetKey = "#$key";
       final targetMap = original.getAsMap(targetKey);
@@ -45,9 +45,9 @@ class FirestoreModelCommandBaseConverter
   DynamicMap? convertTo(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (value is DynamicMap && value.containsKey(_kTypeKey)) {
       final type = value.get(_kTypeKey, "");
       if (type == this.type) {
@@ -77,9 +77,9 @@ class FirestoreModelCommandBaseConverter
   Object? convertQueryValue(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return (filter.value as ModelServerCommandBase).value;
   }
 
@@ -87,9 +87,9 @@ class FirestoreModelCommandBaseConverter
   bool enabledQuery(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return value is ModelServerCommandBase;
   }
 }

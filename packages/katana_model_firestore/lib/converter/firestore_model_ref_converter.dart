@@ -16,9 +16,10 @@ class FirestoreModelRefConverter extends FirestoreModelFieldValueConverter {
   DynamicMap? convertFrom(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
+    assert(adapter != null, "adapter must not be null.");
     if (value is List) {
       if (value.every((e) => e is DocumentReference<DynamicMap>)) {
         return {
@@ -26,7 +27,7 @@ class FirestoreModelRefConverter extends FirestoreModelFieldValueConverter {
               .whereType<DocumentReference<DynamicMap>>()
               .cast<DocumentReference<DynamicMap>>()
               .mapAndRemoveEmpty<DynamicMap>((e) {
-            final path = adapter.prefix.isEmpty
+            final path = adapter!.prefix.isEmpty
                 ? e.path
                 : e.path.replaceAll(
                     RegExp("^${adapter.prefix!.trimQuery().trimString("/")}/"),
@@ -45,7 +46,7 @@ class FirestoreModelRefConverter extends FirestoreModelFieldValueConverter {
               .where((k, v) => v is DocumentReference<DynamicMap>)
               .cast<String, DocumentReference<DynamicMap>>()
               .map<String, DynamicMap>((k, v) {
-            final path = adapter.prefix.isEmpty
+            final path = adapter!.prefix.isEmpty
                 ? v.path
                 : v.path.replaceAll(
                     RegExp("^${adapter.prefix!.trimQuery().trimString("/")}/"),
@@ -61,7 +62,7 @@ class FirestoreModelRefConverter extends FirestoreModelFieldValueConverter {
         };
       }
     } else if (value is DocumentReference<DynamicMap>) {
-      final path = adapter.prefix.isEmpty
+      final path = adapter!.prefix.isEmpty
           ? value.path
           : value.path.replaceAll(
               RegExp("^${adapter.prefix!.trimQuery().trimString("/")}/"),
@@ -80,14 +81,15 @@ class FirestoreModelRefConverter extends FirestoreModelFieldValueConverter {
   DynamicMap? convertTo(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
+    assert(adapter != null, "adapter must not be null.");
     if (value is DynamicMap && value.containsKey(_kTypeKey)) {
       if (value.get(_kTypeKey, "").startsWith(type)) {
         final ref = ModelRefBase.fromJson(value);
         return {
-          key: adapter.database.doc(adapter._path(ref.modelQuery.path)),
+          key: adapter!.database.doc(adapter._path(ref.modelQuery.path)),
         };
       }
     } else if (value is List) {
@@ -97,7 +99,7 @@ class FirestoreModelRefConverter extends FirestoreModelFieldValueConverter {
         final res = <DocumentReference<DynamicMap>>[];
         for (final entry in list) {
           final ref = ModelRefBase.fromJson(entry);
-          res.add(adapter.database.doc(adapter._path(ref.modelQuery.path)));
+          res.add(adapter!.database.doc(adapter._path(ref.modelQuery.path)));
         }
         return {
           key: res,
@@ -113,7 +115,7 @@ class FirestoreModelRefConverter extends FirestoreModelFieldValueConverter {
         for (final entry in map.entries) {
           final ref = ModelRefBase.fromJson(entry.value);
           res[entry.key] =
-              adapter.database.doc(adapter._path(ref.modelQuery.path));
+              adapter!.database.doc(adapter._path(ref.modelQuery.path));
         }
         return {
           key: res,
@@ -127,10 +129,11 @@ class FirestoreModelRefConverter extends FirestoreModelFieldValueConverter {
   Object? convertQueryValue(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
-    return adapter.database.doc(
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
+    assert(adapter != null, "adapter must not be null.");
+    return adapter!.database.doc(
       adapter._path((value as ModelRefBase).modelQuery.path),
     );
   }
@@ -139,9 +142,10 @@ class FirestoreModelRefConverter extends FirestoreModelFieldValueConverter {
   bool enabledQuery(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
+    assert(adapter != null, "adapter must not be null.");
     return value is ModelRefBase;
   }
 }

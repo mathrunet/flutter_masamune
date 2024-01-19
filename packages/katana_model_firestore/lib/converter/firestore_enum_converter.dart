@@ -10,33 +10,33 @@ class FirestoreEnumConverter extends FirestoreModelFieldValueConverter {
   const FirestoreEnumConverter();
 
   @override
-  String get type => ModelCounter.typeString;
+  String get type => (Enum).toString();
 
   @override
   DynamicMap? convertFrom(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) =>
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) =>
       null;
 
   @override
   DynamicMap? convertTo(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) =>
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) =>
       null;
 
   @override
   Object? convertQueryValue(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return (filter.value as Enum).name;
   }
 
@@ -44,9 +44,9 @@ class FirestoreEnumConverter extends FirestoreModelFieldValueConverter {
   bool enabledQuery(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return value is Enum;
   }
 }

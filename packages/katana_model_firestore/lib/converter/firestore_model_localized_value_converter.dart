@@ -17,9 +17,9 @@ class FirestoreModelLocalizedValueConverter
   DynamicMap? convertFrom(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (value is List) {
       final targetKey = "#$key";
       final targetMap = original.getAsMap(targetKey);
@@ -41,9 +41,9 @@ class FirestoreModelLocalizedValueConverter
   DynamicMap? convertTo(
     String key,
     Object? value,
-    DynamicMap original,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    DynamicMap original, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (value is DynamicMap && value.containsKey(_kTypeKey)) {
       final type = value.get(_kTypeKey, "");
       if (type == this.type) {
@@ -83,9 +83,9 @@ class FirestoreModelLocalizedValueConverter
   Object? convertQueryValue(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return (filter.value as ModelLocalizedValue)
         .value
         .map((e) => "${e.locale}:${e.value}")
@@ -96,9 +96,9 @@ class FirestoreModelLocalizedValueConverter
   bool enabledQuery(
     Object? value,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     return value is ModelLocalizedValue;
   }
 
@@ -106,9 +106,9 @@ class FirestoreModelLocalizedValueConverter
   Query<DynamicMap>? filterQuery(
     Query<DynamicMap> firestoreQuery,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (!enabledQuery(filter.value, filter, query, adapter)) {
       return null;
     }
@@ -156,9 +156,9 @@ class FirestoreModelLocalizedValueConverter
     List<Object?> items,
     Query<DynamicMap> Function() generator,
     ModelQueryFilter filter,
-    ModelAdapterCollectionQuery query,
-    FirestoreModelAdapterBase adapter,
-  ) {
+    ModelAdapterCollectionQuery query, [
+    FirestoreModelAdapterBase? adapter,
+  ]) {
     if (!items.every((e) => enabledQuery(e, filter, query, adapter))) {
       return null;
     }
