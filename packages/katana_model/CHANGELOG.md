@@ -1,3 +1,7 @@
+## 2.18.5
+
+ - **FIX**: Fixed a bug where an error was not thrown. ([dd3b2638](https://github.com/mathrunet/flutter_masamune/commit/dd3b26381f72bd1aa8b7ece324da7af91cb97d9c))
+
 ## 2.18.4
 
  - **FIX**: Fixed a bug that the first time loading was not performed when Listen. ([e02ccbd9](https://github.com/mathrunet/flutter_masamune/commit/e02ccbd98be8deacce77275083af26673af42d55))

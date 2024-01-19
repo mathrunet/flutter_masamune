@@ -1,3 +1,8 @@
+## 2.13.8
+
+ - **FIX**: Fixed so that converter can be used without FirestoreModelAdapter. ([8a7733d8](https://github.com/mathrunet/flutter_masamune/commit/8a7733d8ddc3fb9fc117c3850110365c0eb187a8))
+ - **FIX**: Fixed to be able to refer to CONVERTER. ([d83caad4](https://github.com/mathrunet/flutter_masamune/commit/d83caad447cf4a3dee635757253695dc29b9dcd5))
+
 ## 2.13.7
 
  - Update a dependency to the latest release.
