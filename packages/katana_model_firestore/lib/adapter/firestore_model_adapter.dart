@@ -144,22 +144,7 @@ class FirestoreModelAdapter extends ModelAdapter
   }
 
   static final Set<FirestoreModelFieldValueConverter> _converters = {
-    const FirestoreModelCommandBaseConverter(),
-    const FirestoreModelCounterConverter(),
-    const FirestoreModelTimestampConverter(),
-    const FirestoreModelDateConverter(),
-    const FirestoreModelLocaleConverter(),
-    const FirestoreModelLocalizedValueConverter(),
-    const FirestoreModelUriConverter(),
-    const FirestoreModelImageUriConverter(),
-    const FirestoreModelVideoUriConverter(),
-    const FirestoreModelSearchConverter(),
-    const FirestoreModelTokenConverter(),
-    const FirestoreModelGeoValueConverter(),
-    const FirestoreModelRefConverter(),
-    const FirestoreEnumConverter(),
-    const FirestoreNullConverter(),
-    const FirestoreBasicConverter(),
+    ...FirestoreModelFieldValueConverter.defaultConverters
   };
 
   /// Options for initializing Firebase.
