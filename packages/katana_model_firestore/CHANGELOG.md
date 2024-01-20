@@ -1,3 +1,7 @@
+## 2.13.9
+
+ - **FIX**: Fixed a bug that Timestamp was not converted. ([abe0ff82](https://github.com/mathrunet/flutter_masamune/commit/abe0ff82d217fcb1bded4492c427f3ab003267fd))
+
 ## 2.13.8
 
  - **FIX**: Fixed so that converter can be used without FirestoreModelAdapter. ([8a7733d8](https://github.com/mathrunet/flutter_masamune/commit/8a7733d8ddc3fb9fc117c3850110365c0eb187a8))
