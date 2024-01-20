@@ -83,14 +83,9 @@ class FirestoreModelTimestampConverter
         };
       }
     } else if (value is Timestamp) {
-      final targetKey = "#$key";
-      final targetMap = original.getAsMap(targetKey);
-      final type = targetMap.get(_kTypeKey, "");
-      if (type == this.type) {
-        return {
-          key: ModelTimestamp(value.toDate()).toJson(),
-        };
-      }
+      return {
+        key: ModelTimestamp(value.toDate()).toJson(),
+      };
     }
     return null;
   }
