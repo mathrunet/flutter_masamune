@@ -11,6 +11,8 @@ part of '/katana_model.dart';
 ///
 /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
 ///
+/// If [validator] is specified, validation is performed in the database.
+///
 /// アプリのメモリ上でのみ動作するデータベースを利用したモデルアダプター。
 ///
 /// アプリを立ち上げ直すとデータはすべてリセットされます。
@@ -22,6 +24,8 @@ part of '/katana_model.dart';
 /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 ///
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
+///
+/// [validator]を指定するとデータベース内でのバリデーションが行われます。
 @immutable
 class RuntimeModelAdapter extends ModelAdapter {
   /// Model adapter that uses a database that runs only in the memory of the application.
@@ -35,6 +39,8 @@ class RuntimeModelAdapter extends ModelAdapter {
   ///
   /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
   ///
+  /// If [validator] is specified, validation is performed in the database.
+  ///
   /// アプリのメモリ上でのみ動作するデータベースを利用したモデルアダプター。
   ///
   /// アプリを立ち上げ直すとデータはすべてリセットされます。
@@ -46,10 +52,13 @@ class RuntimeModelAdapter extends ModelAdapter {
   /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
   ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
+  ///
+  /// [validator]を指定するとデータベース内でのバリデーションが行われます。
   const RuntimeModelAdapter({
     NoSqlDatabase? database,
     this.initialValue,
     this.prefix,
+    this.validator,
   }) : _database = database;
 
   /// Designated database. Please use for testing purposes, etc.
@@ -85,6 +94,15 @@ class RuntimeModelAdapter extends ModelAdapter {
   ///
   /// アプリ内全体での共通のデータベース。
   static final NoSqlDatabase sharedDatabase = NoSqlDatabase();
+
+  /// Specify the permission validator for the database.
+  ///
+  /// If [Null], no validation is performed.
+  ///
+  /// データベースのパーミッションバリデーターを指定します。
+  ///
+  /// [Null]のときはバリデーションされません。
+  final DatabaseValidator? validator;
 
   /// Actual data when used as a mock-up.
   ///

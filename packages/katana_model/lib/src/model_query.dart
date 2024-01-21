@@ -8,6 +8,8 @@ part of '/katana_model.dart';
 ///
 /// If [accessQuery] is specified, you can specify endpoints, etc. in [ModelAdapter].
 ///
+/// If [validationQueries] is specified, you can specify the data validation of the model to be used.
+///
 /// Use [CollectionModelQuery] for collections.
 ///
 /// Modelを定義するためのクエリクラス。
@@ -17,6 +19,8 @@ part of '/katana_model.dart';
 /// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
 ///
 /// [accessQuery]を指定した場合、[ModelAdapter]でのエンドポイント等を指定できます。
+///
+/// [validationQueries]を指定した場合、利用するモデルのデータバリデーションを指定できます。
 ///
 /// コレクションに対しては[CollectionModelQuery]を使用してください。
 @immutable
@@ -29,6 +33,8 @@ class DocumentModelQuery extends ModelQuery {
   ///
   /// If [accessQuery] is specified, you can specify endpoints, etc. in [ModelAdapter].
   ///
+  /// If [validationQueries] is specified, you can specify the data validation of the model to be used.
+  ///
   /// Use [CollectionModelQuery] for collections.
   ///
   /// Modelを定義するためのクエリクラス。
@@ -39,34 +45,30 @@ class DocumentModelQuery extends ModelQuery {
   ///
   /// [accessQuery]を指定した場合、[ModelAdapter]でのエンドポイント等を指定できます。
   ///
+  /// [validationQueries]を指定した場合、利用するモデルのデータバリデーションを指定できます。
+  ///
   /// コレクションに対しては[CollectionModelQuery]を使用してください。
   const DocumentModelQuery(
     super.path, {
-    ModelAdapter? adapter,
+    super.adapter,
     super.accessQuery,
-  }) : _adapter = adapter;
+    super.validationQueries,
+  });
 
-  /// An adapter for defining the process of reading and saving data. If [adapter] is not specified, [ModelAdapter.primary] is used.
+  /// Copy [DocumentModelQuery] with [path], [adapter], [accessQuery] and [validationQueries].
   ///
-  /// データをを読込・保存する際の処理を定義するためのアダプター。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
-  ModelAdapter get adapter {
-    return _adapter ?? ModelAdapter.primary;
-  }
-
-  final ModelAdapter? _adapter;
-
-  /// Copy [DocumentModelQuery] with [path], [adapter] and [accessQuery].
-  ///
-  /// [path]と[adapter]、[accessQuery]を指定して[DocumentModelQuery]をコピーします。
+  /// [path]と[adapter]、[accessQuery]、[validationQueries]を指定して[DocumentModelQuery]をコピーします。
   DocumentModelQuery copyWith({
     String? path,
     ModelAdapter? adapter,
     ModelAccessQuery? accessQuery,
+    List<ModelValidationQuery>? validationQueries,
   }) {
     return DocumentModelQuery(
       path ?? this.path,
       adapter: adapter ?? _adapter,
       accessQuery: accessQuery ?? this.accessQuery,
+      validationQueries: validationQueries ?? this.validationQueries,
     );
   }
 
@@ -95,6 +97,8 @@ class DocumentModelQuery extends ModelQuery {
 ///
 /// If [accessQuery] is specified, you can specify endpoints, etc. in [ModelAdapter].
 ///
+/// If [validationQueries] is specified, you can specify the data validation of the model to be used.
+///
 /// Use [DocumentModelQuery] for documents.
 ///
 /// Execute [create] to create a [DocumentModelQuery] with the specified ID.
@@ -108,6 +112,8 @@ class DocumentModelQuery extends ModelQuery {
 /// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
 ///
 /// [accessQuery]を指定した場合、[ModelAdapter]でのエンドポイント等を指定できます。
+///
+/// [validationQueries]を指定した場合、利用するモデルのデータバリデーションを指定できます。
 ///
 /// ドキュメントに対しては[DocumentModelQuery]を使用してください。
 ///
@@ -124,6 +130,8 @@ class CollectionModelQuery extends ModelQuery {
   ///
   /// If [accessQuery] is specified, you can specify endpoints, etc. in [ModelAdapter].
   ///
+  /// If [validationQueries] is specified, you can specify the data validation of the model to be used.
+  ///
   /// Use [DocumentModelQuery] for documents.
   ///
   /// Execute [create] to create a [DocumentModelQuery] with the specified ID.
@@ -138,6 +146,8 @@ class CollectionModelQuery extends ModelQuery {
   ///
   /// [accessQuery]を指定した場合、[ModelAdapter]でのエンドポイント等を指定できます。
   ///
+  /// [validationQueries]を指定した場合、利用するモデルのデータバリデーションを指定できます。
+  ///
   /// ドキュメントに対しては[DocumentModelQuery]を使用してください。
   ///
   /// [create]を実行すると指定したIDを持つ[DocumentModelQuery]を作成することができます。
@@ -145,25 +155,18 @@ class CollectionModelQuery extends ModelQuery {
   /// [equal]、[notEqual]、[lessThanOrEqual]、[greaterThanOrEqual]、[contains]、[containsAny]、[where]、[notWhere]、[isNull]、[isNotNull]、[like]、[geo]、[orderByAsc]、[orderByDesc]、[limitTo]をチェインして指定していくことにより要素のフィルタリングが可能です。
   const CollectionModelQuery(
     super.path, {
-    ModelAdapter? adapter,
+    super.adapter,
     super.accessQuery,
-  }) : _adapter = adapter;
+    super.validationQueries,
+  });
 
   const CollectionModelQuery._(
     super.path, {
     super.filters = const [],
     super.accessQuery,
-    ModelAdapter? adapter,
-  }) : _adapter = adapter;
-
-  /// An adapter for defining the process of reading and saving data. If [adapter] is not specified, [ModelAdapter.primary] is used.
-  ///
-  /// データをを読込・保存する際の処理を定義するためのアダプター。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
-  ModelAdapter get adapter {
-    return _adapter ?? ModelAdapter.primary;
-  }
-
-  final ModelAdapter? _adapter;
+    super.adapter,
+    super.validationQueries,
+  });
 
   /// Create a [DocumentModelQuery] for a document under a collection using its own [path] and [id].
   ///
@@ -179,6 +182,7 @@ class CollectionModelQuery extends ModelQuery {
       "${path.trimQuery().trimString("/")}/${id ?? uuid()}",
       adapter: adapter,
       accessQuery: accessQuery,
+      validationQueries: validationQueries,
     );
   }
 
@@ -502,22 +506,25 @@ class CollectionModelQuery extends ModelQuery {
       filters: filters ?? this.filters,
       adapter: _adapter,
       accessQuery: accessQuery,
+      validationQueries: validationQueries,
     );
   }
 
-  /// Copy [CollectionModelQuery] with [path], [adapter] and [accessQuery].
+  /// Copy [CollectionModelQuery] with [path], [adapter], [accessQuery] and [validationQueries].
   ///
-  /// [path]と[adapter]、[accessQuery]を指定して[CollectionModelQuery]をコピーします。
+  /// [path]と[adapter]、[accessQuery]、[validationQueries]を指定して[CollectionModelQuery]をコピーします。
   CollectionModelQuery copyWith({
     String? path,
     ModelAdapter? adapter,
     ModelAccessQuery? accessQuery,
+    List<ModelValidationQuery>? validationQueries,
   }) {
     return CollectionModelQuery._(
       path ?? this.path,
       filters: filters,
       adapter: adapter ?? _adapter,
       accessQuery: accessQuery ?? this.accessQuery,
+      validationQueries: validationQueries ?? this.validationQueries,
     );
   }
 
@@ -566,7 +573,9 @@ class ModelQuery {
     this.path, {
     this.filters = const [],
     this.accessQuery,
-  });
+    this.validationQueries,
+    ModelAdapter? adapter,
+  }) : _adapter = adapter;
 
   /// Path definition for the model.
   ///
@@ -582,6 +591,28 @@ class ModelQuery {
   ///
   /// サーバーに接続するための情報を格納します。
   final ModelAccessQuery? accessQuery;
+
+  /// An adapter for defining the process of reading and saving data. If [adapter] is not specified, [ModelAdapter.primary] is used.
+  ///
+  /// データをを読込・保存する際の処理を定義するためのアダプター。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
+  ModelAdapter get adapter {
+    return _adapter ?? ModelAdapter.primary;
+  }
+
+  final ModelAdapter? _adapter;
+
+  /// Query for data validation.
+  ///
+  /// If [Null], all are allowed.
+  ///
+  /// All non-[Null] cases are rejected and allowed depending on the [ModelValidationQuery] in the content.
+  ///
+  /// データバリデーション用のクエリ。
+  ///
+  /// [Null]の場合はすべて許可されます。
+  ///
+  /// [Null]でない場合はすべて拒否され、中身の[ModelValidationQuery]に応じて許可されます。
+  final List<ModelValidationQuery>? validationQueries;
 
   @override
   String toString() {
