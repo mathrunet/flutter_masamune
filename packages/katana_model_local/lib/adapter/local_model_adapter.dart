@@ -12,6 +12,8 @@ const _kLocalDatabaseId = "local://";
 ///
 /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
 ///
+/// If [validator] is specified, validation is performed in the database.
+///
 /// ローカル端末にデータを保存するデータベースアダプター。
 ///
 /// 外部に値を保存する必要のないアプリ開発に利用します。
@@ -21,6 +23,8 @@ const _kLocalDatabaseId = "local://";
 /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 ///
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
+///
+/// [validator]を指定するとデータベース内でのバリデーションが行われます。
 @immutable
 class LocalModelAdapter extends ModelAdapter {
   /// A database adapter that stores data on a local terminal.
@@ -33,6 +37,8 @@ class LocalModelAdapter extends ModelAdapter {
   ///
   /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
   ///
+  /// If [validator] is specified, validation is performed in the database.
+  ///
   /// ローカル端末にデータを保存するデータベースアダプター。
   ///
   /// 外部に値を保存する必要のないアプリ開発に利用します。
@@ -42,10 +48,13 @@ class LocalModelAdapter extends ModelAdapter {
   /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
   ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
+  ///
+  /// [validator]を指定するとデータベース内でのバリデーションが行われます。
   const LocalModelAdapter({
     NoSqlDatabase? database,
     this.prefix,
     this.initialValue,
+    this.validator,
   }) : _database = database;
 
   final NoSqlDatabase? _database;
@@ -110,6 +119,15 @@ class LocalModelAdapter extends ModelAdapter {
     },
   );
 
+  /// Specify the permission validator for the database.
+  ///
+  /// If [Null], no validation is performed.
+  ///
+  /// データベースのパーミッションバリデーターを指定します。
+  ///
+  /// [Null]のときはバリデーションされません。
+  final DatabaseValidator? validator;
+
   /// Path prefix.
   ///
   /// パスのプレフィックス。
@@ -123,7 +141,13 @@ class LocalModelAdapter extends ModelAdapter {
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     _assert();
+    if (validator != null) {
+      await validator!.onPreloadDocument(query);
+    }
     final data = await database.loadDocument(query, prefix: prefix);
+    if (validator != null) {
+      await validator!.onPostloadDocument(query, data);
+    }
     return data != null ? Map.from(data) : {};
   }
 
@@ -132,7 +156,13 @@ class LocalModelAdapter extends ModelAdapter {
     ModelAdapterCollectionQuery query,
   ) async {
     _assert();
+    if (validator != null) {
+      await validator!.onPreloadCollection(query);
+    }
     final data = await database.loadCollection(query, prefix: prefix);
+    if (validator != null) {
+      await validator!.onPostloadCollection(query, data);
+    }
     return data != null
         ? data.map((key, value) => MapEntry(key, Map.from(value)))
         : {};
@@ -189,6 +219,10 @@ class LocalModelAdapter extends ModelAdapter {
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     _assert();
+    if (validator != null) {
+      final oldValue = await database.loadDocument(query, prefix: prefix);
+      await validator!.onDeleteDocument(query, oldValue);
+    }
     await database.deleteDocument(query, prefix: prefix);
   }
 
@@ -198,6 +232,11 @@ class LocalModelAdapter extends ModelAdapter {
     DynamicMap value,
   ) async {
     _assert();
+    if (validator != null) {
+      final oldValue = await database.loadDocument(query, prefix: prefix);
+      await validator!
+          .onSaveDocument(query, oldValue: oldValue, newValue: value);
+    }
     await database.saveDocument(query, value, prefix: prefix);
   }
 

@@ -290,6 +290,8 @@ class JsonDocumentSourceModelAdapter extends JsonSourceModelAdapter {
 ///
 /// By passing data to [initialValue], the database can be used as a data mockup because it contains data in advance.
 ///
+/// If [validator] is specified, validation is performed in the database.
+///
 /// Jsonファイルをデータソースとして利用するデータベースアダプター。
 ///
 /// Jsonファイルで設定などを行う場合、設定ファイルとして利用することができます。
@@ -301,6 +303,8 @@ class JsonDocumentSourceModelAdapter extends JsonSourceModelAdapter {
 /// [requestMethod]にはHTTPとしてリクエストする際に送るリクエストメソッドを指定します。
 ///
 /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
+///
+/// [validator]を指定するとデータベース内でのバリデーションが行われます。
 /// {@endtemplate}
 ///
 /// Json data is converted to [Map] by writing the process for conversion in [fromJson].
@@ -321,6 +325,8 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
   ///
   /// By passing data to [initialValue], the database can be used as a data mockup because it contains data in advance.
   ///
+  /// If [validator] is specified, validation is performed in the database.
+  ///
   /// Jsonファイルをデータソースとして利用するデータベースアダプター。
   ///
   /// Jsonファイルで設定などを行う場合、設定ファイルとして利用することができます。
@@ -332,6 +338,8 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
   /// [requestMethod]にはHTTPとしてリクエストする際に送るリクエストメソッドを指定します。
   ///
   /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
+  ///
+  /// [validator]を指定するとデータベース内でのバリデーションが行われます。
   /// {@endtemplate}
   ///
   /// Json data is converted to [Map] by writing the process for conversion in [fromJson].
@@ -344,6 +352,7 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
     this.requestHeaders,
     this.requestMethod,
     this.collectionPath,
+    this.validator,
   }) : _database = database;
 
   final NoSqlDatabase? _database;
@@ -379,6 +388,15 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
   ///
   /// アプリ内全体での共通のデータベース。
   static final NoSqlDatabase sharedDatabase = NoSqlDatabase();
+
+  /// Specify the permission validator for the database.
+  ///
+  /// If [Null], no validation is performed.
+  ///
+  /// データベースのパーミッションバリデーターを指定します。
+  ///
+  /// [Null]のときはバリデーションされません。
+  final DatabaseValidator? validator;
 
   /// The path of the destination as a collection.
   ///
@@ -495,10 +513,16 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
+    if (validator != null) {
+      await validator!.onPreloadDocument(query);
+    }
     await _loadJson(database);
     final data = await database.loadDocument(
       _replaceDocumentQuery(query),
     );
+    if (validator != null) {
+      await validator!.onPostloadDocument(query, data);
+    }
     return data != null ? Map.from(data) : {};
   }
 
@@ -506,10 +530,16 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
   Future<Map<String, DynamicMap>> loadCollection(
     ModelAdapterCollectionQuery query,
   ) async {
+    if (validator != null) {
+      await validator!.onPreloadCollection(query);
+    }
     await _loadJson(database);
     final data = await database.loadCollection(
       _replaceCollectionQuery(query),
     );
+    if (validator != null) {
+      await validator!.onPostloadCollection(query, data);
+    }
     return data != null
         ? data.map((key, value) => MapEntry(key, Map.from(value)))
         : {};
