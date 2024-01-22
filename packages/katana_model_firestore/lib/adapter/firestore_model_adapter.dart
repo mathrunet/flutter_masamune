@@ -79,6 +79,7 @@ class FirestoreModelAdapter extends ModelAdapter
     this.windowsOptions,
     this.macosOptions,
     this.prefix,
+    this.validator,
   })  : _database = database,
         _options = options,
         _localDatabase = localDatabase;
@@ -123,6 +124,16 @@ class FirestoreModelAdapter extends ModelAdapter
   ///
   /// アプリ内全体での共通の内部データベース。
   static final NoSqlDatabase sharedLocalDatabase = NoSqlDatabase();
+
+  /// Specify the permission validator for the database.
+  ///
+  /// If [Null], no validation is performed.
+  ///
+  /// データベースのパーミッションバリデーターを指定します。
+  ///
+  /// [Null]のときはバリデーションされません。
+  @override
+  final DatabaseValidator? validator;
 
   /// Actual data when used as a mock-up.
   ///
@@ -268,6 +279,11 @@ class FirestoreModelAdapter extends ModelAdapter
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     _assert();
+    if (validator != null) {
+      final oldValue =
+          _FirestoreCache.getCache(options).get(_path(query.query.path));
+      await validator!.onDeleteDocument(query, oldValue);
+    }
     await FirebaseCore.initialize(options: options);
     await _documentReference(query).delete();
     await localDatabase.deleteDocument(query, prefix: prefix);
@@ -277,6 +293,9 @@ class FirestoreModelAdapter extends ModelAdapter
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     _assert();
+    if (validator != null) {
+      await validator!.onPreloadDocument(query);
+    }
     await FirebaseCore.initialize(options: options);
     final snapshot = await _documentReference(query).get();
     var res = _convertFrom(snapshot.data()?.cast() ?? {});
@@ -286,6 +305,9 @@ class FirestoreModelAdapter extends ModelAdapter
       if (localRes.isNotEmpty) {
         res = localRes!;
       }
+    }
+    if (validator != null) {
+      await validator!.onPostloadDocument(query, res);
     }
     await localDatabase.syncDocument(query, res, prefix: prefix);
     _FirestoreCache.getCache(options).set(_path(query.query.path), res);
@@ -309,6 +331,9 @@ class FirestoreModelAdapter extends ModelAdapter
     ModelAdapterCollectionQuery query,
   ) async {
     _assert();
+    if (validator != null) {
+      await validator!.onPreloadCollection(query);
+    }
     await FirebaseCore.initialize(options: options);
     final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
       _collectionReference(query).map((reference) => reference.get()),
@@ -328,6 +353,9 @@ class FirestoreModelAdapter extends ModelAdapter
         }
         res[entry.key] = entry.value;
       }
+    }
+    if (validator != null) {
+      await validator!.onPostloadCollection(query, res);
     }
     await localDatabase.syncCollection(query, res, prefix: prefix);
     for (final doc in res.entries) {
@@ -406,6 +434,15 @@ class FirestoreModelAdapter extends ModelAdapter
     DynamicMap value,
   ) async {
     _assert();
+    if (validator != null) {
+      final oldValue =
+          _FirestoreCache.getCache(options).get(_path(query.query.path));
+      await validator!.onSaveDocument(
+        query,
+        oldValue: oldValue,
+        newValue: value,
+      );
+    }
     await FirebaseCore.initialize(options: options);
 
     final converted = _convertTo(
@@ -452,7 +489,14 @@ class FirestoreModelAdapter extends ModelAdapter
       throw Exception("[ref] is not [FirestoreModelTransactionRef].");
     }
     ref._transaction.delete(database.doc(_path(query.query.path)));
-    ref._localTransaction.add(() async {
+    ref._preLocalTransaction.add(() async {
+      if (validator != null) {
+        final oldValue =
+            _FirestoreCache.getCache(options).get(_path(query.query.path));
+        await validator!.onDeleteDocument(query, oldValue);
+      }
+    });
+    ref._postLocalTransaction.add(() async {
       await localDatabase.deleteDocument(query, prefix: prefix);
       _FirestoreCache.getCache(options).set(_path(query.query.path));
     });
@@ -501,7 +545,27 @@ class FirestoreModelAdapter extends ModelAdapter
       converted,
       SetOptions(merge: true),
     );
-    ref._localTransaction.add(() async {
+    ref._preLocalTransaction.add(() async {
+      if (validator != null) {
+        final oldValue =
+            _FirestoreCache.getCache(options).get(_path(query.query.path));
+        await validator!.onSaveDocument(
+          query,
+          oldValue: oldValue,
+          newValue: value,
+        );
+      }
+    });
+    ref._postLocalTransaction.add(() async {
+      if (validator != null) {
+        final oldValue =
+            _FirestoreCache.getCache(options).get(_path(query.query.path));
+        await validator!.onSaveDocument(
+          query,
+          oldValue: oldValue,
+          newValue: value,
+        );
+      }
       await localDatabase.saveDocument(query, value, prefix: prefix);
       _FirestoreCache.getCache(options).set(_path(query.query.path), value);
     });
@@ -517,8 +581,11 @@ class FirestoreModelAdapter extends ModelAdapter
     await FirebaseCore.initialize(options: options);
     await database.runTransaction((handler) async {
       final ref = FirestoreModelTransactionRef._(handler);
+      for (final tr in ref._preLocalTransaction) {
+        await tr.call();
+      }
       await transaction.call(ref);
-      for (final tr in ref._localTransaction) {
+      for (final tr in ref._postLocalTransaction) {
         await tr.call();
       }
     });
@@ -533,6 +600,13 @@ class FirestoreModelAdapter extends ModelAdapter
     ref._localBatch.add(
       _FirestoreModelBatchItem(
         path: _path(query.query.path),
+        preActions: () async {
+          if (validator != null) {
+            final oldValue =
+                _FirestoreCache.getCache(options).get(_path(query.query.path));
+            await validator!.onDeleteDocument(query, oldValue);
+          }
+        },
         actions: () async {
           await localDatabase.deleteDocument(query, prefix: prefix);
           _FirestoreCache.getCache(options).set(_path(query.query.path));
@@ -556,6 +630,9 @@ class FirestoreModelAdapter extends ModelAdapter
     await FirebaseCore.initialize(options: options);
     final ref = FirestoreModelBatchRef._();
     await batch.call(ref);
+    await wait(
+      ref._localBatch.map((e) => e.preActions?.call()),
+    );
     await wait(
       ref._localBatch.split(splitLength).expand((b) {
         final db = database.batch();
@@ -597,6 +674,17 @@ class FirestoreModelAdapter extends ModelAdapter
       _FirestoreModelBatchItem(
         path: _path(query.query.path),
         value: converted,
+        preActions: () async {
+          if (validator != null) {
+            final oldValue =
+                _FirestoreCache.getCache(options).get(_path(query.query.path));
+            await validator!.onSaveDocument(
+              query,
+              oldValue: oldValue,
+              newValue: value,
+            );
+          }
+        },
         actions: () async {
           await localDatabase.saveDocument(query, value, prefix: prefix);
           _FirestoreCache.getCache(options).set(_path(query.query.path), value);
@@ -875,7 +963,8 @@ class FirestoreModelTransactionRef extends ModelTransactionRef {
     this._transaction,
   );
   final Transaction _transaction;
-  final List<Future<void> Function()> _localTransaction = [];
+  final List<Future<void> Function()> _preLocalTransaction = [];
+  final List<Future<void> Function()> _postLocalTransaction = [];
 }
 
 /// [ModelBatchRef] for [FirestoreModelAdapter].
@@ -893,8 +982,10 @@ class _FirestoreModelBatchItem {
     required this.path,
     this.value,
     this.actions,
+    this.preActions,
   });
   final String path;
   final DynamicMap? value;
+  final Future<void> Function()? preActions;
   final Future<void> Function()? actions;
 }

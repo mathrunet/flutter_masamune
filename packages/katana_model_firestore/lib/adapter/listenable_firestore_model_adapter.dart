@@ -76,6 +76,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     this.windowsOptions,
     this.macosOptions,
     this.prefix,
+    this.validator,
   })  : _options = options,
         _database = database,
         _localDatabase = localDatabase;
@@ -120,6 +121,16 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   ///
   /// アプリ内全体での共通の内部データベース。
   static final NoSqlDatabase sharedLocalDatabase = NoSqlDatabase();
+
+  /// Specify the permission validator for the database.
+  ///
+  /// If [Null], no validation is performed.
+  ///
+  /// データベースのパーミッションバリデーターを指定します。
+  ///
+  /// [Null]のときはバリデーションされません。
+  @override
+  final DatabaseValidator? validator;
 
   /// Actual data when used as a mock-up.
   ///
@@ -265,6 +276,11 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     _assert();
+    if (validator != null) {
+      final oldValue =
+          _FirestoreCache.getCache(options).get(_path(query.query.path));
+      await validator!.onDeleteDocument(query, oldValue);
+    }
     await FirebaseCore.initialize(options: options);
     await _documentReference(query).delete();
     _FirestoreCache.getCache(options).set(_path(query.query.path));
@@ -273,6 +289,9 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     _assert();
+    if (validator != null) {
+      await validator!.onPreloadDocument(query);
+    }
     await FirebaseCore.initialize(options: options);
     final snapshot = await _documentReference(query).get();
     var res = _convertFrom(snapshot.data()?.cast() ?? {});
@@ -282,6 +301,9 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
       if (localRes.isNotEmpty) {
         res = localRes!;
       }
+    }
+    if (validator != null) {
+      await validator!.onPostloadDocument(query, res);
     }
     _FirestoreCache.getCache(options).set(_path(query.query.path), res);
     return res;
@@ -302,6 +324,9 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     ModelAdapterCollectionQuery query,
   ) async {
     _assert();
+    if (validator != null) {
+      await validator!.onPreloadCollection(query);
+    }
     await FirebaseCore.initialize(options: options);
     final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
       _collectionReference(query).map((reference) => reference.get()),
@@ -321,6 +346,9 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
         }
         res[entry.key] = entry.value;
       }
+    }
+    if (validator != null) {
+      await validator!.onPostloadCollection(query, res);
     }
     for (final doc in res.entries) {
       _FirestoreCache.getCache(options).set(
@@ -398,6 +426,15 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     DynamicMap value,
   ) async {
     _assert();
+    if (validator != null) {
+      final oldValue =
+          _FirestoreCache.getCache(options).get(_path(query.query.path));
+      await validator!.onSaveDocument(
+        query,
+        oldValue: oldValue,
+        newValue: value,
+      );
+    }
     await FirebaseCore.initialize(options: options);
 
     final converted = _convertTo(
@@ -422,10 +459,16 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     ModelAdapterCollectionQuery query,
   ) async {
     _assert();
+    if (validator != null) {
+      await validator!.onPreloadCollection(query);
+    }
     await FirebaseCore.initialize(options: options);
     final localRes =
         await localDatabase.getInitialCollection(query, prefix: prefix);
     if (localRes.isNotEmpty) {
+      if (validator != null) {
+        await validator!.onPostloadCollection(query, localRes);
+      }
       for (final entry in localRes!.entries) {
         if (!query.query.hasMatchAsMap(entry.value)) {
           continue;
@@ -447,7 +490,15 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     final streams =
         _collectionReference(query).map((reference) => reference.snapshots());
     final subscriptions = streams.map((e) {
-      return e.listen((event) {
+      return e.listen((event) async {
+        if (validator != null) {
+          await validator!.onPreloadCollection(query);
+          final res = event.docChanges.toMap((e) {
+            final converted = _convertFrom(e.doc.data()?.cast() ?? {});
+            return MapEntry(e.doc.id, converted);
+          });
+          await validator!.onPostloadCollection(query, res);
+        }
         for (final doc in event.docChanges) {
           final path = doc.doc.reference.path;
           final converted = _convertFrom(doc.doc.data()?.cast() ?? {});
@@ -480,10 +531,16 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     ModelAdapterDocumentQuery query,
   ) async {
     _assert();
+    if (validator != null) {
+      await validator!.onPreloadDocument(query);
+    }
     await FirebaseCore.initialize(options: options);
     final localRes =
         await localDatabase.getInitialDocument(query, prefix: prefix);
     if (localRes.isNotEmpty) {
+      if (validator != null) {
+        await validator!.onPostloadDocument(query, localRes);
+      }
       query.callback?.call(
         ModelUpdateNotification(
           path: query.query.path.parentPath(),
@@ -498,10 +555,16 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     }
     final stream = _documentReference(query).snapshots();
     // ignore: cancel_subscriptions
-    final subscription = stream.listen((doc) {
+    final subscription = stream.listen((doc) async {
+      if (validator != null) {
+        await validator!.onPreloadDocument(query);
+      }
       final converted = _convertFrom(doc.data()?.cast() ?? {});
       if (converted.isEmpty && localRes.isNotEmpty) {
         return;
+      }
+      if (validator != null) {
+        await validator!.onPostloadDocument(query, converted);
       }
       query.callback?.call(
         ModelUpdateNotification(
@@ -533,7 +596,14 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
       throw Exception("[ref] is not [ListenableFirestoreModelTransactionRef].");
     }
     ref._transaction.delete(database.doc(_path(query.query.path)));
-    ref._localTransaction.add(() async {
+    ref._preLocalTransaction.add(() async {
+      if (validator != null) {
+        final oldValue =
+            _FirestoreCache.getCache(options).get(_path(query.query.path));
+        await validator!.onDeleteDocument(query, oldValue);
+      }
+    });
+    ref._postLocalTransaction.add(() async {
       _FirestoreCache.getCache(options).set(_path(query.query.path));
     });
   }
@@ -547,6 +617,9 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     if (ref is! ListenableFirestoreModelTransactionRef) {
       throw Exception("[ref] is not [ListenableFirestoreModelTransactionRef].");
     }
+    if (validator != null) {
+      await validator!.onPreloadDocument(query);
+    }
     final snapshot =
         await ref._transaction.get(database.doc(_path(query.query.path)));
     var res = _convertFrom(snapshot.data() ?? {});
@@ -556,6 +629,9 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
       if (localRes.isNotEmpty) {
         res = localRes!;
       }
+    }
+    if (validator != null) {
+      await validator!.onPostloadDocument(query, res);
     }
     _FirestoreCache.getCache(options).set(_path(query.query.path), res);
     return res;
@@ -580,7 +656,18 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
       converted,
       SetOptions(merge: true),
     );
-    ref._localTransaction.add(() async {
+    ref._preLocalTransaction.add(() async {
+      if (validator != null) {
+        final oldValue =
+            _FirestoreCache.getCache(options).get(_path(query.query.path));
+        await validator!.onSaveDocument(
+          query,
+          oldValue: oldValue,
+          newValue: value,
+        );
+      }
+    });
+    ref._postLocalTransaction.add(() async {
       _FirestoreCache.getCache(options).set(_path(query.query.path), value);
     });
   }
@@ -595,8 +682,11 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     await FirebaseCore.initialize(options: options);
     await database.runTransaction((handler) async {
       final ref = ListenableFirestoreModelTransactionRef._(handler);
+      for (final tr in ref._preLocalTransaction) {
+        await tr.call();
+      }
       await transaction.call(ref);
-      for (final tr in ref._localTransaction) {
+      for (final tr in ref._postLocalTransaction) {
         await tr.call();
       }
     });
@@ -611,6 +701,13 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     ref._localBatch.add(
       _ListenableFirestoreModelBatchItem(
         path: _path(query.query.path),
+        preActions: () async {
+          if (validator != null) {
+            final oldValue =
+                _FirestoreCache.getCache(options).get(_path(query.query.path));
+            await validator!.onDeleteDocument(query, oldValue);
+          }
+        },
         actions: () async {
           await localDatabase.deleteDocument(query, prefix: prefix);
           _FirestoreCache.getCache(options).set(_path(query.query.path));
@@ -634,6 +731,9 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     await FirebaseCore.initialize(options: options);
     final ref = ListenableFirestoreModelBatchRef._();
     await batch.call(ref);
+    await wait(
+      ref._localBatch.map((e) => e.preActions?.call()),
+    );
     await wait(
       ref._localBatch.split(splitLength).expand((b) {
         final db = database.batch();
@@ -951,7 +1051,8 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
 class ListenableFirestoreModelTransactionRef extends ModelTransactionRef {
   ListenableFirestoreModelTransactionRef._(this._transaction);
   final Transaction _transaction;
-  final List<Future<void> Function()> _localTransaction = [];
+  final List<Future<void> Function()> _preLocalTransaction = [];
+  final List<Future<void> Function()> _postLocalTransaction = [];
 }
 
 /// [ModelBatchRef] for [ListenableFirestoreModelAdapter].
@@ -968,9 +1069,11 @@ class _ListenableFirestoreModelBatchItem {
   const _ListenableFirestoreModelBatchItem({
     required this.path,
     this.value,
+    this.preActions,
     this.actions,
   });
   final String path;
   final DynamicMap? value;
+  final Future<void> Function()? preActions;
   final Future<void> Function()? actions;
 }

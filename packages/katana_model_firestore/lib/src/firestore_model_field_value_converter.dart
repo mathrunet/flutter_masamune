@@ -405,6 +405,15 @@ abstract class FirestoreModelAdapterBase implements ModelAdapter {
   /// アダプター内で利用しているFirestoreのデータベースインスタンス。
   FirebaseFirestore get database;
 
+  /// Specify the permission validator for the database.
+  ///
+  /// If [Null], no validation is performed.
+  ///
+  /// データベースのパーミッションバリデーターを指定します。
+  ///
+  /// [Null]のときはバリデーションされません。
+  DatabaseValidator? get validator;
+
   /// Path prefix.
   ///
   /// パスのプレフィックス。
