@@ -210,7 +210,8 @@ class RuntimeModelAdapter extends ModelAdapter {
     _assert();
     if (validator != null) {
       final oldValue = await database.loadDocument(query, prefix: prefix);
-      await validator!.onSaveDocument(query, oldValue: oldValue, newValue: value);
+      await validator!
+          .onSaveDocument(query, oldValue: oldValue, newValue: value);
     }
     await database.saveDocument(query, value, prefix: prefix);
   }
