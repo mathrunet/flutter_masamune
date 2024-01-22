@@ -85,7 +85,16 @@ class AlgoliaModelAdapter extends ModelAdapter {
   Future<Map<String, DynamicMap>> loadCollection(
     ModelAdapterCollectionQuery query,
   ) async {
+    if (firestoreModelAdapter.validator != null) {
+      await firestoreModelAdapter.validator!.onPreloadCollection(query);
+    }
     final response = await _loadCollection(query);
+    if (firestoreModelAdapter.validator != null) {
+      await firestoreModelAdapter.validator!.onPostloadCollection(
+        query,
+        response?.results,
+      );
+    }
     return response?.results ?? {};
   }
 
