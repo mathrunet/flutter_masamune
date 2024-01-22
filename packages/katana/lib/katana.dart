@@ -9,6 +9,7 @@
 library katana;
 
 // Dart imports:
+import 'dart:async';
 import 'dart:convert';
 import 'dart:core' as core;
 import 'dart:core';
