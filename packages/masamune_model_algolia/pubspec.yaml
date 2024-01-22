@@ -1,6 +1,6 @@
 name: masamune_model_algolia
 description: Masamune plugin package that includes a model adapter to retrieve data from Algolia.
-version: 2.1.2
+version: 2.2.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_algolia
 
@@ -14,10 +14,10 @@ dependencies:
 
   meta: ^1.8.0
 
-  katana: ^2.10.1
-  masamune: ^2.6.10
+  katana: ^2.10.2
+  masamune: ^2.6.11
   algolia_helper_flutter: ^0.5.0
-  katana_model_firestore: ^2.13.9
+  katana_model_firestore: ^2.14.0
 dev_dependencies:
   test: ^1.24.0
   flutter_lints: ^3.0.0

@@ -1,3 +1,7 @@
+## 2.14.0
+
+ - **FEAT**: Added DatabaseValidator. ([fd0aa02c](https://github.com/mathrunet/flutter_masamune/commit/fd0aa02c6c99c9034e481c22d048eae8c4a29c3b))
+
 ## 2.13.9
 
  - **FIX**: Fixed a bug that Timestamp was not converted. ([abe0ff82](https://github.com/mathrunet/flutter_masamune/commit/abe0ff82d217fcb1bded4492c427f3ab003267fd))

@@ -1,3 +1,7 @@
+## 2.10.2
+
+ - **FIX**: Added runGuardedErrorValidation. ([aa3a5bc4](https://github.com/mathrunet/flutter_masamune/commit/aa3a5bc42164d6d5c091474c7343a2b4c63aadf9))
+
 ## 2.10.1
 
  - **DOCS**: Changed license. ([f86ff4a1](https://github.com/mathrunet/flutter_masamune/commit/f86ff4a15e03469a58f92e94016a77fcda1c995e))

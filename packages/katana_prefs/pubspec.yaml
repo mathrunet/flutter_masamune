@@ -1,6 +1,6 @@
 name: katana_prefs
 description: The base part of the package for type-safe use of retrieving and storing Shared Preferences values, defining data in a Freezed-like fashion.
-version: 2.0.37
+version: 2.0.38
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_prefs
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.10.1
-  katana_prefs_annotation: ^2.0.34
+  katana: ^2.10.2
+  katana_prefs_annotation: ^2.0.35
   shared_preferences: ^2.0.16
 dev_dependencies:
   test: ^1.24.0

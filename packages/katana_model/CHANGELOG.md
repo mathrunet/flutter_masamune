@@ -1,3 +1,7 @@
+## 2.19.0
+
+ - **FEAT**: Added DatabaseValidator. ([5e0edab1](https://github.com/mathrunet/flutter_masamune/commit/5e0edab19b817a31139fc31dc8be244f936e4fa5))
+
 ## 2.18.5
 
  - **FIX**: Fixed a bug where an error was not thrown. ([dd3b2638](https://github.com/mathrunet/flutter_masamune/commit/dd3b26381f72bd1aa8b7ece324da7af91cb97d9c))

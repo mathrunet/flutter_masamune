@@ -1,3 +1,7 @@
+## 2.13.4
+
+ - Update a dependency to the latest release.
+
 ## 2.13.3
 
  - **FIX**: Added Algolia. ([ea0efba8](https://github.com/mathrunet/flutter_masamune/commit/ea0efba8edf86797f7a8a475292a3684876dbd22))

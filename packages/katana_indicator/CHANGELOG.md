@@ -1,3 +1,7 @@
+## 2.0.36
+
+ - Update a dependency to the latest release.
+
 ## 2.0.35
 
  - **FIX**: Improved stability of the indicator. ([e8ffff26](https://github.com/mathrunet/flutter_masamune/commit/e8ffff267671caad76b4794a69cb742bc089143f))
