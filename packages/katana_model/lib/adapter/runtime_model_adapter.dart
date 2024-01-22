@@ -117,7 +117,13 @@ class RuntimeModelAdapter extends ModelAdapter {
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     _assert();
+    if (validator != null) {
+      await validator!.onPreloadDocument(query);
+    }
     final data = await database.loadDocument(query, prefix: prefix);
+    if (validator != null) {
+      await validator!.onPostloadDocument(query, data);
+    }
     return data != null ? Map.from(data) : {};
   }
 
@@ -126,7 +132,13 @@ class RuntimeModelAdapter extends ModelAdapter {
     ModelAdapterCollectionQuery query,
   ) async {
     _assert();
+    if (validator != null) {
+      await validator!.onPreloadCollection(query);
+    }
     final data = await database.loadCollection(query, prefix: prefix);
+    if (validator != null) {
+      await validator!.onPostloadCollection(query, data);
+    }
     return data != null
         ? data.map((key, value) => MapEntry(key, Map.from(value)))
         : {};
@@ -183,6 +195,10 @@ class RuntimeModelAdapter extends ModelAdapter {
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     _assert();
+    if (validator != null) {
+      final oldValue = await database.loadDocument(query, prefix: prefix);
+      await validator!.onDeleteDocument(query, oldValue);
+    }
     await database.deleteDocument(query, prefix: prefix);
   }
 
@@ -192,6 +208,10 @@ class RuntimeModelAdapter extends ModelAdapter {
     DynamicMap value,
   ) async {
     _assert();
+    if (validator != null) {
+      final oldValue = await database.loadDocument(query, prefix: prefix);
+      await validator!.onSaveDocument(query, oldValue: oldValue, newValue: value);
+    }
     await database.saveDocument(query, value, prefix: prefix);
   }
 

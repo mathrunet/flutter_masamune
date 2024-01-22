@@ -20,7 +20,7 @@ class DatabaseValidator {
   /// 認証済みのユーザーIDを取得する処理。
   ///
   /// [Null]が渡された場合は認証してないとみなされます。
-  final Future<String?> Function() onRetrieveUserId;
+  final FutureOr<String?> Function() onRetrieveUserId;
 
   /// This is the process before loading the document.
   ///
@@ -29,7 +29,42 @@ class DatabaseValidator {
   /// ドキュメントを読み込むまえの処理です。
   ///
   /// [query]にドキュメントから渡されたクエリを指定します。
-  Future<void> onPreloadDocument(ModelAdapterDocumentQuery query) async {}
+  Future<void> onPreloadDocument(ModelAdapterDocumentQuery query) async {
+    final validationQueries = query.query.validationQueries
+        ?.where(
+          (e) =>
+              e.permission == ModelValidationQueryPermissionType.allowRead ||
+              e.permission ==
+                  ModelValidationQueryPermissionType.allowReadDocument,
+        )
+        .toList()
+        .sortTo((a, b) {
+      final permission = a.permission.index.compareTo(b.permission.index);
+      if (permission != 0) {
+        return permission;
+      }
+      return a.user.index.compareTo(b.user.index);
+    });
+    if (validationQueries == null) {
+      return;
+    }
+    if (validationQueries.isEmpty) {
+      throw DatabaseValidationExcepction(
+        "Not permitted: OnLoadDocument at ${query.query.path} $validationQueries",
+      );
+    }
+    final userId = await onRetrieveUserId();
+    for (final validationQuery in validationQueries) {
+      if (!validationQuery._checkPermission(
+        query: query.query,
+        userId: userId,
+      )) {
+        throw DatabaseValidationExcepction(
+          "Not permitted: OnLoadDocument at ${query.query.path} $validationQueries",
+        );
+      }
+    }
+  }
 
   /// This is the process after the document has been read.
   ///
@@ -44,8 +79,44 @@ class DatabaseValidator {
   /// [value]に読み込んだ値を指定します。
   Future<void> onPostloadDocument(
     ModelAdapterDocumentQuery query,
-    DynamicMap value,
-  ) async {}
+    DynamicMap? value,
+  ) async {
+    final validationQueries = query.query.validationQueries
+        ?.where(
+          (e) =>
+              e.permission == ModelValidationQueryPermissionType.allowRead ||
+              e.permission ==
+                  ModelValidationQueryPermissionType.allowReadDocument,
+        )
+        .toList()
+        .sortTo((a, b) {
+      final permission = a.permission.index.compareTo(b.permission.index);
+      if (permission != 0) {
+        return permission;
+      }
+      return a.user.index.compareTo(b.user.index);
+    });
+    if (validationQueries == null) {
+      return;
+    }
+    if (validationQueries.isEmpty) {
+      throw DatabaseValidationExcepction(
+        "Not permitted: OnLoadedDocument at ${query.query.path} $validationQueries $value",
+      );
+    }
+    final userId = await onRetrieveUserId();
+    for (final validationQuery in validationQueries) {
+      if (!validationQuery._checkPermissionWithValue(
+        query: query.query,
+        userId: userId,
+        value: value,
+      )) {
+        throw DatabaseValidationExcepction(
+          "Not permitted: OnLoadedDocument at ${query.query.path} $validationQueries $value",
+        );
+      }
+    }
+  }
 
   /// This is the process before loading the collection.
   ///
@@ -54,7 +125,42 @@ class DatabaseValidator {
   /// コレクションを読み込むまえの処理です。
   ///
   /// [query]にコレクションから渡されたクエリを指定します。
-  Future<void> onPreloadCollection(ModelAdapterCollectionQuery query) async {}
+  Future<void> onPreloadCollection(ModelAdapterCollectionQuery query) async {
+    final validationQueries = query.query.validationQueries
+        ?.where(
+          (e) =>
+              e.permission == ModelValidationQueryPermissionType.allowRead ||
+              e.permission ==
+                  ModelValidationQueryPermissionType.allowReadCollection,
+        )
+        .toList()
+        .sortTo((a, b) {
+      final permission = a.permission.index.compareTo(b.permission.index);
+      if (permission != 0) {
+        return permission;
+      }
+      return a.user.index.compareTo(b.user.index);
+    });
+    if (validationQueries == null) {
+      return;
+    }
+    if (validationQueries.isEmpty) {
+      throw DatabaseValidationExcepction(
+        "Not permitted: OnLoadCollection at ${query.query.path} $validationQueries",
+      );
+    }
+    final userId = await onRetrieveUserId();
+    for (final validationQuery in validationQueries) {
+      if (!validationQuery._checkPermission(
+        query: query.query,
+        userId: userId,
+      )) {
+        throw DatabaseValidationExcepction(
+          "Not permitted: OnLoadCollection at ${query.query.path} $validationQueries",
+        );
+      }
+    }
+  }
 
   /// This is the process after the collection is read.
   ///
@@ -69,8 +175,46 @@ class DatabaseValidator {
   /// [value]に読み込んだ値を指定します。
   Future<void> onPostloadCollection(
     ModelAdapterCollectionQuery query,
-    Map<String, DynamicMap> value,
-  ) async {}
+    Map<String, DynamicMap>? value,
+  ) async {
+    final validationQueries = query.query.validationQueries
+        ?.where(
+          (e) =>
+              e.permission == ModelValidationQueryPermissionType.allowRead ||
+              e.permission ==
+                  ModelValidationQueryPermissionType.allowReadCollection,
+        )
+        .toList()
+        .sortTo((a, b) {
+      final permission = a.permission.index.compareTo(b.permission.index);
+      if (permission != 0) {
+        return permission;
+      }
+      return a.user.index.compareTo(b.user.index);
+    });
+    if (validationQueries == null) {
+      return;
+    }
+    if (validationQueries.isEmpty) {
+      throw DatabaseValidationExcepction(
+        "Not permitted: OnLoadedCollection at ${query.query.path} $validationQueries $value",
+      );
+    }
+    final userId = await onRetrieveUserId();
+    for (final validationQuery in validationQueries) {
+      for (final document in (value?.values ?? <DynamicMap>[])) {
+        if (!validationQuery._checkPermissionWithValue(
+          query: query.query,
+          userId: userId,
+          value: document,
+        )) {
+          throw DatabaseValidationExcepction(
+            "Not permitted: OnLoadedCollection at ${query.query.path} $validationQueries $value",
+          );
+        }
+      }
+    }
+  }
 
   /// This is the process when saving a document.
   ///
@@ -99,7 +243,89 @@ class DatabaseValidator {
     ModelAdapterDocumentQuery query, {
     DynamicMap? oldValue,
     required DynamicMap newValue,
-  }) async {}
+  }) async {
+    // 新規作成
+    if (oldValue.isEmpty && newValue.isNotEmpty) {
+      final validationQueries = query.query.validationQueries
+          ?.where(
+            (e) =>
+                e.permission == ModelValidationQueryPermissionType.allowWrite ||
+                e.permission == ModelValidationQueryPermissionType.allowCreate,
+          )
+          .toList()
+          .sortTo((a, b) {
+        final permission = a.permission.index.compareTo(b.permission.index);
+        if (permission != 0) {
+          return permission;
+        }
+        return a.user.index.compareTo(b.user.index);
+      });
+      if (validationQueries == null) {
+        return;
+      }
+      if (validationQueries.isEmpty) {
+        throw DatabaseValidationExcepction(
+          "Not permitted: OnCreateDocument at ${query.query.path} $validationQueries $newValue",
+        );
+      }
+      final userId = await onRetrieveUserId();
+      for (final validationQuery in validationQueries) {
+        if (!validationQuery._checkPermission(
+              query: query.query,
+              userId: userId,
+            ) ||
+            !validationQuery._checkPermissionWithValue(
+              query: query.query,
+              userId: userId,
+              value: newValue,
+            )) {
+          throw DatabaseValidationExcepction(
+            "Not permitted: OnCreateDocument at ${query.query.path} $validationQueries $newValue",
+          );
+        }
+      }
+      // 更新
+    } else if (oldValue.isNotEmpty && newValue.isNotEmpty) {
+      final validationQueries = query.query.validationQueries
+          ?.where(
+            (e) =>
+                e.permission == ModelValidationQueryPermissionType.allowWrite ||
+                e.permission == ModelValidationQueryPermissionType.allowUpdate,
+          )
+          .toList()
+          .sortTo((a, b) {
+        final permission = a.permission.index.compareTo(b.permission.index);
+        if (permission != 0) {
+          return permission;
+        }
+        return a.user.index.compareTo(b.user.index);
+      });
+      if (validationQueries == null) {
+        return;
+      }
+      if (validationQueries.isEmpty) {
+        throw DatabaseValidationExcepction(
+          "Not permitted: OnUpdateDocument at ${query.query.path} $validationQueries $oldValue -> $newValue",
+        );
+      }
+      final userId = await onRetrieveUserId();
+      for (final validationQuery in validationQueries) {
+        if (!validationQuery._checkPermission(
+              query: query.query,
+              userId: userId,
+            ) ||
+            !validationQuery._checkPermissionWithValue(
+              query: query.query,
+              userId: userId,
+              value: newValue,
+            )) {
+          throw DatabaseValidationExcepction(
+            "Not permitted: OnUpdateDocument at ${query.query.path} $validationQueries $oldValue -> $newValue",
+          );
+        }
+      }
+    }
+  }
 
   /// This is the process when deleting a document.
   ///
@@ -110,7 +336,47 @@ class DatabaseValidator {
   /// [query]にドキュメントから渡されたクエリを指定します。
   Future<void> onDeleteDocument(
     ModelAdapterDocumentQuery query,
-  ) async {}
+    DynamicMap? oldValue,
+  ) async {
+    final validationQueries = query.query.validationQueries
+        ?.where(
+          (e) =>
+              e.permission == ModelValidationQueryPermissionType.allowWrite ||
+              e.permission == ModelValidationQueryPermissionType.allowDelete,
+        )
+        .toList()
+        .sortTo((a, b) {
+      final permission = a.permission.index.compareTo(b.permission.index);
+      if (permission != 0) {
+        return permission;
+      }
+      return a.user.index.compareTo(b.user.index);
+    });
+    if (validationQueries == null) {
+      return;
+    }
+    if (validationQueries.isEmpty) {
+      throw DatabaseValidationExcepction(
+        "Not permitted: OnDeleteDocument at ${query.query.path} $validationQueries $oldValue",
+      );
+    }
+    final userId = await onRetrieveUserId();
+    for (final validationQuery in validationQueries) {
+      if (!validationQuery._checkPermission(
+            query: query.query,
+            userId: userId,
+          ) ||
+          !validationQuery._checkPermissionWithValue(
+            query: query.query,
+            userId: userId,
+            value: oldValue,
+          )) {
+        throw DatabaseValidationExcepction(
+          "Not permitted: OnDeleteDocument at ${query.query.path} $validationQueries $oldValue",
+        );
+      }
+    }
+  }
 }
 
 /// Defines errors during database validation.
