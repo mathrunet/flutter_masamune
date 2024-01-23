@@ -104,37 +104,18 @@ enum ModelValidationQueryUserType {
   /// {@endtemplate}
   authUsers,
 
-  /// {@template model_validation_query_user_type_client_user}
-  /// Authenticated users who are currently authenticated on the app.
-  ///
-  /// Authentication on the app runtime is synonymous with [authUsers].
-  ///
-  /// If [allUsers] or [authUsers] is specified, it takes precedence.
-  ///
-  /// Both [userFromPathIndex] and [userFromData] can be specified at the same time.
-  ///
-  /// 認証済みユーザーのうち、現在アプリ上で認証しているユーザー。
-  ///
-  /// アプリランタイム上での認証だと[authUsers]と同義になります。
-  ///
-  /// [allUsers]や[authUsers]が指定されている場合はそちらが優先されます。
-  ///
-  /// [userFromPathIndex]と[userFromData]とは同時に指定可能です。
-  /// {@endtemplate}
-  clientUser,
-
   /// {@template model_validation_query_user_type_user_from_path_index}
   /// An authenticated user whose user ID matches the dynamic value specified by the index number in the document or collection path and the user ID authenticated on the app.
   ///
   /// If [allUsers] or [authUsers] is specified, it takes precedence.
   ///
-  /// Both [clientUser] and [userFromData] can be specified at the same time.
+  /// [userFromData] can be specified at the same time.
   ///
   /// 認証済みユーザーのうち、ドキュメントやコレクションのパス中のインデックス番号で指定する動的な値とアプリ上で認証しているユーザーIDが一致するユーザー。
   ///
   /// [allUsers]や[authUsers]が指定されている場合はそちらが優先されます。
   ///
-  /// [clientUser]と[userFromData]とは同時に指定可能です。
+  /// [userFromData]とは同時に指定可能です。
   ///
   /// ```
   /// // Path definition
@@ -153,13 +134,13 @@ enum ModelValidationQueryUserType {
   ///
   /// If [allUsers] or [authUsers] is specified, it takes precedence.
   ///
-  /// Both [clientUser] and [userFromPathIndex] can be specified at the same time.
+  /// [userFromPathIndex] can be specified at the same time.
   ///
   /// 認証済みユーザーのうち、読み込みや書き込み対象のドキュメント中に`key`を持つフィールドの値ととアプリ上で認証しているユーザーIDが一致するユーザー。
   ///
   /// [allUsers]や[authUsers]が指定されている場合はそちらが優先されます。
   ///
-  /// [clientUser]と[userFromPathIndex]とは同時に指定可能です。
+  /// [userFromPathIndex]とは同時に指定可能です。
   ///
   /// ```
   /// // Document data
@@ -229,7 +210,6 @@ abstract class ModelValidationQuery {
       case ModelValidationQueryUserType.userFromData:
         return true;
       case ModelValidationQueryUserType.authUsers:
-      case ModelValidationQueryUserType.clientUser:
         return userId.isNotEmpty;
       case ModelValidationQueryUserType.userFromPathIndex:
         if (key is! int) {
@@ -253,7 +233,6 @@ abstract class ModelValidationQuery {
     switch (user) {
       case ModelValidationQueryUserType.allUsers:
       case ModelValidationQueryUserType.authUsers:
-      case ModelValidationQueryUserType.clientUser:
       case ModelValidationQueryUserType.userFromPathIndex:
         return true;
       case ModelValidationQueryUserType.userFromData:
@@ -300,17 +279,6 @@ class AllowReadModelValidationQuery extends ModelValidationQuery {
       : this._(
           permission: ModelValidationQueryPermissionType.allowRead,
           user: ModelValidationQueryUserType.authUsers,
-        );
-
-  /// {@macro model_validation_query_permission_type_allow_read}
-  ///
-  /// {@macro model_validation_query_user_type_client_user}
-  ///
-  /// {@macro model_validation_query}
-  const AllowReadModelValidationQuery.clientUser()
-      : this._(
-          permission: ModelValidationQueryPermissionType.allowRead,
-          user: ModelValidationQueryUserType.clientUser,
         );
 
   /// {@macro model_validation_query_permission_type_allow_read}
@@ -372,17 +340,6 @@ class AllowWriteModelValidationQuery extends ModelValidationQuery {
 
   /// {@macro model_validation_query_permission_type_allow_write}
   ///
-  /// {@macro model_validation_query_user_type_client_user}
-  ///
-  /// {@macro model_validation_query}
-  const AllowWriteModelValidationQuery.clientUser()
-      : this._(
-          permission: ModelValidationQueryPermissionType.allowWrite,
-          user: ModelValidationQueryUserType.clientUser,
-        );
-
-  /// {@macro model_validation_query_permission_type_allow_write}
-  ///
   /// {@macro model_validation_query_user_type_user_from_path_index}
   ///
   /// {@macro model_validation_query}
@@ -436,17 +393,6 @@ class AllowReadDocumentModelValidationQuery extends ModelValidationQuery {
       : this._(
           permission: ModelValidationQueryPermissionType.allowReadDocument,
           user: ModelValidationQueryUserType.authUsers,
-        );
-
-  /// {@macro model_validation_query_permission_type_allow_read_document}
-  ///
-  /// {@macro model_validation_query_user_type_client_user}
-  ///
-  /// {@macro model_validation_query}
-  const AllowReadDocumentModelValidationQuery.clientUser()
-      : this._(
-          permission: ModelValidationQueryPermissionType.allowReadDocument,
-          user: ModelValidationQueryUserType.clientUser,
         );
 
   /// {@macro model_validation_query_permission_type_allow_read_document}
@@ -508,17 +454,6 @@ class AllowReadCollectionModelValidationQuery extends ModelValidationQuery {
 
   /// {@macro model_validation_query_permission_type_allow_read_collection}
   ///
-  /// {@macro model_validation_query_user_type_client_user}
-  ///
-  /// {@macro model_validation_query}
-  const AllowReadCollectionModelValidationQuery.clientUser()
-      : this._(
-          permission: ModelValidationQueryPermissionType.allowReadCollection,
-          user: ModelValidationQueryUserType.clientUser,
-        );
-
-  /// {@macro model_validation_query_permission_type_allow_read_collection}
-  ///
   /// {@macro model_validation_query_user_type_user_from_path_index}
   ///
   /// {@macro model_validation_query}
@@ -572,17 +507,6 @@ class AllowCreateModelValidationQuery extends ModelValidationQuery {
       : this._(
           permission: ModelValidationQueryPermissionType.allowCreate,
           user: ModelValidationQueryUserType.authUsers,
-        );
-
-  /// {@macro model_validation_query_permission_type_allow_create}
-  ///
-  /// {@macro model_validation_query_user_type_client_user}
-  ///
-  /// {@macro model_validation_query}
-  const AllowCreateModelValidationQuery.clientUser()
-      : this._(
-          permission: ModelValidationQueryPermissionType.allowCreate,
-          user: ModelValidationQueryUserType.clientUser,
         );
 
   /// {@macro model_validation_query_permission_type_allow_create}
@@ -644,17 +568,6 @@ class AllowUpdateModelValidationQuery extends ModelValidationQuery {
 
   /// {@macro model_validation_query_permission_type_allow_update}
   ///
-  /// {@macro model_validation_query_user_type_client_user}
-  ///
-  /// {@macro model_validation_query}
-  const AllowUpdateModelValidationQuery.clientUser()
-      : this._(
-          permission: ModelValidationQueryPermissionType.allowUpdate,
-          user: ModelValidationQueryUserType.clientUser,
-        );
-
-  /// {@macro model_validation_query_permission_type_allow_update}
-  ///
   /// {@macro model_validation_query_user_type_user_from_path_index}
   ///
   /// {@macro model_validation_query}
@@ -708,17 +621,6 @@ class AllowDeleteModelValidationQuery extends ModelValidationQuery {
       : this._(
           permission: ModelValidationQueryPermissionType.allowDelete,
           user: ModelValidationQueryUserType.authUsers,
-        );
-
-  /// {@macro model_validation_query_permission_type_allow_delete}
-  ///
-  /// {@macro model_validation_query_user_type_client_user}
-  ///
-  /// {@macro model_validation_query}
-  const AllowDeleteModelValidationQuery.clientUser()
-      : this._(
-          permission: ModelValidationQueryPermissionType.allowDelete,
-          user: ModelValidationQueryUserType.clientUser,
         );
 
   /// {@macro model_validation_query_permission_type_allow_delete}
