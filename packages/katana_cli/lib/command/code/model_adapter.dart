@@ -27,7 +27,7 @@ class CodeModelAdapterCliCommand extends CliCodeCommand {
     final path = context.args.get(2, "");
     if (path.isEmpty) {
       error(
-        "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code redirect [path]\r\n",
+        "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code model_adapter [path]\r\n",
       );
       return;
     }
