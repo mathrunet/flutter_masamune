@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.14.0`](#katana_cli---v2140)
+
+---
+
+#### `katana_cli` - `v2.14.0`
+
+ - **FEAT**: Added ModelAdapter command. ([fd85f00e](https://github.com/mathrunet/flutter_masamune/commit/fd85f00e6311e50d4e80faecb6434e2af8a10ebc))
+
+
 ## 2024-01-22
 
 ### Changes

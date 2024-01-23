@@ -1,3 +1,7 @@
+## 2.14.0
+
+ - **FEAT**: Added ModelAdapter command. ([fd85f00e](https://github.com/mathrunet/flutter_masamune/commit/fd85f00e6311e50d4e80faecb6434e2af8a10ebc))
+
 ## 2.13.4
 
  - Update a dependency to the latest release.
