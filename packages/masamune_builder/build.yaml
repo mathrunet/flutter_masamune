@@ -48,6 +48,14 @@ builders:
     auto_apply: dependents
     build_to: source
     applies_builders: ["source_gen|combining_builder"]
+  masamune_rule_builder:
+    import: 'package:masamune_builder/masamune_builder.dart'
+    builder_factories: ['masamuneRuleBuilderFactory']
+    build_extensions: {'.dart': ['.rule.dart']}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+    required_inputs: [".dart"]
 targets:
   $default:
     builders:

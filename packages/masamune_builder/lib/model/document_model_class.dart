@@ -51,6 +51,18 @@ List<Spec> documentModelClass(
                     : "ModelAccessQuery(endpoint:\"${annotation.endpoint}\")",
               ),
           ),
+          Field(
+            (f) => f
+              ..name = "defaultPermissionQueries"
+              ..static = true
+              ..modifier = FieldModifier.constant
+              ..type = const Reference("List<ModelPermissionQuery>?")
+              ..assignment = Code(
+                annotation.permission == null
+                    ? "null"
+                    : "[${annotation.permission!.join(",")}]",
+              ),
+          ),
           if (googleSpreadSheetValue.source.isEmpty)
             Field(
               (f) => f
@@ -200,7 +212,7 @@ List<Spec> documentModelClass(
                       );
                     }
                     final doc = e.reference;
-                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery,)";
+                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultPermissionQueries?.toValidationQueries(),)";
                   } else {
                     if (!e.type.aliasName.endsWith("?")) {
                       throw Exception(
@@ -214,7 +226,7 @@ List<Spec> documentModelClass(
                       );
                     }
                     final doc = e.reference;
-                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery,)";
+                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultPermissionQueries?.toValidationQueries(),)";
                   }
                 }).join(",")}]"),
             ),
@@ -255,6 +267,18 @@ List<Spec> documentModelClass(
                   annotation.endpoint.isEmpty
                       ? "null"
                       : "ModelAccessQuery(endpoint:\"${annotation.endpoint}\")",
+                ),
+            ),
+            Field(
+              (f) => f
+                ..name = "defaultPermissionQueries"
+                ..static = true
+                ..modifier = FieldModifier.constant
+                ..type = const Reference("List<ModelPermissionQuery>?")
+                ..assignment = Code(
+                  annotation.mirrorPermission == null
+                      ? "null"
+                      : "[${annotation.mirrorPermission!.join(",")}]",
                 ),
             ),
             if (googleSpreadSheetValue.source.isEmpty)
@@ -404,7 +428,7 @@ List<Spec> documentModelClass(
                         );
                       }
                       final doc = e.reference;
-                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery,)";
+                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultPermissionQueries?.toValidationQueries(),)";
                     } else {
                       if (!e.type.aliasName.endsWith("?")) {
                         throw Exception(
@@ -419,7 +443,7 @@ List<Spec> documentModelClass(
                         );
                       }
                       final doc = e.reference;
-                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery,)";
+                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultPermissionQueries?.toValidationQueries(),)";
                     }
                   }).join(",")}]"),
               ),

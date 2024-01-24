@@ -262,6 +262,18 @@ List<Spec> collectionModelClass(
                     : "ModelAccessQuery(endpoint:\"${annotation.endpoint}\")",
               ),
           ),
+          Field(
+            (f) => f
+              ..name = "defaultPermissionQueries"
+              ..static = true
+              ..modifier = FieldModifier.constant
+              ..type = const Reference("List<ModelPermissionQuery>?")
+              ..assignment = Code(
+                annotation.permission == null
+                    ? "null"
+                    : "[${annotation.permission!.join(",")}]",
+              ),
+          ),
           if (googleSpreadSheetValue.source.isEmpty)
             Field(
               (f) => f
@@ -355,6 +367,18 @@ List<Spec> collectionModelClass(
                   annotation.endpoint.isEmpty
                       ? "null"
                       : "ModelAccessQuery(endpoint:\"${annotation.endpoint}\")",
+                ),
+            ),
+            Field(
+              (f) => f
+                ..name = "defaultPermissionQueries"
+                ..static = true
+                ..modifier = FieldModifier.constant
+                ..type = const Reference("List<ModelPermissionQuery>?")
+                ..assignment = Code(
+                  annotation.mirrorPermission == null
+                      ? "null"
+                      : "[${annotation.mirrorPermission!.join(",")}]",
                 ),
             ),
             if (googleSpreadSheetValue.source.isEmpty)

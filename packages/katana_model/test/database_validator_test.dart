@@ -732,24 +732,7 @@ void main() {
       ],
     );
     collection = RuntimeCollectionModel(collectionQuery);
-    userId = null;
-    await runGuardedErrorValidation(
-      () async {
-        await collection.reload();
-      },
-      (e, stacktrace) {
-        expect(e, isA<DatabaseValidationExcepction>());
-      },
-    );
     userId = "ABCDEFG";
-    await runGuardedErrorValidation(
-      () async {
-        await collection.reload();
-      },
-      (e, stacktrace) {
-        expect(e, isA<DatabaseValidationExcepction>());
-      },
-    );
     collectionQuery = CollectionModelQuery(
       pathA,
       adapter: adapter,
@@ -779,25 +762,6 @@ void main() {
         expect(e, isA<DatabaseValidationExcepction>());
       },
     );
-    collectionQuery = CollectionModelQuery(
-      pathB,
-      adapter: adapter,
-      validationQueries: const [
-        AllowCreateModelValidationQuery.userFromPathIndex(1),
-        AllowUpdateModelValidationQuery.userFromPathIndex(1),
-        AllowReadCollectionModelValidationQuery.userFromPathIndex(1),
-      ],
-    );
-    collection = RuntimeCollectionModel(collectionQuery);
-    await runGuardedErrorValidation(
-      () async {
-        await collection.reload();
-      },
-      (e, stacktrace) {
-        expect(e, isA<DatabaseValidationExcepction>());
-      },
-    );
-    userId = "ABCDEFG";
     collectionQuery = CollectionModelQuery(
       pathA,
       adapter: adapter,
@@ -895,36 +859,6 @@ void main() {
       },
     );
     collectionQuery = CollectionModelQuery(
-      pathB,
-      adapter: adapter,
-      validationQueries: const [
-        AllowCreateModelValidationQuery.userFromPathIndex(1),
-        AllowUpdateModelValidationQuery.userFromPathIndex(1),
-        AllowDeleteModelValidationQuery.userFromPathIndex(1),
-        AllowReadCollectionModelValidationQuery.userFromPathIndex(1),
-        AllowReadDocumentModelValidationQuery.userFromPathIndex(1),
-      ],
-    );
-    collection = RuntimeCollectionModel(collectionQuery);
-    userId = null;
-    await runGuardedErrorValidation(
-      () async {
-        await collection.reload();
-      },
-      (e, stacktrace) {
-        expect(e, isA<DatabaseValidationExcepction>());
-      },
-    );
-    await runGuardedErrorValidation(
-      () async {
-        await document.delete();
-      },
-      (e, stacktrace) {
-        expect(e, isA<DatabaseValidationExcepction>());
-      },
-    );
-    userId = "ABCDEFG";
-    collectionQuery = CollectionModelQuery(
       pathA,
       adapter: adapter,
       validationQueries: const [
@@ -1011,33 +945,6 @@ void main() {
       "age": 30,
     });
     // Check read
-    await runGuardedErrorValidation(
-      () async {
-        await collection.reload();
-      },
-      (e, stacktrace) {
-        expect(e, isA<DatabaseValidationExcepction>());
-      },
-    );
-    collectionQuery = CollectionModelQuery(
-      pathB,
-      adapter: adapter,
-      validationQueries: const [
-        AllowWriteModelValidationQuery.userFromPathIndex(1),
-        AllowReadModelValidationQuery.userFromPathIndex(1),
-      ],
-    );
-    collection = RuntimeCollectionModel(collectionQuery);
-    userId = null;
-    await runGuardedErrorValidation(
-      () async {
-        await collection.reload();
-      },
-      (e, stacktrace) {
-        expect(e, isA<DatabaseValidationExcepction>());
-      },
-    );
-    userId = "ABCDEFG";
     await runGuardedErrorValidation(
       () async {
         await collection.reload();
@@ -1140,6 +1047,282 @@ void main() {
       },
     );
     userId = "ABCDEFG";
+    await document.delete();
+    await collection.reload();
+    expect(collection.map((e) => e.value).toList(), []);
+    userId = "ABCDEFG";
+    adapter = RuntimeModelAdapter(
+      database: NoSqlDatabase(),
+      validator: DatabaseValidator(onRetrieveUserId: () => userId),
+    );
+    // Check create
+    collectionQuery = CollectionModelQuery(
+      pathA,
+      adapter: adapter,
+      validationQueries: const [],
+    );
+    collection = RuntimeCollectionModel(collectionQuery);
+    document = collection.create();
+    await runGuardedErrorValidation(
+      () async {
+        await document.save({
+          "name": "abc",
+          "age": 30,
+        });
+      },
+      (e, stacktrace) {
+        expect(e, isA<DatabaseValidationExcepction>());
+      },
+    );
+    collectionQuery = CollectionModelQuery(
+      pathA,
+      adapter: adapter,
+      validationQueries: const [
+        AllowCreateModelValidationQuery.userFromPathIndex(3),
+      ],
+    );
+    collection = RuntimeCollectionModel(collectionQuery);
+    document = collection.create();
+    await runGuardedErrorValidation(
+      () async {
+        await document.save({
+          "name": "abc",
+          "age": 30,
+        });
+      },
+      (e, stacktrace) {
+        expect(e, isA<DatabaseValidationExcepction>());
+      },
+    );
+    document = collection.create(userId);
+    await document.save({
+      "name": "abc",
+      "age": 30,
+    });
+    // Check read collection
+    await runGuardedErrorValidation(
+      () async {
+        await collection.reload();
+      },
+      (e, stacktrace) {
+        expect(e, isA<DatabaseValidationExcepction>());
+      },
+    );
+    collectionQuery = CollectionModelQuery(
+      pathA,
+      adapter: adapter,
+      validationQueries: const [
+        AllowCreateModelValidationQuery.userFromPathIndex(3),
+        AllowReadCollectionModelValidationQuery.userFromPathIndex(3),
+      ],
+    );
+    collection = RuntimeCollectionModel(collectionQuery);
+    await collection.reload();
+    expect(collection.map((e) => e.value).toList(), [
+      {
+        "name": "abc",
+        "age": 30,
+      }
+    ]);
+    // Check update
+    document = collection.first;
+    await runGuardedErrorValidation(
+      () async {
+        await document.save({
+          "name": "def",
+          "age": 20,
+        });
+      },
+      (e, stacktrace) {
+        expect(e, isA<DatabaseValidationExcepction>());
+      },
+    );
+    collectionQuery = CollectionModelQuery(
+      pathA,
+      adapter: adapter,
+      validationQueries: const [
+        AllowCreateModelValidationQuery.userFromPathIndex(3),
+        AllowUpdateModelValidationQuery.userFromPathIndex(3),
+        AllowReadCollectionModelValidationQuery.userFromPathIndex(3),
+      ],
+    );
+    collection = RuntimeCollectionModel(collectionQuery);
+    await collection.reload();
+    document = collection.first;
+    await document.save({
+      "name": "def",
+      "age": 20,
+    });
+    await collection.reload();
+    expect(collection.map((e) => e.value).toList(), [
+      {
+        "name": "def",
+        "age": 20,
+      }
+    ]);
+    // Check read document
+    documentQuery = DocumentModelQuery(
+      "user/${document.uid}",
+      adapter: adapter,
+      validationQueries: const [
+        AllowCreateModelValidationQuery.userFromPathIndex(3),
+        AllowUpdateModelValidationQuery.userFromPathIndex(3),
+        AllowReadCollectionModelValidationQuery.userFromPathIndex(3),
+        AllowReadDocumentModelValidationQuery.userFromPathIndex(3),
+      ],
+    );
+    document = RuntimeMapDocumentModel(documentQuery);
+    await runGuardedErrorValidation(
+      () async {
+        await document.load();
+      },
+      (e, stacktrace) {
+        expect(e, isA<DatabaseValidationExcepction>());
+      },
+    );
+    documentQuery = DocumentModelQuery(
+      "$pathA/${document.uid}",
+      adapter: adapter,
+      validationQueries: const [
+        AllowCreateModelValidationQuery.userFromPathIndex(3),
+        AllowUpdateModelValidationQuery.userFromPathIndex(3),
+        AllowReadCollectionModelValidationQuery.userFromPathIndex(3),
+        AllowReadDocumentModelValidationQuery.userFromPathIndex(3),
+      ],
+    );
+    document = RuntimeMapDocumentModel(documentQuery);
+    await document.load();
+    expect(document.value, {
+      "name": "def",
+      "age": 20,
+    });
+    // Check delete
+    await runGuardedErrorValidation(
+      () async {
+        await document.delete();
+      },
+      (e, stacktrace) {
+        expect(e, isA<DatabaseValidationExcepction>());
+      },
+    );
+    collectionQuery = CollectionModelQuery(
+      pathA,
+      adapter: adapter,
+      validationQueries: const [
+        AllowCreateModelValidationQuery.userFromPathIndex(3),
+        AllowUpdateModelValidationQuery.userFromPathIndex(3),
+        AllowDeleteModelValidationQuery.userFromPathIndex(3),
+        AllowReadCollectionModelValidationQuery.userFromPathIndex(3),
+        AllowReadDocumentModelValidationQuery.userFromPathIndex(3),
+      ],
+    );
+    collection = RuntimeCollectionModel(collectionQuery);
+    await collection.reload();
+    document = collection.first;
+    await document.delete();
+    await collection.reload();
+    expect(collection.map((e) => e.value).toList(), []);
+    adapter = RuntimeModelAdapter(
+      database: NoSqlDatabase(),
+      validator: DatabaseValidator(onRetrieveUserId: () => userId),
+    );
+    // Check write
+    collectionQuery = CollectionModelQuery(
+      pathA,
+      adapter: adapter,
+      validationQueries: const [],
+    );
+    collection = RuntimeCollectionModel(collectionQuery);
+    document = collection.create();
+    await runGuardedErrorValidation(
+      () async {
+        await document.save({
+          "name": "abc",
+          "age": 30,
+        });
+      },
+      (e, stacktrace) {
+        expect(e, isA<DatabaseValidationExcepction>());
+      },
+    );
+    collectionQuery = CollectionModelQuery(
+      pathA,
+      adapter: adapter,
+      validationQueries: const [
+        AllowWriteModelValidationQuery.userFromPathIndex(3),
+      ],
+    );
+    collection = RuntimeCollectionModel(collectionQuery);
+    document = collection.create();
+    await runGuardedErrorValidation(
+      () async {
+        await document.save({
+          "name": "abc",
+          "age": 30,
+        });
+      },
+      (e, stacktrace) {
+        expect(e, isA<DatabaseValidationExcepction>());
+      },
+    );
+    document = collection.create(userId);
+    await document.save({
+      "name": "abc",
+      "age": 30,
+    });
+    // Check read
+    await runGuardedErrorValidation(
+      () async {
+        await collection.reload();
+      },
+      (e, stacktrace) {
+        expect(e, isA<DatabaseValidationExcepction>());
+      },
+    );
+    collectionQuery = CollectionModelQuery(
+      pathA,
+      adapter: adapter,
+      validationQueries: const [
+        AllowWriteModelValidationQuery.userFromPathIndex(3),
+        AllowReadModelValidationQuery.userFromPathIndex(3),
+      ],
+    );
+    collection = RuntimeCollectionModel(collectionQuery);
+    await collection.reload();
+    expect(collection.map((e) => e.value).toList(), [
+      {
+        "name": "abc",
+        "age": 30,
+      }
+    ]);
+    document = collection.first;
+    await document.save({
+      "name": "def",
+      "age": 20,
+    });
+    await collection.reload();
+    expect(collection.map((e) => e.value).toList(), [
+      {
+        "name": "def",
+        "age": 20,
+      }
+    ]);
+    documentQuery = DocumentModelQuery(
+      "$pathA/${document.uid}",
+      adapter: adapter,
+      validationQueries: const [
+        AllowWriteModelValidationQuery.userFromPathIndex(3),
+        AllowReadModelValidationQuery.userFromPathIndex(3),
+      ],
+    );
+    document = RuntimeMapDocumentModel(documentQuery);
+    await document.load();
+    expect(document.value, {
+      "name": "def",
+      "age": 20,
+    });
+    await collection.reload();
+    document = collection.first;
     await document.delete();
     await collection.reload();
     expect(collection.map((e) => e.value).toList(), []);

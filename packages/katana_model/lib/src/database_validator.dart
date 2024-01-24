@@ -108,6 +108,7 @@ class DatabaseValidator {
     for (final validationQuery in validationQueries) {
       if (!validationQuery._checkPermissionWithValue(
         query: query.query,
+        docId: query.query.path.last(),
         userId: userId,
         value: value,
       )) {
@@ -202,11 +203,13 @@ class DatabaseValidator {
     }
     final userId = await onRetrieveUserId();
     for (final validationQuery in validationQueries) {
-      for (final document in (value?.values ?? <DynamicMap>[])) {
+      for (final document
+          in (value?.entries ?? <MapEntry<String, DynamicMap>>[])) {
         if (!validationQuery._checkPermissionWithValue(
           query: query.query,
+          docId: document.key,
           userId: userId,
-          value: document,
+          value: document.value,
         )) {
           throw DatabaseValidationExcepction(
             "Not permitted: OnLoadedCollection at ${query.query.path} $validationQueries $value",
@@ -276,6 +279,7 @@ class DatabaseValidator {
             ) ||
             !validationQuery._checkPermissionWithValue(
               query: query.query,
+              docId: query.query.path.last(),
               userId: userId,
               value: newValue,
             )) {
@@ -316,6 +320,7 @@ class DatabaseValidator {
             ) ||
             !validationQuery._checkPermissionWithValue(
               query: query.query,
+              docId: query.query.path.last(),
               userId: userId,
               value: newValue,
             )) {
@@ -368,6 +373,7 @@ class DatabaseValidator {
           ) ||
           !validationQuery._checkPermissionWithValue(
             query: query.query,
+            docId: query.query.path.last(),
             userId: userId,
             value: oldValue,
           )) {

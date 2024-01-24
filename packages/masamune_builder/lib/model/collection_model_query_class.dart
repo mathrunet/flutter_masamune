@@ -282,6 +282,12 @@ List<Spec> collectionModelQueryClass(
                     ..named = true
                     ..type = const Reference("ModelAccessQuery?"),
                 ),
+                Parameter(
+                  (p) => p
+                    ..name = "permissionQueries"
+                    ..named = true
+                    ..type = const Reference("List<ModelPermissionQuery>?"),
+                ),
               ])
               ..requiredParameters.addAll([
                 Parameter(
@@ -292,7 +298,7 @@ List<Spec> collectionModelQueryClass(
               ])
               ..returns = Reference("_\$_${model.name}DocumentQuery")
               ..body = Code(
-                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Document.defaultModelAccessQuery, ));",
+                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Document.defaultModelAccessQuery, validationQueries: permissionQueries?.toValidationQueries(\"${path.path}\") ?? _\$${model.name}Document.defaultPermissionAccessQueries?.toValidationQueries(\"${path.path}\"), ));",
               ),
           ),
           if (mirror != null)
@@ -397,10 +403,16 @@ List<Spec> collectionModelQueryClass(
                     ..named = true
                     ..type = const Reference("ModelAccessQuery?"),
                 ),
+                Parameter(
+                  (p) => p
+                    ..name = "permissionQueries"
+                    ..named = true
+                    ..type = const Reference("List<ModelPermissionQuery>?"),
+                ),
               ])
               ..returns = Reference("_\$_${model.name}CollectionQuery")
               ..body = Code(
-                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Collection.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Collection.defaultModelAccessQuery, ));",
+                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Collection.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Collection.defaultModelAccessQuery, validationQueries: permissionQueries?.toValidationQueries(\"${path.path}\") ?? _\$${model.name}Collection.defaultPermissionAccessQueries?.toValidationQueries(\"${path.path}\"), ));",
               ),
           ),
           if (mirror != null)
@@ -747,6 +759,12 @@ List<Spec> collectionModelQueryClass(
                       ..named = true
                       ..type = const Reference("ModelAccessQuery?"),
                   ),
+                  Parameter(
+                    (p) => p
+                      ..name = "permissionQueries"
+                      ..named = true
+                      ..type = const Reference("List<ModelPermissionQuery>?"),
+                  ),
                 ])
                 ..requiredParameters.addAll([
                   Parameter(
@@ -757,7 +775,7 @@ List<Spec> collectionModelQueryClass(
                 ])
                 ..returns = Reference("_\$_${model.name}MirrorDocumentQuery")
                 ..body = Code(
-                  "return _\$_${model.name}MirrorDocumentQuery(DocumentModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Document.defaultModelAccessQuery,));",
+                  "return _\$_${model.name}MirrorDocumentQuery(DocumentModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Document.defaultModelAccessQuery, validationQueries: permissionQueries?.toValidationQueries(\"${mirror.path}\") ?? _\$${model.name}Document.defaultPermissionAccessQueries?.toValidationQueries(\"${mirror.path}\"), ));",
                 ),
             )
           ]),
@@ -854,10 +872,16 @@ List<Spec> collectionModelQueryClass(
                       ..named = true
                       ..type = const Reference("ModelAccessQuery?"),
                   ),
+                  Parameter(
+                    (p) => p
+                      ..name = "permissionQueries"
+                      ..named = true
+                      ..type = const Reference("List<ModelPermissionQuery>?"),
+                  ),
                 ])
                 ..returns = Reference("_\$_${model.name}MirrorCollectionQuery")
                 ..body = Code(
-                  "return _\$_${model.name}MirrorCollectionQuery(CollectionModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Collection.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Collection.defaultModelAccessQuery, ));",
+                  "return _\$_${model.name}MirrorCollectionQuery(CollectionModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Collection.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Collection.defaultModelAccessQuery, validationQueries: permissionQueries?.toValidationQueries(\"${mirror.path}\") ?? _\$${model.name}Collection.defaultPermissionAccessQueries?.toValidationQueries(\"${mirror.path}\"), ));",
                 ),
             )
           ]),

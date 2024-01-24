@@ -68,3 +68,105 @@ extension ModelQueryBaseExtensions<TModel extends Listenable>
     return ref.model(this);
   }
 }
+
+/// Extension method of the [ModelPermissionQuery] list.
+///
+/// [ModelPermissionQuery]のリストの拡張メソッドです。
+extension ModelPermissionQueryListExtensions on List<ModelPermissionQuery> {
+  /// Convert a list of [ModelPermissionQuery] to a list of [ModelValidationQuery].
+  ///
+  /// [ModelPermissionQuery]のリストを[ModelValidationQuery]のリストに変換します。
+  List<ModelValidationQuery> toValidationQueries(String pathDefinition) {
+    return mapAndRemoveEmpty((item) {
+      switch (item.user) {
+        case ModelPermissionQueryUserType.allUsers:
+          switch (item.permission) {
+            case ModelPermissionQueryType.allowRead:
+              return const AllowReadModelValidationQuery.allUsers();
+            case ModelPermissionQueryType.allowWrite:
+              return const AllowWriteModelValidationQuery.allUsers();
+            case ModelPermissionQueryType.allowReadDocument:
+              return const AllowReadDocumentModelValidationQuery.allUsers();
+            case ModelPermissionQueryType.allowReadCollection:
+              return const AllowReadCollectionModelValidationQuery.allUsers();
+            case ModelPermissionQueryType.allowCreate:
+              return const AllowCreateModelValidationQuery.allUsers();
+            case ModelPermissionQueryType.allowUpdate:
+              return const AllowUpdateModelValidationQuery.allUsers();
+            case ModelPermissionQueryType.allowDelete:
+              return const AllowDeleteModelValidationQuery.allUsers();
+          }
+        case ModelPermissionQueryUserType.authUsers:
+          switch (item.permission) {
+            case ModelPermissionQueryType.allowRead:
+              return const AllowReadModelValidationQuery.authUsers();
+            case ModelPermissionQueryType.allowWrite:
+              return const AllowWriteModelValidationQuery.authUsers();
+            case ModelPermissionQueryType.allowReadDocument:
+              return const AllowReadDocumentModelValidationQuery.authUsers();
+            case ModelPermissionQueryType.allowReadCollection:
+              return const AllowReadCollectionModelValidationQuery.authUsers();
+            case ModelPermissionQueryType.allowCreate:
+              return const AllowCreateModelValidationQuery.authUsers();
+            case ModelPermissionQueryType.allowUpdate:
+              return const AllowUpdateModelValidationQuery.authUsers();
+            case ModelPermissionQueryType.allowDelete:
+              return const AllowDeleteModelValidationQuery.authUsers();
+          }
+        case ModelPermissionQueryUserType.userFromPath:
+          final key = item.key;
+          if (key is! String) {
+            return null;
+          }
+          final paths = pathDefinition.trimQuery().trimString("/").split("/");
+          if (paths.length % 2 == 0) {
+            paths.removeLast();
+          }
+          paths.add(kUidFieldKey);
+          final index = paths.indexOf(key);
+          if (index < 0) {
+            return null;
+          }
+          switch (item.permission) {
+            case ModelPermissionQueryType.allowRead:
+              return AllowReadModelValidationQuery.userFromPathIndex(index);
+            case ModelPermissionQueryType.allowWrite:
+              return AllowWriteModelValidationQuery.userFromPathIndex(index);
+            case ModelPermissionQueryType.allowReadDocument:
+              return AllowReadDocumentModelValidationQuery.userFromPathIndex(
+                  index);
+            case ModelPermissionQueryType.allowReadCollection:
+              return AllowReadCollectionModelValidationQuery.userFromPathIndex(
+                  index);
+            case ModelPermissionQueryType.allowCreate:
+              return AllowCreateModelValidationQuery.userFromPathIndex(index);
+            case ModelPermissionQueryType.allowUpdate:
+              return AllowUpdateModelValidationQuery.userFromPathIndex(index);
+            case ModelPermissionQueryType.allowDelete:
+              return AllowDeleteModelValidationQuery.userFromPathIndex(index);
+          }
+        case ModelPermissionQueryUserType.userFromData:
+          final key = item.key;
+          if (key is! String) {
+            return null;
+          }
+          switch (item.permission) {
+            case ModelPermissionQueryType.allowRead:
+              return AllowReadModelValidationQuery.userFromData(key);
+            case ModelPermissionQueryType.allowWrite:
+              return AllowWriteModelValidationQuery.userFromData(key);
+            case ModelPermissionQueryType.allowReadDocument:
+              return AllowReadDocumentModelValidationQuery.userFromData(key);
+            case ModelPermissionQueryType.allowReadCollection:
+              return AllowReadCollectionModelValidationQuery.userFromData(key);
+            case ModelPermissionQueryType.allowCreate:
+              return AllowCreateModelValidationQuery.userFromData(key);
+            case ModelPermissionQueryType.allowUpdate:
+              return AllowUpdateModelValidationQuery.userFromData(key);
+            case ModelPermissionQueryType.allowDelete:
+              return AllowDeleteModelValidationQuery.userFromData(key);
+          }
+      }
+    });
+  }
+}

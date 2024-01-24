@@ -34,6 +34,27 @@ class PathValue {
   // ignore: library_private_types_in_public_api
   late final List<_PathValue> parameters;
 
+  /// Outputs paths for rules.
+  ///
+  /// ルール用のパスを出力します。
+  String get rulePath {
+    final paths =
+        path.trimQuery().trimString("/").replaceAllMapped(_pathRegExp, (match) {
+      final key = match.group(1);
+      if (key.isEmpty) {
+        throw Exception("Key is empty.");
+      }
+      return "{${key!.toCamelCase()}}";
+    }).split("/");
+    if (paths.length % 2 == 0) {
+      paths.removeLast();
+      paths.add("{uid}");
+      return paths.join("/");
+    } else {
+      return "$path/{uid}";
+    }
+  }
+
   @override
   String toString() {
     return "$path(${parameters.map((e) => e.toString()).join(", ")})";

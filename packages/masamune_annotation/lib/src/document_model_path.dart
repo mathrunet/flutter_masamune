@@ -12,6 +12,8 @@ part of '/masamune_annotation.dart';
 ///
 /// You can specify a default model adapter by specifying [adapter].
 ///
+/// You can define access rights to the model by specifying [permission] or [mirrorPermission].
+///
 /// Each data can be retrieved with `document.mirror` and can be `loaded` and `saved` in the same way.
 ///
 /// In addition, by using `saveSync` and `deleteSync`, data can be saved and deleted synchronously.
@@ -29,6 +31,8 @@ part of '/masamune_annotation.dart';
 /// [mirror]にパスを定義すると別のパスに同じデータを複製することができます。
 ///
 /// [adapter]を指定することでデフォルトのモデルアダプターを指定することができます。
+///
+/// [permission]や[mirrorPermission]を指定するとモデルへのアクセス権を定義することができます。
 ///
 /// それぞれのデータは`document.mirror`で取得でき、同じように`load`や`save`ができるようになります。
 ///
@@ -68,6 +72,8 @@ class DocumentModelPath {
   ///
   /// You can specify a default model adapter by specifying [adapter].
   ///
+  /// You can define access rights to the model by specifying [permission] or [mirrorPermission].
+  ///
   /// Each data can be retrieved with `document.mirror` and can be `loaded` and `saved` in the same way.
   ///
   /// In addition, by using `saveSync` and `deleteSync`, data can be saved and deleted synchronously.
@@ -85,6 +91,8 @@ class DocumentModelPath {
   /// [mirror]にパスを定義すると別のパスに同じデータを複製することができます。
   ///
   /// [adapter]を指定することでデフォルトのモデルアダプターを指定することができます。
+  ///
+  /// [permission]や[mirrorPermission]を指定するとモデルへのアクセス権を定義することができます。
   ///
   /// それぞれのデータは`document.mirror`で取得でき、同じように`load`や`save`ができるようになります。
   ///
@@ -116,6 +124,8 @@ class DocumentModelPath {
     this.mirror,
     this.adapter,
     this.endpoint,
+    this.permission,
+    this.mirrorPermission,
   });
 
   /// Path for documentation.
@@ -137,4 +147,32 @@ class DocumentModelPath {
   ///
   /// APIにアクセスするためのエンドポイント。
   final String? endpoint;
+
+  /// List to define permissions.
+  ///
+  /// If [Null], all are allowed; if [List] is empty, all are denied.
+  ///
+  /// If `firebase/firestore.rules` exists, Firestore rules are automatically generated when `build_runner` is run.
+  ///
+  /// パーミッションを定義するためのリスト。
+  ///
+  /// [Null]の場合はすべて許可となり、[List]が空の場合はすべて拒否となります。
+  ///
+  /// `firebase/firestore.rules`が存在している場合、`build_runner`実行時Firestoreのルールを自動生成します。
+  final List<ModelPermissionQuery>? permission;
+
+  /// List to define permissions for [mirror].
+  ///
+  /// If [Null], all are allowed; if [List] is empty, all are denied.
+  /// Even in the case of [Null], if [permission] is not [Null], it takes precedence.
+  ///
+  /// If `firebase/firestore.rules` exists, Firestore rules are automatically generated when `build_runner` is run.
+  ///
+  /// [mirror]用のパーミッションを定義するためのリスト。
+  ///
+  /// [Null]の場合はすべて許可となり、[List]が空の場合はすべて拒否となります。
+  /// また、[Null]の場合でも[permission]が[Null]でない場合はそちらが優先されます。
+  ///
+  /// `firebase/firestore.rules`が存在している場合、`build_runner`実行時Firestoreのルールを自動生成します。
+  final List<ModelPermissionQuery>? mirrorPermission;
 }

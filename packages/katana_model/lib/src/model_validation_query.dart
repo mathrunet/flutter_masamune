@@ -107,11 +107,15 @@ enum ModelValidationQueryUserType {
   /// {@template model_validation_query_user_type_user_from_path_index}
   /// An authenticated user whose user ID matches the dynamic value specified by the index number in the document or collection path and the user ID authenticated on the app.
   ///
+  /// You can specify odd numbers such as `1` or `3` even if you specify a collection since it will always be compared to a document.
+  ///
   /// If [allUsers] or [authUsers] is specified, it takes precedence.
   ///
   /// [userFromData] can be specified at the same time.
   ///
   /// 認証済みユーザーのうち、ドキュメントやコレクションのパス中のインデックス番号で指定する動的な値とアプリ上で認証しているユーザーIDが一致するユーザー。
+  ///
+  /// 必ずドキュメントとの比較になるのでコレクションを指定した場合でも`1`や`3`などの奇数番号を指定可能です。
   ///
   /// [allUsers]や[authUsers]が指定されている場合はそちらが優先されます。
   ///
@@ -132,11 +136,15 @@ enum ModelValidationQueryUserType {
   /// {@template model_validation_query_user_type_user_from_data}
   /// An authenticated user whose user ID matches the value of a field with `key` in the document to be read or written and the user ID authenticated on the app.
   ///
+  /// If `@uid` is specified, a comparison with the document ID is performed.
+  ///
   /// If [allUsers] or [authUsers] is specified, it takes precedence.
   ///
   /// [userFromPathIndex] can be specified at the same time.
   ///
   /// 認証済みユーザーのうち、読み込みや書き込み対象のドキュメント中に`key`を持つフィールドの値ととアプリ上で認証しているユーザーIDが一致するユーザー。
+  ///
+  /// `@uid`が指定されている場合ドキュメントIDとの比較が行われます。
   ///
   /// [allUsers]や[authUsers]が指定されている場合はそちらが優先されます。
   ///
@@ -208,33 +216,38 @@ abstract class ModelValidationQuery {
     switch (user) {
       case ModelValidationQueryUserType.allUsers:
       case ModelValidationQueryUserType.userFromData:
+      case ModelValidationQueryUserType.userFromPathIndex:
         return true;
       case ModelValidationQueryUserType.authUsers:
         return userId.isNotEmpty;
-      case ModelValidationQueryUserType.userFromPathIndex:
-        if (key is! int) {
-          return false;
-        }
-        final path = query.path.trimQuery().trimString("/").split("/");
-        final index = key as int;
-        if (path.length <= index) {
-          return false;
-        }
-        final pathUserId = path[index];
-        return pathUserId == userId;
     }
   }
 
   bool _checkPermissionWithValue({
     required ModelQuery query,
+    required String? docId,
     required DynamicMap? value,
     String? userId,
   }) {
     switch (user) {
       case ModelValidationQueryUserType.allUsers:
       case ModelValidationQueryUserType.authUsers:
-      case ModelValidationQueryUserType.userFromPathIndex:
         return true;
+      case ModelValidationQueryUserType.userFromPathIndex:
+        if (key is! int || docId.isEmpty) {
+          return false;
+        }
+        final path = query.path.trimQuery().trimString("/").split("/");
+        if (path.length % 2 == 0) {
+          path.removeLast();
+        }
+        path.add(docId!);
+        final index = key as int;
+        if (path.length <= index) {
+          return false;
+        }
+        final pathUserId = path[index];
+        return pathUserId == userId;
       case ModelValidationQueryUserType.userFromData:
         if (key is! String || value == null) {
           return false;
