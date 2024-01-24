@@ -1,3 +1,7 @@
+## 2.14.1
+
+ - **DOCS**: Changed ModelAdapter comment. ([e8c4bce3](https://github.com/mathrunet/flutter_masamune/commit/e8c4bce3a32a8436ecc57ac13250de533675c4a1))
+
 ## 2.14.0
 
  - **FEAT**: Added ModelAdapter command. ([fd85f00e](https://github.com/mathrunet/flutter_masamune/commit/fd85f00e6311e50d4e80faecb6434e2af8a10ebc))

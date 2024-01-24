@@ -1,3 +1,7 @@
+## 2.14.1
+
+ - Update a dependency to the latest release.
+
 ## 2.14.0
 
  - **FEAT**: Added DatabaseValidator. ([fd0aa02c](https://github.com/mathrunet/flutter_masamune/commit/fd0aa02c6c99c9034e481c22d048eae8c4a29c3b))

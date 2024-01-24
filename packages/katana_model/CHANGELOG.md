@@ -1,3 +1,8 @@
+## 2.20.0
+
+ - **FIX**: Delete ClientUser. ([06a48c00](https://github.com/mathrunet/flutter_masamune/commit/06a48c0009a0cf8e54f94f9ee9b870c000af7be0))
+ - **FEAT**: Addition of automatic FirestoreRule generation. ([3fb4c2c8](https://github.com/mathrunet/flutter_masamune/commit/3fb4c2c8f9205c362d219174c09d2d2dd3324038))
+
 ## 2.19.0
 
  - **FEAT**: Added DatabaseValidator. ([5e0edab1](https://github.com/mathrunet/flutter_masamune/commit/5e0edab19b817a31139fc31dc8be244f936e4fa5))
