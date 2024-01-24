@@ -1,3 +1,7 @@
+## 2.0.52
+
+ - **FIX**: Fixed bugs around ModelPermissionQuery. ([bd7cb918](https://github.com/mathrunet/flutter_masamune/commit/bd7cb9186cba2959d8fd9883bceeb82824a8613c))
+
 ## 2.0.51
 
  - Update a dependency to the latest release.

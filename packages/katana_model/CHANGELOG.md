@@ -1,3 +1,7 @@
+## 2.20.1
+
+ - **FIX**: Fixed bugs around ModelPermissionQuery. ([bd7cb918](https://github.com/mathrunet/flutter_masamune/commit/bd7cb9186cba2959d8fd9883bceeb82824a8613c))
+
 ## 2.20.0
 
  - **FIX**: Delete ClientUser. ([06a48c00](https://github.com/mathrunet/flutter_masamune/commit/06a48c0009a0cf8e54f94f9ee9b870c000af7be0))
