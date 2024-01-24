@@ -264,14 +264,14 @@ List<Spec> collectionModelClass(
           ),
           Field(
             (f) => f
-              ..name = "defaultPermissionQueries"
+              ..name = "defaultValidationQueries"
               ..static = true
               ..modifier = FieldModifier.constant
-              ..type = const Reference("List<ModelPermissionQuery>?")
+              ..type = const Reference("List<ModelValidationQuery>?")
               ..assignment = Code(
                 annotation.permission == null
                     ? "null"
-                    : "[${annotation.permission!.join(",")}]",
+                    : "[${annotation.permission!.map((e) => e.toValidationQueryString(path)).where((e) => e.isNotEmpty).join(",")}]",
               ),
           ),
           if (googleSpreadSheetValue.source.isEmpty)
@@ -371,14 +371,14 @@ List<Spec> collectionModelClass(
             ),
             Field(
               (f) => f
-                ..name = "defaultPermissionQueries"
+                ..name = "defaultValidationQueries"
                 ..static = true
                 ..modifier = FieldModifier.constant
-                ..type = const Reference("List<ModelPermissionQuery>?")
+                ..type = const Reference("List<ModelValidationQuery>?")
                 ..assignment = Code(
                   annotation.mirrorPermission == null
                       ? "null"
-                      : "[${annotation.mirrorPermission!.join(",")}]",
+                      : "[${annotation.mirrorPermission!.map((e) => e.toValidationQueryString(mirror)).where((e) => e.isNotEmpty).join(",")}]",
                 ),
             ),
             if (googleSpreadSheetValue.source.isEmpty)

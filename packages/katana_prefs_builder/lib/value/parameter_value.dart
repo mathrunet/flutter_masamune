@@ -28,7 +28,7 @@ class ParamaterValue {
       );
     }
     bool exists = false;
-    type = element.type;
+    type = element.type as InterfaceType;
     required = element.isRequired;
     for (final meta in element.metadata) {
       final match = _regexp.firstMatch(meta.toSource());
@@ -59,7 +59,7 @@ class ParamaterValue {
   /// Parameter Type.
   ///
   /// パラメーターのタイプ。
-  late final DartType type;
+  late final InterfaceType type;
 
   /// Name of parameter.
   ///

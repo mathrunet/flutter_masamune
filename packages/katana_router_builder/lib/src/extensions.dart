@@ -23,7 +23,7 @@ extension _DartObjectExtensions on DartObject {
   }
 }
 
-extension _DartTypeExtensions on DartType {
+extension _InterfaceTypeExtensions on InterfaceType {
   bool get isNullable {
     return toString().endsWith("?");
   }

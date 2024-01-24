@@ -22,7 +22,7 @@ class ParamaterValue {
   /// [element]にパラメーターエレメントを指定します。
   ParamaterValue(this.element) {
     name = element.displayName;
-    type = element.type;
+    type = element.type as InterfaceType;
     required = element.isRequired;
     isSearchable = _searchParamChecker.hasAnnotationOfExact(element);
     if (_refParamChecker.hasAnnotationOfExact(element)) {
@@ -63,7 +63,7 @@ class ParamaterValue {
   /// Parameter Type.
   ///
   /// パラメーターのタイプ。
-  late final DartType type;
+  late final InterfaceType type;
 
   /// Name of parameter.
   ///

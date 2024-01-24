@@ -1,16 +1,90 @@
 part of '/masamune_model_firestore_builder.dart';
 
-extension _DartTypeExtensions on DartType {
+extension _InterfaceTypeExtensions on InterfaceType {
   bool get isNullable {
     return toString().endsWith("?");
   }
 
-  String get aliasName {
-    final aliasElement = alias?.element;
-    if (aliasElement != null) {
-      return aliasElement.name;
-    }
-    return toString();
+  List<InterfaceType> get allTypes {
+    return [this, ...allSupertypes];
+  }
+
+  bool get isModelRef {
+    return allTypes.any(
+      (e) => e.toString().startsWith(RegExp(r"^ModelRefBase\<[^>]+\>")),
+    );
+  }
+
+  bool get isModelCounter {
+    return allTypes.any(
+      (e) => e.toString().startsWith(RegExp(r"^ModelCounter")),
+    );
+  }
+
+  bool get isModelTimestamp {
+    return allTypes.any(
+      (e) => e.toString().startsWith(RegExp(r"^ModelTimestamp")),
+    );
+  }
+
+  bool get isModelDate {
+    return allTypes.any(
+      (e) => e.toString().startsWith(RegExp(r"^ModelDate")),
+    );
+  }
+
+  bool get isModelSearch {
+    return allTypes.any(
+      (e) => e.toString().startsWith(RegExp(r"^ModelSearch")),
+    );
+  }
+
+  bool get isModelToken {
+    return allTypes.any(
+      (e) => e.toString().startsWith(RegExp(r"^ModelToken")),
+    );
+  }
+
+  bool get isModelUri {
+    return allTypes.any(
+      (e) => e.toString().startsWith(RegExp(r"^ModelUri")),
+    );
+  }
+
+  bool get isModelImageUri {
+    return allTypes.any(
+      (e) => e.toString().startsWith(RegExp(r"^ModelImageUri")),
+    );
+  }
+
+  bool get isModelVideoUri {
+    return allTypes.any(
+      (e) => e.toString().startsWith(RegExp(r"^ModelVideoUri")),
+    );
+  }
+
+  bool get isModelGeoValue {
+    return allTypes.any(
+      (e) => e.toString().startsWith(RegExp(r"^ModelGeoValue")),
+    );
+  }
+
+  bool get isModelLocale {
+    return allTypes.any(
+      (e) => e.toString().startsWith(RegExp(r"^ModelLocale")),
+    );
+  }
+
+  bool get isModelLocalizedValue {
+    return allTypes.any(
+      (e) => e.toString().startsWith(RegExp(r"^ModelLocalizedValue")),
+    );
+  }
+
+  bool get isModelCommand {
+    return allTypes.any(
+      (e) => e.toString().startsWith(RegExp(r"^ModelCommandBase")),
+    );
   }
 
   String toRuleFunction() {
@@ -31,14 +105,32 @@ extension _DartTypeExtensions on DartType {
       return "is$nullable${RuleType.list.label}";
     } else if (isDartCoreEnum) {
       return "is${nullable}Enum";
-    } else {
-      final aliasName = this.aliasName.trimStringRight("?");
-      for (final type in RuleModelFieldValueType.values) {
-        if (type.label != aliasName) {
-          continue;
-        }
-        return "is$nullable${type.label}";
-      }
+    } else if (isModelRef) {
+      return "is$nullable${RuleModelFieldValueType.modelRef.label}";
+    } else if (isModelCounter) {
+      return "is$nullable${RuleModelFieldValueType.modelCounter.label}";
+    } else if (isModelTimestamp) {
+      return "is$nullable${RuleModelFieldValueType.modelTimestamp.label}";
+    } else if (isModelDate) {
+      return "is$nullable${RuleModelFieldValueType.modelDate.label}";
+    } else if (isModelSearch) {
+      return "is$nullable${RuleModelFieldValueType.modelSearch.label}";
+    } else if (isModelToken) {
+      return "is$nullable${RuleModelFieldValueType.modelToken.label}";
+    } else if (isModelUri) {
+      return "is$nullable${RuleModelFieldValueType.modelUri.label}";
+    } else if (isModelImageUri) {
+      return "is$nullable${RuleModelFieldValueType.modelImageUri.label}";
+    } else if (isModelVideoUri) {
+      return "is$nullable${RuleModelFieldValueType.modelVideoUri.label}";
+    } else if (isModelGeoValue) {
+      return "is$nullable${RuleModelFieldValueType.modelGeoValue.label}";
+    } else if (isModelLocale) {
+      return "is$nullable${RuleModelFieldValueType.modelLocale.label}";
+    } else if (isModelLocalizedValue) {
+      return "is$nullable${RuleModelFieldValueType.modelLocalizedValue.label}";
+    } else if (isModelCommand) {
+      return "is$nullable${RuleModelFieldValueType.modelCommand.label}";
     }
     return "";
   }

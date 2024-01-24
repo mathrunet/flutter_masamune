@@ -59,9 +59,14 @@ class ModelAnnotationValue {
           final mirrorMatch = _mirrorWithSingleQuoteRegExp.firstMatch(source) ??
               _mirrorWithDoubleQuoteRegExp.firstMatch(source) ??
               _mirrorWithVariableRegExp.firstMatch(source);
+          final permissionMatch = _permissionRegExp.firstMatch(source);
+          final mirrorPermissionMatch =
+              _mirrorPermissionRegExp.firstMatch(source);
           final match = adapterMatch
               .group(1)
               ?.replaceAll(mirrorMatch?.group(0) ?? "", "")
+              .replaceAll(permissionMatch?.group(0) ?? "", "")
+              .replaceAll(mirrorPermissionMatch?.group(0) ?? "", "")
               .trim()
               .trimString(",")
               .trim();
@@ -81,10 +86,12 @@ class ModelAnnotationValue {
     endpoint = null;
   }
 
-  static final _mirrorWithSingleQuoteRegExp = RegExp(r"mirror\s*:\s*('[^']+')");
-  static final _mirrorWithDoubleQuoteRegExp = RegExp(r'mirror\s*:\s*("[^"]+")');
+  static final _mirrorWithSingleQuoteRegExp =
+      RegExp(r"mirror\s*:\s*('[^']+'),?");
+  static final _mirrorWithDoubleQuoteRegExp =
+      RegExp(r'mirror\s*:\s*("[^"]+"),?');
   static final _mirrorWithVariableRegExp =
-      RegExp(r'mirror\s*:\s*([a-zA-Z0-9$._-]+)');
+      RegExp(r'mirror\s*:\s*([a-zA-Z0-9$._-]+),?');
   static final _permissionRegExp = RegExp(r"permission\s*:\s*\[([^\]]*)\],?");
   static final _mirrorPermissionRegExp =
       RegExp(r"mirrorPermission\s*:\s*\[([^\]]*)\],?");

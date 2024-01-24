@@ -11,6 +11,7 @@ class RuleValue {
     required this.classValue,
     required this.pathValue,
     required this.annotationValue,
+    this.mirrorPathValue,
   });
 
   /// The parsed value of the class.
@@ -23,6 +24,11 @@ class RuleValue {
   /// パスのパースされた値。
   final PathValue pathValue;
 
+  /// The parsed value of the mirror path.
+  ///
+  /// ミラーパスのパースされた値。
+  final PathValue? mirrorPathValue;
+
   /// The parsed value of the annotation.
   ///
   /// アノテーションのパースされた値。
@@ -32,6 +38,15 @@ class RuleValue {
   ///
   /// ルールを生成する。
   StringBuffer apply(StringBuffer buffer) {
+    buffer = _applyAtPath(buffer, pathValue);
+    if (mirrorPathValue == null) {
+      return buffer;
+    }
+    buffer = _applyAtPath(buffer, mirrorPathValue!);
+    return buffer;
+  }
+
+  StringBuffer _applyAtPath(StringBuffer buffer, PathValue pathValue) {
     final path = pathValue.rulePath;
     final functionName = classValue.name.toPascalCase();
     buffer.writeln("    match /$path {");
@@ -70,24 +85,9 @@ class RuleValue {
         if (permissionType == null || userType == null) {
           continue;
         }
-        var key = permission.key;
-        if (userType == ModelPermissionQueryUserType.userFromPath) {
-          if (!path.contains("{$key}")) {
-            key = key?.toCamelCase();
-            if (!path.contains("{$key}")) {
-              key = key?.toPascalCase();
-              if (!path.contains("{$key}")) {
-                key = key?.toSnakeCase();
-                if (!path.contains("{$key}")) {
-                  key = key?.toUpperCase();
-                  if (!path.contains("{$key}")) {
-                    continue;
-                  }
-                }
-              }
-            }
-          }
-        }
+        final key = userType == ModelPermissionQueryUserType.userFromPath
+            ? pathValue.keyFromRulePath(permission.key)
+            : permission.key;
         switch (permissionType) {
           case ModelPermissionQueryType.allowRead:
           case ModelPermissionQueryType.allowReadDocument:

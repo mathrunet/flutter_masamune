@@ -22,7 +22,7 @@ class ParamaterValue {
         "`$name` is a prohibited word. This word cannot be set as a parameter. Please specify another name.",
       );
     }
-    type = element.type;
+    type = element.type as InterfaceType;
     required = element.isRequired;
   }
 
@@ -34,7 +34,7 @@ class ParamaterValue {
   /// Parameter Type.
   ///
   /// パラメーターのタイプ。
-  late final DartType type;
+  late final InterfaceType type;
 
   /// Name of parameter.
   ///

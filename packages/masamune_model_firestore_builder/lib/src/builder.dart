@@ -10,6 +10,8 @@ Builder masamuneModelFirestoreBuilderFactory(BuilderOptions options) {
 class _MasamuneModelFirestoreBuilder extends Builder {
   _MasamuneModelFirestoreBuilder();
 
+  static final rules = <RuleValue>[];
+
   static const _firebaseDir = "firebase";
 
   static const _collectionModelPathChecker =
@@ -81,7 +83,6 @@ class _MasamuneModelFirestoreBuilder extends Builder {
       return;
     }
 
-    final rules = <RuleValue>[];
     final library = await buildStep.resolver.libraryFor(buildStep.inputId);
     final libraryReader = LibraryReader(library);
     for (final annotatedElement
@@ -109,6 +110,14 @@ class _MasamuneModelFirestoreBuilder extends Builder {
                 .stringValue
                 .trimString("/"),
           ),
+          mirrorPathValue: annotatedElement.annotation.read("mirror").isNull
+              ? null
+              : PathValue(
+                  annotatedElement.annotation
+                      .read("mirror")
+                      .stringValue
+                      .trimString("/"),
+                ),
           annotationValue: ModelAnnotationValue(element, DocumentModelPath),
         ),
       );
@@ -138,6 +147,14 @@ class _MasamuneModelFirestoreBuilder extends Builder {
                 .stringValue
                 .trimString("/"),
           ),
+          mirrorPathValue: annotatedElement.annotation.read("mirror").isNull
+              ? null
+              : PathValue(
+                  annotatedElement.annotation
+                      .read("mirror")
+                      .stringValue
+                      .trimString("/"),
+                ),
           annotationValue: ModelAnnotationValue(element, CollectionModelPath),
         ),
       );
@@ -145,6 +162,7 @@ class _MasamuneModelFirestoreBuilder extends Builder {
     if (rules.isEmpty) {
       return;
     }
+    rules.sort((a, b) => a.pathValue.path.compareTo(b.pathValue.path));
     await _buildRules(rules, buildStep);
   }
 

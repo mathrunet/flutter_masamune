@@ -481,6 +481,7 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
     required this.value,
     this.adapter,
     this.accessQuery,
+    this.validationQueries,
   });
 
   /// Callback to retrieve [ModelRefBase] stored in [TSource].
@@ -511,6 +512,15 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
   /// 指定されない場合は、現在のドキュメントで利用されている[ModelAccessQuery]が利用されます。
   final ModelAccessQuery? accessQuery;
 
+  /// Specify a list of [ModelValidationQuery] for use in the internal model.
+  ///
+  /// If not specified, the list of [ModelValidationQuery] used in the current document is used.
+  ///
+  /// 内部モデルで利用するための[ModelValidationQuery]のリストを指定します。
+  ///
+  /// 指定されない場合は、現在のドキュメントで利用されている[ModelValidationQuery]のリストが利用されます。
+  final List<ModelValidationQuery>? validationQueries;
+
   /// Callback to store the generated [ModelRefMixin<TResult>] in [TSource].
   ///
   /// [TSource]に生成された[ModelRefMixin<TResult>]を格納するためのコールバック。
@@ -540,6 +550,8 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
       ref.modelQuery.path,
       adapter: adapter ?? loaderModelQuery.adapter,
       accessQuery: accessQuery ?? loaderModelQuery.accessQuery,
+      validationQueries:
+          validationQueries ?? loaderModelQuery.validationQueries,
     );
     if (cacheList.containsKey(modelQuery)) {
       final doc = cacheList[modelQuery];

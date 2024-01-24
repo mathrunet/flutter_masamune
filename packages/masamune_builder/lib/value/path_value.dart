@@ -51,8 +51,32 @@ class PathValue {
       paths.add("{uid}");
       return paths.join("/");
     } else {
-      return "$path/{uid}";
+      return "${paths.join("/")}/{uid}";
     }
+  }
+
+  /// Obtains the key corresponding to the [rulePath] parameter.
+  ///
+  /// [rulePath]のパラメーターに対応するキーを取得します。
+  String? keyFromRulePath(String? key) {
+    final path = rulePath;
+    key = key?.trimString("'").trimString('"');
+    if (!path.contains("{$key}")) {
+      key = key?.toCamelCase();
+      if (!path.contains("{$key}")) {
+        key = key?.toPascalCase();
+        if (!path.contains("{$key}")) {
+          key = key?.toSnakeCase();
+          if (!path.contains("{$key}")) {
+            key = key?.toUpperCase();
+            if (!path.contains("{$key}")) {
+              return null;
+            }
+          }
+        }
+      }
+    }
+    return key;
   }
 
   @override

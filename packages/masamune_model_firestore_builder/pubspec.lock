@@ -356,14 +356,14 @@ packages:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "2.4.10"
+    version: "2.5.0"
   masamune_builder:
     dependency: "direct main"
     description:
       path: "../masamune_builder"
       relative: true
     source: path
-    version: "2.10.6"
+    version: "2.11.0"
   matcher:
     dependency: transitive
     description:

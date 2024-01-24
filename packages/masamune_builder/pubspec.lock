@@ -356,7 +356,7 @@ packages:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "2.4.10"
+    version: "2.5.0"
   matcher:
     dependency: transitive
     description:

@@ -1,6 +1,6 @@
 part of '/masamune_builder.dart';
 
-extension _DartTypeExtensions on DartType {
+extension _InterfaceTypeExtensions on InterfaceType {
   String get aliasName {
     final aliasElement = alias?.element;
     if (aliasElement != null) {
