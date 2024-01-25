@@ -4,16 +4,6 @@ part of '/masamune_model_firestore_builder.dart';
 ///
 /// Firestoreのルールの値の型。
 enum RuleType {
-  /// Undefined.
-  ///
-  /// 未定義。
-  undefined,
-
-  /// Null or undefined.
-  ///
-  /// Nullまたは未定義。
-  nullOrUndefined,
-
   /// String.
   ///
   /// 文字列。
@@ -62,7 +52,17 @@ enum RuleType {
   /// Enum type.
   ///
   /// Enum型。
-  enumType;
+  enumType,
+
+  /// Null or undefined.
+  ///
+  /// Nullまたは未定義。
+  nullOrUndefined,
+
+  /// Undefined.
+  ///
+  /// 未定義。
+  undefined;
 
   /// Get the label.
   ///
@@ -121,7 +121,7 @@ enum RuleType {
       case RuleType.timestamp:
         return "data[field] is timestamp";
       case RuleType.geo:
-        return "data[field] is laglng";
+        return "data[field] is latlng";
       case RuleType.reference:
         return "data[field] is path";
     }
@@ -134,21 +134,28 @@ enum RuleType {
     switch (this) {
       case RuleType.undefined:
       case RuleType.nullOrUndefined:
-        buffer.writeln("    function is$label(data, field) {");
-        buffer.writeln("      return $code;");
-        buffer.writeln("    }");
+        buffer = createFunction(
+          buffer,
+          functionName: "is$label",
+          parameters: "data, field",
+          body: "return $code;",
+        );
         break;
       default:
-        buffer.writeln("    function is$label(data, field) {");
-        buffer.writeln(
-          "      return !is${RuleType.nullOrUndefined.label}(data, field) && $code;",
+        buffer = createFunction(
+          buffer,
+          functionName: "is$label",
+          parameters: "data, field",
+          body:
+              "return !is${RuleType.nullOrUndefined.label}(data, field) && $code;",
         );
-        buffer.writeln("    }");
-        buffer.writeln("    function isNullable$label(data, field) {");
-        buffer.writeln(
-          "      return is${RuleType.nullOrUndefined.label}(data, field) || $code;",
+        buffer = createFunction(
+          buffer,
+          functionName: "isNullable$label",
+          parameters: "data, field",
+          body:
+              "return is${RuleType.nullOrUndefined.label}(data, field) || $code;",
         );
-        buffer.writeln("    }");
         break;
     }
     return buffer;
@@ -266,9 +273,9 @@ enum RuleModelFieldValueType {
       case RuleModelFieldValueType.modelCounter:
         return "isDouble(data, field) && isMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelTimestamp:
-        return "isTime(data, field) && isMap(data, \"#\" + field)";
+        return "isTimestamp(data, field) && isMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelDate:
-        return "isTime(data, field) && isMap(data, \"#\" + field)";
+        return "isTimestamp(data, field) && isMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelCommand:
         return "isString(data, field) && isMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelGeoValue:
@@ -300,9 +307,9 @@ enum RuleModelFieldValueType {
       case RuleModelFieldValueType.modelCounter:
         return "isNullableDouble(data, field) && isNullableMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelTimestamp:
-        return "isNullableTime(data, field) && isNullableMap(data, \"#\" + field)";
+        return "isNullableTimestamp(data, field) && isNullableMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelDate:
-        return "isNullableTime(data, field) && isNullableMap(data, \"#\" + field)";
+        return "isNullableTimestamp(data, field) && isNullableMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelCommand:
         return "isNullableString(data, field) && isNullableMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelGeoValue:
@@ -330,16 +337,18 @@ enum RuleModelFieldValueType {
   ///
   /// [StringBuffer]に適用します。
   StringBuffer apply(StringBuffer buffer) {
-    buffer.writeln("    function is$label(data, field) {");
-    buffer.writeln(
-      "      return $code;",
+    buffer = createFunction(
+      buffer,
+      functionName: "is$label",
+      parameters: "data, field",
+      body: "return $code;",
     );
-    buffer.writeln("    }");
-    buffer.writeln("    function isNullable$label(data, field) {");
-    buffer.writeln(
-      "      return $nullableCode;",
+    buffer = createFunction(
+      buffer,
+      functionName: "isNullable$label",
+      parameters: "data, field",
+      body: "return $nullableCode;",
     );
-    buffer.writeln("    }");
     return buffer;
   }
 }

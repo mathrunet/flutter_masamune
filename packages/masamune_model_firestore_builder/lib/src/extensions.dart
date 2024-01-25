@@ -203,7 +203,7 @@ extension ModelPermissionQueryUserTypeExtension
     }
   }
 
-  String code([String? key]) {
+  String code([String? key, bool isReference = false]) {
     switch (this) {
       case ModelPermissionQueryUserType.allUsers:
         return "true";
@@ -211,10 +211,16 @@ extension ModelPermissionQueryUserTypeExtension
         return "isAuthUser()";
       case ModelPermissionQueryUserType.userFromPath:
         assert(key.isNotEmpty, "key is empty.");
+        if (key == "@uid") {
+          return "isSpecifiedUser(uid)";
+        }
         return "isSpecifiedUser($key)";
       case ModelPermissionQueryUserType.userFromData:
         assert(key.isNotEmpty, "key is empty.");
-        return "isSpecifiedUser($key)";
+        if (isReference) {
+          return "isSpecifiedUser(getReferenceUid(getResource(), \"$key\"))";
+        }
+        return "isSpecifiedUser(getValue(getResource(), \"$key\"))";
     }
   }
 }

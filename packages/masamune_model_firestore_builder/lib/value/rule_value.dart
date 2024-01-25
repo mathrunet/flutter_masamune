@@ -55,26 +55,7 @@ class RuleValue {
     } else if (annotationValue.permission.isEmpty) {
       buffer.writeln("      allow read, write: if false;");
     } else {
-      buffer.writeln("      function verify$functionName(data) {");
-      final paramList = <String>[];
-      for (final param in classValue.parameters) {
-        final key = param.jsonKey ?? param.name;
-        if (param.isSearchable && !paramList.contains("isSearchable(data)")) {
-          paramList.add("isSearchable(data)");
-        }
-        if (param.isJsonSerializable) {
-          paramList.add(
-            "is${param.type.isNullable ? "Nullable" : ""}Map(data, \"$key\")",
-          );
-        } else {
-          final functionName = param.type.toRuleFunction();
-          if (functionName.isNotEmpty) {
-            paramList.add("$functionName(data, \"$key\")");
-          }
-        }
-      }
-      buffer.writeln("        return ${paramList.join(" && ")};");
-      buffer.writeln("      }");
+      bool useFunction = false;
       for (final permission in annotationValue.permission!) {
         final permissionType = ModelPermissionQueryType.values.firstWhereOrNull(
           (item) => item.className == permission.type,
@@ -87,21 +68,51 @@ class RuleValue {
         }
         final key = userType == ModelPermissionQueryUserType.userFromPath
             ? pathValue.keyFromRulePath(permission.key)
-            : permission.key;
+            : permission.key?.trimString("'").trimString('"');
+        final isReference = classValue.parameters.any((e) {
+          if (e.jsonKey != key && e.name != key) {
+            return false;
+          }
+          return e.reference.isNotEmpty;
+        });
         switch (permissionType) {
           case ModelPermissionQueryType.allowRead:
           case ModelPermissionQueryType.allowReadDocument:
           case ModelPermissionQueryType.allowReadCollection:
             buffer.writeln(
-              "      ${permissionType.code}: if ${userType.code(key)};",
+              "      ${permissionType.code}: if ${userType.code(key, isReference)};",
             );
             break;
           default:
+            useFunction = true;
             buffer.writeln(
-              "      ${permissionType.code}: if ${userType.code(key)} && verify$functionName(getResource());",
+              "      ${permissionType.code}: if ${userType.code(key, isReference)} && verify$functionName(getResource());",
             );
             break;
         }
+      }
+      if (useFunction) {
+        buffer.writeln("      function verify$functionName(data) {");
+        final paramList = <String>[];
+        for (final param in classValue.parameters) {
+          final key = param.jsonKey ?? param.name;
+          if (param.isSearchable && !paramList.contains("isSearchable(data)")) {
+            paramList.add("isSearchable(data)");
+          }
+          if (param.isJsonSerializable) {
+            paramList.add(
+              "is${param.type.isNullable ? "Nullable" : ""}Map(data, \"$key\")",
+            );
+          } else {
+            final functionName = param.type.toRuleFunction();
+            if (functionName.isNotEmpty) {
+              paramList.add("$functionName(data, \"$key\")");
+            }
+          }
+        }
+        buffer.writeln(
+            "        return isDocument(data) && ${paramList.join(" && ")};");
+        buffer.writeln("      }");
       }
     }
     buffer.writeln("    }");

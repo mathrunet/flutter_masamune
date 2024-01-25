@@ -35,41 +35,74 @@ class _MasamuneModelFirestoreBuilder extends Builder {
     buffer.writeln("rules_version = '2';");
     buffer.writeln("service cloud.firestore {");
     buffer.writeln("  match /databases/{database}/documents {");
-    buffer.writeln("    function getResource() {");
-    buffer.writeln(
-      "      return request.resource != null ? request.resource.data : resource.data;",
-    );
-    buffer.writeln("    }");
-    buffer.writeln("    function isAuthUser() {");
-    buffer.writeln("      return request.auth != null;");
-    buffer.writeln("    }");
-    buffer.writeln("    function isSpecifiedUser(userId) {");
-    buffer.writeln("      return isAuthUser() && request.auth.uid == userId;");
-    buffer.writeln("    }");
-    for (final type in RuleType.values) {
-      buffer = type.apply(buffer);
-    }
-    for (final type in RuleModelFieldValueType.values) {
-      buffer = type.apply(buffer);
-    }
-    buffer.writeln("    function isDocument(data) {");
-    buffer.writeln("      return isString(data, \"@uid\");");
-    buffer.writeln("    }");
-    buffer.writeln("    function isSearchable(data) {");
-    buffer.writeln("      return isMap(data, \"@search\");");
-    buffer.writeln("    }");
-    buffer.writeln("    function isEnum(data, field) {");
-    buffer.writeln("      return isString(data, field);");
-    buffer.writeln("    }");
-    buffer.writeln("    function isNullableEnum(data, field) {");
-    buffer.writeln("      return isNullableString(data, field);");
-    buffer.writeln("    }");
     for (final rule in rules) {
       buffer = rule.apply(buffer);
     }
     buffer.writeln("    match /{document=**} {");
     buffer.writeln("      allow read, write: if false;");
     buffer.writeln("    }");
+    buffer = createFunction(
+      buffer,
+      functionName: "isSpecifiedUser",
+      parameters: "userId",
+      body: "return isAuthUser() && request.auth.uid == userId;",
+    );
+    buffer = createFunction(
+      buffer,
+      functionName: "getReferenceUid",
+      parameters: "data, field",
+      body:
+          "return isReference(data, field) && exists(data[field]) ? get(data[field])[\"@uid\"] : null",
+    );
+    buffer = createFunction(
+      buffer,
+      functionName: "getValue(data, field)",
+      parameters: "",
+      body: "return isNullOrUndefined(data, field) ? null : data[field];",
+    );
+    buffer = createFunction(
+      buffer,
+      functionName: "isDocument",
+      parameters: "data",
+      body: "return isString(data, \"@uid\");",
+    );
+    buffer = createFunction(
+      buffer,
+      functionName: "isSearchable",
+      parameters: "data",
+      body: "return isMap(data, \"@search\");",
+    );
+    buffer = createFunction(
+      buffer,
+      functionName: "isEnum",
+      parameters: "data, field",
+      body: "return isString(data, field);",
+    );
+    buffer = createFunction(
+      buffer,
+      functionName: "isNullableEnum",
+      parameters: "data, field",
+      body: "return isNullableString(data, field);",
+    );
+    for (final type in RuleModelFieldValueType.values) {
+      buffer = type.apply(buffer);
+    }
+    for (final type in RuleType.values) {
+      buffer = type.apply(buffer);
+    }
+    buffer = createFunction(
+      buffer,
+      functionName: "isAuthUser",
+      parameters: "",
+      body: "return request.auth != null;",
+    );
+    buffer = createFunction(
+      buffer,
+      functionName: "getResource",
+      parameters: "",
+      body:
+          "return request.resource != null ? request.resource.data : resource.data;",
+    );
     buffer.writeln("  }");
     buffer.writeln("}");
     await outputFile.writeAsString(buffer.toString());

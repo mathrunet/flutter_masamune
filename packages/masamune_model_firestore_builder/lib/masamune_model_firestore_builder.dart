@@ -21,5 +21,6 @@ import 'package:source_gen/source_gen.dart';
 
 part 'src/builder.dart';
 part 'src/extensions.dart';
+part 'src/functions.dart';
 part 'value/rule_value.dart';
 part 'value/rule_type.dart';
