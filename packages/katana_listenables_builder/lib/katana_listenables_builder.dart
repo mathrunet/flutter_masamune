@@ -15,9 +15,9 @@ import 'dart:async';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
-import 'package:katana_builder/katana_builder.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
+import 'package:katana_builder/katana_builder.dart';
 import 'package:katana_listenables_annotation/katana_listenables_annotation.dart';
 import 'package:source_gen/source_gen.dart';
 
