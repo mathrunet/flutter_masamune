@@ -1,8 +1,8 @@
-name: masamune_mail
-description: Plug-in for sending emails via Sendgrid, Gmail, etc. from servers, etc. using Functions.
-version: 2.2.0
+name: masamune_force_updater
+description: Plug-in for Masamune that provides a forced update function and displays dialogs according to conditions.
+version: 2.0.1
 homepage: https://mathru.net
-repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_mail
+repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_force_updater
 
 environment:
   sdk: ">=2.17.0 <4.0.0"

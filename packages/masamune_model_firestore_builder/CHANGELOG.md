@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
 ## 2.1.2
 
  - **FIX**: Resolving firestoreRule errors. ([56c5d7f2](https://github.com/mathrunet/flutter_masamune/commit/56c5d7f2cc8e6c3664dedfcdf79e87e3b8021241))

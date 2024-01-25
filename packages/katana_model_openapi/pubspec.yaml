@@ -1,6 +1,6 @@
 name: katana_model_openapi
 description: Adapter classes for katana_model and model classes by freezed are automatically created from OepnAPI files.
-version: 2.1.22
+version: 2.2.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_model_openapi
 
@@ -12,9 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.10.2
+  katana: ^2.11.0
 dev_dependencies:
   test: ^1.24.0
-  katana_test: ^2.0.0
+  katana_test: ^2.1.0
   flutter_lints: ^3.0.0
   import_sorter: ^4.6.0

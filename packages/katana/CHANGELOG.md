@@ -1,3 +1,7 @@
+## 2.11.0
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
 ## 2.10.2
 
  - **FIX**: Added runGuardedErrorValidation. ([aa3a5bc4](https://github.com/mathrunet/flutter_masamune/commit/aa3a5bc42164d6d5c091474c7343a2b4c63aadf9))

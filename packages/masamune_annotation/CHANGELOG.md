@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
 ## 2.5.0
 
  - **FEAT**: Addition of automatic FirestoreRule generation. ([3fb4c2c8](https://github.com/mathrunet/flutter_masamune/commit/3fb4c2c8f9205c362d219174c09d2d2dd3324038))

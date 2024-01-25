@@ -1,3 +1,7 @@
+## 2.15.0
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
 ## 2.14.1
 
  - **DOCS**: Changed ModelAdapter comment. ([e8c4bce3](https://github.com/mathrunet/flutter_masamune/commit/e8c4bce3a32a8436ecc57ac13250de533675c4a1))

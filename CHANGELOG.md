@@ -15,6 +15,384 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana` - `v2.11.0`](#katana---v2110)
+ - [`katana_auth` - `v2.4.0`](#katana_auth---v240)
+ - [`katana_auth_firebase` - `v2.3.0`](#katana_auth_firebase---v230)
+ - [`katana_builder` - `v2.1.0`](#katana_builder---v210)
+ - [`katana_cli` - `v2.15.0`](#katana_cli---v2150)
+ - [`katana_firebase` - `v2.1.0`](#katana_firebase---v210)
+ - [`katana_form` - `v2.11.0`](#katana_form---v2110)
+ - [`katana_functions` - `v2.5.0`](#katana_functions---v250)
+ - [`katana_functions_firebase` - `v2.5.0`](#katana_functions_firebase---v250)
+ - [`katana_indicator` - `v2.1.0`](#katana_indicator---v210)
+ - [`katana_listenables` - `v2.1.0`](#katana_listenables---v210)
+ - [`katana_listenables_annotation` - `v2.1.0`](#katana_listenables_annotation---v210)
+ - [`katana_listenables_builder` - `v2.1.0`](#katana_listenables_builder---v210)
+ - [`katana_localization` - `v2.2.0`](#katana_localization---v220)
+ - [`katana_localization_annotation` - `v2.2.0`](#katana_localization_annotation---v220)
+ - [`katana_localization_builder` - `v2.2.0`](#katana_localization_builder---v220)
+ - [`katana_logger` - `v2.1.0`](#katana_logger---v210)
+ - [`katana_model` - `v2.21.0`](#katana_model---v2210)
+ - [`katana_model_firestore` - `v2.15.0`](#katana_model_firestore---v2150)
+ - [`katana_model_local` - `v2.11.0`](#katana_model_local---v2110)
+ - [`katana_model_openapi` - `v2.2.0`](#katana_model_openapi---v220)
+ - [`katana_model_openapi_builder` - `v2.1.0`](#katana_model_openapi_builder---v210)
+ - [`katana_prefs` - `v2.1.0`](#katana_prefs---v210)
+ - [`katana_prefs_annotation` - `v2.1.0`](#katana_prefs_annotation---v210)
+ - [`katana_prefs_builder` - `v2.1.0`](#katana_prefs_builder---v210)
+ - [`katana_router` - `v2.1.0`](#katana_router---v210)
+ - [`katana_router_annotation` - `v2.1.0`](#katana_router_annotation---v210)
+ - [`katana_router_builder` - `v2.1.0`](#katana_router_builder---v210)
+ - [`katana_scoped` - `v2.2.0`](#katana_scoped---v220)
+ - [`katana_shorten` - `v2.1.0`](#katana_shorten---v210)
+ - [`katana_storage` - `v2.1.0`](#katana_storage---v210)
+ - [`katana_storage_firebase` - `v2.1.0`](#katana_storage_firebase---v210)
+ - [`katana_test` - `v2.1.0`](#katana_test---v210)
+ - [`katana_theme` - `v2.3.0`](#katana_theme---v230)
+ - [`katana_theme_annotation` - `v2.1.0`](#katana_theme_annotation---v210)
+ - [`katana_theme_builder` - `v2.2.0`](#katana_theme_builder---v220)
+ - [`katana_ui` - `v2.6.0`](#katana_ui---v260)
+ - [`masamune` - `v2.8.0`](#masamune---v280)
+ - [`masamune_ads_google` - `v2.4.0`](#masamune_ads_google---v240)
+ - [`masamune_agora` - `v2.4.0`](#masamune_agora---v240)
+ - [`masamune_ai_openai` - `v2.5.0`](#masamune_ai_openai---v250)
+ - [`masamune_annotation` - `v2.6.0`](#masamune_annotation---v260)
+ - [`masamune_auth_apple` - `v2.3.0`](#masamune_auth_apple---v230)
+ - [`masamune_auth_facebook` - `v2.3.0`](#masamune_auth_facebook---v230)
+ - [`masamune_auth_google` - `v2.3.0`](#masamune_auth_google---v230)
+ - [`masamune_builder` - `v2.12.0`](#masamune_builder---v2120)
+ - [`masamune_calendar` - `v2.2.0`](#masamune_calendar---v220)
+ - [`masamune_deeplink` - `v2.2.0`](#masamune_deeplink---v220)
+ - [`masamune_deeplink_firebase` - `v2.2.0`](#masamune_deeplink_firebase---v220)
+ - [`masamune_introduction` - `v2.3.0`](#masamune_introduction---v230)
+ - [`masamune_location` - `v2.3.0`](#masamune_location---v230)
+ - [`masamune_location_background` - `v2.4.0`](#masamune_location_background---v240)
+ - [`masamune_location_geocoding` - `v2.4.0`](#masamune_location_geocoding---v240)
+ - [`masamune_location_google` - `v2.4.0`](#masamune_location_google---v240)
+ - [`masamune_location_platform_interface` - `v2.3.0`](#masamune_location_platform_interface---v230)
+ - [`masamune_logger_firebase` - `v2.1.0`](#masamune_logger_firebase---v210)
+ - [`masamune_mail` - `v2.2.0`](#masamune_mail---v220)
+ - [`masamune_model_algolia` - `v2.3.0`](#masamune_model_algolia---v230)
+ - [`masamune_model_firestore_builder` - `v2.2.0`](#masamune_model_firestore_builder---v220)
+ - [`masamune_module` - `v2.4.0`](#masamune_module---v240)
+ - [`masamune_module_point_ecosystem` - `v2.4.0`](#masamune_module_point_ecosystem---v240)
+ - [`masamune_notification` - `v2.4.0`](#masamune_notification---v240)
+ - [`masamune_notification_firebase` - `v2.5.0`](#masamune_notification_firebase---v250)
+ - [`masamune_picker` - `v2.2.0`](#masamune_picker---v220)
+ - [`masamune_purchase_mobile` - `v2.6.0`](#masamune_purchase_mobile---v260)
+ - [`masamune_purchase_stripe` - `v3.4.0`](#masamune_purchase_stripe---v340)
+ - [`masamune_scheduler` - `v2.2.0`](#masamune_scheduler---v220)
+ - [`masamune_speech_to_text` - `v2.2.0`](#masamune_speech_to_text---v220)
+ - [`masamune_text_to_speech` - `v2.2.0`](#masamune_text_to_speech---v220)
+ - [`masamune_universal_ui` - `v2.3.0`](#masamune_universal_ui---v230)
+ - [`masamune_util` - `v2.2.0`](#masamune_util---v220)
+ - [`masamune_force_updater` - `v2.0.1`](#masamune_force_updater---v201)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_force_updater` - `v2.0.1`
+
+---
+
+#### `katana` - `v2.11.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_auth` - `v2.4.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_auth_firebase` - `v2.3.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_builder` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_cli` - `v2.15.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_firebase` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_form` - `v2.11.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_functions` - `v2.5.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_functions_firebase` - `v2.5.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_indicator` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_listenables` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_listenables_annotation` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_listenables_builder` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_localization` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_localization_annotation` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_localization_builder` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_logger` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_model` - `v2.21.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_model_firestore` - `v2.15.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_model_local` - `v2.11.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_model_openapi` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_model_openapi_builder` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_prefs` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_prefs_annotation` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_prefs_builder` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_router` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_router_annotation` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_router_builder` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_scoped` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_shorten` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_storage` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_storage_firebase` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_test` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_theme` - `v2.3.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_theme_annotation` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_theme_builder` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `katana_ui` - `v2.6.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune` - `v2.8.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_ads_google` - `v2.4.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_agora` - `v2.4.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_ai_openai` - `v2.5.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_annotation` - `v2.6.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_auth_apple` - `v2.3.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_auth_facebook` - `v2.3.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_auth_google` - `v2.3.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_builder` - `v2.12.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_calendar` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_deeplink` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_deeplink_firebase` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_introduction` - `v2.3.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_location` - `v2.3.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_location_background` - `v2.4.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_location_geocoding` - `v2.4.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_location_google` - `v2.4.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_location_platform_interface` - `v2.3.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_logger_firebase` - `v2.1.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_mail` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_model_algolia` - `v2.3.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_model_firestore_builder` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_module` - `v2.4.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_module_point_ecosystem` - `v2.4.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_notification` - `v2.4.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_notification_firebase` - `v2.5.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_picker` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_purchase_mobile` - `v2.6.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_purchase_stripe` - `v3.4.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_scheduler` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_speech_to_text` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_text_to_speech` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_universal_ui` - `v2.3.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+#### `masamune_util` - `v2.2.0`
+
+ - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
+
+
+## 2024-01-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_model_firestore_builder` - `v2.1.2`](#masamune_model_firestore_builder---v212)
 
 ---
