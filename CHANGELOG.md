@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model_openapi_builder` - `v2.1.1`](#katana_model_openapi_builder---v211)
+
+---
+
+#### `katana_model_openapi_builder` - `v2.1.1`
+
+ - **FIX**: Package Update. ([4ef09fe3](https://github.com/mathrunet/flutter_masamune/commit/4ef09fe3bfc5caf66ed90d213d215e651a9b2c7b))
+
+
+## 2024-01-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.11.0`](#katana---v2110)
  - [`katana_auth` - `v2.4.0`](#katana_auth---v240)
  - [`katana_auth_firebase` - `v2.3.0`](#katana_auth_firebase---v230)
