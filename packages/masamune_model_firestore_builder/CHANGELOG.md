@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **FIX**: Resolving firestoreRule errors. ([56c5d7f2](https://github.com/mathrunet/flutter_masamune/commit/56c5d7f2cc8e6c3664dedfcdf79e87e3b8021241))
+
 ## 2.1.1
 
  - **FIX**: Fixed bugs around ModelPermissionQuery. ([bd7cb918](https://github.com/mathrunet/flutter_masamune/commit/bd7cb9186cba2959d8fd9883bceeb82824a8613c))

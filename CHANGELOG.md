@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_model_firestore_builder` - `v2.1.2`](#masamune_model_firestore_builder---v212)
+
+---
+
+#### `masamune_model_firestore_builder` - `v2.1.2`
+
+ - **FIX**: Resolving firestoreRule errors. ([56c5d7f2](https://github.com/mathrunet/flutter_masamune/commit/56c5d7f2cc8e6c3664dedfcdf79e87e3b8021241))
+
+
 ## 2024-01-24
 
 ### Changes
