@@ -353,14 +353,14 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.9.2"
+    version: "2.10.2"
   katana_functions:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.4.26"
+    version: "2.4.29"
   lints:
     dependency: transitive
     description:

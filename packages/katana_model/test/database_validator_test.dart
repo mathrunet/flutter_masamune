@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:katana_test/katana_test.dart';
 import 'package:test/test.dart';
 
 // Project imports:

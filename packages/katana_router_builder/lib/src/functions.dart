@@ -39,87 +39,19 @@ String _defaultValue(ParamaterValue param) {
         return defaultValue.toString();
       }
       return "ScrollController()";
-    case "ModelCounter":
-      if (nullable) {
-        return "null";
-      }
-      if (defaultValue != null) {
-        return defaultValue.toString();
-      }
-      return "const ModelCounter(0)";
-    case "ModelTimestamp":
-      if (nullable) {
-        return "null";
-      }
-      if (defaultValue != null) {
-        return defaultValue.toString();
-      }
-      return "const ModelTimestamp()";
-    case "ModelDate":
-      if (nullable) {
-        return "null";
-      }
-      if (defaultValue != null) {
-        return defaultValue.toString();
-      }
-      return "const ModelDate()";
-    case "ModelLocale":
-      if (nullable) {
-        return "null";
-      }
-      if (defaultValue != null) {
-        return defaultValue.toString();
-      }
-      return "const ModelLocale()";
-    case "ModelLocalizedValue":
-      if (nullable) {
-        return "null";
-      }
-      if (defaultValue != null) {
-        return defaultValue.toString();
-      }
-      return "const ModelLocalizedValue()";
-    case "ModelGeoValue":
-      if (nullable) {
-        return "null";
-      }
-      if (defaultValue != null) {
-        return defaultValue.toString();
-      }
-      return "const ModelGeoValue()";
-    case "ModelUri":
-      if (nullable) {
-        return "null";
-      }
-      if (defaultValue != null) {
-        return defaultValue.toString();
-      }
-      return "const ModelUri()";
-    case "ModelImageUri":
-      if (nullable) {
-        return "null";
-      }
-      if (defaultValue != null) {
-        return defaultValue.toString();
-      }
-      return "const ModelImageUri()";
-    case "ModelVideoUri":
-      if (nullable) {
-        return "null";
-      }
-      if (defaultValue != null) {
-        return defaultValue.toString();
-      }
-      return "const ModelVideoUri()";
-    case "ModelSearch":
-      if (nullable) {
-        return "null";
-      }
-      if (defaultValue != null) {
-        return defaultValue.toString();
-      }
-      return "const ModelSearch([])";
     default:
+      for (final tmp in MasamuneType.values) {
+        if (tmp.className != type) {
+          continue;
+        }
+        if (nullable) {
+          return "null";
+        }
+        if (defaultValue != null) {
+          return defaultValue.toString();
+        }
+        return tmp.instansiateString;
+      }
       if (dartType.isDartCoreObject || dartType.isDartCoreString) {
         if (nullable) {
           return "null";
