@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.15.1`](#katana_cli---v2151)
+ - [`masamune_builder` - `v2.12.1`](#masamune_builder---v2121)
+ - [`masamune_model_firestore_builder` - `v2.2.1`](#masamune_model_firestore_builder---v221)
+
+---
+
+#### `katana_cli` - `v2.15.1`
+
+ - **FIX**: Refactoring. ([d566e73d](https://github.com/mathrunet/flutter_masamune/commit/d566e73d13681856bcd1421655b0b20cd5afa3da))
+
+#### `masamune_builder` - `v2.12.1`
+
+ - **FIX**: Refactoring. ([d566e73d](https://github.com/mathrunet/flutter_masamune/commit/d566e73d13681856bcd1421655b0b20cd5afa3da))
+
+#### `masamune_model_firestore_builder` - `v2.2.1`
+
+ - **FIX**: Refactoring. ([d566e73d](https://github.com/mathrunet/flutter_masamune/commit/d566e73d13681856bcd1421655b0b20cd5afa3da))
+
+
 ## 2024-01-25
 
 ### Changes

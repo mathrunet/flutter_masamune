@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Refactoring. ([d566e73d](https://github.com/mathrunet/flutter_masamune/commit/d566e73d13681856bcd1421655b0b20cd5afa3da))
+
 ## 2.2.0
 
  - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
