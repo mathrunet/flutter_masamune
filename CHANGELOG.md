@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_force_updater` - `v2.1.0`](#masamune_force_updater---v210)
+
+---
+
+#### `masamune_force_updater` - `v2.1.0`
+
+ - **FEAT**: Implementation completed. ([f427eae8](https://github.com/mathrunet/flutter_masamune/commit/f427eae8cc7c11fb365fe677e71489b28304b413))
+
+
+## 2024-01-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.15.1`](#katana_cli---v2151)
  - [`masamune_builder` - `v2.12.1`](#masamune_builder---v2121)
  - [`masamune_model_firestore_builder` - `v2.2.1`](#masamune_model_firestore_builder---v221)
