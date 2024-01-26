@@ -73,7 +73,7 @@ class RuleValue {
           if (e.jsonKey != key && e.name != key) {
             return false;
           }
-          return e.reference.isNotEmpty;
+          return e.reference != null;
         });
         switch (permissionType) {
           case ModelPermissionQueryType.allowRead:

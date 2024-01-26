@@ -34,10 +34,20 @@ class ParamaterValue {
           break;
         }
       }
-      reference = res?.trim();
+      final referenceDoc = res?.trim();
+      final referenceValue = type.typeArguments.first.toString();
+      if (referenceDoc.isNotEmpty && referenceValue.isNotEmpty) {
+        reference = ReferenceValue(
+          valueType: referenceValue,
+          documentType: referenceDoc!,
+        );
+      } else {
+        reference = null;
+      }
     } else {
       reference = null;
     }
+
     isJsonSerializable = _jsonParamChecker.hasAnnotationOfExact(element);
     if (isJsonSerializable) {
       jsonKey = _jsonParamChecker
@@ -83,7 +93,7 @@ class ParamaterValue {
   /// If another document is referenced, the class name of that document is entered. If it does not reference any other document, [Null] is entered.
   ///
   /// 他のドキュメントを参照している場合、そのドキュメントのクラス名が入ります。参照していない場合は[Null]が入ります。
-  late final String? reference;
+  late final ReferenceValue? reference;
 
   /// True if serializable to Json.
   ///
@@ -99,4 +109,27 @@ class ParamaterValue {
   String toString() {
     return "$name($type)";
   }
+}
+
+/// Definition class for `ModelRef`.
+///
+/// `ModelRef`用の定義クラス。
+class ReferenceValue {
+  /// Definition class for `ModelRef`.
+  ///
+  /// `ModelRef`用の定義クラス。
+  const ReferenceValue({
+    required this.valueType,
+    required this.documentType,
+  });
+
+  /// Value Type.
+  ///
+  /// 値のタイプ。
+  final String valueType;
+
+  /// Document Type.
+  ///
+  /// ドキュメントのタイプ。
+  final String documentType;
 }

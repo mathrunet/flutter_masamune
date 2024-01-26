@@ -120,10 +120,10 @@ typedef ${className}ModelKeys = _\$${className}ModelKeys;
 /// ```
 typedef ${className}ModelRef = ModelRef<${className}Model>?;
 
-/// It can be defined as an empty ModelRef<NoteModel>.
+/// It can be defined as an empty ModelRef<${className}Model>.
 ///
 /// ```dart
-/// NoteModelRefPath() // Define as a path.
+/// ${className}ModelRefPath() // Define as a path.
 /// ```
 typedef ${className}ModelRefPath = _\$${className}ModelRefPath;
 
@@ -143,10 +143,10 @@ typedef ${className}ModelInitialDocument = _\$${className}ModelInitialDocument;
 /// Document class for storing ${className}Model.
 typedef ${className}ModelDocument = _\$${className}ModelDocument;
 
-/// It can be defined as an empty ModelRef<NoteModel>.
+/// It can be defined as an empty ModelRef<${className}Model>.
 ///
 /// ```dart
-/// NoteModelMirrorRefPath() // Define as a path.
+/// ${className}ModelMirrorRefPath() // Define as a path.
 /// ```
 typedef ${className}ModelMirrorRefPath = _\$${className}ModelMirrorRefPath;
 

@@ -12,7 +12,7 @@ List<Spec> documentModelClass(
 ) {
   final searchable = model.parameters.where((e) => e.isSearchable).toList();
   final referenceable =
-      model.parameters.where((e) => e.reference.isNotEmpty).toList();
+      model.parameters.where((e) => e.reference != null).toList();
 
   return [
     Class(
@@ -203,31 +203,12 @@ List<Spec> documentModelClass(
                 ..returns =
                     Reference("List<ModelRefBuilderBase<${model.name}>>")
                 ..annotations.addAll([const Reference("override")])
-                ..body = Code("[${referenceable.map((e) {
-                  if (e.type.aliasName.endsWith("Ref")) {
-                    final match = _regExpRef.firstMatch(e.type.aliasName);
-                    if (match == null) {
-                      throw Exception(
-                        "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${e.type} ${e.name}",
-                      );
-                    }
-                    final doc = e.reference;
-                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
-                  } else {
-                    if (!e.type.aliasName.endsWith("?")) {
-                      throw Exception(
-                        "ModelRefBase<T> must be nullable. \r\n\r\n${e.type} ${e.name}",
-                      );
-                    }
-                    final match = _regExpModelRef.firstMatch(e.type.aliasName);
-                    if (match == null) {
-                      throw Exception(
-                        "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${e.type} ${e.name}",
-                      );
-                    }
-                    final doc = e.reference;
-                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                ..body = Code("[${referenceable.mapAndRemoveEmpty((e) {
+                  final doc = e.reference?.documentType;
+                  if (doc.isEmpty) {
+                    return null;
                   }
+                  return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
                 }).join(",")}]"),
             ),
         ]),
@@ -419,32 +400,12 @@ List<Spec> documentModelClass(
                   ..returns =
                       Reference("List<ModelRefBuilderBase<${model.name}>>")
                   ..annotations.addAll([const Reference("override")])
-                  ..body = Code("[${referenceable.map((e) {
-                    if (e.type.aliasName.endsWith("Ref")) {
-                      final match = _regExpRef.firstMatch(e.type.aliasName);
-                      if (match == null) {
-                        throw Exception(
-                          "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${e.type} ${e.name}",
-                        );
-                      }
-                      final doc = e.reference;
-                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
-                    } else {
-                      if (!e.type.aliasName.endsWith("?")) {
-                        throw Exception(
-                          "ModelRefBase<T> must be nullable. \r\n\r\n${e.type} ${e.name}",
-                        );
-                      }
-                      final match =
-                          _regExpModelRef.firstMatch(e.type.aliasName);
-                      if (match == null) {
-                        throw Exception(
-                          "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${e.type} ${e.name}",
-                        );
-                      }
-                      final doc = e.reference;
-                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                  ..body = Code("[${referenceable.mapAndRemoveEmpty((e) {
+                    final doc = e.reference?.documentType;
+                    if (doc.isEmpty) {
+                      return null;
                     }
+                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
                   }).join(",")}]"),
               ),
           ]),

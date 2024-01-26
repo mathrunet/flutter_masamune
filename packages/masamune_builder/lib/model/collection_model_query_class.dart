@@ -1,6 +1,7 @@
 part of '/masamune_builder.dart';
 
 String _querySelectorClass(ParamaterValue param, String queryClass) {
+  final reference = param.reference;
   if (param.type.isDartCoreString) {
     return "StringModelQuerySelector<$queryClass>";
   } else if (param.type.isDartCoreDouble || param.type.isDartCoreInt) {
@@ -24,46 +25,17 @@ String _querySelectorClass(ParamaterValue param, String queryClass) {
             ?.trim() ??
         "dynamic";
     return "MapModelQuerySelector<$generics, $queryClass>";
-  } else if (param.reference.isNotEmpty) {
-    if (param.type.aliasName.endsWith("Ref")) {
-      final match = _regExpRef.firstMatch(param.type.aliasName);
-      if (match == null) {
-        throw Exception(
-          "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${param.type.aliasName} ${param.name}",
-        );
-      }
-      return "ModelRefModelQuerySelector<${match.group(1)}, $queryClass>";
-    } else {
-      if (!param.type.aliasName.endsWith("?")) {
-        throw Exception(
-          "ModelRefBase<T> must be nullable. \r\n\r\n${param.type.aliasName} ${param.name}",
-        );
-      }
-      final match = _regExpModelRef.firstMatch(param.type.aliasName);
-      if (match == null) {
-        throw Exception(
-          "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${param.type} ${param.name}",
-        );
-      }
-      return "ModelRefModelQuerySelector<${match.group(2)}, $queryClass>";
-    }
+  } else if (reference != null) {
+    return "ModelRefModelQuerySelector<${reference.valueType}, $queryClass>";
   } else {
     final typeName = param.type.aliasName.trimStringRight("?");
-    switch (typeName) {
-      case "ModelCounter":
-      case "ModelTimestamp":
-      case "ModelGeoValue":
-      case "ModelLocale":
-      case "ModelLocalizedValue":
-      case "ModelSearch":
-      case "ModelToken":
-      case "ModelUri":
-      case "ModelImageUri":
-      case "ModelVideoUri":
-        return "${typeName}ModelQuerySelector<$queryClass>";
-      default:
-        return "ValueModelQuerySelector<$typeName, $queryClass>";
+    for (final tmp in MasamuneType.values) {
+      if (!tmp.regExp.hasMatch(typeName)) {
+        continue;
+      }
+      return "${typeName}ModelQuerySelector<$queryClass>";
     }
+    return "ValueModelQuerySelector<$typeName, $queryClass>";
   }
 }
 
