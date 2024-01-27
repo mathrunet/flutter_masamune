@@ -111,8 +111,17 @@ class CsvCollectionSourceModelAdapter extends CsvSourceModelAdapter {
       final map = <String, dynamic>{};
       for (var i = 0; i < header.length; i++) {
         final r = _toAny(row[i]);
+        final id = header[i].toString().trim();
         if (r != null) {
-          map[header[i].toString().trim()] = r;
+          if (map.containsKey(id)) {
+            if (map[id] is List) {
+              map[id].add(r);
+            } else {
+              map[id] = [map[id], r];
+            }
+          } else {
+            map[id] = r;
+          }
         }
       }
       final id = map[idKey].toString().trim();
@@ -283,7 +292,15 @@ class CsvDocumentSourceModelAdapter extends CsvSourceModelAdapter {
           }
           final r = _toAny(value);
           if (r != null) {
-            res[key] = r;
+            if (res.containsKey(key)) {
+              if (res[key] is List) {
+                res[key].add(r);
+              } else {
+                res[key] = [res[key], r];
+              }
+            } else {
+              res[key] = r;
+            }
           }
         }
         return {

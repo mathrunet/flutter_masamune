@@ -124,10 +124,22 @@ class JsonCollectionSourceModelAdapter extends JsonSourceModelAdapter {
         if (tmp is! Map) {
           continue;
         }
-        final converted = tmp.map((key, value) {
-          final r = _toAny(value);
-          return MapEntry(key.toString().trim(), r);
-        }).where((key, value) => value != null);
+        final converted = <String, dynamic>{};
+        for (final map in tmp.entries) {
+          final r = _toAny(map.value);
+          final id = map.key.toString().trim();
+          if (r != null) {
+            if (converted.containsKey(id)) {
+              if (converted[id] is List) {
+                converted[id].add(r);
+              } else {
+                converted[id] = [converted[id], r];
+              }
+            } else {
+              converted[id] = r;
+            }
+          }
+        }
         final key = converted.get(idKey!, "").toString().trim();
         result[key] = _merged(converted);
       }
@@ -137,10 +149,22 @@ class JsonCollectionSourceModelAdapter extends JsonSourceModelAdapter {
         if (value is! Map) {
           continue;
         }
-        final converted = value.map((key, value) {
-          final r = _toAny(value);
-          return MapEntry(key.toString().trim(), r);
-        }).where((key, value) => value != null);
+        final converted = <String, dynamic>{};
+        for (final map in value.entries) {
+          final r = _toAny(map.value);
+          final id = map.key.toString().trim();
+          if (r != null) {
+            if (converted.containsKey(id)) {
+              if (converted[id] is List) {
+                converted[id].add(r);
+              } else {
+                converted[id] = [converted[id], r];
+              }
+            } else {
+              converted[id] = r;
+            }
+          }
+        }
         final key = tmp.key.trim();
         result[key] = _merged(converted);
       }
@@ -228,10 +252,22 @@ class JsonDocumentSourceModelAdapter extends JsonSourceModelAdapter {
       throw Exception("The data is not a Map.");
     }
     final documentId = this.documentId ?? source.hashCode.toString();
-    final converted = json.map((key, value) {
-      final r = _toAny(value);
-      return MapEntry(key.toString().trim(), r);
-    }).where((key, value) => value != null);
+    final converted = <String, dynamic>{};
+    for (final map in json.entries) {
+      final r = _toAny(map.value);
+      final id = map.key.toString().trim();
+      if (r != null) {
+        if (converted.containsKey(id)) {
+          if (converted[id] is List) {
+            converted[id].add(r);
+          } else {
+            converted[id] = [converted[id], r];
+          }
+        } else {
+          converted[id] = r;
+        }
+      }
+    }
     return {
       documentId: _merged(converted),
     };
