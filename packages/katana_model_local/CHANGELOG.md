@@ -1,3 +1,7 @@
+## 2.11.1
+
+ - **FIX**: If a key with the same name is found, it should be saved as a list. ([3c8c6070](https://github.com/mathrunet/flutter_masamune/commit/3c8c60705352a0080b8544243461d3b098c137d4))
+
 ## 2.11.0
 
  - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))
