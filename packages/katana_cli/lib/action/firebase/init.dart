@@ -219,6 +219,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           );
           _runCommandStack(
             line,
+            "? Would you like to delete these indexes?",
+            commandStack,
+            () => firestoreProcess.stdin.write("n\n"),
+          );
+          _runCommandStack(
+            line,
             "? What file should be used for Firestore indexes?",
             commandStack,
             () => firestoreProcess.stdin.write("\n"),
