@@ -35,12 +35,19 @@ class ParamaterValue {
         }
       }
       final referenceDoc = res?.trim();
-      final referenceValue = type.typeArguments.first.toString();
+      final referenceType = type.typeArguments.first;
+      final referenceValue = referenceType.toString();
       if (referenceDoc.isNotEmpty && referenceValue.isNotEmpty) {
         reference = ReferenceValue(
           valueType: referenceValue,
           documentType: referenceDoc!,
+          type: type.isDartCoreList
+              ? ReferenceValueType.list
+              : type.isDartCoreMap
+                  ? ReferenceValueType.map
+                  : ReferenceValueType.single,
         );
+        print(reference);
       } else {
         reference = null;
       }
@@ -121,6 +128,7 @@ class ReferenceValue {
   const ReferenceValue({
     required this.valueType,
     required this.documentType,
+    required this.type,
   });
 
   /// Value Type.
@@ -132,4 +140,34 @@ class ReferenceValue {
   ///
   /// ドキュメントのタイプ。
   final String documentType;
+
+  /// Value Type.
+  ///
+  /// 値のタイプ。
+  final ReferenceValueType type;
+
+  @override
+  String toString() {
+    return "$valueType($documentType, $type)";
+  }
+}
+
+/// Type of [ReferenceValue] value.
+///
+/// [ReferenceValue]の値のタイプ。
+enum ReferenceValueType {
+  /// Single.
+  ///
+  /// シングル。
+  single,
+
+  /// List.
+  ///
+  /// リスト。
+  list,
+
+  /// Map.
+  ///
+  /// マップ。
+  map;
 }

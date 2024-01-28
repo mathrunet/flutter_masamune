@@ -208,7 +208,14 @@ List<Spec> documentModelClass(
                   if (doc.isEmpty) {
                     return null;
                   }
-                  return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                  switch (e.reference!.type) {
+                    case ReferenceValueType.single:
+                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                    case ReferenceValueType.list:
+                      return "ModelRefListBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, docs) => value.copyWith( ${e.name}: docs ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                    case ReferenceValueType.map:
+                      return "ModelRefMapBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, docs) => value.copyWith( ${e.name}: docs ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                  }
                 }).join(",")}]"),
             ),
         ]),
@@ -405,7 +412,14 @@ List<Spec> documentModelClass(
                     if (doc.isEmpty) {
                       return null;
                     }
-                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                    switch (e.reference!.type) {
+                      case ReferenceValueType.single:
+                        return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                      case ReferenceValueType.list:
+                        return "ModelRefListBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, docs) => value.copyWith( ${e.name}: docs ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                      case ReferenceValueType.map:
+                        return "ModelRefMapBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, docs) => value.copyWith( ${e.name}: docs ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                    }
                   }).join(",")}]"),
               ),
           ]),

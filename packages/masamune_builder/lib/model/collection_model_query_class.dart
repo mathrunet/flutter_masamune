@@ -12,11 +12,8 @@ String _querySelectorClass(ParamaterValue param, String queryClass) {
     final typeName = param.type.aliasName.trimStringRight("?");
     return "ValueModelQuerySelector<$typeName, $queryClass>";
   } else if (param.type.isDartCoreList) {
-    final generics = RegExp("List<([^>]+)>")
-            .firstMatch(param.type.aliasName)
-            ?.group(1)
-            ?.trim() ??
-        "dynamic";
+    final generics =
+        param.type.typeArguments.firstOrNull?.aliasName ?? "dynamic";
     return "ListModelQuerySelector<$generics, $queryClass>";
   } else if (param.type.isDartCoreMap) {
     final generics = RegExp("Map<([^>]+),([^>]+)>")

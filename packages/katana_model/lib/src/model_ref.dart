@@ -577,6 +577,376 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
   }
 }
 
+/// Builder for granting relationships between models and loading data.
+///
+/// Processes a list of [ModelRef].
+///
+/// Define [ModelRefLoaderMixin] to match the mix-in.
+///
+/// The procedure is;
+///
+/// 1. Returns a list of [ModelRefBase] containing only relationship information stored in [TSource] via [modelRef].
+/// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin<TResult>] based on [DocumentModelQuery] via [document].
+/// 3. Store the list of [DocumentBase] generated via [value] in [TSource] and return an updated [TSource].
+///
+/// モデル間のリレーションを付与しデータのロードを行うためのビルダー。
+///
+/// [ModelRef]のリストを処理します。
+///
+/// [ModelRefLoaderMixin]をミックスインしたときに合わせて定義します。
+///
+/// 手順としては
+///
+/// 1. [TSource]に保存されているリレーション情報のみ入った[ModelRefBase]のリストを[modelRef]経由で返します。
+/// 2. [DocumentModelQuery]を元に[ModelRefMixin<TResult>]をミックスインした[DocumentBase]を[document]経由で生成し返します。
+/// 3. [value]経由で生成された[DocumentBase]のリストを[TSource]に保存して、更新した[TSource]を返すようにします。
+///
+/// ```dart
+/// @override
+/// List<ModelRefBuilderBase<StreamModel>> get builder => [
+///       ModelRefListBuilder(
+///         modelRef: (value) => value.userList,
+///         document: (query) => UserModelDocument(query),
+///         value: (value, documents) {
+///           return value.copyWith(userList: documents);
+///         },
+///       )
+///     ];
+/// ```
+@immutable
+class ModelRefListBuilder<TSource, TResult>
+    extends ModelRefBuilderBase<TSource> {
+  /// Builder for granting relationships between models and loading data.
+  ///
+  /// Processes a list of [ModelRef].
+  ///
+  /// Define [ModelRefLoaderMixin] to match the mix-in.
+  ///
+  /// The procedure is;
+  ///
+  /// 1. Returns a list of [ModelRefBase] containing only relationship information stored in [TSource] via [modelRef].
+  /// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin<TResult>] based on [DocumentModelQuery] via [document].
+  /// 3. Store the list of [DocumentBase] generated via [value] in [TSource] and return an updated [TSource].
+  ///
+  /// モデル間のリレーションを付与しデータのロードを行うためのビルダー。
+  ///
+  /// [ModelRef]のリストを処理します。
+  ///
+  /// [ModelRefLoaderMixin]をミックスインしたときに合わせて定義します。
+  ///
+  /// 手順としては
+  ///
+  /// 1. [TSource]に保存されているリレーション情報のみ入った[ModelRefBase]のリストを[modelRef]経由で返します。
+  /// 2. [DocumentModelQuery]を元に[ModelRefMixin<TResult>]をミックスインした[DocumentBase]を[document]経由で生成し返します。
+  /// 3. [value]経由で生成された[DocumentBase]のリストを[TSource]に保存して、更新した[TSource]を返すようにします。
+  ///
+  /// ```dart
+  /// @override
+  /// List<ModelRefBuilderBase<StreamModel>> get builder => [
+  ///       ModelRefListBuilder(
+  ///         modelRef: (value) => value.userList,
+  ///         document: (query) => UserModelDocument(query),
+  ///         value: (value, documents) {
+  ///           return value.copyWith(userList: documents);
+  ///         },
+  ///       )
+  ///     ];
+  /// ```
+  const ModelRefListBuilder({
+    required this.modelRef,
+    required this.document,
+    required this.value,
+    this.adapter,
+    this.accessQuery,
+    this.validationQueries,
+  });
+
+  /// Callback to retrieve a list of [ModelRefBase] stored in [TSource].
+  ///
+  /// [TSource]に格納されている[ModelRefBase]のリストを取得するためのコールバック。
+  final Iterable<ModelRefBase?>? Function(TSource value) modelRef;
+
+  /// Callback to generate a [DocumentBase] that mixes in a [ModelRefMixin<TResult>] based on a [DocumentModelQuery] obtained from a [ModelRefBase].
+  ///
+  /// [ModelRefBase]から取得された[DocumentModelQuery]を元に[ModelRefMixin<TResult>]をミックスインした[DocumentBase]を生成するためのコールバック。
+  final ModelRefMixin<TResult> Function(DocumentModelQuery modelQuery) document;
+
+  /// Specify a [ModelAdapter] for use in the internal model.
+  ///
+  /// If not specified, the [ModelAdapter] used in the current document will be used.
+  ///
+  /// 内部モデルで利用するための[ModelAdapter]を指定します。
+  ///
+  /// 指定されない場合は、現在のドキュメントで利用されている[ModelAdapter]が利用されます。
+  final ModelAdapter? adapter;
+
+  /// [ModelAccessQuery] for use in the internal model.
+  ///
+  /// If not specified, [ModelAccessQuery] used in the current document will be used.
+  ///
+  /// 内部モデルで利用するための[ModelAccessQuery]を指定します。
+  ///
+  /// 指定されない場合は、現在のドキュメントで利用されている[ModelAccessQuery]が利用されます。
+  final ModelAccessQuery? accessQuery;
+
+  /// Specify a list of [ModelValidationQuery] for use in the internal model.
+  ///
+  /// If not specified, the list of [ModelValidationQuery] used in the current document is used.
+  ///
+  /// 内部モデルで利用するための[ModelValidationQuery]のリストを指定します。
+  ///
+  /// 指定されない場合は、現在のドキュメントで利用されている[ModelValidationQuery]のリストが利用されます。
+  final List<ModelValidationQuery>? validationQueries;
+
+  /// Callback to store the list of [ModelRefMixin<TResult>] generated in [TSource].
+  ///
+  /// [TSource]に生成された[ModelRefMixin<TResult>]のリストを格納するためのコールバック。
+  final TSource Function(
+    TSource value,
+    List<ModelRefMixin<TResult>> documents,
+  ) value;
+
+  @override
+  Future<TSource?> _build({
+    required TSource? val,
+    required bool forceReload,
+    required Map<DocumentModelQuery, ModelRefMixin> cacheList,
+    required void Function(
+            DocumentModelQuery query, ModelRefMixin modelRefMixin)
+        onDidLoad,
+    required DocumentModelQuery loaderModelQuery,
+  }) async {
+    if (val == null) {
+      return val;
+    }
+    final refs = modelRef(val);
+    if (refs == null) {
+      return val;
+    }
+    final res = <ModelRefMixin<TResult>>[];
+    for (final ref in refs) {
+      if (ref == null) {
+        continue;
+      }
+      final modelQuery = DocumentModelQuery(
+        ref.modelQuery.path,
+        adapter: adapter ?? loaderModelQuery.adapter,
+        accessQuery: accessQuery ?? loaderModelQuery.accessQuery,
+        validationQueries:
+            validationQueries ?? loaderModelQuery.validationQueries,
+      );
+      if (cacheList.containsKey(modelQuery)) {
+        final doc = cacheList[modelQuery];
+        if (doc is ModelRefMixin<TResult>) {
+          if (forceReload) {
+            await doc.reload();
+          }
+          res.add(doc);
+        }
+      }
+      final doc = document(modelQuery);
+      assert(
+        doc.modelQuery == modelQuery,
+        "The document was created with a different [DocumentModelQuery] than [ModelRef]. Please match [DocumentModelQuery]: ${doc.modelQuery}, $modelQuery",
+      );
+      if (forceReload) {
+        await doc.reload();
+      } else {
+        await doc.load();
+      }
+      onDidLoad(modelQuery, doc);
+      res.add(doc);
+    }
+    return value(val, res);
+  }
+}
+
+/// Builder for granting relationships between models and loading data.
+///
+/// The map in [ModelRef] is processed. The keys of the map are inherited as is.
+///
+/// Define [ModelRefLoaderMixin] to match the mix-in.
+///
+/// The procedure is;
+///
+/// 1. Returns a map of [ModelRefBase] containing only the relation information stored in [TSource] via [modelRef].
+/// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin<TResult>] based on [DocumentModelQuery] via [document].
+/// 3. Save the map of [DocumentBase] generated via [value] to [TSource] and return an updated [TSource].
+///
+/// モデル間のリレーションを付与しデータのロードを行うためのビルダー。
+///
+/// [ModelRef]のマップを処理します。マップのキーはそのまま引き継がれます。
+///
+/// [ModelRefLoaderMixin]をミックスインしたときに合わせて定義します。
+///
+/// 手順としては
+///
+/// 1. [TSource]に保存されているリレーション情報のみ入った[ModelRefBase]のマップを[modelRef]経由で返します。
+/// 2. [DocumentModelQuery]を元に[ModelRefMixin<TResult>]をミックスインした[DocumentBase]を[document]経由で生成し返します。
+/// 3. [value]経由で生成された[DocumentBase]のマップを[TSource]に保存して、更新した[TSource]を返すようにします。
+///
+/// ```dart
+/// @override
+/// List<ModelRefBuilderBase<StreamModel>> get builder => [
+///       ModelRefMapBuilder(
+///         modelRef: (value) => value.userMap,
+///         document: (query) => UserModelDocument(query),
+///         value: (value, documents) {
+///           return value.copyWith(userMap: documents);
+///         },
+///       )
+///     ];
+/// ```
+@immutable
+class ModelRefMapBuilder<TSource, TResult>
+    extends ModelRefBuilderBase<TSource> {
+  /// Builder for granting relationships between models and loading data.
+  ///
+  /// The map in [ModelRef] is processed. The keys of the map are inherited as is.
+  ///
+  /// Define [ModelRefLoaderMixin] to match the mix-in.
+  ///
+  /// The procedure is;
+  ///
+  /// 1. Returns a map of [ModelRefBase] containing only the relation information stored in [TSource] via [modelRef].
+  /// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin<TResult>] based on [DocumentModelQuery] via [document].
+  /// 3. Save the map of [DocumentBase] generated via [value] to [TSource] and return an updated [TSource].
+  ///
+  /// モデル間のリレーションを付与しデータのロードを行うためのビルダー。
+  ///
+  /// [ModelRef]のマップを処理します。マップのキーはそのまま引き継がれます。
+  ///
+  /// [ModelRefLoaderMixin]をミックスインしたときに合わせて定義します。
+  ///
+  /// 手順としては
+  ///
+  /// 1. [TSource]に保存されているリレーション情報のみ入った[ModelRefBase]のマップを[modelRef]経由で返します。
+  /// 2. [DocumentModelQuery]を元に[ModelRefMixin<TResult>]をミックスインした[DocumentBase]を[document]経由で生成し返します。
+  /// 3. [value]経由で生成された[DocumentBase]のマップを[TSource]に保存して、更新した[TSource]を返すようにします。
+  ///
+  /// ```dart
+  /// @override
+  /// List<ModelRefBuilderBase<StreamModel>> get builder => [
+  ///       ModelRefMapBuilder(
+  ///         modelRef: (value) => value.userMap,
+  ///         document: (query) => UserModelDocument(query),
+  ///         value: (value, documents) {
+  ///           return value.copyWith(userMap: documents);
+  ///         },
+  ///       )
+  ///     ];
+  /// ```
+  const ModelRefMapBuilder({
+    required this.modelRef,
+    required this.document,
+    required this.value,
+    this.adapter,
+    this.accessQuery,
+    this.validationQueries,
+  });
+
+  /// Callback to retrieve the map of [ModelRefBase] stored in [TSource].
+  ///
+  /// [TSource]に格納されている[ModelRefBase]のマップを取得するためのコールバック。
+  final Map<String, ModelRefBase?>? Function(TSource value) modelRef;
+
+  /// Callback to generate a [DocumentBase] that mixes in a [ModelRefMixin<TResult>] based on a [DocumentModelQuery] obtained from a [ModelRefBase].
+  ///
+  /// [ModelRefBase]から取得された[DocumentModelQuery]を元に[ModelRefMixin<TResult>]をミックスインした[DocumentBase]を生成するためのコールバック。
+  final ModelRefMixin<TResult> Function(DocumentModelQuery modelQuery) document;
+
+  /// Specify a [ModelAdapter] for use in the internal model.
+  ///
+  /// If not specified, the [ModelAdapter] used in the current document will be used.
+  ///
+  /// 内部モデルで利用するための[ModelAdapter]を指定します。
+  ///
+  /// 指定されない場合は、現在のドキュメントで利用されている[ModelAdapter]が利用されます。
+  final ModelAdapter? adapter;
+
+  /// [ModelAccessQuery] for use in the internal model.
+  ///
+  /// If not specified, [ModelAccessQuery] used in the current document will be used.
+  ///
+  /// 内部モデルで利用するための[ModelAccessQuery]を指定します。
+  ///
+  /// 指定されない場合は、現在のドキュメントで利用されている[ModelAccessQuery]が利用されます。
+  final ModelAccessQuery? accessQuery;
+
+  /// Specify a list of [ModelValidationQuery] for use in the internal model.
+  ///
+  /// If not specified, the list of [ModelValidationQuery] used in the current document is used.
+  ///
+  /// 内部モデルで利用するための[ModelValidationQuery]のリストを指定します。
+  ///
+  /// 指定されない場合は、現在のドキュメントで利用されている[ModelValidationQuery]のリストが利用されます。
+  final List<ModelValidationQuery>? validationQueries;
+
+  /// Callback to store the map of [ModelRefMixin<TResult>] generated in [TSource].
+  ///
+  /// [TSource]に生成された[ModelRefMixin<TResult>]のマップを格納するためのコールバック。
+  final TSource Function(
+    TSource value,
+    Map<String, ModelRefMixin<TResult>> documents,
+  ) value;
+
+  @override
+  Future<TSource?> _build({
+    required TSource? val,
+    required bool forceReload,
+    required Map<DocumentModelQuery, ModelRefMixin> cacheList,
+    required void Function(
+            DocumentModelQuery query, ModelRefMixin modelRefMixin)
+        onDidLoad,
+    required DocumentModelQuery loaderModelQuery,
+  }) async {
+    if (val == null) {
+      return val;
+    }
+    final refs = modelRef(val);
+    if (refs == null) {
+      return val;
+    }
+    final res = <String, ModelRefMixin<TResult>>{};
+    for (final ref in refs.entries) {
+      final key = ref.key;
+      final val = ref.value;
+      if (val == null) {
+        continue;
+      }
+      final modelQuery = DocumentModelQuery(
+        val.modelQuery.path,
+        adapter: adapter ?? loaderModelQuery.adapter,
+        accessQuery: accessQuery ?? loaderModelQuery.accessQuery,
+        validationQueries:
+            validationQueries ?? loaderModelQuery.validationQueries,
+      );
+      if (cacheList.containsKey(modelQuery)) {
+        final doc = cacheList[modelQuery];
+        if (doc is ModelRefMixin<TResult>) {
+          if (forceReload) {
+            await doc.reload();
+          }
+          res[key] = doc;
+        }
+      }
+      final doc = document(modelQuery);
+      assert(
+        doc.modelQuery == modelQuery,
+        "The document was created with a different [DocumentModelQuery] than [ModelRef]. Please match [DocumentModelQuery]: ${doc.modelQuery}, $modelQuery",
+      );
+      if (forceReload) {
+        await doc.reload();
+      } else {
+        await doc.load();
+      }
+      onDidLoad(modelQuery, doc);
+      res[key] = doc;
+    }
+    return value(val, res);
+  }
+}
+
 /// Base class for defining [ModelRefBuilder].
 ///
 /// The actual definition is done using [ModelRefBuilder].
