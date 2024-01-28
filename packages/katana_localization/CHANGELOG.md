@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Applying the latest Builder. ([c3adbab5](https://github.com/mathrunet/flutter_masamune/commit/c3adbab54b56f242d3b77771afcec191257ff6ba))
+
 ## 2.2.0
 
  - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))

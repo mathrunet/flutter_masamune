@@ -1,3 +1,7 @@
+## 2.13.1
+
+ - **FIX**: Unnecessary comments deleted. ([5d2aea31](https://github.com/mathrunet/flutter_masamune/commit/5d2aea313130306c35cef2795b7602b8be04a6d7))
+
 ## 2.13.0
 
  - **FEAT**: ModelRef to List and Map. ([023a217a](https://github.com/mathrunet/flutter_masamune/commit/023a217ab39561ff6884ac2e9bdd269865d50bc8))
