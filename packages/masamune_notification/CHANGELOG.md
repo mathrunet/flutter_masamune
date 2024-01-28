@@ -1,3 +1,7 @@
+## 2.5.1
+
+ - Update a dependency to the latest release.
+
 ## 2.5.0
 
  - **FEAT**: Applying the latest Builder. ([c3adbab5](https://github.com/mathrunet/flutter_masamune/commit/c3adbab54b56f242d3b77771afcec191257ff6ba))

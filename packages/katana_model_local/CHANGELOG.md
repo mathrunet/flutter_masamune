@@ -1,3 +1,7 @@
+## 2.12.1
+
+ - **FIX**: Bug fixes. ([686c0f3f](https://github.com/mathrunet/flutter_masamune/commit/686c0f3f947bf10f7114dc458066475d04525f02))
+
 ## 2.12.0
 
  - **FEAT**: Applying the latest Builder. ([c3adbab5](https://github.com/mathrunet/flutter_masamune/commit/c3adbab54b56f242d3b77771afcec191257ff6ba))

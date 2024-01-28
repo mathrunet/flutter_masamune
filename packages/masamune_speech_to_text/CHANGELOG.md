@@ -1,3 +1,7 @@
+## 2.2.4
+
+ - **FIX**: Remove it because the class was covered. ([77633077](https://github.com/mathrunet/flutter_masamune/commit/77633077f043a6c1ac6e37a33092191ea205c935))
+
 ## 2.2.3
 
  - Update a dependency to the latest release.
