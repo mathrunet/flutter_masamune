@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - Update a dependency to the latest release.
+
 ## 2.2.1
 
  - **FIX**: Refactoring. ([d566e73d](https://github.com/mathrunet/flutter_masamune/commit/d566e73d13681856bcd1421655b0b20cd5afa3da))
