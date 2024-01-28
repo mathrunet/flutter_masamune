@@ -163,6 +163,10 @@ class JsonCollectionSourceModelAdapter extends JsonSourceModelAdapter {
             } else {
               converted[id] = r;
             }
+          } else if (converted.containsKey(id)) {
+            if (converted[id] is! List) {
+              converted[id] = [converted[id]];
+            }
           }
         }
         final key = tmp.key.trim();
@@ -265,6 +269,10 @@ class JsonDocumentSourceModelAdapter extends JsonSourceModelAdapter {
           }
         } else {
           converted[id] = r;
+        }
+      } else if (converted.containsKey(id)) {
+        if (converted[id] is! List) {
+          converted[id] = [converted[id]];
         }
       }
     }

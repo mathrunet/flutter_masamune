@@ -122,6 +122,10 @@ class CsvCollectionSourceModelAdapter extends CsvSourceModelAdapter {
           } else {
             map[id] = r;
           }
+        } else if (map.containsKey(id)) {
+          if (map[id] is! List) {
+            map[id] = [map[id]];
+          }
         }
       }
       final id = map[idKey].toString().trim();
@@ -300,6 +304,10 @@ class CsvDocumentSourceModelAdapter extends CsvSourceModelAdapter {
               }
             } else {
               res[key] = r;
+            }
+          } else if (res.containsKey(key)) {
+            if (res[key] is! List) {
+              res[key] = [res[key]];
             }
           }
         }
