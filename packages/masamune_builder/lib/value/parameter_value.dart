@@ -47,7 +47,6 @@ class ParamaterValue {
                   ? ReferenceValueType.map
                   : ReferenceValueType.single,
         );
-        print(reference);
       } else {
         reference = null;
       }
