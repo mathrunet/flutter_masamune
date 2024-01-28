@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.15.2`](#katana_cli---v2152)
+
+---
+
+#### `katana_cli` - `v2.15.2`
+
+ - **FIX**: Respond to "Would you like to delete these indexes?". ([b0eb3c4d](https://github.com/mathrunet/flutter_masamune/commit/b0eb3c4df25d99dcd2d30aa50f901c104ce2cd7a))
+
+
 ## 2024-01-27
 
 ### Changes

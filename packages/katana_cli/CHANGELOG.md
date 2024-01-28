@@ -1,3 +1,7 @@
+## 2.15.2
+
+ - **FIX**: Respond to "Would you like to delete these indexes?". ([b0eb3c4d](https://github.com/mathrunet/flutter_masamune/commit/b0eb3c4df25d99dcd2d30aa50f901c104ce2cd7a))
+
 ## 2.15.1
 
  - **FIX**: Refactoring. ([d566e73d](https://github.com/mathrunet/flutter_masamune/commit/d566e73d13681856bcd1421655b0b20cd5afa3da))
