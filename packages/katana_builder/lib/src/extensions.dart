@@ -29,10 +29,10 @@ extension DartObjectExtensions on DartObject {
   }
 }
 
-/// Extension method of [InterfaceType].
+/// Extension method of [DartTypeExtensions].
 ///
-/// [InterfaceType]の拡張メソッド。
-extension InterfaceTypeExtensions on InterfaceType {
+/// [DartTypeExtensions]の拡張メソッド。
+extension DartTypeExtensions on DartType {
   /// Returns `true`` if this type is a null-allowed type.
   ///
   /// この型がNull許容型の場合`true``を返します。
@@ -50,7 +50,12 @@ extension InterfaceTypeExtensions on InterfaceType {
     }
     return toString();
   }
+}
 
+/// Extension method of [InterfaceType].
+///
+/// [InterfaceType]の拡張メソッド。
+extension InterfaceTypeExtensions on InterfaceType {
   /// Get this type and all its supertypes.
   ///
   /// この型とそのスーパータイプをすべて取得します。
