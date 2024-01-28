@@ -70,23 +70,25 @@ class _$PointEcosystemUserModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_PointEcosystemUserModelCopyWith<$Res>
+abstract class _$$PointEcosystemUserModelImplCopyWith<$Res>
     implements $PointEcosystemUserModelCopyWith<$Res> {
-  factory _$$_PointEcosystemUserModelCopyWith(_$_PointEcosystemUserModel value,
-          $Res Function(_$_PointEcosystemUserModel) then) =
-      __$$_PointEcosystemUserModelCopyWithImpl<$Res>;
+  factory _$$PointEcosystemUserModelImplCopyWith(
+          _$PointEcosystemUserModelImpl value,
+          $Res Function(_$PointEcosystemUserModelImpl) then) =
+      __$$PointEcosystemUserModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({ModelTimestamp? lastDate, int continuousCount});
 }
 
 /// @nodoc
-class __$$_PointEcosystemUserModelCopyWithImpl<$Res>
+class __$$PointEcosystemUserModelImplCopyWithImpl<$Res>
     extends _$PointEcosystemUserModelCopyWithImpl<$Res,
-        _$_PointEcosystemUserModel>
-    implements _$$_PointEcosystemUserModelCopyWith<$Res> {
-  __$$_PointEcosystemUserModelCopyWithImpl(_$_PointEcosystemUserModel _value,
-      $Res Function(_$_PointEcosystemUserModel) _then)
+        _$PointEcosystemUserModelImpl>
+    implements _$$PointEcosystemUserModelImplCopyWith<$Res> {
+  __$$PointEcosystemUserModelImplCopyWithImpl(
+      _$PointEcosystemUserModelImpl _value,
+      $Res Function(_$PointEcosystemUserModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -95,7 +97,7 @@ class __$$_PointEcosystemUserModelCopyWithImpl<$Res>
     Object? lastDate = freezed,
     Object? continuousCount = null,
   }) {
-    return _then(_$_PointEcosystemUserModel(
+    return _then(_$PointEcosystemUserModelImpl(
       lastDate: freezed == lastDate
           ? _value.lastDate
           : lastDate // ignore: cast_nullable_to_non_nullable
@@ -110,12 +112,12 @@ class __$$_PointEcosystemUserModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PointEcosystemUserModel extends _PointEcosystemUserModel {
-  const _$_PointEcosystemUserModel({this.lastDate, this.continuousCount = 0})
+class _$PointEcosystemUserModelImpl extends _PointEcosystemUserModel {
+  const _$PointEcosystemUserModelImpl({this.lastDate, this.continuousCount = 0})
       : super._();
 
-  factory _$_PointEcosystemUserModel.fromJson(Map<String, dynamic> json) =>
-      _$$_PointEcosystemUserModelFromJson(json);
+  factory _$PointEcosystemUserModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PointEcosystemUserModelImplFromJson(json);
 
   @override
   final ModelTimestamp? lastDate;
@@ -132,7 +134,7 @@ class _$_PointEcosystemUserModel extends _PointEcosystemUserModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PointEcosystemUserModel &&
+            other is _$PointEcosystemUserModelImpl &&
             (identical(other.lastDate, lastDate) ||
                 other.lastDate == lastDate) &&
             (identical(other.continuousCount, continuousCount) ||
@@ -146,14 +148,13 @@ class _$_PointEcosystemUserModel extends _PointEcosystemUserModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PointEcosystemUserModelCopyWith<_$_PointEcosystemUserModel>
-      get copyWith =>
-          __$$_PointEcosystemUserModelCopyWithImpl<_$_PointEcosystemUserModel>(
-              this, _$identity);
+  _$$PointEcosystemUserModelImplCopyWith<_$PointEcosystemUserModelImpl>
+      get copyWith => __$$PointEcosystemUserModelImplCopyWithImpl<
+          _$PointEcosystemUserModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PointEcosystemUserModelToJson(
+    return _$$PointEcosystemUserModelImplToJson(
       this,
     );
   }
@@ -162,11 +163,11 @@ class _$_PointEcosystemUserModel extends _PointEcosystemUserModel {
 abstract class _PointEcosystemUserModel extends PointEcosystemUserModel {
   const factory _PointEcosystemUserModel(
       {final ModelTimestamp? lastDate,
-      final int continuousCount}) = _$_PointEcosystemUserModel;
+      final int continuousCount}) = _$PointEcosystemUserModelImpl;
   const _PointEcosystemUserModel._() : super._();
 
   factory _PointEcosystemUserModel.fromJson(Map<String, dynamic> json) =
-      _$_PointEcosystemUserModel.fromJson;
+      _$PointEcosystemUserModelImpl.fromJson;
 
   @override
   ModelTimestamp? get lastDate;
@@ -174,6 +175,6 @@ abstract class _PointEcosystemUserModel extends PointEcosystemUserModel {
   int get continuousCount;
   @override
   @JsonKey(ignore: true)
-  _$$_PointEcosystemUserModelCopyWith<_$_PointEcosystemUserModel>
+  _$$PointEcosystemUserModelImplCopyWith<_$PointEcosystemUserModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

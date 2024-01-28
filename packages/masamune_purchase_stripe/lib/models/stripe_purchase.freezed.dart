@@ -272,11 +272,11 @@ class _$StripePurchaseModelCopyWithImpl<$Res, $Val extends StripePurchaseModel>
 }
 
 /// @nodoc
-abstract class _$$_StripePurchaseModelCopyWith<$Res>
+abstract class _$$StripePurchaseModelImplCopyWith<$Res>
     implements $StripePurchaseModelCopyWith<$Res> {
-  factory _$$_StripePurchaseModelCopyWith(_$_StripePurchaseModel value,
-          $Res Function(_$_StripePurchaseModel) then) =
-      __$$_StripePurchaseModelCopyWithImpl<$Res>;
+  factory _$$StripePurchaseModelImplCopyWith(_$StripePurchaseModelImpl value,
+          $Res Function(_$StripePurchaseModelImpl) then) =
+      __$$StripePurchaseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -310,11 +310,11 @@ abstract class _$$_StripePurchaseModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_StripePurchaseModelCopyWithImpl<$Res>
-    extends _$StripePurchaseModelCopyWithImpl<$Res, _$_StripePurchaseModel>
-    implements _$$_StripePurchaseModelCopyWith<$Res> {
-  __$$_StripePurchaseModelCopyWithImpl(_$_StripePurchaseModel _value,
-      $Res Function(_$_StripePurchaseModel) _then)
+class __$$StripePurchaseModelImplCopyWithImpl<$Res>
+    extends _$StripePurchaseModelCopyWithImpl<$Res, _$StripePurchaseModelImpl>
+    implements _$$StripePurchaseModelImplCopyWith<$Res> {
+  __$$StripePurchaseModelImplCopyWithImpl(_$StripePurchaseModelImpl _value,
+      $Res Function(_$StripePurchaseModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -348,7 +348,7 @@ class __$$_StripePurchaseModelCopyWithImpl<$Res>
     Object? locale = freezed,
     Object? cancelAtPeriodEnd = null,
   }) {
-    return _then(_$_StripePurchaseModel(
+    return _then(_$StripePurchaseModelImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -463,8 +463,8 @@ class __$$_StripePurchaseModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_StripePurchaseModel extends _StripePurchaseModel {
-  const _$_StripePurchaseModel(
+class _$StripePurchaseModelImpl extends _StripePurchaseModel {
+  const _$StripePurchaseModelImpl(
       {@JsonKey(name: "user") required this.userId,
       @JsonKey(name: "confirm") this.confirm = false,
       @JsonKey(name: "verify") this.verified = false,
@@ -494,8 +494,8 @@ class _$_StripePurchaseModel extends _StripePurchaseModel {
       @JsonKey(name: "cancel_at_period_end") this.cancelAtPeriodEnd = false})
       : super._();
 
-  factory _$_StripePurchaseModel.fromJson(Map<String, dynamic> json) =>
-      _$$_StripePurchaseModelFromJson(json);
+  factory _$StripePurchaseModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$StripePurchaseModelImplFromJson(json);
 
   @override
   @JsonKey(name: "user")
@@ -588,7 +588,7 @@ class _$_StripePurchaseModel extends _StripePurchaseModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StripePurchaseModel &&
+            other is _$StripePurchaseModelImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.confirm, confirm) || other.confirm == confirm) &&
             (identical(other.verified, verified) ||
@@ -672,13 +672,13 @@ class _$_StripePurchaseModel extends _StripePurchaseModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StripePurchaseModelCopyWith<_$_StripePurchaseModel> get copyWith =>
-      __$$_StripePurchaseModelCopyWithImpl<_$_StripePurchaseModel>(
+  _$$StripePurchaseModelImplCopyWith<_$StripePurchaseModelImpl> get copyWith =>
+      __$$StripePurchaseModelImplCopyWithImpl<_$StripePurchaseModelImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_StripePurchaseModelToJson(
+    return _$$StripePurchaseModelImplToJson(
       this,
     );
   }
@@ -713,11 +713,11 @@ abstract class _StripePurchaseModel extends StripePurchaseModel {
       @JsonKey(name: "emailContent") final String? emailContent,
       @JsonKey(name: "locale") final String? locale,
       @JsonKey(name: "cancel_at_period_end")
-      final bool cancelAtPeriodEnd}) = _$_StripePurchaseModel;
+      final bool cancelAtPeriodEnd}) = _$StripePurchaseModelImpl;
   const _StripePurchaseModel._() : super._();
 
   factory _StripePurchaseModel.fromJson(Map<String, dynamic> json) =
-      _$_StripePurchaseModel.fromJson;
+      _$StripePurchaseModelImpl.fromJson;
 
   @override
   @JsonKey(name: "user")
@@ -802,6 +802,6 @@ abstract class _StripePurchaseModel extends StripePurchaseModel {
   bool get cancelAtPeriodEnd;
   @override
   @JsonKey(ignore: true)
-  _$$_StripePurchaseModelCopyWith<_$_StripePurchaseModel> get copyWith =>
+  _$$StripePurchaseModelImplCopyWith<_$StripePurchaseModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

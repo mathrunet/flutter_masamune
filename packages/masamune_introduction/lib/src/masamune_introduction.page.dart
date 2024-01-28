@@ -15,8 +15,9 @@ class _$MasamuneIntroductionPageQuery extends RouteQueryBuilder {
   static final _regExp = RegExp(r"^tutorial$");
 
   @useResult
-  _$_MasamuneIntroductionPageQuery call({RouteQuery? routeQuery}) =>
+  RouteQuery call({RouteQuery? routeQuery}) =>
       _$_MasamuneIntroductionPageQuery(null, routeQuery: routeQuery);
+
   @override
   RouteQuery? resolve(String? path) {
     if (path == null) {
@@ -58,6 +59,7 @@ class _$_MasamuneIntroductionPageQuery extends RouteQuery {
 
   @override
   String get path => _path ?? "tutorial$_parameters";
+
   String get _parameters {
     final $q = <String, String>{};
     return $q.isEmpty
@@ -67,12 +69,16 @@ class _$_MasamuneIntroductionPageQuery extends RouteQuery {
 
   @override
   String get name => path;
+
   @override
   bool get nested => false;
+
   @override
   TransitionQuery? get transition => TransitionQuery.fade;
+
   @override
   E? key<E>() => null;
+
   @override
   W? widget<W extends Widget>() {
     final w = MasamuneIntroductionPage(routeQuery: routeQuery);
@@ -84,6 +90,7 @@ class _$_MasamuneIntroductionPageQuery extends RouteQuery {
 
   @override
   List<RedirectQuery> redirect() => const [];
+
   @override
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute<E>(

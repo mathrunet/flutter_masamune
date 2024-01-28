@@ -62,22 +62,22 @@ class _$PurchaseUserModelCopyWithImpl<$Res, $Val extends PurchaseUserModel>
 }
 
 /// @nodoc
-abstract class _$$_PurchaseUserModelCopyWith<$Res>
+abstract class _$$PurchaseUserModelImplCopyWith<$Res>
     implements $PurchaseUserModelCopyWith<$Res> {
-  factory _$$_PurchaseUserModelCopyWith(_$_PurchaseUserModel value,
-          $Res Function(_$_PurchaseUserModel) then) =
-      __$$_PurchaseUserModelCopyWithImpl<$Res>;
+  factory _$$PurchaseUserModelImplCopyWith(_$PurchaseUserModelImpl value,
+          $Res Function(_$PurchaseUserModelImpl) then) =
+      __$$PurchaseUserModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double value});
 }
 
 /// @nodoc
-class __$$_PurchaseUserModelCopyWithImpl<$Res>
-    extends _$PurchaseUserModelCopyWithImpl<$Res, _$_PurchaseUserModel>
-    implements _$$_PurchaseUserModelCopyWith<$Res> {
-  __$$_PurchaseUserModelCopyWithImpl(
-      _$_PurchaseUserModel _value, $Res Function(_$_PurchaseUserModel) _then)
+class __$$PurchaseUserModelImplCopyWithImpl<$Res>
+    extends _$PurchaseUserModelCopyWithImpl<$Res, _$PurchaseUserModelImpl>
+    implements _$$PurchaseUserModelImplCopyWith<$Res> {
+  __$$PurchaseUserModelImplCopyWithImpl(_$PurchaseUserModelImpl _value,
+      $Res Function(_$PurchaseUserModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -85,7 +85,7 @@ class __$$_PurchaseUserModelCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$_PurchaseUserModel(
+    return _then(_$PurchaseUserModelImpl(
       value: null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -96,11 +96,11 @@ class __$$_PurchaseUserModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PurchaseUserModel extends _PurchaseUserModel {
-  const _$_PurchaseUserModel({this.value = 0.0}) : super._();
+class _$PurchaseUserModelImpl extends _PurchaseUserModel {
+  const _$PurchaseUserModelImpl({this.value = 0.0}) : super._();
 
-  factory _$_PurchaseUserModel.fromJson(Map<String, dynamic> json) =>
-      _$$_PurchaseUserModelFromJson(json);
+  factory _$PurchaseUserModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PurchaseUserModelImplFromJson(json);
 
   @override
   @JsonKey()
@@ -115,7 +115,7 @@ class _$_PurchaseUserModel extends _PurchaseUserModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PurchaseUserModel &&
+            other is _$PurchaseUserModelImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -126,29 +126,30 @@ class _$_PurchaseUserModel extends _PurchaseUserModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PurchaseUserModelCopyWith<_$_PurchaseUserModel> get copyWith =>
-      __$$_PurchaseUserModelCopyWithImpl<_$_PurchaseUserModel>(
+  _$$PurchaseUserModelImplCopyWith<_$PurchaseUserModelImpl> get copyWith =>
+      __$$PurchaseUserModelImplCopyWithImpl<_$PurchaseUserModelImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PurchaseUserModelToJson(
+    return _$$PurchaseUserModelImplToJson(
       this,
     );
   }
 }
 
 abstract class _PurchaseUserModel extends PurchaseUserModel {
-  const factory _PurchaseUserModel({final double value}) = _$_PurchaseUserModel;
+  const factory _PurchaseUserModel({final double value}) =
+      _$PurchaseUserModelImpl;
   const _PurchaseUserModel._() : super._();
 
   factory _PurchaseUserModel.fromJson(Map<String, dynamic> json) =
-      _$_PurchaseUserModel.fromJson;
+      _$PurchaseUserModelImpl.fromJson;
 
   @override
   double get value;
   @override
   @JsonKey(ignore: true)
-  _$$_PurchaseUserModelCopyWith<_$_PurchaseUserModel> get copyWith =>
+  _$$PurchaseUserModelImplCopyWith<_$PurchaseUserModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -6,9 +6,9 @@ part of 'stripe_payment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_StripePaymentModel _$$_StripePaymentModelFromJson(
+_$StripePaymentModelImpl _$$StripePaymentModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$_StripePaymentModel(
+    _$StripePaymentModelImpl(
       paymentId: json['id'] as String,
       type: json['type'] as String,
       expMonth: json['expMonth'] as int? ?? 1,
@@ -18,8 +18,8 @@ _$_StripePaymentModel _$$_StripePaymentModelFromJson(
       isDefault: json['default'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$_StripePaymentModelToJson(
-        _$_StripePaymentModel instance) =>
+Map<String, dynamic> _$$StripePaymentModelImplToJson(
+        _$StripePaymentModelImpl instance) =>
     <String, dynamic>{
       'id': instance.paymentId,
       'type': instance.type,

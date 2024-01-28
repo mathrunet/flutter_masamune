@@ -48,11 +48,16 @@ class _$StripePurchaseModelDocument extends DocumentBase<StripePurchaseModel>
     with ModelRefMixin<StripePurchaseModel> {
   _$StripePurchaseModelDocument(super.modelQuery);
 
+  static const ModelAccessQuery? defaultModelAccessQuery = null;
+
+  static const List<ModelValidationQuery>? defaultValidationQueries = [];
+
   static final ModelAdapter? defaultModelAdapter = null;
 
   @override
   StripePurchaseModel fromMap(DynamicMap map) =>
       StripePurchaseModel.fromJson(map);
+
   @override
   DynamicMap toMap(StripePurchaseModel value) => value.rawValue;
 }
@@ -66,11 +71,16 @@ class _$StripePurchaseModelCollection
             _$_StripePurchaseModelCollectionQuery> {
   _$StripePurchaseModelCollection(super.modelQuery);
 
+  static const ModelAccessQuery? defaultModelAccessQuery = null;
+
+  static const List<ModelValidationQuery>? defaultValidationQueries = [];
+
   static final ModelAdapter? defaultModelAdapter = null;
 
   @override
   _$StripePurchaseModelDocument create([String? id]) =>
       _$StripePurchaseModelDocument(modelQuery.create(id));
+
   @override
   Future<CollectionBase<_$StripePurchaseModelDocument>> filter(
       _$_StripePurchaseModelCollectionQuery Function(
@@ -114,6 +124,7 @@ class _$StripePurchaseModelInitialCollection
 
   @override
   String get path => "plugins/stripe/user/$_userId/purchase";
+
   @override
   DynamicMap toMap(StripePurchaseModel value) => value.rawValue;
 }
@@ -127,10 +138,14 @@ class _$StripePurchaseModelDocumentQuery {
     Object _id, {
     required String userId,
     ModelAdapter? adapter,
+    ModelAccessQuery? accessQuery,
   }) {
     return _$_StripePurchaseModelDocumentQuery(DocumentModelQuery(
       "plugins/stripe/user/$userId/purchase/$_id",
       adapter: adapter ?? _$StripePurchaseModelDocument.defaultModelAdapter,
+      accessQuery:
+          accessQuery ?? _$StripePurchaseModelDocument.defaultModelAccessQuery,
+      validationQueries: _$StripePurchaseModelDocument.defaultValidationQueries,
     ));
   }
 }
@@ -145,6 +160,7 @@ class _$_StripePurchaseModelDocumentQuery
   @override
   _$StripePurchaseModelDocument Function() call(Ref ref) =>
       () => _$StripePurchaseModelDocument(modelQuery);
+
   @override
   String get queryName => modelQuery.toString();
 }
@@ -157,10 +173,15 @@ class _$StripePurchaseModelCollectionQuery {
   _$_StripePurchaseModelCollectionQuery call({
     required String userId,
     ModelAdapter? adapter,
+    ModelAccessQuery? accessQuery,
   }) {
     return _$_StripePurchaseModelCollectionQuery(CollectionModelQuery(
       "plugins/stripe/user/$userId/purchase",
       adapter: adapter ?? _$StripePurchaseModelCollection.defaultModelAdapter,
+      accessQuery: accessQuery ??
+          _$StripePurchaseModelCollection.defaultModelAccessQuery,
+      validationQueries:
+          _$StripePurchaseModelCollection.defaultValidationQueries,
     ));
   }
 }
@@ -175,118 +196,156 @@ class _$_StripePurchaseModelCollectionQuery
   @override
   _$StripePurchaseModelCollection Function() call(Ref ref) =>
       () => _$StripePurchaseModelCollection(modelQuery);
+
   @override
   String get queryName => modelQuery.toString();
+
   static _$_StripePurchaseModelCollectionQuery _toQuery(
           CollectionModelQuery query) =>
       _$_StripePurchaseModelCollectionQuery(query);
+
   _$_StripePurchaseModelCollectionQuery limitTo(int value) =>
       _$_StripePurchaseModelCollectionQuery(modelQuery.limitTo(value));
+
+  _$_StripePurchaseModelCollectionQuery collectionGroup() =>
+      _$_StripePurchaseModelCollectionQuery(modelQuery.collectionGroup());
+
   _$_StripePurchaseModelCollectionQuery reset() =>
       _$_StripePurchaseModelCollectionQuery(modelQuery.reset());
+
+  StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery> get uid =>
+      StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
+          key: "@uid", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery> get userId =>
       StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
           key: "userId", toQuery: _toQuery, modelQuery: modelQuery);
+
   BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get confirm =>
           BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "confirm", toQuery: _toQuery, modelQuery: modelQuery);
+
   BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get verified =>
           BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "verified", toQuery: _toQuery, modelQuery: modelQuery);
+
   BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get captured =>
           BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "captured", toQuery: _toQuery, modelQuery: modelQuery);
+
   BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get success =>
           BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "success", toQuery: _toQuery, modelQuery: modelQuery);
+
   BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get canceled =>
           BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "canceled", toQuery: _toQuery, modelQuery: modelQuery);
+
   BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery> get error =>
       BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
           key: "error", toQuery: _toQuery, modelQuery: modelQuery);
+
   BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery> get refund =>
       BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
           key: "refund", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery> get orderId =>
       StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
           key: "orderId", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get purchaseId =>
           StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "purchaseId", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get paymentMethodId =>
           StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "paymentMethodId",
               toQuery: _toQuery,
               modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get customerId =>
           StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "customerId", toQuery: _toQuery, modelQuery: modelQuery);
+
   NumModelQuerySelector<_$_StripePurchaseModelCollectionQuery> get amount =>
       NumModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
           key: "amount", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get application =>
           StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "application", toQuery: _toQuery, modelQuery: modelQuery);
+
   NumModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get applicationFeeAmount =>
           NumModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "applicationFeeAmount",
               toQuery: _toQuery,
               modelQuery: modelQuery);
+
   NumModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get transferAmount =>
           NumModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "transferAmount", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get transferDistination =>
           StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "transferDistination",
               toQuery: _toQuery,
               modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get currency =>
           StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "currency", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get clientSecret =>
           StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "clientSecret", toQuery: _toQuery, modelQuery: modelQuery);
+
   ModelTimestampModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get createdTime => ModelTimestampModelQuerySelector<
               _$_StripePurchaseModelCollectionQuery>(
           key: "createdTime", toQuery: _toQuery, modelQuery: modelQuery);
+
   ModelTimestampModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get updatedTime => ModelTimestampModelQuerySelector<
               _$_StripePurchaseModelCollectionQuery>(
           key: "updatedTime", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get emailFrom =>
           StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "emailFrom", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery> get emailTo =>
       StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
           key: "emailTo", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get emailTitle =>
           StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "emailTitle", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get emailContent =>
           StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
               key: "emailContent", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery> get locale =>
       StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
           key: "locale", toQuery: _toQuery, modelQuery: modelQuery);
+
   BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get cancelAtPeriodEnd =>
           BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(

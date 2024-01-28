@@ -23,6 +23,8 @@ class _$PushNotificationScheduleModelDocument
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
 
+  static const List<ModelValidationQuery>? defaultValidationQueries = [];
+
   static final ModelAdapter? defaultModelAdapter = null;
 
   @override
@@ -44,6 +46,8 @@ class _$PushNotificationScheduleModelCollection
   _$PushNotificationScheduleModelCollection(super.modelQuery);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
+
+  static const List<ModelValidationQuery>? defaultValidationQueries = [];
 
   static final ModelAdapter? defaultModelAdapter = null;
 
@@ -107,6 +111,8 @@ class _$PushNotificationScheduleModelDocumentQuery {
           _$PushNotificationScheduleModelDocument.defaultModelAdapter,
       accessQuery: accessQuery ??
           _$PushNotificationScheduleModelDocument.defaultModelAccessQuery,
+      validationQueries:
+          _$PushNotificationScheduleModelDocument.defaultValidationQueries,
     ));
   }
 }
@@ -141,6 +147,8 @@ class _$PushNotificationScheduleModelCollectionQuery {
           _$PushNotificationScheduleModelCollection.defaultModelAdapter,
       accessQuery: accessQuery ??
           _$PushNotificationScheduleModelCollection.defaultModelAccessQuery,
+      validationQueries:
+          _$PushNotificationScheduleModelCollection.defaultValidationQueries,
     ));
   }
 }
@@ -167,8 +175,17 @@ class _$_PushNotificationScheduleModelCollectionQuery
       _$_PushNotificationScheduleModelCollectionQuery(
           modelQuery.limitTo(value));
 
+  _$_PushNotificationScheduleModelCollectionQuery collectionGroup() =>
+      _$_PushNotificationScheduleModelCollectionQuery(
+          modelQuery.collectionGroup());
+
   _$_PushNotificationScheduleModelCollectionQuery reset() =>
       _$_PushNotificationScheduleModelCollectionQuery(modelQuery.reset());
+
+  StringModelQuerySelector<_$_PushNotificationScheduleModelCollectionQuery>
+      get uid => StringModelQuerySelector<
+              _$_PushNotificationScheduleModelCollectionQuery>(
+          key: "@uid", toQuery: _toQuery, modelQuery: modelQuery);
 
   ValueModelQuerySelector<ModelServerCommandPushNotificationSchedule,
           _$_PushNotificationScheduleModelCollectionQuery>

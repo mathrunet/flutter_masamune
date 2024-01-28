@@ -112,11 +112,11 @@ class _$StripePaymentModelCopyWithImpl<$Res, $Val extends StripePaymentModel>
 }
 
 /// @nodoc
-abstract class _$$_StripePaymentModelCopyWith<$Res>
+abstract class _$$StripePaymentModelImplCopyWith<$Res>
     implements $StripePaymentModelCopyWith<$Res> {
-  factory _$$_StripePaymentModelCopyWith(_$_StripePaymentModel value,
-          $Res Function(_$_StripePaymentModel) then) =
-      __$$_StripePaymentModelCopyWithImpl<$Res>;
+  factory _$$StripePaymentModelImplCopyWith(_$StripePaymentModelImpl value,
+          $Res Function(_$StripePaymentModelImpl) then) =
+      __$$StripePaymentModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -130,11 +130,11 @@ abstract class _$$_StripePaymentModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_StripePaymentModelCopyWithImpl<$Res>
-    extends _$StripePaymentModelCopyWithImpl<$Res, _$_StripePaymentModel>
-    implements _$$_StripePaymentModelCopyWith<$Res> {
-  __$$_StripePaymentModelCopyWithImpl(
-      _$_StripePaymentModel _value, $Res Function(_$_StripePaymentModel) _then)
+class __$$StripePaymentModelImplCopyWithImpl<$Res>
+    extends _$StripePaymentModelCopyWithImpl<$Res, _$StripePaymentModelImpl>
+    implements _$$StripePaymentModelImplCopyWith<$Res> {
+  __$$StripePaymentModelImplCopyWithImpl(_$StripePaymentModelImpl _value,
+      $Res Function(_$StripePaymentModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -148,7 +148,7 @@ class __$$_StripePaymentModelCopyWithImpl<$Res>
     Object? numberLast = null,
     Object? isDefault = null,
   }) {
-    return _then(_$_StripePaymentModel(
+    return _then(_$StripePaymentModelImpl(
       paymentId: null == paymentId
           ? _value.paymentId
           : paymentId // ignore: cast_nullable_to_non_nullable
@@ -183,8 +183,8 @@ class __$$_StripePaymentModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_StripePaymentModel extends _StripePaymentModel {
-  const _$_StripePaymentModel(
+class _$StripePaymentModelImpl extends _StripePaymentModel {
+  const _$StripePaymentModelImpl(
       {@JsonKey(name: "id") required this.paymentId,
       @JsonKey(name: "type") required this.type,
       @JsonKey(name: "expMonth") this.expMonth = 1,
@@ -194,8 +194,8 @@ class _$_StripePaymentModel extends _StripePaymentModel {
       @JsonKey(name: "default") this.isDefault = false})
       : super._();
 
-  factory _$_StripePaymentModel.fromJson(Map<String, dynamic> json) =>
-      _$$_StripePaymentModelFromJson(json);
+  factory _$StripePaymentModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$StripePaymentModelImplFromJson(json);
 
   @override
   @JsonKey(name: "id")
@@ -228,7 +228,7 @@ class _$_StripePaymentModel extends _StripePaymentModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StripePaymentModel &&
+            other is _$StripePaymentModelImpl &&
             (identical(other.paymentId, paymentId) ||
                 other.paymentId == paymentId) &&
             (identical(other.type, type) || other.type == type) &&
@@ -250,13 +250,13 @@ class _$_StripePaymentModel extends _StripePaymentModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StripePaymentModelCopyWith<_$_StripePaymentModel> get copyWith =>
-      __$$_StripePaymentModelCopyWithImpl<_$_StripePaymentModel>(
+  _$$StripePaymentModelImplCopyWith<_$StripePaymentModelImpl> get copyWith =>
+      __$$StripePaymentModelImplCopyWithImpl<_$StripePaymentModelImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_StripePaymentModelToJson(
+    return _$$StripePaymentModelImplToJson(
       this,
     );
   }
@@ -264,17 +264,18 @@ class _$_StripePaymentModel extends _StripePaymentModel {
 
 abstract class _StripePaymentModel extends StripePaymentModel {
   const factory _StripePaymentModel(
-      {@JsonKey(name: "id") required final String paymentId,
-      @JsonKey(name: "type") required final String type,
-      @JsonKey(name: "expMonth") final int expMonth,
-      @JsonKey(name: "expYear") final int expYear,
-      @JsonKey(name: "brand") required final String brand,
-      @JsonKey(name: "numberLast") required final String numberLast,
-      @JsonKey(name: "default") final bool isDefault}) = _$_StripePaymentModel;
+          {@JsonKey(name: "id") required final String paymentId,
+          @JsonKey(name: "type") required final String type,
+          @JsonKey(name: "expMonth") final int expMonth,
+          @JsonKey(name: "expYear") final int expYear,
+          @JsonKey(name: "brand") required final String brand,
+          @JsonKey(name: "numberLast") required final String numberLast,
+          @JsonKey(name: "default") final bool isDefault}) =
+      _$StripePaymentModelImpl;
   const _StripePaymentModel._() : super._();
 
   factory _StripePaymentModel.fromJson(Map<String, dynamic> json) =
-      _$_StripePaymentModel.fromJson;
+      _$StripePaymentModelImpl.fromJson;
 
   @override
   @JsonKey(name: "id")
@@ -299,6 +300,6 @@ abstract class _StripePaymentModel extends StripePaymentModel {
   bool get isDefault;
   @override
   @JsonKey(ignore: true)
-  _$$_StripePaymentModelCopyWith<_$_StripePaymentModel> get copyWith =>
+  _$$StripePaymentModelImplCopyWith<_$StripePaymentModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

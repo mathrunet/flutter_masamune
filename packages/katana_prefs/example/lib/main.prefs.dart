@@ -131,11 +131,14 @@ class _PrefsValue extends PrefsValue {
 
   @override
   Future<void>? get loading => _completer?.future;
+
   @override
   Future<bool> clear() => _prefs?.clear() ?? Future.value(false);
+
   @override
   _$_PrefsValue<String?> get userToken =>
       _$_PrefsValue("_#userToken".toSHA1(), _userToken, this);
+
   @override
   _$_PrefsValue<double> get volumeSetting =>
       _$_PrefsValue("_#volumeSetting".toSHA1(), _volumeSetting, this);

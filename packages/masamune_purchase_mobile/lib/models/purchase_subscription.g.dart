@@ -6,9 +6,9 @@ part of 'purchase_subscription.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PurchaseSubscriptionModel _$$_PurchaseSubscriptionModelFromJson(
+_$PurchaseSubscriptionModelImpl _$$PurchaseSubscriptionModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$_PurchaseSubscriptionModel(
+    _$PurchaseSubscriptionModelImpl(
       expired: json['expired'] as bool? ?? true,
       token: json['token'] as String?,
       platform: json['platform'] as String?,
@@ -20,8 +20,8 @@ _$_PurchaseSubscriptionModel _$$_PurchaseSubscriptionModelFromJson(
       userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$$_PurchaseSubscriptionModelToJson(
-        _$_PurchaseSubscriptionModel instance) =>
+Map<String, dynamic> _$$PurchaseSubscriptionModelImplToJson(
+        _$PurchaseSubscriptionModelImpl instance) =>
     <String, dynamic>{
       'expired': instance.expired,
       'token': instance.token,

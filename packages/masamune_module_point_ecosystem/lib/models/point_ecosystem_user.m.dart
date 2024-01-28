@@ -21,11 +21,16 @@ class _$PointEcosystemUserModelDocument
     with ModelRefMixin<PointEcosystemUserModel> {
   _$PointEcosystemUserModelDocument(super.modelQuery);
 
+  static const ModelAccessQuery? defaultModelAccessQuery = null;
+
+  static const List<ModelValidationQuery>? defaultValidationQueries = [];
+
   static final ModelAdapter? defaultModelAdapter = null;
 
   @override
   PointEcosystemUserModel fromMap(DynamicMap map) =>
       PointEcosystemUserModel.fromJson(map);
+
   @override
   DynamicMap toMap(PointEcosystemUserModel value) => value.rawValue;
 }
@@ -40,11 +45,16 @@ class _$PointEcosystemUserModelCollection
             _$_PointEcosystemUserModelCollectionQuery> {
   _$PointEcosystemUserModelCollection(super.modelQuery);
 
+  static const ModelAccessQuery? defaultModelAccessQuery = null;
+
+  static const List<ModelValidationQuery>? defaultValidationQueries = [];
+
   static final ModelAdapter? defaultModelAdapter = null;
 
   @override
   _$PointEcosystemUserModelDocument create([String? id]) =>
       _$PointEcosystemUserModelDocument(modelQuery.create(id));
+
   @override
   Future<CollectionBase<_$PointEcosystemUserModelDocument>> filter(
       _$_PointEcosystemUserModelCollectionQuery Function(
@@ -80,6 +90,7 @@ class _$PointEcosystemUserModelInitialCollection
 
   @override
   String get path => "plugins/pes/user";
+
   @override
   DynamicMap toMap(PointEcosystemUserModel value) => value.rawValue;
 }
@@ -92,10 +103,15 @@ class _$PointEcosystemUserModelDocumentQuery {
   _$_PointEcosystemUserModelDocumentQuery call(
     Object _id, {
     ModelAdapter? adapter,
+    ModelAccessQuery? accessQuery,
   }) {
     return _$_PointEcosystemUserModelDocumentQuery(DocumentModelQuery(
       "plugins/pes/user/$_id",
       adapter: adapter ?? _$PointEcosystemUserModelDocument.defaultModelAdapter,
+      accessQuery: accessQuery ??
+          _$PointEcosystemUserModelDocument.defaultModelAccessQuery,
+      validationQueries:
+          _$PointEcosystemUserModelDocument.defaultValidationQueries,
     ));
   }
 }
@@ -110,6 +126,7 @@ class _$_PointEcosystemUserModelDocumentQuery
   @override
   _$PointEcosystemUserModelDocument Function() call(Ref ref) =>
       () => _$PointEcosystemUserModelDocument(modelQuery);
+
   @override
   String get queryName => modelQuery.toString();
 }
@@ -119,11 +136,18 @@ class _$PointEcosystemUserModelCollectionQuery {
   const _$PointEcosystemUserModelCollectionQuery();
 
   @useResult
-  _$_PointEcosystemUserModelCollectionQuery call({ModelAdapter? adapter}) {
+  _$_PointEcosystemUserModelCollectionQuery call({
+    ModelAdapter? adapter,
+    ModelAccessQuery? accessQuery,
+  }) {
     return _$_PointEcosystemUserModelCollectionQuery(CollectionModelQuery(
       "plugins/pes/user",
       adapter:
           adapter ?? _$PointEcosystemUserModelCollection.defaultModelAdapter,
+      accessQuery: accessQuery ??
+          _$PointEcosystemUserModelCollection.defaultModelAccessQuery,
+      validationQueries:
+          _$PointEcosystemUserModelCollection.defaultValidationQueries,
     ));
   }
 }
@@ -138,19 +162,32 @@ class _$_PointEcosystemUserModelCollectionQuery
   @override
   _$PointEcosystemUserModelCollection Function() call(Ref ref) =>
       () => _$PointEcosystemUserModelCollection(modelQuery);
+
   @override
   String get queryName => modelQuery.toString();
+
   static _$_PointEcosystemUserModelCollectionQuery _toQuery(
           CollectionModelQuery query) =>
       _$_PointEcosystemUserModelCollectionQuery(query);
+
   _$_PointEcosystemUserModelCollectionQuery limitTo(int value) =>
       _$_PointEcosystemUserModelCollectionQuery(modelQuery.limitTo(value));
+
+  _$_PointEcosystemUserModelCollectionQuery collectionGroup() =>
+      _$_PointEcosystemUserModelCollectionQuery(modelQuery.collectionGroup());
+
   _$_PointEcosystemUserModelCollectionQuery reset() =>
       _$_PointEcosystemUserModelCollectionQuery(modelQuery.reset());
+
+  StringModelQuerySelector<_$_PointEcosystemUserModelCollectionQuery> get uid =>
+      StringModelQuerySelector<_$_PointEcosystemUserModelCollectionQuery>(
+          key: "@uid", toQuery: _toQuery, modelQuery: modelQuery);
+
   ModelTimestampModelQuerySelector<_$_PointEcosystemUserModelCollectionQuery>
       get lastDate => ModelTimestampModelQuerySelector<
               _$_PointEcosystemUserModelCollectionQuery>(
           key: "lastDate", toQuery: _toQuery, modelQuery: modelQuery);
+
   NumModelQuerySelector<_$_PointEcosystemUserModelCollectionQuery>
       get continuousCount =>
           NumModelQuerySelector<_$_PointEcosystemUserModelCollectionQuery>(
@@ -180,7 +217,7 @@ class _$PointEcosystemUserModelFormQuery {
 
 @immutable
 class _$_PointEcosystemUserModelFormQuery
-    extends ControllerQueryBase<FormController<PointEcosystemUserModel>> {
+    extends FormControllerQueryBase<PointEcosystemUserModel> {
   const _$_PointEcosystemUserModelFormQuery(this.value);
 
   final PointEcosystemUserModel value;
@@ -188,8 +225,10 @@ class _$_PointEcosystemUserModelFormQuery
   @override
   FormController<PointEcosystemUserModel> Function() call(Ref ref) =>
       () => FormController(value);
+
   @override
   String get queryName => value.hashCode.toString();
+
   @override
   bool get autoDisposeWhenUnreferenced => true;
 }

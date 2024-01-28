@@ -62,22 +62,22 @@ class _$AnalyticsValueCopyWithImpl<$Res, $Val extends AnalyticsValue>
 }
 
 /// @nodoc
-abstract class _$$_AnalyticsValueCopyWith<$Res>
+abstract class _$$AnalyticsValueImplCopyWith<$Res>
     implements $AnalyticsValueCopyWith<$Res> {
-  factory _$$_AnalyticsValueCopyWith(
-          _$_AnalyticsValue value, $Res Function(_$_AnalyticsValue) then) =
-      __$$_AnalyticsValueCopyWithImpl<$Res>;
+  factory _$$AnalyticsValueImplCopyWith(_$AnalyticsValueImpl value,
+          $Res Function(_$AnalyticsValueImpl) then) =
+      __$$AnalyticsValueImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String userId});
 }
 
 /// @nodoc
-class __$$_AnalyticsValueCopyWithImpl<$Res>
-    extends _$AnalyticsValueCopyWithImpl<$Res, _$_AnalyticsValue>
-    implements _$$_AnalyticsValueCopyWith<$Res> {
-  __$$_AnalyticsValueCopyWithImpl(
-      _$_AnalyticsValue _value, $Res Function(_$_AnalyticsValue) _then)
+class __$$AnalyticsValueImplCopyWithImpl<$Res>
+    extends _$AnalyticsValueCopyWithImpl<$Res, _$AnalyticsValueImpl>
+    implements _$$AnalyticsValueImplCopyWith<$Res> {
+  __$$AnalyticsValueImplCopyWithImpl(
+      _$AnalyticsValueImpl _value, $Res Function(_$AnalyticsValueImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -85,7 +85,7 @@ class __$$_AnalyticsValueCopyWithImpl<$Res>
   $Res call({
     Object? userId = null,
   }) {
-    return _then(_$_AnalyticsValue(
+    return _then(_$AnalyticsValueImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -96,11 +96,11 @@ class __$$_AnalyticsValueCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AnalyticsValue extends _AnalyticsValue {
-  const _$_AnalyticsValue({required this.userId}) : super._();
+class _$AnalyticsValueImpl extends _AnalyticsValue {
+  const _$AnalyticsValueImpl({required this.userId}) : super._();
 
-  factory _$_AnalyticsValue.fromJson(Map<String, dynamic> json) =>
-      _$$_AnalyticsValueFromJson(json);
+  factory _$AnalyticsValueImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AnalyticsValueImplFromJson(json);
 
   @override
   final String userId;
@@ -114,7 +114,7 @@ class _$_AnalyticsValue extends _AnalyticsValue {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AnalyticsValue &&
+            other is _$AnalyticsValueImpl &&
             (identical(other.userId, userId) || other.userId == userId));
   }
 
@@ -125,12 +125,13 @@ class _$_AnalyticsValue extends _AnalyticsValue {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AnalyticsValueCopyWith<_$_AnalyticsValue> get copyWith =>
-      __$$_AnalyticsValueCopyWithImpl<_$_AnalyticsValue>(this, _$identity);
+  _$$AnalyticsValueImplCopyWith<_$AnalyticsValueImpl> get copyWith =>
+      __$$AnalyticsValueImplCopyWithImpl<_$AnalyticsValueImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AnalyticsValueToJson(
+    return _$$AnalyticsValueImplToJson(
       this,
     );
   }
@@ -138,16 +139,16 @@ class _$_AnalyticsValue extends _AnalyticsValue {
 
 abstract class _AnalyticsValue extends AnalyticsValue {
   const factory _AnalyticsValue({required final String userId}) =
-      _$_AnalyticsValue;
+      _$AnalyticsValueImpl;
   const _AnalyticsValue._() : super._();
 
   factory _AnalyticsValue.fromJson(Map<String, dynamic> json) =
-      _$_AnalyticsValue.fromJson;
+      _$AnalyticsValueImpl.fromJson;
 
   @override
   String get userId;
   @override
   @JsonKey(ignore: true)
-  _$$_AnalyticsValueCopyWith<_$_AnalyticsValue> get copyWith =>
+  _$$AnalyticsValueImplCopyWith<_$AnalyticsValueImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -28,11 +28,16 @@ class _$StripePaymentModelDocument extends DocumentBase<StripePaymentModel>
     with ModelRefMixin<StripePaymentModel> {
   _$StripePaymentModelDocument(super.modelQuery);
 
+  static const ModelAccessQuery? defaultModelAccessQuery = null;
+
+  static const List<ModelValidationQuery>? defaultValidationQueries = [];
+
   static final ModelAdapter? defaultModelAdapter = null;
 
   @override
   StripePaymentModel fromMap(DynamicMap map) =>
       StripePaymentModel.fromJson(map);
+
   @override
   DynamicMap toMap(StripePaymentModel value) => value.rawValue;
 }
@@ -46,11 +51,16 @@ class _$StripePaymentModelCollection
             _$_StripePaymentModelCollectionQuery> {
   _$StripePaymentModelCollection(super.modelQuery);
 
+  static const ModelAccessQuery? defaultModelAccessQuery = null;
+
+  static const List<ModelValidationQuery>? defaultValidationQueries = [];
+
   static final ModelAdapter? defaultModelAdapter = null;
 
   @override
   _$StripePaymentModelDocument create([String? id]) =>
       _$StripePaymentModelDocument(modelQuery.create(id));
+
   @override
   Future<CollectionBase<_$StripePaymentModelDocument>> filter(
       _$_StripePaymentModelCollectionQuery Function(
@@ -94,6 +104,7 @@ class _$StripePaymentModelInitialCollection
 
   @override
   String get path => "plugins/stripe/user/$_userId/payment";
+
   @override
   DynamicMap toMap(StripePaymentModel value) => value.rawValue;
 }
@@ -107,10 +118,14 @@ class _$StripePaymentModelDocumentQuery {
     Object _id, {
     required String userId,
     ModelAdapter? adapter,
+    ModelAccessQuery? accessQuery,
   }) {
     return _$_StripePaymentModelDocumentQuery(DocumentModelQuery(
       "plugins/stripe/user/$userId/payment/$_id",
       adapter: adapter ?? _$StripePaymentModelDocument.defaultModelAdapter,
+      accessQuery:
+          accessQuery ?? _$StripePaymentModelDocument.defaultModelAccessQuery,
+      validationQueries: _$StripePaymentModelDocument.defaultValidationQueries,
     ));
   }
 }
@@ -125,6 +140,7 @@ class _$_StripePaymentModelDocumentQuery
   @override
   _$StripePaymentModelDocument Function() call(Ref ref) =>
       () => _$StripePaymentModelDocument(modelQuery);
+
   @override
   String get queryName => modelQuery.toString();
 }
@@ -137,10 +153,15 @@ class _$StripePaymentModelCollectionQuery {
   _$_StripePaymentModelCollectionQuery call({
     required String userId,
     ModelAdapter? adapter,
+    ModelAccessQuery? accessQuery,
   }) {
     return _$_StripePaymentModelCollectionQuery(CollectionModelQuery(
       "plugins/stripe/user/$userId/payment",
       adapter: adapter ?? _$StripePaymentModelCollection.defaultModelAdapter,
+      accessQuery:
+          accessQuery ?? _$StripePaymentModelCollection.defaultModelAccessQuery,
+      validationQueries:
+          _$StripePaymentModelCollection.defaultValidationQueries,
     ));
   }
 }
@@ -155,35 +176,53 @@ class _$_StripePaymentModelCollectionQuery
   @override
   _$StripePaymentModelCollection Function() call(Ref ref) =>
       () => _$StripePaymentModelCollection(modelQuery);
+
   @override
   String get queryName => modelQuery.toString();
+
   static _$_StripePaymentModelCollectionQuery _toQuery(
           CollectionModelQuery query) =>
       _$_StripePaymentModelCollectionQuery(query);
+
   _$_StripePaymentModelCollectionQuery limitTo(int value) =>
       _$_StripePaymentModelCollectionQuery(modelQuery.limitTo(value));
+
+  _$_StripePaymentModelCollectionQuery collectionGroup() =>
+      _$_StripePaymentModelCollectionQuery(modelQuery.collectionGroup());
+
   _$_StripePaymentModelCollectionQuery reset() =>
       _$_StripePaymentModelCollectionQuery(modelQuery.reset());
+
+  StringModelQuerySelector<_$_StripePaymentModelCollectionQuery> get uid =>
+      StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
+          key: "@uid", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>
       get paymentId =>
           StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
               key: "paymentId", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePaymentModelCollectionQuery> get type =>
       StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
           key: "type", toQuery: _toQuery, modelQuery: modelQuery);
+
   NumModelQuerySelector<_$_StripePaymentModelCollectionQuery> get expMonth =>
       NumModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
           key: "expMonth", toQuery: _toQuery, modelQuery: modelQuery);
+
   NumModelQuerySelector<_$_StripePaymentModelCollectionQuery> get expYear =>
       NumModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
           key: "expYear", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePaymentModelCollectionQuery> get brand =>
       StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
           key: "brand", toQuery: _toQuery, modelQuery: modelQuery);
+
   StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>
       get numberLast =>
           StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
               key: "numberLast", toQuery: _toQuery, modelQuery: modelQuery);
+
   BooleanModelQuerySelector<_$_StripePaymentModelCollectionQuery>
       get isDefault =>
           BooleanModelQuerySelector<_$_StripePaymentModelCollectionQuery>(

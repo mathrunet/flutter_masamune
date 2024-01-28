@@ -6,7 +6,8 @@ part of 'json_source_model_adapter_test.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_TestValue _$$_TestValueFromJson(Map<String, dynamic> json) => _$_TestValue(
+_$TestValueImpl _$$TestValueImplFromJson(Map<String, dynamic> json) =>
+    _$TestValueImpl(
       id: json['id'] as String,
       name: json['name'] as String?,
       age: json['age'] as int?,
@@ -14,7 +15,7 @@ _$_TestValue _$$_TestValueFromJson(Map<String, dynamic> json) => _$_TestValue(
       flag: json['flag'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$_TestValueToJson(_$_TestValue instance) =>
+Map<String, dynamic> _$$TestValueImplToJson(_$TestValueImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

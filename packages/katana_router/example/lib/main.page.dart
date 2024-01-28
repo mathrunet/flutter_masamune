@@ -15,11 +15,12 @@ class _$MainPageQuery extends RouteQueryBuilder {
   static final _regExp = RegExp(r"^$");
 
   @useResult
-  _$_MainPageQuery call({
+  RouteQuery call({
     required String title,
     String? q,
   }) =>
       _$_MainPageQuery(null, title: title, q: q);
+
   @override
   RouteQuery? resolve(String? path) {
     if (path == null) {
@@ -62,6 +63,7 @@ class _$_MainPageQuery extends RouteQuery {
 
   @override
   String get path => _path ?? _parameters;
+
   String get _parameters {
     final $q = <String, String>{};
     if (q?.toString().isNotEmpty ?? false) {
@@ -74,12 +76,16 @@ class _$_MainPageQuery extends RouteQuery {
 
   @override
   String get name => "main";
+
   @override
   bool get nested => false;
+
   @override
   TransitionQuery? get transition => null;
+
   @override
   E? key<E>() => null;
+
   @override
   W? widget<W extends Widget>() {
     final w = MainPage(title: title, q: q);
@@ -91,6 +97,7 @@ class _$_MainPageQuery extends RouteQuery {
 
   @override
   List<RedirectQuery> redirect() => const [];
+
   @override
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute<E>(
@@ -108,8 +115,9 @@ class _$UserPageQuery extends RouteQueryBuilder {
   static final _regExp = RegExp(r"^page/(?<user_id>[^/?&]+)$");
 
   @useResult
-  _$_UserPageQuery call({required String userId}) =>
+  RouteQuery call({required String userId}) =>
       _$_UserPageQuery(null, userId: userId);
+
   @override
   RouteQuery? resolve(String? path) {
     if (path == null) {
@@ -123,9 +131,7 @@ class _$UserPageQuery extends RouteQueryBuilder {
       }
       final query = Uri.splitQueryString(split.last);
       return _$_UserPageQuery(path,
-          userId: match.namedGroup("userId") ??
-              match.namedGroup("user_id") ??
-              match.namedGroup("userId") ??
+          userId: match.namedGroup("user_id") ??
               query["userId"] ??
               query["user_id"] ??
               query["userId"] ??
@@ -136,11 +142,7 @@ class _$UserPageQuery extends RouteQueryBuilder {
       if (match == null) {
         return null;
       }
-      return _$_UserPageQuery(path,
-          userId: match.namedGroup("userId") ??
-              match.namedGroup("user_id") ??
-              match.namedGroup("userId") ??
-              "");
+      return _$_UserPageQuery(path, userId: match.namedGroup("user_id") ?? "");
     }
   }
 }
@@ -158,6 +160,7 @@ class _$_UserPageQuery extends RouteQuery {
 
   @override
   String get path => _path ?? "page/$userId$_parameters";
+
   String get _parameters {
     final $q = <String, String>{};
     return $q.isEmpty
@@ -167,12 +170,16 @@ class _$_UserPageQuery extends RouteQuery {
 
   @override
   String get name => "user";
+
   @override
   bool get nested => false;
+
   @override
   TransitionQuery? get transition => null;
+
   @override
   E? key<E>() => null;
+
   @override
   W? widget<W extends Widget>() {
     final w = UserPage(userId: userId);
@@ -184,6 +191,7 @@ class _$_UserPageQuery extends RouteQuery {
 
   @override
   List<RedirectQuery> redirect() => const [];
+
   @override
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute<E>(
@@ -201,8 +209,9 @@ class _$ContentPageQuery extends RouteQueryBuilder {
   static final _regExp = RegExp(r"^content/(?<content_id>[^/?&]+)$");
 
   @useResult
-  _$_ContentPageQuery call({required String contentId}) =>
+  RouteQuery call({required String contentId}) =>
       _$_ContentPageQuery(null, contentId: contentId);
+
   @override
   RouteQuery? resolve(String? path) {
     if (path == null) {
@@ -216,9 +225,7 @@ class _$ContentPageQuery extends RouteQueryBuilder {
       }
       final query = Uri.splitQueryString(split.last);
       return _$_ContentPageQuery(path,
-          contentId: match.namedGroup("contentId") ??
-              match.namedGroup("content_id") ??
-              match.namedGroup("contentId") ??
+          contentId: match.namedGroup("content_id") ??
               query["contentId"] ??
               query["content_id"] ??
               query["contentId"] ??
@@ -230,10 +237,7 @@ class _$ContentPageQuery extends RouteQueryBuilder {
         return null;
       }
       return _$_ContentPageQuery(path,
-          contentId: match.namedGroup("contentId") ??
-              match.namedGroup("content_id") ??
-              match.namedGroup("contentId") ??
-              "");
+          contentId: match.namedGroup("content_id") ?? "");
     }
   }
 }
@@ -251,6 +255,7 @@ class _$_ContentPageQuery extends RouteQuery {
 
   @override
   String get path => _path ?? "content/$contentId$_parameters";
+
   String get _parameters {
     final $q = <String, String>{};
     return $q.isEmpty
@@ -260,12 +265,16 @@ class _$_ContentPageQuery extends RouteQuery {
 
   @override
   String get name => path;
+
   @override
   bool get nested => false;
+
   @override
   TransitionQuery? get transition => null;
+
   @override
   E? key<E>() => null;
+
   @override
   W? widget<W extends Widget>() {
     final w = ContentPage(contentId: contentId);
@@ -277,6 +286,7 @@ class _$_ContentPageQuery extends RouteQuery {
 
   @override
   List<RedirectQuery> redirect() => const [];
+
   @override
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute<E>(
@@ -294,9 +304,10 @@ class _$NestedContainerPageQuery extends RouteQueryBuilder {
   static final _regExp = RegExp(r"^nested$");
 
   @useResult
-  _$_NestedContainerPageQuery call() => _$_NestedContainerPageQuery(
+  RouteQuery call() => _$_NestedContainerPageQuery(
         null,
       );
+
   @override
   RouteQuery? resolve(String? path) {
     if (path == null) {
@@ -333,6 +344,7 @@ class _$_NestedContainerPageQuery extends RouteQuery {
 
   @override
   String get path => _path ?? "nested$_parameters";
+
   String get _parameters {
     final $q = <String, String>{};
     return $q.isEmpty
@@ -342,12 +354,16 @@ class _$_NestedContainerPageQuery extends RouteQuery {
 
   @override
   String get name => "nested";
+
   @override
   bool get nested => false;
+
   @override
   TransitionQuery? get transition => null;
+
   @override
   E? key<E>() => null;
+
   @override
   W? widget<W extends Widget>() {
     final w = NestedContainerPage();
@@ -359,6 +375,7 @@ class _$_NestedContainerPageQuery extends RouteQuery {
 
   @override
   List<RedirectQuery> redirect() => const [];
+
   @override
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute<E>(
@@ -378,9 +395,10 @@ class _$InnerPage1Query extends RouteQueryBuilder {
   const _$InnerPage1Query();
 
   @useResult
-  _$_InnerPage1Query call() => _$_InnerPage1Query(
+  RouteQuery call() => _$_InnerPage1Query(
         null,
       );
+
   @override
   RouteQuery? resolve(String? path) {
     return null;
@@ -396,6 +414,7 @@ class _$_InnerPage1Query extends RouteQuery {
   @override
   String get path =>
       _path ?? "201662f73f10593624c1b6c898df8767fc90b085$_parameters";
+
   String get _parameters {
     final $q = <String, String>{};
     return $q.isEmpty
@@ -405,12 +424,16 @@ class _$_InnerPage1Query extends RouteQuery {
 
   @override
   String get name => path;
+
   @override
   bool get nested => true;
+
   @override
   TransitionQuery? get transition => null;
+
   @override
   E? key<E>() => InnerPageType.type1 as E?;
+
   @override
   W? widget<W extends Widget>() {
     final w = InnerPage1();
@@ -422,6 +445,7 @@ class _$_InnerPage1Query extends RouteQuery {
 
   @override
   List<RedirectQuery> redirect() => const [];
+
   @override
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute<E>(
@@ -437,9 +461,10 @@ class _$InnerPage2Query extends RouteQueryBuilder {
   const _$InnerPage2Query();
 
   @useResult
-  _$_InnerPage2Query call() => _$_InnerPage2Query(
+  RouteQuery call() => _$_InnerPage2Query(
         null,
       );
+
   @override
   RouteQuery? resolve(String? path) {
     return null;
@@ -455,6 +480,7 @@ class _$_InnerPage2Query extends RouteQuery {
   @override
   String get path =>
       _path ?? "26318fd13828503b957bad63061e1fc2d0bb4bfd$_parameters";
+
   String get _parameters {
     final $q = <String, String>{};
     return $q.isEmpty
@@ -464,12 +490,16 @@ class _$_InnerPage2Query extends RouteQuery {
 
   @override
   String get name => path;
+
   @override
   bool get nested => true;
+
   @override
   TransitionQuery? get transition => null;
+
   @override
   E? key<E>() => InnerPageType.type2 as E?;
+
   @override
   W? widget<W extends Widget>() {
     final w = InnerPage2();
@@ -481,6 +511,7 @@ class _$_InnerPage2Query extends RouteQuery {
 
   @override
   List<RedirectQuery> redirect() => const [];
+
   @override
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute<E>(

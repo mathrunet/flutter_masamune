@@ -10,14 +10,21 @@ part of 'main.dart';
 
 abstract class _$ListenableValue implements Listenable {
   TextEditingController get controller => throw UnimplementedError();
+
   ValueNotifier<String>? get value => throw UnimplementedError();
+
   @override
   void addListener(VoidCallback listener) => throw UnimplementedError();
+
   @override
   void removeListener(VoidCallback listener) => throw UnimplementedError();
+
   void notifyListeners() => throw UnimplementedError();
+
   void dispose() => throw UnimplementedError();
+
   bool get hasListeners => throw UnimplementedError();
+
   @override
   String toString() {
     return "$runtimeType(controller: $controller, value: $value)";

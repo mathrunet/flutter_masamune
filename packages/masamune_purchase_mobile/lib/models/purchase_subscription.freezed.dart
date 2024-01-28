@@ -121,12 +121,12 @@ class _$PurchaseSubscriptionModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_PurchaseSubscriptionModelCopyWith<$Res>
+abstract class _$$PurchaseSubscriptionModelImplCopyWith<$Res>
     implements $PurchaseSubscriptionModelCopyWith<$Res> {
-  factory _$$_PurchaseSubscriptionModelCopyWith(
-          _$_PurchaseSubscriptionModel value,
-          $Res Function(_$_PurchaseSubscriptionModel) then) =
-      __$$_PurchaseSubscriptionModelCopyWithImpl<$Res>;
+  factory _$$PurchaseSubscriptionModelImplCopyWith(
+          _$PurchaseSubscriptionModelImpl value,
+          $Res Function(_$PurchaseSubscriptionModelImpl) then) =
+      __$$PurchaseSubscriptionModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -142,13 +142,13 @@ abstract class _$$_PurchaseSubscriptionModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PurchaseSubscriptionModelCopyWithImpl<$Res>
+class __$$PurchaseSubscriptionModelImplCopyWithImpl<$Res>
     extends _$PurchaseSubscriptionModelCopyWithImpl<$Res,
-        _$_PurchaseSubscriptionModel>
-    implements _$$_PurchaseSubscriptionModelCopyWith<$Res> {
-  __$$_PurchaseSubscriptionModelCopyWithImpl(
-      _$_PurchaseSubscriptionModel _value,
-      $Res Function(_$_PurchaseSubscriptionModel) _then)
+        _$PurchaseSubscriptionModelImpl>
+    implements _$$PurchaseSubscriptionModelImplCopyWith<$Res> {
+  __$$PurchaseSubscriptionModelImplCopyWithImpl(
+      _$PurchaseSubscriptionModelImpl _value,
+      $Res Function(_$PurchaseSubscriptionModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -164,7 +164,7 @@ class __$$_PurchaseSubscriptionModelCopyWithImpl<$Res>
     Object? orderId = freezed,
     Object? userId = null,
   }) {
-    return _then(_$_PurchaseSubscriptionModel(
+    return _then(_$PurchaseSubscriptionModelImpl(
       expired: null == expired
           ? _value.expired
           : expired // ignore: cast_nullable_to_non_nullable
@@ -207,8 +207,8 @@ class __$$_PurchaseSubscriptionModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PurchaseSubscriptionModel extends _PurchaseSubscriptionModel {
-  const _$_PurchaseSubscriptionModel(
+class _$PurchaseSubscriptionModelImpl extends _PurchaseSubscriptionModel {
+  const _$PurchaseSubscriptionModelImpl(
       {this.expired = true,
       this.token,
       this.platform,
@@ -220,8 +220,8 @@ class _$_PurchaseSubscriptionModel extends _PurchaseSubscriptionModel {
       required this.userId})
       : super._();
 
-  factory _$_PurchaseSubscriptionModel.fromJson(Map<String, dynamic> json) =>
-      _$$_PurchaseSubscriptionModelFromJson(json);
+  factory _$PurchaseSubscriptionModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PurchaseSubscriptionModelImplFromJson(json);
 
   @override
   @JsonKey()
@@ -252,7 +252,7 @@ class _$_PurchaseSubscriptionModel extends _PurchaseSubscriptionModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PurchaseSubscriptionModel &&
+            other is _$PurchaseSubscriptionModelImpl &&
             (identical(other.expired, expired) || other.expired == expired) &&
             (identical(other.token, token) || other.token == token) &&
             (identical(other.platform, platform) ||
@@ -277,13 +277,13 @@ class _$_PurchaseSubscriptionModel extends _PurchaseSubscriptionModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PurchaseSubscriptionModelCopyWith<_$_PurchaseSubscriptionModel>
-      get copyWith => __$$_PurchaseSubscriptionModelCopyWithImpl<
-          _$_PurchaseSubscriptionModel>(this, _$identity);
+  _$$PurchaseSubscriptionModelImplCopyWith<_$PurchaseSubscriptionModelImpl>
+      get copyWith => __$$PurchaseSubscriptionModelImplCopyWithImpl<
+          _$PurchaseSubscriptionModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PurchaseSubscriptionModelToJson(
+    return _$$PurchaseSubscriptionModelImplToJson(
       this,
     );
   }
@@ -299,11 +299,11 @@ abstract class _PurchaseSubscriptionModel extends PurchaseSubscriptionModel {
       final String? packageName,
       final int? expiredTime,
       final String? orderId,
-      required final String userId}) = _$_PurchaseSubscriptionModel;
+      required final String userId}) = _$PurchaseSubscriptionModelImpl;
   const _PurchaseSubscriptionModel._() : super._();
 
   factory _PurchaseSubscriptionModel.fromJson(Map<String, dynamic> json) =
-      _$_PurchaseSubscriptionModel.fromJson;
+      _$PurchaseSubscriptionModelImpl.fromJson;
 
   @override
   bool get expired;
@@ -325,6 +325,6 @@ abstract class _PurchaseSubscriptionModel extends PurchaseSubscriptionModel {
   String get userId;
   @override
   @JsonKey(ignore: true)
-  _$$_PurchaseSubscriptionModelCopyWith<_$_PurchaseSubscriptionModel>
+  _$$PurchaseSubscriptionModelImplCopyWith<_$PurchaseSubscriptionModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

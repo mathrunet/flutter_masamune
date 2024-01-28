@@ -6,9 +6,9 @@ part of 'stripe_purchase.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_StripePurchaseModel _$$_StripePurchaseModelFromJson(
+_$StripePurchaseModelImpl _$$StripePurchaseModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$_StripePurchaseModel(
+    _$StripePurchaseModelImpl(
       userId: json['user'] as String,
       confirm: json['confirm'] as bool? ?? false,
       verified: json['verify'] as bool? ?? false,
@@ -41,8 +41,8 @@ _$_StripePurchaseModel _$$_StripePurchaseModelFromJson(
       cancelAtPeriodEnd: json['cancel_at_period_end'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$_StripePurchaseModelToJson(
-        _$_StripePurchaseModel instance) =>
+Map<String, dynamic> _$$StripePurchaseModelImplToJson(
+        _$StripePurchaseModelImpl instance) =>
     <String, dynamic>{
       'user': instance.userId,
       'confirm': instance.confirm,

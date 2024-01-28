@@ -96,11 +96,11 @@ class _$StripeUserModelCopyWithImpl<$Res, $Val extends StripeUserModel>
 }
 
 /// @nodoc
-abstract class _$$_StripeUserModelCopyWith<$Res>
+abstract class _$$StripeUserModelImplCopyWith<$Res>
     implements $StripeUserModelCopyWith<$Res> {
-  factory _$$_StripeUserModelCopyWith(
-          _$_StripeUserModel value, $Res Function(_$_StripeUserModel) then) =
-      __$$_StripeUserModelCopyWithImpl<$Res>;
+  factory _$$StripeUserModelImplCopyWith(_$StripeUserModelImpl value,
+          $Res Function(_$StripeUserModelImpl) then) =
+      __$$StripeUserModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -112,11 +112,11 @@ abstract class _$$_StripeUserModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_StripeUserModelCopyWithImpl<$Res>
-    extends _$StripeUserModelCopyWithImpl<$Res, _$_StripeUserModel>
-    implements _$$_StripeUserModelCopyWith<$Res> {
-  __$$_StripeUserModelCopyWithImpl(
-      _$_StripeUserModel _value, $Res Function(_$_StripeUserModel) _then)
+class __$$StripeUserModelImplCopyWithImpl<$Res>
+    extends _$StripeUserModelCopyWithImpl<$Res, _$StripeUserModelImpl>
+    implements _$$StripeUserModelImplCopyWith<$Res> {
+  __$$StripeUserModelImplCopyWithImpl(
+      _$StripeUserModelImpl _value, $Res Function(_$StripeUserModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -128,7 +128,7 @@ class __$$_StripeUserModelCopyWithImpl<$Res>
     Object? defaultPayment = freezed,
     Object? capablity = null,
   }) {
-    return _then(_$_StripeUserModel(
+    return _then(_$StripeUserModelImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -155,8 +155,8 @@ class __$$_StripeUserModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_StripeUserModel extends _StripeUserModel {
-  const _$_StripeUserModel(
+class _$StripeUserModelImpl extends _StripeUserModel {
+  const _$StripeUserModelImpl(
       {@JsonKey(name: "user") required this.userId,
       @JsonKey(name: "account") this.accountId,
       @JsonKey(name: "customer") this.customerId,
@@ -166,8 +166,8 @@ class _$_StripeUserModel extends _StripeUserModel {
       : _capablity = capablity,
         super._();
 
-  factory _$_StripeUserModel.fromJson(Map<String, dynamic> json) =>
-      _$$_StripeUserModelFromJson(json);
+  factory _$StripeUserModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$StripeUserModelImplFromJson(json);
 
   @override
   @JsonKey(name: "user")
@@ -199,7 +199,7 @@ class _$_StripeUserModel extends _StripeUserModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StripeUserModel &&
+            other is _$StripeUserModelImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.accountId, accountId) ||
                 other.accountId == accountId) &&
@@ -219,12 +219,13 @@ class _$_StripeUserModel extends _StripeUserModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StripeUserModelCopyWith<_$_StripeUserModel> get copyWith =>
-      __$$_StripeUserModelCopyWithImpl<_$_StripeUserModel>(this, _$identity);
+  _$$StripeUserModelImplCopyWith<_$StripeUserModelImpl> get copyWith =>
+      __$$StripeUserModelImplCopyWithImpl<_$StripeUserModelImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_StripeUserModelToJson(
+    return _$$StripeUserModelImplToJson(
       this,
     );
   }
@@ -237,11 +238,11 @@ abstract class _StripeUserModel extends StripeUserModel {
           @JsonKey(name: "customer") final String? customerId,
           @JsonKey(name: "defaultPayment") final String? defaultPayment,
           @JsonKey(name: "capability") final Map<String, dynamic> capablity}) =
-      _$_StripeUserModel;
+      _$StripeUserModelImpl;
   const _StripeUserModel._() : super._();
 
   factory _StripeUserModel.fromJson(Map<String, dynamic> json) =
-      _$_StripeUserModel.fromJson;
+      _$StripeUserModelImpl.fromJson;
 
   @override
   @JsonKey(name: "user")
@@ -260,6 +261,6 @@ abstract class _StripeUserModel extends StripeUserModel {
   Map<String, dynamic> get capablity;
   @override
   @JsonKey(ignore: true)
-  _$$_StripeUserModelCopyWith<_$_StripeUserModel> get copyWith =>
+  _$$StripeUserModelImplCopyWith<_$StripeUserModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

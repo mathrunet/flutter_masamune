@@ -85,21 +85,22 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
 }
 
 /// @nodoc
-abstract class _$$_TestValueCopyWith<$Res> implements $TestValueCopyWith<$Res> {
-  factory _$$_TestValueCopyWith(
-          _$_TestValue value, $Res Function(_$_TestValue) then) =
-      __$$_TestValueCopyWithImpl<$Res>;
+abstract class _$$TestValueImplCopyWith<$Res>
+    implements $TestValueCopyWith<$Res> {
+  factory _$$TestValueImplCopyWith(
+          _$TestValueImpl value, $Res Function(_$TestValueImpl) then) =
+      __$$TestValueImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String? name, int? age, double? percent, bool flag});
 }
 
 /// @nodoc
-class __$$_TestValueCopyWithImpl<$Res>
-    extends _$TestValueCopyWithImpl<$Res, _$_TestValue>
-    implements _$$_TestValueCopyWith<$Res> {
-  __$$_TestValueCopyWithImpl(
-      _$_TestValue _value, $Res Function(_$_TestValue) _then)
+class __$$TestValueImplCopyWithImpl<$Res>
+    extends _$TestValueCopyWithImpl<$Res, _$TestValueImpl>
+    implements _$$TestValueImplCopyWith<$Res> {
+  __$$TestValueImplCopyWithImpl(
+      _$TestValueImpl _value, $Res Function(_$TestValueImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -111,7 +112,7 @@ class __$$_TestValueCopyWithImpl<$Res>
     Object? percent = freezed,
     Object? flag = null,
   }) {
-    return _then(_$_TestValue(
+    return _then(_$TestValueImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -138,12 +139,12 @@ class __$$_TestValueCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TestValue implements _TestValue {
-  const _$_TestValue(
+class _$TestValueImpl implements _TestValue {
+  const _$TestValueImpl(
       {required this.id, this.name, this.age, this.percent, this.flag = false});
 
-  factory _$_TestValue.fromJson(Map<String, dynamic> json) =>
-      _$$_TestValueFromJson(json);
+  factory _$TestValueImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TestValueImplFromJson(json);
 
   @override
   final String id;
@@ -166,7 +167,7 @@ class _$_TestValue implements _TestValue {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TestValue &&
+            other is _$TestValueImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.age, age) || other.age == age) &&
@@ -181,12 +182,12 @@ class _$_TestValue implements _TestValue {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TestValueCopyWith<_$_TestValue> get copyWith =>
-      __$$_TestValueCopyWithImpl<_$_TestValue>(this, _$identity);
+  _$$TestValueImplCopyWith<_$TestValueImpl> get copyWith =>
+      __$$TestValueImplCopyWithImpl<_$TestValueImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TestValueToJson(
+    return _$$TestValueImplToJson(
       this,
     );
   }
@@ -198,10 +199,10 @@ abstract class _TestValue implements TestValue {
       final String? name,
       final int? age,
       final double? percent,
-      final bool flag}) = _$_TestValue;
+      final bool flag}) = _$TestValueImpl;
 
   factory _TestValue.fromJson(Map<String, dynamic> json) =
-      _$_TestValue.fromJson;
+      _$TestValueImpl.fromJson;
 
   @override
   String get id;
@@ -215,6 +216,6 @@ abstract class _TestValue implements TestValue {
   bool get flag;
   @override
   @JsonKey(ignore: true)
-  _$$_TestValueCopyWith<_$_TestValue> get copyWith =>
+  _$$TestValueImplCopyWith<_$TestValueImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -20,10 +20,15 @@ class _$PurchaseUserModelDocument extends DocumentBase<PurchaseUserModel>
     with ModelRefMixin<PurchaseUserModel> {
   _$PurchaseUserModelDocument(super.modelQuery);
 
+  static const ModelAccessQuery? defaultModelAccessQuery = null;
+
+  static const List<ModelValidationQuery>? defaultValidationQueries = [];
+
   static final ModelAdapter? defaultModelAdapter = null;
 
   @override
   PurchaseUserModel fromMap(DynamicMap map) => PurchaseUserModel.fromJson(map);
+
   @override
   DynamicMap toMap(PurchaseUserModel value) => value.rawValue;
 }
@@ -37,11 +42,16 @@ class _$PurchaseUserModelCollection
             _$_PurchaseUserModelCollectionQuery> {
   _$PurchaseUserModelCollection(super.modelQuery);
 
+  static const ModelAccessQuery? defaultModelAccessQuery = null;
+
+  static const List<ModelValidationQuery>? defaultValidationQueries = [];
+
   static final ModelAdapter? defaultModelAdapter = null;
 
   @override
   _$PurchaseUserModelDocument create([String? id]) =>
       _$PurchaseUserModelDocument(modelQuery.create(id));
+
   @override
   Future<CollectionBase<_$PurchaseUserModelDocument>> filter(
       _$_PurchaseUserModelCollectionQuery Function(
@@ -75,6 +85,7 @@ class _$PurchaseUserModelInitialCollection
 
   @override
   String get path => "plugins/iap/user";
+
   @override
   DynamicMap toMap(PurchaseUserModel value) => value.rawValue;
 }
@@ -87,10 +98,14 @@ class _$PurchaseUserModelDocumentQuery {
   _$_PurchaseUserModelDocumentQuery call(
     Object _id, {
     ModelAdapter? adapter,
+    ModelAccessQuery? accessQuery,
   }) {
     return _$_PurchaseUserModelDocumentQuery(DocumentModelQuery(
       "plugins/iap/user/$_id",
       adapter: adapter ?? _$PurchaseUserModelDocument.defaultModelAdapter,
+      accessQuery:
+          accessQuery ?? _$PurchaseUserModelDocument.defaultModelAccessQuery,
+      validationQueries: _$PurchaseUserModelDocument.defaultValidationQueries,
     ));
   }
 }
@@ -105,6 +120,7 @@ class _$_PurchaseUserModelDocumentQuery
   @override
   _$PurchaseUserModelDocument Function() call(Ref ref) =>
       () => _$PurchaseUserModelDocument(modelQuery);
+
   @override
   String get queryName => modelQuery.toString();
 }
@@ -114,10 +130,16 @@ class _$PurchaseUserModelCollectionQuery {
   const _$PurchaseUserModelCollectionQuery();
 
   @useResult
-  _$_PurchaseUserModelCollectionQuery call({ModelAdapter? adapter}) {
+  _$_PurchaseUserModelCollectionQuery call({
+    ModelAdapter? adapter,
+    ModelAccessQuery? accessQuery,
+  }) {
     return _$_PurchaseUserModelCollectionQuery(CollectionModelQuery(
       "plugins/iap/user",
       adapter: adapter ?? _$PurchaseUserModelCollection.defaultModelAdapter,
+      accessQuery:
+          accessQuery ?? _$PurchaseUserModelCollection.defaultModelAccessQuery,
+      validationQueries: _$PurchaseUserModelCollection.defaultValidationQueries,
     ));
   }
 }
@@ -132,15 +154,27 @@ class _$_PurchaseUserModelCollectionQuery
   @override
   _$PurchaseUserModelCollection Function() call(Ref ref) =>
       () => _$PurchaseUserModelCollection(modelQuery);
+
   @override
   String get queryName => modelQuery.toString();
+
   static _$_PurchaseUserModelCollectionQuery _toQuery(
           CollectionModelQuery query) =>
       _$_PurchaseUserModelCollectionQuery(query);
+
   _$_PurchaseUserModelCollectionQuery limitTo(int value) =>
       _$_PurchaseUserModelCollectionQuery(modelQuery.limitTo(value));
+
+  _$_PurchaseUserModelCollectionQuery collectionGroup() =>
+      _$_PurchaseUserModelCollectionQuery(modelQuery.collectionGroup());
+
   _$_PurchaseUserModelCollectionQuery reset() =>
       _$_PurchaseUserModelCollectionQuery(modelQuery.reset());
+
+  StringModelQuerySelector<_$_PurchaseUserModelCollectionQuery> get uid =>
+      StringModelQuerySelector<_$_PurchaseUserModelCollectionQuery>(
+          key: "@uid", toQuery: _toQuery, modelQuery: modelQuery);
+
   NumModelQuerySelector<_$_PurchaseUserModelCollectionQuery> get value =>
       NumModelQuerySelector<_$_PurchaseUserModelCollectionQuery>(
           key: "value", toQuery: _toQuery, modelQuery: modelQuery);
@@ -166,7 +200,7 @@ class _$PurchaseUserModelFormQuery {
 
 @immutable
 class _$_PurchaseUserModelFormQuery
-    extends ControllerQueryBase<FormController<PurchaseUserModel>> {
+    extends FormControllerQueryBase<PurchaseUserModel> {
   const _$_PurchaseUserModelFormQuery(this.value);
 
   final PurchaseUserModel value;
@@ -174,8 +208,10 @@ class _$_PurchaseUserModelFormQuery
   @override
   FormController<PurchaseUserModel> Function() call(Ref ref) =>
       () => FormController(value);
+
   @override
   String get queryName => value.hashCode.toString();
+
   @override
   bool get autoDisposeWhenUnreferenced => true;
 }
