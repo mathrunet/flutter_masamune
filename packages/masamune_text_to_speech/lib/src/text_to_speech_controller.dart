@@ -113,11 +113,6 @@ class TextToSpeechController
     double? volume,
     double? pitch,
   }) async {
-    if (!initialized) {
-      throw Exception(
-        "TextToSpeechController is not initialized. Please call initialize() first.",
-      );
-    }
     if (_speakCompleter != null) {
       await _tts.stop();
       notifyListeners();

@@ -144,11 +144,6 @@ class SpeechToTextController extends MasamuneControllerBase<
     void Function(SpeechToTextResponse text)? onChanged,
     required Duration duration,
   }) async {
-    if (!initialized) {
-      throw Exception(
-        "SpeechToTextController is not initialized. Please call initialize() first.",
-      );
-    }
     if (_listenCompleter != null) {
       await _stt.stop();
       await _listenCompleter?.future;
