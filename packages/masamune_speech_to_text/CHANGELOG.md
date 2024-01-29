@@ -1,3 +1,7 @@
+## 2.2.5
+
+ - **FIX**: Fixed an Initialize error. ([54c577df](https://github.com/mathrunet/flutter_masamune/commit/54c577df8eea1eab57d007c7abca863c6122d063))
+
 ## 2.2.4
 
  - **FIX**: Remove it because the class was covered. ([77633077](https://github.com/mathrunet/flutter_masamune/commit/77633077f043a6c1ac6e37a33092191ea205c935))

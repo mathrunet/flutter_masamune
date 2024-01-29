@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_speech_to_text` - `v2.2.5`](#masamune_speech_to_text---v225)
+ - [`masamune_text_to_speech` - `v2.2.5`](#masamune_text_to_speech---v225)
+
+---
+
+#### `masamune_speech_to_text` - `v2.2.5`
+
+ - **FIX**: Fixed an Initialize error. ([54c577df](https://github.com/mathrunet/flutter_masamune/commit/54c577df8eea1eab57d007c7abca863c6122d063))
+
+#### `masamune_text_to_speech` - `v2.2.5`
+
+ - **FIX**: Fixed an Initialize error. ([54c577df](https://github.com/mathrunet/flutter_masamune/commit/54c577df8eea1eab57d007c7abca863c6122d063))
+
+
 ## 2024-01-28
 
 ### Changes
