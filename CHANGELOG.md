@@ -15,6 +15,94 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v2.9.4`](#masamune---v294)
+ - [`masamune_location_platform_interface` - `v2.3.7`](#masamune_location_platform_interface---v237)
+ - [`masamune_location_geocoding` - `v2.4.7`](#masamune_location_geocoding---v247)
+ - [`masamune_location` - `v2.3.7`](#masamune_location---v237)
+ - [`masamune_model_algolia` - `v2.4.1`](#masamune_model_algolia---v241)
+ - [`masamune_deeplink_firebase` - `v2.2.7`](#masamune_deeplink_firebase---v227)
+ - [`masamune_scheduler` - `v2.2.7`](#masamune_scheduler---v227)
+ - [`masamune_auth_apple` - `v2.3.7`](#masamune_auth_apple---v237)
+ - [`masamune_location_background` - `v2.4.7`](#masamune_location_background---v247)
+ - [`masamune_agora` - `v2.4.7`](#masamune_agora---v247)
+ - [`masamune_text_to_speech` - `v2.2.8`](#masamune_text_to_speech---v228)
+ - [`masamune_ai_openai` - `v2.6.1`](#masamune_ai_openai---v261)
+ - [`masamune_auth_google` - `v2.3.7`](#masamune_auth_google---v237)
+ - [`masamune_calendar` - `v2.2.7`](#masamune_calendar---v227)
+ - [`masamune_picker` - `v2.2.7`](#masamune_picker---v227)
+ - [`masamune_util` - `v2.2.7`](#masamune_util---v227)
+ - [`masamune_universal_ui` - `v2.3.7`](#masamune_universal_ui---v237)
+ - [`masamune_purchase_stripe` - `v3.5.4`](#masamune_purchase_stripe---v354)
+ - [`masamune_notification` - `v2.5.4`](#masamune_notification---v254)
+ - [`masamune_logger_firebase` - `v2.2.4`](#masamune_logger_firebase---v224)
+ - [`masamune_introduction` - `v2.4.4`](#masamune_introduction---v244)
+ - [`masamune_deeplink` - `v2.2.7`](#masamune_deeplink---v227)
+ - [`masamune_speech_to_text` - `v2.2.8`](#masamune_speech_to_text---v228)
+ - [`masamune_force_updater` - `v2.1.7`](#masamune_force_updater---v217)
+ - [`masamune_auth_facebook` - `v2.3.7`](#masamune_auth_facebook---v237)
+ - [`masamune_module_point_ecosystem` - `v2.5.5`](#masamune_module_point_ecosystem---v255)
+ - [`masamune_location_google` - `v2.4.7`](#masamune_location_google---v247)
+ - [`masamune_mail` - `v2.2.7`](#masamune_mail---v227)
+ - [`masamune_module` - `v2.4.7`](#masamune_module---v247)
+ - [`masamune_purchase_mobile` - `v2.7.5`](#masamune_purchase_mobile---v275)
+ - [`masamune_ads_google` - `v2.4.7`](#masamune_ads_google---v247)
+ - [`masamune_notification_firebase` - `v2.5.7`](#masamune_notification_firebase---v257)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_platform_interface` - `v2.3.7`
+ - `masamune_location_geocoding` - `v2.4.7`
+ - `masamune_location` - `v2.3.7`
+ - `masamune_model_algolia` - `v2.4.1`
+ - `masamune_deeplink_firebase` - `v2.2.7`
+ - `masamune_scheduler` - `v2.2.7`
+ - `masamune_auth_apple` - `v2.3.7`
+ - `masamune_location_background` - `v2.4.7`
+ - `masamune_agora` - `v2.4.7`
+ - `masamune_text_to_speech` - `v2.2.8`
+ - `masamune_ai_openai` - `v2.6.1`
+ - `masamune_auth_google` - `v2.3.7`
+ - `masamune_calendar` - `v2.2.7`
+ - `masamune_picker` - `v2.2.7`
+ - `masamune_util` - `v2.2.7`
+ - `masamune_universal_ui` - `v2.3.7`
+ - `masamune_purchase_stripe` - `v3.5.4`
+ - `masamune_notification` - `v2.5.4`
+ - `masamune_logger_firebase` - `v2.2.4`
+ - `masamune_introduction` - `v2.4.4`
+ - `masamune_deeplink` - `v2.2.7`
+ - `masamune_speech_to_text` - `v2.2.8`
+ - `masamune_force_updater` - `v2.1.7`
+ - `masamune_auth_facebook` - `v2.3.7`
+ - `masamune_module_point_ecosystem` - `v2.5.5`
+ - `masamune_location_google` - `v2.4.7`
+ - `masamune_mail` - `v2.2.7`
+ - `masamune_module` - `v2.4.7`
+ - `masamune_purchase_mobile` - `v2.7.5`
+ - `masamune_ads_google` - `v2.4.7`
+ - `masamune_notification_firebase` - `v2.5.7`
+
+---
+
+#### `masamune` - `v2.9.4`
+
+ - **FIX**: Added ModelDateModelQuerySelector. ([db6aa084](https://github.com/mathrunet/flutter_masamune/commit/db6aa084ead11dcf9c9043856782d2d4de66af73))
+
+
+## 2024-01-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_firebase` - `v2.1.1`](#katana_firebase---v211)
  - [`katana_model` - `v2.23.0`](#katana_model---v2230)
  - [`katana_model_firestore` - `v2.16.0`](#katana_model_firestore---v2160)

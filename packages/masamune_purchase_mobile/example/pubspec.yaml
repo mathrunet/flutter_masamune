@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^2.9.3
+  masamune: ^2.9.4
   masamune_purchase_mobile:
     path: "../"
 
