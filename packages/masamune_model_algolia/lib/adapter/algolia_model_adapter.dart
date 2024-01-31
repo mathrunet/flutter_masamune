@@ -146,14 +146,18 @@ class AlgoliaModelAdapter extends ModelAdapter {
   }
 
   @override
-  Future<num> loadAggregation(
+  Future<T?> loadAggregation<T>(
     ModelAdapterCollectionQuery query,
     ModelAggregateQuery aggregateQuery,
   ) async {
     switch (aggregateQuery.type) {
       case ModelAggregateQueryType.count:
         final response = await _loadCollection(query);
-        return response?.length ?? 0;
+        final val = response?.length ?? 0;
+        if (val is! T) {
+          return null;
+        }
+        return val as T;
       default:
         throw UnsupportedError("This function is not available.");
     }

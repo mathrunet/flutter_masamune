@@ -308,7 +308,7 @@ class JsonDocumentSourceModelAdapter extends JsonSourceModelAdapter {
   }
 
   @override
-  Future<num> loadAggregation(
+  Future<T?> loadAggregation<T>(
     ModelAdapterCollectionQuery query,
     ModelAggregateQuery aggregateQuery,
   ) async {
@@ -590,7 +590,7 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
   }
 
   @override
-  Future<num> loadAggregation(
+  Future<T?> loadAggregation<T>(
     ModelAdapterCollectionQuery query,
     ModelAggregateQuery aggregateQuery,
   ) async {
@@ -600,7 +600,11 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
         final data = await database.loadCollection(
           query.copyWith(query: query.query.remove(ModelQueryFilterType.limit)),
         );
-        return data.length;
+        final val = data.length;
+        if (val is! T) {
+          return null;
+        }
+        return val as T;
       case ModelAggregateQueryType.sum:
         final key = aggregateQuery.key;
         assert(
@@ -610,11 +614,13 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
         final data = await database.loadCollection(
           query.copyWith(query: query.query.remove(ModelQueryFilterType.limit)),
         );
-        if (data.isEmpty) {
-          return 0.0;
+        final val =
+            data?.values.fold<double>(0.0, (p, e) => p + e.get(key!, 0.0)) ??
+                0.0;
+        if (val is! T) {
+          return null;
         }
-        return data?.values.fold<double>(0.0, (p, e) => p + e.get(key!, 0.0)) ??
-            0.0;
+        return val as T;
       case ModelAggregateQueryType.average:
         final key = aggregateQuery.key;
         assert(
@@ -624,13 +630,14 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
         final data = await database.loadCollection(
           query.copyWith(query: query.query.remove(ModelQueryFilterType.limit)),
         );
-        if (data.isEmpty) {
-          return 0.0;
+        final val =
+            (data?.values.fold<double>(0.0, (p, e) => p + e.get(key!, 0.0)) ??
+                    0.0) /
+                data.length;
+        if (val is! T) {
+          return null;
         }
-        return (data?.values
-                    .fold<double>(0.0, (p, e) => p + e.get(key!, 0.0)) ??
-                0.0) /
-            data.length;
+        return val as T;
     }
   }
 

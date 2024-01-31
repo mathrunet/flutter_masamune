@@ -24,37 +24,65 @@ enum ModelAggregateQueryType {
 ///
 /// コレクションのドキュメントの集計を出力するためのクエリ。
 @immutable
-class ModelAggregateQuery {
+class ModelAggregateQuery<TValue extends AsyncAggregateValue> {
   /// A query to output an aggregate of the documents in a collection.
   ///
   /// コレクションのドキュメントの集計を出力するためのクエリ。
-  const ModelAggregateQuery({
+  const ModelAggregateQuery._({
     this.key,
     required this.type,
+    required this.onCreate,
   });
 
   /// A query to output the total number of documents in the collection.
   ///
   /// コレクションのドキュメントの全数を出力するためのクエリ。
-  const ModelAggregateQuery.count() : this(type: ModelAggregateQueryType.count);
+  static ModelAggregateQuery<AsyncAggregateValue<int>> count() {
+    return ModelAggregateQuery<AsyncAggregateValue<int>>._(
+      type: ModelAggregateQueryType.count,
+      onCreate: (query, collection, onFinished) {
+        return AsyncAggregateValue<int>._(
+          query: query,
+          collection: collection,
+          onFinished: onFinished,
+        );
+      },
+    );
+  }
 
   /// Query to output the total value of the fields in [key] of the documents in the collection.
   ///
   /// コレクションのドキュメントの[key]のフィールドの合計値を出力するためのクエリ。
-  const ModelAggregateQuery.sum(String key)
-      : this(
-          key: key,
-          type: ModelAggregateQueryType.sum,
+  static ModelAggregateQuery<AsyncAggregateValue<double>> sum(String key) {
+    return ModelAggregateQuery<AsyncAggregateValue<double>>._(
+      key: key,
+      type: ModelAggregateQueryType.sum,
+      onCreate: (query, collection, onFinished) {
+        return AsyncAggregateValue<double>._(
+          query: query,
+          collection: collection,
+          onFinished: onFinished,
         );
+      },
+    );
+  }
 
   /// Query to output the average value of the field [key] of the documents in the collection.
   ///
   /// コレクションのドキュメントの[key]のフィールドの平均値を出力するためのクエリ。
-  const ModelAggregateQuery.average(String key)
-      : this(
-          key: key,
-          type: ModelAggregateQueryType.average,
+  static ModelAggregateQuery<AsyncAggregateValue<double>> average(String key) {
+    return ModelAggregateQuery<AsyncAggregateValue<double>>._(
+      key: key,
+      type: ModelAggregateQueryType.average,
+      onCreate: (query, collection, onFinished) {
+        return AsyncAggregateValue<double>._(
+          query: query,
+          collection: collection,
+          onFinished: onFinished,
         );
+      },
+    );
+  }
 
   /// Field key to be queried.
   ///
@@ -65,6 +93,15 @@ class ModelAggregateQuery {
   ///
   /// クエリのタイプ。
   final ModelAggregateQueryType type;
+
+  /// Create an [AsyncAggregateValue] from the query.
+  ///
+  /// クエリから[AsyncAggregateValue]を作成します。
+  final TValue Function(
+    ModelAggregateQuery query,
+    CollectionBase collection,
+    VoidCallback onFinished,
+  ) onCreate;
 
   @override
   String toString() {
@@ -78,116 +115,92 @@ class ModelAggregateQuery {
   int get hashCode => key.hashCode ^ type.hashCode;
 }
 
-/// Query object to get an aggregate of the collection.
+/// This class is used to asynchronously retrieve values returned from [CollectionBase.aggregate], etc.
 ///
-/// [load] to retrieve a value. [reload] to reacquire the value.
+/// You can get the aggregate value of the collection from [value].
 ///
-/// コレクションの集計を取得するためのクエリオブジェクト。
+/// [load] loads the file and [reload] reloads the file.
 ///
-/// [load]で値の取得。[reload]で値の再取得を行います。
+/// [load] is automatically executed when [CollectionBase.aggregate] is executed.
 ///
-/// [AsyncAggregateValue]を継承しているため、[AsyncAggregateValue]の機能も利用できます。
-@immutable
-class CollectionAggregateQuery {
-  const CollectionAggregateQuery._({
+/// [CollectionBase.aggregate]などから返される値を非同期で取得するためのクラスです。
+///
+/// [value]からコレクションの集計値を取得できます。
+///
+/// [load]で読み込みを行い、[reload]で再読み込みを行います。
+///
+/// [CollectionBase.aggregate]を実行した時点で自動的に[load]が実行されます。
+class AsyncAggregateValue<T> extends ChangeNotifier
+    implements ValueListenable<T?> {
+  AsyncAggregateValue._({
     required ModelAggregateQuery query,
     required CollectionBase collection,
     required VoidCallback onFinished,
   })  : _query = query,
         _collection = collection,
-        _onFinished = onFinished;
+        _onFinished = onFinished {
+    load();
+  }
 
   final ModelAggregateQuery _query;
   final CollectionBase _collection;
   final VoidCallback _onFinished;
 
-  Future<num> _process() async {
-    final value = await _collection.modelQuery.adapter.loadAggregation(
+  /// You can wait for it to load.
+  ///
+  /// 読み込みを待つことができます。
+  Future<T>? get loading => _loadingCompleter?.future;
+  Completer<T>? _loadingCompleter;
+
+  @override
+  T? get value => _value;
+  T? _value;
+
+  /// Retrieve the aggregate results of the collection from the server.
+  ///
+  /// When a value is retrieved, the value is stored in [value].
+  ///
+  /// Once a value is retrieved, it is cached and will not be updated unless [reload] is executed.
+  ///
+  /// コレクションの集計結果をサーバーから取得します。
+  ///
+  /// 値が取得されると[value]に値が格納されます。
+  ///
+  /// 一度取得した値はキャッシュされ、一度値が取得されると[reload]を実行しない限り値は更新されません。
+  Future<T?> load() async {
+    if (_value != null) {
+      return _value;
+    }
+    return _load();
+  }
+
+  /// Retrieve the aggregate results of the collection from the server.
+  ///
+  /// When a value is retrieved, the value is stored in [value].
+  ///
+  /// コレクションの集計結果をサーバーから取得します。
+  ///
+  /// 値が取得されると[value]に値が格納されます。
+  Future<T?> reload() {
+    return _load();
+  }
+
+  Future<T?> _load() async {
+    if (_loadingCompleter != null) {
+      return _loadingCompleter!.future;
+    }
+    final val = await _collection.modelQuery.adapter.loadAggregation<T>(
       _collection.databaseQuery,
       _query,
     );
+    if (val == null) {
+      return _value = null;
+    }
+    _value = val;
+    notifyListeners();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _onFinished();
     });
     return value;
   }
-
-  /// Retrieves the aggregate results of a collection.
-  ///
-  /// Get the value from [AsyncAggregateValue].
-  ///
-  /// Once retrieved, the value is cached.
-  ///
-  /// コレクションの集計結果を取得します。
-  ///
-  /// [AsyncAggregateValue]から値を取得します。
-  ///
-  /// 一度取得した値はキャッシュされます。
-  AsyncAggregateValue load() {
-    final found = _collection._aggregate
-        .firstWhereOrNull((e) => e._query.type == _query.type);
-    if (found != null) {
-      return found;
-    }
-    final value = AsyncAggregateValue._(
-      loading: _process(),
-      query: _query,
-    );
-    _collection._aggregate.add(value);
-    return value;
-  }
-
-  /// Retrieves the aggregate results of a collection.
-  ///
-  /// Get the value from [AsyncAggregateValue].
-  ///
-  /// コレクションの集計結果を取得します。
-  ///
-  /// [AsyncAggregateValue]から値を取得します。
-  AsyncAggregateValue reload() {
-    _collection._aggregate.removeWhere((e) => e._query.type == _query.type);
-    final value = AsyncAggregateValue._(
-      loading: _process(),
-      query: _query,
-    );
-    _collection._aggregate.add(value);
-    return value;
-  }
-}
-
-/// This class is used to asynchronously retrieve values returned from [CollectionBase.aggregate], etc.
-///
-/// You can get the aggregate value of the collection from [value].
-///
-/// [CollectionBase.aggregate]などから返される値を非同期で取得するためのクラスです。
-///
-/// [value]からコレクションの集計値を取得できます。
-class AsyncAggregateValue extends ChangeNotifier
-    implements ValueListenable<num?> {
-  AsyncAggregateValue._({
-    required Future<num> loading,
-    required ModelAggregateQuery query,
-  })  : _loading = loading,
-        _query = query {
-    _process();
-  }
-
-  final ModelAggregateQuery _query;
-
-  Future<void> _process() async {
-    final value = await _loading;
-    _value = value;
-    _loading = null;
-    notifyListeners();
-  }
-
-  /// You can wait for it to load.
-  ///
-  /// 読み込みを待つことができます。
-  Future<num>? get loading => _loading;
-  Future<num>? _loading;
-
-  @override
-  num? get value => _value;
-  num? _value;
 }

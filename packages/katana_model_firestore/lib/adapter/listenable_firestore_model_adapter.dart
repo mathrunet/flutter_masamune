@@ -360,7 +360,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   }
 
   @override
-  Future<num> loadAggregation(
+  Future<T?> loadAggregation<T>(
     ModelAdapterCollectionQuery query,
     ModelAggregateQuery aggregateQuery,
   ) async {
@@ -378,7 +378,10 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
           ),
         );
         final res = snapshot.fold<int>(0, (p, e) => p + (e.count ?? 0));
-        return res;
+        if (res is! T) {
+          return null;
+        }
+        return res as T;
       case ModelAggregateQueryType.sum:
         final key = aggregateQuery.key;
         assert(
@@ -395,7 +398,10 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
           ),
         );
         final res = snapshot.fold<double>(0.0, (p, e) => p + (e.count ?? 0.0));
-        return res;
+        if (res is! T) {
+          return null;
+        }
+        return res as T;
       case ModelAggregateQueryType.average:
         final key = aggregateQuery.key;
         assert(
@@ -411,12 +417,12 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
             (reference) => reference.aggregate(average(key!)).get(),
           ),
         );
-        if (snapshot.isEmpty) {
-          return 0.0;
-        }
         final res = snapshot.fold<double>(0.0, (p, e) => p + (e.count ?? 0.0)) /
             snapshot.length;
-        return res;
+        if (res is! T) {
+          return null;
+        }
+        return res as T;
     }
   }
 

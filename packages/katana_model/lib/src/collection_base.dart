@@ -348,15 +348,20 @@ abstract class CollectionBase<TModel extends DocumentBase>
   /// [AsyncAggregateValue]が返されるので少し待ったあと[AsyncAggregateValue.value]から値を取得してください。
   ///
   /// [load]で読み込んだ値は通常は保持されますが、[reload]を実行した場合は再度読み込まれます。
-  CollectionAggregateQuery aggregate(ModelAggregateQuery query) {
-    return CollectionAggregateQuery._(
-      query: query,
-      collection: this,
-      onFinished: notifyListeners,
-    );
+  TValue aggregate<TValue extends AsyncAggregateValue>(
+      ModelAggregateQuery<TValue> query) {
+    if (_aggregate.containsKey(query)) {
+      final val = _aggregate[query];
+      if (val is TValue) {
+        return val;
+      }
+    }
+    final val = query.onCreate(query, this, notifyListeners);
+    _aggregate[query] = val;
+    return val;
   }
 
-  final List<AsyncAggregateValue> _aggregate = [];
+  final Map<ModelAggregateQuery, AsyncAggregateValue> _aggregate = {};
 
   /// {@macro model_transaction}
   ///

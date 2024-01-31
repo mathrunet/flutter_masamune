@@ -377,7 +377,7 @@ class _OpenAIAssistantAdapter extends ModelAdapter {
   }
 
   @override
-  Future<num> loadAggregation(
+  Future<T?> loadAggregation<T>(
       ModelAdapterCollectionQuery query, ModelAggregateQuery aggregateQuery) {
     throw UnsupportedError("This adapter is not supported this function.");
   }

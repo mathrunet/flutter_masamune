@@ -101,10 +101,14 @@ abstract class ModelAdapter {
   ///
   /// Pass [query] to the platform configured in the adapter to specify a collection and [aggregateQuery] to specify an aggregate query.
   ///
+  /// Returns [Null] if the type does not match.
+  ///
   /// データコレクションに対しての集計クエリでデータを取得します。
   ///
   /// アダプターで設定されたプラットフォームに[query]を渡してコレクションを指定し、[aggregateQuery]で集計クエリを指定します。
-  Future<num> loadAggregation(
+  ///
+  /// 型が一致しない場合は[Null]を返します。
+  Future<T?> loadAggregation<T>(
     ModelAdapterCollectionQuery query,
     ModelAggregateQuery aggregateQuery,
   );
