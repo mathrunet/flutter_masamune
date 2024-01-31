@@ -1,3 +1,7 @@
+## 2.2.6
+
+ - Update a dependency to the latest release.
+
 ## 2.2.5
 
  - **FIX**: Fixed an Initialize error. ([54c577df](https://github.com/mathrunet/flutter_masamune/commit/54c577df8eea1eab57d007c7abca863c6122d063))

@@ -1,3 +1,7 @@
+## 2.22.1
+
+ - **FIX**: Added networkDelay. ([081e1068](https://github.com/mathrunet/flutter_masamune/commit/081e10689decae0b7460838ebf157413d2dadc63))
+
 ## 2.22.0
 
  - **FEAT**: ModelRef to List and Map. ([023a217a](https://github.com/mathrunet/flutter_masamune/commit/023a217ab39561ff6884ac2e9bdd269865d50bc8))
