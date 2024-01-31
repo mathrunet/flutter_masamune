@@ -25,7 +25,7 @@ class RuntimePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
 
   @override
   Future<List<PurchaseProduct>> getProducts({
-    required String Function() onRetrieveUserId,
+    required String? Function() onRetrieveUserId,
   }) async {
     final res = products.map<PurchaseProduct>((e) {
       switch (e.type) {

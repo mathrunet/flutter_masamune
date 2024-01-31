@@ -37,7 +37,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
 
   @override
   Future<List<PurchaseProduct>> getProducts({
-    required String Function() onRetrieveUserId,
+    required String? Function() onRetrieveUserId,
   }) async {
     throw UnsupportedError("Purchasing function is not supported.");
   }

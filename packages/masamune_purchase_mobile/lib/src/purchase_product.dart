@@ -250,7 +250,7 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
   /// Callback to obtain user ID.
   ///
   /// ユーザーIDを取得するためのコールバック。
-  final String Function() onRetrieveUserId;
+  final String? Function() onRetrieveUserId;
 
   /// Adapters for models.
   ///
@@ -289,8 +289,8 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
 
   void _updateDocument() {
     final updated = onRetrieveUserId();
-    if (_userId != updated) {
-      _userId = updated;
+    if (updated.isNotEmpty && _userId != updated) {
+      _userId = updated!;
       _document?.removeListener(notifyListeners);
       _document?.dispose();
       _document = _DynamicPurchaseUserDocumentModel(
@@ -334,7 +334,7 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
   /// Callback to obtain user ID.
   ///
   /// ユーザーIDを取得するためのコールバック。
-  final String Function() onRetrieveUserId;
+  final String? Function() onRetrieveUserId;
 
   /// Adapters for models.
   ///
@@ -371,8 +371,8 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
 
   void _updateDocument() {
     final updated = onRetrieveUserId();
-    if (_userId != updated) {
-      _userId = updated;
+    if (updated.isNotEmpty && _userId != updated) {
+      _userId = updated!;
       _document?.removeListener(notifyListeners);
       _document?.dispose();
       _document = _DynamicPurchaseUserDocumentModel(
@@ -413,10 +413,10 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
     _updateCollection();
   }
 
-  /// Callback to obtain user ID.
+  /// Callback to retrieve user ID. Return [Null] if the user is not logged in.
   ///
-  /// ユーザーIDを取得するためのコールバック。
-  final String Function() onRetrieveUserId;
+  /// ユーザーIDを取得するためのコールバック。ログインしていない場合は[Null]を返してください。
+  final String? Function() onRetrieveUserId;
 
   /// Adapters for models.
   ///
@@ -470,8 +470,8 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
 
   void _updateCollection() {
     final updated = onRetrieveUserId();
-    if (_userId != updated) {
-      _userId = updated;
+    if (updated.isNotEmpty && _userId != updated) {
+      _userId = updated!;
       _collection?.removeListener(notifyListeners);
       _collection?.dispose();
       _collection = _DynamicPurchaseSubscriptionCollectionModel(

@@ -102,18 +102,24 @@ class PointEcosystemModule extends MasamuneControllerBase<double,
     }
     _completer = Completer<void>();
     try {
+      final userId = primaryAdapter.purchaseAdapter.onRetrieveUserId.call();
+      if (userId.isEmpty) {
+        throw Exception(
+          "You are not logged in. Please login and then [initialize()].",
+        );
+      }
       _rewarded ??= GoogleAdRewarded(
         adUnitId: primaryAdapter.option.rewardedAdUnitId!,
       );
       _pointDocument ??= PurchaseUserModelDocument(
         PurchaseUserModel.document(
-          primaryAdapter.purchaseAdapter.onRetrieveUserId.call(),
+          userId!,
           adapter: primaryAdapter.modelAdapter,
         ).modelQuery,
       );
       _bonusDocument ??= PointEcosystemUserModelDocument(
         PointEcosystemUserModel.document(
-          primaryAdapter.purchaseAdapter.onRetrieveUserId.call(),
+          userId!,
           adapter: primaryAdapter.modelAdapter,
         ).modelQuery,
       );

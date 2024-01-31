@@ -24,10 +24,10 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
   /// アプリ内で利用する全課金アイテムのリスト。
   final List<PurchaseProduct> products;
 
-  /// Specify a callback to retrieve the user ID in [onRetrieveUserId].
+  /// Specify a callback in [onRetrieveUserId] that returns the unique ID of the user. If the user is not logged in, return [Null].
   ///
-  /// [onRetrieveUserId]にユーザーの一意のIDを返すコールバックを指定してください。
-  final String Function() onRetrieveUserId;
+  /// [onRetrieveUserId]にユーザーの一意のIDを返すコールバックを指定してください。ログインしていない場合は[Null]を返してください。
+  final String? Function() onRetrieveUserId;
 
   /// Specify the object of [Purchase].
   ///
@@ -82,7 +82,7 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
   ///
   /// [onRetrieveUserId]にユーザーIDを取得するためのコールバックを指定します。
   Future<List<PurchaseProduct>> getProducts({
-    required String Function() onRetrieveUserId,
+    required String? Function() onRetrieveUserId,
   });
 
   /// Get callback on billing as a stream.

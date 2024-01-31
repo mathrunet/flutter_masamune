@@ -3,7 +3,7 @@ part of "others.dart";
 extension on PurchaseProduct {
   PurchaseProduct _copyWith({
     required ProductDetails productDetails,
-    required String Function() onRetrieveUserId,
+    required String? Function() onRetrieveUserId,
     ModelAdapter? adapter,
   }) {
     switch (type) {

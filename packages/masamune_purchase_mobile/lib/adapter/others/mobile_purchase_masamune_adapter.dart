@@ -39,7 +39,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
 
   @override
   Future<List<PurchaseProduct>> getProducts({
-    required String Function() onRetrieveUserId,
+    required String? Function() onRetrieveUserId,
   }) async {
     final available = await _iap.isAvailable();
     if (!available) {
