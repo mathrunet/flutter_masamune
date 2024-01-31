@@ -94,7 +94,15 @@ class FirebaseCore {
     _completer = Completer();
     try {
       FirebaseCore.region = region;
-      _app = await Firebase.initializeApp(options: options);
+      try {
+        _app = await Firebase.initializeApp(options: options);
+      } on FirebaseException catch (e) {
+        if (e.code == "duplicate-app") {
+          _app = Firebase.app();
+        } else {
+          rethrow;
+        }
+      }
       if (!kIsWeb) {
         FirebaseFirestore.instance.settings = const Settings();
       }
