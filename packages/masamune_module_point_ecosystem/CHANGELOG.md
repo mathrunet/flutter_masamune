@@ -1,3 +1,7 @@
+## 2.5.2
+
+ - **FIX**: Adjustment to allow information to be initialized even if the user is not logged in. ([41670cf2](https://github.com/mathrunet/flutter_masamune/commit/41670cf21df7fe6462b98a2b75a244c2e3c6a313))
+
 ## 2.5.1
 
  - Update a dependency to the latest release.

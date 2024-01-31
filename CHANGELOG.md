@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-01-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_module_point_ecosystem` - `v2.5.2`](#masamune_module_point_ecosystem---v252)
+ - [`masamune_purchase_mobile` - `v2.7.2`](#masamune_purchase_mobile---v272)
+
+---
+
+#### `masamune_module_point_ecosystem` - `v2.5.2`
+
+ - **FIX**: Adjustment to allow information to be initialized even if the user is not logged in. ([41670cf2](https://github.com/mathrunet/flutter_masamune/commit/41670cf21df7fe6462b98a2b75a244c2e3c6a313))
+
+#### `masamune_purchase_mobile` - `v2.7.2`
+
+ - **FIX**: Adjustment to allow information to be initialized even if the user is not logged in. ([41670cf2](https://github.com/mathrunet/flutter_masamune/commit/41670cf21df7fe6462b98a2b75a244c2e3c6a313))
+
+
 ## 2024-01-29
 
 ### Changes
