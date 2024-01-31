@@ -13,6 +13,8 @@ part of '/katana_model.dart';
 ///
 /// If [validator] is specified, validation is performed in the database.
 ///
+/// Specify [networkDelay] to simulate communication delay.
+///
 /// アプリのメモリ上でのみ動作するデータベースを利用したモデルアダプター。
 ///
 /// アプリを立ち上げ直すとデータはすべてリセットされます。
@@ -26,6 +28,8 @@ part of '/katana_model.dart';
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
 ///
 /// [validator]を指定するとデータベース内でのバリデーションが行われます。
+///
+/// [networkDelay]を指定すると通信の遅延をシミュレートすることができます。
 @immutable
 class RuntimeModelAdapter extends ModelAdapter {
   /// Model adapter that uses a database that runs only in the memory of the application.
@@ -41,6 +45,8 @@ class RuntimeModelAdapter extends ModelAdapter {
   ///
   /// If [validator] is specified, validation is performed in the database.
   ///
+  /// Specify [networkDelay] to simulate communication delay.
+  ///
   /// アプリのメモリ上でのみ動作するデータベースを利用したモデルアダプター。
   ///
   /// アプリを立ち上げ直すとデータはすべてリセットされます。
@@ -54,11 +60,14 @@ class RuntimeModelAdapter extends ModelAdapter {
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
   ///
   /// [validator]を指定するとデータベース内でのバリデーションが行われます。
+  ///
+  /// [networkDelay]を指定すると通信の遅延をシミュレートすることができます。
   const RuntimeModelAdapter({
     NoSqlDatabase? database,
     this.initialValue,
     this.prefix,
     this.validator,
+    this.networkDelay,
   }) : _database = database;
 
   /// Designated database. Please use for testing purposes, etc.
@@ -114,11 +123,19 @@ class RuntimeModelAdapter extends ModelAdapter {
   /// パスのプレフィックス。
   final String? prefix;
 
+  /// Delay time to simulate communication delays.
+  ///
+  /// 通信の遅延をシミュレートするための遅延時間。
+  final Duration? networkDelay;
+
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     _assert();
     if (validator != null) {
       await validator!.onPreloadDocument(query);
+    }
+    if (networkDelay != null) {
+      await Future.delayed(networkDelay!);
     }
     final data = await database.loadDocument(query, prefix: prefix);
     if (validator != null) {
@@ -134,6 +151,9 @@ class RuntimeModelAdapter extends ModelAdapter {
     _assert();
     if (validator != null) {
       await validator!.onPreloadCollection(query);
+    }
+    if (networkDelay != null) {
+      await Future.delayed(networkDelay!);
     }
     final data = await database.loadCollection(query, prefix: prefix);
     if (validator != null) {
@@ -152,6 +172,9 @@ class RuntimeModelAdapter extends ModelAdapter {
     _assert();
     switch (aggregateQuery.type) {
       case ModelAggregateQueryType.count:
+        if (networkDelay != null) {
+          await Future.delayed(networkDelay!);
+        }
         final data = await database.loadCollection(
           query.copyWith(query: query.query.remove(ModelQueryFilterType.limit)),
           prefix: prefix,
@@ -163,6 +186,9 @@ class RuntimeModelAdapter extends ModelAdapter {
           key.isNotEmpty,
           "Enter [key] for [ModelAggregateQueryType.sum].",
         );
+        if (networkDelay != null) {
+          await Future.delayed(networkDelay!);
+        }
         final data = await database.loadCollection(
           query.copyWith(query: query.query.remove(ModelQueryFilterType.limit)),
           prefix: prefix,
@@ -178,6 +204,9 @@ class RuntimeModelAdapter extends ModelAdapter {
           aggregateQuery.key.isNotEmpty,
           "Enter [key] for [ModelAggregateQueryType.average].",
         );
+        if (networkDelay != null) {
+          await Future.delayed(networkDelay!);
+        }
         final data = await database.loadCollection(
           query.copyWith(query: query.query.remove(ModelQueryFilterType.limit)),
           prefix: prefix,
@@ -199,6 +228,9 @@ class RuntimeModelAdapter extends ModelAdapter {
       final oldValue = await database.loadDocument(query, prefix: prefix);
       await validator!.onDeleteDocument(query, oldValue);
     }
+    if (networkDelay != null) {
+      await Future.delayed(networkDelay!);
+    }
     await database.deleteDocument(query, prefix: prefix);
   }
 
@@ -212,6 +244,9 @@ class RuntimeModelAdapter extends ModelAdapter {
       final oldValue = await database.loadDocument(query, prefix: prefix);
       await validator!
           .onSaveDocument(query, oldValue: oldValue, newValue: value);
+    }
+    if (networkDelay != null) {
+      await Future.delayed(networkDelay!);
     }
     await database.saveDocument(query, value, prefix: prefix);
   }
@@ -290,6 +325,9 @@ class RuntimeModelAdapter extends ModelAdapter {
     _assert();
     final ref = RuntimeModelTransactionRef._();
     await transaction.call(ref);
+    if (networkDelay != null) {
+      await Future.delayed(networkDelay!);
+    }
     for (final tmp in ref._transactionList) {
       await tmp.call();
     }
@@ -329,6 +367,9 @@ class RuntimeModelAdapter extends ModelAdapter {
   ) async {
     _assert();
     final ref = RuntimeModelBatchRef._();
+    if (networkDelay != null) {
+      await Future.delayed(networkDelay!);
+    }
     await wait(
       ref._batchList.map((tmp) => tmp.call()),
     );
