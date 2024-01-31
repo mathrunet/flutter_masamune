@@ -1,3 +1,7 @@
+## 2.23.0
+
+ - **FEAT**: Changed implementation around Aggregate. ([fec4d62d](https://github.com/mathrunet/flutter_masamune/commit/fec4d62d85908add2b1ef9b36b593b5bc533f676))
+
 ## 2.22.1
 
  - **FIX**: Added networkDelay. ([081e1068](https://github.com/mathrunet/flutter_masamune/commit/081e10689decae0b7460838ebf157413d2dadc63))

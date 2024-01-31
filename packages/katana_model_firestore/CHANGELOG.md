@@ -1,3 +1,7 @@
+## 2.16.0
+
+ - **FEAT**: Changed implementation around Aggregate. ([fec4d62d](https://github.com/mathrunet/flutter_masamune/commit/fec4d62d85908add2b1ef9b36b593b5bc533f676))
+
 ## 2.15.2
 
  - Update a dependency to the latest release.
