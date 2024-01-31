@@ -480,6 +480,31 @@ class ModelTimestampModelQuerySelector<TQuery extends ModelQueryBase>
   });
 }
 
+/// [ModelQuerySelector] for [ModelDate].
+///
+/// [ModelDate]に対する[ModelQuerySelector]。
+@immutable
+class ModelDateModelQuerySelector<TQuery extends ModelQueryBase>
+    extends ModelQuerySelector<ModelDate, TQuery>
+    with
+        _EqualQuerySelectorMixin<ModelDate, TQuery>,
+        _NotEqualQuerySelectorMixin<ModelDate, TQuery>,
+        _LessThanQuerySelectorMixin<ModelDate, TQuery>,
+        _GreaterThanQuerySelectorMixin<ModelDate, TQuery>,
+        _ContainsQuerySelectorMixin<ModelDate, TQuery>,
+        _ContainsAnyQuerySelectorMixin<ModelDate, TQuery>,
+        _WhereQuerySelectorMixin<ModelDate, TQuery>,
+        _NotWhereQuerySelectorMixin<ModelDate, TQuery> {
+  /// [ModelQuerySelector] for [ModelDate].
+  ///
+  /// [ModelDate]に対する[ModelQuerySelector]。
+  const ModelDateModelQuerySelector({
+    required super.key,
+    required super.toQuery,
+    required super.modelQuery,
+  });
+}
+
 /// [ModelQuerySelector] for [ModelRefBase].
 ///
 /// [ModelRefBase]に対する[ModelQuerySelector]。
