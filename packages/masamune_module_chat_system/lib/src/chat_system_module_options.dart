@@ -30,7 +30,10 @@ class ChatSystemModuleOptions extends ModuleOptions {
   final Locale? locale;
 
   @override
-  int get hashCode => defaultAssistantId.hashCode ^ defaultInstruction.hashCode ^ locale.hashCode;
+  int get hashCode =>
+      defaultAssistantId.hashCode ^
+      defaultInstruction.hashCode ^
+      locale.hashCode;
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
