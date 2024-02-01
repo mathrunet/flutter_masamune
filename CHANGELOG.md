@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-02-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_module_chat_system` - `v2.1.0`](#masamune_module_chat_system---v210)
+
+---
+
+#### `masamune_module_chat_system` - `v2.1.0`
+
+ - **FEAT**: Addition of a chat system. ([04b4f165](https://github.com/mathrunet/flutter_masamune/commit/04b4f16517f82223b92d68b80b4e8ca08d3cdb06))
+
+
 ## 2024-01-31
 
 ### Changes
