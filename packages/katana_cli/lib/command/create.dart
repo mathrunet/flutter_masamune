@@ -74,6 +74,7 @@ class CreateCliCommand extends CliCommand {
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
+    final dart = bin.get("dart", "dart");
     final melos = bin.get("melos", "melos");
     final packageName = context.args.get(1, "");
     final options = context.args.get(2, "");
@@ -288,12 +289,29 @@ class CreateCliCommand extends CliCommand {
           "add",
           "--dev",
           ...importDevPackages,
+          "import_sorter",
         ],
       );
       label("Replace lib/main.dart");
       await MainCliCode(module: moduleName)
           .generateDartCode("lib/main", "main");
-      if (moduleName.isEmpty) {
+      label("Replace lib/theme.dart");
+      await const MainThemeCliCode().generateDartCode("lib/theme", "theme");
+      label("Replace lib/router.dart");
+      await const MainRouterCliCode().generateDartCode("lib/router", "router");
+      label("Replace lib/localize.dart");
+      await const MainLocalizeCliCode()
+          .generateDartCode("lib/localize", "localize");
+      label("Replace lib/adapter.dart");
+      await const MainAdapterCliCode()
+          .generateDartCode("lib/adapter", "adapter");
+      label("Replace lib/config.dart");
+      await const MainConfigCliCode().generateDartCode("lib/config", "config");
+      if (moduleName.isNotEmpty) {
+        label("Replace lib/module.dart");
+        await MainModuleCliCode(module: moduleName!)
+            .generateDartCode("lib/module", "module");
+      } else {
         label("Create home.dart");
         await const HomePageCliCode()
             .generateDartCode("lib/pages/home", "home");
@@ -725,6 +743,24 @@ class CreateCliCommand extends CliCommand {
           workingDirectory: "ios",
         );
       }
+      await command(
+        "Run dart format",
+        [
+          dart,
+          "format",
+          ".",
+        ],
+      );
+      await command(
+        "Run import sorter",
+        [
+          flutter,
+          "pub",
+          "run",
+          "import_sorter:main",
+          ".",
+        ],
+      );
     }
   }
 }
@@ -840,148 +876,30 @@ class MainCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
-import 'package:masamune_universal_ui/masamune_universal_ui.dart';
-${module == null ? "" : "import 'package:${module!.toSnakeCase()}/${module!.toSnakeCase()}.dart';"}
-${module == null ? "" : "import 'package:${module!.toSnakeCase()}/pages/home.dart';"}
+import 'config.dart';
+import 'router.dart';
+import 'theme.dart';
+import 'localize.dart';
+import 'adapter.dart';
 
-${module == null ? "import 'pages/home.dart';" : ""}
+export 'config.dart';
+export 'router.dart';
+export 'theme.dart';
+export 'localize.dart';
+export 'adapter.dart';
+${module == null ? "" : "export 'module.dart';"}
 """;
   }
 
   @override
   String header(String path, String baseName, String className) {
-    return """
-part '$baseName.theme.dart';
-part '$baseName.localize.dart';
-""";
+    return "";
   }
 
   @override
   String body(String path, String baseName, String className) {
-    final moduleContent = module == null
-        ? null
-        : """
-/// [ModuleMasamuneAdapter] for applications.
-// TODO: Please configure the module.
-final appModule = ${module!.toPascalCase()}MasamuneAdapter(
-  title: const LocalizedValue([
-    LocalizedLocaleValue(Locale("en"), title),
-  ]),
-  appRef: appRef,
-  auth: appAuth,
-  router: router,
-  function: appFunction,
-  localize: l,
-  theme: theme,
-  option: ${module!.toPascalCase()}ModuleOptions(
-  ),
-);
-""";
     return """
-${moduleContent ?? ""}
-
-/// App Title.
-// TODO: Define the title of the application.
-const title = "\${1}";
-
-/// Initial page query.
-// TODO: Define the initial page query of the application.
-final initialQuery = \${2:HomePage.query()};
-
-/// App Model.
-///
-/// By replacing this with another adapter, the data storage location can be changed.
-// TODO: Change the database.
-final modelAdapter = RuntimeModelAdapter();
-
-/// App Auth.
-/// 
-/// Changing to another adapter allows you to change to another authentication mechanism.
-// TODO: Change the authentication.
-final authAdapter = RuntimeAuthAdapter();
-
-/// App Storage.
-/// 
-/// Changing to another adapter allows you to change to another storage mechanism.
-// TODO: Change the storage.
-final storageAdapter = LocalStorageAdapter();
-
-/// App Functions.
-/// 
-/// Changing to another adapter allows you to change to another functions mechanism.
-// TODO: Change the functions.
-final functionsAdapter = RuntimeFunctionsAdapter();
-
-/// Logger adapter list.
-/// 
-/// Adapters for logging can be defined here.
-// TODO: Change the loggers.
-final loggerAdapters = <LoggerAdapter>[
-  const ConsoleLoggerAdapter(),
-];
-
-/// Masamune adapter.
-/// 
-/// The Masamune framework plugin functions can be defined together.
-// TODO: Add the adapters.
-final masamuneAdapters = <MasamuneAdapter>[
-  const UniversalMasamuneAdapter(),
-  ${module != null ? "appModule," : ""}
-];
-
-/// App Theme.
-///
-/// ```dart
-/// theme.color.primary   // Primary color.
-/// theme.text.bodyMedium // Medium body text style.
-/// theme.asset.xxx       // xxx image.
-/// theme.font.xxx        // xxx font.
-/// ```
-@appTheme
-final theme = AppThemeData(
-  // TODO: Set the design.
-  primary: Colors.blue,
-  secondary: Colors.cyan,
-  onPrimary: Colors.white,
-  onSecondary: Colors.white,
-  \${3}
-);
-
-/// App Router.
-///
-/// ```dart
-/// router.push(Page.query());  // Push page to Page.
-/// router.pop();               // Pop page.
-/// ```
-final router = AppRouter(
-  // TODO: Please configure the initial routing and redirection settings.
-  boot: \${4:null},
-  initialQuery: initialQuery,
-  redirect: [],
-  pages: [
-    // TODO: Add the page query to be used for routing.
-    \${5}
-  ],
-);
-
-/// App Localization.
-///
-/// ```dart
-/// l().xxx  // Localization for xxx.
-/// ```
-final l = AppLocalize();
-
-// TODO: Set the Google Spreadsheet URL for the translation.
-@GoogleSpreadSheetLocalize(
-  [
-    "\${6:https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808}",
-  ],
-  version: 1,
-)
-class AppLocalize extends _\$AppLocalize {}
-
 /// App Ref.
 ///
 /// ```dart
@@ -1050,6 +968,385 @@ void main() {
     masamuneAdapters: masamuneAdapters,
   );
 }
+""";
+  }
+}
+
+/// Contents of theme.dart.
+///
+/// theme.dartの中身。
+class MainThemeCliCode extends CliCode {
+  /// Contents of theme.dart.
+  ///
+  /// theme.dartの中身。
+  const MainThemeCliCode();
+
+  @override
+  String get name => "theme";
+
+  @override
+  String get prefix => "theme";
+
+  @override
+  String get directory => "lib";
+
+  @override
+  String get description =>
+      "Create a theme.dart for all Masamune Framework functions.\nMasamune Frameworkの機能すべてに対応したtheme.dartを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+import 'package:flutter/material.dart';
+import 'package:masamune/masamune.dart';
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return """
+part '$baseName.theme.dart';
+""";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// App Theme.
+///
+/// ```dart
+/// theme.color.primary   // Primary color.
+/// theme.text.bodyMedium // Medium body text style.
+/// theme.asset.xxx       // xxx image.
+/// theme.font.xxx        // xxx font.
+/// ```
+@appTheme
+final theme = AppThemeData(
+  // TODO: Set the design.
+  primary: Colors.blue,
+  secondary: Colors.cyan,
+  onPrimary: Colors.white,
+  onSecondary: Colors.white,
+  \${1}
+);
+""";
+  }
+}
+
+/// Contents of router.dart.
+///
+/// router.dartの中身。
+class MainRouterCliCode extends CliCode {
+  /// Contents of router.dart.
+  ///
+  /// router.dartの中身。
+  const MainRouterCliCode({this.module});
+
+  /// Name of the module to be used.
+  ///
+  /// 利用するモジュール名。
+  final String? module;
+
+  @override
+  String get name => "router";
+
+  @override
+  String get prefix => "router";
+
+  @override
+  String get directory => "lib";
+
+  @override
+  String get description =>
+      "Create a router.dart for all Masamune Framework functions.\nMasamune Frameworkの機能すべてに対応したrouter.dartを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+import 'package:masamune/masamune.dart';
+${module == null ? "import 'pages/home.dart';" : "import 'package:${module!.toSnakeCase()}/pages/home.dart';"}
+
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// App Router.
+///
+/// ```dart
+/// router.push(Page.query());  // Push page to Page.
+/// router.pop();               // Pop page.
+/// ```
+final router = AppRouter(
+  // TODO: Please configure the initial routing and redirection settings.
+  boot: \${1:null},
+  initialQuery: \${2:HomePage.query()},
+  redirect: [],
+  pages: [
+    // TODO: Add the page query to be used for routing.
+    \${3}
+  ],
+);
+""";
+  }
+}
+
+/// Contents of main.dart.
+///
+/// localize.dartの中身。
+class MainLocalizeCliCode extends CliCode {
+  /// Contents of main.dart.
+  ///
+  /// localize.dartの中身。
+  const MainLocalizeCliCode();
+
+  @override
+  String get name => "localize";
+
+  @override
+  String get prefix => "localize";
+
+  @override
+  String get directory => "lib";
+
+  @override
+  String get description =>
+      "Create a localize.dart for all Masamune Framework functions.\nMasamune Frameworkの機能すべてに対応したlocalize.dartを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+import 'package:flutter/material.dart';
+import 'package:masamune/masamune.dart';
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return """
+part '$baseName.localize.dart';
+""";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// App Localization.
+///
+/// ```dart
+/// l().xxx  // Localization for xxx.
+/// ```
+final l = AppLocalize();
+
+// TODO: Set the Google Spreadsheet URL for the translation.
+@GoogleSpreadSheetLocalize(
+  [
+    "\${1:https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808}",
+  ],
+  version: 1,
+)
+class AppLocalize extends _\$AppLocalize {}
+""";
+  }
+}
+
+/// Contents of adapter.dart.
+///
+/// adapter.dartの中身。
+class MainAdapterCliCode extends CliCode {
+  /// Contents of adapter.dart.
+  ///
+  /// adapter.dartの中身。
+  const MainAdapterCliCode({this.module});
+
+  /// Name of the module to be used.
+  ///
+  /// 利用するモジュール名。
+  final String? module;
+
+  @override
+  String get name => "adapter";
+
+  @override
+  String get prefix => "adapter";
+
+  @override
+  String get directory => "lib";
+
+  @override
+  String get description =>
+      "Create a adapter.dart for all Masamune Framework functions.\nMasamune Frameworkの機能すべてに対応したadapter.dartを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+import 'package:masamune/masamune.dart';
+import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+${module == null ? "" : "import 'module.dart';"}
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// App Model.
+///
+/// By replacing this with another adapter, the data storage location can be changed.
+// TODO: Change the database.
+final modelAdapter = RuntimeModelAdapter();
+
+/// App Auth.
+/// 
+/// Changing to another adapter allows you to change to another authentication mechanism.
+// TODO: Change the authentication.
+final authAdapter = RuntimeAuthAdapter();
+
+/// App Storage.
+/// 
+/// Changing to another adapter allows you to change to another storage mechanism.
+// TODO: Change the storage.
+final storageAdapter = LocalStorageAdapter();
+
+/// App Functions.
+/// 
+/// Changing to another adapter allows you to change to another functions mechanism.
+// TODO: Change the functions.
+final functionsAdapter = RuntimeFunctionsAdapter();
+
+/// Logger adapter list.
+/// 
+/// Adapters for logging can be defined here.
+// TODO: Change the loggers.
+final loggerAdapters = <LoggerAdapter>[
+  const ConsoleLoggerAdapter(),
+];
+
+/// Masamune adapter.
+/// 
+/// The Masamune framework plugin functions can be defined together.
+// TODO: Add the adapters.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+  ${module != null ? "appModule," : ""}
+];
+""";
+  }
+}
+
+/// Contents of config.dart.
+///
+/// config.dartの中身。
+class MainConfigCliCode extends CliCode {
+  /// Contents of config.dart.
+  ///
+  /// config.dartの中身。
+  const MainConfigCliCode();
+
+  @override
+  String get name => "config";
+
+  @override
+  String get prefix => "config";
+
+  @override
+  String get directory => "lib";
+
+  @override
+  String get description =>
+      "Create a config.dart for all Masamune Framework functions.\nMasamune Frameworkの機能すべてに対応したconfig.dartを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// App Title.
+// TODO: Define the title of the application.
+const title = "\${1}";
+""";
+  }
+}
+
+/// Contents of module.dart.
+///
+/// module.dartの中身。
+class MainModuleCliCode extends CliCode {
+  /// Contents of module.dart.
+  ///
+  /// module.dartの中身。
+  const MainModuleCliCode({required this.module});
+
+  /// Name of the module to be used.
+  ///
+  /// 利用するモジュール名。
+  final String module;
+
+  @override
+  String get name => "module";
+
+  @override
+  String get prefix => "module";
+
+  @override
+  String get directory => "lib";
+
+  @override
+  String get description =>
+      "Create a module.dart for all Masamune Framework functions.\nMasamune Frameworkの機能すべてに対応したmodule.dartを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+import 'package:flutter/material.dart';
+import 'package:masamune/masamune.dart';
+import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+import 'package:${module.toSnakeCase()}/${module.toSnakeCase()}.dart';"
+import 'package:${module.toSnakeCase()}/pages/home.dart';"
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// [ModuleMasamuneAdapter] for applications.
+// TODO: Please configure the module.
+final appModule = ${module.toPascalCase()}MasamuneAdapter(
+  title: const LocalizedValue([
+    LocalizedLocaleValue(Locale("en"), title),
+  ]),
+  appRef: appRef,
+  auth: appAuth,
+  router: router,
+  function: appFunction,
+  localize: l,
+  theme: theme,
+  option: ${module.toPascalCase()}ModuleOptions(
+  ),
+);
 """;
   }
 }
