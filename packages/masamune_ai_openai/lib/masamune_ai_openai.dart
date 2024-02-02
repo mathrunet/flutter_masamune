@@ -21,10 +21,21 @@ import 'package:flutter/widgets.dart';
 // Package imports:
 import 'package:masamune/masamune.dart';
 
+import 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';
+
+export 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';
+
 part 'adapter/openai_masamune_adapter.dart';
 part 'functions/openai_chat_gpt_functions_action.dart';
 
 part 'src/openai_assistant.dart';
+part 'src/openai_file.dart';
 part 'src/openai_model.dart';
 part 'src/openai_tools.dart';
 part 'src/openai_thread.dart';

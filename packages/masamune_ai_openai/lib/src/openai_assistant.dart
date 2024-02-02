@@ -3,7 +3,7 @@ part of '/masamune_ai_openai.dart';
 const _kOpenAIAssitantCollectionPath = "openaiassistant";
 const _kOpenAIAssistantDatabaseId = "openaiassistant://";
 
-const _adapter = _OpenAIAssistantAdapter();
+const _assistantAdapter = _OpenAIAssistantAdapter();
 
 /// Collection model for obtaining a list of OpenAI assistants.
 ///
@@ -25,7 +25,7 @@ class OpenAIAssistantCollection
       : super(
           const CollectionModelQuery(
             _kOpenAIAssitantCollectionPath,
-            adapter: _adapter,
+            adapter: _assistantAdapter,
           ),
         );
 
@@ -62,7 +62,7 @@ class OpenAIAssistantDocument extends DocumentBase<OpenAIAssistant> {
       : super(
           DocumentModelQuery(
             "$_kOpenAIAssitantCollectionPath/$assistantId",
-            adapter: _adapter,
+            adapter: _assistantAdapter,
           ),
         );
 
