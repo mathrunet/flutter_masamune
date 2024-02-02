@@ -19,7 +19,7 @@ extension FormMediaValueExtensions on FormMediaValue {
     if (type != FormMediaType.image) {
       return Asset.image(defaultAssetURI);
     }
-    return Asset.image(uri.toString(), defaultAssetURI);
+    return Asset.image(uri.toString(), defaultAssetURI: defaultAssetURI);
   }
 
   /// Convert to [ModelImageUri].

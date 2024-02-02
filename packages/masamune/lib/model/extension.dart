@@ -12,7 +12,7 @@ extension ModelImageUriExtensions on ModelImageUri {
   ///
   /// [defaultAssetURI]が指定されている場合、[ImageProvider]が取得できない場合は[defaultAssetURI]を使用します。
   ImageProvider toImageProvider([String defaultAssetURI = "assets/image.png"]) {
-    return Asset.image(value.toString(), defaultAssetURI);
+    return Asset.image(value.toString(), defaultAssetURI: defaultAssetURI);
   }
 
   /// Convert to [FormMediaValue].

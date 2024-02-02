@@ -223,6 +223,8 @@ abstract class _ImageProviderBuilderMixin {
   ///
   /// If [uri] is empty, or the text cannot be retrieved for some reason, the image file located at [defaultAssetURI] in Flutter's assets folder will be returned. The default is `assets/image.png`.
   ///
+  /// Request headers can be added with [headers] when retrieving images from the network.
+  ///
   /// [uri]に存在する画像ファイルから[ImageProvider]を取得します。
   ///
   /// [uri]が`http://`、`https://`から始まる場合、ネットワーク上に存在する画像をダウンロードして取得します。
@@ -234,10 +236,13 @@ abstract class _ImageProviderBuilderMixin {
   /// ファイルが見つからない場合、もしくは[uri]が`resource://`で始まる場合はFlutterのアセットフォルダからファイルを検索し、その画像ファイルを取得します。
   ///
   /// [uri]が空の場合、もしくはテキストがなにかしらの原因で取得出来なかった場合はFlutterのアセットフォルダ内の[defaultAssetURI]に存在する画像ファイルが返されます。デフォルトは`assets/image.png`。
+  ///
+  /// ネットワーク上から画像を取得する際に[headers]でリクエストヘッダを付与することが可能です。
   ImageProvider call(
-    String? uri, [
+    String? uri, {
     String defaultAssetURI = "assets/image.png",
-  ]) {
+    Map<String, String>? headers,
+  }) {
     if (uri.isEmpty) {
       return _MemoizedAssetImage(defaultAssetURI);
     }
@@ -247,7 +252,10 @@ abstract class _ImageProviderBuilderMixin {
         final blob = uri.replaceAll(RegExp(r"^blob:(//)?"), "");
         return MemoryImage(base64Url.decode(blob));
       } else if (uri.startsWith("http")) {
-        return _MemoizedNetworkImage(uri);
+        return _MemoizedNetworkImage(
+          uri,
+          headers: headers,
+        );
       } else if (uri.startsWith("/") || uri.startsWith("file:")) {
         final file = File(uri.replaceAll(RegExp(r"^file:(//)?"), ""));
         if (file.existsSync()) {
@@ -316,7 +324,7 @@ class _ImageMemoryCache {
 }
 
 class _MemoizedNetworkImage extends network_image.NetworkImage {
-  const _MemoizedNetworkImage(super.url);
+  const _MemoizedNetworkImage(super.url, {super.headers});
 
   static final HttpClient _sharedHttpClient = HttpClient()
     ..autoUncompress = false;
