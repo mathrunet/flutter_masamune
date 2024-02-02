@@ -1,3 +1,7 @@
+## 2.9.5
+
+ - **FIX**: Asset.image with a header. ([73b18dda](https://github.com/mathrunet/flutter_masamune/commit/73b18dda7a470197341c176c4c4c065027a7b548))
+
 ## 2.9.4
 
  - **FIX**: Added ModelDateModelQuerySelector. ([db6aa084](https://github.com/mathrunet/flutter_masamune/commit/db6aa084ead11dcf9c9043856782d2d4de66af73))

@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **FIX**: Support for FileID. ([b37e096a](https://github.com/mathrunet/flutter_masamune/commit/b37e096ad1c8e945ab7ccb847225c09e38e8dbcb))
+
 ## 2.1.1
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - **FIX**: Asset.image with a header. ([73b18dda](https://github.com/mathrunet/flutter_masamune/commit/73b18dda7a470197341c176c4c4c065027a7b548))
+
 ## 2.3.0
 
  - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))

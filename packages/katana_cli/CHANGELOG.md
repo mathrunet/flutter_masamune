@@ -1,3 +1,7 @@
+## 2.15.3
+
+ - **FIX**: Division of main.dart. ([ced0d883](https://github.com/mathrunet/flutter_masamune/commit/ced0d8830187639e7f10f6ce4f2cd28272b24c2e))
+
 ## 2.15.2
 
  - **FIX**: Respond to "Would you like to delete these indexes?". ([b0eb3c4d](https://github.com/mathrunet/flutter_masamune/commit/b0eb3c4df25d99dcd2d30aa50f901c104ce2cd7a))
