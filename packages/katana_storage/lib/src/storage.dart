@@ -88,7 +88,7 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
   ///
   /// 公開可能なURLを取得します。画像等を`Image.network`などで取得したい場合このURIを利用します。
   Future<Uri> fetchPublicURI() => storageQuery.adapter.fetchPublicURI(
-        storageQuery.relativeRemotePath.trimQuery().trimStringRight("/"),
+        storageQuery.relativeRemotePathOrId.trimQuery().trimStringRight("/"),
       );
 
   /// Get the URI to download the file.
@@ -96,7 +96,7 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
   /// ファイルをダウンロードするためのURIを取得します。
   Future<Uri> fetchDownloadURI() async {
     final path = await storageQuery.adapter.fetchDownloadURI(
-      storageQuery.relativeRemotePath.trimQuery().trimStringRight("/"),
+      storageQuery.relativeRemotePathOrId.trimQuery().trimStringRight("/"),
     );
     notifyListeners();
     return path;
@@ -121,7 +121,7 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
     _downloadCompleter = Completer();
     try {
       final localFile = await storageQuery.adapter.download(
-        storageQuery.relativeRemotePath.trimQuery().trimStringRight("/"),
+        storageQuery.relativeRemotePathOrId.trimQuery().trimStringRight("/"),
         localRelativePath?.trimQuery().trimStringRight("/"),
       );
       _value = _value?._copyWith(
@@ -146,13 +146,13 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
 
   /// Uploads a file located at [localFullPath] on the local to the remote location specified by [storageQuery].
   ///
-  /// You can wait in [uploading] while downloading.
+  /// While uploading, you can wait at [uploading].
   ///
   /// The full path to the upload destination can be obtained as a return value.
   ///
   /// ローカル上の[localFullPath]にあるファイルを[storageQuery]で指定されたリモート側の位置にアップロードします。
   ///
-  /// ダウンロード中は[uploading]で待つことができます。
+  /// アップロード中は[uploading]で待つことができます。
   ///
   /// 戻り値としてアップロード先のフルパスを取得することが出来ます。
   Future<StorageValue?> upload(String localFullPath) async {
@@ -164,7 +164,7 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
     try {
       final remoteFile = await storageQuery.adapter.upload(
         localFullPath.trimQuery().trimStringRight("/"),
-        storageQuery.relativeRemotePath.trimQuery().trimStringRight("/"),
+        storageQuery.relativeRemotePathOrId.trimQuery().trimStringRight("/"),
       );
       _value = _value?._copyWith(
             remote: remoteFile,
@@ -188,13 +188,13 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
 
   /// Uploads a file with the actual data in [uploadFileByte] to the location on the remote side specified by [storageQuery].
   ///
-  /// You can wait in [uploading] while downloading.
+  /// While uploading, you can wait at [uploading].
   ///
   /// It takes a [StorageValue] as a return value and can retrieve both local and remote data.
   ///
   /// [uploadFileByte]の実データを持つファイルを[storageQuery]で指定されたリモート側の位置にアップロードします。
   ///
-  /// ダウンロード中は[uploading]で待つことができます。
+  /// アップロード中は[uploading]で待つことができます。
   ///
   /// 戻り値として[StorageValue]を受け取り、ローカルとリモートの両方のデータを取得することができます。
   Future<StorageValue?> uploadWithBytes(Uint8List uploadFileByte) async {
@@ -206,7 +206,7 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
     try {
       final remoteFile = await storageQuery.adapter.uploadWithBytes(
         uploadFileByte,
-        storageQuery.relativeRemotePath.trimQuery().trimStringRight("/"),
+        storageQuery.relativeRemotePathOrId.trimQuery().trimStringRight("/"),
       );
       _value = _value?._copyWith(
             remote: remoteFile,
@@ -243,7 +243,7 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
     _deleteCompleter = Completer();
     try {
       await storageQuery.adapter.delete(
-        storageQuery.relativeRemotePath.trimQuery().trimStringRight("/"),
+        storageQuery.relativeRemotePathOrId.trimQuery().trimStringRight("/"),
       );
       _value = null;
       notifyListeners();

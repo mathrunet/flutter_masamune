@@ -310,28 +310,28 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.10.2"
+    version: "2.11.0"
   katana_firebase:
     dependency: "direct main"
     description:
       path: "../katana_firebase"
       relative: true
     source: path
-    version: "2.0.32"
+    version: "2.1.1"
   katana_storage:
     dependency: "direct main"
     description:
       path: "../katana_storage"
       relative: true
     source: path
-    version: "2.0.35"
+    version: "2.1.0"
   katana_test:
     dependency: "direct dev"
     description:
       path: "../katana_test"
       relative: true
     source: path
-    version: "2.0.0"
+    version: "2.1.0"
   lints:
     dependency: transitive
     description:

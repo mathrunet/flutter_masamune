@@ -66,14 +66,14 @@ abstract class StorageAdapter {
   /// Please make sure that you can get a publicly available URL. Use this URI when you want to retrieve images, etc. using `Image.network`, etc.
   ///
   /// 公開可能なURLを取得できるようにしてください。画像等を`Image.network`などで取得したい場合このURIを利用します。
-  Future<Uri> fetchPublicURI(String remoteRelativePath);
+  Future<Uri> fetchPublicURI(String remoteRelativePathOrId);
 
   /// Please make sure you can get the URI to download the file.
   ///
   /// ファイルをダウンロードするためのURIを取得できるようにしてください。
-  Future<Uri> fetchDownloadURI(String remoteRelativePath);
+  Future<Uri> fetchDownloadURI(String remoteRelativePathOrId);
 
-  /// Download the file on the remote side specified in [remoteRelativePath] to [localRelativePath] on the local.
+  /// Download the file on the remote side specified in [remoteRelativePathOrId] to [localRelativePath] on the local.
   ///
   /// Both are passed relative to the root folder on each platform.
   ///
@@ -81,7 +81,7 @@ abstract class StorageAdapter {
   ///
   /// If [localRelativePath] is not specified, ensure that only byte data is retrieved.
   ///
-  /// [remoteRelativePath]で指定されたリモート側のファイルをローカル上の[localRelativePath]にダウンロードします。
+  /// [remoteRelativePathOrId]で指定されたリモート側のファイルをローカル上の[localRelativePath]にダウンロードします。
   ///
   /// どちらも各プラットフォーム上のルートフォルダに対する相対パスが渡されます。
   ///
@@ -89,50 +89,50 @@ abstract class StorageAdapter {
   ///
   /// [localRelativePath]が指定されない場合はバイトデータのみが取得されるようにしてください。
   Future<LocalFile> download(
-    String remoteRelativePath, [
+    String remoteRelativePathOrId, [
     String? localRelativePath,
   ]);
 
-  /// Uploads the local file specified in [localFullPath] to [remoteRelativePath], which is the location on the remote side.
+  /// Uploads the local file specified in [localFullPath] to [remoteRelativePathOrId], which is the location on the remote side.
   ///
-  /// The full path in the platform is passed to [localFullPath] and the relative path is passed to [remoteRelativePath].
+  /// The full path in the platform is passed to [localFullPath] and the relative path is passed to [remoteRelativePathOrId].
   ///
   /// Return [RemoteFile] containing the full path of the upload destination and the actual data as the return value.
   ///
-  /// [localFullPath]で指定されたローカル上のファイルをリモート側の位置であるの[remoteRelativePath]にアップロードします。
+  /// [localFullPath]で指定されたローカル上のファイルをリモート側の位置であるの[remoteRelativePathOrId]にアップロードします。
   ///
-  /// [localFullPath]にプラットフォーム内のフルパスが渡され[remoteRelativePath]に相対パスが渡されます。
+  /// [localFullPath]にプラットフォーム内のフルパスが渡され[remoteRelativePathOrId]に相対パスが渡されます。
   ///
   /// 戻り値としてアップロード先のフルパスと実データを格納した[RemoteFile]を返してください。
   Future<RemoteFile> upload(
     String localFullPath,
-    String remoteRelativePath,
+    String remoteRelativePathOrId,
   );
 
-  /// Uploads the data specified in [uploadFileByte] to [remoteRelativePath], which is the location on the remote side.
+  /// Uploads the data specified in [uploadFileByte] to [remoteRelativePathOrId], which is the location on the remote side.
   ///
-  /// The byte data of the file is passed to [uploadFileByte] and the relative path is passed to [remoteRelativePath].
+  /// The byte data of the file is passed to [uploadFileByte] and the relative path is passed to [remoteRelativePathOrId].
   ///
   /// Return [RemoteFile] containing the full path of the upload destination and the actual data as the return value.
   ///
-  /// [uploadFileByte]で指定されたデータをリモート側の位置であるの[remoteRelativePath]にアップロードします。
+  /// [uploadFileByte]で指定されたデータをリモート側の位置であるの[remoteRelativePathOrId]にアップロードします。
   ///
-  /// [uploadFileByte]にファイルのバイトデータが渡され[remoteRelativePath]に相対パスが渡されます。
+  /// [uploadFileByte]にファイルのバイトデータが渡され[remoteRelativePathOrId]に相対パスが渡されます。
   ///
   /// 戻り値としてアップロード先のフルパスと実データを格納した[RemoteFile]を返してください。
   Future<RemoteFile> uploadWithBytes(
     Uint8List uploadFileByte,
-    String remoteRelativePath,
+    String remoteRelativePathOrId,
   );
 
-  /// Delete files on the remote side in [relativePath].
+  /// Delete files on the remote side in [remoteRelativePathOrId].
   ///
   /// A path relative to the root folder on each platform is passed.
   ///
-  /// [relativePath]にあるリモート側のファイルを削除します。
+  /// [remoteRelativePathOrId]にあるリモート側のファイルを削除します。
   ///
   /// 各プラットフォーム上のルートフォルダに対する相対パスが渡されます。
-  Future<void> delete(String relativePath);
+  Future<void> delete(String remoteRelativePathOrId);
 }
 
 /// [StorageAdapter] for the entire app by placing it on top of [MaterialApp], etc.

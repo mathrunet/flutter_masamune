@@ -361,14 +361,14 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.10.2"
+    version: "2.11.0"
   katana_storage:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.0.35"
+    version: "2.1.0"
   lints:
     dependency: transitive
     description:
