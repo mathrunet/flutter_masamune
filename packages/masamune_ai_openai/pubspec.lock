@@ -367,7 +367,7 @@ packages:
       path: "../katana_storage"
       relative: true
     source: path
-    version: "2.1.0"
+    version: "2.1.1"
   katana_test:
     dependency: "direct dev"
     description:
@@ -381,7 +381,7 @@ packages:
       path: "../katana_theme"
       relative: true
     source: path
-    version: "2.3.0"
+    version: "2.3.1"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
@@ -418,7 +418,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.9.4"
+    version: "2.9.5"
   masamune_annotation:
     dependency: "direct overridden"
     description:
