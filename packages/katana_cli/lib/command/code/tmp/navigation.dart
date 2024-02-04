@@ -173,7 +173,7 @@ class ${className}Page extends PageScopedWidget {
         currentIndex: nestedRouter.currentQuery?.key<${className}PageNavigation>()?.index ??
             ${className}PageNavigation.initialNavigation.index,
         onTap: (index) {
-          final routeQuery = TestPageNavigation.values[index].routeQuery;
+          final routeQuery = ${className}PageNavigation.values[index].routeQuery;
           if (routeQuery == null) {
             return;
           }
