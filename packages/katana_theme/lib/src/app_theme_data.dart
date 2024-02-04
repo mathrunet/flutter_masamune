@@ -68,11 +68,13 @@ class AppThemeData {
     Color disabled = Colors.grey,
     Color weak = Colors.grey,
     Color outline = Colors.grey,
+    Color? outlineVariant,
     Color error = Colors.red,
     Color warning = Colors.amber,
     Color info = Colors.blue,
     Color success = Colors.green,
     Color? surface,
+    Color? surfaceVariant,
     Color? background,
     Color onPrimary = kWhiteColor,
     Color onSecondary = kWhiteColor,
@@ -82,6 +84,7 @@ class AppThemeData {
     Color onTertiaryContainer = kWhiteColor,
     Color onDisabled = kWhiteColor,
     Color? onSurface,
+    Color? onSurfaceVariant,
     Color? onBackground,
     Color onWeak = kWhiteColor,
     Color onError = kWhiteColor,
@@ -234,11 +237,14 @@ class AppThemeData {
                 disabled: disabled,
                 weak: weak,
                 outline: outline,
+                outlineVariant: outlineVariant ?? outline,
                 error: error,
                 warning: warning,
                 info: info,
                 success: success,
                 surface: surface ?? _surface(brightness),
+                surfaceVariant:
+                    surfaceVariant ?? surface ?? _surface(brightness),
                 background: background ?? _background(brightness),
                 onPrimary: onPrimary,
                 onSecondary: onSecondary,
@@ -248,6 +254,9 @@ class AppThemeData {
                 onTertiaryContainer: onTertiaryContainer,
                 onDisabled: onDisabled,
                 onSurface: onSurface ?? _onBackgroundOrSurface(brightness),
+                onSurfaceVariant: onSurfaceVariant ??
+                    onSurface ??
+                    _onBackgroundOrSurface(brightness),
                 onBackground:
                     onBackground ?? _onBackgroundOrSurface(brightness),
                 onWeak: onWeak,
@@ -285,6 +294,7 @@ class AppThemeData {
                 disabled: inverseDisabled ?? disabled,
                 weak: inverseWeak ?? weak,
                 outline: inverseOutline ?? outline,
+                outlineVariant: outlineVariant ?? outline,
                 error: inverseError ?? error,
                 warning: inverseWarning ?? warning,
                 info: inverseInfo ?? info,
@@ -292,6 +302,8 @@ class AppThemeData {
                 surface: inverseSurface ??
                     surface ??
                     _surface(_inverse(brightness, fixed)),
+                surfaceVariant:
+                    surfaceVariant ?? surface ?? _surface(brightness),
                 background: inverseBackground ??
                     background ??
                     _background(_inverse(brightness, fixed)),
@@ -308,6 +320,9 @@ class AppThemeData {
                 onSurface: onInverseSurface ??
                     onSurface ??
                     _onBackgroundOrSurface(_inverse(brightness, fixed)),
+                onSurfaceVariant: onSurfaceVariant ??
+                    onSurface ??
+                    _onBackgroundOrSurface(brightness),
                 onBackground: onInverseBackground ??
                     onBackground ??
                     _onBackgroundOrSurface(_inverse(brightness, fixed)),
@@ -352,11 +367,14 @@ class AppThemeData {
                 disabled: disabled,
                 weak: weak,
                 outline: outline,
+                outlineVariant: outlineVariant ?? outline,
                 error: error,
                 warning: warning,
                 info: info,
                 success: success,
                 surface: surface ?? _surface(brightness),
+                surfaceVariant:
+                    surfaceVariant ?? surface ?? _surface(brightness),
                 background: background ?? _background(brightness),
                 onPrimary: onPrimary,
                 onSecondary: onSecondary,
@@ -366,6 +384,9 @@ class AppThemeData {
                 onTertiaryContainer: onTertiaryContainer,
                 onDisabled: onDisabled,
                 onSurface: onSurface ?? _onBackgroundOrSurface(brightness),
+                onSurfaceVariant: onSurfaceVariant ??
+                    onSurface ??
+                    _onBackgroundOrSurface(brightness),
                 onBackground:
                     onBackground ?? _onBackgroundOrSurface(brightness),
                 onWeak: onWeak,
@@ -403,6 +424,7 @@ class AppThemeData {
                 disabled: inverseDisabled ?? disabled,
                 weak: inverseWeak ?? weak,
                 outline: inverseOutline ?? outline,
+                outlineVariant: outlineVariant ?? outline,
                 error: inverseError ?? error,
                 warning: inverseWarning ?? warning,
                 info: inverseInfo ?? info,
@@ -410,6 +432,8 @@ class AppThemeData {
                 surface: inverseSurface ??
                     surface ??
                     _surface(_inverse(brightness, fixed)),
+                surfaceVariant:
+                    surfaceVariant ?? surface ?? _surface(brightness),
                 background: inverseBackground ??
                     background ??
                     _background(_inverse(brightness, fixed)),
@@ -426,6 +450,9 @@ class AppThemeData {
                 onSurface: onInverseSurface ??
                     onSurface ??
                     _onBackgroundOrSurface(_inverse(brightness, fixed)),
+                onSurfaceVariant: onSurfaceVariant ??
+                    onSurface ??
+                    _onBackgroundOrSurface(brightness),
                 onBackground: onInverseBackground ??
                     onBackground ??
                     _onBackgroundOrSurface(_inverse(brightness, fixed)),
@@ -494,11 +521,13 @@ class AppThemeData {
     Color disabled = Colors.grey,
     Color weak = Colors.grey,
     Color outline = Colors.grey,
+    Color? outlineVariant,
     Color error = Colors.red,
     Color warning = Colors.amber,
     Color info = Colors.blue,
     Color success = Colors.green,
     Color? surface,
+    Color? surfaceVariant,
     Color? background,
     Color onPrimary = kWhiteColor,
     Color onSecondary = kWhiteColor,
@@ -508,6 +537,7 @@ class AppThemeData {
     Color onTertiaryContainer = kWhiteColor,
     Color onDisabled = kWhiteColor,
     Color? onSurface,
+    Color? onSurfaceVariant,
     Color? onBackground,
     Color onWeak = kWhiteColor,
     Color onError = kWhiteColor,
@@ -657,11 +687,13 @@ class AppThemeData {
           disabled: disabled,
           weak: weak,
           outline: outline,
+          outlineVariant: outlineVariant,
           error: error,
           warning: warning,
           info: info,
           success: success,
           surface: surface,
+          surfaceVariant: surfaceVariant,
           background: background,
           onPrimary: onPrimary,
           onSecondary: onSecondary,
@@ -671,6 +703,7 @@ class AppThemeData {
           onTertiaryContainer: onTertiaryContainer,
           onDisabled: onDisabled,
           onSurface: onSurface,
+          onSurfaceVariant: onSurfaceVariant,
           onBackground: onBackground,
           onWeak: onWeak,
           onError: onError,
@@ -765,11 +798,13 @@ class AppThemeData {
     Color disabled = Colors.grey,
     Color weak = Colors.grey,
     Color outline = Colors.grey,
+    Color? outlineVariant,
     Color error = Colors.red,
     Color warning = Colors.amber,
     Color info = Colors.blue,
     Color success = Colors.green,
     Color? surface,
+    Color? surfaceVariant,
     Color? background,
     Color onPrimary = kWhiteColor,
     Color onSecondary = kWhiteColor,
@@ -779,6 +814,7 @@ class AppThemeData {
     Color onTertiaryContainer = kWhiteColor,
     Color onDisabled = kWhiteColor,
     Color? onSurface,
+    Color? onSurfaceVariant,
     Color? onBackground,
     Color onWeak = kWhiteColor,
     Color onError = kWhiteColor,
@@ -928,11 +964,13 @@ class AppThemeData {
           disabled: disabled,
           weak: weak,
           outline: outline,
+          outlineVariant: outlineVariant,
           error: error,
           warning: warning,
           info: info,
           success: success,
           surface: surface,
+          surfaceVariant: surfaceVariant,
           background: background,
           onPrimary: onPrimary,
           onSecondary: onSecondary,
@@ -942,6 +980,7 @@ class AppThemeData {
           onTertiaryContainer: onTertiaryContainer,
           onDisabled: onDisabled,
           onSurface: onSurface,
+          onSurfaceVariant: onSurfaceVariant,
           onBackground: onBackground,
           onWeak: onWeak,
           onError: onError,
@@ -1756,11 +1795,13 @@ class ColorThemeData {
     required this.disabled,
     required this.weak,
     required this.outline,
+    required this.outlineVariant,
     required this.error,
     required this.warning,
     required this.info,
     required this.success,
     required this.surface,
+    required this.surfaceVariant,
     required this.background,
     required this.onPrimary,
     required this.onSecondary,
@@ -1770,6 +1811,7 @@ class ColorThemeData {
     required this.onTertiaryContainer,
     required this.onDisabled,
     required this.onSurface,
+    required this.onSurfaceVariant,
     required this.onBackground,
     required this.onWeak,
     required this.onError,
@@ -1878,6 +1920,15 @@ class ColorThemeData {
   ///   - https://m3.material.io/styles/color/the-color-system/color-roles
   final Color outline;
 
+  /// Alternative colors for Borderline and Divider.
+  ///
+  /// ボーダーラインやDivider用の代替色。
+  ///
+  /// See also:
+  ///
+  ///   - https://m3.material.io/styles/color/the-color-system/color-roles
+  final Color outlineVariant;
+
   /// Color for error.
   ///
   /// エラー用のカラー。
@@ -1922,6 +1973,15 @@ class ColorThemeData {
   ///
   ///   - https://m3.material.io/styles/color/the-color-system/color-roles
   final Color surface;
+
+  /// Alternate background color for dialogs, cards, etc.
+  ///
+  /// ダイアログやカードなどの背景の代替色。
+  ///
+  /// See also:
+  ///
+  ///   - https://m3.material.io/styles/color/the-color-system/color-roles
+  final Color surfaceVariant;
 
   /// Background color.
   ///
@@ -2003,6 +2063,15 @@ class ColorThemeData {
   ///
   ///   - https://m3.material.io/styles/color/the-color-system/color-roles
   final Color onSurface;
+
+  /// Color of text and icons on [surfaceVariant].
+  ///
+  /// [surfaceVariant]上のテキストやアイコンのカラー。
+  ///
+  /// See also:
+  ///
+  ///   - https://m3.material.io/styles/color/the-color-system/color-roles
+  final Color onSurfaceVariant;
 
   /// color of text and icons on [background]. Usually the text color.
   ///
