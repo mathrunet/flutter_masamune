@@ -1,3 +1,7 @@
+## 2.7.1
+
+ - Update a dependency to the latest release.
+
 ## 2.7.0
 
  - **FEAT**: OpenAIFile handling is enabled. ([e7130746](https://github.com/mathrunet/flutter_masamune/commit/e7130746c634a0279bdf05c14ccaee2d49a2ec4f))

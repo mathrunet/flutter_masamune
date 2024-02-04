@@ -1,3 +1,7 @@
+## 2.9.6
+
+ - Update a dependency to the latest release.
+
 ## 2.9.5
 
  - **FIX**: Asset.image with a header. ([73b18dda](https://github.com/mathrunet/flutter_masamune/commit/73b18dda7a470197341c176c4c4c065027a7b548))

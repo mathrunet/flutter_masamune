@@ -1,3 +1,7 @@
+## 2.15.4
+
+ - **FIX**: Fixed a bug in Navigation. ([3187db7c](https://github.com/mathrunet/flutter_masamune/commit/3187db7c25006dbc4ea0102bf94a3b6518706a5a))
+
 ## 2.15.3
 
  - **FIX**: Division of main.dart. ([ced0d883](https://github.com/mathrunet/flutter_masamune/commit/ced0d8830187639e7f10f6ce4f2cd28272b24c2e))

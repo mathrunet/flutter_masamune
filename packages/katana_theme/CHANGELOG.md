@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Added SurfaceVariant and others. ([3f432cab](https://github.com/mathrunet/flutter_masamune/commit/3f432cabcb755d007f37c4648b0375ef96d787f2))
+
 ## 2.3.1
 
  - **FIX**: Asset.image with a header. ([73b18dda](https://github.com/mathrunet/flutter_masamune/commit/73b18dda7a470197341c176c4c4c065027a7b548))
