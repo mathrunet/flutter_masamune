@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **FIX**: Support for FunctionType. ([71cc4dcf](https://github.com/mathrunet/flutter_masamune/commit/71cc4dcfe87a3eef061602c51bd36f5994c7d5d7))
+
 ## 2.1.1
 
  - Update a dependency to the latest release.

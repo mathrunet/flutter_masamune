@@ -1,3 +1,7 @@
+## 2.13.2
+
+ - Update a dependency to the latest release.
+
 ## 2.13.1
 
  - **FIX**: Unnecessary comments deleted. ([5d2aea31](https://github.com/mathrunet/flutter_masamune/commit/5d2aea313130306c35cef2795b7602b8be04a6d7))

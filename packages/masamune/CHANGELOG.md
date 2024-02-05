@@ -1,3 +1,7 @@
+## 2.9.8
+
+ - Update a dependency to the latest release.
+
 ## 2.9.7
 
  - **FIX**: Import of required packages. ([bf72c68e](https://github.com/mathrunet/flutter_masamune/commit/bf72c68ed25a889d371f8e1335e4fb083a6f6714))

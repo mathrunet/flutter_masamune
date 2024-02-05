@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - **FIX**: Annotation of useResult is given. ([89bb3f75](https://github.com/mathrunet/flutter_masamune/commit/89bb3f753901ebae000f304394a71aad100af504))
+
 ## 2.4.0
 
  - **FEAT**: Added SurfaceVariant and others. ([3f432cab](https://github.com/mathrunet/flutter_masamune/commit/3f432cabcb755d007f37c4648b0375ef96d787f2))
