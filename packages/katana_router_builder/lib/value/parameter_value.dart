@@ -25,7 +25,7 @@ class ParamaterValue {
         "`$name` is a prohibited word. This word cannot be set as a parameter. Please specify another name.",
       );
     }
-    type = element.type as InterfaceType;
+    type = element.type;
 
     if (_pageParamChecker.hasAnnotationOfExact(element)) {
       pageParamName = _pageParamChecker
@@ -76,7 +76,7 @@ class ParamaterValue {
   /// Parameter Type.
   ///
   /// パラメーターのタイプ。
-  late final InterfaceType type;
+  late final DartType type;
 
   /// Name of parameter.
   ///
