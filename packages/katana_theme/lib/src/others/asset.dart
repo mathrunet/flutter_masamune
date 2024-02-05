@@ -101,6 +101,7 @@ abstract class _TextProviderBuilderMixin {
   /// ファイルが見つからない場合、もしくは[uri]が`resource://`で始まる場合はFlutterのアセットフォルダからファイルを検索し、そのファイル内のテキストを取得します。
   ///
   /// [uri]が空の場合、もしくはテキストがなにかしらの原因で取得出来なかった場合は[defaultValue]が返されます。
+  @useResult
   TextProvider call(
     String? uri, {
     Map<String, String>? headers,
@@ -238,6 +239,7 @@ abstract class _ImageProviderBuilderMixin {
   /// [uri]が空の場合、もしくはテキストがなにかしらの原因で取得出来なかった場合はFlutterのアセットフォルダ内の[defaultAssetURI]に存在する画像ファイルが返されます。デフォルトは`assets/image.png`。
   ///
   /// ネットワーク上から画像を取得する際に[headers]でリクエストヘッダを付与することが可能です。
+  @useResult
   ImageProvider call(
     String? uri, {
     String defaultAssetURI = "assets/image.png",

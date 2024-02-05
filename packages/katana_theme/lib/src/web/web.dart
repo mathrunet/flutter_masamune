@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:convert';
 
 // Flutter imports:
+import 'package:meta/meta.dart';
 import 'package:flutter/src/painting/_network_image_web.dart' as network_image;
 import 'package:flutter/widgets.dart';
 
