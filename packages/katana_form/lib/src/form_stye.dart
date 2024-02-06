@@ -45,6 +45,7 @@ class FormStyle {
     this.prefix,
     this.suffix,
     this.elevation = 8.0,
+    this.borderStyle = FormInputBorderStyle.none,
   });
 
   /// Form Height.
@@ -137,6 +138,11 @@ class FormStyle {
   /// テキストの横方向の位置。
   final TextAlign textAlign;
 
+  /// Border style.
+  ///
+  /// ボーダースタイル。
+  final FormInputBorderStyle borderStyle;
+
   /// Border color.
   ///
   /// ボーダーの色。
@@ -215,10 +221,12 @@ class FormStyle {
     FormAffixStyle? suffix,
     TextAlignVertical? textAlignVertical,
     OutlinedBorder? shape,
+    FormInputBorderStyle? borderStyle,
     double? elevation,
   }) {
     return FormStyle(
       height: height ?? this.height,
+      borderStyle: borderStyle ?? this.borderStyle,
       width: width ?? this.width,
       alignment: alignment ?? this.alignment,
       borderRadius: borderRadius ?? this.borderRadius,
@@ -369,4 +377,24 @@ class FormAffixStyle {
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
+}
+
+/// Defines the style of the outer border of [InputBorder].
+///
+/// [InputBorder]の外枠のスタイルを定義します。
+enum FormInputBorderStyle {
+  /// No border.
+  ///
+  /// ボーダーなし。
+  none,
+
+  /// All of the outer frame.
+  ///
+  /// 外枠すべて。
+  outline,
+
+  /// Underlining only.
+  ///
+  /// 下線のみ。
+  underline;
 }

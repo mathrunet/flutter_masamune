@@ -263,13 +263,14 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
   Widget build(BuildContext context) {
     super.build(context);
 
+    final theme = Theme.of(context);
     final mainTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.color,
         ) ??
         TextStyle(
           color: widget.style?.color ??
-              Theme.of(context).textTheme.titleMedium?.color ??
-              Theme.of(context).colorScheme.onBackground,
+              theme.textTheme.titleMedium?.color ??
+              theme.colorScheme.onBackground,
         );
     final subTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.subColor,
@@ -277,12 +278,8 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
         TextStyle(
           color: widget.style?.subColor ??
               widget.style?.color?.withOpacity(0.5) ??
-              Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.color
-                  ?.withOpacity(0.5) ??
-              Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
+              theme.textTheme.titleMedium?.color?.withOpacity(0.5) ??
+              theme.colorScheme.onBackground.withOpacity(0.5),
         );
     final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
           color: widget.style?.errorColor,
@@ -291,28 +288,45 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
           color: widget.style?.errorColor,
         ) ??
         TextStyle(
-          color:
-              widget.style?.errorColor ?? Theme.of(context).colorScheme.error,
+          color: widget.style?.errorColor ?? theme.colorScheme.error,
         );
     final disabledTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.disabledColor,
         ) ??
         TextStyle(
-          color: widget.style?.disabledColor ?? Theme.of(context).disabledColor,
+          color: widget.style?.disabledColor ?? theme.disabledColor,
         );
-    final borderSide =
-        widget.style?.borderColor != null && widget.style?.borderWidth != null
-            ? OutlineInputBorder(
-                borderRadius: widget.style?.borderRadius ??
-                    const BorderRadius.all(Radius.circular(4.0)),
-                borderSide: BorderSide(
-                  color: widget.style!.borderColor!,
-                  width: widget.style!.borderWidth!,
+    InputBorder getBorderSide() {
+      switch (widget.style?.borderStyle) {
+        case FormInputBorderStyle.outline:
+          return OutlineInputBorder(
+            borderRadius: widget.style?.borderRadius ??
+                const BorderRadius.all(Radius.circular(4.0)),
+            borderSide: BorderSide(
+              color: widget.style?.borderColor ?? theme.dividerColor,
+              width: widget.style?.borderWidth ?? 1.0,
+            ),
+          );
+        case FormInputBorderStyle.underline:
+          return UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: widget.style?.borderColor ?? theme.dividerColor,
+              width: widget.style?.borderWidth ?? 1.0,
+            ),
+            borderRadius: widget.style?.borderRadius ??
+                const BorderRadius.only(
+                  topLeft: Radius.circular(4.0),
+                  topRight: Radius.circular(4.0),
                 ),
-              )
-            : const OutlineInputBorder(
-                borderSide: BorderSide.none,
-              );
+          );
+        default:
+          return const OutlineInputBorder(
+            borderSide: BorderSide.none,
+          );
+      }
+    }
+
+    final borderSide = getBorderSide();
 
     return Container(
       alignment: widget.style?.alignment,
@@ -340,7 +354,7 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
                       widget.hintText!,
                       style: widget.enabled
                           ? mainTextStyle.copyWith(
-                              color: Theme.of(context).disabledColor,
+                              color: theme.disabledColor,
                             )
                           : disabledTextStyle,
                     )
@@ -402,14 +416,14 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
               iconEnabledColor: widget.enabled
                   ? mainTextStyle.color
                   : disabledTextStyle.color,
-              iconDisabledColor: Theme.of(context).disabledColor,
+              iconDisabledColor: theme.disabledColor,
               iconSize: 24,
               isDense: true,
               isExpanded: widget.expanded,
               itemHeight: widget.style?.height,
               selectedItemBuilder: widget.picker.build,
-              dropdownColor: widget.picker.backgroundColor ??
-                  Theme.of(context).colorScheme.surface,
+              dropdownColor:
+                  widget.picker.backgroundColor ?? theme.colorScheme.surface,
               items: widget.picker.data.toList((key, value) {
                 return DropdownMenuItem(
                   value: key,
@@ -417,8 +431,7 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
                     value,
                     softWrap: true,
                     style: TextStyle(
-                      color: widget.picker.color ??
-                          Theme.of(context).colorScheme.onSurface,
+                      color: widget.picker.color ?? theme.colorScheme.onSurface,
                     ),
                   ),
                 );
@@ -487,6 +500,7 @@ class FormMapDropdownFieldPicker {
   /// [context]に[BuildContext]が渡されます。
   List<Widget> build(BuildContext context) {
     final keys = data.keys.toList();
+    final theme = Theme.of(context);
     return keys.map((key) {
       return Container(
         color: Colors.transparent,
@@ -495,7 +509,7 @@ class FormMapDropdownFieldPicker {
           data[key] ?? "",
           softWrap: true,
           style: TextStyle(
-            color: color ?? Theme.of(context).colorScheme.onSurface,
+            color: color ?? theme.colorScheme.onSurface,
           ),
         ),
       );

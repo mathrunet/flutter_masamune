@@ -346,13 +346,14 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final theme = Theme.of(context);
     final mainTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.color,
         ) ??
         TextStyle(
           color: widget.style?.color ??
-              Theme.of(context).textTheme.titleMedium?.color ??
-              Theme.of(context).colorScheme.onBackground,
+              theme.textTheme.titleMedium?.color ??
+              theme.colorScheme.onBackground,
         );
     final subTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.subColor,
@@ -360,12 +361,8 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
         TextStyle(
           color: widget.style?.subColor ??
               widget.style?.color?.withOpacity(0.5) ??
-              Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.color
-                  ?.withOpacity(0.5) ??
-              Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
+              theme.textTheme.titleMedium?.color?.withOpacity(0.5) ??
+              theme.colorScheme.onBackground.withOpacity(0.5),
         );
     final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
           color: widget.style?.errorColor,
@@ -374,28 +371,45 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
           color: widget.style?.errorColor,
         ) ??
         TextStyle(
-          color:
-              widget.style?.errorColor ?? Theme.of(context).colorScheme.error,
+          color: widget.style?.errorColor ?? theme.colorScheme.error,
         );
     final disabledTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.disabledColor,
         ) ??
         TextStyle(
-          color: widget.style?.disabledColor ?? Theme.of(context).disabledColor,
+          color: widget.style?.disabledColor ?? theme.disabledColor,
         );
-    final borderSide =
-        widget.style?.borderColor != null && widget.style?.borderWidth != null
-            ? OutlineInputBorder(
-                borderRadius: widget.style?.borderRadius ??
-                    const BorderRadius.all(Radius.circular(4.0)),
-                borderSide: BorderSide(
-                  color: widget.style!.borderColor!,
-                  width: widget.style!.borderWidth!,
+    InputBorder getBorderSide() {
+      switch (widget.style?.borderStyle) {
+        case FormInputBorderStyle.outline:
+          return OutlineInputBorder(
+            borderRadius: widget.style?.borderRadius ??
+                const BorderRadius.all(Radius.circular(4.0)),
+            borderSide: BorderSide(
+              color: widget.style?.borderColor ?? theme.dividerColor,
+              width: widget.style?.borderWidth ?? 1.0,
+            ),
+          );
+        case FormInputBorderStyle.underline:
+          return UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: widget.style?.borderColor ?? theme.dividerColor,
+              width: widget.style?.borderWidth ?? 1.0,
+            ),
+            borderRadius: widget.style?.borderRadius ??
+                const BorderRadius.only(
+                  topLeft: Radius.circular(4.0),
+                  topRight: Radius.circular(4.0),
                 ),
-              )
-            : const OutlineInputBorder(
-                borderSide: BorderSide.none,
-              );
+          );
+        default:
+          return const OutlineInputBorder(
+            borderSide: BorderSide.none,
+          );
+      }
+    }
+
+    final borderSide = getBorderSide();
 
     return Container(
       alignment: widget.style?.alignment,
@@ -862,6 +876,7 @@ class FormDateTimeFieldDateTimeDelegate extends FormDateTimeFieldDelegate {
     BuildContext context,
     DateTime currentDateTime,
   ) async {
+    final theme = Theme.of(context);
     final now = defaultDateTime ?? DateTime.now();
     final date = await showDatePicker(
       context: context,
@@ -881,11 +896,11 @@ class FormDateTimeFieldDateTimeDelegate extends FormDateTimeFieldDelegate {
             const Duration(days: 365),
           ),
       builder: (context, child) {
-        final colorScheme = Theme.of(context).colorScheme;
-        final datePickerTheme = Theme.of(context).datePickerTheme;
-        final textButtonTheme = Theme.of(context).textButtonTheme;
+        final colorScheme = theme.colorScheme;
+        final datePickerTheme = theme.datePickerTheme;
+        final textButtonTheme = theme.textButtonTheme;
         return Theme(
-          data: Theme.of(context).copyWith(
+          data: theme.copyWith(
             colorScheme: colorScheme.copyWith(
               primary: primaryColor ?? colorScheme.primary,
               onPrimary: onPrimaryColor ?? colorScheme.onPrimary,
@@ -995,6 +1010,7 @@ class FormDateTimeFieldDateDelegate extends FormDateTimeFieldDelegate {
     BuildContext context,
     DateTime currentDateTime,
   ) async {
+    final theme = Theme.of(context);
     final now = defaultDateTime ?? startDate ?? endDate ?? DateTime.now();
     final date = await showDatePicker(
       context: context,
@@ -1014,11 +1030,11 @@ class FormDateTimeFieldDateDelegate extends FormDateTimeFieldDelegate {
             const Duration(days: 365),
           ),
       builder: (context, child) {
-        final colorScheme = Theme.of(context).colorScheme;
-        final datePickerTheme = Theme.of(context).datePickerTheme;
-        final textButtonTheme = Theme.of(context).textButtonTheme;
+        final colorScheme = theme.colorScheme;
+        final datePickerTheme = theme.datePickerTheme;
+        final textButtonTheme = theme.textButtonTheme;
         return Theme(
-          data: Theme.of(context).copyWith(
+          data: theme.copyWith(
             colorScheme: colorScheme.copyWith(
               primary: primaryColor ?? colorScheme.primary,
               onPrimary: onPrimaryColor ?? colorScheme.onPrimary,

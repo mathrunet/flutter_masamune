@@ -329,13 +329,14 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
   Widget build(BuildContext context) {
     super.build(context);
 
+    final theme = Theme.of(context);
     final mainTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.color,
         ) ??
         TextStyle(
           color: widget.style?.color ??
-              Theme.of(context).textTheme.titleMedium?.color ??
-              Theme.of(context).colorScheme.onBackground,
+              theme.textTheme.titleMedium?.color ??
+              theme.colorScheme.onBackground,
         );
     final subTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.subColor,
@@ -343,12 +344,12 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
         TextStyle(
           color: widget.style?.subColor ??
               widget.style?.color?.withOpacity(0.5) ??
-              Theme.of(context)
+              theme
                   .textTheme
                   .titleMedium
                   ?.color
                   ?.withOpacity(0.5) ??
-              Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
+              theme.colorScheme.onBackground.withOpacity(0.5),
         );
     final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
           color: widget.style?.errorColor,
@@ -358,27 +359,45 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
         ) ??
         TextStyle(
           color:
-              widget.style?.errorColor ?? Theme.of(context).colorScheme.error,
+              widget.style?.errorColor ?? theme.colorScheme.error,
         );
     final disabledTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.disabledColor,
         ) ??
         TextStyle(
-          color: widget.style?.disabledColor ?? Theme.of(context).disabledColor,
+          color: widget.style?.disabledColor ?? theme.disabledColor,
         );
-    final borderSide =
-        widget.style?.borderColor != null && widget.style?.borderWidth != null
-            ? OutlineInputBorder(
-                borderRadius: widget.style?.borderRadius ??
-                    const BorderRadius.all(Radius.circular(4.0)),
-                borderSide: BorderSide(
-                  color: widget.style!.borderColor!,
-                  width: widget.style!.borderWidth!,
+    InputBorder getBorderSide() {
+      switch (widget.style?.borderStyle) {
+        case FormInputBorderStyle.outline:
+          return OutlineInputBorder(
+            borderRadius: widget.style?.borderRadius ??
+                const BorderRadius.all(Radius.circular(4.0)),
+            borderSide: BorderSide(
+              color: widget.style?.borderColor ?? theme.dividerColor,
+              width: widget.style?.borderWidth ?? 1.0,
+            ),
+          );
+        case FormInputBorderStyle.underline:
+          return UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: widget.style?.borderColor ?? theme.dividerColor,
+              width: widget.style?.borderWidth ?? 1.0,
+            ),
+            borderRadius: widget.style?.borderRadius ??
+                const BorderRadius.only(
+                  topLeft: Radius.circular(4.0),
+                  topRight: Radius.circular(4.0),
                 ),
-              )
-            : const OutlineInputBorder(
-                borderSide: BorderSide.none,
-              );
+          );
+        default:
+          return const OutlineInputBorder(
+            borderSide: BorderSide.none,
+          );
+      }
+    }
+
+    final borderSide = getBorderSide();
 
     return Container(
       alignment: widget.style?.alignment,

@@ -497,13 +497,14 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final theme = Theme.of(context);
     final mainTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.color,
         ) ??
         TextStyle(
           color: widget.style?.color ??
-              Theme.of(context).textTheme.titleMedium?.color ??
-              Theme.of(context).colorScheme.onBackground,
+              theme.textTheme.titleMedium?.color ??
+              theme.colorScheme.onBackground,
         );
     final subTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.subColor,
@@ -511,12 +512,8 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
         TextStyle(
           color: widget.style?.subColor ??
               widget.style?.color?.withOpacity(0.5) ??
-              Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.color
-                  ?.withOpacity(0.5) ??
-              Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
+              theme.textTheme.titleMedium?.color?.withOpacity(0.5) ??
+              theme.colorScheme.onBackground.withOpacity(0.5),
         );
     final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
           color: widget.style?.errorColor,
@@ -525,28 +522,45 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
           color: widget.style?.errorColor,
         ) ??
         TextStyle(
-          color:
-              widget.style?.errorColor ?? Theme.of(context).colorScheme.error,
+          color: widget.style?.errorColor ?? theme.colorScheme.error,
         );
     final disabledTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.disabledColor,
         ) ??
         TextStyle(
-          color: widget.style?.disabledColor ?? Theme.of(context).disabledColor,
+          color: widget.style?.disabledColor ?? theme.disabledColor,
         );
-    final borderSide =
-        widget.style?.borderColor != null && widget.style?.borderWidth != null
-            ? OutlineInputBorder(
-                borderRadius: widget.style?.borderRadius ??
-                    const BorderRadius.all(Radius.circular(4.0)),
-                borderSide: BorderSide(
-                  color: widget.style!.borderColor!,
-                  width: widget.style!.borderWidth!,
+    InputBorder getBorderSide() {
+      switch (widget.style?.borderStyle) {
+        case FormInputBorderStyle.outline:
+          return OutlineInputBorder(
+            borderRadius: widget.style?.borderRadius ??
+                const BorderRadius.all(Radius.circular(4.0)),
+            borderSide: BorderSide(
+              color: widget.style?.borderColor ?? theme.dividerColor,
+              width: widget.style?.borderWidth ?? 1.0,
+            ),
+          );
+        case FormInputBorderStyle.underline:
+          return UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: widget.style?.borderColor ?? theme.dividerColor,
+              width: widget.style?.borderWidth ?? 1.0,
+            ),
+            borderRadius: widget.style?.borderRadius ??
+                const BorderRadius.only(
+                  topLeft: Radius.circular(4.0),
+                  topRight: Radius.circular(4.0),
                 ),
-              )
-            : const OutlineInputBorder(
-                borderSide: BorderSide.none,
-              );
+          );
+        default:
+          return const OutlineInputBorder(
+            borderSide: BorderSide.none,
+          );
+      }
+    }
+
+    final borderSide = getBorderSide();
 
     return _SuggestionOverlayBuilder(
       items: widget.suggestion,
@@ -824,6 +838,7 @@ class _SuggestionOverlayBuilderState extends State<_SuggestionOverlayBuilder> {
     if (itemBox == null) {
       return;
     }
+    final theme = Theme.of(context);
     final textFieldSize = itemBox.size;
     final width = textFieldSize.width;
     final height = textFieldSize.height;
@@ -853,8 +868,7 @@ class _SuggestionOverlayBuilderState extends State<_SuggestionOverlayBuilder> {
                 width: width,
                 child: _SuggestionOverlay(
                   items: widget.items,
-                  color: widget.style.color ??
-                      Theme.of(context).colorScheme.onSurface,
+                  color: widget.style.color ?? theme.colorScheme.onSurface,
                   offset: Offset(
                     widget.style.offset.dx,
                     up
@@ -866,8 +880,8 @@ class _SuggestionOverlayBuilderState extends State<_SuggestionOverlayBuilder> {
                   maxHeight: widget.style.maxHeight,
                   direction: up ? VerticalDirection.up : VerticalDirection.down,
                   onDeleteSuggestion: widget.onDeleteSuggestion,
-                  backgroundColor: widget.style.backgroundColor ??
-                      Theme.of(context).colorScheme.surface,
+                  backgroundColor:
+                      widget.style.backgroundColor ?? theme.colorScheme.surface,
                   controller: _effectiveController!,
                   elevation: widget.style.elevation,
                   onTap: () {

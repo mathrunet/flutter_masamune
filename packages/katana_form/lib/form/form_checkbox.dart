@@ -115,13 +115,14 @@ class FormCheckbox<TValue> extends FormField<bool> {
             form!.value = res;
           },
           builder: (field) {
+            final theme = Theme.of(field.context);
             final mainTextStyle = style?.textStyle?.copyWith(
                   color: style.color,
                 ) ??
                 TextStyle(
                   color: style?.color ??
-                      Theme.of(field.context).textTheme.titleMedium?.color ??
-                      Theme.of(field.context).colorScheme.onBackground,
+                      theme.textTheme.titleMedium?.color ??
+                      theme.colorScheme.onBackground,
                 );
             final subTextStyle = style?.textStyle?.copyWith(
                   color: style.subColor,
@@ -129,15 +130,8 @@ class FormCheckbox<TValue> extends FormField<bool> {
                 TextStyle(
                   color: style?.subColor ??
                       style?.color?.withOpacity(0.5) ??
-                      Theme.of(field.context)
-                          .textTheme
-                          .titleMedium
-                          ?.color
-                          ?.withOpacity(0.5) ??
-                      Theme.of(field.context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.5),
+                      theme.textTheme.titleMedium?.color?.withOpacity(0.5) ??
+                      theme.colorScheme.onBackground.withOpacity(0.5),
                 );
             final errorTextStyle = style?.errorTextStyle?.copyWith(
                   color: style.errorColor,
@@ -146,35 +140,53 @@ class FormCheckbox<TValue> extends FormField<bool> {
                   color: style.errorColor,
                 ) ??
                 TextStyle(
-                  color: style?.errorColor ??
-                      Theme.of(field.context).colorScheme.error,
+                  color: style?.errorColor ?? theme.colorScheme.error,
                 );
             final disabledTextStyle = style?.textStyle?.copyWith(
                   color: style.disabledColor,
                 ) ??
                 TextStyle(
-                  color: style?.disabledColor ??
-                      Theme.of(field.context).disabledColor,
+                  color: style?.disabledColor ?? theme.disabledColor,
                 );
             final border = BorderSide(
               width: style?.borderWidth ?? kDefaultCheckboxBorderWidth,
               color: style?.borderColor ??
                   style?.disabledBackgroundColor ??
-                  Theme.of(field.context).disabledColor,
+                  theme.disabledColor,
             );
-            final borderSide =
-                style?.borderColor != null && style?.borderWidth != null
-                    ? OutlineInputBorder(
-                        borderRadius: style?.borderRadius ??
-                            const BorderRadius.all(Radius.circular(4.0)),
-                        borderSide: BorderSide(
-                          color: style!.borderColor!,
-                          width: style.borderWidth!,
+
+            InputBorder getBorderSide() {
+              switch (style?.borderStyle) {
+                case FormInputBorderStyle.outline:
+                  return OutlineInputBorder(
+                    borderRadius: style?.borderRadius ??
+                        const BorderRadius.all(Radius.circular(4.0)),
+                    borderSide: BorderSide(
+                      color: style?.borderColor ?? theme.dividerColor,
+                      width: style?.borderWidth ?? 1.0,
+                    ),
+                  );
+                case FormInputBorderStyle.underline:
+                  return UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: style?.borderColor ?? theme.dividerColor,
+                      width: style?.borderWidth ?? 1.0,
+                    ),
+                    borderRadius: style?.borderRadius ??
+                        const BorderRadius.only(
+                          topLeft: Radius.circular(4.0),
+                          topRight: Radius.circular(4.0),
                         ),
-                      )
-                    : const OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                      );
+                  );
+                default:
+                  return const OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                  );
+              }
+            }
+
+            final borderSide = getBorderSide();
+
             final checkbox = Checkbox(
               value: field.value ?? false,
               tristate: false,
@@ -182,21 +194,17 @@ class FormCheckbox<TValue> extends FormField<bool> {
                   enabled && !readOnly ? (val) => field.didChange(val) : null,
               fillColor: MaterialStateProperty.resolveWith((states) {
                 if (!readOnly && states.contains(MaterialState.disabled)) {
-                  return style?.disabledBackgroundColor ??
-                      Theme.of(field.context).disabledColor;
+                  return style?.disabledBackgroundColor ?? theme.disabledColor;
                 }
                 if (states.contains(MaterialState.selected)) {
                   return style?.activeBackgroundColor ??
-                      Theme.of(field.context).colorScheme.primary;
+                      theme.colorScheme.primary;
                 }
-                return style?.backgroundColor ??
-                    Theme.of(field.context).colorScheme.background;
+                return style?.backgroundColor ?? theme.colorScheme.background;
               }),
               checkColor: enabled
-                  ? (style?.activeColor ??
-                      Theme.of(field.context).colorScheme.onPrimary)
-                  : (style?.disabledColor ??
-                      Theme.of(field.context).colorScheme.onBackground),
+                  ? (style?.activeColor ?? theme.colorScheme.onPrimary)
+                  : (style?.disabledColor ?? theme.colorScheme.onBackground),
               side: enabled
                   ? style?.border?.borderSide ?? border
                   : style?.disabledBorder?.borderSide ?? border,

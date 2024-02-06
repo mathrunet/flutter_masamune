@@ -374,13 +374,14 @@ class _FormDurationFieldState<TValue> extends State<FormDurationField<TValue>>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final theme = Theme.of(context);
     final mainTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.color,
         ) ??
         TextStyle(
           color: widget.style?.color ??
-              Theme.of(context).textTheme.titleMedium?.color ??
-              Theme.of(context).colorScheme.onBackground,
+              theme.textTheme.titleMedium?.color ??
+              theme.colorScheme.onBackground,
         );
     final subTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.subColor,
@@ -388,12 +389,8 @@ class _FormDurationFieldState<TValue> extends State<FormDurationField<TValue>>
         TextStyle(
           color: widget.style?.subColor ??
               widget.style?.color?.withOpacity(0.5) ??
-              Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.color
-                  ?.withOpacity(0.5) ??
-              Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
+              theme.textTheme.titleMedium?.color?.withOpacity(0.5) ??
+              theme.colorScheme.onBackground.withOpacity(0.5),
         );
     final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
           color: widget.style?.errorColor,
@@ -402,28 +399,45 @@ class _FormDurationFieldState<TValue> extends State<FormDurationField<TValue>>
           color: widget.style?.errorColor,
         ) ??
         TextStyle(
-          color:
-              widget.style?.errorColor ?? Theme.of(context).colorScheme.error,
+          color: widget.style?.errorColor ?? theme.colorScheme.error,
         );
     final disabledTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.disabledColor,
         ) ??
         TextStyle(
-          color: widget.style?.disabledColor ?? Theme.of(context).disabledColor,
+          color: widget.style?.disabledColor ?? theme.disabledColor,
         );
-    final borderSide =
-        widget.style?.borderColor != null && widget.style?.borderWidth != null
-            ? OutlineInputBorder(
-                borderRadius: widget.style?.borderRadius ??
-                    const BorderRadius.all(Radius.circular(4.0)),
-                borderSide: BorderSide(
-                  color: widget.style!.borderColor!,
-                  width: widget.style!.borderWidth!,
+    InputBorder getBorderSide() {
+      switch (widget.style?.borderStyle) {
+        case FormInputBorderStyle.outline:
+          return OutlineInputBorder(
+            borderRadius: widget.style?.borderRadius ??
+                const BorderRadius.all(Radius.circular(4.0)),
+            borderSide: BorderSide(
+              color: widget.style?.borderColor ?? theme.dividerColor,
+              width: widget.style?.borderWidth ?? 1.0,
+            ),
+          );
+        case FormInputBorderStyle.underline:
+          return UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: widget.style?.borderColor ?? theme.dividerColor,
+              width: widget.style?.borderWidth ?? 1.0,
+            ),
+            borderRadius: widget.style?.borderRadius ??
+                const BorderRadius.only(
+                  topLeft: Radius.circular(4.0),
+                  topRight: Radius.circular(4.0),
                 ),
-              )
-            : const OutlineInputBorder(
-                borderSide: BorderSide.none,
-              );
+          );
+        default:
+          return const OutlineInputBorder(
+            borderSide: BorderSide.none,
+          );
+      }
+    }
+
+    final borderSide = getBorderSide();
 
     return Container(
       alignment: widget.style?.alignment,
@@ -957,6 +971,7 @@ class FormDurationFieldPicker {
       "[begin] must be before [end].",
     );
     Duration? res;
+    final theme = Theme.of(context);
     final enableDays = (begin?.inDays ?? 0) > 0 || (end?.inDays ?? 0) > 0;
     final selectedDay = (currentDuration?.inDays ??
         defaultDuration?.inDays ??
@@ -991,7 +1006,7 @@ class FormDurationFieldPicker {
           text: Text(
             "$s$secondSuffix",
             style: TextStyle(
-              color: color ?? Theme.of(context).colorScheme.onSurface,
+              color: color ?? theme.colorScheme.onSurface,
             ),
           ),
           value: s,
@@ -1009,7 +1024,7 @@ class FormDurationFieldPicker {
             text: Text(
               "$m$minuteSuffix",
               style: TextStyle(
-                color: color ?? Theme.of(context).colorScheme.onSurface,
+                color: color ?? theme.colorScheme.onSurface,
               ),
             ),
             value: m,
@@ -1028,7 +1043,7 @@ class FormDurationFieldPicker {
               text: Text(
                 "$h$hourSuffix",
                 style: TextStyle(
-                  color: color ?? Theme.of(context).colorScheme.onSurface,
+                  color: color ?? theme.colorScheme.onSurface,
                 ),
               ),
               value: h,
@@ -1045,7 +1060,7 @@ class FormDurationFieldPicker {
                 text: Text(
                   "$d$daySuffix",
                   style: TextStyle(
-                    color: color ?? Theme.of(context).colorScheme.onSurface,
+                    color: color ?? theme.colorScheme.onSurface,
                   ),
                 ),
                 value: d,
@@ -1058,11 +1073,10 @@ class FormDurationFieldPicker {
     }
     await Picker(
       height: 240,
-      backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.surface,
-      containerColor: backgroundColor ?? Theme.of(context).colorScheme.surface,
-      headerColor: backgroundColor ?? Theme.of(context).colorScheme.surface,
-      textStyle:
-          TextStyle(color: color ?? Theme.of(context).colorScheme.onSurface),
+      backgroundColor: backgroundColor ?? theme.colorScheme.surface,
+      containerColor: backgroundColor ?? theme.colorScheme.surface,
+      headerColor: backgroundColor ?? theme.colorScheme.surface,
+      textStyle: TextStyle(color: color ?? theme.colorScheme.onSurface),
       confirmText: confirmText,
       cancelText: cancelText,
       selecteds: [

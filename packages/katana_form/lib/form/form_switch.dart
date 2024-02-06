@@ -110,6 +110,7 @@ class FormSwitch<TValue> extends FormField<bool> {
             form!.value = res;
           },
           builder: (field) {
+            final theme = Theme.of(field.context);
             final mainTextStyle = style?.textStyle?.copyWith(
                   color: style.color,
                 ) ??
@@ -151,19 +152,37 @@ class FormSwitch<TValue> extends FormField<bool> {
                   color: style?.disabledColor ??
                       Theme.of(field.context).disabledColor,
                 );
-            final borderSide =
-                style?.borderColor != null && style?.borderWidth != null
-                    ? OutlineInputBorder(
-                        borderRadius: style?.borderRadius ??
-                            const BorderRadius.all(Radius.circular(4.0)),
-                        borderSide: BorderSide(
-                          color: style!.borderColor!,
-                          width: style.borderWidth!,
+            InputBorder getBorderSide() {
+              switch (style?.borderStyle) {
+                case FormInputBorderStyle.outline:
+                  return OutlineInputBorder(
+                    borderRadius: style?.borderRadius ??
+                        const BorderRadius.all(Radius.circular(4.0)),
+                    borderSide: BorderSide(
+                      color: style?.borderColor ?? theme.dividerColor,
+                      width: style?.borderWidth ?? 1.0,
+                    ),
+                  );
+                case FormInputBorderStyle.underline:
+                  return UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: style?.borderColor ?? theme.dividerColor,
+                      width: style?.borderWidth ?? 1.0,
+                    ),
+                    borderRadius: style?.borderRadius ??
+                        const BorderRadius.only(
+                          topLeft: Radius.circular(4.0),
+                          topRight: Radius.circular(4.0),
                         ),
-                      )
-                    : const OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                      );
+                  );
+                default:
+                  return const OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                  );
+              }
+            }
+
+            final borderSide = getBorderSide();
             final switchForm = Switch(
               value: field.value ?? false,
               onChanged:

@@ -19,36 +19,36 @@ class FormPasswordVisible extends StatefulWidget {
     super.key,
     required this.builder,
     this.switcherBuilder,
-    this.padding = const EdgeInsets.only(right: 16),
+    this.padding,
   });
 
   /// Text field padding.
   ///
   /// テキストフィールドのパディング。
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
 
   /// Builder for text fields.
   ///
-  /// Display the password when [visible] is `true`.
+  /// Display the password when [obscure] is `false`.
   ///
   /// テキストフィールド用のビルダー。
   ///
-  /// [visible]が`true`のときにパスワードを表示します。
-  final Widget Function(BuildContext context, bool visible) builder;
+  /// [obscure]が`false`のときにパスワードを表示します。
+  final Widget Function(BuildContext context, bool obscure) builder;
 
   /// Builder for password visualization toggle switch.
   ///
-  /// Display the password when [visible] is `true`.
+  /// Display the password when [obscure] is `false`.
   ///
-  /// Calling [onSwitch] inverts the value of [visible].
+  /// Calling [onSwitch] inverts the value of [obscure].
   ///
   /// パスワード可視化のトグルスイッチのためのビルダー。
   ///
-  /// [visible]が`true`のときにパスワードを表示します。
+  /// [obscure]が`false`のときにパスワードを表示します。
   ///
-  /// [onSwitch]を呼び出すと、[visible]の値が反転します。
+  /// [onSwitch]を呼び出すと、[obscure]の値が反転します。
   final Widget Function(
-          BuildContext context, bool visible, VoidCallback onSwitch)?
+          BuildContext context, bool obscure, VoidCallback onSwitch)?
       switcherBuilder;
 
   @override
@@ -56,11 +56,11 @@ class FormPasswordVisible extends StatefulWidget {
 }
 
 class _FormPasswordVisibleState extends State<FormPasswordVisible> {
-  bool _visible = false;
+  bool _obscure = true;
 
   void _onSwitch() {
     setState(() {
-      _visible = !_visible;
+      _obscure = !_obscure;
     });
   }
 
@@ -71,7 +71,7 @@ class _FormPasswordVisibleState extends State<FormPasswordVisible> {
         alignment: Alignment.centerRight,
         child: IconButton(
           icon: Icon(
-            _visible ? Icons.visibility : Icons.visibility_off,
+            !_obscure ? Icons.visibility : Icons.visibility_off,
           ),
           onPressed: _onSwitch,
           visualDensity: VisualDensity.compact,
@@ -91,12 +91,12 @@ class _FormPasswordVisibleState extends State<FormPasswordVisible> {
     return Stack(
       children: [
         Padding(
-          padding: widget.padding,
-          child: widget.builder(context, !_visible),
+          padding: widget.padding ?? EdgeInsets.zero,
+          child: widget.builder(context, _obscure),
         ),
         widget.switcherBuilder?.call(
               context,
-              !_visible,
+              _obscure,
               _onSwitch,
             ) ??
             _buildSwitcher(context)
