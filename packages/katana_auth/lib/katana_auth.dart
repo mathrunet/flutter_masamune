@@ -32,6 +32,7 @@ export 'src/others/others.dart'
 part 'adapter/runtime_auth_adapter.dart';
 part 'adapter/local_auth_adapter.dart';
 
+part 'provider/direct_auth_query.dart';
 part 'provider/anonymously_auth_query.dart';
 part 'provider/email_and_password_auth_query.dart';
 part 'provider/email_link_auth_query.dart';

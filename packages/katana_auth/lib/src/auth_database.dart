@@ -493,7 +493,42 @@ class AuthDatabase {
   }) async {
     await _initialize();
     final accounts = _data._getAccounts();
-    if (provider is AnonymouslySignInAuthProvider ||
+    if (provider is DirectSignInAuthProvider) {
+      final active = this.active;
+      if (active.isEmpty) {
+        final current = _data._getCurrent();
+        final userId = current.get(userIdKey, "");
+        if (userId.isEmpty) {
+          final userId = provider.userId;
+          _data._setAccount(userId, {
+            userIdKey: userId,
+            activeProvidersKey: [provider.providerId].distinct(),
+          });
+          _data._setCurrent(userId);
+          _activeId = userId;
+        } else {
+          final current = _data._getAccount(userId);
+          _data._setAccount(userId, {
+            ...current,
+            activeProvidersKey: [
+              ...current.getAsList(activeProvidersKey),
+              provider.providerId
+            ].distinct(),
+          });
+          _activeId = userId;
+        }
+      } else {
+        final userId = _activeId!;
+        final current = _data._getAccount(userId);
+        _data._setAccount(userId, {
+          ...current,
+          activeProvidersKey: [
+            ...current.getAsList(activeProvidersKey),
+            provider.providerId
+          ].distinct(),
+        });
+      }
+    } else if (provider is AnonymouslySignInAuthProvider ||
         provider is SnsSignInAuthProvider) {
       final active = this.active;
       if (active.isEmpty) {

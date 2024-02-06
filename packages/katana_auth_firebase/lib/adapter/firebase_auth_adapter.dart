@@ -483,7 +483,11 @@ class FirebaseAuthAdapter extends AuthAdapter {
     required SignInAuthProvider provider,
     required VoidCallback onUserStateChanged,
   }) async {
-    if (provider is AnonymouslySignInAuthProvider) {
+    if (provider is DirectSignInAuthProvider) {
+      throw Exception(
+        "This provider is not supported: ${provider.providerId}",
+      );
+    } else if (provider is AnonymouslySignInAuthProvider) {
       await _prepareProcessInternal();
       if (_user != null && _user!.uid.isNotEmpty) {
         return;
