@@ -1,3 +1,7 @@
+## 2.12.0
+
+ - **FEAT**: FormStyle type can now be selected. ([fe88ce24](https://github.com/mathrunet/flutter_masamune/commit/fe88ce241d5974e15f6d6a7d9ded7a268e9f861d))
+
 ## 2.11.0
 
  - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))

@@ -3,6 +3,108 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-02-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth` - `v2.5.0`](#katana_auth---v250)
+ - [`katana_auth_firebase` - `v2.4.0`](#katana_auth_firebase---v240)
+ - [`katana_form` - `v2.12.0`](#katana_form---v2120)
+ - [`masamune` - `v2.9.9`](#masamune---v299)
+ - [`masamune_location_platform_interface` - `v2.3.12`](#masamune_location_platform_interface---v2312)
+ - [`masamune_location` - `v2.3.12`](#masamune_location---v2312)
+ - [`masamune_location_geocoding` - `v2.4.12`](#masamune_location_geocoding---v2412)
+ - [`masamune_deeplink_firebase` - `v2.2.12`](#masamune_deeplink_firebase---v2212)
+ - [`masamune_auth_apple` - `v2.3.12`](#masamune_auth_apple---v2312)
+ - [`masamune_model_algolia` - `v2.4.6`](#masamune_model_algolia---v246)
+ - [`masamune_location_background` - `v2.4.12`](#masamune_location_background---v2412)
+ - [`masamune_scheduler` - `v2.2.12`](#masamune_scheduler---v2212)
+ - [`masamune_ai_openai` - `v2.7.4`](#masamune_ai_openai---v274)
+ - [`masamune_text_to_speech` - `v2.2.13`](#masamune_text_to_speech---v2213)
+ - [`masamune_auth_google` - `v2.3.12`](#masamune_auth_google---v2312)
+ - [`masamune_module_chat_system` - `v2.1.5`](#masamune_module_chat_system---v215)
+ - [`masamune_agora` - `v2.4.12`](#masamune_agora---v2412)
+ - [`masamune_calendar` - `v2.2.12`](#masamune_calendar---v2212)
+ - [`masamune_picker` - `v2.2.12`](#masamune_picker---v2212)
+ - [`masamune_util` - `v2.2.12`](#masamune_util---v2212)
+ - [`masamune_universal_ui` - `v2.3.12`](#masamune_universal_ui---v2312)
+ - [`masamune_purchase_stripe` - `v3.5.9`](#masamune_purchase_stripe---v359)
+ - [`masamune_notification` - `v2.5.9`](#masamune_notification---v259)
+ - [`masamune_logger_firebase` - `v2.2.9`](#masamune_logger_firebase---v229)
+ - [`masamune_introduction` - `v2.4.9`](#masamune_introduction---v249)
+ - [`masamune_deeplink` - `v2.2.12`](#masamune_deeplink---v2212)
+ - [`masamune_speech_to_text` - `v2.2.13`](#masamune_speech_to_text---v2213)
+ - [`masamune_force_updater` - `v2.1.12`](#masamune_force_updater---v2112)
+ - [`masamune_location_google` - `v2.4.12`](#masamune_location_google---v2412)
+ - [`masamune_module` - `v2.4.12`](#masamune_module---v2412)
+ - [`masamune_auth_facebook` - `v2.3.12`](#masamune_auth_facebook---v2312)
+ - [`masamune_mail` - `v2.2.12`](#masamune_mail---v2212)
+ - [`masamune_module_point_ecosystem` - `v2.5.10`](#masamune_module_point_ecosystem---v2510)
+ - [`masamune_purchase_mobile` - `v2.7.10`](#masamune_purchase_mobile---v2710)
+ - [`masamune_notification_firebase` - `v2.5.12`](#masamune_notification_firebase---v2512)
+ - [`masamune_ads_google` - `v2.4.12`](#masamune_ads_google---v2412)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.9.9`
+ - `masamune_location_platform_interface` - `v2.3.12`
+ - `masamune_location` - `v2.3.12`
+ - `masamune_location_geocoding` - `v2.4.12`
+ - `masamune_deeplink_firebase` - `v2.2.12`
+ - `masamune_auth_apple` - `v2.3.12`
+ - `masamune_model_algolia` - `v2.4.6`
+ - `masamune_location_background` - `v2.4.12`
+ - `masamune_scheduler` - `v2.2.12`
+ - `masamune_ai_openai` - `v2.7.4`
+ - `masamune_text_to_speech` - `v2.2.13`
+ - `masamune_auth_google` - `v2.3.12`
+ - `masamune_module_chat_system` - `v2.1.5`
+ - `masamune_agora` - `v2.4.12`
+ - `masamune_calendar` - `v2.2.12`
+ - `masamune_picker` - `v2.2.12`
+ - `masamune_util` - `v2.2.12`
+ - `masamune_universal_ui` - `v2.3.12`
+ - `masamune_purchase_stripe` - `v3.5.9`
+ - `masamune_notification` - `v2.5.9`
+ - `masamune_logger_firebase` - `v2.2.9`
+ - `masamune_introduction` - `v2.4.9`
+ - `masamune_deeplink` - `v2.2.12`
+ - `masamune_speech_to_text` - `v2.2.13`
+ - `masamune_force_updater` - `v2.1.12`
+ - `masamune_location_google` - `v2.4.12`
+ - `masamune_module` - `v2.4.12`
+ - `masamune_auth_facebook` - `v2.3.12`
+ - `masamune_mail` - `v2.2.12`
+ - `masamune_module_point_ecosystem` - `v2.5.10`
+ - `masamune_purchase_mobile` - `v2.7.10`
+ - `masamune_notification_firebase` - `v2.5.12`
+ - `masamune_ads_google` - `v2.4.12`
+
+---
+
+#### `katana_auth` - `v2.5.0`
+
+ - **FEAT**: Create DirectSignInAuthProvider. ([8250a883](https://github.com/mathrunet/flutter_masamune/commit/8250a883d3dd9b7f0541c763ccd6c35864712770))
+
+#### `katana_auth_firebase` - `v2.4.0`
+
+ - **FEAT**: Create DirectSignInAuthProvider. ([8250a883](https://github.com/mathrunet/flutter_masamune/commit/8250a883d3dd9b7f0541c763ccd6c35864712770))
+
+#### `katana_form` - `v2.12.0`
+
+ - **FEAT**: FormStyle type can now be selected. ([fe88ce24](https://github.com/mathrunet/flutter_masamune/commit/fe88ce241d5974e15f6d6a7d9ded7a268e9f861d))
+
+
 ## 2024-02-05
 
 ### Changes
