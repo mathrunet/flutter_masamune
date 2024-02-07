@@ -3,6 +3,123 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-02-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth` - `v2.5.1`](#katana_auth---v251)
+ - [`katana_localization_builder` - `v2.2.2`](#katana_localization_builder---v222)
+ - [`katana_model` - `v2.24.0`](#katana_model---v2240)
+ - [`masamune_builder` - `v2.13.3`](#masamune_builder---v2133)
+ - [`katana_auth_firebase` - `v2.4.1`](#katana_auth_firebase---v241)
+ - [`masamune` - `v2.9.10`](#masamune---v2910)
+ - [`masamune_location_platform_interface` - `v2.3.13`](#masamune_location_platform_interface---v2313)
+ - [`masamune_location` - `v2.3.13`](#masamune_location---v2313)
+ - [`masamune_location_geocoding` - `v2.4.13`](#masamune_location_geocoding---v2413)
+ - [`masamune_auth_apple` - `v2.3.13`](#masamune_auth_apple---v2313)
+ - [`masamune_deeplink_firebase` - `v2.2.13`](#masamune_deeplink_firebase---v2213)
+ - [`masamune_scheduler` - `v2.2.13`](#masamune_scheduler---v2213)
+ - [`masamune_location_background` - `v2.4.13`](#masamune_location_background---v2413)
+ - [`masamune_model_algolia` - `v2.4.7`](#masamune_model_algolia---v247)
+ - [`masamune_agora` - `v2.4.13`](#masamune_agora---v2413)
+ - [`masamune_ai_openai` - `v2.7.5`](#masamune_ai_openai---v275)
+ - [`masamune_text_to_speech` - `v2.2.14`](#masamune_text_to_speech---v2214)
+ - [`masamune_auth_google` - `v2.3.13`](#masamune_auth_google---v2313)
+ - [`masamune_module_chat_system` - `v2.1.6`](#masamune_module_chat_system---v216)
+ - [`masamune_calendar` - `v2.2.13`](#masamune_calendar---v2213)
+ - [`masamune_picker` - `v2.2.13`](#masamune_picker---v2213)
+ - [`masamune_util` - `v2.2.13`](#masamune_util---v2213)
+ - [`masamune_universal_ui` - `v2.3.13`](#masamune_universal_ui---v2313)
+ - [`masamune_purchase_stripe` - `v3.5.10`](#masamune_purchase_stripe---v3510)
+ - [`masamune_introduction` - `v2.4.10`](#masamune_introduction---v2410)
+ - [`masamune_notification` - `v2.5.10`](#masamune_notification---v2510)
+ - [`masamune_logger_firebase` - `v2.2.10`](#masamune_logger_firebase---v2210)
+ - [`masamune_speech_to_text` - `v2.2.14`](#masamune_speech_to_text---v2214)
+ - [`masamune_deeplink` - `v2.2.13`](#masamune_deeplink---v2213)
+ - [`masamune_auth_facebook` - `v2.3.13`](#masamune_auth_facebook---v2313)
+ - [`masamune_force_updater` - `v2.1.13`](#masamune_force_updater---v2113)
+ - [`masamune_module_point_ecosystem` - `v2.5.11`](#masamune_module_point_ecosystem---v2511)
+ - [`masamune_location_google` - `v2.4.13`](#masamune_location_google---v2413)
+ - [`masamune_mail` - `v2.2.13`](#masamune_mail---v2213)
+ - [`masamune_module` - `v2.4.13`](#masamune_module---v2413)
+ - [`masamune_purchase_mobile` - `v2.7.11`](#masamune_purchase_mobile---v2711)
+ - [`masamune_notification_firebase` - `v2.5.13`](#masamune_notification_firebase---v2513)
+ - [`masamune_ads_google` - `v2.4.13`](#masamune_ads_google---v2413)
+ - [`masamune_model_firestore_builder` - `v2.2.5`](#masamune_model_firestore_builder---v225)
+ - [`katana_model_local` - `v2.13.1`](#katana_model_local---v2131)
+ - [`katana_model_firestore` - `v2.16.1`](#katana_model_firestore---v2161)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_auth_firebase` - `v2.4.1`
+ - `masamune` - `v2.9.10`
+ - `masamune_location_platform_interface` - `v2.3.13`
+ - `masamune_location` - `v2.3.13`
+ - `masamune_location_geocoding` - `v2.4.13`
+ - `masamune_auth_apple` - `v2.3.13`
+ - `masamune_deeplink_firebase` - `v2.2.13`
+ - `masamune_scheduler` - `v2.2.13`
+ - `masamune_location_background` - `v2.4.13`
+ - `masamune_model_algolia` - `v2.4.7`
+ - `masamune_agora` - `v2.4.13`
+ - `masamune_ai_openai` - `v2.7.5`
+ - `masamune_text_to_speech` - `v2.2.14`
+ - `masamune_auth_google` - `v2.3.13`
+ - `masamune_module_chat_system` - `v2.1.6`
+ - `masamune_calendar` - `v2.2.13`
+ - `masamune_picker` - `v2.2.13`
+ - `masamune_util` - `v2.2.13`
+ - `masamune_universal_ui` - `v2.3.13`
+ - `masamune_purchase_stripe` - `v3.5.10`
+ - `masamune_introduction` - `v2.4.10`
+ - `masamune_notification` - `v2.5.10`
+ - `masamune_logger_firebase` - `v2.2.10`
+ - `masamune_speech_to_text` - `v2.2.14`
+ - `masamune_deeplink` - `v2.2.13`
+ - `masamune_auth_facebook` - `v2.3.13`
+ - `masamune_force_updater` - `v2.1.13`
+ - `masamune_module_point_ecosystem` - `v2.5.11`
+ - `masamune_location_google` - `v2.4.13`
+ - `masamune_mail` - `v2.2.13`
+ - `masamune_module` - `v2.4.13`
+ - `masamune_purchase_mobile` - `v2.7.11`
+ - `masamune_notification_firebase` - `v2.5.13`
+ - `masamune_ads_google` - `v2.4.13`
+ - `masamune_model_firestore_builder` - `v2.2.5`
+ - `katana_model_local` - `v2.13.1`
+ - `katana_model_firestore` - `v2.16.1`
+
+---
+
+#### `katana_auth` - `v2.5.1`
+
+ - **FIX**: Fixed a logout bug. ([7a72296b](https://github.com/mathrunet/flutter_masamune/commit/7a72296bbb5a9d5756facee84d2dcf4775c6d281))
+
+#### `katana_localization_builder` - `v2.2.2`
+
+ - **FIX**: Columns can now be assigned a #. ([64b53f96](https://github.com/mathrunet/flutter_masamune/commit/64b53f96618319ca89762d05b60cf510e8bbc46d))
+
+#### `katana_model` - `v2.24.0`
+
+ - **FIX**: Fixed networkDelay bug. ([a26339a6](https://github.com/mathrunet/flutter_masamune/commit/a26339a613ca8c61fee28e30f85ea24580dda8e8))
+ - **FIX**: Support for ModelFieldValue lists and maps. ([63544cee](https://github.com/mathrunet/flutter_masamune/commit/63544ceebce8b1728f8a19ae61aad320ee5ac949))
+ - **FEAT**: Add deleteAll. ([ea42f04b](https://github.com/mathrunet/flutter_masamune/commit/ea42f04bccfc6e9d4e79cabc92605695a1271c33))
+
+#### `masamune_builder` - `v2.13.3`
+
+ - **FIX**: jsonParam included in lists and maps is also supported. ([2e06671e](https://github.com/mathrunet/flutter_masamune/commit/2e06671e59b005bd7028332c77427419b96c3e52))
+
+
 ## 2024-02-06
 
 ### Changes

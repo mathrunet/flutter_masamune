@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - Update a dependency to the latest release.
+
 ## 2.4.0
 
  - **FEAT**: Create DirectSignInAuthProvider. ([8250a883](https://github.com/mathrunet/flutter_masamune/commit/8250a883d3dd9b7f0541c763ccd6c35864712770))

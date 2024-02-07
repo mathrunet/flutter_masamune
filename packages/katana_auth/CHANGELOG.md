@@ -1,3 +1,7 @@
+## 2.5.1
+
+ - **FIX**: Fixed a logout bug. ([7a72296b](https://github.com/mathrunet/flutter_masamune/commit/7a72296bbb5a9d5756facee84d2dcf4775c6d281))
+
 ## 2.5.0
 
  - **FEAT**: Create DirectSignInAuthProvider. ([8250a883](https://github.com/mathrunet/flutter_masamune/commit/8250a883d3dd9b7f0541c763ccd6c35864712770))

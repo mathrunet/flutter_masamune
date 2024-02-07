@@ -1,3 +1,9 @@
+## 2.24.0
+
+ - **FIX**: Fixed networkDelay bug. ([a26339a6](https://github.com/mathrunet/flutter_masamune/commit/a26339a613ca8c61fee28e30f85ea24580dda8e8))
+ - **FIX**: Support for ModelFieldValue lists and maps. ([63544cee](https://github.com/mathrunet/flutter_masamune/commit/63544ceebce8b1728f8a19ae61aad320ee5ac949))
+ - **FEAT**: Add deleteAll. ([ea42f04b](https://github.com/mathrunet/flutter_masamune/commit/ea42f04bccfc6e9d4e79cabc92605695a1271c33))
+
 ## 2.23.0
 
  - **FEAT**: Changed implementation around Aggregate. ([fec4d62d](https://github.com/mathrunet/flutter_masamune/commit/fec4d62d85908add2b1ef9b36b593b5bc533f676))
