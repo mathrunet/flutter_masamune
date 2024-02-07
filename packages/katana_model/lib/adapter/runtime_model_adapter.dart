@@ -230,13 +230,17 @@ class RuntimeModelAdapter extends ModelAdapter {
 
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
+    await _deleteDocument(query);
+    if (networkDelay != null) {
+      await Future.delayed(networkDelay!);
+    }
+  }
+
+  Future<void> _deleteDocument(ModelAdapterDocumentQuery query) async {
     _assert();
     if (validator != null) {
       final oldValue = await database.loadDocument(query, prefix: prefix);
       await validator!.onDeleteDocument(query, oldValue);
-    }
-    if (networkDelay != null) {
-      await Future.delayed(networkDelay!);
     }
     await database.deleteDocument(query, prefix: prefix);
   }
@@ -246,14 +250,21 @@ class RuntimeModelAdapter extends ModelAdapter {
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) async {
+    await _saveDocument(query, value);
+    if (networkDelay != null) {
+      await Future.delayed(networkDelay!);
+    }
+  }
+
+  Future<void> _saveDocument(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) async {
     _assert();
     if (validator != null) {
       final oldValue = await database.loadDocument(query, prefix: prefix);
       await validator!
           .onSaveDocument(query, oldValue: oldValue, newValue: value);
-    }
-    if (networkDelay != null) {
-      await Future.delayed(networkDelay!);
     }
     await database.saveDocument(query, value, prefix: prefix);
   }
@@ -298,7 +309,7 @@ class RuntimeModelAdapter extends ModelAdapter {
     if (ref is! RuntimeModelTransactionRef) {
       throw Exception("[ref] is not [RuntimeModelTransactionRef].");
     }
-    ref._transactionList.add(() => deleteDocument(query));
+    ref._transactionList.add(() => _deleteDocument(query));
   }
 
   @override
@@ -320,7 +331,7 @@ class RuntimeModelAdapter extends ModelAdapter {
     if (ref is! RuntimeModelTransactionRef) {
       throw Exception("[ref] is not [RuntimeModelTransactionRef].");
     }
-    ref._transactionList.add(() => saveDocument(query, value));
+    ref._transactionList.add(() => _saveDocument(query, value));
   }
 
   @override
@@ -349,7 +360,7 @@ class RuntimeModelAdapter extends ModelAdapter {
     if (ref is! RuntimeModelBatchRef) {
       throw Exception("[ref] is not [RuntimeModelBatchRef].");
     }
-    ref._batchList.add(() => deleteDocument(query));
+    ref._batchList.add(() => _deleteDocument(query));
   }
 
   @override
@@ -362,7 +373,7 @@ class RuntimeModelAdapter extends ModelAdapter {
     if (ref is! RuntimeModelBatchRef) {
       throw Exception("[ref] is not [RuntimeModelBatchRef].");
     }
-    ref._batchList.add(() => saveDocument(query, value));
+    ref._batchList.add(() => _saveDocument(query, value));
   }
 
   @override
