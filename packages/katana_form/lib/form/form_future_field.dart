@@ -344,11 +344,7 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
         TextStyle(
           color: widget.style?.subColor ??
               widget.style?.color?.withOpacity(0.5) ??
-              theme
-                  .textTheme
-                  .titleMedium
-                  ?.color
-                  ?.withOpacity(0.5) ??
+              theme.textTheme.titleMedium?.color?.withOpacity(0.5) ??
               theme.colorScheme.onBackground.withOpacity(0.5),
         );
     final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
@@ -358,8 +354,7 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
           color: widget.style?.errorColor,
         ) ??
         TextStyle(
-          color:
-              widget.style?.errorColor ?? theme.colorScheme.error,
+          color: widget.style?.errorColor ?? theme.colorScheme.error,
         );
     final disabledTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.disabledColor,
