@@ -1,8 +1,5 @@
 part of '/masamune_builder.dart';
 
-final _regExpModelRef = RegExp(r"ModelRef(Base)?<([^>]+)>");
-final _regExpRef = RegExp(r"(.+)Ref");
-
 /// Create document and collection models.
 ///
 /// ドキュメントモデルやコレクションモデルを作成します。
@@ -28,7 +25,7 @@ List<Spec> modelClass(
               ..body = Code(
                 jsonSerarizable.isEmpty
                     ? "return toJson();"
-                    : "final map = toJson(); return { ...map, ${jsonSerarizable.map((e) => "\"${e.jsonKey}\": ${_jsonValue(e)}").join(",")}};",
+                    : "final map = toJson(); return { ...map, ${jsonSerarizable.map((e) => "\"${e.jsonKey}\": ${_jsonValue(name: e.name, type: e.type)}").join(",")}};",
               ),
           ),
         ]),
@@ -47,24 +44,45 @@ List<Spec> modelClass(
   ];
 }
 
-String _jsonValue(ParamaterValue param) {
-  if (param.type.isDartCoreList) {
-    if (param.type.aliasName.endsWith("?")) {
-      return "${param.name}?.map((e) => e.toJson()).toList()";
-    } else {
-      return "${param.name}.map((e) => e.toJson()).toList()";
+String _jsonValue({
+  required String name,
+  required InterfaceType type,
+}) {
+  if (type.isDartCoreMap) {
+    final found = type.typeArguments
+        .firstWhereOrNull((e) => e.isDartCoreIterable || e.isDartCoreMap);
+    if (found != null) {
+      if (type.aliasName.endsWith("?")) {
+        return "$name?.map((k, v) => MapEntry(k, ${_jsonValue(name: "v", type: found as InterfaceType)}))";
+      } else {
+        return "$name.map((k, v) => MapEntry(k, ${_jsonValue(name: "v", type: found as InterfaceType)}))";
+      }
     }
-  } else if (param.type.isDartCoreMap) {
-    if (param.type.aliasName.endsWith("?")) {
-      return "${param.name}?.map((k, v) => MapEntry(k, v.toJson()))";
+    if (type.aliasName.endsWith("?")) {
+      return "$name?.map((k, v) => MapEntry(k, v.toJson()))";
     } else {
-      return "${param.name}.map((k, v) => MapEntry(k, v.toJson()))";
+      return "$name.map((k, v) => MapEntry(k, v.toJson()))";
+    }
+  } else if (type.isDartCoreIterable) {
+    final found = type.typeArguments
+        .firstWhereOrNull((e) => e.isDartCoreIterable || e.isDartCoreMap);
+    if (found != null) {
+      if (type.aliasName.endsWith("?")) {
+        return "$name?.map((e) => e.map((e) => ${_jsonValue(name: "e", type: found as InterfaceType)}).toList()).toList()";
+      } else {
+        return "$name.map((e) => e.map((e) => ${_jsonValue(name: "e", type: found as InterfaceType)}).toList()).toList()";
+      }
+    }
+    if (type.aliasName.endsWith("?")) {
+      return "$name?.map((e) => e.toJson()).toList()";
+    } else {
+      return "$name.map((e) => e.toJson()).toList()";
     }
   } else {
-    if (param.type.aliasName.endsWith("?")) {
-      return "${param.name}?.toJson()";
+    if (type.aliasName.endsWith("?")) {
+      return "$name?.toJson()";
     } else {
-      return "${param.name}.toJson()";
+      return "$name.toJson()";
     }
   }
 }
