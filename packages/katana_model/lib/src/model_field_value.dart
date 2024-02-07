@@ -210,6 +210,67 @@ abstract class ModelFieldValue<T> {
         } else {
           res[key] = val;
         }
+      } else if (val is List) {
+        final vRes = <dynamic>[];
+        for (final v in val) {
+          final conveter = _converters.firstWhereOrNull((e) => e.check(v));
+          if (conveter != null) {
+            vRes.add(conveter.fromJson(v));
+          } else if (v is DynamicMap && v.containsKey(kTypeFieldKey)) {
+            final type = v.get(kTypeFieldKey, "");
+            final conveter =
+                _converters.firstWhereOrNull((e) => e.type == type);
+            if (conveter != null) {
+              vRes.add(conveter.fromJson(v));
+            } else {
+              vRes.add(v);
+            }
+          } else {
+            vRes.add(v);
+          }
+        }
+        res[key] = vRes;
+      } else if (val is Set) {
+        final vRes = <dynamic>[];
+        for (final v in val) {
+          final conveter = _converters.firstWhereOrNull((e) => e.check(v));
+          if (conveter != null) {
+            vRes.add(conveter.fromJson(v));
+          } else if (v is DynamicMap && v.containsKey(kTypeFieldKey)) {
+            final type = v.get(kTypeFieldKey, "");
+            final conveter =
+                _converters.firstWhereOrNull((e) => e.type == type);
+            if (conveter != null) {
+              vRes.add(conveter.fromJson(v));
+            } else {
+              vRes.add(v);
+            }
+          } else {
+            vRes.add(v);
+          }
+        }
+        res[key] = vRes;
+      } else if (val is Map) {
+        final vRes = <String, dynamic>{};
+        for (final v in val.entries) {
+          final vVal = v.value;
+          final conveter = _converters.firstWhereOrNull((e) => e.check(vVal));
+          if (conveter != null) {
+            vRes[v.key] = conveter.fromJson(vVal);
+          } else if (vVal is DynamicMap && vVal.containsKey(kTypeFieldKey)) {
+            final type = vVal.get(kTypeFieldKey, "");
+            final conveter =
+                _converters.firstWhereOrNull((e) => e.type == type);
+            if (conveter != null) {
+              vRes[v.key] = conveter.fromJson(vVal);
+            } else {
+              vRes[v.key] = vVal;
+            }
+          } else {
+            vRes[v.key] = vVal;
+          }
+        }
+        res[key] = vRes;
       } else {
         res[key] = val;
       }
@@ -237,11 +298,47 @@ abstract class ModelFieldValue<T> {
     for (final tmp in value.entries) {
       final key = tmp.key;
       final val = tmp.value;
-      final conveter = _converters.firstWhereOrNull((e) => e.check(val));
-      if (conveter != null) {
-        res[key] = conveter.toJson(val);
+      if (val is List) {
+        final vRes = <dynamic>[];
+        for (final v in val) {
+          final conveter = _converters.firstWhereOrNull((e) => e.check(v));
+          if (conveter != null) {
+            vRes.add(conveter.toJson(v));
+          } else {
+            vRes.add(v);
+          }
+        }
+        res[key] = vRes;
+      } else if (val is Set) {
+        final vRes = <dynamic>{};
+        for (final v in val) {
+          final conveter = _converters.firstWhereOrNull((e) => e.check(v));
+          if (conveter != null) {
+            vRes.add(conveter.toJson(v));
+          } else {
+            vRes.add(v);
+          }
+        }
+        res[key] = vRes;
+      } else if (val is Map) {
+        final vRes = <String, dynamic>{};
+        for (final v in val.entries) {
+          final conveter =
+              _converters.firstWhereOrNull((e) => e.check(v.value));
+          if (conveter != null) {
+            vRes[v.key] = conveter.toJson(v.value);
+          } else {
+            vRes[v.key] = v.value;
+          }
+        }
+        res[key] = vRes;
       } else {
-        res[key] = val;
+        final conveter = _converters.firstWhereOrNull((e) => e.check(val));
+        if (conveter != null) {
+          res[key] = conveter.toJson(val);
+        } else {
+          res[key] = val;
+        }
       }
     }
     return Map.unmodifiable(res);
