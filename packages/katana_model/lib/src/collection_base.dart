@@ -363,6 +363,18 @@ abstract class CollectionBase<TModel extends DocumentBase>
 
   final Map<ModelAggregateQuery, AsyncAggregateValue> _aggregate = {};
 
+  /// Delete all retained documents.
+  ///
+  /// すべての保持しているドキュメントを削除します。
+  Future<CollectionBase<TModel>> deleteAll() async {
+    await _enqueueInternalTransaction(() async {
+      final res = List<TModel>.from(this);
+      final futures = res.map((e) => e.delete());
+      await Future.wait(futures);
+    });
+    return this;
+  }
+
   /// {@macro model_transaction}
   ///
   /// ```dart
