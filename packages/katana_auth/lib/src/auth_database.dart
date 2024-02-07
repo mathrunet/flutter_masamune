@@ -656,7 +656,7 @@ class AuthDatabase {
         );
       }
       final userId = temporary.get(userIdKey, "");
-      _data._setTemporary(null);
+      _data._clearTemporary();
       _data._setAccount(userId, {
         ...temporary,
         AuthDatabase.userEmailKey: email,
@@ -681,7 +681,7 @@ class AuthDatabase {
         );
       }
       final userId = temporary.get(userIdKey, "");
-      _data._setTemporary(null);
+      _data._clearTemporary();
       _data._setAccount(userId, {
         ...temporary,
         AuthDatabase.userPhoneNumberKey: phoenNumber,
@@ -896,8 +896,8 @@ class AuthDatabase {
       );
     }
     _activeId = null;
-    _data._setTemporary(null);
-    _data._setCurrent(null);
+    _data._clearTemporary();
+    _data._clearCurrent();
     await onSaved?.call(this);
   }
 
@@ -919,8 +919,8 @@ class AuthDatabase {
     final userId = account.get(userIdKey, "");
     _data._removeAccount(userId);
     _activeId = null;
-    _data._setTemporary(null);
-    _data._setCurrent(null);
+    _data._clearTemporary();
+    _data._clearCurrent();
   }
 
   /// Add/update the data of [value] at the position of [path].
@@ -1042,6 +1042,11 @@ extension _AuthDatabaseDynamicMapExtensions on Map {
     this[_temporaryKey] = userId;
   }
 
+  void _clearTemporary() {
+    _initialize();
+    this[_temporaryKey] = null;
+  }
+
   DynamicMap _getCurrent() {
     _initialize();
     return _getAccount(get(_currentKey, ""));
@@ -1053,6 +1058,11 @@ extension _AuthDatabaseDynamicMapExtensions on Map {
     }
     _initialize();
     this[_currentKey] = userId;
+  }
+
+  void _clearCurrent() {
+    _initialize();
+    this[_currentKey] = null;
   }
 }
 
