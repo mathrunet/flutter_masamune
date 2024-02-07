@@ -81,11 +81,17 @@ class LocalizeLoader {
             continue;
           }
           if (y == 1) {
+            if (cell?.startsWith("#") ?? false) {
+              continue;
+            }
             num2lang[x - 1] = cell!;
           } else {
             final key = line.first;
             final val = line[x]?.toString();
-            if (val.isEmpty || key.isEmpty || key.startsWith("#")) {
+            if (val.isEmpty ||
+                key.isEmpty ||
+                key.startsWith("#") ||
+                !num2lang.containsKey(x - 1)) {
               continue;
             }
             final locale = num2lang[x - 1]!;
