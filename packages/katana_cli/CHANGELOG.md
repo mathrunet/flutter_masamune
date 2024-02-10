@@ -1,3 +1,7 @@
+## 2.15.5
+
+ - **FIX**: Adding Android services for billing. ([00d31e88](https://github.com/mathrunet/flutter_masamune/commit/00d31e8831159d1b233382eb59d38a60ef8036f0))
+
 ## 2.15.4
 
  - **FIX**: Fixed a bug in Navigation. ([3187db7c](https://github.com/mathrunet/flutter_masamune/commit/3187db7c25006dbc4ea0102bf94a3b6518706a5a))

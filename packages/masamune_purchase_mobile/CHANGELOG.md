@@ -1,3 +1,7 @@
+## 2.7.12
+
+ - **FIX**: Addition of assert. ([262847ff](https://github.com/mathrunet/flutter_masamune/commit/262847ffd29649239b4bfe695a6356a05888c35e))
+
 ## 2.7.11
 
  - Update a dependency to the latest release.

@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-02-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.15.5`](#katana_cli---v2155)
+ - [`masamune_purchase_mobile` - `v2.7.12`](#masamune_purchase_mobile---v2712)
+ - [`masamune_module_point_ecosystem` - `v2.5.12`](#masamune_module_point_ecosystem---v2512)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.5.12`
+
+---
+
+#### `katana_cli` - `v2.15.5`
+
+ - **FIX**: Adding Android services for billing. ([00d31e88](https://github.com/mathrunet/flutter_masamune/commit/00d31e8831159d1b233382eb59d38a60ef8036f0))
+
+#### `masamune_purchase_mobile` - `v2.7.12`
+
+ - **FIX**: Addition of assert. ([262847ff](https://github.com/mathrunet/flutter_masamune/commit/262847ffd29649239b4bfe695a6356a05888c35e))
+
+
 ## 2024-02-07
 
 ### Changes
