@@ -137,12 +137,12 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
       await xcode.save();
     }
     if (enableGooglePlay) {
-      label("Edit build.gradle.");
-      final gradle = AppGradle();
-      await gradle.load();
-      if (!gradle.dependencies.any((element) => element.packageName
+      label("Edit app/build.gradle.");
+      final appGradle = AppGradle();
+      await appGradle.load();
+      if (!appGradle.dependencies.any((element) => element.packageName
           .startsWith("com.android.billingclient:billing"))) {
-        gradle.dependencies.add(
+        appGradle.dependencies.add(
           GradleDependencies(
             group: "implementation",
             packageName:
@@ -150,7 +150,34 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
           ),
         );
       }
+      await appGradle.save();
+      label("Edit build.gradle.");
+      final gradle = BuildGradle();
+      await gradle.load();
+      gradle.buildScript.kotlinVersion = Config.androidKotlinVersion;
+      if (!gradle.buildScript.dependencies.any((element) =>
+          element.classpath.startsWith("com.google.gms:google-services"))) {
+        gradle.buildScript.dependencies.add(
+          GradleBuildscriptDependencies(
+            classpath:
+                "com.google.gms:google-services:${Config.googleServicesVersion}",
+          ),
+        );
+      }
       await gradle.save();
+      label("Edit config.properties");
+      final configPropertiesFile = File("android/config.properties");
+      if (!configPropertiesFile.existsSync()) {
+        await configPropertiesFile.writeAsString("");
+      }
+      final configProperties = await configPropertiesFile.readAsLines();
+      if (!configProperties
+          .any((element) => element.startsWith("flutter.compileSdkVersion"))) {
+        await configPropertiesFile.writeAsString([
+          ...configProperties,
+          "flutter.compileSdkVersion=${Config.billingCompileSdkVersion}",
+        ].join("\n"));
+      }
       label("Edit AndroidManifest.xml.");
       final file = File("android/app/src/main/AndroidManifest.xml");
       if (!file.existsSync()) {
@@ -184,6 +211,15 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
           ),
         );
       }
+      if (manifest.first.attributes
+          .any((p0) => p0.name.toString() != "xmlns:tools")) {
+        manifest.first.attributes.add(
+          XmlAttribute(
+            XmlName("xmlns:tools"),
+            "http://schemas.android.com/tools",
+          ),
+        );
+      }
       final application = document.findAllElements("application");
       if (!application.first.children.any(
         (p0) =>
@@ -206,6 +242,10 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
               XmlAttribute(
                 XmlName("android:value"),
                 Config.androidBillingVersion,
+              ),
+              XmlAttribute(
+                XmlName("tools:replace"),
+                "android:value",
               ),
             ],
             [],

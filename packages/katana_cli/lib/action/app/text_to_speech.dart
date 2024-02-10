@@ -2,6 +2,7 @@
 import 'dart:io';
 
 // Package imports:
+import 'package:katana_cli/config.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
@@ -53,7 +54,7 @@ class AppTextToSpeechCliAction extends CliCommand with CliActionMixin {
         .any((element) => element.startsWith("flutter.minSdkVersion"))) {
       await configPropertiesFile.writeAsString([
         ...configProperties,
-        "flutter.minSdkVersion=23",
+        "flutter.minSdkVersion=${Config.firebaseMinSdkVersion}",
       ].join("\n"));
     }
     label("Edit build.gradle");

@@ -3,6 +3,7 @@ import 'dart:io';
 
 // Package imports:
 import 'package:katana/katana.dart';
+import 'package:katana_cli/config.dart';
 
 /// Class for retrieving and saving files in `android/app/build.gradle`.
 ///
@@ -795,5 +796,150 @@ class GradleDependencies {
   @override
   String toString() {
     return "    $group \"$packageName\"";
+  }
+}
+
+/// Class for retrieving and saving files in `android/build.gradle`.
+///
+/// `android/build.gradle`のファイルを取得して保存するためのクラス。
+class BuildGradle {
+  BuildGradle();
+
+  /// Original text data.
+  ///
+  /// 元のテキストデータ。
+  String get rawData => _rawData;
+  late String _rawData;
+
+  /// Data in the `buildScript` section.
+  ///
+  /// `buildScript`セクションのデータ。
+  GradleBuildScript get buildScript => _buildScript;
+  late GradleBuildScript _buildScript;
+
+  /// Data loading.
+  ///
+  /// データの読み込み。
+  Future<void> load() async {
+    final gradle = File("android/build.gradle");
+    _rawData = await gradle.readAsString();
+    _buildScript = GradleBuildScript._load(_rawData);
+  }
+
+  /// Data storage.
+  ///
+  /// データの保存。
+  Future<void> save() async {
+    if (_rawData.isEmpty) {
+      throw Exception("No value. Please load data with [load].");
+    }
+    _rawData = GradleBuildScript._save(_rawData, _buildScript);
+    final gradle = File("android/build.gradle");
+    await gradle.writeAsString(_rawData);
+  }
+}
+
+/// Data in the `buildscript` section.
+///
+/// `buildscript`セクションのデータ。
+class GradleBuildScript {
+  /// Data in the `buildscript` section.
+  ///
+  /// `buildscript`セクションのデータ。
+  GradleBuildScript({
+    required this.kotlinVersion,
+    required List<GradleBuildscriptDependencies> dependencies,
+  }) : _dependencies = dependencies;
+
+  static final _regExp = RegExp(r"buildscript {([\s\S]+?)\n}");
+
+  static GradleBuildScript _load(String content) {
+    final region = _regExp.firstMatch(content)?.group(1) ?? "";
+    final kotlinVersion =
+        (RegExp("ext.kotlin_version()[\\s\\S]+?=[\\s\\S]+?([a-zA-Z0-9_\"'.-]+)")
+                    .firstMatch(region)
+                    ?.group(1) ??
+                Config.androidKotlinVersion)
+            .trimString("'")
+            .trimString('"');
+    final dependencies = GradleBuildscriptDependencies._load(content);
+    return GradleBuildScript(
+      kotlinVersion: kotlinVersion,
+      dependencies: dependencies,
+    );
+  }
+
+  static String _save(String content, GradleBuildScript data) {
+    var region = _regExp.firstMatch(content)?.group(1) ?? "";
+    region = region.replaceAll(
+      RegExp("ext.kotlin_version()[\\s\\S]+?=[\\s\\S]+?([a-zA-Z0-9_\"'.-]+)"),
+      "ext.kotlin_version = '${data.kotlinVersion}'",
+    );
+    region = GradleBuildscriptDependencies._save(region, data.dependencies);
+    return content.replaceAll(
+        _regExp, "buildscript {\n${region.trimString("\n")}\n}");
+  }
+
+  /// Kotlin version.
+  ///
+  /// Kotlinバージョン。
+  String? kotlinVersion;
+
+  /// Data in the `dependencies` section.
+  ///
+  /// `dependencies`セクションのデータ。
+  List<GradleBuildscriptDependencies> get dependencies => _dependencies;
+  final List<GradleBuildscriptDependencies> _dependencies;
+
+  @override
+  String toString() {
+    return "    ext.kotlin_version = '$kotlinVersion'\n";
+  }
+}
+
+/// Configuration class for the contents of [GradleBuildscriptDependencies].
+///
+/// [GradleBuildscriptDependencies]の中身の設定クラス。
+class GradleBuildscriptDependencies {
+  /// Configuration class for the contents of [GradleBuildscriptDependencies].
+  ///
+  /// [GradleBuildscriptDependencies]の中身の設定クラス。
+  GradleBuildscriptDependencies({
+    required this.classpath,
+  });
+
+  static final _regExp = RegExp(r"dependencies {([\s\S]+?)}");
+
+  /// Keystore alias.
+  ///
+  /// Keystoreのエイリアス。
+  final String classpath;
+
+  static List<GradleBuildscriptDependencies> _load(String content) {
+    final region = _regExp.firstMatch(content)?.group(1) ?? "";
+    final classpaths = RegExp("classpath (?<classpath>.+)").allMatches(region);
+    return classpaths
+        .map(
+          (e) => GradleBuildscriptDependencies(
+            classpath: e
+                    .namedGroup("classpath")
+                    ?.replaceAll("\n", "")
+                    .trimString("'")
+                    .trimString('"') ??
+                "",
+          ),
+        )
+        .toList();
+  }
+
+  static String _save(
+      String content, List<GradleBuildscriptDependencies> data) {
+    return content.replaceAll(
+        _regExp, "dependencies {\n${data.join("\n")}\n    }");
+  }
+
+  @override
+  String toString() {
+    return "        classpath \"$classpath\"";
   }
 }
