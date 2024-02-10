@@ -2,10 +2,10 @@
 import 'dart:io';
 
 // Package imports:
-import 'package:katana_cli/config.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
+import 'package:katana_cli/config.dart';
 import 'package:katana_cli/katana_cli.dart';
 
 /// Add a module to use Text-to-Speech.
