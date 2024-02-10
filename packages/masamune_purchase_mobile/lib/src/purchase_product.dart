@@ -46,7 +46,11 @@ class PurchaseProduct {
     required this.price,
     this.expiredPeriod,
     String? priceText,
-  }) : _priceText = priceText;
+  })  : _priceText = priceText,
+        assert(
+          type != PurchaseProductType.consumable || amount != null,
+          "The amount of wallet money (gems) you add when you purchase a charged item is not set.",
+        );
 
   /// Define chargeable items.
   ///

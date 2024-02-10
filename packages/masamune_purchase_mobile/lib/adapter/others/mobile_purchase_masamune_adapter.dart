@@ -91,7 +91,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     required VoidCallback onDisposed,
     required void Function(Object e) onError,
   }) {
-    final functions = functionsAdapter ?? const RuntimeFunctionsAdapter();
+    final functions = functionsAdapter ?? FunctionsAdapter.primary;
     return _iap.purchaseStream.listen(
       (purchaseDetailsList) async {
         try {
