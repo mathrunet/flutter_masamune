@@ -1,3 +1,7 @@
+## 2.12.1
+
+ - **FIX**: Assign shortName to DayOfWeek. ([d553f1f7](https://github.com/mathrunet/flutter_masamune/commit/d553f1f73ebcde9fdb977b5d2c2764c918665f77))
+
 ## 2.12.0
 
  - **FEAT**: Added DayOfWeek class. ([d1213a6c](https://github.com/mathrunet/flutter_masamune/commit/d1213a6c21db5b892609e1e99cc5b7421d2e5c3e))

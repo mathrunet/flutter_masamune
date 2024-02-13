@@ -1,3 +1,7 @@
+## 2.13.5
+
+ - **FIX**: Fixed a bug that did not work well with List and Set. ([3d444f0a](https://github.com/mathrunet/flutter_masamune/commit/3d444f0a4fef96ebd4a5ec0089e2a779371280cb))
+
 ## 2.13.4
 
  - Update a dependency to the latest release.
