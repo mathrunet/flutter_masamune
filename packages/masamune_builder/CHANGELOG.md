@@ -1,3 +1,7 @@
+## 2.13.4
+
+ - Update a dependency to the latest release.
+
 ## 2.13.3
 
  - **FIX**: jsonParam included in lists and maps is also supported. ([2e06671e](https://github.com/mathrunet/flutter_masamune/commit/2e06671e59b005bd7028332c77427419b96c3e52))

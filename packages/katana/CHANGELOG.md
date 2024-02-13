@@ -1,3 +1,7 @@
+## 2.12.0
+
+ - **FEAT**: Added DayOfWeek class. ([d1213a6c](https://github.com/mathrunet/flutter_masamune/commit/d1213a6c21db5b892609e1e99cc5b7421d2e5c3e))
+
 ## 2.11.0
 
  - **FEAT**: Addition of katana_test and katana_builder. ([4ac65b26](https://github.com/mathrunet/flutter_masamune/commit/4ac65b260c3dae608d990ac6f868fde13f947551))

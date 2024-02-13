@@ -1,3 +1,7 @@
+## 2.4.2
+
+ - Update a dependency to the latest release.
+
 ## 2.4.1
 
  - **FIX**: Annotation of useResult is given. ([89bb3f75](https://github.com/mathrunet/flutter_masamune/commit/89bb3f753901ebae000f304394a71aad100af504))

@@ -1,3 +1,7 @@
+## 2.5.2
+
+ - Update a dependency to the latest release.
+
 ## 2.5.1
 
  - **FIX**: Fixed a logout bug. ([7a72296b](https://github.com/mathrunet/flutter_masamune/commit/7a72296bbb5a9d5756facee84d2dcf4775c6d281))

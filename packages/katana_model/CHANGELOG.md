@@ -1,3 +1,7 @@
+## 2.24.1
+
+ - Update a dependency to the latest release.
+
 ## 2.24.0
 
  - **FIX**: Fixed networkDelay bug. ([a26339a6](https://github.com/mathrunet/flutter_masamune/commit/a26339a613ca8c61fee28e30f85ea24580dda8e8))

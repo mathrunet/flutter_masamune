@@ -1,3 +1,7 @@
+## 2.2.3
+
+ - Update a dependency to the latest release.
+
 ## 2.2.2
 
  - **FIX**: Columns can now be assigned a #. ([64b53f96](https://github.com/mathrunet/flutter_masamune/commit/64b53f96618319ca89762d05b60cf510e8bbc46d))

@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - Update a dependency to the latest release.
+
 ## 2.1.1
 
  - **FIX**: Ignore duplicate errors. ([a4657ac6](https://github.com/mathrunet/flutter_masamune/commit/a4657ac613499eb12a56031c14e7e397250e8a5e))

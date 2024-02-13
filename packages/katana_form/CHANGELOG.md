@@ -1,3 +1,7 @@
+## 2.12.1
+
+ - Update a dependency to the latest release.
+
 ## 2.12.0
 
  - **FEAT**: FormStyle type can now be selected. ([fe88ce24](https://github.com/mathrunet/flutter_masamune/commit/fe88ce241d5974e15f6d6a7d9ded7a268e9f861d))

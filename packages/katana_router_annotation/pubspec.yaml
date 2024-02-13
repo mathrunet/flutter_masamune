@@ -1,6 +1,6 @@
 name: katana_router_annotation
 description: Define annotations to use the Katana router builder. Build with katana_router_builder using this annotation.
-version: 2.1.0
+version: 2.1.1
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_router_annotation
 
@@ -8,7 +8,7 @@ environment:
   sdk: ">=2.17.0 <4.0.0"
 
 dependencies:
-  katana: ^2.11.0
+  katana: ^2.12.0
   meta: ^1.8.0
     
 dev_dependencies:

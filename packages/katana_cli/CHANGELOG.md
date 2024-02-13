@@ -1,3 +1,7 @@
+## 2.15.6
+
+ - Update a dependency to the latest release.
+
 ## 2.15.5
 
  - **FIX**: Adding Android services for billing. ([00d31e88](https://github.com/mathrunet/flutter_masamune/commit/00d31e8831159d1b233382eb59d38a60ef8036f0))
