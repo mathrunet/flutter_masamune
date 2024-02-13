@@ -62,4 +62,26 @@ enum DayOfWeek {
   ///
   /// [DateTime]の曜日の値。
   final int value;
+
+  /// The name of the day of the week.
+  ///
+  /// 曜日の名前。
+  String get shortName {
+    switch (this) {
+      case DayOfWeek.monday:
+        return "mon";
+      case DayOfWeek.tuesday:
+        return "tue";
+      case DayOfWeek.wednesday:
+        return "wed";
+      case DayOfWeek.thursday:
+        return "thu";
+      case DayOfWeek.friday:
+        return "fri";
+      case DayOfWeek.saturday:
+        return "sat";
+      case DayOfWeek.sunday:
+        return "sun";
+    }
+  }
 }
