@@ -69,3 +69,4 @@ part 'src/functions.dart';
 part 'src/typedef.dart';
 part 'src/num_range.dart';
 part 'src/rect_range.dart';
+part 'src/day_of_week.dart';
