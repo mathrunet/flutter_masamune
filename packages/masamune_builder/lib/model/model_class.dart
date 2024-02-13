@@ -49,8 +49,11 @@ String _jsonValue({
   required InterfaceType type,
 }) {
   if (type.isDartCoreMap) {
-    final found = type.typeArguments
-        .firstWhereOrNull((e) => e.isDartCoreIterable || e.isDartCoreMap);
+    final found = type.typeArguments.firstWhereOrNull((e) =>
+        e.isDartCoreIterable ||
+        e.isDartCoreMap ||
+        e.isDartCoreList ||
+        e.isDartCoreSet);
     if (found != null) {
       if (type.aliasName.endsWith("?")) {
         return "$name?.map((k, v) => MapEntry(k, ${_jsonValue(name: "v", type: found as InterfaceType)}))";
@@ -63,9 +66,14 @@ String _jsonValue({
     } else {
       return "$name.map((k, v) => MapEntry(k, v.toJson()))";
     }
-  } else if (type.isDartCoreIterable) {
-    final found = type.typeArguments
-        .firstWhereOrNull((e) => e.isDartCoreIterable || e.isDartCoreMap);
+  } else if (type.isDartCoreList ||
+      type.isDartCoreSet ||
+      type.isDartCoreIterable) {
+    final found = type.typeArguments.firstWhereOrNull((e) =>
+        e.isDartCoreIterable ||
+        e.isDartCoreList ||
+        e.isDartCoreSet ||
+        e.isDartCoreMap);
     if (found != null) {
       if (type.aliasName.endsWith("?")) {
         return "$name?.map((e) => e.map((e) => ${_jsonValue(name: "e", type: found as InterfaceType)}).toList()).toList()";
