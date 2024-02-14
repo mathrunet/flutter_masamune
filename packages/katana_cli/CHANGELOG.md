@@ -1,3 +1,7 @@
+## 2.16.1
+
+ - **FIX**: Fixed a bug in uploading. ([db28040b](https://github.com/mathrunet/flutter_masamune/commit/db28040b32b83b769e3596748b27671874034223))
+
 ## 2.16.0
 
  - **FEAT**: Changed Android billing to authentication by service account. ([be5db120](https://github.com/mathrunet/flutter_masamune/commit/be5db120de6567112fd6d97727fea4617109cb42))

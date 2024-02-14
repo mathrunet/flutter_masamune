@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.16.1`](#katana_cli---v2161)
+
+---
+
+#### `katana_cli` - `v2.16.1`
+
+ - **FIX**: Fixed a bug in uploading. ([db28040b](https://github.com/mathrunet/flutter_masamune/commit/db28040b32b83b769e3596748b27671874034223))
+
+
+## 2024-02-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.16.0`](#katana_cli---v2160)
 
 ---
