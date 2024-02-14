@@ -1,3 +1,7 @@
+## 2.15.8
+
+ - **FIX**: Modification of request. ([381d18b4](https://github.com/mathrunet/flutter_masamune/commit/381d18b432d4bb97e5c457646d08feb7ffde72a3))
+
 ## 2.15.7
 
  - Update a dependency to the latest release.
