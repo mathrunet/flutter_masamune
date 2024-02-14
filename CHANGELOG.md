@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.16.0`](#katana_cli---v2160)
+
+---
+
+#### `katana_cli` - `v2.16.0`
+
+ - **FEAT**: Changed Android billing to authentication by service account. ([be5db120](https://github.com/mathrunet/flutter_masamune/commit/be5db120de6567112fd6d97727fea4617109cb42))
+
+
+## 2024-02-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.15.8`](#katana_cli---v2158)
 
 ---

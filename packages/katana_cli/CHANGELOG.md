@@ -1,3 +1,7 @@
+## 2.16.0
+
+ - **FEAT**: Changed Android billing to authentication by service account. ([be5db120](https://github.com/mathrunet/flutter_masamune/commit/be5db120de6567112fd6d97727fea4617109cb42))
+
 ## 2.15.8
 
  - **FIX**: Modification of request. ([381d18b4](https://github.com/mathrunet/flutter_masamune/commit/381d18b432d4bb97e5c457646d08feb7ffde72a3))
