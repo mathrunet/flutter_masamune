@@ -48,7 +48,8 @@ class CodeServerRequestCliCommand extends CliCodeCommand {
 /* eslint indent: off */
 /* eslint max-len: off */
 import * as m from "@mathrunet/masamune";
-import {Response, Request} from "firebase-functions/v2";
+import * as functions from "firebase-functions/v2";
+import * as express from "express";
 
 """;
   }
@@ -88,13 +89,8 @@ export class ${className.toPascalCase()}Request extends m.RequestProcessFunction
      * Response passed to Functions.
      *
      * Functionsに渡されたResponse。
-     *
-     * @param {Record<string, any>} options
-     * Options passed to Functions.
-     *
-     * Functionsに渡されたオプション。
      */
-    async process(reqest: Request, response: Response<any>, options: Record<string, any>): Promise<void> {
+    async process(reqest: functions.https.Request, response: express.Response<any>): Promise<void> {
         // TODO: Implement the process to be executed.
     }
 }
