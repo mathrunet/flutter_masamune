@@ -47,6 +47,7 @@ class CodeServerScheduleCliCommand extends CliCodeCommand {
     return """
 /* eslint indent: off */
 /* eslint max-len: off */
+/* eslint @typescript-eslint/no-explicit-any: off */
 import * as m from "@mathrunet/masamune";
 
 """;

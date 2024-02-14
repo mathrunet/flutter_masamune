@@ -53,6 +53,7 @@ class CodeServerCallCliCommand extends CliCodeCommand {
     return """
 /* eslint indent: off */
 /* eslint max-len: off */
+/* eslint @typescript-eslint/no-explicit-any: off */
 import * as m from "@mathrunet/masamune";
 
 """;
@@ -99,7 +100,10 @@ export class ${className.toPascalCase()}Call extends m.CallProcessFunctionBase {
      * 
      * 処理の結果を返します。
      */
-    async process(query: any, options: Record<string, any>): Promise<{[key: string]: any}> {
+    async process(
+      query: any,
+      options: Record<string, any>
+    ): Promise<{[key: string]: any}> {
         // TODO: Implement the process to be executed.
         return {};
     }

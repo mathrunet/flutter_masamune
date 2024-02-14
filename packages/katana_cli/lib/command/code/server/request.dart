@@ -47,6 +47,7 @@ class CodeServerRequestCliCommand extends CliCodeCommand {
     return """
 /* eslint indent: off */
 /* eslint max-len: off */
+/* eslint @typescript-eslint/no-explicit-any: off */
 import * as m from "@mathrunet/masamune";
 import * as functions from "firebase-functions/v2";
 import * as express from "express";
@@ -90,7 +91,10 @@ export class ${className.toPascalCase()}Request extends m.RequestProcessFunction
      *
      * Functionsに渡されたResponse。
      */
-    async process(reqest: functions.https.Request, response: express.Response<any>): Promise<void> {
+    async process(
+      reqest: functions.https.Request,
+      response: express.Response<any>
+    ): Promise<void> {
         // TODO: Implement the process to be executed.
     }
 }

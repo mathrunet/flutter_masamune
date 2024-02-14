@@ -315,7 +315,7 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         env["PURCHASE_ANDROID_SERVICEACCOUNT_EMAIL"] =
             androidServiceAccountEmail;
         env["PURCHASE_ANDROID_SERVICEACCOUNT_PRIVATE_KEY"] =
-            androidServiceAccountPrivateKey;
+            androidServiceAccountPrivateKey.replaceAll("\n", "\\n");
       }
       if (enableAppStore) {
         env["PURCHASE_IOS_SHAREDSECRET"] = appStoreSharedSecret;
