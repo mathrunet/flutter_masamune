@@ -23,7 +23,6 @@ class StoreCliCommand extends CliCommandGroup {
   @override
   Map<String, CliCommand> get commands => const {
         "screenshot": StoreScreenshotCliCommand(),
-        "android_token": StoreAndroidTokenCliCommand(),
         "build": StoreAndroidBuildCliCommand(),
       };
 }

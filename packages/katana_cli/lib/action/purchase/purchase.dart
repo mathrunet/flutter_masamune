@@ -43,9 +43,6 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
     final purchase = context.yaml.getAsMap("purchase");
     final googlePlay = purchase.getAsMap("google_play");
     final appStore = purchase.getAsMap("app_store");
-    final googlePlayClientId = googlePlay.get("oauth_client_id", "");
-    final googlePlayClientSecret = googlePlay.get("oauth_client_secret", "");
-    final googlePlayRefreshToken = googlePlay.get("refresh_token", "");
     final googlePlayPubsubTopic = googlePlay.get("pubsub_topic", "");
     final appStoreSharedSecret = appStore.get("shared_secret", "");
     final firebase = context.yaml.getAsMap("firebase");
@@ -55,17 +52,29 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
     final region = function.get("region", "");
     final enableGooglePlay = googlePlay.get("enable", false);
     final enableAppStore = appStore.get("enable", false);
+    late final String androidServiceAccountEmail;
+    late final String androidServiceAccountPrivateKey;
     if (enableGooglePlay) {
-      if (googlePlayClientId.isEmpty || googlePlayClientSecret.isEmpty) {
+      final serviceAccountFile = await find(
+        Directory("android"),
+        RegExp("([a-z0-9_-]+).json"),
+        recursive: false,
+      );
+      if (serviceAccountFile == null) {
         error(
-          "The item [purchase]->[google_play]->[oauth_client_id] or [purchase]->[google_play]->[oauth_client_secret] is empty. Please set it.",
+          "Json for service account not found, please refer to https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b82feb7aae3c61b to set it up. サービスアカウント用のJsonが見つかりません。https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b82feb7aae3c61b を参考に設定してください。",
         );
         return;
       }
-      if (googlePlayRefreshToken.isEmpty) {
+      final serviceAccountMap =
+          (await serviceAccountFile.readAsString()).toJsonMap();
+      androidServiceAccountEmail = serviceAccountMap.get("client_email", "");
+      androidServiceAccountPrivateKey =
+          serviceAccountMap.get("private_key", "");
+      if (androidServiceAccountPrivateKey.isEmpty ||
+          androidServiceAccountEmail.isEmpty) {
         error(
-          "The item [purchase]->[google_play]->[refresh_token] is empty. Please set it."
-          "After entering [purchase]->[google_play]->[oauth_client_id] and [purchase]->[google_play]->[oauth_client_secret], run `katana store android_token and run `katana store android_token` to get a refresh token.",
+          "Json for service account is broken, please refer to https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b82feb7aae3c61b to set it up. サービスアカウント用のJsonが壊れています。https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b を参考に設定してください。",
         );
         return;
       }
@@ -211,8 +220,8 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
           ),
         );
       }
-      if (manifest.first.attributes
-          .any((p0) => p0.name.toString() != "xmlns:tools")) {
+      if (!manifest.first.attributes
+          .any((p0) => p0.name.toString() == "xmlns:tools")) {
         manifest.first.attributes.add(
           XmlAttribute(
             XmlName("xmlns:tools"),
@@ -260,12 +269,6 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
       label("Add firebase functions");
       final functions = Fuctions();
       await functions.load();
-      if (!functions.functions.any((e) => e.startsWith("androidAuthCode"))) {
-        functions.functions.add("androidAuthCode()");
-      }
-      if (!functions.functions.any((e) => e.startsWith("androidToken"))) {
-        functions.functions.add("androidToken()");
-      }
       if (enableAppStore) {
         if (!functions.functions
             .any((e) => e.startsWith("consumableVerifyIOS"))) {
@@ -309,9 +312,10 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
       await env.load();
       env["PURCHASE_SUBSCRIPTIONPATH"] = "plugins/iap/subscription";
       if (enableGooglePlay) {
-        env["PURCHASE_ANDROID_CLIENTID"] = googlePlayClientId;
-        env["PURCHASE_ANDROID_CLIENTSECRET"] = googlePlayClientSecret;
-        env["PURCHASE_ANDROID_REFRESHTOKEN"] = googlePlayRefreshToken;
+        env["PURCHASE_ANDROID_SERVICEACCOUNT_EMAIL"] =
+            androidServiceAccountEmail;
+        env["PURCHASE_ANDROID_SERVICEACCOUNT_PRIVATE_KEY"] =
+            androidServiceAccountPrivateKey;
       }
       if (enableAppStore) {
         env["PURCHASE_IOS_SHAREDSECRET"] = appStoreSharedSecret;

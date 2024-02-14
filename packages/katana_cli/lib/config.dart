@@ -537,31 +537,24 @@ purchase:
 
   # Configure settings for Google Play billing.
   # Follow the steps below to configure the settings.
-  # 1. Obtain the OAuth client ID and client secret based on the URL below.
+  # 1. Create a service account with permissions to GooglePlayConsole based on the URL below.
   #    https://mathru.notion.site/Android-1d4a60948a1446d7a82c010d96417a3d?pvs=4
   #    ※ You need to create an OAuth consent screen. Please create it from the following URL.
   #    https://console.cloud.google.com/apis/credentials/consent
-  # 2. Set `enable` to `true` and enter the values you obtained for `oauth_client_id` and `oauth_client_secret`.
-  # 3. Run `katana store android_token` to get a refresh token.
-  # 4. Enter the obtained refresh token in the `refresh_token` field.
-  # 5. Run `katana apply` to deploy the app and server.
-  # 6. Set the topic ID for notification to `pubsub_topic`.
+  # 2. Set `enable` to `true`.
+  # 3. Set the topic ID for the notification to `pubsub_topic`.
+  # 4. Run `katana apply` to deploy the app and server.
   # GooglePlayの課金を行う場合の設定を行います。
   # 下記の手順で設定を行います。
-  # 1. 下記URLを元にOAuthのクライアントIDとクライアントシークレットを取得します。
+  # 1. 下記URLを元にGooglePlayConsoleに権限があるサービスアカウントを作成します。
   #    https://mathru.notion.site/Android-1d4a60948a1446d7a82c010d96417a3d?pvs=4
   #    ※OAuthの同意画面を作成する必要があります。下記のURLから作成してください。
   #    https://console.cloud.google.com/apis/credentials/consent
-  # 2. `enable`を`true`にし、`oauth_client_id`と`oauth_client_secret`に取得した値を入力します。
-  # 3. `katana store android_token`を実行しリフレッシュトークンを取得します。
-  # 4. 取得したリフレッシュトークンを`refresh_token`に入力します。
-  # 5. `katana apply`を実行しアプリとサーバーのデプロイを行います。
-  # 6. 通知用のトピックIDを`pubsub_topic`に設定します。
+  # 2. `enable`を`true`にします。
+  # 3. 通知用のトピックIDを`pubsub_topic`に設定します。
+  # 4. `katana apply`を実行しアプリとサーバーのデプロイを行います。
   google_play:
     enable: false
-    oauth_client_id: 
-    oauth_client_secret: 
-    refresh_token: 
     pubsub_topic: purchasing
   
   # Configure settings for AppStore billing.

@@ -3,6 +3,7 @@ part of "store.dart";
 /// Obtain a refresh token for store billing on Google Play.
 ///
 /// GooglePlayでストア課金を行うためのリフレッシュトークンを取得します。
+@Deprecated("サービスアカウントを使用する方法に変更されました。")
 class StoreAndroidTokenCliCommand extends CliCommand {
   /// Obtain a refresh token for store billing on Google Play.
   ///
