@@ -1,3 +1,7 @@
+## 2.6.3
+
+ - **FIX**: Modal.show title is now optional. ([5e61cd30](https://github.com/mathrunet/flutter_masamune/commit/5e61cd3097503ce5b08391a7549010b937a87a2e))
+
 ## 2.6.2
 
  - Update a dependency to the latest release.
