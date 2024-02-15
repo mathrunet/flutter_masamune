@@ -53,7 +53,7 @@ class Modal {
     BuildContext context, {
     Color? backgroundColor,
     Color? color,
-    required String title,
+    String? title,
     required List<Widget> Function(ModalRef ref) builder,
     bool disableBackKey = false,
     bool popOnPress = true,
@@ -90,12 +90,14 @@ class Modal {
             child: SimpleDialog(
               contentPadding: contentPadding,
               alignment: alignment,
-              title: Text(
-                title,
-                style: TextStyle(
-                  color: foregroundColor,
-                ),
-              ),
+              title: title != null
+                  ? Text(
+                      title,
+                      style: TextStyle(
+                        color: foregroundColor,
+                      ),
+                    )
+                  : null,
               backgroundColor: backgroundColor,
               surfaceTintColor: backgroundColor,
               children: builder.call(ref),
