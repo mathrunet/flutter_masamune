@@ -15,12 +15,7 @@ class AssetConfig {
   /// アセット用のコンフィグデータ。
   ///
   /// [useSvg]でSVGデータを利用するかを設定します。
-  const AssetConfig({required this.useSvg});
-
-  /// `true` if you use SVG data.
-  ///
-  /// SVGデータを利用する場合`true`。
-  final bool useSvg;
+  const AssetConfig();
 
   /// Get whether or not to use as Assets according to [type].
   ///
@@ -32,7 +27,7 @@ class AssetConfig {
   bool checkEnabled(AssetValueType type) {
     switch (type) {
       case AssetValueType.svg:
-        return useSvg;
+        return true;
       case AssetValueType.font:
         return false;
       default:

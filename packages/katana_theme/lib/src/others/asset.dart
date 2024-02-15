@@ -246,7 +246,11 @@ abstract class _ImageProviderBuilderMixin {
     Map<String, String>? headers,
   }) {
     if (uri.isEmpty) {
-      return _MemoizedAssetImage(defaultAssetURI);
+      if (defaultAssetURI.endsWith("svg")) {
+        return MemoizedAssetSvgImageProvider(defaultAssetURI);
+      } else {
+        return _MemoizedAssetImage(defaultAssetURI);
+      }
     }
     try {
       uri = "$_prefix${uri!.trimString("/")}";
@@ -254,35 +258,83 @@ abstract class _ImageProviderBuilderMixin {
         final blob = uri.replaceAll(RegExp(r"^blob:(//)?"), "");
         return MemoryImage(base64Url.decode(blob));
       } else if (uri.startsWith("http")) {
-        return _MemoizedNetworkImage(
-          uri,
-          headers: headers,
-        );
+        if (uri.endsWith("svg")) {
+          return MemoizedNetworkSvgImageProvider(
+            uri,
+            headers: headers,
+          );
+        } else {
+          return _MemoizedNetworkImage(
+            uri,
+            headers: headers,
+          );
+        }
       } else if (uri.startsWith("/") || uri.startsWith("file:")) {
         final file = File(uri.replaceAll(RegExp(r"^file:(//)?"), ""));
-        if (file.existsSync()) {
-          return _MemoizedFileImage(file);
+        if (uri.endsWith("svg")) {
+          if (file.existsSync()) {
+            return MemoizedFileSvgImageProvider(file.path);
+          } else {
+            return MemoizedAssetSvgImageProvider(uri.trimString("/"));
+          }
         } else {
-          return _MemoizedAssetImage(uri.trimString("/"));
+          if (file.existsSync()) {
+            return _MemoizedFileImage(file);
+          } else {
+            return _MemoizedAssetImage(uri.trimString("/"));
+          }
         }
       } else if (uri.startsWith("document:")) {
         final file = File(uri.replaceAll(RegExp(r"^document:(//)?"), ""));
-        return _MemoizedFileImage(file, dirType: FileImageDirType.document);
+        if (uri.endsWith("svg")) {
+          return MemoizedFileSvgImageProvider(
+            file.path,
+            dirType: FileImageDirType.document,
+          );
+        } else {
+          return _MemoizedFileImage(file, dirType: FileImageDirType.document);
+        }
       } else if (uri.startsWith("temp:")) {
         final file = File(uri.replaceAll(RegExp(r"^temp:(//)?"), ""));
-        return _MemoizedFileImage(file, dirType: FileImageDirType.temporary);
+        if (uri.endsWith("svg")) {
+          return MemoizedFileSvgImageProvider(
+            file.path,
+            dirType: FileImageDirType.temporary,
+          );
+        } else {
+          return _MemoizedFileImage(file, dirType: FileImageDirType.temporary);
+        }
       } else if (uri.startsWith("temporary:")) {
         final file = File(uri.replaceAll(RegExp(r"^temporary:(//)?"), ""));
-        return _MemoizedFileImage(file, dirType: FileImageDirType.temporary);
+        if (uri.endsWith("svg")) {
+          return MemoizedFileSvgImageProvider(
+            file.path,
+            dirType: FileImageDirType.temporary,
+          );
+        } else {
+          return _MemoizedFileImage(file, dirType: FileImageDirType.temporary);
+        }
       } else if (uri.startsWith("resource:")) {
-        return _MemoizedAssetImage(
-            uri.replaceAll(RegExp(r"^resource:(//)?"), ""));
+        final path = uri.replaceAll(RegExp(r"^resource:(//)?"), "");
+        if (uri.endsWith("svg")) {
+          return MemoizedAssetSvgImageProvider(path);
+        } else {
+          return _MemoizedAssetImage(path);
+        }
       } else {
-        return _MemoizedAssetImage(uri);
+        if (uri.endsWith("svg")) {
+          return MemoizedAssetSvgImageProvider(uri);
+        } else {
+          return _MemoizedAssetImage(uri);
+        }
       }
     } catch (e) {
       debugPrint(e.toString());
-      return _MemoizedAssetImage(defaultAssetURI);
+      if (defaultAssetURI.endsWith("svg")) {
+        return MemoizedAssetSvgImageProvider(defaultAssetURI);
+      } else {
+        return _MemoizedAssetImage(defaultAssetURI);
+      }
     }
   }
 }

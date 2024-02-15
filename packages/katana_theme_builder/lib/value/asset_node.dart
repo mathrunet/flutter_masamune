@@ -87,11 +87,11 @@ class AssetNode {
         return Method(
           (f) => f
             ..name = "provider"
-            ..returns = const Reference("PictureProvider")
+            ..returns = const Reference("ImageProvider")
             ..lambda = true
             ..type = MethodType.getter
             ..body = const Code(
-              "ExactAssetPicture(SvgPicture.svgStringDecoderBuilder, path)",
+              "MemoizedAssetSvgImageProvider(path)",
             ),
         );
       case AssetValueType.text:

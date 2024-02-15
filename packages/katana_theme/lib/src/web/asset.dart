@@ -196,23 +196,50 @@ abstract class _ImageProviderBuilderMixin {
     Map<String, String>? headers,
   }) {
     if (uri.isEmpty) {
-      return _MemoizedAssetImage(defaultAssetURI);
+      if (defaultAssetURI.endsWith("svg")) {
+        return MemoizedAssetSvgImageProvider(defaultAssetURI);
+      } else {
+        return _MemoizedAssetImage(defaultAssetURI);
+      }
     }
     try {
       if (uri!.startsWith("blob:")) {
         final blob = uri.replaceAll(RegExp(r"^blob:(//)?"), "");
         return MemoryImage(base64Url.decode(blob));
       } else if (uri.startsWith("http")) {
-        return _MemoizedNetworkImage(uri, headers: headers);
+        if (uri.endsWith("svg")) {
+          return MemoizedNetworkSvgImageProvider(
+            uri,
+            headers: headers,
+          );
+        } else {
+          return _MemoizedNetworkImage(uri, headers: headers);
+        }
       } else if (uri.startsWith("resource:")) {
-        return _MemoizedAssetImage(
-            uri.replaceAll(RegExp(r"^resource:(//)?"), ""));
+        final path = uri.replaceAll(RegExp(r"^resource:(//)?"), "");
+        if (path.endsWith("svg")) {
+          return MemoizedAssetSvgImageProvider(
+            path,
+          );
+        } else {
+          return _MemoizedAssetImage(path);
+        }
       } else {
-        return _MemoizedAssetImage(uri);
+        if (uri.endsWith("svg")) {
+          return MemoizedAssetSvgImageProvider(
+            uri,
+          );
+        } else {
+          return _MemoizedAssetImage(uri);
+        }
       }
     } catch (e) {
       debugPrint(e.toString());
-      return _MemoizedAssetImage(defaultAssetURI);
+      if (defaultAssetURI.endsWith("svg")) {
+        return MemoizedAssetSvgImageProvider(defaultAssetURI);
+      } else {
+        return _MemoizedAssetImage(defaultAssetURI);
+      }
     }
   }
 }

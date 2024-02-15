@@ -11,8 +11,10 @@ import 'dart:ui' as ui;
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/painting/_network_image_io.dart' as network_image;
-import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 // Package imports:
 import 'package:meta/meta.dart';
@@ -23,3 +25,4 @@ import 'package:katana_theme/katana_theme.dart';
 
 part 'asset.dart';
 part 'text_provider.dart';
+part 'svg_image_provider.dart';

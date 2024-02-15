@@ -40,7 +40,6 @@ class ThemeGenerator extends GeneratorForAnnotation<AppTheme> {
     final pubspecFile = File("pubspec.yaml");
     final content = pubspecFile.readAsStringSync();
     final map = loadYaml(content) as YamlMap;
-    final dependency = map.getAsMap("dependencies");
     final assetsSource = map.getAsMap("flutter").getAsList<String>("assets");
     final fontsSource = map.getAsMap("flutter").getAsList<YamlMap>("fonts");
     for (var assetInput in assetsSource) {
@@ -74,7 +73,7 @@ class ThemeGenerator extends GeneratorForAnnotation<AppTheme> {
           .getAsMap("assets"),
     );
     final fontNodes = FontNode.parse(fonts);
-    final config = AssetConfig(useSvg: dependency.containsKey("flutter_svg"));
+    final config = AssetConfig();
 
     final generated = Library(
       (l) => l
