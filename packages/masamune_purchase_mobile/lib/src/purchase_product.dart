@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_initializing_formals
+
 part of '/masamune_purchase_mobile.dart';
 
 /// Define chargeable items.
@@ -78,7 +80,7 @@ class PurchaseProduct {
   })  : type = PurchaseProductType.consumable,
         expiredPeriod = null,
         _priceText = priceText,
-        this.amount = amount;
+        amount = amount;
 
   /// Define chargeable items.
   ///
@@ -136,7 +138,7 @@ class PurchaseProduct {
     String? priceText,
   })  : type = PurchaseProductType.subscription,
         amount = null,
-        this.expiredPeriod = expiredPeriod,
+        expiredPeriod = expiredPeriod,
         _priceText = priceText;
 
   /// Product ID.
