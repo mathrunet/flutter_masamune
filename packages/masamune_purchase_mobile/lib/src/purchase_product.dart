@@ -69,7 +69,7 @@ class PurchaseProduct {
   /// [title]や[description]、[price]は課金アイテムをストアからロードした際に上書きされます。
   const PurchaseProduct.wallet({
     required this.productId,
-    this.amount,
+    required double amount,
     this.title = "",
     this.description = "",
     this.icon,
@@ -77,7 +77,8 @@ class PurchaseProduct {
     String? priceText,
   })  : type = PurchaseProductType.consumable,
         expiredPeriod = null,
-        _priceText = priceText;
+        _priceText = priceText,
+        this.amount = amount;
 
   /// Define chargeable items.
   ///
@@ -131,10 +132,11 @@ class PurchaseProduct {
     this.description = "",
     required this.price,
     this.icon,
-    this.expiredPeriod,
+    required Duration expiredPeriod,
     String? priceText,
   })  : type = PurchaseProductType.subscription,
         amount = null,
+        this.expiredPeriod = expiredPeriod,
         _priceText = priceText;
 
   /// Product ID.
