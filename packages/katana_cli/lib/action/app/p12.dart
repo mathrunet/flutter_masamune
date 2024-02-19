@@ -79,6 +79,7 @@ class AppP12CliAction extends CliCommand with CliActionMixin {
           openssl,
           "pkcs12",
           "-export",
+          "-legacy",
           "-in",
           cer.path.replaceAll(regExp, ".pem"),
           "-out",
