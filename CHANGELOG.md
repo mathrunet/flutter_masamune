@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-02-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.16.2`](#katana_cli---v2162)
+
+---
+
+#### `katana_cli` - `v2.16.2`
+
+ - **FIX**: Fixed a bug that caused a password error. ([1212d96a](https://github.com/mathrunet/flutter_masamune/commit/1212d96a14e87ec5fd2fab16e480943c4954b254))
+
+
 ## 2024-02-16
 
 ### Changes

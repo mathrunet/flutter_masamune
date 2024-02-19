@@ -1,3 +1,7 @@
+## 2.16.2
+
+ - **FIX**: Fixed a bug that caused a password error. ([1212d96a](https://github.com/mathrunet/flutter_masamune/commit/1212d96a14e87ec5fd2fab16e480943c4954b254))
+
 ## 2.16.1
 
  - **FIX**: Fixed a bug in uploading. ([db28040b](https://github.com/mathrunet/flutter_masamune/commit/db28040b32b83b769e3596748b27671874034223))
