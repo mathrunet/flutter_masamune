@@ -59,6 +59,17 @@ class FirebaseDeployCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    label("Import firestore.indexes.json");
+    final firestoreIndexes = File("${firebaseDir.path}/firestore.indexes.json");
+    final indexData = await command(
+      "Import packages.",
+      [
+        firebaseCommand,
+        "firestore:indexes",
+      ],
+      workingDirectory: firebaseDir.path,
+    );
+    await firestoreIndexes.writeAsString(indexData);
     await command(
       "Run firebase deploy",
       [

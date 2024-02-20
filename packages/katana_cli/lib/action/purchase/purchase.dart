@@ -6,6 +6,7 @@
 import 'dart:io';
 
 // Package imports:
+import 'package:katana_cli/src/android_manifest.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
@@ -188,6 +189,7 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         ].join("\n"));
       }
       label("Edit AndroidManifest.xml.");
+      await AndroidManifestPermissionType.billing.enablePermission();
       final file = File("android/app/src/main/AndroidManifest.xml");
       if (!file.existsSync()) {
         throw Exception(
@@ -199,25 +201,6 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
       if (manifest.isEmpty) {
         throw Exception(
           "The structure of AndroidManifest.xml is broken. Do `katana create` to complete the initial setup of the project.",
-        );
-      }
-      if (!manifest.first.children.any((p0) =>
-          p0 is XmlElement &&
-          p0.name.toString() == "uses-permission" &&
-          p0.attributes.any((p1) =>
-              p1.name.toString() == "android:name" &&
-              p1.value == "com.android.vending.BILLING"))) {
-        manifest.first.children.add(
-          XmlElement(
-            XmlName("uses-permission"),
-            [
-              XmlAttribute(
-                XmlName("android:name"),
-                "com.android.vending.BILLING",
-              ),
-            ],
-            [],
-          ),
         );
       }
       if (!manifest.first.attributes

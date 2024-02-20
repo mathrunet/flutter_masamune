@@ -2,6 +2,7 @@
 import 'dart:io';
 
 // Package imports:
+import 'package:katana_cli/src/android_manifest.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
@@ -73,57 +74,7 @@ class AppTextToSpeechCliAction extends CliCommand with CliActionMixin {
         "configProperties[\"flutter.minSdkVersion\"]";
     await gradle.save();
     label("Edit AndroidManifest.xml.");
-    final file = File("android/app/src/main/AndroidManifest.xml");
-    if (!file.existsSync()) {
-      throw Exception(
-        "AndroidManifest does not exist in `android/app/src/main/AndroidManifest.xml`. Do `katana create` to complete the initial setup of the project.",
-      );
-    }
-    final document = XmlDocument.parse(await file.readAsString());
-    final manifest = document.findAllElements("manifest");
-    if (manifest.isEmpty) {
-      throw Exception(
-        "The structure of AndroidManifest.xml is broken. Do `katana create` to complete the initial setup of the project.",
-      );
-    }
-    final queries = manifest.first.children.firstWhereOrNull(
-            (p0) => p0 is XmlElement && p0.name.toString() == "queries") ??
-        () {
-          final q = XmlElement(XmlName("queries"), [], []);
-          manifest.first.children.insertFirst(q);
-          return q;
-        }();
-    if (!queries.children.any((p0) =>
-        p0 is XmlElement &&
-        p0.name.toString() == "intent" &&
-        p0.children.any((p1) =>
-            p1 is XmlElement &&
-            p1.name.toString() == "action" &&
-            p1.attributes.any((p2) =>
-                p2.name.toString() == "android:name" &&
-                p2.value == "android.intent.action.TTS_SERVICE")))) {
-      queries.children.add(
-        XmlElement(
-          XmlName("intent"),
-          [],
-          [
-            XmlElement(
-              XmlName("action"),
-              [
-                XmlAttribute(
-                  XmlName("android:name"),
-                  "android.intent.action.TTS_SERVICE",
-                ),
-              ],
-              [],
-            ),
-          ],
-        ),
-      );
-    }
-    await file.writeAsString(
-      document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
-    );
+    await AndroidManifestQueryType.textToSpeech.enableQuery();
     label("Edit Info.plist.");
     final plist = File("ios/Runner/Info.plist");
     final plistDocument = XmlDocument.parse(await plist.readAsString());

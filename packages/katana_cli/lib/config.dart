@@ -645,6 +645,14 @@ agora:
   # Agoraのクラウドレコーディングを有効にする場合は`true`にしてください。
   enable_cloud_recording: false
 
+  # Specify permission permission messages to use the camera and microphone in IOS.
+  # IOSでカメラやマイクを利用するための権限許可メッセージを指定します。
+  permission:
+    camera:
+      en: Use the camera for video chats.
+    microphone:
+      en: Use the microphone for video chatting.
+
 # Configure Gmail sending settings.
 # Gmailの送信設定を行います。
 gmail:

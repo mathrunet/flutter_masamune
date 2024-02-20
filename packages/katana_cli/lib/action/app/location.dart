@@ -4,6 +4,7 @@ import 'dart:io';
 // Package imports:
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
+import 'package:katana_cli/src/android_manifest.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
@@ -62,60 +63,25 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
       return;
     }
     label("Edit AndroidManifest.xml.");
-    final file = File("android/app/src/main/AndroidManifest.xml");
-    if (!file.existsSync()) {
-      throw Exception(
-        "AndroidManifest does not exist in `android/app/src/main/AndroidManifest.xml`. Do `katana create` to complete the initial setup of the project.",
-      );
-    }
-    final document = XmlDocument.parse(await file.readAsString());
-    final manifest = document.findAllElements("manifest");
-    if (manifest.isEmpty) {
-      throw Exception(
-        "The structure of AndroidManifest.xml is broken. Do `katana create` to complete the initial setup of the project.",
-      );
-    }
-    if (!manifest.first.children.any((p0) =>
-        p0 is XmlElement &&
-        p0.name.toString() == "uses-permission" &&
-        p0.attributes.any((p1) =>
-            p1.name.toString() == "android:name" &&
-            p1.value == "android.permission.ACCESS_FINE_LOCATION"))) {
-      manifest.first.children.add(
-        XmlElement(
-          XmlName("uses-permission"),
-          [
-            XmlAttribute(
-              XmlName("android:name"),
-              "android.permission.ACCESS_FINE_LOCATION",
-            ),
-          ],
-          [],
-        ),
-      );
-    }
+    await AndroidManifestPermissionType.accessFineLocation.enablePermission();
     if (enableBackground) {
-      if (!manifest.first.children.any((p0) =>
-          p0 is XmlElement &&
-          p0.name.toString() == "uses-permission" &&
-          p0.attributes.any((p1) =>
-              p1.name.toString() == "android:name" &&
-              p1.value == "android.permission.ACCESS_BACKGROUND_LOCATION"))) {
-        manifest.first.children.add(
-          XmlElement(
-            XmlName("uses-permission"),
-            [
-              XmlAttribute(
-                XmlName("android:name"),
-                "android.permission.ACCESS_BACKGROUND_LOCATION",
-              ),
-            ],
-            [],
-          ),
-        );
-      }
+      await AndroidManifestPermissionType.accessBackgroundLocation
+          .enablePermission();
     }
     if (enableGoogleMap) {
+      final file = File("android/app/src/main/AndroidManifest.xml");
+      if (!file.existsSync()) {
+        throw Exception(
+          "AndroidManifest does not exist in `android/app/src/main/AndroidManifest.xml`. Do `katana create` to complete the initial setup of the project.",
+        );
+      }
+      final document = XmlDocument.parse(await file.readAsString());
+      final manifest = document.findAllElements("manifest");
+      if (manifest.isEmpty) {
+        throw Exception(
+          "The structure of AndroidManifest.xml is broken. Do `katana create` to complete the initial setup of the project.",
+        );
+      }
       final application = document.findAllElements("application");
       if (!application.first.children.any(
         (p0) =>
@@ -148,10 +114,10 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
           ),
         );
       }
+      await file.writeAsString(
+        document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
+      );
     }
-    await file.writeAsString(
-      document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
-    );
     if (enableGoogleMap) {
       label("Edit config.properties");
       final configPropertiesFile = File("android/config.properties");

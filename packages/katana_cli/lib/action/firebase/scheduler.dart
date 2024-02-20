@@ -63,16 +63,25 @@ class FirebaseSchedulerCliAction extends CliCommand with CliActionMixin {
         "masamune_scheduler",
       ],
     );
-    label("Edit firestore.indexes.json");
+    label("Import firestore.indexes.json");
     final firestoreIndexes = File("firebase/firestore.indexes.json");
+    final indexData = await command(
+      "Import packages.",
+      [
+        firebaseCommand,
+        "firestore:indexes",
+      ],
+      workingDirectory: "firebase",
+    );
+    await firestoreIndexes.writeAsString(indexData);
+    label("Edit firestore.indexes.json");
     final indexes = firestoreIndexes.existsSync()
         ? jsonDecodeAsMap(firestoreIndexes.readAsStringSync())
         : {};
-    final collections = indexes.get<List<DynamicMap>?>("indexes", null);
-    if (collections != null) {
+    final collections = indexes.getAsList<DynamicMap>("indexes");
+    if (collections.isNotEmpty) {
       final schedule = collections.firstWhereOrNull(
-        (e) =>
-            e.getAsMap("collectionGroup").get("collectionId", "") == "schedule",
+        (e) => e.get("collectionGroup", "") == "schedule",
       );
       if (schedule != null) {
         final fields = schedule.getAsList<DynamicMap>("fields");

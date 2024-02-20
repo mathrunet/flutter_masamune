@@ -220,6 +220,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           );
           _runCommandStack(
             line,
+            "? File firestore.rules already exists.",
+            commandStack,
+            () => firestoreProcess.stdin.write("n\n"),
+          );
+          _runCommandStack(
+            line,
             "? Would you like to delete these indexes?",
             commandStack,
             () => firestoreProcess.stdin.write("n\n"),
@@ -500,6 +506,17 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       gitignores.removeWhere((e) => e.startsWith(".env"));
     }
     await gitignore.writeAsString(gitignores.join("\n"));
+    label("Import firestore.indexes.json");
+    final firestoreIndexes = File("firebase/firestore.indexes.json");
+    final indexData = await command(
+      "Import packages.",
+      [
+        firebaseCommand,
+        "firestore:indexes",
+      ],
+      workingDirectory: "firebase",
+    );
+    await firestoreIndexes.writeAsString(indexData);
     await command(
       "Run firebase deploy",
       [
