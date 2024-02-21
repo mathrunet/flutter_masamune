@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-02-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.17.0`](#katana_cli---v2170)
+ - [`masamune_model_firestore_builder` - `v2.2.9`](#masamune_model_firestore_builder---v229)
+
+---
+
+#### `katana_cli` - `v2.17.0`
+
+ - **FEAT**: Permissions can now be granted. ([c3c1a05c](https://github.com/mathrunet/flutter_masamune/commit/c3c1a05cad13c2b05df360439667a2f4bad4a94a))
+
+#### `masamune_model_firestore_builder` - `v2.2.9`
+
+ - **FIX**: Fixed a bug that Json listings were not properly identified. ([408b4b1e](https://github.com/mathrunet/flutter_masamune/commit/408b4b1e6e0a5f0ee7d619c0e9a0741864057c57))
+
+
 ## 2024-02-19
 
 ### Changes

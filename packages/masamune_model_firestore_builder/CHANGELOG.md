@@ -1,3 +1,7 @@
+## 2.2.9
+
+ - **FIX**: Fixed a bug that Json listings were not properly identified. ([408b4b1e](https://github.com/mathrunet/flutter_masamune/commit/408b4b1e6e0a5f0ee7d619c0e9a0741864057c57))
+
 ## 2.2.8
 
  - Update a dependency to the latest release.

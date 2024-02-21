@@ -1,3 +1,7 @@
+## 2.17.0
+
+ - **FEAT**: Permissions can now be granted. ([c3c1a05c](https://github.com/mathrunet/flutter_masamune/commit/c3c1a05cad13c2b05df360439667a2f4bad4a94a))
+
 ## 2.16.2
 
  - **FIX**: Fixed a bug that caused a password error. ([1212d96a](https://github.com/mathrunet/flutter_masamune/commit/1212d96a14e87ec5fd2fab16e480943c4954b254))
