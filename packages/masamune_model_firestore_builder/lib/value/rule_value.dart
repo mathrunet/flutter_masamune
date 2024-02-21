@@ -100,9 +100,23 @@ class RuleValue {
             paramList.add("isSearchable(data)");
           }
           if (param.isJsonSerializable) {
-            paramList.add(
-              "is${param.type.isNullable ? "Nullable" : ""}Map(data, \"$key\")",
-            );
+            if (param.type.isDartCoreList || param.type.isDartCoreSet) {
+              paramList.add(
+                "is${param.type.isNullable ? "Nullable" : ""}List(data, \"$key\")",
+              );
+            } else if (param.type.isDartCoreMap) {
+              paramList.add(
+                "is${param.type.isNullable ? "Nullable" : ""}Map(data, \"$key\")",
+              );
+            } else if (param.type.isDartCoreIterable) {
+              paramList.add(
+                "is${param.type.isNullable ? "Nullable" : ""}List(data, \"$key\")",
+              );
+            } else {
+              paramList.add(
+                "is${param.type.isNullable ? "Nullable" : ""}Map(data, \"$key\")",
+              );
+            }
           } else {
             final functionName = param.type.toRuleFunction();
             if (functionName.isNotEmpty) {

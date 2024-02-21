@@ -13,10 +13,10 @@ extension _InterfaceTypeExtensions on InterfaceType {
       return "is$nullable${RuleType.double.label}";
     } else if (isDartCoreList) {
       return "is$nullable${RuleType.list.label}";
-    } else if (isDartCoreMap) {
-      return "is$nullable${RuleType.map.label}";
     } else if (isDartCoreSet) {
       return "is$nullable${RuleType.list.label}";
+    } else if (isDartCoreMap) {
+      return "is$nullable${RuleType.map.label}";
     } else if (isDartCoreEnum) {
       return "is${nullable}Enum";
     } else if (isModelRef) {
