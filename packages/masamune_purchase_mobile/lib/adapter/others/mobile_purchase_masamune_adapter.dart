@@ -411,6 +411,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
   Future<void> purchase({
     required PurchaseProduct product,
     required VoidCallback onDone,
+    PurchaseProduct? replacedProduct,
   }) async {
     if (product is _StoreConsumablePurchaseProduct) {
       final purchaseParam = PurchaseParam(
@@ -432,15 +433,48 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
         throw Exception("Purchase failed or was canceled.");
       }
     } else if (product is _StoreSubscriptionPurchaseProduct) {
-      final purchaseParam = PurchaseParam(
-        productDetails: product.productDetails,
-        applicationUserName: product.userId,
-      );
+      final changeSubscription =
+          await _getReplacedPurchaseDetails(replacedProduct: replacedProduct);
+
+      final purchaseParam = UniversalPlatform.isAndroid
+          ? GooglePlayPurchaseParam(
+              productDetails: product.productDetails,
+              applicationUserName: product.userId,
+              changeSubscriptionParam: changeSubscription != null
+                  ? ChangeSubscriptionParam(
+                      oldPurchaseDetails: changeSubscription,
+                      prorationMode: ProrationMode.immediateWithTimeProration,
+                    )
+                  : null,
+            )
+          : PurchaseParam(
+              productDetails: product.productDetails,
+              applicationUserName: product.userId,
+            );
       if (!await _iap.buyNonConsumable(purchaseParam: purchaseParam)) {
         throw Exception("Purchase failed or was canceled.");
       }
     } else {
       throw Exception("Product not found: ${product.productId}");
     }
+  }
+
+  Future<GooglePlayPurchaseDetails?> _getReplacedPurchaseDetails(
+      {PurchaseProduct? replacedProduct}) async {
+    if (replacedProduct == null) {
+      return null;
+    }
+    final addition = InAppPurchase.instance
+        .getPlatformAddition<InAppPurchaseAndroidPlatformAddition>();
+    final purchases = await addition.queryPastPurchases();
+    return purchases.pastPurchases
+        .sortTo(
+          (a, b) => b.billingClientPurchase.purchaseTime
+              .compareTo(a.billingClientPurchase.purchaseTime),
+        )
+        .where((element) =>
+            element.status == PurchaseStatus.purchased &&
+            element.productID == replacedProduct.productId)
+        .firstOrNull;
   }
 }

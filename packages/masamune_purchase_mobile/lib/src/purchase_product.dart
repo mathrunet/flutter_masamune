@@ -447,9 +447,11 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
 
   Future<void> _purchaseForRuntime({
     required String orderId,
+    PurchaseProduct? replacedProduct,
   }) async {
     assert(expiredPeriod != null, "[expiredPeriod] is not set.");
     await _collection?.reload();
+    await _revokeForRuntime(replacedProduct: replacedProduct);
     final now = DateTime.now();
     final expiredTime = now.add(expiredPeriod!);
     final doc = _collection?.create();
@@ -461,6 +463,31 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
         expired: now.isAfter(expiredTime),
         expiredTime: expiredTime.millisecondsSinceEpoch,
       ).toJson(),
+    );
+  }
+
+  Future<void> _revokeForRuntime({
+    PurchaseProduct? replacedProduct,
+  }) async {
+    if (replacedProduct == null) {
+      return;
+    }
+    assert(expiredPeriod != null, "[expiredPeriod] is not set.");
+    await _collection?.reload();
+    final targets = _collection?.where((element) =>
+        element.value.get("expired", false) &&
+        element.value.get("productId", "") == productId);
+    if (targets.isEmpty) {
+      return;
+    }
+    await wait(
+      targets?.map(
+            (e) => e.save({
+              "expired": false,
+              "expiredTime": DateTime.now().millisecondsSinceEpoch,
+            }),
+          ) ??
+          [],
     );
   }
 

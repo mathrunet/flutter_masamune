@@ -69,6 +69,7 @@ class RuntimePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
   Future<void> purchase({
     required PurchaseProduct product,
     required VoidCallback onDone,
+    PurchaseProduct? replacedProduct,
   }) async {
     if (product is StoreConsumablePurchaseProduct) {
       await product._purchaseForRuntime();
@@ -77,6 +78,7 @@ class RuntimePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     } else if (product is StoreSubscriptionPurchaseProduct) {
       await product._purchaseForRuntime(
         orderId: uuid(),
+        replacedProduct: replacedProduct,
       );
     } else {
       throw Exception("Product not found: ${product.productId}");

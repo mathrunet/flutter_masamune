@@ -111,5 +111,6 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
   Future<void> purchase({
     required PurchaseProduct product,
     required VoidCallback onDone,
+    PurchaseProduct? replacedProduct,
   });
 }

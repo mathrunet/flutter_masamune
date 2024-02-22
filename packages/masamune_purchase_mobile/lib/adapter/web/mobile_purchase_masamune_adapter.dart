@@ -66,6 +66,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
   Future<void> purchase({
     required PurchaseProduct product,
     required VoidCallback onDone,
+    PurchaseProduct? replacedProduct,
   }) async {
     throw UnsupportedError("Purchasing function is not supported.");
   }

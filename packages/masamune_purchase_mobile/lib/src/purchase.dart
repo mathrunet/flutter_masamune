@@ -251,8 +251,17 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
 
   /// The billing is based on the items in [product].
   ///
+  /// For Android subscriptions, specifying [replacedProduct] will replace that item.
+  /// Used to upgrade or downgrade from [replacedProduct] to [product].
+  ///
   /// [product]のアイテムを元に課金を行います。
-  Future<void> purchase(PurchaseProduct product) async {
+  ///
+  /// Androidのサブスクリプションの場合[replacedProduct]を指定するとそのアイテムを置き換えます。
+  /// [replacedProduct]から[product]にアップグレードやダウングレードを行う場合に使用します。
+  Future<void> purchase(
+    PurchaseProduct product, {
+    PurchaseProduct? replacedProduct,
+  }) async {
     if (_purchaseCompleter != null) {
       return _purchaseCompleter?.future;
     }
@@ -271,6 +280,7 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
           _purchaseCompleter?.complete();
           _purchaseCompleter = null;
         },
+        replacedProduct: replacedProduct,
       );
       await _purchaseCompleter?.future;
       await load();
