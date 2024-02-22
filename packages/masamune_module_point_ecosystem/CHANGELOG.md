@@ -1,3 +1,7 @@
+## 2.5.17
+
+ - **FIX**: Added upgrade downgrade interface for Android. ([186edb89](https://github.com/mathrunet/flutter_masamune/commit/186edb89729eb2c2cb9490f5076fb6065cae6438))
+
 ## 2.5.16
 
  - Update a dependency to the latest release.

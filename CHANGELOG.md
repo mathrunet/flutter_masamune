@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-02-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_module_point_ecosystem` - `v2.5.17`](#masamune_module_point_ecosystem---v2517)
+ - [`masamune_purchase_mobile` - `v2.7.17`](#masamune_purchase_mobile---v2717)
+
+---
+
+#### `masamune_module_point_ecosystem` - `v2.5.17`
+
+ - **FIX**: Added upgrade downgrade interface for Android. ([186edb89](https://github.com/mathrunet/flutter_masamune/commit/186edb89729eb2c2cb9490f5076fb6065cae6438))
+
+#### `masamune_purchase_mobile` - `v2.7.17`
+
+ - **FIX**: Added upgrade downgrade interface for Android. ([186edb89](https://github.com/mathrunet/flutter_masamune/commit/186edb89729eb2c2cb9490f5076fb6065cae6438))
+
+
 ## 2024-02-21
 
 ### Changes
