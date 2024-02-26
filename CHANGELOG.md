@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-02-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.17.1`](#katana_cli---v2171)
+ - [`masamune_purchase_mobile` - `v2.7.18`](#masamune_purchase_mobile---v2718)
+ - [`masamune_module_point_ecosystem` - `v2.5.18`](#masamune_module_point_ecosystem---v2518)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.5.18`
+
+---
+
+#### `katana_cli` - `v2.17.1`
+
+ - **FIX**: autoVerify=true is now given. ([f82d8b0e](https://github.com/mathrunet/flutter_masamune/commit/f82d8b0e5df85279597c55b026d19198faf33a0b))
+
+#### `masamune_purchase_mobile` - `v2.7.18`
+
+ - **FIX**: I made it so that I could take errors normally. ([9b94395c](https://github.com/mathrunet/flutter_masamune/commit/9b94395c9310a53a6a03102e4c806b6e69bd3a21))
+
+
 ## 2024-02-22
 
 ### Changes

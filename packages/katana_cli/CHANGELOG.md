@@ -1,3 +1,7 @@
+## 2.17.1
+
+ - **FIX**: autoVerify=true is now given. ([f82d8b0e](https://github.com/mathrunet/flutter_masamune/commit/f82d8b0e5df85279597c55b026d19198faf33a0b))
+
 ## 2.17.0
 
  - **FEAT**: Permissions can now be granted. ([c3c1a05c](https://github.com/mathrunet/flutter_masamune/commit/c3c1a05cad13c2b05df360439667a2f4bad4a94a))

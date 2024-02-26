@@ -1,3 +1,7 @@
+## 2.7.18
+
+ - **FIX**: I made it so that I could take errors normally. ([9b94395c](https://github.com/mathrunet/flutter_masamune/commit/9b94395c9310a53a6a03102e4c806b6e69bd3a21))
+
 ## 2.7.17
 
  - **FIX**: Added upgrade downgrade interface for Android. ([186edb89](https://github.com/mathrunet/flutter_masamune/commit/186edb89729eb2c2cb9490f5076fb6065cae6438))
