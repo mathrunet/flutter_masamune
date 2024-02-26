@@ -104,7 +104,12 @@ class AppDeeplinkCliAction extends CliCommand with CliActionMixin {
       activity.first.children.add(
         XmlElement(
           XmlName("intent-filter"),
-          [],
+          [
+            XmlAttribute(
+              XmlName("android:autoVerify"),
+              "true",
+            ),
+          ],
           [
             XmlElement(
               XmlName("action"),
