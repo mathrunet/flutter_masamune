@@ -92,7 +92,7 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
     required List<PurchaseProduct> products,
     required VoidCallback onDone,
     required VoidCallback onDisposed,
-    required void Function(Object e) onError,
+    required void Function(Object e, StackTrace? stacktrace) onError,
   });
 
   /// Perform other initialization processes.

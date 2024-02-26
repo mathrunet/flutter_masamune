@@ -89,7 +89,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     required List<PurchaseProduct> products,
     required VoidCallback onDone,
     required VoidCallback onDisposed,
-    required void Function(Object e) onError,
+    required void Function(Object e, StackTrace? stacktrace) onError,
   }) {
     final functions = functionsAdapter ?? FunctionsAdapter.primary;
     return _iap.purchaseStream.listen(
@@ -357,31 +357,31 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                 }
                 done = true;
               }
-            } catch (e) {
+            } catch (e, stacktrace) {
               if (purchase.pendingCompletePurchase) {
                 debugPrint("Purchase completed: ${purchase.productID}");
                 await _iap.completePurchase(purchase);
               }
               throw Exception(
-                "Purchase completed with error: ${purchase.productID}:${e.toString()}:${StackTrace.current.toString()}",
+                "Purchase completed with error: ${purchase.productID}:${e.toString()}:$stacktrace.toString()}",
               );
             }
           }
           if (done) {
             onDone();
           }
-        } catch (e) {
-          onError(e);
+        } catch (e, stacktrace) {
+          onError(e, stacktrace);
           throw Exception(
-            "Purchase completed with error: ${e.toString()}:${StackTrace.current.toString()}",
+            "Purchase completed with error: ${e.toString()}:${stacktrace.toString()}",
           );
         }
       },
       onDone: onDisposed,
-      onError: (e) {
-        onError(e);
+      onError: (e, stacktrace) {
+        onError(e, stacktrace);
         throw Exception(
-          "Purchase completed with error: ${e.toString()}:${StackTrace.current.toString()}",
+          "Purchase completed with error: ${e.toString()}:${stacktrace.toString()}",
         );
       },
     );
@@ -461,6 +461,9 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
 
   Future<GooglePlayPurchaseDetails?> _getReplacedPurchaseDetails(
       {PurchaseProduct? replacedProduct}) async {
+    if (!UniversalPlatform.isAndroid) {
+      return null;
+    }
     if (replacedProduct == null) {
       return null;
     }

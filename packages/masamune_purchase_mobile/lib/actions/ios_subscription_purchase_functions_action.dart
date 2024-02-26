@@ -67,7 +67,8 @@ class IOSSubscriptionPurchaseFunctionsAction extends PurchaseFunctionsAction {
     final latestReceiptInfo = response
         .getAsList("latest_receipt_info")
         .cast<Map>()
-        .firstOrNull as DynamicMap?;
+        .map((e) => e.map((key, value) => MapEntry(key.toString(), value)))
+        .firstOrNull;
     final startTimeMillis =
         latestReceiptInfo.get<int?>("purchase_date_ms", null) ??
             latestReceiptInfo.get<double?>("purchase_date_ms", null)?.toInt() ??

@@ -47,7 +47,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     required List<PurchaseProduct> products,
     required VoidCallback onDone,
     required VoidCallback onDisposed,
-    required void Function(Object e) onError,
+    required void Function(Object e, StackTrace? stacktrace) onError,
   }) {
     throw UnsupportedError("Purchasing function is not supported.");
   }

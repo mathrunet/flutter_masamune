@@ -157,7 +157,7 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
           _purchaseCompleter = null;
           dispose();
         },
-        onError: (e) {
+        onError: (e, stacktrace) {
           _initializeCompleter?.completeError(e);
           _initializeCompleter = null;
           _purchaseCompleter?.completeError(e);
