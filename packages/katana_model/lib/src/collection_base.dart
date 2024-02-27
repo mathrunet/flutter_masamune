@@ -505,13 +505,17 @@ abstract class CollectionBase<TModel extends DocumentBase>
         final filtered = value._filterOnLoad(update.value);
         if (filtered.isEmpty) {
           value._value = null;
+          // 最初にいれないと要素が無いエラーがでる場合がある
+          _value.insert(update.newIndex!, value);
         } else {
-          value._value = await value.filterOnDidLoad(value.fromMap(filtered));
+          final fromMap = value._value = value.fromMap(filtered);
+          // 最初にいれないと要素が無いエラーがでる場合がある
+          _value.insert(update.newIndex!, value);
+          value._value = await value.filterOnDidLoad(fromMap);
         }
         if (val != value.value) {
           value.notifyListeners();
         }
-        _value.insert(update.newIndex!, value);
         notify = true;
         break;
       case ModelUpdateNotificationStatus.modified:
@@ -523,15 +527,17 @@ abstract class CollectionBase<TModel extends DocumentBase>
         final filtered = found._filterOnLoad(update.value);
         if (filtered.isEmpty) {
           found._value = null;
+          // 最初にいれないと要素が無いエラーがでる場合がある
+          _value.insert(update.newIndex!, found);
         } else {
-          found._value = await found.filterOnDidLoad(
-            found.fromMap(found._filterOnLoad(update.value)),
-          );
+          final fromMap = found._value = found.fromMap(filtered);
+          // 最初にいれないと要素が無いエラーがでる場合がある
+          _value.insert(update.newIndex!, found);
+          found._value = await found.filterOnDidLoad(fromMap);
         }
         if (val != found.value) {
           found.notifyListeners();
         }
-        _value.insert(update.newIndex!, found);
         if (update.newIndex != update.oldIndex) {
           notify = true;
         }
