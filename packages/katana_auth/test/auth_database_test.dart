@@ -517,6 +517,12 @@ void main() {
       ),
     );
     expect(db.isSignedIn, false);
+    expect(db.current, null);
+    await db.confirmSignIn(
+      provider: const SmsConfirmSignInAuthProvider(
+        code: code,
+      ),
+    );
     expect(db.current, {
       AuthDatabase.userIdKey: userId,
       AuthDatabase.tmpUserPhoneNumberKey: "11111111111",
@@ -524,11 +530,6 @@ void main() {
       AuthDatabase.userPhoneNumberKey: "11111111111",
       AuthDatabase.activeProvidersKey: ["phone"]
     });
-    await db.confirmSignIn(
-      provider: const SmsConfirmSignInAuthProvider(
-        code: code,
-      ),
-    );
     expect(db.isSignedIn, true);
   });
   test("AuthDatabase.delete", () async {

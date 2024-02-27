@@ -871,7 +871,7 @@ class AuthDatabase {
           "Phone number is not registered. Please register it with [signIn] beforehand.",
         );
       }
-      if (provider.code != temporary.get(smsCodeKey, "")) {
+      if (provider.code != account.get(smsCodeKey, "")) {
         throw Exception(
           "The code is invalid. Please check the code.",
         );
