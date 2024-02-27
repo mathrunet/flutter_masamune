@@ -18,8 +18,6 @@ import 'package:flutter/widgets.dart';
 
 // Package imports:
 import 'package:masamune/masamune.dart';
-
-// Project imports:
 import 'package:masamune_purchase_mobile/models/purchase_subscription.dart';
 import 'package:masamune_purchase_mobile/models/purchase_user.dart';
 
