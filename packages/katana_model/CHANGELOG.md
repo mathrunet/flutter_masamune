@@ -1,3 +1,7 @@
+## 2.24.4
+
+ - **FIX**: Fixed a bug that caused the number of elements to be incorrect. ([a884827a](https://github.com/mathrunet/flutter_masamune/commit/a884827af20df48167782571f52e459e7af0c59d))
+
 ## 2.24.3
 
  - **FIX**: Fixed a bug that increased the list of ref. ([c91a54c3](https://github.com/mathrunet/flutter_masamune/commit/c91a54c395ef1338e00826cdf9fcb36d270af4ac))
