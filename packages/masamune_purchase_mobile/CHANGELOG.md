@@ -1,3 +1,7 @@
+## 2.7.19
+
+ - Update a dependency to the latest release.
+
 ## 2.7.18
 
  - **FIX**: I made it so that I could take errors normally. ([9b94395c](https://github.com/mathrunet/flutter_masamune/commit/9b94395c9310a53a6a03102e4c806b6e69bd3a21))

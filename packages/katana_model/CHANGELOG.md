@@ -1,3 +1,7 @@
+## 2.24.3
+
+ - **FIX**: Fixed a bug that increased the list of ref. ([c91a54c3](https://github.com/mathrunet/flutter_masamune/commit/c91a54c395ef1338e00826cdf9fcb36d270af4ac))
+
 ## 2.24.2
 
  - Update a dependency to the latest release.

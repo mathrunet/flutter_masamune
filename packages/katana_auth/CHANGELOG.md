@@ -1,3 +1,7 @@
+## 2.5.4
+
+ - **FIX**: Auth test failure correction. ([2a76b3dc](https://github.com/mathrunet/flutter_masamune/commit/2a76b3dc183cefad8aa9ca069f865383718810d1))
+
 ## 2.5.3
 
  - Update a dependency to the latest release.
