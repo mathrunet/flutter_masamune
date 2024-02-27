@@ -1,4 +1,4 @@
-part of '/masamune_purchase_mobile.dart';
+part of '/masamune_purchase.dart';
 
 /// The key of the internal wallet when a [PurchaseProductType.consumable] chargeable item is purchased.
 ///

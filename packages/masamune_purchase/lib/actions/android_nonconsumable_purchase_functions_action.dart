@@ -1,20 +1,20 @@
-part of '/masamune_purchase_mobile.dart';
+part of '/masamune_purchase.dart';
 
-/// Define consumable billing settings for Android.
+/// Define the settings for non-disposable billing for Android.
 ///
-/// Android用の消耗型課金の設定を定義します。
-class AndroidConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
-  /// Define consumable billing settings for Android.
+/// Android用の非消耗型課金の設定を定義します。
+class AndroidNonConsumablePurchaseFunctionsAction
+    extends PurchaseFunctionsAction {
+  /// Define the settings for non-disposable billing for Android.
   ///
-  /// Android用の消耗型課金の設定を定義します。
-  const AndroidConsumablePurchaseFunctionsAction({
+  /// Android用の非消耗型課金の設定を定義します。
+  const AndroidNonConsumablePurchaseFunctionsAction({
     required this.packageName,
     required this.productId,
     required this.purchaseToken,
     this.collectionPath = "plugins/iap/user",
-    this.fieldKey = "value",
+    required this.fieldKey,
     required this.documentId,
-    required this.amount,
   });
 
   /// Package Name.
@@ -47,13 +47,8 @@ class AndroidConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
   /// データを保存するフィールドキー。
   final String fieldKey;
 
-  /// Amount of data to be added.
-  ///
-  /// 加算するデータ量。
-  final double amount;
-
   @override
-  String get action => "consumable_verify_android";
+  String get action => "nonconsumable_verify_android";
 
   @override
   DynamicMap? toMap() {
@@ -65,7 +60,6 @@ class AndroidConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
       "productId": productId,
       "purchaseToken": purchaseToken,
       "path": "$collectionPath/$documentId/$fieldKey",
-      "value": amount,
     };
   }
 
