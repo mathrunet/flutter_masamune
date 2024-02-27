@@ -15,6 +15,39 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase` - `v2.1.0`](#masamune_purchase---v210)
+ - [`masamune_purchase_mobile` - `v2.8.0`](#masamune_purchase_mobile---v280)
+ - [`masamune_module_point_ecosystem` - `v2.5.21`](#masamune_module_point_ecosystem---v2521)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.5.21`
+
+---
+
+#### `masamune_purchase` - `v2.1.0`
+
+ - **FEAT**: Separate masamune_purchase. ([ccd68e55](https://github.com/mathrunet/flutter_masamune/commit/ccd68e5592bc5b3225c6203708d9a45d90cf3b13))
+
+#### `masamune_purchase_mobile` - `v2.8.0`
+
+ - **FEAT**: Separate masamune_purchase. ([ccd68e55](https://github.com/mathrunet/flutter_masamune/commit/ccd68e5592bc5b3225c6203708d9a45d90cf3b13))
+
+
+## 2024-02-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v2.24.4`](#katana_model---v2244)
  - [`katana_model_local` - `v2.13.5`](#katana_model_local---v2135)
  - [`katana_model_firestore` - `v2.16.5`](#katana_model_firestore---v2165)
