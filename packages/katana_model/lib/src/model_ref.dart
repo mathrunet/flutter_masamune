@@ -742,6 +742,7 @@ class ModelRefListBuilder<TSource, TResult>
             await doc.reload();
           }
           res.add(doc);
+          continue;
         }
       }
       final doc = document(modelQuery);
@@ -928,6 +929,7 @@ class ModelRefMapBuilder<TSource, TResult>
             await doc.reload();
           }
           res[key] = doc;
+          continue;
         }
       }
       final doc = document(modelQuery);
