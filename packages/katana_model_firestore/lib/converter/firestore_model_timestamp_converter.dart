@@ -102,7 +102,7 @@ class FirestoreModelTimestampConverter
       if (type == this.type) {
         final fromUser = value.get(ModelTimestamp.kSourceKey, "") ==
             ModelFieldValueSource.user.name;
-        final val = value.get<num>(ModelTimestamp.kTimeKey, 0.0);
+        final val = value.getAsDouble(ModelTimestamp.kTimeKey);
         final useNow = value.get(ModelTimestamp.kNowKey, false);
         final targetKey = "#$key";
         return {
@@ -164,7 +164,7 @@ class FirestoreModelTimestampConverter
         for (final entry in map.entries) {
           final fromUser = entry.value.get(ModelTimestamp.kSourceKey, "") ==
               ModelFieldValueSource.user.name;
-          final time = entry.value.get<num>(ModelTimestamp.kTimeKey, 0.0);
+          final time = entry.value.getAsDouble(ModelTimestamp.kTimeKey);
           final useNow = entry.value.get(ModelTimestamp.kNowKey, false);
           target[entry.key] = {
             kTypeFieldKey: type,

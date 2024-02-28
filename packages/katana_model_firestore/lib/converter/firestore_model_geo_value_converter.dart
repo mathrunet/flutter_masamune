@@ -33,8 +33,8 @@ class FirestoreModelGeoValueConverter
             key: targetList.mapAndRemoveEmpty<DynamicMap>(
               (e) => ModelGeoValue(
                 GeoValue(
-                    latitude: e.get(ModelGeoValue.kLatitudeKey, 0.0),
-                    longitude: e.get(ModelGeoValue.kLongitudeKey, 0.0)),
+                    latitude: e.getAsDouble(ModelGeoValue.kLatitudeKey),
+                    longitude: e.getAsDouble(ModelGeoValue.kLongitudeKey)),
               ).toJson(),
             ),
           };
@@ -66,8 +66,8 @@ class FirestoreModelGeoValueConverter
                 k,
                 ModelGeoValue(
                   GeoValue(
-                      latitude: v.get(ModelGeoValue.kLatitudeKey, 0.0),
-                      longitude: v.get(ModelGeoValue.kLongitudeKey, 0.0)),
+                      latitude: v.getAsDouble(ModelGeoValue.kLatitudeKey),
+                      longitude: v.getAsDouble(ModelGeoValue.kLongitudeKey)),
                 ).toJson(),
               ),
             ),
@@ -93,8 +93,8 @@ class FirestoreModelGeoValueConverter
       final targetMap = original.getAsMap(targetKey);
       final type = targetMap.get(_kTypeKey, "");
       if (type == this.type) {
-        final latitude = targetMap.get(ModelGeoValue.kLatitudeKey, 0.0);
-        final longitude = targetMap.get(ModelGeoValue.kLongitudeKey, 0.0);
+        final latitude = targetMap.getAsDouble(ModelGeoValue.kLatitudeKey);
+        final longitude = targetMap.getAsDouble(ModelGeoValue.kLongitudeKey);
         return {
           key: ModelGeoValue(
             GeoValue(latitude: latitude, longitude: longitude),
@@ -124,8 +124,8 @@ class FirestoreModelGeoValueConverter
         final fromUser = value.get(ModelGeoValue.kSourceKey, "") ==
             ModelFieldValueSource.user.name;
         final geoHash = value.get(ModelGeoValue.kGeoHashKey, "");
-        final latitude = value.get(ModelGeoValue.kLatitudeKey, 0);
-        final longitude = value.get(ModelGeoValue.kLongitudeKey, 0);
+        final latitude = value.getAsDouble(ModelGeoValue.kLatitudeKey);
+        final longitude = value.getAsDouble(ModelGeoValue.kLongitudeKey);
         final targetKey = "#$key";
         return {
           targetKey: {
@@ -147,8 +147,8 @@ class FirestoreModelGeoValueConverter
           final fromUser = entry.get(ModelCounter.kSourceKey, "") ==
               ModelFieldValueSource.user.name;
           final geoHash = entry.get(ModelGeoValue.kGeoHashKey, "");
-          final latitude = entry.get(ModelGeoValue.kLatitudeKey, 0);
-          final longitude = entry.get(ModelGeoValue.kLongitudeKey, 0);
+          final latitude = entry.getAsDouble(ModelGeoValue.kLatitudeKey);
+          final longitude = entry.getAsDouble(ModelGeoValue.kLongitudeKey);
           target.add({
             kTypeFieldKey: type,
             ModelGeoValue.kLatitudeKey: latitude,
@@ -177,8 +177,9 @@ class FirestoreModelGeoValueConverter
           final fromUser = entry.value.get(ModelCounter.kSourceKey, "") ==
               ModelFieldValueSource.user.name;
           final geoHash = entry.value.get(ModelGeoValue.kGeoHashKey, "");
-          final latitude = entry.value.get(ModelGeoValue.kLatitudeKey, 0);
-          final longitude = entry.value.get(ModelGeoValue.kLongitudeKey, 0);
+          final latitude = entry.value.getAsDouble(ModelGeoValue.kLatitudeKey);
+          final longitude =
+              entry.value.getAsDouble(ModelGeoValue.kLongitudeKey);
           target[entry.key] = {
             kTypeFieldKey: type,
             ModelGeoValue.kLatitudeKey: latitude,
