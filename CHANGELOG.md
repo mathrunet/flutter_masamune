@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_module_point_ecosystem` - `v2.5.23`](#masamune_module_point_ecosystem---v2523)
+
+---
+
+#### `masamune_module_point_ecosystem` - `v2.5.23`
+
+ - **FIX**: Additional imports required. ([38587ac7](https://github.com/mathrunet/flutter_masamune/commit/38587ac785f11e399773c3c8086d2337053f71d4))
+
+
+## 2024-02-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model_firestore` - `v2.16.6`](#katana_model_firestore---v2166)
  - [`masamune_module_point_ecosystem` - `v2.5.22`](#masamune_module_point_ecosystem---v2522)
  - [`masamune_model_algolia` - `v2.4.13`](#masamune_model_algolia---v2413)

@@ -1,3 +1,7 @@
+## 2.5.23
+
+ - **FIX**: Additional imports required. ([38587ac7](https://github.com/mathrunet/flutter_masamune/commit/38587ac785f11e399773c3c8086d2337053f71d4))
+
 ## 2.5.22
 
  - **FIX**: Fixed import errors. ([49243c62](https://github.com/mathrunet/flutter_masamune/commit/49243c6273a7f80467f8e9112bcac8147a2b6d9a))
