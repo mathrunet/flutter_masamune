@@ -1,3 +1,7 @@
+## 2.17.2
+
+ - **FIX**: Fixed a bug with = in the .env value. ([7187d984](https://github.com/mathrunet/flutter_masamune/commit/7187d9842ecbefbbaa121a9ffc0c66a24d63a08f))
+
 ## 2.17.1
 
  - **FIX**: autoVerify=true is now given. ([f82d8b0e](https://github.com/mathrunet/flutter_masamune/commit/f82d8b0e5df85279597c55b026d19198faf33a0b))

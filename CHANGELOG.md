@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.17.2`](#katana_cli---v2172)
+ - [`masamune_universal_ui` - `v2.3.19`](#masamune_universal_ui---v2319)
+
+---
+
+#### `katana_cli` - `v2.17.2`
+
+ - **FIX**: Fixed a bug with = in the .env value. ([7187d984](https://github.com/mathrunet/flutter_masamune/commit/7187d9842ecbefbbaa121a9ffc0c66a24d63a08f))
+
+#### `masamune_universal_ui` - `v2.3.19`
+
+ - **FIX**: Fixed image margin problems. ([71e02749](https://github.com/mathrunet/flutter_masamune/commit/71e02749e7a2c50a1c5d370222d71e2f0b01673c))
+
+
+## 2024-02-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_module_point_ecosystem` - `v2.5.23`](#masamune_module_point_ecosystem---v2523)
 
 ---
