@@ -1,3 +1,7 @@
+## 2.5.22
+
+ - **FIX**: Fixed import errors. ([49243c62](https://github.com/mathrunet/flutter_masamune/commit/49243c6273a7f80467f8e9112bcac8147a2b6d9a))
+
 ## 2.5.21
 
  - Update a dependency to the latest release.

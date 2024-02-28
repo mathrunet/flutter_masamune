@@ -1,3 +1,7 @@
+## 2.16.6
+
+ - **FIX**: Fixed a bug that location information was not saved. ([1dda214a](https://github.com/mathrunet/flutter_masamune/commit/1dda214ae7f31bd701692eae96a10db0e3d3c3a1))
+
 ## 2.16.5
 
  - Update a dependency to the latest release.

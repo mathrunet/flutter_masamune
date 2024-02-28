@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-02-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model_firestore` - `v2.16.6`](#katana_model_firestore---v2166)
+ - [`masamune_module_point_ecosystem` - `v2.5.22`](#masamune_module_point_ecosystem---v2522)
+ - [`masamune_model_algolia` - `v2.4.13`](#masamune_model_algolia---v2413)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_algolia` - `v2.4.13`
+
+---
+
+#### `katana_model_firestore` - `v2.16.6`
+
+ - **FIX**: Fixed a bug that location information was not saved. ([1dda214a](https://github.com/mathrunet/flutter_masamune/commit/1dda214ae7f31bd701692eae96a10db0e3d3c3a1))
+
+#### `masamune_module_point_ecosystem` - `v2.5.22`
+
+ - **FIX**: Fixed import errors. ([49243c62](https://github.com/mathrunet/flutter_masamune/commit/49243c6273a7f80467f8e9112bcac8147a2b6d9a))
+
+
 ## 2024-02-27
 
 ### Changes
