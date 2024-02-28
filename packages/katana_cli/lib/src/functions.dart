@@ -121,11 +121,11 @@ class FunctionsEnv {
     final envLines = envContent.split("\n");
     for (final line in envLines) {
       final index = line.trim().split("=");
-      if (index.length != 2) {
+      if (index.length < 2) {
         continue;
       }
       final key = index.first.trim();
-      final value = index.last.trim();
+      final value = index.sublist(1).join("=").trim();
       _env[key] = value;
     }
   }
