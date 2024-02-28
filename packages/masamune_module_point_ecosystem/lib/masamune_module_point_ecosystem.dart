@@ -20,8 +20,8 @@ import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
 import 'package:masamune_ads_google/masamune_ads_google.dart';
 import 'package:masamune_module/masamune_module.dart';
-import 'package:masamune_purchase_mobile/masamune_purchase_mobile.dart';
 import 'package:masamune_purchase/models/purchase_user.dart';
+import 'package:masamune_purchase_mobile/masamune_purchase_mobile.dart';
 
 // Project imports:
 import 'package:masamune_module_point_ecosystem/models/point_ecosystem_user.dart';
