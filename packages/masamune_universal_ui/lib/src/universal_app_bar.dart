@@ -1873,7 +1873,6 @@ class UniversalExtentAppBar extends StatelessWidget
                     color: foregroundColor ??
                         Theme.of(context).colorScheme.onBackground),
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
                   alignment: Alignment.topCenter,
                   height: height,
                   color: backgroundColor ??
@@ -1882,33 +1881,37 @@ class UniversalExtentAppBar extends StatelessWidget
                     fit: StackFit.expand,
                     children: [
                       if (background != null) background!,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              if (leading != null) leading,
-                              if (titlePosition ==
-                                  UniversalAppBarTitlePosition.top) ...[
-                                SizedBox(width: titleSpacing),
-                                Expanded(
-                                  child: mergedTitle!,
-                                ),
-                              ] else ...[
-                                const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                if (leading != null) leading,
+                                if (titlePosition ==
+                                    UniversalAppBarTitlePosition.top) ...[
+                                  SizedBox(width: titleSpacing),
+                                  Expanded(
+                                    child: mergedTitle!,
+                                  ),
+                                ] else ...[
+                                  const Spacer(),
+                                ],
+                                if (actions != null) ...actions!,
+                                SizedBox(width: trailingSpacing),
                               ],
-                              if (actions != null) ...actions!,
-                              SizedBox(width: trailingSpacing),
-                            ],
-                          ),
-                          if (titlePosition != UniversalAppBarTitlePosition.top)
-                            Padding(
-                              padding: titlePadding,
-                              child: mergedTitle,
                             ),
-                        ],
+                            if (titlePosition !=
+                                UniversalAppBarTitlePosition.top)
+                              Padding(
+                                padding: titlePadding,
+                                child: mergedTitle,
+                              ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
