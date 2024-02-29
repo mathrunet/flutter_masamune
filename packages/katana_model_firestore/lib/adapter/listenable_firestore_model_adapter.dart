@@ -598,8 +598,8 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     ModelAdapterDocumentQuery query,
   ) {
     _assert();
-    if (ref is! ListenableFirestoreModelTransactionRef) {
-      throw Exception("[ref] is not [ListenableFirestoreModelTransactionRef].");
+    if (ref is! FirestoreModelTransactionRef) {
+      throw Exception("[ref] is not [FirestoreModelTransactionRef].");
     }
     ref._transaction.delete(database.doc(_path(query.query.path)));
     ref._preLocalTransaction.add(() async {
@@ -620,8 +620,8 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     ModelAdapterDocumentQuery query,
   ) async {
     _assert();
-    if (ref is! ListenableFirestoreModelTransactionRef) {
-      throw Exception("[ref] is not [ListenableFirestoreModelTransactionRef].");
+    if (ref is! FirestoreModelTransactionRef) {
+      throw Exception("[ref] is not [FirestoreModelTransactionRef].");
     }
     if (validator != null) {
       await validator!.onPreloadDocument(query);
@@ -650,8 +650,8 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     DynamicMap value,
   ) {
     _assert();
-    if (ref is! ListenableFirestoreModelTransactionRef) {
-      throw Exception("[ref] is not [ListenableFirestoreModelTransactionRef].");
+    if (ref is! FirestoreModelTransactionRef) {
+      throw Exception("[ref] is not [FirestoreModelTransactionRef].");
     }
     final converted = _convertTo(
       value,
@@ -687,7 +687,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     _assert();
     await FirebaseCore.initialize(options: options);
     await database.runTransaction((handler) async {
-      final ref = ListenableFirestoreModelTransactionRef._(handler);
+      final ref = FirestoreModelTransactionRef._(handler);
       for (final tr in ref._preLocalTransaction) {
         await tr.call();
       }
@@ -701,11 +701,11 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   @override
   void deleteOnBatch(ModelBatchRef ref, ModelAdapterDocumentQuery query) {
     _assert();
-    if (ref is! ListenableFirestoreModelBatchRef) {
-      throw Exception("[ref] is not [ListenableFirestoreModelBatchRef].");
+    if (ref is! FirestoreModelBatchRef) {
+      throw Exception("[ref] is not [FirestoreModelBatchRef].");
     }
     ref._localBatch.add(
-      _ListenableFirestoreModelBatchItem(
+      _FirestoreModelBatchItem(
         path: _path(query.query.path),
         preActions: () async {
           if (validator != null) {
@@ -735,7 +735,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     );
     _assert();
     await FirebaseCore.initialize(options: options);
-    final ref = ListenableFirestoreModelBatchRef._();
+    final ref = FirestoreModelBatchRef._();
     await batch.call(ref);
     await wait(
       ref._localBatch.map((e) => e.preActions?.call()),
@@ -770,15 +770,15 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     DynamicMap value,
   ) {
     _assert();
-    if (ref is! ListenableFirestoreModelBatchRef) {
-      throw Exception("[ref] is not [ListenableFirestoreModelBatchRef].");
+    if (ref is! FirestoreModelBatchRef) {
+      throw Exception("[ref] is not [FirestoreModelBatchRef].");
     }
     final converted = _convertTo(
       value,
       _FirestoreCache.getCache(options).get(_path(query.query.path)) ?? {},
     );
     ref._localBatch.add(
-      _ListenableFirestoreModelBatchItem(
+      _FirestoreModelBatchItem(
         path: _path(query.query.path),
         value: converted,
         actions: () async {
@@ -1048,38 +1048,4 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
       "The prefix path hierarchy must be an even number: $prefix",
     );
   }
-}
-
-/// [ModelTransactionRef] for [ListenableFirestoreModelAdapter].
-///
-/// [ListenableFirestoreModelAdapter]用の[ModelTransactionRef]。
-@immutable
-class ListenableFirestoreModelTransactionRef extends ModelTransactionRef {
-  ListenableFirestoreModelTransactionRef._(this._transaction);
-  final Transaction _transaction;
-  final List<Future<void> Function()> _preLocalTransaction = [];
-  final List<Future<void> Function()> _postLocalTransaction = [];
-}
-
-/// [ModelBatchRef] for [ListenableFirestoreModelAdapter].
-///
-/// [ListenableFirestoreModelAdapter]用の[ModelBatchRef]。
-@immutable
-class ListenableFirestoreModelBatchRef extends ModelBatchRef {
-  ListenableFirestoreModelBatchRef._();
-  final List<_ListenableFirestoreModelBatchItem> _localBatch = [];
-}
-
-@immutable
-class _ListenableFirestoreModelBatchItem {
-  const _ListenableFirestoreModelBatchItem({
-    required this.path,
-    this.value,
-    this.preActions,
-    this.actions,
-  });
-  final String path;
-  final DynamicMap? value;
-  final Future<void> Function()? preActions;
-  final Future<void> Function()? actions;
 }
