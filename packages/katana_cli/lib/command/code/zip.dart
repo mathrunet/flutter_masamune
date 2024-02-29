@@ -21,6 +21,7 @@ class CodeZipCliCommand extends CliCommand {
     encoder.checkAndAddDirectory(
       "./",
       [
+        r"\.fvm/",
         r"\.class$",
         r"\.log$",
         r"\.pyc$",
