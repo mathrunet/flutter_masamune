@@ -1,3 +1,7 @@
+## 2.17.3
+
+ - **FIX**: Fixed to not include .fvm in Zip. ([bf6c9b15](https://github.com/mathrunet/flutter_masamune/commit/bf6c9b157af3e1267ed14651d6c5718328f82832))
+
 ## 2.17.2
 
  - **FIX**: Fixed a bug with = in the .env value. ([7187d984](https://github.com/mathrunet/flutter_masamune/commit/7187d9842ecbefbbaa121a9ffc0c66a24d63a08f))

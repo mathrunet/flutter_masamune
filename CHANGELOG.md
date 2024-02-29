@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-02-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.17.3`](#katana_cli---v2173)
+
+---
+
+#### `katana_cli` - `v2.17.3`
+
+ - **FIX**: Fixed to not include .fvm in Zip. ([bf6c9b15](https://github.com/mathrunet/flutter_masamune/commit/bf6c9b157af3e1267ed14651d6c5718328f82832))
+
+
 ## 2024-02-28
 
 ### Changes
