@@ -1,3 +1,7 @@
+## 2.3.20
+
+ - Update a dependency to the latest release.
+
 ## 2.3.19
 
  - **FIX**: Fixed image margin problems. ([71e02749](https://github.com/mathrunet/flutter_masamune/commit/71e02749e7a2c50a1c5d370222d71e2f0b01673c))

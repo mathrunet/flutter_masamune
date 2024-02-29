@@ -1,3 +1,7 @@
+## 2.2.3
+
+ - **FIX**: Forced reset after an error. ([3320d938](https://github.com/mathrunet/flutter_masamune/commit/3320d938c73e94a8efe57707c78c2f451b5dc419))
+
 ## 2.2.2
 
  - Update a dependency to the latest release.

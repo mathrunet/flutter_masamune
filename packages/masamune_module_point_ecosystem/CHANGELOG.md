@@ -1,3 +1,7 @@
+## 2.5.24
+
+ - Update a dependency to the latest release.
+
 ## 2.5.23
 
  - **FIX**: Additional imports required. ([38587ac7](https://github.com/mathrunet/flutter_masamune/commit/38587ac785f11e399773c3c8086d2337053f71d4))
