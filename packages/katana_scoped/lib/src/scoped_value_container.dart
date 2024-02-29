@@ -163,13 +163,24 @@ class ScopedValueContainer extends ChangeNotifier {
   ///
   /// 保持している状態の[ScopedValueState.dispose]が実行されます。
   void reset() {
-    for (final val in _data.values) {
-      if (val.disposed) {
-        continue;
+    // エラーになっても削除しきるように修正。
+    try {
+      final values = _data.values.toList();
+      for (final val in values) {
+        if (val.disposed) {
+          continue;
+        }
+        try {
+          val.dispose();
+        } catch (e) {
+          debugPrint(e.toString());
+        }
       }
-      val.dispose();
+    } catch (e) {
+      debugPrint(e.toString());
+    } finally {
+      _data.clear();
     }
-    _data.clear();
   }
 
   /// If [state] exists in [ScopedValueContainer], it is discarded and deleted.
