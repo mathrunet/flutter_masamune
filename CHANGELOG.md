@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.17.4`](#katana_cli---v2174)
+
+---
+
+#### `katana_cli` - `v2.17.4`
+
+ - **FIX**: Camera permissions were not included, so I added them. ([c371a041](https://github.com/mathrunet/flutter_masamune/commit/c371a04190396f0e1ec1c76101d1edfb7c9b06cc))
+
+
+## 2024-02-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_scoped` - `v2.2.3`](#katana_scoped---v223)
  - [`masamune` - `v2.9.16`](#masamune---v2916)
  - [`masamune_location_platform_interface` - `v2.3.19`](#masamune_location_platform_interface---v2319)

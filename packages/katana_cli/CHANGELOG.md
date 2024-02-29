@@ -1,3 +1,7 @@
+## 2.17.4
+
+ - **FIX**: Camera permissions were not included, so I added them. ([c371a041](https://github.com/mathrunet/flutter_masamune/commit/c371a04190396f0e1ec1c76101d1edfb7c9b06cc))
+
 ## 2.17.3
 
  - **FIX**: Fixed to not include .fvm in Zip. ([bf6c9b15](https://github.com/mathrunet/flutter_masamune/commit/bf6c9b157af3e1267ed14651d6c5718328f82832))
