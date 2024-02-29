@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model_firestore` - `v2.16.7`](#katana_model_firestore---v2167)
+ - [`masamune_model_algolia` - `v2.4.14`](#masamune_model_algolia---v2414)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_algolia` - `v2.4.14`
+
+---
+
+#### `katana_model_firestore` - `v2.16.7`
+
+ - **FIX**: Transaction can be made in a lump sum. ([7867a041](https://github.com/mathrunet/flutter_masamune/commit/7867a04137a99b17950d0d3a505763c271770bef))
+
+
+## 2024-02-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.17.3`](#katana_cli---v2173)
 
 ---

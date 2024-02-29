@@ -1,3 +1,7 @@
+## 2.16.7
+
+ - **FIX**: Transaction can be made in a lump sum. ([7867a041](https://github.com/mathrunet/flutter_masamune/commit/7867a04137a99b17950d0d3a505763c271770bef))
+
 ## 2.16.6
 
  - **FIX**: Fixed a bug that location information was not saved. ([1dda214a](https://github.com/mathrunet/flutter_masamune/commit/1dda214ae7f31bd701692eae96a10db0e3d3c3a1))
