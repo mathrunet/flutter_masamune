@@ -112,6 +112,7 @@ class AgoraCliAction extends CliCommand with CliActionMixin {
           .map((key, value) => MapEntry(key, value.toString()))
           .where((key, value) => value.isNotEmpty),
     );
+    await PodfilePermissionType.cameraUsage.enablePermissionToPodfile();
     await PodfilePermissionType.microphoneUsage.enablePermissionToPodfile();
     label("Add firebase functions");
     final functions = Fuctions();
