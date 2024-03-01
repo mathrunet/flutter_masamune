@@ -1,3 +1,7 @@
+## 2.17.5
+
+ - **FIX**: Path setting. ([f7474bac](https://github.com/mathrunet/flutter_masamune/commit/f7474baca34041f52cd74bb4ffece5639a58d25f))
+
 ## 2.17.4
 
  - **FIX**: Camera permissions were not included, so I added them. ([c371a041](https://github.com/mathrunet/flutter_masamune/commit/c371a04190396f0e1ec1c76101d1edfb7c9b06cc))

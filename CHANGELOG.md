@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-03-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.17.5`](#katana_cli---v2175)
+ - [`katana_model_firestore` - `v2.16.8`](#katana_model_firestore---v2168)
+ - [`masamune_model_algolia` - `v2.4.16`](#masamune_model_algolia---v2416)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_algolia` - `v2.4.16`
+
+---
+
+#### `katana_cli` - `v2.17.5`
+
+ - **FIX**: Path setting. ([f7474bac](https://github.com/mathrunet/flutter_masamune/commit/f7474baca34041f52cd74bb4ffece5639a58d25f))
+
+#### `katana_model_firestore` - `v2.16.8`
+
+ - **FIX**: LocalDatabase is made common. ([6a62c81c](https://github.com/mathrunet/flutter_masamune/commit/6a62c81ccd3f50903471eaec0a930696f05f9d35))
+
+
 ## 2024-02-29
 
 ### Changes
