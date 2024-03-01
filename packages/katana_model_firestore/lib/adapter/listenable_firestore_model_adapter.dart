@@ -120,7 +120,8 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   /// A common internal database throughout the app.
   ///
   /// アプリ内全体での共通の内部データベース。
-  static final NoSqlDatabase sharedLocalDatabase = NoSqlDatabase();
+  static final NoSqlDatabase sharedLocalDatabase =
+      FirestoreModelAdapter.sharedLocalDatabase;
 
   /// Specify the permission validator for the database.
   ///
