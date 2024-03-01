@@ -85,15 +85,15 @@ class FirebaseSchedulerCliAction extends CliCommand with CliActionMixin {
       );
       if (schedule != null) {
         final fields = schedule.getAsList<DynamicMap>("fields");
-        if (!fields.any((e) => e.get("fieldPath", "") == "_time")) {
-          fields.add({
-            "fieldPath": "_time",
-            "order": "ASCENDING",
-          });
-        }
         if (!fields.any((e) => e.get("fieldPath", "") == "_done")) {
           fields.add({
             "fieldPath": "_done",
+            "order": "ASCENDING",
+          });
+        }
+        if (!fields.any((e) => e.get("fieldPath", "") == "_time")) {
+          fields.add({
+            "fieldPath": "_time",
             "order": "ASCENDING",
           });
         }
@@ -102,8 +102,8 @@ class FirebaseSchedulerCliAction extends CliCommand with CliActionMixin {
           "collectionGroup": "schedule",
           "queryScope": "COLLECTION",
           "fields": [
-            {"fieldPath": "_time", "order": "ASCENDING"},
             {"fieldPath": "_done", "order": "ASCENDING"},
+            {"fieldPath": "_time", "order": "ASCENDING"},
           ]
         });
       }
@@ -113,13 +113,18 @@ class FirebaseSchedulerCliAction extends CliCommand with CliActionMixin {
           "collectionGroup": "schedule",
           "queryScope": "COLLECTION",
           "fields": [
-            {"fieldPath": "_time", "order": "ASCENDING"},
             {"fieldPath": "_done", "order": "ASCENDING"},
+            {"fieldPath": "_time", "order": "ASCENDING"},
           ]
         }
       ];
     }
     await firestoreIndexes.writeAsString(jsonEncode(indexes));
+    label("Set firebase functions config.");
+    final env = FunctionsEnv();
+    await env.load();
+    env["SCHEDULER_COLLECTION_PATH"] = "plugins/scheduler/schedule";
+    await env.save();
     await command(
       "Deploy firebase firestore.",
       [
