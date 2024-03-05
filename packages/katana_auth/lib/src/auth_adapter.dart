@@ -479,3 +479,17 @@ class _AuthAdapterScope extends InheritedWidget {
   @override
   bool updateShouldNotify(covariant _AuthAdapterScope oldWidget) => false;
 }
+
+/// Test scope for [AuthAdapter].
+///
+/// [AuthAdapter]のテスト用スコープ。
+class TestAuthAdapterScope {
+  const TestAuthAdapterScope._();
+
+  /// Set the [AuthAdapter] for testing.
+  ///
+  /// テスト用に[AuthAdapter]を設定します。
+  static void setTestAdapter(AuthAdapter adapter) {
+    AuthAdapter._primary = adapter;
+  }
+}

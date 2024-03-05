@@ -35,10 +35,17 @@ class AppRef implements Ref {
   AppRef({
     ScopedValueContainer? scopedValueContainer,
     List<LoggerAdapter> loggerAdapters = const [],
-  })  : _scopedValueContainer = scopedValueContainer ?? ScopedValueContainer(),
-        _loggerAdapters = loggerAdapters;
+  })  : __scopedValueContainer = scopedValueContainer,
+        _loggerAdapters = loggerAdapters {
+    if (scopedValueContainer != null) {
+      ScopedValueContainer._primary = scopedValueContainer;
+    }
+  }
 
-  final ScopedValueContainer _scopedValueContainer;
+  ScopedValueContainer get _scopedValueContainer =>
+      __scopedValueContainer ?? ScopedValueContainer.primary;
+
+  final ScopedValueContainer? __scopedValueContainer;
 
   /// Adapter to define loggers.
   ///

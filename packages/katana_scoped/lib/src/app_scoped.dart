@@ -105,3 +105,17 @@ class _AppScopedState extends State<AppScoped> {
     );
   }
 }
+
+/// Test scope for [AppScoped].
+///
+/// [AppScoped]のテスト用スコープ。
+class TestAppScoped {
+  const TestAppScoped._();
+
+  /// Set the [ScopedValueContainer] for testing.
+  ///
+  /// テスト用に[ScopedValueContainer]を設定します。
+  static void setTestContainer(ScopedValueContainer container) {
+    ScopedValueContainer._primary = container;
+  }
+}

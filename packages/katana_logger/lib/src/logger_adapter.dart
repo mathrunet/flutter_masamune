@@ -157,3 +157,17 @@ class _LoggerAdapterScope extends InheritedWidget {
   @override
   bool updateShouldNotify(covariant _LoggerAdapterScope oldWidget) => false;
 }
+
+/// Test scope for [LoggerAdapter].
+///
+/// [LoggerAdapter]のテスト用スコープ。
+class TestLoggerAdapterScope {
+  const TestLoggerAdapterScope._();
+
+  /// Set the [LoggerAdapter] for testing.
+  ///
+  /// テスト用に[LoggerAdapter]を設定します。
+  static void setTestAdapters(List<LoggerAdapter> adapters) {
+    LoggerAdapter._primary = adapters;
+  }
+}

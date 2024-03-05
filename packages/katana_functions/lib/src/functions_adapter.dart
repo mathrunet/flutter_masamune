@@ -167,3 +167,17 @@ class _FunctionsAdapterScope extends InheritedWidget {
   @override
   bool updateShouldNotify(covariant _FunctionsAdapterScope oldWidget) => false;
 }
+
+/// Test scope for [FunctionsAdapter].
+///
+/// [FunctionsAdapter]のテスト用スコープ。
+class TestFunctionsAdapterScope {
+  const TestFunctionsAdapterScope._();
+
+  /// Set the [FunctionsAdapter] for testing.
+  ///
+  /// テスト用に[FunctionsAdapter]を設定します。
+  static void setTestAdapter(FunctionsAdapter adapter) {
+    FunctionsAdapter._primary = adapter;
+  }
+}

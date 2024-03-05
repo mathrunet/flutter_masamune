@@ -41,6 +41,19 @@ class ScopedValueContainer extends ChangeNotifier {
   /// 中身は直接変更することができませんが[data]で中身を確認することが可能です。
   ScopedValueContainer();
 
+  /// [ScopedValueContainer] common to all applications.
+  ///
+  /// If not specified in [AppRef], this is used.
+  ///
+  /// アプリ共通の[ScopedValueContainer]を取得することができます。
+  ///
+  /// [AppRef]で指定しない場合はこちらが利用されます。
+  static ScopedValueContainer get primary {
+    return _primary;
+  }
+
+  static ScopedValueContainer _primary = ScopedValueContainer();
+
   /// It is possible to check the contents of [ScopedValueContainer].
   ///
   /// [ScopedValueContainer]の中身を確認することが可能です。

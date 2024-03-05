@@ -256,14 +256,14 @@ packages:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "2.5.4"
+    version: "2.6.0"
   katana_form:
     dependency: "direct main"
     description:
       path: "../katana_form"
       relative: true
     source: path
-    version: "2.12.2"
+    version: "2.12.3"
   katana_functions:
     dependency: "direct main"
     description:
@@ -298,7 +298,7 @@ packages:
       path: "../katana_localization"
       relative: true
     source: path
-    version: "2.3.2"
+    version: "2.3.3"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:

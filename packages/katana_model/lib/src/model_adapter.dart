@@ -628,3 +628,17 @@ class ModelAdapterCollectionQuery {
     return query.hashCode;
   }
 }
+
+/// Test scope for [ModelAdapter].
+///
+/// [ModelAdapter]のテスト用スコープ。
+class TestModelAdapterScope {
+  const TestModelAdapterScope._();
+
+  /// Set the [ModelAdapter] for testing.
+  ///
+  /// テスト用に[ModelAdapter]を設定します。
+  static void setTestAdapter(ModelAdapter adapter) {
+    ModelAdapter._primary = adapter;
+  }
+}

@@ -251,3 +251,17 @@ class _StorageAdapterScope extends InheritedWidget {
   @override
   bool updateShouldNotify(covariant _StorageAdapterScope oldWidget) => false;
 }
+
+/// Test scope for [StorageAdapter].
+///
+/// [StorageAdapter]のテスト用スコープ。
+class TestStorageAdapterScope {
+  const TestStorageAdapterScope._();
+
+  /// Set the [StorageAdapter] for testing.
+  ///
+  /// テスト用に[StorageAdapter]を設定します。
+  static void setTestAdapter(StorageAdapter adapter) {
+    StorageAdapter._primary = adapter;
+  }
+}
