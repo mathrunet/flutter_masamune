@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: Added the ability to specify adapters for testing. ([df0f1499](https://github.com/mathrunet/flutter_masamune/commit/df0f14991305ef7060f9dcf6187f29c09d04d36e))
+
 ## 2.5.2
 
  - Update a dependency to the latest release.

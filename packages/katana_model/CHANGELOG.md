@@ -1,3 +1,7 @@
+## 2.25.0
+
+ - **FEAT**: Added the ability to specify adapters for testing. ([df0f1499](https://github.com/mathrunet/flutter_masamune/commit/df0f14991305ef7060f9dcf6187f29c09d04d36e))
+
 ## 2.24.4
 
  - **FIX**: Fixed a bug that caused the number of elements to be incorrect. ([a884827a](https://github.com/mathrunet/flutter_masamune/commit/a884827af20df48167782571f52e459e7af0c59d))

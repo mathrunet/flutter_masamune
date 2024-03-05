@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Added the ability to specify adapters for testing. ([df0f1499](https://github.com/mathrunet/flutter_masamune/commit/df0f14991305ef7060f9dcf6187f29c09d04d36e))
+
 ## 2.2.3
 
  - **FIX**: Forced reset after an error. ([3320d938](https://github.com/mathrunet/flutter_masamune/commit/3320d938c73e94a8efe57707c78c2f451b5dc419))

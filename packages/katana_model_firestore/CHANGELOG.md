@@ -1,3 +1,7 @@
+## 2.16.9
+
+ - Update a dependency to the latest release.
+
 ## 2.16.8
 
  - **FIX**: LocalDatabase is made common. ([6a62c81c](https://github.com/mathrunet/flutter_masamune/commit/6a62c81ccd3f50903471eaec0a930696f05f9d35))

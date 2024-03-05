@@ -1,3 +1,7 @@
+## 2.7.0
+
+ - **FEAT**: Added the ability to specify adapters for testing. ([df0f1499](https://github.com/mathrunet/flutter_masamune/commit/df0f14991305ef7060f9dcf6187f29c09d04d36e))
+
 ## 2.6.0
 
  - **FEAT**: User data is now null-checked to prevent Exception. ([36ab11ee](https://github.com/mathrunet/flutter_masamune/commit/36ab11ee7bed9255ec98aec7a0ab179da6fbb882))
