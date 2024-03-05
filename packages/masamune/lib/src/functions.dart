@@ -15,6 +15,7 @@ void masamuneTest({
   List<LoggerAdapter> loggerAdapters = const [],
   ModelAdapter? modelAdapter,
 }) {
+  WidgetsFlutterBinding.ensureInitialized();
   if (scopedValueContainer != null) {
     TestAppScoped.setTestContainer(scopedValueContainer);
   }
