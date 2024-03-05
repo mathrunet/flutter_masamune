@@ -40,7 +40,7 @@ class SmsAuthQuery {
   /// {@macro sms_auth}
   static SmsSignInAuthProvider signIn({
     required String phoneNumber,
-    String? countryNumber,
+    required String countryNumber,
     Locale? locale,
   }) {
     return SmsSignInAuthProvider(
@@ -76,13 +76,17 @@ class SmsAuthQuery {
   /// {@macro sms_auth}
   static SmsChangePhoneNumberAuthProvider changePhoneNumber({
     required String phoneNumber,
-    String? countryNumber,
+    required String countryNumber,
     Locale? locale,
+    VoidCallback? onAutoVerificationCompleted,
+    void Function(Exception error)? onAutoVerificationFailed,
   }) {
     return SmsChangePhoneNumberAuthProvider(
       phoneNumber: phoneNumber,
       locale: locale,
       countryNumber: countryNumber,
+      onAutoVerificationCompleted: onAutoVerificationCompleted,
+      onAutoVerificationFailed: onAutoVerificationFailed,
     );
   }
 
@@ -116,8 +120,10 @@ class SmsAuthQuery {
 class SmsSignInAuthProvider extends SignInAuthProvider {
   const SmsSignInAuthProvider({
     required this.phoneNumber,
-    this.countryNumber,
+    required this.countryNumber,
     this.locale,
+    this.onAutoVerificationCompleted,
+    this.onAutoVerificationFailed,
   });
 
   @override
@@ -134,6 +140,24 @@ class SmsSignInAuthProvider extends SignInAuthProvider {
   /// SMSの言語設定。
   final Locale? locale;
 
+  /// Callback for automatically entering the code when an SMS code is received.
+  ///
+  /// Some terminals do not function.
+  ///
+  /// SMSのコードを受信したときに自動的にコードを入力する場合のコールバック。
+  ///
+  /// 機能しない端末もあります。
+  final VoidCallback? onAutoVerificationCompleted;
+
+  /// Callback if the code is wrong when the SMS code is received.
+  ///
+  /// Some terminals do not function.
+  ///
+  /// SMSのコードを受信したときにコードが違っていた場合のコールバック。
+  ///
+  /// 機能しない端末もあります。
+  final void Function(Exception error)? onAutoVerificationFailed;
+
   /// Country code.
   ///
   /// If you specify `[countryNumber]', the prefix ` [countryNumber]` is added to [phoneNumber].
@@ -141,7 +165,7 @@ class SmsSignInAuthProvider extends SignInAuthProvider {
   /// 国の番号。
   ///
   /// [countryNumber]を指定すると`+[countryNumber]`というプレフィックスが[phoneNumber]に付与されます。
-  final String? countryNumber;
+  final String countryNumber;
 }
 
 /// {@macro confirm_sign_in_auth_provider}
@@ -191,7 +215,9 @@ class SmsChangePhoneNumberAuthProvider extends ChangePhoneNumberAuthProvider {
   const SmsChangePhoneNumberAuthProvider({
     required this.phoneNumber,
     this.locale,
-    this.countryNumber,
+    required this.countryNumber,
+    this.onAutoVerificationCompleted,
+    this.onAutoVerificationFailed,
   });
 
   @override
@@ -203,7 +229,11 @@ class SmsChangePhoneNumberAuthProvider extends ChangePhoneNumberAuthProvider {
   @override
   final Locale? locale;
   @override
-  final String? countryNumber;
+  final String countryNumber;
+  @override
+  final VoidCallback? onAutoVerificationCompleted;
+  @override
+  final void Function(Exception error)? onAutoVerificationFailed;
 }
 
 /// {@macro confirm_change_phone_number_auth_provider}

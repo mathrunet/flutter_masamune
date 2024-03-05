@@ -255,7 +255,25 @@ abstract class ChangePhoneNumberAuthProvider extends ChangeAuthProvider {
   /// 国の番号。
   ///
   /// [countryNumber]を指定すると`+[countryNumber]`というプレフィックスが[phoneNumber]に付与されます。
-  String? get countryNumber;
+  String get countryNumber;
+
+  /// Callback for automatically entering the code when an SMS code is received.
+  ///
+  /// Some terminals do not function.
+  ///
+  /// SMSのコードを受信したときに自動的にコードを入力する場合のコールバック。
+  ///
+  /// 機能しない端末もあります。
+  VoidCallback? get onAutoVerificationCompleted;
+
+  /// Callback if the code is wrong when the SMS code is received.
+  ///
+  /// Some terminals do not function.
+  ///
+  /// SMSのコードを受信したときにコードが違っていた場合のコールバック。
+  ///
+  /// 機能しない端末もあります。
+  void Function(Exception error)? get onAutoVerificationFailed;
 }
 
 /// {@template confirm_change_phone_number_auth_provider}

@@ -75,7 +75,7 @@ class AuthPageState extends State<AuthPage> {
             title: Text("Phone: ${auth.userPhoneNumber}"),
           ),
           ListTile(
-            title: Text("Providers: ${auth.activeProviderIds.join("\n")}"),
+            title: Text("Providers: ${auth.activeProviderIds?.join("\n")}"),
           ),
         ],
       ),
@@ -161,6 +161,7 @@ class AuthControlPage extends StatelessWidget {
                   await auth.signIn(
                     SmsAuthQuery.signIn(
                       phoneNumber: "01234567890",
+                      countryNumber: "81",
                     ),
                   );
                   navigator.pop();
@@ -215,7 +216,10 @@ class AuthControlPage extends StatelessWidget {
                 title: const Text("Change phoneNumber"),
                 onTap: () async {
                   await auth.change(
-                    SmsAuthQuery.changePhoneNumber(phoneNumber: "1234567890"),
+                    SmsAuthQuery.changePhoneNumber(
+                      phoneNumber: "1234567890",
+                      countryNumber: "81",
+                    ),
                   );
                   navigator.pop();
                 },

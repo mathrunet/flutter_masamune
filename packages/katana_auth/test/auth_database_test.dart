@@ -204,12 +204,13 @@ void main() {
     await db.signIn(
       provider: const SmsSignInAuthProvider(
         phoneNumber: "00000000000",
+        countryNumber: "81",
       ),
     );
     expect(db.accounts, [
       {
         AuthDatabase.userIdKey: userId,
-        AuthDatabase.tmpUserPhoneNumberKey: "00000000000",
+        AuthDatabase.tmpUserPhoneNumberKey: "+810000000000",
         AuthDatabase.smsCodeKey: code,
       }
     ]);
@@ -222,9 +223,9 @@ void main() {
     expect(db.accounts, [
       {
         AuthDatabase.userIdKey: userId,
-        AuthDatabase.tmpUserPhoneNumberKey: "00000000000",
+        AuthDatabase.tmpUserPhoneNumberKey: "+810000000000",
         AuthDatabase.smsCodeKey: code,
-        AuthDatabase.userPhoneNumberKey: "00000000000",
+        AuthDatabase.userPhoneNumberKey: "+810000000000",
         AuthDatabase.activeProvidersKey: ["phone"]
       }
     ]);
@@ -476,6 +477,7 @@ void main() {
     await db.signIn(
       provider: const SmsSignInAuthProvider(
         phoneNumber: "00000000000",
+        countryNumber: "81",
       ),
     );
     expect(db.isSignedIn, false);
@@ -485,35 +487,37 @@ void main() {
       ),
     );
     expect(db.isSignedIn, true);
-    expect(db.userPhoneNumber, "00000000000");
+    expect(db.userPhoneNumber, "+810000000000");
     await db.change(
       provider: const SmsChangePhoneNumberAuthProvider(
         phoneNumber: "11111111111",
+        countryNumber: "81",
       ),
     );
-    expect(db.userPhoneNumber, "00000000000");
+    expect(db.userPhoneNumber, "+8111111111111");
     expect(db.active, {
       AuthDatabase.userIdKey: userId,
-      AuthDatabase.tmpUserPhoneNumberKey: "11111111111",
+      AuthDatabase.tmpUserPhoneNumberKey: "+8111111111111",
       AuthDatabase.smsCodeKey: code,
-      AuthDatabase.userPhoneNumberKey: "00000000000",
+      AuthDatabase.userPhoneNumberKey: "+810000000000",
       AuthDatabase.activeProvidersKey: ["phone"]
     });
     await db.confirmChange(
       provider: const SmsConfirmChangePhoneNumberAuthProvider(code: code),
     );
-    expect(db.userPhoneNumber, "11111111111");
+    expect(db.userPhoneNumber, "+8111111111111");
     expect(db.active, {
       AuthDatabase.userIdKey: userId,
-      AuthDatabase.tmpUserPhoneNumberKey: "11111111111",
+      AuthDatabase.tmpUserPhoneNumberKey: "+8111111111111",
       AuthDatabase.smsCodeKey: code,
-      AuthDatabase.userPhoneNumberKey: "11111111111",
+      AuthDatabase.userPhoneNumberKey: "+8111111111111",
       AuthDatabase.activeProvidersKey: ["phone"]
     });
     await db.signOut();
     await db.signIn(
       provider: const SmsSignInAuthProvider(
         phoneNumber: "11111111111",
+        countryNumber: "81",
       ),
     );
     expect(db.isSignedIn, false);
@@ -525,9 +529,9 @@ void main() {
     );
     expect(db.current, {
       AuthDatabase.userIdKey: userId,
-      AuthDatabase.tmpUserPhoneNumberKey: "11111111111",
+      AuthDatabase.tmpUserPhoneNumberKey: "+8111111111111",
       AuthDatabase.smsCodeKey: code,
-      AuthDatabase.userPhoneNumberKey: "11111111111",
+      AuthDatabase.userPhoneNumberKey: "+8111111111111",
       AuthDatabase.activeProvidersKey: ["phone"]
     });
     expect(db.isSignedIn, true);

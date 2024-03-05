@@ -80,19 +80,19 @@ class RuntimeAuthAdapter extends AuthAdapter {
   static final AuthDatabase sharedDatabase = AuthDatabase();
 
   @override
-  String get userEmail => database.userEmail;
+  String? get userEmail => !isSignedIn ? null : database.userEmail;
 
   @override
-  String get userId => database.userId;
+  String? get userId => !isSignedIn ? null : database.userId;
 
   @override
-  String get userName => database.userName;
+  String? get userName => !isSignedIn ? null : database.userName;
 
   @override
-  String get userPhoneNumber => database.userPhoneNumber;
+  String? get userPhoneNumber => !isSignedIn ? null : database.userPhoneNumber;
 
   @override
-  String get userPhotoURL => database.userPhotoURL;
+  String? get userPhotoURL => !isSignedIn ? null : database.userPhotoURL;
 
   @override
   bool get isAnonymously => database.isAnonymously;
@@ -107,13 +107,14 @@ class RuntimeAuthAdapter extends AuthAdapter {
   bool get isWaitingConfirmation => database.isWaitingConfirmation;
 
   @override
-  Future<String> get accessToken => Future.value("");
+  Future<String?> get accessToken => Future.value(!isSignedIn ? null : "");
 
   @override
-  String get refreshToken => "";
+  String? get refreshToken => !isSignedIn ? null : "";
 
   @override
-  List<String> get activeProviderIds => database.activeProviderIds;
+  List<String>? get activeProviderIds =>
+      !isSignedIn ? null : database.activeProviderIds;
 
   @override
   Future<bool> tryRestoreAuth({

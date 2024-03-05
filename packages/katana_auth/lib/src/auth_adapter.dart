@@ -94,45 +94,77 @@ abstract class AuthAdapter {
   ///
   /// This ID should be unique and available as a unique ID to be registered in the user's DB.
   ///
+  /// Return `null` when signing out.
+  ///
   /// サインイン時、認証プラットフォーム上のユーザーIDを返すようにしてください。
   ///
   /// このIDはユニークなものにして、ユーザーのDBに登録するユニークIDとして利用可能にしてください。
-  String get userId;
+  ///
+  /// サインアウト時は`null`を返すようにしてください。
+  String? get userId;
 
   /// Make sure to return the user name.
   ///
+  /// Return `null` when signing out.
+  ///
   /// ユーザー名を返すようにしてください。
-  String get userName;
+  ///
+  /// サインアウト時は`null`を返すようにしてください。
+  String? get userName;
 
   /// Make sure to return the user's email address.
   ///
+  /// Return `null` when signing out.
+  ///
   /// ユーザーのメールアドレスを返すようにしてください。
-  String get userEmail;
+  ///
+  /// サインアウト時は`null`を返すようにしてください。
+  String? get userEmail;
 
   /// Be sure to return the user's phone number.
   ///
+  /// Return `null` when signing out.
+  ///
   /// ユーザーの電話番号を返すようにしてください。
-  String get userPhoneNumber;
+  ///
+  /// サインアウト時は`null`を返すようにしてください。
+  String? get userPhoneNumber;
 
   /// Please make sure to return the URL of the user's icon image.
   ///
+  /// Return `null` when signing out.
+  ///
   /// ユーザーのアイコン画像のURLを返すようにしてください。
-  String get userPhotoURL;
+  ///
+  /// サインアウト時は`null`を返すようにしてください。
+  String? get userPhotoURL;
 
   /// Please return a list of IDs of authenticated providers.
   ///
+  /// Return `null` when signing out.
+  ///
   /// 認証されたプロバイダーのID一覧を返すようにしてください。
-  List<String> get activeProviderIds;
+  ///
+  /// サインアウト時は`null`を返すようにしてください。
+  List<String>? get activeProviderIds;
 
   /// Returns a refresh token used during sign-in and authentication.
   ///
+  /// Return `null` when signing out.
+  ///
   /// サインイン時、認証時に用いられるリフレッシュトークンを返します。
-  String get refreshToken;
+  ///
+  /// サインアウト時は`null`を返すようにしてください。
+  String? get refreshToken;
 
   /// Returns the access token used during sign-in and authentication.
   ///
+  /// Return `null` when signing out.
+  ///
   /// サインイン時、認証時に用いられるアクセストークンを返します。
-  Future<String> get accessToken;
+  ///
+  /// サインアウト時は`null`を返すようにしてください。
+  Future<String?> get accessToken;
 
   /// Running the application at startup will automatically re-authenticate the user.
   ///

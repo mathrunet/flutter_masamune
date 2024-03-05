@@ -127,51 +127,83 @@ class Authentication extends ChangeNotifier {
   ///
   /// This ID is unique and can be used as a unique ID to register in the user's DB.
   ///
+  /// On sign-out, `null` is returned.
+  ///
   /// サインイン時、認証プラットフォーム上のユーザーIDを返します。
   ///
   /// このIDはユニークなものとなっているためユーザーのDBに登録するユニークIDとして利用可能です。
-  String get userId => adapter.userId;
+  ///
+  /// サインアウト時は`null`が返されます。
+  String? get userId => adapter.userId;
 
   /// Returns the user name on the authentication platform during sign-in.
   ///
+  /// On sign-out, `null` is returned.
+  ///
   /// サインイン時、、認証プラットフォーム上のユーザー名を返します。
-  String get userName => adapter.userName;
+  ///
+  /// サインアウト時は`null`が返されます。
+  String? get userName => adapter.userName;
 
   /// Returns the email address registered with the authentication platform upon sign-in.
   ///
+  /// On sign-out, `null` is returned.
+  ///
   /// サインイン時、認証プラットフォームに登録されたメールアドレスを返します。
-  String get userEmail => adapter.userEmail;
+  ///
+  /// サインアウト時は`null`が返されます。
+  String? get userEmail => adapter.userEmail;
 
   /// Returns the phone number registered with the authentication platform upon sign-in.
   ///
+  /// On sign-out, `null` is returned.
+  ///
   /// サインイン時、認証プラットフォームに登録された電話番号を返します。
-  String get userPhoneNumber => adapter.userPhoneNumber;
+  ///
+  /// サインアウト時は`null`が返されます。
+  String? get userPhoneNumber => adapter.userPhoneNumber;
 
   /// Returns the URL of the user's icon registered on the authentication platform during sign-in.
   ///
   /// Basically, it is used to obtain icons registered on social networking sites.
   /// (Some SNS platforms may not be able to obtain this information.)
   ///
+  /// On sign-out, `null` is returned.
+  ///
   /// サインイン時、認証プラットフォームに登録されたのユーザーアイコンのURLを返します。
   ///
   /// 基本的にSNSで登録されているアイコンを取得するために利用します。
   /// （SNSプラットフォームによっては取得できない場合もあります。）
-  String get userPhotoURL => adapter.userPhotoURL;
+  ///
+  /// サインアウト時は`null`が返されます。
+  String? get userPhotoURL => adapter.userPhotoURL;
 
   /// Returns a list of authenticated provider IDs upon sign-in.
   ///
+  /// On sign-out, `null` is returned.
+  ///
   /// サインイン時、認証されたプロバイダーのID一覧を返します。
-  List<String> get activeProviderIds => adapter.activeProviderIds;
+  ///
+  /// サインアウト時は`null`が返されます。
+  List<String>? get activeProviderIds => adapter.activeProviderIds;
 
   /// Returns a refresh token used during sign-in and authentication.
   ///
+  /// On sign-out, `null` is returned.
+  ///
   /// サインイン時、認証時に用いられるリフレッシュトークンを返します。
-  String get refreshToken => adapter.refreshToken;
+  ///
+  /// サインアウト時は`null`が返されます。
+  String? get refreshToken => adapter.refreshToken;
 
   /// Returns the access token used during sign-in and authentication.
   ///
+  /// On sign-out, `null` is returned.
+  ///
   /// サインイン時、認証時に用いられるアクセストークンを返します。
-  Future<String> get accessToken => adapter.accessToken;
+  ///
+  /// サインアウト時は`null`が返されます。
+  Future<String?> get accessToken => adapter.accessToken;
 
   /// Running the application at startup will automatically re-authenticate the user.
   ///

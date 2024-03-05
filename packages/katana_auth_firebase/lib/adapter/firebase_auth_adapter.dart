@@ -228,73 +228,78 @@ class FirebaseAuthAdapter extends AuthAdapter {
   static Completer<void>? _initializeCompleter;
 
   @override
-  String get userId {
+  String? get userId {
     if (!_initialized) {
       debugPrint("Please call initialize before using it.");
-      return "";
+      return null;
     }
     if (_user == null || _user!.uid.isEmpty) {
-      throw Exception(
+      debugPrint(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
+      return null;
     }
-    return _user!.uid;
+    return _user?.uid;
   }
 
   @override
-  String get userName {
+  String? get userName {
     if (!_initialized) {
       debugPrint("Please call initialize before using it.");
-      return "";
+      return null;
     }
     if (_user == null || _user!.uid.isEmpty) {
-      throw Exception(
+      debugPrint(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
+      return null;
     }
-    return _user!.displayName ?? "";
+    return _user?.displayName;
   }
 
   @override
-  String get userEmail {
+  String? get userEmail {
     if (!_initialized) {
       debugPrint("Please call initialize before using it.");
-      return "";
+      return null;
     }
     if (_user == null || _user!.uid.isEmpty) {
-      throw Exception(
+      debugPrint(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
+      return null;
     }
-    return _user!.email ?? "";
+    return _user?.email;
   }
 
   @override
-  String get userPhoneNumber {
+  String? get userPhoneNumber {
     if (!_initialized) {
       debugPrint("Please call initialize before using it.");
-      return "";
+      return null;
     }
     if (_user == null || _user!.uid.isEmpty) {
-      throw Exception(
+      debugPrint(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
+      return null;
     }
-    return _user!.phoneNumber ?? "";
+    return _user?.phoneNumber;
   }
 
   @override
-  String get userPhotoURL {
+  String? get userPhotoURL {
     if (!_initialized) {
       debugPrint("Please call initialize before using it.");
-      return "";
+      return null;
     }
     if (_user == null || _user!.uid.isEmpty) {
-      throw Exception(
+      debugPrint(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
+      return null;
     }
-    return _user!.photoURL ?? "";
+    return _user?.photoURL;
   }
 
   @override
@@ -304,6 +309,9 @@ class FirebaseAuthAdapter extends AuthAdapter {
       return false;
     }
     if (_user == null || _user!.uid.isEmpty) {
+      debugPrint(
+        "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
+      );
       return false;
     }
     return _user!.isAnonymous;
@@ -328,9 +336,12 @@ class FirebaseAuthAdapter extends AuthAdapter {
       return false;
     }
     if (_user == null || _user!.uid.isEmpty) {
+      debugPrint(
+        "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
+      );
       return false;
     }
-    return _user!.emailVerified;
+    return _user?.emailVerified ?? false;
   }
 
   @override
@@ -345,54 +356,55 @@ class FirebaseAuthAdapter extends AuthAdapter {
   }
 
   @override
-  Future<String> get accessToken async {
+  Future<String?> get accessToken async {
     if (!_initialized) {
       debugPrint("Please call initialize before using it.");
-      return "";
+      return null;
     }
     if (_user == null || _user!.uid.isEmpty) {
-      throw Exception(
+      debugPrint(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
+      return null;
     }
     final token = await _user!.getIdToken();
     if (token.isEmpty) {
       debugPrint(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
-      return "";
+      return null;
     }
-    return token!;
+    return token;
   }
 
   @override
-  String get refreshToken {
+  String? get refreshToken {
     if (!_initialized) {
       debugPrint("Please call initialize before using it.");
-      return "";
+      return null;
     }
     if (_user == null || _user!.uid.isEmpty) {
       debugPrint(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
-      return "";
+      return null;
     }
-    return _user!.refreshToken ?? "";
+    return _user?.refreshToken;
   }
 
   @override
-  List<String> get activeProviderIds {
+  List<String>? get activeProviderIds {
     if (!_initialized) {
       debugPrint("Please call initialize before using it.");
-      return [];
+      return null;
     }
     if (_user == null || _user!.uid.isEmpty) {
       debugPrint(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
-      return [];
+      return null;
     }
-    return _user!.providerData.map((e) => e.providerId).toList();
+    return _user?.providerData.map((e) => e.providerId).toList();
   }
 
   @override
@@ -540,8 +552,13 @@ class FirebaseAuthAdapter extends AuthAdapter {
       );
       onUserStateChanged.call();
     } else if (provider is SmsSignInAuthProvider) {
-      final phoneNumber =
-          "${provider.countryNumber.isEmpty ? "" : "+${provider.countryNumber}"}${provider.phoneNumber}";
+      Completer? completer = Completer();
+      var phoneNumber = provider.phoneNumber;
+      if (phoneNumber.startsWith("0") && phoneNumber.length >= 11) {
+        phoneNumber = phoneNumber.substring(1);
+      }
+      phoneNumber =
+          "+${provider.countryNumber.trimStringLeft("+")}$phoneNumber";
       await _prepareProcessInternal();
       await database.setLanguageCode(
         provider.locale?.languageCode ?? defaultLocale.languageCode,
@@ -563,28 +580,37 @@ class FirebaseAuthAdapter extends AuthAdapter {
             await database.signInWithCredential(credential);
           }
           if (_user == null || _user!.uid.isEmpty) {
-            throw Exception("User is not found.");
+            completer?.completeError(Exception("User is not found."));
+            completer = null;
+            return;
           }
+          completer?.complete();
+          completer = null;
           onUserStateChanged.call();
+          provider.onAutoVerificationCompleted?.call();
         },
         verificationFailed: (error) {
-          throw error;
+          completer?.completeError(error);
+          completer = null;
+          provider.onAutoVerificationFailed?.call(error);
         },
         codeSent: (verificationId, [code]) async {
           await _sharedPreferences.setString(
             _kSmsVerificationIdKey.toSHA1(),
             verificationId,
           );
+          completer?.complete();
+          completer = null;
           onUserStateChanged.call();
         },
-        codeAutoRetrievalTimeout: (verificationCode) async {
-          await _sharedPreferences.setString(
-            _kSmsVerificationIdKey.toSHA1(),
-            verificationCode,
-          );
+        codeAutoRetrievalTimeout: (verificationId) async {
+          await _sharedPreferences.remove(_kSmsVerificationIdKey.toSHA1());
+          completer?.completeError(TimeoutException("Code entry timed out."));
+          completer = null;
           onUserStateChanged.call();
         },
       );
+      await completer?.future;
     } else if (provider is SnsSignInAuthProvider) {
       await _prepareProcessInternal();
       if (_user != null &&
@@ -792,8 +818,13 @@ class FirebaseAuthAdapter extends AuthAdapter {
       await _user!.reload();
       onUserStateChanged.call();
     } else if (provider is ChangePhoneNumberAuthProvider) {
-      final phoneNumber =
-          "${provider.countryNumber.isEmpty ? "" : "+${provider.countryNumber}"}${provider.phoneNumber}";
+      Completer? completer = Completer();
+      var phoneNumber = provider.phoneNumber;
+      if (phoneNumber.startsWith("0") && phoneNumber.length >= 11) {
+        phoneNumber = phoneNumber.substring(1);
+      }
+      phoneNumber =
+          "+${provider.countryNumber.trimStringLeft("+")}$phoneNumber";
       await _prepareProcessInternal();
       await database.setLanguageCode(
         provider.locale?.languageCode ?? defaultLocale.languageCode,
@@ -815,28 +846,37 @@ class FirebaseAuthAdapter extends AuthAdapter {
             await database.signInWithCredential(credential);
           }
           if (_user == null || _user!.uid.isEmpty) {
-            throw Exception("User is not found.");
+            completer?.completeError(Exception("User is not found."));
+            completer = null;
+            return;
           }
+          completer?.complete();
+          completer = null;
           onUserStateChanged.call();
+          provider.onAutoVerificationCompleted?.call();
         },
         verificationFailed: (error) {
-          throw error;
+          completer?.completeError(error);
+          completer = null;
+          provider.onAutoVerificationFailed?.call(error);
         },
-        codeSent: (verificationCode, [code]) async {
+        codeSent: (varidationId, [code]) async {
           await _sharedPreferences.setString(
             _kSmsVerificationIdKey.toSHA1(),
-            verificationCode,
+            varidationId,
           );
+          completer?.complete();
+          completer = null;
           onUserStateChanged.call();
         },
-        codeAutoRetrievalTimeout: (verificationCode) async {
-          await _sharedPreferences.setString(
-            _kSmsVerificationIdKey.toSHA1(),
-            verificationCode,
-          );
+        codeAutoRetrievalTimeout: (varidationId) async {
+          await _sharedPreferences.remove(_kSmsVerificationIdKey.toSHA1());
+          completer?.completeError(TimeoutException("Code entry timed out."));
+          completer = null;
           onUserStateChanged.call();
         },
       );
+      await completer?.future;
     }
   }
 
@@ -849,11 +889,16 @@ class FirebaseAuthAdapter extends AuthAdapter {
       await _prepareProcessInternal();
       final phoneNumber =
           _sharedPreferences.getString(_kUserPhoneNumberKey.toSHA1());
+      final verificationId =
+          _sharedPreferences.getString(_kSmsVerificationIdKey.toSHA1());
       if (phoneNumber.isEmpty) {
         throw Exception("Phone number is not saved.");
       }
+      if (verificationId.isEmpty) {
+        throw Exception("Sms verirication id is not saved.");
+      }
       final credential = PhoneAuthProvider.credential(
-        verificationId: phoneNumber!,
+        verificationId: verificationId!,
         smsCode: provider.code,
       );
       if (_user == null || _user!.uid.isEmpty) {
