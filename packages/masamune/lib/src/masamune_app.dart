@@ -102,7 +102,7 @@ Future<void> runMasamuneApp(
 ///
 /// [debugShowCheckedModeBanner]でデバッグ用のバナーを表示することができ、[showPerformanceOverlay]でパフォーマンスのオーバーレイを表示することができます。
 @immutable
-class MasamuneApp extends StatelessWidget {
+class MasamuneApp extends StatefulWidget {
   /// [MaterialApp] for Masamune Framework.
   ///
   /// It encapsulates the XXScope widget used in a series of katana packages. In addition, XXXScope can be specified by adding [onBuildAppFilters].
@@ -179,6 +179,25 @@ class MasamuneApp extends StatelessWidget {
     this.localizationsDelegates,
     this.supportedLocales,
   });
+
+  /// Restart the application by passing [context].
+  ///
+  /// Reload all widgets and states.
+  ///
+  /// You can describe the process at restart by passing [onRestart].
+  ///
+  /// [context]を渡すことでアプリをリスタートします。
+  ///
+  /// すべてのウィジェットや状態をリロードします。
+  ///
+  /// [onRestart]を渡すことでリスタート時の処理を記述することができます。
+  static Future<void> restartApp(
+    BuildContext context, {
+    FutureOr<void> Function()? onRestart,
+  }) async {
+    final state = context.findAncestorStateOfType<_MasamuneAppState>();
+    await state?._restart(onRestart);
+  }
 
   /// You can specify a list of supported locales.
   ///
@@ -392,7 +411,33 @@ class MasamuneApp extends StatelessWidget {
   final List<LocalizationsDelegate<dynamic>>? localizationsDelegates;
 
   @override
+  State<StatefulWidget> createState() => _MasamuneAppState();
+}
+
+class _MasamuneAppState extends State<MasamuneApp> {
+  UniqueKey? _key = UniqueKey();
+
+  Future<void> _restart(FutureOr<void> Function()? onRestart) async {
+    if (onRestart != null) {
+      setState(() {
+        _key = null;
+      });
+      try {
+        await onRestart();
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+    }
+    setState(() {
+      _key = UniqueKey();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_key == null) {
+      return const Empty();
+    }
     var child = _buildAppFunctions(
       context,
       _buildAppStorage(
@@ -419,8 +464,8 @@ class MasamuneApp extends StatelessWidget {
       ),
     );
     final filters = [
-      ...masamuneAdapters.map((e) => e.onBuildApp),
-      if (onBuildAppFilters != null) ...onBuildAppFilters!,
+      ...widget.masamuneAdapters.map((e) => e.onBuildApp),
+      if (widget.onBuildAppFilters != null) ...widget.onBuildAppFilters!,
     ];
     if (filters.isEmpty) {
       return child;
@@ -428,13 +473,16 @@ class MasamuneApp extends StatelessWidget {
     for (final builder in filters) {
       child = builder.call(context, child);
     }
-    return child;
+    return Container(
+      key: _key,
+      child: child,
+    );
   }
 
   Widget _buildAppModel(BuildContext context, Widget child) {
-    if (modelAdapter != null) {
+    if (widget.modelAdapter != null) {
       return ModelAdapterScope(
-        adapter: modelAdapter!,
+        adapter: widget.modelAdapter!,
         child: child,
       );
     }
@@ -442,9 +490,9 @@ class MasamuneApp extends StatelessWidget {
   }
 
   Widget _buildAppFunctions(BuildContext context, Widget child) {
-    if (functionsAdapter != null) {
+    if (widget.functionsAdapter != null) {
       return FunctionsAdapterScope(
-        adapter: functionsAdapter!,
+        adapter: widget.functionsAdapter!,
         child: child,
       );
     }
@@ -452,9 +500,9 @@ class MasamuneApp extends StatelessWidget {
   }
 
   Widget _buildAppScoped(BuildContext context, Widget child) {
-    if (appRef != null) {
+    if (widget.appRef != null) {
       return AppScoped(
-        appRef: appRef!,
+        appRef: widget.appRef!,
         child: child,
       );
     }
@@ -462,9 +510,9 @@ class MasamuneApp extends StatelessWidget {
   }
 
   Widget _buildAppAuth(BuildContext context, Widget child) {
-    if (authAdapter != null) {
+    if (widget.authAdapter != null) {
       return AuthAdapterScope(
-        adapter: authAdapter!,
+        adapter: widget.authAdapter!,
         child: child,
       );
     }
@@ -472,9 +520,9 @@ class MasamuneApp extends StatelessWidget {
   }
 
   Widget _buildAppTheme(BuildContext context, Widget child) {
-    if (theme != null) {
+    if (widget.theme != null) {
       return AppThemeScope(
-        theme: theme!,
+        theme: widget.theme!,
         child: child,
       );
     }
@@ -482,9 +530,9 @@ class MasamuneApp extends StatelessWidget {
   }
 
   Widget _buildAppLocalize(BuildContext context, Widget child) {
-    if (localize != null) {
+    if (widget.localize != null) {
       return LocalizeScope(
-        localize: localize!,
+        localize: widget.localize!,
         builder: (context, localize) => child,
       );
     }
@@ -493,13 +541,14 @@ class MasamuneApp extends StatelessWidget {
 
   Widget _buildAppLogger(BuildContext context, Widget child) {
     final loggerAdapters = <LoggerAdapter>[];
-    for (final adapter in this.loggerAdapters) {
+    for (final adapter in widget.loggerAdapters) {
       if (loggerAdapters.contains(adapter)) {
         continue;
       }
       loggerAdapters.add(adapter);
     }
-    for (final adapter in masamuneAdapters.expand((e) => e.loggerAdapters)) {
+    for (final adapter
+        in widget.masamuneAdapters.expand((e) => e.loggerAdapters)) {
       if (loggerAdapters.contains(adapter)) {
         continue;
       }
@@ -516,9 +565,9 @@ class MasamuneApp extends StatelessWidget {
   }
 
   Widget _buildAppStorage(BuildContext context, Widget child) {
-    if (storageAdapter != null) {
+    if (widget.storageAdapter != null) {
       return StorageAdapterScope(
-        adapter: storageAdapter!,
+        adapter: widget.storageAdapter!,
         child: child,
       );
     }
@@ -527,48 +576,49 @@ class MasamuneApp extends StatelessWidget {
 
   Widget _buildAppRouter(BuildContext context) {
     final observers = <NavigatorObserver>[];
-    for (final observer in navigatorObservers) {
+    for (final observer in widget.navigatorObservers) {
       if (observers.contains(observer)) {
         continue;
       }
       observers.add(observer);
     }
     for (final observer
-        in masamuneAdapters.expand((e) => e.navigatorObservers)) {
+        in widget.masamuneAdapters.expand((e) => e.navigatorObservers)) {
       if (observers.contains(observer)) {
         continue;
       }
       observers.add(observer);
     }
 
-    if (home != null || routerConfig == null) {
+    if (widget.home != null || widget.routerConfig == null) {
       return MaterialApp(
-        locale: localize?.locale,
-        supportedLocales:
-            supportedLocales ?? localize?.supportedLocales() ?? kDefaultLocales,
-        localizationsDelegates:
-            localize?.delegates(localizationsDelegates ?? const []) ??
-                localizationsDelegates,
-        localeResolutionCallback: localize?.localeResolutionCallback(),
-        theme: theme?.toThemeData(brightness: Brightness.light),
-        darkTheme: theme?.toThemeData(brightness: Brightness.dark),
-        scaffoldMessengerKey: scaffoldMessengerKey,
-        title: title,
-        onGenerateTitle: onGenerateTitle,
-        themeMode: theme?.themeMode ?? themeMode,
-        home: home,
-        routes: routes,
-        initialRoute: initialRoute,
-        onGenerateRoute: onGenerateRoute,
-        onGenerateInitialRoutes: onGenerateInitialRoutes,
-        onUnknownRoute: onUnknownRoute,
+        locale: widget.localize?.locale,
+        supportedLocales: widget.supportedLocales ??
+            widget.localize?.supportedLocales() ??
+            kDefaultLocales,
+        localizationsDelegates: widget.localize
+                ?.delegates(widget.localizationsDelegates ?? const []) ??
+            widget.localizationsDelegates,
+        localeResolutionCallback: widget.localize?.localeResolutionCallback(),
+        theme: widget.theme?.toThemeData(brightness: Brightness.light),
+        darkTheme: widget.theme?.toThemeData(brightness: Brightness.dark),
+        scaffoldMessengerKey: widget.scaffoldMessengerKey,
+        title: widget.title,
+        onGenerateTitle: widget.onGenerateTitle,
+        themeMode: widget.theme?.themeMode ?? widget.themeMode,
+        home: widget.home,
+        routes: widget.routes,
+        initialRoute: widget.initialRoute,
+        onGenerateRoute: widget.onGenerateRoute,
+        onGenerateInitialRoutes: widget.onGenerateInitialRoutes,
+        onUnknownRoute: widget.onUnknownRoute,
         navigatorObservers: observers,
-        builder: builder,
+        builder: widget.builder,
       );
     } else {
-      if (routerConfig is AppRouter) {
+      if (widget.routerConfig is AppRouter) {
         final navigatorObservers =
-            (routerConfig as AppRouter).navigatorObservers;
+            (widget.routerConfig as AppRouter).navigatorObservers;
         for (final observer in observers) {
           if (navigatorObservers.contains(observer)) {
             continue;
@@ -577,23 +627,24 @@ class MasamuneApp extends StatelessWidget {
         }
       }
       return MaterialApp.router(
-        routerConfig: routerConfig,
-        locale: localize?.locale,
-        supportedLocales:
-            supportedLocales ?? localize?.supportedLocales() ?? kDefaultLocales,
-        localizationsDelegates:
-            localize?.delegates(localizationsDelegates ?? const []) ??
-                localizationsDelegates,
-        localeResolutionCallback: localize?.localeResolutionCallback(),
-        theme: theme?.toThemeData(brightness: Brightness.light),
-        darkTheme: theme?.toThemeData(brightness: Brightness.dark),
-        debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-        showPerformanceOverlay: showPerformanceOverlay,
-        scaffoldMessengerKey: scaffoldMessengerKey,
-        title: title,
-        onGenerateTitle: onGenerateTitle,
-        themeMode: theme?.themeMode ?? themeMode,
-        builder: builder,
+        routerConfig: widget.routerConfig,
+        locale: widget.localize?.locale,
+        supportedLocales: widget.supportedLocales ??
+            widget.localize?.supportedLocales() ??
+            kDefaultLocales,
+        localizationsDelegates: widget.localize
+                ?.delegates(widget.localizationsDelegates ?? const []) ??
+            widget.localizationsDelegates,
+        localeResolutionCallback: widget.localize?.localeResolutionCallback(),
+        theme: widget.theme?.toThemeData(brightness: Brightness.light),
+        darkTheme: widget.theme?.toThemeData(brightness: Brightness.dark),
+        debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
+        showPerformanceOverlay: widget.showPerformanceOverlay,
+        scaffoldMessengerKey: widget.scaffoldMessengerKey,
+        title: widget.title,
+        onGenerateTitle: widget.onGenerateTitle,
+        themeMode: widget.theme?.themeMode ?? widget.themeMode,
+        builder: widget.builder,
       );
     }
   }

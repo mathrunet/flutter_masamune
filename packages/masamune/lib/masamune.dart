@@ -54,6 +54,7 @@ part 'router/router.dart';
 part 'src/masamune_app.dart';
 part 'src/masamune_adapter.dart';
 part 'src/masamune_controller.dart';
+part 'src/extensions.dart';
 
 part 'ui/grid_builder.dart';
 part 'ui/list_builder.dart';
