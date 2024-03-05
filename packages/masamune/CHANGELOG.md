@@ -1,3 +1,7 @@
+## 2.10.1
+
+ - **FIX**: Added ensureInitialized. ([9f82bd39](https://github.com/mathrunet/flutter_masamune/commit/9f82bd39ce35d34b30ec7ea6a4e561cd7abaad1a))
+
 ## 2.10.0
 
  - **FEAT**: Added the ability to specify adapters for testing. ([df0f1499](https://github.com/mathrunet/flutter_masamune/commit/df0f14991305ef7060f9dcf6187f29c09d04d36e))

@@ -1,3 +1,7 @@
+## 2.18.0
+
+ - **FEAT**: When creating the code, the test code was created together if necessary. ([d4909891](https://github.com/mathrunet/flutter_masamune/commit/d49098918aeca92330fa47610107580292c9406a))
+
 ## 2.17.5
 
  - **FIX**: Path setting. ([f7474bac](https://github.com/mathrunet/flutter_masamune/commit/f7474baca34041f52cd74bb4ffece5639a58d25f))

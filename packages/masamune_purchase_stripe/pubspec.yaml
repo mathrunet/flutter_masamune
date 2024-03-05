@@ -1,6 +1,6 @@
 name: masamune_purchase_stripe
 description: Masamune framework plugin for billing with Stripe; requires registration with Stripe.
-version: 3.5.19
+version: 3.5.20
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_purchase_stripe
 
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
     
   katana: ^2.12.1
-  masamune: ^2.10.0
+  masamune: ^2.10.1
   flutter_inappwebview: ^5.7.2+3
   freezed_annotation: ^2.2.0
   json_annotation: ^4.8.0
