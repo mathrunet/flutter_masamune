@@ -114,7 +114,8 @@ class _LocalizeScopeState extends State<LocalizeScope> {
   void dispose() {
     super.dispose();
     widget.localize.removeListener(_handledOnUpdate);
-    widget.localize.dispose();
+    // Disposeしない。
+    // widget.localize.dispose();
   }
 
   @override
