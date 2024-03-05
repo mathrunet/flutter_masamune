@@ -1,3 +1,7 @@
+## 2.12.3
+
+ - **FIX**: Changed the validate method of FormController. ([788a396b](https://github.com/mathrunet/flutter_masamune/commit/788a396bfd8c2afa18d7af3da5f2aa2aa07ea47e))
+
 ## 2.12.2
 
  - Update a dependency to the latest release.

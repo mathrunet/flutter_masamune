@@ -1,3 +1,7 @@
+## 2.9.18
+
+ - Update a dependency to the latest release.
+
 ## 2.9.17
 
  - **FIX**: Add restartApp method. ([4762d475](https://github.com/mathrunet/flutter_masamune/commit/4762d47562e0d46454828943adc64071f6e10791))
