@@ -13,9 +13,9 @@ part of '/katana_form.dart';
 ///
 /// Pass the [value] of [FormController] in the `initialValue` of each form widget, and describe the process of rewriting the [value] of [FormController] in the `onSaved`.
 ///
-/// If the Submit button is pressed, [validateAndSave] is executed.
+/// If the Submit button is pressed, [validate] is executed.
 ///
-/// Each form's `validate` is executed. Only when `true` is returned from [validateAndSave], `onSaved` of each form is executed and the process of rewriting [value] of [FormController] is executed.
+/// Each form's `validate` is executed. Only when `true` is returned from [validate], `onSaved` of each form is executed and the process of rewriting [value] of [FormController] is executed.
 ///
 /// After that, execute the process of writing data to the server based on the [value] of [FormController], etc.
 ///
@@ -32,9 +32,9 @@ part of '/katana_form.dart';
 ///
 /// それぞれのフォームウィジェットの`initialValue`に[FormController]の[value]を渡し、`onSaved`に[FormController]の[value]を書き換える処理を記載します。
 ///
-/// Submitボタンが押された場合、[validateAndSave]を実行します。
+/// Submitボタンが押された場合、[validate]を実行します。
 ///
-/// それぞれのフォームの`validate`が実行されます。[validateAndSave]から`true`が返された場合のみそれぞれのフォームの`onSaved`が実行され、[FormController]の[value]を書き換える処理が走ります。
+/// それぞれのフォームの`validate`が実行されます。[validate]から`true`が返された場合のみそれぞれのフォームの`onSaved`が実行され、[FormController]の[value]を書き換える処理が走ります。
 ///
 /// その後、[FormController]の[value]を元にサーバーにデータを書き込む処理等を実行してください。
 ///
@@ -67,7 +67,7 @@ part of '/katana_form.dart';
 ///           FormButton(
 ///             "Submit",
 ///             onPressed: () {
-///               if(!_context.validateAndSave()){
+///               if(!_context.validate()){
 ///                 return;
 ///               }
 ///               // Form data storage process.
@@ -93,9 +93,9 @@ class FormController<TValue> extends ValueNotifier<TValue> {
   ///
   /// Pass the [value] of [FormController] in the `initialValue` of each form widget, and describe the process of rewriting the [value] of [FormController] in the `onSaved`.
   ///
-  /// If the Submit button is pressed, [validateAndSave] is executed.
+  /// If the Submit button is pressed, [validate] is executed.
   ///
-  /// Each form's `validate` is executed. Only when `true` is returned from [validateAndSave], `onSaved` of each form is executed and the process of rewriting [value] of [FormController] is executed.
+  /// Each form's `validate` is executed. Only when `true` is returned from [validate], `onSaved` of each form is executed and the process of rewriting [value] of [FormController] is executed.
   ///
   /// After that, execute the process of writing data to the server based on the [value] of [FormController], etc.
   ///
@@ -112,9 +112,9 @@ class FormController<TValue> extends ValueNotifier<TValue> {
   ///
   /// それぞれのフォームウィジェットの`initialValue`に[FormController]の[value]を渡し、`onSaved`に[FormController]の[value]を書き換える処理を記載します。
   ///
-  /// Submitボタンが押された場合、[validateAndSave]を実行します。
+  /// Submitボタンが押された場合、[validate]を実行します。
   ///
-  /// それぞれのフォームの`validate`が実行されます。[validateAndSave]から`true`が返された場合のみそれぞれのフォームの`onSaved`が実行され、[FormController]の[value]を書き換える処理が走ります。
+  /// それぞれのフォームの`validate`が実行されます。[validate]から`true`が返された場合のみそれぞれのフォームの`onSaved`が実行され、[FormController]の[value]を書き換える処理が走ります。
   ///
   /// その後、[FormController]の[value]を元にサーバーにデータを書き込む処理等を実行してください。
   ///
@@ -147,7 +147,7 @@ class FormController<TValue> extends ValueNotifier<TValue> {
   ///           FormButton(
   ///             "Submit",
   ///             onPressed: () {
-  ///               if(!_context.validateAndSave()){
+  ///               if(!_context.validate()){
   ///                 return;
   ///               }
   ///               // Form data storage process.
@@ -161,9 +161,9 @@ class FormController<TValue> extends ValueNotifier<TValue> {
   /// ```
   FormController(super.value);
 
-  /// Register [FormFieldState] to execute `validator` and `onSaved` when [validateAndSave] is executed.
+  /// Register [FormFieldState] to execute `validator` and `onSaved` when [validate] is executed.
   ///
-  /// [FormFieldState]を登録して、[validateAndSave]実行時に`validator`、`onSaved`を実行するようにします。
+  /// [FormFieldState]を登録して、[validate]実行時に`validator`、`onSaved`を実行するようにします。
   void register(FormFieldState state) {
     _fields.add(state);
   }
@@ -197,6 +197,9 @@ class FormController<TValue> extends ValueNotifier<TValue> {
   /// `onSaved`が実行されるのは`true`が返される場合のみです。
   ///
   /// [autoUnfocus]が`true`の場合、フォームにあるフォーカスが解除されます。
+  @Deprecated(
+    "Use validate instead. This method will be removed in the next major version.",
+  )
   bool validateAndSave({bool autoUnfocus = true}) {
     if (autoUnfocus) {
       FocusManager.instance.primaryFocus?.unfocus();
@@ -213,6 +216,39 @@ class FormController<TValue> extends ValueNotifier<TValue> {
     }
     key.currentState!.save();
     return true;
+  }
+
+  /// Validate all forms placed under [Form] to which [key] is passed, and if there are no problems, `onSaved` is executed and the value is returned.
+  ///
+  /// If the validation is problematic, `null` is returned.
+  ///
+  /// The `onSaved` is only executed if a value is returned.
+  ///
+  /// If [autoUnfocus] is `true`, the focus on the form is released.
+  ///
+  /// [key]を渡した[Form]の配下に置かれているすべてのフォームでバリデーションを行ない、問題なければ`onSaved`が実行され、その値を返します。
+  ///
+  /// バリデーションが問題ある場合は`null`が返されます。
+  ///
+  /// `onSaved`が実行されるのは値が返される場合のみです。
+  ///
+  /// [autoUnfocus]が`true`の場合、フォームにあるフォーカスが解除されます。
+  TValue? validate({bool autoUnfocus = true}) {
+    if (autoUnfocus) {
+      FocusManager.instance.primaryFocus?.unfocus();
+    }
+    if (key.currentState == null) {
+      if (!_validate()) {
+        return null;
+      }
+      _save();
+      return value;
+    }
+    if (!key.currentState!.validate()) {
+      return null;
+    }
+    key.currentState!.save();
+    return value;
   }
 
   void _save() {
