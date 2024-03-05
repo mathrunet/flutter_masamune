@@ -1,6 +1,6 @@
 name: masamune_util
 description: A personal utility package that runs on the Masamune framework.
-version: 2.2.19
+version: 2.2.20
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_util
 
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
     
   katana: ^2.12.1
-  masamune: ^2.9.16
+  masamune: ^2.9.17
 dev_dependencies:
   test: ^1.24.0
   katana_test: ^2.1.0

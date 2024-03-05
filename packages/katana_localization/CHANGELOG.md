@@ -1,3 +1,7 @@
+## 2.3.3
+
+ - **FIX**: Dispose not to Dispose as a countermeasure at logout. ([ef454bab](https://github.com/mathrunet/flutter_masamune/commit/ef454babb28df53ecb5931dd28bd7c0db2d1db51))
+
 ## 2.3.2
 
  - Update a dependency to the latest release.

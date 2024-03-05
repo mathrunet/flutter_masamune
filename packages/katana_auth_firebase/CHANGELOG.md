@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: User data is now null-checked to prevent Exception. ([36ab11ee](https://github.com/mathrunet/flutter_masamune/commit/36ab11ee7bed9255ec98aec7a0ab179da6fbb882))
+
 ## 2.4.4
 
  - Update a dependency to the latest release.

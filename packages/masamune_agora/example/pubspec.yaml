@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^2.9.16
+  masamune: ^2.9.17
   masamune_agora:
     path: "../"
 

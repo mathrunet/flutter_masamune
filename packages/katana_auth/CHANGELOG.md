@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: User data is now null-checked to prevent Exception. ([36ab11ee](https://github.com/mathrunet/flutter_masamune/commit/36ab11ee7bed9255ec98aec7a0ab179da6fbb882))
+
 ## 2.5.4
 
  - **FIX**: Auth test failure correction. ([2a76b3dc](https://github.com/mathrunet/flutter_masamune/commit/2a76b3dc183cefad8aa9ca069f865383718810d1))
