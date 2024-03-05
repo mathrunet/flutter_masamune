@@ -346,6 +346,54 @@ abstract class CliCodeCommand extends CliCode implements CliCommand {
   const CliCodeCommand();
 }
 
+/// An abstract class for creating testable code-based command templates.
+///
+/// テスト可能なコードベースのコマンドの雛形を作成するための抽象クラス。
+abstract class CliTestableCodeCommand extends CliCodeCommand {
+  /// An abstract class for creating testable code-based command templates.
+  ///
+  /// テスト可能なコードベースのコマンドの雛形を作成するための抽象クラス。
+  const CliTestableCodeCommand();
+
+  /// Specify the folder where test code is to be generated.
+  ///
+  /// テストコードを生成するフォルダを指定します。
+  String get testDirectory;
+
+  /// Define test code. The path [path] is passed relative to `lib`, [baseName] is the filename, and [className] is the filename converted to Pascal case.
+  ///
+  /// テストコードを定義します。[path]に`lib`からの相対パス、[baseName]にファイル名が渡され、[className]にファイル名をパスカルケースに変換した値が渡されます。
+  String test(String path, String baseName, String className);
+
+  /// Generate Dart test code in [path].
+  ///
+  /// You can edit the data inside with [filter].
+  ///
+  /// [path]にDartテストコードを生成します。
+  ///
+  /// [filter]で中身のデータを編集することができます。
+  Future<void> generateDartTestCode(
+    String path,
+    String className, {
+    String ext = "dart",
+    String Function(String value)? filter,
+  }) async {
+    final baseName = path.last();
+    final trimedPath = CliCode._trimPathPrefix(path);
+    final editClassName =
+        className.split("/").distinct().join("_").toPascalCase();
+    final dir = Directory(path.replaceAll("/$baseName", ""));
+    if (!dir.existsSync()) {
+      await dir.create(recursive: true);
+    }
+    final output = CliCode._removeCodeSnippetValue(
+      test(trimedPath, baseName, editClassName),
+    );
+    await File("${path}_test.$ext")
+        .writeAsString(filter?.call(output) ?? output);
+  }
+}
+
 /// Make an Unmodifidable map or listing Modifidable.
 ///
 /// UnmodifidableなマップやリストをModifidableにします。

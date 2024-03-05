@@ -3,7 +3,7 @@ part of "code.dart";
 /// Create a base class for the page.
 ///
 /// ページのベースクラスを作成します。
-class CodePageCliCommand extends CliCodeCommand {
+class CodePageCliCommand extends CliTestableCodeCommand {
   /// Create a base class for the page.
   ///
   /// ページのベースクラスを作成します。
@@ -17,6 +17,9 @@ class CodePageCliCommand extends CliCodeCommand {
 
   @override
   String get directory => "lib/pages";
+
+  @override
+  String get testDirectory => "test/pages";
 
   @override
   String get description =>
@@ -38,6 +41,10 @@ class CodePageCliCommand extends CliCodeCommand {
       final parentDir = Directory("$directory/$parentPath");
       if (!parentDir.existsSync()) {
         await parentDir.create(recursive: true);
+      }
+      final parentTestDir = Directory("$testDirectory/$parentPath");
+      if (!parentTestDir.existsSync()) {
+        await parentTestDir.create(recursive: true);
       }
     }
     await generateDartCode(
@@ -63,6 +70,7 @@ typedef ${path.split("/").distinct().join("_").toPascalCase()}PageQuery = _\$${p
         }
       },
     );
+    await generateDartTestCode("$testDirectory/$path", path);
   }
 
   @override
@@ -123,6 +131,20 @@ class ${className}Page extends PageScopedWidget {
     // TODO: Implement the view.
     return \${5:UniversalScaffold()};
   }
+}
+""";
+  }
+
+  @override
+  String test(String path, String baseName, String className) {
+    return """
+import 'package:flutter_test/flutter_test.dart';
+import 'package:masamune/masamune.dart';
+
+void main() {
+  testWidgets("$className", (tester) async {
+    // TODO: Write test code.
+  });
 }
 """;
   }

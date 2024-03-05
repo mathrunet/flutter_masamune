@@ -3,7 +3,7 @@ part of "code.dart";
 /// Create a base class to create a StatefulWidget.
 ///
 /// StatefulWidgetを作成するベースクラスを作成します。
-class CodeStatefulCliCommand extends CliCodeCommand {
+class CodeStatefulCliCommand extends CliTestableCodeCommand {
   /// Create a base class to create a StatefulWidget.
   ///
   /// StatefulWidgetを作成するベースクラスを作成します。
@@ -17,6 +17,9 @@ class CodeStatefulCliCommand extends CliCodeCommand {
 
   @override
   String get directory => "lib/widgets";
+
+  @override
+  String get testDirectory => "test/widgets";
 
   @override
   String get description =>
@@ -38,8 +41,13 @@ class CodeStatefulCliCommand extends CliCodeCommand {
       if (!parentDir.existsSync()) {
         await parentDir.create(recursive: true);
       }
+      final parentTestDir = Directory("$testDirectory/$parentPath");
+      if (!parentTestDir.existsSync()) {
+        await parentTestDir.create(recursive: true);
+      }
     }
     await generateDartCode("$directory/$path", path);
+    await generateDartTestCode("$testDirectory/$path", path);
   }
 
   @override
@@ -85,6 +93,20 @@ class _${className}State extends State<${className}Widget> {
     // TODO: Implement the view.
     return \${2:Empty()};
   }
+}
+""";
+  }
+
+  @override
+  String test(String path, String baseName, String className) {
+    return """
+import 'package:flutter_test/flutter_test.dart';
+import 'package:masamune/masamune.dart';
+
+void main() {
+  testWidgets("$className", (tester) async {
+    // TODO: Write test code.
+  });
 }
 """;
   }

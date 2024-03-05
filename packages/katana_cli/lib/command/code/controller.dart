@@ -3,7 +3,7 @@ part of "code.dart";
 /// Create a base class for the controller.
 ///
 /// コントローラーのベースクラスを作成します。
-class CodeControllerCliCommand extends CliCodeCommand {
+class CodeControllerCliCommand extends CliTestableCodeCommand {
   /// Create a base class for the controller.
   ///
   /// コントローラーのベースクラスを作成します。
@@ -17,6 +17,9 @@ class CodeControllerCliCommand extends CliCodeCommand {
 
   @override
   String get directory => "lib/controllers";
+
+  @override
+  String get testDirectory => "test/controllers";
 
   @override
   String get description =>
@@ -38,8 +41,13 @@ class CodeControllerCliCommand extends CliCodeCommand {
       if (!parentDir.existsSync()) {
         await parentDir.create(recursive: true);
       }
+      final parentTestDir = Directory("$testDirectory/$parentPath");
+      if (!parentTestDir.existsSync()) {
+        await parentTestDir.create(recursive: true);
+      }
     }
     await generateDartCode("$directory/$path", path);
+    await generateDartTestCode("$testDirectory/$path", path);
   }
 
   @override
@@ -84,6 +92,20 @@ class ${className}Controller extends ChangeNotifier {
   /// ref.page.controller(${className}Controller.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _\$${className}ControllerQuery();
+}
+""";
+  }
+
+  @override
+  String test(String path, String baseName, String className) {
+    return """
+import 'package:flutter_test/flutter_test.dart';
+import 'package:masamune/masamune.dart';
+
+void main() {
+  test("$className", () async {
+    // TODO: Write test code.
+  });
 }
 """;
   }
