@@ -100,6 +100,7 @@ import 'package:masamune/masamune.dart';
 
 void main() {
   testWidgets("$className", (tester) async {
+    masamuneTest();
     // TODO: Write test code.
   });
 }
