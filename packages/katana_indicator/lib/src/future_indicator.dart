@@ -98,3 +98,35 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
     }
   }
 }
+
+/// Executes multiple [processes] and displays an indicator during each one.
+///
+/// Used when multiple [Future] runs are to be executed in parallel and an indicator is to be displayed between them.
+///
+/// It is possible to change the color of the entire screen by specifying [barrierColor].
+///
+/// The indicator can be changed by specifying [indicator].
+///
+/// By default, [CircularProgressIndicator] is used.
+///
+/// 複数の[processes]を実行しその間インジケーターを表示します。
+///
+/// 複数の[Future]を並列で実行しその間にインジケーターを表示する場合に利用します。
+///
+/// [barrierColor]を指定して画面全体の色を変更することが可能です。
+///
+/// [indicator]を指定するとインジケーターを変更することが可能です。
+///
+/// デフォルトだと[CircularProgressIndicator]が利用されます。
+Future<void> showIndicator(
+  BuildContext context,
+  List<FutureOr<void> Function()> processes, {
+  Color? barrierColor = Colors.black54,
+  Widget? indicator,
+}) async {
+  await wait(processes.map((e) => e.call())).showIndicator(
+    context,
+    barrierColor: barrierColor,
+    indicator: indicator,
+  );
+}
