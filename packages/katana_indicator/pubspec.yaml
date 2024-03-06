@@ -1,6 +1,6 @@
 name: katana_indicator
 description: A package to make it easier to use Flutter's indicators (especially when waiting for processing in Future).
-version: 2.1.2
+version: 2.2.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_indicator
 
