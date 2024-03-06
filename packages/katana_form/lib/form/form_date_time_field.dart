@@ -421,8 +421,7 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
         child: Stack(
           children: [
             Padding(
-              padding:
-                  EdgeInsets.only(right: widget.showDropdownIcon ? 16.0 : 0),
+              padding: EdgeInsets.zero,
               child: _DateTimeTextField<TValue>(
                 form: widget.form,
                 controller: _controller,
@@ -505,17 +504,20 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
               Positioned.fill(
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: IgnorePointer(
-                    ignoring: true,
-                    child: IconTheme(
-                      data: IconThemeData(
-                        size: 24,
-                        color: widget.enabled
-                            ? mainTextStyle.color
-                            : disabledTextStyle.color,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: IgnorePointer(
+                      ignoring: true,
+                      child: IconTheme(
+                        data: IconThemeData(
+                          size: 24,
+                          color: widget.enabled
+                              ? mainTextStyle.color
+                              : disabledTextStyle.color,
+                        ),
+                        child: widget.dropdownIcon ??
+                            const Icon(Icons.arrow_drop_down),
                       ),
-                      child: widget.dropdownIcon ??
-                          const Icon(Icons.arrow_drop_down),
                     ),
                   ),
                 ),
