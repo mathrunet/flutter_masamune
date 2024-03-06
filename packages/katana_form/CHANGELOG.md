@@ -1,3 +1,7 @@
+## 2.12.4
+
+ - **FIX**: Change the position of the drop-down icon. ([85b1bb7a](https://github.com/mathrunet/flutter_masamune/commit/85b1bb7a6d248ed813354b9b6140e7c83f555ae2))
+
 ## 2.12.3
 
  - **FIX**: Changed the validate method of FormController. ([788a396b](https://github.com/mathrunet/flutter_masamune/commit/788a396bfd8c2afa18d7af3da5f2aa2aa07ea47e))

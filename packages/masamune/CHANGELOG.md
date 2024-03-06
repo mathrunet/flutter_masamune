@@ -1,3 +1,7 @@
+## 2.10.2
+
+ - Update a dependency to the latest release.
+
 ## 2.10.1
 
  - **FIX**: Added ensureInitialized. ([9f82bd39](https://github.com/mathrunet/flutter_masamune/commit/9f82bd39ce35d34b30ec7ea6a4e561cd7abaad1a))

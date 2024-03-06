@@ -1,3 +1,7 @@
+## 2.18.1
+
+ - **FIX**: MasamuneTest is placed by default. ([7944c50b](https://github.com/mathrunet/flutter_masamune/commit/7944c50b2aa1cd176c69ee5844d976366eae3ca9))
+
 ## 2.18.0
 
  - **FEAT**: When creating the code, the test code was created together if necessary. ([d4909891](https://github.com/mathrunet/flutter_masamune/commit/d49098918aeca92330fa47610107580292c9406a))

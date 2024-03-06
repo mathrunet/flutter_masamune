@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^2.10.1
+  masamune: ^2.10.2
   masamune_location_google:
     path: "../"
 
