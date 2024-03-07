@@ -3,6 +3,137 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-03-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth` - `v2.7.1`](#katana_auth---v271)
+ - [`katana_functions` - `v2.6.1`](#katana_functions---v261)
+ - [`katana_logger` - `v2.2.1`](#katana_logger---v221)
+ - [`katana_model` - `v2.25.1`](#katana_model---v2251)
+ - [`katana_scoped` - `v2.3.1`](#katana_scoped---v231)
+ - [`katana_storage` - `v2.2.1`](#katana_storage---v221)
+ - [`katana_auth_firebase` - `v2.5.2`](#katana_auth_firebase---v252)
+ - [`masamune` - `v2.10.4`](#masamune---v2104)
+ - [`masamune_location_platform_interface` - `v2.3.26`](#masamune_location_platform_interface---v2326)
+ - [`masamune_location_geocoding` - `v2.4.26`](#masamune_location_geocoding---v2426)
+ - [`masamune_location` - `v2.3.26`](#masamune_location---v2326)
+ - [`masamune_deeplink_firebase` - `v2.2.26`](#masamune_deeplink_firebase---v2226)
+ - [`masamune_auth_apple` - `v2.3.26`](#masamune_auth_apple---v2326)
+ - [`masamune_model_algolia` - `v2.4.23`](#masamune_model_algolia---v2423)
+ - [`masamune_scheduler` - `v2.2.26`](#masamune_scheduler---v2226)
+ - [`masamune_location_background` - `v2.4.26`](#masamune_location_background---v2426)
+ - [`masamune_agora` - `v2.4.26`](#masamune_agora---v2426)
+ - [`masamune_text_to_speech` - `v2.2.27`](#masamune_text_to_speech---v2227)
+ - [`masamune_auth_google` - `v2.3.26`](#masamune_auth_google---v2326)
+ - [`masamune_module_chat_system` - `v2.1.19`](#masamune_module_chat_system---v2119)
+ - [`masamune_ai_openai` - `v2.7.18`](#masamune_ai_openai---v2718)
+ - [`masamune_calendar` - `v2.2.26`](#masamune_calendar---v2226)
+ - [`masamune_picker` - `v2.2.26`](#masamune_picker---v2226)
+ - [`masamune_util` - `v2.2.26`](#masamune_util---v2226)
+ - [`masamune_universal_ui` - `v2.3.27`](#masamune_universal_ui---v2327)
+ - [`masamune_purchase_stripe` - `v3.5.23`](#masamune_purchase_stripe---v3523)
+ - [`masamune_notification` - `v2.5.23`](#masamune_notification---v2523)
+ - [`masamune_logger_firebase` - `v2.2.23`](#masamune_logger_firebase---v2223)
+ - [`masamune_introduction` - `v2.4.23`](#masamune_introduction---v2423)
+ - [`masamune_deeplink` - `v2.2.26`](#masamune_deeplink---v2226)
+ - [`masamune_auth_facebook` - `v2.3.26`](#masamune_auth_facebook---v2326)
+ - [`masamune_speech_to_text` - `v2.2.27`](#masamune_speech_to_text---v2227)
+ - [`masamune_force_updater` - `v2.1.26`](#masamune_force_updater---v2126)
+ - [`masamune_location_google` - `v2.4.26`](#masamune_location_google---v2426)
+ - [`masamune_module_point_ecosystem` - `v2.5.31`](#masamune_module_point_ecosystem---v2531)
+ - [`masamune_purchase` - `v2.1.8`](#masamune_purchase---v218)
+ - [`masamune_notification_firebase` - `v2.5.26`](#masamune_notification_firebase---v2526)
+ - [`masamune_module` - `v2.4.26`](#masamune_module---v2426)
+ - [`masamune_purchase_mobile` - `v2.8.8`](#masamune_purchase_mobile---v288)
+ - [`masamune_mail` - `v2.2.26`](#masamune_mail---v2226)
+ - [`masamune_ads_google` - `v2.4.26`](#masamune_ads_google---v2426)
+ - [`katana_functions_firebase` - `v2.5.5`](#katana_functions_firebase---v255)
+ - [`katana_router` - `v2.2.4`](#katana_router---v224)
+ - [`katana_model_local` - `v2.13.7`](#katana_model_local---v2137)
+ - [`katana_model_firestore` - `v2.16.10`](#katana_model_firestore---v21610)
+ - [`katana_storage_firebase` - `v2.1.6`](#katana_storage_firebase---v216)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_auth_firebase` - `v2.5.2`
+ - `masamune` - `v2.10.4`
+ - `masamune_location_platform_interface` - `v2.3.26`
+ - `masamune_location_geocoding` - `v2.4.26`
+ - `masamune_location` - `v2.3.26`
+ - `masamune_deeplink_firebase` - `v2.2.26`
+ - `masamune_auth_apple` - `v2.3.26`
+ - `masamune_model_algolia` - `v2.4.23`
+ - `masamune_scheduler` - `v2.2.26`
+ - `masamune_location_background` - `v2.4.26`
+ - `masamune_agora` - `v2.4.26`
+ - `masamune_text_to_speech` - `v2.2.27`
+ - `masamune_auth_google` - `v2.3.26`
+ - `masamune_module_chat_system` - `v2.1.19`
+ - `masamune_ai_openai` - `v2.7.18`
+ - `masamune_calendar` - `v2.2.26`
+ - `masamune_picker` - `v2.2.26`
+ - `masamune_util` - `v2.2.26`
+ - `masamune_universal_ui` - `v2.3.27`
+ - `masamune_purchase_stripe` - `v3.5.23`
+ - `masamune_notification` - `v2.5.23`
+ - `masamune_logger_firebase` - `v2.2.23`
+ - `masamune_introduction` - `v2.4.23`
+ - `masamune_deeplink` - `v2.2.26`
+ - `masamune_auth_facebook` - `v2.3.26`
+ - `masamune_speech_to_text` - `v2.2.27`
+ - `masamune_force_updater` - `v2.1.26`
+ - `masamune_location_google` - `v2.4.26`
+ - `masamune_module_point_ecosystem` - `v2.5.31`
+ - `masamune_purchase` - `v2.1.8`
+ - `masamune_notification_firebase` - `v2.5.26`
+ - `masamune_module` - `v2.4.26`
+ - `masamune_purchase_mobile` - `v2.8.8`
+ - `masamune_mail` - `v2.2.26`
+ - `masamune_ads_google` - `v2.4.26`
+ - `katana_functions_firebase` - `v2.5.5`
+ - `katana_router` - `v2.2.4`
+ - `katana_model_local` - `v2.13.7`
+ - `katana_model_firestore` - `v2.16.10`
+ - `katana_storage_firebase` - `v2.1.6`
+
+---
+
+#### `katana_auth` - `v2.7.1`
+
+ - **FIX**: We decided to separate the adapter for Test. ([7e34600c](https://github.com/mathrunet/flutter_masamune/commit/7e34600c97b023fa4d67bdd18e508cb89f2296e5))
+
+#### `katana_functions` - `v2.6.1`
+
+ - **FIX**: We decided to separate the adapter for Test. ([7e34600c](https://github.com/mathrunet/flutter_masamune/commit/7e34600c97b023fa4d67bdd18e508cb89f2296e5))
+
+#### `katana_logger` - `v2.2.1`
+
+ - **FIX**: We decided to separate the adapter for Test. ([7e34600c](https://github.com/mathrunet/flutter_masamune/commit/7e34600c97b023fa4d67bdd18e508cb89f2296e5))
+
+#### `katana_model` - `v2.25.1`
+
+ - **FIX**: We decided to separate the adapter for Test. ([7e34600c](https://github.com/mathrunet/flutter_masamune/commit/7e34600c97b023fa4d67bdd18e508cb89f2296e5))
+
+#### `katana_scoped` - `v2.3.1`
+
+ - **FIX**: We decided to separate the adapter for Test. ([7e34600c](https://github.com/mathrunet/flutter_masamune/commit/7e34600c97b023fa4d67bdd18e508cb89f2296e5))
+
+#### `katana_storage` - `v2.2.1`
+
+ - **FIX**: We decided to separate the adapter for Test. ([7e34600c](https://github.com/mathrunet/flutter_masamune/commit/7e34600c97b023fa4d67bdd18e508cb89f2296e5))
+
+
 ## 2024-03-06
 
 ### Changes

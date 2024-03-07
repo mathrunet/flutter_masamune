@@ -1,6 +1,6 @@
 name: katana_storage
 description: Base package to facilitate switching between Local and Firebase storage implementations.
-version: 2.2.0
+version: 2.2.1
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_storage
 

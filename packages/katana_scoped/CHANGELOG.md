@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - **FIX**: We decided to separate the adapter for Test. ([7e34600c](https://github.com/mathrunet/flutter_masamune/commit/7e34600c97b023fa4d67bdd18e508cb89f2296e5))
+
 ## 2.3.0
 
  - **FEAT**: Added the ability to specify adapters for testing. ([df0f1499](https://github.com/mathrunet/flutter_masamune/commit/df0f14991305ef7060f9dcf6187f29c09d04d36e))
