@@ -69,6 +69,7 @@ abstract class AuthAdapter {
   }
 
   static AuthAdapter? _primary;
+  static AuthAdapter? _test;
 
   /// If you are signed in, return `true`.
   ///
@@ -490,6 +491,6 @@ class TestAuthAdapterScope {
   ///
   /// テスト用に[AuthAdapter]を設定します。
   static void setTestAdapter(AuthAdapter adapter) {
-    AuthAdapter._primary = adapter;
+    AuthAdapter._test = adapter;
   }
 }

@@ -76,6 +76,7 @@ abstract class ModelAdapter {
   }
 
   static ModelAdapter? _primary;
+  static ModelAdapter? _test;
 
   /// Pass [query] to the platform set by the adapter to retrieve the document.
   ///
@@ -639,6 +640,6 @@ class TestModelAdapterScope {
   ///
   /// テスト用に[ModelAdapter]を設定します。
   static void setTestAdapter(ModelAdapter adapter) {
-    ModelAdapter._primary = adapter;
+    ModelAdapter._test = adapter;
   }
 }

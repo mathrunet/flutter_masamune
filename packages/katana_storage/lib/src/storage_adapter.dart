@@ -62,6 +62,7 @@ abstract class StorageAdapter {
   }
 
   static StorageAdapter? _primary;
+  static StorageAdapter? _test;
 
   /// Please make sure that you can get a publicly available URL. Use this URI when you want to retrieve images, etc. using `Image.network`, etc.
   ///

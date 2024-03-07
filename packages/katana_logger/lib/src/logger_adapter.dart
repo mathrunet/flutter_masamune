@@ -17,6 +17,7 @@ abstract class LoggerAdapter {
   }
 
   static List<LoggerAdapter>? _primary;
+  static List<LoggerAdapter>? _test;
 
   /// Get a list of logs recorded.
   ///
@@ -168,6 +169,6 @@ class TestLoggerAdapterScope {
   ///
   /// テスト用に[LoggerAdapter]を設定します。
   static void setTestAdapters(List<LoggerAdapter> adapters) {
-    LoggerAdapter._primary = adapters;
+    LoggerAdapter._test = adapters;
   }
 }

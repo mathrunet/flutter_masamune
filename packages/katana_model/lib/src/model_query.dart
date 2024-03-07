@@ -74,10 +74,7 @@ class DocumentModelQuery extends ModelQuery {
 
   @override
   String toString() {
-    if (_adapter == null) {
-      return super.toString();
-    }
-    return "${super.toString()}@${_adapter.toString()}";
+    return "${super.toString()}@${adapter.toString()}";
   }
 
   @override
@@ -530,10 +527,7 @@ class CollectionModelQuery extends ModelQuery {
 
   @override
   String toString() {
-    if (_adapter == null) {
-      return super.toString();
-    }
-    return "${super.toString()}@${_adapter.toString()}";
+    return "${super.toString()}@${adapter.toString()}";
   }
 
   @override
@@ -541,7 +535,7 @@ class CollectionModelQuery extends ModelQuery {
 
   @override
   int get hashCode {
-    return super.hashCode ^ _adapter.hashCode;
+    return super.hashCode ^ adapter.hashCode;
   }
 }
 
@@ -596,7 +590,7 @@ class ModelQuery {
   ///
   /// データをを読込・保存する際の処理を定義するためのアダプター。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
   ModelAdapter get adapter {
-    return _adapter ?? ModelAdapter.primary;
+    return ModelAdapter._test ?? _adapter ?? ModelAdapter.primary;
   }
 
   final ModelAdapter? _adapter;

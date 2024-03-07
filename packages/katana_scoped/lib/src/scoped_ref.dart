@@ -43,7 +43,9 @@ class AppRef implements Ref {
   }
 
   ScopedValueContainer get _scopedValueContainer =>
-      __scopedValueContainer ?? ScopedValueContainer.primary;
+      ScopedValueContainer._test ??
+      __scopedValueContainer ??
+      ScopedValueContainer.primary;
 
   final ScopedValueContainer? __scopedValueContainer;
 

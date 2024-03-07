@@ -237,7 +237,7 @@ packages:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "2.1.2"
+    version: "2.2.0"
   katana_test:
     dependency: "direct dev"
     description:

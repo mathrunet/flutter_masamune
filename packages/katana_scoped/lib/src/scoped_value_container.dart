@@ -53,6 +53,7 @@ class ScopedValueContainer extends ChangeNotifier {
   }
 
   static ScopedValueContainer _primary = ScopedValueContainer();
+  static ScopedValueContainer? _test;
 
   /// It is possible to check the contents of [ScopedValueContainer].
   ///

@@ -29,7 +29,7 @@ class Functions extends ChangeNotifier {
   ///
   /// サーバーのプラットフォームを定義するアダプター。
   FunctionsAdapter get adapter {
-    return _adapter ?? FunctionsAdapter.primary;
+    return FunctionsAdapter._test ?? _adapter ?? FunctionsAdapter.primary;
   }
 
   final FunctionsAdapter? _adapter;

@@ -37,6 +37,9 @@ class Logger extends ChangeNotifier {
   ///
   /// ロガーを定義するアダプターのリスト。
   List<LoggerAdapter> get adapters {
+    if (LoggerAdapter._test != null) {
+      return LoggerAdapter._test!;
+    }
     final adapters = [
       ...LoggerAdapter.primary,
       ..._adapters,

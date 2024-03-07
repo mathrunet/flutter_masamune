@@ -46,7 +46,7 @@ class StorageQuery {
   ///
   /// 指定されない場合は[StorageAdapter.primary]が利用されます。
   StorageAdapter get adapter {
-    return _adapter ?? StorageAdapter.primary;
+    return StorageAdapter._test ?? _adapter ?? StorageAdapter.primary;
   }
 
   final StorageAdapter? _adapter;

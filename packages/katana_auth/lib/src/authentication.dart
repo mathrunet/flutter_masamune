@@ -89,7 +89,7 @@ class Authentication extends ChangeNotifier {
   ///
   /// 認証プラットフォームを定義するアダプター。
   AuthAdapter get adapter {
-    return _adapter ?? AuthAdapter.primary;
+    return AuthAdapter._test ?? _adapter ?? AuthAdapter.primary;
   }
 
   final AuthAdapter? _adapter;

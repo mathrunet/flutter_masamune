@@ -30,6 +30,7 @@ abstract class FunctionsAdapter {
   }
 
   static FunctionsAdapter? _primary;
+  static FunctionsAdapter? _test;
 
   /// URL of the endpoint where the Functions are executed.
   ///
@@ -178,6 +179,6 @@ class TestFunctionsAdapterScope {
   ///
   /// テスト用に[FunctionsAdapter]を設定します。
   static void setTestAdapter(FunctionsAdapter adapter) {
-    FunctionsAdapter._primary = adapter;
+    FunctionsAdapter._test = adapter;
   }
 }

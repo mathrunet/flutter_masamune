@@ -116,6 +116,6 @@ class TestAppScoped {
   ///
   /// テスト用に[ScopedValueContainer]を設定します。
   static void setTestContainer(ScopedValueContainer container) {
-    ScopedValueContainer._primary = container;
+    ScopedValueContainer._test = container;
   }
 }
