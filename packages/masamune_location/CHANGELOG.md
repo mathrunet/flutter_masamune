@@ -1,3 +1,7 @@
+## 2.3.28
+
+ - **FIX**: Add openAppSettings. ([d8a1b91d](https://github.com/mathrunet/flutter_masamune/commit/d8a1b91dd4e156c45f4d05f9c402d95f92f036ef))
+
 ## 2.3.27
 
  - **FIX**: Add a method that only loads location information. ([18c60f5e](https://github.com/mathrunet/flutter_masamune/commit/18c60f5e9d8525bae4c3928f039c25f4759069c1))

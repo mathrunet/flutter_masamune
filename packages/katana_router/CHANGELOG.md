@@ -1,3 +1,7 @@
+## 2.2.6
+
+ - **FIX**: Enabled AppRestart during Boot. ([b1d9661d](https://github.com/mathrunet/flutter_masamune/commit/b1d9661da59a803ef9509680ccc588fcee68ea78))
+
 ## 2.2.5
 
  - **FIX**: The router is now reset when the application resets. ([eee7e3b2](https://github.com/mathrunet/flutter_masamune/commit/eee7e3b2eb3ef592326ea59d54b5e51efc6386e3))

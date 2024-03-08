@@ -1,3 +1,7 @@
+## 2.4.28
+
+ - Update a dependency to the latest release.
+
 ## 2.4.27
 
  - **FIX**: Location and Compass can now be specified. ([16ee774a](https://github.com/mathrunet/flutter_masamune/commit/16ee774a0a6977dc605bb071bbe5a07438f60650))

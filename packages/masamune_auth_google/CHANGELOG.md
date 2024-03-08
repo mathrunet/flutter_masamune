@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - Update a dependency to the latest release.
+
 ## 2.4.0
 
  - **FEAT**: Create and apply AuthAction. ([d148ec86](https://github.com/mathrunet/flutter_masamune/commit/d148ec8647e4a8d7668803ff49c06555c80d3808))
