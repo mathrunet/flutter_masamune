@@ -70,6 +70,7 @@ class Location
   Duration _updateInterval = const Duration(seconds: 1);
   bool _updated = false;
   Completer<void>? _listenCompleter;
+  Completer<void>? _loadCompleter;
   Completer<void>? _initializeCompleter;
   // ignore: cancel_subscriptions
   StreamSubscription<location.LocationData>? _locationChangeStreamSubscription;
@@ -151,6 +152,45 @@ class Location
       _initializeCompleter?.complete();
       _initializeCompleter = null;
     }
+  }
+
+  /// If location information has not been acquired, location information is acquired only once.
+  ///
+  /// 位置情報が取得されていない場合１度だけ位置情報を取得します。
+  Future<void> load({
+    Duration timeout = const Duration(seconds: 60),
+  }) async {
+    if (_loadCompleter != null) {
+      return _loadCompleter?.future;
+    }
+    if (_value != null) {
+      return;
+    }
+    _loadCompleter = Completer<void>();
+    try {
+      await initialize(timeout: timeout);
+      _value = (await _location.getLocation()).toLocationData();
+      notifyListeners();
+      _loadCompleter?.complete();
+      _loadCompleter = null;
+    } catch (e) {
+      _loadCompleter?.completeError(e);
+      _loadCompleter = null;
+      rethrow;
+    } finally {
+      _loadCompleter?.complete();
+      _loadCompleter = null;
+    }
+  }
+
+  /// Update location information.
+  ///
+  /// 位置情報を更新します。
+  Future<void> reload({
+    Duration timeout = const Duration(seconds: 60),
+  }) async {
+    _value = null;
+    await load(timeout: timeout);
   }
 
   /// Starts acquiring location information.
