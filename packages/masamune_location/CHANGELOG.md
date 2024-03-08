@@ -1,3 +1,7 @@
+## 2.3.27
+
+ - **FIX**: Add a method that only loads location information. ([18c60f5e](https://github.com/mathrunet/flutter_masamune/commit/18c60f5e9d8525bae4c3928f039c25f4759069c1))
+
 ## 2.3.26
 
  - Update a dependency to the latest release.

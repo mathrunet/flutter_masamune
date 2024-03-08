@@ -1,3 +1,7 @@
+## 2.12.5
+
+ - **FIX**: Added FormCheckbox validator. ([235b3772](https://github.com/mathrunet/flutter_masamune/commit/235b37720fecb01823347b26e4702959a30ea953))
+
 ## 2.12.4
 
  - **FIX**: Change the position of the drop-down icon. ([85b1bb7a](https://github.com/mathrunet/flutter_masamune/commit/85b1bb7a6d248ed813354b9b6140e7c83f555ae2))
