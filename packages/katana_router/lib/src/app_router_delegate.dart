@@ -70,6 +70,7 @@ class _AppRouterDelegate extends RouterDelegate<RouteQuery>
 
   @override
   Future<void> setInitialRoutePath(RouteQuery configuration) async {
+    router._clear();
     final boot = router._config.boot;
     if (boot != null) {
       await push<void>(boot.resolve(configuration.path));

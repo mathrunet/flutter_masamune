@@ -483,6 +483,15 @@ class AppRouter extends ChangeNotifier
     _routeInformationProvider.notifyListeners();
   }
 
+  /// Clears all router pages and returns to the startup state.
+  ///
+  /// すべてのルーターのページをクリアし起動時の状態に戻します。
+  void _clear() {
+    _pageStack.clear();
+    _pages.clear();
+    __routeInformationProvider = null;
+  }
+
   /// Sets the URL strategy of your web app to using paths instead of a leading hash (#).
   ///
   /// You can safely call this on all platforms, i.e. also when running on mobile or desktop. In that case, it will simply be a noop.
