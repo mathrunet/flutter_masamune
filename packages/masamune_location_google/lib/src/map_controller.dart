@@ -87,12 +87,14 @@ class MapController
   /// Manage location information.
   ///
   /// 位置情報の管理を行います。
-  final Location location = Location();
+  Location get location => adapter.location ?? _location;
+  final Location _location = Location();
 
   /// Compass management.
   ///
   /// コンパスの管理を行います。
-  final Compass compass = Compass();
+  Compass get compass => adapter.compass ?? _compass;
+  final Compass _compass = Compass();
 
   /// Obtains the current display position.
   ///
