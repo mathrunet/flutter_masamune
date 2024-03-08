@@ -124,15 +124,10 @@ abstract class BootRouteQueryBuilder extends StatefulWidget {
 
 class _BootRouteQueryBuilderState extends State<BootRouteQueryBuilder> {
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _handledOnInit();
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return widget.build(context);
   }
 
