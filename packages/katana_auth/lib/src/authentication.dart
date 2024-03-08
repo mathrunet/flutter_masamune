@@ -85,6 +85,22 @@ class Authentication extends ChangeNotifier {
   })  : _adapter = adapter,
         _loggerAdapters = loggerAdapters;
 
+  /// Special callbacks can be registered as [AuthAction] by passing [AuthAction] to [action].
+  ///
+  /// [AuthAction]を[action]に渡すことで特殊なコールバックを[AuthAction]として登録することができます。
+  static void registerAuthAction(AuthAction action) {
+    _actions.add(action);
+  }
+
+  /// You can cancel an already registered [AuthAction] by passing [AuthAction] to [action].
+  ///
+  /// [action]に[AuthAction]を渡すことですでに登録されている[AuthAction]を解除することができます。
+  static void unregisterAuthAction(AuthAction action) {
+    _actions.remove(action);
+  }
+
+  static final Set<AuthAction> _actions = {};
+
   /// An adapter that defines the authentication platform.
   ///
   /// 認証プラットフォームを定義するアダプター。
@@ -284,6 +300,9 @@ class Authentication extends ChangeNotifier {
   ///
   /// すでにサインインしている場合は[Exception]が返されます。
   Future<Authentication> signIn(SignInAuthProvider provider) async {
+    for (final action in _actions) {
+      await action.onSignIn();
+    }
     await adapter.signIn(
       provider: provider,
       onUserStateChanged: notifyListeners,
@@ -292,6 +311,11 @@ class Authentication extends ChangeNotifier {
       AuthLoggerEvent.userIdKey: isSignedIn ? userId : null,
       AuthLoggerEvent.providerKey: provider.providerId,
     });
+    if (isSignedIn) {
+      for (final action in _actions) {
+        await action.onSignedIn();
+      }
+    }
     return this;
   }
 
@@ -318,6 +342,11 @@ class Authentication extends ChangeNotifier {
       provider: provider,
       onUserStateChanged: notifyListeners,
     );
+    if (isSignedIn) {
+      for (final action in _actions) {
+        await action.onSignedIn();
+      }
+    }
     return this;
   }
 
@@ -462,11 +491,19 @@ class Authentication extends ChangeNotifier {
     if (!isSignedIn) {
       throw Exception("Not yet signed in.");
     }
+    for (final action in _actions) {
+      await action.onSignOut();
+    }
     final userId = this.userId;
     await adapter.signOut(onUserStateChanged: notifyListeners);
     _sendLog(AuthLoggerEvent.signOut, parameters: {
       AuthDatabase.userIdKey: userId,
     });
+    if (!isSignedIn) {
+      for (final action in _actions) {
+        await action.onSignedOut();
+      }
+    }
     return this;
   }
 

@@ -25,6 +25,7 @@ class GoogleAuthMasamuneAdapter extends MasamuneAdapter {
       return;
     }
     _primary = adapter;
+    Authentication.registerAuthAction(const GoogleAuthAction());
   }
 
   @override

@@ -45,3 +45,4 @@ part 'src/auth_provider.dart';
 part 'src/auth_database.dart';
 part 'src/auth_credential.dart';
 part 'src/auth_logger_event.dart';
+part 'src/auth_action.dart';

@@ -158,6 +158,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.1"
+  flutter_svg:
+    dependency: transitive
+    description:
+      name: flutter_svg
+      sha256: d39e7f95621fc84376bc0f7d504f05c3a41488c562f4a8ad410569127507402c
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.9"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -289,161 +297,161 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.10.2"
+    version: "2.12.1"
   katana_auth:
     dependency: "direct overridden"
     description:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "2.3.2"
+    version: "2.7.1"
   katana_form:
     dependency: "direct overridden"
     description:
       path: "../katana_form"
       relative: true
     source: path
-    version: "2.10.5"
+    version: "2.12.4"
   katana_functions:
     dependency: "direct overridden"
     description:
       path: "../katana_functions"
       relative: true
     source: path
-    version: "2.4.29"
+    version: "2.6.1"
   katana_indicator:
     dependency: "direct overridden"
     description:
       path: "../katana_indicator"
       relative: true
     source: path
-    version: "2.0.36"
+    version: "2.2.0"
   katana_listenables:
     dependency: "direct overridden"
     description:
       path: "../katana_listenables"
       relative: true
     source: path
-    version: "2.0.36"
+    version: "2.2.2"
   katana_listenables_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_listenables_annotation"
       relative: true
     source: path
-    version: "2.0.35"
+    version: "2.1.2"
   katana_localization:
     dependency: "direct overridden"
     description:
       path: "../katana_localization"
       relative: true
     source: path
-    version: "2.1.11"
+    version: "2.3.3"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_localization_annotation"
       relative: true
     source: path
-    version: "2.1.10"
+    version: "2.2.2"
   katana_logger:
     dependency: "direct overridden"
     description:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "2.0.33"
+    version: "2.2.1"
   katana_model:
     dependency: "direct overridden"
     description:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.20.1"
+    version: "2.25.1"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "2.10.2"
+    version: "2.13.7"
   katana_prefs:
     dependency: "direct overridden"
     description:
       path: "../katana_prefs"
       relative: true
     source: path
-    version: "2.0.38"
+    version: "2.2.2"
   katana_prefs_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_prefs_annotation"
       relative: true
     source: path
-    version: "2.0.35"
+    version: "2.1.2"
   katana_router:
     dependency: "direct overridden"
     description:
       path: "../katana_router"
       relative: true
     source: path
-    version: "2.0.62"
+    version: "2.2.4"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "2.0.40"
+    version: "2.1.2"
   katana_scoped:
     dependency: "direct overridden"
     description:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "2.1.9"
+    version: "2.3.1"
   katana_shorten:
     dependency: "direct overridden"
     description:
       path: "../katana_shorten"
       relative: true
     source: path
-    version: "2.0.33"
+    version: "2.1.2"
   katana_storage:
     dependency: "direct overridden"
     description:
       path: "../katana_storage"
       relative: true
     source: path
-    version: "2.0.35"
+    version: "2.2.1"
   katana_test:
     dependency: "direct dev"
     description:
       path: "../katana_test"
       relative: true
     source: path
-    version: "2.0.0"
+    version: "2.1.0"
   katana_theme:
     dependency: "direct overridden"
     description:
       path: "../katana_theme"
       relative: true
     source: path
-    version: "2.2.11"
+    version: "2.5.0"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.0.38"
+    version: "2.2.0"
   katana_ui:
     dependency: "direct overridden"
     description:
       path: "../katana_ui"
       relative: true
     source: path
-    version: "2.5.26"
+    version: "2.6.3"
   lints:
     dependency: transitive
     description:
@@ -466,14 +474,14 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.7.1"
+    version: "2.10.4"
   masamune_annotation:
     dependency: "direct overridden"
     description:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "2.5.0"
+    version: "2.6.2"
   matcher:
     dependency: transitive
     description:
@@ -486,18 +494,18 @@ packages:
     dependency: transitive
     description:
       name: material_color_utilities
-      sha256: "9528f2f296073ff54cb9fee677df673ace1218163c3bc7628093e7eed5203d41"
+      sha256: "0e0a020085b65b6083975e499759762399b4475f766c21668c4ecca34ea74e5a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.0"
+    version: "0.8.0"
   meta:
     dependency: transitive
     description:
       name: meta
-      sha256: a6e590c838b18133bb482a2745ad77c5bb7715fb0451209e1a7567d416678b8e
+      sha256: d584fa6707a52763a52446f02cc621b077888fb63b93bbcb1143a7be5a0c0c04
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.0"
+    version: "1.11.0"
   mime:
     dependency: transitive
     description:
@@ -530,6 +538,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.0"
+  path_parsing:
+    dependency: transitive
+    description:
+      name: path_parsing
+      sha256: e3e67b1629e6f7e8100b367d3db6ba6af4b1f0bb80f64db18ef1fbabd2fa9ccf
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   path_provider:
     dependency: transitive
     description:
@@ -578,6 +594,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      sha256: c15605cd28af66339f8eb6fbe0e541bfe2d1b72d5825efc6598f3e0a31b9ad27
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.2"
   pigeon:
     dependency: transitive
     description:
@@ -863,6 +887,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.1"
+  vector_graphics:
+    dependency: transitive
+    description:
+      name: vector_graphics
+      sha256: "4ac59808bbfca6da38c99f415ff2d3a5d7ca0a6b4809c71d9cf30fba5daf9752"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.10+1"
+  vector_graphics_codec:
+    dependency: transitive
+    description:
+      name: vector_graphics_codec
+      sha256: f3247e7ab0ec77dc759263e68394990edc608fb2b480b80db8aa86ed09279e33
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.10+1"
+  vector_graphics_compiler:
+    dependency: transitive
+    description:
+      name: vector_graphics_compiler
+      sha256: "18489bdd8850de3dd7ca8a34e0c446f719ec63e2bab2e7a8cc66a9028dd76c5a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.10+1"
   vector_math:
     dependency: transitive
     description:
@@ -927,6 +975,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      sha256: b015a8ad1c488f66851d762d3090a21c600e479dc75e68328c52774040cf9226
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.5.0"
   yaml:
     dependency: transitive
     description:
