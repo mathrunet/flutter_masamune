@@ -96,6 +96,7 @@ class FormCheckbox<TValue> extends FormField<bool> {
     Widget? labelWidget,
     FormAffixStyle? prefix,
     FormAffixStyle? suffix,
+    super.validator,
   })  : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
@@ -115,6 +116,7 @@ class FormCheckbox<TValue> extends FormField<bool> {
             form!.value = res;
           },
           builder: (field) {
+            final state = field as _FormCheckBoxState<TValue>;
             final theme = Theme.of(field.context);
             final mainTextStyle = style?.textStyle?.copyWith(
                   color: style.color,
@@ -264,11 +266,23 @@ class FormCheckbox<TValue> extends FormField<bool> {
                   children: [
                     checkbox,
                     Expanded(
-                      child: labelWidget ??
-                          Text(
-                            labelText!,
-                            style: style?.textStyle,
-                          ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          labelWidget ??
+                              Text(
+                                labelText!,
+                                style: style?.textStyle,
+                              ),
+                          if (state.errorText.isNotEmpty)
+                            Text(
+                              state.errorText!,
+                              style: errorTextStyle,
+                            ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
