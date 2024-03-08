@@ -26,5 +26,8 @@ export 'src/others/others.dart'
     if (dart.library.html) 'src/web/web.dart';
 export 'package:masamune_location_platform_interface/masamune_location_platform_interface.dart';
 
+export 'package:permission_handler/permission_handler.dart'
+    show openAppSettings;
+
 part 'adapter/location_masamune_adapter.dart';
 part 'src/location.dart';
