@@ -546,6 +546,9 @@ abstract class CollectionBase<TModel extends DocumentBase>
         if (update.oldIndex == null) {
           return;
         }
+        if (_value.length <= update.oldIndex!) {
+          return;
+        }
         _value.removeAt(update.oldIndex!);
         notify = true;
         break;
