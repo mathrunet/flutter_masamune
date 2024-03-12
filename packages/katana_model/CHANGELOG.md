@@ -1,3 +1,7 @@
+## 2.25.2
+
+ - **FIX**: Fixed bug with missing elements when deleting. ([89fa20a1](https://github.com/mathrunet/flutter_masamune/commit/89fa20a17b080d5078365d3039e5f53a2dead323))
+
 ## 2.25.1
 
  - **FIX**: We decided to separate the adapter for Test. ([7e34600c](https://github.com/mathrunet/flutter_masamune/commit/7e34600c97b023fa4d67bdd18e508cb89f2296e5))

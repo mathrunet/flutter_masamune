@@ -1,6 +1,6 @@
 name: masamune_scheduler
 description: Masamune plug-in for scheduling data registration, etc. Must be linked to Functions.
-version: 2.2.28
+version: 2.2.29
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_scheduler
 
@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  masamune: ^2.10.6
+  masamune: ^2.10.7
   freezed_annotation: ^2.2.0
   json_annotation: ^4.8.0
 dev_dependencies:

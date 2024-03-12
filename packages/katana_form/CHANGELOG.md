@@ -1,3 +1,7 @@
+## 2.12.6
+
+ - **FIX**: Added CounterBuilder to TextField. ([77afe2f8](https://github.com/mathrunet/flutter_masamune/commit/77afe2f89b07bcd79b1684ce8e89481b84393c97))
+
 ## 2.12.5
 
  - **FIX**: Added FormCheckbox validator. ([235b3772](https://github.com/mathrunet/flutter_masamune/commit/235b37720fecb01823347b26e4702959a30ea953))

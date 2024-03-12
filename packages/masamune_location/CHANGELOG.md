@@ -1,3 +1,7 @@
+## 2.3.29
+
+ - Update a dependency to the latest release.
+
 ## 2.3.28
 
  - **FIX**: Add openAppSettings. ([d8a1b91d](https://github.com/mathrunet/flutter_masamune/commit/d8a1b91dd4e156c45f4d05f9c402d95f92f036ef))
