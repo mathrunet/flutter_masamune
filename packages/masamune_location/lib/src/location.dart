@@ -101,6 +101,36 @@ class Location
       _backgroundPermissionStatus == PermissionStatus.granted;
   PermissionStatus _backgroundPermissionStatus = PermissionStatus.denied;
 
+  /// Allow location permissions.
+  ///
+  /// Returns `false` if rejected.
+  ///
+  /// 位置情報の権限の許可を行います。
+  ///
+  /// 拒否されている場合は`false`を返します。
+  Future<bool> requestPermission({
+    Duration timeout = const Duration(seconds: 60),
+  }) async {
+    _permissionStatus =
+        await Permission.locationWhenInUse.status.timeout(timeout);
+    if (_permissionStatus != PermissionStatus.granted) {
+      _permissionStatus =
+          await Permission.locationWhenInUse.request().timeout(timeout);
+    }
+    if (_permissionStatus != PermissionStatus.granted) {
+      return false;
+    }
+    if (adapter.enableBackgroundLocation) {
+      _backgroundPermissionStatus =
+          await Permission.locationAlways.status.timeout(timeout);
+      if (_backgroundPermissionStatus != PermissionStatus.granted) {
+        _backgroundPermissionStatus =
+            await Permission.locationAlways.request().timeout(timeout);
+      }
+    }
+    return true;
+  }
+
   /// Initialization.
   ///
   /// Location information is available or not and permissions are granted.
@@ -114,6 +144,9 @@ class Location
     if (_initializeCompleter != null) {
       return _initializeCompleter?.future;
     }
+    if (initialized) {
+      return;
+    }
     _initializeCompleter = Completer<void>();
     try {
       if (!await _location.serviceEnabled().timeout(timeout)) {
@@ -121,24 +154,10 @@ class Location
           "Location service not available. The platform may not be supported or it may be disabled in the settings. please confirm.",
         );
       }
-      _permissionStatus =
-          await Permission.locationWhenInUse.status.timeout(timeout);
-      if (_permissionStatus != PermissionStatus.granted) {
-        _permissionStatus =
-            await Permission.locationWhenInUse.request().timeout(timeout);
-      }
-      if (_permissionStatus != PermissionStatus.granted) {
+      if (!await requestPermission(timeout: timeout)) {
         throw Exception(
           "You are not authorized to use the location information service. Check the permission settings.",
         );
-      }
-      if (adapter.enableBackgroundLocation) {
-        _backgroundPermissionStatus =
-            await Permission.locationAlways.status.timeout(timeout);
-        if (_backgroundPermissionStatus != PermissionStatus.granted) {
-          _backgroundPermissionStatus =
-              await Permission.locationAlways.request().timeout(timeout);
-        }
       }
       _initialized = true;
       notifyListeners();
