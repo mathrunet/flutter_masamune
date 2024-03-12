@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_location` - `v2.3.30`](#masamune_location---v2330)
+ - [`masamune_location_google` - `v2.4.30`](#masamune_location_google---v2430)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_google` - `v2.4.30`
+
+---
+
+#### `masamune_location` - `v2.3.30`
+
+ - **FIX**: Add permission method to Location. ([d3711af7](https://github.com/mathrunet/flutter_masamune/commit/d3711af79b43d12944a68143bf40186b9ef4442e))
+
+
+## 2024-03-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v2.12.6`](#katana_form---v2126)
  - [`katana_model` - `v2.25.2`](#katana_model---v2252)
  - [`masamune` - `v2.10.7`](#masamune---v2107)
