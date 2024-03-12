@@ -149,6 +149,7 @@ class FormTextField<TValue> extends StatefulWidget {
     this.readOnly = false,
     this.obscureText = false,
     this.counterText = "",
+    this.counterbuilder,
     this.onDeleteSuggestion,
     this.validator,
     this.inputFormatters,
@@ -272,6 +273,15 @@ class FormTextField<TValue> extends StatefulWidget {
   ///
   /// 文字数のカウンターのテキスト。デフォルトは無効化されています。
   final String? counterText;
+
+  /// Builder for building character count counters. It is used in preference to [counterText].
+  ///
+  /// The current input text is passed to [text].
+  ///
+  /// 文字数のカウンターを構築するためのビルダー。[counterText]より優先して利用されます。
+  ///
+  /// [text]には現在入力中の文字が渡されます。
+  final String? Function(String text)? counterbuilder;
 
   /// If this is `false`, it is deactivated.
   ///
@@ -622,7 +632,9 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
                   borderSide,
               hintText: widget.hintText,
               labelText: widget.labelText,
-              counterText: widget.counterText,
+              counterText: widget.counterbuilder
+                      ?.call(_effectiveController?.text ?? "") ??
+                  widget.counterText,
               prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
               suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
               prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
