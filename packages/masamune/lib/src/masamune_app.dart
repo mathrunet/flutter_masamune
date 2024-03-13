@@ -423,6 +423,7 @@ class _MasamuneAppState extends State<MasamuneApp> {
         _key = null;
       });
       try {
+        widget.appRef?.reset();
         await onRestart();
       } catch (e) {
         debugPrint(e.toString());
