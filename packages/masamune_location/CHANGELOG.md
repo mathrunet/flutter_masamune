@@ -1,3 +1,7 @@
+## 2.3.31
+
+ - Update a dependency to the latest release.
+
 ## 2.3.30
 
  - **FIX**: Add permission method to Location. ([d3711af7](https://github.com/mathrunet/flutter_masamune/commit/d3711af79b43d12944a68143bf40186b9ef4442e))

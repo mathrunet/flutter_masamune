@@ -1,3 +1,7 @@
+## 2.10.8
+
+ - **FIX**: The appRef is also reset at restart. ([5a49e372](https://github.com/mathrunet/flutter_masamune/commit/5a49e372f6d24479ad04ffa6302ff6bf51eba2c9))
+
 ## 2.10.7
 
  - Update a dependency to the latest release.

@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^2.10.7
+  masamune: ^2.10.8
   masamune_auth_facebook:
     path: "../"
 
