@@ -1,3 +1,7 @@
+## 2.5.28
+
+ - **FIX**: Setup badges and sounds for PUSH notifications. ([acd31c16](https://github.com/mathrunet/flutter_masamune/commit/acd31c16ec0650fe8747d3c5107a338f5b006bf3))
+
 ## 2.5.27
 
  - Update a dependency to the latest release.
