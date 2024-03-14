@@ -3,6 +3,7 @@
 // Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:masamune/masamune.dart';
+import 'package:masamune_notification/masamune_notification.dart';
 import 'package:masamune_scheduler/masamune_scheduler.dart';
 
 part 'push_notification_schedule.m.dart';
@@ -181,6 +182,8 @@ class ModelServerCommandPushNotificationSchedule
     String? topic,
     ModelToken? tokens,
     Uri? link,
+    int? badgeCount,
+    String? sound,
   }) = _ModelServerCommandPushNotificationSchedule;
 
   const ModelServerCommandPushNotificationSchedule._()
@@ -238,6 +241,16 @@ class ModelServerCommandPushNotificationSchedule
   /// 通知から遷移するリンク。
   Uri? get link => throw UnimplementedError();
 
+  /// Number of badges to display in PUSH notifications.
+  ///
+  /// PUSH通知で表示するバッジの数。
+  int? get badgeCount => throw UnimplementedError();
+
+  /// Sound of PUSH notifications.
+  ///
+  /// PUSH通知のサウンド。
+  String? get sound => throw UnimplementedError();
+
   /// Command Name.
   ///
   /// コマンド名。
@@ -248,6 +261,8 @@ class ModelServerCommandPushNotificationSchedule
   static const String _kTitleKey = "title";
   static const String _kTextKey = "text";
   static const String _kChannelIdKey = "channelId";
+  static const String _kSoundKey = "sound";
+  static const String _kBadgeCountKey = "badgeCount";
   static const String _kDataKey = "data";
   static const String _kTopicKey = "topic";
   static const String _kTokenKey = "token";
@@ -277,6 +292,8 @@ class ModelServerCommandPushNotificationSchedule
       },
       _kTokenKey: tokens?.value,
       _kTopicKey: topic,
+      if (sound != null) _kSoundKey: sound,
+      if (badgeCount != null) _kBadgeCountKey: badgeCount,
     };
   }
 
@@ -300,6 +317,8 @@ class _ModelServerCommandPushNotificationSchedule
     this.topic,
     this.tokens,
     this.link,
+    this.badgeCount,
+    this.sound,
   }) : super._();
 
   @override
@@ -325,6 +344,12 @@ class _ModelServerCommandPushNotificationSchedule
 
   @override
   final ModelToken? tokens;
+
+  @override
+  final int? badgeCount;
+
+  @override
+  final String? sound;
 }
 
 /// Abstract class for defining a document with a schedule for PUSH notifications.

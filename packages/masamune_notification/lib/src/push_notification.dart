@@ -208,6 +208,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// [tokens]と[topic]は同時に指定することはできません。
   ///
+  /// [sound]には通知のサウンドを指定します。[badgeCount]にはバッジに表示する数を指定します。
+  ///
   /// 詳しくは[SendNotificationFunctionsAction]を御覧ください。
   Future<SendNotificationFunctionsActionResponse> send({
     required String title,
@@ -216,6 +218,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     DynamicMap? data,
     String? topic,
     ModelToken? tokens,
+    int? badgeCount,
+    PushNotificationSound sound = PushNotificationSound.defaultSound,
     Uri? link,
   }) async {
     assert(
@@ -273,6 +277,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     DynamicMap? data,
     String? topic,
     ModelToken? tokens,
+    int? badgeCount,
+    PushNotificationSound sound = PushNotificationSound.defaultSound,
     Uri? link,
   }) async {
     assert(
@@ -307,6 +313,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
               tokens: tokens,
               topic: topic,
               link: link,
+              sound: sound.value,
+              badgeCount: badgeCount,
             ),
           ) ??
           PushNotificationScheduleModel(
@@ -319,6 +327,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
               tokens: tokens,
               topic: topic,
               link: link,
+              sound: sound.value,
+              badgeCount: badgeCount,
             ),
           ),
     );

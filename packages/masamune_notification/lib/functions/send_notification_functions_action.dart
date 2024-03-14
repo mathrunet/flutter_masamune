@@ -18,6 +18,8 @@ class SendNotificationFunctionsAction
     this.tokens,
     this.topic,
     this.channel,
+    this.badgeCount,
+    this.sound = PushNotificationSound.defaultSound,
     this.data,
   })  : assert(
           tokens != null || topic != null,
@@ -58,6 +60,16 @@ class SendNotificationFunctionsAction
   /// PUSH通知の送信先（トークン）
   final ModelToken? tokens;
 
+  /// Number of badges to display in PUSH notifications.
+  ///
+  /// PUSH通知で表示するバッジの数。
+  final int? badgeCount;
+
+  /// Sound of PUSH notifications.
+  ///
+  /// PUSH通知のサウンド。
+  final PushNotificationSound sound;
+
   @override
   String get action => "send_notification";
 
@@ -69,6 +81,8 @@ class SendNotificationFunctionsAction
       if (channel != null) "channel_id": channel,
       if (data != null) "data": data,
       if (tokens != null) "token": tokens!.value else "topic": topic,
+      if(badgeCount != null) "badge": badgeCount,
+      if (sound != PushNotificationSound.none) "sound": sound.value,
     };
   }
 

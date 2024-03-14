@@ -32,3 +32,4 @@ part 'src/push_notification.dart';
 part 'src/push_notification_masamune_adapter.dart';
 part 'src/push_notification_value.dart';
 part 'src/push_notification_logger_event.dart';
+part 'src/push_notification_sound.dart';
