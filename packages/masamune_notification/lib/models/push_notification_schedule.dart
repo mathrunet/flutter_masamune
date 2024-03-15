@@ -3,8 +3,10 @@
 // Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:masamune/masamune.dart';
-import 'package:masamune_notification/masamune_notification.dart';
 import 'package:masamune_scheduler/masamune_scheduler.dart';
+
+// Project imports:
+import 'package:masamune_notification/masamune_notification.dart';
 
 part 'push_notification_schedule.m.dart';
 part 'push_notification_schedule.g.dart';
