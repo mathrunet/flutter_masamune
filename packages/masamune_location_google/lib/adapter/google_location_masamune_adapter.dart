@@ -14,13 +14,7 @@ class GoogleLocationMasamuneAdapter extends LocationMasamuneAdapter {
     super.defaultDistanceFilterMeters,
     super.listenOnBoot,
     super.enableBackgroundLocation,
-    this.compass,
   });
-
-  /// Compass management.
-  ///
-  /// コンパスの管理を行います。
-  final Compass? compass;
 
   /// Default map style.
   ///

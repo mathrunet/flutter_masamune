@@ -64,9 +64,11 @@ class MapController
   /// [zoomIn]、[zoomOut]、[zoomTo]でズームを変更できます。
   ///
   /// [setMarker]、[setCircle]、[setPolygon]、[setPolyline]でマーカーやポリゴン、ポリライン、サークルを設定できます。
-  MapController({super.adapter}) {
-    location.addListener(notifyListeners);
-    compass.addListener(notifyListeners);
+  MapController({super.adapter, Location? location, Compass? compass})
+      : _location = location,
+        _compass = compass {
+    this.location.addListener(notifyListeners);
+    this.compass.addListener(notifyListeners);
   }
 
   /// Query for MapController.
@@ -87,14 +89,26 @@ class MapController
   /// Manage location information.
   ///
   /// 位置情報の管理を行います。
-  Location get location => adapter.location ?? _location;
-  final Location _location = Location();
+  Location get location {
+    if (_location != null) {
+      return _location!;
+    }
+    return _location ??= Location();
+  }
+
+  Location? _location;
 
   /// Compass management.
   ///
   /// コンパスの管理を行います。
-  Compass get compass => adapter.compass ?? _compass;
-  final Compass _compass = Compass();
+  Compass get compass {
+    if (_compass != null) {
+      return _compass!;
+    }
+    return _compass ??= Compass();
+  }
+
+  Compass? _compass;
 
   /// Obtains the current display position.
   ///
@@ -524,24 +538,47 @@ class _$MapControllerQuery {
   const _$MapControllerQuery();
 
   @useResult
-  _$_MapControllerQuery call() => _$_MapControllerQuery(
+  _$_MapControllerQuery call({
+    GoogleLocationMasamuneAdapter? adapter,
+    Location? location,
+    Compass? compass,
+  }) =>
+      _$_MapControllerQuery(
         hashCode.toString(),
+        adapter: adapter,
+        location: location,
+        compass: compass,
       );
 }
 
 @immutable
 class _$_MapControllerQuery extends ControllerQueryBase<MapController> {
-  const _$_MapControllerQuery(this._name);
+  const _$_MapControllerQuery(
+    this._name, {
+    this.adapter,
+    this.location,
+    this.compass,
+  });
 
   final String _name;
 
+  final GoogleLocationMasamuneAdapter? adapter;
+
+  final Location? location;
+
+  final Compass? compass;
+
   @override
   MapController Function() call(Ref ref) {
-    return () => MapController();
+    return () => MapController(
+          adapter: adapter,
+          location: location,
+          compass: compass,
+        );
   }
 
   @override
-  String get queryName => _name;
+  String get queryName => "$_name$location$compass";
   @override
   bool get autoDisposeWhenUnreferenced => false;
 }
