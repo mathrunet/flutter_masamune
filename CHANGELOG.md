@@ -15,6 +15,51 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_firebase` - `v2.2.0`](#katana_firebase---v220)
+ - [`katana_functions_firebase` - `v2.6.0`](#katana_functions_firebase---v260)
+ - [`masamune_deeplink_firebase` - `v2.2.32`](#masamune_deeplink_firebase---v2232)
+ - [`katana_storage_firebase` - `v2.1.8`](#katana_storage_firebase---v218)
+ - [`katana_model_firestore` - `v2.16.13`](#katana_model_firestore---v21613)
+ - [`masamune_logger_firebase` - `v2.2.29`](#masamune_logger_firebase---v2229)
+ - [`masamune_notification_firebase` - `v2.5.33`](#masamune_notification_firebase---v2533)
+ - [`katana_auth_firebase` - `v2.5.5`](#katana_auth_firebase---v255)
+ - [`masamune_model_algolia` - `v2.4.29`](#masamune_model_algolia---v2429)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_deeplink_firebase` - `v2.2.32`
+ - `katana_storage_firebase` - `v2.1.8`
+ - `katana_model_firestore` - `v2.16.13`
+ - `masamune_logger_firebase` - `v2.2.29`
+ - `masamune_notification_firebase` - `v2.5.33`
+ - `katana_auth_firebase` - `v2.5.5`
+ - `masamune_model_algolia` - `v2.4.29`
+
+---
+
+#### `katana_firebase` - `v2.2.0`
+
+ - **FEAT**: Firebase Region can be specified by Enum. ([9fe85031](https://github.com/mathrunet/flutter_masamune/commit/9fe85031701fac95ff7844f3f0547bf873c704c8))
+
+#### `katana_functions_firebase` - `v2.6.0`
+
+ - **FEAT**: Firebase Region can be specified by Enum. ([9fe85031](https://github.com/mathrunet/flutter_masamune/commit/9fe85031701fac95ff7844f3f0547bf873c704c8))
+
+
+## 2024-03-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth_firebase` - `v2.5.4`](#katana_auth_firebase---v254)
  - [`katana_firebase` - `v2.1.4`](#katana_firebase---v214)
  - [`katana_functions_firebase` - `v2.5.6`](#katana_functions_firebase---v256)

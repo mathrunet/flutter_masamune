@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Firebase Region can be specified by Enum. ([9fe85031](https://github.com/mathrunet/flutter_masamune/commit/9fe85031701fac95ff7844f3f0547bf873c704c8))
+
 ## 2.1.4
 
  - **FIX**: Firebaseのバージョンアップ. ([b42dad9e](https://github.com/mathrunet/flutter_masamune/commit/b42dad9e4ce5bf8f3671bd2472aa3db5a2257891))
