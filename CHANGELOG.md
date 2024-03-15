@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase_mobile` - `v2.8.13`](#masamune_purchase_mobile---v2813)
+ - [`masamune_module_point_ecosystem` - `v2.5.36`](#masamune_module_point_ecosystem---v2536)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.5.36`
+
+---
+
+#### `masamune_purchase_mobile` - `v2.8.13`
+
+ - **FIX**: Ensure that the current user ID is passed to the server. ([51c1cd90](https://github.com/mathrunet/flutter_masamune/commit/51c1cd90285deeb70236dde46e1a34a664eb0697))
+
+
+## 2024-03-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_firebase` - `v2.2.0`](#katana_firebase---v220)
  - [`katana_functions_firebase` - `v2.6.0`](#katana_functions_firebase---v260)
  - [`masamune_deeplink_firebase` - `v2.2.32`](#masamune_deeplink_firebase---v2232)
