@@ -45,7 +45,7 @@ class FirebaseCore {
   /// Firebaseのregionを返します。
   ///
   /// [initialize]時に渡した[region]が格納されます。デフォルトは`asia-northeast1`です。
-  static late final String region;
+  static late final FirebaseRegion region;
 
   /// Initialize Firebase.
   ///
@@ -79,7 +79,7 @@ class FirebaseCore {
   /// await FirebaseCore.initialize();
   /// ```
   static Future<void> initialize({
-    String region = "asia-northeast1",
+    FirebaseRegion region = FirebaseRegion.asiaNortheast1,
     FirebaseOptions? options,
   }) async {
     if (_completer != null) {

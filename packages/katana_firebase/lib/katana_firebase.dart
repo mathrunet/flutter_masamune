@@ -21,3 +21,4 @@ import "package:firebase_core/firebase_core.dart";
 export "package:firebase_core/firebase_core.dart" show FirebaseOptions;
 
 part "firebase/firebase_core.dart";
+part "firebase/firebase_region.dart";

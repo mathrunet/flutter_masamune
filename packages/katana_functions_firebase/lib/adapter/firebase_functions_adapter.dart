@@ -47,7 +47,7 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
     this.windowsOptions,
     this.macosOptions,
     this.linuxOptions,
-    this.region,
+    required this.region,
     FirebaseFunctions? functions,
   })  : _options = options,
         _functions = functions;
@@ -59,6 +59,7 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
     if (_functions != null) {
       return _functions!;
     }
+    final region = this.region.value;
     if (region.isEmpty) {
       return FirebaseFunctions.instance;
     } else {
@@ -183,7 +184,7 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   /// Firebase Functions Region.
   ///
   /// Firebase Functionsのリージョン。
-  final String? region;
+  final FirebaseRegion region;
 
   @override
   String get endpoint => FirebaseCore.functionsEndpoint;

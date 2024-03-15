@@ -46,7 +46,7 @@ Please initialize with the following code.
 
 ```dart
 await FirebaseCore.initialize(
-  region: "asia-northeast1",
+  region: FirebaseRegion.asiaNortheast1,
   options: DefaultFirebaseOptions.currentPlatform,
 );
 ```
