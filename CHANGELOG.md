@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-03-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth_firebase` - `v2.5.4`](#katana_auth_firebase---v254)
+ - [`katana_firebase` - `v2.1.4`](#katana_firebase---v214)
+ - [`katana_functions_firebase` - `v2.5.6`](#katana_functions_firebase---v256)
+ - [`katana_model_firestore` - `v2.16.12`](#katana_model_firestore---v21612)
+ - [`katana_storage_firebase` - `v2.1.7`](#katana_storage_firebase---v217)
+ - [`masamune_location_google` - `v2.4.32`](#masamune_location_google---v2432)
+ - [`masamune_logger_firebase` - `v2.2.28`](#masamune_logger_firebase---v2228)
+ - [`masamune_deeplink_firebase` - `v2.2.31`](#masamune_deeplink_firebase---v2231)
+ - [`masamune_notification_firebase` - `v2.5.32`](#masamune_notification_firebase---v2532)
+ - [`masamune_model_algolia` - `v2.4.28`](#masamune_model_algolia---v2428)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_deeplink_firebase` - `v2.2.31`
+ - `masamune_notification_firebase` - `v2.5.32`
+ - `masamune_model_algolia` - `v2.4.28`
+
+---
+
+#### `katana_auth_firebase` - `v2.5.4`
+
+ - **FIX**: Firebaseのバージョンアップ. ([b42dad9e](https://github.com/mathrunet/flutter_masamune/commit/b42dad9e4ce5bf8f3671bd2472aa3db5a2257891))
+
+#### `katana_firebase` - `v2.1.4`
+
+ - **FIX**: Firebaseのバージョンアップ. ([b42dad9e](https://github.com/mathrunet/flutter_masamune/commit/b42dad9e4ce5bf8f3671bd2472aa3db5a2257891))
+
+#### `katana_functions_firebase` - `v2.5.6`
+
+ - **FIX**: Firebaseのバージョンアップ. ([b42dad9e](https://github.com/mathrunet/flutter_masamune/commit/b42dad9e4ce5bf8f3671bd2472aa3db5a2257891))
+
+#### `katana_model_firestore` - `v2.16.12`
+
+ - **FIX**: Firebaseのバージョンアップ. ([b42dad9e](https://github.com/mathrunet/flutter_masamune/commit/b42dad9e4ce5bf8f3671bd2472aa3db5a2257891))
+
+#### `katana_storage_firebase` - `v2.1.7`
+
+ - **FIX**: Firebaseのバージョンアップ. ([b42dad9e](https://github.com/mathrunet/flutter_masamune/commit/b42dad9e4ce5bf8f3671bd2472aa3db5a2257891))
+
+#### `masamune_location_google` - `v2.4.32`
+
+ - **FIX**: Allows locations to be passed within the controller. ([b91a92c6](https://github.com/mathrunet/flutter_masamune/commit/b91a92c6799dda8251f504a546765efde0642075))
+
+#### `masamune_logger_firebase` - `v2.2.28`
+
+ - **FIX**: Firebaseのバージョンアップ. ([b42dad9e](https://github.com/mathrunet/flutter_masamune/commit/b42dad9e4ce5bf8f3671bd2472aa3db5a2257891))
+
+
 ## 2024-03-14
 
 ### Changes

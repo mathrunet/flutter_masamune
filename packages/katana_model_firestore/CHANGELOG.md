@@ -1,3 +1,7 @@
+## 2.16.12
+
+ - **FIX**: Firebaseのバージョンアップ. ([b42dad9e](https://github.com/mathrunet/flutter_masamune/commit/b42dad9e4ce5bf8f3671bd2472aa3db5a2257891))
+
 ## 2.16.11
 
  - Update a dependency to the latest release.

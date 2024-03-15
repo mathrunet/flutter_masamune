@@ -1,3 +1,7 @@
+## 2.4.32
+
+ - **FIX**: Allows locations to be passed within the controller. ([b91a92c6](https://github.com/mathrunet/flutter_masamune/commit/b91a92c6799dda8251f504a546765efde0642075))
+
 ## 2.4.31
 
  - Update a dependency to the latest release.
