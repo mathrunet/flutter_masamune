@@ -95,6 +95,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     return _iap.purchaseStream.listen(
       (purchaseDetailsList) async {
         try {
+          final userId = onRetrieveUserId.call();
           var done = false;
           for (final purchase in purchaseDetailsList) {
             try {
@@ -127,7 +128,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                             productId: androidPurchase.productID,
                             purchaseToken: androidPurchase
                                 .billingClientPurchase.purchaseToken,
-                            documentId: storeProduct.userId,
+                            documentId: userId ?? storeProduct.userId,
                             amount: storeProduct.amount ?? 0.0,
                           ),
                         ))
@@ -145,7 +146,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                             productId: androidPurchase.productID,
                             purchaseToken: androidPurchase
                                 .billingClientPurchase.purchaseToken,
-                            documentId: storeProduct.userId,
+                            documentId: userId ?? storeProduct.userId,
                             fieldKey: androidPurchase.productID.toCamelCase(),
                           ),
                         ))
@@ -164,7 +165,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                             purchaseToken: androidPurchase
                                 .billingClientPurchase.purchaseToken,
                             purchaseId: androidPurchase.purchaseID ?? "",
-                            userId: storeProduct.userId,
+                            userId: userId ?? storeProduct.userId,
                           ),
                         ))
                             .result) {
@@ -182,7 +183,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                           IOSConsumablePurchaseFunctionsAction(
                             receiptData: iosPurchase
                                 .verificationData.serverVerificationData,
-                            documentId: storeProduct.userId,
+                            documentId: userId ?? storeProduct.userId,
                             amount: storeProduct.amount ?? 0.0,
                           ),
                         ))
@@ -197,7 +198,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                           IOSNonConsumablePurchaseFunctionsAction(
                             receiptData: iosPurchase
                                 .verificationData.serverVerificationData,
-                            documentId: storeProduct.userId,
+                            documentId: userId ?? storeProduct.userId,
                             fieldKey: iosPurchase.productID.toCamelCase(),
                           ),
                         ))
@@ -214,7 +215,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                                 .verificationData.serverVerificationData,
                             productId: iosPurchase.productID,
                             purchaseId: iosPurchase.purchaseID ?? "",
-                            userId: storeProduct.userId,
+                            userId: userId ?? storeProduct.userId,
                           ),
                         ))
                             .result) {
@@ -239,7 +240,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                               productId: androidPurchase.productID,
                               purchaseToken: androidPurchase
                                   .billingClientPurchase.purchaseToken,
-                              documentId: storeProduct.userId,
+                              documentId: userId ?? storeProduct.userId,
                               amount: storeProduct.amount ?? 0.0,
                             ),
                           ))
@@ -257,7 +258,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                               productId: androidPurchase.productID,
                               purchaseToken: androidPurchase
                                   .billingClientPurchase.purchaseToken,
-                              documentId: storeProduct.userId,
+                              documentId: userId ?? storeProduct.userId,
                               fieldKey: androidPurchase.productID.toCamelCase(),
                             ),
                           ))
@@ -276,7 +277,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                               purchaseToken: androidPurchase
                                   .billingClientPurchase.purchaseToken,
                               purchaseId: androidPurchase.purchaseID ?? "",
-                              userId: storeProduct.userId,
+                              userId: userId ?? storeProduct.userId,
                             ),
                           ))
                               .result) {
@@ -294,7 +295,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                             IOSConsumablePurchaseFunctionsAction(
                               receiptData: iosPurchase
                                   .verificationData.serverVerificationData,
-                              documentId: storeProduct.userId,
+                              documentId: userId ?? storeProduct.userId,
                               amount: storeProduct.amount ?? 0.0,
                             ),
                           ))
@@ -309,7 +310,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                             IOSNonConsumablePurchaseFunctionsAction(
                               receiptData: iosPurchase
                                   .verificationData.serverVerificationData,
-                              documentId: storeProduct.userId,
+                              documentId: userId ?? storeProduct.userId,
                               fieldKey: iosPurchase.productID.toCamelCase(),
                             ),
                           ))
@@ -326,7 +327,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                                   .verificationData.serverVerificationData,
                               productId: iosPurchase.productID,
                               purchaseId: iosPurchase.purchaseID ?? "",
-                              userId: storeProduct.userId,
+                              userId: userId ?? storeProduct.userId,
                             ),
                           ))
                               .result) {
@@ -413,10 +414,11 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     required VoidCallback onDone,
     PurchaseProduct? replacedProduct,
   }) async {
+    final userId = onRetrieveUserId.call();
     if (product is _StoreConsumablePurchaseProduct) {
       final purchaseParam = PurchaseParam(
         productDetails: product.productDetails,
-        applicationUserName: product.userId,
+        applicationUserName: userId ?? product.userId,
       );
       if (!await _iap.buyConsumable(
         purchaseParam: purchaseParam,
@@ -427,7 +429,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     } else if (product is _StoreNonConsumablePurchaseProduct) {
       final purchaseParam = PurchaseParam(
         productDetails: product.productDetails,
-        applicationUserName: product.userId,
+        applicationUserName: userId ?? product.userId,
       );
       if (!await _iap.buyNonConsumable(purchaseParam: purchaseParam)) {
         throw Exception("Purchase failed or was canceled.");
@@ -439,7 +441,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
       final purchaseParam = UniversalPlatform.isAndroid
           ? GooglePlayPurchaseParam(
               productDetails: product.productDetails,
-              applicationUserName: product.userId,
+              applicationUserName: userId ?? product.userId,
               changeSubscriptionParam: changeSubscription != null
                   ? ChangeSubscriptionParam(
                       oldPurchaseDetails: changeSubscription,
@@ -449,7 +451,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
             )
           : PurchaseParam(
               productDetails: product.productDetails,
-              applicationUserName: product.userId,
+              applicationUserName: userId ?? product.userId,
             );
       if (!await _iap.buyNonConsumable(purchaseParam: purchaseParam)) {
         throw Exception("Purchase failed or was canceled.");
