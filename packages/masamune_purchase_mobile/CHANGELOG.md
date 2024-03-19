@@ -1,3 +1,7 @@
+## 2.8.14
+
+ - Update a dependency to the latest release.
+
 ## 2.8.13
 
  - **FIX**: Ensure that the current user ID is passed to the server. ([51c1cd90](https://github.com/mathrunet/flutter_masamune/commit/51c1cd90285deeb70236dde46e1a34a664eb0697))

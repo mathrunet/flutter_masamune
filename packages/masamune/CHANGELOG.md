@@ -1,3 +1,7 @@
+## 2.10.9
+
+ - **DOCS**: Changed the specification of the validator of Form. ([422e1564](https://github.com/mathrunet/flutter_masamune/commit/422e1564829e5e4fdb371accac02924735e044d5))
+
 ## 2.10.8
 
  - **FIX**: The appRef is also reset at restart. ([5a49e372](https://github.com/mathrunet/flutter_masamune/commit/5a49e372f6d24479ad04ffa6302ff6bf51eba2c9))

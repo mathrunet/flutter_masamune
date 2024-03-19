@@ -1,3 +1,7 @@
+## 2.12.7
+
+ - **DOCS**: Changed the specification of the validator of Form. ([422e1564](https://github.com/mathrunet/flutter_masamune/commit/422e1564829e5e4fdb371accac02924735e044d5))
+
 ## 2.12.6
 
  - **FIX**: Added CounterBuilder to TextField. ([77afe2f8](https://github.com/mathrunet/flutter_masamune/commit/77afe2f89b07bcd79b1684ce8e89481b84393c97))
