@@ -913,19 +913,19 @@ FormTextField(
 ),
 ```
 
-After writing the form widget while including the above process, the form values are validated and confirmed by executing `formController.validateAndSave` when the confirm button is pressed.
+After writing the form widget while including the above process, the form values are validated and confirmed by executing `formController.validate` when the confirm button is pressed.
 
-Then, after the validation passes, use `formController.value` to obtain the value and perform the saving process, etc.
+After the verification passes, use the returned value to save the data.
 
 ```dart
 FormButton(
   "Login",
   onPressed: () async {
-    if (!formController.validateAndSave()) {
+    final LoginValue loginValue = formController.validate(); // Validate and get form values
+    if (loginValue == null) {
       return;
     }
     try {
-      final LoginValue loginValue = formController.value; // Get form values
       // Normal processing
     } catch (e) {
       // Error handling

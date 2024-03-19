@@ -145,7 +145,8 @@ class FormPageState extends State<FormPage> {
             "Submit",
             icon: const Icon(Icons.add),
             onPressed: () {
-              if (!form.validateAndSave()) {
+              final value = form.validate(); // Validate and get form values
+              if (value == null) {
                 return;
               }
             },

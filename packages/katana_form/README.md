@@ -74,11 +74,12 @@ return Scaffold(
         "Submit",
         icon: Icon(Icons.check),
         onPressed: () {
-          if (!form.validateAndSave()) {
+          final value = form.validate(); // Validate and get form values
+          if (value == null) {
             return;
           }
-          print(form.value);
-          // Save form.value as is.
+          print(value);
+          // Save value as is.
         },
       ),
     ]
@@ -139,20 +140,21 @@ FormTextField(
 
 ## Form Validation and Storage
 
-`FormController.validateAndSave` can be executed to validate and save the form.
+You can validate and save a form by executing `FormController.validate`.
 
-Validation is performed first, and `false` is returned in case of failure.
+Validation is performed first, and `null` is returned in case of failure.
 
-If successful, `true` is returned and `FormController.value` is populated with the value changed by `onSaved` of each FormWidget.
+If it succeeds, it returns the value changed by `onSaved` of each `Form` widget.
 
-Please update the database based on that value.
+Update the database based on that value.
 
 ```dart
-if (!form.validateAndSave()) {
-	return;
+final value = form.validate(); // Validate and get form values
+if (value == null) {
+  return;
 }
-print(form.value);
-// Save form.value as is.
+print(value);
+// Save value as is.
 ```
 
 ## Sample code
@@ -203,11 +205,12 @@ class FormPageState extends State<FormPage> {
             "Submit",
             icon: Icon(Icons.add),
             onPressed: () {
-              if (!form.validateAndSave()) {
+              final value = form.validate(); // Validate and get form values
+              if (value == null) {
                 return;
               }
-              print(form.value);
-              // Save form.value as is.
+              print(value);
+              // Save value as is.
             },
           ),
         ],
@@ -269,11 +272,12 @@ class FormPageState extends State<FormPage> {
             "Submit",
             icon: Icon(Icons.add),
             onPressed: () {
-              if (!form.validateAndSave()) {
+              final value = form.validate(); // Validate and get form values
+              if (value == null) {
                 return;
               }
-              print(form.value);
-              // Save form.value as is.
+              print(value);
+              // Save value as is.
             },
           ),
         ],
