@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'dart:io';
 
 // Package imports:
-import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
+import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
 import 'package:katana_cli/katana_cli.dart';
 
 /// Add a module to use Stripe.
