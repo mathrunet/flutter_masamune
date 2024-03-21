@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 // Project imports:
+import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
 import 'package:katana_cli/katana_cli.dart';
 
 /// Configure the scheduler with FirebaseFunctions. class FirebaseSchedulerCliAction extends CliCommand with CliActi
@@ -29,7 +30,6 @@ class FirebaseSchedulerCliAction extends CliCommand with CliActionMixin {
   @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
     final firebaseCommand = bin.get("firebase", "firebase");
     final firebase = context.yaml.getAsMap("firebase");
     final enableFunctions = firebase.getAsMap("functions").get("enable", false);
@@ -54,12 +54,8 @@ class FirebaseSchedulerCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    await command(
-      "Import packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
         "masamune_scheduler",
       ],
     );
@@ -143,15 +139,16 @@ class FirebaseSchedulerCliAction extends CliCommand with CliActionMixin {
       functions.functions.add("scheduler({schedule: \"$time\"})");
     }
     await functions.save();
-    await command(
-      "Deploy firebase functions.",
-      [
-        firebaseCommand,
-        "deploy",
-        "--only",
-        "functions",
-      ],
-      workingDirectory: "firebase",
-    );
+    context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
+    // await command(
+    //   "Deploy firebase functions.",
+    //   [
+    //     firebaseCommand,
+    //     "deploy",
+    //     "--only",
+    //     "functions",
+    //   ],
+    //   workingDirectory: "firebase",
+    // );
   }
 }

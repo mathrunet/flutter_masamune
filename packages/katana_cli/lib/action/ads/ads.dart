@@ -36,8 +36,6 @@ class AdsCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
     final ads = context.yaml.getAsMap("ads");
     final androidAppId = ads.get("android_app_id", "");
     final iosAppId = ads.get("ios_app_id", "");
@@ -47,12 +45,8 @@ class AdsCliAction extends CliCommand with CliActionMixin {
         "Specify the app ID for Android or iOS in [ads]->[android_app_id] or [ads]->[ios_app_id].",
       );
     }
-    await command(
-      "Import packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
         "masamune_ads_google",
       ],
     );

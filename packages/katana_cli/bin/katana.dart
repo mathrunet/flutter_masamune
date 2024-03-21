@@ -46,15 +46,17 @@ Future<void> main(List<String> args) async {
       if (tmp.key != command) {
         continue;
       }
-      await tmp.value.exec(
-        ExecContext(
-          yaml: {},
-          secrets: katanaSecrets.existsSync()
-              ? loadYaml(await katanaSecrets.readAsString())
-              : {},
-          args: args,
-        ),
+      final context = ExecContext(
+        yaml: {},
+        secrets: katanaSecrets.existsSync()
+            ? loadYaml(await katanaSecrets.readAsString())
+            : {},
+        args: args,
       );
+      await tmp.value.exec(context);
+      for (final action in context.postActions) {
+        await action.exec(context);
+      }
       return;
     }
   } else {
@@ -70,15 +72,17 @@ Future<void> main(List<String> args) async {
       if (tmp.key != command) {
         continue;
       }
-      await tmp.value.exec(
-        ExecContext(
-          yaml: yaml,
-          secrets: katanaSecrets.existsSync()
-              ? modifize(loadYaml(await katanaSecrets.readAsString()))
-              : {},
-          args: args,
-        ),
+      final context = ExecContext(
+        yaml: yaml,
+        secrets: katanaSecrets.existsSync()
+            ? modifize(loadYaml(await katanaSecrets.readAsString()))
+            : {},
+        args: args,
       );
+      await tmp.value.exec(context);
+      for (final action in context.postActions) {
+        await action.exec(context);
+      }
       return;
     }
   }

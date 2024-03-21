@@ -6,6 +6,7 @@
 import 'dart:io';
 
 // Package imports:
+import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
@@ -38,9 +39,6 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
-    final firebaseCommand = bin.get("firebase", "firebase");
     final purchase = context.yaml.getAsMap("purchase");
     final googlePlay = purchase.getAsMap("google_play");
     final appStore = purchase.getAsMap("app_store");
@@ -129,12 +127,8 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         return;
       }
     }
-    await command(
-      "Import packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
         "masamune_purchase_mobile",
         "katana_functions_firebase",
       ],
@@ -304,16 +298,17 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         env["PURCHASE_IOS_SHAREDSECRET"] = appStoreSharedSecret;
       }
       await env.save();
-      await command(
-        "Deploy firebase functions.",
-        [
-          firebaseCommand,
-          "deploy",
-          "--only",
-          "functions",
-        ],
-        workingDirectory: "firebase",
-      );
+      context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
+      // await command(
+      //   "Deploy firebase functions.",
+      //   [
+      //     firebaseCommand,
+      //     "deploy",
+      //     "--only",
+      //     "functions",
+      //   ],
+      //   workingDirectory: "firebase",
+      // );
     }
   }
 }

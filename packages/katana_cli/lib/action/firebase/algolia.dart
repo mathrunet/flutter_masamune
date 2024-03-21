@@ -2,6 +2,7 @@
 import 'dart:io';
 
 // Project imports:
+import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
 import 'package:katana_cli/katana_cli.dart';
 
 /// Algolia deployment process for Firebase.
@@ -30,10 +31,7 @@ class FirebaseAlogliaCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
     final firebase = context.yaml.getAsMap("firebase");
-    final firebaseCommand = bin.get("firebase", "firebase");
     final projectId = firebase.get("project_id", "");
     final algolia = firebase.getAsMap("algolia");
     final path = algolia.get("path", "").trimQuery().trimString("/");
@@ -68,12 +66,8 @@ class FirebaseAlogliaCliAction extends CliCommand with CliActionMixin {
           "The item [firebase]->[funcctions]->[enable] is false. Please enable this and initialize Functions.");
       return;
     }
-    await command(
-      "Import packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
         "masamune_model_algolia",
       ],
     );
@@ -90,15 +84,16 @@ class FirebaseAlogliaCliAction extends CliCommand with CliActionMixin {
     env["ALGOLIA_APPID"] = appId;
     env["ALGOLIA_APIKEY"] = apiKey;
     await env.save();
-    await command(
-      "Deploy firebase functions.",
-      [
-        firebaseCommand,
-        "deploy",
-        "--only",
-        "functions",
-      ],
-      workingDirectory: "firebase",
-    );
+    context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
+    // await command(
+    //   "Deploy firebase functions.",
+    //   [
+    //     firebaseCommand,
+    //     "deploy",
+    //     "--only",
+    //     "functions",
+    //   ],
+    //   workingDirectory: "firebase",
+    // );
   }
 }

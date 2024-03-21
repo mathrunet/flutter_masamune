@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 // Package imports:
+import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
@@ -33,9 +34,6 @@ class StripeCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
-    final firebaseCommand = bin.get("firebase", "firebase");
     final stripe = context.yaml.getAsMap("stripe");
     final gmail = context.yaml.getAsMap("gmail");
     final sendgrid = context.yaml.getAsMap("sendgrid");
@@ -135,12 +133,8 @@ class StripeCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    await command(
-      "Import packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
         "masamune_purchase_stripe",
         "katana_functions_firebase",
       ],
@@ -493,16 +487,17 @@ class StripeCliAction extends CliCommand with CliActionMixin {
       env["MAIL_SENDGRID_APIKEY"] = sendgrid.get("api_key", "");
     }
     await env.save();
-    await command(
-      "Deploy firebase functions.",
-      [
-        firebaseCommand,
-        "deploy",
-        "--only",
-        "functions",
-      ],
-      workingDirectory: "firebase",
-    );
+    context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
+    // await command(
+    //   "Deploy firebase functions.",
+    //   [
+    //     firebaseCommand,
+    //     "deploy",
+    //     "--only",
+    //     "functions",
+    //   ],
+    //   workingDirectory: "firebase",
+    // );
     for (final locale in threeDSecureRidirectPages.entries) {
       final value = locale.value as Map;
       final successUrl = value.get("success", "");
@@ -546,16 +541,17 @@ class StripeCliAction extends CliCommand with CliActionMixin {
           File("firebase/hosting/${locale.key}/secure/failure.html");
       await failureFile.writeAsString(failureContent);
     }
-    await command(
-      "Deploy to Firebase Hosting.",
-      [
-        firebaseCommand,
-        "deploy",
-        "--only",
-        "hosting",
-      ],
-      workingDirectory: "firebase",
-    );
+    context.requestFirebaseDeploy(FirebaseDeployPostActionType.hosting);
+    // await command(
+    //   "Deploy to Firebase Hosting.",
+    //   [
+    //     firebaseCommand,
+    //     "deploy",
+    //     "--only",
+    //     "hosting",
+    //   ],
+    //   workingDirectory: "firebase",
+    // );
   }
 }
 

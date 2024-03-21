@@ -2,6 +2,7 @@
 import 'dart:io';
 
 // Package imports:
+import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
 import 'package:yaml/yaml.dart';
 
 // Project imports:
@@ -44,8 +45,6 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final firebaseCommand = bin.get("firebase", "firebase");
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
     final termsAndPrivacy = firebase.getAsMap("terms_and_privacy");
@@ -188,15 +187,16 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    await command(
-      "Deploy to Firebase Hosting.",
-      [
-        firebaseCommand,
-        "deploy",
-        "--only",
-        "hosting",
-      ],
-      workingDirectory: "firebase",
-    );
+    context.requestFirebaseDeploy(FirebaseDeployPostActionType.hosting);
+    // await command(
+    //   "Deploy to Firebase Hosting.",
+    //   [
+    //     firebaseCommand,
+    //     "deploy",
+    //     "--only",
+    //     "hosting",
+    //   ],
+    //   workingDirectory: "firebase",
+    // );
   }
 }

@@ -29,8 +29,6 @@ class AppSpeechToTextCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
     final stt = context.yaml.getAsMap("app").getAsMap("speech_to_text");
     final permission = stt.getAsMap("permission");
     if (permission.isEmpty) {
@@ -39,12 +37,8 @@ class AppSpeechToTextCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    await command(
-      "Import packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
         "masamune_speech_to_text",
       ],
     );

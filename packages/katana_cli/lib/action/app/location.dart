@@ -36,8 +36,6 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
     final location = context.yaml.getAsMap("location");
     final enableBackground = location.get("enable_background", false);
     final googleMap = location.getAsMap("google_map");
@@ -275,12 +273,8 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
           .where((key, value) => value.isNotEmpty),
     );
     await PodfilePermissionType.locationUsage.enablePermissionToPodfile();
-    await command(
-      "Import packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
         "masamune_location",
       ],
     );

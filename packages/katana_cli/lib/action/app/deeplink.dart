@@ -33,8 +33,6 @@ class AppDeeplinkCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
     final deeplink = context.yaml.getAsMap("app").getAsMap("deeplink");
     final host = deeplink.get("host", "");
     final server = deeplink.getAsMap("server");
@@ -63,12 +61,8 @@ class AppDeeplinkCliAction extends CliCommand with CliActionMixin {
       }
     }
 
-    await command(
-      "Import packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
         "masamune_deeplink",
       ],
     );

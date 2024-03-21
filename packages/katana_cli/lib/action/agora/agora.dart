@@ -2,6 +2,7 @@
 import 'dart:io';
 
 // Project imports:
+import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
 import 'package:katana_cli/katana_cli.dart';
 import 'package:katana_cli/src/android_manifest.dart';
 
@@ -30,9 +31,6 @@ class AgoraCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
-    final firebaseCommand = bin.get("firebase", "firebase");
     final agora = context.yaml.getAsMap("agora");
     final appId = agora.get("app_id", "");
     final appCertificate = agora.get("app_certificate", "");
@@ -78,12 +76,8 @@ class AgoraCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    await command(
-      "Import packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
         "masamune_agora",
         "katana_functions_firebase",
       ],
@@ -131,15 +125,16 @@ class AgoraCliAction extends CliCommand with CliActionMixin {
     env["AGORA_APP_ID"] = appId;
     env["AGORA_APP_CERTIFICATE"] = appCertificate;
     await env.save();
-    await command(
-      "Deploy firebase functions.",
-      [
-        firebaseCommand,
-        "deploy",
-        "--only",
-        "functions",
-      ],
-      workingDirectory: "firebase",
-    );
+    context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
+    // await command(
+    //   "Deploy firebase functions.",
+    //   [
+    //     firebaseCommand,
+    //     "deploy",
+    //     "--only",
+    //     "functions",
+    //   ],
+    //   workingDirectory: "firebase",
+    // );
   }
 }

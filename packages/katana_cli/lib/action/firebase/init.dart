@@ -44,7 +44,6 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
   @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
     final npm = bin.get("npm", "npm");
     final firebaseCommand = bin.get("firebase", "firebase");
     final gsutil = bin.get("gsutil", "gsutil");
@@ -105,7 +104,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     }
     label("Check firebase.json");
     final firebaseJsonFile = File("firebase/firebase.json");
-    final firebaseJson = firebaseJsonFile.existsSync()
+    final firebaseJsonFileExists = firebaseJsonFile.existsSync();
+    final firebaseJson = firebaseJsonFileExists
         ? jsonDecodeAsMap(await firebaseJsonFile.readAsString())
         : <String, dynamic>{};
     label("Check status");
@@ -140,24 +140,22 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    await command(
-      "Run flutterfire configure",
+    if (!firebaseJsonFileExists) {
+      await command(
+        "Run flutterfire configure",
+        [
+          flutterfireCommand,
+          "configure",
+          "-y",
+          "--project=$projectId",
+          "--ios-bundle-id=$bundleId",
+          "--macos-bundle-id=$bundleId",
+          "--android-package-name=$androidApplicationId",
+        ],
+      );
+    }
+    await addFlutterImport(
       [
-        flutterfireCommand,
-        "configure",
-        "-y",
-        "--project=$projectId",
-        "--ios-bundle-id=$bundleId",
-        "--macos-bundle-id=$bundleId",
-        "--android-package-name=$androidApplicationId",
-      ],
-    );
-    await command(
-      "Import packages.",
-      [
-        flutter,
-        "pub",
-        "add",
         "firebase_core",
         if (enabledAuthentication) ...[
           "firebase_auth",
@@ -517,18 +515,20 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       workingDirectory: "firebase",
     );
     await firestoreIndexes.writeAsString(indexData);
-    await command(
-      "Run firebase deploy",
-      [
-        firebaseCommand,
-        "deploy",
-        if (enableActions) ...[
-          "--except",
-          "hosting",
-        ]
-      ],
-      workingDirectory: "firebase",
-    );
+    if (!firebaseJsonFileExists) {
+      await command(
+        "Run firebase deploy",
+        [
+          firebaseCommand,
+          "deploy",
+          if (enableActions) ...[
+            "--except",
+            "hosting",
+          ]
+        ],
+        workingDirectory: "firebase",
+      );
+    }
   }
 
   void _runCommandStack(

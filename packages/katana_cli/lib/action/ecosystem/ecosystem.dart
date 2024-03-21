@@ -44,8 +44,6 @@ class EcosystemCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
     final ecosystem = context.yaml.getAsMap("ecosystem");
     final type = ecosystem.get("type", "");
     switch (type) {
@@ -138,12 +136,8 @@ class EcosystemCliAction extends CliCommand with CliActionMixin {
             "Specify the app ID for Android or iOS in [ads]->[android_app_id] or [ads]->[ios_app_id].",
           );
         }
-        await command(
-          "Import packages.",
+        await addFlutterImport(
           [
-            flutter,
-            "pub",
-            "add",
             "masamune_point_ecosystem",
           ],
         );

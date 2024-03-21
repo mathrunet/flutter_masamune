@@ -30,17 +30,12 @@ class GitPreCommitCliAction extends CliCommand with CliActionMixin {
   @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
     final lefthook = bin.get("lefthook", "lefthook");
-    await command(
-      "Import import_sorter packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
-        "--dev",
         "import_sorter",
       ],
+      development: true,
     );
     label("Create lefthook.yaml");
     final gitDir = await findGitDirectory(Directory.current);

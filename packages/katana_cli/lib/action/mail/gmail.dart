@@ -2,6 +2,7 @@
 import 'dart:io';
 
 // Project imports:
+import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
 import 'package:katana_cli/katana_cli.dart';
 
 /// Add a module to use Gmail.
@@ -29,9 +30,6 @@ class MailGmailCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
-    final firebaseCommand = bin.get("firebase", "firebase");
     final gmail = context.yaml.getAsMap("gmail");
     final gmailUserId = gmail.get("user_id", "");
     final gmailUserPassword = gmail.get("user_password", "");
@@ -69,12 +67,8 @@ class MailGmailCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    await command(
-      "Import packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
         "masamune_mail",
         "katana_functions_firebase",
       ],
@@ -92,15 +86,16 @@ class MailGmailCliAction extends CliCommand with CliActionMixin {
     env["MAIL_GMAIL_ID"] = gmail.get("user_id", "");
     env["MAIL_GMAIL_PASSWORD"] = gmail.get("user_password", "");
     await env.save();
-    await command(
-      "Deploy firebase functions.",
-      [
-        firebaseCommand,
-        "deploy",
-        "--only",
-        "functions",
-      ],
-      workingDirectory: "firebase",
-    );
+    context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
+    // await command(
+    //   "Deploy firebase functions.",
+    //   [
+    //     firebaseCommand,
+    //     "deploy",
+    //     "--only",
+    //     "functions",
+    //   ],
+    //   workingDirectory: "firebase",
+    // );
   }
 }

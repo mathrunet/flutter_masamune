@@ -2,6 +2,7 @@
 import 'dart:io';
 
 // Project imports:
+import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
 import 'package:katana_cli/katana_cli.dart';
 
 /// Firebase deployment process.
@@ -70,13 +71,14 @@ class FirebaseDeployCliAction extends CliCommand with CliActionMixin {
       workingDirectory: firebaseDir.path,
     );
     await firestoreIndexes.writeAsString(indexData);
-    await command(
-      "Run firebase deploy",
-      [
-        firebaseCommand,
-        "deploy",
-      ],
-      workingDirectory: firebaseDir.path,
-    );
+    context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
+    // await command(
+    //   "Run firebase deploy",
+    //   [
+    //     firebaseCommand,
+    //     "deploy",
+    //   ],
+    //   workingDirectory: firebaseDir.path,
+    // );
   }
 }

@@ -26,8 +26,6 @@ class AppPickerCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
     final app = context.yaml.getAsMap("app");
     if (app.isEmpty) {
       error("The item [app] is missing. Please add an item.");
@@ -52,12 +50,8 @@ class AppPickerCliAction extends CliCommand with CliActionMixin {
           .where((key, value) => value.isNotEmpty),
     );
     await PodfilePermissionType.photoLibraryUsage.enablePermissionToPodfile();
-    await command(
-      "Import packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
         "masamune_picker",
       ],
     );

@@ -3,6 +3,7 @@ import 'dart:io';
 
 // Package imports:
 import 'package:image/image.dart';
+import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
@@ -39,9 +40,6 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
-    final firebaseCommand = bin.get("firebase", "firebase");
     final firebase = context.yaml.getAsMap("firebase");
     final messaging = firebase.getAsMap("messaging");
     final channelId = messaging.get("channel_id", "");
@@ -265,12 +263,8 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
       );
     }
-    await command(
-      "Import packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
         "masamune_notification_firebase",
       ],
     );
@@ -287,16 +281,17 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         functions.functions.add("sendNotification()");
       }
       await functions.save();
-      await command(
-        "Deploy firebase functions.",
-        [
-          firebaseCommand,
-          "deploy",
-          "--only",
-          "functions",
-        ],
-        workingDirectory: "firebase",
-      );
+      context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
+      // await command(
+      //   "Deploy firebase functions.",
+      //   [
+      //     firebaseCommand,
+      //     "deploy",
+      //     "--only",
+      //     "functions",
+      //   ],
+      //   workingDirectory: "firebase",
+      // );
     }
   }
 }

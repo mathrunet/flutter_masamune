@@ -42,8 +42,6 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
     final authentication = firebase.getAsMap("authentication");
@@ -77,12 +75,8 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    await command(
-      "Import packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
         if (enableApple) ...[
           "masamune_auth_apple",
         ],

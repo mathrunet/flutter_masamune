@@ -2,6 +2,7 @@
 import 'dart:io';
 
 // Project imports:
+import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
 import 'package:katana_cli/katana_cli.dart';
 
 /// Add a module to use SendGrid.
@@ -29,9 +30,6 @@ class MailSendGridCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final bin = context.yaml.getAsMap("bin");
-    final flutter = bin.get("flutter", "flutter");
-    final firebaseCommand = bin.get("firebase", "firebase");
     final sendgrid = context.yaml.getAsMap("sendgrid");
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
@@ -62,12 +60,8 @@ class MailSendGridCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    await command(
-      "Import packages.",
+    await addFlutterImport(
       [
-        flutter,
-        "pub",
-        "add",
         "masamune_mail",
         "katana_functions_firebase",
       ],
@@ -84,15 +78,16 @@ class MailSendGridCliAction extends CliCommand with CliActionMixin {
     await env.load();
     env["MAIL_SENDGRID_APIKEY"] = sendgrid.get("api_key", "");
     await env.save();
-    await command(
-      "Deploy firebase functions.",
-      [
-        firebaseCommand,
-        "deploy",
-        "--only",
-        "functions",
-      ],
-      workingDirectory: "firebase",
-    );
+    context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
+    // await command(
+    //   "Deploy firebase functions.",
+    //   [
+    //     firebaseCommand,
+    //     "deploy",
+    //     "--only",
+    //     "functions",
+    //   ],
+    //   workingDirectory: "firebase",
+    // );
   }
 }

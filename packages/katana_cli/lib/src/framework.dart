@@ -6,6 +6,7 @@ import 'dart:io';
 
 // Package imports:
 import 'package:katana/katana.dart';
+import 'package:yaml/yaml.dart';
 import 'package:yaml_writer/yaml_writer.dart';
 
 /// Prefix of the path to trim.
@@ -33,7 +34,7 @@ class ExecContext {
   /// コマンドを実行する際のコンテキスト。
   ///
   /// [yaml]に`katana.yaml`の内容が渡され、[args]にコマンドの引数が渡されます。
-  const ExecContext({
+  ExecContext({
     required this.yaml,
     required this.args,
     this.secrets = const {},
@@ -54,6 +55,11 @@ class ExecContext {
   ///
   /// コマンドを実行した際の引数。
   final List<String> args;
+
+  /// Post action after execution.
+  ///
+  /// 実行した後のポストアクション。
+  final List<PostAction> postActions = [];
 
   final int _index;
 
@@ -336,6 +342,21 @@ mixin CliActionMixin on CliCommand {
   bool checkEnabled(ExecContext context);
 }
 
+/// Set the action to be taken after execution.
+///
+/// 実行した後のアクションを設定します。
+abstract class PostAction {
+  /// Set the action to be taken after execution.
+  ///
+  /// 実行した後のアクションを設定します。
+  const PostAction();
+
+  /// Do action.
+  ///
+  /// アクションを実行します。
+  Future<void> exec(ExecContext context);
+}
+
 /// Abstract class for creating a code-based command template.
 ///
 /// コードベースのコマンドの雛形を作成するための抽象クラス。
@@ -464,6 +485,59 @@ Future<String> command(
     runInShell: runInShell,
     workingDirectory: workingDirectory ?? Directory.current.path,
   ).print(catchError);
+}
+
+/// Add flutter imports by giving [packages].
+///
+/// If it has already been added, it will not be added.
+///
+/// [packages]を与えてflutterのimportを追加します。
+///
+/// すでに追加されている場合は、追加されません。
+Future<void> addFlutterImport(
+  List<String> packages, {
+  bool development = false,
+  String flutterCommand = "flutter",
+}) async {
+  final addPackages = <String>[];
+  final pubspecFile = File("pubspec.yaml");
+  final pubspec = loadYaml(await pubspecFile.readAsString()) as Map;
+  if (development) {
+    final dependencies = pubspec.getAsMap("dev_dependencies");
+    for (final package in packages) {
+      if (dependencies.containsKey(package)) {
+        continue;
+      }
+      addPackages.add(package);
+    }
+    await command(
+      "Import packages.",
+      [
+        flutterCommand,
+        "pub",
+        "add",
+        "--dev",
+        ...addPackages,
+      ],
+    );
+  } else {
+    final dependencies = pubspec.getAsMap("dependencies");
+    for (final package in packages) {
+      if (dependencies.containsKey(package)) {
+        continue;
+      }
+      addPackages.add(package);
+    }
+    await command(
+      "Import packages.",
+      [
+        flutterCommand,
+        "pub",
+        "add",
+        ...addPackages,
+      ],
+    );
+  }
 }
 
 /// Get the first file that matches [pattern] in [root].
