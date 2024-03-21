@@ -1,3 +1,7 @@
+## 2.18.2
+
+ - **FIX**: Command acceleration. ([ea270c9d](https://github.com/mathrunet/flutter_masamune/commit/ea270c9d632921a1c63507f5482811f726738e62))
+
 ## 2.18.1
 
  - **FIX**: MasamuneTest is placed by default. ([7944c50b](https://github.com/mathrunet/flutter_masamune/commit/7944c50b2aa1cd176c69ee5844d976366eae3ca9))

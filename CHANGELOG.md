@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-03-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.18.2`](#katana_cli---v2182)
+
+---
+
+#### `katana_cli` - `v2.18.2`
+
+ - **FIX**: Command acceleration. ([ea270c9d](https://github.com/mathrunet/flutter_masamune/commit/ea270c9d632921a1c63507f5482811f726738e62))
+
+
 ## 2024-03-19
 
 ### Changes
