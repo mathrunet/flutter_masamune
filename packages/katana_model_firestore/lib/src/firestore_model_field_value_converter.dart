@@ -272,6 +272,12 @@ abstract class FirestoreModelFieldValueConverter {
           return null;
         }
         final key = filter.key!;
+        firestoreQuery = _fixDifferentKeys(
+          key,
+          firestoreQuery,
+          filter,
+          query,
+        );
         firestoreQuery = firestoreQuery.orderBy(
           convertQueryKey(key, filter, query, adapter),
         );
@@ -281,6 +287,12 @@ abstract class FirestoreModelFieldValueConverter {
           return null;
         }
         final key = filter.key!;
+        firestoreQuery = _fixDifferentKeys(
+          key,
+          firestoreQuery,
+          filter,
+          query,
+        );
         firestoreQuery = firestoreQuery.orderBy(
           convertQueryKey(key, filter, query, adapter),
           descending: true,
@@ -393,6 +405,29 @@ abstract class FirestoreModelFieldValueConverter {
           generator(),
         ];
     }
+  }
+
+  // 下記の不具合の修正
+  // https://stackoverflow.com/questions/68166318/the-initial-orderby-field-fieldpathid-true00-has-to-be-the-same
+  Query<DynamicMap> _fixDifferentKeys(
+    String key,
+    Query<DynamicMap> firestoreQuery,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
+  ) {
+    final filters = query.query.filters.where((item) =>
+        item.type == ModelQueryFilterType.isNotNull ||
+        item.type == ModelQueryFilterType.greaterThan ||
+        item.type == ModelQueryFilterType.greaterThanOrEqualTo ||
+        item.type == ModelQueryFilterType.lessThan ||
+        item.type == ModelQueryFilterType.lessThanOrEqualTo ||
+        item.type == ModelQueryFilterType.notEqualTo);
+    if (filters.isNotEmpty && !filters.any((item) => item.key == key)) {
+      firestoreQuery = firestoreQuery.orderBy(
+        convertQueryKey(filters.first.key ?? "", filter, query),
+      );
+    }
+    return firestoreQuery;
   }
 }
 
