@@ -1,3 +1,7 @@
+## 2.16.14
+
+ - **FIX**: Fixed a bug when processing that requires sorting by a different key. ([a54ef68a](https://github.com/mathrunet/flutter_masamune/commit/a54ef68adf3f17993ca41bf52e36d77c483ec1a8))
+
 ## 2.16.13
 
  - Update a dependency to the latest release.

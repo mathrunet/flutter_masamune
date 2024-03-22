@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-03-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model_firestore` - `v2.16.14`](#katana_model_firestore---v21614)
+ - [`masamune_model_algolia` - `v2.4.31`](#masamune_model_algolia---v2431)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_algolia` - `v2.4.31`
+
+---
+
+#### `katana_model_firestore` - `v2.16.14`
+
+ - **FIX**: Fixed a bug when processing that requires sorting by a different key. ([a54ef68a](https://github.com/mathrunet/flutter_masamune/commit/a54ef68adf3f17993ca41bf52e36d77c483ec1a8))
+
+
 ## 2024-03-21
 
 ### Changes
