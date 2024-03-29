@@ -1,3 +1,7 @@
+## 2.1.16
+
+ - **FIX**: Update auto-generated code. ([57a6ded5](https://github.com/mathrunet/flutter_masamune/commit/57a6ded5e862ce7a231c344f280da898019209d4))
+
 ## 2.1.15
 
  - Update a dependency to the latest release.

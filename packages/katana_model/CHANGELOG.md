@@ -1,3 +1,7 @@
+## 2.26.2
+
+ - **FIX**: Fixed a bug that prevents updating. ([199704a7](https://github.com/mathrunet/flutter_masamune/commit/199704a7a2409f8cb8b77af5c60142ed0a3aedfb))
+
 ## 2.26.1
 
  - **FIX**: Creating Tests. ([a28ed081](https://github.com/mathrunet/flutter_masamune/commit/a28ed081e0cd68d31840d70d30ea427ec4e4fb08))
