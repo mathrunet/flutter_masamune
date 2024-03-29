@@ -213,6 +213,9 @@ class _$_StripePurchaseModelCollectionQuery
   _$_StripePurchaseModelCollectionQuery reset() =>
       _$_StripePurchaseModelCollectionQuery(modelQuery.reset());
 
+  _$_StripePurchaseModelCollectionQuery notifyDocumentChanges() =>
+      _$_StripePurchaseModelCollectionQuery(modelQuery.notifyDocumentChanges());
+
   StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery> get uid =>
       StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
           key: "@uid", toQuery: _toQuery, modelQuery: modelQuery);

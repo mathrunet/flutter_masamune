@@ -171,6 +171,9 @@ class _$_PurchaseUserModelCollectionQuery
   _$_PurchaseUserModelCollectionQuery reset() =>
       _$_PurchaseUserModelCollectionQuery(modelQuery.reset());
 
+  _$_PurchaseUserModelCollectionQuery notifyDocumentChanges() =>
+      _$_PurchaseUserModelCollectionQuery(modelQuery.notifyDocumentChanges());
+
   StringModelQuerySelector<_$_PurchaseUserModelCollectionQuery> get uid =>
       StringModelQuerySelector<_$_PurchaseUserModelCollectionQuery>(
           key: "@uid", toQuery: _toQuery, modelQuery: modelQuery);

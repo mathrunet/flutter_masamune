@@ -190,6 +190,10 @@ class _$_PurchaseSubscriptionModelCollectionQuery
   _$_PurchaseSubscriptionModelCollectionQuery reset() =>
       _$_PurchaseSubscriptionModelCollectionQuery(modelQuery.reset());
 
+  _$_PurchaseSubscriptionModelCollectionQuery notifyDocumentChanges() =>
+      _$_PurchaseSubscriptionModelCollectionQuery(
+          modelQuery.notifyDocumentChanges());
+
   StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
       get uid =>
           StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(

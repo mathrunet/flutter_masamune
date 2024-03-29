@@ -176,6 +176,9 @@ class _$_StripeUserModelCollectionQuery
   _$_StripeUserModelCollectionQuery reset() =>
       _$_StripeUserModelCollectionQuery(modelQuery.reset());
 
+  _$_StripeUserModelCollectionQuery notifyDocumentChanges() =>
+      _$_StripeUserModelCollectionQuery(modelQuery.notifyDocumentChanges());
+
   StringModelQuerySelector<_$_StripeUserModelCollectionQuery> get uid =>
       StringModelQuerySelector<_$_StripeUserModelCollectionQuery>(
           key: "@uid", toQuery: _toQuery, modelQuery: modelQuery);

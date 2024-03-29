@@ -193,6 +193,9 @@ class _$_StripePaymentModelCollectionQuery
   _$_StripePaymentModelCollectionQuery reset() =>
       _$_StripePaymentModelCollectionQuery(modelQuery.reset());
 
+  _$_StripePaymentModelCollectionQuery notifyDocumentChanges() =>
+      _$_StripePaymentModelCollectionQuery(modelQuery.notifyDocumentChanges());
+
   StringModelQuerySelector<_$_StripePaymentModelCollectionQuery> get uid =>
       StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
           key: "@uid", toQuery: _toQuery, modelQuery: modelQuery);

@@ -182,6 +182,10 @@ class _$_PushNotificationScheduleModelCollectionQuery
   _$_PushNotificationScheduleModelCollectionQuery reset() =>
       _$_PushNotificationScheduleModelCollectionQuery(modelQuery.reset());
 
+  _$_PushNotificationScheduleModelCollectionQuery notifyDocumentChanges() =>
+      _$_PushNotificationScheduleModelCollectionQuery(
+          modelQuery.notifyDocumentChanges());
+
   StringModelQuerySelector<_$_PushNotificationScheduleModelCollectionQuery>
       get uid => StringModelQuerySelector<
               _$_PushNotificationScheduleModelCollectionQuery>(

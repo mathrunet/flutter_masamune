@@ -179,6 +179,10 @@ class _$_PointEcosystemUserModelCollectionQuery
   _$_PointEcosystemUserModelCollectionQuery reset() =>
       _$_PointEcosystemUserModelCollectionQuery(modelQuery.reset());
 
+  _$_PointEcosystemUserModelCollectionQuery notifyDocumentChanges() =>
+      _$_PointEcosystemUserModelCollectionQuery(
+          modelQuery.notifyDocumentChanges());
+
   StringModelQuerySelector<_$_PointEcosystemUserModelCollectionQuery> get uid =>
       StringModelQuerySelector<_$_PointEcosystemUserModelCollectionQuery>(
           key: "@uid", toQuery: _toQuery, modelQuery: modelQuery);
