@@ -84,6 +84,11 @@ enum CollectionQueryType {
   /// `limitTo`のメソッド。
   limitTo,
 
+  /// The method  for `notifyDocumentChanges`.
+  ///
+  /// `notifyDocumentChanges`のメソッド。
+  notifyDocumentChanges,
+
   /// The method of `reset`.
   ///
   /// `reset`のメソッド。
@@ -177,6 +182,7 @@ enum CollectionQueryType {
           ),
         ];
       case CollectionQueryType.reset:
+      case CollectionQueryType.notifyDocumentChanges:
         return [];
     }
   }
@@ -208,6 +214,7 @@ enum CollectionQueryType {
       case CollectionQueryType.limitTo:
         return "$name(value)";
       case CollectionQueryType.reset:
+      case CollectionQueryType.notifyDocumentChanges:
         return "$name()";
     }
   }

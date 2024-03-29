@@ -133,7 +133,7 @@ class CollectionModelQuery extends ModelQuery {
   ///
   /// Execute [create] to create a [DocumentModelQuery] with the specified ID.
   ///
-  /// The following elements can be specified by chaining [equal], [notEqual], [lessThanOrEqual], [greaterThanOrEqual], [contains], [containsAny], [where], [notWhere], [isNull], [isNotNull], [like ], [geo], [orderByAsc], [orderByDesc], and [limitTo] can be specified in a chain to filter elements.
+  /// The following elements can be specified by chaining [equal], [notEqual], [lessThanOrEqual], [greaterThanOrEqual], [contains], [containsAny], [where], [notWhere], [isNull], [isNotNull], [like ], [geo], [orderByAsc], [orderByDesc], [notifyDocumentChanges]and [limitTo] can be specified in a chain to filter elements.
   ///
   /// Modelを定義するためのクエリクラス。
   ///
@@ -149,7 +149,7 @@ class CollectionModelQuery extends ModelQuery {
   ///
   /// [create]を実行すると指定したIDを持つ[DocumentModelQuery]を作成することができます。
   ///
-  /// [equal]、[notEqual]、[lessThanOrEqual]、[greaterThanOrEqual]、[contains]、[containsAny]、[where]、[notWhere]、[isNull]、[isNotNull]、[like]、[geo]、[orderByAsc]、[orderByDesc]、[limitTo]をチェインして指定していくことにより要素のフィルタリングが可能です。
+  /// [equal]、[notEqual]、[lessThanOrEqual]、[greaterThanOrEqual]、[contains]、[containsAny]、[where]、[notWhere]、[isNull]、[isNotNull]、[like]、[geo]、[orderByAsc]、[orderByDesc]、[limitTo]、[notifyDocumentChanges]をチェインして指定していくことにより要素のフィルタリングが可能です。
   const CollectionModelQuery(
     super.path, {
     super.adapter,
@@ -475,6 +475,19 @@ class CollectionModelQuery extends ModelQuery {
       ModelQueryFilter._(
         type: ModelQueryFilterType.limit,
         value: value,
+      )
+    ]);
+  }
+
+  /// Ensure that the collection is notified of changes to internal documents.
+  ///
+  /// 内部のドキュメントの変更をコレクションに通知するようにします。
+  CollectionModelQuery notifyDocumentChanges() {
+    return _copyWithAddingFilter(filters: [
+      ...filters
+          .where((e) => e.type != ModelQueryFilterType.notifyDocumentChanges),
+      const ModelQueryFilter._(
+        type: ModelQueryFilterType.notifyDocumentChanges,
       )
     ]);
   }
@@ -956,6 +969,11 @@ enum ModelQueryFilterType {
   ///
   /// データの数に制限をかけるフィルター。
   limit,
+
+  /// Filters to notify the collection of changes in internal documents.
+  ///
+  /// 内部のドキュメントの変更をコレクションに通知するためのフィルター。
+  notifyDocumentChanges;
 }
 
 /// {@template model_query_filter}
@@ -1235,6 +1253,16 @@ class ModelQueryFilter {
       : this._(
           type: ModelQueryFilterType.limit,
           value: value,
+        );
+
+  /// Ensure that the collection is notified of changes to internal documents.
+  ///
+  /// 内部のドキュメントの変更をコレクションに通知するようにします。
+  ///
+  /// {@macro model_query_filter}
+  const ModelQueryFilter.notifyDocumentChanges()
+      : this._(
+          type: ModelQueryFilterType.notifyDocumentChanges,
         );
 
   static const String _kTypeKey = "type";

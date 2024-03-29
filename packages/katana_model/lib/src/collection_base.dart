@@ -537,6 +537,10 @@ abstract class CollectionBase<TModel extends DocumentBase>
         }
         if (val != found.value) {
           found.notifyListeners();
+          if (modelQuery.filters.any(
+              (e) => e.type == ModelQueryFilterType.notifyDocumentChanges)) {
+            notify = true;
+          }
         }
         if (update.newIndex != update.oldIndex) {
           notify = true;

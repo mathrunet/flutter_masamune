@@ -66,6 +66,13 @@ abstract class ModelQuerySelector<T, TQuery extends ModelQueryBase> {
     return _toQuery(_modelQuery.limitTo(value));
   }
 
+  /// Ensure that the collection is notified of changes to internal documents.
+  ///
+  /// 内部のドキュメントの変更をコレクションに通知するようにします。
+  TQuery notifyDocumentChanges() {
+    return _toQuery(_modelQuery.notifyDocumentChanges());
+  }
+
   /// Reset all conditions.
   ///
   /// すべての条件をリセットします。

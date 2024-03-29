@@ -484,6 +484,14 @@ List<Spec> collectionModelQueryClass(
           ),
           Method(
             (m) => m
+              ..name = "notifyDocumentChanges"
+              ..lambda = true
+              ..returns = Reference("_\$_${model.name}CollectionQuery")
+              ..body = Code(
+                  "_\$_${model.name}CollectionQuery(modelQuery.notifyDocumentChanges())"),
+          ),
+          Method(
+            (m) => m
               ..name = "uid"
               ..type = MethodType.getter
               ..lambda = true
@@ -923,6 +931,14 @@ List<Spec> collectionModelQueryClass(
                 ..returns = Reference("_\$_${model.name}MirrorCollectionQuery")
                 ..body = Code(
                     "_\$_${model.name}MirrorCollectionQuery(modelQuery.limitTo(value))"),
+            ),
+            Method(
+              (m) => m
+                ..name = "notifyDocumentChanges"
+                ..lambda = true
+                ..returns = Reference("_\$_${model.name}MirrorCollectionQuery")
+                ..body = Code(
+                    "_\$_${model.name}MirrorCollectionQuery(modelQuery.notifyDocumentChanges())"),
             ),
             Method(
               (m) => m
