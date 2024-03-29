@@ -1,3 +1,7 @@
+## 2.26.1
+
+ - **FIX**: Creating Tests. ([a28ed081](https://github.com/mathrunet/flutter_masamune/commit/a28ed081e0cd68d31840d70d30ea427ec4e4fb08))
+
 ## 2.26.0
 
  - **FEAT**: Add notifyDocumentChanges to the query. ([ee34caa3](https://github.com/mathrunet/flutter_masamune/commit/ee34caa39ec2755eac7b868e8a139c77a649cdad))
