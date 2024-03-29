@@ -51,6 +51,54 @@ class RuntimeTestValueCollectionModel
 }
 
 void main() {
+  test("ModelQuery.notifyDocumentChanges", () async {
+    int seq = 0;
+    void handledOnUpdate() {
+      seq++;
+    }
+
+    final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
+    final query = CollectionModelQuery(
+      "aaaa",
+      adapter: adapter,
+    ).notifyDocumentChanges();
+    final collection = RuntimeTestValueCollectionModel(query);
+    collection.addListener(handledOnUpdate);
+    await collection.load();
+    expect(seq, 1);
+    final doc1 = collection.create();
+    await doc1.save(const TestValue(name: "aaa"));
+    expect(seq, 2);
+    expect(collection.map((e) => e.value), [
+      const TestValue(name: "aaa"),
+    ]);
+    final doc2 = collection.create();
+    await doc2.save(const TestValue(name: "bbb"));
+    expect(seq, 3);
+    expect(collection.map((e) => e.value), [
+      const TestValue(name: "aaa"),
+      const TestValue(name: "bbb"),
+    ]);
+    await doc1.save(const TestValue(name: "ccc"));
+    expect(seq, 4);
+    expect(collection.map((e) => e.value), [
+      const TestValue(name: "ccc"),
+      const TestValue(name: "bbb"),
+    ]);
+    await doc2.save(const TestValue(name: "ddd"));
+    expect(seq, 5);
+    expect(collection.map((e) => e.value), [
+      const TestValue(name: "ccc"),
+      const TestValue(name: "ddd"),
+    ]);
+    await doc1.save(const TestValue(name: "eee"));
+    expect(seq, 6);
+    expect(collection.map((e) => e.value), [
+      const TestValue(name: "eee"),
+      const TestValue(name: "ddd"),
+    ]);
+    collection.removeListener(handledOnUpdate);
+  });
   test("ModelQuery.hasMatch", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
