@@ -1,3 +1,7 @@
+## 2.14.0
+
+ - **FEAT**: Add notifyDocumentChanges to the query. ([ee34caa3](https://github.com/mathrunet/flutter_masamune/commit/ee34caa39ec2755eac7b868e8a139c77a649cdad))
+
 ## 2.13.7
 
  - **DOCS**: Changed the specification of the validator of Form. ([422e1564](https://github.com/mathrunet/flutter_masamune/commit/422e1564829e5e4fdb371accac02924735e044d5))

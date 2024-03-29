@@ -1,3 +1,7 @@
+## 2.26.0
+
+ - **FEAT**: Add notifyDocumentChanges to the query. ([ee34caa3](https://github.com/mathrunet/flutter_masamune/commit/ee34caa39ec2755eac7b868e8a139c77a649cdad))
+
 ## 2.25.2
 
  - **FIX**: Fixed bug with missing elements when deleting. ([89fa20a1](https://github.com/mathrunet/flutter_masamune/commit/89fa20a17b080d5078365d3039e5f53a2dead323))
