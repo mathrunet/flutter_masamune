@@ -157,14 +157,14 @@ class FormCheckbox<TValue> extends FormField<bool> {
                   theme.disabledColor,
             );
 
-            InputBorder getBorderSide() {
+            InputBorder getBorderSide(Color borderColor) {
               switch (style?.borderStyle) {
                 case FormInputBorderStyle.outline:
                   return OutlineInputBorder(
                     borderRadius: style?.borderRadius ??
                         const BorderRadius.all(Radius.circular(4.0)),
                     borderSide: BorderSide(
-                      color: style?.borderColor ?? theme.dividerColor,
+                      color: borderColor,
                       width: style?.borderWidth ?? 1.0,
                     ),
                   );
@@ -187,7 +187,12 @@ class FormCheckbox<TValue> extends FormField<bool> {
               }
             }
 
-            final borderSide = getBorderSide();
+            final borderSide =
+                getBorderSide(style?.borderColor ?? theme.dividerColor);
+            final errorBorderSide =
+                getBorderSide(style?.errorColor ?? theme.colorScheme.error);
+            final disabledBorderSide =
+                getBorderSide(style?.disabledColor ?? theme.disabledColor);
 
             final checkbox = Checkbox(
               value: field.value ?? false,
@@ -233,13 +238,14 @@ class FormCheckbox<TValue> extends FormField<bool> {
                   isDense: true,
                   border: style?.border ?? borderSide,
                   enabledBorder: style?.border ?? borderSide,
-                  disabledBorder:
-                      style?.disabledBorder ?? style?.border ?? borderSide,
+                  disabledBorder: style?.disabledBorder ??
+                      style?.border ??
+                      disabledBorderSide,
                   errorBorder:
-                      style?.errorBorder ?? style?.border ?? borderSide,
+                      style?.errorBorder ?? style?.border ?? errorBorderSide,
                   focusedBorder: style?.border ?? borderSide,
                   focusedErrorBorder:
-                      style?.errorBorder ?? style?.border ?? borderSide,
+                      style?.errorBorder ?? style?.border ?? errorBorderSide,
                   prefix: prefix?.child ?? style?.prefix?.child,
                   suffix: suffix?.child ?? style?.suffix?.child,
                   prefixIcon: prefix?.icon ?? style?.prefix?.icon,

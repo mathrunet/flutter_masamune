@@ -371,14 +371,14 @@ class _FormEnumFieldState<TEnum extends Enum, TValue>
         TextStyle(
           color: widget.style?.disabledColor ?? theme.disabledColor,
         );
-    InputBorder getBorderSide() {
+    InputBorder getBorderSide(Color borderColor) {
       switch (widget.style?.borderStyle) {
         case FormInputBorderStyle.outline:
           return OutlineInputBorder(
             borderRadius: widget.style?.borderRadius ??
                 const BorderRadius.all(Radius.circular(4.0)),
             borderSide: BorderSide(
-              color: widget.style?.borderColor ?? theme.dividerColor,
+              color: borderColor,
               width: widget.style?.borderWidth ?? 1.0,
             ),
           );
@@ -401,7 +401,12 @@ class _FormEnumFieldState<TEnum extends Enum, TValue>
       }
     }
 
-    final borderSide = getBorderSide();
+    final borderSide =
+        getBorderSide(widget.style?.borderColor ?? theme.dividerColor);
+    final errorBorderSide =
+        getBorderSide(widget.style?.errorColor ?? theme.colorScheme.error);
+    final disabledBorderSide =
+        getBorderSide(widget.style?.disabledColor ?? theme.disabledColor);
 
     return Container(
       alignment: widget.style?.alignment,
@@ -432,14 +437,14 @@ class _FormEnumFieldState<TEnum extends Enum, TValue>
                   enabledBorder: widget.style?.border ?? borderSide,
                   disabledBorder: widget.style?.disabledBorder ??
                       widget.style?.border ??
-                      borderSide,
+                      disabledBorderSide,
                   errorBorder: widget.style?.errorBorder ??
                       widget.style?.border ??
-                      borderSide,
+                      errorBorderSide,
                   focusedBorder: widget.style?.border ?? borderSide,
                   focusedErrorBorder: widget.style?.errorBorder ??
                       widget.style?.border ??
-                      borderSide,
+                      errorBorderSide,
                   hintText: widget.hintText,
                   labelText: widget.labelText,
                   prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
