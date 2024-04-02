@@ -1,3 +1,7 @@
+## 2.18.3
+
+ - **FIX**: Package upgrade. ([aa9f1982](https://github.com/mathrunet/flutter_masamune/commit/aa9f1982aa2111eade4b66b21b7facb7ef567b06))
+
 ## 2.18.2
 
  - **FIX**: Command acceleration. ([ea270c9d](https://github.com/mathrunet/flutter_masamune/commit/ea270c9d632921a1c63507f5482811f726738e62))

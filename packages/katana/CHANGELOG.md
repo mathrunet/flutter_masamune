@@ -1,3 +1,7 @@
+## 2.13.0
+
+ - **FEAT**: Added toStringWithCommas. ([af4c1a07](https://github.com/mathrunet/flutter_masamune/commit/af4c1a076b529cd93eea52b5fade15f91d4ad35b))
+
 ## 2.12.1
 
  - **FIX**: Assign shortName to DayOfWeek. ([d553f1f7](https://github.com/mathrunet/flutter_masamune/commit/d553f1f73ebcde9fdb977b5d2c2764c918665f77))

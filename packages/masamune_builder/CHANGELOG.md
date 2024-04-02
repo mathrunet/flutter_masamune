@@ -1,3 +1,7 @@
+## 2.14.1
+
+ - Update a dependency to the latest release.
+
 ## 2.14.0
 
  - **FEAT**: Add notifyDocumentChanges to the query. ([ee34caa3](https://github.com/mathrunet/flutter_masamune/commit/ee34caa39ec2755eac7b868e8a139c77a649cdad))

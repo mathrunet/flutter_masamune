@@ -1,3 +1,7 @@
+## 2.6.1
+
+ - Update a dependency to the latest release.
+
 ## 2.6.0
 
  - **FEAT**: Firebase Region can be specified by Enum. ([9fe85031](https://github.com/mathrunet/flutter_masamune/commit/9fe85031701fac95ff7844f3f0547bf873c704c8))

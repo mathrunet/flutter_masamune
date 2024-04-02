@@ -1,3 +1,7 @@
+## 2.6.2
+
+ - Update a dependency to the latest release.
+
 ## 2.6.1
 
  - **FIX**: We decided to separate the adapter for Test. ([7e34600c](https://github.com/mathrunet/flutter_masamune/commit/7e34600c97b023fa4d67bdd18e508cb89f2296e5))

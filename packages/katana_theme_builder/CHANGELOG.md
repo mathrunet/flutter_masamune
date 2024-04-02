@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - Update a dependency to the latest release.
+
 ## 2.3.0
 
  - **FEAT**: Svg support. ([3ef1f4a5](https://github.com/mathrunet/flutter_masamune/commit/3ef1f4a5946d05f838b11c40933acf55adf66fbc))

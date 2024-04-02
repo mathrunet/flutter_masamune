@@ -1,3 +1,7 @@
+## 2.12.8
+
+ - **FIX**: Support for color reflection of borders. ([d96abe48](https://github.com/mathrunet/flutter_masamune/commit/d96abe48e69b025c4d72dba6b6ca284f4170ca6f))
+
 ## 2.12.7
 
  - **DOCS**: Changed the specification of the validator of Form. ([422e1564](https://github.com/mathrunet/flutter_masamune/commit/422e1564829e5e4fdb371accac02924735e044d5))

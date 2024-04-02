@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - Update a dependency to the latest release.
+
 ## 2.2.0
 
  - **FEAT**: Added showIndicator function. ([14c33ffd](https://github.com/mathrunet/flutter_masamune/commit/14c33ffd1fd72f910e11a76e553dfdfaf45db509))

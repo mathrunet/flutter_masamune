@@ -1,3 +1,7 @@
+## 2.2.7
+
+ - Update a dependency to the latest release.
+
 ## 2.2.6
 
  - **FIX**: Enabled AppRestart during Boot. ([b1d9661d](https://github.com/mathrunet/flutter_masamune/commit/b1d9661da59a803ef9509680ccc588fcee68ea78))
