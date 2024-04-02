@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_lints` - `v2.1.0`](#masamune_lints---v210)
+
+---
+
+#### `masamune_lints` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([53f12b5d](https://github.com/mathrunet/flutter_masamune/commit/53f12b5d069add251493efefe92a0822aaee5927))
+
+
+## 2024-04-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.13.0`](#katana---v2130)
  - [`katana_cli` - `v2.18.3`](#katana_cli---v2183)
  - [`katana_form` - `v2.12.8`](#katana_form---v2128)
