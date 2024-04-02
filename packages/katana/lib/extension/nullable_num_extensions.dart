@@ -149,4 +149,22 @@ extension NullableNumExtensions on num? {
     }
     return this! ~/ other;
   }
+
+  /// Converts to comma-delimited strings used for currency and other purposes.
+  ///
+  /// The number of decimal places can be specified by specifying [fractionDigits].
+  ///
+  /// 通貨などに利用するカンマ区切りの文字列に変換します。
+  ///
+  /// [fractionDigits]を指定することで小数点以下の桁数を指定できます。
+  String toStringWithCommas(int fractionDigits) {
+    if (this == null) {
+      return "";
+    }
+    String mathFunc(Match match) => "${match[1]},";
+    final regExp = RegExp(r"(\d{1,3})(?=(\d{3})+(?!\d))");
+    return this!
+        .toStringAsFixed(fractionDigits)
+        .replaceAllMapped(regExp, mathFunc);
+  }
 }
