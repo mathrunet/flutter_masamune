@@ -1,3 +1,7 @@
+## 2.8.2
+
+ - **FIX**: Test Coordination. ([8c31a144](https://github.com/mathrunet/flutter_masamune/commit/8c31a144cad4a944be6dc926f22e9a7521a14269))
+
 ## 2.8.1
 
  - Update a dependency to the latest release.
