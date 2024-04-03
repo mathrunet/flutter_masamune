@@ -254,7 +254,7 @@ List<Spec> baseClass(
                 ..modifier = MethodModifier.async
                 ..annotations.addAll([const Reference("override")])
                 ..body = const Code(
-                  "if (_completer != null) { return _completer!.future; } if (_prefs != null) { return; } try { _completer = Completer(); _prefs = await SharedPreferences.getInstance(); notifyListeners(); _completer?.complete(); _completer = null; } catch (e) { _completer?.completeError(e); _completer = null; } finally { _completer?.complete(); }",
+                  "if (_completer != null) { return _completer?.future; } if (_prefs != null) { return; } try { _completer = Completer(); _prefs = await SharedPreferences.getInstance(); notifyListeners(); _completer?.complete(); _completer = null; } catch (e) { _completer?.completeError(e); _completer = null; } finally { _completer?.complete(); }",
                 ),
             ),
             Method(
@@ -353,7 +353,7 @@ List<Spec> baseClass(
                 ..modifier = MethodModifier.async
                 ..annotations.addAll([const Reference("override")])
                 ..body = const Code(
-                  "if (_completer != null) { return _completer!.future; } if (_prefs != null) { return; } try { _completer = Completer(); _prefs = await SharedPreferences.getInstance(); notifyListeners(); _completer?.complete(); _completer = null; } catch (e) { _completer?.completeError(e); _completer = null; } finally { _completer?.complete(); }",
+                  "if (_completer != null) { return _completer?.future; } if (_prefs != null) { return; } try { _completer = Completer(); _prefs = await SharedPreferences.getInstance(); notifyListeners(); _completer?.complete(); _completer = null; } catch (e) { _completer?.completeError(e); _completer = null; } finally { _completer?.complete(); }",
                 ),
             ),
             Method(
