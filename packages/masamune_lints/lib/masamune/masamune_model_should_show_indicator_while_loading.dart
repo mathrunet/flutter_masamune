@@ -1,12 +1,12 @@
 part of '/masamune_lints.dart';
 
-class _MasamuneModelShouldLoad extends DartLintRule {
-  const _MasamuneModelShouldLoad() : super(code: _code);
+class _MasamuneModelShouldShowIndicatorWhileLoading extends DartLintRule {
+  const _MasamuneModelShouldShowIndicatorWhileLoading() : super(code: _code);
 
   static const _code = LintCode(
-    name: "masamune_model_should_load",
+    name: "masamune_model_should_show_indicator_while_loading",
     problemMessage:
-        "The object obtained from ref.model must be executed with the load or reload method. ref.modelから取得したオブジェクトはloadメソッドもしくはreloadメソッドを実行する必要があります。",
+        "If the object retrieved from ref.model is loaded, you must use [UniversalScaffold]->[loadingFuture] or [LoadingBuilder]. Change ref to appRef to avoid this. ref.modelから取得したオブジェクトがloadされていた場合必ず[UniversalScaffold]->[loadingFuture]か[LoadingBuilder]を使用する必要があります。refをappRefに変更すると回避できます。",
     errorSeverity: ErrorSeverity.WARNING,
   );
 
@@ -16,7 +16,7 @@ class _MasamuneModelShouldLoad extends DartLintRule {
     ErrorReporter reporter,
     CustomLintContext context,
   ) {
-    final res = <_MasamuneModelShouldLoadValue>[];
+    final res = <_MasamuneModelShouldShowIndicatorWhileLoadingValue>[];
 
     // メソッドの実行時
     context.registry.addMethodInvocation((node) {
@@ -40,13 +40,13 @@ class _MasamuneModelShouldLoad extends DartLintRule {
           final variable = node.thisOrAncestorOfType<VariableDeclaration>();
           if (variable == null) {
             res.add(
-              _MasamuneModelShouldLoadValue()
+              _MasamuneModelShouldShowIndicatorWhileLoadingValue()
                 ..method = node
                 ..node = node,
             );
           } else {
             res.add(
-              _MasamuneModelShouldLoadValue()
+              _MasamuneModelShouldShowIndicatorWhileLoadingValue()
                 ..variableName = variable.name.lexeme
                 ..variable = variable
                 ..method = node
@@ -56,6 +56,7 @@ class _MasamuneModelShouldLoad extends DartLintRule {
           break;
         case "load":
         case "reload":
+        case "search":
           // 変数に入れていないとき
           final parentMethodInvocationNode =
               node.target?.thisOrAncestorOfType<MethodInvocation>() ??
@@ -68,7 +69,7 @@ class _MasamuneModelShouldLoad extends DartLintRule {
               found.isLoad = true;
             } else {
               res.add(
-                _MasamuneModelShouldLoadValue()
+                _MasamuneModelShouldShowIndicatorWhileLoadingValue()
                   ..method = parentMethodInvocationNode
                   ..node = parentMethodInvocationNode,
               );
@@ -90,7 +91,7 @@ class _MasamuneModelShouldLoad extends DartLintRule {
                 found.isLoad = true;
               } else {
                 res.add(
-                  _MasamuneModelShouldLoadValue()
+                  _MasamuneModelShouldShowIndicatorWhileLoadingValue()
                     ..method = parentMethodInvocationNode
                     ..node = parentMethodInvocationNode,
                 );
@@ -125,10 +126,73 @@ class _MasamuneModelShouldLoad extends DartLintRule {
               found.isLoad = true;
             } else {
               res.add(
-                _MasamuneModelShouldLoadValue()
+                _MasamuneModelShouldShowIndicatorWhileLoadingValue()
                   ..method = methodInvocation
                   ..node = methodInvocation,
               );
+            }
+          }
+          break;
+      }
+    });
+
+    // クラスのインスタンス化時
+    context.registry.addInstanceCreationExpression((node) {
+      final buildMethod = node.thisOrAncestorOfType<MethodDeclaration>();
+      if (buildMethod == null || buildMethod.name.lexeme != "build") {
+        return;
+      }
+      final type = node.staticType.toString();
+      switch (type) {
+        case "UniversalScaffold":
+          final targetNode = node.argumentList.arguments.firstWhereOrNull(
+            (item) => item.staticParameterElement?.name == "loadingFutures",
+          );
+          if (targetNode is! NamedExpression) {
+            return;
+          }
+          for (final item in targetNode.childEntities) {
+            if (item is! ListLiteral) {
+              continue;
+            }
+            for (final e in item.elements) {
+              if (e is PropertyAccess) {
+                final targetName = e.target?.toString();
+                final found = res.firstWhereOrNull(
+                    (element) => element.variableName == targetName);
+                found?.isShowIndicator = true;
+              } else if (e is PrefixedIdentifier) {
+                final targetName = e.prefix.name;
+                final found = res.firstWhereOrNull(
+                    (element) => element.variableName == targetName);
+                found?.isShowIndicator = true;
+              }
+            }
+          }
+          break;
+        case "LoadingBuilder":
+          final targetNode = node.argumentList.arguments.firstWhereOrNull(
+            (item) => item.staticParameterElement?.name == "futures",
+          );
+          if (targetNode is! NamedExpression) {
+            return;
+          }
+          for (final item in targetNode.childEntities) {
+            if (item is! ListLiteral) {
+              continue;
+            }
+            for (final e in item.elements) {
+              if (e is PropertyAccess) {
+                final targetName = e.target?.toString();
+                final found = res.firstWhereOrNull(
+                    (element) => element.variableName == targetName);
+                found?.isShowIndicator = true;
+              } else if (e is PrefixedIdentifier) {
+                final targetName = e.prefix.name;
+                final found = res.firstWhereOrNull(
+                    (element) => element.variableName == targetName);
+                found?.isShowIndicator = true;
+              }
             }
           }
           break;
@@ -141,7 +205,7 @@ class _MasamuneModelShouldLoad extends DartLintRule {
         return;
       }
       for (final node in res) {
-        if (node.isLoad) {
+        if (node.isShowIndicator || !node.isLoad) {
           continue;
         }
         reporter.reportErrorForNode(
@@ -153,15 +217,16 @@ class _MasamuneModelShouldLoad extends DartLintRule {
   }
 }
 
-class _MasamuneModelShouldLoadValue {
+class _MasamuneModelShouldShowIndicatorWhileLoadingValue {
   String? variableName;
-  MethodInvocation? method;
   VariableDeclaration? variable;
+  MethodInvocation? method;
   AstNode? node;
   bool isLoad = false;
+  bool isShowIndicator = false;
 
   @override
   String toString() {
-    return "Variable: $variableName($variable) Method: $method Node: $node IsLoad: $isLoad";
+    return "Variable: $variableName($variable) Node: $node IsLoad: $isLoad isShowIndicator: $isShowIndicator";
   }
 }
