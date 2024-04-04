@@ -103,11 +103,11 @@ class AgoraController
   /// [AgoraVideoProfile]によって決定されます。変更したい場合は[setScreen]を利用してください。
   int get frameRate => _videoProfile.frameRate;
 
-  /// Communication bit rate when connecting to a remote.
+  /// Communication bit rate (kbps) when connecting to a remote.
   ///
   /// This is determined by [AgoraVideoProfile]. If you want to change it, use [setScreen].
   ///
-  /// リモートに接続する際の通信ビットレート。
+  /// リモートに接続する際の通信ビットレート（kbps）。
   ///
   /// [AgoraVideoProfile]によって決定されます。変更したい場合は[setScreen]を利用してください。
   int get bitRate => _videoProfile.bitrate(channelProfile);

@@ -179,11 +179,11 @@ enum AgoraVideoProfile {
     }
   }
 
-  /// Get the bit rate.
+  /// Get the bit rate (kbps).
   ///
   /// The bit rate varies depending on the [channelProfile].
   ///
-  /// ビットレートを取得します。
+  /// ビットレート(kbps)を取得します。
   ///
   /// [channelProfile]によって、ビットレートが変わります。
   int bitrate(ChannelProfileType channelProfile) {
