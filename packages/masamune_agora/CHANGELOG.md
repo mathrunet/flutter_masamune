@@ -1,3 +1,7 @@
+## 2.4.37
+
+ - **DOCS**: Unit is assigned to the bit rate. ([1dfbc84a](https://github.com/mathrunet/flutter_masamune/commit/1dfbc84a70c2b70c5b020878892a050c4b28327d))
+
 ## 2.4.36
 
  - Update a dependency to the latest release.

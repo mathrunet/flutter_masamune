@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-04-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_prefs_builder` - `v2.1.5`](#katana_prefs_builder---v215)
+ - [`masamune_agora` - `v2.4.37`](#masamune_agora---v2437)
+ - [`masamune_builder` - `v2.14.2`](#masamune_builder---v2142)
+ - [`masamune_model_firestore_builder` - `v2.2.13`](#masamune_model_firestore_builder---v2213)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_builder` - `v2.14.2`
+ - `masamune_model_firestore_builder` - `v2.2.13`
+
+---
+
+#### `katana_prefs_builder` - `v2.1.5`
+
+ - **FIX**: Fixed an error in applying Linter. ([5b96b2e3](https://github.com/mathrunet/flutter_masamune/commit/5b96b2e3c7cd0eede3c5d9183f1ecae08afe3202))
+
+#### `masamune_agora` - `v2.4.37`
+
+ - **DOCS**: Unit is assigned to the bit rate. ([1dfbc84a](https://github.com/mathrunet/flutter_masamune/commit/1dfbc84a70c2b70c5b020878892a050c4b28327d))
+
+
 ## 2024-04-03
 
 ### Changes

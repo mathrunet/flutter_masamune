@@ -1,3 +1,7 @@
+## 2.1.5
+
+ - **FIX**: Fixed an error in applying Linter. ([5b96b2e3](https://github.com/mathrunet/flutter_masamune/commit/5b96b2e3c7cd0eede3c5d9183f1ecae08afe3202))
+
 ## 2.1.4
 
  - Update a dependency to the latest release.
