@@ -297,11 +297,14 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
         .create(SchedulerQuery.generateScheduleId(
           time: time,
           command: ModelServerCommandPushNotificationSchedule.command,
+          target: topic.isEmpty
+              ? tokens?.value.sortTo().join().limit(256)
+              : topic?.limit(256),
         ));
     final document = PushNotificationScheduleModelDocument(
       modelQuery.copyWith(adapter: m),
     );
-    await document.load();
+    await document.reload();
     await document.save(
       document.value?.copyWith(
             command: ModelServerCommandPushNotificationSchedule(
