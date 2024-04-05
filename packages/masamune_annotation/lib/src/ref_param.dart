@@ -4,6 +4,8 @@ part of '/masamune_annotation.dart';
 ///
 /// Define the class of the document by specifying [documentType].
 ///
+/// When [adapter] is specified, you can specify the [ModelAdapter] of the data to be read.
+///
 /// Use with `freezed`, etc.
 ///
 /// If this field is present, a `ModelRefMixin` is automatically assigned to the document.
@@ -11,6 +13,8 @@ part of '/masamune_annotation.dart';
 /// [CollectionModelPath]や[DocumentModelPath]の各フィールドを指定する際に他のドキュメントを参照するときにフィールドに指定することでその参照ドキュメントを合わせてロードすることができます。
 ///
 /// [documentType]を指定してドキュメントのクラスを定義します。
+///
+/// [adapter]を指定すると、読み込むデータの[ModelAdapter]を指定することができます。
 ///
 /// `freezed`などと共に利用してください。
 ///
@@ -41,6 +45,8 @@ class RefParam {
   ///
   /// Define the class of the document by specifying [documentType].
   ///
+  /// When [adapter] is specified, you can specify the [ModelAdapter] of the data to be read.
+  ///
   /// Use with `freezed`, etc.
   ///
   /// If this field is present, a `ModelRefMixin` is automatically assigned to the document.
@@ -48,6 +54,8 @@ class RefParam {
   /// [CollectionModelPath]や[DocumentModelPath]の各フィールドを指定する際に他のドキュメントを参照するときにフィールドに指定することでその参照ドキュメントを合わせてロードすることができます。
   ///
   /// [documentType]を指定してドキュメントのクラスを定義します。
+  ///
+  /// [adapter]を指定すると、読み込むデータの[ModelAdapter]を指定することができます。
   ///
   /// `freezed`などと共に利用してください。
   ///
@@ -73,10 +81,15 @@ class RefParam {
   ///   static const collection = _$ShopModelCollectionQuery();
   /// }
   /// ```
-  const RefParam(this.documentType);
+  const RefParam(this.documentType, {this.adapter});
 
   /// Defines the document type as it is.
   ///
   /// ドキュメントのタイプをそのまま定義します。
   final Type documentType;
+
+  /// Specify the [ModelAdapter] of the data to be read.
+  ///
+  /// 読み込むデータの[ModelAdapter]を指定します。
+  final Object? adapter;
 }
