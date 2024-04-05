@@ -15,6 +15,41 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_builder` - `v2.15.0`](#masamune_builder---v2150)
+ - [`masamune_notification` - `v2.5.36`](#masamune_notification---v2536)
+ - [`masamune_model_firestore_builder` - `v2.2.15`](#masamune_model_firestore_builder---v2215)
+ - [`masamune_notification_firebase` - `v2.5.41`](#masamune_notification_firebase---v2541)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_firestore_builder` - `v2.2.15`
+ - `masamune_notification_firebase` - `v2.5.41`
+
+---
+
+#### `masamune_builder` - `v2.15.0`
+
+ - **FEAT**: Added the possibility of setting "adapter" to RefParam. ([998c46c5](https://github.com/mathrunet/flutter_masamune/commit/998c46c5564fe1815cbe128c3d51fb9bc7f81660))
+
+#### `masamune_notification` - `v2.5.36`
+
+ - **FIX**: Target is now set in NotificationSchedule. ([ea51d9fc](https://github.com/mathrunet/flutter_masamune/commit/ea51d9fcafebe1da30d7a17a8303602713046ce8))
+
+
+## 2024-04-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_annotation` - `v2.6.5`](#masamune_annotation---v265)
  - [`masamune_builder` - `v2.14.3`](#masamune_builder---v2143)
  - [`masamune` - `v2.11.5`](#masamune---v2115)
