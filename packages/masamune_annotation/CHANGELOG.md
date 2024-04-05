@@ -1,3 +1,7 @@
+## 2.6.5
+
+ - **FIX**: Added an adapter parameter to RefParam. ([cd29749b](https://github.com/mathrunet/flutter_masamune/commit/cd29749bc33d3b11c212a28f05c6eed97958b468))
+
 ## 2.6.4
 
  - Update a dependency to the latest release.
