@@ -26,21 +26,37 @@ class ParamaterValue {
     required = element.isRequired;
     isSearchable = _searchParamChecker.hasAnnotationOfExact(element);
     if (_refParamChecker.hasAnnotationOfExact(element)) {
-      String? res;
-      for (final item in element.metadata) {
-        final match = _refParamRegExp.firstMatch(item.toSource());
-        if (match != null) {
-          res = match.group(1);
-          break;
+      String? referenceDoc;
+      String? referenceAdapter;
+      for (final meta in element.metadata) {
+        final source = meta.toSource();
+        final refParamMatch = _refParamRegExp.firstMatch(source);
+        if (refParamMatch != null) {
+          final adapterMatch = _adapterRegExp.firstMatch(source);
+          referenceDoc = refParamMatch
+              .group(1)
+              ?.replaceAll(adapterMatch?.group(0) ?? "", "")
+              .trim()
+              .trimString(",")
+              .trim();
+        }
+        final adapterMatch = _adapterRegExp.firstMatch(source);
+        if (adapterMatch != null) {
+          final match = adapterMatch.group(1)?.trim().trimString(",").trim();
+          if (match.isNotEmpty) {
+            referenceAdapter = match!.trimString("'").trimString('"');
+          } else {
+            referenceAdapter = null;
+          }
         }
       }
-      final referenceDoc = res?.trim();
       final referenceType = type.typeArguments.first;
       final referenceValue = referenceType.toString();
       if (referenceDoc.isNotEmpty && referenceValue.isNotEmpty) {
         reference = ReferenceValue(
           valueType: referenceValue,
           documentType: referenceDoc!,
+          adapter: referenceAdapter,
           type: type.isDartCoreList
               ? ReferenceValueType.list
               : type.isDartCoreMap
@@ -70,6 +86,7 @@ class ParamaterValue {
     }
   }
   static final _refParamRegExp = RegExp(r"^@RefParam\((.+)\)$");
+  static final _adapterRegExp = RegExp(r"adapter\s*:\s*([^,\)]+),?");
 
   /// Parameter Element.
   ///
@@ -128,6 +145,7 @@ class ReferenceValue {
     required this.valueType,
     required this.documentType,
     required this.type,
+    this.adapter,
   });
 
   /// Value Type.
@@ -144,6 +162,11 @@ class ReferenceValue {
   ///
   /// 値のタイプ。
   final ReferenceValueType type;
+
+  /// Model adapter.
+  ///
+  /// モデルアダプター。
+  final String? adapter;
 
   @override
   String toString() {
