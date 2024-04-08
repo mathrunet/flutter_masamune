@@ -1,3 +1,7 @@
+## 2.5.37
+
+ - Update a dependency to the latest release.
+
 ## 2.5.36
 
  - **FIX**: Target is now set in NotificationSchedule. ([ea51d9fc](https://github.com/mathrunet/flutter_masamune/commit/ea51d9fcafebe1da30d7a17a8303602713046ce8))

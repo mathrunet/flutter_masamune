@@ -1,3 +1,7 @@
+## 2.2.8
+
+ - **FIX**: Fixed a bug that caused the page to go back when hot reloading. ([1a84b636](https://github.com/mathrunet/flutter_masamune/commit/1a84b6361be7c3823e44d0631f88b00f39f8d3d6))
+
 ## 2.2.7
 
  - Update a dependency to the latest release.
