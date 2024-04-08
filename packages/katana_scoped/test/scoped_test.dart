@@ -20,7 +20,7 @@ void main() {
     appRef.watch((ref) => ValueNotifier(0), name: "2");
     appRef.watch((ref) => ValueNotifier(2), name: "3");
     appRef.watch((ref) => ValueNotifier(2), name: "4");
-    appRef.reset();
+    appRef.clear();
     expect(
         (await logger.logList())
             .map((e) => "${e.name}: ${e.parameters.get("name", "")}"),
@@ -39,7 +39,7 @@ void main() {
     final n2 = appRef.watch((ref) => ValueNotifier(0));
     expect(n2.value, 1);
     expect(n1 == n2, true);
-    appRef.reset();
+    appRef.clear();
     final n3 = appRef.watch((ref) => ValueNotifier(2));
     expect(n3.value, 2);
     expect(n1 != n3, true);

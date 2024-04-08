@@ -423,8 +423,12 @@ class _MasamuneAppState extends State<MasamuneApp> {
         _key = null;
       });
       try {
-        widget.appRef?.reset();
+        widget.appRef?.clear();
         await onRestart();
+        final router = widget.routerConfig;
+        if (router != null && router is AppRouter) {
+          router.clear();
+        }
       } catch (e) {
         debugPrint(e.toString());
       }

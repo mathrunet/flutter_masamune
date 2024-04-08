@@ -100,6 +100,9 @@ class AppRef implements Ref {
         ?.build();
   }
 
+  @Deprecated("Use [clear] instead.")
+  void reset() => clear();
+
   /// Discard and clear all appscope states.
   ///
   /// Please use this function to reset the application once, such as when logging out.
@@ -107,8 +110,8 @@ class AppRef implements Ref {
   /// すべてのアプリスコープの状態を破棄してクリアします。
   ///
   /// ログアウト時など一旦アプリをリセットする場合にご利用ください。
-  void reset() {
-    _scopedValueContainer.reset();
+  void clear() {
+    _scopedValueContainer.clear();
   }
 }
 

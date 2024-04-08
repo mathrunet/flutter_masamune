@@ -169,6 +169,9 @@ class ScopedValueContainer extends ChangeNotifier {
     }
   }
 
+  @Deprecated("Use [clear] instead.")
+  void reset() => clear();
+
   /// The contents of [ScopedValueContainer] are discarded and reset once.
   ///
   /// ScopedValueState.dispose] of the retained state is executed.
@@ -176,7 +179,7 @@ class ScopedValueContainer extends ChangeNotifier {
   /// [ScopedValueContainer]の中身を破棄し一旦リセットします。
   ///
   /// 保持している状態の[ScopedValueState.dispose]が実行されます。
-  void reset() {
+  void clear() {
     // エラーになっても削除しきるように修正。
     try {
       final values = _data.values.toList();
@@ -222,6 +225,6 @@ class ScopedValueContainer extends ChangeNotifier {
   @override
   void dispose() {
     super.dispose();
-    reset();
+    clear();
   }
 }

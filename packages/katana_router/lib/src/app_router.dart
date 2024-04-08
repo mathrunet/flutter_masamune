@@ -486,7 +486,7 @@ class AppRouter extends ChangeNotifier
   /// Clears all router pages and returns to the startup state.
   ///
   /// すべてのルーターのページをクリアし起動時の状態に戻します。
-  void _clear() {
+  void clear() {
     _pageStack.clear();
     _pages.clear();
     __routeInformationProvider = null;
