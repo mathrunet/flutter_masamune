@@ -1,3 +1,7 @@
+## 2.13.1
+
+ - **FIX**: Fixes around Uuid. ([d0396836](https://github.com/mathrunet/flutter_masamune/commit/d0396836a73c91f722cd2b2f4c3f2aa09b695234))
+
 ## 2.13.0
 
  - **FEAT**: Added toStringWithCommas. ([af4c1a07](https://github.com/mathrunet/flutter_masamune/commit/af4c1a076b529cd93eea52b5fade15f91d4ad35b))

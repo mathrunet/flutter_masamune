@@ -1,3 +1,7 @@
+## 2.18.4
+
+ - Update a dependency to the latest release.
+
 ## 2.18.3
 
  - **FIX**: Package upgrade. ([aa9f1982](https://github.com/mathrunet/flutter_masamune/commit/aa9f1982aa2111eade4b66b21b7facb7ef567b06))

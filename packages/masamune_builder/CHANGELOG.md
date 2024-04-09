@@ -1,3 +1,7 @@
+## 2.15.1
+
+ - Update a dependency to the latest release.
+
 ## 2.15.0
 
  - **FEAT**: Added the possibility of setting "adapter" to RefParam. ([998c46c5](https://github.com/mathrunet/flutter_masamune/commit/998c46c5564fe1815cbe128c3d51fb9bc7f81660))

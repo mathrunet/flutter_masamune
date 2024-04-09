@@ -1,3 +1,7 @@
+## 2.12.9
+
+ - Update a dependency to the latest release.
+
 ## 2.12.8
 
  - **FIX**: Support for color reflection of borders. ([d96abe48](https://github.com/mathrunet/flutter_masamune/commit/d96abe48e69b025c4d72dba6b6ca284f4170ca6f))

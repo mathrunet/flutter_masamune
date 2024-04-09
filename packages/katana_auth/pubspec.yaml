@@ -1,6 +1,6 @@
 name: katana_auth
 description: Base package to facilitate switching between Local and Firebase authentication implementations.
-version: 2.8.2
+version: 2.8.3
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_auth
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.13.0
-  katana_logger: ^2.2.2
+  katana: ^2.13.1
+  katana_logger: ^2.2.3
   path_provider: ^2.0.11
   shared_preferences: ^2.0.15
 
