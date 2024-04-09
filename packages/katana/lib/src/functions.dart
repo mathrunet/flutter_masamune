@@ -52,7 +52,7 @@ String uuid({DateTime? baseTime, bool reverse = false}) {
 }
 
 List<int> _randomData() {
-  Uint8List seedBytes = const MathRNG().generate();
+  Uint8List seedBytes = MathRNG().generate();
 
   List<int> randomData = [
     seedBytes[0],
