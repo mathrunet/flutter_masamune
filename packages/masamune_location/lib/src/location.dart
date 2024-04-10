@@ -111,6 +111,9 @@ class Location
   Future<bool> requestPermission({
     Duration timeout = const Duration(seconds: 60),
   }) async {
+    if (kIsWeb) {
+      return true;
+    }
     _permissionStatus =
         await Permission.locationWhenInUse.status.timeout(timeout);
     if (_permissionStatus != PermissionStatus.granted) {
