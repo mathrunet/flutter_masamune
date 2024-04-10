@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-04-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_location` - `v2.3.41`](#masamune_location---v2341)
+ - [`masamune_location_google` - `v2.4.42`](#masamune_location_google---v2442)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_google` - `v2.4.42`
+
+---
+
+#### `masamune_location` - `v2.3.41`
+
+ - **FIX**: Modified not to send PermissionRequest in case of Web. ([9a3fd5a6](https://github.com/mathrunet/flutter_masamune/commit/9a3fd5a6767891ca7e53a54edf27d618d32b6f5a))
+
+
 ## 2024-04-09
 
 ### Changes
