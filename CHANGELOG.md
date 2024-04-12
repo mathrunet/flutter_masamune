@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-04-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.18.5`](#katana_cli---v2185)
+
+---
+
+#### `katana_cli` - `v2.18.5`
+
+ - **FIX**: Java version can be specified in Android. ([9b9cbc60](https://github.com/mathrunet/flutter_masamune/commit/9b9cbc604af65a1254d114189b3f2d166dcc1ed2))
+
+
 ## 2024-04-10
 
 ### Changes
