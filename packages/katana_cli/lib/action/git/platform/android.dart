@@ -273,6 +273,14 @@ jobs:
       - name: Checks-out my repository
         uses: actions/checkout@v2
 
+      # Set up JDK 17.
+      # JDK 17のセットアップ
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: microsoft
+          java-version: "17.0.10"
+
       # Install flutter.
       # Flutterのインストール。
       - name: Install flutter
