@@ -19,31 +19,21 @@ const int _kIntMaxValue = 9007199254740991;
 /// [baseTime]を指定した場合、生成する日時を調節できます。[reverse]を指定した場合は、[baseTime]からの経過時間を反転させた値を使用します。
 String uuid({DateTime? baseTime, bool reverse = false}) {
   const uuid = Uuid();
-  if (baseTime != null) {
-    if (reverse) {
-      return uuid
-          .v7(
-            config: V7Options(
-              _kIntMaxValue - baseTime.toUtc().millisecondsSinceEpoch,
-              _randomData(),
-            ),
-          )
-          .replaceAll("-", "");
-    } else {
-      return uuid
-          .v7(
-            config: V7Options(
-              baseTime.toUtc().millisecondsSinceEpoch,
-              _randomData(),
-            ),
-          )
-          .replaceAll("-", "");
-    }
+  baseTime ??= DateTime.now();
+  if (reverse) {
+    return uuid
+        .v7(
+          config: V7Options(
+            _kIntMaxValue - baseTime.toUtc().millisecondsSinceEpoch,
+            _randomData(),
+          ),
+        )
+        .replaceAll("-", "");
   } else {
     return uuid
         .v7(
           config: V7Options(
-            DateTime.now().toUtc().millisecondsSinceEpoch,
+            baseTime.toUtc().millisecondsSinceEpoch,
             _randomData(),
           ),
         )
