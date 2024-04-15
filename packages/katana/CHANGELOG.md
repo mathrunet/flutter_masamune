@@ -1,3 +1,7 @@
+## 2.13.2
+
+ - **FIX**: Made uuid reverse available without baseTime. ([58915403](https://github.com/mathrunet/flutter_masamune/commit/589154033d7dccd551b0537513f5e1d7ca0e133e))
+
 ## 2.13.1
 
  - **FIX**: Fixes around Uuid. ([d0396836](https://github.com/mathrunet/flutter_masamune/commit/d0396836a73c91f722cd2b2f4c3f2aa09b695234))

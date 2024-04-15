@@ -1,3 +1,7 @@
+## 2.18.6
+
+ - Update a dependency to the latest release.
+
 ## 2.18.5
 
  - **FIX**: Java version can be specified in Android. ([9b9cbc60](https://github.com/mathrunet/flutter_masamune/commit/9b9cbc604af65a1254d114189b3f2d166dcc1ed2))

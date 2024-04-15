@@ -1,3 +1,7 @@
+## 2.3.42
+
+ - Update a dependency to the latest release.
+
 ## 2.3.41
 
  - **FIX**: Modified not to send PermissionRequest in case of Web. ([9a3fd5a6](https://github.com/mathrunet/flutter_masamune/commit/9a3fd5a6767891ca7e53a54edf27d618d32b6f5a))
