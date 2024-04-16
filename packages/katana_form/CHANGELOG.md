@@ -1,3 +1,7 @@
+## 2.12.11
+
+ - **FIX**: Fixed a problem with icons overflowing. ([8ac5ef1a](https://github.com/mathrunet/flutter_masamune/commit/8ac5ef1aa63bb16a57730e05a3c78a4df9df37bf))
+
 ## 2.12.10
 
  - Update a dependency to the latest release.
