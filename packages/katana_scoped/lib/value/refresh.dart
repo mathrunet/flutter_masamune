@@ -4,9 +4,9 @@ part of 'value.dart';
 ///
 /// ウィジェットの更新を行うための[PageOrWidgetScopedValueRef]用の拡張メソッドを提供します。
 extension RefRefreshExtensions on PageOrWidgetScopedValueRef {
-  /// When executed, it redraws the associated widget.
-  ///
-  /// 実行すると関連するウィジェットの再描画を行ないます。
+  @Deprecated(
+    "You will no longer be able to use [refresh] in widget scope. Please use [ref.refresh] instead and limit its use to page scope only. Widgetスコープでの[refresh]の利用はできなくなります。代わりに[ref.refresh]を利用し、ページスコープのみでの利用に限定してください。Widgetスコープでの利用はできません。",
+  )
   void refresh() {
     return getScopedValue<void, _RefreshValue>(
       (ref) => const _RefreshValue(),
@@ -23,7 +23,11 @@ extension RefHasPageRefreshExtensions on RefHasPage {
   ///
   /// 実行すると関連するウィジェットの再描画を行ないます。
   void refresh() {
-    return page.refresh();
+    // ignore: invalid_use_of_protected_member
+    return page.getScopedValue<void, _RefreshValue>(
+      (ref) => const _RefreshValue(),
+      listen: true,
+    );
   }
 }
 

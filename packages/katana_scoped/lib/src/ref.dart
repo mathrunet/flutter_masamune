@@ -154,6 +154,7 @@ abstract class RefHasApp implements RefOrRefHasAny {
   /// [Ref] in the application scope.
   ///
   /// アプリケーションスコープの[Ref]。
+  @protected
   AppScopedValueRef get app;
 }
 
@@ -183,6 +184,7 @@ abstract class RefHasPage implements RefOrRefHasAny {
   /// [Ref] in the page scope.
   ///
   /// ページスコープの[Ref]。
+  @protected
   PageScopedValueRef get page;
 }
 
@@ -212,6 +214,7 @@ abstract class RefHasWidget implements RefOrRefHasAny {
   /// [Ref] in the widget scope.
   ///
   /// ウィジェットスコープの[Ref]。
+  @protected
   WidgetScopedValueRef get widget;
 }
 

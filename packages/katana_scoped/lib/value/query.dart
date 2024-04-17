@@ -10,6 +10,57 @@ extension RefQueryExtensions on Ref {
   ///
   /// [ScopedQuery] allows you to cache all values, while [ChangeNotifierScopedQuery] monitors values and notifies updates when they change.
   ///
+  /// Only available internally.
+  ///
+  /// [query]を渡して状態を管理することが可能です。
+  ///
+  /// [ScopedQuery]をグローバルなスコープに定義しておくことで状態を個別に安全に管理することができます。
+  ///
+  /// [ScopedQuery]を使うとすべての値をキャッシュすることができ、[ChangeNotifierScopedQuery]を使うと値を監視して変更時に更新通知を行います。
+  ///
+  /// 内部でのみ利用可能です。
+  ///
+  /// ```dart
+  /// final valueNotifierQuery = ChangeNotifierScopedQuery(
+  ///   () => ValueNotifier(0),
+  /// );
+  ///
+  /// class TestPage extends PageScopedWidget {
+  ///   @override
+  ///   Widget build(BuildContext context, PageRef ref) {
+  ///     final valueNotifier = appRef.query(valueNotifierQuery);
+  ///
+  ///     return Scaffold(
+  ///       body: Center(child: Text("${valueNotifier.value}")),
+  ///     );
+  ///   }
+  /// }
+  /// ```
+  @protected
+  T query<T>(ScopedQuery<T> query) {
+    return getScopedValue<T, _QueryValue<T>>(
+      (ref) => _QueryValue<T>(
+        query: query,
+        ref: ref,
+        listen: query.listen,
+        autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
+      ),
+      listen: query.listen,
+      name: query.queryName,
+    );
+  }
+}
+
+/// Provides an extension method for [AppRef] to manage state using [ScopedQuery].
+///
+/// [ScopedQuery]を用いた状態管理を行うための[AppRef]用の拡張メソッドを提供します。
+extension AppRefQueryExtensions on AppRef {
+  /// It is possible to manage the status by passing [query].
+  ///
+  /// Defining [ScopedQuery] in a global scope allows you to manage state individually and safely.
+  ///
+  /// [ScopedQuery] allows you to cache all values, while [ChangeNotifierScopedQuery] monitors values and notifies updates when they change.
+  ///
   /// [query]を渡して状態を管理することが可能です。
   ///
   /// [ScopedQuery]をグローバルなスコープに定義しておくことで状態を個別に安全に管理することができます。
@@ -24,7 +75,7 @@ extension RefQueryExtensions on Ref {
   /// class TestPage extends PageScopedWidget {
   ///   @override
   ///   Widget build(BuildContext context, PageRef ref) {
-  ///     final valueNotifier = ref.page.query(valueNotifierQuery);
+  ///     final valueNotifier = appRef.query(valueNotifierQuery);
   ///
   ///     return Scaffold(
   ///       body: Center(child: Text("${valueNotifier.value}")),
@@ -79,7 +130,17 @@ extension RefHasAppQueryExtensions on RefHasApp {
   /// }
   /// ```
   T query<T>(ScopedQuery<T> query) {
-    return app.query(query);
+    // ignore: invalid_use_of_protected_member
+    return app.getScopedValue<T, _QueryValue<T>>(
+      (ref) => _QueryValue<T>(
+        query: query,
+        ref: ref,
+        listen: query.listen,
+        autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
+      ),
+      listen: query.listen,
+      name: query.queryName,
+    );
   }
 }
 

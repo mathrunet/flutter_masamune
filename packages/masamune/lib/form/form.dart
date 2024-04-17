@@ -18,6 +18,7 @@ extension MasamuneFormRefHasPageExtensions on RefHasPage {
   FormController<TModel> form<TModel>(
     FormControllerQueryBase<TModel> query,
   ) {
+    // ignore: invalid_use_of_protected_member
     return page.query(query);
   }
 }

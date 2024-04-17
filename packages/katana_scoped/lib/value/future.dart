@@ -4,21 +4,9 @@ part of 'value.dart';
 ///
 /// [Future]の監視を行うための[Ref]用の拡張メソッドを提供します。
 extension RefFutureExtensions on Ref {
-  /// You can pass a [callback] that returns [Future] and wait for it.
-  ///
-  /// When [FutureContext] is returned and [Future] finishes, the screen is redrawn.
-  ///
-  /// If [keys] is different from the previous value, [callback] is executed again and the new [FutureContext] is saved.
-  ///
-  /// If [name] is specified, it is saved as a separate type. If [keys] is changed, the previous state is discarded, but if [name] is changed, it is kept as a separate state.
-  ///
-  /// [Future]を返す[callback]を渡すとそれを待つことができます。
-  ///
-  /// [FutureContext]が返され[Future]が終了すると画面を再描画します。
-  ///
-  /// [keys]が前の値と違う場合再度[callback]が実行され、新しい[FutureContext]が保存されます。
-  ///
-  /// [name]を指定すると別のタイプとして保存されます。[keys]を変えた場合は以前の状態は破棄されますが、[name]を変えた場合は別々の状態として保持されます。
+  @Deprecated(
+    "You will no longer be able to use [future] in App scope. Please use [ref.future] instead and limit its use to page scope only. Appスコープでの[future]の利用はできなくなります。代わりに[ref.future]を利用し、ページスコープのみでの利用に限定してください。Appスコープでの利用はできません。",
+  )
   FutureContext<T> future<T>(
     FutureOr<T> Function() callback, {
     List<Object> keys = const [],
@@ -60,9 +48,14 @@ extension RefHasPageFutureExtensions on RefHasPage {
     List<Object> keys = const [],
     Object? name,
   }) {
-    return page.future<T>(
-      callback,
-      keys: keys,
+    // ignore: invalid_use_of_protected_member
+    return page.getScopedValue<FutureContext<T>, _FutureValue<T>>(
+      (ref) => _FutureValue<T>(
+        callback: callback,
+        keys: keys,
+        ref: ref,
+      ),
+      listen: true,
       name: name,
     );
   }

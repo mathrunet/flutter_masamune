@@ -32,7 +32,7 @@ extension MasamuneRouterRefHasPageExtensions on RefHasPage {
     TransitionQuery? defaultTransitionQuery,
     Object? name,
   }) {
-    return page.watch(
+    return watch(
       (ref) {
         return NestedAppRouter(
           initialQuery: initialQuery,
@@ -62,7 +62,7 @@ extension MasamuneRouterRefHasPageExtensions on RefHasPage {
   NestedAppRouter nestedRouter({
     Object? name,
   }) {
-    final router = page.fetch<NestedAppRouter>(name);
+    final router = fetch<NestedAppRouter>(name);
     if (router == null) {
       throw Exception("The router does not exist.");
     }

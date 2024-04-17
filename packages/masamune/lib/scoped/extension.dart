@@ -8,7 +8,7 @@ extension ControllerQueryBaseExtensions<TController extends Listenable>
   /// Get [TController] stored in [ref] in the same way as `ref.app.controller`.
   ///
   /// `ref.app.controller`と同じように[ref]に格納されている[TController]を取得します。
-  TController read(Ref ref) {
+  TController read(AppRef ref) {
     return ref.controller(this);
   }
 
@@ -19,18 +19,23 @@ extension ControllerQueryBaseExtensions<TController extends Listenable>
   /// `ref.app.controller`と同じように[ref]に関連するウィジェットで監視を行いつつ[TController]を取得します。
   ///
   /// アプリスコープで[TController]が保持されます。
+  TController watch(RefHasApp ref) {
+    return ref.controller(this);
+  }
+
+  @Deprecated(
+    "This method is no longer available. Please use [watch] instead. このメソッドは利用できなくなります。代わりに[watch]を利用してください。",
+  )
   TController watchOnApp(RefHasApp ref) {
+    // ignore: invalid_use_of_protected_member
     return ref.app.controller(this);
   }
 
-  /// Get [TController] while monitoring with widgets related to [ref] in the same way as `ref.page.controller`.
-  ///
-  /// [TController] is retained in the page scope.
-  ///
-  /// `ref.page.controller`と同じように[ref]に関連するウィジェットで監視を行いつつ[TController]を取得します。
-  ///
-  /// ページスコープで[TController]が保持されます。
+  @Deprecated(
+    "This method is no longer available. Please use [watch] instead. このメソッドは利用できなくなります。代わりに[watch]を利用してください。",
+  )
   TController watchOnPage(RefHasPage ref) {
+    // ignore: invalid_use_of_protected_member
     return ref.page.controller(this);
   }
 }
@@ -40,9 +45,9 @@ extension ControllerQueryBaseExtensions<TController extends Listenable>
 /// [Listenable]の拡張メソッドです。
 extension ListenableQueryExtensions<TController extends Listenable>
     on TController {
-  /// Get [TController] while monitoring with widgets related to [ref] in the same way as `ref.global`.
-  ///
-  /// `ref.global`と同じように[ref]に関連するウィジェットで監視を行いつつ[TController]を取得します。
+  @Deprecated(
+    "This method will no longer be available. このメソッドは利用できなくなります。",
+  )
   TController watch(RefHasApp ref) {
     return ref.global(this);
   }

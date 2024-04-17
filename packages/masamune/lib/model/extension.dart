@@ -64,7 +64,7 @@ extension ModelQueryBaseExtensions<TModel extends Listenable>
   /// Get [TModel] stored in [ref] in the same way as `ref.model`.
   ///
   /// `ref.model`と同じように[ref]に格納されている[TModel]を取得します。
-  TModel read(Ref ref) {
+  TModel read(AppRef ref) {
     return ref.model(this);
   }
 }

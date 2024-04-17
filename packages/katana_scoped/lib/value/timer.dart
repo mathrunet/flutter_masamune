@@ -4,17 +4,9 @@ part of 'value.dart';
 ///
 /// [Timer]の処理を行うための[PageOrWidgetScopedValueRef]用の拡張メソッドを提供します。
 extension RefTimerExtensions on PageOrWidgetScopedValueRef {
-  /// [callback] to be executed again after [duration].
-  ///
-  /// The start time and the current time [DateTime] are passed so that processing can be performed based on them.
-  ///
-  /// If [name] is specified, it can be registered as a separate task.
-  ///
-  /// [duration]後に再度実行される[callback]を実行します。
-  ///
-  /// 開始時刻と現在時刻の[DateTime]が渡されるのでそれを元に処理を行うことができます。
-  ///
-  /// [name]を指定すると別のタスクとして登録することができます。
+  @Deprecated(
+    "You will no longer be able to use [timer] in widget scope. Please use [ref.timer] instead and limit its use to page scope only. Widgetスコープでの[timer]の利用はできなくなります。代わりに[ref.timer]を利用し、ページスコープのみでの利用に限定してください。Widgetスコープでの利用はできません。",
+  )
   Timer? timer(
     FutureOr<void> Function(DateTime currentTime, DateTime startTime)
         callback, {
@@ -53,6 +45,7 @@ extension RefHasPageTimerExtensions on RefHasPage {
     required Duration duration,
     Object? name,
   }) {
+    // ignore: invalid_use_of_protected_member
     return page.getScopedValue<Timer?, _TimerValue>(
       (ref) => _TimerValue(
         callback: callback,

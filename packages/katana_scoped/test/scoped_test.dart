@@ -7,7 +7,25 @@ import 'package:test/test.dart';
 // Project imports:
 import 'package:katana_scoped/katana_scoped.dart';
 
+final scopedQuery = ChangeNotifierScopedQuery((ref) => ValueNotifier(0));
+
 void main() {
+  test("ScopedQuery", () async {
+    final container = ScopedValueContainer();
+    const logger = RuntimeLoggerAdapter();
+    final appRef = AppRef(
+      scopedValueContainer: container,
+      loggerAdapters: const [logger],
+    );
+    final value = appRef.query(scopedQuery);
+    expect(value.value, 0);
+    value.value = 1;
+    expect(value.value, 1);
+    final value2 = appRef.query(scopedQuery);
+    expect(value.value, 1);
+    value.value = 2;
+    expect(value2.value, 2);
+  });
   test("Logger Test", () async {
     WidgetsFlutterBinding.ensureInitialized();
     final container = ScopedValueContainer();
