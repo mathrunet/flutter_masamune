@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^2.11.9
+  masamune: ^2.12.0
   masamune_purchase_stripe:
     path: "../"
 
