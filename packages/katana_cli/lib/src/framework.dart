@@ -510,16 +510,18 @@ Future<void> addFlutterImport(
       }
       addPackages.add(package);
     }
-    await command(
-      "Import packages.",
-      [
-        flutterCommand,
-        "pub",
-        "add",
-        "--dev",
-        ...addPackages,
-      ],
-    );
+    if (addPackages.isNotEmpty) {
+      await command(
+        "Import packages.",
+        [
+          flutterCommand,
+          "pub",
+          "add",
+          "--dev",
+          ...addPackages,
+        ],
+      );
+    }
   } else {
     final dependencies = pubspec.getAsMap("dependencies");
     for (final package in packages) {
@@ -528,15 +530,17 @@ Future<void> addFlutterImport(
       }
       addPackages.add(package);
     }
-    await command(
-      "Import packages.",
-      [
-        flutterCommand,
-        "pub",
-        "add",
-        ...addPackages,
-      ],
-    );
+    if (addPackages.isNotEmpty) {
+      await command(
+        "Import packages.",
+        [
+          flutterCommand,
+          "pub",
+          "add",
+          ...addPackages,
+        ],
+      );
+    }
   }
 }
 
