@@ -73,29 +73,29 @@ class RuntimeStorageAdapter extends StorageAdapter {
   static final MemoryStorage localStorage = MemoryStorage();
 
   @override
-  Future<void> delete(String relativePath) async {
-    await remoteStorage.delete(relativePath);
+  Future<void> delete(String remoteRelativePathOrId) async {
+    await remoteStorage.delete(remoteRelativePathOrId);
   }
 
   @override
-  Future<Uri> fetchDownloadURI(String remoteRelativePath) async =>
-      fetchPublicURI(remoteRelativePath);
+  Future<Uri> fetchDownloadURI(String remoteRelativePathOrId) async =>
+      fetchPublicURI(remoteRelativePathOrId);
 
   @override
-  Future<Uri> fetchPublicURI(String remoteRelativePath) async {
-    final bytes = await remoteStorage.read(remoteRelativePath);
+  Future<Uri> fetchPublicURI(String remoteRelativePathOrId) async {
+    final bytes = await remoteStorage.read(remoteRelativePathOrId);
     return Uri.parse("blob:${base64Url.encode(bytes)}");
   }
 
   @override
   Future<LocalFile> download(
-    String remoteRelativePath, [
+    String remoteRelativePathOrId, [
     String? localRelativePath,
   ]) async {
-    if (!await remoteStorage.exists(remoteRelativePath)) {
-      throw Exception("File could not be found: $remoteRelativePath");
+    if (!await remoteStorage.exists(remoteRelativePathOrId)) {
+      throw Exception("File could not be found: $remoteRelativePathOrId");
     }
-    final bytes = await remoteStorage.read(remoteRelativePath);
+    final bytes = await remoteStorage.read(remoteRelativePathOrId);
     if (localRelativePath.isNotEmpty) {
       final localFullPath = await localStorage.fetchURI(localRelativePath!);
       if (await localStorage.exists(localFullPath)) {
@@ -111,19 +111,19 @@ class RuntimeStorageAdapter extends StorageAdapter {
   @override
   Future<RemoteFile> upload(
     String localFullPath,
-    String remoteRelativePath,
+    String remoteRelativePathOrId,
   ) async {
     if (!await localStorage.exists(localFullPath)) {
       throw Exception("File could not be found: $localFullPath");
     }
     final bytes = await localStorage.read(localFullPath);
-    final remoteFullPath = await remoteStorage.fetchURI(remoteRelativePath);
+    final remoteFullPath = await remoteStorage.fetchURI(remoteRelativePathOrId);
     if (await remoteStorage.exists(remoteFullPath)) {
       await remoteStorage.delete(remoteFullPath);
     }
     await remoteStorage.write(remoteFullPath, bytes);
     return RemoteFile(
-      path: await fetchPublicURI(remoteRelativePath),
+      path: await fetchPublicURI(remoteRelativePathOrId),
       bytes: bytes,
     );
   }
@@ -131,16 +131,24 @@ class RuntimeStorageAdapter extends StorageAdapter {
   @override
   Future<RemoteFile> uploadWithBytes(
     Uint8List uploadFileByte,
-    String remoteRelativePath,
+    String remoteRelativePathOrId,
   ) async {
-    final remoteFullPath = await remoteStorage.fetchURI(remoteRelativePath);
+    final remoteFullPath = await remoteStorage.fetchURI(remoteRelativePathOrId);
     if (await remoteStorage.exists(remoteFullPath)) {
       await remoteStorage.delete(remoteFullPath);
     }
     await remoteStorage.write(remoteFullPath, uploadFileByte);
     return RemoteFile(
-      path: await fetchPublicURI(remoteRelativePath),
+      path: await fetchPublicURI(remoteRelativePathOrId),
       bytes: uploadFileByte,
     );
+  }
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode {
+    return _storage.hashCode;
   }
 }

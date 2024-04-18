@@ -341,7 +341,7 @@ class LocalModelAdapter extends ModelAdapter {
 
   @override
   int get hashCode {
-    return prefix.hashCode ^ database.hashCode ^ initialValue.hashCode;
+    return prefix.hashCode ^ _database.hashCode;
   }
 
   @override

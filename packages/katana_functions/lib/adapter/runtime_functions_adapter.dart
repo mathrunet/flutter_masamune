@@ -23,4 +23,10 @@ class RuntimeFunctionsAdapter extends FunctionsAdapter {
   @override
   Future<TResponse> execute<TResponse>(FunctionsAction<TResponse> action) =>
       action.execute((map) async => {});
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
 }

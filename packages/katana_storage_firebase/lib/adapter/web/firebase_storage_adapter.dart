@@ -177,15 +177,15 @@ class FirebaseStorageAdapter extends StorageAdapter {
   final FirebaseOptions? linuxOptions;
 
   @override
-  Future<Uri> fetchDownloadURI(String remoteRelativePath) async {
+  Future<Uri> fetchDownloadURI(String remoteRelativePathOrId) async {
     await FirebaseCore.initialize(options: options);
-    return Uri.parse(await reference(remoteRelativePath).getDownloadURL());
+    return Uri.parse(await reference(remoteRelativePathOrId).getDownloadURL());
   }
 
   @override
-  Future<Uri> fetchPublicURI(String remoteRelativePath) async {
+  Future<Uri> fetchPublicURI(String remoteRelativePathOrId) async {
     return Uri.parse(
-      "https://firebasestorage.googleapis.com/v0/b/$_storageBucket/o/$remoteRelativePath?alt=media",
+      "https://firebasestorage.googleapis.com/v0/b/$_storageBucket/o/$remoteRelativePathOrId?alt=media",
     );
   }
 
@@ -198,14 +198,14 @@ class FirebaseStorageAdapter extends StorageAdapter {
   }
 
   @override
-  Future<void> delete(String relativePath) async {
+  Future<void> delete(String remoteRelativePathOrId) async {
     await FirebaseCore.initialize(options: options);
-    await reference(relativePath).delete();
+    await reference(remoteRelativePathOrId).delete();
   }
 
   @override
   Future<LocalFile> download(
-    String remoteRelativePath, [
+    String remoteRelativePathOrId, [
     String? localRelativePath,
   ]) async {
     throw UnsupportedError("This feature is not supported.");
@@ -214,7 +214,7 @@ class FirebaseStorageAdapter extends StorageAdapter {
   @override
   Future<RemoteFile> upload(
     String localFullPath,
-    String remoteRelativePath,
+    String remoteRelativePathOrId,
   ) async {
     await FirebaseCore.initialize(options: options);
     try {
@@ -223,9 +223,9 @@ class FirebaseStorageAdapter extends StorageAdapter {
         return RemoteFile(path: Uri.parse(localFullPath));
       }
       final byte = await Api.readBytes(localFullPath);
-      final uploadTask = reference(remoteRelativePath).putData(byte);
+      final uploadTask = reference(remoteRelativePathOrId).putData(byte);
       await Future.value(uploadTask);
-      return RemoteFile(path: await fetchPublicURI(remoteRelativePath));
+      return RemoteFile(path: await fetchPublicURI(remoteRelativePathOrId));
     } catch (e) {
       rethrow;
     }
@@ -234,16 +234,25 @@ class FirebaseStorageAdapter extends StorageAdapter {
   @override
   Future<RemoteFile> uploadWithBytes(
     Uint8List uploadFileByte,
-    String remoteRelativePath,
+    String remoteRelativePathOrId,
   ) async {
     await FirebaseCore.initialize(options: options);
     try {
       assert(uploadFileByte.isNotEmpty, "Bytes is empty.");
-      final uploadTask = reference(remoteRelativePath).putData(uploadFileByte);
+      final uploadTask =
+          reference(remoteRelativePathOrId).putData(uploadFileByte);
       await Future.value(uploadTask);
-      return RemoteFile(path: await fetchPublicURI(remoteRelativePath));
+      return RemoteFile(path: await fetchPublicURI(remoteRelativePathOrId));
     } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode {
+    return _storage.hashCode ^ options.hashCode;
   }
 }

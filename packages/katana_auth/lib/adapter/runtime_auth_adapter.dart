@@ -224,4 +224,10 @@ class RuntimeAuthAdapter extends AuthAdapter {
   void dispose() {
     database.dispose();
   }
+
+  @override
+  int get hashCode => _database.hashCode;
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
 }

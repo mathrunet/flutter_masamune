@@ -204,4 +204,10 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
       rethrow;
     }
   }
+
+  @override
+  int get hashCode => region.hashCode ^ options.hashCode;
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
 }

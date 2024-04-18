@@ -41,16 +41,16 @@ class LocalStorageAdapter extends StorageAdapter {
   static const FileStorage localStorage = sharedRemoteStorage;
 
   @override
-  Future<void> delete(String relativePath) async {
-    await remoteStorage.delete(relativePath);
+  Future<void> delete(String remoteRelativePathOrId) async {
+    await remoteStorage.delete(remoteRelativePathOrId);
   }
 
   @override
   Future<LocalFile> download(
-    String remoteRelativePath, [
+    String remoteRelativePathOrId, [
     String? localRelativePath,
   ]) async {
-    final remoteFullPath = await remoteStorage.fetchURI(remoteRelativePath);
+    final remoteFullPath = await remoteStorage.fetchURI(remoteRelativePathOrId);
     if (!await remoteStorage.exists(remoteFullPath)) {
       throw Exception("File could not be found: $remoteFullPath");
     }
@@ -68,30 +68,30 @@ class LocalStorageAdapter extends StorageAdapter {
   }
 
   @override
-  Future<Uri> fetchDownloadURI(String remoteRelativePath) async =>
-      fetchPublicURI(remoteRelativePath);
+  Future<Uri> fetchDownloadURI(String remoteRelativePathOrId) async =>
+      fetchPublicURI(remoteRelativePathOrId);
 
   @override
-  Future<Uri> fetchPublicURI(String remoteRelativePath) async {
-    return Uri.parse(await remoteStorage.fetchURI(remoteRelativePath));
+  Future<Uri> fetchPublicURI(String remoteRelativePathOrId) async {
+    return Uri.parse(await remoteStorage.fetchURI(remoteRelativePathOrId));
   }
 
   @override
   Future<RemoteFile> upload(
     String localFullPath,
-    String remoteRelativePath,
+    String remoteRelativePathOrId,
   ) async {
     if (!await localStorage.exists(localFullPath)) {
       throw Exception("File could not be found: $localFullPath");
     }
     final bytes = await localStorage.read(localFullPath);
-    final remoteFullPath = await remoteStorage.fetchURI(remoteRelativePath);
+    final remoteFullPath = await remoteStorage.fetchURI(remoteRelativePathOrId);
     if (await remoteStorage.exists(remoteFullPath)) {
       await remoteStorage.delete(remoteFullPath);
     }
     await remoteStorage.write(remoteFullPath, bytes);
     return RemoteFile(
-      path: await fetchPublicURI(remoteRelativePath),
+      path: await fetchPublicURI(remoteRelativePathOrId),
       bytes: bytes,
     );
   }
@@ -99,9 +99,9 @@ class LocalStorageAdapter extends StorageAdapter {
   @override
   Future<RemoteFile> uploadWithBytes(
     Uint8List uploadFileByte,
-    String remoteRelativePath,
+    String remoteRelativePathOrId,
   ) async {
-    final remoteFullPath = await remoteStorage.fetchURI(remoteRelativePath);
+    final remoteFullPath = await remoteStorage.fetchURI(remoteRelativePathOrId);
     if (await remoteStorage.exists(remoteFullPath)) {
       await remoteStorage.delete(remoteFullPath);
     }
@@ -110,5 +110,13 @@ class LocalStorageAdapter extends StorageAdapter {
       path: await fetchPublicURI(remoteFullPath),
       bytes: uploadFileByte,
     );
+  }
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode {
+    return runtimeType.hashCode;
   }
 }

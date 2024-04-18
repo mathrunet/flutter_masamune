@@ -1035,10 +1035,9 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   @override
   int get hashCode {
     return prefix.hashCode ^
-        localDatabase.hashCode ^
+        _localDatabase.hashCode ^
         options.hashCode ^
-        database.hashCode ^
-        initialValue.hashCode;
+        _database.hashCode;
   }
 
   void _assert() {
