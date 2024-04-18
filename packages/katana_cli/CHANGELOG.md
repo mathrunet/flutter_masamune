@@ -1,3 +1,7 @@
+## 2.18.7
+
+ - **FIX**: Skip if no package is available. ([d26a33c7](https://github.com/mathrunet/flutter_masamune/commit/d26a33c7c1b70729c91fffd15b92a257e10c09d0))
+
 ## 2.18.6
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.12.1
+
+ - Update a dependency to the latest release.
+
 ## 2.12.0
 
  - **FEAT**: Added restrictions on the use of ScopedValue. ([89b080a9](https://github.com/mathrunet/flutter_masamune/commit/89b080a900a678aa82a3c3de15ea08b3703be030))
