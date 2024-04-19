@@ -83,21 +83,21 @@ class FirebaseLoggerAdapter extends LoggerAdapter {
     if (name == RouteLoggerEvent.push.toString()) {
       final route = parameters.get(RouteLoggerEvent.newRouteKey, "");
       try {
-        await analytics.setCurrentScreen(screenName: route);
+        await analytics.logScreenView(screenName: route);
       } catch (e) {
         debugPrint(e.toString());
       }
     } else if (name == RouteLoggerEvent.pop.toString()) {
       final route = parameters.get(RouteLoggerEvent.newRouteKey, "");
       try {
-        await analytics.setCurrentScreen(screenName: route);
+        await analytics.logScreenView(screenName: route);
       } catch (e) {
         debugPrint(e.toString());
       }
     } else if (name == RouteLoggerEvent.replace.toString()) {
       final route = parameters.get(RouteLoggerEvent.newRouteKey, "");
       try {
-        await analytics.setCurrentScreen(screenName: route);
+        await analytics.logScreenView(screenName: route);
       } catch (e) {
         debugPrint(e.toString());
       }

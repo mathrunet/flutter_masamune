@@ -344,11 +344,9 @@ class _MapVewState extends State<MapView> with AutomaticKeepAliveClientMixin {
     return GoogleMap(
       key: widget.key,
       initialCameraPosition: widget.initialCameraPosition,
+      style: mapStyle?._style,
       onMapCreated: (controller) async {
         widget.controller._setGoogleMapController(controller);
-        if (mapStyle != null) {
-          controller.setMapStyle(mapStyle._style);
-        }
         widget.onMapCreated?.call(controller);
         widget.controller._position = widget.initialCameraPosition.target;
         widget.controller._zoom = await controller.getZoomLevel();

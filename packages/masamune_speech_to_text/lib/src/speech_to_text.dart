@@ -151,10 +151,12 @@ class _SpeechToText {
     _notifyFinalTimer = null;
     try {
       var started = await SpeechToTextPlatform.instance.listen(
-          partialResults: partialResults || null != pauseFor,
-          onDevice: onDevice,
-          listenMode: listenMode.index,
-          sampleRate: sampleRate,
+        options: SpeechListenOptions(
+            partialResults: partialResults || null != pauseFor,
+            onDevice: onDevice,
+            listenMode: listenMode,
+            sampleRate: sampleRate,
+          ),
           localeId: localeId);
       if (started) {
         _listenStartedAt = clock.now().millisecondsSinceEpoch;
