@@ -73,7 +73,7 @@ class ThemeGenerator extends GeneratorForAnnotation<AppTheme> {
           .getAsMap("assets"),
     );
     final fontNodes = FontNode.parse(fonts);
-    final config = AssetConfig();
+    const config = AssetConfig();
 
     final generated = Library(
       (l) => l
