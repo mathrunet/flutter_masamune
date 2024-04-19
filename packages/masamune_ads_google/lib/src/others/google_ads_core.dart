@@ -19,7 +19,7 @@ class GoogleAdsCore {
   static Completer<void>? _completer;
   static Completer<void>? _permissionCompleter;
 
-  static Map<String, List<GoogleBannerAdUnit>> _bannerAdPool = {};
+  static final Map<String, List<GoogleBannerAdUnit>> _bannerAdPool = {};
 
   /// Initialize the advertisement.
   ///
