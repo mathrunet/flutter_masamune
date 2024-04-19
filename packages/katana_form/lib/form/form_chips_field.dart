@@ -28,7 +28,7 @@ typedef ChipBuilder<T> = Widget Function(
 ///
 /// If [suggestion] is specified, suggestions will be displayed according to what you have entered.
 ///
-/// When [FormController.validateAndSave] is executed, validation and data saving are performed.
+/// When [FormController.validate] is executed, validation and data saving are performed.
 ///
 /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
 ///
@@ -55,7 +55,7 @@ typedef ChipBuilder<T> = Widget Function(
 ///
 /// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
 ///
-/// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
 ///
 /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
 ///

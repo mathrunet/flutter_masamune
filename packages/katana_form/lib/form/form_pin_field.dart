@@ -15,7 +15,7 @@ const kPinLength = 6;
 ///
 /// Each time the content is changed, [onChanged] is executed.
 ///
-/// When [FormController.validateAndSave] is executed, validation and data saving are performed.
+/// When [FormController.validate] is executed, validation and data saving are performed.
 ///
 /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
 /// Only when [lengthErrorText] is specified, if the number of characters entered is less than [minLength], it is displayed as [lengthErrorText].
@@ -43,7 +43,7 @@ const kPinLength = 6;
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
-/// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
 ///
 /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
 /// [lengthErrorText]が指定されている時に限り、[minLength]より入力された文字数が少ない場合[lengthErrorText]として表示されます。
@@ -71,7 +71,7 @@ class FormPinField<TValue> extends FormField<String> {
   ///
   /// Each time the content is changed, [onChanged] is executed.
   ///
-  /// When [FormController.validateAndSave] is executed, validation and data saving are performed.
+  /// When [FormController.validate] is executed, validation and data saving are performed.
   ///
   /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
   /// Only when [lengthErrorText] is specified, if the number of characters entered is less than [minLength], it is displayed as [lengthErrorText].
@@ -99,7 +99,7 @@ class FormPinField<TValue> extends FormField<String> {
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
-  /// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
   ///
   /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
   /// [lengthErrorText]が指定されている時に限り、[minLength]より入力された文字数が少ない場合[lengthErrorText]として表示されます。

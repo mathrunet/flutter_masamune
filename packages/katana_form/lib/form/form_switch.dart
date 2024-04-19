@@ -13,7 +13,7 @@ part of '/katana_form.dart';
 ///
 /// Each time the content is changed, [onChanged] is executed.
 ///
-/// When [FormController.validateAndSave] is executed, validation and data saving are performed.
+/// When [FormController.validate] is executed, validation and data saving are performed.
 ///
 /// If [enabled] is `false`, the switch is deactivated.
 ///
@@ -32,7 +32,7 @@ part of '/katana_form.dart';
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
-/// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
 ///
 /// [enabled]が`false`になるとスイッチが非有効化されます。
 ///
@@ -51,7 +51,7 @@ class FormSwitch<TValue> extends FormField<bool> {
   ///
   /// Each time the content is changed, [onChanged] is executed.
   ///
-  /// When [FormController.validateAndSave] is executed, validation and data saving are performed.
+  /// When [FormController.validate] is executed, validation and data saving are performed.
   ///
   /// If [enabled] is `false`, the switch is deactivated.
   ///
@@ -70,7 +70,7 @@ class FormSwitch<TValue> extends FormField<bool> {
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
-  /// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
   ///
   /// [enabled]が`false`になるとスイッチが非有効化されます。
   ///

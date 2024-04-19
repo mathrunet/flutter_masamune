@@ -18,7 +18,7 @@ const kDefaultCheckboxBorderWidth = 2.0;
 ///
 /// Each time the content is changed, [onChanged] is executed.
 ///
-/// When [FormController.validateAndSave] is executed, validation and data saving are performed.
+/// When [FormController.validate] is executed, validation and data saving are performed.
 ///
 /// If [enabled] is `false`, the checkbox is deactivated.
 ///
@@ -37,7 +37,7 @@ const kDefaultCheckboxBorderWidth = 2.0;
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
-/// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
 ///
 /// [enabled]が`false`になるとチェックボックスが非有効化されます。
 ///
@@ -56,7 +56,7 @@ class FormCheckbox<TValue> extends FormField<bool> {
   ///
   /// Each time the content is changed, [onChanged] is executed.
   ///
-  /// When [FormController.validateAndSave] is executed, validation and data saving are performed.
+  /// When [FormController.validate] is executed, validation and data saving are performed.
   ///
   /// If [enabled] is `false`, the checkbox is deactivated.
   ///
@@ -75,7 +75,7 @@ class FormCheckbox<TValue> extends FormField<bool> {
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
-  /// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
   ///
   /// [enabled]が`false`になるとチェックボックスが非有効化されます。
   ///

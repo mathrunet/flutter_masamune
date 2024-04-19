@@ -10,7 +10,7 @@ part of '/katana_form.dart';
 ///
 /// Each time the content is changed, [onChanged] is executed.
 ///
-/// If [FormController.validateAndSave] is executed, validation and data saving are performed.
+/// If [FormController.validate] is executed, validation and data saving are performed.
 ///
 /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
 ///
@@ -35,7 +35,7 @@ part of '/katana_form.dart';
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
-/// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
 ///
 /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
 ///
@@ -60,7 +60,7 @@ class FormMapField<TValue> extends StatefulWidget {
   ///
   /// Each time the content is changed, [onChanged] is executed.
   ///
-  /// If [FormController.validateAndSave] is executed, validation and data saving are performed.
+  /// If [FormController.validate] is executed, validation and data saving are performed.
   ///
   /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
   ///
@@ -85,7 +85,7 @@ class FormMapField<TValue> extends StatefulWidget {
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
-  /// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
   ///
   /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
   ///
@@ -207,11 +207,11 @@ class FormMapField<TValue> extends StatefulWidget {
   /// これが`true`の場合、フォームの入力が行えずに初期値から変更することができなくなります。
   final bool readOnly;
 
-  /// Callback executed when [FormController.validateAndSave] is executed.
+  /// Callback executed when [FormController.validate] is executed.
   ///
   /// The current value is passed to `value`.
   ///
-  /// [FormController.validateAndSave]が実行されたときに実行されるコールバック。
+  /// [FormController.validate]が実行されたときに実行されるコールバック。
   ///
   /// `value`に現在の値が渡されます。
   final TValue Function(String value)? onSaved;
@@ -225,21 +225,21 @@ class FormMapField<TValue> extends StatefulWidget {
   /// `value`に現在の値が渡されます。
   final void Function(String? value)? onChanged;
 
-  /// Validator to be executed when [FormController.validateAndSave] is executed.
+  /// Validator to be executed when [FormController.validate] is executed.
   ///
   /// It is executed before [onSaved] is called.
   ///
   /// The current value is passed to `value` and if it returns a value other than [Null], the character is displayed as error text.
   ///
-  /// If a character other than [Null] is returned, [onSaved] will not be executed and [FormController.validateAndSave] will return `false`.
+  /// If a character other than [Null] is returned, [onSaved] will not be executed and [FormController.validate] will return `false`.
   ///
-  /// [FormController.validateAndSave]が実行されたときに実行されるバリデーター。
+  /// [FormController.validate]が実行されたときに実行されるバリデーター。
   ///
   /// [onSaved]が呼ばれる前に実行されます。
   ///
   /// `value`に現在の値が渡され、[Null]以外の値を返すとその文字がエラーテキストとして表示されます。
   ///
-  /// [Null]以外の文字を返した場合、[onSaved]は実行されず、[FormController.validateAndSave]が`false`が返されます。
+  /// [Null]以外の文字を返した場合、[onSaved]は実行されず、[FormController.validate]が`false`が返されます。
   final FormFieldValidator<String?>? validator;
 
   /// It is executed when the Enter button on the keyboard or the Submit button on the software keyboard is pressed.
@@ -568,7 +568,7 @@ class _MapTextField<TValue> extends FormField<String> {
                   : SystemMouseCursors.click,
               controller: state._effectiveController ??
                   TextEditingController(
-                    text: state.value != null ? state.value!.toString() : null,
+                    text: state.value?.toString(),
                   ),
               focusNode: state._effectiveFocusNode,
               decoration: effectiveDecoration.copyWith(

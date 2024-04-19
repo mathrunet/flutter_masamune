@@ -10,7 +10,7 @@ part of '/katana_form.dart';
 ///
 /// Each time the content is changed, [onChanged] is executed.
 ///
-/// If [FormController.validateAndSave] is executed, validation and data saving are performed.
+/// If [FormController.validate] is executed, validation and data saving are performed.
 ///
 /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
 ///
@@ -31,7 +31,7 @@ part of '/katana_form.dart';
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
-/// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
 ///
 /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
 ///
@@ -52,7 +52,7 @@ class FormMapDropdownField<TValue> extends FormField<String> {
   ///
   /// Each time the content is changed, [onChanged] is executed.
   ///
-  /// If [FormController.validateAndSave] is executed, validation and data saving are performed.
+  /// If [FormController.validate] is executed, validation and data saving are performed.
   ///
   /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
   ///
@@ -73,7 +73,7 @@ class FormMapDropdownField<TValue> extends FormField<String> {
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
-  /// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
   ///
   /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
   ///

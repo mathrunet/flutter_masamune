@@ -14,7 +14,7 @@ part of '/katana_form.dart';
 ///
 /// Each time the content is changed, [onChanged] is executed.
 ///
-/// When [FormController.validateAndSave] is executed, validation and data saving are performed.
+/// When [FormController.validate] is executed, validation and data saving are performed.
 ///
 /// フォームの中のUIを自由に変更することができるビルダー。
 ///
@@ -30,7 +30,7 @@ part of '/katana_form.dart';
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
-/// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
 class FormBuilder<T, TValue> extends FormField<T> {
   /// A builder that can freely change the UI within a form.
   ///
@@ -46,7 +46,7 @@ class FormBuilder<T, TValue> extends FormField<T> {
   ///
   /// Each time the content is changed, [onChanged] is executed.
   ///
-  /// When [FormController.validateAndSave] is executed, validation and data saving are performed.
+  /// When [FormController.validate] is executed, validation and data saving are performed.
   ///
   /// フォームの中のUIを自由に変更することができるビルダー。
   ///
@@ -62,7 +62,7 @@ class FormBuilder<T, TValue> extends FormField<T> {
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
-  /// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
   FormBuilder({
     super.key,
     this.form,
