@@ -38,7 +38,7 @@ class CounterPage extends PageScopedWidget {
 
   @override
   Widget build(BuildContext context, PageRef ref) {
-    final counter = ref.page.query(valueNotifierQuery(100));
+    final counter = ref.app.query(valueNotifierQuery(100));
 
     return Scaffold(
       appBar: AppBar(title: const Text("App Demo")),

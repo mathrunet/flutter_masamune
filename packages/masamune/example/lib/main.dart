@@ -8,35 +8,29 @@ part 'main.theme.dart';
 part 'main.localize.dart';
 
 /// App Title.
-// TODO: Define the title of the application.
 const title = "";
 
 /// Initial page query.
-// TODO: Define the initial page query of the application.
 const initialQuery = null;
 
 /// App Model.
 ///
 /// By replacing this with another adapter, the data storage location can be changed.
-// TODO: Change the database.
 const modelAdapter = RuntimeModelAdapter();
 
 /// App Auth.
 ///
 /// Changing to another adapter allows you to change to another authentication mechanism.
-// TODO: Change the authentication.
 const authAdapter = RuntimeAuthAdapter();
 
 /// App Storage.
 ///
 /// Changing to another adapter allows you to change to another storage mechanism.
-// TODO: Change the storage.
 const storageAdapter = LocalStorageAdapter();
 
 /// App Functions.
 ///
 /// Changing to another adapter allows you to change to another functions mechanism.
-// TODO: Change the functions.
 const functionsAdapter = RuntimeFunctionsAdapter();
 
 /// App Theme.
@@ -49,7 +43,6 @@ const functionsAdapter = RuntimeFunctionsAdapter();
 /// ```
 @appTheme
 final theme = AppThemeData(
-  // TODO: Set the design.
   primary: Colors.blue,
   secondary: Colors.cyan,
   onPrimary: Colors.white,
@@ -63,13 +56,10 @@ final theme = AppThemeData(
 /// router.pop();               // Pop page.
 /// ```
 final router = AppRouter(
-  // TODO: Please configure the initial routing and redirection settings.
   boot: null,
   initialQuery: initialQuery,
   redirect: [],
-  pages: [
-    // TODO: Add the page query to be used for routing.
-  ],
+  pages: [],
 );
 
 /// App Localization.
@@ -79,7 +69,6 @@ final router = AppRouter(
 /// ```
 final l = AppLocalize();
 
-// TODO: Set the Google Spreadsheet URL for the translation.
 @GoogleSpreadSheetLocalize(
   [
     "https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808"

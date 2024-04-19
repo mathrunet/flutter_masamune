@@ -3,10 +3,11 @@ part of 'value.dart';
 /// Provides an extension method for [PageOrWidgetScopedValueRef] to update the widget.
 ///
 /// ウィジェットの更新を行うための[PageOrWidgetScopedValueRef]用の拡張メソッドを提供します。
-extension RefRefreshExtensions on PageOrWidgetScopedValueRef {
-  @Deprecated(
-    "You will no longer be able to use [refresh] in widget scope. Please use [ref.refresh] instead and limit its use to page scope only. Widgetスコープでの[refresh]の利用はできなくなります。代わりに[ref.refresh]を利用し、ページスコープのみでの利用に限定してください。Widgetスコープでの利用はできません。",
-  )
+extension PageOrWidgetScopedValueRefRefreshExtensions
+    on PageOrWidgetScopedValueRef {
+  /// When executed, it redraws the associated widget.
+  ///
+  /// 実行すると関連するウィジェットの再描画を行ないます。
   void refresh() {
     return getScopedValue<void, _RefreshValue>(
       (ref) => const _RefreshValue(),
@@ -19,11 +20,10 @@ extension RefRefreshExtensions on PageOrWidgetScopedValueRef {
 ///
 /// ウィジェットの更新を行うための[RefHasPage]用の拡張メソッドを提供します。
 extension RefHasPageRefreshExtensions on RefHasPage {
-  /// When executed, it redraws the associated widget.
-  ///
-  /// 実行すると関連するウィジェットの再描画を行ないます。
+  @Deprecated(
+    "It is no longer possible to use [refresh] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.page.refresh] or [ref.widget.refresh] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[refresh]の利用はできなくなります。代わりに[ref.page.refresh]や[ref.widget.refresh]でスコープを指定しての利用を行ってください。",
+  )
   void refresh() {
-    // ignore: invalid_use_of_protected_member
     return page.getScopedValue<void, _RefreshValue>(
       (ref) => const _RefreshValue(),
       listen: true,

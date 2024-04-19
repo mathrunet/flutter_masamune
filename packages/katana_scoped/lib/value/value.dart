@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 // Project imports:
 import 'package:katana_scoped/katana_scoped.dart';
 
+part 'ancestor.dart';
 part 'cache.dart';
 part 'fetch.dart';
 part 'on.dart';

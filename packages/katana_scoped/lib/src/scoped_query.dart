@@ -81,7 +81,7 @@ class ScopedQuery<Result> {
   /// A callback that returns the value you want to manage.
   ///
   /// 管理したい値を返すコールバック。
-  final Result Function(Ref ref) provider;
+  final Result Function(ScopedQueryRef ref) provider;
 
   /// Returns `true` if the value is monitored for update notification.
   ///
@@ -91,7 +91,7 @@ class ScopedQuery<Result> {
   /// Returns a callback that returns the value you want to manage.
   ///
   /// 管理したい値を返すコールバックを返します。
-  Result Function() call(Ref ref) => () => provider.call(ref);
+  Result Function() call(ScopedQueryRef ref) => () => provider.call(ref);
 
   /// Returns a name to identify the state.
   ///
@@ -197,7 +197,7 @@ class ChangeNotifierScopedQuery<Result extends Listenable?>
   bool get listen => true;
 
   @override
-  Result Function() call(Ref ref) => () => provider(ref);
+  Result Function() call(ScopedQueryRef ref) => () => provider(ref);
 }
 
 /// You can pass one parameter [ScopedQuery].

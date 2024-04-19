@@ -15,10 +15,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:katana_scoped/katana_scoped.dart';
 
 // Project imports:
-import 'finder_extensions.dart';
+import 'test_extensions.dart';
 
 void main() {
-  testWidgets("Value.watch.chain", (tester) async {
+  testWidgets("Scoped.Value.watch.chain", (tester) async {
     final appRef = AppRef();
     await tester.pumpWidget(
       AppScoped(
@@ -54,12 +54,25 @@ void main() {
     await tester.tapByKey("app2");
     await tester.pump();
     await tester.pump();
-    expect(text("app1_text")?.data, "2");
+    expect(text("app1_text")?.data, "1");
     expect(text("app2_text")?.data, "1.0");
     // expect(text("page1_text")?.data, "0");
     // expect(text("page2_text")?.data, "0");
     // expect(text("widget1_text")?.data, "0");
     // expect(text("widget2_text")?.data, "0");
+    await tester.tapByKey("app1");
+    await tester.pump();
+    expect(text("app1_text")?.data, "2");
+    expect(text("app2_text")?.data, "1.0");
+    await tester.tapByKey("app1");
+    await tester.pump();
+    expect(text("app1_text")?.data, "3");
+    expect(text("app2_text")?.data, "1.0");
+    await tester.tapByKey("app2");
+    await tester.pump();
+    await tester.pump();
+    expect(text("app1_text")?.data, "2");
+    expect(text("app2_text")?.data, "2.0");
   });
 }
 

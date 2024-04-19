@@ -5,7 +5,7 @@ part of 'value.dart';
 /// キャッシュを行うための[Ref]用の拡張メソッドを提供します。
 extension RefCacheExtensions on Ref {
   @Deprecated(
-    "You can no longer use [cache] in App scope. Instead, please use [ref.cache] and limit its use to page scope only; for App scope, please create a [ScopedQuery] and use [ref.query] instead of [cache]. Appスコープでの[cache]の利用はできなくなります。代わりに[ref.cache]を利用し、ページスコープのみでの利用に限定してください。Appスコープでの利用は[cache]を利用せず、[ScopedQuery]を作成し[ref.query]を利用してください。",
+    "[cache] will no longer be available in the App scope. Instead, use [ref.page.cache] or [ref.widget.cache] and limit your use to the page or widget scope. Please use [ref.app.query] instead of [cache]. Appスコープでの[cache]の利用はできなくなります。代わりに[ref.page.cache]や[ref.widget.cache]を利用し、ページやウィジェットスコープのみでの利用に限定してください。Appスコープでの利用は[cache]を利用せず、[ScopedQuery]を作成し[ref.app.query]を利用してください。",
   )
   T cache<T>(
     T Function(Ref ref) callback, {
@@ -32,21 +32,9 @@ extension RefCacheExtensions on Ref {
 ///
 /// キャッシュを行うための[RefHasPage]用の拡張メソッドを提供します。
 extension RefHasPageCacheExtensions on RefHasPage {
-  /// Caches and stores the value returned by [callback].
-  ///
-  /// If [keys] is passed a value different from the previous value, [callback] is executed again and the value is updated.
-  ///
-  /// If [name] is specified, it is saved as a separate type. If [keys] is changed, the previous state is discarded, but if [name] is changed, it is kept as a separate state.
-  ///
-  /// If you want [ScopedValue] to be automatically disposed of when it is no longer referenced by any widget, set [autoDisposeWhenUnreferenced] to `true`.
-  ///
-  /// [callback]で返される値をキャッシュして保存します。
-  ///
-  /// [keys]が前の値と違う値が渡された場合、再度[callback]が実行され値が更新されます。
-  ///
-  /// [name]を指定すると別のタイプとして保存されます。[keys]を変えた場合は以前の状態は破棄されますが、[name]を変えた場合は別々の状態として保持されます。
-  ///
-  /// [ScopedValue]がどのウィジェットにも参照されなくなったときに自動的に破棄させたい場合は[autoDisposeWhenUnreferenced]を`true`にしてください。
+  @Deprecated(
+    "It is no longer possible to use [cache] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.page.cache] or [ref.widget.cache] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[cache]の利用はできなくなります。代わりに[ref.page.cache]や[ref.widget.cache]でスコープを指定しての利用を行ってください。",
+  )
   T cache<T>(
     T Function(Ref ref) callback, {
     List<Object> keys = const [],
@@ -54,7 +42,6 @@ extension RefHasPageCacheExtensions on RefHasPage {
     bool disposal = false,
     bool autoDisposeWhenUnreferenced = false,
   }) {
-    // ignore: invalid_use_of_protected_member
     return page.getScopedValue<T, _CacheValue<T>>(
       (ref) => _CacheValue<T>(
         callback: callback,
@@ -62,6 +49,42 @@ extension RefHasPageCacheExtensions on RefHasPage {
         ref: ref,
         disposal: disposal,
         autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+      ),
+      listen: false,
+      name: name,
+    );
+  }
+}
+
+/// Provides an extension method for [PageOrWidgetScopedValueRef] to perform caching.
+///
+/// キャッシュを行うための[PageOrWidgetScopedValueRef]用の拡張メソッドを提供します。
+extension PageOrWidgetScopedValueRefCacheExtensions
+    on PageOrWidgetScopedValueRef {
+  /// Caches and stores the value returned by [callback].
+  ///
+  /// If [keys] is passed a value different from the previous value, [callback] is executed again and the value is updated.
+  ///
+  /// If [name] is specified, it is saved as a separate type. If [keys] is changed, the previous state is discarded, but if [name] is changed, it is kept as a separate state.
+  ///
+  /// [callback]で返される値をキャッシュして保存します。
+  ///
+  /// [keys]が前の値と違う値が渡された場合、再度[callback]が実行され値が更新されます。
+  ///
+  /// [name]を指定すると別のタイプとして保存されます。[keys]を変えた場合は以前の状態は破棄されますが、[name]を変えた場合は別々の状態として保持されます。
+  T cache<T>(
+    T Function(Ref ref) callback, {
+    List<Object> keys = const [],
+    Object? name,
+    bool disposal = false,
+  }) {
+    return getScopedValue<T, _CacheValue<T>>(
+      (ref) => _CacheValue<T>(
+        callback: callback,
+        keys: keys,
+        ref: ref,
+        disposal: disposal,
+        autoDisposeWhenUnreferenced: false,
       ),
       listen: false,
       name: name,

@@ -15,10 +15,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:katana_scoped/katana_scoped.dart';
 
 // Project imports:
-import 'finder_extensions.dart';
+import 'test_extensions.dart';
 
 void main() {
-  testWidgets("Value.watch", (tester) async {
+  testWidgets("Scoped.Value.watch", (tester) async {
     final appRef = AppRef();
     await tester.pumpWidget(
       AppScoped(
@@ -125,4 +125,113 @@ class ValueWatchContent extends ScopedWidget {
       ),
     ]);
   }
+}
+
+extension on AppScopedValueRef {
+  T watch<T extends Listenable?>(
+    T Function(Ref ref) callback, {
+    List<Object> keys = const [],
+    Object? name,
+    bool disposal = true,
+    bool autoDisposeWhenUnreferenced = false,
+  }) {
+    return getScopedValue<T, _WatchValue<T>>(
+      (ref) => _WatchValue<T>(
+        callback: callback,
+        keys: keys,
+        ref: ref,
+        disposal: disposal,
+        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+      ),
+      listen: true,
+      name: name,
+    );
+  }
+}
+
+@immutable
+class _WatchValue<T> extends ScopedValue<T> {
+  const _WatchValue({
+    required this.callback,
+    required this.keys,
+    required Ref ref,
+    this.disposal = true,
+    this.autoDisposeWhenUnreferenced = false,
+  }) : super(ref: ref);
+
+  final T Function(Ref ref) callback;
+  final List<Object> keys;
+  final bool disposal;
+  final bool autoDisposeWhenUnreferenced;
+
+  @override
+  ScopedValueState<T, ScopedValue<T>> createState() => _WatchValueState<T>();
+}
+
+class _WatchValueState<T> extends ScopedValueState<T, _WatchValue<T>> {
+  _WatchValueState();
+
+  late T _value;
+
+  @override
+  bool get autoDisposeWhenUnreferenced => value.autoDisposeWhenUnreferenced;
+
+  @override
+  void initValue() {
+    super.initValue();
+    _value = value.callback(ref);
+    final val = _value;
+    if (val is Listenable) {
+      val.addListener(_handledOnUpdate);
+    }
+  }
+
+  void _handledOnUpdate() {
+    setState(() {});
+  }
+
+  @override
+  void didUpdateValue(_WatchValue<T> oldValue) {
+    super.didUpdateValue(oldValue);
+    if (!equalsKeys(value.keys, oldValue.keys)) {
+      final oldVal = _value;
+      if (oldVal is Listenable) {
+        oldVal.removeListener(_handledOnUpdate);
+      }
+      _value = value.callback(ref);
+      final newVal = _value;
+      if (newVal is Listenable) {
+        newVal.addListener(_handledOnUpdate);
+      }
+    }
+  }
+
+  @override
+  void didUpdateDescendant() {
+    super.didUpdateDescendant();
+    final oldVal = _value;
+    if (oldVal is Listenable) {
+      oldVal.removeListener(_handledOnUpdate);
+    }
+    _value = value.callback(ref);
+    final newVal = _value;
+    if (newVal is Listenable) {
+      newVal.addListener(_handledOnUpdate);
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    final val = _value;
+    if (val is Listenable) {
+      val.removeListener(_handledOnUpdate);
+      if (value.disposal && val is ChangeNotifier) {
+        val.dispose();
+      }
+    }
+  }
+
+  @override
+  T build() => _value;
 }

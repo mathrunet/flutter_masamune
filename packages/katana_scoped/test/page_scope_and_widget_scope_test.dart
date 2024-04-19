@@ -15,7 +15,7 @@ class Page extends PageScopedWidget {
 
   @override
   Widget build(BuildContext context, PageRef ref) {
-    final valueNotifier = ref.page.query(_valueNotifierScopedQuery);
+    final valueNotifier = ref.app.query(_valueNotifierScopedQuery);
 
     return Scaffold(
       body: Column(
@@ -43,7 +43,7 @@ class Internal extends ScopedWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final valueNotifier = ref.page.query(_valueNotifierScopedQuery);
+    final valueNotifier = ref.app.query(_valueNotifierScopedQuery);
 
     return Text(
       key: const ValueKey("widgetValue"),

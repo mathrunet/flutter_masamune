@@ -113,7 +113,7 @@ class WidgetScopedValueRef extends ScopedValueRef
 @immutable
 abstract class PageOrWidgetScopedValueRef implements ScopedValueRef {}
 
-/// Ref] associated with the widget.
+/// [Ref] associated with the widget.
 ///
 /// ウィジェットに関連する[Ref]。
 ///
@@ -172,9 +172,14 @@ class ScopedValueRef implements Ref {
   bool operator ==(Object other) => hashCode == other.hashCode;
 }
 
+/// [Ref] used inside [ScopedQuery].
+///
+/// [ScopedQuery]の内部で使用される[Ref]。
+///
+/// {@macro ref}
 @immutable
-class _ScopedValueRef implements Ref {
-  const _ScopedValueRef(
+class ScopedQueryRef implements Ref {
+  const ScopedQueryRef._(
     this.ref, {
     required this.state,
   });

@@ -20,7 +20,7 @@ extension ControllerQueryBaseExtensions<TController extends Listenable>
   ///
   /// アプリスコープで[TController]が保持されます。
   TController watch(RefHasApp ref) {
-    return ref.controller(this);
+    return ref.app.controller(this);
   }
 
   @Deprecated(

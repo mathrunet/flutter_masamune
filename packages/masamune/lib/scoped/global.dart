@@ -11,7 +11,6 @@ extension MasamuneChangeNotifierScopedValueRefExtensions on RefHasApp {
     TController globalChangeNotifier, {
     Object? name,
   }) {
-    // ignore: invalid_use_of_protected_member
     return app.watch(
       (ref) => globalChangeNotifier,
       name: name,

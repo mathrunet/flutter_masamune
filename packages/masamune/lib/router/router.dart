@@ -4,6 +4,45 @@ part of '/masamune.dart';
 ///
 /// ネストされたルーターを作成するための[RefHasPage]の拡張メソッドを作成します。
 extension MasamuneRouterRefHasPageExtensions on RefHasPage {
+  @Deprecated(
+    "It is no longer possible to use [router] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.page.router] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[router]の利用はできなくなります。代わりに[ref.page.router]でスコープを指定しての利用を行ってください。",
+  )
+  NestedAppRouter router({
+    required RouteQuery? initialQuery,
+    required List<RouteQueryBuilder> pages,
+    TransitionQuery? defaultTransitionQuery,
+    Object? name,
+  }) {
+    return watch(
+      (ref) {
+        return NestedAppRouter(
+          initialQuery: initialQuery,
+          pages: pages,
+          defaultTransitionQuery: defaultTransitionQuery,
+        );
+      },
+      name: name,
+    );
+  }
+
+  @Deprecated(
+    "It is no longer possible to use [nestedRouter] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.page.nestedRouter] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[nestedRouter]の利用はできなくなります。代わりに[ref.page.nestedRouter]でスコープを指定しての利用を行ってください。",
+  )
+  NestedAppRouter nestedRouter({
+    Object? name,
+  }) {
+    final router = fetch<NestedAppRouter>(name);
+    if (router == null) {
+      throw Exception("The router does not exist.");
+    }
+    return router;
+  }
+}
+
+/// Create an extension method for [PageScopedValueRef] to create nested routers.
+///
+/// ネストされたルーターを作成するための[PageScopedValueRef]の拡張メソッドを作成します。
+extension MasamuneRouterPageScopedValueRefExtensions on PageScopedValueRef {
   /// Create nested routers by passing [pages].
   ///
   /// Pass to [Router.withConfig] to display nested pages.
@@ -62,10 +101,7 @@ extension MasamuneRouterRefHasPageExtensions on RefHasPage {
   NestedAppRouter nestedRouter({
     Object? name,
   }) {
-    final router = fetch<NestedAppRouter>(name);
-    if (router == null) {
-      throw Exception("The router does not exist.");
-    }
+    final router = ancestor<NestedAppRouter>(name);
     return router;
   }
 }

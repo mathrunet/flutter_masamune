@@ -3,10 +3,19 @@ part of 'value.dart';
 /// Provides an extension method for [PageOrWidgetScopedValueRef] to perform scheduling.
 ///
 /// スケジュール処理を行うための[PageOrWidgetScopedValueRef]用の拡張メソッドを提供します。
-extension RefScheduleExtensions on PageOrWidgetScopedValueRef {
-  @Deprecated(
-    "You will no longer be able to use [schedule] in widget scope. Please use [ref.schedule] instead and limit its use to page scope only. Widgetスコープでの[schedule]の利用はできなくなります。代わりに[ref.schedule]を利用し、ページスコープのみでの利用に限定してください。Widgetスコープでの利用はできません。",
-  )
+extension PageOrWidgetScopedValueRefScheduleExtensions
+    on PageOrWidgetScopedValueRef {
+  /// [callback] executed on [dateTime].
+  ///
+  /// The start time and the current time [DateTime] are passed to [callback], which can then be used for processing.
+  ///
+  /// If [name] is specified, it can be registered as a separate task.
+  ///
+  /// [dateTime]に実行される[callback]を実行します。
+  ///
+  /// [callback]に開始時刻と現在時刻の[DateTime]が渡されるのでそれを元に処理を行うことができます。
+  ///
+  /// [name]を指定すると別のタスクとして登録することができます。
   ScheduleContext schedule(
     FutureOr<void> Function(DateTime currentTime, DateTime startTime)
         callback, {
@@ -28,24 +37,15 @@ extension RefScheduleExtensions on PageOrWidgetScopedValueRef {
 ///
 /// スケジュール処理を行うための[RefHasPage]用の拡張メソッドを提供します。
 extension RefHasPageScheduleExtensions on RefHasPage {
-  /// [callback] executed on [dateTime].
-  ///
-  /// The start time and the current time [DateTime] are passed to [callback], which can then be used for processing.
-  ///
-  /// If [name] is specified, it can be registered as a separate task.
-  ///
-  /// [dateTime]に実行される[callback]を実行します。
-  ///
-  /// [callback]に開始時刻と現在時刻の[DateTime]が渡されるのでそれを元に処理を行うことができます。
-  ///
-  /// [name]を指定すると別のタスクとして登録することができます。
+  @Deprecated(
+    "It is no longer possible to use [schedule] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.page.schedule] or [ref.widget.schedule] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[schedule]の利用はできなくなります。代わりに[ref.page.schedule]や[ref.widget.schedule]でスコープを指定しての利用を行ってください。",
+  )
   ScheduleContext schedule(
     FutureOr<void> Function(DateTime currentTime, DateTime startTime)
         callback, {
     required DateTime dateTime,
     Object? name,
   }) {
-    // ignore: invalid_use_of_protected_member
     return page.getScopedValue<ScheduleContext, _ScheduleValue>(
       (ref) => _ScheduleValue(
         callback: callback,

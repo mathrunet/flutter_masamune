@@ -5,7 +5,7 @@ part of 'value.dart';
 /// [ChangeNotifier]の監視を行うための[Ref]用の拡張メソッドを提供します。
 extension RefWatchExtensions on Ref {
   @Deprecated(
-    "[watch] is no longer available in the App scope. Instead, use [ref.watch] and limit its use to page scope only. [query] or create a [ChangeNotifierScopedQuery] and use [ref.query]. Appスコープでの[watch]の利用はできなくなります。代わりに[ref.watch]を利用し、ページスコープのみでの利用に限定してください。Appスコープでの利用は[watch]を利用せず、コントローラーを作成し[ref.controller]を利用するか、[ChangeNotifierScopedQuery]を作成し[ref.query]を利用してください。",
+    "[watch] will no longer be available in the App scope. Instead, use [ref.page.watch] or [ref.widget.watch] and limit your use to page or widget scope only. Please use [ref.app.query] instead of [watch]. Appスコープでの[watch]の利用はできなくなります。代わりに[ref.page.watch]や[ref.widget.watch]を利用し、ページやウィジェットスコープのみでの利用に限定してください。Appスコープでの利用は[watch]を利用せず、[ChangeNotifierScopedQuery]を作成し[ref.app.query]を利用してください。",
   )
   T watch<T extends Listenable?>(
     T Function(Ref ref) callback, {
@@ -32,6 +32,35 @@ extension RefWatchExtensions on Ref {
 ///
 /// [ChangeNotifier]の監視を行うための[RefHasPage]用の拡張メソッドを提供します。
 extension RefHasPageWatchExtensions on RefHasPage {
+  @Deprecated(
+    "It is no longer possible to use [watch] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.page.watch] or [ref.widget.watch] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[watch]の利用はできなくなります。代わりに[ref.page.watch]や[ref.widget.watch]でスコープを指定しての利用を行ってください。",
+  )
+  T watch<T extends Listenable?>(
+    T Function(Ref ref) callback, {
+    List<Object> keys = const [],
+    Object? name,
+    bool disposal = true,
+    bool autoDisposeWhenUnreferenced = false,
+  }) {
+    return page.getScopedValue<T, _WatchValue<T>>(
+      (ref) => _WatchValue<T>(
+        callback: callback,
+        keys: keys,
+        ref: ref,
+        disposal: disposal,
+        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+      ),
+      listen: true,
+      name: name,
+    );
+  }
+}
+
+/// Provides an extended method for [PageOrWidgetScopedValueRef] to monitor [ChangeNotifier].
+///
+/// [ChangeNotifier]の監視を行うための[PageOrWidgetScopedValueRef]用の拡張メソッドを提供します。
+extension PageOrWidgetScopedValueRefWatchExtensions
+    on PageOrWidgetScopedValueRef {
   /// You can monitor it by passing a [callback] that returns a [ChangeNotifier].
   ///
   /// When [ChangeNotifier.notifyListeners] is executed, the update is notified and the associated widget is redrawn.
@@ -42,8 +71,6 @@ extension RefHasPageWatchExtensions on RefHasPage {
   ///
   /// If [disposal] is set to `false`, when [ScopedValue] is destroyed, the content [T] is not destroyed.
   ///
-  /// If you want [ScopedValue] to be automatically disposed of when it is no longer referenced by any widget, set [autoDisposeWhenUnreferenced] to `true`.
-  ///
   /// [ChangeNotifier]を返す[callback]を渡すとそれを監視することができます。
   ///
   /// [ChangeNotifier.notifyListeners]が実行されると更新が通知され、関連するウィジェットが再描画されます。
@@ -53,23 +80,19 @@ extension RefHasPageWatchExtensions on RefHasPage {
   /// [name]を指定すると別のタイプとして保存されます。[keys]を変えた場合は以前の状態は破棄されますが、[name]を変えた場合は別々の状態として保持されます。
   ///
   /// [disposal]を`false`にすると[ScopedValue]破棄時、中身の[T]は破棄されません。
-  ///
-  /// [ScopedValue]がどのウィジェットにも参照されなくなったときに自動的に破棄させたい場合は[autoDisposeWhenUnreferenced]を`true`にしてください。
   T watch<T extends Listenable?>(
     T Function(Ref ref) callback, {
     List<Object> keys = const [],
     Object? name,
     bool disposal = true,
-    bool autoDisposeWhenUnreferenced = false,
   }) {
-    // ignore: invalid_use_of_protected_member
-    return page.getScopedValue<T, _WatchValue<T>>(
+    return getScopedValue<T, _WatchValue<T>>(
       (ref) => _WatchValue<T>(
         callback: callback,
         keys: keys,
         ref: ref,
         disposal: disposal,
-        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+        autoDisposeWhenUnreferenced: false,
       ),
       listen: true,
       name: name,

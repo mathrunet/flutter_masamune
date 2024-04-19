@@ -4,39 +4,9 @@ part of 'value.dart';
 ///
 /// [ScopedQuery]を用いた状態管理を行うための[Ref]用の拡張メソッドを提供します。
 extension RefQueryExtensions on Ref {
-  /// It is possible to manage the status by passing [query].
-  ///
-  /// Defining [ScopedQuery] in a global scope allows you to manage state individually and safely.
-  ///
-  /// [ScopedQuery] allows you to cache all values, while [ChangeNotifierScopedQuery] monitors values and notifies updates when they change.
-  ///
-  /// Only available internally.
-  ///
-  /// [query]を渡して状態を管理することが可能です。
-  ///
-  /// [ScopedQuery]をグローバルなスコープに定義しておくことで状態を個別に安全に管理することができます。
-  ///
-  /// [ScopedQuery]を使うとすべての値をキャッシュすることができ、[ChangeNotifierScopedQuery]を使うと値を監視して変更時に更新通知を行います。
-  ///
-  /// 内部でのみ利用可能です。
-  ///
-  /// ```dart
-  /// final valueNotifierQuery = ChangeNotifierScopedQuery(
-  ///   () => ValueNotifier(0),
-  /// );
-  ///
-  /// class TestPage extends PageScopedWidget {
-  ///   @override
-  ///   Widget build(BuildContext context, PageRef ref) {
-  ///     final valueNotifier = appRef.query(valueNotifierQuery);
-  ///
-  ///     return Scaffold(
-  ///       body: Center(child: Text("${valueNotifier.value}")),
-  ///     );
-  ///   }
-  /// }
-  /// ```
-  @protected
+  @Deprecated(
+    "[query] will no longer be available in page scope. Please use [ref.query] instead, and limit its use to App scope only. ページスコープでの[query]の利用はできなくなります。代わりに[ref.query]を利用し、Appスコープのみでの利用に限定してください。",
+  )
   T query<T>(ScopedQuery<T> query) {
     return getScopedValue<T, _QueryValue<T>>(
       (ref) => _QueryValue<T>(
@@ -97,10 +67,10 @@ extension AppRefQueryExtensions on AppRef {
   }
 }
 
-/// Provides an extension method for [RefHasApp] to manage state using [ScopedQuery].
+/// Provides an extension method for [AppScopedValueRef] to manage state using [ScopedQuery].
 ///
-/// [ScopedQuery]を用いた状態管理を行うための[RefHasApp]用の拡張メソッドを提供します。
-extension RefHasAppQueryExtensions on RefHasApp {
+/// [ScopedQuery]を用いた状態管理を行うための[AppScopedValueRef]用の拡張メソッドを提供します。
+extension AppScopedValueRefQueryExtensions on AppScopedValueRef {
   /// It is possible to manage the status by passing [query].
   ///
   /// Defining [ScopedQuery] in a global scope allows you to manage state individually and safely.
@@ -121,7 +91,7 @@ extension RefHasAppQueryExtensions on RefHasApp {
   /// class TestPage extends PageScopedWidget {
   ///   @override
   ///   Widget build(BuildContext context, PageRef ref) {
-  ///     final valueNotifier = ref.query(valueNotifierQuery);
+  ///     final valueNotifier = ref.app.query(valueNotifierQuery);
   ///
   ///     return Scaffold(
   ///       body: Center(child: Text("${valueNotifier.value}")),
@@ -130,7 +100,27 @@ extension RefHasAppQueryExtensions on RefHasApp {
   /// }
   /// ```
   T query<T>(ScopedQuery<T> query) {
-    // ignore: invalid_use_of_protected_member
+    return getScopedValue<T, _QueryValue<T>>(
+      (ref) => _QueryValue<T>(
+        query: query,
+        ref: ref,
+        listen: query.listen,
+        autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
+      ),
+      listen: query.listen,
+      name: query.queryName,
+    );
+  }
+}
+
+/// Provides an extension method for [RefHasApp] to manage state using [ScopedQuery].
+///
+/// [ScopedQuery]を用いた状態管理を行うための[RefHasApp]用の拡張メソッドを提供します。
+extension RefHasAppQueryExtensions on RefHasApp {
+  @Deprecated(
+    "It is no longer possible to use [query] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.app.query] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[query]の利用はできなくなります。代わりに[ref.app.query]でスコープを指定しての利用を行ってください。",
+  )
+  T query<T>(ScopedQuery<T> query) {
     return app.getScopedValue<T, _QueryValue<T>>(
       (ref) => _QueryValue<T>(
         query: query,
@@ -175,6 +165,9 @@ class _QueryValueState<T> extends ScopedValueState<T, _QueryValue<T>> {
     super.initValue();
     _callback = value.query(ref);
     _value = _callback();
+    if (!value.query.listen) {
+      return;
+    }
     final val = _value;
     if (val is Listenable) {
       val.addListener(_handledOnUpdate);
@@ -185,12 +178,12 @@ class _QueryValueState<T> extends ScopedValueState<T, _QueryValue<T>> {
   void didUpdateDescendant() {
     super.didUpdateDescendant();
     final oldVal = _value;
-    if (oldVal is Listenable) {
+    if (value.query.listen && oldVal is Listenable) {
       oldVal.removeListener(_handledOnUpdate);
     }
     _value = _callback();
     final newVal = _value;
-    if (newVal is Listenable) {
+    if (value.query.listen && newVal is Listenable) {
       newVal.addListener(_handledOnUpdate);
     }
   }
@@ -202,6 +195,9 @@ class _QueryValueState<T> extends ScopedValueState<T, _QueryValue<T>> {
   @override
   void dispose() {
     super.dispose();
+    if (!value.query.listen) {
+      return;
+    }
     final val = _value;
     if (val is Listenable) {
       val.removeListener(_handledOnUpdate);

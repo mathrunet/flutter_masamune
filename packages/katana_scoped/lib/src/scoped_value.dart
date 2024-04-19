@@ -60,7 +60,6 @@ abstract class ScopedValueState<TResult,
   final Set<ScopedValueState> _ancestorStates = {};
   final Set<ScopedValueListener> _listeners = {};
   final Set<VoidCallback> _callbacks = {};
-  _ScopedValueRef? _ref;
   late final DynamicMap _baseParameters;
   late final List<LoggerAdapter> _loggerAdapters;
 
@@ -76,10 +75,10 @@ abstract class ScopedValueState<TResult,
   /// [ScopedValue]に[Ref]が渡された場合、子孫によって参照可能な[Ref]を返します。
   ///
   /// [ScopedValue]に[Ref]が渡されていない場合、エラーになります。
-  Ref get ref {
-    final ref = _ref ?? value.ref;
+  ScopedQueryRef get ref {
+    final ref = value.ref;
     assert(ref != null, "[ref] is not set.");
-    return ref!;
+    return ScopedQueryRef._(ref!, state: this);
   }
 
   void _addParent(ScopedValueState state) {
@@ -218,12 +217,7 @@ abstract class ScopedValueState<TResult,
   ///
   /// 値が作成された際に実行されます。
   @mustCallSuper
-  void initValue() {
-    if (value.ref == null) {
-      return;
-    }
-    _ref = _ScopedValueRef(value.ref!, state: this);
-  }
+  void initValue() {}
 
   /// If the widget is monitored by a widget, it is executed when the monitored widget is destroyed or otherwise removed.
   ///
@@ -237,7 +231,6 @@ abstract class ScopedValueState<TResult,
   @mustCallSuper
   void dispose() {
     assert(!disposed, "Value is already disposed.");
-    _ref = null;
     _disposed = true;
     _callbacks.clear();
     _listeners.clear();

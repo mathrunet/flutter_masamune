@@ -264,7 +264,7 @@ packages:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "2.8.4"
+    version: "2.8.5"
   katana_form:
     dependency: "direct main"
     description:
@@ -278,7 +278,7 @@ packages:
       path: "../katana_functions"
       relative: true
     source: path
-    version: "2.6.4"
+    version: "2.6.5"
   katana_indicator:
     dependency: "direct main"
     description:
@@ -327,14 +327,14 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.26.5"
+    version: "2.26.6"
   katana_model_local:
     dependency: "direct main"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "2.13.14"
+    version: "2.13.15"
   katana_prefs:
     dependency: "direct main"
     description:
@@ -369,7 +369,7 @@ packages:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "2.3.5"
+    version: "2.4.0"
   katana_shorten:
     dependency: "direct main"
     description:
@@ -383,7 +383,7 @@ packages:
       path: "../katana_storage"
       relative: true
     source: path
-    version: "2.2.4"
+    version: "2.2.5"
   katana_test:
     dependency: "direct dev"
     description:

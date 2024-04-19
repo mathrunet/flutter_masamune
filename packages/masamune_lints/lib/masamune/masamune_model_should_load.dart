@@ -28,7 +28,10 @@ class _MasamuneModelShouldLoad extends DartLintRule {
       switch (functionName) {
         case "model":
           final targetType = node.target?.staticType.toString();
-          if (targetType != "PageRef" && targetType != "WidgetRef") {
+          print(targetType);
+          if (targetType != "PageRef" &&
+              targetType != "WidgetRef" &&
+              targetType != "AppScopedValueRef") {
             return;
           }
           final found = res.firstWhereOrNull((e) => e.node == node);

@@ -5,7 +5,7 @@ part of 'value.dart';
 /// すでに存在している[ScopedValue]の取得を行うための[Ref]用の拡張メソッドを提供します。
 extension RefFetchExtensions on Ref {
   @Deprecated(
-    "You will no longer be able to use [fetch] in App scope. Please use [ref.fetch] instead and limit its use to page scope only. Appスコープでの[fetch]の利用はできなくなります。代わりに[ref.fetch]を利用し、ページスコープのみでの利用に限定してください。Appスコープでの利用はできません。",
+    "[fetch] will no longer be available in the App scope. Instead, use [ref.page.ancestor] or [ref.widget.ancestor] and limit its use to page and widget scopes only. Appスコープでの[fetch]の利用はできなくなります。代わりに[ref.page.ancestor]や[ref.widget.ancestor]を利用し、ページやウィジェットスコープのみでの利用に限定してください。",
   )
   T? fetch<T>([
     Object? name,
@@ -24,38 +24,16 @@ extension RefFetchExtensions on Ref {
 ///
 /// すでに存在している[ScopedValue]の取得を行うための[RefHasPage]用の拡張メソッドを提供します。
 extension RefHasPageFetchExtensions on RefHasPage {
-  /// This is used to retrieve a [ScopedValue] already registered in [watch] or [cache] with the widget below it, etc.
-  ///
-  /// [Null] is returned when trying to get a [ScopedValue] that is not registered in [watch] or [cache].
-  ///
-  /// [ScopedValue] registered in [watch] and [ScopedValue] registered in [cache] are processed in this order.
-  ///
-  /// When [watch] returns a registered [ScopedValue], it will be associated with the widget and notify the user of the change.
-  ///
-  /// If there are multiple [ScopedValue] of the same type in the scope, specify [name].
-  ///
-  /// If [ScopedValue] is not found in that scope, it is searched recursively from the child to the parent scope.
-  ///
-  /// [watch]や[cache]ですでに登録している[ScopedValue]をその下のウィジェット等で取得するために利用します。
-  ///
-  /// [watch]や[cache]で登録されていない[ScopedValue]を取得しようとした時[Null]が返されます。
-  ///
-  /// [watch]で登録した[ScopedValue]、[cache]で登録した[ScopedValue]の順番で処理されます。
-  ///
-  /// [watch]で登録した[ScopedValue]を返すときにウィジェットに関連付けて変更を通知するようにします。
-  ///
-  /// そのスコープ内に同じ型の[ScopedValue]が複数存在する場合は[name]を指定してください。
-  ///
-  /// そのスコープ内に[ScopedValue]が見つからなかったときは子から親のスコープへと再帰的に検索します。
+  @Deprecated(
+    "The use of [fetch] in [PageRef] is no longer allowed. Instead, use [ref.page.ancestor] or [ref.widget.ancestor] and limit your use to page and widget scopes only. [PageRef]での[fetch]の利用はできなくなります。代わりに[ref.page.ancestor]や[ref.widget.ancestor]を利用し、ページやウィジェットスコープのみでの利用に限定してください。",
+  )
   T? fetch<T>([
     Object? name,
   ]) {
-    // ignore: invalid_use_of_protected_member
     return page.getAlreadyExistsScopedValue<T, _WatchValue<T>>(
           name: name,
           listen: true,
         ) ??
-        // ignore: invalid_use_of_protected_member
         page.getAlreadyExistsScopedValue<T, _CacheValue<T>>(
           name: name,
         );

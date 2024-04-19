@@ -3,29 +3,7 @@ part of 'value.dart';
 /// Provides extension methods for [PageOrWidgetScopedValueRef] for processing in the lifecycle.
 ///
 /// ライフサイクルにおける処理を行うための[PageOrWidgetScopedValueRef]用の拡張メソッドを提供します。
-extension RefOnExtensions on PageOrWidgetScopedValueRef {
-  @Deprecated(
-    "You will no longer be able to use [future] in widget scope. Please use [ref.on] instead and limit its use to page scope only; it cannot be used in widget scope. Widgetスコープでの[future]の利用はできなくなります。代わりに[ref.on]を利用し、ページスコープのみでの利用に限定してください。Widgetスコープでの利用はできません。",
-  )
-  OnContext on({
-    FutureOr<void> Function()? initOrUpdate,
-    VoidCallback? disposed,
-    List<Object> keys = const [],
-  }) {
-    return getScopedValue<OnContext, _OnValue>(
-      (ref) => _OnValue(
-        onInitOrUpdate: initOrUpdate,
-        onDispose: disposed,
-        keys: keys,
-      ),
-    );
-  }
-}
-
-/// Provides extension methods for [RefHasPage] for processing in the lifecycle.
-///
-/// ライフサイクルにおける処理を行うための[RefHasPage]用の拡張メソッドを提供します。
-extension RefHasPageOnExtensions on RefHasPage {
+extension PageOrWidgetScopedValueRefOnExtensions on PageOrWidgetScopedValueRef {
   /// Processing in the lifecycle.
   ///
   /// The process passed to [initOrUpdate] is executed the first time and when [keys] is passed a value different from the previous value.
@@ -46,7 +24,28 @@ extension RefHasPageOnExtensions on RefHasPage {
     VoidCallback? disposed,
     List<Object> keys = const [],
   }) {
-    // ignore: invalid_use_of_protected_member
+    return getScopedValue<OnContext, _OnValue>(
+      (ref) => _OnValue(
+        onInitOrUpdate: initOrUpdate,
+        onDispose: disposed,
+        keys: keys,
+      ),
+    );
+  }
+}
+
+/// Provides extension methods for [RefHasPage] for processing in the lifecycle.
+///
+/// ライフサイクルにおける処理を行うための[RefHasPage]用の拡張メソッドを提供します。
+extension RefHasPageOnExtensions on RefHasPage {
+  @Deprecated(
+    "It is no longer possible to use [on] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.page.on] or [ref.widget.on] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[on]の利用はできなくなります。代わりに[ref.page.on]や[ref.widget.on]でスコープを指定しての利用を行ってください。",
+  )
+  OnContext on({
+    FutureOr<void> Function()? initOrUpdate,
+    VoidCallback? disposed,
+    List<Object> keys = const [],
+  }) {
     return page.getScopedValue<OnContext, _OnValue>(
       (ref) => _OnValue(
         onInitOrUpdate: initOrUpdate,

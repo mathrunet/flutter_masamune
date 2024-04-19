@@ -15,10 +15,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:katana_scoped/katana_scoped.dart';
 
 // Project imports:
-import 'finder_extensions.dart';
+import 'test_extensions.dart';
 
 void main() {
-  testWidgets("Value.refresh", (tester) async {
+  testWidgets("Scoped.Value.refresh", (tester) async {
     final appRef = AppRef();
     await tester.pumpWidget(
       AppScoped(
