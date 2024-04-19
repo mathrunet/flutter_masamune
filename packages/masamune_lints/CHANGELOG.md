@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Scope was prepared by a method that dares to specify the scope. ([d4db466a](https://github.com/mathrunet/flutter_masamune/commit/d4db466a2631ad1ae84c098d0d40f0241d4e4728))
+
 ## 2.2.2
 
  - Update a dependency to the latest release.

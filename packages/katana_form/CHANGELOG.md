@@ -1,3 +1,7 @@
+## 2.12.12
+
+ - **DOCS**: Corrected comment. ([56d780c2](https://github.com/mathrunet/flutter_masamune/commit/56d780c2f0813a071bd476db3dbb93e33258ff6b))
+
 ## 2.12.11
 
  - **FIX**: Fixed a problem with icons overflowing. ([8ac5ef1a](https://github.com/mathrunet/flutter_masamune/commit/8ac5ef1aa63bb16a57730e05a3c78a4df9df37bf))

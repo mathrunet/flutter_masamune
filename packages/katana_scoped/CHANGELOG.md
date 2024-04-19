@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: Scope was prepared by a method that dares to specify the scope. ([d4db466a](https://github.com/mathrunet/flutter_masamune/commit/d4db466a2631ad1ae84c098d0d40f0241d4e4728))
+
 ## 2.4.0
 
  - **FEAT**: Added restrictions on the use of ScopedValue. ([89b080a9](https://github.com/mathrunet/flutter_masamune/commit/89b080a900a678aa82a3c3de15ea08b3703be030))
