@@ -151,7 +151,7 @@ class _SpeechToText {
     _notifyFinalTimer = null;
     try {
       var started = await SpeechToTextPlatform.instance.listen(
-        options: SpeechListenOptions(
+          options: SpeechListenOptions(
             partialResults: partialResults || null != pauseFor,
             onDevice: onDevice,
             listenMode: listenMode,
