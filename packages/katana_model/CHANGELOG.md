@@ -1,3 +1,7 @@
+## 2.26.7
+
+ - **FIX**: Slight change in search algorithm. ([f844931b](https://github.com/mathrunet/flutter_masamune/commit/f844931b38e27fc01a8bb79ff120e72d37496cb4))
+
 ## 2.26.6
 
  - **FIX**: Fixed a bug in the hash code. ([a15c4ee4](https://github.com/mathrunet/flutter_masamune/commit/a15c4ee4e22b4c8104acfde023d6933e49c06649))

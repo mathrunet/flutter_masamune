@@ -1,3 +1,7 @@
+## 2.13.2
+
+ - Update a dependency to the latest release.
+
 ## 2.13.1
 
  - **FIX**: Strictly define the type of Ref in Query. ([71b96c50](https://github.com/mathrunet/flutter_masamune/commit/71b96c50b280328ec5895f62dc260dccc36eb66a))

@@ -1,3 +1,7 @@
+## 2.13.16
+
+ - Update a dependency to the latest release.
+
 ## 2.13.15
 
  - **FIX**: Fixed a bug in the hash code. ([a15c4ee4](https://github.com/mathrunet/flutter_masamune/commit/a15c4ee4e22b4c8104acfde023d6933e49c06649))
