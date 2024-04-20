@@ -1,3 +1,7 @@
+## 2.13.4
+
+ - **FIX**: Change Form to App scope. ([2cd4c228](https://github.com/mathrunet/flutter_masamune/commit/2cd4c22819a585763f74c0dd8a709663822de6c8))
+
 ## 2.13.3
 
  - **FIX**: query is now available in Page scope as well. ([b077ad0f](https://github.com/mathrunet/flutter_masamune/commit/b077ad0f28d4ec1222c37d033d2581e488c837bb))
