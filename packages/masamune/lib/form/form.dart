@@ -9,9 +9,13 @@ extension MasamuneFormRefHasPageExtensions on RefHasPage {
   )
   FormController<TModel> form<TModel>(
     ChangeNotifierScopedQueryBase<FormController<TModel>, PageScopedValueRef>
-        query,
-  ) {
-    return page.query(query);
+        query, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
+    return page.query(
+      query,
+      autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+    );
   }
 }
 
@@ -31,9 +35,13 @@ extension MasamuneFormPageScopedValueRefExtensions on AppScopedValueOrAppRef {
   /// final userController = ref.page.form(UserFormController.query()); // Get the user form controller.
   /// ```
   FormController<TModel> form<TModel>(
-    FormControllerQueryBase<TModel> query,
-  ) {
-    return this.query(query);
+    FormControllerQueryBase<TModel> query, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
+    return this.query(
+      query,
+      autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+    );
   }
 }
 
@@ -54,9 +62,13 @@ extension QueryScopedValueRefMasamuneFormPageScopedValueRefExtensions
   /// final userController = ref.page.form(UserFormController.query()); // Get the user form controller.
   /// ```
   FormController<TModel> form<TModel>(
-    FormControllerQueryBase<TModel> query,
-  ) {
-    return this.query(query);
+    FormControllerQueryBase<TModel> query, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
+    return this.query(
+      query,
+      autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+    );
   }
 }
 
@@ -68,8 +80,14 @@ extension FormControllerQueryBaseExtensions<TModel>
   /// Get [FormController<TModel>] while monitoring it with the widget associated with [ref] in the same way as `ref.page.controller`.
   ///
   /// `ref.page.controller`と同じように[ref]に関連するウィジェットで監視を行いつつ[FormController<TModel>]を取得します。
-  FormController<TModel> watch(RefHasApp ref) {
-    return ref.app.form(this);
+  FormController<TModel> watch(
+    RefHasApp ref, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
+    return ref.app.form(
+      this,
+      autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+    );
   }
 }
 
@@ -98,7 +116,4 @@ abstract class FormControllerQueryBase<TModel>
   static TController _provider<TController extends Listenable>(Ref ref) {
     throw UnimplementedError();
   }
-
-  @override
-  bool get autoDisposeWhenUnreferenced => true;
 }

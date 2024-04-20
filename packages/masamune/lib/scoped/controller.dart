@@ -14,9 +14,13 @@ extension MasamuneControllerAppScopedValueOrAppRefExtensions
   /// final userControllerGroup = appRef.controller(UserControllerGroup.query()); // Get the user controller group.
   /// ```
   TController controller<TController extends Listenable>(
-    ControllerQueryBase<TController> query,
-  ) {
-    return this.query(query);
+    ControllerQueryBase<TController> query, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
+    return this.query(
+      query,
+      autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+    );
   }
 }
 
@@ -34,9 +38,13 @@ extension MasamuneControllerQueryScopedValueRefExtensions
   /// final userControllerGroup = appRef.controller(UserControllerGroup.query()); // Get the user controller group.
   /// ```
   TController controller<TController extends Listenable>(
-    ControllerQueryBase<TController> query,
-  ) {
-    return this.query(query);
+    ControllerQueryBase<TController> query, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
+    return this.query(
+      query,
+      autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+    );
   }
 }
 
@@ -48,9 +56,13 @@ extension MasamuneControllerRefHasAppExtensions on RefHasApp {
     "It is no longer possible to use [controller] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.app.controller] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[controller]の利用はできなくなります。代わりに[ref.app.controller]でスコープを指定しての利用を行ってください。",
   )
   TController controller<TController extends Listenable>(
-    ControllerQueryBase<TController> query,
-  ) {
-    return app.query(query);
+    ControllerQueryBase<TController> query, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
+    return app.query(
+      query,
+      autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+    );
   }
 }
 
@@ -62,9 +74,13 @@ extension MasamuneControllerPageScopedValueRefExtensions on PageScopedValueRef {
     "[controller] with page scope is no longer available. Please use [ref.app.controller] instead. ページスコープを指定しての[controller]は利用できなくなります。代わりに[ref.app.controller]を利用してください。Appスコープのみでの利用となります。",
   )
   TController controller<TController extends Listenable>(
-    ScopedQueryBase<TController, PageScopedValueRef> query,
-  ) {
-    return this.query(query);
+    ScopedQueryBase<TController, PageScopedValueRef> query, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
+    return this.query(
+      query,
+      autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+    );
   }
 }
 
@@ -92,7 +108,4 @@ abstract class ControllerQueryBase<TController extends Listenable>
   static TController _provider<TController extends Listenable>(Ref ref) {
     throw UnimplementedError();
   }
-
-  @override
-  bool get autoDisposeWhenUnreferenced => true;
 }

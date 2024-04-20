@@ -32,13 +32,17 @@ extension AppScopedValueRefQueryExtensions on AppScopedValueOrAppRef {
   ///   }
   /// }
   /// ```
-  T query<T>(ScopedQueryBase<T, AppScopedValueOrAppRef> query) {
+  T query<T>(
+    ScopedQueryBase<T, AppScopedValueOrAppRef> query, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
     return getScopedValue<T, _QueryValue<T, AppScopedValueOrAppRef>>(
       (ref) => _QueryValue<T, AppScopedValueOrAppRef>(
         query: query,
         ref: this,
         listen: query.listen,
-        autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
+        autoDisposeWhenUnreferenced:
+            autoDisposeWhenUnreferenced ?? query.autoDisposeWhenUnreferenced,
       ),
       listen: query.listen,
       name: query.queryName,
@@ -79,13 +83,17 @@ extension QueryScopedValueRefAppScopedValueRefQueryExtensions
   ///   }
   /// }
   /// ```
-  T query<T>(ScopedQueryBase<T, AppScopedValueOrAppRef> query) {
+  T query<T>(
+    ScopedQueryBase<T, AppScopedValueOrAppRef> query, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
     return getScopedValue<T, _QueryValue<T, AppScopedValueOrAppRef>>(
       (ref) => _QueryValue<T, AppScopedValueOrAppRef>(
         query: query,
         ref: this.ref,
         listen: query.listen,
-        autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
+        autoDisposeWhenUnreferenced:
+            autoDisposeWhenUnreferenced ?? query.autoDisposeWhenUnreferenced,
       ),
       listen: query.listen,
       name: query.queryName,
@@ -125,13 +133,17 @@ extension PageScopedValueRefQueryExtensions on PageScopedValueRef {
   ///   }
   /// }
   /// ```
-  T query<T>(ScopedQueryBase<T, PageScopedValueRef> query) {
+  T query<T>(
+    ScopedQueryBase<T, PageScopedValueRef> query, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
     return getScopedValue<T, _QueryValue<T, PageScopedValueRef>>(
       (ref) => _QueryValue<T, PageScopedValueRef>(
         query: query,
         ref: this,
         listen: query.listen,
-        autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
+        autoDisposeWhenUnreferenced:
+            autoDisposeWhenUnreferenced ?? query.autoDisposeWhenUnreferenced,
       ),
       listen: query.listen,
       name: query.queryName,
@@ -172,13 +184,17 @@ extension QueryScopedValueRefPageScopedValueRefQueryExtensions
   ///   }
   /// }
   /// ```
-  T query<T>(ScopedQueryBase<T, PageScopedValueRef> query) {
+  T query<T>(
+    ScopedQueryBase<T, PageScopedValueRef> query, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
     return getScopedValue<T, _QueryValue<T, PageScopedValueRef>>(
       (ref) => _QueryValue<T, PageScopedValueRef>(
         query: query,
         ref: this.ref,
         listen: query.listen,
-        autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
+        autoDisposeWhenUnreferenced:
+            autoDisposeWhenUnreferenced ?? query.autoDisposeWhenUnreferenced,
       ),
       listen: query.listen,
       name: query.queryName,
@@ -218,13 +234,17 @@ extension WidgetScopedValueRefQueryExtensions on WidgetScopedValueRef {
   ///   }
   /// }
   /// ```
-  T query<T>(ScopedQueryBase<T, WidgetScopedValueRef> query) {
+  T query<T>(
+    ScopedQueryBase<T, WidgetScopedValueRef> query, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
     return getScopedValue<T, _QueryValue<T, WidgetScopedValueRef>>(
       (ref) => _QueryValue<T, WidgetScopedValueRef>(
         query: query,
         ref: this,
         listen: query.listen,
-        autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
+        autoDisposeWhenUnreferenced:
+            autoDisposeWhenUnreferenced ?? query.autoDisposeWhenUnreferenced,
       ),
       listen: query.listen,
       name: query.queryName,
@@ -265,13 +285,17 @@ extension QueryScopedValueRefWidgetScopedValueRefQueryExtensions
   ///   }
   /// }
   /// ```
-  T query<T>(ScopedQueryBase<T, WidgetScopedValueRef> query) {
+  T query<T>(
+    ScopedQueryBase<T, WidgetScopedValueRef> query, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
     return getScopedValue<T, _QueryValue<T, WidgetScopedValueRef>>(
       (ref) => _QueryValue<T, WidgetScopedValueRef>(
         query: query,
         ref: this.ref,
         listen: query.listen,
-        autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
+        autoDisposeWhenUnreferenced:
+            autoDisposeWhenUnreferenced ?? query.autoDisposeWhenUnreferenced,
       ),
       listen: query.listen,
       name: query.queryName,
@@ -286,13 +310,17 @@ extension RefHasAppQueryExtensions on RefHasApp {
   @Deprecated(
     "It is no longer possible to use [query] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.app.query] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[query]の利用はできなくなります。代わりに[ref.app.query]でスコープを指定しての利用を行ってください。",
   )
-  T query<T>(ScopedQueryBase<T, AppScopedValueRef> query) {
+  T query<T>(
+    ScopedQueryBase<T, AppScopedValueRef> query, {
+    bool? autoDisposeWhenUnreferenced,
+  }) {
     return app.getScopedValue<T, _QueryValue<T, AppScopedValueOrAppRef>>(
       (ref) => _QueryValue<T, AppScopedValueOrAppRef>(
         query: query,
         ref: app,
         listen: query.listen,
-        autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
+        autoDisposeWhenUnreferenced:
+            autoDisposeWhenUnreferenced ?? query.autoDisposeWhenUnreferenced,
       ),
       listen: query.listen,
       name: query.queryName,
