@@ -112,12 +112,17 @@ mixin SearchableDocumentMixin<T> on DocumentBase<T> {
       Map.unmodifiable({
         ...rawData,
         searchValueFieldKey: searchText
-            .toLowerCase()
-            .replaceAll(".", "")
-            // .toHankakuNumericAndAlphabet()
-            // .toZenkakuKatakana()
-            // .toKatakana()
-            .splitByCharacterAndBigram()
+            .replaceAll("　", " ")
+            .split(" ")
+            .expand(
+              (e) => e
+                  .toLowerCase()
+                  .replaceAll(".", "")
+                  .toHankakuNumericAndAlphabet()
+                  .toZenkakuKatakana()
+                  .toKatakana()
+                  .splitByCharacterAndBigram(),
+            )
             .distinct()
             .toMap((e) => MapEntry(e, true)),
       }),

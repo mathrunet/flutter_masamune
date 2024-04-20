@@ -1390,13 +1390,19 @@ class ModelQueryFilter {
         if (source is! Map) {
           return false;
         }
+
         final splitBygram = target
-            .toLowerCase()
-            .replaceAll(".", "")
-            // .toHankakuNumericAndAlphabet()
-            // .toZenkakuKatakana()
-            // .toKatakana()
-            .splitByCharacterAndBigram()
+            .replaceAll("　", " ")
+            .split(" ")
+            .expand(
+              (e) => e
+                  .toLowerCase()
+                  .replaceAll(".", "")
+                  .toHankakuNumericAndAlphabet()
+                  .toZenkakuKatakana()
+                  .toKatakana()
+                  .splitByCharacterAndBigram(),
+            )
             .distinct();
         for (final text in splitBygram) {
           if (!source.get(text, false)) {
