@@ -1,3 +1,7 @@
+## 2.5.2
+
+ - **FIX**: query is now available in Page scope as well. ([b077ad0f](https://github.com/mathrunet/flutter_masamune/commit/b077ad0f28d4ec1222c37d033d2581e488c837bb))
+
 ## 2.5.1
 
  - **FIX**: Strictly define the type of Ref in Query. ([71b96c50](https://github.com/mathrunet/flutter_masamune/commit/71b96c50b280328ec5895f62dc260dccc36eb66a))
