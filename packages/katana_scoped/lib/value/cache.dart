@@ -129,7 +129,7 @@ extension QueryScopedValueRefPageOrWidgetScopedValueRefCacheExtensions
 }
 
 @immutable
-class _CacheValue<T, TRef extends Ref> extends RelatableScopedValue<T, TRef> {
+class _CacheValue<T, TRef extends Ref> extends QueryScopedValue<T, TRef> {
   const _CacheValue({
     required this.callback,
     required this.keys,
@@ -144,12 +144,12 @@ class _CacheValue<T, TRef extends Ref> extends RelatableScopedValue<T, TRef> {
   final bool autoDisposeWhenUnreferenced;
 
   @override
-  RelatableScopedValueState<T, TRef, RelatableScopedValue<T, TRef>>
-      createState() => _CacheValueState<T, TRef>();
+  QueryScopedValueState<T, TRef, QueryScopedValue<T, TRef>> createState() =>
+      _CacheValueState<T, TRef>();
 }
 
 class _CacheValueState<T, TRef extends Ref>
-    extends RelatableScopedValueState<T, TRef, _CacheValue<T, TRef>> {
+    extends QueryScopedValueState<T, TRef, _CacheValue<T, TRef>> {
   _CacheValueState();
 
   late T _value;

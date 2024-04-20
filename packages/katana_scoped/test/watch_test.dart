@@ -150,7 +150,7 @@ extension on AppScopedValueRef {
 }
 
 @immutable
-class _WatchValue<T, TRef extends Ref> extends RelatableScopedValue<T, TRef> {
+class _WatchValue<T, TRef extends Ref> extends QueryScopedValue<T, TRef> {
   const _WatchValue({
     required this.callback,
     required this.keys,
@@ -165,12 +165,12 @@ class _WatchValue<T, TRef extends Ref> extends RelatableScopedValue<T, TRef> {
   final bool autoDisposeWhenUnreferenced;
 
   @override
-  RelatableScopedValueState<T, TRef, RelatableScopedValue<T, TRef>>
-      createState() => _WatchValueState<T, TRef>();
+  QueryScopedValueState<T, TRef, QueryScopedValue<T, TRef>> createState() =>
+      _WatchValueState<T, TRef>();
 }
 
 class _WatchValueState<T, TRef extends Ref>
-    extends RelatableScopedValueState<T, TRef, _WatchValue<T, TRef>> {
+    extends QueryScopedValueState<T, TRef, _WatchValue<T, TRef>> {
   _WatchValueState();
 
   late T _value;

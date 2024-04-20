@@ -257,9 +257,9 @@ abstract class ScopedValueState<TResult,
 ///
 /// また[ref]を渡すことで子要素に参照可能な[Ref]を指定できます。
 @immutable
-abstract class RelatableScopedValue<TResult, TRef extends Ref>
+abstract class QueryScopedValue<TResult, TRef extends Ref>
     extends ScopedValue<TResult> {
-  const RelatableScopedValue({required this.ref});
+  const QueryScopedValue({required this.ref});
 
   /// Specify the associated [TRef], if any.
   ///
@@ -270,7 +270,7 @@ abstract class RelatableScopedValue<TResult, TRef extends Ref>
   ///
   /// 関連するステートを作成し返します。
   @override
-  RelatableScopedValueState<TResult, TRef, RelatableScopedValue<TResult, TRef>>
+  QueryScopedValueState<TResult, TRef, QueryScopedValue<TResult, TRef>>
       createState();
 }
 
@@ -305,8 +305,8 @@ abstract class RelatableScopedValue<TResult, TRef extends Ref>
 /// [setState]を実行すると関連付けられているウィジェットを更新することができます。
 ///
 /// [ref]を指定することで子要素で参照可能な[Ref]を取得できます。
-abstract class RelatableScopedValueState<TResult, TRef extends Ref,
-        TScopedValue extends RelatableScopedValue<TResult, TRef>>
+abstract class QueryScopedValueState<TResult, TRef extends Ref,
+        TScopedValue extends QueryScopedValue<TResult, TRef>>
     extends ScopedValueState<TResult, TScopedValue> {
   /// If [Ref] is passed to [ScopedValue], it returns a [Ref] that can be referenced by descendants.
   ///
