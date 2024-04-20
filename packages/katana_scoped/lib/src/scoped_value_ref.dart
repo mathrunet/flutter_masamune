@@ -22,7 +22,8 @@ part of '/katana_scoped.dart';
 /// }
 /// ```
 @immutable
-class AppScopedValueRef extends ScopedValueRef {
+class AppScopedValueRef extends ScopedValueRef
+    implements AppScopedValueOrAppRef {
   const AppScopedValueRef._({
     required super.listener,
     required super.context,
@@ -113,13 +114,37 @@ class WidgetScopedValueRef extends ScopedValueRef
 @immutable
 abstract class PageOrWidgetScopedValueRef implements ScopedValueRef {}
 
+/// [AppRef] or [AppScopedValueRef] to store state in App scope.
+///
+/// This can be extended with an extension to add a method to handle [Ref] that stores the value for each app.
+///
+/// Appスコープで状態を保存する[AppRef]もしくは[AppScopedValueRef]。
+///
+/// これをextensionで拡張することでアプリごとに値を保存する[Ref]を扱うメソッドを追加することができます。
+///
+/// ```dart
+/// extension RefWatchExtensions on AppScopedValueOrAppRef {
+///   T watch<T extends Listenable>(
+///     T Function() callback, {
+///     List<Object> keys = const [],
+///   }) {
+///     return getScopedValue<T, _WatchValue<T>>(
+///       () => _WatchValue<T>(callback: callback, keys: keys),
+///       listen: true,
+///     );
+///   }
+/// }
+/// ```
+@immutable
+abstract class AppScopedValueOrAppRef implements Ref {}
+
 /// [Ref] associated with the widget.
 ///
 /// ウィジェットに関連する[Ref]。
 ///
 /// {@macro ref}
 @immutable
-class ScopedValueRef implements Ref {
+abstract class ScopedValueRef implements Ref {
   const ScopedValueRef._({
     required ScopedValueListener listener,
     required this.context,
@@ -178,14 +203,14 @@ class ScopedValueRef implements Ref {
 ///
 /// {@macro ref}
 @immutable
-class ScopedQueryRef implements Ref {
-  const ScopedQueryRef._(
-    this.ref, {
-    required this.state,
-  });
+class QueryScopedValueRef<TRef extends Ref> implements Ref {
+  const QueryScopedValueRef._({
+    required this.ref,
+    required ScopedValueState state,
+  }) : _state = state;
 
-  final Ref ref;
-  final ScopedValueState state;
+  final TRef ref;
+  final ScopedValueState _state;
 
   @override
   TResult getScopedValue<TResult, TScopedValue extends ScopedValue<TResult>>(
@@ -201,14 +226,14 @@ class ScopedQueryRef implements Ref {
         if (state.disposed) {
           return;
         }
-        state._addParent(this.state);
+        state._addParent(_state);
         onInit?.call(state);
       },
       onUpdate: (ScopedValueState<TResult, TScopedValue> state) {
         if (state.disposed) {
           return;
         }
-        state._addParent(this.state);
+        state._addParent(_state);
         onUpdate?.call(state);
       },
       listen: listen,

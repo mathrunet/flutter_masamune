@@ -70,17 +70,17 @@ void main() {
 
 extension on AppRef {
   T watch<T extends Listenable?>(
-    T Function(Ref ref) callback, {
+    T Function(QueryScopedValueRef<AppRef> ref) callback, {
     List<Object> keys = const [],
     Object? name,
     bool disposal = true,
     bool autoDisposeWhenUnreferenced = false,
   }) {
-    return getScopedValue<T, _WatchValue<T>>(
-      (ref) => _WatchValue<T>(
+    return getScopedValue<T, _WatchValue<T, AppRef>>(
+      (ref) => _WatchValue<T, AppRef>(
         callback: callback,
         keys: keys,
-        ref: ref,
+        ref: this,
         disposal: disposal,
         autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
       ),
@@ -91,25 +91,27 @@ extension on AppRef {
 }
 
 @immutable
-class _WatchValue<T> extends ScopedValue<T> {
+class _WatchValue<T, TRef extends Ref> extends RelatableScopedValue<T, TRef> {
   const _WatchValue({
     required this.callback,
     required this.keys,
-    required Ref ref,
+    required TRef ref,
     this.disposal = true,
     this.autoDisposeWhenUnreferenced = false,
   }) : super(ref: ref);
 
-  final T Function(Ref ref) callback;
+  final T Function(QueryScopedValueRef<TRef> ref) callback;
   final List<Object> keys;
   final bool disposal;
   final bool autoDisposeWhenUnreferenced;
 
   @override
-  ScopedValueState<T, ScopedValue<T>> createState() => _WatchValueState<T>();
+  RelatableScopedValueState<T, TRef, RelatableScopedValue<T, TRef>>
+      createState() => _WatchValueState<T, TRef>();
 }
 
-class _WatchValueState<T> extends ScopedValueState<T, _WatchValue<T>> {
+class _WatchValueState<T, TRef extends Ref>
+    extends RelatableScopedValueState<T, TRef, _WatchValue<T, TRef>> {
   _WatchValueState();
 
   late T _value;
@@ -132,7 +134,7 @@ class _WatchValueState<T> extends ScopedValueState<T, _WatchValue<T>> {
   }
 
   @override
-  void didUpdateValue(_WatchValue<T> oldValue) {
+  void didUpdateValue(_WatchValue<T, TRef> oldValue) {
     super.didUpdateValue(oldValue);
     if (!equalsKeys(value.keys, oldValue.keys)) {
       final oldVal = _value;

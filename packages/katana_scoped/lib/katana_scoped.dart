@@ -8,7 +8,6 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_scoped;
 
-// Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:

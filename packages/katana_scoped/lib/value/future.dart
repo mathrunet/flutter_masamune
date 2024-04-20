@@ -16,7 +16,6 @@ extension RefFutureExtensions on Ref {
       (ref) => _FutureValue<T>(
         callback: callback,
         keys: keys,
-        ref: ref,
       ),
       listen: true,
       name: name,
@@ -40,7 +39,6 @@ extension RefHasPageFutureExtensions on RefHasPage {
       (ref) => _FutureValue<T>(
         callback: callback,
         keys: keys,
-        ref: ref,
       ),
       listen: true,
       name: name,
@@ -77,7 +75,6 @@ extension PageOrWidgetScopedValueRefFutureExtensions
       (ref) => _FutureValue<T>(
         callback: callback,
         keys: keys,
-        ref: ref,
       ),
       listen: true,
       name: name,
@@ -90,7 +87,6 @@ class _FutureValue<T> extends ScopedValue<FutureContext<T>> {
   const _FutureValue({
     required this.callback,
     required this.keys,
-    super.ref,
   }) : super();
 
   final FutureOr<T> Function() callback;

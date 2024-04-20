@@ -30,14 +30,6 @@ extension ControllerQueryBaseExtensions<TController extends Listenable>
     // ignore: invalid_use_of_protected_member
     return ref.app.controller(this);
   }
-
-  @Deprecated(
-    "This method is no longer available. Please use [watch] instead. このメソッドは利用できなくなります。代わりに[watch]を利用してください。",
-  )
-  TController watchOnPage(RefHasPage ref) {
-    // ignore: invalid_use_of_protected_member
-    return ref.page.controller(this);
-  }
 }
 
 /// This is an extension method of [Listenable].

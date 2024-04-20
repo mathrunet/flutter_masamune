@@ -150,11 +150,11 @@ abstract class Ref implements RefOrRefHasAny {
 /// }
 /// ```
 @immutable
-abstract class RefHasApp implements RefOrRefHasAny {
+abstract class RefHasApp implements RefOrRefHasAny, RefHasAny {
   /// [Ref] in the application scope.
   ///
   /// アプリケーションスコープの[Ref]。
-  AppScopedValueRef get app;
+  AppScopedValueOrAppRef get app;
 }
 
 /// Reference with page scope [Ref].
@@ -179,7 +179,7 @@ abstract class RefHasApp implements RefOrRefHasAny {
 /// }
 /// ```
 @immutable
-abstract class RefHasPage implements RefOrRefHasAny {
+abstract class RefHasPage implements RefOrRefHasAny, RefHasAny {
   /// [Ref] in the page scope.
   ///
   /// ページスコープの[Ref]。
@@ -208,12 +208,18 @@ abstract class RefHasPage implements RefOrRefHasAny {
 /// }
 /// ```
 @immutable
-abstract class RefHasWidget implements RefOrRefHasAny {
+abstract class RefHasWidget implements RefOrRefHasAny, RefHasAny {
   /// [Ref] in the widget scope.
   ///
   /// ウィジェットスコープの[Ref]。
   WidgetScopedValueRef get widget;
 }
+
+/// [RefHasApp] or [RefHasPage], [RefHasWidget].
+///
+/// [RefHasApp]もしくは[RefHasPage]、[RefHasWidget]。
+@immutable
+abstract class RefHasAny implements RefOrRefHasAny {}
 
 /// [Ref] or [RefHasApp], [RefHasPage], [RefHasWidget].
 ///

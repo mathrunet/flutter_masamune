@@ -1,5 +1,74 @@
 part of '/katana_scoped.dart';
 
+/// Base class that can specify the type of the [provider] part of [ScopedQuery].
+///
+/// Used to create frameworks.
+///
+/// [ScopedQuery]の[provider]部分の型を指定することができるベースクラス。
+///
+/// フレームワークの作成に利用します。
+///
+/// {@macro scoped_query}
+@immutable
+abstract class ScopedQueryBase<Result, TRef extends Ref> {
+  /// Base class that can specify the type of the [provider] part of [ScopedQuery].
+  ///
+  /// Used to create frameworks.
+  ///
+  /// [ScopedQuery]の[provider]部分の型を指定することができるベースクラス。
+  ///
+  /// フレームワークの作成に利用します。
+  ///
+  /// {@macro scoped_query}
+  const ScopedQueryBase(
+    this.provider, {
+    Object? name,
+    this.autoDisposeWhenUnreferenced = false,
+  }) : _name = name;
+
+  final Object? _name;
+
+  /// A callback that returns the value you want to manage.
+  ///
+  /// 管理したい値を返すコールバック。
+  final Result Function(QueryScopedValueRef<TRef> ref) provider;
+
+  /// Returns `true` if the value is monitored for update notification.
+  ///
+  /// 値を監視して更新通知を行う場合`true`を返します。
+  bool get listen => false;
+
+  /// Returns a callback that returns the value you want to manage.
+  ///
+  /// 管理したい値を返すコールバックを返します。
+  Result Function() call(QueryScopedValueRef<TRef> ref) =>
+      () => provider.call(ref);
+
+  /// Returns a name to identify the state.
+  ///
+  /// Normally [hashCode] is used to manage state names, but if you want to specify a special name, specify [queryName].
+  ///
+  /// 状態を識別するための名前を返します。
+  ///
+  /// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[queryName]を指定してください。
+  Object get queryName => _name ?? hashCode.toString();
+
+  /// Returns `true` if [ScopedQuery] should be automatically discarded when it is no longer referenced by any widget.
+  ///
+  /// [ScopedQuery]がどのウィジェットにも参照されなくなったときに自動的に破棄する場合`true`を返します。
+  final bool autoDisposeWhenUnreferenced;
+}
+
+@immutable
+class _ScopedQueryImpl<Result, TRef extends Ref>
+    extends ScopedQueryBase<Result, TRef> {
+  const _ScopedQueryImpl(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced = false,
+  });
+}
+
 /// {@template scoped_query}
 /// [ScopedQuery] makes it possible to define values globally and manage state individually and safely.
 ///
@@ -35,7 +104,8 @@ part of '/katana_scoped.dart';
 /// ```
 /// {@endtemplate}
 @immutable
-class ScopedQuery<Result> {
+class ScopedQuery<Result>
+    extends ScopedQueryBase<Result, AppScopedValueOrAppRef> {
   /// {@template scoped_query}
   /// [ScopedQuery] makes it possible to define values globally and manage state individually and safely.
   ///
@@ -71,41 +141,54 @@ class ScopedQuery<Result> {
   /// ```
   /// {@endtemplate}
   const ScopedQuery(
-    this.provider, {
-    Object? name,
-    this.autoDisposeWhenUnreferenced = false,
-  }) : _name = name;
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced = false,
+  });
+}
 
-  final Object? _name;
+/// Base class that can specify the type of the [provider] part of [ScopedQuery].
+///
+/// Used to create frameworks.
+///
+/// [ChangeNotifierScopedQuery]の[provider]部分の型を指定することができるベースクラス。
+///
+/// フレームワークの作成に利用します。
+///
+/// {@macro change_notifier_scoped_query}
+@immutable
+abstract class ChangeNotifierScopedQueryBase<Result, TRef extends Ref>
+    extends ScopedQueryBase<Result, TRef> {
+  /// Base class that can specify the type of the [provider] part of [ScopedQuery].
+  ///
+  /// Used to create frameworks.
+  ///
+  /// [ChangeNotifierScopedQuery]の[provider]部分の型を指定することができるベースクラス。
+  ///
+  /// フレームワークの作成に利用します。
+  ///
+  /// {@macro change_notifier_scoped_query}
+  const ChangeNotifierScopedQueryBase(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced,
+  });
 
-  /// A callback that returns the value you want to manage.
-  ///
-  /// 管理したい値を返すコールバック。
-  final Result Function(ScopedQueryRef ref) provider;
+  @override
+  bool get listen => true;
 
-  /// Returns `true` if the value is monitored for update notification.
-  ///
-  /// 値を監視して更新通知を行う場合`true`を返します。
-  bool get listen => false;
+  @override
+  Result Function() call(QueryScopedValueRef<TRef> ref) => () => provider(ref);
+}
 
-  /// Returns a callback that returns the value you want to manage.
-  ///
-  /// 管理したい値を返すコールバックを返します。
-  Result Function() call(ScopedQueryRef ref) => () => provider.call(ref);
-
-  /// Returns a name to identify the state.
-  ///
-  /// Normally [hashCode] is used to manage state names, but if you want to specify a special name, specify [queryName].
-  ///
-  /// 状態を識別するための名前を返します。
-  ///
-  /// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[queryName]を指定してください。
-  Object get queryName => _name ?? hashCode.toString();
-
-  /// Returns `true` if [ScopedQuery] should be automatically discarded when it is no longer referenced by any widget.
-  ///
-  /// [ScopedQuery]がどのウィジェットにも参照されなくなったときに自動的に破棄する場合`true`を返します。
-  final bool autoDisposeWhenUnreferenced;
+@immutable
+class _ChangeNotifierScopedQueryImpl<Result, TRef extends Ref>
+    extends ChangeNotifierScopedQueryBase<Result, TRef> {
+  const _ChangeNotifierScopedQueryImpl(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced = false,
+  });
 }
 
 /// {@template change_notifier_scoped_query}
@@ -148,7 +231,7 @@ class ScopedQuery<Result> {
 /// {@endtemplate}
 @immutable
 class ChangeNotifierScopedQuery<Result extends Listenable?>
-    extends ScopedQuery<Result> {
+    extends ChangeNotifierScopedQueryBase<Result, AppScopedValueOrAppRef> {
   /// {@template change_notifier_scoped_query}
   /// [ChangeNotifierScopedQuery] makes it possible to define values globally and manage states individually and safely.
   ///
@@ -192,27 +275,29 @@ class ChangeNotifierScopedQuery<Result extends Listenable?>
     super.name,
     super.autoDisposeWhenUnreferenced,
   });
-
-  @override
-  bool get listen => true;
-
-  @override
-  Result Function() call(ScopedQueryRef ref) => () => provider(ref);
 }
 
-/// You can pass one parameter [ScopedQuery].
+/// Base class that allows specifying the type of the [provider] part of [ScopedQuery] that allows passing a single parameter.
 ///
-/// パラメーターを一つ渡すことができる[ScopedQuery]。
+/// Used to create frameworks.
+///
+/// パラメーターを一つ渡すことができる[ScopedQuery]の[provider]部分の型を指定することができるベースクラス。
+///
+/// フレームワークの作成に利用します。
 ///
 /// {@macro scoped_query}
 @immutable
-class ScopedQueryFamily<Result, Param> {
-  /// You can pass one parameter [ScopedQuery].
+abstract class ScopedQueryFamilyBase<Result, TRef extends Ref, Param> {
+  /// Base class that allows specifying the type of the [provider] part of [ScopedQuery] that allows passing a single parameter.
   ///
-  /// パラメーターを一つ渡すことができる[ScopedQuery]。
+  /// Used to create frameworks.
+  ///
+  /// パラメーターを一つ渡すことができる[ScopedQuery]の[provider]部分の型を指定することができるベースクラス。
+  ///
+  /// フレームワークの作成に利用します。
   ///
   /// {@macro scoped_query}
-  const ScopedQueryFamily(
+  const ScopedQueryFamilyBase(
     this.provider, {
     Object? name,
     this.autoDisposeWhenUnreferenced = false,
@@ -223,12 +308,12 @@ class ScopedQueryFamily<Result, Param> {
   /// Returns a callback that returns the value you want to manage.
   ///
   /// 管理したい値を返すコールバックを返します。
-  final Result Function(Ref ref, Param param) provider;
+  final Result Function(QueryScopedValueRef<TRef> ref, Param param) provider;
 
   /// By passing [param], the corresponding [ScopedQuery] is returned.
   ///
   /// [param]を渡すことで対応した[ScopedQuery]を返します。
-  ScopedQuery<Result> call(Param param) => ScopedQuery(
+  ScopedQueryBase<Result, TRef> call(Param param) => _ScopedQueryImpl(
         (ref) => provider(ref, param),
         name: "${_name ?? hashCode}#${param.hashCode}",
         autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
@@ -240,6 +325,66 @@ class ScopedQueryFamily<Result, Param> {
   final bool autoDisposeWhenUnreferenced;
 }
 
+/// You can pass one parameter [ScopedQuery].
+///
+/// パラメーターを一つ渡すことができる[ScopedQuery]。
+///
+/// {@macro scoped_query}
+@immutable
+class ScopedQueryFamily<Result, Param>
+    extends ScopedQueryFamilyBase<Result, AppScopedValueOrAppRef, Param> {
+  /// You can pass one parameter [ScopedQuery].
+  ///
+  /// パラメーターを一つ渡すことができる[ScopedQuery]。
+  ///
+  /// {@macro scoped_query}
+  const ScopedQueryFamily(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced = false,
+  });
+
+  /// By passing [param], the corresponding [ScopedQuery] is returned.
+  ///
+  /// [param]を渡すことで対応した[ScopedQuery]を返します。
+  @override
+  ScopedQuery<Result> call(Param param) => ScopedQuery(
+        (ref) => provider(ref, param),
+        name: "${_name ?? hashCode}#${param.hashCode}",
+        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+      );
+}
+
+/// You can pass one parameter [ChangeNotifierScopedQuery].
+///
+/// パラメーターを一つ渡すことができる[ChangeNotifierScopedQuery]。
+///
+/// {@macro change_notifier_scoped_query}
+@immutable
+class ChangeNotifierScopedQueryFamilyBase<
+    Result extends Listenable?,
+    TRef extends Ref,
+    Param> extends ScopedQueryFamilyBase<Result, TRef, Param> {
+  /// You can pass one parameter [ChangeNotifierScopedQuery].
+  ///
+  /// パラメーターを一つ渡すことができる[ChangeNotifierScopedQuery]。
+  ///
+  /// {@macro change_notifier_scoped_query}
+  const ChangeNotifierScopedQueryFamilyBase(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced,
+  });
+
+  @override
+  ChangeNotifierScopedQueryBase<Result, TRef> call(Param param) =>
+      _ChangeNotifierScopedQueryImpl<Result, TRef>(
+        (ref) => provider(ref, param),
+        name: "${_name ?? hashCode}#${param.hashCode}",
+        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+      );
+}
+
 /// You can pass one parameter [ChangeNotifierScopedQuery].
 ///
 /// パラメーターを一つ渡すことができる[ChangeNotifierScopedQuery]。
@@ -247,7 +392,8 @@ class ScopedQueryFamily<Result, Param> {
 /// {@macro change_notifier_scoped_query}
 @immutable
 class ChangeNotifierScopedQueryFamily<Result extends Listenable?, Param>
-    extends ScopedQueryFamily<Result, Param> {
+    extends ChangeNotifierScopedQueryFamilyBase<Result, AppScopedValueOrAppRef,
+        Param> {
   /// You can pass one parameter [ChangeNotifierScopedQuery].
   ///
   /// パラメーターを一つ渡すことができる[ChangeNotifierScopedQuery]。

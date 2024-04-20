@@ -13,12 +13,7 @@ part of '/katana_scoped.dart';
 /// 関連するステートを[ScopedValueState]で実装し[createState]で作成します。
 @immutable
 abstract class ScopedValue<TResult> {
-  const ScopedValue({this.ref});
-
-  /// Specify the associated [Ref], if any.
-  ///
-  /// 関連する[Ref]があれば指定します。
-  final Ref? ref;
+  const ScopedValue();
 
   /// Creates and returns the associated state.
   ///
@@ -67,19 +62,6 @@ abstract class ScopedValueState<TResult,
   ///
   /// [ScopedValue]がどのウィジェットにも参照されなくなったときに自動的に破棄する場合`true`を返します。
   bool get autoDisposeWhenUnreferenced => false;
-
-  /// If [Ref] is passed to [ScopedValue], it returns a [Ref] that can be referenced by descendants.
-  ///
-  /// If [Ref] is not passed to [ScopedValue], an error will result.
-  ///
-  /// [ScopedValue]に[Ref]が渡された場合、子孫によって参照可能な[Ref]を返します。
-  ///
-  /// [ScopedValue]に[Ref]が渡されていない場合、エラーになります。
-  ScopedQueryRef get ref {
-    final ref = value.ref;
-    assert(ref != null, "[ref] is not set.");
-    return ScopedQueryRef._(ref!, state: this);
-  }
 
   void _addParent(ScopedValueState state) {
     _ancestorStates.add(state);
@@ -256,5 +238,86 @@ abstract class ScopedValueState<TResult,
         },
       );
     }
+  }
+}
+
+/// Class for extensions to manage state.
+///
+/// After managing the state, return an object of [TResult].
+///
+/// Implement the relevant state with [ScopedValueState] and create it with [createState].
+///
+/// You can also specify a [Ref] that can be referenced by a child element by passing [ref].
+///
+/// 状態を管理するための拡張用のクラス。
+///
+/// 状態を管理した後[TResult]のオブジェクトを返すようにします。
+///
+/// 関連するステートを[ScopedValueState]で実装し[createState]で作成します。
+///
+/// また[ref]を渡すことで子要素に参照可能な[Ref]を指定できます。
+@immutable
+abstract class RelatableScopedValue<TResult, TRef extends Ref>
+    extends ScopedValue<TResult> {
+  const RelatableScopedValue({required this.ref});
+
+  /// Specify the associated [TRef], if any.
+  ///
+  /// 関連する[TRef]があれば指定します。
+  final TRef? ref;
+
+  /// Creates and returns the associated state.
+  ///
+  /// 関連するステートを作成し返します。
+  @override
+  RelatableScopedValueState<TResult, TRef, RelatableScopedValue<TResult, TRef>>
+      createState();
+}
+
+/// State created by [ScopedValue].
+///
+/// initValue], [didUpdateValue], [deactivate], and [dispose] are executed for each lifecycle of create, update, deactivate, and destroy.
+///
+/// After it is destroyed, [disposed] will be `true`.
+///
+/// You can get the [ScopedValue] of the creation source at [value].
+///
+/// After [ScopedValue] is updated, [value] is updated.
+///
+/// You can get [TResult] at [build].
+///
+/// Execute [setState] to update the associated widget.
+///
+/// By specifying [ref], you can obtain a [Ref] that can be referenced by a child element.
+///
+/// [ScopedValue]で作成されるステート。
+///
+/// 作成、更新、非有効化、破棄のライフサイクルごとに[initValue]、[didUpdateValue]、[deactivate]、[dispose]が実行されます。
+///
+/// 破棄された後は[disposed]が`true`になります。
+///
+/// [value]で作成元の[ScopedValue]を取得できます。
+///
+/// [ScopedValue]が更新された後は[value]が更新されます。
+///
+/// [build]で[TResult]を取得することができます。
+///
+/// [setState]を実行すると関連付けられているウィジェットを更新することができます。
+///
+/// [ref]を指定することで子要素で参照可能な[Ref]を取得できます。
+abstract class RelatableScopedValueState<TResult, TRef extends Ref,
+        TScopedValue extends RelatableScopedValue<TResult, TRef>>
+    extends ScopedValueState<TResult, TScopedValue> {
+  /// If [Ref] is passed to [ScopedValue], it returns a [Ref] that can be referenced by descendants.
+  ///
+  /// If [Ref] is not passed to [ScopedValue], an error will result.
+  ///
+  /// [ScopedValue]に[Ref]が渡された場合、子孫によって参照可能な[Ref]を返します。
+  ///
+  /// [ScopedValue]に[Ref]が渡されていない場合、エラーになります。
+  QueryScopedValueRef<TRef> get ref {
+    final ref = value.ref;
+    assert(ref != null, "[ref] is not set.");
+    return QueryScopedValueRef<TRef>._(ref: ref!, state: this);
   }
 }

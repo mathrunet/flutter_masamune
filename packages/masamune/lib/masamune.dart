@@ -56,6 +56,7 @@ part 'src/masamune_adapter.dart';
 part 'src/masamune_controller.dart';
 part 'src/extensions.dart';
 part 'src/functions.dart';
+part 'src/page_query_value.dart';
 
 part 'ui/grid_builder.dart';
 part 'ui/list_builder.dart';

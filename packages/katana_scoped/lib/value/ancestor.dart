@@ -30,11 +30,13 @@ extension PageScopedValueRefAncestorExtensions on PageOrWidgetScopedValueRef {
   T ancestor<T>([
     Object? name,
   ]) {
-    final res = getAlreadyExistsScopedValue<T, _WatchValue<T>>(
+    final res = getAlreadyExistsScopedValue<T,
+            _WatchValue<T, PageOrWidgetScopedValueRef>>(
           name: name,
           listen: true,
         ) ??
-        getAlreadyExistsScopedValue<T, _CacheValue<T>>(
+        getAlreadyExistsScopedValue<T,
+            _CacheValue<T, PageOrWidgetScopedValueRef>>(
           name: name,
         );
     assert(

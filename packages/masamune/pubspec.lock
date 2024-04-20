@@ -271,7 +271,7 @@ packages:
       path: "../katana_form"
       relative: true
     source: path
-    version: "2.12.11"
+    version: "2.12.12"
   katana_functions:
     dependency: "direct main"
     description:
@@ -369,7 +369,7 @@ packages:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "2.4.0"
+    version: "2.5.0"
   katana_shorten:
     dependency: "direct main"
     description:

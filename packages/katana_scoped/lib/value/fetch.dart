@@ -10,11 +10,11 @@ extension RefFetchExtensions on Ref {
   T? fetch<T>([
     Object? name,
   ]) {
-    return getAlreadyExistsScopedValue<T, _WatchValue<T>>(
+    return getAlreadyExistsScopedValue<T, _WatchValue<T, Ref>>(
           name: name,
           listen: true,
         ) ??
-        getAlreadyExistsScopedValue<T, _CacheValue<T>>(
+        getAlreadyExistsScopedValue<T, _CacheValue<T, Ref>>(
           name: name,
         );
   }
@@ -30,11 +30,12 @@ extension RefHasPageFetchExtensions on RefHasPage {
   T? fetch<T>([
     Object? name,
   ]) {
-    return page.getAlreadyExistsScopedValue<T, _WatchValue<T>>(
+    return page
+            .getAlreadyExistsScopedValue<T, _WatchValue<T, PageScopedValueRef>>(
           name: name,
           listen: true,
         ) ??
-        page.getAlreadyExistsScopedValue<T, _CacheValue<T>>(
+        page.getAlreadyExistsScopedValue<T, _CacheValue<T, PageScopedValueRef>>(
           name: name,
         );
   }
