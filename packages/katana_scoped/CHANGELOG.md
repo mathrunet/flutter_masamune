@@ -1,3 +1,7 @@
+## 2.5.1
+
+ - **FIX**: Strictly define the type of Ref in Query. ([71b96c50](https://github.com/mathrunet/flutter_masamune/commit/71b96c50b280328ec5895f62dc260dccc36eb66a))
+
 ## 2.5.0
 
  - **FEAT**: Scope was prepared by a method that dares to specify the scope. ([d4db466a](https://github.com/mathrunet/flutter_masamune/commit/d4db466a2631ad1ae84c098d0d40f0241d4e4728))
