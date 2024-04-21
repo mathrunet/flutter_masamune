@@ -101,7 +101,7 @@ extension MasamuneRouterPageScopedValueRefExtensions on PageScopedValueRef {
   NestedAppRouter nestedRouter({
     Object? name,
   }) {
-    final router = ancestor<NestedAppRouter>(name);
+    final router = fetch<NestedAppRouter>(name);
     return router;
   }
 }

@@ -154,7 +154,7 @@ abstract class RefHasApp implements RefOrRefHasAny, RefHasAny {
   /// [Ref] in the application scope.
   ///
   /// アプリケーションスコープの[Ref]。
-  AppScopedValueOrAppRef get app;
+  AppScopedValueRef get app;
 }
 
 /// Reference with page scope [Ref].
