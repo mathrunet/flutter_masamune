@@ -1,9 +1,9 @@
 part of 'value.dart';
 
-/// Provides an extension method for [AppScopedValueOrAppRef] to manage state using [ScopedQuery].
+/// Provides an extension method for [Ref] to manage state using [ScopedQuery].
 ///
-/// [ScopedQuery]を用いた状態管理を行うための[AppScopedValueOrAppRef]用の拡張メソッドを提供します。
-extension AppScopedValueRefQueryExtensions on AppScopedValueOrAppRef {
+/// [ScopedQuery]を用いた状態管理を行うための[Ref]用の拡張メソッドを提供します。
+extension RefQueryExtensions on Ref {
   /// It is possible to manage the status by passing [query].
   ///
   /// Defining [ScopedQuery] in a global scope allows you to manage state individually and safely.
@@ -33,11 +33,11 @@ extension AppScopedValueRefQueryExtensions on AppScopedValueOrAppRef {
   /// }
   /// ```
   T query<T>(
-    ScopedQueryBase<T, AppScopedValueOrAppRef> query, {
+    ScopedQueryBase<T, Ref> query, {
     bool? autoDisposeWhenUnreferenced,
   }) {
-    return getScopedValue<T, _QueryValue<T, AppScopedValueOrAppRef>>(
-      (ref) => _QueryValue<T, AppScopedValueOrAppRef>(
+    return getScopedValue<T, _QueryValue<T, Ref>>(
+      (ref) => _QueryValue<T, Ref>(
         query: query,
         ref: this,
         listen: query.listen,
@@ -53,8 +53,7 @@ extension AppScopedValueRefQueryExtensions on AppScopedValueOrAppRef {
 /// Provides an extension method for [QueryScopedValueRef] to manage state using [ScopedQuery].
 ///
 /// [ScopedQuery]を用いた状態管理を行うための[QueryScopedValueRef]用の拡張メソッドを提供します。
-extension QueryScopedValueRefAppScopedValueRefQueryExtensions
-    on QueryScopedValueRef<AppScopedValueOrAppRef> {
+extension QueryScopedValueRefQueryExtensions on QueryScopedValueRef<Ref> {
   /// It is possible to manage the status by passing [query].
   ///
   /// Defining [ScopedQuery] in a global scope allows you to manage state individually and safely.
@@ -84,213 +83,11 @@ extension QueryScopedValueRefAppScopedValueRefQueryExtensions
   /// }
   /// ```
   T query<T>(
-    ScopedQueryBase<T, AppScopedValueOrAppRef> query, {
+    ScopedQueryBase<T, Ref> query, {
     bool? autoDisposeWhenUnreferenced,
   }) {
-    return getScopedValue<T, _QueryValue<T, AppScopedValueOrAppRef>>(
-      (ref) => _QueryValue<T, AppScopedValueOrAppRef>(
-        query: query,
-        ref: this.ref,
-        listen: query.listen,
-        autoDisposeWhenUnreferenced:
-            autoDisposeWhenUnreferenced ?? query.autoDisposeWhenUnreferenced,
-      ),
-      listen: query.listen,
-      name: query.queryName,
-    );
-  }
-}
-
-/// Provides an extension method for [PageScopedValueRef] to manage state using [ScopedQuery].
-///
-/// [ScopedQuery]を用いた状態管理を行うための[PageScopedValueRef]用の拡張メソッドを提供します。
-extension PageScopedValueRefQueryExtensions on PageScopedValueRef {
-  /// It is possible to manage the status by passing [query].
-  ///
-  /// Defining [ScopedQuery] in a global scope allows you to manage state individually and safely.
-  ///
-  /// [ScopedQuery] allows you to cache all values, while [ChangeNotifierScopedQuery] monitors values and notifies updates when they change.
-  ///
-  /// [query]を渡して状態を管理することが可能です。
-  ///
-  /// [ScopedQuery]をグローバルなスコープに定義しておくことで状態を個別に安全に管理することができます。
-  ///
-  /// [ScopedQuery]を使うとすべての値をキャッシュすることができ、[ChangeNotifierScopedQuery]を使うと値を監視して変更時に更新通知を行います。
-  ///
-  /// ```dart
-  /// final valueNotifierQuery = ChangeNotifierScopedQuery(
-  ///   () => ValueNotifier(0),
-  /// );
-  ///
-  /// class TestPage extends PageScopedWidget {
-  ///   @override
-  ///   Widget build(BuildContext context, PageRef ref) {
-  ///     final valueNotifier = ref.page.query(valueNotifierQuery);
-  ///
-  ///     return Scaffold(
-  ///       body: Center(child: Text("${valueNotifier.value}")),
-  ///     );
-  ///   }
-  /// }
-  /// ```
-  T query<T>(
-    ScopedQueryBase<T, PageScopedValueRef> query, {
-    bool? autoDisposeWhenUnreferenced,
-  }) {
-    return getScopedValue<T, _QueryValue<T, PageScopedValueRef>>(
-      (ref) => _QueryValue<T, PageScopedValueRef>(
-        query: query,
-        ref: this,
-        listen: query.listen,
-        autoDisposeWhenUnreferenced:
-            autoDisposeWhenUnreferenced ?? query.autoDisposeWhenUnreferenced,
-      ),
-      listen: query.listen,
-      name: query.queryName,
-    );
-  }
-}
-
-/// Provides an extension method for [QueryScopedValueRef] to manage state using [ScopedQuery].
-///
-/// [ScopedQuery]を用いた状態管理を行うための[QueryScopedValueRef]用の拡張メソッドを提供します。
-extension QueryScopedValueRefPageScopedValueRefQueryExtensions
-    on QueryScopedValueRef<PageScopedValueRef> {
-  /// It is possible to manage the status by passing [query].
-  ///
-  /// Defining [ScopedQuery] in a global scope allows you to manage state individually and safely.
-  ///
-  /// [ScopedQuery] allows you to cache all values, while [ChangeNotifierScopedQuery] monitors values and notifies updates when they change.
-  ///
-  /// [query]を渡して状態を管理することが可能です。
-  ///
-  /// [ScopedQuery]をグローバルなスコープに定義しておくことで状態を個別に安全に管理することができます。
-  ///
-  /// [ScopedQuery]を使うとすべての値をキャッシュすることができ、[ChangeNotifierScopedQuery]を使うと値を監視して変更時に更新通知を行います。
-  ///
-  /// ```dart
-  /// final valueNotifierQuery = ChangeNotifierScopedQuery(
-  ///   () => ValueNotifier(0),
-  /// );
-  ///
-  /// class TestPage extends PageScopedWidget {
-  ///   @override
-  ///   Widget build(BuildContext context, PageRef ref) {
-  ///     final valueNotifier = ref.page.query(valueNotifierQuery);
-  ///
-  ///     return Scaffold(
-  ///       body: Center(child: Text("${valueNotifier.value}")),
-  ///     );
-  ///   }
-  /// }
-  /// ```
-  T query<T>(
-    ScopedQueryBase<T, PageScopedValueRef> query, {
-    bool? autoDisposeWhenUnreferenced,
-  }) {
-    return getScopedValue<T, _QueryValue<T, PageScopedValueRef>>(
-      (ref) => _QueryValue<T, PageScopedValueRef>(
-        query: query,
-        ref: this.ref,
-        listen: query.listen,
-        autoDisposeWhenUnreferenced:
-            autoDisposeWhenUnreferenced ?? query.autoDisposeWhenUnreferenced,
-      ),
-      listen: query.listen,
-      name: query.queryName,
-    );
-  }
-}
-
-/// Provides an extension method for [WidgetScopedValueRef] to manage state using [ScopedQuery].
-///
-/// [ScopedQuery]を用いた状態管理を行うための[WidgetScopedValueRef]用の拡張メソッドを提供します。
-extension WidgetScopedValueRefQueryExtensions on WidgetScopedValueRef {
-  /// It is possible to manage the status by passing [query].
-  ///
-  /// Defining [ScopedQuery] in a global scope allows you to manage state individually and safely.
-  ///
-  /// [ScopedQuery] allows you to cache all values, while [ChangeNotifierScopedQuery] monitors values and notifies updates when they change.
-  ///
-  /// [query]を渡して状態を管理することが可能です。
-  ///
-  /// [ScopedQuery]をグローバルなスコープに定義しておくことで状態を個別に安全に管理することができます。
-  ///
-  /// [ScopedQuery]を使うとすべての値をキャッシュすることができ、[ChangeNotifierScopedQuery]を使うと値を監視して変更時に更新通知を行います。
-  ///
-  /// ```dart
-  /// final valueNotifierQuery = ChangeNotifierScopedQuery(
-  ///   () => ValueNotifier(0),
-  /// );
-  ///
-  /// class TestPage extends PageScopedWidget {
-  ///   @override
-  ///   Widget build(BuildContext context, PageRef ref) {
-  ///     final valueNotifier = ref.page.query(valueNotifierQuery);
-  ///
-  ///     return Scaffold(
-  ///       body: Center(child: Text("${valueNotifier.value}")),
-  ///     );
-  ///   }
-  /// }
-  /// ```
-  T query<T>(
-    ScopedQueryBase<T, WidgetScopedValueRef> query, {
-    bool? autoDisposeWhenUnreferenced,
-  }) {
-    return getScopedValue<T, _QueryValue<T, WidgetScopedValueRef>>(
-      (ref) => _QueryValue<T, WidgetScopedValueRef>(
-        query: query,
-        ref: this,
-        listen: query.listen,
-        autoDisposeWhenUnreferenced:
-            autoDisposeWhenUnreferenced ?? query.autoDisposeWhenUnreferenced,
-      ),
-      listen: query.listen,
-      name: query.queryName,
-    );
-  }
-}
-
-/// Provides an extension method for [QueryScopedValueRef] to manage state using [ScopedQuery].
-///
-/// [ScopedQuery]を用いた状態管理を行うための[QueryScopedValueRef]用の拡張メソッドを提供します。
-extension QueryScopedValueRefWidgetScopedValueRefQueryExtensions
-    on QueryScopedValueRef<WidgetScopedValueRef> {
-  /// It is possible to manage the status by passing [query].
-  ///
-  /// Defining [ScopedQuery] in a global scope allows you to manage state individually and safely.
-  ///
-  /// [ScopedQuery] allows you to cache all values, while [ChangeNotifierScopedQuery] monitors values and notifies updates when they change.
-  ///
-  /// [query]を渡して状態を管理することが可能です。
-  ///
-  /// [ScopedQuery]をグローバルなスコープに定義しておくことで状態を個別に安全に管理することができます。
-  ///
-  /// [ScopedQuery]を使うとすべての値をキャッシュすることができ、[ChangeNotifierScopedQuery]を使うと値を監視して変更時に更新通知を行います。
-  ///
-  /// ```dart
-  /// final valueNotifierQuery = ChangeNotifierScopedQuery(
-  ///   () => ValueNotifier(0),
-  /// );
-  ///
-  /// class TestPage extends PageScopedWidget {
-  ///   @override
-  ///   Widget build(BuildContext context, PageRef ref) {
-  ///     final valueNotifier = ref.page.query(valueNotifierQuery);
-  ///
-  ///     return Scaffold(
-  ///       body: Center(child: Text("${valueNotifier.value}")),
-  ///     );
-  ///   }
-  /// }
-  /// ```
-  T query<T>(
-    ScopedQueryBase<T, WidgetScopedValueRef> query, {
-    bool? autoDisposeWhenUnreferenced,
-  }) {
-    return getScopedValue<T, _QueryValue<T, WidgetScopedValueRef>>(
-      (ref) => _QueryValue<T, WidgetScopedValueRef>(
+    return getScopedValue<T, _QueryValue<T, Ref>>(
+      (ref) => _QueryValue<T, Ref>(
         query: query,
         ref: this.ref,
         listen: query.listen,

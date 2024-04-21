@@ -16,7 +16,8 @@ part of '/katana_scoped.dart';
 ///
 /// [scopedValueContainer]を指定すると独自の[ScopedValueContainer]を利用可能です。テスト等でご利用ください。
 @immutable
-class AppRef implements Ref, AppScopedValueOrAppRef {
+class AppRef
+    implements Ref, PageOrAppScopedValueOrAppRef, AppScopedValueOrAppRef {
   /// [ScopedValue] in the scope of the application.
   ///
   /// Since there is no object to monitor the status, we only read [ScopedValue], but if we define the value globally, we can call it from any timing.

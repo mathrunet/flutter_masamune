@@ -23,7 +23,7 @@ part of '/katana_scoped.dart';
 /// ```
 @immutable
 class AppScopedValueRef extends ScopedValueRef
-    implements AppScopedValueOrAppRef {
+    implements AppScopedValueOrAppRef, PageOrAppScopedValueOrAppRef {
   const AppScopedValueRef._({
     required super.listener,
     required super.context,
@@ -53,7 +53,7 @@ class AppScopedValueRef extends ScopedValueRef
 /// ```
 @immutable
 class PageScopedValueRef extends ScopedValueRef
-    implements PageOrWidgetScopedValueRef {
+    implements PageOrAppScopedValueOrAppRef, PageOrWidgetScopedValueRef {
   const PageScopedValueRef._({
     required super.listener,
     required super.context,
@@ -90,6 +90,55 @@ class WidgetScopedValueRef extends ScopedValueRef
   }) : super._();
 }
 
+/// [AppRef] or [AppScopedValueRef] to store state in App scope.
+///
+/// This can be extended with an extension to add a method to handle [Ref] that stores the value for each app.
+///
+/// Appスコープで状態を保存する[AppRef]もしくは[AppScopedValueRef]。
+///
+/// これをextensionで拡張することでアプリごとに値を保存する[Ref]を扱うメソッドを追加することができます。
+///
+/// ```dart
+/// extension RefWatchExtensions on AppScopedValueOrAppRef {
+///   T watch<T extends Listenable>(
+///     T Function() callback, {
+///     List<Object> keys = const [],
+///   }) {
+///     return getScopedValue<T, _WatchValue<T>>(
+///       () => _WatchValue<T>(callback: callback, keys: keys),
+///       listen: true,
+///     );
+///   }
+/// }
+/// ```
+@immutable
+abstract class AppScopedValueOrAppRef
+    implements PageOrAppScopedValueOrAppRef, Ref {}
+
+/// [AppScopedValueOrAppRef] that stores state in page scope and App scope.
+///
+/// This can be extended with an extension to add a method to handle [Ref] that stores the value for each app.
+///
+/// ページスコープおよびAppスコープで状態を保存する[AppScopedValueOrAppRef]。
+///
+/// これをextensionで拡張することでアプリごとに値を保存する[Ref]を扱うメソッドを追加することができます。
+///
+/// ```dart
+/// extension RefWatchExtensions on PageOrAppScopedValueOrAppRef {
+///   T watch<T extends Listenable>(
+///     T Function() callback, {
+///     List<Object> keys = const [],
+///   }) {
+///     return getScopedValue<T, _WatchValue<T>>(
+///       () => _WatchValue<T>(callback: callback, keys: keys),
+///       listen: true,
+///     );
+///   }
+/// }
+/// ```
+@immutable
+abstract class PageOrAppScopedValueOrAppRef implements Ref {}
+
 /// [ScopedValueRef] of the Page or Widget (whose state can be monitored).
 ///
 /// This can be extended with an extension to add a method to handle [ScopedValue] that stores a value per page.
@@ -113,30 +162,6 @@ class WidgetScopedValueRef extends ScopedValueRef
 /// ```
 @immutable
 abstract class PageOrWidgetScopedValueRef implements ScopedValueRef {}
-
-/// [AppRef] or [AppScopedValueRef] to store state in App scope.
-///
-/// This can be extended with an extension to add a method to handle [Ref] that stores the value for each app.
-///
-/// Appスコープで状態を保存する[AppRef]もしくは[AppScopedValueRef]。
-///
-/// これをextensionで拡張することでアプリごとに値を保存する[Ref]を扱うメソッドを追加することができます。
-///
-/// ```dart
-/// extension RefWatchExtensions on AppScopedValueOrAppRef {
-///   T watch<T extends Listenable>(
-///     T Function() callback, {
-///     List<Object> keys = const [],
-///   }) {
-///     return getScopedValue<T, _WatchValue<T>>(
-///       () => _WatchValue<T>(callback: callback, keys: keys),
-///       listen: true,
-///     );
-///   }
-/// }
-/// ```
-@immutable
-abstract class AppScopedValueOrAppRef implements Ref {}
 
 /// [Ref] associated with the widget.
 ///
