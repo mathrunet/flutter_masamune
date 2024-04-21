@@ -1,3 +1,7 @@
+## 2.5.4
+
+ - **FIX**: Controller and Form can now also be used on Page. ([018f87d7](https://github.com/mathrunet/flutter_masamune/commit/018f87d7bdfd2cdfc049db19f5ce19f3c5c28bb6))
+
 ## 2.5.3
 
  - **FIX**: Form is now AuthDisposeable. ([8d1f5f67](https://github.com/mathrunet/flutter_masamune/commit/8d1f5f67fdf9f49df0cadaee17b7d4967f23a0a6))
