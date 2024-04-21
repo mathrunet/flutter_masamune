@@ -146,6 +146,63 @@ class ScopedQuery<Result> extends ScopedQueryBase<Result, Ref> {
   });
 }
 
+/// [ScopedQuery] available at app scope.
+///
+/// Appスコープで利用可能な[ScopedQuery]。
+///
+/// {@macro scoped_query}
+class AppScopedQuery<Result>
+    extends ScopedQueryBase<Result, AppScopedValueOrAppRef> {
+  /// [ScopedQuery] available at app scope.
+  ///
+  /// Appスコープで利用可能な[ScopedQuery]。
+  ///
+  /// {@macro scoped_query}
+  const AppScopedQuery(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced = false,
+  });
+}
+
+/// [ScopedQuery] available at page scope.
+///
+/// ページスコープで利用可能な[ScopedQuery]。
+///
+/// {@macro scoped_query}
+class PageScopedQuery<Result>
+    extends ScopedQueryBase<Result, PageScopedValueRef> {
+  /// [ScopedQuery] available at page scope.
+  ///
+  /// ページスコープで利用可能な[ScopedQuery]。
+  ///
+  /// {@macro scoped_query}
+  const PageScopedQuery(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced = false,
+  });
+}
+
+/// [ScopedQuery] available in the widget scope.
+///
+/// ウィジェットスコープで利用可能な[ScopedQuery]。
+///
+/// {@macro scoped_query}
+class WidgetScopedQuery<Result>
+    extends ScopedQueryBase<Result, WidgetScopedValueRef> {
+  /// [ScopedQuery] available in the widget scope.
+  ///
+  /// ウィジェットスコープで利用可能な[ScopedQuery]。
+  ///
+  /// {@macro scoped_query}
+  const WidgetScopedQuery(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced = false,
+  });
+}
+
 /// Base class that can specify the type of the [provider] part of [ScopedQuery].
 ///
 /// Used to create frameworks.
@@ -276,6 +333,66 @@ class ChangeNotifierScopedQuery<Result extends Listenable?>
   });
 }
 
+/// [ChangeNotifierScopedQuery] available at app scope.
+///
+/// Appスコープで利用可能な[ChangeNotifierScopedQuery]。
+///
+/// {@macro change_notifier_scoped_query}
+@immutable
+class ChangeNotifierAppScopedQuery<Result extends Listenable?>
+    extends ChangeNotifierScopedQueryBase<Result, AppScopedValueOrAppRef> {
+  /// [ChangeNotifierScopedQuery] available at app scope.
+  ///
+  /// Appスコープで利用可能な[ChangeNotifierScopedQuery]。
+  ///
+  /// {@macro change_notifier_scoped_query}
+  const ChangeNotifierAppScopedQuery(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced,
+  });
+}
+
+/// [ChangeNotifierScopedQuery] available at page scope.
+///
+/// ページスコープで利用可能な[ChangeNotifierScopedQuery]。
+///
+/// {@macro change_notifier_scoped_query}
+@immutable
+class ChangeNotifierPageScopedQuery<Result extends Listenable?>
+    extends ChangeNotifierScopedQueryBase<Result, PageScopedValueRef> {
+  /// [ChangeNotifierScopedQuery] available at page scope.
+  ///
+  /// ページスコープで利用可能な[ChangeNotifierScopedQuery]。
+  ///
+  /// {@macro change_notifier_scoped_query}
+  const ChangeNotifierPageScopedQuery(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced,
+  });
+}
+
+/// [ChangeNotifierScopedQuery] available in the widget scope.
+///
+/// ウィジェットスコープで利用可能な[ChangeNotifierScopedQuery]。
+///
+/// {@macro change_notifier_scoped_query}
+@immutable
+class ChangeNotifierWidgetScopedQuery<Result extends Listenable?>
+    extends ChangeNotifierScopedQueryBase<Result, WidgetScopedValueRef> {
+  /// [ChangeNotifierScopedQuery] available in the widget scope.
+  ///
+  /// ウィジェットスコープで利用可能な[ChangeNotifierScopedQuery]。
+  ///
+  /// {@macro change_notifier_scoped_query}
+  const ChangeNotifierWidgetScopedQuery(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced,
+  });
+}
+
 /// Base class that allows specifying the type of the [provider] part of [ScopedQuery] that allows passing a single parameter.
 ///
 /// Used to create frameworks.
@@ -354,6 +471,96 @@ class ScopedQueryFamily<Result, Param>
       );
 }
 
+/// You can pass one parameter [AppScopedQuery].
+///
+/// パラメーターを一つ渡すことができる[AppScopedQuery]。
+///
+/// {@macro scoped_query}
+@immutable
+class AppScopedQueryFamily<Result, Param>
+    extends ScopedQueryFamilyBase<Result, AppScopedValueOrAppRef, Param> {
+  /// You can pass one parameter [AppScopedQuery].
+  ///
+  /// パラメーターを一つ渡すことができる[AppScopedQuery]。
+  ///
+  /// {@macro scoped_query}
+  const AppScopedQueryFamily(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced = false,
+  });
+
+  /// By passing [param], the corresponding [ScopedQuery] is returned.
+  ///
+  /// [param]を渡すことで対応した[ScopedQuery]を返します。
+  @override
+  AppScopedQuery<Result> call(Param param) => AppScopedQuery(
+        (ref) => provider(ref, param),
+        name: "${_name ?? hashCode}#${param.hashCode}",
+        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+      );
+}
+
+/// You can pass one parameter [PageScopedQuery].
+///
+/// パラメーターを一つ渡すことができる[PageScopedQuery]。
+///
+/// {@macro scoped_query}
+@immutable
+class PageScopedQueryFamily<Result, Param>
+    extends ScopedQueryFamilyBase<Result, PageScopedValueRef, Param> {
+  /// You can pass one parameter [PageScopedQuery].
+  ///
+  /// パラメーターを一つ渡すことができる[PageScopedQuery]。
+  ///
+  /// {@macro scoped_query}
+  const PageScopedQueryFamily(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced = false,
+  });
+
+  /// By passing [param], the corresponding [ScopedQuery] is returned.
+  ///
+  /// [param]を渡すことで対応した[ScopedQuery]を返します。
+  @override
+  PageScopedQuery<Result> call(Param param) => PageScopedQuery(
+        (ref) => provider(ref, param),
+        name: "${_name ?? hashCode}#${param.hashCode}",
+        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+      );
+}
+
+/// You can pass one parameter [WidgetScopedQuery].
+///
+/// パラメーターを一つ渡すことができる[WidgetScopedQuery]。
+///
+/// {@macro scoped_query}
+@immutable
+class WidgetScopedQueryFamily<Result, Param>
+    extends ScopedQueryFamilyBase<Result, WidgetScopedValueRef, Param> {
+  /// You can pass one parameter [WidgetScopedQuery].
+  ///
+  /// パラメーターを一つ渡すことができる[WidgetScopedQuery]。
+  ///
+  /// {@macro scoped_query}
+  const WidgetScopedQueryFamily(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced = false,
+  });
+
+  /// By passing [param], the corresponding [ScopedQuery] is returned.
+  ///
+  /// [param]を渡すことで対応した[ScopedQuery]を返します。
+  @override
+  WidgetScopedQuery<Result> call(Param param) => WidgetScopedQuery(
+        (ref) => provider(ref, param),
+        name: "${_name ?? hashCode}#${param.hashCode}",
+        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+      );
+}
+
 /// You can pass one parameter [ChangeNotifierScopedQuery].
 ///
 /// パラメーターを一つ渡すことができる[ChangeNotifierScopedQuery]。
@@ -406,6 +613,93 @@ class ChangeNotifierScopedQueryFamily<Result extends Listenable?, Param>
   @override
   ChangeNotifierScopedQuery<Result> call(Param param) =>
       ChangeNotifierScopedQuery<Result>(
+        (ref) => provider(ref, param),
+        name: "${_name ?? hashCode}#${param.hashCode}",
+        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+      );
+}
+
+/// You can pass one parameter [ChangeNotifierAppScopedQuery].
+///
+/// パラメーターを一つ渡すことができる[ChangeNotifierAppScopedQuery]。
+///
+/// {@macro change_notifier_scoped_query}
+@immutable
+class ChangeNotifierAppScopedQueryFamily<Result extends Listenable?, Param>
+    extends ChangeNotifierScopedQueryFamilyBase<Result, AppScopedValueOrAppRef,
+        Param> {
+  /// You can pass one parameter [ChangeNotifierAppScopedQuery].
+  ///
+  /// パラメーターを一つ渡すことができる[ChangeNotifierAppScopedQuery]。
+  ///
+  /// {@macro change_notifier_scoped_query}
+  const ChangeNotifierAppScopedQueryFamily(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced,
+  });
+
+  @override
+  ChangeNotifierAppScopedQuery<Result> call(Param param) =>
+      ChangeNotifierAppScopedQuery<Result>(
+        (ref) => provider(ref, param),
+        name: "${_name ?? hashCode}#${param.hashCode}",
+        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+      );
+}
+
+/// You can pass one parameter [ChangeNotifierPageScopedQuery].
+///
+/// パラメーターを一つ渡すことができる[ChangeNotifierPageScopedQuery]。
+///
+/// {@macro change_notifier_scoped_query}
+@immutable
+class ChangeNotifierPageScopedQueryFamily<Result extends Listenable?, Param>
+    extends ChangeNotifierScopedQueryFamilyBase<Result, PageScopedValueRef,
+        Param> {
+  /// You can pass one parameter [ChangeNotifierPageScopedQuery].
+  ///
+  /// パラメーターを一つ渡すことができる[ChangeNotifierPageScopedQuery]。
+  ///
+  /// {@macro change_notifier_scoped_query}
+  const ChangeNotifierPageScopedQueryFamily(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced,
+  });
+
+  @override
+  ChangeNotifierPageScopedQuery<Result> call(Param param) =>
+      ChangeNotifierPageScopedQuery<Result>(
+        (ref) => provider(ref, param),
+        name: "${_name ?? hashCode}#${param.hashCode}",
+        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
+      );
+}
+
+/// You can pass one parameter [ChangeNotifierWidgetScopedQuery].
+///
+/// パラメーターを一つ渡すことができる[ChangeNotifierWidgetScopedQuery]。
+///
+/// {@macro change_notifier_scoped_query}
+@immutable
+class ChangeNotifierWidgetScopedQueryFamily<Result extends Listenable?, Param>
+    extends ChangeNotifierScopedQueryFamilyBase<Result, WidgetScopedValueRef,
+        Param> {
+  /// You can pass one parameter [ChangeNotifierWidgetScopedQuery].
+  ///
+  /// パラメーターを一つ渡すことができる[ChangeNotifierWidgetScopedQuery]。
+  ///
+  /// {@macro change_notifier_scoped_query}
+  const ChangeNotifierWidgetScopedQueryFamily(
+    super.provider, {
+    super.name,
+    super.autoDisposeWhenUnreferenced,
+  });
+
+  @override
+  ChangeNotifierWidgetScopedQuery<Result> call(Param param) =>
+      ChangeNotifierWidgetScopedQuery<Result>(
         (ref) => provider(ref, param),
         name: "${_name ?? hashCode}#${param.hashCode}",
         autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
