@@ -1,3 +1,7 @@
+## 2.5.6
+
+ - **FIX**: return to the point (of a discussion). ([b991f46e](https://github.com/mathrunet/flutter_masamune/commit/b991f46ea6cf6f33a692bf1c94ca257649188891))
+
 ## 2.5.5
 
  - **FIX**: Delete "ancestor" because it has a different meaning. ([e45491ac](https://github.com/mathrunet/flutter_masamune/commit/e45491ace961029a9e864c9865323a3986ed9e2d))

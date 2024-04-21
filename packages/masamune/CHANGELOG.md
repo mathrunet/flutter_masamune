@@ -1,3 +1,7 @@
+## 2.13.8
+
+ - Update a dependency to the latest release.
+
 ## 2.13.7
 
  - **FIX**: Delete "ancestor" because it has a different meaning. ([e45491ac](https://github.com/mathrunet/flutter_masamune/commit/e45491ace961029a9e864c9865323a3986ed9e2d))
