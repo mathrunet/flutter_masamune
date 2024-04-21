@@ -1,3 +1,7 @@
+## 2.16.23
+
+ - **FIX**: Fixed a bug that data remained. ([66dafd3f](https://github.com/mathrunet/flutter_masamune/commit/66dafd3f40581ce23ecca047598581d6a5565568))
+
 ## 2.16.22
 
  - **FIX**: Slight change in search algorithm. ([f844931b](https://github.com/mathrunet/flutter_masamune/commit/f844931b38e27fc01a8bb79ff120e72d37496cb4))

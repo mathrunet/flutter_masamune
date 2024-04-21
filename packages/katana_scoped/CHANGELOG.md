@@ -1,3 +1,7 @@
+## 2.5.7
+
+ - **FIX**: Fixed a bug that query type did not match. ([51d361dc](https://github.com/mathrunet/flutter_masamune/commit/51d361dc78898877ecd2f219f477b5faab1a2b58))
+
 ## 2.5.6
 
  - **FIX**: return to the point (of a discussion). ([b991f46e](https://github.com/mathrunet/flutter_masamune/commit/b991f46ea6cf6f33a692bf1c94ca257649188891))

@@ -1,3 +1,7 @@
+## 2.5.52
+
+ - **FIX**: Added schedule parameters. ([386433f2](https://github.com/mathrunet/flutter_masamune/commit/386433f23316047e49926214506980e777619ca6))
+
 ## 2.5.51
 
  - Update a dependency to the latest release.

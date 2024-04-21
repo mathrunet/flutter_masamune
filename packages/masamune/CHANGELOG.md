@@ -1,3 +1,7 @@
+## 2.13.9
+
+ - **FIX**: Fixed a bug that query type did not match. ([51d361dc](https://github.com/mathrunet/flutter_masamune/commit/51d361dc78898877ecd2f219f477b5faab1a2b58))
+
 ## 2.13.8
 
  - Update a dependency to the latest release.
