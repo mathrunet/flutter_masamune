@@ -1,3 +1,7 @@
+## 2.5.5
+
+ - **FIX**: Delete "ancestor" because it has a different meaning. ([e45491ac](https://github.com/mathrunet/flutter_masamune/commit/e45491ace961029a9e864c9865323a3986ed9e2d))
+
 ## 2.5.4
 
  - **FIX**: Controller and Form can now also be used on Page. ([018f87d7](https://github.com/mathrunet/flutter_masamune/commit/018f87d7bdfd2cdfc049db19f5ce19f3c5c28bb6))
