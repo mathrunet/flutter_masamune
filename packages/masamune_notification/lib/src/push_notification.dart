@@ -262,6 +262,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// Specify a PCM token in [tokens] and a topic name in [topic]. [tokens] and [topic] cannot be specified at the same time.
   ///
+  /// You can specify the ID of the database by specifying [targetId].
+  ///
   /// 通知をデータベースに登録してスケーリングを行います。
   ///
   /// [time]に通知を送信する日時を指定します。
@@ -269,7 +271,9 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   /// [title]に通知のタイトルを指定します。[text]に通知の本文を指定します。
   ///
   /// [tokens]にPCMトークン、[topic]にトピック名を指定します。[tokens]と[topic]は同時に指定することはできません。
-  Future<void> scheduling({
+  ///
+  /// [targetId]を指定するとデータベースのIDを指定することができます。
+  Future<void> addSchedule({
     required DateTime time,
     required String title,
     required String text,
@@ -280,6 +284,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     int? badgeCount,
     PushNotificationSound sound = PushNotificationSound.defaultSound,
     Uri? link,
+    String? targetId,
   }) async {
     assert(
       tokens != null || topic != null,
@@ -290,6 +295,9 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
       "[tokens] and [topic] cannot be set at the same time",
     );
     await listen();
+    targetId ??= topic.isEmpty
+        ? tokens?.value.sortTo().join().limit(256)
+        : topic?.limit(256);
     final m = adapter.modelAdapter ?? ModelAdapter.primary;
     final modelQuery = schedule
         .collection()
@@ -297,9 +305,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
         .create(SchedulerQuery.generateScheduleId(
           time: time,
           command: ModelServerCommandPushNotificationSchedule.command,
-          target: topic.isEmpty
-              ? tokens?.value.sortTo().join().limit(256)
-              : topic?.limit(256),
+          target: targetId,
         ));
     final document = PushNotificationScheduleModelDocument(
       modelQuery.copyWith(adapter: m),
@@ -335,6 +341,55 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
             ),
           ),
     );
+  }
+
+  /// Delete a notification schedule that has already been registered.
+  ///
+  /// Specify the date and time to send the notification in [time].
+  ///
+  /// Specify a PCM token in [tokens] and a topic name in [topic]. [tokens] and [topic] cannot be specified at the same time.
+  ///
+  /// You can specify the ID of the database by specifying [targetId].
+  ///
+  /// すでに登録されている通知スケジュールを削除します。
+  ///
+  /// [time]に通知を送信する日時を指定します。
+  ///
+  /// [tokens]にPCMトークン、[topic]にトピック名を指定します。[tokens]と[topic]は同時に指定することはできません。
+  ///
+  /// [targetId]を指定するとデータベースのIDを指定することができます。
+  Future<void> removeSchedule({
+    required DateTime time,
+    String? topic,
+    ModelToken? tokens,
+    String? targetId,
+  }) async {
+    assert(
+      tokens != null || topic != null,
+      "[tokens] or [topic] is required",
+    );
+    assert(
+      tokens == null || topic == null,
+      "[tokens] and [topic] cannot be set at the same time",
+    );
+    await listen();
+    targetId ??= topic.isEmpty
+        ? tokens?.value.sortTo().join().limit(256)
+        : topic?.limit(256);
+    final m = adapter.modelAdapter ?? ModelAdapter.primary;
+    final modelQuery = schedule
+        .collection()
+        .modelQuery
+        .create(SchedulerQuery.generateScheduleId(
+          time: time,
+          command: ModelServerCommandPushNotificationSchedule.command,
+          target: targetId,
+        ));
+    final document = PushNotificationScheduleModelDocument(
+      modelQuery.copyWith(adapter: m),
+    );
+    await document.reload();
+    await document.delete();
   }
 
   /// Subscribe to a topic named [topic].
