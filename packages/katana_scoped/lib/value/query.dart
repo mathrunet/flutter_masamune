@@ -32,14 +32,14 @@ extension RefQueryExtensions on Ref {
   ///   }
   /// }
   /// ```
-  T query<T>(
-    ScopedQueryBase<T, Ref> query, {
+  T query<T, TRef extends Ref>(
+    ScopedQueryBase<T, TRef> query, {
     bool? autoDisposeWhenUnreferenced,
   }) {
-    return getScopedValue<T, _QueryValue<T, Ref>>(
-      (ref) => _QueryValue<T, Ref>(
+    return getScopedValue<T, _QueryValue<T, TRef>>(
+      (ref) => _QueryValue<T, TRef>(
         query: query,
-        ref: this,
+        ref: this as TRef,
         listen: query.listen,
         autoDisposeWhenUnreferenced:
             autoDisposeWhenUnreferenced ?? query.autoDisposeWhenUnreferenced,
@@ -53,7 +53,8 @@ extension RefQueryExtensions on Ref {
 /// Provides an extension method for [QueryScopedValueRef] to manage state using [ScopedQuery].
 ///
 /// [ScopedQuery]を用いた状態管理を行うための[QueryScopedValueRef]用の拡張メソッドを提供します。
-extension QueryScopedValueRefQueryExtensions on QueryScopedValueRef<Ref> {
+extension QueryScopedValueRefQueryExtensions<TRef extends Ref>
+    on QueryScopedValueRef<TRef> {
   /// It is possible to manage the status by passing [query].
   ///
   /// Defining [ScopedQuery] in a global scope allows you to manage state individually and safely.
@@ -83,11 +84,11 @@ extension QueryScopedValueRefQueryExtensions on QueryScopedValueRef<Ref> {
   /// }
   /// ```
   T query<T>(
-    ScopedQueryBase<T, Ref> query, {
+    ScopedQueryBase<T, TRef> query, {
     bool? autoDisposeWhenUnreferenced,
   }) {
-    return getScopedValue<T, _QueryValue<T, Ref>>(
-      (ref) => _QueryValue<T, Ref>(
+    return getScopedValue<T, _QueryValue<T, TRef>>(
+      (ref) => _QueryValue<T, TRef>(
         query: query,
         ref: this.ref,
         listen: query.listen,

@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
 }
 
 final valueNotifierQuery =
-    ChangeNotifierScopedQueryFamily<ValueNotifier<int>, int>(
+    ChangeNotifierAppScopedQueryFamily<ValueNotifier<int>, int>(
   (ref, p) => ValueNotifier(p),
 );
 

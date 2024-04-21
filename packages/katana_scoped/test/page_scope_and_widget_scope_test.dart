@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:katana_scoped/katana_scoped.dart';
 
 final _valueNotifierScopedQuery =
-    ChangeNotifierScopedQuery((ref) => ValueNotifier(false));
+    ChangeNotifierAppScopedQuery((ref) => ValueNotifier(false));
 
 class Page extends PageScopedWidget {
   const Page({super.key});
