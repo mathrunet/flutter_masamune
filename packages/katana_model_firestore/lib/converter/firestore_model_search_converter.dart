@@ -48,10 +48,19 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
             ModelFieldValueSource.user.name;
         final val = value.getAsList<String>(ModelSearch.kListKey);
         final targetKey = "#$key";
+        final keys = original
+            .getAsMap(targetKey)
+            .getAsMap(ModelToken.kListKey)
+            .map<String, dynamic>(
+              (key, value) => MapEntry(key, FieldValue.delete()),
+            );
+        for (final key in val) {
+          keys[key] = true;
+        }
         return {
           targetKey: {
             kTypeFieldKey: ModelSearch.typeString,
-            ModelSearch.kListKey: val.toMap((item) => MapEntry(item, true)),
+            ModelSearch.kListKey: keys,
             _kTargetKey: key,
           },
           if (fromUser) key: val,

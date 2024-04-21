@@ -48,10 +48,20 @@ class FirestoreModelTokenConverter extends FirestoreModelFieldValueConverter {
             ModelFieldValueSource.user.name;
         final val = value.getAsList<String>(ModelToken.kListKey);
         final targetKey = "#$key";
+        final keys = original
+            .getAsMap(targetKey)
+            .getAsMap(ModelToken.kListKey)
+            .map<String, dynamic>(
+              (key, value) => MapEntry(key, FieldValue.delete()),
+            );
+        for (final key in val) {
+          keys[key] = true;
+        }
+
         return {
           targetKey: {
             kTypeFieldKey: ModelToken.typeString,
-            ModelToken.kListKey: val.toMap((item) => MapEntry(item, true)),
+            ModelToken.kListKey: keys,
             _kTargetKey: key,
           },
           if (fromUser) key: val,
