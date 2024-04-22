@@ -61,6 +61,10 @@ Therefore, I further redefined the above state types as scopes as shown below an
     - You can get it from anywhere.
     - Manage data retrieved from DB, login status, user preferences, and other status used throughout the application
 
+**Ephemeral state** is divided into two types, `Page` and `Widget`, because there are many opportunities to manage the state of each screen across widgets, and we felt it would be more convenient.
+
+In fact, when controlling a map, you want to use a single controller for each widget placed in the map, but if you want to discard a controller when you move the screen to save memory, you may want to prepare a controller closed in Page scope for easier handling. It may be easier to handle if you have a controller closed in the Page scope.
+
 You can simply create a Widget by inheriting from a specific abstract class, like [riverpod](https://pub.dev/packages/riverpod)'s ConsumerWidget.
 
 You can manage the state like [flutter_hooks](https://pub.dev/packages/flutter_hooks) without writing special boilerplate.
@@ -102,9 +106,9 @@ By explicitly specifying the `scope` at that time, users will be able to use it 
 ```dart
 // repository_value.dart
 
-extension RepositoryAppRefExtension on RefHasApp {
+extension RepositoryAppRefExtension on AppScopedValueOrAppRef {
   Repository repository(){
-    return app.getScopedValue(
+    return getScopedValue(
       (ref) => RepositoryValue(),
       listen: true,
     );
@@ -159,7 +163,7 @@ class TestPage extends PageScopedWidget {
   @override
   Widget build(BuildContext context, PageRef ref){
     // DB Repository for app.
-    final respository = ref.repository();
+    final respository = ref.app.repository();
     ~~~~
   }
 }
@@ -327,12 +331,13 @@ The default `ScopedValueFunction` defined in the package is
         - The `ref` passed to callback is the `Ref` that was passed when this method was called.
     - If the value of keys is changed, `callback` is executed again to update the cached value.
     - `name` can be specified to save it as a different state.
-- `T watch<T extends Listenable>( T Function(Ref ref) callback, { List<Object> keys = const [], String? name })`
+- `T watch<T extends Listenable>( T Function(Ref ref) callback, { List<Object> keys = const [], String? name, bool disposal = true })`
     - Cache the value returned by `callback`.
         - The `ref` passed to callback is the `Ref` that was passed when this method was called.
     - If `notifyListners` are executed inside `T` monitoring values on further executed Widget, the Widget will be redrawn.
     - If the value of keys is changed, `callback` is executed again to update the cached value.
     - `name` can be specified to save it as a different state.
+    - If `disposal` is set to false, the given `ChangeNotifier` will not be destroyed if the reference is lost.
 - `OnContext on({ FutureOr<void> Function()? initOrUpdate,  VoidCallback? disposed, List<Object> keys = const [], String? name })`
     - Only page scope and widget scope can be executed.
     - It is possible to execute each process on the life cycle of the executed widget.
@@ -379,6 +384,15 @@ The following types of ScopedQuery are available
 - ChangeNotifierScopedQuery
     - Holds the value returned in the callback and monitors for value changes.
     - It has the same functionality as `watch`.
+
+It is also possible to create ScopedQuery specific to each scope.
+
+- AppScopedQuery
+    - Create a ScopedQuery limited to the App scope.
+- PageScopedQuery
+    - Create a ScopedQuery limited to Page scope.
+- WidgetScopedQuery
+    - Create a ScopedQuery limited to the Widget scope.
 
 # Add `ScopedValueFunction`
 
@@ -448,8 +462,14 @@ final userRepository = ref.repository(UserRepository());
     - `ScopedValueFunction` is added to the .page itself, i.e. `PageRef.page` and `WidgetRef.page`.
 - on `WidgetScopedValueRef`
     - `ScopedValueFunction` is added to the .widget itself, i.e., `WidgetRef.widget`.
+- on `AppScopedValueOrAppRef`
+    - AppRef and .app itself, i.e. `AppRef`, `PageRef.app` and `WidgetRef.app`, will all have `ScopedValueFunction` in their App scopes.
 - on `PageOrWidgetScopedValueRef`
     - `ScopedValueFunction` is added to the .page itself or the .widget itself, i.e. `PageRef.page`, `WidgetRef.page`, `WidgetRef.widget`.
+- on `PageOrAppScopedValueOrAppRef`
+    - `ScopedValueFunction` will be added to AppRef and .app itself, i.e. `AppRef` and `PageRef.app`, `PageRef.page`, `WidgetRef.app`, `WidgetRef.page`.
+- on `QueryScopedValueRef<TRef extends Ref>`
+    - `ScopedValueFunction` is added to the `Ref` passed to the `ScopedQuery` provider.
 
 ## Create a new `ScopedValue`
 

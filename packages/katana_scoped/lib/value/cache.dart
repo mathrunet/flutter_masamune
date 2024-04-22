@@ -11,16 +11,12 @@ extension RefCacheExtensions on Ref {
     T Function(QueryScopedValueRef<Ref> ref) callback, {
     List<Object> keys = const [],
     Object? name,
-    bool disposal = false,
-    bool autoDisposeWhenUnreferenced = false,
   }) {
     return getScopedValue<T, _CacheValue<T, Ref>>(
       (ref) => _CacheValue<T, Ref>(
         callback: callback,
         keys: keys,
         ref: this,
-        disposal: disposal,
-        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
       ),
       listen: false,
       name: name,
@@ -39,16 +35,12 @@ extension RefHasPageCacheExtensions on RefHasPage {
     T Function(QueryScopedValueRef<PageScopedValueRef> ref) callback, {
     List<Object> keys = const [],
     Object? name,
-    bool disposal = false,
-    bool autoDisposeWhenUnreferenced = false,
   }) {
     return page.getScopedValue<T, _CacheValue<T, PageScopedValueRef>>(
       (ref) => _CacheValue<T, PageScopedValueRef>(
         callback: callback,
         keys: keys,
         ref: page,
-        disposal: disposal,
-        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
       ),
       listen: false,
       name: name,
@@ -76,15 +68,12 @@ extension PageOrWidgetScopedValueRefCacheExtensions
     T Function(QueryScopedValueRef<PageOrWidgetScopedValueRef> ref) callback, {
     List<Object> keys = const [],
     Object? name,
-    bool disposal = false,
   }) {
     return getScopedValue<T, _CacheValue<T, PageOrWidgetScopedValueRef>>(
       (ref) => _CacheValue<T, PageOrWidgetScopedValueRef>(
         callback: callback,
         keys: keys,
         ref: this,
-        disposal: disposal,
-        autoDisposeWhenUnreferenced: false,
       ),
       listen: false,
       name: name,
@@ -112,15 +101,12 @@ extension QueryScopedValueRefPageOrWidgetScopedValueRefCacheExtensions
     T Function(QueryScopedValueRef<PageOrWidgetScopedValueRef> ref) callback, {
     List<Object> keys = const [],
     Object? name,
-    bool disposal = false,
   }) {
     return getScopedValue<T, _CacheValue<T, PageOrWidgetScopedValueRef>>(
       (ref) => _CacheValue<T, PageOrWidgetScopedValueRef>(
         callback: callback,
         keys: keys,
         ref: this.ref,
-        disposal: disposal,
-        autoDisposeWhenUnreferenced: false,
       ),
       listen: false,
       name: name,
@@ -134,14 +120,10 @@ class _CacheValue<T, TRef extends Ref> extends QueryScopedValue<T, TRef> {
     required this.callback,
     required this.keys,
     required TRef ref,
-    this.disposal = false,
-    this.autoDisposeWhenUnreferenced = false,
   }) : super(ref: ref);
 
   final T Function(QueryScopedValueRef<TRef> ref) callback;
   final List<Object> keys;
-  final bool disposal;
-  final bool autoDisposeWhenUnreferenced;
 
   @override
   QueryScopedValueState<T, TRef, QueryScopedValue<T, TRef>> createState() =>
@@ -155,7 +137,7 @@ class _CacheValueState<T, TRef extends Ref>
   late T _value;
 
   @override
-  bool get autoDisposeWhenUnreferenced => value.autoDisposeWhenUnreferenced;
+  bool get autoDisposeWhenUnreferenced => false;
 
   @override
   void initValue() {
@@ -175,15 +157,6 @@ class _CacheValueState<T, TRef extends Ref>
   void didUpdateDescendant() {
     super.didUpdateDescendant();
     _value = value.callback(ref);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    final val = _value;
-    if (value.disposal && val is ChangeNotifier) {
-      val.dispose();
-    }
   }
 
   @override
