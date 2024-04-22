@@ -114,6 +114,7 @@ ${showAllConfig ? """
   # Configure the PrivacyManifest settings for IOS.
   # Specify an array of [type] and [reason] in [manifests].
   # [type] can be `user_defaults`, `file_timestamp`, `system_boot_time`, `disk_space`, or `active_keyboards`.
+  # [reason] specifies the following IDs.
   # IOSのPrivacyManifestの設定を行います。
   # [manifests]に[type]と[reason]の配列を指定します。
   # [type]は`user_defaults`、`file_timestamp`、`system_boot_time`、`disk_space`、`active_keyboards`が指定できます。
@@ -138,7 +139,7 @@ ${showAllConfig ? """
   #   - `C56D.1`: 3rd-party SDK wrapper on-device, per documentation
   #   - `CA92.1`: Access info from same app, per documentation
   privacy_manifests:
-    enable: true
+    enable: false
     manifests:
       - type: user_defaults
         reason: C56D.1

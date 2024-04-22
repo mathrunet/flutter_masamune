@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.18.8`](#katana_cli---v2188)
+
+---
+
+#### `katana_cli` - `v2.18.8`
+
+ - **FIX**: PrivacyManifest対応。. ([da71970b](https://github.com/mathrunet/flutter_masamune/commit/da71970b1eaf7fc0f52a4e248065c93bf7610138))
+
+
+## 2024-04-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth` - `v2.8.6`](#katana_auth---v286)
  - [`katana_auth_firebase` - `v2.5.11`](#katana_auth_firebase---v2511)
  - [`katana_firebase` - `v2.2.4`](#katana_firebase---v224)
