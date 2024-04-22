@@ -531,6 +531,8 @@ class CreateCliCommand extends CliCommand {
           workingDirectory: "ios",
         );
       }
+      label("Create PrivacyInfo.xcprivacy.");
+      await XCode.createPrivacyManifests();
       await command(
         "Run dart format",
         [

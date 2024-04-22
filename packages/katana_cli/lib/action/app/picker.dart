@@ -55,5 +55,9 @@ class AppPickerCliAction extends CliCommand with CliActionMixin {
         "masamune_picker",
       ],
     );
+    label("Edit PrivacyInfo.xcprivacy.");
+    await XCodePrivacyManifests.fileTimestamp.setPrivacyManifestToXCode(
+      XCodePrivacyManifests.fileTimestamp.reasons.first,
+    );
   }
 }

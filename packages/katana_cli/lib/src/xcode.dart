@@ -285,13 +285,18 @@ class XCode {
         ),
       );
     }
-    final buildPhase = xcode.pbxResourcesBuildPhase.first;
-    if (!buildPhase.files.any((e) => e.id == buildFileId)) {
+    final buildPhase = xcode.pbxResourcesBuildPhase.firstWhereOrNull(
+      (item) => item.files.any((element) =>
+          element.fileName == "AppFrameworkInfo.plist" &&
+          element.fileDir == "Resources"),
+    );
+    if (buildPhase != null &&
+        !buildPhase.files.any((e) => e.id == buildFileId)) {
       buildPhase.files.add(
         PBXResourcesBuildPhaseFile(
           id: buildFileId,
-          fileDir: "InfoPlist.strings",
-          fileName: "Resources",
+          fileName: "InfoPlist.strings",
+          fileDir: "Resources",
         ),
       );
     }
@@ -355,6 +360,88 @@ class XCode {
           ),
         );
       }
+    }
+    await xcode.save();
+  }
+
+  /// Create an empty PrivacyInfo.xcprivacy and update project.pbxproj.
+  ///
+  /// 空のPrivacyInfo.xcprivacyを作成し、project.pbxprojを更新します。
+  static Future<void> createPrivacyManifests() async {
+    final entitlements = File("ios/PrivacyInfo.xcprivacy");
+    if (!entitlements.existsSync()) {
+      await entitlements.writeAsString(
+        """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+</dict>
+</plist>
+""",
+      );
+    }
+    final xcode = XCode();
+    await xcode.load();
+    late String fileId;
+    late String buildFileId;
+    final ref = xcode.pbxFileReference
+        .firstWhereOrNull((e) => e.path == "PrivacyInfo.xcprivacy");
+    if (ref == null) {
+      final id = XCode.generateId();
+      fileId = id;
+      xcode.pbxFileReference.add(
+        PBXFileReference(
+          id: id,
+          path: "PrivacyInfo.xcprivacy",
+          comment: "PrivacyInfo.xcprivacy",
+          sourceTree: '"<group>"',
+          lastKnownFileType: "text.xml",
+        ),
+      );
+    } else {
+      fileId = ref.id;
+    }
+    final root = xcode.pbxGroup
+        .firstWhereOrNull((e) => e.path.isEmpty && e.name.isEmpty);
+    if (root == null) {
+      throw Exception("Root is not associated with XCode.");
+    }
+    if (!root.children.any((e) => e.id == fileId)) {
+      root.children.add(
+        PBXGroupChild(id: fileId, comment: "PrivacyInfo.xcprivacy"),
+      );
+    }
+    final buildFile = xcode.pbxBuildFile
+        .firstWhereOrNull((element) => element.fileRef == fileId);
+    if (buildFile != null) {
+      buildFileId = buildFile.id;
+    } else {
+      buildFileId = XCode.generateId();
+      xcode.pbxBuildFile.add(
+        PBXBuildFile(
+          id: buildFileId,
+          fileRef: fileId,
+          fileName: "PrivacyInfo.xcprivacy",
+          fileDir: "Resources",
+        ),
+      );
+    }
+
+    final buildPhase = xcode.pbxResourcesBuildPhase.firstWhereOrNull(
+      (item) => item.files.any((element) =>
+          element.fileName == "AppFrameworkInfo.plist" &&
+          element.fileDir == "Resources"),
+    );
+    if (buildPhase != null &&
+        !buildPhase.files.any((e) => e.id == buildFileId)) {
+      buildPhase.files.add(
+        PBXResourcesBuildPhaseFile(
+          id: buildFileId,
+          fileName: "PrivacyInfo.xcprivacy",
+          fileDir: "Resources",
+        ),
+      );
     }
     await xcode.save();
   }
@@ -550,6 +637,244 @@ enum XCodePermissionType {
         document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
       );
     }
+  }
+}
+
+/// Privacy Manifest for XCode.
+///
+/// XCode用のプライバシーマニフェスト。
+enum XCodePrivacyManifests {
+  /// `active_keyboards` type.
+  ///
+  /// `active_keyboards`のタイプ。
+  activeKeyboards(
+    id: "active_keyboards",
+    type: "NSPrivacyAccessedAPICategoryActiveKeyboards",
+    reasons: [
+      "3EC4.1", // Custom keyboard app on-device, per documentation
+      "54BD.1", // Customize UI on-device, per documentation
+    ],
+  ),
+
+  /// `file_timestamp` type.
+  ///
+  /// `file_timestamp`のタイプ。
+  fileTimestamp(
+    id: "file_timestamp",
+    type: "NSPrivacyAccessedAPICategoryFileTimestamp",
+    reasons: [
+      "0A2A.1", // 3rd-party SDK wrapper on-device, per documentation
+      "3B52.1", // Files provided to app by user, per documentation
+      "C617.1", // Inside app or group container, per documentation
+      "DDA9.1", // Display to user on-device, per documentation
+    ],
+  ),
+
+  /// `system_boot_time` type.
+  ///
+  /// `system_boot_time`のタイプ。
+  systemBootTime(
+    id: "system_boot_time",
+    type: "NSPrivacyAccessedAPICategorySystemBootTime",
+    reasons: [
+      "35F9.1", // Measure time on-device, per documentation
+    ],
+  ),
+
+  /// `disk_space` type.
+  ///
+  /// `disk_space`のタイプ。
+  diskSpace(
+    id: "disk_space",
+    type: "NSPrivacyAccessedAPICategoryDiskSpace",
+    reasons: [
+      "85F4.1", // Display to user on-device, per documentation
+      "7D9E.1", // User-initiated bug report, per documentation
+      "E174.1", // Write or delete file on-device, per documentation
+    ],
+  ),
+
+  /// `user_defaults` type.
+  ///
+  /// `user_defaults`のタイプ。
+  userDefaults(
+    id: "user_defaults",
+    type: "NSPrivacyAccessedAPICategoryUserDefaults",
+    reasons: [
+      "C56D.1", // 3rd-party SDK wrapper on-device, per documentation
+      "1C8F.1", // Access info from same App Group, per documentation
+      "AC6B.1", // Access managed app configuration, per documentation
+      "CA92.1", // Access info from same app, per documentation
+    ],
+  );
+
+  /// Privacy Manifest for XCode.
+  ///
+  /// XCode用のプライバシーマニフェスト。
+  const XCodePrivacyManifests({
+    required this.id,
+    required this.type,
+    required this.reasons,
+  });
+
+  /// Type ID.
+  ///
+  /// タイプのID.
+  final String id;
+
+  /// Keys in XCode of type.
+  ///
+  /// タイプのXCode内でのキー。
+  final String type;
+
+  /// ID list of reasons.
+  ///
+  /// 理由のIDリスト。
+  final List<String> reasons;
+
+  /// Set the privacy manifest based on the ID given in [reasonId].
+  ///
+  /// If [reasonId] does not match, an error is output.
+  ///
+  /// [reasonId]で与えたIDを元にプライバシーマニフェストの設定を行います。
+  ///
+  /// [reasonId]が一致しない場合エラーが出力されます。
+  Future<void> setPrivacyManifestToXCode(String reasonId) async {
+    if (!reasons.any((element) => element == reasonId)) {
+      throw Exception("The reason ID does not match the list of reasons.");
+    }
+    await XCode.createPrivacyManifests();
+    final manifests = File("ios/PrivacyInfo.xcprivacy");
+    final document = XmlDocument.parse(await manifests.readAsString());
+    final dict = document.findAllElements("dict").firstOrNull;
+    if (dict == null) {
+      throw Exception(
+        "Could not find `dict` element in `ios/PrivacyInfo.xcprivacy`. File is corrupt.",
+      );
+    }
+    final typesKey = dict.children.firstWhereOrNull((p0) {
+      return p0 is XmlElement &&
+          p0.name.toString() == "key" &&
+          p0.innerText == "NSPrivacyAccessedAPITypes";
+    });
+    if (typesKey == null) {
+      dict.children.addAll(
+        [
+          XmlElement(
+            XmlName("key"),
+            [],
+            [XmlText("NSPrivacyAccessedAPITypes")],
+          ),
+          XmlElement(
+            XmlName("array"),
+            [],
+            [
+              XmlElement(
+                XmlName("dict"),
+                [],
+                [
+                  XmlElement(
+                    XmlName("key"),
+                    [],
+                    [XmlText("NSPrivacyAccessedAPIType")],
+                  ),
+                  XmlElement(
+                    XmlName("string"),
+                    [],
+                    [XmlText(type)],
+                  ),
+                  XmlElement(
+                    XmlName("key"),
+                    [],
+                    [XmlText("NSPrivacyAccessedAPITypeReasons")],
+                  ),
+                  XmlElement(
+                    XmlName("array"),
+                    [],
+                    [
+                      XmlElement(
+                        XmlName("string"),
+                        [],
+                        [XmlText(reasonId)],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      );
+    } else {
+      final types = typesKey.nextElementSibling;
+      final node = types?.children.firstWhereOrNull((p0) {
+        return p0 is XmlElement &&
+            p0.name.toString() == "dict" &&
+            p0.children.any((p1) {
+              return p1 is XmlElement &&
+                  p1.name.toString() == "string" &&
+                  p1.innerText == type;
+            });
+      });
+      if (node != null) {
+        final reasonKey = node.children.firstWhereOrNull((item) {
+          return item is XmlElement &&
+              item.name.toString() == "key" &&
+              item.innerText == "NSPrivacyAccessedAPITypeReasons";
+        });
+        final array = reasonKey?.nextElementSibling;
+        if (array != null) {
+          final value = array.children.firstWhereOrNull((item) {
+            return item is XmlElement &&
+                item.name.toString() == "string" &&
+                item.innerText == reasonId;
+          });
+          if (value != null) {
+            final text = value.children
+                .firstWhereOrNull((item) => item is XmlText) as XmlText?;
+            text?.value = reasonId;
+          }
+        }
+      } else {
+        types?.children.addAll([
+          XmlElement(
+            XmlName("dict"),
+            [],
+            [
+              XmlElement(
+                XmlName("key"),
+                [],
+                [XmlText("NSPrivacyAccessedAPIType")],
+              ),
+              XmlElement(
+                XmlName("string"),
+                [],
+                [XmlText(type)],
+              ),
+              XmlElement(
+                XmlName("key"),
+                [],
+                [XmlText("NSPrivacyAccessedAPITypeReasons")],
+              ),
+              XmlElement(
+                XmlName("array"),
+                [],
+                [
+                  XmlElement(
+                    XmlName("string"),
+                    [],
+                    [XmlText(reasonId)],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ]);
+      }
+    }
+    await manifests.writeAsString(
+      document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
+    );
   }
 }
 

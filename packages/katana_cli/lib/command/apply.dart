@@ -13,6 +13,7 @@ import 'package:katana_cli/action/app/location.dart';
 import 'package:katana_cli/action/app/openai.dart';
 import 'package:katana_cli/action/app/p12.dart';
 import 'package:katana_cli/action/app/picker.dart';
+import 'package:katana_cli/action/app/privacy_manifests.dart';
 import 'package:katana_cli/action/app/speech_to_text.dart';
 import 'package:katana_cli/action/app/spread_sheet.dart';
 import 'package:katana_cli/action/app/text_to_speech.dart';
@@ -48,6 +49,7 @@ const _actions = <CliActionMixin>[
   AppPickerCliAction(),
   AppIconCliAction(),
   AppDeeplinkCliAction(),
+  AppPrivacyManifestsCliAction(),
   FirebaseInitCliAction(),
   FirebaseAuthenticationCliAction(),
   FirebaseSchedulerCliAction(),

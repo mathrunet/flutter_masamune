@@ -110,6 +110,40 @@ ${showAllConfig ? """
     organization: 
     state: Tokyo
     country: Japan
+
+  # Configure the PrivacyManifest settings for IOS.
+  # Specify an array of [type] and [reason] in [manifests].
+  # [type] can be `user_defaults`, `file_timestamp`, `system_boot_time`, `disk_space`, or `active_keyboards`.
+  # IOSのPrivacyManifestの設定を行います。
+  # [manifests]に[type]と[reason]の配列を指定します。
+  # [type]は`user_defaults`、`file_timestamp`、`system_boot_time`、`disk_space`、`active_keyboards`が指定できます。
+  # [reason]は下記のIDを指定します。
+  #   [active_keyboards]
+  #   - `3EC4.1`: Custom keyboard app on-device, per documentation
+  #   - `54BD.1`: Customize UI on-device, per documentation
+  #   [disk_space]
+  #   - `85F4.1`: Display to user on-device, per documentation
+  #   - `7D9E.1`: User-initiated bug report, per documentation
+  #   - `E174.1`: Write or delete file on-device, per documentation
+  #   [file_timestamp]
+  #   - `0A2A.1`: 3rd-party SDK wrapper on-device, per documentation
+  #   - `3B52.1`: Files provided to app by user, per documentation
+  #   - `C617.1`: Inside app or group container, per documentation
+  #   - `DDA9.1`: Display to user on-device, per documentation
+  #   [system_boot_time]
+  #   - `35F9.1`: Measure time on-device, per documentation
+  #   [user_defaults]
+  #   - `1C8F.1`: Access info from same App Group, per documentation
+  #   - `AC6B.1`: Access managed app configuration, per documentation
+  #   - `C56D.1`: 3rd-party SDK wrapper on-device, per documentation
+  #   - `CA92.1`: Access info from same app, per documentation
+  privacy_manifests:
+    enable: true
+    manifests:
+      - type: user_defaults
+        reason: C56D.1
+      - type: file_timestamp
+        reason: 0A2A.1
   
   # Describe the settings for using the file picker.
   # Specify the permission message to use the library in IOS in [permission].
