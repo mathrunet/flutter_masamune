@@ -1,3 +1,7 @@
+## 3.5.51
+
+ - **FIX**: Version up support. ([bea68f96](https://github.com/mathrunet/flutter_masamune/commit/bea68f963c42c99b7bb804f4aa8d7f2d4cc577e9))
+
 ## 3.5.50
 
  - Update a dependency to the latest release.

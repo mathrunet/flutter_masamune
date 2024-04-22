@@ -1,6 +1,6 @@
 name: katana_logger
 description: Base package for logging app performance and access status. Additional packages can be installed to use Firebase Analytics, etc.
-version: 2.2.4
+version: 2.2.5
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_logger
 

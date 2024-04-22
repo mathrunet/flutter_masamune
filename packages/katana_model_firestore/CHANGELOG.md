@@ -1,3 +1,7 @@
+## 2.16.24
+
+ - **FIX**: Version up support. ([bea68f96](https://github.com/mathrunet/flutter_masamune/commit/bea68f963c42c99b7bb804f4aa8d7f2d4cc577e9))
+
 ## 2.16.23
 
  - **FIX**: Fixed a bug that data remained. ([66dafd3f](https://github.com/mathrunet/flutter_masamune/commit/66dafd3f40581ce23ecca047598581d6a5565568))

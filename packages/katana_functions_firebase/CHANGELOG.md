@@ -1,3 +1,7 @@
+## 2.6.5
+
+ - **FIX**: Version up support. ([bea68f96](https://github.com/mathrunet/flutter_masamune/commit/bea68f963c42c99b7bb804f4aa8d7f2d4cc577e9))
+
 ## 2.6.4
 
  - **FIX**: Fixed a bug in the hash code. ([a15c4ee4](https://github.com/mathrunet/flutter_masamune/commit/a15c4ee4e22b4c8104acfde023d6933e49c06649))
