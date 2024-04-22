@@ -15,8 +15,8 @@ dependencies:
   katana: ^2.13.2
   katana_auth: ^2.8.5
   katana_firebase: ^2.2.3
-  firebase_core: ^2.27.1
-  firebase_auth: ^4.17.9
+  firebase_core: ^2.30.0
+  firebase_auth: ^4.19.2
   shared_preferences: ^2.0.15
   universal_platform: ^1.0.0+1
 

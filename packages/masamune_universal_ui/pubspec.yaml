@@ -15,7 +15,7 @@ dependencies:
   katana: ^2.13.2
   masamune: ^2.13.9
   universal_platform: ^1.0.0+1
-  url_launcher: ^6.1.10
+  url_launcher: ^6.2.6
   visibility_detector: ^0.4.0+2
 dev_dependencies:
   test: ^1.24.0

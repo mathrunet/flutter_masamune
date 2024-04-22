@@ -84,7 +84,7 @@ class _StripeWebviewState extends State<StripeWebview> {
   void initState() {
     super.initState();
     pullToRefreshController = PullToRefreshController(
-      options: PullToRefreshOptions(
+      settings: PullToRefreshSettings(
         color: Theme.of(context).colorScheme.primary,
       ),
       onRefresh: () async {
@@ -105,28 +105,22 @@ class _StripeWebviewState extends State<StripeWebview> {
       children: [
         ColoredBox(color: Theme.of(context).colorScheme.background),
         InAppWebView(
-          initialUrlRequest: URLRequest(url: widget.endpoint),
-          initialOptions: InAppWebViewGroupOptions(
-            crossPlatform: InAppWebViewOptions(
-              useShouldOverrideUrlLoading: true,
-              mediaPlaybackRequiresUserGesture: false,
-            ),
-            android: AndroidInAppWebViewOptions(
-              useHybridComposition: true,
-            ),
-            ios: IOSInAppWebViewOptions(
-              allowsInlineMediaPlayback: true,
-            ),
+          initialUrlRequest: URLRequest(url: WebUri.uri(widget.endpoint)),
+          initialSettings: InAppWebViewSettings(
+            useShouldOverrideUrlLoading: true,
+            mediaPlaybackRequiresUserGesture: false,
+            useHybridComposition: true,
+            allowsInlineMediaPlayback: true,
           ),
           pullToRefreshController: pullToRefreshController,
           onWebViewCreated: (controller) {
             _webViewController = controller;
           },
           onCloseWindow: (controller) => widget.onCloseWindow?.call(),
-          androidOnPermissionRequest: (controller, origin, resources) async {
-            return PermissionRequestResponse(
-              resources: resources,
-              action: PermissionRequestResponseAction.GRANT,
+          onPermissionRequest: (controller, permissionRequest) async {
+            return PermissionResponse(
+              resources: permissionRequest.resources,
+              action: PermissionResponseAction.GRANT,
             );
           },
           shouldOverrideUrlLoading: (controller, navigationAction) async {
@@ -143,7 +137,7 @@ class _StripeWebviewState extends State<StripeWebview> {
               _progress = 1.0;
             });
           },
-          onLoadError: (controller, url, code, message) {
+          onReceivedError: (controller, request, error) {
             pullToRefreshController.endRefreshing();
             setState(() {
               _progress = 1.0;

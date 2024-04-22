@@ -15,8 +15,8 @@ dependencies:
   katana: ^2.13.2
   katana_functions: ^2.6.5
   katana_firebase: ^2.2.3
-  firebase_core: ^2.27.1
-  cloud_functions: ^4.6.9
+  firebase_core: ^2.30.0
+  cloud_functions: ^4.7.2
   universal_platform: ^1.0.0+1
 
 dev_dependencies:

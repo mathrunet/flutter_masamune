@@ -14,7 +14,7 @@ dependencies:
     
   katana: ^2.13.2
   masamune: ^2.13.9
-  sign_in_with_apple: ^5.0.0
+  sign_in_with_apple: ^6.1.0
 
 dev_dependencies:
   test: ^1.24.0
