@@ -1,3 +1,7 @@
+## 2.5.9
+
+ - **FIX**: Remove unnecessary parameters. ([d2f96ea6](https://github.com/mathrunet/flutter_masamune/commit/d2f96ea6c15a776944f0067434989afcfbbc7442))
+
 ## 2.5.8
 
  - Update a dependency to the latest release.

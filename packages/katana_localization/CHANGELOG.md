@@ -1,3 +1,7 @@
+## 2.3.7
+
+ - **DOCS**: Align documentation with current specifications. ([8da76e25](https://github.com/mathrunet/flutter_masamune/commit/8da76e25eae36623db1fafced8b9b49d073ea1f5))
+
 ## 2.3.6
 
  - Update a dependency to the latest release.
