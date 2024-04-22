@@ -122,6 +122,10 @@ The class name can be any name, but be sure to use `_$ (The name of the defined 
 
 Copy and paste the URL of the Google spreadsheet prepared above (e.g., https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808) and paste it in.
 
+You can paste multiple URLs as an array. In this case, data from all spreadsheets will be applied. (Data loaded afterwards has priority)
+
+Basic translations can be specified as the base spreadsheet, and additional translation data can be specified on top of that for different applications.
+
 Normally, the downloaded spreadsheet content is cached, but it can be updated with new content by incrementing the `version`.
 
 In addition, define the top-level fields for use with that class. **The shorter the field name, the easier it will be to use later.**
@@ -133,7 +137,9 @@ import 'package:katana_localization/katana_localization.dart';
 part ‘localization.localize.dart’;
 
 @GoogleSpreadSheetLocalize(
-  "https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808",
+  [
+    "https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808",
+  ],
   version: 1,
 )
 class AppLocalize extends _$AppLocalize { }
@@ -226,9 +232,11 @@ print(
 // 日本語: データの保存が完了しました。
 ```
 
-## Change Language
+## Get and change the current language
 
-The language can be changed using the `setCurrentLocale` method of AppLocalize.
+The current language can be retrieved with the `locale` property of AppLocalize.
+
+The language can also be changed using the `setCurrentLocale` method of AppLocalize.
 
 Only the languages available in the locale defined in the Google Spreadsheet will be changed.
 

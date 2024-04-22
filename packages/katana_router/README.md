@@ -364,7 +364,7 @@ import 'dart:async';
 class LoginRequiredRedirectQuery extends RedirectQuery {
   const LoginRequiredRedirectQuery();
   @override
-  FutureOr<RouteQuery?> redirect(
+  FutureOr<RouteQuery> redirect(
       BuildContext context, RouteQuery source) async {
     if (isSignedIn) {
       return source;
@@ -413,7 +413,7 @@ It is possible to define a splash page when launching the application.
 
 This splash page can be used to perform the first data load and other processes necessary to launch the application.
 
-Create a class inheriting from `BootRouteQueryBuilder` and define `onInit` (processing at startup), `build` (screen display at startup), and `initialTransitionQuery` (transition from the startup screen to the first page).
+Create a class inheriting from `BootRouteQueryBuilder` and define `onInit` (processing at startup), `build` (screen display at startup), `initialTransitionQuery` (transition from the startup screen to the first page), `onError` (processing on error).
 
 ```dart
 import 'package:katana_router/katana_router.dart';
@@ -435,6 +435,16 @@ class AppBoot extends BootRouteQueryBuilder {
         Material(child: AppLogo()),
         CompanyLogo(),
       ],
+    );
+  }
+
+  @override
+  void onError(BuildContext context, Object error, StackTrace stackTrace) {
+    Modal.alert(
+      context,
+      submitText: "Quit",
+      title: "Error",
+      text: "Initialization failed. \n\n$error\n$stackTrace",
     );
   }
 
@@ -603,9 +613,9 @@ class _NestedContainerPageState extends State<NestedContainerPage> {
       appBar: AppBar(title: const Text("NestedPage")),
       body: Router.withConfig(config: router),
       bottomNavigationBar: BottomNavigationBar(
-        onTap: (value) {
+        onTap: (index) {
           router.push(
-            InnerPageType.values[value].query,
+            InnerPageType.values[index].query,
           );
         },
         currentIndex: query?.key<InnerPageType>()?.index ?? 0,
