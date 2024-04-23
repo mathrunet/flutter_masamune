@@ -1,3 +1,7 @@
+## 2.7.0
+
+ - **FEAT**: Modal buttons can be decorated. ([1fa53a62](https://github.com/mathrunet/flutter_masamune/commit/1fa53a62726327154237a484fa838cec1b9d75e4))
+
 ## 2.6.6
 
  - Update a dependency to the latest release.
