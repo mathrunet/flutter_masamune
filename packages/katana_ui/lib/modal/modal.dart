@@ -54,6 +54,7 @@ class Modal {
     Color? backgroundColor,
     Color? color,
     String? title,
+    Widget? leading,
     required List<Widget> Function(ModalRef ref) builder,
     bool disableBackKey = false,
     bool popOnPress = true,
@@ -62,6 +63,12 @@ class Modal {
         const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 16.0),
     AlignmentGeometry? alignment,
   }) async {
+    assert(
+      (title == null && leading == null) ||
+          (title != null && leading == null) ||
+          (title != null && leading != null),
+      "If [leading] is used, [title] is also required.",
+    );
     bool clicked = false;
     ScaffoldMessenger.of(context);
     final overlay = Navigator.of(context).overlay;
@@ -91,11 +98,23 @@ class Modal {
               contentPadding: contentPadding,
               alignment: alignment,
               title: title != null
-                  ? Text(
-                      title,
-                      style: TextStyle(
-                        color: foregroundColor,
-                      ),
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        if (leading != null) ...[
+                          leading,
+                          const SizedBox(width: 8),
+                        ],
+                        Expanded(
+                          child: Text(
+                            title,
+                            style: TextStyle(
+                              color: foregroundColor,
+                            ),
+                          ),
+                        ),
+                      ],
                     )
                   : null,
               backgroundColor: backgroundColor,
@@ -150,10 +169,12 @@ class Modal {
     Color? color,
     required String title,
     required String text,
+    Widget? leading,
     VoidCallback? onSubmit,
     bool disableBackKey = false,
     bool popOnPress = true,
     bool willShowRepetition = false,
+    ButtonStyle? buttonStyle,
   }) async {
     bool clicked = false;
     ScaffoldMessenger.of(context);
@@ -174,11 +195,23 @@ class Modal {
           return PopScope(
             canPop: !disableBackKey,
             child: AlertDialog(
-              title: Text(
-                title,
-                style: TextStyle(
-                  color: foregroundColor,
-                ),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (leading != null) ...[
+                    leading,
+                    const SizedBox(width: 8),
+                  ],
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        color: foregroundColor,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               content: SingleChildScrollView(
                 child: Text(
@@ -192,7 +225,7 @@ class Modal {
               surfaceTintColor: backgroundColor,
               actions: <Widget>[
                 TextButton(
-                  child: Text(submitText),
+                  style: buttonStyle,
                   onPressed: () {
                     if (popOnPress) {
                       Navigator.of(context, rootNavigator: true).pop();
@@ -200,6 +233,7 @@ class Modal {
                     onSubmit?.call();
                     clicked = true;
                   },
+                  child: Text(submitText),
                 )
               ],
             ),
@@ -254,10 +288,13 @@ class Modal {
     required String cancelText,
     required String title,
     required String text,
+    Widget? leading,
     VoidCallback? onSubmit,
     VoidCallback? onCancel,
     bool popOnPress = true,
     bool willShowRepetition = false,
+    ButtonStyle? submitButtonStyle,
+    ButtonStyle? cancelButtonStyle,
   }) async {
     bool state = false;
     bool clicked = false;
@@ -276,11 +313,23 @@ class Modal {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: Text(
-              title,
-              style: TextStyle(
-                color: foregroundColor,
-              ),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (leading != null) ...[
+                  leading,
+                  const SizedBox(width: 8),
+                ],
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      color: foregroundColor,
+                    ),
+                  ),
+                ),
+              ],
             ),
             content: SingleChildScrollView(
               child: Text(
@@ -294,7 +343,7 @@ class Modal {
             surfaceTintColor: backgroundColor,
             actions: <Widget>[
               TextButton(
-                child: Text(cancelText),
+                style: cancelButtonStyle,
                 onPressed: () {
                   if (popOnPress) {
                     Navigator.of(context, rootNavigator: true).pop();
@@ -303,9 +352,10 @@ class Modal {
                   state = false;
                   clicked = true;
                 },
+                child: Text(cancelText),
               ),
               TextButton(
-                child: Text(submitText),
+                style: submitButtonStyle,
                 onPressed: () {
                   if (popOnPress) {
                     Navigator.of(context, rootNavigator: true).pop();
@@ -314,6 +364,7 @@ class Modal {
                   state = true;
                   clicked = true;
                 },
+                child: Text(submitText),
               )
             ],
           );
