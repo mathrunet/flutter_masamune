@@ -1,3 +1,7 @@
+## 2.2.9
+
+ - **FIX**: Package Update. ([d5a558d2](https://github.com/mathrunet/flutter_masamune/commit/d5a558d29b72d76920261daaa08e3dda617e908f))
+
 ## 2.2.8
 
  - **DOCS**: Align documentation with current specifications. ([8da76e25](https://github.com/mathrunet/flutter_masamune/commit/8da76e25eae36623db1fafced8b9b49d073ea1f5))

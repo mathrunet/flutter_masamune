@@ -1,3 +1,7 @@
+## 2.19.0
+
+ - **FEAT**: Added Animate. ([72d7f0c0](https://github.com/mathrunet/flutter_masamune/commit/72d7f0c05ef5cac41a158adf43675ad9ddbcacd3))
+
 ## 2.18.9
 
  - **DOCS**: Corrected comment. ([6859bcbb](https://github.com/mathrunet/flutter_masamune/commit/6859bcbbf0a5ccc0f08452d94538f3265a240b17))
