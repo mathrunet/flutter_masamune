@@ -449,11 +449,15 @@ class NoSqlDatabase {
       final val = Map<String, dynamic>.from(tmp.value);
       data._writeToPath([...paths, key], 0, val);
     }
+    final newValue = data._readFromPath(paths, 0);
+    if (newValue is! DynamicMap) {
+      return null;
+    }
     final limitValue = query.query.filters
         .firstWhereOrNull((e) => e.type == ModelQueryFilterType.limit)
         ?.value as int?;
     final entries = query.query.sort(
-      value
+      newValue
           .toList(
             (key, value) {
               // ignore: unnecessary_type_check
@@ -482,7 +486,7 @@ class NoSqlDatabase {
       _collectionEntries[query.origin] = List.from(limited);
     }
     await onSaved?.call(this);
-    return value;
+    return limited.toMap((item) => MapEntry(item.key, item.value));
   }
 
   /// Load the document corresponding to [query] from [_registeredInitialValue].

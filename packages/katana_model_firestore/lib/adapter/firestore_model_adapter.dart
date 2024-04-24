@@ -517,6 +517,9 @@ class FirestoreModelAdapter extends ModelAdapter
     if (ref is! FirestoreModelTransactionRef) {
       throw Exception("[ref] is not [FirestoreModelTransactionRef].");
     }
+    if (validator != null) {
+      await validator!.onPreloadDocument(query);
+    }
     final snapshot =
         await ref._transaction.get(database.doc(_path(query.query.path)));
     var res = _convertFrom(snapshot.data() ?? {});
@@ -526,6 +529,9 @@ class FirestoreModelAdapter extends ModelAdapter
       if (localRes.isNotEmpty) {
         res = localRes!;
       }
+    }
+    if (validator != null) {
+      await validator!.onPostloadDocument(query, res);
     }
     await localDatabase.syncDocument(query, res, prefix: prefix);
     _FirestoreCache.getCache(options).set(_path(query.query.path), res);

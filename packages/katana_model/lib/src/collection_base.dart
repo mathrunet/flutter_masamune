@@ -500,6 +500,10 @@ abstract class CollectionBase<TModel extends DocumentBase>
         if (update.newIndex == null) {
           return;
         }
+        // すでに追加されているのに追加でデータが来た場合は無視
+        if (this._value.any((e) => e.uid == update.id)) {
+          return;
+        }
         final value = create(update.id.trimQuery().trimString("?"));
         final val = value.value;
         final filtered = value._filterOnLoad(update.value);
@@ -549,6 +553,10 @@ abstract class CollectionBase<TModel extends DocumentBase>
         break;
       case ModelUpdateNotificationStatus.removed:
         if (update.oldIndex == null) {
+          return;
+        }
+        // すでに削除されているのに削除でデータが来た場合は無視
+        if (!this._value.any((e) => e.uid == update.id)) {
           return;
         }
         if (_value.length <= update.oldIndex!) {

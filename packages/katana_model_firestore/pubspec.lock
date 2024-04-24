@@ -293,7 +293,7 @@ packages:
       path: "../katana_firebase"
       relative: true
     source: path
-    version: "2.2.3"
+    version: "2.2.4"
   katana_model:
     dependency: "direct main"
     description:
