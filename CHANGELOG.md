@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-04-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_animate` - `v2.1.0`](#masamune_animate---v210)
+
+---
+
+#### `masamune_animate` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([54c355cd](https://github.com/mathrunet/flutter_masamune/commit/54c355cd53971c768aa32a87162043edc4af908d))
+
+
 ## 2024-04-24
 
 ### Changes
