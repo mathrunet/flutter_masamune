@@ -24,6 +24,7 @@ export 'package:custom_lint/custom_lint.dart';
 part 'masamune/masamune_model_should_show_indicator_while_loading.dart';
 part 'masamune/masamune_model_should_load.dart';
 part 'masamune/masamune_collection_model_should_add_limit_query.dart';
+part 'masamune/masamune_scoped_query_must_pass_to_appropriate_ref.dart';
 
 part 'buttons/masamune_button_add_icon.dart';
 part 'buttons/masamune_button_type.dart';
@@ -46,6 +47,7 @@ class _MasamuneLints extends PluginBase {
         const _MasamuneModelShouldLoad(),
         const _MasamuneModelShouldShowIndicatorWhileLoading(),
         const _MasamuneCollectionModelShouldAddLimitQuery(),
+        const _MasamuneScopedQueryMustPassToAppropriateRef(),
         const _MasamuneLimitIfNesting(),
         const _MasamuneUnwrapNullable(),
       ];
