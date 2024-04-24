@@ -291,8 +291,9 @@ ${showAllConfig ? """
 """ : ""}
 
   # Enable Cloud Storage for Firebase.
+  # If you want to use CORS to retrieve images, etc., set [cors] to `true`.
   # Cloud Storage for Firebaseを有効にします。
-  # CORSで画像等を取得する
+  # CORSで画像等を取得する場合は[cors]を`true`にしてください。
   storage:
     enable: false
     cors: false
