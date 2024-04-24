@@ -84,11 +84,11 @@ extension QueryScopedValueRefQueryExtensions<TRef extends Ref>
   /// }
   /// ```
   T query<T>(
-    ScopedQueryBase<T, TRef> query, {
+    ScopedQueryBase<T, Ref> query, {
     bool? autoDisposeWhenUnreferenced,
   }) {
-    return getScopedValue<T, _QueryValue<T, TRef>>(
-      (ref) => _QueryValue<T, TRef>(
+    return getScopedValue<T, _QueryValue<T, Ref>>(
+      (ref) => _QueryValue<T, Ref>(
         query: query,
         ref: this.ref,
         listen: query.listen,
