@@ -71,7 +71,7 @@ class ExecContext {
   ///
   /// [yaml]を`katana.yaml`に保存します。
   Future<void> save() async {
-    final content = YAMLWriter().write(yaml);
+    final content = YamlWriter().write(yaml);
     await File("katana.yaml").writeAsString(content);
   }
 }
