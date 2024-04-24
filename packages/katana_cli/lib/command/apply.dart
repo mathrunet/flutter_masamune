@@ -1,6 +1,7 @@
 // Project imports:
 import 'package:katana_cli/action/ads/ads.dart';
 import 'package:katana_cli/action/agora/agora.dart';
+import 'package:katana_cli/action/app/animate.dart';
 import 'package:katana_cli/action/app/calendar.dart';
 import 'package:katana_cli/action/app/csr.dart';
 import 'package:katana_cli/action/app/deeplink.dart';
@@ -60,6 +61,7 @@ const _actions = <CliActionMixin>[
   GitActionCliAction(),
   GitPreCommitCliAction(),
   AppOpenAICliAction(),
+  AppAnimateCliAction(),
   AppIntroductionCliAction(),
   AppCalendarCliAction(),
   AppTextToSpeechCliAction(),

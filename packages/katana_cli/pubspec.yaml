@@ -9,7 +9,7 @@ environment:
 
 dependencies:
   yaml: ^3.1.0
-  yaml_writer: ^1.0.3
+  yaml_writer: ^2.0.0
   archive: ^3.1.9
   csv: ^6.0.0
   katana: ^2.13.2

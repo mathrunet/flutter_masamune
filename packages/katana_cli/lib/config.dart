@@ -177,6 +177,11 @@ ${showAllConfig ? """
       ios_team_id:
       android_sha_256:
 
+  # Describes settings for implementing animation.
+  # アニメーションを実装するための設定を記述します。
+  animate:
+    enable: false
+
   # Describe the settings for using the introductory part of the application.
   # アプリの導入部分を利用するための設定を記述します。
   introduction:
