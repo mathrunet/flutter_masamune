@@ -1,3 +1,7 @@
+## 2.18.9
+
+ - **DOCS**: Corrected comment. ([6859bcbb](https://github.com/mathrunet/flutter_masamune/commit/6859bcbbf0a5ccc0f08452d94538f3265a240b17))
+
 ## 2.18.8
 
  - **FIX**: PrivacyManifest対応。. ([da71970b](https://github.com/mathrunet/flutter_masamune/commit/da71970b1eaf7fc0f52a4e248065c93bf7610138))

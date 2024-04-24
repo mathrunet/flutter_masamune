@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Added lint for ScopedQuery. ([6f237e4f](https://github.com/mathrunet/flutter_masamune/commit/6f237e4facd0d7617300c31576dc8eddb1e1396d))
+
 ## 2.3.1
 
  - **FIX**: Version up support. ([bea68f96](https://github.com/mathrunet/flutter_masamune/commit/bea68f963c42c99b7bb804f4aa8d7f2d4cc577e9))

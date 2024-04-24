@@ -1,3 +1,7 @@
+## 2.5.10
+
+ - **FIX**: QueryScopedValueRef argument is now acceptable in Ref. ([54a4336f](https://github.com/mathrunet/flutter_masamune/commit/54a4336f9c2fc4ef37a93ddf1cc73c2ac910c8c2))
+
 ## 2.5.9
 
  - **FIX**: Remove unnecessary parameters. ([d2f96ea6](https://github.com/mathrunet/flutter_masamune/commit/d2f96ea6c15a776944f0067434989afcfbbc7442))
