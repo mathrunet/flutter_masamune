@@ -1,3 +1,7 @@
+## 2.16.25
+
+ - **FIX**: Synchronize local data between ListenableFirestoreModelAdapter and FirestoreModelAdapter. ([f57961ab](https://github.com/mathrunet/flutter_masamune/commit/f57961abc1271173b97d22eac7494f235fb431eb))
+
 ## 2.16.24
 
  - **FIX**: Version up support. ([bea68f96](https://github.com/mathrunet/flutter_masamune/commit/bea68f963c42c99b7bb804f4aa8d7f2d4cc577e9))
