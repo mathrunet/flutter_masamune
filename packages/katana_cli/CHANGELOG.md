@@ -1,3 +1,8 @@
+## 2.19.1
+
+ - **FIX**: Fixed package at create. ([c2a9a5b9](https://github.com/mathrunet/flutter_masamune/commit/c2a9a5b90e9e70aee6d10e7df6464000a475d1b4))
+ - **FIX**: Package Update. ([a3d13da7](https://github.com/mathrunet/flutter_masamune/commit/a3d13da7158e694342aec93b935800e13b5d866c))
+
 ## 2.19.0
 
  - **FEAT**: Added Animate. ([72d7f0c0](https://github.com/mathrunet/flutter_masamune/commit/72d7f0c05ef5cac41a158adf43675ad9ddbcacd3))

@@ -1,3 +1,7 @@
+## 2.3.61
+
+ - **FIX**: Deprecated Extension type description. ([e731cd04](https://github.com/mathrunet/flutter_masamune/commit/e731cd0464f18b13182999ed1e82f331f62364e1))
+
 ## 2.3.60
 
  - Update a dependency to the latest release.

@@ -15,6 +15,33 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.19.1`](#katana_cli---v2191)
+ - [`masamune_universal_ui` - `v2.3.61`](#masamune_universal_ui---v2361)
+
+---
+
+#### `katana_cli` - `v2.19.1`
+
+ - **FIX**: Fixed package at create. ([c2a9a5b9](https://github.com/mathrunet/flutter_masamune/commit/c2a9a5b90e9e70aee6d10e7df6464000a475d1b4))
+ - **FIX**: Package Update. ([a3d13da7](https://github.com/mathrunet/flutter_masamune/commit/a3d13da7158e694342aec93b935800e13b5d866c))
+
+#### `masamune_universal_ui` - `v2.3.61`
+
+ - **FIX**: Deprecated Extension type description. ([e731cd04](https://github.com/mathrunet/flutter_masamune/commit/e731cd0464f18b13182999ed1e82f331f62364e1))
+
+
+## 2024-04-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.19.0`](#katana_cli---v2190)
  - [`katana_localization_builder` - `v2.2.9`](#katana_localization_builder---v229)
  - [`katana_model_local` - `v2.13.19`](#katana_model_local---v21319)
