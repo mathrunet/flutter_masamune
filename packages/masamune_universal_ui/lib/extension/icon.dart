@@ -7,6 +7,9 @@ extension UniversalUIIconExtensions on Icon {
   /// Create a new [Icon] by copying the contents of [Icon].
   ///
   /// [Icon]の内容をコピーして新しい[Icon]を作成します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Icon copyWith({
     IconData? icon,
     double? size,
@@ -36,15 +39,24 @@ extension UniversalUIIconExtensions on Icon {
   /// Change [Icon.size] to [size].
   ///
   /// [Icon.size]を[size]に変更します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Icon iconSize(double size) => copyWith(size: size);
 
   /// Change [Icon.weight] to [weight].
   ///
   /// [Icon.weight]を[weight]に変更します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Icon iconWeight(double weight) => copyWith(weight: weight);
 
   /// Change [Icon.color] to [color].
   ///
   /// [Icon.color]を[color]に変更します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Icon color(Color color) => copyWith(color: color);
 }

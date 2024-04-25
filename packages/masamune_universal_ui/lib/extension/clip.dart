@@ -7,6 +7,9 @@ extension UniversalUIClipExtensions on Widget {
   /// Set the size of the [Widget] to [width] and [height].
   ///
   /// [Widget]のサイズを[width]と[height]に設定します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   SizedBox sizeTo({
     double? width,
     double? height,
@@ -21,6 +24,9 @@ extension UniversalUIClipExtensions on Widget {
   /// Clip [Widget] with a rounded rectangle.
   ///
   /// [Widget]を丸みを帯びた四角形でクリップします。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   ClipRRect clipRect({
     required BorderRadiusGeometry borderRadius,
     CustomClipper<RRect>? clipper,
@@ -37,6 +43,9 @@ extension UniversalUIClipExtensions on Widget {
   /// Clip [Widget] in a circle.
   ///
   /// [Widget]を円形でクリップします。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   ClipOval clipOval({
     CustomClipper<Rect>? clipper,
     Clip clipBehavior = Clip.antiAlias,

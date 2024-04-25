@@ -7,6 +7,9 @@ extension UniversalUIWidgetStructureExtensions on Widget {
   /// Move [Widget] to [alignment].
   ///
   /// [Widget]を[alignment]に寄せます。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Align alignAt(
     Alignment alignment, {
     Key? key,
@@ -25,6 +28,9 @@ extension UniversalUIWidgetStructureExtensions on Widget {
   /// Center the [Widget].
   ///
   /// [Widget]を中央に寄せます。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Center centerAt() {
     return Center(child: this);
   }
@@ -32,6 +38,9 @@ extension UniversalUIWidgetStructureExtensions on Widget {
   /// Give [Expanded] to [Widget].
   ///
   /// [Widget]に[Expanded]を付与します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Expanded expanded({int flex = 1}) => Expanded(
         flex: flex,
         child: this,
@@ -40,6 +49,9 @@ extension UniversalUIWidgetStructureExtensions on Widget {
   /// Give [Flexible] to [Widget].
   ///
   /// [Widget]に[Flexible]を付与します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Flexible flexible({int flex = 1}) => Flexible(
         flex: flex,
         child: this,

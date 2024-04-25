@@ -9,6 +9,9 @@ extension UniversalUITextExtensions on Text {
   /// Create a new [Text] by copying the contents of [Text].
   ///
   /// [Text]の内容をコピーして新しい[Text]を作成します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text copyWith({
     String? data,
     TextStyle? style,
@@ -46,6 +49,9 @@ extension UniversalUITextExtensions on Text {
   /// Change the style of [Text] to [style].
   ///
   /// [Text]のスタイルを[style]に変更します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text withStyle(TextStyle? style) {
     return copyWith(
       style: (this.style ?? const TextStyle()).copyWith(
@@ -78,11 +84,17 @@ extension UniversalUITextExtensions on Text {
   /// Change [Text.textScaler] to [textScaler].
   ///
   /// [Text.textScaler]を[textScaler]に変更します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text textScale(TextScaler textScaler) => copyWith(textScaler: textScaler);
 
   /// Bold [Text].
   ///
   /// [Text]を太字にします。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text bold() => copyWith(
         style: (style ?? const TextStyle()).copyWith(
           fontWeight: FontWeight.bold,
@@ -92,6 +104,9 @@ extension UniversalUITextExtensions on Text {
   /// Italicize [Text].
   ///
   /// [Text]を斜体にします。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text italic() => copyWith(
         style: (style ?? const TextStyle()).copyWith(
           fontStyle: FontStyle.italic,
@@ -101,6 +116,9 @@ extension UniversalUITextExtensions on Text {
   /// Underline [Text].
   ///
   /// [Text]にアンダーラインを付与します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text underLine() => copyWith(
       style: (style ?? const TextStyle())
           .copyWith(decoration: TextDecoration.underline));
@@ -108,6 +126,9 @@ extension UniversalUITextExtensions on Text {
   /// Change the font weight of [Text] to [fontWeight].
   ///
   /// [Text]の文字の太さを[fontWeight]に変更します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text fontWeight(FontWeight fontWeight) => copyWith(
         style: (style ?? const TextStyle()).copyWith(
           fontWeight: fontWeight,
@@ -117,6 +138,9 @@ extension UniversalUITextExtensions on Text {
   /// Change the text size of [Text] to [size].
   ///
   /// [Text]の文字の大きさを[size]に変更します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text fontSize(double size) => copyWith(
         style: (style ?? const TextStyle()).copyWith(
           fontSize: size,
@@ -126,6 +150,9 @@ extension UniversalUITextExtensions on Text {
   /// Change the font of [Text] to [font].
   ///
   /// [Text]のフォントを[font]に変更します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text fontFamily(String font) => copyWith(
         style: (style ?? const TextStyle()).copyWith(
           fontFamily: font,
@@ -135,6 +162,9 @@ extension UniversalUITextExtensions on Text {
   /// Set the width between characters in [Text] to [space].
   ///
   /// [Text]の文字の間の幅を[space]に設定します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text letterSpacing(double space) => copyWith(
         style: (style ?? const TextStyle()).copyWith(
           letterSpacing: space,
@@ -144,6 +174,9 @@ extension UniversalUITextExtensions on Text {
   /// Set the width between words in [Text] to [space].
   ///
   /// [Text]の単語の間の幅を[space]に設定します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text wordSpacing(double space) => copyWith(
         style: (style ?? const TextStyle()).copyWith(
           wordSpacing: space,
@@ -153,6 +186,9 @@ extension UniversalUITextExtensions on Text {
   /// Adds a shadow set by [color], [blurRadius], and [offset] to [Text].
   ///
   /// [Text]に[color]と[blurRadius]、[offset]で設定した影を付与します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text textShadow({
     Color color = const Color(_kColorDefault),
     double blurRadius = 0.0,
@@ -174,6 +210,9 @@ extension UniversalUITextExtensions on Text {
   /// Change the text color of [Text] to [color].
   ///
   /// [Text]の文字色を[color]に変更します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text color(Color color) => copyWith(
         style: (style ?? const TextStyle()).copyWith(
           color: color,
@@ -183,17 +222,26 @@ extension UniversalUITextExtensions on Text {
   /// Set [Text] alignment to [align].
   ///
   /// [Text]の配置を[align]に設定します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text textAlign(TextAlign align) => copyWith(textAlign: align);
 
   /// Change the direction of [Text] to [direction].
   ///
   /// [Text]の方向を[direction]に変更します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text textDirection(TextDirection direction) =>
       copyWith(textDirection: direction);
 
   /// Change the [Text] baseline setting to [textBaseline].
   ///
   /// [Text]のベースライン設定を[textBaseline]に変更します。
+  @Deprecated(
+    "This Extension is no longer available; please use a Widget to describe it. このExtensionは使えなくなります。Widgetで記述してください。",
+  )
   Text textBaseline(TextBaseline textBaseline) => copyWith(
         style: (style ?? const TextStyle()).copyWith(
           textBaseline: textBaseline,
