@@ -29,7 +29,7 @@ final importPackages = [
 ///
 /// "-a"のオプションが利用された場合の追加インポートパッケージ。
 final allOptionsImportPackage = [
-  "flutter_animate",
+  "masamune_animate",
   "font_awesome_flutter",
   "url_strategy",
 ];
@@ -40,6 +40,7 @@ final allOptionsImportPackage = [
 final importDevPackages = [
   "build_runner",
   "masamune_builder",
+  "masamune_lints",
   "freezed",
   "json_serializable",
 ];
