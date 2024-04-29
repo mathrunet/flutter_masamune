@@ -8,4 +8,15 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_animate;
 
-export 'package:flutter_animate/flutter_animate.dart';
+import 'dart:async';
+
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/widgets.dart';
+
+export 'query/query.dart';
+
+part 'src/animate_scope.dart';
+part 'src/animate_query.dart';
+part 'src/animate_controller.dart';
+part 'src/wait_query.dart';
+part 'src/animate_runner.dart';
