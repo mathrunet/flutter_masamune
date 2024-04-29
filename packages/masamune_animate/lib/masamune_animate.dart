@@ -8,8 +8,10 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_animate;
 
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 

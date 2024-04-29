@@ -58,7 +58,7 @@ class AnimateScope extends StatefulWidget {
   /// [keys]にウィジェットの再ビルドをトリガーとするキーを設定します。
   const AnimateScope({
     super.key,
-    required this.child,
+    this.child,
     this.scenario,
     this.controller,
     this.autoPlay = false,
@@ -78,7 +78,7 @@ class AnimateScope extends StatefulWidget {
   /// Widget to be animated.
   ///
   /// アニメーション対象となるウィジェット。
-  final Widget child;
+  final Widget? child;
 
   /// Whether to play the animation automatically when the widget is built.
   ///
@@ -177,6 +177,9 @@ class _AnimateScopeState extends State<AnimateScope>
 
   @override
   Widget build(BuildContext context) {
-    return _effectiveController._build(context, widget.child);
+    return _effectiveController._build(
+      context,
+      widget.child ?? const SizedBox.shrink(),
+    );
   }
 }
