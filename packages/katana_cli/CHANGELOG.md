@@ -1,3 +1,7 @@
+## 2.19.2
+
+ - **FIX**: Fixed an occasional error bug. ([b23b54b7](https://github.com/mathrunet/flutter_masamune/commit/b23b54b7af7026608c1732e18c30e97e32dd9832))
+
 ## 2.19.1
 
  - **FIX**: Fixed package at create. ([c2a9a5b9](https://github.com/mathrunet/flutter_masamune/commit/c2a9a5b90e9e70aee6d10e7df6464000a475d1b4))

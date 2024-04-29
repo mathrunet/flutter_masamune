@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-04-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.19.2`](#katana_cli---v2192)
+ - [`masamune_animate` - `v2.2.0`](#masamune_animate---v220)
+
+---
+
+#### `katana_cli` - `v2.19.2`
+
+ - **FIX**: Fixed an occasional error bug. ([b23b54b7](https://github.com/mathrunet/flutter_masamune/commit/b23b54b7af7026608c1732e18c30e97e32dd9832))
+
+#### `masamune_animate` - `v2.2.0`
+
+ - **FEAT**: Changed to original animation package. ([5a0d15ed](https://github.com/mathrunet/flutter_masamune/commit/5a0d15eded8546aa153ebb9f66c30da1a50502b9))
+
+
 ## 2024-04-25
 
 ### Changes
