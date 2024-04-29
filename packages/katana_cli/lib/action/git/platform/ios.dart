@@ -474,7 +474,7 @@ jobs:
         env:
           IOS_API_ISSUER_ID: \${{ secrets.IOS_API_ISSUER_ID_#### REPLACE_APP_NAME #### }}
           IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID_#### REPLACE_APP_NAME #### }}
-        run: xcodebuild archive -workspace ./ios/Runner.xcworkspace -scheme Runner -configuration Release -archivePath ./build/ios/Runner.xcarchive -allowProvisioningUpdates -authenticationKeyIssuerID \$IOS_API_ISSUER_ID -authenticationKeyID \$IOS_API_KEY_ID -authenticationKeyPath `pwd`/private_keys/AuthKey_\$IOS_API_KEY_ID.p8
+        run: xcodebuild archive -workspace ./ios/Runner.xcworkspace -scheme Runner -configuration Release -destination generic/platform=iOS -archivePath ./build/ios/Runner.xcarchive -allowProvisioningUpdates -authenticationKeyIssuerID \$IOS_API_ISSUER_ID -authenticationKeyID \$IOS_API_KEY_ID -authenticationKeyPath `pwd`/private_keys/AuthKey_\$IOS_API_KEY_ID.p8
 
       # Export of built archives.
       # ビルドされたアーカイブのエクスポート。
