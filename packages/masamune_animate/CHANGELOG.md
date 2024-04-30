@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - Update a dependency to the latest release.
+
 ## 2.2.1
 
  - **FIX**: Adjust the essentiality of the parameters according to the actual situation. ([8c9bd2c4](https://github.com/mathrunet/flutter_masamune/commit/8c9bd2c4e2f3ccd95bdba08c7a0ed25a9d920a79))

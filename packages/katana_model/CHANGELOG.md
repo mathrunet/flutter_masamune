@@ -1,3 +1,7 @@
+## 2.26.9
+
+ - **FIX**: Fixed to prevent duplicate updates. ([cadd3cff](https://github.com/mathrunet/flutter_masamune/commit/cadd3cffa7d23b400f081371d0c3a5e9d1a19898))
+
 ## 2.26.8
 
  - **FIX**: Synchronize local data between ListenableFirestoreModelAdapter and FirestoreModelAdapter. ([f57961ab](https://github.com/mathrunet/flutter_masamune/commit/f57961abc1271173b97d22eac7494f235fb431eb))
