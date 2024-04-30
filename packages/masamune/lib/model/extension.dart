@@ -54,16 +54,16 @@ extension ModelVideoUriExtensions on ModelVideoUri {
 /// [ModelQueryBase]の拡張メソッドです。
 extension ModelQueryBaseExtensions<TModel extends Listenable>
     on ModelQueryBase<TModel> {
-  /// Get [TModel] while monitoring it with the widget associated with [ref] in the same way as `ref.model`.
+  /// Get [TModel] while monitoring it with the widget associated with [ref] in the same way as `ref.app.model`.
   ///
-  /// `ref.model`と同じように[ref]に関連するウィジェットで監視を行いつつ[TModel]を取得します。
+  /// `ref.app.model`と同じように[ref]に関連するウィジェットで監視を行いつつ[TModel]を取得します。
   TModel watch(RefHasApp ref) {
     return ref.app.model(this);
   }
 
-  /// Get [TModel] stored in [ref] in the same way as `ref.model`.
+  /// Get [TModel] stored in [ref] in the same way as `ref.app.model`.
   ///
-  /// `ref.model`と同じように[ref]に格納されている[TModel]を取得します。
+  /// `ref.app.model`と同じように[ref]に格納されている[TModel]を取得します。
   TModel read(AppRef ref) {
     return ref.model(this);
   }

@@ -6,7 +6,7 @@ class _MasamuneModelShouldShowIndicatorWhileLoading extends DartLintRule {
   static const _code = LintCode(
     name: "masamune_model_should_show_indicator_while_loading",
     problemMessage:
-        "If the object retrieved from ref.model is loaded, you must use [UniversalScaffold]->[loadingFuture] or [LoadingBuilder]. Change ref to appRef to avoid this. ref.modelから取得したオブジェクトがloadされていた場合必ず[UniversalScaffold]->[loadingFuture]か[LoadingBuilder]を使用する必要があります。refをappRefに変更すると回避できます。",
+        "If the object retrieved from ref.app.model is loaded, you must use [UniversalScaffold]->[loadingFuture] or [LoadingBuilder]. Change ref to appRef to avoid this. ref.app.modelから取得したオブジェクトがloadされていた場合必ず[UniversalScaffold]->[loadingFuture]か[LoadingBuilder]を使用する必要があります。refをappRefに変更すると回避できます。",
     errorSeverity: ErrorSeverity.WARNING,
   );
 

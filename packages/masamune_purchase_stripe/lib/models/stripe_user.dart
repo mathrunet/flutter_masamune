@@ -58,7 +58,7 @@ class StripeUserModel with _$StripeUserModel {
   ///
   /// ```dart
   /// appRef.model(StripePurchaseUserModel.document(id));       // Get the document.
-  /// ref.model(StripePurchaseUserModel.document(id))..load();  // Load the document.
+  /// ref.app.model(StripePurchaseUserModel.document(id))..load();  // Load the document.
   /// ```
   static const document = _$$_StripeUserModelDocumentQuery();
 
@@ -66,8 +66,8 @@ class StripeUserModel with _$StripeUserModel {
   ///
   /// ```dart
   /// appRef.model(StripePurchaseUserModel.collection());       // Get the collection.
-  /// ref.model(StripePurchaseUserModel.collection())..load();  // Load the collection.
-  /// ref.model(
+  /// ref.app.model(StripePurchaseUserModel.collection())..load();  // Load the collection.
+  /// ref.app.model(
   ///   StripePurchaseUserModel.collection().equal(
   ///     StripePurchaseUserModelCollectionKey.xxx,
   ///     "data",

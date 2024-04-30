@@ -83,16 +83,16 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
   /// Model for User.
   ///
   /// ```dart
-  /// ref.model(Purchase.user.document(id));       // Get the document.
-  /// ref.model(Purchase.user.collection());       // Get the collection.
+  /// ref.app.model(Purchase.user.document(id));       // Get the document.
+  /// ref.app.model(Purchase.user.collection());       // Get the collection.
   /// ```
   static const user = _$PurchaseUser();
 
   /// Model for Subscription.
   ///
   /// ```dart
-  /// ref.model(Purchase.subscripiton.document(id));       // Get the document.
-  /// ref.model(Purchase.subscription.collection());       // Get the collection.
+  /// ref.app.model(Purchase.subscripiton.document(id));       // Get the document.
+  /// ref.app.model(Purchase.subscription.collection());       // Get the collection.
   /// ```
   static const subscription = _$PurchaseSubscription();
 
@@ -369,7 +369,7 @@ class _$PurchaseSubscription {
   ///
   /// ```dart
   /// appRef.model(PurchaseSubscriptionModel.document(id));       // Get the document.
-  /// ref.model(PurchaseSubscriptionModel.document(id))..load();  // Load the document.
+  /// ref.app.model(PurchaseSubscriptionModel.document(id))..load();  // Load the document.
   /// ```
   final document = PurchaseSubscriptionModel.document;
 
@@ -377,8 +377,8 @@ class _$PurchaseSubscription {
   ///
   /// ```dart
   /// appRef.model(PurchaseSubscriptionModel.collection());       // Get the collection.
-  /// ref.model(PurchaseSubscriptionModel.collection())..load();  // Load the collection.
-  /// ref.model(
+  /// ref.app.model(PurchaseSubscriptionModel.collection())..load();  // Load the collection.
+  /// ref.app.model(
   ///   PurchaseSubscriptionModel.collection().equal(
   ///     PurchaseSubscriptionModelCollectionKey.xxx,
   ///     "data",
@@ -395,7 +395,7 @@ class _$PurchaseUser {
   ///
   /// ```dart
   /// appRef.model(PurchaseUserModel.document(id));       // Get the document.
-  /// ref.model(PurchaseUserModel.document(id))..load();  // Load the document.
+  /// ref.app.model(PurchaseUserModel.document(id))..load();  // Load the document.
   /// ```
   final document = PurchaseUserModel.document;
 
@@ -403,8 +403,8 @@ class _$PurchaseUser {
   ///
   /// ```dart
   /// appRef.model(PurchaseUserModel.collection());       // Get the collection.
-  /// ref.model(PurchaseUserModel.collection())..load();  // Load the collection.
-  /// ref.model(
+  /// ref.app.model(PurchaseUserModel.collection())..load();  // Load the collection.
+  /// ref.app.model(
   ///   PurchaseUserModel.collection().equal(
   ///     PurchaseUserModelCollectionKey.xxx,
   ///     "data",

@@ -96,14 +96,16 @@ class ${className}Model with _\$${className}Model {
   ///
   /// ```dart
   /// appRef.model(${className}Model.document());      // Get the document.
-  /// ref.model(${className}Model.document())..load(); // Load the document.
+  /// 
+  /// ref.page.form(CounterModel.form(CounterModel()));    // Get the form controller.(${className}Model.document())..load(); // Load the document.
   /// ```
   static const document = _\$${className}ModelDocumentQuery();
 
   /// Query for form value.
   ///
   /// ```dart
-  /// ref.form(${className}Model.form(${className}Model()));    // Get the form controller.
+  /// ref.app.form(${className}Model.form(${className}Model()));    // Get the form controller in app scope.
+  /// ref.page.form(${className}Model.form(${className}Model()));    // Get the form controller in page scope.
   /// ```
   static const form = _\$${className}ModelFormQuery();
 }

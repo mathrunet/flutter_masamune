@@ -72,8 +72,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   /// Model for Schedule.
   ///
   /// ```dart
-  /// ref.model(PushNotification.schedule.document(id));       // Get the document.
-  /// ref.model(PushNotification.schedule.collection());       // Get the collection.
+  /// ref.app.model(PushNotification.schedule.document(id));       // Get the document.
+  /// ref.app.model(PushNotification.schedule.collection());       // Get the collection.
   /// ```
   static const schedule = _$PushNotificationSchedule();
 
@@ -501,17 +501,17 @@ class _$PushNotificationSchedule {
   /// Query for document.
   ///
   /// ```dart
-  /// appRef.model(PushNotificationScheduleModel.document(id));       // Get the document.
-  /// ref.model(PushNotificationScheduleModel.document(id))..load();  // Load the document.
+  /// appref.app.model(PushNotificationScheduleModel.document(id));       // Get the document.
+  /// ref.app.model(PushNotificationScheduleModel.document(id))..load();  // Load the document.
   /// ```
   final document = PushNotificationScheduleModel.document;
 
   /// Query for collection.
   ///
   /// ```dart
-  /// appRef.model(PushNotificationScheduleModel.collection());       // Get the collection.
-  /// ref.model(PushNotificationScheduleModel.collection())..load();  // Load the collection.
-  /// ref.model(
+  /// appref.app.model(PushNotificationScheduleModel.collection());       // Get the collection.
+  /// ref.app.model(PushNotificationScheduleModel.collection())..load();  // Load the collection.
+  /// ref.app.model(
   ///   PushNotificationScheduleModel.collection().equal(
   ///     PushNotificationScheduleModelCollectionKey.xxx,
   ///     "data",

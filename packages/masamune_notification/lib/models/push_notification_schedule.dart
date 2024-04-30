@@ -52,8 +52,8 @@ class PushNotificationScheduleModel
   /// Query for document.
   ///
   /// ```dart
-  /// appRef.model(PushNotificationScheduleModel.document(id));       // Get the document.
-  /// ref.model(PushNotificationScheduleModel.document(id))..load();  // Load the document.
+  /// appref.app.model(PushNotificationScheduleModel.document(id));       // Get the document.
+  /// ref.app.model(PushNotificationScheduleModel.document(id))..load();  // Load the document.
   /// ```
   static const document = _$PushNotificationScheduleModelDocumentQuery();
 
@@ -61,8 +61,8 @@ class PushNotificationScheduleModel
   ///
   /// ```dart
   /// appRef.model(PushNotificationScheduleModel.collection());       // Get the collection.
-  /// ref.model(PushNotificationScheduleModel.collection())..load();  // Load the collection.
-  /// ref.model(
+  /// ref.app.model(PushNotificationScheduleModel.collection())..load();  // Load the collection.
+  /// ref.app.model(
   ///   PushNotificationScheduleModel.collection().data.equal(
   ///     "data",
   ///   )
@@ -73,7 +73,8 @@ class PushNotificationScheduleModel
   /// Query for form value.
   ///
   /// ```dart
-  /// ref.page.controller(PushNotificationScheduleModel.form(PushNotificationScheduleModel()));    // Get the form controller.
+  /// ref.app.form(PushNotificationScheduleModel.form(PushNotificationScheduleModel()));    // Get the form controller in app scope.
+  /// ref.page.form(PushNotificationScheduleModel.form(PushNotificationScheduleModel()));    // Get the form controller in page scope.
   /// ```
   static const form = _$PushNotificationScheduleModelFormQuery();
 }

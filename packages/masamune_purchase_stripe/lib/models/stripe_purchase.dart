@@ -79,7 +79,7 @@ class StripePurchaseModel with _$StripePurchaseModel {
   ///
   /// ```dart
   /// appRef.model(StripePurchasePurchaseModel.document(id));       // Get the document.
-  /// ref.model(StripePurchasePurchaseModel.document(id))..load();  // Load the document.
+  /// ref.app.model(StripePurchasePurchaseModel.document(id))..load();  // Load the document.
   /// ```
   static const document = _$$_StripePurchaseModelDocumentQuery();
 
@@ -87,8 +87,8 @@ class StripePurchaseModel with _$StripePurchaseModel {
   ///
   /// ```dart
   /// appRef.model(StripePurchasePurchaseModel.collection());       // Get the collection.
-  /// ref.model(StripePurchasePurchaseModel.collection())..load();  // Load the collection.
-  /// ref.model(
+  /// ref.app.model(StripePurchasePurchaseModel.collection())..load();  // Load the collection.
+  /// ref.app.model(
   ///   StripePurchasePurchaseModel.collection().equal(
   ///     StripePurchasePurchaseModelCollectionKey.xxx,
   ///     "data",

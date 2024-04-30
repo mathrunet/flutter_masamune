@@ -428,7 +428,7 @@ class OpenAIAssistant {
   ///
   /// ```dart
   /// appRef.model(OpenAIAssistant.document(assistantId));       // Get the document.
-  /// ref.model(OpenAIAssistant.document(assistantId))..load();  // Load the document.
+  /// ref.app.model(OpenAIAssistant.document(assistantId))..load();  // Load the document.
   /// ```
   static const document = _$OpenAIAssistantDocumentQuery();
 
@@ -436,8 +436,8 @@ class OpenAIAssistant {
   ///
   /// ```dart
   /// appRef.model(OpenAIAssistant.collection());       // Get the collection.
-  /// ref.model(OpenAIAssistant.collection())..load();  // Load the collection.
-  /// ref.model(
+  /// ref.app.model(OpenAIAssistant.collection())..load();  // Load the collection.
+  /// ref.app.model(
   ///   OpenAIAssistant.collection().data.equal(
   ///     "data",
   ///   )

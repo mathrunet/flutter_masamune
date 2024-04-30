@@ -92,7 +92,7 @@ class ${className}Model with _\$${className}Model {
   ///
   /// ```dart
   /// appRef.model(${className}Model.document(id));       // Get the document.
-  /// ref.model(${className}Model.document(id))..load();  // Load the document.
+  /// ref.app.model(${className}Model.document(id))..load();  // Load the document.
   /// ```
   static const document = _\$${className}ModelDocumentQuery();
 
@@ -100,8 +100,8 @@ class ${className}Model with _\$${className}Model {
   ///
   /// ```dart
   /// appRef.model(${className}Model.collection());       // Get the collection.
-  /// ref.model(${className}Model.collection())..load();  // Load the collection.
-  /// ref.model(
+  /// ref.app.model(${className}Model.collection())..load();  // Load the collection.
+  /// ref.app.model(
   ///   ${className}Model.collection().data.equal(
   ///     "data",
   ///   )
@@ -112,7 +112,8 @@ class ${className}Model with _\$${className}Model {
   /// Query for form value.
   ///
   /// ```dart
-  /// ref.form(${className}Model.form(${className}Model()));    // Get the form controller.
+  /// ref.app.form(${className}Model.form(${className}Model()));    // Get the form controller in app scope.
+  /// ref.page.form(${className}Model.form(${className}Model()));    // Get the form controller in page scope.
   /// ```
   static const form = _\$${className}ModelFormQuery();
 }

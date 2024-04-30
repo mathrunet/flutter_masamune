@@ -2,7 +2,7 @@ part of '/masamune_location_google.dart';
 
 /// Map controller to handle GoogleMap.
 ///
-/// [MapController.query] allows you to retrieve objects from `ref.controller` and others while preserving their state.
+/// [MapController.query] allows you to retrieve objects from `ref.app.controller` and others while preserving their state.
 ///
 /// [initialize] to initialize and set permissions.
 ///
@@ -18,7 +18,7 @@ part of '/masamune_location_google.dart';
 ///
 /// GoogleMapを扱うためのマップコントローラー。
 ///
-/// [MapController.query]で`ref.controller`などから状態を保持しながらオブジェクトの取得ができます。
+/// [MapController.query]で`ref.app.controller`などから状態を保持しながらオブジェクトの取得ができます。
 ///
 /// [initialize]で初期化を行いパーミッションの設定を行います。
 ///
@@ -35,7 +35,7 @@ class MapController
     extends MasamuneControllerBase<void, GoogleLocationMasamuneAdapter> {
   /// Map controller to handle GoogleMap.
   ///
-  /// [MapController.query] allows you to retrieve objects from `ref.controller` and others while preserving their state.
+  /// [MapController.query] allows you to retrieve objects from `ref.app.controller` and others while preserving their state.
   ///
   /// [initialize] to initialize and set permissions.
   ///
@@ -51,7 +51,7 @@ class MapController
   ///
   /// GoogleMapを扱うためのマップコントローラー。
   ///
-  /// [MapController.query]で`ref.controller`などから状態を保持しながらオブジェクトの取得ができます。
+  /// [MapController.query]で`ref.app.controller`などから状態を保持しながらオブジェクトの取得ができます。
   ///
   /// [initialize]で初期化を行いパーミッションの設定を行います。
   ///

@@ -1788,7 +1788,7 @@ class HomePage extends PageScopedWidget {
   Widget build(BuildContext context, PageRef ref) {
     // Describes the process of loading
     // and defining variables required for the page.
-    final model = ref.model(CounterModel.document())..load();
+    final model = ref.app.model(CounterModel.document())..load();
 
     // Describes the structure of the page.
     return UniversalScaffold(
@@ -1917,14 +1917,15 @@ class CounterModel with _\$CounterModel {
   ///
   /// ```dart
   /// appRef.model(CounterModel.document());       // Get the document.
-  /// ref.model(CounterModel.document())..load();  // Load the document.
+  /// ref.app.model(CounterModel.document())..load();  // Load the document.
   /// ```
   static const document = _\$CounterModelDocumentQuery();
 
   /// Query for form value.
   ///
   /// ```dart
-  /// ref.page.controller(CounterModel.form(CounterModel()));    // Get the form controller.
+  /// ref.app.form(CounterModel.form(CounterModel()));    // Get the form controller in app scope.
+  /// ref.page.form(CounterModel.form(CounterModel()));    // Get the form controller in page scope.
   /// ```
   static const form = _\$CounterModelFormQuery();
 }
