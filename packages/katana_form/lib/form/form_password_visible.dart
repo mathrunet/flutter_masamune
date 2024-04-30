@@ -20,12 +20,24 @@ class FormPasswordVisible extends StatefulWidget {
     required this.builder,
     this.switcherBuilder,
     this.padding,
+    this.switchPadding,
+    this.switchAlignment,
   });
 
   /// Text field padding.
   ///
   /// テキストフィールドのパディング。
   final EdgeInsetsGeometry? padding;
+
+  /// Switch padding.
+  ///
+  /// スイッチのパディング。
+  final EdgeInsetsGeometry? switchPadding;
+
+  /// Switch location.
+  ///
+  /// スイッチの位置。
+  final Alignment? switchAlignment;
 
   /// Builder for text fields.
   ///
@@ -68,19 +80,22 @@ class _FormPasswordVisibleState extends State<FormPasswordVisible> {
     return Positioned.fill(
       right: 16,
       child: Align(
-        alignment: Alignment.centerRight,
-        child: IconButton(
-          icon: Icon(
-            !_obscure ? Icons.visibility : Icons.visibility_off,
+        alignment: widget.switchAlignment ?? Alignment.centerRight,
+        child: Padding(
+          padding: widget.switchPadding ?? EdgeInsets.zero,
+          child: IconButton(
+            icon: Icon(
+              !_obscure ? Icons.visibility : Icons.visibility_off,
+            ),
+            onPressed: _onSwitch,
+            visualDensity: VisualDensity.compact,
+            style: IconButton.styleFrom(
+              padding: EdgeInsets.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            padding: const EdgeInsets.only(top: 16),
+            constraints: const BoxConstraints(),
           ),
-          onPressed: _onSwitch,
-          visualDensity: VisualDensity.compact,
-          style: IconButton.styleFrom(
-            padding: EdgeInsets.zero,
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          ),
-          padding: const EdgeInsets.only(top: 16),
-          constraints: const BoxConstraints(),
         ),
       ),
     );
