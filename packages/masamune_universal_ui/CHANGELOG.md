@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Added UniversalSearchBar. ([cd2af874](https://github.com/mathrunet/flutter_masamune/commit/cd2af874e445ea5a6617c8a4d5282b9e774457f6))
+
 ## 2.3.65
 
  - Update a dependency to the latest release.

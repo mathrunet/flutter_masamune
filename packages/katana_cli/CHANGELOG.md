@@ -1,3 +1,7 @@
+## 2.19.5
+
+ - **FIX**: Include Linter. ([466b5147](https://github.com/mathrunet/flutter_masamune/commit/466b51474e24ec09d9c90271d04cba15f409c38f))
+
 ## 2.19.4
 
  - **FIX**: Fixed a bug in create. ([0453c740](https://github.com/mathrunet/flutter_masamune/commit/0453c7406c1c174779bcdb7ff14059be00ed5c82))
