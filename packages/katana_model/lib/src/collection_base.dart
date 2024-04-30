@@ -526,7 +526,15 @@ abstract class CollectionBase<TModel extends DocumentBase>
         if (update.oldIndex == null || update.newIndex == null) {
           return;
         }
+        // oldIndexの位置がおかしい場合は無視
+        if (_value.length <= update.oldIndex!) {
+          return;
+        }
         final found = _value.removeAt(update.oldIndex!);
+        // 位置が変わっているのにデータが来た場合は無視
+        if (found.uid != update.id) {
+          return;
+        }
         final val = found.value;
         final filtered = found._filterOnLoad(update.value);
         if (filtered.isEmpty) {
