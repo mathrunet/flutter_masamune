@@ -31,4 +31,5 @@ part 'ui/periodic_scope.dart';
 part 'ui/chat_tile.dart';
 part 'ui/shimmer.dart';
 part 'ui/avatar_tile.dart';
+part 'ui/message_box.dart';
 part 'ui/square_avatar.dart';
