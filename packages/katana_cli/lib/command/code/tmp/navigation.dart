@@ -155,7 +155,7 @@ class ${className}Page extends PageScopedWidget {
     // Describes the process of loading
     // and defining variables required for the page.
     // TODO: Implement the variable loading process.
-    final nestedRouter = ref.router(
+    final nestedRouter = ref.page.router(
       initialQuery: ${className}PageNavigation.initialNavigation.routeQuery,
       pages: [],
     );

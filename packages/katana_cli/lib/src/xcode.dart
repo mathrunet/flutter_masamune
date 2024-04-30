@@ -1346,7 +1346,7 @@ class PBXResourcesBuildPhase {
 
   @override
   String toString() {
-    return "\t\t$id ${comment != null ? "/* $comment */ " : ""}= {\n\t\t\tisa = PBXResourcesBuildPhase;\n\t\t\tbuildActionMask = $buildActionMask;\n\t\t\tfiles = (\n${files.map((e) => e.toString()).join(",\n")},\n\t\t\t);\n\t\t\trunOnlyForDeploymentPostprocessing = $runOnlyForDeploymentPostprocessing;\n\t\t};";
+    return "\t\t$id ${comment != null ? "/* $comment */ " : ""}= {\n\t\t\tisa = PBXResourcesBuildPhase;\n\t\t\tbuildActionMask = $buildActionMask;\n\t\t\tfiles = (\n${files.isEmpty ? "" : "${files.map((e) => e.toString()).join(",\n")},\n"}\t\t\t);\n\t\t\trunOnlyForDeploymentPostprocessing = $runOnlyForDeploymentPostprocessing;\n\t\t};";
   }
 }
 
