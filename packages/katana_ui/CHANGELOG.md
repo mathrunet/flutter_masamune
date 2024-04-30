@@ -1,3 +1,7 @@
+## 2.8.0
+
+ - **FEAT**: MessageBox is added. ([44b9670c](https://github.com/mathrunet/flutter_masamune/commit/44b9670c0ea23a0f1d7fe2ba719829e990e13696))
+
 ## 2.7.0
 
  - **FEAT**: Modal buttons can be decorated. ([1fa53a62](https://github.com/mathrunet/flutter_masamune/commit/1fa53a62726327154237a484fa838cec1b9d75e4))
