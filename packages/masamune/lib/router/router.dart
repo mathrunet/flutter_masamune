@@ -56,7 +56,7 @@ extension MasamuneRouterPageScopedValueRefExtensions on PageScopedValueRef {
   /// [name]を指定することで複数のルーターを作成することが可能です。
   ///
   /// ```dart
-  /// final router = ref.router(
+  /// final router = ref.page.router(
   ///   initialQuery: HomePage.query(),
   ///   pages: [
   ///     HomePage.query,
