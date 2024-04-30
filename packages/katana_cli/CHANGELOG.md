@@ -1,3 +1,7 @@
+## 2.19.3
+
+ - **DOCS**: Match comments to current model. ([c831d415](https://github.com/mathrunet/flutter_masamune/commit/c831d415105b80766c767b796b5b8641f69c66e3))
+
 ## 2.19.2
 
  - **FIX**: Fixed an occasional error bug. ([b23b54b7](https://github.com/mathrunet/flutter_masamune/commit/b23b54b7af7026608c1732e18c30e97e32dd9832))

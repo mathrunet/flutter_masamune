@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - **DOCS**: Match comments to current model. ([c831d415](https://github.com/mathrunet/flutter_masamune/commit/c831d415105b80766c767b796b5b8641f69c66e3))
+
 ## 2.4.0
 
  - **FEAT**: Added lint for ScopedQuery. ([6f237e4f](https://github.com/mathrunet/flutter_masamune/commit/6f237e4facd0d7617300c31576dc8eddb1e1396d))
