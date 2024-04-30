@@ -1,3 +1,7 @@
+## 2.19.4
+
+ - **FIX**: Fixed a bug in create. ([0453c740](https://github.com/mathrunet/flutter_masamune/commit/0453c7406c1c174779bcdb7ff14059be00ed5c82))
+
 ## 2.19.3
 
  - **DOCS**: Match comments to current model. ([c831d415](https://github.com/mathrunet/flutter_masamune/commit/c831d415105b80766c767b796b5b8641f69c66e3))

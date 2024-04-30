@@ -1,3 +1,7 @@
+## 2.13.18
+
+ - **DOCS**: Corrected comment. ([c026f937](https://github.com/mathrunet/flutter_masamune/commit/c026f9374a877fa37047a0bf41a046be7c2464cf))
+
 ## 2.13.17
 
  - **DOCS**: Match comments to current model. ([c831d415](https://github.com/mathrunet/flutter_masamune/commit/c831d415105b80766c767b796b5b8641f69c66e3))

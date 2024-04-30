@@ -1,3 +1,7 @@
+## 2.4.65
+
+ - Update a dependency to the latest release.
+
 ## 2.4.64
 
  - **DOCS**: Match comments to current model. ([c831d415](https://github.com/mathrunet/flutter_masamune/commit/c831d415105b80766c767b796b5b8641f69c66e3))
