@@ -50,3 +50,4 @@ part 'src/universal_side_bar.dart';
 part 'src/universal_edge_insets.dart';
 part 'src/universal_padding.dart';
 part 'src/universal_widget_scope.dart';
+part 'src/universal_search_bar.dart';
