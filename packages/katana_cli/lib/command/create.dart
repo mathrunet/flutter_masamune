@@ -1212,6 +1212,8 @@ linter:
 # Set to exclude json_serializable files.
 # json_serializableのファイルを除外するための設定。
 analyzer:
+  plugins:
+    - custom_lint
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
