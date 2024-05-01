@@ -6,7 +6,7 @@ part of '/katana_ui.dart';
 ///
 /// Icons can be specified for [leading] and [trailing].
 ///
-/// By manipulating [alignment], you can visually change whether you are speaking for yourself or for others.
+/// By manipulating [mainAxisAlignment] and [crossAxisAlignment], you can visually change whether you are speaking for yourself or others.
 ///
 /// チャット画面を作成するためのウィジェットです。
 ///
@@ -14,7 +14,7 @@ part of '/katana_ui.dart';
 ///
 /// [leading]や[trailing]にはアイコンなどを指定することができます。
 ///
-/// [alignment]を操作することで自分の発言か他人の発言かを視覚的に変えることができます。
+/// [mainAxisAlignment]と[crossAxisAlignment]を操作することで自分の発言か他人の発言かを視覚的に変えることができます。
 @immutable
 class ChatTile extends StatelessWidget {
   /// This widget is used to create a chat screen.
@@ -23,7 +23,7 @@ class ChatTile extends StatelessWidget {
   ///
   /// Icons can be specified for [leading] and [trailing].
   ///
-  /// By manipulating [alignment], you can visually change whether you are speaking for yourself or for others.
+  /// By manipulating [mainAxisAlignment] and [crossAxisAlignment], you can visually change whether you are speaking for yourself or others.
   ///
   /// チャット画面を作成するためのウィジェットです。
   ///
@@ -31,7 +31,7 @@ class ChatTile extends StatelessWidget {
   ///
   /// [leading]や[trailing]にはアイコンなどを指定することができます。
   ///
-  /// [alignment]を操作することで自分の発言か他人の発言かを視覚的に変えることができます。
+  /// [mainAxisAlignment]と[crossAxisAlignment]を操作することで自分の発言か他人の発言かを視覚的に変えることができます。
   const ChatTile(
     this.label, {
     super.key,
@@ -45,7 +45,11 @@ class ChatTile extends StatelessWidget {
     this.borderRadius,
     this.padding = const EdgeInsets.symmetric(vertical: 4),
     this.contentPadding = const EdgeInsets.all(16),
-    this.alignment = MainAxisAlignment.start,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
+    this.space = 4,
+    this.title,
+    this.reverse = false,
   });
 
   /// Body of chat.
@@ -93,6 +97,11 @@ class ChatTile extends StatelessWidget {
   /// チャットコンテナの右側に配置するアイコン。
   final Widget? trailing;
 
+  /// Widget to be displayed in the title section.
+  ///
+  /// タイトル部に表示するウィジェット。
+  final Widget? title;
+
   /// Padding throughout the chat.
   ///
   /// チャット全体のパディング。
@@ -106,7 +115,22 @@ class ChatTile extends StatelessWidget {
   /// Alignment of the chat container.
   ///
   /// チャットコンテナの配置。
-  final MainAxisAlignment alignment;
+  final MainAxisAlignment mainAxisAlignment;
+
+  /// Alignment of the chat container.
+  ///
+  /// チャットコンテナの配置。
+  final CrossAxisAlignment crossAxisAlignment;
+
+  /// Space between chat containers.
+  ///
+  /// チャットコンテナ間のスペース。
+  final double space;
+
+  /// If `true`, reverse the orientation.
+  ///
+  /// `true`の場合、向きを逆にします。
+  final bool reverse;
 
   @override
   Widget build(BuildContext context) {
@@ -125,46 +149,133 @@ class ChatTile extends StatelessWidget {
           padding: padding,
           child: Row(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: alignment,
+            mainAxisAlignment: mainAxisAlignment,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (leading != null) ...[
-                leading!,
-                const SizedBox(width: 16),
-              ],
-              Flexible(
-                child: Card(
-                  elevation: elevation,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: borderRadius ?? BorderRadius.circular(8.0),
-                  ),
-                  color:
-                      backgroundColor ?? Theme.of(context).colorScheme.surface,
-                  surfaceTintColor:
-                      backgroundColor ?? Theme.of(context).colorScheme.surface,
-                  child: Padding(
-                    padding: contentPadding,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        label,
-                        if (actions.isNotEmpty) ...[
-                          const SizedBox(height: 8),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: actions,
-                          )
-                        ]
+              if (reverse) ...[
+                Flexible(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: crossAxisAlignment,
+                    children: [
+                      if (trailing != null) ...[
+                        SizedBox(width: space),
+                        trailing!,
                       ],
-                    ),
+                      Flexible(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            if (title != null) ...[
+                              title!,
+                              SizedBox(height: space),
+                            ],
+                            Card(
+                              elevation: elevation,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    borderRadius ?? BorderRadius.circular(8.0),
+                              ),
+                              color: backgroundColor ??
+                                  Theme.of(context).colorScheme.surface,
+                              surfaceTintColor: backgroundColor ??
+                                  Theme.of(context).colorScheme.surface,
+                              child: Padding(
+                                padding: contentPadding,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    label,
+                                    if (actions.isNotEmpty) ...[
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: actions,
+                                      )
+                                    ]
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              if (trailing != null) ...[
-                const SizedBox(width: 16),
-                trailing!,
+                if (leading != null) ...[
+                  leading!,
+                  SizedBox(width: space),
+                ],
+              ] else ...[
+                if (leading != null) ...[
+                  leading!,
+                  SizedBox(width: space),
+                ],
+                Flexible(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: crossAxisAlignment,
+                    children: [
+                      Flexible(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (title != null) ...[
+                              title!,
+                              SizedBox(height: space),
+                            ],
+                            Card(
+                              elevation: elevation,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    borderRadius ?? BorderRadius.circular(8.0),
+                              ),
+                              color: backgroundColor ??
+                                  Theme.of(context).colorScheme.surface,
+                              surfaceTintColor: backgroundColor ??
+                                  Theme.of(context).colorScheme.surface,
+                              child: Padding(
+                                padding: contentPadding,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    label,
+                                    if (actions.isNotEmpty) ...[
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: actions,
+                                      )
+                                    ]
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (trailing != null) ...[
+                        SizedBox(width: space),
+                        trailing!,
+                      ],
+                    ],
+                  ),
+                ),
               ],
             ],
           ),

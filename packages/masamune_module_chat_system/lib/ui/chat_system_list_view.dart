@@ -123,7 +123,7 @@ class _ChatSystemListViewState extends State<ChatSystemListView> {
                       item.displayText,
                       softWrap: true,
                     ),
-              alignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
             ),
           ];
         }
