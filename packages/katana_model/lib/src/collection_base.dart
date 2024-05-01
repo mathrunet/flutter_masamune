@@ -500,6 +500,10 @@ abstract class CollectionBase<TModel extends DocumentBase>
         if (update.newIndex == null) {
           return;
         }
+        // indexの位置がおかしい場合は無視
+        if (_value.length < update.newIndex!) {
+          return;
+        }
         // すでに追加されているのに追加でデータが来た場合は無視
         if (this._value.any((e) => e.uid == update.id)) {
           return;
@@ -526,8 +530,9 @@ abstract class CollectionBase<TModel extends DocumentBase>
         if (update.oldIndex == null || update.newIndex == null) {
           return;
         }
-        // oldIndexの位置がおかしい場合は無視
-        if (_value.length <= update.oldIndex!) {
+        // indexの位置がおかしい場合は無視
+        if (_value.length < update.oldIndex! ||
+            _value.length < update.newIndex!) {
           return;
         }
         final found = _value.removeAt(update.oldIndex!);
@@ -561,6 +566,10 @@ abstract class CollectionBase<TModel extends DocumentBase>
         break;
       case ModelUpdateNotificationStatus.removed:
         if (update.oldIndex == null) {
+          return;
+        }
+        // indexの位置がおかしい場合は無視
+        if (_value.length < update.oldIndex!) {
           return;
         }
         // すでに削除されているのに削除でデータが来た場合は無視
