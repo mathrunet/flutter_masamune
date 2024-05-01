@@ -1,3 +1,7 @@
+## 2.8.1
+
+ - **FIX**: Chat tile specification changes. ([d0097240](https://github.com/mathrunet/flutter_masamune/commit/d00972407da22cca973e5929e2c69829e37d0efe))
+
 ## 2.8.0
 
  - **FEAT**: MessageBox is added. ([44b9670c](https://github.com/mathrunet/flutter_masamune/commit/44b9670c0ea23a0f1d7fe2ba719829e990e13696))

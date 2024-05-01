@@ -1,3 +1,7 @@
+## 2.26.10
+
+ - **FIX**: Collection error handling. ([17c24607](https://github.com/mathrunet/flutter_masamune/commit/17c24607a253aa1845a4757e2007ca74f6fb9353))
+
 ## 2.26.9
 
  - **FIX**: Fixed to prevent duplicate updates. ([cadd3cff](https://github.com/mathrunet/flutter_masamune/commit/cadd3cffa7d23b400f081371d0c3a5e9d1a19898))
