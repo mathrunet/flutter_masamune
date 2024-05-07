@@ -1,3 +1,7 @@
+## 2.5.11
+
+ - Update a dependency to the latest release.
+
 ## 2.5.10
 
  - **FIX**: QueryScopedValueRef argument is now acceptable in Ref. ([54a4336f](https://github.com/mathrunet/flutter_masamune/commit/54a4336f9c2fc4ef37a93ddf1cc73c2ac910c8c2))

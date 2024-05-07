@@ -1,3 +1,7 @@
+## 2.14.0
+
+ - **FEAT**: Added a method for identifying pictograms. ([7ce7a600](https://github.com/mathrunet/flutter_masamune/commit/7ce7a600f69824255135ef02e4ea1428844229d3))
+
 ## 2.13.2
 
  - **FIX**: Made uuid reverse available without baseTime. ([58915403](https://github.com/mathrunet/flutter_masamune/commit/589154033d7dccd551b0537513f5e1d7ca0e133e))

@@ -1,3 +1,7 @@
+## 2.26.11
+
+ - Update a dependency to the latest release.
+
 ## 2.26.10
 
  - **FIX**: Collection error handling. ([17c24607](https://github.com/mathrunet/flutter_masamune/commit/17c24607a253aa1845a4757e2007ca74f6fb9353))

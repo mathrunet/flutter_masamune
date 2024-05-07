@@ -1,3 +1,7 @@
+## 2.1.59
+
+ - Update a dependency to the latest release.
+
 ## 2.1.58
 
  - **FIX**: Chat tile specification changes. ([d0097240](https://github.com/mathrunet/flutter_masamune/commit/d00972407da22cca973e5929e2c69829e37d0efe))

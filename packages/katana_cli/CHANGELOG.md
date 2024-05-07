@@ -1,3 +1,7 @@
+## 2.19.6
+
+ - Update a dependency to the latest release.
+
 ## 2.19.5
 
  - **FIX**: Include Linter. ([466b5147](https://github.com/mathrunet/flutter_masamune/commit/466b51474e24ec09d9c90271d04cba15f409c38f))

@@ -1,3 +1,7 @@
+## 2.12.14
+
+ - Update a dependency to the latest release.
+
 ## 2.12.13
 
  - **FIX**: Adjustable switch position. ([8dc284a0](https://github.com/mathrunet/flutter_masamune/commit/8dc284a0966c7824f5346f9d26aee2dfe98cadfb))

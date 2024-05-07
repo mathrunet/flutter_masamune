@@ -1,6 +1,6 @@
 name: masamune_agora
 description: Plug-in for Masamune framework to use Agora.io. Includes support for recording.
-version: 2.4.66
+version: 2.4.67
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_agora
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.13.2
-  masamune: ^2.13.21
+  katana: ^2.14.0
+  masamune: ^2.13.22
   agora_rtc_engine: ^6.3.0
   permission_handler: ^11.0.0
   universal_platform: ^1.0.0+1

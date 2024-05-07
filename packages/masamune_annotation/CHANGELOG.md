@@ -1,3 +1,7 @@
+## 2.6.9
+
+ - Update a dependency to the latest release.
+
 ## 2.6.8
 
  - **FIX**: The controller's annotations are now disabled directly. ([2768a77f](https://github.com/mathrunet/flutter_masamune/commit/2768a77ff6d691a15c7efd41d5869c8845f62b37))
