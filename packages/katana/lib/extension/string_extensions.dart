@@ -763,7 +763,7 @@ extension StringExtensions on String {
   }
 
   /// Returns whether or not this string contains pictograms.
-  /// 
+  ///
   /// Returns `true` if the string contains pictograms.
   ///
   /// この文字列に絵文字が含まれているかどうかを返します。
