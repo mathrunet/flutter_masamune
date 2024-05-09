@@ -843,6 +843,9 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
     throw UnimplementedError("This function is not available.");
   }
 
+  @override
+  Future<void> clearCache() => Future.value();
+
   ModelAdapterDocumentQuery _replaceDocumentQuery(
     ModelAdapterDocumentQuery query,
   ) {

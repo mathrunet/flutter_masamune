@@ -687,6 +687,14 @@ class NoSqlDatabase {
   /// 通知は行われません。
   Future<void> clearAll() async {
     data.clear();
+    _initialized = false;
+    _registeredInitialValue.clear();
+    _appliedInitialValue.clear();
+    _documentListeners.clear();
+    _collectionListeners.clear();
+    _collectionEntries.clear();
+    _collectionGroupListeners.clear();
+    _collectionGroupEntries.clear();
     await onDeleted?.call(this);
   }
 

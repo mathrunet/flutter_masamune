@@ -251,6 +251,11 @@ class AlgoliaModelAdapter extends ModelAdapter {
     return firestoreModelAdapter.clearAll();
   }
 
+  @override
+  Future<void> clearCache() {
+    return firestoreModelAdapter.clearCache();
+  }
+
   int? _page(
     ModelAdapterCollectionQuery query,
   ) {

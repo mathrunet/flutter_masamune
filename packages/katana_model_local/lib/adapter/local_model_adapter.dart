@@ -390,6 +390,11 @@ class LocalModelAdapter extends ModelAdapter {
     return database.clearAll();
   }
 
+  @override
+  Future<void> clearCache() async {
+    _assert();
+  }
+
   void _assert() {
     assert(
       prefix.isEmpty ||

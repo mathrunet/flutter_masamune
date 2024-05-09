@@ -429,6 +429,10 @@ class _MasamuneAppState extends State<MasamuneApp> {
         if (router != null && router is AppRouter) {
           router.clear();
         }
+        final modelAdapter = widget.modelAdapter;
+        if (modelAdapter != null) {
+          await modelAdapter.clearCache();
+        }
       } catch (e) {
         debugPrint(e.toString());
       }

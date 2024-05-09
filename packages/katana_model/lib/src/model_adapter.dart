@@ -306,6 +306,11 @@ abstract class ModelAdapter {
   /// ローカルに保存されているデータもすべて削除されますがリモートのデータは削除されない可能性があります。
   Future<void> clearAll();
 
+  /// If the database is taking a local cache, delete it.
+  ///
+  /// データベースがローカルキャッシュを取っている場合、それを削除します。
+  Future<void> clearCache();
+
   @override
   String toString() {
     return "$runtimeType[$hashCode]";

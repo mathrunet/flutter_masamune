@@ -311,6 +311,9 @@ class _OpenAIAssistantAdapter extends ModelAdapter {
   }
 
   @override
+  Future<void> clearCache() => Future.value();
+
+  @override
   void disposeDocument(ModelAdapterDocumentQuery query) {
     database.removeDocumentListener(query);
   }

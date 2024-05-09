@@ -706,8 +706,15 @@ class FirestoreModelAdapter extends ModelAdapter
   }
 
   @override
-  Future<void> clearAll() {
+  Future<void> clearAll() async {
     throw UnimplementedError("This function is not available.");
+  }
+
+  @override
+  Future<void> clearCache() async {
+    _assert();
+    _FirestoreCache._caches.clear();
+    return localDatabase.clearAll();
   }
 
   DynamicMap _convertFrom(DynamicMap map) {
