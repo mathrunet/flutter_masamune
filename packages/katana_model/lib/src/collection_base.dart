@@ -491,100 +491,102 @@ abstract class CollectionBase<TModel extends DocumentBase>
   /// [update]の内容に応じて適切な処理を行ってください。
   @protected
   Future<void> handledOnUpdate(ModelUpdateNotification update) async {
-    if (update.query != modelQuery) {
-      return;
-    }
-    var notify = false;
-    switch (update.status) {
-      case ModelUpdateNotificationStatus.added:
-        if (update.newIndex == null) {
-          return;
-        }
-        // indexの位置がおかしい場合は無視
-        if (_value.length < update.newIndex!) {
-          return;
-        }
-        // すでに追加されているのに追加でデータが来た場合は無視
-        if (this._value.any((e) => e.uid == update.id)) {
-          return;
-        }
-        final value = create(update.id.trimQuery().trimString("?"));
-        final val = value.value;
-        final filtered = value._filterOnLoad(update.value);
-        if (filtered.isEmpty) {
-          value._value = null;
-          // 最初にいれないと要素が無いエラーがでる場合がある
-          _value.insert(update.newIndex!, value);
-        } else {
-          final fromMap = value._value = value.fromMap(filtered);
-          // 最初にいれないと要素が無いエラーがでる場合がある
-          _value.insert(update.newIndex!, value);
-          value._value = await value.filterOnDidLoad(fromMap);
-        }
-        if (val != value.value) {
-          value.notifyListeners();
-        }
-        notify = true;
-        break;
-      case ModelUpdateNotificationStatus.modified:
-        if (update.oldIndex == null || update.newIndex == null) {
-          return;
-        }
-        // indexの位置がおかしい場合は無視
-        if (_value.length < update.oldIndex! ||
-            _value.length < update.newIndex!) {
-          return;
-        }
-        final found = _value.removeAt(update.oldIndex!);
-        // 位置が変わっているのにデータが来た場合は無視
-        if (found.uid != update.id) {
-          return;
-        }
-        final val = found.value;
-        final filtered = found._filterOnLoad(update.value);
-        if (filtered.isEmpty) {
-          found._value = null;
-          // 最初にいれないと要素が無いエラーがでる場合がある
-          _value.insert(update.newIndex!, found);
-        } else {
-          final fromMap = found._value = found.fromMap(filtered);
-          // 最初にいれないと要素が無いエラーがでる場合がある
-          _value.insert(update.newIndex!, found);
-          found._value = await found.filterOnDidLoad(fromMap);
-        }
-        if (val != found.value) {
-          found.notifyListeners();
-        }
-        // ここにいれないと更新されないことがある
-        if (modelQuery.filters
-            .any((e) => e.type == ModelQueryFilterType.notifyDocumentChanges)) {
+    // 確実に後続の処理が実行されるようにした
+    try {
+      if (update.query != modelQuery) {
+        return;
+      }
+      var notify = false;
+      switch (update.status) {
+        case ModelUpdateNotificationStatus.added:
+          if (update.newIndex == null) {
+            return;
+          }
+          // indexの位置がおかしい場合は無視
+          if (_value.length < update.newIndex!) {
+            return;
+          }
+          // すでに追加されているのに追加でデータが来た場合は無視
+          if (this._value.any((e) => e.uid == update.id)) {
+            return;
+          }
+          final value = create(update.id.trimQuery().trimString("?"));
+          final val = value.value;
+          final filtered = value._filterOnLoad(update.value);
+          if (filtered.isEmpty) {
+            value._value = null;
+            // 最初にいれないと要素が無いエラーがでる場合がある
+            _value.insert(update.newIndex!, value);
+          } else {
+            final fromMap = value._value = value.fromMap(filtered);
+            // 最初にいれないと要素が無いエラーがでる場合がある
+            _value.insert(update.newIndex!, value);
+            value._value = await value.filterOnDidLoad(fromMap);
+          }
+          if (val != value.value) {
+            value.notifyListeners();
+          }
           notify = true;
-        }
-        if (update.newIndex != update.oldIndex) {
+          break;
+        case ModelUpdateNotificationStatus.modified:
+          if (update.oldIndex == null || update.newIndex == null) {
+            return;
+          }
+          // indexの位置がおかしい場合は無視
+          if (_value.length <= update.oldIndex! ||
+              _value.length < update.newIndex!) {
+            return;
+          }
+          final found = _value.removeAt(update.oldIndex!);
+          // 位置が変わっているのにデータが来た場合は無視
+          if (found.uid != update.id) {
+            return;
+          }
+          final val = found.value;
+          final filtered = found._filterOnLoad(update.value);
+          if (filtered.isEmpty) {
+            found._value = null;
+            // 最初にいれないと要素が無いエラーがでる場合がある
+            _value.insert(update.newIndex!, found);
+          } else {
+            final fromMap = found._value = found.fromMap(filtered);
+            // 最初にいれないと要素が無いエラーがでる場合がある
+            _value.insert(update.newIndex!, found);
+            found._value = await found.filterOnDidLoad(fromMap);
+          }
+          if (val != found.value) {
+            found.notifyListeners();
+          }
+          // ここにいれないと更新されないことがある
+          if (modelQuery.filters.any(
+              (e) => e.type == ModelQueryFilterType.notifyDocumentChanges)) {
+            notify = true;
+          }
+          if (update.newIndex != update.oldIndex) {
+            notify = true;
+          }
+          break;
+        case ModelUpdateNotificationStatus.removed:
+          if (update.oldIndex == null) {
+            return;
+          }
+          // indexの位置がおかしい場合は無視
+          if (_value.length <= update.oldIndex!) {
+            return;
+          }
+          // すでに削除されているのに削除でデータが来た場合は無視
+          if (!this._value.any((e) => e.uid == update.id)) {
+            return;
+          }
+          _value.removeAt(update.oldIndex!);
           notify = true;
-        }
-        break;
-      case ModelUpdateNotificationStatus.removed:
-        if (update.oldIndex == null) {
-          return;
-        }
-        // indexの位置がおかしい場合は無視
-        if (_value.length < update.oldIndex!) {
-          return;
-        }
-        // すでに削除されているのに削除でデータが来た場合は無視
-        if (!this._value.any((e) => e.uid == update.id)) {
-          return;
-        }
-        if (_value.length <= update.oldIndex!) {
-          return;
-        }
-        _value.removeAt(update.oldIndex!);
-        notify = true;
-        break;
-    }
-    if (notify) {
-      notifyListeners();
+          break;
+      }
+      if (notify) {
+        notifyListeners();
+      }
+    } catch (e, s) {
+      debugPrint("$e\n$s");
     }
   }
 
