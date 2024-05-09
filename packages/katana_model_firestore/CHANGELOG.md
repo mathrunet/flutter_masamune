@@ -1,3 +1,7 @@
+## 2.16.30
+
+ - Update a dependency to the latest release.
+
 ## 2.16.29
 
  - **FIX**: The cache is now cleared. ([54c8c57a](https://github.com/mathrunet/flutter_masamune/commit/54c8c57a68caad1bf8d2cf01ceaffef306743739))

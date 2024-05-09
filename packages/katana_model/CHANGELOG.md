@@ -1,3 +1,7 @@
+## 2.26.13
+
+ - **FIX**: We made sure that the system did not stop when a glitch occurred. ([af911377](https://github.com/mathrunet/flutter_masamune/commit/af9113775849fdbdb0d2c6ddc719f9384a4492f4))
+
 ## 2.26.12
 
  - **FIX**: The cache is now cleared. ([54c8c57a](https://github.com/mathrunet/flutter_masamune/commit/54c8c57a68caad1bf8d2cf01ceaffef306743739))
