@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^2.13.22
+  masamune: ^2.13.23
   masamune_calendar:
     path: "../"
 
