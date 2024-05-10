@@ -1996,8 +1996,8 @@ class UniversalAppBarBackground extends StatelessWidget {
   /// [image]を指定して、背景画像を設定します。
   ///
   /// [filterColor]で、背景画像にフィルターをかけることができます。
-  const UniversalAppBarBackground(
-    this.image, {
+  const UniversalAppBarBackground({
+    this.image,
     super.key,
     this.filterColor = Colors.black87,
     this.fit = BoxFit.cover,
@@ -2007,7 +2007,7 @@ class UniversalAppBarBackground extends StatelessWidget {
   /// Specifies a background image.
   ///
   /// 背景画像を指定します。
-  final ImageProvider image;
+  final ImageProvider? image;
 
   /// Specifies how the image is scaled.
   ///
@@ -2026,15 +2026,21 @@ class UniversalAppBarBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: backgroundColor,
-      child: Image(
-        image: image,
-        fit: fit,
-        color: filterColor,
-        colorBlendMode: BlendMode.multiply,
-      ),
-    );
+    if (image != null) {
+      return Container(
+        color: backgroundColor,
+        child: Image(
+          image: image!,
+          fit: fit,
+          color: filterColor,
+          colorBlendMode: BlendMode.multiply,
+        ),
+      );
+    } else {
+      return Container(
+        color: backgroundColor,
+      );
+    }
   }
 }
 
