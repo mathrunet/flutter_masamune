@@ -1,3 +1,7 @@
+## 2.4.5
+
+ - **FIX**: Changed the interface of UniversalAppBarBackground. ([ef6664c0](https://github.com/mathrunet/flutter_masamune/commit/ef6664c0f664321aa6e47b0faf41f5f605617d41))
+
 ## 2.4.4
 
  - Update a dependency to the latest release.

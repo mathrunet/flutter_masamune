@@ -3,6 +3,124 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-05-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth` - `v2.9.0`](#katana_auth---v290)
+ - [`katana_auth_firebase` - `v2.6.0`](#katana_auth_firebase---v260)
+ - [`katana_scoped` - `v2.5.12`](#katana_scoped---v2512)
+ - [`masamune_auth_apple` - `v2.4.0`](#masamune_auth_apple---v240)
+ - [`masamune_auth_facebook` - `v2.4.0`](#masamune_auth_facebook---v240)
+ - [`masamune_auth_google` - `v2.5.0`](#masamune_auth_google---v250)
+ - [`masamune_universal_ui` - `v2.4.5`](#masamune_universal_ui---v245)
+ - [`masamune` - `v2.13.25`](#masamune---v21325)
+ - [`masamune_location_platform_interface` - `v2.3.69`](#masamune_location_platform_interface---v2369)
+ - [`masamune_location_geocoding` - `v2.4.69`](#masamune_location_geocoding---v2469)
+ - [`masamune_location` - `v2.3.71`](#masamune_location---v2371)
+ - [`masamune_deeplink_firebase` - `v2.2.71`](#masamune_deeplink_firebase---v2271)
+ - [`masamune_scheduler` - `v2.2.69`](#masamune_scheduler---v2269)
+ - [`masamune_model_algolia` - `v2.4.69`](#masamune_model_algolia---v2469)
+ - [`masamune_location_background` - `v2.4.69`](#masamune_location_background---v2469)
+ - [`masamune_agora` - `v2.4.70`](#masamune_agora---v2470)
+ - [`masamune_text_to_speech` - `v2.2.70`](#masamune_text_to_speech---v2270)
+ - [`masamune_ai_openai` - `v2.7.61`](#masamune_ai_openai---v2761)
+ - [`masamune_calendar` - `v2.2.69`](#masamune_calendar---v2269)
+ - [`masamune_module_chat_system` - `v2.1.62`](#masamune_module_chat_system---v2162)
+ - [`masamune_animate` - `v2.2.11`](#masamune_animate---v2211)
+ - [`masamune_picker` - `v2.2.69`](#masamune_picker---v2269)
+ - [`masamune_util` - `v2.2.69`](#masamune_util---v2269)
+ - [`masamune_purchase_stripe` - `v3.5.66`](#masamune_purchase_stripe---v3566)
+ - [`masamune_notification` - `v2.5.68`](#masamune_notification---v2568)
+ - [`masamune_logger_firebase` - `v2.2.68`](#masamune_logger_firebase---v2268)
+ - [`masamune_deeplink` - `v2.2.69`](#masamune_deeplink---v2269)
+ - [`masamune_introduction` - `v2.4.66`](#masamune_introduction---v2466)
+ - [`masamune_speech_to_text` - `v2.2.70`](#masamune_speech_to_text---v2270)
+ - [`masamune_force_updater` - `v2.1.69`](#masamune_force_updater---v2169)
+ - [`masamune_location_google` - `v2.4.72`](#masamune_location_google---v2472)
+ - [`masamune_module_point_ecosystem` - `v2.5.75`](#masamune_module_point_ecosystem---v2575)
+ - [`masamune_mail` - `v2.2.69`](#masamune_mail---v2269)
+ - [`masamune_purchase` - `v2.1.51`](#masamune_purchase---v2151)
+ - [`masamune_module` - `v2.4.69`](#masamune_module---v2469)
+ - [`masamune_notification_firebase` - `v2.5.73`](#masamune_notification_firebase---v2573)
+ - [`masamune_purchase_mobile` - `v2.8.52`](#masamune_purchase_mobile---v2852)
+ - [`masamune_ads_google` - `v2.4.69`](#masamune_ads_google---v2469)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.13.25`
+ - `masamune_location_platform_interface` - `v2.3.69`
+ - `masamune_location_geocoding` - `v2.4.69`
+ - `masamune_location` - `v2.3.71`
+ - `masamune_deeplink_firebase` - `v2.2.71`
+ - `masamune_scheduler` - `v2.2.69`
+ - `masamune_model_algolia` - `v2.4.69`
+ - `masamune_location_background` - `v2.4.69`
+ - `masamune_agora` - `v2.4.70`
+ - `masamune_text_to_speech` - `v2.2.70`
+ - `masamune_ai_openai` - `v2.7.61`
+ - `masamune_calendar` - `v2.2.69`
+ - `masamune_module_chat_system` - `v2.1.62`
+ - `masamune_animate` - `v2.2.11`
+ - `masamune_picker` - `v2.2.69`
+ - `masamune_util` - `v2.2.69`
+ - `masamune_purchase_stripe` - `v3.5.66`
+ - `masamune_notification` - `v2.5.68`
+ - `masamune_logger_firebase` - `v2.2.68`
+ - `masamune_deeplink` - `v2.2.69`
+ - `masamune_introduction` - `v2.4.66`
+ - `masamune_speech_to_text` - `v2.2.70`
+ - `masamune_force_updater` - `v2.1.69`
+ - `masamune_location_google` - `v2.4.72`
+ - `masamune_module_point_ecosystem` - `v2.5.75`
+ - `masamune_mail` - `v2.2.69`
+ - `masamune_purchase` - `v2.1.51`
+ - `masamune_module` - `v2.4.69`
+ - `masamune_notification_firebase` - `v2.5.73`
+ - `masamune_purchase_mobile` - `v2.8.52`
+ - `masamune_ads_google` - `v2.4.69`
+
+---
+
+#### `katana_auth` - `v2.9.0`
+
+ - **FEAT**: Flag as available for registration with duplicate providers. ([e9770d55](https://github.com/mathrunet/flutter_masamune/commit/e9770d55b0ade68a0a700a7fd68d6741c680f495))
+
+#### `katana_auth_firebase` - `v2.6.0`
+
+ - **FEAT**: Flag as available for registration with duplicate providers. ([e9770d55](https://github.com/mathrunet/flutter_masamune/commit/e9770d55b0ade68a0a700a7fd68d6741c680f495))
+
+#### `katana_scoped` - `v2.5.12`
+
+ - **FIX**: Fixing testing glitches. ([079f2bb4](https://github.com/mathrunet/flutter_masamune/commit/079f2bb417bc5a138b9eb54dc8424cbfa68f28cb))
+
+#### `masamune_auth_apple` - `v2.4.0`
+
+ - **FEAT**: Flag as available for registration with duplicate providers. ([e9770d55](https://github.com/mathrunet/flutter_masamune/commit/e9770d55b0ade68a0a700a7fd68d6741c680f495))
+
+#### `masamune_auth_facebook` - `v2.4.0`
+
+ - **FEAT**: Flag as available for registration with duplicate providers. ([e9770d55](https://github.com/mathrunet/flutter_masamune/commit/e9770d55b0ade68a0a700a7fd68d6741c680f495))
+
+#### `masamune_auth_google` - `v2.5.0`
+
+ - **FEAT**: Flag as available for registration with duplicate providers. ([e9770d55](https://github.com/mathrunet/flutter_masamune/commit/e9770d55b0ade68a0a700a7fd68d6741c680f495))
+
+#### `masamune_universal_ui` - `v2.4.5`
+
+ - **FIX**: Changed the interface of UniversalAppBarBackground. ([ef6664c0](https://github.com/mathrunet/flutter_masamune/commit/ef6664c0f664321aa6e47b0faf41f5f605617d41))
+
+
 ## 2024-05-09
 
 ### Changes

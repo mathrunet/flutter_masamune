@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Flag as available for registration with duplicate providers. ([e9770d55](https://github.com/mathrunet/flutter_masamune/commit/e9770d55b0ade68a0a700a7fd68d6741c680f495))
+
 ## 2.3.68
 
  - Update a dependency to the latest release.
