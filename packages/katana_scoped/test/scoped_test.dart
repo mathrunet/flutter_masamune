@@ -11,6 +11,7 @@ final scopedQuery = ChangeNotifierScopedQuery((ref) => ValueNotifier(0));
 
 void main() {
   test("ScopedQuery", () async {
+    WidgetsFlutterBinding.ensureInitialized();
     final container = ScopedValueContainer();
     final logger = RuntimeLoggerAdapter(database: LoggerDatabase());
     final appRef = AppRef(
