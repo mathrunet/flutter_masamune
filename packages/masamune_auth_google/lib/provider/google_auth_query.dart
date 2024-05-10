@@ -62,7 +62,7 @@ class GoogleSignInAuthProvider extends SnsSignInAuthProvider {
   /// An `AuthQuery` for Google's OAuth authentication.
   ///
   /// GoogleのOAuth認証を行うための`AuthQuery`。
-  const GoogleSignInAuthProvider();
+  const GoogleSignInAuthProvider({super.allowMultiProvider = true});
 
   @override
   String get providerId => _kGoogleAuthProviderId;

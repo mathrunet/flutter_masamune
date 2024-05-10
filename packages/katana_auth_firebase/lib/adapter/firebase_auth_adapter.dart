@@ -3,6 +3,7 @@ part of "/katana_auth_firebase.dart";
 const _kUserEmailKey = "userEmail";
 const _kUserPhoneNumberKey = "userPhoneNumber";
 const _kSmsVerificationIdKey = "verificationId";
+const _kAllowMultiProvidersKey = "allowMultiProviders";
 const _kSecondaryAppName = "secondary";
 
 /// Model adapter with FirebaseAuth available.
@@ -468,6 +469,13 @@ class FirebaseAuthAdapter extends AuthAdapter {
     if (provider is EmailAndPasswordRegisterAuthProvider) {
       await _prepareProcessInternal();
       if (_user != null) {
+        if (!provider.allowMultiProvider) {
+          throw FirebaseAuthException(
+            message:
+                "This Email address is already registered. Please register another email address.",
+            code: "email-already-in-use",
+          );
+        }
         await _user!.linkWithCredential(
           EmailAuthProvider.credential(
             email: provider.email,
@@ -511,6 +519,17 @@ class FirebaseAuthAdapter extends AuthAdapter {
       onUserStateChanged.call();
     } else if (provider is EmailAndPasswordSignInAuthProvider) {
       await _prepareProcessInternal();
+      if (_user != null) {
+        if (_user!.providerData.any(
+          (t) => t.providerId.contains(EmailAuthProvider.PROVIDER_ID),
+        )) {
+          throw Exception("This user is already linked to a Email account.");
+        } else if (!provider.allowMultiProvider) {
+          throw Exception(
+            "This user is already signed in, please sign out first.",
+          );
+        }
+      }
       final credential = EmailAuthProvider.credential(
         email: provider.email,
         password: provider.password,
@@ -526,11 +545,16 @@ class FirebaseAuthAdapter extends AuthAdapter {
       onUserStateChanged.call();
     } else if (provider is EmailLinkSignInAuthProvider) {
       await _prepareProcessInternal();
-      if (_user != null &&
-          _user!.providerData.any(
-            (t) => t.providerId.contains(EmailAuthProvider.PROVIDER_ID),
-          )) {
-        throw Exception("This user is already linked to a Email account.");
+      if (_user != null) {
+        if (_user!.providerData.any(
+          (t) => t.providerId.contains(EmailAuthProvider.PROVIDER_ID),
+        )) {
+          throw Exception("This user is already linked to a Email account.");
+        } else if (!provider.allowMultiProvider) {
+          throw Exception(
+            "This user is already signed in, please sign out first.",
+          );
+        }
       }
       await database.setLanguageCode(
         provider.locale?.languageCode ?? defaultLocale.languageCode,
@@ -550,6 +574,10 @@ class FirebaseAuthAdapter extends AuthAdapter {
         _kUserEmailKey.toSHA1(),
         provider.email,
       );
+      await _sharedPreferences.setBool(
+        _kAllowMultiProvidersKey.toSHA1(),
+        provider.allowMultiProvider,
+      );
       onUserStateChanged.call();
     } else if (provider is SmsSignInAuthProvider) {
       Completer? completer = Completer();
@@ -560,6 +588,17 @@ class FirebaseAuthAdapter extends AuthAdapter {
       phoneNumber =
           "+${provider.countryNumber.trimStringLeft("+")}$phoneNumber";
       await _prepareProcessInternal();
+      if (_user != null) {
+        if (_user!.providerData.any(
+          (t) => t.providerId.contains(PhoneAuthProvider.PROVIDER_ID),
+        )) {
+          Exception("This user is already linked to a Phone number.");
+        } else if (!provider.allowMultiProvider) {
+          throw Exception(
+            "This user is already signed in, please sign out first.",
+          );
+        }
+      }
       await database.setLanguageCode(
         provider.locale?.languageCode ?? defaultLocale.languageCode,
       );
@@ -567,15 +606,15 @@ class FirebaseAuthAdapter extends AuthAdapter {
         _kUserPhoneNumberKey.toSHA1(),
         phoneNumber,
       );
+      await _sharedPreferences.setBool(
+        _kAllowMultiProvidersKey.toSHA1(),
+        provider.allowMultiProvider,
+      );
       await database.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (credential) async {
           if (_user != null) {
-            if (!_user!.providerData.any(
-              (t) => t.providerId.contains(PhoneAuthProvider.PROVIDER_ID),
-            )) {
-              await _user!.linkWithCredential(credential);
-            }
+            await _user!.linkWithCredential(credential);
           } else {
             await database.signInWithCredential(credential);
           }
@@ -613,12 +652,17 @@ class FirebaseAuthAdapter extends AuthAdapter {
       await completer?.future;
     } else if (provider is SnsSignInAuthProvider) {
       await _prepareProcessInternal();
-      if (_user != null &&
-          _user!.providerData
-              .any((t) => t.providerId.contains(provider.providerId))) {
-        throw Exception(
-          "This user is already linked to a ${provider.providerId} account.",
-        );
+      if (_user != null) {
+        if (_user!.providerData.any(
+          (t) => t.providerId.contains(provider.providerId),
+        )) {
+          throw Exception(
+              "This user is already linked to a ${provider.providerId} account.");
+        } else if (!provider.allowMultiProvider) {
+          throw Exception(
+            "This user is already signed in, please sign out first.",
+          );
+        }
       }
       final credential = await provider.credential();
       final firebaseCredential = credential.signInMethod == "oauth"
@@ -653,6 +697,8 @@ class FirebaseAuthAdapter extends AuthAdapter {
     if (provider is EmailLinkConfirmSignInAuthProvider) {
       await _prepareProcessInternal();
       final email = _sharedPreferences.getString(_kUserPhoneNumberKey.toSHA1());
+      final allowMultiProviders =
+          _sharedPreferences.getBool(_kAllowMultiProvidersKey.toSHA1()) ?? true;
       if (email.isEmpty) {
         throw Exception("Email is not saved.");
       }
@@ -664,7 +710,15 @@ class FirebaseAuthAdapter extends AuthAdapter {
         emailLink: provider.url,
       );
       if (_user != null) {
-        await _user!.linkWithCredential(credential);
+        if (!allowMultiProviders) {
+          throw Exception(
+            "This user is already signed in, please sign out first.",
+          );
+        }
+        if (!_user!.providerData
+            .any((t) => t.providerId.contains(EmailAuthProvider.PROVIDER_ID))) {
+          await _user!.linkWithCredential(credential);
+        }
       } else {
         await database.signInWithCredential(credential);
       }
@@ -672,6 +726,7 @@ class FirebaseAuthAdapter extends AuthAdapter {
         throw Exception("User is not found.");
       }
       await _sharedPreferences.remove(_kUserEmailKey.toSHA1());
+      await _sharedPreferences.remove(_kAllowMultiProvidersKey.toSHA1());
       onUserStateChanged.call();
     } else if (provider is SmsConfirmSignInAuthProvider) {
       await _prepareProcessInternal();
@@ -679,6 +734,8 @@ class FirebaseAuthAdapter extends AuthAdapter {
           _sharedPreferences.getString(_kUserPhoneNumberKey.toSHA1());
       final verificationId =
           _sharedPreferences.getString(_kSmsVerificationIdKey.toSHA1());
+      final allowMultiProviders =
+          _sharedPreferences.getBool(_kAllowMultiProvidersKey.toSHA1()) ?? true;
       if (phoneNumber.isEmpty) {
         throw Exception("Phone number is not saved.");
       }
@@ -690,6 +747,11 @@ class FirebaseAuthAdapter extends AuthAdapter {
         smsCode: provider.code,
       );
       if (_user != null) {
+        if (!allowMultiProviders) {
+          throw Exception(
+            "This user is already signed in, please sign out first.",
+          );
+        }
         if (!_user!.providerData
             .any((t) => t.providerId.contains(PhoneAuthProvider.PROVIDER_ID))) {
           await _user!.linkWithCredential(credential);
@@ -702,6 +764,7 @@ class FirebaseAuthAdapter extends AuthAdapter {
       }
       await _sharedPreferences.remove(_kUserPhoneNumberKey.toSHA1());
       await _sharedPreferences.remove(_kSmsVerificationIdKey.toSHA1());
+      await _sharedPreferences.remove(_kAllowMultiProvidersKey.toSHA1());
       onUserStateChanged.call();
     }
   }

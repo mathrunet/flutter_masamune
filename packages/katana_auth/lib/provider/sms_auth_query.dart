@@ -124,6 +124,7 @@ class SmsSignInAuthProvider extends SignInAuthProvider {
     this.locale,
     this.onAutoVerificationCompleted,
     this.onAutoVerificationFailed,
+    super.allowMultiProvider = true,
   });
 
   @override

@@ -49,7 +49,7 @@ class AppleSignInAuthProvider extends SnsSignInAuthProvider {
   /// An `AuthQuery` for Apple's OAuth authentication.
   ///
   /// AppleのOAuth認証を行うための`AuthQuery`。
-  const AppleSignInAuthProvider();
+  const AppleSignInAuthProvider({super.allowMultiProvider = true});
 
   @override
   String get providerId => _kAppleAuthProviderId;

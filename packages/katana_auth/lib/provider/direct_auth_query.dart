@@ -42,6 +42,7 @@ class DirectSignInAuthProvider extends SignInAuthProvider {
   /// {@macro direct_auth}
   const DirectSignInAuthProvider({
     required this.userId,
+    super.allowMultiProvider = true,
   });
 
   /// User ID to be specified.

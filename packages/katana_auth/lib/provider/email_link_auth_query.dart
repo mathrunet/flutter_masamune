@@ -113,6 +113,7 @@ class EmailLinkSignInAuthProvider extends SignInAuthProvider {
     required this.email,
     required this.url,
     this.locale,
+    super.allowMultiProvider = true,
   });
 
   @override

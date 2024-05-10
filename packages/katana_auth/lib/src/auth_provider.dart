@@ -50,9 +50,20 @@ abstract class RegisterAuthProvider extends AuthProvider {
   /// {@template register_auth_provider}
   /// [AuthProvider] for performing [Authentication.register].
   ///
+  /// [allowMultiProvider] is a flag that allows multiple providers to be used.
+  ///
   /// [Authentication.register]を実行するための[AuthProvider]。
+  ///
+  /// [allowMultiProvider]は複数のプロバイダーを利用することを許可するフラグです。
   /// {@endtemplate}
-  const RegisterAuthProvider();
+  const RegisterAuthProvider({
+    this.allowMultiProvider = true,
+  });
+
+  /// Flag that allows multiple providers to be used.
+  ///
+  /// 複数のプロバイダーを利用することを許可するフラグ。
+  final bool allowMultiProvider;
 }
 
 /// {@template sign_in_auth_provider}
@@ -64,9 +75,20 @@ abstract class SignInAuthProvider extends AuthProvider {
   /// {@template sign_in_auth_provider}
   /// [AuthProvider] for performing [Authentication.signIn].
   ///
+  /// [allowMultiProvider] is a flag that allows multiple providers to be used.
+  ///
   /// [Authentication.signIn]を実行するための[AuthProvider]。
+  ///
+  /// [allowMultiProvider]は複数のプロバイダーを利用することを許可するフラグです。
   /// {@endtemplate}
-  const SignInAuthProvider();
+  const SignInAuthProvider({
+    this.allowMultiProvider = true,
+  });
+
+  /// Flag that allows multiple providers to be used.
+  ///
+  /// 複数のプロバイダーを利用することを許可するフラグ。
+  final bool allowMultiProvider;
 }
 
 /// {@template confirm_sign_in_auth_provider}

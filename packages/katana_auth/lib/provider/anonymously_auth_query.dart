@@ -42,7 +42,7 @@ class AnonymouslySignInAuthProvider extends SignInAuthProvider {
   /// {@macro sign_in_auth_provider}
   ///
   /// {@macro anonymously_auth}
-  const AnonymouslySignInAuthProvider();
+  const AnonymouslySignInAuthProvider({super.allowMultiProvider = true});
   @override
   // ignore: avoid_field_initializers_in_const_classes
   final String providerId = _kAnonymouslyAuthProviderId;

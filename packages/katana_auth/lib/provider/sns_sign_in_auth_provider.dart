@@ -11,7 +11,7 @@ abstract class SnsSignInAuthProvider extends SignInAuthProvider {
   ///
   /// SNSのOAuth認証を行うための`AuthQuery`。
   /// {@endtemplate}
-  const SnsSignInAuthProvider();
+  const SnsSignInAuthProvider({super.allowMultiProvider = true});
 
   /// Obtain credentials for SNS sign-in.
   ///

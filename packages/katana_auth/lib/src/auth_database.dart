@@ -456,11 +456,14 @@ class AuthDatabase {
     }
     if (provider is EmailAndPasswordRegisterAuthProvider) {
       final accounts = _data._getAccounts();
-      if (accounts
-          .any((element) => element.get(userEmailKey, "") == provider.email)) {
-        throw Exception(
-          "This Email address is already registered. Please register another email address.",
-        );
+      final account = accounts.firstWhereOrNull(
+          (element) => element.get(userEmailKey, "") == provider.email);
+      if (account != null) {
+        if (!provider.allowMultiProvider) {
+          throw Exception(
+            "This Email address is already registered. Please register another email address.",
+          );
+        }
       }
       final userId = _uuid;
       _data._setAccount(
@@ -508,24 +511,36 @@ class AuthDatabase {
           _activeId = userId;
         } else {
           final current = _data._getAccount(userId);
+          final providers = [
+            ...current.getAsList(activeProvidersKey),
+            provider.providerId
+          ].distinct();
+          if (!provider.allowMultiProvider && providers.length > 1) {
+            throw Exception(
+              "Signing in with multiple providers is not allowed.",
+            );
+          }
           _data._setAccount(userId, {
             ...current,
-            activeProvidersKey: [
-              ...current.getAsList(activeProvidersKey),
-              provider.providerId
-            ].distinct(),
+            activeProvidersKey: providers,
           });
           _activeId = userId;
         }
       } else {
         final userId = _activeId!;
         final current = _data._getAccount(userId);
+        final providers = [
+          ...current.getAsList(activeProvidersKey),
+          provider.providerId
+        ].distinct();
+        if (!provider.allowMultiProvider && providers.length > 1) {
+          throw Exception(
+            "Signing in with multiple providers is not allowed.",
+          );
+        }
         _data._setAccount(userId, {
           ...current,
-          activeProvidersKey: [
-            ...current.getAsList(activeProvidersKey),
-            provider.providerId
-          ].distinct(),
+          activeProvidersKey: providers,
         });
       }
     } else if (provider is AnonymouslySignInAuthProvider ||
@@ -545,26 +560,38 @@ class AuthDatabase {
           _activeId = userId;
         } else {
           final current = _data._getAccount(userId);
+          final providers = [
+            ...current.getAsList(activeProvidersKey),
+            provider.providerId
+          ].distinct();
+          if (!provider.allowMultiProvider && providers.length > 1) {
+            throw Exception(
+              "Signing in with multiple providers is not allowed.",
+            );
+          }
           _data._setAccount(userId, {
             ...current,
             anonymouslyKey: true,
-            activeProvidersKey: [
-              ...current.getAsList(activeProvidersKey),
-              provider.providerId
-            ].distinct(),
+            activeProvidersKey: providers,
           });
           _activeId = userId;
         }
       } else {
         final userId = _activeId!;
         final current = _data._getAccount(userId);
+        final providers = [
+          ...current.getAsList(activeProvidersKey),
+          provider.providerId
+        ].distinct();
+        if (!provider.allowMultiProvider && providers.length > 1) {
+          throw Exception(
+            "Signing in with multiple providers is not allowed.",
+          );
+        }
         _data._setAccount(userId, {
           ...current,
           anonymouslyKey: true,
-          activeProvidersKey: [
-            ...current.getAsList(activeProvidersKey),
-            provider.providerId
-          ].distinct(),
+          activeProvidersKey: providers,
         });
       }
     } else if (provider is EmailAndPasswordSignInAuthProvider) {
@@ -593,15 +620,30 @@ class AuthDatabase {
           emailLinkUrlKey: provider.url,
           tmpUserEmailKey: provider.email,
         });
-        _data._setTemporary(userId);
+        _data._setTemporary(
+          userId,
+          allowMultiProvider: provider.allowMultiProvider,
+        );
       } else {
         final userId = account.get(userIdKey, "");
+        final providers = [
+          ...account.getAsList(activeProvidersKey),
+          provider.providerId
+        ].distinct();
+        if (!provider.allowMultiProvider && providers.length > 1) {
+          throw Exception(
+            "Signing in with multiple providers is not allowed.",
+          );
+        }
         _data._setAccount(userId, {
           ...account,
           emailLinkUrlKey: provider.url,
           tmpUserEmailKey: provider.email,
         });
-        _data._setTemporary(userId);
+        _data._setTemporary(
+          userId,
+          allowMultiProvider: provider.allowMultiProvider,
+        );
       }
     } else if (provider is SmsSignInAuthProvider) {
       final account = accounts.firstWhereOrNull(
@@ -619,15 +661,30 @@ class AuthDatabase {
           tmpUserPhoneNumberKey: provider.phoneNumber,
           smsCodeKey: code,
         });
-        _data._setTemporary(userId);
+        _data._setTemporary(
+          userId,
+          allowMultiProvider: provider.allowMultiProvider,
+        );
       } else {
         final userId = account.get(userIdKey, "");
+        final providers = [
+          ...account.getAsList(activeProvidersKey),
+          provider.providerId
+        ].distinct();
+        if (!provider.allowMultiProvider && providers.length > 1) {
+          throw Exception(
+            "Signing in with multiple providers is not allowed.",
+          );
+        }
         _data._setAccount(userId, {
           ...account,
           tmpUserPhoneNumberKey: provider.phoneNumber,
           smsCodeKey: code,
         });
-        _data._setTemporary(userId);
+        _data._setTemporary(
+          userId,
+          allowMultiProvider: provider.allowMultiProvider,
+        );
       }
     }
     await onSaved?.call(this);
@@ -656,7 +713,17 @@ class AuthDatabase {
         );
       }
       final userId = temporary.get(userIdKey, "");
+      final allowMultiProvider = _data._getTemporaryAllowMultiProvider();
       _data._clearTemporary();
+      final providers = [
+        ...temporary.getAsList(activeProvidersKey),
+        provider.providerId
+      ].distinct();
+      if (!allowMultiProvider && providers.length > 1) {
+        throw Exception(
+          "Signing in with multiple providers is not allowed.",
+        );
+      }
       _data._setAccount(userId, {
         ...temporary,
         AuthDatabase.userEmailKey: email,
@@ -681,7 +748,17 @@ class AuthDatabase {
         );
       }
       final userId = temporary.get(userIdKey, "");
+      final allowMultiProvider = _data._getTemporaryAllowMultiProvider();
       _data._clearTemporary();
+      final providers = [
+        ...temporary.getAsList(activeProvidersKey),
+        provider.providerId
+      ].distinct();
+      if (!allowMultiProvider && providers.length > 1) {
+        throw Exception(
+          "Signing in with multiple providers is not allowed.",
+        );
+      }
       _data._setAccount(userId, {
         ...temporary,
         AuthDatabase.userPhoneNumberKey: phoenNumber,
@@ -997,6 +1074,7 @@ class AuthDatabase {
 extension _AuthDatabaseDynamicMapExtensions on Map {
   static const _currentKey = "current";
   static const _temporaryKey = "temporary";
+  static const _temporaryAllowMultiProviderKey = "temporaryAllowMultiProvider";
   static const _accountKey = "account";
 
   void _initialize() {
@@ -1034,17 +1112,27 @@ extension _AuthDatabaseDynamicMapExtensions on Map {
     return _getAccount(get(_temporaryKey, ""));
   }
 
-  void _setTemporary(String? userId) {
+  void _setTemporary(
+    String? userId, {
+    bool allowMultiProvider = true,
+  }) {
     if (userId.isEmpty) {
       return;
     }
     _initialize();
     this[_temporaryKey] = userId;
+    this[_temporaryAllowMultiProviderKey] = allowMultiProvider;
+  }
+
+  bool _getTemporaryAllowMultiProvider() {
+    _initialize();
+    return get(_temporaryAllowMultiProviderKey, true);
   }
 
   void _clearTemporary() {
     _initialize();
     this[_temporaryKey] = null;
+    this[_temporaryAllowMultiProviderKey] = null;
   }
 
   DynamicMap _getCurrent() {

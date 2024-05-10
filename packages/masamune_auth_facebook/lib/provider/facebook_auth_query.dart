@@ -62,7 +62,7 @@ class FacebookSignInAuthProvider extends SnsSignInAuthProvider {
   /// An `AuthQuery` for Facebook's OAuth authentication.
   ///
   /// FacebookのOAuth認証を行うための`AuthQuery`。
-  const FacebookSignInAuthProvider();
+  const FacebookSignInAuthProvider({super.allowMultiProvider = true});
 
   @override
   String get providerId => _kFacebookAuthProviderId;

@@ -254,6 +254,7 @@ class EmailAndPasswordSignInAuthProvider extends SignInAuthProvider {
   const EmailAndPasswordSignInAuthProvider({
     required this.email,
     required this.password,
+    super.allowMultiProvider = true,
   });
 
   @override
