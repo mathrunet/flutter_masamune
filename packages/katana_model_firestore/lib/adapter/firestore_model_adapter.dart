@@ -80,6 +80,7 @@ class FirestoreModelAdapter extends ModelAdapter
     this.macosOptions,
     this.prefix,
     this.validator,
+    this.onInitialize,
   })  : _database = database,
         _options = options,
         _localDatabase = localDatabase;
@@ -134,6 +135,11 @@ class FirestoreModelAdapter extends ModelAdapter
   /// [Null]のときはバリデーションされません。
   @override
   final DatabaseValidator? validator;
+
+  /// Callback for initialization. If this is specified, normal initialization is not performed.
+  ///
+  /// 初期化を行う場合のコールバック。これが指定されている場合通常の初期化は行われません。
+  final Future<void> Function(FirebaseOptions? options)? onInitialize;
 
   /// Actual data when used as a mock-up.
   ///
@@ -284,7 +290,11 @@ class FirestoreModelAdapter extends ModelAdapter
           _FirestoreCache.getCache(options).get(_path(query.query.path));
       await validator!.onDeleteDocument(query, oldValue);
     }
-    await FirebaseCore.initialize(options: options);
+    if (onInitialize != null) {
+      await onInitialize?.call(options);
+    } else {
+      await FirebaseCore.initialize(options: options);
+    }
     await _documentReference(query).delete();
     await localDatabase.deleteDocument(query, prefix: prefix);
     _FirestoreCache.getCache(options).set(_path(query.query.path));
@@ -296,7 +306,11 @@ class FirestoreModelAdapter extends ModelAdapter
     if (validator != null) {
       await validator!.onPreloadDocument(query);
     }
-    await FirebaseCore.initialize(options: options);
+    if (onInitialize != null) {
+      await onInitialize?.call(options);
+    } else {
+      await FirebaseCore.initialize(options: options);
+    }
     final snapshot = await _documentReference(query).get();
     var res = _convertFrom(snapshot.data()?.cast() ?? {});
     if (res.isEmpty) {
@@ -334,7 +348,11 @@ class FirestoreModelAdapter extends ModelAdapter
     if (validator != null) {
       await validator!.onPreloadCollection(query);
     }
-    await FirebaseCore.initialize(options: options);
+    if (onInitialize != null) {
+      await onInitialize?.call(options);
+    } else {
+      await FirebaseCore.initialize(options: options);
+    }
     final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
       _collectionReference(query).map((reference) => reference.get()),
     );
@@ -373,7 +391,11 @@ class FirestoreModelAdapter extends ModelAdapter
     ModelAggregateQuery aggregateQuery,
   ) async {
     _assert();
-    await FirebaseCore.initialize(options: options);
+    if (onInitialize != null) {
+      await onInitialize?.call(options);
+    } else {
+      await FirebaseCore.initialize(options: options);
+    }
     switch (aggregateQuery.type) {
       case ModelAggregateQueryType.count:
         final snapshot = await Future.wait<AggregateQuerySnapshot>(
@@ -449,7 +471,11 @@ class FirestoreModelAdapter extends ModelAdapter
         newValue: value,
       );
     }
-    await FirebaseCore.initialize(options: options);
+    if (onInitialize != null) {
+      await onInitialize?.call(options);
+    } else {
+      await FirebaseCore.initialize(options: options);
+    }
 
     final converted = _convertTo(
       value,
@@ -590,7 +616,11 @@ class FirestoreModelAdapter extends ModelAdapter
     ) transaction,
   ) async {
     _assert();
-    await FirebaseCore.initialize(options: options);
+    if (onInitialize != null) {
+      await onInitialize?.call(options);
+    } else {
+      await FirebaseCore.initialize(options: options);
+    }
     await database.runTransaction((handler) async {
       final ref = FirestoreModelTransactionRef._(handler);
       for (final tr in ref._preLocalTransaction) {
@@ -639,7 +669,11 @@ class FirestoreModelAdapter extends ModelAdapter
       "[splitLength] must be greater than 0 and less than or equal to 500 in Firestore.",
     );
     _assert();
-    await FirebaseCore.initialize(options: options);
+    if (onInitialize != null) {
+      await onInitialize?.call(options);
+    } else {
+      await FirebaseCore.initialize(options: options);
+    }
     final ref = FirestoreModelBatchRef._();
     await batch.call(ref);
     await wait(

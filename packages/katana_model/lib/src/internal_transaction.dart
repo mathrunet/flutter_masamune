@@ -16,8 +16,8 @@ class _InternalTransactionMixin {
       }
       _transactionCompleter?.complete();
       _transactionCompleter = null;
-    } catch (e) {
-      _transactionCompleter?.completeError(e);
+    } catch (e, stacktrace) {
+      _transactionCompleter?.completeError(e, stacktrace);
       _transactionCompleter = null;
       rethrow;
     } finally {

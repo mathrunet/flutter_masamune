@@ -77,6 +77,7 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
     super.macosOptions,
     super.prefix,
     super.validator,
+    super.onInitialize,
   });
 
   @override
@@ -90,7 +91,11 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
     if (validator != null) {
       await validator!.onPreloadCollection(query);
     }
-    await FirebaseCore.initialize(options: options);
+    if (onInitialize != null) {
+      await onInitialize?.call(options);
+    } else {
+      await FirebaseCore.initialize(options: options);
+    }
     final localRes =
         await localDatabase.getInitialCollection(query, prefix: prefix);
     if (localRes.isNotEmpty) {
@@ -170,7 +175,11 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
     if (validator != null) {
       await validator!.onPreloadDocument(query);
     }
-    await FirebaseCore.initialize(options: options);
+    if (onInitialize != null) {
+      await onInitialize?.call(options);
+    } else {
+      await FirebaseCore.initialize(options: options);
+    }
     final localRes =
         await localDatabase.getInitialDocument(query, prefix: prefix);
     if (localRes.isNotEmpty) {
@@ -238,7 +247,11 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
       "[splitLength] must be greater than 0 and less than or equal to 500 in Firestore.",
     );
     _assert();
-    await FirebaseCore.initialize(options: options);
+    if (onInitialize != null) {
+      await onInitialize?.call(options);
+    } else {
+      await FirebaseCore.initialize(options: options);
+    }
     final ref = FirestoreModelBatchRef._();
     await batch.call(ref);
     await wait(
