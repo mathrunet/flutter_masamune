@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:katana_model_firestore/katana_model_firestore.dart';
@@ -41,7 +42,7 @@ void main() {
   test("listenableFirestoreModelAdapter.saveAndLoadAndDeleteOnDoc", () async {
     final firestore = FakeFirebaseFirestore();
     final localDatabase = NoSqlDatabase();
-    final adapter = FirestoreModelAdapter(
+    final adapter = ListenableFirestoreModelAdapter(
       database: firestore,
       localDatabase: localDatabase,
       onInitialize: (options) => Future.value(),
@@ -51,39 +52,61 @@ void main() {
     final model2 = TestValueDocumentModel(query);
     await model1.load();
     await model2.load();
+    var snapshot = await firestore.doc("test/doc").get();
     expect(model1.value, null);
     expect(model2.value, null);
+    expect(snapshot.data(), null);
     await model1.save(const TestValue(name: "aaa", text: "bbb"));
+    snapshot = await firestore.doc("test/doc").get();
+    expect(snapshot.data(), {
+      "name": "aaa",
+      "text": "bbb",
+      "ids": [],
+      "@uid": "doc",
+    });
     expect(model1.value, const TestValue(name: "aaa", text: "bbb"));
     expect(model2.value, const TestValue(name: "aaa", text: "bbb"));
     await model2.delete();
+    snapshot = await firestore.doc("test/doc").get();
     expect(model1.value, null);
     expect(model2.value, null);
+    expect(snapshot.data(), null);
     await firestore.doc("test/doc").set({
       "name": "ccc",
       "text": "eee",
+      "ids": [],
+      "@uid": "doc",
     });
-    expect(model1.value, null);
-    expect(model2.value, null);
-    await model1.reload();
-    await model2.reload();
+    snapshot = await firestore.doc("test/doc").get();
+    expect(snapshot.data(), {
+      "name": "ccc",
+      "text": "eee",
+      "ids": [],
+      "@uid": "doc",
+    });
+    await Future.delayed(const Duration(milliseconds: 100));
     expect(model1.value, const TestValue(name: "ccc", text: "eee"));
     expect(model2.value, const TestValue(name: "ccc", text: "eee"));
     await firestore.doc("test/doc").set({
       "name": "ddd",
       "text": "fff",
+      "ids": [],
+      "@uid": "doc",
     });
-    expect(model1.value, const TestValue(name: "ccc", text: "eee"));
-    expect(model2.value, const TestValue(name: "ccc", text: "eee"));
-    await model1.reload();
-    await model2.reload();
+    snapshot = await firestore.doc("test/doc").get();
+    expect(snapshot.data(), {
+      "name": "ddd",
+      "text": "fff",
+      "ids": [],
+      "@uid": "doc",
+    });
+    await Future.delayed(const Duration(milliseconds: 100));
     expect(model1.value, const TestValue(name: "ddd", text: "fff"));
     expect(model2.value, const TestValue(name: "ddd", text: "fff"));
     await firestore.doc("test/doc").delete();
-    expect(model1.value, const TestValue(name: "ddd", text: "fff"));
-    expect(model2.value, const TestValue(name: "ddd", text: "fff"));
-    await model1.reload();
-    await model2.reload();
+    snapshot = await firestore.doc("test/doc").get();
+    expect(snapshot.data(), null);
+    await Future.delayed(const Duration(milliseconds: 100));
     expect(model1.value, null);
     expect(model2.value, null);
   });
@@ -91,7 +114,7 @@ void main() {
       () async {
     final firestore = FakeFirebaseFirestore();
     final localDatabase = NoSqlDatabase();
-    final adapter = FirestoreModelAdapter(
+    final adapter = ListenableFirestoreModelAdapter(
       database: firestore,
       localDatabase: localDatabase,
       onInitialize: (options) => Future.value(),
@@ -101,16 +124,27 @@ void main() {
     final filteredQuery =
         CollectionModelQuery("test", adapter: adapter).equal("name", "ccc");
     final filtered = TestValueCollectionModel(filteredQuery);
+    final firestoreCol = firestore.collection("test");
+    final firestoreFiltered = firestore.collection("test").where(
+          "name",
+          isEqualTo: "ccc",
+        );
     await col.load();
     await filtered.load();
+    var snapshot = await firestoreCol.get();
+    var filteredSnapshot = await firestoreFiltered.get();
     expect(col.map((e) => e.value).toList(), []);
     expect(filtered.map((e) => e.value).toList(), []);
-    final model1 = col.create();
+    expect(snapshot.docs.map((e) => e.data()), []);
+    expect(filteredSnapshot.docs.map((e) => e.data()), []);
+    final model1 = col.create("aaa");
     final model2 = TestValueDocumentModel(
       DocumentModelQuery("test/ccc", adapter: adapter),
     );
     await model1.save(const TestValue(name: "aaa", text: "bbb"));
     await model2.save(const TestValue(name: "ccc", text: "ddd"));
+    snapshot = await firestoreCol.get();
+    filteredSnapshot = await firestoreFiltered.get();
     expect(col.map((e) => e.value).toList(), [
       const TestValue(name: "aaa", text: "bbb"),
       const TestValue(name: "ccc", text: "ddd"),
@@ -118,25 +152,54 @@ void main() {
     expect(filtered.map((e) => e.value).toList(), [
       const TestValue(name: "ccc", text: "ddd"),
     ]);
-    await model1.delete();
-    expect(col.map((e) => e.value).toList(), [
-      const TestValue(name: "ccc", text: "ddd"),
+    expect(snapshot.docs.map((e) => e.data()), [
+      {
+        "name": "aaa",
+        "text": "bbb",
+        "ids": [],
+        "@uid": "aaa",
+      },
+      {
+        "name": "ccc",
+        "text": "ddd",
+        "ids": [],
+        "@uid": "ccc",
+      },
     ]);
-    expect(filtered.map((e) => e.value).toList(), [
-      const TestValue(name: "ccc", text: "ddd"),
+    expect(filteredSnapshot.docs.map((e) => e.data()), [
+      {
+        "name": "ccc",
+        "text": "ddd",
+        "ids": [],
+        "@uid": "ccc",
+      },
+    ]);
+    await model1.delete();
+    snapshot = await firestoreCol.get();
+    filteredSnapshot = await firestoreFiltered.get();
+    expect(snapshot.docs.map((e) => e.data()), [
+      {
+        "name": "ccc",
+        "text": "ddd",
+        "ids": [],
+        "@uid": "ccc",
+      },
+    ]);
+    expect(filteredSnapshot.docs.map((e) => e.data()), [
+      {
+        "name": "ccc",
+        "text": "ddd",
+        "ids": [],
+        "@uid": "ccc",
+      },
     ]);
     await firestore.doc("test/ddd").set({
       "name": "ddd",
       "text": "eee",
+      "ids": [],
+      "@uid": "ddd",
     });
-    expect(col.map((e) => e.value).toList(), [
-      const TestValue(name: "ccc", text: "ddd"),
-    ]);
-    expect(filtered.map((e) => e.value).toList(), [
-      const TestValue(name: "ccc", text: "ddd"),
-    ]);
-    await col.reload();
-    await filtered.reload();
+    await Future.delayed(const Duration(milliseconds: 100));
     expect(col.map((e) => e.value).toList(), [
       const TestValue(name: "ccc", text: "ddd"),
       const TestValue(name: "ddd", text: "eee"),
@@ -147,16 +210,32 @@ void main() {
     await firestore.doc("test/ccc").set({
       "name": "ccc",
       "text": "eee",
-    });
-    expect(col.map((e) => e.value).toList(), [
-      const TestValue(name: "ccc", text: "ddd"),
-      const TestValue(name: "ddd", text: "eee"),
+    }, SetOptions(merge: true));
+    snapshot = await firestoreCol.get();
+    filteredSnapshot = await firestoreFiltered.get();
+    expect(snapshot.docs.map((e) => e.data()), [
+      {
+        "name": "ccc",
+        "text": "eee",
+        "ids": [],
+        "@uid": "ccc",
+      },
+      {
+        "name": "ddd",
+        "text": "eee",
+        "ids": [],
+        "@uid": "ddd",
+      }
     ]);
-    expect(filtered.map((e) => e.value).toList(), [
-      const TestValue(name: "ccc", text: "ddd"),
+    expect(filteredSnapshot.docs.map((e) => e.data()), [
+      {
+        "name": "ccc",
+        "text": "eee",
+        "ids": [],
+        "@uid": "ccc",
+      },
     ]);
-    await col.reload();
-    await filtered.reload();
+    await Future.delayed(const Duration(milliseconds: 100));
     expect(col.map((e) => e.value).toList(), [
       const TestValue(name: "ccc", text: "eee"),
       const TestValue(name: "ddd", text: "eee"),
@@ -165,15 +244,18 @@ void main() {
       const TestValue(name: "ccc", text: "eee"),
     ]);
     await firestore.doc("test/ccc").delete();
-    expect(col.map((e) => e.value).toList(), [
-      const TestValue(name: "ccc", text: "eee"),
-      const TestValue(name: "ddd", text: "eee"),
+    snapshot = await firestoreCol.get();
+    filteredSnapshot = await firestoreFiltered.get();
+    expect(snapshot.docs.map((e) => e.data()), [
+      {
+        "name": "ddd",
+        "text": "eee",
+        "ids": [],
+        "@uid": "ddd",
+      }
     ]);
-    expect(filtered.map((e) => e.value).toList(), [
-      const TestValue(name: "ccc", text: "eee"),
-    ]);
-    await col.reload();
-    await filtered.reload();
+    expect(filteredSnapshot.docs.map((e) => e.data()), []);
+    await Future.delayed(const Duration(milliseconds: 100));
     expect(col.map((e) => e.value).toList(), [
       const TestValue(name: "ddd", text: "eee"),
     ]);
