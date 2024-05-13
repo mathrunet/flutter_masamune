@@ -1,8 +1,10 @@
 // Package imports:
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:katana_model_firestore/katana_model_firestore.dart';
 import 'package:test/test.dart';
+
+// Project imports:
+import 'package:katana_model_firestore/katana_model_firestore.dart';
 
 part 'searchable_runtime_model_test.freezed.dart';
 part 'searchable_runtime_model_test.g.dart';
