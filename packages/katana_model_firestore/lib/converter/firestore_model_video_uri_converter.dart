@@ -32,6 +32,7 @@ class FirestoreModelVideoUriConverter
           key: value.mapAndRemoveEmpty(
             (e) => ModelVideoUri(Uri.tryParse(e.toString())).toJson(),
           ),
+          targetKey: null,
         };
       }
     } else if (value is Map) {
@@ -49,6 +50,7 @@ class FirestoreModelVideoUriConverter
               ModelVideoUri(Uri.tryParse(v.toString())).toJson(),
             ),
           ),
+          targetKey: null,
         };
       }
     } else if (value is String) {
@@ -58,6 +60,7 @@ class FirestoreModelVideoUriConverter
       if (type == this.type) {
         return {
           key: ModelVideoUri(Uri.tryParse(value)).toJson(),
+          targetKey: null,
         };
       }
     }

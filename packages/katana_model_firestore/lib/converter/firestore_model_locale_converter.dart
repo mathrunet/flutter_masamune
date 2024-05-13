@@ -34,6 +34,7 @@ class FirestoreModelLocaleConverter extends FirestoreModelFieldValueConverter {
               Locale(keys.first, keys.length > 1 ? keys.last : null),
             ).toJson();
           }),
+          targetKey: null,
         };
       }
     } else if (value is Map) {
@@ -54,6 +55,7 @@ class FirestoreModelLocaleConverter extends FirestoreModelFieldValueConverter {
               ).toJson(),
             );
           }),
+          targetKey: null,
         };
       }
     } else if (value is String) {
@@ -66,6 +68,7 @@ class FirestoreModelLocaleConverter extends FirestoreModelFieldValueConverter {
           key: ModelLocale(
             Locale(keys.first, keys.length > 1 ? keys.last : null),
           ).toJson(),
+          targetKey: null,
         };
       }
     }

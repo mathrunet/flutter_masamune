@@ -31,6 +31,7 @@ class FirestoreModelUriConverter extends FirestoreModelFieldValueConverter {
           key: value.mapAndRemoveEmpty<DynamicMap>(
             (e) => ModelUri(Uri.tryParse(e.toString())).toJson(),
           ),
+          targetKey: null,
         };
       }
     } else if (value is Map) {
@@ -48,6 +49,7 @@ class FirestoreModelUriConverter extends FirestoreModelFieldValueConverter {
               ModelUri(Uri.tryParse(v.toString())).toJson(),
             ),
           ),
+          targetKey: null,
         };
       }
     } else if (value is String) {
@@ -57,6 +59,7 @@ class FirestoreModelUriConverter extends FirestoreModelFieldValueConverter {
       if (type == this.type) {
         return {
           key: ModelUri(Uri.tryParse(value)).toJson(),
+          targetKey: null,
         };
       }
     }

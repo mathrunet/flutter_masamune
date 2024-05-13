@@ -37,6 +37,7 @@ class FirestoreModelGeoValueConverter
                     longitude: e.getAsDouble(ModelGeoValue.kLongitudeKey)),
               ).toJson(),
             ),
+            targetKey: null,
           };
         } else if (value.every((e) => e is GeoPoint)) {
           return {
@@ -48,6 +49,7 @@ class FirestoreModelGeoValueConverter
                     GeoValue(latitude: e.latitude, longitude: e.longitude),
                   ).toJson(),
                 ),
+            targetKey: null,
           };
         }
       }
@@ -71,6 +73,7 @@ class FirestoreModelGeoValueConverter
                 ).toJson(),
               ),
             ),
+            targetKey: null,
           };
         } else if (value.values.every((e) => e is GeoPoint)) {
           return {
@@ -85,6 +88,7 @@ class FirestoreModelGeoValueConverter
                     ).toJson(),
                   ),
                 ),
+            targetKey: null,
           };
         }
       }
@@ -99,13 +103,16 @@ class FirestoreModelGeoValueConverter
           key: ModelGeoValue(
             GeoValue(latitude: latitude, longitude: longitude),
           ).toJson(),
+          targetKey: null,
         };
       }
     } else if (value is GeoPoint) {
+      final targetKey = "#$key";
       return {
         key: ModelGeoValue(
           GeoValue(latitude: value.latitude, longitude: value.longitude),
         ).toJson(),
+        targetKey: null,
       };
     }
     return null;

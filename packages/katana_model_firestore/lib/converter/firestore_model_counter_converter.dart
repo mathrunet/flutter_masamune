@@ -31,6 +31,7 @@ class FirestoreModelCounterConverter extends FirestoreModelFieldValueConverter {
           key: value.whereType<num>().cast<num>().mapAndRemoveEmpty<DynamicMap>(
                 (e) => ModelCounter(e.toInt()).toJson(),
               ),
+          targetKey: null,
         };
       }
     } else if (value is Map) {
@@ -51,6 +52,7 @@ class FirestoreModelCounterConverter extends FirestoreModelFieldValueConverter {
                   ModelCounter(v.toInt()).toJson(),
                 ),
               ),
+          targetKey: null,
         };
       }
     } else if (value is num) {
@@ -58,7 +60,10 @@ class FirestoreModelCounterConverter extends FirestoreModelFieldValueConverter {
       final targetMap = original.getAsMap(targetKey);
       final type = targetMap.get(_kTypeKey, "");
       if (type == this.type) {
-        return {key: ModelCounter(value.toInt()).toJson()};
+        return {
+          key: ModelCounter(value.toInt()).toJson(),
+          targetKey: null,
+        };
       }
     }
     return null;

@@ -38,7 +38,8 @@ class FirestoreModelTimestampConverter
               return ModelTimestamp(e.toDate()).toJson();
             }
             return null;
-          })
+          }),
+          targetKey: null,
         };
       }
     } else if (value is Map) {
@@ -68,7 +69,8 @@ class FirestoreModelTimestampConverter
                 return MapEntry(k, null);
               })
               .where((k, v) => v != null)
-              .cast<String, DynamicMap>
+              .cast<String, DynamicMap>,
+          targetKey: null,
         };
       }
     } else if (value is num) {
@@ -80,11 +82,14 @@ class FirestoreModelTimestampConverter
           key: ModelTimestamp(
             DateTime.fromMillisecondsSinceEpoch(value.toInt()),
           ).toJson(),
+          targetKey: null,
         };
       }
     } else if (value is Timestamp) {
+      final targetKey = "#$key";
       return {
         key: ModelTimestamp(value.toDate()).toJson(),
+        targetKey: null,
       };
     }
     return null;

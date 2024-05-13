@@ -32,6 +32,7 @@ class FirestoreModelImageUriConverter
           key: value.mapAndRemoveEmpty<DynamicMap>(
             (e) => ModelImageUri(Uri.tryParse(e.toString())).toJson(),
           ),
+          targetKey: null,
         };
       }
     } else if (value is Map) {
@@ -49,6 +50,7 @@ class FirestoreModelImageUriConverter
               ModelImageUri(Uri.tryParse(v.toString())).toJson(),
             ),
           ),
+          targetKey: null,
         };
       }
     } else if (value is String) {
@@ -58,6 +60,7 @@ class FirestoreModelImageUriConverter
       if (type == this.type) {
         return {
           key: ModelImageUri(Uri.tryParse(value)).toJson(),
+          targetKey: null,
         };
       }
     }

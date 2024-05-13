@@ -765,6 +765,7 @@ class FirestoreModelAdapter extends ModelAdapter
         }
       }
       if (replaced != null) {
+        replaced.removeWhere((key, value) => value == null);
         res.addAll(replaced);
       } else {
         res[key] = val;

@@ -28,6 +28,7 @@ class FirestoreModelTokenConverter extends FirestoreModelFieldValueConverter {
           key: ModelToken(
             value.map((e) => e.toString()).toList(),
           ).toJson(),
+          targetKey: null,
         };
       }
     }

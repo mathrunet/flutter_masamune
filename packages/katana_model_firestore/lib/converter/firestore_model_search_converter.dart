@@ -28,6 +28,7 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
           key: ModelSearch(
             value.map((e) => e.toString()).toList(),
           ).toJson(),
+          targetKey: null,
         };
       }
     }

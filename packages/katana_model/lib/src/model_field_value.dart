@@ -277,7 +277,9 @@ abstract class ModelFieldValue<T> {
     }
     return Map.unmodifiable(
       Map<String, dynamic>.fromEntries(
-        res.entries.where((entry) => !entry.key.startsWith("@")),
+        res.entries.where(
+          (entry) => !entry.key.startsWith("@") && !entry.key.startsWith("#"),
+        ),
       ),
     );
   }

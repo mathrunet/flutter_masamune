@@ -31,6 +31,7 @@ class FirestoreModelLocalizedValueConverter
               targetMap.getAsMap(ModelLocalizedValue.kLocalizedKey),
             ),
           ).toJson(),
+          targetKey: null,
         };
       }
     }
@@ -57,7 +58,7 @@ class FirestoreModelLocalizedValueConverter
             ModelLocalizedValue.kLocalizedKey: val,
             _kTargetKey: key,
           },
-          if (fromUser) key: val.toList((key, value) => "$key:$value"),
+          if (fromUser) key: val.toList((key, value) => "$key:$value").toList(),
         };
       }
     } else if (value is List) {

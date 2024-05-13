@@ -34,7 +34,8 @@ class FirestoreModelCommandBaseConverter
             value,
             publicParameters: publicParameters,
             privateParameters: privateParameters,
-          ).toJson()
+          ).toJson(),
+          targetKey: null,
         };
       }
     }
