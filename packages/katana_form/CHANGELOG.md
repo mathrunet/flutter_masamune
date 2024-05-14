@@ -1,3 +1,7 @@
+## 2.12.16
+
+ - **FIX**: Support for Flutter 3.22. ([c333924c](https://github.com/mathrunet/flutter_masamune/commit/c333924c7011a7682628b7d08ff080ff4cff4985))
+
 ## 2.12.15
 
  - **FIX**: Flutter version upgrade support. ([8d467457](https://github.com/mathrunet/flutter_masamune/commit/8d46745700d460f6536e5e71d73032b1c7639e63))

@@ -1,3 +1,7 @@
+## 2.4.72
+
+ - Update a dependency to the latest release.
+
 ## 2.4.71
 
  - **FIX**: Flutter version upgrade support. ([8d467457](https://github.com/mathrunet/flutter_masamune/commit/8d46745700d460f6536e5e71d73032b1c7639e63))
