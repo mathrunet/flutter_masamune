@@ -1,3 +1,7 @@
+## 2.26.14
+
+ - **FIX**: Bug fixes. ([13cc2f19](https://github.com/mathrunet/flutter_masamune/commit/13cc2f1920648836e28dfb85357a1288d1d504cc))
+
 ## 2.26.13
 
  - **FIX**: We made sure that the system did not stop when a glitch occurred. ([af911377](https://github.com/mathrunet/flutter_masamune/commit/af9113775849fdbdb0d2c6ddc719f9384a4492f4))
