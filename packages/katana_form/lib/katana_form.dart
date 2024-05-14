@@ -13,11 +13,13 @@ import 'dart:async';
 import 'dart:math';
 
 // Flutter imports:
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart' as material;
 
 // Package imports:
-import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:katana/katana.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
@@ -55,3 +57,5 @@ part 'src/form_media_value.dart';
 part 'src/form_stye.dart';
 part 'src/form_media_type.dart';
 part 'src/suggestion_style.dart';
+part 'src/picker/picker.dart';
+part 'src/picker/picker_localizations.dart';

@@ -885,7 +885,7 @@ class FormNumFieldPicker {
             .round();
     num? res;
     final theme = Theme.of(context);
-    await Picker(
+    await _Picker(
       height: 240,
       backgroundColor: backgroundColor ?? theme.colorScheme.surface,
       containerColor: backgroundColor ?? theme.colorScheme.surface,
@@ -896,11 +896,11 @@ class FormNumFieldPicker {
       selecteds: [
         selected,
       ],
-      adapter: PickerDataAdapter<num>(
+      adapter: _PickerDataAdapter<num>(
         data: [
           ...List.generate(length + 1, (m) {
             final val = begin + (m * interval);
-            return PickerItem<num>(
+            return _PickerItem<num>(
               text: Text(
                 "${val.toStringAsFixed(fractionDigits)}$suffix",
                 style: TextStyle(
@@ -914,7 +914,7 @@ class FormNumFieldPicker {
       ),
       changeToFirst: true,
       hideHeader: false,
-      onConfirm: (Picker picker, List<int> value) {
+      onConfirm: (_Picker picker, List<int> value) {
         res = begin + (value[0] * interval);
       },
     ).showModal(context);

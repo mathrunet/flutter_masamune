@@ -841,7 +841,7 @@ class FormEnumFieldPicker<TEnum extends Enum> {
   Future<TEnum?> build(BuildContext context, TEnum? currentValue) async {
     TEnum? res;
     final theme = Theme.of(context);
-    await Picker(
+    await _Picker(
       height: 240,
       backgroundColor: backgroundColor ?? theme.colorScheme.surface,
       containerColor: backgroundColor ?? theme.colorScheme.surface,
@@ -852,10 +852,10 @@ class FormEnumFieldPicker<TEnum extends Enum> {
       selecteds: [
         currentValue?.index ?? defaultValue?.index ?? 0,
       ],
-      adapter: PickerDataAdapter<TEnum>(
+      adapter: _PickerDataAdapter<TEnum>(
         data: [
           ...values.map((key) {
-            return PickerItem<TEnum>(
+            return _PickerItem<TEnum>(
               text: Text(
                 labelBuilder?.call(key) ?? key.name,
                 style: TextStyle(
@@ -869,7 +869,7 @@ class FormEnumFieldPicker<TEnum extends Enum> {
       ),
       changeToFirst: true,
       hideHeader: false,
-      onConfirm: (Picker picker, List<int> value) {
+      onConfirm: (_Picker picker, List<int> value) {
         res = values[value[0]];
       },
     ).showModal(context);

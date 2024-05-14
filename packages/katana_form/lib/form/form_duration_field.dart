@@ -995,12 +995,12 @@ class FormDurationFieldPicker {
         end?.inSeconds.remainder(60) ??
         0);
 
-    List<PickerItem<int>> pickerItems = <PickerItem<int>>[];
+    List<_PickerItem<int>> pickerItems = <_PickerItem<int>>[];
     for (var s = begin?.inSeconds.remainder(60) ?? 0;
         s <= (end?.inSeconds.remainder(60) ?? 0);
         s++) {
       pickerItems.add(
-        PickerItem(
+        _PickerItem(
           text: Text(
             "$s$secondSuffix",
             style: TextStyle(
@@ -1012,13 +1012,13 @@ class FormDurationFieldPicker {
       );
     }
     if (enableMinutes) {
-      final secondsPickerItems = List<PickerItem<int>>.from(pickerItems);
-      pickerItems = <PickerItem<int>>[];
+      final secondsPickerItems = List<_PickerItem<int>>.from(pickerItems);
+      pickerItems = <_PickerItem<int>>[];
       for (var m = begin?.inMinutes.remainder(60) ?? 0;
           m <= (end?.inMinutes.remainder(60) ?? 0);
           m++) {
         pickerItems.add(
-          PickerItem(
+          _PickerItem(
             text: Text(
               "$m$minuteSuffix",
               style: TextStyle(
@@ -1031,13 +1031,13 @@ class FormDurationFieldPicker {
         );
       }
       if (enableHours) {
-        final minutesPickerItems = List<PickerItem<int>>.from(pickerItems);
-        pickerItems = <PickerItem<int>>[];
+        final minutesPickerItems = List<_PickerItem<int>>.from(pickerItems);
+        pickerItems = <_PickerItem<int>>[];
         for (var h = begin?.inHours.remainder(24) ?? 0;
             h <= (end?.inHours.remainder(24) ?? 0);
             h++) {
           pickerItems.add(
-            PickerItem(
+            _PickerItem(
               text: Text(
                 "$h$hourSuffix",
                 style: TextStyle(
@@ -1050,11 +1050,11 @@ class FormDurationFieldPicker {
           );
         }
         if (enableDays) {
-          final hoursPickerItems = List<PickerItem<int>>.from(pickerItems);
-          pickerItems = <PickerItem<int>>[];
+          final hoursPickerItems = List<_PickerItem<int>>.from(pickerItems);
+          pickerItems = <_PickerItem<int>>[];
           for (var d = begin?.inDays ?? 0; d <= (end?.inDays ?? 0); d++) {
             pickerItems.add(
-              PickerItem(
+              _PickerItem(
                 text: Text(
                   "$d$daySuffix",
                   style: TextStyle(
@@ -1069,7 +1069,7 @@ class FormDurationFieldPicker {
         }
       }
     }
-    await Picker(
+    await _Picker(
       height: 240,
       backgroundColor: backgroundColor ?? theme.colorScheme.surface,
       containerColor: backgroundColor ?? theme.colorScheme.surface,
@@ -1083,14 +1083,14 @@ class FormDurationFieldPicker {
         if (enableMinutes) selectedMinutes,
         selectedSeconds,
       ],
-      adapter: PickerDataAdapter<int>(
+      adapter: _PickerDataAdapter<int>(
         data: [
           ...pickerItems,
         ],
       ),
       changeToFirst: true,
       hideHeader: false,
-      onConfirm: (Picker picker, List<int> value) {
+      onConfirm: (_Picker picker, List<int> value) {
         if (value.length >= 4) {
           res = Duration(
             days: value[0],

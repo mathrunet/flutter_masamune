@@ -1040,7 +1040,7 @@ class FormMonthFieldPicker {
     if (selectedYear == 0) {
       selectedMonth = selectedMonth - ((begin?.month ?? 1) - 1);
     }
-    await Picker(
+    await _Picker(
       height: 240,
       backgroundColor: backgroundColor ?? theme.colorScheme.surface,
       containerColor: backgroundColor ?? theme.colorScheme.surface,
@@ -1052,14 +1052,14 @@ class FormMonthFieldPicker {
         selectedYear,
         selectedMonth,
       ],
-      adapter: PickerDataAdapter<int>(
+      adapter: _PickerDataAdapter<int>(
         data: [
           for (var y = startYear; y < endYear; y++) ...[
             () {
               final year = DateTime(y, 1, 1);
               final startMonth = y == startYear ? begin?.month ?? 1 : 1;
               final endMonth = y == endYear - 1 ? end?.month ?? 12 : 12;
-              return PickerItem(
+              return _PickerItem(
                 text: Text(
                   "${year.format(yearFormat)}$yearSuffix",
                   style: TextStyle(
@@ -1069,7 +1069,7 @@ class FormMonthFieldPicker {
                 value: y,
                 children: [
                   for (var m = startMonth - 1; m < endMonth; m++)
-                    PickerItem(
+                    _PickerItem(
                       text: Text(
                         "${(m + 1).format("00")}$monthSuffix",
                         style: TextStyle(
@@ -1086,7 +1086,7 @@ class FormMonthFieldPicker {
       ),
       changeToFirst: true,
       hideHeader: false,
-      onConfirm: (Picker picker, List<int> value) {
+      onConfirm: (_Picker picker, List<int> value) {
         var month = value[1] + 1;
         if (value[0] == 0) {
           month = month + ((begin?.month ?? 1) - 1);

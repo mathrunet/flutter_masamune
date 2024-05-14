@@ -851,7 +851,7 @@ class FormMapFieldPicker {
     String? res;
     final keys = data.keys.toList();
     final theme = Theme.of(context);
-    await Picker(
+    await _Picker(
       height: 240,
       backgroundColor: backgroundColor ?? theme.colorScheme.surface,
       containerColor: backgroundColor ?? theme.colorScheme.surface,
@@ -862,10 +862,10 @@ class FormMapFieldPicker {
       selecteds: [
         keys.indexOf(currentKey ?? defaultKey),
       ],
-      adapter: PickerDataAdapter<String>(
+      adapter: _PickerDataAdapter<String>(
         data: [
           ...keys.map((key) {
-            return PickerItem<String>(
+            return _PickerItem<String>(
               text: Text(
                 data[key] ?? "",
                 style: TextStyle(
@@ -879,7 +879,7 @@ class FormMapFieldPicker {
       ),
       changeToFirst: true,
       hideHeader: false,
-      onConfirm: (Picker picker, List<int> value) {
+      onConfirm: (_Picker picker, List<int> value) {
         res = keys[value[0]];
       },
     ).showModal(context);

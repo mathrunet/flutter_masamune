@@ -957,7 +957,7 @@ class FormDateFieldPicker {
   ) async {
     final theme = Theme.of(context);
     DateTime? res;
-    await Picker(
+    await _Picker(
       height: 240,
       backgroundColor: backgroundColor ?? theme.colorScheme.surface,
       containerColor: backgroundColor ?? theme.colorScheme.surface,
@@ -969,11 +969,11 @@ class FormDateFieldPicker {
         (currentDateTime?.month ?? defaultDateTime?.month ?? 1) - 1,
         (currentDateTime?.day ?? defaultDateTime?.day ?? 1) - 1,
       ],
-      adapter: PickerDataAdapter<int>(
+      adapter: _PickerDataAdapter<int>(
         data: [
           ...List.generate(12, (m) {
             final month = DateTime(1970, m + 2, 0);
-            return PickerItem(
+            return _PickerItem(
               text: Text(
                 "${month.format(monthFormat)}$monthSuffix",
                 style: TextStyle(
@@ -983,7 +983,7 @@ class FormDateFieldPicker {
               value: m + 1,
               children: List.generate(
                 month.day,
-                (d) => PickerItem(
+                (d) => _PickerItem(
                   text: Text(
                     "${(d + 1).format("00")}$daySuffix",
                     style: TextStyle(
@@ -999,7 +999,7 @@ class FormDateFieldPicker {
       ),
       changeToFirst: true,
       hideHeader: false,
-      onConfirm: (Picker picker, List<int> value) {
+      onConfirm: (_Picker picker, List<int> value) {
         final now = DateTime.now();
         res = DateTime(now.year, value[0] + 1, value[1] + 1);
       },

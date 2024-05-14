@@ -230,14 +230,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
-  flutter_picker:
-    dependency: transitive
-    description:
-      name: flutter_picker
-      sha256: "2f94c6eefba8697b07e3cd008b75f06b4ba7053cb26d23ae0fcd5932b7dc75af"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.0"
   flutter_rating_bar:
     dependency: transitive
     description:
@@ -376,7 +368,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.12.14"
+    version: "2.12.15"
   leak_tracker:
     dependency: transitive
     description:
