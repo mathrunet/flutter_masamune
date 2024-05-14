@@ -182,7 +182,9 @@ class ModelTransactionDocument<T> {
   FutureOr<T?> load() async {
     final document = _document;
     final res = await _ref._load(document);
-    document._value = document.fromMap(document._filterOnLoad(res));
+    document._value = document.fromMap(
+      document.filterOnLoad(ModelFieldValue.fromMap(res)),
+    );
     return value;
   }
 

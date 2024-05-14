@@ -512,7 +512,8 @@ abstract class CollectionBase<TModel extends DocumentBase>
           }
           final value = create(update.id.trimQuery().trimString("?"));
           final val = value.value;
-          final filtered = value._filterOnLoad(update.value);
+          final filtered =
+              value.filterOnLoad(ModelFieldValue.fromMap(update.value));
           if (filtered.isEmpty) {
             value._value = null;
             // 最初にいれないと要素が無いエラーがでる場合がある
@@ -537,19 +538,24 @@ abstract class CollectionBase<TModel extends DocumentBase>
               _value.length < update.newIndex!) {
             return;
           }
-          final found = _value.removeAt(update.oldIndex!);
-          // 位置が変わっているのにデータが来た場合は無視
+          // 指定位置に違うデータが来た場合は無視
+          final found = _value[update.oldIndex!];
           if (found.uid != update.id) {
             return;
           }
           final val = found.value;
-          final filtered = found._filterOnLoad(update.value);
+          final filtered =
+              found.filterOnLoad(ModelFieldValue.fromMap(update.value));
           if (filtered.isEmpty) {
             found._value = null;
+            // 削除と挿入は同時に行わないと不具合が発生する
+            _value.removeAt(update.oldIndex!);
             // 最初にいれないと要素が無いエラーがでる場合がある
             _value.insert(update.newIndex!, found);
           } else {
             final fromMap = found._value = found.fromMap(filtered);
+            // 削除と挿入は同時に行わないと不具合が発生する
+            _value.removeAt(update.oldIndex!);
             // 最初にいれないと要素が無いエラーがでる場合がある
             _value.insert(update.newIndex!, found);
             found._value = await found.filterOnDidLoad(fromMap);
@@ -608,8 +614,8 @@ abstract class CollectionBase<TModel extends DocumentBase>
         continue;
       }
       final value = create(key);
-      final filtered = value._filterOnLoad(
-        Map<String, dynamic>.unmodifiable(tmp.value),
+      final filtered = value.filterOnLoad(
+        ModelFieldValue.fromMap(Map<String, dynamic>.unmodifiable(tmp.value)),
       );
       if (filtered.isEmpty) {
         value._value = null;

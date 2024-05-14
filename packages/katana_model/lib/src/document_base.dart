@@ -244,7 +244,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
       if (!loaded) {
         final res = await loadRequest();
         if (res != null) {
-          final filtered = _filterOnLoad(res);
+          final filtered = filterOnLoad(ModelFieldValue.fromMap(res));
           if (filtered.isEmpty) {
             _value = null;
           } else {
@@ -481,11 +481,6 @@ abstract class DocumentBase<T> extends ChangeNotifier
   @mustCallSuper
   DynamicMap filterOnLoad(DynamicMap rawData) => rawData;
 
-  // 内部処理を加えるために内部ではこちらを使用。
-  DynamicMap _filterOnLoad(DynamicMap rawData) {
-    return filterOnLoad(ModelFieldValue.fromMap(rawData));
-  }
-
   /// Callback called after loading.
   ///
   /// If [loaded] is `true`, it will not be executed.
@@ -544,7 +539,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
       return;
     }
     final val = value;
-    final filtered = _filterOnLoad(update.value);
+    final filtered = filterOnLoad(ModelFieldValue.fromMap(update.value));
     if (filtered.isEmpty) {
       _value = null;
     } else {
