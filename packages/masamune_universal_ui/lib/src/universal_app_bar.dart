@@ -1866,17 +1866,17 @@ class UniversalExtentAppBar extends StatelessWidget
                       const TextStyle())
                   .copyWith(
                 color: foregroundColor ??
-                    Theme.of(context).colorScheme.onBackground,
+                    Theme.of(context).appBarTheme.foregroundColor,
               ),
               child: IconTheme(
                 data: IconThemeData(
                     color: foregroundColor ??
-                        Theme.of(context).colorScheme.onBackground),
+                        Theme.of(context).appBarTheme.foregroundColor),
                 child: Container(
                   alignment: Alignment.topCenter,
                   height: height,
                   color: backgroundColor ??
-                      Theme.of(context).colorScheme.background,
+                      Theme.of(context).appBarTheme.backgroundColor,
                   child: Stack(
                     fit: StackFit.expand,
                     children: [

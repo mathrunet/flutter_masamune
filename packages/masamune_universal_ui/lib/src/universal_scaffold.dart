@@ -614,7 +614,7 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     return AutoDrawerSettings(
       child: Drawer(
         width: widget.sideBar!.preferredSize.width,
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         surfaceTintColor: Theme.of(context).colorScheme.surface,
         child: widget.sideBar,
       ),

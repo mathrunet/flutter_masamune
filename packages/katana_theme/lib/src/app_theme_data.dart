@@ -1286,7 +1286,6 @@ class AppThemeData {
           tertiary: color.tertiary,
           tertiaryContainer: color.tertiaryContainer,
           surface: color.surface,
-          background: color.background,
           error: color.error,
           errorContainer: color.warning,
           onPrimary: color.onPrimary,
@@ -1295,7 +1294,6 @@ class AppThemeData {
           onSecondaryContainer: color.onSecondaryContainer,
           onTertiary: color.onTertiary,
           onTertiaryContainer: color.onTertiaryContainer,
-          onBackground: color.onBackground,
           onSurface: color.onSurface,
           onError: color.onError,
           onErrorContainer: color.onWarning,
@@ -1345,6 +1343,7 @@ class AppThemeData {
           splashColor: color.splashColor,
           canvasColor: color.canvas,
           scaffoldBackgroundColor: color.scaffoldBackgroundColor,
+          dialogBackgroundColor: color.dialogColor ?? color.surface,
           textTheme: textTheme.apply(
             fontFamily: text.defaultFontFamily,
             bodyColor: color.onBackground,
@@ -1353,6 +1352,7 @@ class AppThemeData {
             fontSizeDelta: text.fontSizeDelta,
             decorationColor: color.onBackground,
           ),
+          iconTheme: theme.iconTheme.copyWith(color: color.onBackground),
           appBarTheme: theme.appBarTheme.copyWith(
             centerTitle: centerTitleOnAppBar,
             backgroundColor: color.appBarColor ?? color.background,
@@ -1392,7 +1392,6 @@ class AppThemeData {
                   statusBarBrightnessOnAndroid ?? Brightness.light,
             ),
           ),
-          dialogBackgroundColor: color.dialogColor ?? color.surface,
           dialogTheme: theme.dialogTheme.copyWith(
             iconColor: color.onDialogColor ?? color.onSurface,
             titleTextStyle: theme.dialogTheme.titleTextStyle
@@ -1494,10 +1493,12 @@ class AppThemeData {
           dividerTheme: DividerThemeData(
             color: color.outline,
           ),
-          colorScheme: colorScheme
-              .copyWith(background: color.background)
-              .copyWith(error: color.error),
+          colorScheme: colorScheme.copyWith(error: color.error),
           extensions: [
+            ScaffoldThemeExtension(
+              backgroundColor: color.background,
+              foregourendColor: color.onBackground,
+            ),
             AppBarThemeExtension(
               collapsedForegroundColor:
                   color.onAppBarColor ?? color.onBackground,
@@ -1519,7 +1520,6 @@ class AppThemeData {
           tertiary: color.tertiary,
           tertiaryContainer: color.tertiaryContainer,
           surface: color.surface,
-          background: color.background,
           error: color.error,
           onPrimary: color.onPrimary,
           onPrimaryContainer: color.onPrimaryContainer,
@@ -1527,7 +1527,6 @@ class AppThemeData {
           onSecondaryContainer: color.onSecondaryContainer,
           onTertiary: color.onTertiary,
           onTertiaryContainer: color.onTertiaryContainer,
-          onBackground: color.onBackground,
           onSurface: color.onSurface,
           onError: color.onError,
           brightness: color.brightness,
@@ -1576,6 +1575,7 @@ class AppThemeData {
           splashColor: color.splashColor,
           canvasColor: color.canvas,
           scaffoldBackgroundColor: color.scaffoldBackgroundColor,
+          dialogBackgroundColor: color.dialogColor ?? color.surface,
           appBarTheme: theme.appBarTheme.copyWith(
             centerTitle: centerTitleOnAppBar,
             backgroundColor: color.appBarColor ?? color.background,
@@ -1618,7 +1618,7 @@ class AppThemeData {
                   statusBarBrightnessOnAndroid ?? Brightness.dark,
             ),
           ),
-          dialogBackgroundColor: color.dialogColor ?? color.surface,
+          iconTheme: theme.iconTheme.copyWith(color: color.onBackground),
           dialogTheme: theme.dialogTheme.copyWith(
             iconColor: color.onDialogColor ?? color.onSurface,
             titleTextStyle: theme.dialogTheme.titleTextStyle
@@ -1719,10 +1719,12 @@ class AppThemeData {
           dividerTheme: DividerThemeData(
             color: color.outline,
           ),
-          colorScheme: colorScheme
-              .copyWith(background: color.background)
-              .copyWith(error: color.error),
+          colorScheme: colorScheme.copyWith(error: color.error),
           extensions: [
+            ScaffoldThemeExtension(
+              backgroundColor: color.background,
+              foregourendColor: color.onBackground,
+            ),
             AppBarThemeExtension(
               collapsedForegroundColor:
                   color.onAppBarColor ?? color.onBackground,
@@ -2615,6 +2617,59 @@ class AppBarThemeExtension extends ThemeExtension<AppBarThemeExtension> {
       collapsedForegroundColor: Color.lerp(
         collapsedForegroundColor,
         other.collapsedForegroundColor,
+        t,
+      ),
+    );
+  }
+}
+
+/// Extended theme to extend the Scaffold theme.
+///
+/// Scaffoldのテーマを拡張するための拡張テーマ。
+class ScaffoldThemeExtension extends ThemeExtension<ScaffoldThemeExtension> {
+  ScaffoldThemeExtension({
+    this.backgroundColor,
+    this.foregourendColor,
+  });
+
+  /// Background color.
+  ///
+  /// 背景色。
+  final Color? backgroundColor;
+
+  /// Text color.
+  ///
+  /// 文字色。
+  final Color? foregourendColor;
+
+  @override
+  ThemeExtension<ScaffoldThemeExtension> copyWith({
+    Color? backgroundColor,
+    Color? foregourendColor,
+  }) {
+    return ScaffoldThemeExtension(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      foregourendColor: foregourendColor ?? this.foregourendColor,
+    );
+  }
+
+  @override
+  ThemeExtension<ScaffoldThemeExtension> lerp(
+    ScaffoldThemeExtension? other,
+    double t,
+  ) {
+    if (other == null) {
+      return this;
+    }
+    return ScaffoldThemeExtension(
+      backgroundColor: Color.lerp(
+        backgroundColor,
+        other.backgroundColor,
+        t,
+      ),
+      foregourendColor: Color.lerp(
+        foregourendColor,
+        other.foregourendColor,
         t,
       ),
     );

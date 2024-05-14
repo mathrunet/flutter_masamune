@@ -199,7 +199,7 @@ class _GoogleNatvieAdState extends State<GoogleNativeAd> {
       nativeTemplateStyle: NativeTemplateStyle(
         templateType: widget.templateType._toTemplateType(),
         mainBackgroundColor:
-            widget.backgroundColor ?? Theme.of(context).colorScheme.background,
+            widget.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
         cornerRadius: widget.cornerRadius ?? 0.0,
         callToActionTextStyle: NativeTemplateTextStyle(
           textColor: widget.callToActionTextStyle?.color ??
@@ -211,25 +211,25 @@ class _GoogleNatvieAdState extends State<GoogleNativeAd> {
         ),
         primaryTextStyle: NativeTemplateTextStyle(
           textColor: widget.primaryTextStyle?.color ??
-              Theme.of(context).colorScheme.onBackground,
+              Theme.of(context).textTheme.bodyMedium?.color,
           backgroundColor: widget.primaryBackgroundColor ??
-              Theme.of(context).colorScheme.background,
+              Theme.of(context).scaffoldBackgroundColor,
           size: widget.primaryTextStyle?.fontSize,
           style: _getStyle(widget.primaryTextStyle),
         ),
         secondaryTextStyle: NativeTemplateTextStyle(
           textColor: widget.secondaryTextStyle?.color ??
-              Theme.of(context).colorScheme.onBackground,
+              Theme.of(context).textTheme.bodyMedium?.color,
           backgroundColor: widget.secondaryBackgroundColor ??
-              Theme.of(context).colorScheme.background,
+              Theme.of(context).scaffoldBackgroundColor,
           size: widget.secondaryTextStyle?.fontSize,
           style: _getStyle(widget.secondaryTextStyle),
         ),
         tertiaryTextStyle: NativeTemplateTextStyle(
           textColor: widget.tertiaryTextStyle?.color ??
-              Theme.of(context).colorScheme.onBackground,
+              Theme.of(context).textTheme.bodyMedium?.color,
           backgroundColor: widget.tertiaryBackgroundColor ??
-              Theme.of(context).colorScheme.background,
+              Theme.of(context).scaffoldBackgroundColor,
           size: widget.tertiaryTextStyle?.fontSize,
           style: _getStyle(widget.tertiaryTextStyle),
         ),

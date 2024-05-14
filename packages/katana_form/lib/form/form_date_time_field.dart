@@ -351,9 +351,7 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
           color: widget.style?.color,
         ) ??
         TextStyle(
-          color: widget.style?.color ??
-              theme.textTheme.titleMedium?.color ??
-              theme.colorScheme.onBackground,
+          color: widget.style?.color ?? theme.textTheme.titleMedium?.color,
         );
     final subTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.subColor,
@@ -361,8 +359,7 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
         TextStyle(
           color: widget.style?.subColor ??
               widget.style?.color?.withOpacity(0.5) ??
-              theme.textTheme.titleMedium?.color?.withOpacity(0.5) ??
-              theme.colorScheme.onBackground.withOpacity(0.5),
+              theme.textTheme.titleMedium?.color?.withOpacity(0.5),
         );
     final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
           color: widget.style?.errorColor,
@@ -924,13 +921,13 @@ class FormDateTimeFieldDateTimeDelegate extends FormDateTimeFieldDelegate {
             textButtonTheme: TextButtonThemeData(
               style: textButtonTheme.style?.copyWith(
                     foregroundColor: textButtonTheme.style?.foregroundColor ??
-                        MaterialStateProperty.all(
+                        WidgetStateProperty.all(
                           primaryColor ?? colorScheme.primary,
                         ),
                   ) ??
                   ButtonStyle(
                     foregroundColor: textButtonTheme.style?.foregroundColor ??
-                        MaterialStateProperty.all(
+                        WidgetStateProperty.all(
                           primaryColor ?? colorScheme.primary,
                         ),
                   ),
@@ -1058,13 +1055,13 @@ class FormDateTimeFieldDateDelegate extends FormDateTimeFieldDelegate {
             textButtonTheme: TextButtonThemeData(
               style: textButtonTheme.style?.copyWith(
                     foregroundColor: textButtonTheme.style?.foregroundColor ??
-                        MaterialStateProperty.all(
+                        WidgetStateProperty.all(
                           primaryColor ?? colorScheme.primary,
                         ),
                   ) ??
                   ButtonStyle(
                     foregroundColor: textButtonTheme.style?.foregroundColor ??
-                        MaterialStateProperty.all(
+                        WidgetStateProperty.all(
                           primaryColor ?? colorScheme.primary,
                         ),
                   ),

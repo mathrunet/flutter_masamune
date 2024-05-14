@@ -189,12 +189,12 @@ class FormPinField<TValue> extends FormField<String> {
                 ) ??
                 Theme.of(context).textTheme.displaySmall?.copyWith(
                       color: style?.color ??
-                          Theme.of(context).colorScheme.onBackground,
+                          Theme.of(context).textTheme.displaySmall?.color,
                     ) ??
                 TextStyle(
                   color: style?.color ??
                       Theme.of(context).textTheme.displaySmall?.color ??
-                      Theme.of(context).colorScheme.onBackground,
+                      Theme.of(context).textTheme.displaySmall?.color,
                 );
             final subTextStyle = style?.textStyle?.copyWith(
                   color: style.subColor,
@@ -206,11 +206,7 @@ class FormPinField<TValue> extends FormField<String> {
                           .textTheme
                           .titleMedium
                           ?.color
-                          ?.withOpacity(0.5) ??
-                      Theme.of(context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.5),
+                          ?.withOpacity(0.5),
                 );
             final errorTextStyle = style?.errorTextStyle?.copyWith(
                   color: style.errorColor,
@@ -247,7 +243,7 @@ class FormPinField<TValue> extends FormField<String> {
                       strokeColorBuilder: FixedColorBuilder(borderColor),
                       bgColorBuilder: FixedColorBuilder(
                         style?.backgroundColor ??
-                            Theme.of(context).colorScheme.background,
+                            Theme.of(context).scaffoldBackgroundColor,
                       ),
                       textStyle: mainTextStyle,
                     ),

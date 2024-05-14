@@ -146,11 +146,11 @@ class _MasamuneIntroductionState extends State<MasamuneIntroduction> {
 
     return DefaultTextStyle(
       style: TextStyle(
-        color: Theme.of(context).colorScheme.onBackground,
+        color: Theme.of(context).textTheme.bodyMedium?.color,
       ),
       child: IconTheme(
         data: IconThemeData(
-          color: Theme.of(context).colorScheme.onBackground,
+          color: Theme.of(context).iconTheme.color,
         ),
         child: IntroductionScreen(
           key: _introKey,

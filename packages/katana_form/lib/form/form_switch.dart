@@ -116,8 +116,7 @@ class FormSwitch<TValue> extends FormField<bool> {
                 ) ??
                 TextStyle(
                   color: style?.color ??
-                      Theme.of(field.context).textTheme.titleMedium?.color ??
-                      Theme.of(field.context).colorScheme.onBackground,
+                      Theme.of(field.context).textTheme.titleMedium?.color,
                 );
             final subTextStyle = style?.textStyle?.copyWith(
                   color: style.subColor,
@@ -129,11 +128,7 @@ class FormSwitch<TValue> extends FormField<bool> {
                           .textTheme
                           .titleMedium
                           ?.color
-                          ?.withOpacity(0.5) ??
-                      Theme.of(field.context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.5),
+                          ?.withOpacity(0.5),
                 );
             final errorTextStyle = style?.errorTextStyle?.copyWith(
                   color: style.errorColor,

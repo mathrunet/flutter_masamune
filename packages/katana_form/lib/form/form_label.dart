@@ -88,8 +88,7 @@ class FormLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dividerColor = color ??
-        Theme.of(context).textTheme.titleMedium?.color?.withOpacity(0.5) ??
-        Theme.of(context).colorScheme.onBackground.withOpacity(0.5);
+        Theme.of(context).textTheme.titleMedium?.color?.withOpacity(0.5);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,

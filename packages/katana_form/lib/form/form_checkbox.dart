@@ -122,9 +122,7 @@ class FormCheckbox<TValue> extends FormField<bool> {
                   color: style.color,
                 ) ??
                 TextStyle(
-                  color: style?.color ??
-                      theme.textTheme.titleMedium?.color ??
-                      theme.colorScheme.onBackground,
+                  color: style?.color ?? theme.textTheme.titleMedium?.color,
                 );
             final subTextStyle = style?.textStyle?.copyWith(
                   color: style.subColor,
@@ -132,8 +130,7 @@ class FormCheckbox<TValue> extends FormField<bool> {
                 TextStyle(
                   color: style?.subColor ??
                       style?.color?.withOpacity(0.5) ??
-                      theme.textTheme.titleMedium?.color?.withOpacity(0.5) ??
-                      theme.colorScheme.onBackground.withOpacity(0.5),
+                      theme.textTheme.titleMedium?.color?.withOpacity(0.5),
                 );
             final errorTextStyle = style?.errorTextStyle?.copyWith(
                   color: style.errorColor,
@@ -199,19 +196,20 @@ class FormCheckbox<TValue> extends FormField<bool> {
               tristate: false,
               onChanged:
                   enabled && !readOnly ? (val) => field.didChange(val) : null,
-              fillColor: MaterialStateProperty.resolveWith((states) {
-                if (!readOnly && states.contains(MaterialState.disabled)) {
+              fillColor: WidgetStateProperty.resolveWith((states) {
+                if (!readOnly && states.contains(WidgetState.disabled)) {
                   return style?.disabledBackgroundColor ?? theme.disabledColor;
                 }
-                if (states.contains(MaterialState.selected)) {
+                if (states.contains(WidgetState.selected)) {
                   return style?.activeBackgroundColor ??
                       theme.colorScheme.primary;
                 }
-                return style?.backgroundColor ?? theme.colorScheme.background;
+                return style?.backgroundColor ??
+                    theme.checkboxTheme.fillColor?.resolve(states);
               }),
               checkColor: enabled
                   ? (style?.activeColor ?? theme.colorScheme.onPrimary)
-                  : (style?.disabledColor ?? theme.colorScheme.onBackground),
+                  : style?.disabledColor,
               side: enabled
                   ? style?.border?.borderSide ?? border
                   : style?.disabledBorder?.borderSide ?? border,

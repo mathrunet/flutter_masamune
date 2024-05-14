@@ -462,8 +462,7 @@ class _FormRatingBarState<TValue> extends FormFieldState<double>
         ) ??
         TextStyle(
           color: widget.style?.color ??
-              Theme.of(context).textTheme.titleMedium?.color ??
-              Theme.of(context).colorScheme.onBackground,
+              Theme.of(context).textTheme.titleMedium?.color,
         );
     final disabledTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.disabledColor,

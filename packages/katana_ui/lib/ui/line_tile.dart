@@ -114,7 +114,7 @@ class LineTile extends ListTile {
       return sm.Shimmer.fromColors(
         baseColor: shimmerBaseColor ?? Theme.of(context).colorScheme.surface,
         highlightColor:
-            shimmerHighlightColor ?? Theme.of(context).colorScheme.background,
+            shimmerHighlightColor ?? Theme.of(context).scaffoldBackgroundColor,
         child: ListTile(
           leading: leading,
           title: _buildTitle(context),

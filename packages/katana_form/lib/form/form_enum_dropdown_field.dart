@@ -271,9 +271,7 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
           color: widget.style?.color,
         ) ??
         TextStyle(
-          color: widget.style?.color ??
-              theme.textTheme.titleMedium?.color ??
-              theme.colorScheme.onBackground,
+          color: widget.style?.color ?? theme.textTheme.titleMedium?.color,
         );
     final subTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.subColor,
@@ -281,8 +279,7 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
         TextStyle(
           color: widget.style?.subColor ??
               widget.style?.color?.withOpacity(0.5) ??
-              theme.textTheme.titleMedium?.color?.withOpacity(0.5) ??
-              theme.colorScheme.onBackground.withOpacity(0.5),
+              theme.textTheme.titleMedium?.color?.withOpacity(0.5),
         );
     final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
           color: widget.style?.errorColor,

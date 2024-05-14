@@ -153,7 +153,7 @@ class _ChatSystemBottomBarState extends State<ChatSystemBottomBar> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.background,
+                        color: theme.scaffoldBackgroundColor,
                         borderRadius: 24.r,
                         shape: BoxShape.rectangle,
                       ),

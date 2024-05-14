@@ -73,7 +73,7 @@ class ShimmerBox extends StatelessWidget {
     return sm.Shimmer.fromColors(
       baseColor: baseColor ?? Theme.of(context).colorScheme.surface,
       highlightColor:
-          highlightColor ?? Theme.of(context).colorScheme.background,
+          highlightColor ?? Theme.of(context).scaffoldBackgroundColor,
       child: child ??
           Container(
             decoration: BoxDecoration(

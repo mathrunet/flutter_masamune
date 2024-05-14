@@ -103,7 +103,7 @@ class _StripeWebviewState extends State<StripeWebview> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        ColoredBox(color: Theme.of(context).colorScheme.background),
+        ColoredBox(color: Theme.of(context).scaffoldBackgroundColor),
         InAppWebView(
           initialUrlRequest: URLRequest(url: WebUri.uri(widget.endpoint)),
           initialSettings: InAppWebViewSettings(
