@@ -35,6 +35,8 @@ class AgoraCliAction extends CliCommand with CliActionMixin {
     final appId = agora.get("app_id", "");
     final appCertificate = agora.get("app_certificate", "");
     final enableCloudRecording = agora.get("enable_cloud_recording", false);
+    final enableFullscreenSharing =
+        agora.get("enable_fullscreen_sharing", false);
     final permission = agora.getAsMap("permission");
     final permissionCamera = permission.getAsMap("camera");
     final permissionMicrophone = permission.getAsMap("microphone");
@@ -108,6 +110,28 @@ class AgoraCliAction extends CliCommand with CliActionMixin {
     );
     await PodfilePermissionType.cameraUsage.enablePermissionToPodfile();
     await PodfilePermissionType.microphoneUsage.enablePermissionToPodfile();
+    label("Edit build.gradle.");
+    final gradle = BuildGradle();
+    await gradle.load();
+    if (enableFullscreenSharing) {
+      gradle.allProjects.configurations.removeWhere(
+        (element) =>
+            element.command ==
+            "exclude group:\"io.agora.rtc\", module:\"full-screen-sharing\"",
+      );
+    } else {
+      if (!gradle.allProjects.configurations.any((element) =>
+          element.command ==
+          "exclude group:\"io.agora.rtc\", module:\"full-screen-sharing\"")) {
+        gradle.allProjects.configurations.add(
+          GradleAllprojectsConfigurations(
+            command:
+                "exclude group:\"io.agora.rtc\", module:\"full-screen-sharing\"",
+          ),
+        );
+      }
+    }
+    await gradle.save();
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();

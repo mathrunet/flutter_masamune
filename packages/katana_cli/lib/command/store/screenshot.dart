@@ -22,6 +22,7 @@ const _resolution = <String, Map<String, _Size>>{
 const _offset = <int, _Offset>{
   2732: _Offset(38, 32),
   2556: _Offset(144, 48),
+  2340: _Offset(80, 132),
 };
 const _defaultOffset = _Offset(76, 48);
 
@@ -85,6 +86,7 @@ class StoreScreenshotCliCommand extends CliCommand {
     final orientation = screenshot.get("orientation", "");
     final sourceDir = screenshot.get("source_dir", "");
     final featureImageSourcePath = screenshot.get("feature_image", "");
+    final position = screenshot.get("position", "center");
     if (exportDir.isEmpty) {
       error(
         "[store]->[screenshot]->[export_dir] is not found. Fill in the destination folder here.",
@@ -204,11 +206,17 @@ class StoreScreenshotCliCommand extends CliCommand {
               final file = File(sources[i].path);
               final image = decodeImage(file.readAsBytesSync())!;
               if (orientation == "portrait") {
+                final offset = _getOffset(size.height);
                 final resized = copyResize(image, width: size.width);
                 final cropped = copyCrop(
                   resized,
                   x: 0,
-                  y: ((resized.height - size.height) / 2.0).floor(),
+                  y: _purchaseVerticalPosition(
+                    sourceHeight: resized.height,
+                    targetHeight: size.height,
+                    position: position,
+                    offset: offset,
+                  ).floor(),
                   width: resized.width,
                   height: size.height,
                 );
@@ -269,6 +277,22 @@ class StoreScreenshotCliCommand extends CliCommand {
           }
         }
       }
+    }
+  }
+
+  double _purchaseVerticalPosition({
+    required int sourceHeight,
+    required int targetHeight,
+    required String position,
+    required _Offset offset,
+  }) {
+    switch (position) {
+      case "top":
+        return offset.top;
+      case "bottom":
+        return (sourceHeight - targetHeight).toDouble() - offset.bottom;
+      default:
+        return (sourceHeight - targetHeight) / 2.0;
     }
   }
 

@@ -819,6 +819,12 @@ class BuildGradle {
   GradleBuildScript get buildScript => _buildScript;
   late GradleBuildScript _buildScript;
 
+  /// Data in the `allprojects` section.
+  ///
+  /// `allprojects`セクションのデータ。
+  GradleAllprojects get allProjects => _allProjects;
+  late GradleAllprojects _allProjects;
+
   /// Data loading.
   ///
   /// データの読み込み。
@@ -826,6 +832,7 @@ class BuildGradle {
     final gradle = File("android/build.gradle");
     _rawData = await gradle.readAsString();
     _buildScript = GradleBuildScript._load(_rawData);
+    _allProjects = GradleAllprojects._load(_rawData);
   }
 
   /// Data storage.
@@ -836,6 +843,7 @@ class BuildGradle {
       throw Exception("No value. Please load data with [load].");
     }
     _rawData = GradleBuildScript._save(_rawData, _buildScript);
+    _rawData = GradleAllprojects._save(_rawData, _allProjects);
     final gradle = File("android/build.gradle");
     await gradle.writeAsString(_rawData);
   }
@@ -943,5 +951,91 @@ class GradleBuildscriptDependencies {
   @override
   String toString() {
     return "        classpath \"$classpath\"";
+  }
+}
+
+/// Data in the `allprojects` section.
+///
+/// `allprojects`セクションのデータ。
+class GradleAllprojects {
+  /// Data in the `allprojects` section.
+  ///
+  /// `allprojects`セクションのデータ。
+  GradleAllprojects({
+    required List<GradleAllprojectsConfigurations> configurations,
+  }) : _configurations = configurations;
+
+  static final _regExp = RegExp(r"allprojects {([\s\S]+?)\n}");
+
+  static GradleAllprojects _load(String content) {
+    final configurations = GradleAllprojectsConfigurations._load(content);
+    return GradleAllprojects(
+      configurations: configurations,
+    );
+  }
+
+  static String _save(String content, GradleAllprojects data) {
+    var region = _regExp.firstMatch(content)?.group(1) ?? "";
+    region = GradleAllprojectsConfigurations._save(region, data.configurations);
+    return content.replaceAll(
+        _regExp, "allprojects {\n${region.trimString("\n")}\n}");
+  }
+
+  /// Data in the `configurations.all` section.
+  ///
+  /// `configurations.all`セクションのデータ。
+  List<GradleAllprojectsConfigurations> get configurations => _configurations;
+  final List<GradleAllprojectsConfigurations> _configurations;
+
+  @override
+  String toString() {
+    return "";
+  }
+}
+
+/// Configuration class for the contents of [GradleAllprojectsConfigurations].
+///
+/// [GradleAllprojectsConfigurations]の中身の設定クラス。
+class GradleAllprojectsConfigurations {
+  /// Configuration class for the contents of [GradleAllprojectsConfigurations].
+  ///
+  /// [GradleAllprojectsConfigurations]の中身の設定クラス。
+  GradleAllprojectsConfigurations({
+    required this.command,
+  });
+
+  static final _regExp = RegExp(r"configurations\.all {([\s\S]+?)}");
+
+  /// Command.
+  ///
+  /// コマンド。
+  final String command;
+
+  static List<GradleAllprojectsConfigurations> _load(String content) {
+    final region = _regExp.firstMatch(content)?.group(1) ?? "";
+    final commands = region
+        .replaceAll("\r\n", "\n")
+        .replaceAll("\r", "\n")
+        .split("\n")
+        .map((e) => e.trim())
+        .toList();
+    return commands
+        .map(
+          (e) => GradleAllprojectsConfigurations(
+            command: e,
+          ),
+        )
+        .toList();
+  }
+
+  static String _save(
+      String content, List<GradleAllprojectsConfigurations> data) {
+    return content.replaceAll(
+        _regExp, "configurations.all {\n${data.join("\n")}\n    }");
+  }
+
+  @override
+  String toString() {
+    return "        $command";
   }
 }
