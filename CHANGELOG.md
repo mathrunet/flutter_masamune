@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.19.7`](#katana_cli---v2197)
+
+---
+
+#### `katana_cli` - `v2.19.7`
+
+ - **FIX**: Agora's authorization measures. ([1907a431](https://github.com/mathrunet/flutter_masamune/commit/1907a431558448cea891bc2dcc070e2538f3f680))
+
+
+## 2024-05-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_location` - `v2.4.0`](#masamune_location---v240)
  - [`masamune_location_google` - `v2.5.0`](#masamune_location_google---v250)
  - [`masamune_location_platform_interface` - `v2.4.0`](#masamune_location_platform_interface---v240)

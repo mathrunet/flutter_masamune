@@ -1,3 +1,7 @@
+## 2.19.7
+
+ - **FIX**: Agora's authorization measures. ([1907a431](https://github.com/mathrunet/flutter_masamune/commit/1907a431558448cea891bc2dcc070e2538f3f680))
+
 ## 2.19.6
 
  - Update a dependency to the latest release.
