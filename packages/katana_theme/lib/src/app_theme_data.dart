@@ -2522,6 +2522,87 @@ class TextThemeData {
   ///
   /// これが指定されている場合、何も指定されないときのフォントファミリーはこれになります。
   final String? defaultFontFamily;
+
+  /// Returns a specific text style. Further customization is possible by using [copyWith], etc.
+  ///
+  /// 特定のテキストスタイルを返します。[copyWith]などを用いることでさらなるカスタマイズが可能なります。
+  TextStyleThemeData get styles => const TextStyleThemeData._();
+}
+
+/// Class for retrieving text styles.
+///
+/// テキストスタイルを取得するためのクラス。
+class TextStyleThemeData {
+  const TextStyleThemeData._();
+
+  /// Returns the text style to be bolded.
+  ///
+  /// 太字にするためのテキストスタイルを返します。
+  TextStyle get bold => const TextStyle(fontWeight: FontWeight.bold);
+
+  /// Returns the text style to be italicized.
+  ///
+  /// 斜体にするためのテキストスタイルを返します。
+  TextStyle get italic => const TextStyle(fontStyle: FontStyle.italic);
+
+  /// Returns the text style to be underlined.
+  ///
+  /// [color] is the color of the underline.
+  ///
+  /// [style] is the style of the underline.
+  ///
+  /// [thickness] is the thickness of the underline.
+  ///
+  /// 下線を引くためのテキストスタイルを返します。
+  ///
+  /// [color]は下線の色です。
+  ///
+  /// [style]は下線のスタイルです。
+  ///
+  /// [thickness]は下線の太さです。
+  TextStyle underline({
+    Color? color,
+    TextDecorationStyle? style,
+    double? thickness,
+  }) =>
+      TextStyle(
+        decoration: TextDecoration.underline,
+        decorationColor: color,
+        decorationStyle: style,
+        decorationThickness: thickness,
+      );
+
+  /// Returns a text style that specifies the text color.
+  ///
+  /// テキストの色を指定するテキストスタイルを返します。
+  TextStyle color(Color color) => TextStyle(color: color);
+
+  /// Returns a text style that specifies a font style.
+  ///
+  /// フォントスタイルを指定するテキストスタイルを返します。
+  TextStyle fontFamily(String fontFamily) => TextStyle(fontFamily: fontFamily);
+
+  /// Returns a text style that specifies the font size.
+  ///
+  /// フォントサイズを指定するテキストスタイルを返します。
+  TextStyle fontSize(double fontSize) => TextStyle(fontSize: fontSize);
+
+  /// Returns a text style that specifies character spacing.
+  ///
+  /// 文字の間隔を指定するテキストスタイルを返します。
+  TextStyle letterSpacing(double letterSpacing) =>
+      TextStyle(letterSpacing: letterSpacing);
+
+  /// Returns a text style that specifies word spacing.
+  ///
+  /// 単語の間隔を指定するテキストスタイルを返します。
+  TextStyle wordSpacing(double wordSpacing) =>
+      TextStyle(wordSpacing: wordSpacing);
+
+  /// Returns a text style that specifies text overflow.
+  ///
+  /// テキストオーバーフローを指定するテキストスタイルを返します。
+  TextStyle overflow(TextOverflow overflow) => TextStyle(overflow: overflow);
 }
 
 /// Defines the theme of the widget.
