@@ -1,3 +1,7 @@
+## 2.12.17
+
+ - **FIX**: Change the Divider color. ([4e948985](https://github.com/mathrunet/flutter_masamune/commit/4e9489852fd5930ab0ed8351c95791023a985835))
+
 ## 2.12.16
 
  - **FIX**: Support for Flutter 3.22. ([c333924c](https://github.com/mathrunet/flutter_masamune/commit/c333924c7011a7682628b7d08ff080ff4cff4985))

@@ -1,3 +1,7 @@
+## 2.9.0
+
+ - **FEAT**: Add LineTileGroup. ([d85a22ea](https://github.com/mathrunet/flutter_masamune/commit/d85a22eaa721ba3a6e504eb6fe003c696a0fb356))
+
 ## 2.8.3
 
  - **FIX**: Flutter version upgrade support. ([8d467457](https://github.com/mathrunet/flutter_masamune/commit/8d46745700d460f6536e5e71d73032b1c7639e63))
