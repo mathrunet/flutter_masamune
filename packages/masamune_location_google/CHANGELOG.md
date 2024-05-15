@@ -1,3 +1,7 @@
+## 2.5.1
+
+ - Update a dependency to the latest release.
+
 ## 2.5.0
 
  - **FEAT**: The system can be used without location permissions. ([c0eb4196](https://github.com/mathrunet/flutter_masamune/commit/c0eb4196e6d7d54103b8ded107f6677d51a7471c))
