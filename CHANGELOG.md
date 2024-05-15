@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-05-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_location` - `v2.4.0`](#masamune_location---v240)
+ - [`masamune_location_google` - `v2.5.0`](#masamune_location_google---v250)
+ - [`masamune_location_platform_interface` - `v2.4.0`](#masamune_location_platform_interface---v240)
+ - [`masamune_location_background` - `v2.4.73`](#masamune_location_background---v2473)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_background` - `v2.4.73`
+
+---
+
+#### `masamune_location` - `v2.4.0`
+
+ - **FEAT**: The system can be used without location permissions. ([c0eb4196](https://github.com/mathrunet/flutter_masamune/commit/c0eb4196e6d7d54103b8ded107f6677d51a7471c))
+
+#### `masamune_location_google` - `v2.5.0`
+
+ - **FEAT**: The system can be used without location permissions. ([c0eb4196](https://github.com/mathrunet/flutter_masamune/commit/c0eb4196e6d7d54103b8ded107f6677d51a7471c))
+
+#### `masamune_location_platform_interface` - `v2.4.0`
+
+ - **FEAT**: The system can be used without location permissions. ([c0eb4196](https://github.com/mathrunet/flutter_masamune/commit/c0eb4196e6d7d54103b8ded107f6677d51a7471c))
+
+
 ## 2024-05-14
 
 ### Changes
