@@ -101,7 +101,10 @@ class Label extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = textStyle ?? Theme.of(context).textTheme.titleLarge;
+    final textTheme = textStyle ??
+        Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            );
 
     return Container(
       padding: padding,

@@ -110,6 +110,7 @@ class LineTile extends ListTile {
 
   @override
   Widget build(BuildContext context) {
+    final scope = _LineTileGroupScope.of(context);
     if (shimmer) {
       return sm.Shimmer.fromColors(
         baseColor: shimmerBaseColor ?? Theme.of(context).colorScheme.surface,
@@ -136,7 +137,8 @@ class LineTile extends ListTile {
           trailing: trailing,
           isThreeLine: isThreeLine,
           dense: dense,
-          visualDensity: visualDensity,
+          visualDensity:
+              visualDensity ?? (scope != null ? VisualDensity.compact : null),
           shape: shape,
           style: style,
           selectedColor: selectedColor,
@@ -154,8 +156,9 @@ class LineTile extends ListTile {
           splashColor: splashColor,
           focusNode: focusNode,
           autofocus: autofocus,
-          tileColor: tileColor,
-          selectedTileColor: selectedTileColor,
+          tileColor: scope?.tileColor != null ? Colors.transparent : tileColor,
+          selectedTileColor:
+              scope?.tileColor != null ? Colors.transparent : selectedTileColor,
           enableFeedback: enableFeedback,
           horizontalTitleGap: horizontalTitleGap,
           minVerticalPadding: minVerticalPadding,
@@ -170,7 +173,8 @@ class LineTile extends ListTile {
         trailing: trailing,
         isThreeLine: isThreeLine,
         dense: dense,
-        visualDensity: visualDensity,
+        visualDensity:
+            visualDensity ?? (scope != null ? VisualDensity.compact : null),
         shape: shape,
         style: style,
         selectedColor: selectedColor,
@@ -188,8 +192,9 @@ class LineTile extends ListTile {
         splashColor: splashColor,
         focusNode: focusNode,
         autofocus: autofocus,
-        tileColor: tileColor,
-        selectedTileColor: selectedTileColor,
+        tileColor: scope?.tileColor != null ? Colors.transparent : tileColor,
+        selectedTileColor:
+            scope?.tileColor != null ? Colors.transparent : selectedTileColor,
         enableFeedback: enableFeedback,
         horizontalTitleGap: horizontalTitleGap,
         minVerticalPadding: minVerticalPadding,
