@@ -11,6 +11,7 @@ class LocationMasamuneAdapter extends MasamuneAdapter {
     this.defaultAccuracy = LocationAccuracy.best,
     this.defaultDistanceFilterMeters = 10.0,
     this.location,
+    this.defaultLocationData,
     this.listenOnBoot = false,
     this.enableBackgroundLocation = false,
   });
@@ -24,6 +25,11 @@ class LocationMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 位置情報を更新する際の最低距離（m）。
   final double defaultDistanceFilterMeters;
+
+  /// Specifies the initial position.
+  ///
+  /// 初期位置を指定します。
+  final LocationData? defaultLocationData;
 
   /// Specify the object of [Location].
   ///

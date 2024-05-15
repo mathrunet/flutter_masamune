@@ -71,6 +71,7 @@ class Location
   bool _updated = false;
   Completer<void>? _listenCompleter;
   Completer<void>? _loadCompleter;
+  Completer<void>? _saveCompleter;
   Completer<void>? _initializeCompleter;
   // ignore: cancel_subscriptions
   StreamSubscription<location.LocationData>? _locationChangeStreamSubscription;
@@ -114,34 +115,44 @@ class Location
     if (kIsWeb) {
       return true;
     }
-    _permissionStatus =
-        await Permission.locationWhenInUse.status.timeout(timeout);
-    if (_permissionStatus != PermissionStatus.granted) {
+    try {
       _permissionStatus =
-          await Permission.locationWhenInUse.request().timeout(timeout);
-    }
-    if (_permissionStatus != PermissionStatus.granted) {
+          await Permission.locationWhenInUse.status.timeout(timeout);
+      if (_permissionStatus != PermissionStatus.granted) {
+        _permissionStatus =
+            await Permission.locationWhenInUse.request().timeout(timeout);
+      }
+      if (_permissionStatus != PermissionStatus.granted) {
+        return false;
+      }
+      if (adapter.enableBackgroundLocation) {
+        _backgroundPermissionStatus =
+            await Permission.locationAlways.status.timeout(timeout);
+        if (_backgroundPermissionStatus != PermissionStatus.granted) {
+          _backgroundPermissionStatus =
+              await Permission.locationAlways.request().timeout(timeout);
+        }
+      }
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
       return false;
     }
-    if (adapter.enableBackgroundLocation) {
-      _backgroundPermissionStatus =
-          await Permission.locationAlways.status.timeout(timeout);
-      if (_backgroundPermissionStatus != PermissionStatus.granted) {
-        _backgroundPermissionStatus =
-            await Permission.locationAlways.request().timeout(timeout);
-      }
-    }
-    return true;
   }
 
   /// Initialization.
   ///
   /// Location information is available or not and permissions are granted.
   ///
+  /// If [checkPermission] is `true`, permission check is performed.
+  ///
   /// 初期化を行います。
   ///
   /// 位置情報が利用可能かどうかとパーミッションの許可を行います。
+  ///
+  /// [checkPermission]が`true`の場合、パーミッションチェックを行います。
   Future<void> initialize({
+    bool checkPermission = true,
     Duration timeout = const Duration(seconds: 60),
   }) async {
     if (_initializeCompleter != null) {
@@ -157,10 +168,12 @@ class Location
           "Location service not available. The platform may not be supported or it may be disabled in the settings. please confirm.",
         );
       }
-      if (!await requestPermission(timeout: timeout)) {
-        throw Exception(
-          "You are not authorized to use the location information service. Check the permission settings.",
-        );
+      if (checkPermission) {
+        if (!await requestPermission(timeout: timeout)) {
+          debugPrint(
+            "You are not authorized to use the location information service. Check the permission settings.",
+          );
+        }
       }
       _initialized = true;
       notifyListeners();
@@ -178,8 +191,18 @@ class Location
 
   /// If location information has not been acquired, location information is acquired only once.
   ///
+  /// If [checkPermission] is `true`, permission check is performed.
+  ///
+  /// When permissions are not allowed, [defaultLocationData] is used.
+  ///
   /// 位置情報が取得されていない場合１度だけ位置情報を取得します。
+  ///
+  /// [checkPermission]が`true`の場合、パーミッションチェックを行います。
+  ///
+  /// パーミッションが許可されていない時は[defaultLocationData]が使用されます。
   Future<void> load({
+    bool checkPermission = true,
+    LocationData? defaultLocationData,
     Duration timeout = const Duration(seconds: 60),
   }) async {
     if (_loadCompleter != null) {
@@ -190,8 +213,15 @@ class Location
     }
     _loadCompleter = Completer<void>();
     try {
-      await initialize(timeout: timeout);
-      _value = (await _location.getLocation()).toLocationData();
+      await initialize(
+        timeout: timeout,
+        checkPermission: checkPermission,
+      );
+      if (!permitted) {
+        _value = defaultLocationData ?? adapter.defaultLocationData ?? _value;
+      } else {
+        _value = (await _location.getLocation()).toLocationData();
+      }
       notifyListeners();
       _loadCompleter?.complete();
       _loadCompleter = null;
@@ -207,12 +237,52 @@ class Location
 
   /// Update location information.
   ///
+  /// If [checkPermission] is `true`, permission check is performed.
+  ///
+  /// When permissions are not allowed, [defaultLocationData] is used.
+  ///
   /// 位置情報を更新します。
+  ///
+  /// [checkPermission]が`true`の場合、パーミッションチェックを行います。
+  ///
+  /// パーミッションが許可されていない時は[defaultLocationData]が使用されます。
   Future<void> reload({
     Duration timeout = const Duration(seconds: 60),
+    bool checkPermission = true,
+    LocationData? defaultLocationData,
   }) async {
     _value = null;
-    await load(timeout: timeout);
+    await load(
+      timeout: timeout,
+      checkPermission: checkPermission,
+      defaultLocationData: defaultLocationData,
+    );
+  }
+
+  /// Update the location manually by passing [location].
+  ///
+  /// [location]を渡すことで手動で位置情報を更新します。
+  Future<void> save({
+    required LocationData location,
+  }) async {
+    if (_saveCompleter != null) {
+      return _saveCompleter?.future;
+    }
+    _saveCompleter = Completer<void>();
+    try {
+      await initialize(checkPermission: false);
+      _value = location;
+      notifyListeners();
+      _saveCompleter?.complete();
+      _saveCompleter = null;
+    } catch (e) {
+      _saveCompleter?.completeError(e);
+      _saveCompleter = null;
+      rethrow;
+    } finally {
+      _saveCompleter?.complete();
+      _saveCompleter = null;
+    }
   }
 
   /// Starts acquiring location information.

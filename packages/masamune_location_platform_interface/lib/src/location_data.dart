@@ -8,7 +8,7 @@ class LocationData {
   const LocationData({
     required this.longitude,
     required this.latitude,
-    required this.timestamp,
+    this.timestamp,
     this.accuracy,
     this.altitude,
     this.heading,
