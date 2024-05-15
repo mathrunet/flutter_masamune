@@ -91,6 +91,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     this.toolbarOpacity = 1.0,
     this.bottomOpacity = 1.0,
     this.enableResponsivePadding = true,
+    this.bottomBorderColor,
   })  : floating = true,
         pinned = false,
         snap = false,
@@ -152,6 +153,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     this.surfaceTintColor,
     this.toolbarOpacity = 1.0,
     this.bottomOpacity = 1.0,
+    this.bottomBorderColor,
     this.enableResponsivePadding = true,
   })  : assert(
           floating || !snap,
@@ -240,6 +242,11 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
 
   /// {@macro flutter.material.appbar.surfaceTintColor}
   final Color? surfaceTintColor;
+
+  /// The color of the bottom border. If this is specified, [elevation] and [shadowColor] will be set automatically.
+  ///
+  /// 下部のボーダーの色です。これを指定する場合は[elevation]と[shadowColor]が自動で設定されます。
+  final Color? bottomBorderColor;
 
   /// {@macro flutter.material.appbar.shape}
   final ShapeBorder? shape;
@@ -488,8 +495,9 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
                 : null,
             flexibleSpace: flexibleSpace,
             bottom: bottom,
-            elevation: elevation,
-            shadowColor: shadowColor,
+            elevation: elevation ?? (bottomBorderColor != null ? 0.5 : null),
+            shadowColor: shadowColor ??
+                (bottomBorderColor != null ? bottomBorderColor : null),
             backgroundColor: backgroundColor,
             foregroundColor: foregroundColor,
             iconTheme: iconTheme,
@@ -656,8 +664,9 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
                   child: bottom!,
                 )
               : null,
-          elevation: elevation,
-          shadowColor: shadowColor,
+          elevation: elevation ?? (bottomBorderColor != null ? 0.5 : null),
+          shadowColor: shadowColor ??
+              (bottomBorderColor != null ? bottomBorderColor : null),
           backgroundColor: backgroundColor,
           foregroundColor: foregroundColor,
           iconTheme: iconTheme,
@@ -848,8 +857,9 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
                 subtitle: subtitle,
                 centerTitle: centerTitle,
               ),
-              elevation: elevation,
-              shadowColor: shadowColor,
+              elevation: elevation ?? (bottomBorderColor != null ? 0.5 : null),
+              shadowColor: shadowColor ??
+                  (bottomBorderColor != null ? bottomBorderColor : null),
               backgroundColor: backgroundColor,
               foregroundColor: foregroundColor,
               iconTheme: iconTheme,
@@ -1132,6 +1142,7 @@ class UniversalSliverAppBar extends UniversalAppBar with SliverAppBarMixin {
     super.scrollStyle = UniversalAppBarScrollStyle.pinned,
     super.breakpoint,
     super.enableResponsivePadding = true,
+    super.bottomBorderColor,
   }) : super._(sliver: true);
 }
 
@@ -1256,6 +1267,7 @@ class UniversalAvatarSliverAppBar extends UniversalSliverAppBar {
     super.scrollStyle = UniversalAppBarScrollStyle.pinned,
     super.breakpoint,
     super.enableResponsivePadding = true,
+    super.bottomBorderColor,
     this.underBottomHeight = kDefaultUnderBottomHeight,
     this.avatarIcon,
     this.avatarBorderWidth,
@@ -1588,8 +1600,12 @@ class _UniversalAvatarAppBarDelegate extends SliverPersistentHeaderDelegate {
                         child: appBar.bottom!,
                       )
                     : null,
-                elevation: appBar.elevation,
-                shadowColor: appBar.shadowColor,
+                elevation: appBar.elevation ??
+                    (appBar.bottomBorderColor != null ? 0.5 : null),
+                shadowColor: appBar.shadowColor ??
+                    (appBar.bottomBorderColor != null
+                        ? appBar.bottomBorderColor
+                        : null),
                 backgroundColor: backgroundColor,
                 foregroundColor: foregroundColor,
                 iconTheme: appBar.iconTheme,
