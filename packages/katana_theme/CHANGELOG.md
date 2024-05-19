@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: Added the ability to return TextStyle. ([6a49ae44](https://github.com/mathrunet/flutter_masamune/commit/6a49ae44104a7f19c15b922e7411882ca91f856e))
+
 ## 2.5.6
 
  - **FIX**: Flutter version upgrade support. ([8d467457](https://github.com/mathrunet/flutter_masamune/commit/8d46745700d460f6536e5e71d73032b1c7639e63))

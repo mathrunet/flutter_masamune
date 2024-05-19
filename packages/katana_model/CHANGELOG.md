@@ -1,3 +1,7 @@
+## 2.26.15
+
+ - **FIX**: Added CopyWith. ([afd1cc98](https://github.com/mathrunet/flutter_masamune/commit/afd1cc9831550b63ef08181ca5be1db1f8cffe9e))
+
 ## 2.26.14
 
  - **FIX**: Bug fixes. ([13cc2f19](https://github.com/mathrunet/flutter_masamune/commit/13cc2f1920648836e28dfb85357a1288d1d504cc))

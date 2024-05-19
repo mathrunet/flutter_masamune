@@ -9,6 +9,8 @@
 library katana_functions;
 
 // Flutter imports:
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 
 // Package imports:
@@ -21,3 +23,4 @@ part 'adapter/runtime_functions_adapter.dart';
 part 'src/functions.dart';
 part 'src/functions_adapter.dart';
 part 'src/functions_action.dart';
+part 'src/functions_stub.dart';

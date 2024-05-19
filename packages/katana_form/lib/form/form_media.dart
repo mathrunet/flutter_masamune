@@ -394,7 +394,9 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
           ),
           decoration: BoxDecoration(
             border: Border.all(
-              color: widget.style?.color ?? Theme.of(context).disabledColor,
+              color: widget.style?.borderColor ??
+                  widget.style?.color ??
+                  Theme.of(context).dividerColor,
               width: widget.style?.borderWidth ?? 0,
             ),
             borderRadius: widget.style?.borderRadius,

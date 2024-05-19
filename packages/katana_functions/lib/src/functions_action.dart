@@ -86,24 +86,3 @@ abstract class FunctionsActionResponse {
   /// 継承して使ってください。
   const FunctionsActionResponse();
 }
-
-/// [FunctionsAction] for testing.
-///
-/// テスト用の[FunctionsAction]。
-class TestFunctionsAction extends FunctionsAction<void> {
-  /// [FunctionsAction] for testing.
-  ///
-  /// テスト用の[FunctionsAction]。
-  const TestFunctionsAction();
-
-  @override
-  String get action => "test";
-
-  @override
-  DynamicMap? toMap() {
-    return null;
-  }
-
-  @override
-  void toResponse(DynamicMap map) {}
-}

@@ -1380,6 +1380,17 @@ class ModelDate extends ModelFieldValue<DateTime>
       other.value.millisecondsSinceEpoch,
     );
   }
+
+  /// Create a new [ModelDate] with the specified [year], [month], and [day].
+  ///
+  /// 指定した[year]、[month]、[day]で新しい[ModelDate]を作成します。
+  ModelDate copyWith({int? year, int? month, int? day}) {
+    return ModelDate.date(
+      year ?? value.year,
+      month ?? value.month,
+      day ?? value.day,
+    );
+  }
 }
 
 @immutable

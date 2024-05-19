@@ -1,3 +1,11 @@
+## 2.4.10
+
+ - **FIX**: Added bottomBorderColor. ([08f9840d](https://github.com/mathrunet/flutter_masamune/commit/08f9840d95340bd814a2f30da940c3c7453eac8b))
+
+## 2.4.9
+
+ - Update a dependency to the latest release.
+
 ## 2.4.8
 
  - Update a dependency to the latest release.

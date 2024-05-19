@@ -29,7 +29,7 @@
 
 Adapter plug-ins for server integration such as Cloud Functions for Firebase.
 
-It is possible to work with [@mathrunet/masamune](https://www.npmjs.com/package/@mathrunet/masamune) to secure client-side implementations.
+The interface with the API is implemented and used on the client side, allowing secure interaction with the server side.
 
 # Installation
 
@@ -77,19 +77,68 @@ class MyApp extends StatelessWidget {
 }
 ```
 
+## Create Function
+
+The following must be complied with as a prerequisite for creating a Function.
+
+- Preliminary server side has been implemented and deployed separately.
+- All input/output to/from server side is done in `JsonMap (Map<String, dynamic>)` .
+    - No problem if it can be adjusted in `FunctionsAdapter` in the end.
+- Returns `Exception` if communication is not successful.
+
+As long as the above is observed, any communication format such as CloudFunctions, RestAPI, GraphQL, gRPC, etc. can be used. (Differences can be absorbed by the `FunctionsAdapter`)
+
+Create a Function by inheriting from the abstract classes `FunctionsAction<TResponse>` and `FunctionsActionResponse`.
+
+Define the action name of the Function in the `action` of the FunctionsAction<TResponse> and define the parameters to be passed to the server side in the `toMap()`.
+
+Create a response based on the values returned from the server to `toResponse(DynamicMap map)`.
+
+```dart
+class TestFunctionsAction extends FunctionsAction<TestFunctionsActionResponse> {
+  const TestFunctionsAction({
+    required this.responseMessage,
+  });
+
+  final String responseMessage;
+
+  @override
+  String get action => "test";
+
+  @override
+  DynamicMap? toMap() {
+    return {
+      "message": responseMessage,
+    };
+  }
+
+  @override
+  TestFunctionsActionResponse toResponse(DynamicMap map) {
+    return TestFunctionsActionResponse(
+      message: map["message"] as String,
+    );
+  }
+}
+
+class TestFunctionsActionResponse extends FunctionsActionResponse {
+  const TestFunctionsActionResponse({required this.message});
+
+  final String message;
+}
+```
+
 ## Using Functions
 
-Create a Functions object as shown below and call the corresponding method.
+Create a Functions object as follows and pass the `FunctionAction` you wish to execute to the `execute` method.
 
-If the corresponding method is not implemented on the server side, an error is returned.
+If the execution is successful, the response specified in the return value of `execute` is returned.
 
 ```dart
 final functions = Functions();
-await functions.sendNotification(
-  title: "Title",
-  text: "Push Notifications",
-  target: "TopicName",
+final response = await functions.execute(
+  TestFunctionsAction(responseMessage: "Response"),
 );
+print(response?.message); // "Response"
 ```
 
 # FunctionsAdapter
@@ -97,10 +146,12 @@ await functions.sendNotification(
 The following `FunctionsAdapter` is available
 
 - `RuntimeFunctionsAdapter`：FunctionsAdapter that completes without server processing and without error. available as a stub.
-- `FirebaseFunctionsAdapter`：FunctionsAdapter for using FirebaseFunctions, available by defining a Function using [@mathrunet/mathamune](https://www.npmjs.com/package/@mathrunet/masamune).
+- `FirebaseFunctionsAdapter`: FunctionsAdapter for using FirebaseFunctions, where `action` is the name of the Function.
+
+It is also possible to link with RestAPI, GraphQL, and gRPC that you have prepared yourself by inheriting `FunctionsAdapter`.
 
 # GitHub Sponsors
 
 Sponsors are always welcome. Thank you for your support!
 
-[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)
+[Sponsor @mathrunet on GitHub Sponsors](https://github.com/sponsors/mathrunet)

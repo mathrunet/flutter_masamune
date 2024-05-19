@@ -8,6 +8,37 @@ void main() {
   runApp(const MyApp());
 }
 
+class TestFunctionsAction extends FunctionsAction<TestFunctionsActionResponse> {
+  const TestFunctionsAction({
+    required this.responseMessage,
+  });
+
+  final String responseMessage;
+
+  @override
+  String get action => "test";
+
+  @override
+  DynamicMap? toMap() {
+    return {
+      "message": responseMessage,
+    };
+  }
+
+  @override
+  TestFunctionsActionResponse toResponse(DynamicMap map) {
+    return TestFunctionsActionResponse(
+      message: map["message"] as String,
+    );
+  }
+}
+
+class TestFunctionsActionResponse extends FunctionsActionResponse {
+  const TestFunctionsActionResponse({required this.message});
+
+  final String message;
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -62,9 +93,10 @@ class FunctionsPageState extends State<FunctionsPage> {
           ListTile(
             title: const Text("Test Functions"),
             onTap: () async {
-              await functions.execute(
-                const TestFunctionsAction(),
+              final response = await functions.execute(
+                const TestFunctionsAction(responseMessage: "success"),
               );
+              debugPrint(response?.message); // "success"
             },
           )
         ],
