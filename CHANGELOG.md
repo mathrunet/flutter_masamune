@@ -11,6 +11,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_purchase_stripe` - `v3.5.72-dev.1`](#masamune_purchase_stripe---v3572-dev1)
+
+---
+
+#### `masamune_purchase_stripe` - `v3.5.72-dev.1`
+
+ - **FEAT**: Only Dart 3.5 or higher is supported. ([0fbec0bd](https://github.com/mathrunet/flutter_masamune/commit/0fbec0bd78900ba2c377a4de6b6bb473e7013ea7))
+
+
+## 2024-05-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
  - [`katana` - `v3.0.0-dev.0`](#katana---v300-dev0)
  - [`katana_auth` - `v3.0.0-dev.0`](#katana_auth---v300-dev0)
  - [`katana_auth_firebase` - `v3.0.0-dev.0`](#katana_auth_firebase---v300-dev0)

@@ -1,3 +1,7 @@
+## 3.5.72-dev.1
+
+ - **FEAT**: Only Dart 3.5 or higher is supported. ([0fbec0bd](https://github.com/mathrunet/flutter_masamune/commit/0fbec0bd78900ba2c377a4de6b6bb473e7013ea7))
+
 ## 3.5.72-dev.0
 
  - Update a dependency to the latest release.
