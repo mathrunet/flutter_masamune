@@ -1,6 +1,6 @@
 name: katana_scoped
 description: A state management package to allow for retention and management while specifying the scope of the state.
-version: 2.5.12
+version: 3.0.0-dev.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_scoped
 
@@ -12,13 +12,13 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.14.0
-  katana_logger: ^2.2.6
+  katana: ^3.0.0-dev.0
+  katana_logger: ^3.0.0-dev.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   test: ^1.24.0
-  katana_test: ^2.1.0
+  katana_test: ^3.0.0-dev.0
   flutter_lints: ^3.0.0
   import_sorter: ^4.6.0

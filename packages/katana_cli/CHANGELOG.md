@@ -1,3 +1,9 @@
+## 3.0.0-dev.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
 ## 2.19.7
 
  - **FIX**: Agora's authorization measures. ([1907a431](https://github.com/mathrunet/flutter_masamune/commit/1907a431558448cea891bc2dcc070e2538f3f680))

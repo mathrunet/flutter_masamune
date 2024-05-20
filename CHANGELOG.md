@@ -3,6 +3,405 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-05-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`katana` - `v3.0.0-dev.0`](#katana---v300-dev0)
+ - [`katana_auth` - `v3.0.0-dev.0`](#katana_auth---v300-dev0)
+ - [`katana_auth_firebase` - `v3.0.0-dev.0`](#katana_auth_firebase---v300-dev0)
+ - [`katana_builder` - `v3.0.0-dev.0`](#katana_builder---v300-dev0)
+ - [`katana_cli` - `v3.0.0-dev.0`](#katana_cli---v300-dev0)
+ - [`katana_firebase` - `v3.0.0-dev.0`](#katana_firebase---v300-dev0)
+ - [`katana_form` - `v3.0.0-dev.0`](#katana_form---v300-dev0)
+ - [`katana_functions` - `v3.0.0-dev.0`](#katana_functions---v300-dev0)
+ - [`katana_functions_firebase` - `v3.0.0-dev.0`](#katana_functions_firebase---v300-dev0)
+ - [`katana_indicator` - `v3.0.0-dev.0`](#katana_indicator---v300-dev0)
+ - [`katana_listenables` - `v3.0.0-dev.0`](#katana_listenables---v300-dev0)
+ - [`katana_listenables_annotation` - `v3.0.0-dev.0`](#katana_listenables_annotation---v300-dev0)
+ - [`katana_listenables_builder` - `v3.0.0-dev.0`](#katana_listenables_builder---v300-dev0)
+ - [`katana_localization` - `v3.0.0-dev.0`](#katana_localization---v300-dev0)
+ - [`katana_localization_annotation` - `v3.0.0-dev.0`](#katana_localization_annotation---v300-dev0)
+ - [`katana_localization_builder` - `v3.0.0-dev.0`](#katana_localization_builder---v300-dev0)
+ - [`katana_logger` - `v3.0.0-dev.0`](#katana_logger---v300-dev0)
+ - [`katana_model` - `v3.0.0-dev.0`](#katana_model---v300-dev0)
+ - [`katana_model_firestore` - `v3.0.0-dev.0`](#katana_model_firestore---v300-dev0)
+ - [`katana_model_local` - `v3.0.0-dev.0`](#katana_model_local---v300-dev0)
+ - [`katana_model_openapi` - `v3.0.0-dev.0`](#katana_model_openapi---v300-dev0)
+ - [`katana_model_openapi_builder` - `v3.0.0-dev.0`](#katana_model_openapi_builder---v300-dev0)
+ - [`katana_prefs` - `v3.0.0-dev.0`](#katana_prefs---v300-dev0)
+ - [`katana_prefs_annotation` - `v3.0.0-dev.0`](#katana_prefs_annotation---v300-dev0)
+ - [`katana_prefs_builder` - `v3.0.0-dev.0`](#katana_prefs_builder---v300-dev0)
+ - [`katana_router` - `v3.0.0-dev.0`](#katana_router---v300-dev0)
+ - [`katana_router_annotation` - `v3.0.0-dev.0`](#katana_router_annotation---v300-dev0)
+ - [`katana_router_builder` - `v3.0.0-dev.0`](#katana_router_builder---v300-dev0)
+ - [`katana_scoped` - `v3.0.0-dev.0`](#katana_scoped---v300-dev0)
+ - [`katana_shorten` - `v3.0.0-dev.0`](#katana_shorten---v300-dev0)
+ - [`katana_storage` - `v3.0.0-dev.0`](#katana_storage---v300-dev0)
+ - [`katana_storage_firebase` - `v3.0.0-dev.0`](#katana_storage_firebase---v300-dev0)
+ - [`katana_test` - `v3.0.0-dev.0`](#katana_test---v300-dev0)
+ - [`katana_theme` - `v3.0.0-dev.0`](#katana_theme---v300-dev0)
+ - [`katana_theme_annotation` - `v3.0.0-dev.0`](#katana_theme_annotation---v300-dev0)
+ - [`katana_theme_builder` - `v3.0.0-dev.0`](#katana_theme_builder---v300-dev0)
+ - [`katana_ui` - `v3.0.0-dev.0`](#katana_ui---v300-dev0)
+ - [`masamune` - `v3.0.0-dev.0`](#masamune---v300-dev0)
+ - [`masamune_ads_google` - `v3.0.0-dev.0`](#masamune_ads_google---v300-dev0)
+ - [`masamune_agora` - `v3.0.0-dev.0`](#masamune_agora---v300-dev0)
+ - [`masamune_ai_openai` - `v3.0.0-dev.0`](#masamune_ai_openai---v300-dev0)
+ - [`masamune_animate` - `v3.0.0-dev.0`](#masamune_animate---v300-dev0)
+ - [`masamune_annotation` - `v3.0.0-dev.0`](#masamune_annotation---v300-dev0)
+ - [`masamune_auth_apple` - `v3.0.0-dev.0`](#masamune_auth_apple---v300-dev0)
+ - [`masamune_auth_facebook` - `v3.0.0-dev.0`](#masamune_auth_facebook---v300-dev0)
+ - [`masamune_auth_google` - `v3.0.0-dev.0`](#masamune_auth_google---v300-dev0)
+ - [`masamune_builder` - `v3.0.0-dev.0`](#masamune_builder---v300-dev0)
+ - [`masamune_calendar` - `v3.0.0-dev.0`](#masamune_calendar---v300-dev0)
+ - [`masamune_deeplink` - `v3.0.0-dev.0`](#masamune_deeplink---v300-dev0)
+ - [`masamune_deeplink_firebase` - `v3.0.0-dev.0`](#masamune_deeplink_firebase---v300-dev0)
+ - [`masamune_force_updater` - `v3.0.0-dev.0`](#masamune_force_updater---v300-dev0)
+ - [`masamune_introduction` - `v3.0.0-dev.0`](#masamune_introduction---v300-dev0)
+ - [`masamune_lints` - `v3.0.0-dev.0`](#masamune_lints---v300-dev0)
+ - [`masamune_location` - `v3.0.0-dev.0`](#masamune_location---v300-dev0)
+ - [`masamune_location_background` - `v3.0.0-dev.0`](#masamune_location_background---v300-dev0)
+ - [`masamune_location_geocoding` - `v3.0.0-dev.0`](#masamune_location_geocoding---v300-dev0)
+ - [`masamune_location_google` - `v3.0.0-dev.0`](#masamune_location_google---v300-dev0)
+ - [`masamune_location_platform_interface` - `v3.0.0-dev.0`](#masamune_location_platform_interface---v300-dev0)
+ - [`masamune_logger_firebase` - `v3.0.0-dev.0`](#masamune_logger_firebase---v300-dev0)
+ - [`masamune_mail` - `v3.0.0-dev.0`](#masamune_mail---v300-dev0)
+ - [`masamune_model_algolia` - `v3.0.0-dev.0`](#masamune_model_algolia---v300-dev0)
+ - [`masamune_model_firestore_builder` - `v3.0.0-dev.0`](#masamune_model_firestore_builder---v300-dev0)
+ - [`masamune_module` - `v3.0.0-dev.0`](#masamune_module---v300-dev0)
+ - [`masamune_module_chat_system` - `v3.0.0-dev.0`](#masamune_module_chat_system---v300-dev0)
+ - [`masamune_module_point_ecosystem` - `v3.0.0-dev.0`](#masamune_module_point_ecosystem---v300-dev0)
+ - [`masamune_notification` - `v3.0.0-dev.0`](#masamune_notification---v300-dev0)
+ - [`masamune_notification_firebase` - `v3.0.0-dev.0`](#masamune_notification_firebase---v300-dev0)
+ - [`masamune_picker` - `v3.0.0-dev.0`](#masamune_picker---v300-dev0)
+ - [`masamune_purchase` - `v3.0.0-dev.0`](#masamune_purchase---v300-dev0)
+ - [`masamune_purchase_mobile` - `v3.0.0-dev.0`](#masamune_purchase_mobile---v300-dev0)
+ - [`masamune_scheduler` - `v3.0.0-dev.0`](#masamune_scheduler---v300-dev0)
+ - [`masamune_speech_to_text` - `v3.0.0-dev.0`](#masamune_speech_to_text---v300-dev0)
+ - [`masamune_text_to_speech` - `v3.0.0-dev.0`](#masamune_text_to_speech---v300-dev0)
+ - [`masamune_universal_ui` - `v3.0.0-dev.0`](#masamune_universal_ui---v300-dev0)
+ - [`masamune_util` - `v3.0.0-dev.0`](#masamune_util---v300-dev0)
+
+Packages with other changes:
+
+ - [`masamune_purchase_stripe` - `v3.5.72-dev.0`](#masamune_purchase_stripe---v3572-dev0)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_purchase_stripe` - `v3.5.72-dev.0`
+
+---
+
+#### `katana` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_auth` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_auth_firebase` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_builder` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_cli` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_firebase` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_form` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_functions` - `v3.0.0-dev.0`
+
+ - **FEAT**: RuntimeFunctionsAdapter made testing easier. ([37157594](https://github.com/mathrunet/flutter_masamune/commit/3715759403e18fddee634931d033f0d92eff56c1))
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_functions_firebase` - `v3.0.0-dev.0`
+
+ - **FEAT**: RuntimeFunctionsAdapter made testing easier. ([37157594](https://github.com/mathrunet/flutter_masamune/commit/3715759403e18fddee634931d033f0d92eff56c1))
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_indicator` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_listenables` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_listenables_annotation` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_listenables_builder` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_localization` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_localization_annotation` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_localization_builder` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_logger` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_model` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_model_firestore` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_model_local` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_model_openapi` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_model_openapi_builder` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_prefs` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_prefs_annotation` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_prefs_builder` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_router` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_router_annotation` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_router_builder` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_scoped` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_shorten` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_storage` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_storage_firebase` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_test` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_theme` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_theme_annotation` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_theme_builder` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `katana_ui` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_ads_google` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_agora` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_ai_openai` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_animate` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_annotation` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_auth_apple` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_auth_facebook` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_auth_google` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_builder` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_calendar` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_deeplink` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_deeplink_firebase` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_force_updater` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_introduction` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_lints` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_location` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_location_background` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_location_geocoding` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_location_google` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_location_platform_interface` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_logger_firebase` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_mail` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_model_algolia` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_model_firestore_builder` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_module` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_module_chat_system` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_module_point_ecosystem` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_notification` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_notification_firebase` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_picker` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_purchase` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_purchase_mobile` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_scheduler` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_speech_to_text` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_text_to_speech` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_universal_ui` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+#### `masamune_util` - `v3.0.0-dev.0`
+
+ - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+
+
 ## 2024-05-16
 
 ### Changes
