@@ -270,35 +270,35 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.14.0"
+    version: "3.0.0-dev.0"
   katana_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_builder"
       relative: true
     source: path
-    version: "2.1.7"
+    version: "3.0.0-dev.0"
   katana_listenables_annotation:
     dependency: "direct main"
     description:
       path: "../katana_listenables_annotation"
       relative: true
     source: path
-    version: "2.1.6"
+    version: "3.0.0-dev.0"
   katana_listenables_builder:
     dependency: "direct dev"
     description:
       path: "../katana_listenables_builder"
       relative: true
     source: path
-    version: "2.1.7"
+    version: "3.0.0-dev.0"
   katana_test:
     dependency: "direct dev"
     description:
       path: "../katana_test"
       relative: true
     source: path
-    version: "2.1.0"
+    version: "3.0.0-dev.0"
   leak_tracker:
     dependency: transitive
     description:

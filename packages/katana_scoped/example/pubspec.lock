@@ -371,21 +371,21 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.14.0"
+    version: "3.0.0-dev.0"
   katana_logger:
     dependency: "direct overridden"
     description:
       path: "../../katana_logger"
       relative: true
     source: path
-    version: "2.2.6"
+    version: "3.0.0-dev.0"
   katana_scoped:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.5.12"
+    version: "3.0.0-dev.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -848,5 +848,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.4.0 <4.0.0"
+  dart: ">=3.5.0-0.0-dev <4.0.0"
   flutter: ">=3.19.0"

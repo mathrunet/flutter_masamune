@@ -268,91 +268,91 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.14.0"
+    version: "3.0.0-dev.0"
   katana_builder:
     dependency: "direct main"
     description:
       path: "../katana_builder"
       relative: true
     source: path
-    version: "2.1.7"
+    version: "3.0.0-dev.0"
   katana_listenables_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_listenables_annotation"
       relative: true
     source: path
-    version: "2.1.6"
+    version: "3.0.0-dev.0"
   katana_listenables_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_listenables_builder"
       relative: true
     source: path
-    version: "2.1.7"
+    version: "3.0.0-dev.0"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_localization_annotation"
       relative: true
     source: path
-    version: "2.2.7"
+    version: "3.0.0-dev.0"
   katana_localization_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_localization_builder"
       relative: true
     source: path
-    version: "2.2.10"
+    version: "3.0.0-dev.0"
   katana_prefs_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_prefs_annotation"
       relative: true
     source: path
-    version: "2.1.6"
+    version: "3.0.0-dev.0"
   katana_prefs_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_prefs_builder"
       relative: true
     source: path
-    version: "2.1.8"
+    version: "3.0.0-dev.0"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "2.1.7"
+    version: "3.0.0-dev.0"
   katana_router_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_router_builder"
       relative: true
     source: path
-    version: "2.1.9"
+    version: "3.0.0-dev.0"
   katana_test:
     dependency: "direct dev"
     description:
       path: "../katana_test"
       relative: true
     source: path
-    version: "2.1.0"
+    version: "3.0.0-dev.0"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.2.4"
+    version: "3.0.0-dev.0"
   katana_theme_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_theme_builder"
       relative: true
     source: path
-    version: "2.3.4"
+    version: "3.0.0-dev.0"
   lints:
     dependency: transitive
     description:
@@ -383,14 +383,14 @@ packages:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "2.6.9"
+    version: "3.0.0-dev.0"
   masamune_builder:
     dependency: "direct main"
     description:
       path: "../masamune_builder"
       relative: true
     source: path
-    version: "2.15.6"
+    version: "3.0.0-dev.0"
   matcher:
     dependency: transitive
     description:

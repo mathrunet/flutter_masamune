@@ -6,7 +6,8 @@ command:
   version:
     # Generate commit links in package changelogs.
     linkToCommits: true
-    # Only allow versioning to happen on main branch.
+    # Only allow versioning to happen on main branch.  
+    # TODO: FlutterがStableになったらもとに戻す
     branch: feature/ver3.0.0
     # Additionally build a changelog at the root of the workspace.
     workspaceChangelog: true
@@ -22,10 +23,9 @@ scripts:
   
   publish: >
     melos publish --no-dry-run -y
-  
-  # TODO: FlutterがStableになったらもとに戻す
+
   upgrade: >
-    melos exec -- "fvm flutter pub upgrade"
+    melos exec -- "flutter pub upgrade"
 
   analyze: >
     melos exec -- "flutter analyze"

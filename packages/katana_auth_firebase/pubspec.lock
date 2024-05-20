@@ -323,35 +323,35 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.14.0"
+    version: "3.0.0-dev.0"
   katana_auth:
     dependency: "direct main"
     description:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "2.9.0"
+    version: "3.0.0-dev.0"
   katana_firebase:
     dependency: "direct main"
     description:
       path: "../katana_firebase"
       relative: true
     source: path
-    version: "2.2.5"
+    version: "3.0.0-dev.0"
   katana_logger:
     dependency: "direct overridden"
     description:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "2.2.6"
+    version: "3.0.0-dev.0"
   katana_test:
     dependency: "direct dev"
     description:
       path: "../katana_test"
       relative: true
     source: path
-    version: "2.1.0"
+    version: "3.0.0-dev.0"
   leak_tracker:
     dependency: transitive
     description:

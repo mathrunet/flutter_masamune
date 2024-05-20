@@ -350,35 +350,35 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.14.0"
+    version: "3.0.0-dev.0"
   katana_builder:
     dependency: "direct overridden"
     description:
       path: "../../katana_builder"
       relative: true
     source: path
-    version: "2.1.7"
+    version: "3.0.0-dev.0"
   katana_theme:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.6.0"
+    version: "3.0.0-dev.0"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.2.4"
+    version: "3.0.0-dev.0"
   katana_theme_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_theme_builder"
       relative: true
     source: path
-    version: "2.3.4"
+    version: "3.0.0-dev.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -825,5 +825,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.4.0 <4.0.0"
+  dart: ">=3.5.0-0.0-dev <4.0.0"
   flutter: ">=3.18.0-18.0.pre.54"
