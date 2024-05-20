@@ -34,6 +34,8 @@ linter:
 # Set to exclude json_serializable files.
 # json_serializableのファイルを除外するための設定。
 analyzer:
+  enable-experiment:
+    - macros
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"

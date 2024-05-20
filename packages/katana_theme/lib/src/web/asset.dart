@@ -64,7 +64,7 @@ class TemporaryTextProviderBuilder with _TextProviderBuilderMixin {
   const TemporaryTextProviderBuilder._();
 }
 
-abstract class _TextProviderBuilderMixin {
+mixin _TextProviderBuilderMixin {
   /// Obtains text from a text file that exists in [uri].
   ///
   /// If [uri] starts with `http://` or `https://`, a request is made to the network with `GET` to retrieve the text.
@@ -161,7 +161,7 @@ class TemporaryImageProviderBuilder with _ImageProviderBuilderMixin {
   const TemporaryImageProviderBuilder._();
 }
 
-abstract class _ImageProviderBuilderMixin {
+mixin _ImageProviderBuilderMixin {
   /// [ImageProvider] from the image file existing in [uri].
   ///
   /// If [uri] starts with `http://` or `https://`, images existing on the network are downloaded and retrieved.

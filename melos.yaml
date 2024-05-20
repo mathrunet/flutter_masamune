@@ -23,8 +23,9 @@ scripts:
   publish: >
     melos publish --no-dry-run -y
   
+  # TODO: FlutterがStableになったらもとに戻す
   upgrade: >
-    melos exec -- "flutter pub upgrade"
+    melos exec -- "fvm flutter pub upgrade"
 
   analyze: >
     melos exec -- "flutter analyze"

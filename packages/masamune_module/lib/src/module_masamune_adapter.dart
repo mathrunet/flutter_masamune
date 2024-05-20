@@ -191,7 +191,7 @@ abstract class ModuleMasamuneAdapter<TPages extends ModulePages,
   FutureOr<void> onPreRunApp() async {
     if (_router != null) {
       for (final tmp in routeQueries) {
-        _router?.registerPage(tmp);
+        _router.registerPage(tmp);
       }
     }
     for (final tmp in masamuneAdapters) {

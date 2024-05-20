@@ -2165,7 +2165,7 @@ class ColorThemeData {
   /// Material3のカラースキーム外のカラーです。
   Color get scaffoldBackgroundColor {
     if (_scaffoldBackgroundColor != null) {
-      return _scaffoldBackgroundColor!;
+      return _scaffoldBackgroundColor;
     }
     return brightness == Brightness.dark ? Colors.grey[850]! : Colors.grey[50]!;
   }
@@ -2199,7 +2199,7 @@ class ColorThemeData {
   /// Material3のカラースキーム外のカラーです。
   Color get canvas {
     if (_canvas != null) {
-      return _canvas!;
+      return _canvas;
     }
     return brightness == Brightness.dark ? Colors.grey[850]! : Colors.grey[50]!;
   }

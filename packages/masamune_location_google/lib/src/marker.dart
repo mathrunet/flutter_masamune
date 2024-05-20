@@ -207,7 +207,7 @@ class Marker extends map.Marker {
         borderRadius: borderRadius,
       );
       final icon = await generator.createBitmapDescriptorFromIconData(
-        iconData: _icon!,
+        iconData: _icon,
         shape: shape,
         iconColor: color ?? Colors.grey,
         borderColor: borderColor,

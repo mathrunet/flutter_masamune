@@ -295,7 +295,7 @@ abstract class ScopedValueListener {
     }
     _watched.clear();
     if (_container != null) {
-      _container!.dispose();
+      _container.dispose();
     }
   }
 }

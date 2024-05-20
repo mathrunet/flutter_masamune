@@ -57,7 +57,7 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   /// Firebase Functionsのインスタンス。
   FirebaseFunctions get functions {
     if (_functions != null) {
-      return _functions!;
+      return _functions;
     }
     final region = this.region.value;
     if (region.isEmpty) {

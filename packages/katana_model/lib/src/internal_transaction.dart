@@ -1,6 +1,6 @@
 part of '/katana_model.dart';
 
-class _InternalTransactionMixin {
+mixin _InternalTransactionMixin {
   final List<FutureOr<void> Function()> _transactionQueue = [];
   Completer<void>? _transactionCompleter;
 

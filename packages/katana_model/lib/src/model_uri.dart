@@ -122,7 +122,7 @@ class _ModelImageUriWithUri extends _ModelImageUri {
     if (_path == null) {
       return null;
     }
-    return Uri.parse(_path!);
+    return Uri.parse(_path);
   }
 }
 
@@ -396,7 +396,7 @@ class _ModelVideoUriWithUri extends _ModelVideoUri {
     if (_path == null) {
       return null;
     }
-    return Uri.parse(_path!);
+    return Uri.parse(_path);
   }
 }
 
@@ -668,7 +668,7 @@ class _ModelUriWithUri extends _ModelUri {
     if (_path == null) {
       return null;
     }
-    return Uri.parse(_path!);
+    return Uri.parse(_path);
   }
 }
 
