@@ -28,9 +28,9 @@ enum AuthLoggerEvent {
   ///
   /// サインアウト。
   signOut,
-  
+
   /// Delete.
-  /// 
+  ///
   /// 削除。
   delete;
 
