@@ -515,7 +515,22 @@ class Authentication extends ChangeNotifier {
   ///
   /// [register]が実行されていない場合でも[signIn]で合わせて登録が行われる[AuthProvider]で作成されたユーザーも対象となります。
   Future<Authentication> delete() async {
+    if (!isSignedIn) {
+      throw Exception("Not yet signed in.");
+    }
+    for (final action in _actions) {
+      await action.onSignOut();
+    }
+    final userId = this.userId;
     await adapter.delete(onUserStateChanged: notifyListeners);
+    _sendLog(AuthLoggerEvent.delete, parameters: {
+      AuthDatabase.userIdKey: userId,
+    });
+    if (!isSignedIn) {
+      for (final action in _actions) {
+        await action.onSignedOut();
+      }
+    }
     return this;
   }
 
