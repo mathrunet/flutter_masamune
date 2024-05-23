@@ -242,7 +242,7 @@ packages:
     source: hosted
     version: "1.2.0"
   macros:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: macros
       sha256: a8403c89b36483b4cbf9f1fcd24562f483cb34a5c9bf101cf2b0d8a083cf1239
