@@ -131,7 +131,7 @@ class Modal {
   ///
   /// [context] to pass the currently available [BuildContext].
   ///
-  /// Describe the message title in [title] and the message content in [text].
+  /// Use [title] to describe the message title [text] to describe the message content. By using [child], the text can be substituted by a widget.
   ///
   /// The text of the action button is described in [submitText], and the processing when the action is executed is described in [onSubmit].
   ///
@@ -149,7 +149,7 @@ class Modal {
   ///
   /// [context]で現在利用可能な[BuildContext]を渡します。
   ///
-  /// [title]でメッセージのタイトル[text]でメッセージの内容を記述します。
+  /// [title]でメッセージのタイトル[text]でメッセージの内容を記述します。[child]を使用することで、テキストをウィジェットで代用することが可能です。
   ///
   /// [submitText]でアクションボタンのテキスト、[onSubmit]にアクションを実行する際の処理を記述します。
   ///
@@ -168,7 +168,8 @@ class Modal {
     Color? backgroundColor,
     Color? color,
     required String title,
-    required String text,
+    String? text,
+    Widget? child,
     Widget? leading,
     VoidCallback? onSubmit,
     bool disableBackKey = false,
@@ -176,6 +177,10 @@ class Modal {
     bool willShowRepetition = false,
     ButtonStyle? buttonStyle,
   }) async {
+    assert(
+      (text != null && child == null) || (text == null && child != null),
+      "If [child] is used, [text] is not required.",
+    );
     bool clicked = false;
     ScaffoldMessenger.of(context);
     final overlay = Navigator.of(context).overlay;
@@ -214,11 +219,11 @@ class Modal {
                 ],
               ),
               content: SingleChildScrollView(
-                child: Text(
-                  text,
+                child: DefaultTextStyle(
                   style: TextStyle(
                     color: foregroundColor,
                   ),
+                  child: child ?? Text(text ?? ""),
                 ),
               ),
               backgroundColor: backgroundColor,
@@ -247,7 +252,7 @@ class Modal {
   ///
   /// [context] to pass the currently available [BuildContext].
   ///
-  /// Describe the message title in [title] and the message content in [text].
+  /// Use [title] to describe the message title [text] to describe the message content. By using [child], the text can be substituted by a widget.
   ///
   /// In the [submitText] field, enter the text of the confirmed action button, and in the [onSubmit] field, enter the processing to be performed when the confirmed action is executed.
   ///
@@ -265,7 +270,7 @@ class Modal {
   ///
   /// [context]で現在利用可能な[BuildContext]を渡します。
   ///
-  /// [title]でメッセージのタイトル[text]でメッセージの内容を記述します。
+  /// [title]でメッセージのタイトル[text]でメッセージの内容を記述します。[child]を使用することで、テキストをウィジェットで代用することが可能です。
   ///
   /// [submitText]で確定アクションボタンのテキスト、[onSubmit]に確定アクションを実行する際の処理を記述します。
   ///
@@ -287,7 +292,8 @@ class Modal {
     required String submitText,
     required String cancelText,
     required String title,
-    required String text,
+    String? text,
+    Widget? child,
     Widget? leading,
     VoidCallback? onSubmit,
     VoidCallback? onCancel,
@@ -332,11 +338,11 @@ class Modal {
               ],
             ),
             content: SingleChildScrollView(
-              child: Text(
-                text,
+              child: DefaultTextStyle(
                 style: TextStyle(
                   color: foregroundColor,
                 ),
+                child: child ?? Text(text ?? ""),
               ),
             ),
             backgroundColor: backgroundColor,

@@ -27,7 +27,12 @@ enum AuthLoggerEvent {
   /// Sign out.
   ///
   /// サインアウト。
-  signOut;
+  signOut,
+
+  /// Delete.
+  ///
+  /// 削除。
+  delete;
 
   /// User ID key.
   ///
