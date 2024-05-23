@@ -61,3 +61,6 @@ archived.zip
 
 # Pubspec overrides file.
 pubspec_overrides.yaml
+
+# FVM Version Cache
+.fvm/
