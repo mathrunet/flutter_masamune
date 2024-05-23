@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^2.13.30
+  masamune: ^2.13.31
   masamune_auth_apple:
     path: "../"
 

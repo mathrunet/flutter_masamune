@@ -1,3 +1,7 @@
+## 2.10.0
+
+ - **FEAT**: Added the ability to specify a Widget in the Body of Modal. ([103e52b6](https://github.com/mathrunet/flutter_masamune/commit/103e52b6c540da7e300082d894cb0405f723fa77))
+
 ## 2.9.0
 
  - **FEAT**: Add LineTileGroup. ([d85a22ea](https://github.com/mathrunet/flutter_masamune/commit/d85a22eaa721ba3a6e504eb6fe003c696a0fb356))

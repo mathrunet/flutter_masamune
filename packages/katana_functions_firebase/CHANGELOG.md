@@ -1,3 +1,7 @@
+## 2.7.0
+
+ - **FEAT**: RuntimeFunctionsAdapter made testing easier. ([37157594](https://github.com/mathrunet/flutter_masamune/commit/3715759403e18fddee634931d033f0d92eff56c1))
+
 ## 2.6.6
 
  - Update a dependency to the latest release.
