@@ -81,7 +81,7 @@ class SendNotificationFunctionsAction
       if (channel != null) "channel_id": channel,
       if (data != null) "data": data,
       if (tokens != null) "token": tokens!.value else "topic": topic,
-      if (badgeCount != null) "badge": badgeCount,
+      if (badgeCount != null) "badgeCount": badgeCount,
       if (sound != PushNotificationSound.none) "sound": sound.value,
     };
   }

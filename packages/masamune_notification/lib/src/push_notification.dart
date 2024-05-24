@@ -239,6 +239,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
         topic: topic,
         tokens: tokens,
         channel: adapter.androidNotificationChannelId,
+        badgeCount: badgeCount,
+        sound: sound,
         data: {
           if (data != null) ...data,
           if (link != null) _linkKey: link.path,
