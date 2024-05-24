@@ -16,6 +16,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 // Package imports:
+import 'package:collection/collection.dart' show DeepCollectionEquality;
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:intl/intl.dart';

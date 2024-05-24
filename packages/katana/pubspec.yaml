@@ -17,6 +17,7 @@ dependencies:
   encrypt: ^5.0.1
   http: ^1.0.0
   recase: ^4.0.0
+  collection: ^1.18.0
 
 dev_dependencies:
   test: ^1.24.9

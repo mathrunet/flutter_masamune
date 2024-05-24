@@ -284,45 +284,6 @@ extension MapExtensions<K, V> on Map<K, V> {
   ///
   /// [Map]と[others]の内部を比較して一致している場合`true`を返します。
   bool equalsTo(Map<K, V>? others) {
-    if (others == null) {
-      return false;
-    }
-    for (final tmp in entries) {
-      if (!others.containsKey(tmp.key)) {
-        return false;
-      }
-      final t = tmp.value;
-      final o = others[tmp.key];
-      if (t is Iterable?) {
-        if (o is! Iterable?) {
-          return false;
-        }
-        if (!t.equalsTo(o)) {
-          return false;
-        }
-      } else if (t is Map?) {
-        if (o is! Map?) {
-          return false;
-        }
-        if (!t.equalsTo(o)) {
-          return false;
-        }
-      } else if (t is Set?) {
-        if (o is! Set?) {
-          return false;
-        }
-        if (!t.equalsTo(o)) {
-          return false;
-        }
-      } else if (t != o) {
-        return false;
-      }
-    }
-    for (final tmp in others.entries) {
-      if (!containsKey(tmp.key)) {
-        return false;
-      }
-    }
-    return true;
+    return deepEquals(this, others);
   }
 }

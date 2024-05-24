@@ -354,72 +354,7 @@ extension IterableExtensions<T> on Iterable<T> {
   ///
   /// [Iterable]と[others]の内部を比較して一致している場合`true`を返します。
   bool equalsTo(Iterable<T>? others) {
-    if (others == null) {
-      return false;
-    }
-    for (final t in this) {
-      if (!others.any((o) {
-        if (t is Iterable?) {
-          if (o is! Iterable?) {
-            return false;
-          }
-          if (!t.equalsTo(o)) {
-            return false;
-          }
-        } else if (t is Map?) {
-          if (o is! Map?) {
-            return false;
-          }
-          if (!t.equalsTo(o)) {
-            return false;
-          }
-        } else if (t is Set?) {
-          if (o is! Set?) {
-            return false;
-          }
-          if (!t.equalsTo(o)) {
-            return false;
-          }
-        } else if (t != o) {
-          return false;
-        }
-        return true;
-      })) {
-        return false;
-      }
-    }
-    for (final t in others) {
-      if (!any((o) {
-        if (t is Iterable?) {
-          if (o is! Iterable?) {
-            return false;
-          }
-          if (!t.equalsTo(o)) {
-            return false;
-          }
-        } else if (t is Map?) {
-          if (o is! Map?) {
-            return false;
-          }
-          if (!t.equalsTo(o)) {
-            return false;
-          }
-        } else if (t is Set?) {
-          if (o is! Set?) {
-            return false;
-          }
-          if (!t.equalsTo(o)) {
-            return false;
-          }
-        } else if (t != o) {
-          return false;
-        }
-        return true;
-      })) {
-        return false;
-      }
-    }
-    return true;
+    return deepEquals(this, others);
   }
 
   /// [print] the entire contents of [List].

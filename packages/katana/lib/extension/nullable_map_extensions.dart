@@ -278,15 +278,6 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   ///
   /// 自身と[others]が両方とも[Null]な場合`true`を返します。
   bool equalsTo(Map<K, V>? others) {
-    if (this == null && others != null) {
-      return false;
-    }
-    if (this != null && others == null) {
-      return false;
-    }
-    if (this == null && others == null) {
-      return true;
-    }
-    return this!.equalsTo(others);
+    return deepEquals(this, others);
   }
 }

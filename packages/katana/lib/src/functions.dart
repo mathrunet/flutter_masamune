@@ -60,6 +60,28 @@ List<int> _randomData() {
   return randomData;
 }
 
+/// Returns `true` if [e1] and [e2] are the same.
+///
+/// Nested objects such as [Map] and [List] can also be compared.
+///
+/// [e1]と[e2]を比較し同じな場合に`true`を返します。
+///
+/// [Map]や[List]などのネストされたオブジェクトも比較可能です。
+bool deepEquals(Object? e1, Object? e2) {
+  return const DeepCollectionEquality().equals(e1, e2);
+}
+
+/// Returns the hash code of [o].
+///
+/// Nested objects such as [Map] and [List] can also be compared.
+///
+/// [o]のハッシュコードを返します。
+///
+/// [Map]や[List]などのネストされたオブジェクトも比較可能です。
+int deepHash(Object? o) {
+  return const DeepCollectionEquality().hash(o);
+}
+
 /// Wait until all Futures given in [futures] are completed.
 ///
 /// [futures]で与えられたFutureがすべて終了するまで待ちます。
