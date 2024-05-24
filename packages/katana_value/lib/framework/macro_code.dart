@@ -4,6 +4,7 @@ part of '/katana_value.dart';
 
 final _dartCore = Uri.parse("dart:core");
 final _katana = Uri.parse("package:katana/katana.dart");
+final _katanaValue = Uri.parse("package:katana_value/katana_value.dart");
 
 /// The type used in the macro.
 ///
@@ -23,6 +24,11 @@ enum MacroCode {
   ///
   /// dart:coreの`identical`。
   identical,
+
+  /// `DataValueJsonConverter` from katana_value.
+  ///
+  /// katana_valueの`DataValueJsonConverter`.
+  macroJsonConverter,
 
   /// `deepEquals` function from katana.
   ///
@@ -52,6 +58,11 @@ enum MacroCode {
       case MacroCode.identical:
         return NamedTypeAnnotationCode(
           name: await introspector.resolveIdentifier(_dartCore, "identical"),
+        );
+      case MacroCode.macroJsonConverter:
+        return NamedTypeAnnotationCode(
+          name: await introspector.resolveIdentifier(
+              _katanaValue, "DataValueJsonConverter"),
         );
       case MacroCode.deepEquals:
         return NamedTypeAnnotationCode(

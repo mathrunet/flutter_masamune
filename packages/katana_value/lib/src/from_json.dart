@@ -4,6 +4,7 @@ extension on MacroVariableValue {
   List<Object>? toFromJsonDefinitionParts({
     String variableName = "json",
     required NamedTypeAnnotationCode mapEntryCode,
+    required NamedTypeAnnotationCode macroJsonConverterCode,
   }) {
     if (!type.isValid) {
       return null;
@@ -13,8 +14,10 @@ extension on MacroVariableValue {
       name,
       " = ",
       ...type.toFromJsonParts(
+              keyName: key,
               variableName: "$variableName[\"$key\"]",
-              mapEntryCode: mapEntryCode) ??
+              mapEntryCode: mapEntryCode,
+              macroJsonConverterCode: macroJsonConverterCode) ??
           []
     ];
   }
@@ -46,9 +49,11 @@ class _FromJson {
       return;
     }
 
-    final (constructor, mapEntry, fields, superClass) = await (
+    final (constructor, mapEntry, macroJsonConverter, fields, superClass) =
+        await (
       builder.buildConstructor(fromJson.identifier),
       MacroCode.mapEntry.code(builder),
+      MacroCode.macroJsonConverter.code(builder),
       source.fieldOrDefaultParameters,
       source.superClass,
     ).wait;
@@ -71,7 +76,10 @@ class _FromJson {
           [
             ...fields.mapAndRemoveEmpty((e) {
               return e.toFromJsonDefinitionParts(
-                  variableName: "json", mapEntryCode: mapEntry);
+                variableName: "json",
+                mapEntryCode: mapEntry,
+                macroJsonConverterCode: macroJsonConverter,
+              );
             }).insertEvery([", "], 1).expand((e) => e),
           ],
         ),

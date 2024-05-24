@@ -104,14 +104,17 @@ class MacroTypeValue {
 
   /// Converts from type to a string part available in `fromJson` and returns it.
   ///
-  /// [variableName] specifies the name of the variable and [mapEntryCode] is passed the code of [MapEntry].
+  /// [variableName] specifies the variable name, [jsonName] specifies json and [keyName] specifies the key name, [mapEntryCode] specifies the code of [MapEntry], [macroJsonConverterCode] specifies the code of [DataValueJsonConverter] code is passed to [macroJsonConverterCode].
   ///
   /// タイプから`fromJson`で利用可能な文字列パートに変換して返します。
   ///
-  /// [variableName]は変数名を指定し、[mapEntryCode]に[MapEntry]のコードを渡します。
+  /// [variableName]は変数名を指定、[jsonName]にjsonと[keyName]にキー名を指定、[mapEntryCode]に[MapEntry]のコードを[macroJsonConverterCode]に[DataValueJsonConverter]のコードを渡します。
   List<Object>? toFromJsonParts({
+    required String keyName,
+    String jsonName = "json",
     required String variableName,
     required NamedTypeAnnotationCode mapEntryCode,
+    required NamedTypeAnnotationCode macroJsonConverterCode,
   }) {
     if (!isValid) {
       return [variableName];
@@ -141,7 +144,10 @@ class MacroTypeValue {
               ".map(",
               "(e) => ",
               ...type.toFromJsonParts(
-                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                      keyName: keyName,
+                      variableName: "e",
+                      mapEntryCode: mapEntryCode,
+                      macroJsonConverterCode: macroJsonConverterCode) ??
                   [],
               ")",
               ...[".cast<", type.code!, ">()"]
@@ -153,7 +159,10 @@ class MacroTypeValue {
               "?.map(",
               "(e) => ",
               ...type.toFromJsonParts(
-                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                      keyName: keyName,
+                      variableName: "e",
+                      mapEntryCode: mapEntryCode,
+                      macroJsonConverterCode: macroJsonConverterCode) ??
                   [],
               ")",
               ...[".cast<", type.code!, ">()"]
@@ -175,7 +184,10 @@ class MacroTypeValue {
               ".map(",
               "(e) => ",
               ...type.toFromJsonParts(
-                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                      keyName: keyName,
+                      variableName: "e",
+                      mapEntryCode: mapEntryCode,
+                      macroJsonConverterCode: macroJsonConverterCode) ??
                   [],
               ")",
               ...[".cast<", type.code!, ">()"],
@@ -188,7 +200,10 @@ class MacroTypeValue {
               "?.map(",
               "(e) => ",
               ...type.toFromJsonParts(
-                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                      keyName: keyName,
+                      variableName: "e",
+                      mapEntryCode: mapEntryCode,
+                      macroJsonConverterCode: macroJsonConverterCode) ??
                   [],
               ")",
               ...[".cast<", type.code!, ">()"],
@@ -211,7 +226,10 @@ class MacroTypeValue {
               ".map(",
               "(e) => ",
               ...type.toFromJsonParts(
-                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                      keyName: keyName,
+                      variableName: "e",
+                      mapEntryCode: mapEntryCode,
+                      macroJsonConverterCode: macroJsonConverterCode) ??
                   [],
               ")",
               ...[".cast<", type.code!, ">()"],
@@ -224,7 +242,10 @@ class MacroTypeValue {
               "?.map(",
               "(e) => ",
               ...type.toFromJsonParts(
-                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                      keyName: keyName,
+                      variableName: "e",
+                      mapEntryCode: mapEntryCode,
+                      macroJsonConverterCode: macroJsonConverterCode) ??
                   [],
               ")",
               ...[".cast<", type.code!, ">()"],
@@ -251,11 +272,17 @@ class MacroTypeValue {
                 mapEntryCode,
                 "(",
                 ...type1.toFromJsonParts(
-                        variableName: "k", mapEntryCode: mapEntryCode) ??
+                        keyName: keyName,
+                        variableName: "k",
+                        mapEntryCode: mapEntryCode,
+                        macroJsonConverterCode: macroJsonConverterCode) ??
                     [],
                 ",",
                 ...type2.toFromJsonParts(
-                        variableName: "v", mapEntryCode: mapEntryCode) ??
+                        keyName: keyName,
+                        variableName: "v",
+                        mapEntryCode: mapEntryCode,
+                        macroJsonConverterCode: macroJsonConverterCode) ??
                     [],
                 ")",
               ],
@@ -272,11 +299,17 @@ class MacroTypeValue {
                 mapEntryCode,
                 "(",
                 ...type1.toFromJsonParts(
-                        variableName: "k", mapEntryCode: mapEntryCode) ??
+                        keyName: keyName,
+                        variableName: "k",
+                        mapEntryCode: mapEntryCode,
+                        macroJsonConverterCode: macroJsonConverterCode) ??
                     [],
                 ",",
                 ...type2.toFromJsonParts(
-                        variableName: "v", mapEntryCode: mapEntryCode) ??
+                        keyName: keyName,
+                        variableName: "v",
+                        mapEntryCode: mapEntryCode,
+                        macroJsonConverterCode: macroJsonConverterCode) ??
                     [],
                 ")",
               ],
@@ -286,19 +319,25 @@ class MacroTypeValue {
           }
         }
     }
-    return null;
+    return [
+      macroJsonConverterCode,
+      ".convertFrom(",
+      ...["\"", keyName, "\"", ", ", jsonName],
+      ")"
+    ];
   }
 
   /// Converts from type to a string available in `toJson` and returns it.
   ///
-  /// [variableName] specifies the name of the variable and [mapEntryCode] is passed the code of [MapEntry].
+  /// [variableName] specifies the name of the variable, and [mapEntryCode] is the code for [MapEntry] and [macroJsonConverterCode] is the code for [DataValueJsonConverter].
   ///
   /// タイプから`toJson`で利用可能な文字列に変換して返します。
   ///
-  /// [variableName]は変数名を指定し、[mapEntryCode]に[MapEntry]のコードを渡します。
+  /// [variableName]は変数名を指定し、[mapEntryCode]に[MapEntry]のコードを[macroJsonConverterCode]に[DataValueJsonConverter]のコードを渡します。
   List<Object>? toToJsonParts({
     required String variableName,
     required NamedTypeAnnotationCode mapEntryCode,
+    required NamedTypeAnnotationCode macroJsonConverterCode,
   }) {
     if (!isValid) {
       return [variableName];
@@ -323,7 +362,9 @@ class MacroTypeValue {
               ".map(",
               "(e) => ",
               ...type.toToJsonParts(
-                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                      variableName: "e",
+                      mapEntryCode: mapEntryCode,
+                      macroJsonConverterCode: macroJsonConverterCode) ??
                   [],
               ")"
             ];
@@ -333,7 +374,9 @@ class MacroTypeValue {
               "?.map(",
               "(e) => ",
               ...type.toToJsonParts(
-                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                      variableName: "e",
+                      mapEntryCode: mapEntryCode,
+                      macroJsonConverterCode: macroJsonConverterCode) ??
                   [],
               ")"
             ];
@@ -350,7 +393,9 @@ class MacroTypeValue {
               ".map(",
               "(e) => ",
               ...type.toToJsonParts(
-                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                      variableName: "e",
+                      mapEntryCode: mapEntryCode,
+                      macroJsonConverterCode: macroJsonConverterCode) ??
                   [],
               ")",
               ".toList()"
@@ -361,7 +406,9 @@ class MacroTypeValue {
               "?.map(",
               "(e) => ",
               ...type.toToJsonParts(
-                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                      variableName: "e",
+                      mapEntryCode: mapEntryCode,
+                      macroJsonConverterCode: macroJsonConverterCode) ??
                   [],
               ")",
               ".toList()"
@@ -379,7 +426,9 @@ class MacroTypeValue {
               ".map(",
               "(e) => ",
               ...type.toToJsonParts(
-                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                      variableName: "e",
+                      mapEntryCode: mapEntryCode,
+                      macroJsonConverterCode: macroJsonConverterCode) ??
                   [],
               ")",
               ".toSet()"
@@ -390,7 +439,9 @@ class MacroTypeValue {
               "?.map(",
               "(e) => ",
               ...type.toToJsonParts(
-                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                      variableName: "e",
+                      mapEntryCode: mapEntryCode,
+                      macroJsonConverterCode: macroJsonConverterCode) ??
                   [],
               ")",
               ".toSet()"
@@ -412,11 +463,15 @@ class MacroTypeValue {
                 mapEntryCode,
                 "(",
                 ...type1.toToJsonParts(
-                        variableName: "k", mapEntryCode: mapEntryCode) ??
+                        variableName: "k",
+                        mapEntryCode: mapEntryCode,
+                        macroJsonConverterCode: macroJsonConverterCode) ??
                     [],
                 ",",
                 ...type2.toToJsonParts(
-                        variableName: "v", mapEntryCode: mapEntryCode) ??
+                        variableName: "v",
+                        mapEntryCode: mapEntryCode,
+                        macroJsonConverterCode: macroJsonConverterCode) ??
                     [],
                 ")"
               ],
@@ -431,11 +486,15 @@ class MacroTypeValue {
                 mapEntryCode,
                 "(",
                 ...type1.toToJsonParts(
-                        variableName: "k", mapEntryCode: mapEntryCode) ??
+                        variableName: "k",
+                        mapEntryCode: mapEntryCode,
+                        macroJsonConverterCode: macroJsonConverterCode) ??
                     [],
                 ",",
                 ...type2.toToJsonParts(
-                        variableName: "v", mapEntryCode: mapEntryCode) ??
+                        variableName: "v",
+                        mapEntryCode: mapEntryCode,
+                        macroJsonConverterCode: macroJsonConverterCode) ??
                     [],
                 ")"
               ],
@@ -444,7 +503,7 @@ class MacroTypeValue {
           }
         }
     }
-    return null;
+    return [macroJsonConverterCode, ".convertTo(", variableName, ")"];
   }
 
   @override

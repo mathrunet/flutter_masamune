@@ -32,3 +32,4 @@ part 'src/constructor.dart';
 part 'src/fields.dart';
 part 'src/to_json.dart';
 part 'src/from_json.dart';
+part 'src/macro_json_converter.dart';
