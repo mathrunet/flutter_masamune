@@ -108,8 +108,9 @@ macro class DataValue implements ClassDeclarationsMacro, ClassDefinitionMacro {
     );
     await [
       _Constructor(source).buildDeclarations(builder),
+      _FromJson(source).buildDeclarations(builder),
       _Fields(source).buildDeclarations(builder),
-      // _ToJson(source).buildDeclarations(builder),
+      _ToJson(source).buildDeclarations(builder),
       _CopyWith(source).buildDeclarations(builder),
       _ToString(source).buildDeclarations(builder),
       _EqualOperator(source).buildDeclarations(builder),
@@ -127,8 +128,9 @@ macro class DataValue implements ClassDeclarationsMacro, ClassDefinitionMacro {
     );
     await [
       _Constructor(source).buildDefinition(builder),
+      _FromJson(source).buildDefinition(builder),
       _Fields(source).buildDefinition(builder),
-      // _ToJson(source).buildDefinition(builder),
+      _ToJson(source).buildDefinition(builder),
       _CopyWith(source).buildDefinition(builder),
       _ToString(source).buildDefinition(builder),
       _EqualOperator(source).buildDefinition(builder),

@@ -106,102 +106,15 @@ class MacroVariableValue {
   final String? defaultValue;
 
   @override
+  String toString() {
+    return "$name#$type";
+  }
+
+  @override
   int get hashCode {
     return toString().hashCode;
   }
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
-
-  @override
-  String toString() {
-    return "$name#$type";
-  }
-
-  // /// Converts to string for constructor parameters.
-  // ///
-  // /// コンストラクターのパラメーター用の文字列に変換します。
-  // String toConstructorParameter() {
-  //   final builder = CodeBuilder();
-  //   if (isNamed && isRequired) {
-  //     builder.append("required ");
-  //   }
-  //   builder.append("$type $name");
-  //   if (defaultValue != null) {
-  //     builder.append(" = ");
-  //     builder.append(defaultValue);
-  //   }
-  //   return builder.build();
-  // }
-
-  // /// Converts to a string for a class field.
-  // ///
-  // /// クラスのフィールド用の文字列に変換します。
-  // String toClassField() {
-  //   final builder = CodeBuilder();
-  //   builder.append("final $type $name;");
-  //   return builder.build();
-  // }
 }
-
-// /// Extension method for a list of [MacroParameterValue].
-// ///
-// /// [MacroParameterValue]のリスト用の拡張メソッド。
-// extension MacroParameterValueListExtension on List<MacroParameterValue> {
-//   /// Outputs the class constructor string from the list in [MacroParameterValue].
-//   ///
-//   /// Pass the class name in [className] and the constructor name in [constructorName].
-//   ///
-//   /// [MacroParameterValue]のリストからクラスのコンストラクターの文字列を出力します。
-//   ///
-//   /// [className]にクラス名、[constructorName]にコンストラクター名を渡してください。
-//   String toConstructor({
-//     required String className,
-//     String? constructorName,
-//   }) {
-//     final optionalParams = where((e) => e.isNamed).toList();
-//     final positionalParams = where((e) => !e.isNamed).toList();
-
-//     final code = CodeBuilder();
-//     code.append("augment const $className");
-//     if (constructorName != null) {
-//       code.append(".$constructorName");
-//     }
-//     code.append("(");
-//     if (positionalParams.isNotEmpty) {
-//       code.appendAll(
-//           positionalParams.map((e) => "${e.toConstructorParameter()},"));
-//     }
-//     if (optionalParams.isNotEmpty) {
-//       code.append("{");
-//       code.appendAll(
-//           optionalParams.map((e) => "${e.toConstructorParameter()},"));
-//       code.append("}");
-//     }
-//     code.append(")");
-//     if (isNotEmpty) {
-//       code.append(" : ");
-//       for (final param in this) {
-//         code.append("${param.name} = ${param.name}");
-//         code.append(",");
-//       }
-//       code.removeLast();
-//     }
-//     code.append(";");
-//     return code.build();
-//   }
-
-//   /// Outputs the class field from the list in [MacroParameterValue].
-//   ///
-//   /// [MacroParameterValue]のリストからクラスのフィールドを出力します。
-//   List<String> toClassFields() {
-//     final code = <String>[];
-//     for (final param in this) {
-//       if (param.isNamed) {
-//         continue;
-//       }
-//       code.add(param.toConstructorParameter());
-//     }
-//     return code;
-//   }
-// }

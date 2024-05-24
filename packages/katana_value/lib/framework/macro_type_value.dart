@@ -28,6 +28,11 @@ class MacroTypeValue {
   /// タイプ名。
   String? get name => identifier?.name.trimStringRight("?");
 
+  /// Type code.
+  ///
+  /// タイプのコード。
+  TypeAnnotationCode? get code => _type;
+
   /// Type identifier.
   ///
   /// タイプの識別子。
@@ -37,6 +42,21 @@ class MacroTypeValue {
   ///
   /// タイプが正常に取得されている場合`true`を返します。
   bool get isValid => _checkNamed != null;
+
+  /// Returns `true` if the type is a collection.
+  ///
+  /// タイプがコレクションの場合`true`を返します。
+  bool get isIterable {
+    switch (name) {
+      case "Iterable":
+      case "List":
+      case "Set":
+      case "Map":
+        return true;
+      default:
+        return false;
+    }
+  }
 
   /// Get the type arguments of the type.
   ///
@@ -53,17 +73,6 @@ class MacroTypeValue {
         builder: _builder,
       ),
     );
-  }
-
-  /// Returns [MacroType] if the type can be treated as Json in the macro.
-  ///
-  /// マクロ内でJsonとして扱うことが可能な型の場合[MacroType]を返します。
-  MacroType? get type {
-    final macroType = MacroType.fromMacroTypeValue(this);
-    if (macroType == null) {
-      _builder.print("Unsupported types are used.", isError: true);
-    }
-    return macroType;
   }
 
   /// Returns `true` if the type is nullable.
@@ -93,13 +102,350 @@ class MacroTypeValue {
     );
   }
 
-  @override
-  int get hashCode {
-    return toString().hashCode;
+  /// Converts from type to a string part available in `fromJson` and returns it.
+  ///
+  /// [variableName] specifies the name of the variable and [mapEntryCode] is passed the code of [MapEntry].
+  ///
+  /// タイプから`fromJson`で利用可能な文字列パートに変換して返します。
+  ///
+  /// [variableName]は変数名を指定し、[mapEntryCode]に[MapEntry]のコードを渡します。
+  List<Object>? toFromJsonParts({
+    required String variableName,
+    required NamedTypeAnnotationCode mapEntryCode,
+  }) {
+    if (!isValid) {
+      return [variableName];
+    }
+    switch (name) {
+      case "dynamic":
+        return [variableName];
+      case "bool":
+      case "int":
+      case "num":
+      case "double":
+      case "String":
+      case "Object":
+        return [variableName, " as ", code!];
+      case "Iterable":
+        if (typeArguments.isEmpty) {
+          if (!isNullable) {
+            return [variableName, " as ", code!];
+          } else {
+            return [variableName, " as ", code!];
+          }
+        } else {
+          final type = typeArguments.first;
+          if (!isNullable) {
+            return [
+              ...["(", variableName, " as ", code!, ")"],
+              ".map(",
+              "(e) => ",
+              ...type.toFromJsonParts(
+                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                  [],
+              ")",
+              ...[".cast<", type.code!, ">()"]
+            ];
+          } else {
+            return [
+              ...[variableName, " == ", "null", " ? ", "null", " : "],
+              ...["(", variableName, " as ", code!, ")"],
+              "?.map(",
+              "(e) => ",
+              ...type.toFromJsonParts(
+                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                  [],
+              ")",
+              ...[".cast<", type.code!, ">()"]
+            ];
+          }
+        }
+      case "List":
+        if (typeArguments.isEmpty) {
+          if (!isNullable) {
+            return [variableName, " as ", code!];
+          } else {
+            return [variableName, " as ", code!];
+          }
+        } else {
+          final type = typeArguments.first;
+          if (!isNullable) {
+            return [
+              ...["(", variableName, " as ", code!, ")"],
+              ".map(",
+              "(e) => ",
+              ...type.toFromJsonParts(
+                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                  [],
+              ")",
+              ...[".cast<", type.code!, ">()"],
+              ".toList()",
+            ];
+          } else {
+            return [
+              ...[variableName, " == ", "null", " ? ", "null", " : "],
+              ...["(", variableName, " as ", code!, ")"],
+              "?.map(",
+              "(e) => ",
+              ...type.toFromJsonParts(
+                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                  [],
+              ")",
+              ...[".cast<", type.code!, ">()"],
+              ".toList()",
+            ];
+          }
+        }
+      case "Set":
+        if (typeArguments.isEmpty) {
+          if (!isNullable) {
+            return [variableName, " as ", code!];
+          } else {
+            return [variableName, " as ", code!];
+          }
+        } else {
+          final type = typeArguments.first;
+          if (!isNullable) {
+            return [
+              ...["(", variableName, " as ", code!, ")"],
+              ".map(",
+              "(e) => ",
+              ...type.toFromJsonParts(
+                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                  [],
+              ")",
+              ...[".cast<", type.code!, ">()"],
+              ".toSet()",
+            ];
+          } else {
+            return [
+              ...[variableName, " == ", "null", " ? ", "null", " : "],
+              ...["(", variableName, " as ", code!, ")"],
+              "?.map(",
+              "(e) => ",
+              ...type.toFromJsonParts(
+                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                  [],
+              ")",
+              ...[".cast<", type.code!, ">()"],
+              ".toSet()",
+            ];
+          }
+        }
+      case "Map":
+        if (typeArguments.length < 2) {
+          if (!isNullable) {
+            return [variableName, " as ", code!];
+          } else {
+            return [variableName, " as ", code!];
+          }
+        } else {
+          final type1 = typeArguments.first;
+          final type2 = typeArguments.last;
+          if (!isNullable) {
+            return [
+              ...["(", variableName, " as ", code!, ")"],
+              ".map(",
+              "(k, v) => ",
+              ...[
+                mapEntryCode,
+                "(",
+                ...type1.toFromJsonParts(
+                        variableName: "k", mapEntryCode: mapEntryCode) ??
+                    [],
+                ",",
+                ...type2.toFromJsonParts(
+                        variableName: "v", mapEntryCode: mapEntryCode) ??
+                    [],
+                ")",
+              ],
+              ")",
+              ...[".cast<", type1.code!, ",", type2.code!, ">()"],
+            ];
+          } else {
+            return [
+              ...[variableName, " == ", "null", " ? ", "null", " : "],
+              ...["(", variableName, " as ", code!, ")"],
+              "?.map(",
+              "(k, v) => ",
+              ...[
+                mapEntryCode,
+                "(",
+                ...type1.toFromJsonParts(
+                        variableName: "k", mapEntryCode: mapEntryCode) ??
+                    [],
+                ",",
+                ...type2.toFromJsonParts(
+                        variableName: "v", mapEntryCode: mapEntryCode) ??
+                    [],
+                ")",
+              ],
+              ")",
+              ...[".cast<", type1.code!, ",", type2.code!, ">()"],
+            ];
+          }
+        }
+    }
+    return null;
   }
 
-  @override
-  bool operator ==(Object other) => hashCode == other.hashCode;
+  /// Converts from type to a string available in `toJson` and returns it.
+  ///
+  /// [variableName] specifies the name of the variable and [mapEntryCode] is passed the code of [MapEntry].
+  ///
+  /// タイプから`toJson`で利用可能な文字列に変換して返します。
+  ///
+  /// [variableName]は変数名を指定し、[mapEntryCode]に[MapEntry]のコードを渡します。
+  List<Object>? toToJsonParts({
+    required String variableName,
+    required NamedTypeAnnotationCode mapEntryCode,
+  }) {
+    if (!isValid) {
+      return [variableName];
+    }
+    switch (name) {
+      case "bool":
+      case "int":
+      case "num":
+      case "double":
+      case "String":
+      case "Object":
+      case "dynamic":
+        return [variableName];
+      case "Iterable":
+        if (typeArguments.isEmpty) {
+          return [variableName];
+        } else {
+          final type = typeArguments.first;
+          if (!isNullable) {
+            return [
+              variableName,
+              ".map(",
+              "(e) => ",
+              ...type.toToJsonParts(
+                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                  [],
+              ")"
+            ];
+          } else {
+            return [
+              variableName,
+              "?.map(",
+              "(e) => ",
+              ...type.toToJsonParts(
+                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                  [],
+              ")"
+            ];
+          }
+        }
+      case "List":
+        if (typeArguments.isEmpty) {
+          return [variableName];
+        } else {
+          final type = typeArguments.first;
+          if (!isNullable) {
+            return [
+              variableName,
+              ".map(",
+              "(e) => ",
+              ...type.toToJsonParts(
+                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                  [],
+              ")",
+              ".toList()"
+            ];
+          } else {
+            return [
+              variableName,
+              "?.map(",
+              "(e) => ",
+              ...type.toToJsonParts(
+                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                  [],
+              ")",
+              ".toList()"
+            ];
+          }
+        }
+      case "Set":
+        if (typeArguments.isEmpty) {
+          return [variableName];
+        } else {
+          final type = typeArguments.first;
+          if (!isNullable) {
+            return [
+              variableName,
+              ".map(",
+              "(e) => ",
+              ...type.toToJsonParts(
+                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                  [],
+              ")",
+              ".toSet()"
+            ];
+          } else {
+            return [
+              variableName,
+              "?.map(",
+              "(e) => ",
+              ...type.toToJsonParts(
+                      variableName: "e", mapEntryCode: mapEntryCode) ??
+                  [],
+              ")",
+              ".toSet()"
+            ];
+          }
+        }
+      case "Map":
+        if (typeArguments.length < 2) {
+          return [variableName];
+        } else {
+          final type1 = typeArguments.first;
+          final type2 = typeArguments.last;
+          if (!isNullable) {
+            return [
+              variableName,
+              ".map(",
+              "(k, v) => ",
+              ...[
+                mapEntryCode,
+                "(",
+                ...type1.toToJsonParts(
+                        variableName: "k", mapEntryCode: mapEntryCode) ??
+                    [],
+                ",",
+                ...type2.toToJsonParts(
+                        variableName: "v", mapEntryCode: mapEntryCode) ??
+                    [],
+                ")"
+              ],
+              ")",
+            ];
+          } else {
+            return [
+              variableName,
+              "?.map(",
+              "(k, v) => ",
+              ...[
+                mapEntryCode,
+                "(",
+                ...type1.toToJsonParts(
+                        variableName: "k", mapEntryCode: mapEntryCode) ??
+                    [],
+                ",",
+                ...type2.toToJsonParts(
+                        variableName: "v", mapEntryCode: mapEntryCode) ??
+                    [],
+                ")"
+              ],
+              ")",
+            ];
+          }
+        }
+    }
+    return null;
+  }
 
   @override
   String toString() {
@@ -111,6 +457,14 @@ class MacroTypeValue {
     return "$name$suffix";
   }
 
+  @override
+  int get hashCode {
+    return toString().hashCode;
+  }
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
   NamedTypeAnnotationCode? get _checkNamed {
     var type = _type;
     if (type is NamedTypeAnnotationCode) {
@@ -121,25 +475,6 @@ class MacroTypeValue {
       if (type is NamedTypeAnnotationCode) {
         return type;
       }
-    }
-    if (type is OmittedTypeAnnotationCode) {
-      // _builder.report(
-      //   Diagnostic(
-      //     DiagnosticMessage(
-      //       "Only fields with explicit types are allowed on data classes, please add a type.",
-      //     ),
-      //     Severity.info,
-      //   ),
-      // );
-    } else {
-      // _builder.report(
-      //   Diagnostic(
-      //     DiagnosticMessage(
-      //       "Only fields with named types are allowed on data classes.",
-      //     ),
-      //     Severity.info,
-      //   ),
-      // );
     }
     return null;
   }

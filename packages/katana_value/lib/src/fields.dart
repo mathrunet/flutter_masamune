@@ -1,5 +1,14 @@
 part of '/katana_value.dart';
 
+extension on MacroVariableValue {
+  List<Object>? toFieldDeclarationParts() {
+    if (!type.isValid) {
+      return null;
+    }
+    return ["final ", type.toString(), " ", name, ";"];
+  }
+}
+
 class _Fields {
   const _Fields(this.source);
 
@@ -20,9 +29,6 @@ class _Fields {
         (await superClass?.defaultParameters) ?? [];
 
     for (final param in parameters) {
-      if (!param.type.isValid) {
-        continue;
-      }
       if (fields.any((e) => e.name == param.name)) {
         continue;
       }
@@ -30,16 +36,12 @@ class _Fields {
           .any((element) => element.name == param.name)) {
         continue;
       }
+      final code = param.toFieldDeclarationParts();
+      if (code == null) {
+        continue;
+      }
 
-      builder.declareInType(
-        DeclarationCode.fromParts([
-          "final ",
-          param.type.toString(),
-          " ",
-          param.name,
-          ";",
-        ]),
-      );
+      builder.declareInType(DeclarationCode.fromParts(code));
     }
   }
 

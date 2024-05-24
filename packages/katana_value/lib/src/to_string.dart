@@ -33,7 +33,15 @@ class _ToString {
           "return \"",
           source.name,
           "(\${",
-          "{${fields.map((e) => "\"${e.name}\": ${e.name}").join(",")}}.entries.where((e) => e.value != null).map((e) => \"\${e.key}: \${e.value.toString()}\").join(\", \")",
+          "{",
+          ...fields
+              .map((e) => ["\"", e.name, "\": ", e.name])
+              .insertEvery([","], 1).expand((e) => e),
+          "}",
+          ...[".entries"],
+          ...[".where(", "(e) => e.value != null", ")"],
+          ...[".map(", "(e) => \"\${e.key}: \${e.value.toString()}\"", ")"],
+          ...[".join(\", \")"],
           "})\";",
           "}",
         ],

@@ -1,5 +1,28 @@
 part of '/katana_value.dart';
 
+extension on MacroVariableValue {
+  List<Object>? toParametersDeclarationParts({bool forceNullable = false}) {
+    if (!type.isValid) {
+      return null;
+    }
+    if (forceNullable) {
+      return [type.toNullable().toString(), name];
+    }
+    return [type.toString(), name];
+  }
+
+  List<Object>? toCopyWithParametersDefinitionParts(
+      {bool namedParameter = true, String? suffix}) {
+    if (!type.isValid) {
+      return null;
+    }
+    if (namedParameter) {
+      return [name, ": ", name, " ?? ", "this.", name, suffix ?? ""];
+    }
+    return [name, " ?? ", "this.", name, suffix ?? ""];
+  }
+}
+
 class _CopyWith {
   const _CopyWith(this.source);
 
@@ -22,16 +45,13 @@ class _CopyWith {
         DeclarationCode.fromParts([
           "external ",
           source.name,
-          " copyWith({",
-          fields.mapAndRemoveEmpty(
+          " copyWith",
+          "({",
+          ...fields.mapAndRemoveEmpty(
             (e) {
-              if (!e.type.isValid) {
-                return null;
-              }
-              final nullable = e.type.toNullable();
-              return "$nullable ${e.name}";
+              return e.toParametersDeclarationParts(forceNullable: true);
             },
-          ).join(","),
+          ).insertEvery([","], 1).expand((e) => e),
           "});",
         ]),
       );
@@ -62,17 +82,17 @@ class _CopyWith {
           source.name,
           "(",
           ...positionalFields.mapAndRemoveEmpty((e) {
-            if (!e.type.isValid) {
-              return null;
-            }
-            return "${e.name} ?? this.${e.name},";
-          }),
+            return e.toCopyWithParametersDefinitionParts(
+              namedParameter: false,
+              suffix: ",",
+            );
+          }).expand((e) => e),
           ...namedFields.mapAndRemoveEmpty((e) {
-            if (!e.type.isValid) {
-              return null;
-            }
-            return "${e.name}: ${e.name} ?? this.${e.name},";
-          }),
+            return e.toCopyWithParametersDefinitionParts(
+              namedParameter: true,
+              suffix: ",",
+            );
+          }).expand((e) => e),
           ");",
           "}",
         ],

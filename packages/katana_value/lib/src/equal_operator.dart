@@ -1,5 +1,42 @@
 part of '/katana_value.dart';
 
+extension on MacroVariableValue {
+  List<Object>? toHashCodeDefinitionParts(
+      {required NamedTypeAnnotationCode deepHashCode}) {
+    if (!type.isValid) {
+      return null;
+    }
+    if (type.isIterable) {
+      return [deepHashCode, "(", name, ")"];
+    }
+    return [name];
+  }
+
+  List<Object>? toEqualsDefinitionParts(
+      {String otherVariableName = "other",
+      required NamedTypeAnnotationCode identicalCode,
+      required NamedTypeAnnotationCode deepEqualsCode}) {
+    if (!type.isValid) {
+      return null;
+    }
+    if (type.isIterable) {
+      return [
+        deepEqualsCode,
+        "(",
+        ...[otherVariableName, ".", name, ", ", name],
+        ")"
+      ];
+    }
+    return [
+      "(",
+      ...[identicalCode, "(", otherVariableName, ".", name, ", ", name, ")"],
+      " || ",
+      ...[otherVariableName, ".", name, " == ", name],
+      ")"
+    ];
+  }
+}
+
 class _EqualOperator {
   const _EqualOperator(this.source);
 
@@ -36,9 +73,32 @@ class _EqualOperator {
       return;
     }
 
-    final method = await builder.buildMethod(equality.identifier);
+    final (method, identical, deepEquals, fields) = await (
+      builder.buildMethod(equality.identifier),
+      MacroCode.identical.code(builder),
+      MacroCode.deepEquals.code(builder),
+      source.fieldOrDefaultParameters,
+    ).wait;
     return method.augment(
-      FunctionBodyCode.fromString("=> hashCode == other.hashCode;"),
+      FunctionBodyCode.fromParts([
+        "{",
+        ...["if (", identical, "(this, other)) ", "return true;"],
+        ...[
+          "if (",
+          ...["other.runtimeType", " != ", "runtimeType"],
+          " || ",
+          ...["other is! ", source.name],
+          ") ",
+          "return false;"
+        ],
+        "return ",
+        ...fields
+            .mapAndRemoveEmpty((e) => e.toEqualsDefinitionParts(
+                identicalCode: identical, deepEqualsCode: deepEquals))
+            .insertEvery([" && "], 1).expand((e) => e),
+        ";",
+        "}",
+      ]),
     );
   }
 
@@ -53,10 +113,10 @@ class _EqualOperator {
       return;
     }
 
-
-    final (method, object, fields) = await (
+    final (method, object, deepHash, fields) = await (
       builder.buildMethod(hashCode.identifier),
-      MacroCode.object.getCode(builder),
+      MacroCode.object.code(builder),
+      MacroCode.deepHash.code(builder),
       source.fieldOrDefaultParameters,
     ).wait;
 
@@ -66,14 +126,16 @@ class _EqualOperator {
       superclass = await superclass.superClass;
     }
 
-    if(fields.isEmpty){
+    if (fields.isEmpty) {
       return method.augment(
         FunctionBodyCode.fromParts(
           [
             "{",
             "return ",
             object,
-            ".hashAll([runtimeType]);",
+            ".hashAll([",
+            "runtimeType",
+            "]);",
             "}",
           ],
         ),
@@ -87,7 +149,11 @@ class _EqualOperator {
           "return ",
           object,
           ".hashAll([",
-          fields.map((e) => e.name).join(", "),
+          "runtimeType,",
+          ...fields
+              .mapAndRemoveEmpty(
+                  (e) => e.toHashCodeDefinitionParts(deepHashCode: deepHash))
+              .insertEvery([", "], 1).expand((e) => e),
           "]);",
           "}",
         ],

@@ -1,5 +1,25 @@
 part of '/katana_value.dart';
 
+extension on MacroVariableValue {
+  List<Object>? toFromJsonDefinitionParts({
+    String variableName = "json",
+    required NamedTypeAnnotationCode mapEntryCode,
+  }) {
+    if (!type.isValid) {
+      return null;
+    }
+    final key = this.key ?? name;
+    return [
+      name,
+      " = ",
+      ...type.toFromJsonParts(
+              variableName: "$variableName[\"$key\"]",
+              mapEntryCode: mapEntryCode) ??
+          []
+    ];
+  }
+}
+
 class _FromJson {
   const _FromJson(this.source);
 
@@ -10,7 +30,7 @@ class _FromJson {
   ) async {
     builder.declareInType(
       DeclarationCode.fromParts([
-        "external factory ",
+        "external ",
         source.name,
         ".fromJson(Map<String, Object?> json);",
       ]),
@@ -26,23 +46,36 @@ class _FromJson {
       return;
     }
 
-    final (method, fields) = await (
+    final (constructor, mapEntry, fields, superClass) = await (
       builder.buildConstructor(fromJson.identifier),
+      MacroCode.mapEntry.code(builder),
       source.fieldOrDefaultParameters,
+      source.superClass,
     ).wait;
 
-    // return method.augment(
-    //   FunctionBodyCode.fromParts(
-    //     [
-    //       "{",
-    //       "return \"",
-    //       source.name,
-    //       "(\${",
-    //       "{${fields.map((e) => "\"${e.name}\": ${e.name}").join(",")}}.entries.where((e) => e.value != null).map((e) => \"\${e.key}: \${e.value.toString()}\").join(\", \")",
-    //       "})\";",
-    //       "}",
-    //     ],
-    //   ),
-    // );
+    final superClassMethods = await superClass?.methods;
+    final fromJsonMethod =
+        superClassMethods.firstWhereOrNull((m) => m.name == "fromJson");
+
+    if (fromJsonMethod != null) {
+      return constructor.augment(
+        initializers: [
+          RawCode.fromString("super(json)"),
+        ],
+      );
+    }
+
+    return constructor.augment(
+      initializers: [
+        RawCode.fromParts(
+          [
+            ...fields.mapAndRemoveEmpty((e) {
+              return e.toFromJsonDefinitionParts(
+                  variableName: "json", mapEntryCode: mapEntry);
+            }).insertEvery([", "], 1).expand((e) => e),
+          ],
+        ),
+      ],
+    );
   }
 }

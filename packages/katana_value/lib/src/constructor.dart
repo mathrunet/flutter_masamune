@@ -1,5 +1,21 @@
 part of '/katana_value.dart';
 
+extension on MacroVariableValue {
+  List<Object>? toConstructorInitializerDefinisionParts({String? suffix}) {
+    if (!type.isValid) {
+      return null;
+    }
+    return ["this.", name, " = ", name, suffix ?? ""];
+  }
+
+  List<Object>? toConstructorSuperParametersDefinitionParts({String? suffix}) {
+    if (!type.isValid) {
+      return null;
+    }
+    return [name, ": ", name, suffix ?? ""];
+  }
+}
+
 class _Constructor {
   const _Constructor(this.source);
 
@@ -34,12 +50,12 @@ class _Constructor {
         "external ",
         source.name,
         "({",
-        [...fields, ...superClassDefaultConstructorParameters].map(
+        ...[...fields, ...superClassDefaultConstructorParameters]
+            .mapAndRemoveEmpty(
           (e) {
-            final requiredText = e.isRequired ? "required " : "";
-            return "$requiredText${e.type} ${e.name}";
+            return [e.isRequired ? "required " : "", e.type.code!, " ", e.name];
           },
-        ).join(","),
+        ).insertEvery([","], 1).expand((e) => e),
         "});",
       ]),
     );
@@ -71,32 +87,27 @@ class _Constructor {
       initializers: [
         RawCode.fromParts(
           [
-            fieldOrDefaultParameters.mapAndRemoveEmpty(
+            ...fieldOrDefaultParameters.mapAndRemoveEmpty(
               (e) {
-                if (!e.type.isValid) {
-                  return null;
-                }
                 if (superClassDefaultConstructorParameters
                     .any((element) => element.name == e.name)) {
                   return null;
                 }
-                return "this.${e.name} = ${e.name}";
+                return e.toConstructorInitializerDefinisionParts();
               },
-            ).join(","),
+            ).insertEvery([","], 1).expand((e) => e),
             if (superClass != null) ...[
-              ", super(",
-              fieldOrDefaultParameters.mapAndRemoveEmpty(
+              ", ",
+              "super(",
+              ...fieldOrDefaultParameters.mapAndRemoveEmpty(
                 (e) {
-                  if (!e.type.isValid) {
-                    return null;
-                  }
                   if (!superClassDefaultConstructorParameters
                       .any((element) => element.name == e.name)) {
                     return null;
                   }
-                  return "${e.name}: ${e.name}";
+                  return e.toConstructorSuperParametersDefinitionParts();
                 },
-              ).join(","),
+              ).insertEvery([","], 1).expand((e) => e),
               ")",
             ],
           ],

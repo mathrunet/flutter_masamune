@@ -13,11 +13,12 @@ import 'dart:async';
 import 'package:katana/katana.dart';
 import 'package:macros/macros.dart';
 
+export 'package:katana/katana.dart';
+
 part 'framework/extensions.dart';
 part 'framework/macro_class_value.dart';
 part 'framework/macro_variable_value.dart';
 part 'framework/macro_type_value.dart';
-part 'framework/macro_type.dart';
 part 'framework/macro_constructor_value.dart';
 part 'framework/macro_method_value.dart';
 part 'framework/macro_code.dart';

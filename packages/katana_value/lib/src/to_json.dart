@@ -1,5 +1,24 @@
 part of '/katana_value.dart';
 
+extension on MacroVariableValue {
+  List<Object>? toToJsonParts({
+    String variableName = "value",
+    required NamedTypeAnnotationCode mapEntryCode,
+  }) {
+    if (!type.isValid) {
+      return null;
+    }
+    final key = this.key ?? name;
+    return [
+      ...["\"", key, "\""],
+      ": ",
+      ...type.toToJsonParts(
+              variableName: variableName, mapEntryCode: mapEntryCode) ??
+          []
+    ];
+  }
+}
+
 class _ToJson {
   const _ToJson(this.source);
 
@@ -22,28 +41,24 @@ class _ToJson {
       return;
     }
 
-    final (method, fields) = await (
+    final (method, mapEntry, fields) = await (
       builder.buildMethod(toJson.identifier),
+      MacroCode.mapEntry.code(builder),
       source.fieldOrDefaultParameters,
     ).wait;
-
-    final activeFields =
-        fields.where((e) => e.type.isValid && e.type.type != null);
 
     return method.augment(
       FunctionBodyCode.fromParts(
         [
           "{",
-          "return {",
-          ...activeFields.expand(
-            (e) => [
-              if(e.type.isNullable)
-              "if(${e.name} != null)"
-                "\"${e.name}\": ${e.type.type?.toToJsonString(e) ?? "null"},",
-            ],
-          ),
-          "};",
-          "}",
+          "return ",
+          "{",
+          ...fields.mapAndRemoveEmpty((e) {
+            return e.toToJsonParts(
+                variableName: e.name, mapEntryCode: mapEntry);
+          }).insertEvery([", "], 1).expand((e) => e),
+          "};"
+              "}",
         ],
       ),
     );

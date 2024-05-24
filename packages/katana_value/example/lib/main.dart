@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:katana_value/katana_value.dart';
-import 'package:katana_value_example/person.dart';
+
+@DataValue()
+class Person {
+  final String name;
+  final String text;
+}
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +36,7 @@ class ValuePage extends StatefulWidget {
 }
 
 class _ValuePageState extends State<ValuePage> {
-  // final person =  Person(name: "aaa", text: "aaa");
+  final person =  Person(name: "aaa", text: "aaa");
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +45,8 @@ class _ValuePageState extends State<ValuePage> {
         title: const Text("Value Page"),
       ),
       body: Center(
-        // child: Text(person.toJson().toString()),
-      ),
+          child: Text(person.toJson().toString()),
+          ),
     );
   }
 }
