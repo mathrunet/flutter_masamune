@@ -64,8 +64,8 @@ class _ToJson {
                 mapEntryCode: mapEntry,
                 macroJsonConverterCode: macroJsonConverter);
           }).insertEvery([", "], 1).expand((e) => e),
-          "};"
-              "}",
+          "};",
+          "}",
         ],
       ),
     );
