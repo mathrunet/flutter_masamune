@@ -217,14 +217,14 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "3.0.0-dev.0"
+    version: "3.0.0-dev.1"
   katana_macro:
     dependency: "direct main"
     description:
       path: "../katana_macro"
       relative: true
     source: path
-    version: "3.0.0-dev.0"
+    version: "3.0.0-dev.1"
   katana_test:
     dependency: "direct dev"
     description:

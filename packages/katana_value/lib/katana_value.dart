@@ -8,14 +8,14 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_value;
 
+// Dart imports:
 import 'dart:async';
 
-import 'package:katana/katana.dart';
+// Package imports:
 import 'package:katana_macro/katana_macro.dart';
 import 'package:macros/macros.dart';
 
 export 'package:katana/katana.dart';
-
 
 part 'macro/data_value.dart';
 

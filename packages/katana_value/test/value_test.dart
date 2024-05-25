@@ -1,5 +1,8 @@
-import 'package:katana_value/katana_value.dart';
+// Package imports:
 import 'package:test/test.dart';
+
+// Project imports:
+import 'package:katana_value/katana_value.dart';
 
 @DataValue()
 class Person {

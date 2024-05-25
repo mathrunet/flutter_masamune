@@ -36,7 +36,7 @@ class ValuePage extends StatefulWidget {
 }
 
 class _ValuePageState extends State<ValuePage> {
-  final person =  Person(name: "aaa", text: "aaa");
+  final person = Person(name: "aaa", text: "aaa");
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +45,8 @@ class _ValuePageState extends State<ValuePage> {
         title: const Text("Value Page"),
       ),
       body: Center(
-          child: Text(person.toJson().toString()),
-          ),
+        child: Text(person.toJson().toString()),
+      ),
     );
   }
 }
