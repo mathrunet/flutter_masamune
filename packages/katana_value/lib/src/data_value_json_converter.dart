@@ -29,10 +29,11 @@ part of '/katana_value.dart';
 ///
 ///   @override
 ///   dynamic fromJson(String key, Map<String, dynamic> json) {
-///     if(json["#type"] != "PersonBase") {
-///       return null;
+///     final map = json[key];
+///     if(map is Map<String, Object?> && map["#type"] == "ModelCounter") {
+///       return PersonBase.fromJson(map);
 ///     }
-///     return PersonBase.fromJson(json[key] as Map<String, Object?>? ?? {});
+///     return null;
 ///   }
 /// }
 ///
