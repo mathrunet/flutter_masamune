@@ -1,3 +1,7 @@
+## 3.0.0-dev.3
+
+ - **DOCS**: Create a ReadMe. ([a38b00b9](https://github.com/mathrunet/flutter_masamune/commit/a38b00b9adc25a05a2c24971318c4beec1a4dd76))
+
 ## 3.0.0-dev.2
 
  - Update a dependency to the latest release.

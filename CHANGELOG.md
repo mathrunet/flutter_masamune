@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_value` - `v3.0.0-dev.3`](#katana_value---v300-dev3)
+
+---
+
+#### `katana_value` - `v3.0.0-dev.3`
+
+ - **DOCS**: Create a ReadMe. ([a38b00b9](https://github.com/mathrunet/flutter_masamune/commit/a38b00b9adc25a05a2c24971318c4beec1a4dd76))
+
+
+## 2024-05-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_macro` - `v3.0.0-dev.2`](#katana_macro---v300-dev2)
  - [`katana_value` - `v3.0.0-dev.2`](#katana_value---v300-dev2)
 
