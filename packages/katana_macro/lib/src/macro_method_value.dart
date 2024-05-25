@@ -26,12 +26,12 @@ class MacroMethodValue {
   final DeclarationPhaseIntrospector _introspector;
 
   /// Method name.
-  /// 
+  ///
   /// メソッド名。
   String get name => identifier.name;
 
   /// Method identifier.
-  /// 
+  ///
   /// メソッドの識別子。
   Identifier get identifier => _declaration.identifier;
 }

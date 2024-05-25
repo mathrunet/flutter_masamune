@@ -27,13 +27,13 @@
 
 ---
 
-A package that includes extension methods and utility functions that support the Katana/Masamune Framework.
+This package includes a set of utilities to support the macro portion of Katana/Masamune Framework.
 
 # Installation
 
-Import the following packages.
+Import the following package.
 
-```dart
+```
 flutter pub add katana_macro
 ```
 
@@ -41,10 +41,10 @@ flutter pub add katana_macro
 
 Please review the following documents.
 
-[https://pub.dev/documentation/katana/latest/katana/katana-library.html](https://pub.dev/documentation/katana/latest/katana/katana-library.html)
+[](https://pub.dev/documentation/katana_macro/latest/katana_macro/katana_macro-library.html)
 
 # GitHub Sponsors
 
 Sponsors are always welcome. Thank you for your support!
 
-[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)
+[Sponsor @mathrunet on GitHub Sponsors](https://github.com/sponsors/mathrunet)
