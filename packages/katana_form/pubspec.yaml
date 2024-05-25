@@ -15,7 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.0.0-dev.0
+  katana: ^3.0.0-dev.1
   universal_platform: ^1.0.0+1
   flutter_rating_bar: ^4.0.1
   pin_input_text_field: ^4.5.1

@@ -15,7 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.0.0-dev.0
+  katana: ^3.0.0-dev.1
   masamune: ^3.0.0-dev.0
   agora_rtc_engine: ^6.3.0
   permission_handler: ^11.0.0

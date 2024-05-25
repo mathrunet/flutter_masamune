@@ -17,7 +17,7 @@ dependencies:
 
   meta: ^1.8.0
 
-  katana: ^3.0.0-dev.0
+  katana: ^3.0.0-dev.1
   katana_logger: ^3.0.0-dev.0
   katana_shorten: ^3.0.0-dev.0
   katana_indicator: ^3.0.0-dev.0

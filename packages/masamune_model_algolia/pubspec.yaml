@@ -17,7 +17,7 @@ dependencies:
 
   meta: ^1.8.0
 
-  katana: ^3.0.0-dev.0
+  katana: ^3.0.0-dev.1
   masamune: ^3.0.0-dev.0
   algolia_helper_flutter: ^0.5.0
   katana_model_firestore: ^3.0.0-dev.0

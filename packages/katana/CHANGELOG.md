@@ -1,3 +1,8 @@
+## 3.0.0-dev.1
+
+ - **FIX**: Upgrade of Example. ([82fc9bc2](https://github.com/mathrunet/flutter_masamune/commit/82fc9bc23b8cf7534612d70b5682221a51f16e28))
+ - **FEAT**: Added deepEquals and deepHash. ([164fd328](https://github.com/mathrunet/flutter_masamune/commit/164fd328eb1c9ebb23a93dbb819f7f7645fe542c))
+
 ## 3.0.0-dev.0
 
 > Note: This release has breaking changes.

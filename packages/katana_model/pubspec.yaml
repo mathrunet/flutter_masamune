@@ -15,7 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.0.0-dev.0
+  katana: ^3.0.0-dev.1
 
 dev_dependencies:
   test: ^1.24.0

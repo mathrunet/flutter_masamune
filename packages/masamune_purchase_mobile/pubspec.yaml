@@ -26,7 +26,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.0.0-dev.0
+  katana: ^3.0.0-dev.1
   masamune: ^3.0.0-dev.0
   universal_platform: ^1.0.0+1
   masamune_purchase: ^3.0.0-dev.0

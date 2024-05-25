@@ -15,7 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  katana: ^3.0.0-dev.0
+  katana: ^3.0.0-dev.1
   firebase_core: ^2.30.0
   cloud_firestore: ^4.17.0
 

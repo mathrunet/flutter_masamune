@@ -15,7 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.0.0-dev.0
+  katana: ^3.0.0-dev.1
   masamune: ^3.0.0-dev.0
   flutter_facebook_auth: ^6.2.0
 

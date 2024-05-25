@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-05-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana` - `v3.0.0-dev.1`](#katana---v300-dev1)
+ - [`katana_macro` - `v3.0.0-dev.1`](#katana_macro---v300-dev1)
+ - [`katana_value` - `v3.0.0-dev.1`](#katana_value---v300-dev1)
+
+---
+
+#### `katana` - `v3.0.0-dev.1`
+
+ - **FIX**: Upgrade of Example. ([82fc9bc2](https://github.com/mathrunet/flutter_masamune/commit/82fc9bc23b8cf7534612d70b5682221a51f16e28))
+ - **FEAT**: Added deepEquals and deepHash. ([164fd328](https://github.com/mathrunet/flutter_masamune/commit/164fd328eb1c9ebb23a93dbb819f7f7645fe542c))
+
+#### `katana_macro` - `v3.0.0-dev.1`
+
+ - **FEAT**: Initial commit. ([c5d158ec](https://github.com/mathrunet/flutter_masamune/commit/c5d158ecd74b506abf75ffd3a73994eedd3d76b8))
+
+#### `katana_value` - `v3.0.0-dev.1`
+
+ - **FIX**: Framework section cut out to package. ([2cd50ebc](https://github.com/mathrunet/flutter_masamune/commit/2cd50ebcedd66ec364f91a13700b2bbd7d2f59f6))
+ - **FIX**: Add DataValueJsonConverter. ([4f135e6a](https://github.com/mathrunet/flutter_masamune/commit/4f135e6ac75d7cb09aaf07d411ace030dc992a44))
+ - **FIX**: bug fix. ([ee72b548](https://github.com/mathrunet/flutter_masamune/commit/ee72b548663d52d9a50b7ac80a4dd4df282e6408))
+ - **FEAT**: Initial commit. ([47214767](https://github.com/mathrunet/flutter_masamune/commit/47214767067de053635abdc475fe7acf9140f7e2))
+
+
 ## 2024-05-20
 
 ### Changes

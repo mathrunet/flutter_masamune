@@ -15,7 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.0.0-dev.0
+  katana: ^3.0.0-dev.1
   masamune: ^3.0.0-dev.0
   google_mobile_ads: ^5.0.0
   permission_handler: ^11.1.0
