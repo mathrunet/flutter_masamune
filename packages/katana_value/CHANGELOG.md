@@ -1,3 +1,7 @@
+## 3.0.0-dev.2
+
+ - Update a dependency to the latest release.
+
 ## 3.0.0-dev.1
 
  - **FIX**: Framework section cut out to package. ([2cd50ebc](https://github.com/mathrunet/flutter_masamune/commit/2cd50ebcedd66ec364f91a13700b2bbd7d2f59f6))

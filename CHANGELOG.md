@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_macro` - `v3.0.0-dev.2`](#katana_macro---v300-dev2)
+ - [`katana_value` - `v3.0.0-dev.2`](#katana_value---v300-dev2)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_value` - `v3.0.0-dev.2`
+
+---
+
+#### `katana_macro` - `v3.0.0-dev.2`
+
+ - **DOCS**: ReadMe changes. ([19146ac6](https://github.com/mathrunet/flutter_masamune/commit/19146ac699bff3de8e5305c6e8bf83e6d4578197))
+
+
+## 2024-05-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v3.0.0-dev.1`](#katana---v300-dev1)
  - [`katana_macro` - `v3.0.0-dev.1`](#katana_macro---v300-dev1)
  - [`katana_value` - `v3.0.0-dev.1`](#katana_value---v300-dev1)

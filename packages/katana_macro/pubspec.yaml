@@ -1,6 +1,6 @@
 name: katana_macro
 description: This package is designed to provide support for macros. It provides basic functionality for implementing macros.
-version: 3.0.0-dev.1
+version: 3.0.0-dev.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_macro
 

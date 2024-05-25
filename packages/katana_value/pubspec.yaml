@@ -1,6 +1,6 @@
 name: katana_value
 description: This is a macro package for creating immutable data classes. It can be applied to widgets in addition to regular data.
-version: 3.0.0-dev.1
+version: 3.0.0-dev.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_value
 
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
     
   katana: ^3.0.0-dev.1
-  katana_macro: ^3.0.0-dev.1
+  katana_macro: ^3.0.0-dev.2
   macros: ^0.1.0-main.5
 
 dev_dependencies:
