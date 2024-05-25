@@ -359,6 +359,13 @@ packages:
       relative: true
     source: path
     version: "3.0.0-dev.0"
+  katana_macro:
+    dependency: "direct overridden"
+    description:
+      path: "../../katana_macro"
+      relative: true
+    source: path
+    version: "3.0.0-dev.0"
   katana_value:
     dependency: "direct main"
     description:

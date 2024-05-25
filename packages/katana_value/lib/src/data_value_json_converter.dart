@@ -84,6 +84,15 @@ abstract class DataValueJsonConverter {
     _converters.add(converter);
   }
 
+  /// Register multiple new [DataValueJsonConverter].
+  ///
+  /// 複数の[DataValueJsonConverter]を新しく登録します。
+  ///
+  /// {@macro macro_json_converter}
+  static void registerAll(List<DataValueJsonConverter> converters) {
+    _converters.addAll(converters);
+  }
+
   /// Unregister a [DataValueJsonConverter].
   ///
   /// [DataValueJsonConverter]を登録解除します。

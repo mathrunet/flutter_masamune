@@ -93,7 +93,7 @@ part of '/katana_value.dart';
 /// final example = Example(name: "name", text: "text");
 /// ```
 /// {@endtemplate}
-class DataValue implements ClassDeclarationsMacro, ClassDefinitionMacro {
+macro class DataValue implements ClassDeclarationsMacro, ClassDefinitionMacro {
   /// {@macro data_value}
   const DataValue();
 
