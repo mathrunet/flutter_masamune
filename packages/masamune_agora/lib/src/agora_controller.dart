@@ -43,6 +43,7 @@ class AgoraController
   static const String _agoraURL = "https://api.agora.io/v1/apps";
 
   static RtcEngine? _engine;
+  static DateTime? _lastDisconnectedTime;
 
   @override
   AgoraMasamuneAdapter get primaryAdapter => AgoraMasamuneAdapter.primary;
@@ -381,13 +382,19 @@ class AgoraController
     if (_engine != null) {
       return;
     }
+    _initializeCompleter = Completer();
     try {
-      _initializeCompleter = Completer();
+      if (_lastDisconnectedTime != null) {
+        final diff = DateTime.now().difference(_lastDisconnectedTime!);
+        if (diff.inSeconds < 5) {
+          await Future.delayed(Duration(seconds: 5 - diff.inSeconds));
+        }
+      }
       _engine = createAgoraRtcEngine();
       await _engine?.initialize(RtcEngineContext(
         appId: primaryAdapter.appId,
       ));
-      _initializeEventHandler = RtcEngineEventHandler(
+      _initializeEventHandler ??= RtcEngineEventHandler(
         onError: (err, msg) {
           debugPrint(err.toString());
           _initializeCompleter?.completeError(err);
@@ -424,25 +431,8 @@ class AgoraController
         "The engine is not initialized. [connect] the engine first.",
       );
     }
-    if (connected) {
-      _disposed = true;
-      _token = null;
-      _connected = false;
-      value?.clear();
-      stopScreenCapture();
-      stopRecording();
-      stopAudioRecording();
-      _engine?.leaveChannel();
-      _sendLog(AgoraLoggerEvent.leave);
-    }
-    if (_connectEventHandler != null) {
-      _engine?.unregisterEventHandler(_connectEventHandler!);
-      _connectEventHandler = null;
-    }
-    if (_initializeEventHandler != null) {
-      _engine?.unregisterEventHandler(_initializeEventHandler!);
-      _initializeEventHandler = null;
-    }
+    _disposed = true;
+    _release();
   }
 
   /// Connect to a new channel.
@@ -527,7 +517,7 @@ class AgoraController
     }
     _connectingCompleter = Completer<void>();
     try {
-      _connected = true;
+      await _release();
       await _initialize(userName: userName);
       final res = await adapter.functionsAdapter.execute(
         AgoraTokenFunctionsAction(
@@ -538,7 +528,7 @@ class AgoraController
         ),
       );
       _token = res.token;
-      _connectEventHandler = RtcEngineEventHandler(
+      _connectEventHandler ??= RtcEngineEventHandler(
         onError: (err, msg) {
           debugPrint(err.toString());
           _connectingCompleter?.completeError(err);
@@ -733,7 +723,6 @@ class AgoraController
         );
         await _connectingCompleter?.future;
         connectionState = await _engine?.getConnectionState();
-        debugPrint(connectionState.toString());
         if (connectionState != ConnectionStateType.connectionStateConnected) {
           retried++;
           await _engine?.leaveChannel();
@@ -742,12 +731,13 @@ class AgoraController
           }
         }
       } while (connectionState != ConnectionStateType.connectionStateConnected);
+      _connected = true;
       notifyListeners();
       _connectingCompleter?.complete();
       _connectingCompleter = null;
-      _connected = true;
     } catch (e) {
       _token = null;
+      _connected = false;
       _connectingCompleter?.completeError(e);
       _connectingCompleter = null;
       rethrow;
@@ -768,18 +758,32 @@ class AgoraController
       return;
     }
     _disconnectingCompleter = Completer<void>();
+    int retried = 0;
+    ConnectionStateType? connectionState;
     try {
       if (_engine == null) {
         throw Exception(
           "The engine is not initialized. [connect] the engine first.",
         );
       }
-      _engine?.leaveChannel();
-      await _disconnectingCompleter?.future;
-      _token = null;
-      _connected = false;
+      do {
+        _engine?.leaveChannel();
+        await _disconnectingCompleter?.future;
+        connectionState = await _engine?.getConnectionState();
+        if (connectionState !=
+            ConnectionStateType.connectionStateDisconnected) {
+          retried++;
+          if (retried > 3) {
+            throw Exception("Failed to disconnect to the channel.");
+          }
+        }
+      } while (
+          connectionState != ConnectionStateType.connectionStateDisconnected);
+      await _release();
+      notifyListeners();
       _disconnectingCompleter?.complete();
       _disconnectingCompleter = null;
+      _lastDisconnectedTime = DateTime.now();
     } catch (e) {
       _disconnectingCompleter?.completeError(e);
       _disconnectingCompleter = null;
@@ -804,7 +808,8 @@ class AgoraController
     _reconnectCompleter = Completer();
     try {
       await disconnect();
-      await Future.delayed(const Duration(seconds: 1));
+      _token = null;
+      await _release();
       await connect(
         userName: _localName ?? "",
         videoProfile: _videoProfile,
@@ -819,8 +824,8 @@ class AgoraController
       );
       _reconnectCompleter?.complete();
       _reconnectCompleter = null;
-    } catch (e) {
-      _reconnectCompleter?.completeError(e);
+    } catch (e, stacktrace) {
+      _reconnectCompleter?.completeError(e, stacktrace);
       _reconnectCompleter = null;
       rethrow;
     } finally {
@@ -1362,6 +1367,8 @@ class AgoraController
       AgoraLoggerEvent.userNumberKey: remoteUid,
       AgoraLoggerEvent.isLocalUserKey: false,
     });
+    // FIXME: ここで待たないと画面が更新されないことがある
+    await Future.delayed(const Duration(milliseconds: 100));
     notifyListeners();
     final userInfo = await _engine?.getUserInfoByUid(remoteUid);
     if (userInfo != null) {
@@ -1373,6 +1380,18 @@ class AgoraController
     for (final loggerAdapter in loggerAdapters) {
       loggerAdapter.send(event.toString(), parameters: parameters);
     }
+  }
+
+  Future<void> _release() async {
+    if (_engine == null) {
+      return;
+    }
+    _lastDisconnectedTime = DateTime.now();
+    final engine = _engine;
+    _engine = null;
+    _token = null;
+    _connected = false;
+    await engine?.release();
   }
 }
 
