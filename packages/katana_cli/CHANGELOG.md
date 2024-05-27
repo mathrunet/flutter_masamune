@@ -1,3 +1,7 @@
+## 2.20.0
+
+ - **FEAT**: Added Exception command. ([7de91e0d](https://github.com/mathrunet/flutter_masamune/commit/7de91e0d9b06e5ff6cb56cc9d90976afd65c7315))
+
 ## 2.19.7
 
  - **FIX**: Agora's authorization measures. ([1907a431](https://github.com/mathrunet/flutter_masamune/commit/1907a431558448cea891bc2dcc070e2538f3f680))

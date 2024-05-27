@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.20.0`](#katana_cli---v2200)
+
+---
+
+#### `katana_cli` - `v2.20.0`
+
+ - **FEAT**: Added Exception command. ([7de91e0d](https://github.com/mathrunet/flutter_masamune/commit/7de91e0d9b06e5ff6cb56cc9d90976afd65c7315))
+
+
+## 2024-05-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_agora` - `v2.4.77`](#masamune_agora---v2477)
 
 ---
