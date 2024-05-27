@@ -14,7 +14,7 @@ dependencies:
     
   katana: ^2.14.0
   masamune: ^2.13.31
-  agora_rtc_engine: ^6.3.0
+  agora_rtc_engine: ^6.2.0
   permission_handler: ^11.0.0
   universal_platform: ^1.0.0+1
 dev_dependencies:
