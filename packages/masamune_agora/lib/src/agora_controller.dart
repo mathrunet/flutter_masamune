@@ -175,6 +175,7 @@ class AgoraController
   Completer<void>? _disconnectingCompleter;
 
   Completer<void>? _initializeCompleter;
+  Completer<void>? _reconnectCompleter;
 
   /// Specify the profile of the channel to be connected.
   ///
@@ -797,19 +798,35 @@ class AgoraController
   ///
   /// すでに接続されている場合、一度切断してから再接続します。
   Future<void> reconnect() async {
-    await disconnect();
-    await connect(
-      userName: _localName ?? "",
-      videoProfile: _videoProfile,
-      cameraDirection: _cameraDirection,
-      enableAudio: _enableAudio,
-      enableVideo: _enableVideo,
-      channelProfile: _channelProfile,
-      clientRole: _clientRole,
-      orientation: _orientation,
-      enableCustomVideoSource: _enableCustomVideoSource,
-      onReceivedDataStream: _onReceivedDataStream,
-    );
+    if (_reconnectCompleter != null) {
+      return _reconnectCompleter!.future;
+    }
+    _reconnectCompleter = Completer();
+    try {
+      await disconnect();
+      await Future.delayed(const Duration(seconds: 1));
+      await connect(
+        userName: _localName ?? "",
+        videoProfile: _videoProfile,
+        cameraDirection: _cameraDirection,
+        enableAudio: _enableAudio,
+        enableVideo: _enableVideo,
+        channelProfile: _channelProfile,
+        clientRole: _clientRole,
+        orientation: _orientation,
+        enableCustomVideoSource: _enableCustomVideoSource,
+        onReceivedDataStream: _onReceivedDataStream,
+      );
+      _reconnectCompleter?.complete();
+      _reconnectCompleter = null;
+    } catch (e) {
+      _reconnectCompleter?.completeError(e);
+      _reconnectCompleter = null;
+      rethrow;
+    } finally {
+      _reconnectCompleter?.complete();
+      _reconnectCompleter = null;
+    }
   }
 
   /// If already connected, take a screenshot of the delivered video.
