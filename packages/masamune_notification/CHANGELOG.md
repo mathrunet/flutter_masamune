@@ -1,3 +1,7 @@
+## 2.5.76
+
+ - Update a dependency to the latest release.
+
 ## 2.5.75
 
  - **FIX**: Fixes around notifications. ([2c533452](https://github.com/mathrunet/flutter_masamune/commit/2c533452f88849b1c536b23d77a6bfc11736e5d1))

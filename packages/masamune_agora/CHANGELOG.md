@@ -1,3 +1,7 @@
+## 2.4.78
+
+ - Update a dependency to the latest release.
+
 ## 2.4.77
 
  - **FIX**: Further adjustment around connections. ([e8ff5346](https://github.com/mathrunet/flutter_masamune/commit/e8ff534624c99c567067ad78e3070a48473fe1f4))

@@ -1,3 +1,7 @@
+## 2.2.14
+
+ - **FIX**: Fixed initial route information was not being communicated to Boot. ([4db16926](https://github.com/mathrunet/flutter_masamune/commit/4db16926a4113a79c9249ac83eb21ee766686886))
+
 ## 2.2.13
 
  - Update a dependency to the latest release.
