@@ -1,3 +1,7 @@
+## 2.2.15
+
+ - **FIX**: Change NestedPage to HiddenPage. ([e925938a](https://github.com/mathrunet/flutter_masamune/commit/e925938ae507a01fe5b5574f1411c9d64d3b7b33))
+
 ## 2.2.14
 
  - **FIX**: Fixed initial route information was not being communicated to Boot. ([4db16926](https://github.com/mathrunet/flutter_masamune/commit/4db16926a4113a79c9249ac83eb21ee766686886))

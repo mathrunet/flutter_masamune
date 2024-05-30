@@ -1,3 +1,7 @@
+## 2.1.8
+
+ - **FIX**: Change NestedPage to HiddenPage. ([e925938a](https://github.com/mathrunet/flutter_masamune/commit/e925938ae507a01fe5b5574f1411c9d64d3b7b33))
+
 ## 2.1.7
 
  - Update a dependency to the latest release.
