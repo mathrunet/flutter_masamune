@@ -163,6 +163,12 @@ class _AnimateScopeState extends State<AnimateScope>
     }
   }
 
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
   void _onInit() {
     _controller?._internalNotifier.removeListener(_handeldOnUpdate);
     _effectiveController._internalNotifier.addListener(_handeldOnUpdate);
