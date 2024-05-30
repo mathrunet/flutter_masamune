@@ -101,11 +101,15 @@ abstract class BootRouteQueryBuilder extends StatefulWidget {
   /// この処理が終わると最初の画面に遷移します。
   FutureOr<void> onInit(BuildContext context);
 
-  /// Passing the current path to [path] returns the corresponding [RouteQuery].
+  /// Passing the current [RouteQuery] to [sourceRouteQuery] returns the corresponding [RouteQuery].
   ///
-  /// [path]に現在のパスを渡すとそれに応じた[RouteQuery]を返します。
-  RouteQuery resolve(String path) {
-    return _BootRouteQuery(builder: this, sourcePath: path);
+  /// [sourceRouteQuery]に現在の[RouteQuery]を渡すとそれに応じた[RouteQuery]を返します。
+  RouteQuery resolve(RouteQuery sourceRouteQuery) {
+    return _BootRouteQuery(
+      builder: this,
+      sourcePath: sourceRouteQuery.path,
+      nested: sourceRouteQuery.nested,
+    );
   }
 
   /// Describe what to do in the event of an error.
@@ -150,10 +154,13 @@ class _BootRouteQuery extends RouteQuery {
   const _BootRouteQuery({
     required this.builder,
     required this.sourcePath,
+    this.nested = false,
   });
 
   final String sourcePath;
   final BootRouteQueryBuilder builder;
+  @override
+  final bool nested;
 
   @override
   String get path => sourcePath;
