@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_animate` - `v2.2.20`](#masamune_animate---v2220)
+
+---
+
+#### `masamune_animate` - `v2.2.20`
+
+ - **FIX**: Fixed a bug where the animation builder was not updating properly. ([f9df3686](https://github.com/mathrunet/flutter_masamune/commit/f9df36867bb4bf74ba015acc85e488047a3f3115))
+
+
+## 2024-05-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v2.2.15`](#katana_router---v2215)
  - [`katana_router_annotation` - `v2.1.8`](#katana_router_annotation---v218)
  - [`katana_router_builder` - `v2.1.10`](#katana_router_builder---v2110)
