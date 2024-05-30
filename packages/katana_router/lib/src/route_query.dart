@@ -40,10 +40,13 @@ abstract class RouteQuery {
   /// デフォルトは[path]と同じです。
   String get name => path;
 
-  /// Returns `true` for nested pages (i.e., pages with no path information).
+  /// Returns `true` if the URL is a hidden page (i.e., no path information).
   ///
-  /// ネストされたページ（つまりパス情報が無いページ）の場合は`true`を返します。
-  bool get nested => false;
+  /// URLが隠されたページ（つまりパス情報が無いページ）の場合は`true`を返します。
+  bool get hidden => false;
+
+  @Deprecated('Use `hidden` instead.')
+  bool get nested => hidden;
 
   /// Specifies the default transition tied to the page. Transitions specified by [AppRouter.push] or other methods will take precedence.
   ///
@@ -118,7 +121,7 @@ class _InnerRouteQueryImpl extends RouteQuery {
   String get path => routeQuery.path;
 
   @override
-  bool get nested => routeQuery.nested;
+  bool get hidden => routeQuery.hidden;
 
   @override
   AppPageRoute<E> route<E>([TransitionQuery? query]) => routeQuery.route(

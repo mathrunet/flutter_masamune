@@ -113,29 +113,7 @@ class PagePath {
   final Type? implementType;
 }
 
-/// Pages for use in nested navigators rather than at the top level.
-///
-/// If used with this, it will not be accessible via deep linking.
-///
-/// トップレベルではなくネストされたナビゲーターで用いるためのページ。
-///
-/// これで使用した場合、ディープリンクでのアクセスができなくなります。
-///
-/// ```dart
-/// @NestedPage()
-/// class TestWidget extends StatelessWidget {
-///   @override
-///   Widget build(BuildContext context) {
-///     return Scaffold(
-///       appBar: AppBar(title: Text("Test")),
-///       body: Center(child: Text("Body")),
-///     );
-///   }
-/// }
-/// ```
-const nestedPage = NestedPage();
-
-/// Pages for use in nested navigators rather than at the top level.
+/// Pages to be used in nested navigators instead of at the top level or to intentionally not set URLs.
 ///
 /// If used with this, it will not be accessible via deep linking.
 ///
@@ -143,7 +121,7 @@ const nestedPage = NestedPage();
 ///
 /// You can give a name to a page by specifying [name], and you can bind an object (including enums, etc.) to a page by specifying [key]. All of these can be obtained from `RouteQuery`.
 ///
-/// トップレベルではなくネストされたナビゲーターで用いるためのページ。
+/// トップレベルではなくネストされたナビゲーターで用いたり、意図的にURLを設定しないためのページ。
 ///
 /// これで使用した場合、ディープリンクでのアクセスができなくなります。
 ///
@@ -152,7 +130,7 @@ const nestedPage = NestedPage();
 /// [name]を指定することでページに名前をつけることができ、[key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。これらはすべて`RouteQuery`から取得することができます。
 ///
 /// ```dart
-/// @NestedPage()
+/// @HiddenPage()
 /// class TestWidget extends StatelessWidget {
 ///   @override
 ///   Widget build(BuildContext context) {
@@ -163,8 +141,41 @@ const nestedPage = NestedPage();
 ///   }
 /// }
 /// ```
-class NestedPage {
-  /// Pages for use in nested navigators rather than at the top level.
+const hiddenPage = HiddenPage();
+
+@Deprecated("Use `hiddenPage` instead.")
+const nestedPage = hiddenPage;
+
+/// Pages to be used in nested navigators instead of at the top level or to intentionally not set URLs.
+///
+/// If used with this, it will not be accessible via deep linking.
+///
+/// When [redirect] is set, it is possible to write reroute settings that correspond only to that page.
+///
+/// You can give a name to a page by specifying [name], and you can bind an object (including enums, etc.) to a page by specifying [key]. All of these can be obtained from `RouteQuery`.
+///
+/// トップレベルではなくネストされたナビゲーターで用いたり、意図的にURLを設定しないためのページ。
+///
+/// これで使用した場合、ディープリンクでのアクセスができなくなります。
+///
+/// [redirect]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
+///
+/// [name]を指定することでページに名前をつけることができ、[key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。これらはすべて`RouteQuery`から取得することができます。
+///
+/// ```dart
+/// @HiddenPage()
+/// class TestWidget extends StatelessWidget {
+///   @override
+///   Widget build(BuildContext context) {
+///     return Scaffold(
+///       appBar: AppBar(title: Text("Test")),
+///       body: Center(child: Text("Body")),
+///     );
+///   }
+/// }
+/// ```
+class HiddenPage {
+  /// Pages to be used in nested navigators instead of at the top level or to intentionally not set URLs.
   ///
   /// If used with this, it will not be accessible via deep linking.
   ///
@@ -172,7 +183,7 @@ class NestedPage {
   ///
   /// You can give a name to a page by specifying [name], and you can bind an object (including enums, etc.) to a page by specifying [key]. All of these can be obtained from `RouteQuery`.
   ///
-  /// トップレベルではなくネストされたナビゲーターで用いるためのページ。
+  /// トップレベルではなくネストされたナビゲーターで用いたり、意図的にURLを設定しないためのページ。
   ///
   /// これで使用した場合、ディープリンクでのアクセスができなくなります。
   ///
@@ -181,7 +192,7 @@ class NestedPage {
   /// [name]を指定することでページに名前をつけることができ、[key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。これらはすべて`RouteQuery`から取得することができます。
   ///
   /// ```dart
-  /// @NestedPage()
+  /// @HiddenPage()
   /// class TestWidget extends StatelessWidget {
   ///   @override
   ///   Widget build(BuildContext context) {
@@ -192,7 +203,7 @@ class NestedPage {
   ///   }
   /// }
   /// ```
-  const NestedPage({
+  const HiddenPage({
     this.key,
     this.name,
     this.transition,
@@ -241,3 +252,6 @@ class NestedPage {
   /// `RouteQueryBuilder`を継承したクラスを指定してページを入れ替え可能にします。
   final Type? implementType;
 }
+
+@Deprecated("NestedPage is changed to HiddenPage.")
+typedef NestedPage = HiddenPage;

@@ -171,7 +171,7 @@ List<Class> queryClass(
           ),
           Method(
             (m) => m
-              ..name = "nested"
+              ..name = "hidden"
               ..annotations.addAll([const Reference("override")])
               ..type = MethodType.getter
               ..lambda = true

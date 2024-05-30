@@ -108,7 +108,7 @@ abstract class BootRouteQueryBuilder extends StatefulWidget {
     return _BootRouteQuery(
       builder: this,
       sourcePath: sourceRouteQuery.path,
-      nested: sourceRouteQuery.nested,
+      hidden: sourceRouteQuery.hidden,
     );
   }
 
@@ -154,13 +154,13 @@ class _BootRouteQuery extends RouteQuery {
   const _BootRouteQuery({
     required this.builder,
     required this.sourcePath,
-    this.nested = false,
+    this.hidden = false,
   });
 
   final String sourcePath;
   final BootRouteQueryBuilder builder;
   @override
-  final bool nested;
+  final bool hidden;
 
   @override
   String get path => sourcePath;

@@ -71,7 +71,7 @@ class _$_MasamuneIntroductionPageQuery extends RouteQuery {
   String get name => path;
 
   @override
-  bool get nested => false;
+  bool get hidden => false;
 
   @override
   TransitionQuery? get transition => TransitionQuery.fade;
