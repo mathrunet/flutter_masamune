@@ -1,3 +1,7 @@
+## 2.2.21
+
+ - Update a dependency to the latest release.
+
 ## 2.2.20
 
  - **FIX**: Fixed a bug where the animation builder was not updating properly. ([f9df3686](https://github.com/mathrunet/flutter_masamune/commit/f9df36867bb4bf74ba015acc85e488047a3f3115))

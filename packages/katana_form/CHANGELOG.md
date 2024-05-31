@@ -1,3 +1,8 @@
+## 2.13.0
+
+ - **FIX**: Added FormDateTimeRangeFieldCustomDelegate. ([109485ab](https://github.com/mathrunet/flutter_masamune/commit/109485ab22c62927984a9678859859d33b1fc91e))
+ - **FEAT**: Add FormStyleContainer. ([acaff9ca](https://github.com/mathrunet/flutter_masamune/commit/acaff9cabc9f6dc3a57d903fd3a16fb9ab954eff))
+
 ## 2.12.17
 
  - **FIX**: Change the Divider color. ([4e948985](https://github.com/mathrunet/flutter_masamune/commit/4e9489852fd5930ab0ed8351c95791023a985835))

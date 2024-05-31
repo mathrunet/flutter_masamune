@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: Changed PUSH notifications to remote PUSH notifications. ([53fe21e9](https://github.com/mathrunet/flutter_masamune/commit/53fe21e9d71828c9c93e0300348a7f2c29a64885))
+
 ## 2.5.82
 
  - Update a dependency to the latest release.
