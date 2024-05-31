@@ -7,11 +7,11 @@ part of '/masamune_notification.dart';
 /// {@macro functions_action}
 class SendRemoteNotificationFunctionsAction
     extends FunctionsAction<SendRemoteNotificationFunctionsActionResponse> {
-/// [FunctionsAction] for sending remote PUSH notifications from the server side.
-///
-/// リモートPUSH通知をサーバー側から送るための[FunctionsAction]。
-///
-/// {@macro functions_action}
+  /// [FunctionsAction] for sending remote PUSH notifications from the server side.
+  ///
+  /// リモートPUSH通知をサーバー側から送るための[FunctionsAction]。
+  ///
+  /// {@macro functions_action}
   const SendRemoteNotificationFunctionsAction({
     required this.title,
     required this.text,
@@ -99,7 +99,8 @@ class SendRemoteNotificationFunctionsAction
 /// [FunctionsAction] response to send remote PUSH notification from the server side.
 ///
 /// リモートPUSH通知をサーバー側から送るための[FunctionsAction]のレスポンス。
-class SendRemoteNotificationFunctionsActionResponse extends FunctionsActionResponse {
+class SendRemoteNotificationFunctionsActionResponse
+    extends FunctionsActionResponse {
   /// [FunctionsAction] response to send remote PUSH notification from the server side.
   ///
   /// リモートPUSH通知をサーバー側から送るための[FunctionsAction]のレスポンス。
