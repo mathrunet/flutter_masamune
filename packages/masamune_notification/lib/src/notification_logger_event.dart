@@ -3,7 +3,7 @@ part of '/masamune_notification.dart';
 /// Push notification event for logging.
 ///
 /// ロギング用のPUSH通知イベント。
-enum PushNotificationLoggerEvent {
+enum NotificationLoggerEvent {
   /// When a topic is subscribed to.
   ///
   /// トピックが購読されたとき。

@@ -1,13 +1,13 @@
 part of '/masamune_notification.dart';
 
-/// [MasamuneAdapter] for receiving push notifications.
+/// [MasamuneAdapter] for receiving remote PUSH notifications.
 ///
-/// PUSH通知を受信するための[MasamuneAdapter]です。
-abstract class PushNotificationMasamuneAdapter extends MasamuneAdapter {
-  /// [MasamuneAdapter] for receiving push notifications.
+/// リモートPUSH通知を受信するための[MasamuneAdapter]です。
+abstract class RemoteNotificationMasamuneAdapter extends MasamuneAdapter {
+  /// [MasamuneAdapter] for receiving remote PUSH notifications.
   ///
-  /// PUSH通知を受信するための[MasamuneAdapter]です。
-  const PushNotificationMasamuneAdapter({
+  /// リモートPUSH通知を受信するための[MasamuneAdapter]です。
+  const RemoteNotificationMasamuneAdapter({
     this.functionsAdapter,
     this.modelAdapter,
     required this.androidNotificationChannelId,
@@ -20,18 +20,18 @@ abstract class PushNotificationMasamuneAdapter extends MasamuneAdapter {
     this.onRetrievedToken,
   });
 
-  /// You can retrieve the [PushNotificationMasamuneAdapter] first given by [MasamuneAdapterScope].
+  /// You can retrieve the [RemoteNotificationMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
-  /// 最初に[MasamuneAdapterScope]で与えた[PushNotificationMasamuneAdapter]を取得することができます。
-  static PushNotificationMasamuneAdapter get primary {
+  /// 最初に[MasamuneAdapterScope]で与えた[RemoteNotificationMasamuneAdapter]を取得することができます。
+  static RemoteNotificationMasamuneAdapter get primary {
     assert(
       _primary != null,
-      "PushNotificationMasamuneAdapter is not set. Place [MasamuneAdapterScope] widget closer to the root.",
+      "RemoteNotificationMasamuneAdapter is not set. Place [MasamuneAdapterScope] widget closer to the root.",
     );
     return _primary!;
   }
 
-  static PushNotificationMasamuneAdapter? _primary;
+  static RemoteNotificationMasamuneAdapter? _primary;
 
   /// Specify [FunctionsAdapter] if there are functions to be executed on the server side.
   ///
@@ -61,14 +61,14 @@ abstract class PushNotificationMasamuneAdapter extends MasamuneAdapter {
   @override
   final List<LoggerAdapter> loggerAdapters;
 
-  /// Specify the object of [PushNotification].
+  /// Specify the object of [RemoteNotification].
   ///
   /// After specifying this, execute [onMaybeBoot] to start initialization automatically.
   ///
-  /// [PushNotification]のオブジェクトを指定します。
+  /// [RemoteNotification]のオブジェクトを指定します。
   ///
   /// これを指定した上で[onMaybeBoot]を実行すると自動で初期化を開始します。
-  final PushNotification? pushNotification;
+  final RemoteNotification? pushNotification;
 
   /// If [pushNotification] is set, specify the list of topics to subscribe to when [onMaybeBoot] is executed.
   ///
@@ -88,7 +88,7 @@ abstract class PushNotificationMasamuneAdapter extends MasamuneAdapter {
   @override
   void onInitScope(MasamuneAdapter adapter) {
     super.onInitScope(adapter);
-    if (adapter is! PushNotificationMasamuneAdapter) {
+    if (adapter is! RemoteNotificationMasamuneAdapter) {
       return;
     }
     _primary = adapter;
@@ -96,7 +96,7 @@ abstract class PushNotificationMasamuneAdapter extends MasamuneAdapter {
 
   @override
   Widget onBuildApp(BuildContext context, Widget app) {
-    return MasamuneAdapterScope<PushNotificationMasamuneAdapter>(
+    return MasamuneAdapterScope<RemoteNotificationMasamuneAdapter>(
       adapter: this,
       child: app,
     );
@@ -122,10 +122,9 @@ abstract class PushNotificationMasamuneAdapter extends MasamuneAdapter {
   /// Initialize push notifications.
   ///
   /// Push通知の初期化。
-  Future<PushNotificationListenResponse?> listen({
-    required Future<void> Function(PushNotificationValue value) onMessage,
-    required Future<void> Function(PushNotificationValue value)
-        onMessageOpenedApp,
+  Future<RemoteNotificationListenResponse?> listen({
+    required Future<void> Function(NotificationValue value) onMessage,
+    required Future<void> Function(NotificationValue value) onMessageOpenedApp,
   });
 
   /// Subscribe to a topic named [topic].
@@ -143,15 +142,15 @@ abstract class PushNotificationMasamuneAdapter extends MasamuneAdapter {
   Future<void> unsubscribe(String topic);
 }
 
-/// Class that stores the response to [PushNotificationMasamuneAdapter.listen].
+/// Class that stores the response to [RemoteNotificationMasamuneAdapter.listen].
 ///
-/// [PushNotificationMasamuneAdapter.listen]のレスポンスを格納するクラス。
+/// [RemoteNotificationMasamuneAdapter.listen]のレスポンスを格納するクラス。
 @immutable
-class PushNotificationListenResponse {
-  /// Class that stores the response to [PushNotificationMasamuneAdapter.listen].
+class RemoteNotificationListenResponse {
+  /// Class that stores the response to [RemoteNotificationMasamuneAdapter.listen].
   ///
-  /// [PushNotificationMasamuneAdapter.listen]のレスポンスを格納するクラス。
-  const PushNotificationListenResponse({
+  /// [RemoteNotificationMasamuneAdapter.listen]のレスポンスを格納するクラス。
+  const RemoteNotificationListenResponse({
     required this.onMessageOpenedAppSubscription,
     required this.onMessageSubscription,
   });

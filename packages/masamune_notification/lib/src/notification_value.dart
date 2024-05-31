@@ -20,7 +20,7 @@ part of '/masamune_notification.dart';
 ///
 /// アプリを開いたときの通知、つまりOSの通知バーをタップした場合などに[whenAppOpened]が`true`になります。
 @immutable
-class PushNotificationValue {
+class NotificationValue {
   /// Stores data for notification.
   ///
   /// The content of the notification is included in [title] and [text].
@@ -40,7 +40,7 @@ class PushNotificationValue {
   /// [data]にその他の通知データが渡されます。
   ///
   /// アプリを開いたときの通知、つまりOSの通知バーをタップした場合などに[whenAppOpened]が`true`になります。
-  const PushNotificationValue({
+  const NotificationValue({
     required this.title,
     required this.text,
     required this.target,

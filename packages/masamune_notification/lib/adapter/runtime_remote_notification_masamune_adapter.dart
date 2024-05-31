@@ -1,14 +1,14 @@
 part of '/masamune_notification.dart';
 
-/// [MasamuneAdapter] to receive PUSH notifications for testing.
+/// [MasamuneAdapter] to receive remote PUSH notifications for testing.
 ///
-/// テスト用のPUSH通知を受信するための[MasamuneAdapter]です。
-class RuntimePushNotificationMasamuneAdapter
-    extends PushNotificationMasamuneAdapter {
-  /// [MasamuneAdapter] to receive PUSH notifications for testing.
+/// テスト用のリモートPUSH通知を受信するための[MasamuneAdapter]です。
+class RuntimeRemoteNotificationMasamuneAdapter
+    extends RemoteNotificationMasamuneAdapter {
+  /// [MasamuneAdapter] to receive remote PUSH notifications for testing.
   ///
-  /// テスト用のPUSH通知を受信するための[MasamuneAdapter]です。
-  const RuntimePushNotificationMasamuneAdapter({
+  /// テスト用のリモートPUSH通知を受信するための[MasamuneAdapter]です。
+  const RuntimeRemoteNotificationMasamuneAdapter({
     super.functionsAdapter,
     super.modelAdapter,
     required super.androidNotificationChannelId,
@@ -30,10 +30,9 @@ class RuntimePushNotificationMasamuneAdapter
   }
 
   @override
-  Future<PushNotificationListenResponse?> listen({
-    required Future<void> Function(PushNotificationValue value) onMessage,
-    required Future<void> Function(PushNotificationValue value)
-        onMessageOpenedApp,
+  Future<RemoteNotificationListenResponse?> listen({
+    required Future<void> Function(NotificationValue value) onMessage,
+    required Future<void> Function(NotificationValue value) onMessageOpenedApp,
   }) async {
     return null;
   }

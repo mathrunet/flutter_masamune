@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
 import 'package:masamune_notification/masamune_notification.dart';
 
-const pushNotificationAdapter = RuntimePushNotificationMasamuneAdapter(
+const pushNotificationAdapter = RuntimeRemoteNotificationMasamuneAdapter(
   androidNotificationChannelId: "masamune_firebase_messaging_channel",
   androidNotificationChannelTitle: "Important Notification",
   androidNotificationChannelDescription:
@@ -40,7 +40,7 @@ class NotificationPage extends StatefulWidget {
 }
 
 class NotificationPageState extends State<NotificationPage> {
-  final notification = PushNotification();
+  final notification = RemoteNotification();
 
   @override
   void initState() {

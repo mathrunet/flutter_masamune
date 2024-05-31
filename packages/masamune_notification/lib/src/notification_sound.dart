@@ -3,7 +3,7 @@ part of '/masamune_notification.dart';
 /// Sound of push notification.
 ///
 /// PUSH通知のサウンド。
-enum PushNotificationSound {
+enum NotificationSound {
   /// No sound.
   ///
   /// サウンドなし。
@@ -19,9 +19,9 @@ enum PushNotificationSound {
   /// 実際の値。
   String? get value {
     switch (this) {
-      case PushNotificationSound.none:
+      case NotificationSound.none:
         return null;
-      case PushNotificationSound.defaultSound:
+      case NotificationSound.defaultSound:
         return "default";
     }
   }

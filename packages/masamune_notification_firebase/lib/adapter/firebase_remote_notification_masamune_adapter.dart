@@ -1,14 +1,14 @@
 part of "/masamune_notification_firebase.dart";
 
-/// MasamuneAdapter] for receiving PUSH notifications for Firebase.
+/// [MasamuneAdapter] for receiving remote PUSH notifications for Firebase.
 ///
-/// Firebase用のPUSH通知を受信するための[MasamuneAdapter]です。
-class FirebasePushNotificationMasamuneAdapter
-    extends PushNotificationMasamuneAdapter {
-  /// MasamuneAdapter] for receiving PUSH notifications for Firebase.
+/// Firebase用のリモートPUSH通知を受信するための[MasamuneAdapter]です。
+class FirebaseRemoteNotificationMasamuneAdapter
+    extends RemoteNotificationMasamuneAdapter {
+  /// [MasamuneAdapter] for receiving remote PUSH notifications for Firebase.
   ///
-  /// Firebase用のPUSH通知を受信するための[MasamuneAdapter]です。
-  const FirebasePushNotificationMasamuneAdapter({
+  /// Firebase用のリモートPUSH通知を受信するための[MasamuneAdapter]です。
+  const FirebaseRemoteNotificationMasamuneAdapter({
     super.functionsAdapter,
     super.modelAdapter,
     required super.androidNotificationChannelId,
@@ -150,10 +150,9 @@ class FirebasePushNotificationMasamuneAdapter
   }
 
   @override
-  Future<PushNotificationListenResponse?> listen({
-    required Future<void> Function(PushNotificationValue value) onMessage,
-    required Future<void> Function(PushNotificationValue value)
-        onMessageOpenedApp,
+  Future<RemoteNotificationListenResponse?> listen({
+    required Future<void> Function(NotificationValue value) onMessage,
+    required Future<void> Function(NotificationValue value) onMessageOpenedApp,
   }) async {
     await FirebaseCore.initialize(options: options);
     await _messaging.setAutoInitEnabled(true);
@@ -199,7 +198,7 @@ class FirebasePushNotificationMasamuneAdapter
     if (initialMessage != null) {
       await _onMessageOpenedApp(initialMessage, onMessageOpenedApp);
     }
-    return PushNotificationListenResponse(
+    return RemoteNotificationListenResponse(
       onMessageOpenedAppSubscription: onMessageOpenedAppSubscription,
       onMessageSubscription: onMessageSubscription,
     );
@@ -219,10 +218,10 @@ class FirebasePushNotificationMasamuneAdapter
   }
 
   Future<void> _onMessage(RemoteMessage message,
-      Future<void> Function(PushNotificationValue value) onMessage) async {
+      Future<void> Function(NotificationValue value) onMessage) async {
     final data = message.data;
     onMessage.call(
-      PushNotificationValue(
+      NotificationValue(
         title: message.notification?.title ?? "",
         text: message.notification?.body ?? "",
         data: data,
@@ -234,11 +233,11 @@ class FirebasePushNotificationMasamuneAdapter
 
   Future<void> _onMessageOpenedApp(
     RemoteMessage message,
-    Future<void> Function(PushNotificationValue value) onMessageOpenedApp,
+    Future<void> Function(NotificationValue value) onMessageOpenedApp,
   ) async {
     final data = message.data;
     onMessageOpenedApp.call(
-      PushNotificationValue(
+      NotificationValue(
         title: message.notification?.title ?? "",
         text: message.notification?.body ?? "",
         data: data,
