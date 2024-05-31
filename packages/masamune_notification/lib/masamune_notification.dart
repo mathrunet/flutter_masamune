@@ -26,9 +26,13 @@ export 'models/remote_notification_schedule.dart';
 export 'package:masamune_scheduler/masamune_scheduler.dart';
 
 part 'adapter/runtime_remote_notification_masamune_adapter.dart';
+part 'adapter/runtime_local_notification_masamune_adapter.dart';
+
 part 'functions/send_remote_notification_functions_action.dart';
 
+part 'src/local_notification.dart';
 part 'src/remote_notification.dart';
+part 'src/local_notification_masamune_adapter.dart';
 part 'src/remote_notification_masamune_adapter.dart';
 part 'src/notification_value.dart';
 part 'src/notification_logger_event.dart';

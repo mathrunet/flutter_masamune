@@ -13,7 +13,7 @@ abstract class RemoteNotificationMasamuneAdapter extends MasamuneAdapter {
     required this.androidNotificationChannelId,
     required this.androidNotificationChannelTitle,
     required this.androidNotificationChannelDescription,
-    this.pushNotification,
+    this.remoteNotification,
     this.subscribeOnBoot = const [],
     this.loggerAdapters = const [],
     this.onLink,
@@ -68,11 +68,11 @@ abstract class RemoteNotificationMasamuneAdapter extends MasamuneAdapter {
   /// [RemoteNotification]のオブジェクトを指定します。
   ///
   /// これを指定した上で[onMaybeBoot]を実行すると自動で初期化を開始します。
-  final RemoteNotification? pushNotification;
+  final RemoteNotification? remoteNotification;
 
-  /// If [pushNotification] is set, specify the list of topics to subscribe to when [onMaybeBoot] is executed.
+  /// If [remoteNotification] is set, specify the list of topics to subscribe to when [onMaybeBoot] is executed.
   ///
-  /// [pushNotification]が設定されている場合、[onMaybeBoot]を実行した際合わせてトピックの購読を行う際のトピックリストを指定します。
+  /// [remoteNotification]が設定されている場合、[onMaybeBoot]を実行した際合わせてトピックの購読を行う際のトピックリストを指定します。
   final List<String> subscribeOnBoot;
 
   /// Callback when the URL is launched.
@@ -107,10 +107,10 @@ abstract class RemoteNotificationMasamuneAdapter extends MasamuneAdapter {
     await super.onMaybeBoot();
     if (subscribeOnBoot.isNotEmpty) {
       for (final topic in subscribeOnBoot) {
-        await pushNotification?.subscribe(topic);
+        await remoteNotification?.subscribe(topic);
       }
     } else {
-      await pushNotification?.listen();
+      await remoteNotification?.listen();
     }
   }
 

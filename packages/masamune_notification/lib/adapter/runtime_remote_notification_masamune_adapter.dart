@@ -14,7 +14,7 @@ class RuntimeRemoteNotificationMasamuneAdapter
     required super.androidNotificationChannelId,
     required super.androidNotificationChannelTitle,
     required super.androidNotificationChannelDescription,
-    super.pushNotification,
+    super.remoteNotification,
     super.subscribeOnBoot = const [],
     super.loggerAdapters = const [],
     super.onLink,

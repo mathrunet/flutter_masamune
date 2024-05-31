@@ -398,7 +398,7 @@ packages:
       path: "../katana_form"
       relative: true
     source: path
-    version: "2.12.17"
+    version: "2.13.0"
   katana_functions:
     dependency: "direct overridden"
     description:
@@ -596,7 +596,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.13.33"
+    version: "2.13.34"
   masamune_annotation:
     dependency: "direct overridden"
     description:
@@ -617,7 +617,7 @@ packages:
       path: "../masamune_scheduler"
       relative: true
     source: path
-    version: "2.2.77"
+    version: "2.2.78"
   matcher:
     dependency: transitive
     description:
