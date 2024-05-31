@@ -1,3 +1,7 @@
+## 2.7.0
+
+ - **FEAT**: Add LocalPush. ([7ef2c3b1](https://github.com/mathrunet/flutter_masamune/commit/7ef2c3b1f1780f51edf2f5c7c33fce0f92425302))
+
 ## 2.6.0
 
  - **FEAT**: Changed PUSH notifications to remote PUSH notifications. ([53fe21e9](https://github.com/mathrunet/flutter_masamune/commit/53fe21e9d71828c9c93e0300348a7f2c29a64885))

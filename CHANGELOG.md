@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_notification` - `v2.7.0`](#masamune_notification---v270)
+ - [`masamune_notification_firebase` - `v2.7.0`](#masamune_notification_firebase---v270)
+ - [`masamune_notification_local` - `v2.1.0`](#masamune_notification_local---v210)
+
+---
+
+#### `masamune_notification` - `v2.7.0`
+
+ - **FEAT**: Add LocalPush. ([7ef2c3b1](https://github.com/mathrunet/flutter_masamune/commit/7ef2c3b1f1780f51edf2f5c7c33fce0f92425302))
+
+#### `masamune_notification_firebase` - `v2.7.0`
+
+ - **FEAT**: Add LocalPush. ([7ef2c3b1](https://github.com/mathrunet/flutter_masamune/commit/7ef2c3b1f1780f51edf2f5c7c33fce0f92425302))
+
+#### `masamune_notification_local` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([6d3fda76](https://github.com/mathrunet/flutter_masamune/commit/6d3fda765410f130fdae5fbc46774e25e819c331))
+
+
+## 2024-05-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v2.13.0`](#katana_form---v2130)
  - [`masamune_notification` - `v2.6.0`](#masamune_notification---v260)
  - [`masamune_notification_firebase` - `v2.6.0`](#masamune_notification_firebase---v260)
