@@ -37,3 +37,4 @@ part 'src/remote_notification_masamune_adapter.dart';
 part 'src/notification_value.dart';
 part 'src/notification_logger_event.dart';
 part 'src/notification_sound.dart';
+part 'src/local_notification_repeat_settings.dart';

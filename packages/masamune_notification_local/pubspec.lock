@@ -649,7 +649,7 @@ packages:
       path: "../masamune_notification"
       relative: true
     source: path
-    version: "2.6.0"
+    version: "2.7.0"
   masamune_scheduler:
     dependency: "direct overridden"
     description:
@@ -1055,7 +1055,7 @@ packages:
     source: hosted
     version: "0.6.0"
   timezone:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: timezone
       sha256: a6ccda4a69a442098b602c44e61a1e2b4bf6f5516e875bbf0f427d5df14745d5

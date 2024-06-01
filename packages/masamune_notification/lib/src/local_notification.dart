@@ -43,6 +43,8 @@ class LocalNotification extends MasamuneControllerBase<NotificationValue,
 
   Completer<void>? _completer;
 
+  static const String _linkKey = "@link";
+
   /// The content of the most recent notice received.
   ///
   /// 受け取った最新の通知の内容。
@@ -50,39 +52,197 @@ class LocalNotification extends MasamuneControllerBase<NotificationValue,
   NotificationValue? get value => _value;
   NotificationValue? _value;
 
+  /// Returns `true` if notification receipt has been initiated.
+  ///
+  /// 通知の受け取りが開始されている場合`true`を返します。
+  bool get listening => _listening;
+  bool _listening = false;
+
   /// Callback when the URL is launched.
   ///
   /// URLが起動されたときのコールバック。
-  FutureOr<void> Function(Uri? link, bool onOpenedApp)? get onLink => _onLink;
-  FutureOr<void> Function(Uri? link, bool onOpenedApp)? _onLink;
+  FutureOr<void> Function(Uri? link)? get onLink => _onLink;
+  FutureOr<void> Function(Uri? link)? _onLink;
 
-  /// Register notifications and perform scaling.
+  /// Start receiving notifications.
   ///
-  /// Specify the date and time to send the notification in [time].
+  /// When a notification is retrieved, [value] is updated and [notifyListeners] is called.
   ///
-  /// Specify the title of the notification in [title]. Specify the body of the notification in [text].
+  /// By monitoring the status with [addListener], it is possible to do something when a notification comes in.
   ///
-  /// 通知を登録してスケーリングを行います。
+  /// You can specify a callback when the URL is invoked with [onLink].
   ///
-  /// [time]に通知を送信する日時を指定します。
+  /// 通知の受け取りを開始します。
   ///
-  /// [title]に通知のタイトルを指定します。[text]に通知の本文を指定します。
-  Future<void> addSchedule({
+  /// 通知を取得した場合、[value]が更新され、[notifyListeners]が呼ばれます。
+  ///
+  /// [addListener]で状態を監視することで通知が来たときになにかしらの処理を行うことが可能です。
+  ///
+  /// [onLink]でURLが起動されたときのコールバックを指定することができます。
+  Future<void> listen({
+    FutureOr<void> Function(Uri? link)? onLink,
+  }) async {
+    if (_completer != null) {
+      return _completer?.future;
+    }
+    if (listening) {
+      return;
+    }
+    _completer = Completer();
+    try {
+      _onLink = onLink;
+      _value = await adapter.listen();
+      _listening = true;
+      _sendLog(NotificationLoggerEvent.listen, parameters: {});
+      _onMessageOpenedApp(value);
+      _completer?.complete();
+      _completer = null;
+    } catch (e) {
+      debugPrint(e.toString());
+      _completer?.completeError(e);
+      _completer = null;
+      rethrow;
+    } finally {
+      _completer?.complete();
+      _completer = null;
+    }
+  }
+
+  /// Add a schedule.
+  ///
+  /// Specify a unique ID for [uid]. If this ID is duplicated, the previous schedule will be overwritten.
+  ///
+  /// Specify the title of the notification in [title]. Specify the message of the notification in the [text] field.
+  ///
+  /// Specify the date and time for notification in [time].
+  ///
+  /// You can set the notification to repeat by specifying [repeat].
+  ///
+  /// スケジュールを追加します。
+  ///
+  /// [uid]に一意のIDを指定します。このIDが重複すると以前のスケジュールが上書きされます。
+  ///
+  /// [title]に通知のタイトルを指定します。[text]に通知のメッセージを指定します。
+  ///
+  /// [time]に通知を行う日時を指定します。
+  ///
+  /// [repeat]を指定することで通知を繰り返す設定を行うことができます。
+  Future<void> addSchedule(
+    String uid, {
     required DateTime time,
     required String title,
     required String text,
-  }) async {}
+    int? badgeCount,
+    LocalNotificationRepeatSettings repeat =
+        LocalNotificationRepeatSettings.none,
+    NotificationSound sound = NotificationSound.defaultSound,
+    DynamicMap? data,
+    Uri? link,
+  }) async {
+    if (_completer != null) {
+      await _completer!.future;
+    }
+    await adapter.listen();
+    _completer = Completer<void>();
+    try {
+      await adapter.addSchedule(
+        uid,
+        time: time,
+        title: title,
+        text: text,
+        badgeCount: badgeCount,
+        repeat: repeat,
+        sound: sound,
+      );
+      _sendLog(NotificationLoggerEvent.addSchedule, parameters: {
+        NotificationLoggerEvent.uidKey: uid,
+        NotificationLoggerEvent.titleKey: title,
+        NotificationLoggerEvent.bodyKey: text,
+        NotificationLoggerEvent.timeKey: time.toIso8601String(),
+      });
+      notifyListeners();
+      _completer?.complete();
+      _completer = null;
+    } catch (e, stacktrace) {
+      _completer?.completeError(e, stacktrace);
+      _completer = null;
+    } finally {
+      _completer?.complete();
+      _completer = null;
+    }
+  }
 
-  /// Delete a notification schedule that has already been registered.
+  /// Remove the schedule.
   ///
-  /// Specify the date and time to send the notification in [time].
+  /// Specify the ID of the schedule to be deleted in [uid].
   ///
-  /// すでに登録されている通知スケジュールを削除します。
+  /// スケジュールを削除します。
   ///
-  /// [time]に通知を送信する日時を指定します。
-  Future<void> removeSchedule({
-    required DateTime time,
-  }) async {}
+  /// [uid]に削除するスケジュールのIDを指定します。
+  Future<void> removeSchedule(String uid) async {
+    if (_completer != null) {
+      await _completer!.future;
+    }
+    await adapter.listen();
+    _completer = Completer<void>();
+    try {
+      await adapter.removeSchedule(uid);
+      _sendLog(NotificationLoggerEvent.removeSchedule, parameters: {
+        NotificationLoggerEvent.uidKey: uid,
+      });
+      notifyListeners();
+      _completer?.complete();
+      _completer = null;
+    } catch (e, stacktrace) {
+      _completer?.completeError(e, stacktrace);
+      _completer = null;
+    } finally {
+      _completer?.complete();
+      _completer = null;
+    }
+  }
+
+  /// Remove all schedules.
+  ///
+  /// すべてのスケジュールを削除します。
+  Future<void> removeAllSchedule() async {
+    if (_completer != null) {
+      await _completer!.future;
+    }
+    await adapter.listen();
+    _completer = Completer<void>();
+    try {
+      await adapter.removeAllSchedule();
+      _sendLog(NotificationLoggerEvent.removeSchedule, parameters: {});
+      notifyListeners();
+      _completer?.complete();
+      _completer = null;
+    } catch (e, stacktrace) {
+      _completer?.completeError(e, stacktrace);
+      _completer = null;
+    } finally {
+      _completer?.complete();
+      _completer = null;
+    }
+  }
+
+  Future<void> _onMessageOpenedApp(NotificationValue? value) async {
+    if (value == null) {
+      return;
+    }
+    _value = value;
+    final onLink = this.onLink ?? adapter.onLink;
+    if (onLink != null) {
+      final uri = value.data.get(_linkKey, nullOfString)?.toUri();
+      await onLink.call(uri);
+    }
+    _sendLog(NotificationLoggerEvent.receive, parameters: {
+      NotificationLoggerEvent.titleKey: value.title,
+      NotificationLoggerEvent.bodyKey: value.text,
+      NotificationLoggerEvent.toKey: value.target,
+    });
+    notifyListeners();
+  }
 
   void _sendLog(NotificationLoggerEvent event, {DynamicMap? parameters}) {
     final loggerAdapters = LoggerAdapter.primary;

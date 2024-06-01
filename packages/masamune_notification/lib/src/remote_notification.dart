@@ -342,6 +342,12 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
             ),
           ),
     );
+    _sendLog(NotificationLoggerEvent.addSchedule, parameters: {
+      NotificationLoggerEvent.titleKey: title,
+      NotificationLoggerEvent.bodyKey: text,
+      NotificationLoggerEvent.toKey: tokens != null ? tokens.toString() : topic,
+      NotificationLoggerEvent.timeKey: time.toIso8601String(),
+    });
   }
 
   /// Delete a notification schedule that has already been registered.
@@ -391,6 +397,10 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
     );
     await document.reload();
     await document.delete();
+    _sendLog(NotificationLoggerEvent.removeSchedule, parameters: {
+      NotificationLoggerEvent.toKey: tokens != null ? tokens.toString() : topic,
+      NotificationLoggerEvent.timeKey: time.toIso8601String(),
+    });
   }
 
   /// Subscribe to a topic named [topic].
