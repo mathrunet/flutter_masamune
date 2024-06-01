@@ -1,5 +1,7 @@
 part of '/katana.dart';
 
+const _kMaxInt = 0x7FFFFFFFFFFFFFFF;
+
 /// Provides extended methods for [String].
 ///
 /// [String]用の拡張メソッドを提供します。
@@ -774,5 +776,17 @@ extension StringExtensions on String {
         r"[\u{1F600}-\u{1F64F}|\u{1F300}-\u{1F5FF}|\u{1F680}-\u{1F6FF}|\u{2600}-\u{26FF}|\u{2700}-\u{27BF}]",
         unicode: true);
     return regExp.hasMatch(this);
+  }
+
+  /// Returns a unique random integer from a string.
+  ///
+  /// 文字列から一意のランダムな整数を返します。
+  int toRandomInt() {
+    if (isEmpty) {
+      return 0;
+    }
+    final seed = codeUnits.fold<int>(0, (p, e) => p + e);
+    final random = Random(seed);
+    return (((random.nextDouble() * 2) - 1.0) * _kMaxInt).toInt();
   }
 }
