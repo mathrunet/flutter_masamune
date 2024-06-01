@@ -8,9 +8,10 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_notification_local;
 
-// Package imports:
+// Dart imports:
 import 'dart:convert';
 
+// Package imports:
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:masamune/masamune.dart';
 import 'package:masamune_notification/masamune_notification.dart';
