@@ -1,3 +1,7 @@
+## 2.10.1
+
+ - Update a dependency to the latest release.
+
 ## 2.10.0
 
  - **FEAT**: Added the ability to specify a Widget in the Body of Modal. ([103e52b6](https://github.com/mathrunet/flutter_masamune/commit/103e52b6c540da7e300082d894cb0405f723fa77))

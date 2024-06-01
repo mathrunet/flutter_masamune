@@ -1,3 +1,7 @@
+## 2.5.13
+
+ - Update a dependency to the latest release.
+
 ## 2.5.12
 
  - **FIX**: Fixing testing glitches. ([079f2bb4](https://github.com/mathrunet/flutter_masamune/commit/079f2bb417bc5a138b9eb54dc8424cbfa68f28cb))

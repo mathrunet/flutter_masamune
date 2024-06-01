@@ -1,3 +1,7 @@
+## 2.7.1
+
+ - **FIX**: Implemented LocalNotification functionality. ([dbe34ed3](https://github.com/mathrunet/flutter_masamune/commit/dbe34ed33d3df2ad2f040346a1de9d27b1d9bb47))
+
 ## 2.7.0
 
  - **FEAT**: Add LocalPush. ([7ef2c3b1](https://github.com/mathrunet/flutter_masamune/commit/7ef2c3b1f1780f51edf2f5c7c33fce0f92425302))

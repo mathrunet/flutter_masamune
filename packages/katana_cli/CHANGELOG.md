@@ -1,3 +1,7 @@
+## 2.20.1
+
+ - Update a dependency to the latest release.
+
 ## 2.20.0
 
  - **FEAT**: Added Exception command. ([7de91e0d](https://github.com/mathrunet/flutter_masamune/commit/7de91e0d9b06e5ff6cb56cc9d90976afd65c7315))

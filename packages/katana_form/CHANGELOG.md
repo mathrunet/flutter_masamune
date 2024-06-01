@@ -1,3 +1,7 @@
+## 2.13.1
+
+ - Update a dependency to the latest release.
+
 ## 2.13.0
 
  - **FIX**: Added FormDateTimeRangeFieldCustomDelegate. ([109485ab](https://github.com/mathrunet/flutter_masamune/commit/109485ab22c62927984a9678859859d33b1fc91e))

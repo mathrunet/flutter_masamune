@@ -1,3 +1,7 @@
+## 2.15.0
+
+ - **FEAT**: Added toRandomInt. ([8b1eebff](https://github.com/mathrunet/flutter_masamune/commit/8b1eebff2d4f2f35c317e6d164c3288733ab0cab))
+
 ## 2.14.0
 
  - **FEAT**: Added a method for identifying pictograms. ([7ce7a600](https://github.com/mathrunet/flutter_masamune/commit/7ce7a600f69824255135ef02e4ea1428844229d3))

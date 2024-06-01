@@ -1,3 +1,7 @@
+## 2.6.1
+
+ - Update a dependency to the latest release.
+
 ## 2.6.0
 
  - **FEAT**: Added the ability to return TextStyle. ([6a49ae44](https://github.com/mathrunet/flutter_masamune/commit/6a49ae44104a7f19c15b922e7411882ca91f856e))

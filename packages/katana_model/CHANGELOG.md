@@ -1,3 +1,7 @@
+## 2.26.16
+
+ - Update a dependency to the latest release.
+
 ## 2.26.15
 
  - **FIX**: Added CopyWith. ([afd1cc98](https://github.com/mathrunet/flutter_masamune/commit/afd1cc9831550b63ef08181ca5be1db1f8cffe9e))

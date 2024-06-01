@@ -1,3 +1,7 @@
+## 2.9.2
+
+ - Update a dependency to the latest release.
+
 ## 2.9.1
 
  - **FIX**: Execute SignoutAction when deleting user data. ([41da882e](https://github.com/mathrunet/flutter_masamune/commit/41da882e5bdcdd938da1421aebed83a71c3382ea))
