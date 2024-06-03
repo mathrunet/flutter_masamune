@@ -9,12 +9,14 @@ abstract class LocalNotificationMasamuneAdapter extends MasamuneAdapter {
   /// ローカルPUSH通知を受信するための[MasamuneAdapter]です。
   const LocalNotificationMasamuneAdapter({
     this.localNotification,
+    this.modelAdapter,
     this.loggerAdapters = const [],
     this.androidDefaultIcon = "@mipmap/ic_launcher",
     required this.androidNotificationChannelId,
     required this.androidNotificationChannelTitle,
     required this.androidNotificationChannelDescription,
     this.onLink,
+    this.defaultTimezone = "UTC",
   });
 
   /// You can retrieve the [LocalNotificationMasamuneAdapter] first given by [MasamuneAdapterScope].
@@ -30,6 +32,11 @@ abstract class LocalNotificationMasamuneAdapter extends MasamuneAdapter {
 
   static LocalNotificationMasamuneAdapter? _primary;
 
+  /// Specify a [ModelAdapter] to register the PUSH notification schedule.
+  ///
+  /// PUSH通知のスケジュールを登録するための[ModelAdapter]を指定します。
+  final ModelAdapter? modelAdapter;
+
   @override
   final List<LoggerAdapter> loggerAdapters;
 
@@ -41,6 +48,11 @@ abstract class LocalNotificationMasamuneAdapter extends MasamuneAdapter {
   ///
   /// これを指定した上で[onMaybeBoot]を実行すると自動で初期化を開始します。
   final LocalNotification? localNotification;
+
+  /// Default time zone.
+  ///
+  /// デフォルトのタイムゾーン。
+  final String defaultTimezone;
 
   /// Android default icon.
   ///
@@ -69,8 +81,12 @@ abstract class LocalNotificationMasamuneAdapter extends MasamuneAdapter {
 
   /// Initialization. If the application is launched from a notification, the content of the notification is retrieved.
   ///
+  /// If there is notification data, return the ID for the response notification.
+  ///
   /// 初期化を行います。通知からアプリが起動された場合は、通知の内容を取得します。
-  Future<NotificationValue?> listen();
+  ///
+  /// 通知データがある場合はレスポンス通知用のIDを返してください。
+  Future<int?> listen();
 
   /// Add a schedule.
   ///
@@ -82,6 +98,8 @@ abstract class LocalNotificationMasamuneAdapter extends MasamuneAdapter {
   ///
   /// You can set the notification to repeat by specifying [repeat].
   ///
+  /// Return the ID of the notification when it is registered.
+  ///
   /// スケジュールを追加します。
   ///
   /// [uid]に一意のIDを指定します。このIDが重複すると以前のスケジュールが上書きされます。
@@ -91,7 +109,9 @@ abstract class LocalNotificationMasamuneAdapter extends MasamuneAdapter {
   /// [time]に通知を行う日時を指定します。
   ///
   /// [repeat]を指定することで通知を繰り返す設定を行うことができます。
-  Future<void> addSchedule(
+  ///
+  /// 通知が登録された時そのIDを返してください。
+  Future<int?> addSchedule(
     String uid, {
     required String title,
     required String text,
@@ -102,16 +122,21 @@ abstract class LocalNotificationMasamuneAdapter extends MasamuneAdapter {
     NotificationSound sound = NotificationSound.defaultSound,
     DynamicMap? data,
     Uri? link,
+    String? timezone,
   });
 
   /// Remove the schedule.
   ///
   /// Specify the ID of the schedule to be deleted in [uid].
   ///
+  /// Return the ID when the notification is deleted.
+  ///
   /// スケジュールを削除します。
   ///
   /// [uid]に削除するスケジュールのIDを指定します。
-  Future<void> removeSchedule(String uid);
+  ///
+  /// 通知が削除された時そのIDを返してください。
+  Future<int?> removeSchedule(String uid);
 
   /// Remove all schedules.
   ///

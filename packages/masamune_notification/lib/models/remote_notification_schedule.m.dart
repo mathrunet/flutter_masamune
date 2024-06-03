@@ -25,7 +25,8 @@ class _$RemoteNotificationScheduleModelDocument
 
   static const List<ModelValidationQuery>? defaultValidationQueries = [];
 
-  static final ModelAdapter? defaultModelAdapter = null;
+  static final ModelAdapter? defaultModelAdapter =
+      RemoteNotificationMasamuneAdapter.primary.modelAdapter;
 
   @override
   RemoteNotificationScheduleModel fromMap(DynamicMap map) =>
@@ -49,7 +50,8 @@ class _$RemoteNotificationScheduleModelCollection
 
   static const List<ModelValidationQuery>? defaultValidationQueries = [];
 
-  static final ModelAdapter? defaultModelAdapter = null;
+  static final ModelAdapter? defaultModelAdapter =
+      RemoteNotificationMasamuneAdapter.primary.modelAdapter;
 
   @override
   _$RemoteNotificationScheduleModelDocument create([String? id]) =>

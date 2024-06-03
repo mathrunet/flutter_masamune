@@ -14,6 +14,10 @@ class MobileLocalNotificationMasamuneAdapter
     required super.androidNotificationChannelId,
     required super.androidNotificationChannelTitle,
     required super.androidNotificationChannelDescription,
+    super.defaultTimezone = "UTC",
+    super.localNotification,
+    super.modelAdapter,
+    super.onLink,
   });
 
   static FlutterLocalNotificationsPlugin get _instance {
@@ -22,10 +26,9 @@ class MobileLocalNotificationMasamuneAdapter
 
   static FlutterLocalNotificationsPlugin? __instance;
 
-  static const String _linkKey = "@link";
-
   @override
-  Future<NotificationValue?> listen() async {
+  Future<int?> listen() async {
+    initializeTimeZones();
     await _requestPermissions();
     await _instance.initialize(
       InitializationSettings(
@@ -37,19 +40,12 @@ class MobileLocalNotificationMasamuneAdapter
     if (notification == null || !notification.didNotificationLaunchApp) {
       return null;
     }
-    final payload = notification.notificationResponse?.payload;
-    final data = payload != null ? jsonDecodeAsMap(payload) : null;
-    return NotificationValue(
-      title: "",
-      text: "",
-      target: notification.notificationResponse?.id.toString() ?? "",
-      whenAppOpened: true,
-      data: data ?? {},
-    );
+    final id = notification.notificationResponse?.id;
+    return id;
   }
 
   @override
-  Future<void> addSchedule(
+  Future<int?> addSchedule(
     String uid, {
     required DateTime time,
     required String title,
@@ -57,15 +53,17 @@ class MobileLocalNotificationMasamuneAdapter
     int? badgeCount,
     LocalNotificationRepeatSettings repeat =
         LocalNotificationRepeatSettings.none,
-    NotificationSound sound = NotificationSound.defaultSound,
+    NotificationSound sound = NotificationSound.none,
     DynamicMap? data,
     Uri? link,
+    String? timezone,
   }) async {
+    final id = uid.toRandomInt();
     await _instance.zonedSchedule(
-      uid.toRandomInt(),
+      id,
       title,
       text,
-      TZDateTime.from(time, local),
+      TZDateTime.from(time, getLocation(timezone ?? defaultTimezone)),
       NotificationDetails(
         android: AndroidNotificationDetails(
           androidNotificationChannelId,
@@ -81,24 +79,23 @@ class MobileLocalNotificationMasamuneAdapter
           sound: sound != NotificationSound.none ? sound.value : null,
         ),
       ),
-      payload: jsonEncode({
-        ...data ?? {},
-        if (link != null) _linkKey: link.toString(),
-      }),
       matchDateTimeComponents: repeat.toDateTimeComponents(),
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
     );
+    return id;
   }
 
   @override
-  Future<void> removeSchedule(String uid) {
-    return _instance.cancel(uid.toRandomInt());
+  Future<int?> removeSchedule(String uid) async {
+    final id = uid.toRandomInt();
+    await _instance.cancel(id);
+    return id;
   }
 
   @override
-  Future<void> removeAllSchedule() {
-    return _instance.cancelAll();
+  Future<void> removeAllSchedule() async {
+    await _instance.cancelAll();
   }
 
   Future<void> _requestPermissions() async {

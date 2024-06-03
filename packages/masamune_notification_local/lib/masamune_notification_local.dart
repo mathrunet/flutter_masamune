@@ -8,13 +8,11 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_notification_local;
 
-// Dart imports:
-import 'dart:convert';
-
 // Package imports:
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:masamune/masamune.dart';
 import 'package:masamune_notification/masamune_notification.dart';
+import 'package:timezone/data/latest.dart';
 import 'package:timezone/timezone.dart';
 import 'package:universal_platform/universal_platform.dart';
 

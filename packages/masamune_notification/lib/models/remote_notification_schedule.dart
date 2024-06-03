@@ -26,7 +26,10 @@ part 'remote_notification_schedule.freezed.dart';
 @freezed
 @formValue
 @immutable
-@CollectionModelPath(SchedulerQuery.path)
+@CollectionModelPath(
+  SchedulerQuery.path,
+  adapter: "RemoteNotificationMasamuneAdapter.primary.modelAdapter",
+)
 class RemoteNotificationScheduleModel
     with _$RemoteNotificationScheduleModel
     implements ModelNotificationScheduleBase {

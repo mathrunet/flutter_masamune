@@ -20,8 +20,10 @@ import 'package:masamune/masamune.dart';
 import 'package:masamune_scheduler/masamune_scheduler.dart';
 
 // Project imports:
+import 'models/local_notification_schedule.dart';
 import 'models/remote_notification_schedule.dart';
 
+export 'models/local_notification_schedule.dart';
 export 'models/remote_notification_schedule.dart';
 export 'package:masamune_scheduler/masamune_scheduler.dart';
 

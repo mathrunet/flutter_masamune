@@ -37,6 +37,14 @@ class LocalNotification extends MasamuneControllerBase<NotificationValue,
   /// ```
   static const query = _$LocalNotificationQuery();
 
+  /// Model for Schedule.
+  ///
+  /// ```dart
+  /// ref.app.model(LocalNotification.schedule.document(id));       // Get the document.
+  /// ref.app.model(LocalNotification.schedule.collection());       // Get the collection.
+  /// ```
+  static const schedule = _$LocalNotificationSchedule();
+
   @override
   LocalNotificationMasamuneAdapter get primaryAdapter =>
       LocalNotificationMasamuneAdapter.primary;
@@ -91,10 +99,34 @@ class LocalNotification extends MasamuneControllerBase<NotificationValue,
     _completer = Completer();
     try {
       _onLink = onLink;
-      _value = await adapter.listen();
+      final modelQuery = LocalNotificationScheduleModel.collection().modelQuery;
+      final col = LocalNotificationScheduleModelCollection(modelQuery);
+      await col.load();
+      await wait(
+        col.map((e) =>
+            e.value?.repeat == LocalNotificationRepeatSettings.none &&
+                    e.value?.time.value.isBefore(DateTime.now()) == true
+                ? e.delete()
+                : null),
+      );
+      final id = await adapter.listen();
       _listening = true;
       _sendLog(NotificationLoggerEvent.listen, parameters: {});
-      _onMessageOpenedApp(value);
+      if (id != null) {
+        final found = col.firstWhereOrNull((e) => e.value?.id == id)?.value;
+        if (found != null) {
+          await _onMessageOpenedApp(
+            NotificationValue(
+              title: found.title,
+              text: found.text,
+              target: "",
+              whenAppOpened: true,
+              data: found.data,
+            ),
+          );
+        }
+      }
+      notifyListeners();
       _completer?.complete();
       _completer = null;
     } catch (e) {
@@ -135,17 +167,22 @@ class LocalNotification extends MasamuneControllerBase<NotificationValue,
     int? badgeCount,
     LocalNotificationRepeatSettings repeat =
         LocalNotificationRepeatSettings.none,
-    NotificationSound sound = NotificationSound.defaultSound,
+    NotificationSound sound = NotificationSound.none,
     DynamicMap? data,
     Uri? link,
   }) async {
     if (_completer != null) {
       await _completer!.future;
     }
-    await adapter.listen();
     _completer = Completer<void>();
     try {
-      await adapter.addSchedule(
+      await adapter.listen();
+      final modelQuery = LocalNotificationScheduleModel.collection().modelQuery;
+      final col = LocalNotificationScheduleModelCollection(modelQuery);
+      await col.load();
+      final found =
+          col.firstWhereOrNull((e) => e.uid == uid) ?? col.create(uid);
+      final id = await adapter.addSchedule(
         uid,
         time: time,
         title: title,
@@ -153,6 +190,15 @@ class LocalNotification extends MasamuneControllerBase<NotificationValue,
         badgeCount: badgeCount,
         repeat: repeat,
         sound: sound,
+      );
+      await found.save(
+        LocalNotificationScheduleModel(
+          id: id,
+          time: ModelTimestamp(time),
+          repeat: repeat,
+          title: title,
+          text: text,
+        ),
       );
       _sendLog(NotificationLoggerEvent.addSchedule, parameters: {
         NotificationLoggerEvent.uidKey: uid,
@@ -186,7 +232,14 @@ class LocalNotification extends MasamuneControllerBase<NotificationValue,
     await adapter.listen();
     _completer = Completer<void>();
     try {
-      await adapter.removeSchedule(uid);
+      final modelQuery = LocalNotificationScheduleModel.collection().modelQuery;
+      final col = LocalNotificationScheduleModelCollection(modelQuery);
+      await col.load();
+      final id = await adapter.removeSchedule(uid);
+      if (id != null) {
+        final found = col.firstWhereOrNull((e) => e.value?.id == id);
+        await found?.delete();
+      }
       _sendLog(NotificationLoggerEvent.removeSchedule, parameters: {
         NotificationLoggerEvent.uidKey: uid,
       });
@@ -212,7 +265,11 @@ class LocalNotification extends MasamuneControllerBase<NotificationValue,
     await adapter.listen();
     _completer = Completer<void>();
     try {
+      final modelQuery = LocalNotificationScheduleModel.collection().modelQuery;
+      final col = LocalNotificationScheduleModelCollection(modelQuery);
+      await col.load();
       await adapter.removeAllSchedule();
+      await wait(col.map((e) => e.delete()));
       _sendLog(NotificationLoggerEvent.removeSchedule, parameters: {});
       notifyListeners();
       _completer?.complete();
@@ -279,4 +336,30 @@ class _$_LocalNotificationQuery extends ControllerQueryBase<LocalNotification> {
   String get queryName => _name;
   @override
   bool get autoDisposeWhenUnreferenced => true;
+}
+
+class _$LocalNotificationSchedule {
+  const _$LocalNotificationSchedule();
+
+  /// Query for document.
+  ///
+  /// ```dart
+  /// appref.app.model(LocalNotificationScheduleModel.document(id));       // Get the document.
+  /// ref.app.model(LocalNotificationScheduleModel.document(id))..load();  // Load the document.
+  /// ```
+  final document = LocalNotificationScheduleModel.document;
+
+  /// Query for collection.
+  ///
+  /// ```dart
+  /// appref.app.model(LocalNotificationScheduleModel.collection());       // Get the collection.
+  /// ref.app.model(LocalNotificationScheduleModel.collection())..load();  // Load the collection.
+  /// ref.app.model(
+  ///   LocalNotificationScheduleModel.collection().equal(
+  ///     LocalNotificationScheduleModelCollectionKey.xxx,
+  ///     "data",
+  ///   ),
+  /// )..load(); // Load the collection with filter.
+  /// ```
+  final collection = LocalNotificationScheduleModel.collection;
 }

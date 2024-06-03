@@ -14,13 +14,16 @@ class RuntimeLocalNotificationMasamuneAdapter
     required super.androidNotificationChannelId,
     required super.androidNotificationChannelTitle,
     required super.androidNotificationChannelDescription,
+    super.defaultTimezone = "UTC",
+    super.localNotification,
+    super.modelAdapter,
   });
 
   @override
-  Future<NotificationValue?> listen() => Future.value(null);
+  Future<int?> listen() => Future.value(null);
 
   @override
-  Future<void> addSchedule(
+  Future<int?> addSchedule(
     String uid, {
     required String title,
     required String text,
@@ -31,6 +34,7 @@ class RuntimeLocalNotificationMasamuneAdapter
     NotificationSound sound = NotificationSound.defaultSound,
     DynamicMap? data,
     Uri? link,
+    String? timezone,
   }) =>
       Future.value();
 
@@ -38,5 +42,5 @@ class RuntimeLocalNotificationMasamuneAdapter
   Future<void> removeAllSchedule() => Future.value();
 
   @override
-  Future<void> removeSchedule(String uid) => Future.value();
+  Future<int?> removeSchedule(String uid) => Future.value();
 }
