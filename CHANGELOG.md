@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_universal_ui` - `v2.4.17`](#masamune_universal_ui---v2417)
+
+---
+
+#### `masamune_universal_ui` - `v2.4.17`
+
+ - **FIX**: Fixed controller null check. ([838407f5](https://github.com/mathrunet/flutter_masamune/commit/838407f5da5ae83235fa885bc8ffc4fff675de15))
+
+
+## 2024-06-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.15.1`](#katana---v2151)
  - [`katana_cli` - `v2.21.0`](#katana_cli---v2210)
  - [`masamune_notification` - `v2.7.2`](#masamune_notification---v272)

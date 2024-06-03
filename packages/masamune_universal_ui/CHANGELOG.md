@@ -1,3 +1,7 @@
+## 2.4.17
+
+ - **FIX**: Fixed controller null check. ([838407f5](https://github.com/mathrunet/flutter_masamune/commit/838407f5da5ae83235fa885bc8ffc4fff675de15))
+
 ## 2.4.16
 
  - Update a dependency to the latest release.
