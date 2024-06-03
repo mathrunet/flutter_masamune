@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-06-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_agora` - `v2.4.82`](#masamune_agora---v2482)
+
+---
+
+#### `masamune_agora` - `v2.4.82`
+
+ - **FIX**: Fixed a bug that prevented the connection from being completed. ([87914bb3](https://github.com/mathrunet/flutter_masamune/commit/87914bb39f97831aadcea3b5fdc95c2bc6424429))
+
+
 ## 2024-06-01
 
 ### Changes
