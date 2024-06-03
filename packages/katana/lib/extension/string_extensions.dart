@@ -1,6 +1,6 @@
 part of '/katana.dart';
 
-const _kMaxInt = 0x7FFFFFFFFFFFFFFF;
+const _kMaxInt = 2 ^ 31 - 1;
 
 /// Provides extended methods for [String].
 ///
