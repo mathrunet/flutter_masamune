@@ -1,3 +1,8 @@
+## 2.21.0
+
+ - **FIX**: Fixed StripStyle for Agora. ([b720cc41](https://github.com/mathrunet/flutter_masamune/commit/b720cc41e05806b1bbc7b9c2f3d5b2a93ec07cfc))
+ - **FEAT**: Added LocalNotification. ([d458f2e0](https://github.com/mathrunet/flutter_masamune/commit/d458f2e0fc7f233c987a59c8b46f0d52a83117b5))
+
 ## 2.20.1
 
  - Update a dependency to the latest release.

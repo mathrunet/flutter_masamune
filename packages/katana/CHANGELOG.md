@@ -1,3 +1,7 @@
+## 2.15.1
+
+ - **FIX**: 32-bit support. ([8c60dc02](https://github.com/mathrunet/flutter_masamune/commit/8c60dc02f3d00771338df4ff567b1547f920cda5))
+
 ## 2.15.0
 
  - **FEAT**: Added toRandomInt. ([8b1eebff](https://github.com/mathrunet/flutter_masamune/commit/8b1eebff2d4f2f35c317e6d164c3288733ab0cab))

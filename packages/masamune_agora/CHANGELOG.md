@@ -1,3 +1,7 @@
+## 2.4.83
+
+ - Update a dependency to the latest release.
+
 ## 2.4.82
 
  - **FIX**: Fixed a bug that prevented the connection from being completed. ([87914bb3](https://github.com/mathrunet/flutter_masamune/commit/87914bb39f97831aadcea3b5fdc95c2bc6424429))
