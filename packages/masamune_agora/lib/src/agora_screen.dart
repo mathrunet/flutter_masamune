@@ -136,6 +136,7 @@ class _AgoraScreenState extends State<AgoraScreen> {
     if (AgoraController._engine == null || channel.isEmpty) {
       return const Empty();
     }
+
     if (remoteState == RemoteVideoState.remoteVideoStateStopped ||
         remoteState == RemoteVideoState.remoteVideoStateFailed) {
       return Container(

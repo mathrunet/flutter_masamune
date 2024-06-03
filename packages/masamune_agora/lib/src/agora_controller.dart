@@ -413,6 +413,9 @@ class AgoraController
         userAccount: userName,
       );
       await _initializeCompleter?.future;
+      if (_localUserNumber == null || _localName == null) {
+        throw Exception("Failed to register local user account.");
+      }
     } catch (e) {
       _initializeCompleter?.completeError(e);
       _initializeCompleter = null;
@@ -522,6 +525,7 @@ class AgoraController
       final res = await adapter.functionsAdapter.execute(
         AgoraTokenFunctionsAction(
           channelName: channelName,
+          uid: _localUserNumber,
           clientRole: AgoraClientRole.values
                   .firstWhereOrNull((item) => item.index == clientRole.index) ??
               AgoraClientRole.audience,
@@ -716,10 +720,11 @@ class AgoraController
       int retried = 0;
       ConnectionStateType? connectionState;
       do {
-        _engine?.joinChannelWithUserAccount(
+        _engine?.joinChannel(
           token: _token ?? "",
           channelId: channelName,
-          userAccount: userName,
+          uid: _localUserNumber!,
+          options: const ChannelMediaOptions(),
         );
         await _connectingCompleter?.future;
         connectionState = await _engine?.getConnectionState();
@@ -1367,13 +1372,11 @@ class AgoraController
       AgoraLoggerEvent.userNumberKey: remoteUid,
       AgoraLoggerEvent.isLocalUserKey: false,
     });
-    // FIXME: ここで待たないと画面が更新されないことがある
-    await Future.delayed(const Duration(milliseconds: 100));
-    notifyListeners();
     final userInfo = await _engine?.getUserInfoByUid(remoteUid);
     if (userInfo != null) {
       user._setName(userInfo.userAccount ?? "");
     }
+    notifyListeners();
   }
 
   void _sendLog(AgoraLoggerEvent event, {DynamicMap? parameters}) {
