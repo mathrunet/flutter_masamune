@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-06-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_universal_ui` - `v2.4.18`](#masamune_universal_ui---v2418)
+
+---
+
+#### `masamune_universal_ui` - `v2.4.18`
+
+ - **FIX**: Fixed a problem with the scroll bar when a controller is put in List. ([4960b2dd](https://github.com/mathrunet/flutter_masamune/commit/4960b2dd972cbd6778ae29dbe74f14e91a2604fd))
+
+
 ## 2024-06-03
 
 ### Changes
