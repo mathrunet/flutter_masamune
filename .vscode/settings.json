@@ -5,5 +5,5 @@
   "explorer.fileNesting.patterns": {
     "*.dart": "$(capture).m.dart,$(capture).page.dart,$(capture).localize.dart,$(capture).theme.dart,$(capture).g.dart,$(capture).freezed.dart"
   },
-  "dart.flutterSdkPath": ".fvm/versions/master"
+  "dart.flutterSdkPath": ".fvm/flutter_sdk"
 }
