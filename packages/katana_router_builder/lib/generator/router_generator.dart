@@ -78,8 +78,12 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
               export[library]!.add(element.name);
             }
             if (!import.containsKey(library)) {
-              i++;
-              import[library] = "_\$$i";
+              final meta = element.metadata.first;
+              final obj = meta.computeConstantValue()!;
+              final key = obj.getField("key")?.toStringValue();
+              final name = obj.getField("name")?.toStringValue();
+              final value = key ?? name ?? (++i).toString();
+              import[library] = "_\$$value";
               queries.add(
                 QueryValue(
                   library: library,
