@@ -19,11 +19,11 @@ export 'package:katana/katana.dart';
 
 part 'macro/data_value.dart';
 
-part 'src/equal_operator.dart';
-part 'src/copy_with.dart';
-part 'src/to_string.dart';
-part 'src/constructor.dart';
-part 'src/fields.dart';
-part 'src/to_json.dart';
-part 'src/from_json.dart';
-part 'src/data_value_json_converter.dart';
+part 'macro/src/equal_operator.dart';
+part 'macro/src/copy_with.dart';
+part 'macro/src/to_string.dart';
+part 'macro/src/constructor.dart';
+part 'macro/src/fields.dart';
+part 'macro/src/to_json.dart';
+part 'macro/src/from_json.dart';
+part 'macro/src/data_value_json_converter.dart';

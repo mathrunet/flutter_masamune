@@ -224,7 +224,7 @@ packages:
       path: "../katana_macro"
       relative: true
     source: path
-    version: "3.0.0-dev.1"
+    version: "3.0.0-dev.2"
   katana_test:
     dependency: "direct dev"
     description:
