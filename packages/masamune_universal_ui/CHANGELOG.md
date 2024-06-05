@@ -1,3 +1,7 @@
+## 2.4.19
+
+ - Update a dependency to the latest release.
+
 ## 2.4.18
 
  - **FIX**: Fixed a problem with the scroll bar when a controller is put in List. ([4960b2dd](https://github.com/mathrunet/flutter_masamune/commit/4960b2dd972cbd6778ae29dbe74f14e91a2604fd))
