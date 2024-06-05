@@ -109,7 +109,10 @@ class LocalAuthAdapter extends AuthAdapter {
   bool get isWaitingConfirmation => database.isWaitingConfirmation;
 
   @override
-  Future<String?> get accessToken => Future.value(!isSignedIn ? null : "");
+  Future<AccessTokenValue?> accessToken({bool forceRefresh = false}) =>
+      Future.value(
+        !isSignedIn ? null : const AccessTokenValue(token: ""),
+      );
 
   @override
   String? get refreshToken => !isSignedIn ? null : "";
