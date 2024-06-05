@@ -78,7 +78,7 @@ class _$_MainPageQuery extends RouteQuery {
   String get name => "main";
 
   @override
-  bool get nested => false;
+  bool get hidden => false;
 
   @override
   TransitionQuery? get transition => null;
@@ -172,7 +172,7 @@ class _$_UserPageQuery extends RouteQuery {
   String get name => "user";
 
   @override
-  bool get nested => false;
+  bool get hidden => false;
 
   @override
   TransitionQuery? get transition => null;
@@ -267,7 +267,7 @@ class _$_ContentPageQuery extends RouteQuery {
   String get name => path;
 
   @override
-  bool get nested => false;
+  bool get hidden => false;
 
   @override
   TransitionQuery? get transition => null;
@@ -356,7 +356,7 @@ class _$_NestedContainerPageQuery extends RouteQuery {
   String get name => "nested";
 
   @override
-  bool get nested => false;
+  bool get hidden => false;
 
   @override
   TransitionQuery? get transition => null;
@@ -426,7 +426,7 @@ class _$_InnerPage1Query extends RouteQuery {
   String get name => path;
 
   @override
-  bool get nested => true;
+  bool get hidden => true;
 
   @override
   TransitionQuery? get transition => null;
@@ -492,7 +492,7 @@ class _$_InnerPage2Query extends RouteQuery {
   String get name => path;
 
   @override
-  bool get nested => true;
+  bool get hidden => true;
 
   @override
   TransitionQuery? get transition => null;

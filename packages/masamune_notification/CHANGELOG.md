@@ -1,4 +1,32 @@
-## 3.0.0-dev.0
+## 2.7.2
+
+ - **FIX**: Implementation completed. ([4ad2356e](https://github.com/mathrunet/flutter_masamune/commit/4ad2356edc263631e2188fb585213e615590dd2b))
+
+## 2.7.1
+
+ - **FIX**: Implemented LocalNotification functionality. ([dbe34ed3](https://github.com/mathrunet/flutter_masamune/commit/dbe34ed33d3df2ad2f040346a1de9d27b1d9bb47))
+
+## 2.7.0
+
+ - **FEAT**: Add LocalPush. ([7ef2c3b1](https://github.com/mathrunet/flutter_masamune/commit/7ef2c3b1f1780f51edf2f5c7c33fce0f92425302))
+
+## 2.6.0
+
+ - **FEAT**: Changed PUSH notifications to remote PUSH notifications. ([53fe21e9](https://github.com/mathrunet/flutter_masamune/commit/53fe21e9d71828c9c93e0300348a7f2c29a64885))
+
+## 2.5.77
+
+ - Update a dependency to the latest release.
+
+## 2.5.76
+
+ - Update a dependency to the latest release.
+
+## 2.5.75
+
+ - **FIX**: Fixes around notifications. ([2c533452](https://github.com/mathrunet/flutter_masamune/commit/2c533452f88849b1c536b23d77a6bfc11736e5d1))
+
+## 2.5.74
 
 > Note: This release has breaking changes.
 

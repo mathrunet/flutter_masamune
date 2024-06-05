@@ -1,4 +1,12 @@
-## 3.0.0-dev.0
+## 2.9.3
+
+ - Update a dependency to the latest release.
+
+## 2.9.2
+
+ - Update a dependency to the latest release.
+
+## 2.9.1
 
 > Note: This release has breaking changes.
 

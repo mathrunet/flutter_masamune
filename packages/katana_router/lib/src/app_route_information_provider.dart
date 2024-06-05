@@ -57,7 +57,7 @@ class _AppRouteInformationProvider extends RouteInformationProvider
       "RouteInformation does not contain a Query.",
     );
     final routeQuery = routeInformation.state as RouteQuery?;
-    if (routeQuery?.nested ?? false) {
+    if (routeQuery?.hidden ?? false) {
       return;
     }
     if (routeQuery?._transition != null &&

@@ -149,7 +149,7 @@ class AppRouter extends ChangeNotifier
 
     _routeInformationParser = _AppRouteInformationParser(this);
 
-    _nested = nested || initialQuery?.nested == true;
+    _hidden = nested || initialQuery?.hidden == true;
     _initialPath = initialPath;
     _initialQuery = initialQuery;
   }
@@ -189,13 +189,13 @@ class AppRouter extends ChangeNotifier
   RouteInformationProvider? get routeInformationProvider =>
       _routeInformationProvider;
 
-  late final bool _nested;
+  late final bool _hidden;
   late final String? _initialPath;
   late final RouteQuery? _initialQuery;
 
   _AppRouteInformationProvider get _routeInformationProvider {
     return __routeInformationProvider ??= () {
-      final effectiveInitialLocation = _nested
+      final effectiveInitialLocation = _hidden
           ? null
           : _effectiveInitialLocation(
               _initialPath,
@@ -204,7 +204,7 @@ class AppRouter extends ChangeNotifier
       return _AppRouteInformationProvider(
         router: this,
         initialRouteInformation: InitialRouteInformation(
-          query: _nested
+          query: _hidden
               ? _initialQuery
               : _effectiveInitialQuery(
                   effectiveInitialLocation,

@@ -89,4 +89,15 @@ class AgoraUser extends ChangeNotifier {
     _status = status;
     notifyListeners();
   }
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode =>
+      number.hashCode ^
+      isLocalUser.hashCode ^
+      channel.hashCode ^
+      name.hashCode ^
+      status.hashCode;
 }

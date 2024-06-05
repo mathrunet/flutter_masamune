@@ -1,4 +1,28 @@
-## 3.0.0-dev.0
+## 2.2.23
+
+ - Update a dependency to the latest release.
+
+## 2.2.22
+
+ - Update a dependency to the latest release.
+
+## 2.2.21
+
+ - Update a dependency to the latest release.
+
+## 2.2.20
+
+ - **FIX**: Fixed a bug where the animation builder was not updating properly. ([f9df3686](https://github.com/mathrunet/flutter_masamune/commit/f9df36867bb4bf74ba015acc85e488047a3f3115))
+
+## 2.2.19
+
+ - **FIX**: Fixed a problem with controllers not being destroyed. ([1e8b6f29](https://github.com/mathrunet/flutter_masamune/commit/1e8b6f29c93c15eae00bb14a51ed4f468759289a))
+
+## 2.2.18
+
+ - Update a dependency to the latest release.
+
+## 2.2.17
 
 > Note: This release has breaking changes.
 

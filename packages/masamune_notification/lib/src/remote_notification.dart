@@ -8,13 +8,13 @@ part of '/masamune_notification.dart';
 ///
 /// You can subscribe and unsubscribe to topics by clicking [subscribe] and [unsubscribe].
 ///
-/// Notifications can be sent using [send]. (Assuming that a Function for notification has been set in FirebaseFunctions. It is also possible to set up a [FunctionsAdapter] in [functions]).
+/// Notifications can be sent using [send]. (Assuming that a Function for notification has been set up in FirebaseFunctions. It is also possible to set [FunctionsAdapter] in [RemoteNotificationMasamuneAdapter.functionsAdapter]).
 ///
 /// When a notification is retrieved, [value] is updated and [notifyListeners] is called.
 ///
 /// By monitoring the status with [addListener], it is possible to do something when a notification comes in.
 ///
-/// Be sure to specify the notification settings [androidNotificationChannelTitle] and [androidNotificationChannelDescription] for Android. Matching [androidNotificationChannelId] will enable Android to receive notifications as well.
+/// Various settings can be overridden by passing [adapter]. If this is not used, [RemoteNotificationMasamuneAdapter.primary] is used.
 ///
 /// FirebaseMessagingを取り扱うためのクラス。
 ///
@@ -22,28 +22,28 @@ part of '/masamune_notification.dart';
 ///
 /// [subscribe]、[unsubscribe]でトピックの購読、購読解除が行なえます。
 ///
-/// [send]で通知の送信が可能です。（FirebaseFunctionsで通知用のFunctionが設定されていること前提。[functions]で[FunctionsAdapter]を設定することも可能です。）
+/// [send]で通知の送信が可能です。（FirebaseFunctionsで通知用のFunctionが設定されていること前提。[RemoteNotificationMasamuneAdapter.functionsAdapter]で[FunctionsAdapter]を設定することも可能です。）
 ///
 /// 通知を取得した場合、[value]が更新され、[notifyListeners]が呼ばれます。
 ///
 /// [addListener]で状態を監視することで通知が来たときになにかしらの処理を行うことが可能です。
 ///
-/// Android用の通知設定[androidNotificationChannelTitle]、[androidNotificationChannelDescription]を必ず指定してください。[androidNotificationChannelId]を合わせることでAndroidでも通知の受け取りが可能になります。
-class PushNotification extends MasamuneControllerBase<PushNotificationValue,
-    PushNotificationMasamuneAdapter> {
+/// [adapter]を渡すことで各種設定を上書きすることができます。これが利用されない場合は[RemoteNotificationMasamuneAdapter.primary]が利用されます。
+class RemoteNotification extends MasamuneControllerBase<NotificationValue,
+    RemoteNotificationMasamuneAdapter> {
   /// Class for handling FirebaseMessaging.
   ///
   /// First, monitor notifications with [listen]. Notifications can be received after this method is executed.
   ///
   /// You can subscribe and unsubscribe to topics by clicking [subscribe] and [unsubscribe].
   ///
-  /// Notifications can be sent using [send]. (Assuming that a Function for notification has been set up in FirebaseFunctions. It is also possible to set [FunctionsAdapter] in [PushNotificationMasamuneAdapter.functionsAdapter]).
+  /// Notifications can be sent using [send]. (Assuming that a Function for notification has been set up in FirebaseFunctions. It is also possible to set [FunctionsAdapter] in [RemoteNotificationMasamuneAdapter.functionsAdapter]).
   ///
   /// When a notification is retrieved, [value] is updated and [notifyListeners] is called.
   ///
   /// By monitoring the status with [addListener], it is possible to do something when a notification comes in.
   ///
-  /// Various settings can be overridden by passing [adapter]. If this is not used, [PushNotificationMasamuneAdapter.primary] is used.
+  /// Various settings can be overridden by passing [adapter]. If this is not used, [RemoteNotificationMasamuneAdapter.primary] is used.
   ///
   /// FirebaseMessagingを取り扱うためのクラス。
   ///
@@ -51,39 +51,39 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// [subscribe]、[unsubscribe]でトピックの購読、購読解除が行なえます。
   ///
-  /// [send]で通知の送信が可能です。（FirebaseFunctionsで通知用のFunctionが設定されていること前提。[PushNotificationMasamuneAdapter.functionsAdapter]で[FunctionsAdapter]を設定することも可能です。）
+  /// [send]で通知の送信が可能です。（FirebaseFunctionsで通知用のFunctionが設定されていること前提。[RemoteNotificationMasamuneAdapter.functionsAdapter]で[FunctionsAdapter]を設定することも可能です。）
   ///
   /// 通知を取得した場合、[value]が更新され、[notifyListeners]が呼ばれます。
   ///
   /// [addListener]で状態を監視することで通知が来たときになにかしらの処理を行うことが可能です。
   ///
-  /// [adapter]を渡すことで各種設定を上書きすることができます。これが利用されない場合は[PushNotificationMasamuneAdapter.primary]が利用されます。
-  PushNotification({super.adapter});
+  /// [adapter]を渡すことで各種設定を上書きすることができます。これが利用されない場合は[RemoteNotificationMasamuneAdapter.primary]が利用されます。
+  RemoteNotification({super.adapter});
 
   /// Query for Picker.
   ///
   /// ```dart
-  /// appRef.controller(PushNotification.query(parameters));     // Get from application scope.
-  /// ref.app.controller(PushNotification.query(parameters));    // Watch at application scope.
-  /// ref.page.controller(PushNotification.query(parameters));   // Watch at page scope.
+  /// appRef.controller(RemoteNotification.query(parameters));     // Get from application scope.
+  /// ref.app.controller(RemoteNotification.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(RemoteNotification.query(parameters));   // Watch at page scope.
   /// ```
-  static const query = _$PushNotificationQuery();
+  static const query = _$RemoteNotificationQuery();
 
   /// Model for Schedule.
   ///
   /// ```dart
-  /// ref.app.model(PushNotification.schedule.document(id));       // Get the document.
-  /// ref.app.model(PushNotification.schedule.collection());       // Get the collection.
+  /// ref.app.model(RemoteNotification.schedule.document(id));       // Get the document.
+  /// ref.app.model(RemoteNotification.schedule.collection());       // Get the collection.
   /// ```
-  static const schedule = _$PushNotificationSchedule();
+  static const schedule = _$RemoteNotificationSchedule();
 
   @override
-  PushNotificationMasamuneAdapter get primaryAdapter =>
-      PushNotificationMasamuneAdapter.primary;
+  RemoteNotificationMasamuneAdapter get primaryAdapter =>
+      RemoteNotificationMasamuneAdapter.primary;
 
   String? _token;
   Completer<void>? _completer;
-  PushNotificationListenResponse? _listenResponse;
+  RemoteNotificationListenResponse? _listenResponse;
 
   static const String _linkKey = "@link";
 
@@ -99,8 +99,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// 受け取った最新の通知の内容。
   @override
-  PushNotificationValue? get value => _value;
-  PushNotificationValue? _value;
+  NotificationValue? get value => _value;
+  NotificationValue? _value;
 
   /// Returns `true` if notification receipt has been initiated.
   ///
@@ -136,8 +136,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     if (_token.isNotEmpty) {
       await (onRetrievedToken ?? adapter.onRetrievedToken)?.call(_token!);
     }
-    _sendLog(PushNotificationLoggerEvent.token, parameters: {
-      PushNotificationLoggerEvent.tokenKey: _token,
+    _sendLog(NotificationLoggerEvent.token, parameters: {
+      NotificationLoggerEvent.tokenKey: _token,
     });
     return _token;
   }
@@ -180,7 +180,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
       );
       await getToken(onRetrievedToken: onRetrievedToken);
       _listening = true;
-      _sendLog(PushNotificationLoggerEvent.listen, parameters: {});
+      _sendLog(NotificationLoggerEvent.listen, parameters: {});
       _completer?.complete();
       _completer = null;
     } catch (e) {
@@ -200,7 +200,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// [tokens] and [topic] cannot be specified at the same time.
   ///
-  /// See [SendNotificationFunctionsAction] for details.
+  /// See [SendRemoteNotificationFunctionsAction] for details.
   ///
   /// FirebaseFunctionsにデプロイされたFCM通知送信用のFunctionsを起動します。
   ///
@@ -210,8 +210,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// [sound]には通知のサウンドを指定します。[badgeCount]にはバッジに表示する数を指定します。
   ///
-  /// 詳しくは[SendNotificationFunctionsAction]を御覧ください。
-  Future<SendNotificationFunctionsActionResponse> send({
+  /// 詳しくは[SendRemoteNotificationFunctionsAction]を御覧ください。
+  Future<SendRemoteNotificationFunctionsActionResponse> send({
     required String title,
     required String text,
     String? channel,
@@ -219,7 +219,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     String? topic,
     ModelToken? tokens,
     int? badgeCount,
-    PushNotificationSound sound = PushNotificationSound.defaultSound,
+    NotificationSound sound = NotificationSound.defaultSound,
     Uri? link,
   }) async {
     assert(
@@ -233,7 +233,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     await listen();
     final f = adapter.functionsAdapter ?? FunctionsAdapter.primary;
     final res = await f.execute(
-      SendNotificationFunctionsAction(
+      SendRemoteNotificationFunctionsAction(
         title: title,
         text: text,
         topic: topic,
@@ -247,11 +247,10 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
         },
       ),
     );
-    _sendLog(PushNotificationLoggerEvent.send, parameters: {
-      PushNotificationLoggerEvent.titleKey: title,
-      PushNotificationLoggerEvent.bodyKey: text,
-      PushNotificationLoggerEvent.toKey:
-          tokens != null ? tokens.toString() : topic,
+    _sendLog(NotificationLoggerEvent.send, parameters: {
+      NotificationLoggerEvent.titleKey: title,
+      NotificationLoggerEvent.bodyKey: text,
+      NotificationLoggerEvent.toKey: tokens != null ? tokens.toString() : topic,
     });
     return res;
   }
@@ -284,7 +283,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     String? topic,
     ModelToken? tokens,
     int? badgeCount,
-    PushNotificationSound sound = PushNotificationSound.defaultSound,
+    NotificationSound sound = NotificationSound.defaultSound,
     Uri? link,
     String? targetId,
   }) async {
@@ -306,16 +305,16 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
         .modelQuery
         .create(SchedulerQuery.generateScheduleId(
           time: time,
-          command: ModelServerCommandPushNotificationSchedule.command,
+          command: ModelServerCommandRemoteNotificationSchedule.command,
           target: targetId,
         ));
-    final document = PushNotificationScheduleModelDocument(
+    final document = RemoteNotificationScheduleModelDocument(
       modelQuery.copyWith(adapter: m),
     );
     await document.reload();
     await document.save(
       document.value?.copyWith(
-            command: ModelServerCommandPushNotificationSchedule(
+            command: ModelServerCommandRemoteNotificationSchedule(
               time: ModelTimestamp(time),
               title: title,
               text: text,
@@ -328,8 +327,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
               badgeCount: badgeCount,
             ),
           ) ??
-          PushNotificationScheduleModel(
-            command: ModelServerCommandPushNotificationSchedule(
+          RemoteNotificationScheduleModel(
+            command: ModelServerCommandRemoteNotificationSchedule(
               time: ModelTimestamp(time),
               title: title,
               text: text,
@@ -343,6 +342,12 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
             ),
           ),
     );
+    _sendLog(NotificationLoggerEvent.addSchedule, parameters: {
+      NotificationLoggerEvent.titleKey: title,
+      NotificationLoggerEvent.bodyKey: text,
+      NotificationLoggerEvent.toKey: tokens != null ? tokens.toString() : topic,
+      NotificationLoggerEvent.timeKey: time.toIso8601String(),
+    });
   }
 
   /// Delete a notification schedule that has already been registered.
@@ -384,14 +389,18 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
         .modelQuery
         .create(SchedulerQuery.generateScheduleId(
           time: time,
-          command: ModelServerCommandPushNotificationSchedule.command,
+          command: ModelServerCommandRemoteNotificationSchedule.command,
           target: targetId,
         ));
-    final document = PushNotificationScheduleModelDocument(
+    final document = RemoteNotificationScheduleModelDocument(
       modelQuery.copyWith(adapter: m),
     );
     await document.reload();
     await document.delete();
+    _sendLog(NotificationLoggerEvent.removeSchedule, parameters: {
+      NotificationLoggerEvent.toKey: tokens != null ? tokens.toString() : topic,
+      NotificationLoggerEvent.timeKey: time.toIso8601String(),
+    });
   }
 
   /// Subscribe to a topic named [topic].
@@ -409,8 +418,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     await listen();
     assert(topic.isNotEmpty, "You have not specified a topic.");
     await adapter.subscribe(topic);
-    _sendLog(PushNotificationLoggerEvent.subscribe, parameters: {
-      PushNotificationLoggerEvent.topicNameKey: topic,
+    _sendLog(NotificationLoggerEvent.subscribe, parameters: {
+      NotificationLoggerEvent.topicNameKey: topic,
     });
   }
 
@@ -425,42 +434,42 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     await listen();
     assert(topic.isNotEmpty, "You have not specified a topic.");
     await adapter.unsubscribe(topic);
-    _sendLog(PushNotificationLoggerEvent.unsubscribe, parameters: {
-      PushNotificationLoggerEvent.topicNameKey: topic,
+    _sendLog(NotificationLoggerEvent.unsubscribe, parameters: {
+      NotificationLoggerEvent.topicNameKey: topic,
     });
   }
 
-  Future<void> _onMessage(PushNotificationValue value) async {
+  Future<void> _onMessage(NotificationValue value) async {
     _value = value;
     final onLink = this.onLink ?? adapter.onLink;
     if (onLink != null) {
       final uri = value.data.get(_linkKey, nullOfString)?.toUri();
       await onLink.call(uri, false);
     }
-    _sendLog(PushNotificationLoggerEvent.receive, parameters: {
-      PushNotificationLoggerEvent.titleKey: value.title,
-      PushNotificationLoggerEvent.bodyKey: value.text,
-      PushNotificationLoggerEvent.toKey: value.target,
+    _sendLog(NotificationLoggerEvent.receive, parameters: {
+      NotificationLoggerEvent.titleKey: value.title,
+      NotificationLoggerEvent.bodyKey: value.text,
+      NotificationLoggerEvent.toKey: value.target,
     });
     notifyListeners();
   }
 
-  Future<void> _onMessageOpenedApp(PushNotificationValue value) async {
+  Future<void> _onMessageOpenedApp(NotificationValue value) async {
     _value = value;
     final onLink = this.onLink ?? adapter.onLink;
     if (onLink != null) {
       final uri = value.data.get(_linkKey, nullOfString)?.toUri();
       await onLink.call(uri, true);
     }
-    _sendLog(PushNotificationLoggerEvent.receive, parameters: {
-      PushNotificationLoggerEvent.titleKey: value.title,
-      PushNotificationLoggerEvent.bodyKey: value.text,
-      PushNotificationLoggerEvent.toKey: value.target,
+    _sendLog(NotificationLoggerEvent.receive, parameters: {
+      NotificationLoggerEvent.titleKey: value.title,
+      NotificationLoggerEvent.bodyKey: value.text,
+      NotificationLoggerEvent.toKey: value.target,
     });
     notifyListeners();
   }
 
-  void _sendLog(PushNotificationLoggerEvent event, {DynamicMap? parameters}) {
+  void _sendLog(NotificationLoggerEvent event, {DynamicMap? parameters}) {
     final loggerAdapters = LoggerAdapter.primary;
     for (final loggerAdapter in loggerAdapters) {
       loggerAdapter.send(event.toString(), parameters: parameters);
@@ -469,26 +478,27 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
 }
 
 @immutable
-class _$PushNotificationQuery {
-  const _$PushNotificationQuery();
+class _$RemoteNotificationQuery {
+  const _$RemoteNotificationQuery();
 
   @useResult
-  _$_PushNotificationQuery call() => _$_PushNotificationQuery(
+  _$_RemoteNotificationQuery call() => _$_RemoteNotificationQuery(
         hashCode.toString(),
       );
 }
 
 @immutable
-class _$_PushNotificationQuery extends ControllerQueryBase<PushNotification> {
-  const _$_PushNotificationQuery(
+class _$_RemoteNotificationQuery
+    extends ControllerQueryBase<RemoteNotification> {
+  const _$_RemoteNotificationQuery(
     this._name,
   );
 
   final String _name;
 
   @override
-  PushNotification Function() call(Ref ref) {
-    return () => PushNotification();
+  RemoteNotification Function() call(Ref ref) {
+    return () => RemoteNotification();
   }
 
   @override
@@ -497,28 +507,28 @@ class _$_PushNotificationQuery extends ControllerQueryBase<PushNotification> {
   bool get autoDisposeWhenUnreferenced => true;
 }
 
-class _$PushNotificationSchedule {
-  const _$PushNotificationSchedule();
+class _$RemoteNotificationSchedule {
+  const _$RemoteNotificationSchedule();
 
   /// Query for document.
   ///
   /// ```dart
-  /// appref.app.model(PushNotificationScheduleModel.document(id));       // Get the document.
-  /// ref.app.model(PushNotificationScheduleModel.document(id))..load();  // Load the document.
+  /// appref.app.model(RemoteNotificationScheduleModel.document(id));       // Get the document.
+  /// ref.app.model(RemoteNotificationScheduleModel.document(id))..load();  // Load the document.
   /// ```
-  final document = PushNotificationScheduleModel.document;
+  final document = RemoteNotificationScheduleModel.document;
 
   /// Query for collection.
   ///
   /// ```dart
-  /// appref.app.model(PushNotificationScheduleModel.collection());       // Get the collection.
-  /// ref.app.model(PushNotificationScheduleModel.collection())..load();  // Load the collection.
+  /// appref.app.model(RemoteNotificationScheduleModel.collection());       // Get the collection.
+  /// ref.app.model(RemoteNotificationScheduleModel.collection())..load();  // Load the collection.
   /// ref.app.model(
-  ///   PushNotificationScheduleModel.collection().equal(
-  ///     PushNotificationScheduleModelCollectionKey.xxx,
+  ///   RemoteNotificationScheduleModel.collection().equal(
+  ///     RemoteNotificationScheduleModelCollectionKey.xxx,
   ///     "data",
   ///   ),
   /// )..load(); // Load the collection with filter.
   /// ```
-  final collection = PushNotificationScheduleModel.collection;
+  final collection = RemoteNotificationScheduleModel.collection;
 }

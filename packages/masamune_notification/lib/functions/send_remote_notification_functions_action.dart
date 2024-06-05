@@ -1,25 +1,25 @@
 part of '/masamune_notification.dart';
 
-/// [FunctionsAction] for sending PUSH notifications from the server side.
+/// [FunctionsAction] for sending remote PUSH notifications from the server side.
 ///
-/// PUSH通知をサーバー側から送るための[FunctionsAction]。
+/// リモートPUSH通知をサーバー側から送るための[FunctionsAction]。
 ///
 /// {@macro functions_action}
-class SendNotificationFunctionsAction
-    extends FunctionsAction<SendNotificationFunctionsActionResponse> {
-  /// [FunctionsAction] for sending PUSH notifications from the server side.
+class SendRemoteNotificationFunctionsAction
+    extends FunctionsAction<SendRemoteNotificationFunctionsActionResponse> {
+  /// [FunctionsAction] for sending remote PUSH notifications from the server side.
   ///
-  /// PUSH通知をサーバー側から送るための[FunctionsAction]。
+  /// リモートPUSH通知をサーバー側から送るための[FunctionsAction]。
   ///
   /// {@macro functions_action}
-  const SendNotificationFunctionsAction({
+  const SendRemoteNotificationFunctionsAction({
     required this.title,
     required this.text,
     this.tokens,
     this.topic,
     this.channel,
     this.badgeCount,
-    this.sound = PushNotificationSound.defaultSound,
+    this.sound = NotificationSound.defaultSound,
     this.data,
   })  : assert(
           tokens != null || topic != null,
@@ -68,7 +68,7 @@ class SendNotificationFunctionsAction
   /// Sound of PUSH notifications.
   ///
   /// PUSH通知のサウンド。
-  final PushNotificationSound sound;
+  final NotificationSound sound;
 
   @override
   String get action => "send_notification";
@@ -82,13 +82,13 @@ class SendNotificationFunctionsAction
       if (data != null) "data": data,
       if (tokens != null) "token": tokens!.value else "topic": topic,
       if (badgeCount != null) "badgeCount": badgeCount,
-      if (sound != PushNotificationSound.none) "sound": sound.value,
+      if (sound != NotificationSound.none) "sound": sound.value,
     };
   }
 
   @override
-  SendNotificationFunctionsActionResponse toResponse(DynamicMap map) {
-    return SendNotificationFunctionsActionResponse(
+  SendRemoteNotificationFunctionsActionResponse toResponse(DynamicMap map) {
+    return SendRemoteNotificationFunctionsActionResponse(
       map.getAsMap("results", {}).map(
         (key, value) => MapEntry(key, value),
       ),
@@ -96,14 +96,15 @@ class SendNotificationFunctionsAction
   }
 }
 
-/// Response to [FunctionsAction] to send PUSH notifications from the server side.
+/// [FunctionsAction] response to send remote PUSH notification from the server side.
 ///
-/// PUSH通知をサーバー側から送るための[FunctionsAction]のレスポンス。
-class SendNotificationFunctionsActionResponse extends FunctionsActionResponse {
-  /// Response to [FunctionsAction] to send PUSH notifications from the server side.
+/// リモートPUSH通知をサーバー側から送るための[FunctionsAction]のレスポンス。
+class SendRemoteNotificationFunctionsActionResponse
+    extends FunctionsActionResponse {
+  /// [FunctionsAction] response to send remote PUSH notification from the server side.
   ///
-  /// PUSH通知をサーバー側から送るための[FunctionsAction]のレスポンス。
-  const SendNotificationFunctionsActionResponse(this._results);
+  /// リモートPUSH通知をサーバー側から送るための[FunctionsAction]のレスポンス。
+  const SendRemoteNotificationFunctionsActionResponse(this._results);
 
   final DynamicMap _results;
 

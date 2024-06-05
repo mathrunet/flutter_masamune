@@ -30,33 +30,33 @@ void main() {
   });
   test("regexptest", () {
     const testList = {
-      "InnerPageType.type2": "@NestedPage(value: InnerPageType.type2)",
-      "'InnerPageType.type2'": "@NestedPage(value : 'InnerPageType.type2')",
-      '"InnerPageType.type2"': '@NestedPage(value:"InnerPageType.type2")',
-      '"a,b,c,d,e"': '@NestedPage(value : "a,b,c,d,e")',
-      "100": "@NestedPage(value: 100)",
-      "100.5928": "@NestedPage(value :100.5928)",
-      "false": "@NestedPage(value : false)",
+      "InnerPageType.type2": "@HiddenPage(value: InnerPageType.type2)",
+      "'InnerPageType.type2'": "@HiddenPage(value : 'InnerPageType.type2')",
+      '"InnerPageType.type2"': '@HiddenPage(value:"InnerPageType.type2")',
+      '"a,b,c,d,e"': '@HiddenPage(value : "a,b,c,d,e")',
+      "100": "@HiddenPage(value: 100)",
+      "100.5928": "@HiddenPage(value :100.5928)",
+      "false": "@HiddenPage(value : false)",
       "InnerPageType.type3":
-          "@NestedPage(value:InnerPageType.type3, redirect:[LoginRedirect(),])",
+          "@HiddenPage(value:InnerPageType.type3, redirect:[LoginRedirect(),])",
       "500":
-          "@NestedPage(value:500, redirect :[LoginRedirect(),RegisterRedirect()])",
+          "@HiddenPage(value:500, redirect :[LoginRedirect(),RegisterRedirect()])",
       "LoginRedirect()":
-          "@NestedPage(value:LoginRedirect(), redirect :[ LoginRedirect(), RegisterRedirect()  ])",
+          "@HiddenPage(value:LoginRedirect(), redirect :[ LoginRedirect(), RegisterRedirect()  ])",
       "LoginRedirect('aaaa', 500, false )":
-          "@NestedPage(value:LoginRedirect('aaaa', 500, false ), redirect :[ LoginRedirect(), RegisterRedirect()  ])",
+          "@HiddenPage(value:LoginRedirect('aaaa', 500, false ), redirect :[ LoginRedirect(), RegisterRedirect()  ])",
       "LoginRedirect(test: 'aaaa', aaa: TestRidirect(), false )":
-          "@NestedPage(value:LoginRedirect(test: 'aaaa', aaa: TestRidirect(), false ), redirect:[LoginRedirect(),])",
+          "@HiddenPage(value:LoginRedirect(test: 'aaaa', aaa: TestRidirect(), false ), redirect:[LoginRedirect(),])",
       "InnerPageType.type4":
-          "@NestedPage(redirect:[LoginRedirect(),], value:InnerPageType.type4, )",
+          "@HiddenPage(redirect:[LoginRedirect(),], value:InnerPageType.type4, )",
       "501":
-          "@NestedPage(redirect :[LoginRedirect(),RegisterRedirect()], value:501, )",
+          "@HiddenPage(redirect :[LoginRedirect(),RegisterRedirect()], value:501, )",
       "LoginRedirect2()":
-          "@NestedPage( redirect :[ LoginRedirect(), RegisterRedirect()  ],value:LoginRedirect2())",
+          "@HiddenPage( redirect :[ LoginRedirect(), RegisterRedirect()  ],value:LoginRedirect2())",
       "LoginRedirect('aaaa', 500, true )":
-          "@NestedPage(redirect :[ LoginRedirect(), RegisterRedirect()  ], value:LoginRedirect('aaaa', 500, true ), )",
+          "@HiddenPage(redirect :[ LoginRedirect(), RegisterRedirect()  ], value:LoginRedirect('aaaa', 500, true ), )",
       "LoginRedirect(test: 'aaaa', aaa: TestRidirect2(), false )":
-          "@NestedPage(redirect:[LoginRedirect(),], value:LoginRedirect(test: 'aaaa', aaa: TestRidirect2(), false ), )"
+          "@HiddenPage(redirect:[LoginRedirect(),], value:LoginRedirect(test: 'aaaa', aaa: TestRidirect2(), false ), )"
     };
     final regExpList = RegExp(r"value\s*:\s*(.+),?\s*\)\s*$");
     final redirectExp = RegExp(r"redirect\s*:\s*\[([^\]]*)\]");

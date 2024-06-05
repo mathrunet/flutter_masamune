@@ -10,6 +10,7 @@ import 'package:katana_cli/action/app/icon.dart';
 import 'package:katana_cli/action/app/info.dart';
 import 'package:katana_cli/action/app/introduction.dart';
 import 'package:katana_cli/action/app/keystore.dart';
+import 'package:katana_cli/action/app/local_notification.dart';
 import 'package:katana_cli/action/app/location.dart';
 import 'package:katana_cli/action/app/openai.dart';
 import 'package:katana_cli/action/app/p12.dart';
@@ -67,6 +68,7 @@ const _actions = <CliActionMixin>[
   AppTextToSpeechCliAction(),
   AppSpeechToTextCliAction(),
   AppLocationCliAction(),
+  AppLocalNotificationCliAction(),
   AgoraCliAction(),
   AdsCliAction(),
   PurchaseCliAction(),

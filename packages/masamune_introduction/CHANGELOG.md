@@ -1,4 +1,24 @@
-## 3.0.0-dev.0
+## 2.4.77
+
+ - Update a dependency to the latest release.
+
+## 2.4.76
+
+ - Update a dependency to the latest release.
+
+## 2.4.75
+
+ - Update a dependency to the latest release.
+
+## 2.4.74
+
+ - **FIX**: Change NestedPage to HiddenPage. ([e925938a](https://github.com/mathrunet/flutter_masamune/commit/e925938ae507a01fe5b5574f1411c9d64d3b7b33))
+
+## 2.4.73
+
+ - Update a dependency to the latest release.
+
+## 2.4.72
 
 > Note: This release has breaking changes.
 

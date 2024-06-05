@@ -1,13 +1,13 @@
 part of '/katana_router_builder.dart';
 
-/// Automatic generation of nested pages.
+/// Automatic generation of pages with hidden URLs.
 ///
-/// ネストされたページの自動生成を行います。
-class NestedPageGenerator extends GeneratorForAnnotation<NestedPage> {
-  /// Automatic generation of nested pages.
+/// URLが隠されたページの自動生成を行います。
+class HiddenPageGenerator extends GeneratorForAnnotation<HiddenPage> {
+  /// Automatic generation of pages with hidden URLs.
   ///
-  /// ネストされたページの自動生成を行います。
-  NestedPageGenerator();
+  /// URLが隠されたページの自動生成を行います。
+  HiddenPageGenerator();
 
   @override
   FutureOr<String> generateForAnnotatedElement(
@@ -25,12 +25,12 @@ class NestedPageGenerator extends GeneratorForAnnotation<NestedPage> {
 
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
-        "`@NestedPage()` can only be used on classes.",
+        "`@HiddenPage()` can only be used on classes.",
         element: element,
       );
     }
 
-    final annotationValue = AnnotationValue(element, NestedPage);
+    final annotationValue = AnnotationValue(element, HiddenPage);
     final classValue = ClassValue(element);
 
     final generated = Library(

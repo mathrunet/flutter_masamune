@@ -170,7 +170,7 @@ class _UniversalSearchBarState<T> extends State<UniversalSearchBar> {
   void dispose() {
     super.dispose();
     _focusNode?.dispose();
-    _controller!.dispose();
+    _controller?.dispose();
   }
 
   @override

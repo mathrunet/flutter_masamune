@@ -3,22 +3,21 @@
 // Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:masamune/masamune.dart';
-import 'package:masamune_scheduler/masamune_scheduler.dart';
 
 // Project imports:
 import 'package:masamune_notification/masamune_notification.dart';
 
-part 'push_notification_schedule.m.dart';
-part 'push_notification_schedule.g.dart';
-part 'push_notification_schedule.freezed.dart';
+part 'remote_notification_schedule.m.dart';
+part 'remote_notification_schedule.g.dart';
+part 'remote_notification_schedule.freezed.dart';
 
-/// This model is for scheduling and registering notifications.
+/// This model is for scheduling and registering remote PUSH notifications.
 ///
 /// Specify the date and time to send the notification in [time].
 ///
 /// Specify the title of the notification in [title]. Specify the body of the notification in [text].
 ///
-/// 通知をスケジュールして登録するためのモデルです。
+/// リモートPUSH通知をスケジュールして登録するためのモデルです。
 ///
 /// [time]に通知を送信する日時を指定します。
 ///
@@ -26,157 +25,161 @@ part 'push_notification_schedule.freezed.dart';
 @freezed
 @formValue
 @immutable
-@CollectionModelPath(SchedulerQuery.path)
-class PushNotificationScheduleModel
-    with _$PushNotificationScheduleModel
+@CollectionModelPath(
+  SchedulerQuery.path,
+  adapter: "RemoteNotificationMasamuneAdapter.primary.modelAdapter",
+)
+class RemoteNotificationScheduleModel
+    with _$RemoteNotificationScheduleModel
     implements ModelNotificationScheduleBase {
-  /// This model is for scheduling and registering notifications.
+  /// This model is for scheduling and registering remote PUSH notifications.
   ///
   /// Specify the date and time to send the notification in [time].
   ///
   /// Specify the title of the notification in [title]. Specify the body of the notification in [text].
   ///
-  /// 通知をスケジュールして登録するためのモデルです。
+  /// リモートPUSH通知をスケジュールして登録するためのモデルです。
   ///
   /// [time]に通知を送信する日時を指定します。
   ///
   /// [title]に通知のタイトルを指定します。[text]に通知の本文を指定します。
-  const factory PushNotificationScheduleModel({
-    required ModelServerCommandPushNotificationSchedule command,
-  }) = _PushNotificationScheduleModel;
-  const PushNotificationScheduleModel._();
+  const factory RemoteNotificationScheduleModel({
+    required ModelServerCommandRemoteNotificationSchedule command,
+  }) = _RemoteNotificationScheduleModel;
+  const RemoteNotificationScheduleModel._();
 
-  factory PushNotificationScheduleModel.fromJson(Map<String, Object?> json) =>
-      _$PushNotificationScheduleModelFromJson(json);
+  factory RemoteNotificationScheduleModel.fromJson(Map<String, Object?> json) =>
+      _$RemoteNotificationScheduleModelFromJson(json);
 
   /// Query for document.
   ///
   /// ```dart
-  /// appref.app.model(PushNotificationScheduleModel.document(id));       // Get the document.
-  /// ref.app.model(PushNotificationScheduleModel.document(id))..load();  // Load the document.
+  /// appref.app.model(RemoteNotificationScheduleModel.document(id));       // Get the document.
+  /// ref.app.model(RemoteNotificationScheduleModel.document(id))..load();  // Load the document.
   /// ```
-  static const document = _$PushNotificationScheduleModelDocumentQuery();
+  static const document = _$RemoteNotificationScheduleModelDocumentQuery();
 
   /// Query for collection.
   ///
   /// ```dart
-  /// appRef.model(PushNotificationScheduleModel.collection());       // Get the collection.
-  /// ref.app.model(PushNotificationScheduleModel.collection())..load();  // Load the collection.
+  /// appRef.model(RemoteNotificationScheduleModel.collection());       // Get the collection.
+  /// ref.app.model(RemoteNotificationScheduleModel.collection())..load();  // Load the collection.
   /// ref.app.model(
-  ///   PushNotificationScheduleModel.collection().data.equal(
+  ///   RemoteNotificationScheduleModel.collection().data.equal(
   ///     "data",
   ///   )
   /// )..load(); // Load the collection with filter.
   /// ```
-  static const collection = _$PushNotificationScheduleModelCollectionQuery();
+  static const collection = _$RemoteNotificationScheduleModelCollectionQuery();
 
   /// Query for form value.
   ///
   /// ```dart
-  /// ref.app.form(PushNotificationScheduleModel.form(PushNotificationScheduleModel()));    // Get the form controller in app scope.
-  /// ref.page.form(PushNotificationScheduleModel.form(PushNotificationScheduleModel()));    // Get the form controller in page scope.
+  /// ref.app.form(RemoteNotificationScheduleModel.form(RemoteNotificationScheduleModel()));    // Get the form controller in app scope.
+  /// ref.page.form(RemoteNotificationScheduleModel.form(RemoteNotificationScheduleModel()));    // Get the form controller in page scope.
   /// ```
-  static const form = _$PushNotificationScheduleModelFormQuery();
+  static const form = _$RemoteNotificationScheduleModelFormQuery();
 }
 
-/// [Enum] of the name of the value defined in PushNotificationScheduleModel.
-typedef PushNotificationScheduleModelKeys = _$PushNotificationScheduleModelKeys;
+/// [Enum] of the name of the value defined in RemoteNotificationScheduleModel.
+typedef RemoteNotificationScheduleModelKeys
+    = _$RemoteNotificationScheduleModelKeys;
 
-/// Alias for ModelRef<PushNotificationScheduleModel>.
+/// Alias for ModelRef<RemoteNotificationScheduleModel>.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
 /// ```dart
-/// @RefParam(PushNotificationScheduleModelDocument) PushNotificationScheduleModelRef push_notification_schedule
+/// @RefParam(RemoteNotificationScheduleModelDocument) RemoteNotificationScheduleModelRef push_notification_schedule
 /// ```
-typedef PushNotificationScheduleModelRef
-    = ModelRef<PushNotificationScheduleModel>?;
+typedef RemoteNotificationScheduleModelRef
+    = ModelRef<RemoteNotificationScheduleModel>?;
 
-/// It can be defined as an empty ModelRef<PushNotificationScheduleModel>.
+/// It can be defined as an empty ModelRef<RemoteNotificationScheduleModel>.
 ///
 /// ```dart
-/// PushNotificationScheduleModelRefPath("xxx") // Define as a path.
+/// RemoteNotificationScheduleModelRefPath("xxx") // Define as a path.
 /// ```
-typedef PushNotificationScheduleModelRefPath
-    = _$PushNotificationScheduleModelRefPath;
+typedef RemoteNotificationScheduleModelRefPath
+    = _$RemoteNotificationScheduleModelRefPath;
 
 /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
 ///
 /// ```dart
 /// RuntimeModelAdapter(
 ///   initialValue: [
-///     PushNotificationScheduleModelInitialCollection(
-///       "xxx": PushNotificationScheduleModel(...),
+///     RemoteNotificationScheduleModelInitialCollection(
+///       "xxx": RemoteNotificationScheduleModel(...),
 ///     ),
 ///   ],
 /// );
 /// ```
-typedef PushNotificationScheduleModelInitialCollection
-    = _$PushNotificationScheduleModelInitialCollection;
+typedef RemoteNotificationScheduleModelInitialCollection
+    = _$RemoteNotificationScheduleModelInitialCollection;
 
-/// Document class for storing PushNotificationScheduleModel.
-typedef PushNotificationScheduleModelDocument
-    = _$PushNotificationScheduleModelDocument;
+/// Document class for storing RemoteNotificationScheduleModel.
+typedef RemoteNotificationScheduleModelDocument
+    = _$RemoteNotificationScheduleModelDocument;
 
-/// Collection class for storing PushNotificationScheduleModel.
-typedef PushNotificationScheduleModelCollection
-    = _$PushNotificationScheduleModelCollection;
+/// Collection class for storing RemoteNotificationScheduleModel.
+typedef RemoteNotificationScheduleModelCollection
+    = _$RemoteNotificationScheduleModelCollection;
 
-/// It can be defined as an empty ModelRef<PushNotificationScheduleModel>.
+/// It can be defined as an empty ModelRef<RemoteNotificationScheduleModel>.
 ///
 /// ```dart
-/// PushNotificationScheduleModelMirrorRefPath("xxx") // Define as a path.
+/// RemoteNotificationScheduleModelMirrorRefPath("xxx") // Define as a path.
 /// ```
-typedef PushNotificationScheduleModelMirrorRefPath
-    = _$PushNotificationScheduleModelMirrorRefPath;
+typedef RemoteNotificationScheduleModelMirrorRefPath
+    = _$RemoteNotificationScheduleModelMirrorRefPath;
 
 /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
 ///
 /// ```dart
 /// RuntimeModelAdapter(
 ///   initialValue: [
-///     PushNotificationScheduleModelMirrorInitialCollection(
-///       "xxx": PushNotificationScheduleModel(...),
+///     RemoteNotificationScheduleModelMirrorInitialCollection(
+///       "xxx": RemoteNotificationScheduleModel(...),
 ///     ),
 ///   ],
 /// );
 /// ```
-typedef PushNotificationScheduleModelMirrorInitialCollection
-    = _$PushNotificationScheduleModelMirrorInitialCollection;
+typedef RemoteNotificationScheduleModelMirrorInitialCollection
+    = _$RemoteNotificationScheduleModelMirrorInitialCollection;
 
-/// Document class for storing PushNotificationScheduleModel.
-typedef PushNotificationScheduleModelMirrorDocument
-    = _$PushNotificationScheduleModelMirrorDocument;
+/// Document class for storing RemoteNotificationScheduleModel.
+typedef RemoteNotificationScheduleModelMirrorDocument
+    = _$RemoteNotificationScheduleModelMirrorDocument;
 
-/// Collection class for storing PushNotificationScheduleModel.
-typedef PushNotificationScheduleModelMirrorCollection
-    = _$PushNotificationScheduleModelMirrorCollection;
+/// Collection class for storing RemoteNotificationScheduleModel.
+typedef RemoteNotificationScheduleModelMirrorCollection
+    = _$RemoteNotificationScheduleModelMirrorCollection;
 
-/// [ModelServerCommandBase] for PUSH notification to [time].
+/// [ModelServerCommandBase] for remote PUSH notification to [time].
 ///
 /// Enter the text for the notification in the [title] and [text] fields, and specify a token or topic string for the notification in the [tokens] and [topic] fields.
 ///
 /// **If you use this in firestore, please specify the fields `_time` and `_done` in CollectionID:`schedule` to create the index.**
 ///
-/// [time]にPUSH通知を行うための[ModelServerCommandBase]です。
+/// [time]にリモートPUSH通知を行うための[ModelServerCommandBase]です。
 ///
 /// [title]や[text]に通知用の文言を入力し、[tokens]や[topic]に通知用のトークンやトピックの文字列を指定します。
 ///
 /// **firestoreでこちらを利用する場合CollectionID:`schedule`で`_time`と`_done`のフィールドを指定してインデックスを作成してください。**
-class ModelServerCommandPushNotificationSchedule
+class ModelServerCommandRemoteNotificationSchedule
     extends ModelServerCommandBase {
-  /// [ModelServerCommandBase] for PUSH notification to [time].
+  /// [ModelServerCommandBase] for remote PUSH notification to [time].
   ///
   /// Enter the text for the notification in the [title] and [text] fields, and specify a token or topic string for the notification in the [tokens] and [topic] fields.
   ///
   /// **If you use this in firestore, please specify the fields `_time` and `_done` in CollectionID:`schedule` to create the index.**
   ///
-  /// [time]にPUSH通知を行うための[ModelServerCommandBase]です。
+  /// [time]にリモートPUSH通知を行うための[ModelServerCommandBase]です。
   ///
   /// [title]や[text]に通知用の文言を入力し、[tokens]や[topic]に通知用のトークンやトピックの文字列を指定します。
   ///
   /// **firestoreでこちらを利用する場合CollectionID:`schedule`で`_time`と`_done`のフィールドを指定してインデックスを作成してください。**
-  const factory ModelServerCommandPushNotificationSchedule({
+  const factory ModelServerCommandRemoteNotificationSchedule({
     required ModelTimestamp time,
     required String title,
     required String text,
@@ -187,10 +190,10 @@ class ModelServerCommandPushNotificationSchedule
     Uri? link,
     int? badgeCount,
     String? sound,
-  }) = _ModelServerCommandPushNotificationSchedule;
+  }) = _ModelServerCommandRemoteNotificationSchedule;
 
-  const ModelServerCommandPushNotificationSchedule._()
-      : super(ModelServerCommandPushNotificationSchedule.command);
+  const ModelServerCommandRemoteNotificationSchedule._()
+      : super(ModelServerCommandRemoteNotificationSchedule.command);
 
   /// Used to disguise the retrieval of data from the server.
   ///
@@ -199,10 +202,10 @@ class ModelServerCommandPushNotificationSchedule
   /// サーバーからのデータの取得に偽装するために利用します。
   ///
   /// テスト用途で用いてください。
-  const ModelServerCommandPushNotificationSchedule.fromServer({
+  const ModelServerCommandRemoteNotificationSchedule.fromServer({
     super.publicParameters = const {},
     super.privateParameters = const {},
-  }) : super(ModelServerCommandPushNotificationSchedule.command);
+  }) : super(ModelServerCommandRemoteNotificationSchedule.command);
 
   /// Specify the date and time to copy.
   ///
@@ -271,11 +274,12 @@ class ModelServerCommandPushNotificationSchedule
   static const String _kTokenKey = "token";
   static const String _kLinkKey = "@link";
 
-  /// Convert from [json] map to [ModelServerCommandPushNotificationSchedule].
+  /// Convert from [json] map to [ModelServerCommandRemoteNotificationSchedule].
   ///
-  /// [json]のマップから[ModelServerCommandPushNotificationSchedule]に変換します。
-  factory ModelServerCommandPushNotificationSchedule.fromJson(DynamicMap json) {
-    return ModelServerCommandPushNotificationSchedule.fromServer(
+  /// [json]のマップから[ModelServerCommandRemoteNotificationSchedule]に変換します。
+  factory ModelServerCommandRemoteNotificationSchedule.fromJson(
+      DynamicMap json) {
+    return ModelServerCommandRemoteNotificationSchedule.fromServer(
       publicParameters:
           json.getAsMap(ModelServerCommandBase.kPublicParametersKey, {}),
       privateParameters:
@@ -309,9 +313,9 @@ class ModelServerCommandPushNotificationSchedule
   }
 }
 
-class _ModelServerCommandPushNotificationSchedule
-    extends ModelServerCommandPushNotificationSchedule {
-  const _ModelServerCommandPushNotificationSchedule({
+class _ModelServerCommandRemoteNotificationSchedule
+    extends ModelServerCommandRemoteNotificationSchedule {
+  const _ModelServerCommandRemoteNotificationSchedule({
     required this.time,
     required this.title,
     required this.text,
@@ -366,5 +370,5 @@ abstract class ModelNotificationScheduleBase {
   /// Submission Date.
   ///
   /// 投稿日時。
-  ModelServerCommandPushNotificationSchedule get command;
+  ModelServerCommandRemoteNotificationSchedule get command;
 }

@@ -1,4 +1,24 @@
-## 3.0.0-dev.0
+## 2.5.11
+
+ - Update a dependency to the latest release.
+
+## 2.5.10
+
+ - Update a dependency to the latest release.
+
+## 2.5.9
+
+ - Update a dependency to the latest release.
+
+## 2.5.8
+
+ - Update a dependency to the latest release.
+
+## 2.5.7
+
+ - Update a dependency to the latest release.
+
+## 2.5.6
 
 > Note: This release has breaking changes.
 

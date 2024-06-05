@@ -237,7 +237,7 @@ class _NestedContainerPageState extends State<NestedContainerPage> {
   }
 }
 
-@NestedPage(key: InnerPageType.type1)
+@HiddenPage(key: InnerPageType.type1)
 class InnerPage1 extends StatelessWidget {
   const InnerPage1({super.key});
 
@@ -257,7 +257,7 @@ class InnerPage1 extends StatelessWidget {
   }
 }
 
-@NestedPage(key: InnerPageType.type2)
+@HiddenPage(key: InnerPageType.type2)
 class InnerPage2 extends StatelessWidget {
   const InnerPage2({super.key});
 

@@ -1,8 +1,15 @@
-## 3.0.0-dev.0
+## 2.13.2
 
-> Note: This release has breaking changes.
+ - Update a dependency to the latest release.
 
- - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+## 2.13.1
+
+ - Update a dependency to the latest release.
+
+## 2.13.0
+
+ - **FIX**: Added FormDateTimeRangeFieldCustomDelegate. ([109485ab](https://github.com/mathrunet/flutter_masamune/commit/109485ab22c62927984a9678859859d33b1fc91e))
+ - **FEAT**: Add FormStyleContainer. ([acaff9ca](https://github.com/mathrunet/flutter_masamune/commit/acaff9cabc9f6dc3a57d903fd3a16fb9ab954eff))
 
 ## 2.12.17
 

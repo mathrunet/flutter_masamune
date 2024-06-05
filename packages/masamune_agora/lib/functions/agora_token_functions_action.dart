@@ -30,7 +30,9 @@ class AgoraTokenFunctionsAction
   const AgoraTokenFunctionsAction({
     required this.channelName,
     this.clientRole = AgoraClientRole.audience,
-  });
+    this.uid,
+    this.account,
+  }) : assert(uid != null || account != null, "uid or account is required.");
 
   /// Name of the channel to be created.
   ///
@@ -42,6 +44,16 @@ class AgoraTokenFunctionsAction
   /// チャンネルの作成者の役割。
   final AgoraClientRole clientRole;
 
+  /// User ID.
+  ///
+  /// ユーザーID。
+  final int? uid;
+
+  /// Account Name.
+  ///
+  /// アカウント名。
+  final String? account;
+
   @override
   String get action => "agora_token";
 
@@ -51,6 +63,8 @@ class AgoraTokenFunctionsAction
       "role":
           clientRole == AgoraClientRole.audience ? "audience" : "broadcaster",
       "name": channelName,
+      if (uid != null) "uid": uid,
+      if (account != null) "account": account,
     };
   }
 

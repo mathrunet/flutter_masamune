@@ -343,6 +343,7 @@ class GradleAndroidCompileOptions {
   GradleAndroidCompileOptions({
     required this.sourceCompatibility,
     required this.targetCompatibility,
+    this.coreLibraryDesugaringEnabled,
   });
   static final _regExp = RegExp(r"compileOptions {([\s\S]+?)}");
 
@@ -356,6 +357,11 @@ class GradleAndroidCompileOptions {
   /// `targetCompatibility`のデータ。
   String targetCompatibility;
 
+  /// Data for `coreLibraryDesugaringEnabled`.
+  ///
+  /// `coreLibraryDesugaringEnabled`のデータ。
+  bool? coreLibraryDesugaringEnabled;
+
   static GradleAndroidCompileOptions _load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
     final sourceCompatibility =
@@ -368,15 +374,25 @@ class GradleAndroidCompileOptions {
                 .firstMatch(region)
                 ?.group(1) ??
             "";
+    final coreLibraryDesugaringEnabledString =
+        RegExp("coreLibraryDesugaringEnabled ([a-zA-Z0-9_\"'.-]+)")
+            .firstMatch(region)
+            ?.group(1)
+            ?.toLowerCase();
+    final coreLibraryDesugaringEnabled =
+        coreLibraryDesugaringEnabledString == null
+            ? null
+            : (coreLibraryDesugaringEnabledString == "true" ? true : false);
     return GradleAndroidCompileOptions(
       sourceCompatibility: sourceCompatibility,
       targetCompatibility: targetCompatibility,
+      coreLibraryDesugaringEnabled: coreLibraryDesugaringEnabled,
     );
   }
 
   @override
   String toString() {
-    return "    compileOptions {\n        sourceCompatibility $sourceCompatibility\n        targetCompatibility $targetCompatibility\n    }\n";
+    return "    compileOptions {\n        sourceCompatibility $sourceCompatibility\n        targetCompatibility $targetCompatibility${coreLibraryDesugaringEnabled != null ? "\n        coreLibraryDesugaringEnabled $coreLibraryDesugaringEnabled" : ""}\n    }\n";
   }
 }
 
@@ -764,7 +780,7 @@ class GradleDependencies {
     required this.group,
     required this.packageName,
   });
-  static final _regExp = RegExp(r"dependencies {([\s\S]+?)\n}");
+  static final _regExp = RegExp(r"dependencies {([\s\S]*?)\n?}");
 
   static List<GradleDependencies> _load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";

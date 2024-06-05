@@ -1,8 +1,18 @@
-## 3.0.0-dev.0
+## 2.2.17
 
-> Note: This release has breaking changes.
+ - Update a dependency to the latest release.
 
- - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+## 2.2.16
+
+ - Update a dependency to the latest release.
+
+## 2.2.15
+
+ - **FIX**: Change NestedPage to HiddenPage. ([e925938a](https://github.com/mathrunet/flutter_masamune/commit/e925938ae507a01fe5b5574f1411c9d64d3b7b33))
+
+## 2.2.14
+
+ - **FIX**: Fixed initial route information was not being communicated to Boot. ([4db16926](https://github.com/mathrunet/flutter_masamune/commit/4db16926a4113a79c9249ac83eb21ee766686886))
 
 ## 2.2.13
 

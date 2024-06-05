@@ -87,17 +87,32 @@ enum AndroidManifestPermissionType {
   /// Permissions for billing.
   ///
   /// 課金用のパーミッション。
-  billing("BILLING");
+  billing("BILLING"),
+
+  /// Permissions for alarm scheduling.
+  ///
+  /// アラームスケジュール用のパーミッション。
+  scheduleExactAlarm("SCHEDULE_EXACT_ALARM", maxSdkVersion: "32"),
+
+  /// Permissions for alarm scheduling.
+  ///
+  /// アラームスケジュール用のパーミッション。
+  useExactAlarm("USE_EXACT_ALARM");
 
   /// Permission type for AndroidManifest.
   ///
   /// AndroidManifest用のパーミッションタイプ。
-  const AndroidManifestPermissionType(this.id);
+  const AndroidManifestPermissionType(this.id, {this.maxSdkVersion});
 
   /// Permission ID.
   ///
   /// パーミッションのID。
   final String id;
+
+  /// Maximum SDK version to be applied.
+  ///
+  /// 適用する最大のSDKバージョン。
+  final String? maxSdkVersion;
 
   /// Grant the `uses-permission` tag in AndroidManifest.
   ///
@@ -136,6 +151,11 @@ enum AndroidManifestPermissionType {
                   XmlName("tools:ignore"),
                   "ProtectedPermissions",
                 ),
+                if (maxSdkVersion.isNotEmpty)
+                  XmlAttribute(
+                    XmlName("android:maxSdkVersion"),
+                    maxSdkVersion!,
+                  ),
               ],
               [],
             ),
@@ -150,6 +170,11 @@ enum AndroidManifestPermissionType {
                   XmlName("android:name"),
                   "android.permission.$id",
                 ),
+                if (maxSdkVersion.isNotEmpty)
+                  XmlAttribute(
+                    XmlName("android:maxSdkVersion"),
+                    maxSdkVersion!,
+                  ),
               ],
               [],
             ),

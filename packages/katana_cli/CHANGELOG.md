@@ -1,8 +1,15 @@
-## 3.0.0-dev.0
+## 2.21.0
 
-> Note: This release has breaking changes.
+ - **FIX**: Fixed StripStyle for Agora. ([b720cc41](https://github.com/mathrunet/flutter_masamune/commit/b720cc41e05806b1bbc7b9c2f3d5b2a93ec07cfc))
+ - **FEAT**: Added LocalNotification. ([d458f2e0](https://github.com/mathrunet/flutter_masamune/commit/d458f2e0fc7f233c987a59c8b46f0d52a83117b5))
 
- - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+## 2.20.1
+
+ - Update a dependency to the latest release.
+
+## 2.20.0
+
+ - **FEAT**: Added Exception command. ([7de91e0d](https://github.com/mathrunet/flutter_masamune/commit/7de91e0d9b06e5ff6cb56cc9d90976afd65c7315))
 
 ## 2.19.7
 

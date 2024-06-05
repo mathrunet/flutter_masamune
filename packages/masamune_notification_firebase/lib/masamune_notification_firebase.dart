@@ -26,4 +26,4 @@ import 'package:universal_platform/universal_platform.dart';
 export 'package:masamune_notification/masamune_notification.dart';
 
 // Project imports:
-part 'adapter/firebase_push_notification_masamune_adapter.dart';
+part 'adapter/firebase_remote_notification_masamune_adapter.dart';

@@ -339,6 +339,7 @@ class UniversalListView extends StatelessWidget {
         interactive: true,
         trackVisibility: true,
         thumbVisibility: true,
+        controller: controller,
         thickness:
             scrollbarThickness ?? universalScope?.defaultScrollbarThickness,
         radius: scrollbarRadius ?? universalScope?.defaultScrollbarRadius,

@@ -110,6 +110,23 @@ class AgoraCliAction extends CliCommand with CliActionMixin {
     );
     await PodfilePermissionType.cameraUsage.enablePermissionToPodfile();
     await PodfilePermissionType.microphoneUsage.enablePermissionToPodfile();
+    label("Edit XCode.");
+    final xcode = XCode();
+    await xcode.load();
+    final buildConfigurations = xcode.pbxBuildConfiguration
+        .where((element) => element.baseConfigurationReference.isNotEmpty);
+    for (final buildConfiguration in buildConfigurations) {
+      final buildSetting = buildConfiguration.buildSettings;
+      if (!buildSetting.any((e) => e.key == "STRIP_STYLE")) {
+        buildConfiguration.buildSettings.add(
+          PBXBuildConfigurationSettings(
+            key: "STRIP_STYLE",
+            value: "\"non-global\"",
+          ),
+        );
+      }
+    }
+    await xcode.save();
     label("Edit build.gradle.");
     final gradle = BuildGradle();
     await gradle.load();

@@ -802,6 +802,56 @@ class _DateTimeRangeTextFieldState<TValue>
       !widget.readOnly;
 }
 
+/// [FormDateTimeRangeFieldDelegate] that allows specifying pickers that can be selected by [pickerBuilder].
+///
+/// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
+///
+/// [pickerBuilder]で選択可能なピッカーを指定可能な[FormDateTimeRangeFieldDelegate]。
+///
+/// [dateFormat]は`yyyy/MM/dd(E)`が定義されます。
+class FormDateTimeRangeFieldCustomDelegate
+    extends FormDateTimeRangeFieldDelegate {
+  /// [FormDateTimeRangeFieldDelegate] that allows specifying pickers that can be selected by [pickerBuilder].
+  ///
+  /// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
+  ///
+  /// [pickerBuilder]で選択可能なピッカーを指定可能な[FormDateTimeRangeFieldDelegate]。
+  ///
+  /// [dateFormat]は`yyyy/MM/dd(E)`が定義されます。
+  const FormDateTimeRangeFieldCustomDelegate({
+    required this.pickerBuilder,
+    super.dateFormat = "yyyy/MM/dd(E)",
+    super.separator = " - ",
+  });
+
+  /// Builder to call picker.
+  ///
+  /// [context] is passed the context in which the builder was invoked.
+  ///
+  /// The current date range is passed to [currentDateTimeRange].
+  ///
+  /// Return the date range selected by the picker.
+  ///
+  /// ピッカーを呼び出すためのビルダー。
+  ///
+  /// [context]にはビルダーが呼び出された際のコンテキストが渡されます。
+  ///
+  /// [currentDateTimeRange]には現在の日付範囲が渡されます。
+  ///
+  /// ピッカーで選択された日付範囲を返してください。
+  final Future<DateTimeRange?> Function(
+    BuildContext context,
+    DateTimeRange currentDateTimeRange,
+  ) pickerBuilder;
+
+  @override
+  Future<DateTimeRange?> picker(
+    BuildContext context,
+    DateTimeRange currentDateTimeRange,
+  ) =>
+      pickerBuilder(context, currentDateTimeRange);
+}
+
 /// Let the user select only dates [FormDateTimeRangeFieldDelegate].
 ///
 /// You can have it selected within the range of [startDate] and [endDate].

@@ -3,7 +3,7 @@ part of '/masamune_notification.dart';
 /// Push notification event for logging.
 ///
 /// ロギング用のPUSH通知イベント。
-enum PushNotificationLoggerEvent {
+enum NotificationLoggerEvent {
   /// When a topic is subscribed to.
   ///
   /// トピックが購読されたとき。
@@ -32,7 +32,22 @@ enum PushNotificationLoggerEvent {
   /// When a token is received.
   ///
   /// トークンを受信したとき。
-  token;
+  token,
+
+  /// When a schedule is added.
+  ///
+  /// スケジュールを追加したとき。
+  addSchedule,
+
+  /// When a schedule is deleted.
+  ///
+  /// スケジュールを削除したとき。
+  removeSchedule;
+
+  /// UID key.
+  ///
+  /// UIDのキー。
+  static const uidKey = "uid";
 
   /// Topic name key.
   ///
@@ -58,4 +73,9 @@ enum PushNotificationLoggerEvent {
   ///
   /// トークンのキー。
   static const tokenKey = "token";
+
+  /// Time Key.
+  ///
+  /// 時間のキー。
+  static const timeKey = "time";
 }

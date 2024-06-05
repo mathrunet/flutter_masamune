@@ -1,4 +1,34 @@
-## 3.0.0-dev.0
+## 2.4.83
+
+ - Update a dependency to the latest release.
+
+## 2.4.82
+
+ - **FIX**: Fixed a bug that prevented the connection from being completed. ([87914bb3](https://github.com/mathrunet/flutter_masamune/commit/87914bb39f97831aadcea3b5fdc95c2bc6424429))
+
+## 2.4.81
+
+ - Update a dependency to the latest release.
+
+## 2.4.80
+
+ - Update a dependency to the latest release.
+
+## 2.4.79
+
+ - Update a dependency to the latest release.
+
+## 2.4.78
+
+ - Update a dependency to the latest release.
+
+## 2.4.77
+
+ - **FIX**: Further adjustment around connections. ([e8ff5346](https://github.com/mathrunet/flutter_masamune/commit/e8ff534624c99c567067ad78e3070a48473fe1f4))
+ - **FIX**: reconnect is now safe. ([144274d0](https://github.com/mathrunet/flutter_masamune/commit/144274d0c0c471360f6873a23c191e5c2ff5e7f2))
+ - **FIX**: Countermeasures for hard-to-connect phenomenon. ([1fb80a75](https://github.com/mathrunet/flutter_masamune/commit/1fb80a754021a651bb7dd01241b410108fa43673))
+
+## 2.4.76
 
 > Note: This release has breaking changes.
 

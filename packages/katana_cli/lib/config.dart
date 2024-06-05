@@ -212,6 +212,11 @@ ${showAllConfig ? """
     enable: false
     permission:
       en: Used to perform voice recognition.
+
+  # Implement local PUSH.
+  # ローカルPUSHを実装します。
+  local_notification:
+    enable: false
 """ : ""}
 
 # This section contains information related to Firebase.

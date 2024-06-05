@@ -1,13 +1,10 @@
-## 3.0.0-dev.1
+## 2.15.1
 
- - **FIX**: Upgrade of Example. ([82fc9bc2](https://github.com/mathrunet/flutter_masamune/commit/82fc9bc23b8cf7534612d70b5682221a51f16e28))
- - **FEAT**: Added deepEquals and deepHash. ([164fd328](https://github.com/mathrunet/flutter_masamune/commit/164fd328eb1c9ebb23a93dbb819f7f7645fe542c))
+ - **FIX**: 32-bit support. ([8c60dc02](https://github.com/mathrunet/flutter_masamune/commit/8c60dc02f3d00771338df4ff567b1547f920cda5))
 
-## 3.0.0-dev.0
+## 2.15.0
 
-> Note: This release has breaking changes.
-
- - **BREAKING** **FEAT**: Only Dart 3.5 or higher is supported. ([7b33f289](https://github.com/mathrunet/flutter_masamune/commit/7b33f289cd588ca78a664fbe5f191be1149e5a64))
+ - **FEAT**: Added toRandomInt. ([8b1eebff](https://github.com/mathrunet/flutter_masamune/commit/8b1eebff2d4f2f35c317e6d164c3288733ab0cab))
 
 ## 2.14.0
 

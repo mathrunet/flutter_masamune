@@ -157,10 +157,16 @@ class _AnimateScopeState extends State<AnimateScope>
       _onInit();
     } else if (!AnimateController._equalsKeys(
         widget._effectiveKeys, oldWidget._effectiveKeys)) {
-      if (_effectiveController.autoPlay) {
-        _effectiveController.play();
-      }
+      _controller?.dispose();
+      _controller = null;
+      _onInit();
     }
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
   }
 
   void _onInit() {
