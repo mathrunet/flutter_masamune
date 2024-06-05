@@ -1,3 +1,7 @@
+## 2.10.3
+
+ - **FIX**: Add an action to the message box. ([deded9d2](https://github.com/mathrunet/flutter_masamune/commit/deded9d2b796711715c4ec6c7c30d3399989fcd4))
+
 ## 2.10.2
 
  - Update a dependency to the latest release.
