@@ -388,6 +388,7 @@ class RuntimeModelAdapter extends ModelAdapter {
     if (networkDelay != null) {
       await Future.delayed(networkDelay!);
     }
+    await batch.call(ref);
     await wait(
       ref._batchList.map((tmp) => tmp.call()),
     );
