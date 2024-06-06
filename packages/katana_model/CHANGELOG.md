@@ -1,3 +1,7 @@
+## 2.26.18
+
+ - **FIX**: Fixed a bug in RuntimeModelAdapter that prevented batches from being executed. ([c385c7bb](https://github.com/mathrunet/flutter_masamune/commit/c385c7bb3c3068eea2ab2bd261f4ad90e7deec43))
+
 ## 2.26.17
 
  - Update a dependency to the latest release.
