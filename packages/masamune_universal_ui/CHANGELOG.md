@@ -1,3 +1,7 @@
+## 2.4.22
+
+ - Update a dependency to the latest release.
+
 ## 2.4.21
 
  - **FIX**: Changed to inform whether LoadNext is available or not by bool. ([1176c589](https://github.com/mathrunet/flutter_masamune/commit/1176c58908c5c6418f735c3aef87ceed1a48a334))

@@ -1,3 +1,7 @@
+## 2.13.3
+
+ - **FIX**: Additional required functions. ([ddbd211c](https://github.com/mathrunet/flutter_masamune/commit/ddbd211c310fd02b823d0faa2726b508b9a6cf64))
+
 ## 2.13.2
 
  - Update a dependency to the latest release.

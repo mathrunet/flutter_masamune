@@ -1,3 +1,7 @@
+## 2.7.6
+
+ - **FIX**: Added a field to the scheduler to allow batch processing. ([f1358ea7](https://github.com/mathrunet/flutter_masamune/commit/f1358ea7dacd432e8469def09914cc46b86d35ec))
+
 ## 2.7.5
 
  - Update a dependency to the latest release.
