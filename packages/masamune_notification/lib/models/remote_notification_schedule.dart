@@ -242,6 +242,44 @@ class ModelServerCommandRemoteNotificationSchedule
   /// 通知のトークンのリスト。
   ModelToken? get tokens => throw UnimplementedError();
 
+  /// Path of the collection from which to retrieve the list of documents to be deleted.
+  ///
+  /// Must be a regular Firestore collection path hierarchy.
+  ///
+  /// 通知の対象となるドキュメント一覧を取得するコレクションのパス。
+  ///
+  /// Firestoreの正規のコレクションのパス階層である必要があります。
+  String? get targetCollectionPath => throw UnimplementedError();
+
+  /// Key to retrieve a list of target tokens if [targetCollectionPath] was specified.
+  ///
+  /// The target key must be defined in [ModelToken].
+  ///
+  /// [targetCollectionPath]が指定されていた場合、対象となるトークンのリストを取得するキー。
+  ///
+  /// 対象となるキーには[ModelToken]で定義されている必要があります。
+  String? get targetDocumentKey => throw UnimplementedError();
+
+  /// If [targetCollectionPath] was specified, specify the conditions for retrieving from the collection.
+  ///
+  /// All are And conditions.
+  ///
+  /// [targetCollectionPath]が指定されていた場合、コレクションから取得するための条件を指定します。
+  ///
+  /// すべてAnd条件となります。
+  List<ModelServerCommandCondition>? get targetWhere =>
+      throw UnimplementedError();
+
+  /// If [targetCollectionPath] was specified, specify the condition for the acquired data.
+  ///
+  /// All are And conditions.
+  ///
+  /// [targetCollectionPath]が指定されていた場合、取得したデータに対する条件を指定します。
+  ///
+  /// すべてAnd条件となります。
+  List<ModelServerCommandCondition>? get targetConditions =>
+      throw UnimplementedError();
+
   /// A link to transition from the notification.
   ///
   /// 通知から遷移するリンク。
@@ -273,6 +311,10 @@ class ModelServerCommandRemoteNotificationSchedule
   static const String _kTopicKey = "topic";
   static const String _kTokenKey = "token";
   static const String _kLinkKey = "@link";
+  static const String _kCollectionPathKey = "conditionPath";
+  static const String _kTargetDocumentKeyKey = "targetDocumentKey";
+  static const String _kWhereKey = "where";
+  static const String _kConditionKey = "condition";
 
   /// Convert from [json] map to [ModelServerCommandRemoteNotificationSchedule].
   ///
@@ -301,6 +343,12 @@ class ModelServerCommandRemoteNotificationSchedule
       _kTopicKey: topic,
       if (sound != null) _kSoundKey: sound,
       if (badgeCount != null) _kBadgeCountKey: badgeCount,
+      _kCollectionPathKey: targetCollectionPath,
+      _kTargetDocumentKeyKey: targetDocumentKey,
+      if (targetWhere != null)
+        _kWhereKey: targetWhere!.map((e) => e.toJson()).toList(),
+      if (targetConditions != null)
+        _kConditionKey: targetConditions!.map((e) => e.toJson()).toList(),
     };
   }
 
