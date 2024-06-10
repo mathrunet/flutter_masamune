@@ -150,6 +150,7 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
     this.style,
     this.onRemove,
     this.maxLength,
+    this.labelText,
     List<FormMediaValue>? initialValue,
     this.emptyErrorText,
     this.readOnly = false,
@@ -278,6 +279,11 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
   ///
   /// `true`の場合、破棄されず保持され続けます。
   final bool keepAlive;
+
+  /// Label text for forms.
+  ///
+  /// フォーム用のラベルテキスト。
+  final String? labelText;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -537,65 +543,69 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
     FormMultiMedia<TValue> widget,
     List<FormMediaValue> values,
   ) {
-    return Container(
+    return FormStyleContainer(
+      style: widget.style,
+      labelText: widget.labelText,
       alignment: Alignment.centerLeft,
-      margin: widget.style?.padding ??
+      padding: widget.style?.padding ??
           const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      height: widget.style?.height ?? kFormMultiMediaInlineHeight,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (widget.maxLength == null || widget.maxLength! > values.length)
-              Container(
-                width: widget.style?.width ?? kFormMultiMediaInlineHeight,
-                height: widget.style?.height ?? kFormMultiMediaInlineHeight,
-                margin: const EdgeInsets.only(right: 8),
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                    side: BorderSide(
+      child: SizedBox(
+        height: widget.style?.height ?? kFormMultiMediaInlineHeight,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (widget.maxLength == null || widget.maxLength! > values.length)
+                Container(
+                  width: widget.style?.width ?? kFormMultiMediaInlineHeight,
+                  height: widget.style?.height ?? kFormMultiMediaInlineHeight,
+                  margin: const EdgeInsets.only(right: 8),
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: widget.style?.color ??
+                            Theme.of(context).dividerColor,
+                        width: widget.style?.borderWidth ?? 2,
+                      ),
+                      borderRadius: BorderRadius.circular(4.0),
+                    )),
+                    onPressed: widget.readOnly || !widget.enabled
+                        ? null
+                        : () {
+                            widget.onTap.call(ref);
+                          },
+                    child: Icon(
+                      addIcon,
                       color:
                           widget.style?.color ?? Theme.of(context).dividerColor,
-                      width: widget.style?.borderWidth ?? 2,
+                      size: (widget.style?.height ??
+                              kFormMultiMediaInlineHeight) /
+                          3.0,
                     ),
-                    borderRadius: BorderRadius.circular(4.0),
-                  )),
-                  onPressed: widget.readOnly || !widget.enabled
-                      ? null
-                      : () {
-                          widget.onTap.call(ref);
-                        },
-                  child: Icon(
-                    addIcon,
-                    color:
-                        widget.style?.color ?? Theme.of(context).dividerColor,
-                    size:
-                        (widget.style?.height ?? kFormMultiMediaInlineHeight) /
-                            3.0,
                   ),
                 ),
+              ...values.mapAndRemoveEmpty(
+                (value) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: _buildItem(
+                      context,
+                      widget,
+                      value,
+                      widget._builder,
+                      widget.readOnly || !widget.enabled ? null : ref.update,
+                      widget.readOnly || !widget.enabled
+                          ? null
+                          : () => ref.delete(value),
+                    ),
+                  );
+                },
               ),
-            ...values.mapAndRemoveEmpty(
-              (value) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: _buildItem(
-                    context,
-                    widget,
-                    value,
-                    widget._builder,
-                    widget.readOnly || !widget.enabled ? null : ref.update,
-                    widget.readOnly || !widget.enabled
-                        ? null
-                        : () => ref.delete(value),
-                  ),
-                );
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
