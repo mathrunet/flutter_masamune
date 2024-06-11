@@ -190,6 +190,10 @@ class ModelServerCommandRemoteNotificationSchedule
     Uri? link,
     int? badgeCount,
     String? sound,
+    String? targetCollectionPath,
+    String? targetTokenFieldKey,
+    List<ModelServerCommandCondition>? targetWheres,
+    List<ModelServerCommandCondition>? targetConditions,
   }) = _ModelServerCommandRemoteNotificationSchedule;
 
   const ModelServerCommandRemoteNotificationSchedule._()
@@ -258,7 +262,7 @@ class ModelServerCommandRemoteNotificationSchedule
   /// [targetCollectionPath]が指定されていた場合、対象となるトークンのリストを取得するキー。
   ///
   /// 対象となるキーには[ModelToken]で定義されている必要があります。
-  String? get targetDocumentKey => throw UnimplementedError();
+  String? get targetTokenFieldKey => throw UnimplementedError();
 
   /// If [targetCollectionPath] was specified, specify the conditions for retrieving from the collection.
   ///
@@ -267,7 +271,7 @@ class ModelServerCommandRemoteNotificationSchedule
   /// [targetCollectionPath]が指定されていた場合、コレクションから取得するための条件を指定します。
   ///
   /// すべてAnd条件となります。
-  List<ModelServerCommandCondition>? get targetWhere =>
+  List<ModelServerCommandCondition>? get targetWheres =>
       throw UnimplementedError();
 
   /// If [targetCollectionPath] was specified, specify the condition for the acquired data.
@@ -311,10 +315,10 @@ class ModelServerCommandRemoteNotificationSchedule
   static const String _kTopicKey = "topic";
   static const String _kTokenKey = "token";
   static const String _kLinkKey = "@link";
-  static const String _kCollectionPathKey = "conditionPath";
-  static const String _kTargetDocumentKeyKey = "targetDocumentKey";
-  static const String _kWhereKey = "where";
-  static const String _kConditionKey = "condition";
+  static const String _kTargetCollectionPathKey = "targetConditionPath";
+  static const String _kTargetTokenFieldKeyKey = "targetTokenFieldKey";
+  static const String _kTargetWheresKey = "targetWheres";
+  static const String _kTargetConditionsKey = "targetConditions";
 
   /// Convert from [json] map to [ModelServerCommandRemoteNotificationSchedule].
   ///
@@ -343,12 +347,13 @@ class ModelServerCommandRemoteNotificationSchedule
       _kTopicKey: topic,
       if (sound != null) _kSoundKey: sound,
       if (badgeCount != null) _kBadgeCountKey: badgeCount,
-      _kCollectionPathKey: targetCollectionPath,
-      _kTargetDocumentKeyKey: targetDocumentKey,
-      if (targetWhere != null)
-        _kWhereKey: targetWhere!.map((e) => e.toJson()).toList(),
+      _kTargetCollectionPathKey: targetCollectionPath,
+      _kTargetTokenFieldKeyKey: targetTokenFieldKey,
+      if (targetWheres != null)
+        _kTargetWheresKey: targetWheres!.map((e) => e.toJson()).toList(),
       if (targetConditions != null)
-        _kConditionKey: targetConditions!.map((e) => e.toJson()).toList(),
+        _kTargetConditionsKey:
+            targetConditions!.map((e) => e.toJson()).toList(),
     };
   }
 
@@ -374,6 +379,10 @@ class _ModelServerCommandRemoteNotificationSchedule
     this.link,
     this.badgeCount,
     this.sound,
+    this.targetCollectionPath,
+    this.targetTokenFieldKey,
+    this.targetWheres,
+    this.targetConditions,
   }) : super._();
 
   @override
@@ -405,6 +414,18 @@ class _ModelServerCommandRemoteNotificationSchedule
 
   @override
   final String? sound;
+
+  @override
+  final String? targetCollectionPath;
+
+  @override
+  final String? targetTokenFieldKey;
+
+  @override
+  final List<ModelServerCommandCondition>? targetWheres;
+
+  @override
+  final List<ModelServerCommandCondition>? targetConditions;
 }
 
 /// Abstract class for defining a document with a schedule for PUSH notifications.
