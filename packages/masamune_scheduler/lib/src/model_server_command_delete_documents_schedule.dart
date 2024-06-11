@@ -97,13 +97,13 @@ class ModelServerCommandDeleteDocumentsSchedule extends ModelServerCommandBase {
   /// Command Name.
   ///
   /// コマンド名。
-  static const command = "copy_document";
+  static const command = "delete_documents";
 
   static const String _kTimeKey = "_time";
   static const String _kDoneKey = "_done";
   static const String _kCollectionPathKey = "conditionPath";
-  static const String _kWhereKey = "where";
-  static const String _kConditionKey = "condition";
+  static const String _kWheresKey = "wheres";
+  static const String _kConditionsKey = "conditions";
 
   /// Convert from [json] map to [ModelServerCommandCopyDocumentSchedule].
   ///
@@ -126,9 +126,9 @@ class ModelServerCommandDeleteDocumentsSchedule extends ModelServerCommandBase {
     );
     return {
       _kCollectionPathKey: collectionPath,
-      if (where != null) _kWhereKey: where!.map((e) => e.toJson()).toList(),
+      if (where != null) _kWheresKey: where!.map((e) => e.toJson()).toList(),
       if (conditions != null)
-        _kConditionKey: conditions!.map((e) => e.toJson()).toList(),
+        _kConditionsKey: conditions!.map((e) => e.toJson()).toList(),
     };
   }
 
