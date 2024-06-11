@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-06-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_notification` - `v2.8.0`](#masamune_notification---v280)
+ - [`masamune_scheduler` - `v2.3.1`](#masamune_scheduler---v231)
+ - [`masamune_notification_local` - `v2.1.7`](#masamune_notification_local---v217)
+ - [`masamune_notification_firebase` - `v2.7.7`](#masamune_notification_firebase---v277)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_notification_local` - `v2.1.7`
+ - `masamune_notification_firebase` - `v2.7.7`
+
+---
+
+#### `masamune_notification` - `v2.8.0`
+
+ - **FEAT**: Added the ability to send batch notifications. ([706b88e1](https://github.com/mathrunet/flutter_masamune/commit/706b88e1140479f50a56212ceab9a1facafa459d))
+
+#### `masamune_scheduler` - `v2.3.1`
+
+ - **FIX**: Fixed typo. ([5fba8cc5](https://github.com/mathrunet/flutter_masamune/commit/5fba8cc58437d54acd53042d4ce34b667c833b59))
+
+
 ## 2024-06-10
 
 ### Changes

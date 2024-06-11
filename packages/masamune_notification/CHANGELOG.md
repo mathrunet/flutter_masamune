@@ -1,3 +1,7 @@
+## 2.8.0
+
+ - **FEAT**: Added the ability to send batch notifications. ([706b88e1](https://github.com/mathrunet/flutter_masamune/commit/706b88e1140479f50a56212ceab9a1facafa459d))
+
 ## 2.7.6
 
  - **FIX**: Added a field to the scheduler to allow batch processing. ([f1358ea7](https://github.com/mathrunet/flutter_masamune/commit/f1358ea7dacd432e8469def09914cc46b86d35ec))
