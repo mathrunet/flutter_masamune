@@ -219,7 +219,14 @@ class Authentication extends ChangeNotifier {
   /// サインイン時、認証時に用いられるアクセストークンを返します。
   ///
   /// サインアウト時は`null`が返されます。
-  Future<String?> get accessToken => adapter.accessToken;
+  Future<String?> get accessToken async {
+    _accessToken = await adapter.accessToken(
+      forceRefresh: _accessToken?._forceRefresh ?? false,
+    );
+    return _accessToken?.token;
+  }
+
+  AccessTokenValue? _accessToken;
 
   /// Running the application at startup will automatically re-authenticate the user.
   ///

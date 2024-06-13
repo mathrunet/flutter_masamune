@@ -1,3 +1,19 @@
+## 2.7.76
+
+ - Update a dependency to the latest release.
+
+## 2.7.75
+
+ - Update a dependency to the latest release.
+
+## 2.7.74
+
+ - Update a dependency to the latest release.
+
+## 2.7.73
+
+ - Update a dependency to the latest release.
+
 ## 2.7.72
 
  - Update a dependency to the latest release.

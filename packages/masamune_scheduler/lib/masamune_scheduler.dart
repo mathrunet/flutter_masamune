@@ -14,3 +14,5 @@ import 'package:masamune/masamune.dart';
 part 'src/sceduler_query.dart';
 part 'src/model_copy_document_schedule.dart';
 part 'src/model_server_command_copy_document_schedule.dart';
+part 'src/model_delete_documents_schedule.dart';
+part 'src/model_server_command_delete_documents_schedule.dart';

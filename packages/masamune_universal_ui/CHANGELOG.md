@@ -1,3 +1,19 @@
+## 2.4.22
+
+ - Update a dependency to the latest release.
+
+## 2.4.21
+
+ - **FIX**: Changed to inform whether LoadNext is available or not by bool. ([1176c589](https://github.com/mathrunet/flutter_masamune/commit/1176c58908c5c6418f735c3aef87ceed1a48a334))
+
+## 2.4.20
+
+ - Update a dependency to the latest release.
+
+## 2.4.19
+
+ - Update a dependency to the latest release.
+
 ## 2.4.18
 
  - **FIX**: Fixed a problem with the scroll bar when a controller is put in List. ([4960b2dd](https://github.com/mathrunet/flutter_masamune/commit/4960b2dd972cbd6778ae29dbe74f14e91a2604fd))

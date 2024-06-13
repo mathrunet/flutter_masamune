@@ -357,7 +357,7 @@ class FirebaseAuthAdapter extends AuthAdapter {
   }
 
   @override
-  Future<String?> get accessToken async {
+  Future<AccessTokenValue?> accessToken({bool forceRefresh = false}) async {
     if (!_initialized) {
       debugPrint("Please call initialize before using it.");
       return null;
@@ -368,14 +368,17 @@ class FirebaseAuthAdapter extends AuthAdapter {
       );
       return null;
     }
-    final token = await _user!.getIdToken();
-    if (token.isEmpty) {
+    final tokenResult = await _user!.getIdTokenResult(forceRefresh);
+    if (tokenResult.token.isEmpty) {
       debugPrint(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
       return null;
     }
-    return token;
+    return AccessTokenValue(
+      token: tokenResult.token!,
+      expirationTime: tokenResult.expirationTime,
+    );
   }
 
   @override

@@ -1,3 +1,7 @@
+## 2.6.4
+
+ - **FIX**: Automatic renewal of AccessToken. ([4c25f256](https://github.com/mathrunet/flutter_masamune/commit/4c25f2560a2258edd0b0cd1dcd99eb2f2627951e))
+
 ## 2.6.3
 
  - Update a dependency to the latest release.

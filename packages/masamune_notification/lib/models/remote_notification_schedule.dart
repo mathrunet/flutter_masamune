@@ -190,6 +190,10 @@ class ModelServerCommandRemoteNotificationSchedule
     Uri? link,
     int? badgeCount,
     String? sound,
+    String? targetCollectionPath,
+    String? targetTokenFieldKey,
+    List<ModelServerCommandCondition>? targetWheres,
+    List<ModelServerCommandCondition>? targetConditions,
   }) = _ModelServerCommandRemoteNotificationSchedule;
 
   const ModelServerCommandRemoteNotificationSchedule._()
@@ -242,6 +246,44 @@ class ModelServerCommandRemoteNotificationSchedule
   /// 通知のトークンのリスト。
   ModelToken? get tokens => throw UnimplementedError();
 
+  /// Path of the collection from which to retrieve the list of documents to be deleted.
+  ///
+  /// Must be a regular Firestore collection path hierarchy.
+  ///
+  /// 通知の対象となるドキュメント一覧を取得するコレクションのパス。
+  ///
+  /// Firestoreの正規のコレクションのパス階層である必要があります。
+  String? get targetCollectionPath => throw UnimplementedError();
+
+  /// Key to retrieve a list of target tokens if [targetCollectionPath] was specified.
+  ///
+  /// The target key must be defined in [ModelToken].
+  ///
+  /// [targetCollectionPath]が指定されていた場合、対象となるトークンのリストを取得するキー。
+  ///
+  /// 対象となるキーには[ModelToken]で定義されている必要があります。
+  String? get targetTokenFieldKey => throw UnimplementedError();
+
+  /// If [targetCollectionPath] was specified, specify the conditions for retrieving from the collection.
+  ///
+  /// All are And conditions.
+  ///
+  /// [targetCollectionPath]が指定されていた場合、コレクションから取得するための条件を指定します。
+  ///
+  /// すべてAnd条件となります。
+  List<ModelServerCommandCondition>? get targetWheres =>
+      throw UnimplementedError();
+
+  /// If [targetCollectionPath] was specified, specify the condition for the acquired data.
+  ///
+  /// All are And conditions.
+  ///
+  /// [targetCollectionPath]が指定されていた場合、取得したデータに対する条件を指定します。
+  ///
+  /// すべてAnd条件となります。
+  List<ModelServerCommandCondition>? get targetConditions =>
+      throw UnimplementedError();
+
   /// A link to transition from the notification.
   ///
   /// 通知から遷移するリンク。
@@ -273,6 +315,10 @@ class ModelServerCommandRemoteNotificationSchedule
   static const String _kTopicKey = "topic";
   static const String _kTokenKey = "token";
   static const String _kLinkKey = "@link";
+  static const String _kTargetCollectionPathKey = "targetConditionPath";
+  static const String _kTargetTokenFieldKeyKey = "targetTokenFieldKey";
+  static const String _kTargetWheresKey = "targetWheres";
+  static const String _kTargetConditionsKey = "targetConditions";
 
   /// Convert from [json] map to [ModelServerCommandRemoteNotificationSchedule].
   ///
@@ -301,6 +347,13 @@ class ModelServerCommandRemoteNotificationSchedule
       _kTopicKey: topic,
       if (sound != null) _kSoundKey: sound,
       if (badgeCount != null) _kBadgeCountKey: badgeCount,
+      _kTargetCollectionPathKey: targetCollectionPath,
+      _kTargetTokenFieldKeyKey: targetTokenFieldKey,
+      if (targetWheres != null)
+        _kTargetWheresKey: targetWheres!.map((e) => e.toJson()).toList(),
+      if (targetConditions != null)
+        _kTargetConditionsKey:
+            targetConditions!.map((e) => e.toJson()).toList(),
     };
   }
 
@@ -326,6 +379,10 @@ class _ModelServerCommandRemoteNotificationSchedule
     this.link,
     this.badgeCount,
     this.sound,
+    this.targetCollectionPath,
+    this.targetTokenFieldKey,
+    this.targetWheres,
+    this.targetConditions,
   }) : super._();
 
   @override
@@ -357,6 +414,18 @@ class _ModelServerCommandRemoteNotificationSchedule
 
   @override
   final String? sound;
+
+  @override
+  final String? targetCollectionPath;
+
+  @override
+  final String? targetTokenFieldKey;
+
+  @override
+  final List<ModelServerCommandCondition>? targetWheres;
+
+  @override
+  final List<ModelServerCommandCondition>? targetConditions;
 }
 
 /// Abstract class for defining a document with a schedule for PUSH notifications.

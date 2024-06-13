@@ -1,3 +1,23 @@
+## 2.3.1
+
+ - **FIX**: Fixed typo. ([5fba8cc5](https://github.com/mathrunet/flutter_masamune/commit/5fba8cc58437d54acd53042d4ce34b667c833b59))
+
+## 2.3.0
+
+ - **FEAT**: Added ModelServerCommandDeleteDocumentsSchedule. ([2461a860](https://github.com/mathrunet/flutter_masamune/commit/2461a860bf845132c59a1935e0818e3d50e05aaa))
+
+## 2.2.83
+
+ - Update a dependency to the latest release.
+
+## 2.2.82
+
+ - Update a dependency to the latest release.
+
+## 2.2.81
+
+ - Update a dependency to the latest release.
+
 ## 2.2.80
 
  - Update a dependency to the latest release.

@@ -220,7 +220,7 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.14.0"
+    version: "2.15.1"
   katana_test:
     dependency: "direct dev"
     description:
