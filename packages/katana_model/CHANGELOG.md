@@ -1,3 +1,7 @@
+## 2.27.1
+
+ - **FIX**: Changed the specification of the notification destination. ([901bf6e4](https://github.com/mathrunet/flutter_masamune/commit/901bf6e450b841ef8da5cc5c74ce1e3e6a26572c))
+
 ## 2.27.0
 
  - **FEAT**: Added ModelServerCommandCondition. ([f52a05d3](https://github.com/mathrunet/flutter_masamune/commit/f52a05d3210847c77e2b4d6d589c91c58bd340e4))

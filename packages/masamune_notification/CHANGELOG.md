@@ -1,3 +1,7 @@
+## 2.8.1
+
+ - **FIX**: Changed the specification of the notification destination. ([901bf6e4](https://github.com/mathrunet/flutter_masamune/commit/901bf6e450b841ef8da5cc5c74ce1e3e6a26572c))
+
 ## 2.8.0
 
  - **FEAT**: Added the ability to send batch notifications. ([706b88e1](https://github.com/mathrunet/flutter_masamune/commit/706b88e1140479f50a56212ceab9a1facafa459d))

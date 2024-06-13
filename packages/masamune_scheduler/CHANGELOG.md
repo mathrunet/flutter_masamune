@@ -1,3 +1,7 @@
+## 2.3.2
+
+ - Update a dependency to the latest release.
+
 ## 2.3.1
 
  - **FIX**: Fixed typo. ([5fba8cc5](https://github.com/mathrunet/flutter_masamune/commit/5fba8cc58437d54acd53042d4ce34b667c833b59))
