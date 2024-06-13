@@ -82,11 +82,13 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
               final meta = element.metadata.first;
               final obj = meta.computeConstantValue()!;
               final name = obj.getField("name")?.toStringValue();
-              String value = (++i).toString();
+              String value;
 
               if (name != null && !names.contains(name)) {
                 value = name;
                 names.add(name);
+              } else {
+                value = (++i).toString();
               }
 
               import[library] = "_\$$value";
