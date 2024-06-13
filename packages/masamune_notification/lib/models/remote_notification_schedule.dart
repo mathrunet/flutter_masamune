@@ -183,17 +183,12 @@ class ModelServerCommandRemoteNotificationSchedule
     required ModelTimestamp time,
     required String title,
     required String text,
+    required NotificationTargetQuery target,
     String? channelId,
     DynamicMap? data,
-    String? topic,
-    ModelToken? tokens,
     Uri? link,
     int? badgeCount,
     String? sound,
-    String? targetCollectionPath,
-    String? targetTokenFieldKey,
-    List<ModelServerCommandCondition>? targetWheres,
-    List<ModelServerCommandCondition>? targetConditions,
   }) = _ModelServerCommandRemoteNotificationSchedule;
 
   const ModelServerCommandRemoteNotificationSchedule._()
@@ -236,53 +231,18 @@ class ModelServerCommandRemoteNotificationSchedule
   /// 通知のデータ。
   DynamicMap? get data => throw UnimplementedError();
 
-  /// Notification Topics.
+  /// Set up notification destinations.
   ///
-  /// 通知のトピック。
-  String? get topic => throw UnimplementedError();
-
-  /// List of tokens of notification.
+  /// Use [TopicNotificationTargetQuery] to specify by topic. Use [TokenNotificationTargetQuery] or [ModelTokenNotificationTargetQuery] to specify by token.
   ///
-  /// 通知のトークンのリスト。
-  ModelToken? get tokens => throw UnimplementedError();
-
-  /// Path of the collection from which to retrieve the list of documents to be deleted.
+  /// Use [CollectionNotificationTargetQuery] if you wish to specify it in the collection documentation.
   ///
-  /// Must be a regular Firestore collection path hierarchy.
+  /// 通知先の設定。
   ///
-  /// 通知の対象となるドキュメント一覧を取得するコレクションのパス。
+  /// トピックで指定したい場合は[TopicNotificationTargetQuery]を使用してください。トークンで指定したい場合は[TokenNotificationTargetQuery]、[ModelTokenNotificationTargetQuery]を使用してください。
   ///
-  /// Firestoreの正規のコレクションのパス階層である必要があります。
-  String? get targetCollectionPath => throw UnimplementedError();
-
-  /// Key to retrieve a list of target tokens if [targetCollectionPath] was specified.
-  ///
-  /// The target key must be defined in [ModelToken].
-  ///
-  /// [targetCollectionPath]が指定されていた場合、対象となるトークンのリストを取得するキー。
-  ///
-  /// 対象となるキーには[ModelToken]で定義されている必要があります。
-  String? get targetTokenFieldKey => throw UnimplementedError();
-
-  /// If [targetCollectionPath] was specified, specify the conditions for retrieving from the collection.
-  ///
-  /// All are And conditions.
-  ///
-  /// [targetCollectionPath]が指定されていた場合、コレクションから取得するための条件を指定します。
-  ///
-  /// すべてAnd条件となります。
-  List<ModelServerCommandCondition>? get targetWheres =>
-      throw UnimplementedError();
-
-  /// If [targetCollectionPath] was specified, specify the condition for the acquired data.
-  ///
-  /// All are And conditions.
-  ///
-  /// [targetCollectionPath]が指定されていた場合、取得したデータに対する条件を指定します。
-  ///
-  /// すべてAnd条件となります。
-  List<ModelServerCommandCondition>? get targetConditions =>
-      throw UnimplementedError();
+  /// コレクションのドキュメントで指定したい場合は[CollectionNotificationTargetQuery]を使用してください。
+  NotificationTargetQuery get target => throw UnimplementedError();
 
   /// A link to transition from the notification.
   ///
@@ -312,13 +272,7 @@ class ModelServerCommandRemoteNotificationSchedule
   static const String _kSoundKey = "sound";
   static const String _kBadgeCountKey = "badgeCount";
   static const String _kDataKey = "data";
-  static const String _kTopicKey = "topic";
-  static const String _kTokenKey = "token";
   static const String _kLinkKey = "@link";
-  static const String _kTargetCollectionPathKey = "targetConditionPath";
-  static const String _kTargetTokenFieldKeyKey = "targetTokenFieldKey";
-  static const String _kTargetWheresKey = "targetWheres";
-  static const String _kTargetConditionsKey = "targetConditions";
 
   /// Convert from [json] map to [ModelServerCommandRemoteNotificationSchedule].
   ///
@@ -343,17 +297,9 @@ class ModelServerCommandRemoteNotificationSchedule
         if (data != null) ...data!,
         if (link != null) _kLinkKey: link!.path,
       },
-      _kTokenKey: tokens?.value,
-      _kTopicKey: topic,
       if (sound != null) _kSoundKey: sound,
       if (badgeCount != null) _kBadgeCountKey: badgeCount,
-      _kTargetCollectionPathKey: targetCollectionPath,
-      _kTargetTokenFieldKeyKey: targetTokenFieldKey,
-      if (targetWheres != null)
-        _kTargetWheresKey: targetWheres!.map((e) => e.toJson()).toList(),
-      if (targetConditions != null)
-        _kTargetConditionsKey:
-            targetConditions!.map((e) => e.toJson()).toList(),
+      ...target.toJson(),
     };
   }
 
@@ -372,17 +318,12 @@ class _ModelServerCommandRemoteNotificationSchedule
     required this.time,
     required this.title,
     required this.text,
+    required this.target,
     this.channelId,
     this.data,
-    this.topic,
-    this.tokens,
     this.link,
     this.badgeCount,
     this.sound,
-    this.targetCollectionPath,
-    this.targetTokenFieldKey,
-    this.targetWheres,
-    this.targetConditions,
   }) : super._();
 
   @override
@@ -404,28 +345,13 @@ class _ModelServerCommandRemoteNotificationSchedule
   final Uri? link;
 
   @override
-  final String? topic;
-
-  @override
-  final ModelToken? tokens;
+  final NotificationTargetQuery target;
 
   @override
   final int? badgeCount;
 
   @override
   final String? sound;
-
-  @override
-  final String? targetCollectionPath;
-
-  @override
-  final String? targetTokenFieldKey;
-
-  @override
-  final List<ModelServerCommandCondition>? targetWheres;
-
-  @override
-  final List<ModelServerCommandCondition>? targetConditions;
 }
 
 /// Abstract class for defining a document with a schedule for PUSH notifications.

@@ -356,7 +356,7 @@ class ModelServerCommandCondition {
   ///
   /// [ModelServerCommandBase]で用いる条件クラス。
   const ModelServerCommandCondition({
-    required this.type,
+    this.type,
     required this.key,
     this.value,
   });
@@ -397,7 +397,7 @@ class ModelServerCommandCondition {
   /// Condition type.
   ///
   /// 条件のタイプ。
-  final ModelQueryFilterType type;
+  final ModelQueryFilterType? type;
 
   /// Key Terms.
   ///
@@ -418,14 +418,14 @@ class ModelServerCommandCondition {
   /// json_serializableのパッケージで[ModelServerCommandCondition]の値をJsonに変換する際に利用します。
   DynamicMap toJson() => {
         kTypeFieldKey: ModelServerCommandCondition.typeString,
-        kTypeKey: type.name,
+        kTypeKey: type?.name,
         kKeyKey: key,
         kValueKey: _toJsonForValue(value),
       };
 
   @override
   String toString() {
-    return "Condition(${type.name} $key:$value)";
+    return "Condition(${type?.name} $key:$value)";
   }
 
   @override
@@ -456,5 +456,92 @@ class ModelServerCommandCondition {
       return value.toJson();
     }
     return value;
+  }
+}
+
+/// Field specification class used in [ModelServerCommandBase].
+///
+/// [ModelServerCommandBase]で用いるフィールド指定クラス。
+class ModelServerCommandField {
+  /// Field specification class used in [ModelServerCommandBase].
+  ///
+  /// [ModelServerCommandBase]で用いるフィールド指定クラス。
+  const ModelServerCommandField({
+    required this.key,
+    this.reference,
+  });
+
+  /// Convert from [json] map to [ModelServerCommandField].
+  ///
+  /// [json]のマップから[ModelServerCommandField]に変換します。
+  factory ModelServerCommandField.fromJson(DynamicMap json) {
+    return ModelServerCommandField(
+      key: json.get(kKeyKey, ""),
+      reference: _fromJsonForValue(json[kReferenceKey]),
+    );
+  }
+
+  /// Object type key.
+  ///
+  /// オブジェクトタイプのキー。
+  static const typeString = "ModelServerCommandField";
+
+  /// Key key.
+  ///
+  /// キーのキー。
+  static const kKeyKey = "key";
+
+  /// Key for reference.
+  ///
+  /// リファレンス用のキー。
+  static const kReferenceKey = "value";
+
+  /// Key Terms.
+  ///
+  /// キーの名前。
+  final String key;
+
+  /// [ModelServerCommandField] for reference.
+  ///
+  /// リファレンス用の[ModelServerCommandField]。
+  final ModelServerCommandField? reference;
+
+  /// Methods for Json serialization.
+  ///
+  /// Used to convert [ModelServerCommandField] values to Json in the json_serializable package.
+  ///
+  /// Jsonシリアライズを行うためのメソッド。
+  ///
+  /// json_serializableのパッケージで[ModelServerCommandField]の値をJsonに変換する際に利用します。
+  DynamicMap toJson() => {
+        kTypeFieldKey: ModelServerCommandField.typeString,
+        kKeyKey: key,
+        kReferenceKey: reference?.toJson(),
+      };
+
+  @override
+  String toString() {
+    return "Field(key: $key, ref: $reference)";
+  }
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode => key.hashCode ^ reference.hashCode;
+
+  static ModelServerCommandField? _fromJsonForValue(Object? value) {
+    if (value is Map) {
+      final type = value.get(kTypeFieldKey, "");
+      if (type == ModelServerCommandField.typeString) {
+        return ModelServerCommandField.fromJson(
+          value
+              .map((k, v) => MapEntry(k.toString(), v))
+              .cast<String, dynamic>(),
+        );
+      }
+      return null;
+    }
+    return null;
   }
 }

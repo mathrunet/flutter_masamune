@@ -196,17 +196,13 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
 
   /// Start the Functions for sending FCM notifications deployed in FirebaseFunctions.
   ///
-  /// Please pass the notification title in [title], the content of the notification in [text], the PCM token in [tokens], the topic name in [topic], the notification channel ID for Android in [channel], and other notification data in [data].
-  ///
-  /// [tokens] and [topic] cannot be specified at the same time.
+  /// Pass the title of the notification in [title], the content of the notification in [text], the destination query for the token or topic in [target], the notification channel ID for Android in [channel], and other notification data in [data].
   ///
   /// See [SendRemoteNotificationFunctionsAction] for details.
   ///
   /// FirebaseFunctionsにデプロイされたFCM通知送信用のFunctionsを起動します。
   ///
-  /// [title]に通知タイトル、[text]に通知の内容、[tokens]にPCMトークン、[topic]にトピック名、[channel]にAndroid用の通知チャンネルID、[data]にその他の通知データを渡してください。
-  ///
-  /// [tokens]と[topic]は同時に指定することはできません。
+  /// [title]に通知タイトル、[text]に通知の内容、[target]にトークンやトピックの通知先クエリ、[channel]にAndroid用の通知チャンネルID、[data]にその他の通知データを渡してください。
   ///
   /// [sound]には通知のサウンドを指定します。[badgeCount]にはバッジに表示する数を指定します。
   ///
@@ -214,39 +210,20 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
   Future<SendRemoteNotificationFunctionsActionResponse> send({
     required String title,
     required String text,
+    required NotificationTargetQuery target,
     String? channel,
     DynamicMap? data,
-    String? topic,
-    ModelToken? tokens,
     int? badgeCount,
     NotificationSound sound = NotificationSound.defaultSound,
     Uri? link,
-    String? targetCollectionPath,
-    String? targetTokenFieldKey,
-    List<ModelServerCommandCondition>? targetWheres,
-    List<ModelServerCommandCondition>? targetConditions,
   }) async {
-    assert(
-      tokens != null || topic != null || targetCollectionPath != null,
-      "[tokens] or [topic], [targetCollectionPath] is required",
-    );
-    assert(
-      tokens == null || topic == null || targetCollectionPath == null,
-      "[tokens] and [topic], [targetCollectionPath] cannot be set at the same time",
-    );
-    assert(
-      (targetCollectionPath == null && targetTokenFieldKey == null) ||
-          (targetCollectionPath != null && targetTokenFieldKey != null),
-      "[targetCollectionPath] and [targetTokenFieldKey] must be set at the same time",
-    );
     await listen();
     final f = adapter.functionsAdapter ?? FunctionsAdapter.primary;
     final res = await f.execute(
       SendRemoteNotificationFunctionsAction(
         title: title,
         text: text,
-        topic: topic,
-        tokens: tokens,
+        target: target,
         channel: adapter.androidNotificationChannelId,
         badgeCount: badgeCount,
         sound: sound,
@@ -254,18 +231,12 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
           if (data != null) ...data,
           if (link != null) _linkKey: link.path,
         },
-        targetCollectionPath: targetCollectionPath,
-        targetTokenFieldKey: targetTokenFieldKey,
-        targetWheres: targetWheres,
-        targetConditions: targetConditions,
       ),
     );
     _sendLog(NotificationLoggerEvent.send, parameters: {
       NotificationLoggerEvent.titleKey: title,
       NotificationLoggerEvent.bodyKey: text,
-      NotificationLoggerEvent.toKey: tokens != null
-          ? tokens.toString()
-          : (targetCollectionPath.isEmpty ? topic : targetCollectionPath),
+      NotificationLoggerEvent.toKey: target.toString(),
     });
     return res;
   }
@@ -276,9 +247,9 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
   ///
   /// Specify the title of the notification in [title]. Specify the body of the notification in [text].
   ///
-  /// Specify a PCM token in [tokens] and a topic name in [topic]. [tokens] and [topic] cannot be specified at the same time.
+  /// Pass [target] the topic and token settings for the notification destination.
   ///
-  /// You can specify the ID of the database by specifying [targetId].
+  /// You can specify the ID of the database by specifying [databaseId].
   ///
   /// 通知をデータベースに登録してスケーリングを行います。
   ///
@@ -286,45 +257,23 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
   ///
   /// [title]に通知のタイトルを指定します。[text]に通知の本文を指定します。
   ///
-  /// [tokens]にPCMトークン、[topic]にトピック名を指定します。[tokens]と[topic]は同時に指定することはできません。
+  /// [target]に通知先のトピックやトークンの設定を渡します。
   ///
-  /// [targetId]を指定するとデータベースのIDを指定することができます。
+  /// [databaseId]を指定するとデータベースのIDを指定することができます。
   Future<void> addSchedule({
     required DateTime time,
     required String title,
     required String text,
+    required NotificationTargetQuery target,
     String? channel,
     DynamicMap? data,
-    String? topic,
-    ModelToken? tokens,
     int? badgeCount,
     NotificationSound sound = NotificationSound.defaultSound,
     Uri? link,
-    String? targetId,
-    String? targetCollectionPath,
-    String? targetTokenFieldKey,
-    List<ModelServerCommandCondition>? targetWheres,
-    List<ModelServerCommandCondition>? targetConditions,
+    String? databaseId,
   }) async {
-    assert(
-      tokens != null || topic != null || targetCollectionPath != null,
-      "[tokens] or [topic], [targetCollectionPath] is required",
-    );
-    assert(
-      tokens == null || topic == null || targetCollectionPath == null,
-      "[tokens] and [topic], [targetCollectionPath] cannot be set at the same time",
-    );
-    assert(
-      (targetCollectionPath == null && targetTokenFieldKey == null) ||
-          (targetCollectionPath != null && targetTokenFieldKey != null),
-      "[targetCollectionPath] and [targetTokenFieldKey] must be set at the same time",
-    );
     await listen();
-    targetId ??= topic.isEmpty
-        ? tokens?.value.sortTo().join().limit(256)
-        : (targetCollectionPath.isEmpty
-            ? topic?.limit(256)
-            : targetCollectionPath?.replaceAll("/", "").limit(256));
+    databaseId ??= target.toDatabaseId();
     final m = adapter.modelAdapter ?? ModelAdapter.primary;
     final modelQuery = schedule
         .collection()
@@ -332,7 +281,7 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
         .create(SchedulerQuery.generateScheduleId(
           time: time,
           command: ModelServerCommandRemoteNotificationSchedule.command,
-          target: targetId,
+          target: databaseId,
         ));
     final document = RemoteNotificationScheduleModelDocument(
       modelQuery.copyWith(adapter: m),
@@ -346,15 +295,10 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
               text: text,
               channelId: channel,
               data: data,
-              tokens: tokens,
-              topic: topic,
+              target: target,
               link: link,
               sound: sound.value,
               badgeCount: badgeCount,
-              targetCollectionPath: targetCollectionPath,
-              targetTokenFieldKey: targetTokenFieldKey,
-              targetWheres: targetWheres,
-              targetConditions: targetConditions,
             ),
           ) ??
           RemoteNotificationScheduleModel(
@@ -364,24 +308,17 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
               text: text,
               channelId: channel,
               data: data,
-              tokens: tokens,
-              topic: topic,
+              target: target,
               link: link,
               sound: sound.value,
               badgeCount: badgeCount,
-              targetCollectionPath: targetCollectionPath,
-              targetTokenFieldKey: targetTokenFieldKey,
-              targetWheres: targetWheres,
-              targetConditions: targetConditions,
             ),
           ),
     );
     _sendLog(NotificationLoggerEvent.addSchedule, parameters: {
       NotificationLoggerEvent.titleKey: title,
       NotificationLoggerEvent.bodyKey: text,
-      NotificationLoggerEvent.toKey: tokens != null
-          ? tokens.toString()
-          : (targetCollectionPath.isEmpty ? topic : targetCollectionPath),
+      NotificationLoggerEvent.toKey: target.toString(),
       NotificationLoggerEvent.timeKey: time.toIso8601String(),
     });
   }
@@ -390,38 +327,24 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
   ///
   /// Specify the date and time to send the notification in [time].
   ///
-  /// Specify a PCM token in [tokens] and a topic name in [topic]. [tokens] and [topic] cannot be specified at the same time.
+  /// Pass [target] the topic and token settings for the notification destination.
   ///
-  /// You can specify the ID of the database by specifying [targetId].
+  /// You can specify the ID of the database by specifying [databaseId].
   ///
   /// すでに登録されている通知スケジュールを削除します。
   ///
   /// [time]に通知を送信する日時を指定します。
   ///
-  /// [tokens]にPCMトークン、[topic]にトピック名を指定します。[tokens]と[topic]は同時に指定することはできません。
+  /// [target]に通知先のトピックやトークンの設定を渡します。
   ///
-  /// [targetId]を指定するとデータベースのIDを指定することができます。
+  /// [databaseId]を指定するとデータベースのIDを指定することができます。
   Future<void> removeSchedule({
     required DateTime time,
-    String? topic,
-    ModelToken? tokens,
-    String? targetId,
-    String? targetCollectionPath,
+    required NotificationTargetQuery target,
+    String? databaseId,
   }) async {
-    assert(
-      tokens != null || topic != null || targetCollectionPath != null,
-      "[tokens] or [topic], [targetCollectionPath] is required",
-    );
-    assert(
-      tokens == null || topic == null || targetCollectionPath == null,
-      "[tokens] and [topic], [targetCollectionPath] cannot be set at the same time",
-    );
     await listen();
-    targetId ??= topic.isEmpty
-        ? tokens?.value.sortTo().join().limit(256)
-        : (targetCollectionPath.isEmpty
-            ? topic?.limit(256)
-            : targetCollectionPath?.replaceAll("/", "").limit(256));
+    databaseId ??= target.toDatabaseId();
     final m = adapter.modelAdapter ?? ModelAdapter.primary;
     final modelQuery = schedule
         .collection()
@@ -429,7 +352,7 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
         .create(SchedulerQuery.generateScheduleId(
           time: time,
           command: ModelServerCommandRemoteNotificationSchedule.command,
-          target: targetId,
+          target: databaseId,
         ));
     final document = RemoteNotificationScheduleModelDocument(
       modelQuery.copyWith(adapter: m),
@@ -437,9 +360,7 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
     await document.reload();
     await document.delete();
     _sendLog(NotificationLoggerEvent.removeSchedule, parameters: {
-      NotificationLoggerEvent.toKey: tokens != null
-          ? tokens.toString()
-          : (targetCollectionPath.isEmpty ? topic : targetCollectionPath),
+      NotificationLoggerEvent.toKey: target.toString(),
       NotificationLoggerEvent.timeKey: time.toIso8601String(),
     });
   }

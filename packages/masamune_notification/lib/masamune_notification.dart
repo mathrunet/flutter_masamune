@@ -34,6 +34,7 @@ part 'functions/send_remote_notification_functions_action.dart';
 
 part 'src/local_notification.dart';
 part 'src/remote_notification.dart';
+part 'src/notification_target_query.dart';
 part 'src/local_notification_masamune_adapter.dart';
 part 'src/remote_notification_masamune_adapter.dart';
 part 'src/notification_value.dart';
