@@ -42,6 +42,7 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
     final import = <String, String>{};
     final export = <String, List<String>>{};
     final queries = <QueryValue>[];
+    final names = <String>[];
     final assets = buildStep.findAssets(Glob("**.dart"));
     await for (final asset in assets) {
       if (!await buildStep.resolver.isLibrary(asset)) {
@@ -80,9 +81,14 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
             if (!import.containsKey(library)) {
               final meta = element.metadata.first;
               final obj = meta.computeConstantValue()!;
-              final key = obj.getField("key")?.toStringValue();
               final name = obj.getField("name")?.toStringValue();
-              final value = key ?? name ?? (++i).toString();
+              String value = (++i).toString();
+
+              if (name != null && !names.contains(name)) {
+                value = name;
+                names.add(name);
+              }
+
               import[library] = "_\$$value";
               queries.add(
                 QueryValue(
