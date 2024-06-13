@@ -445,6 +445,10 @@ class ModelServerCommandCondition {
         );
       }
       return null;
+    } else if (value is List) {
+      return value.mapAndRemoveEmpty((e) {
+        return _fromJsonForValue(e);
+      });
     }
     return value;
   }
@@ -454,6 +458,10 @@ class ModelServerCommandCondition {
       return null;
     } else if (value is ModelServerCommandCondition) {
       return value.toJson();
+    } else if (value is List) {
+      return value.mapAndRemoveEmpty((e) {
+        return _fromJsonForValue(e);
+      });
     }
     return value;
   }
