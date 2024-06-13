@@ -1,3 +1,7 @@
+## 2.27.2
+
+ - **FIX**: Corresponding list. ([83283fdd](https://github.com/mathrunet/flutter_masamune/commit/83283fdd6a74ec6824e7f4291263d70a1e4673c0))
+
 ## 2.27.1
 
  - **FIX**: Changed the specification of the notification destination. ([901bf6e4](https://github.com/mathrunet/flutter_masamune/commit/901bf6e450b841ef8da5cc5c74ce1e3e6a26572c))

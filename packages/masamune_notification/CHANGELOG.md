@@ -1,3 +1,7 @@
+## 2.8.2
+
+ - Update a dependency to the latest release.
+
 ## 2.8.1
 
  - **FIX**: Changed the specification of the notification destination. ([901bf6e4](https://github.com/mathrunet/flutter_masamune/commit/901bf6e450b841ef8da5cc5c74ce1e3e6a26572c))
