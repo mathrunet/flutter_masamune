@@ -930,6 +930,33 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
     int? microsecond,
   ]) = _ModelTimestampWithDateTime;
 
+  /// Parse from [formattedString] and convert to [ModelTimestamp].
+  ///
+  /// If the conversion fails, a [FormatException] is raised.
+  ///
+  /// [formattedString]からパースして[ModelTimestamp]に変換します。
+  ///
+  /// 変換に失敗した場合は[FormatException]が発生します。
+  static ModelTimestamp parse(String formattedString) {
+    final dateTime = DateTime.parse(formattedString);
+    return ModelTimestamp(dateTime);
+  }
+
+  /// Parse from [formattedString] and convert to [ModelTimestamp].
+  ///
+  /// Returns [Null] if the conversion fails.
+  ///
+  /// [formattedString]からパースして[ModelTimestamp]に変換します。
+  ///
+  /// 変換に失敗した場合は[Null]を返します。
+  static ModelTimestamp? tryParse(String formattedString) {
+    final dateTime = DateTime.tryParse(formattedString);
+    if (dateTime == null) {
+      return null;
+    }
+    return ModelTimestamp(dateTime);
+  }
+
   /// Used to disguise the retrieval of data from the server.
   ///
   /// Use for testing purposes.
@@ -984,6 +1011,13 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
   final DateTime? _value;
 
   final ModelFieldValueSource _source;
+
+  /// Convert to [ModelDate].
+  ///
+  /// [ModelDate]に変換します。
+  ModelDate toModelDate() {
+    return ModelDate(value);
+  }
 
   @override
   String toString() {
@@ -1275,6 +1309,33 @@ class ModelDate extends ModelFieldValue<DateTime>
     int? day,
   ]) = _ModelDateWithDateTime;
 
+  /// Parse from [formattedString] and convert to [ModelTimestamp].
+  ///
+  /// If the conversion fails, a [FormatException] is raised.
+  ///
+  /// [formattedString]からパースして[ModelTimestamp]に変換します。
+  ///
+  /// 変換に失敗した場合は[FormatException]が発生します。
+  static ModelDate parse(String formattedString) {
+    final dateTime = DateTime.parse(formattedString);
+    return ModelDate(dateTime);
+  }
+
+  /// Parse from [formattedString] and convert to [ModelTimestamp].
+  ///
+  /// Returns [Null] if the conversion fails.
+  ///
+  /// [formattedString]からパースして[ModelTimestamp]に変換します。
+  ///
+  /// 変換に失敗した場合は[Null]を返します。
+  static ModelDate? tryParse(String formattedString) {
+    final dateTime = DateTime.tryParse(formattedString);
+    if (dateTime == null) {
+      return null;
+    }
+    return ModelDate(dateTime);
+  }
+
   /// Used to disguise the retrieval of data from the server.
   ///
   /// Use for testing purposes.
@@ -1331,6 +1392,13 @@ class ModelDate extends ModelFieldValue<DateTime>
   final DateTime? _value;
 
   final ModelFieldValueSource _source;
+
+  /// Convert to [ModelTimestamp]. All times are set to 0.
+  ///
+  /// [ModelTimestamp]に変換します。時間はすべて0になります。
+  ModelTimestamp toModelTimestamp() {
+    return ModelTimestamp(value);
+  }
 
   @override
   String toString() {
