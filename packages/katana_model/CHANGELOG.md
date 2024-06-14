@@ -1,3 +1,7 @@
+## 2.27.3
+
+ - **FIX**: Additional internal functions. ([6d66b8af](https://github.com/mathrunet/flutter_masamune/commit/6d66b8af82ddf94c37dc7a54685364a771d2e06f))
+
 ## 2.27.2
 
  - **FIX**: Corresponding list. ([83283fdd](https://github.com/mathrunet/flutter_masamune/commit/83283fdd6a74ec6824e7f4291263d70a1e4673c0))
