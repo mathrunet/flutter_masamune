@@ -82,6 +82,7 @@ class Authentication extends ChangeNotifier {
   Authentication({
     AuthAdapter? adapter,
     List<LoggerAdapter> loggerAdapters = const [],
+    this.authActions = const [],
   })  : _adapter = adapter,
         _loggerAdapters = loggerAdapters;
 
@@ -100,6 +101,19 @@ class Authentication extends ChangeNotifier {
   }
 
   static final Set<AuthAction> _actions = {};
+
+  /// Callbacks during authentication.
+  ///
+  /// 認証時のコールバック。
+  final List<AuthActionQuery> authActions;
+
+  Set<AuthAction> get _effectiveActions {
+    return {
+      ..._actions,
+      ...adapter.authActions,
+      ...authActions,
+    };
+  }
 
   /// An adapter that defines the authentication platform.
   ///
@@ -246,6 +260,11 @@ class Authentication extends ChangeNotifier {
       onUserStateChanged: notifyListeners,
       retryWhenTimeout: retryWhenTimeout,
     );
+    if (isSignedIn) {
+      for (final action in _effectiveActions) {
+        await action.onRestoredAuth();
+      }
+    }
     return this;
   }
 
@@ -307,7 +326,7 @@ class Authentication extends ChangeNotifier {
   ///
   /// すでにサインインしている場合は[Exception]が返されます。
   Future<Authentication> signIn(SignInAuthProvider provider) async {
-    for (final action in _actions) {
+    for (final action in _effectiveActions) {
       await action.onSignIn();
     }
     await adapter.signIn(
@@ -319,7 +338,7 @@ class Authentication extends ChangeNotifier {
       AuthLoggerEvent.providerKey: provider.providerId,
     });
     if (isSignedIn) {
-      for (final action in _actions) {
+      for (final action in _effectiveActions) {
         await action.onSignedIn();
       }
     }
@@ -350,7 +369,7 @@ class Authentication extends ChangeNotifier {
       onUserStateChanged: notifyListeners,
     );
     if (isSignedIn) {
-      for (final action in _actions) {
+      for (final action in _effectiveActions) {
         await action.onSignedIn();
       }
     }
@@ -498,7 +517,7 @@ class Authentication extends ChangeNotifier {
     if (!isSignedIn) {
       throw Exception("Not yet signed in.");
     }
-    for (final action in _actions) {
+    for (final action in _effectiveActions) {
       await action.onSignOut();
     }
     final userId = this.userId;
@@ -507,7 +526,7 @@ class Authentication extends ChangeNotifier {
       AuthDatabase.userIdKey: userId,
     });
     if (!isSignedIn) {
-      for (final action in _actions) {
+      for (final action in _effectiveActions) {
         await action.onSignedOut();
       }
     }
@@ -525,7 +544,7 @@ class Authentication extends ChangeNotifier {
     if (!isSignedIn) {
       throw Exception("Not yet signed in.");
     }
-    for (final action in _actions) {
+    for (final action in _effectiveActions) {
       await action.onSignOut();
     }
     final userId = this.userId;
@@ -534,7 +553,7 @@ class Authentication extends ChangeNotifier {
       AuthDatabase.userIdKey: userId,
     });
     if (!isSignedIn) {
-      for (final action in _actions) {
+      for (final action in _effectiveActions) {
         await action.onSignedOut();
       }
     }

@@ -55,7 +55,12 @@ abstract class AuthAdapter {
   ///   }
   /// }
   /// ```
-  const AuthAdapter();
+  const AuthAdapter({this.authActions = const []});
+
+  /// Callbacks during authentication.
+  ///
+  /// 認証時のコールバック。
+  final List<AuthActionQuery> authActions;
 
   /// You can retrieve the [AuthAdapter] first given by [AuthAdapterScope].
   ///

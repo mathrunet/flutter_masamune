@@ -45,6 +45,7 @@ class RuntimeAuthAdapter extends AuthAdapter {
     AuthDatabase? database,
     String? initialUserId,
     List<AuthInitialValue>? initialValue,
+    super.authActions = const [],
   })  : _database = database,
         _initialUserId = initialUserId,
         _initialValue = initialValue;
