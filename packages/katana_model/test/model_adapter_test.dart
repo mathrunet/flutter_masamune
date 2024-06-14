@@ -14,7 +14,8 @@ void main() {
       ["aaaaaa"],
     );
     expect(
-      modelAdapter.hasMatch(path: "shop/aaaaaa/member", pattern: "shop/:shop_id"),
+      modelAdapter.hasMatch(
+          path: "shop/aaaaaa/member", pattern: "shop/:shop_id"),
       null,
     );
     expect(
