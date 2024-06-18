@@ -16,6 +16,7 @@ class PubUpgradeCliCommand extends CliCommand {
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
+    final pod = bin.get("pod", "pod");
     final melos = bin.get("melos", "melos");
     if (File("melos.yaml").existsSync()) {
       await command(
@@ -36,6 +37,30 @@ class PubUpgradeCliCommand extends CliCommand {
           "upgrade",
         ],
       );
+      final iosDir = Directory("ios");
+      if (iosDir.existsSync()) {
+        final podfile = File("ios/Podfile.lock");
+        if (podfile.existsSync()) {
+          await podfile.delete();
+        }
+        await command(
+          "Upgrade the pod repository.",
+          [
+            pod,
+            "repo",
+            "update",
+          ],
+          workingDirectory: iosDir.path,
+        );
+        await command(
+          "Upgrade the iOS package.",
+          [
+            pod,
+            "install",
+          ],
+          workingDirectory: iosDir.path,
+        );
+      }
     }
   }
 }
