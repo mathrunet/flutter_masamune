@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-06-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.21.1`](#katana_cli---v2211)
+
+---
+
+#### `katana_cli` - `v2.21.1`
+
+ - **FIX**: katana pub upgrade to pod. ([3063a334](https://github.com/mathrunet/flutter_masamune/commit/3063a33482ec62086de51d9d9e72a4460645624f))
+
+
 ## 2024-06-14
 
 ### Changes

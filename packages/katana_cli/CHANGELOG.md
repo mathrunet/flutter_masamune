@@ -1,3 +1,7 @@
+## 2.21.1
+
+ - **FIX**: katana pub upgrade to pod. ([3063a334](https://github.com/mathrunet/flutter_masamune/commit/3063a33482ec62086de51d9d9e72a4460645624f))
+
 ## 2.21.0
 
  - **FIX**: Fixed StripStyle for Agora. ([b720cc41](https://github.com/mathrunet/flutter_masamune/commit/b720cc41e05806b1bbc7b9c2f3d5b2a93ec07cfc))
