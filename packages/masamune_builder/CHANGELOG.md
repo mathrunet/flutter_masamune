@@ -1,3 +1,7 @@
+## 2.15.11
+
+ - **FIX**: Add necessary functions. ([e6673a95](https://github.com/mathrunet/flutter_masamune/commit/e6673a95606b2a318ecb7cc3808f01d68549f269))
+
 ## 2.15.10
 
  - **FIX**: Fixed a bug that jsonParam in Mirror did not work. ([d6c40572](https://github.com/mathrunet/flutter_masamune/commit/d6c405720454549f87086ed5e8f32e2914f224f1))

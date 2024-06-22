@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-06-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_builder` - `v2.15.11`](#masamune_builder---v21511)
+ - [`masamune_model_firebase_data_connect_annotation` - `v2.1.0`](#masamune_model_firebase_data_connect_annotation---v210)
+ - [`masamune_model_firestore_builder` - `v2.2.26`](#masamune_model_firestore_builder---v2226)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_firestore_builder` - `v2.2.26`
+
+---
+
+#### `masamune_builder` - `v2.15.11`
+
+ - **FIX**: Add necessary functions. ([e6673a95](https://github.com/mathrunet/flutter_masamune/commit/e6673a95606b2a318ecb7cc3808f01d68549f269))
+
+#### `masamune_model_firebase_data_connect_annotation` - `v2.1.0`
+
+ - **FEAT**: Completed until output of GraphQL code. ([ae1f3871](https://github.com/mathrunet/flutter_masamune/commit/ae1f38715a071e70061c2f342a1a0613f53a5e7a))
+
+
 ## 2024-06-18
 
 ### Changes
