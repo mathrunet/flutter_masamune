@@ -1,3 +1,7 @@
+## 2.4.91
+
+ - Update a dependency to the latest release.
+
 ## 2.4.90
 
  - Update a dependency to the latest release.

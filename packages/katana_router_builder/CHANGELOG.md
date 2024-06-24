@@ -1,3 +1,9 @@
+## 2.2.0
+
+ - **FIX**: Incremented when using `name`. ([92bc3160](https://github.com/mathrunet/flutter_masamune/commit/92bc3160ff61d73219af370cc76e188fcc44421e))
+ - **FEAT**: Generated using `name` only, sequential number. ([ea559233](https://github.com/mathrunet/flutter_masamune/commit/ea559233593d7053effcfc4c86ceb94fcc8634b2))
+ - **FEAT**: Generate imports based on `key` or `name`. ([b3a63f35](https://github.com/mathrunet/flutter_masamune/commit/b3a63f35b97c9f973f5fa5eac551ac63fc280493))
+
 ## 2.1.12
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Generate imports based on `key` or `name`. ([b3a63f35](https://github.com/mathrunet/flutter_masamune/commit/b3a63f35b97c9f973f5fa5eac551ac63fc280493))
+
 ## 2.2.17
 
  - Update a dependency to the latest release.

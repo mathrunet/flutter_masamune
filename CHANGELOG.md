@@ -15,6 +15,115 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router` - `v2.3.0`](#katana_router---v230)
+ - [`katana_router_builder` - `v2.2.0`](#katana_router_builder---v220)
+ - [`masamune` - `v2.13.46`](#masamune---v21346)
+ - [`masamune_location_platform_interface` - `v2.4.18`](#masamune_location_platform_interface---v2418)
+ - [`masamune_location_geocoding` - `v2.4.90`](#masamune_location_geocoding---v2490)
+ - [`masamune_location` - `v2.4.18`](#masamune_location---v2418)
+ - [`masamune_notification_local` - `v2.1.13`](#masamune_notification_local---v2113)
+ - [`masamune_deeplink_firebase` - `v2.2.92`](#masamune_deeplink_firebase---v2292)
+ - [`masamune_auth_apple` - `v2.4.21`](#masamune_auth_apple---v2421)
+ - [`masamune_scheduler` - `v2.3.7`](#masamune_scheduler---v237)
+ - [`masamune_model_algolia` - `v2.4.90`](#masamune_model_algolia---v2490)
+ - [`masamune_location_background` - `v2.4.91`](#masamune_location_background---v2491)
+ - [`masamune_text_to_speech` - `v2.2.91`](#masamune_text_to_speech---v2291)
+ - [`masamune_agora` - `v2.4.93`](#masamune_agora---v2493)
+ - [`masamune_auth_google` - `v2.5.21`](#masamune_auth_google---v2521)
+ - [`masamune_ai_openai` - `v2.7.82`](#masamune_ai_openai---v2782)
+ - [`masamune_module_chat_system` - `v2.1.83`](#masamune_module_chat_system---v2183)
+ - [`masamune_calendar` - `v2.2.90`](#masamune_calendar---v2290)
+ - [`masamune_animate` - `v2.2.33`](#masamune_animate---v2233)
+ - [`masamune_picker` - `v2.2.90`](#masamune_picker---v2290)
+ - [`masamune_util` - `v2.2.90`](#masamune_util---v2290)
+ - [`masamune_universal_ui` - `v2.4.28`](#masamune_universal_ui---v2428)
+ - [`masamune_purchase_stripe` - `v3.5.87`](#masamune_purchase_stripe---v3587)
+ - [`masamune_notification` - `v2.8.6`](#masamune_notification---v286)
+ - [`masamune_logger_firebase` - `v2.2.89`](#masamune_logger_firebase---v2289)
+ - [`masamune_introduction` - `v2.4.87`](#masamune_introduction---v2487)
+ - [`masamune_deeplink` - `v2.2.90`](#masamune_deeplink---v2290)
+ - [`masamune_speech_to_text` - `v2.2.91`](#masamune_speech_to_text---v2291)
+ - [`masamune_auth_facebook` - `v2.4.21`](#masamune_auth_facebook---v2421)
+ - [`masamune_force_updater` - `v2.1.90`](#masamune_force_updater---v2190)
+ - [`masamune_location_google` - `v2.5.18`](#masamune_location_google---v2518)
+ - [`masamune_module_point_ecosystem` - `v2.5.96`](#masamune_module_point_ecosystem---v2596)
+ - [`masamune_module` - `v2.4.90`](#masamune_module---v2490)
+ - [`masamune_mail` - `v2.2.90`](#masamune_mail---v2290)
+ - [`masamune_notification_firebase` - `v2.7.13`](#masamune_notification_firebase---v2713)
+ - [`masamune_purchase` - `v2.1.72`](#masamune_purchase---v2172)
+ - [`masamune_purchase_mobile` - `v2.8.73`](#masamune_purchase_mobile---v2873)
+ - [`masamune_ads_google` - `v2.4.90`](#masamune_ads_google---v2490)
+ - [`masamune_builder` - `v2.16.1`](#masamune_builder---v2161)
+ - [`masamune_model_firestore_builder` - `v2.2.28`](#masamune_model_firestore_builder---v2228)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.13.46`
+ - `masamune_location_platform_interface` - `v2.4.18`
+ - `masamune_location_geocoding` - `v2.4.90`
+ - `masamune_location` - `v2.4.18`
+ - `masamune_notification_local` - `v2.1.13`
+ - `masamune_deeplink_firebase` - `v2.2.92`
+ - `masamune_auth_apple` - `v2.4.21`
+ - `masamune_scheduler` - `v2.3.7`
+ - `masamune_model_algolia` - `v2.4.90`
+ - `masamune_location_background` - `v2.4.91`
+ - `masamune_text_to_speech` - `v2.2.91`
+ - `masamune_agora` - `v2.4.93`
+ - `masamune_auth_google` - `v2.5.21`
+ - `masamune_ai_openai` - `v2.7.82`
+ - `masamune_module_chat_system` - `v2.1.83`
+ - `masamune_calendar` - `v2.2.90`
+ - `masamune_animate` - `v2.2.33`
+ - `masamune_picker` - `v2.2.90`
+ - `masamune_util` - `v2.2.90`
+ - `masamune_universal_ui` - `v2.4.28`
+ - `masamune_purchase_stripe` - `v3.5.87`
+ - `masamune_notification` - `v2.8.6`
+ - `masamune_logger_firebase` - `v2.2.89`
+ - `masamune_introduction` - `v2.4.87`
+ - `masamune_deeplink` - `v2.2.90`
+ - `masamune_speech_to_text` - `v2.2.91`
+ - `masamune_auth_facebook` - `v2.4.21`
+ - `masamune_force_updater` - `v2.1.90`
+ - `masamune_location_google` - `v2.5.18`
+ - `masamune_module_point_ecosystem` - `v2.5.96`
+ - `masamune_module` - `v2.4.90`
+ - `masamune_mail` - `v2.2.90`
+ - `masamune_notification_firebase` - `v2.7.13`
+ - `masamune_purchase` - `v2.1.72`
+ - `masamune_purchase_mobile` - `v2.8.73`
+ - `masamune_ads_google` - `v2.4.90`
+ - `masamune_builder` - `v2.16.1`
+ - `masamune_model_firestore_builder` - `v2.2.28`
+
+---
+
+#### `katana_router` - `v2.3.0`
+
+ - **FEAT**: Generate imports based on `key` or `name`. ([b3a63f35](https://github.com/mathrunet/flutter_masamune/commit/b3a63f35b97c9f973f5fa5eac551ac63fc280493))
+
+#### `katana_router_builder` - `v2.2.0`
+
+ - **FIX**: Incremented when using `name`. ([92bc3160](https://github.com/mathrunet/flutter_masamune/commit/92bc3160ff61d73219af370cc76e188fcc44421e))
+ - **FEAT**: Generated using `name` only, sequential number. ([ea559233](https://github.com/mathrunet/flutter_masamune/commit/ea559233593d7053effcfc4c86ceb94fcc8634b2))
+ - **FEAT**: Generate imports based on `key` or `name`. ([b3a63f35](https://github.com/mathrunet/flutter_masamune/commit/b3a63f35b97c9f973f5fa5eac551ac63fc280493))
+
+
+## 2024-06-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v2.28.0`](#katana_model---v2280)
  - [`masamune_builder` - `v2.16.0`](#masamune_builder---v2160)
  - [`katana_model_local` - `v2.13.34`](#katana_model_local---v21334)
