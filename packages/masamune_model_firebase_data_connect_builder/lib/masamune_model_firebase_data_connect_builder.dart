@@ -8,15 +8,16 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_model_firebase_data_connect_builder;
 
+// Dart imports:
 import 'dart:io';
 
+// Package imports:
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:build/build.dart';
 import 'package:katana_builder/katana_builder.dart';
 import 'package:masamune_builder/masamune_builder.dart';
 import 'package:masamune_model_firebase_data_connect_annotation/masamune_model_firebase_data_connect_annotation.dart';
-
-import 'package:analyzer/dart/element/element.dart';
-import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
 
 part 'src/builder.dart';
