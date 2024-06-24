@@ -1,3 +1,7 @@
+## 2.16.0
+
+ - **FEAT**: The useTestModelAdapter flag was made available. ([bbc05987](https://github.com/mathrunet/flutter_masamune/commit/bbc05987b8b06a36f967b3aba3b652abaff99fef))
+
 ## 2.15.11
 
  - **FIX**: Add necessary functions. ([e6673a95](https://github.com/mathrunet/flutter_masamune/commit/e6673a95606b2a318ecb7cc3808f01d68549f269))
