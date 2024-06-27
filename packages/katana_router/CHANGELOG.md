@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - **FIX**: Import sorter. ([4fdbdfea](https://github.com/mathrunet/flutter_masamune/commit/4fdbdfea77daae2d3399c5c445cecb8c97a09136))
+
 ## 2.3.0
 
  - **FEAT**: Generate imports based on `key` or `name`. ([b3a63f35](https://github.com/mathrunet/flutter_masamune/commit/b3a63f35b97c9f973f5fa5eac551ac63fc280493))

@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: Added UniversalHeaderTile. ([3baa7197](https://github.com/mathrunet/flutter_masamune/commit/3baa719731df7447c33b10e8c80ecc6ce9a191f0))
+
 ## 2.4.28
 
  - Update a dependency to the latest release.
