@@ -115,7 +115,12 @@ abstract class BootRouteQueryBuilder extends StatefulWidget {
   /// Describe what to do in the event of an error.
   ///
   /// エラーが発生した場合の処理を記述します。
-  void onError(BuildContext context, Object error, StackTrace stackTrace);
+  void onError(
+    BuildContext context,
+    BootRef ref,
+    Object error,
+    StackTrace stackTrace,
+  );
 
   /// Define the minimum time to be displayed.
   ///
@@ -126,27 +131,65 @@ abstract class BootRouteQueryBuilder extends StatefulWidget {
   State<StatefulWidget> createState() => _BootRouteQueryBuilderState();
 }
 
-class _BootRouteQueryBuilderState extends State<BootRouteQueryBuilder> {
+class _BootRouteQueryBuilderState extends State<BootRouteQueryBuilder>
+    implements BootRef {
+  bool _startedInit = false;
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _handledOnInit();
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return widget.build(context);
   }
 
+  @override
+  void retry() {
+    _startedInit = false;
+    _handledOnInit();
+  }
+
+  @override
+  void quit() {
+    SystemNavigator.pop();
+  }
+
   Future<void> _handledOnInit() async {
+    if (_startedInit) {
+      return;
+    }
     final router = AppRouter.of(context);
     try {
+      _startedInit = true;
       await wait([
         widget.onInit(context),
         Future.delayed(widget.minumumDuration),
       ]);
       router._forcePop();
     } catch (e, stackTrace) {
-      widget.onError(context, e, stackTrace);
+      widget.onError(context, this, e, stackTrace);
     }
   }
+}
+
+/// Class for special processing at boot time, which can be obtained from [BootRouteQueryBuilder].
+///
+/// [BootRouteQueryBuilder]で取得可能なブート時の特殊処理を行うためのクラス。
+abstract class BootRef {
+  /// Execute the boot process again. Use this function to retry in case of an error.
+  ///
+  /// 再度ブート処理を実行します。エラー時のリトライに利用してください。
+  void retry();
+
+  /// Exit the application.
+  ///
+  /// アプリケーションを終了します。
+  void quit();
 }
 
 @immutable

@@ -225,21 +225,21 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.14.0"
+    version: "2.15.1"
   katana_logger:
     dependency: "direct main"
     description:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "2.2.6"
+    version: "2.2.8"
   katana_router_annotation:
     dependency: "direct main"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "2.1.7"
+    version: "2.1.10"
   katana_test:
     dependency: "direct dev"
     description:

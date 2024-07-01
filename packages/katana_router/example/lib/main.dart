@@ -56,7 +56,8 @@ class Boot extends BootRouteQueryBuilder {
   TransitionQuery get initialTransitionQuery => TransitionQuery.fade;
 
   @override
-  void onError(BuildContext context, Object error, StackTrace stackTrace) {}
+  void onError(
+      BuildContext context, BootRef ref, Object error, StackTrace stackTrace) {}
 }
 
 @PagePath("/", name: "main")
