@@ -1,3 +1,7 @@
+## 2.21.2
+
+ - **FIX**: Fixed a bug that caused a blank screen during HotRestart. ([108d3681](https://github.com/mathrunet/flutter_masamune/commit/108d3681de9b3800c24c2aeb92ec0aac503888fe))
+
 ## 2.21.1
 
  - **FIX**: katana pub upgrade to pod. ([3063a334](https://github.com/mathrunet/flutter_masamune/commit/3063a33482ec62086de51d9d9e72a4460645624f))
