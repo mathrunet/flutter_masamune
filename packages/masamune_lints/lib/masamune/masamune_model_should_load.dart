@@ -6,7 +6,7 @@ class _MasamuneModelShouldLoad extends DartLintRule {
   static const _code = LintCode(
     name: "masamune_model_should_load",
     problemMessage:
-        "The object obtained from ref.app.model must be executed with the load or reload method. Change ref to appRef to avoid this. ref.app.modelから取得したオブジェクトはloadメソッドもしくはreloadメソッドを実行する必要があります。refをappRefに変更すると回避できます。",
+        "The object obtained from ref.app.model must be executed with the load or reload or aggregate method. Change ref to appRef to avoid this. ref.app.modelから取得したオブジェクトはloadメソッドもしくはreloadメソッド、もしくはaggregateメソッドを実行する必要があります。refをappRefに変更すると回避できます。",
     errorSeverity: ErrorSeverity.WARNING,
   );
 
@@ -58,6 +58,7 @@ class _MasamuneModelShouldLoad extends DartLintRule {
           break;
         case "load":
         case "reload":
+        case "aggregate":
         case "search":
           // 変数に入れていないとき
           final parentMethodInvocationNode =
