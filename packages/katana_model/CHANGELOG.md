@@ -1,3 +1,7 @@
+## 2.28.1
+
+ - **FIX**: Fixed a bug that prevented Aggregate notifications from working. ([04afad6c](https://github.com/mathrunet/flutter_masamune/commit/04afad6c5497a0094a6739644b54b0f2f688fc77))
+
 ## 2.28.0
 
  - **FEAT**: The useTestModelAdapter flag was made available. ([bbc05987](https://github.com/mathrunet/flutter_masamune/commit/bbc05987b8b06a36f967b3aba3b652abaff99fef))

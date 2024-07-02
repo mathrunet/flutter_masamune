@@ -1,3 +1,7 @@
+## 2.7.1
+
+ - Update a dependency to the latest release.
+
 ## 2.7.0
 
  - **FEAT**: AuthActionQuery can now be set from Authentication and Adapter. ([96b8629b](https://github.com/mathrunet/flutter_masamune/commit/96b8629be88d82da99e94042e452e7eaa01304f2))

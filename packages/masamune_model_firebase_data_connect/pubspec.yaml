@@ -17,7 +17,7 @@ dependencies:
   meta: ^1.8.0
 
   katana: ^2.15.1
-  masamune: ^2.13.48
+  masamune: ^2.13.49
   masamune_model_firebase_data_connect_annotation: ^2.1.0
 dev_dependencies:
   test: ^1.24.0

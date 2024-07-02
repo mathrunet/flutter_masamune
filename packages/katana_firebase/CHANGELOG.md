@@ -1,3 +1,7 @@
+## 2.2.8
+
+ - **FIX**: Database IDs can now be specified. ([b6c2b88a](https://github.com/mathrunet/flutter_masamune/commit/b6c2b88a643a0b4e020ce000e188c2b792c52589))
+
 ## 2.2.7
 
  - Update a dependency to the latest release.
