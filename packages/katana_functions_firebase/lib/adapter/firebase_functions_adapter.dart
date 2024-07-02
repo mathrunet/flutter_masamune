@@ -49,6 +49,7 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
     this.linuxOptions,
     required this.region,
     FirebaseFunctions? functions,
+    this.firestoreDatabaseId,
   })  : _options = options,
         _functions = functions;
 
@@ -186,6 +187,13 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   /// Firebase Functionsのリージョン。
   final FirebaseRegion region;
 
+  /// Database ID for Firestore.
+  ///
+  /// Firestore用のデータベースのID。
+  final String? firestoreDatabaseId;
+
+  static const _kFirestoreDatabaseId = "firestoreDatabaseId";
+
   @override
   String get endpoint => FirebaseCore.functionsEndpoint;
 
@@ -196,7 +204,13 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
     try {
       return await action.execute((map) async {
         final res =
-            await functions.httpsCallable(action.action).call<DynamicMap>(map);
+            await functions.httpsCallable(action.action).call<DynamicMap>(
+          {
+            if (map != null) ...map,
+            if (firestoreDatabaseId != null)
+              _kFirestoreDatabaseId: firestoreDatabaseId,
+          },
+        );
         return res.data;
       });
     } catch (e) {

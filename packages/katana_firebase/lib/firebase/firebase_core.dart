@@ -29,6 +29,11 @@ part of "/katana_firebase.dart";
 /// ```
 class FirebaseCore {
   const FirebaseCore._();
+
+  /// Returns the FirebaseApp instance.
+  ///
+  /// FirebaseAppインスタンスを返します。
+  static FirebaseApp? get app => _app;
   static FirebaseApp? _app;
 
   /// Returns `true` if Firebase is initialized.
