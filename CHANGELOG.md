@@ -3,6 +3,419 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-07-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana` - `v2.15.2`](#katana---v2152)
+ - [`katana_auth` - `v2.10.1`](#katana_auth---v2101)
+ - [`katana_auth_firebase` - `v2.7.2`](#katana_auth_firebase---v272)
+ - [`katana_builder` - `v2.1.10`](#katana_builder---v2110)
+ - [`katana_cli` - `v2.21.3`](#katana_cli---v2213)
+ - [`katana_firebase` - `v2.2.9`](#katana_firebase---v229)
+ - [`katana_form` - `v2.13.5`](#katana_form---v2135)
+ - [`katana_functions` - `v2.7.3`](#katana_functions---v273)
+ - [`katana_functions_firebase` - `v2.7.4`](#katana_functions_firebase---v274)
+ - [`katana_indicator` - `v2.2.7`](#katana_indicator---v227)
+ - [`katana_listenables` - `v2.2.9`](#katana_listenables---v229)
+ - [`katana_listenables_annotation` - `v2.1.9`](#katana_listenables_annotation---v219)
+ - [`katana_listenables_builder` - `v2.1.10`](#katana_listenables_builder---v2110)
+ - [`katana_localization` - `v2.3.11`](#katana_localization---v2311)
+ - [`katana_localization_annotation` - `v2.2.10`](#katana_localization_annotation---v2210)
+ - [`katana_localization_builder` - `v2.2.13`](#katana_localization_builder---v2213)
+ - [`katana_logger` - `v2.2.9`](#katana_logger---v229)
+ - [`katana_model` - `v2.28.2`](#katana_model---v2282)
+ - [`katana_model_firestore` - `v2.16.42`](#katana_model_firestore---v21642)
+ - [`katana_model_local` - `v2.13.36`](#katana_model_local---v21336)
+ - [`katana_model_openapi` - `v2.2.9`](#katana_model_openapi---v229)
+ - [`katana_model_openapi_builder` - `v2.1.11`](#katana_model_openapi_builder---v2111)
+ - [`katana_prefs` - `v2.2.9`](#katana_prefs---v229)
+ - [`katana_prefs_annotation` - `v2.1.9`](#katana_prefs_annotation---v219)
+ - [`katana_prefs_builder` - `v2.1.11`](#katana_prefs_builder---v2111)
+ - [`katana_router` - `v2.3.3`](#katana_router---v233)
+ - [`katana_router_annotation` - `v2.1.11`](#katana_router_annotation---v2111)
+ - [`katana_router_builder` - `v2.2.1`](#katana_router_builder---v221)
+ - [`katana_scoped` - `v2.5.15`](#katana_scoped---v2515)
+ - [`katana_shorten` - `v2.1.9`](#katana_shorten---v219)
+ - [`katana_storage` - `v2.2.10`](#katana_storage---v2210)
+ - [`katana_storage_firebase` - `v2.1.18`](#katana_storage_firebase---v2118)
+ - [`katana_test` - `v2.1.1`](#katana_test---v211)
+ - [`katana_theme` - `v2.6.3`](#katana_theme---v263)
+ - [`katana_theme_annotation` - `v2.2.7`](#katana_theme_annotation---v227)
+ - [`katana_theme_builder` - `v2.3.7`](#katana_theme_builder---v237)
+ - [`katana_ui` - `v2.10.4`](#katana_ui---v2104)
+ - [`masamune` - `v2.13.50`](#masamune---v21350)
+ - [`masamune_ads_google` - `v2.4.94`](#masamune_ads_google---v2494)
+ - [`masamune_agora` - `v2.4.97`](#masamune_agora---v2497)
+ - [`masamune_ai_openai` - `v2.7.86`](#masamune_ai_openai---v2786)
+ - [`masamune_animate` - `v2.2.37`](#masamune_animate---v2237)
+ - [`masamune_annotation` - `v2.6.12`](#masamune_annotation---v2612)
+ - [`masamune_auth_apple` - `v2.4.25`](#masamune_auth_apple---v2425)
+ - [`masamune_auth_facebook` - `v2.4.25`](#masamune_auth_facebook---v2425)
+ - [`masamune_auth_google` - `v2.5.25`](#masamune_auth_google---v2525)
+ - [`masamune_builder` - `v2.16.2`](#masamune_builder---v2162)
+ - [`masamune_calendar` - `v2.2.94`](#masamune_calendar---v2294)
+ - [`masamune_deeplink` - `v2.2.94`](#masamune_deeplink---v2294)
+ - [`masamune_deeplink_firebase` - `v2.2.96`](#masamune_deeplink_firebase---v2296)
+ - [`masamune_force_updater` - `v2.1.94`](#masamune_force_updater---v2194)
+ - [`masamune_introduction` - `v2.4.91`](#masamune_introduction---v2491)
+ - [`masamune_lints` - `v2.4.6`](#masamune_lints---v246)
+ - [`masamune_location` - `v2.4.22`](#masamune_location---v2422)
+ - [`masamune_location_background` - `v2.4.95`](#masamune_location_background---v2495)
+ - [`masamune_location_geocoding` - `v2.4.94`](#masamune_location_geocoding---v2494)
+ - [`masamune_location_google` - `v2.5.22`](#masamune_location_google---v2522)
+ - [`masamune_location_platform_interface` - `v2.4.22`](#masamune_location_platform_interface---v2422)
+ - [`masamune_logger_firebase` - `v2.2.93`](#masamune_logger_firebase---v2293)
+ - [`masamune_mail` - `v2.2.94`](#masamune_mail---v2294)
+ - [`masamune_model_algolia` - `v2.4.94`](#masamune_model_algolia---v2494)
+ - [`masamune_model_firebase_data_connect_annotation` - `v2.1.1`](#masamune_model_firebase_data_connect_annotation---v211)
+ - [`masamune_model_firestore_builder` - `v2.2.29`](#masamune_model_firestore_builder---v2229)
+ - [`masamune_module` - `v2.4.94`](#masamune_module---v2494)
+ - [`masamune_module_chat_system` - `v2.1.87`](#masamune_module_chat_system---v2187)
+ - [`masamune_module_point_ecosystem` - `v2.5.100`](#masamune_module_point_ecosystem---v25100)
+ - [`masamune_notification` - `v2.8.10`](#masamune_notification---v2810)
+ - [`masamune_notification_firebase` - `v2.7.17`](#masamune_notification_firebase---v2717)
+ - [`masamune_notification_local` - `v2.1.17`](#masamune_notification_local---v2117)
+ - [`masamune_picker` - `v2.2.94`](#masamune_picker---v2294)
+ - [`masamune_purchase` - `v2.1.76`](#masamune_purchase---v2176)
+ - [`masamune_purchase_mobile` - `v2.8.77`](#masamune_purchase_mobile---v2877)
+ - [`masamune_purchase_stripe` - `v3.5.91`](#masamune_purchase_stripe---v3591)
+ - [`masamune_scheduler` - `v2.3.11`](#masamune_scheduler---v2311)
+ - [`masamune_speech_to_text` - `v2.2.95`](#masamune_speech_to_text---v2295)
+ - [`masamune_text_to_speech` - `v2.2.95`](#masamune_text_to_speech---v2295)
+ - [`masamune_universal_ui` - `v2.5.3`](#masamune_universal_ui---v253)
+ - [`masamune_util` - `v2.2.94`](#masamune_util---v2294)
+
+---
+
+#### `katana` - `v2.15.2`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_auth` - `v2.10.1`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_auth_firebase` - `v2.7.2`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_builder` - `v2.1.10`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_cli` - `v2.21.3`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_firebase` - `v2.2.9`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_form` - `v2.13.5`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_functions` - `v2.7.3`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_functions_firebase` - `v2.7.4`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_indicator` - `v2.2.7`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_listenables` - `v2.2.9`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_listenables_annotation` - `v2.1.9`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_listenables_builder` - `v2.1.10`
+
+ - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_localization` - `v2.3.11`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_localization_annotation` - `v2.2.10`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_localization_builder` - `v2.2.13`
+
+ - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_logger` - `v2.2.9`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_model` - `v2.28.2`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_model_firestore` - `v2.16.42`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_model_local` - `v2.13.36`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_model_openapi` - `v2.2.9`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_model_openapi_builder` - `v2.1.11`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_prefs` - `v2.2.9`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_prefs_annotation` - `v2.1.9`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_prefs_builder` - `v2.1.11`
+
+ - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_router` - `v2.3.3`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_router_annotation` - `v2.1.11`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_router_builder` - `v2.2.1`
+
+ - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_scoped` - `v2.5.15`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_shorten` - `v2.1.9`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_storage` - `v2.2.10`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_storage_firebase` - `v2.1.18`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_test` - `v2.1.1`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_theme` - `v2.6.3`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_theme_annotation` - `v2.2.7`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_theme_builder` - `v2.3.7`
+
+ - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `katana_ui` - `v2.10.4`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune` - `v2.13.50`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_ads_google` - `v2.4.94`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_agora` - `v2.4.97`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_ai_openai` - `v2.7.86`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_animate` - `v2.2.37`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_annotation` - `v2.6.12`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_auth_apple` - `v2.4.25`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_auth_facebook` - `v2.4.25`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_auth_google` - `v2.5.25`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_builder` - `v2.16.2`
+
+ - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_calendar` - `v2.2.94`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_deeplink` - `v2.2.94`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_deeplink_firebase` - `v2.2.96`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_force_updater` - `v2.1.94`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_introduction` - `v2.4.91`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_lints` - `v2.4.6`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_location` - `v2.4.22`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_location_background` - `v2.4.95`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_location_geocoding` - `v2.4.94`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_location_google` - `v2.5.22`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_location_platform_interface` - `v2.4.22`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_logger_firebase` - `v2.2.93`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_mail` - `v2.2.94`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_model_algolia` - `v2.4.94`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_model_firebase_data_connect_annotation` - `v2.1.1`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_model_firestore_builder` - `v2.2.29`
+
+ - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_module` - `v2.4.94`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_module_chat_system` - `v2.1.87`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_module_point_ecosystem` - `v2.5.100`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_notification` - `v2.8.10`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_notification_firebase` - `v2.7.17`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_notification_local` - `v2.1.17`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_picker` - `v2.2.94`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_purchase` - `v2.1.76`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_purchase_mobile` - `v2.8.77`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_purchase_stripe` - `v3.5.91`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_scheduler` - `v2.3.11`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_speech_to_text` - `v2.2.95`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_text_to_speech` - `v2.2.95`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_universal_ui` - `v2.5.3`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+#### `masamune_util` - `v2.2.94`
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+
 ## 2024-07-02
 
 ### Changes

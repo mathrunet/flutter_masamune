@@ -1,3 +1,7 @@
+## 2.15.2
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
 ## 2.15.1
 
  - **FIX**: 32-bit support. ([8c60dc02](https://github.com/mathrunet/flutter_masamune/commit/8c60dc02f3d00771338df4ff567b1547f920cda5))

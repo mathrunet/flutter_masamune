@@ -1,3 +1,7 @@
+## 3.5.91
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
 ## 3.5.90
 
  - Update a dependency to the latest release.

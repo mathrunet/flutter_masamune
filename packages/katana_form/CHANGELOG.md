@@ -1,3 +1,7 @@
+## 2.13.5
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
 ## 2.13.4
 
  - **FIX**: Fixed a bug that occurred where a reset was not required. ([0ce4cb49](https://github.com/mathrunet/flutter_masamune/commit/0ce4cb4959969723ecf695314423349b619552ce))

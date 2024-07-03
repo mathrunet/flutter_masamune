@@ -1,3 +1,7 @@
+## 2.3.3
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
 ## 2.3.2
 
  - **FIX**: Fixed a bug that caused a blank screen during HotRestart. ([108d3681](https://github.com/mathrunet/flutter_masamune/commit/108d3681de9b3800c24c2aeb92ec0aac503888fe))

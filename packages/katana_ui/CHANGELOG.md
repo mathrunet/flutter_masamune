@@ -1,3 +1,7 @@
+## 2.10.4
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
 ## 2.10.3
 
  - **FIX**: Add an action to the message box. ([deded9d2](https://github.com/mathrunet/flutter_masamune/commit/deded9d2b796711715c4ec6c7c30d3399989fcd4))

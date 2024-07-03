@@ -1,3 +1,7 @@
+## 2.4.6
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
 ## 2.4.5
 
  - **FIX**: Added aggregate to masamune_model_should_load condition. ([f73c5f49](https://github.com/mathrunet/flutter_masamune/commit/f73c5f49ce4f7265375f2a7d3eaa8fe246bf9e65))
