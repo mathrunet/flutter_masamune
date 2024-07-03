@@ -14,8 +14,8 @@ dependencies:
   csv: ^6.0.0
   katana: ^2.15.1
   image: ^4.0.10
-  xml: ^6.2.2
-  flutter_lints: ^3.0.0
+  xml: ^6.5.0
+  flutter_lints: ^4.0.0
   html: ^0.15.1
 
 executables:
