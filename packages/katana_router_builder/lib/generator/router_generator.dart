@@ -20,14 +20,6 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    if (!element.library!.isNonNullableByDefault) {
-      throw InvalidGenerationSourceError(
-        "Generator cannot target libraries that have not been migrated to "
-        "null-safety.",
-        element: element,
-      );
-    }
-
     if (element is! TopLevelVariableElement) {
       throw InvalidGenerationSourceError(
         "`@AppRoute()` should only be given to top-level fields.\n"

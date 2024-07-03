@@ -81,13 +81,6 @@ class _MasamuneModelFirebaseDataConnectBuilder extends Builder {
     for (final annotatedElement
         in libraryReader.annotatedWith(_firebaseDataConnectChecker)) {
       final element = annotatedElement.element;
-      if (!element.library!.isNonNullableByDefault) {
-        throw InvalidGenerationSourceError(
-          "Generator cannot target libraries that have not been migrated to "
-          "null-safety.",
-          element: element,
-        );
-      }
       if (element is! ClassElement) {
         throw InvalidGenerationSourceError(
           "`@FirebaseDataConnect()` can only be used on classes.",
