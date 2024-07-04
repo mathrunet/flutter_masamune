@@ -1,3 +1,7 @@
+## 2.1.13
+
+ - **FIX**: Address errors during downgrade. ([07b4c4dc](https://github.com/mathrunet/flutter_masamune/commit/07b4c4dc6fcbc7698abf7a9f8e92dd0d0920c0db))
+
 ## 2.1.12
 
  - **FIX**: Changed Deprecated method. ([ea8edb01](https://github.com/mathrunet/flutter_masamune/commit/ea8edb01857d1f1c1f4104829142a7317a552ff0))

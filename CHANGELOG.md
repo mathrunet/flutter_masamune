@@ -15,6 +15,46 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_listenables_builder` - `v2.1.12`](#katana_listenables_builder---v2112)
+ - [`katana_prefs_builder` - `v2.1.13`](#katana_prefs_builder---v2113)
+ - [`masamune_lints` - `v2.4.8`](#masamune_lints---v248)
+ - [`masamune_builder` - `v2.16.4`](#masamune_builder---v2164)
+ - [`masamune_model_firestore_builder` - `v2.2.31`](#masamune_model_firestore_builder---v2231)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_builder` - `v2.16.4`
+ - `masamune_model_firestore_builder` - `v2.2.31`
+
+---
+
+#### `katana_listenables_builder` - `v2.1.12`
+
+ - **FIX**: Address errors during downgrade. ([07b4c4dc](https://github.com/mathrunet/flutter_masamune/commit/07b4c4dc6fcbc7698abf7a9f8e92dd0d0920c0db))
+
+#### `katana_prefs_builder` - `v2.1.13`
+
+ - **FIX**: Address errors during downgrade. ([07b4c4dc](https://github.com/mathrunet/flutter_masamune/commit/07b4c4dc6fcbc7698abf7a9f8e92dd0d0920c0db))
+
+#### `masamune_lints` - `v2.4.8`
+
+ - **FIX**: Address errors during downgrade. ([07b4c4dc](https://github.com/mathrunet/flutter_masamune/commit/07b4c4dc6fcbc7698abf7a9f8e92dd0d0920c0db))
+
+
+## 2024-07-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_purchase` - `v2.1.77`](#masamune_purchase---v2177)
  - [`masamune_purchase_mobile` - `v2.8.78`](#masamune_purchase_mobile---v2878)
  - [`masamune_module_point_ecosystem` - `v2.5.101`](#masamune_module_point_ecosystem---v25101)
