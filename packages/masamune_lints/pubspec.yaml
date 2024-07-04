@@ -1,6 +1,6 @@
 name: masamune_lints
 description: Package that defines lint rules necessary for use with the Masamune framework.
-version: 2.4.8
+version: 2.4.9
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_lints
 

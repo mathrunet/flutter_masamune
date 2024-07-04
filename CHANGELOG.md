@@ -15,6 +15,46 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_listenables_builder` - `v2.1.13`](#katana_listenables_builder---v2113)
+ - [`katana_prefs_builder` - `v2.1.14`](#katana_prefs_builder---v2114)
+ - [`masamune_lints` - `v2.4.9`](#masamune_lints---v249)
+ - [`masamune_builder` - `v2.16.5`](#masamune_builder---v2165)
+ - [`masamune_model_firestore_builder` - `v2.2.32`](#masamune_model_firestore_builder---v2232)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_builder` - `v2.16.5`
+ - `masamune_model_firestore_builder` - `v2.2.32`
+
+---
+
+#### `katana_listenables_builder` - `v2.1.13`
+
+ - **FIX**: Fixed Flutter builds not working properly. ([3e5684e9](https://github.com/mathrunet/flutter_masamune/commit/3e5684e98a9d8cae4328119f1035fff6fb97013b))
+
+#### `katana_prefs_builder` - `v2.1.14`
+
+ - **FIX**: Fixed Flutter builds not working properly. ([3e5684e9](https://github.com/mathrunet/flutter_masamune/commit/3e5684e98a9d8cae4328119f1035fff6fb97013b))
+
+#### `masamune_lints` - `v2.4.9`
+
+ - **FIX**: Fixed Flutter builds not working properly. ([3e5684e9](https://github.com/mathrunet/flutter_masamune/commit/3e5684e98a9d8cae4328119f1035fff6fb97013b))
+
+
+## 2024-07-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_listenables_builder` - `v2.1.12`](#katana_listenables_builder---v2112)
  - [`katana_prefs_builder` - `v2.1.13`](#katana_prefs_builder---v2113)
  - [`masamune_lints` - `v2.4.8`](#masamune_lints---v248)

@@ -1,3 +1,7 @@
+## 2.1.14
+
+ - **FIX**: Fixed Flutter builds not working properly. ([3e5684e9](https://github.com/mathrunet/flutter_masamune/commit/3e5684e98a9d8cae4328119f1035fff6fb97013b))
+
 ## 2.1.13
 
  - **FIX**: Address errors during downgrade. ([07b4c4dc](https://github.com/mathrunet/flutter_masamune/commit/07b4c4dc6fcbc7698abf7a9f8e92dd0d0920c0db))
