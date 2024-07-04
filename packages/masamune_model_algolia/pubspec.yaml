@@ -16,7 +16,7 @@ dependencies:
 
   katana: ^2.15.2
   masamune: ^2.13.50
-  algolia_helper_flutter: ^0.5.0
+  algolia_helper_flutter: ^1.0.0
   katana_model_firestore: ^2.16.42
 dev_dependencies:
   test: ^1.24.0
