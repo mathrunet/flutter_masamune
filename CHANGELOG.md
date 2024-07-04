@@ -15,6 +15,39 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase` - `v2.1.77`](#masamune_purchase---v2177)
+ - [`masamune_purchase_mobile` - `v2.8.78`](#masamune_purchase_mobile---v2878)
+ - [`masamune_module_point_ecosystem` - `v2.5.101`](#masamune_module_point_ecosystem---v25101)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.5.101`
+
+---
+
+#### `masamune_purchase` - `v2.1.77`
+
+ - **FIX**: I was able to get something set up around the title. ([1e5d86d2](https://github.com/mathrunet/flutter_masamune/commit/1e5d86d2bd1862b4e67a1f115c6fc1090286a26a))
+
+#### `masamune_purchase_mobile` - `v2.8.78`
+
+ - **FIX**: I was able to get something set up around the title. ([1e5d86d2](https://github.com/mathrunet/flutter_masamune/commit/1e5d86d2bd1862b4e67a1f115c6fc1090286a26a))
+
+
+## 2024-07-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_listenables_builder` - `v2.1.11`](#katana_listenables_builder---v2111)
  - [`katana_prefs_builder` - `v2.1.12`](#katana_prefs_builder---v2112)
  - [`masamune_lints` - `v2.4.7`](#masamune_lints---v247)
