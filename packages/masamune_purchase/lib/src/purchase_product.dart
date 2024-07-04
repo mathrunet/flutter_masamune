@@ -8,7 +8,9 @@ part of '/masamune_purchase.dart';
 ///
 /// Be sure to match [productId] with the store's ID.
 ///
-/// The [title], [description], and [price] are overwritten when the charged item is loaded from the store.
+/// [price] is overwritten when a charged item is loaded from the store. [title] and [description] can be retrieved from [titleOnStore] and [descriptionOnStore] loaded from the store.
+///
+/// [expiredPeriod] allows you to specify the duration of the subscription for testing.
 ///
 /// 課金アイテムの定義を行います。
 ///
@@ -16,7 +18,9 @@ part of '/masamune_purchase.dart';
 ///
 /// [productId]をストア側のIDと必ず合わせるようにしてください。
 ///
-/// [title]や[description]、[price]は課金アイテムをストアからロードした際に上書きされます。
+/// [price]は課金アイテムをストアからロードした際に上書きされます。[title]や[description]は[titleOnStore]や[descriptionOnStore]でストアからロードしたものを取得できます。
+///
+/// [expiredPeriod]を指定するとテスト用のサブスクリプションの期間を指定することができます。
 @immutable
 class PurchaseProduct {
   /// Define chargeable items.
@@ -25,7 +29,7 @@ class PurchaseProduct {
   ///
   /// Be sure to match [productId] with the store's ID.
   ///
-  /// The [title], [description], and [price] are overwritten when the charged item is loaded from the store.
+  /// [price] is overwritten when a charged item is loaded from the store. [title] and [description] can be retrieved from [titleOnStore] and [descriptionOnStore] loaded from the store.
   ///
   /// [expiredPeriod] allows you to specify the duration of the subscription for testing.
   ///
@@ -35,20 +39,22 @@ class PurchaseProduct {
   ///
   /// [productId]をストア側のIDと必ず合わせるようにしてください。
   ///
-  /// [title]や[description]、[price]は課金アイテムをストアからロードした際に上書きされます。
+  /// [price]は課金アイテムをストアからロードした際に上書きされます。[title]や[description]は[titleOnStore]や[descriptionOnStore]でストアからロードしたものを取得できます。
   ///
   /// [expiredPeriod]を指定するとテスト用のサブスクリプションの期間を指定することができます。
   const PurchaseProduct({
     required this.productId,
     required this.type,
     this.amount,
-    this.title = "",
-    this.description = "",
+    String title = "",
+    String description = "",
     this.icon,
     required this.price,
     this.expiredPeriod,
     String? priceText,
   })  : _priceText = priceText,
+        _title = title,
+        _description = description,
         assert(
           type != PurchaseProductType.consumable || amount != null,
           "The amount of wallet money (gems) you add when you purchase a charged item is not set.",
@@ -60,7 +66,7 @@ class PurchaseProduct {
   ///
   /// Be sure to match [productId] with the store's ID.
   ///
-  /// The [title], [description], and [price] are overwritten when the charged item is loaded from the store.
+  /// [price] is overwritten when a charged item is loaded from the store. [title] and [description] can be retrieved from [titleOnStore] and [descriptionOnStore] loaded from the store.
   ///
   /// 課金アイテムの定義を行います。
   ///
@@ -68,19 +74,21 @@ class PurchaseProduct {
   ///
   /// [productId]をストア側のIDと必ず合わせるようにしてください。
   ///
-  /// [title]や[description]、[price]は課金アイテムをストアからロードした際に上書きされます。
+  /// [price]は課金アイテムをストアからロードした際に上書きされます。[title]や[description]は[titleOnStore]や[descriptionOnStore]でストアからロードしたものを取得できます。
   const PurchaseProduct.wallet({
     required this.productId,
     required double amount,
-    this.title = "",
-    this.description = "",
+    String title = "",
+    String description = "",
     this.icon,
     required this.price,
     String? priceText,
   })  : type = PurchaseProductType.consumable,
         expiredPeriod = null,
         _priceText = priceText,
-        amount = amount;
+        amount = amount,
+        _title = title,
+        _description = description;
 
   /// Define chargeable items.
   ///
@@ -88,7 +96,7 @@ class PurchaseProduct {
   ///
   /// Be sure to match [productId] with the store's ID.
   ///
-  /// The [title], [description], and [price] are overwritten when the charged item is loaded from the store.
+  /// [price] is overwritten when a charged item is loaded from the store. [title] and [description] can be retrieved from [titleOnStore] and [descriptionOnStore] loaded from the store.
   ///
   /// 課金アイテムの定義を行います。
   ///
@@ -96,18 +104,20 @@ class PurchaseProduct {
   ///
   /// [productId]をストア側のIDと必ず合わせるようにしてください。
   ///
-  /// [title]や[description]、[price]は課金アイテムをストアからロードした際に上書きされます。
+  /// [price]は課金アイテムをストアからロードした際に上書きされます。[title]や[description]は[titleOnStore]や[descriptionOnStore]でストアからロードしたものを取得できます。
   const PurchaseProduct.unlock({
     required this.productId,
-    this.title = "",
-    this.description = "",
+    String title = "",
+    String description = "",
     this.icon,
     required this.price,
     String? priceText,
   })  : type = PurchaseProductType.nonConsumable,
         amount = null,
         expiredPeriod = null,
-        _priceText = priceText;
+        _priceText = priceText,
+        _title = title,
+        _description = description;
 
   /// Define chargeable items.
   ///
@@ -115,7 +125,7 @@ class PurchaseProduct {
   ///
   /// Be sure to match [productId] with the store's ID.
   ///
-  /// The [title], [description], and [price] are overwritten when the charged item is loaded from the store.
+  /// [price] is overwritten when a charged item is loaded from the store. [title] and [description] can be retrieved from [titleOnStore] and [descriptionOnStore] loaded from the store.
   ///
   /// [expiredPeriod] allows you to specify the duration of the subscription for testing.
   ///
@@ -125,13 +135,13 @@ class PurchaseProduct {
   ///
   /// [productId]をストア側のIDと必ず合わせるようにしてください。
   ///
-  /// [title]や[description]、[price]は課金アイテムをストアからロードした際に上書きされます。
+  /// [price]は課金アイテムをストアからロードした際に上書きされます。[title]や[description]は[titleOnStore]や[descriptionOnStore]でストアからロードしたものを取得できます。
   ///
   /// [expiredPeriod]を指定するとテスト用のサブスクリプションの期間を指定することができます。
   const PurchaseProduct.subscription({
     required this.productId,
-    this.title = "",
-    this.description = "",
+    String title = "",
+    String description = "",
     required this.price,
     this.icon,
     required Duration expiredPeriod,
@@ -139,7 +149,9 @@ class PurchaseProduct {
   })  : type = PurchaseProductType.subscription,
         amount = null,
         expiredPeriod = expiredPeriod,
-        _priceText = priceText;
+        _priceText = priceText,
+        _title = title,
+        _description = description;
 
   /// Product ID.
   ///
@@ -160,15 +172,29 @@ class PurchaseProduct {
   /// 課金アイテムを購入した際に追加するウォレットマネー（ジェム）の量。
   final double? amount;
 
-  /// Tentative title of the charged item.
+  /// Title of the charged item (as loaded from the store).
   ///
-  /// 課金アイテムのタイトル（仮）。
-  final String title;
+  /// 課金アイテムのタイトル（ストアから読み込まれたもの）。
+  String get titleOnStore => _title;
+
+  /// Title of the charged item (as set up).
+  ///
+  /// 課金アイテムのタイトル（設定したもの）。
+  String get title => _title;
+
+  final String _title;
 
   /// Description of the charged items (tentative).
   ///
   /// 課金アイテムの説明（仮）。
-  final String description;
+  String get descriptionOnStore => _description;
+
+  /// Description of the charged items (as set up).
+  ///
+  /// 課金アイテムの説明（設定したもの）。
+  String get description => _description;
+
+  final String _description;
 
   /// Icons of charged items.
   ///
