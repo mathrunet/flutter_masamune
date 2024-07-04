@@ -153,9 +153,9 @@ class _MasamuneCollectionModelShouldAddLimitQuery extends DartLintRule {
         if (node.isLimit) {
           continue;
         }
-        reporter.reportErrorForNode(
-          _code,
+        reporter.atNode(
           node.node!,
+          _code,
         );
       }
     });
