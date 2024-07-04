@@ -1,3 +1,7 @@
+## 2.1.11
+
+ - **FIX**: Changed Deprecated method. ([ea8edb01](https://github.com/mathrunet/flutter_masamune/commit/ea8edb01857d1f1c1f4104829142a7317a552ff0))
+
 ## 2.1.10
 
  - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))

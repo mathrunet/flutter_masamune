@@ -1,3 +1,7 @@
+## 2.16.3
+
+ - Update a dependency to the latest release.
+
 ## 2.16.2
 
  - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))

@@ -1,3 +1,7 @@
+## 2.4.7
+
+ - **FIX**: Changed Deprecated method. ([ea8edb01](https://github.com/mathrunet/flutter_masamune/commit/ea8edb01857d1f1c1f4104829142a7317a552ff0))
+
 ## 2.4.6
 
  - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))

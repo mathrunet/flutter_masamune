@@ -3,6 +3,51 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-07-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_listenables_builder` - `v2.1.11`](#katana_listenables_builder---v2111)
+ - [`katana_prefs_builder` - `v2.1.12`](#katana_prefs_builder---v2112)
+ - [`masamune_lints` - `v2.4.7`](#masamune_lints---v247)
+ - [`masamune_model_algolia` - `v2.4.95`](#masamune_model_algolia---v2495)
+ - [`masamune_builder` - `v2.16.3`](#masamune_builder---v2163)
+ - [`masamune_model_firestore_builder` - `v2.2.30`](#masamune_model_firestore_builder---v2230)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_builder` - `v2.16.3`
+ - `masamune_model_firestore_builder` - `v2.2.30`
+
+---
+
+#### `katana_listenables_builder` - `v2.1.11`
+
+ - **FIX**: Changed Deprecated method. ([ea8edb01](https://github.com/mathrunet/flutter_masamune/commit/ea8edb01857d1f1c1f4104829142a7317a552ff0))
+
+#### `katana_prefs_builder` - `v2.1.12`
+
+ - **FIX**: Changed Deprecated method. ([ea8edb01](https://github.com/mathrunet/flutter_masamune/commit/ea8edb01857d1f1c1f4104829142a7317a552ff0))
+
+#### `masamune_lints` - `v2.4.7`
+
+ - **FIX**: Changed Deprecated method. ([ea8edb01](https://github.com/mathrunet/flutter_masamune/commit/ea8edb01857d1f1c1f4104829142a7317a552ff0))
+
+#### `masamune_model_algolia` - `v2.4.95`
+
+ - **FIX**: Package Update. ([dd7e2be0](https://github.com/mathrunet/flutter_masamune/commit/dd7e2be01aaa3a4c638c73fb391aae72b4b73e1d))
+
+
 ## 2024-07-03
 
 ### Changes

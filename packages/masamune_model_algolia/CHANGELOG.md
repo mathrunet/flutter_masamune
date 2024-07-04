@@ -1,3 +1,7 @@
+## 2.4.95
+
+ - **FIX**: Package Update. ([dd7e2be0](https://github.com/mathrunet/flutter_masamune/commit/dd7e2be01aaa3a4c638c73fb391aae72b4b73e1d))
+
 ## 2.4.94
 
  - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
