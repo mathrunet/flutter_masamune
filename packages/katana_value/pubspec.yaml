@@ -14,7 +14,7 @@ dependencies:
     
   katana: ^3.0.0-dev.1
   katana_macro: ^3.0.0-dev.2
-  macros: ^0.1.0-main.5
+  macros: ^0.1.2-main.4
 
 dev_dependencies:
   test: ^1.24.0

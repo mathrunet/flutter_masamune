@@ -16,6 +16,7 @@ dependencies:
     sdk: flutter
     
   katana: ^3.0.0-dev.1
+  katana_macro: ^3.0.0-dev.2
   katana_logger: ^3.0.0-dev.0
   katana_router_annotation: ^3.0.0-dev.0
 
