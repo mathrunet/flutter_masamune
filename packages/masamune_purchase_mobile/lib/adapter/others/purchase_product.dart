@@ -44,10 +44,10 @@ class _StoreConsumablePurchaseProduct extends StoreConsumablePurchaseProduct {
   final ProductDetails productDetails;
 
   @override
-  String get title => productDetails.title;
+  String get titleOnStore => productDetails.title;
 
   @override
-  String get description => productDetails.description;
+  String get descriptionOnStore => productDetails.description;
 
   @override
   double get price => productDetails.rawPrice;
@@ -69,10 +69,10 @@ class _StoreNonConsumablePurchaseProduct
   final ProductDetails productDetails;
 
   @override
-  String get title => productDetails.title;
+  String get titleOnStore => productDetails.title;
 
   @override
-  String get description => productDetails.description;
+  String get descriptionOnStore => productDetails.description;
 
   @override
   double get price => productDetails.rawPrice;
@@ -94,10 +94,10 @@ class _StoreSubscriptionPurchaseProduct
   final ProductDetails productDetails;
 
   @override
-  String get title => productDetails.title;
+  String get titleOnStore => productDetails.title;
 
   @override
-  String get description => productDetails.description;
+  String get descriptionOnStore => productDetails.description;
 
   @override
   double get price => productDetails.rawPrice;

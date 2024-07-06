@@ -86,6 +86,20 @@ class ModelAnnotationValue {
     endpoint = null;
   }
 
+  /// Check if the class element has
+  ///
+  /// クラスエレメントが指定したアノテーションを持っているか確認します。
+  static bool hasMatch(ClassElement element, Type annotationType) {
+    final matcher = TypeChecker.fromRuntime(annotationType);
+    for (final meta in element.metadata) {
+      final obj = meta.computeConstantValue()!;
+      if (matcher.isExactlyType(obj.type!)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   static final _mirrorWithSingleQuoteRegExp =
       RegExp(r"mirror\s*:\s*('[^']+'),?");
   static final _mirrorWithDoubleQuoteRegExp =

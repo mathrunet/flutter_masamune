@@ -1,3 +1,36 @@
+## 2.16.5
+
+ - Update a dependency to the latest release.
+
+## 2.16.4
+
+ - Update a dependency to the latest release.
+
+## 2.16.3
+
+ - Update a dependency to the latest release.
+
+## 2.16.2
+
+ - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+## 2.16.1
+
+ - Update a dependency to the latest release.
+
+## 2.16.0
+
+ - **FEAT**: The useTestModelAdapter flag was made available. ([bbc05987](https://github.com/mathrunet/flutter_masamune/commit/bbc05987b8b06a36f967b3aba3b652abaff99fef))
+
+## 2.15.11
+
+ - **FIX**: Add necessary functions. ([e6673a95](https://github.com/mathrunet/flutter_masamune/commit/e6673a95606b2a318ecb7cc3808f01d68549f269))
+
+## 2.15.10
+
+ - **FIX**: Fixed a bug that jsonParam in Mirror did not work. ([d6c40572](https://github.com/mathrunet/flutter_masamune/commit/d6c405720454549f87086ed5e8f32e2914f224f1))
+
 ## 2.15.9
 
  - Update a dependency to the latest release.

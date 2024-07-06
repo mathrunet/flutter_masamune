@@ -81,6 +81,7 @@ class FirestoreModelAdapter extends ModelAdapter
     this.prefix,
     this.validator,
     this.onInitialize,
+    this.databaseId,
   })  : _database = database,
         _options = options,
         _localDatabase = localDatabase;
@@ -89,7 +90,19 @@ class FirestoreModelAdapter extends ModelAdapter
   ///
   /// アダプター内で利用しているFirestoreのデータベースインスタンス。
   @override
-  FirebaseFirestore get database => _database ?? FirebaseFirestore.instance;
+  FirebaseFirestore get database {
+    if (_database != null) {
+      return _database!;
+    }
+    if (databaseId.isNotEmpty) {
+      return FirebaseFirestore.instanceFor(
+        app: FirebaseCore.app!,
+        databaseId: databaseId,
+      );
+    }
+    return FirebaseFirestore.instance;
+  }
+
   final FirebaseFirestore? _database;
 
   /// Caches data retrieved from the specified internal database, Firestore.
@@ -135,6 +148,15 @@ class FirestoreModelAdapter extends ModelAdapter
   /// [Null]のときはバリデーションされません。
   @override
   final DatabaseValidator? validator;
+
+  /// ID of the database to use; if [Null], the default is used.
+  ///
+  /// [database]が指定されている場合はそちらが利用されます。
+  ///
+  /// 使用するデータベースのID。[Null]の場合はデフォルトが利用されます。
+  ///
+  /// [database]が指定されている場合はそちらが利用されます。
+  final String? databaseId;
 
   /// Callback for initialization. If this is specified, normal initialization is not performed.
   ///
@@ -994,7 +1016,8 @@ class FirestoreModelAdapter extends ModelAdapter
     return prefix.hashCode ^
         _localDatabase.hashCode ^
         options.hashCode ^
-        _database.hashCode;
+        _database.hashCode ^
+        databaseId.hashCode;
   }
 
   void _assert() {

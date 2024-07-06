@@ -1,3 +1,63 @@
+## 2.8.10
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+## 2.8.9
+
+ - Update a dependency to the latest release.
+
+## 2.8.8
+
+ - Update a dependency to the latest release.
+
+## 2.8.7
+
+ - Update a dependency to the latest release.
+
+## 2.8.6
+
+ - Update a dependency to the latest release.
+
+## 2.8.5
+
+ - Update a dependency to the latest release.
+
+## 2.8.4
+
+ - Update a dependency to the latest release.
+
+## 2.8.3
+
+ - Update a dependency to the latest release.
+
+## 2.8.2
+
+ - Update a dependency to the latest release.
+
+## 2.8.1
+
+ - **FIX**: Changed the specification of the notification destination. ([901bf6e4](https://github.com/mathrunet/flutter_masamune/commit/901bf6e450b841ef8da5cc5c74ce1e3e6a26572c))
+
+## 2.8.0
+
+ - **FEAT**: Added the ability to send batch notifications. ([706b88e1](https://github.com/mathrunet/flutter_masamune/commit/706b88e1140479f50a56212ceab9a1facafa459d))
+
+## 2.7.6
+
+ - **FIX**: Added a field to the scheduler to allow batch processing. ([f1358ea7](https://github.com/mathrunet/flutter_masamune/commit/f1358ea7dacd432e8469def09914cc46b86d35ec))
+
+## 2.7.5
+
+ - Update a dependency to the latest release.
+
+## 2.7.4
+
+ - Update a dependency to the latest release.
+
+## 2.7.3
+
+ - Update a dependency to the latest release.
+
 ## 2.7.2
 
  - **FIX**: Implementation completed. ([4ad2356e](https://github.com/mathrunet/flutter_masamune/commit/4ad2356edc263631e2188fb585213e615590dd2b))

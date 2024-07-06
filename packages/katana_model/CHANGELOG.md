@@ -1,3 +1,35 @@
+## 2.28.2
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+## 2.28.1
+
+ - **FIX**: Fixed a bug that prevented Aggregate notifications from working. ([04afad6c](https://github.com/mathrunet/flutter_masamune/commit/04afad6c5497a0094a6739644b54b0f2f688fc77))
+
+## 2.28.0
+
+ - **FEAT**: The useTestModelAdapter flag was made available. ([bbc05987](https://github.com/mathrunet/flutter_masamune/commit/bbc05987b8b06a36f967b3aba3b652abaff99fef))
+
+## 2.27.3
+
+ - **FIX**: Additional internal functions. ([6d66b8af](https://github.com/mathrunet/flutter_masamune/commit/6d66b8af82ddf94c37dc7a54685364a771d2e06f))
+
+## 2.27.2
+
+ - **FIX**: Corresponding list. ([83283fdd](https://github.com/mathrunet/flutter_masamune/commit/83283fdd6a74ec6824e7f4291263d70a1e4673c0))
+
+## 2.27.1
+
+ - **FIX**: Changed the specification of the notification destination. ([901bf6e4](https://github.com/mathrunet/flutter_masamune/commit/901bf6e450b841ef8da5cc5c74ce1e3e6a26572c))
+
+## 2.27.0
+
+ - **FEAT**: Added ModelServerCommandCondition. ([f52a05d3](https://github.com/mathrunet/flutter_masamune/commit/f52a05d3210847c77e2b4d6d589c91c58bd340e4))
+
+## 2.26.18
+
+ - **FIX**: Fixed a bug in RuntimeModelAdapter that prevented batches from being executed. ([c385c7bb](https://github.com/mathrunet/flutter_masamune/commit/c385c7bb3c3068eea2ab2bd261f4ad90e7deec43))
+
 ## 2.26.17
 
  - Update a dependency to the latest release.

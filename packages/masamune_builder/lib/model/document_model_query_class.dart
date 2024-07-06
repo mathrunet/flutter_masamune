@@ -169,6 +169,13 @@ List<Spec> documentModelQueryClass(
                 }),
                 Parameter(
                   (p) => p
+                    ..name = "useTestModelAdapter"
+                    ..named = true
+                    ..type = const Reference("bool")
+                    ..defaultTo = const Code("true"),
+                ),
+                Parameter(
+                  (p) => p
                     ..name = "adapter"
                     ..named = true
                     ..type = const Reference("ModelAdapter?"),
@@ -182,7 +189,7 @@ List<Spec> documentModelQueryClass(
               ])
               ..returns = Reference("_\$_${model.name}DocumentQuery")
               ..body = Code(
-                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Document.defaultModelAccessQuery, validationQueries: _\$${model.name}Document.defaultValidationQueries, ));",
+                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter, useTestModelAdapter: useTestModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Document.defaultModelAccessQuery, validationQueries: _\$${model.name}Document.defaultValidationQueries, ));",
               ),
           ),
           if (mirror != null)
@@ -410,6 +417,13 @@ List<Spec> documentModelQueryClass(
                   }),
                   Parameter(
                     (p) => p
+                      ..name = "useTestModelAdapter"
+                      ..named = true
+                      ..type = const Reference("bool")
+                      ..defaultTo = const Code("true"),
+                  ),
+                  Parameter(
+                    (p) => p
                       ..name = "adapter"
                       ..named = true
                       ..type = const Reference("ModelAdapter?"),
@@ -423,7 +437,7 @@ List<Spec> documentModelQueryClass(
                 ])
                 ..returns = Reference("_\$_${model.name}MirrorDocumentQuery")
                 ..body = Code(
-                  "return _\$_${model.name}MirrorDocumentQuery(DocumentModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}MirrorDocument.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}MirrorDocument.defaultModelAccessQuery, validationQueries: _\$${model.name}MirrorDocument.defaultValidationQueries, ));",
+                  "return _\$_${model.name}MirrorDocumentQuery(DocumentModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}MirrorDocument.defaultModelAdapter, useTestModelAdapter: useTestModelAdapter, accessQuery: accessQuery ?? _\$${model.name}MirrorDocument.defaultModelAccessQuery, validationQueries: _\$${model.name}MirrorDocument.defaultValidationQueries, ));",
                 ),
             )
           ]),

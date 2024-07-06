@@ -1,3 +1,36 @@
+## 2.2.32
+
+ - Update a dependency to the latest release.
+
+## 2.2.31
+
+ - Update a dependency to the latest release.
+
+## 2.2.30
+
+ - Update a dependency to the latest release.
+
+## 2.2.29
+
+ - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+## 2.2.28
+
+ - Update a dependency to the latest release.
+
+## 2.2.27
+
+ - Update a dependency to the latest release.
+
+## 2.2.26
+
+ - Update a dependency to the latest release.
+
+## 2.2.25
+
+ - Update a dependency to the latest release.
+
 ## 2.2.24
 
  - Update a dependency to the latest release.

@@ -1,3 +1,15 @@
+## 2.21.3
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+## 2.21.2
+
+ - **FIX**: Fixed a bug that caused a blank screen during HotRestart. ([108d3681](https://github.com/mathrunet/flutter_masamune/commit/108d3681de9b3800c24c2aeb92ec0aac503888fe))
+
+## 2.21.1
+
+ - **FIX**: katana pub upgrade to pod. ([3063a334](https://github.com/mathrunet/flutter_masamune/commit/3063a33482ec62086de51d9d9e72a4460645624f))
+
 ## 2.21.0
 
  - **FIX**: Fixed StripStyle for Agora. ([b720cc41](https://github.com/mathrunet/flutter_masamune/commit/b720cc41e05806b1bbc7b9c2f3d5b2a93ec07cfc))

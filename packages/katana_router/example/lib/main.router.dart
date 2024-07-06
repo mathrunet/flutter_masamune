@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:katana_router/katana_router.dart';
 
 // Project imports:
-import 'package:katana_router_example/main.dart' as _$1;
+import 'package:katana_router_example/main.dart' as _$main;
 
 export 'package:katana_router_example/main.dart'
     show MainPage, UserPage, ContentPage, NestedContainerPage;
@@ -39,24 +39,24 @@ class AutoRouter extends AppRouter {
   }) : super(
             pages: pages ??
                 [
-                  _$1.UserPage.query,
-                  _$1.NestedContainerPage.query,
-                  _$1.ContentPage.query,
-                  _$1.MainPage.query
+                  _$main.UserPage.query,
+                  _$main.NestedContainerPage.query,
+                  _$main.ContentPage.query,
+                  _$main.MainPage.query
                 ]);
 
-  static const userPage = _$1.UserPage.query;
+  static const userPage = _$main.UserPage.query;
 
-  static const nestedContainerPage = _$1.NestedContainerPage.query;
+  static const nestedContainerPage = _$main.NestedContainerPage.query;
 
-  static const contentPage = _$1.ContentPage.query;
+  static const contentPage = _$main.ContentPage.query;
 
-  static const mainPage = _$1.MainPage.query;
+  static const mainPage = _$main.MainPage.query;
 
   Map<RouteQueryBuilder, String> queryMap = {
-    _$1.UserPage.query: "/page/:user_id",
-    _$1.NestedContainerPage.query: "/nested",
-    _$1.ContentPage.query: "/content/:content_id",
-    _$1.MainPage.query: "/"
+    _$main.UserPage.query: "/page/:user_id",
+    _$main.NestedContainerPage.query: "/nested",
+    _$main.ContentPage.query: "/content/:content_id",
+    _$main.MainPage.query: "/"
   };
 }

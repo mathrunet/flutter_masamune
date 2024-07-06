@@ -1,3 +1,14 @@
+## 2.2.1
+
+ - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+## 2.2.0
+
+ - **FIX**: Incremented when using `name`. ([92bc3160](https://github.com/mathrunet/flutter_masamune/commit/92bc3160ff61d73219af370cc76e188fcc44421e))
+ - **FEAT**: Generated using `name` only, sequential number. ([ea559233](https://github.com/mathrunet/flutter_masamune/commit/ea559233593d7053effcfc4c86ceb94fcc8634b2))
+ - **FEAT**: Generate imports based on `key` or `name`. ([b3a63f35](https://github.com/mathrunet/flutter_masamune/commit/b3a63f35b97c9f973f5fa5eac551ac63fc280493))
+
 ## 2.1.12
 
  - Update a dependency to the latest release.

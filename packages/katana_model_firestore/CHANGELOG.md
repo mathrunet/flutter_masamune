@@ -1,3 +1,35 @@
+## 2.16.42
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+## 2.16.41
+
+ - **FIX**: Database IDs can now be specified. ([b6c2b88a](https://github.com/mathrunet/flutter_masamune/commit/b6c2b88a643a0b4e020ce000e188c2b792c52589))
+
+## 2.16.40
+
+ - Update a dependency to the latest release.
+
+## 2.16.39
+
+ - Update a dependency to the latest release.
+
+## 2.16.38
+
+ - Update a dependency to the latest release.
+
+## 2.16.37
+
+ - Update a dependency to the latest release.
+
+## 2.16.36
+
+ - Update a dependency to the latest release.
+
+## 2.16.35
+
+ - Update a dependency to the latest release.
+
 ## 2.16.34
 
  - Update a dependency to the latest release.

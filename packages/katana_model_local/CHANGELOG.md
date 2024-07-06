@@ -1,3 +1,35 @@
+## 2.13.36
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+## 2.13.35
+
+ - Update a dependency to the latest release.
+
+## 2.13.34
+
+ - Update a dependency to the latest release.
+
+## 2.13.33
+
+ - Update a dependency to the latest release.
+
+## 2.13.32
+
+ - Update a dependency to the latest release.
+
+## 2.13.31
+
+ - Update a dependency to the latest release.
+
+## 2.13.30
+
+ - Update a dependency to the latest release.
+
+## 2.13.29
+
+ - Update a dependency to the latest release.
+
 ## 2.13.28
 
  - Update a dependency to the latest release.

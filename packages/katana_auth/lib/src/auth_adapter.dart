@@ -55,7 +55,12 @@ abstract class AuthAdapter {
   ///   }
   /// }
   /// ```
-  const AuthAdapter();
+  const AuthAdapter({this.authActions = const []});
+
+  /// Callbacks during authentication.
+  ///
+  /// 認証時のコールバック。
+  final List<AuthActionQuery> authActions;
 
   /// You can retrieve the [AuthAdapter] first given by [AuthAdapterScope].
   ///
@@ -162,10 +167,14 @@ abstract class AuthAdapter {
   ///
   /// Return `null` when signing out.
   ///
+  /// If [forceRefresh] is set to `true`, force a refresh.
+  ///
   /// サインイン時、認証時に用いられるアクセストークンを返します。
   ///
   /// サインアウト時は`null`を返すようにしてください。
-  Future<String?> get accessToken;
+  ///
+  /// [forceRefresh]を`true`にした場合、強制的にリフレッシュを行います。
+  Future<AccessTokenValue?> accessToken({bool forceRefresh = false});
 
   /// Running the application at startup will automatically re-authenticate the user.
   ///
@@ -359,6 +368,54 @@ abstract class AuthAdapter {
   ///
   /// 内部で使用されている認証システムを破棄してください。
   void dispose();
+}
+
+/// Returns the result of an access token.
+///
+/// Returns the actual token to [token].
+///
+/// Set the expiration time of the token to [expirationTime].
+///
+/// アクセストークンの結果を返します。
+///
+/// [token]に実際のトークンを設定します。
+///
+/// [expirationTime]にトークンの有効期限を設定します。
+class AccessTokenValue {
+  /// Returns the result of an access token.
+  ///
+  /// Returns the actual token to [token].
+  ///
+  /// Set the expiration time of the token to [expirationTime].
+  ///
+  /// アクセストークンの結果を返します。
+  ///
+  /// [token]に実際のトークンを設定します。
+  ///
+  /// [expirationTime]にトークンの有効期限を設定します。
+  const AccessTokenValue({
+    required this.token,
+    this.expirationTime,
+  });
+
+  /// Actual token.
+  ///
+  /// 実際のトークン。
+  final String token;
+
+  /// Token expiration time.
+  ///
+  /// トークンの有効期限。
+  final DateTime? expirationTime;
+
+  bool get _forceRefresh {
+    if (expirationTime == null) {
+      return false;
+    }
+    return DateTime.now().isAfter(
+      expirationTime!.subtract(const Duration(minutes: 5)),
+    );
+  }
 }
 
 /// Place it on top of [MaterialApp], etc., and set [AuthAdapter] for the entire app.

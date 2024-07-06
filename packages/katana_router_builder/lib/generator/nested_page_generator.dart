@@ -15,14 +15,6 @@ class HiddenPageGenerator extends GeneratorForAnnotation<HiddenPage> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    if (!element.library!.isNonNullableByDefault) {
-      throw InvalidGenerationSourceError(
-        "Generator cannot target libraries that have not been migrated to "
-        "null-safety.",
-        element: element,
-      );
-    }
-
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
         "`@HiddenPage()` can only be used on classes.",

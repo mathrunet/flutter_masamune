@@ -1,3 +1,15 @@
+## 2.10.1
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+## 2.10.0
+
+ - **FEAT**: AuthActionQuery can now be set from Authentication and Adapter. ([96b8629b](https://github.com/mathrunet/flutter_masamune/commit/96b8629be88d82da99e94042e452e7eaa01304f2))
+
+## 2.9.4
+
+ - **FIX**: Automatic renewal of AccessToken. ([4c25f256](https://github.com/mathrunet/flutter_masamune/commit/4c25f2560a2258edd0b0cd1dcd99eb2f2627951e))
+
 ## 2.9.3
 
  - Update a dependency to the latest release.

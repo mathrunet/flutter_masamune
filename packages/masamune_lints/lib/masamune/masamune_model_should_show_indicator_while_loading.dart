@@ -208,9 +208,9 @@ class _MasamuneModelShouldShowIndicatorWhileLoading extends DartLintRule {
         if (node.isShowIndicator || !node.isLoad) {
           continue;
         }
-        reporter.reportErrorForNode(
-          _code,
+        reporter.atNode(
           node.node!,
+          _code,
         );
       }
     });

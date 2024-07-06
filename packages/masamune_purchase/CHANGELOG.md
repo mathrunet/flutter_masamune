@@ -1,3 +1,63 @@
+## 2.1.77
+
+ - **FIX**: I was able to get something set up around the title. ([1e5d86d2](https://github.com/mathrunet/flutter_masamune/commit/1e5d86d2bd1862b4e67a1f115c6fc1090286a26a))
+
+## 2.1.76
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+## 2.1.75
+
+ - Update a dependency to the latest release.
+
+## 2.1.74
+
+ - Update a dependency to the latest release.
+
+## 2.1.73
+
+ - Update a dependency to the latest release.
+
+## 2.1.72
+
+ - Update a dependency to the latest release.
+
+## 2.1.71
+
+ - Update a dependency to the latest release.
+
+## 2.1.70
+
+ - Update a dependency to the latest release.
+
+## 2.1.69
+
+ - Update a dependency to the latest release.
+
+## 2.1.68
+
+ - Update a dependency to the latest release.
+
+## 2.1.67
+
+ - Update a dependency to the latest release.
+
+## 2.1.66
+
+ - Update a dependency to the latest release.
+
+## 2.1.65
+
+ - Update a dependency to the latest release.
+
+## 2.1.64
+
+ - Update a dependency to the latest release.
+
+## 2.1.63
+
+ - Update a dependency to the latest release.
+
 ## 2.1.62
 
  - Update a dependency to the latest release.

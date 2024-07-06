@@ -584,7 +584,7 @@ import * as m from "@mathrunet/masamune";
   String body(String path, String baseName, String className) {
     return """
 // Define [m.Functions.xxxx] for the functions to be added to Functions.
-// 
+//
 // Functionsに追加する機能を[m.Functions.xxxx]を定義してください。
 m.deploy(
   exports,

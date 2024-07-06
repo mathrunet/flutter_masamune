@@ -47,10 +47,11 @@ class FormListBuilder<T, TValue> extends FormField<List<T>> {
     this.style,
     required Widget Function(
       BuildContext context,
-      FormAppendableListBuilderRef<T, TValue> ref,
+      FormListBuilderRef<T, TValue> ref,
       T item,
       int index,
     ) builder,
+    this.onChanged,
     TValue Function(List<T> value)? onSaved,
     String? Function(List<T> value)? validator,
     this.readOnly = false,
@@ -90,21 +91,20 @@ class FormListBuilder<T, TValue> extends FormField<List<T>> {
   ///
   /// リストの先頭に表示するウィジェット。
   final Widget Function(
-      BuildContext context, FormAppendableListBuilderRef<T, TValue> ref)? top;
+      BuildContext context, FormListBuilderRef<T, TValue> ref)? top;
 
   /// Widget to be displayed at the bottom of the list.
   ///
   /// リストの末尾に表示するウィジェット。
   final Widget Function(
-          BuildContext context, FormAppendableListBuilderRef<T, TValue> ref)?
-      bottom;
+      BuildContext context, FormListBuilderRef<T, TValue> ref)? bottom;
 
   /// Builder for each item.
   ///
   /// 各アイテムのビルダー。
   final Widget Function(
     BuildContext context,
-    FormAppendableListBuilderRef<T, TValue> ref,
+    FormListBuilderRef<T, TValue> ref,
     T item,
     int index,
   ) _builder;
@@ -137,6 +137,15 @@ class FormListBuilder<T, TValue> extends FormField<List<T>> {
   /// `true`の場合、破棄されず保持され続けます。
   final bool keepAlive;
 
+  /// Callback to be executed each time the value is changed.
+  ///
+  /// The current value is passed to `value`.
+  ///
+  /// 値が変更されるたびに実行されるコールバック。
+  ///
+  /// `value`に現在の値が渡されます。
+  final void Function(List<T> value)? onChanged;
+
   @override
   FormFieldState<List<T>> createState() =>
       _FormAppendableListBuilderState<T, TValue>();
@@ -144,7 +153,7 @@ class FormListBuilder<T, TValue> extends FormField<List<T>> {
 
 class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
     with AutomaticKeepAliveClientMixin<FormField<List<T>>>
-    implements FormAppendableListBuilderRef<T, TValue> {
+    implements FormListBuilderRef<T, TValue> {
   @override
   FormListBuilder<T, TValue> get widget =>
       super.widget as FormListBuilder<T, TValue>;
@@ -152,14 +161,45 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
   @override
   void add(T item) async {
     setState(() {
-      setValue([...(value ?? []), item]);
+      final newList = <T>[...(value ?? []), item];
+      setValue(newList);
+      widget.onChanged?.call(newList);
+    });
+  }
+
+  @override
+  void update(int index, T item) {
+    if (value == null || index >= value!.length || index < 0) {
+      return;
+    }
+    setState(() {
+      final newList = List<T>.from(value ?? []);
+      newList[index] = item;
+      setValue(newList);
+      widget.onChanged?.call(newList);
     });
   }
 
   @override
   void delete(T item) {
     setState(() {
-      setValue(List.from(value ?? [])..remove(item));
+      final newList = List<T>.from(value ?? []);
+      newList.remove(item);
+      setValue(newList);
+      widget.onChanged?.call(newList);
+    });
+  }
+
+  @override
+  void deleteAt(int index) {
+    if (value == null || index >= value!.length || index < 0) {
+      return;
+    }
+    setState(() {
+      final newList = List<T>.from(value ?? []);
+      newList.removeAt(index);
+      setValue(newList);
+      widget.onChanged?.call(newList);
     });
   }
 
@@ -176,7 +216,7 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
     }
-    if (oldWidget.initialValue != widget.initialValue &&
+    if (!oldWidget.initialValue.equalsTo(widget.initialValue) &&
         widget.initialValue != null) {
       reset();
     }
@@ -215,14 +255,24 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
 /// Controller class for [FormListBuilder].
 ///
 /// [FormListBuilder]用のコントローラークラス。
-abstract class FormAppendableListBuilderRef<T, TValue> {
+abstract class FormListBuilderRef<T, TValue> {
   /// Add element [item] to the list.
   ///
   /// 要素[item]をリストに追加します。
   void add(T item);
 
+  /// Update the element at the specified [index] to [item].
+  ///
+  /// 指定した[index]の要素を[item]に更新します。
+  void update(int index, T item);
+
   /// Removes element [item] from the list.
   ///
   /// 要素[item]をリストから削除します。
   void delete(T item);
+
+  /// Removes the [index]th element from the list.
+  ///
+  /// [index]番目の要素をリストから削除します。
+  void deleteAt(int index);
 }

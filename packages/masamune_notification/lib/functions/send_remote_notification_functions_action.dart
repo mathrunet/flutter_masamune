@@ -15,20 +15,12 @@ class SendRemoteNotificationFunctionsAction
   const SendRemoteNotificationFunctionsAction({
     required this.title,
     required this.text,
-    this.tokens,
-    this.topic,
+    required this.target,
     this.channel,
     this.badgeCount,
     this.sound = NotificationSound.defaultSound,
     this.data,
-  })  : assert(
-          tokens != null || topic != null,
-          "[tokens] or [topic] is required",
-        ),
-        assert(
-          tokens == null || topic == null,
-          "[tokens] and [topic] cannot be set at the same time",
-        );
+  });
 
   /// Title of PUSH notification.
   ///
@@ -50,15 +42,18 @@ class SendRemoteNotificationFunctionsAction
   /// PUSH通知に含めるその他のデータ。
   final DynamicMap? data;
 
-  /// Destination of PUSH notifications (topic name)
+  /// Set up notification destinations.
   ///
-  /// PUSH通知の送信先（トピック名）
-  final String? topic;
-
-  /// Destination of PUSH notifications (token)
+  /// Use [TopicNotificationTargetQuery] to specify by topic. Use [TokenNotificationTargetQuery] or [ModelTokenNotificationTargetQuery] to specify by token.
   ///
-  /// PUSH通知の送信先（トークン）
-  final ModelToken? tokens;
+  /// Use [CollectionNotificationTargetQuery] if you wish to specify it in the collection documentation.
+  ///
+  /// 通知先の設定。
+  ///
+  /// トピックで指定したい場合は[TopicNotificationTargetQuery]を使用してください。トークンで指定したい場合は[TokenNotificationTargetQuery]、[ModelTokenNotificationTargetQuery]を使用してください。
+  ///
+  /// コレクションのドキュメントで指定したい場合は[CollectionNotificationTargetQuery]を使用してください。
+  final NotificationTargetQuery target;
 
   /// Number of badges to display in PUSH notifications.
   ///
@@ -80,9 +75,9 @@ class SendRemoteNotificationFunctionsAction
       "body": text,
       if (channel != null) "channel_id": channel,
       if (data != null) "data": data,
-      if (tokens != null) "token": tokens!.value else "topic": topic,
       if (badgeCount != null) "badgeCount": badgeCount,
       if (sound != NotificationSound.none) "sound": sound.value,
+      ...target.toJson(),
     };
   }
 

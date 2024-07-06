@@ -33,6 +33,8 @@ class MessageBox extends StatelessWidget {
     this.borderRadius,
     this.padding = const EdgeInsets.all(16),
     this.color,
+    this.margin,
+    this.actions = const [],
   });
 
   /// Main color.
@@ -49,6 +51,11 @@ class MessageBox extends StatelessWidget {
   ///
   /// コンテンツのパディング。
   final EdgeInsetsGeometry padding;
+
+  /// Content Mergin.
+  ///
+  /// コンテンツのマージン。
+  final EdgeInsetsGeometry? margin;
 
   /// A widget that can be placed in the message section.
   ///
@@ -75,12 +82,18 @@ class MessageBox extends StatelessWidget {
   /// ボックスのボーダー。
   final BoxBorder? border;
 
+  /// List of message box actions.
+  ///
+  /// メッセージボックスのアクション一覧。
+  final List<Widget> actions;
+
   @override
   Widget build(BuildContext context) {
     final color = this.color ?? Theme.of(context).primaryColor;
     final backgroundColor = this.backgroundColor ?? color.withOpacity(0.1);
 
     return Container(
+      margin: margin,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: backgroundColor,
@@ -98,6 +111,8 @@ class MessageBox extends StatelessWidget {
               Expanded(
                 child: label,
               ),
+              if (actions.isNotEmpty) const SizedBox(width: 16),
+              ...actions,
             ],
           ),
         ),

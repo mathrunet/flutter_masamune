@@ -496,6 +496,10 @@ abstract class CollectionBase<TModel extends DocumentBase>
       if (update.query != modelQuery) {
         return;
       }
+      // Aggregationの処理
+      for (final entry in _aggregate.entries) {
+        entry.key.onUpdate(update, entry.value);
+      }
       var notify = false;
       switch (update.status) {
         case ModelUpdateNotificationStatus.added:

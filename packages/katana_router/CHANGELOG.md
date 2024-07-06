@@ -1,3 +1,19 @@
+## 2.3.3
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+## 2.3.2
+
+ - **FIX**: Fixed a bug that caused a blank screen during HotRestart. ([108d3681](https://github.com/mathrunet/flutter_masamune/commit/108d3681de9b3800c24c2aeb92ec0aac503888fe))
+
+## 2.3.1
+
+ - **FIX**: Import sorter. ([4fdbdfea](https://github.com/mathrunet/flutter_masamune/commit/4fdbdfea77daae2d3399c5c445cecb8c97a09136))
+
+## 2.3.0
+
+ - **FEAT**: Generate imports based on `key` or `name`. ([b3a63f35](https://github.com/mathrunet/flutter_masamune/commit/b3a63f35b97c9f973f5fa5eac551ac63fc280493))
+
 ## 2.2.17
 
  - Update a dependency to the latest release.

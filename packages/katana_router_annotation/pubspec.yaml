@@ -12,10 +12,10 @@ environment:
 
 dependencies:
   katana: ^3.0.0-dev.1
-  meta: ^1.8.0
+  meta:
     
 dev_dependencies:
   test: ^1.24.0
   katana_test: ^3.0.0-dev.0
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
   import_sorter: ^4.6.0

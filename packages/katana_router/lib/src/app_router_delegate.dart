@@ -72,9 +72,7 @@ class _AppRouterDelegate extends RouterDelegate<RouteQuery>
   Future<void> setInitialRoutePath(RouteQuery configuration) async {
     final boot = router._config.boot;
     if (boot != null) {
-      await push<void>(
-        boot.resolve(configuration),
-      );
+      await push<void>(boot.resolve(configuration));
       return push<void>(configuration, boot.initialTransitionQuery);
     }
     return super.setInitialRoutePath(configuration);

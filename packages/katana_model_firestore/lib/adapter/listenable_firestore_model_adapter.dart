@@ -78,6 +78,7 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
     super.prefix,
     super.validator,
     super.onInitialize,
+    super.databaseId,
   });
 
   @override
@@ -299,6 +300,7 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
     return prefix.hashCode ^
         _localDatabase.hashCode ^
         options.hashCode ^
-        _database.hashCode;
+        _database.hashCode ^
+        databaseId.hashCode;
   }
 }

@@ -20,14 +20,6 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    if (!element.library!.isNonNullableByDefault) {
-      throw InvalidGenerationSourceError(
-        "Generator cannot target libraries that have not been migrated to "
-        "null-safety.",
-        element: element,
-      );
-    }
-
     if (element is! TopLevelVariableElement) {
       throw InvalidGenerationSourceError(
         "`@AppRoute()` should only be given to top-level fields.\n"
@@ -42,6 +34,7 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
     final import = <String, String>{};
     final export = <String, List<String>>{};
     final queries = <QueryValue>[];
+    final names = <String>[];
     final assets = buildStep.findAssets(Glob("**.dart"));
     await for (final asset in assets) {
       if (!await buildStep.resolver.isLibrary(asset)) {
@@ -78,8 +71,19 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
               export[library]!.add(element.name);
             }
             if (!import.containsKey(library)) {
-              i++;
-              import[library] = "_\$$i";
+              final meta = element.metadata.first;
+              final obj = meta.computeConstantValue()!;
+              final name = obj.getField("name")?.toStringValue();
+              String value;
+
+              if (name != null && !names.contains(name)) {
+                value = name;
+                names.add(name);
+              } else {
+                value = (++i).toString();
+              }
+
+              import[library] = "_\$$value";
               queries.add(
                 QueryValue(
                   library: library,

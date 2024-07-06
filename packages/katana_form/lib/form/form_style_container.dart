@@ -34,6 +34,11 @@ class FormStyleContainer extends StatelessWidget {
     this.labelText,
     this.enabled = true,
     this.counterText,
+    this.width,
+    this.height,
+    this.padding,
+    this.contentPadding,
+    this.alignment,
   });
 
   /// Widgets enclosed in containers.
@@ -87,6 +92,31 @@ class FormStyleContainer extends StatelessWidget {
   ///
   /// 文字数のカウンターのテキスト。デフォルトは無効化されています。
   final String? counterText;
+
+  /// Container width.
+  ///
+  /// コンテナの幅。
+  final double? width;
+
+  /// Container height.
+  ///
+  /// コンテナの高さ。
+  final double? height;
+
+  /// Outer margins.
+  ///
+  /// 外側の余白。
+  final EdgeInsetsGeometry? padding;
+
+  /// Inner margins.
+  ///
+  /// 内側の余白。
+  final EdgeInsetsGeometry? contentPadding;
+
+  /// Alignment of child.
+  ///
+  /// 子要素の配置。
+  final AlignmentGeometry? alignment;
 
   @override
   Widget build(BuildContext context) {
@@ -157,11 +187,15 @@ class FormStyleContainer extends StatelessWidget {
     final disabledBorderSide =
         getBorderSide(style?.disabledColor ?? theme.disabledColor);
 
-    return Padding(
-      padding: style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
+    return Container(
+      width: width ?? style?.width,
+      height: height ?? style?.height,
+      padding:
+          padding ?? style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
       child: InputDecorator(
         decoration: InputDecoration(
-          contentPadding: style?.contentPadding ??
+          contentPadding: contentPadding ??
+              style?.contentPadding ??
               const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           fillColor: style?.backgroundColor,
           filled: style?.backgroundColor != null,

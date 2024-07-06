@@ -30,8 +30,10 @@ class ModelAggregateQuery<TValue extends AsyncAggregateValue> {
   /// コレクションのドキュメントの集計を出力するためのクエリ。
   const ModelAggregateQuery._({
     this.key,
+    required this.defaultValue,
     required this.type,
     required this.onCreate,
+    required this.onUpdate,
   });
 
   /// A query to output the total number of documents in the collection.
@@ -40,12 +42,23 @@ class ModelAggregateQuery<TValue extends AsyncAggregateValue> {
   static ModelAggregateQuery<AsyncAggregateValue<int>> count() {
     return ModelAggregateQuery<AsyncAggregateValue<int>>._(
       type: ModelAggregateQueryType.count,
+      defaultValue: 0,
       onCreate: (query, collection, onFinished) {
         return AsyncAggregateValue<int>._(
           query: query,
           collection: collection,
           onFinished: onFinished,
         );
+      },
+      onUpdate: (update, value) async {
+        switch (update.status) {
+          case ModelUpdateNotificationStatus.added:
+          case ModelUpdateNotificationStatus.removed:
+            await value.reload();
+            break;
+          default:
+            break;
+        }
       },
     );
   }
@@ -56,6 +69,7 @@ class ModelAggregateQuery<TValue extends AsyncAggregateValue> {
   static ModelAggregateQuery<AsyncAggregateValue<double>> sum(String key) {
     return ModelAggregateQuery<AsyncAggregateValue<double>>._(
       key: key,
+      defaultValue: 0.0,
       type: ModelAggregateQueryType.sum,
       onCreate: (query, collection, onFinished) {
         return AsyncAggregateValue<double>._(
@@ -63,6 +77,17 @@ class ModelAggregateQuery<TValue extends AsyncAggregateValue> {
           collection: collection,
           onFinished: onFinished,
         );
+      },
+      onUpdate: (update, value) async {
+        switch (update.status) {
+          case ModelUpdateNotificationStatus.added:
+          case ModelUpdateNotificationStatus.removed:
+          case ModelUpdateNotificationStatus.modified:
+            await value.reload();
+            break;
+          default:
+            break;
+        }
       },
     );
   }
@@ -73,6 +98,7 @@ class ModelAggregateQuery<TValue extends AsyncAggregateValue> {
   static ModelAggregateQuery<AsyncAggregateValue<double>> average(String key) {
     return ModelAggregateQuery<AsyncAggregateValue<double>>._(
       key: key,
+      defaultValue: 0.0,
       type: ModelAggregateQueryType.average,
       onCreate: (query, collection, onFinished) {
         return AsyncAggregateValue<double>._(
@@ -80,6 +106,17 @@ class ModelAggregateQuery<TValue extends AsyncAggregateValue> {
           collection: collection,
           onFinished: onFinished,
         );
+      },
+      onUpdate: (update, value) async {
+        switch (update.status) {
+          case ModelUpdateNotificationStatus.added:
+          case ModelUpdateNotificationStatus.removed:
+          case ModelUpdateNotificationStatus.modified:
+            await value.reload();
+            break;
+          default:
+            break;
+        }
       },
     );
   }
@@ -94,6 +131,11 @@ class ModelAggregateQuery<TValue extends AsyncAggregateValue> {
   /// クエリのタイプ。
   final ModelAggregateQueryType type;
 
+  /// Initial value if value could not be obtained.
+  ///
+  /// 値が取得できなかった場合の初期値。
+  final Object? defaultValue;
+
   /// Create an [AsyncAggregateValue] from the query.
   ///
   /// クエリから[AsyncAggregateValue]を作成します。
@@ -102,6 +144,14 @@ class ModelAggregateQuery<TValue extends AsyncAggregateValue> {
     CollectionBase collection,
     VoidCallback onFinished,
   ) onCreate;
+
+  /// Defines the behavior of the collection when it receives an update notification.
+  ///
+  /// コレクションにアップデート通知が来た場合の挙動を定義します。
+  final Future<void> Function(
+    ModelUpdateNotification update,
+    AsyncAggregateValue value,
+  ) onUpdate;
 
   @override
   String toString() {
@@ -189,18 +239,34 @@ class AsyncAggregateValue<T> extends ChangeNotifier
     if (_loadingCompleter != null) {
       return _loadingCompleter!.future;
     }
-    final val = await _collection.modelQuery.adapter.loadAggregation<T>(
-      _collection.databaseQuery,
-      _query,
-    );
-    if (val == null) {
-      return _value = null;
-    }
-    _value = val;
-    notifyListeners();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    _loadingCompleter = Completer<T>();
+    try {
+      final val = await _collection.modelQuery.adapter.loadAggregation<T>(
+        _collection.databaseQuery,
+        _query,
+      );
+      if (val == null) {
+        final defaultValue = _query.defaultValue;
+        if (defaultValue is T) {
+          _value = defaultValue;
+        }
+        _value = null;
+      } else {
+        _value = val;
+      }
+      notifyListeners();
+      await Future.delayed(Duration.zero);
+      _loadingCompleter?.complete(value);
+      _loadingCompleter = null;
       _onFinished();
-    });
-    return value;
+      return value;
+    } catch (e, stacktrace) {
+      _loadingCompleter?.completeError(e, stacktrace);
+      _loadingCompleter = null;
+      rethrow;
+    } finally {
+      _loadingCompleter?.complete(value);
+      _loadingCompleter = null;
+    }
   }
 }

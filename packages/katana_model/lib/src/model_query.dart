@@ -53,6 +53,7 @@ class DocumentModelQuery extends ModelQuery {
     super.adapter,
     super.accessQuery,
     super.validationQueries,
+    super.useTestModelAdapter = true,
   });
 
   /// Copy [DocumentModelQuery] with [path], [adapter], [accessQuery] and [validationQueries].
@@ -63,12 +64,14 @@ class DocumentModelQuery extends ModelQuery {
     ModelAdapter? adapter,
     ModelAccessQuery? accessQuery,
     List<ModelValidationQuery>? validationQueries,
+    bool? useTestModelAdapter,
   }) {
     return DocumentModelQuery(
       path ?? this.path,
       adapter: adapter ?? _adapter,
       accessQuery: accessQuery ?? this.accessQuery,
       validationQueries: validationQueries ?? this.validationQueries,
+      useTestModelAdapter: useTestModelAdapter ?? this.useTestModelAdapter,
     );
   }
 
@@ -155,6 +158,7 @@ class CollectionModelQuery extends ModelQuery {
     super.adapter,
     super.accessQuery,
     super.validationQueries,
+    super.useTestModelAdapter = true,
   });
 
   const CollectionModelQuery._(
@@ -163,6 +167,7 @@ class CollectionModelQuery extends ModelQuery {
     super.accessQuery,
     super.adapter,
     super.validationQueries,
+    super.useTestModelAdapter = true,
   });
 
   /// Create a [DocumentModelQuery] for a document under a collection using its own [path] and [id].
@@ -180,6 +185,7 @@ class CollectionModelQuery extends ModelQuery {
       adapter: adapter,
       accessQuery: accessQuery,
       validationQueries: validationQueries,
+      useTestModelAdapter: useTestModelAdapter,
     );
   }
 
@@ -517,6 +523,7 @@ class CollectionModelQuery extends ModelQuery {
       adapter: _adapter,
       accessQuery: accessQuery,
       validationQueries: validationQueries,
+      useTestModelAdapter: useTestModelAdapter,
     );
   }
 
@@ -528,6 +535,7 @@ class CollectionModelQuery extends ModelQuery {
     ModelAdapter? adapter,
     ModelAccessQuery? accessQuery,
     List<ModelValidationQuery>? validationQueries,
+    bool? useTestModelAdapter,
   }) {
     return CollectionModelQuery._(
       path ?? this.path,
@@ -535,6 +543,7 @@ class CollectionModelQuery extends ModelQuery {
       adapter: adapter ?? _adapter,
       accessQuery: accessQuery ?? this.accessQuery,
       validationQueries: validationQueries ?? this.validationQueries,
+      useTestModelAdapter: useTestModelAdapter ?? this.useTestModelAdapter,
     );
   }
 
@@ -582,6 +591,7 @@ class ModelQuery {
     this.accessQuery,
     this.validationQueries,
     ModelAdapter? adapter,
+    this.useTestModelAdapter = true,
   }) : _adapter = adapter;
 
   /// Path definition for the model.
@@ -599,11 +609,20 @@ class ModelQuery {
   /// サーバーに接続するための情報を格納します。
   final ModelAccessQuery? accessQuery;
 
+  /// Set to `true` to use the model adapter for testing when testing.
+  ///
+  /// テスト時にテスト用のモデルアダプターを利用する場合`true`にする。
+  final bool useTestModelAdapter;
+
   /// An adapter for defining the process of reading and saving data. If [adapter] is not specified, [ModelAdapter.primary] is used.
   ///
   /// データをを読込・保存する際の処理を定義するためのアダプター。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
   ModelAdapter get adapter {
-    return ModelAdapter._test ?? _adapter ?? ModelAdapter.primary;
+    if (useTestModelAdapter) {
+      return ModelAdapter._test ?? _adapter ?? ModelAdapter.primary;
+    } else {
+      return _adapter ?? ModelAdapter.primary;
+    }
   }
 
   final ModelAdapter? _adapter;

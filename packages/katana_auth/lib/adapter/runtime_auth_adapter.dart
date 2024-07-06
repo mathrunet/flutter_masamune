@@ -45,6 +45,7 @@ class RuntimeAuthAdapter extends AuthAdapter {
     AuthDatabase? database,
     String? initialUserId,
     List<AuthInitialValue>? initialValue,
+    super.authActions = const [],
   })  : _database = database,
         _initialUserId = initialUserId,
         _initialValue = initialValue;
@@ -107,7 +108,10 @@ class RuntimeAuthAdapter extends AuthAdapter {
   bool get isWaitingConfirmation => database.isWaitingConfirmation;
 
   @override
-  Future<String?> get accessToken => Future.value(!isSignedIn ? null : "");
+  Future<AccessTokenValue?> accessToken({bool forceRefresh = false}) =>
+      Future.value(
+        !isSignedIn ? null : const AccessTokenValue(token: ""),
+      );
 
   @override
   String? get refreshToken => !isSignedIn ? null : "";

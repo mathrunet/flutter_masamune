@@ -311,6 +311,38 @@ abstract class ModelAdapter {
   /// データベースがローカルキャッシュを取っている場合、それを削除します。
   Future<void> clearCache();
 
+  /// Determines if [path] matches [pattern] of the form `xxxxx/:id/yyyy`.
+  ///
+  /// If no match is found, [Null] is returned.
+  ///
+  /// If a match is found, the `:id` portion is returned in the list.
+  ///
+  /// [path]が`xxxx/:id/yyyy`形式の[pattern]にマッチするかを判定します。
+  ///
+  /// マッチしない場合は[Null]が返されます。
+  ///
+  /// マッチする場合は`:id`の部分がリストで返されます。
+  List<String>? hasMatch({required String path, required String pattern}) {
+    final regExp = RegExp(
+      "^${pattern.replaceAllMapped(
+            RegExp(r":([^/]+)"),
+            (match) => "([^/]+)",
+          ).trimString("/")}\$",
+    );
+    final match = regExp.firstMatch(path);
+    if (match == null) {
+      return null;
+    }
+    if (match.groupCount < 1) {
+      return [];
+    }
+    final result = <String>[];
+    for (var i = 0; i < match.groupCount; i++) {
+      result.add(match.group(i + 1)!);
+    }
+    return result;
+  }
+
   @override
   String toString() {
     return "$runtimeType[$hashCode]";

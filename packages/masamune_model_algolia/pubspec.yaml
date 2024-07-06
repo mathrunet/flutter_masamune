@@ -15,15 +15,15 @@ dependencies:
   flutter:
     sdk: flutter
 
-  meta: ^1.8.0
+  meta:
 
   katana: ^3.0.0-dev.1
   masamune: ^3.0.0-dev.0
-  algolia_helper_flutter: ^0.5.0
+  algolia_helper_flutter: ^1.0.0
   katana_model_firestore: ^3.0.0-dev.0
 dev_dependencies:
   test: ^1.24.0
   katana_test: ^3.0.0-dev.0
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
   import_sorter: ^4.6.0
   

@@ -121,13 +121,6 @@ class _MasamuneModelFirestoreBuilder extends Builder {
     for (final annotatedElement
         in libraryReader.annotatedWith(_documentModelPathChecker)) {
       final element = annotatedElement.element;
-      if (!element.library!.isNonNullableByDefault) {
-        throw InvalidGenerationSourceError(
-          "Generator cannot target libraries that have not been migrated to "
-          "null-safety.",
-          element: element,
-        );
-      }
       if (element is! ClassElement) {
         throw InvalidGenerationSourceError(
           "`@DocumentModelPath()` can only be used on classes.",
@@ -158,13 +151,6 @@ class _MasamuneModelFirestoreBuilder extends Builder {
     for (final annotatedElement
         in libraryReader.annotatedWith(_collectionModelPathChecker)) {
       final element = annotatedElement.element;
-      if (!element.library!.isNonNullableByDefault) {
-        throw InvalidGenerationSourceError(
-          "Generator cannot target libraries that have not been migrated to "
-          "null-safety.",
-          element: element,
-        );
-      }
       if (element is! ClassElement) {
         throw InvalidGenerationSourceError(
           "`@CollectionModelPath()` can only be used on classes.",

@@ -319,7 +319,7 @@ List<Spec> documentModelClass(
                       ..type = Reference(model.name),
                   )
                 ])
-                ..body = const Code("value.toJson()"),
+                ..body = const Code("value.rawValue"),
             ),
             Method(
               (m) => m

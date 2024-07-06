@@ -1,3 +1,20 @@
+## 2.1.14
+
+ - **FIX**: Fixed Flutter builds not working properly. ([3e5684e9](https://github.com/mathrunet/flutter_masamune/commit/3e5684e98a9d8cae4328119f1035fff6fb97013b))
+
+## 2.1.13
+
+ - **FIX**: Address errors during downgrade. ([07b4c4dc](https://github.com/mathrunet/flutter_masamune/commit/07b4c4dc6fcbc7698abf7a9f8e92dd0d0920c0db))
+
+## 2.1.12
+
+ - **FIX**: Changed Deprecated method. ([ea8edb01](https://github.com/mathrunet/flutter_masamune/commit/ea8edb01857d1f1c1f4104829142a7317a552ff0))
+
+## 2.1.11
+
+ - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
 ## 2.1.10
 
  - Update a dependency to the latest release.

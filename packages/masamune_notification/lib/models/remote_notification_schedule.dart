@@ -183,10 +183,9 @@ class ModelServerCommandRemoteNotificationSchedule
     required ModelTimestamp time,
     required String title,
     required String text,
+    required NotificationTargetQuery target,
     String? channelId,
     DynamicMap? data,
-    String? topic,
-    ModelToken? tokens,
     Uri? link,
     int? badgeCount,
     String? sound,
@@ -232,15 +231,18 @@ class ModelServerCommandRemoteNotificationSchedule
   /// 通知のデータ。
   DynamicMap? get data => throw UnimplementedError();
 
-  /// Notification Topics.
+  /// Set up notification destinations.
   ///
-  /// 通知のトピック。
-  String? get topic => throw UnimplementedError();
-
-  /// List of tokens of notification.
+  /// Use [TopicNotificationTargetQuery] to specify by topic. Use [TokenNotificationTargetQuery] or [ModelTokenNotificationTargetQuery] to specify by token.
   ///
-  /// 通知のトークンのリスト。
-  ModelToken? get tokens => throw UnimplementedError();
+  /// Use [CollectionNotificationTargetQuery] if you wish to specify it in the collection documentation.
+  ///
+  /// 通知先の設定。
+  ///
+  /// トピックで指定したい場合は[TopicNotificationTargetQuery]を使用してください。トークンで指定したい場合は[TokenNotificationTargetQuery]、[ModelTokenNotificationTargetQuery]を使用してください。
+  ///
+  /// コレクションのドキュメントで指定したい場合は[CollectionNotificationTargetQuery]を使用してください。
+  NotificationTargetQuery get target => throw UnimplementedError();
 
   /// A link to transition from the notification.
   ///
@@ -270,8 +272,6 @@ class ModelServerCommandRemoteNotificationSchedule
   static const String _kSoundKey = "sound";
   static const String _kBadgeCountKey = "badgeCount";
   static const String _kDataKey = "data";
-  static const String _kTopicKey = "topic";
-  static const String _kTokenKey = "token";
   static const String _kLinkKey = "@link";
 
   /// Convert from [json] map to [ModelServerCommandRemoteNotificationSchedule].
@@ -297,10 +297,9 @@ class ModelServerCommandRemoteNotificationSchedule
         if (data != null) ...data!,
         if (link != null) _kLinkKey: link!.path,
       },
-      _kTokenKey: tokens?.value,
-      _kTopicKey: topic,
       if (sound != null) _kSoundKey: sound,
       if (badgeCount != null) _kBadgeCountKey: badgeCount,
+      ...target.toJson(),
     };
   }
 
@@ -319,10 +318,9 @@ class _ModelServerCommandRemoteNotificationSchedule
     required this.time,
     required this.title,
     required this.text,
+    required this.target,
     this.channelId,
     this.data,
-    this.topic,
-    this.tokens,
     this.link,
     this.badgeCount,
     this.sound,
@@ -347,10 +345,7 @@ class _ModelServerCommandRemoteNotificationSchedule
   final Uri? link;
 
   @override
-  final String? topic;
-
-  @override
-  final ModelToken? tokens;
+  final NotificationTargetQuery target;
 
   @override
   final int? badgeCount;

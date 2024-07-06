@@ -1,3 +1,63 @@
+## 2.4.95
+
+ - **FIX**: Package Update. ([dd7e2be0](https://github.com/mathrunet/flutter_masamune/commit/dd7e2be01aaa3a4c638c73fb391aae72b4b73e1d))
+
+## 2.4.94
+
+ - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))
+
+## 2.4.93
+
+ - Update a dependency to the latest release.
+
+## 2.4.92
+
+ - Update a dependency to the latest release.
+
+## 2.4.91
+
+ - Update a dependency to the latest release.
+
+## 2.4.90
+
+ - Update a dependency to the latest release.
+
+## 2.4.89
+
+ - Update a dependency to the latest release.
+
+## 2.4.88
+
+ - Update a dependency to the latest release.
+
+## 2.4.87
+
+ - Update a dependency to the latest release.
+
+## 2.4.86
+
+ - Update a dependency to the latest release.
+
+## 2.4.85
+
+ - Update a dependency to the latest release.
+
+## 2.4.84
+
+ - Update a dependency to the latest release.
+
+## 2.4.83
+
+ - Update a dependency to the latest release.
+
+## 2.4.82
+
+ - Update a dependency to the latest release.
+
+## 2.4.81
+
+ - Update a dependency to the latest release.
+
 ## 2.4.80
 
  - Update a dependency to the latest release.
