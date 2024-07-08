@@ -1,6 +1,6 @@
 part of '/masamune_model_firestore_builder.dart';
 
-extension _InterfaceTypeExtensions on InterfaceType {
+extension on InterfaceType {
   String toRuleFunction() {
     final nullable = isNullable ? "Nullable" : "";
     if (isDartCoreString) {
