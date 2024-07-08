@@ -1,3 +1,7 @@
+## 2.1.15
+
+ - **FIX**: The latest code will revert to the error. ([49ceec21](https://github.com/mathrunet/flutter_masamune/commit/49ceec216070702a57952212c7d93dc8c3041920))
+
 ## 2.1.14
 
  - **FIX**: Fixed Flutter builds not working properly. ([3e5684e9](https://github.com/mathrunet/flutter_masamune/commit/3e5684e98a9d8cae4328119f1035fff6fb97013b))

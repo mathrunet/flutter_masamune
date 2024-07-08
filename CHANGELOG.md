@@ -15,6 +15,48 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_listenables_builder` - `v2.1.14`](#katana_listenables_builder---v2114)
+ - [`katana_prefs_builder` - `v2.1.15`](#katana_prefs_builder---v2115)
+ - [`masamune_lints` - `v2.4.10`](#masamune_lints---v2410)
+ - [`masamune_builder` - `v2.17.1`](#masamune_builder---v2171)
+ - [`masamune_model_docs_builder` - `v2.1.1`](#masamune_model_docs_builder---v211)
+ - [`masamune_model_firestore_builder` - `v2.3.1`](#masamune_model_firestore_builder---v231)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_builder` - `v2.17.1`
+ - `masamune_model_docs_builder` - `v2.1.1`
+ - `masamune_model_firestore_builder` - `v2.3.1`
+
+---
+
+#### `katana_listenables_builder` - `v2.1.14`
+
+ - **FIX**: The latest code will revert to the error. ([49ceec21](https://github.com/mathrunet/flutter_masamune/commit/49ceec216070702a57952212c7d93dc8c3041920))
+
+#### `katana_prefs_builder` - `v2.1.15`
+
+ - **FIX**: The latest code will revert to the error. ([49ceec21](https://github.com/mathrunet/flutter_masamune/commit/49ceec216070702a57952212c7d93dc8c3041920))
+
+#### `masamune_lints` - `v2.4.10`
+
+ - **FIX**: The latest code will revert to the error. ([49ceec21](https://github.com/mathrunet/flutter_masamune/commit/49ceec216070702a57952212c7d93dc8c3041920))
+
+
+## 2024-07-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.21.4`](#katana_cli---v2214)
  - [`masamune_annotation` - `v2.7.0`](#masamune_annotation---v270)
  - [`masamune_builder` - `v2.17.0`](#masamune_builder---v2170)

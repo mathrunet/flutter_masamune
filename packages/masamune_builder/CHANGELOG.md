@@ -1,3 +1,7 @@
+## 2.17.1
+
+ - Update a dependency to the latest release.
+
 ## 2.17.0
 
  - **FEAT**: Added field to document path. ([ac1418ad](https://github.com/mathrunet/flutter_masamune/commit/ac1418adf5d09261668936c5d208af17ddd59483))
