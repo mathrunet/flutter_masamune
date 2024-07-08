@@ -162,7 +162,7 @@ class CollectionModelPath {
   final String? endpoint;
 
   /// The path (relative path) to which the document will be generated.
-  /// 
+  ///
   /// ドキュメントを生成する際の生成先のパス（相対パス）。
   final String docsPath;
 
