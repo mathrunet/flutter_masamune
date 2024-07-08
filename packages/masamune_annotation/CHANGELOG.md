@@ -1,3 +1,7 @@
+## 2.7.1
+
+ - **FIX**: Added the ability to add comments. ([3450dbb4](https://github.com/mathrunet/flutter_masamune/commit/3450dbb407b8142741671024ebf9dbe8f7b38f9e))
+
 ## 2.7.0
 
  - **FEAT**: Added field to document path. ([ac1418ad](https://github.com/mathrunet/flutter_masamune/commit/ac1418adf5d09261668936c5d208af17ddd59483))
