@@ -2171,8 +2171,8 @@ example/.vscode/
 # firebase
 example/firebase/
 
-# document
-example/document/
+# documents
+example/documents/
 
 # lib
 secrets.dart

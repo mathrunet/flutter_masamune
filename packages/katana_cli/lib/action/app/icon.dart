@@ -11,7 +11,7 @@ import 'package:image/src/formats/ico_encoder.dart';
 import 'package:katana_cli/katana_cli.dart';
 
 final _sizeList = {
-  "document/store/icon.png": 512,
+  "documents/store/icon.png": 512,
   "android/app/src/main/res/mipmap-hdpi/ic_launcher.png": 72,
   "android/app/src/main/res/mipmap-mdpi/ic_launcher.png": 48,
   "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png": 96,
