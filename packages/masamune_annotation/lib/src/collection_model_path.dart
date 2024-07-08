@@ -138,6 +138,7 @@ class CollectionModelPath {
     this.endpoint,
     this.permission,
     this.mirrorPermission,
+    this.docsPath = "documents/docs",
   });
 
   /// Path for collection.
@@ -159,6 +160,11 @@ class CollectionModelPath {
   ///
   /// APIにアクセスするためのエンドポイント。
   final String? endpoint;
+
+  /// The path (relative path) to which the document will be generated.
+  /// 
+  /// ドキュメントを生成する際の生成先のパス（相対パス）。
+  final String docsPath;
 
   /// List to define permissions.
   ///
