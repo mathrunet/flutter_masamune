@@ -39,6 +39,10 @@ class DocsValue {
     buffer.writeln("## ${classValue.name}");
     buffer.writeln("`/$path`");
     buffer.writeln("");
+    if (annotationValue.comment.isNotEmpty) {
+      buffer.writeln(annotationValue.comment);
+      buffer.writeln("");
+    }
     buffer.writeln("### App schama");
     buffer.writeln("| Key | Type | Required | Others |");
     buffer.writeln("| --- | ---- | -------- | ------ |");

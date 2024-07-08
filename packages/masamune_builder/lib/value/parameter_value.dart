@@ -4,6 +4,7 @@ const _searchParamChecker = TypeChecker.fromRuntime(SearchParam);
 const _refParamChecker = TypeChecker.fromRuntime(RefParam);
 const _jsonParamChecker = TypeChecker.fromRuntime(JsonParam);
 const _jsonKeyChecker = TypeChecker.fromRuntime(JsonKey);
+const _commentChecker = TypeChecker.fromRuntime(ParamComment);
 
 /// Parameter Value.
 ///
@@ -84,7 +85,13 @@ class ParamaterValue {
     } else {
       jsonKey = name;
     }
+
+    comment = _commentChecker
+        .firstAnnotationOfExact(element)
+        ?.getField("comment")
+        ?.toStringValue();
   }
+
   static final _refParamRegExp = RegExp(r"^@RefParam\((.+)\)$");
   static final _adapterRegExp = RegExp(r"adapter\s*:\s*([^,\)]+),?");
 
@@ -127,6 +134,11 @@ class ParamaterValue {
   ///
   /// [isJsonSerializable]がtrueな場合のキーの名前。
   late final String? jsonKey;
+
+  /// Comment assigned to the field.
+  ///
+  /// フィールドに付与されたコメント。
+  late final String? comment;
 
   @override
   String toString() {

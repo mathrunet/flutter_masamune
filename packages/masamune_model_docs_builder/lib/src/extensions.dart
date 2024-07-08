@@ -2,13 +2,13 @@ part of '/masamune_model_docs_builder.dart';
 
 extension on ParamaterValue {
   StringBuffer applyAppSchema(StringBuffer buffer) {
-    final searchable = isSearchable ? "Searchable" : "";
+    final searchable = isSearchable ? "(Searchable)" : "";
     if (type.isModelRef && reference != null) {
       buffer.writeln(
-          "| $name | ${reference?.toAppTypeCode()} | ${required ? "Required" : "        "} | $searchable |");
+          "| $name | ${reference?.toAppTypeCode()} | ${required ? "Required" : "        "} | ${comment ?? ""}$searchable |");
     } else {
       buffer.writeln(
-          "| $name | ${type.toAppType()} | ${required ? "Required" : "        "} | $searchable |");
+          "| $name | ${type.toAppType()} | ${required ? "Required" : "        "} | ${comment ?? ""}$searchable |");
     }
     return buffer;
   }
@@ -16,24 +16,24 @@ extension on ParamaterValue {
   StringBuffer applyNosqlSchema(StringBuffer buffer) {
     if (reference != null) {
       buffer.writeln(
-          "| ${jsonKey ?? name} | ${reference?.toNosqlTypeCode()} | ${required ? "Required" : "        "} |  |");
+          "| ${jsonKey ?? name} | ${reference?.toNosqlTypeCode()} | ${required ? "Required" : "        "} | ${comment ?? ""} |");
     } else if (isJsonSerializable) {
       if (type.isDartCoreList ||
           type.isDartCoreSet ||
           type.isDartCoreIterable) {
         buffer.writeln(
-            "| ${jsonKey ?? name} | ${DocsType.list.nosql} | ${required ? "Required" : "        "} |  |");
+            "| ${jsonKey ?? name} | ${DocsType.list.nosql} | ${required ? "Required" : "        "} | ${comment ?? ""} |");
       } else {
         buffer.writeln(
-            "| ${jsonKey ?? name} | ${DocsType.map.nosql} | ${required ? "Required" : "        "} |  |");
+            "| ${jsonKey ?? name} | ${DocsType.map.nosql} | ${required ? "Required" : "        "} | ${comment ?? ""} |");
       }
     } else {
       final subType = type.toNosqlSubType();
       buffer.writeln(
-          "| ${jsonKey ?? name} | ${type.toNosqlType()} | ${required ? "Required" : "        "} |  |");
+          "| ${jsonKey ?? name} | ${type.toNosqlType()} | ${required ? "Required" : "        "} | ${comment ?? ""} |");
       if (subType != null) {
         buffer.writeln(
-            "| #${jsonKey ?? name} | $subType | ${required ? "Required" : "        "} |  |");
+            "| #${jsonKey ?? name} | $subType | ${required ? "Required" : "        "} | ${comment ?? ""} |");
       }
     }
     return buffer;
@@ -42,13 +42,13 @@ extension on ParamaterValue {
   StringBuffer applyRDBSchema(StringBuffer buffer) {
     if (reference != null) {
       buffer.writeln(
-          "| ${jsonKey ?? name} | ${reference?.toRDBTypeCode()} | ${required ? "Required" : "        "} |  |");
+          "| ${jsonKey ?? name} | ${reference?.toRDBTypeCode()} | ${required ? "Required" : "        "} | ${comment ?? ""} |");
     } else if (isJsonSerializable) {
       buffer.writeln(
-          "| ${jsonKey ?? name} | json | ${required ? "Required" : "        "} |  |");
+          "| ${jsonKey ?? name} | json | ${required ? "Required" : "        "} | ${comment ?? ""} |");
     } else {
       buffer.writeln(
-          "| ${jsonKey ?? name} | ${type.toRDBType()} | ${required ? "Required" : "        "} |  |");
+          "| ${jsonKey ?? name} | ${type.toRDBType()} | ${required ? "Required" : "        "} | ${comment ?? ""} |");
     }
     return buffer;
   }
