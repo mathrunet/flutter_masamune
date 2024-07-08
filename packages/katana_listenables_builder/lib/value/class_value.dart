@@ -25,7 +25,7 @@ class ClassValue {
     });
     existChangeNotifierMixin = element.mixins.any(
       (element) =>
-          element.getDisplayString().trimString("?") == "ChangeNotifier",
+          element.getDisplayString(withNullability: true).trimString("?") == "ChangeNotifier",
     );
     parameters = contstuctor.parameters.where((e) => e.name != "key").map((e) {
       return ParamaterValue(e);

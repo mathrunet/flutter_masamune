@@ -24,7 +24,7 @@ class _MasamuneUnwrapNullable extends DartLintRule {
         final operandType = node.operand.staticType;
         if (operandType != null &&
             operandType.nullabilitySuffix == NullabilitySuffix.question) {
-          reporter.atNode(node, _code);
+          reporter.reportErrorForNode(_code, node);
         }
       }
     });
