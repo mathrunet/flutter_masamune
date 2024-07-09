@@ -1,14 +1,35 @@
 part of '/masamune_model_docs_builder.dart';
 
 extension on ParamaterValue {
+  String _name({bool app = false}) {
+    final name = app ? (jsonKey ?? this.name) : this.name;
+    if (this.deprecated.isNotEmpty) {
+      return "~~$name~~";
+    }
+    return "**$name**";
+  }
+
+  String? get _comment {
+    var comment = this.comment;
+    if (this.deprecated.isNotEmpty) {
+      if (comment.isNotEmpty) {
+        comment = "$comment<br />**Deprecated**: ${this.deprecated}";
+      } else {
+        comment = "**Deprecated**: ${this.deprecated}";
+      }
+    }
+    return comment;
+  }
+
   StringBuffer applyAppSchema(StringBuffer buffer) {
-    final searchable = isSearchable ? "(Searchable)" : "";
     if (type.isModelRef && reference != null) {
       buffer.writeln(
-          "| $name | ${reference?.toAppTypeCode()} | ${required ? "Required" : "        "} | ${comment ?? ""}$searchable |");
+        "| ${required ? "✅" : ""} | ${_name(app: true)} | ${reference?.toAppTypeCode()} | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+      );
     } else {
       buffer.writeln(
-          "| $name | ${type.toAppType()} | ${required ? "Required" : "        "} | ${comment ?? ""}$searchable |");
+        "| ${required ? "✅" : ""} | ${_name(app: true)} | ${type.toAppType()} | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+      );
     }
     return buffer;
   }
@@ -16,24 +37,29 @@ extension on ParamaterValue {
   StringBuffer applyNosqlSchema(StringBuffer buffer) {
     if (reference != null) {
       buffer.writeln(
-          "| ${jsonKey ?? name} | ${reference?.toNosqlTypeCode()} | ${required ? "Required" : "        "} | ${comment ?? ""} |");
+        "| ${required ? "✅" : ""} | ${_name(app: false)} | ${reference?.toNosqlTypeCode()} | ${isSearchable ? "✅" : ""} | ${comment?.replaceBr() ?? ""} |",
+      );
     } else if (isJsonSerializable) {
       if (type.isDartCoreList ||
           type.isDartCoreSet ||
           type.isDartCoreIterable) {
         buffer.writeln(
-            "| ${jsonKey ?? name} | ${DocsType.list.nosql} | ${required ? "Required" : "        "} | ${comment ?? ""} |");
+          "| ${required ? "✅" : ""} | ${_name(app: false)} | ${DocsType.list.nosql} | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+        );
       } else {
         buffer.writeln(
-            "| ${jsonKey ?? name} | ${DocsType.map.nosql} | ${required ? "Required" : "        "} | ${comment ?? ""} |");
+          "| ${required ? "✅" : ""} | ${_name(app: false)} | ${DocsType.map.nosql} | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+        );
       }
     } else {
       final subType = type.toNosqlSubType();
       buffer.writeln(
-          "| ${jsonKey ?? name} | ${type.toNosqlType()} | ${required ? "Required" : "        "} | ${comment ?? ""} |");
+        "| ${required ? "✅" : ""} | ${_name(app: false)} | ${type.toNosqlType()} | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+      );
       if (subType != null) {
         buffer.writeln(
-            "| #${jsonKey ?? name} | $subType | ${required ? "Required" : "        "} | ${comment ?? ""} |");
+          "| ${required ? "✅" : ""} | ${_name(app: false)} | $subType | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+        );
       }
     }
     return buffer;
@@ -42,13 +68,16 @@ extension on ParamaterValue {
   StringBuffer applyRDBSchema(StringBuffer buffer) {
     if (reference != null) {
       buffer.writeln(
-          "| ${jsonKey ?? name} | ${reference?.toRDBTypeCode()} | ${required ? "Required" : "        "} | ${comment ?? ""} |");
+        "| ${required ? "✅" : ""} | ${_name(app: false)} | ${reference?.toRDBTypeCode()} | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+      );
     } else if (isJsonSerializable) {
       buffer.writeln(
-          "| ${jsonKey ?? name} | json | ${required ? "Required" : "        "} | ${comment ?? ""} |");
+        "| ${required ? "✅" : ""} | ${_name(app: false)} | json | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+      );
     } else {
       buffer.writeln(
-          "| ${jsonKey ?? name} | ${type.toRDBType()} | ${required ? "Required" : "        "} | ${comment ?? ""} |");
+        "| ${required ? "✅" : ""} | ${_name(app: false)} | ${type.toRDBType()} | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+      );
     }
     return buffer;
   }
@@ -273,5 +302,13 @@ extension _InterfaceTypeExtensions on InterfaceType {
       return DocsModelFieldValueType.modelCommand.rdb;
     }
     return "";
+  }
+}
+
+extension on String {
+  String replaceBr() {
+    return replaceAll("\r\n", "\n")
+        .replaceAll("\r", "\n")
+        .replaceAll("\n", "<br />");
   }
 }

@@ -370,14 +370,14 @@ packages:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "2.7.0"
+    version: "2.7.1"
   masamune_builder:
     dependency: "direct main"
     description:
       path: "../masamune_builder"
       relative: true
     source: path
-    version: "2.17.1"
+    version: "2.17.2"
   matcher:
     dependency: transitive
     description:

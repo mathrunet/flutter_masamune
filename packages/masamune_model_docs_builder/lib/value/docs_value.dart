@@ -36,30 +36,38 @@ class DocsValue {
     if (path.splitLength() % 2 != 0) {
       path = "$path/:doc_id";
     }
-    buffer.writeln("## ${classValue.name}");
+    if (classValue.deprecated.isNotEmpty) {
+      buffer.writeln("## ~~${classValue.name}~~");
+    } else {
+      buffer.writeln("## ${classValue.name}");
+    }
     buffer.writeln("`/$path`");
+    if (classValue.deprecated.isNotEmpty) {
+      buffer.writeln("");
+      buffer.writeln("**(Deprecated)**: ${classValue.deprecated}");
+    }
     buffer.writeln("");
     if (annotationValue.comment.isNotEmpty) {
       buffer.writeln(annotationValue.comment);
       buffer.writeln("");
     }
     buffer.writeln("### App schama");
-    buffer.writeln("| Key | Type | Required | Others |");
-    buffer.writeln("| --- | ---- | -------- | ------ |");
+    buffer.writeln("| Required | Name | Type | Searchable | Description |");
+    buffer.writeln("|:--------:|:---- |:---- |:----------:|:----------- |");
     for (final param in classValue.parameters) {
       buffer = param.applyAppSchema(buffer);
     }
     buffer.writeln("");
     buffer.writeln("### NoSQL(Firestore) schama");
-    buffer.writeln("| Key | Type | Required | Others |");
-    buffer.writeln("| --- | ---- | -------- | ------ |");
+    buffer.writeln("| Required | Name | Type | Searchable | Description |");
+    buffer.writeln("|:--------:|:---- |:---- |:----------:|:----------- |");
     for (final param in classValue.parameters) {
       buffer = param.applyNosqlSchema(buffer);
     }
     buffer.writeln("");
     buffer.writeln("### RDB schama");
-    buffer.writeln("| Key | Type | Required | Others |");
-    buffer.writeln("| --- | ---- | -------- | ------ |");
+    buffer.writeln("| Required | Name | Type | Searchable | Description |");
+    buffer.writeln("|:--------:|:---- |:---- |:----------:|:----------- |");
     for (final param in classValue.parameters) {
       buffer = param.applyRDBSchema(buffer);
     }
