@@ -1,3 +1,7 @@
+## 2.1.4
+
+ - **FIX**: Fixed a notation bug. ([da9700f7](https://github.com/mathrunet/flutter_masamune/commit/da9700f70d0d16758d85e2075cae2bc5ebd93f49))
+
 ## 2.1.3
 
  - **FIX**: Slight change in display. ([2cd7f990](https://github.com/mathrunet/flutter_masamune/commit/2cd7f9905b7258dc1558d285c05d846271223e37))

@@ -1,3 +1,7 @@
+## 2.17.4
+
+ - **FIX**: Fixed a notation bug. ([da9700f7](https://github.com/mathrunet/flutter_masamune/commit/da9700f70d0d16758d85e2075cae2bc5ebd93f49))
+
 ## 2.17.3
 
  - **FIX**: Deprecated can be obtained. ([e672d477](https://github.com/mathrunet/flutter_masamune/commit/e672d477f875fb4d0b16f9609a9c16d66cb13711))

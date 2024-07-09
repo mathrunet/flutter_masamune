@@ -15,6 +15,39 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_builder` - `v2.17.4`](#masamune_builder---v2174)
+ - [`masamune_model_docs_builder` - `v2.1.4`](#masamune_model_docs_builder---v214)
+ - [`masamune_model_firestore_builder` - `v2.3.4`](#masamune_model_firestore_builder---v234)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_firestore_builder` - `v2.3.4`
+
+---
+
+#### `masamune_builder` - `v2.17.4`
+
+ - **FIX**: Fixed a notation bug. ([da9700f7](https://github.com/mathrunet/flutter_masamune/commit/da9700f70d0d16758d85e2075cae2bc5ebd93f49))
+
+#### `masamune_model_docs_builder` - `v2.1.4`
+
+ - **FIX**: Fixed a notation bug. ([da9700f7](https://github.com/mathrunet/flutter_masamune/commit/da9700f70d0d16758d85e2075cae2bc5ebd93f49))
+
+
+## 2024-07-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_builder` - `v2.17.3`](#masamune_builder---v2173)
  - [`masamune_model_docs_builder` - `v2.1.3`](#masamune_model_docs_builder---v213)
  - [`masamune_model_firestore_builder` - `v2.3.3`](#masamune_model_firestore_builder---v233)
