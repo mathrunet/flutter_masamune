@@ -1,3 +1,11 @@
+## 2.1.79
+
+ - Update a dependency to the latest release.
+
+## 2.1.78
+
+ - Update a dependency to the latest release.
+
 ## 2.1.77
 
  - **FIX**: I was able to get something set up around the title. ([1e5d86d2](https://github.com/mathrunet/flutter_masamune/commit/1e5d86d2bd1862b4e67a1f115c6fc1090286a26a))

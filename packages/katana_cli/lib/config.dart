@@ -492,9 +492,9 @@ store:
   # [source_dir]にある画像一覧を元に[export_dir]にスクリーンショット用の画像を生成します。
   # [orientation]で(`portrait` or `landscape`)向きを指定でき、[color]を指定すると背景色を指定できます。
   screenshot:
-    source_dir: document/screenshot
-    export_dir: document/store
-    feature_image: document/feature.png
+    source_dir: documents/screenshot
+    export_dir: documents/store
+    feature_image: documents/feature.png
     orientation: portrait
     color: '000000'
     position: center

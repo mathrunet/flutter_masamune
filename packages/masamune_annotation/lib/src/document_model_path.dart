@@ -126,6 +126,8 @@ class DocumentModelPath {
     this.endpoint,
     this.permission,
     this.mirrorPermission,
+    this.docsPath = "documents/docs",
+    this.comment,
   });
 
   /// Path for documentation.
@@ -147,6 +149,16 @@ class DocumentModelPath {
   ///
   /// APIにアクセスするためのエンドポイント。
   final String? endpoint;
+
+  /// The path (relative path) to which the document will be generated.
+  ///
+  /// ドキュメントを生成する際の生成先のパス（相対パス）。
+  final String docsPath;
+
+  /// Comments to be assigned to the collection.
+  ///
+  /// コレクションに付与するコメント。
+  final String? comment;
 
   /// List to define permissions.
   ///

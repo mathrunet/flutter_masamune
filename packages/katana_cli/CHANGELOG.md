@@ -1,3 +1,8 @@
+## 2.21.4
+
+ - **FIX**: Change document path. ([6a106125](https://github.com/mathrunet/flutter_masamune/commit/6a106125e7f4dabacabf5529c5de4744615f1285))
+ - **FIX**: Remove spaces due to errors. ([c1bf2f19](https://github.com/mathrunet/flutter_masamune/commit/c1bf2f198e9dfc168e5e2a02760b1ef6c41935b7))
+
 ## 2.21.3
 
  - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))

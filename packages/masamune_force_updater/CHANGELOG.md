@@ -1,3 +1,11 @@
+## 2.1.96
+
+ - Update a dependency to the latest release.
+
+## 2.1.95
+
+ - Update a dependency to the latest release.
+
 ## 2.1.94
 
  - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))

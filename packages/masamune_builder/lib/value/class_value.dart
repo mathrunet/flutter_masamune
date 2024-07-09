@@ -23,6 +23,10 @@ class ClassValue {
     parameters = contstuctor.parameters.where((e) => e.name != "key").map((e) {
       return ParamaterValue(e);
     }).toList();
+    deprecated = _deprecatedChecker
+        .firstAnnotationOfExact(element)
+        ?.getField("message")
+        ?.toStringValue();
   }
 
   /// Class Element.
@@ -34,6 +38,11 @@ class ClassValue {
   ///
   /// クラス名。
   late final String name;
+
+  /// If it is deprecated, the reason is described.
+  ///
+  /// 非推奨になっている場合はその理由が記述されます。
+  late final String? deprecated;
 
   /// Class parameters.
   ///

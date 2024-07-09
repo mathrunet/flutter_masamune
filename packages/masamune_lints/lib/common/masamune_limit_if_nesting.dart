@@ -33,7 +33,10 @@ class _MasamuneLimitIfNesting extends DartLintRule {
       }
 
       if (nestingLevel > _kMaxNestingCount) {
-        reporter.atNode(node, _code);
+        reporter.reportErrorForNode(
+          _code,
+          node,
+        );
       }
     });
   }

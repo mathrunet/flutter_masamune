@@ -104,14 +104,14 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
             switch (type) {
               case _MasamuneScopedType.app:
                 if (type != scopedType) {
-                  reporter.atNode(
-                    node,
+                  reporter.reportErrorForNode(
                     LintCode(
                       name: _code.name,
                       problemMessage:
                           "${_code.problemMessage} Ref/${type.label} != ScopedQuery/${scopedType.label}",
                       errorSeverity: _code.errorSeverity,
                     ),
+                    node,
                   );
                 }
                 break;
@@ -121,14 +121,14 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
                   return;
                 }
                 if (type != scopedType) {
-                  reporter.atNode(
-                    node,
+                  reporter.reportErrorForNode(
                     LintCode(
                       name: _code.name,
                       problemMessage:
                           "${_code.problemMessage} Ref/${type.label} != ScopedQuery/${scopedType.label}",
                       errorSeverity: _code.errorSeverity,
                     ),
+                    node,
                   );
                 }
                 break;
@@ -138,14 +138,14 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
                   return;
                 }
                 if (type != scopedType) {
-                  reporter.atNode(
-                    node,
+                  reporter.reportErrorForNode(
                     LintCode(
                       name: _code.name,
                       problemMessage:
                           "${_code.problemMessage} Ref/${type.label} != ScopedQuery/${scopedType.label}",
                       errorSeverity: _code.errorSeverity,
                     ),
+                    node,
                   );
                 }
                 break;
@@ -172,14 +172,14 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
               return;
             }
             if (scopedType != type) {
-              reporter.atNode(
-                node,
+              reporter.reportErrorForNode(
                 LintCode(
                   name: _code.name,
                   problemMessage:
                       "${_code.problemMessage} Ref/${type.label} != ScopedQuery/${type.label}",
                   errorSeverity: _code.errorSeverity,
                 ),
+                node,
               );
             }
 

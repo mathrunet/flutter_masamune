@@ -24,6 +24,8 @@ class ModelAnnotationValue {
         final source = meta.toSource();
         mirror = obj.getField("mirror")?.toStringValue();
         endpoint = obj.getField("endpoint")?.toStringValue();
+        docsPath = obj.getField("docsPath")?.toStringValue();
+        comment = obj.getField("comment")?.toStringValue();
 
         final permissionMatch = _permissionRegExp.firstMatch(source);
         if (permissionMatch != null) {
@@ -84,6 +86,8 @@ class ModelAnnotationValue {
     mirror = null;
     adapter = null;
     endpoint = null;
+    docsPath = null;
+    comment = null;
   }
 
   /// Check if the class element has
@@ -135,6 +139,16 @@ class ModelAnnotationValue {
   ///
   /// エンドポイントの設定。
   late final String? endpoint;
+
+  /// Set the document path.
+  ///
+  /// ドキュメントパスの設定。
+  late final String? docsPath;
+
+  /// Comment Settings.
+  ///
+  /// コメントの設定。
+  late final String? comment;
 
   /// Permission settings.
   ///
