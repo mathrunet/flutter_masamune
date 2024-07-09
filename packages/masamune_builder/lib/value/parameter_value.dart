@@ -83,7 +83,11 @@ class ParamaterValue {
               ?.toStringValue() ??
           name;
     } else {
-      jsonKey = name;
+      jsonKey = _jsonKeyChecker
+              .firstAnnotationOfExact(element)
+              ?.getField("name")
+              ?.toStringValue() ??
+          name;
     }
 
     comment = _commentChecker

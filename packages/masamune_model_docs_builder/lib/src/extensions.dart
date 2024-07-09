@@ -1,12 +1,12 @@
 part of '/masamune_model_docs_builder.dart';
 
 extension on ParamaterValue {
-  String _name({bool app = false}) {
-    final name = app ? (jsonKey ?? this.name) : this.name;
+  String _name({bool app = false, String? prefix}) {
+    final name = !app ? (jsonKey ?? this.name) : this.name;
     if (this.deprecated.isNotEmpty) {
-      return "~~$name~~";
+      return "~~${prefix ?? ""}$name~~";
     }
-    return "**$name**";
+    return "**${prefix ?? ""}$name**";
   }
 
   String? get _comment {
@@ -58,7 +58,7 @@ extension on ParamaterValue {
       );
       if (subType != null) {
         buffer.writeln(
-          "| ${required ? "✅" : ""} | ${_name(app: false)} | $subType | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+          "| ${required ? "✅" : ""} | ${_name(app: false, prefix: "#")} | $subType | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
         );
       }
     }
