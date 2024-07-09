@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-07-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_builder` - `v2.17.3`](#masamune_builder---v2173)
+ - [`masamune_model_docs_builder` - `v2.1.3`](#masamune_model_docs_builder---v213)
+ - [`masamune_model_firestore_builder` - `v2.3.3`](#masamune_model_firestore_builder---v233)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_firestore_builder` - `v2.3.3`
+
+---
+
+#### `masamune_builder` - `v2.17.3`
+
+ - **FIX**: Deprecated can be obtained. ([e672d477](https://github.com/mathrunet/flutter_masamune/commit/e672d477f875fb4d0b16f9609a9c16d66cb13711))
+
+#### `masamune_model_docs_builder` - `v2.1.3`
+
+ - **FIX**: Slight change in display. ([2cd7f990](https://github.com/mathrunet/flutter_masamune/commit/2cd7f9905b7258dc1558d285c05d846271223e37))
+
+
 ## 2024-07-08
 
 ### Changes

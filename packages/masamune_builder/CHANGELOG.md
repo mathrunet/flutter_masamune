@@ -1,3 +1,7 @@
+## 2.17.3
+
+ - **FIX**: Deprecated can be obtained. ([e672d477](https://github.com/mathrunet/flutter_masamune/commit/e672d477f875fb4d0b16f9609a9c16d66cb13711))
+
 ## 2.17.2
 
  - **FIX**: Added the ability to add comments. ([3450dbb4](https://github.com/mathrunet/flutter_masamune/commit/3450dbb407b8142741671024ebf9dbe8f7b38f9e))
