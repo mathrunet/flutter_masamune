@@ -90,6 +90,11 @@ class ParamaterValue {
         .firstAnnotationOfExact(element)
         ?.getField("comment")
         ?.toStringValue();
+
+    deprecated = _deprecatedChecker
+        .firstAnnotationOfExact(element)
+        ?.getField("message")
+        ?.toStringValue();
   }
 
   static final _refParamRegExp = RegExp(r"^@RefParam\((.+)\)$");
@@ -139,6 +144,11 @@ class ParamaterValue {
   ///
   /// フィールドに付与されたコメント。
   late final String? comment;
+
+  /// If it is deprecated, the reason is described.
+  ///
+  /// 非推奨になっている場合はその理由が記述されます。
+  late final String? deprecated;
 
   @override
   String toString() {

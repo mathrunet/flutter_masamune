@@ -370,7 +370,7 @@ packages:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "2.7.0"
+    version: "2.7.1"
   matcher:
     dependency: transitive
     description:
