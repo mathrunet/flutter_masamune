@@ -1,3 +1,7 @@
+## 2.14.0
+
+ - **FEAT**: Added LoaderMixin for Controller. ([d2c022c0](https://github.com/mathrunet/flutter_masamune/commit/d2c022c0e58e6eefdb3075422ce01d47c986b87a))
+
 ## 2.13.52
 
  - Update a dependency to the latest release.

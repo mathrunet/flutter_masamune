@@ -3,6 +3,107 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-07-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune` - `v2.14.0`](#masamune---v2140)
+ - [`masamune_camera` - `v2.1.0`](#masamune_camera---v210)
+ - [`masamune_location_platform_interface` - `v2.4.25`](#masamune_location_platform_interface---v2425)
+ - [`masamune_location_geocoding` - `v2.4.97`](#masamune_location_geocoding---v2497)
+ - [`masamune_location` - `v2.4.25`](#masamune_location---v2425)
+ - [`masamune_notification_local` - `v2.1.20`](#masamune_notification_local---v2120)
+ - [`masamune_deeplink_firebase` - `v2.2.99`](#masamune_deeplink_firebase---v2299)
+ - [`masamune_auth_apple` - `v2.4.28`](#masamune_auth_apple---v2428)
+ - [`masamune_model_algolia` - `v2.4.98`](#masamune_model_algolia---v2498)
+ - [`masamune_scheduler` - `v2.3.14`](#masamune_scheduler---v2314)
+ - [`masamune_location_background` - `v2.4.98`](#masamune_location_background---v2498)
+ - [`masamune_text_to_speech` - `v2.2.98`](#masamune_text_to_speech---v2298)
+ - [`masamune_agora` - `v2.4.100`](#masamune_agora---v24100)
+ - [`masamune_auth_google` - `v2.5.28`](#masamune_auth_google---v2528)
+ - [`masamune_ai_openai` - `v2.7.89`](#masamune_ai_openai---v2789)
+ - [`masamune_calendar` - `v2.2.97`](#masamune_calendar---v2297)
+ - [`masamune_module_chat_system` - `v2.1.90`](#masamune_module_chat_system---v2190)
+ - [`masamune_animate` - `v2.2.40`](#masamune_animate---v2240)
+ - [`masamune_picker` - `v2.2.97`](#masamune_picker---v2297)
+ - [`masamune_util` - `v2.2.97`](#masamune_util---v2297)
+ - [`masamune_universal_ui` - `v2.5.6`](#masamune_universal_ui---v256)
+ - [`masamune_purchase_stripe` - `v3.5.94`](#masamune_purchase_stripe---v3594)
+ - [`masamune_notification` - `v2.8.13`](#masamune_notification---v2813)
+ - [`masamune_logger_firebase` - `v2.2.96`](#masamune_logger_firebase---v2296)
+ - [`masamune_introduction` - `v2.4.94`](#masamune_introduction---v2494)
+ - [`masamune_deeplink` - `v2.2.97`](#masamune_deeplink---v2297)
+ - [`masamune_force_updater` - `v2.1.97`](#masamune_force_updater---v2197)
+ - [`masamune_speech_to_text` - `v2.2.98`](#masamune_speech_to_text---v2298)
+ - [`masamune_location_google` - `v2.5.25`](#masamune_location_google---v2525)
+ - [`masamune_module_point_ecosystem` - `v2.5.104`](#masamune_module_point_ecosystem---v25104)
+ - [`masamune_auth_facebook` - `v2.4.28`](#masamune_auth_facebook---v2428)
+ - [`masamune_purchase` - `v2.1.80`](#masamune_purchase---v2180)
+ - [`masamune_module` - `v2.4.97`](#masamune_module---v2497)
+ - [`masamune_notification_firebase` - `v2.7.20`](#masamune_notification_firebase---v2720)
+ - [`masamune_mail` - `v2.2.97`](#masamune_mail---v2297)
+ - [`masamune_ads_google` - `v2.4.97`](#masamune_ads_google---v2497)
+ - [`masamune_purchase_mobile` - `v2.8.81`](#masamune_purchase_mobile---v2881)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_platform_interface` - `v2.4.25`
+ - `masamune_location_geocoding` - `v2.4.97`
+ - `masamune_location` - `v2.4.25`
+ - `masamune_notification_local` - `v2.1.20`
+ - `masamune_deeplink_firebase` - `v2.2.99`
+ - `masamune_auth_apple` - `v2.4.28`
+ - `masamune_model_algolia` - `v2.4.98`
+ - `masamune_scheduler` - `v2.3.14`
+ - `masamune_location_background` - `v2.4.98`
+ - `masamune_text_to_speech` - `v2.2.98`
+ - `masamune_agora` - `v2.4.100`
+ - `masamune_auth_google` - `v2.5.28`
+ - `masamune_ai_openai` - `v2.7.89`
+ - `masamune_calendar` - `v2.2.97`
+ - `masamune_module_chat_system` - `v2.1.90`
+ - `masamune_animate` - `v2.2.40`
+ - `masamune_picker` - `v2.2.97`
+ - `masamune_util` - `v2.2.97`
+ - `masamune_universal_ui` - `v2.5.6`
+ - `masamune_purchase_stripe` - `v3.5.94`
+ - `masamune_notification` - `v2.8.13`
+ - `masamune_logger_firebase` - `v2.2.96`
+ - `masamune_introduction` - `v2.4.94`
+ - `masamune_deeplink` - `v2.2.97`
+ - `masamune_force_updater` - `v2.1.97`
+ - `masamune_speech_to_text` - `v2.2.98`
+ - `masamune_location_google` - `v2.5.25`
+ - `masamune_module_point_ecosystem` - `v2.5.104`
+ - `masamune_auth_facebook` - `v2.4.28`
+ - `masamune_purchase` - `v2.1.80`
+ - `masamune_module` - `v2.4.97`
+ - `masamune_notification_firebase` - `v2.7.20`
+ - `masamune_mail` - `v2.2.97`
+ - `masamune_ads_google` - `v2.4.97`
+ - `masamune_purchase_mobile` - `v2.8.81`
+
+---
+
+#### `masamune` - `v2.14.0`
+
+ - **FEAT**: Added LoaderMixin for Controller. ([d2c022c0](https://github.com/mathrunet/flutter_masamune/commit/d2c022c0e58e6eefdb3075422ce01d47c986b87a))
+
+#### `masamune_camera` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([eebf7256](https://github.com/mathrunet/flutter_masamune/commit/eebf72565a2fb2b6187b4a1d4de2735f28141585))
+
+
 ## 2024-07-09
 
 ### Changes
