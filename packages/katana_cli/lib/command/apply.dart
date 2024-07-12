@@ -9,6 +9,7 @@ import 'package:katana_cli/action/app/geocoding.dart';
 import 'package:katana_cli/action/app/icon.dart';
 import 'package:katana_cli/action/app/info.dart';
 import 'package:katana_cli/action/app/introduction.dart';
+import 'package:katana_cli/action/app/camera.dart';
 import 'package:katana_cli/action/app/keystore.dart';
 import 'package:katana_cli/action/app/local_notification.dart';
 import 'package:katana_cli/action/app/location.dart';
@@ -64,6 +65,7 @@ const _actions = <CliActionMixin>[
   AppOpenAICliAction(),
   AppAnimateCliAction(),
   AppIntroductionCliAction(),
+  AppCameraCliAction(),
   AppCalendarCliAction(),
   AppTextToSpeechCliAction(),
   AppSpeechToTextCliAction(),

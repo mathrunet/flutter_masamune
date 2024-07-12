@@ -187,6 +187,11 @@ ${showAllConfig ? """
   introduction:
     enable: false
 
+  # Describe the settings for using the camera.
+  # カメラを利用するための設定を記述します。
+  camera:
+    enable: false
+
   # Describe the settings for using the calendar.
   # カレンダーを利用するための設定を記述します。
   calendar:
