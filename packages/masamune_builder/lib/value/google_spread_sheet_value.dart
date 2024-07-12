@@ -121,9 +121,9 @@ class GoogleSpreadSheetValue {
             .firstMatch(_source!)
             ?.group(1) ??
         "";
-    final endpoint =
-        _source!.replaceAllMapped(RegExp(r"/edit(#gid=([0-9]+))?$"), (match) {
-      gid = match.group(2);
+    final endpoint = _source!.replaceAllMapped(
+        RegExp(r"/edit(\?([^#]+))?(#gid=([0-9]+))?$"), (match) {
+      gid = match.group(4);
       if (gid.isEmpty) {
         return "/export?format=csv";
       }

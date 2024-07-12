@@ -30,9 +30,9 @@ class LocalizeLoader {
       if (file.existsSync()) {
         bytes[id] = await file.readAsBytes();
       } else {
-        final endpoint = path.path
-            .replaceAllMapped(RegExp(r"/edit(#gid=([0-9]+))?$"), (match) {
-          final gid = match.group(2);
+        final endpoint = path.path.replaceAllMapped(
+            RegExp(r"/edit(\?([^#]+))?(#gid=([0-9]+))?$"), (match) {
+          final gid = match.group(4);
           if (gid.isEmpty) {
             return "/export?format=csv";
           }

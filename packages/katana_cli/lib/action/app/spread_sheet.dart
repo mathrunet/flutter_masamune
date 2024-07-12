@@ -88,9 +88,9 @@ class AppSpreadSheetCliAction extends CliCommand with CliActionMixin {
       return;
     }
     final domain = spreadSheet.get("domain", "");
-    final endpoint =
-        url.replaceAllMapped(RegExp(r"/edit(#gid=([0-9]+))?$"), (match) {
-      final gid = match.group(2);
+    final endpoint = url.replaceAllMapped(
+        RegExp(r"/edit(\?([^#]+))?(#gid=([0-9]+))?$"), (match) {
+      final gid = match.group(4);
       if (gid.isEmpty) {
         return "/export?format=csv";
       }
