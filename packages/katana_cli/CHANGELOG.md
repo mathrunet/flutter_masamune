@@ -1,3 +1,7 @@
+## 2.21.6
+
+ - **FIX**: Support for changes in spreadsheet URLs. ([182034d8](https://github.com/mathrunet/flutter_masamune/commit/182034d80e6f1563d372ba994bbc03710b7e3f44))
+
 ## 2.21.5
 
  - **FIX**: Additional camera features. ([678cb701](https://github.com/mathrunet/flutter_masamune/commit/678cb701fb02081b9bc95adaf5a259633c1a35ba))

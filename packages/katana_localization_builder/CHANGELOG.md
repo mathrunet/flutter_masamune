@@ -1,3 +1,7 @@
+## 2.2.14
+
+ - **FIX**: Support for changes in spreadsheet URLs. ([182034d8](https://github.com/mathrunet/flutter_masamune/commit/182034d80e6f1563d372ba994bbc03710b7e3f44))
+
 ## 2.2.13
 
  - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))

@@ -1,3 +1,7 @@
+## 2.1.5
+
+ - Update a dependency to the latest release.
+
 ## 2.1.4
 
  - **FIX**: Fixed a notation bug. ([da9700f7](https://github.com/mathrunet/flutter_masamune/commit/da9700f70d0d16758d85e2075cae2bc5ebd93f49))

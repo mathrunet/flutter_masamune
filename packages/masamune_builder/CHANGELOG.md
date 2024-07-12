@@ -1,3 +1,7 @@
+## 2.17.5
+
+ - **FIX**: Support for changes in spreadsheet URLs. ([182034d8](https://github.com/mathrunet/flutter_masamune/commit/182034d80e6f1563d372ba994bbc03710b7e3f44))
+
 ## 2.17.4
 
  - **FIX**: Fixed a notation bug. ([da9700f7](https://github.com/mathrunet/flutter_masamune/commit/da9700f70d0d16758d85e2075cae2bc5ebd93f49))

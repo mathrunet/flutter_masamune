@@ -15,6 +15,46 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.21.6`](#katana_cli---v2216)
+ - [`katana_localization_builder` - `v2.2.14`](#katana_localization_builder---v2214)
+ - [`masamune_builder` - `v2.17.5`](#masamune_builder---v2175)
+ - [`masamune_model_docs_builder` - `v2.1.5`](#masamune_model_docs_builder---v215)
+ - [`masamune_model_firestore_builder` - `v2.3.5`](#masamune_model_firestore_builder---v235)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_docs_builder` - `v2.1.5`
+ - `masamune_model_firestore_builder` - `v2.3.5`
+
+---
+
+#### `katana_cli` - `v2.21.6`
+
+ - **FIX**: Support for changes in spreadsheet URLs. ([182034d8](https://github.com/mathrunet/flutter_masamune/commit/182034d80e6f1563d372ba994bbc03710b7e3f44))
+
+#### `katana_localization_builder` - `v2.2.14`
+
+ - **FIX**: Support for changes in spreadsheet URLs. ([182034d8](https://github.com/mathrunet/flutter_masamune/commit/182034d80e6f1563d372ba994bbc03710b7e3f44))
+
+#### `masamune_builder` - `v2.17.5`
+
+ - **FIX**: Support for changes in spreadsheet URLs. ([182034d8](https://github.com/mathrunet/flutter_masamune/commit/182034d80e6f1563d372ba994bbc03710b7e3f44))
+
+
+## 2024-07-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.21.5`](#katana_cli---v2215)
 
 ---
