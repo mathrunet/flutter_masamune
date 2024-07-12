@@ -1,3 +1,7 @@
+## 2.21.5
+
+ - **FIX**: Additional camera features. ([678cb701](https://github.com/mathrunet/flutter_masamune/commit/678cb701fb02081b9bc95adaf5a259633c1a35ba))
+
 ## 2.21.4
 
  - **FIX**: Change document path. ([6a106125](https://github.com/mathrunet/flutter_masamune/commit/6a106125e7f4dabacabf5529c5de4744615f1285))

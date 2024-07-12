@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-07-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.21.5`](#katana_cli---v2215)
+
+---
+
+#### `katana_cli` - `v2.21.5`
+
+ - **FIX**: Additional camera features. ([678cb701](https://github.com/mathrunet/flutter_masamune/commit/678cb701fb02081b9bc95adaf5a259633c1a35ba))
+
+
 ## 2024-07-11
 
 ### Changes
