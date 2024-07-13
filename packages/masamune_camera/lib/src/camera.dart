@@ -80,7 +80,7 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
       _controller ??= camera.CameraController(
         _cameras.first,
         resolutionPreset?._toResolutionPreset() ??
-            adapter.resolutionPreset._toResolutionPreset(),
+            adapter.defaultResolutionPreset._toResolutionPreset(),
       );
       await _controller?.initialize();
       _initialized = true;
@@ -104,7 +104,11 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
   /// カメラ画像を撮影します。
   ///
   /// [CameraValue]として値は返されます。
-  Future<CameraValue?> takePicture() async {
+  Future<CameraValue?> takePicture({
+    int? width,
+    int? height,
+    ImageFormat? format,
+  }) async {
     if (_recordingCompleter != null) {
       return _recordingCompleter!.future;
     }
@@ -112,7 +116,12 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
     try {
       await initialize();
       final file = await _controller!.takePicture();
-      final value = await CameraValue._fromXFile(file);
+      final value = await CameraValue.fromXFile(
+        file: file,
+        format: format ?? adapter.defaultImageFormat,
+        width: width,
+        height: height,
+      );
       notifyListeners();
       _recordingCompleter?.complete(value);
       _recordingCompleter = null;

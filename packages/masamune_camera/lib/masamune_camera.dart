@@ -8,17 +8,26 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_camera;
 
-// Dart imports:
-import 'dart:typed_data';
-
 // Flutter imports:
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 // Package imports:
 import 'package:camera/camera.dart' as camera;
 import 'package:masamune/masamune.dart';
 
+import 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';
+
+export 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';
+
 part 'adapter/camera_masamune_adapter.dart';
 part 'src/camera.dart';
 part 'src/resolution_preset.dart';
-part 'src/camera_value.dart';
+part 'src/image_format.dart';
+part 'storage/storage.dart';

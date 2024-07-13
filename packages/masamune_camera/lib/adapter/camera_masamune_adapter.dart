@@ -8,13 +8,19 @@ class CameraMasamuneAdapter extends MasamuneAdapter {
   ///
   /// カメラの初期設定を行う[MasamuneAdapter]。
   const CameraMasamuneAdapter({
-    this.resolutionPreset = ResolutionPreset.high,
+    this.defaultResolutionPreset = ResolutionPreset.high,
+    this.defaultImageFormat = ImageFormat.jpg,
   });
 
   /// Resolution preset.
   ///
   /// 解像度のプリセット。
-  final ResolutionPreset resolutionPreset;
+  final ResolutionPreset defaultResolutionPreset;
+
+  /// Image format.
+  ///
+  /// 画像フォーマット。
+  final ImageFormat defaultImageFormat;
 
   /// You can retrieve the [CameraMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
