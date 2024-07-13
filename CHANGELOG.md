@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-07-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_camera` - `v2.2.0`](#masamune_camera---v220)
+
+---
+
+#### `masamune_camera` - `v2.2.0`
+
+ - **FEAT**: Camera values can now be resized out. ([bb2eae57](https://github.com/mathrunet/flutter_masamune/commit/bb2eae575d69c7febeee4a5885694f252406e9ed))
+
+
 ## 2024-07-12
 
 ### Changes
