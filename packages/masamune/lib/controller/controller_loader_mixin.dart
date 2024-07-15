@@ -60,16 +60,16 @@ mixin ControllerLoaderMixin<T> on ChangeNotifier
     try {
       _value = await loadRequest();
       _loaded = true;
-      _loadingCompleter!.complete();
+      _loadingCompleter?.complete();
       _loadingCompleter = null;
       notifyListeners();
     } catch (e, stacktrace) {
       _loaded = false;
-      _loadingCompleter!.completeError(e, stacktrace);
+      _loadingCompleter?.completeError(e, stacktrace);
       _loadingCompleter = null;
       rethrow;
     } finally {
-      _loadingCompleter!.complete();
+      _loadingCompleter?.complete();
       _loadingCompleter = null;
     }
   }
