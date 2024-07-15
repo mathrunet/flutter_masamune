@@ -1,3 +1,7 @@
+## 2.14.1
+
+ - **FIX**: Fixed null error output. ([0889d9ea](https://github.com/mathrunet/flutter_masamune/commit/0889d9eaeea890e96dab0fc5b4b0d8bd03d9b6b6))
+
 ## 2.14.0
 
  - **FEAT**: Added LoaderMixin for Controller. ([d2c022c0](https://github.com/mathrunet/flutter_masamune/commit/d2c022c0e58e6eefdb3075422ce01d47c986b87a))
