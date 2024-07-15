@@ -64,8 +64,6 @@ class Location
   LocationData? get value => _value;
   LocationData? _value;
 
-  final location.Location _location = location.Location();
-
   Timer? _timer;
   Duration _updateInterval = const Duration(seconds: 1);
   bool _updated = false;
@@ -74,7 +72,7 @@ class Location
   Completer<void>? _saveCompleter;
   Completer<void>? _initializeCompleter;
   // ignore: cancel_subscriptions
-  StreamSubscription<location.LocationData>? _locationChangeStreamSubscription;
+  StreamSubscription? _locationChangeStreamSubscription;
 
   /// Returns `true` if [listen] has already been executed.
   ///
@@ -116,22 +114,13 @@ class Location
       return true;
     }
     try {
-      _permissionStatus =
-          await Permission.locationWhenInUse.status.timeout(timeout);
-      if (_permissionStatus != PermissionStatus.granted) {
-        _permissionStatus =
-            await Permission.locationWhenInUse.request().timeout(timeout);
-      }
+      _permissionStatus = await adapter.requestPermission(timeout: timeout);
       if (_permissionStatus != PermissionStatus.granted) {
         return false;
       }
       if (adapter.enableBackgroundLocation) {
         _backgroundPermissionStatus =
-            await Permission.locationAlways.status.timeout(timeout);
-        if (_backgroundPermissionStatus != PermissionStatus.granted) {
-          _backgroundPermissionStatus =
-              await Permission.locationAlways.request().timeout(timeout);
-        }
+            await adapter.requestBackgroundPermission(timeout: timeout);
       }
       return true;
     } catch (e) {
@@ -163,11 +152,8 @@ class Location
     }
     _initializeCompleter = Completer<void>();
     try {
-      if (!await _location.serviceEnabled().timeout(timeout)) {
-        throw Exception(
-          "Location service not available. The platform may not be supported or it may be disabled in the settings. please confirm.",
-        );
-      }
+      await adapter.initialize(
+          checkPermission: checkPermission, timeout: timeout);
       if (checkPermission) {
         if (!await requestPermission(timeout: timeout)) {
           debugPrint(
@@ -220,7 +206,7 @@ class Location
       if (!permitted) {
         _value = defaultLocationData ?? adapter.defaultLocationData ?? _value;
       } else {
-        _value = (await _location.getLocation()).toLocationData();
+        _value = await adapter.getLocation();
       }
       notifyListeners();
       _loadCompleter?.complete();
@@ -316,21 +302,19 @@ class Location
     _updateInterval = updateInterval;
     try {
       await initialize(timeout: timeout);
-      await _location.changeSettings(
-        accuracy: (accuracy ?? LocationMasamuneAdapter.primary.defaultAccuracy)
-            .toGeoLocatorLocationAccuracy(),
-        distanceFilter: distanceFilterMeters ??
-            LocationMasamuneAdapter.primary.defaultDistanceFilterMeters,
+      await adapter.changeSettings(
+        accuracy: accuracy,
+        distanceFilterMeters: distanceFilterMeters,
       );
       if (adapter.enableBackgroundLocation && permittedBackground) {
-        await _location.enableBackgroundMode(enable: true);
+        await adapter.enableBackgroundMode(enable: true);
       }
-      _value = (await _location.getLocation()).toLocationData();
+      _value = await adapter.getLocation();
       _locationChangeStreamSubscription?.cancel();
-      _locationChangeStreamSubscription = _location.onLocationChanged.listen(
-        (event) {
+      _locationChangeStreamSubscription = adapter.listen(
+        (value) {
           _updated = true;
-          _value = event.toLocationData();
+          _value = value;
         },
       );
       _updated = false;
@@ -403,27 +387,27 @@ class _$_LocationQuery extends ControllerQueryBase<Location> {
 }
 
 extension on LocationAccuracy {
-  location.LocationAccuracy toGeoLocatorLocationAccuracy() {
+  l.LocationAccuracy toGeoLocatorLocationAccuracy() {
     switch (this) {
       case LocationAccuracy.lowest:
-        return location.LocationAccuracy.powerSave;
+        return l.LocationAccuracy.powerSave;
       case LocationAccuracy.low:
-        return location.LocationAccuracy.low;
+        return l.LocationAccuracy.low;
       case LocationAccuracy.medium:
-        return location.LocationAccuracy.balanced;
+        return l.LocationAccuracy.balanced;
       case LocationAccuracy.high:
-        return location.LocationAccuracy.high;
+        return l.LocationAccuracy.high;
       case LocationAccuracy.best:
-        return location.LocationAccuracy.high;
+        return l.LocationAccuracy.high;
       case LocationAccuracy.navigation:
-        return location.LocationAccuracy.navigation;
+        return l.LocationAccuracy.navigation;
       default:
-        return location.LocationAccuracy.reduced;
+        return l.LocationAccuracy.reduced;
     }
   }
 }
 
-extension on location.LocationData {
+extension on l.LocationData {
   LocationData toLocationData() {
     return LocationData(
       latitude: latitude ?? 0.0,

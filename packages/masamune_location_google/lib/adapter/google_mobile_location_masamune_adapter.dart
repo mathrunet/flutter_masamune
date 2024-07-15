@@ -3,11 +3,12 @@ part of '/masamune_location_google.dart';
 /// [MasamuneAdapter] handles location information and performs initial settings for displaying GoogleMap.
 ///
 /// 位置情報を取り扱い、GoogleMapを表示するための初期設定を行う[MasamuneAdapter]。
-class GoogleLocationMasamuneAdapter extends LocationMasamuneAdapter {
+class GoogleMobileLocationMasamuneAdapter extends MobileLocationMasamuneAdapter
+    implements GoogleLocationMasamuneAdapter {
   /// [MasamuneAdapter] handles location information and performs initial settings for displaying GoogleMap.
   ///
   /// 位置情報を取り扱い、GoogleMapを表示するための初期設定を行う[MasamuneAdapter]。
-  const GoogleLocationMasamuneAdapter({
+  const GoogleMobileLocationMasamuneAdapter({
     this.defaultMapStyle,
     super.location,
     super.defaultAccuracy,
@@ -20,20 +21,8 @@ class GoogleLocationMasamuneAdapter extends LocationMasamuneAdapter {
   /// Default map style.
   ///
   /// デフォルトのマップスタイル。
+  @override
   final MapStyle? defaultMapStyle;
-
-  /// You can retrieve the [GoogleLocationMasamuneAdapter] first given by [MasamuneAdapterScope].
-  ///
-  /// 最初に[MasamuneAdapterScope]で与えた[GoogleLocationMasamuneAdapter]を取得することができます。
-  static GoogleLocationMasamuneAdapter get primary {
-    assert(
-      _primary != null,
-      "GoogleLocationMasamuneAdapter is not set. Place [MasamuneAdapterScope] widget closer to the root.",
-    );
-    return _primary!;
-  }
-
-  static GoogleLocationMasamuneAdapter? _primary;
 
   @override
   void onInitScope(MasamuneAdapter adapter) {
@@ -41,7 +30,7 @@ class GoogleLocationMasamuneAdapter extends LocationMasamuneAdapter {
     if (adapter is! GoogleLocationMasamuneAdapter) {
       return;
     }
-    _primary = adapter;
+    GoogleLocationMasamuneAdapter._primary = adapter;
   }
 
   @override

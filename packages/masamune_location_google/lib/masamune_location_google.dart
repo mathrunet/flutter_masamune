@@ -45,7 +45,8 @@ export 'package:google_maps_flutter/google_maps_flutter.dart'
         ArgumentCallback,
         BitmapDescriptor;
 
-part 'adapter/google_location_masamune_adapter.dart';
+part 'adapter/google_mobile_location_masamune_adapter.dart';
+part 'adapter/google_runtime_location_masamune_adapter.dart';
 
 part 'src/map_style.dart';
 part 'src/map_controller.dart';
@@ -57,3 +58,4 @@ part 'src/polyline.dart';
 part 'src/circle.dart';
 part 'src/tile_overlay.dart';
 part 'src/camera_position.dart';
+part 'src/google_location_masamune_adapter.dart';

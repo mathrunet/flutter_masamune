@@ -3,33 +3,16 @@ part of '/masamune_location.dart';
 /// Initial settings for handling location information [MasamuneAdapter].
 ///
 /// 位置情報を取り扱うための初期設定を行う[MasamuneAdapter]。
-class LocationMasamuneAdapter extends MasamuneAdapter {
+abstract class LocationMasamuneAdapter extends MasamuneAdapter {
   /// Initial settings for handling location information [MasamuneAdapter].
   ///
   /// 位置情報を取り扱うための初期設定を行う[MasamuneAdapter]。
   const LocationMasamuneAdapter({
-    this.defaultAccuracy = LocationAccuracy.best,
-    this.defaultDistanceFilterMeters = 10.0,
     this.location,
-    this.defaultLocationData,
     this.listenOnBoot = false,
+    this.defaultLocationData,
     this.enableBackgroundLocation = false,
   });
-
-  /// Specifies the accuracy of location information.
-  ///
-  /// 位置情報の正確さを指定します。
-  final LocationAccuracy defaultAccuracy;
-
-  /// Minimum distance in meters for location updates.
-  ///
-  /// 位置情報を更新する際の最低距離（m）。
-  final double defaultDistanceFilterMeters;
-
-  /// Specifies the initial position.
-  ///
-  /// 初期位置を指定します。
-  final LocationData? defaultLocationData;
 
   /// Specify the object of [Location].
   ///
@@ -44,6 +27,11 @@ class LocationMasamuneAdapter extends MasamuneAdapter {
   ///
   /// [location]が設定されている場合、[onMaybeBoot]を実行した際合わせて位置情報の取得も開始する場合`true`。
   final bool listenOnBoot;
+
+  /// Specifies the initial position.
+  ///
+  /// 初期位置を指定します。
+  final LocationData? defaultLocationData;
 
   /// `true` to enable background location acquisition.
   ///
@@ -66,6 +54,67 @@ class LocationMasamuneAdapter extends MasamuneAdapter {
   }
 
   static LocationMasamuneAdapter? _primary;
+
+  /// Allow and obtain location permissions.
+  ///
+  /// 位置情報の権限の許可と取得を行います。
+  Future<PermissionStatus> requestPermission({
+    Duration timeout = const Duration(seconds: 60),
+  }) async {
+    var permissionStatus =
+        await Permission.locationWhenInUse.status.timeout(timeout);
+    if (permissionStatus != PermissionStatus.granted) {
+      permissionStatus =
+          await Permission.locationWhenInUse.request().timeout(timeout);
+    }
+    return permissionStatus;
+  }
+
+  /// Allow and retrieve background location permissions.
+  ///
+  /// バックグラウンドの位置情報の権限の許可と取得を行います。
+  Future<PermissionStatus> requestBackgroundPermission({
+    Duration timeout = const Duration(seconds: 60),
+  }) async {
+    var backgroundPermissionStatus =
+        await Permission.locationAlways.status.timeout(timeout);
+    if (backgroundPermissionStatus != PermissionStatus.granted) {
+      backgroundPermissionStatus =
+          await Permission.locationAlways.request().timeout(timeout);
+    }
+    return backgroundPermissionStatus;
+  }
+
+  /// Initialization.
+  ///
+  /// 初期化を行います。
+  Future<void> initialize({
+    bool checkPermission = true,
+    Duration timeout = const Duration(seconds: 60),
+  });
+
+  /// Obtains location data once.
+  ///
+  /// 位置情報のデータを１回取得します。
+  Future<LocationData> getLocation();
+
+  /// Update location settings.
+  ///
+  /// 位置情報の設定を更新します。
+  Future<void> changeSettings({
+    LocationAccuracy? accuracy = LocationAccuracy.high,
+    double? distanceFilterMeters = 0,
+  });
+
+  /// Enable background mode.
+  ///
+  /// バックグラウンドモードを有効にします。
+  Future<void> enableBackgroundMode({required bool enable});
+
+  /// Start location subscription.
+  ///
+  /// 位置情報の購読を開始します。
+  StreamSubscription? listen(void Function(LocationData data) onData);
 
   @override
   void onInitScope(MasamuneAdapter adapter) {
