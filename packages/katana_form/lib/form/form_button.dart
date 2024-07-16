@@ -118,6 +118,7 @@ class FormButton extends StatelessWidget {
         ) ??
         TextStyle(color: enabled ? foregroundColor : disabledForegroundColor);
     final borderColor = style?.borderColor ?? foregroundColor;
+    final activeColor = style?.activeColor ?? foregroundColor.withOpacity(0.5);
 
     return Container(
       alignment: style?.alignment,
@@ -132,10 +133,10 @@ class FormButton extends StatelessWidget {
         child: Material(
           borderRadius: style?.borderRadius ?? BorderRadius.circular(32),
           child: InkWell(
-            focusColor: foregroundColor.withOpacity(0.5),
-            hoverColor: foregroundColor.withOpacity(0.5),
-            highlightColor: foregroundColor.withOpacity(0.5),
-            splashColor: foregroundColor.withOpacity(0.5),
+            focusColor: activeColor,
+            hoverColor: activeColor,
+            highlightColor: activeColor,
+            splashColor: activeColor,
             borderRadius: style?.borderRadius ?? BorderRadius.circular(32),
             onTap: enabled ? onPressed : null,
             child: Ink(
