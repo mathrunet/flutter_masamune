@@ -1,3 +1,7 @@
+## 2.14.2
+
+ - Update a dependency to the latest release.
+
 ## 2.14.1
 
  - **FIX**: Fixed null error output. ([0889d9ea](https://github.com/mathrunet/flutter_masamune/commit/0889d9eaeea890e96dab0fc5b4b0d8bd03d9b6b6))

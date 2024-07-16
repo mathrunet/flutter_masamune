@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Added four TransitionQuery. ([bcbb4559](https://github.com/mathrunet/flutter_masamune/commit/bcbb455937f3b5c7975bb203486f0e1a6fdb5c48))
+
 ## 2.3.3
 
  - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))

@@ -1,3 +1,7 @@
+## 2.13.6
+
+ - **FIX**: Added ActiveColor. ([7405e668](https://github.com/mathrunet/flutter_masamune/commit/7405e6680446dbb7ff5b3fa717f8e1cf626a1c2f))
+
 ## 2.13.5
 
  - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))

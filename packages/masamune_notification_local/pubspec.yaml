@@ -1,6 +1,6 @@
 name: masamune_notification_local
 description: Masamune plugin library for local PUSH notification. Only mobile can handle.
-version: 2.1.21
+version: 2.1.22
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_notification_local
 
@@ -12,12 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
     
-  masamune: ^2.14.1
+  masamune: ^2.14.2
   freezed_annotation: ^2.2.0
   json_annotation: ^4.8.0
   flutter_local_notifications: ^17.1.0
   universal_platform: ^1.0.0+1
-  masamune_notification: ^2.8.14
+  masamune_notification: ^2.8.15
   timezone: ^0.9.3
 dev_dependencies:
   test: ^1.24.0
