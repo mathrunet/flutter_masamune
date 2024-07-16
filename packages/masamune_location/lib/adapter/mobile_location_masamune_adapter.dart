@@ -26,7 +26,6 @@ class MobileLocationMasamuneAdapter extends LocationMasamuneAdapter {
   /// 位置情報を更新する際の最低距離（m）。
   final double defaultDistanceFilterMeters;
 
-
   static final l.Location _location = l.Location();
 
   @override
