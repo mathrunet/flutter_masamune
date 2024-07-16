@@ -73,6 +73,54 @@ class TransitionQuery {
   static const TransitionQuery bottomModal =
       TransitionQuery._(transition: _TransitionQueryType.bottomModal);
 
+  /// [TransitionQuery] that performs modal transitions from left to right.
+  ///
+  /// The back page will be visible.
+  ///
+  /// 左からのモーダルのトランジションを行なう[TransitionQuery]。
+  ///
+  /// 裏のページが見えるようになります。
+  static const TransitionQuery leftModal =
+      TransitionQuery._(transition: _TransitionQueryType.leftModal);
+
+  /// [TransitionQuery] that performs modal transitions from right to eft.
+  ///
+  /// The back page will be visible.
+  ///
+  /// 左からのモーダルのトランジションを行なう[TransitionQuery]。
+  ///
+  /// 裏のページが見えるようになります。
+  static const TransitionQuery rightModal =
+      TransitionQuery._(transition: _TransitionQueryType.rightModal);
+
+  /// [TransitionQuery] that performs modal transitions from left to right.
+  ///
+  /// The back page will be visible.
+  ///
+  /// The background will also be transparent.
+  ///
+  /// 左からのモーダルのトランジションを行なう[TransitionQuery]。
+  ///
+  /// 裏のページが見えるようになります。
+  ///
+  /// また、背景も透明になります。
+  static const TransitionQuery leftSheet =
+      TransitionQuery._(transition: _TransitionQueryType.leftSheet);
+
+  /// [TransitionQuery] that performs modal transitions from right to eft.
+  ///
+  /// The back page will be visible.
+  ///
+  /// The background will also be transparent.
+  ///
+  /// 左からのモーダルのトランジションを行なう[TransitionQuery]。
+  ///
+  /// 裏のページが見えるようになります。
+  ///
+  /// また、背景も透明になります。
+  static const TransitionQuery rightSheet =
+      TransitionQuery._(transition: _TransitionQueryType.rightSheet);
+
   /// [TransitionQuery] to perform modal transitions from below.
   ///
   /// The back page will be visible.

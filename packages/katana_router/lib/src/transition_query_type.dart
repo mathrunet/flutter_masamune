@@ -42,6 +42,43 @@ enum _TransitionQueryType {
   /// 裏のページが見えるようになります。
   bottomModal(isModal: true, isFullscreen: true),
 
+  /// Modal transitions from left to right.
+  ///
+  /// The back page will be visible.
+  ///
+  /// 左からのモーダルトランジション。
+  ///
+  /// 裏のページが見えるようになります。
+  leftModal(isModal: true, isFullscreen: true),
+
+  /// Modal transitions from right to left.
+  ///
+  /// The back page will be visible.
+  ///
+  /// 右からのモーダルトランジション。
+  ///
+  /// 裏のページが見えるようになります。
+  rightModal(isModal: true, isFullscreen: true),
+
+  /// Modal transitions from left to right.
+  ///
+  /// The back page will be visible.
+  ///
+  /// 左からのモーダルトランジション。
+  ///
+  /// 裏のページが見えるようになります。
+  leftSheet(isModal: true, isFullscreen: true, barrierColor: Color(0x00000000)),
+
+  /// Modal transitions from right to left.
+  ///
+  /// The back page will be visible.
+  ///
+  /// 右からのモーダルトランジション。
+  ///
+  /// 裏のページが見えるようになります。
+  rightSheet(
+      isModal: true, isFullscreen: true, barrierColor: Color(0x00000000)),
+
   /// Modal transitions from below.
   ///
   /// The back page will be visible.
@@ -142,6 +179,40 @@ enum _TransitionQueryType {
             ),
           ),
         );
+      case _TransitionQueryType.leftModal:
+      case _TransitionQueryType.leftSheet:
+        return FadeTransition(
+          opacity: _fadeTween.animate(animation),
+          child: SlideTransition(
+            position: _slideRightTween.animate(animation),
+            child: Material(
+              type: MaterialType.transparency,
+              child: PopScope(
+                canPop: isAndroidBackEnable,
+                child: Center(
+                  child: builder?.call(context),
+                ),
+              ),
+            ),
+          ),
+        );
+      case _TransitionQueryType.rightModal:
+      case _TransitionQueryType.rightSheet:
+        return FadeTransition(
+          opacity: _fadeTween.animate(animation),
+          child: SlideTransition(
+            position: _slideLeftTween.animate(animation),
+            child: Material(
+              type: MaterialType.transparency,
+              child: PopScope(
+                canPop: isAndroidBackEnable,
+                child: Center(
+                  child: builder?.call(context),
+                ),
+              ),
+            ),
+          ),
+        );
       case _TransitionQueryType.fadeModal:
         return FadeTransition(
           opacity: _fadeTween.animate(animation),
@@ -209,6 +280,10 @@ enum _TransitionQueryType {
   ).chain(CurveTween(curve: Curves.fastOutSlowIn));
   static final Animatable<Offset> _slideLeftTween = Tween<Offset>(
     begin: const Offset(0.25, 0.0),
+    end: Offset.zero,
+  ).chain(CurveTween(curve: Curves.fastOutSlowIn));
+  static final Animatable<Offset> _slideRightTween = Tween<Offset>(
+    begin: const Offset(-0.25, 0.0),
     end: Offset.zero,
   ).chain(CurveTween(curve: Curves.fastOutSlowIn));
   static final Animatable<double> _fadeTween = Tween<double>(
