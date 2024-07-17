@@ -280,6 +280,8 @@ class ModelGeoValueFilter extends ModelFieldValueFilter<ModelGeoValue> {
       return filter(source.geoHash, target.value.geoHash);
     } else if (source is ModelGeoValue && target is String) {
       return filter(source.value.geoHash, target);
+    } else if (source is DynamicMap && target is String) {
+      return filter(ModelGeoValue.fromJson(source).value.geoHash, target);
     } else if (source is String && target is ModelGeoValue) {
       return filter(source, target.value.geoHash);
     } else if (source is ModelGeoValue &&
