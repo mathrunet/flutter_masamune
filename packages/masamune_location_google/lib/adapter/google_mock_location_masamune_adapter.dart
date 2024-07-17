@@ -3,13 +3,12 @@ part of '/masamune_location_google.dart';
 /// [MasamuneAdapter] for the mock-up that handles location information and performs the initial setup for displaying GoogleMap.
 ///
 /// 位置情報を取り扱い、GoogleMapを表示するための初期設定を行うモック用の[MasamuneAdapter]。
-class GoogleRuntimeLocationMasamuneAdapter
-    extends RuntimeLocationMasamuneAdapter
+class GoogleMockLocationMasamuneAdapter extends MockLocationMasamuneAdapter
     implements GoogleLocationMasamuneAdapter {
   /// [MasamuneAdapter] for the mock-up that handles location information and performs the initial setup for displaying GoogleMap.
   ///
   /// 位置情報を取り扱い、GoogleMapを表示するための初期設定を行うモック用の[MasamuneAdapter]。
-  const GoogleRuntimeLocationMasamuneAdapter({
+  const GoogleMockLocationMasamuneAdapter({
     this.defaultMapStyle,
     super.location,
     super.listenOnBoot,

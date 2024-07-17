@@ -3,11 +3,11 @@ part of '/masamune_location.dart';
 /// [MasamuneAdapter] for creating location mocks.
 ///
 /// 位置情報のモックを作成するための[MasamuneAdapter]。
-class RuntimeLocationMasamuneAdapter extends LocationMasamuneAdapter {
+class MockLocationMasamuneAdapter extends LocationMasamuneAdapter {
   /// [MasamuneAdapter] for creating location mocks.
   ///
   /// 位置情報のモックを作成するための[MasamuneAdapter]。
-  const RuntimeLocationMasamuneAdapter({
+  const MockLocationMasamuneAdapter({
     required LocationData defaultLocationData,
     super.location,
     super.listenOnBoot = false,

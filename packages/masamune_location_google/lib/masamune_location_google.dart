@@ -46,7 +46,7 @@ export 'package:google_maps_flutter/google_maps_flutter.dart'
         BitmapDescriptor;
 
 part 'adapter/google_mobile_location_masamune_adapter.dart';
-part 'adapter/google_runtime_location_masamune_adapter.dart';
+part 'adapter/google_mock_location_masamune_adapter.dart';
 
 part 'src/map_style.dart';
 part 'src/map_controller.dart';

@@ -616,7 +616,7 @@ packages:
       path: "../../masamune"
       relative: true
     source: path
-    version: "2.14.0"
+    version: "2.14.1"
   masamune_annotation:
     dependency: "direct overridden"
     description:
@@ -630,14 +630,14 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.4.25"
+    version: "2.5.0"
   masamune_location_platform_interface:
     dependency: "direct overridden"
     description:
       path: "../../masamune_location_platform_interface"
       relative: true
     source: path
-    version: "2.4.25"
+    version: "2.4.26"
   matcher:
     dependency: transitive
     description:

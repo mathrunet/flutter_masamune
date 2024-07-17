@@ -31,6 +31,6 @@ export 'package:permission_handler/permission_handler.dart'
     show openAppSettings;
 
 part 'adapter/mobile_location_masamune_adapter.dart';
-part 'adapter/runtime_location_masamune_adapter.dart';
+part 'adapter/mock_location_masamune_adapter.dart';
 part 'src/location_masamune_adapter.dart';
 part 'src/location.dart';

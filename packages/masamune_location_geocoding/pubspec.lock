@@ -263,7 +263,7 @@ packages:
       path: "../katana_form"
       relative: true
     source: path
-    version: "2.13.5"
+    version: "2.13.6"
   katana_functions:
     dependency: "direct overridden"
     description:
@@ -347,7 +347,7 @@ packages:
       path: "../katana_router"
       relative: true
     source: path
-    version: "2.3.3"
+    version: "2.4.0"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
@@ -426,7 +426,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.14.0"
+    version: "2.14.2"
   masamune_annotation:
     dependency: "direct overridden"
     description:

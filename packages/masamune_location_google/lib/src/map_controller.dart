@@ -113,7 +113,10 @@ class MapController
   /// Obtains the current display position.
   ///
   /// 現在の表示位置を取得します。
-  LatLng get position => _position;
+  GeoValue get position => GeoValue(
+        latitude: _position.latitude,
+        longitude: _position.longitude,
+      );
   // ignore: prefer_final_fields
   LatLng _position = const LatLng(0, 0);
 
