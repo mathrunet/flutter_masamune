@@ -43,7 +43,7 @@ extension MasamuneCameraUploaderAppRefExtensions on CameraValue {
               .trimStringLeft("/"),
         ),
       );
-      await storage.upload(uri.toString());
+      await storage.upload(uri.toString().replaceAll(RegExp("file://"), ""));
       return await storage.fetchPublicURI();
     }
   }

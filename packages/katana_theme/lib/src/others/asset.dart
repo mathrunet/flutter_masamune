@@ -111,7 +111,7 @@ abstract class _TextProviderBuilderMixin {
       return TextProvider(defaultValue: defaultValue);
     }
     try {
-      uri = "$_prefix${uri!.trimString("/")}";
+      uri = "$_prefix${uri!.trimStringRight("/")}";
       if (uri.startsWith("http")) {
         return NetworkTextProvider(
           uri,
@@ -253,7 +253,7 @@ abstract class _ImageProviderBuilderMixin {
       }
     }
     try {
-      uri = "$_prefix${uri!.trimString("/")}";
+      uri = "$_prefix${uri!.trimStringRight("/")}";
       if (uri.startsWith("blob:")) {
         final blob = uri.replaceAll(RegExp(r"^blob:(//)?"), "");
         return MemoryImage(base64Url.decode(blob));

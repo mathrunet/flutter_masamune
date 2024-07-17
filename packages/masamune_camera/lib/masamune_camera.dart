@@ -11,7 +11,6 @@ library masamune_camera;
 // Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 // Package imports:
 import 'package:camera/camera.dart' as camera;
