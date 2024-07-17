@@ -15,5 +15,6 @@ import 'package:masamune/masamune.dart';
 
 // Project imports:
 import 'package:masamune_camera/masamune_camera.dart';
+import 'package:path_provider/path_provider.dart';
 
 part 'camera_value.dart';

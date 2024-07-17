@@ -10,7 +10,7 @@ import 'package:masamune/masamune.dart';
 import 'package:masamune_camera/masamune_camera.dart';
 
 final List<MasamuneAdapter> masamuneAdapters = [
-  const CameraMasamuneAdapter(),
+  const MobileCameraMasamuneAdapter(),
 ];
 
 void main() {

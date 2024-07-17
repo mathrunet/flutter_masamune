@@ -26,7 +26,6 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
   }
 
   camera.CameraController? _controller;
-  final List<camera.CameraDescription> _cameras = [];
 
   /// Whether the camera is initialized.
   ///
@@ -59,8 +58,7 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
   ///
   /// カメラのプレビュー用のウィジェットを出力します。
   Widget get preview {
-    assert(_controller != null, "Camera is not initialized.");
-    return camera.CameraPreview(_controller!);
+    return adapter.preview(controller: _controller);
   }
 
   /// Initialize the camera.
@@ -75,14 +73,8 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
     }
     _initializeCompleter = Completer<void>();
     try {
-      _cameras.clear();
-      _cameras.addAll(await camera.availableCameras());
-      _controller ??= camera.CameraController(
-        _cameras.first,
-        resolutionPreset?._toResolutionPreset() ??
-            adapter.defaultResolutionPreset._toResolutionPreset(),
-      );
-      await _controller?.initialize();
+      _controller ??=
+          await adapter.initialize(resolutionPreset: resolutionPreset);
       _initialized = true;
       _initializeCompleter?.complete();
       _initializeCompleter = null;
@@ -115,12 +107,11 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
     _recordingCompleter = Completer<CameraValue>();
     try {
       await initialize();
-      final file = await _controller!.takePicture();
-      final value = await CameraValue.fromXFile(
-        file: file,
-        format: format ?? adapter.defaultImageFormat,
+      final value = await adapter.takePicture(
+        controller: _controller,
         width: width,
         height: height,
+        format: format,
       );
       notifyListeners();
       _recordingCompleter?.complete(value);
@@ -138,7 +129,7 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
 
   @override
   void dispose() {
-    _controller?.dispose();
+    adapter.dispose(controller: _controller);
     super.dispose();
   }
 }

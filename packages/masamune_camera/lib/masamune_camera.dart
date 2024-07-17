@@ -10,6 +10,7 @@ library masamune_camera;
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 // Package imports:
@@ -26,8 +27,10 @@ export 'src/others/others.dart'
     if (dart.library.js) 'src/web/web.dart'
     if (dart.library.html) 'src/web/web.dart';
 
-part 'adapter/camera_masamune_adapter.dart';
+part 'adapter/mobile_camera_masamune_adapter.dart';
+part 'adapter/mock_camera_masamune_adapter.dart';
 part 'src/camera.dart';
 part 'src/resolution_preset.dart';
 part 'src/image_format.dart';
+part 'src/camera_masamune_adapter.dart';
 part 'storage/storage.dart';

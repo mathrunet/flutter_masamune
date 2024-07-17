@@ -12,6 +12,44 @@ class CameraValue {
     this.bytes,
   });
 
+  /// Generate data for mock.
+  ///
+  /// モック用のデータを生成します。
+  static Future<CameraValue> create({
+    required ImageFormat format,
+    int? width,
+    int? height,
+  }) async {
+    final directory = await getTemporaryDirectory();
+    final source = image.Image(width: width ?? 512, height: height ?? 512);
+    final exportedFile = File(
+      "${directory.path}/${uuid()}.${format.extension}",
+    );
+    switch (format) {
+      case ImageFormat.jpg:
+        final convertedBytes = image.encodeJpg(source);
+        await exportedFile.writeAsBytes(convertedBytes);
+        return CameraValue._(
+          uri: exportedFile.uri,
+          name: exportedFile.path.last(),
+          format: format,
+          bytes: convertedBytes,
+        );
+      case ImageFormat.png:
+        final convertedBytes = image.encodePng(source);
+        await exportedFile.writeAsBytes(convertedBytes);
+        return CameraValue._(
+          uri: exportedFile.uri,
+          name: exportedFile.path.last(),
+          format: format,
+          bytes: convertedBytes,
+        );
+    }
+  }
+
+  /// Generate [CameraValue] from [XFile].
+  ///
+  /// [XFile]から[CameraValue]を生成します。
   static Future<CameraValue> fromXFile({
     required camera.XFile file,
     required ImageFormat format,
