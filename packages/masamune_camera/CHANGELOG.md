@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Create a mock adapter. ([f5c626fa](https://github.com/mathrunet/flutter_masamune/commit/f5c626fab07270fde7964b4bc7f2557bf5f9fcdc))
+
 ## 2.2.2
 
  - Update a dependency to the latest release.

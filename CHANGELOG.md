@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-07-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_camera` - `v2.3.0`](#masamune_camera---v230)
+ - [`masamune_location` - `v2.5.2`](#masamune_location---v252)
+ - [`masamune_location_background` - `v2.5.2`](#masamune_location_background---v252)
+ - [`masamune_location_geocoding` - `v2.5.2`](#masamune_location_geocoding---v252)
+ - [`masamune_location_google` - `v2.6.2`](#masamune_location_google---v262)
+
+---
+
+#### `masamune_camera` - `v2.3.0`
+
+ - **FEAT**: Create a mock adapter. ([f5c626fa](https://github.com/mathrunet/flutter_masamune/commit/f5c626fab07270fde7964b4bc7f2557bf5f9fcdc))
+
+#### `masamune_location` - `v2.5.2`
+
+ - **FIX**: Rename Mock. ([fb637aef](https://github.com/mathrunet/flutter_masamune/commit/fb637aefd2786b0aa8a3c92e533ac8e95ee55cbd))
+
+#### `masamune_location_background` - `v2.5.2`
+
+ - **FIX**: Rename Mock. ([fb637aef](https://github.com/mathrunet/flutter_masamune/commit/fb637aefd2786b0aa8a3c92e533ac8e95ee55cbd))
+
+#### `masamune_location_geocoding` - `v2.5.2`
+
+ - **FIX**: Rename Mock. ([fb637aef](https://github.com/mathrunet/flutter_masamune/commit/fb637aefd2786b0aa8a3c92e533ac8e95ee55cbd))
+
+#### `masamune_location_google` - `v2.6.2`
+
+ - **FIX**: Rename Mock. ([fb637aef](https://github.com/mathrunet/flutter_masamune/commit/fb637aefd2786b0aa8a3c92e533ac8e95ee55cbd))
+
+
 ## 2024-07-16
 
 ### Changes
