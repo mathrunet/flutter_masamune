@@ -1,3 +1,7 @@
+## 2.5.3
+
+ - Update a dependency to the latest release.
+
 ## 2.5.2
 
  - **FIX**: Rename Mock. ([fb637aef](https://github.com/mathrunet/flutter_masamune/commit/fb637aefd2786b0aa8a3c92e533ac8e95ee55cbd))

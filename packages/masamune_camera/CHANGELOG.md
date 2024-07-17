@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - **FIX**: Fixed a bug that prevented locally stored files from being displayed. ([81f3bd0e](https://github.com/mathrunet/flutter_masamune/commit/81f3bd0e97b6ac638d6f646aaea1ee2c09c97596))
+
 ## 2.3.0
 
  - **FEAT**: Create a mock adapter. ([f5c626fa](https://github.com/mathrunet/flutter_masamune/commit/f5c626fab07270fde7964b4bc7f2557bf5f9fcdc))
