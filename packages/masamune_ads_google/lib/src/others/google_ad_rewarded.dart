@@ -35,6 +35,15 @@ class GoogleAdRewarded
   GoogleAdsMasamuneAdapter get primaryAdapter =>
       GoogleAdsMasamuneAdapter.primary;
 
+  /// Query for GoogleAdRewarded.
+  ///
+  /// ```dart
+  /// appRef.controller(GoogleAdRewarded.query(parameters));     // Get from application scope.
+  /// ref.app.controller(GoogleAdRewarded.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(GoogleAdRewarded.query(parameters));   // Watch at page scope.
+  /// ```
+  static const query = _$GoogleAdRewardedQuery();
+
   /// Ad unit ID.
   ///
   /// 広告ユニットID。
@@ -59,7 +68,20 @@ class GoogleAdRewarded
   Completer<void>? _showCompleter;
   Completer<void>? _rewardCompleter;
 
+  /// Initialize and load ads.
+  ///
+  /// 広告の初期化とロードを行います。
+  Future<void> load() {
+    return _initialize();
+  }
+
   Future<void> _initialize() async {
+    if (_loadCompleter != null) {
+      return _loadCompleter!.future;
+    }
+    if (_ad != null) {
+      return;
+    }
     _loadCompleter = Completer<void>();
     try {
       await GoogleAdsCore.initialize();
@@ -155,4 +177,38 @@ class GoogleAdRewarded
     await _ad?.dispose();
     _ad = null;
   }
+}
+
+@immutable
+class _$GoogleAdRewardedQuery {
+  const _$GoogleAdRewardedQuery();
+
+  @useResult
+  _$_GoogleAdRewardedQuery call({String? adUnitId}) => _$_GoogleAdRewardedQuery(
+        adUnitId ?? hashCode.toString(),
+        adUnitId: adUnitId,
+      );
+}
+
+@immutable
+class _$_GoogleAdRewardedQuery extends ControllerQueryBase<GoogleAdRewarded> {
+  const _$_GoogleAdRewardedQuery(
+    this._name, {
+    required this.adUnitId,
+  });
+
+  final String _name;
+  final String? adUnitId;
+
+  @override
+  GoogleAdRewarded Function() call(Ref ref) {
+    return () => GoogleAdRewarded(
+          adUnitId: adUnitId,
+        );
+  }
+
+  @override
+  String get queryName => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => true;
 }

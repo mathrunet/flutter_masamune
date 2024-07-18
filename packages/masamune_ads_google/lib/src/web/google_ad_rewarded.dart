@@ -33,6 +33,15 @@ class GoogleAdRewarded
   GoogleAdsMasamuneAdapter get primaryAdapter =>
       GoogleAdsMasamuneAdapter.primary;
 
+  /// Query for GoogleAdRewarded.
+  ///
+  /// ```dart
+  /// appRef.controller(GoogleAdRewarded.query(parameters));     // Get from application scope.
+  /// ref.app.controller(GoogleAdRewarded.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(GoogleAdRewarded.query(parameters));   // Watch at page scope.
+  /// ```
+  static const query = _$GoogleAdRewardedQuery();
+
   /// Ad unit ID.
   ///
   /// 広告ユニットID。
@@ -53,6 +62,11 @@ class GoogleAdRewarded
   /// 表示中の場合は[Future]を返します。
   Future<void>? get showing => null;
 
+  /// Initialize and load ads.
+  ///
+  /// 広告の初期化とロードを行います。
+  Future<void> load() => Future.value();
+
   /// Display the advertisement.
   ///
   /// You can specify a callback when a reward is earned with [onEarnedReward].
@@ -69,4 +83,38 @@ class GoogleAdRewarded
     VoidCallback? onAdClicked,
   }) =>
       Future.value();
+}
+
+@immutable
+class _$GoogleAdRewardedQuery {
+  const _$GoogleAdRewardedQuery();
+
+  @useResult
+  _$_GoogleAdRewardedQuery call({String? adUnitId}) => _$_GoogleAdRewardedQuery(
+        adUnitId ?? hashCode.toString(),
+        adUnitId: adUnitId,
+      );
+}
+
+@immutable
+class _$_GoogleAdRewardedQuery extends ControllerQueryBase<GoogleAdRewarded> {
+  const _$_GoogleAdRewardedQuery(
+    this._name, {
+    required this.adUnitId,
+  });
+
+  final String _name;
+  final String? adUnitId;
+
+  @override
+  GoogleAdRewarded Function() call(Ref ref) {
+    return () => GoogleAdRewarded(
+          adUnitId: adUnitId,
+        );
+  }
+
+  @override
+  String get queryName => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => true;
 }

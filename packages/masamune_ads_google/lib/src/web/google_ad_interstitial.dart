@@ -33,6 +33,15 @@ class GoogleAdInterstitial
   GoogleAdsMasamuneAdapter get primaryAdapter =>
       GoogleAdsMasamuneAdapter.primary;
 
+  /// Query for GoogleAdInterstitial.
+  ///
+  /// ```dart
+  /// appRef.controller(GoogleAdInterstitial.query(parameters));     // Get from application scope.
+  /// ref.app.controller(GoogleAdInterstitial.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(GoogleAdInterstitial.query(parameters));   // Watch at page scope.
+  /// ```
+  static const query = _$GoogleAdInterstitialQuery();
+
   /// Ad unit ID.
   ///
   /// 広告ユニットID。
@@ -53,6 +62,11 @@ class GoogleAdInterstitial
   /// 表示中の場合は[Future]を返します。
   Future<void>? get showing => null;
 
+  /// Initialize and load ads.
+  ///
+  /// 広告の初期化とロードを行います。
+  Future<void> load() => Future.value();
+
   /// Display the advertisement.
   ///
   /// You can specify a callback when an ad is clicked with [onAdClicked].
@@ -64,6 +78,42 @@ class GoogleAdInterstitial
     VoidCallback? onAdClicked,
   }) =>
       Future.value();
+}
+
+@immutable
+class _$GoogleAdInterstitialQuery {
+  const _$GoogleAdInterstitialQuery();
+
+  @useResult
+  _$_GoogleAdInterstitialQuery call({String? adUnitId}) =>
+      _$_GoogleAdInterstitialQuery(
+        adUnitId ?? hashCode.toString(),
+        adUnitId: adUnitId,
+      );
+}
+
+@immutable
+class _$_GoogleAdInterstitialQuery
+    extends ControllerQueryBase<GoogleAdInterstitial> {
+  const _$_GoogleAdInterstitialQuery(
+    this._name, {
+    required this.adUnitId,
+  });
+
+  final String _name;
+  final String? adUnitId;
+
+  @override
+  GoogleAdInterstitial Function() call(Ref ref) {
+    return () => GoogleAdInterstitial(
+          adUnitId: adUnitId,
+        );
+  }
+
+  @override
+  String get queryName => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => true;
 }
 
 /// This class displays a rewarded interstitial ad.
@@ -90,8 +140,8 @@ class GoogleAdRewardedInterstitial
   /// [adUnitId]を指定してインタースティシャル広告を表示します。
   ///
   /// [loading]が終了した後、[show]で広告を表示します。
-  GoogleAdRewardedInterstitial(
-    this.adUnitId, {
+  GoogleAdRewardedInterstitial({
+    this.adUnitId,
     super.adapter,
   });
 
@@ -99,10 +149,19 @@ class GoogleAdRewardedInterstitial
   GoogleAdsMasamuneAdapter get primaryAdapter =>
       GoogleAdsMasamuneAdapter.primary;
 
+  /// Query for GoogleAdRewardedInterstitial.
+  ///
+  /// ```dart
+  /// appRef.controller(GoogleAdRewardedInterstitial.query(parameters));     // Get from application scope.
+  /// ref.app.controller(GoogleAdRewardedInterstitial.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(GoogleAdRewardedInterstitial.query(parameters));   // Watch at page scope.
+  /// ```
+  static const query = _$GoogleAdRewardedInterstitialQuery();
+
   /// Ad unit ID.
   ///
   /// 広告ユニットID。
-  final String adUnitId;
+  final String? adUnitId;
 
   /// Returns `true` if initialization is complete.
   ///
@@ -118,6 +177,11 @@ class GoogleAdRewardedInterstitial
   ///
   /// 表示中の場合は[Future]を返します。
   Future<void>? get showing => null;
+
+  /// Initialize and load ads.
+  ///
+  /// 広告の初期化とロードを行います。
+  Future<void> load() => Future.value();
 
   /// Display the advertisement.
   ///
@@ -135,4 +199,40 @@ class GoogleAdRewardedInterstitial
     VoidCallback? onAdClicked,
   }) =>
       Future.value();
+}
+
+@immutable
+class _$GoogleAdRewardedInterstitialQuery {
+  const _$GoogleAdRewardedInterstitialQuery();
+
+  @useResult
+  _$_GoogleAdRewardedInterstitialQuery call({String? adUnitId}) =>
+      _$_GoogleAdRewardedInterstitialQuery(
+        adUnitId ?? hashCode.toString(),
+        adUnitId: adUnitId,
+      );
+}
+
+@immutable
+class _$_GoogleAdRewardedInterstitialQuery
+    extends ControllerQueryBase<GoogleAdRewardedInterstitial> {
+  const _$_GoogleAdRewardedInterstitialQuery(
+    this._name, {
+    required this.adUnitId,
+  });
+
+  final String _name;
+  final String? adUnitId;
+
+  @override
+  GoogleAdRewardedInterstitial Function() call(Ref ref) {
+    return () => GoogleAdRewardedInterstitial(
+          adUnitId: adUnitId,
+        );
+  }
+
+  @override
+  String get queryName => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => true;
 }
