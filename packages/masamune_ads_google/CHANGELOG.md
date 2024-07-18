@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: Maintenance of advertising queries. ([cd6796ea](https://github.com/mathrunet/flutter_masamune/commit/cd6796eab1e47f80d77303decaf6e1bb206902d1))
+
 ## 2.4.100
 
  - Update a dependency to the latest release.

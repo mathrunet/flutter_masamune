@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ads_google` - `v2.5.0`](#masamune_ads_google---v250)
+ - [`masamune_module_point_ecosystem` - `v2.5.108`](#masamune_module_point_ecosystem---v25108)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.5.108`
+
+---
+
+#### `masamune_ads_google` - `v2.5.0`
+
+ - **FEAT**: Maintenance of advertising queries. ([cd6796ea](https://github.com/mathrunet/flutter_masamune/commit/cd6796eab1e47f80d77303decaf6e1bb206902d1))
+
+
+## 2024-07-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v2.28.3`](#katana_model---v2283)
  - [`katana_theme` - `v2.6.4`](#katana_theme---v264)
  - [`masamune_camera` - `v2.3.1`](#masamune_camera---v231)
