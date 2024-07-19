@@ -468,14 +468,14 @@ packages:
       path: "../../katana_model"
       relative: true
     source: path
-    version: "2.28.2"
+    version: "2.28.3"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../../katana_model_local"
       relative: true
     source: path
-    version: "2.13.36"
+    version: "2.13.37"
   katana_prefs:
     dependency: "direct overridden"
     description:
@@ -531,7 +531,7 @@ packages:
       path: "../../katana_theme"
       relative: true
     source: path
-    version: "2.6.3"
+    version: "2.6.4"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
@@ -592,14 +592,14 @@ packages:
       path: "../../masamune"
       relative: true
     source: path
-    version: "2.14.2"
+    version: "2.14.3"
   masamune_ads_google:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.4.99"
+    version: "2.4.100"
   masamune_annotation:
     dependency: "direct overridden"
     description:

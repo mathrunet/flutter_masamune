@@ -75,6 +75,14 @@ class GoogleAdRewarded
     return _initialize();
   }
 
+  /// Initialize and reload the ad.
+  ///
+  /// 広告の初期化と再ロードを行います。
+  Future<void> reload() {
+    _ad = null;
+    return _initialize();
+  }
+
   Future<void> _initialize() async {
     if (_loadCompleter != null) {
       return _loadCompleter!.future;
@@ -137,9 +145,13 @@ class GoogleAdRewarded
     }
     _showCompleter = Completer<void>();
     try {
+      await load();
       _ad!.fullScreenContentCallback = FullScreenContentCallback(
         onAdClicked: (ad) {
           onAdClicked?.call();
+        },
+        onAdDismissedFullScreenContent: (ad) {
+          reload();
         },
       );
       await _ad!.show(
@@ -159,6 +171,7 @@ class GoogleAdRewarded
         },
       );
       await _rewardCompleter?.future;
+      _ad = null;
       notifyListeners();
       _showCompleter?.complete();
       _showCompleter = null;
