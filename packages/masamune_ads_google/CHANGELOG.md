@@ -1,3 +1,7 @@
+## 2.5.1
+
+ - **FIX**: Fixed because the ads are not continuous. ([1f0f5f6c](https://github.com/mathrunet/flutter_masamune/commit/1f0f5f6c5fdba42fbd691d72f5358a06422e6513))
+
 ## 2.5.0
 
  - **FEAT**: Maintenance of advertising queries. ([cd6796ea](https://github.com/mathrunet/flutter_masamune/commit/cd6796eab1e47f80d77303decaf6e1bb206902d1))

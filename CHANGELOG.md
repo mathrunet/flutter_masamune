@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-07-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model_firestore` - `v2.16.44`](#katana_model_firestore---v21644)
+ - [`masamune_ads_google` - `v2.5.1`](#masamune_ads_google---v251)
+ - [`masamune_model_algolia` - `v2.4.102`](#masamune_model_algolia---v24102)
+ - [`masamune_module_point_ecosystem` - `v2.5.109`](#masamune_module_point_ecosystem---v25109)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_algolia` - `v2.4.102`
+ - `masamune_module_point_ecosystem` - `v2.5.109`
+
+---
+
+#### `katana_model_firestore` - `v2.16.44`
+
+ - **FIX**: Fixed Aggregate's AVERAGE and SUM were not working. ([663841ba](https://github.com/mathrunet/flutter_masamune/commit/663841bada9e4d155b786d5fb4379532d344950d))
+
+#### `masamune_ads_google` - `v2.5.1`
+
+ - **FIX**: Fixed because the ads are not continuous. ([1f0f5f6c](https://github.com/mathrunet/flutter_masamune/commit/1f0f5f6c5fdba42fbd691d72f5358a06422e6513))
+
+
 ## 2024-07-18
 
 ### Changes

@@ -1,3 +1,7 @@
+## 2.16.44
+
+ - **FIX**: Fixed Aggregate's AVERAGE and SUM were not working. ([663841ba](https://github.com/mathrunet/flutter_masamune/commit/663841bada9e4d155b786d5fb4379532d344950d))
+
 ## 2.16.43
 
  - Update a dependency to the latest release.
