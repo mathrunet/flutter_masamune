@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_lints` - `v2.4.12`](#masamune_lints---v2412)
+
+---
+
+#### `masamune_lints` - `v2.4.12`
+
+ - **FIX**: Fixed a bug that caused the controller's load method to react. ([cafbae58](https://github.com/mathrunet/flutter_masamune/commit/cafbae585c3a439c0f87b9bee7e9ad93f7dc120b))
+
+
+## 2024-07-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_lints` - `v2.4.11`](#masamune_lints---v2411)
 
 ---

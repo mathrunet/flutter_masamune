@@ -1,3 +1,7 @@
+## 2.4.12
+
+ - **FIX**: Fixed a bug that caused the controller's load method to react. ([cafbae58](https://github.com/mathrunet/flutter_masamune/commit/cafbae585c3a439c0f87b9bee7e9ad93f7dc120b))
+
 ## 2.4.11
 
  - **FIX**: Corresponding to a pattern of leakage. ([0f50a279](https://github.com/mathrunet/flutter_masamune/commit/0f50a279e58910008279b458ace28d4ab693c29a))
