@@ -27,6 +27,9 @@ class _MasamuneModelShouldLoad extends DartLintRule {
       final functionName = node.methodName.name;
       switch (functionName) {
         case "model":
+        case "controller":
+        case "watch":
+        case "cache":
           final targetType = node.target?.staticType.toString();
           if (targetType != "PageRef" &&
               targetType != "WidgetRef" &&
@@ -44,7 +47,8 @@ class _MasamuneModelShouldLoad extends DartLintRule {
             res.add(
               _MasamuneModelShouldLoadValue()
                 ..method = node
-                ..node = node,
+                ..node = node
+                ..isModel = functionName == "model",
             );
           } else {
             res.add(
@@ -52,7 +56,8 @@ class _MasamuneModelShouldLoad extends DartLintRule {
                 ..variableName = variable.name.lexeme
                 ..variable = variable
                 ..method = node
-                ..node = node,
+                ..node = node
+                ..isModel = functionName == "model",
             );
           }
           break;
@@ -155,7 +160,7 @@ class _MasamuneModelShouldLoad extends DartLintRule {
         return;
       }
       for (final node in res) {
-        if (node.isLoad || node.node == null) {
+        if (node.isLoad || !node.isModel || node.node == null) {
           continue;
         }
         reporter.reportErrorForNode(
@@ -173,6 +178,7 @@ class _MasamuneModelShouldLoadValue {
   VariableDeclaration? variable;
   AstNode? node;
   bool isLoad = false;
+  bool isModel = false;
 
   @override
   String toString() {
