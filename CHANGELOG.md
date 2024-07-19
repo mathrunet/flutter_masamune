@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ads_google` - `v2.5.2`](#masamune_ads_google---v252)
+ - [`masamune_module_point_ecosystem` - `v2.5.110`](#masamune_module_point_ecosystem---v25110)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.5.110`
+
+---
+
+#### `masamune_ads_google` - `v2.5.2`
+
+ - **FIX**: Fixed a bug that prevented initial loading in time. ([4a1ebccb](https://github.com/mathrunet/flutter_masamune/commit/4a1ebccb58d6863929d26e4fda6cd254580018d9))
+
+
+## 2024-07-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_lints` - `v2.4.12`](#masamune_lints---v2412)
 
 ---

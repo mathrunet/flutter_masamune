@@ -1,3 +1,7 @@
+## 2.5.2
+
+ - **FIX**: Fixed a bug that prevented initial loading in time. ([4a1ebccb](https://github.com/mathrunet/flutter_masamune/commit/4a1ebccb58d6863929d26e4fda6cd254580018d9))
+
 ## 2.5.1
 
  - **FIX**: Fixed because the ads are not continuous. ([1f0f5f6c](https://github.com/mathrunet/flutter_masamune/commit/1f0f5f6c5fdba42fbd691d72f5358a06422e6513))
