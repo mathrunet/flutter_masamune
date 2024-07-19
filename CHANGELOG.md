@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_lints` - `v2.4.11`](#masamune_lints---v2411)
+
+---
+
+#### `masamune_lints` - `v2.4.11`
+
+ - **FIX**: Corresponding to a pattern of leakage. ([0f50a279](https://github.com/mathrunet/flutter_masamune/commit/0f50a279e58910008279b458ace28d4ab693c29a))
+
+
+## 2024-07-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model_firestore` - `v2.16.44`](#katana_model_firestore---v21644)
  - [`masamune_ads_google` - `v2.5.1`](#masamune_ads_google---v251)
  - [`masamune_model_algolia` - `v2.4.102`](#masamune_model_algolia---v24102)

@@ -1,3 +1,7 @@
+## 2.4.11
+
+ - **FIX**: Corresponding to a pattern of leakage. ([0f50a279](https://github.com/mathrunet/flutter_masamune/commit/0f50a279e58910008279b458ace28d4ab693c29a))
+
 ## 2.4.10
 
  - **FIX**: The latest code will revert to the error. ([49ceec21](https://github.com/mathrunet/flutter_masamune/commit/49ceec216070702a57952212c7d93dc8c3041920))
