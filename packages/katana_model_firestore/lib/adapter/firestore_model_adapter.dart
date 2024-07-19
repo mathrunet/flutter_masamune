@@ -449,7 +449,8 @@ class FirestoreModelAdapter extends ModelAdapter
             (reference) => reference.aggregate(sum(key!)).get(),
           ),
         );
-        final res = snapshot.fold<double>(0.0, (p, e) => p + (e.count ?? 0.0));
+        final res =
+            snapshot.fold<double>(0.0, (p, e) => p + (e.getSum(key!) ?? 0.0));
         if (res is! T) {
           return null;
         }
@@ -469,7 +470,8 @@ class FirestoreModelAdapter extends ModelAdapter
             (reference) => reference.aggregate(average(key!)).get(),
           ),
         );
-        final res = snapshot.fold<double>(0.0, (p, e) => p + (e.count ?? 0.0)) /
+        final res = snapshot.fold<double>(
+                0.0, (p, e) => p + (e.getAverage(key!) ?? 0.0)) /
             snapshot.length;
         if (res is! T) {
           return null;

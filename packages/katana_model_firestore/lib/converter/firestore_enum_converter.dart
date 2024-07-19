@@ -37,7 +37,12 @@ class FirestoreEnumConverter extends FirestoreModelFieldValueConverter {
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
   ]) {
-    return (filter.value as Enum).name;
+    if (value is List) {
+      return value.map((e) => (e as Enum).name).toList();
+    } else if (value is Map) {
+      return value.map((key, val) => MapEntry(key, (val as Enum).name));
+    }
+    return (value as Enum).name;
   }
 
   @override
@@ -47,6 +52,11 @@ class FirestoreEnumConverter extends FirestoreModelFieldValueConverter {
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
   ]) {
+    if (value is List) {
+      return value.every((element) => element is Enum);
+    } else if (value is Map) {
+      return value.values.every((element) => element is Enum);
+    }
     return value is Enum;
   }
 }
