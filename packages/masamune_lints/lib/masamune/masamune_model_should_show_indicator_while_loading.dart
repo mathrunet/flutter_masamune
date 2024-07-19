@@ -66,7 +66,10 @@ class _MasamuneModelShouldShowIndicatorWhileLoading extends DartLintRule {
             final found = res.firstWhereOrNull(
                 (e) => e.method == parentMethodInvocationNode);
             if (found != null) {
-              found.isLoad = true;
+              found
+                ..isLoad = true
+                ..method = parentMethodInvocationNode
+                ..node = parentMethodInvocationNode;
             } else {
               res.add(
                 _MasamuneModelShouldShowIndicatorWhileLoadingValue()
@@ -88,7 +91,10 @@ class _MasamuneModelShouldShowIndicatorWhileLoading extends DartLintRule {
               final found = res.firstWhereOrNull(
                   (e) => e.method == parentMethodInvocationNode);
               if (found != null) {
-                found.isLoad = true;
+                found
+                  ..isLoad = true
+                  ..method = parentMethodInvocationNode
+                  ..node = parentMethodInvocationNode;
               } else {
                 res.add(
                   _MasamuneModelShouldShowIndicatorWhileLoadingValue()
@@ -123,7 +129,10 @@ class _MasamuneModelShouldShowIndicatorWhileLoading extends DartLintRule {
             final found =
                 res.firstWhereOrNull((e) => e.method == methodInvocation);
             if (found != null) {
-              found.isLoad = true;
+              found
+                ..isLoad = true
+                ..method = methodInvocation
+                ..node = methodInvocation;
             } else {
               res.add(
                 _MasamuneModelShouldShowIndicatorWhileLoadingValue()

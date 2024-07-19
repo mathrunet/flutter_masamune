@@ -57,6 +57,7 @@ class _MasamuneModelShouldLoad extends DartLintRule {
           }
           break;
         case "load":
+        case "create":
         case "reload":
         case "aggregate":
         case "search":
@@ -69,7 +70,10 @@ class _MasamuneModelShouldLoad extends DartLintRule {
             final found = res.firstWhereOrNull(
                 (e) => e.method == parentMethodInvocationNode);
             if (found != null) {
-              found.isLoad = true;
+              found
+                ..isLoad = true
+                ..method = parentMethodInvocationNode
+                ..node = parentMethodInvocationNode;
             } else {
               res.add(
                 _MasamuneModelShouldLoadValue()
@@ -91,7 +95,10 @@ class _MasamuneModelShouldLoad extends DartLintRule {
               final found = res.firstWhereOrNull(
                   (e) => e.method == parentMethodInvocationNode);
               if (found != null) {
-                found.isLoad = true;
+                found
+                  ..isLoad = true
+                  ..method = parentMethodInvocationNode
+                  ..node = parentMethodInvocationNode;
               } else {
                 res.add(
                   _MasamuneModelShouldLoadValue()
@@ -126,7 +133,10 @@ class _MasamuneModelShouldLoad extends DartLintRule {
             final found =
                 res.firstWhereOrNull((e) => e.method == methodInvocation);
             if (found != null) {
-              found.isLoad = true;
+              found
+                ..isLoad = true
+                ..method = methodInvocation
+                ..node = methodInvocation;
             } else {
               res.add(
                 _MasamuneModelShouldLoadValue()
@@ -145,7 +155,7 @@ class _MasamuneModelShouldLoad extends DartLintRule {
         return;
       }
       for (final node in res) {
-        if (node.isLoad) {
+        if (node.isLoad || node.node == null) {
           continue;
         }
         reporter.reportErrorForNode(

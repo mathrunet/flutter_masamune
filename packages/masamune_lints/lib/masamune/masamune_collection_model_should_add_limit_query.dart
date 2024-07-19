@@ -6,7 +6,7 @@ class _MasamuneCollectionModelShouldAddLimitQuery extends DartLintRule {
   static const _code = LintCode(
     name: "masamune_model_should_add_limit_query",
     problemMessage:
-        "When querying the collection model, it is necessary to limit the number with [limitTo]. コレクションモデルをクエリする場合は[limitTo]で数の制限をする必要があります。",
+        "When querying in the collection model, [limitTo] must be used to limit the number of queries. Conversely, [limitTo] must not be specified when using [aggregate]. コレクションモデルでクエリする場合は[limitTo]で数の制限をする必要があります。[aggregate]を用いる場合は逆に[limitTo]を指定してはいけません。",
     errorSeverity: ErrorSeverity.WARNING,
   );
 
@@ -39,21 +39,40 @@ class _MasamuneCollectionModelShouldAddLimitQuery extends DartLintRule {
           !functionType.toString().endsWith("ModelCollectionQuery")) {
         return;
       }
-      final variable = node.thisOrAncestorOfType<VariableDeclaration>();
-      if (variable == null) {
-        res.add(
-          _MasamuneCollectionModelShouldAddLimitQueryValue()
+      final model = node.parent?.thisOrAncestorOfType<MethodInvocation>();
+      final modelFound = res.firstWhereOrNull((e) => e.model == model);
+      if (modelFound != null) {
+        final variable = node.thisOrAncestorOfType<VariableDeclaration>();
+        if (variable == null) {
+          modelFound
             ..method = node
-            ..node = node,
-        );
-      } else {
-        res.add(
-          _MasamuneCollectionModelShouldAddLimitQueryValue()
+            ..node = node;
+        } else {
+          modelFound
             ..variableName = variable.name.lexeme
             ..variable = variable
             ..method = node
-            ..node = node,
-        );
+            ..node = node;
+        }
+      } else {
+        final variable = node.thisOrAncestorOfType<VariableDeclaration>();
+        if (variable == null) {
+          res.add(
+            _MasamuneCollectionModelShouldAddLimitQueryValue()
+              ..method = node
+              ..node = node
+              ..model = model,
+          );
+        } else {
+          res.add(
+            _MasamuneCollectionModelShouldAddLimitQueryValue()
+              ..variableName = variable.name.lexeme
+              ..variable = variable
+              ..method = node
+              ..node = node
+              ..model = model,
+          );
+        }
       }
     });
 
@@ -71,15 +90,23 @@ class _MasamuneCollectionModelShouldAddLimitQuery extends DartLintRule {
                   ?.thisOrAncestorOfType<FunctionExpressionInvocation>() ??
               node.thisOrAncestorOfType<FunctionExpressionInvocation>();
           if (parentMethodInvocationNode != null) {
+            final model = node.parent?.thisOrAncestorOfType<MethodInvocation>();
+            final modelFound = res.firstWhereOrNull((e) => e.model == model);
             final found = res.firstWhereOrNull(
-                (e) => e.method == parentMethodInvocationNode);
+                    (e) => e.method == parentMethodInvocationNode) ??
+                modelFound;
+
             if (found != null) {
-              found.isLimit = true;
+              found
+                ..isLimit = true
+                ..method = parentMethodInvocationNode
+                ..node = parentMethodInvocationNode;
             } else {
               res.add(
                 _MasamuneCollectionModelShouldAddLimitQueryValue()
                   ..method = parentMethodInvocationNode
-                  ..node = parentMethodInvocationNode,
+                  ..node = parentMethodInvocationNode
+                  ..model = model,
               );
             }
             return;
@@ -92,15 +119,23 @@ class _MasamuneCollectionModelShouldAddLimitQuery extends DartLintRule {
                 parentCascadeExpressionVariableNode.target
                     .thisOrAncestorOfType<FunctionExpressionInvocation>();
             if (parentMethodInvocationNode != null) {
+              final model =
+                  node.parent?.thisOrAncestorOfType<MethodInvocation>();
+              final modelFound = res.firstWhereOrNull((e) => e.model == model);
               final found = res.firstWhereOrNull(
-                  (e) => e.method == parentMethodInvocationNode);
+                      (e) => e.method == parentMethodInvocationNode) ??
+                  modelFound;
               if (found != null) {
-                found.isLimit = true;
+                found
+                  ..isLimit = true
+                  ..method = parentMethodInvocationNode
+                  ..node = parentMethodInvocationNode;
               } else {
                 res.add(
                   _MasamuneCollectionModelShouldAddLimitQueryValue()
                     ..method = parentMethodInvocationNode
-                    ..node = parentMethodInvocationNode,
+                    ..node = parentMethodInvocationNode
+                    ..model = model,
                 );
               }
               return;
@@ -128,15 +163,134 @@ class _MasamuneCollectionModelShouldAddLimitQuery extends DartLintRule {
           final functionExpressionInvocation =
               node.thisOrTargetOfType<FunctionExpressionInvocation>();
           if (functionExpressionInvocation != null) {
+            final model = node.parent?.thisOrAncestorOfType<MethodInvocation>();
+            final modelFound = res.firstWhereOrNull((e) => e.model == model);
             final found = res.firstWhereOrNull(
-                (e) => e.method == functionExpressionInvocation);
+                    (e) => e.method == functionExpressionInvocation) ??
+                modelFound;
             if (found != null) {
-              found.isLimit = true;
+              found
+                ..isLimit = true
+                ..method = functionExpressionInvocation
+                ..node = functionExpressionInvocation;
             } else {
               res.add(
                 _MasamuneCollectionModelShouldAddLimitQueryValue()
                   ..method = functionExpressionInvocation
-                  ..node = functionExpressionInvocation,
+                  ..node = functionExpressionInvocation
+                  ..model = model,
+              );
+            }
+          }
+          break;
+        case "model":
+          final targetType = node.target?.staticType.toString();
+          if (targetType != "PageRef" &&
+              targetType != "WidgetRef" &&
+              targetType != "AppScopedValueRef") {
+            return;
+          }
+          final found = res.firstWhereOrNull((e) => e.model == node);
+          if (found != null) {
+            // 直接createメソッドを呼び出しているときこちらは後に呼ばれる
+            return;
+          }
+          final variable = node.thisOrAncestorOfType<VariableDeclaration>();
+          if (variable == null) {
+            res.add(
+              _MasamuneCollectionModelShouldAddLimitQueryValue()..model = node,
+            );
+          } else {
+            res.add(
+              _MasamuneCollectionModelShouldAddLimitQueryValue()
+                ..modelVariableName = variable.name.lexeme
+                ..modelVariable = variable
+                ..model = node,
+            );
+          }
+          break;
+        case "create":
+        case "aggregate":
+          // 変数に入れていないとき
+          final parentMethodInvocationNode =
+              node.target?.thisOrAncestorOfType<MethodInvocation>() ??
+                  node.parent?.thisOrAncestorOfType<MethodInvocation>();
+          if (parentMethodInvocationNode != null &&
+              parentMethodInvocationNode != node) {
+            final found = res
+                .firstWhereOrNull((e) => e.model == parentMethodInvocationNode);
+            if (found != null) {
+              found.isCreate = functionName == "create";
+              found.isAggregate = functionName == "aggregate";
+            } else {
+              res.add(
+                _MasamuneCollectionModelShouldAddLimitQueryValue()
+                  ..model = parentMethodInvocationNode
+                  ..isCreate = functionName == "create"
+                  ..isAggregate = functionName == "aggregate",
+              );
+            }
+            return;
+          }
+          // 変数に入れていないときかつカスケードでメソッドを呼び出しているとき
+          final parentCascadeExpressionVariableNode =
+              node.parent?.thisOrAncestorOfType<CascadeExpression>();
+          if (parentCascadeExpressionVariableNode != null) {
+            final parentMethodInvocationNode =
+                parentCascadeExpressionVariableNode.target
+                    .thisOrAncestorOfType<MethodInvocation>();
+            if (parentMethodInvocationNode != null &&
+                parentMethodInvocationNode != node) {
+              final found = res.firstWhereOrNull(
+                  (e) => e.model == parentMethodInvocationNode);
+              if (found != null) {
+                found.isCreate = functionName == "create";
+                found.isAggregate = functionName == "aggregate";
+              } else {
+                res.add(
+                  _MasamuneCollectionModelShouldAddLimitQueryValue()
+                    ..model = parentMethodInvocationNode
+                    ..isCreate = functionName == "create"
+                    ..isAggregate = functionName == "aggregate",
+                );
+              }
+              return;
+            }
+          }
+          // 変数に入れているとき
+          final parentVariableDeclarationNode =
+              node.thisOrAncestorOfType<VariableDeclaration>();
+          if (parentVariableDeclarationNode != null) {
+            final found = res.firstWhereOrNull(
+                (e) => e.modelVariable == parentVariableDeclarationNode);
+            if (found != null) {
+              found.isCreate = functionName == "create";
+              found.isAggregate = functionName == "aggregate";
+              return;
+            }
+          }
+          // 変数に入れているときかつメソッドを呼び出しているとき
+          final simpleIdentifier = node.thisOrTargetOfType<SimpleIdentifier>();
+          if (simpleIdentifier != null) {
+            final found = res.firstWhereOrNull(
+                (e) => e.modelVariableName == simpleIdentifier.name);
+            found?.isCreate = functionName == "create";
+            found?.isAggregate = functionName == "aggregate";
+            return;
+          }
+          final methodInvocation = node.thisOrTargetOfType<MethodInvocation>();
+          if (methodInvocation != null) {
+            final found =
+                res.firstWhereOrNull((e) => e.model == methodInvocation);
+            if (found != null) {
+              found.isCreate = functionName == "create";
+              found.isAggregate = functionName == "aggregate";
+            } else {
+              res.add(
+                _MasamuneCollectionModelShouldAddLimitQueryValue()
+                  ..model = methodInvocation
+                  ..isCreate = functionName == "create"
+                  ..isAggregate = functionName == "aggregate",
               );
             }
           }
@@ -150,7 +304,19 @@ class _MasamuneCollectionModelShouldAddLimitQuery extends DartLintRule {
         return;
       }
       for (final node in res) {
-        if (node.isLimit) {
+        if (node.node == null) {
+          continue;
+        }
+        if (node.isAggregate) {
+          if (node.isLimit) {
+            reporter.reportErrorForNode(
+              _code,
+              node.node!,
+            );
+          }
+          continue;
+        }
+        if (node.isLimit || node.isCreate) {
           continue;
         }
         reporter.reportErrorForNode(
@@ -167,10 +333,15 @@ class _MasamuneCollectionModelShouldAddLimitQueryValue {
   FunctionExpressionInvocation? method;
   VariableDeclaration? variable;
   AstNode? node;
+  MethodInvocation? model;
+  VariableDeclaration? modelVariable;
+  String? modelVariableName;
   bool isLimit = false;
+  bool isAggregate = false;
+  bool isCreate = false;
 
   @override
   String toString() {
-    return "Query: $variableName($variable) Node: $node IsLimit: $isLimit";
+    return "Query: $variableName($variable) Node: $node IsLimit: $isLimit $isAggregate $isCreate";
   }
 }
