@@ -99,13 +99,18 @@ class GoogleAdInterstitial
           onAdLoaded: (ad) {
             _ad = ad;
             _ad!.setImmersiveMode(true);
+            _loadCompleter?.complete();
+            _loadCompleter = null;
           },
           onAdFailedToLoad: (error) {
             debugPrint("InterstitialAd failed to load: $error.");
             _ad = null;
+            _loadCompleter?.completeError(error);
+            _loadCompleter = null;
           },
         ),
       );
+      await _loadCompleter?.future;
       notifyListeners();
       _loadCompleter?.complete();
       _loadCompleter = null;
@@ -128,12 +133,6 @@ class GoogleAdInterstitial
   Future<void> show({
     VoidCallback? onAdClicked,
   }) async {
-    if (_loadCompleter != null) {
-      await _loadCompleter!.future;
-    }
-    if (!initialized) {
-      throw Exception("InterstitialAd is not initialized.");
-    }
     if (_showCompleter != null) {
       return _showCompleter!.future;
     }
@@ -305,13 +304,18 @@ class GoogleAdRewardedInterstitial
           onAdLoaded: (ad) {
             _ad = ad;
             _ad!.setImmersiveMode(true);
+            _loadCompleter?.complete();
+            _loadCompleter = null;
           },
           onAdFailedToLoad: (error) {
             debugPrint("RewardedInterstitialAd failed to load: $error");
             _ad = null;
+            _loadCompleter?.completeError(error);
+            _loadCompleter = null;
           },
         ),
       );
+      await _loadCompleter?.future;
       notifyListeners();
       _loadCompleter?.complete();
       _loadCompleter = null;
@@ -339,9 +343,6 @@ class GoogleAdRewardedInterstitial
     required FutureOr<void> Function(double amount, String type) onEarnedReward,
     VoidCallback? onAdClicked,
   }) async {
-    if (!initialized) {
-      throw Exception("RewardedInterstitialAd is not initialized.");
-    }
     if (_showCompleter != null) {
       return _showCompleter!.future;
     }

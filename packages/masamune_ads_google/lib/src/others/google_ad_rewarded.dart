@@ -100,13 +100,18 @@ class GoogleAdRewarded
           onAdLoaded: (RewardedAd ad) {
             _ad = ad;
             _ad!.setImmersiveMode(true);
+            _loadCompleter?.complete();
+            _loadCompleter = null;
           },
           onAdFailedToLoad: (LoadAdError error) {
             debugPrint("RewardedAd failed to load: $error");
             _ad = null;
+            _loadCompleter?.completeError(error);
+            _loadCompleter = null;
           },
         ),
       );
+      await _loadCompleter?.future;
       notifyListeners();
       _loadCompleter?.complete();
       _loadCompleter = null;
@@ -134,12 +139,6 @@ class GoogleAdRewarded
     required FutureOr<void> Function(double amount, String type) onEarnedReward,
     VoidCallback? onAdClicked,
   }) async {
-    if (_loadCompleter != null) {
-      await _loadCompleter!.future;
-    }
-    if (!initialized) {
-      throw Exception("RewardedAd is not initialized.");
-    }
     if (_showCompleter != null) {
       return _showCompleter!.future;
     }
