@@ -22,12 +22,22 @@ extension PageOrWidgetScopedValueRefOnExtensions on PageOrWidgetScopedValueRef {
   OnContext on({
     FutureOr<void> Function()? initOrUpdate,
     VoidCallback? disposed,
+    VoidCallback? appResumed,
+    VoidCallback? appInactive,
+    VoidCallback? appPaused,
+    VoidCallback? appDetached,
+    VoidCallback? appHidden,
     List<Object> keys = const [],
   }) {
     return getScopedValue<OnContext, _OnValue>(
       (ref) => _OnValue(
         onInitOrUpdate: initOrUpdate,
         onDispose: disposed,
+        onAppResumed: appResumed,
+        onAppInactive: appInactive,
+        onAppPaused: appPaused,
+        onAppDetached: appDetached,
+        onAppHidden: appHidden,
         keys: keys,
       ),
     );
@@ -61,15 +71,70 @@ class _OnValue extends ScopedValue<OnContext> {
   const _OnValue({
     required this.onInitOrUpdate,
     required this.onDispose,
+    this.onAppDetached,
+    this.onAppInactive,
+    this.onAppPaused,
+    this.onAppResumed,
+    this.onAppHidden,
     this.keys = const [],
   });
   final FutureOr<void> Function()? onInitOrUpdate;
   final VoidCallback? onDispose;
+  final VoidCallback? onAppResumed;
+  final VoidCallback? onAppInactive;
+  final VoidCallback? onAppPaused;
+  final VoidCallback? onAppDetached;
+  final VoidCallback? onAppHidden;
+
   final List<Object> keys;
 
   @override
-  ScopedValueState<OnContext, ScopedValue<OnContext>> createState() =>
-      _OnValueState();
+  ScopedValueState<OnContext, ScopedValue<OnContext>> createState() {
+    if (onAppResumed != null ||
+        onAppInactive != null ||
+        onAppPaused != null ||
+        onAppDetached != null ||
+        onAppHidden != null) {
+      return _OnValueStateWithWidgetsBindingObserver();
+    }
+    return _OnValueState();
+  }
+}
+
+class _OnValueStateWithWidgetsBindingObserver extends _OnValueState
+    with WidgetsBindingObserver {
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        value.onAppResumed?.call();
+        break;
+      case AppLifecycleState.inactive:
+        value.onAppInactive?.call();
+        break;
+      case AppLifecycleState.paused:
+        value.onAppPaused?.call();
+        break;
+      case AppLifecycleState.detached:
+        value.onAppDetached?.call();
+        break;
+      case AppLifecycleState.hidden:
+        value.onAppHidden?.call();
+        break;
+    }
+  }
+
+  @override
+  Future<void> initValue() async {
+    super.initValue();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 }
 
 class _OnValueState extends ScopedValueState<OnContext, _OnValue> {
