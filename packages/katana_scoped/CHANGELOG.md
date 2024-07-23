@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: The state of the application lifecycle can also be specified in on. ([0bd8731d](https://github.com/mathrunet/flutter_masamune/commit/0bd8731dbca946fb4158795144d9da7692c078a3))
+
 ## 2.5.15
 
  - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))

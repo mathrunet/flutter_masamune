@@ -1,3 +1,7 @@
+## 2.3.2
+
+ - Update a dependency to the latest release.
+
 ## 2.3.1
 
  - **FIX**: Fixed a bug that prevented locally stored files from being displayed. ([81f3bd0e](https://github.com/mathrunet/flutter_masamune/commit/81f3bd0e97b6ac638d6f646aaea1ee2c09c97596))

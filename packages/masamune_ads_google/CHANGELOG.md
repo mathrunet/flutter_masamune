@@ -1,3 +1,7 @@
+## 2.5.3
+
+ - Update a dependency to the latest release.
+
 ## 2.5.2
 
  - **FIX**: Fixed a bug that prevented initial loading in time. ([4a1ebccb](https://github.com/mathrunet/flutter_masamune/commit/4a1ebccb58d6863929d26e4fda6cd254580018d9))
