@@ -1,3 +1,7 @@
+## 2.28.4
+
+ - **FIX**: String also allows for comparison. ([5a1cb5c1](https://github.com/mathrunet/flutter_masamune/commit/5a1cb5c1e023c7e0b8519eec2298edc5998bb07a))
+
 ## 2.28.3
 
  - **FIX**: Fixed a bug that caused leakage from the filter when updating. ([d44158bb](https://github.com/mathrunet/flutter_masamune/commit/d44158bb15c1f9914c1ddfa1cba890381d83dc06))
