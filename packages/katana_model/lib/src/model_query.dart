@@ -1323,25 +1323,33 @@ class ModelQueryFilter {
         }
         return source != target;
       case ModelQueryFilterType.lessThan:
-        if (source is! num || target is! num) {
-          return false;
+        if (source is num && target is num) {
+          return source < target;
+        } else if (source is String && target is String) {
+          return source.compareTo(target) < 0;
         }
-        return source < target;
+        return false;
       case ModelQueryFilterType.greaterThan:
-        if (source is! num || target is! num) {
-          return false;
+        if (source is num && target is num) {
+          return source > target;
+        } else if (source is String && target is String) {
+          return source.compareTo(target) > 0;
         }
-        return source > target;
+        return false;
       case ModelQueryFilterType.lessThanOrEqualTo:
-        if (source is! num || target is! num) {
-          return false;
+        if (source is num && target is num) {
+          return source <= target;
+        } else if (source is String && target is String) {
+          return source.compareTo(target) <= 0;
         }
-        return source <= target;
+        return false;
       case ModelQueryFilterType.greaterThanOrEqualTo:
-        if (source is! num || target is! num) {
-          return false;
+        if (source is num && target is num) {
+          return source >= target;
+        } else if (source is String && target is String) {
+          return source.compareTo(target) >= 0;
         }
-        return source >= target;
+        return false;
       case ModelQueryFilterType.arrayContains:
         if (source is! List) {
           return false;
