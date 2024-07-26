@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-07-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.22.0`](#katana_cli---v2220)
+
+---
+
+#### `katana_cli` - `v2.22.0`
+
+ - **FEAT**: Added commands around Cer. ([ae0b0477](https://github.com/mathrunet/flutter_masamune/commit/ae0b047709ac4d6f3d0589747c9baf6840923545))
+
+
 ## 2024-07-24
 
 ### Changes

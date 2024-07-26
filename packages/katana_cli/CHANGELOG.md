@@ -1,3 +1,7 @@
+## 2.22.0
+
+ - **FEAT**: Added commands around Cer. ([ae0b0477](https://github.com/mathrunet/flutter_masamune/commit/ae0b047709ac4d6f3d0589747c9baf6840923545))
+
 ## 2.21.6
 
  - **FIX**: Support for changes in spreadsheet URLs. ([182034d8](https://github.com/mathrunet/flutter_masamune/commit/182034d80e6f1563d372ba994bbc03710b7e3f44))
