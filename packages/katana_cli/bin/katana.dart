@@ -7,8 +7,8 @@ import 'dart:io';
 import 'package:yaml/yaml.dart';
 
 // Project imports:
-import 'package:katana_cli/command/cer/cer.dart';
 import 'package:katana_cli/command/apply.dart';
+import 'package:katana_cli/command/cer/cer.dart';
 import 'package:katana_cli/command/deploy.dart';
 import 'package:katana_cli/command/doctor.dart';
 import 'package:katana_cli/command/module.dart';

@@ -18,9 +18,7 @@ class CerCheckCliCommand extends CliCommand {
     final regExp = RegExp(r".cer$");
     final cer = await find(Directory("ios"), regExp);
     if (cer == null) {
-      throw Exception(
-        "Could not find the cer file in the IOS folder. First create a `CertificateSigningRequest.certSigningRequest` from `katana app csr` and download it from https://mathru.notion.site/AppStoreConnect-ID-f516ff1a767146f69acd6780fbcf20fe to download the cer file to your IOS folder.",
-      );
+      return;
     }
     final dateTime = await cer.lastModified();
     final duration = DateTime.now().difference(dateTime);
