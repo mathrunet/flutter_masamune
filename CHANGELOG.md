@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.22.1`](#katana_cli---v2221)
+
+---
+
+#### `katana_cli` - `v2.22.1`
+
+ - **FIX**: When there is no cer, it goes through. ([91a3f4b8](https://github.com/mathrunet/flutter_masamune/commit/91a3f4b8b1a9410b0bb6e0c0a541a9f507de5ba0))
+
+
+## 2024-07-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.22.0`](#katana_cli---v2220)
 
 ---

@@ -1,3 +1,7 @@
+## 2.22.1
+
+ - **FIX**: When there is no cer, it goes through. ([91a3f4b8](https://github.com/mathrunet/flutter_masamune/commit/91a3f4b8b1a9410b0bb6e0c0a541a9f507de5ba0))
+
 ## 2.22.0
 
  - **FEAT**: Added commands around Cer. ([ae0b0477](https://github.com/mathrunet/flutter_masamune/commit/ae0b047709ac4d6f3d0589747c9baf6840923545))
