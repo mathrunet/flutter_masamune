@@ -36,7 +36,7 @@ class AppP12CliAction extends CliCommand with CliActionMixin {
     final cer = await find(Directory("ios"), regExp);
     if (cer == null) {
       error(
-        "Could not find the cer file in the IOS folder. First create a `CertificateSigningRequest.certSigningRequest` from `katana app csr` and download it from https://mathru.notion.site/AppStoreConnect-ID-f516ff1a767146 f69acd6780fbcf20fe to download the cer file to your IOS folder.",
+        "Could not find the cer file in the IOS folder. First create a `CertificateSigningRequest.certSigningRequest` from `katana app csr` and download it from https://mathru.notion.site/AppStoreConnect-ID-f516ff1a767146f69acd6780fbcf20fe to download the cer file to your IOS folder.",
       );
       return;
     }

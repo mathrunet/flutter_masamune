@@ -102,6 +102,8 @@ pre-commit:
       run: dart format {staged_files} && git add {staged_files}
     analyzer:
       run: flutter analyze
+    check_update:
+      run: katana cer check
 """;
   }
 }
