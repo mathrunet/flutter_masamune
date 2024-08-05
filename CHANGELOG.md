@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.22.3`](#katana_cli---v2223)
+
+---
+
+#### `katana_cli` - `v2.22.3`
+
+ - **FIX**: Firebase can now be initialized. ([7c247af3](https://github.com/mathrunet/flutter_masamune/commit/7c247af3350a2644dfd0d585a990752818a7351a))
+
+
+## 2024-08-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.22.2`](#katana_cli---v2222)
 
 ---

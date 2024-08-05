@@ -1,3 +1,7 @@
+## 2.22.3
+
+ - **FIX**: Firebase can now be initialized. ([7c247af3](https://github.com/mathrunet/flutter_masamune/commit/7c247af3350a2644dfd0d585a990752818a7351a))
+
 ## 2.22.2
 
  - **FIX**: Corresponds to changes in AndroidGradle specifications. ([a5086ff0](https://github.com/mathrunet/flutter_masamune/commit/a5086ff0fe8fb50b5eb6cc44d515d2c407497ff2))
