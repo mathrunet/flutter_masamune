@@ -1,3 +1,7 @@
+## 2.22.2
+
+ - **FIX**: Corresponds to changes in AndroidGradle specifications. ([a5086ff0](https://github.com/mathrunet/flutter_masamune/commit/a5086ff0fe8fb50b5eb6cc44d515d2c407497ff2))
+
 ## 2.22.1
 
  - **FIX**: When there is no cer, it goes through. ([91a3f4b8](https://github.com/mathrunet/flutter_masamune/commit/91a3f4b8b1a9410b0bb6e0c0a541a9f507de5ba0))

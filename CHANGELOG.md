@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-08-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.22.2`](#katana_cli---v2222)
+
+---
+
+#### `katana_cli` - `v2.22.2`
+
+ - **FIX**: Corresponds to changes in AndroidGradle specifications. ([a5086ff0](https://github.com/mathrunet/flutter_masamune/commit/a5086ff0fe8fb50b5eb6cc44d515d2c407497ff2))
+
+
 ## 2024-07-26
 
 ### Changes
