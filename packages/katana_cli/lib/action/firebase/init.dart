@@ -115,6 +115,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final gradle = AppGradle();
     await gradle.load();
     final androidApplicationId = gradle.android?.defaultConfig.applicationId
+        .trim()
         .replaceAll('"', "")
         .replaceAll("'", "");
     if (androidApplicationId.isEmpty) {
@@ -132,7 +133,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
               ?.value,
         )
         .firstWhereOrNull((e) => e != null)
-        ?.replaceAll('"', "")
+        ?.trim()
+        .replaceAll('"', "")
         .replaceAll("'", "");
     if (bundleId.isEmpty) {
       error(

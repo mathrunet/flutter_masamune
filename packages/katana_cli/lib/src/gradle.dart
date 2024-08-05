@@ -249,16 +249,17 @@ class GradleAndroid {
   static GradleAndroid _load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
     final namespace =
-        RegExp("namespace ([a-zA-Z0-9_\"'.-]+)").firstMatch(region)?.group(1);
-    final compileSdkVersion = RegExp("compileSdkVersion ([a-zA-Z0-9_\"'.-]+)")
+        RegExp("namespace = ([a-zA-Z0-9_\"'.-]+)").firstMatch(region)?.group(1);
+    final compileSdkVersion = RegExp("compileSdk = ([a-zA-Z0-9_\"'.-]+)")
             .firstMatch(region)
             ?.group(1) ??
         "0";
-    final buildToolsVersion = RegExp("buildToolsVersion ([a-zA-Z0-9_\"'.-]+)")
+    final buildToolsVersion = RegExp("buildToolsVersion = ([a-zA-Z0-9_\"'.-]+)")
         .firstMatch(region)
         ?.group(1);
-    final ndkVersion =
-        RegExp("ndkVersion ([a-zA-Z0-9_\"'.-]+)").firstMatch(region)?.group(1);
+    final ndkVersion = RegExp("ndkVersion = ([a-zA-Z0-9_\"'.-]+)")
+        .firstMatch(region)
+        ?.group(1);
     return GradleAndroid(
       namespace: namespace,
       buildTypes: GradleAndroidBuildTypes._load(region),
@@ -329,7 +330,7 @@ class GradleAndroid {
 
   @override
   String toString() {
-    return "${namespace.isEmpty ? "" : "    namespace $namespace\n"}    compileSdkVersion $compileSdkVersion\n${buildToolsVersion != null ? "    buildToolsVersion $buildToolsVersion\n" : ""}${ndkVersion != null ? "    ndkVersion $ndkVersion\n" : ""}\n$compileOptions\n$kotlinOptions\n${sourceSets.isNotEmpty ? "    sourceSets {\n${sourceSets.map((e) => e.toString()).join("\n")}\n    }\n\n" : ""}$defaultConfig\n${signingConfigs != null ? "$signingConfigs\n" : ""}\n$buildTypes";
+    return "${namespace.isEmpty ? "" : "    namespace = $namespace\n"}    compileSdk = $compileSdkVersion\n${buildToolsVersion != null ? "    buildToolsVersion = $buildToolsVersion\n" : ""}${ndkVersion != null ? "    ndkVersion = $ndkVersion\n" : ""}\n$compileOptions\n$kotlinOptions\n${sourceSets.isNotEmpty ? "    sourceSets {\n${sourceSets.map((e) => e.toString()).join("\n")}\n    }\n\n" : ""}$defaultConfig\n${signingConfigs != null ? "$signingConfigs\n" : ""}\n$buildTypes";
   }
 }
 
@@ -365,17 +366,17 @@ class GradleAndroidCompileOptions {
   static GradleAndroidCompileOptions _load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
     final sourceCompatibility =
-        RegExp("sourceCompatibility ([a-zA-Z0-9_\"'.-]+)")
+        RegExp("sourceCompatibility = ([a-zA-Z0-9_\"'.-]+)")
                 .firstMatch(region)
                 ?.group(1) ??
             "";
     final targetCompatibility =
-        RegExp("targetCompatibility ([a-zA-Z0-9_\"'.-]+)")
+        RegExp("targetCompatibility = ([a-zA-Z0-9_\"'.-]+)")
                 .firstMatch(region)
                 ?.group(1) ??
             "";
     final coreLibraryDesugaringEnabledString =
-        RegExp("coreLibraryDesugaringEnabled ([a-zA-Z0-9_\"'.-]+)")
+        RegExp("coreLibraryDesugaringEnabled = ([a-zA-Z0-9_\"'.-]+)")
             .firstMatch(region)
             ?.group(1)
             ?.toLowerCase();
@@ -392,7 +393,7 @@ class GradleAndroidCompileOptions {
 
   @override
   String toString() {
-    return "    compileOptions {\n        sourceCompatibility $sourceCompatibility\n        targetCompatibility $targetCompatibility${coreLibraryDesugaringEnabled != null ? "\n        coreLibraryDesugaringEnabled $coreLibraryDesugaringEnabled" : ""}\n    }\n";
+    return "    compileOptions {\n        sourceCompatibility = $sourceCompatibility\n        targetCompatibility = $targetCompatibility${coreLibraryDesugaringEnabled != null ? "\n        coreLibraryDesugaringEnabled = $coreLibraryDesugaringEnabled" : ""}\n    }\n";
   }
 }
 
@@ -418,7 +419,7 @@ class GradleAndroidKotlinOptions {
     final jvmTarget = RegExp("jvmTarget = ([a-zA-Z0-9_\"'.-]+)")
             .firstMatch(region)
             ?.group(1) ??
-        "";
+        "'1.8'";
     return GradleAndroidKotlinOptions(
       jvmTarget: jvmTarget,
     );
@@ -541,19 +542,19 @@ class GradleAndroidDefaultConfig {
   static GradleAndroidDefaultConfig _load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
     final applicationId =
-        RegExp("applicationId (.+)").firstMatch(region)?.group(1) ?? "";
+        RegExp("applicationId = (.+)").firstMatch(region)?.group(1) ?? "";
     final minSdkVersion =
-        RegExp("minSdkVersion (.+)").firstMatch(region)?.group(1) ?? "";
+        RegExp("minSdk = (.+)").firstMatch(region)?.group(1) ?? "";
     final targetSdkVersion =
-        RegExp("targetSdkVersion (.+)").firstMatch(region)?.group(1) ?? "";
+        RegExp("targetSdk = (.+)").firstMatch(region)?.group(1) ?? "";
     final versionCode =
-        RegExp("versionCode (.+)").firstMatch(region)?.group(1) ?? "";
+        RegExp("versionCode = (.+)").firstMatch(region)?.group(1) ?? "";
     final versionName =
-        RegExp("versionName (.+)").firstMatch(region)?.group(1) ?? "";
+        RegExp("versionName = (.+)").firstMatch(region)?.group(1) ?? "";
     final testInstrumentationRunner =
-        RegExp("testInstrumentationRunner (.+)").firstMatch(region)?.group(1);
+        RegExp("testInstrumentationRunner = (.+)").firstMatch(region)?.group(1);
     final multiDexEnabled =
-        RegExp("multiDexEnabled (.+)").firstMatch(region)?.group(1);
+        RegExp("multiDexEnabled = (.+)").firstMatch(region)?.group(1);
     final resValues = RegExp("resValue (.+)")
         .allMatches(region)
         .mapAndRemoveEmpty((e) => e.group(1));
@@ -571,7 +572,7 @@ class GradleAndroidDefaultConfig {
 
   @override
   String toString() {
-    return "    defaultConfig {\n        applicationId $applicationId\n        minSdkVersion $minSdkVersion\n        targetSdkVersion $targetSdkVersion\n        versionCode $versionCode\n        versionName $versionName\n${testInstrumentationRunner.isNotEmpty ? "        testInstrumentationRunner $testInstrumentationRunner\n" : ""}${multiDexEnabled.isNotEmpty ? "        multiDexEnabled $multiDexEnabled\n" : ""}${resValues.isNotEmpty ? "${resValues.map((e) => "        resValue ${e.replaceAll(RegExp(r"^resValue\s*"), "")}").join("\n")}\n" : ""}    }\n";
+    return "    defaultConfig {\n        applicationId = $applicationId\n        minSdk = $minSdkVersion\n        targetSdk = $targetSdkVersion\n        versionCode = $versionCode\n        versionName = $versionName\n${testInstrumentationRunner.isNotEmpty ? "        testInstrumentationRunner = $testInstrumentationRunner\n" : ""}${multiDexEnabled.isNotEmpty ? "        multiDexEnabled = $multiDexEnabled\n" : ""}${resValues.isNotEmpty ? "${resValues.map((e) => "        resValue ${e.replaceAll(RegExp(r"^resValue\s*"), "")}").join("\n")}\n" : ""}    }\n";
   }
 }
 
@@ -649,11 +650,11 @@ class GradleAndroidBuildType {
 
   static GradleAndroidBuildType _load(String content) {
     final signingConfig =
-        RegExp("signingConfig (.+)").firstMatch(content)?.group(1) ?? "";
+        RegExp("signingConfig = (.+)").firstMatch(content)?.group(1) ?? "";
     final minifyEnabled =
-        RegExp("minifyEnabled (.+)").firstMatch(content)?.group(1);
+        RegExp("minifyEnabled = (.+)").firstMatch(content)?.group(1);
     final shrinkResources =
-        RegExp("shrinkResources (.+)").firstMatch(content)?.group(1);
+        RegExp("shrinkResources = (.+)").firstMatch(content)?.group(1);
     return GradleAndroidBuildType(
       signingConfig: signingConfig,
       minifyEnabled: minifyEnabled,
@@ -663,7 +664,7 @@ class GradleAndroidBuildType {
 
   @override
   String toString() {
-    return "            signingConfig $signingConfig\n${minifyEnabled != null ? "            minifyEnabled $minifyEnabled\n" : ""}${shrinkResources != null ? "            shrinkResources $shrinkResources\n" : ""}";
+    return "            signingConfig = $signingConfig\n${minifyEnabled != null ? "            minifyEnabled = $minifyEnabled\n" : ""}${shrinkResources != null ? "            shrinkResources = $shrinkResources\n" : ""}";
   }
 }
 
@@ -748,13 +749,13 @@ class GradleAndroidSigningConfig {
 
   static GradleAndroidSigningConfig _load(String content) {
     final keyAlias =
-        RegExp("keyAlias (.+)").firstMatch(content)?.group(1) ?? "";
+        RegExp("keyAlias = (.+)").firstMatch(content)?.group(1) ?? "";
     final keyPassword =
-        RegExp("keyPassword (.+)").firstMatch(content)?.group(1) ?? "";
+        RegExp("keyPassword = (.+)").firstMatch(content)?.group(1) ?? "";
     final storeFile =
-        RegExp("storeFile (.+)").firstMatch(content)?.group(1) ?? "";
+        RegExp("storeFile = (.+)").firstMatch(content)?.group(1) ?? "";
     final storePassword =
-        RegExp("storePassword (.+)").firstMatch(content)?.group(1) ?? "";
+        RegExp("storePassword = (.+)").firstMatch(content)?.group(1) ?? "";
     return GradleAndroidSigningConfig(
       keyAlias: keyAlias,
       keyPassword: keyPassword,
@@ -765,7 +766,7 @@ class GradleAndroidSigningConfig {
 
   @override
   String toString() {
-    return "            keyAlias $keyAlias\n            keyPassword $keyPassword\n            storeFile $storeFile\n            storePassword $storePassword\n";
+    return "            keyAlias = $keyAlias\n            keyPassword = $keyPassword\n            storeFile = $storeFile\n            storePassword = $storePassword\n";
   }
 }
 
