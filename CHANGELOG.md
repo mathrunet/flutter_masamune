@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.23.1`](#katana_cli---v2231)
+
+---
+
+#### `katana_cli` - `v2.23.1`
+
+ - **FIX**: Modified GPT4 model. ([b74110ec](https://github.com/mathrunet/flutter_masamune/commit/b74110eca2af7cbda4055ee8e5af710f0cad22d1))
+
+
+## 2024-08-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_introduction` - `v2.5.0`](#masamune_introduction---v250)
 
 ---

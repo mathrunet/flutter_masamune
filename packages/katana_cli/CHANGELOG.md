@@ -1,3 +1,7 @@
+## 2.23.1
+
+ - **FIX**: Modified GPT4 model. ([b74110ec](https://github.com/mathrunet/flutter_masamune/commit/b74110eca2af7cbda4055ee8e5af710f0cad22d1))
+
 ## 2.23.0
 
  - **FEAT**: Added automatic review function. ([3e010952](https://github.com/mathrunet/flutter_masamune/commit/3e010952daf9f9882d095427730ec2276e8b19a3))
