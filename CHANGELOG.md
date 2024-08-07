@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_introduction` - `v2.5.0`](#masamune_introduction---v250)
+
+---
+
+#### `masamune_introduction` - `v2.5.0`
+
+ - **FEAT**: The design can be adjusted. ([2b141e85](https://github.com/mathrunet/flutter_masamune/commit/2b141e850165789d1b6673239b90e37205fdcd9b))
+
+
+## 2024-08-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.23.0`](#katana_cli---v2230)
 
 ---

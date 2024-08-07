@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: The design can be adjusted. ([2b141e85](https://github.com/mathrunet/flutter_masamune/commit/2b141e850165789d1b6673239b90e37205fdcd9b))
+
 ## 2.4.99
 
  - Update a dependency to the latest release.
