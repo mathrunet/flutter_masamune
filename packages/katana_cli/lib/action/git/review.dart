@@ -122,7 +122,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           LANGUAGE: Japanese
           OPENAI_API_ENDPOINT: https://api.openai.com/v1
-          MODEL: gpt-4-turbo
+          MODEL: gpt-4o
           PROMPT: |
             あなたはベテランエンジニアです。回答は日本語でお願いします。
             渡されたコードについて改善点を見つけ、変更する理由を説明した上で、変更後のコード例を示してください。
