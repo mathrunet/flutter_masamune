@@ -1,3 +1,7 @@
+## 2.23.0
+
+ - **FEAT**: Added automatic review function. ([3e010952](https://github.com/mathrunet/flutter_masamune/commit/3e010952daf9f9882d095427730ec2276e8b19a3))
+
 ## 2.22.4
 
  - **FIX**: Support for Gradle changes in Android. ([61b3ee0d](https://github.com/mathrunet/flutter_masamune/commit/61b3ee0da23c5491387dabaa6ab53f1111642517))

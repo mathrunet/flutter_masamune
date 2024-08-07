@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.23.0`](#katana_cli---v2230)
+
+---
+
+#### `katana_cli` - `v2.23.0`
+
+ - **FEAT**: Added automatic review function. ([3e010952](https://github.com/mathrunet/flutter_masamune/commit/3e010952daf9f9882d095427730ec2276e8b19a3))
+
+
+## 2024-08-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.22.4`](#katana_cli---v2224)
 
 ---
