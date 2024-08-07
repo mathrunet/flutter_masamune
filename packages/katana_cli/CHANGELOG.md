@@ -1,3 +1,7 @@
+## 2.22.4
+
+ - **FIX**: Support for Gradle changes in Android. ([61b3ee0d](https://github.com/mathrunet/flutter_masamune/commit/61b3ee0da23c5491387dabaa6ab53f1111642517))
+
 ## 2.22.3
 
  - **FIX**: Firebase can now be initialized. ([7c247af3](https://github.com/mathrunet/flutter_masamune/commit/7c247af3350a2644dfd0d585a990752818a7351a))

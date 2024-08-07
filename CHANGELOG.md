@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-08-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.22.4`](#katana_cli---v2224)
+
+---
+
+#### `katana_cli` - `v2.22.4`
+
+ - **FIX**: Support for Gradle changes in Android. ([61b3ee0d](https://github.com/mathrunet/flutter_masamune/commit/61b3ee0da23c5491387dabaa6ab53f1111642517))
+
+
 ## 2024-08-05
 
 ### Changes
