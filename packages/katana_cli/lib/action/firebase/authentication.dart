@@ -547,7 +547,7 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
         );
       }
       gradle.android?.defaultConfig.minSdkVersion =
-          "configProperties[\"flutter.minSdkVersion\"]";
+          "configProperties[\"flutter.minSdkVersion\"].toInteger()";
       await gradle.save();
       label("Edit AndroidManifest.xml.");
       final file = File("android/app/src/main/AndroidManifest.xml");

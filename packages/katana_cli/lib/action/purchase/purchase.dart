@@ -159,16 +159,21 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
       final gradle = BuildGradle();
       await gradle.load();
       gradle.buildScript.kotlinVersion = Config.androidKotlinVersion;
-      if (!gradle.buildScript.dependencies.any((element) =>
-          element.classpath.startsWith("com.google.gms:google-services"))) {
-        gradle.buildScript.dependencies.add(
-          GradleBuildscriptDependencies(
-            classpath:
-                "com.google.gms:google-services:${Config.googleServicesVersion}",
+      await gradle.save();
+      label("Edit settings.gradle.");
+      final settingsGradle = SettingsGradle();
+      await settingsGradle.load();
+      if (!settingsGradle.plugins.any((element) =>
+          element.package.startsWith("com.google.gms.google-services"))) {
+        settingsGradle.plugins.add(
+          SettingsGradlePlugins(
+            package: "com.google.gms.google-services",
+            version: Config.googleServicesVersion,
+            apply: false,
           ),
         );
       }
-      await gradle.save();
+      await settingsGradle.save();
       label("Edit config.properties");
       final configPropertiesFile = File("android/config.properties");
       if (!configPropertiesFile.existsSync()) {

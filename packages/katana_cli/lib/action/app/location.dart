@@ -143,8 +143,22 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
         );
       }
       gradle.android?.defaultConfig.minSdkVersion =
-          "configProperties[\"flutter.minSdkVersion\"]";
+          "configProperties[\"flutter.minSdkVersion\"].toInteger()";
       await gradle.save();
+      label("Edit settings.gradle.");
+      final settingsGradle = SettingsGradle();
+      await settingsGradle.load();
+      if (!settingsGradle.plugins.any((element) =>
+          element.package.startsWith("com.google.gms.google-services"))) {
+        settingsGradle.plugins.add(
+          SettingsGradlePlugins(
+            package: "com.google.gms.google-services",
+            version: Config.googleServicesVersion,
+            apply: false,
+          ),
+        );
+      }
+      await settingsGradle.save();
       label("Edit AppDelegate.swift.");
       final file = File("ios/Runner/AppDelegate.swift");
       if (!file.existsSync()) {

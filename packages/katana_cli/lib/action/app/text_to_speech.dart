@@ -65,7 +65,7 @@ class AppTextToSpeechCliAction extends CliCommand with CliActionMixin {
       );
     }
     gradle.android?.defaultConfig.minSdkVersion =
-        "configProperties[\"flutter.minSdkVersion\"]";
+        "configProperties[\"flutter.minSdkVersion\"].toInteger()";
     await gradle.save();
     label("Edit AndroidManifest.xml.");
     await AndroidManifestQueryType.textToSpeech.enableQuery();

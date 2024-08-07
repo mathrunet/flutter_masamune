@@ -1056,3 +1056,115 @@ class GradleAllprojectsConfigurations {
     return "        $command";
   }
 }
+
+/// Class for retrieving and saving files in `android/settings.gradle`.
+///
+/// `android/settings.gradle`のファイルを取得して保存するためのクラス。
+class SettingsGradle {
+  SettingsGradle();
+
+  /// Original text data.
+  ///
+  /// 元のテキストデータ。
+  String get rawData => _rawData;
+  late String _rawData;
+
+  /// Data in the `plugins` section.
+  ///
+  /// `plugins`セクションのデータ。
+  List<SettingsGradlePlugins> get plugins => _plugins;
+  late List<SettingsGradlePlugins> _plugins;
+
+  /// Data loading.
+  ///
+  /// データの読み込み。
+  Future<void> load() async {
+    final gradle = File("android/settings.gradle");
+    _rawData = await gradle.readAsString();
+    _plugins = SettingsGradlePlugins._load(_rawData);
+  }
+
+  /// Data storage.
+  ///
+  /// データの保存。
+  Future<void> save() async {
+    if (_rawData.isEmpty) {
+      throw Exception("No value. Please load data with [load].");
+    }
+    _rawData = SettingsGradlePlugins._save(_rawData, _plugins);
+    final gradle = File("android/settings.gradle");
+    await gradle.writeAsString(_rawData);
+  }
+}
+
+/// Configuration class for the contents of [SettingsGradlePlugins].
+///
+/// [GradleAllprojectsConfigurations]の中身の設定クラス。
+class SettingsGradlePlugins {
+  /// Configuration class for the contents of [SettingsGradlePlugins].
+  ///
+  /// [SettingsGradlePlugins]の中身の設定クラス。
+  SettingsGradlePlugins({
+    required this.package,
+    required this.version,
+    this.apply,
+  });
+
+  static final _regExp = RegExp(
+    "id ['\"](?<package>[a-zA-Z0-9._-]+)['\"] version ['\"](?<version>[a-zA-Z0-9._-]+)['\"]( apply (?<apply>[a-zA-Z]+))?",
+  );
+
+  /// Package Name.
+  ///
+  /// パッケージ名。
+  final String package;
+
+  /// Version.
+  ///
+  /// バージョン。
+  final String version;
+
+  /// Apply or not.
+  ///
+  /// 適用するかどうか。
+  final bool? apply;
+
+  static List<SettingsGradlePlugins> _load(String content) {
+    final newRegion =
+        RegExp(r"plugins[^{]*?\{([\s\S]*?)\}").firstMatch(content);
+    if (newRegion == null) {
+      return [];
+    }
+    final packages = _regExp.allMatches(newRegion.group(1) ?? "");
+    return packages
+        .map(
+          (e) => SettingsGradlePlugins(
+              package: e.namedGroup("package") ?? "",
+              version: e.namedGroup("version") ?? "",
+              apply: e.namedGroup("apply") == null
+                  ? null
+                  : e.namedGroup("apply") == "true"),
+        )
+        .toList();
+  }
+
+  static String _save(String content, List<SettingsGradlePlugins> data) {
+    final newRegion =
+        RegExp(r"plugins[^{]*?\{([\s\S]*?)\}").firstMatch(content);
+    if (newRegion == null) {
+      return content;
+    }
+    final code = data.map((e) => e.toString()).join("\n");
+    return content.replaceAll(
+      RegExp(
+        r"plugins[^{]*?\{([\s\S]*?)\}",
+      ),
+      "plugins {\n$code\n}",
+    );
+  }
+
+  @override
+  String toString() {
+    return "    id \"$package\" version \"$version\"${apply != null ? " apply ${apply! ? "true" : "false"}" : ""}";
+  }
+}
