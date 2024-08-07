@@ -11,8 +11,26 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
     required this.items,
     this.enableSkip = true,
     required this.doneLabel,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.activeColor,
     required this.skipLabel,
   });
+
+  /// Foreground color.
+  ///
+  /// 前景色。
+  final Color? foregroundColor;
+
+  /// Active color.
+  ///
+  /// アクティブな色。
+  final Color? activeColor;
+
+  /// Background color.
+  ///
+  /// 背景色。
+  final Color? backgroundColor;
 
   /// List of tutorial pages.
   ///

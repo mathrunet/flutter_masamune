@@ -144,47 +144,69 @@ class _MasamuneIntroductionState extends State<MasamuneIntroduction> {
       return const SizedBox();
     }
 
-    return DefaultTextStyle(
-      style: TextStyle(
-        color: Theme.of(context).textTheme.bodyMedium?.color,
-      ),
-      child: IconTheme(
-        data: IconThemeData(
-          color: Theme.of(context).iconTheme.color,
-        ),
-        child: IntroductionScreen(
-          key: _introKey,
-          bodyPadding: widget.padding,
-          controlsPadding: widget.contentPadding,
-          pages: [
-            ...(adapter.items.value(context.locale) ?? []).map(
-              (e) => e.toPageViewModel(context),
+    return ColoredBox(
+      color:
+          adapter.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+      child: SafeArea(
+        child: DefaultTextStyle(
+          style: TextStyle(
+            color: adapter.foregroundColor ??
+                Theme.of(context).textTheme.bodyMedium?.color,
+          ),
+          child: IconTheme(
+            data: IconThemeData(
+              color:
+                  adapter.foregroundColor ?? Theme.of(context).iconTheme.color,
             ),
-          ],
-          done: Text(adapter.doneLabel.value(context.locale) ?? ""),
-          skip: Text(adapter.skipLabel.value(context.locale) ?? ""),
-          onDone: () {
-            if (widget.routeQuery == null) {
-              context.router.pop();
-            } else {
-              context.router.replace(
-                widget.routeQuery!,
-              );
-            }
-          },
-          onSkip: () {
-            if (widget.routeQuery == null) {
-              context.router.pop();
-            } else {
-              context.router.replace(
-                widget.routeQuery!,
-              );
-            }
-          },
-          showSkipButton: adapter.enableSkip,
-          showNextButton: false,
-          showBackButton: false,
-          showDoneButton: true,
+            child: IntroductionScreen(
+              key: _introKey,
+              bodyPadding: widget.padding,
+              controlsPadding: widget.contentPadding,
+              dotsDecorator: DotsDecorator(
+                activeColor:
+                    adapter.activeColor ?? Theme.of(context).primaryColor,
+              ),
+              pages: [
+                ...(adapter.items.value(context.locale) ?? []).map(
+                  (e) => e.toPageViewModel(context),
+                ),
+              ],
+              done: Text(
+                adapter.doneLabel.value(context.locale) ?? "",
+                style: TextStyle(
+                  color: adapter.activeColor ?? Theme.of(context).primaryColor,
+                ),
+              ),
+              skip: Text(
+                adapter.skipLabel.value(context.locale) ?? "",
+                style: TextStyle(
+                  color: adapter.activeColor ?? Theme.of(context).primaryColor,
+                ),
+              ),
+              onDone: () {
+                if (widget.routeQuery == null) {
+                  context.router.pop();
+                } else {
+                  context.router.replace(
+                    widget.routeQuery!,
+                  );
+                }
+              },
+              onSkip: () {
+                if (widget.routeQuery == null) {
+                  context.router.pop();
+                } else {
+                  context.router.replace(
+                    widget.routeQuery!,
+                  );
+                }
+              },
+              showSkipButton: adapter.enableSkip,
+              showNextButton: false,
+              showBackButton: false,
+              showDoneButton: true,
+            ),
+          ),
         ),
       ),
     );
@@ -197,23 +219,29 @@ extension on IntroductionItem {
     TextStyle? titleTextStyle,
     TextStyle? bodyTextStyle,
   }) {
+    final appliedTitleTextStyle = titleTextStyle ??
+        Theme.of(context).textTheme.titleLarge?.withBold() ??
+        const TextStyle(
+          fontSize: 24.0,
+          fontWeight: FontWeight.bold,
+        );
+    final appliedBodyTextStyle = bodyTextStyle ??
+        Theme.of(context).textTheme.bodyMedium ??
+        const TextStyle(
+          fontSize: 16.0,
+        );
     return PageViewModel(
-      titleWidget: title,
-      bodyWidget: body,
+      titleWidget: title != null
+          ? DefaultTextStyle(style: appliedTitleTextStyle, child: title!)
+          : null,
+      bodyWidget: body != null
+          ? DefaultTextStyle(style: appliedBodyTextStyle, child: body!)
+          : null,
       image: image,
       footer: footer,
       decoration: PageDecoration(
-        titleTextStyle: titleTextStyle ??
-            Theme.of(context).textTheme.titleLarge ??
-            const TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
-            ),
-        bodyTextStyle: bodyTextStyle ??
-            Theme.of(context).textTheme.bodyMedium ??
-            const TextStyle(
-              fontSize: 16.0,
-            ),
+        titleTextStyle: appliedTitleTextStyle,
+        bodyTextStyle: appliedBodyTextStyle,
       ),
       useScrollView: useScrollView,
       useRowInLandscape: useRowInLandscape,
