@@ -74,7 +74,7 @@ class LefthookCliCode extends CliCode {
 
   @override
   String get description =>
-      "Create lefthook.yaml for itHook. GitHook用ののlefthook.yamlを作成します。";
+      "Create lefthook.yaml for GitHook. GitHook用のlefthook.yamlを作成します。";
 
   @override
   String import(String path, String baseName, String className) {

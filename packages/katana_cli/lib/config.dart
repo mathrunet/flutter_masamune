@@ -483,6 +483,14 @@ github:
       # Please copy and include your team ID from https://developer.apple.com/account.
       # https://developer.apple.com/account のチームIDをコピーして記載してください。
       team_id: 
+  
+  # Describe the settings for automatic review when a Github pull request is created.
+  # Enter the OpenAI API key in [openai_api_key].
+  # Githubのプルリクエストが作成された際に自動でレビューを行うための設定を記述します。
+  # OpenAIのAPIキーを[openai_api_key]に記述してください。
+  review:
+    enable: false
+    openai_api_key:
 
 ${showAllConfig ? """
 # Store-related information.
