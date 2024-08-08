@@ -1,3 +1,7 @@
+## 2.23.2
+
+ - **FIX**: Modifications around Gradle's CompileSDK. ([05a95ac0](https://github.com/mathrunet/flutter_masamune/commit/05a95ac086c8186b2ef30ab0d1e9a711140d2185))
+
 ## 2.23.1
 
  - **FIX**: Modified GPT4 model. ([b74110ec](https://github.com/mathrunet/flutter_masamune/commit/b74110eca2af7cbda4055ee8e5af710f0cad22d1))
