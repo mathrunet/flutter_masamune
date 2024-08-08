@@ -154,6 +154,8 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
           ),
         );
       }
+      appGradle.android?.compileSdkVersion =
+          "configProperties[\"flutter.compileSdkVersion\"].toInteger()";
       await appGradle.save();
       label("Edit build.gradle.");
       final gradle = BuildGradle();

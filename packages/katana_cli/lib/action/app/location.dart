@@ -130,6 +130,13 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
           "flutter.minSdkVersion=${Config.firebaseMinSdkVersion}",
         ].join("\n"));
       }
+      if (!configProperties
+          .any((element) => element.startsWith("flutter.compileSdkVersion"))) {
+        await configPropertiesFile.writeAsString([
+          ...configProperties,
+          "flutter.compileSdkVersion=${Config.billingCompileSdkVersion}",
+        ].join("\n"));
+      }
       label("Edit build.gradle");
       final gradle = AppGradle();
       await gradle.load();
@@ -144,6 +151,8 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
       }
       gradle.android?.defaultConfig.minSdkVersion =
           "configProperties[\"flutter.minSdkVersion\"].toInteger()";
+      gradle.android?.compileSdkVersion =
+          "configProperties[\"flutter.compileSdkVersion\"].toInteger()";
       await gradle.save();
       label("Edit settings.gradle.");
       final settingsGradle = SettingsGradle();

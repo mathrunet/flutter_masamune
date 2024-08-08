@@ -250,16 +250,11 @@ class GradleAndroid {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
     final namespace =
         RegExp("namespace = ([a-zA-Z0-9_\"'.-]+)").firstMatch(region)?.group(1);
-    final compileSdkVersion = RegExp("compileSdk = ([a-zA-Z0-9_\"'.-]+)")
-            .firstMatch(region)
-            ?.group(1) ??
-        "0";
-    final buildToolsVersion = RegExp("buildToolsVersion = ([a-zA-Z0-9_\"'.-]+)")
-        .firstMatch(region)
-        ?.group(1);
-    final ndkVersion = RegExp("ndkVersion = ([a-zA-Z0-9_\"'.-]+)")
-        .firstMatch(region)
-        ?.group(1);
+    final compileSdkVersion =
+        RegExp("compileSdk = (.+)").firstMatch(region)?.group(1) ?? "0";
+    final buildToolsVersion =
+        RegExp("buildToolsVersion = (.+)").firstMatch(region)?.group(1);
+    final ndkVersion = RegExp("ndkVersion = (.+)").firstMatch(region)?.group(1);
     return GradleAndroid(
       namespace: namespace,
       buildTypes: GradleAndroidBuildTypes._load(region),

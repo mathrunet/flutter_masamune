@@ -192,6 +192,14 @@ ${showAllConfig ? """
   camera:
     enable: false
 
+    # Specify permission permission messages to use the camera and microphone in IOS.
+    # IOSでカメラやマイクを利用するための権限許可メッセージを指定します。
+    permission:
+      camera:
+        en: Use the camera for video chats.
+      microphone:
+        en: Use the microphone for video chatting.
+
   # Describe the settings for using the calendar.
   # カレンダーを利用するための設定を記述します。
   calendar:
