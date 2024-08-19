@@ -1,3 +1,7 @@
+## 2.13.7
+
+ - **FIX**: Fixed a bug that prevented Pin from being input on Android. ([4bf698e0](https://github.com/mathrunet/flutter_masamune/commit/4bf698e0c43fcbacb1b8ae14d0bf51688c0fe49b))
+
 ## 2.13.6
 
  - **FIX**: Added ActiveColor. ([7405e668](https://github.com/mathrunet/flutter_masamune/commit/7405e6680446dbb7ff5b3fa717f8e1cf626a1c2f))
