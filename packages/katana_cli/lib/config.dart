@@ -146,6 +146,17 @@ ${showAllConfig ? """
       - type: file_timestamp
         reason: 0A2A.1
   
+  # Describe the settings for using the AppTrackingTransparency library.
+  # Specify the permission message to use the library in IOS in [permission].
+  # Please include `en`, `ja`, etc. and write the message in that language there.
+  # AppTrackingTransparencyライブラリを利用するための設定を記述します。
+  # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+  # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+  app_tracking_transparency
+    enable: false
+    permission:
+        en: If you [Allow], App will display ads optimized for you.
+
   # Describe the settings for using the file picker.
   # Specify the permission message to use the library in IOS in [permission].
   # Please include `en`, `ja`, etc. and write the message in that language there.
