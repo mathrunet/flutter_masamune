@@ -1,3 +1,7 @@
+## 2.23.3
+
+ - **FIX**: Add att. ([b8d0f86f](https://github.com/mathrunet/flutter_masamune/commit/b8d0f86f07584ad116eba5e3bb43dc457a60bcf7))
+
 ## 2.23.2
 
  - **FIX**: Modifications around Gradle's CompileSDK. ([05a95ac0](https://github.com/mathrunet/flutter_masamune/commit/05a95ac086c8186b2ef30ab0d1e9a711140d2185))

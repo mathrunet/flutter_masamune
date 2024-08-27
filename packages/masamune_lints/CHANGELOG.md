@@ -1,3 +1,7 @@
+## 2.4.13
+
+ - **FIX**: バージョンアップによる不具合修正. ([2e707570](https://github.com/mathrunet/flutter_masamune/commit/2e707570fa89823c68b82c097b4a1e73f9508387))
+
 ## 2.4.12
 
  - **FIX**: Fixed a bug that caused the controller's load method to react. ([cafbae58](https://github.com/mathrunet/flutter_masamune/commit/cafbae585c3a439c0f87b9bee7e9ad93f7dc120b))

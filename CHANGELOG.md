@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-08-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.23.3`](#katana_cli---v2233)
+ - [`masamune_lints` - `v2.4.13`](#masamune_lints---v2413)
+
+---
+
+#### `katana_cli` - `v2.23.3`
+
+ - **FIX**: Add att. ([b8d0f86f](https://github.com/mathrunet/flutter_masamune/commit/b8d0f86f07584ad116eba5e3bb43dc457a60bcf7))
+
+#### `masamune_lints` - `v2.4.13`
+
+ - **FIX**: バージョンアップによる不具合修正. ([2e707570](https://github.com/mathrunet/flutter_masamune/commit/2e707570fa89823c68b82c097b4a1e73f9508387))
+
+
 ## 2024-08-19
 
 ### Changes
