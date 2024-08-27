@@ -17,7 +17,7 @@ import 'package:analyzer/error/error.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/source/source_range.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
-import 'package:custom_lint_core/src/lint_codes.dart' as lint_codes;
+import 'package:custom_lint_builder/custom_lint_builder.dart' as lint_codes;
 import 'package:katana/katana.dart';
 
 export 'package:custom_lint/custom_lint.dart';
