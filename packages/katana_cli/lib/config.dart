@@ -152,7 +152,7 @@ ${showAllConfig ? """
   # AppTrackingTransparencyライブラリを利用するための設定を記述します。
   # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
   # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
-  app_tracking_transparency
+  app_tracking_transparency:
     enable: false
     permission:
         en: If you [Allow], App will display ads optimized for you.
