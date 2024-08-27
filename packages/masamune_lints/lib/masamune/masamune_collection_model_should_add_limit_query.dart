@@ -3,7 +3,7 @@ part of '/masamune_lints.dart';
 class _MasamuneCollectionModelShouldAddLimitQuery extends DartLintRule {
   const _MasamuneCollectionModelShouldAddLimitQuery() : super(code: _code);
 
-  static const _code = LintCode(
+  static const _code = lint_codes.LintCode(
     name: "masamune_model_should_add_limit_query",
     problemMessage:
         "When querying in the collection model, [limitTo] must be used to limit the number of queries. Conversely, [limitTo] must not be specified when using [aggregate]. コレクションモデルでクエリする場合は[limitTo]で数の制限をする必要があります。[aggregate]を用いる場合は逆に[limitTo]を指定してはいけません。",

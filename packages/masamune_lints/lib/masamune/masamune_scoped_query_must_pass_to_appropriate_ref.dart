@@ -67,7 +67,7 @@ _MasamuneScopedType _getRefType(InterfaceType? type) {
 class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
   const _MasamuneScopedQueryMustPassToAppropriateRef() : super(code: _code);
 
-  static const _code = LintCode(
+  static const _code = lint_codes.LintCode(
     name: "masamune_scoped_query_must_pass_to_appropriate_ref",
     problemMessage:
         "ScopedQuery must be passed to the appropriate Ref. ScopedQueryは適切なRefに渡す必要があります。",
@@ -105,7 +105,7 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
               case _MasamuneScopedType.app:
                 if (type != scopedType) {
                   reporter.reportErrorForNode(
-                    LintCode(
+                    lint_codes.LintCode(
                       name: _code.name,
                       problemMessage:
                           "${_code.problemMessage} Ref/${type.label} != ScopedQuery/${scopedType.label}",
@@ -122,7 +122,7 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
                 }
                 if (type != scopedType) {
                   reporter.reportErrorForNode(
-                    LintCode(
+                    lint_codes.LintCode(
                       name: _code.name,
                       problemMessage:
                           "${_code.problemMessage} Ref/${type.label} != ScopedQuery/${scopedType.label}",
@@ -139,7 +139,7 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
                 }
                 if (type != scopedType) {
                   reporter.reportErrorForNode(
-                    LintCode(
+                    lint_codes.LintCode(
                       name: _code.name,
                       problemMessage:
                           "${_code.problemMessage} Ref/${type.label} != ScopedQuery/${scopedType.label}",
@@ -173,7 +173,7 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
             }
             if (scopedType != type) {
               reporter.reportErrorForNode(
-                LintCode(
+                lint_codes.LintCode(
                   name: _code.name,
                   problemMessage:
                       "${_code.problemMessage} Ref/${type.label} != ScopedQuery/${type.label}",

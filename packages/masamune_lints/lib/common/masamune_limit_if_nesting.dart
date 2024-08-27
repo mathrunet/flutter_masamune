@@ -8,7 +8,7 @@ class _MasamuneLimitIfNesting extends DartLintRule {
           code: _code,
         );
 
-  static const _code = LintCode(
+  static const _code = lint_codes.LintCode(
     name: "masamune_if_nesting_should_limit",
     problemMessage:
         "Nesting hierarchy for if should be limited to $_kMaxNestingCount units. ifのネスト階層は$_kMaxNestingCount個までにしてください。",

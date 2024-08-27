@@ -6,7 +6,7 @@ class _MasamuneUnwrapNullable extends DartLintRule {
           code: _code,
         );
 
-  static const _code = LintCode(
+  static const _code = lint_codes.LintCode(
     name: "masamune_nullable_should_not_unwrap",
     problemMessage:
         "Unwrapping a nullable variable using the ! operator is used to unwrap a nullable variable; consider performing a null check or using the ? operator. nullableな変数に対して!演算子を使用してアンラップしています。nullチェックを行うか、?演算子を使用することを検討してください。",
