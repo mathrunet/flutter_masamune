@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-08-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.23.4`](#katana_cli---v2234)
+
+---
+
+#### `katana_cli` - `v2.23.4`
+
+ - **FIX**: Addition of Firebase trigger server script creation. ([00a3ae85](https://github.com/mathrunet/flutter_masamune/commit/00a3ae85ed6a15a0f7c3f6e10fd612f6969430a2))
+ - **FIX**: Bug fix. ([5f22b196](https://github.com/mathrunet/flutter_masamune/commit/5f22b19604f1b5d132ff9d7923b7f604b50fddd6))
+
+
 ## 2024-08-27
 
 ### Changes

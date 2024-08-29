@@ -1,3 +1,8 @@
+## 2.23.4
+
+ - **FIX**: Addition of Firebase trigger server script creation. ([00a3ae85](https://github.com/mathrunet/flutter_masamune/commit/00a3ae85ed6a15a0f7c3f6e10fd612f6969430a2))
+ - **FIX**: Bug fix. ([5f22b196](https://github.com/mathrunet/flutter_masamune/commit/5f22b19604f1b5d132ff9d7923b7f604b50fddd6))
+
 ## 2.23.3
 
  - **FIX**: Add att. ([b8d0f86f](https://github.com/mathrunet/flutter_masamune/commit/b8d0f86f07584ad116eba5e3bb43dc457a60bcf7))
