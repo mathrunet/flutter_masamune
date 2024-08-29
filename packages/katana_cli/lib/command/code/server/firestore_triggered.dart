@@ -1,26 +1,26 @@
 part of "server.dart";
 
-/// Create a server code for the scheduler.
+/// Create server code for Firestore triggers.
 ///
-/// スケジューラー用のサーバーコードを作成します。
-class CodeServerScheduleCliCommand extends CliCodeCommand {
-  /// Create a server code for the scheduler.
+/// Firestoreのトリガー用のサーバーコードを作成します。
+class CodeServerFirestoreTriggeredCliCommand extends CliCodeCommand {
+  /// Create server code for Firestore triggers.
   ///
-  /// スケジューラー用のサーバーコードを作成します。
-  const CodeServerScheduleCliCommand();
+  /// Firestoreのトリガー用のサーバーコードを作成します。
+  const CodeServerFirestoreTriggeredCliCommand();
 
   @override
-  String get name => "schedule";
+  String get name => "firestore";
 
   @override
-  String get prefix => "schedule";
+  String get prefix => "firestore";
 
   @override
   String get directory => "firebase/functions/src/functions";
 
   @override
   String get description =>
-      "Create a server code for the scheduler in `$directory/(filepath).ts`. スケジューラー用のサーバーコードを`$directory/(filepath).ts`に作成します。";
+      "Create a server code for Firestore triggers in `$directory/(filepath).ts`. Firestoreトリガー用のサーバーコードを`$directory/(filepath).ts`に作成します。";
 
   @override
   Future<void> exec(ExecContext context) async {
@@ -31,7 +31,8 @@ class CodeServerScheduleCliCommand extends CliCodeCommand {
       );
       return;
     }
-    label("Create a server code for the scheduler in `$directory/$path.ts`.");
+    label(
+        "Create a server code for Firestore triggers in `$directory/$path.ts`.");
     final parentPath = path.parentPath();
     if (parentPath.isNotEmpty) {
       final parentDir = Directory("$directory/$parentPath");
@@ -49,6 +50,7 @@ class CodeServerScheduleCliCommand extends CliCodeCommand {
 /* eslint max-len: off */
 /* eslint @typescript-eslint/no-explicit-any: off */
 import * as m from "@mathrunet/masamune";
+import * as functions from "firebase-functions/v2";
 
 """;
   }
@@ -62,33 +64,38 @@ import * as m from "@mathrunet/masamune";
   String body(String path, String baseName, String className) {
     return """
 /**
- * ${className.toPascalCase()}Schedule
+ * ${className.toPascalCase()}FirestoreTriggered
  *
- * Create a server code for the scheduler.
+ * Create a server code for Firestore triggers.
  */
-export class ${className.toPascalCase()}Schedule extends m.ScheduleProcessFunctionBase {
+export class ${className.toPascalCase()}FirestoreTriggered extends m.FirestoreTriggeredProcessFunctionBase {
     /**
      * @param {string} id
      * Describe the method names used in Functions.
      *
      * Functionsで利用されるメソッド名を記述します。
      */
-    id = "${className.toSnakeCase()}_schedule";
+    id = "${className.toSnakeCase()}_firestore_triggered";
     /**
      * @param {string} schedule
-     * Specify the schedule to execute the process in cron format.
+     * Specifies the path to be processed.
      *
-     * 処理を実行するスケジュールをcron形式で指定します。
+     * 処理を実行する対象のパスを指定します。
      *
-     * https://firebase.google.com/docs/functions/schedule-functions
+     * https://firebase.google.com/docs/functions/firestore-events
      */
-    schedule = "every 60 minutes";
+    path = "";
     /**
      * Specify the actual contents of the process.
      *
      * 実際の処理の中身を指定します。
+     *
+     * @param {functions.firestore.FirestoreEvent<functions.firestore.Change<functions.firestore.DocumentSnapshot> | undefined, Record<string, string>>} event
+     * Event Description.
+     *
+     * イベントの内容。
      */
-    async process(): Promise<void> {
+    async process(event: functions.firestore.FirestoreEvent<functions.firestore.Change<functions.firestore.DocumentSnapshot> | undefined, Record<string, string>>): Promise<void> {
         // TODO: Implement the process to be executed.
     }
 }

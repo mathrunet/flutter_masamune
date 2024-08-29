@@ -118,12 +118,6 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         .trim()
         .replaceAll('"', "")
         .replaceAll("'", "");
-    if (androidApplicationId.isEmpty) {
-      error(
-        "Application ID is not set in [android]->[defaultConfig]->[applicationId] in `android/app/build.gradle`.",
-      );
-      return;
-    }
     final xcode = XCode();
     await xcode.load();
     final bundleId = xcode.pbxBuildConfiguration
@@ -152,7 +146,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "--project=$projectId",
           "--ios-bundle-id=$bundleId",
           "--macos-bundle-id=$bundleId",
-          "--android-package-name=$androidApplicationId",
+          if (androidApplicationId.isNotEmpty)
+            "--android-package-name=$androidApplicationId",
         ],
       );
     }

@@ -9,6 +9,7 @@ import 'package:katana_cli/katana_cli.dart';
 part 'request.dart';
 part 'schedule.dart';
 part 'call.dart';
+part 'firestore_triggered.dart';
 
 /// Create a code template for Firebase Functions.
 ///
@@ -28,5 +29,6 @@ class CodeServerCliCommand extends CliCommandGroup {
         "call": CodeServerCallCliCommand(),
         "request": CodeServerRequestCliCommand(),
         "schedule": CodeServerScheduleCliCommand(),
+        "firestore": CodeServerFirestoreTriggeredCliCommand(),
       };
 }
