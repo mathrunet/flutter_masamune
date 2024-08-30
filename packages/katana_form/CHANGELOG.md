@@ -1,3 +1,7 @@
+## 2.13.8
+
+ - **FIX**: Added color change parameter for switches. ([2dc2eb39](https://github.com/mathrunet/flutter_masamune/commit/2dc2eb39b50963e72f9203667e8e7b4af66b70cf))
+
 ## 2.13.7
 
  - **FIX**: Fixed a bug that prevented Pin from being input on Android. ([4bf698e0](https://github.com/mathrunet/flutter_masamune/commit/4bf698e0c43fcbacb1b8ae14d0bf51688c0fe49b))
