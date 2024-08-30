@@ -22,6 +22,7 @@ class FormPasswordVisible extends StatefulWidget {
     this.padding,
     this.switchPadding,
     this.switchAlignment,
+    this.switchColor,
   });
 
   /// Text field padding.
@@ -38,6 +39,11 @@ class FormPasswordVisible extends StatefulWidget {
   ///
   /// スイッチの位置。
   final Alignment? switchAlignment;
+
+  /// Switch color.
+  ///
+  /// スイッチの色。
+  final Color? switchColor;
 
   /// Builder for text fields.
   ///
@@ -87,6 +93,7 @@ class _FormPasswordVisibleState extends State<FormPasswordVisible> {
             icon: Icon(
               !_obscure ? Icons.visibility : Icons.visibility_off,
             ),
+            color: widget.switchColor,
             onPressed: _onSwitch,
             visualDensity: VisualDensity.compact,
             style: IconButton.styleFrom(
