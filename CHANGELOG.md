@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-09-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_text_to_speech` - `v2.3.0`](#masamune_text_to_speech---v230)
+ - [`masamune_module_chat_system` - `v2.1.98`](#masamune_module_chat_system---v2198)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_chat_system` - `v2.1.98`
+
+---
+
+#### `masamune_text_to_speech` - `v2.3.0`
+
+ - **FEAT**: Added audio category settings for IOS. ([7539d37f](https://github.com/mathrunet/flutter_masamune/commit/7539d37f0a9f74cb8fdba0f110526d9117e5b91b))
+
+
 ## 2024-08-30
 
 ### Changes
