@@ -82,6 +82,12 @@ class TextToSpeechController
     try {
       if (UniversalPlatform.isIOS) {
         await _tts.setSharedInstance(true);
+        await _tts.setIosAudioCategory(
+          adapter.defaultIosAudioCategory._toIosTextToSpeechAudioCategory(),
+          adapter.defaultIosAudioCategoryOptions
+              .map((e) => e._toIosTextToSpeechAudioCategoryOptions())
+              .toList(),
+        );
       }
       await _tts.awaitSpeakCompletion(true);
       await _tts.setLanguage(adapter.defaultLocale.languageCode);

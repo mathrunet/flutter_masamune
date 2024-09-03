@@ -13,6 +13,10 @@ class TextToSpeechMasamuneAdapter extends MasamuneAdapter {
     this.defaultVolume = 1.0,
     this.defaultPitch = 1.0,
     this.textToSpeechController,
+    this.defaultIosAudioCategory = TextToSpeechIosAudioCategory.playback,
+    this.defaultIosAudioCategoryOptions = const [
+      TextToSpeechIosAudioCategoryOptions.mixWithOthers
+    ],
   })  : assert(
           defaultPitch > 0.0 && defaultPitch <= 1.0,
           "defaultPitch must be greater than 0.0 and less than or equal to 1.0.",
@@ -45,6 +49,17 @@ class TextToSpeechMasamuneAdapter extends MasamuneAdapter {
   ///
   /// デフォルトの発声ピッチ。
   final double defaultPitch;
+
+  /// Default audio category for iOS.
+  ///
+  /// iOS用のデフォルトのオーディオカテゴリ。
+  final TextToSpeechIosAudioCategory defaultIosAudioCategory;
+
+  /// Default audio category options for iOS.
+  ///
+  /// iOS用のデフォルトのオーディオカテゴリオプション。
+  final List<TextToSpeechIosAudioCategoryOptions>
+      defaultIosAudioCategoryOptions;
 
   /// Specify the object of [TextToSpeechController].
   ///

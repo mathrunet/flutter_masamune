@@ -21,3 +21,4 @@ import 'package:universal_platform/universal_platform.dart';
 
 part 'adapter/text_to_speech_masamune_adapter.dart';
 part 'src/text_to_speech_controller.dart';
+part 'src/text_to_speech_ios_audio_category.dart';
