@@ -44,8 +44,12 @@ class SquareAvatar extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          if (backgroundImage != null) Image(image: backgroundImage!),
           if (backgroundColor != null) ColoredBox(color: backgroundColor!),
+          if (backgroundImage != null)
+            Image(
+              image: backgroundImage!,
+              fit: BoxFit.cover,
+            ),
         ],
       ),
     );
