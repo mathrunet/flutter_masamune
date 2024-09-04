@@ -43,6 +43,15 @@ class AppPickerCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    final camera = picker.getAsMap("camera");
+    final cameraEnabled = camera.get("enable", false);
+    final cameraPermission = camera.getAsMap("permission");
+    if (cameraEnabled && cameraPermission.isEmpty) {
+      error(
+        "The item [app]->[picker]->[camera]->[permission] is missing. Please include the language code and the message when authorization is granted here.",
+      );
+      return;
+    }
     label("Addition of permission messages.");
     await XCodePermissionType.photoLibraryUsage.setMessageToXCode(
       permission
@@ -50,6 +59,14 @@ class AppPickerCliAction extends CliCommand with CliActionMixin {
           .where((key, value) => value.isNotEmpty),
     );
     await PodfilePermissionType.photoLibraryUsage.enablePermissionToPodfile();
+    if (cameraEnabled) {
+      await XCodePermissionType.cameraUsage.setMessageToXCode(
+        permission
+            .map((key, value) => MapEntry(key, value.toString()))
+            .where((key, value) => value.isNotEmpty),
+      );
+      await PodfilePermissionType.cameraUsage.enablePermissionToPodfile();
+    }
     await addFlutterImport(
       [
         "masamune_picker",

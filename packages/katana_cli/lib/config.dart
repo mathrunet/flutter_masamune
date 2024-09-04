@@ -160,13 +160,19 @@ ${showAllConfig ? """
   # Describe the settings for using the file picker.
   # Specify the permission message to use the library in IOS in [permission].
   # Please include `en`, `ja`, etc. and write the message in that language there.
+  # If you want to use the camera, set [camera]->[enable] to true and specify the permission message to use the camera in [permission].
   # ファイルピッカーを利用するための設定を記述します。
   # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
   # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+  # カメラを利用する場合は[camera]->[enable]をtrueにして、[permission]にカメラを利用するための権限許可メッセージを指定して下さい。
   picker:
     enable: false
     permission:
       en: Use the library for profile images.
+    camera:
+      enable: false
+      permission:
+        en: Use the camera for profile images.
 
 ${showAllConfig ? """
   # Configure settings for mobile app deep linking.
