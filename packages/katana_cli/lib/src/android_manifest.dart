@@ -302,7 +302,7 @@ enum AndroidManifestQueryType {
               p1 is XmlElement &&
               p1.name.toString() == "data" &&
               p1.attributes.any((p2) =>
-                  p2.name.toString() == "android:scheme" &&
+                  p2.name.toString() == "android:data" &&
                   p2.value == scheme)))) {
         queries.children.add(
           XmlElement(
@@ -323,7 +323,7 @@ enum AndroidManifestQueryType {
                 XmlName("data"),
                 [
                   XmlAttribute(
-                    XmlName("android:scheme"),
+                    XmlName("android:data"),
                     scheme!,
                   ),
                 ],
