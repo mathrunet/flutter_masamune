@@ -118,6 +118,11 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
   List<PurchaseProduct> get products => _products;
   final List<PurchaseProduct> _products = [];
 
+  /// Returns [Future] if loading is in progress.
+  ///
+  /// ロード中の場合[Future]を返します。
+  Future<void>? get loading => _loadCompleter?.future;
+
   /// Initialize InAppPurchase.
   ///
   /// InAppPurchaseを初期化します。
