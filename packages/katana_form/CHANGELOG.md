@@ -1,3 +1,7 @@
+## 2.14.1
+
+ - **FIX**: Fixed a bug that prevented it from working. ([5d719d5c](https://github.com/mathrunet/flutter_masamune/commit/5d719d5c9fac0d33d8e68a805de570ef4fea2bd9))
+
 ## 2.14.0
 
  - **FEAT**: Added various Builder and FormMapTagDropdownField. ([888a5c90](https://github.com/mathrunet/flutter_masamune/commit/888a5c908428c10944d17b790bee5a8e264fb1ad))

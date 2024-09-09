@@ -1,3 +1,7 @@
+## 2.7.98
+
+ - Update a dependency to the latest release.
+
 ## 2.7.97
 
  - Update a dependency to the latest release.
