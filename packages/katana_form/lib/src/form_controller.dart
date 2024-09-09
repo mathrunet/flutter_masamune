@@ -175,7 +175,17 @@ class FormController<TValue> extends ValueNotifier<TValue> {
     _fields.remove(state);
   }
 
+  void _registerContainer(_FormStyleContainerState state) {
+    _containers.add(state);
+  }
+
+  void _unregisterContainer(_FormStyleContainerState state) {
+    _containers.remove(state);
+  }
+
   final Set<FormFieldState> _fields = <FormFieldState>{};
+  final Set<_FormStyleContainerState> _containers =
+      <_FormStyleContainerState>{};
 
   /// [GlobalKey] passed to [Form].
   ///
@@ -242,13 +252,29 @@ class FormController<TValue> extends ValueNotifier<TValue> {
         return null;
       }
       _save();
+      if (!_validateContainer()) {
+        return null;
+      }
       return value;
     }
     if (!key.currentState!.validate()) {
       return null;
     }
     key.currentState!.save();
+    if (!_validateContainer()) {
+      return null;
+    }
     return value;
+  }
+
+  /// Reset all forms placed under [Form] to which [key] is passed.
+  ///
+  /// [key]を渡した[Form]の配下に置かれているすべてのフォームをリセットします。
+  void reset() {
+    for (final field in _fields) {
+      field.reset();
+    }
+    notifyListeners();
   }
 
   void _save() {
@@ -263,6 +289,14 @@ class FormController<TValue> extends ValueNotifier<TValue> {
       hasError = !field.validate() || hasError;
     }
     notifyListeners();
+    return !hasError;
+  }
+
+  bool _validateContainer() {
+    bool hasError = false;
+    for (final container in _containers) {
+      hasError = !container._validate() || hasError;
+    }
     return !hasError;
   }
 }

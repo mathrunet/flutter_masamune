@@ -50,8 +50,12 @@ part 'form/form_pin_field.dart';
 part 'form/form_list_builder.dart';
 part 'form/form_builder.dart';
 part 'form/form_duration_field.dart';
-part 'form/form_password_visible.dart';
+part 'form/form_password_builder.dart';
+part 'form/form_editable_toggle_builder.dart';
+part 'form/form_text_editing_controller_builder.dart';
+part 'form/form_focus_node_builder.dart';
 part 'form/form_style_container.dart';
+part 'form/form_map_tag_dropdown_field.dart';
 
 part 'src/form_controller.dart';
 part 'src/form_media_value.dart';

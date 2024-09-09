@@ -12,7 +12,7 @@ part of '/katana_form.dart';
 ///
 /// [enabled]が`false`の場合、非有効化のデザインに変更されます。
 @immutable
-class FormStyleContainer extends StatelessWidget {
+class FormStyleContainer extends StatefulWidget {
   /// Provides a container with [FormStyle] applied.
   ///
   /// In [child], specify the widget to enclose in the container.
@@ -25,6 +25,7 @@ class FormStyleContainer extends StatelessWidget {
   ///
   /// [enabled]が`false`の場合、非有効化のデザインに変更されます。
   const FormStyleContainer({
+    this.form,
     super.key,
     this.style,
     this.child,
@@ -39,7 +40,22 @@ class FormStyleContainer extends StatelessWidget {
     this.padding,
     this.contentPadding,
     this.alignment,
-  });
+    this.errorText,
+    this.validator,
+  }) : assert(
+          (form == null && validator == null) ||
+              (form != null && validator != null),
+          "Both are required when using [form] or [validator].",
+        );
+
+  /// Context for forms.
+  ///
+  /// The widget is created outside of the widget in advance and handed over to the client.
+  ///
+  /// フォーム用のコンテキスト。
+  ///
+  /// 予めウィジェット外で作成し渡します。
+  final FormController? form;
 
   /// Widgets enclosed in containers.
   ///
@@ -78,6 +94,11 @@ class FormStyleContainer extends StatelessWidget {
   ///
   /// フォーム用のラベルテキスト。
   final String? labelText;
+
+  /// Error text.
+  ///
+  /// エラーテキスト。
+  final String? errorText;
 
   /// If this is `false`, it is deactivated.
   ///
@@ -118,57 +139,116 @@ class FormStyleContainer extends StatelessWidget {
   /// 子要素の配置。
   final AlignmentGeometry? alignment;
 
+  /// Set validators for forms.
+  ///
+  /// If an error text is returned as the return value, the error text is displayed.
+  ///
+  /// It is executed after the other fields so that it can refer to the values of the other fields.
+  ///
+  /// To specify this, give [form].
+  ///
+  /// フォーム用のバリデータを設定します。
+  ///
+  /// 戻り値としてエラーテキストを返すと、エラーテキストが表示されます。
+  ///
+  /// 他のフィールドよりも後に実行されるため、他のフィールドの値を参照することができます。
+  ///
+  /// これを指定する場合は[form]を与えて下さい。
+  final String? Function()? validator;
+
+  @override
+  State<StatefulWidget> createState() => _FormStyleContainerState();
+}
+
+class _FormStyleContainerState extends State<FormStyleContainer> {
+  String? _errorText;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.form?._registerContainer(this);
+  }
+
+  @override
+  void didUpdateWidget(FormStyleContainer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.form != oldWidget.form) {
+      oldWidget.form?._unregisterContainer(this);
+      widget.form?._registerContainer(this);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.form?._unregisterContainer(this);
+    super.dispose();
+  }
+
+  bool _validate() {
+    final result = widget.validator?.call();
+    if (result != null) {
+      setState(() {
+        _errorText = result;
+      });
+    } else if (_errorText != null) {
+      setState(() {
+        _errorText = null;
+      });
+    }
+    return result == null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final mainTextStyle = style?.textStyle?.copyWith(
-          color: style?.color,
+    final mainTextStyle = widget.style?.textStyle?.copyWith(
+          color: widget.style?.color,
         ) ??
         TextStyle(
-          color: style?.color ?? theme.textTheme.titleMedium?.color,
+          color: widget.style?.color ?? theme.textTheme.titleMedium?.color,
         );
-    final subTextStyle = style?.textStyle?.copyWith(
-          color: style?.subColor,
+    final subTextStyle = widget.style?.textStyle?.copyWith(
+          color: widget.style?.subColor,
         ) ??
         TextStyle(
-          color: style?.subColor ??
-              style?.color?.withOpacity(0.5) ??
+          color: widget.style?.subColor ??
+              widget.style?.color?.withOpacity(0.5) ??
               theme.textTheme.titleMedium?.color?.withOpacity(0.5),
         );
-    final errorTextStyle = style?.errorTextStyle?.copyWith(
-          color: style?.errorColor,
+    final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
+          color: widget.style?.errorColor,
         ) ??
-        style?.textStyle?.copyWith(
-          color: style?.errorColor,
+        widget.style?.textStyle?.copyWith(
+          color: widget.style?.errorColor,
         ) ??
         TextStyle(
-          color: style?.errorColor ?? theme.colorScheme.error,
+          color: widget.style?.errorColor ?? theme.colorScheme.error,
         );
-    final disabledTextStyle = style?.textStyle?.copyWith(
-          color: style?.disabledColor,
+    final disabledTextStyle = widget.style?.textStyle?.copyWith(
+          color: widget.style?.disabledColor,
         ) ??
         TextStyle(
-          color: style?.disabledColor ?? theme.disabledColor,
+          color: widget.style?.disabledColor ?? theme.disabledColor,
         );
 
     InputBorder getBorderSide(Color borderColor) {
-      switch (style?.borderStyle) {
+      switch (widget.style?.borderStyle) {
         case FormInputBorderStyle.outline:
           return OutlineInputBorder(
-            borderRadius: style?.borderRadius ??
+            borderRadius: widget.style?.borderRadius ??
                 const BorderRadius.all(Radius.circular(4.0)),
             borderSide: BorderSide(
               color: borderColor,
-              width: style?.borderWidth ?? 1.0,
+              width: widget.style?.borderWidth ?? 1.0,
             ),
           );
         case FormInputBorderStyle.underline:
           return UnderlineInputBorder(
             borderSide: BorderSide(
-              color: style?.borderColor ?? theme.dividerColor,
-              width: style?.borderWidth ?? 1.0,
+              color: widget.style?.borderColor ?? theme.dividerColor,
+              width: widget.style?.borderWidth ?? 1.0,
             ),
-            borderRadius: style?.borderRadius ??
+            borderRadius: widget.style?.borderRadius ??
                 const BorderRadius.only(
                   topLeft: Radius.circular(4.0),
                   topRight: Radius.circular(4.0),
@@ -181,49 +261,58 @@ class FormStyleContainer extends StatelessWidget {
       }
     }
 
-    final borderSide = getBorderSide(style?.borderColor ?? theme.dividerColor);
+    final borderSide =
+        getBorderSide(widget.style?.borderColor ?? theme.dividerColor);
     final errorBorderSide =
-        getBorderSide(style?.errorColor ?? theme.colorScheme.error);
+        getBorderSide(widget.style?.errorColor ?? theme.colorScheme.error);
     final disabledBorderSide =
-        getBorderSide(style?.disabledColor ?? theme.disabledColor);
+        getBorderSide(widget.style?.disabledColor ?? theme.disabledColor);
 
     return Container(
-      width: width ?? style?.width,
-      height: height ?? style?.height,
-      padding:
-          padding ?? style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
+      width: widget.width ?? widget.style?.width,
+      height: widget.height ?? widget.style?.height,
+      padding: widget.padding ??
+          widget.style?.padding ??
+          const EdgeInsets.symmetric(vertical: 8),
       child: InputDecorator(
         decoration: InputDecoration(
-          contentPadding: contentPadding ??
-              style?.contentPadding ??
+          errorText: _errorText,
+          contentPadding: widget.contentPadding ??
+              widget.style?.contentPadding ??
               const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          fillColor: style?.backgroundColor,
-          filled: style?.backgroundColor != null,
+          fillColor: widget.style?.backgroundColor,
+          filled: widget.style?.backgroundColor != null,
           isDense: true,
-          border: style?.border ?? borderSide,
-          enabledBorder: style?.border ?? borderSide,
-          disabledBorder:
-              style?.disabledBorder ?? style?.border ?? disabledBorderSide,
-          errorBorder: style?.errorBorder ?? style?.border ?? errorBorderSide,
-          focusedBorder: style?.border ?? borderSide,
-          focusedErrorBorder:
-              style?.errorBorder ?? style?.border ?? errorBorderSide,
-          hintText: hintText,
-          labelText: labelText,
-          counterText: counterText,
-          prefix: prefix?.child ?? style?.prefix?.child,
-          suffix: suffix?.child ?? style?.suffix?.child,
-          prefixIcon: prefix?.icon ?? style?.prefix?.icon,
-          suffixIcon: suffix?.icon ?? style?.suffix?.icon,
-          prefixText: prefix?.label ?? style?.prefix?.label,
-          suffixText: suffix?.label ?? style?.suffix?.label,
-          prefixIconColor: prefix?.iconColor ?? style?.prefix?.iconColor,
-          suffixIconColor: suffix?.iconColor ?? style?.suffix?.iconColor,
-          prefixIconConstraints:
-              prefix?.iconConstraints ?? style?.prefix?.iconConstraints,
-          suffixIconConstraints:
-              suffix?.iconConstraints ?? style?.suffix?.iconConstraints,
-          labelStyle: enabled ? mainTextStyle : disabledTextStyle,
+          border: widget.style?.border ?? borderSide,
+          enabledBorder: widget.style?.border ?? borderSide,
+          disabledBorder: widget.style?.disabledBorder ??
+              widget.style?.border ??
+              disabledBorderSide,
+          errorBorder: widget.style?.errorBorder ??
+              widget.style?.border ??
+              errorBorderSide,
+          focusedBorder: widget.style?.border ?? borderSide,
+          focusedErrorBorder: widget.style?.errorBorder ??
+              widget.style?.border ??
+              errorBorderSide,
+          hintText: widget.hintText,
+          labelText: widget.labelText,
+          counterText: widget.counterText,
+          prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
+          suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
+          prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
+          suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
+          prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
+          suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
+          prefixIconColor:
+              widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
+          suffixIconColor:
+              widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
+          prefixIconConstraints: widget.prefix?.iconConstraints ??
+              widget.style?.prefix?.iconConstraints,
+          suffixIconConstraints: widget.suffix?.iconConstraints ??
+              widget.style?.suffix?.iconConstraints,
+          labelStyle: widget.enabled ? mainTextStyle : disabledTextStyle,
           hintStyle: subTextStyle,
           suffixStyle: subTextStyle,
           prefixStyle: subTextStyle,
@@ -231,7 +320,7 @@ class FormStyleContainer extends StatelessWidget {
           helperStyle: subTextStyle,
           errorStyle: errorTextStyle,
         ),
-        child: child ?? const SizedBox.shrink(),
+        child: widget.child ?? const SizedBox.shrink(),
       ),
     );
   }

@@ -332,8 +332,7 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
 
     return Container(
       alignment: widget.style?.alignment,
-      padding:
-          widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
+      padding: widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
       child: SizedBox(
         height: widget.style?.height,
         width: widget.style?.width,

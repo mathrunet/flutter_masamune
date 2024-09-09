@@ -96,6 +96,8 @@ class FormCheckbox<TValue> extends FormField<bool> {
     Widget? labelWidget,
     FormAffixStyle? prefix,
     FormAffixStyle? suffix,
+    VisualDensity? visualDensity,
+    MaterialTapTargetSize? materialTapTargetSize,
     super.validator,
   })  : assert(
           (form == null && onSaved == null) ||
@@ -194,6 +196,8 @@ class FormCheckbox<TValue> extends FormField<bool> {
             final checkbox = Checkbox(
               value: field.value ?? false,
               tristate: false,
+              visualDensity: visualDensity,
+              materialTapTargetSize: materialTapTargetSize,
               onChanged:
                   enabled && !readOnly ? (val) => field.didChange(val) : null,
               fillColor: WidgetStateProperty.resolveWith((states) {

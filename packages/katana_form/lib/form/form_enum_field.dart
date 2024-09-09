@@ -408,7 +408,7 @@ class _FormEnumFieldState<TEnum extends Enum, TValue>
     return Container(
       alignment: widget.style?.alignment,
       padding:
-          widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
+          widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
       child: SizedBox(
         height: widget.style?.height,
         width: widget.style?.width,
@@ -494,17 +494,20 @@ class _FormEnumFieldState<TEnum extends Enum, TValue>
               Positioned.fill(
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: IgnorePointer(
-                    ignoring: true,
-                    child: IconTheme(
-                      data: IconThemeData(
-                        size: 24,
-                        color: widget.enabled
-                            ? mainTextStyle.color
-                            : disabledTextStyle.color,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: IgnorePointer(
+                      ignoring: true,
+                      child: IconTheme(
+                        data: IconThemeData(
+                          size: 24,
+                          color: widget.enabled
+                              ? mainTextStyle.color
+                              : disabledTextStyle.color,
+                        ),
+                        child: widget.dropdownIcon ??
+                            const Icon(Icons.arrow_drop_down),
                       ),
-                      child: widget.dropdownIcon ??
-                          const Icon(Icons.arrow_drop_down),
                     ),
                   ),
                 ),

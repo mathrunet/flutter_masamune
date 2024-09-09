@@ -159,7 +159,7 @@ class FormTextField<TValue> extends StatefulWidget {
     this.showCursor,
     this.autofocus = false,
     this.autocorrect = false,
-    this.selectOnFocus = false,
+    this.selectionOnFocus = FormTextFieldSelectionOnFocus.selectAll,
     this.focusNode,
     this.emptyErrorText,
     this.initialValue,
@@ -432,10 +432,10 @@ class FormTextField<TValue> extends StatefulWidget {
   /// 自動で入力されたテキストを修正する場合`true`。
   final bool autocorrect;
 
-  /// `true` to select all text when focused.
+  /// Specifies the behavior when focused.
   ///
-  /// フォーカスされたときにテキストを全選択する場合は`true`。
-  final bool selectOnFocus;
+  /// フォーカスされたときの挙動を指定します。
+  final FormTextFieldSelectionOnFocus selectionOnFocus;
 
   @override
   State<StatefulWidget> createState() => _FormTextFieldState<TValue>();
@@ -502,10 +502,19 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
 
   void _handledOnFocused() {
     if (_effectiveController != null) {
-      _effectiveController?.selection = TextSelection(
-        baseOffset: 0,
-        extentOffset: _effectiveController!.value.text.length,
-      );
+      switch (widget.selectionOnFocus) {
+        case FormTextFieldSelectionOnFocus.selectAll:
+          _effectiveController?.selection = TextSelection(
+            baseOffset: 0,
+            extentOffset: _effectiveController!.value.text.length,
+          );
+          break;
+        default:
+          _effectiveController?.selection = TextSelection.fromPosition(
+            TextPosition(offset: _effectiveController?.text.length ?? 0),
+          );
+          break;
+      }
     }
     _handledOnUpdate();
   }
@@ -594,7 +603,7 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
       builder: (context, controller, onTap) => Container(
         alignment: widget.style?.alignment,
         padding:
-            widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
+            widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 0),
         child: SizedBox(
           height: widget.style?.height,
           width: widget.style?.width,
@@ -853,7 +862,7 @@ class _SuggestionOverlayBuilderState extends State<_SuggestionOverlayBuilder> {
     }
     return PopScope(
       canPop: _overlay == null,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, _) {
         if (!didPop) {
           _overlay?.remove();
           _overlay = null;
@@ -1373,4 +1382,19 @@ class _TextFormFieldState<TValue> extends FormFieldState<String> {
       didChange(_effectiveController.text);
     }
   }
+}
+
+/// Specifies the behavior when focused.
+///
+/// フォーカスされたときの挙動を指定します。
+enum FormTextFieldSelectionOnFocus {
+  /// Select all text when focused.
+  ///
+  /// フォーカスされたときにテキストを全選択します。
+  selectAll,
+
+  /// Moves the cursor to the last character when in focus.
+  ///
+  /// フォーカスされたときに最後の文字にカーソルを移動します。
+  positionAtEnd;
 }

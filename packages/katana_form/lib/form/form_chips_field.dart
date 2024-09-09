@@ -360,7 +360,7 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
 
     return Container(
       alignment: widget.style?.alignment,
-      padding: widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
+      padding: widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 0),
       child: SizedBox(
         height: widget.style?.height,
         width: widget.style?.width,
@@ -848,6 +848,9 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
       },
       child: SizeChangedLayoutNotifier(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             GestureDetector(
               behavior: HitTestBehavior.opaque,
@@ -873,7 +876,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
             ),
             CompositedTransformTarget(
               link: _layerLink,
-              child: Container(),
+              child: const SizedBox(),
             ),
           ],
         ),
@@ -895,7 +898,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
         widget.onChanged(
           _chips.toList(growable: false)..removeEmpty(),
         );
-        var putText = '';
+        var putText = "";
         if (widget.allowChipEditing && _enteredTexts.containsKey(removedChip)) {
           putText = _enteredTexts[removedChip]!;
           _enteredTexts.remove(removedChip);
@@ -983,11 +986,11 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
   @override
   void insertContent(KeyboardInsertedContent content) {}
 
-  void _updateTextInputState({replaceText = false, putText = ''}) {
-    if (replaceText || putText != '') {
+  void _updateTextInputState({replaceText = false, putText = ""}) {
+    if (replaceText || putText != "") {
       final updatedText =
           String.fromCharCodes(_chips.map((_) => _kObjectReplacementChar)) +
-              (replaceText ? '' : _value.normalCharactersText) +
+              (replaceText ? "" : _value.normalCharactersText) +
               putText;
       setState(() {
         final textLength = updatedText.characters.length;

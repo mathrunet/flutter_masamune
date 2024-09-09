@@ -7,7 +7,7 @@ part of '/katana_form.dart';
 /// [FormTextField]と組み合わせることで、パスワードの可視化の制御を行うことができます。
 ///
 /// [builder]に[FormTextField]などを渡し、[switcherBuilder]には[IconButton]などを渡してください。
-class FormPasswordVisible extends StatefulWidget {
+class FormPasswordBuilder extends StatefulWidget {
   /// Combined with [FormTextField], it can be used to control the visibility of passwords.
   ///
   /// Pass [FormTextField] etc. to [builder] and pass [IconButton] etc. to [switcherBuilder].
@@ -15,7 +15,7 @@ class FormPasswordVisible extends StatefulWidget {
   /// [FormTextField]と組み合わせることで、パスワードの可視化の制御を行うことができます。
   ///
   /// [builder]に[FormTextField]などを渡し、[switcherBuilder]には[IconButton]などを渡してください。
-  const FormPasswordVisible({
+  const FormPasswordBuilder({
     super.key,
     required this.builder,
     this.switcherBuilder,
@@ -70,10 +70,10 @@ class FormPasswordVisible extends StatefulWidget {
       switcherBuilder;
 
   @override
-  State<StatefulWidget> createState() => _FormPasswordVisibleState();
+  State<StatefulWidget> createState() => _FormPasswordBuilderState();
 }
 
-class _FormPasswordVisibleState extends State<FormPasswordVisible> {
+class _FormPasswordBuilderState extends State<FormPasswordBuilder> {
   bool _obscure = true;
 
   void _onSwitch() {
