@@ -1,3 +1,7 @@
+## 2.2.11
+
+ - **FIX**: Fixed a bug in the local file path. ([310af079](https://github.com/mathrunet/flutter_masamune/commit/310af079dedc61dbcbca0c09b88ac8293347f62a))
+
 ## 2.2.10
 
  - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))

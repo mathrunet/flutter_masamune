@@ -1,3 +1,7 @@
+## 2.14.0
+
+ - **FEAT**: Added various Builder and FormMapTagDropdownField. ([888a5c90](https://github.com/mathrunet/flutter_masamune/commit/888a5c908428c10944d17b790bee5a8e264fb1ad))
+
 ## 2.13.8
 
  - **FIX**: Added color change parameter for switches. ([2dc2eb39](https://github.com/mathrunet/flutter_masamune/commit/2dc2eb39b50963e72f9203667e8e7b4af66b70cf))

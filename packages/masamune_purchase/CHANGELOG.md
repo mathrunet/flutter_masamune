@@ -1,3 +1,7 @@
+## 2.1.88
+
+ - **FIX**: Added loading to Purchase. ([7592c21a](https://github.com/mathrunet/flutter_masamune/commit/7592c21a0fa9403d777b1a43ec69e298adaef020))
+
 ## 2.1.87
 
  - Update a dependency to the latest release.

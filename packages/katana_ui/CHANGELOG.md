@@ -1,3 +1,7 @@
+## 2.10.5
+
+ - **FIX**: The background color was foreground color, which was corrected. ([c196047f](https://github.com/mathrunet/flutter_masamune/commit/c196047fdb7fd68462d86a714e541b8b26e3b644))
+
 ## 2.10.4
 
  - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))

@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - Update a dependency to the latest release.
+
 ## 2.3.0
 
  - **FEAT**: Added audio category settings for IOS. ([7539d37f](https://github.com/mathrunet/flutter_masamune/commit/7539d37f0a9f74cb8fdba0f110526d9117e5b91b))

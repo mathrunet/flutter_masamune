@@ -1,3 +1,8 @@
+## 2.23.5
+
+ - **FIX**: Fixed a bug in manifest creation. ([a6a7f2de](https://github.com/mathrunet/flutter_masamune/commit/a6a7f2dea6072166e661ff781fec4097edbe5ad9))
+ - **FIX**: Added permissions to Picker to use the camera. ([16666d8f](https://github.com/mathrunet/flutter_masamune/commit/16666d8f3b5ccd8592591299df4ec7fb138998d2))
+
 ## 2.23.4
 
  - **FIX**: Addition of Firebase trigger server script creation. ([00a3ae85](https://github.com/mathrunet/flutter_masamune/commit/00a3ae85ed6a15a0f7c3f6e10fd612f6969430a2))
