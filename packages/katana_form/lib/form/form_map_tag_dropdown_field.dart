@@ -291,7 +291,7 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
       final key = uuid();
       _selections?.putIfAbsent(key, () => value);
       _selectionsStreamController.add(_selections);
-      widget.picker.onEdit?.call(_selections!);
+      widget.picker.onAdd?.call(MapEntry(key, value));
       select(key);
     }
   }
@@ -300,7 +300,9 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
     if (widget.enabled && _selections?[key] != value) {
       _selections?[key] = value;
       _selectionsStreamController.add(_selections);
-      widget.picker.onEdit?.call(_selections!);
+      widget.picker.onEdit?.call(MapEntry(key, value));
+      unselect(key);
+      select(key);
     }
   }
 
@@ -308,7 +310,8 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
     if (widget.enabled && _selections.containsKey(key)) {
       _selections?.remove(key);
       _selectionsStreamController.add(_selections);
-      widget.picker.onEdit?.call(_selections!);
+      widget.picker.onDelete?.call(key);
+      unselect(key);
     }
   }
 
@@ -584,8 +587,7 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
                 stream: _selectionsStreamController.stream,
                 initialData: _selections,
                 builder: (context, _selectionsSnapshot) {
-                  if (_selectionsSnapshot.hasData &&
-                      _selectionsSnapshot.data!.isNotEmpty) {
+                  if (_selectionsSnapshot.hasData) {
                     return StreamBuilder<List<String>?>(
                       stream: _selectedStreamController.stream,
                       initialData: value,
@@ -614,21 +616,26 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
                                   constraints: BoxConstraints(
                                     maxHeight: suggestionBoxHeight,
                                   ),
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.zero,
-                                    itemCount: suggestionWidgets.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return suggestionWidgets[index];
-                                    },
+                                  child: Scrollbar(
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      padding: EdgeInsets.zero,
+                                      itemCount: suggestionWidgets.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return suggestionWidgets[index];
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           );
                           return Positioned(
-                            width: size.width,
+                            width: widget.picker.width ?? size.width,
+                            left: widget.picker.width != null
+                                ? size.width - widget.picker.width!
+                                : null,
                             child: CompositedTransformFollower(
                               link: _layerLink,
                               showWhenUnlinked: false,
@@ -743,7 +750,20 @@ class FormMapTagDropdownFieldPicker {
     this.color,
     this.chipBuilder,
     this.onEdit,
+    this.onDelete,
+    this.onAdd,
+    this.tilePadding,
+    this.width,
   });
+
+  /// Callback to be executed when adding choices.
+  ///
+  /// [data] is passed to the callback.
+  ///
+  /// 選択肢の追加時に実行されるコールバック。
+  ///
+  /// コールバックに[data]が渡されます。
+  final void Function(MapEntry<String, String> data)? onAdd;
 
   /// Callback to be executed when editing choices.
   ///
@@ -752,7 +772,16 @@ class FormMapTagDropdownFieldPicker {
   /// 選択肢の編集時に実行されるコールバック。
   ///
   /// コールバックに[data]が渡されます。
-  final void Function(Map<String, String> data)? onEdit;
+  final void Function(MapEntry<String, String> data)? onEdit;
+
+  /// Callback to be executed when deleting choices.
+  ///
+  /// [key] is passed to the callback.
+  ///
+  /// 選択肢の削除時に実行されるコールバック。
+  ///
+  /// コールバックに[key]が渡されます。
+  final void Function(String key)? onDelete;
 
   /// Customize the display of selected values.
   ///
@@ -782,6 +811,16 @@ class FormMapTagDropdownFieldPicker {
   /// ピッカーの前景色。
   final Color? color;
 
+  /// Padding for each tile.
+  ///
+  /// タイルごとのパディング。
+  final EdgeInsetsGeometry? tilePadding;
+
+  /// Tile width.
+  ///
+  /// タイルの幅。
+  final double? width;
+
   /// Displays the selected value.
   ///
   /// [BuildContext] is passed to [context]. The current choices, the values selected from [ref] and the methods used to perform the operations are passed to [data].
@@ -795,29 +834,34 @@ class FormMapTagDropdownFieldPicker {
     FormMapTagDropdownFieldRef<List<String>> ref,
   ) {
     final theme = Theme.of(context);
-    return Row(
-      children: [
-        ...ref.value?.map((key) {
-              return chipBuilder?.call(context, data[key] ?? "") ??
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Chip(
-                      visualDensity: VisualDensity.compact,
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ...ref.value?.map((key) {
+                return chipBuilder?.call(context, data[key] ?? "") ??
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Chip(
+                        visualDensity: VisualDensity.compact,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        backgroundColor: theme.colorScheme.primary,
+                        color:
+                            WidgetStatePropertyAll(theme.colorScheme.primary),
+                        label: Text(
+                          data[key] ?? "",
+                          style: TextStyle(color: theme.colorScheme.onPrimary),
+                        ),
                       ),
-                      backgroundColor: theme.colorScheme.primary,
-                      color: WidgetStatePropertyAll(theme.colorScheme.primary),
-                      label: Text(
-                        data[key] ?? "",
-                        style: TextStyle(color: theme.colorScheme.onPrimary),
-                      ),
-                    ),
-                  );
-            }) ??
-            [],
-      ],
+                    );
+              }) ??
+              [],
+        ],
+      ),
     );
   }
 
@@ -837,6 +881,8 @@ class FormMapTagDropdownFieldPicker {
     return [
       ...keys.map((key) {
         return _EditableListTile(
+          tilePadding: tilePadding,
+          key: ValueKey(key),
           value: key,
           name: data[key] ?? "",
           selected: ref.value?.contains(key) == true,
@@ -856,6 +902,7 @@ class FormMapTagDropdownFieldPicker {
         );
       }),
       _AddibleListTile(
+        tilePadding: tilePadding,
         onAdd: (value) {
           ref.add(value);
         },
@@ -866,12 +913,14 @@ class FormMapTagDropdownFieldPicker {
 
 class _EditableListTile extends StatefulWidget {
   const _EditableListTile({
+    super.key,
     required this.value,
     required this.name,
     this.onEdit,
     this.onDelete,
     this.onSelect,
     this.selected = false,
+    this.tilePadding,
   });
 
   final String value;
@@ -879,6 +928,7 @@ class _EditableListTile extends StatefulWidget {
   final void Function(String name)? onEdit;
   final VoidCallback? onDelete;
   final VoidCallback? onSelect;
+  final EdgeInsetsGeometry? tilePadding;
   final bool selected;
 
   @override
@@ -942,6 +992,7 @@ class _EditableListTileState extends State<_EditableListTile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: widget.tilePadding,
       title: _editable
           ? TextField(
               controller: _controller,
@@ -958,32 +1009,32 @@ class _EditableListTileState extends State<_EditableListTile> {
             )
           : Text(widget.name),
       leading: Checkbox(
+        key: ValueKey("${widget.key.toString()}_check"),
         value: widget.selected,
         onChanged: (value) {
-          FocusScope.of(context).unfocus();
           widget.onSelect?.call();
+          FocusScope.of(context).unfocus();
         },
       ),
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        widget.onSelect?.call();
-      },
+      onTap: () {},
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           if (_editable) ...[
             IconButton(
+              key: ValueKey("${widget.key.toString()}_submit"),
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
               icon: const Icon(Icons.check_circle),
               onPressed: () {
-                FocusScope.of(context).unfocus();
                 _submit();
+                FocusScope.of(context).unfocus();
               },
             ),
           ] else ...[
             IconButton(
+              key: ValueKey("${widget.key.toString()}_edit"),
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
               icon: const Icon(Icons.edit),
@@ -993,12 +1044,13 @@ class _EditableListTileState extends State<_EditableListTile> {
               },
             ),
             IconButton(
+              key: ValueKey("${widget.key.toString()}_delete"),
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
               icon: const Icon(Icons.delete),
               onPressed: () {
-                FocusScope.of(context).unfocus();
                 widget.onDelete?.call();
+                FocusScope.of(context).unfocus();
               },
             ),
           ],
@@ -1011,9 +1063,11 @@ class _EditableListTileState extends State<_EditableListTile> {
 class _AddibleListTile extends StatefulWidget {
   const _AddibleListTile({
     this.onAdd,
+    this.tilePadding,
   });
 
   final void Function(String name)? onAdd;
+  final EdgeInsetsGeometry? tilePadding;
 
   @override
   State<StatefulWidget> createState() => _AddibleListTileState();
@@ -1068,6 +1122,7 @@ class _AddibleListTileState extends State<_AddibleListTile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: widget.tilePadding,
       title: _editable
           ? TextField(
               controller: _controller,
@@ -1084,12 +1139,16 @@ class _AddibleListTileState extends State<_AddibleListTile> {
             )
           : const SizedBox(),
       leading: const SizedBox(width: 48),
+      onTap: () {
+        print("aaa");
+      },
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           if (_editable) ...[
             IconButton(
+              key: ValueKey("_submit"),
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
               icon: const Icon(Icons.check_circle),
@@ -1100,6 +1159,7 @@ class _AddibleListTileState extends State<_AddibleListTile> {
             ),
           ] else ...[
             IconButton(
+              key: ValueKey("_edit"),
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
               icon: const Icon(Icons.add_circle),
