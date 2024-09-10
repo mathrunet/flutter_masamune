@@ -19,6 +19,7 @@ import 'package:flutter/widgets.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:masamune/masamune.dart';
+import 'package:mime/mime.dart';
 
 part 'adapter/picker_masamune_adapter.dart';
 

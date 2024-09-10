@@ -185,7 +185,7 @@ class FirebaseStorageAdapter extends StorageAdapter {
   @override
   Future<Uri> fetchPublicURI(String remoteRelativePathOrId) async {
     return Uri.parse(
-      "https://firebasestorage.googleapis.com/v0/b/$_storageBucket/o/$remoteRelativePathOrId?alt=media",
+      "https://firebasestorage.googleapis.com/v0/b/$_storageBucket/o/${remoteRelativePathOrId.replaceAll("/", "%2F")}?alt=media",
     );
   }
 
@@ -214,8 +214,9 @@ class FirebaseStorageAdapter extends StorageAdapter {
   @override
   Future<RemoteFile> upload(
     String localFullPath,
-    String remoteRelativePathOrId,
-  ) async {
+    String remoteRelativePathOrId, {
+    String? mimeType,
+  }) async {
     await FirebaseCore.initialize(options: options);
     try {
       assert(localFullPath.isNotEmpty, "Path is empty.");
@@ -223,7 +224,10 @@ class FirebaseStorageAdapter extends StorageAdapter {
         return RemoteFile(path: Uri.parse(localFullPath));
       }
       final byte = await Api.readBytes(localFullPath);
-      final uploadTask = reference(remoteRelativePathOrId).putData(byte);
+      final metadata =
+          mimeType != null ? SettableMetadata(contentType: mimeType) : null;
+      final uploadTask =
+          reference(remoteRelativePathOrId).putData(byte, metadata);
       await Future.value(uploadTask);
       return RemoteFile(path: await fetchPublicURI(remoteRelativePathOrId));
     } catch (e) {
@@ -234,13 +238,16 @@ class FirebaseStorageAdapter extends StorageAdapter {
   @override
   Future<RemoteFile> uploadWithBytes(
     Uint8List uploadFileByte,
-    String remoteRelativePathOrId,
-  ) async {
+    String remoteRelativePathOrId, {
+    String? mimeType,
+  }) async {
     await FirebaseCore.initialize(options: options);
     try {
       assert(uploadFileByte.isNotEmpty, "Bytes is empty.");
+      final metadata =
+          mimeType != null ? SettableMetadata(contentType: mimeType) : null;
       final uploadTask =
-          reference(remoteRelativePathOrId).putData(uploadFileByte);
+          reference(remoteRelativePathOrId).putData(uploadFileByte, metadata);
       await Future.value(uploadTask);
       return RemoteFile(path: await fetchPublicURI(remoteRelativePathOrId));
     } catch (e) {

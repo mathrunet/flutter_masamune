@@ -18,4 +18,4 @@ import 'package:path_provider/path_provider.dart';
 // Project imports:
 import 'package:masamune_ai_openai/masamune_ai_openai.dart';
 
-part 'openai_file.dart';
+part 'openai_storage_adapter.dart';

@@ -52,6 +52,7 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
             return PickerValue(
               uri: Uri.tryParse(file.path),
               bytes: await file.readAsBytes(),
+              mimeType: file.mimeType,
             );
           }),
         );
@@ -69,7 +70,11 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
           if (file.path == null || file.bytes == null) {
             return null;
           }
-          return PickerValue(uri: Uri.tryParse(file.path!), bytes: file.bytes!);
+          return PickerValue(
+            uri: Uri.tryParse(file.path!),
+            bytes: file.bytes!,
+            mimeType: file.xFile.mimeType,
+          );
         });
       default:
         final res = await FilePicker.platform.pickFiles(
@@ -84,7 +89,11 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
           if (file.path == null || file.bytes == null) {
             return null;
           }
-          return PickerValue(uri: Uri.tryParse(file.path!), bytes: file.bytes!);
+          return PickerValue(
+            uri: Uri.tryParse(file.path!),
+            bytes: file.bytes!,
+            mimeType: file.xFile.mimeType,
+          );
         });
     }
   }
@@ -111,14 +120,20 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
           throw Exception("File not found.");
         }
         return PickerValue(
-            uri: Uri.tryParse(file.path), bytes: await file.readAsBytes());
+          uri: Uri.tryParse(file.path),
+          bytes: await file.readAsBytes(),
+          mimeType: file.mimeType,
+        );
       case PickerFileType.video:
         final file = await ImagePicker().pickVideo(source: ImageSource.gallery);
         if (file == null) {
           throw Exception("File not found.");
         }
         return PickerValue(
-            uri: Uri.tryParse(file.path), bytes: await file.readAsBytes());
+          uri: Uri.tryParse(file.path),
+          bytes: await file.readAsBytes(),
+          mimeType: file.mimeType,
+        );
       default:
         final res = await FilePicker.platform.pickFiles(
           dialogTitle: dialogTitle,
@@ -127,7 +142,11 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
         if (file == null || file.path == null || file.bytes == null) {
           throw Exception("File not found.");
         }
-        return PickerValue(uri: Uri.tryParse(file.path!), bytes: file.bytes!);
+        return PickerValue(
+          uri: Uri.tryParse(file.path!),
+          bytes: file.bytes!,
+          mimeType: file.xFile.mimeType,
+        );
     }
   }
 
@@ -153,14 +172,20 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
           throw Exception("File not found.");
         }
         return PickerValue(
-            uri: Uri.tryParse(file.path), bytes: await file.readAsBytes());
+          uri: Uri.tryParse(file.path),
+          bytes: await file.readAsBytes(),
+          mimeType: file.mimeType,
+        );
       case PickerFileType.video:
         final file = await ImagePicker().pickVideo(source: ImageSource.camera);
         if (file == null) {
           throw Exception("File not found.");
         }
         return PickerValue(
-            uri: Uri.tryParse(file.path), bytes: await file.readAsBytes());
+          uri: Uri.tryParse(file.path),
+          bytes: await file.readAsBytes(),
+          mimeType: file.mimeType,
+        );
       default:
         throw UnsupportedError("This file format is not supported.");
     }

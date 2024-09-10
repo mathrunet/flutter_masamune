@@ -100,15 +100,20 @@ abstract class StorageAdapter {
   ///
   /// Return [RemoteFile] containing the full path of the upload destination and the actual data as the return value.
   ///
+  /// You can specify the MIME type for uploading with [mimeType].
+  ///
   /// [localFullPath]で指定されたローカル上のファイルをリモート側の位置であるの[remoteRelativePathOrId]にアップロードします。
   ///
   /// [localFullPath]にプラットフォーム内のフルパスが渡され[remoteRelativePathOrId]に相対パスが渡されます。
   ///
   /// 戻り値としてアップロード先のフルパスと実データを格納した[RemoteFile]を返してください。
+  ///
+  /// [mimeType]でアップロード時のMIMEタイプを指定できます。
   Future<RemoteFile> upload(
     String localFullPath,
-    String remoteRelativePathOrId,
-  );
+    String remoteRelativePathOrId, {
+    String? mimeType,
+  });
 
   /// Uploads the data specified in [uploadFileByte] to [remoteRelativePathOrId], which is the location on the remote side.
   ///
@@ -116,15 +121,20 @@ abstract class StorageAdapter {
   ///
   /// Return [RemoteFile] containing the full path of the upload destination and the actual data as the return value.
   ///
+  /// You can specify the MIME type for uploading with [mimeType].
+  ///
   /// [uploadFileByte]で指定されたデータをリモート側の位置であるの[remoteRelativePathOrId]にアップロードします。
   ///
   /// [uploadFileByte]にファイルのバイトデータが渡され[remoteRelativePathOrId]に相対パスが渡されます。
   ///
   /// 戻り値としてアップロード先のフルパスと実データを格納した[RemoteFile]を返してください。
+  ///
+  /// [mimeType]でアップロード時のMIMEタイプを指定できます。
   Future<RemoteFile> uploadWithBytes(
     Uint8List uploadFileByte,
-    String remoteRelativePathOrId,
-  );
+    String remoteRelativePathOrId, {
+    String? mimeType,
+  });
 
   /// Delete files on the remote side in [remoteRelativePathOrId].
   ///

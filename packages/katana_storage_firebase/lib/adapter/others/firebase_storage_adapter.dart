@@ -244,8 +244,9 @@ class FirebaseStorageAdapter extends StorageAdapter {
   @override
   Future<RemoteFile> upload(
     String localFullPath,
-    String remoteRelativePathOrId,
-  ) async {
+    String remoteRelativePathOrId, {
+    String? mimeType,
+  }) async {
     await FirebaseCore.initialize(options: options);
     try {
       assert(localFullPath.isNotEmpty, "Path is empty.");
@@ -256,7 +257,10 @@ class FirebaseStorageAdapter extends StorageAdapter {
       if (!file.existsSync()) {
         throw Exception("File is not found.");
       }
-      final uploadTask = reference(remoteRelativePathOrId).putFile(file);
+      final metadata =
+          mimeType != null ? SettableMetadata(contentType: mimeType) : null;
+      final uploadTask =
+          reference(remoteRelativePathOrId).putFile(file, metadata);
       await Future.value(uploadTask);
       return RemoteFile(path: await fetchPublicURI(remoteRelativePathOrId));
     } catch (e) {
@@ -267,13 +271,16 @@ class FirebaseStorageAdapter extends StorageAdapter {
   @override
   Future<RemoteFile> uploadWithBytes(
     Uint8List uploadFileByte,
-    String remoteRelativePathOrId,
-  ) async {
+    String remoteRelativePathOrId, {
+    String? mimeType,
+  }) async {
     await FirebaseCore.initialize(options: options);
     try {
       assert(uploadFileByte.isNotEmpty, "Bytes is empty.");
+      final metadata =
+          mimeType != null ? SettableMetadata(contentType: mimeType) : null;
       final uploadTask =
-          reference(remoteRelativePathOrId).putData(uploadFileByte);
+          reference(remoteRelativePathOrId).putData(uploadFileByte, metadata);
       await Future.value(uploadTask);
       return RemoteFile(path: await fetchPublicURI(remoteRelativePathOrId));
     } catch (e) {

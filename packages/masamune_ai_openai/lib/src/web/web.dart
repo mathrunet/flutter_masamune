@@ -14,4 +14,4 @@ import 'package:katana_storage/katana_storage.dart';
 // Project imports:
 import 'package:masamune_ai_openai/masamune_ai_openai.dart';
 
-part 'openai_file.dart';
+part 'openai_storage_adapter.dart';

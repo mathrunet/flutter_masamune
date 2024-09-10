@@ -84,6 +84,8 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
   Future<void>? get deleting => _deleteCompleter?.future;
   Completer<void>? _deleteCompleter;
 
+  
+
   /// Get a URL that can be made public. Use this URI when you want to retrieve images, etc. using `Image.network`, etc.
   ///
   /// 公開可能なURLを取得します。画像等を`Image.network`などで取得したい場合このURIを利用します。
@@ -148,11 +150,15 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
   ///
   /// While uploading, you can wait at [uploading].
   ///
+  /// You can specify the MIME type for uploading by specifying [mimeType].
+  ///
   /// The full path to the upload destination can be obtained as a return value.
   ///
   /// ローカル上の[localFullPath]にあるファイルを[storageQuery]で指定されたリモート側の位置にアップロードします。
   ///
   /// アップロード中は[uploading]で待つことができます。
+  ///
+  /// [mimeType]を指定することでアップロード時のMIMEタイプを指定することができます。
   ///
   /// 戻り値としてアップロード先のフルパスを取得することが出来ます。
   Future<StorageValue?> upload(String localFullPath) async {
@@ -165,6 +171,7 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
       final remoteFile = await storageQuery.adapter.upload(
         localFullPath.trimQuery().trimStringRight("/"),
         storageQuery.relativeRemotePathOrId.trimQuery().trimStringRight("/"),
+        mimeType: storageQuery.mimeType,
       );
       _value = _value?._copyWith(
             remote: remoteFile,
@@ -207,6 +214,7 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
       final remoteFile = await storageQuery.adapter.uploadWithBytes(
         uploadFileByte,
         storageQuery.relativeRemotePathOrId.trimQuery().trimStringRight("/"),
+        mimeType: storageQuery.mimeType,
       );
       _value = _value?._copyWith(
             remote: remoteFile,

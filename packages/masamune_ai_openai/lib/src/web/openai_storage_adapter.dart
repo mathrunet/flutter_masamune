@@ -80,8 +80,9 @@ class OpenAIStorageAdapter extends StorageAdapter {
   @override
   Future<RemoteFile> upload(
     String localFullPath,
-    String remoteRelativePathOrId,
-  ) async {
+    String remoteRelativePathOrId, {
+    String? mimeType,
+  }) async {
     final res = await Api.post(
       "https://api.openai.com/v1/files",
       headers: _header,
@@ -106,8 +107,9 @@ class OpenAIStorageAdapter extends StorageAdapter {
   @override
   Future<RemoteFile> uploadWithBytes(
     Uint8List uploadFileByte,
-    String remoteRelativePathOrId,
-  ) async {
+    String remoteRelativePathOrId, {
+    String? mimeType,
+  }) async {
     throw UnsupportedError("This function is not supported.");
   }
 }

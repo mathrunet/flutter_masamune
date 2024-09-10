@@ -89,8 +89,9 @@ class OpenAIStorageAdapter extends StorageAdapter {
   @override
   Future<RemoteFile> upload(
     String localFullPath,
-    String remoteRelativePathOrId,
-  ) async {
+    String remoteRelativePathOrId, {
+    String? mimeType,
+  }) async {
     final file = File(localFullPath);
     final bytes = file.existsSync() ? await file.readAsBytes() : null;
     final res = await Api.post(
@@ -118,8 +119,9 @@ class OpenAIStorageAdapter extends StorageAdapter {
   @override
   Future<RemoteFile> uploadWithBytes(
     Uint8List uploadFileByte,
-    String remoteRelativePathOrId,
-  ) async {
+    String remoteRelativePathOrId, {
+    String? mimeType,
+  }) async {
     final tmpId = uuid();
     final tmpDir = await getTemporaryDirectory();
     final filePath = "${tmpDir.path}/$tmpId";

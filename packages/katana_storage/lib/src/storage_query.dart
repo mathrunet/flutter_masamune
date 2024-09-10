@@ -6,11 +6,15 @@ part of '/katana_storage.dart';
 ///
 /// If you want to specify [StorageAdapter] directly, pass it to [adapter].
 ///
+/// You can specify the MIME type for uploading by specifying [mimeType].
+///
 /// リモート側のストレージのパスを指定するためのクエリ。
 ///
 /// [relativeRemotePathOrId]でリモートストレージ側の相対パスを指定します。
 ///
 /// [StorageAdapter]を直接指定したい場合、[adapter]に渡してください。
+///
+/// [mimeType]を指定することでアップロード時のMIMEタイプを指定することができます。
 @immutable
 class StorageQuery {
   /// Query to specify the path of storage on the remote side.
@@ -19,14 +23,19 @@ class StorageQuery {
   ///
   /// If you want to specify [StorageAdapter] directly, pass it to [adapter].
   ///
+  /// You can specify the MIME type for uploading by specifying [mimeType].
+  ///
   /// リモート側のストレージのパスを指定するためのクエリ。
   ///
   /// [relativeRemotePathOrId]でリモートストレージ側の相対パスを指定します。
   ///
   /// [StorageAdapter]を直接指定したい場合、[adapter]に渡してください。
+  ///
+  /// [mimeType]を指定することでアップロード時のMIMEタイプを指定することができます。
   const StorageQuery(
     this.relativeRemotePathOrId, {
     StorageAdapter? adapter,
+    this.mimeType,
   }) : _adapter = adapter;
 
   /// Local path on the storage side.
@@ -50,4 +59,9 @@ class StorageQuery {
   }
 
   final StorageAdapter? _adapter;
+
+  /// If the MimeType is known, its value is entered.
+  ///
+  /// MimeTypeが分かる場合その値が入ります。
+  final String? mimeType;
 }

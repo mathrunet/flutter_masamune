@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
     
+  mime: ^1.0.5
   katana: ^2.15.2
   path_provider: ^2.1.3
 dev_dependencies:

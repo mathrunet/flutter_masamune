@@ -48,7 +48,7 @@ class LocalFile extends StorageFile {
   /// Class for handling local files and real data.
   ///
   /// ローカルのファイルと実データを扱うためのクラス。
-  const LocalFile({super.path, super.bytes}) : super._();
+  const LocalFile({super.path, super.bytes, super.mimeType}) : super._();
 }
 
 /// Class for handling remote files and real data.
@@ -59,7 +59,7 @@ class RemoteFile extends StorageFile {
   /// Class for handling remote files and real data.
   ///
   /// リモートのファイルと実データを扱うためのクラス。
-  const RemoteFile({super.path, super.bytes}) : super._();
+  const RemoteFile({super.path, super.bytes, super.mimeType}) : super._();
 }
 
 /// Abstract class for defining files for storage.
@@ -74,7 +74,8 @@ abstract class StorageFile {
   const StorageFile._({
     this.path,
     this.bytes,
-  });
+    String? mimeType,
+  }) : _mimeType = mimeType;
 
   /// The full path of the file is stored.
   ///
@@ -86,8 +87,53 @@ abstract class StorageFile {
   /// 実データが格納されます。
   final Uint8List? bytes;
 
+  /// If the MimeType is known, its value is entered.
+  ///
+  /// MimeTypeが分かる場合その値が入ります。
+  MimeTypeValue? get mimeType {
+    if (_mimeType != null) {
+      return MimeTypeValue(_mimeType!);
+    }
+    final filename = path?.path.last();
+    if (filename == null) {
+      return null;
+    }
+    final mimeType = lookupMimeType(filename);
+    if (mimeType == null) {
+      return null;
+    }
+    return MimeTypeValue(mimeType);
+  }
+
+  final String? _mimeType;
+
   @override
   int get hashCode => path.hashCode ^ bytes.hashCode;
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+}
+
+/// Class that defines the MimeType.
+///
+/// MimeTypeを定義したクラス。
+class MimeTypeValue {
+  /// Class that defines the MimeType.
+  ///
+  /// MimeTypeを定義したクラス。
+  const MimeTypeValue(this.value);
+
+  /// Gets the value of a MimeType string.
+  ///
+  /// MimeTypeの文字列の値を取得します。
+  final String value;
+
+  /// Gets the MimeType extension.
+  ///
+  /// MimeTypeの拡張子を取得します。
+  String get extension => extensionFromMime(value);
+
+  @override
+  int get hashCode => value.hashCode;
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
 }

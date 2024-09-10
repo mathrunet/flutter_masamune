@@ -56,10 +56,12 @@ class PickerValue {
   const PickerValue({
     this.uri,
     this.bytes,
-  }) : assert(
+    String? mimeType,
+  })  : assert(
           uri != null || bytes != null,
           "Either [path] or [bytes] must be non-null.",
-        );
+        ),
+        _mimeType = mimeType;
 
   /// The path where the picked up file is located.
   ///
@@ -70,6 +72,26 @@ class PickerValue {
   ///
   /// ピックアップしたファイルの実データ。
   final Uint8List? bytes;
+
+  /// If the MimeType is known, its value is entered.
+  ///
+  /// MimeTypeが分かる場合その値が入ります。
+  MimeTypeValue? get mimeType {
+    if (_mimeType != null) {
+      return MimeTypeValue(_mimeType!);
+    }
+    final filename = uri?.path.last();
+    if (filename == null) {
+      return null;
+    }
+    final mimeType = lookupMimeType(filename);
+    if (mimeType == null) {
+      return null;
+    }
+    return MimeTypeValue(mimeType);
+  }
+
+  final String? _mimeType;
 
   @override
   int get hashCode => uri.hashCode ^ bytes.hashCode;

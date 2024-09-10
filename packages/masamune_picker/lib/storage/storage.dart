@@ -22,7 +22,10 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
         throw Exception("Upload data was not found.");
       }
       final remoteFile = path.trimQuery().trimStringRight("/").last();
-      final extension = remoteFile.last(separator: ".");
+      // .が入っていない場合blobのため拡張子を取得できない
+      final extension = remoteFile.contains(".")
+          ? remoteFile.last(separator: ".")
+          : mimeType?.extension ?? "";
       final storage = Storage(
         StorageQuery(
           "$relativeDirPath/${uuid()}.$extension"
@@ -37,7 +40,10 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
         throw Exception("Upload data was not found.");
       }
       final remoteFile = path.trimQuery().trimStringRight("/").last();
-      final extension = remoteFile.last(separator: ".");
+      // .が入っていない場合blobのため拡張子を取得できない
+      final extension = remoteFile.contains(".")
+          ? remoteFile.last(separator: ".")
+          : mimeType?.extension ?? "";
       final storage = Storage(
         StorageQuery(
           "$relativeDirPath/${uuid()}.$extension"

@@ -111,8 +111,9 @@ class RuntimeStorageAdapter extends StorageAdapter {
   @override
   Future<RemoteFile> upload(
     String localFullPath,
-    String remoteRelativePathOrId,
-  ) async {
+    String remoteRelativePathOrId, {
+    String? mimeType,
+  }) async {
     if (!await localStorage.exists(localFullPath)) {
       throw Exception("File could not be found: $localFullPath");
     }
@@ -125,14 +126,16 @@ class RuntimeStorageAdapter extends StorageAdapter {
     return RemoteFile(
       path: await fetchPublicURI(remoteRelativePathOrId),
       bytes: bytes,
+      mimeType: mimeType,
     );
   }
 
   @override
   Future<RemoteFile> uploadWithBytes(
     Uint8List uploadFileByte,
-    String remoteRelativePathOrId,
-  ) async {
+    String remoteRelativePathOrId, {
+    String? mimeType,
+  }) async {
     final remoteFullPath = await remoteStorage.fetchURI(remoteRelativePathOrId);
     if (await remoteStorage.exists(remoteFullPath)) {
       await remoteStorage.delete(remoteFullPath);
@@ -141,6 +144,7 @@ class RuntimeStorageAdapter extends StorageAdapter {
     return RemoteFile(
       path: await fetchPublicURI(remoteRelativePathOrId),
       bytes: uploadFileByte,
+      mimeType: mimeType,
     );
   }
 

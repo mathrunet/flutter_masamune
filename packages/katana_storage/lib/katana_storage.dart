@@ -18,6 +18,7 @@ import 'package:flutter/widgets.dart';
 
 // Package imports:
 import 'package:katana/katana.dart';
+import 'package:mime/mime.dart';
 
 import 'src/others/others.dart'
     if (dart.library.io) 'src/others/others.dart'
