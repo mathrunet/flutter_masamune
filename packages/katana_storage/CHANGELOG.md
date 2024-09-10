@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: MimeType storage and discrimination enabled. ([248fd7d2](https://github.com/mathrunet/flutter_masamune/commit/248fd7d295069729fb1bc20887f3326e13189b4e))
+
 ## 2.2.11
 
  - **FIX**: Fixed a bug in the local file path. ([310af079](https://github.com/mathrunet/flutter_masamune/commit/310af079dedc61dbcbca0c09b88ac8293347f62a))
