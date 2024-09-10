@@ -84,8 +84,6 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
   Future<void>? get deleting => _deleteCompleter?.future;
   Completer<void>? _deleteCompleter;
 
-  
-
   /// Get a URL that can be made public. Use this URI when you want to retrieve images, etc. using `Image.network`, etc.
   ///
   /// 公開可能なURLを取得します。画像等を`Image.network`などで取得したい場合このURIを利用します。
