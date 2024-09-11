@@ -31,6 +31,7 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
           "$relativeDirPath/${uuid()}.$extension"
               .trimQuery()
               .trimStringLeft("/"),
+          mimeType: mimeType?.value,
         ),
       );
       await storage.uploadWithBytes(bytes!);
@@ -49,6 +50,7 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
           "$relativeDirPath/${uuid()}.$extension"
               .trimQuery()
               .trimStringLeft("/"),
+          mimeType: mimeType?.value,
         ),
       );
       await storage.upload(uri!.toString().replaceAll(RegExp("file://"), ""));
