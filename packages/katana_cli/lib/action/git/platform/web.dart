@@ -194,7 +194,7 @@ jobs:
       # Upload the generated files.
       # 生成されたファイルのアップロード。
       - name: Upload web artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: web_release
           path: ${workingPath.isEmpty ? "." : workingPath}/build/web

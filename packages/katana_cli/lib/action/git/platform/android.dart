@@ -342,7 +342,7 @@ jobs:
       # Upload the generated files.
       # 生成されたファイルのアップロード。
       - name: Upload apk artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: andoroid_apk_release
           path: ${workingPath.isEmpty ? "." : workingPath}/build/app/outputs/apk/release
@@ -351,7 +351,7 @@ jobs:
       # Upload the generated files.
       # 生成されたファイルのアップロード。
       - name: Upload aab artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: andoroid_aab_release
           path: ${workingPath.isEmpty ? "." : workingPath}/build/app/outputs/bundle/release
