@@ -10,6 +10,7 @@ class MobileCameraMasamuneAdapter extends CameraMasamuneAdapter {
   const MobileCameraMasamuneAdapter({
     super.defaultResolutionPreset = ResolutionPreset.high,
     super.defaultImageFormat = ImageFormat.jpg,
+    super.enableAudio = true,
   });
 
   static final List<camera.CameraDescription> _cameras = [];
@@ -32,6 +33,7 @@ class MobileCameraMasamuneAdapter extends CameraMasamuneAdapter {
       _cameras.first,
       resolutionPreset?._toResolutionPreset() ??
           defaultResolutionPreset._toResolutionPreset(),
+      enableAudio: enableAudio,
     );
     await controller.initialize();
     return controller;

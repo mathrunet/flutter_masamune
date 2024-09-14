@@ -10,6 +10,7 @@ abstract class CameraMasamuneAdapter extends MasamuneAdapter {
   const CameraMasamuneAdapter({
     this.defaultResolutionPreset = ResolutionPreset.high,
     this.defaultImageFormat = ImageFormat.jpg,
+    this.enableAudio = true,
   });
 
   /// Resolution preset.
@@ -21,6 +22,11 @@ abstract class CameraMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 画像フォーマット。
   final ImageFormat defaultImageFormat;
+
+  /// `true` to set audio.
+  ///
+  /// オーディオを設定する場合は`true`。
+  final bool enableAudio;
 
   /// You can retrieve the [CameraMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

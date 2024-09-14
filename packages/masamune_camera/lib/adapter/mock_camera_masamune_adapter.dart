@@ -10,6 +10,7 @@ class MockCameraMasamuneAdapter extends CameraMasamuneAdapter {
   const MockCameraMasamuneAdapter({
     super.defaultResolutionPreset = ResolutionPreset.high,
     super.defaultImageFormat = ImageFormat.jpg,
+    super.enableAudio = true,
   });
 
   @override
