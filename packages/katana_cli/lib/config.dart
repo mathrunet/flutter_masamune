@@ -208,6 +208,11 @@ ${showAllConfig ? """
   # カメラを利用するための設定を記述します。
   camera:
     enable: false
+    
+    # Specifies whether audio is enabled on the camera.
+    # カメラで音声を有効にするかを指定します。
+    audio:
+      enable: true
 
     # Specify permission permission messages to use the camera and microphone in IOS.
     # IOSでカメラやマイクを利用するための権限許可メッセージを指定します。
