@@ -1,3 +1,8 @@
+## 2.23.6
+
+ - **FIX**: Added camera audio settings. ([78fcffb3](https://github.com/mathrunet/flutter_masamune/commit/78fcffb3afe4a524aa39f0544592cc00cce16a54))
+ - **FIX**: Upgrade actions/upload-artifact version. ([91071d13](https://github.com/mathrunet/flutter_masamune/commit/91071d13ef52b0cd49837fd60cb2296512ba9184))
+
 ## 2.23.5
 
  - **FIX**: Fixed a bug in manifest creation. ([a6a7f2de](https://github.com/mathrunet/flutter_masamune/commit/a6a7f2dea6072166e661ff781fec4097edbe5ad9))

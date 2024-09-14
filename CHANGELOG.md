@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-09-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.23.6`](#katana_cli---v2236)
+ - [`masamune_camera` - `v2.3.9`](#masamune_camera---v239)
+ - [`masamune_notification` - `v2.9.0`](#masamune_notification---v290)
+ - [`masamune_picker` - `v2.3.1`](#masamune_picker---v231)
+ - [`masamune_notification_local` - `v2.1.31`](#masamune_notification_local---v2131)
+ - [`masamune_notification_firebase` - `v2.7.31`](#masamune_notification_firebase---v2731)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_notification_local` - `v2.1.31`
+ - `masamune_notification_firebase` - `v2.7.31`
+
+---
+
+#### `katana_cli` - `v2.23.6`
+
+ - **FIX**: Added camera audio settings. ([78fcffb3](https://github.com/mathrunet/flutter_masamune/commit/78fcffb3afe4a524aa39f0544592cc00cce16a54))
+ - **FIX**: Upgrade actions/upload-artifact version. ([91071d13](https://github.com/mathrunet/flutter_masamune/commit/91071d13ef52b0cd49837fd60cb2296512ba9184))
+
+#### `masamune_camera` - `v2.3.9`
+
+ - **FIX**: Added audio settings. ([d5c36fd5](https://github.com/mathrunet/flutter_masamune/commit/d5c36fd57de209c7bc17e45a2f56a0ec20a0c02a))
+
+#### `masamune_notification` - `v2.9.0`
+
+ - **FEAT**: Create a NotificationTargetQuery for the document. ([1d801d2c](https://github.com/mathrunet/flutter_masamune/commit/1d801d2ce00b204038f534677d3918c8d3d81cf9))
+
+#### `masamune_picker` - `v2.3.1`
+
+ - **FIX**: Specify mimeType. ([aba865c1](https://github.com/mathrunet/flutter_masamune/commit/aba865c1b217079a9e35e493ef024fc125cd0ee1))
+
+
 ## 2024-09-10
 
 ### Changes

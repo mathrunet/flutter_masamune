@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - **FIX**: Specify mimeType. ([aba865c1](https://github.com/mathrunet/flutter_masamune/commit/aba865c1b217079a9e35e493ef024fc125cd0ee1))
+
 ## 2.3.0
 
  - **FEAT**: MimeType storage and discrimination enabled. ([248fd7d2](https://github.com/mathrunet/flutter_masamune/commit/248fd7d295069729fb1bc20887f3326e13189b4e))

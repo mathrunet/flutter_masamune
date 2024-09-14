@@ -1,3 +1,7 @@
+## 2.3.9
+
+ - **FIX**: Added audio settings. ([d5c36fd5](https://github.com/mathrunet/flutter_masamune/commit/d5c36fd57de209c7bc17e45a2f56a0ec20a0c02a))
+
 ## 2.3.8
 
  - Update a dependency to the latest release.
