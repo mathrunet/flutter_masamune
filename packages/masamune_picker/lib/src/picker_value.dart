@@ -98,4 +98,19 @@ class PickerValue {
 
   @override
   bool operator ==(Object other) => other.hashCode == hashCode;
+
+  /// Copy the [PickerValue] with the specified values.
+  ///
+  /// 指定した値で[PickerValue]をコピーします。
+  PickerValue copyWith({
+    Uri? uri,
+    Uint8List? bytes,
+    String? mimeType,
+  }) {
+    return PickerValue(
+      uri: uri ?? this.uri,
+      bytes: bytes ?? this.bytes,
+      mimeType: mimeType ?? _mimeType,
+    );
+  }
 }
