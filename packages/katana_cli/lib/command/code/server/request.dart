@@ -81,7 +81,7 @@ export class ${className.toPascalCase()}Request extends m.RequestProcessFunction
      *
      * 実際の処理の中身を指定します。
      *
-     * @param {Request} reqest
+     * @param {Request} request
      * Request passed to Functions.
      *
      * Functionsに渡されたRequest。
@@ -92,7 +92,7 @@ export class ${className.toPascalCase()}Request extends m.RequestProcessFunction
      * Functionsに渡されたResponse。
      */
     async process(
-      reqest: functions.https.Request,
+      request: functions.https.Request,
       response: express.Response<any>
     ): Promise<void> {
         // TODO: Implement the process to be executed.
