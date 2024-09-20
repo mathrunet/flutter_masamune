@@ -185,7 +185,7 @@ class FirebaseStorageAdapter extends StorageAdapter {
   @override
   Future<Uri> fetchPublicURI(String remoteRelativePathOrId) async {
     return Uri.parse(
-      "https://firebasestorage.googleapis.com/v0/b/$_storageBucket/o/$remoteRelativePathOrId?alt=media",
+      "https://firebasestorage.googleapis.com/v0/b/$_storageBucket/o/${remoteRelativePathOrId.replaceAll("/", "%2F")}?alt=media",
     );
   }
 
