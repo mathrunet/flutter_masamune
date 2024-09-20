@@ -290,7 +290,7 @@ class Location
     LocationAccuracy? accuracy,
     double? distanceFilterMeters,
     Duration updateInterval = const Duration(seconds: 1),
-    Duration timeout = const Duration(seconds: 60),
+    Duration timeout = const Duration(seconds: 15),
   }) async {
     if (_listenCompleter != null) {
       return _listenCompleter?.future;
@@ -309,7 +309,7 @@ class Location
       if (adapter.enableBackgroundLocation && permittedBackground) {
         await adapter.enableBackgroundMode(enable: true);
       }
-      _value = await adapter.getLocation();
+      _value = await adapter.getLocation().timeout(timeout);
       _locationChangeStreamSubscription?.cancel();
       _locationChangeStreamSubscription = adapter.listen(
         (value) {
