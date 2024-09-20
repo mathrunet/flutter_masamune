@@ -85,24 +85,18 @@ export class ${className.toPascalCase()}Call extends m.CallProcessFunctionBase {
      *
      * 実際の処理の中身を指定します。
      *
-     * @param {any} query
+     * @param {m.CallableRequest<any>} query
      * Query passed to Functions.
      *
      * Functionsに渡されたクエリ。
      *
-     * @param {Record<string, any>} options
-     * Options passed to Functions.
-     *
-     * Functionsに渡されたオプション。
-     * 
-     * @returns {Promise<Record<string, any>>}
+     * @return {Promise<Record<string, any>>}
      * Return the result of the process.
-     * 
+     *
      * 処理の結果を返します。
      */
     async process(
-      query: any,
-      options: Record<string, any>
+      query: m.CallableRequest<any>,
     ): Promise<{[key: string]: any}> {
         // TODO: Implement the process to be executed.
         return {};
