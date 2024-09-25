@@ -92,7 +92,7 @@ class ${className}ModelAdapter extends ModelAdapter {
   }
 
   @override
-  Future<num> loadAggregation(
+  Future<T?> loadAggregation<T>(
     ModelAdapterCollectionQuery query,
     ModelAggregateQuery aggregateQuery,
   ) {
@@ -231,6 +231,12 @@ class ${className}ModelAdapter extends ModelAdapter {
       throw Exception("[ref] is not [${className}ModelBatchRef].");
     }
     // TODO: implement deleteOnBatch
+    throw UnsupportedError("This function is not supported.");
+  }
+
+  @override
+  Future<void> clearCache() {
+    // TODO: implement clearCache
     throw UnsupportedError("This function is not supported.");
   }
 }
