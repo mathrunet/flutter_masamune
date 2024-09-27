@@ -298,7 +298,7 @@ packages:
       path: "../katana_localization_builder"
       relative: true
     source: path
-    version: "2.2.13"
+    version: "2.2.14"
   katana_prefs_annotation:
     dependency: "direct main"
     description:
