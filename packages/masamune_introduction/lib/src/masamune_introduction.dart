@@ -161,14 +161,22 @@ class _MasamuneIntroductionState extends State<MasamuneIntroduction> {
             child: IntroductionScreen(
               key: _introKey,
               bodyPadding: widget.padding,
-              controlsPadding: widget.contentPadding,
+              controlsPadding: adapter.contentPadding ?? widget.contentPadding,
+              globalBackgroundColor: adapter.backgroundColor,
               dotsDecorator: DotsDecorator(
                 activeColor:
                     adapter.activeColor ?? Theme.of(context).primaryColor,
               ),
               pages: [
                 ...(adapter.items.value(context.locale) ?? []).map(
-                  (e) => e.toPageViewModel(context),
+                  (e) => e.toPageViewModel(
+                    context,
+                    titlePadding: adapter.titlePadding,
+                    imagePadding: adapter.imagePadding,
+                    bodyPadding: adapter.bodyPadding,
+                    backgroundColor: adapter.backgroundColor,
+                    pagePadding: adapter.pagePadding,
+                  ),
                 ),
               ],
               done: Text(
@@ -218,6 +226,11 @@ extension on IntroductionItem {
     BuildContext context, {
     TextStyle? titleTextStyle,
     TextStyle? bodyTextStyle,
+    Color? backgroundColor,
+    EdgeInsets? titlePadding,
+    EdgeInsets? imagePadding,
+    EdgeInsets? bodyPadding,
+    EdgeInsets? pagePadding,
   }) {
     final appliedTitleTextStyle = titleTextStyle ??
         Theme.of(context).textTheme.titleLarge?.withBold() ??
@@ -240,8 +253,15 @@ extension on IntroductionItem {
       image: image,
       footer: footer,
       decoration: PageDecoration(
+        pageColor: backgroundColor,
         titleTextStyle: appliedTitleTextStyle,
         bodyTextStyle: appliedBodyTextStyle,
+        imagePadding: imagePadding ?? const EdgeInsets.only(bottom: 24.0),
+        titlePadding:
+            titlePadding ?? const EdgeInsets.only(top: 16.0, bottom: 24.0),
+        contentMargin: bodyPadding ?? const EdgeInsets.all(16.0),
+        pageMargin: pagePadding ?? const EdgeInsets.only(bottom: 60.0),
+        safeArea: 0,
       ),
       useScrollView: useScrollView,
       useRowInLandscape: useRowInLandscape,

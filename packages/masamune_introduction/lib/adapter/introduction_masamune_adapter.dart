@@ -15,6 +15,11 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
     this.foregroundColor,
     this.activeColor,
     required this.skipLabel,
+    this.titlePadding,
+    this.imagePadding,
+    this.bodyPadding,
+    this.pagePadding,
+    this.contentPadding,
   });
 
   /// Foreground color.
@@ -51,6 +56,31 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
   ///
   /// スキップボタンのラベルのジェネレーター。
   final LocalizedValue<String> skipLabel;
+
+  /// Title padding.
+  ///
+  /// タイトルのパディング。
+  final EdgeInsets? titlePadding;
+
+  /// Image padding.
+  ///
+  /// 画像のパディング。
+  final EdgeInsets? imagePadding;
+
+  /// Body padding.
+  ///
+  /// ボディのパディング。
+  final EdgeInsets? bodyPadding;
+
+  /// Page padding.
+  ///
+  /// ページのパディング。
+  final EdgeInsets? pagePadding;
+
+  /// Content padding.
+  ///
+  /// コンテンツのパディング。
+  final EdgeInsets? contentPadding;
 
   /// You can retrieve the [IntroductionMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
