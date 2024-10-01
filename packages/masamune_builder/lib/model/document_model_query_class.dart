@@ -192,6 +192,21 @@ List<Spec> documentModelQueryClass(
                 "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter, useTestModelAdapter: useTestModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Document.defaultModelAccessQuery, validationQueries: _\$${model.name}Document.defaultValidationQueries, ));",
               ),
           ),
+          Method(
+            (m) => m
+              ..name = "hasMatchPath"
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "path"
+                    ..type = const Reference("String"),
+                ),
+              ])
+              ..returns = const Reference("bool")
+              ..body = Code(
+                "return RegExp(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "[^/]+")}\".trimQuery().trimString(\"/\")).hasMatch(path.trimQuery().trimString(\"/\"));",
+              ),
+          ),
           if (mirror != null)
             Method(
               (m) => m
@@ -439,7 +454,22 @@ List<Spec> documentModelQueryClass(
                 ..body = Code(
                   "return _\$_${model.name}MirrorDocumentQuery(DocumentModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}MirrorDocument.defaultModelAdapter, useTestModelAdapter: useTestModelAdapter, accessQuery: accessQuery ?? _\$${model.name}MirrorDocument.defaultModelAccessQuery, validationQueries: _\$${model.name}MirrorDocument.defaultValidationQueries, ));",
                 ),
-            )
+            ),
+            Method(
+              (m) => m
+                ..name = "hasMatchPath"
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "path"
+                      ..type = const Reference("String"),
+                  ),
+                ])
+                ..returns = const Reference("bool")
+                ..body = Code(
+                  "return RegExp(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "[^/]+")}\".trimQuery().trimString(\"/\")).hasMatch(path.trimQuery().trimString(\"/\"));",
+                ),
+            ),
           ]),
       ),
       Class(
