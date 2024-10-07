@@ -1,3 +1,7 @@
+## 2.14.2
+
+ - **FIX**: Fixed minor glitches. ([fa6cf2e3](https://github.com/mathrunet/flutter_masamune/commit/fa6cf2e309a30cd42f738f845b3027883fd2e493))
+
 ## 2.14.1
 
  - **FIX**: Fixed a bug that prevented it from working. ([5d719d5c](https://github.com/mathrunet/flutter_masamune/commit/5d719d5c9fac0d33d8e68a805de570ef4fea2bd9))

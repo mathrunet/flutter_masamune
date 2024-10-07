@@ -1,3 +1,7 @@
+## 2.5.6
+
+ - **FIX**: Added Padding setting to Introduction. ([feb70969](https://github.com/mathrunet/flutter_masamune/commit/feb709690630e8c502412a93a52e9c05e3743b48))
+
 ## 2.5.5
 
  - Update a dependency to the latest release.

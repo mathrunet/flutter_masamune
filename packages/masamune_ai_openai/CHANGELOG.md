@@ -1,3 +1,7 @@
+## 2.8.1
+
+ - Update a dependency to the latest release.
+
 ## 2.8.0
 
  - **FEAT**: MimeType storage and discrimination enabled. ([248fd7d2](https://github.com/mathrunet/flutter_masamune/commit/248fd7d295069729fb1bc20887f3326e13189b4e))

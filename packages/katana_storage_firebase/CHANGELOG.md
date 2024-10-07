@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: URL error correction. ([28227562](https://github.com/mathrunet/flutter_masamune/commit/28227562e03297cc6e5efa254cdf7bc3818a2568))
+
 ## 2.2.0
 
  - **FEAT**: MimeType storage and discrimination enabled. ([248fd7d2](https://github.com/mathrunet/flutter_masamune/commit/248fd7d295069729fb1bc20887f3326e13189b4e))

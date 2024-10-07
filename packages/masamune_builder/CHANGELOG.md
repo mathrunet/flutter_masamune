@@ -1,3 +1,7 @@
+## 2.17.6
+
+ - **FIX**: Added a method to check paths. ([5ca5ac72](https://github.com/mathrunet/flutter_masamune/commit/5ca5ac7223727fdc1ca217a6ffb17496f64e3e6e))
+
 ## 2.17.5
 
  - **FIX**: Support for changes in spreadsheet URLs. ([182034d8](https://github.com/mathrunet/flutter_masamune/commit/182034d80e6f1563d372ba994bbc03710b7e3f44))

@@ -1,3 +1,9 @@
+## 2.23.7
+
+ - **FIX**: ModelAdapter modifications. ([fab8e955](https://github.com/mathrunet/flutter_masamune/commit/fab8e955286893d600acbf1f183e51201d2f90cc))
+ - **FIX**: Fixed linter error. ([30645610](https://github.com/mathrunet/flutter_masamune/commit/30645610fc5427e0519ce26938bf0d1725c7991c))
+ - **FIX**: Fix typo. ([cc7e0483](https://github.com/mathrunet/flutter_masamune/commit/cc7e04838ae1f34bf760800c1b958f2a84f43989))
+
 ## 2.23.6
 
  - **FIX**: Added camera audio settings. ([78fcffb3](https://github.com/mathrunet/flutter_masamune/commit/78fcffb3afe4a524aa39f0544592cc00cce16a54))

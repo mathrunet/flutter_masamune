@@ -1,3 +1,7 @@
+## 2.7.3
+
+ - **FIX**: UserId can now be set for debugging. ([2306be9f](https://github.com/mathrunet/flutter_masamune/commit/2306be9f5bbb6d81bbb5386d6b7aeebb88bfd4df))
+
 ## 2.7.2
 
  - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))

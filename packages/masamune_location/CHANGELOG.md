@@ -1,3 +1,7 @@
+## 2.5.11
+
+ - **FIX**: Timeouts were shortened. ([ec794a2d](https://github.com/mathrunet/flutter_masamune/commit/ec794a2dc0e0d2d6bfcca724a482a215c4051dd8))
+
 ## 2.5.10
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.3.2
+
+ - **FIX**: Add copyWith to PickerValue. ([61e58ce0](https://github.com/mathrunet/flutter_masamune/commit/61e58ce0fb3f9a34ef4ff0b14c0d222854299dc7))
+
 ## 2.3.1
 
  - **FIX**: Specify mimeType. ([aba865c1](https://github.com/mathrunet/flutter_masamune/commit/aba865c1b217079a9e35e493ef024fc125cd0ee1))

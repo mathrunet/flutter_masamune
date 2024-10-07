@@ -1,3 +1,7 @@
+## 2.9.1
+
+ - Update a dependency to the latest release.
+
 ## 2.9.0
 
  - **FEAT**: Create a NotificationTargetQuery for the document. ([1d801d2c](https://github.com/mathrunet/flutter_masamune/commit/1d801d2ce00b204038f534677d3918c8d3d81cf9))
