@@ -263,6 +263,7 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
   bool get _hasReachedMaxChips =>
       widget.maxChips != null && value.length >= widget.maxChips!;
 
+  @override
   void select(String key) {
     if (!_hasReachedMaxChips && widget.enabled) {
       didChange([...value ?? [], key]);
@@ -276,6 +277,7 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
     }
   }
 
+  @override
   void unselect(String key) {
     if (widget.enabled) {
       didChange([...value?.where((e) => e != key) ?? []]);
@@ -286,16 +288,18 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
     }
   }
 
+  @override
   void add(String value) {
     if (widget.enabled) {
       final key = uuid();
       _selections?.putIfAbsent(key, () => value);
       _selectionsStreamController.add(_selections);
       widget.picker.onAdd?.call(MapEntry(key, value));
-      select(key);
+      // select(key);
     }
   }
 
+  @override
   void edit(String key, String value) {
     if (widget.enabled && _selections?[key] != value) {
       _selections?[key] = value;
@@ -306,6 +310,7 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
     }
   }
 
+  @override
   void delete(String key) {
     if (widget.enabled && _selections.containsKey(key)) {
       _selections?.remove(key);
@@ -313,6 +318,16 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
       widget.picker.onDelete?.call(key);
       unselect(key);
     }
+  }
+
+  @override
+  void _disableClosingBox() {
+    _selectBoxController.disable();
+  }
+
+  @override
+  void _enableClosingBox() {
+    _selectBoxController.enable();
   }
 
   @override
@@ -336,6 +351,11 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
     }
     if (oldWidget.initialValue != widget.initialValue &&
         widget.initialValue != null) {
+      reset();
+    }
+    if (!oldWidget.picker.data.equalsTo(widget.picker.data)) {
+      _selections = widget.picker.data.clone();
+      _selectionsStreamController.add(_selections);
       reset();
     }
   }
@@ -578,7 +598,7 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
 
         return GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onTap: () {
+          onTapDown: (detail) {
             _selectBoxController.close();
           },
           child: Stack(
@@ -586,16 +606,16 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
               StreamBuilder<Map<String, String>?>(
                 stream: _selectionsStreamController.stream,
                 initialData: _selections,
-                builder: (context, _selectionsSnapshot) {
-                  if (_selectionsSnapshot.hasData) {
+                builder: (context, selectionsSnapshot) {
+                  if (selectionsSnapshot.hasData) {
                     return StreamBuilder<List<String>?>(
                       stream: _selectedStreamController.stream,
                       initialData: value,
-                      builder: (context, _selectedSnapshot) {
-                        if (_selectedSnapshot.hasData) {
+                      builder: (context, selectedSnapshot) {
+                        if (selectedSnapshot.hasData) {
                           final suggestionWidgets = widget.picker.buildPicker(
                             context,
-                            _selectionsSnapshot.data!,
+                            selectionsSnapshot.data!,
                             this,
                           );
                           final suggestionsListView = Material(
@@ -707,6 +727,10 @@ abstract class FormMapTagDropdownFieldRef<T> {
 
   /// The current value of the form field.
   T? get value;
+
+  void _enableClosingBox();
+
+  void _disableClosingBox();
 }
 
 /// Class that defines a picker style to select from [Map] for tags.
@@ -886,7 +910,12 @@ class FormMapTagDropdownFieldPicker {
           value: key,
           name: data[key] ?? "",
           selected: ref.value?.contains(key) == true,
-          onEdit: (value) {
+          onEdit: () {
+            ref._disableClosingBox();
+          },
+          onEditted: (value) async {
+            await Future.delayed(const Duration(milliseconds: 100));
+            ref._enableClosingBox();
             ref.edit(key, value);
           },
           onDelete: () {
@@ -903,7 +932,12 @@ class FormMapTagDropdownFieldPicker {
       }),
       _AddibleListTile(
         tilePadding: tilePadding,
-        onAdd: (value) {
+        onAdd: () async {
+          ref._disableClosingBox();
+        },
+        onAdded: (value) async {
+          await Future.delayed(const Duration(milliseconds: 100));
+          ref._enableClosingBox();
           ref.add(value);
         },
       ),
@@ -917,6 +951,7 @@ class _EditableListTile extends StatefulWidget {
     required this.value,
     required this.name,
     this.onEdit,
+    this.onEditted,
     this.onDelete,
     this.onSelect,
     this.selected = false,
@@ -925,7 +960,8 @@ class _EditableListTile extends StatefulWidget {
 
   final String value;
   final String name;
-  final void Function(String name)? onEdit;
+  final void Function()? onEdit;
+  final void Function(String name)? onEditted;
   final VoidCallback? onDelete;
   final VoidCallback? onSelect;
   final EdgeInsetsGeometry? tilePadding;
@@ -974,6 +1010,7 @@ class _EditableListTileState extends State<_EditableListTile> {
       return;
     }
     _focusNode.requestFocus();
+    widget.onEdit?.call();
     setState(() {
       _editable = true;
     });
@@ -983,7 +1020,7 @@ class _EditableListTileState extends State<_EditableListTile> {
     if (!_editable) {
       return;
     }
-    widget.onEdit?.call(_controller?.text ?? "");
+    widget.onEditted?.call(_controller?.text ?? "");
     setState(() {
       _editable = false;
     });
@@ -1063,10 +1100,12 @@ class _EditableListTileState extends State<_EditableListTile> {
 class _AddibleListTile extends StatefulWidget {
   const _AddibleListTile({
     this.onAdd,
+    this.onAdded,
     this.tilePadding,
   });
 
-  final void Function(String name)? onAdd;
+  final void Function()? onAdd;
+  final void Function(String name)? onAdded;
   final EdgeInsetsGeometry? tilePadding;
 
   @override
@@ -1104,16 +1143,17 @@ class _AddibleListTileState extends State<_AddibleListTile> {
       return;
     }
     _focusNode.requestFocus();
+    widget.onAdd?.call();
     setState(() {
       _editable = true;
     });
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (!_editable) {
       return;
     }
-    widget.onAdd?.call(_controller?.text ?? "");
+    widget.onAdded?.call(_controller?.text ?? "");
     setState(() {
       _editable = false;
     });
@@ -1139,9 +1179,7 @@ class _AddibleListTileState extends State<_AddibleListTile> {
             )
           : const SizedBox(),
       leading: const SizedBox(width: 48),
-      onTap: () {
-        print("aaa");
-      },
+      onTap: () {},
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -1153,8 +1191,8 @@ class _AddibleListTileState extends State<_AddibleListTile> {
               padding: EdgeInsets.zero,
               icon: const Icon(Icons.check_circle),
               onPressed: () {
-                FocusScope.of(context).unfocus();
                 _submit();
+                FocusScope.of(context).unfocus();
               },
             ),
           ] else ...[
@@ -1164,8 +1202,8 @@ class _AddibleListTileState extends State<_AddibleListTile> {
               padding: EdgeInsets.zero,
               icon: const Icon(Icons.add_circle),
               onPressed: () {
-                FocusScope.of(context).unfocus();
                 _edit();
+                FocusScope.of(context).unfocus();
               },
             ),
           ],
@@ -1185,7 +1223,22 @@ class _SelectBoxController {
 
   bool get isOpened => _isOpened;
 
+  void enable() {
+    print("enable");
+    _enabled = true;
+  }
+
+  void disable() {
+    print("disable");
+    _enabled = false;
+  }
+
+  bool _enabled = true;
+
   void open() {
+    if (!_enabled) {
+      return;
+    }
     if (_isOpened) {
       return;
     }
@@ -1195,9 +1248,13 @@ class _SelectBoxController {
   }
 
   void close() {
+    if (!_enabled) {
+      return;
+    }
     if (!_isOpened) {
       return;
     }
+    print("close");
     assert(overlayEntry != null);
     overlayEntry!.remove();
     _isOpened = false;
