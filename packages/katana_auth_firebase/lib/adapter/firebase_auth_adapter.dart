@@ -50,6 +50,7 @@ class FirebaseAuthAdapter extends AuthAdapter {
     this.androidMinimumVersion,
     this.defaultLocale = const Locale("en", "US"),
     FirebaseAuth? database,
+    this.debugUserId,
     super.authActions = const [],
   })  : _options = options,
         _database = database;
@@ -77,6 +78,15 @@ class FirebaseAuthAdapter extends AuthAdapter {
   ///
   /// `en_US`がデフォルトとして設定されています。
   final Locale defaultLocale;
+
+  /// User ID for debugging.
+  ///
+  /// When this is specified, this user ID should be returned.
+  ///
+  /// デバッグ用のユーザーID。
+  ///
+  /// これが指定されているときは、このユーザーIDを返すようにします。
+  final String? debugUserId;
 
   /// Options for initializing Firebase.
   ///
@@ -240,6 +250,9 @@ class FirebaseAuthAdapter extends AuthAdapter {
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
       return null;
+    }
+    if (debugUserId != null) {
+      return debugUserId;
     }
     return _user?.uid;
   }
