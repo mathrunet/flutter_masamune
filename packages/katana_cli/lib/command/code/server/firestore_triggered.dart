@@ -86,6 +86,13 @@ export class ${className.toPascalCase()}FirestoreTriggered extends m.FirestoreTr
      */
     path = "";
     /**
+     * @param {string} database
+     * Specifies the database. [null] is the default.
+     *
+     * データベースを指定します。[null]の場合デフォルトが利用されます。
+     */
+    database = null;
+    /**
      * Specify the actual contents of the process.
      *
      * 実際の処理の中身を指定します。
