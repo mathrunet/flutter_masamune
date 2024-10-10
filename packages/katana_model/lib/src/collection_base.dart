@@ -75,6 +75,10 @@ abstract class CollectionBase<TModel extends DocumentBase>
               _modelQuery.path.trimQuery().trimString("/").splitLength() % 2 !=
                   1),
           "The query path hierarchy must be an odd number: ${_modelQuery.path}",
+        ),
+        assert(
+          !_modelQuery.path.trimQuery().trimString("/").contains("//"),
+          "The query path hierarchy must not contain double slashes: ${_modelQuery.path}",
         );
 
   /// Define a collection model that includes [DocumentBase] as an element.

@@ -85,6 +85,10 @@ class ModelServerCommandCopyDocumentSchedule extends ModelServerCommandBase {
           path.trimQuery().trimString("/").splitLength() % 2 != 0),
       "The query path hierarchy must be an even number: $path",
     );
+    assert(
+      !path.trimQuery().trimString("/").contains("//"),
+      "The query path hierarchy must not contain double slashes: $path",
+    );
     return {
       _kPathKey: path,
     };

@@ -63,6 +63,10 @@ abstract class DocumentBase<T> extends ChangeNotifier
               modelQuery.path.trimQuery().trimString("/").splitLength() % 2 !=
                   0),
           "The query path hierarchy must be an even number: ${modelQuery.path}",
+        ),
+        assert(
+          !modelQuery.path.trimQuery().trimString("/").contains("//"),
+          "The query path hierarchy must not contain double slashes: ${modelQuery.path}",
         );
 
   /// Define a document model for storing [T] types that inherit from [ChangeNotifier].

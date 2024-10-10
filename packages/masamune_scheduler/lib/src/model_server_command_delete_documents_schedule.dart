@@ -124,6 +124,10 @@ class ModelServerCommandDeleteDocumentsSchedule extends ModelServerCommandBase {
           collectionPath.trimQuery().trimString("/").splitLength() % 2 != 1),
       "The query path hierarchy must be an odd number: $collectionPath",
     );
+    assert(
+      !collectionPath.trimQuery().trimString("/").contains("//"),
+      "The query path hierarchy must not contain double slashes: $collectionPath",
+    );
     return {
       _kCollectionPathKey: collectionPath,
       if (where != null) _kWheresKey: where!.map((e) => e.toJson()).toList(),

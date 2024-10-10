@@ -55,9 +55,23 @@ class DocumentModelGenerator extends GeneratorForAnnotation<DocumentModelPath> {
       );
     }
     if (mirrorPath.isNotEmpty &&
-        (path.splitLength() <= 0 || path.splitLength() % 2 != 0)) {
+        (mirrorPath!.splitLength() <= 0 || mirrorPath.splitLength() % 2 != 0)) {
       throw InvalidGenerationSourceError(
         "The query mirror path hierarchy must be an odd number: $mirrorPath",
+        element: element,
+      );
+    }
+
+    if (path.contains("//")) {
+      throw InvalidGenerationSourceError(
+        "The query path hierarchy must not contain double slashes: $path",
+        element: element,
+      );
+    }
+
+    if (mirrorPath.isNotEmpty && mirrorPath!.contains("//")) {
+      throw InvalidGenerationSourceError(
+        "The query mirror path hierarchy must not contain double slashes: $mirrorPath",
         element: element,
       );
     }
