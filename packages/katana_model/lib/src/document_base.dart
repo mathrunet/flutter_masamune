@@ -436,10 +436,20 @@ abstract class DocumentBase<T> extends ChangeNotifier
     }
     if (modelQuery.adapter.availableListen) {
       subscriptions.addAll(
-        await modelQuery.adapter.listenDocument(databaseQuery),
+        await modelQuery.adapter.listenDocument(
+          databaseQuery.copyWith(
+            reload: _reloadingCompleter != null,
+            reference: _referenceCompleter != null,
+          ),
+        ),
       );
     }
-    return await modelQuery.adapter.loadDocument(databaseQuery);
+    return await modelQuery.adapter.loadDocument(
+      databaseQuery.copyWith(
+        reload: _reloadingCompleter != null,
+        reference: _referenceCompleter != null,
+      ),
+    );
   }
 
   /// Implement internal processing when [save] is executed.
@@ -553,6 +563,25 @@ abstract class DocumentBase<T> extends ChangeNotifier
       notifyListeners();
     }
   }
+
+  Future<void> _executeAsReference(
+    FutureOr<void> Function(DocumentBase<T> doc) callback,
+  ) async {
+    _referenceCompleter = Completer();
+    try {
+      await callback.call(this);
+      _referenceCompleter?.complete();
+      _referenceCompleter = null;
+    } catch (e) {
+      _referenceCompleter?.completeError(e);
+      _referenceCompleter = null;
+    } finally {
+      _referenceCompleter?.complete();
+      _referenceCompleter = null;
+    }
+  }
+
+  Completer<void>? _referenceCompleter;
 
   @override
   @mustCallSuper

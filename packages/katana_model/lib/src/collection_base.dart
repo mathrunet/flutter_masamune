@@ -476,10 +476,18 @@ abstract class CollectionBase<TModel extends DocumentBase>
     }
     if (modelQuery.adapter.availableListen) {
       subscriptions.addAll(
-        await modelQuery.adapter.listenCollection(databaseQuery),
+        await modelQuery.adapter.listenCollection(
+          databaseQuery.copyWith(
+            reload: _reloadingCompleter != null,
+          ),
+        ),
       );
     }
-    return await modelQuery.adapter.loadCollection(databaseQuery);
+    return await modelQuery.adapter.loadCollection(
+      databaseQuery.copyWith(
+        reload: _reloadingCompleter != null,
+      ),
+    );
   }
 
   /// Describe the callback process to pass to [ModelAdapterCollectionQuery.callback].

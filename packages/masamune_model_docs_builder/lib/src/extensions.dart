@@ -85,7 +85,7 @@ extension on ParamaterValue {
 
 extension on ReferenceValue {
   String toAppTypeCode() {
-    final typeString = valueType.trimString("?");
+    final typeString = modelType.trimString("?");
     switch (type) {
       case ReferenceValueType.single:
         return "[$typeString](#$typeString)";
@@ -97,7 +97,7 @@ extension on ReferenceValue {
   }
 
   String toNosqlTypeCode() {
-    final typeString = valueType.trimString("?");
+    final typeString = modelType.trimString("?");
     switch (type) {
       case ReferenceValueType.single:
         return "[reference](#$typeString)";
@@ -109,7 +109,7 @@ extension on ReferenceValue {
   }
 
   String toRDBTypeCode() {
-    final typeString = valueType.trimString("?");
+    final typeString = modelType.trimString("?");
     return "[json](#$typeString)";
   }
 }

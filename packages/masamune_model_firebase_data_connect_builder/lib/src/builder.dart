@@ -68,6 +68,37 @@ class _MasamuneModelFirebaseDataConnectBuilder extends Builder {
     }
   }
 
+  Future<void> _builConnectorYaml(
+    List<SchemaValue> schemas,
+    BuildStep buildStep,
+  ) async {
+    for (final schema in schemas) {
+      final pathLength = schema
+          .firebaseDataConnectAnnotationValue.connectorDirPath
+          .trimQuery()
+          .trimString("/")
+          .split("/")
+          .length;
+      final relativePath = List.generate(pathLength, (index) => "..").join("/");
+      final outputDir = Directory(
+        "${_path(buildStep.inputId)}${schema.firebaseDataConnectAnnotationValue.connectorDirPath}",
+      );
+      if (!outputDir.existsSync()) {
+        outputDir.createSync(recursive: true);
+      }
+      final outputFile = File(
+        "${outputDir.path}/connector.yaml",
+      );
+      outputFile.writeAsStringSync("""
+connectorId: "${schema.firebaseDataConnectAnnotationValue.dartPackage}"
+generate:
+  dartSdk:
+    outputDir: "$relativePath/${schema.firebaseDataConnectAnnotationValue.dartDirPath}"
+    package: "${schema.firebaseDataConnectAnnotationValue.dartPackage}"
+""");
+    }
+  }
+
   @override
   Future<void> build(BuildStep buildStep) async {
     final resolver = buildStep.resolver;
@@ -115,6 +146,7 @@ class _MasamuneModelFirebaseDataConnectBuilder extends Builder {
     await _buildSchemas(schemas, buildStep);
     await _buildQueries(schemas, buildStep);
     await _buildMutations(schemas, buildStep);
+    await _builConnectorYaml(schemas, buildStep);
   }
 
   String _path(AssetId from) {

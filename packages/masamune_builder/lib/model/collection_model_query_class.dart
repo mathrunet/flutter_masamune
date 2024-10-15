@@ -23,7 +23,7 @@ String _querySelectorClass(ParamaterValue param, String queryClass) {
         "dynamic";
     return "MapModelQuerySelector<$generics, $queryClass>";
   } else if (reference != null) {
-    return "ModelRefModelQuerySelector<${reference.valueType}, $queryClass>";
+    return "ModelRefModelQuerySelector<${reference.modelType}, $queryClass>";
   } else {
     final typeName = param.type.aliasName.trimStringRight("?");
     for (final tmp in MasamuneType.values) {

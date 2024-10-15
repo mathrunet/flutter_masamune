@@ -27,46 +27,7 @@ class ParamaterValue {
     required = element.isRequired;
     isSearchable = _searchParamChecker.hasAnnotationOfExact(element);
     if (_refParamChecker.hasAnnotationOfExact(element)) {
-      String? referenceDoc;
-      String? referenceAdapter;
-      for (final meta in element.metadata) {
-        final source = meta.toSource();
-        final refParamMatch = _refParamRegExp.firstMatch(source);
-        if (refParamMatch != null) {
-          final adapterMatch = _adapterRegExp.firstMatch(source);
-          referenceDoc = refParamMatch
-              .group(1)
-              ?.replaceAll(adapterMatch?.group(0) ?? "", "")
-              .trim()
-              .trimString(",")
-              .trim();
-        }
-        final adapterMatch = _adapterRegExp.firstMatch(source);
-        if (adapterMatch != null) {
-          final match = adapterMatch.group(1)?.trim().trimString(",").trim();
-          if (match.isNotEmpty) {
-            referenceAdapter = match!.trimString("'").trimString('"');
-          } else {
-            referenceAdapter = null;
-          }
-        }
-      }
-      final referenceType = type.typeArguments.first;
-      final referenceValue = referenceType.toString();
-      if (referenceDoc.isNotEmpty && referenceValue.isNotEmpty) {
-        reference = ReferenceValue(
-          valueType: referenceValue,
-          documentType: referenceDoc!,
-          adapter: referenceAdapter,
-          type: type.isDartCoreList
-              ? ReferenceValueType.list
-              : type.isDartCoreMap
-                  ? ReferenceValueType.map
-                  : ReferenceValueType.single,
-        );
-      } else {
-        reference = null;
-      }
+      reference = _parseReferenceValue(element, type);
     } else {
       reference = null;
     }
@@ -101,8 +62,96 @@ class ParamaterValue {
         ?.toStringValue();
   }
 
-  static final _refParamRegExp = RegExp(r"^@RefParam\((.+)\)$");
   static final _adapterRegExp = RegExp(r"adapter\s*:\s*([^,\)]+),?");
+
+  ReferenceValue? _parseReferenceValue(
+      ParameterElement element, InterfaceType type) {
+    String? referenceAdapter;
+    for (final meta in element.metadata) {
+      final source = meta.toSource();
+      final adapterMatch = _adapterRegExp.firstMatch(source);
+      if (adapterMatch != null) {
+        final match = adapterMatch.group(1)?.trim().trimString(",").trim();
+        if (match.isNotEmpty) {
+          referenceAdapter = match!.trimString("'").trimString('"');
+        } else {
+          referenceAdapter = null;
+        }
+      }
+    }
+    // List
+    if (type.isDartCoreList) {
+      final baseType = type.typeArguments.first as InterfaceType;
+      final modelType = baseType.typeArguments.first as InterfaceType;
+      final modelTypeString = modelType.toString();
+      final referenceModel = _refParamChecker
+              .firstAnnotationOfExact(element)
+              ?.getField("modelType")
+              ?.toStringValue() ??
+          modelTypeString;
+      final referenceDoc = _refParamChecker
+              .firstAnnotationOfExact(element)
+              ?.getField("documentType")
+              ?.toStringValue() ??
+          "${referenceModel}Document";
+      if (referenceModel.isEmpty || referenceDoc.isEmpty) {
+        return null;
+      }
+      return ReferenceValue(
+        modelType: referenceModel,
+        documentType: referenceDoc,
+        adapter: referenceAdapter,
+        type: ReferenceValueType.list,
+      );
+      // Map
+    } else if (type.isDartCoreMap) {
+      final baseType = type.typeArguments[1] as InterfaceType;
+      final modelType = baseType.typeArguments.first as InterfaceType;
+      final modelTypeString = modelType.toString();
+      final referenceModel = _refParamChecker
+              .firstAnnotationOfExact(element)
+              ?.getField("modelType")
+              ?.toStringValue() ??
+          modelTypeString;
+      final referenceDoc = _refParamChecker
+              .firstAnnotationOfExact(element)
+              ?.getField("documentType")
+              ?.toStringValue() ??
+          "${referenceModel}Document";
+      if (referenceModel.isEmpty || referenceDoc.isEmpty) {
+        return null;
+      }
+      return ReferenceValue(
+        modelType: referenceModel,
+        documentType: referenceDoc,
+        adapter: referenceAdapter,
+        type: ReferenceValueType.map,
+      );
+      // Single
+    } else {
+      final modelType = type.typeArguments.first as InterfaceType;
+      final modelTypeString = modelType.toString();
+      final referenceModel = _refParamChecker
+              .firstAnnotationOfExact(element)
+              ?.getField("modelType")
+              ?.toStringValue() ??
+          modelTypeString;
+      final referenceDoc = _refParamChecker
+              .firstAnnotationOfExact(element)
+              ?.getField("documentType")
+              ?.toStringValue() ??
+          "${referenceModel}Document";
+      if (referenceModel.isEmpty || referenceDoc.isEmpty) {
+        return null;
+      }
+      return ReferenceValue(
+        modelType: referenceModel,
+        documentType: referenceDoc,
+        adapter: referenceAdapter,
+        type: ReferenceValueType.single,
+      );
+    }
+  }
 
   /// Parameter Element.
   ///
@@ -168,7 +217,7 @@ class ReferenceValue {
   ///
   /// `ModelRef`用の定義クラス。
   const ReferenceValue({
-    required this.valueType,
+    required this.modelType,
     required this.documentType,
     required this.type,
     this.adapter,
@@ -177,7 +226,7 @@ class ReferenceValue {
   /// Value Type.
   ///
   /// 値のタイプ。
-  final String valueType;
+  final String modelType;
 
   /// Document Type.
   ///
@@ -196,7 +245,7 @@ class ReferenceValue {
 
   @override
   String toString() {
-    return "$valueType($documentType, $type)";
+    return "$modelType($documentType, $type)";
   }
 }
 

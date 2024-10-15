@@ -140,15 +140,23 @@ class FirebaseDataConnectAnnotationValue {
         schemaDirPath =
             obj.getField("schemaDirPath")?.toStringValue()?.trimString("/") ??
                 "";
-        connectorDirPath = obj
-                .getField("connectorDirPath")
+        dataConnectorRootDirPath = obj
+                .getField("dataConnectorRootDirPath")
                 ?.toStringValue()
                 ?.trimString("/") ??
             "";
+        dartDirPath =
+            obj.getField("dartDirPath")?.toStringValue()?.trimString("/") ?? "";
+        dartPackage =
+            obj.getField("dartPackage")?.toStringValue()?.trimString("/") ?? "";
+        connectorDirPath = "$dataConnectorRootDirPath/$dartPackage";
         return;
       }
     }
     schemaDirPath = "";
+    dataConnectorRootDirPath = "";
+    dartDirPath = "";
+    dartPackage = "";
     connectorDirPath = "";
   }
 
@@ -181,8 +189,23 @@ class FirebaseDataConnectAnnotationValue {
   /// スキーマファイルを出力するディレクトリを指定します。
   late final String schemaDirPath;
 
+  /// The root directory of DataConnect.
+  ///
+  /// DataConnectのルートディレクトリ。
+  late final String dataConnectorRootDirPath;
+
   /// Specify a directory to output connector files.
   ///
   /// コネクタファイルを出力するディレクトリを指定します。
   late final String connectorDirPath;
+
+  /// Specify the directory to output Dart files.
+  ///
+  /// Dart用のファイルを出力するディレクトリを指定します。
+  late final String dartDirPath;
+
+  /// Specify the Dart package name.
+  ///
+  /// Dartのパッケージ名を指定します。
+  late final String dartPackage;
 }

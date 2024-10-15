@@ -466,6 +466,8 @@ class ModelAdapterDocumentQuery {
     this.listen = true,
     this.headers = const {},
     this.method,
+    this.reload = false,
+    this.reference = false,
   });
 
   /// Document query.
@@ -502,30 +504,45 @@ class ModelAdapterDocumentQuery {
   /// `update`に変更された場合の情報が含まれています。
   final void Function(ModelUpdateNotification update)? callback;
 
-  /// Change [headers] or [method] and copy.
+  /// Set to `true` to force reload.
+  ///
+  /// 強制的に再読み込みを行う場合は`true`を設定します。
+  final bool reload;
+
+  /// Returns `true` if the document indicates a reference from another.
+  ///
+  /// ドキュメントが他からの参照を示す場合は`true`を返します。
+  final bool reference;
+
+  /// Change [headers] or [method], [reload], [reference], and [query] and copy.
   ///
   /// Copied objects are recognized as the same object.
   ///
-  /// [headers]もしくは[method]を変更してコピーします。
+  /// [headers]もしくは[method]、[reload]、[reference]、[query]を変更してコピーします。
   ///
   /// コピーされたオブジェクトは同一オブジェクトとして認識されます。
   ModelAdapterDocumentQuery copyWith({
+    DocumentModelQuery? query,
     Map<String, String>? headers,
     String? method,
+    bool? reload,
+    bool? reference,
   }) {
     return ModelAdapterDocumentQuery(
-      query: query,
+      query: query ?? this.query,
       listen: listen,
       origin: origin,
       callback: callback,
       headers: headers ?? this.headers,
       method: method ?? this.method,
+      reload: reload ?? this.reload,
+      reference: reference ?? this.reference,
     );
   }
 
   @override
   String toString() {
-    return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode}, headers: $headers, method: $method)";
+    return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode}, headers: $headers, method: $method, reload: $reload, reference: $reference)";
   }
 
   @override
@@ -564,6 +581,7 @@ class ModelAdapterCollectionQuery {
     this.page = 1,
     this.headers = const {},
     this.method,
+    this.reload = false,
   });
 
   /// Collection queries.
@@ -605,6 +623,11 @@ class ModelAdapterCollectionQuery {
   /// `update`に変更された場合の情報が含まれています。
   final void Function(ModelUpdateNotification update)? callback;
 
+  /// Set to `true` to force reload.
+  ///
+  /// 強制的に再読み込みを行う場合は`true`を設定します。
+  final bool reload;
+
   /// Create a [ModelAdapterDocumentQuery] for a document under a collection using its own [CollectionModelQuery] and [id].
   ///
   /// If [id] is [Null], [uuid] (32-byte non-hyphenated string) is used.
@@ -629,11 +652,11 @@ class ModelAdapterCollectionQuery {
     );
   }
 
-  /// Change [headers] or [method], [page], and [query] and copy.
+  /// Change [headers] or [method], [page], [query], and [reload] and copy.
   ///
   /// Copied objects are recognized as the same object.
   ///
-  /// [headers]もしくは[method]、[page]、[query]を変更してコピーします。
+  /// [headers]もしくは[method]、[page]、[query]、[reload]を変更してコピーします。
   ///
   /// コピーされたオブジェクトは同一オブジェクトとして認識されます。
   ModelAdapterCollectionQuery copyWith({
@@ -641,6 +664,7 @@ class ModelAdapterCollectionQuery {
     String? method,
     int? page,
     CollectionModelQuery? query,
+    bool? reload,
   }) {
     return ModelAdapterCollectionQuery(
       query: query ?? this.query,
@@ -650,12 +674,13 @@ class ModelAdapterCollectionQuery {
       headers: headers ?? this.headers,
       method: method ?? this.method,
       page: page ?? this.page,
+      reload: reload ?? this.reload,
     );
   }
 
   @override
   String toString() {
-    return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode}, headers: $headers, method: $method)";
+    return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode}, headers: $headers, method: $method, reload: $reload)";
   }
 
   @override
@@ -663,6 +688,9 @@ class ModelAdapterCollectionQuery {
 
   @override
   int get hashCode {
+    if (origin != null) {
+      return origin.hashCode;
+    }
     return query.hashCode;
   }
 }

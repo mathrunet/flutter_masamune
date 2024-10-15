@@ -204,17 +204,18 @@ List<Spec> documentModelClass(
                     Reference("List<ModelRefBuilderBase<${model.name}>>")
                 ..annotations.addAll([const Reference("override")])
                 ..body = Code("[${referenceable.mapAndRemoveEmpty((e) {
-                  final doc = e.reference?.documentType;
-                  if (doc.isEmpty) {
+                  final refDoc = e.reference?.documentType;
+                  final refModel = e.reference?.modelType;
+                  if (refDoc.isEmpty || refModel.isEmpty) {
                     return null;
                   }
                   switch (e.reference!.type) {
                     case ReferenceValueType.single:
-                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: ${e.reference?.adapter.isNotEmpty ?? false ? e.reference?.adapter : "$doc.defaultModelAdapter"}, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $refDoc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: ${e.reference?.adapter.isNotEmpty ?? false ? e.reference?.adapter : "$refDoc.defaultModelAdapter"}, accessQuery: $refDoc.defaultModelAccessQuery, validationQueries: $refDoc.defaultValidationQueries, )";
                     case ReferenceValueType.list:
-                      return "ModelRefListBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, docs) => value.copyWith( ${e.name}: docs ), adapter: ${e.reference?.adapter.isNotEmpty ?? false ? e.reference?.adapter : "$doc.defaultModelAdapter"}, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                      return "ModelRefListBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $refDoc(modelQuery), value: (value, docs) => value.copyWith( ${e.name}: docs ), adapter: ${e.reference?.adapter.isNotEmpty ?? false ? e.reference?.adapter : "$refDoc.defaultModelAdapter"}, accessQuery: $refDoc.defaultModelAccessQuery, validationQueries: $refDoc.defaultValidationQueries, )";
                     case ReferenceValueType.map:
-                      return "ModelRefMapBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, docs) => value.copyWith( ${e.name}: docs ), adapter: ${e.reference?.adapter.isNotEmpty ?? false ? e.reference?.adapter : "$doc.defaultModelAdapter"}, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                      return "ModelRefMapBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $refDoc(modelQuery), value: (value, docs) => value.copyWith( ${e.name}: docs ), adapter: ${e.reference?.adapter.isNotEmpty ?? false ? e.reference?.adapter : "$refDoc.defaultModelAdapter"}, accessQuery: $refDoc.defaultModelAccessQuery, validationQueries: $refDoc.defaultValidationQueries, )";
                   }
                 }).join(",")}]"),
             ),
@@ -408,17 +409,18 @@ List<Spec> documentModelClass(
                       Reference("List<ModelRefBuilderBase<${model.name}>>")
                   ..annotations.addAll([const Reference("override")])
                   ..body = Code("[${referenceable.mapAndRemoveEmpty((e) {
-                    final doc = e.reference?.documentType;
-                    if (doc.isEmpty) {
+                    final refDoc = e.reference?.documentType;
+                    final refModel = e.reference?.modelType;
+                    if (refDoc.isEmpty || refModel.isEmpty) {
                       return null;
                     }
                     switch (e.reference!.type) {
                       case ReferenceValueType.single:
-                        return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                        return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $refDoc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $refDoc.defaultModelAdapter, accessQuery: $refDoc.defaultModelAccessQuery, validationQueries: $refDoc.defaultValidationQueries, )";
                       case ReferenceValueType.list:
-                        return "ModelRefListBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, docs) => value.copyWith( ${e.name}: docs ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                        return "ModelRefListBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $refDoc(modelQuery), value: (value, docs) => value.copyWith( ${e.name}: docs ), adapter: $refDoc.defaultModelAdapter, accessQuery: $refDoc.defaultModelAccessQuery, validationQueries: $refDoc.defaultValidationQueries, )";
                       case ReferenceValueType.map:
-                        return "ModelRefMapBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, docs) => value.copyWith( ${e.name}: docs ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery, validationQueries: $doc.defaultValidationQueries, )";
+                        return "ModelRefMapBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $refDoc(modelQuery), value: (value, docs) => value.copyWith( ${e.name}: docs ), adapter: $refDoc.defaultModelAdapter, accessQuery: $refDoc.defaultModelAccessQuery, validationQueries: $refDoc.defaultValidationQueries, )";
                     }
                   }).join(",")}]"),
               ),

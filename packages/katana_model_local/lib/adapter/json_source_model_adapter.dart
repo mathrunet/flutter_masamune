@@ -789,7 +789,7 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
 
   @override
   Future<void> clearAll() {
-    throw UnimplementedError("This function is not available.");
+    throw UnsupportedError("This function is not available.");
   }
 
   @override

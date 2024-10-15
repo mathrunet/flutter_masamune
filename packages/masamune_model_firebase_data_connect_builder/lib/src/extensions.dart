@@ -31,8 +31,8 @@ extension on InterfaceType {
     } else if (isModelRef) {
       if (reference?.type == ReferenceValueType.single) {
         if (_MasamuneModelFirebaseDataConnectBuilder.schemas
-            .any((e) => e.classValue.name == reference?.valueType)) {
-          return "${reference!.valueType}_Key";
+            .any((e) => e.classValue.name == reference?.modelType)) {
+          return "${reference!.modelType}_Key";
         }
       }
       return "${SchemaType.any.label}$nullable";
@@ -94,8 +94,8 @@ extension on InterfaceType {
     } else if (isModelRef) {
       if (reference?.type == ReferenceValueType.single) {
         if (_MasamuneModelFirebaseDataConnectBuilder.schemas
-            .any((e) => e.classValue.name == reference?.valueType)) {
-          return reference!.valueType;
+            .any((e) => e.classValue.name == reference?.modelType)) {
+          return reference!.modelType;
         }
       }
       return "${SchemaType.any.label}$nullable";

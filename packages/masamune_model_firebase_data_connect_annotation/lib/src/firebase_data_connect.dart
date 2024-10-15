@@ -6,9 +6,13 @@ part of '/masamune_model_firebase_data_connect_annotation.dart';
 ///
 /// Use with `freezed`, etc.
 ///
-/// By specifying [schemeDirPath], you can specify the directory where the schema files will be output.
+/// Specify the root directory of DataConnect by specifying [dataConnectorDirPath].
 ///
-/// By specifying [connectorDirPath], you can specify a directory to output connector files.
+/// By specifying [schemaDirPath], you can specify the directory where the schema files will be output.
+///
+/// By specifying [dartDirPath], you can specify the directory to output Dart files.
+///
+/// By specifying [dartPackage], you can specify the Dart package name.
 ///
 /// FirebaseDataConnectのデータスキームとして利用するためのアノテーション。
 ///
@@ -16,9 +20,13 @@ part of '/masamune_model_firebase_data_connect_annotation.dart';
 ///
 /// `freezed`などと共に利用してください。
 ///
-/// [schemeDirPath]を指定することで、スキーマファイルを出力するディレクトリを指定できます。
+/// [dataConnectorDirPath]を指定してDataConnectのルートディレクトリを指定します。
 ///
-/// [connectorDirPath]を指定することで、コネクタファイルを出力するディレクトリを指定できます。
+/// [schemaDirPath]を指定することで、スキーマファイルを出力するディレクトリを指定できます。
+///
+/// [dartDirPath]を指定することで、Dart用のファイルを出力するディレクトリを指定できます。
+///
+/// [dartPackage]を指定することで、Dartのパッケージ名を指定できます。
 ///
 /// ```dart
 /// @freezed
@@ -50,9 +58,13 @@ const firebaseDataConnect = FirebaseDataConnect();
 ///
 /// Use with `freezed`, etc.
 ///
+/// Specify the root directory of DataConnect by specifying [dataConnectorRootDirPath].
+///
 /// By specifying [schemaDirPath], you can specify the directory where the schema files will be output.
 ///
-/// By specifying [connectorDirPath], you can specify a directory to output connector files.
+/// By specifying [dartDirPath], you can specify the directory to output Dart files.
+///
+/// By specifying [dartPackage], you can specify the Dart package name.
 ///
 /// FirebaseDataConnectのデータスキームとして利用するためのアノテーション。
 ///
@@ -60,9 +72,13 @@ const firebaseDataConnect = FirebaseDataConnect();
 ///
 /// `freezed`などと共に利用してください。
 ///
+/// [dataConnectorRootDirPath]を指定してDataConnectのルートディレクトリを指定します。
+///
 /// [schemaDirPath]を指定することで、スキーマファイルを出力するディレクトリを指定できます。
 ///
-/// [connectorDirPath]を指定することで、コネクタファイルを出力するディレクトリを指定できます。
+/// [dartDirPath]を指定することで、Dart用のファイルを出力するディレクトリを指定できます。
+///
+/// [dartPackage]を指定することで、Dartのパッケージ名を指定できます。
 ///
 /// ```dart
 /// @freezed
@@ -93,9 +109,13 @@ class FirebaseDataConnect {
   ///
   /// Use with `freezed`, etc.
   ///
+  /// Specify the root directory of DataConnect by specifying [dataConnectorRootDirPath].
+  ///
   /// By specifying [schemaDirPath], you can specify the directory where the schema files will be output.
   ///
-  /// By specifying [connectorDirPath], you can specify a directory to output connector files.
+  /// By specifying [dartDirPath], you can specify the directory to output Dart files.
+  ///
+  /// By specifying [dartPackage], you can specify the Dart package name.
   ///
   /// FirebaseDataConnectのデータスキームとして利用するためのアノテーション。
   ///
@@ -103,9 +123,13 @@ class FirebaseDataConnect {
   ///
   /// `freezed`などと共に利用してください。
   ///
+  /// [dataConnectorRootDirPath]を指定してDataConnectのルートディレクトリを指定します。
+  ///
   /// [schemaDirPath]を指定することで、スキーマファイルを出力するディレクトリを指定できます。
   ///
-  /// [connectorDirPath]を指定することで、コネクタファイルを出力するディレクトリを指定できます。
+  /// [dartDirPath]を指定することで、Dart用のファイルを出力するディレクトリを指定できます。
+  ///
+  /// [dartPackage]を指定することで、Dartのパッケージ名を指定できます。
   ///
   /// ```dart
   /// @freezed
@@ -131,16 +155,28 @@ class FirebaseDataConnect {
   /// * see https://pub.dev/packages/freezed
   const FirebaseDataConnect({
     this.schemaDirPath = "firebase/dataconnect/schema",
-    this.connectorDirPath = "firebase/dataconnect/default-connector",
+    this.dataConnectorRootDirPath = "firebase/dataconnect",
+    this.dartDirPath = "lib/dataconnect",
+    this.dartPackage = "connector",
   });
+
+  /// Specify the root directory of DataConnect.
+  ///
+  /// DataConnectのルートディレクトリを指定します。
+  final String dataConnectorRootDirPath;
 
   /// Specify the directory where the schema files will be output.
   ///
   /// スキーマファイルを出力するディレクトリを指定します。
   final String schemaDirPath;
 
-  /// Specify a directory to output connector files.
+  /// Specify the directory to output Dart files.
   ///
-  /// コネクタファイルを出力するディレクトリを指定します。
-  final String connectorDirPath;
+  /// Dart用のファイルを出力するディレクトリを指定します。
+  final String dartDirPath;
+
+  /// Specify the Dart package name.
+  ///
+  /// Dartのパッケージ名を指定します。
+  final String dartPackage;
 }

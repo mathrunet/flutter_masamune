@@ -1,122 +1,130 @@
 part of '/masamune_model_firebase_data_connect.dart';
 
-class FirebaseDataConnectModelAdapter extends ModelAdapter {
-  const FirebaseDataConnectModelAdapter();
+abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
+  const FirebaseDataConnectModelAdapterBase({
+    this.initialValue,
+    NoSqlDatabase? localDatabase,
+  }) : _localDatabase = localDatabase;
 
-  @override
-  // TODO: implement availableListen
-  bool get availableListen => throw UnimplementedError();
-
-  @override
-  Future<void> clearAll() {
-    // TODO: implement clearAll
-    throw UnimplementedError();
+  /// The specified internal database, caching data retrieved from FirebaseDataConnect.
+  ///
+  /// 指定の内部データベース。FirebaseDataConnectから取得したデータをキャッシュします。
+  NoSqlDatabase get localDatabase {
+    final database = _localDatabase ?? sharedLocalDatabase;
+    if (initialValue.isNotEmpty && !database.isInitialValueRegistered) {
+      for (final raw in initialValue!) {
+        if (raw is ModelInitialDocument) {
+          final map = raw.toMap(raw.value);
+          database.setInitialValue(
+            raw.path,
+            raw.filterOnSave(map, raw.value),
+          );
+        } else if (raw is ModelInitialCollection) {
+          for (final tmp in raw.value.entries) {
+            final map = raw.toMap(tmp.value);
+            database.setInitialValue(
+              "${raw.path}/${tmp.key}",
+              raw.filterOnSave(map, tmp.value),
+            );
+          }
+        }
+      }
+    }
+    return database;
   }
 
-  @override
-  Future<void> clearCache() {
-    // TODO: implement clearCache
-    throw UnimplementedError();
-  }
+  final NoSqlDatabase? _localDatabase;
+
+  /// A common internal database throughout the app.
+  ///
+  /// アプリ内全体での共通の内部データベース。
+  static final NoSqlDatabase sharedLocalDatabase = NoSqlDatabase();
+
+  /// Actual data when used as a mock-up.
+  ///
+  /// モックアップとして利用する際の実データ。
+  final List<ModelInitialValue>? initialValue;
 
   @override
-  Future<void> deleteDocument(ModelAdapterDocumentQuery query) {
-    // TODO: implement deleteDocument
-    throw UnimplementedError();
-  }
-
-  @override
-  void deleteOnBatch(ModelBatchRef ref, ModelAdapterDocumentQuery query) {
-    // TODO: implement deleteOnBatch
-  }
-
-  @override
-  void deleteOnTransaction(
-      ModelTransactionRef ref, ModelAdapterDocumentQuery query) {
-    // TODO: implement deleteOnTransaction
-  }
+  bool get availableListen => false;
 
   @override
   void disposeCollection(ModelAdapterCollectionQuery query) {
-    // TODO: implement disposeCollection
+    localDatabase.removeCollectionListener(query);
   }
 
   @override
   void disposeDocument(ModelAdapterDocumentQuery query) {
-    // TODO: implement disposeDocument
+    localDatabase.removeDocumentListener(query);
   }
 
   @override
   Future<List<StreamSubscription>> listenCollection(
       ModelAdapterCollectionQuery query) {
-    // TODO: implement listenCollection
-    throw UnimplementedError();
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
   Future<List<StreamSubscription>> listenDocument(
       ModelAdapterDocumentQuery query) {
-    // TODO: implement listenDocument
-    throw UnimplementedError();
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
   Future<T?> loadAggregation<T>(ModelAdapterCollectionQuery query,
       ModelAggregateQuery<AsyncAggregateValue> aggregateQuery) {
-    // TODO: implement loadAggregation
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Map<String, DynamicMap>> loadCollection(
-      ModelAdapterCollectionQuery query) {
-    // TODO: implement loadCollection
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) {
-    // TODO: implement loadDocument
-    throw UnimplementedError();
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
   FutureOr<DynamicMap> loadOnTransaction(
       ModelTransactionRef ref, ModelAdapterDocumentQuery query) {
-    // TODO: implement loadOnTransaction
-    throw UnimplementedError();
-  }
-
-  @override
-  FutureOr<void> runBatch(
-      FutureOr<void> Function(ModelBatchRef ref) batch, int splitLength) {
-    // TODO: implement runBatch
-    throw UnimplementedError();
-  }
-
-  @override
-  FutureOr<void> runTransaction(
-      FutureOr<void> Function(ModelTransactionRef ref) transaction) {
-    // TODO: implement runTransaction
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> saveDocument(ModelAdapterDocumentQuery query, DynamicMap value) {
-    // TODO: implement saveDocument
-    throw UnimplementedError();
-  }
-
-  @override
-  void saveOnBatch(
-      ModelBatchRef ref, ModelAdapterDocumentQuery query, DynamicMap value) {
-    // TODO: implement saveOnBatch
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
   void saveOnTransaction(ModelTransactionRef ref,
       ModelAdapterDocumentQuery query, DynamicMap value) {
-    // TODO: implement saveOnTransaction
+    throw UnsupportedError("This function is not available.");
+  }
+
+  @override
+  void deleteOnTransaction(
+      ModelTransactionRef ref, ModelAdapterDocumentQuery query) {
+    throw UnsupportedError("This function is not available.");
+  }
+
+  @override
+  FutureOr<void> runTransaction(
+      FutureOr<void> Function(ModelTransactionRef ref) transaction) {
+    throw UnsupportedError("This function is not available.");
+  }
+
+  @override
+  void saveOnBatch(
+      ModelBatchRef ref, ModelAdapterDocumentQuery query, DynamicMap value) {
+    throw UnsupportedError("This function is not available.");
+  }
+
+  @override
+  void deleteOnBatch(ModelBatchRef ref, ModelAdapterDocumentQuery query) {
+    throw UnsupportedError("This function is not available.");
+  }
+
+  @override
+  FutureOr<void> runBatch(
+      FutureOr<void> Function(ModelBatchRef ref) batch, int splitLength) {
+    throw UnsupportedError("This function is not available.");
+  }
+
+  @override
+  Future<void> clearAll() {
+    throw UnsupportedError("This function is not available.");
+  }
+
+  @override
+  Future<void> clearCache() {
+    return localDatabase.clearAll();
   }
 
   @override

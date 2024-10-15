@@ -66,7 +66,7 @@ class ModelRefBase<T> extends ModelFieldValue<T?>
   ///
   /// [json]のマップから[ModelRefBase]に変換します。
   factory ModelRefBase.fromJson(Map<String, dynamic> json) {
-    return ModelRefBase.fromPath(json.get(ModelRefBase._kRefKey, ""));
+    return ModelRefBase.fromPath(json.get(ModelRefBase.kRefKey, ""));
   }
 
   /// Type key.
@@ -74,7 +74,10 @@ class ModelRefBase<T> extends ModelFieldValue<T?>
   /// タイプのキー。
   static const typeString = "ModelRefBase";
 
-  static const _kRefKey = "@ref";
+  /// Reference key.
+  ///
+  /// 参照のキー。
+  static const kRefKey = "@ref";
 
   /// [DocumentModelQuery] of the associated document.
   ///
@@ -84,7 +87,7 @@ class ModelRefBase<T> extends ModelFieldValue<T?>
   @override
   Map<String, dynamic> toJson() => {
         kTypeFieldKey: ModelRefBase.typeString,
-        ModelRefBase._kRefKey: modelQuery.path.trimQuery().trimString("/"),
+        ModelRefBase.kRefKey: modelQuery.path.trimQuery().trimString("/"),
       };
 
   /// Actual value.
@@ -332,7 +335,7 @@ mixin ModelRefMixin<T>
   @override
   Map<String, dynamic> toJson() => {
         kTypeFieldKey: ModelRefBase.typeString,
-        ModelRefBase._kRefKey: modelQuery.path.trimQuery().trimString("/"),
+        ModelRefBase.kRefKey: modelQuery.path.trimQuery().trimString("/"),
       };
 
   @override
@@ -557,7 +560,7 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
       final doc = cacheList[modelQuery];
       if (doc is ModelRefMixin<TResult>) {
         if (forceReload) {
-          await doc.reload();
+          await doc._executeAsReference((d) => d.reload());
         }
         return value(val, doc);
       }
@@ -568,9 +571,9 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
       "The document was created with a different [DocumentModelQuery] than [ModelRef]. Please match [DocumentModelQuery]: ${doc.modelQuery}, $modelQuery",
     );
     if (forceReload) {
-      await doc.reload();
+      await doc._executeAsReference((d) => d.reload());
     } else {
-      await doc.load();
+      await doc._executeAsReference((d) => d.load());
     }
     onDidLoad(modelQuery, doc);
     return value(val, doc);
@@ -739,7 +742,7 @@ class ModelRefListBuilder<TSource, TResult>
         final doc = cacheList[modelQuery];
         if (doc is ModelRefMixin<TResult>) {
           if (forceReload) {
-            await doc.reload();
+            await doc._executeAsReference((d) => d.reload());
           }
           res.add(doc);
           continue;
@@ -751,9 +754,9 @@ class ModelRefListBuilder<TSource, TResult>
         "The document was created with a different [DocumentModelQuery] than [ModelRef]. Please match [DocumentModelQuery]: ${doc.modelQuery}, $modelQuery",
       );
       if (forceReload) {
-        await doc.reload();
+        await doc._executeAsReference((d) => d.reload());
       } else {
-        await doc.load();
+        await doc._executeAsReference((d) => d.load());
       }
       onDidLoad(modelQuery, doc);
       res.add(doc);
@@ -926,7 +929,7 @@ class ModelRefMapBuilder<TSource, TResult>
         final doc = cacheList[modelQuery];
         if (doc is ModelRefMixin<TResult>) {
           if (forceReload) {
-            await doc.reload();
+            await doc._executeAsReference((d) => d.reload());
           }
           res[key] = doc;
           continue;
@@ -938,9 +941,9 @@ class ModelRefMapBuilder<TSource, TResult>
         "The document was created with a different [DocumentModelQuery] than [ModelRef]. Please match [DocumentModelQuery]: ${doc.modelQuery}, $modelQuery",
       );
       if (forceReload) {
-        await doc.reload();
+        await doc._executeAsReference((d) => d.reload());
       } else {
-        await doc.load();
+        await doc._executeAsReference((d) => d.load());
       }
       onDidLoad(modelQuery, doc);
       res[key] = doc;
