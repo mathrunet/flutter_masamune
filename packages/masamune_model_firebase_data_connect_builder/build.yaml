@@ -6,10 +6,32 @@ builders:
     auto_apply: dependents
     build_to: source
     applies_builders: ["source_gen|combining_builder"]
+  masamune_model_firebase_data_connect_adapter_builder:
+    import: 'package:masamune_model_firebase_data_connect_builder/masamune_model_firebase_data_connect_builder.dart'
+    builder_factories: ['masamuneModelFirebaseDataConnectAdapterBuilderFactory']
+    build_extensions: {'.dart': ['.dataconnect.dart']}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
 targets:
   $default:
     builders:
       masamune_model_firebase_data_connect_builder:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
+          include:
+            - test/integration/*
+            - test/integration/**/*
+      masamune_model_firebase_data_connect_adapter_builder:
         enabled: true
         generate_for:
           exclude:

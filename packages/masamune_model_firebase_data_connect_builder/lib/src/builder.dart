@@ -1,5 +1,8 @@
 part of '/masamune_model_firebase_data_connect_builder.dart';
 
+const _firebaseDataConnectChecker =
+    TypeChecker.fromRuntime(FirebaseDataConnect);
+
 /// Builder to generate schema for FirebaseDataConnect.
 ///
 /// FirebaseDataConnect用のスキーマをジェネレートするためのビルダー。
@@ -7,13 +10,25 @@ Builder masamuneModelFirebaseDataConnectBuilderFactory(BuilderOptions options) {
   return _MasamuneModelFirebaseDataConnectBuilder();
 }
 
+/// Builder to generate ModelAdapter for FirebaseDataConnect.
+///
+/// FirebaseDataConnect用のModelAdapterをジェネレートするためのビルダー。
+Builder masamuneModelFirebaseDataConnectAdapterBuilderFactory(
+    BuilderOptions options) {
+  return source_gen.PartBuilder(
+    [
+      AdapterGenerator(),
+    ],
+    ".dataconnect.dart",
+    header:
+        "// GENERATED CODE - DO NOT MODIFY BY HAND\r\n\r\n// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, depend_on_referenced_packages",
+  );
+}
+
 class _MasamuneModelFirebaseDataConnectBuilder extends Builder {
   _MasamuneModelFirebaseDataConnectBuilder();
 
   static final List<SchemaValue> schemas = [];
-
-  static const _firebaseDataConnectChecker =
-      TypeChecker.fromRuntime(FirebaseDataConnect);
 
   Future<void> _buildSchemas(
     List<SchemaValue> schemas,

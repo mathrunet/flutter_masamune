@@ -4,7 +4,15 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
   const FirebaseDataConnectModelAdapterBase({
     this.initialValue,
     NoSqlDatabase? localDatabase,
-  }) : _localDatabase = localDatabase;
+    FirebaseOptions? options,
+    this.iosOptions,
+    this.androidOptions,
+    this.webOptions,
+    this.linuxOptions,
+    this.windowsOptions,
+    this.macosOptions,
+  })  : _options = options,
+        _localDatabase = localDatabase;
 
   /// The specified internal database, caching data retrieved from FirebaseDataConnect.
   ///
@@ -45,8 +53,127 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
   /// モックアップとして利用する際の実データ。
   final List<ModelInitialValue>? initialValue;
 
+  /// Options for initializing Firebase.
+  ///
+  /// If platform-specific options are specified, they take precedence.
+  ///
+  /// Firebaseを初期化する際のオプション。
+  ///
+  /// プラットフォーム固有のオプションが指定されている場合はそちらが優先されます。
+  FirebaseOptions? get options {
+    if (UniversalPlatform.isIOS) {
+      return iosOptions ?? _options;
+    } else if (UniversalPlatform.isAndroid) {
+      return androidOptions ?? _options;
+    } else if (UniversalPlatform.isWeb) {
+      return webOptions ?? _options;
+    } else if (UniversalPlatform.isLinux) {
+      return linuxOptions ?? _options;
+    } else if (UniversalPlatform.isWindows) {
+      return windowsOptions ?? _options;
+    } else if (UniversalPlatform.isMacOS) {
+      return macosOptions ?? _options;
+    } else {
+      return _options;
+    }
+  }
+
+  /// Options for initializing Firebase.
+  ///
+  /// If options for other platforms are specified, these are ignored.
+  ///
+  /// Firebaseを初期化する際のオプション。
+  ///
+  /// 他のプラットフォーム用のオプションが指定されている場合はこちらは無視されます。
+  final FirebaseOptions? _options;
+
+  /// Options for initializing Firebase.
+  ///
+  /// Applies to IOS only.
+  ///
+  /// If [options] is specified, this takes precedence.
+  ///
+  /// Firebaseを初期化する際のオプション。
+  ///
+  /// IOSのみに適用されます。
+  ///
+  /// [options]が指定されている場合はこちらが優先されます。
+  final FirebaseOptions? iosOptions;
+
+  /// Options for initializing Firebase.
+  ///
+  /// Applies to Android only.
+  ///
+  /// If [options] is specified, this takes precedence.
+  ///
+  /// Firebaseを初期化する際のオプション。
+  ///
+  /// Androidのみに適用されます。
+  ///
+  /// [options]が指定されている場合はこちらが優先されます。
+  final FirebaseOptions? androidOptions;
+
+  /// Options for initializing Firebase.
+  ///
+  /// Applies to Web only.
+  ///
+  /// If [options] is specified, this takes precedence.
+  ///
+  /// Firebaseを初期化する際のオプション。
+  ///
+  /// Webのみに適用されます。
+  ///
+  /// [options]が指定されている場合はこちらが優先されます。
+  final FirebaseOptions? webOptions;
+
+  /// Options for initializing Firebase.
+  ///
+  /// Applies to Web only.
+  ///
+  /// If [options] is specified, this takes precedence.
+  ///
+  /// Firebaseを初期化する際のオプション。
+  ///
+  /// Webのみに適用されます。
+  ///
+  /// [options]が指定されている場合はこちらが優先されます。
+  final FirebaseOptions? windowsOptions;
+
+  /// Options for initializing Firebase.
+  ///
+  /// Applies to MacOS only.
+  ///
+  /// If [options] is specified, this takes precedence.
+  ///
+  /// Firebaseを初期化する際のオプション。
+  ///
+  /// MacOSのみに適用されます。
+  ///
+  /// [options]が指定されている場合はこちらが優先されます。
+  final FirebaseOptions? macosOptions;
+
+  /// Options for initializing Firebase.
+  ///
+  /// Applies to Linux only.
+  ///
+  /// If [options] is specified, this takes precedence.
+  ///
+  /// Firebaseを初期化する際のオプション。
+  ///
+  /// Linuxのみに適用されます。
+  ///
+  /// [options]が指定されている場合はこちらが優先されます。
+  final FirebaseOptions? linuxOptions;
+
   @override
   bool get availableListen => false;
+
+  /// Initialize Firebase.
+  ///
+  /// Firebaseの初期化を行います。
+  Future<void> initialize() async {
+    await FirebaseCore.initialize(options: options);
+  }
 
   @override
   void disposeCollection(ModelAdapterCollectionQuery query) {
@@ -123,7 +250,8 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
   }
 
   @override
-  Future<void> clearCache() {
+  Future<void> clearCache() async {
+    await initialize();
     return localDatabase.clearAll();
   }
 
