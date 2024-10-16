@@ -24,6 +24,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
     final firestore = firebase.getAsMap("firestore").get("enable", false);
+    final dataconnect = firebase.getAsMap("dataconnect").get("enable", false);
     final authentication =
         firebase.getAsMap("authentication").get("enable", false);
     final logger = firebase.getAsMap("logger").get("enable", false);
@@ -33,6 +34,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final messaging = firebase.getAsMap("messaging").get("enable", false);
     return projectId.isNotEmpty &&
         (firestore ||
+            dataconnect ||
             storage ||
             authentication ||
             logger ||
@@ -60,8 +62,10 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final hosting = firebase.getAsMap("hosting");
     final useFlutter = hosting.get("use_flutter", false);
     final firestore = firebase.getAsMap("firestore");
+    final dataconnect = firebase.getAsMap("dataconnect");
     // final overwriteFirestoreRule = firestore.get("overwrite_rule", false);
     final enabledFirestore = firestore.get("enable", false);
+    final enabledDataconnect = dataconnect.get("enable", false);
     final enabledAuthentication =
         firebase.getAsMap("authentication").get("enable", false);
     final enabledFunctions =
@@ -162,6 +166,10 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "cloud_firestore",
           "katana_model_firestore",
         ],
+        if (enabledDataconnect) ...[
+          "firebase_data_connect",
+          "masamune_model_firebase_data_connect",
+        ],
         if (enabledStorage) ...[
           "firebase_storage",
           "katana_storage_firebase",
@@ -176,6 +184,14 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "masamune_logger_firebase",
         ]
       ],
+    );
+    await addFlutterImport(
+      [
+        if (enabledDataconnect) ...[
+          "masamune_model_firebase_data_connect_builder",
+        ],
+      ],
+      development: true,
     );
     final commandStack = <String>[];
     if (enabledFirestore) {
@@ -235,6 +251,35 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         await firestoreProcess.exitCode;
         label("Rewriting Rules");
         await const FirestoreRulesCliCode().generateFile("firestore.rules");
+      }
+    }
+    if (enabledDataconnect) {
+      if (!firebaseJson.containsKey("dataconnect")) {
+        final dataconnectProcess = await Process.start(
+          firebaseCommand,
+          [
+            "init",
+            "dataconnect",
+            "--project",
+            projectId,
+          ],
+          runInShell: true,
+          workingDirectory: "firebase",
+          mode: ProcessStartMode.normal,
+        );
+        dataconnectProcess.stdout.transform(utf8.decoder).forEach((line) {
+          // ignore: avoid_print
+          print(line);
+        });
+        await dataconnectProcess.exitCode;
+        final adapter =
+            File("lib/adapters/firebase_data_connect_model_adapter.dart");
+        if (!adapter.existsSync()) {
+          label("Create Adapter");
+          await const FirebaseDataConnectModelAdapterCliCode().generateDartCode(
+              "lib/adapters/firebase_data_connect_model_adapter",
+              "firebase_data_connect_model_adapter");
+        }
       }
     }
     if (enabledStorage) {
@@ -844,6 +889,67 @@ class FirebaseStorageCorsCliCode extends CliCode {
     "maxAgeSeconds": 3600
   }
 ]
+""";
+  }
+}
+
+/// Create a ModelAdapter base class for FirebaseDataConnect.
+///
+/// FirebaseDataConnect用のModelAdapterのベースクラスを作成します。
+class FirebaseDataConnectModelAdapterCliCode extends CliCode {
+  /// Create a ModelAdapter base class for FirebaseDataConnect.
+  ///
+  /// FirebaseDataConnect用のModelAdapterのベースクラスを作成します。
+  const FirebaseDataConnectModelAdapterCliCode();
+
+  @override
+  String get name => "firebase_data_connect_model_adapter";
+
+  @override
+  String get prefix => "firebase_data_connect_model_adapter";
+
+  @override
+  String get directory => "lib/adapters";
+
+  @override
+  String get description =>
+      "Create a ModelAdapter base class for FirebaseDataConnect in `$directory/(filepath).dart`. FirebaseDataConnect用のModelAdapterのベースクラスを`$directory/(filepath).dart`に作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+// ignore: unused_import, unnecessary_import
+import 'package:flutter/foundation.dart';
+// ignore: unused_import, unnecessary_import
+import 'package:masamune_model_firebase_data_connect/masamune_model_firebase_data_connect.dart';
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return """
+// ignore: unused_import, unnecessary_import
+import '/dataconnect/connector.dart';
+
+part 'firebase_data_connect_model_adapter.dataconnect.dart';
+""";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// If you use FirebaseDataConnect, specify this ModelAdapter as `adapter` in [CollectionModelPath] or [DocumentModelPath].
+///
+/// If you want to use it as a whole, you can also specify it as a `modelAdapter` in [MasamuneApp].
+const firebaseDataConnectModelAdapter = FirebaseDataConnectModelAdapter();
+
+/// ModelAdapter to use FirebaseDataConnect.
+@immutable
+@firebaseDataConnectAdapter
+class FirebaseDataConnectModelAdapter
+    extends _\$FirebaseDataConnectModelAdapter {
+  const FirebaseDataConnectModelAdapter();
+}
 """;
   }
 }

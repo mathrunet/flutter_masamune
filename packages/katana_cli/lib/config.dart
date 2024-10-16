@@ -266,6 +266,11 @@ firebase:
   firestore:
     enable: false
 
+  # Enable Firebase Data Connect.
+  # Firebase Data Connectを有効にします。
+  dataconnect:
+    enable: false
+
   # Enable Firebase Authentication.
   # Firebase Authenticationを有効にします。
   authentication:
