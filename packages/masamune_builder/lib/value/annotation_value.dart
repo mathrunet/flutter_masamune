@@ -22,6 +22,7 @@ class ModelAnnotationValue {
       final obj = meta.computeConstantValue()!;
       if (matcher.isExactlyType(obj.type!)) {
         final source = meta.toSource();
+        path = obj.getField("path")?.toStringValue();
         mirror = obj.getField("mirror")?.toStringValue();
         endpoint = obj.getField("endpoint")?.toStringValue();
         docsPath = obj.getField("docsPath")?.toStringValue();
@@ -83,6 +84,7 @@ class ModelAnnotationValue {
         return;
       }
     }
+    path = null;
     mirror = null;
     adapter = null;
     endpoint = null;
@@ -124,6 +126,11 @@ class ModelAnnotationValue {
   ///
   /// アノテーションのタイプ
   final Type annotationType;
+
+  /// Path.
+  ///
+  /// パス。
+  late final String? path;
 
   /// Mirror Path.
   ///
