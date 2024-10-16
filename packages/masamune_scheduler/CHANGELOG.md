@@ -1,3 +1,7 @@
+## 2.3.26
+
+ - **FIX**: If the path contains //, an error should be generated. ([62591d45](https://github.com/mathrunet/flutter_masamune/commit/62591d45912834fbf6c9c6c9a1de5205ebc69123))
+
 ## 2.3.25
 
  - Update a dependency to the latest release.

@@ -1,3 +1,9 @@
+## 2.18.0
+
+ - **FIX**: Add path to ModelAnnotationValue. ([12b47d88](https://github.com/mathrunet/flutter_masamune/commit/12b47d884ac811237562a7c005ad8adf92f1eeab))
+ - **FIX**: If the path contains //, an error should be generated. ([62591d45](https://github.com/mathrunet/flutter_masamune/commit/62591d45912834fbf6c9c6c9a1de5205ebc69123))
+ - **FEAT**: Support for FirebaseDataConnect. ([fca7960c](https://github.com/mathrunet/flutter_masamune/commit/fca7960c1b729e5468a773534d11444b890e8892))
+
 ## 2.17.6
 
  - **FIX**: Added a method to check paths. ([5ca5ac72](https://github.com/mathrunet/flutter_masamune/commit/5ca5ac7223727fdc1ca217a6ffb17496f64e3e6e))

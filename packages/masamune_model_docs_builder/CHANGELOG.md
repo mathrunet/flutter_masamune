@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Support for FirebaseDataConnect. ([fca7960c](https://github.com/mathrunet/flutter_masamune/commit/fca7960c1b729e5468a773534d11444b890e8892))
+
 ## 2.1.6
 
  - Update a dependency to the latest release.

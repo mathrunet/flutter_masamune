@@ -1,3 +1,7 @@
+## 2.3.3
+
+ - Update a dependency to the latest release.
+
 ## 2.3.2
 
  - **FIX**: Add copyWith to PickerValue. ([61e58ce0](https://github.com/mathrunet/flutter_masamune/commit/61e58ce0fb3f9a34ef4ff0b14c0d222854299dc7))

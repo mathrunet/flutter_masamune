@@ -1,3 +1,8 @@
+## 2.29.0
+
+ - **FIX**: If the path contains //, an error should be generated. ([62591d45](https://github.com/mathrunet/flutter_masamune/commit/62591d45912834fbf6c9c6c9a1de5205ebc69123))
+ - **FEAT**: Support for FirebaseDataConnect. ([fca7960c](https://github.com/mathrunet/flutter_masamune/commit/fca7960c1b729e5468a773534d11444b890e8892))
+
 ## 2.28.4
 
  - **FIX**: String also allows for comparison. ([5a1cb5c1](https://github.com/mathrunet/flutter_masamune/commit/5a1cb5c1e023c7e0b8519eec2298edc5998bb07a))

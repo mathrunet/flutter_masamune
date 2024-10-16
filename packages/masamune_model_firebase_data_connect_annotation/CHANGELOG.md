@@ -1,3 +1,8 @@
+## 2.2.0
+
+ - **FIX**: Added automatic generation of Adapter. ([b5a58f53](https://github.com/mathrunet/flutter_masamune/commit/b5a58f53e5c5f8a01a2fb18e09a6a258581e2968))
+ - **FEAT**: Support for FirebaseDataConnect. ([fca7960c](https://github.com/mathrunet/flutter_masamune/commit/fca7960c1b729e5468a773534d11444b890e8892))
+
 ## 2.1.3
 
  - Update a dependency to the latest release.

@@ -1,6 +1,6 @@
 name: masamune_module_chat_system
 description: Plug-in module for Masamune that allows voice interaction with ChatGPT.
-version: 2.1.102
+version: 2.1.103
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_module_chat_system
 
@@ -13,19 +13,19 @@ dependencies:
     sdk: flutter
     
   katana: ^2.15.2
-  masamune: ^2.14.11
-  masamune_module: ^2.4.108
+  masamune: ^2.14.12
+  masamune_module: ^2.4.109
   freezed_annotation: ^2.2.0
   json_annotation: ^4.8.0
-  masamune_ai_openai: ^2.8.1
-  masamune_text_to_speech: ^2.3.4
-  masamune_speech_to_text: ^2.2.109
+  masamune_ai_openai: ^2.8.2
+  masamune_text_to_speech: ^2.3.5
+  masamune_speech_to_text: ^2.2.110
 dev_dependencies:
   test: ^1.24.0
   katana_test: ^2.1.1
   flutter_lints: ^4.0.0
   import_sorter: ^4.6.0
   build_runner: ^2.3.3
-  masamune_builder: ^2.17.6
+  masamune_builder: ^2.18.0
   freezed: ^2.3.2
   json_serializable: ^6.6.0

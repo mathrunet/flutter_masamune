@@ -1,3 +1,8 @@
+## 2.24.0
+
+ - **FIX**: Added the ability to specify the database with respect to FirestoreTriggered. ([ced9e82d](https://github.com/mathrunet/flutter_masamune/commit/ced9e82d0f043b52d72cc4fb714da0991900da3a))
+ - **FEAT**: Added Action for DataConnect. ([051be1a5](https://github.com/mathrunet/flutter_masamune/commit/051be1a52f2bfd09851e55fca0cbac8e1ccae7b8))
+
 ## 2.23.7
 
  - **FIX**: ModelAdapter modifications. ([fab8e955](https://github.com/mathrunet/flutter_masamune/commit/fab8e955286893d600acbf1f183e51201d2f90cc))

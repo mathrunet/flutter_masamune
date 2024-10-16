@@ -1,3 +1,7 @@
+## 2.8.0
+
+ - **FEAT**: Support for FirebaseDataConnect. ([fca7960c](https://github.com/mathrunet/flutter_masamune/commit/fca7960c1b729e5468a773534d11444b890e8892))
+
 ## 2.7.1
 
  - **FIX**: Added the ability to add comments. ([3450dbb4](https://github.com/mathrunet/flutter_masamune/commit/3450dbb407b8142741671024ebf9dbe8f7b38f9e))
