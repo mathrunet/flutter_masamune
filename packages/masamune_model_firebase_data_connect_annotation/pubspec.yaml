@@ -1,6 +1,6 @@
 name: masamune_model_firebase_data_connect_annotation
 description: Define annotations to use the masamune firebase data connect builder. Build with masamune_model_firebase_data_connect_builder using this annotation.
-version: 2.2.0
+version: 2.2.1
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_firebase_data_connect_annotation
 

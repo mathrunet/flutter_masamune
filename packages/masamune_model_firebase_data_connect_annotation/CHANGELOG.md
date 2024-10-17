@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Version up. ([79f86c57](https://github.com/mathrunet/flutter_masamune/commit/79f86c5796226442f22223c7ff36d072f8eb4ac0))
+
 ## 2.2.0
 
  - **FIX**: Added automatic generation of Adapter. ([b5a58f53](https://github.com/mathrunet/flutter_masamune/commit/b5a58f53e5c5f8a01a2fb18e09a6a258581e2968))

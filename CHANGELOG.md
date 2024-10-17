@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-10-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_model_firebase_data_connect` - `v2.1.1`](#masamune_model_firebase_data_connect---v211)
+ - [`masamune_model_firebase_data_connect_annotation` - `v2.2.1`](#masamune_model_firebase_data_connect_annotation---v221)
+ - [`masamune_model_firebase_data_connect_builder` - `v2.1.1`](#masamune_model_firebase_data_connect_builder---v211)
+
+---
+
+#### `masamune_model_firebase_data_connect` - `v2.1.1`
+
+ - **FIX**: Version up. ([79f86c57](https://github.com/mathrunet/flutter_masamune/commit/79f86c5796226442f22223c7ff36d072f8eb4ac0))
+
+#### `masamune_model_firebase_data_connect_annotation` - `v2.2.1`
+
+ - **FIX**: Version up. ([79f86c57](https://github.com/mathrunet/flutter_masamune/commit/79f86c5796226442f22223c7ff36d072f8eb4ac0))
+
+#### `masamune_model_firebase_data_connect_builder` - `v2.1.1`
+
+ - **FIX**: Version up. ([79f86c57](https://github.com/mathrunet/flutter_masamune/commit/79f86c5796226442f22223c7ff36d072f8eb4ac0))
+
+
 ## 2024-10-16
 
 ### Changes
