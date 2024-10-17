@@ -1,3 +1,7 @@
+## 2.2.10
+
+ - **FIX**: Version update. ([840831ba](https://github.com/mathrunet/flutter_masamune/commit/840831baeaa851ebaa205a23220d56707f93dd76))
+
 ## 2.2.9
 
  - **FIX**: Update Pakcages. ([71a244da](https://github.com/mathrunet/flutter_masamune/commit/71a244da130fb76cbed6ca88cf0128f99d258574))

@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - Update a dependency to the latest release.
+
 ## 2.1.1
 
  - **FIX**: Version up. ([79f86c57](https://github.com/mathrunet/flutter_masamune/commit/79f86c5796226442f22223c7ff36d072f8eb4ac0))

@@ -3,6 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-10-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_firebase` - `v2.2.10`](#katana_firebase---v2210)
+ - [`katana_functions_firebase` - `v2.7.5`](#katana_functions_firebase---v275)
+ - [`masamune_deeplink_firebase` - `v2.2.112`](#masamune_deeplink_firebase---v22112)
+ - [`masamune_model_firebase_data_connect` - `v2.1.2`](#masamune_model_firebase_data_connect---v212)
+ - [`katana_storage_firebase` - `v2.2.2`](#katana_storage_firebase---v222)
+ - [`katana_model_firestore` - `v2.16.47`](#katana_model_firestore---v21647)
+ - [`masamune_logger_firebase` - `v2.2.109`](#masamune_logger_firebase---v22109)
+ - [`katana_auth_firebase` - `v2.7.4`](#katana_auth_firebase---v274)
+ - [`masamune_notification_firebase` - `v2.7.34`](#masamune_notification_firebase---v2734)
+ - [`masamune_model_algolia` - `v2.4.112`](#masamune_model_algolia---v24112)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_functions_firebase` - `v2.7.5`
+ - `masamune_deeplink_firebase` - `v2.2.112`
+ - `masamune_model_firebase_data_connect` - `v2.1.2`
+ - `katana_storage_firebase` - `v2.2.2`
+ - `katana_model_firestore` - `v2.16.47`
+ - `masamune_logger_firebase` - `v2.2.109`
+ - `katana_auth_firebase` - `v2.7.4`
+ - `masamune_notification_firebase` - `v2.7.34`
+ - `masamune_model_algolia` - `v2.4.112`
+
+---
+
+#### `katana_firebase` - `v2.2.10`
+
+ - **FIX**: Version update. ([840831ba](https://github.com/mathrunet/flutter_masamune/commit/840831baeaa851ebaa205a23220d56707f93dd76))
+
+
 ## 2024-10-17
 
 ### Changes

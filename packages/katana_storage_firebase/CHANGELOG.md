@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - Update a dependency to the latest release.
+
 ## 2.2.1
 
  - **FIX**: URL error correction. ([28227562](https://github.com/mathrunet/flutter_masamune/commit/28227562e03297cc6e5efa254cdf7bc3818a2568))
