@@ -1,3 +1,7 @@
+## 2.24.1
+
+ - **FIX**: Fixed a bug in the Working Directory. ([38601f58](https://github.com/mathrunet/flutter_masamune/commit/38601f58a396f5ac65b7e120b617a8f39e7a7427))
+
 ## 2.24.0
 
  - **FIX**: Added the ability to specify the database with respect to FirestoreTriggered. ([ced9e82d](https://github.com/mathrunet/flutter_masamune/commit/ced9e82d0f043b52d72cc4fb714da0991900da3a))

@@ -1,6 +1,6 @@
 name: masamune_model_firebase_data_connect_builder
 description: Builder package to automatically generate GraphQL code for Firebase Data Connect.
-version: 2.1.1
+version: 2.1.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_firebase_data_connect_builder
 

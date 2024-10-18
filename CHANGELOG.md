@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.24.1`](#katana_cli---v2241)
+ - [`masamune_model_firebase_data_connect_builder` - `v2.1.2`](#masamune_model_firebase_data_connect_builder---v212)
+
+---
+
+#### `katana_cli` - `v2.24.1`
+
+ - **FIX**: Fixed a bug in the Working Directory. ([38601f58](https://github.com/mathrunet/flutter_masamune/commit/38601f58a396f5ac65b7e120b617a8f39e7a7427))
+
+#### `masamune_model_firebase_data_connect_builder` - `v2.1.2`
+
+ - **FIX**: Fixed output even if schema is not defined. ([fef2d242](https://github.com/mathrunet/flutter_masamune/commit/fef2d242def6520b43fbaf0e17e717ab07742166))
+
+
+## 2024-10-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_firebase` - `v2.2.10`](#katana_firebase---v2210)
  - [`katana_functions_firebase` - `v2.7.5`](#katana_functions_firebase---v275)
  - [`masamune_deeplink_firebase` - `v2.2.112`](#masamune_deeplink_firebase---v22112)

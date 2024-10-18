@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **FIX**: Fixed output even if schema is not defined. ([fef2d242](https://github.com/mathrunet/flutter_masamune/commit/fef2d242def6520b43fbaf0e17e717ab07742166))
+
 ## 2.1.1
 
  - **FIX**: Version up. ([79f86c57](https://github.com/mathrunet/flutter_masamune/commit/79f86c5796226442f22223c7ff36d072f8eb4ac0))
