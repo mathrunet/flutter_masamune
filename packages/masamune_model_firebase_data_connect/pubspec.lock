@@ -433,7 +433,7 @@ packages:
       path: "../katana_firebase"
       relative: true
     source: path
-    version: "2.2.9"
+    version: "2.2.10"
   katana_form:
     dependency: "direct overridden"
     description:
@@ -649,7 +649,7 @@ packages:
       path: "../masamune_model_firebase_data_connect_annotation"
       relative: true
     source: path
-    version: "2.2.0"
+    version: "2.2.1"
   matcher:
     dependency: transitive
     description:

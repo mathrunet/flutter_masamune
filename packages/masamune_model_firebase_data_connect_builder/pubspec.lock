@@ -397,7 +397,7 @@ packages:
       path: "../masamune_model_firebase_data_connect_annotation"
       relative: true
     source: path
-    version: "2.2.0"
+    version: "2.2.1"
   matcher:
     dependency: transitive
     description:

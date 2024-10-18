@@ -76,6 +76,7 @@ class AdapterGenerator
       );
       final emitter = DartEmitter();
       final code = generated.accept(emitter).toString();
+      await _buildDartGenerator(schemas, buildStep);
       return DartFormatter().format(
         code.isEmpty ? "// no code." : code,
       );
@@ -84,5 +85,46 @@ class AdapterGenerator
       print("${e.toString()}: ${stack.toString()}");
     }
     return "";
+  }
+
+  Future<void> _buildDartGenerator(
+    List<SchemaValue> schemas,
+    BuildStep buildStep,
+  ) async {
+    const command = "firebase";
+    if (!await _isCommandAvailable(command)) {
+      throw Exception(
+        "The `firebase` command is not available. Please install with `npm install -g firebase-tools`.",
+      );
+    }
+    final firebaseDir = Directory("${Directory.current.path}/firebase");
+    if (!firebaseDir.existsSync()) {
+      throw Exception(
+        "There is no `firebase` directory. Create a `firebase` directory and run `firebase init` or edit `katana.yaml` and run `katana apply`.",
+      );
+    }
+    final generateProcess = await Process.start(
+      command,
+      [
+        "dataconnect:sdk:generate",
+      ],
+      runInShell: true,
+      workingDirectory: "${Directory.current.path}/firebase",
+      mode: ProcessStartMode.normal,
+    );
+    generateProcess.stdout.transform(utf8.decoder).forEach((line) {
+      // ignore: avoid_print
+      print(line);
+    });
+    await generateProcess.exitCode;
+  }
+
+  Future<bool> _isCommandAvailable(String command) async {
+    try {
+      final result = await Process.run("which", [command]);
+      return result.exitCode == 0;
+    } catch (e) {
+      return false;
+    }
   }
 }

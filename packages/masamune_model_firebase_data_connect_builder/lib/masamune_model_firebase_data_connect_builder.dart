@@ -10,6 +10,7 @@ library masamune_model_firebase_data_connect_builder;
 
 // Dart imports:
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 // Package imports:
