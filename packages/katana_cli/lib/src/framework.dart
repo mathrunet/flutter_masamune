@@ -483,7 +483,8 @@ Future<String> command(
     commands.first,
     commands.sublist(1, commands.length),
     runInShell: runInShell,
-    workingDirectory: workingDirectory ?? Directory.current.path,
+    workingDirectory:
+        "${Directory.current.path}${workingDirectory != null ? "/$workingDirectory" : ""}",
   ).print(catchError);
 }
 

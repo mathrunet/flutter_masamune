@@ -46,6 +46,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
   @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
+    final flutter = bin.get("flutter", "flutter");
     final npm = bin.get("npm", "npm");
     final firebaseCommand = bin.get("firebase", "firebase");
     final gsutil = bin.get("gsutil", "gsutil");
@@ -205,7 +206,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             projectId,
           ],
           runInShell: true,
-          workingDirectory: "firebase",
+          workingDirectory: "${Directory.current.path}/firebase",
           mode: ProcessStartMode.normal,
         );
         firestoreProcess.stdout.transform(utf8.decoder).forEach((line) {
@@ -264,22 +265,46 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             projectId,
           ],
           runInShell: true,
-          workingDirectory: "firebase",
+          workingDirectory: "${Directory.current.path}/firebase",
           mode: ProcessStartMode.normal,
         );
         dataconnectProcess.stdout.transform(utf8.decoder).forEach((line) {
           // ignore: avoid_print
           print(line);
+          _runCommandStack(
+            line,
+            "? Your project already has existing services. Which would you like to set up",
+            commandStack,
+            () => dataconnectProcess.stdin.write("\n"),
+          );
         });
         await dataconnectProcess.exitCode;
-        final adapter =
-            File("lib/adapters/firebase_data_connect_model_adapter.dart");
-        if (!adapter.existsSync()) {
-          label("Create Adapter");
-          await const FirebaseDataConnectModelAdapterCliCode().generateDartCode(
-              "lib/adapters/firebase_data_connect_model_adapter",
-              "firebase_data_connect_model_adapter");
-        }
+      }
+      final adapter =
+          File("lib/adapters/firebase_data_connect_model_adapter.dart");
+      if (!adapter.existsSync()) {
+        label("Create Adapter");
+        await const FirebaseDataConnectModelAdapterCliCode().generateDartCode(
+            "lib/adapters/firebase_data_connect_model_adapter",
+            "firebase_data_connect_model_adapter");
+        await command(
+          "Run the project's build_runner to generate code.",
+          [
+            flutter,
+            "packages",
+            "pub",
+            "run",
+            "build_runner",
+            "build",
+            "--delete-conflicting-outputs",
+          ],
+        );
+      }
+      final connector = File("lib/dataconnect/connector.dart");
+      if (!connector.existsSync()) {
+        label("Create Dummy Connector");
+        await const FirebaseDataConnectDummyConnectorCliCode()
+            .generateDartCode("lib/dataconnect/connector", "connector");
       }
     }
     if (enabledStorage) {
@@ -293,7 +318,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             projectId,
           ],
           runInShell: true,
-          workingDirectory: "firebase",
+          workingDirectory: "${Directory.current.path}/firebase",
           mode: ProcessStartMode.normal,
         );
         storageProcess.stdout.transform(utf8.decoder).forEach((line) {
@@ -333,7 +358,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
               "cors.json",
               "gs://$projectId.appspot.com",
             ],
-            workingDirectory: "firebase",
+            workingDirectory: "${Directory.current.path}/firebase",
           );
         }
       }
@@ -349,7 +374,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             projectId,
           ],
           runInShell: true,
-          workingDirectory: "firebase",
+          workingDirectory: "${Directory.current.path}/firebase",
           mode: ProcessStartMode.normal,
         );
         hostingProcess.stdout.transform(utf8.decoder).forEach((line) {
@@ -439,7 +464,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             projectId,
           ],
           runInShell: true,
-          workingDirectory: "firebase",
+          workingDirectory: "${Directory.current.path}/firebase",
           mode: ProcessStartMode.normal,
         );
         functionsProcess.stdout.transform(utf8.decoder).forEach((line) {
@@ -479,7 +504,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "install",
           "@mathrunet/masamune",
         ],
-        workingDirectory: "firebase/functions",
+        workingDirectory: "${Directory.current.path}/firebase/functions",
       );
       if (!firebaseFunctionsIndexExists) {
         label("Data replacement for Firebase Functions.");
@@ -494,7 +519,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "--fix",
           ".",
         ],
-        workingDirectory: "firebase/functions",
+        workingDirectory: "${Directory.current.path}/firebase/functions",
       );
     }
     label("Edit config.properties");
@@ -560,30 +585,32 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       gitignores.removeWhere((e) => e.startsWith(".env"));
     }
     await gitignore.writeAsString(gitignores.join("\n"));
-    label("Import firestore.indexes.json");
-    final firestoreIndexes = File("firebase/firestore.indexes.json");
-    final indexData = await command(
-      "Import indexes.",
-      [
-        firebaseCommand,
-        "firestore:indexes",
-      ],
-      workingDirectory: "firebase",
-    );
-    await firestoreIndexes.writeAsString(indexData);
-    if (!firebaseJsonFileExists) {
-      await command(
-        "Run firebase deploy",
+    if (enabledFirestore) {
+      label("Import firestore.indexes.json");
+      final firestoreIndexes = File("firebase/firestore.indexes.json");
+      final indexData = await command(
+        "Import indexes.",
         [
           firebaseCommand,
-          "deploy",
-          if (enableActions) ...[
-            "--except",
-            "hosting",
-          ]
+          "firestore:indexes",
         ],
-        workingDirectory: "firebase",
+        workingDirectory: "${Directory.current.path}/firebase",
       );
+      await firestoreIndexes.writeAsString(indexData);
+      if (!firebaseJsonFileExists) {
+        await command(
+          "Run firebase deploy",
+          [
+            firebaseCommand,
+            "deploy",
+            if (enableActions) ...[
+              "--except",
+              "hosting",
+            ]
+          ],
+          workingDirectory: "${Directory.current.path}/firebase",
+        );
+      }
     }
   }
 
@@ -951,5 +978,45 @@ class FirebaseDataConnectModelAdapter
   const FirebaseDataConnectModelAdapter();
 }
 """;
+  }
+}
+
+/// Create a dummy connector file for FirebaseDataConnect.
+///
+/// FirebaseDataConnect用のダミーのコネクターファイルを作成します。
+class FirebaseDataConnectDummyConnectorCliCode extends CliCode {
+  /// Create a dummy connector file for FirebaseDataConnect.
+  ///
+  /// FirebaseDataConnect用のダミーのコネクターファイルを作成します。
+  const FirebaseDataConnectDummyConnectorCliCode();
+
+  @override
+  String get name => "connector";
+
+  @override
+  String get prefix => "connector";
+
+  @override
+  String get directory => "lib/dataconnect";
+
+  @override
+  String get description =>
+      "Create a dummy connector file for FirebaseDataConnect in `$directory/(filepath).dart`. FirebaseDataConnect用のダミーのコネクターファイルを`$directory/(filepath).dart`に作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+library connector;
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return "";
   }
 }
