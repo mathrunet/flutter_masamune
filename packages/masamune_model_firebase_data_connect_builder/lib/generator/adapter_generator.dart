@@ -64,9 +64,6 @@ class AdapterGenerator
           );
         }
       }
-      if (schemas.isEmpty) {
-        return "";
-      }
       schemas.sort((a, b) => a.classValue.name.compareTo(b.classValue.name));
 
       final generated = Library(
