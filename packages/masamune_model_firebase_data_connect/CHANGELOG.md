@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - **FIX**: Modified so that Dart code can be generated together. ([6ba655a6](https://github.com/mathrunet/flutter_masamune/commit/6ba655a6a17e61c574ad161b74c92e4f2a3f6b52))
+
 ## 2.1.2
 
  - Update a dependency to the latest release.

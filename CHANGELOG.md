@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_model_firebase_data_connect` - `v2.1.3`](#masamune_model_firebase_data_connect---v213)
+ - [`masamune_model_firebase_data_connect_builder` - `v2.1.3`](#masamune_model_firebase_data_connect_builder---v213)
+
+---
+
+#### `masamune_model_firebase_data_connect` - `v2.1.3`
+
+ - **FIX**: Modified so that Dart code can be generated together. ([6ba655a6](https://github.com/mathrunet/flutter_masamune/commit/6ba655a6a17e61c574ad161b74c92e4f2a3f6b52))
+
+#### `masamune_model_firebase_data_connect_builder` - `v2.1.3`
+
+ - **FIX**: Modified so that Dart code can be generated together. ([6ba655a6](https://github.com/mathrunet/flutter_masamune/commit/6ba655a6a17e61c574ad161b74c92e4f2a3f6b52))
+
+
+## 2024-10-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.24.1`](#katana_cli---v2241)
  - [`masamune_model_firebase_data_connect_builder` - `v2.1.2`](#masamune_model_firebase_data_connect_builder---v212)
 

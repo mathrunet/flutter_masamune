@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - **FIX**: Modified so that Dart code can be generated together. ([6ba655a6](https://github.com/mathrunet/flutter_masamune/commit/6ba655a6a17e61c574ad161b74c92e4f2a3f6b52))
+
 ## 2.1.2
 
  - **FIX**: Fixed output even if schema is not defined. ([fef2d242](https://github.com/mathrunet/flutter_masamune/commit/fef2d242def6520b43fbaf0e17e717ab07742166))
