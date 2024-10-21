@@ -23,6 +23,7 @@ class FirebaseDeployCliAction extends CliCommand with CliActionMixin {
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
     final firestore = firebase.getAsMap("firestore").get("enable", false);
+    final dataConnect = firebase.getAsMap("dataconnect").get("enable", false);
     final authentication =
         firebase.getAsMap("authentication").get("enable", false);
     final logger = firebase.getAsMap("logger").get("enable", false);
@@ -32,6 +33,7 @@ class FirebaseDeployCliAction extends CliCommand with CliActionMixin {
     final messaging = firebase.getAsMap("messaging").get("enable", false);
     return projectId.isNotEmpty &&
         (firestore ||
+            dataConnect ||
             storage ||
             authentication ||
             logger ||
@@ -46,6 +48,10 @@ class FirebaseDeployCliAction extends CliCommand with CliActionMixin {
     final firebaseCommand = bin.get("firebase", "firebase");
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
+    final enableFirestore = firebase.getAsMap("firestore").get("enable", false);
+    final enableFunctions = firebase.getAsMap("functions").get("enable", false);
+    final enableDataConnect =
+        firebase.getAsMap("dataconnect").get("enable", false);
     if (projectId.isEmpty) {
       error(
         "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
@@ -60,18 +66,26 @@ class FirebaseDeployCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    label("Import firestore.indexes.json");
-    final firestoreIndexes = File("${firebaseDir.path}/firestore.indexes.json");
-    final indexData = await command(
-      "Import indexes.",
-      [
-        firebaseCommand,
-        "firestore:indexes",
-      ],
-      workingDirectory: firebaseDir.path,
-    );
-    await firestoreIndexes.writeAsString(indexData);
-    context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
+    if (enableFirestore) {
+      label("Import firestore.indexes.json");
+      final firestoreIndexes =
+          File("${firebaseDir.path}/firestore.indexes.json");
+      final indexData = await command(
+        "Import indexes.",
+        [
+          firebaseCommand,
+          "firestore:indexes",
+        ],
+        workingDirectory: firebaseDir.path,
+      );
+      await firestoreIndexes.writeAsString(indexData);
+    }
+    if (enableFunctions) {
+      context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
+    }
+    if (enableDataConnect) {
+      context.requestFirebaseDeploy(FirebaseDeployPostActionType.dataconnect);
+    }
     // await command(
     //   "Run firebase deploy",
     //   [

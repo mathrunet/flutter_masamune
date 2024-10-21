@@ -473,19 +473,64 @@ Future<String> command(
   String? workingDirectory,
   bool runInShell = true,
   bool catchError = false,
-}) {
+  void Function(Process process, String line)? action,
+}) async {
+  String? prevDirectory;
   // ignore: avoid_print, prefer_interpolation_to_compose_strings
   print("\r\n#### " + title);
   if (commands.isEmpty) {
     throw Exception("At least one command is required.");
   }
-  return Process.start(
-    commands.first,
-    commands.sublist(1, commands.length),
-    runInShell: runInShell,
-    workingDirectory:
-        "${Directory.current.path}${workingDirectory != null ? "/$workingDirectory" : ""}",
-  ).print(catchError);
+  if (action != null) {
+    var res = "";
+    var err = false;
+    if (workingDirectory != null) {
+      prevDirectory = Directory.current.path;
+      Directory.current = "${Directory.current.path}/$workingDirectory";
+    }
+    final process = await Process.start(
+      commands.first,
+      commands.sublist(1, commands.length),
+      runInShell: runInShell,
+      mode: ProcessStartMode.normal,
+    );
+    process.stderr.transform(utf8.decoder).forEach((line) {
+      err = true;
+      res += line;
+      // ignore: avoid_print
+      core.print(line);
+    });
+    process.stdout.transform(utf8.decoder).forEach((line) {
+      res += line;
+      // ignore: avoid_print
+      print(line);
+      action.call(process, line);
+    });
+    await process.exitCode;
+    if (workingDirectory != null) {
+      Directory.current = prevDirectory!;
+    }
+    if (catchError && err) {
+      throw Exception(
+        "An error has occurred. Please check the log above for details.",
+      );
+    }
+    return res;
+  } else {
+    if (workingDirectory != null) {
+      prevDirectory = Directory.current.path;
+      Directory.current = "${Directory.current.path}/$workingDirectory";
+    }
+    final res = await Process.start(
+      commands.first,
+      commands.sublist(1, commands.length),
+      runInShell: runInShell,
+    ).print(catchError);
+    if (workingDirectory != null) {
+      Directory.current = prevDirectory!;
+    }
+    return res;
+  }
 }
 
 /// Add flutter imports by giving [packages].

@@ -1,5 +1,4 @@
 // Dart imports:
-import 'dart:convert';
 import 'dart:io';
 
 // Project imports:
@@ -197,88 +196,78 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final commandStack = <String>[];
     if (enabledFirestore) {
       if (!firebaseJson.containsKey("firestore")) {
-        final firestoreProcess = await Process.start(
-          firebaseCommand,
-          [
-            "init",
-            "firestore",
-            "--project",
-            projectId,
-          ],
-          runInShell: true,
-          workingDirectory: "${Directory.current.path}/firebase",
-          mode: ProcessStartMode.normal,
-        );
-        firestoreProcess.stdout.transform(utf8.decoder).forEach((line) {
-          // ignore: avoid_print
-          print(line);
+        await command(
+            "Initialize Firestore",
+            [
+              firebaseCommand,
+              "init",
+              "firestore",
+              "--project",
+              projectId,
+            ],
+            runInShell: true,
+            workingDirectory: "firebase", action: (process, line) {
           _runCommandStack(
             line,
             "? Are you ready to proceed?",
             commandStack,
-            () => firestoreProcess.stdin.write("y\n"),
+            () => process.stdin.write("y\n"),
           );
           _runCommandStack(
             line,
             "? What file should be used for Firestore Rules?",
             commandStack,
-            () => firestoreProcess.stdin.write("\n"),
+            () => process.stdin.write("\n"),
           );
           _runCommandStack(
             line,
             "? File firestore.indexes.json already exists.",
             commandStack,
-            () => firestoreProcess.stdin.write("n\n"),
+            () => process.stdin.write("n\n"),
           );
           _runCommandStack(
             line,
             "? File firestore.rules already exists.",
             commandStack,
-            () => firestoreProcess.stdin.write("n\n"),
+            () => process.stdin.write("n\n"),
           );
           _runCommandStack(
             line,
             "? Would you like to delete these indexes?",
             commandStack,
-            () => firestoreProcess.stdin.write("n\n"),
+            () => process.stdin.write("n\n"),
           );
           _runCommandStack(
             line,
             "? What file should be used for Firestore indexes?",
             commandStack,
-            () => firestoreProcess.stdin.write("\n"),
+            () => process.stdin.write("\n"),
           );
         });
-        await firestoreProcess.exitCode;
         label("Rewriting Rules");
         await const FirestoreRulesCliCode().generateFile("firestore.rules");
       }
     }
     if (enabledDataconnect) {
       if (!firebaseJson.containsKey("dataconnect")) {
-        final dataconnectProcess = await Process.start(
-          firebaseCommand,
-          [
-            "init",
-            "dataconnect",
-            "--project",
-            projectId,
-          ],
-          runInShell: true,
-          workingDirectory: "${Directory.current.path}/firebase",
-          mode: ProcessStartMode.normal,
-        );
-        dataconnectProcess.stdout.transform(utf8.decoder).forEach((line) {
-          // ignore: avoid_print
-          print(line);
+        await command(
+            "Initialize Data Connect",
+            [
+              firebaseCommand,
+              "init",
+              "dataconnect",
+              "--project",
+              projectId,
+            ],
+            runInShell: true,
+            workingDirectory: "firebase", action: (process, line) {
           _runCommandStack(
             line,
             "? Your project already has existing services. Which would you like to set up",
             commandStack,
-            () => dataconnectProcess.stdin.write("\n"),
+            () => process.stdin.write("\n"),
           );
         });
-        await dataconnectProcess.exitCode;
       }
       final adapter =
           File("lib/adapters/firebase_data_connect_model_adapter.dart");
@@ -309,41 +298,36 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     }
     if (enabledStorage) {
       if (!firebaseJson.containsKey("storage")) {
-        final storageProcess = await Process.start(
-          firebaseCommand,
-          [
-            "init",
-            "storage",
-            "--project",
-            projectId,
-          ],
-          runInShell: true,
-          workingDirectory: "${Directory.current.path}/firebase",
-          mode: ProcessStartMode.normal,
-        );
-        storageProcess.stdout.transform(utf8.decoder).forEach((line) {
-          // ignore: avoid_print
-          print(line);
+        await command(
+            "Initialize Storage",
+            [
+              firebaseCommand,
+              "init",
+              "storage",
+              "--project",
+              projectId,
+            ],
+            runInShell: true,
+            workingDirectory: "firebase", action: (process, line) {
           _runCommandStack(
             line,
             "? Are you ready to proceed?",
             commandStack,
-            () => storageProcess.stdin.write("y\n"),
+            () => process.stdin.write("y\n"),
           );
           _runCommandStack(
             line,
             "? File storage.rules already exists.",
             commandStack,
-            () => storageProcess.stdin.write("y\n"),
+            () => process.stdin.write("y\n"),
           );
           _runCommandStack(
             line,
             "? What file should be used for Storage Rules?",
             commandStack,
-            () => storageProcess.stdin.write("\n"),
+            () => process.stdin.write("\n"),
           );
         });
-        await storageProcess.exitCode;
         label("Rewriting Rules");
         await const FirebaseStorageRulesCliCode().generateFile("storage.rules");
         if (enabledCors) {
@@ -358,39 +342,35 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
               "cors.json",
               "gs://$projectId.appspot.com",
             ],
-            workingDirectory: "${Directory.current.path}/firebase",
+            workingDirectory: "firebase",
           );
         }
       }
     }
     if (enabledHosting) {
       if (!firebaseJson.containsKey("hosting")) {
-        final hostingProcess = await Process.start(
-          firebaseCommand,
-          [
-            "init",
-            "hosting",
-            "--project",
-            projectId,
-          ],
-          runInShell: true,
-          workingDirectory: "${Directory.current.path}/firebase",
-          mode: ProcessStartMode.normal,
-        );
-        hostingProcess.stdout.transform(utf8.decoder).forEach((line) {
-          // ignore: avoid_print
-          print(line);
+        await command(
+            "Initialize Hosting",
+            [
+              firebaseCommand,
+              "init",
+              "hosting",
+              "--project",
+              projectId,
+            ],
+            runInShell: true,
+            workingDirectory: "firebase", action: (process, line) {
           _runCommandStack(
             line,
             "? Are you ready to proceed?",
             commandStack,
-            () => hostingProcess.stdin.write("y\n"),
+            () => process.stdin.write("y\n"),
           );
           _runCommandStack(
             line,
             "? What do you want to use as your public directory?",
             commandStack,
-            () => hostingProcess.stdin.write("hosting\n"),
+            () => process.stdin.write("hosting\n"),
           );
           _runCommandStack(
             line,
@@ -398,9 +378,9 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             commandStack,
             () {
               if (useFlutter) {
-                hostingProcess.stdin.write("y\n");
+                process.stdin.write("y\n");
               } else {
-                hostingProcess.stdin.write("n\n");
+                process.stdin.write("n\n");
               }
             },
           );
@@ -408,7 +388,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             line,
             "? Set up automatic builds and deploys with GitHub?",
             commandStack,
-            () => hostingProcess.stdin.write(
+            () => process.stdin.write(
               enableActions ? "y\n" : "n\n",
             ),
           );
@@ -416,86 +396,79 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             line,
             "? File hosting/index.html already exists. Overwrite?",
             commandStack,
-            () => hostingProcess.stdin.write("n\n"),
+            () => process.stdin.write("n\n"),
           );
           _runCommandStack(
             line,
             "? File hosting/404.html already exists. Overwrite?",
             commandStack,
-            () => hostingProcess.stdin.write("n\n"),
+            () => process.stdin.write("n\n"),
           );
           _runCommandStack(
             line,
             "? For which GitHub repository would you like to set up a GitHub workflow?",
             commandStack,
-            () => hostingProcess.stdin
-                .write("$repositoryFirebaseWebGithubAction\n"),
+            () => process.stdin.write("$repositoryFirebaseWebGithubAction\n"),
           );
           _runCommandStack(
             line,
             "? Set up the workflow to run a build script before every deploy?",
             commandStack,
-            () => hostingProcess.stdin.write("y\n"),
+            () => process.stdin.write("y\n"),
           );
           _runCommandStack(
             line,
             "? What script should be run before every deploy?",
             commandStack,
-            () => hostingProcess.stdin.write("\n"),
+            () => process.stdin.write("\n"),
           );
           _runCommandStack(
             line,
             "? Set up automatic deployment to your site's live channel when a PR is merged?",
             commandStack,
-            () => hostingProcess.stdin.write("n\n"),
+            () => process.stdin.write("n\n"),
           );
         });
-        await hostingProcess.exitCode;
       }
     }
     if (enabledFunctions) {
       if (!firebaseJson.containsKey("functions")) {
-        final functionsProcess = await Process.start(
-          firebaseCommand,
-          [
-            "init",
-            "functions",
-            "--project",
-            projectId,
-          ],
-          runInShell: true,
-          workingDirectory: "${Directory.current.path}/firebase",
-          mode: ProcessStartMode.normal,
-        );
-        functionsProcess.stdout.transform(utf8.decoder).forEach((line) {
-          // ignore: avoid_print
-          print(line);
+        await command(
+            "Initialize Functions",
+            [
+              firebaseCommand,
+              "init",
+              "functions",
+              "--project",
+              projectId,
+            ],
+            runInShell: true,
+            workingDirectory: "firebase", action: (process, line) {
           _runCommandStack(
             line,
             "? Are you ready to proceed?",
             commandStack,
-            () => functionsProcess.stdin.write("y\n"),
+            () => process.stdin.write("y\n"),
           );
           _runCommandStack(
             line,
             "? What language would you like to use to write Cloud Functions?",
             commandStack,
-            () => functionsProcess.stdin.write("j\n"),
+            () => process.stdin.write("j\n"),
           );
           _runCommandStack(
             line,
             "? Do you want to use ESLint to catch probable bugs and enforce style?",
             commandStack,
-            () => functionsProcess.stdin.write("y\n"),
+            () => process.stdin.write("y\n"),
           );
           _runCommandStack(
             line,
             "? Do you want to install dependencies with npm now?",
             commandStack,
-            () => functionsProcess.stdin.write("y\n"),
+            () => process.stdin.write("y\n"),
           );
         });
-        await functionsProcess.exitCode;
       }
       await command(
         "Package installation.",
@@ -504,7 +477,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "install",
           "@mathrunet/masamune",
         ],
-        workingDirectory: "${Directory.current.path}/firebase/functions",
+        workingDirectory: "firebase/functions",
       );
       if (!firebaseFunctionsIndexExists) {
         label("Data replacement for Firebase Functions.");
@@ -519,7 +492,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "--fix",
           ".",
         ],
-        workingDirectory: "${Directory.current.path}/firebase/functions",
+        workingDirectory: "firebase/functions",
       );
     }
     label("Edit config.properties");
@@ -594,10 +567,10 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           firebaseCommand,
           "firestore:indexes",
         ],
-        workingDirectory: "${Directory.current.path}/firebase",
+        workingDirectory: "firebase",
       );
       await firestoreIndexes.writeAsString(indexData);
-      if (!firebaseJsonFileExists) {
+      if (firebaseJsonFileExists) {
         await command(
           "Run firebase deploy",
           [
@@ -608,7 +581,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
               "hosting",
             ]
           ],
-          workingDirectory: "${Directory.current.path}/firebase",
+          workingDirectory: "firebase",
         );
       }
     }

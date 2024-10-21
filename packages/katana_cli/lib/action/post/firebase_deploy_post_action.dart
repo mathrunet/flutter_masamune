@@ -13,7 +13,12 @@ enum FirebaseDeployPostActionType {
   /// Firebase hosting.
   ///
   /// Firebase hosting.
-  hosting;
+  hosting,
+
+  /// Firebase Data Connect.
+  ///
+  /// Firebase Data Connect.
+  dataconnect;
 }
 
 class _FirebaseDeployPostAction extends PostAction {
