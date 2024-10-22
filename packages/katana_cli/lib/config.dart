@@ -55,15 +55,18 @@ app:
   # By increasing the language code, information corresponding to that language can be described.
   # By specifying [domain], you can change the web og tags to those appropriate for that domain.
   # Specify a support email address in the [email] field.
+  # Specify the AppStore app ID in [apple_app_id].
   # アプリケーションの情報を記載します。
   # それぞれの言語コードに対して[title]に通常タイトル、[short_title]にアプリ用の短いタイトルを記載します。[overview]にアプリの概要を記載します。
   # 言語コードを増やすことでその言語に対応した情報を記載することができます。
   # [domain]を指定することでWebのogタグをそのドメインに応じたものに変更することができます。
   # [email]にはサポート用のメールアドレスを指定します。
+  # [apple_app_id]にはAppStoreのアプリIDを指定します。
   info:
     enable: false
     email:
     domain:
+    apple_app_id: # e.g. idxxxxxx
     locale:
       en:
         title: 
@@ -409,19 +412,23 @@ ${showAllConfig ? """
   
   # Deploy Terms of Use and Privacy Policy data to Firebase Hosting.
   # Under each language code, [terms_of_use] and [privacy_policy] and [how_to_delete] should include the URL for the terms of use, privacy policy, and deletion method.
+  # The [index] should contain the URL of the page that summarizes them.
   # Adding a language code allows you to include the Terms of Use and Privacy Policy for that language, as well as the URL for removal instructions.
   # \${ApplicationName} and \${SupportEmail} will be replaced with the app name and support email address, respectively.
   # Firebase Hostingに利用規約とプライバシーポリシーのデータをデプロイします。
   # 各言語コードの下に[terms_of_use]と[privacy_policy]、[how_to_delete]には利用規約とプライバシーポリシー、削除方法のURLを記載してください。
+  # [index]にはそれらをまとめるページのURLを記載してください。
   # 言語コードを追加するとその言語の利用規約とプライバシーポリシー、削除方法のURLを記載することができます。
   # \${ApplicationName}と\${SupportEmail}がそれぞれアプリ名とサポート用のEmailアドレスに置き換わります。
   terms_and_privacy:
     enable: false
     en:
+      index:
       terms_of_use:
       privacy_policy:
       how_to_delete: 
     ja:
+      index:
       terms_of_use:
       privacy_policy:
       how_to_delete: 

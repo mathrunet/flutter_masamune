@@ -486,7 +486,9 @@ Future<String> command(
     var err = false;
     if (workingDirectory != null) {
       prevDirectory = Directory.current.path;
-      Directory.current = "${Directory.current.path}/$workingDirectory";
+      Directory.current = workingDirectory.startsWith("/")
+          ? workingDirectory
+          : "${Directory.current.path}/$workingDirectory";
     }
     final process = await Process.start(
       commands.first,
@@ -519,7 +521,9 @@ Future<String> command(
   } else {
     if (workingDirectory != null) {
       prevDirectory = Directory.current.path;
-      Directory.current = "${Directory.current.path}/$workingDirectory";
+      Directory.current = workingDirectory.startsWith("/")
+          ? workingDirectory
+          : "${Directory.current.path}/$workingDirectory";
     }
     final res = await Process.start(
       commands.first,

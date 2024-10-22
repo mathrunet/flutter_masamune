@@ -20,6 +20,16 @@ const kApplicationNameKey = r"${ApplicationName}";
 /// アプリケーションサポートメールを取得するためのユニークなキーです。
 const kSuuportEmailKey = r"${SupportEmail}";
 
+/// Unique key to obtain AppID for AppStore.
+///
+/// AppStore用のAppIDを取得するためのユニークなキーです。
+const kAppleAppIdKey = r"${AppleAppId}";
+
+/// Unique key to obtain the application ID.
+///
+/// アプリケーションIDを取得するためのユニークなキーです。
+const kApplicationIdKey = r"${ApplicationId}";
+
 /// Set up a Terms of Use and Privacy Policy for Firebase Hosting.
 ///
 /// 利用規約とプライバシーポリシーをFirebase Hostingに設定します。
@@ -91,6 +101,7 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       final termsUrl = value.get("terms_of_use", "");
       final privacyUrl = value.get("privacy_policy", "");
       final deleteUrl = value.get("how_to_delete", "");
+      final indexUrl = value.get("index", "");
       if (termsUrl.isEmpty) {
         error(
           "The item [firebase]->[terms_and_privacy]->[${locale.key}]->[terms_of_use] is missing. Please provide the URL of the Terms of Use.",
@@ -178,6 +189,44 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       await privacyFile.writeAsString(privacyContent);
       final deleteFile = File("firebase/hosting/${locale.key}/delete.html");
       await deleteFile.writeAsString(deleteContent);
+      if (indexUrl.isNotEmpty) {
+        final appleAppId = appInfo.get("apple_app_id", "");
+        if (appleAppId.isEmpty) {
+          error(
+            "The item [app]->[info]->[apple_app_id] is missing. Please provide the apple app id.",
+          );
+          return;
+        }
+        final gradle = AppGradle();
+        await gradle.load();
+        final androidApplicationId = gradle.android?.defaultConfig.applicationId
+            .trim()
+            .replaceAll('"', "")
+            .replaceAll("'", "");
+        if (androidApplicationId.isEmpty) {
+          error(
+            "Android application ID is not set, please set applicationId in andoird/app/build.gradle.",
+          );
+          return;
+        }
+        final indexResponse = await Api.get(indexUrl);
+        if (indexResponse.statusCode != 200) {
+          error(
+            "The URL of index page is invalid. Please provide the URL of the index page.",
+          );
+          return;
+        }
+        final indexContent = indexResponse.body
+            .replaceAll(kApplicationNameKey, applicationName)
+            .replaceAll(kSuuportEmailKey, "mailto:$supportEmail")
+            .replaceAll(kAppleAppIdKey, "id${appleAppId.replaceAll("id", "")}")
+            .replaceAll(
+              kApplicationIdKey,
+              androidApplicationId ?? "",
+            );
+        final indexFile = File("firebase/hosting/${locale.key}/index.html");
+        await indexFile.writeAsString(indexContent);
+      }
     }
     if (File("${webCode.directory}/build_web_${appName.toLowerCase()}.yaml")
         .existsSync()) {
