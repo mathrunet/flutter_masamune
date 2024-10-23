@@ -3,6 +3,69 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-10-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.24.2`](#katana_cli---v2242)
+ - [`masamune_builder` - `v2.18.1`](#masamune_builder---v2181)
+ - [`masamune_camera` - `v2.3.12`](#masamune_camera---v2312)
+ - [`masamune_location` - `v2.5.13`](#masamune_location---v2513)
+ - [`masamune_location_background` - `v2.5.13`](#masamune_location_background---v2513)
+ - [`masamune_location_geocoding` - `v2.5.13`](#masamune_location_geocoding---v2513)
+ - [`masamune_location_google` - `v2.6.13`](#masamune_location_google---v2613)
+ - [`masamune_model_firebase_data_connect_builder` - `v2.1.4`](#masamune_model_firebase_data_connect_builder---v214)
+ - [`masamune_model_docs_builder` - `v2.2.1`](#masamune_model_docs_builder---v221)
+ - [`masamune_model_firestore_builder` - `v2.3.8`](#masamune_model_firestore_builder---v238)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_firebase_data_connect_builder` - `v2.1.4`
+ - `masamune_model_docs_builder` - `v2.2.1`
+ - `masamune_model_firestore_builder` - `v2.3.8`
+
+---
+
+#### `katana_cli` - `v2.24.2`
+
+ - **FIX**: Added the ability to add index pages to TermsAndPolicy. ([8016e49c](https://github.com/mathrunet/flutter_masamune/commit/8016e49cd7cf4644b02316913ed7ef8d787813c5))
+ - **FIX**: It is all concentrated in the command method. ([21fde356](https://github.com/mathrunet/flutter_masamune/commit/21fde3564c7eab8a2f88333b435fba25e5bc358e))
+
+#### `masamune_builder` - `v2.18.1`
+
+ - **FIX**: Add remove to query. ([c2c79e26](https://github.com/mathrunet/flutter_masamune/commit/c2c79e26cf7413690f0a281b46ff0367fe5ce27b))
+
+#### `masamune_camera` - `v2.3.12`
+
+ - **FIX**: Added authorization permission method. ([53c3a8c9](https://github.com/mathrunet/flutter_masamune/commit/53c3a8c9c47b03333f17b33f004a80bd3a703889))
+
+#### `masamune_location` - `v2.5.13`
+
+ - **FIX**: Added authorization permission method. ([53c3a8c9](https://github.com/mathrunet/flutter_masamune/commit/53c3a8c9c47b03333f17b33f004a80bd3a703889))
+
+#### `masamune_location_background` - `v2.5.13`
+
+ - **FIX**: Added authorization permission method. ([53c3a8c9](https://github.com/mathrunet/flutter_masamune/commit/53c3a8c9c47b03333f17b33f004a80bd3a703889))
+
+#### `masamune_location_geocoding` - `v2.5.13`
+
+ - **FIX**: Added authorization permission method. ([53c3a8c9](https://github.com/mathrunet/flutter_masamune/commit/53c3a8c9c47b03333f17b33f004a80bd3a703889))
+
+#### `masamune_location_google` - `v2.6.13`
+
+ - **FIX**: Added authorization permission method. ([53c3a8c9](https://github.com/mathrunet/flutter_masamune/commit/53c3a8c9c47b03333f17b33f004a80bd3a703889))
+
+
 ## 2024-10-18
 
 ### Changes

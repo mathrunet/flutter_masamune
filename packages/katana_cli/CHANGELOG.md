@@ -1,3 +1,8 @@
+## 2.24.2
+
+ - **FIX**: Added the ability to add index pages to TermsAndPolicy. ([8016e49c](https://github.com/mathrunet/flutter_masamune/commit/8016e49cd7cf4644b02316913ed7ef8d787813c5))
+ - **FIX**: It is all concentrated in the command method. ([21fde356](https://github.com/mathrunet/flutter_masamune/commit/21fde3564c7eab8a2f88333b435fba25e5bc358e))
+
 ## 2.24.1
 
  - **FIX**: Fixed a bug in the Working Directory. ([38601f58](https://github.com/mathrunet/flutter_masamune/commit/38601f58a396f5ac65b7e120b617a8f39e7a7427))

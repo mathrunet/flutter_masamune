@@ -1,6 +1,6 @@
 name: masamune_camera
 description: Masamune plug-in package for simple use of the camera.
-version: 2.3.11
+version: 2.3.12
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_camera
 
@@ -25,6 +25,6 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   import_sorter: ^4.6.0
   build_runner: ^2.3.3
-  masamune_builder: ^2.18.0
+  masamune_builder: ^2.18.1
 
 

@@ -1,3 +1,7 @@
+## 2.18.1
+
+ - **FIX**: Add remove to query. ([c2c79e26](https://github.com/mathrunet/flutter_masamune/commit/c2c79e26cf7413690f0a281b46ff0367fe5ce27b))
+
 ## 2.18.0
 
  - **FIX**: Add path to ModelAnnotationValue. ([12b47d88](https://github.com/mathrunet/flutter_masamune/commit/12b47d884ac811237562a7c005ad8adf92f1eeab))

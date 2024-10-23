@@ -1,3 +1,7 @@
+## 2.3.12
+
+ - **FIX**: Added authorization permission method. ([53c3a8c9](https://github.com/mathrunet/flutter_masamune/commit/53c3a8c9c47b03333f17b33f004a80bd3a703889))
+
 ## 2.3.11
 
  - Update a dependency to the latest release.
