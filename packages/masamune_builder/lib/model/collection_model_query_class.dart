@@ -528,6 +528,21 @@ List<Spec> collectionModelQueryClass(
           ),
           Method(
             (m) => m
+              ..name = "remove"
+              ..lambda = true
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "type"
+                    ..type = const Reference("ModelQueryFilterType"),
+                )
+              ])
+              ..returns = Reference("_\$_${model.name}CollectionQuery")
+              ..body = Code(
+                  "_\$_${model.name}CollectionQuery(modelQuery.remove(type))"),
+          ),
+          Method(
+            (m) => m
               ..name = "notifyDocumentChanges"
               ..lambda = true
               ..returns = Reference("_\$_${model.name}CollectionQuery")
