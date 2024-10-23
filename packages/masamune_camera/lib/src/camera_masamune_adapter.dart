@@ -55,6 +55,28 @@ abstract class CameraMasamuneAdapter extends MasamuneAdapter {
     ResolutionPreset? resolutionPreset,
   });
 
+  /// Request camera authorization.
+  ///
+  /// Returns `false` if permission is not granted.
+  ///
+  /// カメラの権限をリクエストします。
+  ///
+  /// 権限が許可されていない場合は`false`を返します。
+  Future<PermissionStatus> requestCameraPermission({
+    Duration timeout = const Duration(seconds: 60),
+  });
+
+  /// Requests microphone privileges.
+  ///
+  /// Returns `false` if permission is not granted.
+  ///
+  /// マイクの権限をリクエストします。
+  ///
+  /// 権限が許可されていない場合は`false`を返します。
+  Future<PermissionStatus> requestMicrophonePermission({
+    Duration timeout = const Duration(seconds: 60),
+  });
+
   /// Take a camera image.
   ///
   /// The value is returned as [CameraValue].

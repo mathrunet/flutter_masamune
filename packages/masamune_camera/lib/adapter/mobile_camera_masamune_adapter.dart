@@ -40,6 +40,28 @@ class MobileCameraMasamuneAdapter extends CameraMasamuneAdapter {
   }
 
   @override
+  Future<PermissionStatus> requestCameraPermission({
+    Duration timeout = const Duration(seconds: 60),
+  }) async {
+    final status = await Permission.camera.status.timeout(timeout);
+    if (status != PermissionStatus.granted) {
+      return await Permission.camera.request().timeout(timeout);
+    }
+    return status;
+  }
+
+  @override
+  Future<PermissionStatus> requestMicrophonePermission({
+    Duration timeout = const Duration(seconds: 60),
+  }) async {
+    final status = await Permission.microphone.status.timeout(timeout);
+    if (status != PermissionStatus.granted) {
+      return await Permission.microphone.request().timeout(timeout);
+    }
+    return status;
+  }
+
+  @override
   Future<CameraValue?> takePicture({
     required camera.CameraController? controller,
     int? width,

@@ -89,6 +89,39 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
     }
   }
 
+  /// Grant camera and microphone permissions.
+  ///
+  /// Returns `false` if rejected.
+  ///
+  /// カメラおよびマイクの権限の許可を行います。
+  ///
+  /// 拒否されている場合は`false`を返します。
+  Future<bool> requestPermission({
+    Duration timeout = const Duration(seconds: 60),
+  }) async {
+    if (kIsWeb) {
+      return true;
+    }
+    try {
+      var permissionStatus =
+          await adapter.requestCameraPermission(timeout: timeout);
+      if (permissionStatus != PermissionStatus.granted) {
+        return false;
+      }
+      if (adapter.enableAudio) {
+        permissionStatus =
+            await adapter.requestMicrophonePermission(timeout: timeout);
+        if (permissionStatus != PermissionStatus.granted) {
+          return false;
+        }
+      }
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
+    }
+  }
+
   /// Take a camera image.
   ///
   /// The value is returned as [CameraValue].

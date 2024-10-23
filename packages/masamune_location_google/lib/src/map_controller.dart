@@ -209,6 +209,19 @@ class MapController
     }
   }
 
+  /// Allow location permissions.
+  ///
+  /// Returns `false` if rejected.
+  ///
+  /// 位置情報の権限の許可を行います。
+  ///
+  /// 拒否されている場合は`false`を返します。
+  Future<bool> requestPermission({
+    Duration timeout = const Duration(seconds: 60),
+  }) async {
+    return location.requestPermission(timeout: timeout);
+  }
+
   @override
   void dispose() {
     super.dispose();

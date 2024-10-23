@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:camera/camera.dart' as camera;
 import 'package:masamune/masamune.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'src/others/others.dart'
     if (dart.library.io) 'src/others/others.dart'

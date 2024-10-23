@@ -26,6 +26,20 @@ class MockCameraMasamuneAdapter extends CameraMasamuneAdapter {
   }
 
   @override
+  Future<PermissionStatus> requestCameraPermission({
+    Duration timeout = const Duration(seconds: 60),
+  }) async {
+    return PermissionStatus.granted;
+  }
+
+  @override
+  Future<PermissionStatus> requestMicrophonePermission({
+    Duration timeout = const Duration(seconds: 60),
+  }) async {
+    return PermissionStatus.granted;
+  }
+
+  @override
   Future<CameraValue?> takePicture({
     required camera.CameraController? controller,
     int? width,
