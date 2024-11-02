@@ -20,5 +20,6 @@ part 'src/ref_param.dart';
 part 'src/search_param.dart';
 part 'src/json_param.dart';
 part 'src/google_spread_sheet_data_source.dart';
+part 'src/model_database_query.dart';
 part 'src/model_permission_query.dart';
 part 'src/param_comment.dart';

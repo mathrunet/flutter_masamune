@@ -46,6 +46,7 @@ part 'model/model.dart';
 part 'model/extension.dart';
 part 'model/filterable_collection_mixin.dart';
 part 'model/model_permission_query.dart';
+part 'model/model_database_query.dart';
 part 'model/model_query_selector.dart';
 part 'scoped/controller.dart';
 part 'scoped/global.dart';

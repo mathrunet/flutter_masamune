@@ -177,6 +177,9 @@ enum ModelPermissionQueryUserType {
 /// [permission]や[user]を指定して許可をする属性を指定できます。
 /// {@endtemplate}
 abstract class ModelPermissionQuery {
+  /// {@macro model_permission_query}
+  const ModelPermissionQuery();
+
   /// {@macro model_permission_query_type}
   ModelPermissionQueryType get permission;
 

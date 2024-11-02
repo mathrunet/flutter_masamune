@@ -16,6 +16,8 @@ part of '/masamune_annotation.dart';
 ///
 /// You can define access rights to the model by specifying [permission] or [mirrorPermission].
 ///
+/// You can define conditional queries to the database by specifying [query] or [mirrorQuery].
+///
 /// Each data can be retrieved with `document.mirror` or `collection.mirror` and can be `loaded` or `saved` in the same way.
 ///
 /// In addition, by using `saveSync` and `deleteSync`, data can be saved and deleted synchronously.
@@ -37,6 +39,8 @@ part of '/masamune_annotation.dart';
 /// [adapter]を指定することでデフォルトのモデルアダプターを指定することができます。
 ///
 /// [permission]や[mirrorPermission]を指定するとモデルへのアクセス権を定義することができます。
+///
+/// [query]や[mirrorQuery]を指定することでデータベースへの条件付きクエリを定義することができます。
 ///
 /// それぞれのデータは`document.mirror`や`collection.mirror`で取得でき、同じように`load`や`save`ができるようになります。
 ///
@@ -82,6 +86,8 @@ class CollectionModelPath {
   ///
   /// You can define access rights to the model by specifying [permission] or [mirrorPermission].
   ///
+  /// You can define conditional queries to the database by specifying [query] or [mirrorQuery].
+  ///
   /// Each data can be retrieved with `document.mirror` or `collection.mirror` and can be `loaded` or `saved` in the same way.
   ///
   /// In addition, by using `saveSync` and `deleteSync`, data can be saved and deleted synchronously.
@@ -103,6 +109,8 @@ class CollectionModelPath {
   /// [adapter]を指定することでデフォルトのモデルアダプターを指定することができます。
   ///
   /// [permission]や[mirrorPermission]を指定するとモデルへのアクセス権を定義することができます。
+  ///
+  /// [query]や[mirrorQuery]を指定することでデータベースへの条件付きクエリを定義することができます。
   ///
   /// それぞれのデータは`document.mirror`や`collection.mirror`で取得でき、同じように`load`や`save`ができるようになります。
   ///
@@ -140,6 +148,8 @@ class CollectionModelPath {
     this.mirrorPermission,
     this.docsPath = "documents/docs",
     this.comment,
+    this.query,
+    this.mirrorQuery,
   });
 
   /// Path for collection.
@@ -199,4 +209,34 @@ class CollectionModelPath {
   ///
   /// `firebase/firestore.rules`が存在している場合、`build_runner`実行時Firestoreのルールを自動生成します。
   final List<ModelPermissionQuery>? mirrorPermission;
+
+  /// A list to define queries to the database.
+  ///
+  /// Only queries to the RDB with conditions defined here are allowed.
+  /// If no conditions are specified, it is always permitted.
+  ///
+  /// If you use FirebaseDataConnect, this is required; if you use Firestore, RealtimeDatabase, or LocalDatabase, it is not necessary.
+  ///
+  /// データベースへのクエリを定義するためのリスト。
+  ///
+  /// RDBへの条件を指定したクエリはこちらで定義したものしか許可されません。
+  /// 条件を指定しない場合は、常時許可となります。
+  ///
+  /// FirebaseDataConnectを利用する場合、こちらの指定は必須となります。FirestoreやRealtimeDatabase、LocalDatabaseを利用する場合は特に必要ありません。
+  final List<ModelDatabaseQuery>? query;
+
+  /// List to define queries to the database for [mirror].
+  ///
+  /// Only queries to the RDB with conditions defined here are allowed.
+  /// If no conditions are specified, it is always permitted.
+  ///
+  /// If you use FirebaseDataConnect, this is required; if you use Firestore, RealtimeDatabase, or LocalDatabase, it is not necessary.
+  ///
+  /// [mirror]用のデータベースへのクエリを定義するためのリスト。
+  ///
+  /// RDBへの条件を指定したクエリはこちらで定義したものしか許可されません。
+  /// 条件を指定しない場合は、常時許可となります。
+  ///
+  /// FirebaseDataConnectを利用する場合、こちらの指定は必須となります。FirestoreやRealtimeDatabase、LocalDatabaseを利用する場合は特に必要ありません。
+  final List<ModelDatabaseQuery>? mirrorQuery;
 }
