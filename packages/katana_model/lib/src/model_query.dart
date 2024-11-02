@@ -992,7 +992,17 @@ enum ModelQueryFilterType {
   /// Filters to notify the collection of changes in internal documents.
   ///
   /// 内部のドキュメントの変更をコレクションに通知するためのフィルター。
-  notifyDocumentChanges;
+  notifyDocumentChanges,
+
+  /// A filter that filters when multiple conditions all match.
+  ///
+  /// 複数の条件がすべて一致する場合にフィルタリングするフィルター。
+  and,
+
+  /// A filter that filters when multiple conditions match at least one.
+  ///
+  /// 複数の条件のうち少なくとも一つが一致する場合にフィルタリングするフィルター。
+  or;
 }
 
 /// {@template model_query_filter}
