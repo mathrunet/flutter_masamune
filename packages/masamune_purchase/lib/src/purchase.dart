@@ -249,9 +249,25 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
   /// すべてのプロダクトの状態をサーバーから取得します。
   ///
   /// [load]は初回しか読み込めませんが[reload]を行うことで再度読み込みが可能です。
-  Future<void> reload() {
-    _loaded = false;
-    return load();
+  Future<void> reload() async {
+    _loaded = true;
+    _loadCompleter = Completer<void>();
+    try {
+      await initialize();
+      for (final product in _products) {
+        await product.reload();
+      }
+      _loadCompleter?.complete();
+      _loadCompleter = null;
+      notifyListeners();
+    } catch (e) {
+      _loadCompleter?.completeError(e);
+      _loadCompleter = null;
+      rethrow;
+    } finally {
+      _loadCompleter?.complete();
+      _loadCompleter = null;
+    }
   }
 
   /// The billing is based on the items in [product].

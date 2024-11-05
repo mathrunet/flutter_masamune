@@ -232,6 +232,21 @@ class PurchaseProduct {
     );
   }
 
+  /// Reloads real data from the database. Execute when you want to update data that has already been loaded.
+  ///
+  /// If [PurchaseProduct] is not obtained from [Purchase], nothing will happen.
+  /// Get [PurchaseProduct] from [Purchase.findProductById], etc.
+  ///
+  /// 実データをデータベースからリロードします。すでに読み込まれたデータを更新したい場合に実行してください。
+  ///
+  /// [Purchase]から[PurchaseProduct]が取得されていない場合は何も起きません。
+  /// [Purchase.findProductById]などから[PurchaseProduct]を取得してください。
+  Future<void> reload() {
+    throw Exception(
+      "If [PurchaseProduct] is not obtained from [Purchase], nothing will happen. Get [PurchaseProduct] from [Purchase.findProductById], etc.",
+    );
+  }
+
   /// After executing [load], if the load is successful, the actual data can be obtained from here.
   ///
   /// [load]を実行した後ロードに成功していれば、実データをここから取得することができます。
@@ -303,6 +318,12 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
   Future<void> load() async {
     _updateDocument();
     await _document?.load();
+  }
+
+  @override
+  Future<void> reload() async {
+    _updateDocument();
+    await _document?.reload();
   }
 
   Future<void> _purchaseForRuntime() async {
@@ -389,6 +410,12 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
     await _document?.load();
   }
 
+  @override
+  Future<void> reload() async {
+    _updateDocument();
+    await _document?.reload();
+  }
+
   Future<void> _purchaseForRuntime() async {
     await _document?.reload();
     await _document?.save({
@@ -469,6 +496,12 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
   Future<void> load() async {
     _updateCollection();
     await _collection?.load();
+  }
+
+  @override
+  Future<void> reload() async {
+    _updateCollection();
+    await _collection?.reload();
   }
 
   Future<void> _purchaseForRuntime({
