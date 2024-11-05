@@ -304,7 +304,7 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
         replacedProduct: replacedProduct,
       );
       await _purchaseCompleter?.future;
-      await load();
+      await reload();
       _purchaseCompleter?.complete();
       _purchaseCompleter = null;
       notifyListeners();
