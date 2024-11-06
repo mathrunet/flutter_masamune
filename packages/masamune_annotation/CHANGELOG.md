@@ -1,3 +1,7 @@
+## 2.8.1
+
+ - **FIX**: Addition of ModelDatabaseQuery. ([daf9cb6e](https://github.com/mathrunet/flutter_masamune/commit/daf9cb6efe1e716f648f808053c8c6c8f9803880))
+
 ## 2.8.0
 
  - **FEAT**: Support for FirebaseDataConnect. ([fca7960c](https://github.com/mathrunet/flutter_masamune/commit/fca7960c1b729e5468a773534d11444b890e8892))

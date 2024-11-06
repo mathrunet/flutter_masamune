@@ -1,3 +1,7 @@
+## 2.18.2
+
+ - Update a dependency to the latest release.
+
 ## 2.18.1
 
  - **FIX**: Add remove to query. ([c2c79e26](https://github.com/mathrunet/flutter_masamune/commit/c2c79e26cf7413690f0a281b46ff0367fe5ce27b))
