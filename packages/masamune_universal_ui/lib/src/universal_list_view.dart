@@ -76,6 +76,8 @@ class UniversalListView extends StatelessWidget {
     this.scrollbarRadius,
     this.scrollbarThickness,
     this.displayInvisibleArea = false,
+    this.bottomExtent,
+    this.topExtent,
   })  : assert(
           !(controller != null && primary == true),
           "Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. "
@@ -223,6 +225,16 @@ class UniversalListView extends StatelessWidget {
   /// 見えないエリアも描画しておく場合`true`を返す。
   final bool displayInvisibleArea;
 
+  /// Specify the space at the bottom.
+  ///
+  /// 下部のスペースを指定。
+  final double? bottomExtent;
+
+  /// Specify the space at the top.
+  ///
+  /// 上部のスペースを指定。
+  final double? topExtent;
+
   @override
   Widget build(BuildContext context) {
     final rows = _createRows(context, children);
@@ -279,6 +291,13 @@ class UniversalListView extends StatelessWidget {
     var cols = <Widget>[];
     final rows = <Widget>[];
 
+    final ScrollController? scrollController =
+        primary ? PrimaryScrollController.maybeOf(context) : controller;
+
+    if (topExtent != null) {
+      rows.add(SizedBox(height: topExtent!));
+    }
+
     for (final col in children) {
       if (col is Responsive) {
         final colWidth = col.currentConfig(context) ?? 12;
@@ -321,10 +340,14 @@ class UniversalListView extends StatelessWidget {
         children: cols,
       ));
     }
-    if (onLoadNext != null && canLoadNext) {
+    if (onLoadNext != null && canLoadNext && scrollController != null) {
       rows.add(
-        _NextIndicator(key: ValueKey(children.length), onLoad: onLoadNext),
+        _NextIndicator(controller: scrollController, onLoad: onLoadNext),
       );
+    }
+
+    if (bottomExtent != null) {
+      rows.add(SizedBox(height: bottomExtent!));
     }
     return rows;
   }
@@ -424,13 +447,14 @@ class UniversalListView extends StatelessWidget {
 
 class _NextIndicator extends StatefulWidget {
   const _NextIndicator({
-    required Key key,
     this.onLoad,
-  }) : super(key: key);
+    required this.controller,
+  });
 
   final Future<void> Function()? onLoad;
+  final ScrollController controller;
 
-  static const _height = 56.0;
+  static const _size = 32.0;
 
   @override
   State<StatefulWidget> createState() => _NextIndicatorState();
@@ -439,44 +463,76 @@ class _NextIndicator extends StatefulWidget {
 class _NextIndicatorState extends State<_NextIndicator> {
   bool _loaded = false;
   bool _loading = false;
+  bool _disposed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    widget.controller.removeListener(_onScroll);
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (widget.controller.position.atEdge) {
+      final isBottom = widget.controller.position.pixels ==
+          widget.controller.position.maxScrollExtent;
+      if (isBottom) {
+        _load();
+      }
+    }
+  }
 
   Future<void> _load() async {
-    if (_loading) {
+    if (_loading || _loaded) {
       return;
     }
     _loading = true;
+    if (_disposed) {
+      return;
+    }
+    setState(() {});
     await widget.onLoad?.call();
     _loaded = true;
     _loading = false;
+    if (_disposed) {
+      return;
+    }
     setState(() {});
   }
 
   @override
   void didUpdateWidget(covariant _NextIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.key != widget.key && _loaded) {
+    if (oldWidget.controller != widget.controller && _loaded) {
       _loaded = false;
-      setState(() {});
+      oldWidget.controller.removeListener(_onScroll);
+      widget.controller.addListener(_onScroll);
+      _onScroll();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_loaded) {
+    if (_loaded || !_loading) {
       return const Empty();
     }
-    return VisibilityDetector(
-      key: widget.key!,
-      onVisibilityChanged: (info) {
-        final visiblePercentage = info.visibleFraction * 100;
-        if (visiblePercentage > 50.0) {
-          _load();
-        }
-      },
-      child: Container(
-        alignment: Alignment.center,
-        height: _NextIndicator._height,
-        child: const CircularProgressIndicator(),
+    return const Padding(
+      padding: EdgeInsets.all(16),
+      child: SafeArea(
+        child: Align(
+          alignment: Alignment.center,
+          child: SizedBox(
+            width: _NextIndicator._size,
+            height: _NextIndicator._size,
+            child: CircularProgressIndicator(),
+          ),
+        ),
       ),
     );
   }

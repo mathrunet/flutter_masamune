@@ -22,7 +22,6 @@ import 'package:flutter/services.dart';
 import 'package:masamune/masamune.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 export 'package:url_launcher/url_launcher_string.dart' show LaunchMode;
 
