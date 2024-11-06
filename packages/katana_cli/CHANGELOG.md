@@ -1,3 +1,7 @@
+## 2.24.3
+
+ - **FIX**: Resize screenshots. ([81d33d5b](https://github.com/mathrunet/flutter_masamune/commit/81d33d5be9ce6875caa29b403bb8d6f819c95996))
+
 ## 2.24.2
 
  - **FIX**: Added the ability to add index pages to TermsAndPolicy. ([8016e49c](https://github.com/mathrunet/flutter_masamune/commit/8016e49cd7cf4644b02316913ed7ef8d787813c5))

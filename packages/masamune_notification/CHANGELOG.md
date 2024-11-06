@@ -1,3 +1,7 @@
+## 2.9.3
+
+ - **FIX**: CollectionPathKey was wrong, corrected. ([3e5f4e98](https://github.com/mathrunet/flutter_masamune/commit/3e5f4e981e8f476bbf432ebd0753efb3af4a1564))
+
 ## 2.9.2
 
  - Update a dependency to the latest release.

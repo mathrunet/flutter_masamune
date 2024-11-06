@@ -1,3 +1,7 @@
+## 2.5.19
+
+ - **FIX**: Fixed a bug in LoadNext. ([3d040931](https://github.com/mathrunet/flutter_masamune/commit/3d040931abeb3ab6fb9d4de1c985268ef6caecda))
+
 ## 2.5.18
 
  - Update a dependency to the latest release.

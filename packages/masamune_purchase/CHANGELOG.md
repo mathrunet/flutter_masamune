@@ -1,3 +1,8 @@
+## 2.1.93
+
+ - **FIX**: Reloading is now also performed in Purchase. ([88a2cd4a](https://github.com/mathrunet/flutter_masamune/commit/88a2cd4ac972bec6c455ce5f6376f992d4f5a5cf))
+ - **FIX**: Reload enabled. ([264f3f71](https://github.com/mathrunet/flutter_masamune/commit/264f3f71b8a9682d950610fa562d73315e05b26f))
+
 ## 2.1.92
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.29.1
+
+ - **FIX**: Fixed ModelServerCommand not parsing well. ([c602a992](https://github.com/mathrunet/flutter_masamune/commit/c602a992d425ad8fb427c52dc96913a97fb95a58))
+
 ## 2.29.0
 
  - **FIX**: If the path contains //, an error should be generated. ([62591d45](https://github.com/mathrunet/flutter_masamune/commit/62591d45912834fbf6c9c6c9a1de5205ebc69123))
