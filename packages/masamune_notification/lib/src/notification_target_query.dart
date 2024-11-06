@@ -245,7 +245,7 @@ class CollectionNotificationTargetQuery extends NotificationTargetQuery {
   /// すべてAnd条件となります。
   final List<ModelServerCommandCondition> conditions;
 
-  static const String _kCollectionPathKey = "targetConditionPath";
+  static const String _kCollectionPathKey = "targetCollectionPath";
   static const String _kTokenFieldKey = "targetTokenField";
   static const String _kWheresKey = "targetWheres";
   static const String _kConditionsKey = "targetConditions";
