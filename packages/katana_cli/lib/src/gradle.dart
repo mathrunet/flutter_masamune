@@ -98,38 +98,71 @@ class GradleLoadProperties {
   });
 
   static List<GradleLoadProperties> _load(String content) {
-    final region = RegExp(
-      r"^([\s\S]*?)def localProperties = new Properties\(\)",
-    ).firstMatch(content);
-    if (region == null) {
-      return [];
+    // 旧バージョン
+    if (content.contains("def localProperties = new Properties()")) {
+      final region = RegExp(
+        r"^([\s\S]*?)def localProperties = new Properties\(\)",
+      ).firstMatch(content);
+      if (region == null) {
+        return [];
+      }
+      return RegExp(
+        r"def (?<name>[a-zA-Z_-]+) = new Properties\(\)([\s\S]*?)def (?<file>[a-zA-Z_-]+) = rootProject.file\('(?<path>[a-zA-Z./_-]+)'\)([\s\S]*?)if \(([a-zA-Z_-]+).exists\(\)\) {([\s\S]*?)([a-zA-Z_-]+).withReader\('UTF-8'\) { reader ->([\s\S]*?)([a-zA-Z_-]+).load\(reader\)([\s\S]*?)}([\s\S]*?)}",
+      ).allMatches(region.group(1) ?? "").mapAndRemoveEmpty((e) {
+        return GradleLoadProperties._(
+          file: e.namedGroup("file") ?? "",
+          name: e.namedGroup("name") ?? "",
+          path: e.namedGroup("path") ?? "",
+        );
+      });
+      // 新バージョン
+    } else {
+      final region = RegExp(
+        r"(?<plugins>plugins[^{]*?\{[\s\S]*?\})?([\s\S]*?)android \{",
+      ).firstMatch(content);
+      if (region == null) {
+        return [];
+      }
+      return RegExp(
+        r"def (?<name>[a-zA-Z_-]+) = new Properties\(\)([\s\S]*?)def (?<file>[a-zA-Z_-]+) = rootProject.file\('(?<path>[a-zA-Z./_-]+)'\)([\s\S]*?)if \(([a-zA-Z_-]+).exists\(\)\) {([\s\S]*?)([a-zA-Z_-]+).withReader\('UTF-8'\) { reader ->([\s\S]*?)([a-zA-Z_-]+).load\(reader\)([\s\S]*?)}([\s\S]*?)}",
+      ).allMatches(region.group(1) ?? "").mapAndRemoveEmpty((e) {
+        return GradleLoadProperties._(
+          file: e.namedGroup("file") ?? "",
+          name: e.namedGroup("name") ?? "",
+          path: e.namedGroup("path") ?? "",
+        );
+      });
     }
-    return RegExp(
-      r"def (?<name>[a-zA-Z_-]+) = new Properties\(\)([\s\S]*?)def (?<file>[a-zA-Z_-]+) = rootProject.file\('(?<path>[a-zA-Z./_-]+)'\)([\s\S]*?)if \(([a-zA-Z_-]+).exists\(\)\) {([\s\S]*?)([a-zA-Z_-]+).withReader\('UTF-8'\) { reader ->([\s\S]*?)([a-zA-Z_-]+).load\(reader\)([\s\S]*?)}([\s\S]*?)}",
-    ).allMatches(region.group(1) ?? "").mapAndRemoveEmpty((e) {
-      return GradleLoadProperties._(
-        file: e.namedGroup("file") ?? "",
-        name: e.namedGroup("name") ?? "",
-        path: e.namedGroup("path") ?? "",
-      );
-    });
   }
 
   static String _save(String content, List<GradleLoadProperties> list) {
     final code = list.map((e) => e.toString()).join("\n");
-    return content.replaceAllMapped(
-      RegExp(
-        r"(?<plugins>plugins[^{]*?\{[\s\S]*?\})?([\s\S]*?)def localProperties = new Properties\(\)",
-      ),
-      (match) {
-        final plugins = match.group(1);
-        if (plugins.isEmpty) {
-          return "${match.group(1) ?? ""}$code\n\ndef localProperties = new Properties()";
-        } else {
-          return "$plugins\n\n$code\n\ndef localProperties = new Properties()";
-        }
-      },
-    );
+    // 旧バージョン
+    if (content.contains("def localProperties = new Properties()")) {
+      return content.replaceAllMapped(
+        RegExp(
+          r"(?<plugins>plugins[^{]*?\{[\s\S]*?\})?([\s\S]*?)def localProperties = new Properties\(\)",
+        ),
+        (match) {
+          final plugins = match.group(1);
+          if (plugins.isEmpty) {
+            return "${match.group(1) ?? ""}$code\n\ndef localProperties = new Properties()";
+          } else {
+            return "$plugins\n\n$code\n\ndef localProperties = new Properties()";
+          }
+        },
+      );
+    } else {
+      return content.replaceAllMapped(
+        RegExp(
+          r"(?<plugins>plugins[^{]*?\{[\s\S]*?\})?([\s\S]*?)android \{",
+        ),
+        (match) {
+          final plugins = match.group(1);
+          return "${plugins ?? ""}\n\n$code\n\nandroid {";
+        },
+      );
+    }
   }
 
   /// Variable name of the property file.
