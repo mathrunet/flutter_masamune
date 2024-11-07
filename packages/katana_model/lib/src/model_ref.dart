@@ -79,6 +79,11 @@ class ModelRefBase<T> extends ModelFieldValue<T?>
   /// 参照のキー。
   static const kRefKey = "@ref";
 
+  /// Reference path scheme.
+  /// 
+  /// 
+  static const kRefPathScheme = "ref://";
+
   /// [DocumentModelQuery] of the associated document.
   ///
   /// 関連するドキュメントの[DocumentModelQuery].

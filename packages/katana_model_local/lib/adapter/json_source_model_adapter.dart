@@ -516,7 +516,8 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
             final text = utf8.decode(res.bodyBytes);
             final docs = fromJson(jsonDecode(text));
             for (final tmp in docs.entries) {
-              database.setInitialValue("$collectionPath/${tmp.key}", tmp.value);
+              database.setInitialValue(
+                  "$collectionPath/${tmp.key}", _convert(tmp.value));
             }
             break;
           default:
@@ -532,20 +533,23 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
             final text = utf8.decode(res.bodyBytes);
             final docs = fromJson(jsonDecode(text));
             for (final tmp in docs.entries) {
-              database.setInitialValue("$collectionPath/${tmp.key}", tmp.value);
+              database.setInitialValue(
+                  "$collectionPath/${tmp.key}", _convert(tmp.value));
             }
             break;
         }
       } else if (source.startsWith("{") || source.startsWith("[")) {
         final docs = fromJson(jsonDecode(source));
         for (final tmp in docs.entries) {
-          database.setInitialValue("$collectionPath/${tmp.key}", tmp.value);
+          database.setInitialValue(
+              "$collectionPath/${tmp.key}", _convert(tmp.value));
         }
       } else {
         final json = await rootBundle.loadString(source);
         final docs = fromJson(jsonDecode(json));
         for (final tmp in docs.entries) {
-          database.setInitialValue("$collectionPath/${tmp.key}", tmp.value);
+          database.setInitialValue(
+              "$collectionPath/${tmp.key}", _convert(tmp.value));
         }
       }
     } catch (e) {
@@ -553,6 +557,22 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
         "Failed to load CSV file. [$e]",
       );
     }
+  }
+
+  DynamicMap _convert(DynamicMap map) {
+    final res = <String, dynamic>{};
+    for (final tmp in map.entries) {
+      final key = tmp.key;
+      final value = tmp.value;
+      if (value is String && value.startsWith(ModelRefBase.kRefPathScheme)) {
+        res[key] = ModelRefBase.fromPath(
+                value.replaceAll(ModelRefBase.kRefPathScheme, ""))
+            .toJson();
+      } else {
+        res[key] = value;
+      }
+    }
+    return res;
   }
 
   @override

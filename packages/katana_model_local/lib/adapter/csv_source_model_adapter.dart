@@ -578,7 +578,8 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
               const CsvToListConverter(eol: "\n").convert(text),
             );
             for (final tmp in docs.entries) {
-              database.setInitialValue("$collectionPath/${tmp.key}", tmp.value);
+              database.setInitialValue(
+                  "$collectionPath/${tmp.key}", _convert(tmp.value));
             }
             break;
           default:
@@ -596,7 +597,8 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
               const CsvToListConverter(eol: "\n").convert(text),
             );
             for (final tmp in docs.entries) {
-              database.setInitialValue("$collectionPath/${tmp.key}", tmp.value);
+              database.setInitialValue(
+                  "$collectionPath/${tmp.key}", _convert(tmp.value));
             }
             break;
         }
@@ -605,7 +607,8 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
           const CsvToListConverter(eol: "\n").convert(source),
         );
         for (final tmp in docs.entries) {
-          database.setInitialValue("$collectionPath/${tmp.key}", tmp.value);
+          database.setInitialValue(
+              "$collectionPath/${tmp.key}", _convert(tmp.value));
         }
       } else {
         final csv = await rootBundle.loadString(source);
@@ -613,7 +616,8 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
           const CsvToListConverter(eol: "\n").convert(csv),
         );
         for (final tmp in docs.entries) {
-          database.setInitialValue("$collectionPath/${tmp.key}", tmp.value);
+          database.setInitialValue(
+              "$collectionPath/${tmp.key}", _convert(tmp.value));
         }
       }
     } catch (e) {
@@ -621,6 +625,22 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
         "Failed to load CSV file. [$e]",
       );
     }
+  }
+
+  DynamicMap _convert(DynamicMap map) {
+    final res = <String, dynamic>{};
+    for (final tmp in map.entries) {
+      final key = tmp.key;
+      final value = tmp.value;
+      if (value is String && value.startsWith(ModelRefBase.kRefPathScheme)) {
+        res[key] = ModelRefBase.fromPath(
+                value.replaceAll(ModelRefBase.kRefPathScheme, ""))
+            .toJson();
+      } else {
+        res[key] = value;
+      }
+    }
+    return res;
   }
 
   @override
