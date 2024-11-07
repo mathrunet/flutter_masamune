@@ -80,8 +80,8 @@ class ModelRefBase<T> extends ModelFieldValue<T?>
   static const kRefKey = "@ref";
 
   /// Reference path scheme.
-  /// 
-  /// 
+  ///
+  /// 参照パスのスキーム。
   static const kRefPathScheme = "ref://";
 
   /// [DocumentModelQuery] of the associated document.
