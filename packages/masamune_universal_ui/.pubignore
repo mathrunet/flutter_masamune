@@ -10,7 +10,7 @@ example/.vscode/
 example/firebase/
 
 # document
-example/document/
+example/documents/
 
 # lib
 firebase_options.dart
