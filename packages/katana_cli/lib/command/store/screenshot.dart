@@ -2,7 +2,6 @@ part of "store.dart";
 
 const _resolution = <String, Map<String, _Size>>{
   "portrait": {
-    "icon": _Size(512, 512),
     "iphone5.5": _Size(1242, 2208),
     "iphone6.5": _Size(1284, 2778),
     "iphone6.9": _Size(1320, 2868),
@@ -10,7 +9,6 @@ const _resolution = <String, Map<String, _Size>>{
     "purchase": _Size(640, 920),
   },
   "landscape": {
-    "icon": _Size(512, 512),
     "iphone5.5": _Size(2208, 1242),
     "iphone6.5": _Size(2778, 1284),
     "iphone6.9": _Size(2868, 1320),
@@ -20,6 +18,9 @@ const _resolution = <String, Map<String, _Size>>{
 };
 
 const _offset = <int, _Offset>{
+  2868: _Offset(176, 96),
+  2796: _Offset(176, 96),
+  2752: _Offset(56, 48),
   2732: _Offset(38, 32),
   2556: _Offset(144, 48),
   2340: _Offset(80, 132),
@@ -86,6 +87,8 @@ class StoreScreenshotCliCommand extends CliCommand {
     final orientation = screenshot.get("orientation", "");
     final sourceDir = screenshot.get("source_dir", "");
     final featureImageSourcePath = screenshot.get("feature_image", "");
+    final title = screenshot.get("title", "");
+    final iconSourcePath = screenshot.get("icon", "");
     final position = screenshot.get("position", "center");
     if (exportDir.isEmpty) {
       error(
@@ -107,11 +110,13 @@ class StoreScreenshotCliCommand extends CliCommand {
     }
     label("Retrieve the source.");
     // 色の変換
-    final color = ColorUint8.rgb(
+    final backgroundColor = ColorUint8.rgb(
       int.parse(colorCode.substring(0, 2), radix: 16),
       int.parse(colorCode.substring(2, 4), radix: 16),
       int.parse(colorCode.substring(4, 6), radix: 16),
     );
+    final foregroundColor = ColorUint8.rgb(255, 255, 255);
+
     final document = Directory(exportDir);
     if (!document.existsSync()) {
       document.createSync(recursive: true);
@@ -146,11 +151,72 @@ class StoreScreenshotCliCommand extends CliCommand {
       }
     }
     if (!featureImage.existsSync()) {
-      final image = Image(
+      var image = Image(
         width: 1024,
         height: 500,
-      )..clear(color);
+      )..clear(backgroundColor);
+      if (title.isNotEmpty) {
+        image = drawString(
+          image,
+          title,
+          font: arial48,
+          x: 1008,
+          y: 448,
+          rightJustify: true,
+          color: foregroundColor,
+        );
+      }
       featureImage.writeAsBytesSync(encodePng(image));
+    }
+    label("Create a icon.");
+    final iconImage = File("$exportDir/icon.png");
+    if (iconSourcePath.isNotEmpty) {
+      final iconSource = File(iconSourcePath);
+      if (iconSource.existsSync()) {
+        final source = decodeImage(iconSource.readAsBytesSync())!;
+        final resized = copyResize(source, width: 1024);
+        final cropped = copyCrop(
+          resized,
+          x: 0,
+          y: ((resized.height - 500) / 2.0).floor(),
+          width: resized.width,
+          height: 500,
+        );
+        iconImage.writeAsBytesSync(encodePng(cropped));
+      }
+    }
+    if (!iconImage.existsSync()) {
+      if (title.isNotEmpty) {
+        var image = Image(
+          width: 64,
+          height: 64,
+        );
+        image = drawString(
+          image,
+          title.substring(0, 1).toUpperCase(),
+          font: arial48,
+          x: 16,
+          y: 12,
+          color: foregroundColor,
+        );
+        image = _adjustAlpha(
+          copyResize(
+            image,
+            width: 1024,
+            maintainAspect: true,
+            interpolation: Interpolation.linear,
+          ),
+          foregroundColor: foregroundColor,
+          backgroundColor: backgroundColor,
+        );
+        iconImage.writeAsBytesSync(encodePng(image));
+      } else {
+        final image = Image(
+          width: 1024,
+          height: 1024,
+        )..clear(backgroundColor);
+        iconImage.writeAsBytesSync(encodePng(image));
+      }
     }
     label("Create other screenshots.");
     if (sources.isEmpty) {
@@ -167,15 +233,7 @@ class StoreScreenshotCliCommand extends CliCommand {
               continue;
             }
             final image = Image(width: size.width, height: size.height)
-              ..clear(color);
-            file.writeAsBytesSync(encodePng(image));
-          } else if (key == "icon") {
-            final file = File("$exportDir/$key.png");
-            if (file.existsSync()) {
-              continue;
-            }
-            final image = Image(width: size.width, height: size.height)
-              ..clear(color);
+              ..clear(backgroundColor);
             file.writeAsBytesSync(encodePng(image));
           } else {
             for (int i = 0; i < 2; i++) {
@@ -184,7 +242,7 @@ class StoreScreenshotCliCommand extends CliCommand {
                 continue;
               }
               final image = Image(width: size.width, height: size.height)
-                ..clear(color);
+                ..clear(backgroundColor);
               file.writeAsBytesSync(encodePng(image));
             }
           }
@@ -202,7 +260,8 @@ class StoreScreenshotCliCommand extends CliCommand {
           final key = val.key;
           final size = val.value;
           for (int i = 0; i < sources.length; i++) {
-            if (key == "purchase") {
+            if (key == "icon") {
+            } else if (key == "purchase") {
               final file = File(sources[i].path);
               final image = decodeImage(file.readAsBytesSync())!;
               if (orientation == "portrait") {
@@ -222,14 +281,6 @@ class StoreScreenshotCliCommand extends CliCommand {
                 );
                 File("$exportDir/${key}_$i.png")
                     .writeAsBytesSync(encodePng(cropped));
-              } else if (key == "icon") {
-                final file = File("$exportDir/$key.png");
-                if (file.existsSync()) {
-                  continue;
-                }
-                final image = Image(width: size.width, height: size.height)
-                  ..clear(color);
-                file.writeAsBytesSync(encodePng(image));
               } else {
                 final resized = copyResize(image, height: size.height);
                 final cropped = copyCrop(
@@ -245,7 +296,7 @@ class StoreScreenshotCliCommand extends CliCommand {
             } else {
               final file = File(sources[i].path);
               final image = Image(width: size.width, height: size.height)
-                ..clear(color);
+                ..clear(backgroundColor);
               final sourceFile = decodeImage(file.readAsBytesSync())!;
               final offset = _getOffset(sourceFile.height);
               final sourceImage = dropShadow(
@@ -278,6 +329,28 @@ class StoreScreenshotCliCommand extends CliCommand {
         }
       }
     }
+  }
+
+  Image _adjustAlpha(
+    Image image, {
+    required Color foregroundColor,
+    required Color backgroundColor,
+  }) {
+    for (int y = 0; y < image.height; y++) {
+      for (int x = 0; x < image.width; x++) {
+        final pixel = image.getPixel(x, y);
+        final r = pixel.r;
+        final g = pixel.g;
+        final b = pixel.b;
+
+        if (!(r == 0 && g == 0 && b == 0)) {
+          image.setPixel(x, y, foregroundColor);
+        } else {
+          image.setPixel(x, y, backgroundColor);
+        }
+      }
+    }
+    return image;
   }
 
   double _purchaseVerticalPosition({

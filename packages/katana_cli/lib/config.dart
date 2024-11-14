@@ -550,9 +550,11 @@ store:
     source_dir: documents/screenshot
     export_dir: documents/store
     feature_image: documents/feature.png
+    icon: documents/icon.png
     orientation: portrait
     color: '000000'
     position: center
+    title: 'Title'
 
 # Describe the settings for using location information.
 #
