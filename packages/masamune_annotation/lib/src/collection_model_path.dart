@@ -215,28 +215,28 @@ class CollectionModelPath {
   /// Only queries to the RDB with conditions defined here are allowed.
   /// If no conditions are specified, it is always permitted.
   ///
-  /// If you use FirebaseDataConnect, this is required; if you use Firestore, RealtimeDatabase, or LocalDatabase, it is not necessary.
+  /// If you use FirebaseDataConnect, this specification is required; if you use Firestore, RealtimeDatabase, or LocalDatabase, use it to restrict queries.
   ///
   /// データベースへのクエリを定義するためのリスト。
   ///
   /// RDBへの条件を指定したクエリはこちらで定義したものしか許可されません。
   /// 条件を指定しない場合は、常時許可となります。
   ///
-  /// FirebaseDataConnectを利用する場合、こちらの指定は必須となります。FirestoreやRealtimeDatabase、LocalDatabaseを利用する場合は特に必要ありません。
-  final List<ModelDatabaseQuery>? query;
+  /// FirebaseDataConnectを利用する場合、こちらの指定は必須となります。FirestoreやRealtimeDatabase、LocalDatabaseを利用する場合、クエリーを制限するために利用します。
+  final List<ModelDatabaseQueryGroup>? query;
 
   /// List to define queries to the database for [mirror].
   ///
   /// Only queries to the RDB with conditions defined here are allowed.
   /// If no conditions are specified, it is always permitted.
   ///
-  /// If you use FirebaseDataConnect, this is required; if you use Firestore, RealtimeDatabase, or LocalDatabase, it is not necessary.
+  /// If you use FirebaseDataConnect, this specification is required; if you use Firestore, RealtimeDatabase, or LocalDatabase, use it to restrict queries.
   ///
   /// [mirror]用のデータベースへのクエリを定義するためのリスト。
   ///
   /// RDBへの条件を指定したクエリはこちらで定義したものしか許可されません。
   /// 条件を指定しない場合は、常時許可となります。
   ///
-  /// FirebaseDataConnectを利用する場合、こちらの指定は必須となります。FirestoreやRealtimeDatabase、LocalDatabaseを利用する場合は特に必要ありません。
-  final List<ModelDatabaseQuery>? mirrorQuery;
+  /// FirebaseDataConnectを利用する場合、こちらの指定は必須となります。FirestoreやRealtimeDatabase、LocalDatabaseを利用する場合、クエリーを制限するために利用します。
+  final List<ModelDatabaseQueryGroup>? mirrorQuery;
 }

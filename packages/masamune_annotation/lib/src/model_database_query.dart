@@ -170,3 +170,34 @@ abstract class ModelDatabaseQuery {
   /// この[ModelDatabaseQuery]に紐づく条件がある場合指定します。
   List<ModelDatabaseQuery>? get children;
 }
+
+/// A query group that summarizes [ModelDatabaseQuery].
+///
+/// The conditions specified here are all combined with AND conditions.
+///
+/// [ModelDatabaseQuery]をまとめるクエリーグループです。
+///
+/// ここで指定した条件はすべてAND条件で結合されます。
+class ModelDatabaseQueryGroup {
+  /// A query group that summarizes [ModelDatabaseQuery].
+  ///
+  /// The conditions specified here are all combined with AND conditions.
+  ///
+  /// [ModelDatabaseQuery]をまとめるクエリーグループです。
+  ///
+  /// ここで指定した条件はすべてAND条件で結合されます。
+  const ModelDatabaseQueryGroup({
+    required this.name,
+    required this.conditions,
+  });
+
+  /// Name of query.
+  ///
+  /// クエリーの名前。
+  final String name;
+
+  /// List of queries in this query group.
+  ///
+  /// このクエリーグループに含まれるクエリーのリスト。
+  final List<ModelDatabaseQuery> conditions;
+}

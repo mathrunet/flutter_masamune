@@ -83,6 +83,105 @@ class _MasamuneCollectionModelShouldAddLimitQuery extends DartLintRule {
         return;
       }
       final functionName = node.methodName.name;
+      // DatabaseQuery利用時
+      if (functionName.endsWith("Query")) {
+        // 変数に入れていないとき
+        final parentMethodInvocationNode =
+            node.target?.thisOrAncestorOfType<FunctionExpressionInvocation>() ??
+                node.thisOrAncestorOfType<FunctionExpressionInvocation>();
+        if (parentMethodInvocationNode != null) {
+          final model = node.parent?.thisOrAncestorOfType<MethodInvocation>();
+          final modelFound = res.firstWhereOrNull((e) => e.model == model);
+          final found = res.firstWhereOrNull(
+                  (e) => e.method == parentMethodInvocationNode) ??
+              modelFound;
+
+          if (found != null) {
+            found
+              ..isLimit = true
+              ..method = parentMethodInvocationNode
+              ..node = parentMethodInvocationNode;
+          } else {
+            res.add(
+              _MasamuneCollectionModelShouldAddLimitQueryValue()
+                ..method = parentMethodInvocationNode
+                ..node = parentMethodInvocationNode
+                ..model = model,
+            );
+          }
+          return;
+        }
+        // 変数に入れていないときかつカスケードでメソッドを呼び出しているとき
+        final parentCascadeExpressionVariableNode =
+            node.parent?.thisOrAncestorOfType<CascadeExpression>();
+        if (parentCascadeExpressionVariableNode != null) {
+          final parentMethodInvocationNode = parentCascadeExpressionVariableNode
+              .target
+              .thisOrAncestorOfType<FunctionExpressionInvocation>();
+          if (parentMethodInvocationNode != null) {
+            final model = node.parent?.thisOrAncestorOfType<MethodInvocation>();
+            final modelFound = res.firstWhereOrNull((e) => e.model == model);
+            final found = res.firstWhereOrNull(
+                    (e) => e.method == parentMethodInvocationNode) ??
+                modelFound;
+            if (found != null) {
+              found
+                ..isLimit = true
+                ..method = parentMethodInvocationNode
+                ..node = parentMethodInvocationNode;
+            } else {
+              res.add(
+                _MasamuneCollectionModelShouldAddLimitQueryValue()
+                  ..method = parentMethodInvocationNode
+                  ..node = parentMethodInvocationNode
+                  ..model = model,
+              );
+            }
+            return;
+          }
+        }
+        // 変数に入れているとき
+        final parentVariableDeclarationNode =
+            node.thisOrAncestorOfType<VariableDeclaration>();
+        if (parentVariableDeclarationNode != null) {
+          final found = res.firstWhereOrNull(
+              (e) => e.variable == parentVariableDeclarationNode);
+          if (found != null) {
+            found.isLimit = true;
+            return;
+          }
+        }
+        // 変数に入れているときかつメソッドを呼び出しているとき
+        final simpleIdentifier = node.thisOrTargetOfType<SimpleIdentifier>();
+        if (simpleIdentifier != null) {
+          final found = res
+              .firstWhereOrNull((e) => e.variableName == simpleIdentifier.name);
+          found?.isLimit = true;
+          return;
+        }
+        final functionExpressionInvocation =
+            node.thisOrTargetOfType<FunctionExpressionInvocation>();
+        if (functionExpressionInvocation != null) {
+          final model = node.parent?.thisOrAncestorOfType<MethodInvocation>();
+          final modelFound = res.firstWhereOrNull((e) => e.model == model);
+          final found = res.firstWhereOrNull(
+                  (e) => e.method == functionExpressionInvocation) ??
+              modelFound;
+          if (found != null) {
+            found
+              ..isLimit = true
+              ..method = functionExpressionInvocation
+              ..node = functionExpressionInvocation;
+          } else {
+            res.add(
+              _MasamuneCollectionModelShouldAddLimitQueryValue()
+                ..method = functionExpressionInvocation
+                ..node = functionExpressionInvocation
+                ..model = model,
+            );
+          }
+        }
+      }
       switch (functionName) {
         case "limitTo":
           // 変数に入れていないとき

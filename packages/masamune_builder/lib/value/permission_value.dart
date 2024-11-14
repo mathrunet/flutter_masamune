@@ -29,7 +29,7 @@ class PermissionValue {
       rawValue: value,
       type: match.group(1)!,
       user: match.group(2)!,
-      key: match.group(3),
+      key: match.group(3)?.trim().trimString("'").trimString('"'),
     );
   }
 

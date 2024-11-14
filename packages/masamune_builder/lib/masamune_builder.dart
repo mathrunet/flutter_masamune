@@ -60,3 +60,4 @@ part 'value/path_value.dart';
 part 'value/annotation_value.dart';
 part 'value/google_spread_sheet_value.dart';
 part 'value/permission_value.dart';
+part 'value/query_value.dart';

@@ -36,6 +36,18 @@ String _querySelectorClass(ParamaterValue param, String queryClass) {
   }
 }
 
+List<QueryConditionValue> _availableQueryConditions(
+    QueryValue query, List<ParamaterValue> parameters) {
+  final res = <QueryConditionValue>[];
+  for (final condition in query.conditions) {
+    final parameter = parameters.firstWhereOrNull((e) {
+      return e.jsonKey == condition.key;
+    });
+    res.add(condition.copyWith(parameter: parameter));
+  }
+  return res;
+}
+
 /// Create a class to automatically create collection model queries.
 ///
 /// コレクションモデルクエリを自動作成するためのクラスを作成します。
@@ -497,21 +509,6 @@ List<Spec> collectionModelQueryClass(
           ),
           Method(
             (m) => m
-              ..name = "limitTo"
-              ..lambda = true
-              ..requiredParameters.addAll([
-                Parameter(
-                  (p) => p
-                    ..name = "value"
-                    ..type = const Reference("int"),
-                )
-              ])
-              ..returns = Reference("_\$_${model.name}CollectionQuery")
-              ..body = Code(
-                  "_\$_${model.name}CollectionQuery(modelQuery.limitTo(value))"),
-          ),
-          Method(
-            (m) => m
               ..name = "collectionGroup"
               ..lambda = true
               ..returns = Reference("_\$_${model.name}CollectionQuery")
@@ -549,35 +546,71 @@ List<Spec> collectionModelQueryClass(
               ..body = Code(
                   "_\$_${model.name}CollectionQuery(modelQuery.notifyDocumentChanges())"),
           ),
-          Method(
-            (m) => m
-              ..name = "uid"
-              ..type = MethodType.getter
-              ..lambda = true
-              ..returns = Reference(
-                "StringModelQuerySelector<_\$_${model.name}CollectionQuery>",
-              )
-              ..body = Code(
-                "StringModelQuerySelector<_\$_${model.name}CollectionQuery>(key: \"@uid\", toQuery: _toQuery, modelQuery: modelQuery)",
-              ),
-          ),
-          ...model.parameters.map((param) {
-            return Method(
+          if (annotation.query.isNotEmpty) ...[
+            ...annotation.query?.mapAndRemoveEmpty((query) {
+                  final conditions =
+                      _availableQueryConditions(query, model.parameters);
+                  return Method(
+                    (m) => m
+                      ..name = "${query.name.toCamelCase()}Query"
+                      ..returns = Reference("_\$_${model.name}CollectionQuery")
+                      ..optionalParameters.addAll([
+                        ...conditions.mapAndRemoveEmpty((condition) {
+                          return condition.toParameter();
+                        }),
+                      ])
+                      ..body = Code(
+                        query.toCode("_\$_${model.name}CollectionQuery"),
+                      ),
+                  );
+                }) ??
+                [],
+          ] else ...[
+            Method(
               (m) => m
-                ..name = param.name
+                ..name = "limitTo"
+                ..lambda = true
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "value"
+                      ..type = const Reference("int"),
+                  )
+                ])
+                ..returns = Reference("_\$_${model.name}CollectionQuery")
+                ..body = Code(
+                    "_\$_${model.name}CollectionQuery(modelQuery.limitTo(value))"),
+            ),
+            Method(
+              (m) => m
+                ..name = "uid"
                 ..type = MethodType.getter
                 ..lambda = true
                 ..returns = Reference(
-                  _querySelectorClass(
-                    param,
-                    "_\$_${model.name}CollectionQuery",
-                  ),
+                  "StringModelQuerySelector<_\$_${model.name}CollectionQuery>",
                 )
                 ..body = Code(
-                  "${_querySelectorClass(param, "_\$_${model.name}CollectionQuery")}(key: \"${param.jsonKey}\", toQuery: _toQuery, modelQuery: modelQuery)",
+                  "StringModelQuerySelector<_\$_${model.name}CollectionQuery>(key: \"@uid\", toQuery: _toQuery, modelQuery: modelQuery)",
                 ),
-            );
-          }),
+            ),
+            ...model.parameters.map((param) {
+              return Method(
+                (m) => m
+                  ..name = param.name
+                  ..type = MethodType.getter
+                  ..lambda = true
+                  ..returns = Reference(
+                    _querySelectorClass(
+                      param,
+                      "_\$_${model.name}CollectionQuery",
+                    ),
+                  )
+                  ..body = Code(
+                    "${_querySelectorClass(param, "_\$_${model.name}CollectionQuery")}(key: \"${param.jsonKey}\", toQuery: _toQuery, modelQuery: modelQuery)",
+                  ),
+              );
+            }),
+          ],
         ]),
     ),
     if (mirror != null) ...[
@@ -1022,21 +1055,6 @@ List<Spec> collectionModelQueryClass(
             ),
             Method(
               (m) => m
-                ..name = "limitTo"
-                ..lambda = true
-                ..requiredParameters.addAll([
-                  Parameter(
-                    (p) => p
-                      ..name = "value"
-                      ..type = const Reference("int"),
-                  )
-                ])
-                ..returns = Reference("_\$_${model.name}MirrorCollectionQuery")
-                ..body = Code(
-                    "_\$_${model.name}MirrorCollectionQuery(modelQuery.limitTo(value))"),
-            ),
-            Method(
-              (m) => m
                 ..name = "notifyDocumentChanges"
                 ..lambda = true
                 ..returns = Reference("_\$_${model.name}MirrorCollectionQuery")
@@ -1053,33 +1071,87 @@ List<Spec> collectionModelQueryClass(
             ),
             Method(
               (m) => m
-                ..name = "uid"
-                ..type = MethodType.getter
+                ..name = "remove"
                 ..lambda = true
-                ..returns = Reference(
-                  "StringModelQuerySelector<_\$_${model.name}MirrorCollectionQuery>",
-                )
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "type"
+                      ..type = const Reference("ModelQueryFilterType"),
+                  )
+                ])
+                ..returns = Reference("_\$_${model.name}MirrorCollectionQuery")
                 ..body = Code(
-                  "StringModelQuerySelector<_\$_${model.name}MirrorCollectionQuery>(key: \"@uid\", toQuery: _toQuery, modelQuery: modelQuery)",
-                ),
+                    "_\$_${model.name}MirrorCollectionQuery(modelQuery.remove(type))"),
             ),
-            ...model.parameters.map((param) {
-              return Method(
+            if (annotation.mirrorQuery.isNotEmpty) ...[
+              ...annotation.mirrorQuery?.mapAndRemoveEmpty((query) {
+                    final conditions =
+                        _availableQueryConditions(query, model.parameters);
+                    return Method(
+                      (m) => m
+                        ..name = "${query.name.toCamelCase()}Query"
+                        ..returns =
+                            Reference("_\$_${model.name}MirrorCollectionQuery")
+                        ..optionalParameters.addAll([
+                          ...conditions.mapAndRemoveEmpty((condition) {
+                            return condition.toParameter();
+                          }),
+                        ])
+                        ..body = Code(
+                          query
+                              .toCode("_\$_${model.name}MirrorCollectionQuery"),
+                        ),
+                    );
+                  }) ??
+                  [],
+            ] else ...[
+              Method(
                 (m) => m
-                  ..name = param.name
+                  ..name = "limitTo"
+                  ..lambda = true
+                  ..requiredParameters.addAll([
+                    Parameter(
+                      (p) => p
+                        ..name = "value"
+                        ..type = const Reference("int"),
+                    )
+                  ])
+                  ..returns =
+                      Reference("_\$_${model.name}MirrorCollectionQuery")
+                  ..body = Code(
+                      "_\$_${model.name}MirrorCollectionQuery(modelQuery.limitTo(value))"),
+              ),
+              Method(
+                (m) => m
+                  ..name = "uid"
                   ..type = MethodType.getter
                   ..lambda = true
                   ..returns = Reference(
-                    _querySelectorClass(
-                      param,
-                      "_\$_${model.name}MirrorCollectionQuery",
-                    ),
+                    "StringModelQuerySelector<_\$_${model.name}MirrorCollectionQuery>",
                   )
                   ..body = Code(
-                    "${_querySelectorClass(param, "_\$_${model.name}MirrorCollectionQuery")}(key: \"${param.jsonKey}\", toQuery: _toQuery, modelQuery: modelQuery)",
+                    "StringModelQuerySelector<_\$_${model.name}MirrorCollectionQuery>(key: \"@uid\", toQuery: _toQuery, modelQuery: modelQuery)",
                   ),
-              );
-            }),
+              ),
+              ...model.parameters.map((param) {
+                return Method(
+                  (m) => m
+                    ..name = param.name
+                    ..type = MethodType.getter
+                    ..lambda = true
+                    ..returns = Reference(
+                      _querySelectorClass(
+                        param,
+                        "_\$_${model.name}MirrorCollectionQuery",
+                      ),
+                    )
+                    ..body = Code(
+                      "${_querySelectorClass(param, "_\$_${model.name}MirrorCollectionQuery")}(key: \"${param.jsonKey}\", toQuery: _toQuery, modelQuery: modelQuery)",
+                    ),
+                );
+              }),
+            ],
           ]),
       ),
     ] else ...[

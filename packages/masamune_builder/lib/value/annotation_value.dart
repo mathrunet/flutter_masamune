@@ -57,6 +57,13 @@ class ModelAnnotationValue {
           mirrorPermission = permission ?? const [];
         }
 
+        final queryMatch = _queryRegExp.firstMatch(source);
+        query = QueryValue.from(queryMatch?.group(1)?.trim()) ?? const [];
+        final mirrorQueryMatch = _mirrorQueryRegExp.firstMatch(source);
+        mirrorQuery = QueryValue.from(mirrorQueryMatch?.group(1)?.trim()) ??
+            query ??
+            const [];
+
         final adapterMatch = _adapterRegExp.firstMatch(source);
         if (adapterMatch != null) {
           final mirrorMatch = _mirrorWithSingleQuoteRegExp.firstMatch(source) ??
@@ -65,11 +72,15 @@ class ModelAnnotationValue {
           final permissionMatch = _permissionRegExp.firstMatch(source);
           final mirrorPermissionMatch =
               _mirrorPermissionRegExp.firstMatch(source);
+          final queryMatch = _queryRegExp.firstMatch(source);
+          final mirrorQueryMatch = _mirrorQueryRegExp.firstMatch(source);
           final match = adapterMatch
               .group(1)
               ?.replaceAll(mirrorMatch?.group(0) ?? "", "")
               .replaceAll(permissionMatch?.group(0) ?? "", "")
               .replaceAll(mirrorPermissionMatch?.group(0) ?? "", "")
+              .replaceAll(queryMatch?.group(0) ?? "", "")
+              .replaceAll(mirrorQueryMatch?.group(0) ?? "", "")
               .trim()
               .trimString(",")
               .trim();
@@ -107,14 +118,19 @@ class ModelAnnotationValue {
   }
 
   static final _mirrorWithSingleQuoteRegExp =
-      RegExp(r"mirror\s*:\s*('[^']+'),?");
+      RegExp(r"mirror\s*:\s*('[^']+')\s*,?");
   static final _mirrorWithDoubleQuoteRegExp =
-      RegExp(r'mirror\s*:\s*("[^"]+"),?');
+      RegExp(r'mirror\s*:\s*("[^"]+")\s*,?');
   static final _mirrorWithVariableRegExp =
-      RegExp(r'mirror\s*:\s*([a-zA-Z0-9$._-]+),?');
-  static final _permissionRegExp = RegExp(r"permission\s*:\s*\[([^\]]*)\],?");
+      RegExp(r'mirror\s*:\s*([a-zA-Z0-9$._-]+)\s*,?');
+  static final _permissionRegExp =
+      RegExp(r"permission\s*:\s*\[([^\]]*)\]\s*,?");
   static final _mirrorPermissionRegExp =
-      RegExp(r"mirrorPermission\s*:\s*\[([^\]]*)\],?");
+      RegExp(r"mirrorPermission\s*:\s*\[([^\]]*)\]\s*,?");
+  static final _queryRegExp = RegExp(
+      r"query\s*:\s*\[([^\(]+\s*\([^\[]*\[[^\]]+\]\s*\)\s*,?)*\s*\]\s*,?");
+  static final _mirrorQueryRegExp = RegExp(
+      r"mirrorQuery\s*:\s*\[([^\(]+\s*\([^\[]*\[[^\]]+\]\s*\)\s*,?)*\s*\]\s*,?");
   static final _adapterRegExp = RegExp(r"adapter\s*:\s*(.+),?\s*\)\s*$");
 
   /// Class Element.
@@ -166,6 +182,16 @@ class ModelAnnotationValue {
   ///
   /// [mirror]用のパーミッションの設定。
   late final List<PermissionValue>? mirrorPermission;
+
+  /// Query settings.
+  ///
+  /// クエリの設定。
+  late final List<QueryValue>? query;
+
+  /// Query settings for [mirror].
+  ///
+  /// [mirror]用のクエリの設定。
+  late final List<QueryValue>? mirrorQuery;
 
   @override
   String toString() {

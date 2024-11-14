@@ -1,8 +1,8 @@
 part of '/masamune.dart';
 
 /// {@macro model_database_query}
-class AllowModelDatabaseQuery implements ModelDatabaseQuery {
-  const AllowModelDatabaseQuery._({
+class ModelDatabaseConditionQuery implements ModelDatabaseQuery {
+  const ModelDatabaseConditionQuery._({
     required this.type,
     this.key,
     this.children,
@@ -20,7 +20,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_equal_to}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.equalTo(Object key)
+  const ModelDatabaseConditionQuery.equalTo(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.equalTo,
           key: key,
@@ -29,7 +29,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_not_equal_to}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.notEqualTo(Object key)
+  const ModelDatabaseConditionQuery.notEqualTo(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.notEqualTo,
           key: key,
@@ -38,7 +38,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_less_than}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.lessThan(Object key)
+  const ModelDatabaseConditionQuery.lessThan(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.lessThan,
           key: key,
@@ -47,7 +47,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_greater_than}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.greaterThan(Object key)
+  const ModelDatabaseConditionQuery.greaterThan(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.greaterThan,
           key: key,
@@ -56,7 +56,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_less_than_or_equal_to}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.lessThanOrEqualTo(Object key)
+  const ModelDatabaseConditionQuery.lessThanOrEqualTo(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.lessThanOrEqualTo,
           key: key,
@@ -65,7 +65,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_greater_than_or_equal_to}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.greaterThanOrEqualTo(Object key)
+  const ModelDatabaseConditionQuery.greaterThanOrEqualTo(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.greaterThanOrEqualTo,
           key: key,
@@ -74,7 +74,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_array_contains}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.arrayContains(Object key)
+  const ModelDatabaseConditionQuery.arrayContains(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.arrayContains,
           key: key,
@@ -83,7 +83,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_array_contains_any}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.arrayContainsAny(Object key)
+  const ModelDatabaseConditionQuery.arrayContainsAny(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.arrayContainsAny,
           key: key,
@@ -92,7 +92,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_where_in}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.whereIn(Object key)
+  const ModelDatabaseConditionQuery.whereIn(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.whereIn,
           key: key,
@@ -101,7 +101,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_where_not_in}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.whereNotIn(Object key)
+  const ModelDatabaseConditionQuery.whereNotIn(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.whereNotIn,
           key: key,
@@ -110,7 +110,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_is_null}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.isNull(Object key)
+  const ModelDatabaseConditionQuery.isNull(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.isNull,
           key: key,
@@ -119,7 +119,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_is_not_null}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.isNotNull(Object key)
+  const ModelDatabaseConditionQuery.isNotNull(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.isNotNull,
           key: key,
@@ -128,7 +128,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_geo_hash}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.geoHash(Object key)
+  const ModelDatabaseConditionQuery.geoHash(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.geoHash,
           key: key,
@@ -137,7 +137,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_like}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.like(Object key)
+  const ModelDatabaseConditionQuery.like(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.like,
           key: key,
@@ -146,7 +146,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_order_by_asc}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.orderByAsc(Object key)
+  const ModelDatabaseConditionQuery.orderByAsc(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.orderByAsc,
           key: key,
@@ -155,7 +155,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_order_by_desc}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.orderByDesc(Object key)
+  const ModelDatabaseConditionQuery.orderByDesc(Object key)
       : this._(
           type: ModelDatabaseQueryFilterType.orderByDesc,
           key: key,
@@ -164,7 +164,7 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_limit}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.limit()
+  const ModelDatabaseConditionQuery.limit()
       : this._(
           type: ModelDatabaseQueryFilterType.limit,
         );
@@ -172,18 +172,18 @@ class AllowModelDatabaseQuery implements ModelDatabaseQuery {
   /// {@macro model_database_query_filter_type_and}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.and(List<ModelDatabaseQuery> children)
-      : this._(
-          type: ModelDatabaseQueryFilterType.and,
-          children: children,
-        );
+  // const ModelDatabaseConditionQuery.and(List<ModelDatabaseQuery> children)
+  //     : this._(
+  //         type: ModelDatabaseQueryFilterType.and,
+  //         children: children,
+  //       );
 
   /// {@macro model_database_query_filter_type_or}
   ///
   /// {@macro model_database_query}
-  const AllowModelDatabaseQuery.or(List<ModelDatabaseQuery> children)
-      : this._(
-          type: ModelDatabaseQueryFilterType.or,
-          children: children,
-        );
+  // const ModelDatabaseConditionQuery.or(List<ModelDatabaseQuery> children)
+  //     : this._(
+  //         type: ModelDatabaseQueryFilterType.or,
+  //         children: children,
+  //       );
 }
