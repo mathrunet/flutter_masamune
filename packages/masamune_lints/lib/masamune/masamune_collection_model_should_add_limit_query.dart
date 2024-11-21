@@ -408,9 +408,9 @@ class _MasamuneCollectionModelShouldAddLimitQuery extends DartLintRule {
         }
         if (node.isAggregate) {
           if (node.isLimit) {
-            reporter.reportErrorForNode(
-              _code,
+            reporter.atNode(
               node.node!,
+              _code,
             );
           }
           continue;
@@ -418,9 +418,9 @@ class _MasamuneCollectionModelShouldAddLimitQuery extends DartLintRule {
         if (node.isLimit || node.isCreate) {
           continue;
         }
-        reporter.reportErrorForNode(
-          _code,
+        reporter.atNode(
           node.node!,
+          _code,
         );
       }
     });

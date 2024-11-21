@@ -163,9 +163,9 @@ class _MasamuneModelShouldLoad extends DartLintRule {
         if (node.isLoad || !node.isModel || node.node == null) {
           continue;
         }
-        reporter.reportErrorForNode(
-          _code,
+        reporter.atNode(
           node.node!,
+          _code,
         );
       }
     });
