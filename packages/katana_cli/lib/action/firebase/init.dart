@@ -1,4 +1,5 @@
 // Dart imports:
+import 'dart:convert';
 import 'dart:io';
 
 // Project imports:
@@ -47,6 +48,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final npm = bin.get("npm", "npm");
+    final npx = bin.get("npx", "npx");
     final firebaseCommand = bin.get("firebase", "firebase");
     final gsutil = bin.get("gsutil", "gsutil");
     final flutterfireCommand = bin.get("flutterfire", "flutterfire");
@@ -479,6 +481,27 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         ],
         workingDirectory: "firebase/functions",
       );
+      await command(
+        "Package installation for dev.",
+        [
+          npm,
+          "install",
+          "--save-dev",
+          "jest",
+          "ts-jest",
+          "@types/jest",
+        ],
+        workingDirectory: "firebase/functions",
+      );
+      await command(
+        "Initialize Jest",
+        [
+          npx,
+          "ts-jest",
+          "config:init",
+        ],
+        workingDirectory: "firebase/functions",
+      );
       if (!firebaseFunctionsIndexExists) {
         label("Data replacement for Firebase Functions.");
         await const FirebaseFunctionsIndexCliCode().generateFile("index.ts");
@@ -543,6 +566,20 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       );
     }
     await settingsGradle.save();
+    label("Rewrite `package.json`");
+    final packageJson = File("firebase/functions/package.json");
+    if (packageJson.existsSync()) {
+      final json = jsonDecodeAsMap(await packageJson.readAsString());
+      final scripts = json.getAsMap("scripts");
+      scripts["test"] = "firebase emulators:exec --only firestore 'npx jest'";
+      json["scripts"] = scripts;
+      await packageJson.writeAsString(jsonEncode(json));
+    }
+    label("Create functions test folder.");
+    final functionsTest = Directory("firebase/functions/test");
+    if (!functionsTest.existsSync()) {
+      await functionsTest.create();
+    }
     label("Rewrite `.gitignore`.");
     final gitignore = File("firebase/.gitignore");
     if (!gitignore.existsSync()) {
