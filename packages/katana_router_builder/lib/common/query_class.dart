@@ -50,13 +50,15 @@ List<Class> queryClass(
               ..annotations.addAll([const Reference("useResult")])
               ..optionalParameters.addAll([
                 ...model.parameters.map((param) {
+                  var aliasTypeName = param.type.aliasName;
+                  if (param.type.isNullable && !aliasTypeName.endsWith("?")) {
+                    aliasTypeName += "?";
+                  }
                   return Parameter(
                     (p) => p
                       ..required = param.element.isRequired
                       ..named = true
-                      ..type = Reference(
-                        param.type.aliasName,
-                      )
+                      ..type = Reference(aliasTypeName)
                       ..name = param.name
                       ..defaultTo = param.element.defaultValueCode != null
                           ? Code(param.element.defaultValueCode!)
@@ -122,13 +124,15 @@ List<Class> queryClass(
         ])
         ..fields.addAll([
           ...model.parameters.map((param) {
+            var aliasTypeName = param.type.aliasName;
+            if (param.type.isNullable && !aliasTypeName.endsWith("?")) {
+              aliasTypeName += "?";
+            }
             return Field(
               (f) => f
                 ..name = param.name
                 ..modifier = FieldModifier.final$
-                ..type = Reference(
-                  param.type.aliasName,
-                ),
+                ..type = Reference(aliasTypeName),
             );
           }),
           Field(
