@@ -517,6 +517,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         ],
         workingDirectory: "firebase/functions",
       );
+      await const FunctionsEslintrcCliCode().generateFile(".eslintrc.js");
     }
     label("Edit config.properties");
     final configPropertiesFile = File("android/config.properties");
@@ -728,6 +729,81 @@ class FirebaseHostingIndexCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return r"""
+""";
+  }
+}
+
+/// Define the .eslintrc.js code for Functions.
+///
+/// Functionsの.eslintrc.jsのコードを定義します。
+class FunctionsEslintrcCliCode extends CliCode {
+  /// Define the .eslintrc.js code for Functions.
+  ///
+  /// Functionsの.eslintrc.jsのコードを定義します。
+  const FunctionsEslintrcCliCode();
+
+  @override
+  String get name => ".eslintrc";
+
+  @override
+  String get prefix => ".eslintrc";
+
+  @override
+  String get directory => "firebase/functions";
+
+  @override
+  String get description =>
+      "Define the .eslintrc.js code for Functions. Functionsの.eslintrc.jsのコードを定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+module.exports = {
+  root: true,
+  env: {
+    es6: true,
+    node: true,
+  },
+  extends: [
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "google",
+    "plugin:@typescript-eslint/recommended",
+  ],
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: ["tsconfig.json", "tsconfig.dev.json"],
+    sourceType: "module",
+  },
+  ignorePatterns: [
+    "/lib/**/*", // Ignore built files.
+    "/generated/**/*", // Ignore generated files.
+    "**/*.js",
+    "/test/**/*",
+  ],
+  plugins: [
+    "@typescript-eslint",
+    "import",
+  ],
+  rules: {
+    "quotes": ["error", "double"],
+    "import/no-unresolved": 0,
+    "indent": ["error", 2],
+  },
+};
 """;
   }
 }
