@@ -128,9 +128,9 @@ class ModelAnnotationValue {
   static final _mirrorPermissionRegExp =
       RegExp(r"mirrorPermission\s*:\s*\[([^\]]*)\]\s*,?");
   static final _queryRegExp = RegExp(
-      r"query\s*:\s*\[([^\(]+\s*\([^\[]*\[[^\]]+\]\s*\)\s*,?)*\s*\]\s*,?");
+      r"query:\s*\[(\s*(ModelDatabaseQueryGroup\s*\(([^\[]*\[[^\]]*\][^\)]*)*\),?\s*)+\s*)\],?");
   static final _mirrorQueryRegExp = RegExp(
-      r"mirrorQuery\s*:\s*\[([^\(]+\s*\([^\[]*\[[^\]]+\]\s*\)\s*,?)*\s*\]\s*,?");
+      r"mirrorQuery:\s*\[(\s*(ModelDatabaseQueryGroup\s*\(([^\[]*\[[^\]]*\][^\)]*)*\),?\s*)+\s*)\],?");
   static final _adapterRegExp = RegExp(r"adapter\s*:\s*(.+),?\s*\)\s*$");
 
   /// Class Element.

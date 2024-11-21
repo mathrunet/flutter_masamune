@@ -36,18 +36,6 @@ String _querySelectorClass(ParamaterValue param, String queryClass) {
   }
 }
 
-List<QueryConditionValue> _availableQueryConditions(
-    QueryValue query, List<ParamaterValue> parameters) {
-  final res = <QueryConditionValue>[];
-  for (final condition in query.conditions) {
-    final parameter = parameters.firstWhereOrNull((e) {
-      return e.jsonKey == condition.key;
-    });
-    res.add(condition.copyWith(parameter: parameter));
-  }
-  return res;
-}
-
 /// Create a class to automatically create collection model queries.
 ///
 /// コレクションモデルクエリを自動作成するためのクラスを作成します。
@@ -549,7 +537,7 @@ List<Spec> collectionModelQueryClass(
           if (annotation.query.isNotEmpty) ...[
             ...annotation.query?.mapAndRemoveEmpty((query) {
                   final conditions =
-                      _availableQueryConditions(query, model.parameters);
+                      query.getConditionsWithParameters(model.parameters);
                   return Method(
                     (m) => m
                       ..name = "${query.name.toCamelCase()}Query"
@@ -1087,7 +1075,7 @@ List<Spec> collectionModelQueryClass(
             if (annotation.mirrorQuery.isNotEmpty) ...[
               ...annotation.mirrorQuery?.mapAndRemoveEmpty((query) {
                     final conditions =
-                        _availableQueryConditions(query, model.parameters);
+                        query.getConditionsWithParameters(model.parameters);
                     return Method(
                       (m) => m
                         ..name = "${query.name.toCamelCase()}Query"

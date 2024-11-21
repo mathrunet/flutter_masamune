@@ -277,3 +277,129 @@ extension ModelPermissionQueryUserTypeExtension
     }
   }
 }
+
+/// Extension method of [ModelDatabaseQuery].
+///
+/// [ModelDatabaseQuery]の拡張メソッド。
+extension QueryConditionValueListExtension on List<QueryConditionValue> {
+  /// Converted to Where code.
+  ///
+  /// Whereのコードに変換。
+  List<String> toWhereCode() {
+    // 同じキーでまとめる
+    final res = <String>[];
+    final map = <String, List<QueryConditionValue>>{};
+    for (final condition in this) {
+      final key = condition.key;
+      if (key == null) {
+        continue;
+      }
+      if (!map.containsKey(key)) {
+        map[key] = [];
+      }
+      map[key]!.add(condition);
+    }
+    for (final entry in map.entries) {
+      final key = entry.key;
+      final conditions = entry.value;
+      if (conditions.isEmpty) {
+        continue;
+      }
+
+      final tmp = conditions._toWhereValueCode(key);
+      if (tmp.isNotEmpty) {
+        res.add("        { $key: { $tmp } },");
+      }
+    }
+    return res;
+  }
+
+  String _toWhereValueCode(String key) {
+    final conditions = <String>[];
+    if (every(
+      (e) =>
+          e.type == "lessThan" ||
+          e.type == "lessThanOrEqualTo" ||
+          e.type == "greaterThan" ||
+          e.type == "greaterThanOrEqualTo",
+    )) {
+      final greaterThanOrEqualTo =
+          firstWhereOrNull((e) => e.type == "greaterThanOrEqualTo");
+      if (greaterThanOrEqualTo != null) {
+        conditions.add("ge: \$${key}GreaterThanOrEqualTo");
+      } else {
+        final greaterThan = firstWhereOrNull((e) => e.type == "greaterThan");
+        if (greaterThan != null) {
+          conditions.add("gt: \$${key}GreaterThan");
+        }
+      }
+      final lessThanOrEqualTo =
+          firstWhereOrNull((e) => e.type == "lessThanOrEqualTo");
+      if (lessThanOrEqualTo != null) {
+        conditions.add("le: \$${key}LessThanOrEqualTo");
+      } else {
+        final lessThan = firstWhereOrNull((e) => e.type == "lessThan");
+        if (lessThan != null) {
+          conditions.add("lt: \$${key}LessThan");
+        }
+      }
+      return conditions.join(", ");
+    } else {
+      final filtered = where(
+        (e) =>
+            e.type != "lessThan" &&
+            e.type != "lessThanOrEqualTo" &&
+            e.type != "greaterThan" &&
+            e.type != "greaterThanOrEqualTo",
+      ).first;
+      switch (filtered.type) {
+        case "equalTo":
+          return "eq: \$${key}EqualTo";
+        case "notEqualTo":
+          return "ne: \$${key}NotEqualTo";
+        case "arrayContains":
+          return "includes: \$${key}ArrayContains";
+        case "arrayContainsAny":
+          return "includes: \$${key}ArrayContainsAny";
+        case "whereIn":
+          return "in: \$${key}WhereIn";
+        case "whereNotIn":
+          return "nin: \$${key}WhereNotIn";
+        case "isNull":
+          return "isNull: true";
+        case "isNotNull":
+          return "isNull: false";
+        case "like":
+          return "contains: \$${key}Like";
+      }
+    }
+    return "";
+  }
+
+  /// Converted to orderBy code.
+  ///
+  /// orderByのコードに変換。
+  List<String> toOrderByCode() {
+    // 同じキーでまとめる
+    final res = <String>[];
+    final map = <String, QueryConditionValue>{};
+    for (final condition in this) {
+      final key = condition.key;
+      if (key == null) {
+        continue;
+      }
+      if (map[key] != null) {
+        continue;
+      }
+      map[key] = condition;
+    }
+    for (final entry in map.entries) {
+      final key = entry.key;
+      final condition = entry.value;
+      final isAsc = condition.type == "orderByAsc";
+
+      res.add("$key: ${isAsc ? "ASC" : "DESC"},");
+    }
+    return res;
+  }
+}

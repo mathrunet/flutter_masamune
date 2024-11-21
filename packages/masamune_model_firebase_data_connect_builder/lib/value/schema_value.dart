@@ -62,6 +62,56 @@ class SchemaValue {
     }
     buffer.writeln("  }");
     buffer.writeln("}");
+    for (final query in modelAnnotationValue.query ?? <QueryValue>[]) {
+      final conditioons =
+          query.getConditionsWithParameters(classValue.parameters);
+      final wheres = conditioons
+          .where((e) =>
+              e.type != "orderByDesc" &&
+              e.type != "orderByAsc" &&
+              e.type != "limit")
+          .toList();
+      final orderBys = conditioons
+          .where((e) => e.type == "orderByDesc" || e.type == "orderByAsc")
+          .toList();
+      buffer.writeln(
+          "query ${classValue.name.toPascalCase()}${query.name.toPascalCase()}Query(");
+      for (final condition in conditioons) {
+        if (condition.type == "limit") {
+          continue;
+        }
+        buffer.writeln(
+          "  \$${condition.key ?? ""}${condition.type.toPascalCase()}: ${condition.parameter?.type.toParameterType() ?? ""},",
+        );
+      }
+      buffer.writeln("  \$limit: Int! = 100,");
+      buffer.writeln(") @auth(level: ${collectionAuthType.label}) {");
+      buffer.writeln("  ${classValue.name.toCamelCase()}s(");
+      if (wheres.isNotEmpty) {
+        buffer.writeln("    where: {");
+        buffer.writeln("      _and: [");
+        for (final condition in wheres.toWhereCode()) {
+          buffer.writeln(condition);
+        }
+        buffer.writeln("      ],");
+        buffer.writeln("    },");
+      }
+      if (orderBys.isNotEmpty) {
+        buffer.write("    orderBy: [");
+        for (final condition in orderBys.toOrderByCode()) {
+          buffer.writeln(condition);
+        }
+        buffer.write("    ],");
+      }
+      buffer.writeln("    limit: \$limit,");
+      buffer.writeln("  ) {");
+      buffer.writeln("    uid,");
+      for (final field in classValue.parameters) {
+        buffer.writeln(field.retrieveFieldCode());
+      }
+      buffer.writeln("  }");
+      buffer.writeln("}");
+    }
     return buffer.toString();
   }
 

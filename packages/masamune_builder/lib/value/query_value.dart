@@ -70,6 +70,22 @@ class QueryValue {
     return "$runtimeType($name, [${conditions.map((e) => e.toString()).join(",")}])";
   }
 
+  /// Obtains the condition along with its parameters.
+  ///
+  /// パラメーターとともに条件を取得します。
+  List<QueryConditionValue> getConditionsWithParameters(
+    List<ParamaterValue> parameters,
+  ) {
+    final res = <QueryConditionValue>[];
+    for (final condition in conditions) {
+      final parameter = parameters.firstWhereOrNull((e) {
+        return e.jsonKey == condition.key;
+      });
+      res.add(condition.copyWith(parameter: parameter));
+    }
+    return res;
+  }
+
   /// Outputs the code of the conditional expression.
   ///
   /// 条件式のコードを出力。
