@@ -12,6 +12,8 @@ part of '/katana_model.dart';
 ///
 /// Use [CollectionModelQuery] for collections.
 ///
+/// You can name the query itself by specifying [name].
+///
 /// Modelを定義するためのクエリクラス。
 ///
 /// クエリ対象となる[path]を与えて、ドキュメントの読み込み等を行います。
@@ -23,6 +25,8 @@ part of '/katana_model.dart';
 /// [validationQueries]を指定した場合、利用するモデルのデータバリデーションを指定できます。
 ///
 /// コレクションに対しては[CollectionModelQuery]を使用してください。
+///
+/// [name]を指定するとクエリ自体に名前をつけることができます。
 @immutable
 class DocumentModelQuery extends ModelQuery {
   /// Query class for defining Model.
@@ -37,6 +41,8 @@ class DocumentModelQuery extends ModelQuery {
   ///
   /// Use [CollectionModelQuery] for collections.
   ///
+  /// You can name the query itself by specifying [name].
+  ///
   /// Modelを定義するためのクエリクラス。
   ///
   /// クエリ対象となる[path]を与えて、ドキュメントの読み込み等を行います。
@@ -48,12 +54,15 @@ class DocumentModelQuery extends ModelQuery {
   /// [validationQueries]を指定した場合、利用するモデルのデータバリデーションを指定できます。
   ///
   /// コレクションに対しては[CollectionModelQuery]を使用してください。
+  ///
+  /// [name]を指定するとクエリ自体に名前をつけることができます。
   const DocumentModelQuery(
     super.path, {
     super.adapter,
     super.accessQuery,
     super.validationQueries,
     super.useTestModelAdapter = true,
+    super.name,
   });
 
   /// Copy [DocumentModelQuery] with [path], [adapter], [accessQuery] and [validationQueries].
@@ -65,9 +74,11 @@ class DocumentModelQuery extends ModelQuery {
     ModelAccessQuery? accessQuery,
     List<ModelValidationQuery>? validationQueries,
     bool? useTestModelAdapter,
+    String? name,
   }) {
     return DocumentModelQuery(
       path ?? this.path,
+      name: name ?? this.name,
       adapter: adapter ?? _adapter,
       accessQuery: accessQuery ?? this.accessQuery,
       validationQueries: validationQueries ?? this.validationQueries,
@@ -99,11 +110,13 @@ class DocumentModelQuery extends ModelQuery {
 ///
 /// If [validationQueries] is specified, you can specify the data validation of the model to be used.
 ///
+/// You can name the query itself by specifying [name].
+///
 /// Use [DocumentModelQuery] for documents.
 ///
 /// Execute [create] to create a [DocumentModelQuery] with the specified ID.
 ///
-/// The following elements can be specified by chaining [equal], [notEqual], [lessThanOrEqual], [greaterThanOrEqual], [contains], [containsAny], [where], [notWhere], [isNull], [isNotNull], [like ], [geo], [orderByAsc], [orderByDesc], and [limitTo] can be specified in a chain to filter elements.
+/// The following elements can be specified by chaining [equal], [notEqual], [lessThanOrEqual], [greaterThanOrEqual], [contains], [containsAny], [where], [notWhere], [isNull], [isNotNull], [like ], [geo], [orderByAsc], [orderByDesc], [notifyDocumentChanges]and [limitTo] can be specified in a chain to filter elements.
 ///
 /// Modelを定義するためのクエリクラス。
 ///
@@ -115,11 +128,13 @@ class DocumentModelQuery extends ModelQuery {
 ///
 /// [validationQueries]を指定した場合、利用するモデルのデータバリデーションを指定できます。
 ///
+/// [name]を指定するとクエリ自体に名前をつけることができます。
+///
 /// ドキュメントに対しては[DocumentModelQuery]を使用してください。
 ///
 /// [create]を実行すると指定したIDを持つ[DocumentModelQuery]を作成することができます。
 ///
-/// [equal]、[notEqual]、[lessThanOrEqual]、[greaterThanOrEqual]、[contains]、[containsAny]、[where]、[notWhere]、[isNull]、[isNotNull]、[like]、[geo]、[orderByAsc]、[orderByDesc]、[limitTo]をチェインして指定していくことにより要素のフィルタリングが可能です。
+/// [equal]、[notEqual]、[lessThanOrEqual]、[greaterThanOrEqual]、[contains]、[containsAny]、[where]、[notWhere]、[isNull]、[isNotNull]、[like]、[geo]、[orderByAsc]、[orderByDesc]、[limitTo]、[notifyDocumentChanges]をチェインして指定していくことにより要素のフィルタリングが可能です。
 @immutable
 class CollectionModelQuery extends ModelQuery {
   /// Query class for defining Model.
@@ -131,6 +146,8 @@ class CollectionModelQuery extends ModelQuery {
   /// If [accessQuery] is specified, you can specify endpoints, etc. in [ModelAdapter].
   ///
   /// If [validationQueries] is specified, you can specify the data validation of the model to be used.
+  ///
+  /// You can name the query itself by specifying [name].
   ///
   /// Use [DocumentModelQuery] for documents.
   ///
@@ -148,6 +165,8 @@ class CollectionModelQuery extends ModelQuery {
   ///
   /// [validationQueries]を指定した場合、利用するモデルのデータバリデーションを指定できます。
   ///
+  /// [name]を指定するとクエリ自体に名前をつけることができます。
+  ///
   /// ドキュメントに対しては[DocumentModelQuery]を使用してください。
   ///
   /// [create]を実行すると指定したIDを持つ[DocumentModelQuery]を作成することができます。
@@ -159,6 +178,7 @@ class CollectionModelQuery extends ModelQuery {
     super.accessQuery,
     super.validationQueries,
     super.useTestModelAdapter = true,
+    super.name,
   });
 
   const CollectionModelQuery._(
@@ -168,6 +188,7 @@ class CollectionModelQuery extends ModelQuery {
     super.adapter,
     super.validationQueries,
     super.useTestModelAdapter = true,
+    super.name,
   });
 
   /// Create a [DocumentModelQuery] for a document under a collection using its own [path] and [id].
@@ -522,6 +543,7 @@ class CollectionModelQuery extends ModelQuery {
       filters: filters ?? this.filters,
       adapter: _adapter,
       accessQuery: accessQuery,
+      name: name,
       validationQueries: validationQueries,
       useTestModelAdapter: useTestModelAdapter,
     );
@@ -536,10 +558,12 @@ class CollectionModelQuery extends ModelQuery {
     ModelAccessQuery? accessQuery,
     List<ModelValidationQuery>? validationQueries,
     bool? useTestModelAdapter,
+    String? name,
   }) {
     return CollectionModelQuery._(
       path ?? this.path,
       filters: filters,
+      name: name ?? this.name,
       adapter: adapter ?? _adapter,
       accessQuery: accessQuery ?? this.accessQuery,
       validationQueries: validationQueries ?? this.validationQueries,
@@ -567,11 +591,15 @@ class CollectionModelQuery extends ModelQuery {
 ///
 /// Use [DocumentModelQuery] for documents and [CollectionModelQuery] for collections.
 ///
+/// You can name the query itself by specifying [name].
+///
 /// Modelを定義するためのクエリクラス。
 ///
 /// クエリ対象となる[path]と他必要な条件を定義することが可能です。
 ///
 /// ドキュメントに対しては[DocumentModelQuery]、コレクションに対しては[CollectionModelQuery]を使用してください。
+///
+/// [name]を指定するとクエリ自体に名前をつけることができます。
 @immutable
 class ModelQuery {
   /// Query class for defining Model.
@@ -580,11 +608,15 @@ class ModelQuery {
   ///
   /// Use [DocumentModelQuery] for documents and [CollectionModelQuery] for collections.
   ///
+  /// You can name the query itself by specifying [name].
+  ///
   /// Modelを定義するためのクエリクラス。
   ///
   /// クエリ対象となる[path]と他必要な条件を定義することが可能です。
   ///
   /// ドキュメントに対しては[DocumentModelQuery]、コレクションに対しては[CollectionModelQuery]を使用してください。
+  ///
+  /// [name]を指定するとクエリ自体に名前をつけることができます。
   const ModelQuery(
     this.path, {
     this.filters = const [],
@@ -592,12 +624,18 @@ class ModelQuery {
     this.validationQueries,
     ModelAdapter? adapter,
     this.useTestModelAdapter = true,
+    this.name,
   }) : _adapter = adapter;
 
   /// Path definition for the model.
   ///
   /// モデルに対するパス定義。
   final String path;
+
+  /// Name for the query.
+  ///
+  /// クエリに対する名前。
+  final String? name;
 
   /// Filter definition for the model.
   ///
@@ -645,7 +683,7 @@ class ModelQuery {
     if (filters.isEmpty) {
       return path;
     }
-    return "$path?${filters.sortTo((a, b) => a.type.index - b.type.index).map((e) => e.toString()).join("&")}";
+    return "$path?${filters.sortTo((a, b) => a.type.index - b.type.index).map((e) => e.toString()).join("&")}${name != null ? "#$name" : ""}";
   }
 
   /// Ignores [ModelQueryFilter.key] and returns `true` if it is within all of the conditions in [filters].

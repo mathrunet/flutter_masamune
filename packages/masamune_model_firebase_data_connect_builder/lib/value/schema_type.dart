@@ -74,6 +74,32 @@ enum SchemaType {
         return "Timestamp";
     }
   }
+
+  /// Get the label for dart.
+  ///
+  /// Dart向けのラベルを取得します。
+  String get dartLabel {
+    switch (this) {
+      case SchemaType.undefined:
+        return "null";
+      case SchemaType.nullOrUndefined:
+        return "null";
+      case SchemaType.string:
+        return "String";
+      case SchemaType.bool:
+        return "bool";
+      case SchemaType.int:
+        return "int";
+      case SchemaType.float:
+        return "double";
+      case SchemaType.any:
+        return "dynamic";
+      case SchemaType.date:
+        return "DateTime";
+      case SchemaType.timestamp:
+        return "DateTime";
+    }
+  }
 }
 
 /// The type of [ModelFieldValue] in the FirebaseDataConnect rules.

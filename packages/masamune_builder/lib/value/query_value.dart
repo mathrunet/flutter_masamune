@@ -90,7 +90,7 @@ class QueryValue {
   ///
   /// 条件式のコードを出力。
   String toCode(String className) {
-    return "return $className(modelQuery.${conditions.mapAndRemoveEmpty((e) => e.toCode()).join(".")});";
+    return "return $className(modelQuery.copyWith(name: \"_${name.toCamelCase()}Query\").${conditions.mapAndRemoveEmpty((e) => e.toCode()).join(".")});";
   }
 }
 

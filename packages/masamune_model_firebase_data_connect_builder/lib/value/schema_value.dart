@@ -63,25 +63,25 @@ class SchemaValue {
     buffer.writeln("  }");
     buffer.writeln("}");
     for (final query in modelAnnotationValue.query ?? <QueryValue>[]) {
-      final conditioons =
+      final conditions =
           query.getConditionsWithParameters(classValue.parameters);
-      final wheres = conditioons
+      final wheres = conditions
           .where((e) =>
               e.type != "orderByDesc" &&
               e.type != "orderByAsc" &&
               e.type != "limit")
           .toList();
-      final orderBys = conditioons
+      final orderBys = conditions
           .where((e) => e.type == "orderByDesc" || e.type == "orderByAsc")
           .toList();
       buffer.writeln(
           "query ${classValue.name.toPascalCase()}${query.name.toPascalCase()}Query(");
-      for (final condition in conditioons) {
+      for (final condition in conditions) {
         if (condition.type == "limit") {
           continue;
         }
         buffer.writeln(
-          "  \$${condition.key ?? ""}${condition.type.toPascalCase()}: ${condition.parameter?.type.toParameterType() ?? ""},",
+          "  \$${condition.key?.toCamelCase() ?? ""}${condition.type.toPascalCase()}: ${condition.parameter?.type.toParameterType() ?? ""},",
         );
       }
       buffer.writeln("  \$limit: Int! = 100,");
