@@ -1,3 +1,7 @@
+## 2.1.16
+
+ - **FIX**: Fixed an error when downgrading. ([ae488def](https://github.com/mathrunet/flutter_masamune/commit/ae488def3d9c26f974f016e987ca7d9a65a7551c))
+
 ## 2.1.15
 
  - **FIX**: Deprecated response to getDisplayString. ([e2bfa11c](https://github.com/mathrunet/flutter_masamune/commit/e2bfa11cf9a0c8b22d3290b305724faf1618f6b6))

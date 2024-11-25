@@ -1,3 +1,7 @@
+## 2.2.4
+
+ - **FIX**: Fixed an error when downgrading. ([ae488def](https://github.com/mathrunet/flutter_masamune/commit/ae488def3d9c26f974f016e987ca7d9a65a7551c))
+
 ## 2.2.3
 
  - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))

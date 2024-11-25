@@ -1,3 +1,7 @@
+## 2.1.7
+
+ - **FIX**: Fixed an error when downgrading. ([ae488def](https://github.com/mathrunet/flutter_masamune/commit/ae488def3d9c26f974f016e987ca7d9a65a7551c))
+
 ## 2.1.6
 
  - **FIX**: Apply conditions to DataConnectAdapter. ([3449f09c](https://github.com/mathrunet/flutter_masamune/commit/3449f09cf489999ed63009dcc795ecda45e7628a))

@@ -1,3 +1,7 @@
+## 2.4.2
+
+ - **FIX**: Fixed a bug that caused the app to exit when router.replace is done. ([39b01045](https://github.com/mathrunet/flutter_masamune/commit/39b010456fad85e4411bb253eb1394c90e640c83))
+
 ## 2.4.1
 
  - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
