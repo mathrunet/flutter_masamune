@@ -1,3 +1,8 @@
+## 2.9.0
+
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+ - **FEAT**: Restrict conditional expressions based on DatabaseQuery. ([8830c039](https://github.com/mathrunet/flutter_masamune/commit/8830c03939f7dee942b29775313dc8c185091716))
+
 ## 2.8.1
 
  - **FIX**: Addition of ModelDatabaseQuery. ([daf9cb6e](https://github.com/mathrunet/flutter_masamune/commit/daf9cb6efe1e716f648f808053c8c6c8f9803880))

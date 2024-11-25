@@ -1,3 +1,11 @@
+## 2.25.0
+
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+ - **FIX**: Addition of Eslintrc settings. ([1dc653a4](https://github.com/mathrunet/flutter_masamune/commit/1dc653a4f4b44b334dc9b7ecc0a5c142837727b6))
+ - **FIX**: Added the ability to automatically create icons. ([0e7bb4b1](https://github.com/mathrunet/flutter_masamune/commit/0e7bb4b1cc5387066760b24efa37dce2effa9fe5))
+ - **FIX**: Fixed a bug that KeyProperties was not applied. ([cd81a1b3](https://github.com/mathrunet/flutter_masamune/commit/cd81a1b359126824b523ce8a63c5204af0890a90))
+ - **FEAT**: Maintenance of server-side test code. ([7dd95a03](https://github.com/mathrunet/flutter_masamune/commit/7dd95a03784802566bf06f9832231ce41391883d))
+
 ## 2.24.3
 
  - **FIX**: Resize screenshots. ([81d33d5b](https://github.com/mathrunet/flutter_masamune/commit/81d33d5be9ce6875caa29b403bb8d6f819c95996))

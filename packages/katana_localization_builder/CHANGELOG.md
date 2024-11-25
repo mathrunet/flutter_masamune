@@ -1,3 +1,7 @@
+## 2.2.15
+
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+
 ## 2.2.14
 
  - **FIX**: Support for changes in spreadsheet URLs. ([182034d8](https://github.com/mathrunet/flutter_masamune/commit/182034d80e6f1563d372ba994bbc03710b7e3f44))

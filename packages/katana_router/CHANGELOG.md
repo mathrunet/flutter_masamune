@@ -1,3 +1,8 @@
+## 2.4.1
+
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+ - **FIX**: Supported because onPopPage is deprecated. ([2b567d00](https://github.com/mathrunet/flutter_masamune/commit/2b567d00ed69d045ab98036a8a472d2bb6e706f7))
+
 ## 2.4.0
 
  - **FEAT**: Added four TransitionQuery. ([bcbb4559](https://github.com/mathrunet/flutter_masamune/commit/bcbb455937f3b5c7975bb203486f0e1a6fdb5c48))

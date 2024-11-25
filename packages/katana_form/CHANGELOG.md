@@ -1,3 +1,7 @@
+## 2.14.3
+
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+
 ## 2.14.2
 
  - **FIX**: Fixed minor glitches. ([fa6cf2e3](https://github.com/mathrunet/flutter_masamune/commit/fa6cf2e309a30cd42f738f845b3027883fd2e493))

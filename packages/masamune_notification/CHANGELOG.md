@@ -1,3 +1,7 @@
+## 2.9.5
+
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+
 ## 2.9.4
 
  - Update a dependency to the latest release.

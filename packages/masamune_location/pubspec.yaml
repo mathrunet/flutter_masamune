@@ -1,6 +1,6 @@
 name: masamune_location
 description: Masamune plugin library for handling location information in apps.
-version: 2.5.15
+version: 2.5.16
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_location
 
@@ -12,16 +12,16 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.15.2
-  masamune: ^2.14.14
+  katana: ^2.15.3
+  masamune: ^2.15.0
   flutter_compass: ^0.7.0
-  masamune_location_platform_interface: ^2.4.39
+  masamune_location_platform_interface: ^2.4.40
   location: ^5.0.3
   permission_handler: ^11.1.0
 
 dev_dependencies:
   test: ^1.24.0
-  katana_test: ^2.1.1
+  katana_test: ^2.1.2
   flutter_lints: ^5.0.0
   import_sorter: ^4.6.0
 

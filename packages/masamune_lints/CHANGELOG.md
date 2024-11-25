@@ -1,3 +1,9 @@
+## 2.5.0
+
+ - **FIX**: ReportErrorForNode's deprecated response. ([0890ae2a](https://github.com/mathrunet/flutter_masamune/commit/0890ae2ab80326868162b9970ec49666996f62df))
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+ - **FEAT**: Restrict conditional expressions based on DatabaseQuery. ([8830c039](https://github.com/mathrunet/flutter_masamune/commit/8830c03939f7dee942b29775313dc8c185091716))
+
 ## 2.4.13
 
  - **FIX**: バージョンアップによる不具合修正. ([2e707570](https://github.com/mathrunet/flutter_masamune/commit/2e707570fa89823c68b82c097b4a1e73f9508387))

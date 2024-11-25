@@ -1,3 +1,8 @@
+## 2.2.2
+
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+ - **FIX**: Fixed a bug that prevented VoidCallback from being nullable. ([0355d88a](https://github.com/mathrunet/flutter_masamune/commit/0355d88acd32fbc4384be3ece603499dd6f675ce))
+
 ## 2.2.1
 
  - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))

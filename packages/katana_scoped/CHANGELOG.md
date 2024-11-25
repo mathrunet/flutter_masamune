@@ -1,3 +1,7 @@
+## 2.6.1
+
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+
 ## 2.6.0
 
  - **FEAT**: The state of the application lifecycle can also be specified in on. ([0bd8731d](https://github.com/mathrunet/flutter_masamune/commit/0bd8731dbca946fb4158795144d9da7692c078a3))

@@ -1,3 +1,8 @@
+## 2.1.16
+
+ - **FIX**: Deprecated response to getDisplayString. ([e2bfa11c](https://github.com/mathrunet/flutter_masamune/commit/e2bfa11cf9a0c8b22d3290b305724faf1618f6b6))
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+
 ## 2.1.15
 
  - **FIX**: The latest code will revert to the error. ([49ceec21](https://github.com/mathrunet/flutter_masamune/commit/49ceec216070702a57952212c7d93dc8c3041920))

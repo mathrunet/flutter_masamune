@@ -1,3 +1,10 @@
+## 2.19.0
+
+ - **FIX**: Apply conditions to DataConnectAdapter. ([3449f09c](https://github.com/mathrunet/flutter_masamune/commit/3449f09cf489999ed63009dcc795ecda45e7628a))
+ - **FIX**: Output of GraphQL conditional queries. ([f0136ab6](https://github.com/mathrunet/flutter_masamune/commit/f0136ab632dbd7ec7f3368db0365b97ecdf3411e))
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+ - **FEAT**: Restrict conditional expressions based on DatabaseQuery. ([8830c039](https://github.com/mathrunet/flutter_masamune/commit/8830c03939f7dee942b29775313dc8c185091716))
+
 ## 2.18.2
 
  - Update a dependency to the latest release.

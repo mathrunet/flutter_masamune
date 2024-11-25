@@ -1,3 +1,7 @@
+## 2.2.11
+
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+
 ## 2.2.10
 
  - **FIX**: Version update. ([840831ba](https://github.com/mathrunet/flutter_masamune/commit/840831baeaa851ebaa205a23220d56707f93dd76))

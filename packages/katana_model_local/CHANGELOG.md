@@ -1,3 +1,8 @@
+## 2.14.2
+
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+ - **FIX**: Create conversion function for ref. ([e3af3153](https://github.com/mathrunet/flutter_masamune/commit/e3af31533dd9bc430e7ff286f415152d8a045635))
+
 ## 2.14.1
 
  - Update a dependency to the latest release.

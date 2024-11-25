@@ -1,3 +1,10 @@
+## 2.29.2
+
+ - **FIX**: Changed the timing of onSaved in NoSqlDatabase. ([3047c3f9](https://github.com/mathrunet/flutter_masamune/commit/3047c3f95c66f372a02d7db436c208355da23429))
+ - **FIX**: Apply conditions to DataConnectAdapter. ([3449f09c](https://github.com/mathrunet/flutter_masamune/commit/3449f09cf489999ed63009dcc795ecda45e7628a))
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+ - **FIX**: Create conversion function for ref. ([e3af3153](https://github.com/mathrunet/flutter_masamune/commit/e3af31533dd9bc430e7ff286f415152d8a045635))
+
 ## 2.29.1
 
  - **FIX**: Fixed ModelServerCommand not parsing well. ([c602a992](https://github.com/mathrunet/flutter_masamune/commit/c602a992d425ad8fb427c52dc96913a97fb95a58))

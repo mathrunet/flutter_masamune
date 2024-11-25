@@ -1,3 +1,7 @@
+## 2.6.5
+
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+
 ## 2.6.4
 
  - **FIX**: Fixed a bug that prevented locally stored files from being displayed. ([81f3bd0e](https://github.com/mathrunet/flutter_masamune/commit/81f3bd0e97b6ac638d6f646aaea1ee2c09c97596))

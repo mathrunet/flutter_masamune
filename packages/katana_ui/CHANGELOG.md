@@ -1,3 +1,7 @@
+## 2.10.6
+
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+
 ## 2.10.5
 
  - **FIX**: The background color was foreground color, which was corrected. ([c196047f](https://github.com/mathrunet/flutter_masamune/commit/c196047fdb7fd68462d86a714e541b8b26e3b644))

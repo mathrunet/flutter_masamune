@@ -1,3 +1,7 @@
+## 2.3.8
+
+ - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
+
 ## 2.3.7
 
  - **FIX**: Remove deprecated methods. ([1f2c2dd1](https://github.com/mathrunet/flutter_masamune/commit/1f2c2dd1a592c3a98da5dd32cc766e1d5ec50ea2))
