@@ -614,6 +614,42 @@ class NoSqlDatabase {
     DynamicMap value, {
     String? prefix,
   }) async {
+    await _saveDocument(
+      query,
+      value,
+      prefix: prefix,
+    );
+    await onSaved?.call(this);
+  }
+
+  /// Update and add data from the collection corresponding to [query] to [value] by passing [query].
+  ///
+  /// The key of [value] is the document ID, and a [ModelAdapterDocumentQuery] is issued for [query] based on it.
+  ///
+  /// Internally, the contents of [value] are saved with [saveDocument].
+  ///
+  /// [query]を渡して[query]に対応するコレクションのデータを[value]に更新・追加します。
+  ///
+  /// [value]のキーがドキュメントIDとなりそれを元に[query]に対する[ModelAdapterDocumentQuery]を発行します。
+  ///
+  /// 内部的には[value]の中身を[saveDocument]で保存していきます。
+  Future<void> saveCollection(
+    ModelAdapterCollectionQuery query,
+    Map<String, DynamicMap> value, {
+    String? prefix,
+  }) async {
+    for (final doc in value.entries) {
+      final docQuery = query.create(doc.key);
+      await _saveDocument(docQuery, doc.value, prefix: prefix);
+    }
+    await onSaved?.call(this);
+  }
+
+  Future<void> _saveDocument(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value, {
+    String? prefix,
+  }) async {
     _addDocumentListener(query, prefix: prefix);
     await _initialize();
     final trimPath = _path(query.query.path, prefix);
@@ -638,29 +674,6 @@ class NoSqlDatabase {
           : ModelUpdateNotificationStatus.modified,
       query,
     );
-    await onSaved?.call(this);
-  }
-
-  /// Update and add data from the collection corresponding to [query] to [value] by passing [query].
-  ///
-  /// The key of [value] is the document ID, and a [ModelAdapterDocumentQuery] is issued for [query] based on it.
-  ///
-  /// Internally, the contents of [value] are saved with [saveDocument].
-  ///
-  /// [query]を渡して[query]に対応するコレクションのデータを[value]に更新・追加します。
-  ///
-  /// [value]のキーがドキュメントIDとなりそれを元に[query]に対する[ModelAdapterDocumentQuery]を発行します。
-  ///
-  /// 内部的には[value]の中身を[saveDocument]で保存していきます。
-  Future<void> saveCollection(
-    ModelAdapterCollectionQuery query,
-    Map<String, DynamicMap> value, {
-    String? prefix,
-  }) async {
-    for (final doc in value.entries) {
-      final docQuery = query.create(doc.key);
-      await saveDocument(docQuery, doc.value, prefix: prefix);
-    }
   }
 
   /// Deletes the data in the document corresponding to [query] by passing [query].
