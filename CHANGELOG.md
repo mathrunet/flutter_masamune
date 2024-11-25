@@ -15,6 +15,67 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_listenables_builder` - `v2.1.17`](#katana_listenables_builder---v2117)
+ - [`katana_localization_builder` - `v2.2.17`](#katana_localization_builder---v2217)
+ - [`katana_prefs_builder` - `v2.1.18`](#katana_prefs_builder---v2118)
+ - [`katana_router_builder` - `v2.2.4`](#katana_router_builder---v224)
+ - [`katana_theme_builder` - `v2.3.10`](#katana_theme_builder---v2310)
+ - [`masamune_builder` - `v2.19.2`](#masamune_builder---v2192)
+ - [`masamune_model_docs_builder` - `v2.2.5`](#masamune_model_docs_builder---v225)
+ - [`masamune_model_firebase_data_connect_builder` - `v2.1.8`](#masamune_model_firebase_data_connect_builder---v218)
+ - [`masamune_model_firestore_builder` - `v2.3.12`](#masamune_model_firestore_builder---v2312)
+
+---
+
+#### `katana_listenables_builder` - `v2.1.17`
+
+ - **FIX**: Downgrade because the version of the collection package does not match. ([447ae259](https://github.com/mathrunet/flutter_masamune/commit/447ae259d622cac845df5d0570a3cac0470ce6c8))
+
+#### `katana_localization_builder` - `v2.2.17`
+
+ - **FIX**: Downgrade because the version of the collection package does not match. ([447ae259](https://github.com/mathrunet/flutter_masamune/commit/447ae259d622cac845df5d0570a3cac0470ce6c8))
+
+#### `katana_prefs_builder` - `v2.1.18`
+
+ - **FIX**: Downgrade because the version of the collection package does not match. ([447ae259](https://github.com/mathrunet/flutter_masamune/commit/447ae259d622cac845df5d0570a3cac0470ce6c8))
+
+#### `katana_router_builder` - `v2.2.4`
+
+ - **FIX**: Downgrade because the version of the collection package does not match. ([447ae259](https://github.com/mathrunet/flutter_masamune/commit/447ae259d622cac845df5d0570a3cac0470ce6c8))
+
+#### `katana_theme_builder` - `v2.3.10`
+
+ - **FIX**: Downgrade because the version of the collection package does not match. ([447ae259](https://github.com/mathrunet/flutter_masamune/commit/447ae259d622cac845df5d0570a3cac0470ce6c8))
+
+#### `masamune_builder` - `v2.19.2`
+
+ - **FIX**: Downgrade because the version of the collection package does not match. ([447ae259](https://github.com/mathrunet/flutter_masamune/commit/447ae259d622cac845df5d0570a3cac0470ce6c8))
+
+#### `masamune_model_docs_builder` - `v2.2.5`
+
+ - **FIX**: Downgrade because the version of the collection package does not match. ([447ae259](https://github.com/mathrunet/flutter_masamune/commit/447ae259d622cac845df5d0570a3cac0470ce6c8))
+
+#### `masamune_model_firebase_data_connect_builder` - `v2.1.8`
+
+ - **FIX**: Downgrade because the version of the collection package does not match. ([447ae259](https://github.com/mathrunet/flutter_masamune/commit/447ae259d622cac845df5d0570a3cac0470ce6c8))
+
+#### `masamune_model_firestore_builder` - `v2.3.12`
+
+ - **FIX**: Downgrade because the version of the collection package does not match. ([447ae259](https://github.com/mathrunet/flutter_masamune/commit/447ae259d622cac845df5d0570a3cac0470ce6c8))
+
+
+## 2024-11-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.25.1`](#katana_cli---v2251)
  - [`katana_listenables_builder` - `v2.1.16`](#katana_listenables_builder---v2116)
  - [`katana_localization_builder` - `v2.2.16`](#katana_localization_builder---v2216)

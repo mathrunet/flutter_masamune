@@ -1,3 +1,7 @@
+## 2.1.17
+
+ - **FIX**: Downgrade because the version of the collection package does not match. ([447ae259](https://github.com/mathrunet/flutter_masamune/commit/447ae259d622cac845df5d0570a3cac0470ce6c8))
+
 ## 2.1.16
 
  - **FIX**: Fixed an error when downgrading. ([ae488def](https://github.com/mathrunet/flutter_masamune/commit/ae488def3d9c26f974f016e987ca7d9a65a7551c))
