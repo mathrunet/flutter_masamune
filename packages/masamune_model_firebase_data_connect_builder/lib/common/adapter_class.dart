@@ -77,7 +77,7 @@ List<Spec> adapterClass(
                 )
               ])
               ..body = Code(
-                "await initialize(); final path = query.query.path.trimQuery().trimString(\"/\"); ${schemas.map((e) => e.toSaveDocument(schemas)).join(" ")} throw UnimplementedError(\"This path is not implemented: \$path\");",
+                "await initialize(); final path = query.query.path.trimQuery().trimString(\"/\"); value = convertTo(value); ${schemas.map((e) => e.toSaveDocument(schemas)).join(" ")} throw UnimplementedError(\"This path is not implemented: \$path\");",
               ),
           ),
           Method(
@@ -110,7 +110,7 @@ extension on SchemaValue {
     }
     final connector =
         "${firebaseDataConnectAnnotationValue.dartPackage.toPascalCase()}Connector";
-    return "if($path.hasMatch(path)){ final ref = await $connector.instance.${classValue.name.toCamelCase()}Document( uid: ${classValue.name.toPascalCase()}DocumentVariablesUid(uid: path)).execute(); final value = ref.data.${classValue.name.toCamelCase()}; if (value == null) { return {}; } final res = { ${toLoadParameters(schemas)} }; ${toLoadReferences(schemas)} await localDatabase.syncDocument(query, res); return res; }";
+    return "if($path.hasMatch(path)){ final ref = await $connector.instance.${classValue.name.toCamelCase()}Document( uid: ${classValue.name.toPascalCase()}DocumentVariablesUid(uid: path)).execute(); final value = ref.data.${classValue.name.toCamelCase()}; if (value == null) { return {}; } final res = convertFrom({ ${toLoadParameters(schemas)} }); ${toLoadReferences(schemas)} await localDatabase.syncDocument(query, res); return res; }";
   }
 
   String toLoadCollection(List<SchemaValue> schemas) {
@@ -120,14 +120,14 @@ extension on SchemaValue {
     }
     final connector =
         "${firebaseDataConnectAnnotationValue.dartPackage.toPascalCase()}Connector";
-    return "if($path.hasMatch(path)){ switch(query.query.name){ ${modelAnnotationValue.query?.map((query) => _toLoadCollection(schemas, query)).join("") ?? ""} default: final ref = await $connector.instance.${classValue.name.toCamelCase()}Collection().execute(); final res = <String, Map<String, dynamic>>{}; for (final value in ref.data.${classValue.name.toCamelCase()}s) { final uid = value.uid.trimQuery().trimString(\"/\").last(); res[uid] = { ${toLoadParameters(schemas)} }; ${toLoadReferences(schemas, querySuffix: "create().")} } await localDatabase.syncCollection(query, res); return res; } }";
+    return "if($path.hasMatch(path)){ switch(query.query.name){ ${modelAnnotationValue.query?.map((query) => _toLoadCollection(schemas, query)).join("") ?? ""} default: final ref = await $connector.instance.${classValue.name.toCamelCase()}Collection().execute(); final res = <String, Map<String, dynamic>>{}; for (final value in ref.data.${classValue.name.toCamelCase()}s) { final uid = value.uid.trimQuery().trimString(\"/\").last(); res[uid] = convertFrom({ ${toLoadParameters(schemas)} }); ${toLoadReferences(schemas, querySuffix: "create().")} } await localDatabase.syncCollection(query, res); return res; } }";
   }
 
   String _toLoadCollection(List<SchemaValue> schemas, QueryValue query) {
     final conditions = query.getConditionsWithParameters(classValue.parameters);
     final connector =
         "${firebaseDataConnectAnnotationValue.dartPackage.toPascalCase()}Connector";
-    return "case \"_${query.name.toCamelCase()}Query\": final ref = await $connector.instance.${classValue.name.toCamelCase()}${query.name.toPascalCase()}Query(${conditions.toRequiredQueryParameters()})${conditions.toOptionalQueryParameters()}.execute(); final res = <String, Map<String, dynamic>>{}; for (final value in ref.data.${classValue.name.toCamelCase()}s) { final uid = value.uid.trimQuery().trimString(\"/\").last(); res[uid] = { ${toLoadParameters(schemas)} }; ${toLoadReferences(schemas, querySuffix: "create().")} } await localDatabase.syncCollection(query, res); return res;";
+    return "case \"_${query.name.toCamelCase()}Query\": final ref = await $connector.instance.${classValue.name.toCamelCase()}${query.name.toPascalCase()}Query(${conditions.toRequiredQueryParameters()})${conditions.toOptionalQueryParameters()}.execute(); final res = <String, Map<String, dynamic>>{}; for (final value in ref.data.${classValue.name.toCamelCase()}s) { final uid = value.uid.trimQuery().trimString(\"/\").last(); res[uid] = convertFrom({ ${toLoadParameters(schemas)} }); ${toLoadReferences(schemas, querySuffix: "create().")} } await localDatabase.syncCollection(query, res); return res;";
   }
 
   String toSaveDocument(List<SchemaValue> schemas) {

@@ -167,7 +167,7 @@ extension on InterfaceType {
     } else if (isModelTimestamp) {
       return "${SchemaType.timestamp.dartLabel}$nullable";
     } else if (isModelDate) {
-      return "${SchemaType.date.dartLabel}$nullable";
+      return "${SchemaType.any.dartLabel}$nullable";
     } else if (isModelSearch) {
       return "${SchemaType.any.dartLabel}$nullable";
     } else if (isModelToken) {

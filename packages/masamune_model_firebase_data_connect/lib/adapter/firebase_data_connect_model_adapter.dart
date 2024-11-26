@@ -165,6 +165,26 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
   /// [options]が指定されている場合はこちらが優先されます。
   final FirebaseOptions? linuxOptions;
 
+  /// A special class can be registered as a [ModelFieldValue] by passing [FirebaseDataConnectModelFieldValueConverter] to [converter].
+  ///
+  /// [FirebaseDataConnectModelFieldValueConverter]を[converter]に渡すことで特殊なクラスを[ModelFieldValue]として登録することができます。
+  static void registerConverter(
+      FirebaseDataConnectModelFieldValueConverter converter) {
+    _converters.add(converter);
+  }
+
+  /// By passing [FirebaseDataConnectModelFieldValueConverter] to [converter], you can release an already registered [FirebaseDataConnectModelFieldValueConverter].
+  ///
+  /// [converter]に[FirebaseDataConnectModelFieldValueConverter]を渡すことですでに登録されている[FirebaseDataConnectModelFieldValueConverter]を解除することができます。
+  static void unregisterConverter(
+      FirebaseDataConnectModelFieldValueConverter converter) {
+    _converters.remove(converter);
+  }
+
+  static final Set<FirebaseDataConnectModelFieldValueConverter> _converters = {
+    ...FirebaseDataConnectModelFieldValueConverter.defaultConverters
+  };
+
   @override
   bool get availableListen => false;
 
@@ -173,6 +193,56 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
   /// Firebaseの初期化を行います。
   Future<void> initialize() async {
     await FirebaseCore.initialize(options: options);
+  }
+
+  /// The value [map] from the server is converted and returned through [FirebaseDataConnectModelFieldValueConverter].
+  ///
+  /// サーバーからの値[map]を[FirebaseDataConnectModelFieldValueConverter]を通して変換して返します。
+  DynamicMap convertFrom(DynamicMap map) {
+    final res = <String, dynamic>{};
+
+    for (final tmp in map.entries) {
+      final key = tmp.key;
+      final val = tmp.value;
+      DynamicMap? replaced;
+      for (final converter in _converters) {
+        replaced = converter.convertFrom(key, val, map, this);
+        if (replaced != null) {
+          break;
+        }
+      }
+      if (replaced != null) {
+        replaced.removeWhere((key, value) => value == null);
+        res.addAll(replaced);
+      } else {
+        res[key] = val;
+      }
+    }
+    return res;
+  }
+
+  /// The value [map] to the server is converted and returned through [FirebaseDataConnectModelFieldValueConverter].
+  ///
+  /// サーバーへの値[map]を[FirebaseDataConnectModelFieldValueConverter]を通して変換して返します。
+  DynamicMap convertTo(DynamicMap map, DynamicMap original) {
+    final res = <String, dynamic>{};
+    for (final tmp in map.entries) {
+      final key = tmp.key;
+      final val = tmp.value;
+      DynamicMap? replaced;
+      for (final converter in _converters) {
+        replaced = converter.convertTo(key, val, map, this);
+        if (replaced != null) {
+          break;
+        }
+      }
+      if (replaced != null) {
+        res.addAll(replaced);
+      } else {
+        res[key] = val;
+      }
+    }
+    return res;
   }
 
   @override
