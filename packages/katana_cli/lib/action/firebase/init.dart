@@ -576,11 +576,6 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       json["scripts"] = scripts;
       await packageJson.writeAsString(jsonEncode(json));
     }
-    label("Create functions test folder.");
-    final functionsTest = Directory("firebase/functions/test");
-    if (!functionsTest.existsSync()) {
-      await functionsTest.create();
-    }
     label("Rewrite `.gitignore`.");
     final gitignore = File("firebase/.gitignore");
     if (!gitignore.existsSync()) {
@@ -596,6 +591,13 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       gitignores.removeWhere((e) => e.startsWith(".env"));
     }
     await gitignore.writeAsString(gitignores.join("\n"));
+    if (enabledFunctions) {
+      label("Create functions test folder.");
+      final functionsTest = Directory("firebase/functions/test");
+      if (!functionsTest.existsSync()) {
+        await functionsTest.create();
+      }
+    }
     if (enabledFirestore) {
       label("Import firestore.indexes.json");
       final firestoreIndexes = File("firebase/firestore.indexes.json");
