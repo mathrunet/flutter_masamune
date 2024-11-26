@@ -85,6 +85,17 @@ abstract class FirestoreModelFieldValueConverter {
     FirestoreModelAdapterBase? adapter,
   ]);
 
+  /// Returns `true` if the query is possible.
+  ///
+  /// The value to be queried is passed in [value], the filter class to be queried is passed in [filter], and [query] is passed in [ModelAdapterCollectionQuery].
+  ///
+  /// [FirestoreModelAdapterBase] is passed to [adapter].
+  ///
+  /// クエリが可能な場合は`true`を返します。
+  ///
+  /// [value]にはクエリを行う値、[filter]にはクエリを行うためのフィルタークラス、[query]には[ModelAdapterCollectionQuery]が渡されます。
+  ///
+  /// [adapter]に[FirestoreModelAdapterBase]が渡されます。
   bool enabledQuery(
     Object? value,
     ModelQueryFilter filter,
@@ -92,6 +103,21 @@ abstract class FirestoreModelFieldValueConverter {
     FirestoreModelAdapterBase? adapter,
   ]);
 
+  /// Converts keys for queries.
+  ///
+  /// Return the key after conversion.
+  ///
+  /// [key] is the key to query, [filter] is the filter class to query, and [query] is passed [ModelAdapterCollectionQuery].
+  ///
+  /// [FirestoreModelAdapterBase] is passed to [adapter].
+  ///
+  /// クエリー用のキーを変換します。
+  ///
+  /// 変換後のキーを返してください。
+  ///
+  /// [key]にはクエリを行うキー、[filter]にはクエリを行うためのフィルタークラス、[query]には[ModelAdapterCollectionQuery]が渡されます。
+  ///
+  /// [adapter]に[FirestoreModelAdapterBase]が渡されます。
   String convertQueryKey(
     String key,
     ModelQueryFilter filter,
@@ -100,6 +126,21 @@ abstract class FirestoreModelFieldValueConverter {
   ]) =>
       key;
 
+  /// Convert values for queries.
+  ///
+  /// Return the converted value.
+  ///
+  /// The value to be queried is passed in [value], the filter class to be queried is passed in [filter], and [query] is passed in [ModelAdapterCollectionQuery].
+  ///
+  /// [FirestoreModelAdapterBase] is passed to [adapter].
+  ///
+  /// クエリー用の値を変換します。
+  ///
+  /// 変換後の値を返してください。
+  ///
+  /// [value]にはクエリを行う値、[filter]にはクエリを行うためのフィルタークラス、[query]には[ModelAdapterCollectionQuery]が渡されます。
+  ///
+  /// [adapter]に[FirestoreModelAdapterBase]が渡されます。
   Object? convertQueryValue(
     Object? value,
     ModelQueryFilter filter,
