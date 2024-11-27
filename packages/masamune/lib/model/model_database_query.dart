@@ -169,6 +169,14 @@ class ModelDatabaseConditionQuery implements ModelDatabaseQuery {
           type: ModelDatabaseQueryFilterType.limit,
         );
 
+  /// {@macro model_database_query_filter_type_collection_group}
+  ///
+  /// {@macro model_database_query}
+  const ModelDatabaseConditionQuery.collectionGroup()
+      : this._(
+          type: ModelDatabaseQueryFilterType.collectionGroup,
+        );
+
   /// {@macro model_database_query_filter_type_and}
   ///
   /// {@macro model_database_query}

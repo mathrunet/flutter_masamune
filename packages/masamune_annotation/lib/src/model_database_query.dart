@@ -125,6 +125,13 @@ enum ModelDatabaseQueryFilterType {
   /// {@endtemplate}
   limit,
 
+  /// {@template model_database_query_filter_type_collection_group}
+  /// Filter for collection groups. Available on Firestore only.
+  ///
+  /// コレクショングループを対象にするフィルター。Firestoreのみで利用可能。
+  /// {@endtemplate}
+  collectionGroup,
+
   /// {@template model_database_query_filter_type_and}
   /// A filter that filters when multiple conditions all match.
   ///

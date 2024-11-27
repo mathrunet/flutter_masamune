@@ -258,6 +258,8 @@ class QueryConditionValue {
         return "orderByAsc(\"${key ?? ""}\")";
       case "limit":
         return "limitTo(limitTo)";
+      case "collectionGroup":
+        return "collectionGroup()";
     }
     return null;
   }
