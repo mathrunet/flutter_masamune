@@ -123,7 +123,11 @@ class AnimateController extends ChangeNotifier implements AnimateRunner {
       _AnimateControllerNotifier();
 
   void _initialize(TickerProvider vsync) {
+    if (_vsync == vsync && _ticker != null) {
+      return;
+    }
     _vsync = vsync;
+    _ticker?.dispose();
     _ticker = _vsync?.createTicker(_handledOnTick);
   }
 
@@ -140,7 +144,7 @@ class AnimateController extends ChangeNotifier implements AnimateRunner {
       _completed = false;
       _elapsedDuration = null;
       if (playing) {
-        _ticker?.stop();
+        _ticker?.stop(canceled: true);
       }
       _ticker?.start();
       do {
@@ -155,10 +159,10 @@ class AnimateController extends ChangeNotifier implements AnimateRunner {
       _ticker?.stop();
       notifyListeners();
     } on AnimateControllerCancelException {
-      _ticker?.stop();
+      _ticker?.stop(canceled: true);
       notifyListeners();
     } catch (e) {
-      _ticker?.stop();
+      _ticker?.stop(canceled: true);
       notifyListeners();
       rethrow;
     }
@@ -215,9 +219,9 @@ class AnimateController extends ChangeNotifier implements AnimateRunner {
 
   void _handledOnTick(Duration elapsedDuration) {
     _elapsedDuration = elapsedDuration;
-    for (final query in _queryStack) {
-      query._setDuration(elapsedDuration);
-    }
+    _queryStack.removeWhere(
+      (query) => !query._setDuration(elapsedDuration),
+    );
     _internalNotifier.notify();
   }
 
@@ -258,13 +262,15 @@ class _AnimateQueryContainer {
   Future<void> get _future => _completer.future;
   final Completer<void> _completer;
 
-  void _setDuration(Duration duration) {
+  bool _setDuration(Duration duration) {
     if (_completer.isCompleted) {
-      return;
+      return false;
     }
     if (duration >= startDuration + query.duration) {
       _completer.complete();
+      return false;
     }
+    return true;
   }
 
   @override
