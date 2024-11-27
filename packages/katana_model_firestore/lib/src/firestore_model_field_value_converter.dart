@@ -149,9 +149,9 @@ abstract class FirestoreModelFieldValueConverter {
   ]) =>
       value;
 
-  /// When querying Firestore, [key] is converted and returned.
+  /// Add a query for Firestore from [ModelQueryFilter].
   ///
-  /// Firestoreにクエリを出す場合、[key]を変換して返します。
+  /// [ModelQueryFilter]からFirestore用のクエリを追加します。
   Query<DynamicMap>? filterQuery(
     Query<DynamicMap> firestoreQuery,
     ModelQueryFilter filter,
@@ -303,6 +303,9 @@ abstract class FirestoreModelFieldValueConverter {
     return firestoreQuery;
   }
 
+  /// Add a query for the Firestore order from [ModelQueryFilter].
+  ///
+  /// [ModelQueryFilter]からFirestoreのorder用のクエリを追加します。
   Query<DynamicMap>? orderQuery(
     Query<DynamicMap> firestoreQuery,
     ModelQueryFilter filter,
@@ -359,6 +362,9 @@ abstract class FirestoreModelFieldValueConverter {
     return firestoreQuery;
   }
 
+  /// Add a query with a limited number of Firestores from [ModelQueryFilter].
+  ///
+  /// [ModelQueryFilter]からFirestoreの数の制限があるクエリを追加します。
   List<Query<DynamicMap>>? collectionQueries(
     List<Object?> items,
     Query<DynamicMap> Function() generator,
