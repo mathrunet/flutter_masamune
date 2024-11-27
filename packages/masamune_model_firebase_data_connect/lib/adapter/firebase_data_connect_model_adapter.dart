@@ -224,7 +224,7 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
   /// The value [map] to the server is converted and returned through [FirebaseDataConnectModelFieldValueConverter].
   ///
   /// サーバーへの値[map]を[FirebaseDataConnectModelFieldValueConverter]を通して変換して返します。
-  DynamicMap convertTo(DynamicMap map, DynamicMap original) {
+  DynamicMap convertTo(DynamicMap map) {
     final res = <String, dynamic>{};
     for (final tmp in map.entries) {
       final key = tmp.key;
@@ -243,6 +243,51 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
       }
     }
     return res;
+  }
+
+  /// Get the object for the query from [ModelQueryFilter].
+  ///
+  /// If the values do not match, an [UnsupportedError] is generated.
+  ///
+  /// クエリ用のオブジェクトを[ModelQueryFilter]から取得します。
+  ///
+  /// 値が一致しない場合は[UnsupportedError]が発生します。
+  T filterQuery<T>(
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query, {
+    bool nullable = true,
+  }) {
+    for (final converter in _converters) {
+      final res = converter.filterQuery(filter, query, this);
+      if (res is T) {
+        return res;
+      }
+    }
+    throw UnsupportedError("This filter is not supported: $filter");
+  }
+
+  /// Get the object for the query from [ModelQueryFilter].
+  ///
+  /// If the values do not match, an [UnsupportedError] is generated.
+  ///
+  /// クエリ用のオブジェクトを[ModelQueryFilter]から取得します。
+  ///
+  /// 値が一致しない場合は[UnsupportedError]が発生します。
+  T? filterQueryWithNullable<T>(
+    ModelQueryFilter? filter,
+    ModelAdapterCollectionQuery query, {
+    bool nullable = true,
+  }) {
+    if (filter == null) {
+      return null;
+    }
+    for (final converter in _converters) {
+      final res = converter.filterQuery(filter, query, this);
+      if (res is T) {
+        return res;
+      }
+    }
+    return null;
   }
 
   @override

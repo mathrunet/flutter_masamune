@@ -3,7 +3,8 @@ part of '/masamune_model_firebase_data_connect.dart';
 /// Normal FirebaseDataConnectConverter.
 ///
 /// 通常のFirebaseDataConnectConverter。
-class FirebaseDataConnectBasicConverter extends FirebaseDataConnectModelFieldValueConverter {
+class FirebaseDataConnectBasicConverter
+    extends FirebaseDataConnectModelFieldValueConverter {
   /// Normal FirebaseDataConnectConverter.
   ///
   /// 通常のFirebaseDataConnectConverter。
@@ -18,7 +19,7 @@ class FirebaseDataConnectBasicConverter extends FirebaseDataConnectModelFieldVal
     Object? value,
     DynamicMap original, [
     FirebaseDataConnectModelAdapterBase? adapter,
-  ]) => 
+  ]) =>
       null;
 
   @override

@@ -480,7 +480,7 @@ extension QueryConditionValueListExtension on List<QueryConditionValue> {
       if (filterType.isEmpty) {
         return null;
       }
-      return "${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}: query.query.filters.firstWhere((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\").value as ${e.parameter?.type.toQueryParameterType() ?? ""}";
+      return "${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}: filterQuery(query.query.filters.firstWhere((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\"), query)";
     }).join(", ");
   }
 
@@ -498,7 +498,7 @@ extension QueryConditionValueListExtension on List<QueryConditionValue> {
       if (filterType.isEmpty) {
         return null;
       }
-      return ".${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}(query.query.filters.firstWhereOrNull((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\")?.value as ${e.parameter?.type.toQueryParameterType() ?? ""})";
+      return ".${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}(filterQueryWithNullable(query.query.filters.firstWhereOrNull((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\"), query))";
     }).join("");
   }
 }
