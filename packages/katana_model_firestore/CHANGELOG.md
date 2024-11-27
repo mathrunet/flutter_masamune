@@ -1,3 +1,7 @@
+## 2.16.51
+
+ - **DOCS**: Corrected comment. ([905ef124](https://github.com/mathrunet/flutter_masamune/commit/905ef124ddb1b1fb0b120eb585ae6735485b1585))
+
 ## 2.16.50
 
  - **DOCS**: Additional Comments. ([468db624](https://github.com/mathrunet/flutter_masamune/commit/468db62453f22fb09b36a53c11aed25913dada4b))

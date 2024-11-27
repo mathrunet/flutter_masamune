@@ -1,3 +1,7 @@
+## 2.2.4
+
+ - **FIX**: Addition of conversions around queries. ([33f909f4](https://github.com/mathrunet/flutter_masamune/commit/33f909f417afbd9331d70c20f0e9e1e467d62390))
+
 ## 2.2.3
 
  - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))

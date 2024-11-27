@@ -15,6 +15,49 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model_firestore` - `v2.16.51`](#katana_model_firestore---v21651)
+ - [`masamune_model_firebase_data_connect` - `v2.2.1`](#masamune_model_firebase_data_connect---v221)
+ - [`masamune_model_firebase_data_connect_annotation` - `v2.2.4`](#masamune_model_firebase_data_connect_annotation---v224)
+ - [`masamune_model_firebase_data_connect_builder` - `v2.2.1`](#masamune_model_firebase_data_connect_builder---v221)
+ - [`masamune_model_algolia` - `v2.4.118`](#masamune_model_algolia---v24118)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_algolia` - `v2.4.118`
+
+---
+
+#### `katana_model_firestore` - `v2.16.51`
+
+ - **DOCS**: Corrected comment. ([905ef124](https://github.com/mathrunet/flutter_masamune/commit/905ef124ddb1b1fb0b120eb585ae6735485b1585))
+
+#### `masamune_model_firebase_data_connect` - `v2.2.1`
+
+ - **FIX**: Addition of conversions around queries. ([33f909f4](https://github.com/mathrunet/flutter_masamune/commit/33f909f417afbd9331d70c20f0e9e1e467d62390))
+
+#### `masamune_model_firebase_data_connect_annotation` - `v2.2.4`
+
+ - **FIX**: Addition of conversions around queries. ([33f909f4](https://github.com/mathrunet/flutter_masamune/commit/33f909f417afbd9331d70c20f0e9e1e467d62390))
+
+#### `masamune_model_firebase_data_connect_builder` - `v2.2.1`
+
+ - **FIX**: Addition of conversions around queries. ([33f909f4](https://github.com/mathrunet/flutter_masamune/commit/33f909f417afbd9331d70c20f0e9e1e467d62390))
+
+
+## 2024-11-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.25.2`](#katana_cli---v2252)
  - [`katana_model_firestore` - `v2.16.50`](#katana_model_firestore---v21650)
  - [`masamune_animate` - `v2.2.57`](#masamune_animate---v2257)
