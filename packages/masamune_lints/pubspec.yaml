@@ -9,10 +9,10 @@ environment:
 
 dependencies:
   katana: ^2.15.3
-  analyzer: ^6.4.0
+  analyzer: ^6.7.0
   analyzer_plugin: ^0.11.3
-  custom_lint: ^0.6.4
-  custom_lint_builder: ^0.6.4
+  custom_lint: ^0.7.0
+  custom_lint_builder: ^0.7.0
 dev_dependencies:
   test: ^1.24.0
   katana_test: ^2.1.2
