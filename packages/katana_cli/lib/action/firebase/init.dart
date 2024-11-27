@@ -67,6 +67,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final dataconnect = firebase.getAsMap("dataconnect");
     // final overwriteFirestoreRule = firestore.get("overwrite_rule", false);
     final enabledFirestore = firestore.get("enable", false);
+    final firestorePrimaryRemoteIndex =
+        firestore.get("primary_remote_index", false);
     final enabledDataconnect = dataconnect.get("enable", false);
     final enabledAuthentication =
         firebase.getAsMap("authentication").get("enable", false);
@@ -199,53 +201,73 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     if (enabledFirestore) {
       if (!firebaseJson.containsKey("firestore")) {
         await command(
-            "Initialize Firestore",
-            [
-              firebaseCommand,
-              "init",
-              "firestore",
-              "--project",
-              projectId,
-            ],
-            runInShell: true,
-            workingDirectory: "firebase", action: (process, line) {
-          _runCommandStack(
-            line,
-            "? Are you ready to proceed?",
-            commandStack,
-            () => process.stdin.write("y\n"),
-          );
-          _runCommandStack(
-            line,
-            "? What file should be used for Firestore Rules?",
-            commandStack,
-            () => process.stdin.write("\n"),
-          );
-          _runCommandStack(
-            line,
-            "? File firestore.indexes.json already exists.",
-            commandStack,
-            () => process.stdin.write("n\n"),
-          );
-          _runCommandStack(
-            line,
-            "? File firestore.rules already exists.",
-            commandStack,
-            () => process.stdin.write("n\n"),
-          );
-          _runCommandStack(
-            line,
-            "? Would you like to delete these indexes?",
-            commandStack,
-            () => process.stdin.write("n\n"),
-          );
-          _runCommandStack(
-            line,
-            "? What file should be used for Firestore indexes?",
-            commandStack,
-            () => process.stdin.write("\n"),
-          );
-        });
+          "Initialize Firestore",
+          [
+            firebaseCommand,
+            "init",
+            "firestore",
+            "--project",
+            projectId,
+          ],
+          runInShell: true,
+          workingDirectory: "firebase",
+          action: (process, line) {
+            _runCommandStack(
+              line,
+              "? Are you ready to proceed?",
+              commandStack,
+              () => process.stdin.write("y\n"),
+            );
+            _runCommandStack(
+              line,
+              "? What file should be used for Firestore Rules?",
+              commandStack,
+              () => process.stdin.write("\n"),
+            );
+            _runCommandStack(
+              line,
+              "? File firestore.indexes.json already exists.",
+              commandStack,
+              () => process.stdin.write("n\n"),
+            );
+            _runCommandStack(
+              line,
+              "? File firestore.rules already exists.",
+              commandStack,
+              () => process.stdin.write("n\n"),
+            );
+            _runCommandStack(
+              line,
+              "? Would you like to delete these indexes?",
+              commandStack,
+              () => process.stdin.write("n\n"),
+            );
+            _runCommandStack(
+              line,
+              "? What file should be used for Firestore indexes?",
+              commandStack,
+              () => process.stdin.write("\n"),
+            );
+          },
+        );
+        // ファイルがfirebaseフォルダに作られないので移動
+        label("Move files");
+        final firebasercFile = File(".firebaserc");
+        if (firebasercFile.existsSync()) {
+          await firebasercFile.rename("firebase/.firebaserc");
+        }
+        final firebaseJsonFile = File("firebase.json");
+        if (firebaseJsonFile.existsSync()) {
+          await firebaseJsonFile.rename("firebase/firebase.json");
+        }
+        final firestoreIndexFile = File("firestore.indexes.json");
+        if (firestoreIndexFile.existsSync()) {
+          await firestoreIndexFile.rename("firebase/firestore.indexes.json");
+        }
+        final firestoreRulesFile = File("firestore.rules");
+        if (firestoreRulesFile.existsSync()) {
+          await firestoreRulesFile.rename("firebase/firestore.rules");
+        }
         label("Rewriting Rules");
         await const FirestoreRulesCliCode().generateFile("firestore.rules");
       }
@@ -253,23 +275,39 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     if (enabledDataconnect) {
       if (!firebaseJson.containsKey("dataconnect")) {
         await command(
-            "Initialize Data Connect",
-            [
-              firebaseCommand,
-              "init",
-              "dataconnect",
-              "--project",
-              projectId,
-            ],
-            runInShell: true,
-            workingDirectory: "firebase", action: (process, line) {
-          _runCommandStack(
-            line,
-            "? Your project already has existing services. Which would you like to set up",
-            commandStack,
-            () => process.stdin.write("\n"),
-          );
-        });
+          "Initialize Data Connect",
+          [
+            firebaseCommand,
+            "init",
+            "dataconnect",
+            "--project",
+            projectId,
+          ],
+          runInShell: true,
+          workingDirectory: "firebase",
+          action: (process, line) {
+            _runCommandStack(
+              line,
+              "? Your project already has existing services. Which would you like to set up",
+              commandStack,
+              () => process.stdin.write("\n"),
+            );
+          },
+        );
+        // ファイルがfirebaseフォルダに作られないので移動
+        label("Move files");
+        final firebasercFile = File(".firebaserc");
+        if (firebasercFile.existsSync()) {
+          await firebasercFile.rename("firebase/.firebaserc");
+        }
+        final firebaseJsonFile = File("firebase.json");
+        if (firebaseJsonFile.existsSync()) {
+          await firebaseJsonFile.rename("firebase/firebase.json");
+        }
+        final firebaseDataConnect = Directory("dataconnect");
+        if (firebaseDataConnect.existsSync()) {
+          await firebaseDataConnect.rename("firebase/dataconnect");
+        }
       }
       final adapter =
           File("lib/adapters/firebase_data_connect_model_adapter.dart");
@@ -330,6 +368,20 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             () => process.stdin.write("\n"),
           );
         });
+        // ファイルがfirebaseフォルダに作られないので移動
+        label("Move files");
+        final firebasercFile = File(".firebaserc");
+        if (firebasercFile.existsSync()) {
+          await firebasercFile.rename("firebase/.firebaserc");
+        }
+        final firebaseJsonFile = File("firebase.json");
+        if (firebaseJsonFile.existsSync()) {
+          await firebaseJsonFile.rename("firebase/firebase.json");
+        }
+        final firebaseDataConnect = File("storage.rules");
+        if (firebaseDataConnect.existsSync()) {
+          await firebaseDataConnect.rename("firebase/storage.rules");
+        }
         label("Rewriting Rules");
         await const FirebaseStorageRulesCliCode().generateFile("storage.rules");
         if (enabledCors) {
@@ -352,125 +404,157 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     if (enabledHosting) {
       if (!firebaseJson.containsKey("hosting")) {
         await command(
-            "Initialize Hosting",
-            [
-              firebaseCommand,
-              "init",
-              "hosting",
-              "--project",
-              projectId,
-            ],
-            runInShell: true,
-            workingDirectory: "firebase", action: (process, line) {
-          _runCommandStack(
-            line,
-            "? Are you ready to proceed?",
-            commandStack,
-            () => process.stdin.write("y\n"),
-          );
-          _runCommandStack(
-            line,
-            "? What do you want to use as your public directory?",
-            commandStack,
-            () => process.stdin.write("hosting\n"),
-          );
-          _runCommandStack(
-            line,
-            "? Configure as a single-page app",
-            commandStack,
-            () {
-              if (useFlutter) {
-                process.stdin.write("y\n");
-              } else {
-                process.stdin.write("n\n");
-              }
-            },
-          );
-          _runCommandStack(
-            line,
-            "? Set up automatic builds and deploys with GitHub?",
-            commandStack,
-            () => process.stdin.write(
-              enableActions ? "y\n" : "n\n",
-            ),
-          );
-          _runCommandStack(
-            line,
-            "? File hosting/index.html already exists. Overwrite?",
-            commandStack,
-            () => process.stdin.write("n\n"),
-          );
-          _runCommandStack(
-            line,
-            "? File hosting/404.html already exists. Overwrite?",
-            commandStack,
-            () => process.stdin.write("n\n"),
-          );
-          _runCommandStack(
-            line,
-            "? For which GitHub repository would you like to set up a GitHub workflow?",
-            commandStack,
-            () => process.stdin.write("$repositoryFirebaseWebGithubAction\n"),
-          );
-          _runCommandStack(
-            line,
-            "? Set up the workflow to run a build script before every deploy?",
-            commandStack,
-            () => process.stdin.write("y\n"),
-          );
-          _runCommandStack(
-            line,
-            "? What script should be run before every deploy?",
-            commandStack,
-            () => process.stdin.write("\n"),
-          );
-          _runCommandStack(
-            line,
-            "? Set up automatic deployment to your site's live channel when a PR is merged?",
-            commandStack,
-            () => process.stdin.write("n\n"),
-          );
-        });
+          "Initialize Hosting",
+          [
+            firebaseCommand,
+            "init",
+            "hosting",
+            "--project",
+            projectId,
+          ],
+          runInShell: true,
+          workingDirectory: "firebase",
+          action: (process, line) {
+            _runCommandStack(
+              line,
+              "? Are you ready to proceed?",
+              commandStack,
+              () => process.stdin.write("y\n"),
+            );
+            _runCommandStack(
+              line,
+              "? What do you want to use as your public directory?",
+              commandStack,
+              () => process.stdin.write("hosting\n"),
+            );
+            _runCommandStack(
+              line,
+              "? Configure as a single-page app",
+              commandStack,
+              () {
+                if (useFlutter) {
+                  process.stdin.write("y\n");
+                } else {
+                  process.stdin.write("n\n");
+                }
+              },
+            );
+            _runCommandStack(
+              line,
+              "? Set up automatic builds and deploys with GitHub?",
+              commandStack,
+              () => process.stdin.write(
+                enableActions ? "y\n" : "n\n",
+              ),
+            );
+            _runCommandStack(
+              line,
+              "? File hosting/index.html already exists. Overwrite?",
+              commandStack,
+              () => process.stdin.write("n\n"),
+            );
+            _runCommandStack(
+              line,
+              "? File hosting/404.html already exists. Overwrite?",
+              commandStack,
+              () => process.stdin.write("n\n"),
+            );
+            _runCommandStack(
+              line,
+              "? For which GitHub repository would you like to set up a GitHub workflow?",
+              commandStack,
+              () => process.stdin.write("$repositoryFirebaseWebGithubAction\n"),
+            );
+            _runCommandStack(
+              line,
+              "? Set up the workflow to run a build script before every deploy?",
+              commandStack,
+              () => process.stdin.write("y\n"),
+            );
+            _runCommandStack(
+              line,
+              "? What script should be run before every deploy?",
+              commandStack,
+              () => process.stdin.write("\n"),
+            );
+            _runCommandStack(
+              line,
+              "? Set up automatic deployment to your site's live channel when a PR is merged?",
+              commandStack,
+              () => process.stdin.write("n\n"),
+            );
+          },
+        );
+        // ファイルがfirebaseフォルダに作られないので移動
+        label("Move files");
+        final firebasercFile = File(".firebaserc");
+        if (firebasercFile.existsSync()) {
+          await firebasercFile.rename("firebase/.firebaserc");
+        }
+        final firebaseJsonFile = File("firebase.json");
+        if (firebaseJsonFile.existsSync()) {
+          await firebaseJsonFile.rename("firebase/firebase.json");
+        }
+        final firebaseDataConnect = Directory("hosting");
+        if (firebaseDataConnect.existsSync()) {
+          await firebaseDataConnect.rename("firebase/hosting");
+        }
       }
     }
     if (enabledFunctions) {
       if (!firebaseJson.containsKey("functions")) {
         await command(
-            "Initialize Functions",
-            [
-              firebaseCommand,
-              "init",
-              "functions",
-              "--project",
-              projectId,
-            ],
-            runInShell: true,
-            workingDirectory: "firebase", action: (process, line) {
-          _runCommandStack(
-            line,
-            "? Are you ready to proceed?",
-            commandStack,
-            () => process.stdin.write("y\n"),
-          );
-          _runCommandStack(
-            line,
-            "? What language would you like to use to write Cloud Functions?",
-            commandStack,
-            () => process.stdin.write("j\n"),
-          );
-          _runCommandStack(
-            line,
-            "? Do you want to use ESLint to catch probable bugs and enforce style?",
-            commandStack,
-            () => process.stdin.write("y\n"),
-          );
-          _runCommandStack(
-            line,
-            "? Do you want to install dependencies with npm now?",
-            commandStack,
-            () => process.stdin.write("y\n"),
-          );
-        });
+          "Initialize Functions",
+          [
+            firebaseCommand,
+            "init",
+            "functions",
+            "--project",
+            projectId,
+          ],
+          runInShell: true,
+          workingDirectory: "firebase",
+          action: (process, line) {
+            _runCommandStack(
+              line,
+              "? Are you ready to proceed?",
+              commandStack,
+              () => process.stdin.write("y\n"),
+            );
+            _runCommandStack(
+              line,
+              "? What language would you like to use to write Cloud Functions?",
+              commandStack,
+              () => process.stdin.write("j\n"),
+            );
+            _runCommandStack(
+              line,
+              "? Do you want to use ESLint to catch probable bugs and enforce style?",
+              commandStack,
+              () => process.stdin.write("y\n"),
+            );
+            _runCommandStack(
+              line,
+              "? Do you want to install dependencies with npm now?",
+              commandStack,
+              () => process.stdin.write("y\n"),
+            );
+          },
+        );
+        // ファイルがfirebaseフォルダに作られないので移動
+        label("Move files");
+        final firebasercFile = File(".firebaserc");
+        if (firebasercFile.existsSync()) {
+          await firebasercFile.rename("firebase/.firebaserc");
+        }
+        final firebaseJsonFile = File("firebase.json");
+        if (firebaseJsonFile.existsSync()) {
+          await firebaseJsonFile.rename("firebase/firebase.json");
+        }
+        final firebaseDataConnect = Directory("functions");
+        if (firebaseDataConnect.existsSync()) {
+          await firebaseDataConnect.rename("firebase/functions");
+        }
       }
       await command(
         "Package installation.",
@@ -599,17 +683,19 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       }
     }
     if (enabledFirestore) {
-      label("Import firestore.indexes.json");
-      final firestoreIndexes = File("firebase/firestore.indexes.json");
-      final indexData = await command(
-        "Import indexes.",
-        [
-          firebaseCommand,
-          "firestore:indexes",
-        ],
-        workingDirectory: "firebase",
-      );
-      await firestoreIndexes.writeAsString(indexData);
+      if (firestorePrimaryRemoteIndex) {
+        label("Import firestore.indexes.json");
+        final firestoreIndexes = File("firebase/firestore.indexes.json");
+        final indexData = await command(
+          "Import indexes.",
+          [
+            firebaseCommand,
+            "firestore:indexes",
+          ],
+          workingDirectory: "firebase",
+        );
+        await firestoreIndexes.writeAsString(indexData);
+      }
       if (firebaseJsonFileExists) {
         await command(
           "Run firebase deploy",

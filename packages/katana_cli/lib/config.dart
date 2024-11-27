@@ -265,9 +265,12 @@ firebase:
   project_id:
 
   # Enable Firebase Firestore.
+  # If [primary_remote_index] is set to `true`, indexes on the console are prioritized and automatic index import is enabled.
   # Firebase Firestoreを有効にします。
+  # [primary_remote_index]を`true`にするとコンソール上のインデックスが優先されるため、インデックスの自動インポートが有効になります。
   firestore:
     enable: false
+    primary_remote_index: false
 
   # Enable Firebase Data Connect.
   # Firebase Data Connectを有効にします。

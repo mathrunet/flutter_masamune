@@ -5,6 +5,11 @@ import 'package:katana_cli/katana_cli.dart';
 ///
 /// Firebaseのデプロイ先を指定します。
 enum FirebaseDeployPostActionType {
+  /// Firebase firestore.
+  ///
+  /// Firebase firestore.
+  firestore,
+
   /// Firebase functions.
   ///
   /// Firebase functions.

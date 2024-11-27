@@ -48,7 +48,10 @@ class FirebaseDeployCliAction extends CliCommand with CliActionMixin {
     final firebaseCommand = bin.get("firebase", "firebase");
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
-    final enableFirestore = firebase.getAsMap("firestore").get("enable", false);
+    final firestore = firebase.getAsMap("firestore");
+    final enableFirestore = firestore.get("enable", false);
+    final firestorePrimaryRemoteIndex =
+        firestore.get("primary_remote_index", false);
     final enableFunctions = firebase.getAsMap("functions").get("enable", false);
     final enableDataConnect =
         firebase.getAsMap("dataconnect").get("enable", false);
@@ -67,18 +70,21 @@ class FirebaseDeployCliAction extends CliCommand with CliActionMixin {
       return;
     }
     if (enableFirestore) {
-      label("Import firestore.indexes.json");
-      final firestoreIndexes =
-          File("${firebaseDir.path}/firestore.indexes.json");
-      final indexData = await command(
-        "Import indexes.",
-        [
-          firebaseCommand,
-          "firestore:indexes",
-        ],
-        workingDirectory: firebaseDir.path,
-      );
-      await firestoreIndexes.writeAsString(indexData);
+      if (firestorePrimaryRemoteIndex) {
+        label("Import firestore.indexes.json");
+        final firestoreIndexes =
+            File("${firebaseDir.path}/firestore.indexes.json");
+        final indexData = await command(
+          "Import indexes.",
+          [
+            firebaseCommand,
+            "firestore:indexes",
+          ],
+          workingDirectory: firebaseDir.path,
+        );
+        await firestoreIndexes.writeAsString(indexData);
+      }
+      context.requestFirebaseDeploy(FirebaseDeployPostActionType.firestore);
     }
     if (enableFunctions) {
       context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
