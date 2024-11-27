@@ -327,7 +327,7 @@ extension ModelPermissionQueryUserTypeExtension
         return "isAuthUser()";
       case ModelPermissionQueryUserType.userFromPath:
         assert(key.isNotEmpty, "key is empty.");
-        if (key == "@uid") {
+        if (key == "@uid" || key == null) {
           return "isSpecifiedUser(uid)";
         }
         return "isSpecifiedUser($key)";
@@ -469,6 +469,7 @@ extension QueryConditionValueListExtension on List<QueryConditionValue> {
   String toRequiredQueryParameters() {
     return mapAndRemoveEmpty((e) {
       if (e.type == "limit" ||
+          e.type == "collectionGroup" ||
           e.type == "orderByAsc" ||
           e.type == "orderByDesc") {
         return null;
@@ -487,6 +488,7 @@ extension QueryConditionValueListExtension on List<QueryConditionValue> {
   String toOptionalQueryParameters() {
     return mapAndRemoveEmpty((e) {
       if (e.type == "limit" ||
+          e.type == "collectionGroup" ||
           e.type == "orderByAsc" ||
           e.type == "orderByDesc") {
         return null;

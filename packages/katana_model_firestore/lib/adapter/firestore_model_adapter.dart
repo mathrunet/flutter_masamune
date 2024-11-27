@@ -834,7 +834,7 @@ class FirestoreModelAdapter extends ModelAdapter
     Query<DynamicMap> firestoreQuery,
     ModelAdapterCollectionQuery query,
   ) {
-    final filters = query.query.filters;
+    final filters = query.query.filters.sortTo(_compareFilters);
     for (final filter in filters) {
       for (final converter in _converters) {
         final res = converter.filterQuery(firestoreQuery, filter, query, this);
@@ -875,7 +875,7 @@ class FirestoreModelAdapter extends ModelAdapter
   List<Query<DynamicMap>> _collectionReference(
     ModelAdapterCollectionQuery query,
   ) {
-    final filters = query.query.filters;
+    final filters = query.query.filters.sortTo(_compareFilters);
     final containsAny = filters
         .where((e) => e.type == ModelQueryFilterType.arrayContainsAny)
         .toList();
@@ -1008,6 +1008,21 @@ class FirestoreModelAdapter extends ModelAdapter
     } else {
       return database.collection(path);
     }
+  }
+
+  int _compareFilters(ModelQueryFilter a, ModelQueryFilter b) {
+    final res = a.type.name.compareTo(b.type.name);
+    if (res == 0) {
+      if (a.key == null || b.key == null) {
+        return 0;
+      } else if (a.key == null) {
+        return -1;
+      } else if (b.key == null) {
+        return 1;
+      }
+      return a.key!.compareTo(b.key!);
+    }
+    return res;
   }
 
   @override

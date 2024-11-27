@@ -1,6 +1,13 @@
 part of '/masamune_model_firestore_builder.dart';
 
 extension on InterfaceType {
+  bool get isIterable {
+    return isDartCoreIterable ||
+        isDartCoreList ||
+        isDartCoreSet ||
+        isDartCoreMap;
+  }
+
   String toRuleFunction() {
     final nullable = isNullable ? "Nullable" : "";
     if (isDartCoreString) {
@@ -96,11 +103,7 @@ extension ModelPermissionQueryTypeExtension on ModelPermissionQueryType {
   }
 }
 
-/// Extension method of [ModelPermissionQueryUserType].
-///
-/// [ModelPermissionQueryUserType]の拡張メソッド。
-extension ModelPermissionQueryUserTypeExtension
-    on ModelPermissionQueryUserType {
+extension on ModelPermissionQueryUserType {
   /// Method Name.
   ///
   /// メソッド名。
@@ -125,7 +128,7 @@ extension ModelPermissionQueryUserTypeExtension
         return "isAuthUser()";
       case ModelPermissionQueryUserType.userFromPath:
         assert(key.isNotEmpty, "key is empty.");
-        if (key == "@uid") {
+        if (key == "@uid" || key == null) {
           return "isSpecifiedUser(uid)";
         }
         return "isSpecifiedUser($key)";
@@ -136,5 +139,128 @@ extension ModelPermissionQueryUserTypeExtension
         }
         return "isSpecifiedUser(getValue(getResource(), \"$key\"))";
     }
+  }
+}
+
+extension on List<RuleValue> {
+  List<IndexValue> toIndexValueList() {
+    final res = <IndexValue>[];
+    for (final rule in this) {
+      final path = rule.pathValue.path.trimQuery().trimString("/");
+      final queries = rule.annotationValue.query ?? [];
+      if (queries.isEmpty) {
+        continue;
+      }
+      // コレクションパス
+      if (path.splitLength() % 2 == 1) {
+        final collectionId = path.split("/").last;
+        for (final query in queries) {
+          final index = query.toIndexValue(collectionId, rule);
+          if (index != null) {
+            res.add(index);
+          }
+        }
+        // ドキュメントパス
+      } else {
+        final paths = path.split("/");
+        final collectionId = paths[paths.length - 2];
+        for (final query in queries) {
+          final index = query.toIndexValue(collectionId, rule);
+          if (index != null) {
+            res.add(index);
+          }
+        }
+      }
+      final mirrorPath = rule.mirrorPathValue?.path.trimQuery().trimString("/");
+      final mirrorQueries = rule.annotationValue.mirrorQuery ?? [];
+      if (mirrorPath != null && mirrorQueries.isNotEmpty) {
+        // コレクションパス
+        if (mirrorPath.splitLength() % 2 == 1) {
+          final collectionId = mirrorPath.split("/").last;
+          for (final query in mirrorQueries) {
+            final index = query.toIndexValue(collectionId, rule);
+            if (index != null) {
+              res.add(index);
+            }
+          }
+          // ドキュメントパス
+        } else {
+          final paths = mirrorPath.split("/");
+          final collectionId = paths[paths.length - 2];
+          for (final query in mirrorQueries) {
+            final index = query.toIndexValue(collectionId, rule);
+            if (index != null) {
+              res.add(index);
+            }
+          }
+        }
+      }
+    }
+    return res.distinct().toList();
+  }
+}
+
+extension on QueryValue {
+  IndexValue? toIndexValue(String collectionId, RuleValue rule) {
+    final query = this;
+    final conditions =
+        query.getConditionsWithParameters(rule.classValue.parameters);
+    if (conditions.isEmpty || !conditions.availableIndex()) {
+      return null;
+    }
+    final isCollectionGroup =
+        conditions.any((e) => e.type == "collectionGroup");
+    final descKeys = <String>{};
+    for (final condition in conditions) {
+      if (condition.type == "orderByDesc") {
+        descKeys.add(condition.key ?? "");
+      }
+    }
+    final fields = <String, IndexFieldValue>{};
+    for (final condition in conditions) {
+      if (condition.type == "collectionGroup" ||
+          condition.type == "orderByAsc" ||
+          condition.type == "orderByDesc" ||
+          condition.type == "limit") {
+        continue;
+      }
+      final key = condition.parameter?.jsonKey ?? condition.parameter?.name;
+      if (key == null) {
+        continue;
+      }
+      final isArray = condition.parameter?.type.isIterable ?? false;
+      fields[key] = IndexFieldValue(
+        name: key,
+        order:
+            descKeys.contains(key) ? IndexOrderType.desc : IndexOrderType.asc,
+        isArray: isArray,
+      );
+    }
+    return IndexValue(
+      collectionId: collectionId,
+      queryScope: isCollectionGroup
+          ? IndexScopeType.collectionGroup
+          : IndexScopeType.collection,
+      fields: fields.values.toList(),
+    );
+  }
+}
+
+extension on List<IndexValue> {
+  List<DynamicMap> toJson() {
+    return map((e) => e.toJson()).toList();
+  }
+}
+
+extension on List<QueryConditionValue> {
+  bool availableIndex() {
+    final keys = map((e) => e.key).toSet();
+    if (keys.length < 2) {
+      return false;
+    }
+    if (every((e) => e.type == "equalTo")) {
+      return false;
+    }
+    return true;
   }
 }

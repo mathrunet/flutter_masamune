@@ -1,8 +1,8 @@
 part of '/masamune_model_firestore_builder.dart';
 
-/// Builder to generate rules for Firestore.
+/// Builder to generate rules and indexes for Firestore.
 ///
-/// Firestore用のルールをジェネレートするためのビルダー。
+/// Firestore用のルールやインデックスをジェネレートするためのビルダー。
 Builder masamuneModelFirestoreBuilderFactory(BuilderOptions options) {
   return _MasamuneModelFirestoreBuilder();
 }
@@ -18,6 +18,21 @@ class _MasamuneModelFirestoreBuilder extends Builder {
       TypeChecker.fromRuntime(CollectionModelPath);
   static const _documentModelPathChecker =
       TypeChecker.fromRuntime(DocumentModelPath);
+
+  Future<void> _buildIndexes(
+    List<IndexValue> indexes,
+    BuildStep buildStep,
+  ) async {
+    const fileName = "firestore.indexes.json";
+    final outputDir = Directory(
+      "${_path(buildStep.inputId)}$_firebaseDir",
+    );
+    if (!outputDir.existsSync()) {
+      outputDir.createSync(recursive: true);
+    }
+    final outputFile = File("${outputDir.path}/$fileName");
+    await outputFile.writeAsString(jsonEncode({"indexes": indexes.toJson()}));
+  }
 
   Future<void> _buildRules(
     List<RuleValue> rules,
@@ -183,6 +198,10 @@ class _MasamuneModelFirestoreBuilder extends Builder {
     }
     rules.sort((a, b) => a.pathValue.path.compareTo(b.pathValue.path));
     await _buildRules(rules, buildStep);
+    final indexes = rules.toIndexValueList();
+    if (indexes.isNotEmpty) {
+      await _buildIndexes(indexes, buildStep);
+    }
   }
 
   String _path(AssetId from) {

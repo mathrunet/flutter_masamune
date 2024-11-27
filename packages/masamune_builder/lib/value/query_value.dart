@@ -77,6 +77,7 @@ class QueryValue {
     List<ParamaterValue> parameters,
   ) {
     final res = <QueryConditionValue>[];
+    final conditions = this.conditions.sortTo(_compareConditions);
     for (final condition in conditions) {
       final parameter = parameters.firstWhereOrNull((e) {
         return e.jsonKey == condition.key;
@@ -91,6 +92,21 @@ class QueryValue {
   /// 条件式のコードを出力。
   String toCode(String className) {
     return "return $className(modelQuery.copyWith(name: \"_${name.toCamelCase()}Query\").${conditions.mapAndRemoveEmpty((e) => e.toCode()).join(".")});";
+  }
+
+  int _compareConditions(QueryConditionValue a, QueryConditionValue b) {
+    final res = a.type.compareTo(b.type);
+    if (res == 0) {
+      if (a.key == null || b.key == null) {
+        return 0;
+      } else if (a.key == null) {
+        return -1;
+      } else if (b.key == null) {
+        return 1;
+      }
+      return a.key!.compareTo(b.key!);
+    }
+    return res;
   }
 }
 

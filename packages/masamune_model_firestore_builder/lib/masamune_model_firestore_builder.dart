@@ -9,6 +9,7 @@
 library masamune_model_firestore_builder;
 
 // Dart imports:
+import 'dart:convert';
 import 'dart:io';
 
 // Package imports:
@@ -25,3 +26,5 @@ part 'src/extensions.dart';
 part 'src/functions.dart';
 part 'value/rule_value.dart';
 part 'value/rule_type.dart';
+part 'value/index_value.dart';
+part 'value/index_type.dart';
