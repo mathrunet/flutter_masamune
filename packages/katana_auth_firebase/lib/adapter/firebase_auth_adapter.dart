@@ -223,14 +223,14 @@ class FirebaseAuthAdapter extends AuthAdapter {
       _sharedPreferences = await SharedPreferences.getInstance();
       await FirebaseCore.initialize(options: options);
       _initialized = true;
-      _initializeCompleter!.complete();
+      _initializeCompleter?.complete();
       _initializeCompleter = null;
     } catch (e) {
-      _initializeCompleter!.completeError(e);
+      _initializeCompleter?.completeError(e);
       _initializeCompleter = null;
       rethrow;
     } finally {
-      _initializeCompleter!.complete();
+      _initializeCompleter?.complete();
       _initializeCompleter = null;
     }
   }
