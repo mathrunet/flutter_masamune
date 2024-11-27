@@ -1,3 +1,7 @@
+## 2.25.2
+
+ - **FIX**: Fixed a bug that caused Functions folders to be generated when they were not needed. ([9b9ff057](https://github.com/mathrunet/flutter_masamune/commit/9b9ff057e373f5a4ff4ec85e86210cc403b99c0e))
+
 ## 2.25.1
 
  - **FIX**: Fixed an error when downgrading. ([ae488def](https://github.com/mathrunet/flutter_masamune/commit/ae488def3d9c26f974f016e987ca7d9a65a7551c))

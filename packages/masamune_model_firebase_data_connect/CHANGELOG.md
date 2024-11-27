@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Add Converter to DataConnect. ([29dbf085](https://github.com/mathrunet/flutter_masamune/commit/29dbf0850556a2aad2af1218da6921f8501c7a94))
+
 ## 2.1.7
 
  - Update a dependency to the latest release.

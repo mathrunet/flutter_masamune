@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Add Converter to DataConnect. ([29dbf085](https://github.com/mathrunet/flutter_masamune/commit/29dbf0850556a2aad2af1218da6921f8501c7a94))
+
 ## 2.1.8
 
  - **FIX**: Downgrade because the version of the collection package does not match. ([447ae259](https://github.com/mathrunet/flutter_masamune/commit/447ae259d622cac845df5d0570a3cac0470ce6c8))

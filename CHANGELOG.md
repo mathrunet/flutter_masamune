@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-11-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.25.2`](#katana_cli---v2252)
+ - [`katana_model_firestore` - `v2.16.50`](#katana_model_firestore---v21650)
+ - [`masamune_animate` - `v2.2.57`](#masamune_animate---v2257)
+ - [`masamune_model_firebase_data_connect` - `v2.2.0`](#masamune_model_firebase_data_connect---v220)
+ - [`masamune_model_firebase_data_connect_builder` - `v2.2.0`](#masamune_model_firebase_data_connect_builder---v220)
+ - [`masamune_model_algolia` - `v2.4.117`](#masamune_model_algolia---v24117)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_algolia` - `v2.4.117`
+
+---
+
+#### `katana_cli` - `v2.25.2`
+
+ - **FIX**: Fixed a bug that caused Functions folders to be generated when they were not needed. ([9b9ff057](https://github.com/mathrunet/flutter_masamune/commit/9b9ff057e373f5a4ff4ec85e86210cc403b99c0e))
+
+#### `katana_model_firestore` - `v2.16.50`
+
+ - **DOCS**: Additional Comments. ([468db624](https://github.com/mathrunet/flutter_masamune/commit/468db62453f22fb09b36a53c11aed25913dada4b))
+
+#### `masamune_animate` - `v2.2.57`
+
+ - **FIX**: Fixed a bug in animation using play. ([d27ab215](https://github.com/mathrunet/flutter_masamune/commit/d27ab215334510afb04d61972da0326150eb96e7))
+
+#### `masamune_model_firebase_data_connect` - `v2.2.0`
+
+ - **FEAT**: Add Converter to DataConnect. ([29dbf085](https://github.com/mathrunet/flutter_masamune/commit/29dbf0850556a2aad2af1218da6921f8501c7a94))
+
+#### `masamune_model_firebase_data_connect_builder` - `v2.2.0`
+
+ - **FEAT**: Add Converter to DataConnect. ([29dbf085](https://github.com/mathrunet/flutter_masamune/commit/29dbf0850556a2aad2af1218da6921f8501c7a94))
+
+
 ## 2024-11-25
 
 ### Changes

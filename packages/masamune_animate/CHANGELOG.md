@@ -1,3 +1,7 @@
+## 2.2.57
+
+ - **FIX**: Fixed a bug in animation using play. ([d27ab215](https://github.com/mathrunet/flutter_masamune/commit/d27ab215334510afb04d61972da0326150eb96e7))
+
 ## 2.2.56
 
  - Update a dependency to the latest release.
