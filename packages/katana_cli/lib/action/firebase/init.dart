@@ -69,6 +69,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final enabledFirestore = firestore.get("enable", false);
     final firestorePrimaryRemoteIndex =
         firestore.get("primary_remote_index", false);
+    final firestoreGenerateRulesAndIndexes =
+        firestore.get("generate_rules_and_indexes", false);
     final enabledDataconnect = dataconnect.get("enable", false);
     final enabledAuthentication =
         firebase.getAsMap("authentication").get("enable", false);
@@ -399,6 +401,14 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             workingDirectory: "firebase",
           );
         }
+      }
+      if (firestoreGenerateRulesAndIndexes) {
+        await addFlutterImport(
+          [
+            "masamune_model_firestore_builder",
+          ],
+          development: true,
+        );
       }
     }
     if (enabledHosting) {

@@ -265,11 +265,14 @@ firebase:
   project_id:
 
   # Enable Firebase Firestore.
+  # Set [generate_rules_and_indexes] to `true` to automatically generate Firestore security rules and indexes.
   # If [primary_remote_index] is set to `true`, indexes on the console are prioritized and automatic index import is enabled.
   # Firebase Firestoreを有効にします。
+  # [generate_rules_and_indexes]を`true`にするとFirestoreのセキュリティルールとインデックスを自動生成します。
   # [primary_remote_index]を`true`にするとコンソール上のインデックスが優先されるため、インデックスの自動インポートが有効になります。
   firestore:
     enable: false
+    generate_rules_and_indexes: false
     primary_remote_index: false
 
   # Enable Firebase Data Connect.
