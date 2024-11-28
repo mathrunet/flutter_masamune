@@ -1,3 +1,7 @@
+## 2.7.6
+
+ - **FIX**: Fixed a bug that prevented initialization from working. ([754ef10d](https://github.com/mathrunet/flutter_masamune/commit/754ef10de1871ffab7ca2ab2dda335a120153f90))
+
 ## 2.7.5
 
  - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))

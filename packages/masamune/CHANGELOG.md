@@ -1,3 +1,7 @@
+## 2.15.2
+
+ - **FIX**: Collection groups can now be assigned to conditions. ([b4dad188](https://github.com/mathrunet/flutter_masamune/commit/b4dad188f0570c1236fd88510bcc19ef5b20b50e))
+
 ## 2.15.1
 
  - Update a dependency to the latest release.

@@ -1,3 +1,8 @@
+## 2.20.0
+
+ - **FIX**: Collection groups can now be assigned to conditions. ([b4dad188](https://github.com/mathrunet/flutter_masamune/commit/b4dad188f0570c1236fd88510bcc19ef5b20b50e))
+ - **FEAT**: Added the ability to create Indexes. ([9b5ec587](https://github.com/mathrunet/flutter_masamune/commit/9b5ec58741cfbeb1552305569cb5465c8dc79cfb))
+
 ## 2.19.2
 
  - **FIX**: Downgrade because the version of the collection package does not match. ([447ae259](https://github.com/mathrunet/flutter_masamune/commit/447ae259d622cac845df5d0570a3cac0470ce6c8))

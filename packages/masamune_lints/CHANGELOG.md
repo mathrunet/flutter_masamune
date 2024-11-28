@@ -1,3 +1,7 @@
+## 2.5.1
+
+ - **FIX**: Package Update. ([4a52ca8f](https://github.com/mathrunet/flutter_masamune/commit/4a52ca8fee0c2bb1f8441c1d706cd3ced199f339))
+
 ## 2.5.0
 
  - **FIX**: ReportErrorForNode's deprecated response. ([0890ae2a](https://github.com/mathrunet/flutter_masamune/commit/0890ae2ab80326868162b9970ec49666996f62df))

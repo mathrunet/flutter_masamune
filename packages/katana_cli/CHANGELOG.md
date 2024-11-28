@@ -1,3 +1,8 @@
+## 2.26.0
+
+ - **FIX**: Fixed a bug that prevented Firebase init from working. ([38ccfd18](https://github.com/mathrunet/flutter_masamune/commit/38ccfd187093e30bfc8d18bcfe51fac3112a1ee3))
+ - **FEAT**: made masamune_model_firestore_builder available. ([c836a47b](https://github.com/mathrunet/flutter_masamune/commit/c836a47b4f77a3f3fa69323ff3f3018f45f58e36))
+
 ## 2.25.2
 
  - **FIX**: Fixed a bug that caused Functions folders to be generated when they were not needed. ([9b9ff057](https://github.com/mathrunet/flutter_masamune/commit/9b9ff057e373f5a4ff4ec85e86210cc403b99c0e))

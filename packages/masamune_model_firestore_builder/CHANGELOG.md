@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Added the ability to create Indexes. ([9b5ec587](https://github.com/mathrunet/flutter_masamune/commit/9b5ec58741cfbeb1552305569cb5465c8dc79cfb))
+
 ## 2.3.12
 
  - **FIX**: Downgrade because the version of the collection package does not match. ([447ae259](https://github.com/mathrunet/flutter_masamune/commit/447ae259d622cac845df5d0570a3cac0470ce6c8))

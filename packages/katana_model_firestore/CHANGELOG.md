@@ -1,3 +1,7 @@
+## 2.17.0
+
+ - **FEAT**: Added the ability to create Indexes. ([9b5ec587](https://github.com/mathrunet/flutter_masamune/commit/9b5ec58741cfbeb1552305569cb5465c8dc79cfb))
+
 ## 2.16.51
 
  - **DOCS**: Corrected comment. ([905ef124](https://github.com/mathrunet/flutter_masamune/commit/905ef124ddb1b1fb0b120eb585ae6735485b1585))

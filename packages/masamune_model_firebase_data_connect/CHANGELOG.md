@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - Update a dependency to the latest release.
+
 ## 2.2.1
 
  - **FIX**: Addition of conversions around queries. ([33f909f4](https://github.com/mathrunet/flutter_masamune/commit/33f909f417afbd9331d70c20f0e9e1e467d62390))

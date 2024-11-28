@@ -1,3 +1,7 @@
+## 2.9.1
+
+ - **FIX**: Collection groups can now be assigned to conditions. ([b4dad188](https://github.com/mathrunet/flutter_masamune/commit/b4dad188f0570c1236fd88510bcc19ef5b20b50e))
+
 ## 2.9.0
 
  - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))
