@@ -134,61 +134,61 @@ extension on InterfaceType {
   /// クエリ向けのパラメータータイプに変換します。
   ///
   /// [reference]を与えることで、参照型の場合の変換を行います。
-  String toQueryParameterType({
-    ReferenceValue? reference,
-  }) {
-    final nullable = isNullable ? "?" : "";
-    if (isDartCoreString) {
-      return "${SchemaType.string.dartLabel}$nullable";
-    } else if (isDartCoreBool) {
-      return "${SchemaType.bool.dartLabel}$nullable";
-    } else if (isDartCoreInt) {
-      return "${SchemaType.int.dartLabel}$nullable";
-    } else if (isDartCoreDouble) {
-      return "${SchemaType.float.dartLabel}$nullable";
-    } else if (isDartCoreList) {
-      return "${SchemaType.any.dartLabel}$nullable";
-    } else if (isDartCoreSet) {
-      return "${SchemaType.any.dartLabel}$nullable";
-    } else if (isDartCoreMap) {
-      return "${SchemaType.any.dartLabel}$nullable";
-    } else if (isDartCoreEnum) {
-      return "${SchemaType.string.dartLabel}$nullable";
-    } else if (isModelRef) {
-      if (reference?.type == ReferenceValueType.single) {
-        if (_MasamuneModelFirebaseDataConnectBuilder.schemas
-            .any((e) => e.classValue.name == reference?.modelType)) {
-          return reference!.modelType;
-        }
-      }
-      return "${SchemaType.any.dartLabel}$nullable";
-    } else if (isModelCounter) {
-      return "${SchemaType.any.dartLabel}$nullable";
-    } else if (isModelTimestamp) {
-      return "${SchemaType.timestamp.dartLabel}$nullable";
-    } else if (isModelDate) {
-      return "${SchemaType.any.dartLabel}$nullable";
-    } else if (isModelSearch) {
-      return "${SchemaType.any.dartLabel}$nullable";
-    } else if (isModelToken) {
-      return "${SchemaType.any.dartLabel}$nullable";
-    } else if (isModelUri) {
-      return "${SchemaType.any.dartLabel}$nullable";
-    } else if (isModelImageUri) {
-      return "${SchemaType.any.dartLabel}$nullable";
-    } else if (isModelVideoUri) {
-      return "${SchemaType.any.dartLabel}$nullable";
-    } else if (isModelGeoValue) {
-      return "${SchemaType.any.dartLabel}$nullable";
-    } else if (isModelLocale) {
-      return "${SchemaType.any.dartLabel}$nullable";
-    } else if (isModelLocalizedValue) {
-      return "${SchemaType.any.dartLabel}$nullable";
-    } else if (isModelCommand) {
-      return "${SchemaType.any.dartLabel}$nullable";
-    }
-    return "";
-  }
+  // String toQueryParameterType({
+  //   ReferenceValue? reference,
+  // }) {
+  //   final nullable = isNullable ? "?" : "";
+  //   if (isDartCoreString) {
+  //     return "${SchemaType.string.dartLabel}$nullable";
+  //   } else if (isDartCoreBool) {
+  //     return "${SchemaType.bool.dartLabel}$nullable";
+  //   } else if (isDartCoreInt) {
+  //     return "${SchemaType.int.dartLabel}$nullable";
+  //   } else if (isDartCoreDouble) {
+  //     return "${SchemaType.float.dartLabel}$nullable";
+  //   } else if (isDartCoreList) {
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   } else if (isDartCoreSet) {
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   } else if (isDartCoreMap) {
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   } else if (isDartCoreEnum) {
+  //     return "${SchemaType.string.dartLabel}$nullable";
+  //   } else if (isModelRef) {
+  //     if (reference?.type == ReferenceValueType.single) {
+  //       if (_MasamuneModelFirebaseDataConnectBuilder.schemas
+  //           .any((e) => e.classValue.name == reference?.modelType)) {
+  //         return reference!.modelType;
+  //       }
+  //     }
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   } else if (isModelCounter) {
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   } else if (isModelTimestamp) {
+  //     return "${SchemaType.timestamp.dartLabel}$nullable";
+  //   } else if (isModelDate) {
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   } else if (isModelSearch) {
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   } else if (isModelToken) {
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   } else if (isModelUri) {
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   } else if (isModelImageUri) {
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   } else if (isModelVideoUri) {
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   } else if (isModelGeoValue) {
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   } else if (isModelLocale) {
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   } else if (isModelLocalizedValue) {
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   } else if (isModelCommand) {
+  //     return "${SchemaType.any.dartLabel}$nullable";
+  //   }
+  //   return "";
+  // }
 }
 
 extension on ParamaterValue {
