@@ -82,7 +82,7 @@ In addition, this framework provides the following functions to support applicat
 - `UI support`
     - It provides functions to implement list widgets and simple modals that can update widgets with less load when data is updated.
 - `Firebase/Firestore support`
-    - Provides the ability to easily switch to Firebase features such as `Authentication`, `Cloud Firestore`, and `Cloud Storage`.
+    - Provides functionality to easily switch between Firebase features such as `Authentication`, `Cloud Firestore`, `Cloud Storage`, and `Firebase DataConnect`.
 
 By using this framework, for example, a simple CRUD application requires only the following parts to be implemented.
 
@@ -263,19 +263,6 @@ router.replace(TestPage.query());
 router.pop();
 ```
 
-You can also use the `push` and `replace` methods provided for `RouteQuery`.
-
-```dart
-// Transition to TestPage
-TestPage.query().push();
-
-// Page Replacements
-TestPage.query().replace();
-
-// Back to Previous Page
-router.pop();
-```
-
 ## Initial Page Setup
 
 You can set the page when the application is launched by passing the query you want to set for the initial page to the `initialQuery` defined in main.dart.
@@ -291,8 +278,6 @@ To learn more about the other features listed below, please visit the package de
 - How to specify AppRouter
 - Deep linking support
 - Nest Navigation
-
-katana_router
 
 [https://pub.dev/packages/katana_router](https://pub.dev/packages/katana_router)
 
@@ -354,7 +339,7 @@ class TestModel with _$TestModel {
   ///
   /// ```dart
   /// appRef.model(TestModel.document(id));       // Get the document.
-  /// ref.model(TestModel.document(id))..load();  // Load the document.
+  /// ref.app.model(TestModel.document(id))..load();  // Load the document.
   /// ```
   static const document = _$TestModelDocumentQuery();
 
@@ -362,8 +347,8 @@ class TestModel with _$TestModel {
   ///
   /// ```dart
   /// appRef.model(TestModel.collection());       // Get the collection.
-  /// ref.model(TestModel.collection())..load();  // Load the collection.
-  /// ref.model(
+  /// ref.app.model(TestModel.collection())..load();  // Load the collection.
+  /// ref.app.model(
   ///   TestModel.collection().data.equal(
   ///     "data",
   ///   )
@@ -374,7 +359,8 @@ class TestModel with _$TestModel {
   /// Query for form value.
   ///
   /// ```dart
-  /// ref.form(TestModel.form(TestModel()));    // Get the form controller.
+  /// ref.app.form(TestModel.form(LogModel()));    // Get the form controller in app scope.
+  /// ref.page.form(TestModel.form(LogModel()));    // Get the form controller in page scope.
   /// ```
   static const form = _$TestModelFormQuery();
 }
@@ -474,13 +460,13 @@ const factory TestModel({
 
 ### Using Model
 
-The created model can be handled by using `ref.model` from `PageRef (WidgetRef)` passed in the `build` method if it is within a page or widget created with `ScopedWidget` or `Scoped`.
+The created model can be handled by using `ref.app.model` from `PageRef (WidgetRef)` passed in the `build` method if it is within a page or widget created with `ScopedWidget` or `Scoped`.
 
-The actual object can be obtained by passing a `collection` or `document` defined in the model created in `ref.model`.
+The actual object can be obtained by passing a `collection` or `document` defined in the model created in `ref.app.model`.
 
 Data can also be loaded from the database by executing the `load` method of the retrieved object.
 
-When loading is complete or data is rewritten, the widget that executed `ref.model` is rebuilt.
+When loading is complete or data is rewritten, the widget that executed `ref.app.model` is rebuilt.
 
 ```dart
 @override
@@ -488,7 +474,7 @@ Widget build(BuildContext context, PageRef ref) {
   // Describes the process of loading
   // and defining variables required for the page.
   // TODO: Implement the variable loading process.
-  final testModelCollection = ref.model(TestModel.collection()); // Obtain a collection of TestModel.
+  final testModelCollection = ref.app.model(TestModel.collection()); // Obtain a collection of TestModel.
   testModelCollection.load();  // Load model data
 
   ~~~~~~~~~
@@ -498,13 +484,6 @@ Widget build(BuildContext context, PageRef ref) {
 Also, if you want to use it outside of a page or widget, you can use it in an `appRef` defined in main.dart.
 
 ```dart
-final testModelCollection = appRef.model(TestModel.collection());
-```
-
-It can also be written concisely in a method chain by using the `watch` and `read` methods.
-
-```dart
-final testModelCollection = TestModel.collection().watch(ref);
 final testModelCollection = appRef.model(TestModel.collection());
 ```
 
@@ -560,8 +539,6 @@ To learn more about the other features listed below, please visit the package de
 - Transaction and batch processing
 - Special Field Values
 
-katana_model
-
 [https://pub.dev/packages/katana_model](https://pub.dev/packages/katana_model)
 
 ## Controller
@@ -590,7 +567,7 @@ import '/main.dart';
 part 'test.m.dart';
 
 /// Controller.
-@Controller(autoDisposeWhenUnreferenced: true)
+@Controller(autoDisposeWhenUnreferenced: false)
 class TestController extends ChangeNotifier {
   TestController(
     // TODO: Define some arguments.
@@ -613,9 +590,11 @@ class TestController extends ChangeNotifier {
 
 When using `PageRef (WidgetRef)`, you can obtain the actual object by passing `query` to `ref.(page/app).controller()`.
 
-If defined in `ref.app.controller`, the controller is destroyed when the referenced widget reaches 0.
+For `ref.app.controller`, it is managed across multiple pages, while `ref.page.controller` is managed only within that specific page.
 
-If defined in `ref.page.controller`, the controller will also be destroyed when the page is destroyed.
+When defined in `ref.app.controller`, the controller basically won't be destroyed until the application is terminated.
+
+When defined in `ref.page.controller`, the controller will be destroyed when that page is destroyed.
 
 ```dart
 @override
@@ -639,23 +618,13 @@ In the case of `appRef`, it is managed across pages. (Same as `ref.app.controlle
 final testController = appRef.controller(TestController.query());
 ```
 
-It can also be written concisely in a method chain by using the `watch` and `read` methods.
-
-```dart
-final testController = TestController.query().watchOnApp(ref);
-final testController = TestController.query().watchOnPage(ref);
-final testController = TestController.query().read(appRef);
-```
-
 ## State management
 
-Basically, I think the above `ref.model` and `ref.(page/app).controller` can cover most of the state management.
+Basically, I think the above `ref.app.model` and `ref.(page/app).controller` can cover most of the state management.
 
 State management can also be extended, so please see the package details page for more information.
 
-katana_scoped
-
-[https://pub.dev/packages/katana_model](https://pub.dev/packages/katana_model)
+[https://pub.dev/packages/katana_scoped](https://pub.dev/packages/katana_scoped)
 
 ## Translation
 
@@ -685,8 +654,6 @@ To learn more about the other features listed below, please visit the package de
 
 - Specifying Parameters
 - Change Translation Language
-
-katana_localization
 
 [https://pub.dev/packages/katana_localization](https://pub.dev/packages/katana_localization)
 
@@ -798,8 +765,6 @@ To learn more about the other features listed below, please visit the package de
 - Gradation
 - Conversion Methods
 
-katana_theme
-
 [https://pub.dev/packages/katana_theme](https://pub.dev/packages/katana_theme)
 
 ## Form Building
@@ -814,23 +779,24 @@ When creating a form that targets a `data model`, such as editing profile data, 
 /// Query for form value.
 ///
 /// ```dart
-/// ref.form(TestModel.form(TestModel()));    // Get the form controller.
+/// ref.app.form(TestModel.form(LogModel()));    // Get the form controller in app scope.
+/// ref.page.form(TestModel.form(LogModel()));    // Get the form controller in page scope.
 /// ```
 static const form = _$TestModelFormQuery();
 ```
 
-The `form` is passed to `ref.form`, but the original object (`TestModel`) must be passed as an argument.
+Like controllers, the `form` can be passed to both app scope (`ref.app.form`) and page scope (`ref.page.form`), but when doing so, you need to pass the original object (`TestModel`) as an argument.
 
 When registering new data, simply create and pass a `TestModel`, and when editing existing data, pass the values read from the `data model` as they are.
 
 ```dart
 // When creating new data
 final memo = const MemoModel(title: "", text: "");
-final formController = ref.form(MemoModel.form( memo ));
+final formController = ref.page.form(MemoModel.form( memo ));
 
 // When creating existing data
-final memo = ref.model(MemoModel.document("Memo ID"))..load();
-final formController = ref.form(MemoModel.form( memo ));
+final memo = ref.app.model(MemoModel.document("Memo ID"))..load();
+final formController = ref.page.form(MemoModel.form( memo ));
 ```
 
 To create a form for data not defined in the data model, such as login, use the following command to create a data definition for the form.
@@ -877,7 +843,8 @@ class LoginValue with _$LoginValue {
   /// Query for form value.
   ///
   /// ```dart
-  /// ref.form(LoginValue.form(LoginValue()));    // Get the form controller.
+  /// ref.app.form(LoginValue.form(LogModel()));    // Get the form controller in app scope.
+  /// ref.page.form(LoginValue.form(LogModel()));    // Get the form controller in page scope.
   /// ```
   static const form = _$LoginValueFormQuery();
 }
@@ -897,7 +864,7 @@ To retrieve the form controller, use the `form` defined in this object for the s
 
 ```dart
 final login = const LoginValue(email: "", password: "");
-final formController = ref.form(LoginValue.form( login ));
+final formController = ref.app.form(LoginValue.form( login ));
 ```
 
 ### Form drawing and validation/finalization
@@ -913,7 +880,7 @@ FormTextField(
 ),
 ```
 
-After writing the form widget while including the above process, the form values are validated and confirmed by executing `formController.validateAndSave` when the confirm button is pressed.
+After writing the form widget while including the above process, the form values are validated and confirmed by executing `formController.validate` when the confirm button is pressed.
 
 After the verification passes, use the returned value to save the data.
 
@@ -935,8 +902,6 @@ FormButton(
 ```
 
 Please see the package details page for other details.
-
-katana_form
 
 [https://pub.dev/packages/katana_form](https://pub.dev/packages/katana_form)
 
@@ -1023,11 +988,7 @@ Widget build(BuildContext context, PageRef ref) {
 
 For other details, please see the package details page.
 
-katana_ui
-
 [https://pub.dev/packages/katana_ui](https://pub.dev/packages/katana_ui)
-
-masamune_universal_ui
 
 [https://pub.dev/packages/masamune_universal_ui](https://pub.dev/packages/masamune_universal_ui)
 
@@ -1039,7 +1000,7 @@ User registration, login, and logout can be performed by executing various metho
 
 ```dart
 // User registration
-await auth.register(
+await appAuth.register(
   EmailAndPasswordAuthQuery.register(
     email: "test@email.com",
     password: "12345678",
@@ -1047,7 +1008,7 @@ await auth.register(
 );
 
 // Login
-await auth.signIn(
+await appAuth.signIn(
   EmailAndPasswordAuthQuery.signIn(
     email: "test@email.com",
     password: "12345678",
@@ -1055,7 +1016,7 @@ await auth.signIn(
 );
 
 // Logout
-await auth.signOut();
+await appAuth.signOut();
 ```
 
 By default, these are only stored in the app's memory and will revert to their original state when the app is restarted.
@@ -1063,8 +1024,6 @@ By default, these are only stored in the app's memory and will revert to their o
 If you wish to persist data, see `Firebase/Firestore support` below.
 
 For other details, please see the package details page.
-
-katana_auth
 
 [https://pub.dev/packages/katana_auth](https://pub.dev/packages/katana_auth)
 
@@ -1086,8 +1045,6 @@ By default, these are only stored in the app's memory and will revert to their o
 If you wish to persist data, see `Firebase/Firestore support` below.
 
 For other details, please see the package details page.
-
-katana_storage
 
 [https://pub.dev/packages/katana_storage](https://pub.dev/packages/katana_storage)
 
@@ -1149,13 +1106,9 @@ Each is offered in a separate package, so please refer to that for details.
 
 ### Provides shorthand notation
 
-katana_shorten
-
 [https://pub.dev/packages/katana_shorten](https://pub.dev/packages/katana_shorten)
 
 ### Indicator display while waiting for Future
-
-katana_indicator
 
 [https://pub.dev/packages/katana_indicator](https://pub.dev/packages/katana_indicator)
 
