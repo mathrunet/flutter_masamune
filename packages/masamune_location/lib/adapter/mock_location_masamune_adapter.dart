@@ -21,7 +21,7 @@ class MockLocationMasamuneAdapter extends LocationMasamuneAdapter {
       Future.value();
 
   @override
-  Future<LocationData> getLocation() => Future.value(defaultLocationData);
+  Future<LocationData?> getLocation() => Future.value(defaultLocationData);
 
   @override
   Future<void> changeSettings({

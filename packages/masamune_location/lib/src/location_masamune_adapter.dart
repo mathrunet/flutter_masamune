@@ -96,7 +96,7 @@ abstract class LocationMasamuneAdapter extends MasamuneAdapter {
   /// Obtains location data once.
   ///
   /// 位置情報のデータを１回取得します。
-  Future<LocationData> getLocation();
+  Future<LocationData?> getLocation();
 
   /// Update location settings.
   ///

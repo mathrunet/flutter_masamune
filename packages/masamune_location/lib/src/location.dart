@@ -188,11 +188,16 @@ class Location
   /// パーミッションが許可されていない時は[defaultLocationData]が使用されます。
   Future<void> load({
     bool checkPermission = true,
+    LocationAccuracy? accuracy,
+    double? distanceFilterMeters,
     LocationData? defaultLocationData,
     Duration timeout = const Duration(seconds: 60),
   }) async {
     if (_loadCompleter != null) {
       return _loadCompleter?.future;
+    }
+    if (_listenCompleter != null) {
+      return _listenCompleter?.future;
     }
     if (_value != null) {
       return;
@@ -206,7 +211,10 @@ class Location
       if (!permitted) {
         _value = defaultLocationData ?? adapter.defaultLocationData ?? _value;
       } else {
-        _value = await adapter.getLocation();
+        _value = (await adapter.getLocation()) ??
+            _value ??
+            defaultLocationData ??
+            adapter.defaultLocationData;
       }
       notifyListeners();
       _loadCompleter?.complete();
@@ -234,6 +242,8 @@ class Location
   /// パーミッションが許可されていない時は[defaultLocationData]が使用されます。
   Future<void> reload({
     Duration timeout = const Duration(seconds: 60),
+    LocationAccuracy? accuracy,
+    double? distanceFilterMeters,
     bool checkPermission = true,
     LocationData? defaultLocationData,
   }) async {
@@ -242,6 +252,8 @@ class Location
       timeout: timeout,
       checkPermission: checkPermission,
       defaultLocationData: defaultLocationData,
+      accuracy: accuracy,
+      distanceFilterMeters: distanceFilterMeters,
     );
   }
 
@@ -295,6 +307,9 @@ class Location
     if (_listenCompleter != null) {
       return _listenCompleter?.future;
     }
+    if (_loadCompleter != null) {
+      await _loadCompleter?.future;
+    }
     if (_updateInterval == updateInterval && listening) {
       return;
     }
@@ -309,7 +324,10 @@ class Location
       if (adapter.enableBackgroundLocation && permittedBackground) {
         await adapter.enableBackgroundMode(enable: true);
       }
-      _value = await adapter.getLocation().timeout(timeout);
+      final value = await adapter.getLocation().timeout(timeout);
+      if (value != null) {
+        _value = value;
+      }
       _locationChangeStreamSubscription?.cancel();
       _locationChangeStreamSubscription = adapter.listen(
         (value) {

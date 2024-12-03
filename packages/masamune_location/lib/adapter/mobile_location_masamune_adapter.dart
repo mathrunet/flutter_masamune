@@ -10,11 +10,21 @@ class MobileLocationMasamuneAdapter extends LocationMasamuneAdapter {
   const MobileLocationMasamuneAdapter({
     this.defaultAccuracy = LocationAccuracy.best,
     this.defaultDistanceFilterMeters = 10.0,
+    this.getLocationTimeout = const Duration(seconds: 3),
     super.defaultLocationData,
     super.enableBackgroundLocation = false,
     super.location,
     super.listenOnBoot = false,
   });
+
+  /// Timeout period when doing [getLocation].
+  ///
+  /// In the case of IOS, [getLocation] will not terminate until the location is moved, so set a timeout.
+  ///
+  /// [getLocation]を行うときのタイムアウト時間。
+  ///
+  /// IOSの場合位置を移動しないと[getLocation]が終了しないため、タイムアウトを設定します。
+  final Duration getLocationTimeout;
 
   /// Specifies the accuracy of location information.
   ///
@@ -41,8 +51,11 @@ class MobileLocationMasamuneAdapter extends LocationMasamuneAdapter {
   }
 
   @override
-  Future<LocationData> getLocation() async {
-    return (await _location.getLocation()).toLocationData();
+  Future<LocationData?> getLocation() async {
+    return Future.any<LocationData?>([
+      _location.getLocation().then((e) => e.toLocationData()),
+      Future.delayed(getLocationTimeout).then((e) => null)
+    ]);
   }
 
   @override
