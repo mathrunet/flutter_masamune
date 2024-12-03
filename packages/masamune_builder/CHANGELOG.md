@@ -1,3 +1,7 @@
+## 2.20.1
+
+ - **DOCS**: ReadMe Updates. ([d437f46f](https://github.com/mathrunet/flutter_masamune/commit/d437f46fe785053cf83648d9e161e6e80e945418))
+
 ## 2.20.0
 
  - **FIX**: Collection groups can now be assigned to conditions. ([b4dad188](https://github.com/mathrunet/flutter_masamune/commit/b4dad188f0570c1236fd88510bcc19ef5b20b50e))

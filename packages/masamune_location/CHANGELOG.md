@@ -1,3 +1,7 @@
+## 2.5.19
+
+ - **FIX**: Fixed a bug in IOS that prevented location information from being obtained. ([d0dea9e7](https://github.com/mathrunet/flutter_masamune/commit/d0dea9e7beb29fa8f738cb1e38434c7d2086cea1))
+
 ## 2.5.18
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.26.1
+
+ - **FIX**: Added the ability to specify the location of text for simple icons. ([37ab4b40](https://github.com/mathrunet/flutter_masamune/commit/37ab4b406d4bf5a3b1961fd50550af5c0cdfb563))
+
 ## 2.26.0
 
  - **FIX**: Fixed a bug that prevented Firebase init from working. ([38ccfd18](https://github.com/mathrunet/flutter_masamune/commit/38ccfd187093e30bfc8d18bcfe51fac3112a1ee3))

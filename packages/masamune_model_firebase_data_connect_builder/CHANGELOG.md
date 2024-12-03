@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - **FIX**: Remove unnecessary methods. ([ad6a2585](https://github.com/mathrunet/flutter_masamune/commit/ad6a2585ecbc58afd723920b5b0e3bb8a55df96c))
+
 ## 2.3.0
 
  - **FEAT**: Added the ability to create Indexes. ([9b5ec587](https://github.com/mathrunet/flutter_masamune/commit/9b5ec58741cfbeb1552305569cb5465c8dc79cfb))
