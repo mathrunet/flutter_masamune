@@ -559,8 +559,11 @@ store:
     icon: documents/icon.png
     orientation: portrait
     color: '000000'
-    position: center
+    purchase_position: center
     title: 'Title'
+    icon_position:
+      x: 12
+      y: 12
 
 # Describe the settings for using location information.
 #

@@ -89,7 +89,10 @@ class StoreScreenshotCliCommand extends CliCommand {
     final featureImageSourcePath = screenshot.get("feature_image", "");
     final title = screenshot.get("title", "");
     final iconSourcePath = screenshot.get("icon", "");
-    final position = screenshot.get("position", "center");
+    final purchasePosition = screenshot.get("purchase_position", "center");
+    final iconPosition = screenshot.getAsMap("icon_position", {});
+    final iconPositionX = iconPosition.getAsInt("x", 12);
+    final iconPositionY = iconPosition.getAsInt("y", 12);
     if (exportDir.isEmpty) {
       error(
         "[store]->[screenshot]->[export_dir] is not found. Fill in the destination folder here.",
@@ -170,6 +173,7 @@ class StoreScreenshotCliCommand extends CliCommand {
     }
     label("Create a icon.");
     final iconImage = File("$exportDir/icon.png");
+    final iconImageAndroid = File("$exportDir/icon_android.png");
     if (iconSourcePath.isNotEmpty) {
       final iconSource = File(iconSourcePath);
       if (iconSource.existsSync()) {
@@ -195,8 +199,8 @@ class StoreScreenshotCliCommand extends CliCommand {
           image,
           title.substring(0, 1).toUpperCase(),
           font: arial48,
-          x: 16,
-          y: 12,
+          x: iconPositionX,
+          y: iconPositionY,
           color: foregroundColor,
         );
         image = _adjustAlpha(
@@ -218,6 +222,14 @@ class StoreScreenshotCliCommand extends CliCommand {
         iconImage.writeAsBytesSync(encodePng(image));
       }
     }
+    final iconSource = decodeImage(iconImage.readAsBytesSync())!;
+    final resized = copyResize(
+      iconSource,
+      width: 512,
+      height: 512,
+      maintainAspect: true,
+    );
+    iconImageAndroid.writeAsBytesSync(encodePng(resized));
     label("Create other screenshots.");
     if (sources.isEmpty) {
       for (final tmp in _resolution.entries) {
@@ -273,7 +285,7 @@ class StoreScreenshotCliCommand extends CliCommand {
                   y: _purchaseVerticalPosition(
                     sourceHeight: resized.height,
                     targetHeight: size.height,
-                    position: position,
+                    position: purchasePosition,
                     offset: offset,
                   ).floor(),
                   width: resized.width,
