@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-12-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_location` - `v2.5.20`](#masamune_location---v2520)
+ - [`masamune_location_google` - `v2.6.20`](#masamune_location_google---v2620)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_google` - `v2.6.20`
+
+---
+
+#### `masamune_location` - `v2.5.20`
+
+ - **FIX**: Changed to GeoLocator because I can't get it the first time in IOS. ([cee3f31c](https://github.com/mathrunet/flutter_masamune/commit/cee3f31c063f95ae7533e3343595f7f3a1c45a54))
+
+
 ## 2024-12-03
 
 ### Changes

@@ -1,3 +1,7 @@
+## 2.5.20
+
+ - **FIX**: Changed to GeoLocator because I can't get it the first time in IOS. ([cee3f31c](https://github.com/mathrunet/flutter_masamune/commit/cee3f31c063f95ae7533e3343595f7f3a1c45a54))
+
 ## 2.5.19
 
  - **FIX**: Fixed a bug in IOS that prevented location information from being obtained. ([d0dea9e7](https://github.com/mathrunet/flutter_masamune/commit/d0dea9e7beb29fa8f738cb1e38434c7d2086cea1))
