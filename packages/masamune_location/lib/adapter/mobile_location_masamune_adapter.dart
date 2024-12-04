@@ -49,7 +49,7 @@ class MobileLocationMasamuneAdapter extends LocationMasamuneAdapter {
     );
     if (!await location.Geolocator.isLocationServiceEnabled()
         .timeout(timeout)) {
-      throw Exception(
+      throw LocationServiceNotAvailableException(
         "Location service not available. The platform may not be supported or it may be disabled in the settings. please confirm.",
       );
     }

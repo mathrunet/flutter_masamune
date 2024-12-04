@@ -34,3 +34,4 @@ part 'adapter/mobile_location_masamune_adapter.dart';
 part 'adapter/mock_location_masamune_adapter.dart';
 part 'src/location_masamune_adapter.dart';
 part 'src/location.dart';
+part 'src/location_service_not_available_exception.dart';
