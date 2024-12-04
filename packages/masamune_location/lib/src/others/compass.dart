@@ -64,8 +64,6 @@ class Compass
   CompassData? get value => _value;
   CompassData? _value;
 
-  final location.Location _location = location.Location();
-
   Timer? _timer;
   Duration _updateInterval = const Duration(minutes: 1);
   bool _updated = false;
@@ -110,7 +108,8 @@ class Compass
     }
     _completer = Completer<void>();
     try {
-      if (!await _location.serviceEnabled().timeout(timeout)) {
+      if (!await location.Geolocator.isLocationServiceEnabled()
+          .timeout(timeout)) {
         throw Exception(
           "Location service not available. The platform may not be supported or it may be disabled in the settings. please confirm.",
         );

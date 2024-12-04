@@ -9,7 +9,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 
 // Package imports:
-import 'package:location/location.dart' as location;
+import 'package:geolocator/geolocator.dart' as location;
 import 'package:masamune/masamune.dart';
 import 'package:permission_handler/permission_handler.dart';
 

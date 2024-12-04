@@ -36,14 +36,19 @@ class MobileLocationMasamuneAdapter extends LocationMasamuneAdapter {
   /// 位置情報を更新する際の最低距離（m）。
   final double defaultDistanceFilterMeters;
 
-  static final l.Location _location = l.Location();
+  static location.LocationSettings _settings = location.LocationSettings();
 
   @override
   Future<void> initialize({
     bool checkPermission = true,
     Duration timeout = const Duration(seconds: 60),
   }) async {
-    if (!await _location.serviceEnabled().timeout(timeout)) {
+    _settings = location.LocationSettings(
+      accuracy: defaultAccuracy.toGeoLocatorLocationAccuracy(),
+      distanceFilter: defaultDistanceFilterMeters.toInt(),
+    );
+    if (!await location.Geolocator.isLocationServiceEnabled()
+        .timeout(timeout)) {
       throw Exception(
         "Location service not available. The platform may not be supported or it may be disabled in the settings. please confirm.",
       );
@@ -51,11 +56,11 @@ class MobileLocationMasamuneAdapter extends LocationMasamuneAdapter {
   }
 
   @override
-  Future<LocationData?> getLocation() async {
-    return Future.any<LocationData?>([
-      _location.getLocation().then((e) => e.toLocationData()),
-      Future.delayed(getLocationTimeout).then((e) => null)
-    ]);
+  Future<LocationData> getLocation() async {
+    final position = await location.Geolocator.getCurrentPosition(
+      locationSettings: _settings,
+    );
+    return position.toLocationData();
   }
 
   @override
@@ -63,20 +68,20 @@ class MobileLocationMasamuneAdapter extends LocationMasamuneAdapter {
     LocationAccuracy? accuracy = LocationAccuracy.high,
     double? distanceFilterMeters = 0,
   }) async {
-    await _location.changeSettings(
+    _settings = location.LocationSettings(
       accuracy: (accuracy ?? defaultAccuracy).toGeoLocatorLocationAccuracy(),
-      distanceFilter: distanceFilterMeters ?? defaultDistanceFilterMeters,
+      distanceFilter:
+          (distanceFilterMeters ?? defaultDistanceFilterMeters).toInt(),
     );
   }
 
   @override
-  Future<void> enableBackgroundMode({required bool enable}) async {
-    await _location.enableBackgroundMode(enable: enable);
-  }
+  Future<void> enableBackgroundMode({required bool enable}) async {}
 
   @override
   StreamSubscription? listen(void Function(LocationData data) onData) {
-    return _location.onLocationChanged.listen(
+    return location.Geolocator.getPositionStream(locationSettings: _settings)
+        .listen(
       (event) {
         onData.call(event.toLocationData());
       },

@@ -211,10 +211,7 @@ class Location
       if (!permitted) {
         _value = defaultLocationData ?? adapter.defaultLocationData ?? _value;
       } else {
-        _value = (await adapter.getLocation()) ??
-            _value ??
-            defaultLocationData ??
-            adapter.defaultLocationData;
+        _value = await adapter.getLocation();
       }
       notifyListeners();
       _loadCompleter?.complete();
@@ -324,10 +321,7 @@ class Location
       if (adapter.enableBackgroundLocation && permittedBackground) {
         await adapter.enableBackgroundMode(enable: true);
       }
-      final value = await adapter.getLocation().timeout(timeout);
-      if (value != null) {
-        _value = value;
-      }
+      _value = await adapter.getLocation().timeout(timeout);
       _locationChangeStreamSubscription?.cancel();
       _locationChangeStreamSubscription = adapter.listen(
         (value) {
@@ -405,39 +399,37 @@ class _$_LocationQuery extends ControllerQueryBase<Location> {
 }
 
 extension on LocationAccuracy {
-  l.LocationAccuracy toGeoLocatorLocationAccuracy() {
+  location.LocationAccuracy toGeoLocatorLocationAccuracy() {
     switch (this) {
       case LocationAccuracy.lowest:
-        return l.LocationAccuracy.powerSave;
+        return location.LocationAccuracy.lowest;
       case LocationAccuracy.low:
-        return l.LocationAccuracy.low;
+        return location.LocationAccuracy.low;
       case LocationAccuracy.medium:
-        return l.LocationAccuracy.balanced;
+        return location.LocationAccuracy.medium;
       case LocationAccuracy.high:
-        return l.LocationAccuracy.high;
+        return location.LocationAccuracy.high;
       case LocationAccuracy.best:
-        return l.LocationAccuracy.high;
+        return location.LocationAccuracy.high;
       case LocationAccuracy.navigation:
-        return l.LocationAccuracy.navigation;
+        return location.LocationAccuracy.bestForNavigation;
       default:
-        return l.LocationAccuracy.reduced;
+        return location.LocationAccuracy.reduced;
     }
   }
 }
 
-extension on l.LocationData {
+extension on location.Position {
   LocationData toLocationData() {
     return LocationData(
-      latitude: latitude ?? 0.0,
-      longitude: longitude ?? 0.0,
+      latitude: latitude,
+      longitude: longitude,
       altitude: altitude,
       accuracy: accuracy,
       heading: heading,
       speed: speed,
       speedAccuracy: speedAccuracy,
-      timestamp: time != null
-          ? DateTime.fromMillisecondsSinceEpoch(time!.toInt())
-          : null,
+      timestamp: timestamp,
     );
   }
 }

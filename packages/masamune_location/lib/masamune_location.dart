@@ -16,7 +16,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 // Package imports:
-import 'package:location/location.dart' as l;
+import 'package:geolocator/geolocator.dart' as location;
 import 'package:masamune/masamune.dart';
 import 'package:masamune_location_platform_interface/masamune_location_platform_interface.dart';
 import 'package:permission_handler/permission_handler.dart';
