@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-12-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_location` - `v2.5.21`](#masamune_location---v2521)
+ - [`masamune_location_google` - `v2.6.21`](#masamune_location_google---v2621)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_google` - `v2.6.21`
+
+---
+
+#### `masamune_location` - `v2.5.21`
+
+ - **FIX**: Added LocationServiceNotAvailableException. ([502ca631](https://github.com/mathrunet/flutter_masamune/commit/502ca63116a1f289d5006f77188c95338c790566))
+
+
 ## 2024-12-04
 
 ### Changes

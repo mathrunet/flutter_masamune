@@ -1,3 +1,7 @@
+## 2.5.21
+
+ - **FIX**: Added LocationServiceNotAvailableException. ([502ca631](https://github.com/mathrunet/flutter_masamune/commit/502ca63116a1f289d5006f77188c95338c790566))
+
 ## 2.5.20
 
  - **FIX**: Changed to GeoLocator because I can't get it the first time in IOS. ([cee3f31c](https://github.com/mathrunet/flutter_masamune/commit/cee3f31c063f95ae7533e3343595f7f3a1c45a54))
