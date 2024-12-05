@@ -337,7 +337,7 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
         height: widget.style?.height,
         width: widget.style?.width,
         child: ButtonTheme(
-          alignedDropdown: false,
+          alignedDropdown: widget.style?.alignedDropdown ?? false,
           child: MouseRegion(
             cursor: widget.enabled == false
                 ? SystemMouseCursors.forbidden

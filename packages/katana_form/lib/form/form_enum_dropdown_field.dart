@@ -340,7 +340,7 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
         height: widget.style?.height,
         width: widget.style?.width,
         child: ButtonTheme(
-          alignedDropdown: false,
+          alignedDropdown: widget.style?.alignedDropdown ?? false,
           child: MouseRegion(
             cursor: widget.enabled == false
                 ? SystemMouseCursors.forbidden

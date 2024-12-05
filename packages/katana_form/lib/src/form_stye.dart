@@ -46,6 +46,7 @@ class FormStyle {
     this.suffix,
     this.elevation = 8.0,
     this.borderStyle = FormInputBorderStyle.none,
+    this.alignedDropdown = false,
   });
 
   /// Form Height.
@@ -193,6 +194,11 @@ class FormStyle {
   /// ドロップダウンメニューのZ軸の高さを指定します。
   final double elevation;
 
+  /// Whether to align the dropdown menu.
+  ///
+  /// ドロップダウンメニューを揃えるかどうか。
+  final bool alignedDropdown;
+
   /// Create another [FormStyle], changing the parameters.
   ///
   /// パラメーターを変更しながら別の[FormStyle]を作成します。
@@ -223,6 +229,7 @@ class FormStyle {
     OutlinedBorder? shape,
     FormInputBorderStyle? borderStyle,
     double? elevation,
+    bool? alignedDropdown,
   }) {
     return FormStyle(
       height: height ?? this.height,
@@ -252,6 +259,7 @@ class FormStyle {
       suffix: suffix ?? this.suffix,
       shape: shape ?? this.shape,
       elevation: elevation ?? this.elevation,
+      alignedDropdown: alignedDropdown ?? this.alignedDropdown,
     );
   }
 
