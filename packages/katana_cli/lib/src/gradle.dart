@@ -125,7 +125,7 @@ class GradleLoadProperties {
       }
       return RegExp(
         r"def (?<name>[a-zA-Z_-]+) = new Properties\(\)([\s\S]*?)def (?<file>[a-zA-Z_-]+) = rootProject.file\('(?<path>[a-zA-Z./_-]+)'\)([\s\S]*?)if \(([a-zA-Z_-]+).exists\(\)\) {([\s\S]*?)([a-zA-Z_-]+).withReader\('UTF-8'\) { reader ->([\s\S]*?)([a-zA-Z_-]+).load\(reader\)([\s\S]*?)}([\s\S]*?)}",
-      ).allMatches(region.group(1) ?? "").mapAndRemoveEmpty((e) {
+      ).allMatches(region.group(2) ?? "").mapAndRemoveEmpty((e) {
         return GradleLoadProperties._(
           file: e.namedGroup("file") ?? "",
           name: e.namedGroup("name") ?? "",
