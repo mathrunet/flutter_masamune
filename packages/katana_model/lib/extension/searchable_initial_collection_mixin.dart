@@ -76,6 +76,7 @@ mixin SearchableInitialCollectionMixin<T> on ModelInitialCollection<T> {
                   .toHankakuNumericAndAlphabet()
                   .toZenkakuKatakana()
                   .toKatakana()
+                  .removeOnlyEmoji()
                   .splitByCharacterAndBigram(),
             )
             .distinct()

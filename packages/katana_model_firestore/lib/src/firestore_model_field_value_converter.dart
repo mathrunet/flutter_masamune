@@ -275,6 +275,7 @@ abstract class FirestoreModelFieldValueConverter {
                   .toHankakuNumericAndAlphabet()
                   .toZenkakuKatakana()
                   .toKatakana()
+                  .removeOnlyEmoji()
                   .splitByCharacterAndBigram(),
             )
             .distinct();

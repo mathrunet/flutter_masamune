@@ -121,6 +121,7 @@ mixin SearchableDocumentMixin<T> on DocumentBase<T> {
                   .toHankakuNumericAndAlphabet()
                   .toZenkakuKatakana()
                   .toKatakana()
+                  .removeOnlyEmoji()
                   .splitByCharacterAndBigram(),
             )
             .distinct()

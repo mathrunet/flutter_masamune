@@ -1476,6 +1476,7 @@ class ModelQueryFilter {
                   .toHankakuNumericAndAlphabet()
                   .toZenkakuKatakana()
                   .toKatakana()
+                  .removeOnlyEmoji()
                   .splitByCharacterAndBigram(),
             )
             .distinct();
