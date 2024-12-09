@@ -209,4 +209,8 @@ void main() {
     const text = "[\"aaa\",\"bbb\",\"ccc\"]";
     expect(text.toJsonList(), ['aaa', 'bbb', 'ccc']);
   });
+  test("StringExtensions.removeOnlyEmoji", () {
+    const text = "Hello, 😊! How are you?😊😆";
+    expect(text.removeOnlyEmoji(), "Hello, ! How are you?");
+  });
 }

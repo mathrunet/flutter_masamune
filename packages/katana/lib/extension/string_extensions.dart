@@ -212,6 +212,33 @@ extension StringExtensions on String {
     return val;
   }
 
+  /// Removes only emojis from [String].
+  ///
+  /// [String]から絵文字のみを削除します。
+  ///
+  /// ```dart
+  /// final text = "Hello, 😊! How are you? 😊";
+  /// final result = text.removeOnlyEmoji(); // "Hello, ! How are you?"
+  /// ```
+  String removeOnlyEmoji() {
+    final emojiRegExp = RegExp(
+      r'[\u{1F600}-\u{1F64F}' // Smiley (face made up of characters)
+      r'|\u{1F300}-\u{1F5FF}' // Symbols and pictographs
+      r'|\u{1F680}-\u{1F6FF}' // Transport and map symbols
+      r'|\u{1F700}-\u{1F77F}' // Alchemical symbols
+      r'|\u{1F780}-\u{1F7FF}' // Geometric symbols
+      r'|\u{1F800}-\u{1F8FF}' // Enclosed alphanumeric supplement
+      r'|\u{1F900}-\u{1F9FF}' // Enclosed alphanumeric supplement
+      r'|\u{1FA00}-\u{1FA6F}' // Enclosed alphanumeric supplement
+      r'|\u{1FA70}-\u{1FAFF}' // Enclosed alphanumeric supplement
+      r'|\u{2600}-\u{26FF}' // Various symbols
+      r'|\u{2700}-\u{27BF}]', // Decorative symbols
+      unicode: true,
+    );
+
+    return replaceAll(emojiRegExp, '');
+  }
+
   /// Converts [String] to an array of one character at a time.
   ///
   /// [String]を1文字ずつの配列に変換します。
