@@ -52,9 +52,11 @@ class PurchaseProduct {
     required this.price,
     this.expiredPeriod,
     String? priceText,
+    bool debugConsumeWhenPurchaseCompleted = false,
   })  : _priceText = priceText,
         _title = title,
         _description = description,
+        _debugConsumeWhenPurchaseCompleted = debugConsumeWhenPurchaseCompleted,
         assert(
           type != PurchaseProductType.consumable || amount != null,
           "The amount of wallet money (gems) you add when you purchase a charged item is not set.",
@@ -88,7 +90,8 @@ class PurchaseProduct {
         _priceText = priceText,
         amount = amount,
         _title = title,
-        _description = description;
+        _description = description,
+        _debugConsumeWhenPurchaseCompleted = false;
 
   /// Define chargeable items.
   ///
@@ -112,12 +115,14 @@ class PurchaseProduct {
     this.icon,
     required this.price,
     String? priceText,
+    bool debugConsumeWhenPurchaseCompleted = false,
   })  : type = PurchaseProductType.nonConsumable,
         amount = null,
         expiredPeriod = null,
         _priceText = priceText,
         _title = title,
-        _description = description;
+        _description = description,
+        _debugConsumeWhenPurchaseCompleted = debugConsumeWhenPurchaseCompleted;
 
   /// Define chargeable items.
   ///
@@ -151,7 +156,8 @@ class PurchaseProduct {
         expiredPeriod = expiredPeriod,
         _priceText = priceText,
         _title = title,
-        _description = description;
+        _description = description,
+        _debugConsumeWhenPurchaseCompleted = false;
 
   /// Product ID.
   ///
@@ -217,6 +223,17 @@ class PurchaseProduct {
   String get priceText => _priceText ?? price.toString();
   final String? _priceText;
 
+  /// If [type] is [PurchaseProductType.nonConsumable], returns `true` if the product is automatically consumed when the purchase is completed.
+  ///
+  /// Please use for debugging purposes.
+  ///
+  /// [type]が[PurchaseProductType.nonConsumable]の場合、購入完了時に自動的に消費する場合`true`を返します。
+  ///
+  /// デバッグ用でご利用ください。
+  bool get debugConsumeWhenPurchaseCompleted =>
+      _debugConsumeWhenPurchaseCompleted;
+  final bool _debugConsumeWhenPurchaseCompleted;
+
   /// Load real data from the database.
   ///
   /// If [PurchaseProduct] is not obtained from [Purchase], nothing will happen.
@@ -277,6 +294,9 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
   StoreConsumablePurchaseProduct({
     required PurchaseProduct product,
     required this.onRetrieveUserId,
+    required this.onRetrieveDocument,
+    required this.onRetrieveValue,
+    required this.onSaveDocument,
     this.adapter,
   })  : assert(
           product.type == PurchaseProductType.consumable,
@@ -291,6 +311,8 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
           icon: product.icon,
           amount: product.amount,
           expiredPeriod: product.expiredPeriod,
+          debugConsumeWhenPurchaseCompleted:
+              product.debugConsumeWhenPurchaseCompleted,
           type: PurchaseProductType.consumable,
         ) {
     _updateDocument();
@@ -300,6 +322,56 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
   ///
   /// ユーザーIDを取得するためのコールバック。
   final String? Function() onRetrieveUserId;
+
+  /// Callback to retrieve the document.
+  ///
+  /// ドキュメントを取得するためのコールバック。
+  final DocumentBase? Function(PurchaseProduct product, String userId)
+      onRetrieveDocument;
+
+  /// Callback to retrieve the value.
+  ///
+  /// 値を取得するためのコールバック。
+  final double Function(
+          DocumentBase? document, PurchaseProduct product, String userId)
+      onRetrieveValue;
+
+  /// Callback to save the document.
+  ///
+  /// ドキュメントを保存するためのコールバック。
+  final Future<void> Function(
+          DocumentBase? document, PurchaseProduct product, String userId)
+      onSaveDocument;
+
+  /// Default document retrieval method.
+  ///
+  /// デフォルトのドキュメント取得方法。
+  static DocumentBase? defaultOnRetrieveDocument(
+      PurchaseProduct product, String userId) {
+    return _DynamicPurchaseUserDocumentModel(
+      userId,
+    );
+  }
+
+  /// Default value retrieval method.
+  ///
+  /// デフォルトの値取得方法。
+  static double defaultOnRetrieveValue(
+      DocumentBase? document, PurchaseProduct product, String userId) {
+    return document?.value.get(kConsumableValueKey, 0.0) ?? 0.0;
+  }
+
+  /// Default document saving method.
+  ///
+  /// デフォルトのドキュメント保存方法。
+  static Future<void> defaultOnSaveDocument(
+      DocumentBase? document, PurchaseProduct product, String userId) async {
+    await document?.save({
+      kConsumableValueKey:
+          (document.value.get(kConsumableValueKey, 0.0) ?? 0.0) +
+              (product.amount ?? 0.0),
+    });
+  }
 
   /// Adapters for models.
   ///
@@ -312,7 +384,7 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
   String get userId => _userId;
   String _userId = "";
 
-  _DynamicPurchaseUserDocumentModel? _document;
+  DocumentBase? _document;
 
   @override
   Future<void> load() async {
@@ -328,17 +400,13 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
 
   Future<void> _purchaseForRuntime() async {
     await _document?.reload();
-    await _document?.save({
-      kConsumableValueKey:
-          (_document?.value.get(kConsumableValueKey, 0.0) ?? 0.0) +
-              (amount ?? 0.0),
-    });
+    await onSaveDocument.call(_document, this, _userId);
   }
 
   @override
   PurchaseProductValue? get value {
     return PurchaseProductValue(
-      amount: _document?.value.get(kConsumableValueKey, 0.0) ?? 0.0,
+      amount: onRetrieveValue.call(_document, this, _userId),
     );
   }
 
@@ -348,9 +416,7 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
       _userId = updated!;
       _document?.removeListener(notifyListeners);
       _document?.dispose();
-      _document = _DynamicPurchaseUserDocumentModel(
-        _userId,
-      );
+      _document = onRetrieveDocument.call(this, _userId);
       _document?.addListener(notifyListeners);
     }
   }
@@ -368,6 +434,9 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
   StoreNonConsumablePurchaseProduct({
     required PurchaseProduct product,
     required this.onRetrieveUserId,
+    required this.onRetrieveDocument,
+    required this.onRetrieveValue,
+    required this.onSaveDocument,
     this.adapter,
   })  : assert(
           product.type == PurchaseProductType.nonConsumable,
@@ -381,6 +450,8 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
           icon: product.icon,
           price: product.price,
           expiredPeriod: product.expiredPeriod,
+          debugConsumeWhenPurchaseCompleted:
+              product.debugConsumeWhenPurchaseCompleted,
           type: PurchaseProductType.nonConsumable,
         ) {
     _updateDocument();
@@ -390,6 +461,54 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
   ///
   /// ユーザーIDを取得するためのコールバック。
   final String? Function() onRetrieveUserId;
+
+  /// Callback to retrieve the document.
+  ///
+  /// ドキュメントを取得するためのコールバック。
+  final DocumentBase? Function(PurchaseProduct product, String userId)
+      onRetrieveDocument;
+
+  /// Callback to retrieve the value.
+  ///
+  /// 値を取得するためのコールバック。
+  final bool Function(
+          DocumentBase? document, PurchaseProduct product, String userId)
+      onRetrieveValue;
+
+  /// Callback to save the document.
+  ///
+  /// ドキュメントを保存するためのコールバック。
+  final Future<void> Function(
+          DocumentBase? document, PurchaseProduct product, String userId)
+      onSaveDocument;
+
+  /// Default document retrieval method.
+  ///
+  /// デフォルトのドキュメント取得方法。
+  static DocumentBase? defaultOnRetrieveDocument(
+      PurchaseProduct product, String userId) {
+    return _DynamicPurchaseUserDocumentModel(
+      userId,
+    );
+  }
+
+  /// Default value retrieval method.
+  ///
+  /// デフォルトの値取得方法。
+  static bool defaultOnRetrieveValue(
+      DocumentBase? document, PurchaseProduct product, String userId) {
+    return document?.value.get(product.productId.toCamelCase(), false) ?? false;
+  }
+
+  /// Default document saving method.
+  ///
+  /// デフォルトのドキュメント保存方法。
+  static Future<void> defaultOnSaveDocument(
+      DocumentBase? document, PurchaseProduct product, String userId) async {
+    await document?.save({
+      product.productId.toCamelCase(): true,
+    });
+  }
 
   /// Adapters for models.
   ///
@@ -402,7 +521,7 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
   String get userId => _userId;
   String _userId = "";
 
-  _DynamicPurchaseUserDocumentModel? _document;
+  DocumentBase? _document;
 
   @override
   Future<void> load() async {
@@ -418,15 +537,13 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
 
   Future<void> _purchaseForRuntime() async {
     await _document?.reload();
-    await _document?.save({
-      productId.toCamelCase(): true,
-    });
+    await onSaveDocument.call(_document, this, _userId);
   }
 
   @override
   PurchaseProductValue? get value {
     return PurchaseProductValue(
-      active: _document?.value.get(productId.toCamelCase(), false) ?? false,
+      active: onRetrieveValue.call(_document, this, _userId),
     );
   }
 
@@ -436,9 +553,7 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
       _userId = updated!;
       _document?.removeListener(notifyListeners);
       _document?.dispose();
-      _document = _DynamicPurchaseUserDocumentModel(
-        _userId,
-      );
+      _document = onRetrieveDocument.call(this, _userId);
       _document?.addListener(notifyListeners);
     }
   }
@@ -456,6 +571,10 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
   StoreSubscriptionPurchaseProduct({
     required PurchaseProduct product,
     required this.onRetrieveUserId,
+    required this.onRetrieveCollection,
+    required this.onRetrieveValue,
+    required this.onSaveDocument,
+    required this.onRevokeDocument,
     this.adapter,
   })  : assert(
           product.type == PurchaseProductType.subscription,
@@ -469,6 +588,8 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
           icon: product.icon,
           price: product.price,
           expiredPeriod: product.expiredPeriod,
+          debugConsumeWhenPurchaseCompleted:
+              product.debugConsumeWhenPurchaseCompleted,
           type: PurchaseProductType.subscription,
         ) {
     _updateCollection();
@@ -478,6 +599,98 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
   ///
   /// ユーザーIDを取得するためのコールバック。ログインしていない場合は[Null]を返してください。
   final String? Function() onRetrieveUserId;
+
+  /// Callback to retrieve the collection.
+  ///
+  /// コレクションを取得するためのコールバック。
+  final CollectionBase? Function(PurchaseProduct product, String userId)
+      onRetrieveCollection;
+
+  /// Callback to retrieve the value.
+  ///
+  /// 値を取得するためのコールバック。
+  final bool Function(
+          CollectionBase? collection, PurchaseProduct product, String userId)
+      onRetrieveValue;
+
+  /// Callback to save the document.
+  ///
+  /// ドキュメントを保存するためのコールバック。
+  final Future<void> Function(
+    DocumentBase? document,
+    PurchaseProduct product,
+    String userId,
+    String orderId,
+    DateTime expiredTime,
+  ) onSaveDocument;
+
+  /// Callback to revoke the document.
+  ///
+  /// ドキュメントを削除するためのコールバック。
+  final Future<void> Function(
+    DocumentBase? document,
+    PurchaseProduct product,
+    String userId,
+  ) onRevokeDocument;
+
+  /// Default collection retrieval method.
+  ///
+  /// デフォルトのコレクション取得方法。
+  static CollectionBase? defaultOnRetrieveCollection(
+      PurchaseProduct product, String userId) {
+    return _DynamicPurchaseSubscriptionCollectionModel(
+      userId: userId,
+    );
+  }
+
+  /// Default value retrieval method.
+  ///
+  /// デフォルトの値取得方法。
+  static bool defaultOnRetrieveValue(
+      CollectionBase? collection, PurchaseProduct product, String userId) {
+    return collection
+            ?.where((e) => e.value.get(kProductIdKey, "") == product.productId)
+            .any(
+              (e) => !e.value.get(kSubscriptionExpiredKey, true),
+            ) ??
+        false;
+  }
+
+  /// Default document saving method.
+  ///
+  /// デフォルトのドキュメント保存方法。
+  static Future<void> defaultOnSaveDocument(
+    DocumentBase? document,
+    PurchaseProduct product,
+    String userId,
+    String orderId,
+    DateTime expiredTime,
+  ) async {
+    final now = DateTime.now();
+    await document?.save(
+      PurchaseSubscriptionModel(
+        userId: userId,
+        orderId: orderId,
+        productId: product.productId,
+        expired: now.isAfter(expiredTime),
+        expiredTime: expiredTime.millisecondsSinceEpoch,
+      ).toJson(),
+    );
+  }
+
+  /// Default document revoking method.
+  ///
+  /// デフォルトのドキュメント削除方法。
+  static Future<void> defaultOnRevokeDocument(
+    DocumentBase? document,
+    PurchaseProduct product,
+    String userId,
+  ) async {
+    await document?.save({
+      "expired": false,
+      "expiredTime": DateTime.now().millisecondsSinceEpoch,
+    });
+  }
 
   /// Adapters for models.
   ///
@@ -490,7 +703,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
   String get userId => _userId;
   String _userId = "";
 
-  _DynamicPurchaseSubscriptionCollectionModel? _collection;
+  CollectionBase? _collection;
 
   @override
   Future<void> load() async {
@@ -514,15 +727,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
     final now = DateTime.now();
     final expiredTime = now.add(expiredPeriod!);
     final doc = _collection?.create();
-    await doc?.save(
-      PurchaseSubscriptionModel(
-        userId: _userId,
-        orderId: orderId,
-        productId: productId,
-        expired: now.isAfter(expiredTime),
-        expiredTime: expiredTime.millisecondsSinceEpoch,
-      ).toJson(),
-    );
+    await onSaveDocument.call(doc, this, _userId, orderId, expiredTime);
   }
 
   Future<void> _revokeForRuntime({
@@ -541,10 +746,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
     }
     await wait(
       targets?.map(
-            (e) => e.save({
-              "expired": false,
-              "expiredTime": DateTime.now().millisecondsSinceEpoch,
-            }),
+            (e) => onRevokeDocument.call(e, this, _userId),
           ) ??
           [],
     );
@@ -553,12 +755,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
   @override
   PurchaseProductValue? get value {
     return PurchaseProductValue(
-      active: _collection
-              ?.where((e) => e.value.get(kProductIdKey, "") == productId)
-              .any(
-                (e) => !e.value.get(kSubscriptionExpiredKey, true),
-              ) ??
-          false,
+      active: onRetrieveValue.call(_collection, this, _userId),
     );
   }
 
@@ -568,9 +765,8 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
       _userId = updated!;
       _collection?.removeListener(notifyListeners);
       _collection?.dispose();
-      _collection = _DynamicPurchaseSubscriptionCollectionModel(
-        userId: updated,
-      );
+      _collection = onRetrieveCollection.call(this, _userId);
+
       _collection?.addListener(notifyListeners);
     }
   }

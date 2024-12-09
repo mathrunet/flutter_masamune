@@ -7,6 +7,9 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
     required this.products,
     required this.onRetrieveUserId,
     Purchase? purchase,
+    this.consumablePurchaseDelegate,
+    this.nonConsumablePurchaseDelegate,
+    this.subscriptionPurchaseDelegate,
   }) : _purchase = purchase;
 
   /// Specify [FunctionsAdapter] for billing validation.
@@ -28,6 +31,21 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
   ///
   /// [onRetrieveUserId]にユーザーの一意のIDを返すコールバックを指定してください。ログインしていない場合は[Null]を返してください。
   final String? Function() onRetrieveUserId;
+
+  /// Delegate to perform each process on the consumable purchase.
+  ///
+  /// 消費型の購入上の各処理を行うためのデリゲート。
+  final ConsumablePurchaseDelegate? consumablePurchaseDelegate;
+
+  /// Delegate to perform each process on the non-consumable purchase.
+  ///
+  /// 非消費型の購入上の各処理を行うためのデリゲート。
+  final NonConsumablePurchaseDelegate? nonConsumablePurchaseDelegate;
+
+  /// Delegate to perform each process on the subscription purchase.
+  ///
+  /// 定期購入型の購入上の各処理を行うためのデリゲート。
+  final SubscriptionPurchaseDelegate? subscriptionPurchaseDelegate;
 
   /// Specify the object of [Purchase].
   ///

@@ -23,6 +23,9 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     this.iosSandboxTesting = false,
     required super.onRetrieveUserId,
     super.purchase,
+    super.consumablePurchaseDelegate,
+    super.nonConsumablePurchaseDelegate,
+    super.subscriptionPurchaseDelegate,
   });
 
   InAppPurchase get _iap => InAppPurchase.instance;
@@ -75,7 +78,8 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
         found._copyWith(
           productDetails: tmp,
           onRetrieveUserId: onRetrieveUserId,
-          adapter: modelAdapter,
+          modelAdapter: modelAdapter,
+          purchaseAdapter: this,
         ),
       );
       debugPrint("Adding Product: ${tmp.title} (${tmp.id})");
@@ -345,8 +349,9 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                   throw Exception("Your purchase has been canceled.");
                 }
                 if (UniversalPlatform.isAndroid) {
-                  if (!automaticallyConsumeOnAndroid &&
-                      product.type == PurchaseProductType.consumable) {
+                  if ((!automaticallyConsumeOnAndroid &&
+                          product.type == PurchaseProductType.consumable) ||
+                      product.debugConsumeWhenPurchaseCompleted) {
                     final platform = _iap.getPlatformAddition<
                         InAppPurchaseAndroidPlatformAddition>();
                     await platform.consumePurchase(purchase);
@@ -445,7 +450,8 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
               changeSubscriptionParam: changeSubscription != null
                   ? ChangeSubscriptionParam(
                       oldPurchaseDetails: changeSubscription,
-                      prorationMode: ProrationMode.immediateWithTimeProration,
+                      replacementMode: ReplacementMode.withTimeProration,
+                      // prorationMode: ProrationMode.immediateWithTimeProration,
                     )
                   : null,
             )

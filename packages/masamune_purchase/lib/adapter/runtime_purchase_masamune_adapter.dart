@@ -21,6 +21,9 @@ class RuntimePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     required super.products,
     required super.onRetrieveUserId,
     super.purchase,
+    super.consumablePurchaseDelegate,
+    super.nonConsumablePurchaseDelegate,
+    super.subscriptionPurchaseDelegate,
   });
 
   @override
@@ -32,19 +35,45 @@ class RuntimePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
         case PurchaseProductType.consumable:
           return StoreConsumablePurchaseProduct(
             product: e,
-            onRetrieveUserId: onRetrieveUserId,
+            onRetrieveUserId: consumablePurchaseDelegate?.onRetrieveUserId ??
+                onRetrieveUserId,
+            onRetrieveDocument:
+                consumablePurchaseDelegate?.onRetrieveDocument ??
+                    StoreConsumablePurchaseProduct.defaultOnRetrieveDocument,
+            onRetrieveValue: consumablePurchaseDelegate?.onRetrieveValue ??
+                StoreConsumablePurchaseProduct.defaultOnRetrieveValue,
+            onSaveDocument: consumablePurchaseDelegate?.onSaveDocument ??
+                StoreConsumablePurchaseProduct.defaultOnSaveDocument,
             adapter: modelAdapter,
           );
         case PurchaseProductType.nonConsumable:
           return StoreNonConsumablePurchaseProduct(
             product: e,
-            onRetrieveUserId: onRetrieveUserId,
+            onRetrieveUserId: nonConsumablePurchaseDelegate?.onRetrieveUserId ??
+                onRetrieveUserId,
+            onRetrieveDocument:
+                nonConsumablePurchaseDelegate?.onRetrieveDocument ??
+                    StoreNonConsumablePurchaseProduct.defaultOnRetrieveDocument,
+            onRetrieveValue: nonConsumablePurchaseDelegate?.onRetrieveValue ??
+                StoreNonConsumablePurchaseProduct.defaultOnRetrieveValue,
+            onSaveDocument: nonConsumablePurchaseDelegate?.onSaveDocument ??
+                StoreNonConsumablePurchaseProduct.defaultOnSaveDocument,
             adapter: modelAdapter,
           );
         case PurchaseProductType.subscription:
           return StoreSubscriptionPurchaseProduct(
             product: e,
-            onRetrieveUserId: onRetrieveUserId,
+            onRetrieveUserId: subscriptionPurchaseDelegate?.onRetrieveUserId ??
+                onRetrieveUserId,
+            onRetrieveCollection: subscriptionPurchaseDelegate
+                    ?.onRetrieveCollection ??
+                StoreSubscriptionPurchaseProduct.defaultOnRetrieveCollection,
+            onRetrieveValue: subscriptionPurchaseDelegate?.onRetrieveValue ??
+                StoreSubscriptionPurchaseProduct.defaultOnRetrieveValue,
+            onSaveDocument: subscriptionPurchaseDelegate?.onSaveDocument ??
+                StoreSubscriptionPurchaseProduct.defaultOnSaveDocument,
+            onRevokeDocument: subscriptionPurchaseDelegate?.onRevokeDocument ??
+                StoreSubscriptionPurchaseProduct.defaultOnRevokeDocument,
             adapter: modelAdapter,
           );
       }

@@ -4,30 +4,99 @@ extension on PurchaseProduct {
   PurchaseProduct _copyWith({
     required ProductDetails productDetails,
     required String? Function() onRetrieveUserId,
-    ModelAdapter? adapter,
+    ModelAdapter? modelAdapter,
+    required MobilePurchaseMasamuneAdapter purchaseAdapter,
   }) {
+    final product = this;
     switch (type) {
       case PurchaseProductType.consumable:
-        return _StoreConsumablePurchaseProduct(
-          product: this,
-          onRetrieveUserId: onRetrieveUserId,
-          productDetails: productDetails,
-          adapter: adapter,
-        );
+        if (product is StoreConsumablePurchaseProduct) {
+          return _StoreConsumablePurchaseProduct(
+            product: product,
+            onRetrieveUserId: onRetrieveUserId,
+            productDetails: productDetails,
+            onRetrieveDocument: product.onRetrieveDocument,
+            onRetrieveValue: product.onRetrieveValue,
+            onSaveDocument: product.onSaveDocument,
+            adapter: modelAdapter,
+          );
+        } else {
+          return _StoreConsumablePurchaseProduct(
+            product: product,
+            onRetrieveUserId: onRetrieveUserId,
+            productDetails: productDetails,
+            onRetrieveDocument: purchaseAdapter
+                    .consumablePurchaseDelegate?.onRetrieveDocument ??
+                StoreConsumablePurchaseProduct.defaultOnRetrieveDocument,
+            onRetrieveValue:
+                purchaseAdapter.consumablePurchaseDelegate?.onRetrieveValue ??
+                    StoreConsumablePurchaseProduct.defaultOnRetrieveValue,
+            onSaveDocument:
+                purchaseAdapter.consumablePurchaseDelegate?.onSaveDocument ??
+                    StoreConsumablePurchaseProduct.defaultOnSaveDocument,
+            adapter: modelAdapter,
+          );
+        }
       case PurchaseProductType.nonConsumable:
-        return _StoreNonConsumablePurchaseProduct(
-          product: this,
-          onRetrieveUserId: onRetrieveUserId,
-          productDetails: productDetails,
-          adapter: adapter,
-        );
+        if (product is StoreNonConsumablePurchaseProduct) {
+          return _StoreNonConsumablePurchaseProduct(
+            product: product,
+            onRetrieveUserId: onRetrieveUserId,
+            productDetails: productDetails,
+            onRetrieveDocument: product.onRetrieveDocument,
+            onRetrieveValue: product.onRetrieveValue,
+            onSaveDocument: product.onSaveDocument,
+            adapter: modelAdapter,
+          );
+        } else {
+          return _StoreNonConsumablePurchaseProduct(
+            product: product,
+            onRetrieveUserId: onRetrieveUserId,
+            productDetails: productDetails,
+            onRetrieveDocument: purchaseAdapter
+                    .nonConsumablePurchaseDelegate?.onRetrieveDocument ??
+                StoreNonConsumablePurchaseProduct.defaultOnRetrieveDocument,
+            onRetrieveValue: purchaseAdapter
+                    .nonConsumablePurchaseDelegate?.onRetrieveValue ??
+                StoreNonConsumablePurchaseProduct.defaultOnRetrieveValue,
+            onSaveDocument:
+                purchaseAdapter.nonConsumablePurchaseDelegate?.onSaveDocument ??
+                    StoreNonConsumablePurchaseProduct.defaultOnSaveDocument,
+            adapter: modelAdapter,
+          );
+        }
       case PurchaseProductType.subscription:
-        return _StoreSubscriptionPurchaseProduct(
-          product: this,
-          onRetrieveUserId: onRetrieveUserId,
-          productDetails: productDetails,
-          adapter: adapter,
-        );
+        if (product is StoreSubscriptionPurchaseProduct) {
+          return _StoreSubscriptionPurchaseProduct(
+            product: product,
+            onRetrieveUserId: onRetrieveUserId,
+            productDetails: productDetails,
+            onRetrieveCollection: product.onRetrieveCollection,
+            onRetrieveValue: product.onRetrieveValue,
+            onSaveDocument: product.onSaveDocument,
+            onRevokeDocument: product.onRevokeDocument,
+            adapter: modelAdapter,
+          );
+        } else {
+          return _StoreSubscriptionPurchaseProduct(
+            product: product,
+            onRetrieveUserId: onRetrieveUserId,
+            productDetails: productDetails,
+            onRetrieveCollection: purchaseAdapter
+                    .subscriptionPurchaseDelegate?.onRetrieveCollection ??
+                StoreSubscriptionPurchaseProduct.defaultOnRetrieveCollection,
+            onRetrieveValue:
+                purchaseAdapter.subscriptionPurchaseDelegate?.onRetrieveValue ??
+                    StoreSubscriptionPurchaseProduct.defaultOnRetrieveValue,
+            onSaveDocument:
+                purchaseAdapter.subscriptionPurchaseDelegate?.onSaveDocument ??
+                    StoreSubscriptionPurchaseProduct.defaultOnSaveDocument,
+            onRevokeDocument: purchaseAdapter
+                    .subscriptionPurchaseDelegate?.onRevokeDocument ??
+                StoreSubscriptionPurchaseProduct.defaultOnRevokeDocument,
+            adapter: modelAdapter,
+          );
+        }
     }
   }
 }
@@ -38,6 +107,9 @@ class _StoreConsumablePurchaseProduct extends StoreConsumablePurchaseProduct {
     required super.product,
     required super.onRetrieveUserId,
     required this.productDetails,
+    required super.onRetrieveDocument,
+    required super.onRetrieveValue,
+    required super.onSaveDocument,
     super.adapter,
   });
 
@@ -63,6 +135,9 @@ class _StoreNonConsumablePurchaseProduct
     required super.product,
     required super.onRetrieveUserId,
     required this.productDetails,
+    required super.onRetrieveDocument,
+    required super.onRetrieveValue,
+    required super.onSaveDocument,
     super.adapter,
   });
 
@@ -88,6 +163,10 @@ class _StoreSubscriptionPurchaseProduct
     required super.product,
     required super.onRetrieveUserId,
     required this.productDetails,
+    required super.onRetrieveCollection,
+    required super.onRetrieveValue,
+    required super.onSaveDocument,
+    required super.onRevokeDocument,
     super.adapter,
   });
 
