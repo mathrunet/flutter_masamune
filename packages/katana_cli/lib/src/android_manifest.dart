@@ -195,7 +195,11 @@ enum AndroidManifestQueryType {
   /// Allows you to open external Web sites.
   ///
   /// 外部のWebサイトを開けるようにします。
-  openLinkHttps("android.intent.action.VIEW", scheme: "https"),
+  openLinkHttps(
+    "android.intent.action.VIEW",
+    scheme: "https",
+    category: "android.intent.category.BROWSABLE",
+  ),
 
   /// Ensure that the phone is open.
   ///
@@ -225,7 +229,7 @@ enum AndroidManifestQueryType {
   /// Query type for AndroidManifest.
   ///
   /// AndroidManifest用のクエリータイプ。
-  const AndroidManifestQueryType(this.id, {this.scheme});
+  const AndroidManifestQueryType(this.id, {this.scheme, this.category});
 
   /// ID of the query.
   ///
@@ -236,6 +240,11 @@ enum AndroidManifestQueryType {
   ///
   /// スキーム名。
   final String? scheme;
+
+  /// Category Name.
+  ///
+  /// カテゴリー名。
+  final String? category;
 
   /// Tag the `queries` in AndroidManifest.
   ///
@@ -319,6 +328,17 @@ enum AndroidManifestQueryType {
                 ],
                 [],
               ),
+              if(category != null)
+                XmlElement(
+                  XmlName("category"),
+                  [
+                    XmlAttribute(
+                      XmlName("android:name"),
+                      category!,
+                    ),
+                  ],
+                  [],
+                ),
               XmlElement(
                 XmlName("data"),
                 [
