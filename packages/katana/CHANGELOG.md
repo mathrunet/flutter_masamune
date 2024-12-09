@@ -1,3 +1,7 @@
+## 2.16.0
+
+ - **FEAT**: Add removeOnlyEmoji method to StringExtensions for emoji removal. ([96bb78e0](https://github.com/mathrunet/flutter_masamune/commit/96bb78e032ae3d14e5f91f2662fbdae5f665b3e0))
+
 ## 2.15.3
 
  - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))

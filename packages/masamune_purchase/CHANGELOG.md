@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Update dependencies and enhance purchase functionality. ([a4b1c6ff](https://github.com/mathrunet/flutter_masamune/commit/a4b1c6ffe4fc412218f119229dd9e764bdd96c6b))
+
 ## 2.1.98
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.7.7
+
+ - Update a dependency to the latest release.
+
 ## 2.7.6
 
  - **FIX**: Fixed a bug that prevented initialization from working. ([754ef10d](https://github.com/mathrunet/flutter_masamune/commit/754ef10de1871ffab7ca2ab2dda335a120153f90))

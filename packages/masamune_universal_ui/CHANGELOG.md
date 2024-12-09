@@ -1,3 +1,7 @@
+## 2.5.25
+
+ - **FIX**: Comment out URL launch checks in openURL function to address launch issues. ([e5099816](https://github.com/mathrunet/flutter_masamune/commit/e5099816168e0df924914c3fed81933e3f67073e))
+
 ## 2.5.24
 
  - Update a dependency to the latest release.

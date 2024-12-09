@@ -1,3 +1,7 @@
+## 2.20.2
+
+ - Update a dependency to the latest release.
+
 ## 2.20.1
 
  - **DOCS**: ReadMe Updates. ([d437f46f](https://github.com/mathrunet/flutter_masamune/commit/d437f46fe785053cf83648d9e161e6e80e945418))

@@ -1,3 +1,7 @@
+## 2.4.3
+
+ - Update a dependency to the latest release.
+
 ## 2.4.2
 
  - **FIX**: Fixed a bug that caused the app to exit when router.replace is done. ([39b01045](https://github.com/mathrunet/flutter_masamune/commit/39b010456fad85e4411bb253eb1394c90e640c83))

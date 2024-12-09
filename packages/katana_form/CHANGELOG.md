@@ -1,3 +1,7 @@
+## 2.14.4
+
+ - **FIX**: Add alignedDropdown property to FormStyle and update dropdown fields to use it. ([c6ea682d](https://github.com/mathrunet/flutter_masamune/commit/c6ea682dc0cdbac31ccdaed25eebb42776058c5e))
+
 ## 2.14.3
 
  - **FIX**: Update on flutter_lints. ([698a5845](https://github.com/mathrunet/flutter_masamune/commit/698a584541e257a3d1f7daad4f0b98ce8aca66d7))

@@ -1,3 +1,7 @@
+## 2.1.18
+
+ - Update a dependency to the latest release.
+
 ## 2.1.17
 
  - **FIX**: Downgrade because the version of the collection package does not match. ([447ae259](https://github.com/mathrunet/flutter_masamune/commit/447ae259d622cac845df5d0570a3cac0470ce6c8))

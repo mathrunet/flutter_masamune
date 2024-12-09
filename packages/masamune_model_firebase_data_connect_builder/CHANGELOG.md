@@ -1,3 +1,7 @@
+## 2.3.2
+
+ - Update a dependency to the latest release.
+
 ## 2.3.1
 
  - **FIX**: Remove unnecessary methods. ([ad6a2585](https://github.com/mathrunet/flutter_masamune/commit/ad6a2585ecbc58afd723920b5b0e3bb8a55df96c))

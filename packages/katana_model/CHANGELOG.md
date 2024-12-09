@@ -1,3 +1,7 @@
+## 2.29.3
+
+ - **FIX**: Integrate removeOnlyEmoji method across searchable mixins and model query. ([901f9cf3](https://github.com/mathrunet/flutter_masamune/commit/901f9cf3b1d55b316e0351923438352f93849079))
+
 ## 2.29.2
 
  - **FIX**: Changed the timing of onSaved in NoSqlDatabase. ([3047c3f9](https://github.com/mathrunet/flutter_masamune/commit/3047c3f95c66f372a02d7db436c208355da23429))

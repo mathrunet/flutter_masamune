@@ -1,3 +1,7 @@
+## 2.5.2
+
+ - Update a dependency to the latest release.
+
 ## 2.5.1
 
  - **FIX**: Package Update. ([4a52ca8f](https://github.com/mathrunet/flutter_masamune/commit/4a52ca8fee0c2bb1f8441c1d706cd3ced199f339))

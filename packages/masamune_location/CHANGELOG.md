@@ -1,3 +1,7 @@
+## 2.5.22
+
+ - Update a dependency to the latest release.
+
 ## 2.5.21
 
  - **FIX**: Added LocationServiceNotAvailableException. ([502ca631](https://github.com/mathrunet/flutter_masamune/commit/502ca63116a1f289d5006f77188c95338c790566))

@@ -1,3 +1,8 @@
+## 2.26.2
+
+ - **FIX**: Enhance AndroidManifestQueryType with category support. ([8a8244ed](https://github.com/mathrunet/flutter_masamune/commit/8a8244ede53c0ea8d9aa67709d3c68476756b10f))
+ - **FIX**: Correct regex group reference in GradleLoadProperties to improve property loading functionality. ([d663b446](https://github.com/mathrunet/flutter_masamune/commit/d663b4461c7c6ce4c6374a2ecd19f38205754695))
+
 ## 2.26.1
 
  - **FIX**: Added the ability to specify the location of text for simple icons. ([37ab4b40](https://github.com/mathrunet/flutter_masamune/commit/37ab4b406d4bf5a3b1961fd50550af5c0cdfb563))

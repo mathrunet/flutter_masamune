@@ -1,6 +1,6 @@
 name: katana_builder
 description: Base package containing utilities for builder. It provides the base part of the Masamune framework.
-version: 2.1.11
+version: 2.1.12
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_builder
 
@@ -8,7 +8,7 @@ environment:
   sdk: ">=2.17.0 <4.0.0"
 
 dependencies:
-  katana: ^2.15.3
+  katana: ^2.16.0
   analyzer: ^6.4.0
 
 dev_dependencies:
