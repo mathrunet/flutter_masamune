@@ -12,13 +12,14 @@ Future<void> openURL(
   LaunchMode mode = LaunchMode.platformDefault,
   bool openSelfWindowOnWeb = false,
 }) async {
-  if (await canLaunchUrlString(url)) {
-    await launchUrlString(
-      url,
-      mode: mode,
-      webOnlyWindowName: kIsWeb && openSelfWindowOnWeb ? "_self" : null,
-    );
-  } else {
-    throw Exception("Could not Launch $url");
-  }
+  // canLaunchUrlStringが動かなくなった
+  // if (await canLaunchUrlString(url)) {
+  await launchUrlString(
+    url,
+    mode: mode,
+    webOnlyWindowName: kIsWeb && openSelfWindowOnWeb ? "_self" : null,
+  );
+  // } else {
+  //   throw Exception("Could not Launch $url");
+  // }
 }
