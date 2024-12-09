@@ -217,7 +217,7 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
     NotificationSound sound = NotificationSound.defaultSound,
     Uri? link,
   }) async {
-    await listen();
+    // await listen();
     final f = adapter.functionsAdapter ?? FunctionsAdapter.primary;
     final res = await f.execute(
       SendRemoteNotificationFunctionsAction(
@@ -272,7 +272,7 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
     Uri? link,
     String? databaseId,
   }) async {
-    await listen();
+    // await listen();
     databaseId ??= target.toDatabaseId();
     final m = adapter.modelAdapter ?? ModelAdapter.primary;
     final modelQuery = schedule
@@ -343,7 +343,7 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
     required NotificationTargetQuery target,
     String? databaseId,
   }) async {
-    await listen();
+    // await listen();
     databaseId ??= target.toDatabaseId();
     final m = adapter.modelAdapter ?? ModelAdapter.primary;
     final modelQuery = schedule
