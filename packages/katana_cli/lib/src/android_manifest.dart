@@ -328,7 +328,7 @@ enum AndroidManifestQueryType {
                 ],
                 [],
               ),
-              if(category != null)
+              if (category != null)
                 XmlElement(
                   XmlName("category"),
                   [
