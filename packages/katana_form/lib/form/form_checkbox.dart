@@ -224,75 +224,78 @@ class FormCheckbox<TValue> extends FormField<bool> {
             if (labelText == null && labelWidget == null) {
               return checkbox;
             }
-            return MouseRegion(
-              cursor: enabled == false
-                  ? SystemMouseCursors.forbidden
-                  : SystemMouseCursors.click,
-              child: InputDecorator(
-                baseStyle: style?.textStyle,
-                textAlign: style?.textAlign,
-                textAlignVertical: style?.textAlignVertical,
-                decoration: InputDecoration(
-                  contentPadding: style?.contentPadding ??
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  fillColor: style?.backgroundColor,
-                  filled: style?.backgroundColor != null,
-                  isDense: true,
-                  border: style?.border ?? borderSide,
-                  enabledBorder: style?.border ?? borderSide,
-                  disabledBorder: style?.disabledBorder ??
-                      style?.border ??
-                      disabledBorderSide,
-                  errorBorder:
-                      style?.errorBorder ?? style?.border ?? errorBorderSide,
-                  focusedBorder: style?.border ?? borderSide,
-                  focusedErrorBorder:
-                      style?.errorBorder ?? style?.border ?? errorBorderSide,
-                  prefix: prefix?.child ?? style?.prefix?.child,
-                  suffix: suffix?.child ?? style?.suffix?.child,
-                  prefixIcon: prefix?.icon ?? style?.prefix?.icon,
-                  suffixIcon: suffix?.icon ?? style?.suffix?.icon,
-                  prefixText: prefix?.label ?? style?.prefix?.label,
-                  suffixText: suffix?.label ?? style?.suffix?.label,
-                  prefixIconColor:
-                      prefix?.iconColor ?? style?.prefix?.iconColor,
-                  suffixIconColor:
-                      suffix?.iconColor ?? style?.suffix?.iconColor,
-                  prefixIconConstraints:
-                      prefix?.iconConstraints ?? style?.prefix?.iconConstraints,
-                  suffixIconConstraints:
-                      suffix?.iconConstraints ?? style?.suffix?.iconConstraints,
-                  labelStyle: enabled ? mainTextStyle : disabledTextStyle,
-                  hintStyle: subTextStyle,
-                  suffixStyle: subTextStyle,
-                  prefixStyle: subTextStyle,
-                  counterStyle: subTextStyle,
-                  helperStyle: subTextStyle,
-                  errorStyle: errorTextStyle,
-                ),
-                child: Row(
-                  children: [
-                    checkbox,
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          labelWidget ??
+            return FormStyleScope(
+              style: style,
+              child: MouseRegion(
+                cursor: enabled == false
+                    ? SystemMouseCursors.forbidden
+                    : SystemMouseCursors.click,
+                child: InputDecorator(
+                  baseStyle: style?.textStyle,
+                  textAlign: style?.textAlign,
+                  textAlignVertical: style?.textAlignVertical,
+                  decoration: InputDecoration(
+                    contentPadding: style?.contentPadding ??
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    fillColor: style?.backgroundColor,
+                    filled: style?.backgroundColor != null,
+                    isDense: true,
+                    border: style?.border ?? borderSide,
+                    enabledBorder: style?.border ?? borderSide,
+                    disabledBorder: style?.disabledBorder ??
+                        style?.border ??
+                        disabledBorderSide,
+                    errorBorder:
+                        style?.errorBorder ?? style?.border ?? errorBorderSide,
+                    focusedBorder: style?.border ?? borderSide,
+                    focusedErrorBorder:
+                        style?.errorBorder ?? style?.border ?? errorBorderSide,
+                    prefix: prefix?.child ?? style?.prefix?.child,
+                    suffix: suffix?.child ?? style?.suffix?.child,
+                    prefixIcon: prefix?.icon ?? style?.prefix?.icon,
+                    suffixIcon: suffix?.icon ?? style?.suffix?.icon,
+                    prefixText: prefix?.label ?? style?.prefix?.label,
+                    suffixText: suffix?.label ?? style?.suffix?.label,
+                    prefixIconColor:
+                        prefix?.iconColor ?? style?.prefix?.iconColor,
+                    suffixIconColor:
+                        suffix?.iconColor ?? style?.suffix?.iconColor,
+                    prefixIconConstraints: prefix?.iconConstraints ??
+                        style?.prefix?.iconConstraints,
+                    suffixIconConstraints: suffix?.iconConstraints ??
+                        style?.suffix?.iconConstraints,
+                    labelStyle: enabled ? mainTextStyle : disabledTextStyle,
+                    hintStyle: subTextStyle,
+                    suffixStyle: subTextStyle,
+                    prefixStyle: subTextStyle,
+                    counterStyle: subTextStyle,
+                    helperStyle: subTextStyle,
+                    errorStyle: errorTextStyle,
+                  ),
+                  child: Row(
+                    children: [
+                      checkbox,
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            labelWidget ??
+                                Text(
+                                  labelText!,
+                                  style: style?.textStyle,
+                                ),
+                            if (state.errorText.isNotEmpty)
                               Text(
-                                labelText!,
-                                style: style?.textStyle,
+                                state.errorText!,
+                                style: errorTextStyle,
                               ),
-                          if (state.errorText.isNotEmpty)
-                            Text(
-                              state.errorText!,
-                              style: errorTextStyle,
-                            ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );

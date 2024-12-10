@@ -311,34 +311,38 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Padding(
-      padding: widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 0),
-      child: Column(
-        children: [
-          InkWell(
-            mouseCursor: widget.enabled == false
-                ? SystemMouseCursors.forbidden
-                : SystemMouseCursors.click,
-            onTap: widget.readOnly || !widget.enabled
-                ? null
-                : () {
-                    if (!widget.enabled) {
-                      return;
-                    }
-                    widget.onTap?.call(this);
-                  },
-            child: _buildMedia(context),
-          ),
-          if (errorText.isNotEmpty)
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              height: errorText.isNotEmpty ? _kErrorTextHeight : 0,
-              child: Text(
-                errorText ?? "",
-                style: Theme.of(context).inputDecorationTheme.errorStyle,
-              ),
-            )
-        ],
+    return FormStyleScope(
+      style: widget.style,
+      child: Padding(
+        padding:
+            widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 0),
+        child: Column(
+          children: [
+            InkWell(
+              mouseCursor: widget.enabled == false
+                  ? SystemMouseCursors.forbidden
+                  : SystemMouseCursors.click,
+              onTap: widget.readOnly || !widget.enabled
+                  ? null
+                  : () {
+                      if (!widget.enabled) {
+                        return;
+                      }
+                      widget.onTap?.call(this);
+                    },
+              child: _buildMedia(context),
+            ),
+            if (errorText.isNotEmpty)
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                height: errorText.isNotEmpty ? _kErrorTextHeight : 0,
+                child: Text(
+                  errorText ?? "",
+                  style: Theme.of(context).inputDecorationTheme.errorStyle,
+                ),
+              )
+          ],
+        ),
       ),
     );
   }

@@ -120,69 +120,75 @@ class FormButton extends StatelessWidget {
     final borderColor = style?.borderColor ?? foregroundColor;
     final activeColor = style?.activeColor ?? foregroundColor.withOpacity(0.5);
 
-    return Container(
-      alignment: style?.alignment,
-      padding: style?.padding ??
-          const EdgeInsets.symmetric(
-            horizontal: 0,
-            vertical: 4,
-          ),
-      child: SizedBox(
-        height: style?.height,
-        width: style?.width,
-        child: Material(
-          borderRadius: style?.borderRadius ?? BorderRadius.circular(32),
-          child: InkWell(
-            focusColor: activeColor,
-            hoverColor: activeColor,
-            highlightColor: activeColor,
-            splashColor: activeColor,
+    return FormStyleScope(
+      style: style,
+      child: Container(
+        alignment: style?.alignment,
+        padding: style?.padding ??
+            const EdgeInsets.symmetric(
+              horizontal: 0,
+              vertical: 4,
+            ),
+        child: SizedBox(
+          height: style?.height,
+          width: style?.width,
+          child: Material(
             borderRadius: style?.borderRadius ?? BorderRadius.circular(32),
-            onTap: enabled ? onPressed : null,
-            child: Ink(
-              decoration: BoxDecoration(
-                borderRadius: style?.borderRadius ?? BorderRadius.circular(32),
-                border: style?.borderWidth != null && style!.borderWidth! > 0
-                    ? Border.all(
-                        color: enabled ? borderColor : disabledForegroundColor,
-                        width: style!.borderWidth!,
-                      )
-                    : null,
-                color: enabled ? backgroundColor : disabledBackgroundColor,
-              ),
-              child: Padding(
-                padding: style?.contentPadding ??
-                    const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
+            child: InkWell(
+              focusColor: activeColor,
+              hoverColor: activeColor,
+              highlightColor: activeColor,
+              splashColor: activeColor,
+              borderRadius: style?.borderRadius ?? BorderRadius.circular(32),
+              onTap: enabled ? onPressed : null,
+              child: Ink(
+                decoration: BoxDecoration(
+                  borderRadius:
+                      style?.borderRadius ?? BorderRadius.circular(32),
+                  border: style?.borderWidth != null && style!.borderWidth! > 0
+                      ? Border.all(
+                          color:
+                              enabled ? borderColor : disabledForegroundColor,
+                          width: style!.borderWidth!,
+                        )
+                      : null,
+                  color: enabled ? backgroundColor : disabledBackgroundColor,
+                ),
+                child: Padding(
+                  padding: style?.contentPadding ??
+                      const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                  child: IconTheme(
+                    data: IconThemeData(
+                      color:
+                          enabled ? foregroundColor : disabledForegroundColor,
                     ),
-                child: IconTheme(
-                  data: IconThemeData(
-                    color: enabled ? foregroundColor : disabledForegroundColor,
-                  ),
-                  child: DefaultTextStyle(
-                    style: textStyle,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if (style?.prefix != null) ...[
-                          ..._buildAffix(context, style!.prefix!),
-                          const SizedBox(width: 12),
+                    child: DefaultTextStyle(
+                      style: textStyle,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (style?.prefix != null) ...[
+                            ..._buildAffix(context, style!.prefix!),
+                            const SizedBox(width: 12),
+                          ],
+                          if (icon != null) ...[
+                            icon!,
+                            const SizedBox(width: 12),
+                          ],
+                          Center(
+                            child: Text(label, textAlign: TextAlign.center),
+                          ),
+                          if (style?.suffix != null) ...[
+                            const SizedBox(width: 12),
+                            ..._buildAffix(context, style!.suffix!),
+                          ],
                         ],
-                        if (icon != null) ...[
-                          icon!,
-                          const SizedBox(width: 12),
-                        ],
-                        Center(
-                          child: Text(label, textAlign: TextAlign.center),
-                        ),
-                        if (style?.suffix != null) ...[
-                          const SizedBox(width: 12),
-                          ..._buildAffix(context, style!.suffix!),
-                        ],
-                      ],
+                      ),
                     ),
                   ),
                 ),

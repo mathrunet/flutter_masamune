@@ -268,10 +268,12 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
 
     final theme = Theme.of(context);
     final mainTextStyle = widget.style?.textStyle?.copyWith(
-          color: widget.style?.color,
+          color: widget.style?.activeColor ?? widget.style?.color,
         ) ??
         TextStyle(
-          color: widget.style?.color ?? theme.textTheme.titleMedium?.color,
+          color: widget.style?.activeColor ??
+              widget.style?.color ??
+              theme.textTheme.titleMedium?.color,
         );
     final subTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.subColor,
@@ -333,107 +335,120 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
     final disabledBorderSide =
         getBorderSide(widget.style?.disabledColor ?? theme.disabledColor);
 
-    return Container(
-      alignment: widget.style?.alignment,
-      padding: widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
-      child: SizedBox(
-        height: widget.style?.height,
-        width: widget.style?.width,
-        child: ButtonTheme(
-          alignedDropdown: widget.style?.alignedDropdown ?? false,
-          child: MouseRegion(
-            cursor: widget.enabled == false
-                ? SystemMouseCursors.forbidden
-                : SystemMouseCursors.click,
-            child: DropdownButtonFormField<TEnum>(
-              padding: EdgeInsets.zero,
-              hint: widget.hintText != null
-                  ? Text(
-                      widget.hintText!,
-                      style: widget.enabled ? mainTextStyle : disabledTextStyle,
-                    )
-                  : null,
-              disabledHint: widget.hintText != null
-                  ? Text(
-                      widget.hintText!,
-                      style: widget.enabled
-                          ? mainTextStyle.copyWith(
-                              color: theme.disabledColor,
-                            )
-                          : disabledTextStyle,
-                    )
-                  : null,
-              decoration: InputDecoration(
-                contentPadding: widget.style?.contentPadding ??
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                fillColor: widget.style?.backgroundColor,
-                filled: widget.style?.backgroundColor != null,
+    final activeBackgroundColor =
+        widget.style?.activeBackgroundColor ?? widget.style?.backgroundColor;
+    final surfaceBackgroundColor =
+        widget.style?.backgroundColor ?? theme.colorScheme.surface;
+
+    return FormStyleScope(
+      style: widget.style,
+      child: Container(
+        alignment: widget.style?.alignment,
+        padding:
+            widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
+        child: SizedBox(
+          height: widget.style?.height,
+          width: widget.style?.width,
+          child: ButtonTheme(
+            alignedDropdown: widget.style?.alignedDropdown ?? false,
+            child: MouseRegion(
+              cursor: widget.enabled == false
+                  ? SystemMouseCursors.forbidden
+                  : SystemMouseCursors.click,
+              child: DropdownButtonFormField<TEnum>(
+                padding: EdgeInsets.zero,
+                hint: widget.hintText != null
+                    ? Text(
+                        widget.hintText!,
+                        style:
+                            widget.enabled ? mainTextStyle : disabledTextStyle,
+                      )
+                    : null,
+                disabledHint: widget.hintText != null
+                    ? Text(
+                        widget.hintText!,
+                        style: widget.enabled
+                            ? mainTextStyle.copyWith(
+                                color: theme.disabledColor,
+                              )
+                            : disabledTextStyle,
+                      )
+                    : null,
+                decoration: InputDecoration(
+                  contentPadding: widget.style?.contentPadding ??
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                  fillColor: activeBackgroundColor,
+                  filled: activeBackgroundColor != null,
+                  isDense: true,
+                  border: widget.style?.border ?? borderSide,
+                  enabledBorder: widget.style?.border ?? borderSide,
+                  disabledBorder: widget.style?.disabledBorder ??
+                      widget.style?.border ??
+                      disabledBorderSide,
+                  errorBorder: widget.style?.errorBorder ??
+                      widget.style?.border ??
+                      errorBorderSide,
+                  focusedBorder: widget.style?.border ?? borderSide,
+                  focusedErrorBorder: widget.style?.errorBorder ??
+                      widget.style?.border ??
+                      errorBorderSide,
+                  hintText: widget.hintText,
+                  labelText: widget.labelText,
+                  prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
+                  suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
+                  prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
+                  suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
+                  prefixText:
+                      widget.prefix?.label ?? widget.style?.prefix?.label,
+                  suffixText:
+                      widget.suffix?.label ?? widget.style?.suffix?.label,
+                  prefixIconColor: widget.prefix?.iconColor ??
+                      widget.style?.prefix?.iconColor,
+                  suffixIconColor: widget.suffix?.iconColor ??
+                      widget.style?.suffix?.iconColor,
+                  prefixIconConstraints: widget.prefix?.iconConstraints ??
+                      widget.style?.prefix?.iconConstraints,
+                  suffixIconConstraints: widget.suffix?.iconConstraints ??
+                      widget.style?.suffix?.iconConstraints,
+                  labelStyle:
+                      widget.enabled ? mainTextStyle : disabledTextStyle,
+                  hintStyle: subTextStyle,
+                  suffixStyle: subTextStyle,
+                  prefixStyle: subTextStyle,
+                  counterStyle: subTextStyle,
+                  helperStyle: subTextStyle,
+                  errorStyle: errorTextStyle,
+                ).copyWith(errorText: errorText),
+                focusNode: widget.focusNode,
+                focusColor: Colors.transparent,
+                value: widget.initialValue,
+                onChanged: widget.enabled ? (value) => didChange(value) : null,
+                elevation: widget.style?.elevation.toInt() ?? 8,
+                style: widget.enabled ? mainTextStyle : disabledTextStyle,
+                icon: widget.icon,
+                iconEnabledColor: widget.enabled
+                    ? mainTextStyle.color
+                    : disabledTextStyle.color,
+                iconDisabledColor: theme.disabledColor,
+                iconSize: 24,
                 isDense: true,
-                border: widget.style?.border ?? borderSide,
-                enabledBorder: widget.style?.border ?? borderSide,
-                disabledBorder: widget.style?.disabledBorder ??
-                    widget.style?.border ??
-                    disabledBorderSide,
-                errorBorder: widget.style?.errorBorder ??
-                    widget.style?.border ??
-                    errorBorderSide,
-                focusedBorder: widget.style?.border ?? borderSide,
-                focusedErrorBorder: widget.style?.errorBorder ??
-                    widget.style?.border ??
-                    errorBorderSide,
-                hintText: widget.hintText,
-                labelText: widget.labelText,
-                prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
-                suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
-                prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
-                suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
-                prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
-                suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
-                prefixIconColor:
-                    widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
-                suffixIconColor:
-                    widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
-                prefixIconConstraints: widget.prefix?.iconConstraints ??
-                    widget.style?.prefix?.iconConstraints,
-                suffixIconConstraints: widget.suffix?.iconConstraints ??
-                    widget.style?.suffix?.iconConstraints,
-                labelStyle: widget.enabled ? mainTextStyle : disabledTextStyle,
-                hintStyle: subTextStyle,
-                suffixStyle: subTextStyle,
-                prefixStyle: subTextStyle,
-                counterStyle: subTextStyle,
-                helperStyle: subTextStyle,
-                errorStyle: errorTextStyle,
-              ).copyWith(errorText: errorText),
-              focusNode: widget.focusNode,
-              focusColor: Colors.transparent,
-              value: widget.initialValue,
-              onChanged: widget.enabled ? (value) => didChange(value) : null,
-              elevation: widget.style?.elevation.toInt() ?? 8,
-              style: widget.enabled ? mainTextStyle : disabledTextStyle,
-              icon: widget.icon,
-              iconEnabledColor: widget.enabled
-                  ? mainTextStyle.color
-                  : disabledTextStyle.color,
-              iconDisabledColor: theme.disabledColor,
-              iconSize: 24,
-              isDense: true,
-              isExpanded: widget.expanded,
-              itemHeight: widget.style?.height,
-              selectedItemBuilder: widget.picker.build,
-              dropdownColor:
-                  widget.picker.backgroundColor ?? theme.colorScheme.surface,
-              items: widget.picker.values.map((item) {
-                return DropdownMenuItem(
-                  value: item,
-                  child: Text(
-                    widget.picker.labelBuilder?.call(item) ?? item.name,
-                    style: TextStyle(
-                      color: widget.picker.color ?? theme.colorScheme.onSurface,
+                isExpanded: widget.expanded,
+                itemHeight: widget.style?.height,
+                selectedItemBuilder: widget.picker.build,
+                dropdownColor: surfaceBackgroundColor,
+                items: widget.picker.values.map((item) {
+                  return DropdownMenuItem(
+                    value: item,
+                    child: Text(
+                      widget.picker.labelBuilder?.call(item) ?? item.name,
+                      style: TextStyle(
+                        color:
+                            widget.style?.color ?? theme.colorScheme.onSurface,
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ),
             ),
           ),
         ),
@@ -455,8 +470,6 @@ class FormEnumDropdownFieldPicker<TEnum extends Enum> {
   FormEnumDropdownFieldPicker({
     required this.values,
     this.labelBuilder,
-    this.backgroundColor,
-    this.color,
   });
 
   /// List of [TEnum]. Pass `TEnum.values` as is.
@@ -469,16 +482,6 @@ class FormEnumDropdownFieldPicker<TEnum extends Enum> {
   /// 選択肢を表示するためのテキストを作成するためのラベルビルダー。
   final String Function(TEnum? value)? labelBuilder;
 
-  /// Background color of the picker.
-  ///
-  /// ピッカーの背景色。
-  final Color? backgroundColor;
-
-  /// Foreground view of the picker.
-  ///
-  /// ピッカーの前景色。
-  final Color? color;
-
   /// Build the picker.
   ///
   /// [context] is passed [BuildContext].
@@ -488,15 +491,26 @@ class FormEnumDropdownFieldPicker<TEnum extends Enum> {
   /// [context]に[BuildContext]が渡されます。
   List<Widget> build(BuildContext context) {
     final theme = Theme.of(context);
+    final visibility = Visibility.of(context);
+    final style = FormStyleScope.of(context);
+    final color =
+        (visibility ? style?.activeColor : style?.color) ?? style?.color;
+    final textStyle =
+        (visibility ? style?.activeTextStyle : style?.textStyle) ??
+            style?.textStyle;
     return values.map((item) {
       return Container(
         color: Colors.transparent,
         alignment: Alignment.centerLeft,
         child: Text(
           labelBuilder?.call(item) ?? item.name,
-          style: TextStyle(
-            color: color ?? theme.colorScheme.onSurface,
-          ),
+          softWrap: true,
+          style: textStyle?.copyWith(
+                color: color ?? theme.colorScheme.onSurface,
+              ) ??
+              TextStyle(
+                color: color ?? theme.colorScheme.onSurface,
+              ),
         ),
       );
     }).toList();

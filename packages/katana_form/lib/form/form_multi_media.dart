@@ -435,36 +435,39 @@ class FormMultiMediaListTileDelegate extends FormMultiMediaDelegate {
     FormMultiMedia<TValue> widget,
     List<FormMediaValue> values,
   ) {
-    return Padding(
-      padding: widget.style?.padding ??
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ...values.map((value) {
-            return _buildItem(
-              context,
-              value,
-              widget._builder,
-              widget.readOnly || !widget.enabled ? null : ref.update,
-              widget.readOnly || !widget.enabled
-                  ? null
-                  : () => ref.delete(value),
-            );
-          }),
-          if (widget.maxLength == null || widget.maxLength! > values.length)
-            ListTile(
-              onTap: widget.readOnly || !widget.enabled
-                  ? null
-                  : () {
-                      widget.onTap.call(ref);
-                    },
-              title: addLabel,
-              trailing: Icon(addIcon),
-            ),
-        ],
+    return FormStyleScope(
+      style: widget.style,
+      child: Padding(
+        padding: widget.style?.padding ??
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ...values.map((value) {
+              return _buildItem(
+                context,
+                value,
+                widget._builder,
+                widget.readOnly || !widget.enabled ? null : ref.update,
+                widget.readOnly || !widget.enabled
+                    ? null
+                    : () => ref.delete(value),
+              );
+            }),
+            if (widget.maxLength == null || widget.maxLength! > values.length)
+              ListTile(
+                onTap: widget.readOnly || !widget.enabled
+                    ? null
+                    : () {
+                        widget.onTap.call(ref);
+                      },
+                title: addLabel,
+                trailing: Icon(addIcon),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -543,68 +546,72 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
     FormMultiMedia<TValue> widget,
     List<FormMediaValue> values,
   ) {
-    return FormStyleContainer(
+    return FormStyleScope(
       style: widget.style,
-      labelText: widget.labelText,
-      alignment: Alignment.centerLeft,
-      padding: widget.style?.padding ??
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      child: SizedBox(
-        height: widget.style?.height ?? kFormMultiMediaInlineHeight,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (widget.maxLength == null || widget.maxLength! > values.length)
-                Container(
-                  width: widget.style?.width ?? kFormMultiMediaInlineHeight,
-                  height: widget.style?.height ?? kFormMultiMediaInlineHeight,
-                  margin: const EdgeInsets.only(right: 8),
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                      side: BorderSide(
+      child: FormStyleContainer(
+        style: widget.style,
+        labelText: widget.labelText,
+        alignment: Alignment.centerLeft,
+        padding: widget.style?.padding ??
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: SizedBox(
+          height: widget.style?.height ?? kFormMultiMediaInlineHeight,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (widget.maxLength == null ||
+                    widget.maxLength! > values.length)
+                  Container(
+                    width: widget.style?.width ?? kFormMultiMediaInlineHeight,
+                    height: widget.style?.height ?? kFormMultiMediaInlineHeight,
+                    margin: const EdgeInsets.only(right: 8),
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: widget.style?.color ??
+                              Theme.of(context).dividerColor,
+                          width: widget.style?.borderWidth ?? 2,
+                        ),
+                        borderRadius: BorderRadius.circular(4.0),
+                      )),
+                      onPressed: widget.readOnly || !widget.enabled
+                          ? null
+                          : () {
+                              widget.onTap.call(ref);
+                            },
+                      child: Icon(
+                        addIcon,
                         color: widget.style?.color ??
                             Theme.of(context).dividerColor,
-                        width: widget.style?.borderWidth ?? 2,
+                        size: (widget.style?.height ??
+                                kFormMultiMediaInlineHeight) /
+                            3.0,
                       ),
-                      borderRadius: BorderRadius.circular(4.0),
-                    )),
-                    onPressed: widget.readOnly || !widget.enabled
-                        ? null
-                        : () {
-                            widget.onTap.call(ref);
-                          },
-                    child: Icon(
-                      addIcon,
-                      color:
-                          widget.style?.color ?? Theme.of(context).dividerColor,
-                      size: (widget.style?.height ??
-                              kFormMultiMediaInlineHeight) /
-                          3.0,
                     ),
                   ),
+                ...values.mapAndRemoveEmpty(
+                  (value) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: _buildItem(
+                        context,
+                        widget,
+                        value,
+                        widget._builder,
+                        widget.readOnly || !widget.enabled ? null : ref.update,
+                        widget.readOnly || !widget.enabled
+                            ? null
+                            : () => ref.delete(value),
+                      ),
+                    );
+                  },
                 ),
-              ...values.mapAndRemoveEmpty(
-                (value) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: _buildItem(
-                      context,
-                      widget,
-                      value,
-                      widget._builder,
-                      widget.readOnly || !widget.enabled ? null : ref.update,
-                      widget.readOnly || !widget.enabled
-                          ? null
-                          : () => ref.delete(value),
-                    ),
-                  );
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

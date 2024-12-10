@@ -231,19 +231,22 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Padding(
-      padding: widget.style?.padding ?? const EdgeInsets.all(0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          if (widget.top != null) widget.top!.call(context, this),
-          if (value != null)
-            for (var i = 0; i < value!.length; i++)
-              widget._builder(context, this, value![i], i),
-          if (widget.bottom != null) widget.bottom!.call(context, this),
-        ],
+    return FormStyleScope(
+      style: widget.style,
+      child: Padding(
+        padding: widget.style?.padding ?? const EdgeInsets.all(0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (widget.top != null) widget.top!.call(context, this),
+            if (value != null)
+              for (var i = 0; i < value!.length; i++)
+                widget._builder(context, this, value![i], i),
+            if (widget.bottom != null) widget.bottom!.call(context, this),
+          ],
+        ),
       ),
     );
   }

@@ -24,6 +24,8 @@ class FormStyle {
     this.disabledBorder,
     this.errorBorder,
     this.backgroundColor,
+    this.activeTextStyle,
+    this.disabledTextStyle,
     this.height,
     this.width,
     this.color,
@@ -98,6 +100,16 @@ class FormStyle {
   ///
   /// テキストのスタイル。
   final TextStyle? textStyle;
+
+  /// Text style when the item is active.
+  ///
+  /// 項目がアクティブなときのテキストスタイル。
+  final TextStyle? activeTextStyle;
+
+  /// Text style when deactivated, etc.
+  ///
+  /// 非有効化時のテキストスタイル。
+  final TextStyle? disabledTextStyle;
 
   /// Text style for errors.
   ///
@@ -230,6 +242,11 @@ class FormStyle {
     FormInputBorderStyle? borderStyle,
     double? elevation,
     bool? alignedDropdown,
+    TextStyle? disabledTextStyle,
+    TextStyle? errorTextStyle,
+    TextStyle? activeTextStyle,
+    Color? activeBackgroundColor,
+    Color? activeColor,
   }) {
     return FormStyle(
       height: height ?? this.height,
@@ -260,6 +277,12 @@ class FormStyle {
       shape: shape ?? this.shape,
       elevation: elevation ?? this.elevation,
       alignedDropdown: alignedDropdown ?? this.alignedDropdown,
+      disabledTextStyle: disabledTextStyle ?? this.disabledTextStyle,
+      errorTextStyle: errorTextStyle ?? this.errorTextStyle,
+      activeTextStyle: activeTextStyle ?? this.activeTextStyle,
+      activeBackgroundColor:
+          activeBackgroundColor ?? this.activeBackgroundColor,
+      activeColor: activeColor ?? this.activeColor,
     );
   }
 
@@ -285,6 +308,13 @@ class FormStyle {
       disabledColor.hashCode ^
       disabledBackgroundColor.hashCode ^
       borderWidth.hashCode ^
+      disabledTextStyle.hashCode ^
+      errorTextStyle.hashCode ^
+      activeTextStyle.hashCode ^
+      elevation.hashCode ^
+      alignedDropdown.hashCode ^
+      activeColor.hashCode ^
+      activeBackgroundColor.hashCode ^
       prefix.hashCode ^
       suffix.hashCode ^
       shape.hashCode;
@@ -405,4 +435,35 @@ enum FormInputBorderStyle {
   ///
   /// 下線のみ。
   underline;
+}
+
+/// Scope for [FormStyle].
+///
+/// [FormStyle]のスコープ。
+class FormStyleScope extends InheritedWidget {
+  /// Scope for [FormStyle].
+  ///
+  /// [FormStyle]のスコープ。
+  const FormStyleScope({
+    super.key,
+    required this.style,
+    required super.child,
+  });
+
+  /// [FormStyle] to be inherited.
+  ///
+  /// 継承する[FormStyle]。
+  final FormStyle? style;
+
+  /// Get the [FormStyleScope] from the context.
+  ///
+  /// [context]に[BuildContext]が渡されます。
+  static FormStyle? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<FormStyleScope>()?.style;
+  }
+
+  @override
+  bool updateShouldNotify(FormStyleScope oldWidget) {
+    return false;
+  }
 }

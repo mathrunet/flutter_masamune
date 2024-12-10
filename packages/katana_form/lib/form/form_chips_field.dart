@@ -358,133 +358,142 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
         getBorderSide(widget.style?.disabledColor ?? theme.disabledColor);
     final suggestionStyle = widget.suggestionStyle ?? const SuggestionStyle();
 
-    return Container(
-      alignment: widget.style?.alignment,
-      padding: widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 0),
-      child: SizedBox(
-        height: widget.style?.height,
-        width: widget.style?.width,
-        child: Container(
-          alignment: Alignment.centerLeft,
-          constraints: const BoxConstraints(minHeight: 32),
-          child: ChipTheme(
-            data: ChipThemeData(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-              labelPadding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
+    return FormStyleScope(
+      style: widget.style,
+      child: Container(
+        alignment: widget.style?.alignment,
+        padding:
+            widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 0),
+        child: SizedBox(
+          height: widget.style?.height,
+          width: widget.style?.width,
+          child: Container(
+            alignment: Alignment.centerLeft,
+            constraints: const BoxConstraints(minHeight: 32),
+            child: ChipTheme(
+              data: ChipThemeData(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                labelPadding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  side: BorderSide.none,
+                ),
                 side: BorderSide.none,
+                backgroundColor: widget.style?.activeBackgroundColor ??
+                    theme.colorScheme.primary,
+                disabledColor:
+                    widget.style?.disabledColor ?? theme.disabledColor,
+                labelStyle: widget.enabled
+                    ? mainTextStyle.copyWith(
+                        color: widget.style?.activeColor ??
+                            theme.colorScheme.onPrimary,
+                      )
+                    : disabledTextStyle,
+                secondaryLabelStyle: subTextStyle.copyWith(
+                  color:
+                      widget.style?.activeColor ?? theme.colorScheme.onPrimary,
+                ),
+                deleteIconColor:
+                    widget.style?.activeColor ?? theme.colorScheme.onPrimary,
               ),
-              side: BorderSide.none,
-              backgroundColor: widget.style?.activeBackgroundColor ??
-                  theme.colorScheme.primary,
-              disabledColor: widget.style?.disabledColor ?? theme.disabledColor,
-              labelStyle: widget.enabled
-                  ? mainTextStyle.copyWith(
-                      color: widget.style?.activeColor ??
-                          theme.colorScheme.onPrimary,
-                    )
-                  : disabledTextStyle,
-              secondaryLabelStyle: subTextStyle.copyWith(
-                color: widget.style?.activeColor ?? theme.colorScheme.onPrimary,
-              ),
-              deleteIconColor:
-                  widget.style?.activeColor ?? theme.colorScheme.onPrimary,
-            ),
-            child: MouseRegion(
-              cursor: widget.enabled == false
-                  ? SystemMouseCursors.forbidden
-                  : SystemMouseCursors.text,
-              child: _ChipsInput<String>(
-                initialValue: value ?? [],
-                decoration: InputDecoration(
-                    contentPadding: widget.style?.contentPadding ??
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                    fillColor: widget.style?.backgroundColor,
-                    filled: widget.style?.backgroundColor != null,
-                    isDense: true,
-                    border: widget.style?.border ?? borderSide,
-                    enabledBorder: widget.style?.border ?? borderSide,
-                    disabledBorder: widget.style?.disabledBorder ??
-                        widget.style?.border ??
-                        disabledBorderSide,
-                    errorBorder: widget.style?.errorBorder ??
-                        widget.style?.border ??
-                        errorBorderSide,
-                    focusedBorder: widget.style?.border ?? borderSide,
-                    focusedErrorBorder: widget.style?.errorBorder ??
-                        widget.style?.border ??
-                        errorBorderSide,
-                    hintText: widget.hintText,
-                    labelText: widget.labelText,
-                    prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
-                    suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
-                    prefixIcon:
-                        widget.prefix?.icon ?? widget.style?.prefix?.icon,
-                    suffixIcon:
-                        widget.suffix?.icon ?? widget.style?.suffix?.icon,
-                    prefixText:
-                        widget.prefix?.label ?? widget.style?.prefix?.label,
-                    suffixText:
-                        widget.suffix?.label ?? widget.style?.suffix?.label,
-                    prefixIconColor: widget.prefix?.iconColor ??
-                        widget.style?.prefix?.iconColor,
-                    suffixIconColor: widget.suffix?.iconColor ??
-                        widget.style?.suffix?.iconColor,
-                    prefixIconConstraints: widget.prefix?.iconConstraints ??
-                        widget.style?.prefix?.iconConstraints,
-                    suffixIconConstraints: widget.suffix?.iconConstraints ??
-                        widget.style?.suffix?.iconConstraints,
-                    labelStyle:
-                        widget.enabled ? mainTextStyle : disabledTextStyle,
-                    hintStyle: subTextStyle,
-                    suffixStyle: subTextStyle,
-                    prefixStyle: subTextStyle,
-                    counterStyle: subTextStyle,
-                    helperStyle: subTextStyle,
-                    errorStyle: errorTextStyle,
-                    errorText: errorText),
-                obscureText: widget.obscureText,
-                enabled: widget.enabled,
-                inputType: widget.keyboardType,
-                chipBuilder: (context, state, value) {
-                  if (value.isEmpty) {
-                    return const SizedBox.shrink();
-                  }
-                  return widget._builder.call(context, state, value);
-                },
-                suggestionBuilder: (context, state, value) {
-                  return widget.suggestionBuilder
-                          ?.call(context, state, value) ??
-                      const SizedBox.shrink();
-                },
-                findSuggestions: (value, chips) async {
-                  final items = value.isNotEmpty ? [value] : <String>[];
-                  for (var element in chips) {
-                    items.add(element);
-                  }
-                  items.addAll(
-                    widget.suggestion
-                        .where((element) => element.contains(value)),
-                  );
-                  return items;
-                },
-                onChanged: (values) {
-                  setValue(values);
-                  widget.onChanged?.call(values);
-                },
-                focusNode: _focusNode,
-                onChipTapped: widget.onChipTapped,
-                maxChips: widget.maxChips,
-                suggestionsBoxMaxHeight: suggestionStyle.maxHeight,
-                autocorrect: false,
-                suggestionMargin: EdgeInsets.zero,
-                suggestionPadding: EdgeInsets.zero,
-                suggestionColor:
-                    suggestionStyle.color ?? theme.colorScheme.onSurface,
-                suggestionBackgroundColor: suggestionStyle.backgroundColor ??
-                    theme.colorScheme.surface,
+              child: MouseRegion(
+                cursor: widget.enabled == false
+                    ? SystemMouseCursors.forbidden
+                    : SystemMouseCursors.text,
+                child: _ChipsInput<String>(
+                  initialValue: value ?? [],
+                  decoration: InputDecoration(
+                      contentPadding: widget.style?.contentPadding ??
+                          const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 0),
+                      fillColor: widget.style?.backgroundColor,
+                      filled: widget.style?.backgroundColor != null,
+                      isDense: true,
+                      border: widget.style?.border ?? borderSide,
+                      enabledBorder: widget.style?.border ?? borderSide,
+                      disabledBorder: widget.style?.disabledBorder ??
+                          widget.style?.border ??
+                          disabledBorderSide,
+                      errorBorder: widget.style?.errorBorder ??
+                          widget.style?.border ??
+                          errorBorderSide,
+                      focusedBorder: widget.style?.border ?? borderSide,
+                      focusedErrorBorder: widget.style?.errorBorder ??
+                          widget.style?.border ??
+                          errorBorderSide,
+                      hintText: widget.hintText,
+                      labelText: widget.labelText,
+                      prefix:
+                          widget.prefix?.child ?? widget.style?.prefix?.child,
+                      suffix:
+                          widget.suffix?.child ?? widget.style?.suffix?.child,
+                      prefixIcon:
+                          widget.prefix?.icon ?? widget.style?.prefix?.icon,
+                      suffixIcon:
+                          widget.suffix?.icon ?? widget.style?.suffix?.icon,
+                      prefixText:
+                          widget.prefix?.label ?? widget.style?.prefix?.label,
+                      suffixText:
+                          widget.suffix?.label ?? widget.style?.suffix?.label,
+                      prefixIconColor: widget.prefix?.iconColor ??
+                          widget.style?.prefix?.iconColor,
+                      suffixIconColor: widget.suffix?.iconColor ??
+                          widget.style?.suffix?.iconColor,
+                      prefixIconConstraints: widget.prefix?.iconConstraints ??
+                          widget.style?.prefix?.iconConstraints,
+                      suffixIconConstraints: widget.suffix?.iconConstraints ??
+                          widget.style?.suffix?.iconConstraints,
+                      labelStyle:
+                          widget.enabled ? mainTextStyle : disabledTextStyle,
+                      hintStyle: subTextStyle,
+                      suffixStyle: subTextStyle,
+                      prefixStyle: subTextStyle,
+                      counterStyle: subTextStyle,
+                      helperStyle: subTextStyle,
+                      errorStyle: errorTextStyle,
+                      errorText: errorText),
+                  obscureText: widget.obscureText,
+                  enabled: widget.enabled,
+                  inputType: widget.keyboardType,
+                  chipBuilder: (context, state, value) {
+                    if (value.isEmpty) {
+                      return const SizedBox.shrink();
+                    }
+                    return widget._builder.call(context, state, value);
+                  },
+                  suggestionBuilder: (context, state, value) {
+                    return widget.suggestionBuilder
+                            ?.call(context, state, value) ??
+                        const SizedBox.shrink();
+                  },
+                  findSuggestions: (value, chips) async {
+                    final items = value.isNotEmpty ? [value] : <String>[];
+                    for (var element in chips) {
+                      items.add(element);
+                    }
+                    items.addAll(
+                      widget.suggestion
+                          .where((element) => element.contains(value)),
+                    );
+                    return items;
+                  },
+                  onChanged: (values) {
+                    setValue(values);
+                    widget.onChanged?.call(values);
+                  },
+                  focusNode: _focusNode,
+                  onChipTapped: widget.onChipTapped,
+                  maxChips: widget.maxChips,
+                  suggestionsBoxMaxHeight: suggestionStyle.maxHeight,
+                  autocorrect: false,
+                  suggestionMargin: EdgeInsets.zero,
+                  suggestionPadding: EdgeInsets.zero,
+                  suggestionColor:
+                      suggestionStyle.color ?? theme.colorScheme.onSurface,
+                  suggestionBackgroundColor: suggestionStyle.backgroundColor ??
+                      theme.colorScheme.surface,
+                ),
               ),
             ),
           ),

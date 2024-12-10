@@ -265,10 +265,10 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
 
     final theme = Theme.of(context);
     final mainTextStyle = widget.style?.textStyle?.copyWith(
-          color: widget.style?.color,
+          color: widget.style?.activeColor ?? widget.style?.color,
         ) ??
         TextStyle(
-          color: widget.style?.color ?? theme.textTheme.titleMedium?.color,
+          color: widget.style?.activeColor ?? widget.style?.color ?? theme.textTheme.titleMedium?.color,
         );
     final subTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.subColor,
@@ -330,113 +330,126 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
     final disabledBorderSide =
         getBorderSide(widget.style?.disabledColor ?? theme.disabledColor);
 
-    return Container(
-      alignment: widget.style?.alignment,
-      padding: widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
-      child: SizedBox(
-        height: widget.style?.height,
-        width: widget.style?.width,
-        child: ButtonTheme(
-          alignedDropdown: widget.style?.alignedDropdown ?? false,
-          child: MouseRegion(
-            cursor: widget.enabled == false
-                ? SystemMouseCursors.forbidden
-                : SystemMouseCursors.click,
-            child: DropdownButtonFormField<String>(
-              padding: EdgeInsets.zero,
-              hint: widget.hintText != null
-                  ? Text(
-                      widget.hintText!,
-                      style: widget.enabled ? mainTextStyle : disabledTextStyle,
-                    )
-                  : null,
-              disabledHint: widget.hintText != null
-                  ? Text(
-                      widget.hintText!,
-                      style: widget.enabled
-                          ? mainTextStyle.copyWith(
-                              color: theme.disabledColor,
-                            )
-                          : disabledTextStyle,
-                    )
-                  : null,
-              decoration: InputDecoration(
-                contentPadding: widget.style?.contentPadding ??
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                fillColor: widget.style?.backgroundColor,
-                filled: widget.style?.backgroundColor != null,
+    final activeBackgroundColor =
+        widget.style?.activeBackgroundColor ?? widget.style?.backgroundColor;
+    final surfaceBackgroundColor =
+        widget.style?.backgroundColor ?? theme.colorScheme.surface;
+
+    return FormStyleScope(
+      style: widget.style,
+      child: Container(
+        alignment: widget.style?.alignment,
+        padding:
+            widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
+        child: SizedBox(
+          height: widget.style?.height,
+          width: widget.style?.width,
+          child: ButtonTheme(
+            alignedDropdown: widget.style?.alignedDropdown ?? false,
+            child: MouseRegion(
+              cursor: widget.enabled == false
+                  ? SystemMouseCursors.forbidden
+                  : SystemMouseCursors.click,
+              child: DropdownButtonFormField<String>(
+                padding: EdgeInsets.zero,
+                hint: widget.hintText != null
+                    ? Text(
+                        widget.hintText!,
+                        style:
+                            widget.enabled ? mainTextStyle : disabledTextStyle,
+                      )
+                    : null,
+                disabledHint: widget.hintText != null
+                    ? Text(
+                        widget.hintText!,
+                        style: widget.enabled
+                            ? mainTextStyle.copyWith(
+                                color: theme.disabledColor,
+                              )
+                            : disabledTextStyle,
+                      )
+                    : null,
+                decoration: InputDecoration(
+                  contentPadding: widget.style?.contentPadding ??
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                  fillColor: activeBackgroundColor,
+                  filled: activeBackgroundColor != null,
+                  isDense: true,
+                  border: widget.style?.border ?? borderSide,
+                  enabledBorder: widget.style?.border ?? borderSide,
+                  disabledBorder: widget.style?.disabledBorder ??
+                      widget.style?.border ??
+                      disabledBorderSide,
+                  errorBorder: widget.style?.errorBorder ??
+                      widget.style?.border ??
+                      errorBorderSide,
+                  focusedBorder: widget.style?.border ?? borderSide,
+                  focusedErrorBorder: widget.style?.errorBorder ??
+                      widget.style?.border ??
+                      errorBorderSide,
+                  hintText: widget.hintText,
+                  labelText: widget.labelText,
+                  prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
+                  suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
+                  prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
+                  suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
+                  prefixText:
+                      widget.prefix?.label ?? widget.style?.prefix?.label,
+                  suffixText:
+                      widget.suffix?.label ?? widget.style?.suffix?.label,
+                  prefixIconColor: widget.prefix?.iconColor ??
+                      widget.style?.prefix?.iconColor,
+                  suffixIconColor: widget.suffix?.iconColor ??
+                      widget.style?.suffix?.iconColor,
+                  prefixIconConstraints: widget.prefix?.iconConstraints ??
+                      widget.style?.prefix?.iconConstraints,
+                  suffixIconConstraints: widget.suffix?.iconConstraints ??
+                      widget.style?.suffix?.iconConstraints,
+                  labelStyle:
+                      widget.enabled ? mainTextStyle : disabledTextStyle,
+                  hintStyle: subTextStyle,
+                  suffixStyle: subTextStyle,
+                  prefixStyle: subTextStyle,
+                  counterStyle: subTextStyle,
+                  helperStyle: subTextStyle,
+                  errorStyle: errorTextStyle,
+                ).copyWith(errorText: errorText),
+                value: widget.initialValue,
+                validator: (value) {
+                  if (widget.emptyErrorText.isNotEmpty && value == null) {
+                    return widget.emptyErrorText;
+                  }
+                  return widget.validator?.call(value);
+                },
+                focusColor: Colors.transparent,
+                onChanged: widget.enabled ? (value) => didChange(value) : null,
+                elevation: widget.style?.elevation.toInt() ?? 8,
+                style: widget.enabled ? mainTextStyle : disabledTextStyle,
+                icon: widget.icon,
+                iconEnabledColor: widget.enabled
+                    ? mainTextStyle.color
+                    : disabledTextStyle.color,
+                iconDisabledColor: theme.disabledColor,
+                iconSize: 24,
                 isDense: true,
-                border: widget.style?.border ?? borderSide,
-                enabledBorder: widget.style?.border ?? borderSide,
-                disabledBorder: widget.style?.disabledBorder ??
-                    widget.style?.border ??
-                    disabledBorderSide,
-                errorBorder: widget.style?.errorBorder ??
-                    widget.style?.border ??
-                    errorBorderSide,
-                focusedBorder: widget.style?.border ?? borderSide,
-                focusedErrorBorder: widget.style?.errorBorder ??
-                    widget.style?.border ??
-                    errorBorderSide,
-                hintText: widget.hintText,
-                labelText: widget.labelText,
-                prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
-                suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
-                prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
-                suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
-                prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
-                suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
-                prefixIconColor:
-                    widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
-                suffixIconColor:
-                    widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
-                prefixIconConstraints: widget.prefix?.iconConstraints ??
-                    widget.style?.prefix?.iconConstraints,
-                suffixIconConstraints: widget.suffix?.iconConstraints ??
-                    widget.style?.suffix?.iconConstraints,
-                labelStyle: widget.enabled ? mainTextStyle : disabledTextStyle,
-                hintStyle: subTextStyle,
-                suffixStyle: subTextStyle,
-                prefixStyle: subTextStyle,
-                counterStyle: subTextStyle,
-                helperStyle: subTextStyle,
-                errorStyle: errorTextStyle,
-              ).copyWith(errorText: errorText),
-              value: widget.initialValue,
-              validator: (value) {
-                if (widget.emptyErrorText.isNotEmpty && value == null) {
-                  return widget.emptyErrorText;
-                }
-                return widget.validator?.call(value);
-              },
-              focusColor: Colors.transparent,
-              onChanged: widget.enabled ? (value) => didChange(value) : null,
-              elevation: widget.style?.elevation.toInt() ?? 8,
-              style: widget.enabled ? mainTextStyle : disabledTextStyle,
-              icon: widget.icon,
-              iconEnabledColor: widget.enabled
-                  ? mainTextStyle.color
-                  : disabledTextStyle.color,
-              iconDisabledColor: theme.disabledColor,
-              iconSize: 24,
-              isDense: true,
-              isExpanded: widget.expanded,
-              itemHeight: widget.style?.height,
-              selectedItemBuilder: widget.picker.build,
-              dropdownColor:
-                  widget.picker.backgroundColor ?? theme.colorScheme.surface,
-              items: widget.picker.data.toList((key, value) {
-                return DropdownMenuItem(
-                  value: key,
-                  child: Text(
-                    value,
-                    softWrap: true,
-                    style: TextStyle(
-                      color: widget.picker.color ?? theme.colorScheme.onSurface,
+                isExpanded: widget.expanded,
+                itemHeight: widget.style?.height,
+                selectedItemBuilder: widget.picker.build,
+                dropdownColor: surfaceBackgroundColor,
+                items: widget.picker.data.toList((key, value) {
+                  return DropdownMenuItem(
+                    value: key,
+                    child: Text(
+                      value,
+                      softWrap: true,
+                      style: TextStyle(
+                        color:
+                            widget.style?.color ?? theme.colorScheme.onSurface,
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ),
             ),
           ),
         ),
@@ -469,8 +482,7 @@ class FormMapDropdownFieldPicker {
   /// [Map]のKeyが選択用のID、Valueが選択用の表示ラベルになります。
   FormMapDropdownFieldPicker({
     required this.data,
-    this.backgroundColor,
-    this.color,
+    this.labelBuilder,
   });
 
   /// Data for options.
@@ -482,15 +494,10 @@ class FormMapDropdownFieldPicker {
   /// [Map]のKeyが選択用のID、Valueが選択用の表示ラベルになります。
   final Map<String, String> data;
 
-  /// Background color of the picker.
+  /// Label builder to create text to display choices.
   ///
-  /// ピッカーの背景色。
-  final Color? backgroundColor;
-
-  /// Foreground view of the picker.
-  ///
-  /// ピッカーの前景色。
-  final Color? color;
+  /// 選択肢を表示するためのテキストを作成するためのラベルビルダー。
+  final String Function(String? key)? labelBuilder;
 
   /// Build the picker.
   ///
@@ -502,16 +509,26 @@ class FormMapDropdownFieldPicker {
   List<Widget> build(BuildContext context) {
     final keys = data.keys.toList();
     final theme = Theme.of(context);
+    final visibility = Visibility.of(context);
+    final style = FormStyleScope.of(context);
+    final color =
+        (visibility ? style?.activeColor : style?.color) ?? style?.color;
+    final textStyle =
+        (visibility ? style?.activeTextStyle : style?.textStyle) ??
+            style?.textStyle;
     return keys.map((key) {
       return Container(
         color: Colors.transparent,
         alignment: Alignment.centerLeft,
         child: Text(
-          data[key] ?? "",
+          labelBuilder?.call(data[key]) ?? data[key] ?? "",
           softWrap: true,
-          style: TextStyle(
-            color: color ?? theme.colorScheme.onSurface,
-          ),
+          style: textStyle?.copyWith(
+                color: color ?? theme.colorScheme.onSurface,
+              ) ??
+              TextStyle(
+                color: color ?? theme.colorScheme.onSurface,
+              ),
         ),
       );
     }).toList();

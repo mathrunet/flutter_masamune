@@ -205,11 +205,14 @@ class _FormBuilderState<T, TValue> extends FormFieldState<T>
               )
             : null;
 
-    return Container(
-      decoration: decoration,
-      margin: widget.style?.padding ?? const EdgeInsets.all(0),
-      padding: widget.style?.contentPadding ?? const EdgeInsets.all(0),
-      child: widget._builder(context, this, value),
+    return FormStyleScope(
+      style: widget.style,
+      child: Container(
+        decoration: decoration,
+        margin: widget.style?.padding ?? const EdgeInsets.all(0),
+        padding: widget.style?.contentPadding ?? const EdgeInsets.all(0),
+        child: widget._builder(context, this, value),
+      ),
     );
   }
 

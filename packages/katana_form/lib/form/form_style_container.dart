@@ -268,59 +268,62 @@ class _FormStyleContainerState extends State<FormStyleContainer> {
     final disabledBorderSide =
         getBorderSide(widget.style?.disabledColor ?? theme.disabledColor);
 
-    return Container(
-      width: widget.width ?? widget.style?.width,
-      height: widget.height ?? widget.style?.height,
-      padding: widget.padding ??
-          widget.style?.padding ??
-          const EdgeInsets.symmetric(vertical: 8),
-      child: InputDecorator(
-        decoration: InputDecoration(
-          errorText: _errorText,
-          contentPadding: widget.contentPadding ??
-              widget.style?.contentPadding ??
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          fillColor: widget.style?.backgroundColor,
-          filled: widget.style?.backgroundColor != null,
-          isDense: true,
-          border: widget.style?.border ?? borderSide,
-          enabledBorder: widget.style?.border ?? borderSide,
-          disabledBorder: widget.style?.disabledBorder ??
-              widget.style?.border ??
-              disabledBorderSide,
-          errorBorder: widget.style?.errorBorder ??
-              widget.style?.border ??
-              errorBorderSide,
-          focusedBorder: widget.style?.border ?? borderSide,
-          focusedErrorBorder: widget.style?.errorBorder ??
-              widget.style?.border ??
-              errorBorderSide,
-          hintText: widget.hintText,
-          labelText: widget.labelText,
-          counterText: widget.counterText,
-          prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
-          suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
-          prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
-          suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
-          prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
-          suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
-          prefixIconColor:
-              widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
-          suffixIconColor:
-              widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
-          prefixIconConstraints: widget.prefix?.iconConstraints ??
-              widget.style?.prefix?.iconConstraints,
-          suffixIconConstraints: widget.suffix?.iconConstraints ??
-              widget.style?.suffix?.iconConstraints,
-          labelStyle: widget.enabled ? mainTextStyle : disabledTextStyle,
-          hintStyle: subTextStyle,
-          suffixStyle: subTextStyle,
-          prefixStyle: subTextStyle,
-          counterStyle: subTextStyle,
-          helperStyle: subTextStyle,
-          errorStyle: errorTextStyle,
+    return FormStyleScope(
+      style: widget.style,
+      child: Container(
+        width: widget.width ?? widget.style?.width,
+        height: widget.height ?? widget.style?.height,
+        padding: widget.padding ??
+            widget.style?.padding ??
+            const EdgeInsets.symmetric(vertical: 8),
+        child: InputDecorator(
+          decoration: InputDecoration(
+            errorText: _errorText,
+            contentPadding: widget.contentPadding ??
+                widget.style?.contentPadding ??
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            fillColor: widget.style?.backgroundColor,
+            filled: widget.style?.backgroundColor != null,
+            isDense: true,
+            border: widget.style?.border ?? borderSide,
+            enabledBorder: widget.style?.border ?? borderSide,
+            disabledBorder: widget.style?.disabledBorder ??
+                widget.style?.border ??
+                disabledBorderSide,
+            errorBorder: widget.style?.errorBorder ??
+                widget.style?.border ??
+                errorBorderSide,
+            focusedBorder: widget.style?.border ?? borderSide,
+            focusedErrorBorder: widget.style?.errorBorder ??
+                widget.style?.border ??
+                errorBorderSide,
+            hintText: widget.hintText,
+            labelText: widget.labelText,
+            counterText: widget.counterText,
+            prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
+            suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
+            prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
+            suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
+            prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
+            suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
+            prefixIconColor:
+                widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
+            suffixIconColor:
+                widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
+            prefixIconConstraints: widget.prefix?.iconConstraints ??
+                widget.style?.prefix?.iconConstraints,
+            suffixIconConstraints: widget.suffix?.iconConstraints ??
+                widget.style?.suffix?.iconConstraints,
+            labelStyle: widget.enabled ? mainTextStyle : disabledTextStyle,
+            hintStyle: subTextStyle,
+            suffixStyle: subTextStyle,
+            prefixStyle: subTextStyle,
+            counterStyle: subTextStyle,
+            helperStyle: subTextStyle,
+            errorStyle: errorTextStyle,
+          ),
+          child: widget.child ?? const SizedBox.shrink(),
         ),
-        child: widget.child ?? const SizedBox.shrink(),
       ),
     );
   }

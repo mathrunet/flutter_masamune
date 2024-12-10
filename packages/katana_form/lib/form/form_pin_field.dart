@@ -221,44 +221,47 @@ class FormPinField<TValue> extends FormField<String> {
             final borderColor =
                 style?.borderColor ?? Theme.of(context).dividerColor;
 
-            return Container(
-              alignment: style?.alignment,
-              padding:
-                  style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
-              child: SizedBox(
-                height: style?.height,
-                width: style?.width,
-                child: UnmanagedRestorationScope(
-                  bucket: field.bucket,
-                  child: _PinInputTextField(
-                    pinLength: maxLength,
-                    controller: state._effectiveController,
-                    focusNode: state._effectiveFocusNode,
-                    decoration: BoxLooseDecoration(
-                      errorText: state.errorText,
-                      hintText: hintText,
-                      errorTextStyle: errorTextStyle,
-                      hintTextStyle: subTextStyle,
-                      obscureStyle: ObscureStyle(isTextObscure: obscureText),
-                      strokeColorBuilder: FixedColorBuilder(borderColor),
-                      bgColorBuilder: FixedColorBuilder(
-                        style?.backgroundColor ??
-                            Theme.of(context).scaffoldBackgroundColor,
+            return FormStyleScope(
+              style: style,
+              child: Container(
+                alignment: style?.alignment,
+                padding:
+                    style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
+                child: SizedBox(
+                  height: style?.height,
+                  width: style?.width,
+                  child: UnmanagedRestorationScope(
+                    bucket: field.bucket,
+                    child: _PinInputTextField(
+                      pinLength: maxLength,
+                      controller: state._effectiveController,
+                      focusNode: state._effectiveFocusNode,
+                      decoration: BoxLooseDecoration(
+                        errorText: state.errorText,
+                        hintText: hintText,
+                        errorTextStyle: errorTextStyle,
+                        hintTextStyle: subTextStyle,
+                        obscureStyle: ObscureStyle(isTextObscure: obscureText),
+                        strokeColorBuilder: FixedColorBuilder(borderColor),
+                        bgColorBuilder: FixedColorBuilder(
+                          style?.backgroundColor ??
+                              Theme.of(context).scaffoldBackgroundColor,
+                        ),
+                        textStyle: mainTextStyle,
                       ),
-                      textStyle: mainTextStyle,
+                      keyboardType: keyboardType,
+                      textInputAction: textInputAction,
+                      textCapitalization: textCapitalization,
+                      autocorrect: autocorrect,
+                      autoFocus: autofocus,
+                      onChanged: onChangedHandler,
+                      onSubmit: onSubmitted,
+                      inputFormatters: inputFormatters,
+                      enabled: enabled,
+                      enableInteractiveSelection: enableInteractiveSelection,
+                      autofillHints: autofillHints,
+                      cursor: mouseCursor,
                     ),
-                    keyboardType: keyboardType,
-                    textInputAction: textInputAction,
-                    textCapitalization: textCapitalization,
-                    autocorrect: autocorrect,
-                    autoFocus: autofocus,
-                    onChanged: onChangedHandler,
-                    onSubmit: onSubmitted,
-                    inputFormatters: inputFormatters,
-                    enabled: enabled,
-                    enableInteractiveSelection: enableInteractiveSelection,
-                    autofillHints: autofillHints,
-                    cursor: mouseCursor,
                   ),
                 ),
               ),

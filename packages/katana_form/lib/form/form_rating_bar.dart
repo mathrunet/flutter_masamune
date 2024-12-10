@@ -473,30 +473,36 @@ class _FormRatingBarState<TValue> extends FormFieldState<double>
     final min = widget.min ?? 1.0;
 
     if (widget.showLabel) {
-      return Padding(
-        padding: widget.style?.contentPadding ?? const EdgeInsets.all(0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              child: _build(context),
-            ),
-            if (widget.showLabel) ...[
-              Text(
-                (value ?? min).format(widget.format),
-                textAlign: TextAlign.end,
-                style: widget.enabled ? mainTextStyle : disabledTextStyle,
+      return FormStyleScope(
+        style: widget.style,
+        child: Padding(
+          padding: widget.style?.contentPadding ?? const EdgeInsets.all(0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: _build(context),
               ),
+              if (widget.showLabel) ...[
+                Text(
+                  (value ?? min).format(widget.format),
+                  textAlign: TextAlign.end,
+                  style: widget.enabled ? mainTextStyle : disabledTextStyle,
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       );
     } else {
-      return Padding(
-        padding: widget.style?.contentPadding ?? const EdgeInsets.all(0),
-        child: _build(context),
+      return FormStyleScope(
+        style: widget.style,
+        child: Padding(
+          padding: widget.style?.contentPadding ?? const EdgeInsets.all(0),
+          child: _build(context),
+        ),
       );
     }
   }
