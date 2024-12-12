@@ -1,3 +1,7 @@
+## 2.9.10
+
+ - Update a dependency to the latest release.
+
 ## 2.9.9
 
  - **FIX**: Comment out listen() calls in RemoteNotification to prevent unintended behavior during notification execution. ([55398d5c](https://github.com/mathrunet/flutter_masamune/commit/55398d5cf601dce41cafe16fdef8d515a762c669))

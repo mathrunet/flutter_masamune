@@ -1,3 +1,7 @@
+## 2.5.26
+
+ - **FIX**: Flutter 3.27 compatible. ([cadb2357](https://github.com/mathrunet/flutter_masamune/commit/cadb23578ec1ebaed1265ec240b08c9176c1643a))
+
 ## 2.5.25
 
  - **FIX**: Comment out URL launch checks in openURL function to address launch issues. ([e5099816](https://github.com/mathrunet/flutter_masamune/commit/e5099816168e0df924914c3fed81933e3f67073e))

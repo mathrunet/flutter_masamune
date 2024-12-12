@@ -1,3 +1,8 @@
+## 2.15.0
+
+ - **FIX**: Flutter 3.27 compatible. ([cadb2357](https://github.com/mathrunet/flutter_masamune/commit/cadb23578ec1ebaed1265ec240b08c9176c1643a))
+ - **FEAT**: Update dependencies and enhance form styling. ([6aa4b14d](https://github.com/mathrunet/flutter_masamune/commit/6aa4b14d7bb5c69476f6b51c887b8444241599b5))
+
 ## 2.14.4
 
  - **FIX**: Add alignedDropdown property to FormStyle and update dropdown fields to use it. ([c6ea682d](https://github.com/mathrunet/flutter_masamune/commit/c6ea682dc0cdbac31ccdaed25eebb42776058c5e))
