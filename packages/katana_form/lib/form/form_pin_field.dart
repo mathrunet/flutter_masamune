@@ -570,8 +570,8 @@ class _PinInputTextFieldState extends State<_PinInputTextField>
 
   void _onCursorColorTick() {
     if (widget.cursor.enabled) {
-      _cursorColor =
-          widget.cursor.color.withValues(alpha: _cursorBlinkOpacityController.value);
+      _cursorColor = widget.cursor.color
+          .withValues(alpha: _cursorBlinkOpacityController.value);
       _cursorVisibilityNotifier.value = _cursorBlinkOpacityController.value > 0;
       setState(() {});
     }

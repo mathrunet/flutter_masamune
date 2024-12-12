@@ -72,8 +72,8 @@ class ProgressIndicatorBuilder<T extends Listenable> extends StatefulWidget {
     return Center(
       child: CircularProgressIndicator(
         value: value,
-        backgroundColor: Colors.white.withValues(alpha: 
-          0.5,
+        backgroundColor: Colors.white.withValues(
+          alpha: 0.5,
         ),
       ),
     );
@@ -86,8 +86,8 @@ class ProgressIndicatorBuilder<T extends Listenable> extends StatefulWidget {
     return Center(
       child: LinearProgressIndicator(
         value: value,
-        backgroundColor: Colors.white.withValues(alpha: 
-          0.5,
+        backgroundColor: Colors.white.withValues(
+          alpha: 0.5,
         ),
       ),
     );

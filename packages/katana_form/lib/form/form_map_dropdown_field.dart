@@ -268,7 +268,9 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
           color: widget.style?.activeColor ?? widget.style?.color,
         ) ??
         TextStyle(
-          color: widget.style?.activeColor ?? widget.style?.color ?? theme.textTheme.titleMedium?.color,
+          color: widget.style?.activeColor ??
+              widget.style?.color ??
+              theme.textTheme.titleMedium?.color,
         );
     final subTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.subColor,

@@ -66,8 +66,8 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
                 child: indicator ??
                     Center(
                       child: CircularProgressIndicator(
-                        backgroundColor: Colors.white.withValues(alpha: 
-                          0.5,
+                        backgroundColor: Colors.white.withValues(
+                          alpha: 0.5,
                         ),
                       ),
                     ),

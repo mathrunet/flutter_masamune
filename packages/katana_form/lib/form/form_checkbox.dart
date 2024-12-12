@@ -132,7 +132,8 @@ class FormCheckbox<TValue> extends FormField<bool> {
                 TextStyle(
                   color: style?.subColor ??
                       style?.color?.withValues(alpha: 0.5) ??
-                      theme.textTheme.titleMedium?.color?.withValues(alpha: 0.5),
+                      theme.textTheme.titleMedium?.color
+                          ?.withValues(alpha: 0.5),
                 );
             final errorTextStyle = style?.errorTextStyle?.copyWith(
                   color: style.errorColor,
