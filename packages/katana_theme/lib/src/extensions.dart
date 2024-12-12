@@ -140,7 +140,7 @@ extension ThemeTextStyleExtensions on TextStyle {
   ///
   /// 透過度は0.0〜1.0の間で設定してください。
   TextStyle withOpacity(double opacity) {
-    return copyWith(color: color?.withOpacity(opacity));
+    return copyWith(color: color?.withValues(alpha: opacity));
   }
 
   /// Set [TextStyle.color] to [color] for the text.

@@ -56,27 +56,40 @@ class GradientColor implements Color {
   }
 
   @override
-  int get alpha => mainColor.alpha;
-
-  @override
-  int get blue => mainColor.blue;
-
-  @override
   double computeLuminance() {
     return mainColor.computeLuminance();
   }
 
   @override
-  int get green => mainColor.green;
+  ColorSpace get colorSpace => mainColor.colorSpace;
 
   @override
-  double get opacity => mainColor.opacity;
+  double get a => mainColor.a;
 
   @override
-  int get red => mainColor.red;
+  double get b => mainColor.b;
 
   @override
-  int get value => mainColor.value;
+  double get g => mainColor.g;
+
+  @override
+  double get r => mainColor.r;
+
+  @override
+  Color withValues({
+    double? alpha,
+    double? red,
+    double? green,
+    double? blue,
+    ColorSpace? colorSpace,
+  }) =>
+      mainColor.withValues(
+        alpha: alpha,
+        red: red,
+        green: green,
+        blue: blue,
+        colorSpace: colorSpace,
+      );
 
   @override
   Color withAlpha(int a) {
@@ -94,11 +107,6 @@ class GradientColor implements Color {
   }
 
   @override
-  Color withOpacity(double opacity) {
-    return mainColor.withOpacity(opacity);
-  }
-
-  @override
   Color withRed(int r) {
     return mainColor.withRed(r);
   }
@@ -110,6 +118,49 @@ class GradientColor implements Color {
   bool operator ==(Object other) => hashCode == other.hashCode;
 
   @override
-  String toString() =>
-      'GradientColor(0x${mainColor.value.toRadixString(16).padLeft(8, '0')}, 0x${subColor.value.toRadixString(16).padLeft(8, '0')})';
+  String toString() {
+    final mainColorValue = _floatToInt8(a) << 24 |
+        _floatToInt8(r) << 16 |
+        _floatToInt8(g) << 8 |
+        _floatToInt8(b) << 0;
+    final subColorValue = _floatToInt8(a) << 24 |
+        _floatToInt8(r) << 16 |
+        _floatToInt8(g) << 8 |
+        _floatToInt8(b) << 0;
+    return "GradientColor(0x${mainColorValue.toRadixString(16).padLeft(8, '0')}, 0x${subColorValue.toRadixString(16).padLeft(8, '0')})";
+  }
+
+  @override
+  @Deprecated('Use .a.')
+  int get alpha => mainColor.alpha;
+
+  @override
+  @Deprecated('Use .b.')
+  int get blue => mainColor.blue;
+
+  @override
+  @Deprecated('Use .g.')
+  int get green => mainColor.green;
+
+  @override
+  @Deprecated('Use .a.')
+  double get opacity => mainColor.opacity;
+
+  @override
+  @Deprecated('Use .r.')
+  int get red => mainColor.red;
+
+  @override
+  @Deprecated('Use component accessors like .r or .g.')
+  int get value => mainColor.value;
+
+  @override
+  @Deprecated('Use .withValues() to avoid precision loss.')
+  Color withOpacity(double opacity) {
+    return mainColor.withOpacity(opacity);
+  }
+
+  static int _floatToInt8(double x) {
+    return (x * 255.0).round() & 0xff;
+  }
 }

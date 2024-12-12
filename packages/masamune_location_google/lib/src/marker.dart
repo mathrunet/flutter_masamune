@@ -189,7 +189,7 @@ class Marker extends map.Marker {
         consumeTapEvents: consumeTapEvents,
         draggable: draggable,
         flat: flat,
-        icon: BitmapDescriptor.fromBytes(bytes.buffer.asUint8List()),
+        icon: BitmapDescriptor.bytes(bytes.buffer.asUint8List()),
         infoWindow: infoWindow,
         rotation: rotation,
         visible: visible,
@@ -300,7 +300,7 @@ class _MarkerGenerator {
     if (bytes == null) {
       return null;
     }
-    return BitmapDescriptor.fromBytes(bytes.buffer.asUint8List());
+    return BitmapDescriptor.bytes(bytes.buffer.asUint8List());
   }
 
   void _paintCircleFill(Canvas canvas, Color color) {

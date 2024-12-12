@@ -360,8 +360,8 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
         ) ??
         TextStyle(
           color: widget.style?.subColor ??
-              widget.style?.color?.withOpacity(0.5) ??
-              theme.textTheme.titleMedium?.color?.withOpacity(0.5),
+              widget.style?.color?.withValues(alpha: 0.5) ??
+              theme.textTheme.titleMedium?.color?.withValues(alpha: 0.5),
         );
     final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
           color: widget.style?.errorColor,

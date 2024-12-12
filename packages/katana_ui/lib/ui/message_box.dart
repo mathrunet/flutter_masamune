@@ -90,7 +90,7 @@ class MessageBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = this.color ?? Theme.of(context).primaryColor;
-    final backgroundColor = this.backgroundColor ?? color.withOpacity(0.1);
+    final backgroundColor = this.backgroundColor ?? color.withValues(alpha: 0.1);
 
     return Container(
       margin: margin,

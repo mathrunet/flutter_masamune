@@ -616,6 +616,9 @@ class AppRouter extends ChangeNotifier
     }
     return initialQuery;
   }
+
+  @override
+  void didChangeTop(Route topRoute, Route? previousTopRoute) {}
 }
 
 /// Class for creating nested [AppRouter].

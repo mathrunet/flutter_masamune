@@ -385,8 +385,8 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
         ) ??
         TextStyle(
           color: widget.style?.subColor ??
-              widget.style?.color?.withOpacity(0.5) ??
-              theme.textTheme.titleMedium?.color?.withOpacity(0.5),
+              widget.style?.color?.withValues(alpha: 0.5) ??
+              theme.textTheme.titleMedium?.color?.withValues(alpha: 0.5),
         );
     final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
           color: widget.style?.errorColor,
@@ -1229,12 +1229,10 @@ class _SelectBoxController {
   bool get isOpened => _isOpened;
 
   void enable() {
-    print("enable");
     _enabled = true;
   }
 
   void disable() {
-    print("disable");
     _enabled = false;
   }
 
@@ -1259,7 +1257,6 @@ class _SelectBoxController {
     if (!_isOpened) {
       return;
     }
-    print("close");
     assert(overlayEntry != null);
     overlayEntry!.remove();
     _isOpened = false;

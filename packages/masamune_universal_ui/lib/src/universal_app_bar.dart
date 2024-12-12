@@ -496,8 +496,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
             flexibleSpace: flexibleSpace,
             bottom: bottom,
             elevation: elevation ?? (bottomBorderColor != null ? 0.5 : null),
-            shadowColor: shadowColor ??
-                (bottomBorderColor != null ? bottomBorderColor : null),
+            shadowColor: shadowColor ?? bottomBorderColor,
             backgroundColor: backgroundColor,
             foregroundColor: foregroundColor,
             iconTheme: iconTheme,
@@ -665,8 +664,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
                 )
               : null,
           elevation: elevation ?? (bottomBorderColor != null ? 0.5 : null),
-          shadowColor: shadowColor ??
-              (bottomBorderColor != null ? bottomBorderColor : null),
+          shadowColor: shadowColor ?? (bottomBorderColor),
           backgroundColor: backgroundColor,
           foregroundColor: foregroundColor,
           iconTheme: iconTheme,
@@ -858,8 +856,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
                 centerTitle: centerTitle,
               ),
               elevation: elevation ?? (bottomBorderColor != null ? 0.5 : null),
-              shadowColor: shadowColor ??
-                  (bottomBorderColor != null ? bottomBorderColor : null),
+              shadowColor: shadowColor ?? (bottomBorderColor),
               backgroundColor: backgroundColor,
               foregroundColor: foregroundColor,
               iconTheme: iconTheme,
@@ -1602,10 +1599,7 @@ class _UniversalAvatarAppBarDelegate extends SliverPersistentHeaderDelegate {
                     : null,
                 elevation: appBar.elevation ??
                     (appBar.bottomBorderColor != null ? 0.5 : null),
-                shadowColor: appBar.shadowColor ??
-                    (appBar.bottomBorderColor != null
-                        ? appBar.bottomBorderColor
-                        : null),
+                shadowColor: appBar.shadowColor ?? (appBar.bottomBorderColor),
                 backgroundColor: backgroundColor,
                 foregroundColor: foregroundColor,
                 iconTheme: appBar.iconTheme,

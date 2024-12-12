@@ -92,7 +92,7 @@ class _ChatSystemBottomBarState extends State<ChatSystemBottomBar> {
           duration: 300.ms,
           child: Container(
             decoration: BoxDecoration(
-              color: theme.colorScheme.inverseSurface.withOpacity(0.5),
+              color: theme.colorScheme.inverseSurface.withValues(alpha: 0.5),
               borderRadius: 16.r,
             ),
             margin: 8.pb,

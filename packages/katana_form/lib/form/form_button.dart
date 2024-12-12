@@ -118,7 +118,7 @@ class FormButton extends StatelessWidget {
         ) ??
         TextStyle(color: enabled ? foregroundColor : disabledForegroundColor);
     final borderColor = style?.borderColor ?? foregroundColor;
-    final activeColor = style?.activeColor ?? foregroundColor.withOpacity(0.5);
+    final activeColor = style?.activeColor ?? foregroundColor.withValues(alpha: 0.5);
 
     return FormStyleScope(
       style: style,

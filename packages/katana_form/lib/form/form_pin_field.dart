@@ -201,12 +201,12 @@ class FormPinField<TValue> extends FormField<String> {
                 ) ??
                 TextStyle(
                   color: style?.subColor ??
-                      style?.color?.withOpacity(0.5) ??
+                      style?.color?.withValues(alpha: 0.5) ??
                       Theme.of(context)
                           .textTheme
                           .titleMedium
                           ?.color
-                          ?.withOpacity(0.5),
+                          ?.withValues(alpha: 0.5),
                 );
             final errorTextStyle = style?.errorTextStyle?.copyWith(
                   color: style.errorColor,
@@ -451,7 +451,6 @@ class _FormPinFieldState<TValue> extends FormFieldState<String>
 
 class _PinInputTextField extends StatefulWidget {
   _PinInputTextField({
-    Key? key,
     this.pinLength = kPinLength,
     this.onSubmit,
     required this.decoration,
@@ -477,8 +476,7 @@ class _PinInputTextField extends StatefulWidget {
                 (decoration as SupportGap).getGapWidthList!.length ==
                     pinLength - 1)),
         textCapitalization = textCapitalization ?? TextCapitalization.none,
-        cursor = cursor ?? Cursor.disabled(),
-        super(key: key);
+        cursor = cursor ?? Cursor.disabled();
 
   @override
   State createState() => _PinInputTextFieldState();
@@ -573,7 +571,7 @@ class _PinInputTextFieldState extends State<_PinInputTextField>
   void _onCursorColorTick() {
     if (widget.cursor.enabled) {
       _cursorColor =
-          widget.cursor.color.withOpacity(_cursorBlinkOpacityController.value);
+          widget.cursor.color.withValues(alpha: _cursorBlinkOpacityController.value);
       _cursorVisibilityNotifier.value = _cursorBlinkOpacityController.value > 0;
       setState(() {});
     }
