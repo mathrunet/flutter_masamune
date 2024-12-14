@@ -500,7 +500,8 @@ class AuthDatabase {
       final active = this.active;
       if (active.isEmpty) {
         final current = _data._getCurrent();
-        final userId = current.get(userIdKey, "");
+        final userId =
+            current.get(userIdKey, nullOfString) ?? _registeredCurrentId ?? "";
         if (userId.isEmpty) {
           final userId = provider.userId;
           _data._setAccount(userId, {
@@ -527,7 +528,7 @@ class AuthDatabase {
           _activeId = userId;
         }
       } else {
-        final userId = _activeId!;
+        final userId = _activeId ?? _registeredCurrentId ?? "";
         final current = _data._getAccount(userId);
         final providers = [
           ...current.getAsList(activeProvidersKey),
@@ -548,7 +549,8 @@ class AuthDatabase {
       final active = this.active;
       if (active.isEmpty) {
         final current = _data._getCurrent();
-        final userId = current.get(userIdKey, "");
+        final userId =
+            current.get(userIdKey, nullOfString) ?? _registeredCurrentId ?? "";
         if (userId.isEmpty) {
           final userId = _uuid;
           _data._setAccount(userId, {
@@ -577,7 +579,7 @@ class AuthDatabase {
           _activeId = userId;
         }
       } else {
-        final userId = _activeId!;
+        final userId = _activeId ?? _registeredCurrentId ?? "";
         final current = _data._getAccount(userId);
         final providers = [
           ...current.getAsList(activeProvidersKey),
@@ -602,7 +604,8 @@ class AuthDatabase {
       if (account == null) {
         throw Exception("Email or Password is invalid.");
       }
-      final userId = account.get(userIdKey, "");
+      final userId =
+          account.get(userIdKey, nullOfString) ?? _registeredCurrentId ?? "";
       _data._setCurrent(userId);
       _activeId = userId;
     } else if (provider is EmailLinkSignInAuthProvider) {
@@ -625,7 +628,8 @@ class AuthDatabase {
           allowMultiProvider: provider.allowMultiProvider,
         );
       } else {
-        final userId = account.get(userIdKey, "");
+        final userId =
+            account.get(userIdKey, nullOfString) ?? _registeredCurrentId ?? "";
         final providers = [
           ...account.getAsList(activeProvidersKey),
           provider.providerId
@@ -666,7 +670,8 @@ class AuthDatabase {
           allowMultiProvider: provider.allowMultiProvider,
         );
       } else {
-        final userId = account.get(userIdKey, "");
+        final userId =
+            account.get(userIdKey, nullOfString) ?? _registeredCurrentId ?? "";
         final providers = [
           ...account.getAsList(activeProvidersKey),
           provider.providerId
