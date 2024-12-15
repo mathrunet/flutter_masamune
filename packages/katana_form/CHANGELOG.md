@@ -1,3 +1,7 @@
+## 2.15.1
+
+ - **FIX**: Apply formatter. ([767baa49](https://github.com/mathrunet/flutter_masamune/commit/767baa491e7e3a78659b7555a546fa30c1942a1d))
+
 ## 2.15.0
 
  - **FIX**: Flutter 3.27 compatible. ([cadb2357](https://github.com/mathrunet/flutter_masamune/commit/cadb23578ec1ebaed1265ec240b08c9176c1643a))

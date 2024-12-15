@@ -1,3 +1,7 @@
+## 2.6.24
+
+ - Update a dependency to the latest release.
+
 ## 2.6.23
 
  - **FIX**: Flutter 3.27 compatible. ([cadb2357](https://github.com/mathrunet/flutter_masamune/commit/cadb23578ec1ebaed1265ec240b08c9176c1643a))
