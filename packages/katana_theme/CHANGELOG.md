@@ -1,3 +1,7 @@
+## 2.6.8
+
+ - **FIX**: Added toInt to Extension of Color. ([aef7e1b5](https://github.com/mathrunet/flutter_masamune/commit/aef7e1b59257d4f7aa41153d6206feb84b253a84))
+
 ## 2.6.7
 
  - **FIX**: Flutter 3.27 compatible. ([cadb2357](https://github.com/mathrunet/flutter_masamune/commit/cadb23578ec1ebaed1265ec240b08c9176c1643a))
