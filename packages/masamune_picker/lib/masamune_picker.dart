@@ -13,6 +13,7 @@ import 'dart:async';
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 // Package imports:
@@ -27,3 +28,4 @@ part 'src/picker.dart';
 part 'src/picker_file_type.dart';
 part 'src/picker_value.dart';
 part 'storage/storage.dart';
+part 'src/masamune_picker_permission_denied_exception.dart';
