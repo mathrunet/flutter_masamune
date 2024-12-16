@@ -21,6 +21,16 @@ extension ThemeBuildContextExtensions on BuildContext {
 ///
 /// [Color]用のテーマエクステンションを定義します。
 extension ThemeColorExtensions on Color {
+  /// Convert [Color] to [int].
+  ///
+  /// [Color]を[int]に変換します。
+  int toInt() {
+    return _floatToInt8(a) << 24 |
+        _floatToInt8(r) << 16 |
+        _floatToInt8(g) << 8 |
+        _floatToInt8(b) << 0;
+  }
+
   /// Detects [GradientColor] stored in [Color] and creates [LinearGradient].
   ///
   /// If [Color] is not [GradientColor], [Color] will create a single-color [Gradient].
@@ -93,6 +103,10 @@ extension ThemeColorExtensions on Color {
     final hslLight =
         hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
     return hslLight.toColor();
+  }
+
+  static int _floatToInt8(double x) {
+    return (x * 255.0).round() & 0xff;
   }
 }
 
