@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.27.0`](#katana_cli---v2270)
+ - [`masamune_auth_firebase` - `v2.1.0`](#masamune_auth_firebase---v210)
+ - [`masamune_picker` - `v2.4.0`](#masamune_picker---v240)
+
+---
+
+#### `katana_cli` - `v2.27.0`
+
+ - **FEAT**: Added user deletion function. ([58153f92](https://github.com/mathrunet/flutter_masamune/commit/58153f921f1f520839f9c644c375f6c6e7680eed))
+
+#### `masamune_auth_firebase` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([d0334175](https://github.com/mathrunet/flutter_masamune/commit/d03341759111791dee13065a6fb02fd512e567fb))
+
+#### `masamune_picker` - `v2.4.0`
+
+ - **FEAT**: Added PermissionDeniedException. ([eccc1297](https://github.com/mathrunet/flutter_masamune/commit/eccc1297edb7db982816ac799ecb134868ded694))
+
+
+## 2024-12-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_theme` - `v2.6.8`](#katana_theme---v268)
  - [`masamune` - `v2.15.7`](#masamune---v2157)
  - [`masamune_location_platform_interface` - `v2.4.47`](#masamune_location_platform_interface---v2447)

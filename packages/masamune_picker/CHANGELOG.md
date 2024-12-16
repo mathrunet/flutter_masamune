@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Added PermissionDeniedException. ([eccc1297](https://github.com/mathrunet/flutter_masamune/commit/eccc1297edb7db982816ac799ecb134868ded694))
+
 ## 2.3.13
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.27.0
+
+ - **FEAT**: Added user deletion function. ([58153f92](https://github.com/mathrunet/flutter_masamune/commit/58153f921f1f520839f9c644c375f6c6e7680eed))
+
 ## 2.26.2
 
  - **FIX**: Enhance AndroidManifestQueryType with category support. ([8a8244ed](https://github.com/mathrunet/flutter_masamune/commit/8a8244ede53c0ea8d9aa67709d3c68476756b10f))
