@@ -286,6 +286,11 @@ firebase:
     enable: false
 
 ${showAllConfig ? """
+    # If you want to add user deletion functionality, set [enable] to `true`.
+    # ユーザー削除機能を追加する場合は[enable]を`true`にしてください。
+    delete_user:
+      enable: false
+
     # If you want to use SNS providers, set [enable] to `true` for each SNS.
     # SNSプロバイダーを利用したい場合はそれぞれのSNSの[enable]を`true`にしてください。
     providers:

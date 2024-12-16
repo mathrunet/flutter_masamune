@@ -30,12 +30,14 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
     final authentication = firebase.getAsMap("authentication");
     final enableAuthentication = authentication.get("enable", false);
     final providers = authentication.getAsMap("providers");
+    final deleteUser = authentication.getAsMap("delete_user");
     final apple = providers.getAsMap("apple");
     final facebook = providers.getAsMap("facebook");
     final google = providers.getAsMap("google");
     return projectId.isNotEmpty &&
         enableAuthentication &&
-        (apple.get("enable", false) ||
+        (deleteUser.get("enable", false) ||
+            apple.get("enable", false) ||
             facebook.get("enable", false) ||
             google.get("enable", false));
   }
@@ -49,6 +51,10 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
     final apple = providers.getAsMap("apple");
     final facebook = providers.getAsMap("facebook");
     final google = providers.getAsMap("google");
+    final deleteUser = authentication.getAsMap("delete_user");
+    final enableDeleteUser = deleteUser.get("enable", false);
+    final functions = firebase.getAsMap("functions");
+    final enableFunctions = functions.get("enable", false);
     final enableApple = apple.get("enable", false);
     final enableGoogle = google.get("enable", false);
     final enableFacebook = facebook.get("enable", false);
@@ -75,6 +81,12 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    if (enableDeleteUser && !enableFunctions) {
+      error(
+        "The item [firebase]->[functions]->[enable] is missing. Please provide the Firebase functions configuration.",
+      );
+      return;
+    }
     await addFlutterImport(
       [
         if (enableApple) ...[
@@ -85,6 +97,9 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
         ],
         if (enableGoogle) ...[
           "masamune_auth_google",
+        ],
+        if (enableDeleteUser) ...[
+          "masamune_auth_firebase",
         ],
       ],
     );
@@ -763,6 +778,15 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
         }
       }
       await xcode.save();
+    }
+    if (enableDeleteUser) {
+      label("Add firebase functions");
+      final functions = Fuctions();
+      await functions.load();
+      if (!functions.functions.any((e) => e.startsWith("delete_user"))) {
+        functions.functions.add("delete_user()");
+      }
+      await functions.save();
     }
   }
 }
