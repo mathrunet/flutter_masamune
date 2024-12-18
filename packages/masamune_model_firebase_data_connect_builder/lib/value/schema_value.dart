@@ -80,8 +80,15 @@ class SchemaValue {
         if (condition.type == "limit") {
           continue;
         }
+        var type = condition.parameter?.type.toParameterType();
+        switch (condition.type) {
+          case "arrayContainsAny":
+          case "whereIn":
+          case "whereNotIn":
+            type = "[$type]";
+        }
         buffer.writeln(
-          "  \$${condition.key?.toCamelCase() ?? ""}${condition.type.toPascalCase()}: ${condition.parameter?.type.toParameterType() ?? ""},",
+          "  \$${condition.key?.toCamelCase() ?? ""}${condition.type.toPascalCase()}: $type,",
         );
       }
       buffer.writeln("  \$limit: Int! = 100,");

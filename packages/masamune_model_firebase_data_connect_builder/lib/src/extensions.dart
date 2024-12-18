@@ -61,7 +61,7 @@ extension on InterfaceType {
     } else if (isModelCommand) {
       return "${SchemaType.any.label}$nullable";
     }
-    return "";
+    return "${SchemaType.any.label}$nullable";
   }
 
   /// Convert to type for schema.
@@ -124,7 +124,7 @@ extension on InterfaceType {
     } else if (isModelCommand) {
       return "${SchemaType.any.label}$nullable";
     }
-    return "";
+    return "${SchemaType.any.label}$nullable";
   }
 
   /// Convert to a query-oriented parameter type.
@@ -471,7 +471,10 @@ extension QueryConditionValueListExtension on List<QueryConditionValue> {
       if (e.type == "limit" ||
           e.type == "collectionGroup" ||
           e.type == "orderByAsc" ||
-          e.type == "orderByDesc") {
+          e.type == "orderByDesc" ||
+          e.type == "whereIn" ||
+          e.type == "whereNotIn" ||
+          e.type == "arrayContainsAny") {
         return null;
       }
       if (e.parameter?.type.isNullable == true) {
@@ -493,14 +496,24 @@ extension QueryConditionValueListExtension on List<QueryConditionValue> {
           e.type == "orderByDesc") {
         return null;
       }
-      if (e.parameter?.type.isNullable != true) {
-        return null;
+      if (e.type == "whereIn" ||
+          e.type == "whereNotIn" ||
+          e.type == "arrayContainsAny") {
+        final filterType = e.type.toFilterType();
+        if (filterType.isEmpty) {
+          return null;
+        }
+        return ".${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}(filterQueryWithNullable(query.query.filters.firstWhereOrNull((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\"), query))";
+      } else {
+        if (e.parameter?.type.isNullable != true) {
+          return null;
+        }
+        final filterType = e.type.toFilterType();
+        if (filterType.isEmpty) {
+          return null;
+        }
+        return ".${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}(filterQueryWithNullable(query.query.filters.firstWhereOrNull((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\"), query))";
       }
-      final filterType = e.type.toFilterType();
-      if (filterType.isEmpty) {
-        return null;
-      }
-      return ".${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}(filterQueryWithNullable(query.query.filters.firstWhereOrNull((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\"), query))";
     }).join("");
   }
 }
