@@ -208,7 +208,11 @@ extension on SchemaValue {
         return null;
       }
       final name = param.jsonKey ?? param.name;
-      return "$name: value[\"$name\"]";
+      if (param.type.isAny()) {
+        return "$name: filterAnyValue(value[\"$name\"])";
+      } else {
+        return "$name: value[\"$name\"]";
+      }
     }).join(", ");
   }
 
@@ -221,7 +225,11 @@ extension on SchemaValue {
       if (!param.type.isNullable) {
         return null;
       }
-      return "ref = ref.$name( value[\"$name\"] );";
+      if (param.type.isAny()) {
+        return "ref = ref.$name( filterAnyValue(value[\"$name\"]) );";
+      } else {
+        return "ref = ref.$name( value[\"$name\"] );";
+      }
     }).join(" ");
   }
 

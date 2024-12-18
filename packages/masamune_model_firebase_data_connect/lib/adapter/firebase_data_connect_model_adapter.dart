@@ -245,6 +245,23 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
     return res;
   }
 
+  /// Convert the value to [AnyValue].
+  ///
+  /// 値を[AnyValue]に変換します。
+  dynamic filterAnyValue(
+    dynamic value,
+  ) {
+    if (value == null) {
+      return null;
+    } else if (value is List<dynamic>) {
+      return value.map((e) => filterAnyValue(e)).toList();
+    } else if (value is Map<String, dynamic>) {
+      return value.map((key, val) => MapEntry(key, filterAnyValue(val)));
+    } else {
+      return AnyValue(value);
+    }
+  }
+
   /// Get the object for the query from [ModelQueryFilter].
   ///
   /// If the values do not match, an [UnsupportedError] is generated.
@@ -259,7 +276,7 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
   }) {
     for (final converter in _converters) {
       final res = converter.filterQuery(filter, query, this);
-      if (res is T) {
+      if (res is T && res != null) {
         return res;
       }
     }

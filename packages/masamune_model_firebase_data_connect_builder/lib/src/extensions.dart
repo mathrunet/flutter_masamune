@@ -127,6 +127,16 @@ extension on InterfaceType {
     return "${SchemaType.any.label}$nullable";
   }
 
+  /// Check if it is [dynamic].
+  ///
+  /// [dynamic]かどうかをチェックします。
+  bool isAny({
+    ReferenceValue? reference,
+  }) {
+    final type = toSchemaType(reference: reference);
+    return type.startsWith(SchemaType.any.label);
+  }
+
   /// Convert to a query-oriented parameter type.
   ///
   /// By giving [reference], the conversion is performed in the case of a reference type.
@@ -484,7 +494,11 @@ extension QueryConditionValueListExtension on List<QueryConditionValue> {
       if (filterType.isEmpty) {
         return null;
       }
-      return "${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}: filterQuery(query.query.filters.firstWhere((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\"), query)";
+      if (e.parameter?.type.isAny() ?? false) {
+        return "${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}: filterAnyValue(filterQuery(query.query.filters.firstWhere((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\"), query))";
+      } else {
+        return "${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}: filterQuery(query.query.filters.firstWhere((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\"), query)";
+      }
     }).join(", ");
   }
 
@@ -503,7 +517,11 @@ extension QueryConditionValueListExtension on List<QueryConditionValue> {
         if (filterType.isEmpty) {
           return null;
         }
-        return ".${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}(filterQueryWithNullable(query.query.filters.firstWhereOrNull((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\"), query))";
+        if (e.parameter?.type.isAny() ?? false) {
+          return ".${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}(filterAnyValue(filterQueryWithNullable(query.query.filters.firstWhereOrNull((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\"), query)))";
+        } else {
+          return ".${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}(filterQueryWithNullable(query.query.filters.firstWhereOrNull((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\"), query))";
+        }
       } else {
         if (e.parameter?.type.isNullable != true) {
           return null;
@@ -512,7 +530,11 @@ extension QueryConditionValueListExtension on List<QueryConditionValue> {
         if (filterType.isEmpty) {
           return null;
         }
-        return ".${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}(filterQueryWithNullable(query.query.filters.firstWhereOrNull((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\"), query))";
+        if (e.parameter?.type.isAny() ?? false) {
+          return ".${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}(filterAnyValue(filterQueryWithNullable(query.query.filters.firstWhereOrNull((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\"), query)))";
+        } else {
+          return ".${e.key?.toCamelCase() ?? ""}${e.type.toPascalCase()}(filterQueryWithNullable(query.query.filters.firstWhereOrNull((e) => e.type == ModelQueryFilterType.$filterType && e.key == \"${e.key?.toCamelCase() ?? ""}\"), query))";
+        }
       }
     }).join("");
   }
