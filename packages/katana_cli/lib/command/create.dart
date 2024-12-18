@@ -1224,6 +1224,7 @@ analyzer:
     - "**/*.router.dart"
     - "**/*.prefs.dart"
     - "**/*.m.dart"
+    - "lib/dataconnect/**"
 """;
   }
 }
