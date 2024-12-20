@@ -18,7 +18,7 @@ Future<void> buildAndroid(
   final action = github.getAsMap("action");
   final android = action.getAsMap("android");
   final changesNotSentForReview =
-      android.get("changes_not_sent_for_review", false);
+      android.get("changes_not_sent_for_review", nullOfBool);
   final status = android.get("status", "draft");
   final keystoreFile = File("android/app/appkey.keystore");
   final secretGithub = context.secrets.getAsMap("github");
@@ -168,7 +168,7 @@ class GithubActionsAndroidCliCode extends CliCode {
   const GithubActionsAndroidCliCode({
     this.workingDirectory,
     this.defaultIncrementNumber = 0,
-    this.changesNotSentForReview = false,
+    this.changesNotSentForReview,
     this.status = "draft",
     this.slackWebhookURL,
   });
@@ -186,7 +186,7 @@ class GithubActionsAndroidCliCode extends CliCode {
   /// Parameters of [changesNotSentForReview].
   ///
   /// [changesNotSentForReview]のパラメーター。
-  final bool changesNotSentForReview;
+  final bool? changesNotSentForReview;
 
   /// Parameters of [status].
   ///
@@ -368,7 +368,7 @@ jobs:
           # アプリをリリースした後は completed に変更してください。
           status: $status 
           serviceAccountJson: ${workingPath.isEmpty ? "." : workingPath}/android/service_account_key.json
-          changesNotSentForReview: ${changesNotSentForReview ? "true" : "false"}
+          ${changesNotSentForReview != null ? "changesNotSentForReview: ${changesNotSentForReview! ? "true" : "false"}" : "# changesNotSentForReview: true"}
           packageName: #### REPLACE_ANDROID_PACKAGE_NAME ####
           releaseFiles: ${workingPath.isEmpty ? "." : workingPath}/build/app/outputs/bundle/release/*.aab
 """;

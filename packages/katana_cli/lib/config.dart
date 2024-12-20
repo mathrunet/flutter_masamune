@@ -518,7 +518,7 @@ github:
         # Change to completed after the app is released.
         # アプリをリリースした後は completed に変更してください。
         status: draft
-        changes_not_sent_for_review: false
+        changes_not_sent_for_review:  # true or false or empty
 
     web:
       # Specify a renderer for the Web. (html | canvaskit)
