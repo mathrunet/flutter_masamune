@@ -22,6 +22,7 @@ const _offset = <int, _Offset>{
   2796: _Offset(176, 96),
   2752: _Offset(56, 48),
   2732: _Offset(38, 32),
+  2622: _Offset(176, 96),
   2556: _Offset(144, 48),
   2340: _Offset(80, 132),
 };
