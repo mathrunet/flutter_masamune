@@ -3,6 +3,67 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-12-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.27.1`](#katana_cli---v2271)
+ - [`masamune_model_docs_builder` - `v2.2.9`](#masamune_model_docs_builder---v229)
+ - [`masamune_model_firebase_data_connect` - `v2.2.8`](#masamune_model_firebase_data_connect---v228)
+ - [`masamune_model_firebase_data_connect_annotation` - `v2.2.8`](#masamune_model_firebase_data_connect_annotation---v228)
+ - [`masamune_model_firebase_data_connect_builder` - `v2.3.3`](#masamune_model_firebase_data_connect_builder---v233)
+ - [`masamune_purchase` - `v2.2.4`](#masamune_purchase---v224)
+ - [`masamune_purchase_mobile` - `v2.9.4`](#masamune_purchase_mobile---v294)
+ - [`masamune_module_point_ecosystem` - `v2.5.130`](#masamune_module_point_ecosystem---v25130)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.5.130`
+
+---
+
+#### `katana_cli` - `v2.27.1`
+
+ - **FIX**: Fix changes_not_sent_for_review. ([127013ca](https://github.com/mathrunet/flutter_masamune/commit/127013caaf19fc21ef68b7abb946865f9e83f30e))
+ - **FIX**: DataConnect was excluded from the analyzer. ([b1e310d8](https://github.com/mathrunet/flutter_masamune/commit/b1e310d8f5573638d99191d9708f8f7385a97409))
+
+#### `masamune_model_docs_builder` - `v2.2.9`
+
+ - **FIX**: Support for AnyValue. ([e744c1ff](https://github.com/mathrunet/flutter_masamune/commit/e744c1ff33b1d0da97537d8adb2c1960c386e2b3))
+
+#### `masamune_model_firebase_data_connect` - `v2.2.8`
+
+ - **FIX**: Support for AnyValue. ([e744c1ff](https://github.com/mathrunet/flutter_masamune/commit/e744c1ff33b1d0da97537d8adb2c1960c386e2b3))
+ - **FIX**: Fixed a bug on WhereIn. ([cb5d36b5](https://github.com/mathrunet/flutter_masamune/commit/cb5d36b51e146bd63c8b1e9f90264f2889ec5006))
+
+#### `masamune_model_firebase_data_connect_annotation` - `v2.2.8`
+
+ - **FIX**: Fixed a bug on WhereIn. ([cb5d36b5](https://github.com/mathrunet/flutter_masamune/commit/cb5d36b51e146bd63c8b1e9f90264f2889ec5006))
+
+#### `masamune_model_firebase_data_connect_builder` - `v2.3.3`
+
+ - **FIX**: Support for AnyValue. ([e744c1ff](https://github.com/mathrunet/flutter_masamune/commit/e744c1ff33b1d0da97537d8adb2c1960c386e2b3))
+ - **FIX**: Fixed a bug on WhereIn. ([cb5d36b5](https://github.com/mathrunet/flutter_masamune/commit/cb5d36b51e146bd63c8b1e9f90264f2889ec5006))
+
+#### `masamune_purchase` - `v2.2.4`
+
+ - **FIX**: Fixed a bug in IOS. ([8042577f](https://github.com/mathrunet/flutter_masamune/commit/8042577f2253341cb3db6a316a03ce9b7710f6ee))
+
+#### `masamune_purchase_mobile` - `v2.9.4`
+
+ - **FIX**: Fixed a bug in IOS. ([8042577f](https://github.com/mathrunet/flutter_masamune/commit/8042577f2253341cb3db6a316a03ce9b7710f6ee))
+
+
 ## 2024-12-16
 
 ### Changes

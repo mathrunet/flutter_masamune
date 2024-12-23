@@ -1,3 +1,7 @@
+## 2.9.4
+
+ - **FIX**: Fixed a bug in IOS. ([8042577f](https://github.com/mathrunet/flutter_masamune/commit/8042577f2253341cb3db6a316a03ce9b7710f6ee))
+
 ## 2.9.3
 
  - Update a dependency to the latest release.

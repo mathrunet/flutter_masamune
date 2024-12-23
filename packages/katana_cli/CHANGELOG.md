@@ -1,3 +1,8 @@
+## 2.27.1
+
+ - **FIX**: Fix changes_not_sent_for_review. ([127013ca](https://github.com/mathrunet/flutter_masamune/commit/127013caaf19fc21ef68b7abb946865f9e83f30e))
+ - **FIX**: DataConnect was excluded from the analyzer. ([b1e310d8](https://github.com/mathrunet/flutter_masamune/commit/b1e310d8f5573638d99191d9708f8f7385a97409))
+
 ## 2.27.0
 
  - **FEAT**: Added user deletion function. ([58153f92](https://github.com/mathrunet/flutter_masamune/commit/58153f921f1f520839f9c644c375f6c6e7680eed))

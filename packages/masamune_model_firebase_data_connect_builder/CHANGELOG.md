@@ -1,3 +1,8 @@
+## 2.3.3
+
+ - **FIX**: Support for AnyValue. ([e744c1ff](https://github.com/mathrunet/flutter_masamune/commit/e744c1ff33b1d0da97537d8adb2c1960c386e2b3))
+ - **FIX**: Fixed a bug on WhereIn. ([cb5d36b5](https://github.com/mathrunet/flutter_masamune/commit/cb5d36b51e146bd63c8b1e9f90264f2889ec5006))
+
 ## 2.3.2
 
  - Update a dependency to the latest release.
