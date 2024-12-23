@@ -189,6 +189,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                                 .verificationData.serverVerificationData,
                             documentId: userId ?? storeProduct.userId,
                             amount: storeProduct.amount ?? 0.0,
+                            productId: iosPurchase.productID,
                           ),
                         ))
                             .result) {
@@ -202,6 +203,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                           IOSNonConsumablePurchaseFunctionsAction(
                             receiptData: iosPurchase
                                 .verificationData.serverVerificationData,
+                            productId: iosPurchase.productID,
                             documentId: userId ?? storeProduct.userId,
                             fieldKey: iosPurchase.productID.toCamelCase(),
                           ),
@@ -301,6 +303,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                                   .verificationData.serverVerificationData,
                               documentId: userId ?? storeProduct.userId,
                               amount: storeProduct.amount ?? 0.0,
+                              productId: iosPurchase.productID,
                             ),
                           ))
                               .result) {
@@ -315,6 +318,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                               receiptData: iosPurchase
                                   .verificationData.serverVerificationData,
                               documentId: userId ?? storeProduct.userId,
+                              productId: iosPurchase.productID,
                               fieldKey: iosPurchase.productID.toCamelCase(),
                             ),
                           ))

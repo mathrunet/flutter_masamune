@@ -12,6 +12,7 @@ class IOSNonConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
     this.collectionPath = "plugins/iap/user",
     required this.fieldKey,
     required this.documentId,
+    required this.productId,
   });
 
   /// Receipt data.
@@ -34,6 +35,11 @@ class IOSNonConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
   /// データを保存するフィールドキー。
   final String fieldKey;
 
+  /// Product ID.
+  ///
+  /// 商品ID。
+  final String productId;
+
   @override
   String get action => "nonconsumable_verify_ios";
 
@@ -45,6 +51,7 @@ class IOSNonConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
     return {
       "receiptData": receiptData,
       "path": "$collectionPath/$documentId/$fieldKey",
+      "productId": productId,
     };
   }
 

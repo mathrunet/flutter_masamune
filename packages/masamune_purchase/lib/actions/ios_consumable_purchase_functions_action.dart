@@ -13,6 +13,7 @@ class IOSConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
     this.fieldKey = "value",
     required this.documentId,
     required this.amount,
+    required this.productId,
   });
 
   /// Receipt data.
@@ -40,6 +41,11 @@ class IOSConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
   /// 加算するデータ量。
   final double amount;
 
+  /// Product ID.
+  ///
+  /// 商品ID。
+  final String productId;
+
   @override
   String get action => "consumable_verify_ios";
 
@@ -52,6 +58,7 @@ class IOSConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
       "receiptData": receiptData,
       "path": "$collectionPath/$documentId/$fieldKey",
       "value": amount,
+      "productId": productId,
     };
   }
 
