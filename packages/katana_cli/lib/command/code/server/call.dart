@@ -162,7 +162,7 @@ const regions = ["asia-northeast1"];
 const tester = require("firebase-functions-test")({
   projectId: testProjectId,
 });
-describe(`Test: \${functionsFile}`, () => {
+describe(`Test: ${className.toPascalCase()}Call`, () => {
   let functions: any;
 
   // Performs initial setup for testing.
