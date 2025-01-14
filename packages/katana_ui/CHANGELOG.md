@@ -1,3 +1,7 @@
+## 2.11.0
+
+ - **FEAT**: Modal can be created. ([08b75a4a](https://github.com/mathrunet/flutter_masamune/commit/08b75a4a1434b0af7f50672a54845b19ce5af5ff))
+
 ## 2.10.9
 
  - **FIX**: Apply formatter. ([767baa49](https://github.com/mathrunet/flutter_masamune/commit/767baa491e7e3a78659b7555a546fa30c1942a1d))

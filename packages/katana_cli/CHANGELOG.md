@@ -1,3 +1,8 @@
+## 2.28.0
+
+ - **FIX**: Fixed a bug that the test name was not displayed properly. ([da348364](https://github.com/mathrunet/flutter_masamune/commit/da3483643e3c4cb7ca2a90a17e7f6dbccfc12950))
+ - **FEAT**: Modal can be created. ([08b75a4a](https://github.com/mathrunet/flutter_masamune/commit/08b75a4a1434b0af7f50672a54845b19ce5af5ff))
+
 ## 2.27.1
 
  - **FIX**: Fix changes_not_sent_for_review. ([127013ca](https://github.com/mathrunet/flutter_masamune/commit/127013caaf19fc21ef68b7abb946865f9e83f30e))

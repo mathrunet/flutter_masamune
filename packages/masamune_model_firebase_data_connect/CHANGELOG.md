@@ -1,3 +1,7 @@
+## 2.2.9
+
+ - Update a dependency to the latest release.
+
 ## 2.2.8
 
  - **FIX**: Support for AnyValue. ([e744c1ff](https://github.com/mathrunet/flutter_masamune/commit/e744c1ff33b1d0da97537d8adb2c1960c386e2b3))

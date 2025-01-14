@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Modal can be created. ([08b75a4a](https://github.com/mathrunet/flutter_masamune/commit/08b75a4a1434b0af7f50672a54845b19ce5af5ff))
+
 ## 2.3.22
 
  - Update a dependency to the latest release.
