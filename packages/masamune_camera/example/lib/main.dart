@@ -67,32 +67,43 @@ class CameraPageState extends State<CameraPage> {
           Modal.show(
             context,
             contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
-            builder: (ref) {
-              return [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: SizedBox(
-                    width: 256,
-                    height: 256,
-                    child: Image.memory(
-                      value!.bytes!,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                FilledButton(
-                  onPressed: () {
-                    ref.close();
-                  },
-                  child: const Text("Close"),
-                ),
-              ];
-            },
+            modal: CameraModal(value: value),
           );
         },
         child: const Icon(Icons.camera),
       ),
+    );
+  }
+}
+
+class CameraModal extends Modal {
+  const CameraModal({required this.value});
+
+  final CameraValue? value;
+
+  @override
+  Widget build(BuildContext context, ModalRef ref) {
+    return Column(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: SizedBox(
+            width: 256,
+            height: 256,
+            child: Image.memory(
+              value!.bytes!,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        FilledButton(
+          onPressed: () {
+            ref.close();
+          },
+          child: const Text("Close"),
+        ),
+      ],
     );
   }
 }

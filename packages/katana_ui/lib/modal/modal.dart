@@ -6,13 +6,57 @@ part of '/katana_ui.dart';
 ///
 /// Displays a message modal with two possible actions at [confirm].
 ///
+/// Displays a bottom sheet as a modal with [bottomSheet].
+///
+/// You can also extend the [Modal] class to create your own modals.
+/// In that case, pass a class implementing [Modal] in the [show] method to display the modal.
+///
+/// Implement it in the [build] method. [ref] is passed to [ModalRef].
+///
 /// 簡単なモーダルの機能を提供します。
 ///
 /// [alert]でアクションを１つだけ可能なメッセージモーダルを表示します。
 ///
 /// [confirm]でアクションを２つ実行可能なメッセージモーダルを表示します。
-class Modal {
-  const Modal._();
+///
+/// [bottomSheet]でボトムシートとしてモーダルを表示します。
+///
+/// [Modal]クラスを拡張して独自のモーダルを作成することも可能です。
+/// その場合は[show]メソッドで[Modal]を実装したクラスを渡してモーダルを表示します。
+///
+/// 実装は[build]メソッドで行います。[ref]には[ModalRef]が渡されます。
+abstract class Modal {
+  /// Provides easy modal functionality.
+  ///
+  /// Displays a message modal that allows only one action with [alert].
+  ///
+  /// Displays a message modal with two possible actions at [confirm].
+  ///
+  /// Displays a bottom sheet as a modal with [bottomSheet].
+  ///
+  /// You can also extend the [Modal] class to create your own modals.
+  /// In that case, pass a class implementing [Modal] in the [show] method to display the modal.
+  ///
+  /// Implement it in the [build] method. [ref] is passed to [ModalRef].
+  ///
+  /// 簡単なモーダルの機能を提供します。
+  ///
+  /// [alert]でアクションを１つだけ可能なメッセージモーダルを表示します。
+  ///
+  /// [confirm]でアクションを２つ実行可能なメッセージモーダルを表示します。
+  ///
+  /// [bottomSheet]でボトムシートとしてモーダルを表示します。
+  ///
+  /// [Modal]クラスを拡張して独自のモーダルを作成することも可能です。
+  /// その場合は[show]メソッドで[Modal]を実装したクラスを渡してモーダルを表示します。
+  ///
+  /// 実装は[build]メソッドで行います。[ref]には[ModalRef]が渡されます。
+  const Modal();
+
+  /// Implement it in the [build] method. [ref] is passed to [ModalRef].
+  ///
+  /// モーダルのコンテンツを実装するために[build]メソッドを実装します。[ref]には[ModalRef]が渡されます。
+  Widget build(BuildContext context, ModalRef ref);
 
   /// Give [builder] to display the modal.
   ///
@@ -32,9 +76,7 @@ class Modal {
   ///
   /// It is possible to wait with `await` until the modal closes.
   ///
-  /// [builder]を与えてモーダルを表示します。
-  ///
-  /// [builder]には`onClose`が渡されこれを実行することでダイアログを閉じることができます。
+  /// [modal]に[Modal]を実装したクラスを与えてモーダルを表示します。
   ///
   /// [context]で現在利用可能な[BuildContext]を渡します。
   ///
@@ -55,7 +97,7 @@ class Modal {
     Color? color,
     String? title,
     Widget? leading,
-    required List<Widget> Function(ModalRef ref) builder,
+    required Modal modal,
     bool disableBackKey = false,
     bool popOnPress = true,
     bool willShowRepetition = false,
@@ -119,7 +161,7 @@ class Modal {
                   : null,
               backgroundColor: backgroundColor,
               surfaceTintColor: backgroundColor,
-              children: builder.call(ref),
+              children: [modal.build(context, ref)],
             ),
           );
         },

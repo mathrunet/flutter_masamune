@@ -32,6 +32,7 @@ part 'zip.dart';
 part 'enum.dart';
 part 'model_adapter.dart';
 part 'exception.dart';
+part 'modal.dart';
 
 class CodeCliCommand extends CliCommandGroup {
   const CodeCliCommand();
@@ -65,5 +66,6 @@ class CodeCliCommand extends CliCommandGroup {
         "enum": CodeEnumCliCommand(),
         "model_adapter": CodeModelAdapterCliCommand(),
         "exception": CodeExceptionCliCommand(),
+        "modal": CodeModalCliCommand(),
       };
 }
