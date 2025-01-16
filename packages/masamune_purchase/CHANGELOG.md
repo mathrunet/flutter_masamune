@@ -1,3 +1,7 @@
+## 2.2.6
+
+ - **FIX**: Fixed a bug that prevented getting the value. ([f9cfcf4b](https://github.com/mathrunet/flutter_masamune/commit/f9cfcf4bc81b1ea66f2516433b848371666da6d6))
+
 ## 2.2.5
 
  - Update a dependency to the latest release.
