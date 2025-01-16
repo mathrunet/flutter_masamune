@@ -358,7 +358,7 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
   /// デフォルトの値取得方法。
   static double defaultOnRetrieveValue(
       DocumentBase? document, PurchaseProduct product, String userId) {
-    return document?.value.get(kConsumableValueKey, 0.0) ?? 0.0;
+    return document?.value?[kConsumableValueKey] ?? 0.0;
   }
 
   /// Default document saving method.
@@ -367,9 +367,8 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
   static Future<void> defaultOnSaveDocument(
       DocumentBase? document, PurchaseProduct product, String userId) async {
     await document?.save({
-      kConsumableValueKey:
-          (document.value.get(kConsumableValueKey, 0.0) ?? 0.0) +
-              (product.amount ?? 0.0),
+      kConsumableValueKey: (document.value?[kConsumableValueKey] ?? 0.0) +
+          (product.amount ?? 0.0),
     });
   }
 
@@ -497,7 +496,7 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
   /// デフォルトの値取得方法。
   static bool defaultOnRetrieveValue(
       DocumentBase? document, PurchaseProduct product, String userId) {
-    return document?.value.get(product.productId.toCamelCase(), false) ?? false;
+    return document?.value?[product.productId.toCamelCase()] ?? false;
   }
 
   /// Default document saving method.
@@ -649,9 +648,9 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
   static bool defaultOnRetrieveValue(
       CollectionBase? collection, PurchaseProduct product, String userId) {
     return collection
-            ?.where((e) => e.value.get(kProductIdKey, "") == product.productId)
+            ?.where((e) => (e.value?[kProductIdKey] ?? "") == product.productId)
             .any(
-              (e) => !e.value.get(kSubscriptionExpiredKey, true),
+              (e) => !(e.value?[kSubscriptionExpiredKey] ?? true),
             ) ??
         false;
   }
@@ -739,8 +738,8 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
     assert(expiredPeriod != null, "[expiredPeriod] is not set.");
     await _collection?.reload();
     final targets = _collection?.where((element) =>
-        element.value.get("expired", false) &&
-        element.value.get("productId", "") == productId);
+        (element.value?[kSubscriptionExpiredKey] ?? false) &&
+        (element.value?[kProductIdKey] ?? "") == productId);
     if (targets.isEmpty) {
       return;
     }
