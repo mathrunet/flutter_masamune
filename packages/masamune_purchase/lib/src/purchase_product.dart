@@ -234,6 +234,11 @@ class PurchaseProduct {
       _debugConsumeWhenPurchaseCompleted;
   final bool _debugConsumeWhenPurchaseCompleted;
 
+  /// List of sub-billed items included in this billed item.
+  ///
+  /// この課金アイテムに含まれるサブ課金アイテムのリスト。
+  List<PurchaseProduct> get subProducts => [];
+
   /// Load real data from the database.
   ///
   /// If [PurchaseProduct] is not obtained from [Purchase], nothing will happen.

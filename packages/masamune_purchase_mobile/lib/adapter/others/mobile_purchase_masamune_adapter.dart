@@ -176,6 +176,8 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                           throw Exception("Failed to validate purchase.");
                         }
                         break;
+                      case PurchaseProductType.subscriptionOffer:
+                        break;
                     }
                   } else if (UniversalPlatform.isIOS) {
                     final iosPurchase = purchase as AppStorePurchaseDetails;
@@ -227,6 +229,8 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                             .result) {
                           throw Exception("Failed to validate purchase.");
                         }
+                        break;
+                      case PurchaseProductType.subscriptionOffer:
                         break;
                     }
                   }
@@ -290,6 +294,8 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                             throw Exception("Failed to validate purchase.");
                           }
                           break;
+                        case PurchaseProductType.subscriptionOffer:
+                          break;
                       }
                     } else if (UniversalPlatform.isIOS) {
                       final iosPurchase = purchase as AppStorePurchaseDetails;
@@ -341,6 +347,8 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                               .result) {
                             throw Exception("Failed to validate purchase.");
                           }
+                          break;
+                        case PurchaseProductType.subscriptionOffer:
                           break;
                       }
                     }

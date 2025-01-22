@@ -33,4 +33,9 @@ enum PurchaseProductType {
   ///
   /// サブスクリプション。
   subscription,
+
+  /// Subscription offer.
+  ///
+  /// サブスクリプションのオファー。
+  subscriptionOffer,
 }

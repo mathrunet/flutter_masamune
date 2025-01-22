@@ -97,6 +97,8 @@ extension on PurchaseProduct {
             adapter: modelAdapter,
           );
         }
+      case PurchaseProductType.subscriptionOffer:
+        throw UnimplementedError();
     }
   }
 }
@@ -183,4 +185,28 @@ class _StoreSubscriptionPurchaseProduct
 
   @override
   String get priceText => productDetails.price;
+
+  @override
+  List<PurchaseProduct> get subProducts {
+    final productDetails = this.productDetails;
+    if (productDetails is GooglePlayProductDetails) {
+      return productDetails.productDetails.subscriptionOfferDetails
+              ?.mapAndRemoveEmpty(
+            (e) {
+              if (e.pricingPhases.isEmpty) {
+                return null;
+              }
+              final pricingPhase = e.pricingPhases.first;
+              return PurchaseProduct(
+                productId: e.offerId ?? "",
+                type: PurchaseProductType.subscriptionOffer,
+                price: pricingPhase.priceAmountMicros / 100000,
+                priceText: pricingPhase.formattedPrice,
+              );
+            },
+          ) ??
+          [];
+    }
+    return [];
+  }
 }

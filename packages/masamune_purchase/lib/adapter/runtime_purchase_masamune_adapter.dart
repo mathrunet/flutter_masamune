@@ -30,7 +30,7 @@ class RuntimePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
   Future<List<PurchaseProduct>> getProducts({
     required String? Function() onRetrieveUserId,
   }) async {
-    final res = products.map<PurchaseProduct>((e) {
+    final res = products.mapAndRemoveEmpty<PurchaseProduct>((e) {
       switch (e.type) {
         case PurchaseProductType.consumable:
           return StoreConsumablePurchaseProduct(
@@ -76,8 +76,10 @@ class RuntimePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                 StoreSubscriptionPurchaseProduct.defaultOnRevokeDocument,
             adapter: modelAdapter,
           );
+        case PurchaseProductType.subscriptionOffer:
+          return null;
       }
-    }).toList();
+    });
     await Future.wait(res.map((e) => e.load()));
     return res;
   }
