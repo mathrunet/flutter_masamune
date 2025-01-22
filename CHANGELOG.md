@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-01-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_purchase` - `v2.3.0`](#masamune_purchase---v230)
+ - [`masamune_purchase_mobile` - `v2.10.0`](#masamune_purchase_mobile---v2100)
+ - [`masamune_module_point_ecosystem` - `v2.5.133`](#masamune_module_point_ecosystem---v25133)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.5.133`
+
+---
+
+#### `masamune_purchase` - `v2.3.0`
+
+ - **FEAT**: The structure of the offer could be picked up. ([5c6d80a3](https://github.com/mathrunet/flutter_masamune/commit/5c6d80a316eb26fc12d9e03e8444e9d5b35f77f7))
+
+#### `masamune_purchase_mobile` - `v2.10.0`
+
+ - **FEAT**: The structure of the offer could be picked up. ([5c6d80a3](https://github.com/mathrunet/flutter_masamune/commit/5c6d80a316eb26fc12d9e03e8444e9d5b35f77f7))
+
+
 ## 2025-01-16
 
 ### Changes

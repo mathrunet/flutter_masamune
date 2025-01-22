@@ -1,3 +1,7 @@
+## 2.10.0
+
+ - **FEAT**: The structure of the offer could be picked up. ([5c6d80a3](https://github.com/mathrunet/flutter_masamune/commit/5c6d80a316eb26fc12d9e03e8444e9d5b35f77f7))
+
 ## 2.9.6
 
  - Update a dependency to the latest release.
