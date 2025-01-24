@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-01-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.29.0`](#katana_cli---v2290)
+
+---
+
+#### `katana_cli` - `v2.29.0`
+
+ - **FEAT**: CSAEs can now be added. ([340a3e0c](https://github.com/mathrunet/flutter_masamune/commit/340a3e0cf107a5a44ebc25b41fd31bbd6055bf99))
+
+
 ## 2025-01-22
 
 ### Changes

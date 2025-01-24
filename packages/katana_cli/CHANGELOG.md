@@ -1,3 +1,7 @@
+## 2.29.0
+
+ - **FEAT**: CSAEs can now be added. ([340a3e0c](https://github.com/mathrunet/flutter_masamune/commit/340a3e0cf107a5a44ebc25b41fd31bbd6055bf99))
+
 ## 2.28.0
 
  - **FIX**: Fixed a bug that the test name was not displayed properly. ([da348364](https://github.com/mathrunet/flutter_masamune/commit/da3483643e3c4cb7ca2a90a17e7f6dbccfc12950))
