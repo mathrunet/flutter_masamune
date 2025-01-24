@@ -30,18 +30,18 @@ const kAppleAppIdKey = r"${AppleAppId}";
 /// アプリケーションIDを取得するためのユニークなキーです。
 const kApplicationIdKey = r"${ApplicationId}";
 
-/// Set up a Terms of Use and Privacy Policy for Firebase Hosting.
+/// Set up a Terms of Use, Privacy Policy, and Child Sexual Abuse and Exploitation (CSAE) Policy for Firebase Hosting.
 ///
-/// 利用規約とプライバシーポリシーをFirebase Hostingに設定します。
+/// Firebase Hostingに利用規約とプライバシーポリシー,児童の性的虐待および搾取（CSAE）に関するポリシーを設定します。
 class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
-  /// Set up a Terms of Use and Privacy Policy for Firebase Hosting.
+  /// Set up a Terms of Use, Privacy Policy, and Child Sexual Abuse and Exploitation (CSAE) Policy for Firebase Hosting.
   ///
-  /// 利用規約とプライバシーポリシーをFirebase Hostingに設定します。
+  /// Firebase Hostingに利用規約とプライバシーポリシー,児童の性的虐待および搾取（CSAE）に関するポリシーを設定します。
   const FirebaseTermsAndPrivacyCliAction();
 
   @override
   String get description =>
-      "Set up a Terms of Use and Privacy Policy for Firebase Hosting. Firebase Hostingに利用規約とプライバシーポリシーを設定します。";
+      "Set up a Terms of Use, Privacy Policy, and Child Sexual Abuse and Exploitation (CSAE) Policy for Firebase Hosting. Firebase Hostingに利用規約とプライバシーポリシー,児童の性的虐待および搾取（CSAE）に関するポリシーを設定します。";
 
   @override
   bool checkEnabled(ExecContext context) {
@@ -101,6 +101,7 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       final termsUrl = value.get("terms_of_use", "");
       final privacyUrl = value.get("privacy_policy", "");
       final deleteUrl = value.get("how_to_delete", "");
+      final csaeUrl = value.get("csae", "");
       final indexUrl = value.get("index", "");
       if (termsUrl.isEmpty) {
         error(
@@ -117,6 +118,12 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       if (deleteUrl.isEmpty) {
         error(
           "The item [firebase]->[terms_and_privacy]->[${locale.key}]->[how_to_delete] is missing. Please provide the URL of the How to delete.",
+        );
+        return;
+      }
+      if (csaeUrl.isEmpty) {
+        error(
+          "The item [firebase]->[terms_and_privacy]->[${locale.key}]->[csae] is missing. Please provide the URL of the Child Sexual Abuse and Exploitation (CSAE) Policy.",
         );
         return;
       }
@@ -138,6 +145,13 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       if (deleteResponse.statusCode != 200) {
         error(
           "The URL of the How to delete is invalid. Please provide the URL of the How to delete.",
+        );
+        return;
+      }
+      final csaeResponse = await Api.get(csaeUrl);
+      if (csaeResponse.statusCode != 200) {
+        error(
+          "The URL of the Child Sexual Abuse and Exploitation (CSAE) Policy is invalid. Please provide the URL of the Child Sexual Abuse and Exploitation (CSAE) Policy.",
         );
         return;
       }
@@ -179,6 +193,9 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       final deleteContent = deleteResponse.body
           .replaceAll(kApplicationNameKey, applicationName)
           .replaceAll(kSuuportEmailKey, "mailto:$supportEmail");
+      final csaeContent = csaeResponse.body
+          .replaceAll(kApplicationNameKey, applicationName)
+          .replaceAll(kSuuportEmailKey, "mailto:$supportEmail");
       final dir = Directory("firebase/hosting/${locale.key}");
       if (!dir.existsSync()) {
         await dir.create(recursive: true);
@@ -189,6 +206,8 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       await privacyFile.writeAsString(privacyContent);
       final deleteFile = File("firebase/hosting/${locale.key}/delete.html");
       await deleteFile.writeAsString(deleteContent);
+      final csaeFile = File("firebase/hosting/${locale.key}/csae.html");
+      await csaeFile.writeAsString(csaeContent);
       if (indexUrl.isNotEmpty) {
         final appleAppId = appInfo.get("apple_app_id", "");
         if (appleAppId.isEmpty) {
