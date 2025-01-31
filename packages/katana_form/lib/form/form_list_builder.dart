@@ -155,6 +155,10 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
     with AutomaticKeepAliveClientMixin<FormField<List<T>>>
     implements FormListBuilderRef<T, TValue> {
   @override
+  int get version => _version;
+  int _version = 0;
+
+  @override
   FormListBuilder<T, TValue> get widget =>
       super.widget as FormListBuilder<T, TValue>;
 
@@ -162,6 +166,7 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
   void add(T item) async {
     setState(() {
       final newList = <T>[...(value ?? []), item];
+      _version++;
       setValue(newList);
       widget.onChanged?.call(newList);
     });
@@ -185,6 +190,7 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
     setState(() {
       final newList = List<T>.from(value ?? []);
       newList.remove(item);
+      _version++;
       setValue(newList);
       widget.onChanged?.call(newList);
     });
@@ -198,6 +204,7 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
     setState(() {
       final newList = List<T>.from(value ?? []);
       newList.removeAt(index);
+      _version++;
       setValue(newList);
       widget.onChanged?.call(newList);
     });
@@ -218,6 +225,7 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
     }
     if (!oldWidget.initialValue.equalsTo(widget.initialValue) &&
         widget.initialValue != null) {
+      _version = 0;
       reset();
     }
   }
@@ -231,6 +239,7 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final value = this.value;
     return FormStyleScope(
       style: widget.style,
       child: Padding(
@@ -242,8 +251,8 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
           children: [
             if (widget.top != null) widget.top!.call(context, this),
             if (value != null)
-              for (var i = 0; i < value!.length; i++)
-                widget._builder(context, this, value![i], i),
+              for (var i = 0; i < value.length; i++)
+                widget._builder(context, this, value[i], i),
             if (widget.bottom != null) widget.bottom!.call(context, this),
           ],
         ),
@@ -259,6 +268,11 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
 ///
 /// [FormListBuilder]用のコントローラークラス。
 abstract class FormListBuilderRef<T, TValue> {
+  /// Version of the list.
+  ///
+  /// リストのバージョン。
+  int get version;
+
   /// Add element [item] to the list.
   ///
   /// 要素[item]をリストに追加します。
