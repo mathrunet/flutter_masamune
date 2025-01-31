@@ -1,3 +1,7 @@
+## 2.15.2
+
+ - **FIX**: Added the ability to record version for listing updates. ([77de75a2](https://github.com/mathrunet/flutter_masamune/commit/77de75a2700265a68248d7aa121055d0a57c7f1b))
+
 ## 2.15.1
 
  - **FIX**: Apply formatter. ([767baa49](https://github.com/mathrunet/flutter_masamune/commit/767baa491e7e3a78659b7555a546fa30c1942a1d))
