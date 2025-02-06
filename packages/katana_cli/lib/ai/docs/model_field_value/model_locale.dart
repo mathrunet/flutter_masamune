@@ -1,9 +1,9 @@
-import 'package:katana_cli/katana_cli.dart';
+import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
 /// Contents of model_locale.mdc.
 ///
 /// model_locale.mdcの中身。
-class ModelFieldValueModelLocaleMdcCliAiCode extends CliAiCode {
+class ModelFieldValueModelLocaleMdcCliAiCode extends ModelFieldValueCliAiCode {
   /// Contents of model_locale.mdc.
   ///
   /// model_locale.mdcの中身。
@@ -22,13 +22,16 @@ class ModelFieldValueModelLocaleMdcCliAiCode extends CliAiCode {
   String get directory => "docs/model_field_value";
 
   @override
+  String get excerpt => "内部に`Locale`を保持し言語設定を扱えるようにしながらJsonにパースしやすくしたオブジェクト。";
+
+  @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 `ModelLocale`は下記のように利用する。
 
 ## 概要
 
-内部に`Locale`を保持し言語設定を扱えるようにしながらJsonにパースしやすくしたオブジェクト。
+$excerpt
 
 ## 作成方法
 

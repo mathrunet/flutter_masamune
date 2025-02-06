@@ -1,9 +1,10 @@
-import 'package:katana_cli/katana_cli.dart';
+import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
 /// Contents of model_geo_value.mdc.
 ///
 /// model_geo_value.mdcの中身。
-class ModelFieldValueModelGeoValueMdcCliAiCode extends CliAiCode {
+class ModelFieldValueModelGeoValueMdcCliAiCode
+    extends ModelFieldValueCliAiCode {
   /// Contents of model_geo_value.mdc.
   ///
   /// model_geo_value.mdcの中身。
@@ -22,13 +23,16 @@ class ModelFieldValueModelGeoValueMdcCliAiCode extends CliAiCode {
   String get directory => "docs/model_field_value";
 
   @override
+  String get excerpt => "地理座標（緯度・経度）を扱うためのクラス。位置情報の保存や位置情報に基づく検索に利用可能。";
+
+  @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 `ModelGeoValue`は下記のように利用する。
 
 ## 概要
 
-地理座標（緯度・経度）を扱うためのクラス。位置情報の保存や位置情報に基づく検索に利用可能。
+$excerpt
 
 ## 作成方法
 

@@ -1,9 +1,9 @@
-import 'package:katana_cli/katana_cli.dart';
+import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
 /// Contents of model_counter.mdc.
 ///
 /// model_counter.mdcの中身。
-class ModelFieldValueModelCounterMdcCliAiCode extends CliAiCode {
+class ModelFieldValueModelCounterMdcCliAiCode extends ModelFieldValueCliAiCode {
   /// Contents of model_counter.mdc.
   ///
   /// model_counter.mdcの中身。
@@ -22,13 +22,17 @@ class ModelFieldValueModelCounterMdcCliAiCode extends CliAiCode {
   String get directory => "docs/model_field_value";
 
   @override
+  String get excerpt =>
+      "内部にintを保持し数字を扱えるようにしながら数字のインクリメントやデクリメントをサーバー側で行えるようにしたオブジェクト。";
+
+  @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 `ModelCounter`は下記のように利用する。
 
 ## 概要
 
-内部にintを保持し数字を扱えるようにしながら数字のインクリメントやデクリメントをサーバー側で行えるようにしたオブジェクト。
+$excerpt
 
 ## 作成方法
 

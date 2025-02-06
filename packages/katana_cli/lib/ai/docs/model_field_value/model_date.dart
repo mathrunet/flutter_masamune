@@ -1,9 +1,9 @@
-import 'package:katana_cli/katana_cli.dart';
+import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
 /// Contents of model_date.mdc.
 ///
 /// model_date.mdcの中身。
-class ModelFieldValueModelDateMdcCliAiCode extends CliAiCode {
+class ModelFieldValueModelDateMdcCliAiCode extends ModelFieldValueCliAiCode {
   /// Contents of model_date.mdc.
   ///
   /// model_date.mdcの中身。
@@ -22,14 +22,17 @@ class ModelFieldValueModelDateMdcCliAiCode extends CliAiCode {
   String get directory => "docs/model_field_value";
 
   @override
+  String get excerpt =>
+      "内部に`DateTime`を保持し日付を扱えるようにしながらJsonにパースしやすくしたオブジェクト。時刻は含まれず、日付のみを扱う。";
+
+  @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 `ModelDate`は下記のように利用する。
 
 ## 概要
 
-内部に`DateTime`を保持し日付を扱えるようにしながらJsonにパースしやすくしたオブジェクト。
-時刻は含まれず、日付のみを扱う。
+$excerpt
 
 ## 作成方法
 

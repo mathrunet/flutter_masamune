@@ -1,6 +1,12 @@
+import 'package:katana_cli/ai/docs/flutter_types.dart';
 import 'package:katana_cli/ai/docs/katana_cli.dart';
 import 'package:katana_cli/ai/docs/masamune.dart';
+import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 import 'package:katana_cli/ai/docs/model_usage.dart';
+import 'package:katana_cli/ai/docs/primitive_types.dart';
+import 'package:katana_cli/ai/docs/router_usage.dart';
+import 'package:katana_cli/ai/docs/state_management_usage.dart';
+import 'package:katana_cli/ai/docs/transition_usage.dart';
 import 'package:katana_cli/katana_cli.dart';
 
 /// DocsAiCode is a command that generates AI code to do the design.
@@ -21,5 +27,13 @@ class DocsAiCode extends CliAiCodeCommand {
         "katana_cli": const KatanaCliDocsMdcCliAiCode(),
         "masamune": const MasamuneDocsMdcCliAiCode(),
         "model_usage": const ModelUsageMdcCliAiCode(),
+        "state_management_usage": const StateManagementUsageMdcCliAiCode(),
+        "transition_usage": const TransitionUsageMdcCliAiCode(),
+        "router_usage": const RouterUsageMdcCliAiCode(),
+        "model_field_value_usage": const ModelFieldValueUsageMdcCliAiCode(),
+        for (final entry in kModelFieldValueList.entries)
+          entry.key.toSnakeCase(): entry.value,
+        "primitive_types": const PrimitiveTypesMdcCliAiCode(),
+        "flutter_types": const FlutterTypesMdcCliAiCode(),
       };
 }

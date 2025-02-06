@@ -1,9 +1,9 @@
-import 'package:katana_cli/katana_cli.dart';
+import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
 /// Contents of model_token.mdc.
 ///
 /// model_token.mdcの中身。
-class ModelFieldValueModelTokenMdcCliAiCode extends CliAiCode {
+class ModelFieldValueModelTokenMdcCliAiCode extends ModelFieldValueCliAiCode {
   /// Contents of model_token.mdc.
   ///
   /// model_token.mdcの中身。
@@ -22,13 +22,16 @@ class ModelFieldValueModelTokenMdcCliAiCode extends CliAiCode {
   String get directory => "docs/model_field_value";
 
   @override
+  String get excerpt => "複数トークンを保存するためのクラス。PUSH通知のトークン管理等に利用可能。";
+
+  @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 `ModelToken`は下記のように利用する。
 
 ## 概要
 
-複数トークンを保存するためのクラス。PUSH通知のトークン管理等に利用可能。
+$excerpt
 
 ## 作成方法
 

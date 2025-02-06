@@ -386,7 +386,9 @@ class MasamuneDocsMdcCliAiCode extends CliAiCode {
 
 [katanaコマンド](mdc:.cursor/rules/docs/katana_cli.mdc)
 
+### `ModelFieldValue`の利用方法
 
+[`ModelFieldValue`の利用方法](mdc:.cursor/rules/docs/model_field_value_usage.mdc)
 
 """;
   }

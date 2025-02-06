@@ -1,9 +1,10 @@
-import 'package:katana_cli/katana_cli.dart';
+import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
 /// Contents of model_timestamp.mdc.
 ///
 /// model_timestamp.mdcの中身。
-class ModelFieldValueModelTimestampMdcCliAiCode extends CliAiCode {
+class ModelFieldValueModelTimestampMdcCliAiCode
+    extends ModelFieldValueCliAiCode {
   /// Contents of model_timestamp.mdc.
   ///
   /// model_timestamp.mdcの中身。
@@ -22,13 +23,16 @@ class ModelFieldValueModelTimestampMdcCliAiCode extends CliAiCode {
   String get directory => "docs/model_field_value";
 
   @override
+  String get excerpt => "内部に`DateTime`を保持し日時を扱えるようにしながらJsonにパースしやすくしたオブジェクト。";
+
+  @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 `ModelTimestamp`は下記のように利用する。
 
 ## 概要
 
-内部に`DateTime`を保持し日時を扱えるようにしながらJsonにパースしやすくしたオブジェクト。
+$excerpt
 
 ## 作成方法
 
