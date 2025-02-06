@@ -23,6 +23,9 @@ class CodePrefsCliCommand extends CliCodeCommand {
       "Create a base class for SharedPreferences in `$directory/prefs.dart`. SharedPreferencesのベースクラスを`$directory/prefs.dart`に作成します。";
 
   @override
+  String? get example => "katana code prefs";
+
+  @override
   Future<void> exec(ExecContext context) async {
     label("Create a controller group class in `$directory/prefs.dart`.");
     await generateDartCode("$directory/prefs", "prefs");

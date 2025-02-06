@@ -13,6 +13,9 @@ class PubAddCliCommand extends CliCommand {
   String get description => "Add packages. パッケージの追加を行います。";
 
   @override
+  String? get example => "katana pub add [package_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");

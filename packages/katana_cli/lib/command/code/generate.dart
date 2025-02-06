@@ -14,6 +14,9 @@ class CodeGenerateCliCommand extends CliCommand {
       "Start Dart's build_runner to automatically generate code. Dartのbuild_runnerを起動してコードを自動生成します。";
 
   @override
+  String? get example => "katana code generate";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");

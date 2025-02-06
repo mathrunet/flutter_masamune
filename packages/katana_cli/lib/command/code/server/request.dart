@@ -26,6 +26,9 @@ class CodeServerRequestCliCommand extends CliTestableCodeCommand {
       "Create server code for HTTP requests in `$directory/(filepath).ts`. HTTPリクエスト用のサーバーコードを`$directory/(filepath).ts`に作成します。";
 
   @override
+  String? get example => "katana code server request [function_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(3, "");
     if (path.isEmpty) {

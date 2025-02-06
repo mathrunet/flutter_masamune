@@ -23,6 +23,9 @@ class CodeEnumCliCommand extends CliCodeCommand {
       "Create an Enum base in `$directory/(filepath).dart`. Enumのベースを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code enum [enum_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

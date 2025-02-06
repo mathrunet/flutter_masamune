@@ -23,6 +23,9 @@ class CodeBootCliCommand extends CliCodeCommand {
       "Create a base class for the boot page in `$directory/boot.dart`. ブートページのベースクラスを`$directory/boot.dart`に作成します。";
 
   @override
+  String? get example => "katana code boot";
+
+  @override
   Future<void> exec(ExecContext context) async {
     label("Create a Boot class in `$directory/boot.dart`.");
     await generateDartCode("$directory/boot", "boot");

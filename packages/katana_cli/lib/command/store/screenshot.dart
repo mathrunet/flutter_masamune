@@ -80,6 +80,9 @@ class StoreScreenshotCliCommand extends CliCommand {
       "Create screenshot images, etc. for the store. ストア用のスクリーンショット画像等の作成を行います。";
 
   @override
+  String? get example => "katana store screenshot";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final store = context.yaml.getAsMap("store");
     final screenshot = store.getAsMap("screenshot");

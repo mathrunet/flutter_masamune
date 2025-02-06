@@ -23,6 +23,9 @@ class CodeValueCliCommand extends CliCodeCommand {
       "Create a base class for Immutable value in `$directory/(filepath).dart`. Immutableな値のベースクラスを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code value [model_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

@@ -26,6 +26,9 @@ class CodeControllerCliCommand extends CliTestableCodeCommand {
       "Create a base class for the controller in `$directory/(filepath).dart`. コントローラーのベースクラスを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code controller [controller_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

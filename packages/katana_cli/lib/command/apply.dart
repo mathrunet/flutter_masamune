@@ -97,6 +97,9 @@ class ApplyCliCommand extends CliCommand {
       "Reflect the settings in katana.yaml in the application project. katana.yamlの設定をアプリケーションプロジェクトに反映させます。";
 
   @override
+  String? get example => "katana apply";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final enabled =
         _actions.where((element) => element.checkEnabled(context)).toList();

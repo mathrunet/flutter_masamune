@@ -17,6 +17,9 @@ class CreateModuleCliCommand extends CliCommand {
       "Create a new module-aware Flutter project. 新しいモジュール対応Flutterプロジェクトを作成します。";
 
   @override
+  String? get example => "katana module [package_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");

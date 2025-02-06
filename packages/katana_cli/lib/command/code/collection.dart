@@ -23,6 +23,9 @@ class CodeCollectionCliCommand extends CliCodeCommand {
       "Create a base class for the collection model in `$directory/(filepath).dart`. コレクションモデルのベースクラスを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code collection [model_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

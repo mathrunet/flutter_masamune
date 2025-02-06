@@ -23,6 +23,9 @@ class CodeModalCliCommand extends CliCodeCommand {
       "Create a base class for the modal in `$directory/(filepath).dart`. モーダルのベースクラスを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code modal [modal_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

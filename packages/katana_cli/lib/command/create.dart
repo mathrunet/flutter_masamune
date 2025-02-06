@@ -9,6 +9,7 @@ import 'package:html/parser.dart';
 import 'package:image/image.dart';
 import 'package:image/src/formats/ico_encoder.dart';
 import 'package:katana_cli/ai/designs/designs.dart';
+import 'package:katana_cli/ai/docs/docs.dart';
 import 'package:katana_cli/ai/impls/impls.dart';
 import 'package:xml/xml.dart';
 
@@ -73,6 +74,9 @@ class CreateCliCommand extends CliCommand {
   @override
   String get description =>
       "Create a new Flutter project. 新しいFlutterプロジェクトを作成します。";
+
+  @override
+  String? get example => "katana create [application_id]";
 
   @override
   Future<void> exec(ExecContext context) async {
@@ -391,6 +395,9 @@ class ComposeCliCommand extends CliCommand {
       "Create a new Flutter project. 新しいFlutterプロジェクトを作成します。";
 
   @override
+  String? get example => "katana compose [application_id]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
@@ -469,6 +476,7 @@ class ComposeCliCommand extends CliCommand {
     label("Generate file for Cursor AI");
     await const DesignsAiCode().exec(context);
     await const ImplsAiCode().exec(context);
+    await const DocsAiCode().exec(context);
     label("Create a katana.yaml");
     await KatanaCliCode(true).generateFile("katana.yaml");
     label("Replace LICENSE");

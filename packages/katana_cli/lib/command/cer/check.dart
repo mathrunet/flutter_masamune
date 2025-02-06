@@ -14,6 +14,9 @@ class CerCheckCliCommand extends CliCommand {
       "If the *.cer is over 300 days old, it will output an Exception to prompt for an update. *.cerが300日を過ぎている場合アップデートを促すExceptionを出力します。Lefthookなどに組み込んで下さい。";
 
   @override
+  String? get example => "katana cer check";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final regExp = RegExp(r".cer$");
     final cer = await find(Directory("ios"), regExp);

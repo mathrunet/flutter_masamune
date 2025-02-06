@@ -23,6 +23,9 @@ class CodeTmpBasicCliCommand extends CliCodeCommand {
       "Create a template in `$directory/(filepath).dart` to create forms for listing, detailing, adding and editing data. データの一覧、詳細、追加、編集のフォームを作成するためのテンプレートを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code tmp basic [page_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(3, "");
     if (path.isEmpty) {

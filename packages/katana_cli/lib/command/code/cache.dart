@@ -23,6 +23,9 @@ class CodeCacheCliCommand extends CliCodeCommand {
       "Create a `ScopedQuery` in `$directory/(filepath).dart`. `ScopedQuery`を`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code cache [cache_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

@@ -23,6 +23,9 @@ class CodeQueryCliCommand extends CliCodeCommand {
       "Create a `ChangeNotifierScopedQuery` in `$directory/(filepath).dart`. `ChangeNotifierScopedQuery`を`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code query [scoped_query_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

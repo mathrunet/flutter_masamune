@@ -62,6 +62,9 @@ class DoctorCliCommand extends CliCommand {
       "Check the installation status of the commands required for the `katana` command. Installation is also performed, but may fail due to permissions. In that case, please execute the installation with administrator privileges. `katana`コマンドに必要なコマンドのインストール状況を調べます。インストールも行いますがパーミッションの関係で失敗する場合があります。その場合は管理者権限で実行してください。";
 
   @override
+  String? get example => "katana doctor";
+
+  @override
   Future<void> exec(ExecContext context) async {
     try {
       final bin = context.yaml.getAsMap("bin");

@@ -26,6 +26,9 @@ class CodeServerFirestoreTriggeredCliCommand extends CliTestableCodeCommand {
       "Create a server code for Firestore triggers in `$directory/(filepath).ts`. Firestoreトリガー用のサーバーコードを`$directory/(filepath).ts`に作成します。";
 
   @override
+  String? get example => "katana code server firestore [function_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(3, "");
     if (path.isEmpty) {

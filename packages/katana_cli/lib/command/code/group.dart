@@ -23,6 +23,9 @@ class CodeGroupCliCommand extends CliCodeCommand {
       "Create a base class for the controller group in `$directory/(filepath).dart`. コントローラーグループのベースクラスを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code group [controller_group_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

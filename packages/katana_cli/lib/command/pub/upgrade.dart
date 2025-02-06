@@ -13,6 +13,9 @@ class PubUpgradeCliCommand extends CliCommand {
   String get description => "Upgrade the package. パッケージのアップグレードを行います。";
 
   @override
+  String? get example => "katana pub upgrade";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");

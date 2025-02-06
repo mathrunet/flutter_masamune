@@ -13,6 +13,9 @@ class CodeFormatCliCommand extends CliCommand {
   String get description => "Dart file formatting. Dartファイルのフォーマッティングを行います。";
 
   @override
+  String? get example => "katana code format";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final dart = bin.get("dart", "dart");

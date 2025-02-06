@@ -26,6 +26,9 @@ class CodeStatelessCliCommand extends CliTestableCodeCommand {
       "Create a StatelessWidget in `$directory/(filepath).dart`. StatelessWidgetを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code stateless [widget_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

@@ -26,6 +26,9 @@ class CodeServerScheduleCliCommand extends CliTestableCodeCommand {
       "Create a server code for the scheduler in `$directory/(filepath).ts`. スケジューラー用のサーバーコードを`$directory/(filepath).ts`に作成します。";
 
   @override
+  String? get example => "katana code server schedule [function_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(3, "");
     if (path.isEmpty) {

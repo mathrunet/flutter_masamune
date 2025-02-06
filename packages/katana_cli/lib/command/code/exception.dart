@@ -26,6 +26,9 @@ class CodeExceptionCliCommand extends CliTestableCodeCommand {
       "Create a base class for the exception in `$directory/(filepath).dart`. 例外のベースクラスを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code exception [exception_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

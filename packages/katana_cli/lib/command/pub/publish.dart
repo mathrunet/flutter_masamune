@@ -14,6 +14,9 @@ class PubPublishCliCommand extends CliCommand {
       "Deploy the Dart package to the pub. Dartパッケージのpubへのデプロイを行います。";
 
   @override
+  String? get example => "katana pub publish";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final melos = bin.get("melos", "melos");

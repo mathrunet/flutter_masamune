@@ -17,6 +17,9 @@ class PubVersionCliCommand extends CliCommand {
       "Upgrade the Dart package. Dartパッケージのバージョンアップを行います。";
 
   @override
+  String? get example => "katana pub version";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final melos = bin.get("melos", "melos");

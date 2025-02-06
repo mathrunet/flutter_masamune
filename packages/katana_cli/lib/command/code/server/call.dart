@@ -26,6 +26,9 @@ class CodeServerCallCliCommand extends CliTestableCodeCommand {
       "Create server code for FunctionCall in `$directory/(filepath).ts`. FunctionCall用のサーバーコードを`$directory/(filepath).ts`に作成します。";
 
   @override
+  String? get example => "katana code server call [function_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(3, "");
     if (path.isEmpty) {

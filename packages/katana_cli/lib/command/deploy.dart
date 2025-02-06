@@ -26,6 +26,9 @@ class DeployCliCommand extends CliCommand {
   String get description => "Deployment process. デプロイ処理を行います。";
 
   @override
+  String? get example => "katana deploy";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final enabled =
         _actions.where((element) => element.checkEnabled(context)).toList();

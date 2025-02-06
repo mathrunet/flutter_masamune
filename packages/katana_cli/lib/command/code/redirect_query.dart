@@ -23,6 +23,9 @@ class CodeRedirectQueryCliCommand extends CliCodeCommand {
       "Create a base class for the RedirectQuery in `$directory/(filepath).dart`. RedirectQueryのベースクラスを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code redirect_query [redirect_query_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

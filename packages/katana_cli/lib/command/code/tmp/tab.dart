@@ -23,6 +23,9 @@ class CodeTmpTabCliCommand extends CliCodeCommand {
       "Create a template for the tab page in `$directory/(filepath).dart`. タブページのテンプレートを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code tmp tab [page_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(3, "");
     if (path.isEmpty) {

@@ -26,6 +26,8 @@ class CodePageCliCommand extends CliTestableCodeCommand {
       "Create a base class for the page in `$directory/(filepath).dart`. ページのベースクラスを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code page [page_name]";
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

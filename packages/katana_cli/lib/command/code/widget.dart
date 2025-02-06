@@ -26,6 +26,9 @@ class CodeWidgetCliCommand extends CliTestableCodeCommand {
       "Create a ScopedWidget in `$directory/(filepath).dart`. ScopedWidgetを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code widget [widget_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

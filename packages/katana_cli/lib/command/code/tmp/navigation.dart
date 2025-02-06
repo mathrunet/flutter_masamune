@@ -23,6 +23,9 @@ class CodeTmpNavigationCliCommand extends CliCodeCommand {
       "Create a template for the navigation page in `$directory/(filepath).dart`. ナビゲーションページのテンプレートを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code tmp form [page_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(3, "");
     if (path.isEmpty) {

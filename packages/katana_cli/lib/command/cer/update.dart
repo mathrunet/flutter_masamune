@@ -28,6 +28,9 @@ class CerUpdateCliCommand extends CliCommand {
       "The katana.yaml configuration is applied to the application project, updating only the Keystore and Certificate area. katana.yamlの設定をアプリケーションプロジェクトに反映させます。KeystoreやCertificate周りのみアップデートを行います。";
 
   @override
+  String? get example => "katana cer update";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final p12RegExp = RegExp(r".p12$");
     final pemRegExp = RegExp(r".pem$");

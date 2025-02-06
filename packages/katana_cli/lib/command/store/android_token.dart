@@ -15,6 +15,9 @@ class StoreAndroidTokenCliCommand extends CliCommand {
       "Obtain a refresh token for store billing on Google Play. GooglePlayでストア課金を行うためのリフレッシュトークンを取得します。";
 
   @override
+  String? get example => "katana store android_token";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final commandArg = context.args.get(2, "");

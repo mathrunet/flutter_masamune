@@ -23,6 +23,9 @@ class CodeDocumentCliCommand extends CliCodeCommand {
       "Create a base class for the document model in `$directory/(filepath).dart`. ドキュメントモデルのベースクラスを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code document [model_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

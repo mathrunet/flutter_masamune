@@ -14,6 +14,9 @@ class CodeZipCliCommand extends CliCommand {
       "Output the Dart code in a hardened Zip file. DartのコードをZipに固めて出力します。";
 
   @override
+  String? get example => "katana code zip";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final fileName = Directory.current.path.replaceAll(r"\", "/").last();
     final encoder = ZipFileEncoder();

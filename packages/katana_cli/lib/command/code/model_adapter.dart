@@ -23,6 +23,9 @@ class CodeModelAdapterCliCommand extends CliCodeCommand {
       "Create a ModelAdapter base class in `$directory/(filepath).dart`. ModelAdapterのベースクラスを`$directory/(filepath).dart`に作成します。";
 
   @override
+  String? get example => "katana code model_adapter [model_adapter_name]";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(2, "");
     if (path.isEmpty) {

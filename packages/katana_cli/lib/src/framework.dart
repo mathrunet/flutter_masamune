@@ -90,6 +90,11 @@ abstract class CliCommand {
   /// コマンドの説明。
   String get description;
 
+  /// Example of command input.
+  ///
+  /// コマンド入力の例。
+  String? get example;
+
   /// Run command.
   ///
   /// The contents of `katana.yaml` and the arguments of the command are passed to [context].
@@ -127,6 +132,8 @@ ${commands.toList((key, value) => "    $key:\r\n        - ${value.description}")
 """;
   }
 
+  @override
+  String? get example => null;
   @override
   Future<void> exec(ExecContext context) async {
     if (context.args.length <= context._index) {
@@ -166,6 +173,8 @@ abstract class CliAiCodeCommand implements CliCommand {
   /// AIコードの一覧を定義します。
   Map<String, CliAiCode> get codes;
 
+  @override
+  String? get example => null;
   @override
   Future<void> exec(ExecContext context) async {
     for (final entry in codes.entries) {
@@ -250,13 +259,16 @@ abstract class CliAiCode {
   }) async {
     final baseName = path.last();
     final editClassName = path.split("/").distinct().join("_").toPascalCase();
-    final dir = Directory(".cursor/rules/${path.replaceAll("/$baseName", "")}");
+    final dir =
+        Directory(".cursor/rules/${directory.isEmpty ? "" : "/$directory/"}");
     if (!dir.existsSync()) {
       await dir.create(recursive: true);
     }
     final output =
         "---\ndescription: $description\nglobs: $globs\n---\n# $name\n\n${body(baseName, editClassName)}";
-    await File("$path.$ext").writeAsString(filter?.call(output) ?? output);
+    await File(
+            ".cursor/rules/${directory.isEmpty ? "" : "/$directory/"}$path.$ext")
+        .writeAsString(filter?.call(output) ?? output);
   }
 }
 
@@ -448,6 +460,9 @@ mixin CliActionMixin on CliCommand {
   ///
   /// 適用する場合`true`を返す。
   bool checkEnabled(ExecContext context);
+
+  @override
+  String? get example => null;
 }
 
 /// Set the action to be taken after execution.

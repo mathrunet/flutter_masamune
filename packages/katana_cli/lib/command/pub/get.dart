@@ -13,6 +13,9 @@ class PubGetCliCommand extends CliCommand {
   String get description => "Get the packages. パッケージの取得を行います。";
 
   @override
+  String? get example => "katana pub get";
+
+  @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
