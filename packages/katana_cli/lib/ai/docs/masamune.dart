@@ -365,7 +365,7 @@ class MasamuneDocsMdcCliAiCode extends CliAiCode {
     - 例：`login_required.dart`
 
 
-## 実装方法
+## Masamuneフレームワークの実装・利用方法
 
 ### `Model`の実装方法
 
@@ -374,6 +374,10 @@ class MasamuneDocsMdcCliAiCode extends CliAiCode {
 ### `State`の利用方法
 
 [`State`の利用方法](mdc:.cursor/rules/docs/state_management_usage.mdc)
+
+### `Router`の利用方法
+
+[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)
 
 
 ## リファレンス
