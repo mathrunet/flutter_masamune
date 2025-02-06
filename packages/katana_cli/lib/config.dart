@@ -223,7 +223,7 @@ ${showAllConfig ? """
       camera:
         en: Use the camera for video chats.
       microphone:
-        en: Use the microphone for video chatting.
+        en: Use the microphone for video chats.
 
   # Describe the settings for using the calendar.
   # カレンダーを利用するための設定を記述します。
@@ -773,7 +773,7 @@ agora:
     camera:
       en: Use the camera for video chats.
     microphone:
-      en: Use the microphone for video chatting.
+      en: Use the microphone for video chats.
 
 # Configure Gmail sending settings.
 # Gmailの送信設定を行います。

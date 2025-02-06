@@ -108,7 +108,7 @@ class ${className}Page extends PageScopedWidget {
     \${2}
   });
 
-  // TODO: Set parameters for the page in the form [final String xxx].
+  // TODO: Set parameters for the page in the form (e.g. [final String xxx]).
   \${3}
 
   /// Used to transition to the ${className}Page screen.

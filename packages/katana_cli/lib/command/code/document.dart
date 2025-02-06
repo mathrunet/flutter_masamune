@@ -85,7 +85,7 @@ part '$baseName.freezed.dart';
 @DocumentModelPath("\${1:$path}")
 class ${className}Model with _\$${className}Model {
   const factory ${className}Model({
-     // TODO: Set the data schema.
+     // TODO: Set the data fields.
      \${2}
   }) = _${className}Model;
   const ${className}Model._();
@@ -167,6 +167,20 @@ typedef ${className}ModelMirrorInitialDocument = _\$${className}ModelMirrorIniti
 
 /// Document class for storing ${className}Model.
 typedef ${className}ModelMirrorDocument = _\$${className}ModelMirrorDocument;
+
+/// Extension for ${className}ModelDocument.
+extension ${className}ModelDocumentExtension on ${className}ModelDocument {
+  // TODO: Define the extension method.
+
+  /// Convert to a tile widget.
+  ///
+  /// ```dart
+  /// document.toTile();
+  /// ```
+  Widget toTile() {
+    return const ListTile();
+  }
+}
 """;
   }
 }

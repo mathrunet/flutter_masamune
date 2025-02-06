@@ -152,6 +152,114 @@ ${commands.toList((key, value) => "    $key:\r\n        - ${value.description}")
   }
 }
 
+/// Abstract class for executing AI code creation.
+///
+/// AIコード作成を実行するための抽象クラス。
+abstract class CliAiCodeCommand implements CliCommand {
+  /// Abstract class for executing AI code creation.
+  ///
+  /// AIコード作成を実行するための抽象クラス。
+  const CliAiCodeCommand();
+
+  /// Defines a list of AI code.
+  ///
+  /// AIコードの一覧を定義します。
+  Map<String, CliAiCode> get codes;
+
+  @override
+  Future<void> exec(ExecContext context) async {
+    for (final entry in codes.entries) {
+      await entry.value.generateAiCode(entry.key);
+    }
+  }
+}
+
+/// Abstract class for creating AI code groups.
+///
+/// AIコードグループを作成するための抽象クラス。
+abstract class CliAiCodeGroup extends CliAiCode {
+  /// Abstract class for creating AI code groups.
+  ///
+  /// AIコードグループを作成するための抽象クラス。
+  const CliAiCodeGroup();
+
+  /// Defines a list of subcommands.
+  ///
+  /// サブコマンドの一覧を定義します。
+  Map<String, CliAiCode> get children;
+
+  /// Defines the actual header code. [path] is passed relative to `lib`, [baseName] is the filename, and [className] is the filename converted to Pascal case.
+  ///
+  /// 実際の本体コードのヘッダを定義します。[path]に`lib`からの相対パス、[baseName]にファイル名が渡され、[className]にファイル名をパスカルケースに変換した値が渡されます。
+  String header(String path, String baseName, String className);
+
+  @override
+  String body(String baseName, String className) {
+    return children
+        .toList((key, value) =>
+            "- [${value.name}](mdc:.cursor/rules/${key.replaceAll("/${key.last()}", "")}")
+        .join("\n");
+  }
+}
+
+/// Abstract class for defining AI code.
+///
+/// AIコードを定義するための抽象クラス。
+abstract class CliAiCode {
+  /// Abstract class for defining AI code.
+  ///
+  /// AIコードを定義するための抽象クラス。
+  const CliAiCode();
+
+  /// Define the name of the code.
+  ///
+  /// コードの名前を定義します。
+  String get name;
+
+  /// Define the description of the code.
+  ///
+  /// コードの説明を定義します。
+  String get description;
+
+  /// Define the file extension.
+  ///
+  /// ファイルの拡張子を定義します。
+  String get globs;
+
+  /// Specify the folder where the code will be generated.
+  ///
+  /// コードを生成するフォルダを指定します。
+  String get directory;
+
+  /// Defines the actual body code. [path] is passed relative to `lib`, [baseName] is the filename, and [className] is the filename converted to Pascal case.
+  ///
+  /// 実際の本体コードを定義します。[path]に`lib`からの相対パス、[baseName]にファイル名が渡され、[className]にファイル名をパスカルケースに変換した値が渡されます。
+  String body(String baseName, String className);
+
+  /// Generate mdc code in [path].
+  ///
+  /// You can edit the data inside with [filter].
+  ///
+  /// [path]にmdcコードを生成します。
+  ///
+  /// [filter]で中身のデータを編集することができます。
+  Future<void> generateAiCode(
+    String path, {
+    String ext = "mdc",
+    String Function(String value)? filter,
+  }) async {
+    final baseName = path.last();
+    final editClassName = path.split("/").distinct().join("_").toPascalCase();
+    final dir = Directory(".cursor/rules/${path.replaceAll("/$baseName", "")}");
+    if (!dir.existsSync()) {
+      await dir.create(recursive: true);
+    }
+    final output =
+        "---\ndescription: $description\nglobs: $globs\n---\n# $name\n\n${body(baseName, editClassName)}";
+    await File("$path.$ext").writeAsString(filter?.call(output) ?? output);
+  }
+}
+
 /// Abstract class for defining base code.
 ///
 /// ベースコードを定義するための抽象クラス。

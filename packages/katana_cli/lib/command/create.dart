@@ -8,6 +8,8 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:image/image.dart';
 import 'package:image/src/formats/ico_encoder.dart';
+import 'package:katana_cli/ai/designs/designs.dart';
+import 'package:katana_cli/ai/impls/impls.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
@@ -77,20 +79,10 @@ class CreateCliCommand extends CliCommand {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final dart = bin.get("dart", "dart");
-    final melos = bin.get("melos", "melos");
     final packageName = context.args.get(1, "");
-    final options = context.args.get(2, "");
-    final moduleName = context.args.get(3, nullOfString);
-    final repositoryName = context.args.get(4, nullOfString);
     if (packageName.isEmpty) {
       error(
         "Please provide the name of the package.\r\nパッケージ名を記載してください。\r\n\r\nkatana create [package name]",
-      );
-      return;
-    }
-    if (options == "-m" && (moduleName.isEmpty || repositoryName.isEmpty)) {
-      error(
-        "When creating a module, please include [module name] and [repository name].\r\n\r\nモジュールを作成する場合は[module name]と[repository name]を記載してください。",
       );
       return;
     }
@@ -105,454 +97,601 @@ class CreateCliCommand extends CliCommand {
       );
       return;
     }
-    if (options == "-m") {
-      await command(
-        "Create a Flutter package project.",
-        [
-          flutter,
-          "create",
-          "--org",
-          domain,
-          "--template=package",
-          "--project-name",
-          moduleName!.toSnakeCase(),
-          ".",
-        ],
-      );
-      await command(
-        "Import packages.",
-        [
-          flutter,
-          "pub",
-          "add",
-          ...importPackages,
-          ...allOptionsImportPackage,
-          "masamune_module",
-        ],
-      );
-      await command(
-        "Import dev packages.",
-        [
-          flutter,
-          "pub",
-          "add",
-          "--dev",
-          ...importDevPackages,
-          "melos",
-          "import_sorter",
-        ],
-      );
-      label("Replace lib/${moduleName.toSnakeCase()}.dart");
-      await const ModuleCliCode().generateDartCode(
-        "lib/${moduleName.toSnakeCase()}",
-        moduleName.toSnakeCase(),
-      );
-      label("Create home.dart");
-      await HomePageCliCode(module: moduleName)
-          .generateDartCode("lib/pages/home", "home");
-      label("Create counter.dart");
-      await CounterModelCliCode(module: moduleName)
-          .generateDartCode("lib/models/counter", "counter");
-      label("Edit a ${moduleName.toSnakeCase()}_test.dart");
-      await const WidgetTestCliCode()
-          .generateFile("${moduleName.toSnakeCase()}_test.dart");
-      label("Generate file for VSCode");
-      for (final file in otherFiles.entries) {
-        await file.value.generateFile(file.key);
-      }
-      label("Create a pubspec_overrides.yaml");
-      await const PubspecOverridesCliCode()
-          .generateFile("pubspec_overrides.yaml");
-      label("Create a build.yaml");
-      await const BuildCliCode().generateFile("build.yaml");
-      label("Edit a analysis_options.yaml");
-      await const AnalysisOptionsCliCode()
-          .generateFile("analysis_options.yaml");
-      label("Replace README.md");
-      await ModuleReadMeCliCode(module: moduleName).generateFile("README.md");
-      label("Create melos.yaml");
-      await MelosCliCode(module: moduleName, repository: repositoryName)
-          .generateFile("melos.yaml");
-      label("Replace pubspec.yaml");
-      final pubspecFile = File("pubspec.yaml");
-      final pubspec = await pubspecFile.readAsString();
-      await pubspecFile.writeAsString(
-        pubspec.replaceAll(
-          RegExp(
-            r"homepage:",
-          ),
-          "homepage: https://mathru.net",
-        ),
-      );
-      label("Add a .pubignore");
-      await const PubignoreCliCode().generateFile(".pubignore");
-      label("Rewrite `.gitignore`.");
-      final gitignore = File(".gitignore");
-      if (!gitignore.existsSync()) {
-        error("Cannot find `.gitignore`. Project is broken.");
-        return;
-      }
-      final gitignores = await gitignore.readAsLines();
-      if (!gitignores.any((e) => e.startsWith("secrets.dart"))) {
-        gitignores.add("secrets.dart");
-      }
-      if (!gitignores.any((e) => e.startsWith("pubspec_overrides.yaml"))) {
-        gitignores.add("pubspec_overrides.yaml");
-      }
-      if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
-        if (!gitignores.any((e) => e.startsWith("katana_secrets.yaml"))) {
-          gitignores.add("katana_secrets.yaml");
-        }
-      } else {
-        gitignores.removeWhere((e) => e.startsWith("katana_secrets.yaml"));
-      }
-      await gitignore.writeAsString(gitignores.join("\n"));
-      await Future.delayed(const Duration(seconds: 5));
-      await command(
-        "Run the project's build_runner to generate code.",
-        [
-          flutter,
-          "packages",
-          "pub",
-          "run",
-          "build_runner",
-          "build",
-          "--delete-conflicting-outputs",
-        ],
-      );
-      label("Create example.");
-      final exampleDirectory = Directory("example");
-      if (!exampleDirectory.existsSync()) {
-        await exampleDirectory.create();
-      }
-      await command(
-        "Run the project's build_runner to generate code.",
-        [
-          "katana",
-          "create",
-          packageName,
-          "-e",
-          moduleName.toSnakeCase(),
-        ],
-        workingDirectory: "example",
-      );
-      label("Run melos.");
-      await command(
-        "Run the project's build_runner to generate code.",
-        [
-          melos,
-          "bs",
-        ],
-      );
-    } else {
-      await command(
-        "Create a Flutter project.",
-        [
-          flutter,
-          "create",
-          "--org",
-          domain,
-          "--project-name",
-          projectName!,
-          ".",
-        ],
-      );
-      await command(
-        "Import packages.",
-        [
-          flutter,
-          "pub",
-          "add",
-          ...importPackages,
-          if (options == "-a" || options == "-e") ...allOptionsImportPackage,
-        ],
-      );
-      if (moduleName.isNotEmpty) {
-        await command(
-          "Import packages.",
-          [
-            flutter,
-            "pub",
-            "add",
-            "--directory=.",
-            if (moduleName.isNotEmpty)
-              if (options == "-e")
-                "${moduleName!.toSnakeCase()}:{'path':'../'}"
-              else
-                moduleName!.toSnakeCase(),
-          ],
-        );
-      }
-      await command(
-        "Import dev packages.",
-        [
-          flutter,
-          "pub",
-          "add",
-          "--dev",
-          ...importDevPackages,
-          "import_sorter",
-        ],
-      );
-      label("Replace lib/main.dart");
-      await MainCliCode(module: moduleName)
-          .generateDartCode("lib/main", "main");
-      label("Replace lib/theme.dart");
-      await const MainThemeCliCode().generateDartCode("lib/theme", "theme");
-      label("Replace lib/router.dart");
-      await const MainRouterCliCode().generateDartCode("lib/router", "router");
-      label("Replace lib/localize.dart");
-      await const MainLocalizeCliCode()
-          .generateDartCode("lib/localize", "localize");
-      label("Replace lib/adapter.dart");
-      await const MainAdapterCliCode()
-          .generateDartCode("lib/adapter", "adapter");
-      label("Replace lib/config.dart");
-      await const MainConfigCliCode().generateDartCode("lib/config", "config");
-      if (moduleName.isNotEmpty) {
-        label("Replace lib/module.dart");
-        await MainModuleCliCode(module: moduleName!)
-            .generateDartCode("lib/module", "module");
-      } else {
-        label("Create home.dart");
-        await const HomePageCliCode()
-            .generateDartCode("lib/pages/home", "home");
-        label("Create counter.dart");
-        await const CounterModelCliCode()
-            .generateDartCode("lib/models/counter", "counter");
-      }
-      label("Generate file for VSCode");
-      for (final file in otherFiles.entries) {
-        await file.value.generateFile(file.key);
-      }
-      label("Create a katana.yaml");
-      await KatanaCliCode(context.args.get(2, "") == "-a" ||
-              context.args.get(2, "") == "-e")
-          .generateFile("katana.yaml");
-      label("Replace LICENSE");
-      await const LicenseCliCode().generateFile("LICENSE");
-      label("Create a katana_secrets.yaml");
-      await const KatanaSecretsCliCode().generateFile("katana_secrets.yaml");
-      label("Create a pubspec_overrides.yaml");
-      await const PubspecOverridesCliCode()
-          .generateFile("pubspec_overrides.yaml");
-      label("Create a build.yaml");
-      await const BuildCliCode().generateFile("build.yaml");
-      label("Edit a analysis_options.yaml");
-      await const AnalysisOptionsCliCode()
-          .generateFile("analysis_options.yaml");
-      label("Edit a widget_test.dart");
-      await const WidgetTestCliCode().generateFile("widget_test.dart");
-      label("Create a loader.css");
-      await const LoaderCssCliCode().generateFile("loader.css");
-      label("Edit as index.html");
-      final indexHtmlFile = File("web/index.html");
-      final htmlDocument = parse(await indexHtmlFile.readAsString());
-      final body = htmlDocument.body;
-      final head = htmlDocument.head;
-      if (body != null) {
-        if (!body.children.any((element) =>
-            element.localName == "div" &&
-            element.classes.contains("loading"))) {
-          body.children.insertFirst(
-            Element.tag("div")
-              ..classes.add("loading")
-              ..children.add(
-                Element.tag("div")
-                  ..children.addAll(
-                    [
-                      Element.tag("img")
-                        ..attributes["src"] = "icons/Icon-192.png"
-                        ..classes.add("logo"),
-                      Element.tag("div")..classes.add("loader-bar")
-                    ],
-                  ),
-              ),
-          );
-        }
-      }
-      if (head != null) {
-        if (!head.children.any((element) =>
-            element.localName == "link" &&
-            element.attributes["rel"] == "stylesheet" &&
-            element.attributes["href"] == "loader.css")) {
-          head.children.add(Element.tag("link")
-            ..attributes["rel"] = "stylesheet"
-            ..attributes["href"] = "loader.css"
-            ..attributes["type"] = "text/css"
-            ..attributes["media"] = "all");
-        }
-        final icon = head.children.firstWhereOrNull((item) =>
-            item.localName == "link" && item.attributes["rel"] == "icon");
-        if (icon == null) {
-          head.children.add(Element.tag("link")
-            ..attributes["rel"] = "icon"
-            ..attributes["href"] = "favicon.ico");
-        } else if (icon.attributes["href"] != "favicon.ico") {
-          icon.attributes["href"] = "favicon.ico";
-          icon.attributes.remove("type");
-        }
-      }
-      await indexHtmlFile.writeAsString(htmlDocument.outerHtml);
-      label("Create a favicon.ico");
-      final iconFile = File("web/icons/Icon-512.png");
-      final iconImage = decodeImage(iconFile.readAsBytesSync())!;
-      final icoPngFile = File("web/favicon.png");
-      if (icoPngFile.existsSync()) {
-        await icoPngFile.delete();
-      }
-      final icoFile = File("web/favicon.ico");
-      if (icoFile.existsSync()) {
-        await icoFile.delete();
-      }
-      final ico = IcoEncoder();
-      await icoFile.writeAsBytes(
-        ico.encodeImages(_faviconSize.map((e) {
-          return copyResize(
-            iconImage,
-            height: e,
-            width: e,
-            interpolation: Interpolation.average,
-          );
-        }).toList()),
-      );
-      label("Create a feature.png");
-      final featurePngFile = File("web/feature.png");
-      if (!featurePngFile.existsSync()) {
-        await featurePngFile.writeAsBytes(
-          encodePng(
-            copyResize(
-              iconImage,
-              height: 512,
-              width: 512,
-              interpolation: Interpolation.average,
+    await command(
+      "Create a Flutter project.",
+      [
+        flutter,
+        "create",
+        "--org",
+        domain,
+        "--project-name",
+        projectName!,
+        ".",
+      ],
+    );
+    await command(
+      "Import packages.",
+      [
+        flutter,
+        "pub",
+        "add",
+        ...importPackages,
+      ],
+    );
+    await command(
+      "Import dev packages.",
+      [
+        flutter,
+        "pub",
+        "add",
+        "--dev",
+        ...importDevPackages,
+        "import_sorter",
+      ],
+    );
+    label("Replace lib/main.dart");
+    await MainCliCode().generateDartCode("lib/main", "main");
+    label("Replace lib/theme.dart");
+    await const MainThemeCliCode().generateDartCode("lib/theme", "theme");
+    label("Replace lib/router.dart");
+    await const MainRouterCliCode().generateDartCode("lib/router", "router");
+    label("Replace lib/localize.dart");
+    await const MainLocalizeCliCode()
+        .generateDartCode("lib/localize", "localize");
+    label("Replace lib/adapter.dart");
+    await const MainAdapterCliCode().generateDartCode("lib/adapter", "adapter");
+    label("Replace lib/config.dart");
+    await const MainConfigCliCode().generateDartCode("lib/config", "config");
+    label("Create home.dart");
+    await const HomePageCliCode().generateDartCode("lib/pages/home", "home");
+    label("Create counter.dart");
+    await const CounterModelCliCode()
+        .generateDartCode("lib/models/counter", "counter");
+    label("Generate file for VSCode");
+    for (final file in otherFiles.entries) {
+      await file.value.generateFile(file.key);
+    }
+    label("Create a katana.yaml");
+    await KatanaCliCode(false).generateFile("katana.yaml");
+    label("Replace LICENSE");
+    await const LicenseCliCode().generateFile("LICENSE");
+    label("Create a katana_secrets.yaml");
+    await const KatanaSecretsCliCode().generateFile("katana_secrets.yaml");
+    label("Create a pubspec_overrides.yaml");
+    await const PubspecOverridesCliCode()
+        .generateFile("pubspec_overrides.yaml");
+    label("Create a build.yaml");
+    await const BuildCliCode().generateFile("build.yaml");
+    label("Edit a analysis_options.yaml");
+    await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
+    label("Edit a widget_test.dart");
+    await const WidgetTestCliCode().generateFile("widget_test.dart");
+    label("Create a loader.css");
+    await const LoaderCssCliCode().generateFile("loader.css");
+    label("Edit as index.html");
+    final indexHtmlFile = File("web/index.html");
+    final htmlDocument = parse(await indexHtmlFile.readAsString());
+    final body = htmlDocument.body;
+    final head = htmlDocument.head;
+    if (body != null) {
+      if (!body.children.any((element) =>
+          element.localName == "div" && element.classes.contains("loading"))) {
+        body.children.insertFirst(
+          Element.tag("div")
+            ..classes.add("loading")
+            ..children.add(
+              Element.tag("div")
+                ..children.addAll(
+                  [
+                    Element.tag("img")
+                      ..attributes["src"] = "icons/Icon-192.png"
+                      ..classes.add("logo"),
+                    Element.tag("div")..classes.add("loader-bar")
+                  ],
+                ),
             ),
-          ),
         );
       }
-      label("Create a assets directory");
-      final assetsDirectory = Directory("assets");
-      if (!assetsDirectory.existsSync()) {
-        await assetsDirectory.create();
+    }
+    if (head != null) {
+      if (!head.children.any((element) =>
+          element.localName == "link" &&
+          element.attributes["rel"] == "stylesheet" &&
+          element.attributes["href"] == "loader.css")) {
+        head.children.add(Element.tag("link")
+          ..attributes["rel"] = "stylesheet"
+          ..attributes["href"] = "loader.css"
+          ..attributes["type"] = "text/css"
+          ..attributes["media"] = "all");
       }
-      label("Edit AndroidManifest.xml.");
-      await AndroidManifestPermissionType.internet.enablePermission();
-      await AndroidManifestQueryType.openLinkHttps.enableQuery();
-      await AndroidManifestQueryType.dialTel.enableQuery();
-      await AndroidManifestQueryType.sendEmail.enableQuery();
-      await AndroidManifestQueryType.sendAny.enableQuery();
-      label("Edit DebugProfile.entitlements.");
-      final debugEntitlements = File("macos/Runner/DebugProfile.entitlements");
-      if (debugEntitlements.existsSync()) {
-        final document =
-            XmlDocument.parse(await debugEntitlements.readAsString());
-        final dict = document.findAllElements("dict").firstOrNull;
-        if (dict == null) {
-          throw Exception(
-            "Could not find `dict` element in `macos/Runner/DebugProfile.entitlements`. File is corrupt.",
-          );
-        }
-        final node = dict.children.firstWhereOrNull((p0) {
-          return p0 is XmlElement &&
-              p0.name.toString() == "key" &&
-              p0.innerText == "com.apple.security.network.client";
-        });
-        if (node == null) {
-          dict.children.addAll(
-            [
-              XmlElement(
-                XmlName("key"),
-                [],
-                [XmlText("com.apple.security.network.client")],
-              ),
-              XmlElement(
-                XmlName("true"),
-                [],
-                [],
-              ),
-            ],
-          );
-        }
-        await debugEntitlements.writeAsString(
-          document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
+      final icon = head.children.firstWhereOrNull((item) =>
+          item.localName == "link" && item.attributes["rel"] == "icon");
+      if (icon == null) {
+        head.children.add(Element.tag("link")
+          ..attributes["rel"] = "icon"
+          ..attributes["href"] = "favicon.ico");
+      } else if (icon.attributes["href"] != "favicon.ico") {
+        icon.attributes["href"] = "favicon.ico";
+        icon.attributes.remove("type");
+      }
+    }
+    await indexHtmlFile.writeAsString(htmlDocument.outerHtml);
+    label("Create a favicon.ico");
+    final iconFile = File("web/icons/Icon-512.png");
+    final iconImage = decodeImage(iconFile.readAsBytesSync())!;
+    final icoPngFile = File("web/favicon.png");
+    if (icoPngFile.existsSync()) {
+      await icoPngFile.delete();
+    }
+    final icoFile = File("web/favicon.ico");
+    if (icoFile.existsSync()) {
+      await icoFile.delete();
+    }
+    final ico = IcoEncoder();
+    await icoFile.writeAsBytes(
+      ico.encodeImages(_faviconSize.map((e) {
+        return copyResize(
+          iconImage,
+          height: e,
+          width: e,
+          interpolation: Interpolation.average,
         );
-      }
-      label("Replace pubspec.yaml");
-      final pubspecFile = File("pubspec.yaml");
-      final pubspec = await pubspecFile.readAsString();
-      await pubspecFile.writeAsString(
-        pubspec.replaceAll(
-          RegExp(
-            r"# assets:[\s\S]+#   - images/a_dot_burr.jpeg[\s\S]+#   - images/a_dot_ham.jpeg",
+      }).toList()),
+    );
+    label("Create a feature.png");
+    final featurePngFile = File("web/feature.png");
+    if (!featurePngFile.existsSync()) {
+      await featurePngFile.writeAsBytes(
+        encodePng(
+          copyResize(
+            iconImage,
+            height: 512,
+            width: 512,
+            interpolation: Interpolation.average,
           ),
-          "assets:\n    - assets/\n",
         ),
-      );
-      label("Rewrite `.gitignore`.");
-      final gitignore = File(".gitignore");
-      if (!gitignore.existsSync()) {
-        error("Cannot find `.gitignore`. Project is broken.");
-        return;
-      }
-      final gitignores = await gitignore.readAsLines();
-      if (!gitignores.any((e) => e.startsWith("secrets.dart"))) {
-        gitignores.add("secrets.dart");
-      }
-      if (!gitignores.any((e) => e.startsWith("pubspec_overrides.yaml"))) {
-        gitignores.add("pubspec_overrides.yaml");
-      }
-      if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
-        if (!gitignores.any((e) => e.startsWith("katana_secrets.yaml"))) {
-          gitignores.add("katana_secrets.yaml");
-        }
-      } else {
-        gitignores.removeWhere((e) => e.startsWith("katana_secrets.yaml"));
-      }
-      await gitignore.writeAsString(gitignores.join("\n"));
-      await Future.delayed(const Duration(seconds: 5));
-      await command(
-        "Run the project's build_runner to generate code.",
-        [
-          flutter,
-          "packages",
-          "pub",
-          "run",
-          "build_runner",
-          "build",
-          "--delete-conflicting-outputs",
-        ],
-      );
-      if (Platform.isMacOS) {
-        await command(
-          "Run `pod install`.",
-          [
-            "pod",
-            "install",
-          ],
-          workingDirectory: "ios",
-        );
-      }
-      label("Create PrivacyInfo.xcprivacy.");
-      await XCode.createPrivacyManifests();
-      await command(
-        "Run dart format",
-        [
-          dart,
-          "format",
-          ".",
-        ],
-      );
-      await command(
-        "Run import sorter",
-        [
-          flutter,
-          "pub",
-          "run",
-          "import_sorter:main",
-          ".",
-        ],
       );
     }
+    label("Create a assets directory");
+    final assetsDirectory = Directory("assets");
+    if (!assetsDirectory.existsSync()) {
+      await assetsDirectory.create();
+    }
+    label("Edit AndroidManifest.xml.");
+    await AndroidManifestPermissionType.internet.enablePermission();
+    await AndroidManifestQueryType.openLinkHttps.enableQuery();
+    await AndroidManifestQueryType.dialTel.enableQuery();
+    await AndroidManifestQueryType.sendEmail.enableQuery();
+    await AndroidManifestQueryType.sendAny.enableQuery();
+    label("Edit DebugProfile.entitlements.");
+    final debugEntitlements = File("macos/Runner/DebugProfile.entitlements");
+    if (debugEntitlements.existsSync()) {
+      final document =
+          XmlDocument.parse(await debugEntitlements.readAsString());
+      final dict = document.findAllElements("dict").firstOrNull;
+      if (dict == null) {
+        throw Exception(
+          "Could not find `dict` element in `macos/Runner/DebugProfile.entitlements`. File is corrupt.",
+        );
+      }
+      final node = dict.children.firstWhereOrNull((p0) {
+        return p0 is XmlElement &&
+            p0.name.toString() == "key" &&
+            p0.innerText == "com.apple.security.network.client";
+      });
+      if (node == null) {
+        dict.children.addAll(
+          [
+            XmlElement(
+              XmlName("key"),
+              [],
+              [XmlText("com.apple.security.network.client")],
+            ),
+            XmlElement(
+              XmlName("true"),
+              [],
+              [],
+            ),
+          ],
+        );
+      }
+      await debugEntitlements.writeAsString(
+        document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
+      );
+    }
+    label("Replace pubspec.yaml");
+    final pubspecFile = File("pubspec.yaml");
+    final pubspec = await pubspecFile.readAsString();
+    await pubspecFile.writeAsString(
+      pubspec.replaceAll(
+        RegExp(
+          r"# assets:[\s\S]+#   - images/a_dot_burr.jpeg[\s\S]+#   - images/a_dot_ham.jpeg",
+        ),
+        "assets:\n    - assets/\n",
+      ),
+    );
+    label("Rewrite `.gitignore`.");
+    final gitignore = File(".gitignore");
+    if (!gitignore.existsSync()) {
+      error("Cannot find `.gitignore`. Project is broken.");
+      return;
+    }
+    final gitignores = await gitignore.readAsLines();
+    if (!gitignores.any((e) => e.startsWith("secrets.dart"))) {
+      gitignores.add("secrets.dart");
+    }
+    if (!gitignores.any((e) => e.startsWith("pubspec_overrides.yaml"))) {
+      gitignores.add("pubspec_overrides.yaml");
+    }
+    if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
+      if (!gitignores.any((e) => e.startsWith("katana_secrets.yaml"))) {
+        gitignores.add("katana_secrets.yaml");
+      }
+    } else {
+      gitignores.removeWhere((e) => e.startsWith("katana_secrets.yaml"));
+    }
+    await gitignore.writeAsString(gitignores.join("\n"));
+    await Future.delayed(const Duration(seconds: 5));
+    await command(
+      "Run the project's build_runner to generate code.",
+      [
+        flutter,
+        "packages",
+        "pub",
+        "run",
+        "build_runner",
+        "build",
+        "--delete-conflicting-outputs",
+      ],
+    );
+    if (Platform.isMacOS) {
+      await command(
+        "Run `pod install`.",
+        [
+          "pod",
+          "install",
+        ],
+        workingDirectory: "ios",
+      );
+    }
+    label("Create PrivacyInfo.xcprivacy.");
+    await XCode.createPrivacyManifests();
+    await command(
+      "Run dart format",
+      [
+        dart,
+        "format",
+        ".",
+      ],
+    );
+    await command(
+      "Run import sorter",
+      [
+        flutter,
+        "pub",
+        "run",
+        "import_sorter:main",
+        ".",
+      ],
+    );
+  }
+}
+
+/// Create a new Flutter project.
+///
+/// 新しいFlutterプロジェクトを作成します。
+class ComposeCliCommand extends CliCommand {
+  /// Create a new Flutter project.
+  ///
+  /// 新しいFlutterプロジェクトを作成します。
+  const ComposeCliCommand();
+
+  @override
+  String get description =>
+      "Create a new Flutter project. 新しいFlutterプロジェクトを作成します。";
+
+  @override
+  Future<void> exec(ExecContext context) async {
+    final bin = context.yaml.getAsMap("bin");
+    final flutter = bin.get("flutter", "flutter");
+    final dart = bin.get("dart", "dart");
+    final packageName = context.args.get(1, "");
+    if (packageName.isEmpty) {
+      error(
+        "Please provide the name of the package.\r\nパッケージ名を記載してください。\r\n\r\nkatana compose [package name]",
+      );
+      return;
+    }
+    final projectName = packageName.split(".").lastOrNull;
+    final domain = packageName
+        .split(".")
+        .sublist(0, packageName.split(".").length - 1)
+        .join(".");
+    if (projectName.isEmpty || domain.isEmpty) {
+      error(
+        "The format of the package name should be specified in the following format.\r\nパッケージ名の形式は下記の形式で指定してください。\r\n\r\n[Domain].[ProjectName]\r\ne.g. net.mathru.website",
+      );
+      return;
+    }
+    await command(
+      "Create a Flutter project.",
+      [
+        flutter,
+        "create",
+        "--org",
+        domain,
+        "--project-name",
+        projectName!,
+        ".",
+      ],
+    );
+    await command(
+      "Import packages.",
+      [
+        flutter,
+        "pub",
+        "add",
+        ...importPackages,
+        ...allOptionsImportPackage,
+      ],
+    );
+    await command(
+      "Import dev packages.",
+      [
+        flutter,
+        "pub",
+        "add",
+        "--dev",
+        ...importDevPackages,
+        "import_sorter",
+      ],
+    );
+    label("Replace lib/main.dart");
+    await MainCliCode().generateDartCode("lib/main", "main");
+    label("Replace lib/theme.dart");
+    await const MainThemeCliCode().generateDartCode("lib/theme", "theme");
+    label("Replace lib/router.dart");
+    await const MainRouterCliCode(
+      initialQuery: "null",
+      initialQueryImport: "",
+    ).generateDartCode("lib/router", "router");
+    label("Replace lib/localize.dart");
+    await const MainLocalizeCliCode()
+        .generateDartCode("lib/localize", "localize");
+    label("Replace lib/adapter.dart");
+    await const MainAdapterCliCode().generateDartCode("lib/adapter", "adapter");
+    label("Replace lib/config.dart");
+    await const MainConfigCliCode().generateDartCode("lib/config", "config");
+    label("Generate file for VSCode");
+    for (final file in otherFiles.entries) {
+      await file.value.generateFile(file.key);
+    }
+    label("Generate file for Cursor AI");
+    await const DesignsAiCode().exec(context);
+    await const ImplsAiCode().exec(context);
+    label("Create a katana.yaml");
+    await KatanaCliCode(true).generateFile("katana.yaml");
+    label("Replace LICENSE");
+    await const LicenseCliCode().generateFile("LICENSE");
+    label("Create a katana_secrets.yaml");
+    await const KatanaSecretsCliCode().generateFile("katana_secrets.yaml");
+    label("Create a pubspec_overrides.yaml");
+    await const PubspecOverridesCliCode()
+        .generateFile("pubspec_overrides.yaml");
+    label("Create a build.yaml");
+    await const BuildCliCode().generateFile("build.yaml");
+    label("Edit a analysis_options.yaml");
+    await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
+    label("Edit a widget_test.dart");
+    await const WidgetTestCliCode().generateFile("widget_test.dart");
+    label("Create a loader.css");
+    await const LoaderCssCliCode().generateFile("loader.css");
+    label("Edit as index.html");
+    final indexHtmlFile = File("web/index.html");
+    final htmlDocument = parse(await indexHtmlFile.readAsString());
+    final body = htmlDocument.body;
+    final head = htmlDocument.head;
+    if (body != null) {
+      if (!body.children.any((element) =>
+          element.localName == "div" && element.classes.contains("loading"))) {
+        body.children.insertFirst(
+          Element.tag("div")
+            ..classes.add("loading")
+            ..children.add(
+              Element.tag("div")
+                ..children.addAll(
+                  [
+                    Element.tag("img")
+                      ..attributes["src"] = "icons/Icon-192.png"
+                      ..classes.add("logo"),
+                    Element.tag("div")..classes.add("loader-bar")
+                  ],
+                ),
+            ),
+        );
+      }
+    }
+    if (head != null) {
+      if (!head.children.any((element) =>
+          element.localName == "link" &&
+          element.attributes["rel"] == "stylesheet" &&
+          element.attributes["href"] == "loader.css")) {
+        head.children.add(Element.tag("link")
+          ..attributes["rel"] = "stylesheet"
+          ..attributes["href"] = "loader.css"
+          ..attributes["type"] = "text/css"
+          ..attributes["media"] = "all");
+      }
+      final icon = head.children.firstWhereOrNull((item) =>
+          item.localName == "link" && item.attributes["rel"] == "icon");
+      if (icon == null) {
+        head.children.add(Element.tag("link")
+          ..attributes["rel"] = "icon"
+          ..attributes["href"] = "favicon.ico");
+      } else if (icon.attributes["href"] != "favicon.ico") {
+        icon.attributes["href"] = "favicon.ico";
+        icon.attributes.remove("type");
+      }
+    }
+    await indexHtmlFile.writeAsString(htmlDocument.outerHtml);
+    label("Create a favicon.ico");
+    final iconFile = File("web/icons/Icon-512.png");
+    final iconImage = decodeImage(iconFile.readAsBytesSync())!;
+    final icoPngFile = File("web/favicon.png");
+    if (icoPngFile.existsSync()) {
+      await icoPngFile.delete();
+    }
+    final icoFile = File("web/favicon.ico");
+    if (icoFile.existsSync()) {
+      await icoFile.delete();
+    }
+    final ico = IcoEncoder();
+    await icoFile.writeAsBytes(
+      ico.encodeImages(_faviconSize.map((e) {
+        return copyResize(
+          iconImage,
+          height: e,
+          width: e,
+          interpolation: Interpolation.average,
+        );
+      }).toList()),
+    );
+    label("Create a feature.png");
+    final featurePngFile = File("web/feature.png");
+    if (!featurePngFile.existsSync()) {
+      await featurePngFile.writeAsBytes(
+        encodePng(
+          copyResize(
+            iconImage,
+            height: 512,
+            width: 512,
+            interpolation: Interpolation.average,
+          ),
+        ),
+      );
+    }
+    label("Create a assets directory");
+    final assetsDirectory = Directory("assets");
+    if (!assetsDirectory.existsSync()) {
+      await assetsDirectory.create();
+    }
+    label("Edit AndroidManifest.xml.");
+    await AndroidManifestPermissionType.internet.enablePermission();
+    await AndroidManifestQueryType.openLinkHttps.enableQuery();
+    await AndroidManifestQueryType.dialTel.enableQuery();
+    await AndroidManifestQueryType.sendEmail.enableQuery();
+    await AndroidManifestQueryType.sendAny.enableQuery();
+    label("Edit DebugProfile.entitlements.");
+    final debugEntitlements = File("macos/Runner/DebugProfile.entitlements");
+    if (debugEntitlements.existsSync()) {
+      final document =
+          XmlDocument.parse(await debugEntitlements.readAsString());
+      final dict = document.findAllElements("dict").firstOrNull;
+      if (dict == null) {
+        throw Exception(
+          "Could not find `dict` element in `macos/Runner/DebugProfile.entitlements`. File is corrupt.",
+        );
+      }
+      final node = dict.children.firstWhereOrNull((p0) {
+        return p0 is XmlElement &&
+            p0.name.toString() == "key" &&
+            p0.innerText == "com.apple.security.network.client";
+      });
+      if (node == null) {
+        dict.children.addAll(
+          [
+            XmlElement(
+              XmlName("key"),
+              [],
+              [XmlText("com.apple.security.network.client")],
+            ),
+            XmlElement(
+              XmlName("true"),
+              [],
+              [],
+            ),
+          ],
+        );
+      }
+      await debugEntitlements.writeAsString(
+        document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
+      );
+    }
+    label("Replace pubspec.yaml");
+    final pubspecFile = File("pubspec.yaml");
+    final pubspec = await pubspecFile.readAsString();
+    await pubspecFile.writeAsString(
+      pubspec.replaceAll(
+        RegExp(
+          r"# assets:[\s\S]+#   - images/a_dot_burr.jpeg[\s\S]+#   - images/a_dot_ham.jpeg",
+        ),
+        "assets:\n    - assets/\n",
+      ),
+    );
+    label("Rewrite `.gitignore`.");
+    final gitignore = File(".gitignore");
+    if (!gitignore.existsSync()) {
+      error("Cannot find `.gitignore`. Project is broken.");
+      return;
+    }
+    final gitignores = await gitignore.readAsLines();
+    if (!gitignores.any((e) => e.startsWith("secrets.dart"))) {
+      gitignores.add("secrets.dart");
+    }
+    if (!gitignores.any((e) => e.startsWith("pubspec_overrides.yaml"))) {
+      gitignores.add("pubspec_overrides.yaml");
+    }
+    if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
+      if (!gitignores.any((e) => e.startsWith("katana_secrets.yaml"))) {
+        gitignores.add("katana_secrets.yaml");
+      }
+    } else {
+      gitignores.removeWhere((e) => e.startsWith("katana_secrets.yaml"));
+    }
+    await gitignore.writeAsString(gitignores.join("\n"));
+    await Future.delayed(const Duration(seconds: 5));
+    await command(
+      "Run the project's build_runner to generate code.",
+      [
+        flutter,
+        "packages",
+        "pub",
+        "run",
+        "build_runner",
+        "build",
+        "--delete-conflicting-outputs",
+      ],
+    );
+    if (Platform.isMacOS) {
+      await command(
+        "Run `pod install`.",
+        [
+          "pod",
+          "install",
+        ],
+        workingDirectory: "ios",
+      );
+    }
+    label("Create PrivacyInfo.xcprivacy.");
+    await XCode.createPrivacyManifests();
+    await command(
+      "Run dart format",
+      [
+        dart,
+        "format",
+        ".",
+      ],
+    );
+    await command(
+      "Run import sorter",
+      [
+        flutter,
+        "pub",
+        "run",
+        "import_sorter:main",
+        ".",
+      ],
+    );
   }
 }
 
@@ -831,12 +970,26 @@ class MainRouterCliCode extends CliCode {
   /// Contents of router.dart.
   ///
   /// router.dartの中身。
-  const MainRouterCliCode({this.module});
+  const MainRouterCliCode({
+    this.module,
+    this.initialQuery = "\${2:HomePage.query()}",
+    this.initialQueryImport = "import 'pages/home.dart';",
+  });
 
   /// Name of the module to be used.
   ///
   /// 利用するモジュール名。
   final String? module;
+
+  /// Initial query.
+  ///
+  /// 初期クエリ。
+  final String initialQuery;
+
+  /// Initial query import.
+  ///
+  /// 初期クエリのインポート。
+  final String initialQueryImport;
 
   @override
   String get name => "router";
@@ -855,7 +1008,7 @@ class MainRouterCliCode extends CliCode {
   String import(String path, String baseName, String className) {
     return """
 import 'package:masamune/masamune.dart';
-${module == null ? "import 'pages/home.dart';" : "import 'package:${module!.toSnakeCase()}/pages/home.dart';"}
+$initialQueryImport
 
 """;
   }
@@ -877,7 +1030,7 @@ ${module == null ? "import 'pages/home.dart';" : "import 'package:${module!.toSn
 final router = AppRouter(
   // TODO: Please configure the initial routing and redirection settings.
   boot: \${1:null},
-  initialQuery: \${2:HomePage.query()},
+  initialQuery: $initialQuery,
   redirect: [],
   pages: [
     // TODO: Add the page query to be used for routing.

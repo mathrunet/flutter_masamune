@@ -81,7 +81,7 @@ part '$baseName.freezed.dart';
 @CollectionModelPath("\${1:$path}")
 class ${className}Model with _\$${className}Model {
   const factory ${className}Model({
-     // TODO: Set the data schema.
+     // TODO: Set the data fields.
      \${2}
   }) = _${className}Model;
   const ${className}Model._();
@@ -121,7 +121,7 @@ class ${className}Model with _\$${className}Model {
 /// [Enum] of the name of the value defined in ${className}Model.
 typedef ${className}ModelKeys = _\$${className}ModelKeys;
 
-/// Alias for ModelRef<${className}Model>.
+/// Alias for ModelRef&lt;${className}Model&gt;.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
@@ -130,7 +130,7 @@ typedef ${className}ModelKeys = _\$${className}ModelKeys;
 /// ```
 typedef ${className}ModelRef = ModelRef<${className}Model>?;
 
-/// It can be defined as an empty ModelRef<${className}Model>.
+/// It can be defined as an empty ModelRef&lt;${className}Model&gt;.
 ///
 /// ```dart
 /// ${className}ModelRefPath("xxx") // Define as a path.
@@ -156,7 +156,7 @@ typedef ${className}ModelDocument = _\$${className}ModelDocument;
 /// Collection class for storing ${className}Model.
 typedef ${className}ModelCollection = _\$${className}ModelCollection;
 
-/// It can be defined as an empty ModelRef<${className}Model>.
+/// It can be defined as an empty ModelRef&lt;${className}Model&gt;.
 ///
 /// ```dart
 /// ${className}ModelMirrorRefPath("xxx") // Define as a path.
@@ -181,6 +181,25 @@ typedef ${className}ModelMirrorDocument = _\$${className}ModelMirrorDocument;
 
 /// Collection class for storing ${className}Model.
 typedef ${className}ModelMirrorCollection = _\$${className}ModelMirrorCollection;
+
+/// Extension for ${className}ModelDocument.
+extension ${className}ModelDocumentExtension on ${className}ModelDocument {
+  // TODO: Define the extension method.
+
+  /// Convert to a tile widget.
+  ///
+  /// ```dart
+  /// document.toTile();
+  /// ```
+  Widget toTile() {
+    return const ListTile();
+  }
+}
+
+/// Extension for ${className}ModelCollection.
+extension ${className}ModelCollectionExtension on ${className}ModelCollection {
+  // TODO: Define the extension method.
+}
 """;
   }
 }

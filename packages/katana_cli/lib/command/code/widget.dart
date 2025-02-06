@@ -82,16 +82,19 @@ class ${className}Widget extends ScopedWidget {
     \${1}
   });
 
+  // TODO: Set parameters for the widget in the form (e.g. [final String xxx]).
+  \${2}
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Describes the process of loading
     // and defining variables required for the widget.
     // TODO: Implement the variable loading process.
-    \${2}
+    \${3}
 
     // Describes the structure of the widget.
     // TODO: Implement the view.
-    return \${3:Empty()};
+    return \${4:Empty()};
   }
 }
 """;

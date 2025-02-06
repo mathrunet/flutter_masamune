@@ -82,11 +82,14 @@ class ${className}Widget extends StatelessWidget {
     \${1}
   });
 
+  // TODO: Set parameters for the widget in the form (e.g. [final String xxx]).
+  \${2}
+
   @override
   Widget build(BuildContext context) {
     // Describes the structure of the widget.
     // TODO: Implement the view.
-    return \${2:Empty()};
+    return \${3:Empty()};
   }
 }
 """;

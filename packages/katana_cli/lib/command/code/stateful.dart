@@ -82,6 +82,9 @@ class ${className}Widget extends StatefulWidget {
     \${1}
   });
 
+  // TODO: Set parameters for the widget in the form (e.g. [final String xxx]).
+  \${2}
+
   @override
   State<StatefulWidget> createState() => _${className}State();
 }
@@ -91,7 +94,7 @@ class _${className}State extends State<${className}Widget> {
   Widget build(BuildContext context) {
     // Describes the structure of the widget.
     // TODO: Implement the view.
-    return \${2:Empty()};
+    return \${3:Empty()};
   }
 }
 """;
