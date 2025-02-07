@@ -27,12 +27,12 @@ class KatanaUILineTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 # LineTile
 
 ## 概要
 
-`ListTile`に`text`プロパティを追加したもの、textプロパティにWidgetを設定するとtitleの右側に表示される。
+$excerpt
 
 ## 特徴
 

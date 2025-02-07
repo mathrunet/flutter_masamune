@@ -26,12 +26,12 @@ class KatanaUIPeriodicScopeMdcCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 # PeriodicScope
 
 ## 概要
 
-一定時間ごとに自動的に再描画を行うウィジェット。タイマーやカウントダウン、定期的な更新が必要なUIの実装に最適です。
+$excerpt
 
 ## 特徴
 
@@ -69,7 +69,7 @@ PeriodicScope(
   builder: (context, now) {
     final remaining = targetTime.difference(now);
     return Text(
-      '${remaining.inMinutes}:${(remaining.inSeconds % 60).toString().padLeft(2, '0')}',
+      '\${remaining.inMinutes}:\${(remaining.inSeconds % 60).toString().padLeft(2, '0')}',
       style: Theme.of(context).textTheme.headlineLarge,
     );
   },
@@ -86,7 +86,7 @@ PeriodicScope(
   builder: (context, now) {
     final elapsed = now.difference(startTime);
     return Text(
-      '経過時間: ${elapsed.inMinutes}分${elapsed.inSeconds % 60}秒',
+      '経過時間: \${elapsed.inMinutes}分\${elapsed.inSeconds % 60}秒',
     );
   },
 );
@@ -119,7 +119,7 @@ PeriodicScope(
       future: fetchLatestData(),  // データ取得の非同期処理
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Text('最終更新: ${now.toString()}');
+          return Text('最終更新: \${now.toString()}');
         }
         return const CircularProgressIndicator();
       },

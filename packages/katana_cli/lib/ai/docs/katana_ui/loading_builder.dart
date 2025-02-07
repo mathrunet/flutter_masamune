@@ -27,12 +27,12 @@ class KatanaUILoadingBuilderMdcCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 # LoadingBuilder
 
 ## 概要
 
-複数の`Future`を待機し、完了するまでローディング表示を行うウィジェット。デフォルトの`CircularProgressIndicator`またはカスタムのローディングウィジェットを表示できます。
+$excerpt
 
 ## 特徴
 
@@ -105,8 +105,8 @@ LoadingBuilder(
   builder: (context) {
     return Column(
       children: [
-        Text("プロフィール: $profile"),
-        Text("設定: $settings"),
+        Text("プロフィール: \$profile"),
+        Text("設定: \$settings"),
       ],
     );
   },

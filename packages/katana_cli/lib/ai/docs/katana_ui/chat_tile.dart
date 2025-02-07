@@ -27,12 +27,12 @@ class KatanaUIChatTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 # ChatTile
 
 ## 概要
 
-チャット画面を作成するためのウィジェット。メッセージの配置や見た目をカスタマイズ可能で、自分と相手のメッセージを視覚的に区別できます。
+$excerpt
 
 ## 特徴
 

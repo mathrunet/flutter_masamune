@@ -1,4 +1,5 @@
 import 'package:katana_cli/ai/docs/flutter_types.dart';
+import 'package:katana_cli/ai/docs/form_usage.dart';
 import 'package:katana_cli/ai/docs/katana_cli.dart';
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 import 'package:katana_cli/ai/docs/masamune.dart';
@@ -48,6 +49,9 @@ class DocsAiCode extends CliAiCodeCommand {
           entry.key.toSnakeCase(): entry.value,
         "universal_ui_usage": const UniversalUiUsageMdcCliAiCode(),
         for (final entry in kKatanaUiList.entries)
+          entry.key.toSnakeCase(): entry.value,
+        "form_usage": const FormUsageMdcCliAiCode(),
+        for (final entry in kFormList.entries)
           entry.key.toSnakeCase(): entry.value,
       };
 }

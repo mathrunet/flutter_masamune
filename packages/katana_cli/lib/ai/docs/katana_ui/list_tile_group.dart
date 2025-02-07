@@ -27,12 +27,12 @@ class KatanaUIListTileGroupMdcCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 # ListTileGroup
 
 ## 概要
 
-`ListTile`や`LineTile`をグループ化して表示するためのウィジェット。タイル間の区切り線やスタイリングをカスタマイズ可能です。
+$excerpt
 
 ## 特徴
 

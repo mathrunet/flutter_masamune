@@ -26,12 +26,12 @@ class KatanaUISquareAvatarMdcCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 # SquareAvatar
 
 ## 概要
 
-四角形のアバター表示用ウィジェット。`CircleAvatar`の四角版として使用可能で、画像やカラーを背景として設定できます。
+$excerpt
 
 ## 特徴
 

@@ -27,12 +27,12 @@ class KatanaUIShimmerMdcCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 # Shimmer
 
 ## 概要
 
-ローディング状態を表現するためのシマーエフェクトを提供するウィジェット。`ShimmerBox`（単一行）と`ShimmerMultiLine`（複数行）の2種類のウィジェットを提供します。
+$excerpt
 
 ## 特徴
 

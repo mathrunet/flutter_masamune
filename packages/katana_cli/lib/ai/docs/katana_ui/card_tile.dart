@@ -27,12 +27,12 @@ class KatanaUICardTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 # CardTile
 
 ## 概要
 
-カードウィジェットの上に画像やテキストを重ねて表示するためのウィジェット。`ListTile`と組み合わせて使用する高機能なカードコンポーネントです。
+$excerpt
 
 ## 特徴
 

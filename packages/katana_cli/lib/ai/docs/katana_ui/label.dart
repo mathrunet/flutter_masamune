@@ -26,12 +26,12 @@ class KatanaUILabelMdcCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 # Label
 
 ## 概要
 
-項目のタイトルなどで使うラベルを表示するためのウィジェット。アイコンやテキストを組み合わせて使用可能で、様々なスタイリングオプションを提供します。
+$excerpt
 
 ## 特徴
 

@@ -27,12 +27,12 @@ class KatanaUIMessageBoxMdcCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 # MessageBox
 
 ## 概要
 
-メッセージを表示するためのボックスウィジェット。アイコン、メッセージ、アクションを含むカスタマイズ可能なメッセージボックス。
+$excerpt
 
 ## 特徴
 

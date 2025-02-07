@@ -27,12 +27,12 @@ class KatanaUIIndentMdcCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 # Indent
 
 ## 概要
 
-`Column`や`ListView`の中で、要素間にパディングを設定するためのウィジェット。複数の要素を含めることができ、全体的な見栄えを改善します。
+$excerpt
 
 ## 特徴
 

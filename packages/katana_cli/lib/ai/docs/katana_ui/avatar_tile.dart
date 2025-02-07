@@ -27,12 +27,12 @@ class KatanaUIAvatarTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 # AvatarTile
 
 ## 概要
 
-プロフィールなどの概要を表示するためのタイル。アバター画像、タイトル、サブタイトル、説明文を含むカスタマイズ可能なプロフィールカードを提供します。
+$excerpt
 
 ## 特徴
 

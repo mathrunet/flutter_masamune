@@ -27,12 +27,12 @@ class KatanaUIScrollBuilderMdcCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 # ScrollBuilder
 
 ## 概要
 
-`ListView`や`SingleChildScrollView`に簡単に`RefreshIndicator`や`Scrollbar`を追加できるウィジェット。プラットフォームに応じた適切なスクロール機能を提供します。
+$excerpt
 
 ## 特徴
 
@@ -54,7 +54,7 @@ ScrollBuilder(
       itemCount: 100,
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text("アイテム $index"),
+          title: Text("アイテム \$index"),
         );
       },
     );
@@ -119,7 +119,7 @@ ScrollBuilder(
       separatorBuilder: (context, index) => Divider(),
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text("アイテム $index"),
+          title: Text("アイテム \$index"),
         );
       },
     );
@@ -155,7 +155,7 @@ ScrollBuilder(
               return Card(
                 margin: EdgeInsets.all(8),
                 child: ListTile(
-                  title: Text("カード $index"),
+                  title: Text("カード \$index"),
                 ),
               );
             },
