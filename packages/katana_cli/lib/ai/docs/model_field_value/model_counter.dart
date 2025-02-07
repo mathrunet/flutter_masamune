@@ -42,12 +42,6 @@ $excerpt
     ModelCounter(100);
     ```
 
-- サーバーからのデータを偽装（テスト用）
-
-    ```dart
-    ModelCounter.fromServer(100);
-    ```
-
 ## intの取得
 
 ```dart

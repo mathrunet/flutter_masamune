@@ -50,9 +50,12 @@ class ModelUsageMdcCliAiCode extends CliAiCode {
         1. `@CollectionModelPath`（`ModelType`が`Document`の場合は`@DocumentModelPath`）のAnnotationに対応する`ModelPath`を記載。
         2. `// TODO: Set the data fields.`以下に定義した`DataField`を追記。
             - 各フィールドには`DataFieldType`と`DataFieldName`（CamelCase）を記載。
-                - `DataField`が必須の場合は`DataFieldType`の前に`required`を付与。
-                - 任意でかつデフォルト値が存在する場合は`@Default([DefaultValue])`のAnnotationを付与。
-                - 任意でかつデフォルト値が存在しない場合は`DataFieldType`の末尾に`?`を付与しNullableにする
+                - `DataFieldType`は*必ず*下記のタイプから選択する。
+                    - [ModelFieldValue](mdc:.cursor/rules/docs/model_field_value_usage.mdc)
+                    - [プリミティブタイプ](mdc:.cursor/rules/docs/primitive_types.mdc)                    
+                - `DataField`が`Required`の場合は`DataFieldType`の前に`required`を付与。
+                - `Optional`でかつ`DefaultValue`が存在する場合は`@Default([DefaultValue])`のAnnotationを付与。
+                - `Optional`でかつ`DefaultValue`が存在しない場合は`DataFieldType`の末尾に`?`を付与しNullableにする
             - 例：
                 - `MemoModel`（`ModelType`: `Collection`）
                   ```dart

@@ -10,7 +10,7 @@ class ThemeImplMdcCliAiCode extends CliAiCode {
   const ThemeImplMdcCliAiCode();
 
   @override
-  String get name => "テーマの実装";
+  String get name => "`Theme`の実装";
 
   @override
   String get globs => "*.dart";
@@ -19,27 +19,27 @@ class ThemeImplMdcCliAiCode extends CliAiCode {
   String get directory => "impls";
 
   @override
-  String get description => "Masamuneフレームワークによるテーマの実装";
+  String get description => "Masamuneフレームワークによる`Theme`の実装";
 
   @override
   String body(String baseName, String className) {
     return r"""
-[theme_design.md](mdc:documents/designs/theme_design.md)に記載されている`テーマ設計書`から[theme.dart](mdc:lib/theme.dart)を編集
+[theme_design.md](mdc:documents/designs/theme_design.md)に記載されている`Theme設計書`から[theme.dart](mdc:lib/theme.dart)を編集
 
-1. `テーマ設計書`で定義されている内容を元に[theme.dart](mdc:lib/theme.dart)を書き換える
+1. `Theme設計書`で定義されている内容を元に[theme.dart](mdc:lib/theme.dart)を書き換える
     - [theme.dart](mdc:lib/theme.dart)の`AppThemeData`を変更
-        - `カラーモード`に応じて下記の設定を追加
-            - `ダークモード`
+        - `ColorMode`に応じて下記の設定を追加
+            - `DarkMode`
                 - `themeMode`: ThemeMode.dark
                 - `brightness`: Brightness.dark
                 - `statusBarBrightnessOnAndroid`: Brightness.dark
                 - `statusBarBrightnessOnIOS`: Brightness.dark
-            - `ライトモード`
+            - `LightMode`
                 - `themeMode`: ThemeMode.light
                 - `brightness`: Brightness.light
                 - `statusBarBrightnessOnAndroid`: Brightness.light
                 - `statusBarBrightnessOnIOS`: Brightness.light
-            - `システム設定依存`
+            - `SystemSettingDependent`
                 - `themeMode`: 設定しない
                 - `brightness`: 設定しない
                 - `statusBarBrightnessOnAndroid`: 設定しない
@@ -65,14 +65,14 @@ class ThemeImplMdcCliAiCode extends CliAiCode {
       @appTheme
       final theme = AppThemeData(
         // TODO: Set the design.
-        background: Color(0xFF212121), // カラーモードが`システム設定依存`の場合は記載しない
-        onBackground: Color(0xFFF7F7F7), // カラーモードが`システム設定依存`の場合は記載しない
-        surface: Color(0xFF474747), // カラーモードが`システム設定依存`の場合は記載しない
-        onSurface: Color(0xFFF7F7F7), // カラーモードが`システム設定依存`の場合は記載しない
-        themeMode: ThemeMode.dark, // カラーモードが`システム設定依存`の場合は記載しない
-        brightness: Brightness.dark, // カラーモードが`システム設定依存`の場合は記載しない
-        statusBarBrightnessOnAndroid: Brightness.dark, // カラーモードが`システム設定依存`の場合は記載しない
-        statusBarBrightnessOnIOS: Brightness.dark, // カラーモードが`システム設定依存`の場合は記載しない
+        background: Color(0xFF212121), // `ColorMode`が`SystemSettingDependent`の場合は記載しない
+        onBackground: Color(0xFFF7F7F7), // `ColorMode`が`SystemSettingDependent`の場合は記載しない
+        surface: Color(0xFF474747), // `ColorMode`が`SystemSettingDependent`の場合は記載しない
+        onSurface: Color(0xFFF7F7F7), // `ColorMode`が`SystemSettingDependent`の場合は記載しない
+        themeMode: ThemeMode.dark, // `ColorMode`が`SystemSettingDependent`の場合は記載しない
+        brightness: Brightness.dark, // `ColorMode`が`SystemSettingDependent`の場合は記載しない
+        statusBarBrightnessOnAndroid: Brightness.dark, // `ColorMode`が`SystemSettingDependent`の場合は記載しない
+        statusBarBrightnessOnIOS: Brightness.dark, // `ColorMode`が`SystemSettingDependent`の場合は記載しない
         primary: Color(0xFF2196F3),
         onPrimary: Color(0xFFF7F7F7),
         secondary: Color(0xFF00BCD4),

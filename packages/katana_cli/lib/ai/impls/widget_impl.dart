@@ -10,7 +10,7 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
   const WidgetImplMdcCliAiCode();
 
   @override
-  String get name => "Widgetの実装";
+  String get name => "`Widget`の実装";
 
   @override
   String get globs => "*.dart";
@@ -19,30 +19,30 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
   String get directory => "impls";
 
   @override
-  String get description => "MasamuneフレームワークによるWidgetの実装";
+  String get description => "Masamuneフレームワークによる`Widget`の実装";
 
   @override
   String body(String baseName, String className) {
     return r"""
 [widget_design.md](mdc:documents/designs/widget_design.md)に記載されている`Widget設計書`からDartコードを生成
-※参考として[screen_design.md](mdc:documents/designs/screen_design.md)に記載されている`画面設計書`や[model_design.md](mdc:documents/designs/model_design.md)に記載されている`モデル設計書`、[controller_design.md](mdc:documents/designs/controller_design.md)に記載されている`コントローラー設計書`、[theme_design.md](mdc:documents/designs/theme_design.md)に記載されている`テーマ設計書`、[title_design.md](mdc:documents/designs/title_design.md)に記載されている`アプリタイトル設計書`も参照。
+※参考として[page_design.md](mdc:documents/designs/page_design.md)に記載されている`Page設計書`や[model_design.md](mdc:documents/designs/model_design.md)に記載されている`Model設計書`、[controller_design.md](mdc:documents/designs/controller_design.md)に記載されている`Controller設計書`、[theme_design.md](mdc:documents/designs/theme_design.md)に記載されている`Theme設計書`、[metadata_design.md](mdc:documents/designs/metadata_design.md)に記載されている`MetaData設計書`も参照。
 
-`Widget設計書`に記載されている各`Widget`の`Widgetタイプ`に応じてそれぞれ下記を実行
+`Widget設計書`に記載されている各`Widget`の`WidgetType`に応じてそれぞれ下記を実行
 
 ## `stateless`
 
 1. 下記のコマンドを実行して`StatelessWidget`を継承したクラスファイルを作成
 
     ```shell
-    katana code stateless [Widget名(SnakeCase&末尾のWidgetを取り除く)]
+    katana code stateless [WidgetName(SnakeCase&末尾のWidgetを取り除く)]
     ```
 
-2. コマンド実行後、`lib/widgets`以下に[Widget名(SnakeCase&末尾のWidgetを取り除く)].dartファイルが作成される
-3. 作成された`StatelessWidget`を継承したクラス内の`// TODO: Set parameters for the widget in the form (e.g. [final String xxx]).`以下に`プロパティ`に応じた`final`変数を定義
+2. コマンド実行後、`lib/widgets`以下に[WidgetName(SnakeCase&末尾のWidgetを取り除く)].dartファイルが作成される
+3. 作成された`StatelessWidget`を継承したクラス内の`// TODO: Set parameters for the widget in the form (e.g. [final String xxx]).`以下に`Properties`に応じた`final`変数を定義
 4. 3で定義した`final`変数に対するコンストラクタのパラメーターを`// TODO: Set parameters for the widget.`以下に定義
     - プロパティの状態に応じて下記を実施
-        - 必須な場合は先頭に`required`をつける
-        - デフォルト値がある場合は末尾に`= デフォルト値`をつける
+        - `RequiredOrOptional`が`Required`な場合は先頭に`required`をつける
+        - `DefaultValue`な場合は末尾に`= [DefaultValue]`をつける
     - 例：
         ```dart
         // lib/widgets/title_app_bar.dart
@@ -77,24 +77,24 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
           }
         }
         ```
-5. `概要`に応じて`build`メソッド内の`// TODO: Implement the view.`以下を書き換え、適切なUIを構築し返す。
+5. `Content`に応じて`build`メソッド内の`// TODO: Implement the view.`以下を書き換え、適切なUIを構築し返す。
     - 適宜`import`を追加する
-    - 必要であればプロパティの変数を利用する
+    - 必要であれば`Properties`に応じた変数を利用する
 
 ## `stateful`
 
 1. 下記のコマンドを実行して`ScopedWidget`を継承したクラスファイルを作成
 
     ```shell
-    katana code widget [Widget名(SnakeCase&末尾のWidgetを取り除く)]
+    katana code widget [WidgetName(SnakeCase&末尾のWidgetを取り除く)]
     ```
 
-2. コマンド実行後、`lib/widgets`以下に[Widget名(SnakeCase&末尾のWidgetを取り除く)].dartファイルが作成される
-3. 作成された`ScopedWidget`を継承したクラス内の`// TODO: Set parameters for the widget in the form (e.g. [final String xxx]).`以下に`プロパティ`に応じた`final`変数を定義
+2. コマンド実行後、`lib/widgets`以下に[WidgetName(SnakeCase&末尾のWidgetを取り除く)].dartファイルが作成される
+3. 作成された`ScopedWidget`を継承したクラス内の`// TODO: Set parameters for the widget in the form (e.g. [final String xxx]).`以下に`Properties`に応じた`final`変数を定義
 4. 3で定義した`final`変数に対するコンストラクタのパラメーターを`// TODO: Set parameters for the widget.`以下に定義
     - プロパティの状態に応じて下記を実施
-        - 必須な場合は先頭に`required`をつける
-        - デフォルト値がある場合は末尾に`= デフォルト値`をつける
+        - `RequiredOrOptional`が`Required`な場合は先頭に`required`をつける
+        - `DefaultValue`な場合は末尾に`= [DefaultValue]`をつける
     - 例：
         ```dart
         // lib/widgets/title_app_bar.dart
@@ -134,12 +134,12 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
           }
         }
         ```
-5. `概要`に応じて`build`メソッド内の`// TODO: Implement the variable loading process.`以下に`ref`を用いてプロジェクト内の各種`モデル`や`Controller`を取得する。
-    - `モデル`（コレクション）の取得
+5. `Content`に応じて`build`メソッド内の`// TODO: Implement the variable loading process.`以下に`ref`を用いてプロジェクト内の各種`Model`や`Controller`を取得する。
+    - `Model`（コレクション）の取得
       ```dart
       final memoCollection = ref.app.model(MemoModel.collection())..load(); // load()でデータを取得開始
       ```
-        - `モデル`（コレクション）をフィルタリング
+        - `Model`（`Collection`）をフィルタリング
           ```dart
           // 7日前から現在までのメモを取得
           final memoCollection = ref.app.model(
@@ -154,7 +154,7 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
             ),
           )..load();
           ```
-    - `モデル`（ドキュメント）の取得
+    - `Model`（`Document`）の取得
       ```dart
       final memoDocument = ref.app.model(MemoModel.document(memoId))..load();
       ```
@@ -162,27 +162,27 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
       ```dart
       final controller = ref.app.controller(MemoController.query());
       ```
-    - `Controller`の取得（画面のみで状態を維持）
+    - `Controller`の取得（`Page`のみで状態を維持）
       ```dart
       final controller = ref.page.controller(MemoController.query());
       ```
-6. `概要`に応じて`build`メソッド内の`// TODO: Implement the view.`以下を書き換え、適切なUIを構築し返す。
+6. `Content`に応じて`build`メソッド内の`// TODO: Implement the view.`以下を書き換え、適切なUIを構築し返す。
     - 適宜`import`を追加する
-    - 必要であればプロパティの変数を利用する
-    - 3で取得した`モデル`や`Controller`を利用してもよい
+    - 必要であれば`Properties`に応じた変数を利用する
+    - 3で取得した`Model`や`Controller`を利用してもよい
 
 ## `model_extension`
 
-1. `対象モデル`に対応する`lib/models/[対象モデル名(SnakeCase&末尾のModelを取り除く)].dart`以下のファイルを開く。
+1. `TargetModel`に対応する`lib/models/[TargetModelのModelName(SnakeCase&末尾のModelを取り除く)].dart`以下のファイルを開く。
 
-2. ファイルの`extension [対象モデル名(PascalCase&末尾のModelを取り除く)]ModelDocumentExtension on [対象モデル名(PascalCase&末尾のModelを取り除く)]ModelDocument`内にある`// TODO: Define the extension method.`以下に`Widget toXXX()`のメソッドを定義
-    - メソッド名は必ず先頭に`to`を付与しモデルをどのようなWidgetに変換するかを明示する必要がある
+2. ファイルの`extension [TargetModelのModelName(PascalCase&末尾のModelを取り除く)]ModelDocumentExtension on [TargetModelのModelName(PascalCase&末尾のModelを取り除く)]ModelDocument`内にある`// TODO: Define the extension method.`以下に`Widget toXXX()`のメソッドを定義
+    - メソッド名は必ず先頭に`to`を付与し`Model`をどのような`Widget`に変換するかを明示する必要がある
 
-3. `概要`に応じて作成したメソッド内に適切な構築しUIを返す。
+3. `Content`に応じて作成したメソッド内に適切な構築しUIを返す。
     - 適宜`import`を追加する
-    - モデル内の変数は`value?.xxx`という形で利用可能
-        - nullableを直接利用できない場合は代替の値を設定。（Widgetの場合は`const Empty()`を設定）
-    - モデルごとのIDは`value.uid`という形で利用可能
+    - `Model`内の変数は`value?.xxx`という形で利用可能
+        - nullableを直接利用できない場合は代替の値を設定。（`Widget`の場合は`const Empty()`を設定）
+    - `Model`ごとのIDは`value.uid`という形で利用可能
 """;
   }
 }

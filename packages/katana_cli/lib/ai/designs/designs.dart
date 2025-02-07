@@ -1,8 +1,8 @@
 import 'package:katana_cli/ai/designs/controller_design.dart';
-import 'package:katana_cli/ai/designs/meta_design.dart';
+import 'package:katana_cli/ai/designs/metadata_design.dart';
 import 'package:katana_cli/ai/designs/model_design.dart';
 import 'package:katana_cli/ai/designs/plugin_design.dart';
-import 'package:katana_cli/ai/designs/screen_design.dart';
+import 'package:katana_cli/ai/designs/page_design.dart';
 import 'package:katana_cli/ai/designs/theme_design.dart';
 import 'package:katana_cli/ai/designs/widget_design.dart';
 import 'package:katana_cli/katana_cli.dart';
@@ -28,6 +28,6 @@ class DesignsAiCode extends CliAiCodeCommand {
         "plugin_design": const PluginDesignMdcCliAiCode(),
         "model_design": const ModelDesignMdcCliAiCode(),
         "controller_design": const ControllerDesignMdcCliAiCode(),
-        "meta_design": const MetaDesignMdcCliAiCode(),
+        "metadata_design": const MetadataDesignMdcCliAiCode(),
       };
 }

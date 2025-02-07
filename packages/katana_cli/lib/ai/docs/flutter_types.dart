@@ -10,10 +10,10 @@ class FlutterTypesMdcCliAiCode extends CliAiCode {
   const FlutterTypesMdcCliAiCode();
 
   @override
-  String get name => "Flutter特有の型の一覧";
+  String get name => "Flutter特有のタイプの一覧";
 
   @override
-  String get description => "Flutter特有の型の一覧";
+  String get description => "Flutter特有のタイプの一覧";
 
   @override
   String get globs => "*.dart";
@@ -24,7 +24,7 @@ class FlutterTypesMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-Flutterにおいて様々な場所で利用可能なタイプであるFlutter特有の型の一覧を下記に記載する。
+Flutterにおいて様々な場所で利用可能なタイプであるFlutter特有のタイプの一覧を下記に記載する。
 
 ## 利用可能な場所一覧
 
@@ -35,15 +35,15 @@ Flutterにおいて様々な場所で利用可能なタイプであるFlutter特
 
 ※`Model`の`DataField`におけるタイプには利用不可。
 
-## Flutter特有の型の一覧
+## Flutter特有のタイプの一覧
 
-| タイプ | 概要 |
+| Type | Summary |
 | --- | --- |
 | `Widget` | FlutterのWidgetを継承したクラスすべて。Masamuneフレームワークにおける`Widget`や`Page`も含む。 |
-| `Future<[タイプ]>` | 非同期処理の結果を返す。 |
-| `FutureOr<[タイプ]>` | 非同期処理の結果を返す。 |
+| `Future<[Type]>` | 非同期処理の結果を返す。 |
+| `FutureOr<[Type]>` | 非同期処理の結果を返す。 |
 | `VoidCallback` | 引数がなく戻り値がない関数。 |
-| `ValueChanged<[タイプ]>` | 値が変更された際に呼び出される関数。 |
+| `ValueChanged<[Type]>` | 値が変更された際に呼び出される関数。 |
 """;
   }
 }

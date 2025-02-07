@@ -10,7 +10,7 @@ class ThemeDesignMdcCliAiCode extends CliAiCode {
   const ThemeDesignMdcCliAiCode();
 
   @override
-  String get name => "テーマ設計書の作成";
+  String get name => "`Theme設計書`の作成";
 
   @override
   String get globs => "*.md";
@@ -19,26 +19,26 @@ class ThemeDesignMdcCliAiCode extends CliAiCode {
   String get directory => "designs";
 
   @override
-  String get description => "Masamuneフレームワークによるテーマ設計書の作成";
+  String get description => "Masamuneフレームワークによる`Theme設計書`の作成";
 
   @override
   String body(String baseName, String className) {
     return r"""
-[requirements.md](mdc:requirements.md)に記載されている`要件定義`から`要件定義`から`テーマ設計書`を作成
+[requirements.md](mdc:requirements.md)に記載されている`要件定義`から`Theme設計書`を作成
 
-1. `要件定義`から`カラーモード`と`カラースキーム`を設定し`テーマ設計書`を作成
-    - `カラーモード`は下記から選択
-        - `ダークモード`
+1. `要件定義`から`ColorMode`と`ColorScheme`を設定し`Theme設計書`を作成
+    - `ColorMode`は下記から選択
+        - `DarkMode`
             - 黒背景ベースに白文字
-        - `ライトモード`
+        - `LightMode`
             - 白背景ベースに黒文字 
-        - `システム設定依存`
-            - 端末のシステム設定によって`ダークモード`か`ライトモード`どちらかに自動設定。要望がない場合はこちらを選択
-    - `カラースキーム`は下記の種類を定義        
-        | カラー | 概要 |
+        - `SystemSettingDependent`
+            - 端末のシステム設定によって`DarkMode`か`LightMode`どちらかに自動設定。要望がない場合はこちらを選択
+    - `ColorScheme`は下記の種類を定義
+        | ColorScheme | Summary |
         | --- | --- |
-        | `background` | 背景色。`ダークモード`の場合は、`0xFF212121`。`ライトモード`の場合は、`0xFFF7F7F7`。`システム設定依存`の場合は設定しない。 |
-        | `onBackground` | 背景色の上に表示する文字やアイコン色。`ダークモード`の場合は、`0xFFF7F7F7`。`ライトモード`の場合は、`0xFF212121`。`システム設定依存`の場合は設定しない。 |
+        | `background` | 背景色。`DarkMode`の場合は、`0xFF212121`。`LightMode`の場合は、`0xFFF7F7F7`。`SystemSettingDependent`の場合は設定しない。 |
+        | `onBackground` | 背景色の上に表示する文字やアイコン色。`DarkMode`の場合は、`0xFFF7F7F7`。`LightMode`の場合は、`0xFF212121`。`SystemSettingDependent`の場合は設定しない。 |
         | `primary` | メインカラー。 |
         | `onPrimary` | メインカラーを背景色にしたときに上に表示する文字やアイコン色。通常は`0xFFF7F7F7`。 |
         | `secondary` | ２番目のメインカラー。 |
@@ -58,19 +58,19 @@ class ThemeDesignMdcCliAiCode extends CliAiCode {
         | `onInfo` | `warning`よりもさらに重要度が薄い通知の要素の背景色にしたときに上に表示する文字やアイコン色。通常は`0xFFF7F7F7`。 |
         | `success` | 成功や完了を通知する要素の文字やアイコン色、背景色。通常は`0xFF4CAF50`。 |
         | `onSuccess` | 成功や完了を通知する要素の背景色にしたときに上に表示する文字やアイコン色。通常は`0xFFF7F7F7`。 |
-        | `surface` | モーダルの背景色。`ダークモード`の場合は、`0xFF474747`。`ライトモード`の場合は、`0xFFE7E7E7`。`システム設定依存`の場合は設定しない。 |
-        | `onSurface` | モーダルの背景色の上に表示する文字やアイコン色。`ダークモード`の場合は、`0xFFF7F7F7`。`ライトモード`の場合は、`0xFF212121`。`システム設定依存`の場合は設定しない。 |
+        | `surface` | モーダルの背景色。`DarkMode`の場合は、`0xFF474747`。`LightMode`の場合は、`0xFFE7E7E7`。`SystemSettingDependent`の場合は設定しない。 |
+        | `onSurface` | モーダルの背景色の上に表示する文字やアイコン色。`DarkMode`の場合は、`0xFFF7F7F7`。`LightMode`の場合は、`0xFF212121`。`SystemSettingDependent`の場合は設定しない。 |
     - 例：
         ```markdown
         <!-- documents/designs/theme_design.md -->
         
-        ## カラーモード
+        ## ColorMode
         
-        `ダークモード`
+        `DarkMode`
         
-        ## カラースキーム
+        ## ColorScheme
         
-        | カラー | カラーコード |
+        | ColorScheme | Summary |
         | --- | --- |
         | `background` | 0xFF212121 |
         | `onBackground` | 0xFFF7F7F7 |
@@ -96,7 +96,7 @@ class ThemeDesignMdcCliAiCode extends CliAiCode {
         | `surface` | 0xFF474747 |
         | `onSurface` | 0xFFF7F7F7 |
         ```
-2. 作成した`テーマ設計書`を`documents/designs/theme_design.md`に保存
+2. 作成した`Theme設計書`を`documents/designs/theme_design.md`に保存
 """;
   }
 }

@@ -3,14 +3,14 @@ import 'package:katana_cli/katana_cli.dart';
 /// Contents of meta_impl.mdc.
 ///
 /// meta_impl.mdcの中身。
-class MetaImplMdcCliAiCode extends CliAiCode {
+class MetadataImplMdcCliAiCode extends CliAiCode {
   /// Contents of meta_impl.mdc.
   ///
   /// meta_impl.mdcの中身。
-  const MetaImplMdcCliAiCode();
+  const MetadataImplMdcCliAiCode();
 
   @override
-  String get name => "メタデータの実装";
+  String get name => "`MetaData`の実装";
 
   @override
   String get globs => "*.yaml";
@@ -19,14 +19,14 @@ class MetaImplMdcCliAiCode extends CliAiCode {
   String get directory => "impls";
 
   @override
-  String get description => "Masamuneフレームワークによるメタデータの実装";
+  String get description => "Masamuneフレームワークによる`MetaData`の実装";
 
   @override
   String body(String baseName, String className) {
     return r"""
-[meta_design.md](mdc:documents/designs/meta_design.md)に記載されている`メタデータ設計書`から[katana.yaml](mdc:katana.yaml)を編集しメタデータを実装
+[metadata_design.md](mdc:documents/designs/metadata_design.md)に記載されている`MetaData設計書`から[katana.yaml](mdc:katana.yaml)を編集し`MetaData`を実装
 
-1. `メタデータ設計書`で定義されている内容を元に[katana.yaml](mdc:katana.yaml)を編集
+1. `MetaData設計書`で定義されている内容を元に[katana.yaml](mdc:katana.yaml)を編集
     - [katana.yaml](mdc:katana.yaml)の`app->info`を編集
       ```yaml
         # Describe the application information.
@@ -48,9 +48,9 @@ class MetaImplMdcCliAiCode extends CliAiCode {
           apple_app_id: # e.g. idxxxxxx
           locale:
             ja: # 言語によって記載する内容を変更
-              title: [アプリケーションタイトル]
-              short_title: [短いアプリケーションタイトル]
-              overview: [アプリケーションの概要]
+              title: [ApplicationTitle]
+              short_title: [ShortApplicationTitle]
+              overview: [ApplicationOverview]
 2. 下記コマンドを実行して変更を適用
 
   ```bash

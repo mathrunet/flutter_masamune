@@ -67,12 +67,6 @@ $excerpt
     ModelTimestamp.tryParse("2000-01-01 10:15:30");
     ```
 
-- サーバーからのデータを偽装（テスト用）
-
-    ```dart
-    ModelTimestamp.fromServer(dateTime);
-    ```
-
 ## `DateTime`の取得
 
 ```dart

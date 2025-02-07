@@ -10,7 +10,7 @@ class ModelImplMdcCliAiCode extends CliAiCode {
   const ModelImplMdcCliAiCode();
 
   @override
-  String get name => "モデルの実装";
+  String get name => "`Model`の実装";
 
   @override
   String get globs => "*.dart";
@@ -19,46 +19,49 @@ class ModelImplMdcCliAiCode extends CliAiCode {
   String get directory => "impls";
 
   @override
-  String get description => "Masamuneフレームワークによるモデルの実装";
+  String get description => "Masamuneフレームワークによる`Model`の実装";
 
   @override
   String body(String baseName, String className) {
     return r"""
-[model_design.md](mdc:documents/designs/model_design.md)に記載されている`モデル設計書`からDartコードを生成
+[model_design.md](mdc:documents/designs/model_design.md)に記載されている`Model設計書`からDartコードを生成
 
-1. `モデル設計書`で定義されているいずれかのモデル中の`データフィールド`にenumを元にした値が存在する時、それぞれのenumに対して下記を実行
+1. `Model設計書`で定義されているいずれかの`Model`中の`DataField`にenumを元にした値が存在する時、それぞれの`Enum`に対して下記を実行
     1. 下記コマンドを実行 
         
       ```bash
-      katana code enum [Enum名(SnakeCase&末尾のEnumを取り除く)]
+      katana code enum [`EnumName`(SnakeCase&末尾のEnumを取り除く)]
       ```
     
-    2. コマンド実行後、`lib/enums`以下に[Enum名(SnakeCase&末尾のEnumを取り除く)].dartファイルが作成される
+    2. コマンド実行後、`lib/enums`以下に[`EnumName`(SnakeCase&末尾のEnumを取り除く)].dartファイルが作成される
     3. 生成されたdartファイルを書き換えて要素を追加
 
-2. `モデル設計書`で定義されている各モデルに対し下記を実行
-    1. `モデルタイプ`に応じて下記コマンドを実行 
+2. `Model設計書`で定義されている各`Model`に対し下記を実行
+    1. `ModelType`に応じて下記コマンドを実行 
         - `Collection`
         
             ```bash
-            katana code collection [モデル名(SnakeCase)]
+            katana code collection [ModelName(SnakeCase)]
             ```
         
         - `Document`
         
             ```bash
-            katana code document [モデル名(SnakeCase)]
+            katana code document [ModelName(SnakeCase)]
             ```
-    2. コマンド実行後、`lib/models`以下に[モデル名(SnakeCase)].dartファイルが作成される
+    2. コマンド実行後、`lib/models`以下に[ModelName(SnakeCase)].dartファイルが作成される
     3. 生成されたdartファイルを書き換える
-        1. `@CollectionModelPath`（`モデルタイプ`が`Document`の場合は`@DocumentModelPath`）のAnnotationに対応する`モデルパス`を記載。
-        2. `// TODO: Set the data fields.`以下に定義した`データフィールド`を追記。
-            - 各フィールドには`タイプ`と`フィールド名`（CamelCase）を記載。
-                - フィールドが必須の場合はタイプの前に`required`を付与。
-                - 任意でかつデフォルト値が存在する場合は`@Default([デフォルト値])`のAnnotationを付与。
-                - 任意でかつデフォルト値が存在しない場合は`タイプ`の末尾に`?`を付与しNullableにする
+        1. `@CollectionModelPath`（`ModelType`が`Document`の場合は`@DocumentModelPath`）のAnnotationに対応する`ModelPath`を記載。
+        2. `// TODO: Set the data fields.`以下に定義した`DataField`を追記。
+            - 各フィールドには`DataFieldType`と`DataFieldName`（CamelCase）を記載。
+                - `DataFieldType`は*必ず*下記のタイプから選択する。
+                    - [ModelFieldValue](mdc:.cursor/rules/docs/model_field_value_usage.mdc)
+                    - [プリミティブタイプ](mdc:.cursor/rules/docs/primitive_types.mdc)                    
+                - `DataField`が`Required`の場合は`DataFieldType`の前に`required`を付与。
+                - `Optional`でかつ`DefaultValue`が存在する場合は`@Default([DefaultValue])`のAnnotationを付与。
+                - `Optional`でかつ`DefaultValue`が存在しない場合は`DataFieldType`の末尾に`?`を付与しNullableにする
             - 例：
-                - `MemoModel`（`モデルタイプ`: `Collection`）
+                - `MemoModel`（`ModelType`: `Collection`）
                   ```dart
                   // lib/models/memo.dart
 
@@ -191,7 +194,7 @@ class ModelImplMdcCliAiCode extends CliAiCode {
                   /// Collection class for storing MemoModel.
                   typedef MemoModelMirrorCollection = _$MemoModelMirrorCollection;
                   ```
-                - `AppSettingModel`（`モデルタイプ`: `Document`）
+                - `AppSettingModel`（`ModelType`: `Document`）
                   ```dart
                   // lib/models/app_setting.dart
 
