@@ -51,3 +51,4 @@ part 'src/universal_padding.dart';
 part 'src/universal_widget_scope.dart';
 part 'src/universal_search_bar.dart';
 part 'src/universal_header_tile.dart';
+part 'src/universal_grid_view.dart';
