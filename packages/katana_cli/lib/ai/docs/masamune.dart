@@ -399,6 +399,13 @@ class MasamuneDocsMdcCliAiCode extends CliAiCode {
 
 - [`ModelFieldValue`の利用方法](mdc:.cursor/rules/docs/model_field_value_usage.mdc)
 
+### `UniversalUI`の利用方法
+
+- [`UniversalUI`の利用方法](mdc:.cursor/rules/docs/universal_ui_usage.mdc)
+
+### `KatanaUI`の利用方法
+
+- [`KatanaUI`の利用方法](mdc:.cursor/rules/docs/katana_ui_usage.mdc)
 """;
   }
 }
