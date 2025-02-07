@@ -38,19 +38,9 @@ class ScreenDesignMdcCliAiCode extends CliAiCode {
             - 先頭および末尾に`/`は記述しない。
             - 各階層で`:`が先頭に付与されている場合、`:`を除いた名前の変数となる。（e.g. `memo/edit/:memo_id`の場合は`memo_id`が変数）
         - `PageType`
-            - 下記の`PageType`からいずれか１つを選び`PageTypeID`を記載
-              | PageType | PageTypeID | 概要 |
-              | --- | --- |
-              | リストビュー | `listview` | 上から下に要素が並んでおりスクロール可能なView。 |
-              | グリッドビュー | `gridview` | 上から下に格子状に要素が並んでおりスクロール可能なView。 |
-              | 固定ビュー | `fixedview` | スクロール不可で各要素が固定されているView。 |
-              | リストフォームビュー | `listform` | 入力・選択フォームが上から下に並んでおりスクロール可能なView。 |
-              | 固定フォームビュー | `fixedform` | スクロール不可で入力・選択フォームが固定されているView。 |
-              | ナビゲーションビュー | `navigation` | 下部に横並びでナビゲーションが配置され、メインスペースに別`Page`が表示されているView。 |
-              | タブビュー | `tab` | 上部に横並びでタブが配置され、タブを切り替えることで画面がスライドするView。 |
-              | その他 | `page` | その他通常の`Page`View。 |
-        - `Summary`
-            - 各`Page`における`Page構成要素`と各構成要素に対する`Action`を箇条書きで細かく記載
+            - [`PageType`の一覧](mdc:.cursor/rules/docs/page_types.mdc)から相応しい`PageType`を1つ選び`PageTypeID`を記載
+        - `Content`
+            - 各`Page`における`構成要素`と各構成要素に対する`Action`を箇条書きで細かく記載
     - 例：
         ```markdown
         <!-- documents/designs/page_design.md -->
@@ -67,7 +57,7 @@ class ScreenDesignMdcCliAiCode extends CliAiCode {
 
         `listview`
 
-        ### Summary
+        ### Content
         
         - 起動時に表示
         - AppBarにアプリタイトルを表示
@@ -90,7 +80,7 @@ class ScreenDesignMdcCliAiCode extends CliAiCode {
 
         `page`
         
-        ### Summary
+        ### Content
         
         - AppBarにメモのタイトルを表示
         - 上部にメモの作成者、作成日時、更新日時、タグを表示
@@ -112,7 +102,7 @@ class ScreenDesignMdcCliAiCode extends CliAiCode {
 
         `listform`
         
-        ### Summary
+        ### Content
         
         - AppBarに「新規作成」と表示
         - 下記のフォームを表示
@@ -137,7 +127,7 @@ class ScreenDesignMdcCliAiCode extends CliAiCode {
 
         `listform`
         
-        ### Summary
+        ### Content
         
         - AppBarに「[メモのタイトル]の編集」と表示
         - 下記のフォームを表示し各要素に既存のデータを入力済みにする

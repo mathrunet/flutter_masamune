@@ -1,5 +1,6 @@
 import 'package:katana_cli/command/apply.dart';
 import 'package:katana_cli/command/code/server/server.dart';
+import 'package:katana_cli/command/code/view/view.dart';
 import 'package:katana_cli/command/deploy.dart';
 import 'package:katana_cli/command/doctor.dart';
 import 'package:katana_cli/command/store/store.dart';
@@ -32,6 +33,14 @@ const _kAvailableCommands = [
   CodeServerFirestoreTriggeredCliCommand(),
   CodeServerRequestCliCommand(),
   CodeServerScheduleCliCommand(),
+  CodeViewFixedViewCliCommand(),
+  CodeViewListViewCliCommand(),
+  CodeViewGridViewCliCommand(),
+  CodeViewFixedFormCliCommand(),
+  CodeViewListFormCliCommand(),
+  CodeViewNavigationCliCommand(),
+  CodeViewPageCliCommand(),
+  CodeViewTabCliCommand(),
   CodeGenerateCliCommand(),
   CodeFormatCliCommand(),
   CodeZipCliCommand(),
