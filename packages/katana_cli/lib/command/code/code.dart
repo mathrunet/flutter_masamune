@@ -9,7 +9,7 @@ import 'package:archive/archive_io.dart';
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 import 'server/server.dart';
-import 'tmp/tmp.dart';
+import 'view/view.dart';
 
 part 'collection.dart';
 part 'controller.dart';
@@ -43,7 +43,7 @@ class CodeCliCommand extends CliCommandGroup {
 
   @override
   Map<String, CliCommand> get commands => const {
-        "tmp": CodeTmpCliCommand(),
+        "view": CodeViewCliCommand(),
         "server": CodeServerCliCommand(),
         "boot": CodeBootCliCommand(),
         "format": CodeFormatCliCommand(),

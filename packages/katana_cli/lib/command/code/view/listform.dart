@@ -1,29 +1,29 @@
-part of "tmp.dart";
+part of "view.dart";
 
-/// Create a template for the form page.
+/// Create a template for the list form page.
 ///
-/// フォームページのテンプレートを作成します。
-class CodeTmpFormCliCommand extends CliCodeCommand {
-  /// Create a template for the form page.
+/// リストフォームページのテンプレートを作成します。
+class CodeViewListFormCliCommand extends CliCodeCommand {
+  /// Create a template for the list form page.
   ///
-  /// フォームページのテンプレートを作成します。
-  const CodeTmpFormCliCommand();
+  /// リストフォームページのテンプレートを作成します。
+  const CodeViewListFormCliCommand();
 
   @override
-  String get name => "template_form";
+  String get name => "template_listform";
 
   @override
-  String get prefix => "templateForm";
+  String get prefix => "templateListForm";
 
   @override
   String get directory => "lib/pages";
 
   @override
   String get description =>
-      "Create a template for the form page in `$directory/(filepath).dart`. フォームページのテンプレートを`$directory/(filepath).dart`に作成します。";
+      "Create a template for the list form page in `$directory/(filepath).dart`. リストフォームページのテンプレートを`$directory/(filepath).dart`に作成します。";
 
   @override
-  String? get example => "katana code tmp form [page_name]";
+  String? get example => "katana code tmp listform [page_name]";
 
   @override
   Future<void> exec(ExecContext context) async {
@@ -176,7 +176,18 @@ class ${className}Form extends FormScopedWidget {
 
     // Describes the structure of the page.
     // TODO: Implement the view.
-    return \${5:UniversalScaffold()};
+    return UniversalScaffold(
+      appBar: UniversalAppBar(
+        // TODO: Implement the app bar.
+        \${5}
+      ),
+      body: UniversalListView(
+        children: [
+          // TODO: Implement the list view.
+          \${6}
+        ],
+      ),
+    );
   }
 }
 """;

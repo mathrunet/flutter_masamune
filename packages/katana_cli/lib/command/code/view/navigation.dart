@@ -1,13 +1,13 @@
-part of "tmp.dart";
+part of "view.dart";
 
 /// Create a template for the bottom navigation.
 ///
 /// 下部ナビゲーションのテンプレートを作成します。
-class CodeTmpNavigationCliCommand extends CliCodeCommand {
+class CodeViewNavigationCliCommand extends CliCodeCommand {
   /// Create a template for the bottom navigation.
   ///
   /// 下部ナビゲーションのテンプレートを作成します。
-  const CodeTmpNavigationCliCommand();
+  const CodeViewNavigationCliCommand();
 
   @override
   String get name => "template_navigation";

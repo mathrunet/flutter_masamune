@@ -4,7 +4,7 @@ globs: *.dart
 ---
 # ModelFieldValue抽出
 
-[katana_modelのsrc](mdc:flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/packages/katana_model/lib/src)にある`ModelFieldValue`を継承したクラスを抽出し`packages/katana_cli/lib/ai/docs/model_field_value/`以下にDartファイルを作成する。
+[katana_modelのsrc](mdc:flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/flutter_masamune/packages/katana_model/lib/src)にある`ModelFieldValue`を継承したクラスを抽出し`packages/katana_cli/lib/ai/docs/model_field_value/`以下にDartファイルを作成する。
 
 下記に例として`ModelTimestamp`と`ModelCounter`にて生成するDartファイルを示す。
 
