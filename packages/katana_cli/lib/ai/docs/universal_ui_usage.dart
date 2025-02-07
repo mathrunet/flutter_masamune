@@ -72,10 +72,11 @@ Masamuneフレームワークにおいて様々な場所で利用可能なタイ
 ## `UniversalUI`の一覧
 
 | Class | Summary | Usage |
-| --- | --- | --- |""";
+| --- | --- | --- |
+""";
     for (final entry in kUniversalUiList.entries) {
       header +=
-          "| ${entry.key} | ${entry.value.excerpt} | [Usage](mdc:.cursor/rules/universal_ui/${entry.key.toSnakeCase()}.mdc) |\n";
+          "| `${entry.key}` | ${entry.value.excerpt} | [Usage](mdc:.cursor/rules/universal_ui/${entry.key.toSnakeCase()}.mdc) |\n";
     }
     return header;
   }

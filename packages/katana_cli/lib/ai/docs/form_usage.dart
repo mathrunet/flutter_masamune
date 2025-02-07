@@ -107,10 +107,11 @@ Masamuneフレームワークにおいて様々な場所で利用可能なタイ
 ## `Form`の一覧
 
 | Class | Summary | Usage |
-| --- | --- | --- |""";
+| --- | --- | --- |
+""";
     for (final entry in kFormList.entries) {
       header +=
-          "| ${entry.key} | ${entry.value.excerpt} | [Usage](mdc:.cursor/rules/form/${entry.key.toSnakeCase()}.mdc) |\n";
+          "| `${entry.key}` | ${entry.value.excerpt} | [Usage](mdc:.cursor/rules/form/${entry.key.toSnakeCase()}.mdc) |\n";
     }
     header += """
 

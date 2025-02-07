@@ -82,10 +82,11 @@ Masamuneフレームワークにおいて様々な場所で利用可能なタイ
 ## `ModelFieldValue`の一覧
 
 | Type | Summary | Usage |
-| --- | --- | --- |""";
+| --- | --- | --- |
+""";
     for (final entry in kModelFieldValueList.entries) {
       header +=
-          "| ${entry.key} | ${entry.value.excerpt} | [Usage](mdc:.cursor/rules/model_field_value/${entry.key.toSnakeCase()}.mdc) |\n";
+          "| `${entry.key}` | ${entry.value.excerpt} | [Usage](mdc:.cursor/rules/model_field_value/${entry.key.toSnakeCase()}.mdc) |\n";
     }
     return header;
   }

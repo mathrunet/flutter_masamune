@@ -76,10 +76,11 @@ Masamuneフレームワークにおいて様々な場所で利用可能なタイ
 ## `KatanaUI`の一覧
 
 | Class | Summary | Usage |
-| --- | --- | --- |""";
+| --- | --- | --- |
+""";
     for (final entry in kKatanaUiList.entries) {
       header +=
-          "| ${entry.key} | ${entry.value.excerpt} | [Usage](mdc:.cursor/rules/katana_ui/${entry.key.toSnakeCase()}.mdc) |\n";
+          "| `${entry.key}` | ${entry.value.excerpt} | [Usage](mdc:.cursor/rules/katana_ui/${entry.key.toSnakeCase()}.mdc) |\n";
     }
     return header;
   }
