@@ -10,10 +10,11 @@ class KatanaUIScrollBuilderMdcCliAiCode extends KatanaUiUsageCliAiCode {
   const KatanaUIScrollBuilderMdcCliAiCode();
 
   @override
-  String get name => "ScrollBuilderの利用方法";
+  String get name => "`ScrollBuilder`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるScrollBuilderの利用方法";
+  String get description =>
+      "ListViewやSingleChildScrollViewに簡単にRefreshIndicatorやScrollbarを追加できるウィジェットである`ScrollBuilder`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

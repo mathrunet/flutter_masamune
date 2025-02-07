@@ -10,10 +10,10 @@ class KatanaUIChatTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
   const KatanaUIChatTileMdcCliAiCode();
 
   @override
-  String get name => "ChatTileの利用方法";
+  String get name => "`ChatTile`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるChatTileの利用方法";
+  String get description => "チャットの吹き出しを作成するためのウィジェットである`ChatTile`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -23,7 +23,7 @@ class KatanaUIChatTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "チャット画面を作成するためのウィジェット。メッセージの配置や見た目をカスタマイズ可能で、自分と相手のメッセージを視覚的に区別できる。";
+      "チャットの吹き出しを作成するためのウィジェット。メッセージの配置や見た目をカスタマイズ可能で、自分と相手のメッセージを視覚的に区別できる。";
 
   @override
   String body(String baseName, String className) {

@@ -10,10 +10,10 @@ class KatanaUIMessageBoxMdcCliAiCode extends KatanaUiUsageCliAiCode {
   const KatanaUIMessageBoxMdcCliAiCode();
 
   @override
-  String get name => "MessageBoxの利用方法";
+  String get name => "`MessageBox`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるMessageBoxの利用方法";
+  String get description => "メッセージを表示するためのボックスウィジェットである`MessageBox`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

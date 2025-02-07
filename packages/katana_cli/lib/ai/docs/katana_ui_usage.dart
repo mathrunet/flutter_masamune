@@ -57,10 +57,10 @@ class KatanaUiUsageMdcCliAiCode extends CliAiCode {
   const KatanaUiUsageMdcCliAiCode();
 
   @override
-  String get name => "MasamuneフレームワークのKatanaUIの利用方法";
+  String get name => "`KatanaUI`の一覧とその利用方法";
 
   @override
-  String get description => "Masamuneフレームワーク特有のタイプであるKatanaUIの利用方法";
+  String get description => "様々な場所で利用可能な`Widget`である`KatanaUI`の一覧とその利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -71,7 +71,7 @@ class KatanaUiUsageMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     var header = r"""
-Masamuneフレームワークにおいて様々な場所で利用可能なタイプである`KatanaUI`の一覧と利用方法を下記に記載する。
+様々な場所で利用可能な`Widget`である`KatanaUI`の一覧とその利用方法を下記に記載する。
 
 ## `KatanaUI`の一覧
 

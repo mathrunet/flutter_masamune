@@ -10,10 +10,11 @@ class ModelFieldValueModelTokenMdcCliAiCode extends ModelFieldValueCliAiCode {
   const ModelFieldValueModelTokenMdcCliAiCode();
 
   @override
-  String get name => "ModelTokenの利用方法";
+  String get name => "`ModelToken`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるModelTokenの利用方法";
+  String get description =>
+      "複数のトークンを保存するためのクラスである`ModelToken`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

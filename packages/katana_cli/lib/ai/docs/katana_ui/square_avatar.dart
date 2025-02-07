@@ -10,10 +10,10 @@ class KatanaUISquareAvatarMdcCliAiCode extends KatanaUiUsageCliAiCode {
   const KatanaUISquareAvatarMdcCliAiCode();
 
   @override
-  String get name => "SquareAvatarの利用方法";
+  String get name => "`SquareAvatar`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるSquareAvatarの利用方法";
+  String get description => "四角形のアバター表示用ウィジェットである`SquareAvatar`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

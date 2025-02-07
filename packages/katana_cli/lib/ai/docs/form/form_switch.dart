@@ -10,10 +10,10 @@ class KatanaFormSwitchMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormSwitchMdcCliAiCode();
 
   @override
-  String get name => "FormSwitchの利用方法";
+  String get name => "`FormSwitch`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormSwitchの利用方法";
+  String get description => "スイッチを表示し切り替えるためのフォームフィールドである`FormSwitch`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

@@ -10,10 +10,11 @@ class ModelFieldValueModelCounterMdcCliAiCode extends ModelFieldValueCliAiCode {
   const ModelFieldValueModelCounterMdcCliAiCode();
 
   @override
-  String get name => "ModelCounterの利用方法";
+  String get name => "`ModelCounter`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるModelCounterの利用方法";
+  String get description =>
+      "内部にintを保持し数字を扱えるようにしながら数字のインクリメントやデクリメントをサーバー側で行えるようにしたオブジェクトである`ModelCounter`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

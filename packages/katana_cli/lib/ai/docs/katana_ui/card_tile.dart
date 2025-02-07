@@ -10,10 +10,11 @@ class KatanaUICardTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
   const KatanaUICardTileMdcCliAiCode();
 
   @override
-  String get name => "CardTileの利用方法";
+  String get name => "`CardTile`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるCardTileの利用方法";
+  String get description =>
+      "カードウィジェットの上に画像やテキストを重ねて表示するためのウィジェットである`CardTile`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

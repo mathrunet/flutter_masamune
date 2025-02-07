@@ -10,10 +10,11 @@ class UniversalPaddingMdcCliAiCode extends UniversalUiUsageCliAiCode {
   const UniversalPaddingMdcCliAiCode();
 
   @override
-  String get name => "UniversalPaddingの利用方法";
+  String get name => "`UniversalPadding`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるUniversalPaddingの利用方法";
+  String get description =>
+      "`Padding`の`UniversalUI`版である`UniversalPadding`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

@@ -10,10 +10,11 @@ class UniversalScaffoldMdcCliAiCode extends UniversalUiUsageCliAiCode {
   const UniversalScaffoldMdcCliAiCode();
 
   @override
-  String get name => "UniversalScaffoldの利用方法";
+  String get name => "`UniversalScaffold`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるUniversalScaffoldの利用方法";
+  String get description =>
+      "`Scaffold`の`UniversalUI`版である`UniversalScaffold`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

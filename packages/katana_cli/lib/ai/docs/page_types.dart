@@ -10,10 +10,10 @@ class PageTypesMdcCliAiCode extends CliAiCode {
   const PageTypesMdcCliAiCode();
 
   @override
-  String get name => "`PageType`の一覧";
+  String get name => "`PageType`の一覧とその概要";
 
   @override
-  String get description => "`PageType`の一覧";
+  String get description => "`Page`のテンプレートである`PageType`の一覧とその概要";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -24,7 +24,7 @@ class PageTypesMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-`Page`のテンプレートである`PageType`の一覧を下記に記載する。
+`Page`のテンプレートである`PageType`の一覧とその概要を下記に記載する。
 
 ## `PageType`一覧
 

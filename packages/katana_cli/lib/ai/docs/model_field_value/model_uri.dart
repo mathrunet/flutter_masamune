@@ -10,10 +10,10 @@ class ModelFieldValueModelUriMdcCliAiCode extends ModelFieldValueCliAiCode {
   const ModelFieldValueModelUriMdcCliAiCode();
 
   @override
-  String get name => "ModelUriの利用方法";
+  String get name => "`ModelUri`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるModelUriの利用方法";
+  String get description => "URIを扱うためのクラスである`ModelUri`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

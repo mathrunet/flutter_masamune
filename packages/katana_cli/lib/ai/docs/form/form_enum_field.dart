@@ -10,10 +10,10 @@ class KatanaFormEnumFieldMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormEnumFieldMdcCliAiCode();
 
   @override
-  String get name => "FormEnumFieldの利用方法";
+  String get name => "`FormEnumField`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormEnumFieldの利用方法";
+  String get description => "列挙型の値を選択できるフォームフィールドである`FormEnumField`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

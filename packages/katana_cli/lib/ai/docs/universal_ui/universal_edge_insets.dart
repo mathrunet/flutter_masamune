@@ -10,10 +10,11 @@ class UniversalEdgeInsetsMdcCliAiCode extends UniversalUiUsageCliAiCode {
   const UniversalEdgeInsetsMdcCliAiCode();
 
   @override
-  String get name => "UniversalEdgeInsetsの利用方法";
+  String get name => "`UniversalEdgeInsets`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるUniversalEdgeInsetsの利用方法";
+  String get description =>
+      "`EdgeInsets`の`UniversalUI`版である`UniversalEdgeInsets`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

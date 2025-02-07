@@ -10,10 +10,10 @@ class ModelFilterConditionsMdcCliAiCode extends CliAiCode {
   const ModelFilterConditionsMdcCliAiCode();
 
   @override
-  String get name => "`Collection`の`Model`フィルター条件";
+  String get name => "`Collection`の`Model`のフィルター条件の利用方法";
 
   @override
-  String get description => "Masamuneフレームワークによる`Collection`の`Model`フィルター条件";
+  String get description => "`Collection`の`Model`を条件付きで取得するためのフィルター条件の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -24,7 +24,22 @@ class ModelFilterConditionsMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-`Collection`の`Model`フィルター条件は下記の通り。
+`Collection`の`Model`を条件付きで取得するためのフィルター条件の一覧とその利用方法を下記に記載する。
+すべて`Collection`の読み込みの後にメソッドチェーンで利用する。
+
+```dart
+final filteredCollection = ref.app.model(
+  AnyModel.collection()
+    .anyField.equal(value)
+    .otherField.lessThan(value)
+    .otherField.greaterThanOrEqual(value)
+    .listField.containsAny([value1, value2])
+    .otherField.orderByAsc()
+    .limitTo(100)
+)..load();
+```
+
+## フィルター条件の一覧
 
 | Conditions | Summary |
 | --- | --- |

@@ -10,10 +10,11 @@ class UniversalContainerMdcCliAiCode extends UniversalUiUsageCliAiCode {
   const UniversalContainerMdcCliAiCode();
 
   @override
-  String get name => "UniversalContainerの利用方法";
+  String get name => "`UniversalContainer`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるUniversalContainerの利用方法";
+  String get description =>
+      "`Container`の`UniversalUI`版である`UniversalContainer`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

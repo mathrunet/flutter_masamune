@@ -56,10 +56,10 @@ class KatanaCliDocsMdcCliAiCode extends CliAiCode {
   const KatanaCliDocsMdcCliAiCode();
 
   @override
-  String get name => "katanaコマンドの一覧";
+  String get name => "`katana`コマンドの一覧とその利用方法";
 
   @override
-  String get description => "Masamuneフレームワークで利用可能なkatanaコマンドの一覧";
+  String get description => "`katana`コマンドの一覧とその利用方法";
 
   @override
   String get globs =>
@@ -74,6 +74,12 @@ class KatanaCliDocsMdcCliAiCode extends CliAiCode {
     for (final command in _kAvailableCommands) {
       res.add("- `${command.example}`\n    - ${command.description}");
     }
-    return "\n${res.join("\n")}";
+    return """
+コードを生成やプラグインのインポートで必ず利用する`katana`コマンドの一覧とその利用方法を下記に記載する。
+
+## `katana`コマンドの一覧
+
+${res.join("\n")}
+""";
   }
 }

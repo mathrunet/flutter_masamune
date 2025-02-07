@@ -10,10 +10,10 @@ class KatanaFormNumFieldMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormNumFieldMdcCliAiCode();
 
   @override
-  String get name => "FormNumFieldの利用方法";
+  String get name => "`FormNumField`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormNumFieldの利用方法";
+  String get description => "数値入力を行うためのフォームフィールドである`FormNumField`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

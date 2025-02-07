@@ -10,10 +10,11 @@ class ModelFieldValueModelSearchMdcCliAiCode extends ModelFieldValueCliAiCode {
   const ModelFieldValueModelSearchMdcCliAiCode();
 
   @override
-  String get name => "ModelSearchの利用方法";
+  String get name => "`ModelSearch`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるModelSearchの利用方法";
+  String get description =>
+      "検索可能なフィールドを定義します。値を検索可能な値として保存し、[ModelQueryFilter.equal]で定義されたものがすべて含まれる要素を検索することが可能。カテゴリー検索等に利用可能。";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

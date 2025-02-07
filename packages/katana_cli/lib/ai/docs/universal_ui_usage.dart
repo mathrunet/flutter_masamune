@@ -53,10 +53,10 @@ class UniversalUiUsageMdcCliAiCode extends CliAiCode {
   const UniversalUiUsageMdcCliAiCode();
 
   @override
-  String get name => "MasamuneフレームワークのUniversalUIの利用方法";
+  String get name => "`UniversalUI`の一覧とその利用方法";
 
   @override
-  String get description => "Masamuneフレームワーク特有のタイプであるUniversalUIの利用方法";
+  String get description => "様々な場所で利用可能な`Widget`である`UniversalUI`の一覧とその利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -67,7 +67,7 @@ class UniversalUiUsageMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     var header = r"""
-Masamuneフレームワークにおいて様々な場所で利用可能なタイプである`UniversalUI`の一覧と利用方法を下記に記載する。
+様々な場所で利用可能な`Widget`である`UniversalUI`の一覧とその利用方法を下記に記載する。
 
 ## `UniversalUI`の一覧
 

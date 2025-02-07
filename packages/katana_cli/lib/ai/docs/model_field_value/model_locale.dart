@@ -10,10 +10,11 @@ class ModelFieldValueModelLocaleMdcCliAiCode extends ModelFieldValueCliAiCode {
   const ModelFieldValueModelLocaleMdcCliAiCode();
 
   @override
-  String get name => "ModelLocaleの利用方法";
+  String get name => "`ModelLocale`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるModelLocaleの利用方法";
+  String get description =>
+      "内部に`Locale`を保持し言語設定を扱えるようにしながらJsonにパースしやすくしたオブジェクトである`ModelLocale`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

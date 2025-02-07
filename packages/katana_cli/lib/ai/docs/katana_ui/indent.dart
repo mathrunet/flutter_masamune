@@ -10,10 +10,10 @@ class KatanaUIIndentMdcCliAiCode extends KatanaUiUsageCliAiCode {
   const KatanaUIIndentMdcCliAiCode();
 
   @override
-  String get name => "Indentの利用方法";
+  String get name => "`Indent`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるIndentの利用方法";
+  String get description => "要素間にパディングを設定するためのウィジェットである`Indent`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

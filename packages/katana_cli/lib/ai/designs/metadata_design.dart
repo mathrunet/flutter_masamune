@@ -19,7 +19,7 @@ class MetadataDesignMdcCliAiCode extends CliAiCode {
   String get directory => "designs";
 
   @override
-  String get description => "Masamuneフレームワークによる`MetaData設計書`の作成";
+  String get description => "`MetaData設計`の方法と`MetaData設計書`の作成";
 
   @override
   String body(String baseName, String className) {

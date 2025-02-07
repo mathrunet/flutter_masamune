@@ -10,10 +10,10 @@ class UniversalAppBarMdcCliAiCode extends UniversalUiUsageCliAiCode {
   const UniversalAppBarMdcCliAiCode();
 
   @override
-  String get name => "UniversalAppBarの利用方法";
+  String get name => "`UniversalAppBar`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるUniversalAppBarの利用方法";
+  String get description => "`AppBar`の`UniversalUI`版である`UniversalAppBar`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

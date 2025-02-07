@@ -19,7 +19,7 @@ class MetadataImplMdcCliAiCode extends CliAiCode {
   String get directory => "impls";
 
   @override
-  String get description => "Masamuneフレームワークによる`MetaData`の実装";
+  String get description => "`MetaData設計書`を用いた`MetaData`の実装方法";
 
   @override
   String body(String baseName, String className) {

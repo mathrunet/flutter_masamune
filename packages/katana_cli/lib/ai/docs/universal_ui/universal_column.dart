@@ -10,10 +10,10 @@ class UniversalColumnMdcCliAiCode extends UniversalUiUsageCliAiCode {
   const UniversalColumnMdcCliAiCode();
 
   @override
-  String get name => "UniversalColumnの利用方法";
+  String get name => "`UniversalColumn`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるUniversalColumnの利用方法";
+  String get description => "`Column`の`UniversalUI`版である`UniversalColumn`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

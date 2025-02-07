@@ -10,10 +10,10 @@ class KatanaFormButtonMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormButtonMdcCliAiCode();
 
   @override
-  String get name => "FormButtonの利用方法";
+  String get name => "`FormButton`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormButtonの利用方法";
+  String get description => "フォームの送信ボタンを表示するための`FormButton`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

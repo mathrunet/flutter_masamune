@@ -19,7 +19,7 @@ class ThemeDesignMdcCliAiCode extends CliAiCode {
   String get directory => "designs";
 
   @override
-  String get description => "Masamuneフレームワークによる`Theme設計書`の作成";
+  String get description => "`Theme設計`の方法と`Theme設計書`の作成";
 
   @override
   String body(String baseName, String className) {

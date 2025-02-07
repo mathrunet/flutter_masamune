@@ -10,10 +10,10 @@ class KatanaFormDurationFieldMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormDurationFieldMdcCliAiCode();
 
   @override
-  String get name => "FormDurationFieldの利用方法";
+  String get name => "`FormDurationField`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormDurationFieldの利用方法";
+  String get description => "時間の長さ（Duration）を入力するための`FormDurationField`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

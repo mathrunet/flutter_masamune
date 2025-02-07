@@ -13,7 +13,7 @@ class RouterUsageMdcCliAiCode extends CliAiCode {
   String get name => "`Router`の利用方法";
 
   @override
-  String get description => "Masamuneフレームワークによる`Router`の利用方法";
+  String get description => "`Page`を遷移する際に利用する`Router`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -24,7 +24,8 @@ class RouterUsageMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-`Page`を遷移する際の`Router`の利用は下記のように行う。
+`Page`を遷移する際に利用する`Router`の利用方法を下記に記載する。
+`Router`は`lib/main.dart`で定義されているため適宜`lib/main.dart`をインポートする。
 
 ## 通常利用
 

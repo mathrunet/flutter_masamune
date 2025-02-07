@@ -10,10 +10,10 @@ class KatanaFormPinFieldMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormPinFieldMdcCliAiCode();
 
   @override
-  String get name => "FormPinFieldの利用方法";
+  String get name => "`FormPinField`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormPinFieldの利用方法";
+  String get description => "PINコード入力用のフォームフィールドである`FormPinField`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

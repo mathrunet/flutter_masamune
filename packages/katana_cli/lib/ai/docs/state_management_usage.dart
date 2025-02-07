@@ -10,10 +10,11 @@ class StateManagementUsageMdcCliAiCode extends CliAiCode {
   const StateManagementUsageMdcCliAiCode();
 
   @override
-  String get name => "`State`の利用方法";
+  String get name => "アプリ内の状態を管理するための`State`の利用方法";
 
   @override
-  String get description => "Masamuneフレームワークによる`State`の利用方法";
+  String get description =>
+      "アプリ内の状態を管理するため`Page`や`Widget`、`Modal`、`Controller`や`RedirectQuery`内で利用可能な`State`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -24,9 +25,9 @@ class StateManagementUsageMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-`Page`や`Widget`、`Modal`、`Controller`や`RedirectQuery`内で利用される`State`は下記の方法で利用可能。
+アプリ内の状態を管理するため`Page`や`Widget`、`Modal`、`Controller`や`RedirectQuery`内で利用可能な`State`の利用方法を下記に記載する。
 
-## `Model`や`Controller`、`RedirectQuery`
+## `Model`や`Controller`、`RedirectQuery`内での利用
 
 `Model`や`Controller`、`RedirectQuery`内では[main.dart](mdc:lib/main.dart)内で定義されている`appRef`を利用することにより`State`を利用可能。
 
@@ -63,7 +64,7 @@ class StateManagementUsageMdcCliAiCode extends CliAiCode {
     ```
 
 
-## `Page`（PageScopedWidgetを継承したもの）および`Widget`（ScopedWidgetを継承したもの）
+## `Page`（PageScopedWidgetを継承したもの）および`Widget`（ScopedWidgetを継承したもの）内での利用
 
 Page（PageScopedWidgetを継承したもの）およびWidget（ScopedWidgetを継承したもの）内ではbuildメソッド内の`ref`を利用することにより`State`を利用可能。
 

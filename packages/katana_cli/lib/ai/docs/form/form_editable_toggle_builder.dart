@@ -10,10 +10,11 @@ class KatanaFormEditableToggleBuilderMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormEditableToggleBuilderMdcCliAiCode();
 
   @override
-  String get name => "FormEditableToggleBuilderの利用方法";
+  String get name => "`FormEditableToggleBuilder`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormEditableToggleBuilderの利用方法";
+  String get description =>
+      "編集モードと表示モードを切り替えられるフォームビルダーである`FormEditableToggleBuilder`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

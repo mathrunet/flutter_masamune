@@ -10,10 +10,11 @@ class KatanaUIShimmerMdcCliAiCode extends KatanaUiUsageCliAiCode {
   const KatanaUIShimmerMdcCliAiCode();
 
   @override
-  String get name => "Shimmerの利用方法";
+  String get name => "`Shimmer`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるShimmerの利用方法";
+  String get description =>
+      "ローディング状態を表現するためのシマーエフェクトを提供するウィジェットである`Shimmer`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

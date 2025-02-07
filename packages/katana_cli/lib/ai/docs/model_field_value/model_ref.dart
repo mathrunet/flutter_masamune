@@ -10,10 +10,10 @@ class ModelFieldValueModelRefMdcCliAiCode extends ModelFieldValueCliAiCode {
   const ModelFieldValueModelRefMdcCliAiCode();
 
   @override
-  String get name => "ModelRefの利用方法";
+  String get name => "`ModelRef`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるModelRefの利用方法";
+  String get description => "別`Model`への参照を扱うためのクラスである`ModelRef`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -23,7 +23,7 @@ class ModelFieldValueModelRefMdcCliAiCode extends ModelFieldValueCliAiCode {
 
   @override
   String get excerpt =>
-      "モデルへの参照を扱うためのクラス。データベースの外部キーのような役割を果たし、モデル間の関連を管理する。`Document`の実装を含んでおり、データがある場合は`Document`のように利用可能。";
+      "別`Model`への参照を扱うためのクラス。データベースの外部キーのような役割を果たし、モデル間の関連を管理する。`Document`の実装を含んでおり、データがある場合は`Document`のように利用可能。";
 
   @override
   String body(String baseName, String className) {

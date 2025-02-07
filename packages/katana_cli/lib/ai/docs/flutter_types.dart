@@ -10,10 +10,11 @@ class FlutterTypesMdcCliAiCode extends CliAiCode {
   const FlutterTypesMdcCliAiCode();
 
   @override
-  String get name => "Flutter特有のタイプの一覧";
+  String get name => "主要なFlutter/Dartのタイプ一覧";
 
   @override
-  String get description => "Flutter特有のタイプの一覧";
+  String get description =>
+      "`Widget`や`Page`、`Controller`等のコンストラクタパラメーター、フィールド、関数やメソッドの引数と戻り値、処理内の変数等様々な場所で利用可能なFlutter/Dartのタイプ一覧";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -24,7 +25,7 @@ class FlutterTypesMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-Flutterにおいて様々な場所で利用可能なタイプであるFlutter特有のタイプの一覧を下記に記載する。
+`Widget`や`Page`、`Controller`等のコンストラクタパラメーター、フィールド、関数やメソッドの引数と戻り値、処理内の変数等様々な場所で利用可能なタイプである主要なFlutter/Dartのタイプ一覧を下記に記載する。
 
 ## 利用可能な場所一覧
 
@@ -35,7 +36,7 @@ Flutterにおいて様々な場所で利用可能なタイプであるFlutter特
 
 ※`Model`の`DataField`におけるタイプには利用不可。
 
-## Flutter特有のタイプの一覧
+## 主要なFlutter/Dartのタイプ一覧
 
 | Type | Summary |
 | --- | --- |

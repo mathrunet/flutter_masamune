@@ -10,10 +10,10 @@ class KatanaFormMonthFieldMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormMonthFieldMdcCliAiCode();
 
   @override
-  String get name => "FormMonthFieldの利用方法";
+  String get name => "`FormMonthField`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormMonthFieldの利用方法";
+  String get description => "年月を選択するためのフォームフィールドである`FormMonthField`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -23,7 +23,7 @@ class KatanaFormMonthFieldMdcCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "月を選択するためのフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。カレンダー表示、カスタムフォーマット、バリデーションなどの機能を備えています。";
+      "年月を選択するためのフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。カレンダー表示、カスタムフォーマット、バリデーションなどの機能を備えています。";
 
   @override
   String body(String baseName, String className) {

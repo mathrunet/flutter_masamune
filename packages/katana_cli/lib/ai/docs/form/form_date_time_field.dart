@@ -10,10 +10,10 @@ class KatanaFormDateTimeFieldMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormDateTimeFieldMdcCliAiCode();
 
   @override
-  String get name => "FormDateTimeFieldの利用方法";
+  String get name => "`FormDateTimeField`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormDateTimeFieldの利用方法";
+  String get description => "フォームの日時フィールドを表示し選択するための`FormDateTimeField`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

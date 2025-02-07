@@ -13,7 +13,7 @@ class ModalUsageMdcCliAiCode extends CliAiCode {
   String get name => "`Modal`の実装方法";
 
   @override
-  String get description => "Masamuneフレームワークによる`Modal`の実装方法";
+  String get description => "アラートやダイアログの表示を行うための`Modal`の実装方法";
 
   @override
   String get globs => "lib/modals/**/*.dart";
@@ -24,7 +24,7 @@ class ModalUsageMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-`Modal`には下記の3種類存在し目的に応じて実装する。
+`Modal`には下記の3種類存在する。それぞれ目的に応じて実装する。
 
 ## AlertModal
 

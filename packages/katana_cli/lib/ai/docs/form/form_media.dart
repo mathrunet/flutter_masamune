@@ -10,10 +10,10 @@ class KatanaFormMediaMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormMediaMdcCliAiCode();
 
   @override
-  String get name => "FormMediaの利用方法";
+  String get name => "`FormMedia`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormMediaの利用方法";
+  String get description => "画像や動画を選択できるフォームフィールドである`FormMedia`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

@@ -10,10 +10,11 @@ class KatanaFormFutureFieldMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormFutureFieldMdcCliAiCode();
 
   @override
-  String get name => "FormFutureFieldの利用方法";
+  String get name => "`FormFutureField`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormFutureFieldの利用方法";
+  String get description =>
+      "非同期処理の結果を表示・入力するためのフォームフィールドである`FormFutureField`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

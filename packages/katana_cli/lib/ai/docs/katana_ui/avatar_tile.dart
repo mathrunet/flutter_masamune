@@ -10,10 +10,10 @@ class KatanaUIAvatarTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
   const KatanaUIAvatarTileMdcCliAiCode();
 
   @override
-  String get name => "AvatarTileの利用方法";
+  String get name => "`AvatarTile`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるAvatarTileの利用方法";
+  String get description => "プロフィールなどの概要を表示するためのタイルである`AvatarTile`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

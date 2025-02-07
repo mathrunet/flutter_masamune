@@ -10,10 +10,10 @@ class KatanaFormPasswordBuilderMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormPasswordBuilderMdcCliAiCode();
 
   @override
-  String get name => "FormPasswordBuilderの利用方法";
+  String get name => "`FormPasswordBuilder`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormPasswordBuilderの利用方法";
+  String get description => "パスワード入力用のフォームビルダーである`FormPasswordBuilder`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

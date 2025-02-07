@@ -10,10 +10,11 @@ class UniversalListViewMdcCliAiCode extends UniversalUiUsageCliAiCode {
   const UniversalListViewMdcCliAiCode();
 
   @override
-  String get name => "UniversalListViewの利用方法";
+  String get name => "`UniversalListView`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるUniversalListViewの利用方法";
+  String get description =>
+      "`ListView`の`UniversalUI`版である`UniversalListView`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

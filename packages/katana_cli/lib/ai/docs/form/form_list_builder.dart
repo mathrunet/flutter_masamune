@@ -10,10 +10,11 @@ class KatanaFormListBuilderMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormListBuilderMdcCliAiCode();
 
   @override
-  String get name => "FormListBuilderの利用方法";
+  String get name => "`FormListBuilder`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormListBuilderの利用方法";
+  String get description =>
+      "リスト形式のデータを動的に追加・削除・編集できるフォームビルダーである`FormListBuilder`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

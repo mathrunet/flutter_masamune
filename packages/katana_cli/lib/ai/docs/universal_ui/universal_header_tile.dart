@@ -10,10 +10,11 @@ class UniversalHeaderTileMdcCliAiCode extends UniversalUiUsageCliAiCode {
   const UniversalHeaderTileMdcCliAiCode();
 
   @override
-  String get name => "UniversalHeaderTileの利用方法";
+  String get name => "`UniversalHeaderTile`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるUniversalHeaderTileの利用方法";
+  String get description =>
+      "`ListTile`の`UniversalUI`版である`UniversalHeaderTile`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

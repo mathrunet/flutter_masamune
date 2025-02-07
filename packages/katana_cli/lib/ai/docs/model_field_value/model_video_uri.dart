@@ -11,10 +11,10 @@ class ModelFieldValueModelVideoUriMdcCliAiCode
   const ModelFieldValueModelVideoUriMdcCliAiCode();
 
   @override
-  String get name => "ModelVideoUriの利用方法";
+  String get name => "`ModelVideoUri`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるModelVideoUriの利用方法";
+  String get description => "動画のURIを扱うためのクラスである`ModelVideoUri`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

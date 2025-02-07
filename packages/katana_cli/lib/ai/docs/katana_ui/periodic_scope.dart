@@ -10,10 +10,10 @@ class KatanaUIPeriodicScopeMdcCliAiCode extends KatanaUiUsageCliAiCode {
   const KatanaUIPeriodicScopeMdcCliAiCode();
 
   @override
-  String get name => "PeriodicScopeの利用方法";
+  String get name => "`PeriodicScope`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるPeriodicScopeの利用方法";
+  String get description => "一定時間ごとに自動的に再描画を行うウィジェットである`PeriodicScope`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

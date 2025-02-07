@@ -10,10 +10,10 @@ class KatanaFormCheckboxMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormCheckboxMdcCliAiCode();
 
   @override
-  String get name => "FormCheckboxの利用方法";
+  String get name => "`FormCheckbox`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormCheckboxの利用方法";
+  String get description => "フォームのチェックボックスを表示するための`FormCheckbox`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

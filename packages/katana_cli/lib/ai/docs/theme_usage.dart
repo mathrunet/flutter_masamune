@@ -10,10 +10,10 @@ class ThemeUsageMdcCliAiCode extends CliAiCode {
   const ThemeUsageMdcCliAiCode();
 
   @override
-  String get name => "`Theme`の利用方法";
+  String get name => "`Theme`の一覧とその利用方法";
 
   @override
-  String get description => "Masamuneフレームワークによる`Theme`の利用方法";
+  String get description => "アプリ内のデザインを管理するための`Theme`の一覧とその利用方法";
 
   @override
   String get globs => "lib/**/*.dart";

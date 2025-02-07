@@ -10,10 +10,10 @@ class KatanaFormChipsFieldMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormChipsFieldMdcCliAiCode();
 
   @override
-  String get name => "FormChipsFieldの利用方法";
+  String get name => "`FormChipsField`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormChipsFieldの利用方法";
+  String get description => "フォームのチップフィールドを表示するための`FormChipsField`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

@@ -10,10 +10,10 @@ class TransitionUsageMdcCliAiCode extends CliAiCode {
   const TransitionUsageMdcCliAiCode();
 
   @override
-  String get name => "遷移時のアニメーションの利用方法";
+  String get name => "Router`による`Page`遷移時のトランジション利用方法";
 
   @override
-  String get description => "Masamuneフレームワークによる遷移時のアニメーションの利用方法";
+  String get description => "`Router`による`Page`遷移時のトランジション利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -24,7 +24,7 @@ class TransitionUsageMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[`Router`の利用](mdc:.cursor/rules/docs/router_usage.mdc)時に遷移時のアニメーションを下記のように設定することが可能。
+[`Router`の利用](mdc:.cursor/rules/docs/router_usage.mdc)時に`Page`遷移時のトランジションを下記のように設定することが可能。
 
 - `TransitionQuery.fullscreen`
     - フルスクリーン時のアニメーションで次のページを表示。

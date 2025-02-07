@@ -10,10 +10,10 @@ class KatanaUILabelMdcCliAiCode extends KatanaUiUsageCliAiCode {
   const KatanaUILabelMdcCliAiCode();
 
   @override
-  String get name => "Labelの利用方法";
+  String get name => "`Label`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるLabelの利用方法";
+  String get description => "項目のタイトルなどで使うラベルを表示するためのウィジェットである`Label`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

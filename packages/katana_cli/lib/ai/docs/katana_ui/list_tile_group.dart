@@ -10,10 +10,11 @@ class KatanaUIListTileGroupMdcCliAiCode extends KatanaUiUsageCliAiCode {
   const KatanaUIListTileGroupMdcCliAiCode();
 
   @override
-  String get name => "ListTileGroupの利用方法";
+  String get name => "`ListTileGroup`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるListTileGroupの利用方法";
+  String get description =>
+      "ListTileやLineTileをグループ化して表示するためのウィジェットである`ListTileGroup`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

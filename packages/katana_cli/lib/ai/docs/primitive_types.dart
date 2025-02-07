@@ -13,7 +13,7 @@ class PrimitiveTypesMdcCliAiCode extends CliAiCode {
   String get name => "プリミティブタイプの一覧";
 
   @override
-  String get description => "プリミティブタイプの一覧";
+  String get description => "Flutter/Dartにおいて様々な場所で利用可能なタイプであるプリミティブタイプの一覧";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -24,7 +24,7 @@ class PrimitiveTypesMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-Dart言語において様々な場所で利用可能なタイプであるプリミティブタイプの一覧を下記に記載する。
+Flutter/Dartにおいて様々な場所で利用可能なタイプであるプリミティブタイプの一覧を下記に記載する。
 
 ## 利用可能な場所一覧
 

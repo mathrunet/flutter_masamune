@@ -10,10 +10,11 @@ class KatanaFormEnumDropdownFieldMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormEnumDropdownFieldMdcCliAiCode();
 
   @override
-  String get name => "FormEnumDropdownFieldの利用方法";
+  String get name => "`FormEnumDropdownField`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormEnumDropdownFieldの利用方法";
+  String get description =>
+      "列挙型の値をドロップダウンメニューで選択できるフォームフィールドである`FormEnumDropdownField`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

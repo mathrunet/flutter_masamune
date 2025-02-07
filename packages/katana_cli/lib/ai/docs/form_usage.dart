@@ -88,10 +88,11 @@ class FormUsageMdcCliAiCode extends CliAiCode {
   const FormUsageMdcCliAiCode();
 
   @override
-  String get name => "MasamuneフレームワークのFormの利用方法";
+  String get name => "`Form`の利用方法";
 
   @override
-  String get description => "Masamuneフレームワーク特有のタイプであるFormの利用方法";
+  String get description =>
+      "ユーザーによる入力や選択を受け取るために利用可能な`Widget`である`Form`の一覧とその利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -102,7 +103,15 @@ class FormUsageMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     var header = r"""
-Masamuneフレームワークにおいて様々な場所で利用可能なタイプである`Form`の一覧と利用方法を下記に記載する。
+ユーザーによる入力や選択を受け取るために利用可能な`Widget`である`Form`の一覧とその利用方法を下記に記載する。
+
+## `Form`とは
+
+`Form`はユーザーによる入力や選択を受け取るためのクラスである。
+
+- `Form`は`FormController`を通して`State`によって管理される。
+- `FormController`中の`valudate()`メソッドを実行することで各`Form`の`validate`プロパティや`onSave`プロパティの処理を実行し入力・選択された値の検証や保存を行うことができる。
+- `FormStyle`を適用することでデザインを統一することができる。
 
 ## `Form`の一覧
 
@@ -136,6 +145,17 @@ final formStyle = FormStyle(
 
 ```dart
 final formController = ref.page.form(AnyModel.form(AnyModel()));
+```
+
+`FormController`の`validate()`メソッドを実行することで各`Form`の`validate`プロパティや`onSave`プロパティの処理を実行し入力・選択された値の検証や保存を行うことができる。
+
+```dart
+final value = formController.validate();
+if(value == null){
+  // 入力された値が検証に通らなかった場合の処理
+} else {
+  // 入力された値が検証に通った場合の処理
+}
 ```
 """;
     return header;

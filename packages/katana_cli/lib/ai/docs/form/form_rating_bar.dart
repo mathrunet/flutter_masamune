@@ -10,10 +10,10 @@ class KatanaFormRatingBarMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormRatingBarMdcCliAiCode();
 
   @override
-  String get name => "FormRatingBarの利用方法";
+  String get name => "`FormRatingBar`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormRatingBarの利用方法";
+  String get description => "評価を星やアイコンで入力するためのフォームフィールドである`FormRatingBar`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

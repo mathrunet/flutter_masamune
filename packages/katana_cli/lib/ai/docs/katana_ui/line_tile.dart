@@ -10,10 +10,11 @@ class KatanaUILineTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
   const KatanaUILineTileMdcCliAiCode();
 
   @override
-  String get name => "LineTileの利用方法";
+  String get name => "`LineTile`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるLineTileの利用方法";
+  String get description =>
+      "`ListTile`に`text`プロパティを追加したもの、textプロパティにWidgetを設定するとtitleの右側に表示される。";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

@@ -10,10 +10,11 @@ class UniversalGridViewMdcCliAiCode extends UniversalUiUsageCliAiCode {
   const UniversalGridViewMdcCliAiCode();
 
   @override
-  String get name => "UniversalGridViewの利用方法";
+  String get name => "`UniversalGridView`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるUniversalGridViewの利用方法";
+  String get description =>
+      "`GridView`の`UniversalUI`版である`UniversalGridView`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

@@ -10,10 +10,11 @@ class ModelFieldValueModelDateMdcCliAiCode extends ModelFieldValueCliAiCode {
   const ModelFieldValueModelDateMdcCliAiCode();
 
   @override
-  String get name => "ModelDateの利用方法";
+  String get name => "`ModelDate`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるModelDateの利用方法";
+  String get description =>
+      "内部に`DateTime`を保持し日付を扱えるようにしながらJsonにパースしやすくしたオブジェクトである`ModelDate`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

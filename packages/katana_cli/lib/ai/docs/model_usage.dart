@@ -10,10 +10,10 @@ class ModelUsageMdcCliAiCode extends CliAiCode {
   const ModelUsageMdcCliAiCode();
 
   @override
-  String get name => "`Model`の実装方法";
+  String get name => "`Model`の実装方法とその利用方法";
 
   @override
-  String get description => "Masamuneフレームワークによる`Model`の実装方法";
+  String get description => "データの定義を行い取得や保存を行うための`Model`の実装方法とその利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

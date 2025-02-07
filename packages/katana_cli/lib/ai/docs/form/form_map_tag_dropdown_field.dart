@@ -10,10 +10,11 @@ class KatanaFormMapTagDropdownFieldMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormMapTagDropdownFieldMdcCliAiCode();
 
   @override
-  String get name => "FormMapTagDropdownFieldの利用方法";
+  String get name => "`FormMapTagDropdownField`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormMapTagDropdownFieldの利用方法";
+  String get description =>
+      "`Map`形式のデータをタグ付きドロップダウンメニューで選択できるフォームフィールドである`FormMapTagDropdownField`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

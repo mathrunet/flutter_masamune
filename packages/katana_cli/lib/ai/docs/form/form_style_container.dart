@@ -10,10 +10,11 @@ class KatanaFormStyleContainerMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormStyleContainerMdcCliAiCode();
 
   @override
-  String get name => "FormStyleContainerの利用方法";
+  String get name => "`FormStyleContainer`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormStyleContainerの利用方法";
+  String get description =>
+      "`FormStyle`を適用するためのコンテナウィジェットである`FormStyleContainer`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -23,7 +24,7 @@ class KatanaFormStyleContainerMdcCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "フォームのスタイルを一括で適用するためのコンテナウィジェット。`FormStyle`を使用して子ウィジェットに共通のデザインを適用できます。パディング、背景色、ボーダー、影などのスタイルを統一的に管理できます。";
+      "`FormStyle`を適用するためのコンテナウィジェット。パディング、背景色、ボーダー、影などのスタイルを統一的に管理できます。";
 
   @override
   String body(String baseName, String className) {

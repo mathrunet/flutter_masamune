@@ -55,10 +55,10 @@ class ModelFieldValueUsageMdcCliAiCode extends CliAiCode {
   const ModelFieldValueUsageMdcCliAiCode();
 
   @override
-  String get name => "MasamuneフレームワークのModelFieldValueの利用方法";
+  String get name => "`ModelFieldValue`の利用方法";
 
   @override
-  String get description => "Masamuneフレームワーク特有のタイプであるModelFieldValueの利用方法";
+  String get description => "様々な場所で利用可能なタイプである`ModelFieldValue`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";
@@ -69,7 +69,7 @@ class ModelFieldValueUsageMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     var header = r"""
-Masamuneフレームワークにおいて様々な場所で利用可能なタイプである`ModelFieldValue`の一覧と利用方法を下記に記載する。
+様々な場所で利用可能なタイプである`ModelFieldValue`の一覧と利用方法を下記に記載する。
 
 ## 利用可能な場所一覧
 

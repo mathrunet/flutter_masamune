@@ -11,10 +11,10 @@ class ModelFieldValueModelLocalizedValueMdcCliAiCode
   const ModelFieldValueModelLocalizedValueMdcCliAiCode();
 
   @override
-  String get name => "ModelLocalizedValueの利用方法";
+  String get name => "`ModelLocalizedValue`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるModelLocalizedValueの利用方法";
+  String get description => "多言語対応のテキストを扱うためのクラスである`ModelLocalizedValue`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

@@ -10,10 +10,11 @@ class KatanaUILoadingBuilderMdcCliAiCode extends KatanaUiUsageCliAiCode {
   const KatanaUILoadingBuilderMdcCliAiCode();
 
   @override
-  String get name => "LoadingBuilderの利用方法";
+  String get name => "`LoadingBuilder`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるLoadingBuilderの利用方法";
+  String get description =>
+      "複数のFutureを待機し、完了するまでローディング表示を行うウィジェットである`LoadingBuilder`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

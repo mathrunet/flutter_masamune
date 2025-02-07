@@ -10,10 +10,11 @@ class UniversalSearchBarMdcCliAiCode extends UniversalUiUsageCliAiCode {
   const UniversalSearchBarMdcCliAiCode();
 
   @override
-  String get name => "UniversalSearchBarの利用方法";
+  String get name => "`UniversalSearchBar`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるUniversalSearchBarの利用方法";
+  String get description =>
+      "`SearchBar`の`UniversalUI`版である`UniversalSearchBar`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

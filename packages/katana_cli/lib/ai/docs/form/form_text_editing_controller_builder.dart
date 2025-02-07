@@ -11,11 +11,11 @@ class KatanaFormTextEditingControllerBuilderMdcCliAiCode
   const KatanaFormTextEditingControllerBuilderMdcCliAiCode();
 
   @override
-  String get name => "FormTextEditingControllerBuilderの利用方法";
+  String get name => "`FormTextEditingControllerBuilder`の利用方法";
 
   @override
   String get description =>
-      "MasamuneフレームワークにおけるFormTextEditingControllerBuilderの利用方法";
+      "テキスト入力のコントローラーを提供するビルダーである`FormTextEditingControllerBuilder`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

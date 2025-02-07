@@ -19,7 +19,7 @@ class PluginDesignMdcCliAiCode extends CliAiCode {
   String get directory => "designs";
 
   @override
-  String get description => "Masamuneフレームワークによるプラグイン設計書の作成";
+  String get description => "`プラグイン設計`の方法と`プラグイン設計書`の作成";
 
   @override
   String body(String baseName, String className) {

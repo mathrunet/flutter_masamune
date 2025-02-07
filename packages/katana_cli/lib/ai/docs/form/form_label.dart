@@ -10,10 +10,10 @@ class KatanaFormLabelMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormLabelMdcCliAiCode();
 
   @override
-  String get name => "FormLabelの利用方法";
+  String get name => "`FormLabel`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormLabelの利用方法";
+  String get description => "フォームフィールドのラベルを表示するための`FormLabel`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

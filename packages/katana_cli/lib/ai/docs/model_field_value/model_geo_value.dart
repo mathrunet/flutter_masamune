@@ -11,10 +11,10 @@ class ModelFieldValueModelGeoValueMdcCliAiCode
   const ModelFieldValueModelGeoValueMdcCliAiCode();
 
   @override
-  String get name => "ModelGeoValueの利用方法";
+  String get name => "`ModelGeoValue`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるModelGeoValueの利用方法";
+  String get description => "地理座標（緯度・経度）を扱うためのクラスである`ModelGeoValue`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

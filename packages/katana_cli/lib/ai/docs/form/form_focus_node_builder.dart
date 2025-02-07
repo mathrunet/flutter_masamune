@@ -10,10 +10,11 @@ class KatanaFormFocusNodeBuilderMdcCliAiCode extends FormUsageCliAiCode {
   const KatanaFormFocusNodeBuilderMdcCliAiCode();
 
   @override
-  String get name => "FormFocusNodeBuilderの利用方法";
+  String get name => "`FormFocusNodeBuilder`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるFormFocusNodeBuilderの利用方法";
+  String get description =>
+      "フォーカス状態に応じてウィジェットを構築するためのビルダーである`FormFocusNodeBuilder`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

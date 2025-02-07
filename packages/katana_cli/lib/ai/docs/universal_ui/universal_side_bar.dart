@@ -10,10 +10,11 @@ class UniversalSideBarMdcCliAiCode extends UniversalUiUsageCliAiCode {
   const UniversalSideBarMdcCliAiCode();
 
   @override
-  String get name => "UniversalSideBarの利用方法";
+  String get name => "`UniversalSideBar`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるUniversalSideBarの利用方法";
+  String get description =>
+      "`SideBar`の`UniversalUI`版である`UniversalSideBar`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

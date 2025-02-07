@@ -11,10 +11,11 @@ class ModelFieldValueModelTimestampMdcCliAiCode
   const ModelFieldValueModelTimestampMdcCliAiCode();
 
   @override
-  String get name => "ModelTimestampの利用方法";
+  String get name => "`ModelTimestamp`の利用方法";
 
   @override
-  String get description => "MasamuneフレームワークにおけるModelTimestampの利用方法";
+  String get description =>
+      "内部に`DateTime`を保持し日時を扱えるようにしながらJsonにパースしやすくしたオブジェクトである`ModelTimestamp`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

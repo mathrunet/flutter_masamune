@@ -19,7 +19,7 @@ class ThemeImplMdcCliAiCode extends CliAiCode {
   String get directory => "impls";
 
   @override
-  String get description => "Masamuneフレームワークによる`Theme`の実装";
+  String get description => "`Theme設計書`を用いた`Theme`の実装方法";
 
   @override
   String body(String baseName, String className) {
