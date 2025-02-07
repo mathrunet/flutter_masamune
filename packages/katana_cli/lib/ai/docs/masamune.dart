@@ -16,7 +16,8 @@ class MasamuneDocsMdcCliAiCode extends CliAiCode {
   String get description => "Masamuneフレームワークの利用方法";
 
   @override
-  String get globs => "*.dart, *.yaml, *.md, *.ts";
+  String get globs =>
+      "lib/**/*.dart, test/**/*.dart, katana.yaml, documents/designs/**/*.md, firebase/functions/src/**/*.ts, firebase/functions/test/**/*.ts";
 
   @override
   String get directory => "docs";
@@ -369,26 +370,34 @@ class MasamuneDocsMdcCliAiCode extends CliAiCode {
 
 ### `Model`の実装方法
 
-[`Model`の実装方法](mdc:.cursor/rules/docs/model_usage.mdc)
+- [`Model`の実装方法](mdc:.cursor/rules/docs/model_usage.mdc)
+
+### `Modal`の実装方法
+
+- [`Modal`の実装方法](mdc:.cursor/rules/docs/modal_usage.mdc)
 
 ### `State`の利用方法
 
-[`State`の利用方法](mdc:.cursor/rules/docs/state_management_usage.mdc)
+- [`State`の利用方法](mdc:.cursor/rules/docs/state_management_usage.mdc)
 
 ### `Router`の利用方法
 
-[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)
+- [`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)
+
+### `Theme`の利用方法
+
+- [`Theme`の利用方法](mdc:.cursor/rules/docs/theme_usage.mdc)
 
 
 ## リファレンス
 
 ### 実行可能なkatanaコマンド
 
-[katanaコマンド](mdc:.cursor/rules/docs/katana_cli.mdc)
+- [katanaコマンド](mdc:.cursor/rules/docs/katana_cli.mdc)
 
 ### `ModelFieldValue`の利用方法
 
-[`ModelFieldValue`の利用方法](mdc:.cursor/rules/docs/model_field_value_usage.mdc)
+- [`ModelFieldValue`の利用方法](mdc:.cursor/rules/docs/model_field_value_usage.mdc)
 
 """;
   }

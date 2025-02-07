@@ -16,7 +16,7 @@ class TransitionUsageMdcCliAiCode extends CliAiCode {
   String get description => "Masamuneフレームワークによる遷移時のアニメーションの利用方法";
 
   @override
-  String get globs => "*.dart";
+  String get globs => "lib/**/*.dart, test/**/*.dart";
 
   @override
   String get directory => "docs";

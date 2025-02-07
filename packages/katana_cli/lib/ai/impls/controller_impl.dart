@@ -13,7 +13,7 @@ class ControllerImplMdcCliAiCode extends CliAiCode {
   String get name => "Controllerの実装";
 
   @override
-  String get globs => "*.dart";
+  String get globs => "lib/controllers/**/*.dart";
 
   @override
   String get directory => "impls";

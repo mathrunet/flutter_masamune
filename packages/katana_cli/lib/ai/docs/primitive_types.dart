@@ -16,7 +16,7 @@ class PrimitiveTypesMdcCliAiCode extends CliAiCode {
   String get description => "プリミティブタイプの一覧";
 
   @override
-  String get globs => "*.dart";
+  String get globs => "lib/**/*.dart, test/**/*.dart";
 
   @override
   String get directory => "docs";

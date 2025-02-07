@@ -16,7 +16,7 @@ class StateManagementUsageMdcCliAiCode extends CliAiCode {
   String get description => "Masamuneフレームワークによる`State`の利用方法";
 
   @override
-  String get globs => "*.dart";
+  String get globs => "lib/**/*.dart, test/**/*.dart";
 
   @override
   String get directory => "docs";

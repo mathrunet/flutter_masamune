@@ -16,7 +16,7 @@ class FlutterTypesMdcCliAiCode extends CliAiCode {
   String get description => "Flutter特有のタイプの一覧";
 
   @override
-  String get globs => "*.dart";
+  String get globs => "lib/**/*.dart, test/**/*.dart";
 
   @override
   String get directory => "docs";

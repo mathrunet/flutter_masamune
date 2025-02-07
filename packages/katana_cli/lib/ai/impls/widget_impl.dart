@@ -13,7 +13,7 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
   String get name => "`Widget`の実装";
 
   @override
-  String get globs => "*.dart";
+  String get globs => "lib/widgets/**/*.dart, lib/models/**/*.dart";
 
   @override
   String get directory => "impls";
@@ -143,13 +143,13 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
           ```dart
           // 7日前から現在までのメモを取得
           final memoCollection = ref.app.model(
-            MemoModel.collection().createdAt.greaterThanOrEqualTo(
+            MemoModel.collection().createdAt.greaterThanOrEqual(
               ModelTimestamp(DateTime.now().subtract(const Duration(days: 7))),
             ).createdAt.orderByDesc(),
           )..load();
           // 特定のユーザーのメモを取得
           final memoCollection = ref.app.model(
-            MemoModel.collection().createdBy.equalTo(
+            MemoModel.collection().createdBy.equal(
               otherUser
             ),
           )..load();

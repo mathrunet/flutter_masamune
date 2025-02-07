@@ -16,7 +16,7 @@ class ModelFieldValueModelSearchMdcCliAiCode extends ModelFieldValueCliAiCode {
   String get description => "MasamuneフレームワークにおけるModelSearchの利用方法";
 
   @override
-  String get globs => "*.dart";
+  String get globs => "lib/**/*.dart, test/**/*.dart";
 
   @override
   String get directory => "docs/model_field_value";

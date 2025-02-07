@@ -13,7 +13,7 @@ class ModelImplMdcCliAiCode extends CliAiCode {
   String get name => "`Model`の実装";
 
   @override
-  String get globs => "*.dart";
+  String get globs => "lib/models/**/*.dart";
 
   @override
   String get directory => "impls";

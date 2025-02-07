@@ -53,7 +53,8 @@ class KatanaCliDocsMdcCliAiCode extends CliAiCode {
   String get description => "Masamuneフレームワークで利用可能なkatanaコマンドの一覧";
 
   @override
-  String get globs => "*.dart, *.yaml, *.md, *.ts";
+  String get globs =>
+      "lib/**/*.dart, test/**/*.dart, katana.yaml, documents/designs/**/*.md, firebase/functions/src/**/*.ts, firebase/functions/test/**/*.ts";
 
   @override
   String get directory => "docs";

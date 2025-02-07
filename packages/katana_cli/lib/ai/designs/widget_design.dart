@@ -13,7 +13,7 @@ class WidgetDesignMdcCliAiCode extends CliAiCode {
   String get name => "`Widget設計書`の作成";
 
   @override
-  String get globs => "*.md";
+  String get globs => "documents/designs/widget_design.md";
 
   @override
   String get directory => "designs";

@@ -16,7 +16,7 @@ class ModelFieldValueModelCounterMdcCliAiCode extends ModelFieldValueCliAiCode {
   String get description => "MasamuneフレームワークにおけるModelCounterの利用方法";
 
   @override
-  String get globs => "*.dart";
+  String get globs => "lib/**/*.dart, test/**/*.dart";
 
   @override
   String get directory => "docs/model_field_value";

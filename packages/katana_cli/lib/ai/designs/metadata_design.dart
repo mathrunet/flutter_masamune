@@ -13,7 +13,7 @@ class MetadataDesignMdcCliAiCode extends CliAiCode {
   String get name => "`MetaData設計書`の作成";
 
   @override
-  String get globs => "*.md";
+  String get globs => "documents/designs/metadata_design.md";
 
   @override
   String get directory => "designs";

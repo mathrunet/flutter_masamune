@@ -16,7 +16,7 @@ class ModelUsageMdcCliAiCode extends CliAiCode {
   String get description => "Masamuneフレームワークによる`Model`の実装方法";
 
   @override
-  String get globs => "*.dart";
+  String get globs => "lib/**/*.dart, test/**/*.dart";
 
   @override
   String get directory => "docs";
@@ -24,6 +24,8 @@ class ModelUsageMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
+## `Model`の実装方法
+
 新しく`Model`を作成する場合は下記の流れに沿って実装を行う。
 
 1. `Model`に対し下記を実行
@@ -303,6 +305,97 @@ class ModelUsageMdcCliAiCode extends CliAiCode {
         
       ```bash
       katana code generate
+      ```
+
+## `Model`の利用方法
+
+実装した`Model`を利用する場合は下記のように実施。
+
+事前に`State`を通して`Model`を取得する。（[`State`の利用方法](mdc:.cursor/rules/docs/state_management_usage.mdc)）
+
+```dart
+final collection = appRef.model(AnyModel.collection())..load();
+final document = appRef.model(AnyModel.document())..load();
+final value = appRef.model(AnyModel.value())..load();
+```
+
+### 読み込み（Read）
+
+- `load`メソッドを実行すると`Model`のデータを取得できる。
+
+  ```dart
+  await collection.load();
+  await document.load();
+  ```
+
+- `reload`メソッドを実行すると`Model`のデータを再取得できる。
+
+  ```dart
+  await collection.reload();
+  await document.reload();
+  ```
+
+- `Collection`の場合は`next`メソッドを実行すると次のデータを取得できる。
+
+  ```dart
+  await collection.next();
+  ```
+
+- `Document`の`value`フィールドに`Model`のデータが格納されている。
+
+  ```dart
+  final document = appRef.model(AnyModel.document())..load();
+  final model = document.value;
+  ```
+
+- `Collection`は`Document`のリストと同義であるためリスト操作が可能。
+
+  ```dart
+  final collection = appRef.model(AnyModel.collection())..load();
+  final documents = collection.where((document) => document.value?.title.contains("test") ?? false).toList();
+  ```
+
+- `Collection`をmodelメソッドに渡す際に`[Documentの対象DataFieldName].[フィルター条件]`という形でメソッドチェーンするとフィルターをかけたデータを取得できる。
+  - フィルター条件の種類は[フィルター条件](mdc:.cursor/rules/docs/model_filter_conditions.mdc)を参照。
+
+  ```dart
+  final filteredCollection = appRef.model(
+    AnyModel.collection().title.equal("test").createdAt.greaterThan(ModelTimestamp.now()).limitoTo(100)
+  )..load();
+  ```
+
+### 作成（Create）
+
+- `Document`単位でのみ作成が可能。
+    - 対応する`Collection`の`create`メソッドを実行すると`Document`を作成できる。
+
+      ```dart
+      final document = appRef.model(AnyModel.collection()).create([documentId]);
+      ```
+    
+    - 作成した`Document`の`save`メソッドにModelデータを渡しながら実行するとデータが保存される。
+
+      ```dart
+      await document.save(AnyModel());
+      ```
+
+### 更新（Update）
+
+- `Document`単位でのみ更新が可能。
+    - 対応する`Document`の`save`メソッドにModelデータを渡しながら実行するとデータが更新される。
+    - `copyWith`メソッドを利用することで更新したいフィールドのみを更新できる。
+
+      ```dart
+      await document.save(document.value.copyWith(title: "updated title"));
+      ```
+
+### 削除（Delete）
+
+- `Document`単位でのみ削除が可能。
+    - 対応する`Document`の`delete`メソッドを実行するとデータが削除される。
+
+      ```dart
+      await document.delete();
       ```
 """;
   }

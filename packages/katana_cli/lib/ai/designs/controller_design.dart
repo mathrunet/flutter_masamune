@@ -16,7 +16,7 @@ class ControllerDesignMdcCliAiCode extends CliAiCode {
   String get description => "Masamuneフレームワークによる`Controller設計書`の作成";
 
   @override
-  String get globs => "*.md";
+  String get globs => "documents/designs/controller_design.md";
 
   @override
   String get directory => "designs";

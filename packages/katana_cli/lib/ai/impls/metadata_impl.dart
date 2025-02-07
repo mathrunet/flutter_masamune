@@ -13,7 +13,7 @@ class MetadataImplMdcCliAiCode extends CliAiCode {
   String get name => "`MetaData`の実装";
 
   @override
-  String get globs => "*.yaml";
+  String get globs => "katana.yaml";
 
   @override
   String get directory => "impls";

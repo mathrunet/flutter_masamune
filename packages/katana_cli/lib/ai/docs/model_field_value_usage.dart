@@ -61,7 +61,7 @@ class ModelFieldValueUsageMdcCliAiCode extends CliAiCode {
   String get description => "Masamuneフレームワーク特有のタイプであるModelFieldValueの利用方法";
 
   @override
-  String get globs => "*.dart";
+  String get globs => "lib/**/*.dart, test/**/*.dart";
 
   @override
   String get directory => "docs";

@@ -13,7 +13,7 @@ class ThemeImplMdcCliAiCode extends CliAiCode {
   String get name => "`Theme`の実装";
 
   @override
-  String get globs => "*.dart";
+  String get globs => "lib/theme.dart";
 
   @override
   String get directory => "impls";
