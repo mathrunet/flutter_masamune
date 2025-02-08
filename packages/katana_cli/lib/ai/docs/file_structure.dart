@@ -1,19 +1,19 @@
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of masamune.mdc.
+/// Contents of file_structure.mdc.
 ///
-/// masamune.mdcの中身。
-class MasamuneDocsMdcCliAiCode extends CliAiCode {
-  /// Contents of masamune.mdc.
+/// file_structure.mdcの中身。
+class FileStructureDocsMdcCliAiCode extends CliAiCode {
+  /// Contents of file_structure.mdc.
   ///
-  /// masamune.mdcの中身。
-  const MasamuneDocsMdcCliAiCode();
+  /// file_structure.mdcの中身。
+  const FileStructureDocsMdcCliAiCode();
 
   @override
-  String get name => "Masamuneフレームワーク";
+  String get name => "ファイル・フォルダ構成";
 
   @override
-  String get description => "Masamuneフレームワークの利用方法";
+  String get description => "アプリケーション開発で利用するファイル・フォルダ構成";
 
   @override
   String get globs =>
@@ -25,105 +25,9 @@ class MasamuneDocsMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[katana.yaml](mdc:katana.yaml)および[pubspec.yaml](mdc:pubspec.yaml)が存在していたら`Masamuneフレームワーク`を用いた開発を必ず行う。
-`Masamuneフレームワーク`では下記に示すルールを絶対遵守。ルールに記載していない内容に関してはFlutterの標準的な開発を行う。
+## フォルダ・ファイル構成
 
-## 技術スタック
-
-`Masamuneフレームワーク`では下記の技術スタックを利用してアプリケーションを開発。
-
-- デザインフレームワーク
-    - [Material Design 3](https://m3.material.io/)
-- アプリケーション
-    - 言語フレームワーク
-        - [Dart / Flutter](https://docs.flutter.dev/)
-    - メインフレームワークパッケージ
-        - [Masamune](https://pub.dev/documentation/masamune/latest/)
-    - その他使用パッケージ
-        - [freezed](https://pub.dev/packages/freezed)
-        - [json_serializable](https://pub.dev/packages/json_serializable)
-        - [build_runner](https://pub.dev/packages/build_runner)
-- バックエンド
-    - データベース
-        - [Firestore (NoSQL)](https://firebase.google.com/docs/firestore)
-        - [Firebase Data Connect（PostgreSQL）](https://firebase.google.com/docs/data-connect)
-    - 認証
-        - [Firebase Authentication](https://firebase.google.com/docs/auth)
-    - ファイルストレージ
-        - [Cloud Storage for Firebase](https://firebase.google.com/docs/storage)
-    - ホスティングサービス
-        - [Firebase Hosting](https://firebase.google.com/docs/hosting)
-    - API
-        - [Cloud Functions for Firebase](https://firebase.google.com/docs/functions)
-        - [TypeScript / NodeJS](https://www.typescriptlang.org/docs/)
-    - スケジューラー
-        - [Cloud Functions for Firebase](https://firebase.google.com/docs/functions)
-        - [TypeScript / NodeJS](https://www.typescriptlang.org/docs/)
-    - PUSH通知
-        - [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)
-    - アプリ解析
-        - [Firebase Analytics](https://firebase.google.com/docs/analytics)
-
-
-## 構成要素
-
-`Masamuneフレームワーク`では下記の構成要素を利用してアプリケーションを開発。
-
-- `App`
-    - アプリケーションそのものを指す。
-- `Model`
-    - データモデル。複数の`DataField`の集合体。Firestoreでは`Document`に値する。複数の`Model`の集合体を`Collection`と呼ぶ。
-- `Page`
-    - 画面。複数の`Widget`から構成される。
-- `Widget`
-    - 画面の最小単位。FlutterのWidgetと同義。
-- `Modal`
-    - モーダル。画面の上に表示されるダイアログやモーダルウィンドウのことを指す。
-- `Controller`
-    - コントローラー。異なる`Page`間でデータを保持したり、アプリ内の操作を管理する。
-- `State`
-    - アプリケーションの中で保持されている状態。`Page`や`Widget`、`Modal`、`Controller`や`RedirectQuery`内で利用される。状態は`Controller`や`Model`、`Plugin`が管理するもののみではなく、`ValueNotifier`を通して変数等を利用することも可能。
-- `Theme`
-    - テーマ。アプリケーションのデザインを定義。
-- `Plugin`
-    - プラグイン。アプリケーション内で利用するための様々な機能をパッケージとして提供。
-- `MetaData`
-    - メタデータ。`App`に関する情報を管理。
-- `Enum`
-    - 列挙型。有限の値の集合を定義。
-- `Adapter`
-    - アダプター。異なるデータベースやAPIとの接続を管理。
-- `RedirectQuery`
-    - リダイレクト管理。`Page`を表示する前に条件分岐を行い別の`Page`にリダイレクトが可能。
-- `Localization`
-    - 多言語対応。アプリケーション内で利用するテキストを各国の言語に対応させる。
-- `Router`
-    - ルーティング。`Page`間の遷移を管理。
-
-
-## ドキュメント
-
-`Masamuneフレームワーク`では下記のドキュメントを生成しながら開発を行う。
-
-- **要件定義書**
-    - アプリケーションの要件を定義。
-- **Model設計書**
-    - `Model`の設計を定義。
-- **Theme設計書**
-    - `Theme`の設計を定義。
-- **Plugin設計書**
-    - `Plugin`の設計を定義。
-- **Controller設計書**
-    - `Controller`の設計を定義。
-- **Page設計書**
-    - `Page`の設計を定義。
-- **MetaData設計書**
-    - `MetaData`の設計を定義。
-
-
-## プロジェクトフォルダ・ファイル構成
-
-`Masamuneフレームワーク`では下記のフォルダ・ファイル構成でプロジェクトを作成。
+アプリケーション開発で利用するフォルダ・ファイル構成を下記に記載。
 
 ```
 /
@@ -296,116 +200,6 @@ class MasamuneDocsMdcCliAiCode extends CliAiCode {
 ├── pubspec_overrides.yaml # Flutterのローカル限定の上書き設定
 └── README.md # プロジェクトのReadMe
 ```
-
-## 命名規則
-
-`Masamuneフレームワーク`では下記の命名規則を利用して開発を行う。
-
-- 変数名
-    - CamelCaseで記載。
-    - 例：`userId`
-- クラス名
-    - PascalCaseで記載。
-    - 例：`UserModel`
-- メソッド名
-    - CamelCaseで記載。
-    - 例：`getUser`
-- 定数名
-    - 先頭にに`k`を付与しCamelCaseで記載。
-    - 例：`kUserId`
-- `Model`のクラス名
-    - 末尾に`Model`を付与しPascalCaseで記載。
-    - 例：`UserModel`
-- `Model`のファイル名
-    - `Model`のクラス名（末尾に`Model`を付与しない）をSnakeCaseに変換し`.dart`を付与。
-    - 例：`user_.dart`
-- `Model`のデータフィールド名
-    - CamelCaseで記載。
-    - 例：`userId`
-- `Page`のクラス名
-    - 末尾に`Page`を付与しPascalCaseで記載。
-    - 例：`UserPage`
-- `Page`のファイル名
-    - `Page`のクラス名（末尾に`Page`を付与しない）をSnakeCaseに変換し`.dart`を付与。
-    - 例：`user.dart`
-- `Widget`のクラス名
-    - 末尾に`Widget`を付与しPascalCaseで記載。
-    - 例：`UserTileWidget`
-- `Widget`のファイル名
-    - `Widget`のクラス名（末尾に`Widget`を付与しない）をSnakeCaseに変換し`.dart`を付与。
-    - 例：`user_tile.dart`
-- `Modal`のクラス名
-    - 末尾に`Modal`を付与しPascalCaseで記載。
-    - 例：`UserModal`
-- `Modal`のファイル名
-    - `Modal`のクラス名（末尾に`Modal`を付与しない）をSnakeCaseに変換し`.dart`を付与。
-    - 例：`user.dart`
-- `Controller`のクラス名
-    - 末尾に`Controller`を付与しPascalCaseで記載。
-    - 例：`UserController`
-- `Controller`のファイル名
-    - `Controller`のクラス名（末尾に`Controller`を付与しない）をSnakeCaseに変換し`.dart`を付与。
-    - 例：`user.dart`
-- `Enum`のクラス名
-    - 末尾に`Enum`を付与しPascalCaseで記載。
-    - 例：`UserStatusEnum`
-- `Enum`のファイル名
-    - `Enum`のクラス名（末尾に`Enum`を付与しない）をSnakeCaseに変換し`.dart`を付与。
-    - 例：`user_status.dart`
-- `Adapter`のクラス名
-    - 末尾に`Adapter`を付与しPascalCaseで記載。
-    - 例：`UserAdapter`
-- `Adapter`のファイル名
-    - `Adapter`のクラス名（末尾に`Adapter`を付与しない）をSnakeCaseに変換し`.dart`を付与。
-    - 例：`user.dart`
-- `RedirectQuery`のクラス名
-    - 末尾に`RedirectQuery`を付与しPascalCaseで記載。
-    - 例：`LoginRequiredRedirectQuery`
-- `RedirectQuery`のファイル名
-    - `RedirectQuery`のクラス名（末尾に`RedirectQuery`を付与しない）をSnakeCaseに変換し`.dart`を付与。
-    - 例：`login_required.dart`
-
-
-## Masamuneフレームワークの実装・利用方法
-
-### `Model`の実装方法
-
-- [`Model`の実装方法](mdc:.cursor/rules/docs/model_usage.mdc)
-
-### `Modal`の実装方法
-
-- [`Modal`の実装方法](mdc:.cursor/rules/docs/modal_usage.mdc)
-
-### `State`の利用方法
-
-- [`State`の利用方法](mdc:.cursor/rules/docs/state_management_usage.mdc)
-
-### `Router`の利用方法
-
-- [`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)
-
-### `Theme`の利用方法
-
-- [`Theme`の利用方法](mdc:.cursor/rules/docs/theme_usage.mdc)
-
-
-## リファレンス
-
-### 実行可能なkatanaコマンド
-
-- [katanaコマンド](mdc:.cursor/rules/docs/katana_cli.mdc)
-
-### `ModelFieldValue`の利用方法
-
-- [`ModelFieldValue`の利用方法](mdc:.cursor/rules/docs/model_field_value_usage.mdc)
-
-### `UniversalUI`の利用方法
-
-- [`UniversalUI`の利用方法](mdc:.cursor/rules/docs/universal_ui_usage.mdc)
-
-### `KatanaUI`の利用方法
-
-- [`KatanaUI`の利用方法](mdc:.cursor/rules/docs/katana_ui_usage.mdc)
 """;
   }
 }
