@@ -4,7 +4,6 @@ import 'package:katana_cli/ai/docs/flutter_types.dart';
 import 'package:katana_cli/ai/docs/form_usage.dart';
 import 'package:katana_cli/ai/docs/katana_cli.dart';
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
-import 'package:katana_cli/ai/docs/masamune.dart';
 import 'package:katana_cli/ai/docs/modal_usage.dart';
 import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 import 'package:katana_cli/ai/docs/model_filter_conditions.dart';
@@ -36,7 +35,6 @@ class DocsAiCode extends CliAiCodeCommand {
   @override
   Map<String, CliAiCode> get codes => {
         "katana_cli": const KatanaCliDocsMdcCliAiCode(),
-        "masamune": const MasamuneDocsMdcCliAiCode(),
         "model_usage": const ModelUsageMdcCliAiCode(),
         "state_management_usage": const StateManagementUsageMdcCliAiCode(),
         "transition_usage": const TransitionUsageMdcCliAiCode(),
