@@ -12,6 +12,7 @@ import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 import 'package:katana_cli/ai/docs/model_filter_conditions.dart';
 import 'package:katana_cli/ai/docs/model_usage.dart';
 import 'package:katana_cli/ai/docs/naming_convention.dart';
+import 'package:katana_cli/ai/docs/plugin_usage.dart';
 import 'package:katana_cli/ai/docs/primitive_types.dart';
 import 'package:katana_cli/ai/docs/router_usage.dart';
 import 'package:katana_cli/ai/docs/state_management_usage.dart';
@@ -60,6 +61,9 @@ class DocsAiCode extends CliAiCodeCommand {
         for (final entry in kFormList.entries)
           entry.key.toSnakeCase(): entry.value,
         "flutter_widgets": const FlutterWidgetsMdcCliAiCode(),
+        "plugin_usage": const PluginUsageMdcCliAiCode(),
+        for (final entry in kPluginList.entries)
+          entry.key.toSnakeCase(): entry.value,
         "design_document": const DesignDocumentDocsMdcCliAiCode(),
         "file_structure": const FileStructureDocsMdcCliAiCode(),
         "naming_convention": const NamingConventionDocsMdcCliAiCode(),
