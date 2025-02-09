@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:katana_cli/ai/docs/plugins/ads.dart';
 import 'package:katana_cli/ai/docs/plugins/agora.dart';
 import 'package:katana_cli/ai/docs/plugins/animate.dart';

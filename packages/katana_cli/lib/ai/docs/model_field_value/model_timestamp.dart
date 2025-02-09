@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
 /// Contents of model_timestamp.mdc.

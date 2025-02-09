@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:katana_cli/ai/docs/universal_ui_usage.dart';
 
 /// Contents of universal_container.mdc.

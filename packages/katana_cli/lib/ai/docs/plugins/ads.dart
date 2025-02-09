@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
 /// Contents of ads.mdc.

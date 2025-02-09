@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
 /// Contents of model_token.mdc.
@@ -13,8 +14,7 @@ class ModelFieldValueModelTokenMdcCliAiCode extends ModelFieldValueCliAiCode {
   String get name => "`ModelToken`の利用方法";
 
   @override
-  String get description =>
-      "複数のトークンを保存するためのクラスである`ModelToken`の利用方法";
+  String get description => "複数のトークンを保存するためのクラスである`ModelToken`の利用方法";
 
   @override
   String get globs => "lib/**/*.dart, test/**/*.dart";

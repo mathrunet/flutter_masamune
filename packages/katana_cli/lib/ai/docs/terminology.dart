@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
 /// Contents of terminology.mdc.

@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
 /// Contents of animate.mdc.
@@ -22,8 +23,7 @@ class PluginAnimateMdcCliAiCode extends PluginUsageCliAiCode {
   String get directory => "docs/plugins";
 
   @override
-  String get excerpt =>
-      "`アニメーション`はアプリ内でアニメーションやエフェクトを利用するためのプラグイン。";
+  String get excerpt => "`アニメーション`はアプリ内でアニメーションやエフェクトを利用するためのプラグイン。";
 
   @override
   String body(String baseName, String className) {
@@ -88,4 +88,4 @@ animate.run(
 ```
 """;
   }
-} 
+}

@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:katana_cli/ai/docs/katana_ui/avatar_tile.dart';
 import 'package:katana_cli/ai/docs/katana_ui/card_tile.dart';
 import 'package:katana_cli/ai/docs/katana_ui/chat_tile.dart';
