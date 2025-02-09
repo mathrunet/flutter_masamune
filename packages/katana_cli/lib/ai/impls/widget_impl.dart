@@ -19,7 +19,7 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
   String get directory => "impls";
 
   @override
-  String get description => "Masamuneフレームワークによる`Widget`の実装";
+  String get description => "`Widget設計書`を用いた`Widget`の実装方法";
 
   @override
   String body(String baseName, String className) {
