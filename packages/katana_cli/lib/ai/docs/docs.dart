@@ -3,6 +3,7 @@ import 'package:katana_cli/ai/docs/file_structure.dart';
 import 'package:katana_cli/ai/docs/flutter_types.dart';
 import 'package:katana_cli/ai/docs/flutter_widgets.dart';
 import 'package:katana_cli/ai/docs/form_usage.dart';
+import 'package:katana_cli/ai/docs/functions_usage.dart';
 import 'package:katana_cli/ai/docs/katana_cli.dart';
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 import 'package:katana_cli/ai/docs/modal_usage.dart';
@@ -63,5 +64,6 @@ class DocsAiCode extends CliAiCodeCommand {
         "naming_convention": const NamingConventionDocsMdcCliAiCode(),
         "technology_stack": const TechnologyStackDocsMdcCliAiCode(),
         "terminology": const TerminologyDocsMdcCliAiCode(),
+        "functions_usage": const FunctionsUsageDocsMdcCliAiCode(),
       };
 }

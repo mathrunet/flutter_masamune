@@ -56,6 +56,12 @@ $excerpt
 3. `lib/adapter.dart`の`masamuneAdapters`に`MasamuneAdapter`を追加。
 
     ```dart
+    // lib/adapter.dart
+
+    /// Masamune adapter.
+    ///
+    /// The Masamune framework plugin functions can be defined together.
+    // TODO: Add the adapters.
     final masamuneAdapters = <MasamuneAdapter>[
         const UniversalMasamuneAdapter(),
 

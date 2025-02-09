@@ -71,6 +71,10 @@ class PluginDesignMdcCliAiCode extends CliAiCode {
       ```dart
       // lib/adapter.dart
 
+      /// Masamune adapter.
+      ///
+      /// The Masamune framework plugin functions can be defined together.
+      // TODO: Add the adapters.
       final masamuneAdapters = <MasamuneAdapter>[
         const UniversalMasamuneAdapter(),
 

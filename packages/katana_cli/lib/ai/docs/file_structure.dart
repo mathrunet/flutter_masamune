@@ -144,6 +144,8 @@ class FileStructureDocsMdcCliAiCode extends CliAiCode {
 │   ├── controllers/ # `Controller`を作成する場合はここに格納
 │   │   ├── upload.dart
 │   │   └── upload.m.dart # 自動生成ファイル
+│   ├── functions/ # `Functions`を作成する場合のDartコードはここに格納
+│   │   └── func.dart
 │   ├── enums/ # `Enum`を実装する場合はここに格納
 │   │   ├── age.dart
 │   │   └── gender.dart

@@ -1,6 +1,9 @@
 import 'package:katana_cli/ai/impls/controller_impl.dart';
 import 'package:katana_cli/ai/impls/metadata_impl.dart';
+import 'package:katana_cli/ai/impls/mock_data_impl.dart';
 import 'package:katana_cli/ai/impls/model_impl.dart';
+import 'package:katana_cli/ai/impls/page_impl.dart';
+import 'package:katana_cli/ai/impls/plugin_impl.dart';
 import 'package:katana_cli/ai/impls/theme_impl.dart';
 import 'package:katana_cli/ai/impls/widget_impl.dart';
 import 'package:katana_cli/katana_cli.dart';
@@ -25,5 +28,8 @@ class ImplsAiCode extends CliAiCodeCommand {
         "theme_impl": const ThemeImplMdcCliAiCode(),
         "widget_impl": const WidgetImplMdcCliAiCode(),
         "metadata_impl": const MetadataImplMdcCliAiCode(),
+        "page_impl": const PageImplMdcCliAiCode(),
+        "plugin_impl": const PluginImplMdcCliAiCode(),
+        "mock_data_impl": const MockDataImplMdcCliAiCode(),
       };
 }

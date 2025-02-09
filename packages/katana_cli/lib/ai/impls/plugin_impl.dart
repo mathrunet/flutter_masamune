@@ -58,11 +58,15 @@ class PluginImplMdcCliAiCode extends CliAiCode {
     katana apply
     ```
 
-3. コマンド実行後、`lib/adapters.dart`の`masamuneAdapters`に`Plugin`用の`MasamuneAdapter`を追加
+3. コマンド実行後、`lib/adapter.dart`の`masamuneAdapters`に`Plugin`用の`MasamuneAdapter`を追加
 
     ```dart
     // lib/adapter.dart
 
+    /// Masamune adapter.
+    ///
+    /// The Masamune framework plugin functions can be defined together.
+    // TODO: Add the adapters.
     final masamuneAdapters = <MasamuneAdapter>[
       const UniversalMasamuneAdapter(),
 

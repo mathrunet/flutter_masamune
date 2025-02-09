@@ -100,7 +100,7 @@ export class ${className.toPascalCase()}FirestoreTriggered extends m.FirestoreTr
      */
     id = "${className.toSnakeCase()}_firestore_triggered";
     /**
-     * @param {string} schedule
+     * @param {string} path
      * Specifies the path to be processed.
      *
      * 処理を実行する対象のパスを指定します。
