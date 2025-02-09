@@ -22,7 +22,7 @@ class DesignsAiCode extends CliAiCodeCommand {
 
   @override
   Map<String, CliAiCode> get codes => {
-        "screen_design": const ScreenDesignMdcCliAiCode(),
+        "page_design": const PageDesignMdcCliAiCode(),
         "theme_design": const ThemeDesignMdcCliAiCode(),
         "widget_design": const WidgetDesignMdcCliAiCode(),
         "plugin_design": const PluginDesignMdcCliAiCode(),

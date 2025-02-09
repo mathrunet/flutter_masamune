@@ -3,11 +3,11 @@ import 'package:katana_cli/katana_cli.dart';
 /// Contents of screen_design.mdc.
 ///
 /// screen_design.mdcの中身。
-class ScreenDesignMdcCliAiCode extends CliAiCode {
+class PageDesignMdcCliAiCode extends CliAiCode {
   /// Contents of screen_design.mdc.
   ///
   /// screen_design.mdcの中身。
-  const ScreenDesignMdcCliAiCode();
+  const PageDesignMdcCliAiCode();
 
   @override
   String get name => "`Page設計書`の作成";
