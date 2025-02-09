@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-02-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.30.0`](#katana_cli---v2300)
+ - [`masamune_universal_ui` - `v2.6.0`](#masamune_universal_ui---v260)
+
+---
+
+#### `katana_cli` - `v2.30.0`
+
+ - **FIX**: Plugins added. ([e93ae3ca](https://github.com/mathrunet/flutter_masamune/commit/e93ae3ca52fdfcae7abda3dd5416e0b5d9a562e1))
+ - **FIX**: Added implementation of Page. ([6faffcbd](https://github.com/mathrunet/flutter_masamune/commit/6faffcbd195124ed97c034c290e26a130373a744))
+ - **FIX**: Plug-ins added. ([3fe1987d](https://github.com/mathrunet/flutter_masamune/commit/3fe1987d2d9059ad1668604795d9d88b5a2bb526))
+ - **FIX**: Add flutter_widget. ([7e0d6b3a](https://github.com/mathrunet/flutter_masamune/commit/7e0d6b3a7d35c6a28a54178ea509120ef087de38))
+ - **FIX**: Error resolved. ([2e5b3d45](https://github.com/mathrunet/flutter_masamune/commit/2e5b3d45cd0fb51c3ea88ef69817f68ad3d4072e))
+ - **FIX**: Widget Design Documentation. ([f5b763c8](https://github.com/mathrunet/flutter_masamune/commit/f5b763c8677877461d62cf32a5ed6d1322216725))
+ - **FIX**: Split Masamune documentation. ([c67f736a](https://github.com/mathrunet/flutter_masamune/commit/c67f736a86f1b54d9c1161732f475c6a7d7c688e))
+ - **FIX**: Corrected the wording of the description. ([223e0c92](https://github.com/mathrunet/flutter_masamune/commit/223e0c9239cf8ec2044ebfc0d047aa5805ca19a9))
+ - **FIX**: The table was not ready, so it was corrected. ([21d8f9f3](https://github.com/mathrunet/flutter_masamune/commit/21d8f9f363a53b2760150d58b6802dc3e4f70664))
+ - **FIX**: Add forms. ([0b036f8d](https://github.com/mathrunet/flutter_masamune/commit/0b036f8d76ad627b6b3594181f0e45cb7fb8cbf2))
+ - **FIX**: Added UI area. ([2d43c406](https://github.com/mathrunet/flutter_masamune/commit/2d43c406eb0cc962833334ed152038a9a62eff74))
+ - **FIX**: Added UniversalUI. ([75ef1818](https://github.com/mathrunet/flutter_masamune/commit/75ef1818e30ab12753af0f3b3c641cac5c0b7c76))
+ - **FIX**: Add PageType. ([d440d9bf](https://github.com/mathrunet/flutter_masamune/commit/d440d9bff64f3a176ef6a924b3693acf6c78c07e))
+ - **FIX**: More documentation added. ([357a3065](https://github.com/mathrunet/flutter_masamune/commit/357a30656a19e677e4dfb512dd9d0d24b24a1f1e))
+ - **FIX**: Prompt Correction. ([e82dc26e](https://github.com/mathrunet/flutter_masamune/commit/e82dc26eb7200e117dfbb3ba52c1532d393103d2))
+ - **FIX**: Added about the type. ([1a12c2ff](https://github.com/mathrunet/flutter_masamune/commit/1a12c2ff5a89e89a5a3e47b8583980af7fa73186))
+ - **FIX**: Add some ModelFieldValue. ([dfa93a44](https://github.com/mathrunet/flutter_masamune/commit/dfa93a44363a0c9ae9127dd19534323c42ef5809))
+ - **FIX**: Fixes to MasamuneFramework. ([6257ec36](https://github.com/mathrunet/flutter_masamune/commit/6257ec3674619aee7d19f8937f682a350ca06026))
+ - **FIX**: Added usage. ([167f159f](https://github.com/mathrunet/flutter_masamune/commit/167f159fb834e0b558d319883fd63fb7cbf0091d))
+ - **FEAT**: Added view command. ([06f4d1e1](https://github.com/mathrunet/flutter_masamune/commit/06f4d1e14ba980dfb03aa8a3e86f680ab0ed5af8))
+ - **FEAT**: Creating Code for AI. ([f5d3f807](https://github.com/mathrunet/flutter_masamune/commit/f5d3f8079158612447eca2db6819f486b61abe7a))
+
+#### `masamune_universal_ui` - `v2.6.0`
+
+ - **FEAT**: Added UniversalGridView. ([4daf66b7](https://github.com/mathrunet/flutter_masamune/commit/4daf66b73cabc60f524dc53c3979625a56da4d53))
+
+
 ## 2025-01-31
 
 ### Changes

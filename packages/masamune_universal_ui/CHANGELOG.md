@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: Added UniversalGridView. ([4daf66b7](https://github.com/mathrunet/flutter_masamune/commit/4daf66b73cabc60f524dc53c3979625a56da4d53))
+
 ## 2.5.30
 
  - Update a dependency to the latest release.
