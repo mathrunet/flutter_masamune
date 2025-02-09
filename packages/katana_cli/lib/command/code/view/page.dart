@@ -26,7 +26,7 @@ class CodeViewPageCliCommand extends CliCodeCommand {
   String? get example => "katana code view page [page_name]";
   @override
   Future<void> exec(ExecContext context) async {
-    final path = context.args.get(2, "");
+    final path = context.args.get(3, "");
     if (path.isEmpty) {
       error(
         "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code page [path]\r\n",

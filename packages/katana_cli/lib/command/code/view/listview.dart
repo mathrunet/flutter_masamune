@@ -122,7 +122,7 @@ class ${className}Page extends PageScopedWidget {
         // TODO: Implement the app bar.
         \${5}
       ),
-      body: UnisersalListView(
+      body: UniversalListView(
         children: [
           // TODO: Implement the list view.
           \${6}

@@ -81,7 +81,7 @@ class PluginUsageMdcCliAiCode extends CliAiCode {
 
 ## `Plugin`の一覧
 
-| Plugin | PluginName | Summary | Usage |
+| PluginID | PluginName | Summary | Usage |
 | --- | --- | --- | --- |
 """;
     for (final entry in kPluginList.entries) {

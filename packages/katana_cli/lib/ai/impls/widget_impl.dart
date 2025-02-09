@@ -80,6 +80,7 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
 5. `Content`に応じて`build`メソッド内の`// TODO: Implement the view.`以下を書き換え、適切なUIを構築し返す。
     - 適宜`import`を追加する
     - 必要であれば`Properties`に応じた変数を利用する
+    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
 
 ## `stateful`
 
@@ -134,42 +135,14 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
           }
         }
         ```
-5. `Content`に応じて`build`メソッド内の`// TODO: Implement the variable loading process.`以下に`ref`を用いてプロジェクト内の各種`Model`や`Controller`を取得する。
-    - `Model`（コレクション）の取得
-      ```dart
-      final memoCollection = ref.app.model(MemoModel.collection())..load(); // load()でデータを取得開始
-      ```
-        - `Model`（`Collection`）をフィルタリング
-          ```dart
-          // 7日前から現在までのメモを取得
-          final memoCollection = ref.app.model(
-            MemoModel.collection().createdAt.greaterThanOrEqual(
-              ModelTimestamp(DateTime.now().subtract(const Duration(days: 7))),
-            ).createdAt.orderByDesc(),
-          )..load();
-          // 特定のユーザーのメモを取得
-          final memoCollection = ref.app.model(
-            MemoModel.collection().createdBy.equal(
-              otherUser
-            ),
-          )..load();
-          ```
-    - `Model`（`Document`）の取得
-      ```dart
-      final memoDocument = ref.app.model(MemoModel.document(memoId))..load();
-      ```
-    - `Controller`の取得（アプリケーションにまたがって状態を維持）
-      ```dart
-      final controller = ref.app.controller(MemoController.query());
-      ```
-    - `Controller`の取得（`Page`のみで状態を維持）
-      ```dart
-      final controller = ref.page.controller(MemoController.query());
-      ```
+5. `Content`に応じて`build`メソッド内の`// TODO: Implement the variable loading process.`以下に`ref`を用いてプロジェクト内の各種`Model`や`Controller`を取得する。`Model`や`Controller`の取得方法は下記を参照。
+    - [`Model`や`Controller`の取得方法](mdc:.cursor/rules/docs/state_management_usage.mdc)
+    - [`Model`の利用方法](mdc:.cursor/rules/docs/model_usage.mdc)
 6. `Content`に応じて`build`メソッド内の`// TODO: Implement the view.`以下を書き換え、適切なUIを構築し返す。
     - 適宜`import`を追加する
     - 必要であれば`Properties`に応じた変数を利用する
     - 3で取得した`Model`や`Controller`を利用してもよい
+    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
 
 ## `model_extension`
 
@@ -183,6 +156,7 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
     - `Model`内の変数は`value?.xxx`という形で利用可能
         - nullableを直接利用できない場合は代替の値を設定。（`Widget`の場合は`const Empty()`を設定）
     - `Model`ごとのIDは`value.uid`という形で利用可能
+    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
 """;
   }
 }

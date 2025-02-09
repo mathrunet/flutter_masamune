@@ -34,6 +34,7 @@ class CodeViewCliCommand extends CliCommandGroup {
         "fixedform": CodeViewFixedFormCliCommand(),
         "tab": CodeViewTabCliCommand(),
         "navigation": CodeViewNavigationCliCommand(),
+        "listview": CodeViewListViewCliCommand(),
         "gridview": CodeViewGridViewCliCommand(),
         "fixedview": CodeViewFixedViewCliCommand(),
         "page": CodeViewPageCliCommand(),

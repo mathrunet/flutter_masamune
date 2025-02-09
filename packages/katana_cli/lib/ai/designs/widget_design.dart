@@ -26,7 +26,7 @@ class WidgetDesignMdcCliAiCode extends CliAiCode {
     return r"""
 [page_design.md](mdc:documents/designs/page_design.md)に記載されている`Page設計書`および[model_design.md](mdc:documents/designs/model_design.md)に記載されている`Model設計書`から`Widget設計書`を作成
 
-1. `Page設計書`において`Widget設計書`を作成
+1. `Page設計書`と`Model設計書`から`Widget設計書`を作成
     -下記の条件に当てはまる場合、新しく`Widget`を定義
         - UI要素が2つ以上の`Page`で共通化可能
     - 当てはまらない場合無理に定義しない

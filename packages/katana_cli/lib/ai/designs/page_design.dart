@@ -41,6 +41,8 @@ class PageDesignMdcCliAiCode extends CliAiCode {
             - [`PageType`の一覧](mdc:.cursor/rules/docs/page_types.mdc)から相応しい`PageType`を1つ選び`PageTypeID`を記載
         - `Content`
             - 各`Page`における`構成要素`と各構成要素に対する`Action`を箇条書きで細かく記載
+        - `Properties`
+            - 各`Page`における入力値である`Properties`を記載
     - 例：
         ```markdown
         <!-- documents/designs/page_design.md -->
@@ -65,6 +67,8 @@ class PageDesignMdcCliAiCode extends CliAiCode {
             - 各要素にはメモのタイトル、作成者、作成日時、更新日時、タグを表示
             - 各要素をタップすると`メモ詳細Page`に遷移
         - FloatingActionButtonに「新規」ボタンを表示。タップすると`メモ新規作成画面`に遷移
+
+        ### Properties
         
         ## メモ詳細画面
         
@@ -87,6 +91,12 @@ class PageDesignMdcCliAiCode extends CliAiCode {
         - その下にメモのコンテンツを表示
         - メモのコンテンツの下に添付画像があれば表示
         - AppBarのactionsに編集用のボタンを表示。タップすると`メモ編集画面`に遷移
+
+        ### Properties
+
+        | PropertyName | PropertyType | RequiredOrOptional | DefaultValue | Summary |
+        | --- | --- | --- | --- | --- |
+        | `memoId` | String | Required |  | 表示するメモのID。 |
         
         ## メモ新規作成画面
         
@@ -112,6 +122,8 @@ class PageDesignMdcCliAiCode extends CliAiCode {
             - コンテンツ（マルチラインテキスト入力）
             - 添付画像（マルチメディア入力）
         - AppBarのactionsに編集確定ボタンを表示。タップするとメモが作成される
+
+        ### Properties
         
         ## メモ編集画面
         
@@ -138,6 +150,12 @@ class PageDesignMdcCliAiCode extends CliAiCode {
             - 添付画像（マルチメディア入力）
         - AppBarのactionsに編集確定ボタンを表示。タップするとメモが更新される
         - AppBarのactionsに削除ボタンを表示。タップすると確認ダイアログ表示の後メモを削除
+
+        ### Properties
+
+        | PropertyName | PropertyType | RequiredOrOptional | DefaultValue | Summary |
+        | --- | --- | --- | --- | --- |
+        | `memoId` | String | Required |  | 編集するメモのID。 |
         ```
 2. 作成した`Page設計書`を`documents/designs/page_design.md`に保存
 """;

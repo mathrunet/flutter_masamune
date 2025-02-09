@@ -111,8 +111,8 @@ class ControllerDesignMdcCliAiCode extends CliAiCode {
       | MethodName | Arguments | ReturnType | Summary |
       | --- | --- | --- | --- |
       | addCart | `product`:`ModelRef<ProductModel>` | `Future<void>` | カートに商品を追加する |
-      | removeCart | `product`:`ModelRef<ProductModel>` | `Future<void>` | カートから商品を削除する |
-      | getCart | | `Future<List<ModelRef<ProductModel>>>` | カートの商品をすべて取得する。 |
+      | removeCart | `product`:`ModelRef<CartModel>` | `Future<void>` | カートから商品を削除する |
+      | getCart | | `Future<List<ModelRef<CartModel>>>` | カートの商品をすべて取得する。 |
       | checkout | `paymentMethod`:`ModelRef<PaymentMethodModel>`, `address`: `String` | `Future<void>` | 支払い方法および配送先住所を指定し現在のカートの商品を決済する。 |
       ```
 2. 作成した`Controller設計書`は`documents/designs/controller_design.md`に保存
