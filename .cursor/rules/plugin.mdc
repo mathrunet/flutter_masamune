@@ -1,0 +1,611 @@
+---
+description: プラグイン一覧
+globs: *.dart
+---
+
+
+# 利用可能なプラグイン一覧
+
+| 機能 | 機能ID | 概要 | パッケージドキュメントURL |
+| --- | --- | --- | --- |
+| ファイルピッカー | `picker` | 端末内に保存されている画像や映像。カメラで撮影する画像や映像をアプリ内で取得・利用する機能 | https://pub.dev/documentation/masamune_picker/latest/ |
+| アニメーション | `animate` | アニメーションやエフェクトを利用する機能 | https://pub.dev/documentation/masamune_animate/latest/ |
+| チュートリアル | `introduction` | アプリ起動時にアプリの説明を行う機能 | https://pub.dev/documentation/masamune_introduction/latest/ |
+| カメラ | `camera` | ファイルピッカー以外でのカメラの利用する機能。写真撮影および映像撮影含む。 | https://pub.dev/documentation/masamune_camera/latest/ |
+| カレンダー | `calendar` | 月別や週別のカレンダーのUIを表示する機能 | https://pub.dev/documentation/masamune_calendar/latest/ |
+| ChatGPT | `openai` | GPTを利用した生成系AIの機能 | https://pub.dev/documentation/masamune_ai_openai/latest/ |
+| Text-To-Speech | `text_to_speech` | テキストを音声にして発話させる機能。 | https://pub.dev/documentation/masamune_text_to_speech/latest/ |
+| Speech-To-Text | `speech_to_text` | 音声認識してテキストに変換する機能。 | https://pub.dev/documentation/masamune_speech_to_text/latest/ |
+| ローカルPUSH通知 | `local_notification` | 端末内に閉じたPUSH通知機能。通知を行う日時と内容を設定して端末内で設定後、設定した日時に通知を行う。 | https://pub.dev/documentation/masamune_notification_local/latest/ |
+| 位置情報 | `location` | 端末の位置情報を取得する機能 | https://pub.dev/documentation/masamune_location/latest/ |
+| マップ表示 | `location→google_map` | 地図やマップを表示する機能 | https://pub.dev/documentation/masamune_location_google/latest/ |
+| アプリ広告 | `ads` | アプリ内に広告（Admob）を表示する機能 | https://pub.dev/documentation/masamune_ads_google/latest/ |
+| アプリ内課金 | `purchase` | GooglePlayやAppStore内で提供される課金機能。消費型、非消費型、サプスクリプションの課金アイテムを利用可能。 | https://pub.dev/documentation/masamune_purchase/latest/ |
+| Stripe決済 | `stripe` | 金額をシステム側で決定する決済やユーザー間での決済を利用する場合の機能。 | https://pub.dev/documentation/masamune_purchase_stripe/latest/ |
+| 音声通話 | `agora` | １対１および多人数での音声通話機能 | https://pub.dev/documentation/masamune_agora/latest/ |
+| ビデオ通話 | `agora` | １対１および多人数でのビデオ通話機能 | https://pub.dev/documentation/masamune_agora/latest/ |
+| 音声ストリーミング | `agora` | １対多でのリアルタイム音声ストリーミング機能 | https://pub.dev/documentation/masamune_agora/latest/ |
+| ビデオストリーミング | `agora` | １対多でのリアルタイムビデオストリーミング機能 | https://pub.dev/documentation/masamune_agora/latest/ |
+| メール送信 | `sendgrid` | メールを送信する機能 | https://pub.dev/documentation/masamune_mail/latest/ |
+
+# 各種プラグインにおける`katana.yaml`の設定方法
+
+- ファイルピッカー（`picker`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Describe the application information.
+    # アプリケーション情報を記載します。
+    app:
+      ~~~~~
+      
+      # Describe the settings for using the file picker.
+      # Specify the permission message to use the library in IOS in [permission].
+      # Please include `en`, `ja`, etc. and write the message in that language there.
+      # If you want to use the camera, set [camera]->[enable] to true and specify the permission message to use the camera in [permission].
+      # ファイルピッカーを利用するための設定を記述します。
+      # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+      # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+      # カメラを利用する場合は[camera]->[enable]をtrueにして、[permission]にカメラを利用するための権限許可メッセージを指定して下さい。
+      picker:
+        enable: true # ファイルピッカーを利用する場合false -> trueに変更
+        permission:
+          en: Use the library for profile images. # 利用用途を言語ごとに記載。
+          ja: プロフィール画像のためにライブラリを利用します。# 利用用途を言語ごとに記載。
+        camera:
+          enable: false # カメラを利用する場合はfalse -> trueに変更
+          permission:
+            en: Use the camera for profile images. # 利用用途を言語ごとに記載。
+            ja: プロフィール画像のためにカメラを利用します。# 利用用途を言語ごとに記載。
+    ```
+    
+- アニメーション（`animate`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Describe the application information.
+    # アプリケーション情報を記載します。
+    app:
+      ~~~~~
+    
+      # Describes settings for implementing animation.
+      # アニメーションを実装するための設定を記述します。
+      animate:
+        enable: true # アニメーションを利用する場合false -> trueに変更
+    ```
+    
+- チュートリアル（`introduction`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Describe the application information.
+    # アプリケーション情報を記載します。
+    app:
+      ~~~~~
+    
+      # Describe the settings for using the introductory part of the application.
+      # アプリの導入部分を利用するための設定を記述します。
+      introduction:
+        enable: true # チュートリアルを利用する場合false -> trueに変更
+    ```
+    
+- カメラ（`camera`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Describe the application information.
+    # アプリケーション情報を記載します。
+    app:
+      ~~~~~
+    
+      # Describe the settings for using the camera.
+      # カメラを利用するための設定を記述します。
+      camera:
+        enable: true # カメラを利用する場合false -> trueに変更
+        
+        # Specifies whether audio is enabled on the camera.
+        # カメラで音声を有効にするかを指定します。
+        audio:
+          enable: true
+    
+        # Specify permission permission messages to use the camera and microphone in IOS.
+        # IOSでカメラやマイクを利用するための権限許可メッセージを指定します。
+        permission:
+          camera:
+            en: Use the camera for video chats. # 利用用途を言語ごとに記載。
+            ja: ビデオチャットのためにカメラを利用します。 # 利用用途を言語ごとに記載。
+          microphone:
+            en: Use the microphone for video chats. # 利用用途を言語ごとに記載。
+            ja: ビデオチャットのためにマイクを利用します。 # 利用用途を言語ごとに記載。
+    ```
+    
+- カレンダー（`calendar`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Describe the application information.
+    # アプリケーション情報を記載します。
+    app:
+      ~~~~~
+    
+      # Describe the settings for using the calendar.
+      # カレンダーを利用するための設定を記述します。
+      calendar:
+        enable: true # カレンダーを利用する場合false -> trueに変更
+    ```
+    
+- ChatGPT（`openai`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Describe the application information.
+    # アプリケーション情報を記載します。
+    app:
+      ~~~~~
+    
+      # Describe the settings for using OpenAI's GPT, etc.
+      # OpenAIのGPT等を利用するための設定を記述します。
+      openai:
+        enable: true # ChatGPTを利用する場合false -> trueに変更
+    ```
+    
+- Text-To-Speech（`text_to_speech`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Describe the application information.
+    # アプリケーション情報を記載します。
+    app:
+      ~~~~~
+    
+      # Describe the settings for using speech synthesis.
+      # 音声合成による発話を利用するための設定を記述します。
+      text_to_speech:
+        enable: true # Text-To-Speechを利用する場合false -> trueに変更
+    ```
+    
+- Speech-To-Text（`speech_to_text`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Describe the application information.
+    # アプリケーション情報を記載します。
+    app:
+      ~~~~~
+    
+      # Describe the settings for using voice recognition.
+      # Specify the permission message to use the library in IOS in [permission].
+      # Please include `en`, `ja`, etc. and write the message in that language there.
+      # 音声認識を利用するための設定を記述します。
+      # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+      # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+      speech_to_text:
+        enable: true # Speech-To-Textを利用する場合false -> trueに変更
+        permission:
+          en: Used to perform voice recognition. # 利用用途を言語ごとに記載。
+          ja: 音声認識のためにマイクを利用します。# 利用用途を言語ごとに記載。
+    ```
+    
+- ローカルPUSH通知（`local_notification`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Describe the application information.
+    # アプリケーション情報を記載します。
+    app:
+      ~~~~~
+    
+      # Implement local PUSH.
+      # ローカルPUSHを実装します。
+      local_notification:
+        enable: true # ローカルPUSH通知を利用する場合false -> trueに変更
+    ```
+    
+- 位置情報（`location`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Describe the settings for using location information.
+    #
+    # Set [enable_background] to true if you want to acquire location information even when the application enters the background.
+    # If you wish to use GoogleMap, set [google_map]->[enable] to true. Also, obtain a GoogleMap API key from the following link in advance and enter it in [google_map]->[api_key].
+    # https://console.cloud.google.com/google/maps-apis/credentials
+    #
+    # If you want to use Geocoding to obtain location information from addresses, set [geocoding]->[enable] to true. Also, please obtain an API key for Geocoding from the link below and enter it in the [geocoding]->[api_key] field.
+    # https://console.cloud.google.com/google/maps-apis/credentials
+    #
+    # Specify the permission message to use the library in IOS in [permission].
+    # Please include `en`, `ja`, etc. and write the message in that language there.
+    # 
+    # 位置情報を利用するための設定を記述します。
+    # 
+    # アプリがバックグラウンドに入った場合でも位置情報を取得する場合は[enable_background]をtrueにしてください。
+    # GoogleMapを利用する場合は[google_map]->[enable]をtrueにしてください。また事前に下記のリンクからGoogleMapのAPIキーを取得しておき[google_map]->[api_key]に記載してください。
+    # https://console.cloud.google.com/google/maps-apis/credentials
+    #
+    # Geocodingで住所から位置情報を取得する場合は[geocoding]->[enable]をtrueにしてください。また事前に下記のリンクからGeocoding専用のAPIキーを取得しておき[geocoding]->[api_key]に記載してください。
+    # https://console.cloud.google.com/google/maps-apis/credentials
+    #
+    # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+    # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+    location:
+      enable: true # 位置情報を利用する場合false -> trueに変更
+      enable_background: false
+      google_map:
+        enable: false
+        api_key:
+          android:
+          ios:
+          web:
+      geocoding:
+        enable: false
+        api_key: 
+      permission:
+        en: Location information is used to display the map. # 利用用途を言語ごとに記載。
+        ja: マップを表示するために位置情報を利用します。 # 利用用途を言語ごとに記載。
+    ```
+    
+- マップ表示（`location→google_map`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Describe the settings for using location information.
+    #
+    # Set [enable_background] to true if you want to acquire location information even when the application enters the background.
+    # If you wish to use GoogleMap, set [google_map]->[enable] to true. Also, obtain a GoogleMap API key from the following link in advance and enter it in [google_map]->[api_key].
+    # https://console.cloud.google.com/google/maps-apis/credentials
+    #
+    # If you want to use Geocoding to obtain location information from addresses, set [geocoding]->[enable] to true. Also, please obtain an API key for Geocoding from the link below and enter it in the [geocoding]->[api_key] field.
+    # https://console.cloud.google.com/google/maps-apis/credentials
+    #
+    # Specify the permission message to use the library in IOS in [permission].
+    # Please include `en`, `ja`, etc. and write the message in that language there.
+    # 
+    # 位置情報を利用するための設定を記述します。
+    # 
+    # アプリがバックグラウンドに入った場合でも位置情報を取得する場合は[enable_background]をtrueにしてください。
+    # GoogleMapを利用する場合は[google_map]->[enable]をtrueにしてください。また事前に下記のリンクからGoogleMapのAPIキーを取得しておき[google_map]->[api_key]に記載してください。
+    # https://console.cloud.google.com/google/maps-apis/credentials
+    #
+    # Geocodingで住所から位置情報を取得する場合は[geocoding]->[enable]をtrueにしてください。また事前に下記のリンクからGeocoding専用のAPIキーを取得しておき[geocoding]->[api_key]に記載してください。
+    # https://console.cloud.google.com/google/maps-apis/credentials
+    #
+    # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+    # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+    location:
+      enable: true # 位置情報を利用する場合false -> trueに変更
+      enable_background: false
+      google_map:
+        enable: true # マップを利用する場合false -> trueに変更
+        api_key:
+          android:
+          ios:
+          web:
+      geocoding:
+        enable: false
+        api_key: 
+      permission:
+        en: Location information is used to display the map. # 利用用途を言語ごとに記載。
+        ja: マップを表示するために位置情報を利用します。 # 利用用途を言語ごとに記載。
+    ```
+    
+- アプリ広告（`ads`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Configure the settings for advertising.
+    # Set the respective Ad App Id in [android_app_id] and [ios_app_id].
+    # If you want to use it on the web, please obtain app_ads.txt and place it under the web folder.
+    # https://admanager.google.com/home/
+    # Specify the permission message to use the library in IOS in [permission].
+    # Please include `en`, `ja`, etc. and write the message in that language there.
+    # 広告を出す場合の設定を行います。
+    # [android_app_id]と[ios_app_id]にそれぞれのAd App Idを設定してください。
+    # Webで利用する場合はapp_ads.txtを取得し、webフォルダ以下に配置してください。
+    # https://admanager.google.com/home/
+    # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+    # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+    ads:
+      enable: true # アプリ広告を利用する場合false -> trueに変更
+      android_app_id: 
+      ios_app_id: 
+      permission:
+          en: If you [Allow], App will display ads optimized for you. # 広告の最適化許可メッセージを言語ごとに記載。
+          ja: 同意した場合、表示される広告があなたに最適化されます. # 広告の最適化許可メッセージを言語ごとに記載。
+    ```
+    
+- アプリ内課金（`purchase`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Configure settings for store billing.
+    # ストア課金を行う場合の設定を行います。
+    purchase:
+      # Setting this to `true` will install the billing package for testing.
+      # ここを`true`にするとテスト用の課金パッケージがインストールされます。
+      enable: true # アプリ内課金を利用する場合false -> trueに変更
+    
+      # Configure settings for Google Play billing.
+      # Follow the steps below to configure the settings.
+      # 1. Create a service account with permissions to GooglePlayConsole based on the URL below.
+      #    https://mathru.notion.site/Android-1d4a60948a1446d7a82c010d96417a3d?pvs=4
+      #    ※ You need to create an OAuth consent screen. Please create it from the following URL.
+      #    https://console.cloud.google.com/apis/credentials/consent
+      # 2. Set `enable` to `true`.
+      # 3. Set the topic ID for the notification to `pubsub_topic`.
+      # 4. Run `katana apply` to deploy the app and server.
+      # GooglePlayの課金を行う場合の設定を行います。
+      # 下記の手順で設定を行います。
+      # 1. 下記URLを元にGooglePlayConsoleに権限があるサービスアカウントを作成します。
+      #    https://mathru.notion.site/Android-1d4a60948a1446d7a82c010d96417a3d?pvs=4
+      #    ※OAuthの同意画面を作成する必要があります。下記のURLから作成してください。
+      #    https://console.cloud.google.com/apis/credentials/consent
+      # 2. `enable`を`true`にします。
+      # 3. 通知用のトピックIDを`pubsub_topic`に設定します。
+      # 4. `katana apply`を実行しアプリとサーバーのデプロイを行います。
+      google_play:
+        enable: false
+        pubsub_topic: purchasing
+      
+      # Configure settings for AppStore billing.
+      # Follow the steps below to configure the settings.
+      # 1. Register your tax information and bank account to activate [Subscription]->[Paid Apps] in the AppStore.
+      # 2. Get it from [AppStore]->[App Info]->[Shared Secret for App] and put it in `shared_secret`.
+      # AppStoreの課金を行う場合の設定を行います。
+      # 下記の手順で設定を行います。
+      # 1. AppStoreの[契約]->[有料App]をアクティブにするように税務情報や銀行口座を登録します。
+      # 2. AppStoreの[アプリ]->[App情報]->[App用共有シークレット]から取得して`shared_secret`に記載します。
+      app_store:
+        enable: false
+        shared_secret: 
+    ```
+    
+- Stripe決済（`stripe`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Configure billing settings for Stripe.
+    # Stripeの課金設定を行います。
+    stripe:
+      # Set to `true` if you use Stripe.
+      # Stripeを利用する場合は`true`にしてください。
+      enable: true # Stripe決済を利用する場合false -> trueに変更
+    
+      # Set to `true` if you use Stripe Connect.
+      # Stripeコネクトを利用する場合は`true`にしてください。
+      enable_connect: false
+    
+      # Secret key for Stripe's API.
+      # You can obtain keys for the test and production environments at the following URLs
+      # StripeのAPI用シークレットキー。
+      # 下記のURLからテスト環境用と本番環境用のキーを取得できます。
+      # Production environment
+      # https://dashboard.stripe.com/apikeys
+      # Development enveironment
+      # https://dashboard.stripe.com/test/apikeys
+      secret_key: 
+    
+      # URL scheme for returning from Stripe's WebView.
+      # It must be set to the same settings as the application side.
+      # StripeのWebViewから戻る際のURLスキーム。
+      # アプリ側と同じ設定にする必要があります。
+      url_scheme:
+    
+      # Specify the email provider for use with Stripe's 3D Secure authentication.
+      # Specify `sendgrid` if you use SendGrid or `gmail` if you use Gmail.
+      # Also, please set up various e-mail settings.
+      # Stripeの3Dセキュア認証で利用するためのメールプロバイダーを指定します。
+      # SendGridを利用する場合は`sendgrid`、Gmailを利用する場合は`gmail`を指定してください。
+      # また、各種メールの設定を行ってください。
+      email_provider: sendgrid
+    
+      # Set up a redirect page for 3D Secure.
+      # Under each language code, [success] and [failure] should include the URL for success and failure.
+      # Adding a language code allows you to include the URL for that language.
+      # 3Dセキュア用のリダイレクトページを設定します。
+      # 各言語コードの下に[success]と[failure]には成功時、失敗時のURLを記載してください。
+      # 言語コードを追加するとその言語のURLを記載することができます。
+      three_d_secure_redirect_page:
+        en:
+          success:
+          failure:
+        ja:
+          success:
+          failure:
+    ```
+    
+- 音声通話（`agora`）
+- ビデオ通話（`agora`）
+- 音声ストリーミング（`agora`）
+- ビデオストリーミング（`agora`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Configure Agora.io streaming settings.
+    # Agora.ioのストリーミング設定を行います。
+    agora:
+      # Set to `true` if you use Agora.io.
+      # Agora.ioを利用する場合は`true`にしてください。
+      enable: true # 音声・ビデオ通話、音声・ビデオストリーミングを利用する場合false -> trueに変更
+    
+      # AppID for Agora.
+      # Log in to the following URL and create a project.
+      # After the project is created, the AppID can be copied.
+      # Agora用のAppID。
+      # 下記URLにログインし、プロジェクトを作成します。
+      # プロジェクト作成後、AppIDをコピーすることができます。
+      # https://console.agora.io/projects
+      app_id: 
+    
+      # AppCertificate for Agora.
+      # You can obtain the certificate after entering the project you created and activating it in Security -> App certificate.
+      # Agora用のAppCertificate。
+      # 作成したプロジェクトに入り、Security -> App certificateにて有効化した後取得できます。
+      # https://console.agora.io/projects
+      app_certificate: 
+    
+      # Set to `true` to enable Agora cloud recording.
+      # Agoraのクラウドレコーディングを有効にする場合は`true`にしてください。
+      enable_cloud_recording: false
+    
+      # Set to `true` to enable Agora full screen sharing.
+      # Agoraのフルスクリーン共有を有効にする場合は`true`にしてください。
+      enable_fullscreen_sharing: false
+    
+      # Specify permission permission messages to use the camera and microphone in IOS.
+      # IOSでカメラやマイクを利用するための権限許可メッセージを指定します。
+      permission:
+        camera:
+          en: Use the camera for video chats. # 利用用途を言語ごとに記載。
+          ja: ビデオチャットのためにカメラを利用します。 # 利用用途を言語ごとに記載。
+        microphone:
+          en: Use the microphone for video chats. # 利用用途を言語ごとに記載。
+          ja: ビデオチャットのためにマイクを利用します。 # 利用用途を言語ごとに記載。
+    ```
+    
+- メール送信（`sendgrid`）
+    
+    ```yaml
+    # katana.yaml
+    
+    # Configure Sendgrid sending settings.
+    # Sendgridの送信設定を行います。
+    sendgrid:
+      # Set to `true` if you want to use mail sending by Sendgrid.
+      # Sendgridによるメール送信を利用する場合は`true`にしてください。
+      enable: true # メール送信を利用する場合false -> trueに変更
+    
+      # API key for SendGrid. It can be issued from the following URL.
+      # SendGridのAPIキー。下記URLから発行可能です。
+      # https://app.sendgrid.com/settings/api_keys
+      api_key:
+    ```
+
+## プラグイン生成用のDartファイルの書き方
+
+```dart
+import 'package:katana_cli/ai/docs/plugin_usage.dart';
+
+/// Contents of picker.mdc.
+///
+/// picker.mdcの中身。
+class PluginPickerMdcCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of picker.mdc.
+  ///
+  /// picker.mdcの中身。
+  const PluginPickerMdcCliAiCode();
+
+  @override
+  String get name => "ファイルピッカー";
+
+  @override
+  String get description => "`ファイルピッカー`の利用方法";
+
+  @override
+  String get globs => "katana.yaml, lib/adapter.dart";
+
+  @override
+  String get directory => "docs/plugin";
+
+  @override
+  String get excerpt =>
+      "`ファイルピッカー`は端末内から画像や映像などを取得しアプリ内で利用可能にするプラグイン。";
+
+  @override
+  String body(String baseName, String className) {
+    return """
+`ファイルピッカー`は下記のように利用する。
+
+## 概要
+
+$excerpt
+
+## 設定方法
+
+1. `katana.yaml`に下記の設定を追加。
+
+    ```yaml
+    # katana.yaml
+
+    # Describe the settings for using the file picker.
+    # Specify the permission message to use the library in IOS in [permission].
+    # Please include `en`, `ja`, etc. and write the message in that language there.
+    # If you want to use the camera, set [camera]->[enable] to true and specify the permission message to use the camera in [permission].
+    # ファイルピッカーを利用するための設定を記述します。
+    # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+    # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+    # カメラを利用する場合は[camera]->[enable]をtrueにして、[permission]にカメラを利用するための権限許可メッセージを指定して下さい。
+    picker:
+    enable: true # ファイルピッカーを利用する場合false -> trueに変更
+    permission:
+        en: Use the library for profile images. # 利用用途を言語ごとに記載。
+        ja: プロフィール画像のためにライブラリを利用します。# 利用用途を言語ごとに記載。
+    camera:
+        enable: false # カメラを利用する場合はfalse -> trueに変更
+        permission:
+        en: Use the camera for profile images. # 利用用途を言語ごとに記載。
+        ja: プロフィール画像のためにカメラを利用します。# 利用用途を言語ごとに記載。
+    ```
+
+2. 下記のコマンドを実行して設定を適用。
+
+    ```bash
+    katana apply
+    ```
+
+3. `lib/adapter.dart`の`masamuneAdapters`に`MasamuneAdapter`を追加。
+
+    ```dart
+    // lib/adater.dart
+
+    /// Masamune adapter.
+    ///
+    /// The Masamune framework plugin functions can be defined together.
+    // TODO: Add the adapters.
+    final masamuneAdapters = <MasamuneAdapter>[
+        const UniversalMasamuneAdapter(),
+
+        // ファイルピッカーのアダプターを追加。
+        const PickerMasamuneAdapter(),
+    ];
+    ```
+
+## 利用方法
+
+```dart
+// ファイルピッカーのコントローラーを取得。
+final picker = ref.app.controller(Picker.query());
+
+// 画像を選択。
+final picked = await picker.pickSingle();
+
+// 選択した画像のURIを取得。
+final uri = picked.uri;
+
+// 選択した画像のURIが空の場合は処理を中断。
+if (uri == null || uri.isEmpty) {
+    return;
+}
+
+// 選択した画像のURIを利用して画像を表示したりアップロードしたりする。
+```
+""";
+  }
+}
+
+```
