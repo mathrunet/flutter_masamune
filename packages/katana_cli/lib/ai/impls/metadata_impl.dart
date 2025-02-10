@@ -26,6 +26,7 @@ class MetadataImplMdcCliAiCode extends CliAiCode {
   String body(String baseName, String className) {
     return r"""
 [metadata_design.md](mdc:documents/designs/metadata_design.md)に記載されている`MetaData設計書`から[katana.yaml](mdc:katana.yaml)を編集し`MetaData`を実装
+[metadata_design.md](mdc:documents/designs/metadata_design.md)が存在しない場合は絶対に実施しない
 
 1. `MetaData設計書`で定義されている内容を元に[katana.yaml](mdc:katana.yaml)を編集
     - [katana.yaml](mdc:katana.yaml)の`app->info`を編集

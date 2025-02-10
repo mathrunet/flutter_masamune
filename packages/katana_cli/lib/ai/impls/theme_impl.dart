@@ -26,6 +26,7 @@ class ThemeImplMdcCliAiCode extends CliAiCode {
   String body(String baseName, String className) {
     return r"""
 [theme_design.md](mdc:documents/designs/theme_design.md)に記載されている`Theme設計書`から[theme.dart](mdc:lib/theme.dart)を編集
+[theme_design.md](mdc:documents/designs/theme_design.md)が存在しない場合は絶対に実施しない
 
 1. `Theme設計書`で定義されている内容を元に[theme.dart](mdc:lib/theme.dart)を書き換える
     - [theme.dart](mdc:lib/theme.dart)の`AppThemeData`を変更

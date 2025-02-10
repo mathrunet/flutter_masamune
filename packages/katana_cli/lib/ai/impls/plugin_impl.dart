@@ -26,6 +26,7 @@ class PluginImplMdcCliAiCode extends CliAiCode {
   String body(String baseName, String className) {
     return r"""
 [plugin_design.md](mdc:documents/designs/plugin_design.md)に記載されている`Plugin設計書`から`Plugin`を導入する方法
+[plugin_design.md](mdc:documents/designs/plugin_design.md)が存在しない場合は絶対に実施しない
 
 1. [plugin_design.md](mdc:documents/designs/plugin_design.md)に記載されている`Plugin設計書`の各`Plugin`ごとに下記を実施
     - `Settings`に応じて`katana.yaml`を編集

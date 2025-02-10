@@ -1,17 +1,17 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of widget_impl.mdc.
+/// Contents of widget_creation.mdc.
 ///
-/// widget_impl.mdcの中身。
-class WidgetImplMdcCliAiCode extends CliAiCode {
-  /// Contents of widget_impl.mdc.
+/// widget_creation.mdcの中身。
+class WidgetCreationMdcCliAiCode extends CliAiCode {
+  /// Contents of widget_creation.mdc.
   ///
-  /// widget_impl.mdcの中身。
-  const WidgetImplMdcCliAiCode();
+  /// widget_creation.mdcの中身。
+  const WidgetCreationMdcCliAiCode();
 
   @override
-  String get name => "`Widget`の実装";
+  String get name => "`Widget`の作成";
 
   @override
   String get globs => "lib/widgets/**/*.dart, lib/models/**/*.dart";
@@ -20,13 +20,13 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
   String get directory => "impls";
 
   @override
-  String get description => "`Widget設計書`を用いた`Widget`の実装方法";
+  String get description => "`Widget設計書`を用いた`Widget`の作成方法";
 
   @override
   String body(String baseName, String className) {
     return r"""
 [widget_design.md](mdc:documents/designs/widget_design.md)に記載されている`Widget設計書`からDartコードを生成
-※参考として[page_design.md](mdc:documents/designs/page_design.md)に記載されている`Page設計書`や[model_design.md](mdc:documents/designs/model_design.md)に記載されている`Model設計書`、[controller_design.md](mdc:documents/designs/controller_design.md)に記載されている`Controller設計書`、[theme_design.md](mdc:documents/designs/theme_design.md)に記載されている`Theme設計書`、[metadata_design.md](mdc:documents/designs/metadata_design.md)に記載されている`MetaData設計書`も参照。
+[widget_design.md](mdc:documents/designs/widget_design.md)が存在しない場合は絶対に実施しない
 
 `Widget設計書`に記載されている各`Widget`の`WidgetType`に応じてそれぞれ下記を実行
 
@@ -78,10 +78,6 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
           }
         }
         ```
-5. `Content`に応じて`build`メソッド内の`// TODO: Implement the view.`以下を書き換え、適切なUIを構築し返す。
-    - 適宜`import`を追加する
-    - 必要であれば`Properties`に応じた変数を利用する
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
 
 ## `stateful`
 
@@ -136,14 +132,6 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
           }
         }
         ```
-5. `Content`に応じて`build`メソッド内の`// TODO: Implement the variable loading process.`以下に`ref`を用いてプロジェクト内の各種`Model`や`Controller`を取得する。`Model`や`Controller`の取得方法は下記を参照。
-    - [`Model`や`Controller`の取得方法](mdc:.cursor/rules/docs/state_management_usage.mdc)
-    - [`Model`の利用方法](mdc:.cursor/rules/docs/model_usage.mdc)
-6. `Content`に応じて`build`メソッド内の`// TODO: Implement the view.`以下を書き換え、適切なUIを構築し返す。
-    - 適宜`import`を追加する
-    - 必要であれば`Properties`に応じた変数を利用する
-    - 3で取得した`Model`や`Controller`を利用してもよい
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
 
 ## `model_extension`
 
@@ -151,13 +139,16 @@ class WidgetImplMdcCliAiCode extends CliAiCode {
 
 2. ファイルの`extension [TargetModelのModelName(PascalCase&末尾のModelを取り除く)]ModelDocumentExtension on [TargetModelのModelName(PascalCase&末尾のModelを取り除く)]ModelDocument`内にある`// TODO: Define the extension method.`以下に`Widget toXXX()`のメソッドを定義
     - メソッド名は必ず先頭に`to`を付与し`Model`をどのような`Widget`に変換するかを明示する必要がある
+    - 例：
+        ```dart
+        // lib/models/memo.dart
 
-3. `Content`に応じて作成したメソッド内に適切な構築しUIを返す。
-    - 適宜`import`を追加する
-    - `Model`内の変数は`value?.xxx`という形で利用可能
-        - nullableを直接利用できない場合は代替の値を設定。（`Widget`の場合は`const Empty()`を設定）
-    - `Model`ごとのIDは`value.uid`という形で利用可能
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
+        extension MemoModelDocumentExtension on MemoModelDocument {
+          Widget toTile() {
+            throw UnimplementedError();
+          }
+        }
+        ```
 """;
   }
 }

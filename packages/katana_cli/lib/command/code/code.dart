@@ -5,6 +5,9 @@ import 'dart:io';
 
 // Package imports:
 import 'package:archive/archive_io.dart';
+import 'package:katana_cli/ai/designs/designs.dart';
+import 'package:katana_cli/ai/docs/docs.dart';
+import 'package:katana_cli/ai/impls/impls.dart';
 
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
@@ -22,6 +25,7 @@ part 'watch.dart';
 part 'value.dart';
 part 'redirect_query.dart';
 part 'boot.dart';
+part 'docs.dart';
 part 'prefs.dart';
 part 'widget.dart';
 part 'stateless.dart';
@@ -46,6 +50,7 @@ class CodeCliCommand extends CliCommandGroup {
         "view": CodeViewCliCommand(),
         "server": CodeServerCliCommand(),
         "boot": CodeBootCliCommand(),
+        "docs": CodeDocsCliCommand(),
         "format": CodeFormatCliCommand(),
         "generate": CodeGenerateCliCommand(),
         "watch": CodeWatchCliCommand(),

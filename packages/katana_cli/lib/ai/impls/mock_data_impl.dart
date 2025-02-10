@@ -26,6 +26,7 @@ class MockDataImplMdcCliAiCode extends CliAiCode {
   String body(String baseName, String className) {
     return r"""
 [model_design.md](mdc:documents/designs/model_design.md)に記載されている`Model設計書`からモックデータを生成する方法
+[model_design.md](mdc:documents/designs/model_design.md)が存在しない場合は絶対に実施しない
 
 1. `Model設計書`を参照して各`Model`に対してモックデータを作成
     - `lib/adapter.dart`内にある`RuntimeModelAdapter`の`initialValue`に`ModelInitialValue`を継承した値を追加していく

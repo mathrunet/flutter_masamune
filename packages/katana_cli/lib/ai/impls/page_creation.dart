@@ -1,17 +1,17 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of page_impl.mdc.
+/// Contents of page_creation.mdc.
 ///
-/// page_impl.mdcの中身。
-class PageImplMdcCliAiCode extends CliAiCode {
-  /// Contents of page_impl.mdc.
+/// page_creation.mdcの中身。
+class PageCreationMdcCliAiCode extends CliAiCode {
+  /// Contents of page_creation.mdc.
   ///
-  /// page_impl.mdcの中身。
-  const PageImplMdcCliAiCode();
+  /// page_creation.mdcの中身。
+  const PageCreationMdcCliAiCode();
 
   @override
-  String get name => "`Page`の実装";
+  String get name => "`Page`の作成";
 
   @override
   String get globs => "lib/pages/**/*.dart";
@@ -20,13 +20,13 @@ class PageImplMdcCliAiCode extends CliAiCode {
   String get directory => "impls";
 
   @override
-  String get description => "`Page設計書`を用いた`Page`の実装方法";
+  String get description => "`Page設計書`を用いた`Page`の作成方法";
 
   @override
   String body(String baseName, String className) {
     return r"""
 [page_design.md](mdc:documents/designs/page_design.md)に記載されている`Page設計書`からDartコードを生成
-※参考として[page_design.md](mdc:documents/designs/page_design.md)に記載されている`Page設計書`や[model_design.md](mdc:documents/designs/model_design.md)に記載されている`Model設計書`、[widget_design.md](mdc:documents/designs/widget_design.md)に記載されている`Widget設計書`、[controller_design.md](mdc:documents/designs/controller_design.md)に記載されている`Controller設計書`、[plugin_design.md](mdc:documents/designs/plugin_design.md)に記載されている`Plugin設計書`、[theme_design.md](mdc:documents/designs/theme_design.md)に記載されている`Theme設計書`、[metadata_design.md](mdc:documents/designs/metadata_design.md)に記載されている`MetaData設計書`も参照。
+[page_design.md](mdc:documents/designs/page_design.md)が存在しない場合は絶対に実施しない
 
 `Page設計書`に記載されている各`Page`の`PageType`に応じてそれぞれ下記を実行
 
@@ -106,15 +106,7 @@ class PageImplMdcCliAiCode extends CliAiCode {
           }
         }
         ```
-5. `Content`に応じて`build`メソッド内の`// TODO: Implement the variable loading process.`以下に`ref`を用いてプロジェクト内の各種`Model`や`Controller`を取得する。`Model`や`Controller`の取得方法は下記を参照。
-    - [`Model`や`Controller`の取得方法](mdc:.cursor/rules/docs/state_management_usage.mdc)
-    - [`Model`の利用方法](mdc:.cursor/rules/docs/model_usage.mdc)
-6. `Content`に応じて`build`メソッド内の`// TODO: Implement the app bar.`や`// TODO: Implement the list view.`以下を書き換え、適切なUIを構築し返す。
-    - 適宜`import`を追加する
-    - 必要であれば`Properties`に応じた変数を利用する
-    - 3で取得した`Model`や`Controller`を利用してもよい
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
-7. 最後に下記コマンドで残りのコードを自動生成する
+5. 最後に下記コマンドで残りのコードを自動生成する
 
     ```shell
     katana code generate
@@ -196,15 +188,7 @@ class PageImplMdcCliAiCode extends CliAiCode {
           }
         }
         ```
-5. `Content`に応じて`build`メソッド内の`// TODO: Implement the variable loading process.`以下に`ref`を用いてプロジェクト内の各種`Model`や`Controller`を取得する。`Model`や`Controller`の取得方法は下記を参照。
-    - [`Model`や`Controller`の取得方法](mdc:.cursor/rules/docs/state_management_usage.mdc)
-    - [`Model`の利用方法](mdc:.cursor/rules/docs/model_usage.mdc)
-6. `Content`に応じて`build`メソッド内の`// TODO: Implement the app bar.`や`// TODO: Implement the grid view.`以下を書き換え、適切なUIを構築し返す。
-    - 適宜`import`を追加する
-    - 必要であれば`Properties`に応じた変数を利用する
-    - 3で取得した`Model`や`Controller`を利用してもよい
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
-7. 最後に下記コマンドで残りのコードを自動生成する
+5. 最後に下記コマンドで残りのコードを自動生成する
 
     ```shell
     katana code generate
@@ -286,15 +270,7 @@ class PageImplMdcCliAiCode extends CliAiCode {
           }
         }
         ```
-5. `Content`に応じて`build`メソッド内の`// TODO: Implement the variable loading process.`以下に`ref`を用いてプロジェクト内の各種`Model`や`Controller`を取得する。`Model`や`Controller`の取得方法は下記を参照。
-    - [`Model`や`Controller`の取得方法](mdc:.cursor/rules/docs/state_management_usage.mdc)
-    - [`Model`の利用方法](mdc:.cursor/rules/docs/model_usage.mdc)
-6. `Content`に応じて`build`メソッド内の`// TODO: Implement the app bar.`や`// TODO: Implement the fixed view.`以下を書き換え、適切なUIを構築し返す。
-    - 適宜`import`を追加する
-    - 必要であれば`Properties`に応じた変数を利用する
-    - 3で取得した`Model`や`Controller`を利用してもよい
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
-7. 最後に下記コマンドで残りのコードを自動生成する
+5. 最後に下記コマンドで残りのコードを自動生成する
 
     ```shell
     katana code generate
@@ -418,15 +394,7 @@ class PageImplMdcCliAiCode extends CliAiCode {
           }
         }
         ```
-3. `Content`に応じて`build`メソッド内の`// TODO: Implement the variable loading process.`以下に`ref`を用いてプロジェクト内の各種`Model`や`Controller`を取得する。`Model`や`Controller`の取得方法は下記を参照。
-    - [`Model`や`Controller`の取得方法](mdc:.cursor/rules/docs/state_management_usage.mdc)
-    - [`Model`の利用方法](mdc:.cursor/rules/docs/model_usage.mdc)
-4. `Content`に応じて`build`メソッド内の`// TODO: Implement the app bar.`や`// TODO: Implement the fixed view.`以下を書き換え、適切なUIを構築し返す。
-    - 適宜`import`を追加する
-    - 必要であれば`Properties`に応じた変数を利用する
-    - 3で取得した`Model`や`Controller`を利用してもよい
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
-5. 最後に下記コマンドで残りのコードを自動生成する
+3. 最後に下記コマンドで残りのコードを自動生成する
 
     ```shell
     katana code generate
@@ -550,15 +518,7 @@ class PageImplMdcCliAiCode extends CliAiCode {
           }
         }
         ```
-3. `Content`に応じて`build`メソッド内の`// TODO: Implement the variable loading process.`以下に`ref`を用いてプロジェクト内の各種`Model`や`Controller`を取得する。`Model`や`Controller`の取得方法は下記を参照。
-    - [`Model`や`Controller`の取得方法](mdc:.cursor/rules/docs/state_management_usage.mdc)
-    - [`Model`の利用方法](mdc:.cursor/rules/docs/model_usage.mdc)
-4. `Content`に応じて`build`メソッド内の`// TODO: Implement the app bar.`や`// TODO: Implement the list view.`以下を書き換え、適切なUIを構築し返す。
-    - 適宜`import`を追加する
-    - 必要であれば`Properties`に応じた変数を利用する
-    - 3で取得した`Model`や`Controller`を利用してもよい
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
-5. 最後に下記コマンドで残りのコードを自動生成する
+3. 最後に下記コマンドで残りのコードを自動生成する
 
     ```shell
     katana code generate
@@ -902,15 +862,7 @@ class PageImplMdcCliAiCode extends CliAiCode {
           }
         }
         ```
-5. `Content`に応じて`build`メソッド内の`// TODO: Implement the variable loading process.`以下に`ref`を用いてプロジェクト内の各種`Model`や`Controller`を取得する。`Model`や`Controller`の取得方法は下記を参照。
-    - [`Model`や`Controller`の取得方法](mdc:.cursor/rules/docs/state_management_usage.mdc)
-    - [`Model`の利用方法](mdc:.cursor/rules/docs/model_usage.mdc)
-6. `Content`に応じて`build`メソッド内の`// TODO: Implement the view.`以下を書き換え、適切なUIを構築し返す。
-    - 適宜`import`を追加する
-    - 必要であれば`Properties`に応じた変数を利用する
-    - 3で取得した`Model`や`Controller`を利用してもよい
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
-7. 最後に下記コマンドで残りのコードを自動生成する
+5. 最後に下記コマンドで残りのコードを自動生成する
 
     ```shell
     katana code generate

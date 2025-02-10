@@ -26,6 +26,7 @@ class ModelImplMdcCliAiCode extends CliAiCode {
   String body(String baseName, String className) {
     return r"""
 [model_design.md](mdc:documents/designs/model_design.md)に記載されている`Model設計書`からDartコードを生成
+[model_design.md](mdc:documents/designs/model_design.md)が存在しない場合は絶対に実施しない
 
 1. `Model設計書`で定義されているいずれかの`Model`中の`DataField`にenumを元にした値が存在する時、それぞれの`Enum`に対して下記を実行
     1. 下記コマンドを実行 

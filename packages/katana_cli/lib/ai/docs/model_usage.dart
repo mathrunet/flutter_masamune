@@ -380,6 +380,14 @@ final value = appRef.model(AnyModel.value())..load();
       await document.save(AnyModel());
       ```
 
+- `Collection`に新しい要素を追加したい場合も同様に`create`メソッドから`Document`を作成し`save`メソッドを実行する。
+    - `Document`の`save`メソッドでデータを保存すると自動で`Collection`に追加される。
+
+  ```dart
+  final document = appRef.model(AnyModel.collection()).create([documentId]);
+  await document.save(AnyModel());
+  ```
+
 ### 更新（Update）
 
 - `Document`単位でのみ更新が可能。
@@ -398,6 +406,14 @@ final value = appRef.model(AnyModel.value())..load();
       ```dart
       await document.delete();
       ```
+
+- `Collection`から要素を削除したい場合も同様に削除したい`Document`を探し出し`Document`の`delete`メソッドを実行する。
+
+  ```dart
+  final collection = appRef.model(AnyModel.collection());
+  final deleteDocument = collection.firstWhereOrNull((document) => document.value?.title.contains("test") ?? false);
+  await deleteDocument?.delete();
+  ```
 """;
   }
 }

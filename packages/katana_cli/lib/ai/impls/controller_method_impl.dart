@@ -11,7 +11,7 @@ class ControllerImplMdcCliAiCode extends CliAiCode {
   const ControllerImplMdcCliAiCode();
 
   @override
-  String get name => "Controllerの実装";
+  String get name => "`Controller`のメソッドの実装";
 
   @override
   String get globs => "lib/controllers/**/*.dart";
@@ -25,56 +25,12 @@ class ControllerImplMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[controller_design.md](mdc:documents/designs/controller_design.md)に記載されている`Controller設計書`からDartコードを生成
+[controller_design.md](mdc:documents/designs/controller_design.md)に記載されている`Controller設計書`と`lib/controllers`に作成されているDartファイルを参照してすでに定義されている`Controller`のメソッドの中身を実装
+[controller_design.md](mdc:documents/designs/controller_design.md)が存在しない場合は絶対に実施しない
 
-1. 下記のコマンドを実行して`ChangeNotifier`を継承したクラスファイルを作成
-
-    ```shell
-    katana code controller [ControllerName(SnakeCase&末尾のControllerを取り除く)]
-    ```
-
-2. コマンド実行後、`lib/controllers`以下に[ControllerName(SnakeCase&末尾のControllerを取り除く)].dartファイルが作成される
-3. 作成された`ChangeNotifier`を継承したクラス内の`// TODO: Define fields and processes.`以下に`Properties`に応じた`final`変数を定義
-    - プロパティの状態に応じて下記を実施
-        - `RequiredOrOptional`が`Required`な場合は先頭に`required`をつける
-        - `DefaultValue`な場合は末尾に`= [DefaultValue]`をつける
-    - 例：
-        ```dart
-        // lib/controllers/purchase.dart
-
-        // ignore: unused_import, unnecessary_import
-        import 'package:flutter/material.dart';
-        // ignore: unused_import, unnecessary_import
-        import 'package:masamune/masamune.dart';
-
-        // ignore: unused_import, unnecessary_import
-        import '/main.dart';
-
-        part 'purchase.m.dart';
-
-        /// Controller.
-        @Controller(autoDisposeWhenUnreferenced: true)
-        class PurchaseController extends ChangeNotifier {
-          PurchaseController(
-            // TODO: Define some arguments.
-            required this.userId,
-          );
-
-          // TODO: Define fields and processes.
-          final String userId;      
-
-          /// Query for PurchaseController.
-          ///
-          /// ```dart
-          /// appRef.controller(PurchaseController.query(parameters));     // Get from application scope.
-          /// ref.app.controller(PurchaseController.query(parameters));    // Watch at application scope.
-          /// ref.page.controller(PurchaseController.query(parameters));   // Watch at page scope.
-          /// ```
-          static const query = _$PurchaseControllerQuery();
-        }
-        ```
-4. さらにクラス中に`Methods`に記載されているメソッドを内容に応じて実装。
-    - 処理中に必要に応じてコントローラー中にミュータブルな変数を追加しても構わない。
+1. 対象のDartファイル（`lib/controllers`以下に[ControllerName(SnakeCase&末尾のPageを取り除く)].dart）を開く
+2. `Controller設計書`の`Methods`に記載されているメソッドを内容に応じて実装。
+    - 処理中に必要に応じて`Controller`中にミュータブルな変数を追加しても構わない。
 
     ```dart
     // lib/controllers/purchase.dart
