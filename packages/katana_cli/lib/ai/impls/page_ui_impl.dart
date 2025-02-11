@@ -159,13 +159,13 @@ class PageUiImplMdcCliAiCode extends CliAiCode {
               FormLabel("タイトル"),
               FormTextField(
                 form: formController,
-                onSave: (value) => formController.value.copyWith(title: value),
+                onSaved: (value) => formController.value.copyWith(title: value),
                 hintText: "タイトルを入力してください",
               ),
               FormLabel("内容"),
               FormTextField(
                 form: formController,
-                onSave: (value) => formController.value.copyWith(content: value),
+                onSaved: (value) => formController.value.copyWith(content: value),
                 hintText: "内容を入力してください",
               ),
               FormButton(
@@ -204,13 +204,13 @@ class PageUiImplMdcCliAiCode extends CliAiCode {
               FormLabel("タイトル"),
               FormTextField(
                 form: formController,
-                onSave: (value) => formController.value.copyWith(title: value),
+                onSaved: (value) => formController.value.copyWith(title: value),
                 hintText: "タイトルを入力してください",
               ),
               FormLabel("内容"),
               FormTextField(
                 form: formController,
-                onSave: (value) => formController.value.copyWith(content: value),
+                onSaved: (value) => formController.value.copyWith(content: value),
                 hintText: "内容を入力してください",
               ),
               FormButton(
