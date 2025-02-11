@@ -18,7 +18,7 @@ class ModelFieldValueModelSearchMdcCliAiCode extends ModelFieldValueCliAiCode {
       "検索可能なフィールドを定義します。値を検索可能な値として保存し、[ModelQueryFilter.equal]で定義されたものがすべて含まれる要素を検索することが可能。カテゴリー検索等に利用可能。";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/model_field_value";

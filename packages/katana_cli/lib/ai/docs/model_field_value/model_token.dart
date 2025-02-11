@@ -17,7 +17,7 @@ class ModelFieldValueModelTokenMdcCliAiCode extends ModelFieldValueCliAiCode {
   String get description => "複数のトークンを保存するためのクラスである`ModelToken`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/model_field_value";

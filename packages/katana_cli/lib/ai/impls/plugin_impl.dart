@@ -14,7 +14,7 @@ class PluginImplMdcCliAiCode extends CliAiCode {
   String get name => "Pluginの実装";
 
   @override
-  String get globs => "lib/plugins/**/*.dart";
+  String get globs => "*";
 
   @override
   String get directory => "impls";

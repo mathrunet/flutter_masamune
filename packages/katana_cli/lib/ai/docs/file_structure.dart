@@ -17,8 +17,7 @@ class FileStructureDocsMdcCliAiCode extends CliAiCode {
   String get description => "アプリケーション開発で利用するファイル・フォルダ構成";
 
   @override
-  String get globs =>
-      "lib/**/*.dart, test/**/*.dart, katana.yaml, documents/designs/**/*.md, firebase/functions/src/**/*.ts, firebase/functions/test/**/*.ts";
+  String get globs => "*";
 
   @override
   String get directory => "docs";

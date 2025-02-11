@@ -18,7 +18,7 @@ class KatanaUICardTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
       "カードウィジェットの上に画像やテキストを重ねて表示するためのウィジェットである`CardTile`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/katana_ui";

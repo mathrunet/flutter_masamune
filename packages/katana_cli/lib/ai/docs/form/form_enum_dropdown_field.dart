@@ -18,7 +18,7 @@ class KatanaFormEnumDropdownFieldMdcCliAiCode extends FormUsageCliAiCode {
       "列挙型の値をドロップダウンメニューで選択できるフォームフィールドである`FormEnumDropdownField`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

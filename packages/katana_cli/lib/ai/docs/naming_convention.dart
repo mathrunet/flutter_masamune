@@ -17,8 +17,7 @@ class NamingConventionDocsMdcCliAiCode extends CliAiCode {
   String get description => "アプリケーション開発で利用する命名規則";
 
   @override
-  String get globs =>
-      "lib/**/*.dart, test/**/*.dart, katana.yaml, documents/designs/**/*.md, firebase/functions/src/**/*.ts, firebase/functions/test/**/*.ts";
+  String get globs => "*";
 
   @override
   String get directory => "docs";

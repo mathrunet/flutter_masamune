@@ -18,7 +18,7 @@ class ModelFieldValueModelCounterMdcCliAiCode extends ModelFieldValueCliAiCode {
       "内部にintを保持し数字を扱えるようにしながら数字のインクリメントやデクリメントをサーバー側で行えるようにしたオブジェクトである`ModelCounter`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/model_field_value";

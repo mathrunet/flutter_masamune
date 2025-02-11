@@ -17,7 +17,7 @@ class PluginSpeechToTextMdcCliAiCode extends PluginUsageCliAiCode {
   String get description => "`Speech-To-Text`の利用方法";
 
   @override
-  String get globs => "katana.yaml, lib/adapter.dart";
+  String get globs => "*";
 
   @override
   String get directory => "docs/plugins";

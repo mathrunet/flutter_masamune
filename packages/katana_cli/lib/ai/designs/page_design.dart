@@ -14,7 +14,7 @@ class PageDesignMdcCliAiCode extends CliAiCode {
   String get name => "`Page設計書`の作成";
 
   @override
-  String get globs => "documents/designs/page_design.md";
+  String get globs => "documents/designs/**/*.md";
 
   @override
   String get directory => "designs";

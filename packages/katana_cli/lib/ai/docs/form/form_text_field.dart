@@ -17,7 +17,7 @@ class KatanaFormTextFieldMdcCliAiCode extends FormUsageCliAiCode {
   String get description => "テキスト入力を行うためのフォームフィールドである`FormTextField`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

@@ -17,7 +17,7 @@ class KatanaFormButtonMdcCliAiCode extends FormUsageCliAiCode {
   String get description => "フォームの送信ボタンを表示するための`FormButton`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

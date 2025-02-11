@@ -17,7 +17,7 @@ class ModelFilterConditionsMdcCliAiCode extends CliAiCode {
   String get description => "`Collection`の`Model`を条件付きで取得するためのフィルター条件の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs";

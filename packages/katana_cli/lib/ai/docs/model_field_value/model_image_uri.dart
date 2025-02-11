@@ -18,7 +18,7 @@ class ModelFieldValueModelImageUriMdcCliAiCode
   String get description => "画像のURIを扱うためのクラスである`ModelImageUri`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/model_field_value";

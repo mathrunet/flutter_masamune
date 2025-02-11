@@ -17,7 +17,7 @@ class KatanaUIChatTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
   String get description => "チャットの吹き出しを作成するためのウィジェットである`ChatTile`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/katana_ui";

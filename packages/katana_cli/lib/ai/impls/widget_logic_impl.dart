@@ -14,7 +14,7 @@ class WidgetLogicImplMdcCliAiCode extends CliAiCode {
   String get name => "`Widget`のロジック実装";
 
   @override
-  String get globs => "lib/widgets/**/*.dart, lib/models/**/*.dart";
+  String get globs => "lib/**/*.dart";
 
   @override
   String get directory => "impls";

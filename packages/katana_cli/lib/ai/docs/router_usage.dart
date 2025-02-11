@@ -17,7 +17,7 @@ class RouterUsageMdcCliAiCode extends CliAiCode {
   String get description => "`Page`を遷移する際に利用する`Router`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs";

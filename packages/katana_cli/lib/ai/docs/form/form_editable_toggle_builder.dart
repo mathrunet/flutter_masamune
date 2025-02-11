@@ -18,7 +18,7 @@ class KatanaFormEditableToggleBuilderMdcCliAiCode extends FormUsageCliAiCode {
       "編集モードと表示モードを切り替えられるフォームビルダーである`FormEditableToggleBuilder`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

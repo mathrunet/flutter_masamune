@@ -18,7 +18,7 @@ class KatanaFormFutureFieldMdcCliAiCode extends FormUsageCliAiCode {
       "非同期処理の結果を表示・入力するためのフォームフィールドである`FormFutureField`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

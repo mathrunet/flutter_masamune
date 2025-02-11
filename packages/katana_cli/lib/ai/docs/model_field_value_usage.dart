@@ -62,7 +62,7 @@ class ModelFieldValueUsageMdcCliAiCode extends CliAiCode {
   String get description => "様々な場所で利用可能なタイプである`ModelFieldValue`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs";

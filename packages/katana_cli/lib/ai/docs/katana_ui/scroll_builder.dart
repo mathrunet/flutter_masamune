@@ -18,7 +18,7 @@ class KatanaUIScrollBuilderMdcCliAiCode extends KatanaUiUsageCliAiCode {
       "ListViewやSingleChildScrollViewに簡単にRefreshIndicatorやScrollbarを追加できるウィジェットである`ScrollBuilder`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/katana_ui";

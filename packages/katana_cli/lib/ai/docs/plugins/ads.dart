@@ -17,7 +17,7 @@ class PluginAdsMdcCliAiCode extends PluginUsageCliAiCode {
   String get description => "`アプリ広告`の利用方法";
 
   @override
-  String get globs => "katana.yaml, lib/adapter.dart";
+  String get globs => "*";
 
   @override
   String get directory => "docs/plugins";

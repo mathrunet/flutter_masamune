@@ -17,7 +17,7 @@ class KatanaFormRatingBarMdcCliAiCode extends FormUsageCliAiCode {
   String get description => "評価を星やアイコンで入力するためのフォームフィールドである`FormRatingBar`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

@@ -17,7 +17,7 @@ class KatanaFormMonthFieldMdcCliAiCode extends FormUsageCliAiCode {
   String get description => "年月を選択するためのフォームフィールドである`FormMonthField`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

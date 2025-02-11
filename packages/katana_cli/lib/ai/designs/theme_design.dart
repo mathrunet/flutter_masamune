@@ -14,7 +14,7 @@ class ThemeDesignMdcCliAiCode extends CliAiCode {
   String get name => "`Theme設計書`の作成";
 
   @override
-  String get globs => "documents/designs/theme_design.md";
+  String get globs => "documents/designs/**/*.md";
 
   @override
   String get directory => "designs";

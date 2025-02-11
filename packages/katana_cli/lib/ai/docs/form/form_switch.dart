@@ -17,7 +17,7 @@ class KatanaFormSwitchMdcCliAiCode extends FormUsageCliAiCode {
   String get description => "スイッチを表示し切り替えるためのフォームフィールドである`FormSwitch`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

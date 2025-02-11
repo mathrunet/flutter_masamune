@@ -17,7 +17,7 @@ class TransitionUsageMdcCliAiCode extends CliAiCode {
   String get description => "`Router`による`Page`遷移時のトランジション利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs";

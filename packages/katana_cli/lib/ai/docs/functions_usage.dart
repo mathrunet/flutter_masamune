@@ -17,8 +17,7 @@ class FunctionsUsageDocsMdcCliAiCode extends CliAiCode {
   String get description => "サーバーの処理を実行する`Functions`の実装方法とその利用方法";
 
   @override
-  String get globs =>
-      "lib/**/*.dart, test/**/*.dart, firebase/functions/src/**/*.ts";
+  String get globs => "*";
 
   @override
   String get directory => "docs";

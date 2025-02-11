@@ -17,7 +17,7 @@ class PrimitiveTypesMdcCliAiCode extends CliAiCode {
   String get description => "Flutter/Dartにおいて様々な場所で利用可能なタイプであるプリミティブタイプの一覧";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs";

@@ -17,7 +17,7 @@ class ModelFieldValueModelRefMdcCliAiCode extends ModelFieldValueCliAiCode {
   String get description => "別`Model`への参照を扱うためのクラスである`ModelRef`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/model_field_value";

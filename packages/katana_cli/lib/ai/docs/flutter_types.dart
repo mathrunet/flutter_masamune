@@ -18,7 +18,7 @@ class FlutterTypesMdcCliAiCode extends CliAiCode {
       "`Widget`や`Page`、`Controller`等のコンストラクタパラメーター、フィールド、関数やメソッドの引数と戻り値、処理内の変数等様々な場所で利用可能なFlutter/Dartのタイプ一覧";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs";

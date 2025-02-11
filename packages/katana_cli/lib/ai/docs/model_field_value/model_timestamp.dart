@@ -19,7 +19,7 @@ class ModelFieldValueModelTimestampMdcCliAiCode
       "内部に`DateTime`を保持し日時を扱えるようにしながらJsonにパースしやすくしたオブジェクトである`ModelTimestamp`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/model_field_value";

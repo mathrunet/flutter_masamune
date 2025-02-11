@@ -18,7 +18,7 @@ class StateManagementUsageMdcCliAiCode extends CliAiCode {
       "アプリ内の状態を管理するため`Page`や`Widget`、`Modal`、`Controller`や`RedirectQuery`内で利用可能な`State`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs";

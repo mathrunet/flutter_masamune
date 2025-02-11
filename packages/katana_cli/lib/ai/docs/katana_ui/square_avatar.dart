@@ -17,7 +17,7 @@ class KatanaUISquareAvatarMdcCliAiCode extends KatanaUiUsageCliAiCode {
   String get description => "四角形のアバター表示用ウィジェットである`SquareAvatar`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/katana_ui";

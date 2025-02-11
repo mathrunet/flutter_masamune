@@ -18,7 +18,7 @@ class UniversalSideBarMdcCliAiCode extends UniversalUiUsageCliAiCode {
       "`SideBar`の`UniversalUI`版である`UniversalSideBar`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/universal_ui";

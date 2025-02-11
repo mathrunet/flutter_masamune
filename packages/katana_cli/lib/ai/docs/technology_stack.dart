@@ -17,8 +17,7 @@ class TechnologyStackDocsMdcCliAiCode extends CliAiCode {
   String get description => "アプリケーション開発で利用する技術スタック";
 
   @override
-  String get globs =>
-      "lib/**/*.dart, test/**/*.dart, katana.yaml, documents/designs/**/*.md, firebase/functions/src/**/*.ts, firebase/functions/test/**/*.ts";
+  String get globs => "*";
 
   @override
   String get directory => "docs";

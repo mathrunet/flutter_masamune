@@ -18,7 +18,7 @@ class ModelFieldValueModelLocaleMdcCliAiCode extends ModelFieldValueCliAiCode {
       "内部に`Locale`を保持し言語設定を扱えるようにしながらJsonにパースしやすくしたオブジェクトである`ModelLocale`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/model_field_value";

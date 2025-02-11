@@ -17,7 +17,7 @@ class KatanaFormPinFieldMdcCliAiCode extends FormUsageCliAiCode {
   String get description => "PINコード入力用のフォームフィールドである`FormPinField`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

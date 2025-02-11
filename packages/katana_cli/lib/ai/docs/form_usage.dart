@@ -96,7 +96,7 @@ class FormUsageMdcCliAiCode extends CliAiCode {
       "ユーザーによる入力や選択を受け取るために利用可能な`Widget`である`Form`の一覧とその利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs";

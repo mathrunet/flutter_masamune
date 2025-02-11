@@ -18,7 +18,7 @@ class UniversalEdgeInsetsMdcCliAiCode extends UniversalUiUsageCliAiCode {
       "`EdgeInsets`の`UniversalUI`版である`UniversalEdgeInsets`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/universal_ui";

@@ -18,7 +18,7 @@ class ModelFieldValueModelLocalizedValueMdcCliAiCode
   String get description => "多言語対応のテキストを扱うためのクラスである`ModelLocalizedValue`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/model_field_value";

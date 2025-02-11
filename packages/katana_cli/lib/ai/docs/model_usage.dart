@@ -17,7 +17,7 @@ class ModelUsageMdcCliAiCode extends CliAiCode {
   String get description => "データの定義を行い取得や保存を行うための`Model`の実装方法とその利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs";

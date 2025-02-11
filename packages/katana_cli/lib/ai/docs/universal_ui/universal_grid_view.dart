@@ -18,7 +18,7 @@ class UniversalGridViewMdcCliAiCode extends UniversalUiUsageCliAiCode {
       "`GridView`の`UniversalUI`版である`UniversalGridView`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/universal_ui";

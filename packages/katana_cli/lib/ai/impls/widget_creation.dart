@@ -14,7 +14,7 @@ class WidgetCreationMdcCliAiCode extends CliAiCode {
   String get name => "`Widget`の作成";
 
   @override
-  String get globs => "lib/widgets/**/*.dart, lib/models/**/*.dart";
+  String get globs => "lib/**/*.dart";
 
   @override
   String get directory => "impls";

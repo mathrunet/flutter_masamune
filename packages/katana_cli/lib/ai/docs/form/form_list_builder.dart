@@ -18,7 +18,7 @@ class KatanaFormListBuilderMdcCliAiCode extends FormUsageCliAiCode {
       "リスト形式のデータを動的に追加・削除・編集できるフォームビルダーである`FormListBuilder`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

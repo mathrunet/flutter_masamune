@@ -18,7 +18,7 @@ class KatanaUILineTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
       "`ListTile`に`text`プロパティを追加したもの、textプロパティにWidgetを設定するとtitleの右側に表示される。";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/katana_ui";

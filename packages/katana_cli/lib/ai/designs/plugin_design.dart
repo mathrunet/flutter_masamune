@@ -14,7 +14,7 @@ class PluginDesignMdcCliAiCode extends CliAiCode {
   String get name => "プラグイン設計書の作成";
 
   @override
-  String get globs => "documents/designs/plugin_design.md";
+  String get globs => "documents/designs/**/*.md";
 
   @override
   String get directory => "designs";

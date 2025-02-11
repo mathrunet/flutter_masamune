@@ -18,7 +18,7 @@ class ModelFieldValueModelGeoValueMdcCliAiCode
   String get description => "地理座標（緯度・経度）を扱うためのクラスである`ModelGeoValue`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/model_field_value";

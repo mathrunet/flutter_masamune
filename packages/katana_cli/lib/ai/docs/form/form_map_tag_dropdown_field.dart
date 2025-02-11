@@ -18,7 +18,7 @@ class KatanaFormMapTagDropdownFieldMdcCliAiCode extends FormUsageCliAiCode {
       "`Map`形式のデータをタグ付きドロップダウンメニューで選択できるフォームフィールドである`FormMapTagDropdownField`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

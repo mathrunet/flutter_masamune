@@ -70,7 +70,7 @@ class PluginUsageMdcCliAiCode extends CliAiCode {
   String get description => "アプリ開発で利用可能な`Plugin`の一覧とその利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs";

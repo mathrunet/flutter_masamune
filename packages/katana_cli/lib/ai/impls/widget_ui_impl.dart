@@ -14,7 +14,7 @@ class WidgetUiImplMdcCliAiCode extends CliAiCode {
   String get name => "`Widget`のUI実装";
 
   @override
-  String get globs => "lib/widgets/**/*.dart, lib/models/**/*.dart";
+  String get globs => "lib/**/*.dart";
 
   @override
   String get directory => "impls";
@@ -39,6 +39,7 @@ class WidgetUiImplMdcCliAiCode extends CliAiCode {
         - [`Flutter`の`Widget`](mdc:.cursor/rules/docs/flutter_widgets.mdc)
         - [`Form`の`Widget`](mdc:.cursor/rules/docs/form_usage.mdc)
     - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
+    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは[`Theme`の利用方法](mdc:.cursor/rules/docs/theme_usage.mdc)を参照
     - 例：
         ```dart
         // TODO: Implement the view.
@@ -58,6 +59,7 @@ class WidgetUiImplMdcCliAiCode extends CliAiCode {
         - [`Flutter`の`Widget`](mdc:.cursor/rules/docs/flutter_widgets.mdc)
         - [`Form`の`Widget`](mdc:.cursor/rules/docs/form_usage.mdc)
     - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
+    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは[`Theme`の利用方法](mdc:.cursor/rules/docs/theme_usage.mdc)を参照
     - 例：
         ```dart
         // TODO: Implement the view.
@@ -79,6 +81,7 @@ class WidgetUiImplMdcCliAiCode extends CliAiCode {
         - [`Flutter`の`Widget`](mdc:.cursor/rules/docs/flutter_widgets.mdc)
         - [`Form`の`Widget`](mdc:.cursor/rules/docs/form_usage.mdc)
     - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
+    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは[`Theme`の利用方法](mdc:.cursor/rules/docs/theme_usage.mdc)を参照
     - 例：
         ```dart
         // TODO: Implement the view.

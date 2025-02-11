@@ -17,7 +17,7 @@ class KatanaFormEnumFieldMdcCliAiCode extends FormUsageCliAiCode {
   String get description => "列挙型の値を選択できるフォームフィールドである`FormEnumField`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

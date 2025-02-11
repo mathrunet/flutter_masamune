@@ -17,7 +17,7 @@ class KatanaFormDurationFieldMdcCliAiCode extends FormUsageCliAiCode {
   String get description => "時間の長さ（Duration）を入力するための`FormDurationField`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

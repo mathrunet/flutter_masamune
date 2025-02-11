@@ -18,7 +18,7 @@ class UniversalSearchBarMdcCliAiCode extends UniversalUiUsageCliAiCode {
       "`SearchBar`の`UniversalUI`版である`UniversalSearchBar`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/universal_ui";

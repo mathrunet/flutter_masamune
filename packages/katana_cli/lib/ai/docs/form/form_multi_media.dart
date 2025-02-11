@@ -18,7 +18,7 @@ class KatanaFormMultiMediaMdcCliAiCode extends FormUsageCliAiCode {
       "画像・動画の複数選択、プレビュー表示、並び替え、削除などの機能を備えたフォームフィールドである`FormMultiMedia`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

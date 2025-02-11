@@ -18,7 +18,7 @@ class KatanaFormFocusNodeBuilderMdcCliAiCode extends FormUsageCliAiCode {
       "フォーカス状態に応じてウィジェットを構築するためのビルダーである`FormFocusNodeBuilder`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

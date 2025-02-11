@@ -17,7 +17,7 @@ class KatanaFormCheckboxMdcCliAiCode extends FormUsageCliAiCode {
   String get description => "フォームのチェックボックスを表示するための`FormCheckbox`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

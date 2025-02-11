@@ -18,7 +18,7 @@ class UniversalContainerMdcCliAiCode extends UniversalUiUsageCliAiCode {
       "`Container`の`UniversalUI`版である`UniversalContainer`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/universal_ui";

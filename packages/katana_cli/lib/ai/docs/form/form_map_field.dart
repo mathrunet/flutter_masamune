@@ -17,7 +17,7 @@ class KatanaFormMapFieldMdcCliAiCode extends FormUsageCliAiCode {
   String get description => "Map形式のデータを選択できるフォームフィールドである`FormMapField`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

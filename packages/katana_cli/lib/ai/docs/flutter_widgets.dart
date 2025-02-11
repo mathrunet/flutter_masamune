@@ -17,7 +17,7 @@ class FlutterWidgetsMdcCliAiCode extends CliAiCode {
   String get description => "優先的に利用するFlutterのWidget一覧";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs";

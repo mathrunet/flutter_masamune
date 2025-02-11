@@ -17,7 +17,7 @@ class KatanaFormDateTimeFieldMdcCliAiCode extends FormUsageCliAiCode {
   String get description => "フォームの日時フィールドを表示し選択するための`FormDateTimeField`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

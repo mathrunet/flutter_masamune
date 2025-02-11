@@ -17,7 +17,7 @@ class KatanaUILabelMdcCliAiCode extends KatanaUiUsageCliAiCode {
   String get description => "項目のタイトルなどで使うラベルを表示するためのウィジェットである`Label`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/katana_ui";

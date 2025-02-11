@@ -17,7 +17,7 @@ class ModalUsageMdcCliAiCode extends CliAiCode {
   String get description => "アラートやダイアログの表示を行うための`Modal`の実装方法";
 
   @override
-  String get globs => "lib/modals/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs";

@@ -18,7 +18,7 @@ class KatanaFormDateTimeRangeFieldMdcCliAiCode extends FormUsageCliAiCode {
       "フォームの日時範囲フィールドを表示し選択するための`FormDateTimeRangeField`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

@@ -18,7 +18,7 @@ class KatanaFormStyleContainerMdcCliAiCode extends FormUsageCliAiCode {
       "`FormStyle`を適用するためのコンテナウィジェットである`FormStyleContainer`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

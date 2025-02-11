@@ -17,7 +17,7 @@ class KatanaFormNumFieldMdcCliAiCode extends FormUsageCliAiCode {
   String get description => "数値入力を行うためのフォームフィールドである`FormNumField`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

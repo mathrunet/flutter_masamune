@@ -17,7 +17,7 @@ class KatanaFormPasswordBuilderMdcCliAiCode extends FormUsageCliAiCode {
   String get description => "パスワード入力用のフォームビルダーである`FormPasswordBuilder`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

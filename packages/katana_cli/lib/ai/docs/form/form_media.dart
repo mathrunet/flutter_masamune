@@ -17,7 +17,7 @@ class KatanaFormMediaMdcCliAiCode extends FormUsageCliAiCode {
   String get description => "画像や動画を選択できるフォームフィールドである`FormMedia`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/form";

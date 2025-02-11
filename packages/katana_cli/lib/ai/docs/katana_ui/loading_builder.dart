@@ -18,7 +18,7 @@ class KatanaUILoadingBuilderMdcCliAiCode extends KatanaUiUsageCliAiCode {
       "複数のFutureを待機し、完了するまでローディング表示を行うウィジェットである`LoadingBuilder`の利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs/katana_ui";

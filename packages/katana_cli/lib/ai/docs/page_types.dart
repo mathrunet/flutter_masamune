@@ -17,7 +17,7 @@ class PageTypesMdcCliAiCode extends CliAiCode {
   String get description => "`Page`のテンプレートである`PageType`の一覧とその概要";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs";

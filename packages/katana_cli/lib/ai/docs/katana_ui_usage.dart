@@ -64,7 +64,7 @@ class KatanaUiUsageMdcCliAiCode extends CliAiCode {
   String get description => "様々な場所で利用可能な`Widget`である`KatanaUI`の一覧とその利用方法";
 
   @override
-  String get globs => "lib/**/*.dart, test/**/*.dart";
+  String get globs => "*.dart";
 
   @override
   String get directory => "docs";
