@@ -1,3 +1,10 @@
+## 2.30.1
+
+ - **FIX**: Corrected incorrect notation. ([80528099](https://github.com/mathrunet/flutter_masamune/commit/805280997772e2088bc2c4dd2cfb3f5a7fd01671))
+ - **FIX**: Correction of globs. ([eede073f](https://github.com/mathrunet/flutter_masamune/commit/eede073f6cec573e193a19337f4eeb19b5d5f9d2))
+ - **FIX**: Complex implementations are further divided into smaller pieces. ([7d6279d8](https://github.com/mathrunet/flutter_masamune/commit/7d6279d85fdb3796e6b462ee1306b71b48b8f007))
+ - **FIX**: The plugin was not included, so I added it. ([8518d692](https://github.com/mathrunet/flutter_masamune/commit/8518d6928de3d16ae627ba165a8a31cf83c491e9))
+
 ## 2.30.0
 
  - **FIX**: Plugins added. ([e93ae3ca](https://github.com/mathrunet/flutter_masamune/commit/e93ae3ca52fdfcae7abda3dd5416e0b5d9a562e1))
