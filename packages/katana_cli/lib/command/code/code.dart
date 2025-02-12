@@ -5,11 +5,11 @@ import 'dart:io';
 
 // Package imports:
 import 'package:archive/archive_io.dart';
+
+// Project imports:
 import 'package:katana_cli/ai/designs/designs.dart';
 import 'package:katana_cli/ai/docs/docs.dart';
 import 'package:katana_cli/ai/impls/impls.dart';
-
-// Project imports:
 import 'package:katana_cli/katana_cli.dart';
 import 'server/server.dart';
 import 'view/view.dart';
