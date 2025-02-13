@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_deeplink` - `v2.2.124`](#masamune_deeplink---v22124)
+
+---
+
+#### `masamune_deeplink` - `v2.2.124`
+
+ - **FIX**: Changed from uni_link to app_link. ([9f13968a](https://github.com/mathrunet/flutter_masamune/commit/9f13968a2555116a8798632568409559cc3cc1c7))
+
+
+## 2025-02-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.30.4`](#katana_cli---v2304)
 
 ---
