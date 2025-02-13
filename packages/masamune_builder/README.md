@@ -368,7 +368,7 @@ class TestModel with _$TestModel {
 /// [Enum] of the name of the value defined in TestModel.
 typedef TestModelKeys = _$TestModelKeys;
 
-/// Alias for ModelRef<TestModel>.
+/// Alias for ModelRef&lt;TestModel&gt;.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
@@ -377,7 +377,7 @@ typedef TestModelKeys = _$TestModelKeys;
 /// ```
 typedef TestModelRef = ModelRef<TestModel>?;
 
-/// It can be defined as an empty ModelRef<TestModel>.
+/// It can be defined as an empty ModelRef&lt;TestModel&gt;.
 ///
 /// ```dart
 /// TestModelRefPath("xxx") // Define as a path.
@@ -403,7 +403,7 @@ typedef TestModelDocument = _$TestModelDocument;
 /// Collection class for storing TestModel.
 typedef TestModelCollection = _$TestModelCollection;
 
-/// It can be defined as an empty ModelRef<TestModel>.
+/// It can be defined as an empty ModelRef&lt;TestModel&gt;.
 ///
 /// ```dart
 /// TestModelMirrorRefPath("xxx") // Define as a path.

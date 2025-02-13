@@ -86,7 +86,7 @@ class PurchaseUserModel with _$PurchaseUserModel {
 /// [Enum] of the name of the value defined in PurchaseUserModel.
 typedef PurchaseUserModelKeys = _$PurchaseUserModelKeys;
 
-/// Alias for ModelRef<PurchaseUserModel>.
+/// Alias for ModelRef&lt;PurchaseUserModel&gt;.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
@@ -95,7 +95,7 @@ typedef PurchaseUserModelKeys = _$PurchaseUserModelKeys;
 /// ```
 typedef PurchaseUserModelRef = ModelRef<PurchaseUserModel>?;
 
-/// It can be defined as an empty ModelRef<PurchaseUserModel>.
+/// It can be defined as an empty ModelRef&lt;PurchaseUserModel&gt;.
 ///
 /// ```dart
 /// PurchaseUserModelRefPath("xxx") // Define as a path.
@@ -122,7 +122,7 @@ typedef PurchaseUserModelDocument = _$PurchaseUserModelDocument;
 /// Collection class for storing PurchaseUserModel.
 typedef PurchaseUserModelCollection = _$PurchaseUserModelCollection;
 
-/// It can be defined as an empty ModelRef<PurchaseUserModel>.
+/// It can be defined as an empty ModelRef&lt;PurchaseUserModel&gt;.
 ///
 /// ```dart
 /// PurchaseUserModelMirrorRefPath("xxx") // Define as a path.

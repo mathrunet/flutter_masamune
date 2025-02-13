@@ -2055,7 +2055,7 @@ part '$baseName.freezed.dart';
   @override
   String body(String path, String baseName, String className) {
     return """
-/// Alias for ModelRef<CounterModel>.
+/// Alias for ModelRef&lt;CounterModel&gt;.
 /// 
 /// When defining parameters for other Models, you can define them as follows
 /// 

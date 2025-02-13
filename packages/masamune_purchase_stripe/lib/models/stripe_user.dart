@@ -80,7 +80,7 @@ class StripeUserModel with _$StripeUserModel {
 /// [Enum] of the name of the value defined in StripeUserModel.
 typedef StripeUserModelKeys = _$StripeUserModelKeys;
 
-/// Alias for ModelRef<StripeUserModel>.
+/// Alias for ModelRef&lt;StripeUserModel&gt;.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
@@ -89,7 +89,7 @@ typedef StripeUserModelKeys = _$StripeUserModelKeys;
 /// ```
 typedef StripeUserModelRef = ModelRef<StripeUserModel>?;
 
-/// It can be defined as an empty ModelRef<StripeUserModel>.
+/// It can be defined as an empty ModelRef&lt;StripeUserModel&gt;.
 ///
 /// ```dart
 /// StripeUserModelRefPath("xxx") // Define as a path.
@@ -115,7 +115,7 @@ typedef StripeUserModelDocument = _$StripeUserModelDocument;
 /// Collection class for storing StripeUserModel.
 typedef StripeUserModelCollection = _$StripeUserModelCollection;
 
-/// It can be defined as an empty ModelRef<StripeUserModel>.
+/// It can be defined as an empty ModelRef&lt;StripeUserModel&gt;.
 ///
 /// ```dart
 /// StripeUserModelMirrorRefPath("xxx") // Define as a path.

@@ -85,7 +85,7 @@ class RemoteNotificationScheduleModel
 typedef RemoteNotificationScheduleModelKeys
     = _$RemoteNotificationScheduleModelKeys;
 
-/// Alias for ModelRef<RemoteNotificationScheduleModel>.
+/// Alias for ModelRef&lt;RemoteNotificationScheduleModel&gt;.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
@@ -95,7 +95,7 @@ typedef RemoteNotificationScheduleModelKeys
 typedef RemoteNotificationScheduleModelRef
     = ModelRef<RemoteNotificationScheduleModel>?;
 
-/// It can be defined as an empty ModelRef<RemoteNotificationScheduleModel>.
+/// It can be defined as an empty ModelRef&lt;RemoteNotificationScheduleModel&gt;.
 ///
 /// ```dart
 /// RemoteNotificationScheduleModelRefPath("xxx") // Define as a path.
@@ -125,7 +125,7 @@ typedef RemoteNotificationScheduleModelDocument
 typedef RemoteNotificationScheduleModelCollection
     = _$RemoteNotificationScheduleModelCollection;
 
-/// It can be defined as an empty ModelRef<RemoteNotificationScheduleModel>.
+/// It can be defined as an empty ModelRef&lt;RemoteNotificationScheduleModel&gt;.
 ///
 /// ```dart
 /// RemoteNotificationScheduleModelMirrorRefPath("xxx") // Define as a path.

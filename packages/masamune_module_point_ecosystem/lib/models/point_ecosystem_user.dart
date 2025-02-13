@@ -71,7 +71,7 @@ class PointEcosystemUserModel with _$PointEcosystemUserModel {
 /// [Enum] of the name of the value defined in PointEcosystemUserModel.
 typedef PointEcosystemUserModelKeys = _$PointEcosystemUserModelKeys;
 
-/// Alias for ModelRef<PointEcosystemUserModel>.
+/// Alias for ModelRef&lt;PointEcosystemUserModel&gt;.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
@@ -80,7 +80,7 @@ typedef PointEcosystemUserModelKeys = _$PointEcosystemUserModelKeys;
 /// ```
 typedef PointEcosystemUserModelRef = ModelRef<PointEcosystemUserModel>?;
 
-/// It can be defined as an empty ModelRef<PointEcosystemUserModel>.
+/// It can be defined as an empty ModelRef&lt;PointEcosystemUserModel&gt;.
 ///
 /// ```dart
 /// PointEcosystemUserModelRefPath("xxx") // Define as a path.
@@ -107,7 +107,7 @@ typedef PointEcosystemUserModelDocument = _$PointEcosystemUserModelDocument;
 /// Collection class for storing PointEcosystemUserModel.
 typedef PointEcosystemUserModelCollection = _$PointEcosystemUserModelCollection;
 
-/// It can be defined as an empty ModelRef<PointEcosystemUserModel>.
+/// It can be defined as an empty ModelRef&lt;PointEcosystemUserModel&gt;.
 ///
 /// ```dart
 /// PointEcosystemUserModelMirrorRefPath("xxx") // Define as a path.

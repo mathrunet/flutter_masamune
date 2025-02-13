@@ -477,9 +477,9 @@ class LocalizeWord {
   /// パースされた名前。
   final String name;
 
-  /// <locale,after translation> value.
+  /// &lt;locale,after translation&gt; value.
   ///
-  /// <ロケール,翻訳後>の値。
+  /// &lt;ロケール,翻訳後&gt;の値。
   final Map<String, String> localize = {};
 
   /// Parameters required to generate the class.

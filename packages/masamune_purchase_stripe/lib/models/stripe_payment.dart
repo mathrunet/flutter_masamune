@@ -100,7 +100,7 @@ class _$$_StripePaymentModelCollectionQuery {
 /// [Enum] of the name of the value defined in StripePaymentModel.
 typedef StripePaymentModelKeys = _$StripePaymentModelKeys;
 
-/// Alias for ModelRef<StripePaymentModel>.
+/// Alias for ModelRef&lt;StripePaymentModel&gt;.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
@@ -109,7 +109,7 @@ typedef StripePaymentModelKeys = _$StripePaymentModelKeys;
 /// ```
 typedef StripePaymentModelRef = ModelRef<StripePaymentModel>?;
 
-/// It can be defined as an empty ModelRef<StripePaymentModel>.
+/// It can be defined as an empty ModelRef&lt;StripePaymentModel&gt;.
 ///
 /// ```dart
 /// StripePaymentModelRefPath("xxx") // Define as a path.
@@ -136,7 +136,7 @@ typedef StripePaymentModelDocument = _$StripePaymentModelDocument;
 /// Collection class for storing StripePaymentModel.
 typedef StripePaymentModelCollection = _$StripePaymentModelCollection;
 
-/// It can be defined as an empty ModelRef<StripePaymentModel>.
+/// It can be defined as an empty ModelRef&lt;StripePaymentModel&gt;.
 ///
 /// ```dart
 /// StripePaymentModelMirrorRefPath("xxx") // Define as a path.

@@ -116,7 +116,7 @@ class ${className}Model with _\$${className}Model {
 /// [Enum] of the name of the value defined in ${className}Model.
 typedef ${className}ModelKeys = _\$${className}ModelKeys;
 
-/// Alias for ModelRef<${className}Model>.
+/// Alias for ModelRef&lt;${className}Model&gt;.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
@@ -125,7 +125,7 @@ typedef ${className}ModelKeys = _\$${className}ModelKeys;
 /// ```
 typedef ${className}ModelRef = ModelRef<${className}Model>?;
 
-/// It can be defined as an empty ModelRef<${className}Model>.
+/// It can be defined as an empty ModelRef&lt;${className}Model&gt;.
 ///
 /// ```dart
 /// ${className}ModelRefPath() // Define as a path.
@@ -148,7 +148,7 @@ typedef ${className}ModelInitialDocument = _\$${className}ModelInitialDocument;
 /// Document class for storing ${className}Model.
 typedef ${className}ModelDocument = _\$${className}ModelDocument;
 
-/// It can be defined as an empty ModelRef<${className}Model>.
+/// It can be defined as an empty ModelRef&lt;${className}Model&gt;.
 ///
 /// ```dart
 /// ${className}ModelMirrorRefPath() // Define as a path.

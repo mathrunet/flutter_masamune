@@ -101,7 +101,7 @@ class StripePurchaseModel with _$StripePurchaseModel {
 /// [Enum] of the name of the value defined in StripePurchaseModel.
 typedef StripePurchaseModelKeys = _$StripePurchaseModelKeys;
 
-/// Alias for ModelRef<StripePurchaseModel>.
+/// Alias for ModelRef&lt;StripePurchaseModel&gt;.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
@@ -110,7 +110,7 @@ typedef StripePurchaseModelKeys = _$StripePurchaseModelKeys;
 /// ```
 typedef StripePurchaseModelRef = ModelRef<StripePurchaseModel>?;
 
-/// It can be defined as an empty ModelRef<StripePurchaseModel>.
+/// It can be defined as an empty ModelRef&lt;StripePurchaseModel&gt;.
 ///
 /// ```dart
 /// StripePurchaseModelRefPath("xxx") // Define as a path.
@@ -137,7 +137,7 @@ typedef StripePurchaseModelDocument = _$StripePurchaseModelDocument;
 /// Collection class for storing StripePurchaseModel.
 typedef StripePurchaseModelCollection = _$StripePurchaseModelCollection;
 
-/// It can be defined as an empty ModelRef<StripePurchaseModel>.
+/// It can be defined as an empty ModelRef&lt;StripePurchaseModel&gt;.
 ///
 /// ```dart
 /// StripePurchaseModelMirrorRefPath("xxx") // Define as a path.

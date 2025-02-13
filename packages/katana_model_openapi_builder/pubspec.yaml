@@ -11,10 +11,10 @@ dependencies:
   katana: ^2.16.0
   katana_builder: ^2.1.12
   build: ^2.3.0
-  dart_style: ^2.2.3
+  dart_style: ^3.0.0
   code_builder: ^4.10.0
-  source_gen: ^1.2.2
-  analyzer: ^6.4.0
+  source_gen: ^2.0.0
+  analyzer: ^7.0.0
   yaml: ^3.1.1
   open_api_forked: ^3.0.0+6
 

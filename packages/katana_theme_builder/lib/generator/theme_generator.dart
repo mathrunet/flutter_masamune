@@ -75,7 +75,9 @@ class ThemeGenerator extends GeneratorForAnnotation<AppTheme> {
     );
     final emitter = DartEmitter();
     final code = generated.accept(emitter).toString();
-    return DartFormatter().format(
+    return DartFormatter(
+      languageVersion: DartFormatter.latestLanguageVersion,
+    ).format(
       code.isEmpty ? "// no code." : code,
     );
   }

@@ -66,7 +66,9 @@ class OpenApiCodeBuilder extends Builder {
       orderDirectives: true,
       useNullSafetySyntax: true,
     );
-    final libraryOutput = DartFormatter().format(
+    final libraryOutput = DartFormatter(
+      languageVersion: DartFormatter.latestLanguageVersion,
+    ).format(
       "// GENERATED CODE - DO NOT MODIFY BY HAND\n\n\n"
       "// ignore_for_file: prefer_initializing_formals, unnecessary_brace_in_string_interps, invalid_annotation_target, require_trailing_commas\n\n"
       "${library.accept(emitter)}\n\n",

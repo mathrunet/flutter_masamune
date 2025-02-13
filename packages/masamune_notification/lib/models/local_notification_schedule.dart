@@ -94,7 +94,7 @@ class LocalNotificationScheduleModel with _$LocalNotificationScheduleModel {
 typedef LocalNotificationScheduleModelKeys
     = _$LocalNotificationScheduleModelKeys;
 
-/// Alias for ModelRef<LocalNotificationScheduleModel>.
+/// Alias for ModelRef&lt;LocalNotificationScheduleModel&gt;.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
@@ -104,7 +104,7 @@ typedef LocalNotificationScheduleModelKeys
 typedef LocalNotificationScheduleModelRef
     = ModelRef<LocalNotificationScheduleModel>?;
 
-/// It can be defined as an empty ModelRef<LocalNotificationScheduleModel>.
+/// It can be defined as an empty ModelRef&lt;LocalNotificationScheduleModel&gt;.
 ///
 /// ```dart
 /// LocalNotificationScheduleModelRefPath("xxx") // Define as a path.
@@ -134,7 +134,7 @@ typedef LocalNotificationScheduleModelDocument
 typedef LocalNotificationScheduleModelCollection
     = _$LocalNotificationScheduleModelCollection;
 
-/// It can be defined as an empty ModelRef<LocalNotificationScheduleModel>.
+/// It can be defined as an empty ModelRef&lt;LocalNotificationScheduleModel&gt;.
 ///
 /// ```dart
 /// LocalNotificationScheduleModelMirrorRefPath("xxx") // Define as a path.

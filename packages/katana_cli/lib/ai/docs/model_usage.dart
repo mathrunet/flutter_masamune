@@ -132,7 +132,7 @@ class ModelUsageMdcCliAiCode extends CliAiCode {
                   /// [Enum] of the name of the value defined in MemoModel.
                   typedef MemoModelKeys = _$MemoModelKeys;
 
-                  /// Alias for ModelRef<MemoModel>.
+                  /// Alias for ModelRef&lt;MemoModel&gt;.
                   ///
                   /// When defining parameters for other Models, you can define them as follows
                   ///
@@ -141,7 +141,7 @@ class ModelUsageMdcCliAiCode extends CliAiCode {
                   /// ```
                   typedef MemoModelRef = ModelRef<MemoModel>?;
 
-                  /// It can be defined as an empty ModelRef<MemoModel>.
+                  /// It can be defined as an empty ModelRef&lt;MemoModel&gt;.
                   ///
                   /// ```dart
                   /// MemoModelRefPath("xxx") // Define as a path.
@@ -167,7 +167,7 @@ class ModelUsageMdcCliAiCode extends CliAiCode {
                   /// Collection class for storing MemoModel.
                   typedef MemoModelCollection = _$MemoModelCollection;
 
-                  /// It can be defined as an empty ModelRef<MemoModel>.
+                  /// It can be defined as an empty ModelRef&lt;MemoModel&gt;.
                   ///
                   /// ```dart
                   /// MemoModelMirrorRefPath("xxx") // Define as a path.
@@ -247,7 +247,7 @@ class ModelUsageMdcCliAiCode extends CliAiCode {
                   /// [Enum] of the name of the value defined in AppSettingModel.
                   typedef AppSettingModelKeys = _$AppSettingModelKeys;
 
-                  /// Alias for ModelRef<AppSettingModel>.
+                  /// Alias for ModelRef&lt;AppSettingModel&gt;.
                   ///
                   /// When defining parameters for other Models, you can define them as follows
                   ///
@@ -256,7 +256,7 @@ class ModelUsageMdcCliAiCode extends CliAiCode {
                   /// ```
                   typedef AppSettingModelRef = ModelRef<AppSettingModel>?;
 
-                  /// It can be defined as an empty ModelRef<AppSettingModel>.
+                  /// It can be defined as an empty ModelRef&lt;AppSettingModel&gt;.
                   ///
                   /// ```dart
                   /// AppSettingModelRefPath() // Define as a path.
@@ -279,7 +279,7 @@ class ModelUsageMdcCliAiCode extends CliAiCode {
                   /// Document class for storing AppSettingModel.
                   typedef AppSettingModelDocument = _$AppSettingModelDocument;
 
-                  /// It can be defined as an empty ModelRef<AppSettingModel>.
+                  /// It can be defined as an empty ModelRef&lt;AppSettingModel&gt;.
                   ///
                   /// ```dart
                   /// AppSettingModelMirrorRefPath() // Define as a path.

@@ -18,6 +18,9 @@ class MobileLocalNotificationMasamuneAdapter
     super.localNotification,
     super.modelAdapter,
     super.onLink,
+    this.localNotificationDateInterpretation =
+        UILocalNotificationDateInterpretation.absoluteTime,
+    this.androidScheduleMode = AndroidScheduleMode.exactAllowWhileIdle,
   });
 
   static FlutterLocalNotificationsPlugin get _instance {
@@ -25,6 +28,17 @@ class MobileLocalNotificationMasamuneAdapter
   }
 
   static FlutterLocalNotificationsPlugin? __instance;
+
+  /// The date interpretation method for the local notification.
+  ///
+  /// ローカル通知の日付解釈方法。
+  final UILocalNotificationDateInterpretation
+      localNotificationDateInterpretation;
+
+  /// The schedule mode for the local notification.
+  ///
+  /// ローカル通知のスケジュールモード。
+  final AndroidScheduleMode androidScheduleMode;
 
   @override
   Future<int?> listen() async {
@@ -80,8 +94,9 @@ class MobileLocalNotificationMasamuneAdapter
         ),
       ),
       matchDateTimeComponents: repeat.toDateTimeComponents(),
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
+      uiLocalNotificationDateInterpretation: localNotificationDateInterpretation
+          ._toUILocalNotificationDateInterpretation(),
+      androidScheduleMode: androidScheduleMode._toAndroidScheduleMode(),
     );
     return id;
   }

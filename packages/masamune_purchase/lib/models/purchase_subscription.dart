@@ -86,7 +86,7 @@ class PurchaseSubscriptionModel with _$PurchaseSubscriptionModel {
 /// [Enum] of the name of the value defined in PurchaseSubscriptionModel.
 typedef PurchaseSubscriptionModelKeys = _$PurchaseSubscriptionModelKeys;
 
-/// Alias for ModelRef<PurchaseSubscriptionModel>.
+/// Alias for ModelRef&lt;PurchaseSubscriptionModel&gt;.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
@@ -95,7 +95,7 @@ typedef PurchaseSubscriptionModelKeys = _$PurchaseSubscriptionModelKeys;
 /// ```
 typedef PurchaseSubscriptionModelRef = ModelRef<PurchaseSubscriptionModel>?;
 
-/// It can be defined as an empty ModelRef<PurchaseSubscriptionModel>.
+/// It can be defined as an empty ModelRef&lt;PurchaseSubscriptionModel&gt;.
 ///
 /// ```dart
 /// PurchaseSubscriptionModelRefPath("xxx") // Define as a path.
@@ -123,7 +123,7 @@ typedef PurchaseSubscriptionModelDocument = _$PurchaseSubscriptionModelDocument;
 typedef PurchaseSubscriptionModelCollection
     = _$PurchaseSubscriptionModelCollection;
 
-/// It can be defined as an empty ModelRef<PurchaseSubscriptionModel>.
+/// It can be defined as an empty ModelRef&lt;PurchaseSubscriptionModel&gt;.
 ///
 /// ```dart
 /// PurchaseSubscriptionModelMirrorRefPath("xxx") // Define as a path.
