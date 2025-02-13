@@ -1,4 +1,4 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers, unused_element
+// ignore_for_file: no_leading_underscores_for_local_identifiers, unused_element, unused_element_parameter
 
 part of '/katana_form.dart';
 
@@ -500,7 +500,7 @@ class _InternalPickerWidgetState<T> extends State<_InternalPickerWidget> {
     adapter.setColumn(-1);
 
     final _decoration = BoxDecoration(
-      color: picker.containerColor ?? theme!.dialogBackgroundColor,
+      color: picker.containerColor ?? theme!.dialogTheme.backgroundColor,
     );
 
     if (adapter.length > 0) {

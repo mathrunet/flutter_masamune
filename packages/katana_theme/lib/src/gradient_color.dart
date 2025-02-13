@@ -163,4 +163,9 @@ class GradientColor implements Color {
   static int _floatToInt8(double x) {
     return (x * 255.0).round() & 0xff;
   }
+
+  @override
+  int toARGB32() {
+    return mainColor.toARGB32();
+  }
 }
