@@ -1343,7 +1343,6 @@ class AppThemeData {
           splashColor: color.splashColor,
           canvasColor: color.canvas,
           scaffoldBackgroundColor: color.scaffoldBackgroundColor,
-          dialogBackgroundColor: color.dialogColor ?? color.surface,
           textTheme: textTheme.apply(
             fontFamily: text.defaultFontFamily,
             bodyColor: color.onBackground,
@@ -1575,7 +1574,6 @@ class AppThemeData {
           splashColor: color.splashColor,
           canvasColor: color.canvas,
           scaffoldBackgroundColor: color.scaffoldBackgroundColor,
-          dialogBackgroundColor: color.dialogColor ?? color.surface,
           appBarTheme: theme.appBarTheme.copyWith(
             centerTitle: centerTitleOnAppBar,
             backgroundColor: color.appBarColor ?? color.background,

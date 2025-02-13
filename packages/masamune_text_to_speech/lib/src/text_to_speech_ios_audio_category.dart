@@ -290,7 +290,7 @@ enum TextToSpeechIosAudioCategoryOptions {
       case TextToSpeechIosAudioCategoryOptions.duckOthers:
         return IosTextToSpeechAudioCategoryOptions.duckOthers;
       case TextToSpeechIosAudioCategoryOptions
-            .interruptSpokenAudioAndMixWithOthers:
+          .interruptSpokenAudioAndMixWithOthers:
         return IosTextToSpeechAudioCategoryOptions
             .interruptSpokenAudioAndMixWithOthers;
       case TextToSpeechIosAudioCategoryOptions.allowBluetooth:
