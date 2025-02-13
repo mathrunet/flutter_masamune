@@ -1,3 +1,7 @@
+## 2.30.5
+
+ - **FIX**: Add gitignore. ([b3b7c953](https://github.com/mathrunet/flutter_masamune/commit/b3b7c953a90ff82186452f4cabed09dc0da205c1))
+
 ## 2.30.4
 
  - **FIX**: Removed Renderer because it can no longer be specified. ([880a6cda](https://github.com/mathrunet/flutter_masamune/commit/880a6cda6dfd322be1560547d7171bb09fd73ab6))

@@ -15,6 +15,39 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.30.5`](#katana_cli---v2305)
+ - [`masamune_location` - `v2.6.0`](#masamune_location---v260)
+ - [`masamune_location_google` - `v2.6.30`](#masamune_location_google---v2630)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_google` - `v2.6.30`
+
+---
+
+#### `katana_cli` - `v2.30.5`
+
+ - **FIX**: Add gitignore. ([b3b7c953](https://github.com/mathrunet/flutter_masamune/commit/b3b7c953a90ff82186452f4cabed09dc0da205c1))
+
+#### `masamune_location` - `v2.6.0`
+
+ - **FEAT**: Update FlutterCompass. ([82aa8e91](https://github.com/mathrunet/flutter_masamune/commit/82aa8e918f5aab900d29c892195b36fc9c10d016))
+
+
+## 2025-02-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_deeplink` - `v2.2.124`](#masamune_deeplink---v22124)
 
 ---

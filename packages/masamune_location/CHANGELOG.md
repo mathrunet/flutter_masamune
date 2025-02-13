@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: Update FlutterCompass. ([82aa8e91](https://github.com/mathrunet/flutter_masamune/commit/82aa8e918f5aab900d29c892195b36fc9c10d016))
+
 ## 2.5.29
 
  - Update a dependency to the latest release.
