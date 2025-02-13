@@ -754,11 +754,11 @@ extension StringExtensions on String {
     return jsonDecodeAsMap<T>(this, defaultValue);
   }
 
-  /// Converts [String] to a Json-decoded List<dynamic> object.
+  /// Converts [String] to a Json-decoded List&lt;dynamic&gt; object.
   ///
   /// If [String] is in a format that cannot be decoded by Json, [defaultValue] is returned.
   ///
-  /// [String]をJsonデコードされたList<dynamic>オブジェクトに変換します。
+  /// [String]をJsonデコードされたList&lt;dynamic&gt;オブジェクトに変換します。
   ///
   /// [String]がJsonでデコード不可能な形式だった場合[defaultValue]が返されます。
   List<T> toJsonList<T extends Object>([

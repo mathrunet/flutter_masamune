@@ -373,9 +373,9 @@ class LocalizeSourceValue {
   /// 与えられたキーから分解された[LocalizeWord]のリスト。
   final List<LocalizeWord> words;
 
-  /// <locale,after translation> value.
+  /// &lt;locale,after translation&gt; value.
   ///
-  /// <ロケール,翻訳後>の値。
+  /// &lt;ロケール,翻訳後&gt;の値。
   final Map<String, String> localize = {};
 
   /// Set translations and parameters to [LocalizeWord] and build.

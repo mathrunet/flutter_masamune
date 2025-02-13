@@ -18,7 +18,7 @@ dependencies:
   flutter_local_notifications: ^18.0.0
   universal_platform: ^1.0.0+1
   masamune_notification: ^2.9.15
-  timezone: ^0.9.3
+  timezone: ^0.10.0
 dev_dependencies:
   test: ^1.24.0
   katana_test: ^2.1.2
