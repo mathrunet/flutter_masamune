@@ -1,3 +1,7 @@
+## 2.17.0
+
+ - **FEAT**: Remove unnecessary packages. ([2baeb9a2](https://github.com/mathrunet/flutter_masamune/commit/2baeb9a212504846333c2bd653c60cc6634ba6d4))
+
 ## 2.16.1
 
  - **FIX**: Update to 3.29. ([f4e69b90](https://github.com/mathrunet/flutter_masamune/commit/f4e69b90dfd42d2d0e479250ab828c870b503bb0))

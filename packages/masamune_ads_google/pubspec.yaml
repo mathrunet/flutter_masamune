@@ -1,6 +1,6 @@
 name: masamune_ads_google
 description: Masamune plugin package for GoogleAd. Plug-in package for displaying interstitial, native, and reward ads.
-version: 2.5.24
+version: 2.5.25
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_ads_google
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.16.1
-  masamune: ^2.15.10
+  katana: ^2.17.0
+  masamune: ^2.15.11
   google_mobile_ads: ^5.0.0
   permission_handler: ^11.1.0
   universal_platform: ^1.0.0+1

@@ -1,6 +1,6 @@
 name: katana_prefs_builder
 description: Building system for katana prefs packages. The package for type-safe use of retrieving and storing Shared Preferences values, defining data in a Freezed-like fashion.
-version: 2.1.20
+version: 2.1.21
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_prefs_builder
 
@@ -8,9 +8,9 @@ environment:
   sdk: ">=2.17.0 <4.0.0"
 
 dependencies: 
-  katana: ^2.16.1
-  katana_builder: ^2.1.13
-  katana_prefs_annotation: ^2.1.12
+  katana: ^2.17.0
+  katana_builder: ^2.1.14
+  katana_prefs_annotation: ^2.1.13
   build: ^2.4.1
   dart_style: ^3.0.0
   code_builder: ^4.10.1

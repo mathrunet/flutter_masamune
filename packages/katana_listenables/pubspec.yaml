@@ -1,6 +1,6 @@
 name: katana_listenables
 description: The base part of the package that allows Listenable values to be grouped together and treated as a ChangeNotifier.
-version: 2.2.12
+version: 2.2.13
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_listenables
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.16.1
-  katana_listenables_annotation: ^2.1.12
+  katana: ^2.17.0
+  katana_listenables_annotation: ^2.1.13
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -22,4 +22,4 @@ dev_dependencies:
   katana_test: ^2.1.2
   flutter_lints: ^5.0.0
   import_sorter: ^4.6.0
-  katana_listenables_builder: ^2.1.19
+  katana_listenables_builder: ^2.1.20

@@ -1,6 +1,6 @@
 name: masamune_animate
 description: A package for animation that runs on the Masamune framework.
-version: 2.2.66
+version: 2.2.67
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_animate
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.16.1
-  masamune: ^2.15.10
+  katana: ^2.17.0
+  masamune: ^2.15.11
 dev_dependencies:
   test: ^1.24.0
   katana_test: ^2.1.2
