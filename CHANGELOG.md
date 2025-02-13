@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.30.4`](#katana_cli---v2304)
+
+---
+
+#### `katana_cli` - `v2.30.4`
+
+ - **FIX**: Removed Renderer because it can no longer be specified. ([880a6cda](https://github.com/mathrunet/flutter_masamune/commit/880a6cda6dfd322be1560547d7171bb09fd73ab6))
+
+
+## 2025-02-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.17.0`](#katana---v2170)
  - [`katana_localization_builder` - `v2.3.0`](#katana_localization_builder---v230)
  - [`katana_theme` - `v2.7.0`](#katana_theme---v270)
