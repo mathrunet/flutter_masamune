@@ -327,6 +327,9 @@ class CreateCliCommand extends CliCommand {
     if (!gitignores.any((e) => e.startsWith("pubspec_overrides.yaml"))) {
       gitignores.add("pubspec_overrides.yaml");
     }
+    if (!gitignores.any((e) => e.startsWith("/android/app/.cxx/"))) {
+      gitignores.add("/android/app/.cxx/");
+    }
     if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
       if (!gitignores.any((e) => e.startsWith("katana_secrets.yaml"))) {
         gitignores.add("katana_secrets.yaml");
@@ -648,6 +651,9 @@ class ComposeCliCommand extends CliCommand {
     }
     if (!gitignores.any((e) => e.startsWith("pubspec_overrides.yaml"))) {
       gitignores.add("pubspec_overrides.yaml");
+    }
+    if (!gitignores.any((e) => e.startsWith("/android/app/.cxx/"))) {
+      gitignores.add("/android/app/.cxx/");
     }
     if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
       if (!gitignores.any((e) => e.startsWith("katana_secrets.yaml"))) {
