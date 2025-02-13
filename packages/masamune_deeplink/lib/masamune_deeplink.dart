@@ -15,8 +15,8 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 // Package imports:
-import 'package:masamune/masamune.dart';
 import 'package:app_links/app_links.dart';
+import 'package:masamune/masamune.dart';
 
 part 'adapter/deeplink_masamune_adapter.dart';
 part 'src/deeplink.dart';
