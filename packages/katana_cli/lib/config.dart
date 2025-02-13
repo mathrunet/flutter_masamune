@@ -521,10 +521,6 @@ github:
         changes_not_sent_for_review:  # true or false or empty
 
     web:
-      # Specify a renderer for the Web. (html | canvaskit)
-      # Web用のレンダラーを指定します。（html | canvaskit）
-      renderer: canvaskit
-
       # Please include the path to your current repository on Github in the format `user/repository name`.
       # Githubの現在のリポジトリのパスを`ユーザー/レポジトリ名`のフォーマットで記載してください。
       repository: 
