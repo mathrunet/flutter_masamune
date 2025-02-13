@@ -14,7 +14,7 @@ dependencies:
     
   katana: ^2.17.0
   masamune: ^2.15.11
-  uni_links: ^0.5.1
+  app_links: ^6.3.3
 
 dev_dependencies:
   test: ^1.24.0

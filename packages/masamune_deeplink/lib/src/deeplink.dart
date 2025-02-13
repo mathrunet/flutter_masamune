@@ -48,6 +48,8 @@ class Deeplink extends MasamuneControllerBase<Uri?, DeeplinkMasamuneAdapter> {
   FutureOr<void> Function(Uri link, bool onOpenedApp)? _onLink;
   StreamSubscription<Uri?>? _uriLinkStreamSubscription;
 
+  final AppLinks _appLinks = AppLinks();
+
   /// Returns `true` if monitored.
   ///
   /// 監視されている場合`true`を返します。
@@ -69,8 +71,9 @@ class Deeplink extends MasamuneControllerBase<Uri?, DeeplinkMasamuneAdapter> {
     _completer = Completer<void>();
     try {
       _onLink = onLink;
-      final initialLink = await getInitialUri();
-      _uriLinkStreamSubscription ??= uriLinkStream.listen((Uri? uri) async {
+      final initialLink = await _appLinks.getInitialLink();
+      _uriLinkStreamSubscription ??=
+          _appLinks.uriLinkStream.listen((Uri? uri) async {
         await _onMessage(initialLink, false);
       }, onError: (Object error) {
         _value = null;
