@@ -1,3 +1,7 @@
+## 2.2.10
+
+ - **FIX**: Update to 3.29. ([f4e69b90](https://github.com/mathrunet/flutter_masamune/commit/f4e69b90dfd42d2d0e479250ab828c870b503bb0))
+
 ## 2.2.9
 
  - **FIX**: Support for AnyValue. ([e744c1ff](https://github.com/mathrunet/flutter_masamune/commit/e744c1ff33b1d0da97537d8adb2c1960c386e2b3))

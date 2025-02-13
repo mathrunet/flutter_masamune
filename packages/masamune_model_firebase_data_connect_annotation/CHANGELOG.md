@@ -1,3 +1,7 @@
+## 2.2.9
+
+ - Update a dependency to the latest release.
+
 ## 2.2.8
 
  - **FIX**: Fixed a bug on WhereIn. ([cb5d36b5](https://github.com/mathrunet/flutter_masamune/commit/cb5d36b51e146bd63c8b1e9f90264f2889ec5006))

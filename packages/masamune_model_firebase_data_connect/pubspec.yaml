@@ -1,6 +1,6 @@
 name: masamune_model_firebase_data_connect
 description: Automatically generates GraphQL files for Firebase Data Connect from Collection and Document data schemes so that they can be used in applications.
-version: 2.2.10
+version: 2.2.11
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_firebase_data_connect
 
@@ -14,10 +14,10 @@ dependencies:
 
   meta:
 
-  katana: ^2.16.0
-  masamune: ^2.15.9
-  masamune_model_firebase_data_connect_annotation: ^2.2.8
-  katana_firebase: ^2.2.12
+  katana: ^2.16.1
+  masamune: ^2.15.10
+  masamune_model_firebase_data_connect_annotation: ^2.2.9
+  katana_firebase: ^2.2.13
   firebase_data_connect: ^0.1.2
   universal_platform: ^1.1.0
 dev_dependencies:

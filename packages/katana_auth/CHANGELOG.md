@@ -1,3 +1,7 @@
+## 2.10.5
+
+ - Update a dependency to the latest release.
+
 ## 2.10.4
 
  - **FIX**: Fixed a bug that prevented SNS login mocks from properly obtaining IDs. ([041daa90](https://github.com/mathrunet/flutter_masamune/commit/041daa908e3b815efac77b0143929dc4930e7f0b))

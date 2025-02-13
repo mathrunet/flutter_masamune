@@ -1,3 +1,7 @@
+## 2.6.9
+
+ - **FIX**: Update for 3.29. ([6730318d](https://github.com/mathrunet/flutter_masamune/commit/6730318d2b4474a008cf0e646e358660cf701937))
+
 ## 2.6.8
 
  - **FIX**: Added toInt to Extension of Color. ([aef7e1b5](https://github.com/mathrunet/flutter_masamune/commit/aef7e1b59257d4f7aa41153d6206feb84b253a84))

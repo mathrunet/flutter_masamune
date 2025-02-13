@@ -1,3 +1,7 @@
+## 2.17.2
+
+ - Update a dependency to the latest release.
+
 ## 2.17.1
 
  - **FIX**: Integrate removeOnlyEmoji method across searchable mixins and model query. ([901f9cf3](https://github.com/mathrunet/flutter_masamune/commit/901f9cf3b1d55b316e0351923438352f93849079))

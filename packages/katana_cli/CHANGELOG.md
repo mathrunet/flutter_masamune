@@ -1,3 +1,7 @@
+## 2.30.2
+
+ - **FIX**: Update to 3.29. ([f4e69b90](https://github.com/mathrunet/flutter_masamune/commit/f4e69b90dfd42d2d0e479250ab828c870b503bb0))
+
 ## 2.30.1
 
  - **FIX**: Corrected incorrect notation. ([80528099](https://github.com/mathrunet/flutter_masamune/commit/805280997772e2088bc2c4dd2cfb3f5a7fd01671))

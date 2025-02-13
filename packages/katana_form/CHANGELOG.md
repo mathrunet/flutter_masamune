@@ -1,3 +1,7 @@
+## 2.15.3
+
+ - **FIX**: Update for 3.29. ([6730318d](https://github.com/mathrunet/flutter_masamune/commit/6730318d2b4474a008cf0e646e358660cf701937))
+
 ## 2.15.2
 
  - **FIX**: Added the ability to record version for listing updates. ([77de75a2](https://github.com/mathrunet/flutter_masamune/commit/77de75a2700265a68248d7aa121055d0a57c7f1b))
