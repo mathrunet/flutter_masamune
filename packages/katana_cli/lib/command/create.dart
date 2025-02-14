@@ -172,6 +172,8 @@ class CreateCliCommand extends CliCommand {
     await const WidgetTestCliCode().generateFile("widget_test.dart");
     label("Create a loader.css");
     await const LoaderCssCliCode().generateFile("loader.css");
+    label("Create a flutter_bootstrap.js");
+    await const BootstrapJsCliCode().generateFile("flutter_bootstrap.js");
     label("Edit as index.html");
     final indexHtmlFile = File("web/index.html");
     final htmlDocument = parse(await indexHtmlFile.readAsString());
@@ -219,7 +221,12 @@ class CreateCliCommand extends CliCommand {
         icon.attributes.remove("type");
       }
     }
-    await indexHtmlFile.writeAsString(htmlDocument.outerHtml);
+    await indexHtmlFile.writeAsString(
+      htmlDocument.outerHtml.replaceAll(
+        "<script src=\"flutter_bootstrap.js\" async=\"\"></script>",
+        "<script>{{flutter_bootstrap_js}}</script>",
+      ),
+    );
     label("Create a favicon.ico");
     final iconFile = File("web/icons/Icon-512.png");
     final iconImage = decodeImage(iconFile.readAsBytesSync())!;
@@ -497,6 +504,8 @@ class ComposeCliCommand extends CliCommand {
     await const WidgetTestCliCode().generateFile("widget_test.dart");
     label("Create a loader.css");
     await const LoaderCssCliCode().generateFile("loader.css");
+    label("Create a flutter_bootstrap.js");
+    await const BootstrapJsCliCode().generateFile("flutter_bootstrap.js");
     label("Edit as index.html");
     final indexHtmlFile = File("web/index.html");
     final htmlDocument = parse(await indexHtmlFile.readAsString());
@@ -544,7 +553,13 @@ class ComposeCliCommand extends CliCommand {
         icon.attributes.remove("type");
       }
     }
-    await indexHtmlFile.writeAsString(htmlDocument.outerHtml);
+    await indexHtmlFile.writeAsString(
+      htmlDocument.outerHtml.replaceAll(
+        "<script src=\"flutter_bootstrap.js\" async=\"\"></script>",
+        "<script>{{flutter_bootstrap_js}}</script>",
+      ),
+    );
+
     label("Create a favicon.ico");
     final iconFile = File("web/icons/Icon-512.png");
     final iconImage = decodeImage(iconFile.readAsBytesSync())!;
@@ -1881,6 +1896,54 @@ body {
         left: 100%;
     }
 }
+""";
+  }
+}
+
+/// Contents of flutter_bootstrap.js.
+///
+/// flutter_bootstrap.jsの中身。
+class BootstrapJsCliCode extends CliCode {
+  /// Contents of flutter_bootstrap.js.
+  ///
+  /// flutter_bootstrap.jsの中身。
+  const BootstrapJsCliCode();
+
+  @override
+  String get name => "flutter_bootstrap";
+
+  @override
+  String get prefix => "flutter_bootstrap";
+
+  @override
+  String get directory => "web";
+
+  @override
+  String get description =>
+      "Create a flutter_bootstrap.js for web. Web用のflutter_bootstrap.jsを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+{{flutter_js}}
+{{flutter_build_config}}
+_flutter.loader.load({
+    onEntrypointLoaded: async function (engineInitializer) {
+        const appRunner = await engineInitializer.initializeEngine();
+        document.body.querySelector(".loading").style.display = "none";
+        await appRunner.runApp();
+    },
+});
 """;
   }
 }
