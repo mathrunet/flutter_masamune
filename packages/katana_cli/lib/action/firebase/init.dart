@@ -889,8 +889,8 @@ module.exports = {
   ignorePatterns: [
     "/lib/**/*", // Ignore built files.
     "/generated/**/*", // Ignore generated files.
-    "**/*.js",
-    "/test/**/*",
+    "**/*.js", // Ignore JavaScript files.
+    "/test/**/*", // Ignore test files.
   ],
   plugins: [
     "@typescript-eslint",
@@ -899,7 +899,11 @@ module.exports = {
   rules: {
     "quotes": ["error", "double"],
     "import/no-unresolved": 0,
-    "indent": ["error", 2],
+    "max-len": "off",
+    "indent": "off",
+    "valid-jsdoc": "off",
+    "object-curly-spacing": "off",
+    "block-spacing": "off",
   },
 };
 """;
