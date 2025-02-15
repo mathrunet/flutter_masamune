@@ -35,7 +35,7 @@ class ForceUpdaterItem {
   const ForceUpdaterItem({
     required this.checkUpdate,
     required this.onShowUpdateDialog,
-    required this.onUpdate,
+    this.onUpdate,
   });
 
   /// Check whether an update should be performed.
@@ -49,14 +49,17 @@ class ForceUpdaterItem {
 
   /// Display the update dialog.
   ///
-  /// If the return value is `true`, the update is performed.
+  /// The current [BuildContext] is passed to [context] and [ref] is passed to [ForceUpdaterRef].
+  ///
+  /// If `true` is returned for [ref.update], the update is performed.
   ///
   /// アップデートのダイアログを表示します。
   ///
-  /// [context]には現状の[BuildContext]を渡してください。
+  /// [context]には現状の[BuildContext]が渡され、[ref]には[ForceUpdaterRef]が渡されます。
   ///
-  /// 返り値に`true`を返した場合はアップデートを行います。
-  final Future<bool> Function(BuildContext context) onShowUpdateDialog;
+  /// [ref.update]に`true`を返した場合はアップデートを行います。
+  final Future<void> Function(BuildContext context, ForceUpdaterRef ref)
+      onShowUpdateDialog;
 
   /// Actual updates will be made.
   ///
@@ -65,5 +68,5 @@ class ForceUpdaterItem {
   /// 実際のアップデートを行います。
   ///
   /// [update]が`true`の場合はアップデートを行います。
-  final Future<void> Function(bool update) onUpdate;
+  final Future<void> Function(bool update)? onUpdate;
 }

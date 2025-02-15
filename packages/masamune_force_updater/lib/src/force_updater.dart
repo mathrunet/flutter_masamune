@@ -31,6 +31,8 @@ class ForceUpdater
   ForceUpdaterMasamuneAdapter get primaryAdapter =>
       ForceUpdaterMasamuneAdapter.primary;
 
+  static Future<void> _defaultOnUpdate(bool update) => Future.value();
+
   /// Check whether an update should be performed.
   ///
   /// Pass the current [BuildContext] to [context].
@@ -52,10 +54,41 @@ class ForceUpdater
     }
     for (final item in items) {
       if (await item.checkUpdate()) {
-        final update = await item.onShowUpdateDialog(context);
-        await item.onUpdate(update);
+        final ref = ForceUpdaterRef._(
+          onUpdate: item.onUpdate ?? _defaultOnUpdate,
+        );
+        await item.onShowUpdateDialog(context, ref);
       }
     }
+  }
+}
+
+/// Class for performing updates from [ForceUpdater].
+///
+/// [ForceUpdater]からアップデートを実行するためのクラス。
+class ForceUpdaterRef {
+  const ForceUpdaterRef._({
+    required Future<void> Function(bool update) onUpdate,
+  }) : _onUpdate = onUpdate;
+
+  final Future<void> Function(bool update) _onUpdate;
+
+  /// Update the application.
+  ///
+  /// If [update] is `true`, updates are performed.
+  ///
+  /// アプリケーションをアップデートします。
+  ///
+  /// [update]が`true`の場合はアップデートを行います。
+  Future<void> update([bool update = true]) async {
+    await _onUpdate(update);
+  }
+
+  /// Quit the application.
+  ///
+  /// アプリケーションを終了します。
+  Future<void> quit() async {
+    SystemNavigator.pop();
   }
 }
 
