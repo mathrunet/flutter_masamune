@@ -8,9 +8,10 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_model_firebase_remote_config;
 
-// Package imports:
+// Dart imports:
 import 'dart:async';
 
+// Package imports:
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:katana_firebase/katana_firebase.dart';
 import 'package:masamune/masamune.dart';
