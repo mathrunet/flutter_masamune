@@ -1,6 +1,6 @@
 part of '/masamune_force_updater.dart';
 
-/// MasamuneAdapter] to provide the ability to display forced updates.
+/// [MasamuneAdapter] to provide the ability to display forced updates.
 ///
 /// The [defaultUpdates] field specifies the [ForceUpdaterItem] for forced updates.
 ///
@@ -8,7 +8,7 @@ part of '/masamune_force_updater.dart';
 ///
 /// [defaultUpdates]には強制アップデートを行うための[ForceUpdaterItem]を指定します。
 class ForceUpdaterMasamuneAdapter extends MasamuneAdapter {
-  /// MasamuneAdapter] to provide the ability to display forced updates.
+  /// [MasamuneAdapter] to provide the ability to display forced updates.
   ///
   /// The [defaultUpdates] field specifies the [ForceUpdaterItem] for forced updates.
   ///
