@@ -51,6 +51,7 @@ class PurchaseProduct {
     this.icon,
     required this.price,
     this.expiredPeriod,
+    this.subscriptionPeriod = PurchaseSubscriptionPeriod.none,
     String? priceText,
     bool debugConsumeWhenPurchaseCompleted = false,
   })  : _priceText = priceText,
@@ -86,6 +87,7 @@ class PurchaseProduct {
     required this.price,
     String? priceText,
   })  : type = PurchaseProductType.consumable,
+        subscriptionPeriod = PurchaseSubscriptionPeriod.none,
         expiredPeriod = null,
         _priceText = priceText,
         amount = amount,
@@ -117,6 +119,7 @@ class PurchaseProduct {
     String? priceText,
     bool debugConsumeWhenPurchaseCompleted = false,
   })  : type = PurchaseProductType.nonConsumable,
+        subscriptionPeriod = PurchaseSubscriptionPeriod.none,
         amount = null,
         expiredPeriod = null,
         _priceText = priceText,
@@ -151,6 +154,7 @@ class PurchaseProduct {
     this.icon,
     required Duration expiredPeriod,
     String? priceText,
+    this.subscriptionPeriod = PurchaseSubscriptionPeriod.month,
   })  : type = PurchaseProductType.subscription,
         amount = null,
         expiredPeriod = expiredPeriod,
@@ -217,6 +221,11 @@ class PurchaseProduct {
   /// 有効期限の期間。
   final Duration? expiredPeriod;
 
+  /// Subscription expiration period.
+  ///
+  /// サブスクリプションの有効期限の期間。
+  final PurchaseSubscriptionPeriod? subscriptionPeriod;
+
   /// Text with the currency mark of the item charged.
   ///
   /// 課金アイテムの通貨マークを付与したテキスト。
@@ -281,7 +290,8 @@ class PurchaseProduct {
       title.hashCode ^
       description.hashCode ^
       price.hashCode ^
-      expiredPeriod.hashCode;
+      expiredPeriod.hashCode ^
+      subscriptionPeriod.hashCode;
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
@@ -595,6 +605,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
           debugConsumeWhenPurchaseCompleted:
               product.debugConsumeWhenPurchaseCompleted,
           type: PurchaseProductType.subscription,
+          subscriptionPeriod: product.subscriptionPeriod,
         ) {
     _updateCollection();
   }
