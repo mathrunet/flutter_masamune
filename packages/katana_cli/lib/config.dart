@@ -255,6 +255,16 @@ ${showAllConfig ? """
   # ローカルPUSHを実装します。
   local_notification:
     enable: false
+
+  # Implement a forced update function.
+  # 強制アップデート機能を実装します。
+  force_updater:
+    enable: false
+  
+  # Implement a app review function.
+  # アプリレビュー機能を実装します。
+  app_review:
+    enable: false
 """ : ""}
 
 # This section contains information related to Firebase.
