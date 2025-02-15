@@ -1,3 +1,7 @@
+## 2.11.1
+
+ - Update a dependency to the latest release.
+
 ## 2.11.0
 
  - **FEAT**: Remove unnecessary packages. ([2baeb9a2](https://github.com/mathrunet/flutter_masamune/commit/2baeb9a212504846333c2bd653c60cc6634ba6d4))

@@ -1,3 +1,7 @@
+## 2.3.4
+
+ - **FIX**: PurchaseSubscriptionPeriod setting can be added. ([02e9e4e1](https://github.com/mathrunet/flutter_masamune/commit/02e9e4e1bd2441e1d963025a047898787b45c0a5))
+
 ## 2.3.3
 
  - Update a dependency to the latest release.

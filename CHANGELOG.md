@@ -15,6 +15,44 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_force_updater` - `v2.2.0`](#masamune_force_updater---v220)
+ - [`masamune_model_firebase_remote_config` - `v2.1.0`](#masamune_model_firebase_remote_config---v210)
+ - [`masamune_purchase` - `v2.3.4`](#masamune_purchase---v234)
+ - [`masamune_purchase_mobile` - `v2.11.1`](#masamune_purchase_mobile---v2111)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_purchase_mobile` - `v2.11.1`
+
+---
+
+#### `masamune_force_updater` - `v2.2.0`
+
+ - **FEAT**: Significant changes were made to the structure. ([484554d2](https://github.com/mathrunet/flutter_masamune/commit/484554d266e1a0f14beea5c0cdbb2e8bf7e14473))
+
+#### `masamune_model_firebase_remote_config` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([1c8bb787](https://github.com/mathrunet/flutter_masamune/commit/1c8bb7879770355c186e368b16cdec4f5eab14d0))
+
+#### `masamune_purchase` - `v2.3.4`
+
+ - **FIX**: PurchaseSubscriptionPeriod setting can be added. ([02e9e4e1](https://github.com/mathrunet/flutter_masamune/commit/02e9e4e1bd2441e1d963025a047898787b45c0a5))
+
+
+## 2025-02-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.31.0`](#katana_cli---v2310)
  - [`masamune_app_review` - `v2.1.0`](#masamune_app_review---v210)
  - [`masamune_force_updater` - `v2.1.124`](#masamune_force_updater---v21124)
