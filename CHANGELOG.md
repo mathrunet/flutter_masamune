@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-02-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.31.0`](#katana_cli---v2310)
+ - [`masamune_app_review` - `v2.1.0`](#masamune_app_review---v210)
+ - [`masamune_force_updater` - `v2.1.124`](#masamune_force_updater---v21124)
+
+---
+
+#### `katana_cli` - `v2.31.0`
+
+ - **FIX**: Correction of eslint. ([ef60a19d](https://github.com/mathrunet/flutter_masamune/commit/ef60a19dcd7cdb9ee1ba0399463a0424e2bb4727))
+ - **FIX**: Match the output method of index.html on the Web to the latest version. ([332a5083](https://github.com/mathrunet/flutter_masamune/commit/332a50837982eee37e29a6126815662edae71807))
+ - **FEAT**: Added forced updates and app reviews. ([96704a95](https://github.com/mathrunet/flutter_masamune/commit/96704a95fdc8e0d0bff67abba85026917e0c3e15))
+
+#### `masamune_app_review` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([14046146](https://github.com/mathrunet/flutter_masamune/commit/14046146ef85f485fd55f568709dc88a1c64de47))
+
+#### `masamune_force_updater` - `v2.1.124`
+
+ - **DOCS**: Corrected comment. ([788cf967](https://github.com/mathrunet/flutter_masamune/commit/788cf96768ba56ef61fcd3565d0644958e4c9601))
+
+
 ## 2025-02-13
 
 ### Changes

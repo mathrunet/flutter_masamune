@@ -1,3 +1,9 @@
+## 2.31.0
+
+ - **FIX**: Correction of eslint. ([ef60a19d](https://github.com/mathrunet/flutter_masamune/commit/ef60a19dcd7cdb9ee1ba0399463a0424e2bb4727))
+ - **FIX**: Match the output method of index.html on the Web to the latest version. ([332a5083](https://github.com/mathrunet/flutter_masamune/commit/332a50837982eee37e29a6126815662edae71807))
+ - **FEAT**: Added forced updates and app reviews. ([96704a95](https://github.com/mathrunet/flutter_masamune/commit/96704a95fdc8e0d0bff67abba85026917e0c3e15))
+
 ## 2.30.5
 
  - **FIX**: Add gitignore. ([b3b7c953](https://github.com/mathrunet/flutter_masamune/commit/b3b7c953a90ff82186452f4cabed09dc0da205c1))
