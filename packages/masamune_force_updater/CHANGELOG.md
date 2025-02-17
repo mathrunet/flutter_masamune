@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - Update a dependency to the latest release.
+
 ## 2.2.0
 
  - **FEAT**: Significant changes were made to the structure. ([484554d2](https://github.com/mathrunet/flutter_masamune/commit/484554d266e1a0f14beea5c0cdbb2e8bf7e14473))

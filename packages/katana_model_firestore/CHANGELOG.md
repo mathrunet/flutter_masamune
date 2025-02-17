@@ -1,3 +1,7 @@
+## 2.18.0
+
+ - **FEAT**: Implemented a mechanism that allows caching. ([b9c5de94](https://github.com/mathrunet/flutter_masamune/commit/b9c5de94eaa2d191c64f7fa7cdd0abdd47dec4ce))
+
 ## 2.17.3
 
  - Update a dependency to the latest release.

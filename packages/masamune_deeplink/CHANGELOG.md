@@ -1,3 +1,7 @@
+## 2.2.125
+
+ - Update a dependency to the latest release.
+
 ## 2.2.124
 
  - **FIX**: Changed from uni_link to app_link. ([9f13968a](https://github.com/mathrunet/flutter_masamune/commit/9f13968a2555116a8798632568409559cc3cc1c7))
