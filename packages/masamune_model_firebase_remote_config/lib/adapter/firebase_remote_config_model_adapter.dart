@@ -7,7 +7,7 @@ part of '/masamune_model_firebase_remote_config.dart';
 /// Firebase Remote Configをドキュメントとして扱うためのアダプター。
 ///
 /// 読み込みのみが可能であり、ドキュメントの保存・削除はサポートしていません。
-class FirebaseRemoteConfigModelAdapterBase extends ModelAdapter {
+class FirebaseRemoteConfigModelAdapter extends ModelAdapter {
   /// Adapter to handle Firebase Remote Config as a document.
   ///
   /// Only loading is possible; saving and deleting documents is not supported.
@@ -15,7 +15,7 @@ class FirebaseRemoteConfigModelAdapterBase extends ModelAdapter {
   /// Firebase Remote Configをドキュメントとして扱うためのアダプター。
   ///
   /// 読み込みのみが可能であり、ドキュメントの保存・削除はサポートしていません。
-  const FirebaseRemoteConfigModelAdapterBase({
+  const FirebaseRemoteConfigModelAdapter({
     this.initialValue,
     FirebaseOptions? options,
     this.iosOptions,
