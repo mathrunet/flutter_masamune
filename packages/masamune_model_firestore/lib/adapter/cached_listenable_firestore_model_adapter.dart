@@ -168,6 +168,12 @@ class CachedListenableFirestoreModelAdapter
   }
 
   @override
+  Future<void> clearCache() async {
+    await super.clearCache();
+    await cachedLocalDatabase.clearAll();
+  }
+
+  @override
   bool operator ==(Object other) => hashCode == other.hashCode;
 
   @override
