@@ -101,13 +101,13 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
       final res = <String, DynamicMap>{};
       for (final entry in map.entries) {
         final path = "${_path(query.query.path)}/${entry.key}";
-        final converted = entry.value;
+        final converted = _convertFrom(entry.value);
         query.callback?.call(
           ModelUpdateNotification(
             path: path,
             id: entry.key,
             status: ModelUpdateNotificationStatus.added,
-            value: entry.value,
+            value: converted,
             newIndex: 0,
             origin: query.origin,
             listen: availableListen,
@@ -158,17 +158,14 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
         _collectionReference(query).map((reference) => reference.snapshots());
     final subscriptions = streams.map((e) {
       return e.listen((event) async {
+        final converted = event.docChanges.toMap((e) {
+          return MapEntry(e.doc.id, _convertFrom(e.doc.data()?.cast() ?? {}));
+        });
         if (validator != null) {
           await validator!.onPreloadCollection(query);
-          final res = event.docChanges.toMap((e) {
-            final converted = _convertFrom(e.doc.data()?.cast() ?? {});
-            return MapEntry(e.doc.id, converted);
-          });
-          await validator!.onPostloadCollection(query, res);
+          await validator!.onPostloadCollection(query, converted);
         }
-        await onPostloadCollection(query, event.docChanges.toMap((e) {
-          return MapEntry(e.doc.id, e.doc.data()?.cast() ?? {});
-        }));
+        await onPostloadCollection(query, converted);
         final res = <String, DynamicMap>{};
         for (final doc in event.docChanges) {
           final path = doc.doc.reference.path;
@@ -273,7 +270,7 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
       if (converted.isEmpty && localRes.isNotEmpty) {
         return;
       }
-      await onPostloadDocument(query, map);
+      await onPostloadDocument(query, converted);
       if (validator != null) {
         await validator!.onPostloadDocument(query, converted);
       }

@@ -473,7 +473,7 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.29.5"
+    version: "2.30.0"
   katana_test:
     dependency: "direct dev"
     description:

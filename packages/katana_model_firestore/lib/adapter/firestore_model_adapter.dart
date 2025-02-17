@@ -365,13 +365,14 @@ class FirestoreModelAdapter extends ModelAdapter
     } else {
       await FirebaseCore.initialize(options: options);
     }
-    DynamicMap? map = await onPreloadDocument(query);
-    if (map == null) {
+    DynamicMap? res = await onPreloadDocument(query);
+    if (res == null) {
       final snapshot = await _documentReference(query).get();
-      map = snapshot.data()?.cast() ?? {};
-      await onPostloadDocument(query, map);
+      res = _convertFrom(snapshot.data()?.cast() ?? {});
+      await onPostloadDocument(query, res);
+    } else {
+      res = _convertFrom(res);
     }
-    var res = _convertFrom(map);
     if (res.isEmpty) {
       final localRes =
           await cachedRuntimeDatabase.getInitialDocument(query, prefix: prefix);
@@ -414,23 +415,27 @@ class FirestoreModelAdapter extends ModelAdapter
     }
     CachedFirestoreModelCollectionLoaderResponse? cache =
         await onPreloadCollection(query);
-    Map<String, DynamicMap>? map = cache?.value;
-    if (map == null || cache?.query != null) {
+    Map<String, DynamicMap>? res = cache?.value.map(
+      (k, v) => MapEntry(k, _convertFrom(v)),
+    );
+    if (res == null || cache?.query != null) {
       if (cache?.query != null) {
         query = cache!.query!;
       }
       final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
         _collectionReference(query).map((reference) => reference.get()),
       );
-      map = {
-        if (map != null) ...map,
+      res = {
+        if (res != null) ...res,
         ...snapshot.expand((e) => e.docChanges).toMap(
-              (e) => MapEntry(e.doc.id, e.doc.data()?.cast() ?? {}),
+              (e) => MapEntry(
+                e.doc.id,
+                _convertFrom(e.doc.data()?.cast() ?? {}),
+              ),
             )
       };
-      await onPostloadCollection(query, map);
+      await onPostloadCollection(query, res);
     }
-    final res = map.map((k, v) => MapEntry(k, _convertFrom(v)));
     final localRes =
         await cachedRuntimeDatabase.getInitialCollection(query, prefix: prefix);
     if (localRes.isNotEmpty) {
@@ -622,14 +627,15 @@ class FirestoreModelAdapter extends ModelAdapter
     if (validator != null) {
       await validator!.onPreloadDocument(query);
     }
-    DynamicMap? map = await onPreloadDocument(query);
-    if (map == null) {
+    DynamicMap? res = await onPreloadDocument(query);
+    if (res == null) {
       final snapshot =
           await ref._transaction.get(database.doc(_path(query.query.path)));
-      map = snapshot.data()?.cast() ?? {};
-      await onPostloadDocument(query, map);
+      res = _convertFrom(snapshot.data()?.cast() ?? {});
+      await onPostloadDocument(query, res);
+    } else {
+      res = _convertFrom(res);
     }
-    var res = _convertFrom(map);
     if (res.isEmpty) {
       final localRes =
           await cachedRuntimeDatabase.getInitialDocument(query, prefix: prefix);
