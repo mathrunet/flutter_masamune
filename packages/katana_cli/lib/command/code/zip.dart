@@ -21,7 +21,7 @@ class CodeZipCliCommand extends CliCommand {
     final fileName = Directory.current.path.replaceAll(r"\", "/").last();
     final encoder = ZipFileEncoder();
     encoder.create("$fileName.zip");
-    encoder.checkAndAddDirectory(
+    await encoder.checkAndAddDirectory(
       "./",
       [
         r"\.fvm/",
@@ -55,6 +55,7 @@ class CodeZipCliCommand extends CliCommand {
         r"\.pub-cache/",
         r"\.pub/",
         r"^build/",
+        r"^android/.gradle/",
         r"lib/generated_plugin_registrant\.dart",
         r"app\.[^.]+\.symbols",
         r"app\.[^.]+\.map.json",
@@ -97,15 +98,16 @@ class CodeZipCliCommand extends CliCommand {
         r"Runner/GeneratedPluginRegistrant\.",
       ],
     );
-    encoder.close();
+    label("Create zip file: $fileName.zip");
+    await encoder.close();
   }
 }
 
 extension _ZipFileEncoderExtensions on ZipFileEncoder {
-  void checkAndAddDirectory(
+  Future<void> checkAndAddDirectory(
     String dirPath, [
     List<String> ignoredList = const [],
-  ]) {
+  ]) async {
     final dir = Directory(dirPath);
     final list = dir.listSync(recursive: true);
     for (final tmp in list) {
@@ -122,7 +124,7 @@ extension _ZipFileEncoderExtensions on ZipFileEncoder {
         continue;
       }
       label("Contain: $path");
-      addFile(file, path);
+      await addFile(file, path);
     }
   }
 }
