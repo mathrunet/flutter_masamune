@@ -11,10 +11,6 @@ const _kTargetKey = "@target";
 ///
 /// You can initialize Firebase by passing [options].
 ///
-/// In addition, internally retrieved data can be cached, and notifications can be sent to the relevant data for internal changes that occur in [DocumentBase.save], [DocumentBase.delete], etc., so that changes can be reflected.
-///
-/// The internal database can be specified in [localDatabase].
-///
 /// By passing data to [initialValue], the database can be used as a data mockup because it contains data in advance.
 ///
 /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
@@ -26,10 +22,6 @@ const _kTargetKey = "@target";
 /// 基本的にデフォルトの[FirebaseFirestore.instance]が利用されますが、アダプターの作成時に[database]を渡すことで指定されたデータベースを利用することが可能です。
 ///
 /// [options]を渡すことでFirebaseの初期化を行うことができます。
-///
-/// また、内部で取得したデータをキャッシュしておき、[DocumentBase.save]や[DocumentBase.delete]などで発生した内部的な変更については関連するデータに通知を送ることができ変更を反映することができます。
-///
-/// 内部データベースは[localDatabase]で指定することができます。
 ///
 /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 ///
@@ -44,10 +36,6 @@ class FirestoreModelAdapter extends ModelAdapter
   ///
   /// You can initialize Firebase by passing [options].
   ///
-  /// In addition, internally retrieved data can be cached, and notifications can be sent to the relevant data for internal changes that occur in [DocumentBase.save], [DocumentBase.delete], etc., so that changes can be reflected.
-  ///
-  /// The internal database can be specified in [localDatabase].
-  ///
   /// By passing data to [initialValue], the database can be used as a data mockup because it contains data in advance.
   ///
   /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
@@ -60,17 +48,13 @@ class FirestoreModelAdapter extends ModelAdapter
   ///
   /// [options]を渡すことでFirebaseの初期化を行うことができます。
   ///
-  /// また、内部で取得したデータをキャッシュしておき、[DocumentBase.save]や[DocumentBase.delete]などで発生した内部的な変更については関連するデータに通知を送ることができ変更を反映することができます。
-  ///
-  /// 内部データベースは[localDatabase]で指定することができます。
-  ///
   /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
   ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
   const FirestoreModelAdapter({
     this.initialValue,
     FirebaseFirestore? database,
-    NoSqlDatabase? localDatabase,
+    NoSqlDatabase? cachedRuntimeDatabase,
     FirebaseOptions? options,
     this.iosOptions,
     this.androidOptions,
@@ -84,7 +68,7 @@ class FirestoreModelAdapter extends ModelAdapter
     this.databaseId,
   })  : _database = database,
         _options = options,
-        _localDatabase = localDatabase;
+        _cachedRuntimeDatabase = cachedRuntimeDatabase;
 
   /// The Firestore database instance used in the adapter.
   ///
@@ -108,8 +92,8 @@ class FirestoreModelAdapter extends ModelAdapter
   /// Caches data retrieved from the specified internal database, Firestore.
   ///
   /// 指定の内部データベース。Firestoreから取得したデータをキャッシュします。
-  NoSqlDatabase get localDatabase {
-    final database = _localDatabase ?? sharedLocalDatabase;
+  NoSqlDatabase get cachedRuntimeDatabase {
+    final database = _cachedRuntimeDatabase ?? sharedRuntimeDatabase;
     if (initialValue.isNotEmpty && !database.isInitialValueRegistered) {
       for (final raw in initialValue!) {
         if (raw is ModelInitialDocument) {
@@ -132,12 +116,12 @@ class FirestoreModelAdapter extends ModelAdapter
     return database;
   }
 
-  final NoSqlDatabase? _localDatabase;
+  final NoSqlDatabase? _cachedRuntimeDatabase;
 
   /// A common internal database throughout the app.
   ///
   /// アプリ内全体での共通の内部データベース。
-  static final NoSqlDatabase sharedLocalDatabase = NoSqlDatabase();
+  static final NoSqlDatabase sharedRuntimeDatabase = NoSqlDatabase();
 
   /// Specify the permission validator for the database.
   ///
@@ -304,6 +288,53 @@ class FirestoreModelAdapter extends ModelAdapter
   @override
   final String? prefix;
 
+  /// Callback for deleting a document.
+  ///
+  /// ドキュメントを削除する際のコールバック。
+  Future<void> onDeleteDocument(ModelAdapterDocumentQuery query) =>
+      Future.value();
+
+  /// Callback for saving a document.
+  ///
+  /// ドキュメントを保存する際のコールバック。
+  Future<void> onSaveDocument(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) =>
+      Future.value();
+
+  /// Callbacks for loading documents.
+  ///
+  /// ドキュメントをロードする際のコールバック。
+  Future<DynamicMap?> onPreloadDocument(ModelAdapterDocumentQuery query) =>
+      Future.value(null);
+
+  /// Callback after the document is loaded.
+  ///
+  /// ドキュメントをロードした後のコールバック。
+  Future<void> onPostloadDocument(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) =>
+      Future.value();
+
+  /// Callback for loading a collection.
+  ///
+  /// コレクションをロードする際のコールバック。
+  Future<CachedFirestoreModelCollectionLoaderResponse?> onPreloadCollection(
+    ModelAdapterCollectionQuery query,
+  ) =>
+      Future.value(null);
+
+  /// Callback for postloading a collection.
+  ///
+  /// コレクションをロードした後のコールバック。
+  Future<void> onPostloadCollection(
+    ModelAdapterCollectionQuery query,
+    Map<String, DynamicMap> value,
+  ) =>
+      Future.value();
+
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     _assert();
@@ -318,8 +349,9 @@ class FirestoreModelAdapter extends ModelAdapter
       await FirebaseCore.initialize(options: options);
     }
     await _documentReference(query).delete();
-    await localDatabase.deleteDocument(query, prefix: prefix);
+    await cachedRuntimeDatabase.deleteDocument(query, prefix: prefix);
     _FirestoreCache.getCache(options).set(_path(query.query.path));
+    await onDeleteDocument(query);
   }
 
   @override
@@ -333,11 +365,16 @@ class FirestoreModelAdapter extends ModelAdapter
     } else {
       await FirebaseCore.initialize(options: options);
     }
-    final snapshot = await _documentReference(query).get();
-    var res = _convertFrom(snapshot.data()?.cast() ?? {});
+    DynamicMap? map = await onPreloadDocument(query);
+    if (map == null) {
+      final snapshot = await _documentReference(query).get();
+      map = snapshot.data()?.cast() ?? {};
+      await onPostloadDocument(query, map);
+    }
+    var res = _convertFrom(map);
     if (res.isEmpty) {
       final localRes =
-          await localDatabase.getInitialDocument(query, prefix: prefix);
+          await cachedRuntimeDatabase.getInitialDocument(query, prefix: prefix);
       if (localRes.isNotEmpty) {
         res = localRes!;
       }
@@ -345,7 +382,7 @@ class FirestoreModelAdapter extends ModelAdapter
     if (validator != null) {
       await validator!.onPostloadDocument(query, res);
     }
-    await localDatabase.syncDocument(query, res, prefix: prefix);
+    await cachedRuntimeDatabase.syncDocument(query, res, prefix: prefix);
     _FirestoreCache.getCache(options).set(_path(query.query.path), res);
     return res;
   }
@@ -353,13 +390,13 @@ class FirestoreModelAdapter extends ModelAdapter
   @override
   void disposeCollection(ModelAdapterCollectionQuery query) {
     _assert();
-    localDatabase.removeCollectionListener(query, prefix: prefix);
+    cachedRuntimeDatabase.removeCollectionListener(query, prefix: prefix);
   }
 
   @override
   void disposeDocument(ModelAdapterDocumentQuery query) {
     _assert();
-    localDatabase.removeDocumentListener(query, prefix: prefix);
+    cachedRuntimeDatabase.removeDocumentListener(query, prefix: prefix);
   }
 
   @override
@@ -375,14 +412,27 @@ class FirestoreModelAdapter extends ModelAdapter
     } else {
       await FirebaseCore.initialize(options: options);
     }
-    final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
-      _collectionReference(query).map((reference) => reference.get()),
-    );
-    final res = snapshot.expand((e) => e.docChanges).toMap(
-          (e) => MapEntry(e.doc.id, _convertFrom(e.doc.data()?.cast() ?? {})),
-        );
+    CachedFirestoreModelCollectionLoaderResponse? cache =
+        await onPreloadCollection(query);
+    Map<String, DynamicMap>? map = cache?.value;
+    if (map == null || cache?.query != null) {
+      if (cache?.query != null) {
+        query = cache!.query!;
+      }
+      final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
+        _collectionReference(query).map((reference) => reference.get()),
+      );
+      map = {
+        if (map != null) ...map,
+        ...snapshot.expand((e) => e.docChanges).toMap(
+              (e) => MapEntry(e.doc.id, e.doc.data()?.cast() ?? {}),
+            )
+      };
+      await onPostloadCollection(query, map);
+    }
+    final res = map.map((k, v) => MapEntry(k, _convertFrom(v)));
     final localRes =
-        await localDatabase.getInitialCollection(query, prefix: prefix);
+        await cachedRuntimeDatabase.getInitialCollection(query, prefix: prefix);
     if (localRes.isNotEmpty) {
       for (final entry in localRes!.entries) {
         if (res.containsKey(entry.key)) {
@@ -397,7 +447,7 @@ class FirestoreModelAdapter extends ModelAdapter
     if (validator != null) {
       await validator!.onPostloadCollection(query, res);
     }
-    await localDatabase.syncCollection(query, res, prefix: prefix);
+    await cachedRuntimeDatabase.syncCollection(query, res, prefix: prefix);
     for (final doc in res.entries) {
       _FirestoreCache.getCache(options).set(
         "${_path(query.query.path)}/${doc.key}",
@@ -509,11 +559,12 @@ class FirestoreModelAdapter extends ModelAdapter
       converted,
       SetOptions(merge: true),
     );
-    await localDatabase.saveDocument(query, value, prefix: prefix);
+    await cachedRuntimeDatabase.saveDocument(query, value, prefix: prefix);
     _FirestoreCache.getCache(options).set(
       _path(query.query.path),
       value,
     );
+    await onSaveDocument(query, value);
   }
 
   @override
@@ -553,8 +604,9 @@ class FirestoreModelAdapter extends ModelAdapter
       }
     });
     ref._postLocalTransaction.add(() async {
-      await localDatabase.deleteDocument(query, prefix: prefix);
+      await cachedRuntimeDatabase.deleteDocument(query, prefix: prefix);
       _FirestoreCache.getCache(options).set(_path(query.query.path));
+      await onDeleteDocument(query);
     });
   }
 
@@ -570,12 +622,17 @@ class FirestoreModelAdapter extends ModelAdapter
     if (validator != null) {
       await validator!.onPreloadDocument(query);
     }
-    final snapshot =
-        await ref._transaction.get(database.doc(_path(query.query.path)));
-    var res = _convertFrom(snapshot.data() ?? {});
+    DynamicMap? map = await onPreloadDocument(query);
+    if (map == null) {
+      final snapshot =
+          await ref._transaction.get(database.doc(_path(query.query.path)));
+      map = snapshot.data()?.cast() ?? {};
+      await onPostloadDocument(query, map);
+    }
+    var res = _convertFrom(map);
     if (res.isEmpty) {
       final localRes =
-          await localDatabase.getInitialDocument(query, prefix: prefix);
+          await cachedRuntimeDatabase.getInitialDocument(query, prefix: prefix);
       if (localRes.isNotEmpty) {
         res = localRes!;
       }
@@ -583,7 +640,7 @@ class FirestoreModelAdapter extends ModelAdapter
     if (validator != null) {
       await validator!.onPostloadDocument(query, res);
     }
-    await localDatabase.syncDocument(query, res, prefix: prefix);
+    await cachedRuntimeDatabase.syncDocument(query, res, prefix: prefix);
     _FirestoreCache.getCache(options).set(_path(query.query.path), res);
     return res;
   }
@@ -628,8 +685,9 @@ class FirestoreModelAdapter extends ModelAdapter
           newValue: value,
         );
       }
-      await localDatabase.saveDocument(query, value, prefix: prefix);
+      await cachedRuntimeDatabase.saveDocument(query, value, prefix: prefix);
       _FirestoreCache.getCache(options).set(_path(query.query.path), value);
+      await onSaveDocument(query, value);
     });
   }
 
@@ -674,8 +732,9 @@ class FirestoreModelAdapter extends ModelAdapter
           }
         },
         actions: () async {
-          await localDatabase.deleteDocument(query, prefix: prefix);
+          await cachedRuntimeDatabase.deleteDocument(query, prefix: prefix);
           _FirestoreCache.getCache(options).set(_path(query.query.path));
+          await onDeleteDocument(query);
         },
       ),
     );
@@ -756,8 +815,10 @@ class FirestoreModelAdapter extends ModelAdapter
           }
         },
         actions: () async {
-          await localDatabase.saveDocument(query, value, prefix: prefix);
+          await cachedRuntimeDatabase.saveDocument(query, value,
+              prefix: prefix);
           _FirestoreCache.getCache(options).set(_path(query.query.path), value);
+          await onSaveDocument(query, value);
         },
       ),
     );
@@ -772,7 +833,7 @@ class FirestoreModelAdapter extends ModelAdapter
   Future<void> clearCache() async {
     _assert();
     _FirestoreCache._caches.clear();
-    return localDatabase.clearAll();
+    return cachedRuntimeDatabase.clearAll();
   }
 
   DynamicMap _convertFrom(DynamicMap map) {
@@ -1031,7 +1092,7 @@ class FirestoreModelAdapter extends ModelAdapter
   @override
   int get hashCode {
     return prefix.hashCode ^
-        _localDatabase.hashCode ^
+        _cachedRuntimeDatabase.hashCode ^
         options.hashCode ^
         _database.hashCode ^
         databaseId.hashCode;

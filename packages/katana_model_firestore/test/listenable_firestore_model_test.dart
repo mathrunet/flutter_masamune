@@ -44,10 +44,10 @@ class TestValueCollectionModel extends CollectionBase<TestValueDocumentModel> {
 void main() {
   test("listenableFirestoreModelAdapter.saveAndLoadAndDeleteOnDoc", () async {
     final firestore = FakeFirebaseFirestore();
-    final localDatabase = NoSqlDatabase();
+    final runtimeDatabase = NoSqlDatabase();
     final adapter = ListenableFirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: runtimeDatabase,
       onInitialize: (options) => Future.value(),
     );
     final query = DocumentModelQuery("test/doc", adapter: adapter);
@@ -116,10 +116,10 @@ void main() {
   test("listenableFirestoreModelAdapter.saveAndLoadAndDeleteOnCollection",
       () async {
     final firestore = FakeFirebaseFirestore();
-    final localDatabase = NoSqlDatabase();
+    final runtimeDatabase = NoSqlDatabase();
     final adapter = ListenableFirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: runtimeDatabase,
       onInitialize: (options) => Future.value(),
     );
     final colQuery = CollectionModelQuery("test", adapter: adapter);

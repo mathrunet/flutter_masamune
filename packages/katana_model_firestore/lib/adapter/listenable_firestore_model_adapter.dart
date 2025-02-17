@@ -10,8 +10,6 @@ part of '/katana_model_firestore.dart';
 ///
 /// You can initialize Firebase by passing [options].
 ///
-/// The internal database can be specified in [localDatabase].
-///
 /// By passing data to [initialValue], the database can be used as a data mockup because it contains data in advance.
 ///
 /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
@@ -25,8 +23,6 @@ part of '/katana_model_firestore.dart';
 /// 基本的にデフォルトの[FirebaseFirestore.instance]が利用されますが、アダプターの作成時に[database]を渡すことで指定されたデータベースを利用することが可能です。
 ///
 /// [options]を渡すことでFirebaseの初期化を行うことができます。
-///
-/// 内部データベースは[localDatabase]で指定することができます。
 ///
 /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 ///
@@ -43,8 +39,6 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
   ///
   /// You can initialize Firebase by passing [options].
   ///
-  /// The internal database can be specified in [localDatabase].
-  ///
   /// By passing data to [initialValue], the database can be used as a data mockup because it contains data in advance.
   ///
   /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
@@ -59,15 +53,13 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
   ///
   /// [options]を渡すことでFirebaseの初期化を行うことができます。
   ///
-  /// 内部データベースは[localDatabase]で指定することができます。
-  ///
   /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
   ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
   const ListenableFirestoreModelAdapter({
     super.initialValue,
     super.database,
-    super.localDatabase,
+    super.cachedRuntimeDatabase,
     super.options,
     super.iosOptions,
     super.androidOptions,
@@ -97,8 +89,49 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
     } else {
       await FirebaseCore.initialize(options: options);
     }
+    CachedFirestoreModelCollectionLoaderResponse? cache =
+        await onPreloadCollection(query);
+    Map<String, DynamicMap>? map = cache?.value;
+    if (map != null) {
+      if (validator != null) {
+        await validator!.onPreloadCollection(query);
+        final res = map.map((k, v) => MapEntry(k, _convertFrom(v)));
+        await validator!.onPostloadCollection(query, res);
+      }
+      final res = <String, DynamicMap>{};
+      for (final entry in map.entries) {
+        final path = "${_path(query.query.path)}/${entry.key}";
+        final converted = entry.value;
+        query.callback?.call(
+          ModelUpdateNotification(
+            path: path,
+            id: entry.key,
+            status: ModelUpdateNotificationStatus.added,
+            value: entry.value,
+            newIndex: 0,
+            origin: query.origin,
+            listen: availableListen,
+            query: query.query,
+          ),
+        );
+        res[entry.key] = converted;
+      }
+      await cachedRuntimeDatabase.syncCollection(query, res, prefix: prefix);
+      for (final doc in res.entries) {
+        _FirestoreCache.getCache(options).set(
+          "${_path(query.query.path)}/${doc.key}",
+          doc.value,
+        );
+      }
+      if (cache?.query == null) {
+        return [];
+      }
+    }
+    if (cache?.query != null) {
+      query = cache!.query!;
+    }
     final localRes =
-        await localDatabase.getInitialCollection(query, prefix: prefix);
+        await cachedRuntimeDatabase.getInitialCollection(query, prefix: prefix);
     if (localRes.isNotEmpty) {
       if (validator != null) {
         await validator!.onPostloadCollection(query, localRes);
@@ -133,6 +166,9 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
           });
           await validator!.onPostloadCollection(query, res);
         }
+        await onPostloadCollection(query, event.docChanges.toMap((e) {
+          return MapEntry(e.doc.id, e.doc.data()?.cast() ?? {});
+        }));
         final res = <String, DynamicMap>{};
         for (final doc in event.docChanges) {
           final path = doc.doc.reference.path;
@@ -155,7 +191,7 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
         if (validator != null) {
           await validator!.onPostloadCollection(query, res);
         }
-        await localDatabase.syncCollection(query, res, prefix: prefix);
+        await cachedRuntimeDatabase.syncCollection(query, res, prefix: prefix);
         for (final doc in res.entries) {
           _FirestoreCache.getCache(options).set(
             "${_path(query.query.path)}/${doc.key}",
@@ -181,8 +217,35 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
     } else {
       await FirebaseCore.initialize(options: options);
     }
+    DynamicMap? map = await onPreloadDocument(query);
+    if (map != null) {
+      if (validator != null) {
+        await validator!.onPostloadDocument(query, map);
+      }
+      final converted = _convertFrom(map);
+      query.callback?.call(
+        ModelUpdateNotification(
+          path: query.query.path.parentPath(),
+          id: query.query.path.last(),
+          status: ModelUpdateNotificationStatus.modified,
+          value: converted,
+          origin: query.origin,
+          listen: availableListen,
+          query: query.query,
+        ),
+      );
+      if (validator != null) {
+        await validator!.onPostloadDocument(query, converted);
+      }
+      await cachedRuntimeDatabase.syncDocument(query, converted,
+          prefix: prefix);
+      _FirestoreCache.getCache(options).set(
+        _path(query.query.path),
+        converted,
+      );
+    }
     final localRes =
-        await localDatabase.getInitialDocument(query, prefix: prefix);
+        await cachedRuntimeDatabase.getInitialDocument(query, prefix: prefix);
     if (localRes.isNotEmpty) {
       if (validator != null) {
         await validator!.onPostloadDocument(query, localRes);
@@ -205,10 +268,12 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
       if (validator != null) {
         await validator!.onPreloadDocument(query);
       }
-      final converted = _convertFrom(doc.data()?.cast() ?? {});
+      final map = doc.data()?.cast<String, dynamic>() ?? <String, dynamic>{};
+      final converted = _convertFrom(map);
       if (converted.isEmpty && localRes.isNotEmpty) {
         return;
       }
+      await onPostloadDocument(query, map);
       if (validator != null) {
         await validator!.onPostloadDocument(query, converted);
       }
@@ -226,7 +291,8 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
       if (validator != null) {
         await validator!.onPostloadDocument(query, converted);
       }
-      await localDatabase.syncDocument(query, converted, prefix: prefix);
+      await cachedRuntimeDatabase.syncDocument(query, converted,
+          prefix: prefix);
       _FirestoreCache.getCache(options).set(
         _path(query.query.path),
         converted,
@@ -298,7 +364,7 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
   @override
   int get hashCode {
     return prefix.hashCode ^
-        _localDatabase.hashCode ^
+        _cachedRuntimeDatabase.hashCode ^
         options.hashCode ^
         _database.hashCode ^
         databaseId.hashCode;

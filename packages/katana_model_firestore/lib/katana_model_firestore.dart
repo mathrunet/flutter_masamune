@@ -27,6 +27,7 @@ export 'package:katana_firebase/katana_firebase.dart';
 export 'package:katana_model/katana_model.dart';
 
 part 'src/firestore_cache.dart';
+part 'src/cached_firestore_model_collection_loader_response.dart';
 part 'src/firestore_model_field_value_converter.dart';
 
 part 'converter/firestore_model_counter_converter.dart';

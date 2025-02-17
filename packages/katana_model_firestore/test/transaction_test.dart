@@ -227,7 +227,7 @@ void main() {
     final localDatabase = NoSqlDatabase();
     final adapter = FirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: localDatabase,
       onInitialize: (options) => Future.value(),
       initialValue: const [
         DynamicModelInitialCollection("test", {
@@ -274,7 +274,7 @@ void main() {
     final localDatabase = NoSqlDatabase();
     final adapter = FirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: localDatabase,
       onInitialize: (options) => Future.value(),
     );
     final query = CollectionModelQuery("test", adapter: adapter);
@@ -315,7 +315,7 @@ void main() {
     final localDatabase = NoSqlDatabase();
     final adapter = FirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: localDatabase,
       onInitialize: (options) => Future.value(),
       initialValue: const [
         DynamicModelInitialCollection("user", {
@@ -358,7 +358,7 @@ void main() {
     final localDatabase = NoSqlDatabase();
     final adapter = FirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: localDatabase,
       onInitialize: (options) => Future.value(),
       initialValue: const [
         TestValueModelRawCollection({
@@ -404,7 +404,7 @@ void main() {
     final localDatabase = NoSqlDatabase();
     final adapter = FirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: localDatabase,
       onInitialize: (options) => Future.value(),
     );
     final query = CollectionModelQuery("test", adapter: adapter);
@@ -445,7 +445,7 @@ void main() {
     final localDatabase = NoSqlDatabase();
     final adapter = FirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: localDatabase,
       onInitialize: (options) => Future.value(),
       initialValue: const [
         UserValueModelRawCollection({

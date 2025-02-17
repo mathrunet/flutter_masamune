@@ -44,15 +44,15 @@ void main() {
   test("listenableAndNormalFirestoreModelAdapter.saveAndLoadAndDeleteOnDoc",
       () async {
     final firestore = FakeFirebaseFirestore();
-    final localDatabase = NoSqlDatabase();
+    final runtimeDatabase = NoSqlDatabase();
     final adapter = FirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: runtimeDatabase,
       onInitialize: (options) => Future.value(),
     );
     final listenableAdapter = ListenableFirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: runtimeDatabase,
       onInitialize: (options) => Future.value(),
     );
     final query = DocumentModelQuery("test/doc", adapter: adapter);
@@ -162,15 +162,15 @@ void main() {
       "listenableAndNormalFirestoreModelAdapter.saveAndLoadAndDeleteOnCollection",
       () async {
     final firestore = FakeFirebaseFirestore();
-    final localDatabase = NoSqlDatabase();
+    final runtimeDatabase = NoSqlDatabase();
     final adapter = FirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: runtimeDatabase,
       onInitialize: (options) => Future.value(),
     );
     final listenableAdapter = ListenableFirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: runtimeDatabase,
       onInitialize: (options) => Future.value(),
     );
     final query = CollectionModelQuery("test", adapter: adapter);

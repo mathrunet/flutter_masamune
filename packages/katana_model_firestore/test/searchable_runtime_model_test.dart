@@ -98,7 +98,7 @@ void main() {
     final localDatabase = NoSqlDatabase();
     final adapter = FirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: localDatabase,
       onInitialize: (options) => Future.value(),
     );
     final query = CollectionModelQuery(
@@ -237,7 +237,7 @@ void main() {
     final localDatabase = NoSqlDatabase();
     final adapter = FirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: localDatabase,
       onInitialize: (options) => Future.value(),
     );
     final query = CollectionModelQuery(
@@ -332,7 +332,7 @@ void main() {
     final localDatabase = NoSqlDatabase();
     final adapter = FirestoreModelAdapter(
       database: firestore,
-      localDatabase: localDatabase,
+      cachedRuntimeDatabase: localDatabase,
       onInitialize: (options) => Future.value(),
       initialValue: [rawData],
     );
