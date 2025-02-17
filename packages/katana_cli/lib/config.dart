@@ -384,6 +384,11 @@ ${showAllConfig ? """
     # https://firebase.google.com/docs/functions/locations?hl=ja
     region: asia-northeast1
   
+  # Enable Firebase Remote Config.
+  # Firebase Remote Configを有効にします。
+  remote_config:
+    enable: false
+
   # Enable Firebase Analytics and Firebase Crashlytics.
   # If you are unable to activate Analytics, please check if the "Project Settings" -> "Integration" -> "GoogleAnalytics" application is successfully linked.
   # Firebase AnalyticsとFirebase Crashlyticsを有効にします。

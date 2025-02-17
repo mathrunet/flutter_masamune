@@ -32,6 +32,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final storage = firebase.getAsMap("storage").get("enable", false);
     final hosting = firebase.getAsMap("hosting").get("enable", false);
     final messaging = firebase.getAsMap("messaging").get("enable", false);
+    final remoteConfig =
+        firebase.getAsMap("remote_config").get("enable", false);
     return projectId.isNotEmpty &&
         (firestore ||
             dataconnect ||
@@ -40,7 +42,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             logger ||
             functions ||
             hosting ||
-            messaging);
+            messaging ||
+            remoteConfig);
   }
 
   @override
@@ -83,6 +86,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final enabledHosting = hosting.get("enable", false);
     final enableActions = hosting.get("github_actions", false);
     final enabledLogger = firebase.getAsMap("logger").get("enable", false);
+    final enabledRemoteConfig =
+        firebase.getAsMap("remote_config").get("enable", false);
     if (projectId.isEmpty) {
       error(
         "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
@@ -188,6 +193,10 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "firebase_crashlytics",
           "firebase_performance",
           "masamune_logger_firebase",
+        ],
+        if (enabledRemoteConfig) ...[
+          "firebase_remote_config",
+          "masamune_model_firebase_remote_config",
         ]
       ],
     );
