@@ -117,6 +117,7 @@ class GoogleAdInterstitial
     } catch (e) {
       _loadCompleter?.completeError(e);
       _loadCompleter = null;
+      rethrow;
     } finally {
       _loadCompleter?.complete();
       _loadCompleter = null;
