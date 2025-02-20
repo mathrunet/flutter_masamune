@@ -342,6 +342,7 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
 
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: Container(
         alignment: widget.style?.alignment,
         padding:
@@ -441,10 +442,7 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
                     value: item,
                     child: Text(
                       widget.picker.labelBuilder?.call(item) ?? item.name,
-                      style: TextStyle(
-                        color:
-                            widget.style?.color ?? theme.colorScheme.onSurface,
-                      ),
+                      style: widget.enabled ? mainTextStyle : disabledTextStyle,
                     ),
                   );
                 }).toList(),
@@ -492,12 +490,20 @@ class FormEnumDropdownFieldPicker<TEnum extends Enum> {
   List<Widget> build(BuildContext context) {
     final theme = Theme.of(context);
     final visibility = Visibility.of(context);
-    final style = FormStyleScope.of(context);
+    final formStyleScope = FormStyleScope.of(context);
+    final enabled = formStyleScope?.enabled ?? true;
+    final style = formStyleScope?.style;
     final color =
         (visibility ? style?.activeColor : style?.color) ?? style?.color;
     final textStyle =
         (visibility ? style?.activeTextStyle : style?.textStyle) ??
             style?.textStyle;
+    final disabledColor =
+        (visibility ? style?.disabledColor : style?.disabledColor) ??
+            style?.disabledColor;
+    final disabledTextStyle =
+        (visibility ? style?.disabledTextStyle : style?.disabledTextStyle) ??
+            style?.disabledTextStyle;
     return values.map((item) {
       return Container(
         color: Colors.transparent,
@@ -505,11 +511,17 @@ class FormEnumDropdownFieldPicker<TEnum extends Enum> {
         child: Text(
           labelBuilder?.call(item) ?? item.name,
           softWrap: true,
-          style: textStyle?.copyWith(
-                color: color ?? theme.colorScheme.onSurface,
-              ) ??
+          style: (enabled
+                  ? textStyle?.copyWith(
+                      color: color ?? theme.colorScheme.onSurface,
+                    )
+                  : disabledTextStyle?.copyWith(
+                      color: disabledColor ?? theme.disabledColor,
+                    )) ??
               TextStyle(
-                color: color ?? theme.colorScheme.onSurface,
+                color: enabled
+                    ? (color ?? theme.colorScheme.onSurface)
+                    : (disabledColor ?? theme.disabledColor),
               ),
         ),
       );

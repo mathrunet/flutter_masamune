@@ -360,6 +360,7 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
 
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: Container(
         alignment: widget.style?.alignment,
         padding:

@@ -207,6 +207,7 @@ class _FormBuilderState<T, TValue> extends FormFieldState<T>
 
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: Container(
         decoration: decoration,
         margin: widget.style?.padding ?? const EdgeInsets.all(0),

@@ -202,6 +202,7 @@ class FormSwitch<TValue> extends FormField<bool> {
             }
             return FormStyleScope(
               style: style,
+              enabled: enabled,
               child: Padding(
                 padding: style?.padding ?? EdgeInsets.zero,
                 child: MouseRegion(

@@ -443,6 +443,7 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
 
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: NotificationListener<SizeChangedLayoutNotification>(
         onNotification: (SizeChangedLayoutNotification val) {
           WidgetsBinding.instance.scheduleFrameCallback((_) async {

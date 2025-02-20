@@ -227,6 +227,7 @@ class FormCheckbox<TValue> extends FormField<bool> {
             }
             return FormStyleScope(
               style: style,
+              enabled: enabled,
               child: MouseRegion(
                 cursor: enabled == false
                     ? SystemMouseCursors.forbidden

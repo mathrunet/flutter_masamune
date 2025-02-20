@@ -475,6 +475,7 @@ class _FormRatingBarState<TValue> extends FormFieldState<double>
     if (widget.showLabel) {
       return FormStyleScope(
         style: widget.style,
+        enabled: widget.enabled,
         child: Padding(
           padding: widget.style?.contentPadding ?? const EdgeInsets.all(0),
           child: Row(
@@ -499,6 +500,7 @@ class _FormRatingBarState<TValue> extends FormFieldState<double>
     } else {
       return FormStyleScope(
         style: widget.style,
+        enabled: widget.enabled,
         child: Padding(
           padding: widget.style?.contentPadding ?? const EdgeInsets.all(0),
           child: _build(context),

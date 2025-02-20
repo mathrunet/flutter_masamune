@@ -415,6 +415,7 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
 
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: Container(
         alignment: widget.style?.alignment,
         padding:

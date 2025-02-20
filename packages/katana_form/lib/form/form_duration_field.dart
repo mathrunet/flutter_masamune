@@ -443,6 +443,7 @@ class _FormDurationFieldState<TValue> extends State<FormDurationField<TValue>>
 
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: Container(
         alignment: widget.style?.alignment,
         padding:

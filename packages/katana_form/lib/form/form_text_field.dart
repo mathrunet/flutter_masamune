@@ -595,6 +595,7 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
 
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: _SuggestionOverlayBuilder(
         items: widget.suggestion,
         onTap: widget.onTapSuggestion,

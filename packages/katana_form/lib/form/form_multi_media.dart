@@ -437,6 +437,7 @@ class FormMultiMediaListTileDelegate extends FormMultiMediaDelegate {
   ) {
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: Padding(
         padding: widget.style?.padding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -548,6 +549,7 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
   ) {
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: FormStyleContainer(
         style: widget.style,
         labelText: widget.labelText,

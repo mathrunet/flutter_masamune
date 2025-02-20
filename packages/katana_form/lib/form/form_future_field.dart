@@ -398,6 +398,7 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
 
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: Container(
         alignment: widget.style?.alignment,
         padding:

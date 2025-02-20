@@ -417,6 +417,7 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
 
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: Container(
         alignment: widget.style?.alignment,
         padding:

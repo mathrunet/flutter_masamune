@@ -313,6 +313,7 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
     super.build(context);
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: Padding(
         padding:
             widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 0),

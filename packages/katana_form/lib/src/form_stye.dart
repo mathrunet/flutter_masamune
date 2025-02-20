@@ -448,6 +448,7 @@ class FormStyleScope extends InheritedWidget {
     super.key,
     required this.style,
     required super.child,
+    this.enabled = true,
   });
 
   /// [FormStyle] to be inherited.
@@ -455,11 +456,16 @@ class FormStyleScope extends InheritedWidget {
   /// 継承する[FormStyle]。
   final FormStyle? style;
 
+  /// Whether the form is enabled.
+  ///
+  /// フォームが有効かどうか。
+  final bool enabled;
+
   /// Get the [FormStyleScope] from the context.
   ///
   /// [context]に[BuildContext]が渡されます。
-  static FormStyle? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<FormStyleScope>()?.style;
+  static FormStyleScope? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<FormStyleScope>();
   }
 
   @override

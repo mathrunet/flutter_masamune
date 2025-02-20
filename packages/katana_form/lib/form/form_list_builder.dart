@@ -242,6 +242,7 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
     final value = this.value;
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: Padding(
         padding: widget.style?.padding ?? const EdgeInsets.all(0),
         child: Column(

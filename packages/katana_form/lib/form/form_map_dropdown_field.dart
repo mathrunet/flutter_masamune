@@ -339,6 +339,7 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
 
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: Container(
         alignment: widget.style?.alignment,
         padding:
@@ -512,12 +513,20 @@ class FormMapDropdownFieldPicker {
     final keys = data.keys.toList();
     final theme = Theme.of(context);
     final visibility = Visibility.of(context);
-    final style = FormStyleScope.of(context);
+    final formStyleScope = FormStyleScope.of(context);
+    final style = formStyleScope?.style;
+    final enabled = formStyleScope?.enabled ?? true;
     final color =
         (visibility ? style?.activeColor : style?.color) ?? style?.color;
     final textStyle =
         (visibility ? style?.activeTextStyle : style?.textStyle) ??
             style?.textStyle;
+    final disabledColor =
+        (visibility ? style?.disabledColor : style?.disabledColor) ??
+            style?.disabledColor;
+    final disabledTextStyle =
+        (visibility ? style?.disabledTextStyle : style?.disabledTextStyle) ??
+            style?.disabledTextStyle;
     return keys.map((key) {
       return Container(
         color: Colors.transparent,
@@ -525,11 +534,17 @@ class FormMapDropdownFieldPicker {
         child: Text(
           labelBuilder?.call(data[key]) ?? data[key] ?? "",
           softWrap: true,
-          style: textStyle?.copyWith(
-                color: color ?? theme.colorScheme.onSurface,
-              ) ??
+          style: (enabled
+                  ? textStyle?.copyWith(
+                      color: color ?? theme.colorScheme.onSurface,
+                    )
+                  : disabledTextStyle?.copyWith(
+                      color: disabledColor ?? theme.disabledColor,
+                    )) ??
               TextStyle(
-                color: color ?? theme.colorScheme.onSurface,
+                color: enabled
+                    ? (color ?? theme.colorScheme.onSurface)
+                    : (disabledColor ?? theme.disabledColor),
               ),
         ),
       );

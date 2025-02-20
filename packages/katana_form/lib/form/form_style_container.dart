@@ -270,6 +270,7 @@ class _FormStyleContainerState extends State<FormStyleContainer> {
 
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: Container(
         width: widget.width ?? widget.style?.width,
         height: widget.height ?? widget.style?.height,

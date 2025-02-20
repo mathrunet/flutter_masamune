@@ -123,6 +123,7 @@ class FormButton extends StatelessWidget {
 
     return FormStyleScope(
       style: style,
+      enabled: enabled,
       child: Container(
         alignment: style?.alignment,
         padding: style?.padding ??

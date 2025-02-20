@@ -223,6 +223,7 @@ class FormPinField<TValue> extends FormField<String> {
 
             return FormStyleScope(
               style: style,
+              enabled: enabled,
               child: Container(
                 alignment: style?.alignment,
                 padding:

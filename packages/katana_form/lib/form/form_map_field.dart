@@ -405,6 +405,7 @@ class _FormMapFieldState<TValue> extends State<FormMapField<TValue>>
 
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: Container(
         alignment: widget.style?.alignment,
         padding:

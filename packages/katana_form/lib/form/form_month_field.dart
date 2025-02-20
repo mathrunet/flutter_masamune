@@ -454,6 +454,7 @@ class _FormMonthFieldState<TValue> extends State<FormMonthField<TValue>>
 
     return FormStyleScope(
       style: widget.style,
+      enabled: widget.enabled,
       child: Container(
         alignment: widget.style?.alignment,
         padding:
