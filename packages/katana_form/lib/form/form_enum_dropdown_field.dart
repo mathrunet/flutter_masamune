@@ -283,6 +283,12 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
               widget.style?.color?.withValues(alpha: 0.5) ??
               theme.textTheme.titleMedium?.color?.withValues(alpha: 0.5),
         );
+    final dropdownTextStyle = widget.style?.textStyle?.copyWith(
+          color: widget.style?.color,
+        ) ??
+        TextStyle(
+          color: widget.style?.color ?? theme.textTheme.titleMedium?.color,
+        );
     final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
           color: widget.style?.errorColor,
         ) ??
@@ -380,6 +386,8 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                   fillColor: activeBackgroundColor,
                   filled: activeBackgroundColor != null,
+                  // hoverColor: activeBackgroundColor,
+                  // focusColor: activeBackgroundColor,
                   isDense: true,
                   border: widget.style?.border ?? borderSide,
                   enabledBorder: widget.style?.border ?? borderSide,
@@ -421,7 +429,7 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
                   errorStyle: errorTextStyle,
                 ).copyWith(errorText: errorText),
                 focusNode: widget.focusNode,
-                focusColor: Colors.transparent,
+                // focusColor: Colors.transparent,
                 value: widget.initialValue,
                 onChanged: widget.enabled ? (value) => didChange(value) : null,
                 elevation: widget.style?.elevation.toInt() ?? 8,
@@ -442,7 +450,9 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
                     value: item,
                     child: Text(
                       widget.picker.labelBuilder?.call(item) ?? item.name,
-                      style: widget.enabled ? mainTextStyle : disabledTextStyle,
+                      style: widget.enabled
+                          ? dropdownTextStyle
+                          : disabledTextStyle,
                     ),
                   );
                 }).toList(),
@@ -505,8 +515,7 @@ class FormEnumDropdownFieldPicker<TEnum extends Enum> {
         (visibility ? style?.disabledTextStyle : style?.disabledTextStyle) ??
             style?.disabledTextStyle;
     return values.map((item) {
-      return Container(
-        color: Colors.transparent,
+      return Align(
         alignment: Alignment.centerLeft,
         child: Text(
           labelBuilder?.call(item) ?? item.name,

@@ -280,6 +280,12 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
               widget.style?.color?.withValues(alpha: 0.5) ??
               theme.textTheme.titleMedium?.color?.withValues(alpha: 0.5),
         );
+    final dropdownTextStyle = widget.style?.textStyle?.copyWith(
+          color: widget.style?.color,
+        ) ??
+        TextStyle(
+          color: widget.style?.color ?? theme.textTheme.titleMedium?.color,
+        );
     final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
           color: widget.style?.errorColor,
         ) ??
@@ -424,7 +430,7 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
                   }
                   return widget.validator?.call(value);
                 },
-                focusColor: Colors.transparent,
+                // focusColor: Colors.transparent,
                 onChanged: widget.enabled ? (value) => didChange(value) : null,
                 elevation: widget.style?.elevation.toInt() ?? 8,
                 style: widget.enabled ? mainTextStyle : disabledTextStyle,
@@ -445,10 +451,9 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
                     child: Text(
                       value,
                       softWrap: true,
-                      style: TextStyle(
-                        color:
-                            widget.style?.color ?? theme.colorScheme.onSurface,
-                      ),
+                      style: widget.enabled
+                          ? dropdownTextStyle
+                          : disabledTextStyle,
                     ),
                   );
                 }).toList(),
@@ -528,8 +533,7 @@ class FormMapDropdownFieldPicker {
         (visibility ? style?.disabledTextStyle : style?.disabledTextStyle) ??
             style?.disabledTextStyle;
     return keys.map((key) {
-      return Container(
-        color: Colors.transparent,
+      return Align(
         alignment: Alignment.centerLeft,
         child: Text(
           labelBuilder?.call(data[key]) ?? data[key] ?? "",
