@@ -105,6 +105,7 @@ class FormButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final backgroundColor =
         style?.backgroundColor ?? Theme.of(context).primaryColor;
     final disabledBackgroundColor =
@@ -115,8 +116,12 @@ class FormButton extends StatelessWidget {
         style?.color ?? Theme.of(context).colorScheme.onSurface;
     final textStyle = style?.textStyle?.copyWith(
           color: enabled ? foregroundColor : disabledForegroundColor,
+          fontFamily: theme.textTheme.bodyMedium?.fontFamily,
         ) ??
-        TextStyle(color: enabled ? foregroundColor : disabledForegroundColor);
+        TextStyle(
+          color: enabled ? foregroundColor : disabledForegroundColor,
+          fontFamily: theme.textTheme.bodyMedium?.fontFamily,
+        );
     final borderColor = style?.borderColor ?? foregroundColor;
     final activeColor =
         style?.activeColor ?? foregroundColor.withValues(alpha: 0.5);
