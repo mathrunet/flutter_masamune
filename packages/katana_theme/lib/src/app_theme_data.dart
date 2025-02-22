@@ -486,21 +486,22 @@ class AppThemeData {
                     onSurface,
               ),
         text = TextThemeData._(
-          displayLarge: displayLarge,
-          displayMedium: displayMedium,
-          displaySmall: displaySmall,
-          headlineLarge: headlineLarge,
-          headlineMedium: headlineMedium,
-          headlineSmall: headlineSmall,
-          titleLarge: titleLarge,
-          titleMedium: titleMedium,
-          titleSmall: titleSmall,
-          bodyLarge: bodyLarge,
-          bodyMedium: bodyMedium,
-          bodySmall: bodySmall,
-          labelLarge: labelLarge,
-          labelMedium: labelMedium,
-          labelSmall: labelSmall,
+          displayLarge: displayLarge.copyWith(fontFamily: defaultFontFamily),
+          displayMedium: displayMedium.copyWith(fontFamily: defaultFontFamily),
+          displaySmall: displaySmall.copyWith(fontFamily: defaultFontFamily),
+          headlineLarge: headlineLarge.copyWith(fontFamily: defaultFontFamily),
+          headlineMedium:
+              headlineMedium.copyWith(fontFamily: defaultFontFamily),
+          headlineSmall: headlineSmall.copyWith(fontFamily: defaultFontFamily),
+          titleLarge: titleLarge.copyWith(fontFamily: defaultFontFamily),
+          titleMedium: titleMedium.copyWith(fontFamily: defaultFontFamily),
+          titleSmall: titleSmall.copyWith(fontFamily: defaultFontFamily),
+          bodyLarge: bodyLarge.copyWith(fontFamily: defaultFontFamily),
+          bodyMedium: bodyMedium.copyWith(fontFamily: defaultFontFamily),
+          bodySmall: bodySmall.copyWith(fontFamily: defaultFontFamily),
+          labelLarge: labelLarge.copyWith(fontFamily: defaultFontFamily),
+          labelMedium: labelMedium.copyWith(fontFamily: defaultFontFamily),
+          labelSmall: labelSmall.copyWith(fontFamily: defaultFontFamily),
           fontSizeFactor: fontSizeFactor,
           fontSizeDelta: fontSizeDelta,
           defaultFontFamily: defaultFontFamily,
@@ -1304,47 +1305,34 @@ class AppThemeData {
           onInverseSurface: color.onInverseSurface,
         );
         final textTheme = theme.textTheme.copyWith(
-          displayLarge:
-              text.displayLarge.copyWith(fontFamily: text.defaultFontFamily),
-          displayMedium:
-              text.displayMedium.copyWith(fontFamily: text.defaultFontFamily),
-          displaySmall:
-              text.displaySmall.copyWith(fontFamily: text.defaultFontFamily),
-          headlineLarge:
-              text.headlineLarge.copyWith(fontFamily: text.defaultFontFamily),
-          headlineMedium:
-              text.headlineMedium.copyWith(fontFamily: text.defaultFontFamily),
-          headlineSmall:
-              text.headlineSmall.copyWith(fontFamily: text.defaultFontFamily),
-          titleLarge:
-              text.titleLarge.copyWith(fontFamily: text.defaultFontFamily),
-          titleMedium:
-              text.titleMedium.copyWith(fontFamily: text.defaultFontFamily),
-          titleSmall:
-              text.titleSmall.copyWith(fontFamily: text.defaultFontFamily),
-          bodyLarge:
-              text.bodyLarge.copyWith(fontFamily: text.defaultFontFamily),
-          bodyMedium:
-              text.bodyMedium.copyWith(fontFamily: text.defaultFontFamily),
-          bodySmall:
-              text.bodySmall.copyWith(fontFamily: text.defaultFontFamily),
-          labelLarge:
-              text.labelLarge.copyWith(fontFamily: text.defaultFontFamily),
-          labelMedium:
-              text.labelMedium.copyWith(fontFamily: text.defaultFontFamily),
-          labelSmall:
-              text.labelSmall.copyWith(fontFamily: text.defaultFontFamily),
+          displayLarge: text.displayLarge,
+          displayMedium: text.displayMedium,
+          displaySmall: text.displaySmall,
+          headlineLarge: text.headlineLarge,
+          headlineMedium: text.headlineMedium,
+          headlineSmall: text.headlineSmall,
+          titleLarge: text.titleLarge,
+          titleMedium: text.titleMedium,
+          titleSmall: text.titleSmall,
+          bodyLarge: text.bodyLarge,
+          bodyMedium: text.bodyMedium,
+          bodySmall: text.bodySmall,
+          labelLarge: text.labelLarge,
+          labelMedium: text.labelMedium,
+          labelSmall: text.labelSmall,
         );
         final appBarForegroundColor = color.onAppBarColor ?? color.onBackground;
         return ThemeData(
           fontFamily: defaultFontFamily,
+          fontFamilyFallback:
+              defaultFontFamily != null ? [defaultFontFamily] : null,
           useMaterial3: useMaterial3,
           platform: platform,
           splashColor: color.splashColor,
           canvasColor: color.canvas,
           scaffoldBackgroundColor: color.scaffoldBackgroundColor,
           textTheme: textTheme.apply(
-            fontFamily: text.defaultFontFamily,
+            fontFamily: defaultFontFamily,
             bodyColor: color.onBackground,
             displayColor: color.onBackground,
             fontSizeFactor: text.fontSizeFactor,
@@ -1365,10 +1353,12 @@ class AppThemeData {
                 TextStyle(
                   color: appBarForegroundColor,
                   decorationColor: appBarForegroundColor,
+                  fontFamily: defaultFontFamily,
                 ),
             titleTextStyle: theme.appBarTheme.titleTextStyle?.copyWith(
                   color: appBarForegroundColor,
                   decorationColor: appBarForegroundColor,
+                  fontFamily: defaultFontFamily,
                 ) ??
                 text.titleLarge.copyWith(color: appBarForegroundColor),
             iconTheme: theme.appBarTheme.iconTheme?.copyWith(
@@ -1393,14 +1383,22 @@ class AppThemeData {
           ),
           dialogTheme: theme.dialogTheme.copyWith(
             iconColor: color.onDialogColor ?? color.onSurface,
-            titleTextStyle: theme.dialogTheme.titleTextStyle
-                    ?.withColor(color.onDialogColor ?? color.onSurface) ??
-                text.headlineSmall
-                    .withColor(color.onDialogColor ?? color.onSurface),
-            contentTextStyle: theme.dialogTheme.contentTextStyle
-                    ?.withColor(color.onDialogColor ?? color.onSurface) ??
-                text.bodyMedium
-                    .withColor(color.onDialogColor ?? color.onSurface),
+            titleTextStyle: theme.dialogTheme.titleTextStyle?.copyWith(
+                  color: color.onDialogColor ?? color.onSurface,
+                  fontFamily: defaultFontFamily,
+                ) ??
+                text.headlineSmall.copyWith(
+                  color: color.onDialogColor ?? color.onSurface,
+                  fontFamily: defaultFontFamily,
+                ),
+            contentTextStyle: theme.dialogTheme.contentTextStyle?.copyWith(
+                  color: color.onDialogColor ?? color.onSurface,
+                  fontFamily: defaultFontFamily,
+                ) ??
+                text.bodyMedium.copyWith(
+                  color: color.onDialogColor ?? color.onSurface,
+                  fontFamily: defaultFontFamily,
+                ),
             backgroundColor: color.dialogColor ?? color.surface,
             surfaceTintColor: color.dialogColor ?? color.surface,
           ),
@@ -1417,43 +1415,60 @@ class AppThemeData {
             labelStyle: theme.chipTheme.labelStyle?.copyWith(
                   color: color.onSurface,
                   decorationColor: color.onSurface,
+                  fontFamily: defaultFontFamily,
                 ) ??
                 TextStyle(
                   color: color.onSurface,
                   decorationColor: color.onSurface,
+                  fontFamily: defaultFontFamily,
                 ),
             secondaryLabelStyle: theme.chipTheme.secondaryLabelStyle?.copyWith(
-                    color: color.onSurface, decorationColor: color.onSurface) ??
+                  color: color.onSurface,
+                  decorationColor: color.onSurface,
+                  fontFamily: defaultFontFamily,
+                ) ??
                 TextStyle(
-                    color: color.onSurface, decorationColor: color.onSurface),
+                  color: color.onSurface,
+                  decorationColor: color.onSurface,
+                  fontFamily: defaultFontFamily,
+                ),
             deleteIconColor: color.onSurface,
           ),
           inputDecorationTheme: theme.inputDecorationTheme.copyWith(
             labelStyle: TextStyle(
               color: color.weak,
               decorationColor: color.weak,
+              fontFamily: defaultFontFamily,
             ),
             helperStyle: TextStyle(
               color: color.weak,
               decorationColor: color.weak,
+              fontFamily: defaultFontFamily,
             ),
             hintStyle: TextStyle(
               color: color.weak,
               decorationColor: color.weak,
+              fontFamily: defaultFontFamily,
             ),
             counterStyle: TextStyle(
               color: color.weak,
               decorationColor: color.weak,
+              fontFamily: defaultFontFamily,
             ),
-            errorStyle:
-                TextStyle(color: color.error, decorationColor: color.error),
+            errorStyle: TextStyle(
+              color: color.error,
+              decorationColor: color.error,
+              fontFamily: defaultFontFamily,
+            ),
             prefixStyle: TextStyle(
               color: color.onBackground,
               decorationColor: color.onBackground,
+              fontFamily: defaultFontFamily,
             ),
             suffixStyle: TextStyle(
               color: color.onBackground,
               decorationColor: color.onBackground,
+              fontFamily: defaultFontFamily,
             ),
             border: OutlineInputBorder(
               borderSide: BorderSide(color: color.weak, width: 2),
@@ -1535,40 +1550,27 @@ class AppThemeData {
           onInverseSurface: color.onInverseSurface,
         );
         final textTheme = theme.textTheme.copyWith(
-          displayLarge:
-              text.displayLarge.copyWith(fontFamily: text.defaultFontFamily),
-          displayMedium:
-              text.displayMedium.copyWith(fontFamily: text.defaultFontFamily),
-          displaySmall:
-              text.displaySmall.copyWith(fontFamily: text.defaultFontFamily),
-          headlineLarge:
-              text.headlineLarge.copyWith(fontFamily: text.defaultFontFamily),
-          headlineMedium:
-              text.headlineMedium.copyWith(fontFamily: text.defaultFontFamily),
-          headlineSmall:
-              text.headlineSmall.copyWith(fontFamily: text.defaultFontFamily),
-          titleLarge:
-              text.titleLarge.copyWith(fontFamily: text.defaultFontFamily),
-          titleMedium:
-              text.titleMedium.copyWith(fontFamily: text.defaultFontFamily),
-          titleSmall:
-              text.titleSmall.copyWith(fontFamily: text.defaultFontFamily),
-          bodyLarge:
-              text.bodyLarge.copyWith(fontFamily: text.defaultFontFamily),
-          bodyMedium:
-              text.bodyMedium.copyWith(fontFamily: text.defaultFontFamily),
-          bodySmall:
-              text.bodySmall.copyWith(fontFamily: text.defaultFontFamily),
-          labelLarge:
-              text.labelLarge.copyWith(fontFamily: text.defaultFontFamily),
-          labelMedium:
-              text.labelMedium.copyWith(fontFamily: text.defaultFontFamily),
-          labelSmall:
-              text.labelSmall.copyWith(fontFamily: text.defaultFontFamily),
+          displayLarge: text.displayLarge,
+          displayMedium: text.displayMedium,
+          displaySmall: text.displaySmall,
+          headlineLarge: text.headlineLarge,
+          headlineMedium: text.headlineMedium,
+          headlineSmall: text.headlineSmall,
+          titleLarge: text.titleLarge,
+          titleMedium: text.titleMedium,
+          titleSmall: text.titleSmall,
+          bodyLarge: text.bodyLarge,
+          bodyMedium: text.bodyMedium,
+          bodySmall: text.bodySmall,
+          labelLarge: text.labelLarge,
+          labelMedium: text.labelMedium,
+          labelSmall: text.labelSmall,
         );
         final appBarForegroundColor = color.onAppBarColor ?? color.onBackground;
         return ThemeData(
           fontFamily: defaultFontFamily,
+          fontFamilyFallback:
+              defaultFontFamily != null ? [defaultFontFamily] : null,
           useMaterial3: useMaterial3,
           platform: platform,
           splashColor: color.splashColor,
@@ -1583,18 +1585,22 @@ class AppThemeData {
             toolbarTextStyle: theme.appBarTheme.toolbarTextStyle?.copyWith(
                   color: appBarForegroundColor,
                   decorationColor: appBarForegroundColor,
+                  fontFamily: defaultFontFamily,
                 ) ??
                 TextStyle(
                   color: appBarForegroundColor,
                   decorationColor: appBarForegroundColor,
+                  fontFamily: defaultFontFamily,
                 ),
             titleTextStyle: theme.appBarTheme.titleTextStyle?.copyWith(
                   color: appBarForegroundColor,
                   decorationColor: appBarForegroundColor,
+                  fontFamily: defaultFontFamily,
                 ) ??
                 text.titleLarge.copyWith(
                   color: appBarForegroundColor,
                   decorationColor: appBarForegroundColor,
+                  fontFamily: defaultFontFamily,
                 ),
             iconTheme: theme.appBarTheme.iconTheme?.copyWith(
                   color: appBarForegroundColor,
@@ -1619,19 +1625,27 @@ class AppThemeData {
           iconTheme: theme.iconTheme.copyWith(color: color.onBackground),
           dialogTheme: theme.dialogTheme.copyWith(
             iconColor: color.onDialogColor ?? color.onSurface,
-            titleTextStyle: theme.dialogTheme.titleTextStyle
-                    ?.withColor(color.onDialogColor ?? color.onSurface) ??
-                text.headlineSmall
-                    .withColor(color.onDialogColor ?? color.onSurface),
-            contentTextStyle: theme.dialogTheme.contentTextStyle
-                    ?.withColor(color.onDialogColor ?? color.onSurface) ??
-                text.bodyMedium
-                    .withColor(color.onDialogColor ?? color.onSurface),
+            titleTextStyle: theme.dialogTheme.titleTextStyle?.copyWith(
+                  color: color.onDialogColor ?? color.onSurface,
+                  fontFamily: defaultFontFamily,
+                ) ??
+                text.headlineSmall.copyWith(
+                  color: color.onDialogColor ?? color.onSurface,
+                  fontFamily: defaultFontFamily,
+                ),
+            contentTextStyle: theme.dialogTheme.contentTextStyle?.copyWith(
+                  color: color.onDialogColor ?? color.onSurface,
+                  fontFamily: defaultFontFamily,
+                ) ??
+                text.bodyMedium.copyWith(
+                  color: color.onDialogColor ?? color.onSurface,
+                  fontFamily: defaultFontFamily,
+                ),
             backgroundColor: color.dialogColor ?? color.surface,
             surfaceTintColor: color.dialogColor ?? color.surface,
           ),
           textTheme: textTheme.apply(
-            fontFamily: text.defaultFontFamily,
+            fontFamily: defaultFontFamily,
             bodyColor: color.onBackground,
             displayColor: color.onBackground,
             fontSizeFactor: text.fontSizeFactor,
@@ -1650,18 +1664,22 @@ class AppThemeData {
             labelStyle: theme.chipTheme.labelStyle?.copyWith(
                   color: color.onSurface,
                   decorationColor: color.onSurface,
+                  fontFamily: defaultFontFamily,
                 ) ??
                 TextStyle(
                   color: color.onSurface,
                   decorationColor: color.onSurface,
+                  fontFamily: defaultFontFamily,
                 ),
             secondaryLabelStyle: theme.chipTheme.secondaryLabelStyle?.copyWith(
                   color: color.onSurface,
                   decorationColor: color.onSurface,
+                  fontFamily: defaultFontFamily,
                 ) ??
                 TextStyle(
                   color: color.onSurface,
                   decorationColor: color.onSurface,
+                  fontFamily: defaultFontFamily,
                 ),
             deleteIconColor: color.onSurface,
           ),
@@ -1676,20 +1694,41 @@ class AppThemeData {
             foregroundColor: color.onBackground,
           )),
           inputDecorationTheme: theme.inputDecorationTheme.copyWith(
-            labelStyle:
-                TextStyle(color: color.weak, decorationColor: color.weak),
-            helperStyle:
-                TextStyle(color: color.weak, decorationColor: color.weak),
-            hintStyle:
-                TextStyle(color: color.weak, decorationColor: color.weak),
-            counterStyle:
-                TextStyle(color: color.weak, decorationColor: color.weak),
-            errorStyle:
-                TextStyle(color: color.error, decorationColor: color.error),
+            labelStyle: TextStyle(
+              color: color.weak,
+              decorationColor: color.weak,
+              fontFamily: defaultFontFamily,
+            ),
+            helperStyle: TextStyle(
+              color: color.weak,
+              decorationColor: color.weak,
+              fontFamily: defaultFontFamily,
+            ),
+            hintStyle: TextStyle(
+              color: color.weak,
+              decorationColor: color.weak,
+              fontFamily: defaultFontFamily,
+            ),
+            counterStyle: TextStyle(
+              color: color.weak,
+              decorationColor: color.weak,
+              fontFamily: defaultFontFamily,
+            ),
+            errorStyle: TextStyle(
+              color: color.error,
+              decorationColor: color.error,
+              fontFamily: defaultFontFamily,
+            ),
             prefixStyle: TextStyle(
-                color: color.onBackground, decorationColor: color.onBackground),
+              color: color.onBackground,
+              decorationColor: color.onBackground,
+              fontFamily: defaultFontFamily,
+            ),
             suffixStyle: TextStyle(
-                color: color.onBackground, decorationColor: color.onBackground),
+              color: color.onBackground,
+              decorationColor: color.onBackground,
+              fontFamily: defaultFontFamily,
+            ),
             border: OutlineInputBorder(
               borderSide: BorderSide(color: color.weak, width: 2),
             ),
