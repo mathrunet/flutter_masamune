@@ -255,6 +255,16 @@ class LocalNotification extends MasamuneControllerBase<NotificationValue,
     }
   }
 
+  /// Check if a schedule exists.
+  ///
+  /// スケジュールが存在するかどうかを確認します。
+  Future<bool> hasSchedule(String uid) async {
+    final modelQuery = LocalNotificationScheduleModel.collection().modelQuery;
+    final col = LocalNotificationScheduleModelCollection(modelQuery);
+    await col.load();
+    return col.firstWhereOrNull((e) => e.uid == uid) != null;
+  }
+
   /// Remove all schedules.
   ///
   /// すべてのスケジュールを削除します。
