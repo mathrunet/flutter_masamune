@@ -124,44 +124,52 @@ abstract class Modal {
       clicked = true;
     });
 
-    final foregroundColor = color ??
-        Theme.of(context).dialogTheme.iconColor ??
-        Theme.of(context).colorScheme.onSurface;
-    backgroundColor ??= Theme.of(context).dialogTheme.backgroundColor ??
-        Theme.of(context).colorScheme.surface;
+    final theme = Theme.of(context);
+    final foregroundColor =
+        color ?? theme.dialogTheme.iconColor ?? theme.colorScheme.onSurface;
+    backgroundColor ??=
+        theme.dialogTheme.backgroundColor ?? theme.colorScheme.surface;
     do {
       await showDialog(
         context: overlay.context,
         barrierDismissible: false,
         builder: (context) {
-          return PopScope(
-            canPop: !disableBackKey,
-            child: SimpleDialog(
-              contentPadding: contentPadding,
-              alignment: alignment,
-              title: title != null
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        if (leading != null) ...[
-                          leading,
-                          const SizedBox(width: 8),
-                        ],
-                        Expanded(
-                          child: Text(
-                            title,
-                            style: TextStyle(
-                              color: foregroundColor,
+          return Theme(
+            data: theme.copyWith(
+              dialogTheme: theme.dialogTheme.copyWith(
+                backgroundColor: backgroundColor,
+                iconColor: foregroundColor,
+              ),
+            ),
+            child: PopScope(
+              canPop: !disableBackKey,
+              child: SimpleDialog(
+                contentPadding: contentPadding,
+                alignment: alignment,
+                title: title != null
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          if (leading != null) ...[
+                            leading,
+                            const SizedBox(width: 8),
+                          ],
+                          Expanded(
+                            child: Text(
+                              title,
+                              style: TextStyle(
+                                color: foregroundColor,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    )
-                  : null,
-              backgroundColor: backgroundColor,
-              surfaceTintColor: backgroundColor,
-              children: [modal.build(context, ref)],
+                        ],
+                      )
+                    : null,
+                backgroundColor: backgroundColor,
+                surfaceTintColor: backgroundColor,
+                children: [modal.build(context, ref)],
+              ),
             ),
           );
         },
@@ -229,60 +237,69 @@ abstract class Modal {
     if (overlay == null) {
       return;
     }
-    final foregroundColor = color ??
-        Theme.of(context).dialogTheme.iconColor ??
-        Theme.of(context).colorScheme.onSurface;
-    backgroundColor ??= Theme.of(context).dialogTheme.backgroundColor ??
-        Theme.of(context).colorScheme.surface;
+    final theme = Theme.of(context);
+    final foregroundColor =
+        color ?? theme.dialogTheme.iconColor ?? theme.colorScheme.onSurface;
+    backgroundColor ??=
+        theme.dialogTheme.backgroundColor ?? theme.colorScheme.surface;
+
     do {
       await showDialog(
         context: overlay.context,
         barrierDismissible: false,
         builder: (context) {
-          return PopScope(
-            canPop: !disableBackKey,
-            child: AlertDialog(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (leading != null) ...[
-                    leading,
-                    const SizedBox(width: 8),
-                  ],
-                  Expanded(
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        color: foregroundColor,
+          return Theme(
+            data: theme.copyWith(
+              dialogTheme: theme.dialogTheme.copyWith(
+                backgroundColor: backgroundColor,
+                iconColor: foregroundColor,
+              ),
+            ),
+            child: PopScope(
+              canPop: !disableBackKey,
+              child: AlertDialog(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    if (leading != null) ...[
+                      leading,
+                      const SizedBox(width: 8),
+                    ],
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          color: foregroundColor,
+                        ),
                       ),
                     ),
+                  ],
+                ),
+                content: SingleChildScrollView(
+                  child: DefaultTextStyle(
+                    style: TextStyle(
+                      color: foregroundColor,
+                    ),
+                    child: child ?? Text(text ?? ""),
                   ),
+                ),
+                backgroundColor: backgroundColor,
+                surfaceTintColor: backgroundColor,
+                actions: <Widget>[
+                  TextButton(
+                    style: buttonStyle,
+                    onPressed: () {
+                      if (popOnPress) {
+                        Navigator.of(context, rootNavigator: true).pop();
+                      }
+                      onSubmit?.call();
+                      clicked = true;
+                    },
+                    child: Text(submitText),
+                  )
                 ],
               ),
-              content: SingleChildScrollView(
-                child: DefaultTextStyle(
-                  style: TextStyle(
-                    color: foregroundColor,
-                  ),
-                  child: child ?? Text(text ?? ""),
-                ),
-              ),
-              backgroundColor: backgroundColor,
-              surfaceTintColor: backgroundColor,
-              actions: <Widget>[
-                TextButton(
-                  style: buttonStyle,
-                  onPressed: () {
-                    if (popOnPress) {
-                      Navigator.of(context, rootNavigator: true).pop();
-                    }
-                    onSubmit?.call();
-                    clicked = true;
-                  },
-                  child: Text(submitText),
-                )
-              ],
             ),
           );
         },
@@ -350,71 +367,79 @@ abstract class Modal {
     if (overlay == null) {
       return state;
     }
-    final foregroundColor = color ??
-        Theme.of(context).dialogTheme.iconColor ??
-        Theme.of(context).colorScheme.onSurface;
-    backgroundColor ??= Theme.of(context).dialogTheme.backgroundColor ??
-        Theme.of(context).colorScheme.surface;
+    final theme = Theme.of(context);
+    final foregroundColor =
+        color ?? theme.dialogTheme.iconColor ?? theme.colorScheme.onSurface;
+    backgroundColor ??=
+        theme.dialogTheme.backgroundColor ?? theme.colorScheme.surface;
     do {
       await showDialog(
         context: overlay.context,
         barrierDismissible: false,
         builder: (context) {
-          return AlertDialog(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if (leading != null) ...[
-                  leading,
-                  const SizedBox(width: 8),
-                ],
-                Expanded(
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                      color: foregroundColor,
+          return Theme(
+            data: theme.copyWith(
+              dialogTheme: theme.dialogTheme.copyWith(
+                backgroundColor: backgroundColor,
+                iconColor: foregroundColor,
+              ),
+            ),
+            child: AlertDialog(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (leading != null) ...[
+                    leading,
+                    const SizedBox(width: 8),
+                  ],
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        color: foregroundColor,
+                      ),
                     ),
                   ),
+                ],
+              ),
+              content: SingleChildScrollView(
+                child: DefaultTextStyle(
+                  style: TextStyle(
+                    color: foregroundColor,
+                  ),
+                  child: child ?? Text(text ?? ""),
                 ),
+              ),
+              backgroundColor: backgroundColor,
+              surfaceTintColor: backgroundColor,
+              actions: <Widget>[
+                TextButton(
+                  style: cancelButtonStyle,
+                  onPressed: () {
+                    if (popOnPress) {
+                      Navigator.of(context, rootNavigator: true).pop();
+                    }
+                    onCancel?.call();
+                    state = false;
+                    clicked = true;
+                  },
+                  child: Text(cancelText),
+                ),
+                TextButton(
+                  style: submitButtonStyle,
+                  onPressed: () {
+                    if (popOnPress) {
+                      Navigator.of(context, rootNavigator: true).pop();
+                    }
+                    onSubmit?.call();
+                    state = true;
+                    clicked = true;
+                  },
+                  child: Text(submitText),
+                )
               ],
             ),
-            content: SingleChildScrollView(
-              child: DefaultTextStyle(
-                style: TextStyle(
-                  color: foregroundColor,
-                ),
-                child: child ?? Text(text ?? ""),
-              ),
-            ),
-            backgroundColor: backgroundColor,
-            surfaceTintColor: backgroundColor,
-            actions: <Widget>[
-              TextButton(
-                style: cancelButtonStyle,
-                onPressed: () {
-                  if (popOnPress) {
-                    Navigator.of(context, rootNavigator: true).pop();
-                  }
-                  onCancel?.call();
-                  state = false;
-                  clicked = true;
-                },
-                child: Text(cancelText),
-              ),
-              TextButton(
-                style: submitButtonStyle,
-                onPressed: () {
-                  if (popOnPress) {
-                    Navigator.of(context, rootNavigator: true).pop();
-                  }
-                  onSubmit?.call();
-                  state = true;
-                  clicked = true;
-                },
-                child: Text(submitText),
-              )
-            ],
           );
         },
       );
@@ -447,11 +472,11 @@ abstract class Modal {
     if (overlay == null) {
       return;
     }
-    final foregroundColor = color ??
-        Theme.of(context).dialogTheme.iconColor ??
-        Theme.of(context).colorScheme.onSurface;
-    backgroundColor ??= Theme.of(context).dialogTheme.backgroundColor ??
-        Theme.of(context).colorScheme.surface;
+    final theme = Theme.of(context);
+    final foregroundColor =
+        color ?? theme.dialogTheme.iconColor ?? theme.colorScheme.onSurface;
+    backgroundColor ??=
+        theme.dialogTheme.backgroundColor ?? theme.colorScheme.surface;
     void onClose() {
       Navigator.of(context, rootNavigator: true).pop();
     }
@@ -462,19 +487,27 @@ abstract class Modal {
       backgroundColor: backgroundColor,
       useSafeArea: true,
       builder: (context) {
-        return ColoredBox(
-          color: backgroundColor!,
-          child: SafeArea(
-            top: false,
-            child: IconTheme(
-              data: IconThemeData(color: foregroundColor),
-              child: DefaultTextStyle(
-                style: TextStyle(color: foregroundColor),
-                child: Padding(
-                  padding: contentPadding,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: builder.call(context, onClose),
+        return Theme(
+          data: theme.copyWith(
+            dialogTheme: theme.dialogTheme.copyWith(
+              backgroundColor: backgroundColor,
+              iconColor: foregroundColor,
+            ),
+          ),
+          child: ColoredBox(
+            color: backgroundColor!,
+            child: SafeArea(
+              top: false,
+              child: IconTheme(
+                data: IconThemeData(color: foregroundColor),
+                child: DefaultTextStyle(
+                  style: TextStyle(color: foregroundColor),
+                  child: Padding(
+                    padding: contentPadding,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: builder.call(context, onClose),
+                    ),
                   ),
                 ),
               ),
