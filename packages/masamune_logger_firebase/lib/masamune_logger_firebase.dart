@@ -27,3 +27,13 @@ export 'package:katana_firebase/katana_firebase.dart';
 part 'adapters/firebase_logger_adapter.dart';
 part 'adapters/firebase_logger_masamune_adapter.dart';
 part 'src/firebase_analytics_logger_event.dart';
+
+part 'loggable/firebase_analytics_register_loggable.dart';
+part 'loggable/firebase_analytics_register_or_signin_loggable.dart';
+part 'loggable/firebase_analytics_signin_loggable.dart';
+
+part 'loggable/firebase_analytics_adshown_loggable.dart';
+part 'loggable/firebase_analytics_purchased_loggable.dart';
+part 'loggable/firebase_analytics_refund_loggable.dart';
+part 'loggable/firebase_analytics_tutorial_end_loggable.dart';
+part 'loggable/firebase_analytics_tutorial_start_loggable.dart';

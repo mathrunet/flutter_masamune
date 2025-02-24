@@ -29,4 +29,9 @@ abstract class Loggable {
   ///
   /// パラメーターを渡すためにJsonから変換することができます。
   Map<String, dynamic> toJson();
+
+  /// The name of the log.
+  ///
+  /// ログの名前。
+  String get name => runtimeType.toString();
 }

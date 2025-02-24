@@ -19,6 +19,9 @@ class AnalyticsValue with _$AnalyticsValue implements Loggable {
 
   factory AnalyticsValue.fromJson(Map<String, Object?> json) =>
       _$AnalyticsValueFromJson(json);
+
+  @override
+  String get name => runtimeType.toString();
 }
 
 void main() {

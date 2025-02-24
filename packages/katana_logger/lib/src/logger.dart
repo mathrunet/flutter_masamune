@@ -74,7 +74,7 @@ class Logger extends ChangeNotifier {
     await Future.wait(
       adapters.map(
         (adapter) => adapter.send(
-          loggable.runtimeType.toString(),
+          loggable.name,
           parameters: loggable.toJson(),
         ),
       ),

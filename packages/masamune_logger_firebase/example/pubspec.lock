@@ -592,14 +592,14 @@ packages:
       path: "../../katana_model"
       relative: true
     source: path
-    version: "2.29.5"
+    version: "2.30.0"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../../katana_model_local"
       relative: true
     source: path
-    version: "2.14.5"
+    version: "2.14.6"
   katana_prefs:
     dependency: "direct overridden"
     description:
@@ -724,7 +724,7 @@ packages:
       path: "../../masamune"
       relative: true
     source: path
-    version: "2.15.11"
+    version: "2.15.12"
   masamune_annotation:
     dependency: "direct overridden"
     description:
@@ -738,7 +738,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.2.123"
+    version: "2.2.124"
   matcher:
     dependency: transitive
     description:

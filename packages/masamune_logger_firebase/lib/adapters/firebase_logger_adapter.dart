@@ -118,14 +118,17 @@ class FirebaseLoggerAdapter extends LoggerAdapter {
       await analytics.logLogin(loginMethod: providerId);
       await analytics.setUserId(id: userId);
     } else if (name == FirebaseAnalyticsLoggerEvent.adShown.toString()) {
-      final platform =
-          parameters.get(FirebaseAnalyticsLoggerEvent.platformKey, "");
-      final source = parameters.get(FirebaseAnalyticsLoggerEvent.sourceKey, "");
-      final format = parameters.get(FirebaseAnalyticsLoggerEvent.formatKey, "");
+      final platform = parameters.get(
+          FirebaseAnalyticsLoggerEvent.platformKey, nullOfString);
+      final source =
+          parameters.get(FirebaseAnalyticsLoggerEvent.sourceKey, nullOfString);
+      final format =
+          parameters.get(FirebaseAnalyticsLoggerEvent.formatKey, nullOfString);
       final id = parameters.get(FirebaseAnalyticsLoggerEvent.idKey, "");
-      final value = parameters.get(FirebaseAnalyticsLoggerEvent.valueKey, 0.0);
-      final currency =
-          parameters.get(FirebaseAnalyticsLoggerEvent.currencyKey, "");
+      final value =
+          parameters.get(FirebaseAnalyticsLoggerEvent.valueKey, nullOfDouble);
+      final currency = parameters.get(
+          FirebaseAnalyticsLoggerEvent.currencyKey, nullOfString);
       await analytics.logAdImpression(
         adPlatform: platform,
         adSource: source,
@@ -137,11 +140,12 @@ class FirebaseLoggerAdapter extends LoggerAdapter {
     } else if (name == FirebaseAnalyticsLoggerEvent.purchased.toString()) {
       final products = parameters
           .getAsList<DynamicMap>(FirebaseAnalyticsLoggerEvent.productsKey);
-      final value = parameters.get(FirebaseAnalyticsLoggerEvent.priceKey, 0.0);
-      final currency =
-          parameters.get(FirebaseAnalyticsLoggerEvent.currencyKey, "");
-      final transactionId =
-          parameters.get(FirebaseAnalyticsLoggerEvent.transactionIdKey, "");
+      final value =
+          parameters.get(FirebaseAnalyticsLoggerEvent.priceKey, nullOfDouble);
+      final currency = parameters.get(
+          FirebaseAnalyticsLoggerEvent.currencyKey, nullOfString);
+      final transactionId = parameters.get(
+          FirebaseAnalyticsLoggerEvent.transactionIdKey, nullOfString);
       await analytics.logPurchase(
         currency: currency,
         value: value,
@@ -150,10 +154,12 @@ class FirebaseLoggerAdapter extends LoggerAdapter {
             .map(
               (e) => AnalyticsEventItem(
                 itemId: e.get(FirebaseAnalyticsLoggerEvent.idKey, ""),
-                itemName: e.get(FirebaseAnalyticsLoggerEvent.nameKey, ""),
-                itemCategory:
-                    e.get(FirebaseAnalyticsLoggerEvent.categoryKey, ""),
-                currency: e.get(FirebaseAnalyticsLoggerEvent.currencyKey, ""),
+                itemName:
+                    e.get(FirebaseAnalyticsLoggerEvent.nameKey, nullOfString),
+                itemCategory: e.get(
+                    FirebaseAnalyticsLoggerEvent.categoryKey, nullOfString),
+                currency: parameters.get(
+                    FirebaseAnalyticsLoggerEvent.currencyKey, nullOfString),
                 price: e.get(FirebaseAnalyticsLoggerEvent.priceKey, 0.0),
                 quantity: e.get(FirebaseAnalyticsLoggerEvent.quantityKey, 1),
               ),
@@ -163,11 +169,12 @@ class FirebaseLoggerAdapter extends LoggerAdapter {
     } else if (name == FirebaseAnalyticsLoggerEvent.refund.toString()) {
       final products = parameters
           .getAsList<DynamicMap>(FirebaseAnalyticsLoggerEvent.productsKey);
-      final value = parameters.get(FirebaseAnalyticsLoggerEvent.priceKey, 0.0);
-      final currency =
-          parameters.get(FirebaseAnalyticsLoggerEvent.currencyKey, "");
-      final transactionId =
-          parameters.get(FirebaseAnalyticsLoggerEvent.transactionIdKey, "");
+      final value =
+          parameters.get(FirebaseAnalyticsLoggerEvent.priceKey, nullOfDouble);
+      final currency = parameters.get(
+          FirebaseAnalyticsLoggerEvent.currencyKey, nullOfString);
+      final transactionId = parameters.get(
+          FirebaseAnalyticsLoggerEvent.transactionIdKey, nullOfString);
       await analytics.logRefund(
         currency: currency,
         value: value,
@@ -176,10 +183,12 @@ class FirebaseLoggerAdapter extends LoggerAdapter {
             .map(
               (e) => AnalyticsEventItem(
                 itemId: e.get(FirebaseAnalyticsLoggerEvent.idKey, ""),
-                itemName: e.get(FirebaseAnalyticsLoggerEvent.nameKey, ""),
-                itemCategory:
-                    e.get(FirebaseAnalyticsLoggerEvent.categoryKey, ""),
-                currency: e.get(FirebaseAnalyticsLoggerEvent.currencyKey, ""),
+                itemName:
+                    e.get(FirebaseAnalyticsLoggerEvent.nameKey, nullOfString),
+                itemCategory: e.get(
+                    FirebaseAnalyticsLoggerEvent.categoryKey, nullOfString),
+                currency: parameters.get(
+                    FirebaseAnalyticsLoggerEvent.currencyKey, nullOfString),
                 price: e.get(FirebaseAnalyticsLoggerEvent.priceKey, 0.0),
                 quantity: e.get(FirebaseAnalyticsLoggerEvent.quantityKey, 1),
               ),
