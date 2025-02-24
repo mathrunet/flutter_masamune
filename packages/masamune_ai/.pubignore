@@ -1,0 +1,28 @@
+# See https://dart.dev/tools/pub/publishing#what-files-are-published
+
+# github
+example/.github/
+
+# vscode
+example/.vscode/
+
+# firebase
+example/firebase/
+
+# document
+example/documents/
+
+# lib
+firebase_options.dart
+example/ios/
+example/android/
+example/macos/
+example/windows/
+example/web/
+example/linux/
+
+# Yaml
+pubspec_overrides.yaml
+katana.yaml
+build.yaml
+lefthook.yaml
