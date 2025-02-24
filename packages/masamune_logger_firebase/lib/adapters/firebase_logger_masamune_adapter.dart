@@ -108,6 +108,11 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   }
 
   @override
+  List<NavigatorObserver> get navigatorObservers => [
+        FirebaseAnalyticsObserver(analytics: analytics),
+      ];
+
+  @override
   List<LoggerAdapter> get loggerAdapters => [
         FirebaseLoggerAdapter(
           options: options,

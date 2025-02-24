@@ -117,6 +117,79 @@ class FirebaseLoggerAdapter extends LoggerAdapter {
       final providerId = parameters.get(AuthLoggerEvent.providerKey, "");
       await analytics.logLogin(loginMethod: providerId);
       await analytics.setUserId(id: userId);
+    } else if (name == FirebaseAnalyticsLoggerEvent.adShown.toString()) {
+      final platform =
+          parameters.get(FirebaseAnalyticsLoggerEvent.platformKey, "");
+      final source = parameters.get(FirebaseAnalyticsLoggerEvent.sourceKey, "");
+      final format = parameters.get(FirebaseAnalyticsLoggerEvent.formatKey, "");
+      final id = parameters.get(FirebaseAnalyticsLoggerEvent.idKey, "");
+      final value = parameters.get(FirebaseAnalyticsLoggerEvent.valueKey, 0.0);
+      final currency =
+          parameters.get(FirebaseAnalyticsLoggerEvent.currencyKey, "");
+      await analytics.logAdImpression(
+        adPlatform: platform,
+        adSource: source,
+        adFormat: format,
+        adUnitName: id,
+        value: value,
+        currency: currency,
+      );
+    } else if (name == FirebaseAnalyticsLoggerEvent.purchased.toString()) {
+      final products = parameters
+          .getAsList<DynamicMap>(FirebaseAnalyticsLoggerEvent.productsKey);
+      final value = parameters.get(FirebaseAnalyticsLoggerEvent.priceKey, 0.0);
+      final currency =
+          parameters.get(FirebaseAnalyticsLoggerEvent.currencyKey, "");
+      final transactionId =
+          parameters.get(FirebaseAnalyticsLoggerEvent.transactionIdKey, "");
+      await analytics.logPurchase(
+        currency: currency,
+        value: value,
+        transactionId: transactionId,
+        items: products
+            .map(
+              (e) => AnalyticsEventItem(
+                itemId: e.get(FirebaseAnalyticsLoggerEvent.idKey, ""),
+                itemName: e.get(FirebaseAnalyticsLoggerEvent.nameKey, ""),
+                itemCategory:
+                    e.get(FirebaseAnalyticsLoggerEvent.categoryKey, ""),
+                currency: e.get(FirebaseAnalyticsLoggerEvent.currencyKey, ""),
+                price: e.get(FirebaseAnalyticsLoggerEvent.priceKey, 0.0),
+                quantity: e.get(FirebaseAnalyticsLoggerEvent.quantityKey, 1),
+              ),
+            )
+            .toList(),
+      );
+    } else if (name == FirebaseAnalyticsLoggerEvent.refund.toString()) {
+      final products = parameters
+          .getAsList<DynamicMap>(FirebaseAnalyticsLoggerEvent.productsKey);
+      final value = parameters.get(FirebaseAnalyticsLoggerEvent.priceKey, 0.0);
+      final currency =
+          parameters.get(FirebaseAnalyticsLoggerEvent.currencyKey, "");
+      final transactionId =
+          parameters.get(FirebaseAnalyticsLoggerEvent.transactionIdKey, "");
+      await analytics.logRefund(
+        currency: currency,
+        value: value,
+        transactionId: transactionId,
+        items: products
+            .map(
+              (e) => AnalyticsEventItem(
+                itemId: e.get(FirebaseAnalyticsLoggerEvent.idKey, ""),
+                itemName: e.get(FirebaseAnalyticsLoggerEvent.nameKey, ""),
+                itemCategory:
+                    e.get(FirebaseAnalyticsLoggerEvent.categoryKey, ""),
+                currency: e.get(FirebaseAnalyticsLoggerEvent.currencyKey, ""),
+                price: e.get(FirebaseAnalyticsLoggerEvent.priceKey, 0.0),
+                quantity: e.get(FirebaseAnalyticsLoggerEvent.quantityKey, 1),
+              ),
+            )
+            .toList(),
+      );
+    } else if (name == FirebaseAnalyticsLoggerEvent.tutorialStart.toString()) {
+      await analytics.logTutorialBegin();
+    } else if (name == FirebaseAnalyticsLoggerEvent.tutorialEnd.toString()) {
+      await analytics.logTutorialComplete();
     }
   }
 
