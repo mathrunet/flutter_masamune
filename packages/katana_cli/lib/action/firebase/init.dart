@@ -32,6 +32,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final storage = firebase.getAsMap("storage").get("enable", false);
     final hosting = firebase.getAsMap("hosting").get("enable", false);
     final messaging = firebase.getAsMap("messaging").get("enable", false);
+    final appCheck = firebase.getAsMap("app_check").get("enable", false);
     final remoteConfig =
         firebase.getAsMap("remote_config").get("enable", false);
     return projectId.isNotEmpty &&
@@ -43,7 +44,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             functions ||
             hosting ||
             messaging ||
-            remoteConfig);
+            remoteConfig ||
+            appCheck);
   }
 
   @override
@@ -86,6 +88,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final enabledHosting = hosting.get("enable", false);
     final enableActions = hosting.get("github_actions", false);
     final enabledLogger = firebase.getAsMap("logger").get("enable", false);
+    final enabledAppCheck = firebase.getAsMap("app_check").get("enable", false);
     final enabledRemoteConfig =
         firebase.getAsMap("remote_config").get("enable", false);
     if (projectId.isEmpty) {
@@ -197,6 +200,10 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         if (enabledRemoteConfig) ...[
           "firebase_remote_config",
           "masamune_model_firebase_remote_config",
+        ],
+        if (enabledAppCheck) ...[
+          "firebase_app_check",
+          "masamune_firebase_app_check",
         ]
       ],
     );

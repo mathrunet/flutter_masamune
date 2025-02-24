@@ -54,6 +54,15 @@ abstract class MasamuneAdapter {
   /// これを`true`にした場合、[runApp]を[runZonedGuarded]でラッピングすることができます。
   bool get runZonedGuarded => false;
 
+  /// The priority of the adapter.
+  ///
+  /// 100 is the default; the lower the value, the higher the priority.
+  ///
+  /// アダプターの優先度。
+  ///
+  /// 100がデフォルトとなり、低いほど優先されます。
+  double get priority => 100.0;
+
   /// Observers can be set up to monitor transitions between pages.
   ///
   /// ページ間の遷移を監視するためのオブザーバーを設置することができます。

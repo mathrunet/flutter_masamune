@@ -388,6 +388,11 @@ ${showAllConfig ? """
   # Firebase Remote Configを有効にします。
   remote_config:
     enable: false
+  
+  # Enable Firebase App Check.
+  # Firebase App Checkを有効にします。
+  app_check:
+    enable: false
 
   # Enable Firebase Analytics and Firebase Crashlytics.
   # If you are unable to activate Analytics, please check if the "Project Settings" -> "Integration" -> "GoogleAnalytics" application is successfully linked.
