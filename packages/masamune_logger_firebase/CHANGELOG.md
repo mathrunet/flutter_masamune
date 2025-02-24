@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - **FIX**: FirebaseOptions can now be specified in detail. ([59245985](https://github.com/mathrunet/flutter_masamune/commit/59245985953b9fe7b618de4238ff750c2ec4e5cc))
+
 ## 2.4.0
 
  - **FEAT**: Added various Loggable. ([c1f9a5a3](https://github.com/mathrunet/flutter_masamune/commit/c1f9a5a38d63d52e5012e078106deed58c6c82f8))

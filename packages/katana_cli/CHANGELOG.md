@@ -1,3 +1,7 @@
+## 2.33.0
+
+ - **FEAT**: FirebaseAppCheck made available. ([897c1170](https://github.com/mathrunet/flutter_masamune/commit/897c1170b8af2105e834e55872deabc6e8bd37c7))
+
 ## 2.32.0
 
  - **FIX**: Added RemoteConfig settings. ([18431d96](https://github.com/mathrunet/flutter_masamune/commit/18431d96c67b7fd000c1271e4fa07329710aed93))
