@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Added various Loggable. ([c1f9a5a3](https://github.com/mathrunet/flutter_masamune/commit/c1f9a5a38d63d52e5012e078106deed58c6c82f8))
+
 ## 2.3.0
 
  - **FEAT**: Changed the specification of runMasamuneApp. ([d4d7a0fa](https://github.com/mathrunet/flutter_masamune/commit/d4d7a0fa7819fb6a38da308bfc1cde4fc96470e9))

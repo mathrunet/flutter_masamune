@@ -1,3 +1,7 @@
+## 2.5.28
+
+ - Update a dependency to the latest release.
+
 ## 2.5.27
 
  - **FIX**: Fixed a bug that did not output errors properly. ([d50642b6](https://github.com/mathrunet/flutter_masamune/commit/d50642b6b6ae7cf5176799369c5c27ba7b3b2474))
