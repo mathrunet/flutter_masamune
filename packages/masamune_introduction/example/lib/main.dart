@@ -49,12 +49,12 @@ final List<MasamuneAdapter> masamuneAdapters = [
 void main() {
   runMasamuneApp(
     masamuneAdapters: masamuneAdapters,
-    (adapters) => MasamuneApp(
+    (ref) => MasamuneApp(
       home: MasamuneIntroductionPage(
         routeQuery: MasamuneIntroductionPage.query(),
       ),
       title: "Flutter Demo",
-      masamuneAdapters: adapters,
+      masamuneAdapters: ref.adapters,
       theme: AppThemeData(
         primary: Colors.blue,
       ),

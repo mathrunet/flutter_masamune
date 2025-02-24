@@ -37,6 +37,17 @@ abstract class LoggerAdapter {
   ///
   /// [LoggerTraceValue.start]でログの追跡を開始して、[LoggerTraceValue.stop]で完了、保存します。
   LoggerTraceValue trace(String name);
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    if (other is LoggerAdapter) {
+      return runtimeType == other.runtimeType;
+    }
+    return false;
+  }
 }
 
 /// Place it on top of [MaterialApp], etc., and set [LoggerAdapter] for the entire app.

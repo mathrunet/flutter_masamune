@@ -24,10 +24,11 @@ const kDefaultLocales = [Locale("en", "US")];
 /// [masamuneAdapters]を渡すことでMasamune Frameworkの追加プラグインを楽に利用することができます。
 /// （[masamuneAdapters]を指定する場合は[MasamuneApp]内でも`adapters`を渡してください。）
 Future<void> runMasamuneApp(
-  MasamuneApp Function(List<MasamuneAdapter> adapters) masamuneApp, {
+  MasamuneApp Function(MasamuneRef ref) masamuneApp, {
   // TODO: 非アクティブにするが一応残しておく
   // bool setPathUrlStrategy = true,
   List<MasamuneAdapter> masamuneAdapters = const [],
+  List<LoggerAdapter> loggerAdapters = const [],
 }) async {
   // TODO: 非アクティブにするが一応残しておく
   // if (setPathUrlStrategy) {
@@ -40,7 +41,14 @@ Future<void> runMasamuneApp(
       for (final adapter in masamuneAdapters) {
         await adapter.onPreRunApp();
       }
-      runApp(masamuneApp.call(masamuneAdapters));
+      runApp(
+        masamuneApp.call(
+          MasamuneRef._(
+            adapters: masamuneAdapters,
+            loggerAdapters: loggerAdapters,
+          ),
+        ),
+      );
     }, (error, stack) {
       for (final adapter in masamuneAdapters) {
         adapter.onError(error, stack);
@@ -51,8 +59,49 @@ Future<void> runMasamuneApp(
     for (final adapter in masamuneAdapters) {
       await adapter.onPreRunApp();
     }
-    runApp(masamuneApp.call(masamuneAdapters));
+    runApp(
+      masamuneApp.call(
+        MasamuneRef._(
+          adapters: masamuneAdapters,
+          loggerAdapters: loggerAdapters,
+        ),
+      ),
+    );
   }
+}
+
+/// `runMasamuneApp`で返されるオブジェクト。
+///
+/// このオブジェクトを用いてMasamune Frameworkのアダプターを取得することができます。
+class MasamuneRef {
+  MasamuneRef._({
+    required this.adapters,
+    required List<LoggerAdapter> loggerAdapters,
+  }) : _loggerAdapters = loggerAdapters;
+
+  /// Adapters for Masamune Framework.
+  ///
+  /// Masamune Framework用のアダプター。
+  final List<MasamuneAdapter> adapters;
+
+  /// Adapters for logging.
+  ///
+  /// ロギング用のアダプター。
+  final List<LoggerAdapter> _loggerAdapters;
+
+  /// Observers can be set up to monitor transitions between pages.
+  ///
+  /// ページ間の遷移を監視するためのオブザーバーを設置することができます。
+  List<NavigatorObserver> get navigatorObservers =>
+      adapters.expand((e) => e.navigatorObservers).toList();
+
+  /// Adapters can be defined to add logger functionality.
+  ///
+  /// ロガー機能を追加するためのアダプターを定義することができます。
+  List<LoggerAdapter> get loggerAdapters => [
+        ..._loggerAdapters,
+        ...adapters.expand((e) => e.loggerAdapters),
+      ];
 }
 
 /// [MaterialApp] for Masamune Framework.
