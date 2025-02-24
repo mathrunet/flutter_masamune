@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: Changed the specification of runMasamuneApp. ([d4d7a0fa](https://github.com/mathrunet/flutter_masamune/commit/d4d7a0fa7819fb6a38da308bfc1cde4fc96470e9))
+
 ## 2.4.127
 
  - Update a dependency to the latest release.

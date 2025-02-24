@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Added log events. ([71449576](https://github.com/mathrunet/flutter_masamune/commit/714495763277bcf4779780e3a667643ac10c74c4))
+
 ## 2.2.124
 
  - Update a dependency to the latest release.

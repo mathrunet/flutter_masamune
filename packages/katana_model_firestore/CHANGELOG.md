@@ -1,3 +1,7 @@
+## 2.18.1
+
+ - **FIX**: Fixed a bug that prevented data from loading properly. ([ea9394a1](https://github.com/mathrunet/flutter_masamune/commit/ea9394a1bf40fc417e0bc56a35eddbbe32884363))
+
 ## 2.18.0
 
  - **FEAT**: Implemented a mechanism that allows caching. ([b9c5de94](https://github.com/mathrunet/flutter_masamune/commit/b9c5de94eaa2d191c64f7fa7cdd0abdd47dec4ce))

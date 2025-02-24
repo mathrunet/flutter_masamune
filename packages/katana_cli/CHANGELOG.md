@@ -1,3 +1,9 @@
+## 2.32.0
+
+ - **FIX**: Added RemoteConfig settings. ([18431d96](https://github.com/mathrunet/flutter_masamune/commit/18431d96c67b7fd000c1271e4fa07329710aed93))
+ - **FIX**: Fixed Zip was not working. ([f6acb07c](https://github.com/mathrunet/flutter_masamune/commit/f6acb07ca975b1b4446dcd89eec82ff9b6ffd0d3))
+ - **FEAT**: Changed the specification of runMasamuneApp. ([d4d7a0fa](https://github.com/mathrunet/flutter_masamune/commit/d4d7a0fa7819fb6a38da308bfc1cde4fc96470e9))
+
 ## 2.31.0
 
  - **FIX**: Correction of eslint. ([ef60a19d](https://github.com/mathrunet/flutter_masamune/commit/ef60a19dcd7cdb9ee1ba0399463a0424e2bb4727))

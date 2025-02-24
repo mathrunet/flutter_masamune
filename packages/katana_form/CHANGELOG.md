@@ -1,3 +1,9 @@
+## 2.16.0
+
+ - **FIX**: Font themes can be specified for Form buttons. ([f13e586c](https://github.com/mathrunet/flutter_masamune/commit/f13e586c5511656b43909b559dde34d35cba92e8))
+ - **FIX**: Fixed Dropdown colors were not working properly. ([529c25cd](https://github.com/mathrunet/flutter_masamune/commit/529c25cde0706a7eeb67e5c66b282c64bb5861fe))
+ - **FEAT**: Added enabled to FormStyleScope. ([aca4a38b](https://github.com/mathrunet/flutter_masamune/commit/aca4a38bb0334281bda38ac4fa84d355ff25af35))
+
 ## 2.15.4
 
  - Update a dependency to the latest release.

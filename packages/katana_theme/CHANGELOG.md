@@ -1,3 +1,7 @@
+## 2.7.1
+
+ - **FIX**: Applying font themes. ([df5c2ab1](https://github.com/mathrunet/flutter_masamune/commit/df5c2ab120477179c220d5275b6092f1ff8179f3))
+
 ## 2.7.0
 
  - **FEAT**: Remove unnecessary packages. ([2baeb9a2](https://github.com/mathrunet/flutter_masamune/commit/2baeb9a212504846333c2bd653c60cc6634ba6d4))

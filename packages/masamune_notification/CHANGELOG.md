@@ -1,3 +1,7 @@
+## 2.9.18
+
+ - **FIX**: Check to see if there is a schedule. ([150e2c6e](https://github.com/mathrunet/flutter_masamune/commit/150e2c6eba6598b2e6ca524a7050b55b6c48977f))
+
 ## 2.9.17
 
  - Update a dependency to the latest release.

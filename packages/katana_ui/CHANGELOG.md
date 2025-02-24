@@ -1,3 +1,7 @@
+## 2.11.3
+
+ - **FIX**: Applying font themes. ([133f9ff1](https://github.com/mathrunet/flutter_masamune/commit/133f9ff12baba770630c9004cc1a374434269281))
+
 ## 2.11.2
 
  - Update a dependency to the latest release.
