@@ -14,10 +14,10 @@ final List<MasamuneAdapter> masamuneAdapters = [
 void main() {
   runMasamuneApp(
     masamuneAdapters: masamuneAdapters,
-    (adapters) => MasamuneApp(
+    (ref) => MasamuneApp(
       home: const UniversalUIPage(),
       title: "Flutter Demo",
-      masamuneAdapters: adapters,
+      masamuneAdapters: ref.adapters,
       theme: AppThemeData(
         primary: Colors.blue,
       ),
