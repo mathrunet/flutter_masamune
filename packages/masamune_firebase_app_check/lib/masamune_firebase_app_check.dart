@@ -10,16 +10,16 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_firebase_app_check;
 
-// Flutter imports:
+// Dart imports:
 import 'dart:async';
 
-import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:firebase_core/firebase_core.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:katana_firebase/katana_firebase.dart';
 
 // Package imports:
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:katana_firebase/katana_firebase.dart';
 import 'package:masamune/masamune.dart';
 import 'package:universal_platform/universal_platform.dart';
 

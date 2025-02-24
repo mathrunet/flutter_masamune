@@ -10,10 +10,8 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_ai_firebase;
 
-// Flutter imports:
-import 'package:firebase_core/firebase_core.dart';
-
 // Package imports:
+import 'package:firebase_core/firebase_core.dart';
 import 'package:masamune/masamune.dart';
 import 'package:masamune_ai/masamune_ai.dart';
 import 'package:universal_platform/universal_platform.dart';

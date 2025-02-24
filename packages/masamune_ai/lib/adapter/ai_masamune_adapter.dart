@@ -5,7 +5,7 @@ part of '/masamune_ai.dart';
 /// Inherit this class to set up AI functions.
 ///
 /// AIの機能を設定するための[MasamuneAdapter]の抽象クラス。
-/// 
+///
 /// このクラスを継承してAIの機能を設定してください。
 abstract class AIMasamuneAdapter extends MasamuneAdapter {
   /// Abstract class of [MasamuneAdapter] for configuring AI functions.
