@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-02-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ai` - `v2.2.0`](#masamune_ai---v220)
+ - [`masamune_ai_firebase` - `v2.2.0`](#masamune_ai_firebase---v220)
+
+---
+
+#### `masamune_ai` - `v2.2.0`
+
+ - **FEAT**: Maintain controllers and other equipment for AI. ([ed9b8376](https://github.com/mathrunet/flutter_masamune/commit/ed9b83766fc557b950ddd8de6cc8b0fc71f347e9))
+
+#### `masamune_ai_firebase` - `v2.2.0`
+
+ - **FEAT**: Maintain controllers and other equipment for AI. ([ed9b8376](https://github.com/mathrunet/flutter_masamune/commit/ed9b83766fc557b950ddd8de6cc8b0fc71f347e9))
+
+
 ## 2025-02-24
 
 ### Changes
