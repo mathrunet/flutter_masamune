@@ -15,7 +15,14 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   /// AIの機能を設定するための[MasamuneAdapter]の抽象クラス。
   ///
   /// このクラスを継承してAIの機能を設定してください。
-  const AIMasamuneAdapter();
+  const AIMasamuneAdapter({
+    this.defaultConfig = const AIConfig(),
+  });
+
+  /// The default configuration of the AI.
+  ///
+  /// AIのデフォルト設定。
+  final AIConfig defaultConfig;
 
   @override
   FutureOr<void> onPreRunApp() {}
@@ -49,4 +56,19 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
       child: app,
     );
   }
+
+  /// Initialize the AI.
+  ///
+  /// AIを初期化します。
+  Future<void> initialize({
+    AIConfig? config,
+  });
+
+  /// Generate the content of the AI.
+  ///
+  /// AIの内容を生成します。
+  Future<AIContent?> generateContent(
+    List<AIContent> contents, {
+    AIConfig? config,
+  });
 }

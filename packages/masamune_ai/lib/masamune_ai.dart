@@ -12,11 +12,20 @@ library masamune_ai;
 
 // Dart imports:
 import 'dart:async';
+import 'dart:convert';
 
 // Flutter imports:
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 // Package imports:
 import 'package:masamune/masamune.dart';
 
 part 'adapter/ai_masamune_adapter.dart';
+part 'src/ai_content.dart';
+part 'src/ai_role.dart';
+part 'src/ai_thread.dart';
+part 'src/invalid_ai_role_exception.dart';
+part 'src/ai_schema.dart';
+part 'src/ai_schema_type.dart';
+part 'src/ai_config.dart';
