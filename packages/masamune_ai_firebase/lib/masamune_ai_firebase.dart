@@ -10,9 +10,10 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_ai_firebase;
 
-// Package imports:
+// Dart imports:
 import 'dart:async';
 
+// Package imports:
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:masamune/masamune.dart';
