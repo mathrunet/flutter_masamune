@@ -1,32 +1,41 @@
 part of '/masamune_model_firebase_data_connect.dart';
 
-/// FirebaseDataConnectConverter for [ModelDate].
+/// FirebaseDataConnectConverter for [ModelDateRange].
 ///
-/// [ModelDate]用のFirebaseDataConnectConverter。
-class FirebaseDataConnectModelDateConverter
+/// [ModelDateRange]用のFirebaseDataConnectConverter。
+class FirebaseDataConnectModelDateRangeConverter
     extends FirebaseDataConnectModelFieldValueConverter {
   /// FirebaseDataConnectConverter for [ModelDate].
   ///
-  /// [ModelDate]用のFirebaseDataConnectConverter。
-  const FirebaseDataConnectModelDateConverter();
+  /// [ModelDateRange]用のFirebaseDataConnectConverter。
+  const FirebaseDataConnectModelDateRangeConverter();
 
   @override
-  String get type => ModelDate.typeString;
+  String get type => ModelDateRange.typeString;
 
   DynamicMap? _convertFrom(Object? value) {
     if (value == null) {
       return null;
-    } else if (value is DateTime) {
-      return ModelDate(value).toJson();
+    } else if (value is String) {
+      final splitted = value.split("|");
+      if (splitted.length == 2) {
+        final start = DateTime.tryParse(splitted[0]);
+        final end = DateTime.tryParse(splitted[1]);
+        if (start != null && end != null) {
+          return ModelDateRange.fromDateTime(
+            start: start,
+            end: end,
+          ).toJson();
+        }
+      }
     }
     return null;
   }
 
-  Timestamp _convertTo(DynamicMap map) {
-    final val = map.get<num>(ModelDate.kTimeKey, 0.0);
-    final seconds = val ~/ 1000000;
-    final nanoseconds = ((val % 1000000) * 1000000).toInt();
-    return Timestamp(nanoseconds, seconds);
+  String _convertTo(DynamicMap map) {
+    final start = map.get<num>(ModelDateRange.kStartTimeKey, 0.0);
+    final end = map.get<num>(ModelDateRange.kEndTimeKey, 0.0);
+    return "${DateTime.fromMicrosecondsSinceEpoch(start.toInt())}|${DateTime.fromMicrosecondsSinceEpoch(end.toInt())}";
   }
 
   @override
@@ -113,11 +122,10 @@ class FirebaseDataConnectModelDateConverter
     ModelAdapterCollectionQuery query, [
     FirebaseDataConnectModelAdapterBase? adapter,
   ]) {
-    final dateTime = (value as ModelDate).value;
-    final seconds = dateTime.microsecondsSinceEpoch ~/ 1000000;
-    final nanoseconds =
-        ((dateTime.microsecondsSinceEpoch % 1000000) * 1000000).toInt();
-    return Timestamp(nanoseconds, seconds);
+    final modelDateRange = value as ModelDateRange;
+    final start = modelDateRange.value.start;
+    final end = modelDateRange.value.end;
+    return "${start.toIso8601String()}|${end.toIso8601String()}";
   }
 
   @override
@@ -127,6 +135,6 @@ class FirebaseDataConnectModelDateConverter
     ModelAdapterCollectionQuery query, [
     FirebaseDataConnectModelAdapterBase? adapter,
   ]) {
-    return value is ModelDate;
+    return value is ModelDateRange;
   }
 }

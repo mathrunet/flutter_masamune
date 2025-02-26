@@ -42,5 +42,8 @@ part 'converter/firebase_data_connect_null_converter.dart';
 part 'converter/firebase_data_connect_enum_converter.dart';
 part 'converter/firebase_data_connect_basic_converter.dart';
 part 'converter/firebase_data_connect_model_token_converter.dart';
-
+part 'converter/firebase_data_connect_model_time_converter.dart';
+part 'converter/firebase_data_connect_model_timestamp_range_converter.dart';
+part 'converter/firebase_data_connect_model_date_range_converter.dart';
+part 'converter/firebase_data_connect_model_time_range_converter.dart';
 part 'src/firebase_data_connect_model_field_value_converter.dart';

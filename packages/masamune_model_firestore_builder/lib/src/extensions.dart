@@ -34,6 +34,14 @@ extension on InterfaceType {
       return "is$nullable${RuleModelFieldValueType.modelTimestamp.label}";
     } else if (isModelDate) {
       return "is$nullable${RuleModelFieldValueType.modelDate.label}";
+    } else if (isModelTime) {
+      return "is$nullable${RuleModelFieldValueType.modelTime.label}";
+    } else if (isModelTimestampRange) {
+      return "is$nullable${RuleModelFieldValueType.modelTimestampRange.label}";
+    } else if (isModelDateRange) {
+      return "is$nullable${RuleModelFieldValueType.modelDateRange.label}";
+    } else if (isModelTimeRange) {
+      return "is$nullable${RuleModelFieldValueType.modelTimeRange.label}";
     } else if (isModelSearch) {
       return "is$nullable${RuleModelFieldValueType.modelSearch.label}";
     } else if (isModelToken) {

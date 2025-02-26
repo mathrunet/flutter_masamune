@@ -158,7 +158,7 @@ void main() {
     };
     const Map<String, int>? nullMap = null;
     expect(map.getAsDateTime("f"), DateTime(2001, 1, 1));
-    expect(map.getAsDateTime("b"), DateTime.fromMillisecondsSinceEpoch(1));
+    expect(map.getAsDateTime("b"), DateTime.fromMicrosecondsSinceEpoch(1));
     expect(map.getAsDateTime("a", DateTime(2000, 1, 1)), DateTime(2000, 1, 1));
     expect(
       nullMap.getAsDateTime("a", DateTime(2000, 1, 1)),

@@ -180,6 +180,26 @@ enum DocsModelFieldValueType {
   /// [ModelDate]。
   modelDate,
 
+  /// [ModelTime].
+  ///
+  /// [ModelTime]。
+  modelTime,
+
+  /// [ModelTimestampRange].
+  ///
+  /// [ModelTimestampRange]。
+  modelTimestampRange,
+
+  /// [ModelDateRange].
+  ///
+  /// [ModelDateRange]。
+  modelDateRange,
+
+  /// [ModelTimeRange].
+  ///
+  /// [ModelTimeRange]。
+  modelTimeRange,
+
   /// [ModelCommand].
   ///
   /// [ModelCommand]。
@@ -241,6 +261,14 @@ enum DocsModelFieldValueType {
         return "ModelTimestamp";
       case DocsModelFieldValueType.modelDate:
         return "ModelDate";
+      case DocsModelFieldValueType.modelTime:
+        return "ModelTime";
+      case DocsModelFieldValueType.modelTimestampRange:
+        return "ModelTimestampRange";
+      case DocsModelFieldValueType.modelDateRange:
+        return "ModelDateRange";
+      case DocsModelFieldValueType.modelTimeRange:
+        return "ModelTimeRange";
       case DocsModelFieldValueType.modelCommand:
         return "ModelCommand";
       case DocsModelFieldValueType.modelGeoValue:
@@ -275,6 +303,14 @@ enum DocsModelFieldValueType {
         return "timestamp";
       case DocsModelFieldValueType.modelDate:
         return "timestamp";
+      case DocsModelFieldValueType.modelTime:
+        return "timestamp";
+      case DocsModelFieldValueType.modelTimestampRange:
+        return "string";
+      case DocsModelFieldValueType.modelDateRange:
+        return "string";
+      case DocsModelFieldValueType.modelTimeRange:
+        return "string";
       case DocsModelFieldValueType.modelCommand:
         return "string";
       case DocsModelFieldValueType.modelGeoValue:
@@ -309,6 +345,14 @@ enum DocsModelFieldValueType {
         return "map";
       case DocsModelFieldValueType.modelDate:
         return "map";
+      case DocsModelFieldValueType.modelTime:
+        return "map";
+      case DocsModelFieldValueType.modelTimestampRange:
+        return "map";
+      case DocsModelFieldValueType.modelDateRange:
+        return "map";
+      case DocsModelFieldValueType.modelTimeRange:
+        return "map";
       case DocsModelFieldValueType.modelCommand:
         return "map";
       case DocsModelFieldValueType.modelGeoValue:
@@ -342,6 +386,14 @@ enum DocsModelFieldValueType {
       case DocsModelFieldValueType.modelTimestamp:
         return "json";
       case DocsModelFieldValueType.modelDate:
+        return "json";
+      case DocsModelFieldValueType.modelTime:
+        return "json";
+      case DocsModelFieldValueType.modelTimestampRange:
+        return "json";
+      case DocsModelFieldValueType.modelDateRange:
+        return "json";
+      case DocsModelFieldValueType.modelTimeRange:
         return "json";
       case DocsModelFieldValueType.modelCommand:
         return "json";

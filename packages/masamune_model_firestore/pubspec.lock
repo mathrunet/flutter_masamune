@@ -330,7 +330,7 @@ packages:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "2.10.6"
+    version: "2.10.8"
   katana_firebase:
     dependency: "direct overridden"
     description:
@@ -344,7 +344,7 @@ packages:
       path: "../katana_form"
       relative: true
     source: path
-    version: "2.15.4"
+    version: "2.16.0"
   katana_functions:
     dependency: "direct overridden"
     description:
@@ -393,7 +393,7 @@ packages:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "2.2.13"
+    version: "2.4.0"
   katana_model:
     dependency: "direct overridden"
     description:
@@ -407,7 +407,7 @@ packages:
       path: "../katana_model_firestore"
       relative: true
     source: path
-    version: "2.18.0"
+    version: "2.18.1"
   katana_model_local:
     dependency: "direct overridden"
     description:
@@ -435,7 +435,7 @@ packages:
       path: "../katana_router"
       relative: true
     source: path
-    version: "2.4.6"
+    version: "2.4.8"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
@@ -449,7 +449,7 @@ packages:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "2.6.4"
+    version: "2.6.6"
   katana_shorten:
     dependency: "direct overridden"
     description:
@@ -477,7 +477,7 @@ packages:
       path: "../katana_theme"
       relative: true
     source: path
-    version: "2.7.0"
+    version: "2.7.1"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
@@ -491,7 +491,7 @@ packages:
       path: "../katana_ui"
       relative: true
     source: path
-    version: "2.11.2"
+    version: "2.11.3"
   leak_tracker:
     dependency: transitive
     description:
@@ -546,7 +546,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.15.12"
+    version: "2.17.0"
   masamune_annotation:
     dependency: "direct overridden"
     description:

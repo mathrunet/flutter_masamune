@@ -1,17 +1,17 @@
 part of '/katana_model_firestore.dart';
 
-/// FirestoreConverter for [ModelTimestamp].
+/// FirestoreConverter for [ModelTimestampRange].
 ///
-/// [ModelTimestamp]用のFirestoreConverter。
-class FirestoreModelTimestampConverter
+/// [ModelTimestampRange]用のFirestoreConverter。
+class FirestoreModelTimestampRangeConverter
     extends FirestoreModelFieldValueConverter {
-  /// FirestoreConverter for [ModelTimestamp].
+  /// FirestoreConverter for [ModelTimestampRange].
   ///
-  /// [ModelTimestamp]用のFirestoreConverter。
-  const FirestoreModelTimestampConverter();
+  /// [ModelTimestampRange]用のFirestoreConverter。
+  const FirestoreModelTimestampRangeConverter();
 
   @override
-  String get type => ModelTimestamp.typeString;
+  String get type => ModelTimestampRange.typeString;
 
   @override
   DynamicMap? convertFrom(
@@ -30,12 +30,18 @@ class FirestoreModelTimestampConverter
           targetList.every((e) => e.get(_kTypeKey, "") == type)) {
         return {
           key: value.mapAndRemoveEmpty<DynamicMap>((e) {
-            if (e is num) {
-              return ModelTimestamp(
-                DateTime.fromMicrosecondsSinceEpoch(e.toInt()),
-              ).toJson();
-            } else if (e is Timestamp) {
-              return ModelTimestamp(e.toDate()).toJson();
+            if (e is String) {
+              final splitted = e.split("|");
+              if (splitted.length == 2) {
+                final start = DateTime.tryParse(splitted[0]);
+                final end = DateTime.tryParse(splitted[1]);
+                if (start != null && end != null) {
+                  return ModelTimestampRange.fromDateTime(
+                    start: start,
+                    end: end,
+                  ).toJson();
+                }
+              }
             }
             return null;
           }),
@@ -53,18 +59,21 @@ class FirestoreModelTimestampConverter
         return {
           key: value
               .map<String, DynamicMap?>((k, v) {
-                if (v is num) {
-                  return MapEntry(
-                    k,
-                    ModelTimestamp(
-                      DateTime.fromMicrosecondsSinceEpoch(v.toInt()),
-                    ).toJson(),
-                  );
-                } else if (v is Timestamp) {
-                  return MapEntry(
-                    k,
-                    ModelTimestamp(v.toDate()).toJson(),
-                  );
+                if (v is String) {
+                  final splitted = v.split("|");
+                  if (splitted.length == 2) {
+                    final start = DateTime.tryParse(splitted[0]);
+                    final end = DateTime.tryParse(splitted[1]);
+                    if (start != null && end != null) {
+                      return MapEntry(
+                        k,
+                        ModelTimestampRange.fromDateTime(
+                          start: start,
+                          end: end,
+                        ).toJson(),
+                      );
+                    }
+                  }
                 }
                 return MapEntry(k, null);
               })
@@ -73,24 +82,23 @@ class FirestoreModelTimestampConverter
           targetKey: null,
         };
       }
-    } else if (value is num) {
+    } else if (value is String) {
       final targetKey = "#$key";
       final targetMap = original.getAsMap(targetKey);
       final type = targetMap.get(_kTypeKey, "");
       if (type == this.type) {
-        return {
-          key: ModelTimestamp(
-            DateTime.fromMicrosecondsSinceEpoch(value.toInt()),
-          ).toJson(),
-          targetKey: null,
-        };
+        final splitted = value.split("|");
+        if (splitted.length == 2) {
+          final start = DateTime.tryParse(splitted[0]);
+          final end = DateTime.tryParse(splitted[1]);
+          if (start != null && end != null) {
+            return ModelTimestampRange.fromDateTime(
+              start: start,
+              end: end,
+            ).toJson();
+          }
+        }
       }
-    } else if (value is Timestamp) {
-      final targetKey = "#$key";
-      return {
-        key: ModelTimestamp(value.toDate()).toJson(),
-        targetKey: null,
-      };
     }
     return null;
   }
@@ -105,25 +113,18 @@ class FirestoreModelTimestampConverter
     if (value is DynamicMap && value.containsKey(_kTypeKey)) {
       final type = value.get(_kTypeKey, "");
       if (type == this.type) {
-        final fromUser = value.get(ModelTimestamp.kSourceKey, "") ==
-            ModelFieldValueSource.user.name;
-        final val = value.getAsDouble(ModelTimestamp.kTimeKey);
-        final useNow = value.get(ModelTimestamp.kNowKey, false);
+        final start = value.getAsDouble(ModelTimestampRange.kStartTimeKey);
+        final end = value.getAsDouble(ModelTimestampRange.kEndTimeKey);
         final targetKey = "#$key";
         return {
           targetKey: {
             kTypeFieldKey: this.type,
-            ModelTimestamp.kTimeKey: val,
+            ModelTimestampRange.kStartTimeKey: start,
+            ModelTimestampRange.kEndTimeKey: end,
             _kTargetKey: key,
           },
-          if (fromUser) ...{
-            if (useNow)
-              key: FieldValue.serverTimestamp()
-            else
-              key: Timestamp.fromMicrosecondsSinceEpoch(val.toInt()),
-          } else ...{
-            key: Timestamp.fromMicrosecondsSinceEpoch(val.toInt()),
-          },
+          key:
+              "${DateTime.fromMicrosecondsSinceEpoch(start.toInt()).toIso8601String()}|${DateTime.fromMicrosecondsSinceEpoch(end.toInt()).toIso8601String()}",
         };
       }
     } else if (value is List) {
@@ -133,24 +134,17 @@ class FirestoreModelTimestampConverter
         final res = <Object>[];
         final targetKey = "#$key";
         for (final entry in list) {
-          final fromUser = entry.get(ModelTimestamp.kSourceKey, "") ==
-              ModelFieldValueSource.user.name;
-          final time = entry.get<num>(ModelTimestamp.kTimeKey, 0.0);
-          final useNow = entry.get(ModelTimestamp.kNowKey, false);
+          final start = entry.getAsDouble(ModelTimestampRange.kStartTimeKey);
+          final end = entry.getAsDouble(ModelTimestampRange.kEndTimeKey);
           target.add({
             kTypeFieldKey: type,
-            ModelTimestamp.kTimeKey: time,
+            ModelTimestampRange.kStartTimeKey: start,
+            ModelTimestampRange.kEndTimeKey: end,
             _kTargetKey: key,
           });
-          if (fromUser) {
-            if (useNow) {
-              res.add(FieldValue.serverTimestamp());
-            } else {
-              res.add(Timestamp.fromMicrosecondsSinceEpoch(time.toInt()));
-            }
-          } else {
-            res.add(Timestamp.fromMicrosecondsSinceEpoch(time.toInt()));
-          }
+          res.add(
+            "${DateTime.fromMicrosecondsSinceEpoch(start.toInt()).toIso8601String()}|${DateTime.fromMicrosecondsSinceEpoch(end.toInt()).toIso8601String()}",
+          );
         }
         return {
           targetKey: target,
@@ -167,25 +161,17 @@ class FirestoreModelTimestampConverter
         final res = <String, Object>{};
         final targetKey = "#$key";
         for (final entry in map.entries) {
-          final fromUser = entry.value.get(ModelTimestamp.kSourceKey, "") ==
-              ModelFieldValueSource.user.name;
-          final time = entry.value.getAsDouble(ModelTimestamp.kTimeKey);
-          final useNow = entry.value.get(ModelTimestamp.kNowKey, false);
+          final start =
+              entry.value.getAsDouble(ModelTimestampRange.kStartTimeKey);
+          final end = entry.value.getAsDouble(ModelTimestampRange.kEndTimeKey);
           target[entry.key] = {
             kTypeFieldKey: type,
-            ModelTimestamp.kTimeKey: time,
+            ModelTimestampRange.kStartTimeKey: start,
+            ModelTimestampRange.kEndTimeKey: end,
             _kTargetKey: key,
           };
-          if (fromUser) {
-            if (useNow) {
-              res[entry.key] = FieldValue.serverTimestamp();
-            } else {
-              res[entry.key] =
-                  Timestamp.fromMicrosecondsSinceEpoch(time.toInt());
-            }
-          } else {
-            res[entry.key] = Timestamp.fromMicrosecondsSinceEpoch(time.toInt());
-          }
+          res[entry.key] =
+              "${DateTime.fromMicrosecondsSinceEpoch(start.toInt()).toIso8601String()}|${DateTime.fromMicrosecondsSinceEpoch(end.toInt()).toIso8601String()}";
         }
         return {
           targetKey: target,
@@ -203,7 +189,10 @@ class FirestoreModelTimestampConverter
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
   ]) {
-    return Timestamp.fromDate((value as ModelTimestamp).value);
+    final modelTimestampRange = value as ModelTimestampRange;
+    final start = modelTimestampRange.value.start;
+    final end = modelTimestampRange.value.end;
+    return "${start.toIso8601String()}|${end.toIso8601String()}";
   }
 
   @override
@@ -213,6 +202,6 @@ class FirestoreModelTimestampConverter
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
   ]) {
-    return value is ModelTimestamp;
+    return value is ModelTimestampRange;
   }
 }

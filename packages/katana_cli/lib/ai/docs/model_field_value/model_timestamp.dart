@@ -83,6 +83,12 @@ final dateTime = modelTimestamp.value;
     final modelDate = modelTimestamp.toModelDate();
     ```
 
+- `ModelTime`への変換
+
+    ```dart
+    final modelTime = modelTimestamp.toModelTime();
+    ```
+
 ## Jsonへの変換
 
 ```dart

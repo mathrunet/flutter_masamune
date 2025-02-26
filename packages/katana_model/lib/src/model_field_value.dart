@@ -973,10 +973,10 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
   factory ModelTimestamp.fromJson(DynamicMap json) {
     final timestamp = json.get(
       kTimeKey,
-      DateTime.now().millisecondsSinceEpoch,
+      DateTime.now().microsecondsSinceEpoch,
     );
     return ModelTimestamp.fromServer(
-      DateTime.fromMillisecondsSinceEpoch(timestamp),
+      DateTime.fromMicrosecondsSinceEpoch(timestamp),
     );
   }
 
@@ -1019,6 +1019,13 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
     return ModelDate(value);
   }
 
+  /// Convert to [ModelTime].
+  ///
+  /// [ModelTime]に変換します。
+  ModelTime toModelTime() {
+    return ModelTime(value);
+  }
+
   @override
   String toString() {
     return value.toString();
@@ -1027,7 +1034,7 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
   @override
   DynamicMap toJson() => {
         kTypeFieldKey: ModelTimestamp.typeString,
-        kTimeKey: value.millisecondsSinceEpoch,
+        kTimeKey: value.microsecondsSinceEpoch,
         kNowKey: _value == null,
         kSourceKey: _source.name,
       };
@@ -1036,25 +1043,25 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
   ///
   /// 他の[ModelTimestamp]と比較します。
   bool operator <(ModelTimestamp other) =>
-      value.millisecondsSinceEpoch < other.value.millisecondsSinceEpoch;
+      value.microsecondsSinceEpoch < other.value.microsecondsSinceEpoch;
 
   /// Compare with other [ModelTimestamp].
   ///
   /// 他の[ModelTimestamp]と比較します。
   bool operator >(ModelTimestamp other) =>
-      value.millisecondsSinceEpoch > other.value.millisecondsSinceEpoch;
+      value.microsecondsSinceEpoch > other.value.microsecondsSinceEpoch;
 
   /// Compare with other [ModelTimestamp].
   ///
   /// 他の[ModelTimestamp]と比較します。
   bool operator <=(ModelTimestamp other) =>
-      value.millisecondsSinceEpoch <= other.value.millisecondsSinceEpoch;
+      value.microsecondsSinceEpoch <= other.value.microsecondsSinceEpoch;
 
   /// Compare with other [ModelTimestamp].
   ///
   /// 他の[ModelTimestamp]と比較します。
   bool operator >=(ModelTimestamp other) =>
-      value.millisecondsSinceEpoch >= other.value.millisecondsSinceEpoch;
+      value.microsecondsSinceEpoch >= other.value.microsecondsSinceEpoch;
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
@@ -1064,8 +1071,8 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
 
   @override
   int compareTo(ModelTimestamp other) {
-    return value.millisecondsSinceEpoch.compareTo(
-      other.value.millisecondsSinceEpoch,
+    return value.microsecondsSinceEpoch.compareTo(
+      other.value.microsecondsSinceEpoch,
     );
   }
 }
@@ -1233,36 +1240,36 @@ class ModelTimestampFilter extends ModelFieldValueFilter<ModelTimestamp> {
     T Function(num source, num target) filter,
   ) {
     if (source is ModelTimestamp && target is ModelTimestamp) {
-      return filter(source.value.millisecondsSinceEpoch,
-          target.value.millisecondsSinceEpoch);
+      return filter(source.value.microsecondsSinceEpoch,
+          target.value.microsecondsSinceEpoch);
     } else if (source is ModelTimestamp && target is DateTime) {
       return filter(
-          source.value.millisecondsSinceEpoch, target.millisecondsSinceEpoch);
+          source.value.microsecondsSinceEpoch, target.microsecondsSinceEpoch);
     } else if (source is DateTime && target is ModelTimestamp) {
       return filter(
-          source.millisecondsSinceEpoch, target.value.millisecondsSinceEpoch);
+          source.microsecondsSinceEpoch, target.value.microsecondsSinceEpoch);
     } else if (source is ModelTimestamp && target is num) {
-      return filter(source.value.millisecondsSinceEpoch, target);
+      return filter(source.value.microsecondsSinceEpoch, target);
     } else if (source is num && target is ModelTimestamp) {
-      return filter(source, target.value.millisecondsSinceEpoch);
+      return filter(source, target.value.microsecondsSinceEpoch);
     } else if (source is ModelTimestamp &&
         target is DynamicMap &&
         target.get(kTypeFieldKey, "") == ModelTimestamp.typeString) {
-      return filter(source.value.millisecondsSinceEpoch,
-          ModelTimestamp.fromJson(target).value.millisecondsSinceEpoch);
+      return filter(source.value.microsecondsSinceEpoch,
+          ModelTimestamp.fromJson(target).value.microsecondsSinceEpoch);
     } else if (source is DynamicMap &&
         target is ModelTimestamp &&
         source.get(kTypeFieldKey, "") == ModelTimestamp.typeString) {
       return filter(
-          ModelTimestamp.fromJson(source).value.millisecondsSinceEpoch,
-          target.value.millisecondsSinceEpoch);
+          ModelTimestamp.fromJson(source).value.microsecondsSinceEpoch,
+          target.value.microsecondsSinceEpoch);
     } else if (source is DynamicMap &&
         target is DynamicMap &&
         source.get(kTypeFieldKey, "") == ModelTimestamp.typeString &&
         target.get(kTypeFieldKey, "") == ModelTimestamp.typeString) {
       return filter(
-          ModelTimestamp.fromJson(source).value.millisecondsSinceEpoch,
-          ModelTimestamp.fromJson(target).value.millisecondsSinceEpoch);
+          ModelTimestamp.fromJson(source).value.microsecondsSinceEpoch,
+          ModelTimestamp.fromJson(target).value.microsecondsSinceEpoch);
     }
     return null;
   }
@@ -1309,11 +1316,11 @@ class ModelDate extends ModelFieldValue<DateTime>
     int? day,
   ]) = _ModelDateWithDateTime;
 
-  /// Parse from [formattedString] and convert to [ModelTimestamp].
+  /// Parse from [formattedString] and convert to [ModelDate].
   ///
   /// If the conversion fails, a [FormatException] is raised.
   ///
-  /// [formattedString]からパースして[ModelTimestamp]に変換します。
+  /// [formattedString]からパースして[ModelDate]に変換します。
   ///
   /// 変換に失敗した場合は[FormatException]が発生します。
   static ModelDate parse(String formattedString) {
@@ -1321,11 +1328,11 @@ class ModelDate extends ModelFieldValue<DateTime>
     return ModelDate(dateTime);
   }
 
-  /// Parse from [formattedString] and convert to [ModelTimestamp].
+  /// Parse from [formattedString] and convert to [ModelDate].
   ///
   /// Returns [Null] if the conversion fails.
   ///
-  /// [formattedString]からパースして[ModelTimestamp]に変換します。
+  /// [formattedString]からパースして[ModelDate]に変換します。
   ///
   /// 変換に失敗した場合は[Null]を返します。
   static ModelDate? tryParse(String formattedString) {
@@ -1351,10 +1358,10 @@ class ModelDate extends ModelFieldValue<DateTime>
   factory ModelDate.fromJson(DynamicMap json) {
     final timestamp = json.get(
       kTimeKey,
-      DateTime.now().millisecondsSinceEpoch,
+      DateTime.now().microsecondsSinceEpoch,
     );
     return ModelDate.fromServer(
-      DateTime.fromMillisecondsSinceEpoch(timestamp),
+      DateTime.fromMicrosecondsSinceEpoch(timestamp),
     );
   }
 
@@ -1408,7 +1415,7 @@ class ModelDate extends ModelFieldValue<DateTime>
   @override
   DynamicMap toJson() => {
         kTypeFieldKey: ModelDate.typeString,
-        kTimeKey: value.millisecondsSinceEpoch,
+        kTimeKey: value.microsecondsSinceEpoch,
         kSourceKey: _source.name,
       };
 
@@ -1416,25 +1423,25 @@ class ModelDate extends ModelFieldValue<DateTime>
   ///
   /// 他の[ModelDate]と比較します。
   bool operator <(ModelDate other) =>
-      value.millisecondsSinceEpoch < other.value.millisecondsSinceEpoch;
+      value.microsecondsSinceEpoch < other.value.microsecondsSinceEpoch;
 
   /// Compare with other [ModelDate].
   ///
   /// 他の[ModelDate]と比較します。
   bool operator >(ModelDate other) =>
-      value.millisecondsSinceEpoch > other.value.millisecondsSinceEpoch;
+      value.microsecondsSinceEpoch > other.value.microsecondsSinceEpoch;
 
   /// Compare with other [ModelDate].
   ///
   /// 他の[ModelDate]と比較します。
   bool operator <=(ModelDate other) =>
-      value.millisecondsSinceEpoch <= other.value.millisecondsSinceEpoch;
+      value.microsecondsSinceEpoch <= other.value.microsecondsSinceEpoch;
 
   /// Compare with other [ModelDate].
   ///
   /// 他の[ModelDate]と比較します。
   bool operator >=(ModelDate other) =>
-      value.millisecondsSinceEpoch >= other.value.millisecondsSinceEpoch;
+      value.microsecondsSinceEpoch >= other.value.microsecondsSinceEpoch;
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
@@ -1444,8 +1451,8 @@ class ModelDate extends ModelFieldValue<DateTime>
 
   @override
   int compareTo(ModelDate other) {
-    return value.millisecondsSinceEpoch.compareTo(
-      other.value.millisecondsSinceEpoch,
+    return value.microsecondsSinceEpoch.compareTo(
+      other.value.microsecondsSinceEpoch,
     );
   }
 
@@ -1608,38 +1615,1476 @@ class ModelDateFilter extends ModelFieldValueFilter<ModelDate> {
     T Function(num source, num target) filter,
   ) {
     if (source is ModelDate && target is ModelDate) {
-      return filter(source.value.millisecondsSinceEpoch,
-          target.value.millisecondsSinceEpoch);
+      return filter(source.value.microsecondsSinceEpoch,
+          target.value.microsecondsSinceEpoch);
     } else if (source is ModelDate && target is DateTime) {
       return filter(
-          source.value.millisecondsSinceEpoch,
+          source.value.microsecondsSinceEpoch,
           DateTime(target.year, target.month, target.day)
-              .millisecondsSinceEpoch);
+              .microsecondsSinceEpoch);
     } else if (source is DateTime && target is ModelDate) {
       return filter(
           DateTime(source.year, source.month, source.day)
-              .millisecondsSinceEpoch,
-          target.value.millisecondsSinceEpoch);
+              .microsecondsSinceEpoch,
+          target.value.microsecondsSinceEpoch);
     } else if (source is ModelDate && target is num) {
-      return filter(source.value.millisecondsSinceEpoch, target);
+      return filter(source.value.microsecondsSinceEpoch, target);
     } else if (source is num && target is ModelDate) {
-      return filter(source, target.value.millisecondsSinceEpoch);
+      return filter(source, target.value.microsecondsSinceEpoch);
     } else if (source is ModelDate &&
         target is DynamicMap &&
         target.get(kTypeFieldKey, "") == ModelDate.typeString) {
-      return filter(source.value.millisecondsSinceEpoch,
-          ModelDate.fromJson(target).value.millisecondsSinceEpoch);
+      return filter(source.value.microsecondsSinceEpoch,
+          ModelDate.fromJson(target).value.microsecondsSinceEpoch);
     } else if (source is DynamicMap &&
         target is ModelDate &&
         source.get(kTypeFieldKey, "") == ModelDate.typeString) {
-      return filter(ModelDate.fromJson(source).value.millisecondsSinceEpoch,
-          target.value.millisecondsSinceEpoch);
+      return filter(ModelDate.fromJson(source).value.microsecondsSinceEpoch,
+          target.value.microsecondsSinceEpoch);
     } else if (source is DynamicMap &&
         target is DynamicMap &&
         source.get(kTypeFieldKey, "") == ModelDate.typeString &&
         target.get(kTypeFieldKey, "") == ModelDate.typeString) {
-      return filter(ModelDate.fromJson(source).value.millisecondsSinceEpoch,
-          ModelDate.fromJson(target).value.millisecondsSinceEpoch);
+      return filter(ModelDate.fromJson(source).value.microsecondsSinceEpoch,
+          ModelDate.fromJson(target).value.microsecondsSinceEpoch);
+    }
+    return null;
+  }
+}
+
+/// Define the field as a time.
+///
+/// The base value is given as [value]. If not given, the current time is set.
+///
+/// フィールドを時刻として定義します。
+///
+/// ベースの値を[value]として与えます。与えられなかった場合現在の時刻がセットされます。
+@immutable
+class ModelTime extends ModelFieldValue<DateTime>
+    implements Comparable<ModelTime> {
+  /// Define the field as a time.
+  ///
+  /// The base value is given as [value]. If not given, the current time is set.
+  ///
+  /// フィールドを時刻として定義します。
+  ///
+  /// ベースの値を[value]として与えます。与えられなかった場合現在の時刻がセットされます。
+  const factory ModelTime([DateTime? value]) = _ModelTime;
+
+  /// Define the field as a date.
+  ///
+  /// The current time is returned in the same way as [DateTime.now].
+  ///
+  /// フィールドを時刻として定義します。
+  ///
+  /// [DateTime.now]と同じ様に現在の時刻が返されます。
+  const factory ModelTime.now() = _ModelTimeWithNow;
+
+  /// Define the field as a date.
+  ///
+  /// The time specified by [hour], [minute], [second], [millisecond], or [microsecond] is returned.
+  ///
+  /// フィールドを時刻として定義します。
+  ///
+  /// [hour]、[minute]、[second]、[millisecond]、[microsecond]で指定した時刻が返されます。
+  const factory ModelTime.time(
+    int hour, [
+    int? minute,
+    int? second,
+    int? millisecond,
+    int? microsecond,
+  ]) = _ModelTimeWithDateTime;
+
+  /// Parse from [formattedString] and convert to [ModelTime].
+  ///
+  /// If the conversion fails, a [FormatException] is raised.
+  ///
+  /// [formattedString]からパースして[ModelTime]に変換します。
+  ///
+  /// 変換に失敗した場合は[FormatException]が発生します。
+  static ModelTime parse(String formattedString) {
+    if (_dateRegExp.hasMatch(formattedString)) {
+      final dateTime = DateTime.parse(formattedString);
+      return ModelTime(dateTime);
+    } else {
+      final dateTime = DateTime.parse(
+          "${_defaultYear.toString().padLeft(4, '0')}-${_defaultMonth.toString().padLeft(2, '0')}-${_defaultDay.toString().padLeft(2, '0')} $formattedString");
+      return ModelTime(dateTime);
+    }
+  }
+
+  /// Parse from [formattedString] and convert to [ModelTime].
+  ///
+  /// Returns [Null] if the conversion fails.
+  ///
+  /// [formattedString]からパースして[ModelTime]に変換します。
+  ///
+  /// 変換に失敗した場合は[Null]を返します。
+  static ModelTime? tryParse(String formattedString) {
+    if (_dateRegExp.hasMatch(formattedString)) {
+      final dateTime = DateTime.tryParse(formattedString);
+      if (dateTime == null) {
+        return null;
+      }
+      return ModelTime(dateTime);
+    } else {
+      final dateTime = DateTime.tryParse(
+          "${_defaultYear.toString().padLeft(4, '0')}-${_defaultMonth.toString().padLeft(2, '0')}-${_defaultDay.toString().padLeft(2, '0')} $formattedString");
+      if (dateTime == null) {
+        return null;
+      }
+      return ModelTime(dateTime);
+    }
+  }
+
+  /// Used to disguise the retrieval of data from the server.
+  ///
+  /// Use for testing purposes.
+  ///
+  /// サーバーからのデータの取得に偽装するために利用します。
+  ///
+  /// テスト用途で用いてください。
+  const factory ModelTime.fromServer([DateTime? value]) = _ModelTime.fromServer;
+
+  /// Convert from [json] map to [ModelTime].
+  ///
+  /// [json]のマップから[ModelTime]に変換します。
+  factory ModelTime.fromJson(DynamicMap json) {
+    final timestamp = json.get(
+      kTimeKey,
+      DateTime.now().microsecondsSinceEpoch,
+    );
+    return ModelTime.fromServer(
+      DateTime.fromMicrosecondsSinceEpoch(timestamp),
+    );
+  }
+
+  const ModelTime._([
+    DateTime? value,
+    ModelFieldValueSource source = ModelFieldValueSource.user,
+  ])  : _value = value,
+        _source = source;
+
+  static final _dateRegExp = RegExp(r"^\d{4}-\d{2}-\d{2}");
+  static const _defaultYear = 1970;
+  static const _defaultMonth = 1;
+  static const _defaultDay = 1;
+
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelTime";
+
+  /// Key to save time.
+  ///
+  /// 時間を保存しておくキー。
+  static const kTimeKey = "@time";
+
+  /// Key to store the data source.
+  ///
+  /// データソースを保存しておくキー。
+  static const kSourceKey = "@source";
+
+  @override
+  DateTime get value {
+    final now = _value ?? DateTime.now();
+    return DateTime(
+      _defaultYear,
+      _defaultMonth,
+      _defaultDay,
+      now.hour,
+      now.minute,
+      now.second,
+      now.millisecond,
+      now.microsecond,
+    );
+  }
+
+  final DateTime? _value;
+
+  final ModelFieldValueSource _source;
+
+  /// Convert to [ModelTimestamp]. The date will be [date], or January 1, 1970.
+  ///
+  /// [ModelTimestamp]に変換します。日付は[date]、もしくは1970年1月1日になります。
+  ModelTimestamp toModelTimestamp([ModelDate? date]) {
+    return ModelTimestamp(
+      DateTime(
+        date?.value.year ?? _defaultYear,
+        date?.value.month ?? _defaultMonth,
+        date?.value.day ?? _defaultDay,
+        value.hour,
+        value.minute,
+        value.second,
+        value.millisecond,
+        value.microsecond,
+      ),
+    );
+  }
+
+  @override
+  String toString() {
+    return value.toString();
+  }
+
+  @override
+  DynamicMap toJson() => {
+        kTypeFieldKey: ModelTime.typeString,
+        kTimeKey: value.microsecondsSinceEpoch,
+        kSourceKey: _source.name,
+      };
+
+  /// Compare with other [ModelTime].
+  ///
+  /// 他の[ModelTime]と比較します。
+  bool operator <(ModelTime other) =>
+      value.microsecondsSinceEpoch < other.value.microsecondsSinceEpoch;
+
+  /// Compare with other [ModelTime].
+  ///
+  /// 他の[ModelTime]と比較します。
+  bool operator >(ModelTime other) =>
+      value.microsecondsSinceEpoch > other.value.microsecondsSinceEpoch;
+
+  /// Compare with other [ModelTime].
+  ///
+  /// 他の[ModelTime]と比較します。
+  bool operator <=(ModelTime other) =>
+      value.microsecondsSinceEpoch <= other.value.microsecondsSinceEpoch;
+
+  /// Compare with other [ModelTime].
+  ///
+  /// 他の[ModelTime]と比較します。
+  bool operator >=(ModelTime other) =>
+      value.microsecondsSinceEpoch >= other.value.microsecondsSinceEpoch;
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  int compareTo(ModelTime other) {
+    return value.microsecondsSinceEpoch.compareTo(
+      other.value.microsecondsSinceEpoch,
+    );
+  }
+
+  /// Create a new [ModelTime] with the specified [hour], [minute], [second], [millisecond], or [microsecond].
+  ///
+  /// 指定した[hour]、[minute]、[second]、[millisecond]、[microsecond]で新しい[ModelTime]を作成します。
+  ModelTime copyWith({
+    int? hour,
+    int? minute,
+    int? second,
+    int? millisecond,
+    int? microsecond,
+  }) {
+    return ModelTime(DateTime(
+      value.year,
+      value.month,
+      value.day,
+      hour ?? value.hour,
+      minute ?? value.minute,
+      second ?? value.second,
+      millisecond ?? value.millisecond,
+      microsecond ?? value.microsecond,
+    ));
+  }
+}
+
+@immutable
+class _ModelTimeWithNow extends _ModelTime {
+  const _ModelTimeWithNow() : super();
+
+  @override
+  DateTime? get _value {
+    return DateTime.now();
+  }
+}
+
+@immutable
+class _ModelTimeWithDateTime extends _ModelTime {
+  const _ModelTimeWithDateTime(
+    this.hour, [
+    this.minute,
+    this.second,
+    this.millisecond,
+    this.microsecond,
+  ]) : super();
+
+  final int hour;
+  final int? minute;
+  final int? second;
+  final int? millisecond;
+  final int? microsecond;
+
+  @override
+  DateTime? get _value {
+    return DateTime(
+      ModelTime._defaultYear,
+      ModelTime._defaultMonth,
+      ModelTime._defaultDay,
+      hour,
+      minute ?? 0,
+      second ?? 0,
+      millisecond ?? 0,
+      microsecond ?? 0,
+    );
+  }
+}
+
+@immutable
+class _ModelTime extends ModelTime with ModelFieldValueAsMapMixin<DateTime> {
+  const _ModelTime([
+    super.value,
+  ]) : super._();
+  const _ModelTime.fromServer([DateTime? value])
+      : super._(value, ModelFieldValueSource.server);
+}
+
+/// [ModelFieldValueConverter] to enable automatic conversion of [ModelTime] as [ModelFieldValue].
+///
+/// [ModelTime]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+@immutable
+class ModelTimeConverter extends ModelFieldValueConverter<ModelTime> {
+  /// [ModelFieldValueConverter] to enable automatic conversion of [ModelTime] as [ModelFieldValue].
+  ///
+  /// [ModelTime]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+  const ModelTimeConverter();
+
+  @override
+  String get type => ModelTime.typeString;
+
+  @override
+  ModelTime fromJson(Map<String, Object?> map) {
+    return ModelTime.fromJson(map);
+  }
+
+  @override
+  Map<String, Object?> toJson(ModelTime value) {
+    return value.toJson();
+  }
+}
+
+/// Filter class to make [ModelTime] available to [ModelQuery.filters].
+///
+/// [ModelTime]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+@immutable
+class ModelTimeFilter extends ModelFieldValueFilter<ModelTime> {
+  /// Filter class to make [ModelTime] available to [ModelQuery.filters].
+  ///
+  /// [ModelTime]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+  const ModelTimeFilter();
+
+  @override
+  String get type => ModelTime.typeString;
+
+  @override
+  int? compare(dynamic a, dynamic b) {
+    return _hasMatch(a, b, (a, b) => a.compareTo(b));
+  }
+
+  @override
+  bool? hasMatch(ModelQueryFilter filter, dynamic source) {
+    final target = filter.value;
+    switch (filter.type) {
+      case ModelQueryFilterType.equalTo:
+        return _hasMatch(source, target, (source, target) => source == target);
+      case ModelQueryFilterType.notEqualTo:
+        return _hasMatch(source, target, (source, target) => source != target);
+      case ModelQueryFilterType.lessThan:
+        return _hasMatch(source, target, (source, target) => source < target);
+      case ModelQueryFilterType.greaterThan:
+        return _hasMatch(source, target, (source, target) => source > target);
+      case ModelQueryFilterType.lessThanOrEqualTo:
+        return _hasMatch(source, target, (source, target) => source <= target);
+      case ModelQueryFilterType.greaterThanOrEqualTo:
+        return _hasMatch(source, target, (source, target) => source >= target);
+      case ModelQueryFilterType.arrayContains:
+        if (source is List) {
+          if (source.any((s) =>
+              _hasMatch(s, target, (source, target) => source == target) ??
+              false)) {
+            return true;
+          }
+        }
+        break;
+      case ModelQueryFilterType.arrayContainsAny:
+        if (source is List && target is List && target.isNotEmpty) {
+          if (source.any((s) => target.any((t) =>
+              _hasMatch(s, t, (source, target) => source == target) ??
+              false))) {
+            return true;
+          }
+        }
+        break;
+      case ModelQueryFilterType.whereIn:
+        if (target is List && target.isNotEmpty) {
+          final matches = target.mapAndRemoveEmpty((t) =>
+              _hasMatch(source, t, (source, target) => source == target));
+          if (matches.isNotEmpty) {
+            return matches.any((element) => element);
+          }
+        }
+        break;
+      case ModelQueryFilterType.whereNotIn:
+        if (target is List && target.isNotEmpty) {
+          final matches = target.mapAndRemoveEmpty((t) =>
+              _hasMatch(source, t, (source, target) => source == target));
+          if (matches.isNotEmpty) {
+            return !matches.any((element) => element);
+          }
+        }
+        break;
+      default:
+        return null;
+    }
+    return null;
+  }
+
+  T? _hasMatch<T>(
+    dynamic source,
+    dynamic target,
+    T Function(num source, num target) filter,
+  ) {
+    if (source is ModelTime && target is ModelTime) {
+      return filter(source.value.microsecondsSinceEpoch,
+          target.value.microsecondsSinceEpoch);
+    } else if (source is ModelTime && target is DateTime) {
+      return filter(
+          source.value.microsecondsSinceEpoch,
+          DateTime(target.year, target.month, target.day)
+              .microsecondsSinceEpoch);
+    } else if (source is DateTime && target is ModelTime) {
+      return filter(
+          DateTime(source.year, source.month, source.day)
+              .microsecondsSinceEpoch,
+          target.value.microsecondsSinceEpoch);
+    } else if (source is ModelTime && target is num) {
+      return filter(source.value.microsecondsSinceEpoch, target);
+    } else if (source is num && target is ModelTime) {
+      return filter(source, target.value.microsecondsSinceEpoch);
+    } else if (source is ModelTime &&
+        target is DynamicMap &&
+        target.get(kTypeFieldKey, "") == ModelTime.typeString) {
+      return filter(source.value.microsecondsSinceEpoch,
+          ModelTime.fromJson(target).value.microsecondsSinceEpoch);
+    } else if (source is DynamicMap &&
+        target is ModelTime &&
+        source.get(kTypeFieldKey, "") == ModelTime.typeString) {
+      return filter(ModelTime.fromJson(source).value.microsecondsSinceEpoch,
+          target.value.microsecondsSinceEpoch);
+    } else if (source is DynamicMap &&
+        target is DynamicMap &&
+        source.get(kTypeFieldKey, "") == ModelTime.typeString &&
+        target.get(kTypeFieldKey, "") == ModelTime.typeString) {
+      return filter(ModelTime.fromJson(source).value.microsecondsSinceEpoch,
+          ModelTime.fromJson(target).value.microsecondsSinceEpoch);
+    }
+    return null;
+  }
+}
+
+/// Define the field as a range of timestamps.
+///
+/// The base value is given as [value].
+///
+/// フィールドをタイムスタンプの範囲として定義します。
+///
+/// ベースの値を[value]として与えます。
+@immutable
+class ModelTimestampRange extends ModelFieldValue<DateTimeRange>
+    implements Comparable<ModelTimestampRange> {
+  /// Define the field as a range of timestamps.
+  ///
+  /// The base value is given as [value].
+  ///
+  /// フィールドをタイムスタンプの範囲として定義します。
+  ///
+  /// ベースの値を[value]として与えます。
+  const factory ModelTimestampRange(DateTimeRange value) = _ModelTimestampRange;
+
+  /// Define the field as a range of timestamps.
+  ///
+  /// The [ModelTimestamp] at the start is given as [start] and the [ModelTimestamp] at the end as [end].
+  ///
+  /// フィールドをタイムスタンプの範囲として定義します。
+  ///
+  /// 開始時の[ModelTimestamp]を[start]、終了時の[ModelTimestamp]を[end]として与えます。
+  const factory ModelTimestampRange.fromModelTimestamp({
+    required ModelTimestamp start,
+    required ModelTimestamp end,
+  }) = _ModelTimestampRangeWithModelTimestamp;
+
+  /// Define the field as a range of timestamps.
+  ///
+  /// The [DateTime] at the start is given as [start] and the [DateTime] at the end as [end].
+  ///
+  /// フィールドをタイムスタンプの範囲として定義します。
+  ///
+  /// 開始時の[DateTime]を[start]、終了時の[DateTime]を[end]として与えます。
+  const factory ModelTimestampRange.fromDateTime({
+    required DateTime start,
+    required DateTime end,
+  }) = _ModelTimestampRangeWithDateTime;
+
+  /// Used to disguise the retrieval of data from the server.
+  ///
+  /// Use for testing purposes.
+  ///
+  /// サーバーからのデータの取得に偽装するために利用します。
+  ///
+  /// テスト用途で用いてください。
+  const factory ModelTimestampRange.fromServer(DateTimeRange value) =
+      _ModelTimestampRange.fromServer;
+
+  /// Convert from [json] map to [ModelTimestamp].
+  ///
+  /// [json]のマップから[ModelTimestamp]に変換します。
+  factory ModelTimestampRange.fromJson(DynamicMap json) {
+    final start = json.get(
+      kStartTimeKey,
+      DateTime.now().microsecondsSinceEpoch,
+    );
+    final end = json.get(
+      kEndTimeKey,
+      DateTime.now().microsecondsSinceEpoch + 1,
+    );
+    return ModelTimestampRange.fromServer(
+      DateTimeRange(
+        start: DateTime.fromMicrosecondsSinceEpoch(start),
+        end: DateTime.fromMicrosecondsSinceEpoch(end),
+      ),
+    );
+  }
+
+  const ModelTimestampRange._([
+    DateTimeRange? value,
+    ModelFieldValueSource source = ModelFieldValueSource.user,
+  ])  : _value = value,
+        _source = source;
+
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelTimestampRange";
+
+  /// Key to save start time.
+  ///
+  /// 開始時間を保存しておくキー。
+  static const kStartTimeKey = "@start";
+
+  /// Key to save end time.
+  ///
+  /// 終了時間を保存しておくキー。
+  static const kEndTimeKey = "@end";
+
+  /// Key to store the data source.
+  ///
+  /// データソースを保存しておくキー。
+  static const kSourceKey = "@source";
+
+  @override
+  DateTimeRange get value =>
+      _value ??
+      DateTimeRange(
+        start: DateTime.now(),
+        end: DateTime.now().add(const Duration(days: 1)),
+      );
+  final DateTimeRange? _value;
+
+  final ModelFieldValueSource _source;
+
+  /// Convert to [ModelDateRange].
+  ///
+  /// [ModelDateRange]に変換します。
+  ModelDateRange toModelDateRange() {
+    return ModelDateRange(value);
+  }
+
+  /// Convert to [ModelTimeRange].
+  ///
+  /// [ModelTimeRange]に変換します。
+  ModelTimeRange toModelTimeRange() {
+    return ModelTimeRange(value);
+  }
+
+  @override
+  String toString() {
+    return value.toString();
+  }
+
+  @override
+  DynamicMap toJson() => {
+        kTypeFieldKey: ModelTimestamp.typeString,
+        kStartTimeKey: value.start.microsecondsSinceEpoch,
+        kEndTimeKey: value.end.microsecondsSinceEpoch,
+        kSourceKey: _source.name,
+      };
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  int compareTo(ModelTimestampRange other) {
+    return value.toString().compareTo(
+          other.value.toString(),
+        );
+  }
+}
+
+@immutable
+class _ModelTimestampRangeWithModelTimestamp extends _ModelTimestampRange {
+  const _ModelTimestampRangeWithModelTimestamp({
+    required this.start,
+    required this.end,
+  }) : super();
+
+  final ModelTimestamp start;
+  final ModelTimestamp end;
+
+  @override
+  DateTimeRange? get _value {
+    return DateTimeRange(
+      start: start.value,
+      end: end.value,
+    );
+  }
+}
+
+@immutable
+class _ModelTimestampRangeWithDateTime extends _ModelTimestampRange {
+  const _ModelTimestampRangeWithDateTime({
+    required this.start,
+    required this.end,
+  }) : super();
+
+  final DateTime start;
+  final DateTime end;
+
+  @override
+  DateTimeRange? get _value {
+    return DateTimeRange(
+      start: start,
+      end: end,
+    );
+  }
+}
+
+@immutable
+class _ModelTimestampRange extends ModelTimestampRange
+    with ModelFieldValueAsMapMixin<DateTimeRange> {
+  const _ModelTimestampRange([
+    super.value,
+  ]) : super._();
+  const _ModelTimestampRange.fromServer([DateTimeRange? value])
+      : super._(value, ModelFieldValueSource.server);
+}
+
+/// [ModelFieldValueConverter] to enable automatic conversion of [ModelTimestampRange] as [ModelFieldValue].
+///
+/// [ModelTimestampRange]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+@immutable
+class ModelTimestampRangeConverter
+    extends ModelFieldValueConverter<ModelTimestampRange> {
+  /// [ModelFieldValueConverter] to enable automatic conversion of [ModelTimestampRange] as [ModelFieldValue].
+  ///
+  /// [ModelTimestampRange]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+  const ModelTimestampRangeConverter();
+
+  @override
+  String get type => ModelTimestampRange.typeString;
+
+  @override
+  ModelTimestampRange fromJson(Map<String, Object?> map) {
+    return ModelTimestampRange.fromJson(map);
+  }
+
+  @override
+  Map<String, Object?> toJson(ModelTimestampRange value) {
+    return value.toJson();
+  }
+}
+
+/// Filter class to make [ModelTimestampRange] available to [ModelQuery.filters].
+///
+/// [ModelTimestampRange]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+@immutable
+class ModelTimestampRangeFilter
+    extends ModelFieldValueFilter<ModelTimestampRange> {
+  /// Filter class to make [ModelTimestampRange] available to [ModelQuery.filters].
+  ///
+  /// [ModelTimestampRange]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+  const ModelTimestampRangeFilter();
+
+  @override
+  String get type => ModelTimestampRange.typeString;
+
+  @override
+  int? compare(dynamic a, dynamic b) {
+    return _hasMatch(a, b, (a, b) => a.toString().compareTo(b.toString()));
+  }
+
+  @override
+  bool? hasMatch(ModelQueryFilter filter, dynamic source) {
+    final target = filter.value;
+    switch (filter.type) {
+      case ModelQueryFilterType.equalTo:
+        return _hasMatch(source, target, (source, target) => source == target);
+      case ModelQueryFilterType.notEqualTo:
+        return _hasMatch(source, target, (source, target) => source != target);
+      case ModelQueryFilterType.lessThan:
+      case ModelQueryFilterType.greaterThan:
+      case ModelQueryFilterType.lessThanOrEqualTo:
+      case ModelQueryFilterType.greaterThanOrEqualTo:
+        return null;
+      case ModelQueryFilterType.arrayContains:
+        if (source is List) {
+          if (source.any((s) =>
+              _hasMatch(s, target, (source, target) => source == target) ??
+              false)) {
+            return true;
+          }
+        }
+        break;
+      case ModelQueryFilterType.arrayContainsAny:
+        if (source is List && target is List && target.isNotEmpty) {
+          if (source.any((s) => target.any((t) =>
+              _hasMatch(s, t, (source, target) => source == target) ??
+              false))) {
+            return true;
+          }
+        }
+        break;
+      case ModelQueryFilterType.whereIn:
+        if (target is List && target.isNotEmpty) {
+          final matches = target.mapAndRemoveEmpty((t) =>
+              _hasMatch(source, t, (source, target) => source == target));
+          if (matches.isNotEmpty) {
+            return matches.any((element) => element);
+          }
+        }
+        break;
+      case ModelQueryFilterType.whereNotIn:
+        if (target is List && target.isNotEmpty) {
+          final matches = target.mapAndRemoveEmpty((t) =>
+              _hasMatch(source, t, (source, target) => source == target));
+          if (matches.isNotEmpty) {
+            return !matches.any((element) => element);
+          }
+        }
+        break;
+      default:
+        return null;
+    }
+    return null;
+  }
+
+  T? _hasMatch<T>(
+    dynamic source,
+    dynamic target,
+    T Function(DateTimeRange source, DateTimeRange target) filter,
+  ) {
+    if (source is ModelTimestampRange && target is ModelTimestampRange) {
+      return filter(source.value, target.value);
+    } else if (source is ModelTimestampRange && target is DateTimeRange) {
+      return filter(source.value, target);
+    } else if (source is DateTimeRange && target is ModelTimestampRange) {
+      return filter(source, target.value);
+    } else if (source is ModelTimestampRange &&
+        target is DynamicMap &&
+        target.get(kTypeFieldKey, "") == ModelTimestampRange.typeString) {
+      return filter(source.value, ModelTimestampRange.fromJson(target).value);
+    } else if (source is DynamicMap &&
+        target is ModelTimestampRange &&
+        source.get(kTypeFieldKey, "") == ModelTimestampRange.typeString) {
+      return filter(ModelTimestampRange.fromJson(source).value, target.value);
+    } else if (source is DynamicMap &&
+        target is DynamicMap &&
+        source.get(kTypeFieldKey, "") == ModelTimestampRange.typeString &&
+        target.get(kTypeFieldKey, "") == ModelTimestampRange.typeString) {
+      return filter(ModelTimestampRange.fromJson(source).value,
+          ModelTimestampRange.fromJson(target).value);
+    }
+    return null;
+  }
+}
+
+/// Define the field as a range of dates.
+///
+/// The base value is given as [value].
+///
+/// フィールドを日付の範囲として定義します。
+///
+/// ベースの値を[value]として与えます
+@immutable
+class ModelDateRange extends ModelFieldValue<DateTimeRange>
+    implements Comparable<ModelDateRange> {
+  /// Define the field as a date.
+  ///
+  /// The base value is given as [value].
+  ///
+  /// フィールドを日付として定義します。
+  ///
+  /// ベースの値を[value]として与えます。
+  const factory ModelDateRange(DateTimeRange value) = _ModelDateRange;
+
+  /// Define the field as a range of timestamps.
+  ///
+  /// The [ModelDate] at the start is given as [start] and the [ModelDate] at the end as [end].
+  ///
+  /// フィールドを日付の範囲として定義します。
+  ///
+  /// 開始時の[ModelDate]を[start]、終了時の[ModelDate]を[end]として与えます。
+  const factory ModelDateRange.fromModelDate({
+    required ModelDate start,
+    required ModelDate end,
+  }) = _ModelDateRangeWithModelDate;
+
+  /// Define the field as a range of timestamps.
+  ///
+  /// The [DateTime] at the start is given as [start] and the [DateTime] at the end as [end].
+  ///
+  /// フィールドを日付の範囲として定義します。
+  ///
+  /// 開始時の[DateTime]を[start]、終了時の[DateTime]を[end]として与えます。
+  const factory ModelDateRange.fromDateTime({
+    required DateTime start,
+    required DateTime end,
+  }) = _ModelDateRangeWithDateTime;
+
+  /// Used to disguise the retrieval of data from the server.
+  ///
+  /// Use for testing purposes.
+  ///
+  /// サーバーからのデータの取得に偽装するために利用します。
+  ///
+  /// テスト用途で用いてください。
+  const factory ModelDateRange.fromServer(DateTimeRange value) =
+      _ModelDateRange.fromServer;
+
+  /// Convert from [json] map to [ModelDateRange].
+  ///
+  /// [json]のマップから[ModelDateRange]に変換します。
+  factory ModelDateRange.fromJson(DynamicMap json) {
+    final start = json.get(
+      kStartTimeKey,
+      DateTime.now().microsecondsSinceEpoch,
+    );
+    final end = json.get(
+      kEndTimeKey,
+      DateTime.now().microsecondsSinceEpoch + 1,
+    );
+    return ModelDateRange.fromServer(
+      DateTimeRange(
+        start: DateTime.fromMicrosecondsSinceEpoch(start),
+        end: DateTime.fromMicrosecondsSinceEpoch(end),
+      ),
+    );
+  }
+
+  const ModelDateRange._([
+    DateTimeRange? value,
+    ModelFieldValueSource source = ModelFieldValueSource.user,
+  ])  : _value = value,
+        _source = source;
+
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelDate";
+
+  /// Key to save the start time.
+  ///
+  /// 開始時間を保存しておくキー。
+  static const kStartTimeKey = "@start";
+
+  /// Key to save the end time.
+  ///
+  /// 終了時間を保存しておくキー。
+  static const kEndTimeKey = "@end";
+
+  /// Key to store the data source.
+  ///
+  /// データソースを保存しておくキー。
+  static const kSourceKey = "@source";
+
+  @override
+  DateTimeRange get value {
+    final now = _value ??
+        DateTimeRange(
+          start: DateTime.now(),
+          end: DateTime.now().add(const Duration(days: 1)),
+        );
+    return DateTimeRange(
+      start: DateTime(
+        now.start.year,
+        now.start.month,
+        now.start.day,
+      ),
+      end: DateTime(
+        now.end.year,
+        now.end.month,
+        now.end.day,
+      ),
+    );
+  }
+
+  final DateTimeRange? _value;
+
+  final ModelFieldValueSource _source;
+
+  /// Convert to [ModelTimestampRange].
+  ///
+  /// [ModelTimestampRange]に変換します。
+  ModelTimestampRange toModelTimestampRange() {
+    return ModelTimestampRange(value);
+  }
+
+  @override
+  String toString() {
+    return value.toString();
+  }
+
+  @override
+  DynamicMap toJson() => {
+        kTypeFieldKey: ModelDate.typeString,
+        kStartTimeKey: value.start.microsecondsSinceEpoch,
+        kEndTimeKey: value.end.microsecondsSinceEpoch,
+        kSourceKey: _source.name,
+      };
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  int compareTo(ModelDateRange other) {
+    return value.toString().compareTo(other.value.toString());
+  }
+}
+
+@immutable
+class _ModelDateRangeWithModelDate extends _ModelDateRange {
+  const _ModelDateRangeWithModelDate({
+    required this.start,
+    required this.end,
+  }) : super();
+
+  final ModelDate start;
+  final ModelDate end;
+
+  @override
+  DateTimeRange? get _value {
+    return DateTimeRange(
+      start: start.value,
+      end: end.value,
+    );
+  }
+}
+
+@immutable
+class _ModelDateRangeWithDateTime extends _ModelDateRange {
+  const _ModelDateRangeWithDateTime({
+    required this.start,
+    required this.end,
+  }) : super();
+
+  final DateTime start;
+  final DateTime end;
+
+  @override
+  DateTimeRange? get _value {
+    return DateTimeRange(
+      start: start,
+      end: end,
+    );
+  }
+}
+
+@immutable
+class _ModelDateRange extends ModelDateRange
+    with ModelFieldValueAsMapMixin<DateTimeRange> {
+  const _ModelDateRange([
+    super.value,
+  ]) : super._();
+  const _ModelDateRange.fromServer([DateTimeRange? value])
+      : super._(value, ModelFieldValueSource.server);
+}
+
+/// [ModelFieldValueConverter] to enable automatic conversion of [ModelDateRange] as [ModelFieldValue].
+///
+/// [ModelDateRange]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+@immutable
+class ModelDateRangeConverter extends ModelFieldValueConverter<ModelDateRange> {
+  /// [ModelFieldValueConverter] to enable automatic conversion of [ModelDateRange] as [ModelFieldValue].
+  ///
+  /// [ModelDateRange]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+  const ModelDateRangeConverter();
+
+  @override
+  String get type => ModelDateRange.typeString;
+
+  @override
+  ModelDateRange fromJson(Map<String, Object?> map) {
+    return ModelDateRange.fromJson(map);
+  }
+
+  @override
+  Map<String, Object?> toJson(ModelDateRange value) {
+    return value.toJson();
+  }
+}
+
+/// Filter class to make [ModelDateRange] available to [ModelQuery.filters].
+///
+/// [ModelDateRange]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+@immutable
+class ModelDateRangeFilter extends ModelFieldValueFilter<ModelDateRange> {
+  /// Filter class to make [ModelDateRange] available to [ModelQuery.filters].
+  ///
+  /// [ModelDateRange]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+  const ModelDateRangeFilter();
+
+  @override
+  String get type => ModelDateRange.typeString;
+
+  @override
+  int? compare(dynamic a, dynamic b) {
+    return _hasMatch(a, b, (a, b) => a.toString().compareTo(b.toString()));
+  }
+
+  @override
+  bool? hasMatch(ModelQueryFilter filter, dynamic source) {
+    final target = filter.value;
+    switch (filter.type) {
+      case ModelQueryFilterType.equalTo:
+        return _hasMatch(source, target, (source, target) => source == target);
+      case ModelQueryFilterType.notEqualTo:
+        return _hasMatch(source, target, (source, target) => source != target);
+      case ModelQueryFilterType.lessThan:
+      case ModelQueryFilterType.greaterThan:
+      case ModelQueryFilterType.lessThanOrEqualTo:
+      case ModelQueryFilterType.greaterThanOrEqualTo:
+        return null;
+      case ModelQueryFilterType.arrayContains:
+        if (source is List) {
+          if (source.any((s) =>
+              _hasMatch(s, target, (source, target) => source == target) ??
+              false)) {
+            return true;
+          }
+        }
+        break;
+      case ModelQueryFilterType.arrayContainsAny:
+        if (source is List && target is List && target.isNotEmpty) {
+          if (source.any((s) => target.any((t) =>
+              _hasMatch(s, t, (source, target) => source == target) ??
+              false))) {
+            return true;
+          }
+        }
+        break;
+      case ModelQueryFilterType.whereIn:
+        if (target is List && target.isNotEmpty) {
+          final matches = target.mapAndRemoveEmpty((t) =>
+              _hasMatch(source, t, (source, target) => source == target));
+          if (matches.isNotEmpty) {
+            return matches.any((element) => element);
+          }
+        }
+        break;
+      case ModelQueryFilterType.whereNotIn:
+        if (target is List && target.isNotEmpty) {
+          final matches = target.mapAndRemoveEmpty((t) =>
+              _hasMatch(source, t, (source, target) => source == target));
+          if (matches.isNotEmpty) {
+            return !matches.any((element) => element);
+          }
+        }
+        break;
+      default:
+        return null;
+    }
+    return null;
+  }
+
+  T? _hasMatch<T>(
+    dynamic source,
+    dynamic target,
+    T Function(DateTimeRange source, DateTimeRange target) filter,
+  ) {
+    if (source is ModelDateRange && target is ModelDateRange) {
+      return filter(source.value, target.value);
+    } else if (source is ModelDateRange && target is DateTimeRange) {
+      return filter(source.value, target);
+    } else if (source is DateTimeRange && target is ModelDateRange) {
+      return filter(source, target.value);
+    } else if (source is DateTimeRange && target is DateTimeRange) {
+      return filter(source, target);
+    } else if (source is ModelDateRange &&
+        target is DynamicMap &&
+        target.get(kTypeFieldKey, "") == ModelDateRange.typeString) {
+      return filter(source.value, ModelDateRange.fromJson(target).value);
+    } else if (source is DynamicMap &&
+        target is ModelDateRange &&
+        source.get(kTypeFieldKey, "") == ModelDateRange.typeString) {
+      return filter(ModelDateRange.fromJson(source).value, target.value);
+    } else if (source is DynamicMap &&
+        target is DynamicMap &&
+        source.get(kTypeFieldKey, "") == ModelDateRange.typeString &&
+        target.get(kTypeFieldKey, "") == ModelDateRange.typeString) {
+      return filter(ModelDateRange.fromJson(source).value,
+          ModelDateRange.fromJson(target).value);
+    }
+    return null;
+  }
+}
+
+/// Define the field as a time range.
+///
+/// The base value is given as [value].
+///
+/// フィールドを時刻の範囲として定義します。
+///
+/// ベースの値を[value]として与えます。
+@immutable
+class ModelTimeRange extends ModelFieldValue<DateTimeRange>
+    implements Comparable<ModelTimeRange> {
+  /// Define the field as a time range.
+  ///
+  /// The base value is given as [value]. If not given, the current time is set.
+  ///
+  /// フィールドを時刻の範囲として定義します。
+  ///
+  /// ベースの値を[value]として与えます。与えられなかった場合現在の時刻がセットされます。
+  const factory ModelTimeRange(DateTimeRange value) = _ModelTimeRange;
+
+  /// Define the field as a range of timestamps.
+  ///
+  /// The [ModelTime] at the start is given as [start] and the [ModelTime] at the end as [end].
+  ///
+  /// フィールドを時刻の範囲として定義します。
+  ///
+  /// 開始時の[ModelTime]を[start]、終了時の[ModelTime]を[end]として与えます。
+  const factory ModelTimeRange.fromModelTime({
+    required ModelTime start,
+    required ModelTime end,
+  }) = _ModelTimeRangeWithModelTime;
+
+  /// Define the field as a range of timestamps.
+  ///
+  /// The [DateTime] at the start is given as [start] and the [DateTime] at the end as [end].
+  ///
+  /// フィールドを時刻の範囲として定義します。
+  ///
+  /// 開始時の[DateTime]を[start]、終了時の[DateTime]を[end]として与えます。
+  const factory ModelTimeRange.fromDateTime({
+    required DateTime start,
+    required DateTime end,
+  }) = _ModelTimeRangeWithDateTime;
+
+  /// Used to disguise the retrieval of data from the server.
+  ///
+  /// Use for testing purposes.
+  ///
+  /// サーバーからのデータの取得に偽装するために利用します。
+  ///
+  /// テスト用途で用いてください。
+  const factory ModelTimeRange.fromServer(DateTimeRange value) =
+      _ModelTimeRange.fromServer;
+
+  /// Convert from [json] map to [ModelTimeRange].
+  ///
+  /// [json]のマップから[ModelTimeRange]に変換します。
+  factory ModelTimeRange.fromJson(DynamicMap json) {
+    final start = json.get(
+      kStartTimeKey,
+      DateTime.now().microsecondsSinceEpoch,
+    );
+    final end = json.get(
+      kEndTimeKey,
+      DateTime.now().microsecondsSinceEpoch + 1,
+    );
+    return ModelTimeRange.fromServer(
+      DateTimeRange(
+        start: DateTime.fromMicrosecondsSinceEpoch(start),
+        end: DateTime.fromMicrosecondsSinceEpoch(end),
+      ),
+    );
+  }
+
+  const ModelTimeRange._([
+    DateTimeRange? value,
+    ModelFieldValueSource source = ModelFieldValueSource.user,
+  ])  : _value = value,
+        _source = source;
+
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelTimeRange";
+
+  /// Key to save start time.
+  ///
+  /// 開始時間を保存しておくキー。
+  static const kStartTimeKey = "@start";
+
+  /// Key to save end time.
+  ///
+  /// 終了時間を保存しておくキー。
+  static const kEndTimeKey = "@end";
+
+  /// Key to store the data source.
+  ///
+  /// データソースを保存しておくキー。
+  static const kSourceKey = "@source";
+
+  @override
+  DateTimeRange get value {
+    return _value ??
+        DateTimeRange(
+          start: DateTime.now(),
+          end: DateTime.now().add(const Duration(hours: 1)),
+        );
+  }
+
+  final DateTimeRange? _value;
+
+  final ModelFieldValueSource _source;
+
+  /// Convert to [ModelTimestamp]. The date will be [date], or January 1, 1970.
+  ///
+  /// [ModelTimestamp]に変換します。日付は[date]、もしくは1970年1月1日になります。
+  ModelTimestampRange toModelTimestampRange([ModelDate? date]) {
+    return ModelTimestampRange(
+      DateTimeRange(
+        start: DateTime(
+          date?.value.year ?? ModelTime._defaultYear,
+          date?.value.month ?? ModelTime._defaultMonth,
+          date?.value.day ?? ModelTime._defaultDay,
+          value.start.hour,
+          value.start.minute,
+          value.start.second,
+          value.start.millisecond,
+          value.start.microsecond,
+        ),
+        end: DateTime(
+          date?.value.year ?? ModelTime._defaultYear,
+          date?.value.month ?? ModelTime._defaultMonth,
+          date?.value.day ?? ModelTime._defaultDay,
+          value.end.hour,
+          value.end.minute,
+          value.end.second,
+          value.end.millisecond,
+          value.end.microsecond,
+        ),
+      ),
+    );
+  }
+
+  @override
+  String toString() {
+    return value.toString();
+  }
+
+  @override
+  DynamicMap toJson() => {
+        kTypeFieldKey: ModelTimeRange.typeString,
+        kStartTimeKey: value.start.microsecondsSinceEpoch,
+        kEndTimeKey: value.end.microsecondsSinceEpoch,
+        kSourceKey: _source.name,
+      };
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  int compareTo(ModelTimeRange other) {
+    return value.toString().compareTo(other.value.toString());
+  }
+}
+
+@immutable
+class _ModelTimeRangeWithModelTime extends _ModelTimeRange {
+  const _ModelTimeRangeWithModelTime({
+    required this.start,
+    required this.end,
+  }) : super();
+
+  final ModelTime start;
+  final ModelTime end;
+
+  @override
+  DateTimeRange? get _value {
+    return DateTimeRange(
+      start: start.value,
+      end: end.value,
+    );
+  }
+}
+
+@immutable
+class _ModelTimeRangeWithDateTime extends _ModelTimeRange {
+  const _ModelTimeRangeWithDateTime({
+    required this.start,
+    required this.end,
+  }) : super();
+
+  final DateTime start;
+  final DateTime end;
+
+  @override
+  DateTimeRange? get _value {
+    return DateTimeRange(
+      start: start,
+      end: end,
+    );
+  }
+}
+
+@immutable
+class _ModelTimeRange extends ModelTimeRange
+    with ModelFieldValueAsMapMixin<DateTimeRange> {
+  const _ModelTimeRange([
+    super.value,
+  ]) : super._();
+  const _ModelTimeRange.fromServer([DateTimeRange? value])
+      : super._(value, ModelFieldValueSource.server);
+}
+
+/// [ModelFieldValueConverter] to enable automatic conversion of [ModelTimeRange] as [ModelFieldValue].
+///
+/// [ModelTimeRange]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+@immutable
+class ModelTimeRangeConverter extends ModelFieldValueConverter<ModelTimeRange> {
+  /// [ModelFieldValueConverter] to enable automatic conversion of [ModelTimeRange] as [ModelFieldValue].
+  ///
+  /// [ModelTimeRange]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+  const ModelTimeRangeConverter();
+
+  @override
+  String get type => ModelTimeRange.typeString;
+
+  @override
+  ModelTimeRange fromJson(Map<String, Object?> map) {
+    return ModelTimeRange.fromJson(map);
+  }
+
+  @override
+  Map<String, Object?> toJson(ModelTimeRange value) {
+    return value.toJson();
+  }
+}
+
+/// Filter class to make [ModelTime] available to [ModelQuery.filters].
+///
+/// [ModelTime]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+@immutable
+class ModelTimeRangeFilter extends ModelFieldValueFilter<ModelTimeRange> {
+  /// Filter class to make [ModelTimeRange] available to [ModelQuery.filters].
+  ///
+  /// [ModelTimeRange]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+  const ModelTimeRangeFilter();
+
+  @override
+  String get type => ModelTimeRange.typeString;
+
+  @override
+  int? compare(dynamic a, dynamic b) {
+    return _hasMatch(a, b, (a, b) => a.toString().compareTo(b.toString()));
+  }
+
+  @override
+  bool? hasMatch(ModelQueryFilter filter, dynamic source) {
+    final target = filter.value;
+    switch (filter.type) {
+      case ModelQueryFilterType.equalTo:
+        return _hasMatch(source, target, (source, target) => source == target);
+      case ModelQueryFilterType.notEqualTo:
+        return _hasMatch(source, target, (source, target) => source != target);
+      case ModelQueryFilterType.lessThan:
+      case ModelQueryFilterType.greaterThan:
+      case ModelQueryFilterType.lessThanOrEqualTo:
+      case ModelQueryFilterType.greaterThanOrEqualTo:
+        return null;
+      case ModelQueryFilterType.arrayContains:
+        if (source is List) {
+          if (source.any((s) =>
+              _hasMatch(s, target, (source, target) => source == target) ??
+              false)) {
+            return true;
+          }
+        }
+        break;
+      case ModelQueryFilterType.arrayContainsAny:
+        if (source is List && target is List && target.isNotEmpty) {
+          if (source.any((s) => target.any((t) =>
+              _hasMatch(s, t, (source, target) => source == target) ??
+              false))) {
+            return true;
+          }
+        }
+        break;
+      case ModelQueryFilterType.whereIn:
+        if (target is List && target.isNotEmpty) {
+          final matches = target.mapAndRemoveEmpty((t) =>
+              _hasMatch(source, t, (source, target) => source == target));
+          if (matches.isNotEmpty) {
+            return matches.any((element) => element);
+          }
+        }
+        break;
+      case ModelQueryFilterType.whereNotIn:
+        if (target is List && target.isNotEmpty) {
+          final matches = target.mapAndRemoveEmpty((t) =>
+              _hasMatch(source, t, (source, target) => source == target));
+          if (matches.isNotEmpty) {
+            return !matches.any((element) => element);
+          }
+        }
+        break;
+      default:
+        return null;
+    }
+    return null;
+  }
+
+  T? _hasMatch<T>(
+    dynamic source,
+    dynamic target,
+    T Function(DateTimeRange source, DateTimeRange target) filter,
+  ) {
+    if (source is ModelTimeRange && target is ModelTimeRange) {
+      return filter(source.value, target.value);
+    } else if (source is ModelTimeRange && target is DateTimeRange) {
+      return filter(source.value, target);
+    } else if (source is DateTimeRange && target is ModelTimeRange) {
+      return filter(source, target.value);
+    } else if (source is ModelTimeRange &&
+        target is DynamicMap &&
+        target.get(kTypeFieldKey, "") == ModelTimeRange.typeString) {
+      return filter(source.value, ModelTimeRange.fromJson(target).value);
+    } else if (source is DynamicMap &&
+        target is ModelTimeRange &&
+        source.get(kTypeFieldKey, "") == ModelTimeRange.typeString) {
+      return filter(ModelTimeRange.fromJson(source).value, target.value);
+    } else if (source is DynamicMap &&
+        target is DynamicMap &&
+        source.get(kTypeFieldKey, "") == ModelTimeRange.typeString &&
+        target.get(kTypeFieldKey, "") == ModelTimeRange.typeString) {
+      return filter(ModelTimeRange.fromJson(source).value,
+          ModelTimeRange.fromJson(target).value);
     }
     return null;
   }

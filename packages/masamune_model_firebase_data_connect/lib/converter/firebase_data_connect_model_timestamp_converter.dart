@@ -24,8 +24,8 @@ class FirebaseDataConnectModelTimestampConverter
 
   Timestamp _convertTo(DynamicMap map) {
     final val = map.get<num>(ModelTimestamp.kTimeKey, 0.0);
-    final seconds = val ~/ 1000;
-    final nanoseconds = ((val % 1000) * 1000000).toInt();
+    final seconds = val ~/ 1000000;
+    final nanoseconds = ((val % 1000000) * 1000000).toInt();
     return Timestamp(nanoseconds, seconds);
   }
 
@@ -114,9 +114,9 @@ class FirebaseDataConnectModelTimestampConverter
     FirebaseDataConnectModelAdapterBase? adapter,
   ]) {
     final dateTime = (value as ModelTimestamp).value;
-    final seconds = dateTime.millisecondsSinceEpoch ~/ 1000;
+    final seconds = dateTime.microsecondsSinceEpoch ~/ 1000000;
     final nanoseconds =
-        ((dateTime.millisecondsSinceEpoch % 1000) * 1000000).toInt();
+        ((dateTime.microsecondsSinceEpoch % 1000000) * 1000000).toInt();
     return Timestamp(nanoseconds, seconds);
   }
 

@@ -121,6 +121,26 @@ enum SchemaModelFieldValueType {
   /// [ModelDate]。
   modelDate,
 
+  /// [ModelTime].
+  ///
+  /// [ModelTime]。
+  modelTime,
+
+  /// [ModelTimestampRange].
+  ///
+  /// [ModelTimestampRange]。
+  modelTimestampRange,
+
+  /// [ModelDateRange].
+  ///
+  /// [ModelDateRange]。
+  modelDateRange,
+
+  /// [ModelTimeRange].
+  ///
+  /// [ModelTimeRange]。
+  modelTimeRange,
+
   /// [ModelCommand].
   ///
   /// [ModelCommand]。
@@ -182,6 +202,14 @@ enum SchemaModelFieldValueType {
         return "ModelTimestamp";
       case SchemaModelFieldValueType.modelDate:
         return "ModelDate";
+      case SchemaModelFieldValueType.modelTime:
+        return "ModelTime";
+      case SchemaModelFieldValueType.modelTimestampRange:
+        return "ModelTimestampRange";
+      case SchemaModelFieldValueType.modelDateRange:
+        return "ModelDateRange";
+      case SchemaModelFieldValueType.modelTimeRange:
+        return "ModelTimeRange";
       case SchemaModelFieldValueType.modelCommand:
         return "ModelCommand";
       case SchemaModelFieldValueType.modelGeoValue:

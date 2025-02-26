@@ -141,6 +141,14 @@ extension _InterfaceTypeExtensions on InterfaceType {
       return "${DocsModelFieldValueType.modelTimestamp.app}$nullable";
     } else if (isModelDate) {
       return "${DocsModelFieldValueType.modelDate.app}$nullable";
+    } else if (isModelTime) {
+      return "${DocsModelFieldValueType.modelTime.app}$nullable";
+    } else if (isModelTimestampRange) {
+      return "${DocsModelFieldValueType.modelTimestampRange.app}$nullable";
+    } else if (isModelDateRange) {
+      return "${DocsModelFieldValueType.modelDateRange.app}$nullable";
+    } else if (isModelTimeRange) {
+      return "${DocsModelFieldValueType.modelTimeRange.app}$nullable";
     } else if (isModelSearch) {
       return "${DocsModelFieldValueType.modelSearch.app}$nullable";
     } else if (isModelToken) {
@@ -188,6 +196,14 @@ extension _InterfaceTypeExtensions on InterfaceType {
       return DocsModelFieldValueType.modelTimestamp.nosql;
     } else if (isModelDate) {
       return DocsModelFieldValueType.modelDate.nosql;
+    } else if (isModelTime) {
+      return DocsModelFieldValueType.modelTime.nosql;
+    } else if (isModelTimestampRange) {
+      return DocsModelFieldValueType.modelTimestampRange.nosql;
+    } else if (isModelDateRange) {
+      return DocsModelFieldValueType.modelDateRange.nosql;
+    } else if (isModelTimeRange) {
+      return DocsModelFieldValueType.modelTimeRange.nosql;
     } else if (isModelSearch) {
       return DocsModelFieldValueType.modelSearch.nosql;
     } else if (isModelToken) {
@@ -235,6 +251,14 @@ extension _InterfaceTypeExtensions on InterfaceType {
       return DocsModelFieldValueType.modelTimestamp.subNosql;
     } else if (isModelDate) {
       return DocsModelFieldValueType.modelDate.subNosql;
+    } else if (isModelTime) {
+      return DocsModelFieldValueType.modelTime.subNosql;
+    } else if (isModelTimestampRange) {
+      return DocsModelFieldValueType.modelTimestampRange.subNosql;
+    } else if (isModelDateRange) {
+      return DocsModelFieldValueType.modelDateRange.subNosql;
+    } else if (isModelTimeRange) {
+      return DocsModelFieldValueType.modelTimeRange.subNosql;
     } else if (isModelSearch) {
       return DocsModelFieldValueType.modelSearch.subNosql;
     } else if (isModelToken) {
@@ -282,6 +306,14 @@ extension _InterfaceTypeExtensions on InterfaceType {
       return DocsModelFieldValueType.modelTimestamp.rdb;
     } else if (isModelDate) {
       return DocsModelFieldValueType.modelDate.rdb;
+    } else if (isModelTime) {
+      return DocsModelFieldValueType.modelTime.rdb;
+    } else if (isModelTimestampRange) {
+      return DocsModelFieldValueType.modelTimestampRange.rdb;
+    } else if (isModelDateRange) {
+      return DocsModelFieldValueType.modelDateRange.rdb;
+    } else if (isModelTimeRange) {
+      return DocsModelFieldValueType.modelTimeRange.rdb;
     } else if (isModelSearch) {
       return DocsModelFieldValueType.modelSearch.rdb;
     } else if (isModelToken) {

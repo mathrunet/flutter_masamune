@@ -1,32 +1,41 @@
 part of '/masamune_model_firebase_data_connect.dart';
 
-/// FirebaseDataConnectConverter for [ModelDate].
+/// FirebaseDataConnectConverter for [ModelTimeRange].
 ///
-/// [ModelDate]用のFirebaseDataConnectConverter。
-class FirebaseDataConnectModelDateConverter
+/// [ModelTimeRange]用のFirebaseDataConnectConverter。
+class FirebaseDataConnectModelTimeRangeConverter
     extends FirebaseDataConnectModelFieldValueConverter {
-  /// FirebaseDataConnectConverter for [ModelDate].
+  /// FirebaseDataConnectConverter for [ModelTimestamp].
   ///
-  /// [ModelDate]用のFirebaseDataConnectConverter。
-  const FirebaseDataConnectModelDateConverter();
+  /// [ModelTimeRange]用のFirebaseDataConnectConverter。
+  const FirebaseDataConnectModelTimeRangeConverter();
 
   @override
-  String get type => ModelDate.typeString;
+  String get type => ModelTimeRange.typeString;
 
   DynamicMap? _convertFrom(Object? value) {
     if (value == null) {
       return null;
-    } else if (value is DateTime) {
-      return ModelDate(value).toJson();
+    } else if (value is String) {
+      final splitted = value.split("|");
+      if (splitted.length == 2) {
+        final start = DateTime.tryParse(splitted[0]);
+        final end = DateTime.tryParse(splitted[1]);
+        if (start != null && end != null) {
+          return ModelTimeRange.fromDateTime(
+            start: start,
+            end: end,
+          ).toJson();
+        }
+      }
     }
     return null;
   }
 
-  Timestamp _convertTo(DynamicMap map) {
-    final val = map.get<num>(ModelDate.kTimeKey, 0.0);
-    final seconds = val ~/ 1000000;
-    final nanoseconds = ((val % 1000000) * 1000000).toInt();
-    return Timestamp(nanoseconds, seconds);
+  String _convertTo(DynamicMap map) {
+    final start = map.get<num>(ModelTimeRange.kStartTimeKey, 0.0);
+    final end = map.get<num>(ModelTimeRange.kEndTimeKey, 0.0);
+    return "${DateTime.fromMicrosecondsSinceEpoch(start.toInt())}|${DateTime.fromMicrosecondsSinceEpoch(end.toInt())}";
   }
 
   @override
@@ -37,7 +46,7 @@ class FirebaseDataConnectModelDateConverter
     FirebaseDataConnectModelAdapterBase? adapter,
   ]) {
     if (value is List) {
-      if (value.isNotEmpty && value.every((e) => e is DateTime)) {
+      if (value.isNotEmpty && value.every((e) => e is Timestamp)) {
         return {
           key: value.mapAndRemoveEmpty(
             (e) => _convertFrom(e),
@@ -45,7 +54,7 @@ class FirebaseDataConnectModelDateConverter
         };
       }
     } else if (value is Map) {
-      if (value.isNotEmpty && value.values.every((e) => e is DateTime)) {
+      if (value.isNotEmpty && value.values.every((e) => e is Timestamp)) {
         return {
           key: value.map<String, Object?>(
             (k, v) => MapEntry(
@@ -55,7 +64,7 @@ class FirebaseDataConnectModelDateConverter
           ),
         };
       }
-    } else if (value is DateTime) {
+    } else if (value is Timestamp) {
       return {
         key: _convertFrom(value),
       };
@@ -113,11 +122,10 @@ class FirebaseDataConnectModelDateConverter
     ModelAdapterCollectionQuery query, [
     FirebaseDataConnectModelAdapterBase? adapter,
   ]) {
-    final dateTime = (value as ModelDate).value;
-    final seconds = dateTime.microsecondsSinceEpoch ~/ 1000000;
-    final nanoseconds =
-        ((dateTime.microsecondsSinceEpoch % 1000000) * 1000000).toInt();
-    return Timestamp(nanoseconds, seconds);
+    final modelTimeRange = value as ModelTimeRange;
+    final start = modelTimeRange.value.start;
+    final end = modelTimeRange.value.end;
+    return "${start.toIso8601String()}|${end.toIso8601String()}";
   }
 
   @override
@@ -127,6 +135,6 @@ class FirebaseDataConnectModelDateConverter
     ModelAdapterCollectionQuery query, [
     FirebaseDataConnectModelAdapterBase? adapter,
   ]) {
-    return value is ModelDate;
+    return value is ModelTimeRange;
   }
 }

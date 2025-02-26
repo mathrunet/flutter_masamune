@@ -99,6 +99,42 @@ extension InterfaceTypeExtensions on InterfaceType {
     );
   }
 
+  /// Returns `true` for `ModelTime` type.
+  ///
+  /// `ModelTime`型の場合`true`を返します。
+  bool get isModelTime {
+    return allThisOrSubTypes.any(
+      (e) => MasamuneType.modelTime.regExp.hasMatch(e.toString()),
+    );
+  }
+
+  /// Returns `true` for `ModelTimestampRange` type.
+  ///
+  /// `ModelTimestampRange`型の場合`true`を返します。
+  bool get isModelTimestampRange {
+    return allThisOrSubTypes.any(
+      (e) => MasamuneType.modelTimestampRange.regExp.hasMatch(e.toString()),
+    );
+  }
+
+  /// Returns `true` for `ModelDateRange` type.
+  ///
+  /// `ModelDateRange`型の場合`true`を返します。
+  bool get isModelDateRange {
+    return allThisOrSubTypes.any(
+      (e) => MasamuneType.modelDateRange.regExp.hasMatch(e.toString()),
+    );
+  }
+
+  /// Returns `true` for `ModelTime` type.
+  ///
+  /// `ModelTime`型の場合`true`を返します。
+  bool get isModelTimeRange {
+    return allThisOrSubTypes.any(
+      (e) => MasamuneType.modelTimeRange.regExp.hasMatch(e.toString()),
+    );
+  }
+
   /// Returns `true` for `ModelSearch` type.
   ///
   /// `ModelSearch`型の場合`true`を返します。

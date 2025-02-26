@@ -1,13 +1,17 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/model_field_value/model_counter.dart';
 import 'package:katana_cli/ai/docs/model_field_value/model_date.dart';
+import 'package:katana_cli/ai/docs/model_field_value/model_date_range.dart';
 import 'package:katana_cli/ai/docs/model_field_value/model_geo_value.dart';
 import 'package:katana_cli/ai/docs/model_field_value/model_image_uri.dart';
 import 'package:katana_cli/ai/docs/model_field_value/model_locale.dart';
 import 'package:katana_cli/ai/docs/model_field_value/model_localized_value.dart';
 import 'package:katana_cli/ai/docs/model_field_value/model_ref.dart';
 import 'package:katana_cli/ai/docs/model_field_value/model_search.dart';
+import 'package:katana_cli/ai/docs/model_field_value/model_time.dart';
+import 'package:katana_cli/ai/docs/model_field_value/model_time_range.dart';
 import 'package:katana_cli/ai/docs/model_field_value/model_timestamp.dart';
+import 'package:katana_cli/ai/docs/model_field_value/model_timestamp_range.dart';
 import 'package:katana_cli/ai/docs/model_field_value/model_token.dart';
 import 'package:katana_cli/ai/docs/model_field_value/model_uri.dart';
 import 'package:katana_cli/ai/docs/model_field_value/model_video_uri.dart';
@@ -18,7 +22,6 @@ import 'package:katana_cli/katana_cli.dart';
 /// ModelFieldValueタイプのリスト。
 const kModelFieldValueList = {
   "ModelCounter": ModelFieldValueModelCounterMdcCliAiCode(),
-  "ModelDate": ModelFieldValueModelDateMdcCliAiCode(),
   "ModelGeoValue": ModelFieldValueModelGeoValueMdcCliAiCode(),
   "ModelImageUri": ModelFieldValueModelImageUriMdcCliAiCode(),
   "ModelLocale": ModelFieldValueModelLocaleMdcCliAiCode(),
@@ -27,6 +30,11 @@ const kModelFieldValueList = {
   "ModelSearch": ModelFieldValueModelSearchMdcCliAiCode(),
   "ModelToken": ModelFieldValueModelTokenMdcCliAiCode(),
   "ModelTimestamp": ModelFieldValueModelTimestampMdcCliAiCode(),
+  "ModelTimestampRange": ModelFieldValueModelTimestampRangeMdcCliAiCode(),
+  "ModelTime": ModelFieldValueModelTimeMdcCliAiCode(),
+  "ModelTimeRange": ModelFieldValueModelTimeRangeMdcCliAiCode(),
+  "ModelDate": ModelFieldValueModelDateMdcCliAiCode(),
+  "ModelDateRange": ModelFieldValueModelDateRangeMdcCliAiCode(),
   "ModelUri": ModelFieldValueModelUriMdcCliAiCode(),
   "ModelVideoUri": ModelFieldValueModelVideoUriMdcCliAiCode(),
 };

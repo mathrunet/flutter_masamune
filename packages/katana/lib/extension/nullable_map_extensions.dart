@@ -188,13 +188,13 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
 
   /// Retrieves the element of [key] of type [Map] from [Map].
   ///
-  /// If it is an [int] type, convert it to a [DateTime] type with [DateTime.fromMillisecondsSinceEpoch].
+  /// If it is an [int] type, convert it to a [DateTime] type with [DateTime.fromMicrosecondsSinceEpoch].
   ///
   /// If there is no element of [key] in [Map], or if the type does not match [int] or [DateTime], or if it is [Null] itself, [orElse] is returned.
   ///
   /// [Map]から[DateTime]の[key]の要素を取得します。
   ///
-  /// [int]型の場合は[DateTime.fromMillisecondsSinceEpoch]で[DateTime]型に変換します。
+  /// [int]型の場合は[DateTime.fromMicrosecondsSinceEpoch]で[DateTime]型に変換します。
   ///
   /// [Map]に[key]の要素がない場合や[int]もしくは[DateTime]と型が合わない場合、自身が[Null]の場合は[orElse]が返されます。
   DateTime getAsDateTime(K key, [DateTime? orElse]) {
@@ -202,11 +202,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
       return orElse ?? DateTime.now();
     }
     if (this![key] is int?) {
-      final millisecondsSinceEpoch = this![key] as int?;
-      if (millisecondsSinceEpoch == null) {
+      final microsecondsSinceEpoch = this![key] as int?;
+      if (microsecondsSinceEpoch == null) {
         return orElse ?? DateTime.now();
       }
-      return DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
+      return DateTime.fromMicrosecondsSinceEpoch(microsecondsSinceEpoch);
     } else if (this![key] is DateTime?) {
       return (this![key] as DateTime?) ?? orElse ?? DateTime.now();
     } else {

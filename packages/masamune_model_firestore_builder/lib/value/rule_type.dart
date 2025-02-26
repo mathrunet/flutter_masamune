@@ -181,6 +181,26 @@ enum RuleModelFieldValueType {
   /// [ModelDate]。
   modelDate,
 
+  /// [ModelTime].
+  ///
+  /// [ModelTime]。
+  modelTime,
+
+  /// [ModelTimestampRange].
+  ///
+  /// [ModelTimestampRange]。
+  modelTimestampRange,
+
+  /// [ModelDateRange].
+  ///
+  /// [ModelDateRange]。
+  modelDateRange,
+
+  /// [ModelTimeRange].
+  ///
+  /// [ModelTimeRange]。
+  modelTimeRange,
+
   /// [ModelCommand].
   ///
   /// [ModelCommand]。
@@ -242,6 +262,14 @@ enum RuleModelFieldValueType {
         return "ModelTimestamp";
       case RuleModelFieldValueType.modelDate:
         return "ModelDate";
+      case RuleModelFieldValueType.modelTime:
+        return "ModelTime";
+      case RuleModelFieldValueType.modelTimestampRange:
+        return "ModelTimestampRange";
+      case RuleModelFieldValueType.modelDateRange:
+        return "ModelDateRange";
+      case RuleModelFieldValueType.modelTimeRange:
+        return "ModelTimeRange";
       case RuleModelFieldValueType.modelCommand:
         return "ModelCommand";
       case RuleModelFieldValueType.modelGeoValue:
@@ -276,6 +304,14 @@ enum RuleModelFieldValueType {
         return "isTimestamp(data, field) && isMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelDate:
         return "isTimestamp(data, field) && isMap(data, \"#\" + field)";
+      case RuleModelFieldValueType.modelTime:
+        return "isTimestamp(data, field) && isMap(data, \"#\" + field)";
+      case RuleModelFieldValueType.modelTimestampRange:
+        return "isString(data, field) && isMap(data, \"#\" + field)";
+      case RuleModelFieldValueType.modelDateRange:
+        return "isString(data, field) && isMap(data, \"#\" + field)";
+      case RuleModelFieldValueType.modelTimeRange:
+        return "isString(data, field) && isMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelCommand:
         return "isString(data, field) && isMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelGeoValue:
@@ -310,6 +346,14 @@ enum RuleModelFieldValueType {
         return "isNullableTimestamp(data, field) && isNullableMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelDate:
         return "isNullableTimestamp(data, field) && isNullableMap(data, \"#\" + field)";
+      case RuleModelFieldValueType.modelTime:
+        return "isNullableTimestamp(data, field) && isNullableMap(data, \"#\" + field)";
+      case RuleModelFieldValueType.modelTimestampRange:
+        return "isNullableString(data, field) && isNullableMap(data, \"#\" + field)";
+      case RuleModelFieldValueType.modelDateRange:
+        return "isNullableString(data, field) && isNullableMap(data, \"#\" + field)";
+      case RuleModelFieldValueType.modelTimeRange:
+        return "isNullableString(data, field) && isNullableMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelCommand:
         return "isNullableString(data, field) && isNullableMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelGeoValue:

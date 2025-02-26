@@ -512,6 +512,100 @@ class ModelDateModelQuerySelector<TQuery extends ModelQueryBase>
   });
 }
 
+/// [ModelQuerySelector] for [ModelTime].
+///
+/// [ModelTime]に対する[ModelQuerySelector]。
+@immutable
+class ModelTimeModelQuerySelector<TQuery extends ModelQueryBase>
+    extends ModelQuerySelector<ModelTime, TQuery>
+    with
+        _EqualQuerySelectorMixin<ModelTime, TQuery>,
+        _NotEqualQuerySelectorMixin<ModelTime, TQuery>,
+        _LessThanQuerySelectorMixin<ModelTime, TQuery>,
+        _GreaterThanQuerySelectorMixin<ModelTime, TQuery>,
+        _ContainsQuerySelectorMixin<ModelTime, TQuery>,
+        _ContainsAnyQuerySelectorMixin<ModelTime, TQuery>,
+        _WhereQuerySelectorMixin<ModelTime, TQuery>,
+        _NotWhereQuerySelectorMixin<ModelTime, TQuery> {
+  /// [ModelQuerySelector] for [ModelTime].
+  ///
+  /// [ModelTime]に対する[ModelQuerySelector]。
+  const ModelTimeModelQuerySelector({
+    required super.key,
+    required super.toQuery,
+    required super.modelQuery,
+  });
+}
+
+/// [ModelQuerySelector] for [ModelTimestampRange].
+///
+/// [ModelTimestampRange]に対する[ModelQuerySelector]。
+@immutable
+class ModelTimestampRangeModelQuerySelector<TQuery extends ModelQueryBase>
+    extends ModelQuerySelector<ModelTimestampRange, TQuery>
+    with
+        _EqualQuerySelectorMixin<ModelTimestampRange, TQuery>,
+        _NotEqualQuerySelectorMixin<ModelTimestampRange, TQuery>,
+        _ContainsQuerySelectorMixin<ModelTimestampRange, TQuery>,
+        _ContainsAnyQuerySelectorMixin<ModelTimestampRange, TQuery>,
+        _WhereQuerySelectorMixin<ModelTimestampRange, TQuery>,
+        _NotWhereQuerySelectorMixin<ModelTimestampRange, TQuery> {
+  /// [ModelQuerySelector] for [ModelTimestampRange].
+  ///
+  /// [ModelTimestampRange]に対する[ModelQuerySelector]。
+  const ModelTimestampRangeModelQuerySelector({
+    required super.key,
+    required super.toQuery,
+    required super.modelQuery,
+  });
+}
+
+/// [ModelQuerySelector] for [ModelDateRange].
+///
+/// [ModelDateRange]に対する[ModelQuerySelector]。
+@immutable
+class ModelDateRangeModelQuerySelector<TQuery extends ModelQueryBase>
+    extends ModelQuerySelector<ModelDateRange, TQuery>
+    with
+        _EqualQuerySelectorMixin<ModelDateRange, TQuery>,
+        _NotEqualQuerySelectorMixin<ModelDateRange, TQuery>,
+        _ContainsQuerySelectorMixin<ModelDateRange, TQuery>,
+        _ContainsAnyQuerySelectorMixin<ModelDateRange, TQuery>,
+        _WhereQuerySelectorMixin<ModelDateRange, TQuery>,
+        _NotWhereQuerySelectorMixin<ModelDateRange, TQuery> {
+  /// [ModelQuerySelector] for [ModelDateRange].
+  ///
+  /// [ModelDateRange]に対する[ModelQuerySelector]。
+  const ModelDateRangeModelQuerySelector({
+    required super.key,
+    required super.toQuery,
+    required super.modelQuery,
+  });
+}
+
+/// [ModelQuerySelector] for [ModelTimeRange].
+///
+/// [ModelTimeRange]に対する[ModelQuerySelector]。
+@immutable
+class ModelTimeRangeModelQuerySelector<TQuery extends ModelQueryBase>
+    extends ModelQuerySelector<ModelTimeRange, TQuery>
+    with
+        _EqualQuerySelectorMixin<ModelTimeRange, TQuery>,
+        _NotEqualQuerySelectorMixin<ModelTimeRange, TQuery>,
+        _ContainsQuerySelectorMixin<ModelTimeRange, TQuery>,
+        _ContainsAnyQuerySelectorMixin<ModelTimeRange, TQuery>,
+        _WhereQuerySelectorMixin<ModelTimeRange, TQuery>,
+        _NotWhereQuerySelectorMixin<ModelTimeRange, TQuery> {
+  /// [ModelQuerySelector] for [ModelTimeRange].
+  ///
+  /// [ModelTimeRange]に対する[ModelQuerySelector]。
+  const ModelTimeRangeModelQuerySelector({
+    required super.key,
+    required super.toQuery,
+    required super.modelQuery,
+  });
+}
+
 /// [ModelQuerySelector] for [ModelRefBase].
 ///
 /// [ModelRefBase]に対する[ModelQuerySelector]。

@@ -1,16 +1,17 @@
 part of '/katana_model_firestore.dart';
 
-/// FirestoreConverter for [ModelDate].
+/// FirestoreConverter for [ModelTimeRange].
 ///
-/// [ModelDate]用のFirestoreConverter。
-class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
-  /// FirestoreConverter for [ModelDate].
+/// [ModelTimeRange]用のFirestoreConverter。
+class FirestoreModelTimeRangeConverter
+    extends FirestoreModelFieldValueConverter {
+  /// FirestoreConverter for [ModelTimeRange].
   ///
-  /// [ModelDate]用のFirestoreConverter。
-  const FirestoreModelDateConverter();
+  /// [ModelTimeRange]用のFirestoreConverter。
+  const FirestoreModelTimeRangeConverter();
 
   @override
-  String get type => ModelDate.typeString;
+  String get type => ModelTimeRange.typeString;
 
   @override
   DynamicMap? convertFrom(
@@ -29,12 +30,18 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
           targetList.every((e) => e.get(_kTypeKey, "") == type)) {
         return {
           key: value.mapAndRemoveEmpty<DynamicMap>((e) {
-            if (e is num) {
-              return ModelDate(
-                DateTime.fromMicrosecondsSinceEpoch(e.toInt()),
-              ).toJson();
-            } else if (e is Timestamp) {
-              return ModelDate(e.toDate()).toJson();
+            if (e is String) {
+              final splitted = e.split("|");
+              if (splitted.length == 2) {
+                final start = DateTime.tryParse(splitted[0]);
+                final end = DateTime.tryParse(splitted[1]);
+                if (start != null && end != null) {
+                  return ModelTimeRange.fromDateTime(
+                    start: start,
+                    end: end,
+                  ).toJson();
+                }
+              }
             }
             return null;
           }),
@@ -52,18 +59,21 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
         return {
           key: value
               .map<String, DynamicMap?>((k, v) {
-                if (v is num) {
-                  return MapEntry(
-                    k,
-                    ModelDate(
-                      DateTime.fromMicrosecondsSinceEpoch(v.toInt()),
-                    ).toJson(),
-                  );
-                } else if (v is Timestamp) {
-                  return MapEntry(
-                    k,
-                    ModelDate(v.toDate()).toJson(),
-                  );
+                if (v is String) {
+                  final splitted = v.split("|");
+                  if (splitted.length == 2) {
+                    final start = DateTime.tryParse(splitted[0]);
+                    final end = DateTime.tryParse(splitted[1]);
+                    if (start != null && end != null) {
+                      return MapEntry(
+                        k,
+                        ModelTimeRange.fromDateTime(
+                          start: start,
+                          end: end,
+                        ).toJson(),
+                      );
+                    }
+                  }
                 }
                 return MapEntry(k, null);
               })
@@ -72,27 +82,22 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
           targetKey: null,
         };
       }
-    } else if (value is num) {
+    } else if (value is String) {
       final targetKey = "#$key";
       final targetMap = original.getAsMap(targetKey);
       final type = targetMap.get(_kTypeKey, "");
       if (type == this.type) {
-        return {
-          key: ModelDate(
-            DateTime.fromMicrosecondsSinceEpoch(value.toInt()),
-          ).toJson(),
-          targetKey: null,
-        };
-      }
-    } else if (value is Timestamp) {
-      final targetKey = "#$key";
-      final targetMap = original.getAsMap(targetKey);
-      final type = targetMap.get(_kTypeKey, "");
-      if (type == this.type) {
-        return {
-          key: ModelDate(value.toDate()).toJson(),
-          targetKey: null,
-        };
+        final splitted = value.split("|");
+        if (splitted.length == 2) {
+          final start = DateTime.tryParse(splitted[0]);
+          final end = DateTime.tryParse(splitted[1]);
+          if (start != null && end != null) {
+            return ModelTimeRange.fromDateTime(
+              start: start,
+              end: end,
+            ).toJson();
+          }
+        }
       }
     }
     return null;
@@ -108,15 +113,18 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
     if (value is DynamicMap && value.containsKey(_kTypeKey)) {
       final type = value.get(_kTypeKey, "");
       if (type == this.type) {
-        final val = value.get<num>(ModelDate.kTimeKey, 0.0);
+        final start = value.getAsDouble(ModelTimeRange.kStartTimeKey);
+        final end = value.getAsDouble(ModelTimeRange.kEndTimeKey);
         final targetKey = "#$key";
         return {
           targetKey: {
             kTypeFieldKey: this.type,
-            ModelDate.kTimeKey: val,
+            ModelTimeRange.kStartTimeKey: start,
+            ModelTimeRange.kEndTimeKey: end,
             _kTargetKey: key,
           },
-          key: Timestamp.fromMillisecondsSinceEpoch(val.toInt()),
+          key:
+              "${DateTime.fromMicrosecondsSinceEpoch(start.toInt()).toIso8601String()}|${DateTime.fromMicrosecondsSinceEpoch(end.toInt()).toIso8601String()}",
         };
       }
     } else if (value is List) {
@@ -126,13 +134,17 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
         final res = <Object>[];
         final targetKey = "#$key";
         for (final entry in list) {
-          final time = entry.get<num>(ModelDate.kTimeKey, 0.0);
+          final start = entry.getAsDouble(ModelTimeRange.kStartTimeKey);
+          final end = entry.getAsDouble(ModelTimeRange.kEndTimeKey);
           target.add({
             kTypeFieldKey: type,
-            ModelDate.kTimeKey: time,
+            ModelTimeRange.kStartTimeKey: start,
+            ModelTimeRange.kEndTimeKey: end,
             _kTargetKey: key,
           });
-          res.add(Timestamp.fromMillisecondsSinceEpoch(time.toInt()));
+          res.add(
+            "${DateTime.fromMicrosecondsSinceEpoch(start.toInt()).toIso8601String()}|${DateTime.fromMicrosecondsSinceEpoch(end.toInt()).toIso8601String()}",
+          );
         }
         return {
           targetKey: target,
@@ -149,13 +161,16 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
         final res = <String, Object>{};
         final targetKey = "#$key";
         for (final entry in map.entries) {
-          final time = entry.value.get<num>(ModelDate.kTimeKey, 0.0);
+          final start = entry.value.getAsDouble(ModelTimeRange.kStartTimeKey);
+          final end = entry.value.getAsDouble(ModelTimeRange.kEndTimeKey);
           target[entry.key] = {
             kTypeFieldKey: type,
-            ModelDate.kTimeKey: time,
+            ModelTimeRange.kStartTimeKey: start,
+            ModelTimeRange.kEndTimeKey: end,
             _kTargetKey: key,
           };
-          res[entry.key] = Timestamp.fromMillisecondsSinceEpoch(time.toInt());
+          res[entry.key] =
+              "${DateTime.fromMicrosecondsSinceEpoch(start.toInt()).toIso8601String()}|${DateTime.fromMicrosecondsSinceEpoch(end.toInt()).toIso8601String()}";
         }
         return {
           targetKey: target,
@@ -173,7 +188,10 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
   ]) {
-    return Timestamp.fromDate((value as ModelDate).value);
+    final modelTimeRange = value as ModelTimeRange;
+    final start = modelTimeRange.value.start;
+    final end = modelTimeRange.value.end;
+    return "${start.toIso8601String()}|${end.toIso8601String()}";
   }
 
   @override
@@ -183,6 +201,6 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
   ]) {
-    return value is ModelDate;
+    return value is ModelTimeRange;
   }
 }

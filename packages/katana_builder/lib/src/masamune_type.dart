@@ -19,10 +19,30 @@ enum MasamuneType {
   /// `ModelTimestamp`の型。
   modelTimestamp,
 
+  /// Type of `ModelTime`.
+  ///
+  /// `ModelTime`の型。
+  modelTime,
+
   /// Type of `ModelDate`.
   ///
   /// `ModelDate`の型。
   modelDate,
+
+  /// Type of `ModelTimestampRange`.
+  ///
+  /// `ModelTimestampRange`の型。
+  modelTimestampRange,
+
+  /// Type of `ModelTimeRange`.
+  ///
+  /// `ModelTimeRange`の型。
+  modelTimeRange,
+
+  /// Type of `ModelDateRange`.
+  ///
+  /// `ModelDateRange`の型。
+  modelDateRange,
 
   /// Type of `ModelSearch`.
   ///
@@ -80,8 +100,16 @@ enum MasamuneType {
         return "ModelCounter";
       case MasamuneType.modelTimestamp:
         return "ModelTimestamp";
+      case MasamuneType.modelTime:
+        return "ModelTime";
       case MasamuneType.modelDate:
         return "ModelDate";
+      case MasamuneType.modelTimestampRange:
+        return "ModelTimestampRange";
+      case MasamuneType.modelTimeRange:
+        return "ModelTimeRange";
+      case MasamuneType.modelDateRange:
+        return "ModelDateRange";
       case MasamuneType.modelSearch:
         return "ModelSearch";
       case MasamuneType.modelToken:
@@ -114,8 +142,16 @@ enum MasamuneType {
         return RegExp(r"^ModelCounter");
       case MasamuneType.modelTimestamp:
         return RegExp(r"^ModelTimestamp");
+      case MasamuneType.modelTime:
+        return RegExp(r"^ModelTime");
       case MasamuneType.modelDate:
         return RegExp(r"^ModelDate");
+      case MasamuneType.modelTimestampRange:
+        return RegExp(r"^ModelTimestampRange");
+      case MasamuneType.modelTimeRange:
+        return RegExp(r"^ModelTimeRange");
+      case MasamuneType.modelDateRange:
+        return RegExp(r"^ModelDateRange");
       case MasamuneType.modelSearch:
         return RegExp(r"^ModelSearch");
       case MasamuneType.modelToken:
