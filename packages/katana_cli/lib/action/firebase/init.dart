@@ -33,6 +33,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final hosting = firebase.getAsMap("hosting").get("enable", false);
     final messaging = firebase.getAsMap("messaging").get("enable", false);
     final appCheck = firebase.getAsMap("app_check").get("enable", false);
+    final vertexAi = firebase.getAsMap("vertex_ai").get("enable", false);
     final remoteConfig =
         firebase.getAsMap("remote_config").get("enable", false);
     return projectId.isNotEmpty &&
@@ -45,7 +46,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             hosting ||
             messaging ||
             remoteConfig ||
-            appCheck);
+            appCheck ||
+            vertexAi);
   }
 
   @override
@@ -91,6 +93,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final enabledAppCheck = firebase.getAsMap("app_check").get("enable", false);
     final enabledRemoteConfig =
         firebase.getAsMap("remote_config").get("enable", false);
+    final enabledVertexAi = firebase.getAsMap("vertex_ai").get("enable", false);
     if (projectId.isEmpty) {
       error(
         "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
@@ -204,7 +207,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         if (enabledAppCheck) ...[
           "firebase_app_check",
           "masamune_firebase_app_check",
-        ]
+        ],
+        if (enabledVertexAi) ...[
+          "firebase_vertexai",
+          "masamune_ai",
+          "masamune_ai_firebase",
+        ],
       ],
     );
     await addFlutterImport(
