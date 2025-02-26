@@ -20,6 +20,8 @@ import 'package:masamune/masamune.dart';
 import 'package:masamune_ai/masamune_ai.dart';
 import 'package:universal_platform/universal_platform.dart';
 
+export 'package:masamune_ai/masamune_ai.dart';
+
 part 'adapter/firebase_ai_masamune_adapter.dart';
 part 'src/extensions.dart';
 part 'src/firebase_ai_model.dart';
