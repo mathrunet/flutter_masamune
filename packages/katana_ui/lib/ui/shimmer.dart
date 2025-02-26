@@ -25,7 +25,13 @@ class ShimmerBox extends StatelessWidget {
     this.padding = const EdgeInsets.all(0),
     this.shape = BoxShape.rectangle,
     this.child,
+    this.enabled = true,
   });
+
+  /// Whether to display the shimmer effect.
+  ///
+  /// シマーエフェクトを表示するかどうか。
+  final bool enabled;
 
   /// Widget for the container inside.
   ///
@@ -70,6 +76,19 @@ class ShimmerBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final h = height ?? Theme.of(context).textTheme.bodyMedium?.fontSize ?? 12;
+    if (!enabled) {
+      return child ??
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: borderRadius ?? BorderRadius.circular(h / 4),
+              color: baseColor ?? Theme.of(context).colorScheme.surface,
+              shape: shape,
+            ),
+            margin: padding,
+            height: h,
+            width: width,
+          );
+    }
     return sm.Shimmer.fromColors(
       baseColor: baseColor ?? Theme.of(context).colorScheme.surface,
       highlightColor:
