@@ -7,7 +7,10 @@ extension on Content {
       if (part is TextPart) {
         res.add(AIContentTextPart(part.text));
       } else if (part is InlineDataPart) {
-        res.add(AIContentBinaryPart(part.mimeType, part.bytes));
+        final type = AIFileType.fromMimeType(part.mimeType);
+        if (type != null) {
+          res.add(AIContentBinaryPart(type, part.bytes));
+        }
       }
     }
     return res;
@@ -29,7 +32,7 @@ extension on AIContentPart {
     if (part is AIContentTextPart) {
       return TextPart(part.text);
     } else if (part is AIContentBinaryPart) {
-      return InlineDataPart(part.mimeType, part.data);
+      return InlineDataPart(part.type.mimeType, part.value);
     }
     throw UnimplementedError();
   }

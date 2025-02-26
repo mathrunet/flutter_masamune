@@ -59,7 +59,7 @@ class AIContent extends ChangeNotifier
   static AIContent textFile(Uint8List data, {DateTime? time}) {
     return AIContent._(
       role: AIRole.user,
-      values: [AIContentBinaryPart("text/plain", data)],
+      values: [AIContentBinaryPart(AIFileType.txt, data)],
       time: time,
     );
   }
@@ -70,7 +70,7 @@ class AIContent extends ChangeNotifier
   static AIContent png(Uint8List data, {DateTime? time}) {
     return AIContent._(
       role: AIRole.user,
-      values: [AIContentBinaryPart("image/png", data)],
+      values: [AIContentBinaryPart(AIFileType.png, data)],
       time: time,
     );
   }
@@ -81,7 +81,7 @@ class AIContent extends ChangeNotifier
   static AIContent jpeg(Uint8List data, {DateTime? time}) {
     return AIContent._(
       role: AIRole.user,
-      values: [AIContentBinaryPart("image/jpeg", data)],
+      values: [AIContentBinaryPart(AIFileType.jpeg, data)],
       time: time,
     );
   }
@@ -92,7 +92,7 @@ class AIContent extends ChangeNotifier
   static AIContent webp(Uint8List data, {DateTime? time}) {
     return AIContent._(
       role: AIRole.user,
-      values: [AIContentBinaryPart("image/webp", data)],
+      values: [AIContentBinaryPart(AIFileType.webp, data)],
       time: time,
     );
   }
@@ -103,7 +103,7 @@ class AIContent extends ChangeNotifier
   static AIContent mp4Video(Uint8List data, {DateTime? time}) {
     return AIContent._(
       role: AIRole.user,
-      values: [AIContentBinaryPart("video/mp4", data)],
+      values: [AIContentBinaryPart(AIFileType.mp4Video, data)],
       time: time,
     );
   }
@@ -114,7 +114,7 @@ class AIContent extends ChangeNotifier
   static AIContent movVideo(Uint8List data, {DateTime? time}) {
     return AIContent._(
       role: AIRole.user,
-      values: [AIContentBinaryPart("video/quicktime", data)],
+      values: [AIContentBinaryPart(AIFileType.mov, data)],
       time: time,
     );
   }
@@ -125,7 +125,7 @@ class AIContent extends ChangeNotifier
   static AIContent mp3Audio(Uint8List data, {DateTime? time}) {
     return AIContent._(
       role: AIRole.user,
-      values: [AIContentBinaryPart("audio/mp3", data)],
+      values: [AIContentBinaryPart(AIFileType.mp3, data)],
       time: time,
     );
   }
@@ -136,7 +136,7 @@ class AIContent extends ChangeNotifier
   static AIContent wavAudio(Uint8List data, {DateTime? time}) {
     return AIContent._(
       role: AIRole.user,
-      values: [AIContentBinaryPart("audio/wav", data)],
+      values: [AIContentBinaryPart(AIFileType.wav, data)],
       time: time,
     );
   }
@@ -147,7 +147,7 @@ class AIContent extends ChangeNotifier
   static AIContent mp4Audio(Uint8List data, {DateTime? time}) {
     return AIContent._(
       role: AIRole.user,
-      values: [AIContentBinaryPart("audio/mp4", data)],
+      values: [AIContentBinaryPart(AIFileType.mp4Audio, data)],
       time: time,
     );
   }
@@ -158,7 +158,7 @@ class AIContent extends ChangeNotifier
   static AIContent m4aAudio(Uint8List data, {DateTime? time}) {
     return AIContent._(
       role: AIRole.user,
-      values: [AIContentBinaryPart("audio/m4a", data)],
+      values: [AIContentBinaryPart(AIFileType.m4a, data)],
       time: time,
     );
   }
@@ -169,7 +169,7 @@ class AIContent extends ChangeNotifier
   static AIContent pdfFile(Uint8List data, {DateTime? time}) {
     return AIContent._(
       role: AIRole.user,
-      values: [AIContentBinaryPart("application/pdf", data)],
+      values: [AIContentBinaryPart(AIFileType.pdf, data)],
       time: time,
     );
   }
@@ -315,17 +315,17 @@ class AIContentBinaryPart extends AIContentPart {
   /// The binary part of the AI content.
   ///
   /// AIの内容のバイナリの一部。
-  const AIContentBinaryPart(this.mimeType, this.data);
+  const AIContentBinaryPart(this.type, this.value);
 
   /// The mime type of the AI content.
   ///
   /// AIの内容のMIMEタイプ。
-  final String mimeType;
+  final AIFileType type;
 
   /// The data of the AI content.
   ///
   /// AIの内容のバイナリ。
-  final Uint8List data;
+  final Uint8List value;
 
   @override
   String toString() {
@@ -335,11 +335,47 @@ class AIContentBinaryPart extends AIContentPart {
   @override
   bool operator ==(Object other) {
     if (other is AIContentBinaryPart) {
-      return mimeType == other.mimeType && data == other.data;
+      return type == other.type && value == other.value;
     }
     return false;
   }
 
   @override
-  int get hashCode => mimeType.hashCode ^ data.hashCode;
+  int get hashCode => type.hashCode ^ value.hashCode;
+}
+
+/// The file part of the AI content.
+///
+/// AIの内容のファイルの一部。
+class AIContentFilePart extends AIContentPart {
+  /// The file part of the AI content.
+  ///
+  /// AIの内容のファイルの一部。
+  const AIContentFilePart(this.type, this.uri);
+
+  /// The mime type of the AI content.
+  ///
+  /// AIの内容のMIMEタイプ。
+  final AIFileType type;
+
+  /// The uri of the AI content.
+  ///
+  /// AIの内容のURI。
+  final Uri uri;
+
+  @override
+  String toString() {
+    return "";
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is AIContentFilePart) {
+      return type == other.type && uri == other.uri;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => type.hashCode ^ uri.hashCode;
 }

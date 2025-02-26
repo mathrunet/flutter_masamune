@@ -36,6 +36,7 @@ class AIThread
     super.adapter,
     required this.threadId,
     required List<AIContent> initialContents,
+    this.config,
   }) {
     _value.addAll(initialContents);
   }
@@ -56,6 +57,11 @@ class AIThread
   ///
   /// スレッドのID。
   final String threadId;
+
+  /// The configuration of the thread.
+  ///
+  /// スレッドの設定。
+  final AIConfig? config;
 
   Completer<void>? _sendCompleter;
   Completer<void>? _initializeCompleter;
@@ -98,16 +104,16 @@ class AIThread
     }
   }
 
-  /// Send a message to AI.
+  /// Generate a content from AI.
   ///
-  /// Pass a message from the user to [content].
+  /// Pass a content from the user to [content].
   /// If [AIRole] is not [AIRole.user], an exception is thrown.
   ///
-  /// AIにメッセージを送信します。
+  /// AIにコンテンツを生成してもらいます。
   ///
-  /// [content]にユーザーからのメッセージを渡してください。
+  /// [content]にユーザーからのコンテンツを渡してください。
   /// [AIRole]が[AIRole.user]でない場合は例外が投げられます。
-  Future<void> send(AIContent content, {AIConfig? config}) async {
+  Future<void> generateContent(AIContent content) async {
     if (_sendCompleter != null) {
       return;
     }
@@ -157,10 +163,12 @@ class _$AIQuery {
   @useResult
   _$_AIQuery call(
     String threadId, {
+    AIConfig? config,
     List<AIContent> initialContents = const [],
   }) =>
       _$_AIQuery(
         threadId,
+        config: config,
         initialContents: initialContents,
       );
 }
@@ -169,16 +177,19 @@ class _$AIQuery {
 class _$_AIQuery extends ControllerQueryBase<AIThread> {
   const _$_AIQuery(
     this._name, {
+    this.config,
     required this.initialContents,
   });
 
   final String _name;
+  final AIConfig? config;
   final List<AIContent> initialContents;
 
   @override
   AIThread Function() call(Ref ref) {
     return () => AIThread(
           threadId: _name,
+          config: config,
           initialContents: initialContents,
         );
   }

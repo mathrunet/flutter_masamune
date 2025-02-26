@@ -29,3 +29,4 @@ part 'src/invalid_ai_role_exception.dart';
 part 'src/ai_schema.dart';
 part 'src/ai_schema_type.dart';
 part 'src/ai_config.dart';
+part 'src/ai_file_type.dart';
