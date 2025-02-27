@@ -137,39 +137,39 @@ enum MasamuneType {
   RegExp get regExp {
     switch (this) {
       case MasamuneType.modelRef:
-        return RegExp(r"^ModelRefBase\<[^>]+\>");
+        return RegExp(r"^ModelRefBase\<[^>]+\>$");
       case MasamuneType.modelCounter:
-        return RegExp(r"^ModelCounter");
+        return RegExp(r"^ModelCounter[^a-zA-Z0-9]?$");
       case MasamuneType.modelTimestamp:
-        return RegExp(r"^ModelTimestamp");
+        return RegExp(r"^ModelTimestamp[^a-zA-Z0-9]?$");
       case MasamuneType.modelTime:
-        return RegExp(r"^ModelTime");
+        return RegExp(r"^ModelTime[^a-zA-Z0-9]?$");
       case MasamuneType.modelDate:
-        return RegExp(r"^ModelDate");
+        return RegExp(r"^ModelDate[^a-zA-Z0-9]?$");
       case MasamuneType.modelTimestampRange:
-        return RegExp(r"^ModelTimestampRange");
+        return RegExp(r"^ModelTimestampRange[^a-zA-Z0-9]?$");
       case MasamuneType.modelTimeRange:
-        return RegExp(r"^ModelTimeRange");
+        return RegExp(r"^ModelTimeRange[^a-zA-Z0-9]?$");
       case MasamuneType.modelDateRange:
-        return RegExp(r"^ModelDateRange");
+        return RegExp(r"^ModelDateRange[^a-zA-Z0-9]?$");
       case MasamuneType.modelSearch:
-        return RegExp(r"^ModelSearch");
+        return RegExp(r"^ModelSearch[^a-zA-Z0-9]?$");
       case MasamuneType.modelToken:
-        return RegExp(r"^ModelToken");
+        return RegExp(r"^ModelToken[^a-zA-Z0-9]?$");
       case MasamuneType.modelUri:
-        return RegExp(r"^ModelUri");
+        return RegExp(r"^ModelUri[^a-zA-Z0-9]?$");
       case MasamuneType.modelImageUri:
-        return RegExp(r"^ModelImageUri");
+        return RegExp(r"^ModelImageUri[^a-zA-Z0-9]?$");
       case MasamuneType.modelVideoUri:
-        return RegExp(r"^ModelVideoUri");
+        return RegExp(r"^ModelVideoUri[^a-zA-Z0-9]?$");
       case MasamuneType.modelGeoValue:
-        return RegExp(r"^ModelGeoValue");
+        return RegExp(r"^ModelGeoValue[^a-zA-Z0-9]?$");
       case MasamuneType.modelLocale:
-        return RegExp(r"^ModelLocale");
+        return RegExp(r"^ModelLocale[^a-zA-Z0-9]?$");
       case MasamuneType.modelLocalizedValue:
-        return RegExp(r"^ModelLocalizedValue");
+        return RegExp(r"^ModelLocalizedValue[^a-zA-Z0-9]?$");
       case MasamuneType.modelCommandBase:
-        return RegExp(r"^ModelCommandBase");
+        return RegExp(r"^ModelCommandBase[^a-zA-Z0-9]?$");
     }
   }
 
