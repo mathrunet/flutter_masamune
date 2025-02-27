@@ -1,3 +1,7 @@
+## 2.11.4
+
+ - **FIX**: Added enabled to Simmer effect. ([e55de63b](https://github.com/mathrunet/flutter_masamune/commit/e55de63b5c79159344b46019968786dc67b1a3e5))
+
 ## 2.11.3
 
  - **FIX**: Applying font themes. ([133f9ff1](https://github.com/mathrunet/flutter_masamune/commit/133f9ff12baba770630c9004cc1a374434269281))

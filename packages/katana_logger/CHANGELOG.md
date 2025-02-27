@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - Update a dependency to the latest release.
+
 ## 2.4.0
 
  - **FEAT**: Added various Loggable. ([c1f9a5a3](https://github.com/mathrunet/flutter_masamune/commit/c1f9a5a38d63d52e5012e078106deed58c6c82f8))

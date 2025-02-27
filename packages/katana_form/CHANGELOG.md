@@ -1,3 +1,7 @@
+## 2.16.1
+
+ - Update a dependency to the latest release.
+
 ## 2.16.0
 
  - **FIX**: Font themes can be specified for Form buttons. ([f13e586c](https://github.com/mathrunet/flutter_masamune/commit/f13e586c5511656b43909b559dde34d35cba92e8))

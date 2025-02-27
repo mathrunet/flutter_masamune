@@ -1,3 +1,7 @@
+## 2.7.2
+
+ - Update a dependency to the latest release.
+
 ## 2.7.1
 
  - **FIX**: Applying font themes. ([df5c2ab1](https://github.com/mathrunet/flutter_masamune/commit/df5c2ab120477179c220d5275b6092f1ff8179f3))

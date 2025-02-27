@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: ModelTime and ModelTimestampRange, ModelDateRange, and ModelTimeRange were added. ([cc99233a](https://github.com/mathrunet/flutter_masamune/commit/cc99233a666adbf6c1dfa39d999ae9f50ffd94fc))
+
 ## 2.4.4
 
  - Update a dependency to the latest release.

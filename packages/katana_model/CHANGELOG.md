@@ -1,3 +1,7 @@
+## 2.31.0
+
+ - **FEAT**: ModelTime and ModelTimestampRange, ModelDateRange, and ModelTimeRange were added. ([cc99233a](https://github.com/mathrunet/flutter_masamune/commit/cc99233a666adbf6c1dfa39d999ae9f50ffd94fc))
+
 ## 2.30.0
 
  - **FEAT**: Implemented a mechanism that allows caching. ([b9c5de94](https://github.com/mathrunet/flutter_masamune/commit/b9c5de94eaa2d191c64f7fa7cdd0abdd47dec4ce))

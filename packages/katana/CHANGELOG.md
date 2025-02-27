@@ -1,3 +1,7 @@
+## 2.18.0
+
+ - **FEAT**: ModelTime and ModelTimestampRange, ModelDateRange, and ModelTimeRange were added. ([cc99233a](https://github.com/mathrunet/flutter_masamune/commit/cc99233a666adbf6c1dfa39d999ae9f50ffd94fc))
+
 ## 2.17.0
 
  - **FEAT**: Remove unnecessary packages. ([2baeb9a2](https://github.com/mathrunet/flutter_masamune/commit/2baeb9a212504846333c2bd653c60cc6634ba6d4))
