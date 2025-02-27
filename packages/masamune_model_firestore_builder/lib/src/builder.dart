@@ -10,8 +10,6 @@ Builder masamuneModelFirestoreBuilderFactory(BuilderOptions options) {
 class _MasamuneModelFirestoreBuilder extends Builder {
   _MasamuneModelFirestoreBuilder();
 
-  static final rules = <RuleValue>[];
-
   static const _firebaseDir = "firebase";
 
   static const _collectionModelPathChecker =
@@ -125,73 +123,79 @@ class _MasamuneModelFirestoreBuilder extends Builder {
 
   @override
   Future<void> build(BuildStep buildStep) async {
-    final resolver = buildStep.resolver;
-
-    if (!await resolver.isLibrary(buildStep.inputId)) {
-      return;
-    }
-
-    final library = await buildStep.resolver.libraryFor(buildStep.inputId);
-    final libraryReader = LibraryReader(library);
-    for (final annotatedElement
-        in libraryReader.annotatedWith(_documentModelPathChecker)) {
-      final element = annotatedElement.element;
-      if (element is! ClassElement) {
-        throw InvalidGenerationSourceError(
-          "`@DocumentModelPath()` can only be used on classes.",
-          element: element,
-        );
+    final rules = <RuleValue>[];
+    final assets = buildStep.findAssets(Glob("**.dart"));
+    await for (final asset in assets) {
+      if (!await buildStep.resolver.isLibrary(asset)) {
+        continue;
       }
-      rules.add(
-        RuleValue(
-          classValue: ClassValue(element),
-          pathValue: PathValue(
-            annotatedElement.annotation
-                .read("path")
-                .stringValue
-                .trimString("/"),
-          ),
-          mirrorPathValue: annotatedElement.annotation.read("mirror").isNull
-              ? null
-              : PathValue(
-                  annotatedElement.annotation
-                      .read("mirror")
-                      .stringValue
-                      .trimString("/"),
-                ),
-          annotationValue: ModelAnnotationValue(element, DocumentModelPath),
+      final libraryReader = LibraryReader(
+        await buildStep.resolver.libraryFor(
+          asset,
+          allowSyntaxErrors: false,
         ),
       );
-    }
-    for (final annotatedElement
-        in libraryReader.annotatedWith(_collectionModelPathChecker)) {
-      final element = annotatedElement.element;
-      if (element is! ClassElement) {
-        throw InvalidGenerationSourceError(
-          "`@CollectionModelPath()` can only be used on classes.",
-          element: element,
+
+      for (final annotatedElement
+          in libraryReader.annotatedWith(_documentModelPathChecker)) {
+        final element = annotatedElement.element;
+        if (element is! ClassElement) {
+          throw InvalidGenerationSourceError(
+            "`@DocumentModelPath()` can only be used on classes.",
+            element: element,
+          );
+        }
+        rules.add(
+          RuleValue(
+            classValue: ClassValue(element),
+            pathValue: PathValue(
+              annotatedElement.annotation
+                  .read("path")
+                  .stringValue
+                  .trimString("/"),
+            ),
+            mirrorPathValue: annotatedElement.annotation.read("mirror").isNull
+                ? null
+                : PathValue(
+                    annotatedElement.annotation
+                        .read("mirror")
+                        .stringValue
+                        .trimString("/"),
+                  ),
+            annotationValue: ModelAnnotationValue(element, DocumentModelPath),
+          ),
         );
       }
-      rules.add(
-        RuleValue(
-          classValue: ClassValue(element),
-          pathValue: PathValue(
-            annotatedElement.annotation
-                .read("path")
-                .stringValue
-                .trimString("/"),
+      for (final annotatedElement
+          in libraryReader.annotatedWith(_collectionModelPathChecker)) {
+        final element = annotatedElement.element;
+        if (element is! ClassElement) {
+          throw InvalidGenerationSourceError(
+            "`@CollectionModelPath()` can only be used on classes.",
+            element: element,
+          );
+        }
+        rules.add(
+          RuleValue(
+            classValue: ClassValue(element),
+            pathValue: PathValue(
+              annotatedElement.annotation
+                  .read("path")
+                  .stringValue
+                  .trimString("/"),
+            ),
+            mirrorPathValue: annotatedElement.annotation.read("mirror").isNull
+                ? null
+                : PathValue(
+                    annotatedElement.annotation
+                        .read("mirror")
+                        .stringValue
+                        .trimString("/"),
+                  ),
+            annotationValue: ModelAnnotationValue(element, CollectionModelPath),
           ),
-          mirrorPathValue: annotatedElement.annotation.read("mirror").isNull
-              ? null
-              : PathValue(
-                  annotatedElement.annotation
-                      .read("mirror")
-                      .stringValue
-                      .trimString("/"),
-                ),
-          annotationValue: ModelAnnotationValue(element, CollectionModelPath),
-        ),
-      );
+        );
+      }
     }
     if (rules.isEmpty) {
       return;

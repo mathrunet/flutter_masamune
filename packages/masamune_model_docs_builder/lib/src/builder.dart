@@ -10,8 +10,6 @@ Builder masamuneModelDocsBuilderFactory(BuilderOptions options) {
 class _MasamuneModelDocsBuilder extends Builder {
   _MasamuneModelDocsBuilder();
 
-  static final docs = <String, List<DocsValue>>{};
-
   static const _collectionModelPathChecker =
       TypeChecker.fromRuntime(CollectionModelPath);
   static const _documentModelPathChecker =
@@ -43,107 +41,113 @@ class _MasamuneModelDocsBuilder extends Builder {
 
   @override
   Future<void> build(BuildStep buildStep) async {
-    final resolver = buildStep.resolver;
-
-    if (!await resolver.isLibrary(buildStep.inputId)) {
-      return;
-    }
-
-    final library = await buildStep.resolver.libraryFor(buildStep.inputId);
-    final libraryReader = LibraryReader(library);
-    for (final annotatedElement
-        in libraryReader.annotatedWith(_documentModelPathChecker)) {
-      final element = annotatedElement.element;
-      if (element is! ClassElement) {
-        throw InvalidGenerationSourceError(
-          "`@DocumentModelPath()` can only be used on classes.",
-          element: element,
-        );
-      }
-      final annotationValue = ModelAnnotationValue(element, DocumentModelPath);
-      final docsPath = annotationValue.docsPath?.trimQuery().trimString("/");
-      if (docsPath == null) {
+    final docs = <String, List<DocsValue>>{};
+    final assets = buildStep.findAssets(Glob("**.dart"));
+    await for (final asset in assets) {
+      if (!await buildStep.resolver.isLibrary(asset)) {
         continue;
       }
-      final mirror = annotatedElement.annotation.read("mirror").isNull
-          ? null
-          : PathValue(
-              annotatedElement.annotation
-                  .read("mirror")
-                  .stringValue
-                  .trimString("/"),
-            );
-      if (!docs.containsKey(docsPath)) {
-        docs[docsPath] = [];
-      }
-      docs[docsPath]?.add(
-        DocsValue(
-          classValue: ClassValue(element),
-          pathValue: PathValue(
-            annotatedElement.annotation
-                .read("path")
-                .stringValue
-                .trimString("/"),
-          ),
-          annotationValue: annotationValue,
+      final libraryReader = LibraryReader(
+        await buildStep.resolver.libraryFor(
+          asset,
+          allowSyntaxErrors: false,
         ),
       );
-      if (mirror != null) {
+      for (final annotatedElement
+          in libraryReader.annotatedWith(_documentModelPathChecker)) {
+        final element = annotatedElement.element;
+        if (element is! ClassElement) {
+          throw InvalidGenerationSourceError(
+            "`@DocumentModelPath()` can only be used on classes.",
+            element: element,
+          );
+        }
+        final annotationValue =
+            ModelAnnotationValue(element, DocumentModelPath);
+        final docsPath = annotationValue.docsPath?.trimQuery().trimString("/");
+        if (docsPath == null) {
+          continue;
+        }
+        final mirror = annotatedElement.annotation.read("mirror").isNull
+            ? null
+            : PathValue(
+                annotatedElement.annotation
+                    .read("mirror")
+                    .stringValue
+                    .trimString("/"),
+              );
+        if (!docs.containsKey(docsPath)) {
+          docs[docsPath] = [];
+        }
         docs[docsPath]?.add(
           DocsValue(
             classValue: ClassValue(element),
-            pathValue: mirror,
+            pathValue: PathValue(
+              annotatedElement.annotation
+                  .read("path")
+                  .stringValue
+                  .trimString("/"),
+            ),
             annotationValue: annotationValue,
           ),
         );
+        if (mirror != null) {
+          docs[docsPath]?.add(
+            DocsValue(
+              classValue: ClassValue(element),
+              pathValue: mirror,
+              annotationValue: annotationValue,
+            ),
+          );
+        }
       }
-    }
-    for (final annotatedElement
-        in libraryReader.annotatedWith(_collectionModelPathChecker)) {
-      final element = annotatedElement.element;
-      if (element is! ClassElement) {
-        throw InvalidGenerationSourceError(
-          "`@CollectionModelPath()` can only be used on classes.",
-          element: element,
-        );
-      }
-      final annotationValue =
-          ModelAnnotationValue(element, CollectionModelPath);
-      final docsPath = annotationValue.docsPath;
-      if (docsPath == null) {
-        continue;
-      }
-      final mirror = annotatedElement.annotation.read("mirror").isNull
-          ? null
-          : PathValue(
-              annotatedElement.annotation
-                  .read("mirror")
-                  .stringValue
-                  .trimString("/"),
-            );
-      if (!docs.containsKey(docsPath)) {
-        docs[docsPath] = [];
-      }
-      docs[docsPath]?.add(
-        DocsValue(
-          classValue: ClassValue(element),
-          pathValue: PathValue(
-            annotatedElement.annotation
-                .read("path")
-                .stringValue
-                .trimString("/"),
-          ),
-          annotationValue: annotationValue,
-        ),
-      );
-      if (mirror != null) {
+      for (final annotatedElement
+          in libraryReader.annotatedWith(_collectionModelPathChecker)) {
+        final element = annotatedElement.element;
+        if (element is! ClassElement) {
+          throw InvalidGenerationSourceError(
+            "`@CollectionModelPath()` can only be used on classes.",
+            element: element,
+          );
+        }
+        final annotationValue =
+            ModelAnnotationValue(element, CollectionModelPath);
+        final docsPath = annotationValue.docsPath;
+        if (docsPath == null) {
+          continue;
+        }
+        final mirror = annotatedElement.annotation.read("mirror").isNull
+            ? null
+            : PathValue(
+                annotatedElement.annotation
+                    .read("mirror")
+                    .stringValue
+                    .trimString("/"),
+              );
+        if (!docs.containsKey(docsPath)) {
+          docs[docsPath] = [];
+        }
         docs[docsPath]?.add(
           DocsValue(
             classValue: ClassValue(element),
-            pathValue: mirror,
+            pathValue: PathValue(
+              annotatedElement.annotation
+                  .read("path")
+                  .stringValue
+                  .trimString("/"),
+            ),
             annotationValue: annotationValue,
           ),
         );
+        if (mirror != null) {
+          docs[docsPath]?.add(
+            DocsValue(
+              classValue: ClassValue(element),
+              pathValue: mirror,
+              annotationValue: annotationValue,
+            ),
+          );
+        }
       }
     }
     if (docs.isEmpty) {
