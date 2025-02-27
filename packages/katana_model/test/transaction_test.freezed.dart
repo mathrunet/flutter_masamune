@@ -12,7 +12,7 @@ part of 'transaction_test.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 TestValue _$TestValueFromJson(Map<String, dynamic> json) {
   return _TestValue.fromJson(json);
@@ -24,8 +24,12 @@ mixin _$TestValue {
   String? get text => throw _privateConstructorUsedError;
   List<int> get ids => throw _privateConstructorUsedError;
 
+  /// Serializes this TestValue to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TestValue
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TestValueCopyWith<TestValue> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TestValue
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -91,6 +97,8 @@ class __$$TestValueImplCopyWithImpl<$Res>
       _$TestValueImpl _value, $Res Function(_$TestValueImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TestValue
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -143,7 +151,7 @@ class _$TestValueImpl implements _TestValue {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TestValueImpl &&
@@ -152,12 +160,14 @@ class _$TestValueImpl implements _TestValue {
             const DeepCollectionEquality().equals(other._ids, _ids));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, name, text, const DeepCollectionEquality().hash(_ids));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TestValue
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TestValueImplCopyWith<_$TestValueImpl> get copyWith =>
@@ -186,8 +196,11 @@ abstract class _TestValue implements TestValue {
   String? get text;
   @override
   List<int> get ids;
+
+  /// Create a copy of TestValue
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TestValueImplCopyWith<_$TestValueImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -201,8 +214,12 @@ mixin _$UserValue {
   String? get name => throw _privateConstructorUsedError;
   String? get text => throw _privateConstructorUsedError;
 
+  /// Serializes this UserValue to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserValue
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserValueCopyWith<UserValue> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -225,6 +242,8 @@ class _$UserValueCopyWithImpl<$Res, $Val extends UserValue>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserValue
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -263,6 +282,8 @@ class __$$UserValueImplCopyWithImpl<$Res>
       _$UserValueImpl _value, $Res Function(_$UserValueImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserValue
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -301,7 +322,7 @@ class _$UserValueImpl implements _UserValue {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserValueImpl &&
@@ -309,11 +330,13 @@ class _$UserValueImpl implements _UserValue {
             (identical(other.text, text) || other.text == text));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, text);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserValue
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserValueImplCopyWith<_$UserValueImpl> get copyWith =>
@@ -338,8 +361,11 @@ abstract class _UserValue implements UserValue {
   String? get name;
   @override
   String? get text;
+
+  /// Create a copy of UserValue
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserValueImplCopyWith<_$UserValueImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -354,8 +380,12 @@ mixin _$ShopValue {
   String? get text => throw _privateConstructorUsedError;
   ModelRefBase<UserValue>? get user => throw _privateConstructorUsedError;
 
+  /// Serializes this ShopValue to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ShopValue
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ShopValueCopyWith<ShopValue> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -378,6 +408,8 @@ class _$ShopValueCopyWithImpl<$Res, $Val extends ShopValue>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ShopValue
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -421,6 +453,8 @@ class __$$ShopValueImplCopyWithImpl<$Res>
       _$ShopValueImpl _value, $Res Function(_$ShopValueImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ShopValue
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -466,7 +500,7 @@ class _$ShopValueImpl implements _ShopValue {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ShopValueImpl &&
@@ -475,11 +509,13 @@ class _$ShopValueImpl implements _ShopValue {
             (identical(other.user, user) || other.user == user));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, text, user);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ShopValue
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ShopValueImplCopyWith<_$ShopValueImpl> get copyWith =>
@@ -508,8 +544,11 @@ abstract class _ShopValue implements ShopValue {
   String? get text;
   @override
   ModelRefBase<UserValue>? get user;
+
+  /// Create a copy of ShopValue
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ShopValueImplCopyWith<_$ShopValueImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

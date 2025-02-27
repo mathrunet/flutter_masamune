@@ -761,7 +761,7 @@ void main() {
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.lessThan(
-            key: "count", value: ModelTimestamp(DateTime(2000, 1, 4))),
+            key: "time", value: ModelTimestamp(DateTime(2000, 1, 4))),
       ],
     );
     expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 3))), true);
@@ -769,19 +769,19 @@ void main() {
     expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 5))), false);
     expect(
         query.hasMatchAsMap({
-          "count": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
+          "time": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
           "text": "aaaa"
         }),
         true);
     expect(
         query.hasMatchAsMap({
-          "count": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
+          "time": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
           "text": "aaaa"
         }),
         false);
     expect(
         query.hasMatchAsMap({
-          "count": ModelTimestamp(DateTime(2000, 1, 5)).toJson(),
+          "time": ModelTimestamp(DateTime(2000, 1, 5)).toJson(),
           "text": "aaaa"
         }),
         false);
@@ -789,7 +789,7 @@ void main() {
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.greaterThan(
-            key: "count", value: ModelTimestamp(DateTime(2000, 1, 4))),
+            key: "time", value: ModelTimestamp(DateTime(2000, 1, 4))),
       ],
     );
     expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 3))), false);
@@ -797,19 +797,19 @@ void main() {
     expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 5))), true);
     expect(
         query.hasMatchAsMap({
-          "count": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
+          "time": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
           "text": "aaaa"
         }),
         false);
     expect(
         query.hasMatchAsMap({
-          "count": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
+          "time": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
           "text": "aaaa"
         }),
         false);
     expect(
         query.hasMatchAsMap({
-          "count": ModelTimestamp(DateTime(2000, 1, 5)).toJson(),
+          "time": ModelTimestamp(DateTime(2000, 1, 5)).toJson(),
           "text": "aaaa"
         }),
         true);
@@ -817,7 +817,7 @@ void main() {
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.lessThanOrEqual(
-            key: "count", value: ModelTimestamp(DateTime(2000, 1, 4))),
+            key: "time", value: ModelTimestamp(DateTime(2000, 1, 4))),
       ],
     );
     expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 3))), true);
@@ -825,19 +825,19 @@ void main() {
     expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 5))), false);
     expect(
         query.hasMatchAsMap({
-          "count": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
+          "time": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
           "text": "aaaa"
         }),
         true);
     expect(
         query.hasMatchAsMap({
-          "count": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
+          "time": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
           "text": "aaaa"
         }),
         true);
     expect(
         query.hasMatchAsMap({
-          "count": ModelTimestamp(DateTime(2000, 1, 5)).toJson(),
+          "time": ModelTimestamp(DateTime(2000, 1, 5)).toJson(),
           "text": "aaaa"
         }),
         false);
@@ -845,7 +845,7 @@ void main() {
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.greaterThanOrEqual(
-            key: "count", value: ModelTimestamp(DateTime(2000, 1, 4))),
+            key: "time", value: ModelTimestamp(DateTime(2000, 1, 4))),
       ],
     );
     expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 3))), false);
@@ -853,19 +853,19 @@ void main() {
     expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 5))), true);
     expect(
         query.hasMatchAsMap({
-          "count": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
+          "time": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
           "text": "aaaa"
         }),
         false);
     expect(
         query.hasMatchAsMap({
-          "count": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
+          "time": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
           "text": "aaaa"
         }),
         true);
     expect(
         query.hasMatchAsMap({
-          "count": ModelTimestamp(DateTime(2000, 1, 5)).toJson(),
+          "time": ModelTimestamp(DateTime(2000, 1, 5)).toJson(),
           "text": "aaaa"
         }),
         true);
@@ -873,7 +873,7 @@ void main() {
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.contains(
-            key: "count", value: ModelTimestamp(DateTime(2000, 1, 4))),
+            key: "time", value: ModelTimestamp(DateTime(2000, 1, 4))),
       ],
     );
     expect(
@@ -892,7 +892,7 @@ void main() {
         false);
     expect(
       query.hasMatchAsMap({
-        "count": [
+        "time": [
           ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
           ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
           ModelTimestamp(DateTime(2000, 1, 5)).toJson()
@@ -903,7 +903,7 @@ void main() {
     );
     expect(
       query.hasMatchAsMap({
-        "count": [
+        "time": [
           ModelTimestamp(DateTime(2000, 2, 3)).toJson(),
           ModelTimestamp(DateTime(2000, 2, 4)).toJson(),
           ModelTimestamp(DateTime(2000, 2, 5)).toJson()
@@ -915,7 +915,7 @@ void main() {
     query = ModelQuery(
       "aaaa/bbbb",
       filters: [
-        ModelQueryFilter.containsAny(key: "count", values: [
+        ModelQueryFilter.containsAny(key: "time", values: [
           ModelTimestamp(DateTime(2000, 1, 3)),
           ModelTimestamp(DateTime(2000, 2, 4)),
           ModelTimestamp(DateTime(2000, 3, 5))
@@ -945,7 +945,7 @@ void main() {
         false);
     expect(
       query.hasMatchAsMap({
-        "count": [
+        "time": [
           ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
           ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
           ModelTimestamp(DateTime(2000, 1, 5)).toJson()
@@ -956,7 +956,7 @@ void main() {
     );
     expect(
       query.hasMatchAsMap({
-        "count": [
+        "time": [
           ModelTimestamp(DateTime(2000, 2, 3)).toJson(),
           ModelTimestamp(DateTime(2000, 2, 4)).toJson(),
           ModelTimestamp(DateTime(2000, 2, 5)).toJson()
@@ -967,7 +967,7 @@ void main() {
     );
     expect(
       query.hasMatchAsMap({
-        "count": [
+        "time": [
           ModelTimestamp(DateTime(2000, 4, 3)).toJson(),
           ModelTimestamp(DateTime(2000, 4, 4)).toJson(),
           ModelTimestamp(DateTime(2000, 4, 5)).toJson()
@@ -979,7 +979,7 @@ void main() {
     query = ModelQuery(
       "aaaa/bbbb",
       filters: [
-        ModelQueryFilter.where(key: "count", values: [
+        ModelQueryFilter.where(key: "time", values: [
           ModelTimestamp(DateTime(2000, 1, 3)),
           ModelTimestamp(DateTime(2000, 1, 4)),
           ModelTimestamp(DateTime(2000, 1, 5))
@@ -991,21 +991,21 @@ void main() {
     expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 4))), true);
     expect(
       query.hasMatchAsMap({
-        "count": ModelTimestamp(DateTime(2000, 1, 2)).toJson(),
+        "time": ModelTimestamp(DateTime(2000, 1, 2)).toJson(),
         "text": "aaaa"
       }),
       false,
     );
     expect(
       query.hasMatchAsMap({
-        "count": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
+        "time": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
         "text": "aaaa"
       }),
       true,
     );
     expect(
       query.hasMatchAsMap({
-        "count": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
+        "time": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
         "text": "aaaa"
       }),
       true,
@@ -1013,7 +1013,7 @@ void main() {
     query = ModelQuery(
       "aaaa/bbbb",
       filters: [
-        ModelQueryFilter.notWhere(key: "count", values: [
+        ModelQueryFilter.notWhere(key: "time", values: [
           ModelTimestamp(DateTime(2000, 1, 3)),
           ModelTimestamp(DateTime(2000, 1, 4)),
           ModelTimestamp(DateTime(2000, 1, 5))
@@ -1025,21 +1025,21 @@ void main() {
     expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 4))), false);
     expect(
       query.hasMatchAsMap({
-        "count": ModelTimestamp(DateTime(2000, 1, 2)).toJson(),
+        "time": ModelTimestamp(DateTime(2000, 1, 2)).toJson(),
         "text": "aaaa"
       }),
       true,
     );
     expect(
       query.hasMatchAsMap({
-        "count": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
+        "time": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
         "text": "aaaa"
       }),
       false,
     );
     expect(
       query.hasMatchAsMap({
-        "count": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
+        "time": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
         "text": "aaaa"
       }),
       false,
@@ -1116,119 +1116,95 @@ void main() {
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.lessThan(
-            key: "count", value: ModelDate(DateTime(2000, 1, 4))),
+            key: "time", value: ModelDate(DateTime(2000, 1, 4))),
       ],
     );
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 3))), true);
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 4))), false);
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 5))), false);
     expect(
-        query.hasMatchAsMap({
-          "count": ModelDate(DateTime(2000, 1, 3)).toJson(),
-          "text": "aaaa"
-        }),
+        query.hasMatchAsMap(
+            {"time": ModelDate(DateTime(2000, 1, 3)).toJson(), "text": "aaaa"}),
         true);
     expect(
-        query.hasMatchAsMap({
-          "count": ModelDate(DateTime(2000, 1, 4)).toJson(),
-          "text": "aaaa"
-        }),
+        query.hasMatchAsMap(
+            {"time": ModelDate(DateTime(2000, 1, 4)).toJson(), "text": "aaaa"}),
         false);
     expect(
-        query.hasMatchAsMap({
-          "count": ModelDate(DateTime(2000, 1, 5)).toJson(),
-          "text": "aaaa"
-        }),
+        query.hasMatchAsMap(
+            {"time": ModelDate(DateTime(2000, 1, 5)).toJson(), "text": "aaaa"}),
         false);
     query = ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.greaterThan(
-            key: "count", value: ModelDate(DateTime(2000, 1, 4))),
+            key: "time", value: ModelDate(DateTime(2000, 1, 4))),
       ],
     );
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 3))), false);
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 4))), false);
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 5))), true);
     expect(
-        query.hasMatchAsMap({
-          "count": ModelDate(DateTime(2000, 1, 3)).toJson(),
-          "text": "aaaa"
-        }),
+        query.hasMatchAsMap(
+            {"time": ModelDate(DateTime(2000, 1, 3)).toJson(), "text": "aaaa"}),
         false);
     expect(
-        query.hasMatchAsMap({
-          "count": ModelDate(DateTime(2000, 1, 4)).toJson(),
-          "text": "aaaa"
-        }),
+        query.hasMatchAsMap(
+            {"time": ModelDate(DateTime(2000, 1, 4)).toJson(), "text": "aaaa"}),
         false);
     expect(
-        query.hasMatchAsMap({
-          "count": ModelDate(DateTime(2000, 1, 5)).toJson(),
-          "text": "aaaa"
-        }),
+        query.hasMatchAsMap(
+            {"time": ModelDate(DateTime(2000, 1, 5)).toJson(), "text": "aaaa"}),
         true);
     query = ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.lessThanOrEqual(
-            key: "count", value: ModelDate(DateTime(2000, 1, 4))),
+            key: "time", value: ModelDate(DateTime(2000, 1, 4))),
       ],
     );
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 3))), true);
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 4))), true);
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 5))), false);
     expect(
-        query.hasMatchAsMap({
-          "count": ModelDate(DateTime(2000, 1, 3)).toJson(),
-          "text": "aaaa"
-        }),
+        query.hasMatchAsMap(
+            {"time": ModelDate(DateTime(2000, 1, 3)).toJson(), "text": "aaaa"}),
         true);
     expect(
-        query.hasMatchAsMap({
-          "count": ModelDate(DateTime(2000, 1, 4)).toJson(),
-          "text": "aaaa"
-        }),
+        query.hasMatchAsMap(
+            {"time": ModelDate(DateTime(2000, 1, 4)).toJson(), "text": "aaaa"}),
         true);
     expect(
-        query.hasMatchAsMap({
-          "count": ModelDate(DateTime(2000, 1, 5)).toJson(),
-          "text": "aaaa"
-        }),
+        query.hasMatchAsMap(
+            {"time": ModelDate(DateTime(2000, 1, 5)).toJson(), "text": "aaaa"}),
         false);
     query = ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.greaterThanOrEqual(
-            key: "count", value: ModelDate(DateTime(2000, 1, 4))),
+            key: "time", value: ModelDate(DateTime(2000, 1, 4))),
       ],
     );
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 3))), false);
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 4))), true);
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 5))), true);
     expect(
-        query.hasMatchAsMap({
-          "count": ModelDate(DateTime(2000, 1, 3)).toJson(),
-          "text": "aaaa"
-        }),
+        query.hasMatchAsMap(
+            {"time": ModelDate(DateTime(2000, 1, 3)).toJson(), "text": "aaaa"}),
         false);
     expect(
-        query.hasMatchAsMap({
-          "count": ModelDate(DateTime(2000, 1, 4)).toJson(),
-          "text": "aaaa"
-        }),
+        query.hasMatchAsMap(
+            {"time": ModelDate(DateTime(2000, 1, 4)).toJson(), "text": "aaaa"}),
         true);
     expect(
-        query.hasMatchAsMap({
-          "count": ModelDate(DateTime(2000, 1, 5)).toJson(),
-          "text": "aaaa"
-        }),
+        query.hasMatchAsMap(
+            {"time": ModelDate(DateTime(2000, 1, 5)).toJson(), "text": "aaaa"}),
         true);
     query = ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.contains(
-            key: "count", value: ModelDate(DateTime(2000, 1, 4))),
+            key: "time", value: ModelDate(DateTime(2000, 1, 4))),
       ],
     );
     expect(
@@ -1247,7 +1223,7 @@ void main() {
         false);
     expect(
       query.hasMatchAsMap({
-        "count": [
+        "time": [
           ModelDate(DateTime(2000, 1, 3)).toJson(),
           ModelDate(DateTime(2000, 1, 4)).toJson(),
           ModelDate(DateTime(2000, 1, 5)).toJson()
@@ -1258,7 +1234,7 @@ void main() {
     );
     expect(
       query.hasMatchAsMap({
-        "count": [
+        "time": [
           ModelDate(DateTime(2000, 2, 3)).toJson(),
           ModelDate(DateTime(2000, 2, 4)).toJson(),
           ModelDate(DateTime(2000, 2, 5)).toJson()
@@ -1270,7 +1246,7 @@ void main() {
     query = ModelQuery(
       "aaaa/bbbb",
       filters: [
-        ModelQueryFilter.containsAny(key: "count", values: [
+        ModelQueryFilter.containsAny(key: "time", values: [
           ModelDate(DateTime(2000, 1, 3)),
           ModelDate(DateTime(2000, 2, 4)),
           ModelDate(DateTime(2000, 3, 5))
@@ -1300,7 +1276,7 @@ void main() {
         false);
     expect(
       query.hasMatchAsMap({
-        "count": [
+        "time": [
           ModelDate(DateTime(2000, 1, 3)).toJson(),
           ModelDate(DateTime(2000, 1, 4)).toJson(),
           ModelDate(DateTime(2000, 1, 5)).toJson()
@@ -1311,7 +1287,7 @@ void main() {
     );
     expect(
       query.hasMatchAsMap({
-        "count": [
+        "time": [
           ModelDate(DateTime(2000, 2, 3)).toJson(),
           ModelDate(DateTime(2000, 2, 4)).toJson(),
           ModelDate(DateTime(2000, 2, 5)).toJson()
@@ -1322,7 +1298,7 @@ void main() {
     );
     expect(
       query.hasMatchAsMap({
-        "count": [
+        "time": [
           ModelDate(DateTime(2000, 4, 3)).toJson(),
           ModelDate(DateTime(2000, 4, 4)).toJson(),
           ModelDate(DateTime(2000, 4, 5)).toJson()
@@ -1334,7 +1310,7 @@ void main() {
     query = ModelQuery(
       "aaaa/bbbb",
       filters: [
-        ModelQueryFilter.where(key: "count", values: [
+        ModelQueryFilter.where(key: "time", values: [
           ModelDate(DateTime(2000, 1, 3)),
           ModelDate(DateTime(2000, 1, 4)),
           ModelDate(DateTime(2000, 1, 5))
@@ -1346,23 +1322,23 @@ void main() {
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 4))), true);
     expect(
       query.hasMatchAsMap(
-          {"count": ModelDate(DateTime(2000, 1, 2)).toJson(), "text": "aaaa"}),
+          {"time": ModelDate(DateTime(2000, 1, 2)).toJson(), "text": "aaaa"}),
       false,
     );
     expect(
       query.hasMatchAsMap(
-          {"count": ModelDate(DateTime(2000, 1, 3)).toJson(), "text": "aaaa"}),
+          {"time": ModelDate(DateTime(2000, 1, 3)).toJson(), "text": "aaaa"}),
       true,
     );
     expect(
       query.hasMatchAsMap(
-          {"count": ModelDate(DateTime(2000, 1, 4)).toJson(), "text": "aaaa"}),
+          {"time": ModelDate(DateTime(2000, 1, 4)).toJson(), "text": "aaaa"}),
       true,
     );
     query = ModelQuery(
       "aaaa/bbbb",
       filters: [
-        ModelQueryFilter.notWhere(key: "count", values: [
+        ModelQueryFilter.notWhere(key: "time", values: [
           ModelDate(DateTime(2000, 1, 3)),
           ModelDate(DateTime(2000, 1, 4)),
           ModelDate(DateTime(2000, 1, 5))
@@ -1374,17 +1350,1590 @@ void main() {
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 4))), false);
     expect(
       query.hasMatchAsMap(
-          {"count": ModelDate(DateTime(2000, 1, 2)).toJson(), "text": "aaaa"}),
+          {"time": ModelDate(DateTime(2000, 1, 2)).toJson(), "text": "aaaa"}),
       true,
     );
     expect(
       query.hasMatchAsMap(
-          {"count": ModelDate(DateTime(2000, 1, 3)).toJson(), "text": "aaaa"}),
+          {"time": ModelDate(DateTime(2000, 1, 3)).toJson(), "text": "aaaa"}),
       false,
     );
     expect(
       query.hasMatchAsMap(
-          {"count": ModelDate(DateTime(2000, 1, 4)).toJson(), "text": "aaaa"}),
+          {"time": ModelDate(DateTime(2000, 1, 4)).toJson(), "text": "aaaa"}),
+      false,
+    );
+  });
+  test("ModelQuery.ModelTime", () async {
+    var query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(key: "time", value: ModelTime.time(10, 10, 10)),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 9)), false);
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), true);
+    expect(
+      query.hasMatchAsMap(
+          {"name": "test", "time": ModelTime.time(10, 9, 10).toJson()}),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"name": "test", "time": ModelTime.time(10, 10, 10).toJson()}),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "time": ModelTime.time(9, 10, 10).toJson()}
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "time": ModelTime.time(10, 10, 10).toJson()}
+      ]),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notEqual(
+            key: "time", value: ModelTime.time(10, 10, 10)),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTime.time(9, 10, 10)), true);
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), false);
+    expect(
+      query.hasMatchAsMap(
+          {"name": "test", "time": ModelTime.time(9, 10, 10).toJson()}),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"name": "test", "time": ModelTime.time(10, 10, 10).toJson()}),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "time": ModelTime.time(10, 10, 10).toJson()}
+      ]),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "time": ModelTime.time(10, 10, 10).toJson()},
+        {"name": "test2", "time": ModelTime.time(10, 10, 10).toJson()}
+      ]),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.lessThan(
+            key: "time", value: ModelTime.time(10, 10, 10)),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 9)), true);
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), false);
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 11)), false);
+    expect(
+        query.hasMatchAsMap(
+            {"time": ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
+        true);
+    expect(
+        query.hasMatchAsMap(
+            {"time": ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+        false);
+    expect(
+        query.hasMatchAsMap(
+            {"time": ModelTime.time(10, 10, 11).toJson(), "text": "aaaa"}),
+        false);
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.greaterThan(
+            key: "time", value: ModelTime.time(10, 10, 10)),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 9)), false);
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), false);
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 11)), true);
+    expect(
+        query.hasMatchAsMap(
+            {"time": ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
+        false);
+    expect(
+        query.hasMatchAsMap(
+            {"time": ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+        false);
+    expect(
+        query.hasMatchAsMap(
+            {"time": ModelTime.time(10, 11, 10).toJson(), "text": "aaaa"}),
+        true);
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.lessThanOrEqual(
+            key: "time", value: ModelTime.time(10, 10, 10)),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 9)), true);
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), true);
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 11)), false);
+    expect(
+        query.hasMatchAsMap(
+            {"time": ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
+        true);
+    expect(
+        query.hasMatchAsMap(
+            {"time": ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+        true);
+    expect(
+        query.hasMatchAsMap(
+            {"time": ModelTime.time(10, 11, 10).toJson(), "text": "aaaa"}),
+        false);
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.greaterThanOrEqual(
+            key: "time", value: ModelTime.time(10, 10, 10)),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTime.time(10, 9, 10)), false);
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), true);
+    expect(query.hasMatchAsObject(ModelTime.time(10, 11, 10)), true);
+    expect(
+        query.hasMatchAsMap(
+            {"time": ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
+        false);
+    expect(
+        query.hasMatchAsMap(
+            {"time": ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+        true);
+    expect(
+        query.hasMatchAsMap(
+            {"time": ModelTime.time(10, 11, 10).toJson(), "text": "aaaa"}),
+        true);
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.contains(
+            key: "time", value: ModelTime.time(10, 10, 10)),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          ModelTime.time(10, 9, 10),
+          ModelTime.time(10, 10, 10),
+          ModelTime.time(10, 11, 10)
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelTime.time(10, 9, 9),
+          ModelTime.time(10, 11, 10),
+          ModelTime.time(10, 11, 11)
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTime.time(10, 9, 10).toJson(),
+          ModelTime.time(10, 10, 10).toJson(),
+          ModelTime.time(10, 11, 10).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTime.time(10, 9, 10).toJson(),
+          ModelTime.time(10, 11, 10).toJson(),
+          ModelTime.time(10, 11, 11).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.containsAny(key: "time", values: [
+          ModelTime.time(10, 9, 10),
+          ModelTime.time(10, 10, 10),
+          ModelTime.time(10, 11, 10)
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          ModelTime.time(10, 9, 10),
+          ModelTime.time(10, 10, 10),
+          ModelTime.time(10, 11, 10)
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelTime.time(10, 9, 10),
+          ModelTime.time(11, 10, 10),
+          ModelTime.time(11, 11, 10)
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelTime.time(11, 9, 10),
+          ModelTime.time(11, 10, 10),
+          ModelTime.time(11, 11, 10)
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTime.time(11, 9, 10).toJson(),
+          ModelTime.time(10, 10, 10).toJson(),
+          ModelTime.time(11, 11, 10).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTime.time(10, 9, 10).toJson(),
+          ModelTime.time(11, 10, 10).toJson(),
+          ModelTime.time(11, 11, 10).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTime.time(11, 9, 10).toJson(),
+          ModelTime.time(11, 10, 10).toJson(),
+          ModelTime.time(11, 11, 10).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.where(key: "time", values: [
+          ModelTime.time(10, 9, 10),
+          ModelTime.time(10, 10, 10),
+          ModelTime.time(10, 11, 10)
+        ]),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTime.time(10, 9, 9)), false);
+    expect(query.hasMatchAsObject(ModelTime.time(10, 9, 10)), true);
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), true);
+    expect(
+      query.hasMatchAsMap(
+          {"time": ModelTime.time(10, 9, 9).toJson(), "text": "aaaa"}),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"time": ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"time": ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notWhere(key: "time", values: [
+          ModelTime.time(10, 9, 10),
+          ModelTime.time(10, 10, 10),
+          ModelTime.time(10, 11, 10)
+        ]),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTime.time(10, 9, 9)), true);
+    expect(query.hasMatchAsObject(ModelTime.time(10, 9, 10)), false);
+    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), false);
+    expect(
+      query.hasMatchAsMap(
+          {"time": ModelTime.time(10, 9, 9).toJson(), "text": "aaaa"}),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"time": ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"time": ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+      false,
+    );
+  });
+  test("ModelQuery.ModelTimestampRange", () async {
+    var query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(
+            key: "time",
+            value: ModelTimestampRange.fromDateTime(
+              start: DateTime(2000, 1, 3),
+              end: DateTime(2000, 1, 4),
+            )),
+      ],
+    );
+    expect(
+      query.hasMatchAsObject(ModelTimestampRange.fromDateTime(
+        start: DateTime(2000, 1, 3),
+        end: DateTime(2000, 1, 4),
+      )),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 5),
+        ).toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 4),
+        ).toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "time": ModelTimestampRange.fromDateTime(
+            start: DateTime(2001, 1, 2),
+            end: DateTime(2001, 1, 4),
+          ).toJson()
+        }
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "time": ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ).toJson()
+        }
+      ]),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notEqual(
+            key: "time",
+            value: ModelTimestampRange.fromDateTime(
+              start: DateTime(2000, 1, 3),
+              end: DateTime(2000, 1, 4),
+            )),
+      ],
+    );
+    expect(
+      query.hasMatchAsObject(ModelTimestampRange.fromDateTime(
+        start: DateTime(2000, 1, 3),
+        end: DateTime(2000, 1, 4),
+      )),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 5),
+        ).toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 4),
+        ).toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "time": ModelTimestampRange.fromDateTime(
+            start: DateTime(2001, 1, 2),
+            end: DateTime(2001, 1, 4),
+          ).toJson()
+        }
+      ]),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "time": ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ).toJson()
+        }
+      ]),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.contains(
+            key: "time",
+            value: ModelTimestampRange.fromDateTime(
+              start: DateTime(2000, 1, 3),
+              end: DateTime(2000, 1, 4),
+            )),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ),
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 4),
+            end: DateTime(2000, 1, 5),
+          ),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 2, 3),
+            end: DateTime(2000, 2, 4),
+          ),
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 2, 4),
+            end: DateTime(2000, 2, 5),
+          ),
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ).toJson(),
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 4),
+            end: DateTime(2000, 1, 5),
+          ).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 2, 3),
+            end: DateTime(2000, 2, 4),
+          ).toJson(),
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 2, 4),
+            end: DateTime(2000, 2, 5),
+          ).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.containsAny(key: "time", values: [
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ),
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 2, 4),
+            end: DateTime(2000, 2, 5),
+          ),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ),
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 4),
+            end: DateTime(2000, 1, 5),
+          ),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 2, 3),
+            end: DateTime(2000, 2, 4),
+          ),
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 2, 4),
+            end: DateTime(2000, 2, 5),
+          ),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 4, 3),
+            end: DateTime(2000, 4, 4),
+          ),
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 4, 4),
+            end: DateTime(2000, 4, 5),
+          ),
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ).toJson(),
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 4),
+            end: DateTime(2000, 1, 5),
+          ).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 2, 3),
+            end: DateTime(2000, 2, 4),
+          ).toJson(),
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 2, 4),
+            end: DateTime(2000, 2, 5),
+          ).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 4, 3),
+            end: DateTime(2000, 4, 4),
+          ).toJson(),
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 4, 4),
+            end: DateTime(2000, 4, 5),
+          ).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.where(key: "time", values: [
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ),
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 4),
+            end: DateTime(2000, 1, 5),
+          ),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 2),
+          end: DateTime(2000, 1, 3),
+        )),
+        false);
+    expect(
+        query.hasMatchAsObject(ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 4),
+        )),
+        true);
+    expect(
+        query.hasMatchAsObject(ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 4),
+          end: DateTime(2000, 1, 5),
+        )),
+        true);
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 2),
+          end: DateTime(2000, 1, 3),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 4),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 4),
+          end: DateTime(2000, 1, 5),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notWhere(key: "time", values: [
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ),
+          ModelTimestampRange.fromDateTime(
+            start: DateTime(2000, 1, 4),
+            end: DateTime(2000, 1, 5),
+          ),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 2),
+          end: DateTime(2000, 1, 3),
+        )),
+        true);
+    expect(
+        query.hasMatchAsObject(ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 4),
+        )),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 2),
+          end: DateTime(2000, 1, 5),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 4),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelTimestampRange.fromDateTime(
+          start: DateTime(2000, 1, 4),
+          end: DateTime(2000, 1, 5),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+  });
+  test("ModelQuery.ModelDateRange", () async {
+    var query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(
+            key: "time",
+            value: ModelDateRange.fromDateTime(
+              start: DateTime(2000, 1, 3),
+              end: DateTime(2000, 1, 4),
+            )),
+      ],
+    );
+    expect(
+      query.hasMatchAsObject(ModelDateRange.fromDateTime(
+        start: DateTime(2000, 1, 3),
+        end: DateTime(2000, 1, 4),
+      )),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 5),
+        ).toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 4),
+        ).toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "time": ModelDateRange.fromDateTime(
+            start: DateTime(2001, 1, 2),
+            end: DateTime(2001, 1, 4),
+          ).toJson()
+        }
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "time": ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ).toJson()
+        }
+      ]),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notEqual(
+            key: "time",
+            value: ModelDateRange.fromDateTime(
+              start: DateTime(2000, 1, 3),
+              end: DateTime(2000, 1, 4),
+            )),
+      ],
+    );
+    expect(
+      query.hasMatchAsObject(ModelDateRange.fromDateTime(
+        start: DateTime(2000, 1, 3),
+        end: DateTime(2000, 1, 4),
+      )),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 5),
+        ).toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 4),
+        ).toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "time": ModelDateRange.fromDateTime(
+            start: DateTime(2001, 1, 2),
+            end: DateTime(2001, 1, 4),
+          ).toJson()
+        }
+      ]),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "time": ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ).toJson()
+        }
+      ]),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.contains(
+            key: "time",
+            value: ModelDateRange.fromDateTime(
+              start: DateTime(2000, 1, 3),
+              end: DateTime(2000, 1, 4),
+            )),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ),
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 4),
+            end: DateTime(2000, 1, 5),
+          ),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 2, 3),
+            end: DateTime(2000, 2, 4),
+          ),
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 2, 4),
+            end: DateTime(2000, 2, 5),
+          ),
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ).toJson(),
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 4),
+            end: DateTime(2000, 1, 5),
+          ).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 2, 3),
+            end: DateTime(2000, 2, 4),
+          ).toJson(),
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 2, 4),
+            end: DateTime(2000, 2, 5),
+          ).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.containsAny(key: "time", values: [
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ),
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 2, 4),
+            end: DateTime(2000, 2, 5),
+          ),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ),
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 4),
+            end: DateTime(2000, 1, 5),
+          ),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 2, 3),
+            end: DateTime(2000, 2, 4),
+          ),
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 2, 4),
+            end: DateTime(2000, 2, 5),
+          ),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 4, 3),
+            end: DateTime(2000, 4, 4),
+          ),
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 4, 4),
+            end: DateTime(2000, 4, 5),
+          ),
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ).toJson(),
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 4),
+            end: DateTime(2000, 1, 5),
+          ).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 2, 3),
+            end: DateTime(2000, 2, 4),
+          ).toJson(),
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 2, 4),
+            end: DateTime(2000, 2, 5),
+          ).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 4, 3),
+            end: DateTime(2000, 4, 4),
+          ).toJson(),
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 4, 4),
+            end: DateTime(2000, 4, 5),
+          ).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.where(key: "time", values: [
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ),
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 4),
+            end: DateTime(2000, 1, 5),
+          ),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 2),
+          end: DateTime(2000, 1, 3),
+        )),
+        false);
+    expect(
+        query.hasMatchAsObject(ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 4),
+        )),
+        true);
+    expect(
+        query.hasMatchAsObject(ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 4),
+          end: DateTime(2000, 1, 5),
+        )),
+        true);
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 2),
+          end: DateTime(2000, 1, 3),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 4),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 4),
+          end: DateTime(2000, 1, 5),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notWhere(key: "time", values: [
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 3),
+            end: DateTime(2000, 1, 4),
+          ),
+          ModelDateRange.fromDateTime(
+            start: DateTime(2000, 1, 4),
+            end: DateTime(2000, 1, 5),
+          ),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 2),
+          end: DateTime(2000, 1, 3),
+        )),
+        true);
+    expect(
+        query.hasMatchAsObject(ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 4),
+        )),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 2),
+          end: DateTime(2000, 1, 5),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 3),
+          end: DateTime(2000, 1, 4),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelDateRange.fromDateTime(
+          start: DateTime(2000, 1, 4),
+          end: DateTime(2000, 1, 5),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+  });
+  test("ModelQuery.ModelTimeRange", () async {
+    var query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(
+          key: "time",
+          value: ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 11),
+          ),
+        ),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 10, 10),
+          end: DateTime(2000, 1, 1, 10, 10, 12),
+        )),
+        false);
+    expect(
+        query.hasMatchAsObject(ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 10, 10),
+          end: DateTime(2000, 1, 1, 10, 10, 11),
+        )),
+        true);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 9, 10),
+          end: DateTime(2000, 1, 1, 10, 10, 10),
+        ).toJson(),
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 10, 10),
+          end: DateTime(2000, 1, 1, 10, 10, 11),
+        ).toJson(),
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "time": ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 9, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 10),
+          ).toJson(),
+        }
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "time": ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 11),
+          ).toJson(),
+        }
+      ]),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notEqual(
+          key: "time",
+          value: ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 11),
+          ),
+        ),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 10, 10),
+          end: DateTime(2000, 1, 1, 10, 10, 12),
+        )),
+        true);
+    expect(
+        query.hasMatchAsObject(ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 10, 10),
+          end: DateTime(2000, 1, 1, 10, 10, 11),
+        )),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 9, 10),
+          end: DateTime(2000, 1, 1, 10, 10, 10),
+        ).toJson(),
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 10, 10),
+          end: DateTime(2000, 1, 1, 10, 10, 11),
+        ).toJson(),
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "time": ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 9, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 10),
+          ).toJson(),
+        }
+      ]),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "time": ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 11),
+          ).toJson(),
+        }
+      ]),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.contains(
+          key: "time",
+          value: ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 11),
+          ),
+        ),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 9, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 10),
+          ),
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 11),
+          ),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 9, 9),
+            end: DateTime(2000, 1, 1, 10, 10, 10),
+          ),
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 11, 10),
+            end: DateTime(2000, 1, 1, 10, 11, 11),
+          ),
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 9, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 10),
+          ).toJson(),
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 11),
+          ).toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 9, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 10),
+          ).toJson(),
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 11, 11),
+          ).toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.containsAny(key: "time", values: [
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 9, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 10),
+          ),
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 11, 10),
+          ),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 9, 10),
+            end: DateTime(2000, 1, 1, 10, 12, 10),
+          ),
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 11, 10),
+          ),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 9, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 10),
+          ),
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 12, 10),
+          ),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 9, 10),
+            end: DateTime(2000, 1, 1, 10, 12, 10),
+          ),
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 12, 10),
+          ),
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 8, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 10),
+          ).toJson(),
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 11, 10),
+          ).toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 9, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 10),
+          ).toJson(),
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 13, 10),
+          ).toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": [
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 8, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 10),
+          ).toJson(),
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 13, 10),
+          ).toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.where(key: "time", values: [
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 9, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 10),
+          ),
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 11, 10),
+          ),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 8, 9),
+          end: DateTime(2000, 1, 1, 10, 10, 10),
+        )),
+        false);
+    expect(
+        query.hasMatchAsObject(ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 9, 10),
+          end: DateTime(2000, 1, 1, 10, 10, 10),
+        )),
+        true);
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 8, 9),
+          end: DateTime(2000, 1, 1, 10, 10, 10),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 10, 10),
+          end: DateTime(2000, 1, 1, 10, 11, 10),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 10, 10),
+          end: DateTime(2000, 1, 1, 10, 11, 10),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notWhere(key: "time", values: [
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 9, 10),
+            end: DateTime(2000, 1, 1, 10, 10, 10),
+          ),
+          ModelTimeRange.fromDateTime(
+            start: DateTime(2000, 1, 1, 10, 10, 10),
+            end: DateTime(2000, 1, 1, 10, 11, 10),
+          ),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 8, 9),
+          end: DateTime(2000, 1, 1, 10, 10, 10),
+        )),
+        true);
+    expect(
+        query.hasMatchAsObject(ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 9, 10),
+          end: DateTime(2000, 1, 1, 10, 10, 10),
+        )),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 9, 9),
+          end: DateTime(2000, 1, 1, 10, 11, 10),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 10, 10),
+          end: DateTime(2000, 1, 1, 10, 11, 10),
+        ).toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "time": ModelTimeRange.fromDateTime(
+          start: DateTime(2000, 1, 1, 10, 10, 10),
+          end: DateTime(2000, 1, 1, 10, 11, 10),
+        ).toJson(),
+        "text": "aaaa"
+      }),
       false,
     );
   });
@@ -3571,75 +5120,75 @@ void main() {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
-        ModelQueryFilter.orderByAsc(key: "count"),
+        ModelQueryFilter.orderByAsc(key: "time"),
       ],
     );
     expect(
       query.sort(
         [
           MapEntry("dddd",
-              {"count": ModelTimestamp(DateTime(2010, 1, 1)), "text": "a"}),
+              {"time": ModelTimestamp(DateTime(2010, 1, 1)), "text": "a"}),
           MapEntry("dddd",
-              {"count": ModelTimestamp(DateTime(2008, 1, 1)), "text": "a"}),
+              {"time": ModelTimestamp(DateTime(2008, 1, 1)), "text": "a"}),
           MapEntry("dddd",
-              {"count": ModelTimestamp(DateTime(2004, 1, 1)), "text": "a"}),
+              {"time": ModelTimestamp(DateTime(2004, 1, 1)), "text": "a"}),
           MapEntry("dddd",
-              {"count": ModelTimestamp(DateTime(2001, 1, 1)), "text": "a"}),
+              {"time": ModelTimestamp(DateTime(2001, 1, 1)), "text": "a"}),
         ],
       ).toString(),
       [
         MapEntry("dddd",
-            {"count": ModelTimestamp(DateTime(2001, 1, 1)), "text": "a"}),
+            {"time": ModelTimestamp(DateTime(2001, 1, 1)), "text": "a"}),
         MapEntry("dddd",
-            {"count": ModelTimestamp(DateTime(2004, 1, 1)), "text": "a"}),
+            {"time": ModelTimestamp(DateTime(2004, 1, 1)), "text": "a"}),
         MapEntry("dddd",
-            {"count": ModelTimestamp(DateTime(2008, 1, 1)), "text": "a"}),
+            {"time": ModelTimestamp(DateTime(2008, 1, 1)), "text": "a"}),
         MapEntry("dddd",
-            {"count": ModelTimestamp(DateTime(2010, 1, 1)), "text": "a"}),
+            {"time": ModelTimestamp(DateTime(2010, 1, 1)), "text": "a"}),
       ].toString(),
     );
     query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
-        ModelQueryFilter.orderByDesc(key: "count"),
+        ModelQueryFilter.orderByDesc(key: "time"),
       ],
     );
     expect(
       query.sort(
         [
           MapEntry("dddd", {
-            "count": ModelTimestamp(DateTime(2010, 1, 1)).toJson(),
+            "time": ModelTimestamp(DateTime(2010, 1, 1)).toJson(),
             "text": "a"
           }),
           MapEntry("dddd", {
-            "count": ModelTimestamp(DateTime(2004, 1, 1)).toJson(),
+            "time": ModelTimestamp(DateTime(2004, 1, 1)).toJson(),
             "text": "a"
           }),
           MapEntry("dddd", {
-            "count": ModelTimestamp(DateTime(2008, 1, 1)).toJson(),
+            "time": ModelTimestamp(DateTime(2008, 1, 1)).toJson(),
             "text": "a"
           }),
           MapEntry("dddd", {
-            "count": ModelTimestamp(DateTime(2001, 1, 1)).toJson(),
+            "time": ModelTimestamp(DateTime(2001, 1, 1)).toJson(),
             "text": "a"
           }),
         ],
       ).toString(),
       [
         MapEntry("dddd", {
-          "count": ModelTimestamp(DateTime(2010, 1, 1)).toJson(),
+          "time": ModelTimestamp(DateTime(2010, 1, 1)).toJson(),
           "text": "a"
         }),
         MapEntry("dddd", {
-          "count": ModelTimestamp(DateTime(2008, 1, 1)).toJson(),
+          "time": ModelTimestamp(DateTime(2008, 1, 1)).toJson(),
           "text": "a"
         }),
         MapEntry("dddd", {
-          "count": ModelTimestamp(DateTime(2004, 1, 1)).toJson(),
+          "time": ModelTimestamp(DateTime(2004, 1, 1)).toJson(),
           "text": "a"
         }),
         MapEntry("dddd", {
-          "count": ModelTimestamp(DateTime(2001, 1, 1)).toJson(),
+          "time": ModelTimestamp(DateTime(2001, 1, 1)).toJson(),
           "text": "a"
         }),
       ].toString(),
@@ -3649,61 +5198,111 @@ void main() {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
-        ModelQueryFilter.orderByAsc(key: "count"),
+        ModelQueryFilter.orderByAsc(key: "time"),
       ],
     );
     expect(
       query.sort(
         [
           MapEntry(
-              "dddd", {"count": ModelDate(DateTime(2010, 1, 1)), "text": "a"}),
+              "dddd", {"time": ModelDate(DateTime(2010, 1, 1)), "text": "a"}),
           MapEntry(
-              "dddd", {"count": ModelDate(DateTime(2008, 1, 1)), "text": "a"}),
+              "dddd", {"time": ModelDate(DateTime(2008, 1, 1)), "text": "a"}),
           MapEntry(
-              "dddd", {"count": ModelDate(DateTime(2004, 1, 1)), "text": "a"}),
+              "dddd", {"time": ModelDate(DateTime(2004, 1, 1)), "text": "a"}),
           MapEntry(
-              "dddd", {"count": ModelDate(DateTime(2001, 1, 1)), "text": "a"}),
+              "dddd", {"time": ModelDate(DateTime(2001, 1, 1)), "text": "a"}),
         ],
       ).toString(),
       [
         MapEntry(
-            "dddd", {"count": ModelDate(DateTime(2001, 1, 1)), "text": "a"}),
+            "dddd", {"time": ModelDate(DateTime(2001, 1, 1)), "text": "a"}),
         MapEntry(
-            "dddd", {"count": ModelDate(DateTime(2004, 1, 1)), "text": "a"}),
+            "dddd", {"time": ModelDate(DateTime(2004, 1, 1)), "text": "a"}),
         MapEntry(
-            "dddd", {"count": ModelDate(DateTime(2008, 1, 1)), "text": "a"}),
+            "dddd", {"time": ModelDate(DateTime(2008, 1, 1)), "text": "a"}),
         MapEntry(
-            "dddd", {"count": ModelDate(DateTime(2010, 1, 1)), "text": "a"}),
+            "dddd", {"time": ModelDate(DateTime(2010, 1, 1)), "text": "a"}),
       ].toString(),
     );
     query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
-        ModelQueryFilter.orderByDesc(key: "count"),
+        ModelQueryFilter.orderByDesc(key: "time"),
       ],
     );
     expect(
       query.sort(
         [
           MapEntry("dddd",
-              {"count": ModelDate(DateTime(2010, 1, 1)).toJson(), "text": "a"}),
+              {"time": ModelDate(DateTime(2010, 1, 1)).toJson(), "text": "a"}),
           MapEntry("dddd",
-              {"count": ModelDate(DateTime(2004, 1, 1)).toJson(), "text": "a"}),
+              {"time": ModelDate(DateTime(2004, 1, 1)).toJson(), "text": "a"}),
           MapEntry("dddd",
-              {"count": ModelDate(DateTime(2008, 1, 1)).toJson(), "text": "a"}),
+              {"time": ModelDate(DateTime(2008, 1, 1)).toJson(), "text": "a"}),
           MapEntry("dddd",
-              {"count": ModelDate(DateTime(2001, 1, 1)).toJson(), "text": "a"}),
+              {"time": ModelDate(DateTime(2001, 1, 1)).toJson(), "text": "a"}),
         ],
       ).toString(),
       [
         MapEntry("dddd",
-            {"count": ModelDate(DateTime(2010, 1, 1)).toJson(), "text": "a"}),
+            {"time": ModelDate(DateTime(2010, 1, 1)).toJson(), "text": "a"}),
         MapEntry("dddd",
-            {"count": ModelDate(DateTime(2008, 1, 1)).toJson(), "text": "a"}),
+            {"time": ModelDate(DateTime(2008, 1, 1)).toJson(), "text": "a"}),
         MapEntry("dddd",
-            {"count": ModelDate(DateTime(2004, 1, 1)).toJson(), "text": "a"}),
+            {"time": ModelDate(DateTime(2004, 1, 1)).toJson(), "text": "a"}),
         MapEntry("dddd",
-            {"count": ModelDate(DateTime(2001, 1, 1)).toJson(), "text": "a"}),
+            {"time": ModelDate(DateTime(2001, 1, 1)).toJson(), "text": "a"}),
+      ].toString(),
+    );
+  });
+  test("ModelQuery.sort.ModelTime", () async {
+    var query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.orderByAsc(key: "time"),
+      ],
+    );
+    expect(
+      query.sort(
+        [
+          MapEntry("dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
+          MapEntry("dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
+          MapEntry("dddd", {"time": ModelTime.time(12, 1, 3), "text": "a"}),
+          MapEntry("dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
+        ],
+      ).toString(),
+      [
+        MapEntry("dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
+        MapEntry("dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
+        MapEntry("dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
+        MapEntry("dddd", {"time": ModelTime.time(12, 1, 3), "text": "a"}),
+      ].toString(),
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.orderByDesc(key: "time"),
+      ],
+    );
+    expect(
+      query.sort(
+        [
+          MapEntry("dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
+          MapEntry("dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
+          MapEntry("dddd", {"time": ModelTime.time(12, 1, 3), "text": "a"}),
+          MapEntry("dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
+        ],
+      ).toString(),
+      [
+        MapEntry(
+            "dddd", {"time": ModelTime.time(12, 1, 3).toJson(), "text": "a"}),
+        MapEntry(
+            "dddd", {"time": ModelTime.time(10, 1, 5).toJson(), "text": "a"}),
+        MapEntry(
+            "dddd", {"time": ModelTime.time(8, 1, 4).toJson(), "text": "a"}),
+        MapEntry(
+            "dddd", {"time": ModelTime.time(4, 1, 2).toJson(), "text": "a"}),
       ].toString(),
     );
   });

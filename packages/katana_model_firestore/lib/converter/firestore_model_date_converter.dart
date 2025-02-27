@@ -116,7 +116,7 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
             ModelDate.kTimeKey: val,
             _kTargetKey: key,
           },
-          key: Timestamp.fromMillisecondsSinceEpoch(val.toInt()),
+          key: Timestamp.fromMicrosecondsSinceEpoch(val.toInt()),
         };
       }
     } else if (value is List) {
@@ -132,7 +132,7 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
             ModelDate.kTimeKey: time,
             _kTargetKey: key,
           });
-          res.add(Timestamp.fromMillisecondsSinceEpoch(time.toInt()));
+          res.add(Timestamp.fromMicrosecondsSinceEpoch(time.toInt()));
         }
         return {
           targetKey: target,
@@ -155,7 +155,7 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
             ModelDate.kTimeKey: time,
             _kTargetKey: key,
           };
-          res[entry.key] = Timestamp.fromMillisecondsSinceEpoch(time.toInt());
+          res[entry.key] = Timestamp.fromMicrosecondsSinceEpoch(time.toInt());
         }
         return {
           targetKey: target,

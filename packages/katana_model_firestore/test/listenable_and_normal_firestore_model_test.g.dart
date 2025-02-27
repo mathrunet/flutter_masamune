@@ -10,7 +10,9 @@ _$TestValueImpl _$$TestValueImplFromJson(Map<String, dynamic> json) =>
     _$TestValueImpl(
       name: json['name'] as String?,
       text: json['text'] as String?,
-      ids: (json['ids'] as List<dynamic>?)?.map((e) => e as int).toList() ??
+      ids: (json['ids'] as List<dynamic>?)
+              ?.map((e) => (e as num).toInt())
+              .toList() ??
           const [],
     );
 

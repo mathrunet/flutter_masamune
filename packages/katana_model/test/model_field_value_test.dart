@@ -35,8 +35,24 @@ class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
 @freezed
 class TestValue with _$TestValue {
   const factory TestValue({
-    @Default(ModelTimestamp()) ModelTimestamp time,
+    @Default(ModelTimestamp()) ModelTimestamp dateTime,
     @Default(ModelDate()) ModelDate date,
+    @Default(ModelTime()) ModelTime time,
+    @Default(ModelTimeRange.fromModelTime(
+      start: ModelTime.time(10, 0),
+      end: ModelTime.time(11, 0),
+    ))
+    ModelTimeRange timeRange,
+    @Default(ModelTimestampRange.fromModelTimestamp(
+      start: ModelTimestamp.dateTime(2022, 1, 1),
+      end: ModelTimestamp.dateTime(2022, 1, 2),
+    ))
+    ModelTimestampRange timestampRange,
+    @Default(ModelDateRange.fromModelDate(
+      start: ModelDate.date(2022, 1, 1),
+      end: ModelDate.date(2022, 1, 2),
+    ))
+    ModelDateRange dateRange,
     @Default(ModelCounter(0)) ModelCounter counter,
     @Default(ModelUri()) ModelUri uri,
     @Default(ModelImageUri()) ModelImageUri image,
@@ -83,8 +99,21 @@ void main() {
     final model2 = RuntimeMapDocumentModel(query);
     await model.save({
       "counter": const ModelCounter(0),
-      "time": ModelTimestamp(DateTime(2022, 1, 1)),
+      "dateTime": ModelTimestamp(DateTime(2022, 1, 1)),
       "date": ModelDate(DateTime(2022, 1, 1)),
+      "time": ModelTime(DateTime(2022, 1, 1, 10, 0, 0)),
+      "timeRange": ModelTimeRange.fromDateTime(
+        start: DateTime(2022, 1, 1, 10, 0, 0),
+        end: DateTime(2022, 1, 1, 11, 0, 0),
+      ),
+      "dateRange": ModelDateRange.fromDateTime(
+        start: DateTime(2022, 1, 1),
+        end: DateTime(2022, 1, 2),
+      ),
+      "timestampRange": ModelTimestampRange.fromDateTime(
+        start: DateTime(2022, 1, 1),
+        end: DateTime(2022, 1, 2),
+      ),
       "uri": const ModelUri.parse("https://mathru.net"),
       "image": const ModelImageUri.parse("https://mathru.net"),
       "video": const ModelVideoUri.parse("https://mathru.net"),
@@ -103,8 +132,21 @@ void main() {
       model.value,
       {
         "counter": const ModelCounter.fromServer(0),
-        "time": ModelTimestamp(DateTime(2022, 1, 1)),
+        "dateTime": ModelTimestamp(DateTime(2022, 1, 1)),
         "date": ModelDate(DateTime(2022, 1, 1)),
+        "time": ModelTime(DateTime(2022, 1, 1, 10, 0, 0)),
+        "timeRange": ModelTimeRange.fromDateTime(
+          start: DateTime(2022, 1, 1, 10, 0, 0),
+          end: DateTime(2022, 1, 1, 11, 0, 0),
+        ),
+        "dateRange": ModelDateRange.fromDateTime(
+          start: DateTime(2022, 1, 1),
+          end: DateTime(2022, 1, 2),
+        ),
+        "timestampRange": ModelTimestampRange.fromDateTime(
+          start: DateTime(2022, 1, 1),
+          end: DateTime(2022, 1, 2),
+        ),
         "uri": const ModelUri.parse("https://mathru.net"),
         "image": const ModelImageUri.parse("https://mathru.net"),
         "video": const ModelVideoUri.parse("https://mathru.net"),
@@ -125,8 +167,21 @@ void main() {
       model2.value,
       {
         "counter": const ModelCounter.fromServer(0),
-        "time": ModelTimestamp(DateTime(2022, 1, 1)),
+        "dateTime": ModelTimestamp(DateTime(2022, 1, 1)),
         "date": ModelDate(DateTime(2022, 1, 1)),
+        "time": ModelTime(DateTime(2022, 1, 1, 10, 0, 0)),
+        "timeRange": ModelTimeRange.fromDateTime(
+          start: DateTime(2022, 1, 1, 10, 0, 0),
+          end: DateTime(2022, 1, 1, 11, 0, 0),
+        ),
+        "dateRange": ModelDateRange.fromDateTime(
+          start: DateTime(2022, 1, 1),
+          end: DateTime(2022, 1, 2),
+        ),
+        "timestampRange": ModelTimestampRange.fromDateTime(
+          start: DateTime(2022, 1, 1),
+          end: DateTime(2022, 1, 2),
+        ),
         "uri": const ModelUri.parse("https://mathru.net"),
         "image": const ModelImageUri.parse("https://mathru.net"),
         "video": const ModelVideoUri.parse("https://mathru.net"),
@@ -143,8 +198,12 @@ void main() {
       },
     );
     print((model.value!["counter"] as ModelCounter).value);
-    print((model.value!["time"] as ModelTimestamp).value);
+    print((model.value!["dateTime"] as ModelTimestamp).value);
     print((model.value!["date"] as ModelDate).value);
+    print((model.value!["time"] as ModelTime).value);
+    print((model.value!["timeRange"] as ModelTimeRange).value);
+    print((model.value!["dateRange"] as ModelDateRange).value);
+    print((model.value!["timestampRange"] as ModelTimestampRange).value);
     print((model.value!["uri"] as ModelUri).value);
     print((model.value!["image"] as ModelImageUri).value);
     print((model.value!["video"] as ModelVideoUri).value);
@@ -154,8 +213,21 @@ void main() {
     print((model.value!["search"] as ModelSearch).value);
     await model.save({
       "counter": model.value?.getAsModelCounter("counter").increment(1),
-      "time": ModelTimestamp(DateTime(2022, 1, 2)),
+      "dateTime": ModelTimestamp(DateTime(2022, 1, 2)),
+      "time": ModelTime(DateTime(2022, 1, 1, 11, 0, 0)),
       "date": ModelDate(DateTime(2022, 1, 2)),
+      "timeRange": ModelTimeRange.fromDateTime(
+        start: DateTime(2022, 1, 1, 11, 0, 0),
+        end: DateTime(2022, 1, 1, 12, 0, 0),
+      ),
+      "dateRange": ModelDateRange.fromDateTime(
+        start: DateTime(2022, 1, 2),
+        end: DateTime(2022, 1, 3),
+      ),
+      "timestampRange": ModelTimestampRange.fromDateTime(
+        start: DateTime(2022, 1, 2),
+        end: DateTime(2022, 1, 3),
+      ),
       "uri": const ModelUri.parse("https://pub.dev"),
       "image": const ModelImageUri.parse("https://pub.dev"),
       "video": const ModelVideoUri.parse("https://pub.dev"),
@@ -171,8 +243,12 @@ void main() {
       "search": const ModelSearch(["ddd", "eee"]),
     });
     print((model.value!["counter"] as ModelCounter).value);
-    print((model.value!["time"] as ModelTimestamp).value);
+    print((model.value!["dateTime"] as ModelTimestamp).value);
+    print((model.value!["time"] as ModelTime).value);
     print((model.value!["date"] as ModelDate).value);
+    print((model.value!["timeRange"] as ModelTimeRange).value);
+    print((model.value!["dateRange"] as ModelDateRange).value);
+    print((model.value!["timestampRange"] as ModelTimestampRange).value);
     print((model.value!["uri"] as ModelUri).value);
     print((model.value!["image"] as ModelImageUri).value);
     print((model.value!["video"] as ModelVideoUri).value);
@@ -184,8 +260,21 @@ void main() {
       model.value,
       {
         "counter": const ModelCounter.fromServer(1),
-        "time": ModelTimestamp(DateTime(2022, 1, 2)),
+        "dateTime": ModelTimestamp(DateTime(2022, 1, 2)),
+        "time": ModelTime(DateTime(2022, 1, 1, 11, 0, 0)),
         "date": ModelDate(DateTime(2022, 1, 2)),
+        "timeRange": ModelTimeRange.fromDateTime(
+          start: DateTime(2022, 1, 1, 11, 0, 0),
+          end: DateTime(2022, 1, 1, 12, 0, 0),
+        ),
+        "dateRange": ModelDateRange.fromDateTime(
+          start: DateTime(2022, 1, 2),
+          end: DateTime(2022, 1, 3),
+        ),
+        "timestampRange": ModelTimestampRange.fromDateTime(
+          start: DateTime(2022, 1, 2),
+          end: DateTime(2022, 1, 3),
+        ),
         "uri": const ModelUri.parse("https://pub.dev"),
         "image": const ModelImageUri.parse("https://pub.dev"),
         "video": const ModelVideoUri.parse("https://pub.dev"),
@@ -210,8 +299,21 @@ void main() {
     await model.save(
       TestValue(
         counter: const ModelCounter(0),
-        time: ModelTimestamp(DateTime(2022, 1, 1)),
+        dateTime: ModelTimestamp(DateTime(2022, 1, 1)),
+        time: ModelTime(DateTime(2022, 1, 1, 10, 0, 0)),
         date: ModelDate(DateTime(2022, 1, 1)),
+        timeRange: ModelTimeRange.fromDateTime(
+          start: DateTime(2022, 1, 1, 10, 0, 0),
+          end: DateTime(2022, 1, 1, 11, 0, 0),
+        ),
+        dateRange: ModelDateRange.fromDateTime(
+          start: DateTime(2022, 1, 1),
+          end: DateTime(2022, 1, 2),
+        ),
+        timestampRange: ModelTimestampRange.fromDateTime(
+          start: DateTime(2022, 1, 1),
+          end: DateTime(2022, 1, 2),
+        ),
         uri: const ModelUri.parse("https://mathru.net"),
         image: const ModelImageUri.parse("https://mathru.net"),
         video: const ModelVideoUri.parse("https://mathru.net"),
@@ -230,9 +332,22 @@ void main() {
     expect(
       model.value,
       TestValue(
-        counter: const ModelCounter.fromServer(0),
-        time: ModelTimestamp(DateTime(2022, 1, 1)),
+        counter: const ModelCounter(0),
+        dateTime: ModelTimestamp(DateTime(2022, 1, 1)),
+        time: ModelTime(DateTime(2022, 1, 1, 10, 0, 0)),
         date: ModelDate(DateTime(2022, 1, 1)),
+        timeRange: ModelTimeRange.fromDateTime(
+          start: DateTime(2022, 1, 1, 10, 0, 0),
+          end: DateTime(2022, 1, 1, 11, 0, 0),
+        ),
+        dateRange: ModelDateRange.fromDateTime(
+          start: DateTime(2022, 1, 1),
+          end: DateTime(2022, 1, 2),
+        ),
+        timestampRange: ModelTimestampRange.fromDateTime(
+          start: DateTime(2022, 1, 1),
+          end: DateTime(2022, 1, 2),
+        ),
         uri: const ModelUri.parse("https://mathru.net"),
         image: const ModelImageUri.parse("https://mathru.net"),
         video: const ModelVideoUri.parse("https://mathru.net"),
@@ -252,9 +367,22 @@ void main() {
     expect(
       model2.value,
       TestValue(
-        counter: const ModelCounter.fromServer(0),
-        time: ModelTimestamp(DateTime(2022, 1, 1)),
+        counter: const ModelCounter(0),
+        dateTime: ModelTimestamp(DateTime(2022, 1, 1)),
+        time: ModelTime(DateTime(2022, 1, 1, 10, 0, 0)),
         date: ModelDate(DateTime(2022, 1, 1)),
+        timeRange: ModelTimeRange.fromDateTime(
+          start: DateTime(2022, 1, 1, 10, 0, 0),
+          end: DateTime(2022, 1, 1, 11, 0, 0),
+        ),
+        dateRange: ModelDateRange.fromDateTime(
+          start: DateTime(2022, 1, 1),
+          end: DateTime(2022, 1, 2),
+        ),
+        timestampRange: ModelTimestampRange.fromDateTime(
+          start: DateTime(2022, 1, 1),
+          end: DateTime(2022, 1, 2),
+        ),
         uri: const ModelUri.parse("https://mathru.net"),
         image: const ModelImageUri.parse("https://mathru.net"),
         video: const ModelVideoUri.parse("https://mathru.net"),
@@ -273,10 +401,21 @@ void main() {
     await model.save(
       TestValue(
         counter: model.value?.counter.increment(1) ?? const ModelCounter(0),
-        time: ModelTimestamp(
-          DateTime(2022, 1, 2),
-        ),
+        dateTime: ModelTimestamp(DateTime(2022, 1, 2)),
         date: ModelDate(DateTime(2022, 1, 2)),
+        time: ModelTime(DateTime(2022, 1, 1, 11, 0, 0)),
+        timeRange: ModelTimeRange.fromDateTime(
+          start: DateTime(2022, 1, 1, 11, 0, 0),
+          end: DateTime(2022, 1, 1, 12, 0, 0),
+        ),
+        dateRange: ModelDateRange.fromDateTime(
+          start: DateTime(2022, 1, 2),
+          end: DateTime(2022, 1, 3),
+        ),
+        timestampRange: ModelTimestampRange.fromDateTime(
+          start: DateTime(2022, 1, 2),
+          end: DateTime(2022, 1, 3),
+        ),
         uri: const ModelUri.parse("https://pub.dev"),
         image: const ModelImageUri.parse("https://pub.dev"),
         video: const ModelVideoUri.parse("https://pub.dev"),
@@ -296,8 +435,21 @@ void main() {
       model.value,
       TestValue(
         counter: const ModelCounter.fromServer(1),
-        time: ModelTimestamp(DateTime(2022, 1, 2)),
+        dateTime: ModelTimestamp(DateTime(2022, 1, 2)),
+        time: ModelTime(DateTime(2022, 1, 1, 11, 0, 0)),
         date: ModelDate(DateTime(2022, 1, 2)),
+        timeRange: ModelTimeRange.fromDateTime(
+          start: DateTime(2022, 1, 1, 11, 0, 0),
+          end: DateTime(2022, 1, 1, 12, 0, 0),
+        ),
+        dateRange: ModelDateRange.fromDateTime(
+          start: DateTime(2022, 1, 2),
+          end: DateTime(2022, 1, 3),
+        ),
+        timestampRange: ModelTimestampRange.fromDateTime(
+          start: DateTime(2022, 1, 2),
+          end: DateTime(2022, 1, 3),
+        ),
         uri: const ModelUri.parse("https://pub.dev"),
         image: const ModelImageUri.parse("https://pub.dev"),
         video: const ModelVideoUri.parse("https://pub.dev"),

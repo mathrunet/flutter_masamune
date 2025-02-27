@@ -8,12 +8,30 @@ part of 'model_field_value_test.dart';
 
 _$TestValueImpl _$$TestValueImplFromJson(Map<String, dynamic> json) =>
     _$TestValueImpl(
-      time: json['time'] == null
+      dateTime: json['dateTime'] == null
           ? const ModelTimestamp()
-          : ModelTimestamp.fromJson(json['time'] as Map<String, dynamic>),
+          : ModelTimestamp.fromJson(json['dateTime'] as Map<String, dynamic>),
       date: json['date'] == null
           ? const ModelDate()
           : ModelDate.fromJson(json['date'] as Map<String, dynamic>),
+      time: json['time'] == null
+          ? const ModelTime()
+          : ModelTime.fromJson(json['time'] as Map<String, dynamic>),
+      timeRange: json['timeRange'] == null
+          ? const ModelTimeRange.fromModelTime(
+              start: ModelTime.time(10, 0), end: ModelTime.time(11, 0))
+          : ModelTimeRange.fromJson(json['timeRange'] as Map<String, dynamic>),
+      timestampRange: json['timestampRange'] == null
+          ? const ModelTimestampRange.fromModelTimestamp(
+              start: ModelTimestamp.dateTime(2022, 1, 1),
+              end: ModelTimestamp.dateTime(2022, 1, 2))
+          : ModelTimestampRange.fromJson(
+              json['timestampRange'] as Map<String, dynamic>),
+      dateRange: json['dateRange'] == null
+          ? const ModelDateRange.fromModelDate(
+              start: ModelDate.date(2022, 1, 1),
+              end: ModelDate.date(2022, 1, 2))
+          : ModelDateRange.fromJson(json['dateRange'] as Map<String, dynamic>),
       counter: json['counter'] == null
           ? const ModelCounter(0)
           : ModelCounter.fromJson(json['counter'] as Map<String, dynamic>),
@@ -62,8 +80,12 @@ _$TestValueImpl _$$TestValueImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$TestValueImplToJson(_$TestValueImpl instance) =>
     <String, dynamic>{
-      'time': instance.time,
+      'dateTime': instance.dateTime,
       'date': instance.date,
+      'time': instance.time,
+      'timeRange': instance.timeRange,
+      'timestampRange': instance.timestampRange,
+      'dateRange': instance.dateRange,
       'counter': instance.counter,
       'uri': instance.uri,
       'image': instance.image,

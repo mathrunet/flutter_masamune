@@ -127,8 +127,12 @@ abstract class ModelFieldValue<T> {
   static final Set<ModelFieldValueConverter> _converters = {
     const ModelServerCommandBaseConverter(),
     const ModelCounterConverter(),
+    const ModelTimestampRangeConverter(),
+    const ModelDateRangeConverter(),
+    const ModelTimeRangeConverter(),
     const ModelTimestampConverter(),
     const ModelDateConverter(),
+    const ModelTimeConverter(),
     const ModelLocaleConverter(),
     const ModelLocalizedValueConverter(),
     const ModelGeoValueConverter(),
@@ -157,8 +161,12 @@ abstract class ModelFieldValue<T> {
   static final Set<ModelFieldValueFilter> _filters = {
     const ModelServerCommandBaseFilter(),
     const ModelCounterFilter(),
+    const ModelTimestampRangeFilter(),
+    const ModelDateRangeFilter(),
+    const ModelTimeRangeFilter(),
     const ModelTimestampFilter(),
     const ModelDateFilter(),
+    const ModelTimeFilter(),
     const ModelLocaleFilter(),
     const ModelLocalizedValueFilter(),
     const ModelGeoValueFilter(),
@@ -2218,7 +2226,7 @@ class ModelTimestampRange extends ModelFieldValue<DateTimeRange>
 
   @override
   DynamicMap toJson() => {
-        kTypeFieldKey: ModelTimestamp.typeString,
+        kTypeFieldKey: ModelTimestampRange.typeString,
         kStartTimeKey: value.start.microsecondsSinceEpoch,
         kEndTimeKey: value.end.microsecondsSinceEpoch,
         kSourceKey: _source.name,
@@ -2497,7 +2505,7 @@ class ModelDateRange extends ModelFieldValue<DateTimeRange>
   /// Type key.
   ///
   /// タイプのキー。
-  static const typeString = "ModelDate";
+  static const typeString = "ModelDateRange";
 
   /// Key to save the start time.
   ///
@@ -2553,7 +2561,7 @@ class ModelDateRange extends ModelFieldValue<DateTimeRange>
 
   @override
   DynamicMap toJson() => {
-        kTypeFieldKey: ModelDate.typeString,
+        kTypeFieldKey: ModelDateRange.typeString,
         kStartTimeKey: value.start.microsecondsSinceEpoch,
         kEndTimeKey: value.end.microsecondsSinceEpoch,
         kSourceKey: _source.name,

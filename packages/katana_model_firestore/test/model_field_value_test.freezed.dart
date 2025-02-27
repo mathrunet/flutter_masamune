@@ -12,7 +12,7 @@ part of 'model_field_value_test.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 TestValue _$TestValueFromJson(Map<String, dynamic> json) {
   return _TestValue.fromJson(json);
@@ -20,8 +20,12 @@ TestValue _$TestValueFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TestValue {
-  ModelTimestamp get time => throw _privateConstructorUsedError;
+  ModelTimestamp get dateTime => throw _privateConstructorUsedError;
   ModelDate get date => throw _privateConstructorUsedError;
+  ModelTime get time => throw _privateConstructorUsedError;
+  ModelTimeRange get timeRange => throw _privateConstructorUsedError;
+  ModelTimestampRange get timestampRange => throw _privateConstructorUsedError;
+  ModelDateRange get dateRange => throw _privateConstructorUsedError;
   ModelCounter get counter => throw _privateConstructorUsedError;
   ModelUri get uri => throw _privateConstructorUsedError;
   ModelImageUri get image => throw _privateConstructorUsedError;
@@ -37,8 +41,12 @@ mixin _$TestValue {
   List<ModelLocalizedValue> get localizedList =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this TestValue to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TestValue
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TestValueCopyWith<TestValue> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49,8 +57,12 @@ abstract class $TestValueCopyWith<$Res> {
       _$TestValueCopyWithImpl<$Res, TestValue>;
   @useResult
   $Res call(
-      {ModelTimestamp time,
+      {ModelTimestamp dateTime,
       ModelDate date,
+      ModelTime time,
+      ModelTimeRange timeRange,
+      ModelTimestampRange timestampRange,
+      ModelDateRange dateRange,
       ModelCounter counter,
       ModelUri uri,
       ModelImageUri image,
@@ -75,11 +87,17 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TestValue
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? time = null,
+    Object? dateTime = null,
     Object? date = null,
+    Object? time = null,
+    Object? timeRange = null,
+    Object? timestampRange = null,
+    Object? dateRange = null,
     Object? counter = null,
     Object? uri = null,
     Object? image = null,
@@ -94,14 +112,30 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
     Object? localizedList = null,
   }) {
     return _then(_value.copyWith(
-      time: null == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
+      dateTime: null == dateTime
+          ? _value.dateTime
+          : dateTime // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as ModelDate,
+      time: null == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as ModelTime,
+      timeRange: null == timeRange
+          ? _value.timeRange
+          : timeRange // ignore: cast_nullable_to_non_nullable
+              as ModelTimeRange,
+      timestampRange: null == timestampRange
+          ? _value.timestampRange
+          : timestampRange // ignore: cast_nullable_to_non_nullable
+              as ModelTimestampRange,
+      dateRange: null == dateRange
+          ? _value.dateRange
+          : dateRange // ignore: cast_nullable_to_non_nullable
+              as ModelDateRange,
       counter: null == counter
           ? _value.counter
           : counter // ignore: cast_nullable_to_non_nullable
@@ -163,8 +197,12 @@ abstract class _$$TestValueImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {ModelTimestamp time,
+      {ModelTimestamp dateTime,
       ModelDate date,
+      ModelTime time,
+      ModelTimeRange timeRange,
+      ModelTimestampRange timestampRange,
+      ModelDateRange dateRange,
       ModelCounter counter,
       ModelUri uri,
       ModelImageUri image,
@@ -187,11 +225,17 @@ class __$$TestValueImplCopyWithImpl<$Res>
       _$TestValueImpl _value, $Res Function(_$TestValueImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TestValue
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? time = null,
+    Object? dateTime = null,
     Object? date = null,
+    Object? time = null,
+    Object? timeRange = null,
+    Object? timestampRange = null,
+    Object? dateRange = null,
     Object? counter = null,
     Object? uri = null,
     Object? image = null,
@@ -206,14 +250,30 @@ class __$$TestValueImplCopyWithImpl<$Res>
     Object? localizedList = null,
   }) {
     return _then(_$TestValueImpl(
-      time: null == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
+      dateTime: null == dateTime
+          ? _value.dateTime
+          : dateTime // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as ModelDate,
+      time: null == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as ModelTime,
+      timeRange: null == timeRange
+          ? _value.timeRange
+          : timeRange // ignore: cast_nullable_to_non_nullable
+              as ModelTimeRange,
+      timestampRange: null == timestampRange
+          ? _value.timestampRange
+          : timestampRange // ignore: cast_nullable_to_non_nullable
+              as ModelTimestampRange,
+      dateRange: null == dateRange
+          ? _value.dateRange
+          : dateRange // ignore: cast_nullable_to_non_nullable
+              as ModelDateRange,
       counter: null == counter
           ? _value.counter
           : counter // ignore: cast_nullable_to_non_nullable
@@ -270,8 +330,16 @@ class __$$TestValueImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TestValueImpl implements _TestValue {
   const _$TestValueImpl(
-      {this.time = const ModelTimestamp(),
+      {this.dateTime = const ModelTimestamp(),
       this.date = const ModelDate(),
+      this.time = const ModelTime(),
+      this.timeRange = const ModelTimeRange.fromModelTime(
+          start: ModelTime.time(10, 0), end: ModelTime.time(11, 0)),
+      this.timestampRange = const ModelTimestampRange.fromModelTimestamp(
+          start: ModelTimestamp.dateTime(2022, 1, 1),
+          end: ModelTimestamp.dateTime(2022, 1, 2)),
+      this.dateRange = const ModelDateRange.fromModelDate(
+          start: ModelDate.date(2022, 1, 1), end: ModelDate.date(2022, 1, 2)),
       this.counter = const ModelCounter(0),
       this.uri = const ModelUri(),
       this.image = const ModelImageUri(),
@@ -294,10 +362,22 @@ class _$TestValueImpl implements _TestValue {
 
   @override
   @JsonKey()
-  final ModelTimestamp time;
+  final ModelTimestamp dateTime;
   @override
   @JsonKey()
   final ModelDate date;
+  @override
+  @JsonKey()
+  final ModelTime time;
+  @override
+  @JsonKey()
+  final ModelTimeRange timeRange;
+  @override
+  @JsonKey()
+  final ModelTimestampRange timestampRange;
+  @override
+  @JsonKey()
+  final ModelDateRange dateRange;
   @override
   @JsonKey()
   final ModelCounter counter;
@@ -360,16 +440,24 @@ class _$TestValueImpl implements _TestValue {
 
   @override
   String toString() {
-    return 'TestValue(time: $time, date: $date, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, search: $search, locale: $locale, localized: $localized, videoMap: $videoMap, imageList: $imageList, localizedMap: $localizedMap, localizedList: $localizedList)';
+    return 'TestValue(dateTime: $dateTime, date: $date, time: $time, timeRange: $timeRange, timestampRange: $timestampRange, dateRange: $dateRange, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, search: $search, locale: $locale, localized: $localized, videoMap: $videoMap, imageList: $imageList, localizedMap: $localizedMap, localizedList: $localizedList)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TestValueImpl &&
-            (identical(other.time, time) || other.time == time) &&
+            (identical(other.dateTime, dateTime) ||
+                other.dateTime == dateTime) &&
             (identical(other.date, date) || other.date == date) &&
+            (identical(other.time, time) || other.time == time) &&
+            (identical(other.timeRange, timeRange) ||
+                other.timeRange == timeRange) &&
+            (identical(other.timestampRange, timestampRange) ||
+                other.timestampRange == timestampRange) &&
+            (identical(other.dateRange, dateRange) ||
+                other.dateRange == dateRange) &&
             (identical(other.counter, counter) || other.counter == counter) &&
             (identical(other.uri, uri) || other.uri == uri) &&
             (identical(other.image, image) || other.image == image) &&
@@ -388,12 +476,16 @@ class _$TestValueImpl implements _TestValue {
                 .equals(other._localizedList, _localizedList));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      time,
+      dateTime,
       date,
+      time,
+      timeRange,
+      timestampRange,
+      dateRange,
       counter,
       uri,
       image,
@@ -407,7 +499,9 @@ class _$TestValueImpl implements _TestValue {
       const DeepCollectionEquality().hash(_localizedMap),
       const DeepCollectionEquality().hash(_localizedList));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TestValue
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TestValueImplCopyWith<_$TestValueImpl> get copyWith =>
@@ -423,8 +517,12 @@ class _$TestValueImpl implements _TestValue {
 
 abstract class _TestValue implements TestValue {
   const factory _TestValue(
-      {final ModelTimestamp time,
+      {final ModelTimestamp dateTime,
       final ModelDate date,
+      final ModelTime time,
+      final ModelTimeRange timeRange,
+      final ModelTimestampRange timestampRange,
+      final ModelDateRange dateRange,
       final ModelCounter counter,
       final ModelUri uri,
       final ModelImageUri image,
@@ -442,9 +540,17 @@ abstract class _TestValue implements TestValue {
       _$TestValueImpl.fromJson;
 
   @override
-  ModelTimestamp get time;
+  ModelTimestamp get dateTime;
   @override
   ModelDate get date;
+  @override
+  ModelTime get time;
+  @override
+  ModelTimeRange get timeRange;
+  @override
+  ModelTimestampRange get timestampRange;
+  @override
+  ModelDateRange get dateRange;
   @override
   ModelCounter get counter;
   @override
@@ -469,8 +575,11 @@ abstract class _TestValue implements TestValue {
   Map<String, ModelLocalizedValue> get localizedMap;
   @override
   List<ModelLocalizedValue> get localizedList;
+
+  /// Create a copy of TestValue
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TestValueImplCopyWith<_$TestValueImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
