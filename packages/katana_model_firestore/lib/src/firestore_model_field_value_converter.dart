@@ -19,9 +19,13 @@ abstract class FirestoreModelFieldValueConverter {
   static const Set<FirestoreModelFieldValueConverter> defaultConverters = {
     FirestoreModelCommandBaseConverter(),
     FirestoreModelCounterConverter(),
+    FirestoreModelTimeConverter(),
     FirestoreModelDateConverter(),
     // Timestampを必ず変換するためTimestamp変換系はこれを一番最後にすること
     FirestoreModelTimestampConverter(),
+    FirestoreModelTimeRangeConverter(),
+    FirestoreModelDateRangeConverter(),
+    FirestoreModelTimestampRangeConverter(),
     FirestoreModelLocaleConverter(),
     FirestoreModelLocalizedValueConverter(),
     FirestoreModelUriConverter(),

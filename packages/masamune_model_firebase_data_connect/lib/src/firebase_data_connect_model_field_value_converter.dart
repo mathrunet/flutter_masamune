@@ -29,9 +29,13 @@ abstract class FirebaseDataConnectModelFieldValueConverter {
       defaultConverters = {
     FirebaseDataConnectModelCommandBaseConverter(),
     FirebaseDataConnectModelCounterConverter(),
+    FirebaseDataConnectModelTimeConverter(),
     FirebaseDataConnectModelDateConverter(),
     // Timestampを必ず変換するためTimestamp変換系はこれを一番最後にすること
     FirebaseDataConnectModelTimestampConverter(),
+    FirebaseDataConnectModelTimeRangeConverter(),
+    FirebaseDataConnectModelDateRangeConverter(),
+    FirebaseDataConnectModelTimestampRangeConverter(),
     FirebaseDataConnectModelLocaleConverter(),
     FirebaseDataConnectModelLocalizedValueConverter(),
     FirebaseDataConnectModelUriConverter(),
