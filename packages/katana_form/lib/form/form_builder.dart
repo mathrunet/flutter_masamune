@@ -76,6 +76,7 @@ class FormBuilder<T, TValue> extends FormField<T> {
     super.initialValue,
     this.onChanged,
     super.validator,
+    this.labelText,
     super.enabled,
     this.keepAlive = true,
   })  : _builder = builder,
@@ -99,6 +100,11 @@ class FormBuilder<T, TValue> extends FormField<T> {
             form!.value = res;
           },
         );
+
+  /// Label text.
+  ///
+  /// ラベルテキスト。
+  final String? labelText;
 
   /// Callback to be executed each time the value is changed.
   ///
@@ -193,27 +199,11 @@ class _FormBuilderState<T, TValue> extends FormFieldState<T>
   Widget build(BuildContext context) {
     super.build(context);
 
-    final decoration =
-        widget.style?.borderColor != null && widget.style?.borderWidth != null
-            ? BoxDecoration(
-                borderRadius: widget.style?.borderRadius ??
-                    const BorderRadius.all(Radius.circular(4.0)),
-                border: Border.all(
-                  color: widget.style!.borderColor!,
-                  width: widget.style!.borderWidth!,
-                ),
-              )
-            : null;
-
-    return FormStyleScope(
+    return FormStyleContainer(
       style: widget.style,
       enabled: widget.enabled,
-      child: Container(
-        decoration: decoration,
-        margin: widget.style?.padding ?? const EdgeInsets.all(0),
-        padding: widget.style?.contentPadding ?? const EdgeInsets.all(0),
-        child: widget._builder(context, this, value),
-      ),
+      labelText: widget.labelText,
+      child: widget._builder(context, this, value),
     );
   }
 
