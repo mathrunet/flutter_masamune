@@ -551,8 +551,8 @@ github:
       repository: 
 
     ios:
-      # Copy the Issuer ID listed on the page at https://appstoreconnect.apple.com/access/api.
-      # https://appstoreconnect.apple.com/access/api のページに記載されているIssuer IDをコピーしてください。
+      # Copy the Issuer ID listed on the page at https://appstoreconnect.apple.com/access/integrations/api.
+      # https://appstoreconnect.apple.com/access/integrations/api のページに記載されているIssuer IDをコピーしてください。
       issuer_id: 
       # Please copy and include your team ID from https://developer.apple.com/account.
       # https://developer.apple.com/account のチームIDをコピーして記載してください。

@@ -141,7 +141,6 @@ class ${className}Page extends PageScopedWidget {
   String test(String path, String baseName, String className) {
     return """
 import 'package:flutter_test/flutter_test.dart';
-import 'package:masamune/masamune.dart';
 
 void main() {
   testWidgets("$className", (tester) async {
