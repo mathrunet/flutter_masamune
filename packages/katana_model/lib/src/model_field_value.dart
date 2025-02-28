@@ -2063,11 +2063,27 @@ class ModelTimeFilter extends ModelFieldValueFilter<ModelTime> {
     } else if (source is ModelTime && target is DateTime) {
       return filter(
           source.value.microsecondsSinceEpoch,
-          DateTime(target.year, target.month, target.day)
+          DateTime(
+                  ModelTime._defaultYear,
+                  ModelTime._defaultMonth,
+                  ModelTime._defaultDay,
+                  source.value.hour,
+                  source.value.minute,
+                  source.value.second,
+                  source.value.millisecond,
+                  source.value.microsecond)
               .microsecondsSinceEpoch);
     } else if (source is DateTime && target is ModelTime) {
       return filter(
-          DateTime(source.year, source.month, source.day)
+          DateTime(
+                  ModelTime._defaultYear,
+                  ModelTime._defaultMonth,
+                  ModelTime._defaultDay,
+                  source.hour,
+                  source.minute,
+                  source.second,
+                  source.millisecond,
+                  source.microsecond)
               .microsecondsSinceEpoch,
           target.value.microsecondsSinceEpoch);
     } else if (source is ModelTime && target is num) {

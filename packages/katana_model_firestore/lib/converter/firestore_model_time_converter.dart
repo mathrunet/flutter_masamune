@@ -86,10 +86,14 @@ class FirestoreModelTimeConverter extends FirestoreModelFieldValueConverter {
       }
     } else if (value is Timestamp) {
       final targetKey = "#$key";
-      return {
-        key: ModelTime(value.toDate()).toJson(),
-        targetKey: null,
-      };
+      final targetMap = original.getAsMap(targetKey);
+      final type = targetMap.get(_kTypeKey, "");
+      if (type == this.type) {
+        return {
+          key: ModelTime(value.toDate()).toJson(),
+          targetKey: null,
+        };
+      }
     }
     return null;
   }

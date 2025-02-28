@@ -90,6 +90,7 @@ class CachedListenableFirestoreModelAdapter
     super.onInitialize,
     super.databaseId,
     this.collectionLoaders = const [],
+    this.cacheFilter,
   }) : _cachedLocalDatabase = cachedLocalDatabase;
 
   /// Caches data retrieved from the specified internal database, Firestore.
@@ -102,6 +103,11 @@ class CachedListenableFirestoreModelAdapter
   }
 
   final NoSqlDatabase? _cachedLocalDatabase;
+
+  /// Filter for caching. Only if `true` is returned will it be cached.
+  ///
+  /// キャッシュフィルター。`true`を返した場合のみキャッシュされます。
+  final bool Function(DocumentModelQuery query, DynamicMap value)? cacheFilter;
 
   /// List of collection loaders for [CachedFirestoreModelAdapter].
   ///
@@ -120,7 +126,9 @@ class CachedListenableFirestoreModelAdapter
     DynamicMap value,
   ) async {
     await super.onSaveDocument(query, value);
-    await cachedLocalDatabase.saveDocument(query, value);
+    if (cacheFilter == null || cacheFilter!.call(query.query, value)) {
+      await cachedLocalDatabase.saveDocument(query, value);
+    }
   }
 
   @override
@@ -140,7 +148,9 @@ class CachedListenableFirestoreModelAdapter
     DynamicMap value,
   ) async {
     await super.onPostloadDocument(query, value);
-    await cachedLocalDatabase.saveDocument(query, value);
+    if (cacheFilter == null || cacheFilter!.call(query.query, value)) {
+      await cachedLocalDatabase.saveDocument(query, value);
+    }
   }
 
   @override
@@ -164,7 +174,16 @@ class CachedListenableFirestoreModelAdapter
     Map<String, DynamicMap> value,
   ) async {
     await super.onPostloadCollection(query, value);
-    await cachedLocalDatabase.saveCollection(query, value);
+    final filtered = <String, DynamicMap>{};
+    for (final entry in value.entries) {
+      if (cacheFilter == null ||
+          cacheFilter!.call(query.query.create(entry.key), entry.value)) {
+        filtered[entry.key] = entry.value;
+      }
+    }
+    if (filtered.isNotEmpty) {
+      await cachedLocalDatabase.saveCollection(query, filtered);
+    }
   }
 
   @override

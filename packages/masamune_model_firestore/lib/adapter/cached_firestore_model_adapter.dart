@@ -83,6 +83,7 @@ class CachedFirestoreModelAdapter extends FirestoreModelAdapter
     super.onInitialize,
     super.databaseId,
     this.collectionLoaders = const [],
+    this.cacheFilter,
   }) : _cachedLocalDatabase = cachedLocalDatabase;
 
   /// Caches data retrieved from the specified internal database, Firestore.
@@ -128,6 +129,11 @@ class CachedFirestoreModelAdapter extends FirestoreModelAdapter
     },
   );
 
+  /// Filter for caching. Only if `true` is returned will it be cached.
+  ///
+  /// キャッシュフィルター。`true`を返した場合のみキャッシュされます。
+  final bool Function(DocumentModelQuery query, DynamicMap value)? cacheFilter;
+
   /// List of collection loaders for [CachedFirestoreModelAdapter].
   ///
   /// [CachedFirestoreModelAdapter]のコレクションローダーのリスト。
@@ -145,7 +151,9 @@ class CachedFirestoreModelAdapter extends FirestoreModelAdapter
     DynamicMap value,
   ) async {
     await super.onSaveDocument(query, value);
-    await cachedLocalDatabase.saveDocument(query, value);
+    if (cacheFilter == null || cacheFilter!.call(query.query, value)) {
+      await cachedLocalDatabase.saveDocument(query, value);
+    }
   }
 
   @override
@@ -165,7 +173,9 @@ class CachedFirestoreModelAdapter extends FirestoreModelAdapter
     DynamicMap value,
   ) async {
     await super.onPostloadDocument(query, value);
-    await cachedLocalDatabase.saveDocument(query, value);
+    if (cacheFilter == null || cacheFilter!.call(query.query, value)) {
+      await cachedLocalDatabase.saveDocument(query, value);
+    }
   }
 
   @override
@@ -189,7 +199,16 @@ class CachedFirestoreModelAdapter extends FirestoreModelAdapter
     Map<String, DynamicMap> value,
   ) async {
     await super.onPostloadCollection(query, value);
-    await cachedLocalDatabase.saveCollection(query, value);
+    final filtered = <String, DynamicMap>{};
+    for (final entry in value.entries) {
+      if (cacheFilter == null ||
+          cacheFilter!.call(query.query.create(entry.key), entry.value)) {
+        filtered[entry.key] = entry.value;
+      }
+    }
+    if (filtered.isNotEmpty) {
+      await cachedLocalDatabase.saveCollection(query, filtered);
+    }
   }
 
   @override
