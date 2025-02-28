@@ -37,6 +37,7 @@ part 'enum.dart';
 part 'model_adapter.dart';
 part 'exception.dart';
 part 'modal.dart';
+part 'log.dart';
 
 class CodeCliCommand extends CliCommandGroup {
   const CodeCliCommand();
@@ -72,5 +73,6 @@ class CodeCliCommand extends CliCommandGroup {
         "model_adapter": CodeModelAdapterCliCommand(),
         "exception": CodeExceptionCliCommand(),
         "modal": CodeModalCliCommand(),
+        "log": CodeLogCliCommand(),
       };
 }
