@@ -1,3 +1,8 @@
+## 2.35.0
+
+ - **FIX**: Analytze error avoidance. ([ac10b28d](https://github.com/mathrunet/flutter_masamune/commit/ac10b28d9aee72164a720932e86bb86968e8892f))
+ - **FEAT**: Add Log code. ([76afce93](https://github.com/mathrunet/flutter_masamune/commit/76afce93813bd1ab1a8c037d26520b7b18cb51b8))
+
 ## 2.34.0
 
  - **FIX**: Added setting to make vertex_ai available. ([bc809210](https://github.com/mathrunet/flutter_masamune/commit/bc80921062a8391651ef0baf97dce84c2affe04b))

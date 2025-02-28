@@ -1,3 +1,7 @@
+## 2.5.1
+
+ - **FIX**: Fixed a bug that occasionally caused some items to not build. ([22175f72](https://github.com/mathrunet/flutter_masamune/commit/22175f72479aea9156d74fb050ba04de61b8b5f1))
+
 ## 2.5.0
 
  - **FEAT**: ModelTime and ModelTimestampRange, ModelDateRange, and ModelTimeRange were added. ([cc99233a](https://github.com/mathrunet/flutter_masamune/commit/cc99233a666adbf6c1dfa39d999ae9f50ffd94fc))

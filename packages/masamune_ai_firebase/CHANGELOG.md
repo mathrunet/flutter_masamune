@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - Update a dependency to the latest release.
+
 ## 2.2.1
 
  - **FIX**: Add AIFileType and manage MimeType. ([3852fcc5](https://github.com/mathrunet/flutter_masamune/commit/3852fcc5f0f28ee070da90b80a33535fbe1bd93b))

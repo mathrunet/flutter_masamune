@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Fixed a bug that did not identify the type well. ([649b081d](https://github.com/mathrunet/flutter_masamune/commit/649b081db1727565a737b000798c192efad55245))
+
 ## 2.2.0
 
  - **FEAT**: ModelTime and ModelTimestampRange, ModelDateRange, and ModelTimeRange were added. ([cc99233a](https://github.com/mathrunet/flutter_masamune/commit/cc99233a666adbf6c1dfa39d999ae9f50ffd94fc))

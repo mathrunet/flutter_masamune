@@ -1,3 +1,7 @@
+## 2.16.2
+
+ - **FIX**: Modified FormBuilder and FormFutureField to reflect the style of FormBuilder and FormFutureField. ([c005ee72](https://github.com/mathrunet/flutter_masamune/commit/c005ee727793c9fd34b394191e191df05b6ddc5d))
+
 ## 2.16.1
 
  - Update a dependency to the latest release.
