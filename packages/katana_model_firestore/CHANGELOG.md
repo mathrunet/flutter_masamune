@@ -1,3 +1,7 @@
+## 2.19.1
+
+ - **FIX**: Fixed a bug that data could not be taken properly. ([a95a930f](https://github.com/mathrunet/flutter_masamune/commit/a95a930fee01c73f23ee48d708d88a9e76b68151))
+
 ## 2.19.0
 
  - **FEAT**: ModelTime and ModelTimestampRange, ModelDateRange, and ModelTimeRange were added. ([cc99233a](https://github.com/mathrunet/flutter_masamune/commit/cc99233a666adbf6c1dfa39d999ae9f50ffd94fc))
