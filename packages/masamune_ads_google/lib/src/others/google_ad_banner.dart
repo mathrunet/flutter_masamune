@@ -99,6 +99,7 @@ class GoogleBannerAd extends StatefulWidget {
     this.onAdClicked,
     this.onPaidEvent,
     this.border,
+    this.indicator,
   });
 
   /// Advertising Unit ID.
@@ -120,6 +121,11 @@ class GoogleBannerAd extends StatefulWidget {
   ///
   /// 広告の枠線。
   final BoxBorder? border;
+
+  /// Indicator of the ad.
+  ///
+  /// 広告のインジケーター。
+  final Widget? indicator;
 
   /// Called when a paid event occurs.
   ///
@@ -189,8 +195,8 @@ class _GoogleBannerAdState extends State<GoogleBannerAd> {
       height: adSize.height.toDouble(),
       child: _bannerAd?.loaded ?? false
           ? AdWidget(ad: _bannerAd!._bannerAd)
-          : const Center(
-              child: CircularProgressIndicator(),
+          : Center(
+              child: widget.indicator ?? const CircularProgressIndicator(),
             ),
     );
   }
