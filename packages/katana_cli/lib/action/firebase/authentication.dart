@@ -90,7 +90,7 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
     await addFlutterImport(
       [
         if (enableApple) ...[
-          "masamune_auth_apple",
+          "masamune_auth_apple_firebase",
         ],
         if (enableFacebook) ...[
           "masamune_auth_facebook",
