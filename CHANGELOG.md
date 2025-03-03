@@ -15,6 +15,49 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_auth_firebase` - `v2.8.0`](#katana_auth_firebase---v280)
+ - [`katana_cli` - `v2.35.2`](#katana_cli---v2352)
+ - [`masamune_auth_apple` - `v2.4.62`](#masamune_auth_apple---v2462)
+ - [`masamune_auth_apple_firebase` - `v2.1.0`](#masamune_auth_apple_firebase---v210)
+ - [`masamune_auth_firebase` - `v2.1.12`](#masamune_auth_firebase---v2112)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_auth_firebase` - `v2.1.12`
+
+---
+
+#### `katana_auth_firebase` - `v2.8.0`
+
+ - **FEAT**: AuthProvider support. ([4a764c9f](https://github.com/mathrunet/flutter_masamune/commit/4a764c9fb76593225e0bca08ffbfad53b356f74e))
+
+#### `katana_cli` - `v2.35.2`
+
+ - **FIX**: Changed to add AppleSignIn for Firebase. ([a6994f8d](https://github.com/mathrunet/flutter_masamune/commit/a6994f8d4fabad99e05ca40c66358865ce7ec08d))
+
+#### `masamune_auth_apple` - `v2.4.62`
+
+ - **FIX**: Version up. ([e0c9027f](https://github.com/mathrunet/flutter_masamune/commit/e0c9027f356cee7d646f5f974f1d78d4f58b16c4))
+
+#### `masamune_auth_apple_firebase` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([592a38c8](https://github.com/mathrunet/flutter_masamune/commit/592a38c81d02574d89308ab090ee5595a3d655f9))
+
+
+## 2025-03-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.35.1`](#katana_cli---v2351)
 
 ---

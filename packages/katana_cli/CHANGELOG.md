@@ -1,3 +1,7 @@
+## 2.35.2
+
+ - **FIX**: Changed to add AppleSignIn for Firebase. ([a6994f8d](https://github.com/mathrunet/flutter_masamune/commit/a6994f8d4fabad99e05ca40c66358865ce7ec08d))
+
 ## 2.35.1
 
  - **FIX**: Add Import. ([c287b76f](https://github.com/mathrunet/flutter_masamune/commit/c287b76f37d49d39c20cf95b777719c3e110e6fa))
