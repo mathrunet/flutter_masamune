@@ -17,13 +17,14 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth
-    show AuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:katana_auth/katana_auth.dart';
 import 'package:katana_firebase/katana_firebase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:universal_platform/universal_platform.dart';
+
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth
+    show AuthProvider;
 
 export 'package:katana_auth/katana_auth.dart';
 export 'package:katana_firebase/katana_firebase.dart';

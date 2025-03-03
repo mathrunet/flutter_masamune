@@ -12,9 +12,10 @@ library masamune_auth_apple_firebase;
 import 'package:flutter/widgets.dart';
 
 // Package imports:
-import 'package:masamune/masamune.dart';
-import 'package:katana_auth_firebase/katana_auth_firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
+import 'package:katana_auth_firebase/katana_auth_firebase.dart';
+import 'package:masamune/masamune.dart';
+
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth
     show AuthProvider;
 
