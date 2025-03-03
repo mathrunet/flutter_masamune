@@ -667,6 +667,38 @@ class FirebaseAuthAdapter extends AuthAdapter {
         },
       );
       await completer?.future;
+    } else if (provider is FirebaseSnsSignInAuthProvider) {
+      await _prepareProcessInternal();
+      if (_user != null) {
+        if (_user!.providerData.any(
+          (t) => t.providerId.contains(provider.providerId),
+        )) {
+          throw Exception(
+              "This user is already linked to a ${provider.providerId} account.");
+        } else if (!provider.allowMultiProvider) {
+          throw Exception(
+            "This user is already signed in, please sign out first.",
+          );
+        }
+      }
+      final authProvider = provider.authProvider();
+      if (_user != null) {
+        if (kIsWeb) {
+          await _user!.linkWithPopup(authProvider);
+        } else {
+          await _user!.linkWithProvider(authProvider);
+        }
+      } else {
+        if (kIsWeb) {
+          await database.signInWithPopup(authProvider);
+        } else {
+          await database.signInWithProvider(authProvider);
+        }
+      }
+      if (_user == null || _user!.uid.isEmpty) {
+        throw Exception("User is not found.");
+      }
+      onUserStateChanged.call();
     } else if (provider is SnsSignInAuthProvider) {
       await _prepareProcessInternal();
       if (_user != null) {
@@ -796,6 +828,15 @@ class FirebaseAuthAdapter extends AuthAdapter {
           password: provider.password,
         ),
       );
+      return true;
+    } else if (provider is FirebaseSnsReAuthProvider) {
+      await _prepareProcessInternal();
+      final authProvider = provider.authProvider();
+      if (kIsWeb) {
+        await _user!.reauthenticateWithPopup(authProvider);
+      } else {
+        await _user!.reauthenticateWithProvider(authProvider);
+      }
       return true;
     } else if (provider is SnsReAuthProvider) {
       await _prepareProcessInternal();
