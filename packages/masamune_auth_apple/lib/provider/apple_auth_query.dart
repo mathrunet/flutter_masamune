@@ -56,7 +56,6 @@ class AppleSignInAuthProvider extends SnsSignInAuthProvider {
 
   @override
   Future<Credential> credential() async {
-    // final adapter = AppleAuthMasamuneAdapter.primary;
     final credentials = await SignInWithApple.getAppleIDCredential(
       scopes: [
         AppleIDAuthorizationScopes.email,
