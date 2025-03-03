@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-03-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.35.1`](#katana_cli---v2351)
+
+---
+
+#### `katana_cli` - `v2.35.1`
+
+ - **FIX**: Add Import. ([c287b76f](https://github.com/mathrunet/flutter_masamune/commit/c287b76f37d49d39c20cf95b777719c3e110e6fa))
+
+
 ## 2025-02-28
 
 ### Changes

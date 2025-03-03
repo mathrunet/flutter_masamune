@@ -1,3 +1,7 @@
+## 2.35.1
+
+ - **FIX**: Add Import. ([c287b76f](https://github.com/mathrunet/flutter_masamune/commit/c287b76f37d49d39c20cf95b777719c3e110e6fa))
+
 ## 2.35.0
 
  - **FIX**: Analytze error avoidance. ([ac10b28d](https://github.com/mathrunet/flutter_masamune/commit/ac10b28d9aee72164a720932e86bb86968e8892f))
