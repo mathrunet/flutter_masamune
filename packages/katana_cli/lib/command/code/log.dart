@@ -54,7 +54,9 @@ class CodeLogCliCommand extends CliTestableCodeCommand {
 
   @override
   String import(String path, String baseName, String className) {
-    return "";
+    return """
+import 'package:masamune/masamune.dart';
+""";
   }
 
   @override
