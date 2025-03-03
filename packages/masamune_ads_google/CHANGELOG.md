@@ -1,3 +1,7 @@
+## 2.5.33
+
+ - **FIX**: Indicator can now be specified. ([6274aae3](https://github.com/mathrunet/flutter_masamune/commit/6274aae3317dbb43936a5089cb6ddec8d5def919))
+
 ## 2.5.32
 
  - Update a dependency to the latest release.

@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ads_google` - `v2.5.33`](#masamune_ads_google---v2533)
+
+---
+
+#### `masamune_ads_google` - `v2.5.33`
+
+ - **FIX**: Indicator can now be specified. ([6274aae3](https://github.com/mathrunet/flutter_masamune/commit/6274aae3317dbb43936a5089cb6ddec8d5def919))
+
+
+## 2025-03-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth_firebase` - `v2.8.0`](#katana_auth_firebase---v280)
  - [`katana_cli` - `v2.35.2`](#katana_cli---v2352)
  - [`masamune_auth_apple` - `v2.4.62`](#masamune_auth_apple---v2462)
