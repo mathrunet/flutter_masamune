@@ -783,8 +783,8 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
       label("Add firebase functions");
       final functions = Fuctions();
       await functions.load();
-      if (!functions.functions.any((e) => e.startsWith("delete_user"))) {
-        functions.functions.add("delete_user()");
+      if (!functions.functions.any((e) => e.startsWith("deleteUser"))) {
+        functions.functions.add("deleteUser()");
       }
       await functions.save();
     }

@@ -50,7 +50,7 @@ class AppLocalNotificationCliAction extends CliCommand with CliActionMixin {
     final compileOptions = GradleAndroidCompileOptions(
       sourceCompatibility: "JavaVersion.VERSION_1_8",
       targetCompatibility: "JavaVersion.VERSION_1_8",
-      coreLibraryDesugaringEnabled: true,
+      coreLibraryDesugaringEnabled: false,
     );
     gradle.android?.compileOptions = compileOptions;
     final defaultConfig = gradle.android?.defaultConfig;

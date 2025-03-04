@@ -155,6 +155,10 @@ jobs:
       - name: Run flutter version
         run: flutter --version
 
+      # flutterfireコマンドをインストール
+      - name: Install flutterfire
+        run: flutter pub global activate flutterfire_cli
+
       # Download package.
       # パッケージのダウンロード。
       - name: Download flutter packages
