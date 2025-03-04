@@ -9,7 +9,6 @@
 library katana_functions_firebase;
 
 // Flutter imports:
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 
 // Package imports:
