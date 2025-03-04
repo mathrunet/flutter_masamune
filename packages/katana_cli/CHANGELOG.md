@@ -1,3 +1,7 @@
+## 2.35.3
+
+ - **FIX**: Fixed a bug that prevented builds from being performed properly. ([feb19e29](https://github.com/mathrunet/flutter_masamune/commit/feb19e29b8a75a5faed24cd9d92f9c0cdde4f881))
+
 ## 2.35.2
 
  - **FIX**: Changed to add AppleSignIn for Firebase. ([a6994f8d](https://github.com/mathrunet/flutter_masamune/commit/a6994f8d4fabad99e05ca40c66358865ce7ec08d))

@@ -1,3 +1,7 @@
+## 2.7.0
+
+ - **FEAT**: Changed the specification of onPreRunApp. ([19fe22f8](https://github.com/mathrunet/flutter_masamune/commit/19fe22f84da6997446f223230b24458f5bb4a81f))
+
 ## 2.6.9
 
  - Update a dependency to the latest release.

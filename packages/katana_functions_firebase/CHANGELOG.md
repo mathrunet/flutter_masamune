@@ -1,3 +1,7 @@
+## 2.8.0
+
+ - **FEAT**: Added the concept of Timeout. ([e5733a28](https://github.com/mathrunet/flutter_masamune/commit/e5733a28be6eb264c44dc9de827253ac29e2d585))
+
 ## 2.7.10
 
  - Update a dependency to the latest release.

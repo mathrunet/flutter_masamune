@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: The default font of the theme can now be localized. ([af1a7c07](https://github.com/mathrunet/flutter_masamune/commit/af1a7c07c340e495b5d9f8f20592284b4cd28a8b))
+
 ## 2.2.12
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.3.2
+
+ - Update a dependency to the latest release.
+
 ## 2.3.1
 
  - **FIX**: Fixed a bug that occasionally caused some items to not build. ([22175f72](https://github.com/mathrunet/flutter_masamune/commit/22175f72479aea9156d74fb050ba04de61b8b5f1))

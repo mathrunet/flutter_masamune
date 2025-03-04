@@ -1,3 +1,8 @@
+## 2.19.0
+
+ - **FEAT**: The default font of the theme can now be localized. ([af1a7c07](https://github.com/mathrunet/flutter_masamune/commit/af1a7c07c340e495b5d9f8f20592284b4cd28a8b))
+ - **FEAT**: Changed the specification of onPreRunApp. ([19fe22f8](https://github.com/mathrunet/flutter_masamune/commit/19fe22f84da6997446f223230b24458f5bb4a81f))
+
 ## 2.18.2
 
  - Update a dependency to the latest release.

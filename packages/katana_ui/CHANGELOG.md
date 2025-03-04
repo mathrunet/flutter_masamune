@@ -1,3 +1,7 @@
+## 2.12.0
+
+ - **FEAT**: The default font of the theme can now be localized. ([af1a7c07](https://github.com/mathrunet/flutter_masamune/commit/af1a7c07c340e495b5d9f8f20592284b4cd28a8b))
+
 ## 2.11.4
 
  - **FIX**: Added enabled to Simmer effect. ([e55de63b](https://github.com/mathrunet/flutter_masamune/commit/e55de63b5c79159344b46019968786dc67b1a3e5))

@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: Changed the specification of onPreRunApp. ([19fe22f8](https://github.com/mathrunet/flutter_masamune/commit/19fe22f84da6997446f223230b24458f5bb4a81f))
+
 ## 2.5.33
 
  - **FIX**: Indicator can now be specified. ([6274aae3](https://github.com/mathrunet/flutter_masamune/commit/6274aae3317dbb43936a5089cb6ddec8d5def919))
