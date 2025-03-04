@@ -51,7 +51,6 @@ const kSplashColor = Color(0xaaFFFFFF);
 ///   - https://m3.material.io/styles/color/the-color-system/color-roles
 ///   - https://m3.material.io/styles/typography/type-scale-tokens
 /// {@endtemplate}
-@immutable
 class AppThemeData {
   /// The light theme defines the initial color.
   ///
@@ -225,6 +224,7 @@ class AppThemeData {
     this.statusBarBrightnessOnIOS,
     this.statusBarBrightnessOnAndroid,
     this.fixed = false,
+    this.defaultFontFamilyResolver,
   })  : _lightColor = brightness == Brightness.light
             ? ColorThemeData._(
                 brightness: brightness,
@@ -485,7 +485,7 @@ class AppThemeData {
                     onDialogColor ??
                     onSurface,
               ),
-        text = TextThemeData._(
+        _text = TextThemeData._(
           displayLarge: displayLarge.copyWith(fontFamily: defaultFontFamily),
           displayMedium: displayMedium.copyWith(fontFamily: defaultFontFamily),
           displaySmall: displaySmall.copyWith(fontFamily: defaultFontFamily),
@@ -678,6 +678,7 @@ class AppThemeData {
     Brightness? statusBarBrightnessOnIOS,
     Brightness? statusBarBrightnessOnAndroid,
     bool fixed = false,
+    String? Function(Locale locale)? defaultFontFamilyResolver,
   }) : this(
           primary: primary,
           secondary: secondary,
@@ -782,6 +783,7 @@ class AppThemeData {
           statusBarBrightnessOnIOS: statusBarBrightnessOnIOS,
           statusBarBrightnessOnAndroid: statusBarBrightnessOnAndroid,
           themeMode: themeMode,
+          defaultFontFamilyResolver: defaultFontFamilyResolver,
         );
 
   /// The dark theme defines the initial color.
@@ -955,6 +957,7 @@ class AppThemeData {
     Brightness? statusBarBrightnessOnIOS,
     Brightness? statusBarBrightnessOnAndroid,
     bool fixed = false,
+    String? Function(Locale locale)? defaultFontFamilyResolver,
   }) : this(
           primary: primary,
           secondary: secondary,
@@ -1059,6 +1062,7 @@ class AppThemeData {
           statusBarBrightnessOnIOS: statusBarBrightnessOnIOS,
           statusBarBrightnessOnAndroid: statusBarBrightnessOnAndroid,
           themeMode: themeMode,
+          defaultFontFamilyResolver: defaultFontFamilyResolver,
         );
 
   /// Retrieve the color scheme.
@@ -1133,7 +1137,8 @@ class AppThemeData {
   //       fontSizeDelta: _fontSizeDelta,
   //       defaultFontFamily: _defaultFontFamily,
   //     );
-  final TextThemeData text;
+  TextThemeData get text => _text;
+  late TextThemeData _text;
 
   /// Retrieve font themes.
   ///
@@ -1241,6 +1246,53 @@ class AppThemeData {
   ///
   /// [Brightness.dark]の場合は黒、[Brightness.light]の場合は白になります。
   final Brightness? statusBarBrightnessOnAndroid;
+
+  /// Default font family resolver.
+  ///
+  /// If this is specified, this is the font family when none is specified.
+  ///
+  /// デフォルトのフォントファミリーを解決する関数。
+  ///
+  /// これが指定されている場合、何も指定されないときのフォントファミリーはこれになります。
+  final String? Function(Locale locale)? defaultFontFamilyResolver;
+
+  /// Apply the locale to the text theme.
+  ///
+  /// If [defaultFontFamilyResolver] is not specified, nothing will be done.
+  ///
+  /// テキストテーマにロケールを適用します。
+  ///
+  /// [defaultFontFamilyResolver]が指定されていない場合は何も行われません。
+  void applyLocale(Locale locale) {
+    if (defaultFontFamilyResolver == null) {
+      return;
+    }
+    final defaultFontFamily = defaultFontFamilyResolver?.call(locale);
+    _text = TextThemeData._(
+      displayLarge: _text.displayLarge.copyWith(fontFamily: defaultFontFamily),
+      displayMedium:
+          _text.displayMedium.copyWith(fontFamily: defaultFontFamily),
+      displaySmall: _text.displaySmall.copyWith(fontFamily: defaultFontFamily),
+      headlineLarge:
+          _text.headlineLarge.copyWith(fontFamily: defaultFontFamily),
+      headlineMedium:
+          _text.headlineMedium.copyWith(fontFamily: defaultFontFamily),
+      headlineSmall:
+          _text.headlineSmall.copyWith(fontFamily: defaultFontFamily),
+      titleLarge: _text.titleLarge.copyWith(fontFamily: defaultFontFamily),
+      titleMedium: _text.titleMedium.copyWith(fontFamily: defaultFontFamily),
+      titleSmall: _text.titleSmall.copyWith(fontFamily: defaultFontFamily),
+      bodyLarge: _text.bodyLarge.copyWith(fontFamily: defaultFontFamily),
+      bodyMedium: _text.bodyMedium.copyWith(fontFamily: defaultFontFamily),
+      bodySmall: _text.bodySmall.copyWith(fontFamily: defaultFontFamily),
+      labelLarge: _text.labelLarge.copyWith(fontFamily: defaultFontFamily),
+      labelMedium: _text.labelMedium.copyWith(fontFamily: defaultFontFamily),
+      labelSmall: _text.labelSmall.copyWith(fontFamily: defaultFontFamily),
+      fontSizeFactor: _text.fontSizeFactor,
+      fontSizeDelta: _text.fontSizeDelta,
+      defaultFontFamily: defaultFontFamily,
+    );
+  }
 
   /// Get [AppThemeData] placed on the widget tree.
   ///

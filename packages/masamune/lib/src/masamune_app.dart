@@ -468,6 +468,40 @@ class MasamuneApp extends StatefulWidget {
 
 class _MasamuneAppState extends State<MasamuneApp> {
   UniqueKey? _key = UniqueKey();
+  late Locale _locale;
+
+  Iterable<Locale> get _supportedLocales =>
+      widget.supportedLocales ??
+      widget.localize?.supportedLocales() ??
+      kDefaultLocales;
+
+  @override
+  void initState() {
+    super.initState();
+    _locale = _resolveLocales(
+      WidgetsBinding.instance.platformDispatcher.locales,
+      _supportedLocales,
+    );
+    widget.theme?.applyLocale(_locale);
+  }
+
+  Locale _resolveLocales(
+    List<Locale>? preferredLocales,
+    Iterable<Locale> supportedLocales,
+  ) {
+    if (widget.localize?.localeResolutionCallback() != null) {
+      final locale = widget.localize?.localeResolutionCallback()(
+        preferredLocales != null && preferredLocales.isNotEmpty
+            ? preferredLocales.first
+            : null,
+        supportedLocales,
+      );
+      if (locale != null) {
+        return locale;
+      }
+    }
+    return basicLocaleListResolution(preferredLocales, supportedLocales);
+  }
 
   Future<void> _restart(FutureOr<void> Function()? onRestart) async {
     if (onRestart != null) {
@@ -653,7 +687,7 @@ class _MasamuneAppState extends State<MasamuneApp> {
 
     if (widget.home != null || widget.routerConfig == null) {
       return MaterialApp(
-        locale: widget.localize?.locale,
+        locale: _locale,
         supportedLocales: widget.supportedLocales ??
             widget.localize?.supportedLocales() ??
             kDefaultLocales,
