@@ -48,6 +48,7 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
     this.macosOptions,
     this.linuxOptions,
     required this.region,
+    this.ignoreTimeout = false,
     FirebaseFunctions? functions,
     this.firestoreDatabaseId,
   })  : _options = options,
@@ -192,6 +193,11 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   /// Firestore用のデータベースのID。
   final String? firestoreDatabaseId;
 
+  /// Ignore timeout.
+  ///
+  /// タイムアウトを無視する。
+  final bool ignoreTimeout;
+
   static const _kFirestoreDatabaseId = "firestoreDatabaseId";
 
   @override
@@ -203,15 +209,31 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
     await FirebaseCore.initialize(options: options);
     try {
       return await action.execute((map) async {
-        final res =
-            await functions.httpsCallable(action.action).call<DynamicMap>(
-          {
-            if (map != null) ...map,
-            if (firestoreDatabaseId != null)
-              _kFirestoreDatabaseId: firestoreDatabaseId,
-          },
-        );
-        return res.data;
+        try {
+          final res = await functions
+              .httpsCallable(
+            action.action,
+            options: HttpsCallableOptions(
+              timeout: action.timeout ?? const Duration(seconds: 60),
+            ),
+          )
+              .call<DynamicMap>(
+            {
+              if (map != null) ...map,
+              if (firestoreDatabaseId != null)
+                _kFirestoreDatabaseId: firestoreDatabaseId,
+            },
+          );
+          return res.data;
+        } on FirebaseFunctionsException catch (e) {
+          if (e.code == "deadline-exceeded") {
+            debugPrint(e.toString());
+            if (!ignoreTimeout) {
+              rethrow;
+            }
+          }
+        }
+        return {};
       });
     } catch (e) {
       debugPrint(e.toString());

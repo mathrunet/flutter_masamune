@@ -44,6 +44,11 @@ abstract class FunctionsAction<TResponse> {
   /// アクション名。
   String get action;
 
+  /// Timeout.
+  ///
+  /// タイムアウト。
+  Duration? get timeout => null;
+
   /// Convert to [DynamicMap] to pass values to the server side.
   ///
   /// サーバー側に値を渡すために[DynamicMap]に変換します。
