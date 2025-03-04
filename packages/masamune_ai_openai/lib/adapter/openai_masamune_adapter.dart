@@ -24,9 +24,6 @@ class OpenAIMasamuneAdapter extends MasamuneAdapter {
   /// OpenAIのAPIキー。
   final String apiKey;
 
-  @override
-  FutureOr<void> onPreRunApp() {}
-
   /// You can retrieve the [OpenAIMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
   /// 最初に[MasamuneAdapterScope]で与えた[OpenAIMasamuneAdapter]を取得することができます。

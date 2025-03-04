@@ -40,9 +40,9 @@ Future<void> runMasamuneApp(
   final useRunZonedGuarded = masamuneAdapters.any((e) => e.runZonedGuarded);
   if (useRunZonedGuarded) {
     runZonedGuarded(() async {
-      WidgetsFlutterBinding.ensureInitialized();
+      final binding = WidgetsFlutterBinding.ensureInitialized();
       for (final adapter in masamuneAdapters) {
-        await adapter.onPreRunApp();
+        await adapter.onPreRunApp(binding);
       }
       runApp(
         masamuneApp.call(
@@ -58,9 +58,9 @@ Future<void> runMasamuneApp(
       }
     });
   } else {
-    WidgetsFlutterBinding.ensureInitialized();
+    final binding = WidgetsFlutterBinding.ensureInitialized();
     for (final adapter in masamuneAdapters) {
-      await adapter.onPreRunApp();
+      await adapter.onPreRunApp(binding);
     }
     runApp(
       masamuneApp.call(

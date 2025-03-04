@@ -202,11 +202,12 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   double get priority => 10.0;
 
   @override
-  FutureOr<void> onPreRunApp() async {
+  FutureOr<void> onPreRunApp(WidgetsBinding binding) async {
     await FirebaseCore.initialize(options: options);
     if (!kIsWeb) {
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     }
+    return super.onPreRunApp(binding);
   }
 
   @override

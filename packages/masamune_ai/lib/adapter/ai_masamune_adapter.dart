@@ -24,9 +24,6 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   /// AIのデフォルト設定。
   final AIConfig defaultConfig;
 
-  @override
-  FutureOr<void> onPreRunApp() {}
-
   /// You can retrieve the [AIMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
   /// 最初に[MasamuneAdapterScope]で与えた[AIMasamuneAdapter]を取得することができます。

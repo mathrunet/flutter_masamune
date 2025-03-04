@@ -30,9 +30,9 @@ class GoogleAdsMasamuneAdapter extends MasamuneAdapter {
   static GoogleAdsMasamuneAdapter? _primary;
 
   @override
-  Future<void> onPreRunApp() async {
+  Future<void> onPreRunApp(WidgetsBinding binding) async {
     await GoogleAdsCore.initialize();
-    return super.onPreRunApp();
+    return super.onPreRunApp(binding);
   }
 
   @override

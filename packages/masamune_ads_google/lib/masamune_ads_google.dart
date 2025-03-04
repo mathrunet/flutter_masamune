@@ -25,3 +25,4 @@ export 'src/others/others.dart'
     if (dart.library.html) 'src/web/web.dart';
 
 part 'adapter/google_ads_masamune_adapter.dart';
+part 'src/google_ads_no_fill_error.dart';

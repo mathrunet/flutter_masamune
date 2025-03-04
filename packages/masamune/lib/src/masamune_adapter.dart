@@ -100,7 +100,7 @@ abstract class MasamuneAdapter {
   /// You can describe the process before [runApp].
   ///
   /// [runApp]前の処理を記述することができます。
-  FutureOr<void> onPreRunApp() {}
+  FutureOr<void> onPreRunApp(WidgetsBinding binding) {}
 
   /// It may be called during application initialization.
   ///

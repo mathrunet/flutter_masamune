@@ -164,12 +164,13 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
   double get priority => 1.0;
 
   @override
-  FutureOr<void> onPreRunApp() async {
+  FutureOr<void> onPreRunApp(WidgetsBinding binding) async {
     await FirebaseCore.initialize(options: options);
     await appCheck.activate(
       androidProvider: androidProvider._toAndroidProvider(),
       appleProvider: iosProvider._toAppleProvider(),
     );
+    return super.onPreRunApp(binding);
   }
 
   @override

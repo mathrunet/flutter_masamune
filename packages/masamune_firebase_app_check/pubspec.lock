@@ -175,7 +175,7 @@ packages:
     source: hosted
     version: "7.0.0"
   firebase_app_check:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_app_check
       sha256: "4187dbbe99685ddf822c3e2a841b93f4a62d6f0827a388cba699e8bad709ec98"
@@ -198,30 +198,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0+7"
-  firebase_auth:
-    dependency: transitive
-    description:
-      name: firebase_auth
-      sha256: d0e2213daf3a740a379d4b788865dee6ada220496640abd875adb8f0fdbe5ba6
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.5.0"
-  firebase_auth_platform_interface:
-    dependency: transitive
-    description:
-      name: firebase_auth_platform_interface
-      sha256: "9c291bafc2a88599405fc810a4b4c249a40065b094379afb701efe443a3b0653"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.6.0"
-  firebase_auth_web:
-    dependency: transitive
-    description:
-      name: firebase_auth_web
-      sha256: a971b2f3a9c16b45e12687bb2e3d0da0c6fc272c4fbf6fa7833d0587844cca4d
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.14.0"
   firebase_core:
     dependency: "direct main"
     description:
@@ -246,14 +222,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.21.0"
-  firebase_vertexai:
-    dependency: "direct main"
-    description:
-      name: firebase_vertexai
-      sha256: fd2d0bdc7d92c0f5890d4049170535a80543fdbdbb606a74ee448df299f1b592
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.0"
   fixnum:
     dependency: transitive
     description:
@@ -379,140 +347,140 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.17.0"
+    version: "2.18.0"
   katana_auth:
     dependency: "direct overridden"
     description:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "2.10.8"
+    version: "2.10.9"
   katana_firebase:
     dependency: "direct main"
     description:
       path: "../katana_firebase"
       relative: true
     source: path
-    version: "2.2.14"
+    version: "2.2.15"
   katana_form:
     dependency: "direct overridden"
     description:
       path: "../katana_form"
       relative: true
     source: path
-    version: "2.16.0"
+    version: "2.16.2"
   katana_functions:
     dependency: "direct overridden"
     description:
       path: "../katana_functions"
       relative: true
     source: path
-    version: "2.7.7"
+    version: "2.7.8"
   katana_indicator:
     dependency: "direct overridden"
     description:
       path: "../katana_indicator"
       relative: true
     source: path
-    version: "2.2.13"
+    version: "2.2.14"
   katana_listenables:
     dependency: "direct overridden"
     description:
       path: "../katana_listenables"
       relative: true
     source: path
-    version: "2.2.13"
+    version: "2.2.14"
   katana_listenables_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_listenables_annotation"
       relative: true
     source: path
-    version: "2.1.13"
+    version: "2.1.14"
   katana_localization:
     dependency: "direct overridden"
     description:
       path: "../katana_localization"
       relative: true
     source: path
-    version: "2.3.15"
+    version: "2.3.16"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_localization_annotation"
       relative: true
     source: path
-    version: "2.2.14"
+    version: "2.2.15"
   katana_logger:
     dependency: "direct overridden"
     description:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "2.4.0"
+    version: "2.4.1"
   katana_model:
     dependency: "direct overridden"
     description:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.30.0"
+    version: "2.31.1"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "2.14.6"
+    version: "2.14.8"
   katana_prefs:
     dependency: "direct overridden"
     description:
       path: "../katana_prefs"
       relative: true
     source: path
-    version: "2.2.13"
+    version: "2.2.14"
   katana_prefs_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_prefs_annotation"
       relative: true
     source: path
-    version: "2.1.13"
+    version: "2.1.14"
   katana_router:
     dependency: "direct overridden"
     description:
       path: "../katana_router"
       relative: true
     source: path
-    version: "2.4.8"
+    version: "2.4.9"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "2.1.15"
+    version: "2.1.16"
   katana_scoped:
     dependency: "direct overridden"
     description:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "2.6.6"
+    version: "2.6.7"
   katana_shorten:
     dependency: "direct overridden"
     description:
       path: "../katana_shorten"
       relative: true
     source: path
-    version: "2.1.13"
+    version: "2.1.14"
   katana_storage:
     dependency: "direct overridden"
     description:
       path: "../katana_storage"
       relative: true
     source: path
-    version: "2.3.4"
+    version: "2.3.5"
   katana_test:
     dependency: "direct dev"
     description:
@@ -526,21 +494,21 @@ packages:
       path: "../katana_theme"
       relative: true
     source: path
-    version: "2.7.1"
+    version: "2.7.2"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.2.11"
+    version: "2.2.12"
   katana_ui:
     dependency: "direct overridden"
     description:
       path: "../katana_ui"
       relative: true
     source: path
-    version: "2.11.3"
+    version: "2.11.4"
   leak_tracker:
     dependency: transitive
     description:
@@ -595,21 +563,14 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.16.1"
-  masamune_ai:
-    dependency: "direct main"
-    description:
-      path: "../masamune_ai"
-      relative: true
-    source: path
-    version: "2.0.0"
+    version: "2.18.2"
   masamune_annotation:
     dependency: "direct overridden"
     description:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "2.9.5"
+    version: "2.9.6"
   matcher:
     dependency: transitive
     description:

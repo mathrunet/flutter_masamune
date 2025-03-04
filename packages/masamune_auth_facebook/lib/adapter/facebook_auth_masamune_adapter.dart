@@ -35,7 +35,7 @@ class FacebookAuthMasamuneAdapter extends MasamuneAdapter {
   }
 
   @override
-  FutureOr<void> onPreRunApp() async {
+  FutureOr<void> onPreRunApp(WidgetsBinding binding) async {
     if (kIsWeb && facebookAppId.isNotEmpty) {
       await FacebookAuth.i.webAndDesktopInitialize(
         appId: facebookAppId!,
@@ -44,6 +44,7 @@ class FacebookAuthMasamuneAdapter extends MasamuneAdapter {
         version: "v14.0",
       );
     }
+    return super.onPreRunApp(binding);
   }
 
   @override

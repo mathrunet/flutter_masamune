@@ -115,9 +115,20 @@ class GoogleAdRewarded
       notifyListeners();
       _loadCompleter?.complete();
       _loadCompleter = null;
+    } on LoadAdError catch (e) {
+      _loadCompleter?.completeError(e);
+      _loadCompleter = null;
+      if (e.code == 3) {
+        throw GoogleAdsNoFillError(
+          adUnitId: adUnitId ?? adapter.defaultAdUnitId,
+        );
+      } else {
+        rethrow;
+      }
     } catch (e) {
       _loadCompleter?.completeError(e);
       _loadCompleter = null;
+      rethrow;
     } finally {
       _loadCompleter?.complete();
       _loadCompleter = null;
@@ -177,6 +188,7 @@ class GoogleAdRewarded
     } catch (e) {
       _showCompleter?.completeError(e);
       _showCompleter = null;
+      rethrow;
     } finally {
       _showCompleter?.complete();
       _showCompleter = null;
