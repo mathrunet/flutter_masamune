@@ -54,6 +54,11 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
     );
   }
 
+  /// Check if the AI is initialized with the given config.
+  ///
+  /// 与えられた設定でAIが初期化されているかどうかを確認します。
+  bool isInitializedConfig({AIConfig? config});
+
   /// Initialize the AI.
   ///
   /// AIを初期化します。

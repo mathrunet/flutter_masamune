@@ -8,14 +8,14 @@ class AIConfig {
   ///
   /// AIの設定。
   const AIConfig({
-    this.systemPrompt,
+    this.systemPromptContent,
     this.responseSchema,
   });
 
   /// The system prompt of the AI.
   ///
   /// AIのシステムプロンプト。
-  final String? systemPrompt;
+  final AIContent? systemPromptContent;
 
   /// The response schema of the AI.
   ///
@@ -24,13 +24,13 @@ class AIConfig {
 
   @override
   String toString() {
-    return "AIConfig(systemPrompt: $systemPrompt, responseSchema: $responseSchema)";
+    return "AIConfig(systemPrompt: $systemPromptContent, responseSchema: $responseSchema)";
   }
 
   @override
   bool operator ==(Object other) {
     if (other is AIConfig) {
-      return systemPrompt == other.systemPrompt &&
+      return systemPromptContent == other.systemPromptContent &&
           responseSchema == other.responseSchema;
     }
     return false;
@@ -38,6 +38,6 @@ class AIConfig {
 
   @override
   int get hashCode {
-    return Object.hash(systemPrompt, responseSchema);
+    return Object.hash(systemPromptContent, responseSchema);
   }
 }

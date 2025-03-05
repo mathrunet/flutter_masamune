@@ -12,7 +12,20 @@ enum FirebaseAIModel {
   /// Gemini 1.5 Pro
   ///
   /// Gemini 1.5 Pro
-  gemini15Pro;
+  gemini15Pro,
+
+  /// Gemini 2.0 Flash
+  ///
+  /// Gemini 2.0 Flash
+  gemini20Flash,
+
+  /// Gemini 2.0 Pro
+  gemini20Pro;
+
+  /// The default model.
+  ///
+  /// デフォルトのモデル。
+  static const FirebaseAIModel defaultModel = gemini20Flash;
 
   /// The model name of the AI.
   ///
@@ -23,6 +36,10 @@ enum FirebaseAIModel {
         return "gemini-1.5-flash";
       case gemini15Pro:
         return "gemini-1.5-pro";
+      case gemini20Flash:
+        return "gemini-2.0-flash";
+      case gemini20Pro:
+        return "gemini-2.0-pro";
     }
   }
 }

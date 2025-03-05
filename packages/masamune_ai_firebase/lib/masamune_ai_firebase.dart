@@ -14,6 +14,7 @@ library masamune_ai_firebase;
 import 'dart:async';
 
 // Package imports:
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:masamune/masamune.dart';

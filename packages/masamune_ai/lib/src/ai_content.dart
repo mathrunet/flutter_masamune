@@ -45,11 +45,10 @@ class AIContent extends ChangeNotifier
   /// Returns content with system prompts.
   ///
   /// システムプロンプトを持つコンテンツを返します。
-  static AIContent system(String text, {DateTime? time}) {
+  static AIContent system(List<AIContent> contents) {
     return AIContent._(
       role: AIRole.system,
-      values: [AIContentTextPart(text)],
-      time: time,
+      values: [...contents.expand((e) => e._value)],
     );
   }
 
@@ -78,7 +77,10 @@ class AIContent extends ChangeNotifier
   /// Returns content with JPEG image.
   ///
   /// JPEG画像を持つコンテンツを返します。
-  static AIContent jpeg(Uint8List data, {DateTime? time}) {
+  static AIContent jpeg(
+    Uint8List data, {
+    DateTime? time,
+  }) {
     return AIContent._(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.jpeg, data)],
@@ -89,7 +91,10 @@ class AIContent extends ChangeNotifier
   /// Returns content with WebP image.
   ///
   /// WebP画像を持つコンテンツを返します。
-  static AIContent webp(Uint8List data, {DateTime? time}) {
+  static AIContent webp(
+    Uint8List data, {
+    DateTime? time,
+  }) {
     return AIContent._(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.webp, data)],
@@ -100,7 +105,10 @@ class AIContent extends ChangeNotifier
   /// Returns content with MP4 video.
   ///
   /// MP4動画を持つコンテンツを返します。
-  static AIContent mp4Video(Uint8List data, {DateTime? time}) {
+  static AIContent mp4Video(
+    Uint8List data, {
+    DateTime? time,
+  }) {
     return AIContent._(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.mp4Video, data)],
@@ -111,7 +119,10 @@ class AIContent extends ChangeNotifier
   /// Returns content with QuickTime video.
   ///
   /// QuickTime動画を持つコンテンツを返します。
-  static AIContent movVideo(Uint8List data, {DateTime? time}) {
+  static AIContent movVideo(
+    Uint8List data, {
+    DateTime? time,
+  }) {
     return AIContent._(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.mov, data)],
@@ -122,7 +133,10 @@ class AIContent extends ChangeNotifier
   /// Returns content with MP3 audio.
   ///
   /// MP3音声を持つコンテンツを返します。
-  static AIContent mp3Audio(Uint8List data, {DateTime? time}) {
+  static AIContent mp3Audio(
+    Uint8List data, {
+    DateTime? time,
+  }) {
     return AIContent._(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.mp3, data)],
@@ -133,7 +147,10 @@ class AIContent extends ChangeNotifier
   /// Returns content with WAV audio.
   ///
   /// WAV音声を持つコンテンツを返します。
-  static AIContent wavAudio(Uint8List data, {DateTime? time}) {
+  static AIContent wavAudio(
+    Uint8List data, {
+    DateTime? time,
+  }) {
     return AIContent._(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.wav, data)],
@@ -144,7 +161,10 @@ class AIContent extends ChangeNotifier
   /// Returns content with MP4 audio.
   ///
   /// MP4音声を持つコンテンツを返します。
-  static AIContent mp4Audio(Uint8List data, {DateTime? time}) {
+  static AIContent mp4Audio(
+    Uint8List data, {
+    DateTime? time,
+  }) {
     return AIContent._(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.mp4Audio, data)],
@@ -155,7 +175,10 @@ class AIContent extends ChangeNotifier
   /// Returns content with M4A audio.
   ///
   /// M4A音声を持つコンテンツを返します。
-  static AIContent m4aAudio(Uint8List data, {DateTime? time}) {
+  static AIContent m4aAudio(
+    Uint8List data, {
+    DateTime? time,
+  }) {
     return AIContent._(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.m4a, data)],
@@ -166,7 +189,10 @@ class AIContent extends ChangeNotifier
   /// Returns content with PDF file.
   ///
   /// PDFファイルを持つコンテンツを返します。
-  static AIContent pdfFile(Uint8List data, {DateTime? time}) {
+  static AIContent pdfFile(
+    Uint8List data, {
+    DateTime? time,
+  }) {
     return AIContent._(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.pdf, data)],
@@ -219,7 +245,27 @@ class AIContent extends ChangeNotifier
     if (time != null) {
       _time = time;
     }
-    _value.addAll(values);
+    final merged = <AIContentPart>[];
+    merged.addAll(_value);
+
+    for (final part in values) {
+      if (merged.isEmpty) {
+        merged.add(part);
+      } else {
+        if (part is AIContentTextPart) {
+          final last = merged[merged.length - 1];
+          if (last is AIContentTextPart) {
+            merged[merged.length - 1] = last.mergeWith(part);
+          } else {
+            merged.add(part);
+          }
+        } else {
+          merged.add(part);
+        }
+      }
+    }
+    _value.clear();
+    _value.addAll(merged);
     notifyListeners();
   }
 
@@ -291,6 +337,16 @@ class AIContentTextPart extends AIContentPart {
   /// AIの内容のテキスト。
   final String text;
 
+  /// Merges the AI content text part with another AI content text part.
+  ///
+  /// AIの内容のテキストの一部を別のAIの内容のテキストの一部とマージします。
+  AIContentTextPart mergeWith(
+    AIContentTextPart other, {
+    String delimiter = "",
+  }) {
+    return AIContentTextPart(text + delimiter + other.text);
+  }
+
   @override
   String toString() {
     return text;
@@ -335,13 +391,13 @@ class AIContentBinaryPart extends AIContentPart {
   @override
   bool operator ==(Object other) {
     if (other is AIContentBinaryPart) {
-      return type == other.type && value == other.value;
+      return type == other.type && value.length == other.value.length;
     }
     return false;
   }
 
   @override
-  int get hashCode => type.hashCode ^ value.hashCode;
+  int get hashCode => type.hashCode ^ value.length.hashCode;
 }
 
 /// The file part of the AI content.

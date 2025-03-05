@@ -66,12 +66,6 @@ class AIThread
   Completer<void>? _sendCompleter;
   Completer<void>? _initializeCompleter;
 
-  /// Whether the thread is initialized.
-  ///
-  /// スレッドが初期化されているかどうか。
-  bool get initialized => _initialized;
-  bool _initialized = false;
-
   /// Result of interaction with AI.
   ///
   /// AIとのやりとりの結果。
@@ -83,7 +77,7 @@ class AIThread
   ///
   /// スレッドを初期化します。
   Future<void> initialize({AIConfig? config}) async {
-    if (initialized) {
+    if (adapter.isInitializedConfig(config: config)) {
       return;
     }
     if (_initializeCompleter != null) {
@@ -91,8 +85,7 @@ class AIThread
     }
     _initializeCompleter = Completer<void>();
     try {
-      await adapter.initialize();
-      _initialized = true;
+      await adapter.initialize(config: config);
       _initializeCompleter?.complete();
       _initializeCompleter = null;
     } catch (e, stackTrace) {
@@ -124,14 +117,15 @@ class AIThread
     try {
       await initialize(config: config);
       _value.add(content);
-      _value.sort((a, b) => a.time.compareTo(b.time));
+      _value.sort((a, b) => b.time.compareTo(a.time));
       notifyListeners();
       final res = await adapter.generateContent(_value, config: config);
       if (res == null) {
         return;
       }
       _value.add(res);
-      _value.sort((a, b) => a.time.compareTo(b.time));
+      _value.sort((a, b) => b.time.compareTo(a.time));
+      notifyListeners();
       await res.loading;
       _sendCompleter?.complete();
       _sendCompleter = null;

@@ -18,7 +18,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   FirebaseAIMasamuneAdapter({
     FirebaseVertexAI? vertexAI,
     FirebaseOptions? options,
-    this.model = FirebaseAIModel.gemini15Flash,
+    this.model = FirebaseAIModel.defaultModel,
     super.defaultConfig = const AIConfig(),
     this.iosOptions,
     this.androidOptions,
@@ -37,7 +37,11 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   /// FirebaseVertexAI instance.
   ///
   /// FirebaseVertexAIのインスタンス。
-  FirebaseVertexAI get vertexAI => _vertexAI ?? FirebaseVertexAI.instance;
+  FirebaseVertexAI get vertexAI =>
+      _vertexAI ??
+      FirebaseVertexAI.instanceFor(
+        appCheck: FirebaseAppCheck.instance,
+      );
   final FirebaseVertexAI? _vertexAI;
 
   static final Map<AIConfig, GenerativeModel> _generativeModel = {};
@@ -154,9 +158,15 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   /// [options]が指定されている場合はこちらが優先されます。
   final FirebaseOptions? linuxOptions;
 
-  /// Initialize the generative model.
-  ///
-  /// 生成モデルを初期化します。
+  @override
+  bool isInitializedConfig({AIConfig? config}) {
+    config ??= defaultConfig;
+    if (_generativeModel.containsKey(config)) {
+      return true;
+    }
+    return false;
+  }
+
   @override
   Future<void> initialize({
     AIConfig? config,
@@ -165,7 +175,12 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     if (_generativeModel.containsKey(config)) {
       return;
     }
-    final systemPrompt = config.systemPrompt;
+    assert(
+      config.systemPromptContent == null ||
+          config.systemPromptContent!.role == AIRole.system,
+      "systemPromptContent must be a system prompt.",
+    );
+    final systemPromptContent = config.systemPromptContent;
     final responseSchema = config.responseSchema;
     _generativeModel[config] = vertexAI.generativeModel(
       model: model.model,
@@ -173,9 +188,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         responseMimeType: responseSchema != null ? "application/json" : null,
         responseSchema: responseSchema?._toSchema(),
       ),
-      systemInstruction: systemPrompt != null
-          ? AIContent.system(systemPrompt)._toContent()
-          : null,
+      systemInstruction: systemPromptContent?._toContent(),
     );
   }
 
