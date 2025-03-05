@@ -50,6 +50,7 @@ class ChatTile extends StatelessWidget {
     this.space = 4,
     this.title,
     this.reverse = false,
+    this.bottom,
   });
 
   /// Body of chat.
@@ -132,6 +133,11 @@ class ChatTile extends StatelessWidget {
   /// `true`の場合、向きを逆にします。
   final bool reverse;
 
+  /// Widget to be displayed at the bottom of the chat container.
+  ///
+  /// チャットコンテナの下部に表示するウィジェット。
+  final Widget? bottom;
+
   @override
   Widget build(BuildContext context) {
     return IconTheme(
@@ -171,7 +177,6 @@ class ChatTile extends StatelessWidget {
                           children: [
                             if (title != null) ...[
                               title!,
-                              SizedBox(height: space),
                             ],
                             Card(
                               elevation: elevation,
@@ -204,6 +209,9 @@ class ChatTile extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            if (bottom != null) ...[
+                              bottom!,
+                            ],
                           ],
                         ),
                       ),
@@ -233,7 +241,6 @@ class ChatTile extends StatelessWidget {
                           children: [
                             if (title != null) ...[
                               title!,
-                              SizedBox(height: space),
                             ],
                             Card(
                               elevation: elevation,
@@ -266,6 +273,9 @@ class ChatTile extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            if (bottom != null) ...[
+                              bottom!,
+                            ],
                           ],
                         ),
                       ),
