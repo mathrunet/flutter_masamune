@@ -51,6 +51,7 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
     this.ignoreTimeout = false,
     FirebaseFunctions? functions,
     this.firestoreDatabaseId,
+    this.limitedUseAppCheckToken = false,
   })  : _options = options,
         _functions = functions;
 
@@ -198,6 +199,11 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   /// タイムアウトを無視する。
   final bool ignoreTimeout;
 
+  /// Whether to use AppCheck token.
+  ///
+  /// AppCheckトークンを使用するかどうか。
+  final bool limitedUseAppCheckToken;
+
   static const _kFirestoreDatabaseId = "firestoreDatabaseId";
 
   @override
@@ -215,6 +221,7 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
             action.action,
             options: HttpsCallableOptions(
               timeout: action.timeout ?? const Duration(seconds: 60),
+              limitedUseAppCheckToken: limitedUseAppCheckToken,
             ),
           )
               .call<DynamicMap>(
