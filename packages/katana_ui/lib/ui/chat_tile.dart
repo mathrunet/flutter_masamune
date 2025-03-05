@@ -160,8 +160,8 @@ class ChatTile extends StatelessWidget {
                     crossAxisAlignment: crossAxisAlignment,
                     children: [
                       if (trailing != null) ...[
-                        SizedBox(width: space),
                         trailing!,
+                        SizedBox(width: space),
                       ],
                       Flexible(
                         child: Column(
