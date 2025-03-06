@@ -24,6 +24,17 @@ extension on AIContent {
       value.map((e) => e._toPart()).toList(),
     );
   }
+
+  AIContent _toSystemPromptContent() {
+    return where((e) => e is AIContentTextPart);
+  }
+
+  AIContent _toSystemInitialContent() {
+    return AIContent(
+      role: AIRole.user,
+      values: value.where((e) => e is! AIContentTextPart).toList(),
+    );
+  }
 }
 
 extension on AIContentPart {

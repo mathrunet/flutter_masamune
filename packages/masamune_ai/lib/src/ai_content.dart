@@ -9,7 +9,7 @@ part of '/masamune_ai.dart';
 /// [role]に役割を設定可能です。
 class AIContent extends ChangeNotifier
     implements ValueListenable<List<AIContentPart>> {
-  AIContent._({
+  AIContent({
     this.role = AIRole.system,
     DateTime? time,
     List<AIContentPart> values = const [],
@@ -22,7 +22,7 @@ class AIContent extends ChangeNotifier
   ///
   /// ユーザーが投稿するテキストプロンプトを持つコンテンツを返します。
   static AIContent text(String text, {DateTime? time}) {
-    return AIContent._(
+    return AIContent(
       role: AIRole.user,
       values: [AIContentTextPart(text)],
       time: time,
@@ -33,7 +33,7 @@ class AIContent extends ChangeNotifier
   ///
   /// モデルが投稿するテキストプロンプトを持つコンテンツを返します。
   static AIContent model({String? text, DateTime? time}) {
-    return AIContent._(
+    return AIContent(
       role: AIRole.model,
       values: [
         if (text != null) AIContentTextPart(text),
@@ -46,7 +46,7 @@ class AIContent extends ChangeNotifier
   ///
   /// システムプロンプトを持つコンテンツを返します。
   static AIContent system(List<AIContent> contents) {
-    return AIContent._(
+    return AIContent(
       role: AIRole.system,
       values: [...contents.expand((e) => e._value)],
     );
@@ -56,7 +56,7 @@ class AIContent extends ChangeNotifier
   ///
   /// テキストファイルを持つコンテンツを返します。
   static AIContent textFile(Uint8List data, {DateTime? time}) {
-    return AIContent._(
+    return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.txt, data)],
       time: time,
@@ -67,7 +67,7 @@ class AIContent extends ChangeNotifier
   ///
   /// PNG画像を持つコンテンツを返します。
   static AIContent png(Uint8List data, {DateTime? time}) {
-    return AIContent._(
+    return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.png, data)],
       time: time,
@@ -81,7 +81,7 @@ class AIContent extends ChangeNotifier
     Uint8List data, {
     DateTime? time,
   }) {
-    return AIContent._(
+    return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.jpeg, data)],
       time: time,
@@ -95,7 +95,7 @@ class AIContent extends ChangeNotifier
     Uint8List data, {
     DateTime? time,
   }) {
-    return AIContent._(
+    return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.webp, data)],
       time: time,
@@ -109,7 +109,7 @@ class AIContent extends ChangeNotifier
     Uint8List data, {
     DateTime? time,
   }) {
-    return AIContent._(
+    return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.mp4Video, data)],
       time: time,
@@ -123,7 +123,7 @@ class AIContent extends ChangeNotifier
     Uint8List data, {
     DateTime? time,
   }) {
-    return AIContent._(
+    return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.mov, data)],
       time: time,
@@ -137,7 +137,7 @@ class AIContent extends ChangeNotifier
     Uint8List data, {
     DateTime? time,
   }) {
-    return AIContent._(
+    return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.mp3, data)],
       time: time,
@@ -151,7 +151,7 @@ class AIContent extends ChangeNotifier
     Uint8List data, {
     DateTime? time,
   }) {
-    return AIContent._(
+    return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.wav, data)],
       time: time,
@@ -165,7 +165,7 @@ class AIContent extends ChangeNotifier
     Uint8List data, {
     DateTime? time,
   }) {
-    return AIContent._(
+    return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.mp4Audio, data)],
       time: time,
@@ -179,7 +179,7 @@ class AIContent extends ChangeNotifier
     Uint8List data, {
     DateTime? time,
   }) {
-    return AIContent._(
+    return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.m4a, data)],
       time: time,
@@ -193,7 +193,7 @@ class AIContent extends ChangeNotifier
     Uint8List data, {
     DateTime? time,
   }) {
-    return AIContent._(
+    return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.pdf, data)],
       time: time,
@@ -294,6 +294,16 @@ class AIContent extends ChangeNotifier
     _completer?.completeError(error, stackTrace);
     _completer = null;
     notifyListeners();
+  }
+
+  /// Filters the AI content parts.
+  ///
+  /// AIの内容の一部をフィルターします。
+  AIContent where(bool Function(AIContentPart part) test) {
+    return AIContent(
+      role: role,
+      values: _value.where(test).toList(),
+    );
   }
 
   @override

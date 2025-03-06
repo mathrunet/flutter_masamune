@@ -188,7 +188,8 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         responseMimeType: responseSchema != null ? "application/json" : null,
         responseSchema: responseSchema?._toSchema(),
       ),
-      systemInstruction: systemPromptContent?._toContent(),
+      systemInstruction:
+          systemPromptContent?._toSystemPromptContent()._toContent(),
     );
   }
 
@@ -202,13 +203,16 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     if (generativeModel == null) {
       throw Exception("Please call initialize() before send().");
     }
+    final systemInitialContent =
+        config.systemPromptContent?._toSystemInitialContent()._toContent();
     final res = AIContent.model();
     StreamSubscription<GenerateContentResponse>? subscription;
-    final stream = generativeModel.generateContentStream(
-      contents.map((e) {
+    final stream = generativeModel.generateContentStream([
+      if (systemInitialContent != null) systemInitialContent,
+      ...contents.sortTo((a, b) => a.time.compareTo(b.time)).map((e) {
         return e._toContent();
       }),
-    );
+    ]);
     subscription = stream.listen(
       (line) {
         final candidates = line.candidates;

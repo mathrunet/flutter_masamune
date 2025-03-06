@@ -191,5 +191,5 @@ class _$_AIQuery extends ControllerQueryBase<AIThread> {
   @override
   String get queryName => _name;
   @override
-  bool get autoDisposeWhenUnreferenced => true;
+  bool get autoDisposeWhenUnreferenced => false;
 }
