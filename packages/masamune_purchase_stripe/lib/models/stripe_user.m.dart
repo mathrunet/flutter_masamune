@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations
@@ -19,7 +20,7 @@ enum _$StripeUserModelKeys {
   accountId,
   customerId,
   defaultPayment,
-  capablity
+  capablity,
 }
 
 class _$StripeUserModelDocument extends DocumentBase<StripeUserModel>
@@ -60,9 +61,10 @@ class _$StripeUserModelCollection
 
   @override
   Future<CollectionBase<_$StripeUserModelDocument>> filter(
-      _$_StripeUserModelCollectionQuery Function(
-              _$_StripeUserModelCollectionQuery source)
-          callback) {
+    _$_StripeUserModelCollectionQuery Function(
+      _$_StripeUserModelCollectionQuery source,
+    ) callback,
+  ) {
     final query = callback.call(_$_StripeUserModelCollectionQuery(modelQuery));
     return replaceQuery((_) => query.modelQuery);
   }
@@ -103,15 +105,25 @@ class _$StripeUserModelDocumentQuery {
   _$_StripeUserModelDocumentQuery call(
     Object _id, {
     ModelAdapter? adapter,
+    bool useTestModelAdapter = true,
     ModelAccessQuery? accessQuery,
   }) {
-    return _$_StripeUserModelDocumentQuery(DocumentModelQuery(
-      "plugins/stripe/user/$_id",
-      adapter: adapter ?? _$StripeUserModelDocument.defaultModelAdapter,
-      accessQuery:
-          accessQuery ?? _$StripeUserModelDocument.defaultModelAccessQuery,
-      validationQueries: _$StripeUserModelDocument.defaultValidationQueries,
-    ));
+    return _$_StripeUserModelDocumentQuery(
+      DocumentModelQuery(
+        "plugins/stripe/user/$_id",
+        adapter: adapter ?? _$StripeUserModelDocument.defaultModelAdapter,
+        useTestModelAdapter: useTestModelAdapter,
+        accessQuery:
+            accessQuery ?? _$StripeUserModelDocument.defaultModelAccessQuery,
+        validationQueries: _$StripeUserModelDocument.defaultValidationQueries,
+      ),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return RegExp(
+      "plugins/stripe/user/[^/]+".trimQuery().trimString("/"),
+    ).hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -136,16 +148,26 @@ class _$StripeUserModelCollectionQuery {
 
   @useResult
   _$_StripeUserModelCollectionQuery call({
+    bool useTestModelAdapter = true,
     ModelAdapter? adapter,
     ModelAccessQuery? accessQuery,
   }) {
-    return _$_StripeUserModelCollectionQuery(CollectionModelQuery(
-      "plugins/stripe/user",
-      adapter: adapter ?? _$StripeUserModelCollection.defaultModelAdapter,
-      accessQuery:
-          accessQuery ?? _$StripeUserModelCollection.defaultModelAccessQuery,
-      validationQueries: _$StripeUserModelCollection.defaultValidationQueries,
-    ));
+    return _$_StripeUserModelCollectionQuery(
+      CollectionModelQuery(
+        "plugins/stripe/user",
+        adapter: adapter ?? _$StripeUserModelCollection.defaultModelAdapter,
+        useTestModelAdapter: useTestModelAdapter,
+        accessQuery:
+            accessQuery ?? _$StripeUserModelCollection.defaultModelAccessQuery,
+        validationQueries: _$StripeUserModelCollection.defaultValidationQueries,
+      ),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return RegExp(
+      "plugins/stripe/user".trimQuery().trimString("/"),
+    ).hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -164,11 +186,9 @@ class _$_StripeUserModelCollectionQuery
   String get queryName => modelQuery.toString();
 
   static _$_StripeUserModelCollectionQuery _toQuery(
-          CollectionModelQuery query) =>
+    CollectionModelQuery query,
+  ) =>
       _$_StripeUserModelCollectionQuery(query);
-
-  _$_StripeUserModelCollectionQuery limitTo(int value) =>
-      _$_StripeUserModelCollectionQuery(modelQuery.limitTo(value));
 
   _$_StripeUserModelCollectionQuery collectionGroup() =>
       _$_StripeUserModelCollectionQuery(modelQuery.collectionGroup());
@@ -176,34 +196,58 @@ class _$_StripeUserModelCollectionQuery
   _$_StripeUserModelCollectionQuery reset() =>
       _$_StripeUserModelCollectionQuery(modelQuery.reset());
 
+  _$_StripeUserModelCollectionQuery remove(ModelQueryFilterType type) =>
+      _$_StripeUserModelCollectionQuery(modelQuery.remove(type));
+
   _$_StripeUserModelCollectionQuery notifyDocumentChanges() =>
       _$_StripeUserModelCollectionQuery(modelQuery.notifyDocumentChanges());
 
+  _$_StripeUserModelCollectionQuery limitTo(int value) =>
+      _$_StripeUserModelCollectionQuery(modelQuery.limitTo(value));
+
   StringModelQuerySelector<_$_StripeUserModelCollectionQuery> get uid =>
       StringModelQuerySelector<_$_StripeUserModelCollectionQuery>(
-          key: "@uid", toQuery: _toQuery, modelQuery: modelQuery);
+        key: "@uid",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
 
   StringModelQuerySelector<_$_StripeUserModelCollectionQuery> get userId =>
       StringModelQuerySelector<_$_StripeUserModelCollectionQuery>(
-          key: "userId", toQuery: _toQuery, modelQuery: modelQuery);
+        key: "user",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
 
   StringModelQuerySelector<_$_StripeUserModelCollectionQuery> get accountId =>
       StringModelQuerySelector<_$_StripeUserModelCollectionQuery>(
-          key: "accountId", toQuery: _toQuery, modelQuery: modelQuery);
+        key: "account",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
 
   StringModelQuerySelector<_$_StripeUserModelCollectionQuery> get customerId =>
       StringModelQuerySelector<_$_StripeUserModelCollectionQuery>(
-          key: "customerId", toQuery: _toQuery, modelQuery: modelQuery);
+        key: "customer",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
 
   StringModelQuerySelector<_$_StripeUserModelCollectionQuery>
       get defaultPayment =>
           StringModelQuerySelector<_$_StripeUserModelCollectionQuery>(
-              key: "defaultPayment", toQuery: _toQuery, modelQuery: modelQuery);
+            key: "defaultPayment",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   MapModelQuerySelector<dynamic, _$_StripeUserModelCollectionQuery>
       get capablity =>
           MapModelQuerySelector<dynamic, _$_StripeUserModelCollectionQuery>(
-              key: "capablity", toQuery: _toQuery, modelQuery: modelQuery);
+            key: "capability",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 }
 
 typedef _$StripeUserModelMirrorRefPath = _$StripeUserModelRefPath;

@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, unused_local_variable
@@ -15,10 +16,7 @@ class _$MainPageQuery extends RouteQueryBuilder {
   static final _regExp = RegExp(r"^$");
 
   @useResult
-  RouteQuery call({
-    required String title,
-    String? q,
-  }) =>
+  RouteQuery call({required String title, String? q}) =>
       _$_MainPageQuery(null, title: title, q: q);
 
   @override
@@ -33,9 +31,11 @@ class _$MainPageQuery extends RouteQueryBuilder {
         return null;
       }
       final query = Uri.splitQueryString(split.last);
-      return _$_MainPageQuery(path,
-          title: query["title"] ?? query["title"] ?? query["title"] ?? "",
-          q: query["q"] ?? query["q"] ?? query["q"] ?? null);
+      return _$_MainPageQuery(
+        path,
+        title: query["title"] ?? query["title"] ?? query["title"] ?? "",
+        q: query["q"] ?? query["q"] ?? query["q"] ?? null,
+      );
     } else {
       path = path.trimQuery().trimString("/");
       final match = _regExp.firstMatch(path.trimQuery().trimString("/"));
@@ -49,11 +49,7 @@ class _$MainPageQuery extends RouteQueryBuilder {
 
 @immutable
 class _$_MainPageQuery extends RouteQuery {
-  const _$_MainPageQuery(
-    this._path, {
-    required this.title,
-    this.q,
-  });
+  const _$_MainPageQuery(this._path, {required this.title, this.q});
 
   final String title;
 
@@ -130,12 +126,14 @@ class _$UserPageQuery extends RouteQueryBuilder {
         return null;
       }
       final query = Uri.splitQueryString(split.last);
-      return _$_UserPageQuery(path,
-          userId: match.namedGroup("user_id") ??
-              query["userId"] ??
-              query["user_id"] ??
-              query["userId"] ??
-              "");
+      return _$_UserPageQuery(
+        path,
+        userId: match.namedGroup("user_id") ??
+            query["userId"] ??
+            query["user_id"] ??
+            query["userId"] ??
+            "",
+      );
     } else {
       path = path.trimQuery().trimString("/");
       final match = _regExp.firstMatch(path.trimQuery().trimString("/"));
@@ -149,10 +147,7 @@ class _$UserPageQuery extends RouteQueryBuilder {
 
 @immutable
 class _$_UserPageQuery extends RouteQuery {
-  const _$_UserPageQuery(
-    this._path, {
-    required this.userId,
-  });
+  const _$_UserPageQuery(this._path, {required this.userId});
 
   final String userId;
 
@@ -224,30 +219,31 @@ class _$ContentPageQuery extends RouteQueryBuilder {
         return null;
       }
       final query = Uri.splitQueryString(split.last);
-      return _$_ContentPageQuery(path,
-          contentId: match.namedGroup("content_id") ??
-              query["contentId"] ??
-              query["content_id"] ??
-              query["contentId"] ??
-              "");
+      return _$_ContentPageQuery(
+        path,
+        contentId: match.namedGroup("content_id") ??
+            query["contentId"] ??
+            query["content_id"] ??
+            query["contentId"] ??
+            "",
+      );
     } else {
       path = path.trimQuery().trimString("/");
       final match = _regExp.firstMatch(path.trimQuery().trimString("/"));
       if (match == null) {
         return null;
       }
-      return _$_ContentPageQuery(path,
-          contentId: match.namedGroup("content_id") ?? "");
+      return _$_ContentPageQuery(
+        path,
+        contentId: match.namedGroup("content_id") ?? "",
+      );
     }
   }
 }
 
 @immutable
 class _$_ContentPageQuery extends RouteQuery {
-  const _$_ContentPageQuery(
-    this._path, {
-    required this.contentId,
-  });
+  const _$_ContentPageQuery(this._path, {required this.contentId});
 
   final String contentId;
 
@@ -304,9 +300,7 @@ class _$NestedContainerPageQuery extends RouteQueryBuilder {
   static final _regExp = RegExp(r"^nested$");
 
   @useResult
-  RouteQuery call() => _$_NestedContainerPageQuery(
-        null,
-      );
+  RouteQuery call() => _$_NestedContainerPageQuery(null);
 
   @override
   RouteQuery? resolve(String? path) {
@@ -320,18 +314,14 @@ class _$NestedContainerPageQuery extends RouteQueryBuilder {
         return null;
       }
       final query = Uri.splitQueryString(split.last);
-      return _$_NestedContainerPageQuery(
-        path,
-      );
+      return _$_NestedContainerPageQuery(path);
     } else {
       path = path.trimQuery().trimString("/");
       final match = _regExp.firstMatch(path.trimQuery().trimString("/"));
       if (match == null) {
         return null;
       }
-      return _$_NestedContainerPageQuery(
-        path,
-      );
+      return _$_NestedContainerPageQuery(path);
     }
   }
 }
@@ -387,7 +377,7 @@ class _$_NestedContainerPageQuery extends RouteQuery {
 }
 
 // **************************************************************************
-// NestedPageGenerator
+// HiddenPageGenerator
 // **************************************************************************
 
 @immutable
@@ -395,9 +385,7 @@ class _$InnerPage1Query extends RouteQueryBuilder {
   const _$InnerPage1Query();
 
   @useResult
-  RouteQuery call() => _$_InnerPage1Query(
-        null,
-      );
+  RouteQuery call() => _$_InnerPage1Query(null);
 
   @override
   RouteQuery? resolve(String? path) {
@@ -461,9 +449,7 @@ class _$InnerPage2Query extends RouteQueryBuilder {
   const _$InnerPage2Query();
 
   @useResult
-  RouteQuery call() => _$_InnerPage2Query(
-        null,
-      );
+  RouteQuery call() => _$_InnerPage2Query(null);
 
   @override
   RouteQuery? resolve(String? path) {

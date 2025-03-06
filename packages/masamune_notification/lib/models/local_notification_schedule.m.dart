@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations
@@ -20,7 +21,7 @@ enum _$LocalNotificationScheduleModelKeys {
   repeat,
   title,
   text,
-  data
+  data,
 }
 
 class _$LocalNotificationScheduleModelDocument
@@ -66,11 +67,13 @@ class _$LocalNotificationScheduleModelCollection
 
   @override
   Future<CollectionBase<_$LocalNotificationScheduleModelDocument>> filter(
-      _$_LocalNotificationScheduleModelCollectionQuery Function(
-              _$_LocalNotificationScheduleModelCollectionQuery source)
-          callback) {
-    final query = callback
-        .call(_$_LocalNotificationScheduleModelCollectionQuery(modelQuery));
+    _$_LocalNotificationScheduleModelCollectionQuery Function(
+      _$_LocalNotificationScheduleModelCollectionQuery source,
+    ) callback,
+  ) {
+    final query = callback.call(
+      _$_LocalNotificationScheduleModelCollectionQuery(modelQuery),
+    );
     return replaceQuery((_) => query.modelQuery);
   }
 }
@@ -112,17 +115,27 @@ class _$LocalNotificationScheduleModelDocumentQuery {
   _$_LocalNotificationScheduleModelDocumentQuery call(
     Object _id, {
     ModelAdapter? adapter,
+    bool useTestModelAdapter = true,
     ModelAccessQuery? accessQuery,
   }) {
-    return _$_LocalNotificationScheduleModelDocumentQuery(DocumentModelQuery(
-      "plugins/scheduler/schedule/$_id",
-      adapter: adapter ??
-          _$LocalNotificationScheduleModelDocument.defaultModelAdapter,
-      accessQuery: accessQuery ??
-          _$LocalNotificationScheduleModelDocument.defaultModelAccessQuery,
-      validationQueries:
-          _$LocalNotificationScheduleModelDocument.defaultValidationQueries,
-    ));
+    return _$_LocalNotificationScheduleModelDocumentQuery(
+      DocumentModelQuery(
+        "plugins/scheduler/schedule/$_id",
+        adapter: adapter ??
+            _$LocalNotificationScheduleModelDocument.defaultModelAdapter,
+        useTestModelAdapter: useTestModelAdapter,
+        accessQuery: accessQuery ??
+            _$LocalNotificationScheduleModelDocument.defaultModelAccessQuery,
+        validationQueries:
+            _$LocalNotificationScheduleModelDocument.defaultValidationQueries,
+      ),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return RegExp(
+      "plugins/scheduler/schedule/[^/]+".trimQuery().trimString("/"),
+    ).hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -147,19 +160,28 @@ class _$LocalNotificationScheduleModelCollectionQuery {
 
   @useResult
   _$_LocalNotificationScheduleModelCollectionQuery call({
+    bool useTestModelAdapter = true,
     ModelAdapter? adapter,
     ModelAccessQuery? accessQuery,
   }) {
     return _$_LocalNotificationScheduleModelCollectionQuery(
-        CollectionModelQuery(
-      "plugins/scheduler/schedule",
-      adapter: adapter ??
-          _$LocalNotificationScheduleModelCollection.defaultModelAdapter,
-      accessQuery: accessQuery ??
-          _$LocalNotificationScheduleModelCollection.defaultModelAccessQuery,
-      validationQueries:
-          _$LocalNotificationScheduleModelCollection.defaultValidationQueries,
-    ));
+      CollectionModelQuery(
+        "plugins/scheduler/schedule",
+        adapter: adapter ??
+            _$LocalNotificationScheduleModelCollection.defaultModelAdapter,
+        useTestModelAdapter: useTestModelAdapter,
+        accessQuery: accessQuery ??
+            _$LocalNotificationScheduleModelCollection.defaultModelAccessQuery,
+        validationQueries:
+            _$LocalNotificationScheduleModelCollection.defaultValidationQueries,
+      ),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return RegExp(
+      "plugins/scheduler/schedule".trimQuery().trimString("/"),
+    ).hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -178,23 +200,32 @@ class _$_LocalNotificationScheduleModelCollectionQuery
   String get queryName => modelQuery.toString();
 
   static _$_LocalNotificationScheduleModelCollectionQuery _toQuery(
-          CollectionModelQuery query) =>
+    CollectionModelQuery query,
+  ) =>
       _$_LocalNotificationScheduleModelCollectionQuery(query);
-
-  _$_LocalNotificationScheduleModelCollectionQuery limitTo(int value) =>
-      _$_LocalNotificationScheduleModelCollectionQuery(
-          modelQuery.limitTo(value));
 
   _$_LocalNotificationScheduleModelCollectionQuery collectionGroup() =>
       _$_LocalNotificationScheduleModelCollectionQuery(
-          modelQuery.collectionGroup());
+        modelQuery.collectionGroup(),
+      );
 
   _$_LocalNotificationScheduleModelCollectionQuery reset() =>
       _$_LocalNotificationScheduleModelCollectionQuery(modelQuery.reset());
 
+  _$_LocalNotificationScheduleModelCollectionQuery remove(
+    ModelQueryFilterType type,
+  ) =>
+      _$_LocalNotificationScheduleModelCollectionQuery(modelQuery.remove(type));
+
   _$_LocalNotificationScheduleModelCollectionQuery notifyDocumentChanges() =>
       _$_LocalNotificationScheduleModelCollectionQuery(
-          modelQuery.notifyDocumentChanges());
+        modelQuery.notifyDocumentChanges(),
+      );
+
+  _$_LocalNotificationScheduleModelCollectionQuery limitTo(int value) =>
+      _$_LocalNotificationScheduleModelCollectionQuery(
+        modelQuery.limitTo(value),
+      );
 
   StringModelQuerySelector<_$_LocalNotificationScheduleModelCollectionQuery>
       get uid => StringModelQuerySelector<
@@ -204,7 +235,10 @@ class _$_LocalNotificationScheduleModelCollectionQuery
   NumModelQuerySelector<_$_LocalNotificationScheduleModelCollectionQuery>
       get id => NumModelQuerySelector<
               _$_LocalNotificationScheduleModelCollectionQuery>(
-          key: "id", toQuery: _toQuery, modelQuery: modelQuery);
+            key: "id",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   ModelTimestampModelQuerySelector<
           _$_LocalNotificationScheduleModelCollectionQuery>
@@ -250,7 +284,8 @@ class _$LocalNotificationScheduleModelFormQuery {
 
   @useResult
   _$_LocalNotificationScheduleModelFormQuery call(
-      LocalNotificationScheduleModel value) {
+    LocalNotificationScheduleModel value,
+  ) {
     return _$_LocalNotificationScheduleModelFormQuery(value);
   }
 }

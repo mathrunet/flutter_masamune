@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations
@@ -54,11 +55,13 @@ class _$PurchaseUserModelCollection
 
   @override
   Future<CollectionBase<_$PurchaseUserModelDocument>> filter(
-      _$_PurchaseUserModelCollectionQuery Function(
-              _$_PurchaseUserModelCollectionQuery source)
-          callback) {
-    final query =
-        callback.call(_$_PurchaseUserModelCollectionQuery(modelQuery));
+    _$_PurchaseUserModelCollectionQuery Function(
+      _$_PurchaseUserModelCollectionQuery source,
+    ) callback,
+  ) {
+    final query = callback.call(
+      _$_PurchaseUserModelCollectionQuery(modelQuery),
+    );
     return replaceQuery((_) => query.modelQuery);
   }
 }
@@ -98,15 +101,25 @@ class _$PurchaseUserModelDocumentQuery {
   _$_PurchaseUserModelDocumentQuery call(
     Object _id, {
     ModelAdapter? adapter,
+    bool useTestModelAdapter = true,
     ModelAccessQuery? accessQuery,
   }) {
-    return _$_PurchaseUserModelDocumentQuery(DocumentModelQuery(
-      "plugins/iap/user/$_id",
-      adapter: adapter ?? _$PurchaseUserModelDocument.defaultModelAdapter,
-      accessQuery:
-          accessQuery ?? _$PurchaseUserModelDocument.defaultModelAccessQuery,
-      validationQueries: _$PurchaseUserModelDocument.defaultValidationQueries,
-    ));
+    return _$_PurchaseUserModelDocumentQuery(
+      DocumentModelQuery(
+        "plugins/iap/user/$_id",
+        adapter: adapter ?? _$PurchaseUserModelDocument.defaultModelAdapter,
+        useTestModelAdapter: useTestModelAdapter,
+        accessQuery:
+            accessQuery ?? _$PurchaseUserModelDocument.defaultModelAccessQuery,
+        validationQueries: _$PurchaseUserModelDocument.defaultValidationQueries,
+      ),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return RegExp(
+      "plugins/iap/user/[^/]+".trimQuery().trimString("/"),
+    ).hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -131,16 +144,27 @@ class _$PurchaseUserModelCollectionQuery {
 
   @useResult
   _$_PurchaseUserModelCollectionQuery call({
+    bool useTestModelAdapter = true,
     ModelAdapter? adapter,
     ModelAccessQuery? accessQuery,
   }) {
-    return _$_PurchaseUserModelCollectionQuery(CollectionModelQuery(
-      "plugins/iap/user",
-      adapter: adapter ?? _$PurchaseUserModelCollection.defaultModelAdapter,
-      accessQuery:
-          accessQuery ?? _$PurchaseUserModelCollection.defaultModelAccessQuery,
-      validationQueries: _$PurchaseUserModelCollection.defaultValidationQueries,
-    ));
+    return _$_PurchaseUserModelCollectionQuery(
+      CollectionModelQuery(
+        "plugins/iap/user",
+        adapter: adapter ?? _$PurchaseUserModelCollection.defaultModelAdapter,
+        useTestModelAdapter: useTestModelAdapter,
+        accessQuery: accessQuery ??
+            _$PurchaseUserModelCollection.defaultModelAccessQuery,
+        validationQueries:
+            _$PurchaseUserModelCollection.defaultValidationQueries,
+      ),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return RegExp(
+      "plugins/iap/user".trimQuery().trimString("/"),
+    ).hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -159,11 +183,9 @@ class _$_PurchaseUserModelCollectionQuery
   String get queryName => modelQuery.toString();
 
   static _$_PurchaseUserModelCollectionQuery _toQuery(
-          CollectionModelQuery query) =>
+    CollectionModelQuery query,
+  ) =>
       _$_PurchaseUserModelCollectionQuery(query);
-
-  _$_PurchaseUserModelCollectionQuery limitTo(int value) =>
-      _$_PurchaseUserModelCollectionQuery(modelQuery.limitTo(value));
 
   _$_PurchaseUserModelCollectionQuery collectionGroup() =>
       _$_PurchaseUserModelCollectionQuery(modelQuery.collectionGroup());
@@ -171,16 +193,28 @@ class _$_PurchaseUserModelCollectionQuery
   _$_PurchaseUserModelCollectionQuery reset() =>
       _$_PurchaseUserModelCollectionQuery(modelQuery.reset());
 
+  _$_PurchaseUserModelCollectionQuery remove(ModelQueryFilterType type) =>
+      _$_PurchaseUserModelCollectionQuery(modelQuery.remove(type));
+
   _$_PurchaseUserModelCollectionQuery notifyDocumentChanges() =>
       _$_PurchaseUserModelCollectionQuery(modelQuery.notifyDocumentChanges());
 
+  _$_PurchaseUserModelCollectionQuery limitTo(int value) =>
+      _$_PurchaseUserModelCollectionQuery(modelQuery.limitTo(value));
+
   StringModelQuerySelector<_$_PurchaseUserModelCollectionQuery> get uid =>
       StringModelQuerySelector<_$_PurchaseUserModelCollectionQuery>(
-          key: "@uid", toQuery: _toQuery, modelQuery: modelQuery);
+        key: "@uid",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
 
   NumModelQuerySelector<_$_PurchaseUserModelCollectionQuery> get value =>
       NumModelQuerySelector<_$_PurchaseUserModelCollectionQuery>(
-          key: "value", toQuery: _toQuery, modelQuery: modelQuery);
+        key: "value",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
 }
 
 typedef _$PurchaseUserModelMirrorRefPath = _$PurchaseUserModelRefPath;

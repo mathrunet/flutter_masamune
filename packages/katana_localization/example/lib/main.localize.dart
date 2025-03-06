@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps
@@ -10,8 +11,9 @@ part of 'main.dart';
 
 abstract class _$AppLocalize extends AppLocalizeBase {
   @override
-  List<LocalizationsDelegate> delegates(
-      [List<LocalizationsDelegate> delegates = const []]) {
+  List<LocalizationsDelegate> delegates([
+    List<LocalizationsDelegate> delegates = const [],
+  ]) {
     final supportDelegates = <LocalizationsDelegate>[];
     for (final d in delegates) {
       if (supportDelegates.any((element) => element.type == d.type)) {
@@ -39,13 +41,15 @@ abstract class _$AppLocalize extends AppLocalizeBase {
   }
 
   _$AppLocalizeBase get(Locale locale) {
-    var res = _$appLocalizeLocalizations.entries
-        .firstWhereOrNull((e) => e.key == locale);
+    var res = _$appLocalizeLocalizations.entries.firstWhereOrNull(
+      (e) => e.key == locale,
+    );
     if (res != null) {
       return res.value;
     }
-    res = _$appLocalizeLocalizations.entries
-        .firstWhereOrNull((e) => e.key.languageCode == locale.languageCode);
+    res = _$appLocalizeLocalizations.entries.firstWhereOrNull(
+      (e) => e.key.languageCode == locale.languageCode,
+    );
     if (res != null) {
       return res.value;
     }
@@ -57,7 +61,7 @@ final _$appLocalizeLocalizations = {
   Locale("en", "US"): _$AppLocalizeEnus(),
   Locale("ja", "JP"): _$AppLocalizeJajp(),
   Locale("zh", "CN"): _$AppLocalizeZhcn(),
-  Locale("ko", "KR"): _$AppLocalizeKokr()
+  Locale("ko", "KR"): _$AppLocalizeKokr(),
 };
 
 abstract class _$AppLocalizeBase {
@@ -85,7 +89,13 @@ abstract class _$AppLocalizeBase {
 
   String get prev => throw UnimplementedError();
 
+  String get toNext => throw UnimplementedError();
+
+  String get toPrev => throw UnimplementedError();
+
   String get skip => throw UnimplementedError();
+
+  String get result => throw UnimplementedError();
 
   String get done => throw UnimplementedError();
 
@@ -147,6 +157,8 @@ abstract class _$AppLocalizeBase {
 
   String get register => throw UnimplementedError();
 
+  String get registration => throw UnimplementedError();
+
   String get save => throw UnimplementedError();
 
   String get data => throw UnimplementedError();
@@ -175,9 +187,27 @@ abstract class _$AppLocalizeBase {
 
   String get dateTime => throw UnimplementedError();
 
+  String get review => throw UnimplementedError();
+
+  String get buy => throw UnimplementedError();
+
+  String get buying => throw UnimplementedError();
+
+  String get alreadyBought => throw UnimplementedError();
+
+  String get alreadyRegistered => throw UnimplementedError();
+
+  String get restore => throw UnimplementedError();
+
   String get public => throw UnimplementedError();
 
   String get private => throw UnimplementedError();
+
+  String get agreement => throw UnimplementedError();
+
+  String get termsOfUse => throw UnimplementedError();
+
+  String get privacyPolicy => throw UnimplementedError();
 
   String get user => throw UnimplementedError();
 
@@ -218,6 +248,12 @@ abstract class _$AppLocalizeBase {
   String get latest => throw UnimplementedError();
 
   String get sns => throw UnimplementedError();
+
+  String get store => throw UnimplementedError();
+
+  String get subscription => throw UnimplementedError();
+
+  String get billingStatus => throw UnimplementedError();
 
   String get menu => throw UnimplementedError();
 
@@ -285,6 +321,15 @@ abstract class _$AppLocalizeBase {
 
   String get sendCode => throw UnimplementedError();
 
+  String get profileSettings => throw UnimplementedError();
+
+  String get accountDeletion => throw UnimplementedError();
+
+  String get addMediaByTakingPicturesWithTheCamera =>
+      throw UnimplementedError();
+
+  String get addMediaFromTheLibrary => throw UnimplementedError();
+
   String get enterThe6DigitCodeFromTheSMS => throw UnimplementedError();
 
   String get youWillLogOutAreYouOK => throw UnimplementedError();
@@ -293,7 +338,17 @@ abstract class _$AppLocalizeBase {
       get passwordResetEmailHasBeenSentToYouPleaseUseTheLinkInTheEmailToSetANewPassword =>
           throw UnimplementedError();
 
+  String get pleaseRegisterAgain => throw UnimplementedError();
+
   String get pleaseTryAgain => throw UnimplementedError();
+
+  String
+      get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
+          throw UnimplementedError();
+
+  String
+      get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
+          throw UnimplementedError();
 
   String get couldNotLoginPleaseCheckYourLoginInformationAgain =>
       throw UnimplementedError();
@@ -301,10 +356,19 @@ abstract class _$AppLocalizeBase {
   _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Base
       get initializationFailedExitTheApplication => throw UnimplementedError();
 
+  String get thereIsANewUpdate => throw UnimplementedError();
+
+  String
+      get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
+          throw UnimplementedError();
+
   _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Base $(Object? _p1) =>
       throw UnimplementedError();
 
   _$b44b04c9b27cca846b55b5015c24d2fe11b4ad27Base get pleaseEnter =>
+      throw UnimplementedError();
+
+  _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Base get pleaseSelect =>
       throw UnimplementedError();
 
   _$6adf8b0c22ee4670d3ed659c0600bd8968824bfdBase get youWillDelete =>
@@ -320,6 +384,12 @@ abstract class _$AppLocalizeBase {
       throw UnimplementedError();
 
   _$20fad005e0b3bb9dde825fc81961b62b2c73efd2Base get goTo =>
+      throw UnimplementedError();
+
+  _$8188dd5c635a839e3c04a430552a5c708948c159Base get registerTo =>
+      throw UnimplementedError();
+
+  _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Base get releaseFrom =>
       throw UnimplementedError();
 
   String get english => throw UnimplementedError();
@@ -358,6 +428,22 @@ abstract class _$AppLocalizeBase {
 
   String get seconds => throw UnimplementedError();
 
+  String get monday => throw UnimplementedError();
+
+  String get tuesday => throw UnimplementedError();
+
+  String get wednesday => throw UnimplementedError();
+
+  String get thursday => throw UnimplementedError();
+
+  String get friday => throw UnimplementedError();
+
+  String get saturday => throw UnimplementedError();
+
+  String get sunday => throw UnimplementedError();
+
+  String get holiday => throw UnimplementedError();
+
   String get google => throw UnimplementedError();
 
   String get apple => throw UnimplementedError();
@@ -372,6 +458,8 @@ abstract class _$AppLocalizeBase {
       throw UnimplementedError();
 
   String get copyToClipboard => throw UnimplementedError();
+
+  String get wouldYouLikeToReviewTheApp => throw UnimplementedError();
 }
 
 class _$AppLocalizeEnus extends _$AppLocalizeBase {
@@ -411,7 +499,16 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   String get prev => "Prev";
 
   @override
+  String get toNext => "Next";
+
+  @override
+  String get toPrev => "Prev";
+
+  @override
   String get skip => "Skip";
+
+  @override
+  String get result => "Result";
 
   @override
   String get done => "Done";
@@ -504,6 +601,9 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   String get register => "Register";
 
   @override
+  String get registration => "Registration";
+
+  @override
   String get save => "Save";
 
   @override
@@ -546,10 +646,37 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   String get dateTime => "DateTime";
 
   @override
+  String get review => "Review";
+
+  @override
+  String get buy => "Buy";
+
+  @override
+  String get buying => "Buying";
+
+  @override
+  String get alreadyBought => "Already bought";
+
+  @override
+  String get alreadyRegistered => "Already registered";
+
+  @override
+  String get restore => "Restore";
+
+  @override
   String get public => "Public";
 
   @override
   String get private => "Private";
+
+  @override
+  String get agreement => "Agreement";
+
+  @override
+  String get termsOfUse => "Terms of Use";
+
+  @override
+  String get privacyPolicy => "Privacy Policy";
 
   @override
   String get user => "User";
@@ -610,6 +737,15 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
 
   @override
   String get sns => "SNS";
+
+  @override
+  String get store => "Store";
+
+  @override
+  String get subscription => "Subscription";
+
+  @override
+  String get billingStatus => "Billing status";
 
   @override
   String get menu => "Menu";
@@ -710,6 +846,19 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   String get sendCode => "Send code";
 
   @override
+  String get profileSettings => "Profile Settings";
+
+  @override
+  String get accountDeletion => "Account Deletion";
+
+  @override
+  String get addMediaByTakingPicturesWithTheCamera =>
+      "Add media by taking pictures with the camera";
+
+  @override
+  String get addMediaFromTheLibrary => "Add media from the library";
+
+  @override
   String get enterThe6DigitCodeFromTheSMS =>
       "Enter the 6-digit code from the SMS.";
 
@@ -721,7 +870,18 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
       "Password reset email has been sent to you.\n\nPlease use the link in the email to set a new password.";
 
   @override
+  String get pleaseRegisterAgain => "Please register again.";
+
+  @override
   String get pleaseTryAgain => "Please try again.";
+
+  @override
+  String get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
+      "Do you want to delete your account?\n\nOnce an account is deleted, it cannot be restored.";
+
+  @override
+  String get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
+      "Since your subscription is active, you cannot delete your account.\n\nPlease cancel your subscription and try again.";
 
   @override
   String get couldNotLoginPleaseCheckYourLoginInformationAgain =>
@@ -733,12 +893,23 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
           _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Enus();
 
   @override
+  String get thereIsANewUpdate => "There is a new update";
+
+  @override
+  String get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
+      "There is a new update.\n\nPlease update the application in the store and then launch the application again.";
+
+  @override
   _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Enus $(Object? _p1) =>
       _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Enus(p1: _p1);
 
   @override
   _$b44b04c9b27cca846b55b5015c24d2fe11b4ad27Enus get pleaseEnter =>
       _$b44b04c9b27cca846b55b5015c24d2fe11b4ad27Enus();
+
+  @override
+  _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Enus get pleaseSelect =>
+      _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Enus();
 
   @override
   _$6adf8b0c22ee4670d3ed659c0600bd8968824bfdEnus get youWillDelete =>
@@ -759,6 +930,14 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   @override
   _$20fad005e0b3bb9dde825fc81961b62b2c73efd2Enus get goTo =>
       _$20fad005e0b3bb9dde825fc81961b62b2c73efd2Enus();
+
+  @override
+  _$8188dd5c635a839e3c04a430552a5c708948c159Enus get registerTo =>
+      _$8188dd5c635a839e3c04a430552a5c708948c159Enus();
+
+  @override
+  _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Enus get releaseFrom =>
+      _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Enus();
 
   @override
   String get english => "English";
@@ -815,6 +994,30 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   String get seconds => "seconds";
 
   @override
+  String get monday => "Monday";
+
+  @override
+  String get tuesday => "Tuesday";
+
+  @override
+  String get wednesday => "Wednesday";
+
+  @override
+  String get thursday => "Thursday";
+
+  @override
+  String get friday => "Friday";
+
+  @override
+  String get saturday => "Saturday";
+
+  @override
+  String get sunday => "Sunday";
+
+  @override
+  String get holiday => "Holiday";
+
+  @override
   String get google => "Google";
 
   @override
@@ -835,6 +1038,9 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
 
   @override
   String get copyToClipboard => "Copy to clipboard";
+
+  @override
+  String get wouldYouLikeToReviewTheApp => "Would you like to review the app?";
 }
 
 class _$AppLocalizeJajp extends _$AppLocalizeBase {
@@ -874,7 +1080,16 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
   String get prev => "前";
 
   @override
+  String get toNext => "次へ";
+
+  @override
+  String get toPrev => "前へ";
+
+  @override
   String get skip => "スキップ";
+
+  @override
+  String get result => "結果";
 
   @override
   String get done => "完了";
@@ -967,6 +1182,9 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
   String get register => "登録";
 
   @override
+  String get registration => "登録";
+
+  @override
   String get save => "保存";
 
   @override
@@ -1009,10 +1227,37 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
   String get dateTime => "日時";
 
   @override
+  String get review => "評価";
+
+  @override
+  String get buy => "購入";
+
+  @override
+  String get buying => "購入";
+
+  @override
+  String get alreadyBought => "購入済み";
+
+  @override
+  String get alreadyRegistered => "登録済み";
+
+  @override
+  String get restore => "復元";
+
+  @override
   String get public => "公開";
 
   @override
   String get private => "非公開";
+
+  @override
+  String get agreement => "注意事項";
+
+  @override
+  String get termsOfUse => "利用規約";
+
+  @override
+  String get privacyPolicy => "プライバシーポリシー";
 
   @override
   String get user => "ユーザー";
@@ -1073,6 +1318,15 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
 
   @override
   String get sns => "SNS";
+
+  @override
+  String get store => "ストア";
+
+  @override
+  String get subscription => "サブスクリプション";
+
+  @override
+  String get billingStatus => "課金状態";
 
   @override
   String get menu => "メニュー";
@@ -1173,6 +1427,18 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
   String get sendCode => "コードを送信";
 
   @override
+  String get profileSettings => "プロフィール設定";
+
+  @override
+  String get accountDeletion => "アカウント削除";
+
+  @override
+  String get addMediaByTakingPicturesWithTheCamera => "カメラで撮影してメディアを追加";
+
+  @override
+  String get addMediaFromTheLibrary => "ライブラリからメディアを追加";
+
+  @override
   String get enterThe6DigitCodeFromTheSMS => "SMSに記載されている6桁のコードを入力してください。";
 
   @override
@@ -1184,7 +1450,20 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
           "パスワードリセットメールを送信しました。\n\nメール中に記載されているリンクから新しいパスワードを設定してください。";
 
   @override
+  String get pleaseRegisterAgain => "お手数ですが、再度新規登録をお願いします。";
+
+  @override
   String get pleaseTryAgain => "もう一度お試しください。";
+
+  @override
+  String
+      get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
+          "アカウントを削除しますか？\n\n一度削除すると元に戻すことはできません。";
+
+  @override
+  String
+      get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
+          "サブスクリプションが有効のため、アカウント削除はできません。\n\n一度サブスクリプションを解約した後、再度お試しください。";
 
   @override
   String get couldNotLoginPleaseCheckYourLoginInformationAgain =>
@@ -1196,12 +1475,24 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
           _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Jajp();
 
   @override
+  String get thereIsANewUpdate => "新しいアップデート";
+
+  @override
+  String
+      get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
+          "新しいアップデートがあります。\n\nストアでアプリをアップデートしてから再度アプリを起動してください。";
+
+  @override
   _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Jajp $(Object? _p1) =>
       _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Jajp(p1: _p1);
 
   @override
   _$b44b04c9b27cca846b55b5015c24d2fe11b4ad27Jajp get pleaseEnter =>
       _$b44b04c9b27cca846b55b5015c24d2fe11b4ad27Jajp();
+
+  @override
+  _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Jajp get pleaseSelect =>
+      _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Jajp();
 
   @override
   _$6adf8b0c22ee4670d3ed659c0600bd8968824bfdJajp get youWillDelete =>
@@ -1222,6 +1513,14 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
   @override
   _$20fad005e0b3bb9dde825fc81961b62b2c73efd2Jajp get goTo =>
       _$20fad005e0b3bb9dde825fc81961b62b2c73efd2Jajp();
+
+  @override
+  _$8188dd5c635a839e3c04a430552a5c708948c159Jajp get registerTo =>
+      _$8188dd5c635a839e3c04a430552a5c708948c159Jajp();
+
+  @override
+  _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Jajp get releaseFrom =>
+      _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Jajp();
 
   @override
   String get english => "英語";
@@ -1278,6 +1577,30 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
   String get seconds => "秒";
 
   @override
+  String get monday => "月曜日";
+
+  @override
+  String get tuesday => "火曜日";
+
+  @override
+  String get wednesday => "水曜日";
+
+  @override
+  String get thursday => "木曜日";
+
+  @override
+  String get friday => "金曜日";
+
+  @override
+  String get saturday => "土曜日";
+
+  @override
+  String get sunday => "日曜日";
+
+  @override
+  String get holiday => "假期";
+
+  @override
   String get google => "Google";
 
   @override
@@ -1298,6 +1621,9 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
 
   @override
   String get copyToClipboard => "クリップボードにコピー";
+
+  @override
+  String get wouldYouLikeToReviewTheApp => "アプリを評価してみませんか？";
 }
 
 class _$AppLocalizeZhcn extends _$AppLocalizeBase {
@@ -1337,7 +1663,16 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
   String get prev => "前";
 
   @override
+  String get toNext => "到下一个";
+
+  @override
+  String get toPrev => "以前的";
+
+  @override
   String get skip => "跳过";
+
+  @override
+  String get result => "结果";
 
   @override
   String get done => "完成";
@@ -1430,6 +1765,9 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
   String get register => "登记";
 
   @override
+  String get registration => "登记";
+
+  @override
   String get save => "保持";
 
   @override
@@ -1472,10 +1810,37 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
   String get dateTime => "时间日期";
 
   @override
+  String get review => "评估";
+
+  @override
+  String get buy => "购买";
+
+  @override
+  String get buying => "购买";
+
+  @override
+  String get alreadyBought => "已购买";
+
+  @override
+  String get alreadyRegistered => "挂号的";
+
+  @override
+  String get restore => "恢复";
+
+  @override
   String get public => "公开";
 
   @override
   String get private => "非公开";
+
+  @override
+  String get agreement => "协议";
+
+  @override
+  String get termsOfUse => "使用条款";
+
+  @override
+  String get privacyPolicy => "隐私政策";
 
   @override
   String get user => "用户";
@@ -1536,6 +1901,15 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
 
   @override
   String get sns => "SNS";
+
+  @override
+  String get store => "店铺";
+
+  @override
+  String get subscription => "订阅";
+
+  @override
+  String get billingStatus => "计费状态";
 
   @override
   String get menu => "菜单";
@@ -1635,6 +2009,18 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
   String get sendCode => "发送代码";
 
   @override
+  String get profileSettings => "个人资料设置";
+
+  @override
+  String get accountDeletion => "帐户删除";
+
+  @override
+  String get addMediaByTakingPicturesWithTheCamera => "通过相机拍摄添加媒体";
+
+  @override
+  String get addMediaFromTheLibrary => "从库中添加媒体";
+
+  @override
   String get enterThe6DigitCodeFromTheSMS => "输入SMS中列出的6个数字代码。";
 
   @override
@@ -1646,7 +2032,20 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
           "我发送了密码重置电子邮件。\n\n从电子邮件中列出的链接中设置一个新密码。";
 
   @override
+  String get pleaseRegisterAgain => "对于给您带来的不便，我们深表歉意，但请重新注册。";
+
+  @override
   String get pleaseTryAgain => "请再试一次。";
+
+  @override
+  String
+      get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
+          "您想删除您的帐户吗？ \n\n一旦删除，将无法恢复。";
+
+  @override
+  String
+      get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
+          "您的帐户无法删除，因为您的订阅处于活动状态。 \n\n请取消您的订阅并重试。";
 
   @override
   String get couldNotLoginPleaseCheckYourLoginInformationAgain =>
@@ -1658,12 +2057,24 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
           _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Zhcn();
 
   @override
+  String get thereIsANewUpdate => "新更新";
+
+  @override
+  String
+      get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
+          "有新的更新。\n\n请从商店更新应用程序，然后再次启动该应用程序。";
+
+  @override
   _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Zhcn $(Object? _p1) =>
       _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Zhcn(p1: _p1);
 
   @override
   _$b44b04c9b27cca846b55b5015c24d2fe11b4ad27Zhcn get pleaseEnter =>
       _$b44b04c9b27cca846b55b5015c24d2fe11b4ad27Zhcn();
+
+  @override
+  _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Zhcn get pleaseSelect =>
+      _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Zhcn();
 
   @override
   _$6adf8b0c22ee4670d3ed659c0600bd8968824bfdZhcn get youWillDelete =>
@@ -1684,6 +2095,14 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
   @override
   _$20fad005e0b3bb9dde825fc81961b62b2c73efd2Zhcn get goTo =>
       _$20fad005e0b3bb9dde825fc81961b62b2c73efd2Zhcn();
+
+  @override
+  _$8188dd5c635a839e3c04a430552a5c708948c159Zhcn get registerTo =>
+      _$8188dd5c635a839e3c04a430552a5c708948c159Zhcn();
+
+  @override
+  _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Zhcn get releaseFrom =>
+      _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Zhcn();
 
   @override
   String get english => "英语";
@@ -1740,6 +2159,30 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
   String get seconds => "第二";
 
   @override
+  String get monday => "星期 一";
+
+  @override
+  String get tuesday => "星期 二";
+
+  @override
+  String get wednesday => "星期 三";
+
+  @override
+  String get thursday => "星期 四";
+
+  @override
+  String get friday => "星期 五";
+
+  @override
+  String get saturday => "星期 六";
+
+  @override
+  String get sunday => "星期 天";
+
+  @override
+  String get holiday => "휴일";
+
+  @override
   String get google => "Google";
 
   @override
@@ -1760,6 +2203,9 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
 
   @override
   String get copyToClipboard => "复制到剪贴板";
+
+  @override
+  String get wouldYouLikeToReviewTheApp => "您想评价该应用程序吗？";
 }
 
 class _$AppLocalizeKokr extends _$AppLocalizeBase {
@@ -1799,7 +2245,16 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
   String get prev => "전에";
 
   @override
+  String get toNext => "다음";
+
+  @override
+  String get toPrev => "이전";
+
+  @override
   String get skip => "건너뛰다";
+
+  @override
+  String get result => "결과";
 
   @override
   String get done => "완성";
@@ -1892,6 +2347,9 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
   String get register => "등록하다";
 
   @override
+  String get registration => "등록하다";
+
+  @override
   String get save => "유지하다";
 
   @override
@@ -1934,10 +2392,37 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
   String get dateTime => "일시";
 
   @override
+  String get review => "평가";
+
+  @override
+  String get buy => "구매";
+
+  @override
+  String get buying => "구매";
+
+  @override
+  String get alreadyBought => "구매됨";
+
+  @override
+  String get alreadyRegistered => "등록됨";
+
+  @override
+  String get restore => "복원";
+
+  @override
   String get public => "공개";
 
   @override
   String get private => "비공개";
+
+  @override
+  String get agreement => "합의";
+
+  @override
+  String get termsOfUse => "이용약관";
+
+  @override
+  String get privacyPolicy => "개인 정보 보호 정책";
 
   @override
   String get user => "사용자";
@@ -1998,6 +2483,15 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
 
   @override
   String get sns => "SNS";
+
+  @override
+  String get store => "스토어";
+
+  @override
+  String get subscription => "구독";
+
+  @override
+  String get billingStatus => "청구 상태";
 
   @override
   String get menu => "메뉴";
@@ -2098,6 +2592,18 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
   String get sendCode => "코드를 보내십시오";
 
   @override
+  String get profileSettings => "프로필 설정";
+
+  @override
+  String get accountDeletion => "계정 삭제";
+
+  @override
+  String get addMediaByTakingPicturesWithTheCamera => "카메라로 촬영하여 미디어 추가";
+
+  @override
+  String get addMediaFromTheLibrary => "라이브러리에서 미디어 추가";
+
+  @override
   String get enterThe6DigitCodeFromTheSMS => "SMS에 나열된 6 자리 코드를 입력하십시오.";
 
   @override
@@ -2109,7 +2615,20 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
           "비밀번호 재설정 이메일을 보냈습니다. \n\n이메일에 나열된 링크에서 새 비밀번호를 설정합니다.";
 
   @override
+  String get pleaseRegisterAgain => "죄송 합니다만, 다시 신규 등록을 부탁드립니다.";
+
+  @override
   String get pleaseTryAgain => "다시 시도하십시오.";
+
+  @override
+  String
+      get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
+          "계정을 삭제하시겠습니까? \n\n한 번 삭제하면 되돌릴 수 없습니다.";
+
+  @override
+  String
+      get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
+          "구독이 활성화되어 계정을 삭제할 수 없습니다.";
 
   @override
   String get couldNotLoginPleaseCheckYourLoginInformationAgain =>
@@ -2121,12 +2640,24 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
           _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Kokr();
 
   @override
+  String get thereIsANewUpdate => "새로운 업데이트";
+
+  @override
+  String
+      get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
+          "새로운 업데이트가 있습니다.\n\n스토어에서 앱을 업데이트한 다음 앱을 다시 시작하세요.";
+
+  @override
   _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Kokr $(Object? _p1) =>
       _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Kokr(p1: _p1);
 
   @override
   _$b44b04c9b27cca846b55b5015c24d2fe11b4ad27Kokr get pleaseEnter =>
       _$b44b04c9b27cca846b55b5015c24d2fe11b4ad27Kokr();
+
+  @override
+  _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Kokr get pleaseSelect =>
+      _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Kokr();
 
   @override
   _$6adf8b0c22ee4670d3ed659c0600bd8968824bfdKokr get youWillDelete =>
@@ -2147,6 +2678,14 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
   @override
   _$20fad005e0b3bb9dde825fc81961b62b2c73efd2Kokr get goTo =>
       _$20fad005e0b3bb9dde825fc81961b62b2c73efd2Kokr();
+
+  @override
+  _$8188dd5c635a839e3c04a430552a5c708948c159Kokr get registerTo =>
+      _$8188dd5c635a839e3c04a430552a5c708948c159Kokr();
+
+  @override
+  _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Kokr get releaseFrom =>
+      _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Kokr();
 
   @override
   String get english => "영어";
@@ -2203,6 +2742,30 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
   String get seconds => "두번째";
 
   @override
+  String get monday => "월요일";
+
+  @override
+  String get tuesday => "화요일";
+
+  @override
+  String get wednesday => "수요일";
+
+  @override
+  String get thursday => "목요일";
+
+  @override
+  String get friday => "금요일";
+
+  @override
+  String get saturday => "토요일";
+
+  @override
+  String get sunday => "일요일";
+
+  @override
+  String get holiday => "";
+
+  @override
   String get google => "Google";
 
   @override
@@ -2223,6 +2786,9 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
 
   @override
   String get copyToClipboard => "클립 보드에 복사하십시오";
+
+  @override
+  String get wouldYouLikeToReviewTheApp => "앱을 평가해 보지 않겠습니까?";
 }
 
 abstract class _$e45975972292dd2cace745efd3b9606d0d570babBase {
@@ -2252,7 +2818,7 @@ class _$e45975972292dd2cace745efd3b9606d0d570babZhcn
   const _$e45975972292dd2cace745efd3b9606d0d570babZhcn();
 
   @override
-  String $(Object? _p1) => "带有提供商的标志-in";
+  String $(Object? _p1) => "使用 ${_p1} 登录";
 }
 
 class _$e45975972292dd2cace745efd3b9606d0d570babKokr
@@ -2260,7 +2826,7 @@ class _$e45975972292dd2cace745efd3b9606d0d570babKokr
   const _$e45975972292dd2cace745efd3b9606d0d570babKokr();
 
   @override
-  String $(Object? _p1) => "${_p1}와 함께 표시";
+  String $(Object? _p1) => "${_p1} 로 로그인";
 }
 
 abstract class _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Base {
@@ -2383,11 +2949,27 @@ abstract class _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Base {
 
   String get isNotEntered => throw UnimplementedError();
 
+  String get isNotSelected => throw UnimplementedError();
+
   String get mayBeIncorrect => throw UnimplementedError();
 
   String get doesNotMatch => throw UnimplementedError();
 
   String get notFound => throw UnimplementedError();
+
+  String get hasStarted => throw UnimplementedError();
+
+  String get haveStarted => throw UnimplementedError();
+
+  String get hasFinished => throw UnimplementedError();
+
+  String get haveFinished => throw UnimplementedError();
+
+  String get hasBeenRestored => throw UnimplementedError();
+
+  String get haveBeenRestored => throw UnimplementedError();
+
+  String get isAlreadyDeleted => throw UnimplementedError();
 
   String get isLoading => throw UnimplementedError();
 
@@ -2461,6 +3043,9 @@ class _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Enus
   String get isNotEntered => "${_p1} is not entered.";
 
   @override
+  String get isNotSelected => "${_p1} is not selected.";
+
+  @override
   String get mayBeIncorrect => "${_p1} may be incorrect.";
 
   @override
@@ -2468,6 +3053,27 @@ class _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Enus
 
   @override
   String get notFound => "${_p1} not found.";
+
+  @override
+  String get hasStarted => "${_p1} has started.";
+
+  @override
+  String get haveStarted => "${_p1} have started.";
+
+  @override
+  String get hasFinished => "${_p1} has started.";
+
+  @override
+  String get haveFinished => "${_p1} have started.";
+
+  @override
+  String get hasBeenRestored => "${_p1} has been restored.";
+
+  @override
+  String get haveBeenRestored => "${_p1} have been restored.";
+
+  @override
+  String get isAlreadyDeleted => "${_p1} is already deleted.";
 
   @override
   String get isLoading => "${_p1} is loading...";
@@ -2552,6 +3158,9 @@ class _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Jajp
   String get isNotEntered => "${_p1}が入力されていません。";
 
   @override
+  String get isNotSelected => "${_p1}が選択されていません。";
+
+  @override
   String get mayBeIncorrect => "${_p1}が間違っている可能性があります。";
 
   @override
@@ -2559,6 +3168,27 @@ class _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Jajp
 
   @override
   String get notFound => "${_p1}が見つかりません。";
+
+  @override
+  String get hasStarted => "${_p1}を開始しました。";
+
+  @override
+  String get haveStarted => "${_p1}を開始しました。";
+
+  @override
+  String get hasFinished => "${_p1}を終了しました。";
+
+  @override
+  String get haveFinished => "${_p1}を終了しました。";
+
+  @override
+  String get hasBeenRestored => "${_p1}を復元しました。";
+
+  @override
+  String get haveBeenRestored => "${_p1}を復元しました。";
+
+  @override
+  String get isAlreadyDeleted => "${_p1}はすでに削除されています。";
 
   @override
   String get isLoading => "${_p1}読み込み中...";
@@ -2643,13 +3273,37 @@ class _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Zhcn
   String get isNotEntered => "${_p1}未输入。";
 
   @override
+  String get isNotSelected => "${_p1}未选择。";
+
+  @override
   String get mayBeIncorrect => "${_p1}可能是错误的。";
 
   @override
   String get doesNotMatch => "${_p1}不匹配。";
 
   @override
-  String get notFound => "名称找不到。";
+  String get notFound => "${_p1}找不到。";
+
+  @override
+  String get hasStarted => "${_p1} 开始了。";
+
+  @override
+  String get haveStarted => "${_p1} 开始了。";
+
+  @override
+  String get hasFinished => "${_p1} 已完成。";
+
+  @override
+  String get haveFinished => "${_p1} 已完成。";
+
+  @override
+  String get hasBeenRestored => "${_p1} 已恢复。";
+
+  @override
+  String get haveBeenRestored => "${_p1} 已恢复。";
+
+  @override
+  String get isAlreadyDeleted => "${_p1}已被删除。";
 
   @override
   String get isLoading => "${_p1}正在加载...";
@@ -2734,6 +3388,9 @@ class _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Kokr
   String get isNotEntered => "${_p1}이 입력되지 않았습니다.";
 
   @override
+  String get isNotSelected => "${_p1}이 선택되지 않았습니다.";
+
+  @override
   String get mayBeIncorrect => "${_p1}이 잘못 될 수 있습니다.";
 
   @override
@@ -2741,6 +3398,27 @@ class _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Kokr
 
   @override
   String get notFound => "${_p1}을 찾을 수 없습니다.";
+
+  @override
+  String get hasStarted => "${_p1}을 시작했습니다.";
+
+  @override
+  String get haveStarted => "${_p1}을 시작했습니다.";
+
+  @override
+  String get hasFinished => "${_p1}을 종료했습니다.";
+
+  @override
+  String get haveFinished => "${_p1}을 종료했습니다.";
+
+  @override
+  String get hasBeenRestored => "${_p1}을 복원했습니다.";
+
+  @override
+  String get haveBeenRestored => "${_p1}을 복원했습니다.";
+
+  @override
+  String get isAlreadyDeleted => "${_p1}는 이미 삭제되었습니다.";
 
   @override
   String get isLoading => "${_p1}님이 로드 중입니다...";
@@ -3012,6 +3690,44 @@ class _$b44b04c9b27cca846b55b5015c24d2fe11b4ad27Kokr
 
   @override
   String $(Object? _p1) => "${_p1}을 입력하세요.";
+}
+
+abstract class _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Base {
+  const _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Base();
+
+  String $(Object? _p1) => throw UnimplementedError();
+}
+
+class _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Enus
+    extends _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Base {
+  const _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Enus();
+
+  @override
+  String $(Object? _p1) => "Please select ${_p1}.";
+}
+
+class _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Jajp
+    extends _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Base {
+  const _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Jajp();
+
+  @override
+  String $(Object? _p1) => "${_p1}を選択してください。";
+}
+
+class _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Zhcn
+    extends _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Base {
+  const _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Zhcn();
+
+  @override
+  String $(Object? _p1) => "请选择${_p1}。";
+}
+
+class _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Kokr
+    extends _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Base {
+  const _$a833ede9f85bddd383d93fef040f5fa1cfe21fc2Kokr();
+
+  @override
+  String $(Object? _p1) => "${_p1}을 선택하세요.";
 }
 
 abstract class _$6adf8b0c22ee4670d3ed659c0600bd8968824bfdBase {
@@ -3354,6 +4070,82 @@ class _$20fad005e0b3bb9dde825fc81961b62b2c73efd2Kokr
 
   @override
   String $(Object? _p1) => "${_p1}로 진행";
+}
+
+abstract class _$8188dd5c635a839e3c04a430552a5c708948c159Base {
+  const _$8188dd5c635a839e3c04a430552a5c708948c159Base();
+
+  String $(Object? _p1) => throw UnimplementedError();
+}
+
+class _$8188dd5c635a839e3c04a430552a5c708948c159Enus
+    extends _$8188dd5c635a839e3c04a430552a5c708948c159Base {
+  const _$8188dd5c635a839e3c04a430552a5c708948c159Enus();
+
+  @override
+  String $(Object? _p1) => "Register ${_p1}";
+}
+
+class _$8188dd5c635a839e3c04a430552a5c708948c159Jajp
+    extends _$8188dd5c635a839e3c04a430552a5c708948c159Base {
+  const _$8188dd5c635a839e3c04a430552a5c708948c159Jajp();
+
+  @override
+  String $(Object? _p1) => "${_p1}を登録";
+}
+
+class _$8188dd5c635a839e3c04a430552a5c708948c159Zhcn
+    extends _$8188dd5c635a839e3c04a430552a5c708948c159Base {
+  const _$8188dd5c635a839e3c04a430552a5c708948c159Zhcn();
+
+  @override
+  String $(Object? _p1) => "注册${_p1}";
+}
+
+class _$8188dd5c635a839e3c04a430552a5c708948c159Kokr
+    extends _$8188dd5c635a839e3c04a430552a5c708948c159Base {
+  const _$8188dd5c635a839e3c04a430552a5c708948c159Kokr();
+
+  @override
+  String $(Object? _p1) => "${_p1} 등록";
+}
+
+abstract class _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Base {
+  const _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Base();
+
+  String $(Object? _p1) => throw UnimplementedError();
+}
+
+class _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Enus
+    extends _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Base {
+  const _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Enus();
+
+  @override
+  String $(Object? _p1) => "Release ${_p1}";
+}
+
+class _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Jajp
+    extends _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Base {
+  const _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Jajp();
+
+  @override
+  String $(Object? _p1) => "${_p1}を解除";
+}
+
+class _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Zhcn
+    extends _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Base {
+  const _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Zhcn();
+
+  @override
+  String $(Object? _p1) => "删除${_p1}";
+}
+
+class _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Kokr
+    extends _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Base {
+  const _$74668b3ca73e99afbde0a422d31e6a07ed6cd315Kokr();
+
+  @override
+  String $(Object? _p1) => "${_p1} 해제";
 }
 
 abstract class _$00d0796f61e7ee7614446fbc3f31ae7dbab192adBase {

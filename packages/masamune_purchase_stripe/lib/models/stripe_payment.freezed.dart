@@ -35,8 +35,12 @@ mixin _$StripePaymentModel {
   @JsonKey(name: "default")
   bool get isDefault => throw _privateConstructorUsedError;
 
+  /// Serializes this StripePaymentModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StripePaymentModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StripePaymentModelCopyWith<StripePaymentModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -67,6 +71,8 @@ class _$StripePaymentModelCopyWithImpl<$Res, $Val extends StripePaymentModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StripePaymentModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -137,6 +143,8 @@ class __$$StripePaymentModelImplCopyWithImpl<$Res>
       $Res Function(_$StripePaymentModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripePaymentModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -242,12 +250,14 @@ class _$StripePaymentModelImpl extends _StripePaymentModel {
                 other.isDefault == isDefault));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, paymentId, type, expMonth,
       expYear, brand, numberLast, isDefault);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripePaymentModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StripePaymentModelImplCopyWith<_$StripePaymentModelImpl> get copyWith =>
@@ -298,8 +308,11 @@ abstract class _StripePaymentModel extends StripePaymentModel {
   @override
   @JsonKey(name: "default")
   bool get isDefault;
+
+  /// Create a copy of StripePaymentModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StripePaymentModelImplCopyWith<_$StripePaymentModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

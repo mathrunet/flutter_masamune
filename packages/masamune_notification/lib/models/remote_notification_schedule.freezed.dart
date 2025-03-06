@@ -24,8 +24,12 @@ mixin _$RemoteNotificationScheduleModel {
   ModelServerCommandRemoteNotificationSchedule get command =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this RemoteNotificationScheduleModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RemoteNotificationScheduleModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RemoteNotificationScheduleModelCopyWith<RemoteNotificationScheduleModel>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -52,6 +56,8 @@ class _$RemoteNotificationScheduleModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RemoteNotificationScheduleModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -88,6 +94,8 @@ class __$$RemoteNotificationScheduleModelImplCopyWithImpl<$Res>
       $Res Function(_$RemoteNotificationScheduleModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RemoteNotificationScheduleModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -129,11 +137,13 @@ class _$RemoteNotificationScheduleModelImpl
             (identical(other.command, command) || other.command == command));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, command);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RemoteNotificationScheduleModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RemoteNotificationScheduleModelImplCopyWith<
@@ -161,8 +171,11 @@ abstract class _RemoteNotificationScheduleModel
 
   @override
   ModelServerCommandRemoteNotificationSchedule get command;
+
+  /// Create a copy of RemoteNotificationScheduleModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RemoteNotificationScheduleModelImplCopyWith<
           _$RemoteNotificationScheduleModelImpl>
       get copyWith => throw _privateConstructorUsedError;

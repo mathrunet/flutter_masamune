@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations
@@ -21,7 +22,7 @@ enum _$StripePaymentModelKeys {
   expYear,
   brand,
   numberLast,
-  isDefault
+  isDefault,
 }
 
 class _$StripePaymentModelDocument extends DocumentBase<StripePaymentModel>
@@ -63,11 +64,13 @@ class _$StripePaymentModelCollection
 
   @override
   Future<CollectionBase<_$StripePaymentModelDocument>> filter(
-      _$_StripePaymentModelCollectionQuery Function(
-              _$_StripePaymentModelCollectionQuery source)
-          callback) {
-    final query =
-        callback.call(_$_StripePaymentModelCollectionQuery(modelQuery));
+    _$_StripePaymentModelCollectionQuery Function(
+      _$_StripePaymentModelCollectionQuery source,
+    ) callback,
+  ) {
+    final query = callback.call(
+      _$_StripePaymentModelCollectionQuery(modelQuery),
+    );
     return replaceQuery((_) => query.modelQuery);
   }
 }
@@ -76,10 +79,8 @@ typedef _$StripePaymentModelMirrorCollection = _$StripePaymentModelCollection;
 
 @immutable
 class _$StripePaymentModelRefPath extends ModelRefPath<StripePaymentModel> {
-  const _$StripePaymentModelRefPath(
-    super.uid, {
-    required String userId,
-  }) : _userId = userId;
+  const _$StripePaymentModelRefPath(super.uid, {required String userId})
+      : _userId = userId;
 
   final String _userId;
 
@@ -118,15 +119,26 @@ class _$StripePaymentModelDocumentQuery {
     Object _id, {
     required String userId,
     ModelAdapter? adapter,
+    bool useTestModelAdapter = true,
     ModelAccessQuery? accessQuery,
   }) {
-    return _$_StripePaymentModelDocumentQuery(DocumentModelQuery(
-      "plugins/stripe/user/$userId/payment/$_id",
-      adapter: adapter ?? _$StripePaymentModelDocument.defaultModelAdapter,
-      accessQuery:
-          accessQuery ?? _$StripePaymentModelDocument.defaultModelAccessQuery,
-      validationQueries: _$StripePaymentModelDocument.defaultValidationQueries,
-    ));
+    return _$_StripePaymentModelDocumentQuery(
+      DocumentModelQuery(
+        "plugins/stripe/user/$userId/payment/$_id",
+        adapter: adapter ?? _$StripePaymentModelDocument.defaultModelAdapter,
+        useTestModelAdapter: useTestModelAdapter,
+        accessQuery:
+            accessQuery ?? _$StripePaymentModelDocument.defaultModelAccessQuery,
+        validationQueries:
+            _$StripePaymentModelDocument.defaultValidationQueries,
+      ),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return RegExp(
+      "plugins/stripe/user/[^/]+/payment/[^/]+".trimQuery().trimString("/"),
+    ).hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -152,17 +164,27 @@ class _$StripePaymentModelCollectionQuery {
   @useResult
   _$_StripePaymentModelCollectionQuery call({
     required String userId,
+    bool useTestModelAdapter = true,
     ModelAdapter? adapter,
     ModelAccessQuery? accessQuery,
   }) {
-    return _$_StripePaymentModelCollectionQuery(CollectionModelQuery(
-      "plugins/stripe/user/$userId/payment",
-      adapter: adapter ?? _$StripePaymentModelCollection.defaultModelAdapter,
-      accessQuery:
-          accessQuery ?? _$StripePaymentModelCollection.defaultModelAccessQuery,
-      validationQueries:
-          _$StripePaymentModelCollection.defaultValidationQueries,
-    ));
+    return _$_StripePaymentModelCollectionQuery(
+      CollectionModelQuery(
+        "plugins/stripe/user/$userId/payment",
+        adapter: adapter ?? _$StripePaymentModelCollection.defaultModelAdapter,
+        useTestModelAdapter: useTestModelAdapter,
+        accessQuery: accessQuery ??
+            _$StripePaymentModelCollection.defaultModelAccessQuery,
+        validationQueries:
+            _$StripePaymentModelCollection.defaultValidationQueries,
+      ),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return RegExp(
+      "plugins/stripe/user/[^/]+/payment".trimQuery().trimString("/"),
+    ).hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -181,11 +203,9 @@ class _$_StripePaymentModelCollectionQuery
   String get queryName => modelQuery.toString();
 
   static _$_StripePaymentModelCollectionQuery _toQuery(
-          CollectionModelQuery query) =>
+    CollectionModelQuery query,
+  ) =>
       _$_StripePaymentModelCollectionQuery(query);
-
-  _$_StripePaymentModelCollectionQuery limitTo(int value) =>
-      _$_StripePaymentModelCollectionQuery(modelQuery.limitTo(value));
 
   _$_StripePaymentModelCollectionQuery collectionGroup() =>
       _$_StripePaymentModelCollectionQuery(modelQuery.collectionGroup());
@@ -193,43 +213,73 @@ class _$_StripePaymentModelCollectionQuery
   _$_StripePaymentModelCollectionQuery reset() =>
       _$_StripePaymentModelCollectionQuery(modelQuery.reset());
 
+  _$_StripePaymentModelCollectionQuery remove(ModelQueryFilterType type) =>
+      _$_StripePaymentModelCollectionQuery(modelQuery.remove(type));
+
   _$_StripePaymentModelCollectionQuery notifyDocumentChanges() =>
       _$_StripePaymentModelCollectionQuery(modelQuery.notifyDocumentChanges());
 
+  _$_StripePaymentModelCollectionQuery limitTo(int value) =>
+      _$_StripePaymentModelCollectionQuery(modelQuery.limitTo(value));
+
   StringModelQuerySelector<_$_StripePaymentModelCollectionQuery> get uid =>
       StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
-          key: "@uid", toQuery: _toQuery, modelQuery: modelQuery);
+        key: "@uid",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
 
   StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>
       get paymentId =>
           StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
-              key: "paymentId", toQuery: _toQuery, modelQuery: modelQuery);
+            key: "id",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   StringModelQuerySelector<_$_StripePaymentModelCollectionQuery> get type =>
       StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
-          key: "type", toQuery: _toQuery, modelQuery: modelQuery);
+        key: "type",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
 
   NumModelQuerySelector<_$_StripePaymentModelCollectionQuery> get expMonth =>
       NumModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
-          key: "expMonth", toQuery: _toQuery, modelQuery: modelQuery);
+        key: "expMonth",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
 
   NumModelQuerySelector<_$_StripePaymentModelCollectionQuery> get expYear =>
       NumModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
-          key: "expYear", toQuery: _toQuery, modelQuery: modelQuery);
+        key: "expYear",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
 
   StringModelQuerySelector<_$_StripePaymentModelCollectionQuery> get brand =>
       StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
-          key: "brand", toQuery: _toQuery, modelQuery: modelQuery);
+        key: "brand",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
 
   StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>
       get numberLast =>
           StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
-              key: "numberLast", toQuery: _toQuery, modelQuery: modelQuery);
+            key: "numberLast",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   BooleanModelQuerySelector<_$_StripePaymentModelCollectionQuery>
       get isDefault =>
           BooleanModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
-              key: "isDefault", toQuery: _toQuery, modelQuery: modelQuery);
+            key: "default",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 }
 
 typedef _$StripePaymentModelMirrorRefPath = _$StripePaymentModelRefPath;

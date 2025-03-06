@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
@@ -9,11 +10,7 @@ part of 'main.dart';
 // **************************************************************************
 
 class _$_PrefsValue<T> {
-  _$_PrefsValue(
-    this._key,
-    this._def,
-    this._ref,
-  );
+  _$_PrefsValue(this._key, this._def, this._ref);
 
   final String _key;
 
@@ -92,10 +89,8 @@ mixin _$PrefsValue implements PrefsBase {
 }
 
 class _PrefsValue extends PrefsValue {
-  _PrefsValue({
-    String? userToken,
-    required double volumeSetting,
-  })  : _userToken = userToken,
+  _PrefsValue({String? userToken, required double volumeSetting})
+      : _userToken = userToken,
         _volumeSetting = volumeSetting,
         super._();
 
@@ -110,7 +105,7 @@ class _PrefsValue extends PrefsValue {
   @override
   Future<void> load() async {
     if (_completer != null) {
-      return _completer!.future;
+      return _completer?.future;
     }
     if (_prefs != null) {
       return;

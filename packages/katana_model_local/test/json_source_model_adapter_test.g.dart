@@ -10,7 +10,7 @@ _$TestValueImpl _$$TestValueImplFromJson(Map<String, dynamic> json) =>
     _$TestValueImpl(
       id: json['id'] as String,
       name: json['name'] as String?,
-      age: json['age'] as int?,
+      age: (json['age'] as num?)?.toInt(),
       percent: (json['percent'] as num?)?.toDouble(),
       flag: json['flag'] as bool? ?? false,
     );

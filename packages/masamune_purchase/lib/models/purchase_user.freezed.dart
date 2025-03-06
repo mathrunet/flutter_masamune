@@ -22,8 +22,12 @@ PurchaseUserModel _$PurchaseUserModelFromJson(Map<String, dynamic> json) {
 mixin _$PurchaseUserModel {
   double get value => throw _privateConstructorUsedError;
 
+  /// Serializes this PurchaseUserModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PurchaseUserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PurchaseUserModelCopyWith<PurchaseUserModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,6 +51,8 @@ class _$PurchaseUserModelCopyWithImpl<$Res, $Val extends PurchaseUserModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PurchaseUserModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,6 +86,8 @@ class __$$PurchaseUserModelImplCopyWithImpl<$Res>
       $Res Function(_$PurchaseUserModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PurchaseUserModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,11 +127,13 @@ class _$PurchaseUserModelImpl extends _PurchaseUserModel {
             (identical(other.value, value) || other.value == value));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PurchaseUserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PurchaseUserModelImplCopyWith<_$PurchaseUserModelImpl> get copyWith =>
@@ -148,8 +158,11 @@ abstract class _PurchaseUserModel extends PurchaseUserModel {
 
   @override
   double get value;
+
+  /// Create a copy of PurchaseUserModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PurchaseUserModelImplCopyWith<_$PurchaseUserModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

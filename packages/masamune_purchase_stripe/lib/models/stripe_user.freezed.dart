@@ -31,8 +31,12 @@ mixin _$StripeUserModel {
   @JsonKey(name: "capability")
   Map<String, dynamic> get capablity => throw _privateConstructorUsedError;
 
+  /// Serializes this StripeUserModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StripeUserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StripeUserModelCopyWith<StripeUserModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -61,6 +65,8 @@ class _$StripeUserModelCopyWithImpl<$Res, $Val extends StripeUserModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StripeUserModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,6 +125,8 @@ class __$$StripeUserModelImplCopyWithImpl<$Res>
       _$StripeUserModelImpl _value, $Res Function(_$StripeUserModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripeUserModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -211,12 +219,14 @@ class _$StripeUserModelImpl extends _StripeUserModel {
                 .equals(other._capablity, _capablity));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, userId, accountId, customerId,
       defaultPayment, const DeepCollectionEquality().hash(_capablity));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripeUserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StripeUserModelImplCopyWith<_$StripeUserModelImpl> get copyWith =>
@@ -259,8 +269,11 @@ abstract class _StripeUserModel extends StripeUserModel {
   @override
   @JsonKey(name: "capability")
   Map<String, dynamic> get capablity;
+
+  /// Create a copy of StripeUserModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StripeUserModelImplCopyWith<_$StripeUserModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

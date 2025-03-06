@@ -15,7 +15,7 @@ _$PurchaseSubscriptionModelImpl _$$PurchaseSubscriptionModelImplFromJson(
       productId: json['productId'] as String?,
       purchaseId: json['purchaseId'] as String?,
       packageName: json['packageName'] as String?,
-      expiredTime: json['expiredTime'] as int?,
+      expiredTime: (json['expiredTime'] as num?)?.toInt(),
       orderId: json['orderId'] as String?,
       userId: json['userId'] as String,
     );

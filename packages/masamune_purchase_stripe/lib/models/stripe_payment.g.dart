@@ -11,8 +11,8 @@ _$StripePaymentModelImpl _$$StripePaymentModelImplFromJson(
     _$StripePaymentModelImpl(
       paymentId: json['id'] as String,
       type: json['type'] as String,
-      expMonth: json['expMonth'] as int? ?? 1,
-      expYear: json['expYear'] as int? ?? 2000,
+      expMonth: (json['expMonth'] as num?)?.toInt() ?? 1,
+      expYear: (json['expYear'] as num?)?.toInt() ?? 2000,
       brand: json['brand'] as String,
       numberLast: json['numberLast'] as String,
       isDefault: json['default'] as bool? ?? false,

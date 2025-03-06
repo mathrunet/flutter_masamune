@@ -31,8 +31,12 @@ mixin _$PurchaseSubscriptionModel {
   String? get orderId => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
 
+  /// Serializes this PurchaseSubscriptionModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PurchaseSubscriptionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PurchaseSubscriptionModelCopyWith<PurchaseSubscriptionModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -66,6 +70,8 @@ class _$PurchaseSubscriptionModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PurchaseSubscriptionModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -151,6 +157,8 @@ class __$$PurchaseSubscriptionModelImplCopyWithImpl<$Res>
       $Res Function(_$PurchaseSubscriptionModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PurchaseSubscriptionModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -269,12 +277,14 @@ class _$PurchaseSubscriptionModelImpl extends _PurchaseSubscriptionModel {
             (identical(other.userId, userId) || other.userId == userId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, expired, token, platform,
       productId, purchaseId, packageName, expiredTime, orderId, userId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PurchaseSubscriptionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PurchaseSubscriptionModelImplCopyWith<_$PurchaseSubscriptionModelImpl>
@@ -323,8 +333,11 @@ abstract class _PurchaseSubscriptionModel extends PurchaseSubscriptionModel {
   String? get orderId;
   @override
   String get userId;
+
+  /// Create a copy of PurchaseSubscriptionModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PurchaseSubscriptionModelImplCopyWith<_$PurchaseSubscriptionModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

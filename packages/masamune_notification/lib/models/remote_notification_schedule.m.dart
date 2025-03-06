@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations
@@ -59,11 +60,13 @@ class _$RemoteNotificationScheduleModelCollection
 
   @override
   Future<CollectionBase<_$RemoteNotificationScheduleModelDocument>> filter(
-      _$_RemoteNotificationScheduleModelCollectionQuery Function(
-              _$_RemoteNotificationScheduleModelCollectionQuery source)
-          callback) {
-    final query = callback
-        .call(_$_RemoteNotificationScheduleModelCollectionQuery(modelQuery));
+    _$_RemoteNotificationScheduleModelCollectionQuery Function(
+      _$_RemoteNotificationScheduleModelCollectionQuery source,
+    ) callback,
+  ) {
+    final query = callback.call(
+      _$_RemoteNotificationScheduleModelCollectionQuery(modelQuery),
+    );
     return replaceQuery((_) => query.modelQuery);
   }
 }
@@ -105,17 +108,27 @@ class _$RemoteNotificationScheduleModelDocumentQuery {
   _$_RemoteNotificationScheduleModelDocumentQuery call(
     Object _id, {
     ModelAdapter? adapter,
+    bool useTestModelAdapter = true,
     ModelAccessQuery? accessQuery,
   }) {
-    return _$_RemoteNotificationScheduleModelDocumentQuery(DocumentModelQuery(
-      "plugins/scheduler/schedule/$_id",
-      adapter: adapter ??
-          _$RemoteNotificationScheduleModelDocument.defaultModelAdapter,
-      accessQuery: accessQuery ??
-          _$RemoteNotificationScheduleModelDocument.defaultModelAccessQuery,
-      validationQueries:
-          _$RemoteNotificationScheduleModelDocument.defaultValidationQueries,
-    ));
+    return _$_RemoteNotificationScheduleModelDocumentQuery(
+      DocumentModelQuery(
+        "plugins/scheduler/schedule/$_id",
+        adapter: adapter ??
+            _$RemoteNotificationScheduleModelDocument.defaultModelAdapter,
+        useTestModelAdapter: useTestModelAdapter,
+        accessQuery: accessQuery ??
+            _$RemoteNotificationScheduleModelDocument.defaultModelAccessQuery,
+        validationQueries:
+            _$RemoteNotificationScheduleModelDocument.defaultValidationQueries,
+      ),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return RegExp(
+      "plugins/scheduler/schedule/[^/]+".trimQuery().trimString("/"),
+    ).hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -140,19 +153,28 @@ class _$RemoteNotificationScheduleModelCollectionQuery {
 
   @useResult
   _$_RemoteNotificationScheduleModelCollectionQuery call({
+    bool useTestModelAdapter = true,
     ModelAdapter? adapter,
     ModelAccessQuery? accessQuery,
   }) {
     return _$_RemoteNotificationScheduleModelCollectionQuery(
-        CollectionModelQuery(
-      "plugins/scheduler/schedule",
-      adapter: adapter ??
-          _$RemoteNotificationScheduleModelCollection.defaultModelAdapter,
-      accessQuery: accessQuery ??
-          _$RemoteNotificationScheduleModelCollection.defaultModelAccessQuery,
-      validationQueries:
-          _$RemoteNotificationScheduleModelCollection.defaultValidationQueries,
-    ));
+      CollectionModelQuery(
+        "plugins/scheduler/schedule",
+        adapter: adapter ??
+            _$RemoteNotificationScheduleModelCollection.defaultModelAdapter,
+        useTestModelAdapter: useTestModelAdapter,
+        accessQuery: accessQuery ??
+            _$RemoteNotificationScheduleModelCollection.defaultModelAccessQuery,
+        validationQueries: _$RemoteNotificationScheduleModelCollection
+            .defaultValidationQueries,
+      ),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return RegExp(
+      "plugins/scheduler/schedule".trimQuery().trimString("/"),
+    ).hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -171,23 +193,34 @@ class _$_RemoteNotificationScheduleModelCollectionQuery
   String get queryName => modelQuery.toString();
 
   static _$_RemoteNotificationScheduleModelCollectionQuery _toQuery(
-          CollectionModelQuery query) =>
+    CollectionModelQuery query,
+  ) =>
       _$_RemoteNotificationScheduleModelCollectionQuery(query);
-
-  _$_RemoteNotificationScheduleModelCollectionQuery limitTo(int value) =>
-      _$_RemoteNotificationScheduleModelCollectionQuery(
-          modelQuery.limitTo(value));
 
   _$_RemoteNotificationScheduleModelCollectionQuery collectionGroup() =>
       _$_RemoteNotificationScheduleModelCollectionQuery(
-          modelQuery.collectionGroup());
+        modelQuery.collectionGroup(),
+      );
 
   _$_RemoteNotificationScheduleModelCollectionQuery reset() =>
       _$_RemoteNotificationScheduleModelCollectionQuery(modelQuery.reset());
 
+  _$_RemoteNotificationScheduleModelCollectionQuery remove(
+    ModelQueryFilterType type,
+  ) =>
+      _$_RemoteNotificationScheduleModelCollectionQuery(
+        modelQuery.remove(type),
+      );
+
   _$_RemoteNotificationScheduleModelCollectionQuery notifyDocumentChanges() =>
       _$_RemoteNotificationScheduleModelCollectionQuery(
-          modelQuery.notifyDocumentChanges());
+        modelQuery.notifyDocumentChanges(),
+      );
+
+  _$_RemoteNotificationScheduleModelCollectionQuery limitTo(int value) =>
+      _$_RemoteNotificationScheduleModelCollectionQuery(
+        modelQuery.limitTo(value),
+      );
 
   StringModelQuerySelector<_$_RemoteNotificationScheduleModelCollectionQuery>
       get uid => StringModelQuerySelector<
@@ -217,7 +250,8 @@ class _$RemoteNotificationScheduleModelFormQuery {
 
   @useResult
   _$_RemoteNotificationScheduleModelFormQuery call(
-      RemoteNotificationScheduleModel value) {
+    RemoteNotificationScheduleModel value,
+  ) {
     return _$_RemoteNotificationScheduleModelFormQuery(value);
   }
 }

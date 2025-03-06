@@ -75,8 +75,12 @@ mixin _$StripePurchaseModel {
   @JsonKey(name: "cancel_at_period_end")
   bool get cancelAtPeriodEnd => throw _privateConstructorUsedError;
 
+  /// Serializes this StripePurchaseModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StripePurchaseModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StripePurchaseModelCopyWith<StripePurchaseModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -127,6 +131,8 @@ class _$StripePurchaseModelCopyWithImpl<$Res, $Val extends StripePurchaseModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StripePurchaseModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -317,6 +323,8 @@ class __$$StripePurchaseModelImplCopyWithImpl<$Res>
       $Res Function(_$StripePurchaseModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripePurchaseModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -636,7 +644,7 @@ class _$StripePurchaseModelImpl extends _StripePurchaseModel {
                 other.cancelAtPeriodEnd == cancelAtPeriodEnd));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -669,7 +677,9 @@ class _$StripePurchaseModelImpl extends _StripePurchaseModel {
         cancelAtPeriodEnd
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripePurchaseModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StripePurchaseModelImplCopyWith<_$StripePurchaseModelImpl> get copyWith =>
@@ -800,8 +810,11 @@ abstract class _StripePurchaseModel extends StripePurchaseModel {
   @override
   @JsonKey(name: "cancel_at_period_end")
   bool get cancelAtPeriodEnd;
+
+  /// Create a copy of StripePurchaseModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StripePurchaseModelImplCopyWith<_$StripePurchaseModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
