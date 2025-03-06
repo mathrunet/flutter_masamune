@@ -1,3 +1,8 @@
+## 2.12.1
+
+ - **FIX**: Add Bottom. ([a384e446](https://github.com/mathrunet/flutter_masamune/commit/a384e446dfd42b5b11aa60cc393f0704ab9f07d8))
+ - **FIX**: Fixed a bug that spaces were not reflected. ([b858af15](https://github.com/mathrunet/flutter_masamune/commit/b858af15c4833c2f09199bd9ef96b929b223bc95))
+
 ## 2.12.0
 
  - **FEAT**: The default font of the theme can now be localized. ([af1a7c07](https://github.com/mathrunet/flutter_masamune/commit/af1a7c07c340e495b5d9f8f20592284b4cd28a8b))

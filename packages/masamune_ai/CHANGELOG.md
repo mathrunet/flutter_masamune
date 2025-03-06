@@ -1,3 +1,9 @@
+## 2.4.0
+
+ - **FIX**: AIThread operation check completed. ([e6cc6ea0](https://github.com/mathrunet/flutter_masamune/commit/e6cc6ea0cbb09134f5dc7b1cf3da5adc88fb92de))
+ - **FIX**: Check operation and fix defects. ([82eabeab](https://github.com/mathrunet/flutter_masamune/commit/82eabeabf05582792b40f2d3ac8a52f4a96029d2))
+ - **FEAT**: Implemented a mechanism to record tokens. ([ef752bb8](https://github.com/mathrunet/flutter_masamune/commit/ef752bb89efbf3a293ed49298223fdc0f6c359e7))
+
 ## 2.3.0
 
  - **FEAT**: Changed the specification of onPreRunApp. ([19fe22f8](https://github.com/mathrunet/flutter_masamune/commit/19fe22f84da6997446f223230b24458f5bb4a81f))

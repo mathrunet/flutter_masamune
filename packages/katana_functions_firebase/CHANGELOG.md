@@ -1,3 +1,7 @@
+## 2.9.0
+
+ - **FEAT**: Added AppCheck token option to Firebase function calls. ([97ac78ce](https://github.com/mathrunet/flutter_masamune/commit/97ac78ce49e5998772508d3a7ca9ef5a64d505a0))
+
 ## 2.8.0
 
  - **FEAT**: Added the concept of Timeout. ([e5733a28](https://github.com/mathrunet/flutter_masamune/commit/e5733a28be6eb264c44dc9de827253ac29e2d585))

@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Token is now explicitly obtained. ([ab23d35e](https://github.com/mathrunet/flutter_masamune/commit/ab23d35eb86728d667bc2642bb335e02011e502e))
+
 ## 2.2.0
 
  - **FEAT**: Changed the specification of onPreRunApp. ([19fe22f8](https://github.com/mathrunet/flutter_masamune/commit/19fe22f84da6997446f223230b24458f5bb4a81f))

@@ -1,6 +1,6 @@
 name: masamune_model_firestore
 description: A model adapter plugin that applies and expands on `katana_model_firestore` to retrieve data from Firestore.
-version: 2.2.3
+version: 2.2.4
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_firestore
 
@@ -15,7 +15,7 @@ dependencies:
   meta:
 
   katana: ^2.18.0
-  masamune: ^2.19.0
+  masamune: ^2.19.1
   katana_model_firestore: ^2.19.1
 dev_dependencies:
   test: ^1.24.0
