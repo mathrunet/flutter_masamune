@@ -5,6 +5,7 @@ import 'dart:io';
 // Project imports:
 import 'package:katana_cli/config.dart';
 import 'package:katana_cli/katana_cli.dart';
+import 'package:xml/xml.dart';
 
 /// Firebase initial configuration.
 ///
@@ -744,6 +745,89 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           workingDirectory: "firebase",
         );
       }
+    }
+    if (enabledAppCheck) {
+      label("Add AppCheck to Runner.xcscheme");
+      final file =
+          File("ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme");
+      if (!file.existsSync()) {
+        throw Exception(
+          "Runner.xcscheme does not exist in `ios/Runner.xcodeproj/xcshareddata/xcschemes`. Do `katana create` to complete the initial setup of the project.",
+        );
+      }
+      final document = XmlDocument.parse(await file.readAsString());
+      final scheme = document.findAllElements("Scheme");
+      if (scheme.isEmpty) {
+        throw Exception(
+          "The structure of Runner.xcscheme is broken. Do `katana create` to complete the initial setup of the project.",
+        );
+      }
+      final launchAction = scheme.first.children.firstWhereOrNull((p0) =>
+          p0 is XmlElement &&
+          p0.name.toString() == "LaunchAction" &&
+          (p0.attributes.any((item) =>
+              item.name.toString() == "buildConfiguration" &&
+              item.value == "Debug")));
+      if (launchAction == null) {
+        throw Exception(
+          "The structure of Runner.xcscheme is broken. Do `katana create` to complete the initial setup of the project.",
+        );
+      }
+      final commandLineArguments = launchAction.children.firstWhereOrNull(
+          (p0) =>
+              p0 is XmlElement && p0.name.toString() == "CommandLineArguments");
+      if (commandLineArguments == null) {
+        launchAction.children.add(
+          XmlElement(
+            XmlName("CommandLineArguments"),
+            [],
+            [
+              XmlElement(
+                XmlName("CommandLineArgument"),
+                [
+                  XmlAttribute(
+                    XmlName("argument"),
+                    "-FIRDebugEnabled",
+                  ),
+                  XmlAttribute(
+                    XmlName("isEnabled"),
+                    "YES",
+                  ),
+                ],
+                [],
+              ),
+            ],
+          ),
+        );
+      } else {
+        final argument = commandLineArguments.children.firstWhereOrNull((p0) =>
+            p0 is XmlElement &&
+            p0.name.toString() == "CommandLineArgument" &&
+            p0.attributes.any((item) =>
+                item.name.toString() == "argument" &&
+                item.value == "-FIRDebugEnabled"));
+        if (argument == null) {
+          commandLineArguments.children.add(
+            XmlElement(
+              XmlName("CommandLineArgument"),
+              [
+                XmlAttribute(
+                  XmlName("argument"),
+                  "-FIRDebugEnabled",
+                ),
+                XmlAttribute(
+                  XmlName("isEnabled"),
+                  "YES",
+                ),
+              ],
+              [],
+            ),
+          );
+        }
+      }
+      await file.writeAsString(
+        document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
+      );
     }
   }
 
