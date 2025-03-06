@@ -180,7 +180,7 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
             await FirebaseAppCheck.instance.getToken();
           }
           break;
-          default:
+        default:
           break;
       }
     } else if (UniversalPlatform.isIOS) {
