@@ -26,6 +26,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     this.linuxOptions,
     this.windowsOptions,
     this.macosOptions,
+    super.onGeneratedContentUsage,
   })  : _options = options,
         _vertexAI = vertexAI;
 
@@ -213,14 +214,22 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         return e._toContent();
       }),
     ]);
+    int promptTokenCount = 0;
+    int candidateTokenCount = 0;
     subscription = stream.listen(
       (line) {
+        promptTokenCount += line.usageMetadata?.promptTokenCount ?? 0;
+        candidateTokenCount += line.usageMetadata?.candidatesTokenCount ?? 0;
         final candidates = line.candidates;
         for (final candidate in candidates) {
           final parts = candidate.content._toAIContentParts();
           res.add(parts, time: DateTime.now());
           if (candidate.finishReason != null) {
-            res.complete(time: DateTime.now());
+            res.complete(
+              time: DateTime.now(),
+              promptTokenCount: promptTokenCount,
+              candidateTokenCount: candidateTokenCount,
+            );
             subscription?.cancel();
             subscription = null;
             return;
@@ -228,7 +237,11 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         }
       },
       onDone: () {
-        res.complete(time: DateTime.now());
+        res.complete(
+          time: DateTime.now(),
+          promptTokenCount: promptTokenCount,
+          candidateTokenCount: candidateTokenCount,
+        );
         subscription?.cancel();
         subscription = null;
       },

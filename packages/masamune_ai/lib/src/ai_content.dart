@@ -224,6 +224,18 @@ class AIContent extends ChangeNotifier
   List<AIContentPart> get value => _value;
   final List<AIContentPart> _value = [];
 
+  /// The prompt token count of the AI.
+  ///
+  /// AIのプロンプトトークン数。
+  int? get promptTokenCount => _promptTokenCount;
+  int? _promptTokenCount;
+
+  /// The candidate token count of the AI.
+  ///
+  /// AIの候補トークン数。
+  int? get candidateTokenCount => _candidateTokenCount;
+  int? _candidateTokenCount;
+
   /// Converts the AI content to a Json-decoded Map<String, dynamic> object.
   ///
   /// AIの内容をJsonデコードされたMap<String, dynamic>オブジェクトに変換します。
@@ -272,13 +284,19 @@ class AIContent extends ChangeNotifier
   /// Completes the AI content.
   ///
   /// AIの内容を完了します。
-  void complete({DateTime? time}) {
+  void complete({
+    DateTime? time,
+    int promptTokenCount = 0,
+    int candidateTokenCount = 0,
+  }) {
     if (_completer == null) {
       return;
     }
     if (time != null) {
       _time = time;
     }
+    _promptTokenCount = promptTokenCount;
+    _candidateTokenCount = candidateTokenCount;
     _completer?.complete(this);
     _completer = null;
     notifyListeners();

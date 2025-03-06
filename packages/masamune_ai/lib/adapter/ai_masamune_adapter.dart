@@ -17,12 +17,19 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   /// このクラスを継承してAIの機能を設定してください。
   const AIMasamuneAdapter({
     this.defaultConfig = const AIConfig(),
+    this.onGeneratedContentUsage,
   });
 
   /// The default configuration of the AI.
   ///
   /// AIのデフォルト設定。
   final AIConfig defaultConfig;
+
+  /// Called when the content is generated.
+  ///
+  /// 内容が生成されたときに呼び出されます。
+  final void Function(int promptTokenCount, int candidateTokenCount)?
+      onGeneratedContentUsage;
 
   /// You can retrieve the [AIMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

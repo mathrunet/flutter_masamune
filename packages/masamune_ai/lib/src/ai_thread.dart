@@ -127,6 +127,10 @@ class AIThread
       _value.sort((a, b) => b.time.compareTo(a.time));
       notifyListeners();
       await res.loading;
+      adapter.onGeneratedContentUsage?.call(
+        res.promptTokenCount ?? 0,
+        res.candidateTokenCount ?? 0,
+      );
       _sendCompleter?.complete();
       _sendCompleter = null;
       notifyListeners();
