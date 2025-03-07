@@ -123,7 +123,7 @@ abstract class AppLocalizeBase with ChangeNotifier {
           }
         } else {
           for (final supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale.languageCode ||
+            if (supportedLocale.languageCode == locale.languageCode &&
                 supportedLocale.countryCode == locale.countryCode) {
               _locale ??= supportedLocale;
               return supportedLocale;
