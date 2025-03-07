@@ -184,18 +184,18 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
           break;
       }
     } else if (UniversalPlatform.isIOS) {
-      switch (iosProvider) {
-        case FirebaseAppCheckIOSProvider.debug:
-          await FirebaseAppCheck.instance.getToken();
-          break;
-        case FirebaseAppCheckIOSProvider.platformDependent:
-          if (kDebugMode) {
-            await FirebaseAppCheck.instance.getToken();
-          }
-          break;
-        default:
-          break;
-      }
+      // switch (iosProvider) {
+      //   case FirebaseAppCheckIOSProvider.debug:
+      //     await FirebaseAppCheck.instance.getToken();
+      //     break;
+      //   case FirebaseAppCheckIOSProvider.platformDependent:
+      //     if (kDebugMode) {
+      //       await FirebaseAppCheck.instance.getToken();
+      //     }
+      //     break;
+      //   default:
+      //     break;
+      // }
     }
     return super.onPreRunApp(binding);
   }
