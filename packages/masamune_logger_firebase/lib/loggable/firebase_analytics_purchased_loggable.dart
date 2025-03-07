@@ -40,7 +40,7 @@ class FirebaseAnalyticsPurchasedLoggable extends Loggable {
   @override
   Map<String, dynamic> toJson() {
     return {
-      FirebaseAnalyticsLoggerEvent.productsKey: products,
+      FirebaseAnalyticsLoggerEvent.productsKey: products.map((e) => e.toJson()).toList(),
       if (totalPrice != null) FirebaseAnalyticsLoggerEvent.priceKey: totalPrice,
       if (currency != null) FirebaseAnalyticsLoggerEvent.currencyKey: currency,
       if (transactionId != null)
