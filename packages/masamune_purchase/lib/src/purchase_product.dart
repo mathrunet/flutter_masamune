@@ -54,6 +54,7 @@ class PurchaseProduct {
     this.subscriptionPeriod = PurchaseSubscriptionPeriod.none,
     String? priceText,
     bool debugConsumeWhenPurchaseCompleted = false,
+    this.debugForcePurchased = false,
   })  : _priceText = priceText,
         _title = title,
         _description = description,
@@ -86,6 +87,7 @@ class PurchaseProduct {
     this.icon,
     required this.price,
     String? priceText,
+    this.debugForcePurchased = false,
   })  : type = PurchaseProductType.consumable,
         subscriptionPeriod = PurchaseSubscriptionPeriod.none,
         expiredPeriod = null,
@@ -118,6 +120,7 @@ class PurchaseProduct {
     required this.price,
     String? priceText,
     bool debugConsumeWhenPurchaseCompleted = false,
+    this.debugForcePurchased = false,
   })  : type = PurchaseProductType.nonConsumable,
         subscriptionPeriod = PurchaseSubscriptionPeriod.none,
         amount = null,
@@ -155,6 +158,7 @@ class PurchaseProduct {
     required Duration expiredPeriod,
     String? priceText,
     this.subscriptionPeriod = PurchaseSubscriptionPeriod.month,
+    this.debugForcePurchased = false,
   })  : type = PurchaseProductType.subscription,
         amount = null,
         expiredPeriod = expiredPeriod,
@@ -225,6 +229,11 @@ class PurchaseProduct {
   ///
   /// サブスクリプションの有効期限の期間。
   final PurchaseSubscriptionPeriod? subscriptionPeriod;
+
+  /// Force purchased.
+  ///
+  /// 強制的に購入されたかどうかを指定します。
+  final bool debugForcePurchased;
 
   /// Text with the currency mark of the item charged.
   ///
@@ -318,6 +327,7 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
           "[product] does not match [PurchaseProductType.consumable].",
         ),
         super(
+          debugForcePurchased: product.debugForcePurchased,
           productId: product.productId,
           priceText: product._priceText,
           title: product.title,
@@ -457,6 +467,7 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
           "[product] does not match [PurchaseProductType.nonConsumable].",
         ),
         super(
+          debugForcePurchased: product.debugForcePurchased,
           productId: product.productId,
           priceText: product._priceText,
           title: product.title,
@@ -557,7 +568,9 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
   @override
   PurchaseProductValue? get value {
     return PurchaseProductValue(
-      active: onRetrieveValue.call(_document, this, _userId),
+      active: debugForcePurchased
+          ? true
+          : onRetrieveValue.call(_document, this, _userId),
     );
   }
 
@@ -595,6 +608,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
           "[product] does not match [PurchaseProductType.subscription].",
         ),
         super(
+          debugForcePurchased: product.debugForcePurchased,
           productId: product.productId,
           priceText: product._priceText,
           title: product.title,
@@ -770,7 +784,9 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
   @override
   PurchaseProductValue? get value {
     return PurchaseProductValue(
-      active: onRetrieveValue.call(_collection, this, _userId),
+      active: debugForcePurchased
+          ? true
+          : onRetrieveValue.call(_collection, this, _userId),
     );
   }
 
