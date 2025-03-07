@@ -63,7 +63,6 @@ class AIThread
   /// スレッドの設定。
   final AIConfig? config;
 
-  Completer<void>? _sendCompleter;
   Completer<void>? _initializeCompleter;
 
   /// Result of interaction with AI.
@@ -107,14 +106,16 @@ class AIThread
   /// [content]にユーザーからのコンテンツを渡してください。
   /// [AIRole]が[AIRole.user]でない場合は例外が投げられます。
   Future<void> generateContent(AIContent content) async {
-    if (_sendCompleter != null) {
-      return;
-    }
     if (content.role != AIRole.user) {
       throw const InvalidAIRoleException();
     }
-    _sendCompleter = Completer<void>();
     try {
+      _value.removeWhere((e) {
+        if (e.value.isEmpty) {
+          return true;
+        }
+        return false;
+      });
       await initialize(config: config);
       _value.add(content);
       _value.sort((a, b) => b.time.compareTo(a.time));
@@ -131,17 +132,10 @@ class AIThread
         res.promptTokenCount ?? 0,
         res.candidateTokenCount ?? 0,
       );
-      _sendCompleter?.complete();
-      _sendCompleter = null;
       notifyListeners();
     } catch (e, stackTrace) {
       content.error(e, stackTrace);
-      _sendCompleter?.completeError(e, stackTrace);
-      _sendCompleter = null;
       notifyListeners();
-    } finally {
-      _sendCompleter?.complete();
-      _sendCompleter = null;
     }
   }
 
