@@ -1,3 +1,7 @@
+## 2.3.14
+
+ - **FIX**: Added debugging configuration. ([79642b97](https://github.com/mathrunet/flutter_masamune/commit/79642b976ab0a74267a52a871960cd5bd85c2dcd))
+
 ## 2.3.13
 
  - Update a dependency to the latest release.

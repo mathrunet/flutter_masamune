@@ -1,3 +1,7 @@
+## 2.3.17
+
+ - **FIX**: Fixed a bug that caused that option to be selected when only the country was available. ([1edd549a](https://github.com/mathrunet/flutter_masamune/commit/1edd549a1c453cc67e1b75ff87e7d91bf201d7bc))
+
 ## 2.3.16
 
  - Update a dependency to the latest release.

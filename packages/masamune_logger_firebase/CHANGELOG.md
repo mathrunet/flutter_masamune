@@ -1,3 +1,7 @@
+## 2.5.2
+
+ - **FIX**: Fixed type error. ([fba9d817](https://github.com/mathrunet/flutter_masamune/commit/fba9d817bc80ecfbc3e2967355804161c31cfee7))
+
 ## 2.5.1
 
  - Update a dependency to the latest release.

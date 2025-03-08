@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - **FIX**: Commented out because getToken does not work in IOS. ([c6a2c6c8](https://github.com/mathrunet/flutter_masamune/commit/c6a2c6c8e1e36bcfd8bc6c0827ea0f1bb8088b31))
+
 ## 2.2.1
 
  - **FIX**: Token is now explicitly obtained. ([ab23d35e](https://github.com/mathrunet/flutter_masamune/commit/ab23d35eb86728d667bc2642bb335e02011e502e))

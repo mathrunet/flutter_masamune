@@ -1,3 +1,7 @@
+## 2.6.2
+
+ - **FIX**: Resolved Nofill error. ([e143c008](https://github.com/mathrunet/flutter_masamune/commit/e143c00850c865cc767d21c51fe30ebb01d26f4e))
+
 ## 2.6.1
 
  - Update a dependency to the latest release.

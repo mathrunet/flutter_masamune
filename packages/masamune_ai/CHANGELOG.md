@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - **FIX**: Interruptions during the process are made possible. ([af59de56](https://github.com/mathrunet/flutter_masamune/commit/af59de5664444e7cd01885d63f9226e5fddc08da))
+
 ## 2.4.0
 
  - **FIX**: AIThread operation check completed. ([e6cc6ea0](https://github.com/mathrunet/flutter_masamune/commit/e6cc6ea0cbb09134f5dc7b1cf3da5adc88fb92de))

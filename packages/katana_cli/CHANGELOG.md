@@ -1,3 +1,7 @@
+## 2.35.4
+
+ - **FIX**: Addition of debug flags for AppCheck. ([964355c7](https://github.com/mathrunet/flutter_masamune/commit/964355c7cafbd3bb82a44675d911185fd3aeb88a))
+
 ## 2.35.3
 
  - **FIX**: Fixed a bug that prevented builds from being performed properly. ([feb19e29](https://github.com/mathrunet/flutter_masamune/commit/feb19e29b8a75a5faed24cd9d92f9c0cdde4f881))

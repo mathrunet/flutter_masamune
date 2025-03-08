@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - Update a dependency to the latest release.
+
 ## 2.3.0
 
  - **FIX**: AIThread operation check completed. ([e6cc6ea0](https://github.com/mathrunet/flutter_masamune/commit/e6cc6ea0cbb09134f5dc7b1cf3da5adc88fb92de))
