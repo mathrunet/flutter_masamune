@@ -96,7 +96,7 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
           "masamune_auth_facebook",
         ],
         if (enableGoogle) ...[
-          "masamune_auth_google",
+          "masamune_auth_google_firebase",
         ],
         if (enableDeleteUser) ...[
           "masamune_auth_firebase",
