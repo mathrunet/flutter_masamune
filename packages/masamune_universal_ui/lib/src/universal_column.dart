@@ -300,11 +300,13 @@ class UniversalColumn extends StatelessWidget {
     Breakpoint? breakpoint,
   ) {
     final universalWidgetScope = UniversalWidgetScope.of(context);
+    final adapter = MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
     final width = MediaQuery.of(context).size.width;
     final breakpoint = UniversalScaffold.of(context)?.breakpoint;
     final maxWidth = (breakpoint?.width(context) ?? width).limitHigh(width);
-    final enablePadding =
-        enableResponsivePadding ?? universalWidgetScope == null;
+    final enablePadding = enableResponsivePadding ??
+        adapter?.enableResponsivePadding ??
+        universalWidgetScope == null;
     final responsivePadding = enablePadding ? (width - maxWidth) / 2.0 : 0.0;
     final resolvedPadding =
         _effectivePadding(context, breakpoint)?.resolve(TextDirection.ltr);

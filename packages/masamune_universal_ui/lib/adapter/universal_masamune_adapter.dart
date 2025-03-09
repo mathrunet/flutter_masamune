@@ -41,6 +41,7 @@ class UniversalMasamuneAdapter extends MasamuneAdapter {
     this.breakpointSettings = const BreakpointSettings(),
     this.defaultScrollbarRadius,
     this.defaultScrollbarThickness,
+    this.enableResponsivePadding = true,
   });
 
   @override
@@ -87,4 +88,17 @@ class UniversalMasamuneAdapter extends MasamuneAdapter {
   ///
   /// スクロールバーのデフォルトの半径。
   final Radius? defaultScrollbarRadius;
+
+  /// Specify whether to enable responsive padding.
+  ///
+  /// If `true` or `false` is specified, it is forced to be enabled or disabled.
+  ///
+  /// [Null] will automatically be `false` if the parent has a [UniversalColumn] or [UniversalContainer]. If not, it will be `true`.
+  ///
+  /// レスポンシブのパディングを有効にするかどうかを指定します。
+  ///
+  /// `true`や`false`を指定する場合強制的に有効か無効になります。
+  ///
+  /// [Null]の場合、親に[UniversalColumn]や[UniversalContainer]がある場合は自動的に`false`になります。ない場合は`true`になります。
+  final bool enableResponsivePadding;
 }

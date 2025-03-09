@@ -275,7 +275,7 @@ packages:
       path: "../katana_functions"
       relative: true
     source: path
-    version: "2.7.8"
+    version: "2.8.0"
   katana_indicator:
     dependency: "direct overridden"
     description:
@@ -303,7 +303,7 @@ packages:
       path: "../katana_localization"
       relative: true
     source: path
-    version: "2.3.16"
+    version: "2.3.17"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
@@ -394,21 +394,21 @@ packages:
       path: "../katana_theme"
       relative: true
     source: path
-    version: "2.7.2"
+    version: "2.8.0"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.2.12"
+    version: "2.3.0"
   katana_ui:
     dependency: "direct overridden"
     description:
       path: "../katana_ui"
       relative: true
     source: path
-    version: "2.11.4"
+    version: "2.12.1"
   lints:
     dependency: transitive
     description:
@@ -439,7 +439,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.18.2"
+    version: "2.19.2"
   masamune_annotation:
     dependency: "direct overridden"
     description:

@@ -154,7 +154,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     this.toolbarOpacity = 1.0,
     this.bottomOpacity = 1.0,
     this.bottomBorderColor,
-    this.enableResponsivePadding = true,
+    this.enableResponsivePadding,
   })  : assert(
           floating || !snap,
           'The "snap" argument only makes sense for floating app bars.',
@@ -394,7 +394,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
   /// Set to `true` to enable responsive padding.
   ///
   /// レスポンシブのパディングを有効にする場合は`true`にします。
-  final bool enableResponsivePadding;
+  final bool? enableResponsivePadding;
 
   @override
   Widget build(BuildContext context) {
@@ -750,14 +750,16 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
       return titleSpacing;
     }
     final width = MediaQuery.of(context).size.width;
+    final adapter = MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
     final breakpoint =
         this.breakpoint ?? UniversalScaffold.of(context)?.breakpoint;
     if (breakpoint == null) {
       return null;
     }
-    double spacing = enableResponsivePadding
-        ? (width - breakpoint.width(context)) / 2.0
-        : 0.0;
+    double spacing =
+        (enableResponsivePadding ?? adapter?.enableResponsivePadding ?? true)
+            ? (width - breakpoint.width(context)) / 2.0
+            : 0.0;
     if (showLeading) {
       spacing -= leadingWidth ?? _kLeadingWidth;
     } else {
@@ -771,14 +773,16 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
       return 0.0;
     }
     final width = MediaQuery.of(context).size.width;
+    final adapter = MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
     final breakpoint =
         this.breakpoint ?? UniversalScaffold.of(context)?.breakpoint;
     if (breakpoint == null) {
       return null;
     }
-    double spacing = enableResponsivePadding
-        ? (width - breakpoint.width(context)) / 2.0
-        : 0.0;
+    double spacing =
+        (enableResponsivePadding ?? adapter?.enableResponsivePadding ?? true)
+            ? (width - breakpoint.width(context)) / 2.0
+            : 0.0;
     return spacing.limitLow(0.0);
   }
 
@@ -1138,7 +1142,7 @@ class UniversalSliverAppBar extends UniversalAppBar with SliverAppBarMixin {
     super.background,
     super.scrollStyle = UniversalAppBarScrollStyle.pinned,
     super.breakpoint,
-    super.enableResponsivePadding = true,
+    super.enableResponsivePadding,
     super.bottomBorderColor,
   }) : super._(sliver: true);
 }
@@ -1263,7 +1267,7 @@ class UniversalAvatarSliverAppBar extends UniversalSliverAppBar {
     super.background,
     super.scrollStyle = UniversalAppBarScrollStyle.pinned,
     super.breakpoint,
-    super.enableResponsivePadding = true,
+    super.enableResponsivePadding,
     super.bottomBorderColor,
     this.underBottomHeight = kDefaultUnderBottomHeight,
     this.avatarIcon,
@@ -1691,7 +1695,7 @@ class UniversalExtentAppBar extends StatelessWidget
     this.titleSpacing,
     this.titlePadding = const EdgeInsets.all(16),
     this.titlePosition = UniversalAppBarTitlePosition.bottom,
-    this.enableResponsivePadding = true,
+    this.enableResponsivePadding,
   });
 
   /// {@macro flutter.material.appbar.title}
@@ -1778,7 +1782,7 @@ class UniversalExtentAppBar extends StatelessWidget
   /// Set to `true` to enable responsive padding.
   ///
   /// レスポンシブのパディングを有効にする場合は`true`にします。
-  final bool enableResponsivePadding;
+  final bool? enableResponsivePadding;
 
   @override
   Widget build(BuildContext context) {
@@ -1939,14 +1943,16 @@ class UniversalExtentAppBar extends StatelessWidget
       return titleSpacing;
     }
     final width = MediaQuery.of(context).size.width;
+    final adapter = MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
     final breakpoint =
         this.breakpoint ?? UniversalScaffold.of(context)?.breakpoint;
     if (breakpoint == null) {
       return null;
     }
-    double spacing = enableResponsivePadding
-        ? (width - breakpoint.width(context)) / 2.0
-        : 0.0;
+    double spacing =
+        (enableResponsivePadding ?? adapter?.enableResponsivePadding ?? true)
+            ? (width - breakpoint.width(context)) / 2.0
+            : 0.0;
     if (showLeading) {
       spacing -= leadingWidth ?? _kLeadingWidth;
     } else {
@@ -1960,14 +1966,16 @@ class UniversalExtentAppBar extends StatelessWidget
       return 0.0;
     }
     final width = MediaQuery.of(context).size.width;
+    final adapter = MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
     final breakpoint =
         this.breakpoint ?? UniversalScaffold.of(context)?.breakpoint;
     if (breakpoint == null) {
       return null;
     }
-    double spacing = enableResponsivePadding
-        ? (width - breakpoint.width(context)) / 2.0
-        : 0.0;
+    double spacing =
+        (enableResponsivePadding ?? adapter?.enableResponsivePadding ?? true)
+            ? (width - breakpoint.width(context)) / 2.0
+            : 0.0;
     return spacing.limitLow(0.0);
   }
 
