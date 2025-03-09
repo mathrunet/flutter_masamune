@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_universal_ui` - `v2.7.3`](#masamune_universal_ui---v273)
+
+---
+
+#### `masamune_universal_ui` - `v2.7.3`
+
+ - **FIX**: Added setting to disable Padding on iPad and other devices. ([537dc69b](https://github.com/mathrunet/flutter_masamune/commit/537dc69b7d25e5734980f139c0e3aee7c1d1d8df))
+
+
+## 2025-03-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_auth_google_firebase` - `v2.2.1`](#masamune_auth_google_firebase---v221)
 
 ---

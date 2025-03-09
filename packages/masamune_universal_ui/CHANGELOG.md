@@ -1,3 +1,7 @@
+## 2.7.3
+
+ - **FIX**: Added setting to disable Padding on iPad and other devices. ([537dc69b](https://github.com/mathrunet/flutter_masamune/commit/537dc69b7d25e5734980f139c0e3aee7c1d1d8df))
+
 ## 2.7.2
 
  - Update a dependency to the latest release.

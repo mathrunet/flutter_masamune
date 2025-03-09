@@ -1,6 +1,6 @@
 name: masamune_universal_ui
 description: The package provide a universal UI that aims to be written in one code on any platform.
-version: 2.7.2
+version: 2.7.3
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_universal_ui
 
