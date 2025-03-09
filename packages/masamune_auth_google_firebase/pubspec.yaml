@@ -1,6 +1,6 @@
 name: masamune_auth_google_firebase
 description: Authentication plugin for Masamune that can implement Google sign-in on Firebase.
-version: 2.2.0
+version: 2.2.1
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_auth_google_firebase
 

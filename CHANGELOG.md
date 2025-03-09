@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_auth_google_firebase` - `v2.2.1`](#masamune_auth_google_firebase---v221)
+
+---
+
+#### `masamune_auth_google_firebase` - `v2.2.1`
+
+ - **FIX**: Give the Select_Account option. ([1ee5ca5c](https://github.com/mathrunet/flutter_masamune/commit/1ee5ca5c5a481cbe50445e6fc422e7f184b27b8d))
+
+
+## 2025-03-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.36.0`](#katana_cli---v2360)
  - [`masamune_auth_google_firebase` - `v2.2.0`](#masamune_auth_google_firebase---v220)
 
