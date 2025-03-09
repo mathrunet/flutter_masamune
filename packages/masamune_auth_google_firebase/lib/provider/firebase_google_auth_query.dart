@@ -7,13 +7,9 @@ const _kGoogleAuthProviderId = "google.com";
 ///
 /// [signIn] and [reauth] are available.
 ///
-/// [signOut] logs you out of your Google account rather than providing Provider.
-///
 /// FirebaseにおけるGoogleアカウントでの認証を行うための`AuthQuery`。
 ///
 /// [signIn]および[reauth]が利用可能です。
-///
-/// [signOut]はProviderを提供するのではなくGoogleアカウントからログアウトします。
 /// {@endtemplate}
 class FirebaseGoogleAuthQuery {
   const FirebaseGoogleAuthQuery._();
@@ -60,7 +56,11 @@ class FirebaseGoogleSignInAuthProvider extends FirebaseSnsSignInAuthProvider {
 
   @override
   firebase_auth.AuthProvider authProvider() {
-    return GoogleAuthProvider();
+    final provider = GoogleAuthProvider();
+    provider.setCustomParameters({
+      "prompt": "select_account",
+    });
+    return provider;
   }
 }
 
@@ -80,6 +80,10 @@ class FirebaseGoogleReAuthProvider extends FirebaseSnsReAuthProvider {
 
   @override
   firebase_auth.AuthProvider authProvider() {
-    return GoogleAuthProvider();
+    final provider = GoogleAuthProvider();
+    provider.setCustomParameters({
+      "prompt": "select_account",
+    });
+    return provider;
   }
 }

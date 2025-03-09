@@ -19,6 +19,5 @@ import 'package:masamune/masamune.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth
     show AuthProvider;
 
-
 part 'adapter/firebase_google_auth_masamune_adapter.dart';
 part 'provider/firebase_google_auth_query.dart';
