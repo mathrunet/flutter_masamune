@@ -15,6 +15,33 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.36.0`](#katana_cli---v2360)
+ - [`masamune_auth_google_firebase` - `v2.2.0`](#masamune_auth_google_firebase---v220)
+
+---
+
+#### `katana_cli` - `v2.36.0`
+
+ - **FEAT**: Change ID. ([c5883683](https://github.com/mathrunet/flutter_masamune/commit/c588368319424d419f6c9e249162ea1f6c8872d2))
+
+#### `masamune_auth_google_firebase` - `v2.2.0`
+
+ - **FEAT**: Change ID. ([c5883683](https://github.com/mathrunet/flutter_masamune/commit/c588368319424d419f6c9e249162ea1f6c8872d2))
+ - **FEAT**: Initial commit. ([20ae889b](https://github.com/mathrunet/flutter_masamune/commit/20ae889bb814a1a66a546506a5192cdb03c4e897))
+
+
+## 2025-03-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.35.4`](#katana_cli---v2354)
  - [`katana_localization` - `v2.3.17`](#katana_localization---v2317)
  - [`masamune_ads_google` - `v2.6.2`](#masamune_ads_google---v262)

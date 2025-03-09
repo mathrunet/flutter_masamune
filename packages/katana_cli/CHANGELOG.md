@@ -1,3 +1,7 @@
+## 2.36.0
+
+ - **FEAT**: Change ID. ([c5883683](https://github.com/mathrunet/flutter_masamune/commit/c588368319424d419f6c9e249162ea1f6c8872d2))
+
 ## 2.35.4
 
  - **FIX**: Addition of debug flags for AppCheck. ([964355c7](https://github.com/mathrunet/flutter_masamune/commit/964355c7cafbd3bb82a44675d911185fd3aeb88a))
