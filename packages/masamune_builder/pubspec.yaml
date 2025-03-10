@@ -16,7 +16,7 @@ dependencies:
   source_gen: ^2.0.0
   analyzer: ^7.0.0
   http: ^1.2.2
-  freezed_annotation: ^2.4.4
+  freezed_annotation: ^3.0.0
   katana_theme_builder: ^2.4.0
   katana_theme_annotation: ^2.3.0
   katana_localization_builder: ^2.3.2
