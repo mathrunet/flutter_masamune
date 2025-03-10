@@ -103,11 +103,19 @@ class GoogleAdRewarded
             _loadCompleter?.complete();
             _loadCompleter = null;
           },
-          onAdFailedToLoad: (LoadAdError error) {
-            debugPrint("RewardedAd failed to load: $error");
+          onAdFailedToLoad: (e) {
+            debugPrint("RewardedAd failed to load: $e");
             _ad = null;
-            _loadCompleter?.completeError(error);
-            _loadCompleter = null;
+            if (e.code == 3 || e.code == 1) {
+              final error = GoogleAdsNoFillError(
+                adUnitId: adUnitId ?? adapter.defaultAdUnitId,
+              );
+              _loadCompleter?.completeError(error);
+              _loadCompleter = null;
+            } else {
+              _loadCompleter?.completeError(e);
+              _loadCompleter = null;
+            }
           },
         ),
       );
@@ -116,13 +124,16 @@ class GoogleAdRewarded
       _loadCompleter?.complete();
       _loadCompleter = null;
     } on LoadAdError catch (e) {
-      _loadCompleter?.completeError(e);
-      _loadCompleter = null;
-      if (e.code == 3) {
-        throw GoogleAdsNoFillError(
+      if (e.code == 3 || e.code == 1) {
+        final error = GoogleAdsNoFillError(
           adUnitId: adUnitId ?? adapter.defaultAdUnitId,
         );
+        _loadCompleter?.completeError(error);
+        _loadCompleter = null;
+        throw error;
       } else {
+        _loadCompleter?.completeError(e);
+        _loadCompleter = null;
         rethrow;
       }
     } catch (e) {
