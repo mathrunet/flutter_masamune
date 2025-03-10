@@ -1,3 +1,7 @@
+## 2.13.0
+
+ - **FEAT**: Package update support. ([bdecd020](https://github.com/mathrunet/flutter_masamune/commit/bdecd02067c8bb76881b3b6822b7deb5abbf340d))
+
 ## 2.12.1
 
  - **FIX**: Add Bottom. ([a384e446](https://github.com/mathrunet/flutter_masamune/commit/a384e446dfd42b5b11aa60cc393f0704ab9f07d8))

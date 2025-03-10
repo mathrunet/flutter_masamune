@@ -1,3 +1,7 @@
+## 2.2.3
+
+ - Update a dependency to the latest release.
+
 ## 2.2.2
 
  - **FIX**: Commented out because getToken does not work in IOS. ([c6a2c6c8](https://github.com/mathrunet/flutter_masamune/commit/c6a2c6c8e1e36bcfd8bc6c0827ea0f1bb8088b31))

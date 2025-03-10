@@ -1,3 +1,7 @@
+## 2.36.1
+
+ - **FIX**: Added command for package creation. ([2eb6aa92](https://github.com/mathrunet/flutter_masamune/commit/2eb6aa920f1093356060082c23282fbfc6079759))
+
 ## 2.36.0
 
  - **FEAT**: Change ID. ([c5883683](https://github.com/mathrunet/flutter_masamune/commit/c588368319424d419f6c9e249162ea1f6c8872d2))

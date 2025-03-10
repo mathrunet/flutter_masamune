@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - Update a dependency to the latest release.
+
 ## 2.2.1
 
  - **FIX**: Give the Select_Account option. ([1ee5ca5c](https://github.com/mathrunet/flutter_masamune/commit/1ee5ca5c5a481cbe50445e6fc422e7f184b27b8d))

@@ -1,3 +1,7 @@
+## 2.17.0
+
+ - **FEAT**: Package update support. ([bdecd020](https://github.com/mathrunet/flutter_masamune/commit/bdecd02067c8bb76881b3b6822b7deb5abbf340d))
+
 ## 2.16.2
 
  - **FIX**: Modified FormBuilder and FormFutureField to reflect the style of FormBuilder and FormFutureField. ([c005ee72](https://github.com/mathrunet/flutter_masamune/commit/c005ee727793c9fd34b394191e191df05b6ddc5d))

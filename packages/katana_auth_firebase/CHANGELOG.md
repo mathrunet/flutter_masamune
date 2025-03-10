@@ -1,3 +1,7 @@
+## 2.8.1
+
+ - Update a dependency to the latest release.
+
 ## 2.8.0
 
  - **FEAT**: AuthProvider support. ([4a764c9f](https://github.com/mathrunet/flutter_masamune/commit/4a764c9fb76593225e0bca08ffbfad53b356f74e))

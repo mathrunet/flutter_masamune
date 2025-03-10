@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Package update support. ([bdecd020](https://github.com/mathrunet/flutter_masamune/commit/bdecd02067c8bb76881b3b6822b7deb5abbf340d))
+
 ## 2.3.14
 
  - **FIX**: Added debugging configuration. ([79642b97](https://github.com/mathrunet/flutter_masamune/commit/79642b976ab0a74267a52a871960cd5bd85c2dcd))

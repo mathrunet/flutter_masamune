@@ -1,3 +1,7 @@
+## 2.9.0
+
+ - **FEAT**: Package update support. ([bdecd020](https://github.com/mathrunet/flutter_masamune/commit/bdecd02067c8bb76881b3b6822b7deb5abbf340d))
+
 ## 2.8.0
 
  - **FEAT**: Added the concept of Timeout. ([e5733a28](https://github.com/mathrunet/flutter_masamune/commit/e5733a28be6eb264c44dc9de827253ac29e2d585))

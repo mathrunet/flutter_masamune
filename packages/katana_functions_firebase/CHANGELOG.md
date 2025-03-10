@@ -1,3 +1,7 @@
+## 2.9.1
+
+ - Update a dependency to the latest release.
+
 ## 2.9.0
 
  - **FEAT**: Added AppCheck token option to Firebase function calls. ([97ac78ce](https://github.com/mathrunet/flutter_masamune/commit/97ac78ce49e5998772508d3a7ca9ef5a64d505a0))

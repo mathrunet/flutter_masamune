@@ -1,3 +1,7 @@
+## 2.7.0
+
+ - **FEAT**: Package update support. ([bdecd020](https://github.com/mathrunet/flutter_masamune/commit/bdecd02067c8bb76881b3b6822b7deb5abbf340d))
+
 ## 2.6.2
 
  - **FIX**: Resolved Nofill error. ([e143c008](https://github.com/mathrunet/flutter_masamune/commit/e143c00850c865cc767d21c51fe30ebb01d26f4e))

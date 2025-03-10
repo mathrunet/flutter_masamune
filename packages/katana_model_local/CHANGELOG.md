@@ -1,3 +1,7 @@
+## 2.15.0
+
+ - **FEAT**: Package update support. ([bdecd020](https://github.com/mathrunet/flutter_masamune/commit/bdecd02067c8bb76881b3b6822b7deb5abbf340d))
+
 ## 2.14.8
 
  - Update a dependency to the latest release.

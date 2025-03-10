@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: Package update support. ([bdecd020](https://github.com/mathrunet/flutter_masamune/commit/bdecd02067c8bb76881b3b6822b7deb5abbf340d))
+
 ## 2.5.2
 
  - **FIX**: Fixed type error. ([fba9d817](https://github.com/mathrunet/flutter_masamune/commit/fba9d817bc80ecfbc3e2967355804161c31cfee7))
