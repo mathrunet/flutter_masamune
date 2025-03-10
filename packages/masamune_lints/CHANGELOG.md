@@ -1,3 +1,7 @@
+## 2.5.6
+
+ - **FIX**: Package Version Upgrade. ([c22f0e85](https://github.com/mathrunet/flutter_masamune/commit/c22f0e858e1116d79690f64d514e90648a05535f))
+
 ## 2.5.5
 
  - Update a dependency to the latest release.
