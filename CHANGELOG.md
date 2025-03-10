@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ads_google` - `v2.7.2`](#masamune_ads_google---v272)
+
+---
+
+#### `masamune_ads_google` - `v2.7.2`
+
+ - **FIX**: Also skip code1 of LoadAdError. ([3af694c4](https://github.com/mathrunet/flutter_masamune/commit/3af694c416666d1d31513d3cfd52c206c84149ed))
+
+
+## 2025-03-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.36.2`](#katana_cli---v2362)
  - [`katana_form` - `v2.17.1`](#katana_form---v2171)
  - [`katana_model` - `v2.32.1`](#katana_model---v2321)
