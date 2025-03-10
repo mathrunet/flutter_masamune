@@ -1,3 +1,7 @@
+## 2.2.12
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
 ## 2.2.11
 
  - Update a dependency to the latest release.

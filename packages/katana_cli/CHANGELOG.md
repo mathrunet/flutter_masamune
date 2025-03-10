@@ -1,3 +1,7 @@
+## 2.36.2
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
 ## 2.36.1
 
  - **FIX**: Added command for package creation. ([2eb6aa92](https://github.com/mathrunet/flutter_masamune/commit/2eb6aa920f1093356060082c23282fbfc6079759))

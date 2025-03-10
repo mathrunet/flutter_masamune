@@ -1,6 +1,6 @@
 name: masamune_model_docs_builder
 description: A builder package to generate table and schema definitions for Firebase and databases from Masamune model definitions, output in Markdown tabular format.
-version: 2.3.3
+version: 2.3.4
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_docs_builder
 
@@ -16,8 +16,8 @@ dependencies:
   source_gen: ^2.0.0
   analyzer: ^7.0.0
   http: ^1.2.2
-  masamune_annotation: ^2.9.6
-  masamune_builder: ^2.21.0
+  masamune_annotation: ^2.9.7
+  masamune_builder: ^2.21.1
   glob: ^2.1.2
 dev_dependencies:
   test: ^1.25.8

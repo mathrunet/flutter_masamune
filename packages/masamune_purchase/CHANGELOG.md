@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
 ## 2.4.0
 
  - **FEAT**: Package update support. ([bdecd020](https://github.com/mathrunet/flutter_masamune/commit/bdecd02067c8bb76881b3b6822b7deb5abbf340d))

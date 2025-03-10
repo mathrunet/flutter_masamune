@@ -15,6 +15,176 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.36.2`](#katana_cli---v2362)
+ - [`katana_form` - `v2.17.1`](#katana_form---v2171)
+ - [`katana_model` - `v2.32.1`](#katana_model---v2321)
+ - [`katana_model_firestore` - `v2.20.1`](#katana_model_firestore---v2201)
+ - [`katana_model_local` - `v2.15.1`](#katana_model_local---v2151)
+ - [`masamune` - `v2.20.1`](#masamune---v2201)
+ - [`masamune_annotation` - `v2.9.7`](#masamune_annotation---v297)
+ - [`masamune_builder` - `v2.21.1`](#masamune_builder---v2211)
+ - [`masamune_logger_firebase` - `v2.6.1`](#masamune_logger_firebase---v261)
+ - [`masamune_model_firebase_data_connect_annotation` - `v2.2.12`](#masamune_model_firebase_data_connect_annotation---v2212)
+ - [`masamune_notification` - `v2.10.1`](#masamune_notification---v2101)
+ - [`masamune_purchase` - `v2.4.1`](#masamune_purchase---v241)
+ - [`masamune_purchase_stripe` - `v3.6.1`](#masamune_purchase_stripe---v361)
+ - [`masamune_location_platform_interface` - `v2.4.63`](#masamune_location_platform_interface---v2463)
+ - [`masamune_model_firebase_remote_config` - `v2.1.12`](#masamune_model_firebase_remote_config---v2112)
+ - [`masamune_location_geocoding` - `v2.5.39`](#masamune_location_geocoding---v2539)
+ - [`masamune_location` - `v2.8.1`](#masamune_location---v281)
+ - [`masamune_ai` - `v2.4.3`](#masamune_ai---v243)
+ - [`masamune_notification_local` - `v2.3.1`](#masamune_notification_local---v231)
+ - [`masamune_model_firestore` - `v2.2.7`](#masamune_model_firestore---v227)
+ - [`masamune_deeplink_firebase` - `v2.3.1`](#masamune_deeplink_firebase---v231)
+ - [`masamune_auth_apple` - `v2.5.1`](#masamune_auth_apple---v251)
+ - [`masamune_scheduler` - `v2.4.1`](#masamune_scheduler---v241)
+ - [`masamune_model_algolia` - `v2.4.140`](#masamune_model_algolia---v24140)
+ - [`masamune_location_background` - `v2.6.12`](#masamune_location_background---v2612)
+ - [`masamune_text_to_speech` - `v2.4.1`](#masamune_text_to_speech---v241)
+ - [`masamune_agora` - `v2.6.1`](#masamune_agora---v261)
+ - [`masamune_auth_google` - `v2.6.1`](#masamune_auth_google---v261)
+ - [`masamune_model_firebase_data_connect` - `v2.3.7`](#masamune_model_firebase_data_connect---v237)
+ - [`masamune_ai_openai` - `v2.11.1`](#masamune_ai_openai---v2111)
+ - [`masamune_calendar` - `v2.4.1`](#masamune_calendar---v241)
+ - [`masamune_ai_firebase` - `v2.3.3`](#masamune_ai_firebase---v233)
+ - [`masamune_auth_google_firebase` - `v2.2.3`](#masamune_auth_google_firebase---v223)
+ - [`masamune_animate` - `v2.2.79`](#masamune_animate---v2279)
+ - [`masamune_picker` - `v2.5.1`](#masamune_picker---v251)
+ - [`masamune_app_review` - `v2.1.12`](#masamune_app_review---v2112)
+ - [`masamune_util` - `v2.2.135`](#masamune_util---v22135)
+ - [`masamune_universal_ui` - `v2.8.1`](#masamune_universal_ui---v281)
+ - [`masamune_auth_apple_firebase` - `v2.1.5`](#masamune_auth_apple_firebase---v215)
+ - [`masamune_firebase_app_check` - `v2.2.4`](#masamune_firebase_app_check---v224)
+ - [`masamune_introduction` - `v2.7.1`](#masamune_introduction---v271)
+ - [`masamune_deeplink` - `v2.3.1`](#masamune_deeplink---v231)
+ - [`masamune_speech_to_text` - `v2.3.1`](#masamune_speech_to_text---v231)
+ - [`masamune_auth_firebase` - `v2.1.17`](#masamune_auth_firebase---v2117)
+ - [`masamune_auth_facebook` - `v2.6.1`](#masamune_auth_facebook---v261)
+ - [`masamune_force_updater` - `v2.2.12`](#masamune_force_updater---v2212)
+ - [`masamune_location_google` - `v2.7.1`](#masamune_location_google---v271)
+ - [`masamune_mail` - `v2.2.135`](#masamune_mail---v22135)
+ - [`masamune_notification_firebase` - `v2.8.1`](#masamune_notification_firebase---v281)
+ - [`masamune_purchase_mobile` - `v2.12.1`](#masamune_purchase_mobile---v2121)
+ - [`masamune_ads_google` - `v2.7.1`](#masamune_ads_google---v271)
+ - [`masamune_camera` - `v2.6.1`](#masamune_camera---v261)
+ - [`masamune_model_docs_builder` - `v2.3.4`](#masamune_model_docs_builder---v234)
+ - [`masamune_model_firestore_builder` - `v2.5.4`](#masamune_model_firestore_builder---v254)
+ - [`masamune_model_firebase_data_connect_builder` - `v2.4.4`](#masamune_model_firebase_data_connect_builder---v244)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_platform_interface` - `v2.4.63`
+ - `masamune_model_firebase_remote_config` - `v2.1.12`
+ - `masamune_location_geocoding` - `v2.5.39`
+ - `masamune_location` - `v2.8.1`
+ - `masamune_ai` - `v2.4.3`
+ - `masamune_notification_local` - `v2.3.1`
+ - `masamune_model_firestore` - `v2.2.7`
+ - `masamune_deeplink_firebase` - `v2.3.1`
+ - `masamune_auth_apple` - `v2.5.1`
+ - `masamune_scheduler` - `v2.4.1`
+ - `masamune_model_algolia` - `v2.4.140`
+ - `masamune_location_background` - `v2.6.12`
+ - `masamune_text_to_speech` - `v2.4.1`
+ - `masamune_agora` - `v2.6.1`
+ - `masamune_auth_google` - `v2.6.1`
+ - `masamune_model_firebase_data_connect` - `v2.3.7`
+ - `masamune_ai_openai` - `v2.11.1`
+ - `masamune_calendar` - `v2.4.1`
+ - `masamune_ai_firebase` - `v2.3.3`
+ - `masamune_auth_google_firebase` - `v2.2.3`
+ - `masamune_animate` - `v2.2.79`
+ - `masamune_picker` - `v2.5.1`
+ - `masamune_app_review` - `v2.1.12`
+ - `masamune_util` - `v2.2.135`
+ - `masamune_universal_ui` - `v2.8.1`
+ - `masamune_auth_apple_firebase` - `v2.1.5`
+ - `masamune_firebase_app_check` - `v2.2.4`
+ - `masamune_introduction` - `v2.7.1`
+ - `masamune_deeplink` - `v2.3.1`
+ - `masamune_speech_to_text` - `v2.3.1`
+ - `masamune_auth_firebase` - `v2.1.17`
+ - `masamune_auth_facebook` - `v2.6.1`
+ - `masamune_force_updater` - `v2.2.12`
+ - `masamune_location_google` - `v2.7.1`
+ - `masamune_mail` - `v2.2.135`
+ - `masamune_notification_firebase` - `v2.8.1`
+ - `masamune_purchase_mobile` - `v2.12.1`
+ - `masamune_ads_google` - `v2.7.1`
+ - `masamune_camera` - `v2.6.1`
+ - `masamune_model_docs_builder` - `v2.3.4`
+ - `masamune_model_firestore_builder` - `v2.5.4`
+ - `masamune_model_firebase_data_connect_builder` - `v2.4.4`
+
+---
+
+#### `katana_cli` - `v2.36.2`
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
+#### `katana_form` - `v2.17.1`
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
+#### `katana_model` - `v2.32.1`
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
+#### `katana_model_firestore` - `v2.20.1`
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
+#### `katana_model_local` - `v2.15.1`
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
+#### `masamune` - `v2.20.1`
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
+#### `masamune_annotation` - `v2.9.7`
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
+#### `masamune_builder` - `v2.21.1`
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
+#### `masamune_logger_firebase` - `v2.6.1`
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
+#### `masamune_model_firebase_data_connect_annotation` - `v2.2.12`
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
+#### `masamune_notification` - `v2.10.1`
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
+#### `masamune_purchase` - `v2.4.1`
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
+#### `masamune_purchase_stripe` - `v3.6.1`
+
+ - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))
+
+
+## 2025-03-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth` - `v2.11.0`](#katana_auth---v2110)
  - [`katana_cli` - `v2.36.1`](#katana_cli---v2361)
  - [`katana_form` - `v2.17.0`](#katana_form---v2170)
