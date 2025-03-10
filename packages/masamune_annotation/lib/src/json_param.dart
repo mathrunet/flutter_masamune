@@ -23,7 +23,7 @@ part of '/masamune_annotation.dart';
 /// @formValue
 /// @immutable
 /// @CollectionModelPath("shop")
-/// class ShopModel with _$ShopModel {
+/// abstract class ShopModel with _$ShopModel {
 ///   const factory ShopModel({
 ///     @Default("") String name,
 ///     @Default("") String description,
@@ -63,7 +63,7 @@ const jsonParam = JsonParam();
 /// @formValue
 /// @immutable
 /// @CollectionModelPath("shop")
-/// class ShopModel with _$ShopModel {
+/// abstract class ShopModel with _$ShopModel {
 ///   const factory ShopModel({
 ///     @Default("") String name,
 ///     @Default("") String description,
@@ -102,7 +102,7 @@ class JsonParam {
   /// @formValue
   /// @immutable
   /// @CollectionModelPath("shop")
-  /// class ShopModel with _$ShopModel {
+  /// abstract class ShopModel with _$ShopModel {
   ///   const factory ShopModel({
   ///     @Default("") String name,
   ///     @Default("") String description,

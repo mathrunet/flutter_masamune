@@ -224,7 +224,7 @@ class FormPageState extends State<FormPage> {
 
 ```dart
 @freezed
-class FormValue with _$FormValue {
+abstract class FormValue with _$FormValue {
   const factory FormValue({
     String? name,
     String? description,

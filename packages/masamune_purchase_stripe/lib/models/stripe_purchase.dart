@@ -22,7 +22,7 @@ part 'stripe_purchase.freezed.dart';
 @freezed
 @immutable
 @CollectionModelPath(StripePurchaseModel.path)
-class StripePurchaseModel with _$StripePurchaseModel {
+abstract class StripePurchaseModel with _$StripePurchaseModel {
   /// Data model for storing Stripe purchase information.
   ///
   /// All payments to the operation, payments between users, and subscriptions are stored in this database.

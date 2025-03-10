@@ -17,7 +17,7 @@ part 'stripe_payment.freezed.dart';
 @freezed
 @immutable
 @CollectionModelPath(StripePaymentModel.path)
-class StripePaymentModel with _$StripePaymentModel {
+abstract class StripePaymentModel with _$StripePaymentModel {
   /// A model for storing data on payment methods for stripes.
   ///
   /// ストライプの支払い方法のデータを保管するためのモデル。

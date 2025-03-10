@@ -20,7 +20,7 @@ enum TestEnum {
 }
 
 @freezed
-class TestValue with _$TestValue {
+abstract class TestValue with _$TestValue {
   const factory TestValue({
     required String name,
     TestEnum? en,

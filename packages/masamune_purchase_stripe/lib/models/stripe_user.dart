@@ -22,7 +22,7 @@ part 'stripe_user.freezed.dart';
 @freezed
 @immutable
 @CollectionModelPath(StripeUserModel.path)
-class StripeUserModel with _$StripeUserModel {
+abstract class StripeUserModel with _$StripeUserModel {
   /// Data model for storing stripe user data.
   ///
   /// Both the payer (customer) and the revenue receiver (account) are stored in this data.

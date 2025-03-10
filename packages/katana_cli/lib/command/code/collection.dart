@@ -82,7 +82,7 @@ part '$baseName.freezed.dart';
 @immutable
 // TODO: Set the path for the collection.
 @CollectionModelPath("\${1:$path}")
-class ${className}Model with _\$${className}Model {
+abstract class ${className}Model with _\$${className}Model {
   const factory ${className}Model({
      // TODO: Set the data fields.
      \${2}

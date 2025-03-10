@@ -29,7 +29,8 @@ part 'local_notification_schedule.freezed.dart';
   SchedulerQuery.path,
   adapter: "LocalNotificationMasamuneAdapter.primary.modelAdapter",
 )
-class LocalNotificationScheduleModel with _$LocalNotificationScheduleModel {
+abstract class LocalNotificationScheduleModel
+    with _$LocalNotificationScheduleModel {
   /// Model for scheduling and registering local PUSH notifications.
   ///
   /// Specify the date and time to send the notification in [time].

@@ -326,7 +326,7 @@ part 'test.freezed.dart';
 @immutable
 // TODO: Set the path for the collection.
 @CollectionModelPath("test")
-class TestModel with _$TestModel {
+abstract class TestModel with _$TestModel {
   const factory TestModel({
      // TODO: Set the data schema.
      
@@ -521,7 +521,7 @@ Google Spreadsheets will be made available in advance.
     )
     // TODO: Set the path for the collection.
     @CollectionModelPath("test")
-    class TestModel with _$TestModel {
+    abstract class TestModel with _$TestModel {
       const factory TestModel({
          // TODO: Set the data schema.
          
@@ -830,7 +830,7 @@ part 'login.freezed.dart';
 @freezed
 @formValue
 @immutable
-class LoginValue with _$LoginValue {
+abstract class LoginValue with _$LoginValue {
   const factory LoginValue({
     // TODO: Set the data schema.
 

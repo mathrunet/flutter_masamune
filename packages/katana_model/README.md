@@ -271,7 +271,7 @@ With [freezed](https://pub.dev/packages/freezed), the schema can be defined and 
 
 ```dart
 @freezed
-class UserValue with _$UserValue {
+abstract class UserValue with _$UserValue {
   const factory UserValue({
     required String first,
     required String last,
@@ -811,7 +811,7 @@ When using [freezed](https://pub.dev/packages/freezed), define it with the `Mode
 
 ```dart
 @freezed
-class UserValue with _$UserValue {
+abstract class UserValue with _$UserValue {
   const factory UserValue({
     required String first,
     required String last,
@@ -936,7 +936,7 @@ It's not const, so you can't put an initial value with `@Default`. Add `required
 
 ```dart
 @freezed
-class UserValue with _$UserValue {
+abstract class UserValue with _$UserValue {
   const factory UserValue({
     required String name,
     required String text,
@@ -947,7 +947,7 @@ class UserValue with _$UserValue {
 }
 
 @freezed
-class ShopValue with _$ShopValue {
+abstract class ShopValue with _$ShopValue {
   const factory ShopValue({
     required String name,
     required String text,

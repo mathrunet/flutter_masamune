@@ -10,7 +10,7 @@ part 'listenable_and_normal_firestore_model_test.freezed.dart';
 part 'listenable_and_normal_firestore_model_test.g.dart';
 
 @freezed
-class TestValue with _$TestValue {
+abstract class TestValue with _$TestValue {
   const factory TestValue({
     String? name,
     String? text,

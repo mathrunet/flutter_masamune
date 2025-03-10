@@ -28,7 +28,7 @@ class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
 }
 
 @freezed
-class TestValue with _$TestValue {
+abstract class TestValue with _$TestValue {
   const factory TestValue({
     String? name,
     String? text,

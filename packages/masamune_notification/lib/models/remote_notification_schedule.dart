@@ -29,7 +29,7 @@ part 'remote_notification_schedule.freezed.dart';
   SchedulerQuery.path,
   adapter: "RemoteNotificationMasamuneAdapter.primary.modelAdapter",
 )
-class RemoteNotificationScheduleModel
+abstract class RemoteNotificationScheduleModel
     with _$RemoteNotificationScheduleModel
     implements ModelNotificationScheduleBase {
   /// This model is for scheduling and registering remote PUSH notifications.

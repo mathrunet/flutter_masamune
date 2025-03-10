@@ -23,7 +23,7 @@ part 'purchase_subscription.freezed.dart';
 @formValue
 @immutable
 @CollectionModelPath(PurchaseSubscriptionModel.path)
-class PurchaseSubscriptionModel with _$PurchaseSubscriptionModel {
+abstract class PurchaseSubscriptionModel with _$PurchaseSubscriptionModel {
   /// Model for storing subscription data for billing purposes.
   ///
   /// You can retrieve a collection or document by passing [collection] and [document], respectively.

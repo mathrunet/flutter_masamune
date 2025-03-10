@@ -67,7 +67,7 @@ final appPrefs = Prefs(
 
 /// Shared Preferences.
 @prefs
-class Prefs with _$Prefs, ChangeNotifier {
+abstract class Prefs with _$Prefs, ChangeNotifier {
   factory Prefs({
     // TODO: Define here the values to be managed in Shared Preferences.
     ${1}

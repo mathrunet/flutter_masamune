@@ -76,7 +76,7 @@ part '$baseName.freezed.dart';
 @freezed
 @formValue
 @immutable
-class ${className}Value with _\$${className}Value {
+abstract class ${className}Value with _\$${className}Value {
   const factory ${className}Value({
      // TODO: Set the data schema.
      \${2}

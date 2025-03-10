@@ -34,7 +34,7 @@ class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
 }
 
 @freezed
-class TestValue with _$TestValue {
+abstract class TestValue with _$TestValue {
   const factory TestValue({
     @Default(ModelTimestamp()) ModelTimestamp dateTime,
     @Default(ModelDate()) ModelDate date,

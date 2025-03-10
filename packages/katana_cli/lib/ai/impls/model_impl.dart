@@ -87,7 +87,7 @@ class ModelImplMdcCliAiCode extends CliAiCode {
                   @immutable
                   // TODO: Set the path for the collection.
                   @CollectionModelPath("memo")
-                  class MemoModel with _$MemoModel {
+                  abstract class MemoModel with _$MemoModel {
                     const factory MemoModel({
                       // TODO: Set the data fields.
                       required String title,
@@ -220,7 +220,7 @@ class ModelImplMdcCliAiCode extends CliAiCode {
                   @immutable
                   // TODO: Set the path for the document.
                   @DocumentModelPath("app/setting")
-                  class AppSettingModel with _$AppSettingModel {
+                  abstract class AppSettingModel with _$AppSettingModel {
                     const factory AppSettingModel({
                       // TODO: Set the data schema.
                       @Default("1.0.0") String version,

@@ -53,7 +53,7 @@ part of '/masamune_annotation.dart';
 /// @formValue
 /// @immutable
 /// @CollectionModelPath("user")
-/// class UserModel with _$UserModel {
+/// abstract class UserModel with _$UserModel {
 ///   const factory UserModel({
 ///     @Default("") String name,
 ///     @Default("") String description,
@@ -123,7 +123,7 @@ class CollectionModelPath {
   /// @formValue
   /// @immutable
   /// @CollectionModelPath("user")
-  /// class UserModel with _$UserModel {
+  /// abstract class UserModel with _$UserModel {
   ///   const factory UserModel({
   ///     @Default("") String name,
   ///     @Default("") String description,

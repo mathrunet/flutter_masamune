@@ -11,7 +11,7 @@ part 'main.g.dart';
 
 @freezed
 @immutable
-class AnalyticsValue with _$AnalyticsValue implements Loggable {
+abstract class AnalyticsValue with _$AnalyticsValue implements Loggable {
   const factory AnalyticsValue({
     required String userId,
   }) = _AnalyticsValue;

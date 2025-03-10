@@ -95,7 +95,7 @@ class TestValueModelRawCollection extends ModelInitialCollection<TestValue> {
 }
 
 @freezed
-class TestValue with _$TestValue {
+abstract class TestValue with _$TestValue {
   const factory TestValue({
     String? name,
     String? text,
@@ -137,7 +137,7 @@ class UserValueModelRawCollection extends ModelInitialCollection<UserValue> {
 }
 
 @freezed
-class UserValue with _$UserValue {
+abstract class UserValue with _$UserValue {
   const factory UserValue({
     String? name,
     String? text,
@@ -158,7 +158,7 @@ class ShopValueModelRawCollection extends ModelInitialCollection<ShopValue> {
 }
 
 @freezed
-class ShopValue with _$ShopValue {
+abstract class ShopValue with _$ShopValue {
   const factory ShopValue({
     String? name,
     String? text,

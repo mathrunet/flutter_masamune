@@ -20,7 +20,7 @@ part of '/masamune_annotation.dart';
 /// @freezed
 /// @formValue
 /// @immutable
-/// class LoginValue with _$LoginValuee {
+/// abstract class LoginValue with _$LoginValuee {
 ///   const factory LoginValue({
 ///     @Default("") String email,
 ///     @Default("") String password,
@@ -56,7 +56,7 @@ const formValue = FormValue();
 /// @freezed
 /// @formValue
 /// @immutable
-/// class LoginValue with _$LoginValuee {
+/// abstract class LoginValue with _$LoginValuee {
 ///   const factory LoginValue({
 ///     @Default("") String email,
 ///     @Default("") String password,
@@ -91,7 +91,7 @@ class FormValue {
   /// @freezed
   /// @formValue
   /// @immutable
-  /// class LoginValue with _$LoginValuee {
+  /// abstract class LoginValue with _$LoginValuee {
   ///   const factory LoginValue({
   ///     @Default("") String email,
   ///     @Default("") String password,

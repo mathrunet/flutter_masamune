@@ -2310,7 +2310,7 @@ typedef CounterModelRef = ModelRef<CounterModel>?;
 @formValue
 @immutable
 @DocumentModelPath("app/counter")
-class CounterModel with _\$CounterModel {
+abstract class CounterModel with _\$CounterModel {
   const factory CounterModel({
      @Default(ModelCounter(0)) ModelCounter counter,
   }) = _CounterModel;

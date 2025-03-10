@@ -9,7 +9,7 @@ part of '/masamune_annotation.dart';
 /// @formValue
 /// @immutable
 /// @CollectionModelPath("shop")
-/// class ShopModel with _$ShopModel {
+/// abstract class ShopModel with _$ShopModel {
 ///   const factory ShopModel({
 ///     @ParamComment("This is name.") @Default("") String name,
 ///     @ParamComment("This is description.") @Default("") String description,
@@ -33,7 +33,7 @@ class ParamComment {
   /// @formValue
   /// @immutable
   /// @CollectionModelPath("shop")
-  /// class ShopModel with _$ShopModel {
+  /// abstract class ShopModel with _$ShopModel {
   ///   const factory ShopModel({
   ///     @ParamComment("This is name.") @Default("") String name,
   ///     @ParamComment("This is description.") @Default("") String description,

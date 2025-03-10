@@ -34,7 +34,7 @@ part of '/masamune_model_firebase_data_connect_annotation.dart';
 /// @immutable
 /// @firebaseDataConnect
 /// @CollectionModelPath("user")
-/// class UserModel with _$UserModel {
+/// abstract class UserModel with _$UserModel {
 ///   const factory UserModel({
 ///     @Default("") String name,
 ///     @Default("") String description,
@@ -86,7 +86,7 @@ const firebaseDataConnect = FirebaseDataConnect();
 /// @immutable
 /// @firebaseDataConnect
 /// @CollectionModelPath("user")
-/// class UserModel with _$UserModel {
+/// abstract class UserModel with _$UserModel {
 ///   const factory UserModel({
 ///     @Default("") String name,
 ///     @Default("") String description,
@@ -137,7 +137,7 @@ class FirebaseDataConnect {
   /// @immutable
   /// @firebaseDataConnect
   /// @CollectionModelPath("user")
-  /// class UserModel with _$UserModel {
+  /// abstract class UserModel with _$UserModel {
   ///   const factory UserModel({
   ///     @Default("") String name,
   ///     @Default("") String description,

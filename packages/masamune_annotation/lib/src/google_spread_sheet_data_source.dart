@@ -43,7 +43,7 @@ part of '/masamune_annotation.dart';
 ///   "https://docs.google.com/spreadsheets/d/1bfNX8clPH9PFOcfFIStNCGNGjeCKwGv-24iChSJn8yM/edit#gid=0",
 ///   version: 1,
 /// )
-/// class CategoryModel with _$CategoryModel {
+/// abstract class CategoryModel with _$CategoryModel {
 ///   const factory CategoryModel({
 ///     @Default("") String name,
 ///     @Default("") String description,
@@ -101,7 +101,7 @@ class GoogleSpreadSheetDataSource {
   ///   "https://docs.google.com/spreadsheets/d/1bfNX8clPH9PFOcfFIStNCGNGjeCKwGv-24iChSJn8yM/edit#gid=0",
   ///   version: 1,
   /// )
-  /// class CategoryModel with _$CategoryModel {
+  /// abstract class CategoryModel with _$CategoryModel {
   ///   const factory CategoryModel({
   ///     @Default("") String name,
   ///     @Default("") String description,

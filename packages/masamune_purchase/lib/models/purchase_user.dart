@@ -27,7 +27,7 @@ part 'purchase_user.freezed.dart';
 @formValue
 @immutable
 @CollectionModelPath(PurchaseUserModel.path)
-class PurchaseUserModel with _$PurchaseUserModel {
+abstract class PurchaseUserModel with _$PurchaseUserModel {
   /// Model for storing user data for billing purposes.
   ///
   /// Here you can retrieve information about the user wallet.
