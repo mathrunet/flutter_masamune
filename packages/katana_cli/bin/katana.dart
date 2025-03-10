@@ -24,6 +24,7 @@ const commands = <String, CliCommand>{
   "git": GitCliCommand(),
   "apply": ApplyCliCommand(),
   "create": CreateCliCommand(),
+  "package": PackageCliCommand(),
   "compose": ComposeCliCommand(),
   "deploy": DeployCliCommand(),
   "store": StoreCliCommand(),

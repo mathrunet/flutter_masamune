@@ -724,6 +724,176 @@ class ComposeCliCommand extends CliCommand {
   }
 }
 
+/// Create a new Flutter package.
+///
+/// 新しいFlutterパッケージを作成します。
+class PackageCliCommand extends CliCommand {
+  /// Create a new Flutter package.
+  ///
+  /// 新しいFlutterパッケージを作成します。
+  const PackageCliCommand();
+
+  @override
+  String get description =>
+      "Create a new Flutter package. 新しいFlutterパッケージを作成します。";
+
+  @override
+  String? get example => "katana package [package_name]";
+
+  @override
+  Future<void> exec(ExecContext context) async {
+    final bin = context.yaml.getAsMap("bin");
+    final flutter = bin.get("flutter", "flutter");
+    final packageName = context.args.get(1, "");
+    if (packageName.isEmpty) {
+      error(
+        "Please provide the name of the package.\r\nパッケージ名を記載してください。\r\n\r\nkatana package [package name]",
+      );
+      return;
+    }
+    final projectName = packageName.split(".").lastOrNull;
+    final domain = packageName
+        .split(".")
+        .sublist(0, packageName.split(".").length - 1)
+        .join(".");
+    if (projectName.isEmpty || domain.isEmpty) {
+      error(
+        "The format of the package name should be specified in the following format.\r\nパッケージ名の形式は下記の形式で指定してください。\r\n\r\n[Domain].[ProjectName]\r\ne.g. net.mathru.website",
+      );
+      return;
+    }
+    await command(
+      "Create a Flutter project.",
+      [
+        flutter,
+        "create",
+        "--org",
+        domain,
+        "--template=package",
+        projectName!,
+      ],
+    );
+    await _moveDirectoryContents(projectName, ".");
+    Directory(projectName).deleteSync(recursive: true);
+    File("test/${projectName.toSnakeCase()}_test.dart").deleteSync();
+    await command(
+      "Import packages.",
+      [
+        flutter,
+        "pub",
+        "add",
+        ...importPackages,
+      ],
+    );
+    await command(
+      "Import dev packages.",
+      [
+        flutter,
+        "pub",
+        "add",
+        "--dev",
+        ...importDevPackages,
+        "import_sorter",
+      ],
+    );
+    label("Generate file for VSCode");
+    for (final file in otherFiles.entries) {
+      await file.value.generateFile(file.key);
+    }
+    label("Replace package main file.");
+    await PackageMainCliCode(packageName: projectName)
+        .generateFile("${projectName.toSnakeCase()}.dart");
+    label("Replace package README.md file.");
+    await PackageReadMeCliCode(packageName: projectName)
+        .generateFile("README.md");
+    label("Replace LICENSE");
+    await const LicenseCliCode().generateFile("LICENSE");
+    label("Create a pubspec_overrides.yaml");
+    await const PubspecOverridesCliCode()
+        .generateFile("pubspec_overrides.yaml");
+    label("Create a build.yaml");
+    await const BuildCliCode().generateFile("build.yaml");
+    label("Edit a analysis_options.yaml");
+    await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
+    label("Rewrite `.gitignore`.");
+    final gitignore = File(".gitignore");
+    if (!gitignore.existsSync()) {
+      error("Cannot find `.gitignore`. Project is broken.");
+      return;
+    }
+    final gitignores = await gitignore.readAsLines();
+    if (!gitignores.any((e) => e.startsWith("pubspec_overrides.yaml"))) {
+      gitignores.add("pubspec_overrides.yaml");
+    }
+    if (!gitignores.any((e) => e.startsWith("/android/app/.cxx/"))) {
+      gitignores.add("/android/app/.cxx/");
+    }
+    await gitignore.writeAsString(gitignores.join("\n"));
+    label("Rewrite `pubspec.yaml`.");
+    final pubspec = File("pubspec.yaml");
+    if (!pubspec.existsSync()) {
+      error("Cannot find `pubspec.yaml`. Project is broken.");
+      return;
+    }
+    final pubspecsRes = <String>[];
+    final pubspecs = await pubspec.readAsLines();
+    for (final tmp in pubspecs) {
+      if (tmp.startsWith("homepage:")) {
+        pubspecsRes.add("# homepage:");
+      } else if (tmp.startsWith("flutter:")) {
+        pubspecsRes.add("# flutter:");
+      } else {
+        pubspecsRes.add(tmp);
+      }
+    }
+    await pubspec.writeAsString(pubspecsRes.join("\n"));
+    await Future.delayed(const Duration(seconds: 5));
+    await command(
+      "Run the project's build_runner to generate code.",
+      [
+        flutter,
+        "packages",
+        "pub",
+        "run",
+        "build_runner",
+        "build",
+        "--delete-conflicting-outputs",
+      ],
+    );
+    await command(
+      "Run import sorter",
+      [
+        flutter,
+        "pub",
+        "run",
+        "import_sorter:main",
+        ".",
+      ],
+    );
+  }
+
+  /// ディレクトリの内容を再帰的に移動する関数
+  Future<void> _moveDirectoryContents(
+    String sourceDir,
+    String targetDir,
+  ) async {
+    final dir = Directory(sourceDir);
+    final entities = await dir.list(recursive: false).toList();
+
+    for (final entity in entities) {
+      final name = entity.path.split(Platform.pathSeparator).last;
+      final newPath = '$targetDir${Platform.pathSeparator}$name';
+
+      if (entity is File) {
+        await entity.rename(newPath);
+      } else if (entity is Directory) {
+        await Directory(newPath).create(recursive: true);
+        await _moveDirectoryContents(entity.path, newPath);
+      }
+    }
+  }
+}
+
 /// Contents of katana.yaml.
 ///
 /// katana.yamlの中身。
@@ -2652,5 +2822,143 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.""";
+  }
+}
+
+/// Contents of the Package's main Dart file.
+///
+/// PackageのメインDartファイルの中身。
+class PackageMainCliCode extends CliCode {
+  /// Contents of the Package's main Dart file.
+  ///
+  /// PackageのメインDartファイルの中身。
+  const PackageMainCliCode({
+    required this.packageName,
+  });
+
+  /// Package Name.
+  ///
+  /// パッケージ名。
+  final String packageName;
+
+  @override
+  String get name => packageName.toSnakeCase();
+
+  @override
+  String get prefix => packageName.toSnakeCase();
+
+  @override
+  String get directory => "lib";
+
+  @override
+  String get description =>
+      "Define the main Dart file of the package. パッケージのメインDartファイルを定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """// Copyright (c) 2024 mathru. All rights reserved.
+
+/// A new Flutter package project.
+///
+/// To use, import `package:${packageName.toSnakeCase()}/${packageName.toSnakeCase()}.dart`.
+///
+/// [mathru.net]: https://mathru.net
+/// [YouTube]: https://www.youtube.com/c/mathrunetchannel
+library ${packageName.toSnakeCase()};
+""";
+  }
+}
+
+/// Contents of the Package's README.md file.
+///
+/// PackageのREADME.mdファイルの中身。
+class PackageReadMeCliCode extends CliCode {
+  /// Contents of the Package's README.md file.
+  ///
+  /// PackageのREADME.mdファイルの中身。
+  const PackageReadMeCliCode({
+    required this.packageName,
+  });
+
+  /// Package Name.
+  ///
+  /// パッケージ名。
+  final String packageName;
+
+  @override
+  String get name => "README";
+
+  @override
+  String get prefix => "README";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description =>
+      "Define the README.md file of the package. パッケージのREADME.mdファイルを定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """<p align="center">
+  <a href="https://mathru.net">
+    <img width="240px" src="https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/.github/images/icon.png" alt="Masamune logo" style="border-radius: 32px"s><br/>
+  </a>
+  <h1 align="center">${packageName.toPascalCase()}</h1>
+</p>
+
+<p align="center">
+  <a href="https://twitter.com/mathru">
+    <img src="https://img.shields.io/static/v1?label=Twitter&message=Follow&logo=Twitter&color=1DA1F2&link=https://twitter.com/mathru" alt="Follow on Twitter" />
+  </a>
+  <a href="https://threads.net/@mathrunet">
+    <img src="https://img.shields.io/static/v1?label=Threads&message=Follow&color=101010&link=https://threads.net/@mathrunet" alt="Follow on Threads" />
+  </a>
+  <a href="https://github.com/invertase/melos">
+    <img src="https://img.shields.io/static/v1?label=maintained%20with&message=melos&color=FF1493&link=https://github.com/invertase/melos" alt="Maintained with Melos" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/sponsors/mathrunet"><img src="https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=ff69b4&link=https://github.com/sponsors/mathrunet" alt="GitHub Sponsor" /></a>
+</p>
+
+---
+
+[[GitHub]](https://github.com/mathrunet) | [[YouTube]](https://www.youtube.com/c/mathrunetchannel) | [[Packages]](https://pub.dev/publishers/mathru.net/packages) | [[Twitter]](https://twitter.com/mathru) | [[Threads]](https://threads.net/@mathrunet) | [[LinkedIn]](https://www.linkedin.com/in/mathrunet/) | [[mathru.net]](https://mathru.net)
+
+---
+
+Plug-in packages that add functionality to the Masamune Framework.
+
+For more information about Masamune Framework, please click here.
+
+[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+
+# GitHub Sponsors
+
+Sponsors are always welcome. Thank you for your support!
+
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)""";
   }
 }
