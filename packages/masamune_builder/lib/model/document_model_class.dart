@@ -35,6 +35,13 @@ List<Spec> documentModelClass(
                     ..name = "modelQuery"
                     ..toSuper = true,
                 )
+              ])
+              ..optionalParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "_value"
+                    ..toSuper = true,
+                )
               ]),
           )
         ])
@@ -240,6 +247,13 @@ List<Spec> documentModelClass(
                   Parameter(
                     (p) => p
                       ..name = "modelQuery"
+                      ..toSuper = true,
+                  )
+                ])
+                ..optionalParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "_value"
                       ..toSuper = true,
                   )
                 ]),

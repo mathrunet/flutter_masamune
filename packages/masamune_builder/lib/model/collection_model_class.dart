@@ -253,6 +253,13 @@ List<Spec> collectionModelClass(
                     ..name = "modelQuery"
                     ..toSuper = true,
                 )
+              ])
+              ..optionalParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "value"
+                    ..toSuper = true,
+                )
               ]),
           )
         ])
@@ -358,6 +365,13 @@ List<Spec> collectionModelClass(
                   Parameter(
                     (p) => p
                       ..name = "modelQuery"
+                      ..toSuper = true,
+                  )
+                ])
+                ..optionalParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "value"
                       ..toSuper = true,
                   )
                 ]),
