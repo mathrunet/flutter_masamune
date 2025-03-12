@@ -34,7 +34,8 @@ class UniversalSearchBar<T> extends StatefulWidget {
   /// [actions]を設定するとその他のアクションを追加できます。
   const UniversalSearchBar({
     super.key,
-    required this.onSearch,
+    this.onSearch,
+    this.onChanged,
     this.controller,
     this.actions,
     this.padding,
@@ -83,7 +84,12 @@ class UniversalSearchBar<T> extends StatefulWidget {
   /// Callback when search.
   ///
   /// 検索時のコールバックです。
-  final void Function(String text, T mode) onSearch;
+  final void Function(String text, T mode)? onSearch;
+
+  /// Callback when text changed.
+  ///
+  /// テキストが変更された時のコールバックです。
+  final void Function(String text)? onChanged;
 
   /// Text controller.
   ///
@@ -224,8 +230,14 @@ class _UniversalSearchBarState<T> extends State<UniversalSearchBar> {
                         contentPadding: widget.contentPadding,
                       ),
                       controller: _effectiveController,
+                      onChanged: (value) {
+                        if (value == null) {
+                          return;
+                        }
+                        widget.onChanged?.call(value);
+                      },
                       onSubmitted: (value) {
-                        widget.onSearch.call(_effectiveController.text, _mode);
+                        widget.onSearch?.call(_effectiveController.text, _mode);
                       },
                     ),
                   ),
@@ -235,7 +247,7 @@ class _UniversalSearchBarState<T> extends State<UniversalSearchBar> {
                       foregroundColor: widget.foregroundColor,
                     ),
                     onPressed: () {
-                      widget.onSearch.call(_effectiveController.text, _mode);
+                      widget.onSearch?.call(_effectiveController.text, _mode);
                     },
                   ),
                   if (widget.actions != null) ...widget.actions!,
@@ -256,7 +268,7 @@ class _UniversalSearchBarState<T> extends State<UniversalSearchBar> {
                           setState(() {
                             _mode = e;
                             widget.onSearch
-                                .call(_effectiveController.text, _mode);
+                                ?.call(_effectiveController.text, _mode);
                           });
                         },
                         child: Row(
