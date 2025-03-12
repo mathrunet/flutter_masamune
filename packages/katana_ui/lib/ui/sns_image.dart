@@ -14,6 +14,7 @@ class SnsImage extends StatelessWidget {
     this.space = 2,
     this.height = 240,
     this.borderRadius,
+    this.onTap,
   });
 
   /// The list of image providers to display.
@@ -41,6 +42,11 @@ class SnsImage extends StatelessWidget {
   /// 画像の角の丸み。
   final BorderRadius? borderRadius;
 
+  /// The callback when the image is tapped.
+  ///
+  /// 画像がタップされた時のコールバック。
+  final ValueChanged<ImageProvider>? onTap;
+
   @override
   Widget build(BuildContext context) {
     final length = images.length;
@@ -51,7 +57,12 @@ class SnsImage extends StatelessWidget {
         height: height,
         child: ClipRRect(
           borderRadius: borderRadius ?? BorderRadius.zero,
-          child: Image(image: images.first, fit: fit),
+          child: InkWell(
+            onTap: () {
+              onTap?.call(images[0]);
+            },
+            child: Image(image: images[0], fit: fit),
+          ),
         ),
       );
     } else if (length == 2) {
@@ -64,9 +75,23 @@ class SnsImage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Expanded(child: Image(image: images[0], fit: fit)),
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    onTap?.call(images[0]);
+                  },
+                  child: Image(image: images[0], fit: fit),
+                ),
+              ),
               SizedBox(width: space),
-              Expanded(child: Image(image: images[1], fit: fit)),
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    onTap?.call(images[1]);
+                  },
+                  child: Image(image: images[1], fit: fit),
+                ),
+              ),
             ],
           ),
         ),
@@ -81,16 +106,37 @@ class SnsImage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Expanded(child: Image(image: images[0], fit: fit)),
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    onTap?.call(images[0]);
+                  },
+                  child: Image(image: images[0], fit: fit),
+                ),
+              ),
               SizedBox(width: space),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded(child: Image(image: images[1], fit: fit)),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          onTap?.call(images[1]);
+                        },
+                        child: Image(image: images[1], fit: fit),
+                      ),
+                    ),
                     SizedBox(height: space),
-                    Expanded(child: Image(image: images[2], fit: fit)),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          onTap?.call(images[2]);
+                        },
+                        child: Image(image: images[2], fit: fit),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -113,9 +159,23 @@ class SnsImage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded(child: Image(image: images[0], fit: fit)),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          onTap?.call(images[0]);
+                        },
+                        child: Image(image: images[0], fit: fit),
+                      ),
+                    ),
                     SizedBox(height: space),
-                    Expanded(child: Image(image: images[1], fit: fit)),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          onTap?.call(images[1]);
+                        },
+                        child: Image(image: images[1], fit: fit),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -125,9 +185,23 @@ class SnsImage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded(child: Image(image: images[2], fit: fit)),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          onTap?.call(images[2]);
+                        },
+                        child: Image(image: images[2], fit: fit),
+                      ),
+                    ),
                     SizedBox(height: space),
-                    Expanded(child: Image(image: images[3], fit: fit)),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          onTap?.call(images[3]);
+                        },
+                        child: Image(image: images[3], fit: fit),
+                      ),
+                    ),
                   ],
                 ),
               ),

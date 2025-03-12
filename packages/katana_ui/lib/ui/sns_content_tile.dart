@@ -21,14 +21,15 @@ class SnsContentTile extends StatelessWidget {
     this.backgroundColor,
     this.margin,
     this.leading,
-    this.leadingSpace = 8,
+    this.space = 8,
     this.title,
     this.content,
     this.subtitle,
     this.iconColor,
     this.textColor,
-    this.contentPadding,
+    this.contentPadding = const EdgeInsets.symmetric(vertical: 16),
     this.bottom,
+    this.padding = const EdgeInsets.symmetric(vertical: 16),
   });
 
   /// A callback that is called when the card is tapped.
@@ -54,7 +55,7 @@ class SnsContentTile extends StatelessWidget {
   /// The space between the leading widget and the title.
   ///
   /// リーディングウィジェットとタイトルの間のスペース。
-  final double leadingSpace;
+  final double space;
 
   /// Title of the list item.
   ///
@@ -84,7 +85,12 @@ class SnsContentTile extends StatelessWidget {
   /// The padding around the [ListTile] content.
   ///
   /// [ListTile]コンテンツの周囲のパディング。
-  final EdgeInsetsGeometry? contentPadding;
+  final EdgeInsetsGeometry contentPadding;
+
+  /// The padding around the widget.
+  ///
+  /// ウィジェットの周囲のパディング。
+  final EdgeInsetsGeometry padding;
 
   /// The widget below this widget in the tree.
   ///
@@ -93,49 +99,58 @@ class SnsContentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor =
-        this.backgroundColor ?? Theme.of(context).colorScheme.surface;
-    final textColor = this.textColor ?? Theme.of(context).colorScheme.onSurface;
-    final iconColor = this.iconColor ?? Theme.of(context).colorScheme.onSurface;
+    final backgroundColor = this.backgroundColor;
+    final textColor = this.textColor;
+    final iconColor = this.iconColor;
 
     return DefaultTextStyle(
-      style: TextStyle(color: textColor),
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: textColor),
       child: IconTheme(
         data: IconThemeData(color: iconColor),
-        child: Container(
-          color: backgroundColor,
-          margin: margin,
-          padding: contentPadding,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (leading != null) ...[
-                leading!,
-                SizedBox(width: leadingSpace),
-              ],
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (title != null) title!,
-                        if (subtitle != null) subtitle!,
-                      ],
-                    ),
-                    if (content != null) content!,
-                    if (bottom != null) bottom!,
-                  ],
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            color: backgroundColor,
+            margin: margin,
+            padding: padding,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (leading != null) ...[
+                  leading!,
+                  SizedBox(width: space),
+                ],
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (title != null) ...[
+                            title!,
+                            SizedBox(width: space),
+                          ],
+                          if (subtitle != null) subtitle!,
+                        ],
+                      ),
+                      if (content != null)
+                        Padding(
+                          padding: contentPadding,
+                          child: content!,
+                        ),
+                      if (bottom != null) bottom!,
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
