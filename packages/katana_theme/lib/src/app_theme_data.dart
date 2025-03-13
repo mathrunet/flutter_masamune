@@ -1093,9 +1093,19 @@ class AppThemeData {
     }
   }
 
-  final ColorThemeData _darkColor;
+  /// Returns the dark color theme.
+  ///
+  /// ダークテーマを返します。
+  ColorThemeData get darkColor => _darkColor;
 
-  final ColorThemeData _lightColor;
+  /// Returns the light color theme.
+  ///
+  /// ライトテーマを返します。
+  ColorThemeData get lightColor => _lightColor;
+
+  late ColorThemeData _darkColor;
+
+  late ColorThemeData _lightColor;
 
   /// Specifies the theme mode.
   ///
@@ -1255,6 +1265,19 @@ class AppThemeData {
   ///
   /// これが指定されている場合、何も指定されないときのフォントファミリーはこれになります。
   final String? Function(Locale locale)? defaultFontFamilyResolver;
+
+  /// Apply the specified properties to the theme.
+  ///
+  /// 指定されたプロパティをテーマに適用します。
+  void applyWith({
+    TextThemeData? text,
+    ColorThemeData? darkColor,
+    ColorThemeData? lightColor,
+  }) {
+    _text = text ?? _text;
+    _darkColor = darkColor ?? _darkColor;
+    _lightColor = lightColor ?? _lightColor;
+  }
 
   /// Apply the locale to the text theme.
   ///
@@ -2339,6 +2362,105 @@ class ColorThemeData {
   ///
   /// Material3のカラースキーム外のカラーです。
   final Color inversePrimary;
+
+  /// Returns a new color theme with the specified properties.
+  ///
+  /// 指定されたプロパティを持つ新しいカラーテーマを返します。
+  ColorThemeData copyWith({
+    Color? primary,
+    Color? secondary,
+    Color? tertiary,
+    Color? primaryContainer,
+    Color? secondaryContainer,
+    Color? tertiaryContainer,
+    Color? disabled,
+    Color? weak,
+    Color? outline,
+    Color? outlineVariant,
+    Color? error,
+    Color? warning,
+    Color? info,
+    Color? success,
+    Color? surface,
+    Color? surfaceVariant,
+    Color? background,
+    Color? onPrimary,
+    Color? onSecondary,
+    Color? onTertiary,
+    Color? onPrimaryContainer,
+    Color? onSecondaryContainer,
+    Color? onTertiaryContainer,
+    Color? onDisabled,
+    Color? onSurface,
+    Color? onSurfaceVariant,
+    Color? onBackground,
+    Color? onWeak,
+    Color? onError,
+    Color? onInfo,
+    Color? onSuccess,
+    Color? onWarning,
+    Color? splashColor,
+    Color? shadow,
+    Color? inverseSurface,
+    Color? onInverseSurface,
+    Color? inversePrimary,
+    Brightness? brightness,
+    Color? appBarColor,
+    Color? onAppBarColor,
+    Color? onExpandedAppBarColor,
+    Color? dialogColor,
+    Color? onDialogColor,
+    Color? canvasColor,
+    Color? scaffoldBackgroundColor,
+  }) =>
+      ColorThemeData._(
+        primary: primary ?? this.primary,
+        secondary: secondary ?? this.secondary,
+        tertiary: tertiary ?? this.tertiary,
+        primaryContainer: primaryContainer ?? this.primaryContainer,
+        secondaryContainer: secondaryContainer ?? this.secondaryContainer,
+        tertiaryContainer: tertiaryContainer ?? this.tertiaryContainer,
+        disabled: disabled ?? this.disabled,
+        weak: weak ?? this.weak,
+        outline: outline ?? this.outline,
+        outlineVariant: outlineVariant ?? this.outlineVariant,
+        error: error ?? this.error,
+        warning: warning ?? this.warning,
+        info: info ?? this.info,
+        success: success ?? this.success,
+        surface: surface ?? this.surface,
+        surfaceVariant: surfaceVariant ?? this.surfaceVariant,
+        background: background ?? this.background,
+        onPrimary: onPrimary ?? this.onPrimary,
+        onSecondary: onSecondary ?? this.onSecondary,
+        onTertiary: onTertiary ?? this.onTertiary,
+        onPrimaryContainer: onPrimaryContainer ?? this.onPrimaryContainer,
+        onSecondaryContainer: onSecondaryContainer ?? this.onSecondaryContainer,
+        onTertiaryContainer: onTertiaryContainer ?? this.onTertiaryContainer,
+        onDisabled: onDisabled ?? this.onDisabled,
+        onSurface: onSurface ?? this.onSurface,
+        onSurfaceVariant: onSurfaceVariant ?? this.onSurfaceVariant,
+        onBackground: onBackground ?? this.onBackground,
+        onWeak: onWeak ?? this.onWeak,
+        onError: onError ?? this.onError,
+        onInfo: onInfo ?? this.onInfo,
+        onSuccess: onSuccess ?? this.onSuccess,
+        onWarning: onWarning ?? this.onWarning,
+        splashColor: splashColor ?? this.splashColor,
+        shadow: shadow ?? this.shadow,
+        inverseSurface: inverseSurface ?? this.inverseSurface,
+        onInverseSurface: onInverseSurface ?? this.onInverseSurface,
+        inversePrimary: inversePrimary ?? this.inversePrimary,
+        brightness: brightness ?? this.brightness,
+        appBarColor: appBarColor ?? this.appBarColor,
+        onAppBarColor: onAppBarColor ?? this.onAppBarColor,
+        onExpandedAppBarColor:
+            onExpandedAppBarColor ?? this.onExpandedAppBarColor,
+        dialogColor: dialogColor ?? this.dialogColor,
+        onDialogColor: onDialogColor ?? this.onDialogColor,
+        canvasColor: canvasColor,
+        scaffoldBackgroundColor: scaffoldBackgroundColor,
+      );
 }
 
 /// Define a text theme.
@@ -2616,6 +2738,50 @@ class TextThemeData {
   ///
   /// 特定のテキストスタイルを返します。[copyWith]などを用いることでさらなるカスタマイズが可能なります。
   TextStyleThemeData get styles => const TextStyleThemeData._();
+
+  /// Returns a new text theme with the specified properties.
+  ///
+  /// 指定されたプロパティを持つ新しいテキストテーマを返します。
+  TextThemeData copyWith({
+    TextStyle? displayLarge,
+    TextStyle? displayMedium,
+    TextStyle? displaySmall,
+    TextStyle? headlineLarge,
+    TextStyle? headlineMedium,
+    TextStyle? headlineSmall,
+    TextStyle? titleLarge,
+    TextStyle? titleMedium,
+    TextStyle? titleSmall,
+    TextStyle? bodyLarge,
+    TextStyle? bodyMedium,
+    TextStyle? bodySmall,
+    TextStyle? labelLarge,
+    TextStyle? labelMedium,
+    TextStyle? labelSmall,
+    double? fontSizeFactor,
+    double? fontSizeDelta,
+    String? defaultFontFamily,
+  }) =>
+      TextThemeData._(
+        displayLarge: displayLarge ?? this.displayLarge,
+        displayMedium: displayMedium ?? this.displayMedium,
+        displaySmall: displaySmall ?? this.displaySmall,
+        headlineLarge: headlineLarge ?? this.headlineLarge,
+        headlineMedium: headlineMedium ?? this.headlineMedium,
+        headlineSmall: headlineSmall ?? this.headlineSmall,
+        titleLarge: titleLarge ?? this.titleLarge,
+        titleMedium: titleMedium ?? this.titleMedium,
+        titleSmall: titleSmall ?? this.titleSmall,
+        bodyLarge: bodyLarge ?? this.bodyLarge,
+        bodyMedium: bodyMedium ?? this.bodyMedium,
+        bodySmall: bodySmall ?? this.bodySmall,
+        labelLarge: labelLarge ?? this.labelLarge,
+        labelMedium: labelMedium ?? this.labelMedium,
+        labelSmall: labelSmall ?? this.labelSmall,
+        fontSizeFactor: fontSizeFactor ?? this.fontSizeFactor,
+        fontSizeDelta: fontSizeDelta ?? this.fontSizeDelta,
+        defaultFontFamily: defaultFontFamily ?? this.defaultFontFamily,
+      );
 }
 
 /// Class for retrieving text styles.
