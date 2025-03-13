@@ -179,32 +179,62 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
     label("Add processing to the Gradle file.");
     final gradle = AppGradle();
     await gradle.load();
+    if (gradle.isKotlin &&
+        !gradle.imports.any((e) => e.import == "java.util.Properties")) {
+      gradle.imports.add(
+        GradleImport(
+          import: "java.util.Properties",
+        ),
+      );
+    }
     if (!gradle.loadProperties.any((e) => e.name == "keyProperties")) {
       gradle.loadProperties.add(
         GradleLoadProperties(
           path: "key.properties",
           name: "keyProperties",
           file: "keyPropertiesFile",
+          isKotlin: gradle.isKotlin,
         ),
       );
     }
     gradle.android?.buildTypes = GradleAndroidBuildTypes(
-      release: GradleAndroidBuildType(signingConfig: "signingConfigs.release"),
-      debug: GradleAndroidBuildType(signingConfig: "signingConfigs.debug"),
+      release: gradle.isKotlin
+          ? GradleAndroidBuildType(
+              signingConfig: "signingConfigs.getByName(\"release\")")
+          : GradleAndroidBuildType(signingConfig: "signingConfigs.release"),
+      debug: gradle.isKotlin
+          ? GradleAndroidBuildType(
+              signingConfig: "signingConfigs.getByName(\"debug\")")
+          : GradleAndroidBuildType(signingConfig: "signingConfigs.debug"),
     );
+
     gradle.android?.signingConfigs = GradleAndroidSigningConfigs(
-      release: GradleAndroidSigningConfig(
-        keyAlias: "keyProperties['keyAlias']",
-        keyPassword: "keyProperties['keyPassword']",
-        storeFile: "file(keyProperties['storeFile'])",
-        storePassword: "keyProperties['storePassword']",
-      ),
-      debug: GradleAndroidSigningConfig(
-        keyAlias: "keyProperties['keyAlias']",
-        keyPassword: "keyProperties['keyPassword']",
-        storeFile: "file(keyProperties['storeFile'])",
-        storePassword: "keyProperties['storePassword']",
-      ),
+      release: gradle.isKotlin
+          ? GradleAndroidSigningConfig(
+              keyAlias: "keyProperties[\"keyAlias\"] as String?",
+              keyPassword: "keyProperties[\"keyPassword\"] as String?",
+              storeFile:
+                  r'File(rootProject.projectDir, "app/${keyProperties["storeFile"] as String?}")',
+              storePassword: "keyProperties[\"storePassword\"] as String?")
+          : GradleAndroidSigningConfig(
+              keyAlias: "keyProperties['keyAlias']",
+              keyPassword: "keyProperties['keyPassword']",
+              storeFile: "file(keyProperties['storeFile'])",
+              storePassword: "keyProperties['storePassword']",
+            ),
+      debug: gradle.isKotlin
+          ? GradleAndroidSigningConfig(
+              keyAlias: "keyProperties[\"keyAlias\"] as String?",
+              keyPassword: "keyProperties[\"keyPassword\"] as String?",
+              storeFile:
+                  r'File(rootProject.projectDir, "app/${keyProperties["storeFile"] as String?}")',
+              storePassword: "keyProperties[\"storePassword\"] as String?")
+          : GradleAndroidSigningConfig(
+              keyAlias: "keyProperties['keyAlias']",
+              keyPassword: "keyProperties['keyPassword']",
+              storeFile: "file(keyProperties['storeFile'])",
+              storePassword: "keyProperties['storePassword']",
+            ),
     );
     await gradle.save();
     label("Save the fingerprint information.");

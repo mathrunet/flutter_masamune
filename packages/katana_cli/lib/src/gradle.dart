@@ -13,6 +13,12 @@ import 'package:katana_cli/config.dart';
 class AppGradle {
   AppGradle();
 
+  /// Whether the file is written in Kotlin.
+  ///
+  /// ファイルがKotlinで書かれているかどうか。
+  bool get isKotlin => _isKotlin;
+  bool _isKotlin = false;
+
   /// Original text data.
   ///
   /// 元のテキストデータ。
@@ -24,6 +30,12 @@ class AppGradle {
   /// `xxx.properties`のデータ読み込み部分。
   List<GradleLoadProperties> get loadProperties => _loadProperties;
   late List<GradleLoadProperties> _loadProperties;
+
+  /// List of `import`.
+  ///
+  /// `import`のリスト。
+  List<GradleImport> get imports => _imports;
+  late List<GradleImport> _imports;
 
   /// List of `apply plugin`.
   ///
@@ -51,10 +63,12 @@ class AppGradle {
       final gradle = File("android/app/build.gradle");
       _rawData = await gradle.readAsString();
     } else if (File("android/app/build.gradle.kts").existsSync()) {
+      _isKotlin = true;
       final gradle = File("android/app/build.gradle.kts");
       _rawData = await gradle.readAsString();
     }
     _loadProperties = GradleLoadProperties._load(_rawData);
+    _imports = GradleImport._load(_rawData);
     _plugins = GradlePlugin._load(_rawData);
     _android = GradleAndroid._load(_rawData);
     _dependencies = GradleDependencies._load(_rawData);
@@ -68,6 +82,7 @@ class AppGradle {
       throw Exception("No value. Please load data with [load].");
     }
     _rawData = GradleLoadProperties._save(_rawData, _loadProperties);
+    _rawData = GradleImport._save(_rawData, _imports);
     if (_android != null) {
       _rawData = GradleAndroid._save(_rawData, _android!);
     }
@@ -94,17 +109,20 @@ class GradleLoadProperties {
     required String path,
     required String name,
     required String file,
+    bool isKotlin = false,
   }) {
     return GradleLoadProperties._(
       name: name,
       path: path,
       file: file,
+      isKotlin: isKotlin,
     );
   }
   GradleLoadProperties._({
     required this.name,
     required this.file,
     required this.path,
+    required this.isKotlin,
   });
 
   static List<GradleLoadProperties> _load(String content) {
@@ -123,6 +141,7 @@ class GradleLoadProperties {
           file: e.namedGroup("file") ?? "",
           name: e.namedGroup("name") ?? "",
           path: e.namedGroup("path") ?? "",
+          isKotlin: false,
         );
       });
       // 新バージョン
@@ -133,15 +152,30 @@ class GradleLoadProperties {
       if (region == null) {
         return [];
       }
-      return RegExp(
-        r"def (?<name>[a-zA-Z_-]+) = new Properties\(\)([\s\S]*?)def (?<file>[a-zA-Z_-]+) = rootProject.file\('(?<path>[a-zA-Z./_-]+)'\)([\s\S]*?)if \(([a-zA-Z_-]+).exists\(\)\) {([\s\S]*?)([a-zA-Z_-]+).withReader\('UTF-8'\) { reader ->([\s\S]*?)([a-zA-Z_-]+).load\(reader\)([\s\S]*?)}([\s\S]*?)}",
-      ).allMatches(region.group(2) ?? "").mapAndRemoveEmpty((e) {
-        return GradleLoadProperties._(
-          file: e.namedGroup("file") ?? "",
-          name: e.namedGroup("name") ?? "",
-          path: e.namedGroup("path") ?? "",
-        );
-      });
+      // KTSバージョン
+      if (content.contains("= Properties()")) {
+        return RegExp(
+          r'val (?<name>[a-zA-Z_-]+) = Properties\(\)([\s\S]*?)rootProject.file\("(?<path>[a-zA-Z./_-]+)"\).let([\s\S]*?){([\s\S]*?)(?<file>[a-zA-Z_-]+)([\s\S]*?)->([\s\S]*?)if([\s\S]*?)\(([a-zA-Z_-]+).exists\(\)\)([\s\S]*?){([\s\S]*?)([a-zA-Z_-]+).reader\(\).use([\s\S]*?){([\s\S]*?)reader([\s\S]*?)->([\s\S]*?)([a-zA-Z_-]+).load\(reader\)([\s\S]*?)}([\s\S]*?)}([\s\S]*?)}',
+        ).allMatches(region.group(2) ?? "").mapAndRemoveEmpty((e) {
+          return GradleLoadProperties._(
+            file: e.namedGroup("file") ?? "",
+            name: e.namedGroup("name") ?? "",
+            path: e.namedGroup("path") ?? "",
+            isKotlin: true,
+          );
+        });
+      } else {
+        return RegExp(
+          r"def (?<name>[a-zA-Z_-]+) = new Properties\(\)([\s\S]*?)def (?<file>[a-zA-Z_-]+) = rootProject.file\('(?<path>[a-zA-Z./_-]+)'\)([\s\S]*?)if \(([a-zA-Z_-]+).exists\(\)\) {([\s\S]*?)([a-zA-Z_-]+).withReader\('UTF-8'\) { reader ->([\s\S]*?)([a-zA-Z_-]+).load\(reader\)([\s\S]*?)}([\s\S]*?)}",
+        ).allMatches(region.group(2) ?? "").mapAndRemoveEmpty((e) {
+          return GradleLoadProperties._(
+            file: e.namedGroup("file") ?? "",
+            name: e.namedGroup("name") ?? "",
+            path: e.namedGroup("path") ?? "",
+            isKotlin: false,
+          );
+        });
+      }
     }
   }
 
@@ -163,15 +197,18 @@ class GradleLoadProperties {
         },
       );
     } else {
-      return content.replaceAllMapped(
-        RegExp(
-          r"(?<plugins>plugins[^{]*?\{[\s\S]*?\})?([\s\S]*?)android \{",
-        ),
-        (match) {
-          final plugins = match.group(1);
-          return "${plugins ?? ""}\n\n$code\n\nandroid {";
-        },
-      );
+      final aa =
+          content.replaceAllMapped(RegExp(r"^([\s\S]*?)android \{"), (match) {
+        final content = match.group(1)?.replaceAllMapped(
+                RegExp(
+                  r"^([\s\S]*?)(?<plugins>plugins[^{]*?\{[\s\S]*?\})([\s\S]*?)$",
+                ), (m) {
+              return "${m.group(1) ?? ""}${m.group(2) ?? ""}\n\n$code";
+            }) ??
+            "";
+        return "$content\n\nandroid {";
+      });
+      return aa;
     }
   }
 
@@ -190,9 +227,68 @@ class GradleLoadProperties {
   /// プロパティファイルのパス。
   final String path;
 
+  /// Whether the file is written in Kotlin.
+  ///
+  /// ファイルがKotlinで書かれているかどうか。
+  final bool isKotlin;
+
   @override
   String toString() {
-    return "def $name = new Properties()\ndef $file = rootProject.file('$path')\nif ($file.exists()) {\n    $file.withReader('UTF-8') { reader ->\n        $name.load(reader)\n    }\n}";
+    if (isKotlin) {
+      return "val $name = Properties()\nrootProject.file(\"$path\").let { $file ->\n    if ($file.exists()) {\n        $file.reader().use { reader ->\n            $file.load(reader)\n        }\n    }\n}";
+    } else {
+      return "def $name = new Properties()\ndef $file = rootProject.file('$path')\nif ($file.exists()) {\n    $file.withReader('UTF-8') { reader ->\n        $name.load(reader)\n    }\n}";
+    }
+  }
+}
+
+/// Data in the `import` section.
+///
+/// `import`セクションのデータ。
+class GradleImport {
+  /// Data in the `import` section.
+  ///
+  /// `import`セクションのデータ。
+  GradleImport({
+    required this.import,
+  });
+
+  static List<GradleImport> _load(String content) {
+    final region =
+        RegExp(r"([\s\S]*?)plugins[^{]*?\{([\s\S]*?)\}").firstMatch(content);
+    if (region != null) {
+      return RegExp(r"import (?<import>[a-zA-Z0-9_.-]+)")
+          .allMatches(region.group(1) ?? "")
+          .mapAndRemoveEmpty((e) {
+        return GradleImport(
+          import: e.namedGroup("import") ?? "",
+        );
+      });
+    }
+    return [];
+  }
+
+  static String _save(String content, List<GradleImport> list) {
+    final region =
+        RegExp(r"([\s\S]*?)plugins[^{]*?\{([\s\S]*?)\}").firstMatch(content);
+    if (region != null) {
+      final code = list.map((e) => e.toString()).join("\n");
+      return content.replaceAll(
+        RegExp(r"([\s\S]*?)plugins[^{]*?\{([\s\S]*?)\}"),
+        "$code\n\nplugins {\n${region.group(2) ?? ""}\n}",
+      );
+    }
+    return content;
+  }
+
+  /// Plugin Name.
+  ///
+  /// プラグインの名前。
+  String import;
+
+  @override
+  String toString() {
+    return "import $import";
   }
 }
 
@@ -205,17 +301,19 @@ class GradlePlugin {
   /// `apply plugin`セクションのデータ。
   GradlePlugin({
     required this.plugin,
-  });
+    bool isKotlin = false,
+  }) : _isKotlin = isKotlin;
 
   static List<GradlePlugin> _load(String content) {
     final newRegion =
         RegExp(r"plugins[^{]*?\{([\s\S]*?)\}").firstMatch(content);
     if (newRegion != null) {
       return RegExp(
-        "id ('|\")(?<plugin>[a-zA-Z0-9_.-]+)('|\")",
+        "id[^(]*?\\(('|\")(?<plugin>[a-zA-Z0-9_.-]+)('|\")\\)",
       ).allMatches(newRegion.group(1) ?? "").mapAndRemoveEmpty((e) {
         return GradlePlugin(
           plugin: e.namedGroup("plugin") ?? "",
+          isKotlin: e.group(0)?.contains("id(") ?? false,
         );
       });
     }
@@ -228,6 +326,7 @@ class GradlePlugin {
       ).allMatches(region.group(1) ?? "").mapAndRemoveEmpty((e) {
         return GradlePlugin(
           plugin: e.namedGroup("plugin") ?? "",
+          isKotlin: e.group(0)?.contains("id(") ?? false,
         );
       });
     }
@@ -238,7 +337,13 @@ class GradlePlugin {
     final newRegion =
         RegExp(r"plugins[^{]*?\{([\s\S]*?)\}").firstMatch(content);
     if (newRegion != null) {
-      final code = list.map((e) => "    id \"${e.toString()}\"").join("\n");
+      final code = list.map((e) {
+        if (e.isKotlin) {
+          return "    id(\"${e.toString()}\")";
+        } else {
+          return "    id \"${e.toString()}\"";
+        }
+      }).join("\n");
       return content.replaceAll(
         RegExp(
           r"plugins[^{]*?\{([\s\S]*?)\}",
@@ -261,6 +366,12 @@ class GradlePlugin {
   ///
   /// プラグインの名前。
   String plugin;
+
+  /// Whether the plugin is written in Kotlin.
+  ///
+  /// プラグインがKotlinで書かれているかどうか。
+  bool get isKotlin => _isKotlin;
+  final bool _isKotlin;
 
   @override
   String toString() {
@@ -454,7 +565,7 @@ class GradleAndroidKotlinOptions {
 
   static GradleAndroidKotlinOptions _load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
-    final jvmTarget = RegExp("jvmTarget = ([a-zA-Z0-9_\"'.-]+)")
+    final jvmTarget = RegExp("jvmTarget = ([a-zA-Z0-9_\"'().-]+)")
             .firstMatch(region)
             ?.group(1) ??
         "'1.8'";
@@ -716,10 +827,15 @@ class GradleAndroidSigningConfigs {
   GradleAndroidSigningConfigs({
     this.release,
     this.debug,
-  });
+    bool isKotlin = true,
+  }) : _isKotlin = isKotlin;
   static final _regExp = RegExp(r"signingConfigs {([\s\S]+)}");
   static final _releaseRegExp = RegExp(r"release {([\s\S]+?)}");
   static final _debugRegExp = RegExp(r"debug {([\s\S]+?)}");
+  static final _releaseWithKotlinRegExp =
+      RegExp(r'create("release") {([\s\S]+?)}');
+  static final _debugWithKotlinRegExp =
+      RegExp(r'getByName("debug") {([\s\S]+?)}');
 
   /// Settings at the time of release.
   ///
@@ -731,14 +847,23 @@ class GradleAndroidSigningConfigs {
   /// デバッグ時の設定。
   GradleAndroidSigningConfig? debug;
 
+  bool get isKotlin => _isKotlin;
+  final bool _isKotlin;
+
   static GradleAndroidSigningConfigs _load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
-    final release = _releaseRegExp.firstMatch(region)?.group(1);
-    final debug = _debugRegExp.firstMatch(region)?.group(1);
+
+    final release = region.contains("create(") || region.contains("getByName(")
+        ? _releaseWithKotlinRegExp.firstMatch(region)?.group(1)
+        : _releaseRegExp.firstMatch(region)?.group(1);
+    final debug = region.contains("create(") || region.contains("getByName(")
+        ? _debugWithKotlinRegExp.firstMatch(region)?.group(1)
+        : _debugRegExp.firstMatch(region)?.group(1);
     return GradleAndroidSigningConfigs(
       release:
           release != null ? GradleAndroidSigningConfig._load(release) : null,
       debug: debug != null ? GradleAndroidSigningConfig._load(debug) : null,
+      isKotlin: region.contains("create(") || region.contains("getByName("),
     );
   }
 
@@ -747,7 +872,11 @@ class GradleAndroidSigningConfigs {
     if (release == null && debug == null) {
       return "";
     }
-    return "    signingConfigs {\n${release != null ? "        release {\n$release        }\n" : ""}${debug != null ? "        debug {\n$debug        }\n" : ""}    }\n";
+    if (isKotlin) {
+      return "    signingConfigs {\n${release != null ? "        create(\"release\") {\n$release        }\n" : ""}${debug != null ? "        getByName(\"debug\") {\n$debug        }\n" : ""}    }\n";
+    } else {
+      return "    signingConfigs {\n${release != null ? "        release {\n$release        }\n" : ""}${debug != null ? "        debug {\n$debug        }\n" : ""}    }\n";
+    }
   }
 }
 
@@ -763,7 +892,8 @@ class GradleAndroidSigningConfig {
     required this.keyPassword,
     required this.storeFile,
     required this.storePassword,
-  });
+    bool isKotlin = false,
+  }) : _isKotlin = isKotlin;
 
   /// Keystore alias.
   ///
@@ -785,6 +915,9 @@ class GradleAndroidSigningConfig {
   /// Keystoreのパスワード。
   String storePassword;
 
+  bool get isKotlin => _isKotlin;
+  final bool _isKotlin;
+
   static GradleAndroidSigningConfig _load(String content) {
     final keyAlias =
         RegExp("keyAlias = (.+)").firstMatch(content)?.group(1) ?? "";
@@ -799,6 +932,7 @@ class GradleAndroidSigningConfig {
       keyPassword: keyPassword,
       storeFile: storeFile,
       storePassword: storePassword,
+      isKotlin: content.contains("as String?"),
     );
   }
 
@@ -862,6 +996,12 @@ class GradleDependencies {
 class BuildGradle {
   BuildGradle();
 
+  /// Whether the file is written in Kotlin.
+  ///
+  /// ファイルがKotlinで書かれているかどうか。
+  bool get isKotlin => _isKotlin;
+  bool _isKotlin = false;
+
   /// Original text data.
   ///
   /// 元のテキストデータ。
@@ -888,6 +1028,7 @@ class BuildGradle {
       final gradle = File("android/build.gradle");
       _rawData = await gradle.readAsString();
     } else if (File("android/build.gradle.kts").existsSync()) {
+      _isKotlin = true;
       final gradle = File("android/build.gradle.kts");
       _rawData = await gradle.readAsString();
     }
