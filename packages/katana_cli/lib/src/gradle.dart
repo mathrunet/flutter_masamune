@@ -47,8 +47,13 @@ class AppGradle {
   ///
   /// データの読み込み。
   Future<void> load() async {
-    final gradle = File("android/app/build.gradle");
-    _rawData = await gradle.readAsString();
+    if (File("android/app/build.gradle").existsSync()) {
+      final gradle = File("android/app/build.gradle");
+      _rawData = await gradle.readAsString();
+    } else if (File("android/app/build.gradle.kts").existsSync()) {
+      final gradle = File("android/app/build.gradle.kts");
+      _rawData = await gradle.readAsString();
+    }
     _loadProperties = GradleLoadProperties._load(_rawData);
     _plugins = GradlePlugin._load(_rawData);
     _android = GradleAndroid._load(_rawData);
@@ -68,8 +73,13 @@ class AppGradle {
     }
     _rawData = GradlePlugin._save(_rawData, _plugins);
     _rawData = GradleDependencies._save(_rawData, _dependencies);
-    final gradle = File("android/app/build.gradle");
-    await gradle.writeAsString(_rawData);
+    if (File("android/app/build.gradle").existsSync()) {
+      final gradle = File("android/app/build.gradle");
+      await gradle.writeAsString(_rawData);
+    } else if (File("android/app/build.gradle.kts").existsSync()) {
+      final gradle = File("android/app/build.gradle.kts");
+      await gradle.writeAsString(_rawData);
+    }
   }
 }
 
@@ -874,8 +884,13 @@ class BuildGradle {
   ///
   /// データの読み込み。
   Future<void> load() async {
-    final gradle = File("android/build.gradle");
-    _rawData = await gradle.readAsString();
+    if (File("android/build.gradle").existsSync()) {
+      final gradle = File("android/build.gradle");
+      _rawData = await gradle.readAsString();
+    } else if (File("android/build.gradle.kts").existsSync()) {
+      final gradle = File("android/build.gradle.kts");
+      _rawData = await gradle.readAsString();
+    }
     _buildScript = GradleBuildScript._load(_rawData);
     _allProjects = GradleAllprojects._load(_rawData);
   }
@@ -889,8 +904,13 @@ class BuildGradle {
     }
     _rawData = GradleBuildScript._save(_rawData, _buildScript);
     _rawData = GradleAllprojects._save(_rawData, _allProjects);
-    final gradle = File("android/build.gradle");
-    await gradle.writeAsString(_rawData);
+    if (File("android/build.gradle").existsSync()) {
+      final gradle = File("android/build.gradle");
+      await gradle.writeAsString(_rawData);
+    } else if (File("android/build.gradle.kts").existsSync()) {
+      final gradle = File("android/build.gradle.kts");
+      await gradle.writeAsString(_rawData);
+    }
   }
 }
 
