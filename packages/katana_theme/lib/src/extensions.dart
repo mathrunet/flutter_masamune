@@ -205,4 +205,30 @@ extension ThemeDataExtensions on ThemeData {
   Color? get foregroundColor {
     return extension<ScaffoldThemeExtension>()?.foregourendColor;
   }
+
+  /// Returns the text theme.
+  ///
+  /// テキストテーマを返します。
+  TextThemeData? get textTheme => extension<TextThemeData>();
+
+  /// Returns the asset theme.
+  ///
+  /// アセットテーマを返します。
+  AssetThemeData get assetTheme {
+    return AssetThemeData._();
+  }
+
+  /// Returns the font theme.
+  ///
+  /// フォントテーマを返します。
+  FontThemeData get fontTheme {
+    return FontThemeData._();
+  }
+
+  /// Returns the widget theme.
+  ///
+  /// ウィジェットテーマを返します。
+  WidgetThemeData get widgetTheme {
+    return WidgetThemeData._();
+  }
 }

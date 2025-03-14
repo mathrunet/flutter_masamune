@@ -1585,6 +1585,7 @@ class AppThemeData {
           colorScheme: colorScheme.copyWith(error: color.error),
           extensions: [
             color,
+            text,
             ScaffoldThemeExtension(
               backgroundColor: color.background,
               foregourendColor: color.onBackground,
@@ -1835,6 +1836,7 @@ class AppThemeData {
           colorScheme: colorScheme.copyWith(error: color.error),
           extensions: [
             color,
+            text,
             ScaffoldThemeExtension(
               backgroundColor: color.background,
               foregourendColor: color.onBackground,
@@ -2539,7 +2541,7 @@ class ColorThemeData extends ThemeExtension<ColorThemeData> {
 ///
 ///   - https://m3.material.io/styles/typography/type-scale-tokens
 @immutable
-class TextThemeData {
+class TextThemeData extends ThemeExtension<TextThemeData> {
   const TextThemeData._({
     required this.displayLarge,
     required this.displayMedium,
@@ -2803,9 +2805,7 @@ class TextThemeData {
   /// 特定のテキストスタイルを返します。[copyWith]などを用いることでさらなるカスタマイズが可能なります。
   TextStyleThemeData get styles => const TextStyleThemeData._();
 
-  /// Returns a new text theme with the specified properties.
-  ///
-  /// 指定されたプロパティを持つ新しいテキストテーマを返します。
+  @override
   TextThemeData copyWith({
     TextStyle? displayLarge,
     TextStyle? displayMedium,
@@ -2846,6 +2846,35 @@ class TextThemeData {
         fontSizeDelta: fontSizeDelta ?? this.fontSizeDelta,
         defaultFontFamily: defaultFontFamily ?? this.defaultFontFamily,
       );
+
+  @override
+  ThemeExtension<TextThemeData> lerp(
+      covariant ThemeExtension<TextThemeData>? other, double t) {
+    if (other == null) {
+      return this;
+    }
+    return TextThemeData._(
+      displayLarge: TextStyle.lerp(
+          displayLarge, (other as TextThemeData).displayLarge, t)!,
+      displayMedium: TextStyle.lerp(displayMedium, other.displayMedium, t)!,
+      displaySmall: TextStyle.lerp(displaySmall, other.displaySmall, t)!,
+      headlineLarge: TextStyle.lerp(headlineLarge, other.headlineLarge, t)!,
+      headlineMedium: TextStyle.lerp(headlineMedium, other.headlineMedium, t)!,
+      headlineSmall: TextStyle.lerp(headlineSmall, other.headlineSmall, t)!,
+      titleLarge: TextStyle.lerp(titleLarge, other.titleLarge, t)!,
+      titleMedium: TextStyle.lerp(titleMedium, other.titleMedium, t)!,
+      titleSmall: TextStyle.lerp(titleSmall, other.titleSmall, t)!,
+      bodyLarge: TextStyle.lerp(bodyLarge, other.bodyLarge, t)!,
+      bodyMedium: TextStyle.lerp(bodyMedium, other.bodyMedium, t)!,
+      bodySmall: TextStyle.lerp(bodySmall, other.bodySmall, t)!,
+      labelLarge: TextStyle.lerp(labelLarge, other.labelLarge, t)!,
+      labelMedium: TextStyle.lerp(labelMedium, other.labelMedium, t)!,
+      labelSmall: TextStyle.lerp(labelSmall, other.labelSmall, t)!,
+      fontSizeFactor: lerpDouble(fontSizeFactor, other.fontSizeFactor, t)!,
+      fontSizeDelta: lerpDouble(fontSizeDelta, other.fontSizeDelta, t)!,
+      defaultFontFamily: t < 0.5 ? defaultFontFamily : other.defaultFontFamily,
+    );
+  }
 }
 
 /// Class for retrieving text styles.
