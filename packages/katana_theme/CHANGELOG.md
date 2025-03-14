@@ -1,3 +1,9 @@
+## 2.9.0
+
+ - **FIX**: Added the ability to directly retrieve colors to theme extensions. ([40c30361](https://github.com/mathrunet/flutter_masamune/commit/40c303616a7b8e629976fe7e3fcb6bb2f1740460))
+ - **FIX**: Fixed AppThemeData to be replaceable. ([b4153cf0](https://github.com/mathrunet/flutter_masamune/commit/b4153cf0c49021bc616759eef6da88d51bba9a78))
+ - **FEAT**: TextTheme, etc. can now be obtained by extension. ([f9925ff5](https://github.com/mathrunet/flutter_masamune/commit/f9925ff5f3295b9bedf5caf43fd57603f3a532d7))
+
 ## 2.8.0
 
  - **FEAT**: The default font of the theme can now be localized. ([af1a7c07](https://github.com/mathrunet/flutter_masamune/commit/af1a7c07c340e495b5d9f8f20592284b4cd28a8b))

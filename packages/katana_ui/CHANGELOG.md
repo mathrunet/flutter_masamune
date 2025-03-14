@@ -1,3 +1,8 @@
+## 2.14.0
+
+ - **FIX**: Fixed the appearance of the SNS widget. ([aaf5217b](https://github.com/mathrunet/flutter_masamune/commit/aaf5217b98884595c9e062a4b37336308e357c19))
+ - **FEAT**: SNS widget added. ([61a43cbe](https://github.com/mathrunet/flutter_masamune/commit/61a43cbe266557542a467c0997b77e141a1cb3cd))
+
 ## 2.13.0
 
  - **FEAT**: Package update support. ([bdecd020](https://github.com/mathrunet/flutter_masamune/commit/bdecd02067c8bb76881b3b6822b7deb5abbf340d))

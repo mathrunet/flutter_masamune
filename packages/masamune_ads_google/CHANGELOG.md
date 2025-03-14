@@ -1,3 +1,7 @@
+## 2.7.3
+
+ - Update a dependency to the latest release.
+
 ## 2.7.2
 
  - **FIX**: Also skip code1 of LoadAdError. ([3af694c4](https://github.com/mathrunet/flutter_masamune/commit/3af694c416666d1d31513d3cfd52c206c84149ed))

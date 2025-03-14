@@ -1,3 +1,7 @@
+## 2.21.2
+
+ - **FIX**: Added the ability to set values even in the direct definitions of Document and Collection. ([8f69eb83](https://github.com/mathrunet/flutter_masamune/commit/8f69eb8341c647d3956d6a542f43022106443de3))
+
 ## 2.21.1
 
  - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))

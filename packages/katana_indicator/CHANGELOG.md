@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Added executeGuarded. ([d54dfaa5](https://github.com/mathrunet/flutter_masamune/commit/d54dfaa5c384cd8f0a1b387bceeec4edc317d480))
+
 ## 2.3.0
 
  - **FEAT**: Package update support. ([bdecd020](https://github.com/mathrunet/flutter_masamune/commit/bdecd02067c8bb76881b3b6822b7deb5abbf340d))

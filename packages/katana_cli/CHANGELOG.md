@@ -1,3 +1,8 @@
+## 2.37.0
+
+ - **FIX**: Support for build.gradle.kts. ([33824c57](https://github.com/mathrunet/flutter_masamune/commit/33824c57d0b75f9690ef1d73c595c043cae887ee))
+ - **FEAT**: Support for gradle.kts. ([9ef48b4c](https://github.com/mathrunet/flutter_masamune/commit/9ef48b4cb5eabab495e7050520a8c472f0ae9667))
+
 ## 2.36.2
 
  - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))

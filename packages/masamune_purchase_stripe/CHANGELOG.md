@@ -1,3 +1,7 @@
+## 3.6.2
+
+ - Update a dependency to the latest release.
+
 ## 3.6.1
 
  - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))

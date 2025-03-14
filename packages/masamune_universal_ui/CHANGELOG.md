@@ -1,3 +1,8 @@
+## 2.9.0
+
+ - **FIX**: Added onChanged callback to SearchBar. ([951e7d26](https://github.com/mathrunet/flutter_masamune/commit/951e7d265dc4964129f5553b3308353f525a4fc2))
+ - **FEAT**: Modifications to make RefreshIndicaotor available in UnviersalColumn and UniversalContainer. ([74fb49bc](https://github.com/mathrunet/flutter_masamune/commit/74fb49bc781e75118cf53f371ab7054e15aaf34f))
+
 ## 2.8.1
 
  - Update a dependency to the latest release.
