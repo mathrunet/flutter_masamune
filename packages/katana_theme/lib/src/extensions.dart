@@ -182,3 +182,27 @@ extension ThemeTextStyleExtensions on TextStyle {
     return copyWith(fontSize: fontSize);
   }
 }
+
+/// Define a theme extension for [ThemeData].
+///
+/// [ThemeData]用のテーマエクステンションを定義します。
+extension ThemeDataExtensions on ThemeData {
+  /// Returns the color theme.
+  ///
+  /// カラーテーマを返します。
+  ColorThemeData? get colorTheme => extension<ColorThemeData>();
+
+  /// Returns the background color.
+  ///
+  /// 背景色を返します。
+  Color? get backgroundColor {
+    return extension<ScaffoldThemeExtension>()?.backgroundColor;
+  }
+
+  /// Returns the foreground color.
+  ///
+  /// 前景色を返します。
+  Color? get foregroundColor {
+    return extension<ScaffoldThemeExtension>()?.foregourendColor;
+  }
+}

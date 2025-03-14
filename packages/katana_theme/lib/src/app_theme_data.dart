@@ -1584,6 +1584,7 @@ class AppThemeData {
           ),
           colorScheme: colorScheme.copyWith(error: color.error),
           extensions: [
+            color,
             ScaffoldThemeExtension(
               backgroundColor: color.background,
               foregourendColor: color.onBackground,
@@ -1833,6 +1834,7 @@ class AppThemeData {
           ),
           colorScheme: colorScheme.copyWith(error: color.error),
           extensions: [
+            color,
             ScaffoldThemeExtension(
               backgroundColor: color.background,
               foregourendColor: color.onBackground,
@@ -1898,7 +1900,7 @@ class AppThemeData {
 ///
 ///   - https://m3.material.io/styles/color/the-color-system/color-roles
 @immutable
-class ColorThemeData {
+class ColorThemeData extends ThemeExtension<ColorThemeData> {
   const ColorThemeData._({
     required this.primary,
     required this.secondary,
@@ -2363,9 +2365,7 @@ class ColorThemeData {
   /// Material3のカラースキーム外のカラーです。
   final Color inversePrimary;
 
-  /// Returns a new color theme with the specified properties.
-  ///
-  /// 指定されたプロパティを持つ新しいカラーテーマを返します。
+  @override
   ColorThemeData copyWith({
     Color? primary,
     Color? secondary,
@@ -2461,6 +2461,70 @@ class ColorThemeData {
         canvasColor: canvasColor,
         scaffoldBackgroundColor: scaffoldBackgroundColor,
       );
+
+  @override
+  ThemeExtension<ColorThemeData> lerp(ColorThemeData? other, double t) {
+    if (other == null) {
+      return this;
+    }
+    return ColorThemeData._(
+      primary: Color.lerp(primary, other.primary, t)!,
+      secondary: Color.lerp(secondary, other.secondary, t)!,
+      tertiary: Color.lerp(tertiary, other.tertiary, t)!,
+      primaryContainer:
+          Color.lerp(primaryContainer, other.primaryContainer, t)!,
+      secondaryContainer:
+          Color.lerp(secondaryContainer, other.secondaryContainer, t)!,
+      tertiaryContainer:
+          Color.lerp(tertiaryContainer, other.tertiaryContainer, t)!,
+      disabled: Color.lerp(disabled, other.disabled, t)!,
+      weak: Color.lerp(weak, other.weak, t)!,
+      outline: Color.lerp(outline, other.outline, t)!,
+      outlineVariant: Color.lerp(outlineVariant, other.outlineVariant, t)!,
+      error: Color.lerp(error, other.error, t)!,
+      warning: Color.lerp(warning, other.warning, t)!,
+      info: Color.lerp(info, other.info, t)!,
+      success: Color.lerp(success, other.success, t)!,
+      surface: Color.lerp(surface, other.surface, t)!,
+      surfaceVariant: Color.lerp(surfaceVariant, other.surfaceVariant, t)!,
+      background: Color.lerp(background, other.background, t)!,
+      onPrimary: Color.lerp(onPrimary, other.onPrimary, t)!,
+      onSecondary: Color.lerp(onSecondary, other.onSecondary, t)!,
+      onTertiary: Color.lerp(onTertiary, other.onTertiary, t)!,
+      onPrimaryContainer:
+          Color.lerp(onPrimaryContainer, other.onPrimaryContainer, t)!,
+      onSecondaryContainer:
+          Color.lerp(onSecondaryContainer, other.onSecondaryContainer, t)!,
+      onTertiaryContainer:
+          Color.lerp(onTertiaryContainer, other.onTertiaryContainer, t)!,
+      onDisabled: Color.lerp(onDisabled, other.onDisabled, t)!,
+      onSurface: Color.lerp(onSurface, other.onSurface, t)!,
+      onSurfaceVariant:
+          Color.lerp(onSurfaceVariant, other.onSurfaceVariant, t)!,
+      onBackground: Color.lerp(onBackground, other.onBackground, t)!,
+      onWeak: Color.lerp(onWeak, other.onWeak, t)!,
+      onError: Color.lerp(onError, other.onError, t)!,
+      onInfo: Color.lerp(onInfo, other.onInfo, t)!,
+      onSuccess: Color.lerp(onSuccess, other.onSuccess, t)!,
+      onWarning: Color.lerp(onWarning, other.onWarning, t)!,
+      splashColor: Color.lerp(splashColor, other.splashColor, t),
+      shadow: Color.lerp(shadow, other.shadow, t)!,
+      inverseSurface: Color.lerp(inverseSurface, other.inverseSurface, t)!,
+      onInverseSurface:
+          Color.lerp(onInverseSurface, other.onInverseSurface, t)!,
+      inversePrimary: Color.lerp(inversePrimary, other.inversePrimary, t)!,
+      brightness: t < 0.5 ? brightness : other.brightness,
+      appBarColor: Color.lerp(appBarColor, other.appBarColor, t),
+      onAppBarColor: Color.lerp(onAppBarColor, other.onAppBarColor, t),
+      onExpandedAppBarColor:
+          Color.lerp(onExpandedAppBarColor, other.onExpandedAppBarColor, t),
+      dialogColor: Color.lerp(dialogColor, other.dialogColor, t),
+      onDialogColor: Color.lerp(onDialogColor, other.onDialogColor, t),
+      canvasColor: Color.lerp(_canvas, other._canvas, t),
+      scaffoldBackgroundColor: Color.lerp(
+          _scaffoldBackgroundColor, other._scaffoldBackgroundColor, t),
+    );
+  }
 }
 
 /// Define a text theme.
