@@ -99,9 +99,7 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
   }
 }
 
-/// Executes multiple [processes] and displays an indicator during each one.
-///
-/// Used when multiple [Future] runs are to be executed in parallel and an indicator is to be displayed between them.
+/// [process] and display the indicator during the process.
 ///
 /// It is possible to change the color of the entire screen by specifying [barrierColor].
 ///
@@ -109,9 +107,7 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
 ///
 /// By default, [CircularProgressIndicator] is used.
 ///
-/// 複数の[processes]を実行しその間インジケーターを表示します。
-///
-/// 複数の[Future]を並列で実行しその間にインジケーターを表示する場合に利用します。
+/// [process]を実行しその間インジケーターを表示します。
 ///
 /// [barrierColor]を指定して画面全体の色を変更することが可能です。
 ///
@@ -120,13 +116,52 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
 /// デフォルトだと[CircularProgressIndicator]が利用されます。
 Future<void> showIndicator(
   BuildContext context,
-  List<FutureOr<void> Function()> processes, {
+  FutureOr<void> Function() process, {
   Color? barrierColor = Colors.black54,
   Widget? indicator,
 }) async {
-  await wait(processes.map((e) => e.call())).showIndicator(
-    context,
-    barrierColor: barrierColor,
-    indicator: indicator,
-  );
+  await process.call().showIndicator(
+        context,
+        barrierColor: barrierColor,
+        indicator: indicator,
+      );
+}
+
+/// [process] and display the indicator during the process.
+///
+/// If an error occurs, [onError] is called.
+///
+/// [barrierColor] can be specified to change the color of the entire screen.
+///
+/// [indicator] can be specified to change the indicator.
+///
+/// By default, [CircularProgressIndicator] is used.
+///
+/// [process]を実行しその間インジケーターを表示します。
+///
+/// エラーが発生した場合は[onError]を呼び出します。
+///
+/// [barrierColor]を指定して画面全体の色を変更することが可能です。
+///
+/// [indicator]を指定するとインジケーターを変更することが可能です。
+///
+/// デフォルトだと[CircularProgressIndicator]が利用されます。
+Future<void> executeGuarded(
+  BuildContext context,
+  FutureOr<void> Function() process, {
+  Color? barrierColor = Colors.black54,
+  Widget? indicator,
+  void Function(Object error, StackTrace stackTrace)? onError,
+}) async {
+  try {
+    await showIndicator(
+      context,
+      process,
+      barrierColor: barrierColor,
+      indicator: indicator,
+    );
+  } catch (error, stackTrace) {
+    debugPrint("$error\n$stackTrace");
+    onError?.call(error, stackTrace);
+  }
 }
