@@ -496,6 +496,8 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
             flexibleSpace: flexibleSpace,
             bottom: bottom,
             elevation: elevation ?? (bottomBorderColor != null ? 0.5 : null),
+            scrolledUnderElevation: scrolledUnderElevation ??
+                (bottomBorderColor != null ? 0.5 : null),
             shadowColor: shadowColor ?? bottomBorderColor,
             backgroundColor: backgroundColor,
             foregroundColor: foregroundColor,
@@ -511,7 +513,6 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
             toolbarTextStyle: toolbarTextStyle,
             titleTextStyle: titleTextStyle,
             systemOverlayStyle: systemOverlayStyle,
-            scrolledUnderElevation: scrolledUnderElevation,
             notificationPredicate: notificationPredicate,
             surfaceTintColor: surfaceTintColor,
             toolbarOpacity: toolbarOpacity,
@@ -664,6 +665,8 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
                 )
               : null,
           elevation: elevation ?? (bottomBorderColor != null ? 0.5 : null),
+          scrolledUnderElevation: scrolledUnderElevation ??
+              (bottomBorderColor != null ? 0.5 : null),
           shadowColor: shadowColor ?? (bottomBorderColor),
           backgroundColor: backgroundColor,
           foregroundColor: foregroundColor,
@@ -687,7 +690,6 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
           toolbarTextStyle: toolbarTextStyle,
           titleTextStyle: titleTextStyle,
           systemOverlayStyle: systemOverlayStyle,
-          scrolledUnderElevation: scrolledUnderElevation,
           surfaceTintColor: surfaceTintColor,
         ),
       );
@@ -860,6 +862,8 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
                 centerTitle: centerTitle,
               ),
               elevation: elevation ?? (bottomBorderColor != null ? 0.5 : null),
+              scrolledUnderElevation: scrolledUnderElevation ??
+                  (bottomBorderColor != null ? 0.5 : null),
               shadowColor: shadowColor ?? (bottomBorderColor),
               backgroundColor: backgroundColor,
               foregroundColor: foregroundColor,
@@ -1114,6 +1118,7 @@ class UniversalSliverAppBar extends UniversalAppBar with SliverAppBarMixin {
     super.titlePosition = UniversalAppBarTitlePosition.flexible,
     super.bottom,
     super.elevation,
+    super.scrolledUnderElevation,
     super.shadowColor,
     super.backgroundColor,
     super.foregroundColor,
@@ -1239,6 +1244,7 @@ class UniversalAvatarSliverAppBar extends UniversalSliverAppBar {
     super.titlePosition = UniversalAppBarTitlePosition.flexible,
     super.bottom,
     super.elevation,
+    super.scrolledUnderElevation,
     super.shadowColor,
     super.backgroundColor,
     super.foregroundColor,
@@ -1602,6 +1608,8 @@ class _UniversalAvatarAppBarDelegate extends SliverPersistentHeaderDelegate {
                       )
                     : null,
                 elevation: appBar.elevation ??
+                    (appBar.bottomBorderColor != null ? 0.5 : null),
+                scrolledUnderElevation: appBar.scrolledUnderElevation ??
                     (appBar.bottomBorderColor != null ? 0.5 : null),
                 shadowColor: appBar.shadowColor ?? (appBar.bottomBorderColor),
                 backgroundColor: backgroundColor,

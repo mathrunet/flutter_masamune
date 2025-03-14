@@ -261,28 +261,28 @@ packages:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "2.10.9"
+    version: "2.11.0"
   katana_form:
     dependency: "direct overridden"
     description:
       path: "../katana_form"
       relative: true
     source: path
-    version: "2.16.2"
+    version: "2.17.1"
   katana_functions:
     dependency: "direct overridden"
     description:
       path: "../katana_functions"
       relative: true
     source: path
-    version: "2.8.0"
+    version: "2.9.0"
   katana_indicator:
     dependency: "direct overridden"
     description:
       path: "../katana_indicator"
       relative: true
     source: path
-    version: "2.2.14"
+    version: "2.3.0"
   katana_listenables:
     dependency: "direct overridden"
     description:
@@ -317,21 +317,21 @@ packages:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "2.4.1"
+    version: "2.5.0"
   katana_model:
     dependency: "direct overridden"
     description:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.31.1"
+    version: "2.32.1"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "2.14.8"
+    version: "2.15.1"
   katana_prefs:
     dependency: "direct overridden"
     description:
@@ -352,7 +352,7 @@ packages:
       path: "../katana_router"
       relative: true
     source: path
-    version: "2.4.9"
+    version: "2.4.10"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
@@ -366,21 +366,21 @@ packages:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "2.6.7"
+    version: "2.7.0"
   katana_shorten:
     dependency: "direct overridden"
     description:
       path: "../katana_shorten"
       relative: true
     source: path
-    version: "2.1.14"
+    version: "2.2.0"
   katana_storage:
     dependency: "direct overridden"
     description:
       path: "../katana_storage"
       relative: true
     source: path
-    version: "2.3.5"
+    version: "2.4.0"
   katana_test:
     dependency: "direct dev"
     description:
@@ -408,7 +408,7 @@ packages:
       path: "../katana_ui"
       relative: true
     source: path
-    version: "2.12.1"
+    version: "2.13.0"
   lints:
     dependency: transitive
     description:
@@ -439,14 +439,14 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.19.2"
+    version: "2.20.1"
   masamune_annotation:
     dependency: "direct overridden"
     description:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "2.9.6"
+    version: "2.9.7"
   matcher:
     dependency: transitive
     description:

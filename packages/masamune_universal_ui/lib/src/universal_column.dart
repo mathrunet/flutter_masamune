@@ -40,6 +40,7 @@ class UniversalColumn extends StatelessWidget {
     this.constraints,
     this.transform,
     this.transformAlignment,
+    this.onRefresh,
     this.clipBehavior = Clip.none,
     this.breakpoint,
     this.alignment = Alignment.center,
@@ -50,7 +51,10 @@ class UniversalColumn extends StatelessWidget {
     this.rowSegments = 12,
     this.enableResponsivePadding,
     this.scrollableWhenOverflow = false,
-  });
+  }) : assert(
+          onRefresh == null || !scrollableWhenOverflow,
+          "onRefresh must be null if scrollableWhenOverflow is true",
+        );
 
   /// Specifies whether the element should be scrollable when it overflows.
   ///
@@ -158,6 +162,15 @@ class UniversalColumn extends StatelessWidget {
   /// (これはすべての装飾に対応していません。そのメソッドのデフォルト実装は[UnsupportedError]をスローします。)
   final Clip clipBehavior;
 
+  /// Method called by [RefreshIndicator].
+  ///
+  /// Pull-to-Refresh will execute and display an indicator until [Future] is returned.
+  ///
+  /// [RefreshIndicator]で呼ばれるメソッド。
+  ///
+  /// Pull-to-Refreshを行うと実行され、[Future]が返されるまでインジケーターを表示します。
+  final Future<void> Function()? onRefresh;
+
   /// Widgets to be stored in [Container].
   ///
   /// [Container]の中に格納するウィジェット。
@@ -238,7 +251,7 @@ class UniversalColumn extends StatelessWidget {
 
   Widget _scrollable(BuildContext context, Widget child) {
     if (!scrollableWhenOverflow) {
-      return child;
+      return _buildRefreshIndicator(context, child);
     }
     return SingleChildScrollView(
       child: child,
@@ -331,5 +344,26 @@ class UniversalColumn extends StatelessWidget {
       padding ?? universal?.defaultBodyPadding,
       breakpoint: breakpoint,
     );
+  }
+
+  Widget _buildRefreshIndicator(BuildContext context, Widget child) {
+    if (onRefresh != null) {
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          return RefreshIndicator(
+            onRefresh: onRefresh!,
+            child: SingleChildScrollView(
+              physics: const RefreshIndicatorScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: constraints,
+                child: child,
+              ),
+            ),
+          );
+        },
+      );
+    } else {
+      return child;
+    }
   }
 }

@@ -35,6 +35,7 @@ class UniversalContainer extends StatelessWidget {
     this.color,
     this.decoration,
     this.foregroundDecoration,
+    this.onRefresh,
     this.width,
     this.height,
     this.constraints,
@@ -147,6 +148,15 @@ class UniversalContainer extends StatelessWidget {
   /// (これはすべての装飾に対応していません。そのメソッドのデフォルト実装は[UnsupportedError]をスローします。)
   final Clip clipBehavior;
 
+  /// Method called by [RefreshIndicator].
+  ///
+  /// Pull-to-Refresh will execute and display an indicator until [Future] is returned.
+  ///
+  /// [RefreshIndicator]で呼ばれるメソッド。
+  ///
+  /// Pull-to-Refreshを行うと実行され、[Future]が返されるまでインジケーターを表示します。
+  final Future<void> Function()? onRefresh;
+
   /// Widgets to be stored in [Container].
   ///
   /// [Container]の中に格納するウィジェット。
@@ -173,23 +183,26 @@ class UniversalContainer extends StatelessWidget {
     return UniversalWidgetScope(
       child: Align(
         alignment: alignment,
-        child: Container(
-          padding: _padding(context, breakpoint),
-          margin: ResponsiveEdgeInsets._responsive(
-            context,
-            margin,
-            breakpoint: breakpoint,
+        child: _buildRefreshIndicator(
+          context,
+          Container(
+            padding: _padding(context, breakpoint),
+            margin: ResponsiveEdgeInsets._responsive(
+              context,
+              margin,
+              breakpoint: breakpoint,
+            ),
+            color: color,
+            decoration: decoration,
+            foregroundDecoration: foregroundDecoration,
+            width: width,
+            height: height,
+            alignment: alignment,
+            transform: transform,
+            transformAlignment: transformAlignment,
+            clipBehavior: clipBehavior,
+            child: child,
           ),
-          color: color,
-          decoration: decoration,
-          foregroundDecoration: foregroundDecoration,
-          width: width,
-          height: height,
-          alignment: alignment,
-          transform: transform,
-          transformAlignment: transformAlignment,
-          clipBehavior: clipBehavior,
-          child: child,
         ),
       ),
     );
@@ -227,5 +240,26 @@ class UniversalContainer extends StatelessWidget {
       padding ?? universal?.defaultBodyPadding,
       breakpoint: breakpoint,
     );
+  }
+
+  Widget _buildRefreshIndicator(BuildContext context, Widget child) {
+    if (onRefresh != null) {
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          return RefreshIndicator(
+            onRefresh: onRefresh!,
+            child: SingleChildScrollView(
+              physics: const RefreshIndicatorScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: constraints,
+                child: child,
+              ),
+            ),
+          );
+        },
+      );
+    } else {
+      return child;
+    }
   }
 }

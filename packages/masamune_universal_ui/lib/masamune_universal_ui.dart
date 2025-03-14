@@ -45,6 +45,7 @@ part 'src/universal_app_bar.dart';
 part 'src/universal_column.dart';
 part 'src/universal_container.dart';
 part 'src/universal_list_view.dart';
+part 'src/refresh_indicator_scroll_physics.dart';
 part 'src/universal_scaffold.dart';
 part 'src/universal_side_bar.dart';
 part 'src/universal_edge_insets.dart';
