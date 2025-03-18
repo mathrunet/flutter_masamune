@@ -146,13 +146,21 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
             path: "config.properties",
             name: "configProperties",
             file: "configPropertiesFile",
+            isKotlin: gradle.isKotlin,
           ),
         );
       }
-      gradle.android?.defaultConfig.minSdkVersion =
-          "configProperties[\"flutter.minSdkVersion\"].toInteger()";
-      gradle.android?.compileSdkVersion =
-          "configProperties[\"flutter.compileSdkVersion\"].toInteger()";
+      if (gradle.isKotlin) {
+        gradle.android?.defaultConfig.minSdkVersion =
+            "configProperties[\"flutter.minSdkVersion\"] as Int";
+        gradle.android?.compileSdkVersion =
+            "configProperties[\"flutter.compileSdkVersion\"] as Int";
+      } else {
+        gradle.android?.defaultConfig.minSdkVersion =
+            "configProperties[\"flutter.minSdkVersion\"].toInteger()";
+        gradle.android?.compileSdkVersion =
+            "configProperties[\"flutter.compileSdkVersion\"].toInteger()";
+      }
       await gradle.save();
       label("Edit settings.gradle.");
       final settingsGradle = SettingsGradle();
@@ -164,6 +172,7 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
             package: "com.google.gms.google-services",
             version: Config.googleServicesVersion,
             apply: false,
+            isKotlin: gradle.isKotlin,
           ),
         );
       }

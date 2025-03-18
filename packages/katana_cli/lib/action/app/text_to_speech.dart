@@ -61,11 +61,17 @@ class AppTextToSpeechCliAction extends CliCommand with CliActionMixin {
           path: "config.properties",
           name: "configProperties",
           file: "configPropertiesFile",
+          isKotlin: gradle.isKotlin,
         ),
       );
     }
-    gradle.android?.defaultConfig.minSdkVersion =
-        "configProperties[\"flutter.minSdkVersion\"].toInteger()";
+    if (gradle.isKotlin) {
+      gradle.android?.defaultConfig.minSdkVersion =
+          "configProperties[\"flutter.minSdkVersion\"] as Int";
+    } else {
+      gradle.android?.defaultConfig.minSdkVersion =
+          "configProperties[\"flutter.minSdkVersion\"].toInteger()";
+    }
     await gradle.save();
     label("Edit AndroidManifest.xml.");
     await AndroidManifestQueryType.textToSpeech.enableQuery();

@@ -132,6 +132,10 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final firebaseJson = firebaseJsonFileExists
         ? jsonDecodeAsMap(await firebaseJsonFile.readAsString())
         : <String, dynamic>{};
+    final googleServicesJson = File("android/app/google-services.json");
+    final googleServicesJsonExists = googleServicesJson.existsSync();
+    final googleServicesInfoPlist = File("ios/Runner/GoogleService-Info.plist");
+    final googleServicesInfoPlistExists = googleServicesInfoPlist.existsSync();
     label("Check status");
     final firebaseFunctionsIndex = File("firebase/functions/src/index.ts");
     final firebaseFunctionsIndexExists = firebaseFunctionsIndex.existsSync();
@@ -160,7 +164,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    if (!firebaseJsonFileExists) {
+    if (!googleServicesJsonExists || !googleServicesInfoPlistExists) {
       await command(
         "Run flutterfire configure",
         [
@@ -603,6 +607,15 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         workingDirectory: "firebase/functions",
       );
       await command(
+        "Package uninstallation for dev.",
+        [
+          npm,
+          "uninstall",
+          "typescript",
+        ],
+        workingDirectory: "firebase/functions",
+      );
+      await command(
         "Package installation for dev.",
         [
           npm,
@@ -611,6 +624,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "jest",
           "ts-jest",
           "@types/jest",
+          "typescript",
         ],
         workingDirectory: "firebase/functions",
       );
@@ -660,6 +674,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           path: "config.properties",
           name: "configProperties",
           file: "configPropertiesFile",
+          isKotlin: gradle.isKotlin,
         ),
       );
     }
@@ -668,11 +683,17 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       gradle.plugins.add(
         GradlePlugin(
           plugin: "com.google.gms.google-services",
+          isKotlin: gradle.isKotlin,
         ),
       );
     }
-    gradle.android?.defaultConfig.minSdkVersion =
-        "configProperties[\"flutter.minSdkVersion\"].toInteger()";
+    if (gradle.isKotlin) {
+      gradle.android?.defaultConfig.minSdkVersion =
+          "configProperties[\"flutter.minSdkVersion\"] as Int";
+    } else {
+      gradle.android?.defaultConfig.minSdkVersion =
+          "configProperties[\"flutter.minSdkVersion\"].toInteger()";
+    }
     await gradle.save();
     label("Edit settings.gradle.");
     final settingsGradle = SettingsGradle();
@@ -684,6 +705,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           package: "com.google.gms.google-services",
           version: Config.googleServicesVersion,
           apply: false,
+          isKotlin: gradle.isKotlin,
         ),
       );
     }

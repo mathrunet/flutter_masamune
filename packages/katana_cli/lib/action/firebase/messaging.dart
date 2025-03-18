@@ -59,6 +59,7 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
           path: "config.properties",
           name: "configProperties",
           file: "configPropertiesFile",
+          isKotlin: gradle.isKotlin,
         ),
       );
     }

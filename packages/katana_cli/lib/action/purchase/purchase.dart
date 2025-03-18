@@ -154,8 +154,13 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
           ),
         );
       }
-      appGradle.android?.compileSdkVersion =
-          "configProperties[\"flutter.compileSdkVersion\"].toInteger()";
+      if (appGradle.isKotlin) {
+        appGradle.android?.compileSdkVersion =
+            "configProperties[\"flutter.compileSdkVersion\"] as Int";
+      } else {
+        appGradle.android?.compileSdkVersion =
+            "configProperties[\"flutter.compileSdkVersion\"].toInteger()";
+      }
       await appGradle.save();
       label("Edit build.gradle.");
       final gradle = BuildGradle();
@@ -172,6 +177,7 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
             package: "com.google.gms.google-services",
             version: Config.googleServicesVersion,
             apply: false,
+            isKotlin: gradle.isKotlin,
           ),
         );
       }

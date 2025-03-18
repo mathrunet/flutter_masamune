@@ -214,7 +214,7 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
               keyAlias: "keyProperties[\"keyAlias\"] as String?",
               keyPassword: "keyProperties[\"keyPassword\"] as String?",
               storeFile:
-                  r'File(rootProject.projectDir, "app/${keyProperties["storeFile"] as String?}")',
+                  r'File(rootProject.projectDir, "app/" + keyProperties["storeFile"] as String?)',
               storePassword: "keyProperties[\"storePassword\"] as String?")
           : GradleAndroidSigningConfig(
               keyAlias: "keyProperties['keyAlias']",
@@ -227,7 +227,7 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
               keyAlias: "keyProperties[\"keyAlias\"] as String?",
               keyPassword: "keyProperties[\"keyPassword\"] as String?",
               storeFile:
-                  r'File(rootProject.projectDir, "app/${keyProperties["storeFile"] as String?}")',
+                  r'File(rootProject.projectDir, "app/" + keyProperties["storeFile"] as String?)',
               storePassword: "keyProperties[\"storePassword\"] as String?")
           : GradleAndroidSigningConfig(
               keyAlias: "keyProperties['keyAlias']",

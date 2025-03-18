@@ -833,9 +833,9 @@ class GradleAndroidSigningConfigs {
   static final _releaseRegExp = RegExp(r"release {([\s\S]+?)}");
   static final _debugRegExp = RegExp(r"debug {([\s\S]+?)}");
   static final _releaseWithKotlinRegExp =
-      RegExp(r'create("release") {([\s\S]+?)}');
+      RegExp(r'create\("release"\) {([\s\S]+?)}');
   static final _debugWithKotlinRegExp =
-      RegExp(r'getByName("debug") {([\s\S]+?)}');
+      RegExp(r'getByName\("debug"\) {([\s\S]+?)}');
 
   /// Settings at the time of release.
   ///
@@ -1252,6 +1252,12 @@ class GradleAllprojectsConfigurations {
 class SettingsGradle {
   SettingsGradle();
 
+  /// Whether the file is written in Kotlin.
+  ///
+  /// ファイルがKotlinで書かれているかどうか。
+  bool get isKotlin => _isKotlin;
+  bool _isKotlin = false;
+
   /// Original text data.
   ///
   /// 元のテキストデータ。
@@ -1268,8 +1274,14 @@ class SettingsGradle {
   ///
   /// データの読み込み。
   Future<void> load() async {
-    final gradle = File("android/settings.gradle");
-    _rawData = await gradle.readAsString();
+    if (File("android/settings.gradle").existsSync()) {
+      final gradle = File("android/settings.gradle");
+      _rawData = await gradle.readAsString();
+    } else if (File("android/settings.gradle.kts").existsSync()) {
+      _isKotlin = true;
+      final gradle = File("android/settings.gradle.kts");
+      _rawData = await gradle.readAsString();
+    }
     _plugins = SettingsGradlePlugins._load(_rawData);
   }
 
@@ -1281,8 +1293,14 @@ class SettingsGradle {
       throw Exception("No value. Please load data with [load].");
     }
     _rawData = SettingsGradlePlugins._save(_rawData, _plugins);
-    final gradle = File("android/settings.gradle");
-    await gradle.writeAsString(_rawData);
+
+    if (File("android/settings.gradle").existsSync()) {
+      final gradle = File("android/settings.gradle");
+      await gradle.writeAsString(_rawData);
+    } else if (File("android/settings.gradle.kts").existsSync()) {
+      final gradle = File("android/settings.gradle.kts");
+      await gradle.writeAsString(_rawData);
+    }
   }
 }
 
@@ -1297,11 +1315,17 @@ class SettingsGradlePlugins {
     required this.package,
     required this.version,
     this.apply,
+    this.isKotlin = false,
   });
 
   static final _regExp = RegExp(
-    "id ['\"](?<package>[a-zA-Z0-9._-]+)['\"] version ['\"](?<version>[a-zA-Z0-9._-]+)['\"]( apply (?<apply>[a-zA-Z]+))?",
+    "id\\(?['\"](?<package>[a-zA-Z0-9._-]+)['\"]\\)? version ['\"](?<version>[a-zA-Z0-9._-]+)['\"]( apply (?<apply>[a-zA-Z]+))?",
   );
+
+  /// Whether the file is written in Kotlin.
+  ///
+  /// ファイルがKotlinで書かれているかどうか。
+  final bool isKotlin;
 
   /// Package Name.
   ///
@@ -1324,15 +1348,18 @@ class SettingsGradlePlugins {
     if (newRegion == null) {
       return [];
     }
-    final packages = _regExp.allMatches(newRegion.group(1) ?? "");
+    final regionText = newRegion.group(1) ?? "";
+    final packages = _regExp.allMatches(regionText);
     return packages
         .map(
           (e) => SettingsGradlePlugins(
-              package: e.namedGroup("package") ?? "",
-              version: e.namedGroup("version") ?? "",
-              apply: e.namedGroup("apply") == null
-                  ? null
-                  : e.namedGroup("apply") == "true"),
+            package: e.namedGroup("package") ?? "",
+            version: e.namedGroup("version") ?? "",
+            apply: e.namedGroup("apply") == null
+                ? null
+                : e.namedGroup("apply") == "true",
+            isKotlin: regionText.contains('id("'),
+          ),
         )
         .toList();
   }
@@ -1354,6 +1381,10 @@ class SettingsGradlePlugins {
 
   @override
   String toString() {
-    return "    id \"$package\" version \"$version\"${apply != null ? " apply ${apply! ? "true" : "false"}" : ""}";
+    if (isKotlin) {
+      return "    id(\"$package\") version \"$version\"${apply != null ? " apply ${apply! ? "true" : "false"}" : ""}";
+    } else {
+      return "    id \"$package\" version \"$version\"${apply != null ? " apply ${apply! ? "true" : "false"}" : ""}";
+    }
   }
 }
