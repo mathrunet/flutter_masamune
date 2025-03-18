@@ -67,7 +67,7 @@ class AppTextToSpeechCliAction extends CliCommand with CliActionMixin {
     }
     if (gradle.isKotlin) {
       gradle.android?.defaultConfig.minSdkVersion =
-          "configProperties[\"flutter.minSdkVersion\"] as Int";
+          "configProperties[\"flutter.minSdkVersion\"].toString().toInt()";
     } else {
       gradle.android?.defaultConfig.minSdkVersion =
           "configProperties[\"flutter.minSdkVersion\"].toInteger()";

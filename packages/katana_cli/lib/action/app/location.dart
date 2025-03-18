@@ -152,9 +152,9 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
       }
       if (gradle.isKotlin) {
         gradle.android?.defaultConfig.minSdkVersion =
-            "configProperties[\"flutter.minSdkVersion\"] as Int";
+            "configProperties[\"flutter.minSdkVersion\"].toString().toInt()";
         gradle.android?.compileSdkVersion =
-            "configProperties[\"flutter.compileSdkVersion\"] as Int";
+            "configProperties[\"flutter.compileSdkVersion\"].toString().toInt()";
       } else {
         gradle.android?.defaultConfig.minSdkVersion =
             "configProperties[\"flutter.minSdkVersion\"].toInteger()";

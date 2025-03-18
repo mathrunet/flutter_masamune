@@ -156,7 +156,7 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
       }
       if (appGradle.isKotlin) {
         appGradle.android?.compileSdkVersion =
-            "configProperties[\"flutter.compileSdkVersion\"] as Int";
+            "configProperties[\"flutter.compileSdkVersion\"].toString().toInt()";
       } else {
         appGradle.android?.compileSdkVersion =
             "configProperties[\"flutter.compileSdkVersion\"].toInteger()";

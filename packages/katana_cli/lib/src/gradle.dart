@@ -155,7 +155,7 @@ class GradleLoadProperties {
       // KTSバージョン
       if (content.contains("= Properties()")) {
         return RegExp(
-          r'val (?<name>[a-zA-Z_-]+) = Properties\(\)([\s\S]*?)rootProject.file\("(?<path>[a-zA-Z./_-]+)"\).let([\s\S]*?){([\s\S]*?)(?<file>[a-zA-Z_-]+)([\s\S]*?)->([\s\S]*?)if([\s\S]*?)\(([a-zA-Z_-]+).exists\(\)\)([\s\S]*?){([\s\S]*?)([a-zA-Z_-]+).reader\(\).use([\s\S]*?){([\s\S]*?)reader([\s\S]*?)->([\s\S]*?)([a-zA-Z_-]+).load\(reader\)([\s\S]*?)}([\s\S]*?)}([\s\S]*?)}',
+          r'val (?<name>[a-zA-Z_-]+) = Properties\(\)([\s\S]*?)rootProject.file\("(?<path>[a-zA-Z./_-]+)"\).let([\s\S]*?){([\s\S]*?)(?<file>[a-zA-Z_-]+)([\s\S]*?)->([\s\S]*?)if([\s\S]*?)\(([a-zA-Z_-]+).exists\(\)\)([\s\S]*?){([\s\S]*?)([a-zA-Z_-]+).inputStream\(\).use([\s\S]*?){([\s\S]*?)stream([\s\S]*?)->([\s\S]*?)([a-zA-Z_-]+).load\(stream\)([\s\S]*?)}([\s\S]*?)}([\s\S]*?)}',
         ).allMatches(region.group(2) ?? "").mapAndRemoveEmpty((e) {
           return GradleLoadProperties._(
             file: e.namedGroup("file") ?? "",
@@ -235,7 +235,7 @@ class GradleLoadProperties {
   @override
   String toString() {
     if (isKotlin) {
-      return "val $name = Properties()\nrootProject.file(\"$path\").let { $file ->\n    if ($file.exists()) {\n        $file.reader().use { reader ->\n            $file.load(reader)\n        }\n    }\n}";
+      return "val $name = Properties()\nrootProject.file(\"$path\").let { $file ->\n    if ($file.exists()) {\n        $file.inputStream().use { stream ->\n            $name.load(stream)\n        }\n    }\n}";
     } else {
       return "def $name = new Properties()\ndef $file = rootProject.file('$path')\nif ($file.exists()) {\n    $file.withReader('UTF-8') { reader ->\n        $name.load(reader)\n    }\n}";
     }
