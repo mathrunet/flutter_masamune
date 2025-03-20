@@ -1042,6 +1042,71 @@ class _DynamicExtentForegroundColor extends StatelessWidget {
   }
 }
 
+/// A widget that changes the color of the title according to the scroll position.
+///
+/// スクロール位置に応じてタイトルの色を変更するウィジェット。
+class UniversalAppBarTitle extends StatelessWidget {
+  /// A widget that changes the color of the title according to the scroll position.
+  ///
+  /// スクロール位置に応じてタイトルの色を変更するウィジェット。
+  const UniversalAppBarTitle(
+    this.title, {
+    super.key,
+    this.startColor,
+    this.endColor,
+  });
+
+  /// The title to be displayed.
+  ///
+  /// 表示するタイトル。
+  final Widget title;
+
+  /// The start color of the title.
+  ///
+  /// タイトルの開始色。
+  final Color? startColor;
+
+  /// The end color of the title.
+  ///
+  /// タイトルの終了色。
+  final Color? endColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final settings =
+        context.dependOnInheritedWidgetOfExactType<FlexibleSpaceBarSettings>();
+    final startColor = this.startColor ?? this.endColor;
+    final endColor = this.endColor;
+    if (startColor == null) {
+      return title;
+    }
+    if (settings == null || endColor == null) {
+      return DefaultTextStyle.merge(
+        style: TextStyle(color: startColor),
+        child: TextButtonTheme(
+          data: TextButtonThemeData(
+            style: TextButton.styleFrom(foregroundColor: startColor),
+          ),
+          child: title,
+        ),
+      );
+    }
+
+    final lerp = (settings.currentExtent - settings.minExtent) /
+        (settings.maxExtent - settings.minExtent);
+    final color = Color.lerp(startColor, endColor, lerp);
+    return DefaultTextStyle.merge(
+      style: TextStyle(color: color),
+      child: TextButtonTheme(
+        data: TextButtonThemeData(
+          style: TextButton.styleFrom(foregroundColor: color),
+        ),
+        child: title,
+      ),
+    );
+  }
+}
+
 /// Create an AppBar to provide a consistent UI across web, desktop, and mobile.
 ///
 /// Unlike [UniversalAppBar], it creates a Sliver-like listing.
