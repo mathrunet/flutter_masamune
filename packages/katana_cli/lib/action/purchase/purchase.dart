@@ -144,16 +144,18 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
       label("Edit app/build.gradle.");
       final appGradle = AppGradle();
       await appGradle.load();
-      if (!appGradle.dependencies.any((element) => element.packageName
-          .startsWith("com.android.billingclient:billing"))) {
-        appGradle.dependencies.add(
-          GradleDependencies(
-            group: "implementation",
-            packageName:
-                "com.android.billingclient:billing:${Config.androidBillingVersion}",
-          ),
-        );
-      }
+      // 必要なくなったっぽい
+      // if (!appGradle.dependencies.any((element) => element.packageName
+      //     .startsWith("com.android.billingclient:billing"))) {
+      //   appGradle.dependencies.add(
+      //     GradleDependencies(
+      //       group: "implementation",
+      //       packageName:
+      //           "com.android.billingclient:billing:${Config.androidBillingVersion}",
+      //       isKotlin: appGradle.isKotlin,
+      //     ),
+      //   );
+      // }
       if (appGradle.isKotlin) {
         appGradle.android?.compileSdkVersion =
             "configProperties[\"flutter.compileSdkVersion\"].toString().toInt()";

@@ -525,7 +525,7 @@ class GradleAndroidCompileOptions {
                 ?.group(1) ??
             "";
     final coreLibraryDesugaringEnabledString =
-        RegExp("coreLibraryDesugaringEnabled = ([a-zA-Z0-9_\"'.-]+)")
+        RegExp("isCoreLibraryDesugaringEnabled = ([a-zA-Z0-9_\"'.-]+)")
             .firstMatch(region)
             ?.group(1)
             ?.toLowerCase();
@@ -542,7 +542,7 @@ class GradleAndroidCompileOptions {
 
   @override
   String toString() {
-    return "    compileOptions {\n        sourceCompatibility = $sourceCompatibility\n        targetCompatibility = $targetCompatibility${coreLibraryDesugaringEnabled != null ? "\n        coreLibraryDesugaringEnabled = $coreLibraryDesugaringEnabled" : ""}\n    }\n";
+    return "    compileOptions {\n        sourceCompatibility = $sourceCompatibility\n        targetCompatibility = $targetCompatibility${coreLibraryDesugaringEnabled != null ? "\n        isCoreLibraryDesugaringEnabled = $coreLibraryDesugaringEnabled" : ""}\n    }\n";
   }
 }
 
@@ -952,22 +952,46 @@ class GradleDependencies {
   GradleDependencies({
     required this.group,
     required this.packageName,
-  });
+    bool isKotlin = false,
+  }) : _isKotlin = isKotlin;
+
+  /// Whether the file is written in Kotlin.
+  ///
+  /// ファイルがKotlinで書かれているかどうか。
+  bool get isKotlin => _isKotlin;
+  final bool _isKotlin;
+
   static final _regExp = RegExp(r"dependencies {([\s\S]*?)\n?}");
 
   static List<GradleDependencies> _load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
-    final implmentations =
-        RegExp("(?<group>[a-zA-Z]+) \"(?<packageName>[^\"]+)\"")
-            .allMatches(region);
-    return implmentations
-        .map(
-          (e) => GradleDependencies(
-            group: e.namedGroup("group") ?? "",
-            packageName: e.namedGroup("packageName") ?? "",
-          ),
-        )
-        .toList();
+    final isKotlin = content.contains('("');
+    if (isKotlin) {
+      final implmentations =
+          RegExp('(?<group>[a-zA-Z]+)("(?<packageName>[^"]+)")')
+              .allMatches(region);
+      return implmentations
+          .map(
+            (e) => GradleDependencies(
+              group: e.namedGroup("group") ?? "",
+              packageName: e.namedGroup("packageName") ?? "",
+              isKotlin: true,
+            ),
+          )
+          .toList();
+    } else {
+      final implmentations =
+          RegExp("(?<group>[a-zA-Z]+) \"(?<packageName>[^\"]+)\"")
+              .allMatches(region);
+      return implmentations
+          .map(
+            (e) => GradleDependencies(
+              group: e.namedGroup("group") ?? "",
+              packageName: e.namedGroup("packageName") ?? "",
+            ),
+          )
+          .toList();
+    }
   }
 
   static String _save(String content, List<GradleDependencies> data) {
@@ -986,7 +1010,11 @@ class GradleDependencies {
 
   @override
   String toString() {
-    return "    $group \"$packageName\"";
+    if (isKotlin) {
+      return "    $group(\"$packageName\")";
+    } else {
+      return "    $group \"$packageName\"";
+    }
   }
 }
 
