@@ -70,6 +70,8 @@ extension MasamuneRouterPageScopedValueRefExtensions on PageScopedValueRef {
     required List<RouteQueryBuilder> pages,
     TransitionQuery? defaultTransitionQuery,
     Object? name,
+    List<NavigatorObserver> observers = const [],
+    List<LoggerAdapter> loggerAdapters = const [],
   }) {
     return watch(
       (ref) {
@@ -77,6 +79,8 @@ extension MasamuneRouterPageScopedValueRefExtensions on PageScopedValueRef {
           initialQuery: initialQuery,
           pages: pages,
           defaultTransitionQuery: defaultTransitionQuery,
+          observers: observers,
+          loggerAdapters: loggerAdapters,
         );
       },
       name: name,
