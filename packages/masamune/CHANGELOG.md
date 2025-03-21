@@ -1,3 +1,7 @@
+## 2.20.3
+
+ - **FIX**: Add parameter to router. ([a5f8bb99](https://github.com/mathrunet/flutter_masamune/commit/a5f8bb99b1a77682ccf3673c1197ec2b7302740b))
+
 ## 2.20.2
 
  - Update a dependency to the latest release.

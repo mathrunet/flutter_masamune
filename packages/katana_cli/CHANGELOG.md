@@ -1,3 +1,9 @@
+## 2.38.0
+
+ - **FIX**: More Kotlin settings. ([85e0c51a](https://github.com/mathrunet/flutter_masamune/commit/85e0c51a435acad68c9abef66e3696979f979e23))
+ - **FIX**: Fixed code changes around Android. ([92419a57](https://github.com/mathrunet/flutter_masamune/commit/92419a579457e8f143e4bf657d34b4e4d1cbfcfb))
+ - **FEAT**: Kotlin support. ([a678045b](https://github.com/mathrunet/flutter_masamune/commit/a678045b98ebdadf64e0efefe5b9c7bfa6fca3ff))
+
 ## 2.37.0
 
  - **FIX**: Support for build.gradle.kts. ([33824c57](https://github.com/mathrunet/flutter_masamune/commit/33824c57d0b75f9690ef1d73c595c043cae887ee))
