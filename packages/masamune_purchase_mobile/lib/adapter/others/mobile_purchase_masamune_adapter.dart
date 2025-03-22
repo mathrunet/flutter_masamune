@@ -26,6 +26,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     super.consumablePurchaseDelegate,
     super.nonConsumablePurchaseDelegate,
     super.subscriptionPurchaseDelegate,
+    super.initializeOnBoot = false,
   });
 
   InAppPurchase get _iap => InAppPurchase.instance;

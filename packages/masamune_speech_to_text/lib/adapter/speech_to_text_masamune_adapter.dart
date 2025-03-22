@@ -10,12 +10,18 @@ class SpeechToTextMasamuneAdapter extends MasamuneAdapter {
   const SpeechToTextMasamuneAdapter({
     required this.defaultLocale,
     this.speechToTextController,
+    this.initializeOnBoot = false,
   });
 
   /// Default language.
   ///
   /// デフォルトの言語。
   final Locale defaultLocale;
+
+  /// `true` if [speechToTextController] is set to `true` to start initialization when [onMaybeBoot] is executed.
+  ///
+  /// [onMaybeBoot]を実行した際合わせて初期化を開始する場合`true`。
+  final bool initializeOnBoot;
 
   /// Specify the object of [SpeechToTextController].
   ///
@@ -57,8 +63,10 @@ class SpeechToTextMasamuneAdapter extends MasamuneAdapter {
   }
 
   @override
-  FutureOr<void> onMaybeBoot() async {
-    await super.onMaybeBoot();
-    await speechToTextController?.initialize();
+  FutureOr<void> onMaybeBoot(BuildContext context) async {
+    await super.onMaybeBoot(context);
+    if (initializeOnBoot) {
+      await speechToTextController?.initialize();
+    }
   }
 }

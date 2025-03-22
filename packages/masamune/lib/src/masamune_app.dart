@@ -483,6 +483,9 @@ class _MasamuneAppState extends State<MasamuneApp> {
       _supportedLocales,
     );
     widget.theme?.applyLocale(_locale);
+    for (final adapter in widget.masamuneAdapters) {
+      BootRouteQuery.register(adapter.onMaybeBoot);
+    }
   }
 
   Locale _resolveLocales(

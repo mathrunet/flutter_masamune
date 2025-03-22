@@ -17,6 +17,7 @@ abstract class LocalNotificationMasamuneAdapter extends MasamuneAdapter {
     required this.androidNotificationChannelDescription,
     this.onLink,
     this.defaultTimezone = "UTC",
+    this.listenOnBoot = false,
   });
 
   /// You can retrieve the [LocalNotificationMasamuneAdapter] first given by [MasamuneAdapterScope].
@@ -48,6 +49,11 @@ abstract class LocalNotificationMasamuneAdapter extends MasamuneAdapter {
   ///
   /// これを指定した上で[onMaybeBoot]を実行すると自動で初期化を開始します。
   final LocalNotification? localNotification;
+
+  /// `true` if [localNotification] is set to `true` to start monitoring when [onMaybeBoot] is executed.
+  ///
+  /// [localNotification]が設定されている場合、[onMaybeBoot]を実行した際合わせて監視を開始する場合`true`。
+  final bool listenOnBoot;
 
   /// Default time zone.
   ///
@@ -158,5 +164,13 @@ abstract class LocalNotificationMasamuneAdapter extends MasamuneAdapter {
       adapter: this,
       child: app,
     );
+  }
+
+  @override
+  FutureOr<void> onMaybeBoot(BuildContext context) async {
+    await super.onMaybeBoot(context);
+    if (listenOnBoot) {
+      await localNotification?.listen();
+    }
   }
 }

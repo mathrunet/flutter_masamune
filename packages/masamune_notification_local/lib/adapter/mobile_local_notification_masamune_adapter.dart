@@ -16,6 +16,7 @@ class MobileLocalNotificationMasamuneAdapter
     required super.androidNotificationChannelDescription,
     super.defaultTimezone = "UTC",
     super.localNotification,
+    super.listenOnBoot = false,
     super.modelAdapter,
     super.onLink,
     this.localNotificationDateInterpretation =

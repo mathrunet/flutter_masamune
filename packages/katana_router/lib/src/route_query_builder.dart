@@ -168,6 +168,9 @@ class _BootRouteQueryBuilderState extends State<BootRouteQueryBuilder>
       _startedInit = true;
       await wait([
         widget.onInit(context),
+        ...BootRouteQuery._actionOnBoot.map((e) {
+          return e.call(context);
+        }),
         Future.delayed(widget.minumumDuration),
       ]);
       router._forcePop();
@@ -190,6 +193,33 @@ abstract class BootRef {
   ///
   /// アプリケーションを終了します。
   void quit();
+}
+
+/// Query to register actions on the Boot screen.
+///
+/// Boot画面のアクションを登録するためのクエリ。
+class BootRouteQuery {
+  const BootRouteQuery._();
+
+  static final List<FutureOr<void> Function(BuildContext context)>
+      _actionOnBoot = [];
+
+  /// Register an action on the Boot screen.
+  ///
+  /// Boot画面のアクションを登録します。
+  static void register(FutureOr<void> Function(BuildContext context) action) {
+    if (_actionOnBoot.contains(action)) {
+      return;
+    }
+    _actionOnBoot.add(action);
+  }
+
+  /// Unregister an action on the Boot screen.
+  ///
+  /// Boot画面のアクションを登録解除します。
+  static void unregister(FutureOr<void> Function(BuildContext context) action) {
+    _actionOnBoot.remove(action);
+  }
 }
 
 @immutable

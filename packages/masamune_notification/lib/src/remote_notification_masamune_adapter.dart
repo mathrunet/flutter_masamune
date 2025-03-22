@@ -18,6 +18,7 @@ abstract class RemoteNotificationMasamuneAdapter extends MasamuneAdapter {
     this.loggerAdapters = const [],
     this.onLink,
     this.onRetrievedToken,
+    this.listenOnBoot = false,
   });
 
   /// You can retrieve the [RemoteNotificationMasamuneAdapter] first given by [MasamuneAdapterScope].
@@ -32,6 +33,11 @@ abstract class RemoteNotificationMasamuneAdapter extends MasamuneAdapter {
   }
 
   static RemoteNotificationMasamuneAdapter? _primary;
+
+  /// `true` if [remoteNotification] is set to `true` to start monitoring when [onMaybeBoot] is executed.
+  ///
+  /// [remoteNotification]が設定されている場合、[onMaybeBoot]を実行した際合わせて監視を開始する場合`true`。
+  final bool listenOnBoot;
 
   /// Specify [FunctionsAdapter] if there are functions to be executed on the server side.
   ///
@@ -103,13 +109,13 @@ abstract class RemoteNotificationMasamuneAdapter extends MasamuneAdapter {
   }
 
   @override
-  FutureOr<void> onMaybeBoot() async {
-    await super.onMaybeBoot();
+  FutureOr<void> onMaybeBoot(BuildContext context) async {
+    await super.onMaybeBoot(context);
     if (subscribeOnBoot.isNotEmpty) {
       for (final topic in subscribeOnBoot) {
         await remoteNotification?.subscribe(topic);
       }
-    } else {
+    } else if (listenOnBoot) {
       await remoteNotification?.listen();
     }
   }

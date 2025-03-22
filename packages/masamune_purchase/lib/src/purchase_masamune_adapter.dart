@@ -10,7 +10,13 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
     this.consumablePurchaseDelegate,
     this.nonConsumablePurchaseDelegate,
     this.subscriptionPurchaseDelegate,
+    this.initializeOnBoot = false,
   }) : _purchase = purchase;
+
+  /// `true` if [initialize] is set to `true` to start initialization when [onMaybeBoot] is executed.
+  ///
+  /// [onMaybeBoot]を実行した際合わせて初期化を開始する場合`true`。
+  final bool initializeOnBoot;
 
   /// Specify [FunctionsAdapter] for billing validation.
   ///
@@ -87,9 +93,11 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
   }
 
   @override
-  FutureOr<void> onMaybeBoot() async {
-    await super.onMaybeBoot();
-    await _purchase?.initialize();
+  FutureOr<void> onMaybeBoot(BuildContext context) async {
+    await super.onMaybeBoot(context);
+    if (initializeOnBoot) {
+      await _purchase?.initialize();
+    }
   }
 
   ///Get the [PurchaseProduct] with its contents included.

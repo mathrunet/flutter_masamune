@@ -16,6 +16,7 @@ class FirebaseRemoteNotificationMasamuneAdapter
     required super.androidNotificationChannelDescription,
     super.remoteNotification,
     super.subscribeOnBoot = const [],
+    super.listenOnBoot = false,
     FirebaseOptions? options,
     this.iosOptions,
     this.androidOptions,

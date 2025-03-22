@@ -134,12 +134,10 @@ abstract class LocationMasamuneAdapter extends MasamuneAdapter {
   }
 
   @override
-  FutureOr<void> onMaybeBoot() async {
-    await super.onMaybeBoot();
+  FutureOr<void> onMaybeBoot(BuildContext context) async {
+    await super.onMaybeBoot(context);
     if (listenOnBoot) {
       await location?.listen();
-    } else {
-      await location?.initialize();
     }
   }
 }

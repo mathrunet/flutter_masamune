@@ -11,6 +11,7 @@ class FirebaseDeeplinkMasamuneAdapter extends MasamuneAdapter {
     this.onLink,
     required this.settings,
     this.deeplink,
+    this.listenOnBoot = false,
     FirebaseOptions? options,
     this.iosOptions,
     this.androidOptions,
@@ -45,6 +46,11 @@ class FirebaseDeeplinkMasamuneAdapter extends MasamuneAdapter {
       return _options;
     }
   }
+
+  /// `true` if [deeplink] is set to `true` to start monitoring when [onMaybeBoot] is executed.
+  ///
+  /// [deeplink]が設定されている場合、[onMaybeBoot]を実行した際合わせて監視を開始する場合`true`。
+  final bool listenOnBoot;
 
   /// Options for initializing Firebase.
   ///
@@ -186,8 +192,10 @@ class FirebaseDeeplinkMasamuneAdapter extends MasamuneAdapter {
   }
 
   @override
-  FutureOr<void> onMaybeBoot() async {
-    await super.onMaybeBoot();
-    await deeplink?.listen();
+  FutureOr<void> onMaybeBoot(BuildContext context) async {
+    await super.onMaybeBoot(context);
+    if (listenOnBoot) {
+      await deeplink?.listen();
+    }
   }
 }

@@ -17,6 +17,7 @@ class TextToSpeechMasamuneAdapter extends MasamuneAdapter {
     this.defaultIosAudioCategoryOptions = const [
       TextToSpeechIosAudioCategoryOptions.mixWithOthers
     ],
+    this.initializeOnBoot = false,
   })  : assert(
           defaultPitch > 0.0 && defaultPitch <= 1.0,
           "defaultPitch must be greater than 0.0 and less than or equal to 1.0.",
@@ -34,6 +35,11 @@ class TextToSpeechMasamuneAdapter extends MasamuneAdapter {
   ///
   /// デフォルトの言語。
   final Locale defaultLocale;
+
+  /// `true` if [textToSpeechController] is set to `true` to start initialization when [onMaybeBoot] is executed.
+  ///
+  /// [onMaybeBoot]を実行した際合わせて初期化を開始する場合`true`。
+  final bool initializeOnBoot;
 
   /// Default reading speed.
   ///
@@ -101,8 +107,10 @@ class TextToSpeechMasamuneAdapter extends MasamuneAdapter {
   }
 
   @override
-  FutureOr<void> onMaybeBoot() async {
-    await super.onMaybeBoot();
-    await textToSpeechController?.initialize();
+  FutureOr<void> onMaybeBoot(BuildContext context) async {
+    await super.onMaybeBoot(context);
+    if (initializeOnBoot) {
+      await textToSpeechController?.initialize();
+    }
   }
 }

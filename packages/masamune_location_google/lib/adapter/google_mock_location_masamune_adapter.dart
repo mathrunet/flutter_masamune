@@ -11,7 +11,7 @@ class GoogleMockLocationMasamuneAdapter extends MockLocationMasamuneAdapter
   const GoogleMockLocationMasamuneAdapter({
     this.defaultMapStyle,
     super.location,
-    super.listenOnBoot,
+    super.listenOnBoot = false,
     required super.defaultLocationData,
   });
 

@@ -24,6 +24,7 @@ class RuntimePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     super.consumablePurchaseDelegate,
     super.nonConsumablePurchaseDelegate,
     super.subscriptionPurchaseDelegate,
+    super.initializeOnBoot = false,
   });
 
   @override

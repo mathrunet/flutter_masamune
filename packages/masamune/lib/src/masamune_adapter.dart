@@ -109,7 +109,7 @@ abstract class MasamuneAdapter {
   /// アプリの初期化時に呼び出されることがあります。
   ///
   /// そのままだと利用されず`boot.dart`などを自身で作成しこの処理を明示的に呼び出す必要があります。
-  FutureOr<void> onMaybeBoot() {}
+  FutureOr<void> onMaybeBoot(BuildContext context) {}
 
   /// You can describe the process when [runZonedGuarded] is set to `true`.
   ///

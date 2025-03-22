@@ -13,7 +13,7 @@ class GoogleMobileLocationMasamuneAdapter extends MobileLocationMasamuneAdapter
     super.location,
     super.defaultAccuracy,
     super.defaultDistanceFilterMeters,
-    super.listenOnBoot,
+    super.listenOnBoot = false,
     super.enableBackgroundLocation,
     super.defaultLocationData,
   });

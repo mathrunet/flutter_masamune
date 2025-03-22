@@ -23,6 +23,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     this.iosSandboxTesting = false,
     required super.onRetrieveUserId,
     super.purchase,
+    super.initializeOnBoot = false,
   });
 
   /// If you are using an Android device, set to `true` to automatically consume charged items.
