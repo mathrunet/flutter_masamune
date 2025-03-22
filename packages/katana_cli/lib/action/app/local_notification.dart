@@ -2,6 +2,8 @@
 import 'dart:io';
 
 // Package imports:
+import 'package:image/image.dart';
+import 'package:katana_cli/action/firebase/messaging.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
@@ -44,6 +46,8 @@ class AppLocalNotificationCliAction extends CliCommand with CliActionMixin {
           "The item [app]->[local_notification] is missing. Please add an item.");
       return;
     }
+    final notificationIcon =
+        localNotification.get("android_notification_icon", "");
     label("Edit build.gradle.");
     final gradle = AppGradle();
     await gradle.load();
@@ -70,6 +74,42 @@ class AppLocalNotificationCliAction extends CliCommand with CliActionMixin {
       );
     }
     await gradle.save();
+    if (notificationIcon.isNotEmpty) {
+      label("Create notification icon.");
+      final iconFile = File(notificationIcon);
+      if (!iconFile.existsSync()) {
+        error("Icon file not found in $notificationIcon.");
+        return;
+      }
+      final iconImage = decodeImage(iconFile.readAsBytesSync())!;
+      if (iconImage.width != 1024 || iconImage.height != 1024) {
+        error("Icon files should be 1024 x 1024.");
+        return;
+      }
+      for (final tmp in kSizeListNotificationIcon.entries) {
+        label("Resize & Save to ${tmp.key}");
+        final dir = Directory(tmp.key.parentPath());
+        if (!dir.existsSync()) {
+          await dir.create(recursive: true);
+        }
+        final file = File(tmp.key);
+        if (file.existsSync()) {
+          await file.delete();
+        }
+        final resized = adjustColor(
+          copyResize(
+            iconImage,
+            height: tmp.value,
+            width: tmp.value,
+            interpolation: Interpolation.average,
+          ),
+          mids: ColorUint8.rgb(255, 255, 255),
+          blacks: ColorUint8.rgb(255, 255, 255),
+          whites: ColorUint8.rgb(255, 255, 255),
+        );
+        await file.writeAsBytes(encodePng(resized, level: 9));
+      }
+    }
     label("Edit Android Permissions.");
     await AndroidManifestPermissionType.scheduleExactAlarm.enablePermission();
     await AndroidManifestPermissionType.useExactAlarm.enablePermission();
@@ -88,6 +128,31 @@ class AppLocalNotificationCliAction extends CliCommand with CliActionMixin {
       );
     }
     final application = document.findAllElements("application");
+    if (notificationIcon.isNotEmpty &&
+        !application.first.children.any((p0) =>
+            p0 is XmlElement &&
+            p0.name.toString() == "meta-data" &&
+            (p0.attributes.any((item) =>
+                item.name.toString() == "android:name" &&
+                item.value ==
+                    "com.google.firebase.messaging.default_notification_icon")))) {
+      application.first.children.add(
+        XmlElement(
+          XmlName("meta-data"),
+          [
+            XmlAttribute(
+              XmlName("android:name"),
+              "com.google.firebase.messaging.default_notification_icon",
+            ),
+            XmlAttribute(
+              XmlName("android:resource"),
+              "@mipmap/ic_launcher_notification",
+            ),
+          ],
+          [],
+        ),
+      );
+    }
     final scheduledNotificationReceiver =
         application.first.children.firstWhereOrNull(
       (p0) =>

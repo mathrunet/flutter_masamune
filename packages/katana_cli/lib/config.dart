@@ -252,9 +252,12 @@ ${showAllConfig ? """
       en: Used to perform voice recognition.
 
   # Implement local PUSH.
+  # Specify an icon for displaying notifications on Android in [android_notification_icon].
   # ローカルPUSHを実装します。
+  # [android_notification_icon]にAndroidで通知を表示する際のアイコンを指定します。
   local_notification:
     enable: false
+    android_notification_icon: 
 
   # Implement a forced update function.
   # 強制アップデート機能を実装します。

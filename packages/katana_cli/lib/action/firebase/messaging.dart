@@ -9,7 +9,10 @@ import 'package:xml/xml.dart';
 import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
 import 'package:katana_cli/katana_cli.dart';
 
-final _sizeListNotificationIcon = {
+/// Size list of notification icon.
+///
+/// 通知アイコンのサイズリスト。
+final kSizeListNotificationIcon = {
   "android/app/src/main/res/mipmap-hdpi/ic_launcher_notification.png": 162,
   "android/app/src/main/res/mipmap-mdpi/ic_launcher_notification.png": 108,
   "android/app/src/main/res/mipmap-xhdpi/ic_launcher_notification.png": 216,
@@ -97,7 +100,7 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         error("Icon files should be 1024 x 1024.");
         return;
       }
-      for (final tmp in _sizeListNotificationIcon.entries) {
+      for (final tmp in kSizeListNotificationIcon.entries) {
         label("Resize & Save to ${tmp.key}");
         final dir = Directory(tmp.key.parentPath());
         if (!dir.existsSync()) {
