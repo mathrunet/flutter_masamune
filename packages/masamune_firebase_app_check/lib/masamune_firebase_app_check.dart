@@ -27,3 +27,4 @@ part 'adapter/firebase_app_check_masamune_adapter.dart';
 
 part 'src/firebase_app_check_android_provider.dart';
 part 'src/firebase_app_check_ios_provider.dart';
+part 'src/firebase_app_check_activate_timing.dart';

@@ -24,6 +24,7 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
     this.windowsOptions,
     this.macosOptions,
     FirebaseAppCheck? appCheck,
+    this.activateTiming = FirebaseAppCheckActivateTiming.onPreRunApp,
     this.androidProvider = FirebaseAppCheckAndroidProvider.platformDependent,
     this.iosProvider = FirebaseAppCheckIOSProvider.platformDependent,
   })  : _options = options,
@@ -38,6 +39,11 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
   ///
   /// iOSのプロバイダー。
   final FirebaseAppCheckIOSProvider iosProvider;
+
+  /// The timing to activate AppCheck.
+  ///
+  /// AppCheckをアクティブ化するタイミング。
+  final FirebaseAppCheckActivateTiming activateTiming;
 
   /// Options for initializing Firebase.
   ///
@@ -165,6 +171,29 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
 
   @override
   FutureOr<void> onPreRunApp(WidgetsBinding binding) async {
+    if (activateTiming == FirebaseAppCheckActivateTiming.onPreRunApp) {
+      await _activate();
+    }
+    return super.onPreRunApp(binding);
+  }
+
+  @override
+  FutureOr<void> onMaybeBoot(BuildContext context) async {
+    if (activateTiming == FirebaseAppCheckActivateTiming.onBoot) {
+      await _activate();
+    }
+    return super.onMaybeBoot(context);
+  }
+
+  @override
+  Widget onBuildApp(BuildContext context, Widget app) {
+    return MasamuneAdapterScope<FirebaseAppCheckMasamuneAdapter>(
+      adapter: this,
+      child: app,
+    );
+  }
+
+  Future<void> _activate() async {
     await FirebaseCore.initialize(options: options);
     await appCheck.activate(
       androidProvider: androidProvider._toAndroidProvider(),
@@ -197,14 +226,5 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
       //     break;
       // }
     }
-    return super.onPreRunApp(binding);
-  }
-
-  @override
-  Widget onBuildApp(BuildContext context, Widget app) {
-    return MasamuneAdapterScope<FirebaseAppCheckMasamuneAdapter>(
-      adapter: this,
-      child: app,
-    );
   }
 }
