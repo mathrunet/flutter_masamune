@@ -101,11 +101,15 @@ class AIThread
   /// Pass a content from the user to [content].
   /// If [AIRole] is not [AIRole.user], an exception is thrown.
   ///
+  /// You can also pass settings to [config].
+  ///
   /// AIにコンテンツを生成してもらいます。
   ///
   /// [content]にユーザーからのコンテンツを渡してください。
   /// [AIRole]が[AIRole.user]でない場合は例外が投げられます。
-  Future<void> generateContent(AIContent content) async {
+  ///
+  /// [config]に設定を渡すことも可能です。
+  Future<void> generateContent(AIContent content, {AIConfig? config}) async {
     if (content.role != AIRole.user) {
       throw const InvalidAIRoleException();
     }
@@ -116,11 +120,12 @@ class AIThread
         }
         return false;
       });
-      await initialize(config: config);
+      await initialize(config: config ?? this.config);
       _value.add(content);
       _value.sort((a, b) => b.time.compareTo(a.time));
       notifyListeners();
-      final res = await adapter.generateContent(_value, config: config);
+      final res =
+          await adapter.generateContent(_value, config: config ?? this.config);
       if (res == null) {
         return;
       }
