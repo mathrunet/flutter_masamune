@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-03-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ai` - `v2.4.6`](#masamune_ai---v246)
+ - [`masamune_ai_firebase` - `v2.3.6`](#masamune_ai_firebase---v236)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_ai_firebase` - `v2.3.6`
+
+---
+
+#### `masamune_ai` - `v2.4.6`
+
+ - **FIX**: Config can be passed for each generation. ([f6c85903](https://github.com/mathrunet/flutter_masamune/commit/f6c859033b13fd0a1d9e7d7dba100e48294624cd))
+
+
 ## 2025-03-21
 
 ### Changes

@@ -1,3 +1,7 @@
+## 2.4.6
+
+ - **FIX**: Config can be passed for each generation. ([f6c85903](https://github.com/mathrunet/flutter_masamune/commit/f6c859033b13fd0a1d9e7d7dba100e48294624cd))
+
 ## 2.4.5
 
  - Update a dependency to the latest release.
