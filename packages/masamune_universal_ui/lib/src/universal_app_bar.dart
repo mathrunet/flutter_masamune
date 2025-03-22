@@ -466,10 +466,13 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
                   : CrossAxisAlignment.start,
               children: [
                 if (title != null) title!,
-                DefaultTextStyle.merge(
-                  style: Theme.of(context).textTheme.labelSmall ??
-                      const TextStyle(),
-                  child: subtitle!,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4.0),
+                  child: DefaultTextStyle.merge(
+                    style: Theme.of(context).textTheme.labelSmall ??
+                        const TextStyle(),
+                    child: subtitle!,
+                  ),
                 ),
               ],
             );
@@ -565,13 +568,16 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
                   : CrossAxisAlignment.start,
               children: [
                 if (title != null) title!,
-                DefaultTextStyle.merge(
-                  style: Theme.of(context).textTheme.labelSmall ??
-                      const TextStyle(),
-                  child: _DynamicExtentForegroundColor(
-                    startForegroundColor: foregroundColor,
-                    endForegroundColor: expandedForegroundColor,
-                    child: subtitle!,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4.0),
+                  child: DefaultTextStyle.merge(
+                    style: Theme.of(context).textTheme.labelSmall ??
+                        const TextStyle(),
+                    child: _DynamicExtentForegroundColor(
+                      startForegroundColor: foregroundColor,
+                      endForegroundColor: expandedForegroundColor,
+                      child: subtitle!,
+                    ),
                   ),
                 ),
               ],
@@ -907,10 +913,13 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
                 : CrossAxisAlignment.start,
             children: [
               if (title != null) title,
-              DefaultTextStyle.merge(
-                style:
-                    Theme.of(context).textTheme.labelSmall ?? const TextStyle(),
-                child: subtitle,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4.0),
+                child: DefaultTextStyle.merge(
+                  style: Theme.of(context).textTheme.labelSmall ??
+                      const TextStyle(),
+                  child: subtitle,
+                ),
               ),
             ],
           );
@@ -1555,13 +1564,16 @@ class _UniversalAvatarAppBarDelegate extends SliverPersistentHeaderDelegate {
                 : CrossAxisAlignment.start,
             children: [
               if (appBar.title != null) appBar.title!,
-              DefaultTextStyle.merge(
-                style:
-                    Theme.of(context).textTheme.labelSmall ?? const TextStyle(),
-                child: _DynamicExtentForegroundColor(
-                  startForegroundColor: foregroundColor,
-                  endForegroundColor: expandedForegroundColor,
-                  child: appBar.subtitle!,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4.0),
+                child: DefaultTextStyle.merge(
+                  style: Theme.of(context).textTheme.labelSmall ??
+                      const TextStyle(),
+                  child: _DynamicExtentForegroundColor(
+                    startForegroundColor: foregroundColor,
+                    endForegroundColor: expandedForegroundColor,
+                    child: appBar.subtitle!,
+                  ),
                 ),
               ),
             ],
@@ -1917,10 +1929,13 @@ class UniversalExtentAppBar extends StatelessWidget
                 : CrossAxisAlignment.start,
             children: [
               if (title != null) title!,
-              DefaultTextStyle.merge(
-                style:
-                    Theme.of(context).textTheme.labelSmall ?? const TextStyle(),
-                child: subtitle!,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4.0),
+                child: DefaultTextStyle.merge(
+                  style: Theme.of(context).textTheme.labelSmall ??
+                      const TextStyle(),
+                  child: subtitle!,
+                ),
               ),
             ],
           );
