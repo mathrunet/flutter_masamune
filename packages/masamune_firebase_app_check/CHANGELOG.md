@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Activate timing can be set. ([0e2c3bf7](https://github.com/mathrunet/flutter_masamune/commit/0e2c3bf7be5c19a92dfb07a8b318f82c955fb686))
+
 ## 2.2.6
 
  - Update a dependency to the latest release.

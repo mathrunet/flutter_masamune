@@ -1,3 +1,7 @@
+## 2.13.0
+
+ - **FEAT**: Added registration function for Boot. ([69e12b75](https://github.com/mathrunet/flutter_masamune/commit/69e12b75f844b56b02bbb47cf9ea3ed14a818bb2))
+
 ## 2.12.3
 
  - Update a dependency to the latest release.

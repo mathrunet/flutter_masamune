@@ -1,3 +1,7 @@
+## 2.38.1
+
+ - **FIX**: Added icon setting item to LocalNotification. ([4b1e65db](https://github.com/mathrunet/flutter_masamune/commit/4b1e65db7a925aa87c2fffda55857a6a2a28692a))
+
 ## 2.38.0
 
  - **FIX**: More Kotlin settings. ([85e0c51a](https://github.com/mathrunet/flutter_masamune/commit/85e0c51a435acad68c9abef66e3696979f979e23))

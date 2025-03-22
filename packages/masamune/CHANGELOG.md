@@ -1,3 +1,7 @@
+## 2.21.0
+
+ - **FEAT**: Added registration function for Boot. ([69e12b75](https://github.com/mathrunet/flutter_masamune/commit/69e12b75f844b56b02bbb47cf9ea3ed14a818bb2))
+
 ## 2.20.3
 
  - **FIX**: Add parameter to router. ([a5f8bb99](https://github.com/mathrunet/flutter_masamune/commit/a5f8bb99b1a77682ccf3673c1197ec2b7302740b))

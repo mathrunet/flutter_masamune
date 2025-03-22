@@ -1,3 +1,7 @@
+## 2.10.1
+
+ - Update a dependency to the latest release.
+
 ## 2.10.0
 
  - **FEAT**: Added title color change widget. ([50db5493](https://github.com/mathrunet/flutter_masamune/commit/50db54933dae0a739aa447dcf50f9cb5e31952f8))
