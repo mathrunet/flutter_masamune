@@ -1,3 +1,7 @@
+## 2.22.0
+
+ - **FEAT**: Added the ability to write queries directly. ([a2f9b525](https://github.com/mathrunet/flutter_masamune/commit/a2f9b525d6bdda39c6a0b28ff1b44f19a19baecf))
+
 ## 2.21.0
 
  - **FEAT**: Added registration function for Boot. ([69e12b75](https://github.com/mathrunet/flutter_masamune/commit/69e12b75f844b56b02bbb47cf9ea3ed14a818bb2))

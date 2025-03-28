@@ -1,3 +1,7 @@
+## 2.33.0
+
+ - **FEAT**: Added the ability to write queries directly. ([a2f9b525](https://github.com/mathrunet/flutter_masamune/commit/a2f9b525d6bdda39c6a0b28ff1b44f19a19baecf))
+
 ## 2.32.1
 
  - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))

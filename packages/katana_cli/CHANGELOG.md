@@ -1,3 +1,7 @@
+## 2.38.2
+
+ - **FIX**: Apply import sorter. ([1a8cea80](https://github.com/mathrunet/flutter_masamune/commit/1a8cea80fd718883bc7871bf27d9e99e77cf3ca3))
+
 ## 2.38.1
 
  - **FIX**: Added icon setting item to LocalNotification. ([4b1e65db](https://github.com/mathrunet/flutter_masamune/commit/4b1e65db7a925aa87c2fffda55857a6a2a28692a))
