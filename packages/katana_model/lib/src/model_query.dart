@@ -1,5 +1,18 @@
 part of '/katana_model.dart';
 
+/// Callback function for filtering objects.
+///
+/// If [Null] is returned, it means that the filter is skipped.
+///
+/// If it returns anything else, it is applied as a filter.
+///
+/// オブジェクトをフィルタリングするためのコールバック関数。
+///
+/// [Null]を返した場合はフィルターをスキップするということになります。
+///
+/// それ以外を返した場合はそれをフィルターとして適用します。
+typedef ModelQueryFilterCallback = Object? Function(String key, Object? value);
+
 /// Query class for defining Model.
 ///
 /// The [path] to be queried is given and the document is loaded, etc.
@@ -535,6 +548,33 @@ class CollectionModelQuery extends ModelQuery {
     ]);
   }
 
+  /// Add a filter that allows you to edit the query directly.
+  ///
+  /// Specify filter conditions for objects in [filter].
+  ///
+  /// [query] specifies the query condition in the external database.
+  ///
+  /// 直接クエリを編集できるフィルターを追加します。
+  ///
+  /// [filter]でオブジェクトのフィルター条件を指定します。
+  ///
+  /// [query]は外部データベースでのクエリ条件を指定します。
+  CollectionModelQuery raw(
+    String key, {
+    required ModelQueryFilterCallback filter,
+    ModelQueryFilterCallback? query,
+  }) {
+    return _copyWithAddingFilter(filters: [
+      ...filters,
+      ModelQueryFilter._(
+        type: ModelQueryFilterType.raw,
+        key: key,
+        value: filter,
+        query: query,
+      )
+    ]);
+  }
+
   CollectionModelQuery _copyWithAddingFilter({
     List<ModelQueryFilter>? filters,
   }) {
@@ -1040,7 +1080,12 @@ enum ModelQueryFilterType {
   /// A filter that filters when multiple conditions match at least one.
   ///
   /// 複数の条件のうち少なくとも一つが一致する場合にフィルタリングするフィルター。
-  or;
+  or,
+
+  /// Filters that allow you to edit the query directly.
+  ///
+  /// 直接クエリを編集できるフィルター。
+  raw;
 }
 
 /// {@template model_query_filter}
@@ -1113,6 +1158,7 @@ class ModelQueryFilter {
     required this.type,
     this.key,
     this.value,
+    this.query,
   });
 
   /// You can filter only those elements for which the value for [key] matches the value for [value].
@@ -1332,6 +1378,27 @@ class ModelQueryFilter {
           type: ModelQueryFilterType.notifyDocumentChanges,
         );
 
+  /// Specify the filter condition to be directly edited.
+  ///
+  /// Specify filter conditions for objects in [filter].
+  ///
+  /// [query] specifies the query condition in the external database.
+  ///
+  /// 直接編集できるフィルター条件を指定します。
+  ///
+  /// [filter]でオブジェクトのフィルター条件を指定します。
+  ///
+  /// [query]は外部データベースでのクエリ条件を指定します。
+  const ModelQueryFilter.raw({
+    required String key,
+    required ModelQueryFilterCallback filter,
+    ModelQueryFilterCallback? query,
+  }) : this._(
+          type: ModelQueryFilterType.raw,
+          key: key,
+          value: filter,
+          query: query,
+        );
   static const String _kTypeKey = "type";
   static const String _kKeyKey = "key";
   static const String _kValueKey = "value";
@@ -1351,6 +1418,11 @@ class ModelQueryFilter {
   /// フィルター条件の対象となる値を指定します。
   final Object? value;
 
+  /// Specify the filter condition to be directly edited.
+  ///
+  /// 直接編集できるフィルター条件を指定します。
+  final Object? query;
+
   bool _hasMatchValue(dynamic source) {
     final target = value;
     for (final filter in ModelFieldValue._filters) {
@@ -1360,6 +1432,11 @@ class ModelQueryFilter {
       }
     }
     switch (type) {
+      case ModelQueryFilterType.raw:
+        if (target is! ModelQueryFilterCallback) {
+          return false;
+        }
+        return target.call(key ?? "", source) != null;
       case ModelQueryFilterType.equalTo:
         if (source is String && target is Enum) {
           return source == target.toString().split(".").lastOrNull;
@@ -1507,7 +1584,7 @@ class ModelQueryFilter {
           .sortTo()
           .fold(type.hashCode ^ key.hashCode, (p, e) => p ^ e.hashCode);
     }
-    return type.hashCode ^ key.hashCode ^ value.hashCode;
+    return type.hashCode ^ key.hashCode ^ value.hashCode ^ query.hashCode;
   }
 
   /// [ModelQueryFilter] is converted to [Map].

@@ -249,6 +249,19 @@ mixin _NotWhereQuerySelectorMixin<T, TQuery extends ModelQueryBase>
   }
 }
 
+mixin _RawQuerySelectorMixin<T, TQuery extends ModelQueryBase>
+    on ModelQuerySelector<T, TQuery> {
+  /// [filter] filters directly on the object itself, and [query] filters directly on the external database.
+  ///
+  /// [filter]でオブジェクト自体のフィルタリングを直接おこない、[query]で外部データベースでのフィルタリングを直接おこないます。
+  TQuery raw({
+    required ModelQueryFilterCallback filter,
+    ModelQueryFilterCallback? query,
+  }) {
+    return _toQuery(_modelQuery.raw(key, filter: filter, query: query));
+  }
+}
+
 /// [ModelQuerySelector] for [String].
 ///
 /// [String]に対する[ModelQuerySelector]。
@@ -263,7 +276,8 @@ class StringModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<String, TQuery>,
         _ContainsAnyQuerySelectorMixin<String, TQuery>,
         _WhereQuerySelectorMixin<String, TQuery>,
-        _NotWhereQuerySelectorMixin<String, TQuery> {
+        _NotWhereQuerySelectorMixin<String, TQuery>,
+        _RawQuerySelectorMixin<String, TQuery> {
   /// [ModelQuerySelector] for [String].
   ///
   /// [String]に対する[ModelQuerySelector]。
@@ -288,7 +302,8 @@ class NumModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<num, TQuery>,
         _ContainsAnyQuerySelectorMixin<num, TQuery>,
         _WhereQuerySelectorMixin<num, TQuery>,
-        _NotWhereQuerySelectorMixin<num, TQuery> {
+        _NotWhereQuerySelectorMixin<num, TQuery>,
+        _RawQuerySelectorMixin<num, TQuery> {
   /// [ModelQuerySelector] for [num].
   ///
   /// [num]に対する[ModelQuerySelector]。
@@ -311,7 +326,8 @@ class BooleanModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<bool, TQuery>,
         _ContainsAnyQuerySelectorMixin<bool, TQuery>,
         _WhereQuerySelectorMixin<bool, TQuery>,
-        _NotWhereQuerySelectorMixin<bool, TQuery> {
+        _NotWhereQuerySelectorMixin<bool, TQuery>,
+        _RawQuerySelectorMixin<bool, TQuery> {
   /// [ModelQuerySelector] for [bool].
   ///
   /// [bool]に対する[ModelQuerySelector]。
@@ -336,7 +352,8 @@ class ObjectModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<Object, TQuery>,
         _ContainsAnyQuerySelectorMixin<Object, TQuery>,
         _WhereQuerySelectorMixin<Object, TQuery>,
-        _NotWhereQuerySelectorMixin<Object, TQuery> {
+        _NotWhereQuerySelectorMixin<Object, TQuery>,
+        _RawQuerySelectorMixin<Object, TQuery> {
   /// [ModelQuerySelector] for [Object].
   ///
   /// [Object]に対する[ModelQuerySelector]。
@@ -359,7 +376,8 @@ class ValueModelQuerySelector<TValue, TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<TValue, TQuery>,
         _ContainsAnyQuerySelectorMixin<TValue, TQuery>,
         _WhereQuerySelectorMixin<TValue, TQuery>,
-        _NotWhereQuerySelectorMixin<TValue, TQuery> {
+        _NotWhereQuerySelectorMixin<TValue, TQuery>,
+        _RawQuerySelectorMixin<TValue, TQuery> {
   /// [ModelQuerySelector] for [TValue].
   ///
   /// [TValue]に対する[ModelQuerySelector]。
@@ -378,7 +396,8 @@ class ListModelQuerySelector<TValue, TQuery extends ModelQueryBase>
     extends ModelQuerySelector<List<TValue>, TQuery>
     with
         _EqualQuerySelectorMixin<List<TValue>, TQuery>,
-        _NotEqualQuerySelectorMixin<List<TValue>, TQuery> {
+        _NotEqualQuerySelectorMixin<List<TValue>, TQuery>,
+        _RawQuerySelectorMixin<List<TValue>, TQuery> {
   /// [ModelQuerySelector] for [List].
   ///
   /// [List]に対する[ModelQuerySelector]。
@@ -426,7 +445,8 @@ class MapModelQuerySelector<TValue, TQuery extends ModelQueryBase>
     extends ModelQuerySelector<Map<String, TValue>, TQuery>
     with
         _EqualQuerySelectorMixin<Map<String, TValue>, TQuery>,
-        _NotEqualQuerySelectorMixin<Map<String, TValue>, TQuery> {
+        _NotEqualQuerySelectorMixin<Map<String, TValue>, TQuery>,
+        _RawQuerySelectorMixin<Map<String, TValue>, TQuery> {
   /// [ModelQuerySelector] for [Map].
   ///
   /// [Map]に対する[ModelQuerySelector]。
@@ -451,7 +471,8 @@ class ModelCounterModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<ModelCounter, TQuery>,
         _ContainsAnyQuerySelectorMixin<ModelCounter, TQuery>,
         _WhereQuerySelectorMixin<ModelCounter, TQuery>,
-        _NotWhereQuerySelectorMixin<ModelCounter, TQuery> {
+        _NotWhereQuerySelectorMixin<ModelCounter, TQuery>,
+        _RawQuerySelectorMixin<ModelCounter, TQuery> {
   /// [ModelQuerySelector] for [ModelCounter].
   ///
   /// [ModelCounter]に対する[ModelQuerySelector]。
@@ -476,7 +497,8 @@ class ModelTimestampModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<ModelTimestamp, TQuery>,
         _ContainsAnyQuerySelectorMixin<ModelTimestamp, TQuery>,
         _WhereQuerySelectorMixin<ModelTimestamp, TQuery>,
-        _NotWhereQuerySelectorMixin<ModelTimestamp, TQuery> {
+        _NotWhereQuerySelectorMixin<ModelTimestamp, TQuery>,
+        _RawQuerySelectorMixin<ModelTimestamp, TQuery> {
   /// [ModelQuerySelector] for [ModelTimestamp].
   ///
   /// [ModelTimestamp]に対する[ModelQuerySelector]。
@@ -501,7 +523,8 @@ class ModelDateModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<ModelDate, TQuery>,
         _ContainsAnyQuerySelectorMixin<ModelDate, TQuery>,
         _WhereQuerySelectorMixin<ModelDate, TQuery>,
-        _NotWhereQuerySelectorMixin<ModelDate, TQuery> {
+        _NotWhereQuerySelectorMixin<ModelDate, TQuery>,
+        _RawQuerySelectorMixin<ModelDate, TQuery> {
   /// [ModelQuerySelector] for [ModelDate].
   ///
   /// [ModelDate]に対する[ModelQuerySelector]。
@@ -526,7 +549,8 @@ class ModelTimeModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<ModelTime, TQuery>,
         _ContainsAnyQuerySelectorMixin<ModelTime, TQuery>,
         _WhereQuerySelectorMixin<ModelTime, TQuery>,
-        _NotWhereQuerySelectorMixin<ModelTime, TQuery> {
+        _NotWhereQuerySelectorMixin<ModelTime, TQuery>,
+        _RawQuerySelectorMixin<ModelTime, TQuery> {
   /// [ModelQuerySelector] for [ModelTime].
   ///
   /// [ModelTime]に対する[ModelQuerySelector]。
@@ -549,7 +573,8 @@ class ModelTimestampRangeModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<ModelTimestampRange, TQuery>,
         _ContainsAnyQuerySelectorMixin<ModelTimestampRange, TQuery>,
         _WhereQuerySelectorMixin<ModelTimestampRange, TQuery>,
-        _NotWhereQuerySelectorMixin<ModelTimestampRange, TQuery> {
+        _NotWhereQuerySelectorMixin<ModelTimestampRange, TQuery>,
+        _RawQuerySelectorMixin<ModelTimestampRange, TQuery> {
   /// [ModelQuerySelector] for [ModelTimestampRange].
   ///
   /// [ModelTimestampRange]に対する[ModelQuerySelector]。
@@ -572,7 +597,8 @@ class ModelDateRangeModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<ModelDateRange, TQuery>,
         _ContainsAnyQuerySelectorMixin<ModelDateRange, TQuery>,
         _WhereQuerySelectorMixin<ModelDateRange, TQuery>,
-        _NotWhereQuerySelectorMixin<ModelDateRange, TQuery> {
+        _NotWhereQuerySelectorMixin<ModelDateRange, TQuery>,
+        _RawQuerySelectorMixin<ModelDateRange, TQuery> {
   /// [ModelQuerySelector] for [ModelDateRange].
   ///
   /// [ModelDateRange]に対する[ModelQuerySelector]。
@@ -595,7 +621,8 @@ class ModelTimeRangeModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<ModelTimeRange, TQuery>,
         _ContainsAnyQuerySelectorMixin<ModelTimeRange, TQuery>,
         _WhereQuerySelectorMixin<ModelTimeRange, TQuery>,
-        _NotWhereQuerySelectorMixin<ModelTimeRange, TQuery> {
+        _NotWhereQuerySelectorMixin<ModelTimeRange, TQuery>,
+        _RawQuerySelectorMixin<ModelTimeRange, TQuery> {
   /// [ModelQuerySelector] for [ModelTimeRange].
   ///
   /// [ModelTimeRange]に対する[ModelQuerySelector]。
@@ -618,7 +645,8 @@ class ModelRefModelQuerySelector<TModelRef, TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<ModelRefBase<TModelRef>, TQuery>,
         _ContainsAnyQuerySelectorMixin<ModelRefBase<TModelRef>, TQuery>,
         _WhereQuerySelectorMixin<ModelRefBase<TModelRef>, TQuery>,
-        _NotWhereQuerySelectorMixin<ModelRefBase<TModelRef>, TQuery> {
+        _NotWhereQuerySelectorMixin<ModelRefBase<TModelRef>, TQuery>,
+        _RawQuerySelectorMixin<ModelRefBase<TModelRef>, TQuery> {
   /// [ModelQuerySelector] for [ModelRefBase].
   ///
   /// [ModelRefBase]に対する[ModelQuerySelector]。
@@ -641,7 +669,8 @@ class ModelLocaleModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<ModelLocale, TQuery>,
         _ContainsAnyQuerySelectorMixin<ModelLocale, TQuery>,
         _WhereQuerySelectorMixin<ModelLocale, TQuery>,
-        _NotWhereQuerySelectorMixin<ModelLocale, TQuery> {
+        _NotWhereQuerySelectorMixin<ModelLocale, TQuery>,
+        _RawQuerySelectorMixin<ModelLocale, TQuery> {
   /// [ModelQuerySelector] for [ModelLocale].
   ///
   /// [ModelLocale]に対する[ModelQuerySelector]。
@@ -661,7 +690,8 @@ class ModelLocalizedValueModelQuerySelector<TQuery extends ModelQueryBase>
     with
         _EqualQuerySelectorMixin<ModelLocalizedValue, TQuery>,
         _ContainsQuerySelectorMixin<ModelLocalizedValue, TQuery>,
-        _ContainsAnyQuerySelectorMixin<ModelLocalizedValue, TQuery> {
+        _ContainsAnyQuerySelectorMixin<ModelLocalizedValue, TQuery>,
+        _RawQuerySelectorMixin<ModelLocalizedValue, TQuery> {
   /// [ModelQuerySelector] for [ModelLocalizedValue].
   ///
   /// [ModelLocalizedValue]に対する[ModelQuerySelector]。
@@ -684,7 +714,8 @@ class ModelGeoValueModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<ModelGeoValue, TQuery>,
         _ContainsAnyQuerySelectorMixin<ModelGeoValue, TQuery>,
         _WhereQuerySelectorMixin<ModelGeoValue, TQuery>,
-        _NotWhereQuerySelectorMixin<ModelGeoValue, TQuery> {
+        _NotWhereQuerySelectorMixin<ModelGeoValue, TQuery>,
+        _RawQuerySelectorMixin<ModelGeoValue, TQuery> {
   /// [ModelQuerySelector] for [ModelGeoValue].
   ///
   /// [ModelGeoValue]に対する[ModelQuerySelector]。
@@ -776,7 +807,8 @@ class ModelUriModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<ModelUri, TQuery>,
         _ContainsAnyQuerySelectorMixin<ModelUri, TQuery>,
         _WhereQuerySelectorMixin<ModelUri, TQuery>,
-        _NotWhereQuerySelectorMixin<ModelUri, TQuery> {
+        _NotWhereQuerySelectorMixin<ModelUri, TQuery>,
+        _RawQuerySelectorMixin<ModelUri, TQuery> {
   /// [ModelQuerySelector] for [ModelUri].
   ///
   /// [ModelUri]に対する[ModelQuerySelector]。
@@ -799,7 +831,8 @@ class ModelImageUriModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<ModelImageUri, TQuery>,
         _ContainsAnyQuerySelectorMixin<ModelImageUri, TQuery>,
         _WhereQuerySelectorMixin<ModelImageUri, TQuery>,
-        _NotWhereQuerySelectorMixin<ModelImageUri, TQuery> {
+        _NotWhereQuerySelectorMixin<ModelImageUri, TQuery>,
+        _RawQuerySelectorMixin<ModelImageUri, TQuery> {
   /// [ModelQuerySelector] for [ModelImageUri].
   ///
   /// [ModelImageUri]に対する[ModelQuerySelector]。
@@ -822,7 +855,8 @@ class ModelVideoUriModelQuerySelector<TQuery extends ModelQueryBase>
         _ContainsQuerySelectorMixin<ModelVideoUri, TQuery>,
         _ContainsAnyQuerySelectorMixin<ModelVideoUri, TQuery>,
         _WhereQuerySelectorMixin<ModelVideoUri, TQuery>,
-        _NotWhereQuerySelectorMixin<ModelVideoUri, TQuery> {
+        _NotWhereQuerySelectorMixin<ModelVideoUri, TQuery>,
+        _RawQuerySelectorMixin<ModelVideoUri, TQuery> {
   /// [ModelQuerySelector] for [ModelVideoUri].
   ///
   /// [ModelVideoUri]に対する[ModelQuerySelector]。
@@ -842,7 +876,8 @@ class ModelSearchModelQuerySelector<TQuery extends ModelQueryBase>
     with
         _EqualQuerySelectorMixin<ModelSearch, TQuery>,
         _ContainsQuerySelectorMixin<ModelSearch, TQuery>,
-        _ContainsAnyQuerySelectorMixin<ModelSearch, TQuery> {
+        _ContainsAnyQuerySelectorMixin<ModelSearch, TQuery>,
+        _RawQuerySelectorMixin<ModelSearch, TQuery> {
   /// [ModelQuerySelector] for [ModelSearch].
   ///
   /// [ModelSearch]に対する[ModelQuerySelector]。
@@ -862,7 +897,8 @@ class ModelTokenModelQuerySelector<TQuery extends ModelQueryBase>
     with
         _EqualQuerySelectorMixin<ModelToken, TQuery>,
         _ContainsQuerySelectorMixin<ModelToken, TQuery>,
-        _ContainsAnyQuerySelectorMixin<ModelToken, TQuery> {
+        _ContainsAnyQuerySelectorMixin<ModelToken, TQuery>,
+        _RawQuerySelectorMixin<ModelToken, TQuery> {
   /// [ModelQuerySelector] for [ModelToken].
   ///
   /// [ModelToken]に対する[ModelQuerySelector]。

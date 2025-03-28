@@ -170,6 +170,16 @@ abstract class FirestoreModelFieldValueConverter {
     }
     final key = filter.key!;
     switch (filter.type) {
+      case ModelQueryFilterType.raw:
+        final query = filter.query;
+        if (query is! ModelQueryFilterCallback) {
+          return null;
+        }
+        final res = query.call(key, firestoreQuery);
+        if (res is Query<Map<String, dynamic>>) {
+          return res;
+        }
+        return null;
       case ModelQueryFilterType.equalTo:
         if (filter.value is ModelSearch) {
           final modelSearch = filter.value as ModelSearch;
