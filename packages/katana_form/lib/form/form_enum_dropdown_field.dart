@@ -352,7 +352,7 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
       child: Container(
         alignment: widget.style?.alignment,
         padding:
-            widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
+            widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 4),
         child: SizedBox(
           height: widget.style?.height,
           width: widget.style?.width,
@@ -363,7 +363,8 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
               child: DropdownButtonFormField<TEnum>(
-                padding: EdgeInsets.zero,
+                padding: widget.style?.contentPadding ??
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 hint: widget.hintText != null
                     ? Text(
                         widget.hintText!,
@@ -382,8 +383,8 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
                       )
                     : null,
                 decoration: InputDecoration(
-                  contentPadding: widget.style?.contentPadding ??
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                  // contentPadding: widget.style?.contentPadding ??
+                  //     const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                   fillColor: activeBackgroundColor,
                   filled: activeBackgroundColor != null,
                   // hoverColor: activeBackgroundColor,
