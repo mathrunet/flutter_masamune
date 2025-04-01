@@ -1,3 +1,7 @@
+## 2.10.3
+
+ - Update a dependency to the latest release.
+
 ## 2.10.2
 
  - **FIX**: Adjust the Padding of the title. ([37f2a2a1](https://github.com/mathrunet/flutter_masamune/commit/37f2a2a11357624c60627b8024d2f16a25d940f8))

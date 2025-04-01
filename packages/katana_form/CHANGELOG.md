@@ -1,3 +1,7 @@
+## 2.17.2
+
+ - **FIX**: We tried to match the OUTLINE style. ([3eece025](https://github.com/mathrunet/flutter_masamune/commit/3eece0252eef24d73e9bd6b2eb851498b0ec800d))
+
 ## 2.17.1
 
  - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))

@@ -1,3 +1,7 @@
+## 2.22.1
+
+ - Update a dependency to the latest release.
+
 ## 2.22.0
 
  - **FEAT**: Added the ability to write queries directly. ([a2f9b525](https://github.com/mathrunet/flutter_masamune/commit/a2f9b525d6bdda39c6a0b28ff1b44f19a19baecf))
