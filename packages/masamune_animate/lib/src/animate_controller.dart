@@ -121,6 +121,7 @@ class AnimateController extends ChangeNotifier implements AnimateRunner {
   final List<_AnimateQueryContainer> _queryStack = [];
   final _AnimateControllerNotifier _internalNotifier =
       _AnimateControllerNotifier();
+  Widget? _latestChild;
 
   void _initialize(TickerProvider vsync) {
     if (_vsync == vsync && _ticker != null) {
@@ -187,13 +188,19 @@ class AnimateController extends ChangeNotifier implements AnimateRunner {
   }
 
   Widget _build(BuildContext context, Widget child) {
+    bool isChanged = false;
     for (final query in _queryStack) {
       final duration = elapsedDuration - query.startDuration;
       if (duration < Duration.zero) {
         continue;
       }
+      isChanged = true;
       child = query.query._build(context, duration, child);
     }
+    if (!isChanged && _latestChild != null) {
+      return _latestChild!;
+    }
+    _latestChild = child;
     return child;
   }
 
