@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase` - `v2.5.3`](#masamune_purchase---v253)
+ - [`masamune_purchase_mobile` - `v2.13.3`](#masamune_purchase_mobile---v2133)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_purchase_mobile` - `v2.13.3`
+
+---
+
+#### `masamune_purchase` - `v2.5.3`
+
+ - **FIX**: Added features for benefits. ([8c078061](https://github.com/mathrunet/flutter_masamune/commit/8c07806139dffecd5ac8d9f7abbae07725819de9))
+
+
+## 2025-04-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_animate` - `v2.2.85`](#masamune_animate---v2285)
 
 ---

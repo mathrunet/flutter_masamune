@@ -1,6 +1,6 @@
 name: masamune_purchase
 description: Masamune plugin package that contains the base implementation for implementing InAppPurchase and an adapter for mocking.
-version: 2.5.2
+version: 2.5.3
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_purchase
 
