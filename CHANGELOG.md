@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-04-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_animate` - `v2.2.85`](#masamune_animate---v2285)
+
+---
+
+#### `masamune_animate` - `v2.2.85`
+
+ - **FIX**: Fixed a flickering bug. ([7c701569](https://github.com/mathrunet/flutter_masamune/commit/7c701569d0bcaf95a09f8084e7e58436fd25b129))
+
+
 ## 2025-04-01
 
 ### Changes
