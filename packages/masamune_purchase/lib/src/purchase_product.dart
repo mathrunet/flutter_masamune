@@ -55,6 +55,8 @@ class PurchaseProduct {
     String? priceText,
     bool debugConsumeWhenPurchaseCompleted = false,
     this.debugForcePurchased = false,
+    this.offerIds = const [],
+    this.priceBuilder,
   })  : _priceText = priceText,
         _title = title,
         _description = description,
@@ -88,6 +90,8 @@ class PurchaseProduct {
     required this.price,
     String? priceText,
     this.debugForcePurchased = false,
+    this.priceBuilder,
+    this.offerIds = const [],
   })  : type = PurchaseProductType.consumable,
         subscriptionPeriod = PurchaseSubscriptionPeriod.none,
         expiredPeriod = null,
@@ -121,6 +125,8 @@ class PurchaseProduct {
     String? priceText,
     bool debugConsumeWhenPurchaseCompleted = false,
     this.debugForcePurchased = false,
+    this.priceBuilder,
+    this.offerIds = const [],
   })  : type = PurchaseProductType.nonConsumable,
         subscriptionPeriod = PurchaseSubscriptionPeriod.none,
         amount = null,
@@ -159,6 +165,8 @@ class PurchaseProduct {
     String? priceText,
     this.subscriptionPeriod = PurchaseSubscriptionPeriod.month,
     this.debugForcePurchased = false,
+    this.priceBuilder,
+    this.offerIds = const [],
   })  : type = PurchaseProductType.subscription,
         amount = null,
         expiredPeriod = expiredPeriod,
@@ -252,10 +260,31 @@ class PurchaseProduct {
       _debugConsumeWhenPurchaseCompleted;
   final bool _debugConsumeWhenPurchaseCompleted;
 
+  /// List of offer IDs.
+  ///
+  /// オファーIDのリスト。
+  final List<String> offerIds;
+
+  /// Builder of the price display section.
+  ///
+  /// 値段表示部分のビルダー。
+  final Widget Function(BuildContext context, PurchaseProduct product)?
+      priceBuilder;
+
   /// List of sub-billed items included in this billed item.
   ///
   /// この課金アイテムに含まれるサブ課金アイテムのリスト。
   List<PurchaseProduct> get subProducts => [];
+
+  /// Basic product.
+  ///
+  /// 基本の課金アイテム。
+  PurchaseProduct? get basicProduct => subProducts.lastOrNull;
+
+  /// Whether the special offer is available.
+  ///
+  /// スペシャルオファーが利用可能かどうか。
+  bool get availableSpecialOffer => subProducts.length > 1;
 
   /// Load real data from the database.
   ///
@@ -335,7 +364,9 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
           price: product.price,
           icon: product.icon,
           amount: product.amount,
+          offerIds: product.offerIds,
           expiredPeriod: product.expiredPeriod,
+          priceBuilder: product.priceBuilder,
           debugConsumeWhenPurchaseCompleted:
               product.debugConsumeWhenPurchaseCompleted,
           type: PurchaseProductType.consumable,
@@ -474,7 +505,9 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
           description: product.description,
           icon: product.icon,
           price: product.price,
+          offerIds: product.offerIds,
           expiredPeriod: product.expiredPeriod,
+          priceBuilder: product.priceBuilder,
           debugConsumeWhenPurchaseCompleted:
               product.debugConsumeWhenPurchaseCompleted,
           type: PurchaseProductType.nonConsumable,
@@ -615,7 +648,9 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
           description: product.description,
           icon: product.icon,
           price: product.price,
+          offerIds: product.offerIds,
           expiredPeriod: product.expiredPeriod,
+          priceBuilder: product.priceBuilder,
           debugConsumeWhenPurchaseCompleted:
               product.debugConsumeWhenPurchaseCompleted,
           type: PurchaseProductType.subscription,
