@@ -6,6 +6,9 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/mathrunet">
+    <img src="https://img.shields.io/static/v1?label=GitHub&message=Follow&logo=GitHub&color=333333&link=https://github.com/mathrunet" alt="Follow on GitHub" />
+  </a>
   <a href="https://x.com/mathru">
     <img src="https://img.shields.io/static/v1?label=@mathru&message=Follow&logo=X&color=0F1419&link=https://x.com/mathru" alt="Follow on X" />
   </a>
