@@ -51,6 +51,13 @@ abstract class AppPageRoute<T> extends Page<T> {
         barrierColor:
             transitionQuery?.transition.barrierColor ?? const Color(0x80000000),
       );
+    } else if (transitionQuery?.transition.isCupertino ?? false) {
+      return _CupertinoPageRoute(
+        key: key ?? ValueKey(uuid()),
+        builder: builder,
+        path: path,
+        transitionQuery: transitionQuery,
+      );
     } else {
       return _DefaultPageRoute(
         key: key ?? ValueKey(uuid()),
@@ -144,6 +151,27 @@ class _DefaultPageRoute<T> extends Page<T> implements AppPageRoute<T> {
           child: child,
         );
       },
+    );
+  }
+}
+
+@immutable
+class _CupertinoPageRoute<T> extends Page<T> implements AppPageRoute<T> {
+  const _CupertinoPageRoute({
+    super.key,
+    required this.builder,
+    required String? path,
+    this.transitionQuery,
+  }) : super(name: path, arguments: transitionQuery);
+
+  final WidgetBuilder builder;
+  final TransitionQuery? transitionQuery;
+
+  @override
+  Route<T> createRoute(BuildContext context) {
+    return CupertinoPageRoute(
+      settings: this,
+      builder: (context) => builder(context),
     );
   }
 }

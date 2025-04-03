@@ -53,6 +53,12 @@ class TransitionQuery {
   static const TransitionQuery fade =
       TransitionQuery._(transition: _TransitionQueryType.fade);
 
+  /// [TransitionQuery] to perform Cupertino transitions.
+  ///
+  /// Cupertinoのトランジションを行なう[TransitionQuery]。
+  static const TransitionQuery cupertino =
+      TransitionQuery._(transition: _TransitionQueryType.cupertino);
+
   /// [TransitionQuery] that performs a modal transition from the middle.
   ///
   /// The back page will be visible.

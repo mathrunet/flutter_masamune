@@ -24,6 +24,11 @@ enum _TransitionQueryType {
   /// フェードトランジション。
   fade(isModal: false, isFullscreen: false),
 
+  /// Cupertino transition.
+  ///
+  /// Cupertinoトランジション。
+  cupertino(isCupertino: true, isModal: false, isFullscreen: false),
+
   /// Modal transition from the middle.
   ///
   /// The back page will be visible.
@@ -104,6 +109,7 @@ enum _TransitionQueryType {
   const _TransitionQueryType({
     required this.isModal,
     required this.isFullscreen,
+    this.isCupertino = false,
     this.barrierColor = const Color(0x80000000),
   });
 
@@ -111,6 +117,11 @@ enum _TransitionQueryType {
   ///
   /// モーダルを利用する場合True。
   final bool isModal;
+
+  /// True if using CupertinoPageRoute.
+  ///
+  /// CupertinoPageRouteを利用する場合はTrue。
+  final bool isCupertino;
 
   /// True if treated as full screen.
   ///
