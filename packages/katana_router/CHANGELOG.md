@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: Added Cupertino transition. ([f1e6ffbc](https://github.com/mathrunet/flutter_masamune/commit/f1e6ffbce95697ba20740ef9610b746afa56eef7))
+
 ## 2.5.0
 
  - **FEAT**: Added registration function for Boot. ([69e12b75](https://github.com/mathrunet/flutter_masamune/commit/69e12b75f844b56b02bbb47cf9ea3ed14a818bb2))

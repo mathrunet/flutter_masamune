@@ -1,3 +1,7 @@
+## 2.5.4
+
+ - Update a dependency to the latest release.
+
 ## 2.5.3
 
  - **FIX**: Added features for benefits. ([8c078061](https://github.com/mathrunet/flutter_masamune/commit/8c07806139dffecd5ac8d9f7abbae07725819de9))

@@ -1,3 +1,7 @@
+## 2.2.86
+
+ - Update a dependency to the latest release.
+
 ## 2.2.85
 
  - **FIX**: Fixed a flickering bug. ([7c701569](https://github.com/mathrunet/flutter_masamune/commit/7c701569d0bcaf95a09f8084e7e58436fd25b129))
