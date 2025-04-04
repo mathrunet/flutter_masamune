@@ -1,3 +1,8 @@
+## 2.6.1
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
 ## 2.6.0
 
  - **FEAT**: Added Cupertino transition. ([f1e6ffbc](https://github.com/mathrunet/flutter_masamune/commit/f1e6ffbce95697ba20740ef9610b746afa56eef7))

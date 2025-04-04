@@ -1,3 +1,8 @@
+## 2.2.2
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
 ## 2.2.1
 
  - **FIX**: Fixed a bug that did not identify the type well. ([649b081d](https://github.com/mathrunet/flutter_masamune/commit/649b081db1727565a737b000798c192efad55245))

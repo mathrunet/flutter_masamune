@@ -1,3 +1,8 @@
+## 2.3.18
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
 ## 2.3.17
 
  - **FIX**: Fixed a bug that caused that option to be selected when only the country was available. ([1edd549a](https://github.com/mathrunet/flutter_masamune/commit/1edd549a1c453cc67e1b75ff87e7d91bf201d7bc))

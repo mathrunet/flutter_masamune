@@ -3,6 +3,552 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-04-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana` - `v2.18.1`](#katana---v2181)
+ - [`katana_auth` - `v2.11.1`](#katana_auth---v2111)
+ - [`katana_auth_firebase` - `v2.8.2`](#katana_auth_firebase---v282)
+ - [`katana_builder` - `v2.2.2`](#katana_builder---v222)
+ - [`katana_cli` - `v2.38.3`](#katana_cli---v2383)
+ - [`katana_firebase` - `v2.2.16`](#katana_firebase---v2216)
+ - [`katana_form` - `v2.17.3`](#katana_form---v2173)
+ - [`katana_functions` - `v2.9.1`](#katana_functions---v291)
+ - [`katana_functions_firebase` - `v2.9.2`](#katana_functions_firebase---v292)
+ - [`katana_indicator` - `v2.4.1`](#katana_indicator---v241)
+ - [`katana_listenables` - `v2.2.15`](#katana_listenables---v2215)
+ - [`katana_listenables_annotation` - `v2.1.15`](#katana_listenables_annotation---v2115)
+ - [`katana_listenables_builder` - `v2.1.23`](#katana_listenables_builder---v2123)
+ - [`katana_localization` - `v2.3.18`](#katana_localization---v2318)
+ - [`katana_localization_annotation` - `v2.2.16`](#katana_localization_annotation---v2216)
+ - [`katana_localization_builder` - `v2.3.3`](#katana_localization_builder---v233)
+ - [`katana_logger` - `v2.5.1`](#katana_logger---v251)
+ - [`katana_model` - `v2.33.1`](#katana_model---v2331)
+ - [`katana_model_firestore` - `v2.21.1`](#katana_model_firestore---v2211)
+ - [`katana_model_local` - `v2.15.3`](#katana_model_local---v2153)
+ - [`katana_model_openapi` - `v2.3.1`](#katana_model_openapi---v231)
+ - [`katana_model_openapi_builder` - `v2.1.18`](#katana_model_openapi_builder---v2118)
+ - [`katana_prefs` - `v2.2.15`](#katana_prefs---v2215)
+ - [`katana_prefs_annotation` - `v2.1.15`](#katana_prefs_annotation---v2115)
+ - [`katana_prefs_builder` - `v2.1.24`](#katana_prefs_builder---v2124)
+ - [`katana_router` - `v2.6.1`](#katana_router---v261)
+ - [`katana_router_annotation` - `v2.1.17`](#katana_router_annotation---v2117)
+ - [`katana_router_builder` - `v2.2.10`](#katana_router_builder---v2210)
+ - [`katana_scoped` - `v2.7.1`](#katana_scoped---v271)
+ - [`katana_shorten` - `v2.2.1`](#katana_shorten---v221)
+ - [`katana_storage` - `v2.4.1`](#katana_storage---v241)
+ - [`katana_storage_firebase` - `v2.2.9`](#katana_storage_firebase---v229)
+ - [`katana_test` - `v2.1.3`](#katana_test---v213)
+ - [`katana_theme` - `v2.9.1`](#katana_theme---v291)
+ - [`katana_theme_annotation` - `v2.3.1`](#katana_theme_annotation---v231)
+ - [`katana_theme_builder` - `v2.4.1`](#katana_theme_builder---v241)
+ - [`katana_ui` - `v2.14.1`](#katana_ui---v2141)
+ - [`masamune` - `v2.22.3`](#masamune---v2223)
+ - [`masamune_ads_google` - `v2.7.9`](#masamune_ads_google---v279)
+ - [`masamune_agora` - `v2.6.8`](#masamune_agora---v268)
+ - [`masamune_ai` - `v2.4.11`](#masamune_ai---v2411)
+ - [`masamune_ai_firebase` - `v2.3.11`](#masamune_ai_firebase---v2311)
+ - [`masamune_ai_openai` - `v2.11.8`](#masamune_ai_openai---v2118)
+ - [`masamune_animate` - `v2.2.87`](#masamune_animate---v2287)
+ - [`masamune_annotation` - `v2.9.8`](#masamune_annotation---v298)
+ - [`masamune_app_review` - `v2.1.19`](#masamune_app_review---v2119)
+ - [`masamune_auth_apple` - `v2.5.8`](#masamune_auth_apple---v258)
+ - [`masamune_auth_apple_firebase` - `v2.1.12`](#masamune_auth_apple_firebase---v2112)
+ - [`masamune_auth_facebook` - `v2.6.8`](#masamune_auth_facebook---v268)
+ - [`masamune_auth_firebase` - `v2.1.24`](#masamune_auth_firebase---v2124)
+ - [`masamune_auth_google` - `v2.6.8`](#masamune_auth_google---v268)
+ - [`masamune_auth_google_firebase` - `v2.2.10`](#masamune_auth_google_firebase---v2210)
+ - [`masamune_builder` - `v2.21.3`](#masamune_builder---v2213)
+ - [`masamune_calendar` - `v2.4.8`](#masamune_calendar---v248)
+ - [`masamune_camera` - `v2.6.8`](#masamune_camera---v268)
+ - [`masamune_deeplink` - `v2.4.4`](#masamune_deeplink---v244)
+ - [`masamune_deeplink_firebase` - `v2.4.4`](#masamune_deeplink_firebase---v244)
+ - [`masamune_firebase_app_check` - `v2.3.4`](#masamune_firebase_app_check---v234)
+ - [`masamune_force_updater` - `v2.2.19`](#masamune_force_updater---v2219)
+ - [`masamune_introduction` - `v2.7.8`](#masamune_introduction---v278)
+ - [`masamune_lints` - `v2.5.7`](#masamune_lints---v257)
+ - [`masamune_location` - `v2.9.4`](#masamune_location---v294)
+ - [`masamune_location_background` - `v2.7.4`](#masamune_location_background---v274)
+ - [`masamune_location_geocoding` - `v2.5.46`](#masamune_location_geocoding---v2546)
+ - [`masamune_location_google` - `v2.8.4`](#masamune_location_google---v284)
+ - [`masamune_location_platform_interface` - `v2.4.70`](#masamune_location_platform_interface---v2470)
+ - [`masamune_logger_firebase` - `v2.6.8`](#masamune_logger_firebase---v268)
+ - [`masamune_mail` - `v2.2.142`](#masamune_mail---v22142)
+ - [`masamune_model_algolia` - `v2.4.147`](#masamune_model_algolia---v24147)
+ - [`masamune_model_docs_builder` - `v2.3.6`](#masamune_model_docs_builder---v236)
+ - [`masamune_model_firebase_data_connect` - `v2.3.14`](#masamune_model_firebase_data_connect---v2314)
+ - [`masamune_model_firebase_data_connect_annotation` - `v2.2.13`](#masamune_model_firebase_data_connect_annotation---v2213)
+ - [`masamune_model_firebase_data_connect_builder` - `v2.4.6`](#masamune_model_firebase_data_connect_builder---v246)
+ - [`masamune_model_firebase_remote_config` - `v2.1.19`](#masamune_model_firebase_remote_config---v2119)
+ - [`masamune_model_firestore` - `v2.2.14`](#masamune_model_firestore---v2214)
+ - [`masamune_model_firestore_builder` - `v2.5.6`](#masamune_model_firestore_builder---v256)
+ - [`masamune_notification` - `v2.11.4`](#masamune_notification---v2114)
+ - [`masamune_notification_firebase` - `v2.9.4`](#masamune_notification_firebase---v294)
+ - [`masamune_notification_local` - `v2.4.4`](#masamune_notification_local---v244)
+ - [`masamune_picker` - `v2.5.8`](#masamune_picker---v258)
+ - [`masamune_purchase` - `v2.5.5`](#masamune_purchase---v255)
+ - [`masamune_purchase_mobile` - `v2.13.5`](#masamune_purchase_mobile---v2135)
+ - [`masamune_purchase_stripe` - `v3.6.8`](#masamune_purchase_stripe---v368)
+ - [`masamune_scheduler` - `v2.4.8`](#masamune_scheduler---v248)
+ - [`masamune_speech_to_text` - `v2.4.4`](#masamune_speech_to_text---v244)
+ - [`masamune_text_to_speech` - `v2.5.4`](#masamune_text_to_speech---v254)
+ - [`masamune_universal_ui` - `v2.10.5`](#masamune_universal_ui---v2105)
+ - [`masamune_util` - `v2.2.142`](#masamune_util---v22142)
+
+---
+
+#### `katana` - `v2.18.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_auth` - `v2.11.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_auth_firebase` - `v2.8.2`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_builder` - `v2.2.2`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_cli` - `v2.38.3`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_firebase` - `v2.2.16`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_form` - `v2.17.3`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_functions` - `v2.9.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_functions_firebase` - `v2.9.2`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_indicator` - `v2.4.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_listenables` - `v2.2.15`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_listenables_annotation` - `v2.1.15`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_listenables_builder` - `v2.1.23`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_localization` - `v2.3.18`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_localization_annotation` - `v2.2.16`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_localization_builder` - `v2.3.3`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_logger` - `v2.5.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_model` - `v2.33.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_model_firestore` - `v2.21.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_model_local` - `v2.15.3`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_model_openapi` - `v2.3.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_model_openapi_builder` - `v2.1.18`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_prefs` - `v2.2.15`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_prefs_annotation` - `v2.1.15`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_prefs_builder` - `v2.1.24`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_router` - `v2.6.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_router_annotation` - `v2.1.17`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_router_builder` - `v2.2.10`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_scoped` - `v2.7.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_shorten` - `v2.2.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_storage` - `v2.4.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_storage_firebase` - `v2.2.9`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_test` - `v2.1.3`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_theme` - `v2.9.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_theme_annotation` - `v2.3.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_theme_builder` - `v2.4.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `katana_ui` - `v2.14.1`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune` - `v2.22.3`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_ads_google` - `v2.7.9`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_agora` - `v2.6.8`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_ai` - `v2.4.11`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_ai_firebase` - `v2.3.11`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_ai_openai` - `v2.11.8`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_animate` - `v2.2.87`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_annotation` - `v2.9.8`
+
+ - **FIX**: Added offset parameter to GoogleSpreadSheetDataSource. ([5331167c](https://github.com/mathrunet/flutter_masamune/commit/5331167c30378415c1b3cfd5eb0203ce7e2f5e73))
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_app_review` - `v2.1.19`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_auth_apple` - `v2.5.8`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_auth_apple_firebase` - `v2.1.12`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_auth_facebook` - `v2.6.8`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_auth_firebase` - `v2.1.24`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_auth_google` - `v2.6.8`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_auth_google_firebase` - `v2.2.10`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_builder` - `v2.21.3`
+
+ - **FIX**: Added offset parameter to GoogleSpreadSheetDataSource. ([5331167c](https://github.com/mathrunet/flutter_masamune/commit/5331167c30378415c1b3cfd5eb0203ce7e2f5e73))
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_calendar` - `v2.4.8`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_camera` - `v2.6.8`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_deeplink` - `v2.4.4`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_deeplink_firebase` - `v2.4.4`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_firebase_app_check` - `v2.3.4`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_force_updater` - `v2.2.19`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_introduction` - `v2.7.8`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_lints` - `v2.5.7`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_location` - `v2.9.4`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_location_background` - `v2.7.4`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_location_geocoding` - `v2.5.46`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_location_google` - `v2.8.4`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_location_platform_interface` - `v2.4.70`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_logger_firebase` - `v2.6.8`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_mail` - `v2.2.142`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_model_algolia` - `v2.4.147`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_model_docs_builder` - `v2.3.6`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_model_firebase_data_connect` - `v2.3.14`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_model_firebase_data_connect_annotation` - `v2.2.13`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_model_firebase_data_connect_builder` - `v2.4.6`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_model_firebase_remote_config` - `v2.1.19`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_model_firestore` - `v2.2.14`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_model_firestore_builder` - `v2.5.6`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_notification` - `v2.11.4`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_notification_firebase` - `v2.9.4`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_notification_local` - `v2.4.4`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_picker` - `v2.5.8`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_purchase` - `v2.5.5`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_purchase_mobile` - `v2.13.5`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_purchase_stripe` - `v3.6.8`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_scheduler` - `v2.4.8`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_speech_to_text` - `v2.4.4`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_text_to_speech` - `v2.5.4`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_universal_ui` - `v2.10.5`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+#### `masamune_util` - `v2.2.142`
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
+
 ## 2025-04-03
 
 ### Changes

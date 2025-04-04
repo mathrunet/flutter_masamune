@@ -1,3 +1,8 @@
+## 2.33.1
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
 ## 2.33.0
 
  - **FEAT**: Added the ability to write queries directly. ([a2f9b525](https://github.com/mathrunet/flutter_masamune/commit/a2f9b525d6bdda39c6a0b28ff1b44f19a19baecf))

@@ -1,3 +1,8 @@
+## 2.38.3
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
 ## 2.38.2
 
  - **FIX**: Apply import sorter. ([1a8cea80](https://github.com/mathrunet/flutter_masamune/commit/1a8cea80fd718883bc7871bf27d9e99e77cf3ca3))

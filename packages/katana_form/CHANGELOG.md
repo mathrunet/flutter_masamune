@@ -1,3 +1,8 @@
+## 2.17.3
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
 ## 2.17.2
 
  - **FIX**: We tried to match the OUTLINE style. ([3eece025](https://github.com/mathrunet/flutter_masamune/commit/3eece0252eef24d73e9bd6b2eb851498b0ec800d))

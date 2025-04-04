@@ -1,3 +1,8 @@
+## 2.5.7
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
 ## 2.5.6
 
  - **FIX**: Package Version Upgrade. ([c22f0e85](https://github.com/mathrunet/flutter_masamune/commit/c22f0e858e1116d79690f64d514e90648a05535f))

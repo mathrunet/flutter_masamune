@@ -1,3 +1,9 @@
+## 2.9.8
+
+ - **FIX**: Added offset parameter to GoogleSpreadSheetDataSource. ([5331167c](https://github.com/mathrunet/flutter_masamune/commit/5331167c30378415c1b3cfd5eb0203ce7e2f5e73))
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
 ## 2.9.7
 
  - **FIX**: Freezed Migration. ([9b040235](https://github.com/mathrunet/flutter_masamune/commit/9b04023582b87c09215976ab7bcefc1428f0fcb3))

@@ -1,3 +1,8 @@
+## 2.4.1
+
+ - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
+ - **DOCS**: Up-to-date changes around SNS. ([de4980a9](https://github.com/mathrunet/flutter_masamune/commit/de4980a99c46835ab2558591a81debe00856163a))
+
 ## 2.4.0
 
  - **FEAT**: Added executeGuarded. ([d54dfaa5](https://github.com/mathrunet/flutter_masamune/commit/d54dfaa5c384cd8f0a1b387bceeec4edc317d480))
