@@ -25,6 +25,8 @@ class GoogleSpreadSheetValue {
         idKey = obj.getField("idKey")?.toStringValue();
         direct = obj.getField("direct")?.toBoolValue() ?? false;
         version = obj.getField("version")?.toIntValue() ?? 1;
+        offsetX = obj.getField("offsetX")?.toIntValue() ?? 0;
+        offsetY = obj.getField("offsetY")?.toIntValue() ?? 0;
 
         final directionMatch = _directionRegExp.firstMatch(meta.toSource());
         if (directionMatch != null) {
@@ -40,6 +42,8 @@ class GoogleSpreadSheetValue {
     version = 1;
     direction = null;
     direct = false;
+    offsetX = 0;
+    offsetY = 0;
   }
 
   static final _directionRegExp =
@@ -81,6 +85,16 @@ class GoogleSpreadSheetValue {
   /// 直接URLからダウンロードするかどうかの設定。
   late final bool direct;
 
+  /// Offset for XY axis.
+  ///
+  /// XY軸のオフセット。
+  late final int offsetX;
+
+  /// Offset for Y axis.
+  ///
+  /// Y軸のオフセット。
+  late final int offsetY;
+
   @override
   String toString() {
     return "$runtimeType()";
@@ -95,9 +109,9 @@ class GoogleSpreadSheetValue {
     } else {
       switch (direction) {
         case "GoogleSpreadSheetDataSourceDirection.vertical":
-          return "CsvDocumentSourceModelAdapter( source: r'''$source''', idKey: \"$idKey\", direction: Axis.vertical, )";
+          return "CsvDocumentSourceModelAdapter( source: r'''$source''', idKey: \"$idKey\", direction: Axis.vertical, offset: Offset($offsetX, $offsetY) )";
         default:
-          return "CsvDocumentSourceModelAdapter( source: r'''$source''', idKey: \"$idKey\", direction: Axis.horizontal, )";
+          return "CsvDocumentSourceModelAdapter( source: r'''$source''', idKey: \"$idKey\", direction: Axis.horizontal )";
       }
     }
   }

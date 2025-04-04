@@ -121,6 +121,8 @@ class GoogleSpreadSheetDataSource {
     this.idKey = "id",
     this.direct = false,
     this.direction = GoogleSpreadSheetDataSourceDirection.horizontal,
+    this.offsetX = 0,
+    this.offsetY = 0,
   });
 
   /// Google Spreadsheet URL.
@@ -163,6 +165,16 @@ class GoogleSpreadSheetDataSource {
   ///
   /// [GoogleSpreadSheetDataSource]にてドキュメント用のデータソースを利用する場合の向き。
   final GoogleSpreadSheetDataSourceDirection direction;
+
+  /// Offset for X axis.
+  ///
+  /// X軸のオフセット。
+  final int offsetX;
+
+  /// Offset for Y axis.
+  ///
+  /// Y軸のオフセット。
+  final int offsetY;
 }
 
 /// Orientation for using data source for documents at [GoogleSpreadSheetDataSource].
