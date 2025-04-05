@@ -109,9 +109,9 @@ class GoogleSpreadSheetValue {
     } else {
       switch (direction) {
         case "GoogleSpreadSheetDataSourceDirection.vertical":
-          return "CsvDocumentSourceModelAdapter( source: r'''$source''', idKey: \"$idKey\", direction: Axis.vertical, offset: Offset($offsetX, $offsetY) )";
+          return "CsvDocumentSourceModelAdapter( source: r'''$source''', direction: Axis.vertical, offset: Offset($offsetX, $offsetY) )";
         default:
-          return "CsvDocumentSourceModelAdapter( source: r'''$source''', idKey: \"$idKey\", direction: Axis.horizontal )";
+          return "CsvDocumentSourceModelAdapter( source: r'''$source''', direction: Axis.horizontal )";
       }
     }
   }
