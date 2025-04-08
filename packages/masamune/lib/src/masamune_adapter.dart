@@ -88,6 +88,21 @@ abstract class MasamuneAdapter {
     return app;
   }
 
+  /// Returning [Widget] will build the widget.
+  ///
+  /// The page generated in [MasamuneApp] is passed to [page].
+  ///
+  /// Returning [Widget] will build the widget.
+  ///
+  /// [MasamuneApp]のビルド時にウィジェットを追加することが可能です。
+  ///
+  /// [page]に[MasamuneApp]内で生成されたページが渡されます。
+  ///
+  /// [Widget]を返すとそのウィジェットがビルドされます。
+  Widget onBuildPage(BuildContext context, Widget page) {
+    return page;
+  }
+
   /// Called when initializing [MasamuneAdapterScope].
   ///
   /// It is possible to describe processes such as receiving an `[adapter]' and making it a `primary` adapter.

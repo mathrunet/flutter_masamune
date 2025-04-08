@@ -230,6 +230,7 @@ class MasamuneApp extends StatefulWidget {
     this.masamuneAdapters = const <MasamuneAdapter>[],
     this.localizationsDelegates,
     this.supportedLocales,
+    this.onBuildPageFilters,
   });
 
   /// Restart the application by passing [context].
@@ -457,6 +458,16 @@ class MasamuneApp extends StatefulWidget {
   final List<Widget Function(BuildContext context, Widget app)>?
       onBuildAppFilters;
 
+  /// It is executed when the page is built.
+  ///
+  /// The page generated in [MasamuneApp] is passed to [page].
+  ///
+  /// Returning [Widget] will build the widget.
+  ///
+  /// [MasamuneApp]のビルド時にウィジェットを追加することが可能です。
+  final List<Widget Function(BuildContext context, Widget page)>?
+      onBuildPageFilters;
+
   /// Define a list of [LocalizationsDelegate].
   ///
   /// [LocalizationsDelegate]のリストを定義します。
@@ -561,14 +572,14 @@ class _MasamuneAppState extends State<MasamuneApp> {
         ),
       ),
     );
-    final filters = [
+    final appFilters = [
       ...widget.masamuneAdapters.map((e) => e.onBuildApp),
       if (widget.onBuildAppFilters != null) ...widget.onBuildAppFilters!,
     ];
-    if (filters.isEmpty) {
+    if (appFilters.isEmpty) {
       return child;
     }
-    for (final builder in filters) {
+    for (final builder in appFilters) {
       child = builder.call(context, child);
     }
     return Container(
@@ -687,6 +698,10 @@ class _MasamuneAppState extends State<MasamuneApp> {
       }
       observers.add(observer);
     }
+    final pageFilters = [
+      ...widget.masamuneAdapters.map((e) => e.onBuildPage),
+      if (widget.onBuildPageFilters != null) ...widget.onBuildPageFilters!,
+    ];
 
     if (widget.home != null || widget.routerConfig == null) {
       return MaterialApp(
@@ -711,7 +726,13 @@ class _MasamuneAppState extends State<MasamuneApp> {
         onGenerateInitialRoutes: widget.onGenerateInitialRoutes,
         onUnknownRoute: widget.onUnknownRoute,
         navigatorObservers: observers,
-        builder: widget.builder,
+        builder: (context, child) {
+          child ??= const SizedBox.shrink();
+          for (final builder in pageFilters) {
+            child = builder.call(context, child!);
+          }
+          return widget.builder?.call(context, child!) ?? child!;
+        },
       );
     } else {
       if (widget.routerConfig is AppRouter) {
@@ -742,7 +763,13 @@ class _MasamuneAppState extends State<MasamuneApp> {
         title: widget.title,
         onGenerateTitle: widget.onGenerateTitle,
         themeMode: widget.theme?.themeMode ?? widget.themeMode,
-        builder: widget.builder,
+        builder: (context, child) {
+          child ??= const SizedBox.shrink();
+          for (final builder in pageFilters) {
+            child = builder.call(context, child!);
+          }
+          return widget.builder?.call(context, child!) ?? child!;
+        },
       );
     }
   }
