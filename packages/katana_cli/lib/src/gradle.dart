@@ -968,7 +968,7 @@ class GradleDependencies {
     final isKotlin = content.contains('("');
     if (isKotlin) {
       final implmentations =
-          RegExp('(?<group>[a-zA-Z]+)("(?<packageName>[^"]+)")')
+          RegExp(r'(?<group>[a-zA-Z]+)\("(?<packageName>[^"]+)"\)')
               .allMatches(region);
       return implmentations
           .map(

@@ -52,8 +52,8 @@ class AppLocalNotificationCliAction extends CliCommand with CliActionMixin {
     final gradle = AppGradle();
     await gradle.load();
     final compileOptions = GradleAndroidCompileOptions(
-      sourceCompatibility: "JavaVersion.VERSION_1_8",
-      targetCompatibility: "JavaVersion.VERSION_1_8",
+      sourceCompatibility: "JavaVersion.VERSION_11",
+      targetCompatibility: "JavaVersion.VERSION_11",
       coreLibraryDesugaringEnabled: true,
     );
     gradle.android?.compileOptions = compileOptions;
@@ -64,11 +64,11 @@ class AppLocalNotificationCliAction extends CliCommand with CliActionMixin {
     defaultConfig.multiDexEnabled = "true";
     if (!gradle.dependencies.any((e) =>
         e.group == "coreLibraryDesugaring" &&
-        e.packageName == "com.android.tools:desugar_jdk_libs:1.2.2")) {
+        e.packageName == "com.android.tools:desugar_jdk_libs:2.1.4")) {
       gradle.dependencies.add(
         GradleDependencies(
           group: "coreLibraryDesugaring",
-          packageName: "com.android.tools:desugar_jdk_libs:1.2.2",
+          packageName: "com.android.tools:desugar_jdk_libs:2.1.4",
           isKotlin: gradle.isKotlin,
         ),
       );

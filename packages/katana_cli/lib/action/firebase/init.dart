@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 // Package imports:
+import 'package:katana_cli/action/firebase/authentication.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
@@ -653,6 +654,52 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         workingDirectory: "firebase/functions",
       );
       await const FunctionsEslintrcCliCode().generateFile(".eslintrc.js");
+    }
+    if (enabledVertexAi) {
+      label("Edit Runner.entitlements.");
+      final runnerEntitlements = File("ios/Runner/Runner.entitlements");
+      if (!runnerEntitlements.existsSync()) {
+        await const RunnerEntitlementsCliCode()
+            .generateFile("Runner.entitlements");
+      }
+      final runnerDocument =
+          XmlDocument.parse(await runnerEntitlements.readAsString());
+      final dict = runnerDocument.findAllElements("dict").firstOrNull;
+      if (dict == null) {
+        throw Exception(
+          "Could not find `dict` element in `ios/Runner/Info.plist`. File is corrupt.",
+        );
+      }
+      final appAttest = dict.children.firstWhereOrNull((p0) {
+        return p0 is XmlElement &&
+            p0.name.toString() == "key" &&
+            p0.innerText ==
+                "com.apple.developer.devicecheck.appattest-environment";
+      });
+      if (appAttest == null) {
+        dict.children.add(
+          XmlElement(
+            XmlName("key"),
+            [],
+            [
+              XmlText("com.apple.developer.devicecheck.appattest-environment"),
+            ],
+          ),
+        );
+        dict.children.add(
+          XmlElement(
+            XmlName("string"),
+            [],
+            [
+              XmlText("development"),
+            ],
+          ),
+        );
+        await runnerEntitlements.writeAsString(
+          runnerDocument.toXmlString(
+              pretty: true, indent: "    ", newLine: "\n"),
+        );
+      }
     }
     label("Edit config.properties");
     final configPropertiesFile = File("android/config.properties");
