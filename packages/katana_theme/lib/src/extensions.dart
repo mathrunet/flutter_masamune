@@ -17,6 +17,19 @@ extension ThemeBuildContextExtensions on BuildContext {
   MediaQueryData get mediaQuery => MediaQuery.of(this);
 }
 
+/// Define a theme extension for [ThemeExtension].
+///
+/// [ThemeExtension]用のテーマエクステンションを定義します。
+extension ThemeExtensionExtensions<T extends ThemeExtension<T>>
+    on ThemeExtension<T> {
+  /// Returns the value of the theme extension.
+  ///
+  /// テーマエクステンションの値を返します。
+  T? get value {
+    return this as T;
+  }
+}
+
 /// Define a theme extension for [Color].
 ///
 /// [Color]用のテーマエクステンションを定義します。

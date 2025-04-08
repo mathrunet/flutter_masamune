@@ -51,7 +51,7 @@ const kSplashColor = Color(0xaaFFFFFF);
 ///   - https://m3.material.io/styles/color/the-color-system/color-roles
 ///   - https://m3.material.io/styles/typography/type-scale-tokens
 /// {@endtemplate}
-class AppThemeData {
+class AppThemeData extends ThemeExtension<AppThemeData> {
   /// The light theme defines the initial color.
   ///
   /// ライトテーマで初期色を定義しています。
@@ -1065,6 +1065,22 @@ class AppThemeData {
           defaultFontFamilyResolver: defaultFontFamilyResolver,
         );
 
+  AppThemeData._({
+    required ColorThemeData darkColor,
+    required ColorThemeData lightColor,
+    required TextThemeData text,
+    this.themeMode = ThemeMode.system,
+    this.useMaterial3 = true,
+    this.centerTitleOnAppBar,
+    this.fixed = false,
+    this.defaultFontFamilyResolver,
+    this.platform = TargetPlatform.iOS,
+    this.statusBarBrightnessOnIOS,
+    this.statusBarBrightnessOnAndroid,
+  })  : _darkColor = darkColor,
+        _lightColor = lightColor,
+        _text = text;
+
   /// Retrieve the color scheme.
   ///
   /// New themes can be defined by extending [ColorThemeData].
@@ -1324,8 +1340,9 @@ class AppThemeData {
     final scope = context
         .getElementForInheritedWidgetOfExactType<AppThemeScope>()
         ?.widget as AppThemeScope?;
-    assert(scope != null, "AppThemeData is not found.");
-    return scope!.theme;
+    final theme = scope?.theme ?? Theme.of(context).extension<AppThemeData>();
+    assert(theme != null, "AppThemeData is not found.");
+    return theme!;
   }
 
   /// Convert to [ThemeData] in Flutter.
@@ -1373,7 +1390,7 @@ class AppThemeData {
           onSurface: color.onSurface,
           onError: color.onError,
           onErrorContainer: color.onWarning,
-          brightness: color.brightness,
+          brightness: brightness ?? color.brightness,
           outline: color.outline,
           inversePrimary: color.inversePrimary,
           inverseSurface: color.inverseSurface,
@@ -1575,7 +1592,7 @@ class AppThemeData {
             foregroundColor: color.onBackground,
           )),
           indicatorColor: color.secondary,
-          brightness: color.brightness,
+          brightness: brightness ?? color.brightness,
           primaryColor: color.primary,
           disabledColor: color.disabled,
           dividerColor: color.outline,
@@ -1620,7 +1637,7 @@ class AppThemeData {
           onTertiaryContainer: color.onTertiaryContainer,
           onSurface: color.onSurface,
           onError: color.onError,
-          brightness: color.brightness,
+          brightness: brightness ?? color.brightness,
           outline: color.outline,
           inversePrimary: color.inversePrimary,
           inverseSurface: color.inverseSurface,
@@ -1826,7 +1843,7 @@ class AppThemeData {
             ),
           ),
           indicatorColor: color.secondary,
-          brightness: color.brightness,
+          brightness: brightness ?? color.brightness,
           primaryColor: color.primary,
           disabledColor: color.disabled,
           dividerColor: color.outline,
@@ -1835,6 +1852,7 @@ class AppThemeData {
           ),
           colorScheme: colorScheme.copyWith(error: color.error),
           extensions: [
+            this,
             color,
             text,
             ScaffoldThemeExtension(
@@ -1887,6 +1905,379 @@ class AppThemeData {
     } else {
       return kWhiteColor;
     }
+  }
+
+  @override
+  ThemeExtension<AppThemeData> copyWith({
+    Color? primary,
+    Color? secondary,
+    Color? tertiary,
+    Color? primaryContainer,
+    Color? secondaryContainer,
+    Color? tertiaryContainer,
+    Color? disabled,
+    Color? weak,
+    Color? outline,
+    Color? outlineVariant,
+    Color? error,
+    Color? warning,
+    Color? info,
+    Color? success,
+    Color? surface,
+    Color? surfaceVariant,
+    Color? background,
+    Color? onPrimary,
+    Color? onSecondary,
+    Color? onTertiary,
+    Color? onPrimaryContainer,
+    Color? onSecondaryContainer,
+    Color? onTertiaryContainer,
+    Color? onDisabled,
+    Color? onSurface,
+    Color? onSurfaceVariant,
+    Color? onBackground,
+    Color? onWeak,
+    Color? onError,
+    Color? onInfo,
+    Color? onSuccess,
+    Color? onWarning,
+    Color? splashColor,
+    Color? shadow,
+    Color? appBarColor,
+    Color? onAppBarColor,
+    Color? onExpandedAppBarColor,
+    Color? scaffoldBackgroundColor,
+    Color? dialogColor,
+    Color? onDialogColor,
+    Color? inversePrimary,
+    Color? inverseSecondary,
+    Color? inverseTertiary,
+    Color? inversePrimaryContainer,
+    Color? inverseSecondaryContainer,
+    Color? inverseTertiaryContainer,
+    Color? inverseDisabled,
+    Color? inverseWeak,
+    Color? inverseOutline,
+    Color? inverseError,
+    Color? inverseWarning,
+    Color? inverseInfo,
+    Color? inverseSuccess,
+    Color? inverseSurface,
+    Color? inverseBackground,
+    Color? onInversePrimary,
+    Color? onInverseSecondary,
+    Color? onInverseTertiary,
+    Color? onInversePrimaryContainer,
+    Color? onInverseSecondaryContainer,
+    Color? onInverseTertiaryContainer,
+    Color? onInverseDisabled,
+    Color? onInverseSurface,
+    Color? onInverseBackground,
+    Color? onInverseWeak,
+    Color? onInverseError,
+    Color? onInverseInfo,
+    Color? onInverseSuccess,
+    Color? onInverseWarning,
+    Color? inverseSplashColor,
+    Color? inverseShadow,
+    Color? inverseAppBarColor,
+    Color? onInverseAppBarColor,
+    Color? onInverseExpandedAppBarColor,
+    Color? inverseScaffoldBackgroundColor,
+    Color? inverseDialogColor,
+    Color? onInverseDialogColor,
+    ThemeMode? themeMode,
+    TextStyle? displayLarge,
+    TextStyle? displayMedium,
+    TextStyle? displaySmall,
+    TextStyle? headlineLarge,
+    TextStyle? headlineMedium,
+    TextStyle? headlineSmall,
+    TextStyle? titleLarge,
+    TextStyle? titleMedium,
+    TextStyle? titleSmall,
+    TextStyle? bodyLarge,
+    TextStyle? bodyMedium,
+    TextStyle? bodySmall,
+    TextStyle? labelLarge,
+    TextStyle? labelMedium,
+    TextStyle? labelSmall,
+    double? fontSizeFactor,
+    double? fontSizeDelta,
+    String? defaultFontFamily,
+    bool? useMaterial3,
+    TargetPlatform? platform,
+    bool? centerTitleOnAppBar,
+    Brightness? brightness,
+    Brightness? statusBarBrightnessOnIOS,
+    Brightness? statusBarBrightnessOnAndroid,
+    bool? fixed,
+    String? Function(Locale)? defaultFontFamilyResolver,
+  }) {
+    return AppThemeData._(
+      darkColor: _darkColor.copyWith(
+        primary: primary ?? _darkColor.primary,
+        secondary: secondary ?? _darkColor.secondary,
+        tertiary: tertiary ?? _darkColor.tertiary,
+        primaryContainer: primaryContainer ?? _darkColor.primaryContainer,
+        secondaryContainer: secondaryContainer ?? _darkColor.secondaryContainer,
+        tertiaryContainer: tertiaryContainer ?? _darkColor.tertiaryContainer,
+        disabled: disabled ?? _darkColor.disabled,
+        weak: weak ?? _darkColor.weak,
+        outline: outline ?? _darkColor.outline,
+        outlineVariant: outlineVariant ?? _darkColor.outlineVariant,
+        error: error ?? _darkColor.error,
+        warning: warning ?? _darkColor.warning,
+        info: info ?? _darkColor.info,
+        success: success ?? _darkColor.success,
+        surface: surface ?? _darkColor.surface,
+        surfaceVariant: surfaceVariant ?? _darkColor.surfaceVariant,
+        background: background ?? _darkColor.background,
+        onPrimary: onPrimary ?? _darkColor.onPrimary,
+        onSecondary: onSecondary ?? _darkColor.onSecondary,
+        onTertiary: onTertiary ?? _darkColor.onTertiary,
+        onPrimaryContainer: onPrimaryContainer ?? _darkColor.onPrimaryContainer,
+        onSecondaryContainer:
+            onSecondaryContainer ?? _darkColor.onSecondaryContainer,
+        onTertiaryContainer:
+            onTertiaryContainer ?? _darkColor.onTertiaryContainer,
+        onDisabled: onDisabled ?? _darkColor.onDisabled,
+        onSurface: onSurface ?? _darkColor.onSurface,
+        onSurfaceVariant: onSurfaceVariant ?? _darkColor.onSurfaceVariant,
+        onBackground: onBackground ?? _darkColor.onBackground,
+        onWeak: onWeak ?? _darkColor.onWeak,
+        onError: onError ?? _darkColor.onError,
+        onInfo: onInfo ?? _darkColor.onInfo,
+        onSuccess: onSuccess ?? _darkColor.onSuccess,
+        onWarning: onWarning ?? _darkColor.onWarning,
+        splashColor: splashColor ?? _darkColor.splashColor ?? kSplashColor,
+        shadow: shadow ?? _darkColor.shadow,
+        appBarColor: appBarColor ?? _darkColor.appBarColor,
+        onAppBarColor: onAppBarColor ?? _darkColor.onAppBarColor,
+        onExpandedAppBarColor:
+            onExpandedAppBarColor ?? _darkColor.onExpandedAppBarColor,
+        scaffoldBackgroundColor:
+            scaffoldBackgroundColor ?? _darkColor.scaffoldBackgroundColor,
+        dialogColor: dialogColor ?? _darkColor.dialogColor,
+        onDialogColor: onDialogColor ?? _darkColor.onDialogColor,
+      ),
+      lightColor: _lightColor.copyWith(
+        primary: primary ?? _lightColor.primary,
+        secondary: secondary ?? _lightColor.secondary,
+        tertiary: tertiary ?? _lightColor.tertiary,
+        primaryContainer: primaryContainer ?? _lightColor.primaryContainer,
+        secondaryContainer:
+            secondaryContainer ?? _lightColor.secondaryContainer,
+        tertiaryContainer: tertiaryContainer ?? _lightColor.tertiaryContainer,
+        disabled: disabled ?? _lightColor.disabled,
+        weak: weak ?? _lightColor.weak,
+        outline: outline ?? _lightColor.outline,
+        outlineVariant: outlineVariant ?? _lightColor.outlineVariant,
+        error: error ?? _lightColor.error,
+        warning: warning ?? _lightColor.warning,
+        info: info ?? _lightColor.info,
+        success: success ?? _lightColor.success,
+        surface: surface ?? _lightColor.surface,
+        surfaceVariant: surfaceVariant ?? _lightColor.surfaceVariant,
+        background: background ?? _lightColor.background,
+        onPrimary: onPrimary ?? _lightColor.onPrimary,
+        onSecondary: onSecondary ?? _lightColor.onSecondary,
+        onTertiary: onTertiary ?? _lightColor.onTertiary,
+        onPrimaryContainer:
+            onPrimaryContainer ?? _lightColor.onPrimaryContainer,
+        onSecondaryContainer:
+            onSecondaryContainer ?? _lightColor.onSecondaryContainer,
+        onTertiaryContainer:
+            onTertiaryContainer ?? _lightColor.onTertiaryContainer,
+        onDisabled: onDisabled ?? _lightColor.onDisabled,
+        onSurface: onSurface ?? _lightColor.onSurface,
+        onSurfaceVariant: onSurfaceVariant ?? _lightColor.onSurfaceVariant,
+        onBackground: onBackground ?? _lightColor.onBackground,
+        onWeak: onWeak ?? _lightColor.onWeak,
+        onError: onError ?? _lightColor.onError,
+        onInfo: onInfo ?? _lightColor.onInfo,
+        onSuccess: onSuccess ?? _lightColor.onSuccess,
+        onWarning: onWarning ?? _lightColor.onWarning,
+        splashColor: splashColor ?? _lightColor.splashColor ?? kSplashColor,
+        shadow: shadow ?? _lightColor.shadow,
+        appBarColor: appBarColor ?? _lightColor.appBarColor,
+        onAppBarColor: onAppBarColor ?? _lightColor.onAppBarColor,
+        onExpandedAppBarColor:
+            onExpandedAppBarColor ?? _lightColor.onExpandedAppBarColor,
+        scaffoldBackgroundColor:
+            scaffoldBackgroundColor ?? _lightColor.scaffoldBackgroundColor,
+        dialogColor: dialogColor ?? _lightColor.dialogColor,
+        onDialogColor: onDialogColor ?? _lightColor.onDialogColor,
+      ),
+      text: text.copyWith(
+        displayLarge: displayLarge ?? text.displayLarge,
+        displayMedium: displayMedium ?? text.displayMedium,
+        displaySmall: displaySmall ?? text.displaySmall,
+        headlineLarge: headlineLarge ?? text.headlineLarge,
+        headlineMedium: headlineMedium ?? text.headlineMedium,
+        headlineSmall: headlineSmall ?? text.headlineSmall,
+        titleLarge: titleLarge ?? text.titleLarge,
+        titleMedium: titleMedium ?? text.titleMedium,
+        titleSmall: titleSmall ?? text.titleSmall,
+        bodyLarge: bodyLarge ?? text.bodyLarge,
+        bodyMedium: bodyMedium ?? text.bodyMedium,
+        bodySmall: bodySmall ?? text.bodySmall,
+        labelLarge: labelLarge ?? text.labelLarge,
+        labelMedium: labelMedium ?? text.labelMedium,
+        labelSmall: labelSmall ?? text.labelSmall,
+        fontSizeFactor: fontSizeFactor ?? text.fontSizeFactor,
+        fontSizeDelta: fontSizeDelta ?? text.fontSizeDelta,
+        defaultFontFamily: defaultFontFamily ?? text.defaultFontFamily,
+      ),
+      themeMode: themeMode ?? this.themeMode,
+      useMaterial3: useMaterial3 ?? this.useMaterial3,
+      platform: platform ?? this.platform,
+      centerTitleOnAppBar: centerTitleOnAppBar ?? this.centerTitleOnAppBar,
+      statusBarBrightnessOnIOS:
+          statusBarBrightnessOnIOS ?? this.statusBarBrightnessOnIOS,
+      statusBarBrightnessOnAndroid:
+          statusBarBrightnessOnAndroid ?? this.statusBarBrightnessOnAndroid,
+      fixed: fixed ?? this.fixed,
+      defaultFontFamilyResolver:
+          defaultFontFamilyResolver ?? this.defaultFontFamilyResolver,
+    );
+  }
+
+  @override
+  ThemeExtension<AppThemeData> lerp(
+      covariant ThemeExtension<AppThemeData>? other, double t) {
+    if (other is! AppThemeData) {
+      return this;
+    }
+    return AppThemeData(
+      primary:
+          Color.lerp(color.primary, other.color.primary, t) ?? color.primary,
+      secondary: Color.lerp(color.secondary, other.color.secondary, t) ??
+          color.secondary,
+      tertiary:
+          Color.lerp(color.tertiary, other.color.tertiary, t) ?? color.tertiary,
+      primaryContainer:
+          Color.lerp(color.primaryContainer, other.color.primaryContainer, t) ??
+              color.primaryContainer,
+      secondaryContainer: Color.lerp(
+              color.secondaryContainer, other.color.secondaryContainer, t) ??
+          color.secondaryContainer,
+      tertiaryContainer: Color.lerp(
+              color.tertiaryContainer, other.color.tertiaryContainer, t) ??
+          color.tertiaryContainer,
+      disabled:
+          Color.lerp(color.disabled, other.color.disabled, t) ?? color.disabled,
+      weak: Color.lerp(color.weak, other.color.weak, t) ?? color.weak,
+      outline:
+          Color.lerp(color.outline, other.color.outline, t) ?? color.outline,
+      outlineVariant:
+          Color.lerp(color.outlineVariant, other.color.outlineVariant, t) ??
+              color.outlineVariant,
+      error: Color.lerp(color.error, other.color.error, t) ?? color.error,
+      warning:
+          Color.lerp(color.warning, other.color.warning, t) ?? color.warning,
+      info: Color.lerp(color.info, other.color.info, t) ?? color.info,
+      success:
+          Color.lerp(color.success, other.color.success, t) ?? color.success,
+      surface:
+          Color.lerp(color.surface, other.color.surface, t) ?? color.surface,
+      surfaceVariant:
+          Color.lerp(color.surfaceVariant, other.color.surfaceVariant, t) ??
+              color.surfaceVariant,
+      background: Color.lerp(color.background, other.color.background, t) ??
+          color.background,
+      onPrimary: Color.lerp(color.onPrimary, other.color.onPrimary, t) ??
+          color.onPrimary,
+      onSecondary: Color.lerp(color.onSecondary, other.color.onSecondary, t) ??
+          color.onSecondary,
+      onTertiary: Color.lerp(color.onTertiary, other.color.onTertiary, t) ??
+          color.onTertiary,
+      onPrimaryContainer: Color.lerp(
+              color.onPrimaryContainer, other.color.onPrimaryContainer, t) ??
+          color.onPrimaryContainer,
+      onSecondaryContainer: Color.lerp(color.onSecondaryContainer,
+              other.color.onSecondaryContainer, t) ??
+          color.onSecondaryContainer,
+      onTertiaryContainer: Color.lerp(
+              color.onTertiaryContainer, other.color.onTertiaryContainer, t) ??
+          color.onTertiaryContainer,
+      onDisabled: Color.lerp(color.onDisabled, other.color.onDisabled, t) ??
+          color.onDisabled,
+      onSurface: Color.lerp(color.onSurface, other.color.onSurface, t) ??
+          color.onSurface,
+      onSurfaceVariant:
+          Color.lerp(color.onSurfaceVariant, other.color.onSurfaceVariant, t) ??
+              color.onSurfaceVariant,
+      onBackground:
+          Color.lerp(color.onBackground, other.color.onBackground, t) ??
+              color.onBackground,
+      onWeak: Color.lerp(color.onWeak, other.color.onWeak, t) ?? color.onWeak,
+      onError:
+          Color.lerp(color.onError, other.color.onError, t) ?? color.onError,
+      onInfo: Color.lerp(color.onInfo, other.color.onInfo, t) ?? color.onInfo,
+      onSuccess: Color.lerp(color.onSuccess, other.color.onSuccess, t) ??
+          color.onSuccess,
+      onWarning: Color.lerp(color.onWarning, other.color.onWarning, t) ??
+          color.onWarning,
+      splashColor: Color.lerp(color.splashColor, other.color.splashColor, t) ??
+          color.splashColor ??
+          kSplashColor,
+      shadow: Color.lerp(color.shadow, other.color.shadow, t) ?? color.shadow,
+      appBarColor: Color.lerp(color.appBarColor, other.color.appBarColor, t) ??
+          color.appBarColor,
+      onAppBarColor:
+          Color.lerp(color.onAppBarColor, other.color.onAppBarColor, t) ??
+              color.onAppBarColor,
+      onExpandedAppBarColor: Color.lerp(color.onExpandedAppBarColor,
+              other.color.onExpandedAppBarColor, t) ??
+          color.onExpandedAppBarColor,
+      scaffoldBackgroundColor: Color.lerp(color.scaffoldBackgroundColor,
+              other.color.scaffoldBackgroundColor, t) ??
+          color.scaffoldBackgroundColor,
+      dialogColor: Color.lerp(color.dialogColor, other.color.dialogColor, t) ??
+          color.dialogColor,
+      onDialogColor:
+          Color.lerp(color.onDialogColor, other.color.onDialogColor, t) ??
+              color.onDialogColor,
+      themeMode: t < 0.5 ? themeMode : other.themeMode,
+      displayLarge:
+          TextStyle.lerp(text.displayLarge, other.text.displayLarge, t)!,
+      displayMedium:
+          TextStyle.lerp(text.displayMedium, other.text.displayMedium, t)!,
+      displaySmall:
+          TextStyle.lerp(text.displaySmall, other.text.displaySmall, t)!,
+      headlineLarge:
+          TextStyle.lerp(text.headlineLarge, other.text.headlineLarge, t)!,
+      headlineMedium:
+          TextStyle.lerp(text.headlineMedium, other.text.headlineMedium, t)!,
+      headlineSmall:
+          TextStyle.lerp(text.headlineSmall, other.text.headlineSmall, t)!,
+      titleLarge: TextStyle.lerp(text.titleLarge, other.text.titleLarge, t)!,
+      titleMedium: TextStyle.lerp(text.titleMedium, other.text.titleMedium, t)!,
+      titleSmall: TextStyle.lerp(text.titleSmall, other.text.titleSmall, t)!,
+      bodyLarge: TextStyle.lerp(text.bodyLarge, other.text.bodyLarge, t)!,
+      bodyMedium: TextStyle.lerp(text.bodyMedium, other.text.bodyMedium, t)!,
+      bodySmall: TextStyle.lerp(text.bodySmall, other.text.bodySmall, t)!,
+      labelLarge: TextStyle.lerp(text.labelLarge, other.text.labelLarge, t)!,
+      labelMedium: TextStyle.lerp(text.labelMedium, other.text.labelMedium, t)!,
+      labelSmall: TextStyle.lerp(text.labelSmall, other.text.labelSmall, t)!,
+      fontSizeFactor:
+          lerpDouble(text.fontSizeFactor, other.text.fontSizeFactor, t)!,
+      fontSizeDelta:
+          lerpDouble(text.fontSizeDelta, other.text.fontSizeDelta, t)!,
+      defaultFontFamily:
+          t < 0.5 ? text.defaultFontFamily : other.text.defaultFontFamily,
+      useMaterial3: t < 0.5 ? useMaterial3 : other.useMaterial3,
+      platform: t < 0.5 ? platform : other.platform,
+      centerTitleOnAppBar:
+          t < 0.5 ? centerTitleOnAppBar : other.centerTitleOnAppBar,
+      brightness: t < 0.5 ? brightness : other.brightness,
+      statusBarBrightnessOnIOS:
+          t < 0.5 ? statusBarBrightnessOnIOS : other.statusBarBrightnessOnIOS,
+      fixed: t < 0.5 ? fixed : other.fixed,
+      defaultFontFamilyResolver:
+          t < 0.5 ? defaultFontFamilyResolver : other.defaultFontFamilyResolver,
+    );
   }
 }
 
