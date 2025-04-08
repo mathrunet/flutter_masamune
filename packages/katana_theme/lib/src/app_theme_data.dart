@@ -227,7 +227,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
     this.defaultFontFamilyResolver,
   })  : _lightColor = brightness == Brightness.light
             ? ColorThemeData._(
-                brightness: brightness,
+                brightness: Brightness.light,
                 primary: primary,
                 secondary: secondary,
                 tertiary: tertiary,
@@ -276,138 +276,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
                 appBarColor: appBarColor,
                 onAppBarColor: onAppBarColor,
                 onExpandedAppBarColor: onExpandedAppBarColor,
-                scaffoldBackgroundColor:
-                    scaffoldBackgroundColor ?? _background(brightness),
-                dialogColor: dialogColor ?? surface,
-                onDialogColor: onDialogColor ?? onSurface,
-              )
-            : ColorThemeData._(
-                brightness: Brightness.dark,
-                primary: inversePrimary ?? primary,
-                secondary: inverseSecondary ?? secondary,
-                tertiary: inverseTertiary ?? tertiary,
-                primaryContainer: inversePrimaryContainer ?? primaryContainer,
-                secondaryContainer:
-                    inverseSecondaryContainer ?? secondaryContainer,
-                tertiaryContainer:
-                    inverseTertiaryContainer ?? tertiaryContainer,
-                disabled: inverseDisabled ?? disabled,
-                weak: inverseWeak ?? weak,
-                outline: inverseOutline ?? outline,
-                outlineVariant: outlineVariant ?? outline,
-                error: inverseError ?? error,
-                warning: inverseWarning ?? warning,
-                info: inverseInfo ?? info,
-                success: inverseSuccess ?? success,
-                surface: inverseSurface ??
-                    surface ??
-                    _surface(_inverse(brightness, fixed)),
-                surfaceVariant:
-                    surfaceVariant ?? surface ?? _surface(brightness),
-                background: inverseBackground ??
-                    background ??
-                    _background(_inverse(brightness, fixed)),
-                onPrimary: onInversePrimary ?? onPrimary,
-                onSecondary: onInverseSecondary ?? onSecondary,
-                onTertiary: onInverseTertiary ?? onTertiary,
-                onPrimaryContainer:
-                    onInversePrimaryContainer ?? onPrimaryContainer,
-                onSecondaryContainer:
-                    onInverseSecondaryContainer ?? onSecondaryContainer,
-                onTertiaryContainer:
-                    onInverseTertiaryContainer ?? onTertiaryContainer,
-                onDisabled: onInverseDisabled ?? onDisabled,
-                onSurface: onInverseSurface ??
-                    onSurface ??
-                    _onBackgroundOrSurface(_inverse(brightness, fixed)),
-                onSurfaceVariant: onSurfaceVariant ??
-                    onSurface ??
-                    _onBackgroundOrSurface(brightness),
-                onBackground: onInverseBackground ??
-                    onBackground ??
-                    _onBackgroundOrSurface(_inverse(brightness, fixed)),
-                onWeak: onInverseWeak ?? onWeak,
-                onError: onInverseError ?? onError,
-                onInfo: onInverseInfo ?? onInfo,
-                onSuccess: onInverseSuccess ?? onSuccess,
-                onWarning: onInverseWarning ?? onWarning,
-                splashColor: inverseSplashColor ?? splashColor,
-                shadow: inverseShadow ?? shadow,
-                inverseSurface:
-                    surface ?? inverseSurface ?? _surface(brightness),
-                onInverseSurface: onInverseSurface ??
-                    onSurface ??
-                    _onBackgroundOrSurface(brightness),
-                inversePrimary: primary,
-                appBarColor: inverseAppBarColor ?? appBarColor,
-                onAppBarColor: onInverseAppBarColor ?? onAppBarColor,
-                onExpandedAppBarColor:
-                    onInverseExpandedAppBarColor ?? onExpandedAppBarColor,
-                scaffoldBackgroundColor: inverseScaffoldBackgroundColor ??
-                    scaffoldBackgroundColor ??
-                    _background(_inverse(brightness, fixed)),
-                dialogColor: inverseDialogColor ??
-                    inverseSurface ??
-                    dialogColor ??
-                    surface,
-                onDialogColor: onInverseDialogColor ??
-                    onInverseSurface ??
-                    onDialogColor ??
-                    onSurface,
-              ),
-        _darkColor = brightness == Brightness.dark
-            ? ColorThemeData._(
-                brightness: brightness,
-                primary: primary,
-                secondary: secondary,
-                tertiary: tertiary,
-                primaryContainer: primaryContainer,
-                secondaryContainer: secondaryContainer,
-                tertiaryContainer: tertiaryContainer,
-                disabled: disabled,
-                weak: weak,
-                outline: outline,
-                outlineVariant: outlineVariant ?? outline,
-                error: error,
-                warning: warning,
-                info: info,
-                success: success,
-                surface: surface ?? _surface(brightness),
-                surfaceVariant:
-                    surfaceVariant ?? surface ?? _surface(brightness),
-                background: background ?? _background(brightness),
-                onPrimary: onPrimary,
-                onSecondary: onSecondary,
-                onTertiary: onTertiary,
-                onPrimaryContainer: onPrimaryContainer,
-                onSecondaryContainer: onSecondaryContainer,
-                onTertiaryContainer: onTertiaryContainer,
-                onDisabled: onDisabled,
-                onSurface: onSurface ?? _onBackgroundOrSurface(brightness),
-                onSurfaceVariant: onSurfaceVariant ??
-                    onSurface ??
-                    _onBackgroundOrSurface(brightness),
-                onBackground:
-                    onBackground ?? _onBackgroundOrSurface(brightness),
-                onWeak: onWeak,
-                onError: onError,
-                onInfo: onInfo,
-                onSuccess: onSuccess,
-                onWarning: onWarning,
-                splashColor: splashColor,
-                shadow: shadow,
-                inverseSurface: inverseSurface ??
-                    surface ??
-                    _surface(_inverse(brightness, fixed)),
-                onInverseSurface: onInverseSurface ??
-                    onSurface ??
-                    _onBackgroundOrSurface(_inverse(brightness, fixed)),
-                inversePrimary: inversePrimary ?? primary,
-                appBarColor: appBarColor,
-                onAppBarColor: onAppBarColor,
-                onExpandedAppBarColor: onExpandedAppBarColor,
-                scaffoldBackgroundColor:
-                    scaffoldBackgroundColor ?? _background(brightness),
+                scaffoldBackgroundColor: scaffoldBackgroundColor,
                 dialogColor: dialogColor ?? surface,
                 onDialogColor: onDialogColor ?? onSurface,
               )
@@ -473,9 +342,136 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
                 onAppBarColor: onInverseAppBarColor ?? onAppBarColor,
                 onExpandedAppBarColor:
                     onInverseExpandedAppBarColor ?? onExpandedAppBarColor,
-                scaffoldBackgroundColor: inverseScaffoldBackgroundColor ??
-                    scaffoldBackgroundColor ??
+                scaffoldBackgroundColor:
+                    inverseScaffoldBackgroundColor ?? scaffoldBackgroundColor,
+                dialogColor: inverseDialogColor ??
+                    inverseSurface ??
+                    dialogColor ??
+                    surface,
+                onDialogColor: onInverseDialogColor ??
+                    onInverseSurface ??
+                    onDialogColor ??
+                    onSurface,
+              ),
+        _darkColor = brightness == Brightness.dark
+            ? ColorThemeData._(
+                brightness: Brightness.dark,
+                primary: primary,
+                secondary: secondary,
+                tertiary: tertiary,
+                primaryContainer: primaryContainer,
+                secondaryContainer: secondaryContainer,
+                tertiaryContainer: tertiaryContainer,
+                disabled: disabled,
+                weak: weak,
+                outline: outline,
+                outlineVariant: outlineVariant ?? outline,
+                error: error,
+                warning: warning,
+                info: info,
+                success: success,
+                surface: surface ?? _surface(brightness),
+                surfaceVariant:
+                    surfaceVariant ?? surface ?? _surface(brightness),
+                background: background ?? _background(brightness),
+                onPrimary: onPrimary,
+                onSecondary: onSecondary,
+                onTertiary: onTertiary,
+                onPrimaryContainer: onPrimaryContainer,
+                onSecondaryContainer: onSecondaryContainer,
+                onTertiaryContainer: onTertiaryContainer,
+                onDisabled: onDisabled,
+                onSurface: onSurface ?? _onBackgroundOrSurface(brightness),
+                onSurfaceVariant: onSurfaceVariant ??
+                    onSurface ??
+                    _onBackgroundOrSurface(brightness),
+                onBackground:
+                    onBackground ?? _onBackgroundOrSurface(brightness),
+                onWeak: onWeak,
+                onError: onError,
+                onInfo: onInfo,
+                onSuccess: onSuccess,
+                onWarning: onWarning,
+                splashColor: splashColor,
+                shadow: shadow,
+                inverseSurface: inverseSurface ??
+                    surface ??
+                    _surface(_inverse(brightness, fixed)),
+                onInverseSurface: onInverseSurface ??
+                    onSurface ??
+                    _onBackgroundOrSurface(_inverse(brightness, fixed)),
+                inversePrimary: inversePrimary ?? primary,
+                appBarColor: appBarColor,
+                onAppBarColor: onAppBarColor,
+                onExpandedAppBarColor: onExpandedAppBarColor,
+                scaffoldBackgroundColor: scaffoldBackgroundColor,
+                dialogColor: dialogColor ?? surface,
+                onDialogColor: onDialogColor ?? onSurface,
+              )
+            : ColorThemeData._(
+                brightness: Brightness.dark,
+                primary: inversePrimary ?? primary,
+                secondary: inverseSecondary ?? secondary,
+                tertiary: inverseTertiary ?? tertiary,
+                primaryContainer: inversePrimaryContainer ?? primaryContainer,
+                secondaryContainer:
+                    inverseSecondaryContainer ?? secondaryContainer,
+                tertiaryContainer:
+                    inverseTertiaryContainer ?? tertiaryContainer,
+                disabled: inverseDisabled ?? disabled,
+                weak: inverseWeak ?? weak,
+                outline: inverseOutline ?? outline,
+                outlineVariant: outlineVariant ?? outline,
+                error: inverseError ?? error,
+                warning: inverseWarning ?? warning,
+                info: inverseInfo ?? info,
+                success: inverseSuccess ?? success,
+                surface: inverseSurface ??
+                    surface ??
+                    _surface(_inverse(brightness, fixed)),
+                surfaceVariant:
+                    surfaceVariant ?? surface ?? _surface(brightness),
+                background: inverseBackground ??
+                    background ??
                     _background(_inverse(brightness, fixed)),
+                onPrimary: onInversePrimary ?? onPrimary,
+                onSecondary: onInverseSecondary ?? onSecondary,
+                onTertiary: onInverseTertiary ?? onTertiary,
+                onPrimaryContainer:
+                    onInversePrimaryContainer ?? onPrimaryContainer,
+                onSecondaryContainer:
+                    onInverseSecondaryContainer ?? onSecondaryContainer,
+                onTertiaryContainer:
+                    onInverseTertiaryContainer ?? onTertiaryContainer,
+                onDisabled: onInverseDisabled ?? onDisabled,
+                onSurface: onInverseSurface ??
+                    onSurface ??
+                    _onBackgroundOrSurface(_inverse(brightness, fixed)),
+                onSurfaceVariant: onSurfaceVariant ??
+                    onSurface ??
+                    _onBackgroundOrSurface(brightness),
+                onBackground: onInverseBackground ??
+                    onBackground ??
+                    _onBackgroundOrSurface(_inverse(brightness, fixed)),
+                onWeak: onInverseWeak ?? onWeak,
+                onError: onInverseError ?? onError,
+                onInfo: onInverseInfo ?? onInfo,
+                onSuccess: onInverseSuccess ?? onSuccess,
+                onWarning: onInverseWarning ?? onWarning,
+                splashColor: inverseSplashColor ?? splashColor,
+                shadow: inverseShadow ?? shadow,
+                inverseSurface:
+                    surface ?? inverseSurface ?? _surface(brightness),
+                onInverseSurface: onInverseSurface ??
+                    onSurface ??
+                    _onBackgroundOrSurface(brightness),
+                inversePrimary: primary,
+                appBarColor: inverseAppBarColor ?? appBarColor,
+                onAppBarColor: onInverseAppBarColor ?? onAppBarColor,
+                onExpandedAppBarColor:
+                    onInverseExpandedAppBarColor ?? onExpandedAppBarColor,
+                scaffoldBackgroundColor:
+                    inverseScaffoldBackgroundColor ?? scaffoldBackgroundColor,
                 dialogColor: inverseDialogColor ??
                     inverseSurface ??
                     dialogColor ??
@@ -2057,7 +2053,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
         onExpandedAppBarColor:
             onExpandedAppBarColor ?? _darkColor.onExpandedAppBarColor,
         scaffoldBackgroundColor:
-            scaffoldBackgroundColor ?? _darkColor.scaffoldBackgroundColor,
+            scaffoldBackgroundColor ?? _darkColor._scaffoldBackgroundColor,
         dialogColor: dialogColor ?? _darkColor.dialogColor,
         onDialogColor: onDialogColor ?? _darkColor.onDialogColor,
       ),
@@ -2105,7 +2101,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
         onExpandedAppBarColor:
             onExpandedAppBarColor ?? _lightColor.onExpandedAppBarColor,
         scaffoldBackgroundColor:
-            scaffoldBackgroundColor ?? _lightColor.scaffoldBackgroundColor,
+            scaffoldBackgroundColor ?? _lightColor._scaffoldBackgroundColor,
         dialogColor: dialogColor ?? _lightColor.dialogColor,
         onDialogColor: onDialogColor ?? _lightColor.onDialogColor,
       ),
