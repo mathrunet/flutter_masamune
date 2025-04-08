@@ -1,3 +1,7 @@
+## 2.9.3
+
+ - **FIX**: ScaffoldBackgroundColor is no longer generated automatically. ([e45d1ee1](https://github.com/mathrunet/flutter_masamune/commit/e45d1ee1d1729e95243fca611dbae4d159af063e))
+
 ## 2.9.2
 
  - **FIX**: AppThemeData is supported for ThemeExtension. ([3bcd2ba9](https://github.com/mathrunet/flutter_masamune/commit/3bcd2ba9533fe36b205b360a8d6807cbc74ddcdb))

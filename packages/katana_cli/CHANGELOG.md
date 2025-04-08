@@ -1,3 +1,7 @@
+## 2.38.4
+
+ - **FIX**: Fixed local_notification settings not being reflected properly. ([ecc6b87e](https://github.com/mathrunet/flutter_masamune/commit/ecc6b87ec05a65eba9f3cd5f0ee61b10b943fb0f))
+
 ## 2.38.3
 
  - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
