@@ -1,3 +1,7 @@
+## 2.21.4
+
+ - **FIX**: Correction of CsvDocument parameter error. ([f6bb1e79](https://github.com/mathrunet/flutter_masamune/commit/f6bb1e7990f32b437512e69c073ebf822c673503))
+
 ## 2.21.3
 
  - **FIX**: Added offset parameter to GoogleSpreadSheetDataSource. ([5331167c](https://github.com/mathrunet/flutter_masamune/commit/5331167c30378415c1b3cfd5eb0203ce7e2f5e73))

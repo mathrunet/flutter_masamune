@@ -1,3 +1,7 @@
+## 2.16.0
+
+ - **FEAT**: Enhanced support types in CSV and Json. ([ac635847](https://github.com/mathrunet/flutter_masamune/commit/ac6358478022648c1f83b1e5f619dc8faad642be))
+
 ## 2.15.3
 
  - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))

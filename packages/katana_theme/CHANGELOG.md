@@ -1,3 +1,7 @@
+## 2.9.2
+
+ - **FIX**: AppThemeData is supported for ThemeExtension. ([3bcd2ba9](https://github.com/mathrunet/flutter_masamune/commit/3bcd2ba9533fe36b205b360a8d6807cbc74ddcdb))
+
 ## 2.9.1
 
  - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))

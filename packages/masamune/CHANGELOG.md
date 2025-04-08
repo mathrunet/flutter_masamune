@@ -1,3 +1,7 @@
+## 2.23.0
+
+ - **FEAT**: Added onBuildPage to MasamuneAdapter. ([6544dc19](https://github.com/mathrunet/flutter_masamune/commit/6544dc191a4a90c433a2a5816760b61348ec8a8b))
+
 ## 2.22.3
 
  - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
