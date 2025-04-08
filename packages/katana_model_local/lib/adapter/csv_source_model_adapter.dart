@@ -314,7 +314,6 @@ class CsvDocumentSourceModelAdapter extends CsvSourceModelAdapter {
         return {
           documentId: _merged(res),
         };
-
       case Axis.vertical:
         final effectiveOffset = offset ?? const Offset(0, 0);
         if (csv.length <= effectiveOffset.dy) {
@@ -921,6 +920,9 @@ class CsvSourceModelBatchRef extends ModelBatchRef {
   final List<FutureOr<void> Function()> _batchList = [];
 }
 
+final _dateRegExp = RegExp(r"^\d{4}[\/_-]\d{2}[\/_-]\d{2}");
+final _timeRegExp = RegExp(r"\d{2}:\d{2}:\d{2}");
+
 dynamic _toAny(Object? object) {
   if (object == null) {
     return null;
@@ -947,15 +949,45 @@ dynamic _toAny(Object? object) {
     if (st.toLowerCase() == "false") {
       return false;
     }
-    final dt = DateTime.tryParse(st);
-    if (dt != null) {
-      return ModelTimestamp(dt).toJson();
+    if (_dateRegExp.hasMatch(st)) {
+      final rp = st.replaceAllMapped(_dateRegExp, (match) {
+        final date = match.group(0);
+        return date?.replaceAll("/", "-") ?? "";
+      });
+      if (_timeRegExp.hasMatch(rp)) {
+        final dt = DateTime.tryParse(rp);
+        if (dt != null) {
+          return ModelTimestamp(dt).toJson();
+        }
+      } else {
+        final dt = DateTime.tryParse(rp);
+        if (dt != null) {
+          return ModelDate(dt).toJson();
+        }
+      }
     }
     final uri = Uri.tryParse(st);
-    if (uri != null && uri.scheme == "ref") {
-      return ModelRefBase.fromPath(
-        uri.toString().replaceAll(RegExp("^ref:/"), ""),
-      ).toJson();
+    if (uri != null) {
+      if (uri.scheme == "ref") {
+        return ModelRefBase.fromPath(
+          uri.toString().replaceAll(RegExp("^ref:/"), ""),
+        ).toJson();
+      } else if (uri.scheme.startsWith("http")) {
+        switch (uri.path.trimQuery().last()) {
+          case "png":
+          case "jpg":
+          case "jpeg":
+          case "gif":
+          case "webp":
+          case "bmp":
+            return ModelImageUri(uri).toJson();
+          case "mp4":
+          case "mov":
+            return ModelVideoUri(uri).toJson();
+          default:
+            return ModelUri(uri).toJson();
+        }
+      }
     }
     return object;
   }
