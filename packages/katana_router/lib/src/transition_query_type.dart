@@ -12,7 +12,7 @@ enum _TransitionQueryType {
   /// No transitions.
   ///
   /// トランジションしない。
-  none(isModal: false, isFullscreen: false),
+  none(isModal: false, isFullscreen: false, transitionDuration: Duration.zero),
 
   /// Full screen transition.
   ///
@@ -109,6 +109,7 @@ enum _TransitionQueryType {
   const _TransitionQueryType({
     required this.isModal,
     required this.isFullscreen,
+    this.transitionDuration = kTransitionDuration,
     this.isCupertino = false,
     this.barrierColor = const Color(0x80000000),
   });
@@ -127,6 +128,11 @@ enum _TransitionQueryType {
   ///
   /// フルスクリーンとして扱う場合はTrue。
   final bool isFullscreen;
+
+  /// Transition duration.
+  ///
+  /// トランジションの持続時間。
+  final Duration transitionDuration;
 
   /// Barrier color.
   ///
@@ -270,8 +276,8 @@ enum _TransitionQueryType {
             );
           case _TransitionQueryType.fade:
             return FadeTransition(
-              opacity: _fadeTween.animate(animation),
-              child: child,
+                opacity: _fadeTween.animate(animation),
+                child: child,
             );
           default:
             return SlideTransition(

@@ -99,7 +99,10 @@ class _ModalPageRoute<T> extends Page<T> implements AppPageRoute<T> {
   Route<T> createRoute(BuildContext context) {
     return PageRouteBuilder(
       settings: this,
-      transitionDuration: transitionDuration,
+      transitionDuration:
+          transitionQuery?.transition.transitionDuration ?? kTransitionDuration,
+      reverseTransitionDuration:
+          transitionQuery?.transition.transitionDuration ?? kTransitionDuration,
       opaque: opaque,
       barrierDismissible: barrierDismissible,
       barrierColor: barrierColor,
@@ -139,8 +142,10 @@ class _DefaultPageRoute<T> extends Page<T> implements AppPageRoute<T> {
       pageBuilder: (context, animation, secondaryAnimation) {
         return builder(context);
       },
-      transitionDuration: kTransitionDuration,
-      reverseTransitionDuration: kTransitionDuration,
+      transitionDuration:
+          transitionQuery?.transition.transitionDuration ?? kTransitionDuration,
+      reverseTransitionDuration:
+          transitionQuery?.transition.transitionDuration ?? kTransitionDuration,
       fullscreenDialog: transitionQuery?.transition.isFullscreen ?? false,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return (transitionQuery?.transition ?? _TransitionQueryType.initial)
