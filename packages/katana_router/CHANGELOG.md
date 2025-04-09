@@ -1,3 +1,7 @@
+## 2.6.2
+
+ - **FIX**: Change Duration to 0 for TransitionQuery.none. ([1b45b189](https://github.com/mathrunet/flutter_masamune/commit/1b45b1890dadfd1c5a59602d1c1ab7ba41ee2170))
+
 ## 2.6.1
 
  - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))

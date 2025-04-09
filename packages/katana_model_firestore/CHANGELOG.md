@@ -1,3 +1,7 @@
+## 2.21.2
+
+ - **FIX**: Fixed a bug that prevented parsing. ([ae0953fe](https://github.com/mathrunet/flutter_masamune/commit/ae0953fe4e788af5d5dc6951f5d9139ff56617d7))
+
 ## 2.21.1
 
  - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
