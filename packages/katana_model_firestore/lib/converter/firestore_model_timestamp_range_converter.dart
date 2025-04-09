@@ -92,10 +92,13 @@ class FirestoreModelTimestampRangeConverter
           final start = DateTime.tryParse(splitted[0]);
           final end = DateTime.tryParse(splitted[1]);
           if (start != null && end != null) {
-            return ModelTimestampRange.fromDateTime(
-              start: start,
-              end: end,
-            ).toJson();
+            return {
+              key: ModelTimestampRange.fromDateTime(
+                start: start,
+                end: end,
+              ).toJson(),
+              targetKey: null,
+            };
           }
         }
       }
