@@ -276,8 +276,8 @@ enum _TransitionQueryType {
             );
           case _TransitionQueryType.fade:
             return FadeTransition(
-                opacity: _fadeTween.animate(animation),
-                child: child,
+              opacity: _fadeTween.animate(animation),
+              child: child,
             );
           default:
             return SlideTransition(
