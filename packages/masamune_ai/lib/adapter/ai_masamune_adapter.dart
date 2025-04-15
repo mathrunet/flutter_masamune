@@ -18,6 +18,9 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   const AIMasamuneAdapter({
     this.defaultConfig = const AIConfig(),
     this.onGeneratedContentUsage,
+    this.mcpServerConfig,
+    this.mcpClientConfig,
+    this.mcpFunctions = const [],
   });
 
   /// The default configuration of the AI.
@@ -30,6 +33,21 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   /// 内容が生成されたときに呼び出されます。
   final void Function(int promptTokenCount, int candidateTokenCount)?
       onGeneratedContentUsage;
+
+  /// The configuration of the MCP server.
+  ///
+  /// MCPサーバーの設定。
+  final McpServerConfig? mcpServerConfig;
+
+  /// The configuration of the MCP client.
+  ///
+  /// MCPクライアントの設定。
+  final McpClientConfig? mcpClientConfig;
+
+  /// List of MCP server functions.
+  ///
+  /// MCPサーバーの関数一覧。
+  final List<McpFunction> mcpFunctions;
 
   /// You can retrieve the [AIMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
@@ -64,13 +82,17 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   /// Check if the AI is initialized with the given config.
   ///
   /// 与えられた設定でAIが初期化されているかどうかを確認します。
-  bool isInitializedConfig({AIConfig? config});
+  bool isInitializedConfig({
+    AIConfig? config,
+    Set<AITool> tools = const {},
+  });
 
   /// Initialize the AI.
   ///
   /// AIを初期化します。
   Future<void> initialize({
     AIConfig? config,
+    Set<AITool> tools = const {},
   });
 
   /// Generate the content of the AI.
@@ -79,5 +101,9 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
     AIConfig? config,
+    Set<AITool> tools = const {},
+    required Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart> functionCalls)
+        onFunctionCall,
   });
 }

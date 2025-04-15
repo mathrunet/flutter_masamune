@@ -14,6 +14,7 @@ dependencies:
     
   katana: ^2.18.1
   masamune: ^2.23.2
+  mcp_dart: ^0.3.6
 dev_dependencies:
   test: ^1.24.0
   katana_test: ^2.1.3

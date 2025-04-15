@@ -17,7 +17,12 @@ enum AIRole {
   /// The system role.
   ///
   /// システムの役割。
-  system;
+  system,
+
+  /// The function role.
+  ///
+  /// 関数の役割。
+  function;
 
   /// Returns the AI role from the string.
   ///
@@ -30,6 +35,8 @@ enum AIRole {
         return model;
       case "system":
         return system;
+      case "function":
+        return function;
       default:
         return null;
     }

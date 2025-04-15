@@ -224,6 +224,17 @@ class AIContent extends ChangeNotifier
   List<AIContentPart> get value => _value;
   final List<AIContentPart> _value = [];
 
+  /// Record of function interaction with AI.
+  ///
+  /// AIとの関数のやりとりの記録。
+  List<AIContentFunctionPair> get functions => _functions;
+  final List<AIContentFunctionPair> _functions = [];
+
+  /// Whether the function calls are completed.
+  ///
+  /// 関数呼び出しが完了しているかどうか。
+  bool get isFunctionsCompleted => _functions.every((e) => e.completed);
+
   /// The prompt token count of the AI.
   ///
   /// AIのプロンプトトークン数。
@@ -236,9 +247,9 @@ class AIContent extends ChangeNotifier
   int? get candidateTokenCount => _candidateTokenCount;
   int? _candidateTokenCount;
 
-  /// Converts the AI content to a Json-decoded Map<String, dynamic> object.
+  /// Converts the AI content to a Json-decoded Map&lt;String, dynamic&gt; object.
   ///
-  /// AIの内容をJsonデコードされたMap<String, dynamic>オブジェクトに変換します。
+  /// AIの内容をJsonデコードされたMap&lt;String, dynamic&gt;オブジェクトに変換します。
   DynamicMap? toJson() {
     try {
       return (jsonDecode(toString()) as DynamicMap).cast<String, dynamic>();
@@ -261,6 +272,17 @@ class AIContent extends ChangeNotifier
     merged.addAll(_value);
 
     for (final part in values) {
+      if (part is AIContentFunctionCallPart) {
+        _functions.add(AIContentFunctionPair(call: part));
+        continue;
+      } else if (part is AIContentFunctionResponsePart) {
+        final uncompleted = _functions.lastWhereOrNull((e) => !e.completed);
+        if (uncompleted == null) {
+          throw Exception("No function call found.");
+        }
+        uncompleted.set(part);
+        continue;
+      }
       if (merged.isEmpty) {
         merged.add(part);
       } else {
@@ -281,22 +303,44 @@ class AIContent extends ChangeNotifier
     notifyListeners();
   }
 
-  /// Completes the AI content.
+  /// Sets the usage of the AI.
   ///
-  /// AIの内容を完了します。
-  void complete({
-    DateTime? time,
+  /// AIの使用量をセットします。
+  void usage({
     int promptTokenCount = 0,
     int candidateTokenCount = 0,
   }) {
+    _promptTokenCount = (_promptTokenCount ?? 0) + promptTokenCount;
+    _candidateTokenCount = (_candidateTokenCount ?? 0) + candidateTokenCount;
+    notifyListeners();
+  }
+
+  /// Sets the function response for the contents of the AI.
+  ///
+  /// AIの内容の関数レスポンスをセットします。
+  void response(AIContentFunctionResponsePart response) {
+    final uncompleted = _functions.lastWhereOrNull((e) => !e.completed);
+    if (uncompleted == null) {
+      throw Exception("No function call found.");
+    }
+    uncompleted.set(response);
+  }
+
+  /// Completes the AI content.
+  ///
+  /// AIの内容を完了します。
+  void complete({DateTime? time}) {
     if (_completer == null) {
       return;
+    }
+    final uncompleted = _functions.lastWhereOrNull((e) => !e.completed);
+    if (uncompleted != null) {
+      throw Exception("Function call not completed.");
     }
     if (time != null) {
       _time = time;
     }
-    _promptTokenCount = promptTokenCount;
-    _candidateTokenCount = candidateTokenCount;
+    _functions.clear();
     _completer?.complete(this);
     _completer = null;
     notifyListeners();
@@ -349,6 +393,27 @@ abstract class AIContentPart {
   ///
   /// AIの内容の一部。
   const AIContentPart();
+
+  static AIContentPart? _fromContent(Content content) {
+    if (content is mcp.TextContent) {
+      return AIContentTextPart(content.text);
+    } else if (content is mcp.ImageContent) {
+      switch (content.mimeType) {
+        case "image/jpeg":
+          return AIContentBinaryPart(
+              AIFileType.jpeg, base64Decode(content.data));
+        case "image/png":
+          return AIContentBinaryPart(
+              AIFileType.png, base64Decode(content.data));
+        case "image/webp":
+          return AIContentBinaryPart(
+              AIFileType.webp, base64Decode(content.data));
+      }
+    }
+    return null;
+  }
+
+  Content? _toMcpContent();
 }
 
 /// The text part of the AI content.
@@ -373,6 +438,11 @@ class AIContentTextPart extends AIContentPart {
     String delimiter = "",
   }) {
     return AIContentTextPart(text + delimiter + other.text);
+  }
+
+  @override
+  Content? _toMcpContent() {
+    return mcp.TextContent(text: text);
   }
 
   @override
@@ -412,6 +482,19 @@ class AIContentBinaryPart extends AIContentPart {
   final Uint8List value;
 
   @override
+  Content? _toMcpContent() {
+    switch (type) {
+      case AIFileType.jpeg:
+      case AIFileType.png:
+      case AIFileType.webp:
+        return mcp.ImageContent(
+            data: base64Encode(value), mimeType: type.mimeType);
+      default:
+        return null;
+    }
+  }
+
+  @override
   String toString() {
     return "";
   }
@@ -448,6 +531,11 @@ class AIContentFilePart extends AIContentPart {
   final Uri uri;
 
   @override
+  Content? _toMcpContent() {
+    return null;
+  }
+
+  @override
   String toString() {
     return "";
   }
@@ -462,4 +550,158 @@ class AIContentFilePart extends AIContentPart {
 
   @override
   int get hashCode => type.hashCode ^ uri.hashCode;
+}
+
+/// The function call part of the AI content.
+///
+/// AIの内容の関数呼び出しの一部。
+class AIContentFunctionCallPart extends AIContentPart {
+  /// The function call part of the AI content.
+  ///
+  /// AIの内容の関数呼び出しの一部。
+  const AIContentFunctionCallPart({
+    required this.name,
+    this.args = const {},
+  });
+
+  /// The name of the function to call.
+  ///
+  /// 呼び出す関数の名前。
+  final String name;
+
+  /// The function parameters and values.
+  ///
+  /// 関数のパラメータと値。
+  final Map<String, dynamic> args;
+
+  /// Converts the function call part to a function response part.
+  ///
+  /// 関数呼び出しの一部を関数レスポンスの一部に変換します。
+  AIContentFunctionResponsePart toResponse([
+    Map<String, dynamic> response = const {},
+  ]) {
+    return AIContentFunctionResponsePart(
+      name: name,
+      response: {...args, ...response},
+    );
+  }
+
+  @override
+  Content? _toMcpContent() {
+    return null;
+  }
+
+  @override
+  String toString() {
+    return "";
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is AIContentFunctionCallPart) {
+      return name == other.name && args.equalsTo(other.args);
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ args.hashCode;
+}
+
+/// The function call part of the AI content.
+///
+/// AIの内容の関数呼び出しの一部。
+class AIContentFunctionResponsePart extends AIContentPart {
+  /// The function response part of the AI content.
+  ///
+  /// AIの内容の関数レスポンスの一部。
+  const AIContentFunctionResponsePart({
+    required this.name,
+    this.response = const {},
+  });
+
+  /// Name of the function that will return the response.
+  ///
+  /// レスポンスを返す関数の名前。
+  final String name;
+
+  /// Response parameters and values.
+  ///
+  /// レスポンスのパラメータと値。
+  final Map<String, dynamic> response;
+
+  @override
+  Content? _toMcpContent() {
+    return null;
+  }
+
+  @override
+  String toString() {
+    return "";
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is AIContentFunctionResponsePart) {
+      return name == other.name && response.equalsTo(other.response);
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ response.hashCode;
+}
+
+/// The function pair of the AI content.
+///
+/// AIの内容の関数ペア。
+class AIContentFunctionPair {
+  /// The function pair of the AI content.
+  ///
+  /// AIの内容の関数ペア。
+  AIContentFunctionPair({
+    required this.call,
+    this.response,
+  });
+
+  /// The function call part of the AI content.
+  ///
+  /// AIの内容の関数呼び出しの一部。
+  final AIContentFunctionCallPart call;
+
+  /// The function response part of the AI content.
+  ///
+  /// AIの内容の関数レスポンスの一部。
+  AIContentFunctionResponsePart? response;
+
+  /// Sets the function response for the contents of the AI.
+  ///
+  /// AIの内容の関数レスポンスをセットします。
+  void set(AIContentFunctionResponsePart response) {
+    if (this.response != null) {
+      throw Exception("Response already set.");
+    }
+    this.response = response;
+  }
+
+  /// Whether the function response is completed.
+  ///
+  /// 関数レスポンスが完了しているかどうか。
+  bool get completed => response != null;
+
+  @override
+  String toString() {
+    return "$call/$response";
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is AIContentFunctionPair) {
+      return call == other.call && response == other.response;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => call.hashCode ^ response.hashCode;
 }

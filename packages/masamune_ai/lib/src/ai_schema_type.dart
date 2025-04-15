@@ -33,4 +33,24 @@ enum AISchemaType {
   ///
   /// マップ型。
   map;
+
+  /// The name of the schema type.
+  ///
+  /// スキーマの型名。
+  String get label {
+    switch (this) {
+      case string:
+        return "string";
+      case double:
+        return "number";
+      case int:
+        return "integer";
+      case boolean:
+        return "boolean";
+      case list:
+        return "array";
+      case map:
+        return "object";
+    }
+  }
 }

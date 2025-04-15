@@ -15,10 +15,11 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   /// FirebaseVertexAIの機能を設定するための[MasamuneAdapter]。
   ///
   /// [options]にFirebaseのオプションを設定してください。
-  FirebaseAIMasamuneAdapter({
+  const FirebaseAIMasamuneAdapter({
     FirebaseVertexAI? vertexAI,
     FirebaseOptions? options,
     this.model = FirebaseAIModel.defaultModel,
+    this.enableAppCheck = true,
     super.defaultConfig = const AIConfig(),
     this.iosOptions,
     this.androidOptions,
@@ -27,6 +28,9 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     this.windowsOptions,
     this.macosOptions,
     super.onGeneratedContentUsage,
+    super.mcpClientConfig,
+    super.mcpServerConfig,
+    super.mcpFunctions = const [],
   })  : _options = options,
         _vertexAI = vertexAI;
 
@@ -35,17 +39,22 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   /// AIのモデル名。
   final FirebaseAIModel model;
 
+  /// Whether to enable AppCheck.
+  ///
+  /// AppCheckを有効にするかどうか。
+  final bool enableAppCheck;
+
   /// FirebaseVertexAI instance.
   ///
   /// FirebaseVertexAIのインスタンス。
   FirebaseVertexAI get vertexAI =>
       _vertexAI ??
       FirebaseVertexAI.instanceFor(
-        appCheck: FirebaseAppCheck.instance,
+        appCheck: enableAppCheck ? FirebaseAppCheck.instance : null,
       );
   final FirebaseVertexAI? _vertexAI;
 
-  static final Map<AIConfig, GenerativeModel> _generativeModel = {};
+  static final Map<AIConfigKey, GenerativeModel> _generativeModel = {};
 
   /// Options for initializing Firebase.
   ///
@@ -160,9 +169,13 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   final FirebaseOptions? linuxOptions;
 
   @override
-  bool isInitializedConfig({AIConfig? config}) {
+  bool isInitializedConfig({
+    AIConfig? config,
+    Set<AITool> tools = const {},
+  }) {
     config ??= defaultConfig;
-    if (_generativeModel.containsKey(config)) {
+    final key = AIConfigKey(config: config, tools: tools);
+    if (_generativeModel.containsKey(key)) {
       return true;
     }
     return false;
@@ -171,9 +184,11 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   @override
   Future<void> initialize({
     AIConfig? config,
+    Set<AITool> tools = const {},
   }) async {
     config ??= defaultConfig;
-    if (_generativeModel.containsKey(config)) {
+    final key = AIConfigKey(config: config, tools: tools);
+    if (_generativeModel.containsKey(key)) {
       return;
     }
     assert(
@@ -181,16 +196,24 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
           config.systemPromptContent!.role == AIRole.system,
       "systemPromptContent must be a system prompt.",
     );
+    await FirebaseCore.initialize(options: options);
     final systemPromptContent = config.systemPromptContent;
     final responseSchema = config.responseSchema;
-    _generativeModel[config] = vertexAI.generativeModel(
+    _generativeModel[key] = vertexAI.generativeModel(
       model: model.model,
       generationConfig: GenerationConfig(
         responseMimeType: responseSchema != null ? "application/json" : null,
         responseSchema: responseSchema?._toSchema(),
       ),
-      systemInstruction:
-          systemPromptContent?._toSystemPromptContent()._toContent(),
+      tools: [if (tools.isNotEmpty) tools._toVertexAITools(mcpFunctions)],
+      toolConfig: ToolConfig(
+        functionCallingConfig:
+            FunctionCallingConfig.any({...tools.map((e) => e.name)}),
+      ),
+      systemInstruction: systemPromptContent
+          ?._toSystemPromptContent()
+          ._toContents()
+          .firstOrNull,
     );
   }
 
@@ -198,60 +221,130 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
     AIConfig? config,
+    Set<AITool> tools = const {},
+    required Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart> functionCalls)
+        onFunctionCall,
   }) async {
     config ??= defaultConfig;
-    final generativeModel = _generativeModel[config];
+    final key = AIConfigKey(config: config, tools: tools);
+    final generativeModel = _generativeModel[key];
     if (generativeModel == null) {
       throw Exception("Please call initialize() before send().");
     }
-    final systemInitialContent =
-        config.systemPromptContent?._toSystemInitialContent()._toContent();
+    final systemInitialContent = config.systemPromptContent
+        ?._toSystemInitialContent()
+        ._toContents()
+        .firstOrNull;
     final res = AIContent.model();
+    _generateContent(
+      contents: [
+        if (systemInitialContent != null) systemInitialContent,
+        ...contents.sortTo((a, b) => a.time.compareTo(b.time)).expand((e) {
+          return e._toContents();
+        }),
+      ],
+      response: res,
+      generativeModel: generativeModel,
+      onFunctionCall: onFunctionCall,
+    );
+    return res;
+  }
+
+  Future<AIContent?> _generateContent({
+    required List<Content> contents,
+    required AIContent response,
+    required GenerativeModel generativeModel,
+    required Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart> functionCalls)
+        onFunctionCall,
+  }) async {
     StreamSubscription<GenerateContentResponse>? subscription;
     final stream = generativeModel.generateContentStream([
-      if (systemInitialContent != null) systemInitialContent,
-      ...contents.sortTo((a, b) => a.time.compareTo(b.time)).map((e) {
-        return e._toContent();
-      }),
+      ...contents,
+      ...response._toContents(),
     ]);
-    int promptTokenCount = 0;
-    int candidateTokenCount = 0;
     subscription = stream.listen(
-      (line) {
-        promptTokenCount += line.usageMetadata?.promptTokenCount ?? 0;
-        candidateTokenCount += line.usageMetadata?.candidatesTokenCount ?? 0;
+      (line) async {
+        response.usage(
+          promptTokenCount: line.usageMetadata?.promptTokenCount ?? 0,
+          candidateTokenCount: line.usageMetadata?.candidatesTokenCount ?? 0,
+        );
         final candidates = line.candidates;
         for (final candidate in candidates) {
           final parts = candidate.content._toAIContentParts();
-          res.add(parts, time: DateTime.now());
+          response.add(
+            parts,
+            time: DateTime.now(),
+          );
           if (candidate.finishReason != null) {
-            res.complete(
-              time: DateTime.now(),
-              promptTokenCount: promptTokenCount,
-              candidateTokenCount: candidateTokenCount,
-            );
-            subscription?.cancel();
-            subscription = null;
+            try {
+              if (!response.isFunctionsCompleted) {
+                final functionCall = response.functions
+                    .where((e) => !e.completed)
+                    .map((e) => e.call)
+                    .toList();
+                if (functionCall.isNotEmpty) {
+                  final functionResponse = await onFunctionCall(functionCall);
+                  response.add(
+                    functionResponse,
+                    time: DateTime.now(),
+                  );
+                  _generateContent(
+                    contents: contents,
+                    response: response,
+                    generativeModel: generativeModel,
+                    onFunctionCall: onFunctionCall,
+                  );
+                  return;
+                }
+              }
+              response.complete(time: DateTime.now());
+            } finally {
+              subscription?.cancel();
+              subscription = null;
+            }
             return;
           }
         }
       },
-      onDone: () {
-        res.complete(
-          time: DateTime.now(),
-          promptTokenCount: promptTokenCount,
-          candidateTokenCount: candidateTokenCount,
-        );
-        subscription?.cancel();
-        subscription = null;
+      onDone: () async {
+        if (subscription != null) {
+          try {
+            if (!response.isFunctionsCompleted) {
+              final functionCall = response.functions
+                  .where((e) => !e.completed)
+                  .map((e) => e.call)
+                  .toList();
+              if (functionCall.isNotEmpty) {
+                final functionResponse = await onFunctionCall(functionCall);
+                response.add(
+                  functionResponse,
+                  time: DateTime.now(),
+                );
+                _generateContent(
+                  contents: contents,
+                  response: response,
+                  generativeModel: generativeModel,
+                  onFunctionCall: onFunctionCall,
+                );
+                return;
+              }
+            }
+            response.complete(time: DateTime.now());
+          } finally {
+            subscription?.cancel();
+            subscription = null;
+          }
+        }
       },
       onError: (error, stackTrace) {
-        res.error(error, stackTrace);
+        response.error(error, stackTrace);
         subscription?.cancel();
         subscription = null;
         throw error;
       },
     );
-    return res;
+    return response;
   }
 }

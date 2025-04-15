@@ -41,3 +41,48 @@ class AIConfig {
     return Object.hash(systemPromptContent, responseSchema);
   }
 }
+
+/// AI tools and settings.
+///
+/// AIのツールと設定。
+class AIConfigKey {
+  /// AI tools and settings.
+  ///
+  /// AIのツールと設定。
+  const AIConfigKey({
+    this.config,
+    this.tools = const {},
+  });
+
+  /// The configuration of the AI.
+  ///
+  /// AIの設定。
+  final AIConfig? config;
+
+  /// The tools of the AI.
+  ///
+  /// AIのツール。
+  final Set<AITool> tools;
+
+  @override
+  String toString() {
+    return "AIConfigKey(config: $config, tools: $tools)";
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is AIConfigKey) {
+      return config == other.config && tools.equalsTo(other.tools);
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode {
+    var hash = config.hashCode;
+    for (final tool in tools) {
+      hash = hash ^ tool.hashCode;
+    }
+    return hash;
+  }
+}

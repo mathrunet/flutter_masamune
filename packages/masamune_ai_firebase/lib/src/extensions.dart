@@ -11,6 +11,16 @@ extension on Content {
         if (type != null) {
           res.add(AIContentBinaryPart(type, part.bytes));
         }
+      } else if (part is FunctionCall) {
+        res.add(AIContentFunctionCallPart(
+          name: part.name,
+          args: part.args,
+        ));
+      } else if (part is FunctionResponse) {
+        res.add(AIContentFunctionResponsePart(
+          name: part.name,
+          response: part.response,
+        ));
       }
     }
     return res;
@@ -18,11 +28,33 @@ extension on Content {
 }
 
 extension on AIContent {
-  Content _toContent() {
-    return Content(
-      role.name,
-      value.map((e) => e._toPart()).toList(),
-    );
+  List<Content> _toContents() {
+    final res = <Content>[];
+    if (functions.isNotEmpty) {
+      for (final function in functions) {
+        res.add(
+          Content(
+            "function",
+            [FunctionCall(function.call.name, function.call.args)],
+          ),
+        );
+        final response = function.response;
+        if (response != null) {
+          res.add(
+            Content.functionResponse(function.call.name, response.response),
+          );
+        }
+      }
+    }
+    if (value.isNotEmpty) {
+      res.add(
+        Content(
+          role.name,
+          value.map((e) => e._toPart()).toList(),
+        ),
+      );
+    }
+    return res;
   }
 
   AIContent _toSystemPromptContent() {
@@ -83,5 +115,26 @@ extension on AISchemaType {
       case AISchemaType.map:
         return SchemaType.object;
     }
+  }
+}
+
+extension on Set<AITool> {
+  Tool _toVertexAITools(List<McpFunction> functions) {
+    return Tool.functionDeclarations([
+      ...mapAndRemoveEmpty((tool) {
+        final function = functions.firstWhereOrNull((e) => e.name == tool.name);
+        if (function == null) {
+          return null;
+        }
+        return FunctionDeclaration(
+          tool.name,
+          tool.description,
+          parameters: tool.parameters.map(
+            (key, value) => MapEntry(key, value._toSchema()),
+          ),
+          optionalParameters: function.optionalParameters,
+        );
+      })
+    ]);
   }
 }

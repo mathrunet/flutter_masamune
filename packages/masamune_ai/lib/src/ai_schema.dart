@@ -181,9 +181,27 @@ class AISchema {
   /// オプションにリストされていないプロパティは必須プロパティとして扱われます。
   final List<String>? optionalProperties;
 
+  /// Convert the schema to a JSON object.
+  ///
+  /// スキーマをJSONオブジェクトに変換します。
+  DynamicMap toJson() {
+    return {
+      "type": type.label,
+      if (description != null) "description": description,
+      if (format != null) "format": format,
+      if (nullable != null) "nullable": nullable,
+      if (enumValues != null) "enum": enumValues,
+      if (items != null) "items": items?.toJson(),
+      if (properties != null)
+        "properties":
+            properties?.map((key, value) => MapEntry(key, value.toJson())),
+      if (optionalProperties != null) "optionalProperties": optionalProperties,
+    };
+  }
+
   @override
   String toString() {
-    return 'AISchema(type: $type, format: $format, description: $description, nullable: $nullable, enumValues: $enumValues, items: $items, properties: $properties, optionalProperties: $optionalProperties)';
+    return "AISchema(type: $type, format: $format, description: $description, nullable: $nullable, enumValues: $enumValues, items: $items, properties: $properties, optionalProperties: $optionalProperties)";
   }
 
   @override
