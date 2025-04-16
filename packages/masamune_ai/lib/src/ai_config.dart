@@ -10,7 +10,13 @@ class AIConfig {
   const AIConfig({
     this.systemPromptContent,
     this.responseSchema,
+    this.model,
   });
+
+  /// The model of the AI.
+  ///
+  /// AIのモデル。
+  final String? model;
 
   /// The system prompt of the AI.
   ///
@@ -24,21 +30,24 @@ class AIConfig {
 
   @override
   String toString() {
-    return "AIConfig(systemPrompt: $systemPromptContent, responseSchema: $responseSchema)";
+    return "AIConfig(systemPrompt: $systemPromptContent, responseSchema: $responseSchema, model: $model)";
   }
 
   @override
   bool operator ==(Object other) {
     if (other is AIConfig) {
       return systemPromptContent == other.systemPromptContent &&
-          responseSchema == other.responseSchema;
+          responseSchema == other.responseSchema &&
+          model == other.model;
     }
     return false;
   }
 
   @override
   int get hashCode {
-    return Object.hash(systemPromptContent, responseSchema);
+    return systemPromptContent.hashCode ^
+        responseSchema.hashCode ^
+        model.hashCode;
   }
 }
 

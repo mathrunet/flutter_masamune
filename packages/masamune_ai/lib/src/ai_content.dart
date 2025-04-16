@@ -29,6 +29,17 @@ class AIContent extends ChangeNotifier
     );
   }
 
+  /// Returns content with JSON.
+  ///
+  /// JSONを持つコンテンツを返します。
+  static AIContent json(Map<String, dynamic> json, {DateTime? time}) {
+    return AIContent(
+      role: AIRole.user,
+      values: [AIContentTextPart(jsonEncode(json))],
+      time: time,
+    );
+  }
+
   /// Returns content with text prompts to be submitted by the model.
   ///
   /// モデルが投稿するテキストプロンプトを持つコンテンツを返します。

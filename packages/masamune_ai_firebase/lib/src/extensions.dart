@@ -69,6 +69,21 @@ extension on AIContent {
   }
 }
 
+extension on AIFunctionCallingConfig {
+  FunctionCallingConfig _toFunctionCallingConfig() {
+    switch (mode) {
+      case AIFunctionCallingMode.auto:
+        return FunctionCallingConfig.auto();
+      case AIFunctionCallingMode.any:
+        return FunctionCallingConfig.any(allowedFunctionNames ?? {});
+      case AIFunctionCallingMode.none:
+        return FunctionCallingConfig.none();
+      default:
+        return FunctionCallingConfig.auto();
+    }
+  }
+}
+
 extension on AIContentPart {
   Part _toPart() {
     final part = this;

@@ -31,6 +31,8 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     super.mcpClientConfig,
     super.mcpServerConfig,
     super.mcpFunctions = const [],
+    super.onGenerateFunctionCallingConfig,
+    super.listenMcpServerOnRunApp = false,
   })  : _options = options,
         _vertexAI = vertexAI;
 
@@ -200,7 +202,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     final systemPromptContent = config.systemPromptContent;
     final responseSchema = config.responseSchema;
     _generativeModel[key] = vertexAI.generativeModel(
-      model: model.model,
+      model: config.model ?? model.model,
       generationConfig: GenerationConfig(
         responseMimeType: responseSchema != null ? "application/json" : null,
         responseSchema: responseSchema?._toSchema(),
@@ -222,9 +224,13 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     List<AIContent> contents, {
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool includeSystemInitialContent = false,
     required Future<List<AIContentFunctionResponsePart>> Function(
             List<AIContentFunctionCallPart> functionCalls)
         onFunctionCall,
+    AIFunctionCallingConfig? Function(
+            AIContent response, Set<AITool> tools, int trialCount)?
+        onGenerateFunctionCallingConfig,
   }) async {
     config ??= defaultConfig;
     final key = AIConfigKey(config: config, tools: tools);
@@ -232,10 +238,12 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     if (generativeModel == null) {
       throw Exception("Please call initialize() before send().");
     }
-    final systemInitialContent = config.systemPromptContent
-        ?._toSystemInitialContent()
-        ._toContents()
-        .firstOrNull;
+    final systemInitialContent = includeSystemInitialContent
+        ? config.systemPromptContent
+            ?._toSystemInitialContent()
+            ._toContents()
+            .firstOrNull
+        : null;
     final res = AIContent.model();
     _generateContent(
       contents: [
@@ -245,8 +253,11 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         }),
       ],
       response: res,
+      tools: tools,
       generativeModel: generativeModel,
       onFunctionCall: onFunctionCall,
+      onGenerateFunctionCallingConfig: onGenerateFunctionCallingConfig,
+      trialCount: 1,
     );
     return res;
   }
@@ -258,12 +269,31 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     required Future<List<AIContentFunctionResponsePart>> Function(
             List<AIContentFunctionCallPart> functionCalls)
         onFunctionCall,
+    Set<AITool> tools = const {},
+    required int trialCount,
+    AIFunctionCallingConfig? Function(
+            AIContent response, Set<AITool> tools, int trialCount)?
+        onGenerateFunctionCallingConfig,
   }) async {
     StreamSubscription<GenerateContentResponse>? subscription;
-    final stream = generativeModel.generateContentStream([
-      ...contents,
-      ...response._toContents(),
-    ]);
+    final functionCallingConfig = (onGenerateFunctionCallingConfig ??
+                this.onGenerateFunctionCallingConfig)
+            ?.call(
+          response,
+          tools,
+          trialCount,
+        ) ??
+        AIFunctionCallingConfig.auto();
+    final stream = generativeModel.generateContentStream(
+      [
+        ...contents,
+        ...response._toContents(),
+      ],
+      toolConfig: ToolConfig(
+        functionCallingConfig: functionCallingConfig._toFunctionCallingConfig(),
+      ),
+    );
+    Completer<void>? functionCallCompleter;
     subscription = stream.listen(
       (line) async {
         response.usage(
@@ -277,7 +307,11 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
             parts,
             time: DateTime.now(),
           );
+          if (functionCallCompleter != null) {
+            await functionCallCompleter?.future;
+          }
           if (candidate.finishReason != null) {
+            functionCallCompleter ??= Completer<void>();
             try {
               if (!response.isFunctionsCompleted) {
                 final functionCall = response.functions
@@ -293,8 +327,12 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
                   _generateContent(
                     contents: contents,
                     response: response,
+                    tools: tools,
                     generativeModel: generativeModel,
                     onFunctionCall: onFunctionCall,
+                    onGenerateFunctionCallingConfig:
+                        onGenerateFunctionCallingConfig,
+                    trialCount: trialCount + 1,
                   );
                   return;
                 }
@@ -303,13 +341,19 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
             } finally {
               subscription?.cancel();
               subscription = null;
+              functionCallCompleter?.complete();
+              functionCallCompleter = null;
             }
             return;
           }
         }
       },
       onDone: () async {
+        if (functionCallCompleter != null) {
+          await functionCallCompleter?.future;
+        }
         if (subscription != null) {
+          functionCallCompleter ??= Completer<void>();
           try {
             if (!response.isFunctionsCompleted) {
               final functionCall = response.functions
@@ -325,8 +369,12 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
                 _generateContent(
                   contents: contents,
                   response: response,
+                  tools: tools,
                   generativeModel: generativeModel,
                   onFunctionCall: onFunctionCall,
+                  onGenerateFunctionCallingConfig:
+                      onGenerateFunctionCallingConfig,
+                  trialCount: trialCount + 1,
                 );
                 return;
               }
@@ -335,6 +383,8 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
           } finally {
             subscription?.cancel();
             subscription = null;
+            functionCallCompleter?.complete();
+            functionCallCompleter = null;
           }
         }
       },

@@ -1,6 +1,6 @@
 part of '/masamune_ai.dart';
 
-/// Manage threads of interaction with the AI.
+/// Only one interaction with the AI is performed.
 ///
 /// The result of the exchange can be obtained at [value].
 ///
@@ -8,16 +8,15 @@ part of '/masamune_ai.dart';
 ///
 /// Use [clear] method to clear the thread.
 ///
-/// AIとのやりとりのスレッドを管理します。
+/// AIとのやり取りを１回のみ行います。
 ///
 /// やり取りの結果は[value]で取得できます。
 ///
 /// [generateContent]メソッドでメッセージを送信します。
 ///
 /// [clear]メソッドでスレッドをクリアします。
-class AIThread
-    extends MasamuneControllerBase<List<AIContent>, AIMasamuneAdapter> {
-  /// Manage threads of interaction with the AI.
+class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
+  /// Only one interaction with the AI is performed.
   ///
   /// The result of the exchange can be obtained at [value].
   ///
@@ -25,21 +24,18 @@ class AIThread
   ///
   /// Use [clear] method to clear the thread.
   ///
-  /// AIとのやりとりのスレッドを管理します。
+  /// AIとのやり取りを１回のみ行います。
   ///
   /// やり取りの結果は[value]で取得できます。
   ///
   /// [generateContent]メソッドでメッセージを送信します。
   ///
   /// [clear]メソッドでスレッドをクリアします。
-  AIThread({
+  AISingle({
     super.adapter,
-    required this.threadId,
-    required List<AIContent> initialContents,
+    String? id,
     this.config,
-  }) {
-    _value.addAll(initialContents);
-  }
+  }) : id = id ?? uuid();
 
   @override
   AIMasamuneAdapter get primaryAdapter => AIMasamuneAdapter.primary;
@@ -51,16 +47,16 @@ class AIThread
   /// ref.app.controller(AIThread.query(parameters));    // Watch at application scope.
   /// ref.page.controller(AIThread.query(parameters));   // Watch at page scope.
   /// ```
-  static const query = _$AIThreadQuery();
+  static const query = _$AISingleQuery();
 
-  /// The ID of the thread.
+  /// The ID of the single.
   ///
-  /// スレッドのID。
-  final String threadId;
+  /// シングルのID。
+  final String id;
 
-  /// The configuration of the thread.
+  /// The configuration of the model.
   ///
-  /// スレッドの設定。
+  /// モデルの設定。
   final AIConfig? config;
 
   static McpClient? _mcpClient;
@@ -70,17 +66,16 @@ class AIThread
   ///
   /// AIとのやりとりの結果。
   @override
-  List<AIContent> get value =>
-      _value.where((e) => e.role != AIRole.function).toList();
-  final List<AIContent> _value = [];
+  AIContent? get value => _value;
+  AIContent? _value;
 
-  /// Initialize the thread.
+  /// Initialize the model.
   ///
   /// You can also pass settings to [config].
   ///
   /// [tools] can specify the tools used by AI. If [McpClient] is available, the tool is loaded.
   ///
-  /// スレッドを初期化します。
+  /// モデルを初期化します。
   ///
   /// [config]に設定を渡すことも可能です。
   ///
@@ -141,7 +136,7 @@ class AIThread
   /// [tools]にAIが使うツールを指定可能です。[McpClient]が利用可能の場合ツールを読み込みます。
   ///
   /// [onGenerateFunctionCallingConfig]に関数呼び出しの設定を渡すことも可能です。
-  Future<List<AIContent>> generateContent(
+  Future<AIContent?> generateContent(
     List<AIContent> contents, {
     AIConfig? config,
     Set<AITool> tools = const {},
@@ -150,16 +145,7 @@ class AIThread
             AIContent response, Set<AITool> tools, int trialCount)?
         onGenerateFunctionCallingConfig,
   }) async {
-    if (!contents.every((e) => e.role == AIRole.user)) {
-      throw const InvalidAIRoleException();
-    }
     try {
-      _value.removeWhere((e) {
-        if (e.value.isEmpty) {
-          return true;
-        }
-        return false;
-      });
       await initialize(
         config: config ?? this.config,
         tools: tools,
@@ -167,11 +153,8 @@ class AIThread
       if (_mcpClient != null) {
         tools = {...tools, ..._mcpClient?.value ?? const {}};
       }
-      _value.addAll(contents);
-      _value.sort((a, b) => b.time.compareTo(a.time));
-      notifyListeners();
       final res = await adapter.generateContent(
-        value,
+        contents,
         config: config ?? this.config,
         tools: tools,
         includeSystemInitialContent: includeSystemInitialContent,
@@ -202,10 +185,9 @@ class AIThread
         },
       );
       if (res == null) {
-        return [];
+        return null;
       }
-      _value.add(res);
-      _value.sort((a, b) => b.time.compareTo(a.time));
+      _value = res;
       notifyListeners();
       await res.loading;
       adapter.onGeneratedContentUsage?.call(
@@ -213,70 +195,65 @@ class AIThread
         res.candidateTokenCount ?? 0,
       );
       notifyListeners();
-      return value;
+      return res;
     } catch (e, stackTrace) {
       for (final content in contents) {
         content.error(e, stackTrace);
       }
       notifyListeners();
-      return value;
+      return null;
     }
   }
 
-  /// Clear the thread.
+  /// Clear the result.
   ///
-  /// スレッドをクリアします。
+  /// 結果をクリアします。
   void clear() {
-    _value.clear();
+    _value = null;
     notifyListeners();
   }
 }
 
 @immutable
-class _$AIThreadQuery {
-  const _$AIThreadQuery();
+class _$AISingleQuery {
+  const _$AISingleQuery();
 
   @useResult
-  _$_AIThreadQuery call({
-    required String threadId,
+  _$_AISingleQuery call({
+    String? id,
     AIMasamuneAdapter? adapter,
     AIConfig? config,
-    List<AIContent> initialContents = const [],
   }) =>
-      _$_AIThreadQuery(
-        threadId,
+      _$_AISingleQuery(
+        id ?? uuid(),
         config: config,
         adapter: adapter,
-        initialContents: initialContents,
       );
 }
 
 @immutable
-class _$_AIThreadQuery extends ControllerQueryBase<AIThread> {
-  const _$_AIThreadQuery(
+class _$_AISingleQuery extends ControllerQueryBase<AISingle> {
+  const _$_AISingleQuery(
     this._name, {
     this.config,
-    required this.initialContents,
     this.adapter,
   });
 
   final String _name;
   final AIConfig? config;
-  final List<AIContent> initialContents;
   final AIMasamuneAdapter? adapter;
 
   @override
-  AIThread Function() call(Ref ref) {
-    return () => AIThread(
-          threadId: _name,
+  AISingle Function() call(Ref ref) {
+    return () => AISingle(
           adapter: adapter,
+          id: _name,
           config: config,
-          initialContents: initialContents,
         );
   }
 
   @override
   String get queryName => _name;
   @override
-  bool get autoDisposeWhenUnreferenced => false;
+  bool get autoDisposeWhenUnreferenced => true;
 }

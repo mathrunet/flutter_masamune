@@ -17,10 +17,18 @@ enum FirebaseAIModel {
   /// Gemini 2.0 Flash
   ///
   /// Gemini 2.0 Flash
-  gemini20Flash;
+  gemini20Flash,
 
-  /// The default model.
+  /// Gemini 2.0 Flash Lite
   ///
+  /// Gemini 2.0 Flash Lite
+  gemini20FlashLite,
+
+  /// Gemini 2.0 Pro
+  ///
+  /// Gemini 2.0 Pro
+  gemini20Pro;
+
   /// デフォルトのモデル。
   static const FirebaseAIModel defaultModel = gemini20Flash;
 
@@ -35,6 +43,10 @@ enum FirebaseAIModel {
         return "gemini-1.5-pro";
       case gemini20Flash:
         return "gemini-2.0-flash";
+      case gemini20FlashLite:
+        return "gemini-2.0-flash-lite";
+      case gemini20Pro:
+        return "gemini-2.0-pro";
     }
   }
 
@@ -97,6 +109,36 @@ enum FirebaseAIModel {
           case AIFileType.mov:
             return 0.15 / 1000000;
         }
+      case FirebaseAIModel.gemini20FlashLite:
+        switch (fileType) {
+          case AIFileType.txt:
+          case AIFileType.pdf:
+          case AIFileType.webp:
+          case AIFileType.png:
+          case AIFileType.jpeg:
+          case AIFileType.mp3:
+          case AIFileType.mp4Audio:
+          case AIFileType.m4a:
+          case AIFileType.wav:
+          case AIFileType.mp4Video:
+          case AIFileType.mov:
+            return 0.075 / 1000000;
+        }
+      case FirebaseAIModel.gemini20Pro:
+        switch (fileType) {
+          case AIFileType.txt:
+          case AIFileType.pdf:
+          case AIFileType.webp:
+          case AIFileType.png:
+          case AIFileType.jpeg:
+          case AIFileType.mp3:
+          case AIFileType.mp4Audio:
+          case AIFileType.m4a:
+          case AIFileType.wav:
+          case AIFileType.mp4Video:
+          case AIFileType.mov:
+            return 2.5 / 1000000;
+        }
     }
   }
 
@@ -143,6 +185,10 @@ enum FirebaseAIModel {
         }
       case gemini20Flash:
         return 0.6 / 1000000;
+      case gemini20FlashLite:
+        return 0.3 / 1000000;
+      case gemini20Pro:
+        return 15.0 / 1000000;
     }
   }
 

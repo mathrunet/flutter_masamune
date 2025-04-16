@@ -260,8 +260,6 @@ class McpClient
       final tools = await _client.listTools();
       _value.clear();
       _value.addAll(tools.tools.mapAndRemoveEmpty((e) {
-        print(
-            "tool: ${e.name} ${e.inputSchema.additionalProperties} ${e.additionalProperties}");
         return AITool(
           name: e.name,
           description: e.description ?? "",
