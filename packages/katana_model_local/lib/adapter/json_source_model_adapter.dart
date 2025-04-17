@@ -140,7 +140,14 @@ class JsonCollectionSourceModelAdapter extends JsonSourceModelAdapter {
             }
           }
         }
-        final key = converted.get(idKey!, "").toString().trim();
+        final idValue = converted[idKey!];
+        if (idValue == null) {
+          continue;
+        }
+        final key = idValue.toString().trim();
+        if (key.isEmpty) {
+          continue;
+        }
         result[key] = _merged(converted);
       }
     } else if (json is Map) {

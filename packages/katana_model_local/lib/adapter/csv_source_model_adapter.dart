@@ -128,8 +128,12 @@ class CsvCollectionSourceModelAdapter extends CsvSourceModelAdapter {
           }
         }
       }
-      final id = map[idKey].toString().trim();
-      if (id.startsWith(skipIdPrefix)) {
+      final idValue = map[idKey];
+      if (idValue == null) {
+        continue;
+      }
+      final id = idValue.toString().trim();
+      if (id.isEmpty || id.startsWith(skipIdPrefix)) {
         continue;
       }
       result[id] = _merged(map);
@@ -974,16 +978,16 @@ dynamic _toAny(Object? object) {
         ).toJson();
       } else if (uri.scheme.startsWith("http")) {
         switch (uri.path.trimQuery().last()) {
-          case "png":
-          case "jpg":
-          case "jpeg":
-          case "gif":
-          case "webp":
-          case "bmp":
-            return ModelImageUri(uri).toJson();
-          case "mp4":
-          case "mov":
-            return ModelVideoUri(uri).toJson();
+          // case "png":
+          // case "jpg":
+          // case "jpeg":
+          // case "gif":
+          // case "webp":
+          // case "bmp":
+          //   return ModelImageUri(uri).toJson();
+          // case "mp4":
+          // case "mov":
+          //   return ModelVideoUri(uri).toJson();
           default:
             return ModelUri(uri).toJson();
         }

@@ -633,6 +633,21 @@ class ModelUri extends ModelFieldValue<Uri> implements Comparable<ModelUri> {
 
   final ModelFieldValueSource _source;
 
+  /// Convert to [ModelImageUri].
+  ///
+  /// [ModelImageUri]に変換します。
+  ModelImageUri toImageUri() {
+    return ModelImageUri(value);
+  }
+
+  /// Convert to [ModelVideoUri].
+  ///
+  /// [ModelVideoUri]に変換します。
+
+  ModelVideoUri toVideoUri() {
+    return ModelVideoUri(value);
+  }
+
   @override
   String toString() {
     return value.toString();

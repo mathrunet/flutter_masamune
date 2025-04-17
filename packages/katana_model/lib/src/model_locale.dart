@@ -76,6 +76,15 @@ class ModelLocalizedValue extends ModelFieldValue<LocalizedValue<String>>
 
   final ModelFieldValueSource _source;
 
+  /// Copy [ModelLocalizedValue] and generate a new one.
+  ///
+  /// [ModelLocalizedValue]をコピーして新しく生成します。
+  ModelLocalizedValue copyWith({
+    Iterable<LocalizedLocaleValue<String>>? values,
+  }) {
+    return ModelLocalizedValue(value.copyWith(values: values));
+  }
+
   @override
   String toString() {
     return value.toString();
@@ -418,6 +427,24 @@ class LocalizedValue<T>
         entry.value,
       );
     });
+  }
+
+  /// Copy [LocalizedValue] and generate a new one.
+  ///
+  /// [LocalizedValue]をコピーして新しく生成します。
+  LocalizedValue<T> copyWith({
+    Iterable<LocalizedLocaleValue<T>>? values,
+  }) {
+    final res = <LocalizedLocaleValue<T>>[];
+    for (final val in values ?? <LocalizedLocaleValue<T>>[]) {
+      res.add(val.copyWith());
+    }
+    for (final val in _list) {
+      if (!res.any((e) => e.locale == val.locale)) {
+        res.add(val.copyWith());
+      }
+    }
+    return LocalizedValue<T>(res);
   }
 
   @override
