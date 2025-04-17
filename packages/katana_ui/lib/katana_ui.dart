@@ -22,6 +22,7 @@ import 'package:universal_platform/universal_platform.dart';
 export 'package:katana/katana.dart';
 
 part 'modal/modal.dart';
+part 'src/extensions.dart';
 part 'ui/loading_builder.dart';
 part 'ui/scroll_builder.dart';
 part 'ui/indent.dart';
