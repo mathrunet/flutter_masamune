@@ -1,3 +1,7 @@
+## 2.15.0
+
+ - **FEAT**: Added an extension method for ImageProvider. ([2468c2d2](https://github.com/mathrunet/flutter_masamune/commit/2468c2d2481f056ccb95d01633c8b80326876215))
+
 ## 2.14.1
 
  - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))

@@ -1,3 +1,7 @@
+## 2.22.0
+
+ - **FEAT**: Added convenience methods to ModelLocalizedValue and ModelUri. ([6e02fbc4](https://github.com/mathrunet/flutter_masamune/commit/6e02fbc40d637b0b9f3af0ede6629a188072c235))
+
 ## 2.21.2
 
  - **FIX**: Fixed a bug that prevented parsing. ([ae0953fe](https://github.com/mathrunet/flutter_masamune/commit/ae0953fe4e788af5d5dc6951f5d9139ff56617d7))

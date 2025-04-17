@@ -1,3 +1,7 @@
+## 2.17.0
+
+ - **FEAT**: Added convenience methods to ModelLocalizedValue and ModelUri. ([6e02fbc4](https://github.com/mathrunet/flutter_masamune/commit/6e02fbc40d637b0b9f3af0ede6629a188072c235))
+
 ## 2.16.0
 
  - **FEAT**: Enhanced support types in CSV and Json. ([ac635847](https://github.com/mathrunet/flutter_masamune/commit/ac6358478022648c1f83b1e5f619dc8faad642be))

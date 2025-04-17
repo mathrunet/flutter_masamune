@@ -1,3 +1,7 @@
+## 2.34.0
+
+ - **FEAT**: Added convenience methods to ModelLocalizedValue and ModelUri. ([6e02fbc4](https://github.com/mathrunet/flutter_masamune/commit/6e02fbc40d637b0b9f3af0ede6629a188072c235))
+
 ## 2.33.1
 
  - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))

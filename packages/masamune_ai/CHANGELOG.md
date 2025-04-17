@@ -1,3 +1,8 @@
+## 2.5.0
+
+ - **FEAT**: Added AISingle. ([59169c9c](https://github.com/mathrunet/flutter_masamune/commit/59169c9c3aad3ce3aff74f4c74dc85274f100672))
+ - **FEAT**: Added MCP server client. ([dd10b17e](https://github.com/mathrunet/flutter_masamune/commit/dd10b17ea55b98732da59d09d07549910bef4eb0))
+
 ## 2.4.14
 
  - Update a dependency to the latest release.
