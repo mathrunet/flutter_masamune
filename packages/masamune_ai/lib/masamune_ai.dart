@@ -21,8 +21,8 @@ import 'package:flutter/widgets.dart';
 // Package imports:
 import 'package:masamune/masamune.dart';
 import 'package:mcp_dart/mcp_dart.dart' as mcp;
-import 'package:mcp_dart/src/types.dart' show Content;
 import 'package:mcp_dart/src/shared/transport.dart' show Transport;
+import 'package:mcp_dart/src/types.dart' show Content;
 
 export 'package:mcp_dart/src/shared/transport.dart' show Transport;
 export 'package:mcp_dart/mcp_dart.dart'
