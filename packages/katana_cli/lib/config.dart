@@ -461,11 +461,13 @@ ${showAllConfig ? """
       terms_of_use:
       privacy_policy:
       how_to_delete: 
+      csae: 
     ja:
       index:
       terms_of_use:
       privacy_policy:
       how_to_delete: 
+      csae: 
 """ : ""}
   
   # Enable Firebase Messaging.

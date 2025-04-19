@@ -581,6 +581,24 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
               commandStack,
               () => process.stdin.write("y\n"),
             );
+            _runCommandStack(
+              line,
+              "? File functions/package.json already exists. Overwrite?",
+              commandStack,
+              () => process.stdin.write("n\n"),
+            );
+            _runCommandStack(
+              line,
+              "? File functions/.eslintrc.js already exists. Overwrite?",
+              commandStack,
+              () => process.stdin.write("n\n"),
+            );
+            _runCommandStack(
+              line,
+              "? File functions/src/index.ts already exists. Overwrite?",
+              commandStack,
+              () => process.stdin.write("n\n"),
+            );
           },
         );
         // ファイルがfirebaseフォルダに作られないので移動
