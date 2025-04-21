@@ -39,6 +39,7 @@ class StripeCliAction extends CliCommand with CliActionMixin {
     final sendgrid = context.yaml.getAsMap("sendgrid");
     final secretKey = stripe.get("secret_key", "");
     final enableConnect = stripe.get("enable_connect", false);
+    final applyStripeSettings = stripe.get("apply_stripe_settings", false);
     final urlScheme =
         stripe.get("url_scheme", "").replaceAll(RegExp(r"://$"), "");
     final emailProvider = stripe.get("email_provider", "sendgrid");
@@ -51,13 +52,6 @@ class StripeCliAction extends CliCommand with CliActionMixin {
     if (secretKey.isEmpty) {
       error("[stripe]->[secret_key] is empty.");
       return;
-    }
-    if (urlScheme.isEmpty) {
-      error("[stripe]->[url_scheme] is empty.");
-      return;
-    }
-    if (emailProvider.isEmpty) {
-      error("[stripe]->[email_provider] is empty.");
     }
     switch (emailProvider) {
       case "gmail":
@@ -83,7 +77,7 @@ class StripeCliAction extends CliCommand with CliActionMixin {
           return;
         }
         break;
-      default:
+      case "sendgrid":
         final enalbeSendGrid = sendgrid.get("enable", false);
         final sendGridApiKey = sendgrid.get("api_key", "");
         if (!enalbeSendGrid) {
@@ -153,65 +147,67 @@ class StripeCliAction extends CliCommand with CliActionMixin {
         "The structure of AndroidManifest.xml is broken. Do `katana create` to complete the initial setup of the project.",
       );
     }
-    if (!activity.first.children.any((p0) =>
-        p0 is XmlElement &&
-        p0.name.toString() == "intent-filter" &&
-        (p0.findElements("action").firstOrNull?.attributes.any((item) =>
-                item.name.toString() == "android:name" &&
-                item.value == "android.intent.action.VIEW") ??
-            false) &&
-        (p0.findElements("data").firstOrNull?.attributes.any((item) =>
-                item.name.toString() == "android:scheme" &&
-                item.value == urlScheme) ??
-            false))) {
-      activity.first.children.add(
-        XmlElement(
-          XmlName("intent-filter"),
-          [],
-          [
-            XmlElement(
-              XmlName("action"),
-              [
-                XmlAttribute(
-                  XmlName("android:name"),
-                  "android.intent.action.VIEW",
-                ),
-              ],
-              [],
-            ),
-            XmlElement(
-              XmlName("category"),
-              [
-                XmlAttribute(
-                  XmlName("android:name"),
-                  "android.intent.category.DEFAULT",
-                ),
-              ],
-              [],
-            ),
-            XmlElement(
-              XmlName("category"),
-              [
-                XmlAttribute(
-                  XmlName("android:name"),
-                  "android.intent.category.BROWSABLE",
-                ),
-              ],
-              [],
-            ),
-            XmlElement(
-              XmlName("data"),
-              [
-                XmlAttribute(
-                  XmlName("android:scheme"),
-                  urlScheme,
-                ),
-              ],
-              [],
-            ),
-          ],
-        ),
-      );
+    if (urlScheme.isNotEmpty) {
+      if (!activity.first.children.any((p0) =>
+          p0 is XmlElement &&
+          p0.name.toString() == "intent-filter" &&
+          (p0.findElements("action").firstOrNull?.attributes.any((item) =>
+                  item.name.toString() == "android:name" &&
+                  item.value == "android.intent.action.VIEW") ??
+              false) &&
+          (p0.findElements("data").firstOrNull?.attributes.any((item) =>
+                  item.name.toString() == "android:scheme" &&
+                  item.value == urlScheme) ??
+              false))) {
+        activity.first.children.add(
+          XmlElement(
+            XmlName("intent-filter"),
+            [],
+            [
+              XmlElement(
+                XmlName("action"),
+                [
+                  XmlAttribute(
+                    XmlName("android:name"),
+                    "android.intent.action.VIEW",
+                  ),
+                ],
+                [],
+              ),
+              XmlElement(
+                XmlName("category"),
+                [
+                  XmlAttribute(
+                    XmlName("android:name"),
+                    "android.intent.category.DEFAULT",
+                  ),
+                ],
+                [],
+              ),
+              XmlElement(
+                XmlName("category"),
+                [
+                  XmlAttribute(
+                    XmlName("android:name"),
+                    "android.intent.category.BROWSABLE",
+                  ),
+                ],
+                [],
+              ),
+              XmlElement(
+                XmlName("data"),
+                [
+                  XmlAttribute(
+                    XmlName("android:scheme"),
+                    urlScheme,
+                  ),
+                ],
+                [],
+              ),
+            ],
+          ),
+        );
+      }
     }
     await file.writeAsString(
       androidDocument.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
@@ -225,216 +221,220 @@ class StripeCliAction extends CliCommand with CliActionMixin {
         "Could not find `dict` element in `ios/Runner/Info.plist`. File is corrupt.",
       );
     }
-    final bundleUrlTypes = dict.children.firstWhereOrNull((p0) {
-      return p0 is XmlElement &&
-          p0.name.toString() == "key" &&
-          p0.innerText == "CFBundleURLTypes";
-    });
-    if (bundleUrlTypes == null) {
-      dict.children.addAll(
-        [
-          XmlElement(
-            XmlName("key"),
-            [],
-            [
-              XmlText("CFBundleURLTypes"),
-            ],
-          ),
-          XmlElement(
-            XmlName("array"),
-            [],
-            [
-              XmlElement(
-                XmlName("dict"),
-                [],
-                [
-                  XmlElement(
-                    XmlName("key"),
-                    [],
-                    [
-                      XmlText("CFBundleTypeRole"),
-                    ],
-                  ),
-                  XmlElement(
-                    XmlName("string"),
-                    [],
-                    [
-                      XmlText("Editor"),
-                    ],
-                  ),
-                  XmlElement(
-                    XmlName("key"),
-                    [],
-                    [
-                      XmlText("CFBundleURLSchemes"),
-                    ],
-                  ),
-                  XmlElement(
-                    XmlName("array"),
-                    [],
-                    [
-                      XmlElement(
-                        XmlName("string"),
-                        [],
-                        [
-                          XmlText(urlScheme),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      );
-    } else {
-      final urlSchemeArray = bundleUrlTypes.nextElementSibling;
-      if (urlSchemeArray == null) {
-        throw Exception(
-          "Could not find `CFBundleURLTypes` value element in `ios/Runner/Info.plist`. File is corrupt.",
+    if (urlScheme.isNotEmpty) {
+      final bundleUrlTypes = dict.children.firstWhereOrNull((p0) {
+        return p0 is XmlElement &&
+            p0.name.toString() == "key" &&
+            p0.innerText == "CFBundleURLTypes";
+      });
+      if (bundleUrlTypes == null) {
+        dict.children.addAll(
+          [
+            XmlElement(
+              XmlName("key"),
+              [],
+              [
+                XmlText("CFBundleURLTypes"),
+              ],
+            ),
+            XmlElement(
+              XmlName("array"),
+              [],
+              [
+                XmlElement(
+                  XmlName("dict"),
+                  [],
+                  [
+                    XmlElement(
+                      XmlName("key"),
+                      [],
+                      [
+                        XmlText("CFBundleTypeRole"),
+                      ],
+                    ),
+                    XmlElement(
+                      XmlName("string"),
+                      [],
+                      [
+                        XmlText("Editor"),
+                      ],
+                    ),
+                    XmlElement(
+                      XmlName("key"),
+                      [],
+                      [
+                        XmlText("CFBundleURLSchemes"),
+                      ],
+                    ),
+                    XmlElement(
+                      XmlName("array"),
+                      [],
+                      [
+                        XmlElement(
+                          XmlName("string"),
+                          [],
+                          [
+                            XmlText(urlScheme),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
         );
-      }
-      if (!urlSchemeArray.children.any(
-        (p1) =>
-            p1 is XmlElement &&
-            p1.children.any((p2) =>
-                p2 is XmlElement &&
-                p2.name.toString() == "array" &&
-                p2.children.any((p3) =>
-                    p3 is XmlElement &&
-                    p3.name.toString() == "string" &&
-                    p3.innerText == urlScheme)),
-      )) {
-        urlSchemeArray.children.add(
-          XmlElement(
-            XmlName("dict"),
-            [],
-            [
-              XmlElement(
-                XmlName("key"),
-                [],
-                [
-                  XmlText("CFBundleTypeRole"),
-                ],
-              ),
-              XmlElement(
-                XmlName("string"),
-                [],
-                [
-                  XmlText("Editor"),
-                ],
-              ),
-              XmlElement(
-                XmlName("key"),
-                [],
-                [
-                  XmlText("CFBundleURLSchemes"),
-                ],
-              ),
-              XmlElement(
-                XmlName("array"),
-                [],
-                [
-                  XmlElement(
-                    XmlName("string"),
-                    [],
-                    [
-                      XmlText(urlScheme),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
+      } else {
+        final urlSchemeArray = bundleUrlTypes.nextElementSibling;
+        if (urlSchemeArray == null) {
+          throw Exception(
+            "Could not find `CFBundleURLTypes` value element in `ios/Runner/Info.plist`. File is corrupt.",
+          );
+        }
+        if (!urlSchemeArray.children.any(
+          (p1) =>
+              p1 is XmlElement &&
+              p1.children.any((p2) =>
+                  p2 is XmlElement &&
+                  p2.name.toString() == "array" &&
+                  p2.children.any((p3) =>
+                      p3 is XmlElement &&
+                      p3.name.toString() == "string" &&
+                      p3.innerText == urlScheme)),
+        )) {
+          urlSchemeArray.children.add(
+            XmlElement(
+              XmlName("dict"),
+              [],
+              [
+                XmlElement(
+                  XmlName("key"),
+                  [],
+                  [
+                    XmlText("CFBundleTypeRole"),
+                  ],
+                ),
+                XmlElement(
+                  XmlName("string"),
+                  [],
+                  [
+                    XmlText("Editor"),
+                  ],
+                ),
+                XmlElement(
+                  XmlName("key"),
+                  [],
+                  [
+                    XmlText("CFBundleURLSchemes"),
+                  ],
+                ),
+                XmlElement(
+                  XmlName("array"),
+                  [],
+                  [
+                    XmlElement(
+                      XmlName("string"),
+                      [],
+                      [
+                        XmlText(urlScheme),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }
       }
     }
     await plist.writeAsString(
       iosDocument.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
     );
-    label("Configuration Webhooks.");
     String? webHookSecret;
     String? webHookConnectSecret;
-    final encodedApiSecret = base64Encode(utf8.encode("$secretKey:"));
-    final endpointsRes = await Api.get(
-      "https://api.stripe.com/v1/webhook_endpoints",
-      headers: {"Authorization": "Basic $encodedApiSecret"},
-    );
-    if (endpointsRes.statusCode != 200) {
-      error("Api secret is invalid.");
-      return;
-    }
-    final endpoints = jsonDecodeAsMap(endpointsRes.body).getAsList("data");
-    if (endpoints.isNotEmpty) {
-      for (final endpoint in endpoints) {
-        final data = endpoint as DynamicMap;
-        final id = data.get("id", "");
-        if (id.isEmpty) {
-          continue;
-        }
-        await Api.delete(
-          "https://api.stripe.com/v1/webhook_endpoints/$id",
-          headers: {"Authorization": "Basic $encodedApiSecret"},
-        );
+    if (applyStripeSettings) {
+      label("Configuration Webhooks.");
+      final encodedApiSecret = base64Encode(utf8.encode("$secretKey:"));
+      final endpointsRes = await Api.get(
+        "https://api.stripe.com/v1/webhook_endpoints",
+        headers: {"Authorization": "Basic $encodedApiSecret"},
+      );
+      if (endpointsRes.statusCode != 200) {
+        error("Api secret is invalid.");
+        return;
       }
-    }
-    final stripeRes = await Api.post(
-      "https://api.stripe.com/v1/webhook_endpoints",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Basic $encodedApiSecret"
-      },
-      body: _formatQueryParamater({
-        "url": "https://$region-$projectId.cloudfunctions.net/stripe_webhook",
-        "description": "",
-        "enabled_events": [
-          "customer.subscription.trial_will_end",
-          "customer.subscription.deleted",
-          "customer.subscription.created",
-          "customer.subscription.updated",
-          "checkout.session.completed",
-          "customer.updated",
-          "payment_intent.amount_capturable_updated",
-          "payment_intent.payment_failed",
-          "payment_intent.requires_action",
-          "payment_intent.succeeded",
-          "payment_method.updated",
-          "payment_method.detached",
-        ],
-        "connect": "false",
-      }),
-    );
-    final stripeResMap = jsonDecodeAsMap(stripeRes.body);
-    webHookSecret = stripeResMap.get("secret", "");
-    if (webHookSecret.isEmpty) {
-      error(
-          "Could not create webhook: https://$region-$projectId.cloudfunctions.net/stripe_webhook");
-      return;
-    }
-    if (enableConnect) {
-      final connectRes = await Api.post(
+      final endpoints = jsonDecodeAsMap(endpointsRes.body).getAsList("data");
+      if (endpoints.isNotEmpty) {
+        for (final endpoint in endpoints) {
+          final data = endpoint as DynamicMap;
+          final id = data.get("id", "");
+          if (id.isEmpty) {
+            continue;
+          }
+          await Api.delete(
+            "https://api.stripe.com/v1/webhook_endpoints/$id",
+            headers: {"Authorization": "Basic $encodedApiSecret"},
+          );
+        }
+      }
+      final stripeRes = await Api.post(
         "https://api.stripe.com/v1/webhook_endpoints",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           "Authorization": "Basic $encodedApiSecret"
         },
         body: _formatQueryParamater({
-          "url":
-              "https://$region-$projectId.cloudfunctions.net/stripe_webhook_connect",
+          "url": "https://$region-$projectId.cloudfunctions.net/stripe_webhook",
           "description": "",
           "enabled_events": [
-            "account.updated",
+            "customer.subscription.trial_will_end",
+            "customer.subscription.deleted",
+            "customer.subscription.created",
+            "customer.subscription.updated",
+            "checkout.session.completed",
+            "customer.updated",
+            "payment_intent.amount_capturable_updated",
+            "payment_intent.payment_failed",
+            "payment_intent.requires_action",
+            "payment_intent.succeeded",
+            "payment_method.updated",
+            "payment_method.detached",
           ],
-          "connect": "true",
+          "connect": "false",
         }),
       );
-      final connectResMap = jsonDecodeAsMap(connectRes.body);
-      webHookConnectSecret = connectResMap.get("secret", "");
-      if (webHookConnectSecret.isEmpty) {
+      final stripeResMap = jsonDecodeAsMap(stripeRes.body);
+      webHookSecret = stripeResMap.get("secret", "");
+      if (webHookSecret.isEmpty) {
         error(
-            "Could not create webhook: https://$region-$projectId.cloudfunctions.net/stripe_webhook_connect");
+            "Could not create webhook: https://$region-$projectId.cloudfunctions.net/stripe_webhook");
         return;
+      }
+      if (enableConnect) {
+        final connectRes = await Api.post(
+          "https://api.stripe.com/v1/webhook_endpoints",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": "Basic $encodedApiSecret"
+          },
+          body: _formatQueryParamater({
+            "url":
+                "https://$region-$projectId.cloudfunctions.net/stripe_webhook_connect",
+            "description": "",
+            "enabled_events": [
+              "account.updated",
+            ],
+            "connect": "true",
+          }),
+        );
+        final connectResMap = jsonDecodeAsMap(connectRes.body);
+        webHookConnectSecret = connectResMap.get("secret", "");
+        if (webHookConnectSecret.isEmpty) {
+          error(
+              "Could not create webhook: https://$region-$projectId.cloudfunctions.net/stripe_webhook_connect");
+          return;
+        }
       }
     }
     label("Add firebase functions");
@@ -459,7 +459,7 @@ class StripeCliAction extends CliCommand with CliActionMixin {
           functions.functions.add("gmail()");
         }
         break;
-      default:
+      case "sendgrid":
         if (!functions.functions.any((e) => e.startsWith("sendGrid"))) {
           functions.functions.add("sendGrid()");
         }
@@ -480,11 +480,14 @@ class StripeCliAction extends CliCommand with CliActionMixin {
     if (enableConnect && webHookConnectSecret.isNotEmpty) {
       env["PURCHASE_STRIPE_WEBHOOKCONNECTSECRET"] = webHookConnectSecret!;
     }
-    if (emailProvider == "gmail") {
-      env["MAIL_GMAIL_ID"] = gmail.get("user_id", "");
-      env["MAIL_GMAIL_PASSWORD"] = gmail.get("user_password", "");
-    } else {
-      env["MAIL_SENDGRID_APIKEY"] = sendgrid.get("api_key", "");
+    switch (emailProvider) {
+      case "gmail":
+        env["MAIL_GMAIL_ID"] = gmail.get("user_id", "");
+        env["MAIL_GMAIL_PASSWORD"] = gmail.get("user_password", "");
+        break;
+      case "sendgrid":
+        env["MAIL_SENDGRID_APIKEY"] = sendgrid.get("api_key", "");
+        break;
     }
     await env.save();
     context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);

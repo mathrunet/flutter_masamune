@@ -724,6 +724,10 @@ stripe:
   # Stripeコネクトを利用する場合は`true`にしてください。
   enable_connect: false
 
+  # Set to `true` if you want to apply Stripe settings.
+  # Stripeの設定を適用する場合は`true`にしてください。
+  apply_stripe_settings: false
+
   # Secret key for Stripe's API.
   # You can obtain keys for the test and production environments at the following URLs
   # StripeのAPI用シークレットキー。
