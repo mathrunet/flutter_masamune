@@ -1,3 +1,7 @@
+## 2.5.1
+
+ - Update a dependency to the latest release.
+
 ## 2.5.0
 
  - **FEAT**: Added AISingle. ([59169c9c](https://github.com/mathrunet/flutter_masamune/commit/59169c9c3aad3ce3aff74f4c74dc85274f100672))

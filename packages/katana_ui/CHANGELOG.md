@@ -1,3 +1,7 @@
+## 2.15.1
+
+ - **FIX**: Size can be specified. ([21c91751](https://github.com/mathrunet/flutter_masamune/commit/21c9175141950813e55a812d0b20d1e8d04f9304))
+
 ## 2.15.0
 
  - **FEAT**: Added an extension method for ImageProvider. ([2468c2d2](https://github.com/mathrunet/flutter_masamune/commit/2468c2d2481f056ccb95d01633c8b80326876215))

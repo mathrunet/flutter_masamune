@@ -1,3 +1,8 @@
+## 2.38.5
+
+ - **FIX**: Add items to skip in Stripe. ([9624ee7b](https://github.com/mathrunet/flutter_masamune/commit/9624ee7bdef8185ed335d3f87cab3b3083f53293))
+ - **FIX**: Add missing questions. ([888f438a](https://github.com/mathrunet/flutter_masamune/commit/888f438a9d9d68a0027f30a2de18aa4f17427df4))
+
 ## 2.38.4
 
  - **FIX**: Fixed local_notification settings not being reflected properly. ([ecc6b87e](https://github.com/mathrunet/flutter_masamune/commit/ecc6b87ec05a65eba9f3cd5f0ee61b10b943fb0f))
