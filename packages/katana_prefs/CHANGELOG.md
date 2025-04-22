@@ -1,3 +1,7 @@
+## 2.2.16
+
+ - Update a dependency to the latest release.
+
 ## 2.2.15
 
  - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))

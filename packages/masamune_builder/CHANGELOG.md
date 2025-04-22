@@ -1,3 +1,7 @@
+## 2.21.5
+
+ - Update a dependency to the latest release.
+
 ## 2.21.4
 
  - **FIX**: Correction of CsvDocument parameter error. ([f6bb1e79](https://github.com/mathrunet/flutter_masamune/commit/f6bb1e7990f32b437512e69c073ebf822c673503))

@@ -1,3 +1,7 @@
+## 2.9.4
+
+ - Update a dependency to the latest release.
+
 ## 2.9.3
 
  - **FIX**: ScaffoldBackgroundColor is no longer generated automatically. ([e45d1ee1](https://github.com/mathrunet/flutter_masamune/commit/e45d1ee1d1729e95243fca611dbae4d159af063e))

@@ -1,3 +1,7 @@
+## 2.15.2
+
+ - Update a dependency to the latest release.
+
 ## 2.15.1
 
  - **FIX**: Size can be specified. ([21c91751](https://github.com/mathrunet/flutter_masamune/commit/21c9175141950813e55a812d0b20d1e8d04f9304))

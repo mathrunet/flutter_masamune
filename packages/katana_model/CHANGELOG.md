@@ -1,3 +1,7 @@
+## 2.36.0
+
+ - **FEAT**: Add SimpleBuildModelAdapter. ([a60b174a](https://github.com/mathrunet/flutter_masamune/commit/a60b174af1a57bf3a808c8f5abb013b4a38a9a05))
+
 ## 2.35.0
 
  - **FEAT**: Added SimpleModelAdapter. ([f4bfa76c](https://github.com/mathrunet/flutter_masamune/commit/f4bfa76c99d1990aa119845b0880441ae1cfaa9c))

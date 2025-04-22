@@ -349,7 +349,6 @@ abstract class ModelAdapter {
   }
 }
 
-
 /// Widget for setting [ModelAdapter].
 ///
 /// You can set a child widget in [child] and an adapter for use in [adapter].

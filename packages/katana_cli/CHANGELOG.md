@@ -1,3 +1,7 @@
+## 2.38.6
+
+ - Update a dependency to the latest release.
+
 ## 2.38.5
 
  - **FIX**: Add items to skip in Stripe. ([9624ee7b](https://github.com/mathrunet/flutter_masamune/commit/9624ee7bdef8185ed335d3f87cab3b3083f53293))

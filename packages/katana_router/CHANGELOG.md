@@ -1,3 +1,7 @@
+## 2.6.3
+
+ - Update a dependency to the latest release.
+
 ## 2.6.2
 
  - **FIX**: Change Duration to 0 for TransitionQuery.none. ([1b45b189](https://github.com/mathrunet/flutter_masamune/commit/1b45b1890dadfd1c5a59602d1c1ab7ba41ee2170))

@@ -1,3 +1,7 @@
+## 2.9.9
+
+ - Update a dependency to the latest release.
+
 ## 2.9.8
 
  - **FIX**: Added offset parameter to GoogleSpreadSheetDataSource. ([5331167c](https://github.com/mathrunet/flutter_masamune/commit/5331167c30378415c1b3cfd5eb0203ce7e2f5e73))

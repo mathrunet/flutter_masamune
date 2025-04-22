@@ -1,3 +1,7 @@
+## 2.19.0
+
+ - **FEAT**: Add ApiMethod Enum. ([7b0a0c89](https://github.com/mathrunet/flutter_masamune/commit/7b0a0c896067f31dce2b15a9e078d81527062eed))
+
 ## 2.18.1
 
  - **DOCS**: Add Github badge. ([f43beb54](https://github.com/mathrunet/flutter_masamune/commit/f43beb54ebcbac9c24233bbae139fbb8ac87cb6a))
