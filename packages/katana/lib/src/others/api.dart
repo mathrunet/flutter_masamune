@@ -223,3 +223,38 @@ typedef ApiResponse = http.Response;
 ///
 /// リクエスト本文全体が事前にわかっている HTTP リクエスト。
 typedef ApiResquest = http.Request;
+
+/// An HTTP method.
+///
+/// HTTP メソッド。
+enum ApiMethod {
+  /// GET
+  ///
+  /// GET
+  get,
+
+  /// POST
+  ///
+  /// POST
+  post,
+
+  /// PUT
+  ///
+  /// PUT
+  put,
+
+  /// PATCH
+  ///
+  /// PATCH
+  patch,
+
+  /// DELETE
+  ///
+  /// DELETE
+  delete,
+
+  /// HEAD
+  ///
+  /// HEAD
+  head;
+}
