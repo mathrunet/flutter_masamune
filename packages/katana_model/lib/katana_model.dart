@@ -25,6 +25,7 @@ import 'package:katana/katana.dart';
 export 'package:katana/katana.dart';
 
 part 'adapter/runtime_model_adapter.dart';
+part 'adapter/simple_build_model_adapter.dart';
 
 part 'extension/searchable_document_mixin.dart';
 part 'extension/searchable_collection_mixin.dart';
