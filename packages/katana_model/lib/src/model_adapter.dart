@@ -349,6 +349,119 @@ abstract class ModelAdapter {
   }
 }
 
+/// Base [ModelAdapter] for performing only data retrieval, storage, and deletion of documents and collections.
+///
+/// Transaction processing, change monitoring processing, and batch processing are not supported.
+///
+/// ドキュメントおよびコレクションのデータ取得・保存・削除のみを行うためのベースとなる[ModelAdapter]。
+///
+/// トランザクション処理や変更監視処理、バッチ処理などはサポートしません。
+abstract class SimpleModelAdapter extends ModelAdapter {
+  /// Base [ModelAdapter] for performing only data retrieval, storage, and deletion of documents and collections.
+  ///
+  /// Transaction processing, change monitoring processing, and batch processing are not supported.
+  ///
+  /// ドキュメントおよびコレクションのデータ取得・保存・削除のみを行うためのベースとなる[ModelAdapter]。
+  ///
+  /// トランザクション処理や変更監視処理、バッチ処理などはサポートしません。
+  const SimpleModelAdapter();
+
+  @override
+  void disposeCollection(ModelAdapterCollectionQuery query) {}
+
+  @override
+  void disposeDocument(ModelAdapterDocumentQuery query) {}
+
+  @override
+  Future<T?> loadAggregation<T>(
+    ModelAdapterCollectionQuery query,
+    ModelAggregateQuery<AsyncAggregateValue> aggregateQuery,
+  ) {
+    throw UnsupportedError("This function is not supported");
+  }
+
+  @override
+  bool get availableListen => false;
+
+  @override
+  Future<List<StreamSubscription>> listenCollection(
+    ModelAdapterCollectionQuery query,
+  ) {
+    throw UnsupportedError("This function is not supported");
+  }
+
+  @override
+  Future<List<StreamSubscription>> listenDocument(
+    ModelAdapterDocumentQuery query,
+  ) {
+    throw UnsupportedError("This function is not supported");
+  }
+
+  @override
+  FutureOr<void> runTransaction(
+    FutureOr<void> Function(ModelTransactionRef ref) transaction,
+  ) {
+    throw UnsupportedError("This function is not supported");
+  }
+
+  @override
+  FutureOr<DynamicMap> loadOnTransaction(
+    ModelTransactionRef ref,
+    ModelAdapterDocumentQuery query,
+  ) {
+    throw UnsupportedError("This function is not supported");
+  }
+
+  @override
+  void saveOnTransaction(
+    ModelTransactionRef ref,
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) {
+    throw UnsupportedError("This function is not supported");
+  }
+
+  @override
+  void deleteOnTransaction(
+    ModelTransactionRef ref,
+    ModelAdapterDocumentQuery query,
+  ) {
+    throw UnsupportedError("This function is not supported");
+  }
+
+  @override
+  FutureOr<void> runBatch(
+    FutureOr<void> Function(ModelBatchRef ref) batch,
+    int splitLength,
+  ) {
+    throw UnsupportedError("This function is not supported");
+  }
+
+  @override
+  void saveOnBatch(
+    ModelBatchRef ref,
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) {
+    throw UnsupportedError("This function is not supported");
+  }
+
+  @override
+  void deleteOnBatch(ModelBatchRef ref, ModelAdapterDocumentQuery query) {
+    throw UnsupportedError("This function is not supported");
+  }
+
+  @override
+  Future<void> clearAll() {
+    throw UnsupportedError("This function is not supported");
+  }
+
+  @override
+  Future<void> clearCache() {
+    throw UnsupportedError("This function is not supported");
+  }
+}
+
 /// Widget for setting [ModelAdapter].
 ///
 /// You can set a child widget in [child] and an adapter for use in [adapter].
