@@ -340,7 +340,7 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.18.1"
+    version: "2.19.0"
   katana_test:
     dependency: "direct dev"
     description:

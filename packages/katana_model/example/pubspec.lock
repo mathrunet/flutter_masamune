@@ -334,21 +334,21 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.18.1"
+    version: "2.19.0"
   katana_listenables_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_listenables_annotation"
       relative: true
     source: path
-    version: "2.1.15"
+    version: "2.1.16"
   katana_model:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.33.1"
+    version: "2.36.0"
   leak_tracker:
     dependency: transitive
     description:
