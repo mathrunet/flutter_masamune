@@ -1,5 +1,9 @@
 part of '/katana_model_local.dart';
 
+final _kGoogleDriveRegExp = RegExp(
+  r"https://drive\.google\.com/file/d/([1-9a-zA-Z-]+)",
+);
+
 /// {@macro csv_source_model_adapter}
 ///
 /// The first line is treated as a header and the strings listed there as keys.
@@ -977,6 +981,16 @@ dynamic _toAny(Object? object) {
           uri.toString().replaceAll(RegExp("^ref:/"), ""),
         ).toJson();
       } else if (uri.scheme.startsWith("http")) {
+        // Googleドライブ対応
+        final match = _kGoogleDriveRegExp.firstMatch(uri.toString());
+        if (match != null) {
+          final id = match.group(1);
+          if (id != null) {
+            return ModelUri(
+              Uri.https("drive.google.com", "/uc?export=view&id=$id"),
+            ).toJson();
+          }
+        }
         switch (uri.path.trimQuery().last()) {
           // case "png":
           // case "jpg":
