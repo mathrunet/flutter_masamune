@@ -1,3 +1,7 @@
+## 2.36.1
+
+ - **FIX**: Change SimpleBuildModelAdapter to RestApiModelAdapter. ([470d5e79](https://github.com/mathrunet/flutter_masamune/commit/470d5e79dd8402a710f0f6eb426b15b60884e333))
+
 ## 2.36.0
 
  - **FEAT**: Add SimpleBuildModelAdapter. ([a60b174a](https://github.com/mathrunet/flutter_masamune/commit/a60b174af1a57bf3a808c8f5abb013b4a38a9a05))

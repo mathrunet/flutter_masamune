@@ -1,3 +1,7 @@
+## 2.10.0
+
+ - **FEAT**: Add a new RestApiFunctionsAdapter. ([f0f8b1f9](https://github.com/mathrunet/flutter_masamune/commit/f0f8b1f9dbe67ac4e0d6aaf90b7c683d6ad63800))
+
 ## 2.9.2
 
  - Update a dependency to the latest release.

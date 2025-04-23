@@ -15,6 +15,134 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_functions` - `v2.10.0`](#katana_functions---v2100)
+ - [`katana_model` - `v2.36.1`](#katana_model---v2361)
+ - [`katana_model_local` - `v2.18.0`](#katana_model_local---v2180)
+ - [`katana_functions_firebase` - `v2.9.4`](#katana_functions_firebase---v294)
+ - [`masamune` - `v2.23.6`](#masamune---v2236)
+ - [`masamune_location_platform_interface` - `v2.4.77`](#masamune_location_platform_interface---v2477)
+ - [`masamune_model_firebase_remote_config` - `v2.1.26`](#masamune_model_firebase_remote_config---v2126)
+ - [`masamune_location_geocoding` - `v2.5.53`](#masamune_location_geocoding---v2553)
+ - [`masamune_location` - `v2.9.11`](#masamune_location---v2911)
+ - [`masamune_ai` - `v2.5.3`](#masamune_ai---v253)
+ - [`masamune_notification_local` - `v2.4.11`](#masamune_notification_local---v2411)
+ - [`masamune_model_firestore` - `v2.2.21`](#masamune_model_firestore---v2221)
+ - [`masamune_deeplink_firebase` - `v2.4.11`](#masamune_deeplink_firebase---v2411)
+ - [`masamune_auth_apple` - `v2.5.15`](#masamune_auth_apple---v2515)
+ - [`masamune_scheduler` - `v2.4.15`](#masamune_scheduler---v2415)
+ - [`masamune_model_algolia` - `v2.4.154`](#masamune_model_algolia---v24154)
+ - [`masamune_location_background` - `v2.7.11`](#masamune_location_background---v2711)
+ - [`masamune_text_to_speech` - `v2.5.11`](#masamune_text_to_speech---v2511)
+ - [`masamune_agora` - `v2.6.15`](#masamune_agora---v2615)
+ - [`masamune_auth_google` - `v2.6.15`](#masamune_auth_google---v2615)
+ - [`masamune_model_firebase_data_connect` - `v2.3.21`](#masamune_model_firebase_data_connect---v2321)
+ - [`masamune_ai_openai` - `v2.11.15`](#masamune_ai_openai---v21115)
+ - [`masamune_calendar` - `v2.4.15`](#masamune_calendar---v2415)
+ - [`masamune_ai_firebase` - `v2.4.3`](#masamune_ai_firebase---v243)
+ - [`masamune_auth_google_firebase` - `v2.2.17`](#masamune_auth_google_firebase---v2217)
+ - [`masamune_animate` - `v2.2.94`](#masamune_animate---v2294)
+ - [`masamune_picker` - `v2.5.15`](#masamune_picker---v2515)
+ - [`masamune_app_review` - `v2.1.26`](#masamune_app_review---v2126)
+ - [`masamune_util` - `v2.2.149`](#masamune_util---v22149)
+ - [`masamune_universal_ui` - `v2.10.12`](#masamune_universal_ui---v21012)
+ - [`masamune_purchase_stripe` - `v3.6.15`](#masamune_purchase_stripe---v3615)
+ - [`masamune_auth_apple_firebase` - `v2.1.19`](#masamune_auth_apple_firebase---v2119)
+ - [`masamune_notification` - `v2.11.11`](#masamune_notification---v21111)
+ - [`masamune_logger_firebase` - `v2.6.15`](#masamune_logger_firebase---v2615)
+ - [`masamune_firebase_app_check` - `v2.3.11`](#masamune_firebase_app_check---v2311)
+ - [`masamune_introduction` - `v2.7.15`](#masamune_introduction---v2715)
+ - [`masamune_deeplink` - `v2.4.11`](#masamune_deeplink---v2411)
+ - [`masamune_speech_to_text` - `v2.4.11`](#masamune_speech_to_text---v2411)
+ - [`masamune_auth_firebase` - `v2.1.31`](#masamune_auth_firebase---v2131)
+ - [`masamune_auth_facebook` - `v2.6.15`](#masamune_auth_facebook---v2615)
+ - [`masamune_force_updater` - `v2.2.26`](#masamune_force_updater---v2226)
+ - [`masamune_location_google` - `v2.8.11`](#masamune_location_google---v2811)
+ - [`masamune_mail` - `v2.2.149`](#masamune_mail---v22149)
+ - [`masamune_purchase` - `v2.5.12`](#masamune_purchase---v2512)
+ - [`masamune_notification_firebase` - `v2.9.11`](#masamune_notification_firebase---v2911)
+ - [`masamune_purchase_mobile` - `v2.13.12`](#masamune_purchase_mobile---v21312)
+ - [`masamune_ads_google` - `v2.7.16`](#masamune_ads_google---v2716)
+ - [`masamune_camera` - `v2.6.15`](#masamune_camera---v2615)
+ - [`katana_model_firestore` - `v2.22.3`](#katana_model_firestore---v2223)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_functions_firebase` - `v2.9.4`
+ - `masamune` - `v2.23.6`
+ - `masamune_location_platform_interface` - `v2.4.77`
+ - `masamune_model_firebase_remote_config` - `v2.1.26`
+ - `masamune_location_geocoding` - `v2.5.53`
+ - `masamune_location` - `v2.9.11`
+ - `masamune_ai` - `v2.5.3`
+ - `masamune_notification_local` - `v2.4.11`
+ - `masamune_model_firestore` - `v2.2.21`
+ - `masamune_deeplink_firebase` - `v2.4.11`
+ - `masamune_auth_apple` - `v2.5.15`
+ - `masamune_scheduler` - `v2.4.15`
+ - `masamune_model_algolia` - `v2.4.154`
+ - `masamune_location_background` - `v2.7.11`
+ - `masamune_text_to_speech` - `v2.5.11`
+ - `masamune_agora` - `v2.6.15`
+ - `masamune_auth_google` - `v2.6.15`
+ - `masamune_model_firebase_data_connect` - `v2.3.21`
+ - `masamune_ai_openai` - `v2.11.15`
+ - `masamune_calendar` - `v2.4.15`
+ - `masamune_ai_firebase` - `v2.4.3`
+ - `masamune_auth_google_firebase` - `v2.2.17`
+ - `masamune_animate` - `v2.2.94`
+ - `masamune_picker` - `v2.5.15`
+ - `masamune_app_review` - `v2.1.26`
+ - `masamune_util` - `v2.2.149`
+ - `masamune_universal_ui` - `v2.10.12`
+ - `masamune_purchase_stripe` - `v3.6.15`
+ - `masamune_auth_apple_firebase` - `v2.1.19`
+ - `masamune_notification` - `v2.11.11`
+ - `masamune_logger_firebase` - `v2.6.15`
+ - `masamune_firebase_app_check` - `v2.3.11`
+ - `masamune_introduction` - `v2.7.15`
+ - `masamune_deeplink` - `v2.4.11`
+ - `masamune_speech_to_text` - `v2.4.11`
+ - `masamune_auth_firebase` - `v2.1.31`
+ - `masamune_auth_facebook` - `v2.6.15`
+ - `masamune_force_updater` - `v2.2.26`
+ - `masamune_location_google` - `v2.8.11`
+ - `masamune_mail` - `v2.2.149`
+ - `masamune_purchase` - `v2.5.12`
+ - `masamune_notification_firebase` - `v2.9.11`
+ - `masamune_purchase_mobile` - `v2.13.12`
+ - `masamune_ads_google` - `v2.7.16`
+ - `masamune_camera` - `v2.6.15`
+ - `katana_model_firestore` - `v2.22.3`
+
+---
+
+#### `katana_functions` - `v2.10.0`
+
+ - **FEAT**: Add a new RestApiFunctionsAdapter. ([f0f8b1f9](https://github.com/mathrunet/flutter_masamune/commit/f0f8b1f9dbe67ac4e0d6aaf90b7c683d6ad63800))
+
+#### `katana_model` - `v2.36.1`
+
+ - **FIX**: Change SimpleBuildModelAdapter to RestApiModelAdapter. ([470d5e79](https://github.com/mathrunet/flutter_masamune/commit/470d5e79dd8402a710f0f6eb426b15b60884e333))
+
+#### `katana_model_local` - `v2.18.0`
+
+ - **FEAT**: Google Drive files are supported. ([6b0a3bd3](https://github.com/mathrunet/flutter_masamune/commit/6b0a3bd33c7282e378b5126f754e10d346eb382f))
+
+
+## 2025-04-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.19.0`](#katana---v2190)
  - [`katana_model` - `v2.36.0`](#katana_model---v2360)
  - [`masamune_location_platform_interface` - `v2.4.76`](#masamune_location_platform_interface---v2476)
