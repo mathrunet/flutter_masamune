@@ -91,23 +91,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
       if (collectionBuilder == null || !await collectionBuilder.match(query)) {
         continue;
       }
-      final uri = collectionBuilder.endpoint(endpoint, query);
-      final headers =
-          await collectionBuilder.headers?.call(query) ?? await this.headers();
-      final response = await Api.get(uri.toString(), headers: headers);
-      if (collectionBuilder.checkError?.call(response) ??
-          checkError(response)) {
-        throw RestApiModelAdapterException(uri: uri, response: response.body);
-      }
-      if (validator != null) {
-        await validator!.onPreloadCollection(query);
-      }
-      await database.loadCollection(query);
-      final data = await collectionBuilder.onLoaded(response.body);
-      if (validator != null) {
-        await validator!.onPostloadCollection(query, data);
-      }
-      return data;
+      return await collectionBuilder.process(query, this);
     }
     throw UnimplementedError("Endpoint is not found: ${query.query.path}");
   }
@@ -122,22 +106,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
           !await documentBuilder.match(query)) {
         continue;
       }
-      final uri = loadBuilder.endpoint(endpoint, query);
-      final headers =
-          await loadBuilder.headers?.call(query) ?? await this.headers();
-      final response = await Api.get(uri.toString(), headers: headers);
-      if (loadBuilder.checkError?.call(response) ?? checkError(response)) {
-        throw RestApiModelAdapterException(uri: uri, response: response.body);
-      }
-      if (validator != null) {
-        await validator!.onPreloadDocument(query);
-      }
-      await database.loadDocument(query);
-      final data = await loadBuilder.onLoad(response.body);
-      if (validator != null) {
-        await validator!.onPostloadDocument(query, data);
-      }
-      return data;
+      return await loadBuilder.process(query, this);
     }
     throw UnimplementedError("Endpoint is not found: ${query.query.path}");
   }
@@ -153,47 +122,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
           !await documentBuilder.match(query)) {
         continue;
       }
-      final uri = saveBuilder.endpoint(endpoint, query);
-      final headers =
-          await saveBuilder.headers?.call(query) ?? await this.headers();
-      final method = saveBuilder.method(query, value);
-      final body = await saveBuilder.dataOnSave(query, value);
-      ApiResponse? response;
-      switch (method) {
-        case ApiMethod.post:
-          response = await Api.post(
-            uri.toString(),
-            headers: headers,
-            body: body,
-          );
-          break;
-        case ApiMethod.put:
-          response = await Api.put(
-            uri.toString(),
-            headers: headers,
-            body: body,
-          );
-          break;
-        case ApiMethod.patch:
-          response = await Api.patch(
-            uri.toString(),
-            headers: headers,
-            body: body,
-          );
-          break;
-        default:
-          throw UnimplementedError("Unsupported method: $method");
-      }
-      if (saveBuilder.checkError?.call(response) ?? checkError(response)) {
-        throw RestApiModelAdapterException(uri: uri, response: response.body);
-      }
-      if (validator != null) {
-        final oldValue = await database.loadDocument(query);
-        await validator!
-            .onSaveDocument(query, oldValue: oldValue, newValue: value);
-      }
-      await database.saveDocument(query, value);
-      return saveBuilder.onSaved?.call(query, value) ?? Future.value();
+      return await saveBuilder.process(query, value, this);
     }
     throw UnimplementedError("Endpoint is not found: ${query.query.path}");
   }
@@ -208,19 +137,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
           !await documentBuilder.match(query)) {
         continue;
       }
-      final uri = deleteBuilder.endpoint(endpoint, query);
-      final headers =
-          await deleteBuilder.headers?.call(query) ?? await this.headers();
-      final response = await Api.delete(uri.toString(), headers: headers);
-      if (deleteBuilder.checkError?.call(response) ?? checkError(response)) {
-        throw RestApiModelAdapterException(uri: uri, response: response.body);
-      }
-      if (validator != null) {
-        final oldValue = await database.loadDocument(query);
-        await validator!.onDeleteDocument(query, oldValue);
-      }
-      await database.deleteDocument(query);
-      return deleteBuilder.onDeleted?.call(query) ?? Future.value();
+      return await deleteBuilder.process(query, this);
     }
     throw UnimplementedError("Endpoint is not found: ${query.query.path}");
   }
@@ -396,22 +313,79 @@ class RestApiBuilder {
 /// Builder for creating collection model adapters using REST APIs.
 ///
 /// REST APIを利用したコレクションのモデルアダプターを作成するためのビルダー。
-class CollectionRestApiBuilder {
+abstract class CollectionRestApiBuilder {
   /// Builder for creating collection model adapters using REST APIs.
   ///
   /// REST APIを利用したコレクションのモデルアダプターを作成するためのビルダー。
-  const CollectionRestApiBuilder({
+  factory CollectionRestApiBuilder({
+    required FutureOr<bool> Function(ModelAdapterCollectionQuery query) match,
+    required Future<Map<String, DynamicMap>> Function(
+      ModelAdapterCollectionQuery query,
+      RestApiModelAdapter adapter,
+    ) process,
+  }) {
+    return _CollectionRestApiBuilder(
+      match: match,
+      process: process,
+    );
+  }
+
+  const CollectionRestApiBuilder._({
     required this.match,
-    required this.endpoint,
-    this.checkError,
-    this.headers,
-    required this.onLoaded,
   });
 
   /// A function that returns `true` if the query matches.
   ///
   /// クエリがマッチする場合は`true`を返します。
   final FutureOr<bool> Function(ModelAdapterCollectionQuery query) match;
+
+  /// Describes the actual processing.
+  ///
+  /// 実際の処理を記述します。
+  Future<Map<String, DynamicMap>> process(
+    ModelAdapterCollectionQuery query,
+    RestApiModelAdapter adapter,
+  );
+}
+
+class _CollectionRestApiBuilder extends CollectionRestApiBuilder {
+  _CollectionRestApiBuilder({
+    required super.match,
+    required Future<Map<String, DynamicMap>> Function(
+      ModelAdapterCollectionQuery query,
+      RestApiModelAdapter adapter,
+    ) process,
+  })  : _process = process,
+        super._();
+
+  final Future<Map<String, DynamicMap>> Function(
+    ModelAdapterCollectionQuery query,
+    RestApiModelAdapter adapter,
+  ) _process;
+
+  @override
+  Future<Map<String, DynamicMap>> process(
+    ModelAdapterCollectionQuery query,
+    RestApiModelAdapter adapter,
+  ) {
+    return _process(query, adapter);
+  }
+}
+
+/// Builder for creating collection model adapters using REST APIs.
+///
+/// REST APIを利用したコレクションのモデルアダプターを作成するためのビルダー。
+class CollectionRestApiQuery extends CollectionRestApiBuilder {
+  /// Builder for creating collection model adapters using REST APIs.
+  ///
+  /// REST APIを利用したコレクションのモデルアダプターを作成するためのビルダー。
+  const CollectionRestApiQuery({
+    required super.match,
+    required this.endpoint,
+    this.checkError,
+    this.headers,
+    required this.onLoaded,
+  }) : super._();
 
   /// A function that returns the endpoint of the collection.
   ///
@@ -435,6 +409,29 @@ class CollectionRestApiBuilder {
   /// ヘッダーを返します。
   final FutureOr<Map<String, String>> Function(
       ModelAdapterCollectionQuery query)? headers;
+
+  @override
+  Future<Map<String, DynamicMap>> process(
+    ModelAdapterCollectionQuery query,
+    RestApiModelAdapter adapter,
+  ) async {
+    final uri = endpoint(adapter.endpoint, query);
+    final headers = await this.headers?.call(query) ?? await adapter.headers();
+    final response = await Api.get(uri.toString(), headers: headers);
+    if (checkError?.call(response) ?? adapter.checkError(response)) {
+      throw RestApiModelAdapterException(uri: uri, response: response.body);
+    }
+    if (adapter.validator != null) {
+      await adapter.validator!.onPreloadCollection(query);
+    }
+    await adapter.database.loadCollection(query);
+    final data = await onLoaded(response.body);
+    if (adapter.validator != null) {
+      await adapter.validator!.onPostloadCollection(query, data);
+    }
+    await adapter.database.syncCollection(query, data);
+    return data;
+  }
 }
 
 /// Builder for creating document model adapters using REST APIs.
@@ -482,16 +479,66 @@ class DocumentRestApiBuilder {
 /// Builder for creating model adapters for loading documents using a REST API.
 ///
 /// REST APIを利用したドキュメントの読み込み用のモデルアダプターを作成するためのビルダー。
-class LoadDocumentRestApiBuilder {
+abstract class LoadDocumentRestApiBuilder {
   /// Builder for creating model adapters for loading documents using a REST API.
   ///
   /// REST APIを利用したドキュメントの読み込み用のモデルアダプターを作成するためのビルダー。
-  const LoadDocumentRestApiBuilder({
+  factory LoadDocumentRestApiBuilder({
+    required Future<DynamicMap> Function(
+      ModelAdapterDocumentQuery query,
+      RestApiModelAdapter adapter,
+    ) process,
+  }) {
+    return _LoadDocumentRestApiBuilder(process: process);
+  }
+
+  const LoadDocumentRestApiBuilder._();
+
+  /// Describes the actual processing.
+  ///
+  /// 実際の処理を記述します。
+  Future<DynamicMap> process(
+    ModelAdapterDocumentQuery query,
+    RestApiModelAdapter adapter,
+  );
+}
+
+class _LoadDocumentRestApiBuilder extends LoadDocumentRestApiBuilder {
+  _LoadDocumentRestApiBuilder({
+    required Future<DynamicMap> Function(
+      ModelAdapterDocumentQuery query,
+      RestApiModelAdapter adapter,
+    ) process,
+  })  : _process = process,
+        super._();
+
+  final Future<DynamicMap> Function(
+    ModelAdapterDocumentQuery query,
+    RestApiModelAdapter adapter,
+  ) _process;
+
+  @override
+  Future<DynamicMap> process(
+    ModelAdapterDocumentQuery query,
+    RestApiModelAdapter adapter,
+  ) {
+    return _process(query, adapter);
+  }
+}
+
+/// Builder for creating model adapters for loading documents using a REST API.
+///
+/// REST APIを利用したドキュメントの読み込み用のモデルアダプターを作成するためのビルダー。
+class LoadDocumentRestApiQuery extends LoadDocumentRestApiBuilder {
+  /// Builder for creating model adapters for loading documents using a REST API.
+  ///
+  /// REST APIを利用したドキュメントの読み込み用のモデルアダプターを作成するためのビルダー。
+  const LoadDocumentRestApiQuery({
     required this.endpoint,
     this.checkError,
     this.headers,
     required this.onLoad,
-  });
+  }) : super._();
 
   /// A function that returns the endpoint of the document.
   ///
@@ -513,23 +560,101 @@ class LoadDocumentRestApiBuilder {
   /// ヘッダーを返します。
   final FutureOr<Map<String, String>> Function(ModelAdapterDocumentQuery query)?
       headers;
+
+  @override
+  Future<DynamicMap> process(
+    ModelAdapterDocumentQuery query,
+    RestApiModelAdapter adapter,
+  ) async {
+    final uri = endpoint(adapter.endpoint, query);
+    final headers = await this.headers?.call(query) ?? await adapter.headers();
+    final response = await Api.get(uri.toString(), headers: headers);
+    if (checkError?.call(response) ?? adapter.checkError(response)) {
+      throw RestApiModelAdapterException(uri: uri, response: response.body);
+    }
+    if (adapter.validator != null) {
+      await adapter.validator!.onPreloadDocument(query);
+    }
+    await adapter.database.loadDocument(query);
+    final data = await onLoad(response.body);
+    if (adapter.validator != null) {
+      await adapter.validator!.onPostloadDocument(query, data);
+    }
+    await adapter.database.syncDocument(query, data);
+    return data;
+  }
 }
 
 /// Builder for creating document model adapters for saving documents using a REST API.
 ///
 /// REST APIを利用したドキュメントの保存用のモデルアダプターを作成するためのビルダー。
-class SaveDocumentRestApiBuilder {
+abstract class SaveDocumentRestApiBuilder {
   /// Builder for creating document model adapters for saving documents using a REST API.
   ///
   /// REST APIを利用したドキュメントの保存用のモデルアダプターを作成するためのビルダー。
-  const SaveDocumentRestApiBuilder({
+  factory SaveDocumentRestApiBuilder({
+    required Future<void> Function(
+      ModelAdapterDocumentQuery query,
+      DynamicMap value,
+      RestApiModelAdapter adapter,
+    ) process,
+  }) {
+    return _SaveDocumentRestApiBuilder(process: process);
+  }
+
+  const SaveDocumentRestApiBuilder._();
+
+  /// Describes the actual processing.
+  ///
+  /// 実際の処理を記述します。
+  Future<void> process(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+    RestApiModelAdapter adapter,
+  );
+}
+
+class _SaveDocumentRestApiBuilder extends SaveDocumentRestApiBuilder {
+  _SaveDocumentRestApiBuilder({
+    required Future<void> Function(
+      ModelAdapterDocumentQuery query,
+      DynamicMap value,
+      RestApiModelAdapter adapter,
+    ) process,
+  })  : _process = process,
+        super._();
+
+  final Future<void> Function(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+    RestApiModelAdapter adapter,
+  ) _process;
+
+  @override
+  Future<void> process(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+    RestApiModelAdapter adapter,
+  ) {
+    return _process(query, value, adapter);
+  }
+}
+
+/// Builder for creating document model adapters for saving documents using a REST API.
+///
+/// REST APIを利用したドキュメントの保存用のモデルアダプターを作成するためのビルダー。
+class SaveDocumentRestApiQuery extends SaveDocumentRestApiBuilder {
+  /// Builder for creating document model adapters for saving documents using a REST API.
+  ///
+  /// REST APIを利用したドキュメントの保存用のモデルアダプターを作成するためのビルダー。
+  const SaveDocumentRestApiQuery({
     required this.endpoint,
     this.checkError,
     this.dataOnSave = defaultDataOnSave,
     this.headers,
     this.method = defaultMethod,
     this.onSaved,
-  });
+  }) : super._();
 
   /// A function that returns the endpoint of the document.
   ///
@@ -582,21 +707,138 @@ class SaveDocumentRestApiBuilder {
       ModelAdapterDocumentQuery query, DynamicMap value) {
     return ApiMethod.post;
   }
+
+  @override
+  Future<void> process(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+    RestApiModelAdapter adapter,
+  ) async {
+    final uri = endpoint(adapter.endpoint, query);
+    final headers = await this.headers?.call(query) ?? await adapter.headers();
+    final method = this.method(query, value);
+    ApiResponse? response;
+    switch (method) {
+      case ApiMethod.get:
+        response = await Api.post(
+          uri.toString(),
+          headers: headers,
+        );
+        break;
+      case ApiMethod.post:
+        final body = await dataOnSave(query, value);
+        response = await Api.post(
+          uri.toString(),
+          headers: headers,
+          body: body,
+        );
+        break;
+      case ApiMethod.put:
+        final body = await dataOnSave(query, value);
+        response = await Api.put(
+          uri.toString(),
+          headers: headers,
+          body: body,
+        );
+        break;
+      case ApiMethod.patch:
+        final body = await dataOnSave(query, value);
+        response = await Api.patch(
+          uri.toString(),
+          headers: headers,
+          body: body,
+        );
+        break;
+      case ApiMethod.delete:
+        response = await Api.delete(
+          uri.toString(),
+          headers: headers,
+        );
+        break;
+      case ApiMethod.head:
+        response = await Api.head(
+          uri.toString(),
+          headers: headers,
+        );
+        break;
+      default:
+        throw UnimplementedError("Unsupported method: $method");
+    }
+    if (checkError?.call(response) ?? adapter.checkError(response)) {
+      throw RestApiModelAdapterException(uri: uri, response: response.body);
+    }
+    if (adapter.validator != null) {
+      final oldValue = await adapter.database.loadDocument(query);
+      await adapter.validator!
+          .onSaveDocument(query, oldValue: oldValue, newValue: value);
+    }
+    await adapter.database.saveDocument(query, value);
+    return onSaved?.call(query, value) ?? Future.value();
+  }
 }
 
 /// Builder for creating document model adapters for deleting documents using a REST API.
 ///
 /// REST APIを利用したドキュメントの削除用のモデルアダプターを作成するためのビルダー。
-class DeleteDocumentRestApiBuilder {
+abstract class DeleteDocumentRestApiBuilder {
   /// Builder for creating document model adapters for deleting documents using a REST API.
   ///
   /// REST APIを利用したドキュメントの削除用のモデルアダプターを作成するためのビルダー。
-  const DeleteDocumentRestApiBuilder({
+  factory DeleteDocumentRestApiBuilder({
+    required Future<void> Function(
+      ModelAdapterDocumentQuery query,
+      RestApiModelAdapter adapter,
+    ) process,
+  }) {
+    return _DeleteDocumentRestApiBuilder(process: process);
+  }
+  const DeleteDocumentRestApiBuilder._();
+
+  /// Describes the actual processing.
+  ///
+  /// 実際の処理を記述します。
+  Future<void> process(
+    ModelAdapterDocumentQuery query,
+    RestApiModelAdapter adapter,
+  );
+}
+
+class _DeleteDocumentRestApiBuilder extends DeleteDocumentRestApiBuilder {
+  _DeleteDocumentRestApiBuilder({
+    required Future<void> Function(
+      ModelAdapterDocumentQuery query,
+      RestApiModelAdapter adapter,
+    ) process,
+  })  : _process = process,
+        super._();
+
+  final Future<void> Function(
+    ModelAdapterDocumentQuery query,
+    RestApiModelAdapter adapter,
+  ) _process;
+
+  @override
+  Future<void> process(
+    ModelAdapterDocumentQuery query,
+    RestApiModelAdapter adapter,
+  ) {
+    return _process(query, adapter);
+  }
+}
+
+/// Builder for creating document model adapters for deleting documents using a REST API.
+///
+/// REST APIを利用したドキュメントの削除用のモデルアダプターを作成するためのビルダー。
+class DeleteDocumentRestApiQuery extends DeleteDocumentRestApiBuilder {
+  /// Builder for creating document model adapters for deleting documents using a REST API.
+  ///
+  /// REST APIを利用したドキュメントの削除用のモデルアダプターを作成するためのビルダー。
+  const DeleteDocumentRestApiQuery({
     required this.endpoint,
     this.checkError,
     this.headers,
     this.onDeleted,
-  });
+  }) : super._();
 
   /// A function that returns the endpoint of the document.
   ///
@@ -618,4 +860,21 @@ class DeleteDocumentRestApiBuilder {
   ///
   /// ドキュメントが削除された際に呼び出される関数。
   final Future<void> Function(ModelAdapterDocumentQuery query)? onDeleted;
+
+  @override
+  Future<void> process(
+      ModelAdapterDocumentQuery query, RestApiModelAdapter adapter) async {
+    final uri = endpoint(adapter.endpoint, query);
+    final headers = await this.headers?.call(query) ?? await adapter.headers();
+    final response = await Api.delete(uri.toString(), headers: headers);
+    if (checkError?.call(response) ?? adapter.checkError(response)) {
+      throw RestApiModelAdapterException(uri: uri, response: response.body);
+    }
+    if (adapter.validator != null) {
+      final oldValue = await adapter.database.loadDocument(query);
+      await adapter.validator!.onDeleteDocument(query, oldValue);
+    }
+    await adapter.database.deleteDocument(query);
+    return onDeleted?.call(query) ?? Future.value();
+  }
 }
