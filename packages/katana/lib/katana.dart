@@ -60,6 +60,7 @@ part 'extension/nullable_string_extensions.dart';
 part 'extension/nullable_uri_extensions.dart';
 part 'extension/nullable_value_iterable_extensions.dart';
 part 'extension/nullable_object_extensions.dart';
+part 'extension/nullable_t_extensions.dart';
 part 'extension/random_extensions.dart';
 part 'extension/set_extensions.dart';
 part 'extension/string_extensions.dart';
