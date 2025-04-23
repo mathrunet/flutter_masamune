@@ -10,6 +10,7 @@ library katana_functions;
 
 // Dart imports:
 import 'dart:async';
+import 'dart:convert';
 
 // Flutter imports:
 import 'package:flutter/widgets.dart';
@@ -20,6 +21,7 @@ import 'package:katana/katana.dart';
 export 'package:katana/katana.dart';
 
 part 'adapter/runtime_functions_adapter.dart';
+part 'adapter/rest_api_functions_adapter.dart';
 
 part 'src/functions.dart';
 part 'src/functions_adapter.dart';

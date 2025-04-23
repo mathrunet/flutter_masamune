@@ -44,10 +44,25 @@ abstract class FunctionsAction<TResponse> {
   /// アクション名。
   String get action;
 
+  /// Path.
+  ///
+  /// パス。
+  String? get path => null;
+
   /// Timeout.
   ///
   /// タイムアウト。
   Duration? get timeout => null;
+
+  /// HTTP Method.
+  ///
+  /// HTTPメソッド。
+  ApiMethod? get method => null;
+
+  /// Headers.
+  ///
+  /// ヘッダー。
+  FutureOr<Map<String, String>>? get headers => null;
 
   /// Convert to [DynamicMap] to pass values to the server side.
   ///
