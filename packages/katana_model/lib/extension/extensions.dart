@@ -14,7 +14,7 @@ extension DynamicMapModelExtensions on DynamicMap {
       if (value is DynamicMap) {
         res[entry.key] = value.toEntireJson();
       } else if (value is DynamicList) {
-        res[entry.key] = value.toEntireList();
+        res[entry.key] = value.toEntireJson();
       } else {
         res[entry.key] = ModelFieldValue.toMap(value);
       }
@@ -30,13 +30,13 @@ extension DynamicListModelExtensions on DynamicList {
   /// Converts [DynamicList] to Json considering [ModelFieldValue].
   ///
   /// [DynamicList]を[ModelFieldValue]を考慮してJsonに変換します。
-  DynamicList toEntireList() {
+  DynamicList toEntireJson() {
     final res = [];
     for (final value in this) {
       if (value is DynamicMap) {
         res.add(value.toEntireJson());
       } else if (value is DynamicList) {
-        res.add(value.toEntireList());
+        res.add(value.toEntireJson());
       } else {
         res.add(ModelFieldValue.toMap(value));
       }
