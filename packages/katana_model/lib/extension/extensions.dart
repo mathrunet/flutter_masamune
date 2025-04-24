@@ -8,18 +8,7 @@ extension DynamicMapModelExtensions on DynamicMap {
   ///
   /// [DynamicMap]を[ModelFieldValue]を考慮してJsonに変換します。
   DynamicMap toEntireJson() {
-    final res = <String, dynamic>{};
-    for (final entry in entries) {
-      final value = entry.value;
-      if (value is DynamicMap) {
-        res[entry.key] = value.toEntireJson();
-      } else if (value is DynamicList) {
-        res[entry.key] = value.toEntireJson();
-      } else {
-        res[entry.key] = ModelFieldValue.toMap(value);
-      }
-    }
-    return res;
+    return ModelFieldValue.toMap(this);
   }
 }
 

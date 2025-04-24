@@ -401,7 +401,7 @@ class CollectionRestApiQuery extends CollectionRestApiBuilder {
   /// Returns the loaded collection's data.
   ///
   /// ロードしたコレクションのデータを返します。
-  final FutureOr<Map<String, DynamicMap>> Function(String responseBody)
+  final FutureOr<Map<String, DynamicMap>> Function(ApiResponse response)
       onLoaded;
 
   /// A function that returns the headers.
@@ -425,7 +425,7 @@ class CollectionRestApiQuery extends CollectionRestApiBuilder {
       await adapter.validator!.onPreloadCollection(query);
     }
     await adapter.database.loadCollection(query);
-    final data = await onLoaded(response.body);
+    final data = await onLoaded(response);
     if (adapter.validator != null) {
       await adapter.validator!.onPostloadCollection(query, data);
     }
@@ -553,7 +553,7 @@ class LoadDocumentRestApiQuery extends LoadDocumentRestApiBuilder {
   /// Returns the loaded document's data.
   ///
   /// ロードしたドキュメントのデータを返します。
-  final FutureOr<DynamicMap> Function(String responseBody) onLoad;
+  final FutureOr<DynamicMap> Function(ApiResponse response) onLoad;
 
   /// A function that returns the headers.
   ///
@@ -576,7 +576,7 @@ class LoadDocumentRestApiQuery extends LoadDocumentRestApiBuilder {
       await adapter.validator!.onPreloadDocument(query);
     }
     await adapter.database.loadDocument(query);
-    final data = await onLoad(response.body);
+    final data = await onLoad(response);
     if (adapter.validator != null) {
       await adapter.validator!.onPostloadDocument(query, data);
     }
