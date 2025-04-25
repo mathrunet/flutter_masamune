@@ -1,3 +1,7 @@
+## 2.18.1
+
+ - Update a dependency to the latest release.
+
 ## 2.18.0
 
  - **FEAT**: Google Drive files are supported. ([6b0a3bd3](https://github.com/mathrunet/flutter_masamune/commit/6b0a3bd33c7282e378b5126f754e10d346eb382f))

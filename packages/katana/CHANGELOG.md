@@ -1,3 +1,7 @@
+## 2.20.0
+
+ - **FEAT**: Made `mapOrElse` available. ([db5b7e38](https://github.com/mathrunet/flutter_masamune/commit/db5b7e38391e00ebb40e91e259a62a50127bf176))
+
 ## 2.19.0
 
  - **FEAT**: Add ApiMethod Enum. ([7b0a0c89](https://github.com/mathrunet/flutter_masamune/commit/7b0a0c896067f31dce2b15a9e078d81527062eed))

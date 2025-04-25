@@ -1,3 +1,10 @@
+## 2.36.2
+
+ - **FIX**: Enabled `onLoad` of `ResApiModelAdapter` to be obtained from `ApiResponse`. ([99dea4f8](https://github.com/mathrunet/flutter_masamune/commit/99dea4f837820dfdc83ebdd62d4fc8291c96a688))
+ - **FIX**: Corrected due to incorrect name. ([54c8b8cc](https://github.com/mathrunet/flutter_masamune/commit/54c8b8cc9c1019d62daf3589ace353294d03b7e3))
+ - **FIX**: Added toEntireJson. ([513789ab](https://github.com/mathrunet/flutter_masamune/commit/513789abc214118bfc417cdd2d3708b43e1d0112))
+ - **FIX**: Enabled for both actual processing and simple queries. ([1b37d6be](https://github.com/mathrunet/flutter_masamune/commit/1b37d6be575839b4108d6c0bf4552bb25372a63b))
+
 ## 2.36.1
 
  - **FIX**: Change SimpleBuildModelAdapter to RestApiModelAdapter. ([470d5e79](https://github.com/mathrunet/flutter_masamune/commit/470d5e79dd8402a710f0f6eb426b15b60884e333))
