@@ -1,3 +1,7 @@
+## 2.36.3
+
+ - Update a dependency to the latest release.
+
 ## 2.36.2
 
  - **FIX**: Enabled `onLoad` of `ResApiModelAdapter` to be obtained from `ApiResponse`. ([99dea4f8](https://github.com/mathrunet/flutter_masamune/commit/99dea4f837820dfdc83ebdd62d4fc8291c96a688))

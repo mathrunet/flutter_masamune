@@ -1,3 +1,7 @@
+## 2.20.1
+
+ - **FIX**: Fixed: ApiMethod was not included on the web side. ([50b4b9e7](https://github.com/mathrunet/flutter_masamune/commit/50b4b9e7bf7620afd7c90570ace5eabd5225fce0))
+
 ## 2.20.0
 
  - **FEAT**: Made `mapOrElse` available. ([db5b7e38](https://github.com/mathrunet/flutter_masamune/commit/db5b7e38391e00ebb40e91e259a62a50127bf176))

@@ -1,6 +1,6 @@
 name: katana_auth_firebase
 description: Firebase plugin for katana_auth. A package to facilitate switching between Local and Firebase authentication implementations.
-version: 2.8.4
+version: 2.8.5
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_auth_firebase
 
@@ -12,9 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.20.0
-  katana_auth: ^2.11.3
-  katana_firebase: ^2.2.18
+  katana: ^2.20.1
+  katana_auth: ^2.11.4
+  katana_firebase: ^2.2.19
   firebase_core: ^3.5.0
   firebase_auth: ^5.3.0
   shared_preferences: ^2.0.15

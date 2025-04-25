@@ -1,6 +1,6 @@
 name: masamune_app_review
 description: Plug-in for Masamune that provides a app review function.
-version: 2.1.27
+version: 2.1.28
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_app_review
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.20.0
-  masamune: ^2.23.7
+  katana: ^2.20.1
+  masamune: ^2.23.8
   in_app_review: ^2.0.10
   universal_platform: ^1.1.0
   url_launcher: ^6.3.1

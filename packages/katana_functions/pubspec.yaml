@@ -1,6 +1,6 @@
 name: katana_functions
 description: Provides an interface to execute server-side processing in a type-safe manner. Actual processing on the server side is done by importing a separate adapter.
-version: 2.10.1
+version: 2.10.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_functions
 
@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.20.0
+  katana: ^2.20.1
 dev_dependencies:
   test: ^1.24.0
   katana_test: ^2.1.3
