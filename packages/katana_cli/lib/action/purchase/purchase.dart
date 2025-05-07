@@ -130,7 +130,7 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
     await addFlutterImport(
       [
         "masamune_purchase_mobile",
-        "katana_functions_firebase",
+        if (projectId.isNotEmpty) "katana_functions_firebase",
       ],
     );
     if (enableAppStore) {
