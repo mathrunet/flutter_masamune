@@ -66,12 +66,45 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         ),
       );
     }
-    if (!(gradle.android?.defaultConfig.resValues.any(
-          (e) => e.startsWith("'string', 'notification_channel_id'"),
-        ) ??
-        false)) {
-      gradle.android?.defaultConfig.resValues.add(
-        "'string', 'notification_channel_id', configProperties['notificationChannelId']",
+    if (gradle.isKotlin) {
+      if (!(gradle.android?.defaultConfig.resValues.any(
+            (e) => e.startsWith('("string", "notification_channel_id"'),
+          ) ??
+          false)) {
+        gradle.android?.defaultConfig.resValues.add(
+          '("string", "notification_channel_id", configProperties["notificationChannelId"].toString())',
+        );
+      }
+    } else {
+      if (!(gradle.android?.defaultConfig.resValues.any(
+            (e) => e.startsWith(" 'string', 'notification_channel_id'"),
+          ) ??
+          false)) {
+        gradle.android?.defaultConfig.resValues.add(
+          " 'string', 'notification_channel_id', configProperties['notificationChannelId']",
+        );
+      }
+    }
+    final compileOptions = GradleAndroidCompileOptions(
+      sourceCompatibility: "JavaVersion.VERSION_11",
+      targetCompatibility: "JavaVersion.VERSION_11",
+      coreLibraryDesugaringEnabled: true,
+    );
+    gradle.android?.compileOptions = compileOptions;
+    final defaultConfig = gradle.android?.defaultConfig;
+    if (defaultConfig == null) {
+      throw Exception("defaultConfig is not found. Please check build.gradle.");
+    }
+    defaultConfig.multiDexEnabled = "true";
+    if (!gradle.dependencies.any((e) =>
+        e.group == "coreLibraryDesugaring" &&
+        e.packageName == "com.android.tools:desugar_jdk_libs:2.1.4")) {
+      gradle.dependencies.add(
+        GradleDependencies(
+          group: "coreLibraryDesugaring",
+          packageName: "com.android.tools:desugar_jdk_libs:2.1.4",
+          isKotlin: gradle.isKotlin,
+        ),
       );
     }
     await gradle.save();
@@ -228,6 +261,113 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         ),
       );
     }
+    final scheduledNotificationReceiver =
+        application.first.children.firstWhereOrNull(
+      (p0) =>
+          p0 is XmlElement &&
+          p0.name.toString() == "receiver" &&
+          p0.attributes.any(
+            (p1) =>
+                p1.name.toString() == "android:name" &&
+                p1.value ==
+                    "com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver",
+          ),
+    );
+    if (scheduledNotificationReceiver == null) {
+      application.first.children.add(
+        XmlElement(
+          XmlName("receiver"),
+          [
+            XmlAttribute(
+              XmlName("android:name"),
+              "com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver",
+            ),
+            XmlAttribute(
+              XmlName("android:exported"),
+              "false",
+            ),
+          ],
+          [],
+        ),
+      );
+    }
+    final scheduledNotificationBootReceiver =
+        application.first.children.firstWhereOrNull(
+      (p0) =>
+          p0 is XmlElement &&
+          p0.name.toString() == "receiver" &&
+          p0.attributes.any(
+            (p1) =>
+                p1.name.toString() == "android:name" &&
+                p1.value ==
+                    "com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver",
+          ),
+    );
+    if (scheduledNotificationBootReceiver == null) {
+      application.first.children.add(
+        XmlElement(
+          XmlName("receiver"),
+          [
+            XmlAttribute(
+              XmlName("android:name"),
+              "com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver",
+            ),
+            XmlAttribute(
+              XmlName("android:exported"),
+              "false",
+            ),
+          ],
+          [
+            XmlElement(
+              XmlName("intent-filter"),
+              [],
+              [
+                XmlElement(
+                  XmlName("action"),
+                  [
+                    XmlAttribute(
+                      XmlName("android:name"),
+                      "android.intent.action.BOOT_COMPLETED",
+                    ),
+                  ],
+                  [],
+                ),
+                XmlElement(
+                  XmlName("action"),
+                  [
+                    XmlAttribute(
+                      XmlName("android:name"),
+                      "android.intent.action.MY_PACKAGE_REPLACED",
+                    ),
+                  ],
+                  [],
+                ),
+                XmlElement(
+                  XmlName("category"),
+                  [
+                    XmlAttribute(
+                      XmlName("android:name"),
+                      "android.intent.action.QUICKBOOT_POWERON",
+                    ),
+                  ],
+                  [],
+                ),
+                XmlElement(
+                  XmlName("category"),
+                  [
+                    XmlAttribute(
+                      XmlName("android:name"),
+                      "com.htc.intent.action.QUICKBOOT_POWERON",
+                    ),
+                  ],
+                  [],
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
     await file.writeAsString(
       document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
     );
@@ -267,6 +407,22 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
       );
     }
+    label("Edit AppDelegate.swift.");
+    final appDelegateFile = File("ios/Runner/AppDelegate.swift");
+    if (!appDelegateFile.existsSync()) {
+      throw Exception(
+        "AppDelegate.swift does not exist in `ios/Runner/AppDelegate.swift`. Do `katana create` to complete the initial setup of the project.",
+      );
+    }
+    var swift = await appDelegateFile.readAsString();
+    if (!RegExp(r"UNUserNotificationCenter.current\(\).delegate")
+        .hasMatch(swift)) {
+      swift = swift.replaceFirst(
+        "    GeneratedPluginRegistrant.register",
+        "    if #available(iOS 10.0, *) {\n      UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate\n    }\n    GeneratedPluginRegistrant.register",
+      );
+    }
+    await appDelegateFile.writeAsString(swift);
     await addFlutterImport(
       [
         "masamune_notification_firebase",

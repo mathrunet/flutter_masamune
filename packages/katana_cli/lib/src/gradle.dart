@@ -704,7 +704,7 @@ class GradleAndroidDefaultConfig {
         RegExp("testInstrumentationRunner = (.+)").firstMatch(region)?.group(1);
     final multiDexEnabled =
         RegExp("multiDexEnabled = (.+)").firstMatch(region)?.group(1);
-    final resValues = RegExp("resValue (.+)")
+    final resValues = RegExp("resValue(.+)")
         .allMatches(region)
         .mapAndRemoveEmpty((e) => e.group(1));
     return GradleAndroidDefaultConfig(
@@ -721,7 +721,7 @@ class GradleAndroidDefaultConfig {
 
   @override
   String toString() {
-    return "    defaultConfig {\n        applicationId = $applicationId\n        minSdk = $minSdkVersion\n        targetSdk = $targetSdkVersion\n        versionCode = $versionCode\n        versionName = $versionName\n${testInstrumentationRunner.isNotEmpty ? "        testInstrumentationRunner = $testInstrumentationRunner\n" : ""}${multiDexEnabled.isNotEmpty ? "        multiDexEnabled = $multiDexEnabled\n" : ""}${resValues.isNotEmpty ? "${resValues.map((e) => "        resValue ${e.replaceAll(RegExp(r"^resValue\s*"), "")}").join("\n")}\n" : ""}    }\n";
+    return "    defaultConfig {\n        applicationId = $applicationId\n        minSdk = $minSdkVersion\n        targetSdk = $targetSdkVersion\n        versionCode = $versionCode\n        versionName = $versionName\n${testInstrumentationRunner.isNotEmpty ? "        testInstrumentationRunner = $testInstrumentationRunner\n" : ""}${multiDexEnabled.isNotEmpty ? "        multiDexEnabled = $multiDexEnabled\n" : ""}${resValues.isNotEmpty ? "${resValues.map((e) => "        resValue${e.replaceAll(RegExp(r"^resValue\s*"), "")}").join("\n")}\n" : ""}    }\n";
   }
 }
 
@@ -847,6 +847,9 @@ class GradleAndroidSigningConfigs {
   /// デバッグ時の設定。
   GradleAndroidSigningConfig? debug;
 
+  /// Whether the file is written in Kotlin.
+  ///
+  /// ファイルがKotlinで書かれているかどうか。
   bool get isKotlin => _isKotlin;
   final bool _isKotlin;
 
