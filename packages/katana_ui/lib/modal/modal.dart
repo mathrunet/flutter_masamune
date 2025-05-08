@@ -25,7 +25,7 @@ part of '/katana_ui.dart';
 /// その場合は[show]メソッドで[Modal]を実装したクラスを渡してモーダルを表示します。
 ///
 /// 実装は[build]メソッドで行います。[ref]には[ModalRef]が渡されます。
-abstract class Modal {
+abstract class Modal<T> {
   /// Provides easy modal functionality.
   ///
   /// Displays a message modal that allows only one action with [alert].
@@ -56,7 +56,7 @@ abstract class Modal {
   /// Implement it in the [build] method. [ref] is passed to [ModalRef].
   ///
   /// モーダルのコンテンツを実装するために[build]メソッドを実装します。[ref]には[ModalRef]が渡されます。
-  Widget build(BuildContext context, ModalRef ref);
+  Widget build(BuildContext context, ModalRef<T> ref);
 
   /// Give [builder] to display the modal.
   ///
@@ -91,13 +91,13 @@ abstract class Modal {
   /// [willShowRepetition]を`true`にした場合、`onClose`が[Exception]で処理を中断した場合、自動でモーダルを再表示します。
   ///
   /// モーダルが閉じるまで`await`で待つことが可能です。
-  static Future<void> show(
+  static Future<T?> show<T>(
     BuildContext context, {
     Color? backgroundColor,
     Color? color,
     String? title,
     Widget? leading,
-    required Modal modal,
+    required Modal<T> modal,
     bool disableBackKey = false,
     bool popOnPress = true,
     bool willShowRepetition = false,
@@ -115,22 +115,23 @@ abstract class Modal {
     ScaffoldMessenger.of(context);
     final overlay = Navigator.of(context).overlay;
     if (overlay == null) {
-      return;
+      return null;
     }
-    final ref = ModalRef._(() {
+    final ref = ModalRef<T>._((result) {
       if (popOnPress) {
-        Navigator.of(context, rootNavigator: true).pop();
+        Navigator.of(context, rootNavigator: true).pop(result);
       }
       clicked = true;
     });
 
+    T? result;
     final theme = Theme.of(context);
     final foregroundColor =
         color ?? theme.dialogTheme.iconColor ?? theme.colorScheme.onSurface;
     backgroundColor ??=
         theme.dialogTheme.backgroundColor ?? theme.colorScheme.surface;
     do {
-      await showDialog(
+       result = await showDialog<T>(
         context: overlay.context,
         barrierDismissible: false,
         builder: (context) {
@@ -175,6 +176,7 @@ abstract class Modal {
         },
       );
     } while (willShowRepetition && !clicked);
+    return result;
   }
 
   /// Displays a message modal with only one possible action.
@@ -523,13 +525,13 @@ abstract class Modal {
 ///
 /// Modalをコントロールするためのクラスです。
 @immutable
-class ModalRef {
+class ModalRef<T> {
   const ModalRef._(this._onClose);
 
-  final VoidCallback _onClose;
+  final void Function(T? result) _onClose;
 
   /// Closes the modal.
   ///
   /// モーダルを閉じます。
-  void close() => _onClose();
+  void close([T? result]) => _onClose(result);
 }
