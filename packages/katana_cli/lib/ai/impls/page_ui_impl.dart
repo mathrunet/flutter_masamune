@@ -56,7 +56,7 @@ class PageUiImplMdcCliAiCode extends CliAiCode {
               // TODO: Implement the list view.
               ...memoCollection.map(
                 (memo) {
-                  return memo.toTile();
+                  return memo.toTile(context);
                 }
               ),
             ],
@@ -90,7 +90,7 @@ class PageUiImplMdcCliAiCode extends CliAiCode {
               // TODO: Implement the grid view.
               ...memoCollection.map(
                 (memo) {
-                  return memo.toTile();
+                  return memo.toTile(context);
                 }
               ),
             ],
@@ -124,7 +124,7 @@ class PageUiImplMdcCliAiCode extends CliAiCode {
               // TODO: Implement the fixed view.
               ...memoCollection.map(
                 (memo) {
-                  return memo.toTile();
+                  return memo.toTile(context);
                 }
               ),
             ],

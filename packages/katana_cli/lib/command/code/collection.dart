@@ -192,9 +192,9 @@ extension ${className}ModelDocumentExtension on ${className}ModelDocument {
   /// Convert to a tile widget.
   ///
   /// ```dart
-  /// document.toTile();
+  /// document.toTile(context);
   /// ```
-  Widget toTile() {
+  Widget toTile(BuildContext context) {
     return const ListTile();
   }
 }

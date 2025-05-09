@@ -144,7 +144,7 @@ class WidgetCreationMdcCliAiCode extends CliAiCode {
         // lib/models/memo.dart
 
         extension MemoModelDocumentExtension on MemoModelDocument {
-          Widget toTile() {
+          Widget toTile(BuildContext context) {
             throw UnimplementedError();
           }
         }
