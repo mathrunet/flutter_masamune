@@ -29,6 +29,7 @@ export 'package:mcp_dart/mcp_dart.dart'
     show SseServerTransport, StdioServerTransport, StdioClientTransport;
 
 part 'adapter/ai_masamune_adapter.dart';
+part 'adapter/runtime_ai_masamune_adapter.dart';
 part 'src/ai_content.dart';
 part 'src/ai_role.dart';
 part 'src/ai_thread.dart';

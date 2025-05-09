@@ -13,7 +13,10 @@ class AIContent extends ChangeNotifier
     this.role = AIRole.system,
     DateTime? time,
     List<AIContentPart> values = const [],
-  }) : _time = time ?? DateTime.now() {
+    String? id,
+    this.userId,
+  })  : _time = time ?? DateTime.now(),
+        id = id ?? uuid() {
     _value.addAll(values);
     _completer = Completer<AIContent>();
   }
@@ -21,35 +24,44 @@ class AIContent extends ChangeNotifier
   /// Returns content with text prompts to be submitted by the user.
   ///
   /// ユーザーが投稿するテキストプロンプトを持つコンテンツを返します。
-  static AIContent text(String text, {DateTime? time}) {
+  static AIContent text(String text,
+      {DateTime? time, String? id, String? userId}) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentTextPart(text)],
       time: time,
+      id: id,
+      userId: userId,
     );
   }
 
   /// Returns content with JSON.
   ///
   /// JSONを持つコンテンツを返します。
-  static AIContent json(Map<String, dynamic> json, {DateTime? time}) {
+  static AIContent json(Map<String, dynamic> json,
+      {DateTime? time, String? id, String? userId}) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentTextPart(jsonEncode(json))],
       time: time,
+      id: id,
+      userId: userId,
     );
   }
 
   /// Returns content with text prompts to be submitted by the model.
   ///
   /// モデルが投稿するテキストプロンプトを持つコンテンツを返します。
-  static AIContent model({String? text, DateTime? time}) {
+  static AIContent model(
+      {String? text, DateTime? time, String? id, String? userId}) {
     return AIContent(
       role: AIRole.model,
       values: [
         if (text != null) AIContentTextPart(text),
       ],
       time: time,
+      id: id,
+      userId: userId,
     );
   }
 
@@ -66,22 +78,28 @@ class AIContent extends ChangeNotifier
   /// Returns content with text file.
   ///
   /// テキストファイルを持つコンテンツを返します。
-  static AIContent textFile(Uint8List data, {DateTime? time}) {
+  static AIContent textFile(Uint8List data,
+      {DateTime? time, String? id, String? userId}) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.txt, data)],
       time: time,
+      id: id,
+      userId: userId,
     );
   }
 
   /// Returns content with PNG image.
   ///
   /// PNG画像を持つコンテンツを返します。
-  static AIContent png(Uint8List data, {DateTime? time}) {
+  static AIContent png(Uint8List data,
+      {DateTime? time, String? id, String? userId}) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.png, data)],
       time: time,
+      id: id,
+      userId: userId,
     );
   }
 
@@ -91,11 +109,15 @@ class AIContent extends ChangeNotifier
   static AIContent jpeg(
     Uint8List data, {
     DateTime? time,
+    String? id,
+    String? userId,
   }) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.jpeg, data)],
       time: time,
+      id: id,
+      userId: userId,
     );
   }
 
@@ -105,11 +127,15 @@ class AIContent extends ChangeNotifier
   static AIContent webp(
     Uint8List data, {
     DateTime? time,
+    String? id,
+    String? userId,
   }) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.webp, data)],
       time: time,
+      id: id,
+      userId: userId,
     );
   }
 
@@ -119,11 +145,15 @@ class AIContent extends ChangeNotifier
   static AIContent mp4Video(
     Uint8List data, {
     DateTime? time,
+    String? id,
+    String? userId,
   }) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.mp4Video, data)],
       time: time,
+      id: id,
+      userId: userId,
     );
   }
 
@@ -133,11 +163,15 @@ class AIContent extends ChangeNotifier
   static AIContent movVideo(
     Uint8List data, {
     DateTime? time,
+    String? id,
+    String? userId,
   }) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.mov, data)],
       time: time,
+      id: id,
+      userId: userId,
     );
   }
 
@@ -147,11 +181,15 @@ class AIContent extends ChangeNotifier
   static AIContent mp3Audio(
     Uint8List data, {
     DateTime? time,
+    String? id,
+    String? userId,
   }) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.mp3, data)],
       time: time,
+      id: id,
+      userId: userId,
     );
   }
 
@@ -161,11 +199,15 @@ class AIContent extends ChangeNotifier
   static AIContent wavAudio(
     Uint8List data, {
     DateTime? time,
+    String? id,
+    String? userId,
   }) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.wav, data)],
       time: time,
+      id: id,
+      userId: userId,
     );
   }
 
@@ -175,11 +217,15 @@ class AIContent extends ChangeNotifier
   static AIContent mp4Audio(
     Uint8List data, {
     DateTime? time,
+    String? id,
+    String? userId,
   }) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.mp4Audio, data)],
       time: time,
+      id: id,
+      userId: userId,
     );
   }
 
@@ -189,11 +235,15 @@ class AIContent extends ChangeNotifier
   static AIContent m4aAudio(
     Uint8List data, {
     DateTime? time,
+    String? id,
+    String? userId,
   }) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.m4a, data)],
       time: time,
+      id: id,
+      userId: userId,
     );
   }
 
@@ -203,11 +253,15 @@ class AIContent extends ChangeNotifier
   static AIContent pdfFile(
     Uint8List data, {
     DateTime? time,
+    String? id,
+    String? userId,
   }) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.pdf, data)],
       time: time,
+      id: id,
+      userId: userId,
     );
   }
 
@@ -227,6 +281,16 @@ class AIContent extends ChangeNotifier
   /// AIの内容の作成時間。
   DateTime get time => _time;
   DateTime _time;
+
+  /// AI content ID (if applicable).
+  ///
+  /// AIの内容のID。（必要あれば）
+  final String id;
+
+  /// Non-AI user ID.
+  ///
+  /// 非AIのユーザーID。
+  final String? userId;
 
   /// The contents of the AI.
   ///
