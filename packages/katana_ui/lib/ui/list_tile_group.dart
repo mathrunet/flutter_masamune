@@ -78,6 +78,7 @@ class LineTileGroup extends StatelessWidget {
           ),
           color: tileColor ?? Theme.of(context).colorScheme.surface,
         ),
+        clipBehavior: Clip.hardEdge,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,

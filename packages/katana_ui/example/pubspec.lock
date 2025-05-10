@@ -353,14 +353,14 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.18.1"
+    version: "2.20.0"
   katana_ui:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.14.1"
+    version: "2.15.3"
   leak_tracker:
     dependency: transitive
     description:

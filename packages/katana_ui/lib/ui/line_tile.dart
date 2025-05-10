@@ -116,24 +116,64 @@ class LineTile extends ListTile {
         baseColor: shimmerBaseColor ?? Theme.of(context).colorScheme.surface,
         highlightColor:
             shimmerHighlightColor ?? Theme.of(context).scaffoldBackgroundColor,
+        child: Material(
+          child: ListTile(
+            leading: leading,
+            title: _buildTitle(context),
+            subtitle: subtitle != null
+                ? Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: shimmerBaseColor ??
+                          Theme.of(context).colorScheme.surface,
+                    ),
+                    height: Theme.of(context)
+                            .listTileTheme
+                            .subtitleTextStyle
+                            ?.fontSize ??
+                        12,
+                    width: double.infinity,
+                  )
+                : null,
+            trailing: trailing,
+            isThreeLine: isThreeLine,
+            dense: dense,
+            visualDensity:
+                visualDensity ?? (scope != null ? VisualDensity.compact : null),
+            shape: shape,
+            style: style,
+            selectedColor: selectedColor,
+            iconColor: iconColor,
+            textColor: textColor,
+            contentPadding: contentPadding,
+            enabled: enabled,
+            onTap: onTap,
+            onLongPress: onLongPress,
+            onFocusChange: onFocusChange,
+            mouseCursor: mouseCursor,
+            selected: selected,
+            focusColor: focusColor,
+            hoverColor: hoverColor,
+            splashColor: splashColor,
+            focusNode: focusNode,
+            autofocus: autofocus,
+            tileColor: tileColor ??
+                (scope?.tileColor != null ? Colors.transparent : null),
+            selectedTileColor: selectedTileColor ??
+                (scope?.tileColor != null ? Colors.transparent : null),
+            enableFeedback: enableFeedback,
+            horizontalTitleGap: horizontalTitleGap,
+            minVerticalPadding: minVerticalPadding,
+            minLeadingWidth: minLeadingWidth,
+          ),
+        ),
+      );
+    } else {
+      return Material(
         child: ListTile(
           leading: leading,
           title: _buildTitle(context),
-          subtitle: subtitle != null
-              ? Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: shimmerBaseColor ??
-                        Theme.of(context).colorScheme.surface,
-                  ),
-                  height: Theme.of(context)
-                          .listTileTheme
-                          .subtitleTextStyle
-                          ?.fontSize ??
-                      12,
-                  width: double.infinity,
-                )
-              : null,
+          subtitle: subtitle,
           trailing: trailing,
           isThreeLine: isThreeLine,
           dense: dense,
@@ -156,49 +196,15 @@ class LineTile extends ListTile {
           splashColor: splashColor,
           focusNode: focusNode,
           autofocus: autofocus,
-          tileColor: scope?.tileColor != null ? Colors.transparent : tileColor,
-          selectedTileColor:
-              scope?.tileColor != null ? Colors.transparent : selectedTileColor,
+          tileColor: tileColor ??
+              (scope?.tileColor != null ? Colors.transparent : null),
+          selectedTileColor: selectedTileColor ??
+              (scope?.tileColor != null ? Colors.transparent : null),
           enableFeedback: enableFeedback,
           horizontalTitleGap: horizontalTitleGap,
           minVerticalPadding: minVerticalPadding,
           minLeadingWidth: minLeadingWidth,
         ),
-      );
-    } else {
-      return ListTile(
-        leading: leading,
-        title: _buildTitle(context),
-        subtitle: subtitle,
-        trailing: trailing,
-        isThreeLine: isThreeLine,
-        dense: dense,
-        visualDensity:
-            visualDensity ?? (scope != null ? VisualDensity.compact : null),
-        shape: shape,
-        style: style,
-        selectedColor: selectedColor,
-        iconColor: iconColor,
-        textColor: textColor,
-        contentPadding: contentPadding,
-        enabled: enabled,
-        onTap: onTap,
-        onLongPress: onLongPress,
-        onFocusChange: onFocusChange,
-        mouseCursor: mouseCursor,
-        selected: selected,
-        focusColor: focusColor,
-        hoverColor: hoverColor,
-        splashColor: splashColor,
-        focusNode: focusNode,
-        autofocus: autofocus,
-        tileColor: scope?.tileColor != null ? Colors.transparent : tileColor,
-        selectedTileColor:
-            scope?.tileColor != null ? Colors.transparent : selectedTileColor,
-        enableFeedback: enableFeedback,
-        horizontalTitleGap: horizontalTitleGap,
-        minVerticalPadding: minVerticalPadding,
-        minLeadingWidth: minLeadingWidth,
       );
     }
   }
