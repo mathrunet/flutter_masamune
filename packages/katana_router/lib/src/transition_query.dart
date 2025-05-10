@@ -141,6 +141,20 @@ class TransitionQuery {
   static const TransitionQuery bottomSheet =
       TransitionQuery._(transition: _TransitionQueryType.bottomSheet);
 
+  /// [TransitionQuery] to perform modal transitions from below.
+  ///
+  /// The back page will be visible.
+  ///
+  /// The background will also be black.
+  ///
+  /// 下からのモーダルのトランジションを行なう[TransitionQuery]。
+  ///
+  /// 裏のページが見えるようになります。
+  ///
+  /// また、背景も黒色になります。
+  static const TransitionQuery bottomSheetWithBarrier = TransitionQuery._(
+      transition: _TransitionQueryType.bottomSheetWithBarrier);
+
   /// TransitionQuery] that performs modal transitions that fade.
   ///
   /// The back page will be visible.

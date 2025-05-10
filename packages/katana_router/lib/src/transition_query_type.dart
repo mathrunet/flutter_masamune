@@ -94,6 +94,15 @@ enum _TransitionQueryType {
   bottomSheet(
       isModal: true, isFullscreen: true, barrierColor: Color(0x00000000)),
 
+  /// Modal transitions from below.
+  ///
+  /// Turns the background of the back page to black.
+  ///
+  /// 下からのモーダルトランジション。
+  ///
+  /// 裏のページが黒色背景に見えるようになります。
+  bottomSheetWithBarrier(isModal: true, isFullscreen: true),
+
   /// Modal transition to fade.
   ///
   /// The back page will be visible.
@@ -181,6 +190,7 @@ enum _TransitionQueryType {
         );
       case _TransitionQueryType.bottomModal:
       case _TransitionQueryType.bottomSheet:
+      case _TransitionQueryType.bottomSheetWithBarrier:
         return FadeTransition(
           opacity: _fadeTween.animate(animation),
           child: SlideTransition(
