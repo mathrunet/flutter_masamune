@@ -10,13 +10,14 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_ai_openai;
 
-// Flutter imports:
+// Dart imports:
 import 'dart:async';
 
-import 'package:dart_openai/dart_openai.dart';
+// Flutter imports:
 import 'package:flutter/widgets.dart';
 
 // Package imports:
+import 'package:dart_openai/dart_openai.dart';
 import 'package:masamune/masamune.dart';
 import 'package:masamune_ai/masamune_ai.dart';
 
