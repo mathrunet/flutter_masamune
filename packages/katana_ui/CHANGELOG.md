@@ -1,3 +1,8 @@
+## 2.15.5
+
+ - **FIX**: Fixed a bug where the Tile color of LineTile was not working properly. ([4a2c57de](https://github.com/mathrunet/flutter_masamune/commit/4a2c57deb8d2880d7c8d1e6ded283e4db646873f))
+ - **FIX**: Enabled the modal to return values. ([e77f76f0](https://github.com/mathrunet/flutter_masamune/commit/e77f76f08c573a495bd08e06886e7614265044e1))
+
 ## 2.15.4
 
  - Update a dependency to the latest release.

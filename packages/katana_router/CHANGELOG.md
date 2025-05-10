@@ -1,3 +1,7 @@
+## 2.7.0
+
+ - **FEAT**: Added bottomSheetWithBarrier. ([c7754ecb](https://github.com/mathrunet/flutter_masamune/commit/c7754ecb811402a6b16fad25182ec125d6ae0c0c))
+
 ## 2.6.5
 
  - Update a dependency to the latest release.

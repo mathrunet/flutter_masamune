@@ -1,3 +1,7 @@
+## 2.5.6
+
+ - **FIX**: Added id and other data to AIContent. ([8d7f543c](https://github.com/mathrunet/flutter_masamune/commit/8d7f543cd2b013a9331f76afeeedd102f29c619c))
+
 ## 2.5.5
 
  - Update a dependency to the latest release.

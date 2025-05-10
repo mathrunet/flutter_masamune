@@ -1,3 +1,10 @@
+## 2.38.9
+
+ - **FIX**: Add BuildContext to toTile. ([00110e04](https://github.com/mathrunet/flutter_masamune/commit/00110e04d5dcaf93bdfef5166316d46c8ef9e155))
+ - **FIX**: Fixed because necessary items were excluded. ([defe0cf4](https://github.com/mathrunet/flutter_masamune/commit/defe0cf4e5eaac0502bd527c473b052884b6176d))
+ - **FIX**: Fixed a bug where the Firebase plugin was mixed in for testing. ([c7f2dc2e](https://github.com/mathrunet/flutter_masamune/commit/c7f2dc2e7aba490d00e67e72b35717668efe12b3))
+ - **FIX**: Modify FirebaseMessaging initial settings. ([8ecf153c](https://github.com/mathrunet/flutter_masamune/commit/8ecf153cb488964b9de005d2ec94a60b0ad87559))
+
 ## 2.38.8
 
  - Update a dependency to the latest release.
