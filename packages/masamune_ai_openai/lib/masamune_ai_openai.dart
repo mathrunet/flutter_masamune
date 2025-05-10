@@ -10,33 +10,17 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_ai_openai;
 
-// Dart imports:
-import 'dart:async';
-import 'dart:convert';
-
 // Flutter imports:
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+
+import 'package:dart_openai/dart_openai.dart';
 import 'package:flutter/widgets.dart';
 
 // Package imports:
 import 'package:masamune/masamune.dart';
+import 'package:masamune_ai/masamune_ai.dart';
 
-import 'src/others/others.dart'
-    if (dart.library.io) 'src/others/others.dart'
-    if (dart.library.js) 'src/web/web.dart'
-    if (dart.library.html) 'src/web/web.dart';
-
-export 'src/others/others.dart'
-    if (dart.library.io) 'src/others/others.dart'
-    if (dart.library.js) 'src/web/web.dart'
-    if (dart.library.html) 'src/web/web.dart';
-
-part 'adapter/openai_masamune_adapter.dart';
+part 'adapter/openai_ai_masamune_adapter.dart';
 part 'functions/openai_chat_gpt_functions_action.dart';
-
-part 'src/openai_assistant.dart';
-part 'src/openai_file.dart';
-part 'src/openai_model.dart';
-part 'src/openai_tools.dart';
-part 'src/openai_thread.dart';
-part 'src/openai_message.dart';
+part 'src/extensions.dart';
+part 'src/openai_ai_model.dart';
