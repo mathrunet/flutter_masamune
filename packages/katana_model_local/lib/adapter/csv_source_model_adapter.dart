@@ -582,7 +582,9 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
             }
             final text = utf8.decode(res.bodyBytes);
             final docs = fromCsv(
-              const CsvToListConverter(eol: "\n").convert(text),
+              const CsvToListConverter(eol: "\n").convert(
+                text.replaceAll("\r\n", "\n").replaceAll("\r", "\n"),
+              ),
             );
             for (final tmp in docs.entries) {
               database.setInitialValue(
@@ -601,7 +603,9 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
             }
             final text = utf8.decode(res.bodyBytes);
             final docs = fromCsv(
-              const CsvToListConverter(eol: "\n").convert(text),
+              const CsvToListConverter(eol: "\n").convert(
+                text.replaceAll("\r\n", "\n").replaceAll("\r", "\n"),
+              ),
             );
             for (final tmp in docs.entries) {
               database.setInitialValue(
