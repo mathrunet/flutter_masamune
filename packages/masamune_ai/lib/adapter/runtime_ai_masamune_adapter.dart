@@ -40,6 +40,8 @@ class RuntimeAIMasamuneAdapter extends AIMasamuneAdapter {
       AIFunctionCallingConfig? Function(AIContent, Set<AITool>, int)?
           onGenerateFunctionCallingConfig,
       Set<AITool> tools = const {}}) async {
-    return onGenerateContent?.call(content, config);
+    final res = await onGenerateContent?.call(content, config);
+    res?.complete();
+    return res;
   }
 }

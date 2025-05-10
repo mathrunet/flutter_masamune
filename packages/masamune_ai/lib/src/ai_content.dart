@@ -15,23 +15,27 @@ class AIContent extends ChangeNotifier
     List<AIContentPart> values = const [],
     String? id,
     this.userId,
+    bool completed = false,
   })  : _time = time ?? DateTime.now(),
         id = id ?? uuid() {
     _value.addAll(values);
-    _completer = Completer<AIContent>();
+    if (!completed) {
+      _completer = Completer<AIContent>();
+    }
   }
 
   /// Returns content with text prompts to be submitted by the user.
   ///
   /// ユーザーが投稿するテキストプロンプトを持つコンテンツを返します。
   static AIContent text(String text,
-      {DateTime? time, String? id, String? userId}) {
+      {DateTime? time, String? id, String? userId, bool completed = false}) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentTextPart(text)],
       time: time,
       id: id,
       userId: userId,
+      completed: completed,
     );
   }
 
@@ -39,13 +43,14 @@ class AIContent extends ChangeNotifier
   ///
   /// JSONを持つコンテンツを返します。
   static AIContent json(Map<String, dynamic> json,
-      {DateTime? time, String? id, String? userId}) {
+      {DateTime? time, String? id, String? userId, bool completed = false}) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentTextPart(jsonEncode(json))],
       time: time,
       id: id,
       userId: userId,
+      completed: completed,
     );
   }
 
@@ -53,7 +58,11 @@ class AIContent extends ChangeNotifier
   ///
   /// モデルが投稿するテキストプロンプトを持つコンテンツを返します。
   static AIContent model(
-      {String? text, DateTime? time, String? id, String? userId}) {
+      {String? text,
+      DateTime? time,
+      String? id,
+      String? userId,
+      bool completed = false}) {
     return AIContent(
       role: AIRole.model,
       values: [
@@ -62,6 +71,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      completed: completed,
     );
   }
 
@@ -72,6 +82,7 @@ class AIContent extends ChangeNotifier
     return AIContent(
       role: AIRole.system,
       values: [...contents.expand((e) => e._value)],
+      completed: true,
     );
   }
 
@@ -79,13 +90,14 @@ class AIContent extends ChangeNotifier
   ///
   /// テキストファイルを持つコンテンツを返します。
   static AIContent textFile(Uint8List data,
-      {DateTime? time, String? id, String? userId}) {
+      {DateTime? time, String? id, String? userId, bool completed = false}) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.txt, data)],
       time: time,
       id: id,
       userId: userId,
+      completed: completed,
     );
   }
 
@@ -93,13 +105,14 @@ class AIContent extends ChangeNotifier
   ///
   /// PNG画像を持つコンテンツを返します。
   static AIContent png(Uint8List data,
-      {DateTime? time, String? id, String? userId}) {
+      {DateTime? time, String? id, String? userId, bool completed = false}) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.png, data)],
       time: time,
       id: id,
       userId: userId,
+      completed: completed,
     );
   }
 
@@ -111,6 +124,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    bool completed = false,
   }) {
     return AIContent(
       role: AIRole.user,
@@ -118,6 +132,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      completed: completed,
     );
   }
 
@@ -129,6 +144,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    bool completed = false,
   }) {
     return AIContent(
       role: AIRole.user,
@@ -136,6 +152,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      completed: completed,
     );
   }
 
@@ -147,6 +164,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    bool completed = false,
   }) {
     return AIContent(
       role: AIRole.user,
@@ -154,6 +172,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      completed: completed,
     );
   }
 
@@ -165,6 +184,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    bool completed = false,
   }) {
     return AIContent(
       role: AIRole.user,
@@ -172,6 +192,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      completed: completed,
     );
   }
 
@@ -183,6 +204,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    bool completed = false,
   }) {
     return AIContent(
       role: AIRole.user,
@@ -190,6 +212,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      completed: completed,
     );
   }
 
@@ -201,6 +224,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    bool completed = false,
   }) {
     return AIContent(
       role: AIRole.user,
@@ -208,6 +232,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      completed: completed,
     );
   }
 
@@ -219,6 +244,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    bool completed = false,
   }) {
     return AIContent(
       role: AIRole.user,
@@ -226,6 +252,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      completed: completed,
     );
   }
 
@@ -237,6 +264,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    bool completed = false,
   }) {
     return AIContent(
       role: AIRole.user,
@@ -244,6 +272,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      completed: completed,
     );
   }
 
@@ -255,6 +284,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    bool completed = false,
   }) {
     return AIContent(
       role: AIRole.user,
@@ -262,6 +292,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      completed: completed,
     );
   }
 
