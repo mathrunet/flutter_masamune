@@ -1,3 +1,7 @@
+## 2.12.0
+
+ - **FEAT**: Adapt to the MasamuneAI package interface. ([8cdaf824](https://github.com/mathrunet/flutter_masamune/commit/8cdaf82462890bbc5ae08507b647406be1f0d4c5))
+
 ## 2.11.19
 
  - Update a dependency to the latest release.

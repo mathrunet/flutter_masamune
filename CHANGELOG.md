@@ -15,6 +15,39 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ai` - `v2.5.8`](#masamune_ai---v258)
+ - [`masamune_ai_openai` - `v2.12.0`](#masamune_ai_openai---v2120)
+ - [`masamune_ai_firebase` - `v2.4.8`](#masamune_ai_firebase---v248)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_ai_firebase` - `v2.4.8`
+
+---
+
+#### `masamune_ai` - `v2.5.8`
+
+ - **FIX**: Fixed a bug in RuntimeAiMasamuneAdapter. ([a74b0610](https://github.com/mathrunet/flutter_masamune/commit/a74b06106313643e7386513df4f87ee09c2ddfc0))
+
+#### `masamune_ai_openai` - `v2.12.0`
+
+ - **FEAT**: Adapt to the MasamuneAI package interface. ([8cdaf824](https://github.com/mathrunet/flutter_masamune/commit/8cdaf82462890bbc5ae08507b647406be1f0d4c5))
+
+
+## 2025-05-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model_local` - `v2.18.3`](#katana_model_local---v2183)
  - [`masamune` - `v2.23.10`](#masamune---v22310)
  - [`masamune_location_platform_interface` - `v2.4.81`](#masamune_location_platform_interface---v2481)

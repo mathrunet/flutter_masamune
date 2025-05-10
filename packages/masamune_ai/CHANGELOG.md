@@ -1,3 +1,7 @@
+## 2.5.8
+
+ - **FIX**: Fixed a bug in RuntimeAiMasamuneAdapter. ([a74b0610](https://github.com/mathrunet/flutter_masamune/commit/a74b06106313643e7386513df4f87ee09c2ddfc0))
+
 ## 2.5.7
 
  - Update a dependency to the latest release.
