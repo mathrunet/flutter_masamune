@@ -131,7 +131,7 @@ abstract class Modal<T> {
     backgroundColor ??=
         theme.dialogTheme.backgroundColor ?? theme.colorScheme.surface;
     do {
-       result = await showDialog<T>(
+      result = await showDialog<T>(
         context: overlay.context,
         barrierDismissible: false,
         builder: (context) {
