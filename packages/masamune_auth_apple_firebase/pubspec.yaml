@@ -1,6 +1,6 @@
 name: masamune_auth_apple_firebase
 description: Authentication plugin for Masamune that can implement Apple sign-in on Firebase.
-version: 2.1.23
+version: 2.1.24
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_auth_apple_firebase
 
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
     
   katana: ^2.20.1
-  masamune: ^2.23.10
+  masamune: ^2.23.11
   katana_auth_firebase: ^2.8.5
   firebase_core: ^3.5.0
   firebase_auth: ^5.3.0

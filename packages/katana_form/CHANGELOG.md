@@ -1,3 +1,7 @@
+## 2.18.0
+
+ - **FEAT**: Refactor suggestion to support mention functionality. ([372c3819](https://github.com/mathrunet/flutter_masamune/commit/372c38193401f94e450436568b4a50c57c619c25))
+
 ## 2.17.6
 
  - Update a dependency to the latest release.
