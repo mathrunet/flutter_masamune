@@ -10,11 +10,12 @@ class SuggestionStyle {
   /// サジェスト用のデザインを定義するクラス。
   const SuggestionStyle({
     this.offset = const Offset(0, 20),
-    this.showOnTap = true,
     this.elevation = 8.0,
     this.backgroundColor,
     this.color,
     this.maxHeight = 260,
+    this.borderRadius,
+    this.border,
   });
 
   /// Offset at which to place the suggestion overlay.
@@ -41,13 +42,18 @@ class SuggestionStyle {
   /// サジェストのウインドウの文字色。
   final Color? color;
 
-  /// `true` if you want to display on the frontmost side.
-  ///
-  /// 最前面に表示する場合`true`.
-  final bool showOnTap;
-
   /// Maximum height of the suggestion window.
   ///
   /// サジェストのウインドウの最大高さ。
   final double maxHeight;
+
+  /// Border radius of the suggestion window.
+  ///
+  /// サジェストのウインドウの角の半径。
+  final BorderRadius? borderRadius;
+
+  /// Border of the suggestion window.
+  ///
+  /// サジェストのウインドウの枠線。
+  final BorderSide? border;
 }

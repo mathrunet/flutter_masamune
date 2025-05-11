@@ -144,13 +144,12 @@ class FormTextField<TValue> extends StatefulWidget {
     this.hintText,
     this.labelText,
     this.lengthErrorText,
-    this.suggestion = const [],
+    this.suggestion,
     this.enabled = true,
     this.readOnly = false,
     this.obscureText = false,
     this.counterText = "",
     this.counterbuilder,
-    this.onDeleteSuggestion,
     this.validator,
     this.inputFormatters,
     this.onSaved,
@@ -163,8 +162,6 @@ class FormTextField<TValue> extends StatefulWidget {
     this.focusNode,
     this.emptyErrorText,
     this.initialValue,
-    this.onTapSuggestion,
-    this.suggestionStyle,
     this.keepAlive = true,
     this.clearOnSubmitted = false,
     this.onFocusChanged,
@@ -313,33 +310,10 @@ class FormTextField<TValue> extends StatefulWidget {
   /// これが`true`の場合、カーソルを表示します。
   final bool? showCursor;
 
-  /// If you want to display suggestions as you type, pass the suggestions here.
+  /// Suggestions setting. When enabled, the suggestions window will be displayed.
   ///
-  /// When you enter something, it will search from the string passed here and pop up only the matches.
-  ///
-  /// 入力の最中にサジェストを表示したい場合、その候補をここに渡します。
-  ///
-  /// 何かを入力するとここに渡された文字列から検索を行い、一致するものだけをポップアップで表示します。
-  final List<String> suggestion;
-
-  /// If suggestions are displayed in [suggestion], you can specify this to delete suggestions.
-  ///
-  /// A delete button will appear in the list of suggestion suggestions, and tapping it will execute this callback.
-  ///
-  /// [suggestion]でサジェスト候補が表示される場合、これを指定するとサジェスト候補の削除を行うことができるようになります。
-  ///
-  /// サジェスト候補のリストに削除ボタンが表示されるようになり、そこをタップするとこのコールバックが実行されます。
-  final void Function(String value)? onDeleteSuggestion;
-
-  /// Window style for suggestions.
-  ///
-  /// サジェスト用のウインドウのスタイル。
-  final SuggestionStyle? suggestionStyle;
-
-  /// Callback executed when the window for suggestions is tapped.
-  ///
-  /// サジェスト用のウインドウをタップした際に実行されるコールバック。
-  final VoidCallback? onTapSuggestion;
+  /// サジェストの設定。これが有効になっているとサジェストウインドウが表示されます。
+  final SuggestionConfig? suggestion;
 
   /// Callback executed when [FormController.validate] is executed.
   ///
@@ -597,10 +571,7 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
       style: widget.style,
       enabled: widget.enabled,
       child: _SuggestionOverlayBuilder(
-        items: widget.suggestion,
-        onTap: widget.onTapSuggestion,
-        style: widget.suggestionStyle ?? const SuggestionStyle(),
-        onDeleteSuggestion: widget.onDeleteSuggestion,
+        suggestion: widget.suggestion,
         controller: _effectiveController,
         focusNode: _effectiveFocusNode,
         builder: (context, controller, onTap) => Container(
@@ -752,25 +723,16 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
 class _SuggestionOverlayBuilder extends StatefulWidget {
   const _SuggestionOverlayBuilder({
     required this.builder,
-    required this.items,
-    this.onDeleteSuggestion,
-    this.style = const SuggestionStyle(),
-    this.onTap,
     this.focusNode,
     this.controller,
+    this.suggestion,
   });
 
-  final List<String> items;
-
-  final SuggestionStyle style;
+  final SuggestionConfig? suggestion;
 
   final FocusNode? focusNode;
 
-  final VoidCallback? onTap;
-
   final TextEditingController? controller;
-
-  final void Function(String value)? onDeleteSuggestion;
 
   final Widget Function(
     BuildContext context,
@@ -787,6 +749,7 @@ class _SuggestionOverlayBuilderState extends State<_SuggestionOverlayBuilder> {
   TextEditingController? _controller;
   TextEditingController? get _effectiveController =>
       widget.controller ?? _controller;
+  String? _previousText;
 
   final LayerLink _layerLink = LayerLink();
   @override
@@ -824,28 +787,25 @@ class _SuggestionOverlayBuilderState extends State<_SuggestionOverlayBuilder> {
     if (_overlay != null) {
       return;
     }
-    if (_effectiveController == null) {
+    final suggestion = widget.suggestion;
+    if (_effectiveController == null || suggestion == null) {
       return;
     }
-    if (widget.items.isEmpty) {
+    if (suggestion.items.isEmpty) {
       return;
     }
+    final checkShow = suggestion.checkShowOverlay;
     final search = _effectiveController?.text;
-    final wordList = search?.split(" ") ?? const <String>[];
+    final previousText = _previousText;
+    _previousText = search;
     if (widget.focusNode != null &&
         widget.focusNode!.hasFocus &&
-        search.isEmpty) {
+        search.isEmpty &&
+        suggestion.showOnEmpty) {
       _updateOverlay();
       return;
     }
-    if (!widget.items.any(
-      (element) =>
-          element.isNotEmpty &&
-          wordList.isNotEmpty &&
-          wordList.last.isNotEmpty &&
-          element != wordList.last &&
-          element.toLowerCase().startsWith(wordList.last.toLowerCase()),
-    )) {
+    if (!checkShow(search, previousText, suggestion)) {
       return;
     }
     _updateOverlay();
@@ -860,11 +820,12 @@ class _SuggestionOverlayBuilderState extends State<_SuggestionOverlayBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.items.isEmpty) {
+    final suggestion = widget.suggestion;
+    if (suggestion == null || suggestion.items.isEmpty) {
       return widget.builder(
         context,
         _effectiveController!,
-        widget.onTap ?? () {},
+        suggestion?.onTapForm ?? () {},
       );
     }
     return PopScope(
@@ -881,10 +842,10 @@ class _SuggestionOverlayBuilderState extends State<_SuggestionOverlayBuilder> {
           context,
           _effectiveController!,
           () {
-            if (widget.style.showOnTap) {
+            if (suggestion.showOnTap) {
               _updateOverlay();
             }
-            widget.onTap?.call();
+            suggestion.onTapForm?.call();
           },
         ),
       ),
@@ -892,6 +853,10 @@ class _SuggestionOverlayBuilderState extends State<_SuggestionOverlayBuilder> {
   }
 
   void _updateOverlay() {
+    final suggestion = widget.suggestion;
+    if (suggestion == null || suggestion.items.isEmpty) {
+      return;
+    }
     final itemBox = context.findRenderObject() as RenderBox?;
     if (itemBox == null) {
       return;
@@ -921,27 +886,26 @@ class _SuggestionOverlayBuilderState extends State<_SuggestionOverlayBuilder> {
             child: CompositedTransformFollower(
               link: _layerLink,
               showWhenUnlinked: false,
-              offset: Offset(0.0, -widget.style.maxHeight),
+              offset: Offset(0.0, -(widget.suggestion?.style.maxHeight ?? 260)),
               child: SizedBox(
                 width: width,
                 child: _SuggestionOverlay(
-                  items: widget.items,
-                  color: widget.style.color ?? theme.colorScheme.onSurface,
+                  suggestion: suggestion,
+                  color: suggestion.style.color ?? theme.colorScheme.onSurface,
                   offset: Offset(
-                    widget.style.offset.dx,
+                    suggestion.style.offset.dx,
                     up
-                        ? widget.style.offset.dy
-                        : widget.style.maxHeight +
+                        ? suggestion.style.offset.dy
+                        : suggestion.style.maxHeight +
                             height +
-                            widget.style.offset.dy,
+                            suggestion.style.offset.dy,
                   ),
-                  maxHeight: widget.style.maxHeight,
+                  maxHeight: suggestion.style.maxHeight,
                   direction: up ? VerticalDirection.up : VerticalDirection.down,
-                  onDeleteSuggestion: widget.onDeleteSuggestion,
-                  backgroundColor:
-                      widget.style.backgroundColor ?? theme.colorScheme.surface,
+                  backgroundColor: suggestion.style.backgroundColor ??
+                      theme.colorScheme.surface,
                   controller: _effectiveController!,
-                  elevation: widget.style.elevation,
+                  elevation: suggestion.style.elevation,
                   onTap: () {
                     _overlay?.remove();
                     _overlay = null;
@@ -961,23 +925,21 @@ class _SuggestionOverlayBuilderState extends State<_SuggestionOverlayBuilder> {
 
 class _SuggestionOverlay extends StatefulWidget {
   const _SuggestionOverlay({
-    required this.items,
+    required this.suggestion,
     this.controller,
     this.offset = Offset.zero,
     this.maxHeight = 260,
     this.direction = VerticalDirection.down,
-    this.onDeleteSuggestion,
     this.elevation = 8.0,
     this.color = Colors.black,
     this.onTap,
     this.backgroundColor = Colors.white,
   });
+  final SuggestionConfig suggestion;
   final double elevation;
   final Color backgroundColor;
   final Color color;
-  final List<String> items;
   final VerticalDirection direction;
-  final void Function(String value)? onDeleteSuggestion;
   final TextEditingController? controller;
   final VoidCallback? onTap;
   final double maxHeight;
@@ -989,22 +951,25 @@ class _SuggestionOverlay extends StatefulWidget {
 class _SuggestionOverlayState extends State<_SuggestionOverlay> {
   String? _search;
   TextEditingController? _controller;
+  List<String> _items = [];
   TextEditingController? get _effectiveController =>
       widget.controller ?? _controller;
 
-  List<String> _wordList = [];
   @override
   void initState() {
     super.initState();
+    _items = widget.suggestion.items;
     _controller = widget.controller ?? TextEditingController();
     _search = _effectiveController?.text;
-    _wordList = _search?.split(" ") ?? const <String>[];
     _effectiveController?.addListener(_listener);
   }
 
   @override
   void didUpdateWidget(_SuggestionOverlay oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (widget.suggestion.items != oldWidget.suggestion.items) {
+      _items = widget.suggestion.items;
+    }
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_listener);
       widget.controller?.addListener(_listener);
@@ -1024,7 +989,6 @@ class _SuggestionOverlayState extends State<_SuggestionOverlay> {
   void _listener() {
     setState(() {
       _search = _effectiveController?.text;
-      _wordList = _search?.split(" ") ?? const <String>[];
     });
   }
 
@@ -1036,27 +1000,20 @@ class _SuggestionOverlayState extends State<_SuggestionOverlay> {
 
   @override
   Widget build(BuildContext context) {
-    final widgets = widget.items.mapAndRemoveEmpty(
+    final effectiveController = _effectiveController;
+    final widgets = _items.mapAndRemoveEmpty(
       (e) {
-        if (e.isNotEmpty &&
-            _wordList.isNotEmpty &&
-            _wordList.last.isNotEmpty &&
-            e != _wordList.last &&
-            !e.toLowerCase().startsWith(_wordList.last.toLowerCase())) {
+        if (effectiveController != null &&
+            !widget.suggestion.checkShowSuggestion(
+                _search, effectiveController, widget.suggestion)) {
           return null;
         }
         return GestureDetector(
           onTap: () {
-            if (_wordList.isNotEmpty) {
-              _wordList[_wordList.length - 1] = e;
+            if (effectiveController != null) {
+              widget.suggestion.onTapSuggestion
+                  ?.call(e, effectiveController, widget.suggestion);
             }
-            final text = _wordList.join(" ");
-            _effectiveController?.clearComposing();
-            _effectiveController?.clear();
-            _effectiveController?.text = text;
-            _effectiveController?.selection = TextSelection.fromPosition(
-              TextPosition(offset: _effectiveController?.text.length ?? 0),
-            );
             widget.onTap?.call();
           },
           child: Container(
@@ -1070,7 +1027,7 @@ class _SuggestionOverlayState extends State<_SuggestionOverlay> {
                     style: TextStyle(fontSize: 18, color: widget.color),
                   ),
                 ),
-                if (widget.onDeleteSuggestion != null)
+                if (widget.suggestion.onDelete != null)
                   Container(
                     width: 80,
                     alignment: Alignment.centerRight,
@@ -1080,8 +1037,8 @@ class _SuggestionOverlayState extends State<_SuggestionOverlay> {
                       icon: Icon(Icons.close, size: 20, color: widget.color),
                       onPressed: () {
                         setState(() {
-                          widget.items.remove(e);
-                          widget.onDeleteSuggestion?.call(e);
+                          _items.remove(e);
+                          widget.suggestion.onDelete?.call(e);
                         });
                       },
                     ),
@@ -1107,7 +1064,11 @@ class _SuggestionOverlayState extends State<_SuggestionOverlay> {
       padding: EdgeInsets.only(top: offset),
       child: Card(
         elevation: widget.elevation,
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+        shape: RoundedRectangleBorder(
+          borderRadius:
+              widget.suggestion.style.borderRadius ?? BorderRadius.zero,
+          side: widget.suggestion.style.border ?? BorderSide.none,
+        ),
         color: widget.backgroundColor,
         surfaceTintColor: widget.backgroundColor,
         child: SingleChildScrollView(
@@ -1404,4 +1365,153 @@ enum FormTextFieldSelectionOnFocus {
   ///
   /// フォーカスされたときに最後の文字にカーソルを移動します。
   positionAtEnd;
+}
+
+/// Configuration for suggestions.
+///
+/// サジェストの設定。
+class SuggestionConfig {
+  /// Configuration for suggestions.
+  ///
+  /// サジェストの設定。
+  const SuggestionConfig({
+    required this.items,
+    this.onDelete,
+    this.style = const SuggestionStyle(),
+    this.onTapForm,
+    this.checkShowOverlay = defaultCheckShowOverlay,
+    this.checkShowSuggestion = defaultCheckShowSuggestion,
+    this.showOnTap = true,
+    this.showOnEmpty = true,
+    this.onTapSuggestion = defaultOnTapSuggestion,
+  });
+
+  /// Default [checkShowOverlay] function.
+  ///
+  /// デフォルトの[checkShowOverlay]関数。
+  static bool defaultCheckShowOverlay(
+      String? value, String? oldValue, SuggestionConfig suggestion) {
+    final wordList = value?.split(" ") ?? const <String>[];
+    if (!suggestion.items.any(
+      (element) =>
+          element.isNotEmpty &&
+          wordList.isNotEmpty &&
+          wordList.last.isNotEmpty &&
+          element != wordList.last &&
+          element.toLowerCase().startsWith(wordList.last.toLowerCase()),
+    )) {
+      return false;
+    }
+    return true;
+  }
+
+  /// Default [checkShowSuggestion] function.
+  ///
+  /// デフォルトの[checkShowSuggestion]関数。
+  static bool defaultCheckShowSuggestion(String? value,
+      TextEditingController controller, SuggestionConfig suggestion) {
+    final wordList = value?.split(" ") ?? const <String>[];
+    if (!suggestion.items.any(
+      (element) =>
+          element.isNotEmpty &&
+          wordList.isNotEmpty &&
+          wordList.last.isNotEmpty &&
+          element != wordList.last &&
+          element.toLowerCase().startsWith(wordList.last.toLowerCase()),
+    )) {
+      return false;
+    }
+    return true;
+  }
+
+  /// Default [onTapSuggestion] function.
+  ///
+  /// デフォルトの[onTapSuggestion]関数。
+  static void defaultOnTapSuggestion(String value,
+      TextEditingController controller, SuggestionConfig suggestion) {
+    final wordList = controller.text.split(" ");
+    if (wordList.isNotEmpty) {
+      wordList[wordList.length - 1] = value;
+    }
+    final text = wordList.join(" ");
+    controller.clearComposing();
+    controller.clear();
+    controller.text = text;
+    controller.selection = TextSelection.fromPosition(
+      TextPosition(offset: controller.text.length),
+    );
+  }
+
+  /// If you want to display suggestions as you type, pass the suggestions here.
+  ///
+  /// When you enter something, it will search from the string passed here and pop up only the matches.
+  ///
+  /// 入力の最中にサジェストを表示したい場合、その候補をここに渡します。
+  ///
+  /// 何かを入力するとここに渡された文字列から検索を行い、一致するものだけをポップアップで表示します。
+  final List<String> items;
+
+  /// If suggestions are displayed in [items], you can specify this to delete suggestions.
+  ///
+  /// A delete button will appear in the list of suggestion suggestions, and tapping it will execute this callback.
+  ///
+  /// [items]でサジェスト候補が表示される場合、これを指定するとサジェスト候補の削除を行うことができるようになります。
+  ///
+  /// サジェスト候補のリストに削除ボタンが表示されるようになり、そこをタップするとこのコールバックが実行されます。
+  final void Function(String value)? onDelete;
+
+  /// Window style for suggestions.
+  ///
+  /// サジェスト用のウインドウのスタイル。
+  final SuggestionStyle style;
+
+  /// Callback executed when the window for suggestions is tapped.
+  ///
+  /// サジェスト用のウインドウをタップした際に実行されるコールバック。
+  final VoidCallback? onTapForm;
+
+  /// Compares [value] and [oldValue] to return whether to display overlay.
+  ///
+  /// Returns `true` to display overlay.
+  ///
+  /// Returning `false` will prevent overlay from being displayed.
+  ///
+  /// [value]と[oldValue]を比較してオーバーレイを表示するかどうかを返します。
+  ///
+  /// `true`を返すとオーバーレイを表示します。
+  ///
+  /// `false`を返すとオーバーレイを表示しません。
+  final bool Function(
+          String? value, String? oldValue, SuggestionConfig suggestion)
+      checkShowOverlay;
+
+  /// Compares [value] and [oldValue] to return whether to display suggestions.
+  ///
+  /// Returns `true` to display suggestions.
+  ///
+  /// Returning `false` will prevent suggestions from being displayed.
+  ///
+  /// [value]と[oldValue]を比較してサジェストを表示するかどうかを返します。
+  ///
+  /// `true`を返すとサジェストを表示します。
+  ///
+  /// `false`を返すとサジェストを表示しません。
+  final bool Function(String? value, TextEditingController controller,
+      SuggestionConfig suggestion) checkShowSuggestion;
+
+  /// Callback executed when the window for suggestions is tapped.
+  ///
+  /// サジェスト用のウインドウをタップした際に実行されるコールバック。
+  final void Function(String value, TextEditingController controller,
+      SuggestionConfig suggestion)? onTapSuggestion;
+
+  /// `true` if suggestions should be displayed on top when tapped.
+  ///
+  /// タップ時にサジェストを最前面に表示する場合`true`.
+  final bool showOnTap;
+
+  /// `true` if suggestions should be displayed when the text is empty.
+  ///
+  /// テキストが空の場合にサジェストを表示する場合`true`.
+  final bool showOnEmpty;
 }
