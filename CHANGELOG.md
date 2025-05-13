@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-05-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ai` - `v2.5.10`](#masamune_ai---v2510)
+ - [`masamune_ai_openai` - `v2.12.2`](#masamune_ai_openai---v2122)
+ - [`masamune_ai_firebase` - `v2.4.10`](#masamune_ai_firebase---v2410)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_ai_openai` - `v2.12.2`
+ - `masamune_ai_firebase` - `v2.4.10`
+
+---
+
+#### `masamune_ai` - `v2.5.10`
+
+ - **FIX**: Add addContent to AIThread. ([bd2453c5](https://github.com/mathrunet/flutter_masamune/commit/bd2453c5688e9ffbcafc3db3907b880407b1259f))
+
+
 ## 2025-05-11
 
 ### Changes
