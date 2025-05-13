@@ -120,6 +120,33 @@ class AIThread
     }
   }
 
+  /// Add a content to the thread.
+  ///
+  /// Pass a content from the user to [contents].
+  /// If [AIRole] is not [AIRole.user], an exception is thrown.
+  ///
+  /// スレッドにコンテンツを追加します。
+  ///
+  /// [contents]にユーザーからのコンテンツを渡してください。
+  /// [AIRole]が[AIRole.user]でない場合は例外が投げられます。
+  Future<List<AIContent>> addContent(
+    List<AIContent> contents,
+  ) async {
+    if (!contents.every((e) => e.role == AIRole.user)) {
+      throw const InvalidAIRoleException();
+    }
+    _value.removeWhere((e) {
+      if (e.value.isEmpty) {
+        return true;
+      }
+      return false;
+    });
+    _value.addAll(contents);
+    _value.sort((a, b) => b.time.compareTo(a.time));
+    notifyListeners();
+    return value;
+  }
+
   /// Generate a content from AI.
   ///
   /// Pass a content from the user to [contents].
