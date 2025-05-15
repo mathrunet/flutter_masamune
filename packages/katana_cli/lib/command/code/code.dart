@@ -23,6 +23,7 @@ part 'group.dart';
 part 'page.dart';
 part 'watch.dart';
 part 'value.dart';
+part 'function.dart';
 part 'redirect_query.dart';
 part 'boot.dart';
 part 'docs.dart';
@@ -74,5 +75,6 @@ class CodeCliCommand extends CliCommandGroup {
         "exception": CodeExceptionCliCommand(),
         "modal": CodeModalCliCommand(),
         "log": CodeLogCliCommand(),
+        "function": CodeFunctionCliCommand(),
       };
 }
