@@ -1,3 +1,7 @@
+## 2.39.0
+
+ - **FEAT**: Add a command for Functions. ([dfb105b0](https://github.com/mathrunet/flutter_masamune/commit/dfb105b02e727841ec42d03e1ae91d3be77845b6))
+
 ## 2.38.9
 
  - **FIX**: Add BuildContext to toTile. ([00110e04](https://github.com/mathrunet/flutter_masamune/commit/00110e04d5dcaf93bdfef5166316d46c8ef9e155))

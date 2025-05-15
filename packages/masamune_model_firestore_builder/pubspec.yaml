@@ -1,6 +1,6 @@
 name: masamune_model_firestore_builder
 description: Define a builder to describe Firestore rules; build using the masamune_annotation annotation.
-version: 2.5.10
+version: 2.5.11
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_firestore_builder
 
@@ -17,7 +17,7 @@ dependencies:
   analyzer: ^7.0.0
   http: ^1.2.2
   masamune_annotation: ^2.9.11
-  masamune_builder: ^2.21.7
+  masamune_builder: ^2.22.0
   glob: ^2.1.2
 dev_dependencies:
   test: ^1.25.8

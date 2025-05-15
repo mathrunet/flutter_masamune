@@ -1,3 +1,7 @@
+## 2.18.4
+
+ - Update a dependency to the latest release.
+
 ## 2.18.3
 
  - **FIX**: Fixes incorrect line breaks in CSV files. ([c9845777](https://github.com/mathrunet/flutter_masamune/commit/c9845777c4755a6b15015687c6f6e32bfe3e2e3f))

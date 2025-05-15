@@ -1,3 +1,7 @@
+## 2.36.4
+
+ - **FIX**: Preparation for creating a FunctionsRestApi. ([47bccf8b](https://github.com/mathrunet/flutter_masamune/commit/47bccf8b1f9b9ef7b7e345f9f08baf35f34a8882))
+
 ## 2.36.3
 
  - Update a dependency to the latest release.

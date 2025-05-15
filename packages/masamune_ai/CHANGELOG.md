@@ -1,3 +1,7 @@
+## 2.5.11
+
+ - Update a dependency to the latest release.
+
 ## 2.5.10
 
  - **FIX**: Add addContent to AIThread. ([bd2453c5](https://github.com/mathrunet/flutter_masamune/commit/bd2453c5688e9ffbcafc3db3907b880407b1259f))
