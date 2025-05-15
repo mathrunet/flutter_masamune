@@ -42,14 +42,14 @@ class RestApiFunctionsAdapter extends FunctionsAdapter {
   /// レスポンスがエラーの場合は`true`を返します。
   final bool Function(ApiResponse response) checkError;
 
-  /// Data on post.
+  /// A function that returns the data to be sent to the server.
   ///
-  /// ポストデータ。
+  /// サーバーに送信するデータを返す関数。
   final FutureOr<Object> Function(DynamicMap input) dataOnExecute;
 
-  /// On response.
+  /// A function that returns the response from the server.
   ///
-  /// レスポンス。
+  /// サーバーからのレスポンスを返す関数。
   final FutureOr<DynamicMap?> Function(ApiResponse response) onResponse;
 
   /// Default headers.
@@ -99,7 +99,7 @@ class RestApiFunctionsAdapter extends FunctionsAdapter {
                 statusCode: res.statusCode,
               );
             }
-            return await onResponse(res);
+            return onResponse(res);
           case ApiMethod.post:
             final body = await dataOnExecute(map ?? {});
             final res = await Api.post(path, headers: headers, body: body);
@@ -197,4 +197,43 @@ class RestApiFunctionsAdapterException implements Exception {
   String toString() {
     return "RestApiFunctionsAdapterException($uri, $statusCode, $response)";
   }
+}
+
+/// A function action that uses Rest API.
+///
+/// Rest APIを用いるファンクションアクション。
+abstract class RestApiFunctionsAction<
+        TResponse extends RestApiFunctionsActionResponse>
+    extends FunctionsAction<TResponse> {
+  /// A function action that uses Rest API.
+  ///
+  /// Rest APIを用いるファンクションアクション。
+  const RestApiFunctionsAction();
+
+  /// The description of the functions action.
+  ///
+  /// ファンクションアクションの説明。
+  String get description;
+
+  /// The method of the functions action.
+  ///
+  /// ファンクションアクションのメソッド。
+  @override
+  ApiMethod get method;
+
+  @override
+  String get path;
+
+  @override
+  String get action => path;
+}
+
+/// A response of the functions action that uses Rest API.
+///
+/// Rest APIを用いるファンクションアクションのレスポンス。
+abstract class RestApiFunctionsActionResponse extends FunctionsActionResponse {
+  /// A response of the functions action that uses Rest API.
+  ///
+  /// Rest APIを用いるファンクションアクションのレスポンス。
+  const RestApiFunctionsActionResponse();
 }

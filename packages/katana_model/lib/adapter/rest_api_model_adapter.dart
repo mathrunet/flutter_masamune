@@ -53,10 +53,10 @@ abstract class RestApiModelAdapter extends ModelAdapter {
   /// [Null]のときはバリデーションされません。
   final DatabaseValidator? validator;
 
-  /// Returns a list of [RestApiBuilder].
+  /// Returns a list of [ModelRestApiBuilder].
   ///
-  /// [RestApiBuilder]のリストを返します。
-  final List<RestApiBuilder> builders;
+  /// [ModelRestApiBuilder]のリストを返します。
+  final List<ModelRestApiBuilder> builders;
 
   /// A function that returns the headers.
   ///
@@ -284,11 +284,11 @@ class RestApiModelAdapterException implements Exception {
 /// Builder for creating model adapters using REST APIs.
 ///
 /// REST APIを利用したモデルアダプターを作成するためのビルダー。
-class RestApiBuilder {
+class ModelRestApiBuilder {
   /// Builder for creating model adapters using REST APIs.
   ///
   /// REST APIを利用したモデルアダプターを作成するためのビルダー。
-  const RestApiBuilder({
+  const ModelRestApiBuilder({
     this.description,
     this.collection,
     this.document,
@@ -302,35 +302,54 @@ class RestApiBuilder {
   /// Builder for creating collection model adapters using REST APIs.
   ///
   /// REST APIを利用したコレクションのモデルアダプターを作成するためのビルダー。
-  final CollectionRestApiBuilder? collection;
+  final CollectionModelRestApiBuilder? collection;
 
   /// Builder for creating document model adapters using REST APIs.
   ///
   /// REST APIを利用したドキュメントのモデルアダプターを作成するためのビルダー。
-  final DocumentRestApiBuilder? document;
+  final DocumentModelRestApiBuilder? document;
+}
+
+/// Builder for creating model adapters using REST APIs.
+///
+/// REST APIを利用したモデルアダプターを作成するためのビルダー。
+abstract class ModelRestApiQuery extends ModelRestApiBuilder {
+  /// Builder for creating model adapters using REST APIs.
+  ///
+  /// REST APIを利用したモデルアダプターを作成するためのビルダー。
+  const ModelRestApiQuery();
+
+  @override
+  String? get description;
+
+  @override
+  CollectionModelRestApiBuilder? get collection => null;
+
+  @override
+  DocumentModelRestApiBuilder? get document => null;
 }
 
 /// Builder for creating collection model adapters using REST APIs.
 ///
 /// REST APIを利用したコレクションのモデルアダプターを作成するためのビルダー。
-abstract class CollectionRestApiBuilder {
+abstract class CollectionModelRestApiBuilder {
   /// Builder for creating collection model adapters using REST APIs.
   ///
   /// REST APIを利用したコレクションのモデルアダプターを作成するためのビルダー。
-  factory CollectionRestApiBuilder({
+  factory CollectionModelRestApiBuilder({
     required FutureOr<bool> Function(ModelAdapterCollectionQuery query) match,
     required Future<Map<String, DynamicMap>> Function(
       ModelAdapterCollectionQuery query,
       RestApiModelAdapter adapter,
     ) process,
   }) {
-    return _CollectionRestApiBuilder(
+    return _CollectionModelRestApiBuilder(
       match: match,
       process: process,
     );
   }
 
-  const CollectionRestApiBuilder._({
+  const CollectionModelRestApiBuilder._({
     required this.match,
   });
 
@@ -348,8 +367,8 @@ abstract class CollectionRestApiBuilder {
   );
 }
 
-class _CollectionRestApiBuilder extends CollectionRestApiBuilder {
-  _CollectionRestApiBuilder({
+class _CollectionModelRestApiBuilder extends CollectionModelRestApiBuilder {
+  _CollectionModelRestApiBuilder({
     required super.match,
     required Future<Map<String, DynamicMap>> Function(
       ModelAdapterCollectionQuery query,
@@ -375,11 +394,11 @@ class _CollectionRestApiBuilder extends CollectionRestApiBuilder {
 /// Builder for creating collection model adapters using REST APIs.
 ///
 /// REST APIを利用したコレクションのモデルアダプターを作成するためのビルダー。
-class CollectionRestApiQuery extends CollectionRestApiBuilder {
+class CollectionModelRestApiQuery extends CollectionModelRestApiBuilder {
   /// Builder for creating collection model adapters using REST APIs.
   ///
   /// REST APIを利用したコレクションのモデルアダプターを作成するためのビルダー。
-  const CollectionRestApiQuery({
+  const CollectionModelRestApiQuery({
     required super.match,
     required this.endpoint,
     this.checkError,
@@ -437,11 +456,11 @@ class CollectionRestApiQuery extends CollectionRestApiBuilder {
 /// Builder for creating document model adapters using REST APIs.
 ///
 /// REST APIを利用したドキュメントのモデルアダプターを作成するためのビルダー。
-class DocumentRestApiBuilder {
+class DocumentModelRestApiBuilder {
   /// Builder for creating document model adapters using REST APIs.
   ///
   /// REST APIを利用したドキュメントのモデルアダプターを作成するためのビルダー。
-  const DocumentRestApiBuilder({
+  const DocumentModelRestApiBuilder({
     required this.match,
     this.headers,
     this.load,
@@ -463,36 +482,36 @@ class DocumentRestApiBuilder {
   /// Builder for creating model adapters for loading documents using a REST API.
   ///
   /// REST APIを利用したドキュメントの読み込み用のモデルアダプターを作成するためのビルダー。
-  final LoadDocumentRestApiBuilder? load;
+  final LoadDocumentModelRestApiBuilder? load;
 
   /// Builder for creating model adapters for saving documents using a REST API.
   ///
   /// REST APIを利用したドキュメントの保存用のモデルアダプターを作成するためのビルダー。
-  final SaveDocumentRestApiBuilder? save;
+  final SaveDocumentModelRestApiBuilder? save;
 
   /// Builder for creating model adapters for deleting documents using a REST API.
   ///
   /// REST APIを利用したドキュメントの削除用のモデルアダプターを作成するためのビルダー。
-  final DeleteDocumentRestApiBuilder? delete;
+  final DeleteDocumentModelRestApiBuilder? delete;
 }
 
 /// Builder for creating model adapters for loading documents using a REST API.
 ///
 /// REST APIを利用したドキュメントの読み込み用のモデルアダプターを作成するためのビルダー。
-abstract class LoadDocumentRestApiBuilder {
+abstract class LoadDocumentModelRestApiBuilder {
   /// Builder for creating model adapters for loading documents using a REST API.
   ///
   /// REST APIを利用したドキュメントの読み込み用のモデルアダプターを作成するためのビルダー。
-  factory LoadDocumentRestApiBuilder({
+  factory LoadDocumentModelRestApiBuilder({
     required Future<DynamicMap> Function(
       ModelAdapterDocumentQuery query,
       RestApiModelAdapter adapter,
     ) process,
   }) {
-    return _LoadDocumentRestApiBuilder(process: process);
+    return _LoadDocumentModelRestApiBuilder(process: process);
   }
 
-  const LoadDocumentRestApiBuilder._();
+  const LoadDocumentModelRestApiBuilder._();
 
   /// Describes the actual processing.
   ///
@@ -503,8 +522,8 @@ abstract class LoadDocumentRestApiBuilder {
   );
 }
 
-class _LoadDocumentRestApiBuilder extends LoadDocumentRestApiBuilder {
-  _LoadDocumentRestApiBuilder({
+class _LoadDocumentModelRestApiBuilder extends LoadDocumentModelRestApiBuilder {
+  _LoadDocumentModelRestApiBuilder({
     required Future<DynamicMap> Function(
       ModelAdapterDocumentQuery query,
       RestApiModelAdapter adapter,
@@ -529,11 +548,11 @@ class _LoadDocumentRestApiBuilder extends LoadDocumentRestApiBuilder {
 /// Builder for creating model adapters for loading documents using a REST API.
 ///
 /// REST APIを利用したドキュメントの読み込み用のモデルアダプターを作成するためのビルダー。
-class LoadDocumentRestApiQuery extends LoadDocumentRestApiBuilder {
+class LoadDocumentModelRestApiQuery extends LoadDocumentModelRestApiBuilder {
   /// Builder for creating model adapters for loading documents using a REST API.
   ///
   /// REST APIを利用したドキュメントの読み込み用のモデルアダプターを作成するためのビルダー。
-  const LoadDocumentRestApiQuery({
+  const LoadDocumentModelRestApiQuery({
     required this.endpoint,
     this.checkError,
     this.headers,
@@ -588,21 +607,21 @@ class LoadDocumentRestApiQuery extends LoadDocumentRestApiBuilder {
 /// Builder for creating document model adapters for saving documents using a REST API.
 ///
 /// REST APIを利用したドキュメントの保存用のモデルアダプターを作成するためのビルダー。
-abstract class SaveDocumentRestApiBuilder {
+abstract class SaveDocumentModelRestApiBuilder {
   /// Builder for creating document model adapters for saving documents using a REST API.
   ///
   /// REST APIを利用したドキュメントの保存用のモデルアダプターを作成するためのビルダー。
-  factory SaveDocumentRestApiBuilder({
+  factory SaveDocumentModelRestApiBuilder({
     required Future<void> Function(
       ModelAdapterDocumentQuery query,
       DynamicMap value,
       RestApiModelAdapter adapter,
     ) process,
   }) {
-    return _SaveDocumentRestApiBuilder(process: process);
+    return _SaveDocumentModelRestApiBuilder(process: process);
   }
 
-  const SaveDocumentRestApiBuilder._();
+  const SaveDocumentModelRestApiBuilder._();
 
   /// Describes the actual processing.
   ///
@@ -614,8 +633,8 @@ abstract class SaveDocumentRestApiBuilder {
   );
 }
 
-class _SaveDocumentRestApiBuilder extends SaveDocumentRestApiBuilder {
-  _SaveDocumentRestApiBuilder({
+class _SaveDocumentModelRestApiBuilder extends SaveDocumentModelRestApiBuilder {
+  _SaveDocumentModelRestApiBuilder({
     required Future<void> Function(
       ModelAdapterDocumentQuery query,
       DynamicMap value,
@@ -643,11 +662,11 @@ class _SaveDocumentRestApiBuilder extends SaveDocumentRestApiBuilder {
 /// Builder for creating document model adapters for saving documents using a REST API.
 ///
 /// REST APIを利用したドキュメントの保存用のモデルアダプターを作成するためのビルダー。
-class SaveDocumentRestApiQuery extends SaveDocumentRestApiBuilder {
+class SaveDocumentModelRestApiQuery extends SaveDocumentModelRestApiBuilder {
   /// Builder for creating document model adapters for saving documents using a REST API.
   ///
   /// REST APIを利用したドキュメントの保存用のモデルアダプターを作成するためのビルダー。
-  const SaveDocumentRestApiQuery({
+  const SaveDocumentModelRestApiQuery({
     required this.endpoint,
     this.checkError,
     this.dataOnSave = defaultDataOnSave,
@@ -780,19 +799,19 @@ class SaveDocumentRestApiQuery extends SaveDocumentRestApiBuilder {
 /// Builder for creating document model adapters for deleting documents using a REST API.
 ///
 /// REST APIを利用したドキュメントの削除用のモデルアダプターを作成するためのビルダー。
-abstract class DeleteDocumentRestApiBuilder {
+abstract class DeleteDocumentModelRestApiBuilder {
   /// Builder for creating document model adapters for deleting documents using a REST API.
   ///
   /// REST APIを利用したドキュメントの削除用のモデルアダプターを作成するためのビルダー。
-  factory DeleteDocumentRestApiBuilder({
+  factory DeleteDocumentModelRestApiBuilder({
     required Future<void> Function(
       ModelAdapterDocumentQuery query,
       RestApiModelAdapter adapter,
     ) process,
   }) {
-    return _DeleteDocumentRestApiBuilder(process: process);
+    return _DeleteDocumentModelRestApiBuilder(process: process);
   }
-  const DeleteDocumentRestApiBuilder._();
+  const DeleteDocumentModelRestApiBuilder._();
 
   /// Describes the actual processing.
   ///
@@ -803,8 +822,9 @@ abstract class DeleteDocumentRestApiBuilder {
   );
 }
 
-class _DeleteDocumentRestApiBuilder extends DeleteDocumentRestApiBuilder {
-  _DeleteDocumentRestApiBuilder({
+class _DeleteDocumentModelRestApiBuilder
+    extends DeleteDocumentModelRestApiBuilder {
+  _DeleteDocumentModelRestApiBuilder({
     required Future<void> Function(
       ModelAdapterDocumentQuery query,
       RestApiModelAdapter adapter,
@@ -829,11 +849,12 @@ class _DeleteDocumentRestApiBuilder extends DeleteDocumentRestApiBuilder {
 /// Builder for creating document model adapters for deleting documents using a REST API.
 ///
 /// REST APIを利用したドキュメントの削除用のモデルアダプターを作成するためのビルダー。
-class DeleteDocumentRestApiQuery extends DeleteDocumentRestApiBuilder {
+class DeleteDocumentModelRestApiQuery
+    extends DeleteDocumentModelRestApiBuilder {
   /// Builder for creating document model adapters for deleting documents using a REST API.
   ///
   /// REST APIを利用したドキュメントの削除用のモデルアダプターを作成するためのビルダー。
-  const DeleteDocumentRestApiQuery({
+  const DeleteDocumentModelRestApiQuery({
     required this.endpoint,
     this.checkError,
     this.headers,

@@ -74,18 +74,31 @@ abstract class FunctionsAction<TResponse> {
   /// サーバー側から返却された値を[TResponse]に変換します。
   TResponse toResponse(DynamicMap map);
 
+  /// Called when an error occurs.
+  ///
+  /// エラーが発生したときに呼び出されます。
+  TResponse onError(Object error, StackTrace stackTrace) {
+    throw Exception(
+      "${error.runtimeType}: $error\n$stackTrace",
+    );
+  }
+
   /// The value is actually passed to the server side for execution.
   ///
   /// 実際にサーバー側に値を渡して実行します。
   Future<TResponse> execute(
     Future<DynamicMap?> Function(DynamicMap? map) callback,
   ) async {
-    final input = toMap();
-    final res = await callback.call(input);
-    if (res == null) {
-      return throw Exception("Response is empty.");
+    try {
+      final input = toMap();
+      final res = await callback.call(input);
+      if (res == null) {
+        return throw Exception("Response is empty.");
+      }
+      return toResponse(res);
+    } catch (e, stackTrace) {
+      return onError(e, stackTrace);
     }
-    return toResponse(res);
   }
 }
 
