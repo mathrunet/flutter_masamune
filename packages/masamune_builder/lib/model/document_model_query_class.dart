@@ -194,6 +194,15 @@ List<Spec> documentModelQueryClass(
           ),
           Method(
             (m) => m
+              ..name = "regExp"
+              ..type = MethodType.getter
+              ..returns = const Reference("RegExp")
+              ..body = Code(
+                "return RegExp(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "([^/]+)")}\".trimQuery().trimString(\"/\"));",
+              ),
+          ),
+          Method(
+            (m) => m
               ..name = "hasMatchPath"
               ..requiredParameters.addAll([
                 Parameter(
@@ -204,7 +213,7 @@ List<Spec> documentModelQueryClass(
               ])
               ..returns = const Reference("bool")
               ..body = Code(
-                "return RegExp(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "[^/]+")}\".trimQuery().trimString(\"/\")).hasMatch(path.trimQuery().trimString(\"/\"));",
+                "return regExp.hasMatch(path.trimQuery().trimString(\"/\"));",
               ),
           ),
           if (mirror != null)
@@ -457,6 +466,15 @@ List<Spec> documentModelQueryClass(
             ),
             Method(
               (m) => m
+                ..name = "regExp"
+                ..type = MethodType.getter
+                ..returns = const Reference("RegExp")
+                ..body = Code(
+                  "return RegExp(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "([^/]+)")}\".trimQuery().trimString(\"/\"));",
+                ),
+            ),
+            Method(
+              (m) => m
                 ..name = "hasMatchPath"
                 ..requiredParameters.addAll([
                   Parameter(
@@ -467,7 +485,7 @@ List<Spec> documentModelQueryClass(
                 ])
                 ..returns = const Reference("bool")
                 ..body = Code(
-                  "return RegExp(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "[^/]+")}\".trimQuery().trimString(\"/\")).hasMatch(path.trimQuery().trimString(\"/\"));",
+                  "return regExp.hasMatch(path.trimQuery().trimString(\"/\"));",
                 ),
             ),
           ]),
