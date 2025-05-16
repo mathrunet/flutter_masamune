@@ -115,6 +115,88 @@ class ModelRefBase<T> extends ModelFieldValue<T?>
         "";
   }
 
+  /// Returns `true` if the data was successfully loaded by the [load] method.
+  ///
+  /// If this is set to `true`, the [load] method will not be loaded when executed.
+  ///
+  /// [load]メソッドでデータが読み込みに成功した場合`true`を返します。
+  ///
+  /// これが`true`になっている場合、[load]メソッドは実行しても読込は行われません。
+  bool get loaded => throw UnimplementedError(
+        "This feature is not implemented. Please replace it with actual documentation.",
+      );
+
+  /// If [load] or [reload] is executed, it waits until the loading process is completed.
+  ///
+  /// After reading is completed, a [T] object is returned.
+  ///
+  /// If neither [load] nor [reload] is in progress, [Null] is returned.
+  ///
+  /// [load]や[reload]を実行した場合、その読込処理が終わるまで待ちます。
+  ///
+  /// 読込終了後、[T]オブジェクトが返されます。
+  ///
+  /// [load]や[reload]を実行中でない場合、[Null]が返されます。
+  Future<T?>? get loading => throw UnimplementedError(
+        "This feature is not implemented. Please replace it with actual documentation.",
+      );
+
+  /// If [reload] is done, it waits until the loading process is finished.
+  ///
+  /// After reading is completed, a [T] object is returned.
+  ///
+  /// If [reload] is not in progress, [Null] is returned.
+  ///
+  /// [reload]した場合にその読込処理が終わるまで待ちます。
+  ///
+  /// 読込終了後、[T]オブジェクトが返されます。
+  ///
+  /// [reload]を実行中でない場合、[Null]が返されます。
+  Future<T?>? get reloading => throw UnimplementedError(
+        "This feature is not implemented. Please replace it with actual documentation.",
+      );
+
+  /// If [save] or [delete] is executed, it waits until the read process is completed.
+  ///
+  /// [save]や[delete]を実行した場合、その読込処理が終わるまで待ちます。
+  Future<void>? get saving => throw UnimplementedError(
+        "This feature is not implemented. Please replace it with actual documentation.",
+      );
+
+  /// Reads documents corresponding to [modelQuery].
+  ///
+  /// The return value is a [T] object, and the loaded data is available as is.
+  ///
+  /// Once content is loaded, no new loading is performed. Therefore, it can be used in a method that is read any number of times, such as in the `build` method of a `widget`.
+  ///
+  /// If you wish to reload the file, use the [reload] method.
+  ///
+  /// [modelQuery]に対応したドキュメントの読込を行います。
+  ///
+  /// 戻り値は[T]オブジェクトが返され、そのまま読込済みのデータの利用が可能になります。
+  ///
+  /// 一度読み込んだコンテンツに対しては、新しい読込は行われません。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内でも利用可能です。
+  ///
+  /// 再読み込みを行いたい場合は[reload]メソッドを利用してください。
+  Future<T?> load() => throw UnimplementedError(
+        "This feature is not implemented. Please replace it with actual documentation.",
+      );
+
+  /// Reload the document corresponding to [modelQuery].
+  ///
+  /// The return value is a [T] object, and the loaded data is available as is.
+  ///
+  /// Unlike the [load] method, this method performs a new load each time it is executed. Therefore, do not use this method in a method that is read repeatedly, such as in the `build` method of a `widget`.
+  ///
+  /// [modelQuery]に対応したドキュメントの再読込を行います。
+  ///
+  /// 戻り値は[T]オブジェクトが返され、そのまま読込済みのデータの利用が可能になります。
+  ///
+  /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
+  Future<T?> reload() => throw UnimplementedError(
+        "This feature is not implemented. Please replace it with actual documentation.",
+      );
+
   /// Data can be saved.
   ///
   /// The [newValue] is saved as it is as data. If [Null] is given, it is not executed.
@@ -154,6 +236,35 @@ class ModelRefBase<T> extends ModelFieldValue<T?>
   ///
   /// データベース上可能な場合、再度データを入れ[save]を実行することでデータを復元できます。
   Future<void> delete() => throw UnimplementedError(
+        "This feature is not implemented. Please replace it with actual documentation.",
+      );
+
+  /// {@macro model_transaction}
+  ///
+  /// ```dart
+  /// final transaction = sourceDocument.transaction();
+  /// transaction((ref, document){
+  ///   final doc = ref.read(document); // `doc` is [ModelTransactionDocument] of `sourceDocument`.
+  ///   final newValue = {"name": "test"}; // The same mechanism can be used to perform the same preservation method as usual.
+  ///   doc.save(newValue);
+  /// });
+  /// ```
+  ModelTransactionDocumentBuilder<T> transaction() => throw UnimplementedError(
+        "This feature is not implemented. Please replace it with actual documentation.",
+      );
+
+  /// {@macro model_batch}
+  ///
+  /// ```dart
+  /// final batch = sourceDocument.batch();
+  /// batch((ref, document){
+  ///   final doc = ref.read(document); // `doc` is [ModelBatchDocument] of `sourceDocument`.
+  ///   final newValue = {"name": "test"}; // The same mechanism can be used to perform the same preservation method as usual.
+  ///   doc.save(newValue);
+  /// });
+  /// ```
+  ModelBatchDocumentBuilder<T> batch({int splitLength = 100}) =>
+      throw UnimplementedError(
         "This feature is not implemented. Please replace it with actual documentation.",
       );
 
