@@ -1,3 +1,7 @@
+## 2.37.0
+
+ - **FEAT**: Add DocumentModel's functionality to ModelRef as an interface. ([5f78d6e6](https://github.com/mathrunet/flutter_masamune/commit/5f78d6e6330267b3b3ea51a32ac255c451db32c7))
+
 ## 2.36.4
 
  - **FIX**: Preparation for creating a FunctionsRestApi. ([47bccf8b](https://github.com/mathrunet/flutter_masamune/commit/47bccf8b1f9b9ef7b7e345f9f08baf35f34a8882))

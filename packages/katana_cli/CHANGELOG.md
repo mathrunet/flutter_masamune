@@ -1,3 +1,7 @@
+## 2.40.0
+
+ - **FEAT**: Changed to also generate an options file when generating the Model CLI. ([fc5aa7f6](https://github.com/mathrunet/flutter_masamune/commit/fc5aa7f64a5940b44855baf57a9863a5559890c4))
+
 ## 2.39.0
 
  - **FEAT**: Add a command for Functions. ([dfb105b0](https://github.com/mathrunet/flutter_masamune/commit/dfb105b02e727841ec42d03e1ae91d3be77845b6))

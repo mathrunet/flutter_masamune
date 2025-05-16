@@ -1,3 +1,7 @@
+## 2.22.1
+
+ - Update a dependency to the latest release.
+
 ## 2.22.0
 
  - **FEAT**: Made RegExp available for parsing paths. ([3ce83640](https://github.com/mathrunet/flutter_masamune/commit/3ce836400bc5171bea8aeb85c4e8f11dabe92e61))
