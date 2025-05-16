@@ -3,6 +3,6 @@
     "cmake.sourceDirectory": "/Users/mathru/Documents/github/flutter_masamune/packages/katana_auth/example/linux",
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
-        "*.dart": "$(capture).m.dart,$(capture).page.dart,$(capture).localize.dart,$(capture).theme.dart,$(capture).g.dart,$(capture).freezed.dart"
+        "*.dart": "$(capture).m.dart,$(capture).page.dart,$(capture).localize.dart,$(capture).theme.dart,$(capture).g.dart,$(capture).freezed.dart,$(capture).extensions.dart,$(capture).api.dart"
     }
 }

@@ -43,6 +43,10 @@ class CodeDocumentCliCommand extends CliCodeCommand {
       }
     }
     await generateDartCode("$directory/$path", path);
+    await const CodeDocumentExtensionCliCommand()
+        .generateDartCode("$directory/$path.extensions.dart", path);
+    await const CodeDocumentApiCliCommand()
+        .generateDartCode("$directory/$path.api.dart", path);
   }
 
   @override
@@ -66,6 +70,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part '$baseName.m.dart';
 part '$baseName.g.dart';
 part '$baseName.freezed.dart';
+part '$baseName.extensions.dart';
+part '$baseName.api.dart';
 """;
   }
 
@@ -183,6 +189,119 @@ extension ${className}ModelDocumentExtension on ${className}ModelDocument {
   Widget toTile(BuildContext context) {
     return const ListTile();
   }
+}
+""";
+  }
+}
+
+/// Generates code to define an Extension corresponding to [CodeDocumentCliCommand].
+///
+/// [CodeDocumentCliCommand]に対応するExtensionを記載するコードを生成します。
+class CodeDocumentExtensionCliCommand extends CliCode {
+  /// Generates code to define an Extension corresponding to [CodeDocumentCliCommand].
+  ///
+  /// [CodeDocumentCliCommand]に対応するExtensionを記載するコードを生成します。
+  const CodeDocumentExtensionCliCommand();
+
+  @override
+  String get name => "main";
+
+  @override
+  String get prefix => "main";
+
+  @override
+  String get directory => "lib/models";
+
+  @override
+  String get description => "";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+part of '$baseName.dart';
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// Extension for ${className}Model.
+extension ${className}ModelExtensions on ${className}Model {
+  // TODO: Define the extension method.
+}
+
+/// Extension for ${className}ModelRef / ${className}ModelDocument.
+extension ${className}ModelRefExtensions on ${className}ModelRef {
+  // TODO: Define the extension method.
+
+  /// Convert to a tile widget.
+  ///
+  /// ```dart
+  /// document.toTile(context);
+  /// ```
+  Widget toTile(BuildContext context) {
+    // ignore: unused_local_variable
+    final value = this?.value;
+    return const ListTile();
+  }
+}
+""";
+  }
+}
+
+/// Generates code to define an API corresponding to [CodeDocumentCliCommand].
+///
+/// [CodeDocumentCliCommand]に対応するAPIを記載するコードを生成します。
+class CodeDocumentApiCliCommand extends CliCode {
+  /// Generates code to define an API corresponding to [CodeDocumentCliCommand].
+  ///
+  /// [CodeDocumentCliCommand]に対応するAPIを記載するコードを生成します。
+  const CodeDocumentApiCliCommand();
+
+  @override
+  String get name => "main";
+
+  @override
+  String get prefix => "main";
+
+  @override
+  String get directory => "lib/models";
+
+  @override
+  String get description => "";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+part of '$baseName.dart';
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// Defines the API mapping to be passed to [RestApiModelAdapter].
+class ${className}ModelRestApiQuery extends ModelRestApiQuery {
+  /// Defines the API mapping to be passed to [RestApiModelAdapter].
+  const ${className}ModelRestApiQuery();
+
+  // TODO: Set the description.
+  @override
+  String? get description => null;
+
+  // TODO: Set the document.
+  @override
+  DocumentModelRestApiBuilder? get document => null;
 }
 """;
   }

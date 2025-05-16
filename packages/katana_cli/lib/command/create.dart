@@ -1686,7 +1686,7 @@ class SettingsCliCode extends CliCode {
 {
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
-        "*.dart": "$(capture).m.dart,$(capture).page.dart,$(capture).localize.dart,$(capture).theme.dart,$(capture).g.dart,$(capture).freezed.dart"
+        "*.dart": "$(capture).m.dart,$(capture).page.dart,$(capture).localize.dart,$(capture).theme.dart,$(capture).g.dart,$(capture).freezed.dart,$(capture).extensions.dart,$(capture).api.dart"
     }
 }
 """;

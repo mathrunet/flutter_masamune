@@ -43,6 +43,8 @@ class CodeValueCliCommand extends CliCodeCommand {
       }
     }
     await generateDartCode("$directory/$path", path);
+    await const CodeValueExtensionCliCommand()
+        .generateDartCode("$directory/$path.extensions", path);
   }
 
   @override
@@ -66,6 +68,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part '$baseName.m.dart';
 part '$baseName.g.dart';
 part '$baseName.freezed.dart';
+part '$baseName.extensions.dart';
 """;
   }
 
@@ -91,6 +94,59 @@ abstract class ${className}Value with _\$${className}Value {
   /// ref.form(${className}Value.form());     // Get the form controller.
   /// ```
   static const form = _\$${className}ValueFormQuery();
+}
+""";
+  }
+}
+
+/// Generates code to define an Extension corresponding to [CodeValueCliCommand].
+///
+/// [CodeValueCliCommand]に対応するExtensionを記載するコードを生成します。
+class CodeValueExtensionCliCommand extends CliCode {
+  /// Generates code to define an Extension corresponding to [CodeDocumentCliCommand].
+  ///
+  /// [CodeValueCliCommand]に対応するExtensionを記載するコードを生成します。
+  const CodeValueExtensionCliCommand();
+
+  @override
+  String get name => "main";
+
+  @override
+  String get prefix => "main";
+
+  @override
+  String get directory => "lib/models";
+
+  @override
+  String get description => "";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+part of '$baseName.dart';
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// Extension for ${className}Value.
+extension ${className}ValueExtensions on ${className}Value {
+  // TODO: Define the extension method.
+
+  /// Convert to a tile widget.
+  ///
+  /// ```dart
+  /// value.toTile(context);
+  /// ```
+  Widget toTile(BuildContext context) {
+    return const ListTile();
+  }
 }
 """;
   }

@@ -43,6 +43,10 @@ class CodeCollectionCliCommand extends CliCodeCommand {
       }
     }
     await generateDartCode("$directory/$path", path);
+    await const CodeCollectionExtensionCliCommand()
+        .generateDartCode("$directory/$path.extensions.dart", path);
+    await const CodeCollectionApiCliCommand()
+        .generateDartCode("$directory/$path.api.dart", path);
   }
 
   @override
@@ -66,6 +70,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part '$baseName.m.dart';
 part '$baseName.g.dart';
 part '$baseName.freezed.dart';
+part '$baseName.extensions.dart';
+part '$baseName.api.dart';
 """;
   }
 
@@ -184,9 +190,53 @@ typedef ${className}ModelMirrorDocument = _\$${className}ModelMirrorDocument;
 
 /// Collection class for storing ${className}Model.
 typedef ${className}ModelMirrorCollection = _\$${className}ModelMirrorCollection;
+""";
+  }
+}
 
-/// Extension for ${className}ModelDocument.
-extension ${className}ModelDocumentExtension on ${className}ModelDocument {
+/// Generates code to define an Extension corresponding to [CodeCollectionCliCommand].
+///
+/// [CodeCollectionCliCommand]に対応するExtensionを記載するコードを生成します。
+class CodeCollectionExtensionCliCommand extends CliCode {
+  /// Generates code to define an Extension corresponding to [CodeCollectionCliCommand].
+  ///
+  /// [CodeCollectionCliCommand]に対応するExtensionを記載するコードを生成します。
+  const CodeCollectionExtensionCliCommand();
+
+  @override
+  String get name => "main";
+
+  @override
+  String get prefix => "main";
+
+  @override
+  String get directory => "lib/models";
+
+  @override
+  String get description => "";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+part of '$baseName.dart';
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// Extension for ${className}Model.
+extension ${className}ModelExtensions on ${className}Model {
+  // TODO: Define the extension method.
+}
+
+/// Extension for ${className}ModelRef / ${className}ModelDocument.
+extension ${className}ModelRefExtensions on ${className}ModelRef {
   // TODO: Define the extension method.
 
   /// Convert to a tile widget.
@@ -195,13 +245,72 @@ extension ${className}ModelDocumentExtension on ${className}ModelDocument {
   /// document.toTile(context);
   /// ```
   Widget toTile(BuildContext context) {
+    // ignore: unused_local_variable
+    final value = this?.value;
     return const ListTile();
   }
 }
 
 /// Extension for ${className}ModelCollection.
-extension ${className}ModelCollectionExtension on ${className}ModelCollection {
+extension ${className}ModelCollectionExtensions on ${className}ModelCollection {
   // TODO: Define the extension method.
+}
+""";
+  }
+}
+
+/// Generates code to define an API corresponding to [CodeCollectionCliCommand].
+///
+/// [CodeCollectionCliCommand]に対応するAPIを記載するコードを生成します。
+class CodeCollectionApiCliCommand extends CliCode {
+  /// Generates code to define an API corresponding to [CodeCollectionCliCommand].
+  ///
+  /// [CodeCollectionCliCommand]に対応するAPIを記載するコードを生成します。
+  const CodeCollectionApiCliCommand();
+
+  @override
+  String get name => "main";
+
+  @override
+  String get prefix => "main";
+
+  @override
+  String get directory => "lib/models";
+
+  @override
+  String get description => "";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+part of '$baseName.dart';
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// Defines the API mapping to be passed to [RestApiModelAdapter].
+class ${className}ModelRestApiQuery extends ModelRestApiQuery {
+  /// Defines the API mapping to be passed to [RestApiModelAdapter].
+  const ${className}ModelRestApiQuery();
+
+  // TODO: Set the description.
+  @override
+  String? get description => null;
+
+  // TODO: Set the document.
+  @override
+  DocumentModelRestApiBuilder? get document => null;
+
+  // TODO: Set the collection.
+  @override
+  CollectionModelRestApiBuilder? get collection => null;
 }
 """;
   }
