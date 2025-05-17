@@ -1,3 +1,7 @@
+## 2.37.1
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
 ## 2.37.0
 
  - **FEAT**: Add DocumentModel's functionality to ModelRef as an interface. ([5f78d6e6](https://github.com/mathrunet/flutter_masamune/commit/5f78d6e6330267b3b3ea51a32ac255c451db32c7))

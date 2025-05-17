@@ -1,3 +1,7 @@
+## 2.2.157
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
 ## 2.2.156
 
  - Update a dependency to the latest release.

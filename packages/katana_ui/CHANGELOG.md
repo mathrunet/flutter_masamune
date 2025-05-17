@@ -1,3 +1,7 @@
+## 2.15.6
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
 ## 2.15.5
 
  - **FIX**: Fixed a bug where the Tile color of LineTile was not working properly. ([4a2c57de](https://github.com/mathrunet/flutter_masamune/commit/4a2c57deb8d2880d7c8d1e6ded283e4db646873f))

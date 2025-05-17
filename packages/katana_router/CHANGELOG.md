@@ -1,3 +1,7 @@
+## 2.7.1
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
 ## 2.7.0
 
  - **FEAT**: Added bottomSheetWithBarrier. ([c7754ecb](https://github.com/mathrunet/flutter_masamune/commit/c7754ecb811402a6b16fad25182ec125d6ae0c0c))

@@ -3,6 +3,442 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-05-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.40.1`](#katana_cli---v2401)
+ - [`katana_form` - `v2.18.1`](#katana_form---v2181)
+ - [`katana_functions_firebase` - `v2.9.8`](#katana_functions_firebase---v298)
+ - [`katana_indicator` - `v2.4.5`](#katana_indicator---v245)
+ - [`katana_listenables` - `v2.2.19`](#katana_listenables---v2219)
+ - [`katana_listenables_annotation` - `v2.1.19`](#katana_listenables_annotation---v2119)
+ - [`katana_listenables_builder` - `v2.1.28`](#katana_listenables_builder---v2128)
+ - [`katana_localization` - `v2.3.22`](#katana_localization---v2322)
+ - [`katana_localization_annotation` - `v2.2.20`](#katana_localization_annotation---v2220)
+ - [`katana_localization_builder` - `v2.3.8`](#katana_localization_builder---v238)
+ - [`katana_logger` - `v2.5.5`](#katana_logger---v255)
+ - [`katana_model` - `v2.37.1`](#katana_model---v2371)
+ - [`katana_model_firestore` - `v2.22.8`](#katana_model_firestore---v2228)
+ - [`katana_model_local` - `v2.18.6`](#katana_model_local---v2186)
+ - [`katana_model_openapi` - `v2.3.5`](#katana_model_openapi---v235)
+ - [`katana_model_openapi_builder` - `v2.1.23`](#katana_model_openapi_builder---v2123)
+ - [`katana_prefs` - `v2.2.19`](#katana_prefs---v2219)
+ - [`katana_prefs_annotation` - `v2.1.19`](#katana_prefs_annotation---v2119)
+ - [`katana_prefs_builder` - `v2.1.29`](#katana_prefs_builder---v2129)
+ - [`katana_router` - `v2.7.1`](#katana_router---v271)
+ - [`katana_router_annotation` - `v2.1.21`](#katana_router_annotation---v2121)
+ - [`katana_router_builder` - `v2.2.15`](#katana_router_builder---v2215)
+ - [`katana_scoped` - `v2.7.5`](#katana_scoped---v275)
+ - [`katana_shorten` - `v2.2.5`](#katana_shorten---v225)
+ - [`katana_storage` - `v2.4.5`](#katana_storage---v245)
+ - [`katana_storage_firebase` - `v2.2.13`](#katana_storage_firebase---v2213)
+ - [`katana_test` - `v2.1.4`](#katana_test---v214)
+ - [`katana_theme` - `v2.9.7`](#katana_theme---v297)
+ - [`katana_theme_annotation` - `v2.3.5`](#katana_theme_annotation---v235)
+ - [`katana_theme_builder` - `v2.4.6`](#katana_theme_builder---v246)
+ - [`katana_ui` - `v2.15.6`](#katana_ui---v2156)
+ - [`masamune` - `v2.23.14`](#masamune---v22314)
+ - [`masamune_ads_google` - `v2.7.24`](#masamune_ads_google---v2724)
+ - [`masamune_agora` - `v2.6.23`](#masamune_agora---v2623)
+ - [`masamune_ai` - `v2.5.13`](#masamune_ai---v2513)
+ - [`masamune_ai_firebase` - `v2.4.13`](#masamune_ai_firebase---v2413)
+ - [`masamune_ai_openai` - `v2.12.5`](#masamune_ai_openai---v2125)
+ - [`masamune_animate` - `v2.2.102`](#masamune_animate---v22102)
+ - [`masamune_annotation` - `v2.9.12`](#masamune_annotation---v2912)
+ - [`masamune_app_review` - `v2.1.34`](#masamune_app_review---v2134)
+ - [`masamune_auth_apple` - `v2.5.23`](#masamune_auth_apple---v2523)
+ - [`masamune_auth_apple_firebase` - `v2.1.27`](#masamune_auth_apple_firebase---v2127)
+ - [`masamune_auth_facebook` - `v2.6.23`](#masamune_auth_facebook---v2623)
+ - [`masamune_auth_firebase` - `v2.1.39`](#masamune_auth_firebase---v2139)
+ - [`masamune_auth_google` - `v2.6.23`](#masamune_auth_google---v2623)
+ - [`masamune_auth_google_firebase` - `v2.2.25`](#masamune_auth_google_firebase---v2225)
+ - [`masamune_builder` - `v2.22.2`](#masamune_builder---v2222)
+ - [`masamune_calendar` - `v2.4.23`](#masamune_calendar---v2423)
+ - [`masamune_camera` - `v2.6.23`](#masamune_camera---v2623)
+ - [`masamune_deeplink` - `v2.4.19`](#masamune_deeplink---v2419)
+ - [`masamune_deeplink_firebase` - `v2.4.19`](#masamune_deeplink_firebase---v2419)
+ - [`masamune_firebase_app_check` - `v2.3.19`](#masamune_firebase_app_check---v2319)
+ - [`masamune_force_updater` - `v2.2.34`](#masamune_force_updater---v2234)
+ - [`masamune_introduction` - `v2.7.23`](#masamune_introduction---v2723)
+ - [`masamune_lints` - `v2.5.11`](#masamune_lints---v2511)
+ - [`masamune_location` - `v2.9.19`](#masamune_location---v2919)
+ - [`masamune_location_background` - `v2.7.19`](#masamune_location_background---v2719)
+ - [`masamune_location_geocoding` - `v2.5.61`](#masamune_location_geocoding---v2561)
+ - [`masamune_location_google` - `v2.8.19`](#masamune_location_google---v2819)
+ - [`masamune_location_platform_interface` - `v2.4.85`](#masamune_location_platform_interface---v2485)
+ - [`masamune_logger_firebase` - `v2.6.23`](#masamune_logger_firebase---v2623)
+ - [`masamune_mail` - `v2.2.157`](#masamune_mail---v22157)
+ - [`masamune_model_algolia` - `v2.4.162`](#masamune_model_algolia---v24162)
+ - [`masamune_model_docs_builder` - `v2.3.13`](#masamune_model_docs_builder---v2313)
+ - [`masamune_model_firebase_data_connect` - `v2.3.29`](#masamune_model_firebase_data_connect---v2329)
+ - [`masamune_model_firebase_data_connect_annotation` - `v2.2.17`](#masamune_model_firebase_data_connect_annotation---v2217)
+ - [`masamune_model_firebase_data_connect_builder` - `v2.4.13`](#masamune_model_firebase_data_connect_builder---v2413)
+ - [`masamune_model_firebase_remote_config` - `v2.1.34`](#masamune_model_firebase_remote_config---v2134)
+ - [`masamune_model_firestore` - `v2.2.29`](#masamune_model_firestore---v2229)
+ - [`masamune_model_firestore_builder` - `v2.5.13`](#masamune_model_firestore_builder---v2513)
+ - [`masamune_notification` - `v2.11.19`](#masamune_notification---v21119)
+ - [`masamune_notification_firebase` - `v2.9.19`](#masamune_notification_firebase---v2919)
+ - [`masamune_notification_local` - `v2.4.19`](#masamune_notification_local---v2419)
+ - [`masamune_picker` - `v2.5.23`](#masamune_picker---v2523)
+ - [`masamune_purchase` - `v2.5.20`](#masamune_purchase---v2520)
+ - [`masamune_purchase_mobile` - `v2.13.20`](#masamune_purchase_mobile---v21320)
+ - [`masamune_purchase_stripe` - `v3.6.23`](#masamune_purchase_stripe---v3623)
+ - [`masamune_scheduler` - `v2.4.23`](#masamune_scheduler---v2423)
+ - [`masamune_speech_to_text` - `v2.4.19`](#masamune_speech_to_text---v2419)
+ - [`masamune_text_to_speech` - `v2.5.19`](#masamune_text_to_speech---v2519)
+ - [`masamune_universal_ui` - `v2.10.20`](#masamune_universal_ui---v21020)
+ - [`masamune_util` - `v2.2.157`](#masamune_util---v22157)
+ - [`katana_auth` - `v2.11.5`](#katana_auth---v2115)
+ - [`katana_auth_firebase` - `v2.8.6`](#katana_auth_firebase---v286)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_auth` - `v2.11.5`
+ - `katana_auth_firebase` - `v2.8.6`
+
+---
+
+#### `katana_cli` - `v2.40.1`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+ - **FIX**: Fixed an issue with the generated file names. ([bc5aad3a](https://github.com/mathrunet/flutter_masamune/commit/bc5aad3a90a48ab4edf5752a5c38795b05a20630))
+
+#### `katana_form` - `v2.18.1`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_functions_firebase` - `v2.9.8`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_indicator` - `v2.4.5`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_listenables` - `v2.2.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_listenables_annotation` - `v2.1.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_listenables_builder` - `v2.1.28`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_localization` - `v2.3.22`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_localization_annotation` - `v2.2.20`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_localization_builder` - `v2.3.8`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_logger` - `v2.5.5`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_model` - `v2.37.1`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_model_firestore` - `v2.22.8`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_model_local` - `v2.18.6`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_model_openapi` - `v2.3.5`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_model_openapi_builder` - `v2.1.23`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_prefs` - `v2.2.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_prefs_annotation` - `v2.1.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_prefs_builder` - `v2.1.29`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_router` - `v2.7.1`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_router_annotation` - `v2.1.21`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_router_builder` - `v2.2.15`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_scoped` - `v2.7.5`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_shorten` - `v2.2.5`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_storage` - `v2.4.5`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_storage_firebase` - `v2.2.13`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_test` - `v2.1.4`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_theme` - `v2.9.7`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_theme_annotation` - `v2.3.5`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_theme_builder` - `v2.4.6`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `katana_ui` - `v2.15.6`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune` - `v2.23.14`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_ads_google` - `v2.7.24`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_agora` - `v2.6.23`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_ai` - `v2.5.13`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_ai_firebase` - `v2.4.13`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_ai_openai` - `v2.12.5`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_animate` - `v2.2.102`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_annotation` - `v2.9.12`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_app_review` - `v2.1.34`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_auth_apple` - `v2.5.23`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_auth_apple_firebase` - `v2.1.27`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_auth_facebook` - `v2.6.23`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_auth_firebase` - `v2.1.39`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_auth_google` - `v2.6.23`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_auth_google_firebase` - `v2.2.25`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_builder` - `v2.22.2`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_calendar` - `v2.4.23`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_camera` - `v2.6.23`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_deeplink` - `v2.4.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_deeplink_firebase` - `v2.4.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_firebase_app_check` - `v2.3.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_force_updater` - `v2.2.34`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_introduction` - `v2.7.23`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_lints` - `v2.5.11`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_location` - `v2.9.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_location_background` - `v2.7.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_location_geocoding` - `v2.5.61`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_location_google` - `v2.8.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_location_platform_interface` - `v2.4.85`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_logger_firebase` - `v2.6.23`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_mail` - `v2.2.157`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_model_algolia` - `v2.4.162`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_model_docs_builder` - `v2.3.13`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_model_firebase_data_connect` - `v2.3.29`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_model_firebase_data_connect_annotation` - `v2.2.17`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_model_firebase_data_connect_builder` - `v2.4.13`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_model_firebase_remote_config` - `v2.1.34`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_model_firestore` - `v2.2.29`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_model_firestore_builder` - `v2.5.13`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_notification` - `v2.11.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_notification_firebase` - `v2.9.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_notification_local` - `v2.4.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_picker` - `v2.5.23`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_purchase` - `v2.5.20`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_purchase_mobile` - `v2.13.20`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_purchase_stripe` - `v3.6.23`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_scheduler` - `v2.4.23`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_speech_to_text` - `v2.4.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_text_to_speech` - `v2.5.19`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_universal_ui` - `v2.10.20`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+#### `masamune_util` - `v2.2.157`
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
+
 ## 2025-05-16
 
 ### Changes

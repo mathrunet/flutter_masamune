@@ -1,3 +1,8 @@
+## 2.40.1
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+ - **FIX**: Fixed an issue with the generated file names. ([bc5aad3a](https://github.com/mathrunet/flutter_masamune/commit/bc5aad3a90a48ab4edf5752a5c38795b05a20630))
+
 ## 2.40.0
 
  - **FEAT**: Changed to also generate an options file when generating the Model CLI. ([fc5aa7f6](https://github.com/mathrunet/flutter_masamune/commit/fc5aa7f64a5940b44855baf57a9863a5559890c4))

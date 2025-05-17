@@ -1,3 +1,7 @@
+## 2.18.1
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
 ## 2.18.0
 
  - **FEAT**: Refactor suggestion to support mention functionality. ([372c3819](https://github.com/mathrunet/flutter_masamune/commit/372c38193401f94e450436568b4a50c57c619c25))
