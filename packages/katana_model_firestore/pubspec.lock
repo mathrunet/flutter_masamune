@@ -454,21 +454,21 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.18.1"
+    version: "2.20.1"
   katana_firebase:
     dependency: "direct main"
     description:
       path: "../katana_firebase"
       relative: true
     source: path
-    version: "2.2.16"
+    version: "2.2.19"
   katana_model:
     dependency: "direct main"
     description:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.33.1"
+    version: "2.37.0"
   katana_test:
     dependency: "direct dev"
     description:

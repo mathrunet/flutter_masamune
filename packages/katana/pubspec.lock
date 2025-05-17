@@ -204,7 +204,7 @@ packages:
       path: "../katana_test"
       relative: true
     source: path
-    version: "2.1.2"
+    version: "2.1.3"
   lints:
     dependency: transitive
     description:

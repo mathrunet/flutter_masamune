@@ -295,14 +295,14 @@ packages:
       path: "../katana_form"
       relative: true
     source: path
-    version: "2.17.6"
+    version: "2.18.0"
   katana_functions:
     dependency: "direct overridden"
     description:
       path: "../katana_functions"
       relative: true
     source: path
-    version: "2.10.2"
+    version: "2.10.3"
   katana_indicator:
     dependency: "direct overridden"
     description:
@@ -351,14 +351,14 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.36.3"
+    version: "2.37.0"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "2.18.3"
+    version: "2.18.5"
   katana_prefs:
     dependency: "direct overridden"
     description:
@@ -458,15 +458,14 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.23.10"
+    version: "2.23.13"
   masamune_ai:
     dependency: "direct main"
     description:
-      name: masamune_ai
-      sha256: c90005598f62062f51bdb5ec8c1ebe2414269ef4b2ad69f8990de52baa9fed6d
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.5.7"
+      path: "../masamune_ai"
+      relative: true
+    source: path
+    version: "2.5.12"
   masamune_annotation:
     dependency: "direct overridden"
     description:

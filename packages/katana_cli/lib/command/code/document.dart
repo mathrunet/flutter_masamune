@@ -46,7 +46,7 @@ class CodeDocumentCliCommand extends CliCodeCommand {
     await const CodeDocumentExtensionCliCommand()
         .generateDartCode("$directory/$path.extensions", path);
     await const CodeDocumentApiCliCommand()
-        .generateDartCode("$directory/$path.api.dart", path);
+        .generateDartCode("$directory/$path.api", path);
   }
 
   @override

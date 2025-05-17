@@ -345,35 +345,35 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.18.0"
+    version: "2.20.1"
   katana_builder:
     dependency: "direct overridden"
     description:
       path: "../../katana_builder"
       relative: true
     source: path
-    version: "2.2.1"
+    version: "2.3.0"
   katana_theme:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.8.0"
+    version: "2.9.6"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.3.0"
+    version: "2.3.4"
   katana_theme_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_theme_builder"
       relative: true
     source: path
-    version: "2.4.0"
+    version: "2.4.5"
   leak_tracker:
     dependency: transitive
     description:

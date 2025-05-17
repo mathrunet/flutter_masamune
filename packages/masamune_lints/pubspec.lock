@@ -295,14 +295,14 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.18.0"
+    version: "2.20.1"
   katana_test:
     dependency: "direct dev"
     description:
       path: "../katana_test"
       relative: true
     source: path
-    version: "2.1.2"
+    version: "2.1.3"
   lints:
     dependency: transitive
     description:

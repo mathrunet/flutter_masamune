@@ -270,7 +270,7 @@ packages:
       path: "../katana_builder"
       relative: true
     source: path
-    version: "2.2.5"
+    version: "2.3.0"
   katana_listenables_annotation:
     dependency: "direct main"
     description:
@@ -284,7 +284,7 @@ packages:
       path: "../katana_listenables_builder"
       relative: true
     source: path
-    version: "2.1.26"
+    version: "2.1.27"
   katana_localization_annotation:
     dependency: "direct main"
     description:
@@ -298,7 +298,7 @@ packages:
       path: "../katana_localization_builder"
       relative: true
     source: path
-    version: "2.3.6"
+    version: "2.3.7"
   katana_prefs_annotation:
     dependency: "direct main"
     description:
@@ -312,7 +312,7 @@ packages:
       path: "../katana_prefs_builder"
       relative: true
     source: path
-    version: "2.1.27"
+    version: "2.1.28"
   katana_router_annotation:
     dependency: "direct main"
     description:
@@ -326,7 +326,7 @@ packages:
       path: "../katana_router_builder"
       relative: true
     source: path
-    version: "2.2.13"
+    version: "2.2.14"
   katana_test:
     dependency: "direct dev"
     description:
@@ -347,7 +347,7 @@ packages:
       path: "../katana_theme_builder"
       relative: true
     source: path
-    version: "2.4.4"
+    version: "2.4.5"
   lints:
     dependency: transitive
     description:
