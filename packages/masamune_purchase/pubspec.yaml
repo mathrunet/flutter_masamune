@@ -1,6 +1,6 @@
 name: masamune_purchase
 description: Masamune plugin package that contains the base implementation for implementing InAppPurchase and an adapter for mocking.
-version: 2.5.20
+version: 2.5.21
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_purchase
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.20.1
-  masamune: ^2.23.14
+  katana: ^2.20.2
+  masamune: ^2.23.15
   freezed_annotation: ^3.0.0
   json_annotation: ^4.8.0
   universal_platform: ^1.0.0+1
@@ -24,7 +24,7 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   import_sorter: ^4.6.0
   build_runner: ^2.3.3
-  masamune_builder: ^2.22.2
+  masamune_builder: ^2.22.3
   freezed: ^3.0.0
   json_serializable: ^6.6.0
 

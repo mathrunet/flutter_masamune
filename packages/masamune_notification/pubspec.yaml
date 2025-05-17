@@ -1,6 +1,6 @@
 name: masamune_notification
 description: Masamune plugin to use base classes and stubs to implement PUSH notifications.
-version: 2.11.19
+version: 2.11.20
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_notification
 
@@ -12,16 +12,16 @@ dependencies:
   flutter:
     sdk: flutter
     
-  masamune: ^2.23.14
+  masamune: ^2.23.15
   freezed_annotation: ^3.0.0
   json_annotation: ^4.8.0
-  masamune_scheduler: ^2.4.23
+  masamune_scheduler: ^2.4.24
 dev_dependencies:
   test: ^1.24.0
   katana_test: ^2.1.4
   flutter_lints: ^5.0.0
   import_sorter: ^4.6.0
   build_runner: ^2.3.3
-  masamune_builder: ^2.22.2
+  masamune_builder: ^2.22.3
   freezed: ^3.0.0
   json_serializable: ^6.6.0

@@ -1,3 +1,7 @@
+## 2.40.2
+
+ - **FIX**: Corrected the import syntax. ([afd4b79a](https://github.com/mathrunet/flutter_masamune/commit/afd4b79a3e853cc082c1e45eb3c4a8d515cc8a3f))
+
 ## 2.40.1
 
  - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))

@@ -1,3 +1,7 @@
+## 2.20.2
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
 ## 2.20.1
 
  - **FIX**: Fixed: ApiMethod was not included on the web side. ([50b4b9e7](https://github.com/mathrunet/flutter_masamune/commit/50b4b9e7bf7620afd7c90570ace5eabd5225fce0))

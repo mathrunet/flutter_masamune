@@ -1,3 +1,7 @@
+## 2.10.4
+
+ - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
+
 ## 2.10.3
 
  - **FIX**: Preparation for creating a FunctionsRestApi. ([47bccf8b](https://github.com/mathrunet/flutter_masamune/commit/47bccf8b1f9b9ef7b7e345f9f08baf35f34a8882))

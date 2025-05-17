@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - Update a dependency to the latest release.
+
 ## 2.3.0
 
  - **FEAT**: Changed to also generate an options file when generating the Model CLI. ([fc5aa7f6](https://github.com/mathrunet/flutter_masamune/commit/fc5aa7f64a5940b44855baf57a9863a5559890c4))
