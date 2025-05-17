@@ -46,7 +46,7 @@ class CodeCollectionCliCommand extends CliCodeCommand {
     await const CodeCollectionExtensionCliCommand()
         .generateDartCode("$directory/$path.extensions", path);
     await const CodeCollectionApiCliCommand()
-        .generateDartCode("$directory/$path.api.dart", path);
+        .generateDartCode("$directory/$path.api", path);
   }
 
   @override
@@ -218,7 +218,7 @@ class CodeCollectionExtensionCliCommand extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-part of '$baseName.dart';
+part of '${baseName.replaceAll(".extensions", "")}.dart';
 """;
   }
 
@@ -283,7 +283,7 @@ class CodeCollectionApiCliCommand extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-part of '$baseName.dart';
+part of '${baseName.replaceAll(".api", "")}.dart';
 """;
   }
 

@@ -123,7 +123,7 @@ class CodeValueExtensionCliCommand extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-part of '$baseName.dart';
+part of '${baseName.replaceAll(".extensions", "")}.dart';
 """;
   }
 
