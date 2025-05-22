@@ -802,6 +802,7 @@ class PackageCliCommand extends CliCommand {
     for (final file in otherFiles.entries) {
       await file.value.generateFile(file.key);
     }
+    await CodeSnippetsCliGroup().generateFiles();
     label("Replace package main file.");
     await PackageMainCliCode(packageName: projectName)
         .generateFile("${projectName.toSnakeCase()}.dart");

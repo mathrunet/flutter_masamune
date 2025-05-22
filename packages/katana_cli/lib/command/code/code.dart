@@ -11,6 +11,7 @@ import 'package:katana_cli/ai/designs/designs.dart';
 import 'package:katana_cli/ai/docs/docs.dart';
 import 'package:katana_cli/ai/impls/impls.dart';
 import 'package:katana_cli/katana_cli.dart';
+import 'package:katana_cli/snippet/snippet.dart';
 import 'server/server.dart';
 import 'view/view.dart';
 
@@ -39,6 +40,7 @@ part 'model_adapter.dart';
 part 'exception.dart';
 part 'modal.dart';
 part 'log.dart';
+part 'snippets.dart';
 
 class CodeCliCommand extends CliCommandGroup {
   const CodeCliCommand();
@@ -53,6 +55,7 @@ class CodeCliCommand extends CliCommandGroup {
         "server": CodeServerCliCommand(),
         "boot": CodeBootCliCommand(),
         "docs": CodeDocsCliCommand(),
+        "snippets": CodeSnippetsCliCommand(),
         "format": CodeFormatCliCommand(),
         "generate": CodeGenerateCliCommand(),
         "watch": CodeWatchCliCommand(),
