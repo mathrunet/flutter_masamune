@@ -281,9 +281,6 @@ abstract class CliCode {
   /// ベースコードを定義するための抽象クラス。
   const CliCode();
 
-  static const _baseName = r"${TM_FILENAME_BASE}";
-  static const _className =
-      r"${TM_FILENAME_BASE/([^_]*)(_?)/${1:/capitalize}/g}";
   static final _regExp = RegExp(r"\$\{[0-9]+(:([^\}]+))?\}");
 
   /// Defines the name of the code.
@@ -296,9 +293,9 @@ abstract class CliCode {
   /// コードの概要を定義します。
   String get description;
 
-  /// Defines the code prefix. Used for snippets.
+  /// Defines the code prefix.
   ///
-  /// コードのプレフィックスを定義します。スニペット用に利用します。
+  /// コードのプレフィックスを定義します。
   String get prefix;
 
   /// Specify the folder where the code will be generated.
@@ -348,65 +345,6 @@ abstract class CliCode {
     await File("$path.$ext").writeAsString(filter?.call(output) ?? output);
   }
 
-  /// Create a code snippet file for VSCode in [directory]/[name].code-snippets.
-  ///
-  /// You can edit the data inside with [filter].
-  ///
-  /// [directory]/[name].code-snippetsにVSCode用のコードスニペットファイルを作成します。
-  ///
-  /// [filter]で中身のデータを編集することができます。
-  Future<void> generateCodeSnippet(
-    String directory, {
-    String Function(String value)? filter,
-  }) async {
-    if (directory.isNotEmpty) {
-      final dir = Directory(directory);
-      if (!dir.existsSync()) {
-        await dir.create(recursive: true);
-      }
-    }
-    final fileName = name.toSnakeCase();
-    final json = {
-      name: {
-        "prefix": "m${prefix.toPascalCase()}",
-        "description": description,
-        "body":
-            "${import(_baseName, _baseName, _className)}\n${header(_baseName, _baseName, _className)}\n${body(_baseName, _baseName, _className)}\n"
-                .replaceAll("\r\n", "\n")
-                .replaceAll("\r", "\n")
-                .split("\n")
-      },
-      "${name}_import": {
-        "prefix": "i${prefix.toPascalCase()}",
-        "description": description,
-        "body": "${import(_baseName, _baseName, _className)}\n"
-            .replaceAll("\r\n", "\n")
-            .replaceAll("\r", "\n")
-            .split("\n")
-      },
-      "${name}_header": {
-        "prefix": "h${prefix.toPascalCase()}",
-        "description": description,
-        "body": "${header(_baseName, _baseName, _className)}\n"
-            .replaceAll("\r\n", "\n")
-            .replaceAll("\r", "\n")
-            .split("\n")
-      },
-      "${name}_body": {
-        "prefix": "b${prefix.toPascalCase()}",
-        "description": description,
-        "body": "${body(_baseName, _baseName, _className)}\n"
-            .replaceAll("\r\n", "\n")
-            .replaceAll("\r", "\n")
-            .split("\n")
-      }
-    };
-    final output = jsonEncode(json);
-    await File(
-      "${directory.isNotEmpty ? "$directory/" : ""}$fileName.code-snippets",
-    ).writeAsString(filter?.call(output) ?? output);
-  }
-
   /// Create a specific file in [directory]/[fileName].
   ///
   /// You can edit the data inside with [filter].
@@ -445,6 +383,62 @@ abstract class CliCode {
     return value.replaceAllMapped(_regExp, (m) {
       return m.group(2) ?? "";
     });
+  }
+}
+
+/// Abstract class for defining code snippets.
+///
+/// コードスニペットを定義するための抽象クラス。
+abstract class CliCodeSnippet {
+  /// Abstract class for defining code snippets.
+  ///
+  /// コードスニペットを定義するための抽象クラス。
+  const CliCodeSnippet();
+
+  static const _baseName = r"${TM_FILENAME_BASE}";
+  static const _className =
+      r"${TM_FILENAME_BASE/([^_]*)(_?)/${1:/capitalize}/g}";
+
+  /// Defines the code prefix.
+  ///
+  /// コードのプレフィックスを定義します。
+  String get prefix;
+
+  /// Defines the name of the code.
+  ///
+  /// コードの名前を定義します。
+  String get name;
+
+  /// Defines the outline of the code.
+  ///
+  /// コードの概要を定義します。
+  String get description;
+
+  /// Defines the language of the code.
+  ///
+  /// コードの言語を定義します。
+  String get language => "dart";
+
+  /// Defines the actual body code. [path] is passed relative to `lib`, [baseName] is the filename, and [className] is the filename converted to Pascal case.
+  ///
+  /// 実際の本体コードを定義します。[path]に`lib`からの相対パス、[baseName]にファイル名が渡され、[className]にファイル名をパスカルケースに変換した値が渡されます。
+  String body(String path, String baseName, String className);
+
+  /// Generate code snippet.
+  ///
+  /// コードスニペットを生成します。
+  DynamicMap generate() {
+    return {
+      name: {
+        "prefix": prefix,
+        "description": description,
+        "scope": language,
+        "body": "${body(_baseName, _baseName, _className)}\n"
+            .replaceAll("\r\n", "\n")
+            .replaceAll("\r", "\n")
+            .split("\n")
+      },
+    };
   }
 }
 

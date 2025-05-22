@@ -8,6 +8,7 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:image/image.dart';
 import 'package:image/src/formats/ico_encoder.dart';
+import 'package:katana_cli/snippet/snippet.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
@@ -483,6 +484,7 @@ class ComposeCliCommand extends CliCommand {
     for (final file in otherFiles.entries) {
       await file.value.generateFile(file.key);
     }
+    await CodeSnippetsCliGroup().generateFiles();
     label("Generate file for Cursor AI");
     await const DesignsAiCode().exec(context);
     await const ImplsAiCode().exec(context);
