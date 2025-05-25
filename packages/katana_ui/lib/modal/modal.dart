@@ -117,7 +117,7 @@ abstract class Modal<T> {
     if (overlay == null) {
       return null;
     }
-    final ref = ModalRef<T>._((result) {
+    final ref = ModalRef<T>._(context, (result) {
       if (popOnPress) {
         Navigator.of(context, rootNavigator: true).pop(result);
       }
@@ -526,9 +526,15 @@ abstract class Modal<T> {
 /// Modalをコントロールするためのクラスです。
 @immutable
 class ModalRef<T> {
-  const ModalRef._(this._onClose);
+  const ModalRef._(
+    this._context,
+    this._onClose,
+  );
 
   final void Function(T? result) _onClose;
+
+  BuildContext get rootContext => _context;
+  final BuildContext _context;
 
   /// Closes the modal.
   ///
