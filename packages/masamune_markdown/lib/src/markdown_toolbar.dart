@@ -151,6 +151,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
       }
       setState(() {
         _textLink = _LinkSetting(controller: controller);
+        _textLink?.focusNode.requestFocus();
       });
     }
   }
@@ -319,6 +320,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 8.sx,
                 IconButton(
                   onPressed: () {
+                    _textLink?.cancel();
                     _textLink = null;
                   },
                   icon: Icon(Icons.cancel_outlined),
@@ -333,6 +335,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 16.sx,
                 Expanded(
                   child: FormTextField(
+                    focusNode: _textLink?.focusNode,
                     initialValue: _textLink?.link.link,
                     style: FormStyle(
                       borderStyle: FormInputBorderStyle.outline,
@@ -628,6 +631,7 @@ class _LinkSetting {
 
   final QuillController controller;
   late QuillTextLink link;
+  final FocusNode focusNode = FocusNode();
 
   void submit() {
     if (link.link.isEmpty) {
@@ -639,5 +643,8 @@ class _LinkSetting {
     } else {
       link.submit(controller);
     }
+  }
+
+  void cancel() {
   }
 }
