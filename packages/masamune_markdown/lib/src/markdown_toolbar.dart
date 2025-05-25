@@ -11,6 +11,7 @@ class MarkdownToolbar extends StatefulWidget {
     this.color,
     this.backgroundColor,
     this.borderColor,
+    this.mentionBuilder,
   });
 
   final MarkdownController controller;
@@ -18,6 +19,7 @@ class MarkdownToolbar extends StatefulWidget {
   final Color? color;
   final Color? backgroundColor;
   final Color? borderColor;
+  final List<MarkdownMention> Function(BuildContext context)? mentionBuilder;
 
   @override
   State<MarkdownToolbar> createState() => _MarkdownToolbarState();
@@ -26,12 +28,15 @@ class MarkdownToolbar extends StatefulWidget {
 class _MarkdownToolbarState extends State<MarkdownToolbar>
     with WidgetsBindingObserver
     implements MarkdownToolRef {
+  bool _isKeyboardHidden = false;
   bool _showSelectedMenu = false;
-  double? _showMenuHeight;
+  bool _showBlockMenu = false;
+  double _blockMenuHeight = 0;
   double _lastBottomInset = 0;
 
   _LinkSetting? _textLink;
 
+  final TextEditingController _mentionController = TextEditingController();
   final ClipboardMonitor _clipboardMonitor = ClipboardMonitor();
 
   @override
@@ -47,6 +52,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
     _clipboardMonitor.monitorClipboard(false, _handledClipboardStateOnChanged);
     WidgetsBinding.instance.removeObserver(this);
     widget.controller.removeListener(_handleSelectionStateOnChanged);
+    _mentionController.dispose();
     super.dispose();
   }
 
@@ -55,10 +61,16 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
     final currentBottomInset = context.mediaQuery.viewInsets.bottom;
     final isKeyboardShowing =
         _lastBottomInset + _kMinChangeSize < currentBottomInset;
+    if (_isKeyboardHidden && _lastBottomInset == 0 && currentBottomInset > 0) {
+      _isKeyboardHidden = false;
+    }
     _lastBottomInset = currentBottomInset;
-    if (_showMenuHeight != null) {
-      if (isKeyboardShowing) {
-        _showMenuHeight = null;
+    if (!_isKeyboardHidden && _blockMenuHeight < currentBottomInset) {
+      _blockMenuHeight = currentBottomInset;
+    }
+    if (isKeyboardShowing) {
+      if (_showBlockMenu) {
+        _showBlockMenu = false;
       }
     }
   }
@@ -72,7 +84,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
 
   @override
   bool get isKeyboardShowing =>
-      _showMenuHeight != null || context.mediaQuery.viewInsets.bottom > 0;
+      _showBlockMenu || context.mediaQuery.viewInsets.bottom > 0;
 
   _FormMarkdownFieldState? get focuedState {
     return widget.controller._states.firstWhereOrNull(
@@ -111,25 +123,25 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   void toggleMode(MarkdownToolMain mode) {
     setState(() {
       if (mode == _currentMode) {
-        if (_showMenuHeight != null) {
-          _showMenuHeight = null;
+        if (_showBlockMenu) {
+          _showBlockMenu = false;
           SystemChannels.textInput.invokeMethod("TextInput.show");
         } else {
           if (mode.hideKeyboardOnSelected) {
-            _showMenuHeight = context.mediaQuery.viewInsets.bottom;
+            _showBlockMenu = true;
             SystemChannels.textInput.invokeMethod("TextInput.hide");
           }
         }
         _currentMode = mode;
       } else {
-        if (_showMenuHeight != null) {
+        if (_showBlockMenu) {
           if (!mode.hideKeyboardOnSelected) {
-            _showMenuHeight = null;
+            _showBlockMenu = false;
             SystemChannels.textInput.invokeMethod("TextInput.show");
           }
         } else {
           if (mode.hideKeyboardOnSelected) {
-            _showMenuHeight = context.mediaQuery.viewInsets.bottom;
+            _showBlockMenu = true;
             SystemChannels.textInput.invokeMethod("TextInput.hide");
           }
         }
@@ -166,8 +178,11 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   @override
   void closeKeyboard() {
     setState(() {
-      _showMenuHeight = null;
+      _isKeyboardHidden = true;
+      _showBlockMenu = false;
+      _blockMenuHeight = 0;
       focuedState?._effectiveFocusNode.unfocus();
+      SystemChannels.textInput.invokeMethod("TextInput.hide");
     });
   }
 
@@ -205,26 +220,66 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
           icon: Icon(e.icon(context)),
         );
       } else {
-        if (_currentMode == e && _showMenuHeight != null) {
-          return IconButton.filled(
-            style: IconButton.styleFrom(
-              backgroundColor:
-                  theme.colorTheme?.primary ?? theme.colorScheme.primary,
-              foregroundColor:
-                  theme.colorTheme?.onPrimary ?? theme.colorScheme.onPrimary,
-            ),
-            onPressed: () {
-              e.onTap(context, this);
-            },
-            icon: Icon(e.icon(context)),
-          );
+        final controller = focuedState?._controller;
+        if (e == MarkdownToolMain.mention && controller != null) {
+          if (_currentMode == e && _showBlockMenu) {
+            return ListenableBuilder(
+                listenable: controller,
+                builder: (context, child) {
+                  final style = controller.getSelectionStyle();
+                  return IconButton.filled(
+                    style: IconButton.styleFrom(
+                      backgroundColor: theme.colorTheme?.primary ??
+                          theme.colorScheme.primary,
+                      foregroundColor: theme.colorTheme?.onPrimary ??
+                          theme.colorScheme.onPrimary,
+                    ),
+                    onPressed: style.attributes.containsKey(Attribute.link.key)
+                        ? null
+                        : () {
+                            e.onTap(context, this);
+                          },
+                    icon: Icon(e.icon(context)),
+                  );
+                });
+          } else {
+            return ListenableBuilder(
+              listenable: controller,
+              builder: (context, child) {
+                final style = controller.getSelectionStyle();
+                return IconButton(
+                  onPressed: style.attributes.containsKey(Attribute.link.key)
+                      ? null
+                      : () {
+                          e.onTap(context, this);
+                        },
+                  icon: Icon(e.icon(context)),
+                );
+              },
+            );
+          }
         } else {
-          return IconButton(
-            onPressed: () {
-              e.onTap(context, this);
-            },
-            icon: Icon(e.icon(context)),
-          );
+          if (_currentMode == e && _showBlockMenu) {
+            return IconButton.filled(
+              style: IconButton.styleFrom(
+                backgroundColor:
+                    theme.colorTheme?.primary ?? theme.colorScheme.primary,
+                foregroundColor:
+                    theme.colorTheme?.onPrimary ?? theme.colorScheme.onPrimary,
+              ),
+              onPressed: () {
+                e.onTap(context, this);
+              },
+              icon: Icon(e.icon(context)),
+            );
+          } else {
+            return IconButton(
+              onPressed: () {
+                e.onTap(context, this);
+              },
+              icon: Icon(e.icon(context)),
+            );
+          }
         }
       }
     });
@@ -284,7 +339,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
     return Positioned(
       left: 0,
       right: 0,
-      bottom: _showMenuHeight ?? context.mediaQuery.viewInsets.bottom,
+      bottom: _blockMenuHeight,
       child: Container(
         color: theme.colorTheme?.background,
         height: _kToolbarHeight * 2,
@@ -381,7 +436,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
             ),
           ),
         ),
-        height: _showMenuHeight ?? 0,
+        height: _blockMenuHeight,
         width: double.infinity,
         child: GridView.extent(
           maxCrossAxisExtent: 240,
@@ -443,7 +498,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
             ),
           ),
         ),
-        height: _showMenuHeight ?? 0,
+        height: _blockMenuHeight,
         width: double.infinity,
         child: GridView.extent(
           maxCrossAxisExtent: 240,
@@ -490,6 +545,64 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
     );
   }
 
+  Widget _buildMentionMenu(BuildContext context, ThemeData theme) {
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 0,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: widget.borderColor ??
+                  theme.colorTheme?.outline.withAlpha(128) ??
+                  theme.colorScheme.outline.withAlpha(128),
+            ),
+          ),
+        ),
+        height: _blockMenuHeight,
+        width: double.infinity,
+        child: ListenableBuilder(
+            listenable: _mentionController,
+            builder: (context, child) {
+              final search = _mentionController.text.toLowerCase();
+              final mentions = widget.mentionBuilder?.call(context).where((e) {
+                    if (search.isEmpty) {
+                      return true;
+                    }
+                    return e.name.toLowerCase().contains(search) ||
+                        e.id.toLowerCase().contains(search);
+                  }).toList() ??
+                  [];
+              return ListView.builder(
+                itemCount: mentions.length,
+                padding: EdgeInsets.fromLTRB(
+                    0, 16, 0, 16 + context.mediaQuery.viewPadding.bottom),
+                itemBuilder: (context, index) {
+                  final mention = mentions[index];
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: mention.avatar,
+                      backgroundColor: theme.colorScheme.outline,
+                    ),
+                    title: Text(mention.name.trim().trimString("@")),
+                    subtitle: Text("@${mention.id.trim().trimString("@")}"),
+                    onTap: () {
+                      final controller = focusedController;
+                      if (controller == null) {
+                        return;
+                      }
+                      controller.insertMention(mention);
+                      toggleMode(MarkdownToolMain.mention);
+                    },
+                  );
+                },
+              );
+            }),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -507,14 +620,14 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
             ),
         child: Container(
           color: widget.backgroundColor ?? theme.colorTheme?.background,
-          height: (_showMenuHeight ?? context.mediaQuery.viewInsets.bottom) +
+          height: _blockMenuHeight +
               (_textLink != null ? _kToolbarHeight * 2 : _kToolbarHeight),
           child: Stack(
             children: [
               Positioned(
                 left: 0,
                 right: 0,
-                bottom: _showMenuHeight ?? context.mediaQuery.viewInsets.bottom,
+                bottom: _blockMenuHeight,
                 child: SizedBox(
                   height: _kToolbarHeight,
                   width: double.infinity,
@@ -551,6 +664,8 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
               ],
               if (_currentMode == MarkdownToolMain.add) ...[
                 _buildAddMenu(context, theme),
+              ] else if (_currentMode == MarkdownToolMain.mention) ...[
+                _buildMentionMenu(context, theme),
               ] else if (_currentMode == MarkdownToolMain.exchange) ...[
                 _buildExchangeMenu(context, theme),
               ],
@@ -646,5 +761,6 @@ class _LinkSetting {
   }
 
   void cancel() {
+    focusNode.dispose();
   }
 }

@@ -1,6 +1,15 @@
 part of '/masamune_markdown.dart';
 
 extension QuillControllerExtension on QuillController {
+  void insertMention(MarkdownMention mention) {
+    final lineStart = selection.start;
+    final lineEnd = selection.end;
+    final name = "@${mention.name.trim().trimString("@")}";
+    replaceText(lineStart, lineEnd - lineStart, name, null);
+    formatText(lineStart, name.length,
+        LinkAttribute("@${mention.id.trim().trimString("@")}"));
+  }
+
   void unselect() {
     updateSelection(
       TextSelection.collapsed(offset: selection.extentOffset),
@@ -80,4 +89,5 @@ extension QuillControllerExtension on QuillController {
     }
     return currentIndent.value > 0;
   }
+
 }
