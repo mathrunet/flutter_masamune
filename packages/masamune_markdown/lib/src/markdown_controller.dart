@@ -1,0 +1,70 @@
+part of '/masamune_markdown.dart';
+
+class MarkdownController extends MasamuneControllerBase<List<TextEditingValue>,
+    MarkdownMasamuneAdapter> {
+  MarkdownController({MarkdownMasamuneAdapter? adapter});
+
+  /// Query for MarkdownController.
+  ///
+  /// ```dart
+  /// appRef.controller(MarkdownController.query(parameters));     // Get from application scope.
+  /// ref.app.controller(MarkdownController.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(MarkdownController.query(parameters));   // Watch at page scope.
+  /// ```
+  static const query = _$MarkdownControllerQuery();
+
+  @override
+  MarkdownMasamuneAdapter get primaryAdapter => MarkdownMasamuneAdapter.primary;
+
+  @override
+  List<TextEditingValue>? get value => [
+        ..._states.map(
+          (state) => TextEditingValue(
+              text: state._text ?? "", selection: state._controller.selection),
+        ),
+      ];
+
+  final Set<_FormMarkdownFieldState> _states = {};
+
+  void _registerState(_FormMarkdownFieldState state) {
+    _states.add(state);
+    state._controller.addListener(notifyListeners);
+  }
+
+  void _unregisterState(_FormMarkdownFieldState state) {
+    state._controller.removeListener(notifyListeners);
+    _states.remove(state);
+  }
+}
+
+@immutable
+class _$MarkdownControllerQuery {
+  const _$MarkdownControllerQuery();
+
+  @useResult
+  _$_MarkdownControllerQuery call({MarkdownMasamuneAdapter? adapter}) =>
+      _$_MarkdownControllerQuery(
+        hashCode.toString(),
+        adapter: adapter,
+      );
+}
+
+@immutable
+class _$_MarkdownControllerQuery
+    extends ControllerQueryBase<MarkdownController> {
+  const _$_MarkdownControllerQuery(this._name, {this.adapter});
+
+  final String _name;
+
+  final MarkdownMasamuneAdapter? adapter;
+
+  @override
+  MarkdownController Function() call(Ref ref) {
+    return () => MarkdownController(adapter: adapter);
+  }
+
+  @override
+  String get queryName => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => false;
+}

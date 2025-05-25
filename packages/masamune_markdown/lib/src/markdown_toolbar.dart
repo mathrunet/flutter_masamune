@@ -1,0 +1,490 @@
+part of '/masamune_markdown.dart';
+
+const _kToolbarHeight = kToolbarHeight;
+const _kMinChangeSize = 16.0;
+
+class MarkdownToolbar extends StatefulWidget {
+  const MarkdownToolbar({
+    super.key,
+    required this.controller,
+    this.exchangeIcon = Icons.repeat,
+    this.color,
+    this.backgroundColor,
+    this.borderColor,
+  });
+
+  final MarkdownController controller;
+  final IconData exchangeIcon;
+  final Color? color;
+  final Color? backgroundColor;
+  final Color? borderColor;
+
+  @override
+  State<MarkdownToolbar> createState() => _MarkdownToolbarState();
+}
+
+class _MarkdownToolbarState extends State<MarkdownToolbar>
+    with WidgetsBindingObserver
+    implements MarkdownToolRef {
+  bool _showSelectedMenu = false;
+  double? _showMenuHeight;
+  double _lastBottomInset = 0;
+
+  final ClipboardMonitor _clipboardMonitor = ClipboardMonitor();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.addListener(_handleSelectionStateOnChanged);
+    WidgetsBinding.instance.addObserver(this);
+    _clipboardMonitor.monitorClipboard(true, _handledClipboardStateOnChanged);
+  }
+
+  @override
+  void dispose() {
+    _clipboardMonitor.monitorClipboard(false, _handledClipboardStateOnChanged);
+    WidgetsBinding.instance.removeObserver(this);
+    widget.controller.removeListener(_handleSelectionStateOnChanged);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    final currentBottomInset = context.mediaQuery.viewInsets.bottom;
+    final isKeyboardShowing =
+        _lastBottomInset + _kMinChangeSize < currentBottomInset;
+    _lastBottomInset = currentBottomInset;
+    if (_showMenuHeight != null) {
+      if (isKeyboardShowing) {
+        _showMenuHeight = null;
+      }
+    }
+  }
+
+  @override
+  MarkdownToolMain? get currentMode => _currentMode;
+  MarkdownToolMain? _currentMode;
+
+  @override
+  bool get canPaste => _clipboardMonitor.canPaste;
+
+  @override
+  bool get isKeyboardShowing =>
+      _showMenuHeight != null || context.mediaQuery.viewInsets.bottom > 0;
+
+  _FormMarkdownFieldState? get focuedState {
+    return widget.controller._states.firstWhereOrNull(
+      (state) => state._effectiveFocusNode.hasFocus,
+    );
+  }
+
+  @override
+  TextSelection? get focusedSelection {
+    final state = focuedState;
+    if (state == null) {
+      return null;
+    }
+    return state._controller.selection;
+  }
+
+  @override
+  bool get isTextSelected {
+    final selection = focusedSelection;
+    if (selection == null) {
+      return false;
+    }
+    return selection.isValid && !selection.isCollapsed;
+  }
+
+  @override
+  QuillController? get focusedController {
+    final state = focuedState;
+    if (state == null) {
+      return null;
+    }
+    return state._controller;
+  }
+
+  @override
+  void toggleMode(MarkdownToolMain mode) {
+    setState(() {
+      if (mode == _currentMode) {
+        if (_showMenuHeight != null) {
+          _showMenuHeight = null;
+          SystemChannels.textInput.invokeMethod("TextInput.show");
+        } else {
+          if (mode.hideKeyboardOnSelected) {
+            _showMenuHeight = context.mediaQuery.viewInsets.bottom;
+            SystemChannels.textInput.invokeMethod("TextInput.hide");
+          }
+        }
+        _currentMode = mode;
+      } else {
+        if (_showMenuHeight != null) {
+          if (!mode.hideKeyboardOnSelected) {
+            _showMenuHeight = null;
+            SystemChannels.textInput.invokeMethod("TextInput.show");
+          }
+        } else {
+          if (mode.hideKeyboardOnSelected) {
+            _showMenuHeight = context.mediaQuery.viewInsets.bottom;
+            SystemChannels.textInput.invokeMethod("TextInput.hide");
+          }
+        }
+        _currentMode = mode;
+      }
+    });
+  }
+
+  @override
+  void deleteMode() {
+    setState(() {
+      _currentMode = null;
+    });
+  }
+
+  @override
+  void closeKeyboard() {
+    setState(() {
+      _showMenuHeight = null;
+      focuedState?._effectiveFocusNode.unfocus();
+    });
+  }
+
+  @override
+  bool activeAttribute(Attribute attribute) {
+    final selection = focusedSelection;
+    if (selection == null) {
+      return false;
+    }
+    return focusedController
+            ?.getSelectionStyle()
+            .values
+            .any((e) => e.key == attribute.key) ??
+        false;
+  }
+
+  void _handleSelectionStateOnChanged() {
+    setState(() {
+      _showSelectedMenu = isTextSelected;
+    });
+  }
+
+  void _handledClipboardStateOnChanged() {
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    final subMenu = MarkdownToolSub.values.mapAndRemoveEmpty((e) {
+      if (e.show(context, this)) {
+        return IconButton(
+          onPressed: () {
+            e.onTap(context, this);
+          },
+          icon: Icon(e.icon(context)),
+        );
+      }
+      return null;
+    });
+
+    return IconTheme(
+      data: IconThemeData(
+        color: widget.color ?? theme.colorTheme?.onBackground,
+      ),
+      child: DefaultTextStyle(
+        style: theme.textTheme.bodyMedium?.copyWith(
+              color: widget.color ?? theme.colorTheme?.onBackground,
+            ) ??
+            TextStyle(
+              color: widget.color ?? theme.colorTheme?.onBackground,
+            ),
+        child: Container(
+          color: widget.backgroundColor ?? theme.colorTheme?.background,
+          height: (_showMenuHeight ?? context.mediaQuery.viewInsets.bottom) +
+              _kToolbarHeight,
+          child: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: _showMenuHeight ?? context.mediaQuery.viewInsets.bottom,
+                child: SizedBox(
+                  height: _kToolbarHeight,
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (_showSelectedMenu ||
+                                  _currentMode == MarkdownToolMain.font) ...[
+                                ...MarkdownToolFont.values.map((e) {
+                                  if (e.active(context, this)) {
+                                    return IconButton.filled(
+                                      style: IconButton.styleFrom(
+                                        backgroundColor:
+                                            theme.colorTheme?.primary ??
+                                                theme.colorScheme.primary,
+                                        foregroundColor:
+                                            theme.colorTheme?.onPrimary ??
+                                                theme.colorScheme.onPrimary,
+                                      ),
+                                      onPressed: () {
+                                        e.onDeactive(context, this);
+                                      },
+                                      icon: Icon(e.icon(context)),
+                                    );
+                                  } else {
+                                    return IconButton(
+                                      onPressed: () {
+                                        e.onActive(context, this);
+                                      },
+                                      icon: Icon(e.icon(context)),
+                                    );
+                                  }
+                                }),
+                              ] else ...[
+                                ...MarkdownToolMain.values.map((e) {
+                                  if (!e.enabled(context, this) ||
+                                      !e.active(context, this)) {
+                                    return IconButton(
+                                      onPressed: null,
+                                      icon: Icon(e.icon(context)),
+                                    );
+                                  } else {
+                                    if (_currentMode == e &&
+                                        _showMenuHeight != null) {
+                                      return IconButton.filled(
+                                        style: IconButton.styleFrom(
+                                          backgroundColor:
+                                              theme.colorTheme?.primary ??
+                                                  theme.colorScheme.primary,
+                                          foregroundColor:
+                                              theme.colorTheme?.onPrimary ??
+                                                  theme.colorScheme.onPrimary,
+                                        ),
+                                        onPressed: () {
+                                          e.onTap(context, this);
+                                        },
+                                        icon: Icon(e.icon(context)),
+                                      );
+                                    } else {
+                                      return IconButton(
+                                        onPressed: () {
+                                          e.onTap(context, this);
+                                        },
+                                        icon: Icon(e.icon(context)),
+                                      );
+                                    }
+                                  }
+                                }),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (subMenu.isNotEmpty) ...[
+                        VerticalDivider(
+                          width: 1,
+                          color: theme.colorScheme.outline.withAlpha(128),
+                        ),
+                        ...subMenu,
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+              if (_currentMode == MarkdownToolMain.add) ...[
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: widget.borderColor ??
+                              theme.colorTheme?.outline.withAlpha(128) ??
+                              theme.colorScheme.outline.withAlpha(128),
+                        ),
+                      ),
+                    ),
+                    height: _showMenuHeight ?? 0,
+                    width: double.infinity,
+                    child: GridView.extent(
+                      maxCrossAxisExtent: 240,
+                      mainAxisSpacing: 8,
+                      crossAxisSpacing: 8,
+                      childAspectRatio: 3,
+                      padding: EdgeInsets.fromLTRB(16, 16, 16,
+                          16 + context.mediaQuery.viewPadding.bottom),
+                      children: [
+                        ...MarkdownToolAdd.values.map((e) {
+                          return InkWell(
+                            onTap: () {
+                              e.onTap(context, this);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.surface,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Center(
+                                      child: Icon(
+                                        e.icon(context),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(e.label(context)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
+                ),
+              ] else if (_currentMode == MarkdownToolMain.exchange) ...[
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: widget.borderColor ??
+                              theme.colorTheme?.outline.withAlpha(128) ??
+                              theme.colorScheme.outline.withAlpha(128),
+                        ),
+                      ),
+                    ),
+                    height: _showMenuHeight ?? 0,
+                    width: double.infinity,
+                    child: GridView.extent(
+                      maxCrossAxisExtent: 240,
+                      mainAxisSpacing: 8,
+                      crossAxisSpacing: 8,
+                      childAspectRatio: 3,
+                      padding: EdgeInsets.fromLTRB(16, 16, 16,
+                          16 + context.mediaQuery.viewPadding.bottom),
+                      children: [
+                        ...MarkdownToolExchange.values.map((e) {
+                          return InkWell(
+                            onTap: () {
+                              e.onTap(context, this);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.surface,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Center(
+                                      child: Icon(
+                                        e.icon(context),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(e.label(context)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// A reference class for Markdown tools.
+///
+/// マークダウンのツールの参照クラス。
+abstract class MarkdownToolRef {
+  /// Get the focused selection.
+  ///
+  /// フォーカスされている選択範囲を取得します。
+  TextSelection? get focusedSelection;
+
+  /// Check if the text is selected.
+  ///
+  /// テキストが選択されているかどうかを確認します。
+  bool get isTextSelected;
+
+  /// Toggle the mode.
+  ///
+  /// モードを切り替えます。
+  void toggleMode(MarkdownToolMain mode);
+
+  /// Delete the mode.
+  ///
+  /// モードを削除します。
+  void deleteMode();
+
+  /// Close the keyboard.
+  ///
+  /// キーボードを閉じます。
+  void closeKeyboard();
+
+  /// Get the controller.
+  ///
+  /// コントローラーを取得します。
+  QuillController? get focusedController;
+
+  /// Check if the attribute is active.
+  ///
+  /// 属性がアクティブかどうかを確認します。
+  bool activeAttribute(Attribute attribute);
+
+  /// Get the current mode.
+  ///
+  /// 現在のモードを取得します。
+  MarkdownToolMain? get currentMode;
+
+  /// Check if the keyboard should be shown.
+  ///
+  /// キーボードが表示されているかどうかを確認します。
+  bool get isKeyboardShowing;
+
+  /// Check if the clipboard can be pasted.
+  ///
+  /// クリップボードに貼り付け可能かどうかを確認します。
+  bool get canPaste;
+}
