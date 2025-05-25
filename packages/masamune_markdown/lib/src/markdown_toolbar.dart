@@ -30,6 +30,8 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   double? _showMenuHeight;
   double _lastBottomInset = 0;
 
+  _LinkSetting? _textLink;
+
   final ClipboardMonitor _clipboardMonitor = ClipboardMonitor();
 
   @override
@@ -137,6 +139,23 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   }
 
   @override
+  void toggleLinkDialog() {
+    if (_textLink != null) {
+      setState(() {
+        _textLink = null;
+      });
+    } else {
+      final controller = focusedController;
+      if (controller == null) {
+        return;
+      }
+      setState(() {
+        _textLink = _LinkSetting(controller: controller);
+      });
+    }
+  }
+
+  @override
   void deleteMode() {
     setState(() {
       _currentMode = null;
@@ -167,6 +186,9 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   void _handleSelectionStateOnChanged() {
     setState(() {
       _showSelectedMenu = isTextSelected;
+      if (!isTextSelected) {
+        _textLink = null;
+      }
     });
   }
 
@@ -174,10 +196,40 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
     setState(() {});
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+  Iterable<Widget> _buildMainMenu(BuildContext context, ThemeData theme) {
+    return MarkdownToolMain.values.map((e) {
+      if (!e.enabled(context, this) || !e.active(context, this)) {
+        return IconButton(
+          onPressed: null,
+          icon: Icon(e.icon(context)),
+        );
+      } else {
+        if (_currentMode == e && _showMenuHeight != null) {
+          return IconButton.filled(
+            style: IconButton.styleFrom(
+              backgroundColor:
+                  theme.colorTheme?.primary ?? theme.colorScheme.primary,
+              foregroundColor:
+                  theme.colorTheme?.onPrimary ?? theme.colorScheme.onPrimary,
+            ),
+            onPressed: () {
+              e.onTap(context, this);
+            },
+            icon: Icon(e.icon(context)),
+          );
+        } else {
+          return IconButton(
+            onPressed: () {
+              e.onTap(context, this);
+            },
+            icon: Icon(e.icon(context)),
+          );
+        }
+      }
+    });
+  }
 
+  Iterable<Widget> _buildSubMenu(BuildContext context, ThemeData theme) {
     final subMenu = MarkdownToolSub.values.mapAndRemoveEmpty((e) {
       if (e.show(context, this)) {
         return IconButton(
@@ -189,6 +241,255 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
       }
       return null;
     });
+    if (subMenu.isNotEmpty) {
+      return [
+        VerticalDivider(
+          width: 1,
+          color: theme.colorScheme.outline.withAlpha(128),
+        ),
+        ...subMenu,
+      ];
+    }
+    return [];
+  }
+
+  Iterable<Widget> _buildFontMenu(BuildContext context, ThemeData theme) {
+    return MarkdownToolFont.values.map((e) {
+      if (e.active(context, this)) {
+        return IconButton.filled(
+          style: IconButton.styleFrom(
+            backgroundColor:
+                theme.colorTheme?.primary ?? theme.colorScheme.primary,
+            foregroundColor:
+                theme.colorTheme?.onPrimary ?? theme.colorScheme.onPrimary,
+          ),
+          onPressed: () {
+            e.onDeactive(context, this);
+          },
+          icon: Icon(e.icon(context)),
+        );
+      } else {
+        return IconButton(
+          onPressed: () {
+            e.onActive(context, this);
+          },
+          icon: Icon(e.icon(context)),
+        );
+      }
+    });
+  }
+
+  Widget _buildLinkDialog(BuildContext context, ThemeData theme) {
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: _showMenuHeight ?? context.mediaQuery.viewInsets.bottom,
+      child: Container(
+        color: theme.colorTheme?.background,
+        height: _kToolbarHeight * 2,
+        width: double.infinity,
+        padding: EdgeInsets.fromLTRB(16, 0, 8, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.title),
+                16.sx,
+                Expanded(
+                  child: FormTextField(
+                    initialValue: _textLink?.link.text,
+                    style: FormStyle(
+                      borderStyle: FormInputBorderStyle.outline,
+                    ),
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      _textLink?.link = QuillTextLink(
+                        value.trim(),
+                        _textLink?.link.link?.trim(),
+                      );
+                    },
+                  ),
+                ),
+                8.sx,
+                IconButton(
+                  onPressed: () {
+                    _textLink = null;
+                  },
+                  icon: Icon(Icons.cancel_outlined),
+                ),
+              ],
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.link),
+                16.sx,
+                Expanded(
+                  child: FormTextField(
+                    initialValue: _textLink?.link.link,
+                    style: FormStyle(
+                      borderStyle: FormInputBorderStyle.outline,
+                    ),
+                    onChanged: (value) {
+                      _textLink?.link = QuillTextLink(
+                        _textLink?.link.text.trim() ?? "",
+                        value?.trim(),
+                      );
+                    },
+                  ),
+                ),
+                8.sx,
+                IconButton(
+                  onPressed: () {
+                    _textLink?.submit();
+                    setState(() {
+                      _textLink = null;
+                    });
+                  },
+                  icon: Icon(Icons.check_circle),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAddMenu(BuildContext context, ThemeData theme) {
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 0,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: widget.borderColor ??
+                  theme.colorTheme?.outline.withAlpha(128) ??
+                  theme.colorScheme.outline.withAlpha(128),
+            ),
+          ),
+        ),
+        height: _showMenuHeight ?? 0,
+        width: double.infinity,
+        child: GridView.extent(
+          maxCrossAxisExtent: 240,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          childAspectRatio: 3,
+          padding: EdgeInsets.fromLTRB(
+              16, 16, 16, 16 + context.mediaQuery.viewPadding.bottom),
+          children: [
+            ...MarkdownToolAdd.values.map((e) {
+              return InkWell(
+                onTap: () {
+                  e.onTap(context, this);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.surface,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Icon(
+                            e.icon(context),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text(e.label(context)),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExchangeMenu(BuildContext context, ThemeData theme) {
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 0,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: widget.borderColor ??
+                  theme.colorTheme?.outline.withAlpha(128) ??
+                  theme.colorScheme.outline.withAlpha(128),
+            ),
+          ),
+        ),
+        height: _showMenuHeight ?? 0,
+        width: double.infinity,
+        child: GridView.extent(
+          maxCrossAxisExtent: 240,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          childAspectRatio: 3,
+          padding: EdgeInsets.fromLTRB(
+              16, 16, 16, 16 + context.mediaQuery.viewPadding.bottom),
+          children: [
+            ...MarkdownToolExchange.values.map((e) {
+              return InkWell(
+                onTap: () {
+                  e.onTap(context, this);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.surface,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Icon(
+                            e.icon(context),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text(e.label(context)),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
 
     return IconTheme(
       data: IconThemeData(
@@ -204,7 +505,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
         child: Container(
           color: widget.backgroundColor ?? theme.colorTheme?.background,
           height: (_showMenuHeight ?? context.mediaQuery.viewInsets.bottom) +
-              _kToolbarHeight,
+              (_textLink != null ? _kToolbarHeight * 2 : _kToolbarHeight),
           child: Stack(
             children: [
               Positioned(
@@ -229,202 +530,26 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                             children: [
                               if (_showSelectedMenu ||
                                   _currentMode == MarkdownToolMain.font) ...[
-                                ...MarkdownToolFont.values.map((e) {
-                                  if (e.active(context, this)) {
-                                    return IconButton.filled(
-                                      style: IconButton.styleFrom(
-                                        backgroundColor:
-                                            theme.colorTheme?.primary ??
-                                                theme.colorScheme.primary,
-                                        foregroundColor:
-                                            theme.colorTheme?.onPrimary ??
-                                                theme.colorScheme.onPrimary,
-                                      ),
-                                      onPressed: () {
-                                        e.onDeactive(context, this);
-                                      },
-                                      icon: Icon(e.icon(context)),
-                                    );
-                                  } else {
-                                    return IconButton(
-                                      onPressed: () {
-                                        e.onActive(context, this);
-                                      },
-                                      icon: Icon(e.icon(context)),
-                                    );
-                                  }
-                                }),
+                                ..._buildFontMenu(context, theme),
                               ] else ...[
-                                ...MarkdownToolMain.values.map((e) {
-                                  if (!e.enabled(context, this) ||
-                                      !e.active(context, this)) {
-                                    return IconButton(
-                                      onPressed: null,
-                                      icon: Icon(e.icon(context)),
-                                    );
-                                  } else {
-                                    if (_currentMode == e &&
-                                        _showMenuHeight != null) {
-                                      return IconButton.filled(
-                                        style: IconButton.styleFrom(
-                                          backgroundColor:
-                                              theme.colorTheme?.primary ??
-                                                  theme.colorScheme.primary,
-                                          foregroundColor:
-                                              theme.colorTheme?.onPrimary ??
-                                                  theme.colorScheme.onPrimary,
-                                        ),
-                                        onPressed: () {
-                                          e.onTap(context, this);
-                                        },
-                                        icon: Icon(e.icon(context)),
-                                      );
-                                    } else {
-                                      return IconButton(
-                                        onPressed: () {
-                                          e.onTap(context, this);
-                                        },
-                                        icon: Icon(e.icon(context)),
-                                      );
-                                    }
-                                  }
-                                }),
+                                ..._buildMainMenu(context, theme),
                               ],
                             ],
                           ),
                         ),
                       ),
-                      if (subMenu.isNotEmpty) ...[
-                        VerticalDivider(
-                          width: 1,
-                          color: theme.colorScheme.outline.withAlpha(128),
-                        ),
-                        ...subMenu,
-                      ],
+                      ..._buildSubMenu(context, theme),
                     ],
                   ),
                 ),
               ),
+              if (_textLink != null) ...[
+                _buildLinkDialog(context, theme),
+              ],
               if (_currentMode == MarkdownToolMain.add) ...[
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(
-                          color: widget.borderColor ??
-                              theme.colorTheme?.outline.withAlpha(128) ??
-                              theme.colorScheme.outline.withAlpha(128),
-                        ),
-                      ),
-                    ),
-                    height: _showMenuHeight ?? 0,
-                    width: double.infinity,
-                    child: GridView.extent(
-                      maxCrossAxisExtent: 240,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 8,
-                      childAspectRatio: 3,
-                      padding: EdgeInsets.fromLTRB(16, 16, 16,
-                          16 + context.mediaQuery.viewPadding.bottom),
-                      children: [
-                        ...MarkdownToolAdd.values.map((e) {
-                          return InkWell(
-                            onTap: () {
-                              e.onTap(context, this);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: theme.colorScheme.surface,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Center(
-                                      child: Icon(
-                                        e.icon(context),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Text(e.label(context)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
-                  ),
-                ),
+                _buildAddMenu(context, theme),
               ] else if (_currentMode == MarkdownToolMain.exchange) ...[
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(
-                          color: widget.borderColor ??
-                              theme.colorTheme?.outline.withAlpha(128) ??
-                              theme.colorScheme.outline.withAlpha(128),
-                        ),
-                      ),
-                    ),
-                    height: _showMenuHeight ?? 0,
-                    width: double.infinity,
-                    child: GridView.extent(
-                      maxCrossAxisExtent: 240,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 8,
-                      childAspectRatio: 3,
-                      padding: EdgeInsets.fromLTRB(16, 16, 16,
-                          16 + context.mediaQuery.viewPadding.bottom),
-                      children: [
-                        ...MarkdownToolExchange.values.map((e) {
-                          return InkWell(
-                            onTap: () {
-                              e.onTap(context, this);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: theme.colorScheme.surface,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Center(
-                                      child: Icon(
-                                        e.icon(context),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Text(e.label(context)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
-                  ),
-                ),
+                _buildExchangeMenu(context, theme),
               ],
             ],
           ),
@@ -487,4 +612,32 @@ abstract class MarkdownToolRef {
   ///
   /// クリップボードに貼り付け可能かどうかを確認します。
   bool get canPaste;
+
+  /// Open the link dialog.
+  ///
+  /// リンクダイアログを開きます。
+  void toggleLinkDialog();
+}
+
+class _LinkSetting {
+  _LinkSetting({
+    required this.controller,
+  }) {
+    link = QuillTextLink.prepare(controller);
+  }
+
+  final QuillController controller;
+  late QuillTextLink link;
+
+  void submit() {
+    if (link.link.isEmpty) {
+      final index = controller.selection.start;
+      final length = controller.selection.end - index;
+      controller
+        ..replaceText(index, length, link.text, null)
+        ..removeFormatSelection(Attribute.link);
+    } else {
+      link.submit(controller);
+    }
+  }
 }

@@ -104,7 +104,7 @@ enum MarkdownToolFont {
         ref.focusedController?.formatSelection(Attribute.strikeThrough);
         break;
       case MarkdownToolFont.link:
-        ref.focusedController?.formatSelection(Attribute.link);
+        ref.toggleLinkDialog();
         break;
       case MarkdownToolFont.code:
         ref.focusedController?.formatSelection(Attribute.inlineCode);
@@ -134,7 +134,7 @@ enum MarkdownToolFont {
         ref.focusedController?.removeFormatSelection(Attribute.strikeThrough);
         break;
       case MarkdownToolFont.link:
-        ref.focusedController?.removeFormatSelection(Attribute.link);
+        ref.toggleLinkDialog();
         break;
       case MarkdownToolFont.code:
         ref.focusedController?.removeFormatSelection(Attribute.inlineCode);
