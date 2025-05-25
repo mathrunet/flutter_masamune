@@ -277,6 +277,7 @@ class _FormStyleContainerState extends State<FormStyleContainer> {
         padding: widget.padding ??
             widget.style?.padding ??
             const EdgeInsets.symmetric(vertical: 8),
+        alignment: widget.alignment ?? Alignment.center,
         child: InputDecorator(
           decoration: InputDecoration(
             errorText: _errorText,
