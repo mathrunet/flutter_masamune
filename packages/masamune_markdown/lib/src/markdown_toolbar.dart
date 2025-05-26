@@ -1,6 +1,8 @@
 part of '/masamune_markdown.dart';
 
 const _kToolbarHeight = kToolbarHeight;
+const _kLinkDialogHeight = _kToolbarHeight * 2;
+const _kMentionDialogSpaceHeight = _kToolbarHeight;
 const _kMinChangeSize = 16.0;
 
 class MarkdownToolbar extends StatefulWidget {
@@ -34,9 +36,9 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   double _blockMenuHeight = 0;
   double _lastBottomInset = 0;
 
-  _LinkSetting? _textLink;
+  _LinkSetting? _linkSetting;
+  _MentionSetting? _mentionSetting;
 
-  final TextEditingController _mentionController = TextEditingController();
   final ClipboardMonitor _clipboardMonitor = ClipboardMonitor();
 
   @override
@@ -52,7 +54,8 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
     _clipboardMonitor.monitorClipboard(false, _handledClipboardStateOnChanged);
     WidgetsBinding.instance.removeObserver(this);
     widget.controller.removeListener(_handleControllerStateOnChanged);
-    _mentionController.dispose();
+    _linkSetting?.cancel();
+    _mentionSetting?.cancel();
     super.dispose();
   }
 
@@ -86,6 +89,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   bool get isKeyboardShowing =>
       _showBlockMenu || context.mediaQuery.viewInsets.bottom > 0;
 
+  @override
   FormMarkdownFieldState? get focuedState {
     return widget.controller._states.firstWhereOrNull(
       (state) => state._effectiveFocusNode.hasFocus,
@@ -120,7 +124,19 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   }
 
   @override
-  void toggleMode(MarkdownToolMain mode) {
+  void toggleMode(MarkdownToolMain? mode) {
+    if (mode == null) {
+      setState(() {
+        if (_currentMode == MarkdownToolMain.mention) {
+          _mentionSetting?.cancel();
+          _mentionSetting = null;
+        }
+        _currentMode = null;
+        _showBlockMenu = false;
+        SystemChannels.textInput.invokeMethod("TextInput.show");
+      });
+      return;
+    }
     setState(() {
       if (mode == _currentMode) {
         if (_showBlockMenu) {
@@ -145,6 +161,16 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
             SystemChannels.textInput.invokeMethod("TextInput.hide");
           }
         }
+        if (mode == MarkdownToolMain.mention) {
+          _mentionSetting = _MentionSetting(
+            controller: focusedController!,
+          );
+          _mentionSetting!.focusNode.requestFocus();
+        }
+        if (_currentMode == MarkdownToolMain.mention) {
+          _mentionSetting?.cancel();
+          _mentionSetting = null;
+        }
         _currentMode = mode;
       }
     });
@@ -152,9 +178,9 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
 
   @override
   void toggleLinkDialog() {
-    if (_textLink != null) {
+    if (_linkSetting != null) {
       setState(() {
-        _textLink = null;
+        _linkSetting = null;
       });
     } else {
       final controller = focusedController;
@@ -162,8 +188,8 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
         return;
       }
       setState(() {
-        _textLink = _LinkSetting(controller: controller);
-        _textLink?.focusNode.requestFocus();
+        _linkSetting = _LinkSetting(controller: controller);
+        _linkSetting?.focusNode.requestFocus();
       });
     }
   }
@@ -204,7 +230,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
       setState(() {
         _showSelectedMenu = isTextSelected;
         if (!isTextSelected) {
-          _textLink = null;
+          _linkSetting = null;
         }
       });
     }
@@ -347,7 +373,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
       bottom: _blockMenuHeight,
       child: Container(
         color: theme.colorTheme?.background,
-        height: _kToolbarHeight * 2,
+        height: _kLinkDialogHeight,
         width: double.infinity,
         padding: EdgeInsets.fromLTRB(16, 0, 8, 0),
         child: Column(
@@ -362,17 +388,18 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 16.sx,
                 Expanded(
                   child: FormTextField(
-                    initialValue: _textLink?.link.text,
+                    initialValue: _linkSetting?.link.text,
                     style: FormStyle(
                       borderStyle: FormInputBorderStyle.outline,
+                      backgroundColor: theme.colorTheme?.surface,
                     ),
                     onChanged: (value) {
                       if (value == null) {
                         return;
                       }
-                      _textLink?.link = QuillTextLink(
+                      _linkSetting?.link = QuillTextLink(
                         value.trim(),
-                        _textLink?.link.link?.trim(),
+                        _linkSetting?.link.link?.trim(),
                       );
                     },
                   ),
@@ -380,8 +407,8 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 8.sx,
                 IconButton(
                   onPressed: () {
-                    _textLink?.cancel();
-                    _textLink = null;
+                    _linkSetting?.cancel();
+                    _linkSetting = null;
                   },
                   icon: Icon(Icons.cancel_outlined),
                 ),
@@ -395,14 +422,15 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 16.sx,
                 Expanded(
                   child: FormTextField(
-                    focusNode: _textLink?.focusNode,
-                    initialValue: _textLink?.link.link,
+                    focusNode: _linkSetting?.focusNode,
+                    initialValue: _linkSetting?.link.link,
                     style: FormStyle(
                       borderStyle: FormInputBorderStyle.outline,
+                      backgroundColor: theme.colorTheme?.surface,
                     ),
                     onChanged: (value) {
-                      _textLink?.link = QuillTextLink(
-                        _textLink?.link.text.trim() ?? "",
+                      _linkSetting?.link = QuillTextLink(
+                        _linkSetting?.link.text.trim() ?? "",
                         value?.trim(),
                       );
                     },
@@ -411,14 +439,147 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 8.sx,
                 IconButton(
                   onPressed: () {
-                    _textLink?.submit();
+                    _linkSetting?.submit();
                     setState(() {
-                      _textLink = null;
+                      _linkSetting = null;
                     });
                   },
                   icon: Icon(Icons.check_circle),
                 ),
               ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMentionDialog(BuildContext context, ThemeData theme) {
+    final height = context.mediaQuery.size.height -
+        _blockMenuHeight -
+        _kToolbarHeight -
+        _kMentionDialogSpaceHeight -
+        context.mediaQuery.viewPadding.bottom -
+        context.mediaQuery.viewPadding.top;
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: _blockMenuHeight,
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          color: theme.colorTheme?.background,
+        ),
+        height: height,
+        width: double.infinity,
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      color: widget.borderColor ??
+                          theme.colorTheme?.outline.withAlpha(128) ??
+                          theme.colorScheme.outline.withAlpha(128),
+                    ),
+                    bottom: BorderSide(
+                      color: widget.borderColor ??
+                          theme.colorTheme?.outline.withAlpha(128) ??
+                          theme.colorScheme.outline.withAlpha(128),
+                    ),
+                  ),
+                ),
+                child: ListenableBuilder(
+                    listenable: _mentionSetting!.controller,
+                    builder: (context, child) {
+                      final search = _mentionSetting!.textEditingController.text
+                          .toLowerCase();
+                      final mentions =
+                          widget.mentionBuilder?.call(context).where((e) {
+                                if (search.isEmpty) {
+                                  return true;
+                                }
+                                return e.name.toLowerCase().contains(search) ||
+                                    e.id.toLowerCase().contains(search);
+                              }).toList() ??
+                              [];
+                      return ListView.builder(
+                        itemCount: mentions.length,
+                        padding: EdgeInsets.fromLTRB(0, 16, 0,
+                            16 + context.mediaQuery.viewPadding.bottom),
+                        itemBuilder: (context, index) {
+                          final mention = mentions[index];
+                          return GestureDetector(
+                            onTap: () {
+                              final controller = _mentionSetting!.controller;
+                              toggleMode(null);
+                              controller.insertMention(mention);
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  SizedBox(
+                                    width: 32,
+                                    height: 32,
+                                    child: CircleAvatar(
+                                      backgroundImage: mention.avatar,
+                                      backgroundColor:
+                                          theme.colorScheme.outline,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Text(
+                                      mention.name.trim().trimString("@"),
+                                      style: theme.textTheme.titleMedium,
+                                    ),
+                                  ),
+                                  Text(
+                                    "@${mention.id.trim().trimString("@")}",
+                                    textAlign: TextAlign.end,
+                                    style: theme.textTheme.bodyMedium
+                                        ?.withColor(theme.disabledColor),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      toggleMode(null);
+                    },
+                    icon: Icon(Icons.arrow_back_ios),
+                  ),
+                  Expanded(
+                    child: FormTextField(
+                      focusNode: _mentionSetting!.focusNode,
+                      controller: _mentionSetting!.textEditingController,
+                      hintText: "Search",
+                      style: FormStyle(
+                        borderStyle: FormInputBorderStyle.outline,
+                        borderRadius: BorderRadius.circular(32),
+                        backgroundColor: theme.colorTheme?.surface,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -452,6 +613,68 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
               16, 16, 16, 16 + context.mediaQuery.viewPadding.bottom),
           children: [
             ...MarkdownToolAdd.values.map((e) {
+              return InkWell(
+                onTap: () {
+                  e.onTap(context, this);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.surface,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Icon(
+                            e.icon(context),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text(e.label(context)),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMediaMenu(BuildContext context, ThemeData theme) {
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 0,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: widget.borderColor ??
+                  theme.colorTheme?.outline.withAlpha(128) ??
+                  theme.colorScheme.outline.withAlpha(128),
+            ),
+          ),
+        ),
+        height: _blockMenuHeight,
+        width: double.infinity,
+        child: GridView.extent(
+          maxCrossAxisExtent: 240,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          childAspectRatio: 3,
+          padding: EdgeInsets.fromLTRB(
+              16, 16, 16, 16 + context.mediaQuery.viewPadding.bottom),
+          children: [
+            ...MarkdownToolMedia.values.map((e) {
               return InkWell(
                 onTap: () {
                   e.onTap(context, this);
@@ -550,67 +773,22 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
     );
   }
 
-  Widget _buildMentionMenu(BuildContext context, ThemeData theme) {
-    return Positioned(
-      left: 0,
-      right: 0,
-      bottom: 0,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: widget.borderColor ??
-                  theme.colorTheme?.outline.withAlpha(128) ??
-                  theme.colorScheme.outline.withAlpha(128),
-            ),
-          ),
-        ),
-        height: _blockMenuHeight,
-        width: double.infinity,
-        child: ListenableBuilder(
-            listenable: _mentionController,
-            builder: (context, child) {
-              final search = _mentionController.text.toLowerCase();
-              final mentions = widget.mentionBuilder?.call(context).where((e) {
-                    if (search.isEmpty) {
-                      return true;
-                    }
-                    return e.name.toLowerCase().contains(search) ||
-                        e.id.toLowerCase().contains(search);
-                  }).toList() ??
-                  [];
-              return ListView.builder(
-                itemCount: mentions.length,
-                padding: EdgeInsets.fromLTRB(
-                    0, 16, 0, 16 + context.mediaQuery.viewPadding.bottom),
-                itemBuilder: (context, index) {
-                  final mention = mentions[index];
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: mention.avatar,
-                      backgroundColor: theme.colorScheme.outline,
-                    ),
-                    title: Text(mention.name.trim().trimString("@")),
-                    subtitle: Text("@${mention.id.trim().trimString("@")}"),
-                    onTap: () {
-                      final controller = focusedController;
-                      if (controller == null) {
-                        return;
-                      }
-                      controller.insertMention(mention);
-                      toggleMode(MarkdownToolMain.mention);
-                    },
-                  );
-                },
-              );
-            }),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    var height = _blockMenuHeight;
+    if (_linkSetting != null) {
+      height += _kLinkDialogHeight;
+    } else if (_currentMode == MarkdownToolMain.mention) {
+      height += context.mediaQuery.size.height -
+          _blockMenuHeight -
+          _kToolbarHeight -
+          _kMentionDialogSpaceHeight -
+          context.mediaQuery.viewPadding.bottom -
+          context.mediaQuery.viewPadding.top;
+    } else {
+      height += _kToolbarHeight;
+    }
 
     return IconTheme(
       data: IconThemeData(
@@ -625,8 +803,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
             ),
         child: Container(
           color: widget.backgroundColor ?? theme.colorTheme?.background,
-          height: _blockMenuHeight +
-              (_textLink != null ? _kToolbarHeight * 2 : _kToolbarHeight),
+          height: height,
           child: Stack(
             children: [
               Positioned(
@@ -667,13 +844,15 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                   ),
                 ),
               ),
-              if (_textLink != null) ...[
+              if (_currentMode == MarkdownToolMain.mention) ...[
+                _buildMentionDialog(context, theme),
+              ] else if (_linkSetting != null) ...[
                 _buildLinkDialog(context, theme),
               ],
               if (_currentMode == MarkdownToolMain.add) ...[
                 _buildAddMenu(context, theme),
-              ] else if (_currentMode == MarkdownToolMain.mention) ...[
-                _buildMentionMenu(context, theme),
+              ] else if (_currentMode == MarkdownToolMain.media) ...[
+                _buildMediaMenu(context, theme),
               ] else if (_currentMode == MarkdownToolMain.exchange) ...[
                 _buildExchangeMenu(context, theme),
               ],
@@ -774,6 +953,21 @@ class _LinkSetting {
   }
 
   void cancel() {
+    focusNode.dispose();
+  }
+}
+
+class _MentionSetting {
+  _MentionSetting({
+    required this.controller,
+  });
+
+  final QuillController controller;
+  final TextEditingController textEditingController = TextEditingController();
+  final FocusNode focusNode = FocusNode();
+
+  void cancel() {
+    textEditingController.dispose();
     focusNode.dispose();
   }
 }

@@ -165,10 +165,10 @@ enum MarkdownToolMain {
   void onTap(BuildContext context, MarkdownToolRef ref) {
     switch (this) {
       case MarkdownToolMain.add:
-      case MarkdownToolMain.mention:
       case MarkdownToolMain.media:
       case MarkdownToolMain.exchange:
       case MarkdownToolMain.font:
+      case MarkdownToolMain.mention:
         ref.toggleMode(this);
         break;
       case MarkdownToolMain.undo:

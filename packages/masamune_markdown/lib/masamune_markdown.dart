@@ -26,6 +26,7 @@ part 'src/tools/markdown_tools_main.dart';
 part 'src/tools/markdown_tools_add.dart';
 part 'src/tools/markdown_tools_font.dart';
 part 'src/tools/markdown_tools_sub.dart';
+part 'src/tools/markdown_tools_media.dart';
 
 part 'src/extensions.dart';
 part 'src/form_markdown_field.dart';

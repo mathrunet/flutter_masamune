@@ -369,6 +369,58 @@ class MarkdownToolsConfig {
       ]),
       icon: Icons.keyboard_hide,
     ),
+    this.imageFromCameraLabel = const MarkdownToolLabelConfig(
+      title: LocalizedValue<String>([
+        LocalizedLocaleValue<String>(
+          Locale("ja", "JP"),
+          "カメラから\n画像を選択",
+        ),
+        LocalizedLocaleValue<String>(
+          Locale("en", "US"),
+          "Image\nfrom Camera",
+        ),
+      ]),
+      icon: Icons.photo_camera,
+    ),
+    this.imageFromLibraryLabel = const MarkdownToolLabelConfig(
+      title: LocalizedValue<String>([
+        LocalizedLocaleValue<String>(
+          Locale("ja", "JP"),
+          "ライブラリから\n画像を選択",
+        ),
+        LocalizedLocaleValue<String>(
+          Locale("en", "US"),
+          "Image\nfrom Library",
+        ),
+      ]),
+      icon: Icons.photo_library,
+    ),
+    this.videoFromCameraLabel = const MarkdownToolLabelConfig(
+      title: LocalizedValue<String>([
+        LocalizedLocaleValue<String>(
+          Locale("ja", "JP"),
+          "カメラから\nビデオを選択",
+        ),
+        LocalizedLocaleValue<String>(
+          Locale("en", "US"),
+          "Video\nfrom Camera",
+        ),
+      ]),
+      icon: Icons.video_camera_back,
+    ),
+    this.videoFromLibraryLabel = const MarkdownToolLabelConfig(
+      title: LocalizedValue<String>([
+        LocalizedLocaleValue<String>(
+          Locale("ja", "JP"),
+          "ライブラリから\nビデオを選択",
+        ),
+        LocalizedLocaleValue<String>(
+          Locale("en", "US"),
+          "Video\nfrom Library",
+        ),
+      ]),
+      icon: Icons.video_library,
+    ),
   });
 
   /// Label configuration for plain text
@@ -515,6 +567,26 @@ class MarkdownToolsConfig {
   ///
   /// キーボードを閉じるのラベル設定
   final MarkdownToolLabelConfig closeKeyboardLabel;
+
+  /// Label configuration for image from camera tool
+  ///
+  /// カメラから画像を選択するのラベル設定
+  final MarkdownToolLabelConfig imageFromCameraLabel;
+
+  /// Label configuration for image from library tool
+  ///
+  /// ライブラリから画像を選択するのラベル設定
+  final MarkdownToolLabelConfig imageFromLibraryLabel;
+
+  /// Label configuration for video from camera tool
+  ///
+  /// カメラからビデオを選択するのラベル設定
+  final MarkdownToolLabelConfig videoFromCameraLabel;
+
+  /// Label configuration for video from library tool
+  ///
+  /// ライブラリからビデオを選択するのラベル設定
+  final MarkdownToolLabelConfig videoFromLibraryLabel;
 }
 
 /// Configuration class for Markdown tool label.

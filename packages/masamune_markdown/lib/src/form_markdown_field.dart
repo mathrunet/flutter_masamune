@@ -216,6 +216,7 @@ class FormMarkdownField<TValue> extends FormField<String> {
                   focusNode: state._effectiveFocusNode,
                   config: QuillEditorConfig(
                     autoFocus: autofocus,
+                    linkActionPickerDelegate: defaultLinkActionPickerDelegate,
                     padding: style?.contentPadding ?? EdgeInsets.zero,
                     expands: expands,
                     placeholder: hintText,
@@ -295,6 +296,11 @@ class FormMarkdownField<TValue> extends FormField<String> {
   /// `value`に現在の値が渡されます。
   final void Function(String? value)? onSubmitted;
 
+  static Future<LinkMenuAction> defaultLinkActionPickerDelegate(
+      BuildContext context, String link, Node node) async {
+    return LinkMenuAction.none;
+  }
+
   @override
   FormFieldState<String> createState() => FormMarkdownFieldState<TValue>();
 }
@@ -324,6 +330,7 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
   bool get cursorInLink => _cursorInLink;
   bool _cursorInLink = false;
   bool _selectInLink = false;
+  TextSelection? _previousSelection;
 
   bool get selectInMentionLink => _selectInMentionLink;
   bool _selectInMentionLink = false;
@@ -407,11 +414,12 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
       _text = _deltaToMd.convert(delta);
     }
     if (_cursorInLink) {
-      if (_selectInLink) {
+      final selection = _controller.selection;
+      if (_selectInLink && _previousSelection == selection) {
         return;
       }
+      _previousSelection = selection;
       final document = _controller.document;
-      final selection = _controller.selection;
       final text = document.toPlainText();
       var index = selection.baseOffset;
       final lineStart = text.lastIndexOf("\n", index - 1) + 1;
