@@ -24,16 +24,20 @@ class MarkdownController extends MasamuneControllerBase<List<TextEditingValue>,
         ),
       ];
 
-  final Set<_FormMarkdownFieldState> _states = {};
+  final Set<FormMarkdownFieldState> _states = {};
 
-  void _registerState(_FormMarkdownFieldState state) {
+  void _registerState(FormMarkdownFieldState state) {
     _states.add(state);
-    state._controller.addListener(notifyListeners);
+    state._controller.addListener(_handleQuillControllerOnChanged);
   }
 
-  void _unregisterState(_FormMarkdownFieldState state) {
-    state._controller.removeListener(notifyListeners);
+  void _unregisterState(FormMarkdownFieldState state) {
+    state._controller.removeListener(_handleQuillControllerOnChanged);
     _states.remove(state);
+  }
+
+  void _handleQuillControllerOnChanged() {
+    notifyListeners();
   }
 }
 

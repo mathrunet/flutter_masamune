@@ -129,6 +129,11 @@ enum MarkdownToolMain {
   ///
   /// ツールが有効かどうかを確認します。
   bool enabled(BuildContext context, MarkdownToolRef ref) {
+    if (this == MarkdownToolMain.font) {
+      if (ref.focuedState?.selectInMentionLink ?? false) {
+        return false;
+      }
+    }
     return ref.focusedSelection != null;
   }
 

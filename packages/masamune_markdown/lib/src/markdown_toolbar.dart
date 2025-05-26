@@ -42,7 +42,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   @override
   void initState() {
     super.initState();
-    widget.controller.addListener(_handleSelectionStateOnChanged);
+    widget.controller.addListener(_handleControllerStateOnChanged);
     WidgetsBinding.instance.addObserver(this);
     _clipboardMonitor.monitorClipboard(true, _handledClipboardStateOnChanged);
   }
@@ -51,7 +51,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   void dispose() {
     _clipboardMonitor.monitorClipboard(false, _handledClipboardStateOnChanged);
     WidgetsBinding.instance.removeObserver(this);
-    widget.controller.removeListener(_handleSelectionStateOnChanged);
+    widget.controller.removeListener(_handleControllerStateOnChanged);
     _mentionController.dispose();
     super.dispose();
   }
@@ -86,7 +86,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   bool get isKeyboardShowing =>
       _showBlockMenu || context.mediaQuery.viewInsets.bottom > 0;
 
-  _FormMarkdownFieldState? get focuedState {
+  FormMarkdownFieldState? get focuedState {
     return widget.controller._states.firstWhereOrNull(
       (state) => state._effectiveFocusNode.hasFocus,
     );
@@ -199,13 +199,20 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
         false;
   }
 
-  void _handleSelectionStateOnChanged() {
-    setState(() {
-      _showSelectedMenu = isTextSelected;
-      if (!isTextSelected) {
-        _textLink = null;
-      }
-    });
+  void _handleControllerStateOnChanged() {
+    if (_showSelectedMenu != isTextSelected) {
+      setState(() {
+        _showSelectedMenu = isTextSelected;
+        if (!isTextSelected) {
+          _textLink = null;
+        }
+      });
+    }
+    if (_currentMode == MarkdownToolMain.mention &&
+        _showBlockMenu &&
+        (focuedState?.cursorInLink ?? false)) {
+      toggleMode(MarkdownToolMain.mention);
+    }
   }
 
   void _handledClipboardStateOnChanged() {
@@ -226,7 +233,6 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
             return ListenableBuilder(
                 listenable: controller,
                 builder: (context, child) {
-                  final style = controller.getSelectionStyle();
                   return IconButton.filled(
                     style: IconButton.styleFrom(
                       backgroundColor: theme.colorTheme?.primary ??
@@ -234,7 +240,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                       foregroundColor: theme.colorTheme?.onPrimary ??
                           theme.colorScheme.onPrimary,
                     ),
-                    onPressed: style.attributes.containsKey(Attribute.link.key)
+                    onPressed: (focuedState?.cursorInLink ?? false)
                         ? null
                         : () {
                             e.onTap(context, this);
@@ -246,9 +252,8 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
             return ListenableBuilder(
               listenable: controller,
               builder: (context, child) {
-                final style = controller.getSelectionStyle();
                 return IconButton(
-                  onPressed: style.attributes.containsKey(Attribute.link.key)
+                  onPressed: (focuedState?.cursorInLink ?? false)
                       ? null
                       : () {
                           e.onTap(context, this);
@@ -644,8 +649,11 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              if (_showSelectedMenu ||
-                                  _currentMode == MarkdownToolMain.font) ...[
+                              if (!(focuedState?._selectInMentionLink ??
+                                      false) &&
+                                  (_showSelectedMenu ||
+                                      _currentMode ==
+                                          MarkdownToolMain.font)) ...[
                                 ..._buildFontMenu(context, theme),
                               ] else ...[
                                 ..._buildMainMenu(context, theme),
@@ -705,6 +713,11 @@ abstract class MarkdownToolRef {
   ///
   /// キーボードを閉じます。
   void closeKeyboard();
+
+  /// Get the focused state.
+  ///
+  /// フォーカスされている状態を取得します。
+  FormMarkdownFieldState? get focuedState;
 
   /// Get the controller.
   ///

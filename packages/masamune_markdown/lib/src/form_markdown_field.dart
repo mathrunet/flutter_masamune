@@ -152,8 +152,8 @@ class FormMarkdownField<TValue> extends FormField<String> {
           },
           autovalidateMode: AutovalidateMode.disabled,
           builder: (FormFieldState<String> field) {
-            final _FormMarkdownFieldState<TValue> state =
-                field as _FormMarkdownFieldState<TValue>;
+            final FormMarkdownFieldState<TValue> state =
+                field as FormMarkdownFieldState<TValue>;
             final context = state.context;
 
             final mainTextStyle = style?.textStyle?.copyWith(
@@ -296,10 +296,10 @@ class FormMarkdownField<TValue> extends FormField<String> {
   final void Function(String? value)? onSubmitted;
 
   @override
-  FormFieldState<String> createState() => _FormMarkdownFieldState<TValue>();
+  FormFieldState<String> createState() => FormMarkdownFieldState<TValue>();
 }
 
-class _FormMarkdownFieldState<TValue> extends FormFieldState<String>
+class FormMarkdownFieldState<TValue> extends FormFieldState<String>
     with AutomaticKeepAliveClientMixin<FormField<String>> {
   FocusNode? _focusNode;
   String? _text;
@@ -320,6 +320,13 @@ class _FormMarkdownFieldState<TValue> extends FormFieldState<String>
   @override
   FormMarkdownField<TValue> get widget =>
       super.widget as FormMarkdownField<TValue>;
+
+  bool get cursorInLink => _cursorInLink;
+  bool _cursorInLink = false;
+  bool _selectInLink = false;
+
+  bool get selectInMentionLink => _selectInMentionLink;
+  bool _selectInMentionLink = false;
 
   @override
   void initState() {
@@ -390,10 +397,53 @@ class _FormMarkdownFieldState<TValue> extends FormFieldState<String>
   }
 
   void _handleOnChanged() {
+    _cursorInLink = _controller
+        .getSelectionStyle()
+        .values
+        .any((e) => e.key == Attribute.link.key);
     final delta = _controller.document.toDelta();
     if (delta != _delta) {
       _delta = delta;
       _text = _deltaToMd.convert(delta);
+    }
+    if (_cursorInLink) {
+      if (_selectInLink) {
+        return;
+      }
+      final document = _controller.document;
+      final selection = _controller.selection;
+      final text = document.toPlainText();
+      var index = selection.baseOffset;
+      final lineStart = text.lastIndexOf("\n", index - 1) + 1;
+      var res = document.queryChild(index);
+      final node = res.node;
+      if (node is Line) {
+        for (final child in node.children) {
+          final linkAttribute = child.style.attributes[Attribute.link.key];
+          if (linkAttribute != null) {
+            final link = linkAttribute.value as String;
+            if (link.startsWith("@")) {
+              _selectInMentionLink = true;
+            }
+            _selectInLink = true;
+            final baseOffset = lineStart + child.offset;
+            final extentOffset = baseOffset + child.length;
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              _controller.updateSelection(
+                TextSelection(
+                  baseOffset: baseOffset,
+                  extentOffset: extentOffset,
+                ),
+                ChangeSource.local,
+              );
+            });
+            return;
+          }
+        }
+      }
+    } else {
+      _selectInLink = false;
+      _selectInMentionLink = false;
     }
   }
 

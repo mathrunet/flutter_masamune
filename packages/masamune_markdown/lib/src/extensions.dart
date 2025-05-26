@@ -89,5 +89,4 @@ extension QuillControllerExtension on QuillController {
     }
     return currentIndent.value > 0;
   }
-
 }
