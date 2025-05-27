@@ -1,6 +1,12 @@
 part of '/masamune_markdown.dart';
 
+/// Extension methods for QuillController.
+///
+/// QuillControllerの拡張メソッド。
 extension QuillControllerExtension on QuillController {
+  /// Insert a mention.
+  ///
+  /// メンションを挿入します。
   void insertMention(MarkdownMention mention) {
     final lineStart = selection.start;
     final lineEnd = selection.end;
@@ -10,6 +16,9 @@ extension QuillControllerExtension on QuillController {
         LinkAttribute("@${mention.id.trim().trimString("@")}"));
   }
 
+  /// Unselect the text.
+  ///
+  /// テキストを選択解除します。
   void unselect() {
     updateSelection(
       TextSelection.collapsed(offset: selection.extentOffset),
@@ -17,6 +26,9 @@ extension QuillControllerExtension on QuillController {
     );
   }
 
+  /// Add a formatted line.
+  ///
+  /// フォーマットされた行を追加します。
   void addFormattedLine(Attribute? attribute,
       {bool shouldNotifyListeners = true}) {
     final text = document.toPlainText();
@@ -40,6 +52,9 @@ extension QuillControllerExtension on QuillController {
     }
   }
 
+  /// Format a line.
+  ///
+  /// 行をフォーマットします。
   void formatLine(Attribute? attribute, {bool shouldNotifyListeners = true}) {
     final text = document.toPlainText();
     final lineStart = text.lastIndexOf("\n", selection.baseOffset - 1) + 1;
@@ -48,6 +63,9 @@ extension QuillControllerExtension on QuillController {
         shouldNotifyListeners: shouldNotifyListeners);
   }
 
+  /// Remove a format selection.
+  ///
+  /// フォーマット選択を削除します。
   void removeFormatSelection(Attribute attribute,
       {bool shouldNotifyListeners = true}) {
     final text = document.toPlainText();
@@ -57,6 +75,9 @@ extension QuillControllerExtension on QuillController {
         shouldNotifyListeners: shouldNotifyListeners);
   }
 
+  /// Remove a format.
+  ///
+  /// フォーマットを削除します。
   void removeFormat({bool shouldNotifyListeners = true}) {
     final text = document.toPlainText();
     final lineStart = text.lastIndexOf("\n", selection.baseOffset - 1) + 1;

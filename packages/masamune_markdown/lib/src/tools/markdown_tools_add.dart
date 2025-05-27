@@ -1,5 +1,8 @@
 part of '/masamune_markdown.dart';
 
+/// An enumeration type for adding Markdown block styles.
+///
+/// マークダウンのブロックスタイルを追加するための列挙型。
 enum MarkdownToolAdd {
   /// Text tool.
   ///

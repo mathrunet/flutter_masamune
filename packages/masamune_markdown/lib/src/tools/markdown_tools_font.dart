@@ -1,12 +1,42 @@
 part of '/masamune_markdown.dart';
 
+/// An enumeration type for changing Markdown font styles.
+///
+/// マークダウンのフォントスタイルを変更するための列挙型。
 enum MarkdownToolFont {
+  /// Back.
+  ///
+  /// 戻る。
   back,
+
+  /// Bold tool.
+  ///
+  /// 太字ツール。
   bold,
+
+  /// Italic tool.
+  ///
+  /// 斜体ツール。
   italic,
+
+  /// Underline tool.
+  ///
+  /// 下線ツール。
   underline,
+
+  /// Strike through tool.
+  ///
+  /// 取り消し線ツール。
   strike,
+
+  /// Link tool.
+  ///
+  /// リンクツール。
   link,
+
+  /// Code tool.
+  ///
+  /// コードツール。
   code;
 
   /// Get the label for the tool.

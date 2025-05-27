@@ -18,7 +18,6 @@ import 'package:flutter_quill/quill_delta.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:markdown_quill/markdown_quill.dart';
-import 'package:markdown_widget/markdown_widget.dart';
 import 'package:masamune/masamune.dart';
 
 part 'adapter/markdown_masamune_adapter.dart';
@@ -32,8 +31,8 @@ part 'src/tools/markdown_tools_media.dart';
 
 part 'src/extensions.dart';
 part 'src/form_markdown_field.dart';
-part 'src/markdown.dart';
 part 'src/markdown_controller.dart';
-part 'src/markdown_toolbar.dart';
+part 'src/form_markdown_toolbar.dart';
 part 'src/markdown_tools_config.dart';
 part 'src/markdown_mention.dart';
+part 'src/markdown.dart';

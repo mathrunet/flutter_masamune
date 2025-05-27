@@ -2,6 +2,10 @@ part of '/masamune_markdown.dart';
 
 /// Widget for Markdown text field for forms.
 ///
+/// You can use `h1`, `h2`, `h3`, and block styles for quotes and code.
+/// You can insert media such as images and videos.
+/// You can use the font styles `bold`, `italic`, `underline`, `strike`, `link`, and `code`.
+///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
 /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
@@ -13,7 +17,6 @@ part of '/masamune_markdown.dart';
 /// When [FormController.validate] is executed, validation and data saving are performed.
 ///
 /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
-/// Only when [lengthErrorText] is specified, if the number of characters entered is less than [minLength], it is displayed as [lengthErrorText].
 ///
 /// Other error checking is performed by specifying [validator].
 /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
@@ -24,11 +27,11 @@ part of '/masamune_markdown.dart';
 ///
 /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
 ///
-/// If [obscureText] is set to `true`, the input string will be hidden. Please use this function for inputting passwords, etc.
-///
-/// If [inputFormatters] is specified, it is possible to restrict the characters to be entered.
-///
 /// フォーム用のMarkdownテキストフィールド用のウィジェット。
+///
+/// `h1`, `h2`, `h3`および引用やコードのブロックスタイルを使用することができます。
+/// 画像や映像のメディアを挿入することができます。
+/// `bold`, `italic`, `underline`, `strike`, `link`, `code`のフォントスタイルを使用することができます。
 ///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
@@ -41,7 +44,6 @@ part of '/masamune_markdown.dart';
 /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
 ///
 /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-/// [lengthErrorText]が指定されている時に限り、[minLength]より入力された文字数が少ない場合[lengthErrorText]として表示されます。
 ///
 /// それ以外のエラーチェックは[validator]を指定することで行ないます。
 /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
@@ -51,12 +53,12 @@ part of '/masamune_markdown.dart';
 /// [enabled]が`false`になるとテキストが非有効化されます。
 ///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-///
-/// [obscureText]が`true`になると入力された文字列が隠されます。パスワードの入力などにご利用ください。
-///
-/// [inputFormatters]が指定されると入力される文字を制限することが可能です。
 class FormMarkdownField<TValue> extends FormField<String> {
   /// Widget for Markdown text field for forms.
+  ///
+  /// You can use `h1`, `h2`, `h3`, and block styles for quotes and code.
+  /// You can insert media such as images and videos.
+  /// You can use the font styles `bold`, `italic`, `underline`, `strike`, `link`, and `code`.
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
@@ -69,7 +71,6 @@ class FormMarkdownField<TValue> extends FormField<String> {
   /// When [FormController.validate] is executed, validation and data saving are performed.
   ///
   /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
-  /// Only when [lengthErrorText] is specified, if the number of characters entered is less than [minLength], it is displayed as [lengthErrorText].
   ///
   /// Other error checking is performed by specifying [validator].
   /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
@@ -80,11 +81,11 @@ class FormMarkdownField<TValue> extends FormField<String> {
   ///
   /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
   ///
-  /// If [obscureText] is set to `true`, the input string will be hidden. Please use this function for inputting passwords, etc.
-  ///
-  /// If [inputFormatters] is specified, it is possible to restrict the characters to be entered.
-  ///
   /// フォーム用のMarkdownテキストフィールド用のウィジェット。
+  ///
+  /// `h1`, `h2`, `h3`および引用やコードのブロックスタイルを使用することができます。
+  /// 画像や映像のメディアを挿入することができます。
+  /// `bold`, `italic`, `underline`, `strike`, `link`, `code`のフォントスタイルを使用することができます。
   ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
@@ -97,7 +98,6 @@ class FormMarkdownField<TValue> extends FormField<String> {
   /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
   ///
   /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-  /// [lengthErrorText]が指定されている時に限り、[minLength]より入力された文字数が少ない場合[lengthErrorText]として表示されます。
   ///
   /// それ以外のエラーチェックは[validator]を指定することで行ないます。
   /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
@@ -107,14 +107,11 @@ class FormMarkdownField<TValue> extends FormField<String> {
   /// [enabled]が`false`になるとテキストが非有効化されます。
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-  ///
-  /// [obscureText]が`true`になると入力された文字列が隠されます。パスワードの入力などにご利用ください。
-  ///
-  /// [inputFormatters]が指定されると入力される文字を制限することが可能です。
   FormMarkdownField({
     super.key,
     this.keepAlive = true,
     bool expands = false,
+    bool scrollable = true,
     this.form,
     this.controller,
     this.style,
@@ -209,22 +206,20 @@ class FormMarkdownField<TValue> extends FormField<String> {
                       return validator?.call(value);
                     }
                   : null,
-              child: UnmanagedRestorationScope(
-                bucket: field.bucket,
-                child: QuillEditor.basic(
-                  controller: state._controller,
-                  focusNode: state._effectiveFocusNode,
-                  config: QuillEditorConfig(
-                    autoFocus: autofocus,
-                    linkActionPickerDelegate: defaultLinkActionPickerDelegate,
-                    padding: style?.contentPadding ?? EdgeInsets.zero,
-                    expands: expands,
-                    placeholder: hintText,
-                    onLaunchUrl: onTapLink,
-                    textCapitalization: textCapitalization,
-                    textInputAction: textInputAction,
-                    enableInteractiveSelection: enableInteractiveSelection,
-                  ),
+              child: QuillEditor.basic(
+                controller: state._controller,
+                focusNode: state._effectiveFocusNode,
+                config: QuillEditorConfig(
+                  scrollable: scrollable,
+                  autoFocus: autofocus,
+                  linkActionPickerDelegate: defaultLinkActionPickerDelegate,
+                  padding: style?.contentPadding ?? EdgeInsets.zero,
+                  expands: expands,
+                  placeholder: hintText,
+                  onLaunchUrl: onTapLink,
+                  textCapitalization: textCapitalization,
+                  textInputAction: textInputAction,
+                  enableInteractiveSelection: enableInteractiveSelection,
                 ),
               ),
             );
@@ -296,6 +291,9 @@ class FormMarkdownField<TValue> extends FormField<String> {
   /// `value`に現在の値が渡されます。
   final void Function(String? value)? onSubmitted;
 
+  /// Default link action picker delegate.
+  ///
+  /// デフォルトのリンクアクションピッカーデリゲート。
   static Future<LinkMenuAction> defaultLinkActionPickerDelegate(
       BuildContext context, String link, Node node) async {
     return LinkMenuAction.none;
@@ -305,11 +303,14 @@ class FormMarkdownField<TValue> extends FormField<String> {
   FormFieldState<String> createState() => FormMarkdownFieldState<TValue>();
 }
 
+/// State for FormMarkdownField.
+///
+/// フォーム用のMarkdownテキストフィールド用のステート。
 class FormMarkdownFieldState<TValue> extends FormFieldState<String>
     with AutomaticKeepAliveClientMixin<FormField<String>> {
-  FocusNode? _focusNode;
   String? _text;
   Delta? _delta;
+
   final QuillController _controller = QuillController(
     config: QuillControllerConfig(),
     document: Document(),
@@ -322,18 +323,28 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
   final DeltaToMarkdown _deltaToMd = DeltaToMarkdown();
 
   FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode!;
+  FocusNode? _focusNode;
 
   @override
   FormMarkdownField<TValue> get widget =>
       super.widget as FormMarkdownField<TValue>;
 
+  /// Check if the cursor is in a link.
+  ///
+  /// カーソルがリンク内にあるかどうかをチェックします。
   bool get cursorInLink => _cursorInLink;
   bool _cursorInLink = false;
   bool _selectInLink = false;
   TextSelection? _previousSelection;
 
+  /// Check if the cursor is in a mention link.
+  ///
+  /// カーソルがメンションリンク内にあるかどうかをチェックします。
   bool get selectInMentionLink => _selectInMentionLink;
   bool _selectInMentionLink = false;
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
 
   @override
   void initState() {
@@ -454,9 +465,6 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
       _selectInMentionLink = false;
     }
   }
-
-  @override
-  bool get wantKeepAlive => widget.keepAlive;
 
   @override
   Widget build(BuildContext context) {

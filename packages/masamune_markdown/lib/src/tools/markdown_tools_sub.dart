@@ -1,5 +1,8 @@
 part of '/masamune_markdown.dart';
 
+/// An enumeration type for sub tools.
+///
+/// サブツールの列挙型。
 enum MarkdownToolSub {
   /// Copy the text.
   ///

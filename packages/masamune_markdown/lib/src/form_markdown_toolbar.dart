@@ -6,35 +6,106 @@ const _kMentionDialogSpaceHeight = _kToolbarHeight;
 const _kMinChangeSize = 16.0;
 const _kBlockMenuToggleDuration = Duration(milliseconds: 200);
 
-class MarkdownToolbar extends StatefulWidget {
-  const MarkdownToolbar({
+/// Markdown toolbar.
+///
+/// Pass the [MarkdownController] and the same controller to [FormMarkdownField].
+///
+/// Design and wording can be changed via [MarkdownMasamuneAdapter.toolsConfig].
+///
+/// By specifying [mentionBuilder], a list of mentions can be displayed.
+///
+/// You can use block styles for `h1`, `h2`, `h3`, and quotes and code blocks.
+/// You can insert image and video media.
+/// You can use font styles such as `bold`, `italic`, `underline`, `strike`, `link`, `code`.
+///
+/// Markdown用のツールバー。
+///
+/// [MarkdownController]を渡し同じコントローラーを[FormMarkdownField]に渡してください。
+///
+/// デザイン及び文言は[MarkdownMasamuneAdapter.toolsConfig]経由で変更されます。
+///
+/// [mentionBuilder]を指定することでメンションのリストを表示することができます。
+///
+/// `h1`, `h2`, `h3`および引用やコードのブロックスタイルを使用することができます。
+/// 画像や映像のメディアを挿入することができます。
+/// `bold`, `italic`, `underline`, `strike`, `link`, `code`のフォントスタイルを使用することができます。
+class FormMarkdownToolbar extends StatefulWidget {
+  /// Markdown toolbar.
+  ///
+  /// Pass the [MarkdownController] and the same controller to [FormMarkdownField].
+  ///
+  /// Design and wording can be changed via [MarkdownMasamuneAdapter.toolsConfig].
+  ///
+  /// By specifying [mentionBuilder], a list of mentions can be displayed.
+  ///
+  /// You can use block styles for `h1`, `h2`, `h3`, and quotes and code blocks.
+  /// You can insert image and video media.
+  /// You can use font styles such as `bold`, `italic`, `underline`, `strike`, `link`, `code`.
+  ///
+  /// Markdown用のツールバー。
+  ///
+  /// [MarkdownController]を渡し同じコントローラーを[FormMarkdownField]に渡してください。
+  ///
+  /// デザイン及び文言は[MarkdownMasamuneAdapter.toolsConfig]経由で変更されます。
+  ///
+  /// [mentionBuilder]を指定することでメンションのリストを表示することができます。
+  ///
+  /// `h1`, `h2`, `h3`および引用やコードのブロックスタイルを使用することができます。
+  /// 画像や映像のメディアを挿入することができます。
+  /// `bold`, `italic`, `underline`, `strike`, `link`, `code`のフォントスタイルを使用することができます。
+  const FormMarkdownToolbar({
     super.key,
     required this.controller,
-    this.exchangeIcon = Icons.repeat,
-    this.color,
-    this.backgroundColor,
+    this.style,
     this.mentionHintText,
-    this.borderColor,
     this.mentionBuilder,
     this.linkTitleHintText,
     this.linkLinkHintText,
-  });
+  }) : assert(
+          (mentionBuilder == null && mentionHintText == null) ||
+              mentionBuilder != null,
+          "MentionHintText is required when using [mentionBuilder].",
+        );
 
+  /// [MarkdownController] for the toolbar.
+  ///
+  /// Pass the same one to [FormMarkdownField].
+  ///
+  /// ツールバー用の[MarkdownController]。
+  ///
+  /// 同じものを[FormMarkdownField]に渡します。
   final MarkdownController controller;
-  final IconData exchangeIcon;
-  final Color? color;
-  final Color? backgroundColor;
-  final Color? borderColor;
+
+  /// Style of the toolbar.
+  ///
+  /// ツールバーのスタイル。
+  final FormStyle? style;
+
+  /// Hint text for the mention.
+  ///
+  /// メンションのヒントテキスト。
   final String? mentionHintText;
+
+  /// Hint text for the link title.
+  ///
+  /// リンクタイトルのヒントテキスト。
   final String? linkTitleHintText;
+
+  /// Hint text for the link link.
+  ///
+  /// リンクリンクのヒントテキスト。
   final String? linkLinkHintText;
+
+  /// Builder for the mentions.
+  ///
+  /// メンションのビルダー。
   final List<MarkdownMention> Function(BuildContext context)? mentionBuilder;
 
   @override
-  State<MarkdownToolbar> createState() => _MarkdownToolbarState();
+  State<FormMarkdownToolbar> createState() => _FormMarkdownToolbarState();
 }
 
-class _MarkdownToolbarState extends State<MarkdownToolbar>
+class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     with WidgetsBindingObserver
     implements MarkdownToolRef {
   bool _isKeyboardHidden = false;
@@ -132,6 +203,10 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
     }
     return state._controller;
   }
+
+  @override
+  List<MarkdownMention> Function(BuildContext context)? get mentionBuilder =>
+      widget.mentionBuilder;
 
   @override
   void toggleMode(MarkdownToolMain mode) {
@@ -275,7 +350,10 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   }
 
   Iterable<Widget> _buildMainMenu(BuildContext context, ThemeData theme) {
-    return MarkdownToolMain.values.map((e) {
+    return MarkdownToolMain.values.mapAndRemoveEmpty((e) {
+      if (!e.show(context, this)) {
+        return null;
+      }
       if (!e.enabled(context, this) || !e.active(context, this)) {
         return IconButton(
           onPressed: null,
@@ -290,9 +368,11 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 builder: (context, child) {
                   return IconButton.filled(
                     style: IconButton.styleFrom(
-                      backgroundColor: theme.colorTheme?.primary ??
+                      backgroundColor: widget.style?.activeBackgroundColor ??
+                          theme.colorTheme?.primary ??
                           theme.colorScheme.primary,
-                      foregroundColor: theme.colorTheme?.onPrimary ??
+                      foregroundColor: widget.style?.activeColor ??
+                          theme.colorTheme?.onPrimary ??
                           theme.colorScheme.onPrimary,
                     ),
                     onPressed: (focuedState?.cursorInLink ?? false)
@@ -322,10 +402,12 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
           if (_currentMode == e && _showBlockMenu) {
             return IconButton.filled(
               style: IconButton.styleFrom(
-                backgroundColor:
-                    theme.colorTheme?.primary ?? theme.colorScheme.primary,
-                foregroundColor:
-                    theme.colorTheme?.onPrimary ?? theme.colorScheme.onPrimary,
+                backgroundColor: widget.style?.activeBackgroundColor ??
+                    theme.colorTheme?.primary ??
+                    theme.colorScheme.primary,
+                foregroundColor: widget.style?.activeColor ??
+                    theme.colorTheme?.onPrimary ??
+                    theme.colorScheme.onPrimary,
               ),
               onPressed: () {
                 e.onTap(context, this);
@@ -361,7 +443,8 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
       return [
         VerticalDivider(
           width: 1,
-          color: theme.colorScheme.outline.withAlpha(128),
+          color: (widget.style?.borderColor ?? theme.colorScheme.outline)
+              .withAlpha(128),
         ),
         ...subMenu,
       ];
@@ -374,10 +457,12 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
       if (e.active(context, this)) {
         return IconButton.filled(
           style: IconButton.styleFrom(
-            backgroundColor:
-                theme.colorTheme?.primary ?? theme.colorScheme.primary,
-            foregroundColor:
-                theme.colorTheme?.onPrimary ?? theme.colorScheme.onPrimary,
+            backgroundColor: widget.style?.activeBackgroundColor ??
+                theme.colorTheme?.primary ??
+                theme.colorScheme.primary,
+            foregroundColor: widget.style?.activeColor ??
+                theme.colorTheme?.onPrimary ??
+                theme.colorScheme.onPrimary,
           ),
           onPressed: () {
             e.onDeactive(context, this);
@@ -401,7 +486,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
       right: 0,
       bottom: _blockMenuHeight,
       child: Container(
-        color: theme.colorTheme?.background,
+        color: widget.style?.backgroundColor ?? theme.colorTheme?.background,
         height: _kLinkDialogHeight,
         width: double.infinity,
         padding: EdgeInsets.fromLTRB(16, 0, 8, 0),
@@ -421,7 +506,9 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                     hintText: widget.linkTitleHintText,
                     style: FormStyle(
                       borderStyle: FormInputBorderStyle.outline,
-                      backgroundColor: theme.colorTheme?.surface,
+                      backgroundColor: widget.style?.subBackgroundColor ??
+                          widget.style?.backgroundColor ??
+                          theme.colorTheme?.surface,
                     ),
                     onChanged: (value) {
                       if (value == null) {
@@ -457,7 +544,9 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                     hintText: widget.linkLinkHintText,
                     style: FormStyle(
                       borderStyle: FormInputBorderStyle.outline,
-                      backgroundColor: theme.colorTheme?.surface,
+                      backgroundColor: widget.style?.subBackgroundColor ??
+                          widget.style?.backgroundColor ??
+                          theme.colorTheme?.surface,
                     ),
                     onChanged: (value) {
                       _linkSetting?.link = QuillTextLink(
@@ -492,6 +581,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
         _kMentionDialogSpaceHeight -
         context.mediaQuery.viewPadding.bottom -
         context.mediaQuery.viewPadding.top;
+
     return Positioned(
       left: 0,
       right: 0,
@@ -499,7 +589,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
       child: Container(
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-          color: theme.colorTheme?.background,
+          color: widget.style?.backgroundColor ?? theme.colorTheme?.background,
         ),
         height: height,
         width: double.infinity,
@@ -510,14 +600,16 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 decoration: BoxDecoration(
                   border: Border(
                     top: BorderSide(
-                      color: widget.borderColor ??
-                          theme.colorTheme?.outline.withAlpha(128) ??
-                          theme.colorScheme.outline.withAlpha(128),
+                      color: (widget.style?.borderColor ??
+                              theme.colorTheme?.outline ??
+                              theme.colorScheme.outline)
+                          .withAlpha(128),
                     ),
                     bottom: BorderSide(
-                      color: widget.borderColor ??
-                          theme.colorTheme?.outline.withAlpha(128) ??
-                          theme.colorScheme.outline.withAlpha(128),
+                      color: (widget.style?.borderColor ??
+                              theme.colorTheme?.outline ??
+                              theme.colorScheme.outline)
+                          .withAlpha(128),
                     ),
                   ),
                 ),
@@ -537,8 +629,12 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                               [];
                       return ListView.builder(
                         itemCount: mentions.length,
-                        padding: EdgeInsets.fromLTRB(0, 16, 0,
-                            16 + context.mediaQuery.viewPadding.bottom),
+                        padding: EdgeInsets.fromLTRB(
+                          0,
+                          16,
+                          0,
+                          16 + context.mediaQuery.viewPadding.bottom,
+                        ),
                         itemBuilder: (context, index) {
                           final mention = mentions[index];
                           return GestureDetector(
@@ -560,7 +656,8 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                                     child: CircleAvatar(
                                       backgroundImage: mention.avatar,
                                       backgroundColor:
-                                          theme.colorScheme.outline,
+                                          widget.style?.borderColor ??
+                                              theme.colorScheme.outline,
                                     ),
                                   ),
                                   const SizedBox(width: 16),
@@ -574,7 +671,8 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                                     "@${mention.id.trim().trimString("@")}",
                                     textAlign: TextAlign.end,
                                     style: theme.textTheme.bodyMedium
-                                        ?.withColor(theme.disabledColor),
+                                        ?.withColor(widget.style?.subColor ??
+                                            theme.disabledColor),
                                   ),
                                 ],
                               ),
@@ -605,7 +703,9 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                       style: FormStyle(
                         borderStyle: FormInputBorderStyle.outline,
                         borderRadius: BorderRadius.circular(32),
-                        backgroundColor: theme.colorTheme?.surface,
+                        backgroundColor: widget.style?.subBackgroundColor ??
+                            widget.style?.backgroundColor ??
+                            theme.colorTheme?.surface,
                       ),
                     ),
                   ),
@@ -627,9 +727,10 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(
-              color: widget.borderColor ??
-                  theme.colorTheme?.outline.withAlpha(128) ??
-                  theme.colorScheme.outline.withAlpha(128),
+              color: (widget.style?.borderColor ??
+                      theme.colorTheme?.outline ??
+                      theme.colorScheme.outline)
+                  .withAlpha(128),
             ),
           ),
         ),
@@ -641,7 +742,11 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
           crossAxisSpacing: 8,
           childAspectRatio: 3,
           padding: EdgeInsets.fromLTRB(
-              16, 16, 16, 16 + context.mediaQuery.viewPadding.bottom),
+            16,
+            16,
+            16,
+            16 + context.mediaQuery.viewPadding.bottom,
+          ),
           children: [
             ...MarkdownToolAdd.values.map((e) {
               return InkWell(
@@ -650,7 +755,9 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.surface,
+                    color: widget.style?.subBackgroundColor ??
+                        widget.style?.backgroundColor ??
+                        theme.colorScheme.surface,
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Row(
@@ -689,9 +796,10 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(
-              color: widget.borderColor ??
-                  theme.colorTheme?.outline.withAlpha(128) ??
-                  theme.colorScheme.outline.withAlpha(128),
+              color: (widget.style?.borderColor ??
+                      theme.colorTheme?.outline ??
+                      theme.colorScheme.outline)
+                  .withAlpha(128),
             ),
           ),
         ),
@@ -712,7 +820,9 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.surface,
+                    color: widget.style?.subBackgroundColor ??
+                        widget.style?.backgroundColor ??
+                        theme.colorScheme.surface,
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Row(
@@ -751,9 +861,10 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(
-              color: widget.borderColor ??
-                  theme.colorTheme?.outline.withAlpha(128) ??
-                  theme.colorScheme.outline.withAlpha(128),
+              color: (widget.style?.borderColor ??
+                      theme.colorTheme?.outline ??
+                      theme.colorScheme.outline)
+                  .withAlpha(128),
             ),
           ),
         ),
@@ -765,7 +876,11 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
           crossAxisSpacing: 8,
           childAspectRatio: 3,
           padding: EdgeInsets.fromLTRB(
-              16, 16, 16, 16 + context.mediaQuery.viewPadding.bottom),
+            16,
+            16,
+            16,
+            16 + context.mediaQuery.viewPadding.bottom,
+          ),
           children: [
             ...MarkdownToolExchange.values.map((e) {
               return InkWell(
@@ -774,7 +889,9 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.surface,
+                    color: widget.style?.subBackgroundColor ??
+                        widget.style?.backgroundColor ??
+                        theme.colorScheme.surface,
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Row(
@@ -826,19 +943,19 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
 
     return IconTheme(
       data: IconThemeData(
-        color: widget.color ?? theme.colorTheme?.onBackground,
+        color: widget.style?.color ?? theme.colorTheme?.onBackground,
       ),
       child: DefaultTextStyle(
         style: theme.textTheme.bodyMedium?.copyWith(
-              color: widget.color ?? theme.colorTheme?.onBackground,
+              color: widget.style?.color ?? theme.colorTheme?.onBackground,
             ) ??
             TextStyle(
-              color: widget.color ?? theme.colorTheme?.onBackground,
+              color: widget.style?.color ?? theme.colorTheme?.onBackground,
             ),
         child: AnimatedContainer(
           duration: _blockMenuToggleDuration ?? Duration.zero,
           curve: Curves.easeInOut,
-          color: widget.backgroundColor ?? theme.colorTheme?.background,
+          color: widget.style?.backgroundColor ?? theme.colorTheme?.background,
           height: height,
           child: Stack(
             children: [
@@ -854,7 +971,8 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 right: 0,
                 top: 0,
                 child: Container(
-                  color: widget.backgroundColor ?? theme.colorTheme?.background,
+                  color: widget.style?.backgroundColor ??
+                      theme.colorTheme?.background,
                   height: _kToolbarHeight,
                   width: double.infinity,
                   child: Row(
@@ -962,6 +1080,11 @@ abstract class MarkdownToolRef {
   ///
   /// リンクダイアログを開きます。
   void toggleLinkDialog();
+
+  /// Get the mention builder.
+  ///
+  /// メンションビルダーを取得します。
+  List<MarkdownMention> Function(BuildContext context)? get mentionBuilder;
 }
 
 class _LinkSetting {

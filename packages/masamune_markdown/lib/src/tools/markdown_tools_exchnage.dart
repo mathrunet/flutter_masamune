@@ -1,8 +1,8 @@
 part of '/masamune_markdown.dart';
 
-/// An enumeration type for changing Markdown styles.
+/// An enumeration type for changing Markdown block styles.
 ///
-/// マークダウンのスタイルを変更するための列挙型。
+/// マークダウンのブロックスタイルを変更するための列挙型。
 enum MarkdownToolExchange {
   /// Text tool.
   ///

@@ -1,8 +1,30 @@
 part of '/masamune_markdown.dart';
 
+/// Controller for [FormMarkdownField].
+///
+/// By passing this, you can integrate with [FormMarkdownToolbar] tools.
+///
+/// Also, you can control multiple [FormMarkdownField] instances with a single [FormMarkdownToolbar] tool.
+///
+/// [FormMarkdownField]用のコントローラー。
+///
+/// これを渡すことで[FormMarkdownToolbar]のツールと連携することができます。
+///
+/// また、複数の[FormMarkdownField]を一つの[FormMarkdownToolbar]のツールでコントロールすることができます。
 class MarkdownController extends MasamuneControllerBase<List<TextEditingValue>,
     MarkdownMasamuneAdapter> {
-  MarkdownController({MarkdownMasamuneAdapter? adapter});
+  /// Controller for [FormMarkdownField].
+  ///
+  /// By passing this, you can integrate with [FormMarkdownToolbar] tools.
+  ///
+  /// Also, you can control multiple [FormMarkdownField] instances with a single [FormMarkdownToolbar] tool.
+  ///
+  /// [FormMarkdownField]用のコントローラー。
+  ///
+  /// これを渡すことで[FormMarkdownToolbar]のツールと連携することができます。
+  ///
+  /// また、複数の[FormMarkdownField]を一つの[FormMarkdownToolbar]のツールでコントロールすることができます。
+  MarkdownController({super.adapter});
 
   /// Query for MarkdownController.
   ///

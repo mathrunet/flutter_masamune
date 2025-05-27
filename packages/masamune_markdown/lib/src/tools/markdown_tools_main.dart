@@ -125,6 +125,18 @@ enum MarkdownToolMain {
     }
   }
 
+  /// Check if the tool should be shown.
+  ///
+  /// ツールが表示されるかどうかを確認します。
+  bool show(BuildContext context, MarkdownToolRef ref) {
+    switch (this) {
+      case MarkdownToolMain.mention:
+        return ref.mentionBuilder != null;
+      default:
+        return true;
+    }
+  }
+
   /// Check if the tool is enabled.
   ///
   /// ツールが有効かどうかを確認します。
