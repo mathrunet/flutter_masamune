@@ -11,6 +11,7 @@ library katana_theme;
 // Dart imports:
 import 'dart:async';
 import 'dart:ui';
+import 'dart:ui' as ui;
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
@@ -36,3 +37,4 @@ part 'src/video_provider.dart';
 part 'src/text_provider.dart';
 part 'src/functions.dart';
 part 'src/file_image_dir_type.dart';
+part 'src/animated_image_provider.dart';
