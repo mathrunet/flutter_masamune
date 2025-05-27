@@ -4,6 +4,7 @@ const _kToolbarHeight = kToolbarHeight;
 const _kLinkDialogHeight = _kToolbarHeight * 2;
 const _kMentionDialogSpaceHeight = _kToolbarHeight;
 const _kMinChangeSize = 16.0;
+const _kBlockMenuToggleDuration = Duration(milliseconds: 200);
 
 class MarkdownToolbar extends StatefulWidget {
   const MarkdownToolbar({
@@ -12,8 +13,11 @@ class MarkdownToolbar extends StatefulWidget {
     this.exchangeIcon = Icons.repeat,
     this.color,
     this.backgroundColor,
+    this.mentionHintText,
     this.borderColor,
     this.mentionBuilder,
+    this.linkTitleHintText,
+    this.linkLinkHintText,
   });
 
   final MarkdownController controller;
@@ -21,6 +25,9 @@ class MarkdownToolbar extends StatefulWidget {
   final Color? color;
   final Color? backgroundColor;
   final Color? borderColor;
+  final String? mentionHintText;
+  final String? linkTitleHintText;
+  final String? linkLinkHintText;
   final List<MarkdownMention> Function(BuildContext context)? mentionBuilder;
 
   @override
@@ -31,10 +38,10 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
     with WidgetsBindingObserver
     implements MarkdownToolRef {
   bool _isKeyboardHidden = false;
-  bool _showSelectedMenu = false;
   bool _showBlockMenu = false;
   double _blockMenuHeight = 0;
   double _lastBottomInset = 0;
+  Duration? _blockMenuToggleDuration;
 
   _LinkSetting? _linkSetting;
   _MentionSetting? _mentionSetting;
@@ -64,8 +71,11 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
     final currentBottomInset = context.mediaQuery.viewInsets.bottom;
     final isKeyboardShowing =
         _lastBottomInset + _kMinChangeSize < currentBottomInset;
-    if (_isKeyboardHidden && _lastBottomInset == 0 && currentBottomInset > 0) {
-      _isKeyboardHidden = false;
+    if (currentBottomInset > 0) {
+      if (_isKeyboardHidden && _lastBottomInset == 0) {
+        _isKeyboardHidden = false;
+      }
+      _blockMenuToggleDuration = null;
     }
     _lastBottomInset = currentBottomInset;
     if (!_isKeyboardHidden && _blockMenuHeight < currentBottomInset) {
@@ -124,26 +134,22 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   }
 
   @override
-  void toggleMode(MarkdownToolMain? mode) {
-    if (mode == null) {
-      setState(() {
-        if (_currentMode == MarkdownToolMain.mention) {
-          _mentionSetting?.cancel();
-          _mentionSetting = null;
-        }
-        _currentMode = null;
-        _showBlockMenu = false;
-        SystemChannels.textInput.invokeMethod("TextInput.show");
-      });
-      return;
-    }
+  void toggleMode(MarkdownToolMain mode) {
     setState(() {
       if (mode == _currentMode) {
         if (_showBlockMenu) {
+          if (_blockMenuToggleDuration != null) {
+            _blockMenuHeight = 0;
+            _blockMenuToggleDuration = _kBlockMenuToggleDuration;
+          }
           _showBlockMenu = false;
           SystemChannels.textInput.invokeMethod("TextInput.show");
         } else {
           if (mode.hideKeyboardOnSelected) {
+            if (_blockMenuHeight == 0) {
+              _blockMenuHeight = context.mediaQuery.size.height / 3.0;
+              _blockMenuToggleDuration = _kBlockMenuToggleDuration;
+            }
             _showBlockMenu = true;
             SystemChannels.textInput.invokeMethod("TextInput.hide");
           }
@@ -152,6 +158,10 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
       } else {
         if (_showBlockMenu) {
           if (!mode.hideKeyboardOnSelected) {
+            if (_blockMenuToggleDuration != null) {
+              _blockMenuHeight = 0;
+              _blockMenuToggleDuration = _kBlockMenuToggleDuration;
+            }
             _showBlockMenu = false;
             SystemChannels.textInput.invokeMethod("TextInput.show");
           }
@@ -159,6 +169,10 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
           if (mode.hideKeyboardOnSelected) {
             _showBlockMenu = true;
             SystemChannels.textInput.invokeMethod("TextInput.hide");
+            if (_blockMenuHeight == 0) {
+              _blockMenuHeight = context.mediaQuery.size.height / 3.0;
+              _blockMenuToggleDuration = _kBlockMenuToggleDuration;
+            }
           }
         }
         if (mode == MarkdownToolMain.mention) {
@@ -197,7 +211,17 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   @override
   void deleteMode() {
     setState(() {
+      if (_currentMode == MarkdownToolMain.mention) {
+        _mentionSetting?.cancel();
+        _mentionSetting = null;
+      }
+      if (_blockMenuToggleDuration != null) {
+        _blockMenuHeight = 0;
+        _blockMenuToggleDuration = _kBlockMenuToggleDuration;
+      }
       _currentMode = null;
+      _showBlockMenu = false;
+      SystemChannels.textInput.invokeMethod("TextInput.show");
     });
   }
 
@@ -226,13 +250,18 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
   }
 
   void _handleControllerStateOnChanged() {
-    if (_showSelectedMenu != isTextSelected) {
-      setState(() {
-        _showSelectedMenu = isTextSelected;
-        if (!isTextSelected) {
+    if ((isTextSelected && _currentMode != MarkdownToolMain.font) ||
+        (!isTextSelected && _currentMode == MarkdownToolMain.font)) {
+      if (isTextSelected) {
+        toggleMode(MarkdownToolMain.font);
+      } else {
+        deleteMode();
+      }
+      if (!isTextSelected) {
+        setState(() {
           _linkSetting = null;
-        }
-      });
+        });
+      }
     }
     if (_currentMode == MarkdownToolMain.mention &&
         _showBlockMenu &&
@@ -389,6 +418,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 Expanded(
                   child: FormTextField(
                     initialValue: _linkSetting?.link.text,
+                    hintText: widget.linkTitleHintText,
                     style: FormStyle(
                       borderStyle: FormInputBorderStyle.outline,
                       backgroundColor: theme.colorTheme?.surface,
@@ -424,6 +454,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                   child: FormTextField(
                     focusNode: _linkSetting?.focusNode,
                     initialValue: _linkSetting?.link.link,
+                    hintText: widget.linkLinkHintText,
                     style: FormStyle(
                       borderStyle: FormInputBorderStyle.outline,
                       backgroundColor: theme.colorTheme?.surface,
@@ -464,7 +495,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
     return Positioned(
       left: 0,
       right: 0,
-      bottom: _blockMenuHeight,
+      bottom: _blockMenuToggleDuration != null ? 0 : _blockMenuHeight,
       child: Container(
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
@@ -513,7 +544,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                           return GestureDetector(
                             onTap: () {
                               final controller = _mentionSetting!.controller;
-                              toggleMode(null);
+                              deleteMode();
                               controller.insertMention(mention);
                             },
                             child: Padding(
@@ -562,7 +593,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 children: [
                   IconButton(
                     onPressed: () {
-                      toggleMode(null);
+                      deleteMode();
                     },
                     icon: Icon(Icons.arrow_back_ios),
                   ),
@@ -570,7 +601,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                     child: FormTextField(
                       focusNode: _mentionSetting!.focusNode,
                       controller: _mentionSetting!.textEditingController,
-                      hintText: "Search",
+                      hintText: widget.mentionHintText,
                       style: FormStyle(
                         borderStyle: FormInputBorderStyle.outline,
                         borderRadius: BorderRadius.circular(32),
@@ -786,6 +817,9 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
           _kMentionDialogSpaceHeight -
           context.mediaQuery.viewPadding.bottom -
           context.mediaQuery.viewPadding.top;
+      if (_blockMenuToggleDuration != null) {
+        height -= _blockMenuHeight;
+      }
     } else {
       height += _kToolbarHeight;
     }
@@ -801,16 +835,26 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
             TextStyle(
               color: widget.color ?? theme.colorTheme?.onBackground,
             ),
-        child: Container(
+        child: AnimatedContainer(
+          duration: _blockMenuToggleDuration ?? Duration.zero,
+          curve: Curves.easeInOut,
           color: widget.backgroundColor ?? theme.colorTheme?.background,
           height: height,
           child: Stack(
             children: [
+              if (_currentMode == MarkdownToolMain.add) ...[
+                _buildAddMenu(context, theme),
+              ] else if (_currentMode == MarkdownToolMain.media) ...[
+                _buildMediaMenu(context, theme),
+              ] else if (_currentMode == MarkdownToolMain.exchange) ...[
+                _buildExchangeMenu(context, theme),
+              ],
               Positioned(
                 left: 0,
                 right: 0,
-                bottom: _blockMenuHeight,
-                child: SizedBox(
+                top: 0,
+                child: Container(
+                  color: widget.backgroundColor ?? theme.colorTheme?.background,
                   height: _kToolbarHeight,
                   width: double.infinity,
                   child: Row(
@@ -828,9 +872,7 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                             children: [
                               if (!(focuedState?._selectInMentionLink ??
                                       false) &&
-                                  (_showSelectedMenu ||
-                                      _currentMode ==
-                                          MarkdownToolMain.font)) ...[
+                                  _currentMode == MarkdownToolMain.font) ...[
                                 ..._buildFontMenu(context, theme),
                               ] else ...[
                                 ..._buildMainMenu(context, theme),
@@ -848,13 +890,6 @@ class _MarkdownToolbarState extends State<MarkdownToolbar>
                 _buildMentionDialog(context, theme),
               ] else if (_linkSetting != null) ...[
                 _buildLinkDialog(context, theme),
-              ],
-              if (_currentMode == MarkdownToolMain.add) ...[
-                _buildAddMenu(context, theme),
-              ] else if (_currentMode == MarkdownToolMain.media) ...[
-                _buildMediaMenu(context, theme),
-              ] else if (_currentMode == MarkdownToolMain.exchange) ...[
-                _buildExchangeMenu(context, theme),
               ],
             ],
           ),
