@@ -1,3 +1,7 @@
+## 2.10.0
+
+ - **FEAT**: Add AnimatedImageProvider. ([0ca59d6c](https://github.com/mathrunet/flutter_masamune/commit/0ca59d6c7d403738571a600d0a53ecdcc511ba32))
+
 ## 2.9.8
 
  - Update a dependency to the latest release.

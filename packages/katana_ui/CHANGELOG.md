@@ -1,3 +1,7 @@
+## 2.15.8
+
+ - **FIX**: I made sure to maintain the previous context. ([66d07e08](https://github.com/mathrunet/flutter_masamune/commit/66d07e08647029af1bc15085838aa421feae6035))
+
 ## 2.15.7
 
  - Update a dependency to the latest release.

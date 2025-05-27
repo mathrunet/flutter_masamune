@@ -1,3 +1,8 @@
+## 2.40.3
+
+ - **FIX**: Add command for snippets. ([dec7b515](https://github.com/mathrunet/flutter_masamune/commit/dec7b515d13843d3e1845b5c3af1d496cdf7db85))
+ - **FIX**: Add snippet functionality. ([89a43e44](https://github.com/mathrunet/flutter_masamune/commit/89a43e44df59d43b2af171eadaabd55cf5770f70))
+
 ## 2.40.2
 
  - **FIX**: Corrected the import syntax. ([afd4b79a](https://github.com/mathrunet/flutter_masamune/commit/afd4b79a3e853cc082c1e45eb3c4a8d515cc8a3f))

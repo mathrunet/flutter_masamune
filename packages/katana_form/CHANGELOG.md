@@ -1,3 +1,7 @@
+## 2.18.3
+
+ - **FIX**: Made it reflect the `align` of `FormStyleContainer`. ([cc042308](https://github.com/mathrunet/flutter_masamune/commit/cc042308857b6583f0212f86e0b1d41d80c3b4ea))
+
 ## 2.18.2
 
  - Update a dependency to the latest release.
