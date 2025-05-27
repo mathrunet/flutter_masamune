@@ -1,3 +1,7 @@
+## 2.4.7
+
+ - **FIX**: Version adjustment. ([71343169](https://github.com/mathrunet/flutter_masamune/commit/713431692884bdb56125f93d9e7f21d421eb62fc))
+
 ## 2.4.6
 
  - Update a dependency to the latest release.

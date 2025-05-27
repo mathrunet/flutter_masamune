@@ -1,6 +1,6 @@
 name: masamune_location_platform_interface
 description: Masamune plugin library for handling location information in apps.
-version: 2.4.87
+version: 2.4.88
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_location_platform_interface
 
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
     
   katana: ^2.20.2
-  masamune: ^2.23.16
+  masamune: ^2.23.17
 
 dev_dependencies:
   test: ^1.24.0

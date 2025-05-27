@@ -1,3 +1,7 @@
+## 2.0.2
+
+ - Update a dependency to the latest release.
+
 ## 2.0.1
 
  - **FIX**: Mention周りとメディアのメニュー実装. ([2cbf77cf](https://github.com/mathrunet/flutter_masamune/commit/2cbf77cfa6de611172b2ef0b9231f2f6d1799bcb))
