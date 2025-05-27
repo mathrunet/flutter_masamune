@@ -10,7 +10,7 @@ library masamune_notification_local;
 
 // Package imports:
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'
-    hide UILocalNotificationDateInterpretation, AndroidScheduleMode;
+    hide AndroidScheduleMode;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     as local_notifications;
 
@@ -25,5 +25,4 @@ export 'package:masamune_notification/masamune_notification.dart';
 
 // Project imports:
 part 'adapter/mobile_local_notification_masamune_adapter.dart';
-part 'src/ui_local_notification_date_interpretation.dart';
 part 'src/android_schedule_mode.dart';
