@@ -108,10 +108,10 @@ class FormPageState extends State<FormPage> {
             onSaved: (value) => {...form.value, "number": value},
           ),
           const FormLabel("Enum Form"),
-          FormEnumField(
+          FormEnumModalField(
             form: form,
             initialValue: Selection.one,
-            picker: FormEnumFieldPicker(
+            picker: FormEnumModalFieldPicker(
               values: Selection.values,
             ),
             onSaved: (value) => {...form.value, "enumSelect": value},

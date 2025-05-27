@@ -19,6 +19,7 @@ class FormFocusNodeBuilder extends StatefulWidget {
     super.key,
     required this.builder,
     this.focusNode,
+    this.style,
   });
 
   /// Builder for the field.
@@ -38,6 +39,11 @@ class FormFocusNodeBuilder extends StatefulWidget {
   ///
   /// こちらを指定するとこのフォーカスノードが使われます。
   final FocusNode? focusNode;
+
+  /// Field style.
+  ///
+  /// フィールドのスタイル。
+  final FormStyle? style;
 
   @override
   State<StatefulWidget> createState() => _FormFocusNodeBuilderState();
@@ -81,6 +87,12 @@ class _FormFocusNodeBuilderState extends State<FormFocusNodeBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, _effectiveFocusNode);
+    if (widget.style == null) {
+      return widget.builder(context, _effectiveFocusNode);
+    }
+    return FormStyleContainer(
+      style: widget.style,
+      child: widget.builder(context, _effectiveFocusNode),
+    );
   }
 }

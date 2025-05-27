@@ -18,14 +18,20 @@ class FormEditableToggleBuilder extends StatefulWidget {
   const FormEditableToggleBuilder({
     super.key,
     required this.builder,
-    this.padding,
+    this.style,
     this.onToggle,
+    this.editableOnInit = false,
   });
 
-  /// Field padding.
+  /// Initial editable. `true` means editable.
   ///
-  /// フィールドのパディング。
-  final EdgeInsetsGeometry? padding;
+  /// 初期編集状態。`true`の場合は初期表示時に編集可能。
+  final bool editableOnInit;
+
+  /// Field style.
+  ///
+  /// フィールドのスタイル。
+  final FormStyle? style;
 
   /// Builder for the field.
   ///
@@ -34,8 +40,8 @@ class FormEditableToggleBuilder extends StatefulWidget {
   /// フィールド用のビルダー。
   ///
   /// [editable]が`true`のときに編集可能にします。
-  final Widget Function(
-      BuildContext context, bool editable, VoidCallback onToggle) builder;
+  final Widget Function(BuildContext context, FormEditableToggleBuilderRef ref)
+      builder;
 
   /// Callback if toggled.
   ///
@@ -50,10 +56,20 @@ class FormEditableToggleBuilder extends StatefulWidget {
   State<StatefulWidget> createState() => _FormEditableToggleBuilderState();
 }
 
-class _FormEditableToggleBuilderState extends State<FormEditableToggleBuilder> {
+class _FormEditableToggleBuilderState extends State<FormEditableToggleBuilder>
+    implements FormEditableToggleBuilderRef {
+  @override
+  void initState() {
+    super.initState();
+    _editable = widget.editableOnInit;
+  }
+
+  @override
+  bool get editable => _editable;
   bool _editable = false;
 
-  void _onSwitch() {
+  @override
+  void toggle() {
     setState(() {
       _editable = !_editable;
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -64,9 +80,27 @@ class _FormEditableToggleBuilderState extends State<FormEditableToggleBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: widget.padding ?? EdgeInsets.zero,
-      child: widget.builder(context, _editable, _onSwitch),
+    if (widget.style == null) {
+      return widget.builder(context, this);
+    }
+    return FormStyleContainer(
+      style: widget.style,
+      child: widget.builder(context, this),
     );
   }
+}
+
+/// Reference for [FormEditableToggleBuilder].
+///
+/// [FormEditableToggleBuilder]の参照。
+abstract class FormEditableToggleBuilderRef {
+  /// Whether or not editing is allowed. `true` means editable.
+  ///
+  /// 編集の可否。`true`の場合は編集可能。
+  bool get editable;
+
+  /// Toggle editing.
+  ///
+  /// 編集の可否を切り替えます。
+  void toggle();
 }

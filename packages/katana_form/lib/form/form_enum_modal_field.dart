@@ -49,7 +49,7 @@ part of '/katana_form.dart';
 /// [enabled]が`false`になるとテキストが非有効化されます。
 ///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-class FormEnumField<TEnum extends Enum, TValue> extends StatefulWidget {
+class FormEnumModalField<TEnum extends Enum, TValue> extends StatefulWidget {
   /// Form to select from all elements in [TEnum].
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
@@ -99,7 +99,7 @@ class FormEnumField<TEnum extends Enum, TValue> extends StatefulWidget {
   /// [enabled]が`false`になるとテキストが非有効化されます。
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-  const FormEnumField({
+  const FormEnumModalField({
     this.form,
     super.key,
     this.controller,
@@ -254,7 +254,7 @@ class FormEnumField<TEnum extends Enum, TValue> extends StatefulWidget {
   /// Picker object for selecting [TEnum].
   ///
   /// [TEnum]を選択するためのピッカーオブジェクト。
-  final FormEnumFieldPicker<TEnum> picker;
+  final FormEnumModalFieldPicker<TEnum> picker;
 
   /// If placed in a list, whether or not it should not be discarded on scrolling.
   ///
@@ -276,12 +276,13 @@ class FormEnumField<TEnum extends Enum, TValue> extends StatefulWidget {
   final Widget? dropdownIcon;
 
   @override
-  State<StatefulWidget> createState() => _FormEnumFieldState<TEnum, TValue>();
+  State<StatefulWidget> createState() =>
+      _FormEnumModalFieldState<TEnum, TValue>();
 }
 
-class _FormEnumFieldState<TEnum extends Enum, TValue>
-    extends State<FormEnumField<TEnum, TValue>>
-    with AutomaticKeepAliveClientMixin<FormEnumField<TEnum, TValue>> {
+class _FormEnumModalFieldState<TEnum extends Enum, TValue>
+    extends State<FormEnumModalField<TEnum, TValue>>
+    with AutomaticKeepAliveClientMixin<FormEnumModalField<TEnum, TValue>> {
   TextEditingController? _controller;
   @override
   void initState() {
@@ -298,7 +299,7 @@ class _FormEnumFieldState<TEnum extends Enum, TValue>
   }
 
   @override
-  void didUpdateWidget(FormEnumField<TEnum, TValue> oldWidget) {
+  void didUpdateWidget(FormEnumModalField<TEnum, TValue> oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.controller != widget.controller) {
@@ -613,7 +614,7 @@ class _EnumTextField<TEnum extends Enum, TValue> extends FormField<TEnum> {
         );
 
   final FormController<TValue>? form;
-  final FormEnumFieldPicker<TEnum> picker;
+  final FormEnumModalFieldPicker<TEnum> picker;
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -789,11 +790,11 @@ class _EnumTextFieldState<TEnum extends Enum, TValue>
 /// Class that defines the picker style for selecting [TEnum].
 ///
 /// [TEnum]を選択するためのピッカースタイルを定義するクラス。
-class FormEnumFieldPicker<TEnum extends Enum> {
+class FormEnumModalFieldPicker<TEnum extends Enum> {
   /// Class that defines the picker style for selecting [TEnum].
   ///
   /// [TEnum]を選択するためのピッカースタイルを定義するクラス。
-  FormEnumFieldPicker({
+  FormEnumModalFieldPicker({
     this.defaultValue,
     required this.values,
     this.labelBuilder,

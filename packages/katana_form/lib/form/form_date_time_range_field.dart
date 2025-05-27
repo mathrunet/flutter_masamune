@@ -19,7 +19,7 @@ part of '/katana_form.dart';
 ///
 /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
 ///
-/// You can set how to select a date range by specifying [delegate].
+/// You can set how to select a date range by specifying [picker].
 ///
 /// If [enabled] is `false`, the text is deactivated.
 ///
@@ -44,7 +44,7 @@ part of '/katana_form.dart';
 ///
 /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
 ///
-/// [delegate]を指定することで日付範囲の選択方法を設定することが可能です。
+/// [picker]を指定することで日付範囲の選択方法を設定することが可能です。
 ///
 /// [enabled]が`false`になるとテキストが非有効化されます。
 ///
@@ -69,7 +69,7 @@ class FormDateTimeRangeField<TValue> extends StatefulWidget {
   ///
   /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
   ///
-  /// You can set how to select a date range by specifying [delegate].
+  /// You can set how to select a date range by specifying [picker].
   ///
   /// If [enabled] is `false`, the text is deactivated.
   ///
@@ -94,7 +94,7 @@ class FormDateTimeRangeField<TValue> extends StatefulWidget {
   ///
   /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
   ///
-  /// [delegate]を指定することで日付範囲の選択方法を設定することが可能です。
+  /// [picker]を指定することで日付範囲の選択方法を設定することが可能です。
   ///
   /// [enabled]が`false`になるとテキストが非有効化されます。
   ///
@@ -118,7 +118,7 @@ class FormDateTimeRangeField<TValue> extends StatefulWidget {
     this.onSubmitted,
     this.initialValue,
     this.keepAlive = true,
-    this.delegate = const FormDateTimeRangeFieldDateDelegate(),
+    this.picker = const FormDateTimeRangeFieldDatePicker(),
     this.onSaved,
     this.showDropdownIcon = true,
     this.dropdownIcon,
@@ -260,7 +260,7 @@ class FormDateTimeRangeField<TValue> extends StatefulWidget {
   /// A delegate where the form picker and formatter are defined.
   ///
   /// フォームのピッカーやフォーマッタが定義されているデリゲート。
-  final FormDateTimeRangeFieldDelegate delegate;
+  final FormDateTimeRangeFieldPicker picker;
 
   /// If placed in a list, whether or not it should not be discarded on scrolling.
   ///
@@ -296,7 +296,7 @@ class _FormDateTimeRangeFieldState<TValue>
       return;
     }
     if (widget.initialValue != null) {
-      widget.controller?.text = widget.delegate.format(widget.initialValue!);
+      widget.controller?.text = widget.picker.format(widget.initialValue!);
     }
     _controller = TextEditingController(text: widget.controller?.text);
     _controller?.addListener(_listenerInside);
@@ -481,7 +481,7 @@ class _FormDateTimeRangeFieldState<TValue>
                 readOnly: widget.readOnly,
                 textAlign: widget.style?.textAlign ?? TextAlign.left,
                 textAlignVertical: widget.style?.textAlignVertical,
-                delegate: widget.delegate,
+                delegate: widget.picker,
                 validator: (value) {
                   if (widget.emptyErrorText.isNotEmpty && value == null) {
                     return widget.emptyErrorText;
@@ -500,7 +500,7 @@ class _FormDateTimeRangeFieldState<TValue>
                   }
                   widget.form!.value = res;
                 },
-                onShowPicker: widget.delegate.picker,
+                onShowPicker: widget.picker.picker,
               ),
               if (widget.showDropdownIcon)
                 Positioned.fill(
@@ -622,7 +622,7 @@ class _DateTimeRangeTextField<TValue> extends FormField<DateTimeRange> {
         );
 
   final FormController<TValue>? form;
-  final FormDateTimeRangeFieldDelegate delegate;
+  final FormDateTimeRangeFieldPicker delegate;
 
   final Future<DateTimeRange?> Function(
       BuildContext context, DateTimeRange currentValue)? onShowPicker;
@@ -812,23 +812,23 @@ class _DateTimeRangeTextFieldState<TValue>
       !widget.readOnly;
 }
 
-/// [FormDateTimeRangeFieldDelegate] that allows specifying pickers that can be selected by [pickerBuilder].
+/// [FormDateTimeRangeFieldPicker] that allows specifying pickers that can be selected by [pickerBuilder].
 ///
 /// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
 ///
-/// [pickerBuilder]で選択可能なピッカーを指定可能な[FormDateTimeRangeFieldDelegate]。
+/// [pickerBuilder]で選択可能なピッカーを指定可能な[FormDateTimeRangeFieldPicker]。
 ///
 /// [dateFormat]は`yyyy/MM/dd(E)`が定義されます。
-class FormDateTimeRangeFieldCustomDelegate
-    extends FormDateTimeRangeFieldDelegate {
-  /// [FormDateTimeRangeFieldDelegate] that allows specifying pickers that can be selected by [pickerBuilder].
+class FormDateTimeRangeFieldCustomPicker
+    extends FormDateTimeRangeFieldPicker {
+  /// [FormDateTimeRangeFieldPicker] that allows specifying pickers that can be selected by [pickerBuilder].
   ///
   /// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
   ///
-  /// [pickerBuilder]で選択可能なピッカーを指定可能な[FormDateTimeRangeFieldDelegate]。
+  /// [pickerBuilder]で選択可能なピッカーを指定可能な[FormDateTimeRangeFieldPicker]。
   ///
   /// [dateFormat]は`yyyy/MM/dd(E)`が定義されます。
-  const FormDateTimeRangeFieldCustomDelegate({
+  const FormDateTimeRangeFieldCustomPicker({
     required this.pickerBuilder,
     super.dateFormat = "yyyy/MM/dd(E)",
     super.separator = " - ",
@@ -862,7 +862,7 @@ class FormDateTimeRangeFieldCustomDelegate
       pickerBuilder(context, currentDateTimeRange);
 }
 
-/// Let the user select only dates [FormDateTimeRangeFieldDelegate].
+/// Let the user select only dates [FormDateTimeRangeFieldPicker].
 ///
 /// You can have it selected within the range of [startDate] and [endDate].
 ///
@@ -870,16 +870,16 @@ class FormDateTimeRangeFieldCustomDelegate
 ///
 /// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
 ///
-/// 日付のみを選択させる[FormDateTimeRangeFieldDelegate]。
+/// 日付のみを選択させる[FormDateTimeRangeFieldPicker]。
 ///
 /// [startDate]と[endDate]の範囲内で選択させることができます。
 ///
 /// 選択されていない場合の初期値が[defaultDateTimeRange]になります。
 ///
 /// [dateFormat]は`yyyy/MM/dd(E)`が定義されます。
-class FormDateTimeRangeFieldDateDelegate
-    extends FormDateTimeRangeFieldDelegate {
-  /// Let the user select only dates [FormDateTimeRangeFieldDelegate].
+class FormDateTimeRangeFieldDatePicker
+    extends FormDateTimeRangeFieldPicker {
+  /// Let the user select only dates [FormDateTimeRangeFieldPicker].
   ///
   /// You can have it selected within the range of [startDate] and [endDate].
   ///
@@ -887,14 +887,14 @@ class FormDateTimeRangeFieldDateDelegate
   ///
   /// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
   ///
-  /// 日付のみを選択させる[FormDateTimeRangeFieldDelegate]。
+  /// 日付のみを選択させる[FormDateTimeRangeFieldPicker]。
   ///
   /// [startDate]と[endDate]の範囲内で選択させることができます。
   ///
   /// 選択されていない場合の初期値が[defaultDateTimeRange]になります。
   ///
   /// [dateFormat]は`yyyy/MM/dd(E)`が定義されます。
-  const FormDateTimeRangeFieldDateDelegate({
+  const FormDateTimeRangeFieldDatePicker({
     super.startDate,
     super.endDate,
     super.defaultDateTimeRange,
@@ -958,11 +958,11 @@ class FormDateTimeRangeFieldDateDelegate
 ///
 /// フォームのピッカーやフォーマッタが定義されているデリゲート。
 @immutable
-abstract class FormDateTimeRangeFieldDelegate {
+abstract class FormDateTimeRangeFieldPicker {
   /// A delegate where the form picker and formatter are defined.
   ///
   /// フォームのピッカーやフォーマッタが定義されているデリゲート。
-  const FormDateTimeRangeFieldDelegate({
+  const FormDateTimeRangeFieldPicker({
     this.startDate,
     this.endDate,
     this.defaultDateTimeRange,

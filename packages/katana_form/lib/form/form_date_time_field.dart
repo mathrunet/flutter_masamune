@@ -19,7 +19,7 @@ part of '/katana_form.dart';
 ///
 /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
 ///
-/// You can set the date and time selection method by specifying [delegate].
+/// You can set the date and time selection method by specifying [picker].
 ///
 /// If [enabled] is `false`, the text is deactivated.
 ///
@@ -44,7 +44,7 @@ part of '/katana_form.dart';
 ///
 /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
 ///
-/// [delegate]を指定することで日付や時間の選択方法を設定することが可能です。
+/// [picker]を指定することで日付や時間の選択方法を設定することが可能です。
 ///
 /// [enabled]が`false`になるとテキストが非有効化されます。
 ///
@@ -69,7 +69,7 @@ class FormDateTimeField<TValue> extends StatefulWidget {
   ///
   /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
   ///
-  /// You can set the date and time selection method by specifying [delegate].
+  /// You can set the date and time selection method by specifying [picker].
   ///
   /// If [enabled] is `false`, the text is deactivated.
   ///
@@ -94,7 +94,7 @@ class FormDateTimeField<TValue> extends StatefulWidget {
   ///
   /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
   ///
-  /// [delegate]を指定することで日付や時間の選択方法を設定することが可能です。
+  /// [picker]を指定することで日付や時間の選択方法を設定することが可能です。
   ///
   /// [enabled]が`false`になるとテキストが非有効化されます。
   ///
@@ -118,7 +118,7 @@ class FormDateTimeField<TValue> extends StatefulWidget {
     this.onSubmitted,
     this.initialValue,
     this.keepAlive = true,
-    this.delegate = const FormDateTimeFieldDateTimeDelegate(),
+    this.picker = const FormDateTimeFieldDateTimePicker(),
     this.onSaved,
     this.showDropdownIcon = true,
     this.dropdownIcon,
@@ -263,8 +263,8 @@ class FormDateTimeField<TValue> extends StatefulWidget {
   ///
   /// フォームのピッカーやフォーマッタが定義されているデリゲート。
   ///
-  /// 日付と時間を合わせて選択できる[FormDateTimeFieldDateTimeDelegate]と日付のみを選択できる[FormDateTimeFieldDateDelegate]があります。
-  final FormDateTimeFieldDelegate delegate;
+  /// 日付と時間を合わせて選択できる[FormDateTimeFieldDateTimePicker]と日付のみを選択できる[FormDateTimeFieldDatePicker]があります。
+  final FormDateTimeFieldPicker picker;
 
   /// If placed in a list, whether or not it should not be discarded on scrolling.
   ///
@@ -299,7 +299,7 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
       return;
     }
     if (widget.initialValue != null) {
-      widget.controller?.text = widget.delegate.format(widget.initialValue!);
+      widget.controller?.text = widget.picker.format(widget.initialValue!);
     }
     _controller = TextEditingController(text: widget.controller?.text);
     _controller?.addListener(_listenerInside);
@@ -484,7 +484,7 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
                 readOnly: widget.readOnly,
                 textAlign: widget.style?.textAlign ?? TextAlign.left,
                 textAlignVertical: widget.style?.textAlignVertical,
-                delegate: widget.delegate,
+                delegate: widget.picker,
                 validator: (value) {
                   if (widget.emptyErrorText.isNotEmpty && value == null) {
                     return widget.emptyErrorText;
@@ -503,7 +503,7 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
                   }
                   widget.form!.value = res;
                 },
-                onShowPicker: widget.delegate.picker,
+                onShowPicker: widget.picker.picker,
               ),
               if (widget.showDropdownIcon)
                 Positioned.fill(
@@ -625,7 +625,7 @@ class _DateTimeTextField<TValue> extends FormField<DateTime> {
         );
 
   final FormController<TValue>? form;
-  final FormDateTimeFieldDelegate delegate;
+  final FormDateTimeFieldPicker delegate;
 
   final Future<DateTime> Function(BuildContext context, DateTime currentValue)?
       onShowPicker;
@@ -814,7 +814,7 @@ class _DateTimeTextFieldState<TValue> extends FormFieldState<DateTime> {
       !widget.readOnly;
 }
 
-/// Let the date and time be selected together [FormDateTimeFieldDelegate].
+/// Let the date and time be selected together [FormDateTimeFieldPicker].
 ///
 /// You can have it selected within the range of [startDate] and [endDate].
 ///
@@ -822,15 +822,15 @@ class _DateTimeTextFieldState<TValue> extends FormFieldState<DateTime> {
 ///
 /// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
 ///
-/// 日付と時間を合わせて選択させる[FormDateTimeFieldDelegate]。
+/// 日付と時間を合わせて選択させる[FormDateTimeFieldPicker]。
 ///
 /// [startDate]と[endDate]の範囲内で選択させることができます。
 ///
 /// 選択されていない場合の初期値が[defaultDateTime]になります。
 ///
 /// [dateFormat]は`yyyy/MM/dd(E) HH:mm`が定義されます。
-class FormDateTimeFieldDateTimeDelegate extends FormDateTimeFieldDelegate {
-  /// Let the date and time be selected together [FormDateTimeFieldDelegate].
+class FormDateTimeFieldDateTimePicker extends FormDateTimeFieldPicker {
+  /// Let the date and time be selected together [FormDateTimeFieldPicker].
   ///
   /// You can have it selected within the range of [startDate] and [endDate].
   ///
@@ -838,14 +838,14 @@ class FormDateTimeFieldDateTimeDelegate extends FormDateTimeFieldDelegate {
   ///
   /// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
   ///
-  /// 日付と時間を合わせて選択させる[FormDateTimeFieldDelegate]。
+  /// 日付と時間を合わせて選択させる[FormDateTimeFieldPicker]。
   ///
   /// [startDate]と[endDate]の範囲内で選択させることができます。
   ///
   /// 選択されていない場合の初期値が[defaultDateTime]になります。
   ///
   /// [dateFormat]は`yyyy/MM/dd(E) HH:mm`が定義されます。
-  const FormDateTimeFieldDateTimeDelegate({
+  const FormDateTimeFieldDateTimePicker({
     super.startDate,
     super.endDate,
     super.defaultDateTime,
@@ -960,7 +960,7 @@ class FormDateTimeFieldDateTimeDelegate extends FormDateTimeFieldDelegate {
   }
 }
 
-/// Let the user select only dates [FormDateTimeFieldDelegate].
+/// Let the user select only dates [FormDateTimeFieldPicker].
 ///
 /// You can have it selected within the range of [startDate] and [endDate].
 ///
@@ -968,15 +968,15 @@ class FormDateTimeFieldDateTimeDelegate extends FormDateTimeFieldDelegate {
 ///
 /// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
 ///
-/// 日付のみを選択させる[FormDateTimeFieldDelegate]。
+/// 日付のみを選択させる[FormDateTimeFieldPicker]。
 ///
 /// [startDate]と[endDate]の範囲内で選択させることができます。
 ///
 /// 選択されていない場合の初期値が[defaultDateTime]になります。
 ///
 /// [dateFormat]は`yyyy/MM/dd(E)`が定義されます。
-class FormDateTimeFieldDateDelegate extends FormDateTimeFieldDelegate {
-  /// Let the user select only dates [FormDateTimeFieldDelegate].
+class FormDateTimeFieldDatePicker extends FormDateTimeFieldPicker {
+  /// Let the user select only dates [FormDateTimeFieldPicker].
   ///
   /// You can have it selected within the range of [startDate] and [endDate].
   ///
@@ -984,14 +984,14 @@ class FormDateTimeFieldDateDelegate extends FormDateTimeFieldDelegate {
   ///
   /// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
   ///
-  /// 日付のみを選択させる[FormDateTimeFieldDelegate]。
+  /// 日付のみを選択させる[FormDateTimeFieldPicker]。
   ///
   /// [startDate]と[endDate]の範囲内で選択させることができます。
   ///
   /// 選択されていない場合の初期値が[defaultDateTime]になります。
   ///
   /// [dateFormat]は`yyyy/MM/dd(E)`が定義されます。
-  const FormDateTimeFieldDateDelegate({
+  const FormDateTimeFieldDatePicker({
     super.startDate,
     super.endDate,
     super.defaultDateTime,
@@ -1091,17 +1091,17 @@ class FormDateTimeFieldDateDelegate extends FormDateTimeFieldDelegate {
 ///
 /// フォームのピッカーやフォーマッタが定義されているデリゲート。
 ///
-/// 日付と時間を合わせて選択できる[FormDateTimeFieldDateTimeDelegate]と日付のみを選択できる[FormDateTimeFieldDateDelegate]があります。
+/// 日付と時間を合わせて選択できる[FormDateTimeFieldDateTimePicker]と日付のみを選択できる[FormDateTimeFieldDatePicker]があります。
 @immutable
-abstract class FormDateTimeFieldDelegate {
+abstract class FormDateTimeFieldPicker {
   /// A delegate where the form picker and formatter are defined.
   ///
   /// There is a FormDateTimeFieldDateTimeDelegate that allows you to select both date and time together, and a FormDateTimeFieldDateDelegate that allows you to select only date.
   ///
   /// フォームのピッカーやフォーマッタが定義されているデリゲート。
   ///
-  /// 日付と時間を合わせて選択できる[FormDateTimeFieldDateTimeDelegate]と日付のみを選択できる[FormDateTimeFieldDateDelegate]があります。
-  const FormDateTimeFieldDelegate({
+  /// 日付と時間を合わせて選択できる[FormDateTimeFieldDateTimePicker]と日付のみを選択できる[FormDateTimeFieldDatePicker]があります。
+  const FormDateTimeFieldPicker({
     this.startDate,
     this.endDate,
     this.defaultDateTime,
