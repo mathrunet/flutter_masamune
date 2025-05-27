@@ -1,11 +1,12 @@
+// Dart imports:
 import 'dart:convert';
 
+// Project imports:
 import 'package:katana_cli/katana_cli.dart';
 import 'package:katana_cli/snippet/modals/modals.dart';
 import 'package:katana_cli/snippet/models/models.dart';
 import 'package:katana_cli/snippet/redirects/redirects.dart';
 import 'package:katana_cli/snippet/theme/theme.dart';
-
 import 'pages/pages.dart';
 
 /// Group for generating snippet.

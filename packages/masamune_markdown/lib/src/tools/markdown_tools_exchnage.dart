@@ -92,15 +92,19 @@ enum MarkdownToolExchange {
       case MarkdownToolExchange.h3:
         return adapter?.toolsConfig.h3Label.icon ?? FontAwesomeIcons.heading;
       case MarkdownToolExchange.bulletedList:
-        return adapter?.toolsConfig.bulletedListLabel.icon ?? FontAwesomeIcons.listUl;
+        return adapter?.toolsConfig.bulletedListLabel.icon ??
+            FontAwesomeIcons.listUl;
       case MarkdownToolExchange.numberList:
-        return adapter?.toolsConfig.numberListLabel.icon ?? FontAwesomeIcons.listOl;
+        return adapter?.toolsConfig.numberListLabel.icon ??
+            FontAwesomeIcons.listOl;
       case MarkdownToolExchange.toggleList:
-        return adapter?.toolsConfig.toggleListLabel.icon ?? FontAwesomeIcons.listCheck;
+        return adapter?.toolsConfig.toggleListLabel.icon ??
+            FontAwesomeIcons.listCheck;
       case MarkdownToolExchange.code:
         return adapter?.toolsConfig.codeLabel.icon ?? FontAwesomeIcons.code;
       case MarkdownToolExchange.quote:
-        return adapter?.toolsConfig.quoteLabel.icon ?? FontAwesomeIcons.quoteLeft;
+        return adapter?.toolsConfig.quoteLabel.icon ??
+            FontAwesomeIcons.quoteLeft;
     }
   }
 

@@ -8,15 +8,18 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_markdown;
 
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// Package imports:
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
-import 'package:masamune/masamune.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:markdown_quill/markdown_quill.dart';
 import 'package:markdown_widget/markdown_widget.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:masamune/masamune.dart';
 
 part 'adapter/markdown_masamune_adapter.dart';
 

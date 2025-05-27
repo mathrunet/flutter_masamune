@@ -10,8 +10,8 @@ library katana_theme;
 
 // Dart imports:
 import 'dart:async';
-import 'dart:ui';
 import 'dart:ui' as ui;
+import 'dart:ui';
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';

@@ -1587,7 +1587,6 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
               style: IconButton.styleFrom(
             foregroundColor: color.onBackground,
           )),
-          indicatorColor: color.secondary,
           brightness: brightness ?? color.brightness,
           primaryColor: color.primary,
           disabledColor: color.disabled,
@@ -1612,6 +1611,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
             ),
             ...theme.extensions.values,
           ],
+          tabBarTheme: TabBarThemeData(indicatorColor: color.secondary),
         );
       default:
         final color = _lightColor;
@@ -1838,7 +1838,6 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
               borderSide: BorderSide(color: color.error, width: 2),
             ),
           ),
-          indicatorColor: color.secondary,
           brightness: brightness ?? color.brightness,
           primaryColor: color.primary,
           disabledColor: color.disabled,
@@ -1864,6 +1863,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
             ),
             ...theme.extensions.values,
           ],
+          tabBarTheme: TabBarThemeData(indicatorColor: color.secondary),
         );
     }
   }

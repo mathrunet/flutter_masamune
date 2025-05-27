@@ -60,7 +60,6 @@ enum MarkdownToolFont {
     }
   }
 
-
   /// Check if the tool is active.
   ///
   /// ツールがアクティブかどうかを確認します。

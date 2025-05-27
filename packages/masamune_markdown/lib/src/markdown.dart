@@ -15,8 +15,7 @@ class Markdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return MarkdownWidget(
       data: value,
-      config: MarkdownConfig(configs: [
-      ]),
+      config: MarkdownConfig(configs: []),
     );
   }
 }
