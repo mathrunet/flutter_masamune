@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of mock_data_impl.mdc.
+/// Contents of mock_data_impl.md.
 ///
-/// mock_data_impl.mdcの中身。
-class MockDataImplMdcCliAiCode extends CliAiCode {
-  /// Contents of mock_data_impl.mdc.
+/// mock_data_impl.mdの中身。
+class MockDataImplMdCliAiCode extends CliAiCode {
+  /// Contents of mock_data_impl.md.
   ///
-  /// mock_data_impl.mdcの中身。
-  const MockDataImplMdcCliAiCode();
+  /// mock_data_impl.mdの中身。
+  const MockDataImplMdCliAiCode();
 
   @override
   String get name => "モックデータの実装";
@@ -25,8 +25,8 @@ class MockDataImplMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[model_design.md](mdc:documents/designs/model_design.md)に記載されている`Model設計書`からモックデータを生成する方法
-[model_design.md](mdc:documents/designs/model_design.md)が存在しない場合は絶対に実施しない
+`documents/designs/model_design.md`に記載されている`Model設計書`からモックデータを生成する方法
+`documents/designs/model_design.md`が存在しない場合は絶対に実施しない
 
 1. `Model設計書`を参照して各`Model`に対してモックデータを作成
     - `lib/adapter.dart`内にある`RuntimeModelAdapter`の`initialValue`に`ModelInitialValue`を継承した値を追加していく

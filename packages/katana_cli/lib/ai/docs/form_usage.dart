@@ -33,44 +33,44 @@ import 'package:katana_cli/katana_cli.dart';
 ///
 /// Formタイプのリスト。
 const kFormList = {
-  "FormTextField": KatanaFormTextFieldMdcCliAiCode(),
-  "FormPinField": KatanaFormPinFieldMdcCliAiCode(),
-  "FormChipsField": KatanaFormChipsFieldMdcCliAiCode(),
-  "FormDateField": KatanaFormDateFieldMdcCliAiCode(),
-  "FormDateTimeField": KatanaFormDateTimeFieldMdcCliAiCode(),
-  "FormSwitch": KatanaFormSwitchMdcCliAiCode(),
-  "FormCheckbox": KatanaFormCheckboxMdcCliAiCode(),
-  "FormBuilder": KatanaFormBuilderMdcCliAiCode(),
-  "FormButton": KatanaFormButtonMdcCliAiCode(),
-  "FormDateTimeRangeField": KatanaFormDateTimeRangeFieldMdcCliAiCode(),
-  "FormDurationField": KatanaFormDurationFieldMdcCliAiCode(),
-  "FormEditableToggleBuilder": KatanaFormEditableToggleBuilderMdcCliAiCode(),
-  "FormEnumField": KatanaFormEnumFieldMdcCliAiCode(),
-  "FormEnumDropdownField": KatanaFormEnumDropdownFieldMdcCliAiCode(),
-  "FormFocusNodeBuilder": KatanaFormFocusNodeBuilderMdcCliAiCode(),
-  "FormFutureField": KatanaFormFutureFieldMdcCliAiCode(),
-  "FormLabel": KatanaFormLabelMdcCliAiCode(),
-  "FormListBuilder": KatanaFormListBuilderMdcCliAiCode(),
-  "FormMapDropdownField": KatanaFormMapDropdownFieldMdcCliAiCode(),
-  "FormMapField": KatanaFormMapFieldMdcCliAiCode(),
-  "FormMedia": KatanaFormMediaMdcCliAiCode(),
-  "FormMonthField": KatanaFormMonthFieldMdcCliAiCode(),
-  "FormMultiMedia": KatanaFormMultiMediaMdcCliAiCode(),
-  "FormNumField": KatanaFormNumFieldMdcCliAiCode(),
-  "FormPasswordBuilder": KatanaFormPasswordBuilderMdcCliAiCode(),
-  "FormRatingBar": KatanaFormRatingBarMdcCliAiCode(),
-  "FormStyleContainer": KatanaFormStyleContainerMdcCliAiCode(),
+  "FormTextField": KatanaFormTextFieldMdCliAiCode(),
+  "FormPinField": KatanaFormPinFieldMdCliAiCode(),
+  "FormChipsField": KatanaFormChipsFieldMdCliAiCode(),
+  "FormDateField": KatanaFormDateFieldMdCliAiCode(),
+  "FormDateTimeField": KatanaFormDateTimeFieldMdCliAiCode(),
+  "FormSwitch": KatanaFormSwitchMdCliAiCode(),
+  "FormCheckbox": KatanaFormCheckboxMdCliAiCode(),
+  "FormBuilder": KatanaFormBuilderMdCliAiCode(),
+  "FormButton": KatanaFormButtonMdCliAiCode(),
+  "FormDateTimeRangeField": KatanaFormDateTimeRangeFieldMdCliAiCode(),
+  "FormDurationField": KatanaFormDurationFieldMdCliAiCode(),
+  "FormEditableToggleBuilder": KatanaFormEditableToggleBuilderMdCliAiCode(),
+  "FormEnumField": KatanaFormEnumFieldMdCliAiCode(),
+  "FormEnumDropdownField": KatanaFormEnumDropdownFieldMdCliAiCode(),
+  "FormFocusNodeBuilder": KatanaFormFocusNodeBuilderMdCliAiCode(),
+  "FormFutureField": KatanaFormFutureFieldMdCliAiCode(),
+  "FormLabel": KatanaFormLabelMdCliAiCode(),
+  "FormListBuilder": KatanaFormListBuilderMdCliAiCode(),
+  "FormMapDropdownField": KatanaFormMapDropdownFieldMdCliAiCode(),
+  "FormMapField": KatanaFormMapFieldMdCliAiCode(),
+  "FormMedia": KatanaFormMediaMdCliAiCode(),
+  "FormMonthField": KatanaFormMonthFieldMdCliAiCode(),
+  "FormMultiMedia": KatanaFormMultiMediaMdCliAiCode(),
+  "FormNumField": KatanaFormNumFieldMdCliAiCode(),
+  "FormPasswordBuilder": KatanaFormPasswordBuilderMdCliAiCode(),
+  "FormRatingBar": KatanaFormRatingBarMdCliAiCode(),
+  "FormStyleContainer": KatanaFormStyleContainerMdCliAiCode(),
   "FormTextEditingControllerBuilder":
-      KatanaFormTextEditingControllerBuilderMdcCliAiCode(),
+      KatanaFormTextEditingControllerBuilderMdCliAiCode(),
 };
 
-/// Contents of form_usage.mdc.
+/// Contents of form_usage.md.
 ///
-/// form_usage.mdcの中身。
+/// form_usage.mdの中身。
 abstract class FormUsageCliAiCode extends CliAiCode {
-  /// Contents of form_usage.mdc.
+  /// Contents of form_usage.md.
   ///
-  /// form_usage.mdcの中身。
+  /// form_usage.mdの中身。
   const FormUsageCliAiCode();
 
   /// Excerpt of the form.
@@ -79,14 +79,14 @@ abstract class FormUsageCliAiCode extends CliAiCode {
   String get excerpt;
 }
 
-/// Contents of form_usage.mdc.
+/// Contents of form_usage.md.
 ///
-/// form_usage.mdcの中身。
-class FormUsageMdcCliAiCode extends CliAiCode {
-  /// Contents of form_usage.mdc.
+/// form_usage.mdの中身。
+class FormUsageMdCliAiCode extends CliAiCode {
+  /// Contents of form_usage.md.
   ///
-  /// form_usage.mdcの中身。
-  const FormUsageMdcCliAiCode();
+  /// form_usage.mdの中身。
+  const FormUsageMdCliAiCode();
 
   @override
   String get name => "`Form`の利用方法";
@@ -121,7 +121,7 @@ class FormUsageMdcCliAiCode extends CliAiCode {
 """;
     for (final entry in kFormList.entries) {
       header +=
-          "| `${entry.key}` | ${entry.value.excerpt} | [Usage](mdc:.cursor/rules/form/${entry.key.toSnakeCase()}.mdc) |\n";
+          "| `${entry.key}` | ${entry.value.excerpt} | Usage(`documents/rules/form/${entry.key.toSnakeCase()}.md`) |\n";
     }
     header += """
 
@@ -141,8 +141,8 @@ final formStyle = FormStyle(
 
 `FormController`は`Form`の状態を管理するためのクラスである。これを各`Form`に適用することで、`Form`の状態を管理することができる。`FormController`の取得は`Model`で定義された`form`メソッドを利用し`State`を通して取得する。
 
-- [`Model`の実装方法](mdc:.cursor/rules/docs/model_usage.mdc)
-- [`State`の利用方法](mdc:.cursor/rules/docs/state_usage.mdc)
+- `Model`の実装方法(`documents/rules/docs/model_usage.md`)
+- `State`の利用方法(`documents/rules/docs/state_usage.md`)
 
 ```dart
 final formController = ref.page.form(AnyModel.form(AnyModel()));

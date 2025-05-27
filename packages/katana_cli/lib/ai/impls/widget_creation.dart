@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of widget_creation.mdc.
+/// Contents of widget_creation.md.
 ///
-/// widget_creation.mdcの中身。
-class WidgetCreationMdcCliAiCode extends CliAiCode {
-  /// Contents of widget_creation.mdc.
+/// widget_creation.mdの中身。
+class WidgetCreationMdCliAiCode extends CliAiCode {
+  /// Contents of widget_creation.md.
   ///
-  /// widget_creation.mdcの中身。
-  const WidgetCreationMdcCliAiCode();
+  /// widget_creation.mdの中身。
+  const WidgetCreationMdCliAiCode();
 
   @override
   String get name => "`Widget`の作成";
@@ -25,8 +25,8 @@ class WidgetCreationMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[widget_design.md](mdc:documents/designs/widget_design.md)に記載されている`Widget設計書`からDartコードを生成
-[widget_design.md](mdc:documents/designs/widget_design.md)が存在しない場合は絶対に実施しない
+`documents/designs/widget_design.md`に記載されている`Widget設計書`からDartコードを生成
+`documents/designs/widget_design.md`が存在しない場合は絶対に実施しない
 
 `Widget設計書`に記載されている各`Widget`の`WidgetType`に応じてそれぞれ下記を実行
 

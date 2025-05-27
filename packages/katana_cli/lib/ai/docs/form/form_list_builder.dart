@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_list_builder.mdc.
+/// Contents of form_list_builder.md.
 ///
-/// form_list_builder.mdcの中身。
-class KatanaFormListBuilderMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_list_builder.mdc.
+/// form_list_builder.mdの中身。
+class KatanaFormListBuilderMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_list_builder.md.
   ///
-  /// form_list_builder.mdcの中身。
-  const KatanaFormListBuilderMdcCliAiCode();
+  /// form_list_builder.mdの中身。
+  const KatanaFormListBuilderMdCliAiCode();
 
   @override
   String get name => "`FormListBuilder`の利用方法";

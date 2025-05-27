@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 
-/// Contents of message_box.mdc.
+/// Contents of message_box.md.
 ///
-/// message_box.mdcの中身。
-class KatanaUIMessageBoxMdcCliAiCode extends KatanaUiUsageCliAiCode {
-  /// Contents of message_box.mdc.
+/// message_box.mdの中身。
+class KatanaUIMessageBoxMdCliAiCode extends KatanaUiUsageCliAiCode {
+  /// Contents of message_box.md.
   ///
-  /// message_box.mdcの中身。
-  const KatanaUIMessageBoxMdcCliAiCode();
+  /// message_box.mdの中身。
+  const KatanaUIMessageBoxMdCliAiCode();
 
   @override
   String get name => "`MessageBox`の利用方法";

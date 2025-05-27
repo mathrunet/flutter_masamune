@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_style_container.mdc.
+/// Contents of form_style_container.md.
 ///
-/// form_style_container.mdcの中身。
-class KatanaFormStyleContainerMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_style_container.mdc.
+/// form_style_container.mdの中身。
+class KatanaFormStyleContainerMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_style_container.md.
   ///
-  /// form_style_container.mdcの中身。
-  const KatanaFormStyleContainerMdcCliAiCode();
+  /// form_style_container.mdの中身。
+  const KatanaFormStyleContainerMdCliAiCode();
 
   @override
   String get name => "`FormStyleContainer`の利用方法";

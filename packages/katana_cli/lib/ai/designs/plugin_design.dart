@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of plugin_design.mdc.
+/// Contents of plugin_design.md.
 ///
-/// plugin_design.mdcの中身。
-class PluginDesignMdcCliAiCode extends CliAiCode {
-  /// Contents of plugin_design.mdc.
+/// plugin_design.mdの中身。
+class PluginDesignMdCliAiCode extends CliAiCode {
+  /// Contents of plugin_design.md.
   ///
-  /// plugin_design.mdcの中身。
-  const PluginDesignMdcCliAiCode();
+  /// plugin_design.mdの中身。
+  const PluginDesignMdCliAiCode();
 
   @override
   String get name => "プラグイン設計書の作成";
@@ -25,11 +25,11 @@ class PluginDesignMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[page_design.md](mdc:documents/designs/page_design.md)に記載されている`Page設計書`から`プラグイン設計書`を作成。
+`documents/designs/page_design.md`に記載されている`Page設計書`から`プラグイン設計書`を作成。
 
 1. `Page設計書`から`プラグイン設計書`を作成
     - 下記の利用可能な`Plugin`の一覧において`Page設計書`で利用可能な`Plugin`が存在する場合、その`Plugin`を利用
-        - [利用可能な`Plugin`の一覧](mdc:.cursor/rules/docs/plugin_usage.mdc)
+        - 利用可能な`Plugin`の一覧(`documents/rules/docs/plugin_usage.md`)
     - 例：
       ```markdown
       <!-- documents/designs/plugin_design.md -->

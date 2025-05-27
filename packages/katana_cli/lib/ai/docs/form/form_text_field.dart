@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_text_field.mdc.
+/// Contents of form_text_field.md.
 ///
-/// form_text_field.mdcの中身。
-class KatanaFormTextFieldMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_text_field.mdc.
+/// form_text_field.mdの中身。
+class KatanaFormTextFieldMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_text_field.md.
   ///
-  /// form_text_field.mdcの中身。
-  const KatanaFormTextFieldMdcCliAiCode();
+  /// form_text_field.mdの中身。
+  const KatanaFormTextFieldMdCliAiCode();
 
   @override
   String get name => "`FormTextField`の利用方法";

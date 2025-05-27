@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of widget_design.mdc.
+/// Contents of widget_design.md.
 ///
-/// widget_design.mdcの中身。
-class WidgetDesignMdcCliAiCode extends CliAiCode {
-  /// Contents of widget_design.mdc.
+/// widget_design.mdの中身。
+class WidgetDesignMdCliAiCode extends CliAiCode {
+  /// Contents of widget_design.md.
   ///
-  /// widget_design.mdcの中身。
-  const WidgetDesignMdcCliAiCode();
+  /// widget_design.mdの中身。
+  const WidgetDesignMdCliAiCode();
 
   @override
   String get name => "`Widget設計書`の作成";
@@ -25,7 +25,7 @@ class WidgetDesignMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[page_design.md](mdc:documents/designs/page_design.md)に記載されている`Page設計書`および[model_design.md](mdc:documents/designs/model_design.md)に記載されている`Model設計書`から`Widget設計書`を作成
+`documents/designs/page_design.md`に記載されている`Page設計書`および`documents/designs/model_design.md`に記載されている`Model設計書`から`Widget設計書`を作成
 
 1. `Page設計書`と`Model設計書`から`Widget設計書`を作成
     -下記の条件に当てはまる場合、新しく`Widget`を定義
@@ -35,10 +35,10 @@ class WidgetDesignMdcCliAiCode extends CliAiCode {
         - 再利用する目的でなくただ複数の`Widget`をまとめるだけの場合
         - フォームなどの入力や選択を行う`Widget`
         - すでにFlutterに該当する`Widget`で代用可能なものが存在する場合
-        - [`UniversalUI`](mdc:.cursor/rules/docs/universal_ui_usage.mdc)で定義されている`Widget`で代用可能な場合
-        - [`KatanaUI`](mdc:.cursor/rules/docs/katana_ui_usage.mdc)で定義されている`Widget`で代用可能な場合
-        - [`Modal`](mdc:.cursor/rules/docs/modal_usage.mdc)で定義されている`Widget`で代用可能な場合
-        - [`Form`](mdc:.cursor/rules/docs/form_usage.mdc)で定義されている`Widget`で代用可能な場合
+        - `UniversalUI`(`documents/rules/docs/universal_ui_usage.md`)で定義されている`Widget`で代用可能な場合
+        - `KatanaUI`(`documents/rules/docs/katana_ui_usage.md`)で定義されている`Widget`で代用可能な場合
+        - `Modal`(`documents/rules/docs/modal_usage.md`)で定義されている`Widget`で代用可能な場合
+        - `Form`(`documents/rules/docs/form_usage.md`)で定義されている`Widget`で代用可能な場合
     - 各々の`Widget`に対して下記を定義
         - `WidgetName`
             - 末尾に`Widget`はつけない形でPascalCaseで定義
@@ -65,9 +65,9 @@ class WidgetDesignMdcCliAiCode extends CliAiCode {
                     - プロパティの名前をCamelCaseで定義
                 - `PropertyType`
                     - プロパティの型を定義。**必ず**下記から選択。
-                        - [ModelFieldValue](mdc:.cursor/rules/docs/model_field_value_usage.mdc)
-                        - [プリミティブタイプ](mdc:.cursor/rules/docs/primitive_types.mdc)
-                        - [Flutter特有のタイプ](mdc:.cursor/rules/docs/flutter_types.mdc)
+                        - ModelFieldValue(`documents/rules/docs/model_field_value_usage.md`)
+                        - プリミティブタイプ(`documents/rules/docs/primitive_types.md`)
+                        - Flutter特有のタイプ(`documents/rules/docs/flutter_types.md`)
                 - `RequiredOrOptional`
                     - `Required`もしくは`Optional`
                 - `DefaultValue`

@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 
-/// Contents of avatar_tile.mdc.
+/// Contents of avatar_tile.md.
 ///
-/// avatar_tile.mdcの中身。
-class KatanaUIAvatarTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
-  /// Contents of avatar_tile.mdc.
+/// avatar_tile.mdの中身。
+class KatanaUIAvatarTileMdCliAiCode extends KatanaUiUsageCliAiCode {
+  /// Contents of avatar_tile.md.
   ///
-  /// avatar_tile.mdcの中身。
-  const KatanaUIAvatarTileMdcCliAiCode();
+  /// avatar_tile.mdの中身。
+  const KatanaUIAvatarTileMdCliAiCode();
 
   @override
   String get name => "`AvatarTile`の利用方法";

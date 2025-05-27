@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_enum_dropdown_field.mdc.
+/// Contents of form_enum_dropdown_field.md.
 ///
-/// form_enum_dropdown_field.mdcの中身。
-class KatanaFormEnumDropdownFieldMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_enum_dropdown_field.mdc.
+/// form_enum_dropdown_field.mdの中身。
+class KatanaFormEnumDropdownFieldMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_enum_dropdown_field.md.
   ///
-  /// form_enum_dropdown_field.mdcの中身。
-  const KatanaFormEnumDropdownFieldMdcCliAiCode();
+  /// form_enum_dropdown_field.mdの中身。
+  const KatanaFormEnumDropdownFieldMdCliAiCode();
 
   @override
   String get name => "`FormEnumDropdownField`の利用方法";

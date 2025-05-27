@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of model_usage.mdc.
+/// Contents of model_usage.md.
 ///
-/// model_usage.mdcの中身。
-class ModelUsageMdcCliAiCode extends CliAiCode {
-  /// Contents of model_usage.mdc.
+/// model_usage.mdの中身。
+class ModelUsageMdCliAiCode extends CliAiCode {
+  /// Contents of model_usage.md.
   ///
-  /// model_usage.mdcの中身。
-  const ModelUsageMdcCliAiCode();
+  /// model_usage.mdの中身。
+  const ModelUsageMdCliAiCode();
 
   @override
   String get name => "`Model`の実装方法とその利用方法";
@@ -54,8 +54,8 @@ class ModelUsageMdcCliAiCode extends CliAiCode {
         2. `// TODO: Set the data fields.`以下に定義した`DataField`を追記。
             - 各フィールドには`DataFieldType`と`DataFieldName`（CamelCase）を記載。
                 - `DataFieldType`は*必ず*下記のタイプから選択する。
-                    - [ModelFieldValue](mdc:.cursor/rules/docs/model_field_value_usage.mdc)
-                    - [プリミティブタイプ](mdc:.cursor/rules/docs/primitive_types.mdc)                    
+                    - ModelFieldValue(`documents/rules/docs/model_field_value_usage.md`)
+                    - プリミティブタイプ(`documents/rules/docs/primitive_types.md`)                    
                 - `DataField`が`Required`の場合は`DataFieldType`の前に`required`を付与。
                 - `Optional`でかつ`DefaultValue`が存在する場合は`@Default([DefaultValue])`のAnnotationを付与。
                 - `Optional`でかつ`DefaultValue`が存在しない場合は`DataFieldType`の末尾に`?`を付与しNullableにする
@@ -312,7 +312,7 @@ class ModelUsageMdcCliAiCode extends CliAiCode {
 
 実装した`Model`を利用する場合は下記のように実施。
 
-事前に`State`を通して`Model`を取得する。（[`State`の利用方法](mdc:.cursor/rules/docs/state_management_usage.mdc)）
+事前に`State`を通して`Model`を取得する。（`State`の利用方法(`documents/rules/docs/state_management_usage.md`) ）
 
 ```dart
 final collection = appRef.model(AnyModel.collection())..load();
@@ -357,7 +357,7 @@ final value = appRef.model(AnyModel.value())..load();
   ```
 
 - `Collection`をmodelメソッドに渡す際に`[Documentの対象DataFieldName].[フィルター条件]`という形でメソッドチェーンするとフィルターをかけたデータを取得できる。
-  - フィルター条件の種類は[フィルター条件](mdc:.cursor/rules/docs/model_filter_conditions.mdc)を参照。
+  - フィルター条件の種類は`フィルター条件`(`documents/rules/docs/model_filter_conditions.md`)を参照。
 
   ```dart
   final filteredCollection = appRef.model(

@@ -16,26 +16,26 @@ import 'package:katana_cli/katana_cli.dart';
 ///
 /// UniversalUIタイプのリスト。
 const kUniversalUiList = {
-  "UniversalAppBar": UniversalAppBarMdcCliAiCode(),
-  "UniversalListView": UniversalListViewMdcCliAiCode(),
-  "UniversalColumn": UniversalColumnMdcCliAiCode(),
-  "UniversalContainer": UniversalContainerMdcCliAiCode(),
-  "UniversalScaffold": UniversalScaffoldMdcCliAiCode(),
-  "UniversalGridView": UniversalGridViewMdcCliAiCode(),
-  "UniversalPadding": UniversalPaddingMdcCliAiCode(),
-  "UniversalSearchBar": UniversalSearchBarMdcCliAiCode(),
-  "UniversalSideBar": UniversalSideBarMdcCliAiCode(),
-  "UniversalHeaderTile": UniversalHeaderTileMdcCliAiCode(),
-  "UniversalEdgeInsets": UniversalEdgeInsetsMdcCliAiCode(),
+  "UniversalAppBar": UniversalAppBarMdCliAiCode(),
+  "UniversalListView": UniversalListViewMdCliAiCode(),
+  "UniversalColumn": UniversalColumnMdCliAiCode(),
+  "UniversalContainer": UniversalContainerMdCliAiCode(),
+  "UniversalScaffold": UniversalScaffoldMdCliAiCode(),
+  "UniversalGridView": UniversalGridViewMdCliAiCode(),
+  "UniversalPadding": UniversalPaddingMdCliAiCode(),
+  "UniversalSearchBar": UniversalSearchBarMdCliAiCode(),
+  "UniversalSideBar": UniversalSideBarMdCliAiCode(),
+  "UniversalHeaderTile": UniversalHeaderTileMdCliAiCode(),
+  "UniversalEdgeInsets": UniversalEdgeInsetsMdCliAiCode(),
 };
 
-/// Contents of universal_ui_usage.mdc.
+/// Contents of universal_ui_usage.md.
 ///
-/// universal_ui_usage.mdcの中身。
+/// universal_ui_usage.mdの中身。
 abstract class UniversalUiUsageCliAiCode extends CliAiCode {
-  /// Contents of universal_ui_usage.mdc.
+  /// Contents of universal_ui_usage.md.
   ///
-  /// universal_ui_usage.mdcの中身。
+  /// universal_ui_usage.mdの中身。
   const UniversalUiUsageCliAiCode();
 
   /// Excerpt of the universal ui.
@@ -44,14 +44,14 @@ abstract class UniversalUiUsageCliAiCode extends CliAiCode {
   String get excerpt;
 }
 
-/// Contents of universal_ui_usage.mdc.
+/// Contents of universal_ui_usage.md.
 ///
-/// universal_ui_usage.mdcの中身。
-class UniversalUiUsageMdcCliAiCode extends CliAiCode {
-  /// Contents of universal_ui_usage.mdc.
+/// universal_ui_usage.mdの中身。
+class UniversalUiUsageMdCliAiCode extends CliAiCode {
+  /// Contents of universal_ui_usage.md.
   ///
-  /// universal_ui_usage.mdcの中身。
-  const UniversalUiUsageMdcCliAiCode();
+  /// universal_ui_usage.mdの中身。
+  const UniversalUiUsageMdCliAiCode();
 
   @override
   String get name => "`UniversalUI`の一覧とその利用方法";
@@ -77,7 +77,7 @@ class UniversalUiUsageMdcCliAiCode extends CliAiCode {
 """;
     for (final entry in kUniversalUiList.entries) {
       header +=
-          "| `${entry.key}` | ${entry.value.excerpt} | [Usage](mdc:.cursor/rules/universal_ui/${entry.key.toSnakeCase()}.mdc) |\n";
+          "| `${entry.key}` | ${entry.value.excerpt} | Usage(`documents/rules/universal_ui/${entry.key.toSnakeCase()}.md`) |\n";
     }
     return header;
   }

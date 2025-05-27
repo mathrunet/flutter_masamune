@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_builder.mdc.
+/// Contents of form_builder.md.
 ///
-/// form_builder.mdcの中身。
-class KatanaFormBuilderMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_builder.mdc.
+/// form_builder.mdの中身。
+class KatanaFormBuilderMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_builder.md.
   ///
-  /// form_builder.mdcの中身。
-  const KatanaFormBuilderMdcCliAiCode();
+  /// form_builder.mdの中身。
+  const KatanaFormBuilderMdCliAiCode();
 
   @override
   String get name => "`FormBuilder`の利用方法";

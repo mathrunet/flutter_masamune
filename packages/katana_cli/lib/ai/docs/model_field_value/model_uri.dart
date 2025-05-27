@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
-/// Contents of model_uri.mdc.
+/// Contents of model_uri.md.
 ///
-/// model_uri.mdcの中身。
-class ModelFieldValueModelUriMdcCliAiCode extends ModelFieldValueCliAiCode {
-  /// Contents of model_uri.mdc.
+/// model_uri.mdの中身。
+class ModelFieldValueModelUriMdCliAiCode extends ModelFieldValueCliAiCode {
+  /// Contents of model_uri.md.
   ///
-  /// model_uri.mdcの中身。
-  const ModelFieldValueModelUriMdcCliAiCode();
+  /// model_uri.mdの中身。
+  const ModelFieldValueModelUriMdCliAiCode();
 
   @override
   String get name => "`ModelUri`の利用方法";

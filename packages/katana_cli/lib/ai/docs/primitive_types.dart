@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of primitive_types.mdc.
+/// Contents of primitive_types.md.
 ///
-/// primitive_types.mdcの中身。
-class PrimitiveTypesMdcCliAiCode extends CliAiCode {
-  /// Contents of primitive_types.mdc.
+/// primitive_types.mdの中身。
+class PrimitiveTypesMdCliAiCode extends CliAiCode {
+  /// Contents of primitive_types.md.
   ///
-  /// primitive_types.mdcの中身。
-  const PrimitiveTypesMdcCliAiCode();
+  /// primitive_types.mdの中身。
+  const PrimitiveTypesMdCliAiCode();
 
   @override
   String get name => "プリミティブタイプの一覧";

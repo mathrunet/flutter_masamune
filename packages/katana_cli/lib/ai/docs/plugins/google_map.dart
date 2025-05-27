@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of google_map.mdc.
+/// Contents of google_map.md.
 ///
-/// google_map.mdcの中身。
-class PluginGoogleMapMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of google_map.mdc.
+/// google_map.mdの中身。
+class PluginGoogleMapMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of google_map.md.
   ///
-  /// google_map.mdcの中身。
-  const PluginGoogleMapMdcCliAiCode();
+  /// google_map.mdの中身。
+  const PluginGoogleMapMdCliAiCode();
 
   @override
   String get name => "マップ表示";

@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of screen_design.mdc.
+/// Contents of screen_design.md.
 ///
-/// screen_design.mdcの中身。
-class PageDesignMdcCliAiCode extends CliAiCode {
-  /// Contents of screen_design.mdc.
+/// screen_design.mdの中身。
+class PageDesignMdCliAiCode extends CliAiCode {
+  /// Contents of screen_design.md.
   ///
-  /// screen_design.mdcの中身。
-  const PageDesignMdcCliAiCode();
+  /// screen_design.mdの中身。
+  const PageDesignMdCliAiCode();
 
   @override
   String get name => "`Page設計書`の作成";
@@ -25,7 +25,7 @@ class PageDesignMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[requirements.md](mdc:requirements.md)に記載されている`要件定義`から`Page設計書`を作成
+`requirements.md`に記載されている`要件定義`から`Page設計書`を作成
 
 1. `要件定義`から`Page`ごとの要素に分割し`Page設計`を作成
     - 各`Page`に対して下記を定義
@@ -39,7 +39,7 @@ class PageDesignMdcCliAiCode extends CliAiCode {
             - 先頭および末尾に`/`は記述しない。
             - 各階層で`:`が先頭に付与されている場合、`:`を除いた名前の変数となる。（e.g. `memo/edit/:memo_id`の場合は`memo_id`が変数）
         - `PageType`
-            - [`PageType`の一覧](mdc:.cursor/rules/docs/page_types.mdc)から相応しい`PageType`を1つ選び`PageTypeID`を記載
+            - `PageType`の一覧(`documents/rules/docs/page_types.md`)から相応しい`PageType`を1つ選び`PageTypeID`を記載
         - `Content`
             - 各`Page`における`構成要素`と各構成要素に対する`Action`を箇条書きで細かく記載
         - `Properties`

@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/universal_ui_usage.dart';
 
-/// Contents of universal_edge_insets.mdc.
+/// Contents of universal_edge_insets.md.
 ///
-/// universal_edge_insets.mdcの中身。
-class UniversalEdgeInsetsMdcCliAiCode extends UniversalUiUsageCliAiCode {
-  /// Contents of universal_edge_insets.mdc.
+/// universal_edge_insets.mdの中身。
+class UniversalEdgeInsetsMdCliAiCode extends UniversalUiUsageCliAiCode {
+  /// Contents of universal_edge_insets.md.
   ///
-  /// universal_edge_insets.mdcの中身。
-  const UniversalEdgeInsetsMdcCliAiCode();
+  /// universal_edge_insets.mdの中身。
+  const UniversalEdgeInsetsMdCliAiCode();
 
   @override
   String get name => "`UniversalEdgeInsets`の利用方法";

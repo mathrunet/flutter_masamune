@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of introduction.mdc.
+/// Contents of introduction.md.
 ///
-/// introduction.mdcの中身。
-class PluginIntroductionMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of introduction.mdc.
+/// introduction.mdの中身。
+class PluginIntroductionMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of introduction.md.
   ///
-  /// introduction.mdcの中身。
-  const PluginIntroductionMdcCliAiCode();
+  /// introduction.mdの中身。
+  const PluginIntroductionMdCliAiCode();
 
   @override
   String get name => "チュートリアル";

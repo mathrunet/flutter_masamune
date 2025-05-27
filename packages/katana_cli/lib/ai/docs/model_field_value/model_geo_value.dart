@@ -1,15 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
-/// Contents of model_geo_value.mdc.
+/// Contents of model_geo_value.md.
 ///
-/// model_geo_value.mdcの中身。
-class ModelFieldValueModelGeoValueMdcCliAiCode
-    extends ModelFieldValueCliAiCode {
-  /// Contents of model_geo_value.mdc.
+/// model_geo_value.mdの中身。
+class ModelFieldValueModelGeoValueMdCliAiCode extends ModelFieldValueCliAiCode {
+  /// Contents of model_geo_value.md.
   ///
-  /// model_geo_value.mdcの中身。
-  const ModelFieldValueModelGeoValueMdcCliAiCode();
+  /// model_geo_value.mdの中身。
+  const ModelFieldValueModelGeoValueMdCliAiCode();
 
   @override
   String get name => "`ModelGeoValue`の利用方法";

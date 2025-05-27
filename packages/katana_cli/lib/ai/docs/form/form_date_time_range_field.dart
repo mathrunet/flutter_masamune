@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_date_time_range_field.mdc.
+/// Contents of form_date_time_range_field.md.
 ///
-/// form_date_time_range_field.mdcの中身。
-class KatanaFormDateTimeRangeFieldMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_date_time_range_field.mdc.
+/// form_date_time_range_field.mdの中身。
+class KatanaFormDateTimeRangeFieldMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_date_time_range_field.md.
   ///
-  /// form_date_time_range_field.mdcの中身。
-  const KatanaFormDateTimeRangeFieldMdcCliAiCode();
+  /// form_date_time_range_field.mdの中身。
+  const KatanaFormDateTimeRangeFieldMdCliAiCode();
 
   @override
   String get name => "`FormDateTimeRangeField`の利用方法";

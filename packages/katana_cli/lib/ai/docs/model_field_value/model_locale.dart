@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
-/// Contents of model_locale.mdc.
+/// Contents of model_locale.md.
 ///
-/// model_locale.mdcの中身。
-class ModelFieldValueModelLocaleMdcCliAiCode extends ModelFieldValueCliAiCode {
-  /// Contents of model_locale.mdc.
+/// model_locale.mdの中身。
+class ModelFieldValueModelLocaleMdCliAiCode extends ModelFieldValueCliAiCode {
+  /// Contents of model_locale.md.
   ///
-  /// model_locale.mdcの中身。
-  const ModelFieldValueModelLocaleMdcCliAiCode();
+  /// model_locale.mdの中身。
+  const ModelFieldValueModelLocaleMdCliAiCode();
 
   @override
   String get name => "`ModelLocale`の利用方法";

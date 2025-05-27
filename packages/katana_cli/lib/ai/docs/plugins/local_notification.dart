@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of local_notification.mdc.
+/// Contents of local_notification.md.
 ///
-/// local_notification.mdcの中身。
-class PluginLocalNotificationMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of local_notification.mdc.
+/// local_notification.mdの中身。
+class PluginLocalNotificationMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of local_notification.md.
   ///
-  /// local_notification.mdcの中身。
-  const PluginLocalNotificationMdcCliAiCode();
+  /// local_notification.mdの中身。
+  const PluginLocalNotificationMdCliAiCode();
 
   @override
   String get name => "ローカルPUSH通知";

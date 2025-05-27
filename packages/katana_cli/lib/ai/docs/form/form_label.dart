@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_label.mdc.
+/// Contents of form_label.md.
 ///
-/// form_label.mdcの中身。
-class KatanaFormLabelMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_label.mdc.
+/// form_label.mdの中身。
+class KatanaFormLabelMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_label.md.
   ///
-  /// form_label.mdcの中身。
-  const KatanaFormLabelMdcCliAiCode();
+  /// form_label.mdの中身。
+  const KatanaFormLabelMdCliAiCode();
 
   @override
   String get name => "`FormLabel`の利用方法";

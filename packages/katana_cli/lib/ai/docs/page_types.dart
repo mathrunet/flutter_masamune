@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of page_types.mdc.
+/// Contents of page_types.md.
 ///
-/// page_types.mdcの中身。
-class PageTypesMdcCliAiCode extends CliAiCode {
-  /// Contents of page_types.mdc.
+/// page_types.mdの中身。
+class PageTypesMdCliAiCode extends CliAiCode {
+  /// Contents of page_types.md.
   ///
-  /// page_types.mdcの中身。
-  const PageTypesMdcCliAiCode();
+  /// page_types.mdの中身。
+  const PageTypesMdCliAiCode();
 
   @override
   String get name => "`PageType`の一覧とその概要";

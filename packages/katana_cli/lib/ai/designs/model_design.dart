@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of model_design.mdc.
+/// Contents of model_design.md.
 ///
-/// model_design.mdcの中身。
-class ModelDesignMdcCliAiCode extends CliAiCode {
-  /// Contents of model_design.mdc.
+/// model_design.mdの中身。
+class ModelDesignMdCliAiCode extends CliAiCode {
+  /// Contents of model_design.md.
   ///
-  /// model_design.mdcの中身。
-  const ModelDesignMdcCliAiCode();
+  /// model_design.mdの中身。
+  const ModelDesignMdCliAiCode();
 
   @override
   String get name => "`Model設計書`の作成";
@@ -25,7 +25,7 @@ class ModelDesignMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[page_design.md](mdc:documents/designs/page_design.md)に記載されている`Page設計書`から`Model設計書`を作成
+`documents/designs/page_design.md`に記載されている`Page設計書`から`Model設計書`を作成
 
 1. `Page設計書`から`Model設計書`を作成
     - 各`Page`に対して必要な`Model`を類推
@@ -59,8 +59,8 @@ class ModelDesignMdcCliAiCode extends CliAiCode {
                     - `DataField`の名前をCamelCaseで定義
                 - `DataFieldType`
                     - `DataField`のタイプを定義。**必ず**下記から選択。
-                        - [ModelFieldValue](mdc:.cursor/rules/docs/model_field_value_usage.mdc)
-                        - [プリミティブタイプ](mdc:.cursor/rules/docs/primitive_types.mdc)
+                        - ModelFieldValue(`documents/rules/docs/model_field_value_usage.md`)
+                        - プリミティブタイプ(`documents/rules/docs/primitive_types.md`)
                 - `RequiredOrOptional`
                     - `Required`もしくは`Optional`
                 - `DefaultValue`

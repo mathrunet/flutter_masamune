@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 
-/// Contents of scroll_builder.mdc.
+/// Contents of scroll_builder.md.
 ///
-/// scroll_builder.mdcの中身。
-class KatanaUIScrollBuilderMdcCliAiCode extends KatanaUiUsageCliAiCode {
-  /// Contents of scroll_builder.mdc.
+/// scroll_builder.mdの中身。
+class KatanaUIScrollBuilderMdCliAiCode extends KatanaUiUsageCliAiCode {
+  /// Contents of scroll_builder.md.
   ///
-  /// scroll_builder.mdcの中身。
-  const KatanaUIScrollBuilderMdcCliAiCode();
+  /// scroll_builder.mdの中身。
+  const KatanaUIScrollBuilderMdCliAiCode();
 
   @override
   String get name => "`ScrollBuilder`の利用方法";

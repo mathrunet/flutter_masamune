@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 
-/// Contents of card_tile.mdc.
+/// Contents of card_tile.md.
 ///
-/// card_tile.mdcの中身。
-class KatanaUICardTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
-  /// Contents of card_tile.mdc.
+/// card_tile.mdの中身。
+class KatanaUICardTileMdCliAiCode extends KatanaUiUsageCliAiCode {
+  /// Contents of card_tile.md.
   ///
-  /// card_tile.mdcの中身。
-  const KatanaUICardTileMdcCliAiCode();
+  /// card_tile.mdの中身。
+  const KatanaUICardTileMdCliAiCode();
 
   @override
   String get name => "`CardTile`の利用方法";

@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_duration_field.mdc.
+/// Contents of form_duration_field.md.
 ///
-/// form_duration_field.mdcの中身。
-class KatanaFormDurationFieldMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_duration_field.mdc.
+/// form_duration_field.mdの中身。
+class KatanaFormDurationFieldMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_duration_field.md.
   ///
-  /// form_duration_field.mdcの中身。
-  const KatanaFormDurationFieldMdcCliAiCode();
+  /// form_duration_field.mdの中身。
+  const KatanaFormDurationFieldMdCliAiCode();
 
   @override
   String get name => "`FormDurationField`の利用方法";

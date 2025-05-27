@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_switch.mdc.
+/// Contents of form_switch.md.
 ///
-/// form_switch.mdcの中身。
-class KatanaFormSwitchMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_switch.mdc.
+/// form_switch.mdの中身。
+class KatanaFormSwitchMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_switch.md.
   ///
-  /// form_switch.mdcの中身。
-  const KatanaFormSwitchMdcCliAiCode();
+  /// form_switch.mdの中身。
+  const KatanaFormSwitchMdCliAiCode();
 
   @override
   String get name => "`FormSwitch`の利用方法";

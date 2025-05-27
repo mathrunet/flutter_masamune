@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of camera.mdc.
+/// Contents of camera.md.
 ///
-/// camera.mdcの中身。
-class PluginCameraMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of camera.mdc.
+/// camera.mdの中身。
+class PluginCameraMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of camera.md.
   ///
-  /// camera.mdcの中身。
-  const PluginCameraMdcCliAiCode();
+  /// camera.mdの中身。
+  const PluginCameraMdCliAiCode();
 
   @override
   String get name => "カメラ";

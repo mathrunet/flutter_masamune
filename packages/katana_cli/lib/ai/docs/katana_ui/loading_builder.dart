@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 
-/// Contents of loading_builder.mdc.
+/// Contents of loading_builder.md.
 ///
-/// loading_builder.mdcの中身。
-class KatanaUILoadingBuilderMdcCliAiCode extends KatanaUiUsageCliAiCode {
-  /// Contents of loading_builder.mdc.
+/// loading_builder.mdの中身。
+class KatanaUILoadingBuilderMdCliAiCode extends KatanaUiUsageCliAiCode {
+  /// Contents of loading_builder.md.
   ///
-  /// loading_builder.mdcの中身。
-  const KatanaUILoadingBuilderMdcCliAiCode();
+  /// loading_builder.mdの中身。
+  const KatanaUILoadingBuilderMdCliAiCode();
 
   @override
   String get name => "`LoadingBuilder`の利用方法";

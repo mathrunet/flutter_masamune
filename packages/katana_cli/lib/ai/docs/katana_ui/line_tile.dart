@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 
-/// Contents of line_tile.mdc.
+/// Contents of line_tile.md.
 ///
-/// line_tile.mdcの中身。
-class KatanaUILineTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
-  /// Contents of line_tile.mdc.
+/// line_tile.mdの中身。
+class KatanaUILineTileMdCliAiCode extends KatanaUiUsageCliAiCode {
+  /// Contents of line_tile.md.
   ///
-  /// line_tile.mdcの中身。
-  const KatanaUILineTileMdcCliAiCode();
+  /// line_tile.mdの中身。
+  const KatanaUILineTileMdCliAiCode();
 
   @override
   String get name => "`LineTile`の利用方法";

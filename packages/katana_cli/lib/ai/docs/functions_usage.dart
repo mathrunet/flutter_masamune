@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of functions_usage.mdc.
+/// Contents of functions_usage.md.
 ///
-/// functions_usage.mdcの中身。
-class FunctionsUsageDocsMdcCliAiCode extends CliAiCode {
-  /// Contents of functions_usage.mdc.
+/// functions_usage.mdの中身。
+class FunctionsUsageDocsMdCliAiCode extends CliAiCode {
+  /// Contents of functions_usage.md.
   ///
-  /// functions_usage.mdcの中身。
-  const FunctionsUsageDocsMdcCliAiCode();
+  /// functions_usage.mdの中身。
+  const FunctionsUsageDocsMdCliAiCode();
 
   @override
   String get name => "`Functions`の実装方法とその利用方法";

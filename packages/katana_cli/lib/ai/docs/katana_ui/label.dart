@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 
-/// Contents of label.mdc.
+/// Contents of label.md.
 ///
-/// label.mdcの中身。
-class KatanaUILabelMdcCliAiCode extends KatanaUiUsageCliAiCode {
-  /// Contents of label.mdc.
+/// label.mdの中身。
+class KatanaUILabelMdCliAiCode extends KatanaUiUsageCliAiCode {
+  /// Contents of label.md.
   ///
-  /// label.mdcの中身。
-  const KatanaUILabelMdcCliAiCode();
+  /// label.mdの中身。
+  const KatanaUILabelMdCliAiCode();
 
   @override
   String get name => "`Label`の利用方法";

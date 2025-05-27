@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_chips_field.mdc.
+/// Contents of form_chips_field.md.
 ///
-/// form_chips_field.mdcの中身。
-class KatanaFormChipsFieldMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_chips_field.mdc.
+/// form_chips_field.mdの中身。
+class KatanaFormChipsFieldMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_chips_field.md.
   ///
-  /// form_chips_field.mdcの中身。
-  const KatanaFormChipsFieldMdcCliAiCode();
+  /// form_chips_field.mdの中身。
+  const KatanaFormChipsFieldMdCliAiCode();
 
   @override
   String get name => "`FormChipsField`の利用方法";

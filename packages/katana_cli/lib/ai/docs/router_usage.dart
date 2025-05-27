@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of router_usage.mdc.
+/// Contents of router_usage.md.
 ///
-/// router_usage.mdcの中身。
-class RouterUsageMdcCliAiCode extends CliAiCode {
-  /// Contents of router_usage.mdc.
+/// router_usage.mdの中身。
+class RouterUsageMdCliAiCode extends CliAiCode {
+  /// Contents of router_usage.md.
   ///
-  /// router_usage.mdcの中身。
-  const RouterUsageMdcCliAiCode();
+  /// router_usage.mdの中身。
+  const RouterUsageMdCliAiCode();
 
   @override
   String get name => "`Router`の利用方法";
@@ -38,7 +38,7 @@ class RouterUsageMdcCliAiCode extends CliAiCode {
 
     - `result`には遷移先のページでpopメソッドが実行された時に引数に渡された値が返却される。
         - 遷移先のページでpopメソッドが実行されるまではawaitが完了しない。
-    - pushメソッド内で`TransitionQuery`を渡すことで[遷移時のアニメーション](mdc:.cursor/rules/docs/transition_usage.mdc)を設定可能。
+    - pushメソッド内で`TransitionQuery`を渡すことで`遷移時のアニメーション`(`documents/rules/docs/transition_usage.md`)を設定可能。
 
         ```dart
         router.push(NextPage.query(), transition: TransitionQuery.fullscreen);
@@ -50,7 +50,7 @@ class RouterUsageMdcCliAiCode extends CliAiCode {
     router.replace(NextPage.query());
     ```
 
-    - replaceメソッド内で`TransitionQuery`を渡すことで[遷移時のアニメーション](mdc:.cursor/rules/docs/transition_usage.mdc)を設定可能。
+    - replaceメソッド内で`TransitionQuery`を渡すことで`遷移時のアニメーション`(`documents/rules/docs/transition_usage.md`)を設定可能。
 
         ```dart
         router.replace(NextPage.query(), transition: TransitionQuery.fullscreen);
@@ -81,7 +81,7 @@ class RouterUsageMdcCliAiCode extends CliAiCode {
 
     - `result`には遷移先のページでpopメソッドが実行された時に引数に渡された値が返却される。
         - 遷移先のページでpopメソッドが実行されるまではawaitが完了しない。
-    - pushメソッド内で`TransitionQuery`を渡すことで[遷移時のアニメーション](mdc:.cursor/rules/docs/transition_usage.mdc)を設定可能。
+    - pushメソッド内で`TransitionQuery`を渡すことで`遷移時のアニメーション`(`documents/rules/docs/transition_usage.md`)を設定可能。
 
         ```dart
         context.router.push(NextPage.query(), transition: TransitionQuery.fullscreen);
@@ -93,7 +93,7 @@ class RouterUsageMdcCliAiCode extends CliAiCode {
     context.router.replace(NextPage.query());
     ```
 
-    - replaceメソッド内で`TransitionQuery`を渡すことで[遷移時のアニメーション](mdc:.cursor/rules/docs/transition_usage.mdc)を設定可能。
+    - replaceメソッド内で`TransitionQuery`を渡すことで`遷移時のアニメーション`(`documents/rules/docs/transition_usage.md`)を設定可能。
 
         ```dart
         context.router.replace(NextPage.query(), transition: TransitionQuery.fullscreen);

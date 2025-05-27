@@ -1,15 +1,15 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_text_editing_controller_builder.mdc.
+/// Contents of form_text_editing_controller_builder.md.
 ///
-/// form_text_editing_controller_builder.mdcの中身。
-class KatanaFormTextEditingControllerBuilderMdcCliAiCode
+/// form_text_editing_controller_builder.mdの中身。
+class KatanaFormTextEditingControllerBuilderMdCliAiCode
     extends FormUsageCliAiCode {
-  /// Contents of form_text_editing_controller_builder.mdc.
+  /// Contents of form_text_editing_controller_builder.md.
   ///
-  /// form_text_editing_controller_builder.mdcの中身。
-  const KatanaFormTextEditingControllerBuilderMdcCliAiCode();
+  /// form_text_editing_controller_builder.mdの中身。
+  const KatanaFormTextEditingControllerBuilderMdCliAiCode();
 
   @override
   String get name => "`FormTextEditingControllerBuilder`の利用方法";

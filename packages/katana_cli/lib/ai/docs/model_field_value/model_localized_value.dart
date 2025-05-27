@@ -1,15 +1,15 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
-/// Contents of model_localized_value.mdc.
+/// Contents of model_localized_value.md.
 ///
-/// model_localized_value.mdcの中身。
-class ModelFieldValueModelLocalizedValueMdcCliAiCode
+/// model_localized_value.mdの中身。
+class ModelFieldValueModelLocalizedValueMdCliAiCode
     extends ModelFieldValueCliAiCode {
-  /// Contents of model_localized_value.mdc.
+  /// Contents of model_localized_value.md.
   ///
-  /// model_localized_value.mdcの中身。
-  const ModelFieldValueModelLocalizedValueMdcCliAiCode();
+  /// model_localized_value.mdの中身。
+  const ModelFieldValueModelLocalizedValueMdCliAiCode();
 
   @override
   String get name => "`ModelLocalizedValue`の利用方法";

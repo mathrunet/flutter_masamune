@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_enum_field.mdc.
+/// Contents of form_enum_field.md.
 ///
-/// form_enum_field.mdcの中身。
-class KatanaFormEnumFieldMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_enum_field.mdc.
+/// form_enum_field.mdの中身。
+class KatanaFormEnumFieldMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_enum_field.md.
   ///
-  /// form_enum_field.mdcの中身。
-  const KatanaFormEnumFieldMdcCliAiCode();
+  /// form_enum_field.mdの中身。
+  const KatanaFormEnumFieldMdCliAiCode();
 
   @override
   String get name => "`FormEnumField`の利用方法";

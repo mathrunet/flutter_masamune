@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_future_field.mdc.
+/// Contents of form_future_field.md.
 ///
-/// form_future_field.mdcの中身。
-class KatanaFormFutureFieldMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_future_field.mdc.
+/// form_future_field.mdの中身。
+class KatanaFormFutureFieldMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_future_field.md.
   ///
-  /// form_future_field.mdcの中身。
-  const KatanaFormFutureFieldMdcCliAiCode();
+  /// form_future_field.mdの中身。
+  const KatanaFormFutureFieldMdCliAiCode();
 
   @override
   String get name => "`FormFutureField`の利用方法";

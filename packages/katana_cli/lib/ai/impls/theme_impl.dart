@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of theme_impl.mdc.
+/// Contents of theme_impl.md.
 ///
-/// theme_impl.mdcの中身。
-class ThemeImplMdcCliAiCode extends CliAiCode {
-  /// Contents of theme_impl.mdc.
+/// theme_impl.mdの中身。
+class ThemeImplMdCliAiCode extends CliAiCode {
+  /// Contents of theme_impl.md.
   ///
-  /// theme_impl.mdcの中身。
-  const ThemeImplMdcCliAiCode();
+  /// theme_impl.mdの中身。
+  const ThemeImplMdCliAiCode();
 
   @override
   String get name => "`Theme`の実装";
@@ -25,11 +25,11 @@ class ThemeImplMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[theme_design.md](mdc:documents/designs/theme_design.md)に記載されている`Theme設計書`から[theme.dart](mdc:lib/theme.dart)を編集
-[theme_design.md](mdc:documents/designs/theme_design.md)が存在しない場合は絶対に実施しない
+`documents/designs/theme_design.md`に記載されている`Theme設計書`から`lib/theme.dart`を編集
+`documents/designs/theme_design.md`が存在しない場合は絶対に実施しない
 
-1. `Theme設計書`で定義されている内容を元に[theme.dart](mdc:lib/theme.dart)を書き換える
-    - [theme.dart](mdc:lib/theme.dart)の`AppThemeData`を変更
+1. `Theme設計書`で定義されている内容を元に`lib/theme.dart`を書き換える
+    - `lib/theme.dart`の`AppThemeData`を変更
         - `ColorMode`に応じて下記の設定を追加
             - `DarkMode`
                 - `themeMode`: ThemeMode.dark

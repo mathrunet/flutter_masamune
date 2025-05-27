@@ -28,17 +28,17 @@ class ImplsAiCode extends CliAiCodeCommand {
 
   @override
   Map<String, CliAiCode> get codes => {
-        "controller_impl": const ControllerImplMdcCliAiCode(),
-        "model_impl": const ModelImplMdcCliAiCode(),
-        "theme_impl": const ThemeImplMdcCliAiCode(),
-        "widget_creation": const WidgetCreationMdcCliAiCode(),
-        "widget_ui_impl": const WidgetUiImplMdcCliAiCode(),
-        "widget_logic_impl": const WidgetLogicImplMdcCliAiCode(),
-        "metadata_impl": const MetadataImplMdcCliAiCode(),
-        "page_creation": const PageCreationMdcCliAiCode(),
-        "page_ui_impl": const PageUiImplMdcCliAiCode(),
-        "page_logic_impl": const PageLogicImplMdcCliAiCode(),
-        "plugin_impl": const PluginImplMdcCliAiCode(),
-        "mock_data_impl": const MockDataImplMdcCliAiCode(),
+        "controller_impl": const ControllerImplMdCliAiCode(),
+        "model_impl": const ModelImplMdCliAiCode(),
+        "theme_impl": const ThemeImplMdCliAiCode(),
+        "widget_creation": const WidgetCreationMdCliAiCode(),
+        "widget_ui_impl": const WidgetUiImplMdCliAiCode(),
+        "widget_logic_impl": const WidgetLogicImplMdCliAiCode(),
+        "metadata_impl": const MetadataImplMdCliAiCode(),
+        "page_creation": const PageCreationMdCliAiCode(),
+        "page_ui_impl": const PageUiImplMdCliAiCode(),
+        "page_logic_impl": const PageLogicImplMdCliAiCode(),
+        "plugin_impl": const PluginImplMdCliAiCode(),
+        "mock_data_impl": const MockDataImplMdCliAiCode(),
       };
 }

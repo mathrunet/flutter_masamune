@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of controller_creation.mdc.
+/// Contents of controller_creation.md.
 ///
-/// controller_creation.mdcの中身。
-class ControllerCreationMdcCliAiCode extends CliAiCode {
-  /// Contents of controller_creation.mdc.
+/// controller_creation.mdの中身。
+class ControllerCreationMdCliAiCode extends CliAiCode {
+  /// Contents of controller_creation.md.
   ///
-  /// controller_creation.mdcの中身。
-  const ControllerCreationMdcCliAiCode();
+  /// controller_creation.mdの中身。
+  const ControllerCreationMdCliAiCode();
 
   @override
   String get name => "`Controller`の作成";
@@ -25,8 +25,8 @@ class ControllerCreationMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[controller_design.md](mdc:documents/designs/controller_design.md)に記載されている`Controller設計書`からDartコードを生成
-[controller_design.md](mdc:documents/designs/controller_design.md)が存在しない場合は絶対に実施しない
+`documents/designs/controller_design.md`に記載されている`Controller設計書`からDartコードを生成
+`documents/designs/controller_design.md`が存在しない場合は絶対に実施しない
 
 1. 下記のコマンドを実行して`ChangeNotifier`を継承したクラスファイルを作成
 

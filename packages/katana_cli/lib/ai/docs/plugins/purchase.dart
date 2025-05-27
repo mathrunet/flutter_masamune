@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of purchase.mdc.
+/// Contents of purchase.md.
 ///
-/// purchase.mdcの中身。
-class PluginPurchaseMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of purchase.mdc.
+/// purchase.mdの中身。
+class PluginPurchaseMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of purchase.md.
   ///
-  /// purchase.mdcの中身。
-  const PluginPurchaseMdcCliAiCode();
+  /// purchase.mdの中身。
+  const PluginPurchaseMdCliAiCode();
 
   @override
   String get name => "アプリ内課金";

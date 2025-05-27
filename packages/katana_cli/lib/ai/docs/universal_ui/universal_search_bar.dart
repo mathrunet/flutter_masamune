@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/universal_ui_usage.dart';
 
-/// Contents of universal_search_bar.mdc.
+/// Contents of universal_search_bar.md.
 ///
-/// universal_search_bar.mdcの中身。
-class UniversalSearchBarMdcCliAiCode extends UniversalUiUsageCliAiCode {
-  /// Contents of universal_search_bar.mdc.
+/// universal_search_bar.mdの中身。
+class UniversalSearchBarMdCliAiCode extends UniversalUiUsageCliAiCode {
+  /// Contents of universal_search_bar.md.
   ///
-  /// universal_search_bar.mdcの中身。
-  const UniversalSearchBarMdcCliAiCode();
+  /// universal_search_bar.mdの中身。
+  const UniversalSearchBarMdCliAiCode();
 
   @override
   String get name => "`UniversalSearchBar`の利用方法";

@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of controller_design.mdc.
+/// Contents of controller_design.md.
 ///
-/// controller_design.mdcの中身。
-class ControllerDesignMdcCliAiCode extends CliAiCode {
-  /// Contents of controller_design.mdc.
+/// controller_design.mdの中身。
+class ControllerDesignMdCliAiCode extends CliAiCode {
+  /// Contents of controller_design.md.
   ///
-  /// controller_design.mdcの中身。
-  const ControllerDesignMdcCliAiCode();
+  /// controller_design.mdの中身。
+  const ControllerDesignMdCliAiCode();
 
   @override
   String get name => "`Controller設計書`の作成";
@@ -25,7 +25,7 @@ class ControllerDesignMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[page_design.md](mdc:documents/designs/page_design.md)に記載されている`Page設計書`および[model_design.md](mdc:documents/designs/model_design.md)に記載されている`Model設計書`から`Controller設計書`を作成
+`documents/designs/page_design.md`に記載されている`Page設計書`および`documents/designs/model_design.md`に記載されている`Model設計書`から`Controller設計書`を作成
 
 1. `Page設計書`において`Controller設計書`を作成
     - 下記の条件に当てはまる場合、新しく`Controller`を定義
@@ -52,9 +52,9 @@ class ControllerDesignMdcCliAiCode extends CliAiCode {
                     - プロパティの名前をCamelCaseで定義
                 - `PropertyType`
                     - プロパティの型を定義。**必ず**下記から選択。
-                        - [ModelFieldValue](mdc:.cursor/rules/docs/model_field_value_usage.mdc)
-                        - [プリミティブタイプ](mdc:.cursor/rules/docs/primitive_types.mdc)
-                        - [Flutter特有のタイプ](mdc:.cursor/rules/docs/flutter_types.mdc)
+                        - ModelFieldValue(`documents/rules/docs/model_field_value_usage.md`
+                        - プリミティブタイプ(`documents/rules/docs/primitive_types.md`)
+                        - Flutter特有のタイプ(`documents/rules/docs/flutter_types.md`)
                 - `RequiredOrOptional`
                     - `Required`もしくは`Optional`
                 - `DefaultValue`
@@ -76,9 +76,9 @@ class ControllerDesignMdcCliAiCode extends CliAiCode {
                         - `ArgumentType`
                             - 引数の型を定義
                                 - ある場合は**必ず**下記から選択。
-                                    - [ModelFieldValue](mdc:.cursor/rules/docs/model_field_value_usage.mdc)
-                                    - [プリミティブタイプ](mdc:.cursor/rules/docs/primitive_types.mdc)
-                                    - [Flutter特有のタイプ](mdc:.cursor/rules/docs/flutter_types.mdc)
+                                    - ModelFieldValue(`documents/rules/docs/model_field_value_usage.md`)
+                                    - プリミティブタイプ(`documents/rules/docs/primitive_types.md`)
+                                    - Flutter特有のタイプ(`documents/rules/docs/flutter_types.md`)
                                 - ない場合は`void`とし無理に定義しない。また非同期で戻り値が必要な場合は`Future<[ArgumentType]>`とする。
                         - `Summary`
                             - 引数の概要

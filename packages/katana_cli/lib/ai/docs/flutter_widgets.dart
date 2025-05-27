@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of flutter_widgets.mdc.
+/// Contents of flutter_widgets.md.
 ///
-/// flutter_widgets.mdcの中身。
-class FlutterWidgetsMdcCliAiCode extends CliAiCode {
-  /// Contents of flutter_widgets.mdc.
+/// flutter_widgets.mdの中身。
+class FlutterWidgetsMdCliAiCode extends CliAiCode {
+  /// Contents of flutter_widgets.md.
   ///
-  /// flutter_widgets.mdcの中身。
-  const FlutterWidgetsMdcCliAiCode();
+  /// flutter_widgets.mdの中身。
+  const FlutterWidgetsMdCliAiCode();
 
   @override
   String get name => "主要なFlutterのWidget一覧";

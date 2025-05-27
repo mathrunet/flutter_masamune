@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of design_document.mdc.
+/// Contents of design_document.md.
 ///
-/// design_document.mdcの中身。
-class DesignDocumentDocsMdcCliAiCode extends CliAiCode {
-  /// Contents of design_document.mdc.
+/// design_document.mdの中身。
+class DesignDocumentDocsMdCliAiCode extends CliAiCode {
+  /// Contents of design_document.md.
   ///
-  /// design_document.mdcの中身。
-  const DesignDocumentDocsMdcCliAiCode();
+  /// design_document.mdの中身。
+  const DesignDocumentDocsMdCliAiCode();
 
   @override
   String get name => "設計書一覧";

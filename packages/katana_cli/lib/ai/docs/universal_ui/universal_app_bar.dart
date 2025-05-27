@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/universal_ui_usage.dart';
 
-/// Contents of universal_app_bar.mdc.
+/// Contents of universal_app_bar.md.
 ///
-/// universal_app_bar.mdcの中身。
-class UniversalAppBarMdcCliAiCode extends UniversalUiUsageCliAiCode {
-  /// Contents of universal_app_bar.mdc.
+/// universal_app_bar.mdの中身。
+class UniversalAppBarMdCliAiCode extends UniversalUiUsageCliAiCode {
+  /// Contents of universal_app_bar.md.
   ///
-  /// universal_app_bar.mdcの中身。
-  const UniversalAppBarMdcCliAiCode();
+  /// universal_app_bar.mdの中身。
+  const UniversalAppBarMdCliAiCode();
 
   @override
   String get name => "`UniversalAppBar`の利用方法";

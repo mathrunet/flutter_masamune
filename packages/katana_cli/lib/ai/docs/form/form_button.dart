@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_button.mdc.
+/// Contents of form_button.md.
 ///
-/// form_button.mdcの中身。
-class KatanaFormButtonMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_button.mdc.
+/// form_button.mdの中身。
+class KatanaFormButtonMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_button.md.
   ///
-  /// form_button.mdcの中身。
-  const KatanaFormButtonMdcCliAiCode();
+  /// form_button.mdの中身。
+  const KatanaFormButtonMdCliAiCode();
 
   @override
   String get name => "`FormButton`の利用方法";

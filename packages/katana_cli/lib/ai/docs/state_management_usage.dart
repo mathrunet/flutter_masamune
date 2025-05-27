@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of state_management_usage.mdc.
+/// Contents of state_management_usage.md.
 ///
-/// state_management_usage.mdcの中身。
-class StateManagementUsageMdcCliAiCode extends CliAiCode {
-  /// Contents of state_management_usage.mdc.
+/// state_management_usage.mdの中身。
+class StateManagementUsageMdCliAiCode extends CliAiCode {
+  /// Contents of state_management_usage.md.
   ///
-  /// state_management_usage.mdcの中身。
-  const StateManagementUsageMdcCliAiCode();
+  /// state_management_usage.mdの中身。
+  const StateManagementUsageMdCliAiCode();
 
   @override
   String get name => "アプリ内の状態を管理するための`State`の利用方法";
@@ -30,7 +30,7 @@ class StateManagementUsageMdcCliAiCode extends CliAiCode {
 
 ## `Model`や`Controller`、`RedirectQuery`内での利用
 
-`Model`や`Controller`、`RedirectQuery`内では[main.dart](mdc:lib/main.dart)内で定義されている`appRef`を利用することにより`State`を利用可能。
+`Model`や`Controller`、`RedirectQuery`内では`lib/main.dart`内で定義されている`appRef`を利用することにより`State`を利用可能。
 
 - `Controller`の取得
 
@@ -44,7 +44,7 @@ class StateManagementUsageMdcCliAiCode extends CliAiCode {
     final collection = appRef.model(AnyModel.collection())..load();
     ```
 
-    - `AnyModal.collection()`の後にメソッドチェーンをつなげることで取得する`Collection`の条件を指定可能。詳しくは[`Collection`のフィルタリング方法](mdc:.cursor/rules/docs/collection_filter.mdc)を参照。
+    - `AnyModal.collection()`の後にメソッドチェーンをつなげることで取得する`Collection`の条件を指定可能。詳しくは`Collection`のフィルタリング方法(`documents/rules/docs/collection_filter.md`)を参照。
 
 - `Model`（`Document`）の取得
 
@@ -87,7 +87,7 @@ Page（PageScopedWidgetを継承したもの）およびWidget（ScopedWidgetを
     final collection = ref.app.model(AnyModel.collection())..load();
     ```
 
-    - `AnyModal.collection()`の後にメソッドチェーンをつなげることで取得する`Collection`の条件を指定可能。詳しくは[`Collection`のフィルタリング方法](mdc:.cursor/rules/docs/collection_filter.mdc)を参照。
+    - `AnyModal.collection()`の後にメソッドチェーンをつなげることで取得する`Collection`の条件を指定可能。詳しくは`Collection`のフィルタリング方法(`documents/rules/docs/collection_filter.md`)を参照。
 
 - `Model`（`Document`）の取得
 

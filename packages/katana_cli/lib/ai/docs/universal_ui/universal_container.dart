@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/universal_ui_usage.dart';
 
-/// Contents of universal_container.mdc.
+/// Contents of universal_container.md.
 ///
-/// universal_container.mdcの中身。
-class UniversalContainerMdcCliAiCode extends UniversalUiUsageCliAiCode {
-  /// Contents of universal_container.mdc.
+/// universal_container.mdの中身。
+class UniversalContainerMdCliAiCode extends UniversalUiUsageCliAiCode {
+  /// Contents of universal_container.md.
   ///
-  /// universal_container.mdcの中身。
-  const UniversalContainerMdcCliAiCode();
+  /// universal_container.mdの中身。
+  const UniversalContainerMdCliAiCode();
 
   @override
   String get name => "`UniversalContainer`の利用方法";

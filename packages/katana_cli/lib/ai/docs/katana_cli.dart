@@ -47,14 +47,14 @@ const _kAvailableCommands = [
   CodeZipCliCommand(),
 ];
 
-/// Contents of katana_cli.mdc.
+/// Contents of katana_cli.md.
 ///
-/// katana_cli.mdcの中身。
-class KatanaCliDocsMdcCliAiCode extends CliAiCode {
-  /// Contents of katana_cli.mdc.
+/// katana_cli.mdの中身。
+class KatanaCliDocsMdCliAiCode extends CliAiCode {
+  /// Contents of katana_cli.md.
   ///
-  /// katana_cli.mdcの中身。
-  const KatanaCliDocsMdcCliAiCode();
+  /// katana_cli.mdの中身。
+  const KatanaCliDocsMdCliAiCode();
 
   @override
   String get name => "`katana`コマンドの一覧とその利用方法";

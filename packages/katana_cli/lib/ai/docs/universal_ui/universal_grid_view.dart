@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/universal_ui_usage.dart';
 
-/// Contents of universal_grid_view.mdc.
+/// Contents of universal_grid_view.md.
 ///
-/// universal_grid_view.mdcの中身。
-class UniversalGridViewMdcCliAiCode extends UniversalUiUsageCliAiCode {
-  /// Contents of universal_grid_view.mdc.
+/// universal_grid_view.mdの中身。
+class UniversalGridViewMdCliAiCode extends UniversalUiUsageCliAiCode {
+  /// Contents of universal_grid_view.md.
   ///
-  /// universal_grid_view.mdcの中身。
-  const UniversalGridViewMdcCliAiCode();
+  /// universal_grid_view.mdの中身。
+  const UniversalGridViewMdCliAiCode();
 
   @override
   String get name => "`UniversalGridView`の利用方法";

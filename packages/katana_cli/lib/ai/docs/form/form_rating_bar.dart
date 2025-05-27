@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_rating_bar.mdc.
+/// Contents of form_rating_bar.md.
 ///
-/// form_rating_bar.mdcの中身。
-class KatanaFormRatingBarMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_rating_bar.mdc.
+/// form_rating_bar.mdの中身。
+class KatanaFormRatingBarMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_rating_bar.md.
   ///
-  /// form_rating_bar.mdcの中身。
-  const KatanaFormRatingBarMdcCliAiCode();
+  /// form_rating_bar.mdの中身。
+  const KatanaFormRatingBarMdCliAiCode();
 
   @override
   String get name => "`FormRatingBar`の利用方法";

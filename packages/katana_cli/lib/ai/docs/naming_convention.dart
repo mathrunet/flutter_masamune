@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of naming_convention.mdc.
+/// Contents of naming_convention.md.
 ///
-/// naming_convention.mdcの中身。
-class NamingConventionDocsMdcCliAiCode extends CliAiCode {
-  /// Contents of naming_convention.mdc.
+/// naming_convention.mdの中身。
+class NamingConventionDocsMdCliAiCode extends CliAiCode {
+  /// Contents of naming_convention.md.
   ///
-  /// naming_convention.mdcの中身。
-  const NamingConventionDocsMdcCliAiCode();
+  /// naming_convention.mdの中身。
+  const NamingConventionDocsMdCliAiCode();
 
   @override
   String get name => "命名規則";

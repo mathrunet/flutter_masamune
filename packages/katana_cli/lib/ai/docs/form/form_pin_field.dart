@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_pin_field.mdc.
+/// Contents of form_pin_field.md.
 ///
-/// form_pin_field.mdcの中身。
-class KatanaFormPinFieldMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_pin_field.mdc.
+/// form_pin_field.mdの中身。
+class KatanaFormPinFieldMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_pin_field.md.
   ///
-  /// form_pin_field.mdcの中身。
-  const KatanaFormPinFieldMdcCliAiCode();
+  /// form_pin_field.mdの中身。
+  const KatanaFormPinFieldMdCliAiCode();
 
   @override
   String get name => "`FormPinField`の利用方法";

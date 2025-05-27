@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of ads.mdc.
+/// Contents of ads.md.
 ///
-/// ads.mdcの中身。
-class PluginAdsMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of ads.mdc.
+/// ads.mdの中身。
+class PluginAdsMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of ads.md.
   ///
-  /// ads.mdcの中身。
-  const PluginAdsMdcCliAiCode();
+  /// ads.mdの中身。
+  const PluginAdsMdCliAiCode();
 
   @override
   String get name => "アプリ広告";

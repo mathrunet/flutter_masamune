@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of model_impl.mdc.
+/// Contents of model_impl.md.
 ///
-/// model_impl.mdcの中身。
-class ModelImplMdcCliAiCode extends CliAiCode {
-  /// Contents of model_impl.mdc.
+/// model_impl.mdの中身。
+class ModelImplMdCliAiCode extends CliAiCode {
+  /// Contents of model_impl.md.
   ///
-  /// model_impl.mdcの中身。
-  const ModelImplMdcCliAiCode();
+  /// model_impl.mdの中身。
+  const ModelImplMdCliAiCode();
 
   @override
   String get name => "`Model`の実装";
@@ -25,8 +25,8 @@ class ModelImplMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[model_design.md](mdc:documents/designs/model_design.md)に記載されている`Model設計書`からDartコードを生成
-[model_design.md](mdc:documents/designs/model_design.md)が存在しない場合は絶対に実施しない
+`documents/designs/model_design.md`に記載されている`Model設計書`からDartコードを生成
+`documents/designs/model_design.md`が存在しない場合は絶対に実施しない
 
 1. `Model設計書`で定義されているいずれかの`Model`中の`DataField`にenumを元にした値が存在する時、それぞれの`Enum`に対して下記を実行
     1. 下記コマンドを実行 
@@ -57,8 +57,8 @@ class ModelImplMdcCliAiCode extends CliAiCode {
         2. `// TODO: Set the data fields.`以下に定義した`DataField`を追記。
             - 各フィールドには`DataFieldType`と`DataFieldName`（CamelCase）を記載。
                 - `DataFieldType`は*必ず*下記のタイプから選択する。
-                    - [ModelFieldValue](mdc:.cursor/rules/docs/model_field_value_usage.mdc)
-                    - [プリミティブタイプ](mdc:.cursor/rules/docs/primitive_types.mdc)                    
+                    - ModelFieldValue(`documents/rules/docs/model_field_value_usage.md`)
+                    - プリミティブタイプ(`documents/rules/docs/primitive_types.md`)                    
                 - `DataField`が`Required`の場合は`DataFieldType`の前に`required`を付与。
                 - `Optional`でかつ`DefaultValue`が存在する場合は`@Default([DefaultValue])`のAnnotationを付与。
                 - `Optional`でかつ`DefaultValue`が存在しない場合は`DataFieldType`の末尾に`?`を付与しNullableにする

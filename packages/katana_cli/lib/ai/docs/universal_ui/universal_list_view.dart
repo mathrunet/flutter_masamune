@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/universal_ui_usage.dart';
 
-/// Contents of universal_list_view.mdc.
+/// Contents of universal_list_view.md.
 ///
-/// universal_list_view.mdcの中身。
-class UniversalListViewMdcCliAiCode extends UniversalUiUsageCliAiCode {
-  /// Contents of universal_list_view.mdc.
+/// universal_list_view.mdの中身。
+class UniversalListViewMdCliAiCode extends UniversalUiUsageCliAiCode {
+  /// Contents of universal_list_view.md.
   ///
-  /// universal_list_view.mdcの中身。
-  const UniversalListViewMdcCliAiCode();
+  /// universal_list_view.mdの中身。
+  const UniversalListViewMdCliAiCode();
 
   @override
   String get name => "`UniversalListView`の利用方法";

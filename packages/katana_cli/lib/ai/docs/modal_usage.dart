@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of modal_usage.mdc.
+/// Contents of modal_usage.md.
 ///
-/// modal_usage.mdcの中身。
-class ModalUsageMdcCliAiCode extends CliAiCode {
-  /// Contents of modal_usage.mdc.
+/// modal_usage.mdの中身。
+class ModalUsageMdCliAiCode extends CliAiCode {
+  /// Contents of modal_usage.md.
   ///
-  /// modal_usage.mdcの中身。
-  const ModalUsageMdcCliAiCode();
+  /// modal_usage.mdの中身。
+  const ModalUsageMdCliAiCode();
 
   @override
   String get name => "`Modal`の実装方法";

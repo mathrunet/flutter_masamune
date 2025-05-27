@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of speech_to_text.mdc.
+/// Contents of speech_to_text.md.
 ///
-/// speech_to_text.mdcの中身。
-class PluginSpeechToTextMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of speech_to_text.mdc.
+/// speech_to_text.mdの中身。
+class PluginSpeechToTextMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of speech_to_text.md.
   ///
-  /// speech_to_text.mdcの中身。
-  const PluginSpeechToTextMdcCliAiCode();
+  /// speech_to_text.mdの中身。
+  const PluginSpeechToTextMdCliAiCode();
 
   @override
   String get name => "Speech-To-Text";

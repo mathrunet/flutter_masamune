@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of agora.mdc.
+/// Contents of agora.md.
 ///
-/// agora.mdcの中身。
-class PluginAgoraMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of agora.mdc.
+/// agora.mdの中身。
+class PluginAgoraMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of agora.md.
   ///
-  /// agora.mdcの中身。
-  const PluginAgoraMdcCliAiCode();
+  /// agora.mdの中身。
+  const PluginAgoraMdCliAiCode();
 
   @override
   String get name => "Agora";

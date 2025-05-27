@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of animate.mdc.
+/// Contents of animate.md.
 ///
-/// animate.mdcの中身。
-class PluginAnimateMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of animate.mdc.
+/// animate.mdの中身。
+class PluginAnimateMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of animate.md.
   ///
-  /// animate.mdcの中身。
-  const PluginAnimateMdcCliAiCode();
+  /// animate.mdの中身。
+  const PluginAnimateMdCliAiCode();
 
   @override
   String get name => "アニメーション";

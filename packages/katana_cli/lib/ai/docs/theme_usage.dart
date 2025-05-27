@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of theme_usage.mdc.
+/// Contents of theme_usage.md.
 ///
-/// theme_usage.mdcの中身。
-class ThemeUsageMdcCliAiCode extends CliAiCode {
-  /// Contents of theme_usage.mdc.
+/// theme_usage.mdの中身。
+class ThemeUsageMdCliAiCode extends CliAiCode {
+  /// Contents of theme_usage.md.
   ///
-  /// theme_usage.mdcの中身。
-  const ThemeUsageMdcCliAiCode();
+  /// theme_usage.mdの中身。
+  const ThemeUsageMdCliAiCode();
 
   @override
   String get name => "`Theme`の一覧とその利用方法";
@@ -25,7 +25,7 @@ class ThemeUsageMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-`Theme`は[main.dart](mdc:lib/main.dart)内で定義されている`theme`を利用することにより利用可能。
+`Theme`は`lib/main.dart`内で定義されている`theme`を利用することにより利用可能。
 テーマは`Material Design 3`のガイドラインに準拠している。
 
 ## `ColorScheme`を取得

@@ -21,31 +21,31 @@ import 'package:katana_cli/katana_cli.dart';
 ///
 /// ModelFieldValueタイプのリスト。
 const kModelFieldValueList = {
-  "ModelCounter": ModelFieldValueModelCounterMdcCliAiCode(),
-  "ModelGeoValue": ModelFieldValueModelGeoValueMdcCliAiCode(),
-  "ModelImageUri": ModelFieldValueModelImageUriMdcCliAiCode(),
-  "ModelLocale": ModelFieldValueModelLocaleMdcCliAiCode(),
-  "ModelLocalizedValue": ModelFieldValueModelLocalizedValueMdcCliAiCode(),
-  "ModelRef": ModelFieldValueModelRefMdcCliAiCode(),
-  "ModelSearch": ModelFieldValueModelSearchMdcCliAiCode(),
-  "ModelToken": ModelFieldValueModelTokenMdcCliAiCode(),
-  "ModelTimestamp": ModelFieldValueModelTimestampMdcCliAiCode(),
-  "ModelTimestampRange": ModelFieldValueModelTimestampRangeMdcCliAiCode(),
-  "ModelTime": ModelFieldValueModelTimeMdcCliAiCode(),
-  "ModelTimeRange": ModelFieldValueModelTimeRangeMdcCliAiCode(),
-  "ModelDate": ModelFieldValueModelDateMdcCliAiCode(),
-  "ModelDateRange": ModelFieldValueModelDateRangeMdcCliAiCode(),
-  "ModelUri": ModelFieldValueModelUriMdcCliAiCode(),
-  "ModelVideoUri": ModelFieldValueModelVideoUriMdcCliAiCode(),
+  "ModelCounter": ModelFieldValueModelCounterMdCliAiCode(),
+  "ModelGeoValue": ModelFieldValueModelGeoValueMdCliAiCode(),
+  "ModelImageUri": ModelFieldValueModelImageUriMdCliAiCode(),
+  "ModelLocale": ModelFieldValueModelLocaleMdCliAiCode(),
+  "ModelLocalizedValue": ModelFieldValueModelLocalizedValueMdCliAiCode(),
+  "ModelRef": ModelFieldValueModelRefMdCliAiCode(),
+  "ModelSearch": ModelFieldValueModelSearchMdCliAiCode(),
+  "ModelToken": ModelFieldValueModelTokenMdCliAiCode(),
+  "ModelTimestamp": ModelFieldValueModelTimestampMdCliAiCode(),
+  "ModelTimestampRange": ModelFieldValueModelTimestampRangeMdCliAiCode(),
+  "ModelTime": ModelFieldValueModelTimeMdCliAiCode(),
+  "ModelTimeRange": ModelFieldValueModelTimeRangeMdCliAiCode(),
+  "ModelDate": ModelFieldValueModelDateMdCliAiCode(),
+  "ModelDateRange": ModelFieldValueModelDateRangeMdCliAiCode(),
+  "ModelUri": ModelFieldValueModelUriMdCliAiCode(),
+  "ModelVideoUri": ModelFieldValueModelVideoUriMdCliAiCode(),
 };
 
-/// Contents of model_field_value.mdc.
+/// Contents of model_field_value.md.
 ///
-/// model_field_value.mdcの中身。
+/// model_field_value.mdの中身。
 abstract class ModelFieldValueCliAiCode extends CliAiCode {
-  /// Contents of model_field_value.mdc.
+  /// Contents of model_field_value.md.
   ///
-  /// model_field_value.mdcの中身。
+  /// model_field_value.mdの中身。
   const ModelFieldValueCliAiCode();
 
   /// Excerpt of the model field value.
@@ -54,14 +54,14 @@ abstract class ModelFieldValueCliAiCode extends CliAiCode {
   String get excerpt;
 }
 
-/// Contents of model_field_value_usage.mdc.
+/// Contents of model_field_value_usage.md.
 ///
-/// model_field_value_usage.mdcの中身。
-class ModelFieldValueUsageMdcCliAiCode extends CliAiCode {
-  /// Contents of model_field_value_usage.mdc.
+/// model_field_value_usage.mdの中身。
+class ModelFieldValueUsageMdCliAiCode extends CliAiCode {
+  /// Contents of model_field_value_usage.md.
   ///
-  /// model_field_value_usage.mdcの中身。
-  const ModelFieldValueUsageMdcCliAiCode();
+  /// model_field_value_usage.mdの中身。
+  const ModelFieldValueUsageMdCliAiCode();
 
   @override
   String get name => "`ModelFieldValue`の利用方法";
@@ -95,7 +95,7 @@ class ModelFieldValueUsageMdcCliAiCode extends CliAiCode {
 """;
     for (final entry in kModelFieldValueList.entries) {
       header +=
-          "| `${entry.key}` | ${entry.value.excerpt} | [Usage](mdc:.cursor/rules/model_field_value/${entry.key.toSnakeCase()}.mdc) |\n";
+          "| `${entry.key}` | ${entry.value.excerpt} | Usage(`documents/rules/model_field_value/${entry.key.toSnakeCase()}.md`) |\n";
     }
     return header;
   }

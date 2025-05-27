@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of flutter_types.mdc.
+/// Contents of flutter_types.md.
 ///
-/// flutter_types.mdcの中身。
-class FlutterTypesMdcCliAiCode extends CliAiCode {
-  /// Contents of flutter_types.mdc.
+/// flutter_types.mdの中身。
+class FlutterTypesMdCliAiCode extends CliAiCode {
+  /// Contents of flutter_types.md.
   ///
-  /// flutter_types.mdcの中身。
-  const FlutterTypesMdcCliAiCode();
+  /// flutter_types.mdの中身。
+  const FlutterTypesMdCliAiCode();
 
   @override
   String get name => "主要なFlutter/Dartのタイプ一覧";

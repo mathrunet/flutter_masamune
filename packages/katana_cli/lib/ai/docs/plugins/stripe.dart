@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of stripe.mdc.
+/// Contents of stripe.md.
 ///
-/// stripe.mdcの中身。
-class PluginStripeMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of stripe.mdc.
+/// stripe.mdの中身。
+class PluginStripeMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of stripe.md.
   ///
-  /// stripe.mdcの中身。
-  const PluginStripeMdcCliAiCode();
+  /// stripe.mdの中身。
+  const PluginStripeMdCliAiCode();
 
   @override
   String get name => "Stripe決済";

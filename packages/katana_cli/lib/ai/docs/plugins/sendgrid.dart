@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of sendgrid.mdc.
+/// Contents of sendgrid.md.
 ///
-/// sendgrid.mdcの中身。
-class PluginSendgridMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of sendgrid.mdc.
+/// sendgrid.mdの中身。
+class PluginSendgridMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of sendgrid.md.
   ///
-  /// sendgrid.mdcの中身。
-  const PluginSendgridMdcCliAiCode();
+  /// sendgrid.mdの中身。
+  const PluginSendgridMdCliAiCode();
 
   @override
   String get name => "メール送信";

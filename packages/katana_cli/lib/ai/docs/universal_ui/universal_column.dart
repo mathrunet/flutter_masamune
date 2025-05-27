@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/universal_ui_usage.dart';
 
-/// Contents of universal_column.mdc.
+/// Contents of universal_column.md.
 ///
-/// universal_column.mdcの中身。
-class UniversalColumnMdcCliAiCode extends UniversalUiUsageCliAiCode {
-  /// Contents of universal_column.mdc.
+/// universal_column.mdの中身。
+class UniversalColumnMdCliAiCode extends UniversalUiUsageCliAiCode {
+  /// Contents of universal_column.md.
   ///
-  /// universal_column.mdcの中身。
-  const UniversalColumnMdcCliAiCode();
+  /// universal_column.mdの中身。
+  const UniversalColumnMdCliAiCode();
 
   @override
   String get name => "`UniversalColumn`の利用方法";

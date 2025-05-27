@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/universal_ui_usage.dart';
 
-/// Contents of universal_header_tile.mdc.
+/// Contents of universal_header_tile.md.
 ///
-/// universal_header_tile.mdcの中身。
-class UniversalHeaderTileMdcCliAiCode extends UniversalUiUsageCliAiCode {
-  /// Contents of universal_header_tile.mdc.
+/// universal_header_tile.mdの中身。
+class UniversalHeaderTileMdCliAiCode extends UniversalUiUsageCliAiCode {
+  /// Contents of universal_header_tile.md.
   ///
-  /// universal_header_tile.mdcの中身。
-  const UniversalHeaderTileMdcCliAiCode();
+  /// universal_header_tile.mdの中身。
+  const UniversalHeaderTileMdCliAiCode();
 
   @override
   String get name => "`UniversalHeaderTile`の利用方法";

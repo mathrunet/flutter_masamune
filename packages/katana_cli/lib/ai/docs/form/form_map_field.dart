@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_map_field.mdc.
+/// Contents of form_map_field.md.
 ///
-/// form_map_field.mdcの中身。
-class KatanaFormMapFieldMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_map_field.mdc.
+/// form_map_field.mdの中身。
+class KatanaFormMapFieldMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_map_field.md.
   ///
-  /// form_map_field.mdcの中身。
-  const KatanaFormMapFieldMdcCliAiCode();
+  /// form_map_field.mdの中身。
+  const KatanaFormMapFieldMdCliAiCode();
 
   @override
   String get name => "FormMapFieldの利用方法";

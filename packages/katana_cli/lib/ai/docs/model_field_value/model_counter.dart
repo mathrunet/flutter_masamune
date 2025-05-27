@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
-/// Contents of model_counter.mdc.
+/// Contents of model_counter.md.
 ///
-/// model_counter.mdcの中身。
-class ModelFieldValueModelCounterMdcCliAiCode extends ModelFieldValueCliAiCode {
-  /// Contents of model_counter.mdc.
+/// model_counter.mdの中身。
+class ModelFieldValueModelCounterMdCliAiCode extends ModelFieldValueCliAiCode {
+  /// Contents of model_counter.md.
   ///
-  /// model_counter.mdcの中身。
-  const ModelFieldValueModelCounterMdcCliAiCode();
+  /// model_counter.mdの中身。
+  const ModelFieldValueModelCounterMdCliAiCode();
 
   @override
   String get name => "`ModelCounter`の利用方法";

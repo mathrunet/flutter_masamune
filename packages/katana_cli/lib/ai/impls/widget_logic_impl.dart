@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of widget_logic_impl.mdc.
+/// Contents of widget_logic_impl.md.
 ///
-/// widget_logic_impl.mdcの中身。
-class WidgetLogicImplMdcCliAiCode extends CliAiCode {
-  /// Contents of widget_logic_impl.mdc.
+/// widget_logic_impl.mdの中身。
+class WidgetLogicImplMdCliAiCode extends CliAiCode {
+  /// Contents of widget_logic_impl.md.
   ///
-  /// widget_logic_impl.mdcの中身。
-  const WidgetLogicImplMdcCliAiCode();
+  /// widget_logic_impl.mdの中身。
+  const WidgetLogicImplMdCliAiCode();
 
   @override
   String get name => "`Widget`のロジック実装";
@@ -25,8 +25,8 @@ class WidgetLogicImplMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[widget_design.md](mdc:documents/designs/widget_design.md)に記載されている`Widget設計書`と`lib/widgets`に作成されているDartファイルを参照して`Widget`のロジックを実装
-[widget_design.md](mdc:documents/designs/widget_design.md)が存在しない場合は絶対に実施しない
+`documents/designs/widget_design.md`に記載されている`Widget設計書`と`lib/widgets`に作成されているDartファイルを参照して`Widget`のロジックを実装
+`documents/designs/widget_design.md`が存在しない場合は絶対に実施しない
 
 `Widget設計書`に記載されている各`Widget`の`WidgetType`に応じてそれぞれ下記を実行
 
@@ -40,8 +40,8 @@ class WidgetLogicImplMdcCliAiCode extends CliAiCode {
 2. `Widget設計書`の`Content`に応じて`build`メソッド内の`// TODO: Implement the variable loading process.`以下に`ref`を用いてプロジェクト内の各種`Model`や`Controller`を取得する。
     - 適宜`import`を追加する
     - `Model`や`Controller`の取得方法は下記を参照。
-        - [`Model`や`Controller`の取得方法](mdc:.cursor/rules/docs/state_management_usage.mdc)
-        - [`Model`の利用方法](mdc:.cursor/rules/docs/model_usage.mdc)
+        - `Model`や`Controller`の取得方法(`documents/rules/docs/state_management_usage.md`)
+        - `Model`の利用方法(`documents/rules/docs/model_usage.md`)
     - 例：
         ```dart
         // TODO: Implement the variable loading process.

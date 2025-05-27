@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of technology_stack.mdc.
+/// Contents of technology_stack.md.
 ///
-/// technology_stack.mdcの中身。
-class TechnologyStackDocsMdcCliAiCode extends CliAiCode {
-  /// Contents of technology_stack.mdc.
+/// technology_stack.mdの中身。
+class TechnologyStackDocsMdCliAiCode extends CliAiCode {
+  /// Contents of technology_stack.md.
   ///
-  /// technology_stack.mdcの中身。
-  const TechnologyStackDocsMdcCliAiCode();
+  /// technology_stack.mdの中身。
+  const TechnologyStackDocsMdCliAiCode();
 
   @override
   String get name => "技術スタック";

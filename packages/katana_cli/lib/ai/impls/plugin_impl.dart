@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of plugin_impl.mdc.
+/// Contents of plugin_impl.md.
 ///
-/// plugin_impl.mdcの中身。
-class PluginImplMdcCliAiCode extends CliAiCode {
-  /// Contents of plugin_impl.mdc.
+/// plugin_impl.mdの中身。
+class PluginImplMdCliAiCode extends CliAiCode {
+  /// Contents of plugin_impl.md.
   ///
-  /// plugin_impl.mdcの中身。
-  const PluginImplMdcCliAiCode();
+  /// plugin_impl.mdの中身。
+  const PluginImplMdCliAiCode();
 
   @override
   String get name => "Pluginの実装";
@@ -25,10 +25,10 @@ class PluginImplMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[plugin_design.md](mdc:documents/designs/plugin_design.md)に記載されている`Plugin設計書`から`Plugin`を導入する方法
-[plugin_design.md](mdc:documents/designs/plugin_design.md)が存在しない場合は絶対に実施しない
+`documents/designs/plugin_design.md`に記載されている`Plugin設計書`から`Plugin`を導入する方法
+`documents/designs/plugin_design.md`が存在しない場合は絶対に実施しない
 
-1. [plugin_design.md](mdc:documents/designs/plugin_design.md)に記載されている`Plugin設計書`の各`Plugin`ごとに下記を実施
+1. `documents/designs/plugin_design.md`に記載されている`Plugin設計書`の各`Plugin`ごとに下記を実施
     - `Settings`に応じて`katana.yaml`を編集
 
       ```yaml

@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
-/// Contents of model_ref.mdc.
+/// Contents of model_ref.md.
 ///
-/// model_ref.mdcの中身。
-class ModelFieldValueModelRefMdcCliAiCode extends ModelFieldValueCliAiCode {
-  /// Contents of model_ref.mdc.
+/// model_ref.mdの中身。
+class ModelFieldValueModelRefMdCliAiCode extends ModelFieldValueCliAiCode {
+  /// Contents of model_ref.md.
   ///
-  /// model_ref.mdcの中身。
-  const ModelFieldValueModelRefMdcCliAiCode();
+  /// model_ref.mdの中身。
+  const ModelFieldValueModelRefMdCliAiCode();
 
   @override
   String get name => "`ModelRef`の利用方法";

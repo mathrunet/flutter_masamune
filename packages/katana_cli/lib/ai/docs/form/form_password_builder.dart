@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_password_builder.mdc.
+/// Contents of form_password_builder.md.
 ///
-/// form_password_builder.mdcの中身。
-class KatanaFormPasswordBuilderMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_password_builder.mdc.
+/// form_password_builder.mdの中身。
+class KatanaFormPasswordBuilderMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_password_builder.md.
   ///
-  /// form_password_builder.mdcの中身。
-  const KatanaFormPasswordBuilderMdcCliAiCode();
+  /// form_password_builder.mdの中身。
+  const KatanaFormPasswordBuilderMdCliAiCode();
 
   @override
   String get name => "`FormPasswordBuilder`の利用方法";

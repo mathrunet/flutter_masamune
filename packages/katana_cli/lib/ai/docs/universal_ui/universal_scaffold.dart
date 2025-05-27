@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/universal_ui_usage.dart';
 
-/// Contents of universal_scaffold.mdc.
+/// Contents of universal_scaffold.md.
 ///
-/// universal_scaffold.mdcの中身。
-class UniversalScaffoldMdcCliAiCode extends UniversalUiUsageCliAiCode {
-  /// Contents of universal_scaffold.mdc.
+/// universal_scaffold.mdの中身。
+class UniversalScaffoldMdCliAiCode extends UniversalUiUsageCliAiCode {
+  /// Contents of universal_scaffold.md.
   ///
-  /// universal_scaffold.mdcの中身。
-  const UniversalScaffoldMdcCliAiCode();
+  /// universal_scaffold.mdの中身。
+  const UniversalScaffoldMdCliAiCode();
 
   @override
   String get name => "`UniversalScaffold`の利用方法";

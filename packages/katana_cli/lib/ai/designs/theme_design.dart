@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of theme_design.mdc.
+/// Contents of theme_design.md.
 ///
-/// theme_design.mdcの中身。
-class ThemeDesignMdcCliAiCode extends CliAiCode {
-  /// Contents of theme_design.mdc.
+/// theme_design.mdの中身。
+class ThemeDesignMdCliAiCode extends CliAiCode {
+  /// Contents of theme_design.md.
   ///
-  /// theme_design.mdcの中身。
-  const ThemeDesignMdcCliAiCode();
+  /// theme_design.mdの中身。
+  const ThemeDesignMdCliAiCode();
 
   @override
   String get name => "`Theme設計書`の作成";
@@ -25,7 +25,7 @@ class ThemeDesignMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[requirements.md](mdc:requirements.md)に記載されている`要件定義`から`Theme設計書`を作成
+`requirements.md`に記載されている`要件定義`から`Theme設計書`を作成
 
 1. `要件定義`から`ColorMode`と`ColorScheme`を設定し`Theme設計書`を作成
     - `ColorMode`は下記から選択

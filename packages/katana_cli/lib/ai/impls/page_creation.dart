@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of page_creation.mdc.
+/// Contents of page_creation.md.
 ///
-/// page_creation.mdcの中身。
-class PageCreationMdcCliAiCode extends CliAiCode {
-  /// Contents of page_creation.mdc.
+/// page_creation.mdの中身。
+class PageCreationMdCliAiCode extends CliAiCode {
+  /// Contents of page_creation.md.
   ///
-  /// page_creation.mdcの中身。
-  const PageCreationMdcCliAiCode();
+  /// page_creation.mdの中身。
+  const PageCreationMdCliAiCode();
 
   @override
   String get name => "`Page`の作成";
@@ -25,8 +25,8 @@ class PageCreationMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[page_design.md](mdc:documents/designs/page_design.md)に記載されている`Page設計書`からDartコードを生成
-[page_design.md](mdc:documents/designs/page_design.md)が存在しない場合は絶対に実施しない
+`documents/designs/page_design.md`に記載されている`Page設計書`からDartコードを生成
+`documents/designs/page_design.md`が存在しない場合は絶対に実施しない
 
 `Page設計書`に記載されている各`Page`の`PageType`に応じてそれぞれ下記を実行
 

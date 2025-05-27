@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
-/// Contents of model_search.mdc.
+/// Contents of model_search.md.
 ///
-/// model_search.mdcの中身。
-class ModelFieldValueModelSearchMdcCliAiCode extends ModelFieldValueCliAiCode {
-  /// Contents of model_search.mdc.
+/// model_search.mdの中身。
+class ModelFieldValueModelSearchMdCliAiCode extends ModelFieldValueCliAiCode {
+  /// Contents of model_search.md.
   ///
-  /// model_search.mdcの中身。
-  const ModelFieldValueModelSearchMdcCliAiCode();
+  /// model_search.mdの中身。
+  const ModelFieldValueModelSearchMdCliAiCode();
 
   @override
   String get name => "`ModelSearch`の利用方法";

@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of metadata_design.mdc.
+/// Contents of metadata_design.md.
 ///
-/// metadata_design.mdcの中身。
-class MetadataDesignMdcCliAiCode extends CliAiCode {
-  /// Contents of metadata_design.mdc.
+/// metadata_design.mdの中身。
+class MetadataDesignMdCliAiCode extends CliAiCode {
+  /// Contents of metadata_design.md.
   ///
-  /// metadata_design.mdcの中身。
-  const MetadataDesignMdcCliAiCode();
+  /// metadata_design.mdの中身。
+  const MetadataDesignMdCliAiCode();
 
   @override
   String get name => "`MetaData設計書`の作成";
@@ -25,7 +25,7 @@ class MetadataDesignMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[requirements.md](mdc:requirements.md)に記載されている`要件定義`からアプリケーションに相応しい`MetaData設計書`を作成
+`requirements.md`に記載されている`要件定義`からアプリケーションに相応しい`MetaData設計書`を作成
 
 1. `要件定義`からアプリケーションに相応しい下記の`MetaData設計書`を作成
     - `MetaData`は下記を定義

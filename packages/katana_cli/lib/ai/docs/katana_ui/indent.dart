@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 
-/// Contents of indent.mdc.
+/// Contents of indent.md.
 ///
-/// indent.mdcの中身。
-class KatanaUIIndentMdcCliAiCode extends KatanaUiUsageCliAiCode {
-  /// Contents of indent.mdc.
+/// indent.mdの中身。
+class KatanaUIIndentMdCliAiCode extends KatanaUiUsageCliAiCode {
+  /// Contents of indent.md.
   ///
-  /// indent.mdcの中身。
-  const KatanaUIIndentMdcCliAiCode();
+  /// indent.mdの中身。
+  const KatanaUIIndentMdCliAiCode();
 
   @override
   String get name => "`Indent`の利用方法";

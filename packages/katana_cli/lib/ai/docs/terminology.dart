@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of terminology.mdc.
+/// Contents of terminology.md.
 ///
-/// terminology.mdcの中身。
-class TerminologyDocsMdcCliAiCode extends CliAiCode {
-  /// Contents of terminology.mdc.
+/// terminology.mdの中身。
+class TerminologyDocsMdCliAiCode extends CliAiCode {
+  /// Contents of terminology.md.
   ///
-  /// terminology.mdcの中身。
-  const TerminologyDocsMdcCliAiCode();
+  /// terminology.mdの中身。
+  const TerminologyDocsMdCliAiCode();
 
   @override
   String get name => "用語一覧";

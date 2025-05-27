@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of file_structure.mdc.
+/// Contents of file_structure.md.
 ///
-/// file_structure.mdcの中身。
-class FileStructureDocsMdcCliAiCode extends CliAiCode {
-  /// Contents of file_structure.mdc.
+/// file_structure.mdの中身。
+class FileStructureDocsMdCliAiCode extends CliAiCode {
+  /// Contents of file_structure.md.
   ///
-  /// file_structure.mdcの中身。
-  const FileStructureDocsMdcCliAiCode();
+  /// file_structure.mdの中身。
+  const FileStructureDocsMdCliAiCode();
 
   @override
   String get name => "ファイル・フォルダ構成";
@@ -31,27 +31,6 @@ class FileStructureDocsMdcCliAiCode extends CliAiCode {
 
 ```
 /
-├── .cursor/ # カーソルの設定ファイル
-│   └── rules/ # カーソルルールの設定ファイル
-│       ├── docs/ # Masamuneフレームワーク向けのドキュメントフォルダ
-│       │   ├── masamune.mdc # Masamuneフレームワーク向けのドキュメント
-│       │   └── ...
-│       ├── designs/ # 設計書用のフォルダ
-│       │   ├── model_design.mdc # Model設計書作成用のルール
-│       │   ├── theme_design.mdc # Theme設計書作成用のルール
-│       │   ├── metadata_design.mdc # MetaData設計書作成用のルール
-│       │   ├── plugin_design.mdc # Plugin設計書作成用のルール
-│       │   ├── controller_design.mdc # Controller設計書作成用のルール
-│       │   ├── page_design.mdc # Page設計書作成用のルール
-│       │   └── ...
-│       └── impls/ # 実装用のフォルダ
-│           ├── model_impl.mdc # Model実装用のルール
-│           ├── theme_impl.mdc # Theme実装用のルール
-│           ├── metadata_impl.mdc # MetaData実装用のルール
-│           ├── plugin_impl.mdc # Plugin実装用のルール
-│           ├── controller_impl.mdc # Controller実装用のルール
-│           ├── page_impl.mdc # Page実装用のルール
-│           └── ...
 ├── .github/ # Github向けの設定ファイル
 │   └── workflows/ # GithubActions用のワークフロー
 │       ├── build_android_[ApplicationID].yaml
@@ -100,6 +79,26 @@ class FileStructureDocsMdcCliAiCode extends CliAiCode {
 ├── fonts/ # フォントファイルの格納フォルダ
 │   └── ...
 ├── documents/ # 開発に関わるドキュメント類の格納フォルダ
+│   ├── rules/ # AI用のルール設定ファイル
+│   │   ├── docs/ # Masamuneフレームワーク向けのドキュメントフォルダ
+│   │   │   ├── masamune.md # Masamuneフレームワーク向けのドキュメント
+│   │   │   └── ...
+│   │   ├── designs/ # 設計書用のフォルダ
+│   │   │   ├── model_design.md # Model設計書作成用のルール
+│   │   │   ├── theme_design.md # Theme設計書作成用のルール
+│   │   │   ├── metadata_design.md # MetaData設計書作成用のルール
+│   │   │   ├── plugin_design.md # Plugin設計書作成用のルール
+│   │   │   ├── controller_design.md # Controller設計書作成用のルール
+│   │   │   ├── page_design.md # Page設計書作成用のルール
+│   │   │   └── ...
+│   │   └── impls/ # 実装用のフォルダ
+│   │       ├── model_impl.md # Model実装用のルール
+│   │       ├── theme_impl.md # Theme実装用のルール
+│   │       ├── metadata_impl.md # MetaData実装用のルール
+│   │       ├── plugin_impl.md # Plugin実装用のルール
+│   │       ├── controller_impl.md # Controller実装用のルール
+│   │       ├── page_impl.md # Page実装用のルール
+│   │       └── ...
 │   ├── store/ # ストア用の画像
 │   │   └── ...
 │   ├── designs/ # AIが出力する設計書を格納するフォルダ

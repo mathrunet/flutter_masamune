@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_focus_node_builder.mdc.
+/// Contents of form_focus_node_builder.md.
 ///
-/// form_focus_node_builder.mdcの中身。
-class KatanaFormFocusNodeBuilderMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_focus_node_builder.mdc.
+/// form_focus_node_builder.mdの中身。
+class KatanaFormFocusNodeBuilderMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_focus_node_builder.md.
   ///
-  /// form_focus_node_builder.mdcの中身。
-  const KatanaFormFocusNodeBuilderMdcCliAiCode();
+  /// form_focus_node_builder.mdの中身。
+  const KatanaFormFocusNodeBuilderMdCliAiCode();
 
   @override
   String get name => "`FormFocusNodeBuilder`の利用方法";

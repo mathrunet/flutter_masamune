@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of page_ui_impl.mdc.
+/// Contents of page_ui_impl.md.
 ///
-/// page_ui_impl.mdcの中身。
-class PageUiImplMdcCliAiCode extends CliAiCode {
-  /// Contents of page_ui_impl.mdc.
+/// page_ui_impl.mdの中身。
+class PageUiImplMdCliAiCode extends CliAiCode {
+  /// Contents of page_ui_impl.md.
   ///
-  /// page_ui_impl.mdcの中身。
-  const PageUiImplMdcCliAiCode();
+  /// page_ui_impl.mdの中身。
+  const PageUiImplMdCliAiCode();
 
   @override
   String get name => "`Page`のUI実装";
@@ -25,8 +25,8 @@ class PageUiImplMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[page_design.md](mdc:documents/designs/page_design.md)に記載されている`Page設計書`からDartコードを生成
-[page_design.md](mdc:documents/designs/page_design.md)が存在しない場合は絶対に実施しない
+`documents/designs/page_design.md`に記載されている`Page設計書`からDartコードを生成
+`documents/designs/page_design.md`が存在しない場合は絶対に実施しない
 
 `Page設計書`に記載されている各`Page`の`PageType`に応じてそれぞれ下記を実行
 
@@ -37,12 +37,12 @@ class PageUiImplMdcCliAiCode extends CliAiCode {
     - 適宜`import`を追加する
     - クラスに定義されている変数や`build`メソッド内で定義されている変数を利用する
     - 下記の`Widget`を優先的に利用する
-        - [`KatanaUI`の`Widget`](mdc:.cursor/rules/docs/katana_ui_usage.mdc)
-        - [`Flutter`の`Widget`](mdc:.cursor/rules/docs/flutter_widgets.mdc)
-        - [`Form`の`Widget`](mdc:.cursor/rules/docs/form_usage.mdc)
-        - [`Widget`の実装において実装された`Widget`](mdc:/lib/widgets)
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
-    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは[`Theme`の利用方法](mdc:.cursor/rules/docs/theme_usage.mdc)を参照
+        - `KatanaUI`の`Widget`(`documents/rules/docs/katana_ui_usage.md`)
+        - `Flutter`の`Widget`(`documents/rules/docs/flutter_widgets.md`)
+        - `Form`の`Widget`(`documents/rules/docs/form_usage.md`)
+        - `Widget`の実装において実装された`Widget`(`lib/widgets`)
+    - `Router`を用いて別画面への遷移を行う。詳しくは`documents/rules/docs/router_usage.md`を参照
+    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは`documents/rules/docs/theme_usage.md`を参照
     - 例：
         ```dart
         // TODO: Implement the view.
@@ -71,12 +71,12 @@ class PageUiImplMdcCliAiCode extends CliAiCode {
     - 適宜`import`を追加する
     - クラスに定義されている変数や`build`メソッド内で定義されている変数を利用する
     - 下記の`Widget`を優先的に利用する
-        - [`KatanaUI`の`Widget`](mdc:.cursor/rules/docs/katana_ui_usage.mdc)
-        - [`Flutter`の`Widget`](mdc:.cursor/rules/docs/flutter_widgets.mdc)
-        - [`Form`の`Widget`](mdc:.cursor/rules/docs/form_usage.mdc)
-        - [`Widget`の実装において実装された`Widget`](mdc:/lib/widgets)
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
-    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは[`Theme`の利用方法](mdc:.cursor/rules/docs/theme_usage.mdc)を参照
+        - `KatanaUI`の`Widget`(`documents/rules/docs/katana_ui_usage.md`)
+        - `Flutter`の`Widget`(`documents/rules/docs/flutter_widgets.md`)
+        - `Form`の`Widget`(`documents/rules/docs/form_usage.md`)
+        - `Widget`の実装において実装された`Widget`(`lib/widgets`)
+    - `Router`を用いて別画面への遷移を行う。詳しくは`documents/rules/docs/router_usage.md`を参照
+    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは`documents/rules/docs/theme_usage.md`を参照
     - 例：
         ```dart
         // TODO: Implement the view.
@@ -105,12 +105,12 @@ class PageUiImplMdcCliAiCode extends CliAiCode {
     - 適宜`import`を追加する
     - クラスに定義されている変数や`build`メソッド内で定義されている変数を利用する
     - 下記の`Widget`を優先的に利用する
-        - [`KatanaUI`の`Widget`](mdc:.cursor/rules/docs/katana_ui_usage.mdc)
-        - [`Flutter`の`Widget`](mdc:.cursor/rules/docs/flutter_widgets.mdc)
-        - [`Form`の`Widget`](mdc:.cursor/rules/docs/form_usage.mdc)
-        - [`Widget`の実装において実装された`Widget`](mdc:/lib/widgets)
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
-    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは[`Theme`の利用方法](mdc:.cursor/rules/docs/theme_usage.mdc)を参照
+        - `KatanaUI`の`Widget`(`documents/rules/docs/katana_ui_usage.md`)
+        - `Flutter`の`Widget`(`documents/rules/docs/flutter_widgets.md`)
+        - `Form`の`Widget`(`documents/rules/docs/form_usage.md`)
+        - `Widget`の実装において実装された`Widget`(`lib/widgets`)
+    - `Router`を用いて別画面への遷移を行う。詳しくは`documents/rules/docs/router_usage.md`を参照
+    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは`documents/rules/docs/theme_usage.md`を参照
     - 例：
         ```dart
         // TODO: Implement the view.
@@ -139,12 +139,12 @@ class PageUiImplMdcCliAiCode extends CliAiCode {
     - 適宜`import`を追加する
     - クラスに定義されている変数や`build`メソッド内で定義されている変数を利用する
     - 下記の`Widget`を優先的に利用する
-        - [`KatanaUI`の`Widget`](mdc:.cursor/rules/docs/katana_ui_usage.mdc)
-        - [`Flutter`の`Widget`](mdc:.cursor/rules/docs/flutter_widgets.mdc)
-        - [`Form`の`Widget`](mdc:.cursor/rules/docs/form_usage.mdc)
-        - [`Widget`の実装において実装された`Widget`](mdc:/lib/widgets)
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
-    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは[`Theme`の利用方法](mdc:.cursor/rules/docs/theme_usage.mdc)を参照
+        - `KatanaUI`の`Widget`(`documents/rules/docs/katana_ui_usage.md`)
+        - `Flutter`の`Widget`(`documents/rules/docs/flutter_widgets.md`)
+        - `Form`の`Widget`(`documents/rules/docs/form_usage.md`)
+        - `Widget`の実装において実装された`Widget`(`lib/widgets`)
+    - `Router`を用いて別画面への遷移を行う。詳しくは`documents/rules/docs/router_usage.md`を参照
+    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは`documents/rules/docs/theme_usage.md`を参照
     - 例：
         ```dart
         // TODO: Implement the view.
@@ -184,12 +184,12 @@ class PageUiImplMdcCliAiCode extends CliAiCode {
     - 適宜`import`を追加する
     - クラスに定義されている変数や`build`メソッド内で定義されている変数を利用する
     - 下記の`Widget`を優先的に利用する
-        - [`KatanaUI`の`Widget`](mdc:.cursor/rules/docs/katana_ui_usage.mdc)
-        - [`Flutter`の`Widget`](mdc:.cursor/rules/docs/flutter_widgets.mdc)
-        - [`Form`の`Widget`](mdc:.cursor/rules/docs/form_usage.mdc)
-        - [`Widget`の実装において実装された`Widget`](mdc:/lib/widgets)
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
-    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは[`Theme`の利用方法](mdc:.cursor/rules/docs/theme_usage.mdc)を参照
+        - `KatanaUI`の`Widget`(`documents/rules/docs/katana_ui_usage.md`)
+        - `Flutter`の`Widget`(`documents/rules/docs/flutter_widgets.md`)
+        - `Form`の`Widget`(`documents/rules/docs/form_usage.md`)
+        - `Widget`の実装において実装された`Widget`(`lib/widgets`)
+    - `Router`を用いて別画面への遷移を行う。詳しくは`documents/rules/docs/router_usage.md`を参照
+    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは`documents/rules/docs/theme_usage.md`を参照
     - 例：
         ```dart
         // TODO: Implement the view.
@@ -237,12 +237,12 @@ class PageUiImplMdcCliAiCode extends CliAiCode {
     - 適宜`import`を追加する
     - クラスに定義されている変数や`build`メソッド内で定義されている変数を利用する
     - 下記の`Widget`を優先的に利用する
-        - [`KatanaUI`の`Widget`](mdc:.cursor/rules/docs/katana_ui_usage.mdc)
-        - [`Flutter`の`Widget`](mdc:.cursor/rules/docs/flutter_widgets.mdc)
-        - [`Form`の`Widget`](mdc:.cursor/rules/docs/form_usage.mdc)
-        - [`Widget`の実装において実装された`Widget`](mdc:/lib/widgets)
-    - `Router`を用いて別画面への遷移を行う。詳しくは[`Router`の利用方法](mdc:.cursor/rules/docs/router_usage.mdc)を参照
-    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは[`Theme`の利用方法](mdc:.cursor/rules/docs/theme_usage.mdc)を参照
+        - `KatanaUI`の`Widget`(`documents/rules/docs/katana_ui_usage.md`)
+        - `Flutter`の`Widget`(`documents/rules/docs/flutter_widgets.md`)
+        - `Form`の`Widget`(`documents/rules/docs/form_usage.md`)
+        - `Widget`の実装において実装された`Widget`(`lib/widgets`)
+    - `Router`を用いて別画面への遷移を行う。詳しくは`documents/rules/docs/router_usage.md`を参照
+    - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは`documents/rules/docs/theme_usage.md`を参照
     - 例：
         ```dart
         // TODO: Implement the view.

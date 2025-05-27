@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 
-/// Contents of periodic_scope.mdc.
+/// Contents of periodic_scope.md.
 ///
-/// periodic_scope.mdcの中身。
-class KatanaUIPeriodicScopeMdcCliAiCode extends KatanaUiUsageCliAiCode {
-  /// Contents of periodic_scope.mdc.
+/// periodic_scope.mdの中身。
+class KatanaUIPeriodicScopeMdCliAiCode extends KatanaUiUsageCliAiCode {
+  /// Contents of periodic_scope.md.
   ///
-  /// periodic_scope.mdcの中身。
-  const KatanaUIPeriodicScopeMdcCliAiCode();
+  /// periodic_scope.mdの中身。
+  const KatanaUIPeriodicScopeMdCliAiCode();
 
   @override
   String get name => "`PeriodicScope`の利用方法";

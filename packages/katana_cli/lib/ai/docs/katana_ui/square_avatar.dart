@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 
-/// Contents of square_avatar.mdc.
+/// Contents of square_avatar.md.
 ///
-/// square_avatar.mdcの中身。
-class KatanaUISquareAvatarMdcCliAiCode extends KatanaUiUsageCliAiCode {
-  /// Contents of square_avatar.mdc.
+/// square_avatar.mdの中身。
+class KatanaUISquareAvatarMdCliAiCode extends KatanaUiUsageCliAiCode {
+  /// Contents of square_avatar.md.
   ///
-  /// square_avatar.mdcの中身。
-  const KatanaUISquareAvatarMdcCliAiCode();
+  /// square_avatar.mdの中身。
+  const KatanaUISquareAvatarMdCliAiCode();
 
   @override
   String get name => "`SquareAvatar`の利用方法";

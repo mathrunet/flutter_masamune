@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of transition_usage.mdc.
+/// Contents of transition_usage.md.
 ///
-/// transition_usage.mdcの中身。
-class TransitionUsageMdcCliAiCode extends CliAiCode {
-  /// Contents of transition_usage.mdc.
+/// transition_usage.mdの中身。
+class TransitionUsageMdCliAiCode extends CliAiCode {
+  /// Contents of transition_usage.md.
   ///
-  /// transition_usage.mdcの中身。
-  const TransitionUsageMdcCliAiCode();
+  /// transition_usage.mdの中身。
+  const TransitionUsageMdCliAiCode();
 
   @override
   String get name => "Router`による`Page`遷移時のトランジション利用方法";
@@ -25,7 +25,7 @@ class TransitionUsageMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[`Router`の利用](mdc:.cursor/rules/docs/router_usage.mdc)時に`Page`遷移時のトランジションを下記のように設定することが可能。
+`Router`の利用(`documents/rules/docs/router_usage.md`)時に`Page`遷移時のトランジションを下記のように設定することが可能。
 
 - `TransitionQuery.fullscreen`
     - フルスクリーン時のアニメーションで次のページを表示。

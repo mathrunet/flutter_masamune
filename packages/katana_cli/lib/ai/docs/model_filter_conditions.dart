@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of model_filter_conditions.mdc.
+/// Contents of model_filter_conditions.md.
 ///
-/// model_filter_conditions.mdcの中身。
-class ModelFilterConditionsMdcCliAiCode extends CliAiCode {
-  /// Contents of model_filter_conditions.mdc.
+/// model_filter_conditions.mdの中身。
+class ModelFilterConditionsMdCliAiCode extends CliAiCode {
+  /// Contents of model_filter_conditions.md.
   ///
-  /// model_filter_conditions.mdcの中身。
-  const ModelFilterConditionsMdcCliAiCode();
+  /// model_filter_conditions.mdの中身。
+  const ModelFilterConditionsMdCliAiCode();
 
   @override
   String get name => "`Collection`の`Model`のフィルター条件の利用方法";

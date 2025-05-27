@@ -1,15 +1,15 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
-/// Contents of model_timestamp.mdc.
+/// Contents of model_timestamp.md.
 ///
-/// model_timestamp.mdcの中身。
-class ModelFieldValueModelTimestampMdcCliAiCode
+/// model_timestamp.mdの中身。
+class ModelFieldValueModelTimestampMdCliAiCode
     extends ModelFieldValueCliAiCode {
-  /// Contents of model_timestamp.mdc.
+  /// Contents of model_timestamp.md.
   ///
-  /// model_timestamp.mdcの中身。
-  const ModelFieldValueModelTimestampMdcCliAiCode();
+  /// model_timestamp.mdの中身。
+  const ModelFieldValueModelTimestampMdCliAiCode();
 
   @override
   String get name => "`ModelTimestamp`の利用方法";

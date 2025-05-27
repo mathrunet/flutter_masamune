@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of picker.mdc.
+/// Contents of picker.md.
 ///
-/// picker.mdcの中身。
-class PluginPickerMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of picker.mdc.
+/// picker.mdの中身。
+class PluginPickerMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of picker.md.
   ///
-  /// picker.mdcの中身。
-  const PluginPickerMdcCliAiCode();
+  /// picker.mdの中身。
+  const PluginPickerMdCliAiCode();
 
   @override
   String get name => "ファイルピッカー";

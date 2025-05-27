@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_editable_toggle_builder.mdc.
+/// Contents of form_editable_toggle_builder.md.
 ///
-/// form_editable_toggle_builder.mdcの中身。
-class KatanaFormEditableToggleBuilderMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_editable_toggle_builder.mdc.
+/// form_editable_toggle_builder.mdの中身。
+class KatanaFormEditableToggleBuilderMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_editable_toggle_builder.md.
   ///
-  /// form_editable_toggle_builder.mdcの中身。
-  const KatanaFormEditableToggleBuilderMdcCliAiCode();
+  /// form_editable_toggle_builder.mdの中身。
+  const KatanaFormEditableToggleBuilderMdCliAiCode();
 
   @override
   String get name => "`FormEditableToggleBuilder`の利用方法";

@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_month_field.mdc.
+/// Contents of form_month_field.md.
 ///
-/// form_month_field.mdcの中身。
-class KatanaFormMonthFieldMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_month_field.mdc.
+/// form_month_field.mdの中身。
+class KatanaFormMonthFieldMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_month_field.md.
   ///
-  /// form_month_field.mdcの中身。
-  const KatanaFormMonthFieldMdcCliAiCode();
+  /// form_month_field.mdの中身。
+  const KatanaFormMonthFieldMdCliAiCode();
 
   @override
   String get name => "`FormMonthField`の利用方法";

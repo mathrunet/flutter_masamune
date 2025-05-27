@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_multi_media.mdc.
+/// Contents of form_multi_media.md.
 ///
-/// form_multi_media.mdcの中身。
-class KatanaFormMultiMediaMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_multi_media.mdc.
+/// form_multi_media.mdの中身。
+class KatanaFormMultiMediaMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_multi_media.md.
   ///
-  /// form_multi_media.mdcの中身。
-  const KatanaFormMultiMediaMdcCliAiCode();
+  /// form_multi_media.mdの中身。
+  const KatanaFormMultiMediaMdCliAiCode();
 
   @override
   String get name => "`FormMultiMedia`の利用方法";

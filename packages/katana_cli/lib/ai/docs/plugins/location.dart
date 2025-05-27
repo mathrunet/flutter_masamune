@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of location.mdc.
+/// Contents of location.md.
 ///
-/// location.mdcの中身。
-class PluginLocationMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of location.mdc.
+/// location.mdの中身。
+class PluginLocationMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of location.md.
   ///
-  /// location.mdcの中身。
-  const PluginLocationMdcCliAiCode();
+  /// location.mdの中身。
+  const PluginLocationMdCliAiCode();
 
   @override
   String get name => "位置情報";

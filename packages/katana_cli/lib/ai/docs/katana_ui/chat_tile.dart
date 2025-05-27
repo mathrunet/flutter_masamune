@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 
-/// Contents of chat_tile.mdc.
+/// Contents of chat_tile.md.
 ///
-/// chat_tile.mdcの中身。
-class KatanaUIChatTileMdcCliAiCode extends KatanaUiUsageCliAiCode {
-  /// Contents of chat_tile.mdc.
+/// chat_tile.mdの中身。
+class KatanaUIChatTileMdCliAiCode extends KatanaUiUsageCliAiCode {
+  /// Contents of chat_tile.md.
   ///
-  /// chat_tile.mdcの中身。
-  const KatanaUIChatTileMdcCliAiCode();
+  /// chat_tile.mdの中身。
+  const KatanaUIChatTileMdCliAiCode();
 
   @override
   String get name => "`ChatTile`の利用方法";

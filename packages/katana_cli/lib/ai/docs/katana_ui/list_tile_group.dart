@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 
-/// Contents of list_tile_group.mdc.
+/// Contents of list_tile_group.md.
 ///
-/// list_tile_group.mdcの中身。
-class KatanaUIListTileGroupMdcCliAiCode extends KatanaUiUsageCliAiCode {
-  /// Contents of list_tile_group.mdc.
+/// list_tile_group.mdの中身。
+class KatanaUIListTileGroupMdCliAiCode extends KatanaUiUsageCliAiCode {
+  /// Contents of list_tile_group.md.
   ///
-  /// list_tile_group.mdcの中身。
-  const KatanaUIListTileGroupMdcCliAiCode();
+  /// list_tile_group.mdの中身。
+  const KatanaUIListTileGroupMdCliAiCode();
 
   @override
   String get name => "`ListTileGroup`の利用方法";

@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/universal_ui_usage.dart';
 
-/// Contents of universal_padding.mdc.
+/// Contents of universal_padding.md.
 ///
-/// universal_padding.mdcの中身。
-class UniversalPaddingMdcCliAiCode extends UniversalUiUsageCliAiCode {
-  /// Contents of universal_padding.mdc.
+/// universal_padding.mdの中身。
+class UniversalPaddingMdCliAiCode extends UniversalUiUsageCliAiCode {
+  /// Contents of universal_padding.md.
   ///
-  /// universal_padding.mdcの中身。
-  const UniversalPaddingMdcCliAiCode();
+  /// universal_padding.mdの中身。
+  const UniversalPaddingMdCliAiCode();
 
   @override
   String get name => "`UniversalPadding`の利用方法";

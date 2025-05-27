@@ -206,7 +206,7 @@ abstract class CliAiCodeGroup extends CliAiCode {
   String body(String baseName, String className) {
     return children
         .toList((key, value) =>
-            "- [${value.name}](mdc:.cursor/rules/${key.replaceAll("/${key.last()}", "")}")
+            "- [${value.name}](`documents/rules/${key.replaceAll("/${key.last()}", "")}.md`)")
         .join("\n");
   }
 }
@@ -245,29 +245,28 @@ abstract class CliAiCode {
   /// 実際の本体コードを定義します。[path]に`lib`からの相対パス、[baseName]にファイル名が渡され、[className]にファイル名をパスカルケースに変換した値が渡されます。
   String body(String baseName, String className);
 
-  /// Generate mdc code in [path].
+  /// Generate md code in [path].
   ///
   /// You can edit the data inside with [filter].
   ///
-  /// [path]にmdcコードを生成します。
+  /// [path]にmdコードを生成します。
   ///
   /// [filter]で中身のデータを編集することができます。
   Future<void> generateAiCode(
     String path, {
-    String ext = "mdc",
+    String ext = "md",
     String Function(String value)? filter,
   }) async {
     final baseName = path.last();
     final editClassName = path.split("/").distinct().join("_").toPascalCase();
     final dir =
-        Directory(".cursor/rules/${directory.isEmpty ? "" : "/$directory/"}");
+        Directory("documents/rules/${directory.isEmpty ? "" : "/$directory/"}");
     if (!dir.existsSync()) {
       await dir.create(recursive: true);
     }
-    final output =
-        "---\ndescription: $description\nglobs: $globs\n---\n# $name\n\n${body(baseName, editClassName)}";
+    final output = "# $name\n\n${body(baseName, editClassName)}";
     await File(
-            ".cursor/rules/${directory.isEmpty ? "" : "/$directory/"}$path.$ext")
+            "documents/rules/${directory.isEmpty ? "" : "/$directory/"}$path.$ext")
         .writeAsString(filter?.call(output) ?? output);
   }
 }

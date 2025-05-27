@@ -18,28 +18,28 @@ import 'package:katana_cli/katana_cli.dart';
 ///
 /// KatanaUIタイプのリスト。
 const kKatanaUiList = {
-  "AvatarTile": KatanaUIAvatarTileMdcCliAiCode(),
-  "CardTile": KatanaUICardTileMdcCliAiCode(),
-  "ChatTile": KatanaUIChatTileMdcCliAiCode(),
-  "Indent": KatanaUIIndentMdcCliAiCode(),
-  "Label": KatanaUILabelMdcCliAiCode(),
-  "LineTile": KatanaUILineTileMdcCliAiCode(),
-  "ListTileGroup": KatanaUIListTileGroupMdcCliAiCode(),
-  "LoadingBuilder": KatanaUILoadingBuilderMdcCliAiCode(),
-  "MessageBox": KatanaUIMessageBoxMdcCliAiCode(),
-  "PeriodicScope": KatanaUIPeriodicScopeMdcCliAiCode(),
-  "ScrollBuilder": KatanaUIScrollBuilderMdcCliAiCode(),
-  "Shimmer": KatanaUIShimmerMdcCliAiCode(),
-  "SquareAvatar": KatanaUISquareAvatarMdcCliAiCode(),
+  "AvatarTile": KatanaUIAvatarTileMdCliAiCode(),
+  "CardTile": KatanaUICardTileMdCliAiCode(),
+  "ChatTile": KatanaUIChatTileMdCliAiCode(),
+  "Indent": KatanaUIIndentMdCliAiCode(),
+  "Label": KatanaUILabelMdCliAiCode(),
+  "LineTile": KatanaUILineTileMdCliAiCode(),
+  "ListTileGroup": KatanaUIListTileGroupMdCliAiCode(),
+  "LoadingBuilder": KatanaUILoadingBuilderMdCliAiCode(),
+  "MessageBox": KatanaUIMessageBoxMdCliAiCode(),
+  "PeriodicScope": KatanaUIPeriodicScopeMdCliAiCode(),
+  "ScrollBuilder": KatanaUIScrollBuilderMdCliAiCode(),
+  "Shimmer": KatanaUIShimmerMdCliAiCode(),
+  "SquareAvatar": KatanaUISquareAvatarMdCliAiCode(),
 };
 
-/// Contents of katana_ui_usage.mdc.
+/// Contents of katana_ui_usage.md.
 ///
-/// katana_ui_usage.mdcの中身。
+/// katana_ui_usage.mdの中身。
 abstract class KatanaUiUsageCliAiCode extends CliAiCode {
-  /// Contents of katana_ui_usage.mdc.
+  /// Contents of katana_ui_usage.md.
   ///
-  /// katana_ui_usage.mdcの中身。
+  /// katana_ui_usage.mdの中身。
   const KatanaUiUsageCliAiCode();
 
   /// Excerpt of the katana ui.
@@ -48,14 +48,14 @@ abstract class KatanaUiUsageCliAiCode extends CliAiCode {
   String get excerpt;
 }
 
-/// Contents of katana_ui_usage.mdc.
+/// Contents of katana_ui_usage.md.
 ///
-/// katana_ui_usage.mdcの中身。
-class KatanaUiUsageMdcCliAiCode extends CliAiCode {
-  /// Contents of katana_ui_usage.mdc.
+/// katana_ui_usage.mdの中身。
+class KatanaUiUsageMdCliAiCode extends CliAiCode {
+  /// Contents of katana_ui_usage.md.
   ///
-  /// katana_ui_usage.mdcの中身。
-  const KatanaUiUsageMdcCliAiCode();
+  /// katana_ui_usage.mdの中身。
+  const KatanaUiUsageMdCliAiCode();
 
   @override
   String get name => "`KatanaUI`の一覧とその利用方法";
@@ -81,7 +81,7 @@ class KatanaUiUsageMdcCliAiCode extends CliAiCode {
 """;
     for (final entry in kKatanaUiList.entries) {
       header +=
-          "| `${entry.key}` | ${entry.value.excerpt} | [Usage](mdc:.cursor/rules/katana_ui/${entry.key.toSnakeCase()}.mdc) |\n";
+          "| `${entry.key}` | ${entry.value.excerpt} | Usage(`documents/rules/katana_ui/${entry.key.toSnakeCase()}.md`) |\n";
     }
     return header;
   }

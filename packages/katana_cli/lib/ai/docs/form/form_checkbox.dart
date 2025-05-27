@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_checkbox.mdc.
+/// Contents of form_checkbox.md.
 ///
-/// form_checkbox.mdcの中身。
-class KatanaFormCheckboxMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_checkbox.mdc.
+/// form_checkbox.mdの中身。
+class KatanaFormCheckboxMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_checkbox.md.
   ///
-  /// form_checkbox.mdcの中身。
-  const KatanaFormCheckboxMdcCliAiCode();
+  /// form_checkbox.mdの中身。
+  const KatanaFormCheckboxMdCliAiCode();
 
   @override
   String get name => "`FormCheckbox`の利用方法";

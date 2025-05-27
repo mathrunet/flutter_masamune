@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
 
-/// Contents of shimmer.mdc.
+/// Contents of shimmer.md.
 ///
-/// shimmer.mdcの中身。
-class KatanaUIShimmerMdcCliAiCode extends KatanaUiUsageCliAiCode {
-  /// Contents of shimmer.mdc.
+/// shimmer.mdの中身。
+class KatanaUIShimmerMdCliAiCode extends KatanaUiUsageCliAiCode {
+  /// Contents of shimmer.md.
   ///
-  /// shimmer.mdcの中身。
-  const KatanaUIShimmerMdcCliAiCode();
+  /// shimmer.mdの中身。
+  const KatanaUIShimmerMdCliAiCode();
 
   @override
   String get name => "`Shimmer`の利用方法";

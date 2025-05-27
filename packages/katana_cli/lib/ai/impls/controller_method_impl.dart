@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of controller_impl.mdc.
+/// Contents of controller_impl.md.
 ///
-/// controller_impl.mdcの中身。
-class ControllerImplMdcCliAiCode extends CliAiCode {
-  /// Contents of controller_impl.mdc.
+/// controller_impl.mdの中身。
+class ControllerImplMdCliAiCode extends CliAiCode {
+  /// Contents of controller_impl.md.
   ///
-  /// controller_impl.mdcの中身。
-  const ControllerImplMdcCliAiCode();
+  /// controller_impl.mdの中身。
+  const ControllerImplMdCliAiCode();
 
   @override
   String get name => "`Controller`のメソッドの実装";
@@ -25,8 +25,8 @@ class ControllerImplMdcCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-[controller_design.md](mdc:documents/designs/controller_design.md)に記載されている`Controller設計書`と`lib/controllers`に作成されているDartファイルを参照してすでに定義されている`Controller`のメソッドの中身を実装
-[controller_design.md](mdc:documents/designs/controller_design.md)が存在しない場合は絶対に実施しない
+`documents/designs/controller_design.md`に記載されている`Controller設計書`と`lib/controllers`に作成されているDartファイルを参照してすでに定義されている`Controller`のメソッドの中身を実装
+`documents/designs/controller_design.md`が存在しない場合は絶対に実施しない
 
 1. 対象のDartファイル（`lib/controllers`以下に[ControllerName(SnakeCase&末尾のPageを取り除く)].dart）を開く
 2. `Controller設計書`の`Methods`に記載されているメソッドを内容に応じて実装。

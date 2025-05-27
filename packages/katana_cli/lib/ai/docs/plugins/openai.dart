@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of openai.mdc.
+/// Contents of openai.md.
 ///
-/// openai.mdcの中身。
-class PluginOpenAiMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of openai.mdc.
+/// openai.mdの中身。
+class PluginOpenAiMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of openai.md.
   ///
-  /// openai.mdcの中身。
-  const PluginOpenAiMdcCliAiCode();
+  /// openai.mdの中身。
+  const PluginOpenAiMdCliAiCode();
 
   @override
   String get name => "ChatGPT";

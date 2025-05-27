@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/model_field_value_usage.dart';
 
-/// Contents of model_token.mdc.
+/// Contents of model_token.md.
 ///
-/// model_token.mdcの中身。
-class ModelFieldValueModelTokenMdcCliAiCode extends ModelFieldValueCliAiCode {
-  /// Contents of model_token.mdc.
+/// model_token.mdの中身。
+class ModelFieldValueModelTokenMdCliAiCode extends ModelFieldValueCliAiCode {
+  /// Contents of model_token.md.
   ///
-  /// model_token.mdcの中身。
-  const ModelFieldValueModelTokenMdcCliAiCode();
+  /// model_token.mdの中身。
+  const ModelFieldValueModelTokenMdCliAiCode();
 
   @override
   String get name => "`ModelToken`の利用方法";

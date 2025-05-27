@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_map_dropdown_field.mdc.
+/// Contents of form_map_dropdown_field.md.
 ///
-/// form_map_dropdown_field.mdcの中身。
-class KatanaFormMapDropdownFieldMdcCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_map_dropdown_field.mdc.
+/// form_map_dropdown_field.mdの中身。
+class KatanaFormMapDropdownFieldMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_map_dropdown_field.md.
   ///
-  /// form_map_dropdown_field.mdcの中身。
-  const KatanaFormMapDropdownFieldMdcCliAiCode();
+  /// form_map_dropdown_field.mdの中身。
+  const KatanaFormMapDropdownFieldMdCliAiCode();
 
   @override
   String get name => "`FormMapDropdownField`の利用方法";

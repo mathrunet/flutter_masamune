@@ -21,31 +21,31 @@ import 'package:katana_cli/katana_cli.dart';
 ///
 /// Pluginタイプのリスト。
 const kPluginList = {
-  "ads": PluginAdsMdcCliAiCode(),
-  "agora": PluginAgoraMdcCliAiCode(),
-  "animate": PluginAnimateMdcCliAiCode(),
-  "calendar": PluginCalendarMdcCliAiCode(),
-  "camera": PluginCameraMdcCliAiCode(),
-  "google_map": PluginGoogleMapMdcCliAiCode(),
-  "introduction": PluginIntroductionMdcCliAiCode(),
-  "local_notification": PluginLocalNotificationMdcCliAiCode(),
-  "location": PluginLocationMdcCliAiCode(),
-  "openai": PluginOpenAiMdcCliAiCode(),
-  "picker": PluginPickerMdcCliAiCode(),
-  "purchase": PluginPurchaseMdcCliAiCode(),
-  "sendgrid": PluginSendgridMdcCliAiCode(),
-  "speech_to_text": PluginSpeechToTextMdcCliAiCode(),
-  "stripe": PluginStripeMdcCliAiCode(),
-  "text_to_speech": PluginTextToSpeechMdcCliAiCode(),
+  "ads": PluginAdsMdCliAiCode(),
+  "agora": PluginAgoraMdCliAiCode(),
+  "animate": PluginAnimateMdCliAiCode(),
+  "calendar": PluginCalendarMdCliAiCode(),
+  "camera": PluginCameraMdCliAiCode(),
+  "google_map": PluginGoogleMapMdCliAiCode(),
+  "introduction": PluginIntroductionMdCliAiCode(),
+  "local_notification": PluginLocalNotificationMdCliAiCode(),
+  "location": PluginLocationMdCliAiCode(),
+  "openai": PluginOpenAiMdCliAiCode(),
+  "picker": PluginPickerMdCliAiCode(),
+  "purchase": PluginPurchaseMdCliAiCode(),
+  "sendgrid": PluginSendgridMdCliAiCode(),
+  "speech_to_text": PluginSpeechToTextMdCliAiCode(),
+  "stripe": PluginStripeMdCliAiCode(),
+  "text_to_speech": PluginTextToSpeechMdCliAiCode(),
 };
 
-/// Contents of plugin_usage.mdc.
+/// Contents of plugin_usage.md.
 ///
-/// plugin_usage.mdcの中身。
+/// plugin_usage.mdの中身。
 abstract class PluginUsageCliAiCode extends CliAiCode {
-  /// Contents of katana_ui_usage.mdc.
+  /// Contents of katana_ui_usage.md.
   ///
-  /// plugin_usage.mdcの中身。
+  /// plugin_usage.mdの中身。
   const PluginUsageCliAiCode();
 
   /// Excerpt of the katana ui.
@@ -54,14 +54,14 @@ abstract class PluginUsageCliAiCode extends CliAiCode {
   String get excerpt;
 }
 
-/// Contents of plugin_usage.mdc.
+/// Contents of plugin_usage.md.
 ///
-/// plugin_usage.mdcの中身。
-class PluginUsageMdcCliAiCode extends CliAiCode {
-  /// Contents of plugin_usage.mdc.
+/// plugin_usage.mdの中身。
+class PluginUsageMdCliAiCode extends CliAiCode {
+  /// Contents of plugin_usage.md.
   ///
-  /// plugin_usage.mdcの中身。
-  const PluginUsageMdcCliAiCode();
+  /// plugin_usage.mdの中身。
+  const PluginUsageMdCliAiCode();
 
   @override
   String get name => "`Plugin`の一覧とその利用方法";
@@ -87,7 +87,7 @@ class PluginUsageMdcCliAiCode extends CliAiCode {
 """;
     for (final entry in kPluginList.entries) {
       header +=
-          "| `${entry.key} | ${entry.value.name} | ${entry.value.excerpt} | [Usage](mdc:.cursor/rules/plugin/${entry.key.toSnakeCase()}.mdc) |\n";
+          "| `${entry.key} | ${entry.value.name} | ${entry.value.excerpt} | Usage(`documents/rules/plugin/${entry.key.toSnakeCase()}.md`) |\n";
     }
     return header;
   }

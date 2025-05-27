@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/plugin_usage.dart';
 
-/// Contents of calendar.mdc.
+/// Contents of calendar.md.
 ///
-/// calendar.mdcの中身。
-class PluginCalendarMdcCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of calendar.mdc.
+/// calendar.mdの中身。
+class PluginCalendarMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of calendar.md.
   ///
-  /// calendar.mdcの中身。
-  const PluginCalendarMdcCliAiCode();
+  /// calendar.mdの中身。
+  const PluginCalendarMdCliAiCode();
 
   @override
   String get name => "カレンダー";
