@@ -152,18 +152,19 @@ class FormMarkdownField<TValue> extends FormField<String> {
             final FormMarkdownFieldState<TValue> state =
                 field as FormMarkdownFieldState<TValue>;
             final context = state.context;
+            final theme = Theme.of(context);
+            final defaultStyles = DefaultStyles.getInstance(context);
 
             final mainTextStyle = style?.textStyle?.copyWith(
                   color: style.color,
                 ) ??
-                Theme.of(context).textTheme.displaySmall?.copyWith(
-                      color: style?.color ??
-                          Theme.of(context).textTheme.displaySmall?.color,
-                    ) ??
+                theme.textTheme.bodyMedium?.copyWith(
+                  color: style?.color ?? theme.textTheme.bodyMedium?.color,
+                ) ??
                 TextStyle(
                   color: style?.color ??
-                      Theme.of(context).textTheme.displaySmall?.color ??
-                      Theme.of(context).textTheme.displaySmall?.color,
+                      theme.textTheme.bodyMedium?.color ??
+                      theme.textTheme.bodyMedium?.color,
                 );
             final subTextStyle = style?.textStyle?.copyWith(
                   color: style.subColor,
@@ -171,24 +172,14 @@ class FormMarkdownField<TValue> extends FormField<String> {
                 TextStyle(
                   color: style?.subColor ??
                       style?.color?.withValues(alpha: 0.5) ??
-                      Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.color
-                          ?.withValues(alpha: 0.5),
+                      theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.5),
                 );
-            final errorTextStyle = style?.errorTextStyle?.copyWith(
-                  color: style.errorColor,
-                ) ??
-                style?.textStyle?.copyWith(
-                  color: style.errorColor,
-                ) ??
-                TextStyle(
-                  color:
-                      style?.errorColor ?? Theme.of(context).colorScheme.error,
-                );
-            final borderColor =
-                style?.borderColor ?? Theme.of(context).dividerColor;
+            final linkTextStyle = TextStyle(
+              color: style?.activeColor ?? theme.colorScheme.primary,
+              decoration: TextDecoration.underline,
+              decorationColor: style?.activeColor ?? theme.colorScheme.primary,
+            );
+            final borderColor = style?.borderColor ?? theme.dividerColor;
 
             return FormStyleContainer(
               form: form,
@@ -220,6 +211,72 @@ class FormMarkdownField<TValue> extends FormField<String> {
                   textCapitalization: textCapitalization,
                   textInputAction: textInputAction,
                   enableInteractiveSelection: enableInteractiveSelection,
+                  customStyles: defaultStyles.merge(
+                    DefaultStyles(
+                      color: mainTextStyle.color,
+                      link: linkTextStyle,
+                      inlineCode: InlineCodeStyle(
+                        style: mainTextStyle.copyWith(
+                          fontSize: mainTextStyle.fontSize! * 0.8,
+                        ),
+                        header1: defaultStyles.inlineCode?.header1,
+                        header2: defaultStyles.inlineCode?.header2,
+                        header3: defaultStyles.inlineCode?.header3,
+                        header4: defaultStyles.inlineCode?.header4,
+                        header5: defaultStyles.inlineCode?.header5,
+                        header6: defaultStyles.inlineCode?.header6,
+                        backgroundColor: style?.subBackgroundColor ??
+                            theme.colorScheme.surface,
+                        radius: Radius.circular(4),
+                      ),
+                      code: defaultStyles.code?.copyWith(
+                        style: mainTextStyle,
+                        verticalSpacing: VerticalSpacing(12, 6),
+                        decoration: BoxDecoration(
+                          color: style?.subBackgroundColor ??
+                              theme.colorScheme.surface,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      placeHolder: defaultStyles.placeHolder?.copyWith(
+                        style: subTextStyle,
+                      ),
+                      lists: defaultStyles.lists?.copyWith(
+                        style: mainTextStyle,
+                        indentWidthBuilder:
+                            (block, context, count, numberPointWidthDelegate) {
+                          final res = TextBlockUtils.defaultIndentWidthBuilder(
+                              block, context, count, numberPointWidthDelegate);
+
+                          final attrs = block.style.attributes;
+                          if (attrs[Attribute.list.key] == Attribute.ul) {
+                            return HorizontalSpacing(
+                                (res.left - (mainTextStyle.fontSize ?? 14.0))
+                                    .limitLow(0),
+                                0);
+                          }
+                          return HorizontalSpacing(
+                              (res.left -
+                                      (mainTextStyle.fontSize ?? 14.0) / 2.0)
+                                  .limitLow(0),
+                              0);
+                        },
+                      ),
+                      quote: defaultStyles.quote?.copyWith(
+                        style: mainTextStyle,
+                        verticalSpacing: VerticalSpacing(12, 6),
+                        lineSpacing: VerticalSpacing(0, 0),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            left: BorderSide(
+                              color: borderColor,
+                              width: 4,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             );
