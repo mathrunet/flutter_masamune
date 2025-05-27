@@ -155,7 +155,7 @@ class _MasamuneModelShouldShowIndicatorWhileLoading extends DartLintRule {
       switch (type) {
         case "UniversalScaffold":
           final targetNode = node.argumentList.arguments.firstWhereOrNull(
-            (item) => item.staticParameterElement?.name == "loadingFutures",
+            (item) => item.correspondingParameter?.name3 == "loadingFutures",
           );
           if (targetNode is! NamedExpression) {
             return;
@@ -181,7 +181,7 @@ class _MasamuneModelShouldShowIndicatorWhileLoading extends DartLintRule {
           break;
         case "LoadingBuilder":
           final targetNode = node.argumentList.arguments.firstWhereOrNull(
-            (item) => item.staticParameterElement?.name == "futures",
+            (item) => item.correspondingParameter?.name3 == "futures",
           );
           if (targetNode is! NamedExpression) {
             return;

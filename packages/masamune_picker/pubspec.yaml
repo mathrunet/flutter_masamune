@@ -13,7 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   
-  mime: ^1.0.5
+  mime:
   image_picker: ^1.1.0
   katana: ^2.20.2
   masamune: ^2.23.16

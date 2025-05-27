@@ -15,7 +15,7 @@ dependencies:
   masamune: ^2.23.16
   freezed_annotation: ^3.0.0
   json_annotation: ^4.8.0
-  flutter_local_notifications: ^18.0.0
+  flutter_local_notifications: ^19.0.0
   universal_platform: ^1.0.0+1
   masamune_notification: ^2.11.21
   timezone: ^0.10.0
