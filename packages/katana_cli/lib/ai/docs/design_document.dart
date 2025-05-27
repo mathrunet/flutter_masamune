@@ -41,6 +41,8 @@ class DesignDocumentDocsMdCliAiCode extends CliAiCode {
     - `Controller`の設計を定義。
 - **Page設計書**
     - `Page`の設計を定義。
+- **Widget設計書**
+    - `Widget`の設計を定義。
 - **MetaData設計書**
     - `MetaData`の設計を定義。
 """;

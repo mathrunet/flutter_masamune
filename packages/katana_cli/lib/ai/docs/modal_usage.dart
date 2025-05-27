@@ -79,18 +79,34 @@ class ModalUsageMdCliAiCode extends CliAiCode {
 - 自由にカスタマイズ可能なモーダル。
     - 自由にウィジェットを作成し表示することが可能。
     - `Modal`クラスを拡張して作成する。
+        - 下記のコマンドを実行して`lib/modals`フォルダにカスタム`Modal`クラスを作成する。
+
+            ```bash
+            katana code modal [ModalName(SnakeCase)]
+            ```
+
+        - `lib/modals/[ModalName(SnakeCase)].dart`にカスタム`Modal`クラスが作成される。
         - 例：
             ```dart
-            class CustomModal extends Modal {
-                @override
-                Widget build(BuildContext context, ModalRef ref) {
-                    return Container();
-                }
+            // lib/modals/test.dart
+
+            /// Modal widget for Test.
+            @immutable
+            class TestModal extends Modal {
+              const TestModal();
+
+              @override
+              Widget build(BuildContext context, ModalRef ref) {
+                // Describes the structure of the modal.
+                // TODO: Implement the view.
+                return const Empty();
+              }
             }
             ```
+
     - 作成した`Modal`を表示するには下記のようにする。
         ```dart
-        Modal.show(context, modal: CustomModal());
+        Modal.show(context, modal: TestModal());
         ```
 """;
   }

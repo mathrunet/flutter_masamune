@@ -25,7 +25,7 @@ class KatanaFormListBuilderMdCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "リスト形式のデータを動的に追加・削除・編集できるフォームビルダー。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでリストの状態管理を行えます。ドラッグ&ドロップによる並び替え、バリデーション、カスタムデザインなどの機能を備えています。";
+      "リスト形式のデータを動的に追加・削除・編集できるフォームビルダー。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでリストの状態管理を行えます。バリデーション、カスタムデザインなどの機能を備えています。";
 
   @override
   String body(String baseName, String className) {
@@ -39,184 +39,282 @@ $excerpt
 ## 基本的な利用方法
 
 ```dart
-FormListBuilder<String>(
-    form: formController,
-    initialValue: formController.value.items,
-    builder: (context, form, index, item) {
-      return FormTextField(
-        form: form,
-        initialValue: item,
-        onSaved: (value) => form.value.items[index] = value ?? "",
-      );
-    },
-    onSaved: (value) => formController.value.copyWith(items: value),
+FormListBuilder(
+  form: formController,
+  initialValue: formController.value.selection,
+  onSaved: (value) {
+    final newList = List<AnyModel>.from(formController.value);
+    newList[index] = newList[index].copyWith(selection: []);
+    return newList;
+  },
+  builder: (context, ref, item, index) {
+    return FormTextField(
+      form: formController,
+      key: ValueKey("selection_\${ref.version}_\$index"),
+      hintText: "選択肢\${index + 1}",
+      initialValue: item,
+      onFocusChanged: (value, focus) {
+        if (!focus) {
+          ref.update(index, value ?? item);
+        }
+      },
+      onSubmitted: (value) {
+        ref.update(index, value ?? item);
+      },
+      onSaved: (value) {
+        final newList =
+            List<AnyModel>.from(formController.value);
+        newList[index] = newList[index].copyWith(
+          selection: [...newList[index].selection, value],
+        );
+        return newList;
+      },
+    );
+  },
 );
 ```
 
 ## 追加・削除ボタン付きの利用方法
 
 ```dart
-FormListBuilder<TodoItem>(
-    form: formController,
-    initialValue: formController.value.todos,
-    addButtonBuilder: (context, form) {
-      return ElevatedButton(
-        onPressed: () => form.add(TodoItem()),
-        child: const Text("タスクを追加"),
-      );
-    },
-    builder: (context, form, index, item) {
-      return Row(
-        children: [
-          Expanded(
-            child: FormTextField(
-              form: form,
-              initialValue: item.title,
-              onSaved: (value) => form.value.todos[index] = item.copyWith(title: value),
-            ),
+FormListBuilder(
+  form: formController,
+  initialValue: formController.value.selection,
+  onSaved: (value) {
+    final newList = List<AnyModel>.from(formController.value);
+    newList[index] = newList[index].copyWith(selection: []);
+    return newList;
+  },
+  builder: (context, ref, item, index) {
+    return Row(
+      children: [
+        16.sx,
+        Text("\${index + 1}"),
+        8.sx,
+        Expanded(
+          child: FormTextField(
+            form: formController,
+            key: ValueKey("selection_\${ref.version}_\$index"),
+            hintText: "選択肢\${index + 1}",
+            initialValue: item,
+            onFocusChanged: (value, focus) {
+              if (!focus) {
+                ref.update(index, value ?? item);
+              }
+            },
+            onSubmitted: (value) {
+              ref.update(index, value ?? item);
+            },
+            onSaved: (value) {
+              final newList =
+                  List<AnyModel>.from(formController.value);
+              newList[index] = newList[index].copyWith(
+                selection: [...newList[index].selection, value],
+              );
+              return newList;
+            },
           ),
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () => form.removeAt(index),
-          ),
-        ],
-      );
-    },
-    onSaved: (value) => formController.value.copyWith(todos: value),
-);
-```
-
-## ドラッグ&ドロップ並び替えの実装
-
-```dart
-FormListBuilder<TaskItem>(
-    form: formController,
-    initialValue: formController.value.tasks,
-    reorderable: true,
-    builder: (context, form, index, item) {
-      return ListTile(
-        leading: const Icon(Icons.drag_handle),
-        title: FormTextField(
-          form: form,
-          initialValue: item.title,
-          onSaved: (value) => form.value.tasks[index] = item.copyWith(title: value),
         ),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete),
-          onPressed: () => form.removeAt(index),
+        InkWell(
+          onTap: () async {
+            // フォーカスを外さないとエラー
+            FocusScope.of(context).unfocus();
+            // 待たないとエラー
+            await Future.delayed(const Duration(milliseconds: 100));
+            ref.deleteAt(index);
+          },
+          child: const Icon(Icons.delete),
         ),
-      );
-    },
-    onSaved: (value) => formController.value.copyWith(tasks: value),
+        16.sx,
+      ],
+    );
+  },
+  bottom: (context, ref) {
+    return Center(
+      child: Padding(
+        key: const ValueKey("add"),
+        padding: 8.pt,
+        child: FormButton(
+          onPressed: () async {
+            // フォーカスを外さないとエラー
+            FocusScope.of(context).unfocus();
+            // 待たないとエラー
+            await Future.delayed(const Duration(milliseconds: 100));
+            ref.add("");
+          },
+          label: const Text("選択肢を追加"),
+          icon: const Icon(Icons.add),
+        ),
+      ),
+    );
+  },
 );
 ```
 
 ## バリデーション付きの利用方法
 
 ```dart
-FormListBuilder<ContactInfo>(
-    form: formController,
-    initialValue: formController.value.contacts,
-    validator: (value) {
-      if (value.isEmpty) {
-        return "少なくとも1つの連絡先を追加してください";
-      }
-      return null;
-    },
-    builder: (context, form, index, item) {
-      return Column(
-        children: [
-          FormTextField(
-            form: form,
-            initialValue: item.name,
-            validator: (value) {
-              if (value?.isEmpty ?? true) {
-                return "名前は必須です";
+
+FormListBuilder(
+  form: formController,
+  initialValue: formController.value.selection,
+  onSaved: (value) {
+    final newList = List<AnyModel>.from(formController.value);
+    newList[index] = newList[index].copyWith(selection: []);
+    return newList;
+  },
+  validator: (value) {
+    if (value.isEmpty) {
+      return "少なくとも1つの連絡先を追加してください";
+    }
+    return null;
+  },
+  builder: (context, ref, item, index) {
+    return Row(
+      children: [
+        16.sx,
+        Text("\${index + 1}"),
+        8.sx,
+        Expanded(
+          child: FormTextField(
+            form: formController,
+            key: ValueKey("selection_\${ref.version}_\$index"),
+            hintText: "選択肢\${index + 1}",
+            initialValue: item,
+            onFocusChanged: (value, focus) {
+              if (!focus) {
+                ref.update(index, value ?? item);
               }
-              return null;
             },
-            onSaved: (value) => form.value.contacts[index] = item.copyWith(name: value),
-          ),
-          FormTextField(
-            form: form,
-            initialValue: item.email,
-            validator: (value) {
-              if (!value!.contains("@")) {
-                return "有効なメールアドレスを入力してください";
-              }
-              return null;
+            onSubmitted: (value) {
+              ref.update(index, value ?? item);
             },
-            onSaved: (value) => form.value.contacts[index] = item.copyWith(email: value),
+            onSaved: (value) {
+              final newList =
+                  List<AnyModel>.from(formController.value);
+              newList[index] = newList[index].copyWith(
+                selection: [...newList[index].selection, value],
+              );
+              return newList;
+            },
           ),
-        ],
-      );
-    },
-    onSaved: (value) => formController.value.copyWith(contacts: value),
+        ),
+        InkWell(
+          onTap: () async {
+            // フォーカスを外さないとエラー
+            FocusScope.of(context).unfocus();
+            // 待たないとエラー
+            await Future.delayed(const Duration(milliseconds: 100));
+            ref.deleteAt(index);
+          },
+          child: const Icon(Icons.delete),
+        ),
+        16.sx,
+      ],
+    );
+  },
+  bottom: (context, ref) {
+    return Center(
+      child: Padding(
+        key: const ValueKey("add"),
+        padding: 8.pt,
+        child: FormButton(
+          onPressed: () async {
+            // フォーカスを外さないとエラー
+            FocusScope.of(context).unfocus();
+            // 待たないとエラー
+            await Future.delayed(const Duration(milliseconds: 100));
+            ref.add("");
+          },
+          label: const Text("選択肢を追加"),
+          icon: const Icon(Icons.add),
+        ),
+      ),
+    );
+  },
 );
 ```
 
 ## カスタムデザインの適用
 
 ```dart
-FormListBuilder<NoteItem>(
-    form: formController,
-    initialValue: formController.value.notes,
-    style: const FormStyle(
-      padding: EdgeInsets.all(16.0),
-      backgroundColor: Colors.grey[100],
-      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-      listStyle: ListStyle(
-        itemSpacing: 8.0,
-        addButtonStyle: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.blue),
-          foregroundColor: MaterialStateProperty.all(Colors.white),
-        ),
-        deleteButtonStyle: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all(Colors.red),
-        ),
-      ),
-    ),
-    builder: (context, form, index, item) {
-      return FormTextField(
-        form: form,
-        initialValue: item.content,
-        onSaved: (value) => form.value.notes[index] = item.copyWith(content: value),
-      );
-    },
-    onSaved: (value) => formController.value.copyWith(notes: value),
+FormListBuilder(
+  form: formController,
+  initialValue: formController.value.selection,
+  onSaved: (value) {
+    final newList = List<AnyModel>.from(formController.value);
+    newList[index] = newList[index].copyWith(selection: []);
+    return newList;
+  },
+  style: const FormStyle(
+    padding: EdgeInsets.all(16.0),
+    backgroundColor: Colors.grey[100],
+    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+  ),
+  builder: (context, ref, item, index) {
+    return FormTextField(
+      form: formController,
+      key: ValueKey("selection_\${ref.version}_\$index"),
+      hintText: "選択肢\${index + 1}",
+      initialValue: item,
+      onFocusChanged: (value, focus) {
+        if (!focus) {
+          ref.update(index, value ?? item);
+        }
+      },
+      onSubmitted: (value) {
+        ref.update(index, value ?? item);
+      },
+      onSaved: (value) {
+        final newList =
+            List<AnyModel>.from(formController.value);
+        newList[index] = newList[index].copyWith(
+          selection: [...newList[index].selection, value],
+        );
+        return newList;
+      },
+    );
+  },
 );
 ```
 
 ## パラメータ
 
 ### 必須パラメータ
-- `form`: フォームコントローラー。フォームの状態管理を行います。
 - `builder`: ビルダー関数。各アイテムのウィジェットを生成します。
-- `onSaved`: 保存時のコールバック。リストの値を保存します。
 
 ### オプションパラメータ
-- `initialValue`: 初期値。初期表示するリストを設定します。
-- `addButtonBuilder`: 追加ボタンビルダー。カスタムの追加ボタンを生成します。
-- `reorderable`: 並び替え可否。ドラッグ&ドロップによる並び替えを有効にします。
-- `validator`: バリデーション関数。リスト全体の検証ルールを定義します。
+- `form`: フォームコントローラー。フォームの状態管理を行います。定義する場合は`onSaved`パラメータも定義する必要があります。
+- `onSaved`: 保存時のコールバック。選択された値の保存処理を定義します。定義する場合は`form`パラメータも定義する必要があります。`builder`の中で定義された`Form`の`onSaved`メソッドよりも必ず前に実行されるのでリストの初期化などが行えます。
+- `onChanged`: 変更時のコールバック。選択された値の変更時の処理を定義します。
 - `style`: フォームのスタイル。`FormStyle`を使用してデザインをカスタマイズできます。
-- `enabled`: 有効/無効。`false`の場合、リストの編集が無効化されます。
+- `validator`: バリデーション関数。選択値の検証ルールを定義します。
+- `enabled`: 入力可否。`false`の場合、チェックボックスが無効化されます。
+- `initialValue`: 初期値。フォーム表示時の初期チェック状態を設定します。
+
+- `top`: リストの上部に表示するウィジェットを設定します。
+- `bottom`: リストの下部に表示するウィジェットを設定します。
+- `readOnly`: リストの読み取り専用化を設定します。
 
 ## 注意点
 
-- `FormController`と組み合わせて使用することで、リストの状態を管理できます。
+- `FormController`と組み合わせて使用することで、フォームの状態管理を行えます。
+- `FormController`を使用する場合は`onSaved`メソッドも合わせて定義してください。
 - `FormStyle`を使用することで、共通のデザインを適用できます。
-- リストの操作は`form.add()`, `form.removeAt()`, `form.move()`などのメソッドで行います。
-- バリデーションはリスト全体と各アイテムの両方に設定できます。
-- 並び替えは`reorderable`パラメータを`true`に設定することで有効化できます。
+- `builder`内で`Form`を利用する場合、各要素に`index`を含めた`ValueKey`を設定して、各要素の内容を維持してください。また`FormListBuilder`の`onSaved`メソッドでリストを初期化した後、各要素の`Form`の`onSaved`メソッド内でその要素を１つずつ追加していくような実装を行ってください。また、各要素の`Form`の`onFocusChanged`や`onSubmitted`内で`ref.update`を行うことで都度更新を行うことができます。
+- `builder`内で`Form`を利用する場合、`top`や`bottom`パラメーターで要素の追加を行う場合はフォーカスを外さないとエラーが発生します。また、フォーカスを外してから要素の追加を行う場合は待ち時間を設ける必要があります。
+- `builder`内で`Form`を利用する場合、各要素の削除ボタンを押した場合はフォーカスを外さないとエラーが発生します。また、フォーカスを外してから要素の削除を行う場合は待ち時間を設ける必要があります。
 
 ## ベストプラクティス
 
 1. フォームの状態管理には必ず`FormController`を使用する
-2. 適切なバリデーションを設定して入力値を検証する
-3. 使いやすい追加・削除UIを提供する
-4. 必要に応じて並び替え機能を有効にする
+2. `FormController`を使用する場合は`onSaved`メソッドも合わせて定義する。
+3. `FormController`を使用せず、`onChanged`メソッドを使用して変更の都度処理を行う方法も利用可能。
+4. バリデーションは`validator`パラメータを使用して定義する。
 5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
+6. `builder`内で`Form`を利用する場合、各要素に`index`を含めた`ValueKey`を設定して、各要素の内容を維持してください。また`FormListBuilder`の`onSaved`メソッドでリストを初期化した後、各要素の`Form`の`onSaved`メソッド内でその要素を１つずつ追加していくような実装を行ってください。また、各要素の`Form`の`onFocusChanged`や`onSubmitted`内で`ref.update`を行うことで都度更新を行うことができます。
+7. `builder`内で`Form`を利用する場合、`top`や`bottom`パラメーターで要素の追加を行う場合はフォーカスを外さないとエラーが発生します。また、フォーカスを外してから要素の追加を行う場合は待ち時間を設ける必要があります。
+8. `builder`内で`Form`を利用する場合、各要素の削除ボタンを押した場合はフォーカスを外さないとエラーが発生します。また、フォーカスを外してから要素の削除を行う場合は待ち時間を設ける必要があります。
 
 ## 利用シーン
 

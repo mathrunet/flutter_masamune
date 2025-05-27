@@ -39,34 +39,16 @@ $excerpt
 
 ```dart
 FormLabel(
-    form: formController,
-    label: "ユーザー名",
-    child: FormTextField(
-      form: formController,
-      initialValue: formController.value.name,
-      onSaved: (value) => formController.value.copyWith(name: value),
-    ),
+  "ユーザー名",
 );
 ```
 
-## 必須マーク付きの利用方法
+## アイコン付きの利用方法
 
 ```dart
 FormLabel(
-    form: formController,
-    label: "メールアドレス",
-    required: true,
-    child: FormTextField(
-      form: formController,
-      initialValue: formController.value.email,
-      validator: (value) {
-        if (value?.isEmpty ?? true) {
-          return "メールアドレスは必須です";
-        }
-        return null;
-      },
-      onSaved: (value) => formController.value.copyWith(email: value),
-    ),
+  "ユーザー名",
+  icon: Icon(Icons.person),
 );
 ```
 
@@ -74,46 +56,9 @@ FormLabel(
 
 ```dart
 FormLabel(
-    form: formController,
-    label: "パスワード",
-    required: true,
-    help: "8文字以上の英数字を入力してください",
-    child: FormTextField(
-      form: formController,
-      initialValue: formController.value.password,
-      obscureText: true,
-      validator: (value) {
-        if (value?.length ?? 0 < 8) {
-          return "パスワードは8文字以上必要です";
-        }
-        return null;
-      },
-      onSaved: (value) => formController.value.copyWith(password: value),
-    ),
-);
-```
-
-## エラーメッセージ付きの利用方法
-
-```dart
-FormLabel(
-    form: formController,
-    label: "年齢",
-    error: "有効な年齢を入力してください",
-    child: FormNumField(
-      form: formController,
-      initialValue: formController.value.age,
-      validator: (value) {
-        if (value == null) {
-          return "年齢を入力してください";
-        }
-        if (value < 0 || value > 120) {
-          return "有効な年齢を入力してください";
-        }
-        return null;
-      },
-      onSaved: (value) => formController.value.copyWith(age: value),
-    ),
+  "ユーザー名",
+  icon: Icon(Icons.person),
+  notice: Text("8文字以上の英数字を入力してください"),
 );
 ```
 
@@ -121,71 +66,47 @@ FormLabel(
 
 ```dart
 FormLabel(
-    form: formController,
-    label: "プロフィール",
-    style: const FormStyle(
-      labelStyle: LabelStyle(
-        textStyle: TextStyle(
-          fontSize: 16.0,
-          fontWeight: FontWeight.bold,
-          color: Colors.blue,
-        ),
-        requiredMarkColor: Colors.red,
-        helpTextStyle: TextStyle(
-          fontSize: 12.0,
-          color: Colors.grey,
-        ),
-        errorTextStyle: TextStyle(
-          fontSize: 12.0,
-          color: Colors.red,
-        ),
-        spacing: 8.0,
-      ),
-    ),
-    child: FormTextField(
-      form: formController,
-      initialValue: formController.value.profile,
-      onSaved: (value) => formController.value.copyWith(profile: value),
-    ),
+  "ユーザー名",
+  style: const FormStyle(
+    color: Colors.blue,
+  ),
 );
 ```
 
 ## パラメータ
 
 ### 必須パラメータ
-- `form`: フォームコントローラー。フォームの状態管理を行います。
-- `label`: ラベルテキスト。フィールドの説明ラベルを設定します。
-- `child`: 子ウィジェット。ラベルの下に表示するフォームフィールドを設定します。
+- 第1パラメーター: ラベルテキスト。フィールドの説明ラベルを設定します。
 
 ### オプションパラメータ
-- `required`: 必須マーク。`true`の場合、必須マークを表示します。
-- `help`: ヘルプテキスト。フィールドの説明文を設定します。
-- `error`: エラーメッセージ。バリデーションエラー時のメッセージを設定します。
+- `icon`: アイコン。ラベルの前に表示するアイコンを設定します。
 - `style`: フォームのスタイル。`FormStyle`を使用してデザインをカスタマイズできます。
-- `enabled`: 有効/無効。`false`の場合、ラベルとフィールドが無効化されます。
+- `color`: ラベルとアイコンの色を変更します。
+- `prefix`: 分断線の前に表示するウィジェットを設定します。
+- `suffix`: 分断線の後に表示するウィジェットを設定します。
+- `notice`: ヘルプテキスト。フィールドの説明文を設定します。
+- `showDivider`: 分断線を表示するかどうかを設定します。
 
 ## 注意点
 
-- `FormController`と組み合わせて使用することで、フォームの状態を管理できます。
 - `FormStyle`を使用することで、共通のデザインを適用できます。
-- 必須フィールドには`required`パラメータを設定します。
-- ヘルプテキストは`help`パラメータで追加できます。
-- エラーメッセージは`error`パラメータで表示できます。
+- アイコンは`icon`パラメータを使用して設定できます。
+- ヘルプテキストは`notice`パラメータを使用して設定できます。
+- 分断線は`showDivider`パラメータを使用して設定できます。
 
 ## ベストプラクティス
 
-1. フォームの状態管理には必ず`FormController`を使用する
-2. 必須フィールドには必ず必須マークを表示する
-3. 分かりやすいヘルプテキストを提供する
-4. エラーメッセージは具体的で分かりやすく設定する
-5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
+1. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
+2. ラベルテキストは`label`パラメータを使用して設定する。
+3. アイコンは`icon`パラメータを使用して設定する。
+4. ヘルプテキストは`notice`パラメータを使用して設定する。
+5. 分断線は`showDivider`パラメータを使用して設定する。
 
 ## 利用シーン
 
 - フォームフィールドのラベル表示
 - 必須入力項目の明示
 - フィールドの説明表示
-- バリデーションエラーの表示
 - フォームのセクション分け
 """;
   }

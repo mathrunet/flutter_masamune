@@ -244,7 +244,6 @@ class FunctionsUsageDocsMdCliAiCode extends CliAiCode {
             throw new functions.https.HttpsError("invalid-argument", "Invalid argument.");
         }
         ```
-
 """;
   }
 }

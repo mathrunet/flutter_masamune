@@ -25,7 +25,7 @@ class KatanaFormEnumDropdownFieldMdCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "列挙型の値をドロップダウンメニューで選択できるフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。カスタムラベル、アイコン表示、検索機能などを備えています。";
+      "列挙型の値をドロップダウンメニューで選択できるフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。カスタムラベルやバリデーションなどを備えています。";
 
   @override
   String body(String baseName, String className) {
@@ -154,6 +154,7 @@ FormEnumDropdownField(
 4. バリデーションは`validator`パラメータを使用して定義する。
 5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
 6. `picker`の`values`には列挙型の`values`をそのまま渡すと列挙型すべてが選択肢に追加される。where等で制限すると選択肢を絞ることができる。
+7. `FormMapDropdownField`と違い、予めプログラム内で固定で定義されているリストを選択肢として利用する場合に利用する。
 
 ## 利用シーン
 

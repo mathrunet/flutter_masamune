@@ -25,7 +25,7 @@ class KatanaFormEnumModalFieldMdCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "モーダルで列挙型の選択肢から選択することができるフォーム。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで列挙型の値を管理可能。列挙型の値をラベル付きで表示、検索機能、カスタムデザインなどの機能を備えています。";
+      "モーダルで列挙型の選択肢から選択することができるフォーム。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで列挙型の値を管理可能。列挙型の値をラベル付きで表示、カスタムデザインなどの機能を備えています。";
 
   @override
   String body(String baseName, String className) {
@@ -151,6 +151,7 @@ FormEnumModalField(
 4. バリデーションは`validator`パラメータを使用して定義する。
 5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
 6. `picker`の`values`には列挙型の`values`をそのまま渡すと列挙型すべてが選択肢に追加される。where等で制限すると選択肢を絞ることができる。
+7. `FormMapModalField`と違い、予めプログラム内で固定で定義されているリストを選択肢として利用する場合に利用する。
 
 ## 利用シーン
 

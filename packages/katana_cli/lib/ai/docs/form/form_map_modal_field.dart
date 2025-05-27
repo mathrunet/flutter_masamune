@@ -1,21 +1,21 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_map_dropdown_field.md.
+/// Contents of form_map_field.md.
 ///
-/// form_map_dropdown_field.mdの中身。
-class KatanaFormMapDropdownFieldMdCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_map_dropdown_field.md.
+/// form_map_field.mdの中身。
+class KatanaFormMapModalFieldMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_map_field.md.
   ///
-  /// form_map_dropdown_field.mdの中身。
-  const KatanaFormMapDropdownFieldMdCliAiCode();
+  /// form_map_field.mdの中身。
+  const KatanaFormMapModalFieldMdCliAiCode();
 
   @override
-  String get name => "`FormMapDropdownField`の利用方法";
+  String get name => "FormMapModalFieldの利用方法";
 
   @override
   String get description =>
-      "Key-ValueペアのMap形式のデータをドロップダウンメニューで選択できるフォームフィールドである`FormMapDropdownField`の利用方法";
+      "Key-ValueペアのMap形式のデータを選択できるフォームフィールドである`FormMapModalField`の利用方法";
 
   @override
   String get globs => "*.dart";
@@ -25,12 +25,12 @@ class KatanaFormMapDropdownFieldMdCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "Key-ValueペアのMap形式のデータをドロップダウンメニューで選択できるフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。";
+      "Key-ValueペアのMap型のデータ入力に特化したフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用してマップデータの入力と管理を行うことができます。カスタムデザインなどの機能を備えています。";
 
   @override
   String body(String baseName, String className) {
     return """
-`FormMapDropdownField`は下記のように利用する。
+`FormMapField`は下記のように利用する。
 
 ## 概要
 
@@ -46,34 +46,20 @@ final countries = <String, String>{
   "fr": "Français",
 };
 
-FormMapDropdownField(
+FormMapModalField(
   form: formController,
   initialValue: formController.value.selectedLanguage,
   onSaved: (value) => formController.value.copyWith(selectedLanguage: value),
-  picker: FormMapDropdownFieldPicker(
+  picker: FormMapModalFieldPicker(
     values: countries,
   ),
-);
-```
-
-## カスタムラベルの利用方法
-
-```dart
-FormMapDropdownField(
-  form: formController,
-  initialValue: formController.value.selectedLanguage,
-  onSaved: (value) => formController.value.copyWith(selectedLanguage: value),
-  picker: FormMapDropdownFieldPicker(
-    values: countries,
-  ),
-  labelBuilder: (key) => countries[key] ?? "",
 );
 ```
 
 ## バリデーション付きの利用方法
 
 ```dart
-FormMapDropdownField(
+FormMapModalField(
   form: formController,
   initialValue: formController.value.selectedLanguage,
   onSaved: (value) => formController.value.copyWith(selectedLanguage: value),
@@ -83,7 +69,7 @@ FormMapDropdownField(
     }
     return null;
   },
-  picker: FormMapDropdownFieldPicker(
+  picker: FormMapModalFieldPicker(
     values: countries,
   ),
 );
@@ -92,15 +78,17 @@ FormMapDropdownField(
 ## カスタムデザインの適用
 
 ```dart
-FormMapDropdownField<String, ThemeData>(
+FormMapModalField(
   form: formController,
   initialValue: formController.value.selectedLanguage,
   onSaved: (value) => formController.value.copyWith(selectedLanguage: value),
-  picker: FormMapDropdownFieldPicker(
-    values: countries,
-  ),
   style: const FormStyle(
     padding: EdgeInsets.all(16.0),
+    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+    backgroundColor: Colors.grey[200],
+  ),
+  picker: FormMapModalFieldPicker(
+    values: countries,
   ),
 );
 ```
@@ -140,15 +128,15 @@ FormMapDropdownField<String, ThemeData>(
 4. バリデーションは`validator`パラメータを使用して定義する。
 5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
 6. `picker`の`values`には必ず`Map<String, String>`を渡す。Mapのキーが要素のIDとなりそれが`onSaved`や`onChanged`で渡される値となる。
-7. `FormEnumDropdownField`と違い、データベース等で動的に設定されたリストから選択するために利用する。
+7. `FormEnumModalField`と違い、データベース等で動的に設定されたリストから選択するために利用する。
 
 ## 利用シーン
 
-- 言語選択
-- 国・地域選択
-- カテゴリー選択
-- テーマ設定
-- フィルター選択
+- アプリケーション設定の管理
+- カスタムメタデータの入力
+- 属性値の設定
+- 環境変数の管理
+- タグと値のペアの入力
 """;
   }
 }

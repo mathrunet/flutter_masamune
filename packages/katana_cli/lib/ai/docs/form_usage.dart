@@ -15,7 +15,7 @@ import 'package:katana_cli/ai/docs/form/form_future_field.dart';
 import 'package:katana_cli/ai/docs/form/form_label.dart';
 import 'package:katana_cli/ai/docs/form/form_list_builder.dart';
 import 'package:katana_cli/ai/docs/form/form_map_dropdown_field.dart';
-import 'package:katana_cli/ai/docs/form/form_map_field.dart';
+import 'package:katana_cli/ai/docs/form/form_map_modal_field.dart';
 import 'package:katana_cli/ai/docs/form/form_media.dart';
 import 'package:katana_cli/ai/docs/form/form_month_field.dart';
 import 'package:katana_cli/ai/docs/form/form_multi_media.dart';
@@ -45,14 +45,14 @@ const kFormList = {
   "FormDateTimeRangeField": KatanaFormDateTimeRangeFieldMdCliAiCode(),
   "FormDurationField": KatanaFormDurationFieldMdCliAiCode(),
   "FormEditableToggleBuilder": KatanaFormEditableToggleBuilderMdCliAiCode(),
-  "FormEnumField": KatanaFormEnumModalFieldMdCliAiCode(),
+  "FormEnumModalField": KatanaFormEnumModalFieldMdCliAiCode(),
   "FormEnumDropdownField": KatanaFormEnumDropdownFieldMdCliAiCode(),
   "FormFocusNodeBuilder": KatanaFormFocusNodeBuilderMdCliAiCode(),
   "FormFutureField": KatanaFormFutureFieldMdCliAiCode(),
   "FormLabel": KatanaFormLabelMdCliAiCode(),
   "FormListBuilder": KatanaFormListBuilderMdCliAiCode(),
   "FormMapDropdownField": KatanaFormMapDropdownFieldMdCliAiCode(),
-  "FormMapField": KatanaFormMapFieldMdCliAiCode(),
+  "FormMapModalField": KatanaFormMapModalFieldMdCliAiCode(),
   "FormMedia": KatanaFormMediaMdCliAiCode(),
   "FormMonthField": KatanaFormMonthFieldMdCliAiCode(),
   "FormMultiMedia": KatanaFormMultiMediaMdCliAiCode(),

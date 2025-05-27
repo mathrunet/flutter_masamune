@@ -26,7 +26,7 @@ class RouterUsageMdCliAiCode extends CliAiCode {
   String body(String baseName, String className) {
     return r"""
 `Page`を遷移する際に利用する`Router`の利用方法を下記に記載する。
-`Router`は`lib/main.dart`で定義されているため適宜`lib/main.dart`をインポートする。
+`Router`は`lib/router.dart`で定義されているため適宜`lib/router.dart`をインポートする。
 
 ## 通常利用
 
@@ -111,6 +111,107 @@ class RouterUsageMdCliAiCode extends CliAiCode {
 
     ```dart
     context.router.resetAndPush(NextPage.query());
+    ```
+
+## 初回表示ページの設定
+
+- `Router`の設定は`lib/router.dart`の`AppRouter`の`initialQuery`に設定する。
+    - また`pages`に各ページの`RouteQueryBuilder`を設定することでWebにおけるURLの直接指定による起動が可能。
+    
+    ```dart
+    // lib/router.dart
+
+    final router = AppRouter(
+      boot: null,
+      initialQuery: InitialPage.query(), // 初回ページの設定
+      redirect: [],
+      pages: [
+        IndexPage.query, // PagePathが`/`の場合に表示されるページ
+        LoginPage.query, // PagePathが`/login`の場合に表示されるページ
+        RegisterPage.query, // PagePathが`/register`の場合に表示されるページ
+      ],
+    );
+    ```
+
+## `Boot`ページの設定
+
+- `Boot`ページはアプリの起動時に表示されるページ。
+    - アプリのロゴの表示や最初に必ず実行しておきたい初期化処理やデータの読み込み処理を行う。
+
+### `Boot`ページの作成
+
+- 下記のコマンドを実行して`lib/boot.dart`に`Boot`ページを作成する。
+
+    ```bash
+    katana code boot
+    ```
+
+    - `lib/boot.dart`に`Boot`ページが作成される。
+    - その後、`build`メソッド内にアプリのロゴの表示を記載し、`onInit`メソッド内に最初に必ず実行しておきたい初期化処理やデータの読み込み処理を行う。`onInit`の処理が失敗した場合のエラー表示を`onError`メソッド内に記載する。
+    - 例:
+        ```dart
+        // lib/boot.dart
+
+        @immutable
+        class Boot extends BootRouteQueryBuilder {
+          const Boot({super.key});
+
+          @override
+          Widget build(BuildContext context) {
+            return Scaffold(
+              backgroundColor: theme.color.primary,
+              body: Center(
+                child: Image(
+                  width: 128,
+                  image: theme.asset.icon.provider,
+                ),
+              ),
+            );
+          }
+
+          @override
+          FutureOr<void> onInit(BuildContext context) async {
+            await wait(
+              [
+                appAuth.tryRestoreAuth(),
+              ],
+            );
+          }
+
+          @override
+          void onError(
+              BuildContext context, BootRef ref, Object error, StackTrace stackTrace) {
+            Modal.alert(
+              context,
+              submitText: "閉じる",
+              title: "エラー",
+              text: "初期化に失敗しました。",
+              onSubmit: () {
+                ref.quit();
+              },
+            );
+          }
+
+          @override
+          TransitionQuery get initialTransitionQuery => TransitionQuery.fade;
+        }
+        ```
+
+- `Boot`ページの設定は`lib/router.dart`の`AppRouter`の`boot`に設定する。
+
+    ```dart
+    // lib/router.dart
+
+    final router = AppRouter(
+      boot: const Boot(), // `Boot`ページの設定
+      initialQuery: InitialPage.query(), // 初回ページの設定
+      redirect: [],
+      pages: [
+        IndexPage.query, // PagePathが`/`の場合に表示されるページ
+        LoginPage.query, // PagePathが`/login`の場合に表示されるページ
+        RegisterPage.query, // PagePathが`/register`の場合に表示されるページ
+      ],
+    );
     ```
 """;
   }
