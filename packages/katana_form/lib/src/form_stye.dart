@@ -24,6 +24,7 @@ class FormStyle {
     this.disabledBorder,
     this.errorBorder,
     this.backgroundColor,
+    this.subBackgroundColor,
     this.activeTextStyle,
     this.disabledTextStyle,
     this.height,
@@ -120,6 +121,11 @@ class FormStyle {
   ///
   /// フォームの背景。
   final Color? backgroundColor;
+
+  /// Form sub-background.
+  ///
+  /// フォームのサブ背景。
+  final Color? subBackgroundColor;
 
   /// Padding on the outside of the form.
   ///
