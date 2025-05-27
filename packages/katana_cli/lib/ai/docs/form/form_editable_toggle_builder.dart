@@ -40,146 +40,62 @@ $excerpt
 
 ```dart
 FormEditableToggleBuilder(
-    form: formController,
-    builder: (context, form, editable, child) {
-      return Column(
-        children: [
-          if (editable)
-            FormTextField(
-              form: form,
-              initialValue: form.value.text,
-              onSaved: (value) => form.value.copyWith(text: value),
-            )
-          else
-            Text(form.value.text),
-          FormButton(
+  builder: (context, ref) {
+    return Column(
+      children: [
+        if (ref.editable)
+          FormTextField(
             form: form,
-            label: editable ? "保存" : "編集",
-            onPressed: () {
-              if (editable) {
-                if (form.validate()) {
-                  form.save();
-                  form.setEditable(false);
-                }
-              } else {
-                form.setEditable(true);
+            initialValue: form.value.text,
+            onSaved: (value) => form.value.copyWith(text: value),
+          )
+        else
+          Text(form.value.text),
+        FormButton(
+          form: form,
+          label: ref.editable ? "保存" : "編集",
+          onPressed: () {
+            if (ref.editable) {
+              final value = form.validate();
+              if (value == null) {
+                return;
               }
-            },
-          ),
-        ],
-      );
-    },
-);
-```
-
-## 編集モード切り替えの利用方法
-
-```dart
-FormEditableToggleBuilder(
-    form: formController,
-    builder: (context, form, editable, child) {
-      return Column(
-        children: [
-          if (editable)
-            FormTextField(
-              form: form,
-              initialValue: form.value.name,
-              onSaved: (value) => form.value.copyWith(name: value),
-            )
-          else
-            Text(form.value.name),
-          Row(
-            children: [
-              FormButton(
-                form: form,
-                label: editable ? "保存" : "編集",
-                onPressed: () {
-                  if (editable) {
-                    if (form.validate()) {
-                      form.save();
-                      form.setEditable(false);
-                    }
-                  } else {
-                    form.setEditable(true);
-                  }
-                },
-              ),
-              if (editable)
-                FormButton(
-                  form: form,
-                  label: "キャンセル",
-                  onPressed: () {
-                    form.reset();
-                    form.setEditable(false);
-                  },
-                ),
-            ],
-          ),
-        ],
-      );
-    },
-);
-```
-
-## カスタムデザインの適用
-
-```dart
-FormEditableToggleBuilder(
-    form: formController,
-    style: const FormStyle(
-      padding: EdgeInsets.all(16.0),
-      backgroundColor: Colors.grey[200],
-      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-    ),
-    builder: (context, form, editable, child) {
-      return Column(
-        children: [
-          if (editable)
-            FormTextField(
-              form: form,
-              initialValue: form.value.text,
-              onSaved: (value) => form.value.copyWith(text: value),
-            )
-          else
-            Text(
-              form.value.text,
-              style: const TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-        ],
-      );
-    },
+              final document = appRef.model(AnyModel.collection()).create();
+              await document.save(value);
+              // 表示モードへ切り替え
+              ref.toggle();
+            } else {
+              // 編集モードへ切り替え
+              ref.toggle();
+            }
+          },
+        ),
+      ],
+    );
+  },
 );
 ```
 
 ## パラメータ
 
 ### 必須パラメータ
-- `form`: フォームコントローラー。フォームの状態管理を行います。
 - `builder`: ビルダー関数。編集状態に応じたウィジェットを生成します。
 
 ### オプションパラメータ
 - `style`: フォームのスタイル。`FormStyle`を使用してデザインをカスタマイズできます。
-- `child`: 静的なウィジェット。再ビルドが不要な部分を最適化します。
-- `initialEditable`: 初期編集状態。初期表示時の編集可否を設定します。
+- `onToggle`: 編集モードの切り替え時のコールバック。
+- `editableOnInit`: 初期編集状態。`true`の場合は初期表示時に編集可能。
 
 ## 注意点
 
-- `FormController`と組み合わせて使用することで、編集状態を管理できます。
-- `FormStyle`を使用することで、共通のデザインを適用できます。
-- 編集状態の切り替えは`form.setEditable()`メソッドで行います。
-- キャンセル時は`form.reset()`メソッドで初期状態に戻せます。
-- 保存前に必ず`form.validate()`で検証を行うことを推奨します。
+- `builder`内の編集状態は`ref.editable`で取得できます。
+- `ref.toggle()`で編集状態を切り替えます。
 
 ## ベストプラクティス
 
-1. フォームの状態管理には必ず`FormController`を使用する
-2. 編集モードと表示モードで適切なUIを提供する
-3. キャンセル機能を提供して編集内容を破棄できるようにする
-4. 保存前にバリデーションを実行する
-5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
+1. `builder`内の編集状態は`ref.editable`で取得。
+2. `ref.editable`を各種フォームの`enabled`や`readOnly`に設定することで、編集状態に応じたフォームの表示を切り替えることが可能。
+3. `ref.toggle()`で編集状態を切り替え。
 
 ## 利用シーン
 

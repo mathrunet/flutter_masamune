@@ -1,20 +1,21 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/form_usage.dart';
 
-/// Contents of form_date_time_field.md.
+/// Contents of form_enum_modal_field.md.
 ///
-/// form_date_time_field.mdの中身。
-class KatanaFormDateTimeFieldMdCliAiCode extends FormUsageCliAiCode {
-  /// Contents of form_date_time_field.md.
+/// form_enum_modal_field.mdの中身。
+class KatanaFormEnumModalFieldMdCliAiCode extends FormUsageCliAiCode {
+  /// Contents of form_enum_modal_field.md.
   ///
-  /// form_date_time_field.mdの中身。
-  const KatanaFormDateTimeFieldMdCliAiCode();
+  /// form_enum_modal_field.mdの中身。
+  const KatanaFormEnumModalFieldMdCliAiCode();
 
   @override
-  String get name => "`FormDateTimeField`の利用方法";
+  String get name => "`FormEnumModalField`の利用方法";
 
   @override
-  String get description => "フォームの日時フィールドを表示し選択するための`FormDateTimeField`の利用方法";
+  String get description =>
+      "列挙型の値をモーダル型のピッカーで選択できるフォームフィールドである`FormEnumModalField`の利用方法";
 
   @override
   String get globs => "*.dart";
@@ -24,12 +25,12 @@ class KatanaFormDateTimeFieldMdCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "`DateTimeField`のMasamuneフレームワーク版。`DatePicker`や`TimePicker`のモーダルで選択した日時を値として設定することができるフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで日時の値を管理可能。日付範囲制限などの機能を備えています。";
+      "モーダルで列挙型の選択肢から選択することができるフォーム。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで列挙型の値を管理可能。列挙型の値をラベル付きで表示、検索機能、カスタムデザインなどの機能を備えています。";
 
   @override
   String body(String baseName, String className) {
     return """
-`FormDateTimeField`は下記のように利用する。
+`FormEnumModalField`は下記のように利用する。
 
 ## 概要
 
@@ -38,37 +39,40 @@ $excerpt
 ## 基本的な利用方法
 
 ```dart
-FormDateTimeField(
-  form: formController,
-  initialValue: formController.value.dateTime.value,
-  onSaved: (value) => formController.value.copyWith(dateTime: ModelTimestamp(value)),
-);
-```
+enum UserType {
+  admin,
+  user,
+  guest;
 
-## 日付のみ選択＆日付範囲制限付きの利用方法
+  String get label => switch (this) {
+      admin => "管理者",
+      user => "一般ユーザー",
+      guest => "ゲスト",
+    };
+}
 
-```dart
-FormDateTimeField(
+FormEnumModalField(
   form: formController,
-  initialValue: formController.value.dateTime.value,
-  onSaved: (value) => formController.value.copyWith(dateTime: ModelTimestamp(value)),
-  picker: const FormDateTimeFieldDatePicker(
-    startDate: DateTime(2024, 1, 1, 9, 0),
-    endDate: DateTime(2024, 12, 31, 17, 0),
+  initialValue: formController.value.type,
+  onSaved: (value) => formController.value.copyWith(type: value),
+  picker: FormEnumModalFieldPicker(
+    values: UserType.values,
   ),
 );
 ```
 
-## 日時選択＆日時範囲制限付きの利用方法
+## ラベル付きの利用方法
 
 ```dart
-FormDateTimeField(
+FormEnumModalField(
   form: formController,
-  initialValue: formController.value.dateTime.value,
-  onSaved: (value) => formController.value.copyWith(dateTime: ModelTimestamp(value)),
-  picker: const FormDateTimeFieldDateTimePicker(
-    startDate: DateTime(2024, 1, 1, 9, 0),
-    endDate: DateTime(2024, 12, 31, 17, 0),
+  initialValue: formController.value.type,
+  onSaved: (value) => formController.value.copyWith(type: value),
+  picker: FormEnumModalFieldPicker(
+    values: UserType.values,
+    labelBuilder: (value) {
+      return value.label;
+    },
   ),
 );
 ```
@@ -76,33 +80,39 @@ FormDateTimeField(
 ## バリデーション付きの利用方法
 
 ```dart
-FormDateTimeField(
+FormEnumModalField(
   form: formController,
-  initialValue: formController.value.dateTime.value,
-  onSaved: (value) => formController.value.copyWith(dateTime: ModelTimestamp(value)),
+  initialValue: formController.value.type,
   validator: (value) {
     if (value == null) {
-      return "日時を選択してください";
+      return "ユーザータイプを選択してください";
     }
-    if (value.hour < 9 || value.hour >= 17) {
-      return "営業時間（9:00-17:00）内の時間を選択してください";
+    if (value == UserType.guest) {
+      return "ゲストユーザーは選択できません";
     }
     return null;
   },
+  onSaved: (value) => formController.value.copyWith(type: value),
+  picker: FormEnumModalFieldPicker(
+    values: UserType.values,
+  ),
 );
 ```
 
 ## カスタムデザインの適用
 
 ```dart
-FormDateTimeField(
+FormEnumModalField(
   form: formController,
-  initialValue: formController.value.dateTime.value,
-  onSaved: (value) => formController.value.copyWith(dateTime: ModelTimestamp(value)),
+  initialValue: formController.value.type,
   style: const FormStyle(
     padding: EdgeInsets.all(16.0),
     borderRadius: BorderRadius.all(Radius.circular(8.0)),
     backgroundColor: Colors.grey[200],
+  ),
+  onSaved: (value) => formController.value.copyWith(type: value),
+  picker: FormEnumModalFieldPicker(
+    values: UserType.values,
   ),
 );
 ```
@@ -110,7 +120,7 @@ FormDateTimeField(
 ## パラメータ
 
 ### 必須パラメータ
-なし
+- `picker`: ピッカー。選択肢の要素を定義します。
 
 ### オプションパラメータ
 - `form`: フォームコントローラー。フォームの状態管理を行います。定義する場合は`onSaved`パラメータも定義する必要があります。
@@ -124,11 +134,7 @@ FormDateTimeField(
 
 - `labelText`: ラベルテキスト。テキストフィールド外に表示するラベルを設定します。
 - `hintText`: 何も入力されていないときに表示するヒントテキストを設定します。
-- `picker`: 日付を選択するためのピッカー。日付の範囲制限や時間間隔を設定することができます。ピッカーの種類を変えることで日付のみ選択や日時選択を切り替えることができます。
-  - `FormDateTimeFieldDatePicker`: 日付のみを選択するピッカー。
-  - `FormDateTimeFieldDateTimePicker`: 日付と時間を合わせて選択するピッカー。
 - `emptyErrorText`: 空のエラーメッセージ。選択が空の場合に表示するエラーメッセージを設定します。
-- `keyboardType`: キーボードのタイプ。テキスト入力のキーボードのタイプを設定します。
 
 ## 注意点
 
@@ -144,15 +150,15 @@ FormDateTimeField(
 3. `FormController`を使用せず、`onChanged`メソッドを使用して変更の都度処理を行う方法も利用可能。
 4. バリデーションは`validator`パラメータを使用して定義する。
 5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
-6. 日時は`DateTime`型で取り扱うが、`Model`では`ModelTimestamp`型で取り扱うため変換には注意。
+6. `picker`の`values`には列挙型の`values`をそのまま渡すと列挙型すべてが選択肢に追加される。where等で制限すると選択肢を絞ることができる。
 
 ## 利用シーン
 
-- 予約日時の選択
-- イベントのスケジュール設定
-- 配送希望日時の指定
-- 会議時間の設定
-- タスクの期限設定
+- ユーザータイプの選択
+- カテゴリーの選択
+- ステータスの選択
+- 権限レベルの設定
+- 設定項目の選択
 """;
   }
 }

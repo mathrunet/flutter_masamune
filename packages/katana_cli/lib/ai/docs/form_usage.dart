@@ -9,7 +9,7 @@ import 'package:katana_cli/ai/docs/form/form_date_time_range_field.dart';
 import 'package:katana_cli/ai/docs/form/form_duration_field.dart';
 import 'package:katana_cli/ai/docs/form/form_editable_toggle_builder.dart';
 import 'package:katana_cli/ai/docs/form/form_enum_dropdown_field.dart';
-import 'package:katana_cli/ai/docs/form/form_enum_field.dart';
+import 'package:katana_cli/ai/docs/form/form_enum_modal_field.dart';
 import 'package:katana_cli/ai/docs/form/form_focus_node_builder.dart';
 import 'package:katana_cli/ai/docs/form/form_future_field.dart';
 import 'package:katana_cli/ai/docs/form/form_label.dart';
@@ -45,7 +45,7 @@ const kFormList = {
   "FormDateTimeRangeField": KatanaFormDateTimeRangeFieldMdCliAiCode(),
   "FormDurationField": KatanaFormDurationFieldMdCliAiCode(),
   "FormEditableToggleBuilder": KatanaFormEditableToggleBuilderMdCliAiCode(),
-  "FormEnumField": KatanaFormEnumFieldMdCliAiCode(),
+  "FormEnumField": KatanaFormEnumModalFieldMdCliAiCode(),
   "FormEnumDropdownField": KatanaFormEnumDropdownFieldMdCliAiCode(),
   "FormFocusNodeBuilder": KatanaFormFocusNodeBuilderMdCliAiCode(),
   "FormFutureField": KatanaFormFutureFieldMdCliAiCode(),
@@ -137,6 +137,22 @@ final formStyle = FormStyle(
 );
 ```
 
+### `FormInputBorderStyle`について
+
+`FormInputBorderStyle`は`Form`の入力ボーダーのスタイルを定義するためのクラスである。これを各`FormStyle`で設定することで、入力ボーダーのスタイルを統一することができる。
+
+```dart
+final formStyle = FormStyle(
+  style: FormInputBorderStyle.outline,
+);
+```
+
+種類は下記の通りである。
+
+- `FormInputBorderStyle.none`: ボーダーなし。
+- `FormInputBorderStyle.outline`: 外枠をすべて囲う。
+- `FormInputBorderStyle.underline`: 下線のみ。
+
 ## `FormController`について
 
 `FormController`は`Form`の状態を管理するためのクラスである。これを各`Form`に適用することで、`Form`の状態を管理することができる。`FormController`の取得は`Model`で定義された`form`メソッドを利用し`State`を通して取得する。
@@ -146,6 +162,30 @@ final formStyle = FormStyle(
 
 ```dart
 final formController = ref.page.form(AnyModel.form(AnyModel()));
+```
+
+既存の値を編集する際に`Document`の`Model`を既存の値として利用する場合は下記のように定義する。
+
+```dart
+final anyDocument = ref.app.model(AnyModel.document(documentId))..load();
+final formController = ref.page.form(
+  AnyModel.form(
+    anyDocument.value ?? AnyModel(),
+  ),
+);
+```
+
+`FormController`を各`Form`に適用する際には各`Form`の`form`パラメーターに`FormController`を渡す。
+また`form`パラメーターに`FormController`を渡す際には`onSaved`パラメーターを定義する必要がある。
+`onSaved`パラメーターには`FormController`の`value`の`copyWith`メソッドを利用して`FormController`の`value`を更新し、`onSaved`の戻り値にその値をそのまま返す。
+
+```dart
+FormTextField(
+  form: formController,
+  onSaved: (value) => formController.value.copyWith(
+    title: value,
+  ),
+);
 ```
 
 `FormController`の`validate()`メソッドを実行することで各`Form`の`validate`プロパティや`onSave`プロパティの処理を実行し入力・選択された値の検証や保存を行うことができる。

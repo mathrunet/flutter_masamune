@@ -37,7 +37,7 @@ class WidgetUiImplMdCliAiCode extends CliAiCode {
     - 下記の`Widget`を優先的に利用する
         - `KatanaUI`の`Widget`(`documents/rules/docs/katana_ui_usage.md`)
         - `Flutter`の`Widget`(`documents/rules/docs/flutter_widgets.md`)
-        - `Form`の`Widget`(`documents/rules/docs/form_usage.md`)
+        - `Form`の`Widget`やインタラクティブな操作を行うフィールドの`Widget`(`documents/rules/docs/form_usage.md`)
     - `Router`を用いて別画面への遷移を行う。詳しくは`Router`の利用方法(`documents/rules/docs/router_usage.md`)を参照
     - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは[`Theme`の利用方法](documents/rules/docs/theme_usage.md)を参照
     - 例：
@@ -57,7 +57,7 @@ class WidgetUiImplMdCliAiCode extends CliAiCode {
     - 下記の`Widget`を優先的に利用する
         - `KatanaUI`の`Widget`(`documents/rules/docs/katana_ui_usage.md`)
         - `Flutter`の`Widget`(`documents/rules/docs/flutter_widgets.md`)
-        - `Form`の`Widget`(`documents/rules/docs/form_usage.md`)
+        - `Form`の`Widget`やインタラクティブな操作を行うフィールドの`Widget`(`documents/rules/docs/form_usage.md`)
     - `Router`を用いて別画面への遷移を行う。詳しくは`Router`の利用方法(`documents/rules/docs/router_usage.md`)を参照
     - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは`Theme`の利用方法(`documents/rules/docs/theme_usage.md`)を参照
     - 例：
@@ -70,7 +70,7 @@ class WidgetUiImplMdCliAiCode extends CliAiCode {
 
 ## `model_extension`
 
-1. `TargetModel`に対応する`lib/models/[TargetModelのModelName(SnakeCase&末尾のModelを取り除く)].dart`以下のファイルを開く。
+1. `TargetModel`に対応する`lib/models/[TargetModelのModelName(SnakeCase&末尾のModelを取り除く)].extensions.dart`以下のファイルを開く。
 2. `Widget設計書`の`Content`に応じて該当する`toXXX`メソッド内を書き換え、適切なUIを構築して返す。
     - 適宜`import`を追加する
     - `Model`の`Document`の変数をそのまま利用してもよい
@@ -79,7 +79,7 @@ class WidgetUiImplMdCliAiCode extends CliAiCode {
     - 下記の`Widget`を優先的に利用する
         - `KatanaUI`の`Widget`(`documents/rules/docs/katana_ui_usage.md`)
         - `Flutter`の`Widget`(`documents/rules/docs/flutter_widgets.md`)
-        - `Form`の`Widget`(`documents/rules/docs/form_usage.md`)
+        - `Form`の`Widget`やインタラクティブな操作を行うフィールドの`Widget`(`documents/rules/docs/form_usage.md`)
     - `Router`を用いて別画面への遷移を行う。詳しくは`Router`の利用方法(`documents/rules/docs/router_usage.md`)を参照
     - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは`Theme`の利用方法(`documents/rules/docs/theme_usage.md`)を参照
     - 例：

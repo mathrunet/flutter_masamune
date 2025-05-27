@@ -87,7 +87,7 @@ class PluginUsageMdCliAiCode extends CliAiCode {
 """;
     for (final entry in kPluginList.entries) {
       header +=
-          "| `${entry.key} | ${entry.value.name} | ${entry.value.excerpt} | Usage(`documents/rules/plugin/${entry.key.toSnakeCase()}.md`) |\n";
+          "| `${entry.key} | ${entry.value.name} | ${entry.value.excerpt} | Usage(`documents/rules/plugins/${entry.key.toSnakeCase()}.md`) |\n";
     }
     return header;
   }

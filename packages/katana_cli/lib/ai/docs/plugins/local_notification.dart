@@ -66,8 +66,8 @@ $excerpt
     final masamuneAdapters = <MasamuneAdapter>[
         const UniversalMasamuneAdapter(),
 
-        // ローカルPUSH通知のアダプターを追加。
-        const LocalNotificationMasamuneAdapter(),
+        // ローカルPUSH通知のアダプターを追加。（ランタイム・テスト用）
+        const RuntimeLocalNotificationMasamuneAdapter(),
     ];
     ```
 

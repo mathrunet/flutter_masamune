@@ -24,7 +24,7 @@ class KatanaFormDateFieldMdCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "`DatePicker`のMasamuneフレームワーク版。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで日付の値を管理可能。カレンダー表示、日付範囲制限、カスタムフォーマットなどの機能を備えています。";
+      "モーダルピッカーにて日付を選択することができるフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで日付の値を管理可能。カスタムフォーマットなどの機能を備えています。";
 
   @override
   String body(String baseName, String className) {
@@ -39,21 +39,9 @@ $excerpt
 
 ```dart
 FormDateField(
-    form: formController,
-    initialValue: formController.value.date,
-    onSaved: (value) => formController.value.copyWith(date: value),
-);
-```
-
-## 日付範囲制限付きの利用方法
-
-```dart
-FormDateField(
-    form: formController,
-    initialValue: formController.value.date,
-    firstDate: DateTime(2024, 1, 1),
-    lastDate: DateTime(2024, 12, 31),
-    onSaved: (value) => formController.value.copyWith(date: value),
+  form: formController,
+  initialValue: formController.value.date.value,
+  onSaved: (value) => formController.value.copyWith(date: ModelDate(value)),
 );
 ```
 
@@ -61,10 +49,10 @@ FormDateField(
 
 ```dart
 FormDateField(
-    form: formController,
-    initialValue: formController.value.date,
-    format: "yyyy年MM月dd日",
-    onSaved: (value) => formController.value.copyWith(date: value),
+  form: formController,
+  initialValue: formController.value.date.value,
+  format: "yyyy年MM月dd日",
+  onSaved: (value) => formController.value.copyWith(date: ModelDate(value)),
 );
 ```
 
@@ -72,18 +60,18 @@ FormDateField(
 
 ```dart
 FormDateField(
-    form: formController,
-    initialValue: formController.value.date,
-    validator: (value) {
-      if (value == null) {
-        return "日付を選択してください";
-      }
-      if (value.isBefore(DateTime.now())) {
-        return "過去の日付は選択できません";
-      }
-      return null;
-    },
-    onSaved: (value) => formController.value.copyWith(date: value),
+  form: formController,
+  initialValue: formController.value.date.value,
+  onSaved: (value) => formController.value.copyWith(date: ModelDate(value)),
+  validator: (value) {
+    if (value == null) {
+      return "日付を選択してください";
+    }
+    if (value.isBefore(DateTime.now())) {
+      return "過去の日付は選択できません";
+    }
+    return null;
+  },
 );
 ```
 
@@ -92,52 +80,53 @@ FormDateField(
 ```dart
 FormDateField(
     form: formController,
-    initialValue: formController.value.date,
+    initialValue: formController.value.date.value,
     style: const FormStyle(
       padding: EdgeInsets.all(16.0),
       borderRadius: BorderRadius.all(Radius.circular(8.0)),
       backgroundColor: Colors.grey[200],
-      calendarStyle: CalendarStyle(
-        selectedColor: Colors.blue,
-        todayColor: Colors.orange,
-      ),
     ),
-    onSaved: (value) => formController.value.copyWith(date: value),
+    onSaved: (value) => formController.value.copyWith(date: ModelDate(value)),
 );
 ```
 
 ## パラメータ
 
 ### 必須パラメータ
-- `form`: フォームコントローラー。フォームの状態管理を行います。
-- `onSaved`: 保存時のコールバック。選択された日付の保存処理を定義します。
+なし
 
 ### オプションパラメータ
-- `initialValue`: 初期値。フォーム表示時の初期日付を設定します。
-- `firstDate`: 選択可能な最初の日付。これより前の日付は選択できません。
-- `lastDate`: 選択可能な最後の日付。これより後の日付は選択できません。
-- `format`: 日付フォーマット。表示する日付のフォーマットを指定します。
-- `validator`: バリデーション関数。選択された日付の検証ルールを定義します。
+- `form`: フォームコントローラー。フォームの状態管理を行います。定義する場合は`onSaved`パラメータも定義する必要があります。
+- `onSaved`: 保存時のコールバック。選択された値の保存処理を定義します。定義する場合は`form`パラメータも定義する必要があります。
+- `onChanged`: 変更時のコールバック。選択された値の変更時の処理を定義します。
 - `style`: フォームのスタイル。`FormStyle`を使用してデザインをカスタマイズできます。
-- `enabled`: 入力可否。`false`の場合、日付選択が無効化されます。
-- `locale`: ロケール。カレンダーの言語や表示形式を指定します。
+- `validator`: バリデーション関数。選択値の検証ルールを定義します。
+- `enabled`: 入力可否。`false`の場合、チェックボックスが無効化されます。
+- `initialValue`: 初期値。フォーム表示時の初期チェック状態を設定します。
+- `focusNode`: フォーカスノード。フォームのフォーカスを設定します。
+
+- `labelText`: ラベルテキスト。テキストフィールド外に表示するラベルを設定します。
+- `hintText`: 何も入力されていないときに表示するヒントテキストを設定します。
+- `picker`: 日付ピッカー。日付選択のピッカーを設定します。
+- `format`: 日付フォーマット。表示する日付のフォーマットを指定します。
+- `emptyErrorText`: 空のエラーメッセージ。選択が空の場合に表示するエラーメッセージを設定します。
+- `keyboardType`: キーボードのタイプ。テキスト入力のキーボードのタイプを設定します。
 
 ## 注意点
 
-- `FormController`と組み合わせて使用することで、日付の値を管理できます。
+- `FormController`と組み合わせて使用することで、フォームの状態管理を行えます。
+- `FormController`を使用する場合は`onSaved`メソッドも合わせて定義してください。
 - `FormStyle`を使用することで、共通のデザインを適用できます。
-- バリデーションは`validator`パラメータを使用して定義します。
-- 日付の範囲制限は`firstDate`と`lastDate`で設定できます。
-- 日付フォーマットは`format`パラメータで指定できます。
-- `locale`パラメータを使用して、多言語対応が可能です。
+- ラベルテキストは`labelText`パラメータを使用して設定できます。
 
 ## ベストプラクティス
 
 1. フォームの状態管理には必ず`FormController`を使用する
-2. ユーザーの利便性を考慮して適切な日付範囲を設定する
-3. 地域に応じた日付フォーマットを使用する
-4. バリデーションで不正な日付選択を防ぐ
+2. `FormController`を使用する場合は`onSaved`メソッドも合わせて定義する。
+3. `FormController`を使用せず、`onChanged`メソッドを使用して変更の都度処理を行う方法も利用可能。
+4. バリデーションは`validator`パラメータを使用して定義する。
 5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
+6. 日付は`DateTime`型で取り扱うが、`Model`では`ModelDate`型で取り扱うため変換には注意。
 
 ## 利用シーン
 

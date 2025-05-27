@@ -135,7 +135,7 @@ class WidgetCreationMdCliAiCode extends CliAiCode {
 
 ## `model_extension`
 
-1. `TargetModel`に対応する`lib/models/[TargetModelのModelName(SnakeCase&末尾のModelを取り除く)].dart`以下のファイルを開く。
+1. `TargetModel`に対応する`lib/models/[TargetModelのModelName(SnakeCase&末尾のModelを取り除く)].extensions.dart`以下のファイルを開く。
 
 2. ファイルの`extension [TargetModelのModelName(PascalCase&末尾のModelを取り除く)]ModelDocumentExtension on [TargetModelのModelName(PascalCase&末尾のModelを取り除く)]ModelDocument`内にある`// TODO: Define the extension method.`以下に`Widget toXXX()`のメソッドを定義
     - メソッド名は必ず先頭に`to`を付与し`Model`をどのような`Widget`に変換するかを明示する必要がある

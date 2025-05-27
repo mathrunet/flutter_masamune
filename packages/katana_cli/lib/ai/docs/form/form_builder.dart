@@ -14,7 +14,7 @@ class KatanaFormBuilderMdCliAiCode extends FormUsageCliAiCode {
   String get name => "`FormBuilder`の利用方法";
 
   @override
-  String get description => "動的にフォームを構築するためのビルダーである`FormBuilder`の利用方法";
+  String get description => "独自のフォームを構築するためのビルダーである`FormBuilder`の利用方法";
 
   @override
   String get globs => "*.dart";
@@ -24,7 +24,7 @@ class KatanaFormBuilderMdCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "`FormController`を使用して動的にフォームを構築するためのビルダー。フォームの状態に応じて異なるフォームフィールドを表示したり、条件に基づいてフォームの構造を変更したりすることができます。";
+      "`FormController`を使用して独自のフォームを構築するためのビルダー。`ref.update`メソッドでフォームの情報を更新することができるためボタンを並べたフォームやモーダルで表示するフォームなどを構築することができます。";
 
   @override
   String body(String baseName, String className) {
@@ -39,113 +39,111 @@ $excerpt
 
 ```dart
 FormBuilder(
-    form: formController,
-    builder: (context, form, child) {
-      return Column(
-        children: [
-          FormTextField(
-            form: form,
-            initialValue: form.value.name,
-            onSaved: (value) => form.value.copyWith(name: value),
-          ),
-          if (form.value.type == UserType.admin)
-            FormTextField(
-              form: form,
-              initialValue: form.value.adminCode,
-              onSaved: (value) => form.value.copyWith(adminCode: value),
-            ),
-        ],
-      );
-    },
+  form: formController,
+  initialValue: formController.value.type,
+  onSaved: (value) => formController.value.copyWith(type: value),
+  builder: (context, ref, item) {
+    return Row(
+      children: [
+        FilledButton(
+          onPressed: item == UserType.admin ? null : () {
+            ref.update(UserType.admin);
+          },
+          child: const Text("管理者"),
+        ),
+        const SizedBox(width: 16),
+        FilledButton(
+          onPressed: item == UserType.user ? null : () {
+            ref.update(UserType.user);
+          },
+          child: const Text("一般ユーザー"),
+        ),
+        const SizedBox(width: 16),
+        FilledButton(
+          onPressed: item == UserType.guest ? null : () {
+            ref.update(UserType.guest);
+          },
+          child: const Text("ゲスト"),
+        ),
+      ],
+    );
+  },
 );
 ```
 
-## フォーム状態に応じた動的な表示
+## モーダルを利用したフォームの構築
 
 ```dart
 FormBuilder(
-    form: formController,
-    builder: (context, form, child) {
-      return Column(
-        children: [
-          FormEnumField<UserType>(
-            form: form,
-            initialValue: form.value.type,
-            items: UserType.values,
-            onSaved: (value) => form.value.copyWith(type: value),
-          ),
-          const SizedBox(height: 16),
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            child: _buildTypeSpecificFields(form),
-          ),
-        ],
-      );
-    },
+  form: formController,
+  onSaved: (value) => formController.value.copyWith(type: value),
+  initialValue: formController.value.type,
+  builder: (context, ref, item) {
+    return FilledButton(
+      onPressed: () async {
+        final res = await showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return FormEnumModalField(
+              initialValue: formController.value.type,
+              onChanged: (value) {
+                Navigator.pop(context, value);
+              },
+              picker: FormEnumModalFieldPicker(
+                values: UserType.values,
+              ),
+            );
+          },
+        );
+        if (res != null) {
+          ref.update(res);
+        }
+      },
+      child: const Text("モーダルを表示して選択"),
+    );
+  },
 );
-
-Widget _buildTypeSpecificFields(FormController form) {
-  switch (form.value.type) {
-    case UserType.admin:
-      return Column(
-        children: [
-          FormTextField(
-            form: form,
-            initialValue: form.value.adminCode,
-            onSaved: (value) => form.value.copyWith(adminCode: value),
-          ),
-          FormSwitch(
-            form: form,
-            initialValue: form.value.hasFullAccess,
-            onSaved: (value) => form.value.copyWith(hasFullAccess: value),
-          ),
-        ],
-      );
-    case UserType.user:
-      return FormTextField(
-        form: form,
-        initialValue: form.value.department,
-        onSaved: (value) => form.value.copyWith(department: value),
-      );
-    default:
-      return const SizedBox.shrink();
-  }
-}
 ```
 
 ## バリデーション状態の監視
 
 ```dart
 FormBuilder(
-    form: formController,
-    builder: (context, form, child) {
-      return Column(
-        children: [
-          FormTextField(
-            form: form,
-            initialValue: form.value.email,
-            validator: (value) {
-              if (value?.isEmpty ?? true) {
-                return "メールアドレスを入力してください";
-              }
-              return null;
-            },
-            onSaved: (value) => form.value.copyWith(email: value),
-          ),
-          const SizedBox(height: 16),
-          FormButton(
-            form: form,
-            label: "保存",
-            enabled: !form.hasError,
-            onPressed: () {
-              if (form.validate()) {
-                form.save();
-              }
-            },
-          ),
-        ],
-      );
-    },
+  form: formController,
+  onSaved: (value) => formController.value.copyWith(type: value),
+  initialValue: formController.value.type,
+  validator: (value) {
+    if (value?.isEmpty ?? true) {
+      return "メールアドレスを入力してください";
+    }
+    return null;
+  },
+  builder: (context, ref, item) {
+    return Row(
+      children: [
+        FilledButton(
+          onPressed: item == UserType.admin ? null : () {
+            ref.update(UserType.admin);
+          },
+          child: const Text("管理者"),
+        ),
+        const SizedBox(width: 16),
+        FilledButton(
+          onPressed: item == UserType.user ? null : () {
+            ref.update(UserType.user);
+          },
+          child: const Text("一般ユーザー"),
+        ),
+        const SizedBox(width: 16),
+        FilledButton(
+          onPressed: item == UserType.guest ? null : () {
+            ref.update(UserType.guest);
+          },
+          child: const Text("ゲスト"),
+        ),
+      ],
+    );
+  },
 );
 ```
 
@@ -153,60 +151,70 @@ FormBuilder(
 
 ```dart
 FormBuilder(
-    form: formController,
-    style: const FormStyle(
-      padding: EdgeInsets.all(16.0),
-      backgroundColor: Colors.grey[100],
-      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-    ),
-    builder: (context, form, child) {
-      return Column(
-        children: [
-          FormTextField(
-            form: form,
-            initialValue: form.value.name,
-            onSaved: (value) => form.value.copyWith(name: value),
-          ),
-          const SizedBox(height: 16),
-          FormButton(
-            form: form,
-            label: "保存",
-            onPressed: () {
-              if (form.validate()) {
-                form.save();
-              }
-            },
-          ),
-        ],
-      );
-    },
+  form: formController,
+  onSaved: (value) => formController.value.copyWith(type: value),
+  initialValue: formController.value.type,
+  style: const FormStyle(
+    padding: EdgeInsets.all(16.0),
+    backgroundColor: Colors.grey[100],
+    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+  ),
+  builder: (context, ref, item) {
+    return Column(
+      children: [
+        FilledButton(
+          onPressed: item == UserType.admin ? null : () {
+            ref.update(UserType.admin);
+          },
+          child: const Text("管理者"),
+        ),
+        const SizedBox(width: 16),
+        FilledButton(
+          onPressed: item == UserType.user ? null : () {
+            ref.update(UserType.user);
+          },
+          child: const Text("一般ユーザー"),
+        ),
+        const SizedBox(width: 16),
+        FilledButton(
+          onPressed: item == UserType.guest ? null : () {
+            ref.update(UserType.guest);
+          },
+          child: const Text("ゲスト"),
+        ),
+      ],
+    );
+  },
 );
 ```
 
 ## パラメータ
 
 ### 必須パラメータ
-- `form`: フォームコントローラー。フォームの状態管理を行います。
 - `builder`: ビルダー関数。フォームの構造を動的に生成します。
 
 ### オプションパラメータ
+- `form`: フォームコントローラー。フォームの状態管理を行います。定義する場合は`onSaved`パラメータも定義する必要があります。
+- `onSaved`: 保存時のコールバック。選択された値の保存処理を定義します。定義する場合は`form`パラメータも定義する必要があります。
+- `onChanged`: 変更時のコールバック。選択された値の変更時の処理を定義します。
 - `style`: フォームのスタイル。`FormStyle`を使用してデザインをカスタマイズできます。
-- `child`: 静的なウィジェット。再ビルドが不要な部分を最適化します。
+- `validator`: バリデーション関数。選択値の検証ルールを定義します。
+- `enabled`: 入力可否。`false`の場合、フォームが無効化されます。
+- `initialValue`: 初期値。フォーム表示時の初期チェック状態を設定します。
 
 ## 注意点
 
 - `FormController`と組み合わせて使用することで、フォームの状態管理を行えます。
+- `FormController`を使用する場合は`onSaved`メソッドも合わせて定義してください。
 - `FormStyle`を使用することで、共通のデザインを適用できます。
-- ビルダー関数内でフォームの状態に応じて条件分岐を行うことができます。
-- パフォーマンスを考慮して、静的な部分は`child`パラメータを使用します。
-- フォームのバリデーション状態は`form.hasError`で監視できます。
+- ビルダー関数内で自由にフォーム作成することができます。
 
 ## ベストプラクティス
 
 1. フォームの状態管理には必ず`FormController`を使用する
-2. 動的な表示切り替えには適切なアニメーションを使用する
-3. 複雑なフォームは適切に関数を分割する
-4. バリデーション状態に応じてUIを適切に更新する
+2. `FormController`を使用する場合は`onSaved`メソッドも合わせて定義する。
+3. `FormController`を使用せず、`onChanged`メソッドを使用して変更の都度処理を行う方法も利用可能。
+4. バリデーションは`validator`パラメータを使用して定義する。
 5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
 
 ## 利用シーン

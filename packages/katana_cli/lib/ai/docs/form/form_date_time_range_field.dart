@@ -41,8 +41,8 @@ $excerpt
 ```dart
 FormDateTimeRangeField(
     form: formController,
-    initialValue: formController.value.eventPeriod,
-    onSaved: (value) => formController.value.copyWith(eventPeriod: value),
+    initialValue: formController.value.eventPeriod.value,
+    onSaved: (value) => formController.value.copyWith(eventPeriod: ModelTimestampRange(value)),
 );
 ```
 
@@ -50,11 +50,14 @@ FormDateTimeRangeField(
 
 ```dart
 FormDateTimeRangeField(
-    form: formController,
-    initialValue: formController.value.workPeriod,
-    format: "yyyy年MM月dd日",
-    timeFormat: "HH時mm分",
-    onSaved: (value) => formController.value.copyWith(workPeriod: value),
+  form: formController,
+  initialValue: formController.value.eventPeriod.value,
+  onSaved: (value) => formController.value.copyWith(eventPeriod: ModelTimestampRange(value)),
+  picker: const FormDateTimeRangeFieldDatePicker(
+    dateFormat: "yyyy年MM月dd日 HH時mm分",
+    startDate: DateTime(2024, 1, 1, 9, 0),
+    endDate: DateTime(2024, 12, 31, 17, 0),
+  ),
 );
 ```
 
@@ -62,40 +65,23 @@ FormDateTimeRangeField(
 
 ```dart
 FormDateTimeRangeField(
-    form: formController,
-    initialValue: formController.value.reservationPeriod,
-    firstDate: DateTime.now(),
-    lastDate: DateTime.now().add(const Duration(days: 90)),
-    validator: (value) {
-      if (value == null) {
-        return "予約期間を選択してください";
-      }
-      final duration = value.end.difference(value.start);
-      if (duration.inDays > 7) {
-        return "予約期間は7日以内にしてください";
-      }
-      return null;
-    },
-    onSaved: (value) => formController.value.copyWith(reservationPeriod: value),
-);
-```
-
-## 時間選択のカスタマイズ
-
-```dart
-FormDateTimeRangeField(
-    form: formController,
-    initialValue: formController.value.meetingPeriod,
-    timeInterval: const Duration(minutes: 30),
-    timeFormat: "HH:mm",
-    style: const FormStyle(
-      dateTimeRangeStyle: DateTimeRangeStyle(
-        startLabel: "開始時間",
-        endLabel: "終了時間",
-        timePickerEntryMode: TimePickerEntryMode.input,
-      ),
-    ),
-    onSaved: (value) => formController.value.copyWith(meetingPeriod: value),
+  form: formController,
+  initialValue: formController.value.eventPeriod.value,
+  onSaved: (value) => formController.value.copyWith(eventPeriod: ModelTimestampRange(value)),
+  picker: const FormDateTimeRangeFieldDatePicker(
+    startDate: DateTime(2024, 1, 1, 9, 0),
+    endDate: DateTime(2024, 12, 31, 17, 0),
+  ),
+  validator: (value) {
+    if (value == null) {
+      return "予約期間を選択してください";
+    }
+    final duration = value.end.difference(value.start);
+    if (duration.inDays > 7) {
+      return "予約期間は7日以内にしてください";
+    }
+    return null;
+  },
 );
 ```
 
@@ -103,56 +89,54 @@ FormDateTimeRangeField(
 
 ```dart
 FormDateTimeRangeField(
-    form: formController,
-    initialValue: formController.value.eventPeriod,
-    style: const FormStyle(
-      padding: EdgeInsets.all(16.0),
-      dateTimeRangeStyle: DateTimeRangeStyle(
-        backgroundColor: Colors.white,
-        selectedColor: Colors.blue,
-        todayColor: Colors.blue[100],
-        startLabel: "イベント開始",
-        endLabel: "イベント終了",
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-      ),
-    ),
-    onSaved: (value) => formController.value.copyWith(eventPeriod: value),
+  form: formController,
+  initialValue: formController.value.eventPeriod.value,
+  onSaved: (value) => formController.value.copyWith(eventPeriod: ModelTimestampRange(value)),
+  style: const FormStyle(
+    style: FormInputBorderStyle.outline,
+    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+  ),
 );
 ```
 
 ## パラメータ
 
 ### 必須パラメータ
-- `form`: フォームコントローラー。フォームの状態管理を行います。
-- `onSaved`: 保存時のコールバック。選択された値の保存処理を定義します。
+なし
 
 ### オプションパラメータ
-- `initialValue`: 初期値。フォーム表示時の初期選択値を設定します。
-- `firstDate`: 選択可能な最初の日付。これより前の日付は選択できません。
-- `lastDate`: 選択可能な最後の日付。これより後の日付は選択できません。
-- `format`: 日付のフォーマット。表示される日付の形式を指定します。
-- `timeFormat`: 時刻のフォーマット。表示される時刻の形式を指定します。
-- `timeInterval`: 時間選択の間隔。時刻選択時の分単位の間隔を指定します。
-- `validator`: バリデーション関数。選択値の検証ルールを定義します。
+- `form`: フォームコントローラー。フォームの状態管理を行います。定義する場合は`onSaved`パラメータも定義する必要があります。
+- `onSaved`: 保存時のコールバック。選択された値の保存処理を定義します。定義する場合は`form`パラメータも定義する必要があります。
+- `onChanged`: 変更時のコールバック。選択された値の変更時の処理を定義します。
 - `style`: フォームのスタイル。`FormStyle`を使用してデザインをカスタマイズできます。
-- `enabled`: 入力可否。`false`の場合、選択が無効化されます。
-- `locale`: ローカライズ設定。日付や時刻の表示言語を指定します。
+- `validator`: バリデーション関数。選択値の検証ルールを定義します。
+- `enabled`: 入力可否。`false`の場合、チェックボックスが無効化されます。
+- `initialValue`: 初期値。フォーム表示時の初期チェック状態を設定します。
+- `focusNode`: フォーカスノード。フォームのフォーカスを設定します。
+
+- `labelText`: ラベルテキスト。テキストフィールド外に表示するラベルを設定します。
+- `hintText`: 何も入力されていないときに表示するヒントテキストを設定します。
+- `picker`: 日付の範囲を選択するためのピッカー。日付の範囲制限や時間間隔を設定することができます。ピッカーの種類を変えることで日付のみ選択や日時選択を切り替えることができます。
+  - `FormDateTimeRangeFieldDatePicker`: 日付のみの範囲を選択するピッカー。
+  - `FormDateTimeRangeFieldCustomPicker`: `pickerBuilder`を使用して選択可能なピッカーを指定するピッカー。
+- `emptyErrorText`: 空のエラーメッセージ。選択が空の場合に表示するエラーメッセージを設定します。
+- `keyboardType`: キーボードのタイプ。テキスト入力のキーボードのタイプを設定します。
 
 ## 注意点
 
-- `FormController`と組み合わせて使用することで、選択状態を管理できます。
+- `FormController`と組み合わせて使用することで、フォームの状態管理を行えます。
+- `FormController`を使用する場合は`onSaved`メソッドも合わせて定義してください。
 - `FormStyle`を使用することで、共通のデザインを適用できます。
-- バリデーションは`validator`パラメータを使用して定義します。
-- 時間選択の間隔は`timeInterval`で調整できます。
-- 日付と時刻のフォーマットは別々に指定できます。
+- ラベルテキストは`labelText`パラメータを使用して設定できます。
 
 ## ベストプラクティス
 
 1. フォームの状態管理には必ず`FormController`を使用する
-2. 適切な選択可能期間を設定する
-3. ユーザーの地域に合わせた日付・時刻フォーマットを使用する
-4. 分かりやすいラベルを設定する
+2. `FormController`を使用する場合は`onSaved`メソッドも合わせて定義する。
+3. `FormController`を使用せず、`onChanged`メソッドを使用して変更の都度処理を行う方法も利用可能。
+4. バリデーションは`validator`パラメータを使用して定義する。
 5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
+6. 日時は`DateTimeRange`型で取り扱うが、`Model`では`ModelTimestampRange`型で取り扱うため変換には注意。
 
 ## 利用シーン
 

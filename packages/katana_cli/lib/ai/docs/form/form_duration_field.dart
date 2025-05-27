@@ -24,7 +24,7 @@ class KatanaFormDurationFieldMdCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "時間の長さ（Duration）を入力するためのフォームフィールド。時間、分、秒などの単位で時間の長さを設定でき、カスタムフォーマットやバリデーションなどの機能を備えています。`FormStyle`で共通したデザインを適用可能で、`FormController`を利用することで入力値を管理できます。";
+      "時間の長さ（Duration）を入力するためのフォームフィールド。時間、分、秒などの単位で時間の長さを設定でき、範囲制限やバリデーションなどの機能を備えています。`FormStyle`で共通したデザインを適用可能で、`FormController`を利用することで入力値を管理できます。";
 
   @override
   String body(String baseName, String className) {
@@ -39,24 +39,23 @@ $excerpt
 
 ```dart
 FormDurationField(
-    form: formController,
-    initialValue: formController.value.duration,
-    onSaved: (value) => formController.value.copyWith(duration: value),
+  form: formController,
+  initialValue: Duration(milliseconds: formController.value.duration),
+  onSaved: (value) => formController.value.copyWith(duration: value.inMilliseconds),
 );
 ```
 
-## カスタム単位の利用方法
+## 範囲制限の利用方法
 
 ```dart
 FormDurationField(
-    form: formController,
-    initialValue: formController.value.duration,
-    units: const [DurationUnit.hours, DurationUnit.minutes],
-    labels: const {
-      DurationUnit.hours: "時間",
-      DurationUnit.minutes: "分",
-    },
-    onSaved: (value) => formController.value.copyWith(duration: value),
+  form: formController,
+  initialValue: Duration(milliseconds: formController.value.duration),
+  onSaved: (value) => formController.value.copyWith(duration: value.inMilliseconds),
+  picker: const FormDurationFieldPicker(
+    begin: Duration(minutes: 1),
+    end: Duration(minutes: 30),
+  ),
 );
 ```
 
@@ -64,21 +63,21 @@ FormDurationField(
 
 ```dart
 FormDurationField(
-    form: formController,
-    initialValue: formController.value.duration,
-    validator: (value) {
-      if (value == null) {
-        return "時間を入力してください";
-      }
-      if (value.inMinutes < 30) {
-        return "30分以上の時間を設定してください";
-      }
-      if (value.inHours > 8) {
-        return "8時間以内の時間を設定してください";
-      }
-      return null;
-    },
-    onSaved: (value) => formController.value.copyWith(duration: value),
+  form: formController,
+  initialValue: Duration(milliseconds: formController.value.duration),
+  onSaved: (value) => formController.value.copyWith(duration: value.inMilliseconds),
+  validator: (value) {
+    if (value == null) {
+      return "時間を入力してください";
+    }
+    if (value.inMinutes < 30) {
+      return "30分以上の時間を設定してください";
+    }
+    if (value.inHours > 8) {
+      return "8時間以内の時間を設定してください";
+    }
+    return null;
+  },
 );
 ```
 
@@ -86,68 +85,52 @@ FormDurationField(
 
 ```dart
 FormDurationField(
-    form: formController,
-    initialValue: formController.value.duration,
-    style: const FormStyle(
-      padding: EdgeInsets.all(16.0),
-      durationStyle: DurationStyle(
-        backgroundColor: Colors.grey[200],
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        textStyle: TextStyle(
-          fontSize: 16.0,
-          fontWeight: FontWeight.bold,
-        ),
-        unitSpacing: 8.0,
-      ),
-    ),
-    onSaved: (value) => formController.value.copyWith(duration: value),
-);
-```
-
-## 最小値・最大値の設定
-
-```dart
-FormDurationField(
-    form: formController,
-    initialValue: formController.value.duration,
-    minDuration: const Duration(minutes: 30),
-    maxDuration: const Duration(hours: 8),
-    onSaved: (value) => formController.value.copyWith(duration: value),
+  form: formController,
+  initialValue: Duration(milliseconds: formController.value.duration),
+  onSaved: (value) => formController.value.copyWith(duration: value.inMilliseconds),
+  style: const FormStyle(
+    padding: EdgeInsets.all(16.0),
+  ),
 );
 ```
 
 ## パラメータ
 
 ### 必須パラメータ
-- `form`: フォームコントローラー。フォームの状態管理を行います。
-- `onSaved`: 保存時のコールバック。入力された時間の保存処理を定義します。
+なし
 
 ### オプションパラメータ
-- `initialValue`: 初期値。フォーム表示時の初期時間を設定します。
-- `units`: 表示する単位。時間の単位（時、分、秒など）を指定します。
-- `labels`: 単位のラベル。各単位に対応する表示テキストを設定します。
-- `minDuration`: 最小時間。入力可能な最小の時間を設定します。
-- `maxDuration`: 最大時間。入力可能な最大の時間を設定します。
-- `validator`: バリデーション関数。入力値の検証ルールを定義します。
+- `form`: フォームコントローラー。フォームの状態管理を行います。定義する場合は`onSaved`パラメータも定義する必要があります。
+- `onSaved`: 保存時のコールバック。選択された値の保存処理を定義します。定義する場合は`form`パラメータも定義する必要があります。
+- `onChanged`: 変更時のコールバック。選択された値の変更時の処理を定義します。
 - `style`: フォームのスタイル。`FormStyle`を使用してデザインをカスタマイズできます。
-- `enabled`: 入力可否。`false`の場合、入力が無効化されます。
-- `onChanged`: 値変更時のコールバック。時間が変更された時の処理を定義します。
+- `validator`: バリデーション関数。選択値の検証ルールを定義します。
+- `enabled`: 入力可否。`false`の場合、チェックボックスが無効化されます。
+- `initialValue`: 初期値。フォーム表示時の初期チェック状態を設定します。
+- `focusNode`: フォーカスノード。フォームのフォーカスを設定します。
+
+- `labelText`: ラベルテキスト。テキストフィールド外に表示するラベルを設定します。
+- `hintText`: 何も入力されていないときに表示するヒントテキストを設定します。
+- `picker`: 間隔を選択するためのピッカー。
+  - `FormDurationFieldPicker`: 範囲を選択するピッカー。
+- `emptyErrorText`: 空のエラーメッセージ。選択が空の場合に表示するエラーメッセージを設定します。
+- `keyboardType`: キーボードのタイプ。テキスト入力のキーボードのタイプを設定します。
 
 ## 注意点
 
-- `FormController`と組み合わせて使用することで、時間の値を管理できます。
+- `FormController`と組み合わせて使用することで、フォームの状態管理を行えます。
+- `FormController`を使用する場合は`onSaved`メソッドも合わせて定義してください。
 - `FormStyle`を使用することで、共通のデザインを適用できます。
-- バリデーションは`validator`パラメータを使用して定義します。
-- 時間の単位は`units`パラメータで制御できます。
-- 最小値・最大値は`minDuration`と`maxDuration`で設定できます。
+- ラベルテキストは`labelText`パラメータを使用して設定できます。
 
 ## ベストプラクティス
 
 1. フォームの状態管理には必ず`FormController`を使用する
-2. 用途に応じて適切な時間単位を選択する
-3. 分かりやすい単位ラベルを設定する
-4. 適切な最小値・最大値を設定する
+2. `FormController`を使用する場合は`onSaved`メソッドも合わせて定義する。
+3. `FormController`を使用せず、`onChanged`メソッドを使用して変更の都度処理を行う方法も利用可能。
+4. バリデーションは`validator`パラメータを使用して定義する。
 5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
+6. 日時は`Duration`型で取り扱うが、`Model`ではミリ秒や秒で取り扱うため変換には注意。
 
 ## 利用シーン
 

@@ -33,7 +33,7 @@ class MockDataImplMdCliAiCode extends CliAiCode {
         - 各`Model`に対する`ModelInitialValue`は`MemoModelInitialCollection`のような形で実装されているのでそれを利用する
     - 各種`ModelInitialValue`は`String`をキー、対応する`Model`を値とする`Map`を渡して定義する
         - キーは基本的に32桁の英数字（e.g. `a23c3fad389a45b39c9b1f930b364466`）を定義
-            - `generateCode(32, seed: n)`でランダムに生成可能
+            - Masamuneフレームワーク（`package:masamune/masamune.dart`）に実装されている`generateCode(32, seed: n)`でランダムに生成可能
     - `Collection`で利用する場合は10個程度のデータを用意
     - `ModelRef<AnyModel>`を参照する場合は`AnyModelRefPath(uid)`を渡すことで参照可能
         - `uid`は`AnyModelInitialCollection({uid: AnyModel()})`のように定義されていることが前提
