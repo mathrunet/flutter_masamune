@@ -117,12 +117,12 @@ class FormPageState extends State<FormPage> {
             onSaved: (value) => {...form.value, "enumSelect": value},
           ),
           const FormLabel("Map Form"),
-          FormMapField(
+          FormMapModalField(
             form: form,
             initialValue: "one",
-            picker: FormMapFieldPicker(
+            picker: FormMapModalFieldPicker(
               defaultKey: "one",
-              data: {"one": "one", "two": "two", "three": "three"},
+              values: {"one": "one", "two": "two", "three": "three"},
             ),
             onSaved: (value) => {...form.value, "mapSelect": value},
           ),

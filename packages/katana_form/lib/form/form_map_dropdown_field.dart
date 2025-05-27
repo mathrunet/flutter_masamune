@@ -446,7 +446,7 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
                 itemHeight: widget.style?.height,
                 selectedItemBuilder: widget.picker.build,
                 dropdownColor: surfaceBackgroundColor,
-                items: widget.picker.data.toList((key, value) {
+                items: widget.picker.values.toList((key, value) {
                   return DropdownMenuItem(
                     value: key,
                     child: Text(
@@ -472,25 +472,25 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
 
 /// Class that defines the picker style for selection from [Map].
 ///
-/// Pass `Map<String, String>` to [data].
+/// Pass `Map<String, String>` to [values].
 /// Key in [Map] is the ID for selection and Value is the display label for selection.
 ///
 /// [Map]から選択するためのピッカースタイルを定義するクラス。
 ///
-/// `Map<String, String>`を[data]に渡します。
+/// `Map<String, String>`を[values]に渡します。
 /// [Map]のKeyが選択用のID、Valueが選択用の表示ラベルになります。
 class FormMapDropdownFieldPicker {
   /// Class that defines the picker style for selection from [Map].
   ///
-  /// Pass `Map<String, String>` to [data].
+  /// Pass `Map<String, String>` to [values].
   /// Key in [Map] is the ID for selection and Value is the display label for selection.
   ///
   /// [Map]から選択するためのピッカースタイルを定義するクラス。
   ///
-  /// `Map<String, String>`を[data]に渡します。
+  /// `Map<String, String>`を[values]に渡します。
   /// [Map]のKeyが選択用のID、Valueが選択用の表示ラベルになります。
   FormMapDropdownFieldPicker({
-    required this.data,
+    required this.values,
     this.labelBuilder,
   });
 
@@ -501,7 +501,7 @@ class FormMapDropdownFieldPicker {
   /// 選択肢用のデータ。
   ///
   /// [Map]のKeyが選択用のID、Valueが選択用の表示ラベルになります。
-  final Map<String, String> data;
+  final Map<String, String> values;
 
   /// Label builder to create text to display choices.
   ///
@@ -516,7 +516,7 @@ class FormMapDropdownFieldPicker {
   ///
   /// [context]に[BuildContext]が渡されます。
   List<Widget> build(BuildContext context) {
-    final keys = data.keys.toList();
+    final keys = values.keys.toList();
     final theme = Theme.of(context);
     final visibility = Visibility.of(context);
     final formStyleScope = FormStyleScope.of(context);
@@ -537,7 +537,7 @@ class FormMapDropdownFieldPicker {
       return Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          labelBuilder?.call(data[key]) ?? data[key] ?? "",
+          labelBuilder?.call(values[key]) ?? values[key] ?? "",
           softWrap: true,
           style: (enabled
                   ? textStyle?.copyWith(
@@ -556,3 +556,5 @@ class FormMapDropdownFieldPicker {
     }).toList();
   }
 }
+ 
+       

@@ -49,7 +49,7 @@ part of '/katana_form.dart';
 /// [enabled]が`false`になるとテキストが非有効化されます。
 ///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-class FormMapField<TValue> extends StatefulWidget {
+class FormMapModalField<TValue> extends StatefulWidget {
   /// Form to select from there with [Map] as an option.
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
@@ -99,7 +99,7 @@ class FormMapField<TValue> extends StatefulWidget {
   /// [enabled]が`false`になるとテキストが非有効化されます。
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-  const FormMapField({
+  const FormMapModalField({
     this.form,
     super.key,
     this.controller,
@@ -254,7 +254,7 @@ class FormMapField<TValue> extends StatefulWidget {
   /// Picker object for selecting from [Map].
   ///
   /// [Map]からを選択するためのピッカーオブジェクト。
-  final FormMapFieldPicker picker;
+  final FormMapModalFieldPicker picker;
 
   /// If placed in a list, whether or not it should not be discarded on scrolling.
   ///
@@ -276,11 +276,11 @@ class FormMapField<TValue> extends StatefulWidget {
   final Widget? dropdownIcon;
 
   @override
-  State<StatefulWidget> createState() => _FormMapFieldState<TValue>();
+  State<StatefulWidget> createState() => _FormMapModalFieldState<TValue>();
 }
 
-class _FormMapFieldState<TValue> extends State<FormMapField<TValue>>
-    with AutomaticKeepAliveClientMixin<FormMapField<TValue>> {
+class _FormMapModalFieldState<TValue> extends State<FormMapModalField<TValue>>
+    with AutomaticKeepAliveClientMixin<FormMapModalField<TValue>> {
   TextEditingController? _controller;
   @override
   void initState() {
@@ -297,7 +297,7 @@ class _FormMapFieldState<TValue> extends State<FormMapField<TValue>>
   }
 
   @override
-  void didUpdateWidget(FormMapField<TValue> oldWidget) {
+  void didUpdateWidget(FormMapModalField<TValue> oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.controller != widget.controller) {
@@ -612,7 +612,7 @@ class _MapTextField<TValue> extends FormField<String> {
         );
 
   final FormController<TValue>? form;
-  final FormMapFieldPicker picker;
+  final FormMapModalFieldPicker picker;
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -780,47 +780,48 @@ class _SelectTextFieldState<TValue> extends FormFieldState<String> {
 
 /// Class that defines the picker style for selection from [Map].
 ///
-/// Pass `Map<String, String>` to [data].
+/// Pass `Map<String, String>` to [values].
 /// Key in [Map] is the ID for selection and Value is the display label for selection.
 ///
-/// If [defaultKey] is not in the key of [data], an error will occur.
+/// If [defaultKey] is not in the key of [values], an error will occur.
 ///
 /// [Map]から選択するためのピッカースタイルを定義するクラス。
 ///
-/// `Map<String, String>`を[data]に渡します。
+/// `Map<String, String>`を[values]に渡します。
 /// [Map]のKeyが選択用のID、Valueが選択用の表示ラベルになります。
 ///
-/// [defaultKey]が[data]のキーにない場合エラーになります。
-class FormMapFieldPicker {
+/// [defaultKey]が[values]のキーにない場合エラーになります。
+class FormMapModalFieldPicker {
   /// Class that defines the picker style for selection from [Map].
   ///
-  /// Pass `Map<String, String>` to [data].
+  /// Pass `Map<String, String>` to [values].
   /// Key in [Map] is the ID for selection and Value is the display label for selection.
   ///
-  /// If [defaultKey] is not in the key of [data], an error will occur.
+  /// If [defaultKey] is not in the key of [values], an error will occur.
   ///
   /// [Map]から選択するためのピッカースタイルを定義するクラス。
   ///
-  /// `Map<String, String>`を[data]に渡します。
+  /// `Map<String, String>`を[values]に渡します。
   /// [Map]のKeyが選択用のID、Valueが選択用の表示ラベルになります。
   ///
-  /// [defaultKey]が[data]のキーにない場合エラーになります。
-  FormMapFieldPicker({
-    required this.defaultKey,
-    required this.data,
+  /// [defaultKey]が[values]のキーにない場合エラーになります。
+  FormMapModalFieldPicker({
+    this.defaultKey,
+    required this.values,
     this.backgroundColor,
     this.color,
     this.confirmText = "Confirm",
     this.cancelText = "Cancel",
-  }) : assert(
-          data.containsKey(defaultKey),
+  })  : assert(values.isNotEmpty, "Values is empty."),
+        assert(
+          values.containsKey(defaultKey),
           "[defaultId] is not included in [data].",
         );
 
   /// Specifies the key if not selected.
   ///
   /// 選択されていない場合のキーを指定します。
-  final String defaultKey;
+  final String? defaultKey;
 
   /// Data for options.
   ///
@@ -829,7 +830,7 @@ class FormMapFieldPicker {
   /// 選択肢用のデータ。
   ///
   /// [Map]のKeyが選択用のID、Valueが選択用の表示ラベルになります。
-  final Map<String, String> data;
+  final Map<String, String> values;
 
   /// Background color of the picker.
   ///
@@ -860,7 +861,7 @@ class FormMapFieldPicker {
   /// [context]に[BuildContext]が渡されます。[currentKey]に現在選択されているキーが渡されます。
   Future<String?> build(BuildContext context, String? currentKey) async {
     String? res;
-    final keys = data.keys.toList();
+    final keys = values.keys.toList();
     final theme = Theme.of(context);
     await _Picker(
       height: 240,
@@ -871,14 +872,14 @@ class FormMapFieldPicker {
       confirmText: confirmText,
       cancelText: cancelText,
       selecteds: [
-        keys.indexOf(currentKey ?? defaultKey),
+        keys.indexOf(currentKey ?? defaultKey ?? values.keys.first),
       ],
       adapter: _PickerDataAdapter<String>(
         data: [
           ...keys.map((key) {
             return _PickerItem<String>(
               text: Text(
-                data[key] ?? "",
+                values[key] ?? "",
                 style: TextStyle(
                   color: color ?? theme.colorScheme.onSurface,
                 ),

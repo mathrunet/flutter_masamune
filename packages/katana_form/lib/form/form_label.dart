@@ -43,6 +43,7 @@ class FormLabel extends StatelessWidget {
     this.label, {
     super.key,
     this.icon,
+    this.style,
     this.color,
     this.prefix,
     this.suffix,
@@ -54,6 +55,11 @@ class FormLabel extends StatelessWidget {
   ///
   /// [label]の前にアイコンを表示します。
   final IconData? icon;
+
+  /// Form style.
+  ///
+  /// フォームのスタイル。
+  final FormStyle? style;
 
   /// Change the color of [label] and [icon].
   ///
@@ -87,7 +93,7 @@ class FormLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dividerColor = color ??
+    final dividerColor = style?.borderColor ??
         Theme.of(context).textTheme.titleMedium?.color?.withValues(alpha: 0.5);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -95,7 +101,7 @@ class FormLabel extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         if (showDivider) ...[
-          SizedBox(width: 12, child: Divider(color: color)),
+          SizedBox(width: 12, child: Divider(color: dividerColor)),
           const SizedBox(width: 4),
         ],
         if (prefix != null) ...[
@@ -105,7 +111,7 @@ class FormLabel extends StatelessWidget {
         if (icon != null) ...[
           Icon(
             icon,
-            color: color ?? dividerColor,
+            color: color ?? style?.color,
             size: 12,
           ),
           const SizedBox(width: 4),
@@ -113,7 +119,7 @@ class FormLabel extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: color ?? dividerColor,
+            color: color ?? style?.color,
             fontSize: 12,
           ),
         ),
@@ -123,7 +129,7 @@ class FormLabel extends StatelessWidget {
         ],
         if (showDivider) ...[
           const SizedBox(width: 4),
-          Expanded(child: Divider(color: color)),
+          Expanded(child: Divider(color: dividerColor)),
         ] else ...[
           const Spacer(),
         ],
@@ -131,7 +137,7 @@ class FormLabel extends StatelessWidget {
           const SizedBox(width: 4),
           suffix!,
           if (showDivider) ...[
-            SizedBox(width: 12, child: Divider(color: color)),
+            SizedBox(width: 12, child: Divider(color: dividerColor)),
           ],
         ],
       ],
