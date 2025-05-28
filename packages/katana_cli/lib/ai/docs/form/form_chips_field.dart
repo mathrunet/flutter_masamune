@@ -50,6 +50,22 @@ FormChipsField(
 );
 ```
 
+## `FormController`を使用しない場合の利用方法
+
+```dart
+FormChipsField(
+  initialValue: ["Flutter", "React", "Vue.js", "Angular", "Node.js"],
+  onChanged: (value) {
+    print(value);
+  },
+  builder: (context, ref, item) {
+    return Chip(
+      label: Text(item),
+    );
+  },
+);
+```
+
 ## サジェスト付きの利用方法
 
 ```dart

@@ -45,6 +45,17 @@ FormDateTimeField(
 );
 ```
 
+## `FormController`を使用しない場合の利用方法
+
+```dart
+FormDateTimeField(
+  initialValue: DateTime.now(),
+  onChanged: (value) {
+    print(value);
+  },
+);
+```
+
 ## 日付のみ選択＆日付範囲制限付きの利用方法
 
 ```dart

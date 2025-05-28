@@ -45,6 +45,17 @@ FormCheckbox(
 );
 ```
 
+## `FormController`を使用しない場合の利用方法
+
+```dart
+FormCheckbox(
+  initialValue: true,
+  onChanged: (value) {
+    print(value);
+  },
+);
+```
+
 ## ラベル付きチェックボックスの利用方法
 
 ```dart

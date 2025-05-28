@@ -14,7 +14,7 @@ class KatanaFormMediaMdCliAiCode extends FormUsageCliAiCode {
   String get name => "`FormMedia`の利用方法";
 
   @override
-  String get description => "画像や動画を選択できるフォームフィールドである`FormMedia`の利用方法";
+  String get description => "画像や動画を1つだけ選択できるフォームフィールドである`FormMedia`の利用方法";
 
   @override
   String get globs => "*.dart";
@@ -24,7 +24,7 @@ class KatanaFormMediaMdCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "`ImagePicker`のMasamuneフレームワーク版。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用してメディアの選択と管理を行うことができます。画像・動画の選択、プレビュー表示、圧縮設定、トリミングなどの機能を備えています。";
+      "画像や動画を1つだけ選択できるフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用してメディアの選択と管理を行うことができます。";
 
   @override
   String body(String baseName, String className) {
@@ -39,58 +39,69 @@ $excerpt
 
 ```dart
 FormMedia(
-    form: formController,
-    initialValue: formController.value.media,
-    onSaved: (value) => formController.value.copyWith(media: value),
-);
-```
-
-## 画像選択の利用方法
-
-```dart
-FormMedia(
-    form: formController,
-    initialValue: formController.value.media,
-    type: FormMediaType.image,
-    maxWidth: 800,
-    maxHeight: 600,
-    imageQuality: 80,
-    onSaved: (value) => formController.value.copyWith(media: value),
-);
-```
-
-## 動画選択の利用方法
-
-```dart
-FormMedia(
-    form: formController,
-    initialValue: formController.value.media,
-    type: FormMediaType.video,
-    maxDuration: const Duration(minutes: 5),
-    onSaved: (value) => formController.value.copyWith(media: value),
-);
-```
-
-## プレビュー付きの利用方法
-
-```dart
-FormMedia(
-    form: formController,
-    initialValue: formController.value.media,
-    type: FormMediaType.image,
-    previewBuilder: (context, media) {
-      return Container(
-        width: 200,
-        height: 200,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: media.image,
-            fit: BoxFit.cover,
-          ),
+  form: formController,
+  initialValue: formController.value.media.toFormMediaValue(),
+  onSaved: (value) => formController.value.copyWith(media: value.toModelImageUri()),
+  onTap: (ref) async {
+    // 画像選択
+    final picked = await picker.pickSingle();
+    final uri = picked.uri;
+    if (uri == null || uri.isEmpty) {
+      return;
+    }
+    // 選択した画像を表示
+    ref.update(uri, FormMediaType.image);
+  },
+  builder: (context, value) {
+    return Container(
+      width: 200,
+      height: 200,
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        image: DecorationImage(
+          image: value?.toImageProvider(),
+          fit: BoxFit.cover,
         ),
-      );
-    },
-    onSaved: (value) => formController.value.copyWith(media: value),
+      ),
+    );
+  },
+);
+```
+
+## `FormController`を使用しない場合の利用方法
+
+```dart
+FormMedia(
+  initialValue: FormMediaValue(
+    type: FormMediaType.image,
+    uri: Uri.parse("https://example.com/image.png"),
+  ),
+  onChanged: (value) {
+    print(value);
+  },
+  onTap: (ref) async {
+    // 画像選択
+    final picked = await picker.pickSingle();
+    final uri = picked.uri;
+    if (uri == null || uri.isEmpty) {
+      return;
+    }
+    // 選択した画像を表示
+    ref.update(uri, FormMediaType.image);
+  },
+  builder: (context, value) {
+    return Container(
+      width: 200,
+      height: 200,
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        image: DecorationImage(
+          image: value?.toImageProvider(),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  },
 );
 ```
 
@@ -98,18 +109,38 @@ FormMedia(
 
 ```dart
 FormMedia(
-    form: formController,
-    initialValue: formController.value.media,
-    validator: (value) {
-      if (value == null) {
-        return "メディアを選択してください";
-      }
-      if (value.size > 10 * 1024 * 1024) {
-        return "ファイルサイズは10MB以下にしてください";
-      }
-      return null;
-    },
-    onSaved: (value) => formController.value.copyWith(media: value),
+  form: formController,
+  initialValue: formController.value.media.toFormMediaValue(),
+  onSaved: (value) => formController.value.copyWith(media: value.toModelImageUri()),
+  validator: (value) {
+    if (value == null) {
+      return "メディアを選択してください";
+    }
+    return null;
+  },
+  onTap: (ref) async {
+    // 画像選択
+    final picked = await picker.pickSingle();
+    final uri = picked.uri;
+    if (uri == null || uri.isEmpty) {
+      return;
+    }
+    // 選択した画像を表示
+    ref.update(uri, FormMediaType.image);
+  },
+  builder: (context, value) {
+    return Container(
+      width: 200,
+      height: 200,
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        image: DecorationImage(
+          image: value?.toImageProvider(),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  },
 );
 ```
 
@@ -117,56 +148,81 @@ FormMedia(
 
 ```dart
 FormMedia(
-    form: formController,
-    initialValue: formController.value.media,
-    style: const FormStyle(
-      padding: EdgeInsets.all(16.0),
-      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-      backgroundColor: Colors.grey[200],
-      mediaStyle: MediaStyle(
-        pickerBackgroundColor: Colors.white,
-        pickerIconColor: Colors.blue,
-        previewBorderRadius: BorderRadius.all(Radius.circular(8.0)),
+  form: formController,
+  initialValue: formController.value.media.toFormMediaValue(),
+  onSaved: (value) => formController.value.copyWith(media: value.toModelImageUri()),
+  style: const FormStyle(
+    padding: EdgeInsets.all(16.0),
+    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+    backgroundColor: Colors.grey[200],
+  ),
+  onTap: (ref) async {
+    // 画像選択
+    final picked = await picker.pickSingle();
+    final uri = picked.uri;
+    if (uri == null || uri.isEmpty) {
+      return;
+    }
+    // 選択した画像を表示
+    ref.update(uri, FormMediaType.image);
+  },
+  builder: (context, value) {
+    return Container(
+      width: 200,
+      height: 200,
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        image: DecorationImage(
+          image: value?.toImageProvider(),
+          fit: BoxFit.cover,
+        ),
       ),
-    ),
-    onSaved: (value) => formController.value.copyWith(media: value),
+    );
+  },
 );
 ```
 
 ## パラメータ
 
 ### 必須パラメータ
-- `form`: フォームコントローラー。フォームの状態管理を行います。
-- `onSaved`: 保存時のコールバック。選択されたメディアの保存処理を定義します。
+- `onTap`: フォームをタップされた場合のメディア選択時のコールバック。メディアの選択と保存処理を定義します。
+- `builder`: メディアのプレビュー表示をカスタマイズします。
 
 ### オプションパラメータ
-- `initialValue`: 初期値。フォーム表示時の初期メディアを設定します。
-- `type`: メディアタイプ。画像か動画かを指定します。
-- `maxWidth`: 最大幅。画像の最大幅を指定します。
-- `maxHeight`: 最大高さ。画像の最大高さを指定します。
-- `imageQuality`: 画質。画像の圧縮率を0-100で指定します。
-- `maxDuration`: 最大時間。動画の最大長を指定します。
-- `previewBuilder`: プレビュービルダー。選択したメディアのプレビュー表示をカスタマイズします。
-- `validator`: バリデーション関数。選択されたメディアの検証ルールを定義します。
+- `form`: フォームコントローラー。フォームの状態管理を行います。定義する場合は`onSaved`パラメータも定義する必要があります。
+- `onSaved`: 保存時のコールバック。選択された値の保存処理を定義します。定義する場合は`form`パラメータも定義する必要があります。
+- `onChanged`: 変更時のコールバック。選択された値の変更時の処理を定義します。
 - `style`: フォームのスタイル。`FormStyle`を使用してデザインをカスタマイズできます。
-- `enabled`: 入力可否。`false`の場合、メディア選択が無効化されます。
+- `validator`: バリデーション関数。選択値の検証ルールを定義します。
+- `enabled`: 入力可否。`false`の場合、チェックボックスが無効化されます。
+- `initialValue`: 初期値。フォーム表示時の初期チェック状態を設定します。
+
+- `showOverlayIcon`: メディアが選択された後でもそのプレビューの上にアイコンを表示するかどうか。`true`の場合は表示します。
+- `overlayColor`: オーバーレイアイコンの背景色。`showOverlayIcon`が`true`の場合のみ有効です。
+- `overlayIconColor`: オーバーレイアイコンの色。`showOverlayIcon`が`true`の場合のみ有効です。
+- `icon`: アイコン。オーバーレイおよびメディアが選択されていない場合のアイコンを設定します。
+- `iconSize`: アイコンのサイズ。
+- `emptyErrorText`: 空のエラーメッセージ。選択が空の場合に表示するエラーメッセージを設定します。
 
 ## 注意点
 
-- `FormController`と組み合わせて使用することで、メディアの選択と管理を行えます。
+- `FormController`と組み合わせて使用することで、フォームの状態管理を行えます。
+- `FormController`を使用する場合は`onSaved`メソッドも合わせて定義してください。
 - `FormStyle`を使用することで、共通のデザインを適用できます。
-- バリデーションは`validator`パラメータを使用して定義します。
-- 画像の圧縮は`maxWidth`、`maxHeight`、`imageQuality`で制御できます。
-- 動画の長さは`maxDuration`で制限できます。
-- プレビュー表示は`previewBuilder`でカスタマイズできます。
+- アイコンは`icon`パラメータを使用して設定できます。
+- `onTap`メソッドでメディアの選択と保存処理を定義してください。
+- `builder`メソッドでメディアのプレビュー表示をカスタマイズできます。
 
 ## ベストプラクティス
 
 1. フォームの状態管理には必ず`FormController`を使用する
-2. 用途に応じて適切な画像サイズと画質を設定する
-3. 動画の場合は適切な長さ制限を設定する
-4. プレビュー表示を活用してユーザーの確認を容易にする
+2. `FormController`を使用する場合は`onSaved`メソッドも合わせて定義する。
+3. `FormController`を使用せず、`onChanged`メソッドを使用して変更の都度処理を行う方法も利用可能。
+4. バリデーションは`validator`パラメータを使用して定義する。
 5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
+6. アイコンは`icon`パラメータを使用して設定できる。
+7. `onTap`メソッドでメディアの選択と保存処理を定義してください。
+8. `builder`メソッドでメディアのプレビュー表示をカスタマイズできます。
 
 ## 利用シーン
 
@@ -174,7 +230,6 @@ FormMedia(
 - 商品画像のアップロード
 - 動画コンテンツの投稿
 - ドキュメントの添付
-- メディアギャラリーの作成
 """;
   }
 }

@@ -15,7 +15,7 @@ class KatanaFormMapTagDropdownFieldMdCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get description =>
-      "`Map`形式のデータをタグ付きドロップダウンメニューで選択できるフォームフィールドである`FormMapTagDropdownField`の利用方法";
+      "Key-ValueペアのMap形式のデータを追加・編集・削除しながらドロップダウンメニューで選択できるフォームフィールドである`FormMapTagDropdownField`の利用方法";
 
   @override
   String get globs => "*.dart";
@@ -25,7 +25,7 @@ class KatanaFormMapTagDropdownFieldMdCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "マップ形式のデータをタグ付きドロップダウンメニューで選択できるフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。タグ表示、カスタムラベル、アイコン表示、検索機能などを備えています。";
+      "Key-ValueペアのMap形式のデータをタグ付きドロップダウンメニューで選択できるフォームフィールド。各要素を追加・編集・削除可能。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。";
 
   @override
   String body(String baseName, String className) {
@@ -39,155 +39,193 @@ $excerpt
 ## 基本的な利用方法
 
 ```dart
-FormMapTagDropdownField<String, String>(
-    form: formController,
-    initialValue: formController.value.selectedTags,
-    items: const {
-      "tech": "技術",
-      "design": "デザイン",
-      "business": "ビジネス",
-      "marketing": "マーケティング",
+final tags = <String, String>{
+  "health": "健康",
+  "finance": "金融",
+  "education": "教育",
+  "entertainment": "エンタメ",
+};
+
+FormMapTagDropdownField(
+  form: formController,
+  initialValue: formController.value.selectedTags,
+  onSaved: (value) => formController.value.copyWith(selectedTags: value),
+  picker: FormMapTagDropdownFieldPicker(
+    values: tags,
+    onAdd: (entry) {
+      tags.addEntries([entry]);
     },
-    onSaved: (value) => formController.value.copyWith(selectedTags: value),
+    onEdit: (entry) {
+      tags.remove(entry.key);
+      tags.addEntries([entry]);
+    },
+    onDelete: (key) {
+      tags.remove(key);
+    },
+  ),
 );
 ```
 
-## カスタムタグの利用方法
+## `FormController`を使用しない場合の利用方法
 
 ```dart
-FormMapTagDropdownField<String, CategoryData>(
-    form: formController,
-    initialValue: formController.value.selectedCategories,
-    items: categories,
-    tagBuilder: (key, value) {
-      return Chip(
-        avatar: CircleAvatar(
-          backgroundColor: value.color,
-          child: Icon(value.icon, size: 12),
+FormMapTagDropdownField(
+  initialValue: ["health", "finance", "education"],
+  onChanged: (value) {
+    print(value);
+  },
+  picker: FormMapTagDropdownFieldPicker(
+    values: tags,
+    onAdd: (entry) {
+      tags.addEntries([entry]);
+    },
+    onEdit: (entry) {
+      tags.remove(entry.key);
+      tags.addEntries([entry]);
+    },
+    onDelete: (key) {
+      tags.remove(key);
+    },
+  ),
+);
+```
+
+## 独自Chipの利用方法
+
+```dart
+FormMapTagDropdownField(
+  form: formController,
+  initialValue: formController.value.selectedTags,
+  onSaved: (value) => formController.value.copyWith(selectedTags: value),
+  picker: FormMapTagDropdownFieldPicker(
+    values: tags,
+    onAdd: (entry) {
+      tags.addEntries([entry]);
+    },
+    onEdit: (entry) {
+      tags.remove(entry.key);
+      tags.addEntries([entry]);
+    },
+    onDelete: (key) {
+      tags.remove(key);
+    },
+    chipBuilder: (context, value) {
+      return Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: Chip(
+          visualDensity: VisualDensity.compact,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          backgroundColor: theme.colorScheme.primary,
+          color:
+              WidgetStatePropertyAll(theme.colorScheme.primary),
+          label: Text(
+            value ?? "",
+            style: TextStyle(color: theme.colorScheme.onPrimary),
+          ),
         ),
-        label: Text(value.name),
       );
-    },
-    onSaved: (value) => formController.value.copyWith(selectedCategories: value),
-);
-```
-
-## アイコン付きの利用方法
-
-```dart
-FormMapTagDropdownField<String, SkillData>(
-    form: formController,
-    initialValue: formController.value.selectedSkills,
-    items: skills,
-    labelBuilder: (key, value) => value.name,
-    iconBuilder: (key, value) {
-      return Icon(value.icon);
-    },
-    onSaved: (value) => formController.value.copyWith(selectedSkills: value),
+    }
+  ),
 );
 ```
 
 ## バリデーション付きの利用方法
 
 ```dart
-FormMapTagDropdownField<String, TagData>(
-    form: formController,
-    initialValue: formController.value.selectedTags,
-    items: tags,
-    validator: (value) {
-      if (value == null || value.isEmpty) {
-        return "タグを1つ以上選択してください";
-      }
-      if (value.length > 5) {
-        return "タグは5つまでしか選択できません";
-      }
-      return null;
+FormMapTagDropdownField(
+  form: formController,
+  initialValue: formController.value.selectedTags,
+  onSaved: (value) => formController.value.copyWith(selectedTags: value),
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return "タグを1つ以上選択してください";
+    }
+    if (value.length > 5) {
+      return "タグは5つまでしか選択できません";
+    }
+    return null;
+  },
+  picker: FormMapTagDropdownFieldPicker(
+    values: tags,
+    onAdd: (entry) {
+      tags.addEntries([entry]);
     },
-    onSaved: (value) => formController.value.copyWith(selectedTags: value),
-);
-```
-
-## 検索機能付きの利用方法
-
-```dart
-FormMapTagDropdownField<String, LocationData>(
-    form: formController,
-    initialValue: formController.value.selectedLocations,
-    items: locations,
-    searchable: true,
-    searchHint: "場所を検索",
-    labelBuilder: (key, value) => value.name,
-    searchMatcher: (query, key, value) {
-      return value.name.toLowerCase().contains(query.toLowerCase()) ||
-             value.address.toLowerCase().contains(query.toLowerCase());
+    onEdit: (entry) {
+      tags.remove(entry.key);
+      tags.addEntries([entry]);
     },
-    onSaved: (value) => formController.value.copyWith(selectedLocations: value),
+    onDelete: (key) {
+      tags.remove(key);
+    },
+  ),
 );
 ```
 
 ## カスタムデザインの適用
 
 ```dart
-FormMapTagDropdownField<String, InterestData>(
-    form: formController,
-    initialValue: formController.value.selectedInterests,
-    items: interests,
-    style: const FormStyle(
-      padding: EdgeInsets.all(16.0),
-      dropdownStyle: DropdownStyle(
-        backgroundColor: Colors.white,
-        elevation: 4,
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.black87,
-      ),
-      tagStyle: TagStyle(
-        backgroundColor: Colors.blue[100],
-        textColor: Colors.blue[900],
-        borderRadius: BorderRadius.all(Radius.circular(16.0)),
-        spacing: 8.0,
-      ),
-    ),
-    onSaved: (value) => formController.value.copyWith(selectedInterests: value),
+FormMapTagDropdownField(
+  form: formController,
+  initialValue: formController.value.selectedTags,
+  onSaved: (value) => formController.value.copyWith(selectedTags: value),
+  style: const FormStyle(
+    padding: EdgeInsets.all(16.0),
+  ),
+  picker: FormMapTagDropdownFieldPicker(
+    values: tags,
+    onAdd: (entry) {
+      tags.addEntries([entry]);
+    },
+    onEdit: (entry) {
+      tags.remove(entry.key);
+      tags.addEntries([entry]);
+    },
+    onDelete: (key) {
+      tags.remove(key);
+    },
+  ),
 );
 ```
 
 ## パラメータ
 
 ### 必須パラメータ
-- `form`: フォームコントローラー。フォームの状態管理を行います。
-- `items`: 選択肢。キーと値のペアを持つマップを設定します。
-- `onSaved`: 保存時のコールバック。選択された値の保存処理を定義します。
+- `picker`: 選択肢用のピッカー。`values`にキーと値のペアを持つマップを設定します。また`onAdd`、`onEdit`、`onDelete`を定義することで追加・編集・削除時の処理を定義できます。
 
 ### オプションパラメータ
-- `initialValue`: 初期値。フォーム表示時の初期選択値を設定します。
-- `tagBuilder`: タグビルダー。選択されたアイテムのタグウィジェットを生成します。
-- `labelBuilder`: ラベルビルダー。キーと値に対応する表示ラベルを生成します。
-- `iconBuilder`: アイコンビルダー。キーと値に対応するアイコンを生成します。
-- `validator`: バリデーション関数。選択値の検証ルールを定義します。
+- `form`: フォームコントローラー。フォームの状態管理を行います。定義する場合は`onSaved`パラメータも定義する必要があります。
+- `onSaved`: 保存時のコールバック。選択された値の保存処理を定義します。定義する場合は`form`パラメータも定義する必要があります。
+- `onChanged`: 変更時のコールバック。選択された値の変更時の処理を定義します。
 - `style`: フォームのスタイル。`FormStyle`を使用してデザインをカスタマイズできます。
-- `enabled`: 入力可否。`false`の場合、選択が無効化されます。
-- `hint`: ヒントテキスト。未選択時に表示するテキストを設定します。
-- `searchable`: 検索機能の有効化。`true`の場合、選択肢を検索できます。
-- `searchHint`: 検索ヒント。検索ボックスのプレースホルダーを設定します。
-- `searchMatcher`: 検索マッチャー。検索クエリとアイテムのマッチング方法を定義します。
+- `validator`: バリデーション関数。選択値の検証ルールを定義します。
+- `enabled`: 入力可否。`false`の場合、チェックボックスが無効化されます。
+- `initialValue`: 初期値。フォーム表示時の初期チェック状態を設定します。
+
+- `labelText`: ラベルテキスト。テキストフィールド外に表示するラベルを設定します。
+- `hintText`: 何も入力されていないときに表示するヒントテキストを設定します。
+- `emptyErrorText`: 空のエラーメッセージ。選択が空の場合に表示するエラーメッセージを設定します。
 
 ## 注意点
 
-- `FormController`と組み合わせて使用することで、選択状態を管理できます。
+- `FormController`と組み合わせて使用することで、フォームの状態管理を行えます。
+- `FormController`を使用する場合は`onSaved`メソッドも合わせて定義してください。
 - `FormStyle`を使用することで、共通のデザインを適用できます。
-- バリデーションは`validator`パラメータを使用して定義します。
-- タグのデザインは`tagBuilder`でカスタマイズできます。
-- ラベルとアイコンは`labelBuilder`と`iconBuilder`でカスタマイズできます。
-- 検索機能は`searchable`パラメータで有効化できます。
+- ラベルテキストは`labelText`パラメータを使用して設定できます。
+- `picker`の`values`には必ず`Map<String, String>`を渡してください。Mapのキーが要素のIDとなりそれが`onSaved`や`onChanged`で渡される値となります。
+- `picker`の`onAdd`、`onEdit`、`onDelete`を定義することで追加・編集・削除時の処理を定義できます。
 
 ## ベストプラクティス
 
 1. フォームの状態管理には必ず`FormController`を使用する
-2. 分かりやすいタグデザインを設定する
-3. 必要に応じて適切なバリデーションを設定する
-4. 選択肢が多い場合は検索機能を有効にする
+2. `FormController`を使用する場合は`onSaved`メソッドも合わせて定義する。
+3. `FormController`を使用せず、`onChanged`メソッドを使用して変更の都度処理を行う方法も利用可能。
+4. バリデーションは`validator`パラメータを使用して定義する。
 5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
+6. `picker`の`values`には必ず`Map<String, String>`を渡す。Mapのキーが要素のIDとなりそれが`onSaved`や`onChanged`で渡される値となる。
+7. `picker`の`onAdd`、`onEdit`、`onDelete`を定義することで追加・編集・削除時の処理を定義できる。
 
 ## 利用シーン
 

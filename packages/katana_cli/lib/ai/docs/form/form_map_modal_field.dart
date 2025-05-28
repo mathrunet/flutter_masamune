@@ -56,6 +56,20 @@ FormMapModalField(
 );
 ```
 
+## `FormController`を使用しない場合の利用方法
+
+```dart
+FormMapModalField(
+  initialValue: "ja",
+  onChanged: (value) {
+    print(value);
+  },
+  picker: FormMapModalFieldPicker(
+    values: countries,
+  ),
+);
+```
+
 ## バリデーション付きの利用方法
 
 ```dart

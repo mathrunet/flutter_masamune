@@ -64,6 +64,23 @@ FormEnumDropdownField(
 );
 ```
 
+## `FormController`を使用しない場合の利用方法
+
+```dart
+FormEnumDropdownField(
+  initialValue: UserType.admin,
+  onChanged: (value) {
+    print(value);
+  },
+  picker: FormEnumDropdownFieldPicker(
+    values: UserType.values,
+    labelBuilder: (value) {
+      return value.label;
+    },
+  ),
+);
+```
+
 ## カスタムラベルの利用方法
 
 ```dart

@@ -56,6 +56,20 @@ FormMapDropdownField(
 );
 ```
 
+## `FormController`を使用しない場合の利用方法
+
+```dart
+FormMapDropdownField(
+  initialValue: "ja",
+  onChanged: (value) {
+    print(value);
+  },
+  picker: FormMapDropdownFieldPicker(
+    values: countries,
+  ),
+);
+```
+
 ## カスタムラベルの利用方法
 
 ```dart

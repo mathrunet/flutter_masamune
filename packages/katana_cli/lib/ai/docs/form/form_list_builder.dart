@@ -74,6 +74,41 @@ FormListBuilder(
 );
 ```
 
+## `FormController`を使用しない場合の利用方法
+
+```dart
+FormListBuilder(
+  initialValue: ["Flutter", "React", "Vue.js", "Angular", "Node.js"],
+  onChanged: (value) {
+    print(value);
+  },
+  builder: (context, ref, item, index) {
+    return FormTextField(
+      form: formController,
+      key: ValueKey("selection_\${ref.version}_\$index"),
+      hintText: "選択肢\${index + 1}",
+      initialValue: item,
+      onFocusChanged: (value, focus) {
+        if (!focus) {
+          ref.update(index, value ?? item);
+        }
+      },
+      onSubmitted: (value) {
+        ref.update(index, value ?? item);
+      },
+      onSaved: (value) {
+        final newList =
+            List<AnyModel>.from(formController.value);
+        newList[index] = newList[index].copyWith(
+          selection: [...newList[index].selection, value],
+        );
+        return newList;
+      },
+    );
+  },
+);
+```
+
 ## 追加・削除ボタン付きの利用方法
 
 ```dart

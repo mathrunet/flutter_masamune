@@ -71,6 +71,43 @@ FormBuilder(
 );
 ```
 
+## `FormController`を使用しない場合の利用方法
+
+```dart
+FormBuilder(
+  initialValue: UserType.admin,
+  onChanged: (value) {
+    print(value);
+  },
+  builder: (context, ref, item) {
+    return Row(
+      children: [
+        FilledButton(
+          onPressed: item == UserType.admin ? null : () {
+            ref.update(UserType.admin);
+          },
+          child: const Text("管理者"),
+        ),
+        const SizedBox(width: 16),
+        FilledButton(
+          onPressed: item == UserType.user ? null : () {
+            ref.update(UserType.user);
+          },
+          child: const Text("一般ユーザー"),
+        ),
+        const SizedBox(width: 16),
+        FilledButton(
+          onPressed: item == UserType.guest ? null : () {
+            ref.update(UserType.guest);
+          },
+          child: const Text("ゲスト"),
+        ),
+      ],
+    );
+  },
+);
+```
+
 ## モーダルを利用したフォームの構築
 
 ```dart

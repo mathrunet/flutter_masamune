@@ -40,9 +40,23 @@ $excerpt
 
 ```dart
 FormDateTimeRangeField(
-    form: formController,
-    initialValue: formController.value.eventPeriod.value,
-    onSaved: (value) => formController.value.copyWith(eventPeriod: ModelTimestampRange(value)),
+  form: formController,
+  initialValue: formController.value.eventPeriod.value,
+  onSaved: (value) => formController.value.copyWith(eventPeriod: ModelTimestampRange(value)),
+);
+```
+
+## `FormController`を使用しない場合の利用方法
+
+```dart
+FormDateTimeRangeField(
+  initialValue: DateTimeRange(
+    start: DateTime(2024, 1, 1, 9, 0),
+    end: DateTime(2024, 12, 31, 17, 0),
+  ),
+  onChanged: (value) {
+    print(value);
+  },
 );
 ```
 

@@ -52,6 +52,23 @@ FormFutureField(
 );
 ```
 
+## `FormController`を使用しない場合の利用方法
+
+```dart
+FormFutureField(
+  initialValue: "https://example.com/icon.png",
+  onChanged: (value) {
+    print(value);
+  },
+  onTap: (currentValue) async {
+    final selectValue = await router.push(
+      IconSelectPage.query(selected: currentValue),
+    );
+    return selectValue;
+  }
+);
+```
+
 ## 表示テキストを変更する場合
 
 ```dart

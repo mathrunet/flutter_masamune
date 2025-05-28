@@ -61,6 +61,20 @@ FormEnumModalField(
 );
 ```
 
+## `FormController`を使用しない場合の利用方法
+
+```dart
+FormEnumModalField(
+  initialValue: UserType.admin,
+  onChanged: (value) {
+    print(value);
+  },
+  picker: FormEnumModalFieldPicker(
+    values: UserType.values,
+  ),
+);
+```
+
 ## ラベル付きの利用方法
 
 ```dart

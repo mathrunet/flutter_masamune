@@ -45,6 +45,17 @@ FormDurationField(
 );
 ```
 
+## `FormController`を使用しない場合の利用方法
+
+```dart
+FormDurationField(
+  initialValue: Duration(minutes: 30),
+  onChanged: (value) {
+    print(value);
+  },
+);
+```
+
 ## 範囲制限の利用方法
 
 ```dart
