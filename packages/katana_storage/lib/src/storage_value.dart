@@ -130,7 +130,8 @@ class MimeTypeValue {
   /// Gets the MimeType extension.
   ///
   /// MimeTypeの拡張子を取得します。
-  String get extension => extensionFromMime(value);
+  // ignore: dead_null_aware_expression
+  String get extension => extensionFromMime(value) ?? "";
 
   @override
   int get hashCode => value.hashCode;
