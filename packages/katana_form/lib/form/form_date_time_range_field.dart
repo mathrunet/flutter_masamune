@@ -819,8 +819,7 @@ class _DateTimeRangeTextFieldState<TValue>
 /// [pickerBuilder]で選択可能なピッカーを指定可能な[FormDateTimeRangeFieldPicker]。
 ///
 /// [dateFormat]は`yyyy/MM/dd(E)`が定義されます。
-class FormDateTimeRangeFieldCustomPicker
-    extends FormDateTimeRangeFieldPicker {
+class FormDateTimeRangeFieldCustomPicker extends FormDateTimeRangeFieldPicker {
   /// [FormDateTimeRangeFieldPicker] that allows specifying pickers that can be selected by [pickerBuilder].
   ///
   /// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
@@ -877,8 +876,7 @@ class FormDateTimeRangeFieldCustomPicker
 /// 選択されていない場合の初期値が[defaultDateTimeRange]になります。
 ///
 /// [dateFormat]は`yyyy/MM/dd(E)`が定義されます。
-class FormDateTimeRangeFieldDatePicker
-    extends FormDateTimeRangeFieldPicker {
+class FormDateTimeRangeFieldDatePicker extends FormDateTimeRangeFieldPicker {
   /// Let the user select only dates [FormDateTimeRangeFieldPicker].
   ///
   /// You can have it selected within the range of [startDate] and [endDate].

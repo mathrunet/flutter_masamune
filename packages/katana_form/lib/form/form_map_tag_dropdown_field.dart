@@ -334,7 +334,7 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
   void initState() {
     super.initState();
     widget.form?.register(this);
-    _selections = widget.picker.data.clone();
+    _selections = widget.picker.values.clone();
     _selectBoxController = _SelectBoxController(context);
 
     WidgetsBinding.instance.scheduleFrameCallback((_) async {
@@ -353,8 +353,8 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
         widget.initialValue != null) {
       reset();
     }
-    if (!oldWidget.picker.data.equalsTo(widget.picker.data)) {
-      _selections = widget.picker.data.clone();
+    if (!oldWidget.picker.values.equalsTo(widget.picker.values)) {
+      _selections = widget.picker.values.clone();
       _selectionsStreamController.add(_selections);
       reset();
     }
@@ -741,7 +741,7 @@ abstract class FormMapTagDropdownFieldRef<T> {
 
 /// Class that defines a picker style to select from [Map] for tags.
 ///
-/// Pass `Map<String, String>` to [data].
+/// Pass `Map<String, String>` to [values].
 /// Key in [Map] is the ID for selection and Value is the display label for selection.
 ///
 /// The display of selected values can be customized by specifying [chipBuilder].
@@ -750,7 +750,7 @@ abstract class FormMapTagDropdownFieldRef<T> {
 ///
 /// タグ用の[Map]から選択するためのピッカースタイルを定義するクラス。
 ///
-/// `Map<String, String>`を[data]に渡します。
+/// `Map<String, String>`を[values]に渡します。
 /// [Map]のKeyが選択用のID、Valueが選択用の表示ラベルになります。
 ///
 /// [chipBuilder]を指定することで選択された値の表示をカスタマイズすることが可能です。
@@ -759,7 +759,7 @@ abstract class FormMapTagDropdownFieldRef<T> {
 class FormMapTagDropdownFieldPicker {
   /// Class that defines a picker style to select from [Map] for tags.
   ///
-  /// Pass `Map<String, String>` to [data].
+  /// Pass `Map<String, String>` to [values].
   /// Key in [Map] is the ID for selection and Value is the display label for selection.
   ///
   /// The display of selected values can be customized by specifying [chipBuilder].
@@ -768,14 +768,14 @@ class FormMapTagDropdownFieldPicker {
   ///
   /// タグ用の[Map]から選択するためのピッカースタイルを定義するクラス。
   ///
-  /// `Map<String, String>`を[data]に渡します。
+  /// `Map<String, String>`を[values]に渡します。
   /// [Map]のKeyが選択用のID、Valueが選択用の表示ラベルになります。
   ///
   /// [chipBuilder]を指定することで選択された値の表示をカスタマイズすることが可能です。
   ///
   /// [onEdit]を指定することで選択肢の編集時に実行されるコールバックを設定することが可能です。
   FormMapTagDropdownFieldPicker({
-    required this.data,
+    required this.values,
     this.backgroundColor,
     this.color,
     this.chipBuilder,
@@ -788,21 +788,21 @@ class FormMapTagDropdownFieldPicker {
 
   /// Callback to be executed when adding choices.
   ///
-  /// [data] is passed to the callback.
+  /// [values] is passed to the callback.
   ///
   /// 選択肢の追加時に実行されるコールバック。
   ///
-  /// コールバックに[data]が渡されます。
-  final void Function(MapEntry<String, String> data)? onAdd;
+  /// コールバックに[values]が渡されます。
+  final void Function(MapEntry<String, String> entry)? onAdd;
 
   /// Callback to be executed when editing choices.
   ///
-  /// [data] is passed to the callback.
+  /// [values] is passed to the callback.
   ///
   /// 選択肢の編集時に実行されるコールバック。
   ///
-  /// コールバックに[data]が渡されます。
-  final void Function(MapEntry<String, String> data)? onEdit;
+  /// コールバックに[values]が渡されます。
+  final void Function(MapEntry<String, String> entry)? onEdit;
 
   /// Callback to be executed when deleting choices.
   ///
@@ -829,7 +829,7 @@ class FormMapTagDropdownFieldPicker {
   /// 選択肢用のデータ。
   ///
   /// [Map]のKeyが選択用のID、Valueが選択用の表示ラベルになります。
-  final Map<String, String> data;
+  final Map<String, String> values;
 
   /// Background color of the picker.
   ///
