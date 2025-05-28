@@ -1,3 +1,9 @@
+## 2.41.0
+
+ - **FIX**: Correct various documents. ([87fbe066](https://github.com/mathrunet/flutter_masamune/commit/87fbe06643f6e2c14765f00848a444c3cce1bec0))
+ - **FIX**: Modify Form's AIDocs. ([bfa4af67](https://github.com/mathrunet/flutter_masamune/commit/bfa4af674f5a3d5e7868c4da43adcf3bc30a8531))
+ - **FEAT**: Change Cursor-specific documentation to general AI documentation. ([e5d7ec71](https://github.com/mathrunet/flutter_masamune/commit/e5d7ec7107a12ae75213811365bf7dc5c490ca46))
+
 ## 2.40.3
 
  - **FIX**: Add command for snippets. ([dec7b515](https://github.com/mathrunet/flutter_masamune/commit/dec7b515d13843d3e1845b5c3af1d496cdf7db85))

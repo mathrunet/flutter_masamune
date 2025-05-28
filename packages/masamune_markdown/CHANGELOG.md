@@ -1,3 +1,9 @@
+## 2.1.0
+
+ - **FIX**: The behavior is complete. ([fbce89e0](https://github.com/mathrunet/flutter_masamune/commit/fbce89e0a6f58ee6565522a05a5baab4fdb1ad7c))
+ - **FEAT**: Implementation complete. ([0e88d910](https://github.com/mathrunet/flutter_masamune/commit/0e88d910355a609bb7d4dbe3e3e1c05c362b6b14))
+ - **DOCS**: Add Comments. ([53b546b7](https://github.com/mathrunet/flutter_masamune/commit/53b546b71c28933f32a04bdc97a93bc261737243))
+
 ## 2.0.2
 
  - Update a dependency to the latest release.

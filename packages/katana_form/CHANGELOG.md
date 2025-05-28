@@ -1,3 +1,9 @@
+## 2.19.0
+
+ - **FIX**: Change the name of the Form. ([7aa64851](https://github.com/mathrunet/flutter_masamune/commit/7aa6485171307580a4ceae1efe5e5cec10778372))
+ - **FEAT**: Unify the delegate name to picker. ([6695a35b](https://github.com/mathrunet/flutter_masamune/commit/6695a35bfd8937ef8a4dfad07845ddada9e97d13))
+ - **FEAT**: Add subBackgroundColor to FormStyle. ([0af120de](https://github.com/mathrunet/flutter_masamune/commit/0af120de1f8ea3fdea7cf31a1c9b9212291e935b))
+
 ## 2.18.3
 
  - **FIX**: Made it reflect the `align` of `FormStyleContainer`. ([cc042308](https://github.com/mathrunet/flutter_masamune/commit/cc042308857b6583f0212f86e0b1d41d80c3b4ea))
