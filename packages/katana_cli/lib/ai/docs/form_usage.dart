@@ -17,9 +17,9 @@ import 'package:katana_cli/ai/docs/form/form_list_builder.dart';
 import 'package:katana_cli/ai/docs/form/form_map_dropdown_field.dart';
 import 'package:katana_cli/ai/docs/form/form_map_modal_field.dart';
 import 'package:katana_cli/ai/docs/form/form_media.dart';
-import 'package:katana_cli/ai/docs/form/form_month_field.dart';
+import 'package:katana_cli/ai/docs/form/form_month_modal_field.dart';
 import 'package:katana_cli/ai/docs/form/form_multi_media.dart';
-import 'package:katana_cli/ai/docs/form/form_num_field.dart';
+import 'package:katana_cli/ai/docs/form/form_num_modal_field.dart';
 import 'package:katana_cli/ai/docs/form/form_password_builder.dart';
 import 'package:katana_cli/ai/docs/form/form_pin_field.dart';
 import 'package:katana_cli/ai/docs/form/form_rating_bar.dart';
@@ -54,9 +54,9 @@ const kFormList = {
   "FormMapDropdownField": KatanaFormMapDropdownFieldMdCliAiCode(),
   "FormMapModalField": KatanaFormMapModalFieldMdCliAiCode(),
   "FormMedia": KatanaFormMediaMdCliAiCode(),
-  "FormMonthField": KatanaFormMonthFieldMdCliAiCode(),
+  "FormMonthField": KatanaFormMonthModalFieldMdCliAiCode(),
   "FormMultiMedia": KatanaFormMultiMediaMdCliAiCode(),
-  "FormNumField": KatanaFormNumFieldMdCliAiCode(),
+  "FormNumField": KatanaFormNumModalFieldMdCliAiCode(),
   "FormPasswordBuilder": KatanaFormPasswordBuilderMdCliAiCode(),
   "FormRatingBar": KatanaFormRatingBarMdCliAiCode(),
   "FormStyleContainer": KatanaFormStyleContainerMdCliAiCode(),

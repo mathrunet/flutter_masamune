@@ -14,7 +14,8 @@ class KatanaFormPasswordBuilderMdCliAiCode extends FormUsageCliAiCode {
   String get name => "`FormPasswordBuilder`の利用方法";
 
   @override
-  String get description => "パスワード入力用のフォームビルダーである`FormPasswordBuilder`の利用方法";
+  String get description =>
+      "パスワード入力時の内容を隠すかどうかを切り替えることができるフォームビルダーである`FormPasswordBuilder`の利用方法";
 
   @override
   String get globs => "*.dart";
@@ -24,7 +25,7 @@ class KatanaFormPasswordBuilderMdCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "パスワード入力用のフォームビルダー。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでパスワードの状態管理を行えます。パスワードの表示/非表示切り替え、強度チェック、確認入力などの機能を備えています。";
+      "パスワード入力時の内容を隠すかどうかを切り替えることができるフォームビルダー。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでパスワードの状態管理を行えます。パスワードの表示/非表示切り替え、および表示切替のトグルスイッチの機能を備えています。";
 
   @override
   String body(String baseName, String className) {
@@ -39,101 +40,54 @@ $excerpt
 
 ```dart
 FormPasswordBuilder(
-    form: formController,
-    builder: (context, form, showPassword) {
-      return FormTextField(
-        form: form,
-        initialValue: formController.value.password,
-        obscureText: !showPassword,
-        onSaved: (value) => formController.value.copyWith(password: value),
-      );
-    },
+  builder: (context, obscure) {
+    return FormTextField(
+      form: formController,
+      initialValue: formController.value.password,
+      obscureText: obscure,
+      onSaved: (value) => formController.value.copyWith(password: value),
+    );
+  },
 );
 ```
 
-## パスワード強度チェック付きの利用方法
+## 自由なトグルスイッチの利用方法
 
 ```dart
 FormPasswordBuilder(
-    form: formController,
-    strengthChecker: (password) {
-      if (password == null || password.isEmpty) {
-        return PasswordStrength.none;
-      }
-      if (password.length < 8) {
-        return PasswordStrength.weak;
-      }
-      if (password.contains(RegExp(r'[A-Z]')) &&
-          password.contains(RegExp(r'[a-z]')) &&
-          password.contains(RegExp(r'[0-9]'))) {
-        return PasswordStrength.strong;
-      }
-      return PasswordStrength.medium;
-    },
-    builder: (context, form, showPassword) {
-      return Column(
-        children: [
-          FormTextField(
-            form: form,
-            initialValue: formController.value.password,
-            obscureText: !showPassword,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "パスワードを入力してください";
-              }
-              if (value.length < 8) {
-                return "パスワードは8文字以上必要です";
-              }
-              return null;
-            },
-            onSaved: (value) => formController.value.copyWith(password: value),
+  builder: (context, obscure) {
+    return FormTextField(
+      form: formController,
+      initialValue: formController.value.password,
+      obscureText: obscure,
+      onSaved: (value) => formController.value.copyWith(password: value),
+    );
+  },
+  switchBuilder: (context, obscure, onSwitch) {
+    return Positioned.fill(
+      right: 16,
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Padding(
+          padding: EdgeInsets.zero,
+          child: IconButton(
+            icon: Icon(
+              obscure ? Icons.visibility : Icons.visibility_off,
+            ),
+            onPressed: onSwitch,
+            color: Colors.blue,
+            visualDensity: VisualDensity.compact,
+            style: IconButton.styleFrom(
+              padding: EdgeInsets.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            padding: const EdgeInsets.only(top: 16),
+            constraints: const BoxConstraints(),
           ),
-          PasswordStrengthIndicator(
-            strength: form.passwordStrength,
-          ),
-        ],
-      );
-    },
-);
-```
-
-## 確認入力付きの利用方法
-
-```dart
-FormPasswordBuilder(
-    form: formController,
-    confirmPassword: true,
-    builder: (context, form, showPassword) {
-      return Column(
-        children: [
-          FormTextField(
-            form: form,
-            initialValue: formController.value.password,
-            obscureText: !showPassword,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "パスワードを入力してください";
-              }
-              return null;
-            },
-            onSaved: (value) => formController.value.copyWith(password: value),
-          ),
-          const SizedBox(height: 16),
-          FormTextField(
-            form: form,
-            initialValue: formController.value.confirmPassword,
-            obscureText: !showPassword,
-            validator: (value) {
-              if (value != form.password) {
-                return "パスワードが一致しません";
-              }
-              return null;
-            },
-            onSaved: (value) => formController.value.copyWith(confirmPassword: value),
-          ),
-        ],
-      );
-    },
+        ),
+      ),
+    );
+  },
 );
 ```
 
@@ -141,61 +95,44 @@ FormPasswordBuilder(
 
 ```dart
 FormPasswordBuilder(
-    form: formController,
-    style: const FormStyle(
-      padding: EdgeInsets.all(16.0),
-      backgroundColor: Colors.white,
-      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-      textFieldStyle: TextFieldStyle(
-        obscureIconColor: Colors.blue,
-        strengthIndicatorStyle: StrengthIndicatorStyle(
-          weakColor: Colors.red,
-          mediumColor: Colors.orange,
-          strongColor: Colors.green,
-          height: 4.0,
-          borderRadius: BorderRadius.all(Radius.circular(2.0)),
-        ),
-      ),
-    ),
-    builder: (context, form, showPassword) {
-      return FormTextField(
-        form: form,
-        initialValue: formController.value.password,
-        obscureText: !showPassword,
-        onSaved: (value) => formController.value.copyWith(password: value),
-      );
-    },
+  style: const FormStyle(
+    padding: EdgeInsets.all(16.0),
+  ),
+  builder: (context, obscure) {
+    return FormTextField(
+      form: formController,
+      initialValue: formController.value.password,
+      obscureText: obscure,
+      onSaved: (value) => formController.value.copyWith(password: value),
+    );
+  },
 );
 ```
 
 ## パラメータ
 
 ### 必須パラメータ
-- `form`: フォームコントローラー。フォームの状態管理を行います。
 - `builder`: ビルダー関数。パスワード入力フィールドを生成します。
 
 ### オプションパラメータ
-- `strengthChecker`: パスワード強度チェック関数。パスワードの強度を評価します。
-- `confirmPassword`: 確認入力。`true`の場合、確認用パスワード入力を有効にします。
+- `switchBuilder`: トグルスイッチビルダー関数。パスワード入力フィールドの右側に表示するトグルスイッチを生成します。
+- `switchPadding`: トグルスイッチのパディング。トグルスイッチのパディングを設定します。
+- `switchAlignment`: トグルスイッチの配置。トグルスイッチの配置を設定します。
+- `switchColor`: トグルスイッチの色。トグルスイッチの色を設定します。
 - `style`: フォームのスタイル。`FormStyle`を使用してデザインをカスタマイズできます。
-- `enabled`: 入力可否。`false`の場合、入力が無効化されます。
-- `autovalidateMode`: 自動検証モード。入力値の検証タイミングを設定します。
 
 ## 注意点
 
-- `FormController`と組み合わせて使用することで、パスワードの状態を管理できます。
-- `FormStyle`を使用することで、共通のデザインを適用できます。
-- パスワードの表示/非表示は`showPassword`パラメータで制御できます。
-- パスワード強度は`strengthChecker`で評価できます。
-- 確認入力は`confirmPassword`パラメータで有効化できます。
+- このビルダーは`FormTextField`などのフォームフィールドと組み合わせて利用します。
+- `builder`の`obscure`パラメータでパスワードの表示/非表示を判別します。
+- `builder`で設定したフォームフィールドの上にトグルスイッチが表示されます。
+- `switchBuilder`でトグルスイッチのビルダーを設定することができます。
 
 ## ベストプラクティス
 
-1. フォームの状態管理には必ず`FormController`を使用する
-2. 適切なパスワード強度チェックを実装する
-3. 必要に応じて確認入力を有効にする
-4. 分かりやすいバリデーションメッセージを設定する
-5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
+1. `FormTextField`などのフォームフィールドと組み合わせて利用。
+2. `builder`の`obscure`パラメータでパスワードの表示/非表示を判別。そのまま`FormTextField`の`obscureText`パラメータに渡す。
+3. `switchBuilder`でトグルスイッチのビルダーを設定することができます。
 
 ## 利用シーン
 
