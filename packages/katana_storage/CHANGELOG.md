@@ -1,3 +1,7 @@
+## 2.4.8
+
+ - **FIX**: MIME version upgrade support. ([e4598ff2](https://github.com/mathrunet/flutter_masamune/commit/e4598ff2654eecab23cf1659e9ba385725f29c37))
+
 ## 2.4.7
 
  - **FIX**: Version adjustment. ([71343169](https://github.com/mathrunet/flutter_masamune/commit/713431692884bdb56125f93d9e7f21d421eb62fc))

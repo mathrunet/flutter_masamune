@@ -1,3 +1,7 @@
+## 2.41.1
+
+ - **DOCS**: FormMedia completed. ([5c53b0d9](https://github.com/mathrunet/flutter_masamune/commit/5c53b0d9f4ba719551a282267295d6a569402581))
+
 ## 2.41.0
 
  - **FIX**: Correct various documents. ([87fbe066](https://github.com/mathrunet/flutter_masamune/commit/87fbe06643f6e2c14765f00848a444c3cce1bec0))

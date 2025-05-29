@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - Update a dependency to the latest release.
+
 ## 2.1.0
 
  - **FIX**: The behavior is complete. ([fbce89e0](https://github.com/mathrunet/flutter_masamune/commit/fbce89e0a6f58ee6565522a05a5baab4fdb1ad7c))

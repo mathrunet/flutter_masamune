@@ -1,3 +1,7 @@
+## 2.19.1
+
+ - **FIX**: Rename value. ([bf5cbe15](https://github.com/mathrunet/flutter_masamune/commit/bf5cbe15fc9feda41b5ca3cfca1d2b02e9d70b04))
+
 ## 2.19.0
 
  - **FIX**: Change the name of the Form. ([7aa64851](https://github.com/mathrunet/flutter_masamune/commit/7aa6485171307580a4ceae1efe5e5cec10778372))
