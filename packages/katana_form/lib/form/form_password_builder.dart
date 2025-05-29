@@ -23,7 +23,13 @@ class FormPasswordBuilder extends StatefulWidget {
     this.switchPadding,
     this.switchAlignment,
     this.switchColor,
+    this.style,
   });
+
+  /// Style for the password builder.
+  ///
+  /// パスワードビルダーのスタイル。
+  final FormStyle? style;
 
   /// Text field padding.
   ///
@@ -86,14 +92,18 @@ class _FormPasswordBuilderState extends State<FormPasswordBuilder> {
     return Positioned.fill(
       right: 16,
       child: Align(
-        alignment: widget.switchAlignment ?? Alignment.centerRight,
+        alignment: widget.switchAlignment ??
+            widget.style?.alignment ??
+            Alignment.centerRight,
         child: Padding(
-          padding: widget.switchPadding ?? EdgeInsets.zero,
+          padding: widget.switchPadding ??
+              widget.style?.contentPadding ??
+              EdgeInsets.zero,
           child: IconButton(
             icon: Icon(
               !_obscure ? Icons.visibility : Icons.visibility_off,
             ),
-            color: widget.switchColor,
+            color: widget.switchColor ?? widget.style?.color,
             onPressed: _onSwitch,
             visualDensity: VisualDensity.compact,
             style: IconButton.styleFrom(
@@ -113,7 +123,7 @@ class _FormPasswordBuilderState extends State<FormPasswordBuilder> {
     return Stack(
       children: [
         Padding(
-          padding: widget.padding ?? EdgeInsets.zero,
+          padding: widget.padding ?? widget.style?.padding ?? EdgeInsets.zero,
           child: widget.builder(context, _obscure),
         ),
         widget.switcherBuilder?.call(

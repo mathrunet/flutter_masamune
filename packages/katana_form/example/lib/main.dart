@@ -102,7 +102,7 @@ class FormPageState extends State<FormPage> {
             onSaved: (value) => {...form.value, "monthDay": value},
           ),
           const FormLabel("Number Form"),
-          FormNumField(
+          FormNumModalField(
             form: form,
             initialValue: form.value["number"],
             onSaved: (value) => {...form.value, "number": value},

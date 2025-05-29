@@ -1,6 +1,6 @@
 part of '/katana_form.dart';
 
-/// A form to let you select a numerical value.
+/// A form to have the date (year and month) selected.
 ///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
@@ -25,7 +25,7 @@ part of '/katana_form.dart';
 ///
 /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
 ///
-/// 数値を選択させるためのフォーム。
+/// 日付（年月）を選択させるためのフォーム。
 ///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
@@ -49,8 +49,8 @@ part of '/katana_form.dart';
 /// [enabled]が`false`になるとテキストが非有効化されます。
 ///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-class FormNumField<TValue> extends StatefulWidget {
-  /// A form to let you select a numerical value.
+class FormMonthModalField<TValue> extends StatefulWidget {
+  /// A form to have the date (year and month) selected.
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
@@ -75,7 +75,7 @@ class FormNumField<TValue> extends StatefulWidget {
   ///
   /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
   ///
-  /// 数値を選択させるためのフォーム。
+  /// 日付（年月）を選択させるためのフォーム。
   ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
@@ -99,31 +99,32 @@ class FormNumField<TValue> extends StatefulWidget {
   /// [enabled]が`false`になるとテキストが非有効化されます。
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-  const FormNumField({
+  const FormMonthModalField({
     this.form,
     super.key,
     this.controller,
     this.prefix,
     this.suffix,
     this.focusNode,
-    this.keyboardType = TextInputType.number,
+    this.keyboardType = TextInputType.text,
     this.hintText,
     this.labelText,
     this.style,
     this.enabled = true,
     this.emptyErrorText,
     this.readOnly = false,
-    this.obscureText = false,
     this.validator,
     this.onChanged,
     this.onSubmitted,
     this.initialValue,
-    this.keepAlive = true,
-    this.picker = const FormNumFieldPicker(),
+    String? format,
+    this.picker = const FormMonthModalFieldPicker(),
     this.onSaved,
+    this.keepAlive = true,
     this.showDropdownIcon = true,
     this.dropdownIcon,
-  }) : assert(
+  })  : _format = format,
+        assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
           "Both are required when using [form] or [onSaved].",
@@ -183,7 +184,7 @@ class FormNumField<TValue> extends StatefulWidget {
   /// Initial value.
   ///
   /// 初期値。
-  final num? initialValue;
+  final DateTime? initialValue;
 
   /// Hint to be displayed on the form. Displayed when no text is entered.
   ///
@@ -214,11 +215,6 @@ class FormNumField<TValue> extends StatefulWidget {
   /// これが`true`の場合、フォームの入力が行えずに初期値から変更することができなくなります。
   final bool readOnly;
 
-  /// If this is `true`, the input will be hidden. Use this to enter passwords, etc.
-  ///
-  /// これが`true`の場合、入力された内容が隠されます。パスワードの入力等にご利用ください。
-  final bool obscureText;
-
   /// Callback executed when [FormController.validate] is executed.
   ///
   /// The current value is passed to `value`.
@@ -226,7 +222,7 @@ class FormNumField<TValue> extends StatefulWidget {
   /// [FormController.validate]が実行されたときに実行されるコールバック。
   ///
   /// `value`に現在の値が渡されます。
-  final TValue Function(num value)? onSaved;
+  final TValue Function(DateTime value)? onSaved;
 
   /// Callback to be executed each time the value is changed.
   ///
@@ -235,7 +231,7 @@ class FormNumField<TValue> extends StatefulWidget {
   /// 値が変更されるたびに実行されるコールバック。
   ///
   /// `value`に現在の値が渡されます。
-  final void Function(num? value)? onChanged;
+  final void Function(DateTime? value)? onChanged;
 
   /// Validator to be executed when [FormController.validate] is executed.
   ///
@@ -252,7 +248,7 @@ class FormNumField<TValue> extends StatefulWidget {
   /// `value`に現在の値が渡され、[Null]以外の値を返すとその文字がエラーテキストとして表示されます。
   ///
   /// [Null]以外の文字を返した場合、[onSaved]は実行されず、[FormController.validate]が`false`が返されます。
-  final FormFieldValidator<num?>? validator;
+  final FormFieldValidator<DateTime?>? validator;
 
   /// It is executed when the Enter button on the keyboard or the Submit button on the software keyboard is pressed.
   ///
@@ -261,12 +257,54 @@ class FormNumField<TValue> extends StatefulWidget {
   /// キーボードのEnterボタン、もしくはソフトウェアキーボードのサブミットボタンが押された場合に実行されます。
   ///
   /// `value`に現在の値が渡されます。
-  final void Function(num? value)? onSubmitted;
+  final void Function(DateTime? value)? onSubmitted;
 
-  /// Picker object for selecting numerical values.
+  /// Picker object for selecting dates.
   ///
-  /// 数値を選択するためのピッカーオブジェクト。
-  final FormNumFieldPicker picker;
+  /// 日付を選択するためのピッカーオブジェクト。
+  final FormMonthModalFieldPicker picker;
+
+  /// Formatter for formatting [DateTime] to [String].
+  ///
+  /// Describe and define the following pattern.
+  ///
+  /// By default, "yyyy/MM" is used.
+  ///
+  /// [DateTime]を[String]にフォーマットするためのフォーマッタ。
+  ///
+  /// 下記のパターンを記述して定義してください。
+  ///
+  /// デフォルトで"yyyy/MM"が利用されます。
+  ///
+  ///     Symbol   Meaning                Presentation       Example
+  ///     ------   -------                ------------       -------
+  ///     G        era designator         (Text)             AD
+  ///     y        year                   (Number)           1996
+  ///     M        month in year          (Text & Number)    July & 07
+  ///     L        standalone month       (Text & Number)    July & 07
+  ///     d        day in month           (Number)           10
+  ///     c        standalone day         (Number)           10
+  ///     h        hour in am/pm (1~12)   (Number)           12
+  ///     H        hour in day (0~23)     (Number)           0
+  ///     m        minute in hour         (Number)           30
+  ///     s        second in minute       (Number)           55
+  ///     S        fractional second      (Number)           978
+  ///     E        day of week            (Text)             Tuesday
+  ///     D        day in year            (Number)           189
+  ///     a        am/pm marker           (Text)             PM
+  ///     k        hour in day (1~24)     (Number)           24
+  ///     K        hour in am/pm (0~11)   (Number)           0
+  ///     Q        quarter                (Text)             Q3
+  ///     '        escape for text        (Delimiter)        'Date='
+  ///     ''       single quote           (Literal)          'o''clock'
+  String get format {
+    if (_format.isNotEmpty) {
+      return _format!;
+    }
+    return "yyyy/MM";
+  }
+
+  final String? _format;
 
   /// If placed in a list, whether or not it should not be discarded on scrolling.
   ///
@@ -286,13 +324,13 @@ class FormNumField<TValue> extends StatefulWidget {
   ///
   /// ドロップダウン用のアイコン。[showDropdownIcon]が`true`の場合のみ有効。
   final Widget? dropdownIcon;
-
   @override
-  State<StatefulWidget> createState() => _FormNumFieldState<TValue>();
+  State<StatefulWidget> createState() => _FormMonthModalFieldState<TValue>();
 }
 
-class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
-    with AutomaticKeepAliveClientMixin<FormNumField<TValue>> {
+class _FormMonthModalFieldState<TValue>
+    extends State<FormMonthModalField<TValue>>
+    with AutomaticKeepAliveClientMixin<FormMonthModalField<TValue>> {
   TextEditingController? _controller;
   @override
   void initState() {
@@ -301,7 +339,7 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
       return;
     }
     if (widget.initialValue != null) {
-      widget.controller?.text = widget.initialValue!.toString();
+      widget.controller?.text = widget.initialValue!.format(widget.format);
     }
     _controller = TextEditingController(text: widget.controller?.text);
     _controller?.addListener(_listenerInside);
@@ -309,7 +347,7 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
   }
 
   @override
-  void didUpdateWidget(FormNumField<TValue> oldWidget) {
+  void didUpdateWidget(FormMonthModalField<TValue> oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.controller != widget.controller) {
@@ -427,7 +465,7 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
           width: widget.style?.width,
           child: Stack(
             children: [
-              _NumTextField<TValue>(
+              _MonthTextField<TValue>(
                 form: widget.form,
                 controller: _controller,
                 focusNode: widget.focusNode,
@@ -483,10 +521,10 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
                   errorStyle: errorTextStyle,
                 ),
                 style: widget.enabled ? mainTextStyle : disabledTextStyle,
-                obscureText: widget.obscureText,
                 textAlign: widget.style?.textAlign ?? TextAlign.left,
                 textAlignVertical: widget.style?.textAlignVertical,
                 readOnly: widget.readOnly,
+                format: widget.format,
                 validator: (value) {
                   if (widget.emptyErrorText.isNotEmpty && value == null) {
                     return widget.emptyErrorText;
@@ -540,10 +578,11 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
   bool get wantKeepAlive => widget.keepAlive;
 }
 
-class _NumTextField<TValue> extends FormField<num> {
-  _NumTextField({
-    required this.picker,
+class _MonthTextField<TValue> extends FormField<DateTime> {
+  _MonthTextField({
+    required this.format,
     this.form,
+    required this.picker,
     super.key,
     super.onSaved,
     super.validator,
@@ -565,7 +604,10 @@ class _NumTextField<TValue> extends FormField<num> {
     bool? showCursor,
     bool obscureText = false,
     bool autocorrect = false,
+    int maxLines = 1,
+    int? minLines,
     bool expands = false,
+    int? maxLength,
     VoidCallback? onEditingComplete,
     this.onSubmitted,
     List<TextInputFormatter>? inputFormatters,
@@ -578,8 +620,8 @@ class _NumTextField<TValue> extends FormField<num> {
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
           builder: (field) {
-            final _NumTextFieldState<TValue> state =
-                field as _NumTextFieldState<TValue>;
+            final _MonthTextFieldState<TValue> state =
+                field as _MonthTextFieldState<TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(
@@ -588,7 +630,7 @@ class _NumTextField<TValue> extends FormField<num> {
                   : SystemMouseCursors.click,
               controller: state._effectiveController ??
                   TextEditingController(
-                    text: state.value?.toString(),
+                    text: state.value?.format(state.widget.format),
                   ),
               focusNode: state._effectiveFocusNode,
               decoration: effectiveDecoration.copyWith(
@@ -606,7 +648,10 @@ class _NumTextField<TValue> extends FormField<num> {
               showCursor: showCursor,
               obscureText: obscureText,
               autocorrect: autocorrect,
+              maxLines: maxLines,
+              minLines: minLines,
               expands: expands,
+              maxLength: maxLength,
               onChanged: (text) => field.didChange(state.parse(text)),
               onEditingComplete: onEditingComplete,
               onSubmitted: (text) => onSubmitted?.call(state.parse(text)),
@@ -624,26 +669,28 @@ class _NumTextField<TValue> extends FormField<num> {
         );
 
   final FormController<TValue>? form;
-  final FormNumFieldPicker picker;
+  final String format;
+
+  final FormMonthModalFieldPicker picker;
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final bool readOnly;
-  final void Function(num? value)? onChanged;
-  final void Function(num? value)? onSubmitted;
+  final void Function(DateTime? value)? onChanged;
+  final void Function(DateTime? value)? onSubmitted;
 
   @override
-  _NumTextFieldState<TValue> createState() => _NumTextFieldState<TValue>();
+  _MonthTextFieldState createState() => _MonthTextFieldState<TValue>();
 }
 
-class _NumTextFieldState<TValue> extends FormFieldState<num> {
+class _MonthTextFieldState<TValue> extends FormFieldState<DateTime> {
   TextEditingController? _controller;
   FocusNode? _focusNode;
   bool isShowingDialog = false;
   bool hadFocus = false;
 
   @override
-  _NumTextField<TValue> get widget => super.widget as _NumTextField<TValue>;
+  _MonthTextField<TValue> get widget => super.widget as _MonthTextField<TValue>;
 
   TextEditingController? get _effectiveController =>
       widget.controller ?? _controller;
@@ -672,7 +719,7 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
   }
 
   @override
-  void didUpdateWidget(_NumTextField oldWidget) {
+  void didUpdateWidget(_MonthTextField<TValue> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -705,6 +752,11 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
         _focusNode = null;
       }
     }
+    if (widget.format != oldWidget.format) {
+      if (_effectiveController?.text != format(value)) {
+        setValue(parse(_effectiveController?.text ?? ""));
+      }
+    }
     if (widget.form != oldWidget.form) {
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
@@ -716,7 +768,7 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
   }
 
   @override
-  void didChange(num? value) {
+  void didChange(DateTime? value) {
     widget.onChanged?.call(value);
     widget.onSubmitted?.call(value);
     super.didChange(value);
@@ -745,8 +797,8 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
     }
   }
 
-  String? format(num? value) => value?.toString();
-  num? parse(String? text) {
+  String? format(DateTime? value) => value?.format(widget.format);
+  DateTime? parse(String? text) {
     try {
       return text.isEmpty ? null : _parseLoose(text!);
     } catch (e) {
@@ -754,12 +806,27 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
     }
   }
 
-  num? _parseLoose(String text) {
-    final i = int.tryParse(text);
-    if (i != null) {
-      return i;
+  DateTime? _parseLoose(String text) {
+    final regex = RegExp(
+      widget.format
+          .replaceAll("MM", "(?<MM>[0-9]+)")
+          .replaceAll("yyyy", "(?<yyyy>[0-9]+)"),
+    );
+    final match = regex.firstMatch(text);
+    if (match == null) {
+      return null;
     }
-    return double.tryParse(text);
+    final years = match.groupNames.contains("yyyy")
+        ? int.tryParse(match.namedGroup("yyyy") ?? "") ?? 0
+        : 0;
+    final months = match.groupNames.contains("MM")
+        ? int.tryParse(match.namedGroup("MM") ?? "") ?? 0
+        : 0;
+    return DateTime(
+      years,
+      months,
+      1,
+    );
   }
 
   Future<void> requestUpdate() async {
@@ -801,60 +868,129 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
   }
 }
 
-/// Class that defines a picker style for selecting numbers.
+/// Class that defines a picker style for selecting dates.
 ///
-/// [begin] < [end] and [interval] must be greater than 0.
-///
-/// 数値を選択するためのピッカースタイルを定義するクラス。
-///
-/// [begin] < [end]である必要があり、[interval]は0より大きい値を指定する必要があります。
-class FormNumFieldPicker {
-  /// Class that defines a picker style for selecting numbers.
+/// 日付を選択するためのピッカースタイルを定義するクラス。
+@immutable
+class FormMonthModalFieldPicker {
+  /// Class that defines a picker style for selecting dates.
   ///
-  /// [begin] < [end] and [interval] must be greater than 0.
-  ///
-  /// 数値を選択するためのピッカースタイルを定義するクラス。
-  ///
-  /// [begin] < [end]である必要があり、[interval]は0より大きい値を指定する必要があります。
-  const FormNumFieldPicker({
-    this.defaultValue,
-    this.begin = 0,
-    this.interval = 1,
-    this.end = 100,
-    this.suffix = "",
+  /// 日付を選択するためのピッカースタイルを定義するクラス。
+  const FormMonthModalFieldPicker({
+    this.defaultDateTime,
+    this.monthSuffix = "",
+    this.yearSuffix = "",
+    this.yearFormat = "yyyy",
     this.backgroundColor,
-    this.fractionDigits = 0,
+    this.day,
+    this.lastDayOfMonth,
     this.color,
+    this.begin,
+    this.end,
     this.confirmText = "Confirm",
     this.cancelText = "Cancel",
-  })  : assert(begin < end, "[begin] must be less than [end]."),
-        assert(interval > 0, "[interval] must be greater than 0."),
-        assert(fractionDigits >= 0, "[fractionDigits] must be greater than 0.");
+  })  : assert(
+          lastDayOfMonth == null || day == null,
+          "You can't set both lastDayOfMonth and day.",
+        ),
+        assert(
+          day == null || day > 0 && day <= 31,
+          "day must be 1-31.",
+        );
+
+  /// Set the date to the end of the month when outputting as [DateTime].
+  ///
+  /// Cannot be set at the same time as [day].
+  ///
+  /// [DateTime]として出力する場合の日付をその月の最後にします。
+  ///
+  /// [day]と同時に設定することはできません。
+  final bool? lastDayOfMonth;
+
+  /// Set the date to [day] when outputting as [DateTime].
+  ///
+  /// Specify a number between 1-31.
+  ///
+  /// Cannot be set at the same time as [lastDayOfMonth].
+  ///
+  /// [DateTime]として出力する場合の日付を[day]にします。
+  ///
+  /// 1-31の間の数字を指定してください。
+  ///
+  /// [lastDayOfMonth]と同時に設定することはできません。
+  final int? day;
+
+  /// Specify the first year and month to be selected.
+  ///
+  /// If not specified, you can choose from 10 years prior to the current year.
+  ///
+  /// Specify a date earlier than [end].
+  ///
+  /// 選択させる最初の年月を指定します。
+  ///
+  /// 指定されない場合は現在の年から10年前から選択できます。
+  ///
+  /// [end]よりも前の日付を指定してください。
+  final DateTime? begin;
+
+  /// Specify the last year and month to be selected.
+  ///
+  /// If not specified, you can choose up to 10 years after the current year.
+  ///
+  /// Specify a date later than [begin].
+  ///
+  /// 選択させる最後の年月を指定します。
+  ///
+  /// 指定されない場合は現在の年から10年後まで選択できます。
+  ///
+  /// [begin]よりも後の日付を指定してください。
+  final DateTime? end;
 
   /// Default value when not selected.
   ///
   /// 選択されていないときのデフォルトの値。
-  final num? defaultValue;
+  final DateTime? defaultDateTime;
 
-  /// The smallest value to be selected.
+  /// Suffix of the Month.
   ///
-  /// 選択させる数値の一番小さい値。
-  final num begin;
+  /// 月のSuffix。
+  final String monthSuffix;
 
-  /// Interval of the value to be selected.
+  /// Suffix in year.
   ///
-  /// 選択させる数値のインターバル。
-  final num interval;
+  /// 年のSuffix。
+  final String yearSuffix;
 
-  /// The highest value of the number to be selected.
+  /// Format of the year.
   ///
-  /// 選択させる数値の一番大きい値。
-  final num end;
-
-  /// Suffix of values.
+  /// Describe and define the following pattern.
   ///
-  /// 数値のSuffix。
-  final String suffix;
+  /// 年のフォーマット。
+  ///
+  /// 下記のパターンを記述して定義してください。
+  ///
+  ///     Symbol   Meaning                Presentation       Example
+  ///     ------   -------                ------------       -------
+  ///     G        era designator         (Text)             AD
+  ///     y        year                   (Number)           1996
+  ///     M        month in year          (Text & Number)    July & 07
+  ///     L        standalone month       (Text & Number)    July & 07
+  ///     d        day in month           (Number)           10
+  ///     c        standalone day         (Number)           10
+  ///     h        hour in am/pm (1~12)   (Number)           12
+  ///     H        hour in day (0~23)     (Number)           0
+  ///     m        minute in hour         (Number)           30
+  ///     s        second in minute       (Number)           55
+  ///     S        fractional second      (Number)           978
+  ///     E        day of week            (Text)             Tuesday
+  ///     D        day in year            (Number)           189
+  ///     a        am/pm marker           (Text)             PM
+  ///     k        hour in day (1~24)     (Number)           24
+  ///     K        hour in am/pm (0~11)   (Number)           0
+  ///     Q        quarter                (Text)             Q3
+  ///     '        escape for text        (Delimiter)        'Date='
+  ///     ''       single quote           (Literal)          'o''clock'
+  final String yearFormat;
 
   /// Background color of the picker.
   ///
@@ -876,25 +1012,45 @@ class FormNumFieldPicker {
   /// ピッカーをキャンセルするボタンのテキスト。
   final String cancelText;
 
-  /// Number of decimal places.
-  ///
-  /// 小数点以下の桁数。
-  final int fractionDigits;
-
   /// Build the picker.
   ///
-  /// [context] is passed [BuildContext]. [currentValue] is passed the currently selected [num].
+  /// [context] is passed [BuildContext]. [currentDateTime] is passed the currently selected [DateTime].
   ///
   /// ピッカーのビルドを行ないます。
   ///
-  /// [context]に[BuildContext]が渡されます。[currentValue]に現在選択されている[num]が渡されます。
-  Future<num?> build(BuildContext context, num? currentValue) async {
-    final length = ((end - begin) / interval.toDouble()).round();
-    final selected =
-        (((currentValue ?? defaultValue ?? 0) - begin) / interval.toDouble())
-            .round();
-    num? res;
+  /// [context]に[BuildContext]が渡されます。[currentDateTime]に現在選択されている[DateTime]が渡されます。
+  Future<DateTime?> build(
+    BuildContext context,
+    DateTime? currentDateTime,
+  ) async {
+    assert(
+      begin == null ||
+          end == null ||
+          (begin != null && end != null && begin!.isBefore(end!)),
+      "[begin] must be before [end].",
+    );
     final theme = Theme.of(context);
+    DateTime? res;
+    final now = DateTime.now();
+    final startYear = begin?.year ?? (now.year - 10);
+    final endYear = end?.year ?? (now.year + 10);
+    final selectedYear = ((currentDateTime?.year ??
+                defaultDateTime?.year ??
+                begin?.year ??
+                end?.year ??
+                now.year) -
+            startYear)
+        .limit(0, endYear - startYear);
+    var selectedMonth = ((currentDateTime?.month ??
+                defaultDateTime?.month ??
+                begin?.month ??
+                end?.month ??
+                now.month) -
+            1)
+        .limit(0, 12);
+    if (selectedYear == 0) {
+      selectedMonth = selectedMonth - ((begin?.month ?? 1) - 1);
+    }
     await _Picker(
       height: 240,
       backgroundColor: backgroundColor ?? theme.colorScheme.surface,
@@ -904,28 +1060,53 @@ class FormNumFieldPicker {
       confirmText: confirmText,
       cancelText: cancelText,
       selecteds: [
-        selected,
+        selectedYear,
+        selectedMonth,
       ],
-      adapter: _PickerDataAdapter<num>(
+      adapter: _PickerDataAdapter<int>(
         data: [
-          ...List.generate(length + 1, (m) {
-            final val = begin + (m * interval);
-            return _PickerItem<num>(
-              text: Text(
-                "${val.toStringAsFixed(fractionDigits)}$suffix",
-                style: TextStyle(
-                  color: color ?? theme.colorScheme.onSurface,
+          for (var y = startYear; y < endYear; y++) ...[
+            () {
+              final year = DateTime(y, 1, 1);
+              final startMonth = y == startYear ? begin?.month ?? 1 : 1;
+              final endMonth = y == endYear - 1 ? end?.month ?? 12 : 12;
+              return _PickerItem(
+                text: Text(
+                  "${year.format(yearFormat)}$yearSuffix",
+                  style: TextStyle(
+                    color: color ?? theme.colorScheme.onSurface,
+                  ),
                 ),
-              ),
-              value: val,
-            );
-          }),
+                value: y,
+                children: [
+                  for (var m = startMonth - 1; m < endMonth; m++)
+                    _PickerItem(
+                      text: Text(
+                        "${(m + 1).format("00")}$monthSuffix",
+                        style: TextStyle(
+                          color: color ?? theme.colorScheme.onSurface,
+                        ),
+                      ),
+                      value: m,
+                    ),
+                ],
+              );
+            }(),
+          ],
         ],
       ),
       changeToFirst: true,
       hideHeader: false,
       onConfirm: (_Picker picker, List<int> value) {
-        res = begin + (value[0] * interval);
+        var month = value[1] + 1;
+        if (value[0] == 0) {
+          month = month + ((begin?.month ?? 1) - 1);
+        }
+        if (lastDayOfMonth == true) {
+          res = DateTime(value[0] + startYear, month + 1, 0);
+        } else {
+          res = DateTime(value[0] + startYear, month, day ?? 1);
+        }
       },
     ).showModal(context);
     return res;
