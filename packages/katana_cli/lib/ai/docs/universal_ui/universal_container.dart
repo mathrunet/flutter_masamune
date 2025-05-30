@@ -29,7 +29,7 @@ class UniversalContainerMdCliAiCode extends UniversalUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 `UniversalContainer`は下記のように利用する。
 
 ## 概要
@@ -40,22 +40,22 @@ $excerpt
 
 ```dart
 UniversalContainer(
-    padding: const EdgeInsets.all(16),
-    margin: const EdgeInsets.all(8),
-    decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-            BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-            ),
-        ],
-    ),
-    maxWidth: 600,
-    minWidth: 300,
-    child: const Text("コンテンツ"),
+  padding: const EdgeInsets.all(16),
+  margin: const EdgeInsets.all(8),
+  decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(8),
+    boxShadow: [
+      BoxShadow(
+          color: Colors.black.withOpacity(0.1),
+          blurRadius: 8,
+          offset: const Offset(0, 2),
+      ),
+    ],
+  ),
+  maxWidth: 600,
+  minWidth: 300,
+  child: const Text("コンテンツ"),
 );
 ```
 

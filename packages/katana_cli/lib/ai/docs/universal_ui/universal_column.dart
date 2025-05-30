@@ -28,7 +28,7 @@ class UniversalColumnMdCliAiCode extends UniversalUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 `UniversalColumn`は下記のように利用する。
 
 ## 概要
@@ -39,21 +39,21 @@ $excerpt
 
 ```dart
 UniversalColumn(
-    padding: const EdgeInsets.all(16),
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-        const Text("テキスト1"),
-        const SizedBox(height: 16),
-        const Text("テキスト2"),
-        const SizedBox(height: 16),
-        ElevatedButton(
-            onPressed: () {
-                // TODO: Implement the button action.
-            },
-            child: const Text("ボタン"),
-        ),
-    ],
+  padding: const EdgeInsets.all(16),
+  mainAxisAlignment: MainAxisAlignment.center,
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    const Text("テキスト1"),
+    const SizedBox(height: 16),
+    const Text("テキスト2"),
+    const SizedBox(height: 16),
+    ElevatedButton(
+        onPressed: () {
+            // TODO: Implement the button action.
+        },
+        child: const Text("ボタン"),
+    ),
+  ],
 );
 ```
 

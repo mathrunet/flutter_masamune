@@ -14,8 +14,7 @@ class UniversalHeaderTileMdCliAiCode extends UniversalUiUsageCliAiCode {
   String get name => "`UniversalHeaderTile`の利用方法";
 
   @override
-  String get description =>
-      "`ListTile`の`UniversalUI`版である`UniversalHeaderTile`の利用方法";
+  String get description => "`UniversalHeaderTile`の利用方法";
 
   @override
   String get globs => "*.dart";
@@ -25,11 +24,11 @@ class UniversalHeaderTileMdCliAiCode extends UniversalUiUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "`ListTile`の`UniversalUI`版。レスポンシブ対応でデスクトップ・モバイルで適切なレイアウトに変換。ヘッダーとして使用することを想定したタイル。`leading`、`title`、`trailing`などの基本的なListTileの機能に加え、`onTap`を設定可能。";
+      "プロフィールなどのヘッダーに用いることのできるタイル。中身としては`ListTile`に同じように利用可能だがリストの上部に配置するようにデザインされている。レスポンシブ対応でデスクトップ・モバイルで適切なレイアウトに変換。ヘッダーとして使用することを想定したタイル。`leading`、`title`、`trailing`などの基本的なListTileの機能に加え、`onTap`を設定可能。";
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 `UniversalHeaderTile`は下記のように利用する。
 
 ## 概要
@@ -40,25 +39,25 @@ $excerpt
 
 ```dart
 UniversalHeaderTile(
-    leading: const Icon(Icons.person),
-    title: const Text("ユーザー名"),
-    trailing: [
-        IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-                // TODO: Implement the settings action.
-            },
-        ),
-        IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-                // TODO: Implement the logout action.
-            },
-        ),
-    ],
-    onTap: () {
-        // TODO: Implement the tap action.
-    },
+  leading: const Icon(Icons.person),
+  title: const Text("ユーザー名"),
+  trailing: [
+    IconButton(
+      icon: const Icon(Icons.settings),
+      onPressed: () {
+          // TODO: Implement the settings action.
+      },
+    ),
+    IconButton(
+      icon: const Icon(Icons.logout),
+      onPressed: () {
+          // TODO: Implement the logout action.
+      },
+    ),
+  ],
+  onTap: () {
+      // TODO: Implement the tap action.
+  },
 );
 ```
 

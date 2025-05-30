@@ -39,30 +39,30 @@ $excerpt
 
 ```dart
 UniversalAppBar(
-    leading: IconButton(
-        icon: const Icon(Icons.menu),
-        onPressed: () {
-            // TODO: Implement the menu action.
-        },
+  leading: IconButton(
+    icon: const Icon(Icons.menu),
+    onPressed: () {
+        // TODO: Implement the menu action.
+    },
+  ),
+  title: const Text("アプリタイトル"),
+  actions: [
+    IconButton(
+      icon: const Icon(Icons.settings),
+      onPressed: () {
+          // TODO: Implement the settings action.
+      },
     ),
-    title: const Text("アプリタイトル"),
-    actions: [
-        IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-                // TODO: Implement the settings action.
-            },
-        ),
-    ],
-    bottom: const PreferredSize(
-        preferredSize: Size.fromHeight(48),
-        child: TabBar(
-            tabs: [
-                Tab(text: "タブ1"),
-                Tab(text: "タブ2"),
-            ],
-        ),
+  ],
+  bottom: const PreferredSize(
+    preferredSize: Size.fromHeight(48),
+    child: TabBar(
+      tabs: [
+          Tab(text: "タブ1"),
+          Tab(text: "タブ2"),
+      ],
     ),
+  ),
 );
 ```
 

@@ -29,7 +29,7 @@ class UniversalGridViewMdCliAiCode extends UniversalUiUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 `UniversalGridView`は下記のように利用する。
 
 ## 概要
@@ -40,19 +40,19 @@ $excerpt
 
 ```dart
 UniversalGridView(
-    padding: const EdgeInsets.all(16),
-    crossAxisCount: 2,
-    mainAxisSpacing: 16,
-    crossAxisSpacing: 16,
-    onRefresh: () async {
-        // TODO: Implement the refresh logic.
-    },
-    onLoadNext: () async {
-        // TODO: Implement the load next logic.
-    },
-    children: [
-        // Any widget.
-    ],
+  padding: const EdgeInsets.all(16),
+  crossAxisCount: 2,
+  mainAxisSpacing: 16,
+  crossAxisSpacing: 16,
+  onRefresh: () async {
+      // TODO: Implement the refresh logic.
+  },
+  onLoadNext: () async {
+      // TODO: Implement the load next logic.
+  },
+  children: [
+      // Any widget.
+  ],
 );
 ```
 
