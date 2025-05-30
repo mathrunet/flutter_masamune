@@ -175,17 +175,16 @@ class FormController<TValue> extends ValueNotifier<TValue> {
     _fields.remove(state);
   }
 
-  void _registerContainer(_FormStyleContainerState state) {
+  void _registerContainer(_FormContainerState state) {
     _containers.add(state);
   }
 
-  void _unregisterContainer(_FormStyleContainerState state) {
+  void _unregisterContainer(_FormContainerState state) {
     _containers.remove(state);
   }
 
   final Set<FormFieldState> _fields = <FormFieldState>{};
-  final Set<_FormStyleContainerState> _containers =
-      <_FormStyleContainerState>{};
+  final Set<_FormContainerState> _containers = <_FormContainerState>{};
 
   /// [GlobalKey] passed to [Form].
   ///

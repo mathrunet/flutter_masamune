@@ -550,7 +550,7 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
     return FormStyleScope(
       style: widget.style,
       enabled: widget.enabled,
-      child: FormStyleContainer(
+      child: FormContainer(
         style: widget.style,
         labelText: widget.labelText,
         alignment: Alignment.centerLeft,

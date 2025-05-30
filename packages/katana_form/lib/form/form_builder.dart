@@ -199,7 +199,7 @@ class _FormBuilderState<T, TValue> extends FormFieldState<T>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return FormStyleContainer(
+    return FormContainer(
       style: widget.style,
       enabled: widget.enabled,
       labelText: widget.labelText,

@@ -2,18 +2,24 @@ part of '/katana_form.dart';
 
 /// Provides a container with [FormStyle] applied.
 ///
+/// You can also perform arbitrary value validation using [validator].
+///
 /// In [child], specify the widget to enclose in the container.
 ///
 /// If [enabled] is `false`, the design is changed to a deactivated design.
 ///
 /// [FormStyle]を適用したコンテナを提供します。
 ///
+/// また、[validator]を利用して任意の値のバリデーションを行うことができます。
+///
 /// [child]には、コンテナで囲むウィジェットを指定します。
 ///
 /// [enabled]が`false`の場合、非有効化のデザインに変更されます。
 @immutable
-class FormStyleContainer extends StatefulWidget {
+class FormContainer extends StatefulWidget {
   /// Provides a container with [FormStyle] applied.
+  ///
+  /// You can also perform arbitrary value validation using [validator].
   ///
   /// In [child], specify the widget to enclose in the container.
   ///
@@ -21,10 +27,12 @@ class FormStyleContainer extends StatefulWidget {
   ///
   /// [FormStyle]を適用したコンテナを提供します。
   ///
+  /// また、[validator]を利用して任意の値のバリデーションを行うことができます。
+  ///
   /// [child]には、コンテナで囲むウィジェットを指定します。
   ///
   /// [enabled]が`false`の場合、非有効化のデザインに変更されます。
-  const FormStyleContainer({
+  const FormContainer({
     this.form,
     super.key,
     this.style,
@@ -157,10 +165,10 @@ class FormStyleContainer extends StatefulWidget {
   final String? Function()? validator;
 
   @override
-  State<StatefulWidget> createState() => _FormStyleContainerState();
+  State<StatefulWidget> createState() => _FormContainerState();
 }
 
-class _FormStyleContainerState extends State<FormStyleContainer> {
+class _FormContainerState extends State<FormContainer> {
   String? _errorText;
 
   @override
@@ -170,7 +178,7 @@ class _FormStyleContainerState extends State<FormStyleContainer> {
   }
 
   @override
-  void didUpdateWidget(FormStyleContainer oldWidget) {
+  void didUpdateWidget(FormContainer oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.form != oldWidget.form) {
       oldWidget.form?._unregisterContainer(this);

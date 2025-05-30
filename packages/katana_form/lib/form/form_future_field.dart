@@ -427,7 +427,7 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
                           });
                         }
                       : null,
-                  child: FormStyleContainer(
+                  child: FormContainer(
                     labelText: widget.labelText,
                     style: widget.style,
                     enabled: widget.enabled,

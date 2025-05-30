@@ -19,6 +19,7 @@ class FormTextEditingControllerBuilder extends StatefulWidget {
     super.key,
     required this.builder,
     this.controller,
+    this.style,
   });
 
   /// Builder for the field.
@@ -39,6 +40,11 @@ class FormTextEditingControllerBuilder extends StatefulWidget {
   ///
   /// こちらを指定するとこのコントローラーが使われます。
   final TextEditingController? controller;
+
+  /// Field style.
+  ///
+  /// フィールドのスタイル。
+  final FormStyle? style;
 
   @override
   State<StatefulWidget> createState() =>
@@ -84,6 +90,12 @@ class _FormTextEditingControllerBuilderState
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, _effectiveController);
+    if (widget.style == null) {
+      return widget.builder(context, _effectiveController);
+    }
+    return FormContainer(
+      style: widget.style,
+      child: widget.builder(context, _effectiveController),
+    );
   }
 }

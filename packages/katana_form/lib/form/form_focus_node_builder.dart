@@ -90,7 +90,7 @@ class _FormFocusNodeBuilderState extends State<FormFocusNodeBuilder> {
     if (widget.style == null) {
       return widget.builder(context, _effectiveFocusNode);
     }
-    return FormStyleContainer(
+    return FormContainer(
       style: widget.style,
       child: widget.builder(context, _effectiveFocusNode),
     );

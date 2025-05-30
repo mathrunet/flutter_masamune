@@ -83,7 +83,7 @@ class _FormEditableToggleBuilderState extends State<FormEditableToggleBuilder>
     if (widget.style == null) {
       return widget.builder(context, this);
     }
-    return FormStyleContainer(
+    return FormContainer(
       style: widget.style,
       child: widget.builder(context, this),
     );

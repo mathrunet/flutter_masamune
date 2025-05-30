@@ -181,7 +181,7 @@ class FormMarkdownField<TValue> extends FormField<String> {
             );
             final borderColor = style?.borderColor ?? theme.dividerColor;
 
-            return FormStyleContainer(
+            return FormContainer(
               form: form,
               style: style,
               enabled: enabled,
