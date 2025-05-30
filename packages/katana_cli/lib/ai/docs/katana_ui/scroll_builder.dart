@@ -178,6 +178,12 @@ ScrollBuilder(
 - カスタム`ScrollController`を使用する場合は`controller`パラメータで指定
 - `builder`内では必ず提供された`controller`をスクロール可能なウィジェットに設定する必要がある
 - スクロールバーはデスクトップ/Webプラットフォームでのみ表示される（`showScrollbarWhenDesktopOrWeb`が`true`の場合）
+
+## 利用シーン
+
+- 通常のListViewの上に`RefreshIndicator`を追加
+- `ScrollController`を使用してスクロール位置を制御
+- デスクトップ/Webでのみインタラクティブなスクロールバーを表示
 """;
   }
 }

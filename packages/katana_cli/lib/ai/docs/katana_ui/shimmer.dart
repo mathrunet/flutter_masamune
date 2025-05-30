@@ -143,6 +143,16 @@ ShimmerBox(
 - `lineCount`で行数を指定（デフォルト3行）
 - `lineSpace`で行間を指定（デフォルト8px）
 - パディングはデフォルトで0
+
+## 利用シーン
+
+### ShimmerBox
+
+- `ListTile`や`Card`、`LineTile`等のローディング状態の表示
+
+### ShimmerMultiLine
+
+- 投稿など複数行テキストのローディング状態の表示
 """;
   }
 }

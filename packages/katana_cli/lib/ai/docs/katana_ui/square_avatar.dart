@@ -14,7 +14,8 @@ class KatanaUISquareAvatarMdCliAiCode extends KatanaUiUsageCliAiCode {
   String get name => "`SquareAvatar`の利用方法";
 
   @override
-  String get description => "四角形のアバター表示用ウィジェットである`SquareAvatar`の利用方法";
+  String get description =>
+      "`CircleAvatar`の四角版として使用可能なウィジェットである`SquareAvatar`の利用方法";
 
   @override
   String get globs => "*.dart";
@@ -23,7 +24,7 @@ class KatanaUISquareAvatarMdCliAiCode extends KatanaUiUsageCliAiCode {
   String get directory => "docs/katana_ui";
 
   @override
-  String get excerpt => "四角形のアバター表示用ウィジェット。CircleAvatarの四角版として使用可能。";
+  String get excerpt => "`CircleAvatar`の四角版として使用可能なウィジェット。";
 
   @override
   String body(String baseName, String className) {
@@ -36,11 +37,10 @@ $excerpt
 
 ## 特徴
 
-- 四角形のアバター表示
+- `CircleAvatar`の四角版として使用可能
 - 角丸の調整が可能
 - 背景色の設定が可能
 - 背景画像の設定が可能
-- 画像は`BoxFit.cover`でフィットされる
 
 ## 基本的な使い方
 
@@ -57,7 +57,7 @@ SquareAvatar(
 
 ```dart
 SquareAvatar(
-  backgroundImage: NetworkImage('https://example.com/avatar.jpg'),
+  backgroundImage: NetworkImage("https://example.com/avatar.jpg"),
   radius: 12.0,
 );
 ```
@@ -67,7 +67,7 @@ SquareAvatar(
 ```dart
 SquareAvatar(
   backgroundColor: Colors.grey, // フォールバック用の背景色
-  backgroundImage: NetworkImage('https://example.com/avatar.jpg'),
+  backgroundImage: NetworkImage("https://example.com/avatar.jpg"),
   radius: 16.0,
 );
 ```
@@ -97,7 +97,13 @@ const SquareAvatar(
 - `radius`を指定しない場合、角丸なしの四角形として表示される
 - `backgroundColor`と`backgroundImage`の両方を指定した場合、`backgroundImage`が上に表示される
 - 背景画像は常に`BoxFit.cover`でフィットされる
-- サイズは親ウィジェットによって決定される（`Stack`の`fit: StackFit.expand`を使用）
+- サイズは`width`と`height`で指定可能
+
+## 利用シーン
+
+- `CircleAvatar`の四角版として使用可能
+- ユーザーのプロフィール画像やアイコンの表示
+- 投稿のフィーチャー画像の表示
 """;
   }
 }

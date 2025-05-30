@@ -14,7 +14,8 @@ class KatanaUIMessageBoxMdCliAiCode extends KatanaUiUsageCliAiCode {
   String get name => "`MessageBox`の利用方法";
 
   @override
-  String get description => "メッセージを表示するためのボックスウィジェットである`MessageBox`の利用方法";
+  String get description =>
+      "ユーザーに伝えるメッセージを表示するためのボックスウィジェットである`MessageBox`の利用方法";
 
   @override
   String get globs => "*.dart";
@@ -24,7 +25,7 @@ class KatanaUIMessageBoxMdCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "メッセージを表示するためのボックスウィジェット。アイコン、メッセージ、アクションを含むカスタマイズ可能なメッセージボックス。";
+      "ユーザーに伝えるメッセージを表示するためのボックスウィジェット。アイコン、メッセージ、アクションを含むカスタマイズ可能なメッセージボックス。";
 
   @override
   String body(String baseName, String className) {
@@ -105,6 +106,12 @@ MessageBox(
 - `color`を指定しない場合は`Theme.of(context).primaryColor`が使用される
 - `backgroundColor`を指定しない場合は`color.withValues(alpha: 0.1)`が使用される
 - `actions`は空のリストがデフォルト値
+
+## 利用シーン
+
+- ユーザーに伝えるメッセージの表示
+- ユーザーへの注意
+- エラー表示
 """;
   }
 }

@@ -59,7 +59,6 @@ ChatTile(
 ```dart
 ChatTile(
   Text("自分のメッセージ"),
-  mainAxisAlignment: MainAxisAlignment.end,
   backgroundColor: Colors.blue[100],
   reverse: true,
 );
@@ -146,6 +145,11 @@ ChatTile(
 - デフォルトの`contentPadding`は全方向16px
 - デフォルトの`borderRadius`は8.0
 - `backgroundColor`と`foregroundColor`を指定しない場合は、テーマの色が使用される
+
+## 利用シーン
+
+- チャットアプリのメッセージ表示
+- AIとのやりとりの表示
 """;
   }
 }

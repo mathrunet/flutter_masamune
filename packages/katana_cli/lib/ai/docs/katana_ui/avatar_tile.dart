@@ -133,6 +133,14 @@ AvatarTile(
   - 説明文: `Theme.of(context).textTheme.bodyMedium`または14px
 - 背景色のデフォルトは`Theme.of(context).colorScheme.surface`
 - 前景色のデフォルトは`Theme.of(context).colorScheme.onSurface`
+
+## 利用シーン 
+
+- ユーザーのプロフィール情報の表示
+- チャットアプリのユーザー情報の表示
+- メディアアプリの投稿者情報の表示
+- ブログやニュースサイトの記事の著者情報の表示
+- ソーシャルメディアのプロフィール情報の表示
 """;
   }
 }

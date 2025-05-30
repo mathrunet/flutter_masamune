@@ -178,6 +178,14 @@ CardTile(
 - `bottom`ウィジェットは`ListTile`の下に配置される
 - `borderOnForeground`は常に`true`で、境界線は前面に描画される
 - `clipBehavior`は`Clip.antiAliasWithSaveLayer`で固定
+
+## 利用シーン
+
+- 画像をフィーチャーしたカードの表示
+- ブログの記事の表示
+- ニュースの記事の表示
+- メディアアプリの投稿の表示
+- ソーシャルメディアの投稿の表示
 """;
   }
 }

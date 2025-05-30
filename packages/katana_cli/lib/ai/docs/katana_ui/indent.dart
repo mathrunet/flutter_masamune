@@ -14,7 +14,8 @@ class KatanaUIIndentMdCliAiCode extends KatanaUiUsageCliAiCode {
   String get name => "`Indent`の利用方法";
 
   @override
-  String get description => "要素間にパディングを設定するためのウィジェットである`Indent`の利用方法";
+  String get description =>
+      "要素間にパディングを設定しながら複数の要素を縦に配置するためのウィジェットである`Indent`の利用方法";
 
   @override
   String get globs => "*.dart";
@@ -24,7 +25,7 @@ class KatanaUIIndentMdCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "ColumnやListViewの中で、要素間にパディングを設定するためのウィジェット。複数の要素を含めることができ、全体的な見栄えを改善する。";
+      "ColumnやListViewの中で、要素間にパディングを設定しながら複数の要素を縦に配置するためのウィジェット。";
 
   @override
   String body(String baseName, String className) {
@@ -145,6 +146,10 @@ Indent(
 - デフォルトの`verticalDirection`は`VerticalDirection.down`
 - 内部的には`Padding`と`Column`を組み合わせて実装
 - 水平方向のレイアウトには対応していない（垂直方向のみ）
+
+## 利用シーン
+
+- `Column`の中で利用することで、要素間にパディングを設定しながら複数の要素を縦に配置。
 """;
   }
 }

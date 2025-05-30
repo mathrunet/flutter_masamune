@@ -15,7 +15,7 @@ class KatanaUILoadingBuilderMdCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String get description =>
-      "複数のFutureを待機し、完了するまでローディング表示を行うウィジェットである`LoadingBuilder`の利用方法";
+      "複数の`Future`を待機し、完了するまでローディング表示を行うビルダーである`LoadingBuilder`の利用方法";
 
   @override
   String get globs => "*.dart";
@@ -25,7 +25,7 @@ class KatanaUILoadingBuilderMdCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "複数のFutureを待機し、完了するまでローディング表示を行うウィジェット。カスタマイズ可能なローディングインジケータを提供。";
+      "複数の`Future`を待機し、完了するまでローディング表示を行うビルダー。カスタマイズ可能なローディングインジケータを提供。";
 
   @override
   String body(String baseName, String className) {
@@ -147,6 +147,14 @@ LoadingBuilder(
 - `builder`は`futures`の完了後に呼び出される
 - エラーハンドリングは`builder`内で行う必要がある
 - すべての`Future`が完了するまでローディング表示が継続する
+
+## 利用シーン
+
+- 非同期処理の待機
+- データの読み込み
+- ネットワークリクエストの待機
+- データベースの読み込み
+- ファイルの読み込み
 """;
   }
 }

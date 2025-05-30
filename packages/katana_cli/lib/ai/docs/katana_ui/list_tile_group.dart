@@ -15,7 +15,7 @@ class KatanaUIListTileGroupMdCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String get description =>
-      "ListTileやLineTileをグループ化して表示するためのウィジェットである`ListTileGroup`の利用方法";
+      "`ListTile`や`LineTile`をグループ化して表示するためのウィジェットである`ListTileGroup`の利用方法";
 
   @override
   String get globs => "*.dart";
@@ -25,7 +25,7 @@ class KatanaUIListTileGroupMdCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "ListTileやLineTileをグループ化して表示するためのウィジェット。タイル間の区切り線やスタイリングをカスタマイズ可能。";
+      "`ListTile`や`LineTile`をグループ化して表示するためのウィジェット。タイル間の区切り線やスタイリングをカスタマイズ可能。";
 
   @override
   String body(String baseName, String className) {
@@ -128,6 +128,11 @@ ListTileGroup(
 - デフォルトの角丸は12px
 - デフォルトの背景色は`Theme.of(context).colorScheme.surface`
 - `ListTileGroup`は`LineTileGroup`のエイリアス
+
+## 利用シーン
+
+- メニューのグループ化
+- UIのセクション化
 """;
   }
 }
