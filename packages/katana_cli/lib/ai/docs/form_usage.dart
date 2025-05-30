@@ -23,7 +23,7 @@ import 'package:katana_cli/ai/docs/form/form_num_modal_field.dart';
 import 'package:katana_cli/ai/docs/form/form_password_builder.dart';
 import 'package:katana_cli/ai/docs/form/form_pin_field.dart';
 import 'package:katana_cli/ai/docs/form/form_rating_bar.dart';
-import 'package:katana_cli/ai/docs/form/form_style_container.dart';
+import 'package:katana_cli/ai/docs/form/form_container.dart';
 import 'package:katana_cli/ai/docs/form/form_switch.dart';
 import 'package:katana_cli/ai/docs/form/form_text_editing_controller_builder.dart';
 import 'package:katana_cli/ai/docs/form/form_text_field.dart';
@@ -59,7 +59,7 @@ const kFormList = {
   "FormNumField": KatanaFormNumModalFieldMdCliAiCode(),
   "FormPasswordBuilder": KatanaFormPasswordBuilderMdCliAiCode(),
   "FormRatingBar": KatanaFormRatingBarMdCliAiCode(),
-  "FormStyleContainer": KatanaFormStyleContainerMdCliAiCode(),
+  "FormStyleContainer": KatanaFormContainerMdCliAiCode(),
   "FormTextEditingControllerBuilder":
       KatanaFormTextEditingControllerBuilderMdCliAiCode(),
 };

@@ -24,7 +24,7 @@ class KatanaFormPinFieldMdCliAiCode extends FormUsageCliAiCode {
 
   @override
   String get excerpt =>
-      "PINコード入力用のフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでPINコードの状態管理を行えます。桁数設定、マスク表示、自動フォーカス移動などの機能を備えています。";
+      "PINコード入力用のフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでPINコードの状態管理を行えます。桁数設定などの機能を備えています。";
 
   @override
   String body(String baseName, String className) {
@@ -39,20 +39,19 @@ $excerpt
 
 ```dart
 FormPinField(
-    form: formController,
-    length: 4,
-    onSaved: (value) => formController.value.copyWith(pin: value),
+  form: formController,
+  initialValue: "1234",
+  onSaved: (value) => formController.value.copyWith(pin: value),
 );
 ```
 
-## マスク表示付きの利用方法
+## 最大桁数を指定した利用方法
 
 ```dart
 FormPinField(
-    form: formController,
-    length: 6,
-    obscureText: true,
-    onSaved: (value) => formController.value.copyWith(pin: value),
+  form: formController,
+  onSaved: (value) => formController.value.copyWith(pin: value),
+  maxLength: 6,
 );
 ```
 
@@ -60,21 +59,20 @@ FormPinField(
 
 ```dart
 FormPinField(
-    form: formController,
-    length: 4,
-    validator: (value) {
-      if (value == null || value.isEmpty) {
-        return "PINコードを入力してください";
-      }
-      if (value.length != 4) {
-        return "PINコードは4桁で入力してください";
-      }
-      if (!RegExp(r'^[0-9]+\$').hasMatch(value)) {
-        return "PINコードは数字のみ入力可能です";
-      }
-      return null;
-    },
-    onSaved: (value) => formController.value.copyWith(pin: value),
+  form: formController,
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return "PINコードを入力してください";
+    }
+    if (value.length != 4) {
+      return "PINコードは4桁で入力してください";
+    }
+    if (!RegExp(r'^[0-9]+\$').hasMatch(value)) {
+      return "PINコードは数字のみ入力可能です";
+    }
+    return null;
+  },
+  onSaved: (value) => formController.value.copyWith(pin: value),
 );
 ```
 
@@ -82,76 +80,56 @@ FormPinField(
 
 ```dart
 FormPinField(
-    form: formController,
-    length: 4,
-    style: const FormStyle(
-      padding: EdgeInsets.all(16.0),
-      pinFieldStyle: PinFieldStyle(
-        width: 50.0,
-        height: 50.0,
-        spacing: 16.0,
-        backgroundColor: Colors.white,
-        borderColor: Colors.blue,
-        focusedBorderColor: Colors.blue[700],
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        textStyle: TextStyle(
-          fontSize: 24.0,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ),
-    onSaved: (value) => formController.value.copyWith(pin: value),
-);
-```
-
-## 自動フォーカス移動の設定
-
-```dart
-FormPinField(
-    form: formController,
-    length: 4,
-    autoFocus: true,
-    autoDismissKeyboard: true,
-    onCompleted: (value) {
-      // PINコードの入力が完了した時の処理
-      print("Completed: \$value");
-    },
-    onSaved: (value) => formController.value.copyWith(pin: value),
+  form: formController,
+  style: const FormStyle(
+    padding: EdgeInsets.all(16.0),
+  ),
+  onSaved: (value) => formController.value.copyWith(pin: value),
 );
 ```
 
 ## パラメータ
 
 ### 必須パラメータ
-- `form`: フォームコントローラー。フォームの状態管理を行います。
-- `length`: PINコードの桁数。入力フィールドの数を設定します。
-- `onSaved`: 保存時のコールバック。入力された値の保存処理を定義します。
+なし
 
 ### オプションパラメータ
-- `initialValue`: 初期値。フォーム表示時の初期値を設定します。
-- `obscureText`: マスク表示。`true`の場合、入力値をマスク表示します。
-- `validator`: バリデーション関数。入力値の検証ルールを定義します。
+- `form`: フォームコントローラー。フォームの状態管理を行います。定義する場合は`onSaved`パラメータも定義する必要があります。
+- `onSaved`: 保存時のコールバック。選択された値の保存処理を定義します。定義する場合は`form`パラメータも定義する必要があります。
+- `onChanged`: 変更時のコールバック。選択された値の変更時の処理を定義します。
 - `style`: フォームのスタイル。`FormStyle`を使用してデザインをカスタマイズできます。
-- `enabled`: 入力可否。`false`の場合、入力が無効化されます。
-- `autoFocus`: 自動フォーカス。`true`の場合、表示時に最初のフィールドにフォーカスします。
-- `autoDismissKeyboard`: キーボード自動非表示。`true`の場合、入力完了時にキーボードを非表示にします。
-- `onCompleted`: 完了時のコールバック。全桁の入力が完了した時の処理を定義します。
+- `validator`: バリデーション関数。選択値の検証ルールを定義します。
+- `enabled`: 入力可否。`false`の場合、チェックボックスが無効化されます。
+- `initialValue`: 初期値。フォーム表示時の初期チェック状態を設定します。
+- `focusNode`: フォーカスノード。フォームのフォーカスを設定します。
+
+- `emptyErrorText`: 空のエラーメッセージ。選択が空の場合に表示するエラーメッセージを設定します。
+- `lengthErrorText`: 桁数エラーメッセージ。入力された値の桁数が最大桁数を超えた場合に表示するエラーメッセージを設定します。
+- `keyboardType`: キーボードのタイプ。テキスト入力のキーボードのタイプを設定します。
 
 ## 注意点
 
-- `FormController`と組み合わせて使用することで、PINコードの状態を管理できます。
+- `FormController`と組み合わせて使用することで、フォームの状態管理を行えます。
+- `FormController`を使用する場合は`onSaved`メソッドも合わせて定義してください。
 - `FormStyle`を使用することで、共通のデザインを適用できます。
+- 桁数の設定は`maxLength`パラメータを使用して行えます。
 - バリデーションは`validator`パラメータを使用して定義します。
-- マスク表示は`obscureText`パラメータで制御できます。
-- 自動フォーカス移動は`autoFocus`パラメータで制御できます。
+- キーボードのタイプは`keyboardType`パラメータを使用して設定します。
+- 空のエラーメッセージは`emptyErrorText`パラメータを使用して設定します。
+- 桁数エラーメッセージは`lengthErrorText`パラメータを使用して設定します。
 
 ## ベストプラクティス
 
 1. フォームの状態管理には必ず`FormController`を使用する
-2. セキュリティが必要な場合はマスク表示を有効にする
-3. 適切なバリデーションを設定する
-4. ユーザビリティを考慮して自動フォーカス移動を設定する
+2. `FormController`を使用する場合は`onSaved`メソッドも合わせて定義する。
+3. `FormController`を使用せず、`onChanged`メソッドを使用して変更の都度処理を行う方法も利用可能。
+4. バリデーションは`validator`パラメータを使用して定義する。
 5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
+6. 桁数の設定は`maxLength`パラメータを使用して行える。
+7. バリデーションは`validator`パラメータを使用して定義する。
+8. キーボードのタイプは`keyboardType`パラメータを使用して設定します。
+9. 空のエラーメッセージは`emptyErrorText`パラメータを使用して設定します。
+10. 桁数エラーメッセージは`lengthErrorText`パラメータを使用して設定します。
 
 ## 利用シーン
 
