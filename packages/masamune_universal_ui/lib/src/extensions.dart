@@ -17,7 +17,7 @@ extension MasamuneUniversalBuildContextExtensions on BuildContext {
 /// Define extension methods for [EdgeInsets] in Universal UI.
 ///
 /// Universal UIの[EdgeInsets]用の拡張メソッドを定義します。
-extension MasamuneUniversalEdgeInsetsExtensions on EdgeInsets {
+extension MasamuneResponsiveEdgeInsetsExtensions on EdgeInsets {
   /// Convert [EdgeInsets] to [ResponsiveEdgeInsets].
   ///
   /// [EdgeInsets]を[ResponsiveEdgeInsets]に変換します。
