@@ -119,7 +119,9 @@ class ImplMdCliAiCode extends CliAiCode {
             - 1で作成した`Page`に対して、`documents/rules/impls/page_logic_impl.md`を参照して、`Page`のロジックを実装
         3. `Page`のUIの実装
             - 1で作成した`Page`に対して、2で作成した`Page`のロジックを用いながら`documents/rules/impls/page_ui_impl.md`を参照して、`Page`のUIを実装
-8. `モックデータの実装`
+8. `Routerの実装`
+    - `documents/rules/impls/router_impl.md`を参照し、`Router`の設定を実装
+9. `モックデータの実装`
     - `documents/rules/impls/mock_data_impl.md`を参照し各種`モックデータ`を実装
 """;
   }
