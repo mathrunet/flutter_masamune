@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of controller_impl.md.
+/// Contents of controller_method_creation.md.
 ///
-/// controller_impl.mdの中身。
-class ControllerImplMdCliAiCode extends CliAiCode {
-  /// Contents of controller_impl.md.
+/// controller_method_creation.mdの中身。
+class ControllerMethodCreationMdCliAiCode extends CliAiCode {
+  /// Contents of controller_method_creation.md.
   ///
   /// controller_impl.mdの中身。
-  const ControllerImplMdCliAiCode();
+  const ControllerMethodCreationMdCliAiCode();
 
   @override
   String get name => "`Controller`のメソッドの作成";

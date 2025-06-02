@@ -1,14 +1,14 @@
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Contents of controller_impl.md.
+/// Contents of controller_method_impl.md.
 ///
-/// controller_impl.mdの中身。
-class ControllerImplMdCliAiCode extends CliAiCode {
-  /// Contents of controller_impl.md.
+/// controller_method_impl.mdの中身。
+class ControllerMethodImplMdCliAiCode extends CliAiCode {
+  /// Contents of controller_method_impl.md.
   ///
-  /// controller_impl.mdの中身。
-  const ControllerImplMdCliAiCode();
+  /// controller_method_impl.mdの中身。
+  const ControllerMethodImplMdCliAiCode();
 
   @override
   String get name => "`Controller`のメソッドの実装";
@@ -20,7 +20,7 @@ class ControllerImplMdCliAiCode extends CliAiCode {
   String get directory => "impls";
 
   @override
-  String get description => "`Controller設計書`を用いた`Controller`の実装方法";
+  String get description => "`Controller設計書`を用いた`Controller`のメソッドの中身の実装方法";
 
   @override
   String body(String baseName, String className) {
