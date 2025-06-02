@@ -276,18 +276,18 @@ class PageCreationMdCliAiCode extends CliAiCode {
     katana code generate
     ```
 
-## `fixedform`
+## `fixedform_add`
 
-1. 下記のコマンドを実行して`fixedform`のViewを作成。
+1. 下記のコマンドを実行して`fixedform_add`のViewを作成。
 
     ```shell
-    katana code view fixedform [PageName(SnakeCase&末尾のPageを取り除く)]
+    katana code view fixedform_add [PageName(SnakeCase&末尾のPageを取り除く)]
     ```
 
 2. コマンド実行後、`lib/pages`以下に[PageName(SnakeCase&末尾のPageを取り除く)].dartファイルが作成される
     - 例：
         ```dart
-        // lib/pages/memo.dart
+        // lib/pages/memo_add.dart
 
         // ignore: unused_import, unnecessary_import
         import 'package:flutter/material.dart';
@@ -298,7 +298,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
         // ignore: unused_import, unnecessary_import
         import '/main.dart';
 
-        part 'memo.page.dart';
+        part 'memo_add.page.dart';
 
         /// Page for forms to add data.
         @immutable
@@ -319,52 +319,13 @@ class PageCreationMdCliAiCode extends CliAiCode {
 
           @override
           FormScopedWidget build(BuildContext context, PageRef ref) =>
-              const MemoForm();
-        }
-
-        /// Page for forms to edit data.
-        @immutable
-        @PagePath("memo/:edit_id/edit")
-        class MemoEditPage extends FormEditPageScopedWidget {
-          const MemoEditPage({
-            super.key,
-            @PageParam("edit_id") required super.editId,
-          });
-
-          /// Used to transition to the MemoEditPage screen.
-          ///
-          /// ```dart
-          /// router.push(MemoEditPage.query(parameters));    // Push page to MemoEditPage.
-          /// router.replace(MemoEditPage.query(parameters)); // Replace page to MemoEditPage.
-          /// ```
-          @pageRouteQuery
-          static const query = _$MemoEditPageQuery();
-
-          @override
-          FormScopedWidget build(BuildContext context, PageRef ref) =>
-              const MemoForm();
+              const _MemoAddForm();
         }
 
         /// Widgets for form views.
         @immutable
-        class MemoForm extends FormScopedWidget {
-          const MemoForm({super.key});
-
-          /// Used to transition to the MemoAddPage screen.
-          ///
-          /// ```dart
-          /// router.push(MemoForm.addQuery(parameters));    // Push page to MemoAddPage.
-          /// router.replace(MemoForm.addQuery(parameters)); // Replace page to MemoAddPage.
-          /// ```
-          static const addQuery = MemoAddPage.query;
-
-          /// Used to transition to the MemoEditPage screen.
-          ///
-          /// ```dart
-          /// router.push(MemoForm.editQuery(parameters));    // Push page to MemoEditPage.
-          /// router.replace(MemoForm.editQuery(parameters)); // Replace page to MemoEditPage.
-          /// ```
-          static const editQuery = MemoEditPage.query;
+        class _MemoAddForm extends FormScopedWidget {
+          const _MemoAddForm({super.key});
 
           @override
           Widget build(BuildContext context, FormRef ref) {
@@ -400,18 +361,18 @@ class PageCreationMdCliAiCode extends CliAiCode {
     katana code generate
     ```
 
-## `listform`
+## `fixedform_edit`
 
-1. 下記のコマンドを実行して`listform`のViewを作成。
+1. 下記のコマンドを実行して`fixedform_edit`のViewを作成。
 
     ```shell
-    katana code view listform [PageName(SnakeCase&末尾のPageを取り除く)]
+    katana code view fixedform_edit [PageName(SnakeCase&末尾のPageを取り除く)]
     ```
 
 2. コマンド実行後、`lib/pages`以下に[PageName(SnakeCase&末尾のPageを取り除く)].dartファイルが作成される
     - 例：
         ```dart
-        // lib/pages/memo.dart
+        // lib/pages/memo_edit.dart
 
         // ignore: unused_import, unnecessary_import
         import 'package:flutter/material.dart';
@@ -422,29 +383,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
         // ignore: unused_import, unnecessary_import
         import '/main.dart';
 
-        part 'memo.page.dart';
-
-        /// Page for forms to add data.
-        @immutable
-        @PagePath("memo/add")
-        class MemoAddPage extends FormAddPageScopedWidget {
-          const MemoAddPage({
-            super.key,
-          });
-
-          /// Used to transition to the MemoAddPage screen.
-          ///
-          /// ```dart
-          /// router.push(MemoAddPage.query(parameters));    // Push page to MemoAddPage.
-          /// router.replace(MemoAddPage.query(parameters)); // Replace page to MemoAddPage.
-          /// ```
-          @pageRouteQuery
-          static const query = _$MemoAddPageQuery();
-
-          @override
-          FormScopedWidget build(BuildContext context, PageRef ref) =>
-              const MemoForm();
-        }
+        part 'memo_edit.page.dart';
 
         /// Page for forms to edit data.
         @immutable
@@ -466,13 +405,98 @@ class PageCreationMdCliAiCode extends CliAiCode {
 
           @override
           FormScopedWidget build(BuildContext context, PageRef ref) =>
-              const MemoForm();
+              const _MemoEditForm();
         }
 
         /// Widgets for form views.
         @immutable
-        class MemoForm extends FormScopedWidget {
-          const MemoForm({super.key});
+        class _MemoEditForm extends FormScopedWidget {
+          const _MemoEditForm({super.key});
+
+          @override
+          Widget build(BuildContext context, FormRef ref) {
+            // Describes the process of loading
+            // and defining variables required for the page.
+            // 
+            // You can use [ref.isAdding] or [ref.isEditing] to determine if the form is currently adding new data or editing data.
+            //
+            // If editing is in progress, it is possible to get the ID of the item being edited with [ref.editId].
+            // TODO: Implement the variable loading process.
+            
+
+            // Describes the structure of the page.
+            // TODO: Implement the view.
+            return UniversalScaffold(
+              appBar: UniversalAppBar(
+                // TODO: Implement the app bar.
+                
+              ),
+              body: UniversalColumn(
+                children: [
+                  // TODO: Implement the fixed view.
+                  
+                ],
+              ),
+            );
+          }
+        }
+        ```
+3. 最後に下記コマンドで残りのコードを自動生成する
+
+    ```shell
+    katana code generate
+    ```
+
+## `listform_add`
+
+1. 下記のコマンドを実行して`listform_add`のViewを作成。
+
+    ```shell
+    katana code view listform_add [PageName(SnakeCase&末尾のPageを取り除く)]
+    ```
+
+2. コマンド実行後、`lib/pages`以下に[PageName(SnakeCase&末尾のPageを取り除く)].dartファイルが作成される
+    - 例：
+        ```dart
+        // lib/pages/memo_add.dart
+
+        // ignore: unused_import, unnecessary_import
+        import 'package:flutter/material.dart';
+        // ignore: unused_import, unnecessary_import
+        import 'package:masamune/masamune.dart';
+        import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+
+        // ignore: unused_import, unnecessary_import
+        import '/main.dart';
+
+        part 'memo_add.page.dart';
+
+        /// Page for forms to add data.
+        @immutable
+        @PagePath("memo/add")
+        class MemoAddPage extends FormAddPageScopedWidget {
+          const MemoAddPage({
+            super.key,
+          });
+
+          /// Used to transition to the MemoAddPage screen.
+          ///
+          /// ```dart
+          /// router.push(MemoAddPage.query(parameters));    // Push page to MemoAddPage.
+          /// router.replace(MemoAddPage.query(parameters)); // Replace page to MemoAddPage.
+          /// ```
+          @pageRouteQuery
+          static const query = _$MemoAddPageQuery();
+
+          @override
+          FormScopedWidget build(BuildContext context, PageRef ref) =>
+              const _MemoAddForm();
+        }
+
+        /// Widgets for form views.
+        @immutable
+        class _MemoAddForm extends FormScopedWidget {
+          const _MemoAddForm({super.key});
 
           /// Used to transition to the MemoAddPage screen.
           ///
@@ -489,6 +513,92 @@ class PageCreationMdCliAiCode extends CliAiCode {
           /// router.replace(MemoForm.editQuery(parameters)); // Replace page to MemoEditPage.
           /// ```
           static const editQuery = MemoEditPage.query;
+
+          @override
+          Widget build(BuildContext context, FormRef ref) {
+            // Describes the process of loading
+            // and defining variables required for the page.
+            // 
+            // You can use [ref.isAdding] or [ref.isEditing] to determine if the form is currently adding new data or editing data.
+            //
+            // If editing is in progress, it is possible to get the ID of the item being edited with [ref.editId].
+            // TODO: Implement the variable loading process.
+            
+
+            // Describes the structure of the page.
+            // TODO: Implement the view.
+            return UniversalScaffold(
+              appBar: UniversalAppBar(
+                // TODO: Implement the app bar.
+                
+              ),
+              body: UniversalListView(
+                children: [
+                  // TODO: Implement the list view.
+                  
+                ],
+              ),
+            );
+          }
+        }
+        ```
+3. 最後に下記コマンドで残りのコードを自動生成する
+
+    ```shell
+    katana code generate
+    ```
+
+## `listform_edit`
+
+1. 下記のコマンドを実行して`listform_edit`のViewを作成。
+
+    ```shell
+    katana code view listform_edit [PageName(SnakeCase&末尾のPageを取り除く)]
+    ```
+
+2. コマンド実行後、`lib/pages`以下に[PageName(SnakeCase&末尾のPageを取り除く)].dartファイルが作成される
+    - 例：
+        ```dart
+        // lib/pages/memo_edit.dart
+
+        // ignore: unused_import, unnecessary_import
+        import 'package:flutter/material.dart';
+        // ignore: unused_import, unnecessary_import
+        import 'package:masamune/masamune.dart';
+        import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+
+        // ignore: unused_import, unnecessary_import
+        import '/main.dart';
+
+        part 'memo_edit.page.dart';
+
+        /// Page for forms to edit data.
+        @immutable
+        @PagePath("memo/:edit_id/edit")
+        class MemoEditPage extends FormEditPageScopedWidget {
+          const MemoEditPage({
+            super.key,
+            @PageParam("edit_id") required super.editId,
+          });
+
+          /// Used to transition to the MemoEditPage screen.
+          ///
+          /// ```dart
+          /// router.push(MemoEditPage.query(parameters));    // Push page to MemoEditPage.
+          /// router.replace(MemoEditPage.query(parameters)); // Replace page to MemoEditPage.
+          /// ```
+          @pageRouteQuery
+          static const query = _$MemoEditPageQuery();
+
+          @override
+          FormScopedWidget build(BuildContext context, PageRef ref) =>
+              const _MemoEditForm();
+        }
+
+        /// Widgets for form views.
+        @immutable
+        class _MemoEditForm extends FormScopedWidget {
+          const _MemoEditForm({super.key});
 
           @override
           Widget build(BuildContext context, FormRef ref) {

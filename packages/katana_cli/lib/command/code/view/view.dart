@@ -14,6 +14,10 @@ part 'gridview.dart';
 part 'fixedview.dart';
 part 'fixedform.dart';
 part 'page.dart';
+part 'fixedform_add.dart';
+part 'listform_add.dart';
+part 'fixedform_edit.dart';
+part 'listform_edit.dart';
 
 /// Create a Dart/Flutter view template.
 ///
@@ -32,6 +36,10 @@ class CodeViewCliCommand extends CliCommandGroup {
   Map<String, CliCommand> get commands => const {
         "listform": CodeViewListFormCliCommand(),
         "fixedform": CodeViewFixedFormCliCommand(),
+        "listform_add": CodeViewListFormAddCliCommand(),
+        "fixedform_add": CodeViewFixedFormAddCliCommand(),
+        "listform_edit": CodeViewListFormEditCliCommand(),
+        "fixedform_edit": CodeViewFixedFormEditCliCommand(),
         "tab": CodeViewTabCliCommand(),
         "navigation": CodeViewNavigationCliCommand(),
         "listview": CodeViewListViewCliCommand(),

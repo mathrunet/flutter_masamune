@@ -111,7 +111,7 @@ class PageDesignMdCliAiCode extends CliAiCode {
 
         ### PageType
 
-        `listform`
+        `listform_add`
         
         ### Content
         
@@ -134,11 +134,11 @@ class PageDesignMdCliAiCode extends CliAiCode {
         
         ### PagePath
         
-        `memo/edit/:memo_id`
+        `memo/edit/:edit_id`
 
         ### PageType
 
-        `listform`
+        `listform_edit`
         
         ### Content
         
@@ -156,7 +156,7 @@ class PageDesignMdCliAiCode extends CliAiCode {
 
         | PropertyName | PropertyType | RequiredOrOptional | DefaultValue | Summary |
         | --- | --- | --- | --- | --- |
-        | `memoId` | String | Required |  | 編集するメモのID。 |
+        | `editId` | String | Required |  | 編集するメモのID。 |
         ```
 2. 作成した`Page設計書`を`documents/designs/page_design.md`に保存
 """;
