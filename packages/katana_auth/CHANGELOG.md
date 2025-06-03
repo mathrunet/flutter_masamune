@@ -1,3 +1,7 @@
+## 2.11.7
+
+ - **FIX**: Made initialUserId, etc. externally accessible. ([d1f28b56](https://github.com/mathrunet/flutter_masamune/commit/d1f28b56471e4dcb6a05de7858bfbe9e9f8f702d))
+
 ## 2.11.6
 
  - Update a dependency to the latest release.

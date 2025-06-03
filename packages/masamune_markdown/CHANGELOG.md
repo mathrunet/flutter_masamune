@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Change the name of FormStyleContainer. ([6dd0ab54](https://github.com/mathrunet/flutter_masamune/commit/6dd0ab5406474f19cf7bd9436c2ea60268b1eb11))
+
 ## 2.1.1
 
  - Update a dependency to the latest release.

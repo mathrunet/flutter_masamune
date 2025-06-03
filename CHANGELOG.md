@@ -3,6 +3,174 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth` - `v2.11.7`](#katana_auth---v2117)
+ - [`katana_cli` - `v2.42.0`](#katana_cli---v2420)
+ - [`katana_form` - `v2.20.0`](#katana_form---v2200)
+ - [`masamune` - `v2.24.0`](#masamune---v2240)
+ - [`masamune_annotation` - `v2.10.0`](#masamune_annotation---v2100)
+ - [`masamune_builder` - `v2.23.0`](#masamune_builder---v2230)
+ - [`masamune_markdown` - `v2.2.0`](#masamune_markdown---v220)
+ - [`masamune_test` - `v2.1.0`](#masamune_test---v210)
+ - [`masamune_auth_firebase` - `v2.1.45`](#masamune_auth_firebase---v2145)
+ - [`katana_auth_firebase` - `v2.8.8`](#katana_auth_firebase---v288)
+ - [`masamune_auth_google_firebase` - `v2.2.31`](#masamune_auth_google_firebase---v2231)
+ - [`masamune_auth_apple_firebase` - `v2.1.33`](#masamune_auth_apple_firebase---v2133)
+ - [`masamune_location_platform_interface` - `v2.4.91`](#masamune_location_platform_interface---v2491)
+ - [`masamune_model_firebase_remote_config` - `v2.1.40`](#masamune_model_firebase_remote_config---v2140)
+ - [`masamune_location_geocoding` - `v2.5.67`](#masamune_location_geocoding---v2567)
+ - [`masamune_location` - `v2.9.25`](#masamune_location---v2925)
+ - [`masamune_ai` - `v2.5.19`](#masamune_ai---v2519)
+ - [`masamune_notification_local` - `v2.4.25`](#masamune_notification_local---v2425)
+ - [`masamune_model_firestore` - `v2.2.35`](#masamune_model_firestore---v2235)
+ - [`masamune_deeplink_firebase` - `v2.4.25`](#masamune_deeplink_firebase---v2425)
+ - [`masamune_auth_apple` - `v2.5.29`](#masamune_auth_apple---v2529)
+ - [`masamune_scheduler` - `v2.4.29`](#masamune_scheduler---v2429)
+ - [`masamune_model_algolia` - `v2.4.168`](#masamune_model_algolia---v24168)
+ - [`masamune_location_background` - `v2.7.25`](#masamune_location_background---v2725)
+ - [`masamune_text_to_speech` - `v2.5.25`](#masamune_text_to_speech---v2525)
+ - [`masamune_agora` - `v2.6.29`](#masamune_agora---v2629)
+ - [`masamune_auth_google` - `v2.6.29`](#masamune_auth_google---v2629)
+ - [`masamune_model_firebase_data_connect` - `v2.3.35`](#masamune_model_firebase_data_connect---v2335)
+ - [`masamune_ai_openai` - `v2.12.11`](#masamune_ai_openai---v21211)
+ - [`masamune_calendar` - `v2.4.29`](#masamune_calendar---v2429)
+ - [`masamune_ai_firebase` - `v2.4.19`](#masamune_ai_firebase---v2419)
+ - [`masamune_animate` - `v2.2.108`](#masamune_animate---v22108)
+ - [`masamune_picker` - `v2.5.29`](#masamune_picker---v2529)
+ - [`masamune_app_review` - `v2.1.40`](#masamune_app_review---v2140)
+ - [`masamune_util` - `v2.2.163`](#masamune_util---v22163)
+ - [`masamune_universal_ui` - `v2.10.26`](#masamune_universal_ui---v21026)
+ - [`masamune_purchase_stripe` - `v3.6.29`](#masamune_purchase_stripe---v3629)
+ - [`masamune_notification` - `v2.11.25`](#masamune_notification---v21125)
+ - [`masamune_logger_firebase` - `v2.6.29`](#masamune_logger_firebase---v2629)
+ - [`masamune_firebase_app_check` - `v2.3.25`](#masamune_firebase_app_check---v2325)
+ - [`masamune_introduction` - `v2.7.29`](#masamune_introduction---v2729)
+ - [`masamune_deeplink` - `v2.4.25`](#masamune_deeplink---v2425)
+ - [`masamune_speech_to_text` - `v2.4.25`](#masamune_speech_to_text---v2425)
+ - [`masamune_auth_facebook` - `v2.6.29`](#masamune_auth_facebook---v2629)
+ - [`masamune_force_updater` - `v2.2.40`](#masamune_force_updater---v2240)
+ - [`masamune_location_google` - `v2.8.25`](#masamune_location_google---v2825)
+ - [`masamune_mail` - `v2.2.163`](#masamune_mail---v22163)
+ - [`masamune_purchase` - `v2.5.26`](#masamune_purchase---v2526)
+ - [`masamune_notification_firebase` - `v2.9.25`](#masamune_notification_firebase---v2925)
+ - [`masamune_purchase_mobile` - `v2.13.26`](#masamune_purchase_mobile---v21326)
+ - [`masamune_ads_google` - `v2.7.30`](#masamune_ads_google---v2730)
+ - [`masamune_camera` - `v2.6.29`](#masamune_camera---v2629)
+ - [`masamune_model_firebase_data_connect_annotation` - `v2.2.19`](#masamune_model_firebase_data_connect_annotation---v2219)
+ - [`masamune_model_docs_builder` - `v2.3.15`](#masamune_model_docs_builder---v2315)
+ - [`masamune_model_firestore_builder` - `v2.5.15`](#masamune_model_firestore_builder---v2515)
+ - [`masamune_model_firebase_data_connect_builder` - `v2.4.15`](#masamune_model_firebase_data_connect_builder---v2415)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_auth_firebase` - `v2.1.45`
+ - `katana_auth_firebase` - `v2.8.8`
+ - `masamune_auth_google_firebase` - `v2.2.31`
+ - `masamune_auth_apple_firebase` - `v2.1.33`
+ - `masamune_location_platform_interface` - `v2.4.91`
+ - `masamune_model_firebase_remote_config` - `v2.1.40`
+ - `masamune_location_geocoding` - `v2.5.67`
+ - `masamune_location` - `v2.9.25`
+ - `masamune_ai` - `v2.5.19`
+ - `masamune_notification_local` - `v2.4.25`
+ - `masamune_model_firestore` - `v2.2.35`
+ - `masamune_deeplink_firebase` - `v2.4.25`
+ - `masamune_auth_apple` - `v2.5.29`
+ - `masamune_scheduler` - `v2.4.29`
+ - `masamune_model_algolia` - `v2.4.168`
+ - `masamune_location_background` - `v2.7.25`
+ - `masamune_text_to_speech` - `v2.5.25`
+ - `masamune_agora` - `v2.6.29`
+ - `masamune_auth_google` - `v2.6.29`
+ - `masamune_model_firebase_data_connect` - `v2.3.35`
+ - `masamune_ai_openai` - `v2.12.11`
+ - `masamune_calendar` - `v2.4.29`
+ - `masamune_ai_firebase` - `v2.4.19`
+ - `masamune_animate` - `v2.2.108`
+ - `masamune_picker` - `v2.5.29`
+ - `masamune_app_review` - `v2.1.40`
+ - `masamune_util` - `v2.2.163`
+ - `masamune_universal_ui` - `v2.10.26`
+ - `masamune_purchase_stripe` - `v3.6.29`
+ - `masamune_notification` - `v2.11.25`
+ - `masamune_logger_firebase` - `v2.6.29`
+ - `masamune_firebase_app_check` - `v2.3.25`
+ - `masamune_introduction` - `v2.7.29`
+ - `masamune_deeplink` - `v2.4.25`
+ - `masamune_speech_to_text` - `v2.4.25`
+ - `masamune_auth_facebook` - `v2.6.29`
+ - `masamune_force_updater` - `v2.2.40`
+ - `masamune_location_google` - `v2.8.25`
+ - `masamune_mail` - `v2.2.163`
+ - `masamune_purchase` - `v2.5.26`
+ - `masamune_notification_firebase` - `v2.9.25`
+ - `masamune_purchase_mobile` - `v2.13.26`
+ - `masamune_ads_google` - `v2.7.30`
+ - `masamune_camera` - `v2.6.29`
+ - `masamune_model_firebase_data_connect_annotation` - `v2.2.19`
+ - `masamune_model_docs_builder` - `v2.3.15`
+ - `masamune_model_firestore_builder` - `v2.5.15`
+ - `masamune_model_firebase_data_connect_builder` - `v2.4.15`
+
+---
+
+#### `katana_auth` - `v2.11.7`
+
+ - **FIX**: Made initialUserId, etc. externally accessible. ([d1f28b56](https://github.com/mathrunet/flutter_masamune/commit/d1f28b56471e4dcb6a05de7858bfbe9e9f8f702d))
+
+#### `katana_cli` - `v2.42.0`
+
+ - **FEAT**: The call to Masamune's main.dart is now made via a package. ([984163b9](https://github.com/mathrunet/flutter_masamune/commit/984163b9c88ce558b4ccf8e70350de3b2fec3814))
+ - **DOCS**: Prepare test items for each command. ([1967255e](https://github.com/mathrunet/flutter_masamune/commit/1967255ee85df9a279099cbeb7e80477fae935d9))
+ - **DOCS**: Add Router implementation. ([8f4798d1](https://github.com/mathrunet/flutter_masamune/commit/8f4798d1aa0faee583cb35f0aa8cc7af357757ce))
+ - **DOCS**: Separate Add and Edit in AI. ([36cf5764](https://github.com/mathrunet/flutter_masamune/commit/36cf5764c24cf0085d621a849f556e0d5bac5740))
+ - **DOCS**: Add docs for compilation. ([3f4ecb5f](https://github.com/mathrunet/flutter_masamune/commit/3f4ecb5f53ca906fd9b28fae476f3c0fcebaade1))
+ - **DOCS**: Improve UniversalUI Docs. ([6af8eb25](https://github.com/mathrunet/flutter_masamune/commit/6af8eb25fb710b97f1ebd9d7b92df35d6357d4b8))
+ - **DOCS**: Adjust AIDocs for kanata_ui. ([059f5ce2](https://github.com/mathrunet/flutter_masamune/commit/059f5ce22ec956864dbe02a53440cce52b70578a))
+ - **DOCS**: Form description complete. ([aca5f879](https://github.com/mathrunet/flutter_masamune/commit/aca5f8799828d2a90d4a9ddead0c75965b2b38c9))
+ - **DOCS**: Revise the documentation up to form_password_builder. ([30f14254](https://github.com/mathrunet/flutter_masamune/commit/30f1425491499f46131900a60363f66294073ffa))
+
+#### `katana_form` - `v2.20.0`
+
+ - **FIX**: Minor form corrections. ([5f5b60b2](https://github.com/mathrunet/flutter_masamune/commit/5f5b60b21822e6bd0fc958db70415c4baeb4ca1d))
+ - **FEAT**: Change the name of FormStyleContainer. ([6dd0ab54](https://github.com/mathrunet/flutter_masamune/commit/6dd0ab5406474f19cf7bd9436c2ea60268b1eb11))
+
+#### `masamune` - `v2.24.0`
+
+ - **FIX**: Fixed a bug where `debugShowCheckedModeBanner` was not passed when `home` was specified. ([9ee8d046](https://github.com/mathrunet/flutter_masamune/commit/9ee8d046876f115f5d0a9d006e557b94fbc513f2))
+ - **FEAT**: Rename masamuneTest. ([c99fa436](https://github.com/mathrunet/flutter_masamune/commit/c99fa43616c11fde6947843eaa4e9b37ab3eecef))
+ - **FEAT**: The call to Masamune's main.dart is now made via a package. ([984163b9](https://github.com/mathrunet/flutter_masamune/commit/984163b9c88ce558b4ccf8e70350de3b2fec3814))
+
+#### `masamune_annotation` - `v2.10.0`
+
+ - **FEAT**: The call to Masamune's main.dart is now made via a package. ([984163b9](https://github.com/mathrunet/flutter_masamune/commit/984163b9c88ce558b4ccf8e70350de3b2fec3814))
+
+#### `masamune_builder` - `v2.23.0`
+
+ - **FEAT**: The call to Masamune's main.dart is now made via a package. ([984163b9](https://github.com/mathrunet/flutter_masamune/commit/984163b9c88ce558b4ccf8e70350de3b2fec3814))
+
+#### `masamune_markdown` - `v2.2.0`
+
+ - **FEAT**: Change the name of FormStyleContainer. ([6dd0ab54](https://github.com/mathrunet/flutter_masamune/commit/6dd0ab5406474f19cf7bd9436c2ea60268b1eb11))
+
+#### `masamune_test` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([bb0b8cac](https://github.com/mathrunet/flutter_masamune/commit/bb0b8cacd352aaf491d068ba8df691efc57b08de))
+
+
 ## 2025-05-29
 
 ### Changes

@@ -1,6 +1,6 @@
 name: masamune_annotation
 description: Define annotations to use the masamune builder. Build with masamune_builder using this annotation.
-version: 2.9.13
+version: 2.10.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_annotation
 

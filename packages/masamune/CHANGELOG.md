@@ -1,3 +1,9 @@
+## 2.24.0
+
+ - **FIX**: Fixed a bug where `debugShowCheckedModeBanner` was not passed when `home` was specified. ([9ee8d046](https://github.com/mathrunet/flutter_masamune/commit/9ee8d046876f115f5d0a9d006e557b94fbc513f2))
+ - **FEAT**: Rename masamuneTest. ([c99fa436](https://github.com/mathrunet/flutter_masamune/commit/c99fa43616c11fde6947843eaa4e9b37ab3eecef))
+ - **FEAT**: The call to Masamune's main.dart is now made via a package. ([984163b9](https://github.com/mathrunet/flutter_masamune/commit/984163b9c88ce558b4ccf8e70350de3b2fec3814))
+
 ## 2.23.19
 
  - Update a dependency to the latest release.

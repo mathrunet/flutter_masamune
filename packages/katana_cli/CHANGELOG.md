@@ -1,3 +1,15 @@
+## 2.42.0
+
+ - **FEAT**: The call to Masamune's main.dart is now made via a package. ([984163b9](https://github.com/mathrunet/flutter_masamune/commit/984163b9c88ce558b4ccf8e70350de3b2fec3814))
+ - **DOCS**: Prepare test items for each command. ([1967255e](https://github.com/mathrunet/flutter_masamune/commit/1967255ee85df9a279099cbeb7e80477fae935d9))
+ - **DOCS**: Add Router implementation. ([8f4798d1](https://github.com/mathrunet/flutter_masamune/commit/8f4798d1aa0faee583cb35f0aa8cc7af357757ce))
+ - **DOCS**: Separate Add and Edit in AI. ([36cf5764](https://github.com/mathrunet/flutter_masamune/commit/36cf5764c24cf0085d621a849f556e0d5bac5740))
+ - **DOCS**: Add docs for compilation. ([3f4ecb5f](https://github.com/mathrunet/flutter_masamune/commit/3f4ecb5f53ca906fd9b28fae476f3c0fcebaade1))
+ - **DOCS**: Improve UniversalUI Docs. ([6af8eb25](https://github.com/mathrunet/flutter_masamune/commit/6af8eb25fb710b97f1ebd9d7b92df35d6357d4b8))
+ - **DOCS**: Adjust AIDocs for kanata_ui. ([059f5ce2](https://github.com/mathrunet/flutter_masamune/commit/059f5ce22ec956864dbe02a53440cce52b70578a))
+ - **DOCS**: Form description complete. ([aca5f879](https://github.com/mathrunet/flutter_masamune/commit/aca5f8799828d2a90d4a9ddead0c75965b2b38c9))
+ - **DOCS**: Revise the documentation up to form_password_builder. ([30f14254](https://github.com/mathrunet/flutter_masamune/commit/30f1425491499f46131900a60363f66294073ffa))
+
 ## 2.41.1
 
  - **DOCS**: FormMedia completed. ([5c53b0d9](https://github.com/mathrunet/flutter_masamune/commit/5c53b0d9f4ba719551a282267295d6a569402581))

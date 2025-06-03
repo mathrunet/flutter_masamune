@@ -1,3 +1,8 @@
+## 2.20.0
+
+ - **FIX**: Minor form corrections. ([5f5b60b2](https://github.com/mathrunet/flutter_masamune/commit/5f5b60b21822e6bd0fc958db70415c4baeb4ca1d))
+ - **FEAT**: Change the name of FormStyleContainer. ([6dd0ab54](https://github.com/mathrunet/flutter_masamune/commit/6dd0ab5406474f19cf7bd9436c2ea60268b1eb11))
+
 ## 2.19.1
 
  - **FIX**: Rename value. ([bf5cbe15](https://github.com/mathrunet/flutter_masamune/commit/bf5cbe15fc9feda41b5ca3cfca1d2b02e9d70b04))

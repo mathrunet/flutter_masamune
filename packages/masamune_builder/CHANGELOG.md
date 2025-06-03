@@ -1,3 +1,7 @@
+## 2.23.0
+
+ - **FEAT**: The call to Masamune's main.dart is now made via a package. ([984163b9](https://github.com/mathrunet/flutter_masamune/commit/984163b9c88ce558b4ccf8e70350de3b2fec3814))
+
 ## 2.22.3
 
  - Update a dependency to the latest release.
