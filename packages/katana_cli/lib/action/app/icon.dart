@@ -1,14 +1,14 @@
 // ignore_for_file: implementation_imports
 
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Package imports:
-import 'package:image/image.dart';
-import 'package:image/src/formats/ico_encoder.dart';
+import "package:image/image.dart";
+import "package:image/src/formats/ico_encoder.dart";
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 final _sizeList = {
   "documents/store/icon.png": 512,
@@ -237,9 +237,9 @@ class IcLauncherCliCode extends CliCode {
   /// launch.jsonの中身。
   const IcLauncherCliCode({this.backgroundIsColor = false});
 
-  // true` if background is color.
-  //
-  // 背景が色の場合`true`。
+  /// `true` if background is color.
+  ///
+  /// 背景が色の場合`true`。
   final bool backgroundIsColor;
 
   @override
@@ -286,9 +286,9 @@ class ColorValueCliCode extends CliCode {
   /// values/colors.xmlの中身。
   const ColorValueCliCode({required this.backgroundColorCode});
 
-  // Background color.
-  //
-  // 背景の色。
+  /// Background color.
+  ///
+  /// 背景の色。
   final String backgroundColorCode;
 
   @override

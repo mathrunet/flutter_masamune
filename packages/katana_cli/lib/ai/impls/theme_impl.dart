@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Contents of theme_impl.md.
 ///
@@ -49,12 +49,12 @@ class ThemeImplMdCliAiCode extends CliAiCode {
     - 例：
       ```dart
       // Flutter imports:
-      import 'package:flutter/material.dart';
+      import "package:flutter/material.dart";
 
       // Package imports:
-      import 'package:masamune/masamune.dart';
+      import "package:masamune/masamune.dart";
 
-      part 'theme.theme.dart';
+      part "theme.theme.dart";
 
       /// App Theme.
       ///

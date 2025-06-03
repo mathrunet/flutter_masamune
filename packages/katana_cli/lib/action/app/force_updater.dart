@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Add a module to use the force updater.
 ///

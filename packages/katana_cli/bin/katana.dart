@@ -1,20 +1,20 @@
 library katana_cli;
 
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Package imports:
-import 'package:katana_cli/command/test/test.dart';
-import 'package:yaml/yaml.dart';
+import "package:katana_cli/command/test/test.dart";
+import "package:yaml/yaml.dart";
 
 // Project imports:
-import 'package:katana_cli/command/apply.dart';
-import 'package:katana_cli/command/cer/cer.dart';
-import 'package:katana_cli/command/deploy.dart';
-import 'package:katana_cli/command/doctor.dart';
-import 'package:katana_cli/command/module.dart';
-import 'package:katana_cli/command/store/store.dart';
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/command/apply.dart";
+import "package:katana_cli/command/cer/cer.dart";
+import "package:katana_cli/command/deploy.dart";
+import "package:katana_cli/command/doctor.dart";
+import "package:katana_cli/command/module.dart";
+import "package:katana_cli/command/store/store.dart";
+import "package:katana_cli/katana_cli.dart";
 
 /// Defines a list of commands.
 ///

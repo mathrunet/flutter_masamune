@@ -1,4 +1,4 @@
-part of '/katana.dart';
+part of "/katana.dart";
 
 const int _kIntMaxValue = 9007199254740991;
 

@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:katana_cli/ai/docs/plugin_usage.dart';
+import "package:katana_cli/ai/docs/plugin_usage.dart";
 
 /// Contents of sendgrid.md.
 ///

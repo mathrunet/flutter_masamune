@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Auth button template.
 ///
@@ -21,7 +21,8 @@ class ThemeFormAuthButtonCliCodeSnippet extends CliCodeSnippet {
 
   @override
   String body(String path, String baseName, String className) {
-    return r"""final authFormButtonStyle = OutlinedButton.styleFrom(
+    return r"""
+final authFormButtonStyle = OutlinedButton.styleFrom(
   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
   side: const BorderSide(color: kWhiteColor, width: 2),
   backgroundColor: Colors.transparent,

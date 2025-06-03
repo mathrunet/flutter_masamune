@@ -1,11 +1,20 @@
-part of '/katana.dart';
+part of "/katana.dart";
 
 /// A class that represents a range of numbers.
 ///
 /// Includes values from [min] to [max].
 ///
+/// 数値のレンジを表すクラス。
 ///
+/// [minX]から[maxX]までの値を含みます。
 class RectRange<TNum extends num> {
+  /// A class that represents a range of numbers.
+  ///
+  /// Includes values from [min] to [max].
+  ///
+  /// 数値のレンジを表すクラス。
+  ///
+  /// [minX]から[maxX]までの値を含みます。
   const RectRange({
     required this.minX,
     required this.maxX,

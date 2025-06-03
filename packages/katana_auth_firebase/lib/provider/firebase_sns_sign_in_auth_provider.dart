@@ -1,4 +1,4 @@
-part of '/katana_auth_firebase.dart';
+part of "/katana_auth_firebase.dart";
 
 /// {@template firebase_sns_auth}
 /// An `AuthQuery` for OAuth authentication for SNS on Firebase.

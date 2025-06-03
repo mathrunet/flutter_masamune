@@ -2,10 +2,10 @@
 // ignore_for_file: avoid_print
 
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 const _mainCommands = {
   "flutter":

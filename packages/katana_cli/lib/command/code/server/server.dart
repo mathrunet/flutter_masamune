@@ -1,15 +1,15 @@
 library katana_cli.code.server;
 
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
-part 'request.dart';
-part 'schedule.dart';
-part 'call.dart';
-part 'firestore_triggered.dart';
+part "request.dart";
+part "schedule.dart";
+part "call.dart";
+part "firestore_triggered.dart";
 
 /// Create a code template for Firebase Functions.
 ///

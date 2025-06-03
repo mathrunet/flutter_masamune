@@ -1,9 +1,9 @@
 // Dart imports:
-import 'dart:convert';
-import 'dart:io';
+import "dart:convert";
+import "dart:io";
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Generate a keystore for Android and use it only for release builds.
 ///
@@ -278,9 +278,12 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
         "sha1",
         "-binary",
       ]);
+      // ignore: unawaited_futures
       keytoolResult.stdout.pipe(openSslSha1Restul.stdin);
       final openSslBase64Result = await Process.start(openssl, ["base64"]);
+      // ignore: unawaited_futures
       openSslSha1Restul.stdout.pipe(openSslBase64Result.stdin);
+      // ignore: unawaited_futures
       openSslBase64Result.stdout.transform(utf8.decoder).forEach((e) {
         keyHash += e;
         // ignore: avoid_print

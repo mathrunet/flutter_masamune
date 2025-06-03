@@ -8,14 +8,14 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_cli;
 
-export 'package:katana/katana.dart';
+export "package:katana/katana.dart";
 
-export 'command/code/code.dart';
-export 'command/create.dart';
-export 'command/git/git.dart';
-export 'command/pub/pub.dart';
-export 'src/framework.dart';
-export 'src/gradle.dart';
-export 'src/xcode.dart';
-export 'src/podfile.dart';
-export 'src/functions.dart';
+export "command/code/code.dart";
+export "command/create.dart";
+export "command/git/git.dart";
+export "command/pub/pub.dart";
+export "src/framework.dart";
+export "src/gradle.dart";
+export "src/xcode.dart";
+export "src/podfile.dart";
+export "src/functions.dart";

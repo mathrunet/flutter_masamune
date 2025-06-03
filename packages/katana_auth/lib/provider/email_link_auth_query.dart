@@ -1,4 +1,4 @@
-part of '/katana_auth.dart';
+part of "/katana_auth.dart";
 
 /// {@template email_link_auth}
 /// An `AuthQuery` for link authentication via email.

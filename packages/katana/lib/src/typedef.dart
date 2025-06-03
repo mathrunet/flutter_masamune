@@ -1,4 +1,4 @@
-part of '/katana.dart';
+part of "/katana.dart";
 
 /// Represents the type of [Map<String, dynamic>].
 ///

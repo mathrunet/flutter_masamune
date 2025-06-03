@@ -1,14 +1,14 @@
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Package imports:
-import 'package:html/dom.dart';
-import 'package:html/parser.dart';
-import 'package:xml/xml.dart';
+import "package:html/dom.dart";
+import "package:html/parser.dart";
+import "package:xml/xml.dart";
 
 // Project imports:
-import 'package:katana_cli/config.dart';
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/config.dart";
+import "package:katana_cli/katana_cli.dart";
 
 /// FirebaseAuthentication deployment process.
 ///
@@ -769,12 +769,12 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
               .any((e) => e.key == "CODE_SIGN_ENTITLEMENTS")) {
             continue;
           }
-          if (buildConfiguration.baseConfigurationReference
-                      ?.contains("/* Release.xcconfig */") ==
-                  true ||
-              buildConfiguration.baseConfigurationReference
-                      ?.contains("/* Debug.xcconfig */") ==
-                  true) {
+          if ((buildConfiguration.baseConfigurationReference
+                      ?.contains("/* Release.xcconfig */") ??
+                  false) ||
+              (buildConfiguration.baseConfigurationReference
+                      ?.contains("/* Debug.xcconfig */") ??
+                  false)) {
             buildConfiguration.buildSettings.add(
               PBXBuildConfigurationSettings(
                   key: "CODE_SIGN_ENTITLEMENTS",

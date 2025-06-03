@@ -3,16 +3,16 @@
 // Package imports:
 
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Package imports:
-import 'package:xml/xml.dart';
+import "package:xml/xml.dart";
 
 // Project imports:
-import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
-import 'package:katana_cli/config.dart';
-import 'package:katana_cli/katana_cli.dart';
-import 'package:katana_cli/src/android_manifest.dart';
+import "package:katana_cli/action/post/firebase_deploy_post_action.dart";
+import "package:katana_cli/config.dart";
+import "package:katana_cli/katana_cli.dart";
+import "package:katana_cli/src/android_manifest.dart";
 
 /// Add a module to use InAppPurchase.
 ///
@@ -79,7 +79,7 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
       }
       if (googlePlayPubsubTopic.isEmpty) {
         error(
-          "The item [purchase]->[google_play]->[pubsub_topic] is empty. Please set it."
+          "The item [purchase]->[google_play]->[pubsub_topic] is empty. Please set it. "
           "Set the topic ID you set in Pubsub.",
         );
         return;

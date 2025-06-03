@@ -58,19 +58,19 @@ class CodeControllerCliCommand extends CliTestableCodeCommand {
     final packageName = retrievePackageName();
     return """
 // ignore: unused_import, unnecessary_import
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 // ignore: unused_import, unnecessary_import
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
 // ignore: unused_import, unnecessary_import
-import 'package:$packageName/main.dart';
+import "package:$packageName/main.dart";
 """;
   }
 
   @override
   String header(String path, String baseName, String className) {
     return """
-part '$baseName.m.dart';
+part "$baseName.m.dart";
 """;
   }
 
@@ -105,11 +105,11 @@ class ${className}Controller extends ChangeNotifier {
       String path, String sourcePath, String baseName, String className) {
     final packageName = retrievePackageName();
     return """
-import 'package:flutter_test/flutter_test.dart';
-import 'package:masamune/masamune.dart';
-import 'package:masamune_test/masamune_test.dart';
+import "package:flutter_test/flutter_test.dart";
+import "package:masamune/masamune.dart";
+import "package:masamune_test/masamune_test.dart";
 
-import 'package:$packageName/controllers/$sourcePath.dart';
+import "package:$packageName/controllers/$sourcePath.dart";
 
 void main() {
   masamuneControllerTest(

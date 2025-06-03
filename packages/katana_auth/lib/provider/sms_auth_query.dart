@@ -1,4 +1,4 @@
-part of '/katana_auth.dart';
+part of "/katana_auth.dart";
 
 const _kPhoneAuthProviderId = "phone";
 
@@ -118,6 +118,17 @@ class SmsAuthQuery {
 ///
 /// {@macro sms_auth}
 class SmsSignInAuthProvider extends SignInAuthProvider {
+  /// {@macro sign_in_auth_provider}
+  ///
+  /// Pass the phone number in [phoneNumber] and the SMS language setting in [locale].
+  ///
+  /// If you specify `[countryNumber]', the prefix ` [countryNumber]` is added to [phoneNumber].
+  ///
+  /// [phoneNumber]で電話番号、[locale]にSMSの言語設定を渡します。
+  ///
+  /// [countryNumber]を指定すると`+[countryNumber]`というプレフィックスが[phoneNumber]に付与されます。
+  ///
+  /// {@macro sms_auth}
   const SmsSignInAuthProvider({
     required this.phoneNumber,
     required this.countryNumber,
@@ -215,8 +226,8 @@ class SmsChangePhoneNumberAuthProvider extends ChangePhoneNumberAuthProvider {
   /// {@macro sms_auth}
   const SmsChangePhoneNumberAuthProvider({
     required this.phoneNumber,
-    this.locale,
     required this.countryNumber,
+    this.locale,
     this.onAutoVerificationCompleted,
     this.onAutoVerificationFailed,
   });

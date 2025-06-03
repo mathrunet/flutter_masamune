@@ -1,4 +1,4 @@
-part of '/katana.dart';
+part of "/katana.dart";
 
 const _kMaxInt = 2 ^ 31 - 1;
 
@@ -50,7 +50,7 @@ extension StringExtensions on String {
   /// final converted = text.toZenkakuNumericAndAlphabet(); // "ａｂｃｄ"
   /// ```
   String toZenkakuNumericAndAlphabet() {
-    final regex = RegExp(r'^[a-zA-Z0-9]+$');
+    final regex = RegExp(r"^[a-zA-Z0-9]+$");
     final string = runes.map<String>((rune) {
       final char = String.fromCharCode(rune);
       return regex.hasMatch(char) ? String.fromCharCode(rune + 65248) : char;
@@ -67,7 +67,7 @@ extension StringExtensions on String {
   /// final converted = text.toHankakuNumericAndAlphabet(); // "abcd"
   /// ```
   String toHankakuNumericAndAlphabet() {
-    final regex = RegExp(r'^[Ａ-Ｚａ-ｚ０-９]+$');
+    final regex = RegExp(r"^[Ａ-Ｚａ-ｚ０-９]+$");
     final string = runes.map<String>((rune) {
       final char = String.fromCharCode(rune);
       return regex.hasMatch(char) ? String.fromCharCode(rune - 65248) : char;
@@ -113,98 +113,98 @@ extension StringExtensions on String {
     var val = this;
     val = val.replaceAllMapped(RegExp("[ｳｶ-ﾄﾊ-ﾎ]ﾞ"), (Match m) {
       Map<String, String> dakuten = {
-        'ｳﾞ': 'ヴ',
-        'ｶﾞ': 'ガ',
-        'ｷﾞ': 'ギ',
-        'ｸﾞ': 'グ',
-        'ｹﾞ': 'ゲ',
-        'ｺﾞ': 'ゴ',
-        'ｻﾞ': 'ザ',
-        'ｼﾞ': 'ジ',
-        'ｽﾞ': 'ズ',
-        'ｾﾞ': 'ゼ',
-        'ｿﾞ': 'ゾ',
-        'ﾀﾞ': 'ダ',
-        'ﾁﾞ': 'ヂ',
-        'ﾂﾞ': 'ヅ',
-        'ﾃﾞ': 'デ',
-        'ﾄﾞ': 'ド',
-        'ﾊﾞ': 'バ',
-        'ﾋﾞ': 'ビ',
-        'ﾌﾞ': 'ブ',
-        'ﾍﾞ': 'ベ',
-        'ﾎﾞ': 'ボ',
+        "ｳﾞ": "ヴ",
+        "ｶﾞ": "ガ",
+        "ｷﾞ": "ギ",
+        "ｸﾞ": "グ",
+        "ｹﾞ": "ゲ",
+        "ｺﾞ": "ゴ",
+        "ｻﾞ": "ザ",
+        "ｼﾞ": "ジ",
+        "ｽﾞ": "ズ",
+        "ｾﾞ": "ゼ",
+        "ｿﾞ": "ゾ",
+        "ﾀﾞ": "ダ",
+        "ﾁﾞ": "ヂ",
+        "ﾂﾞ": "ヅ",
+        "ﾃﾞ": "デ",
+        "ﾄﾞ": "ド",
+        "ﾊﾞ": "バ",
+        "ﾋﾞ": "ビ",
+        "ﾌﾞ": "ブ",
+        "ﾍﾞ": "ベ",
+        "ﾎﾞ": "ボ",
       };
       return dakuten[m.group(0)!] ?? m.group(0)!;
     });
     val = val.replaceAllMapped(RegExp("[ﾊ-ﾎ]ﾟ"), (Match m) {
       Map<String, String> handakuten = {
-        'ﾊﾟ': 'パ',
-        'ﾋﾟ': 'ピ',
-        'ﾌﾟ': 'プ',
-        'ﾍﾟ': 'ペ',
-        'ﾎﾟ': 'ポ',
+        "ﾊﾟ": "パ",
+        "ﾋﾟ": "ピ",
+        "ﾌﾟ": "プ",
+        "ﾍﾟ": "ペ",
+        "ﾎﾟ": "ポ",
       };
       return handakuten[m.group(0)!] ?? m.group(0)!;
     });
     val = val.replaceAllMapped(RegExp("[ｦ-ﾝｰ]"), (Match m) {
       Map<String, String> other = {
-        'ｱ': 'ア',
-        'ｲ': 'イ',
-        'ｳ': 'ウ',
-        'ｴ': 'エ',
-        'ｵ': 'オ',
-        'ｧ': 'ァ',
-        'ｨ': 'ィ',
-        'ｩ': 'ゥ',
-        'ｪ': 'ェ',
-        'ｫ': 'ォ',
-        'ｶ': 'カ',
-        'ｷ': 'キ',
-        'ｸ': 'ク',
-        'ｹ': 'ケ',
-        'ｺ': 'コ',
-        'ｻ': 'サ',
-        'ｼ': 'シ',
-        'ｽ': 'ス',
-        'ｾ': 'セ',
-        'ｿ': 'ソ',
-        'ﾀ': 'タ',
-        'ﾁ': 'チ',
-        'ﾂ': 'ツ',
-        'ﾃ': 'テ',
-        'ﾄ': 'ト',
-        'ﾅ': 'ナ',
-        'ﾆ': 'ニ',
-        'ﾇ': 'ヌ',
-        'ﾈ': 'ネ',
-        'ﾉ': 'ノ',
-        'ﾊ': 'ハ',
-        'ﾋ': 'ヒ',
-        'ﾌ': 'フ',
-        'ﾍ': 'ヘ',
-        'ﾎ': 'ホ',
-        'ﾏ': 'マ',
-        'ﾐ': 'ミ',
-        'ﾑ': 'ム',
-        'ﾒ': 'メ',
-        'ﾓ': 'モ',
-        'ﾔ': 'ヤ',
-        'ﾕ': 'ユ',
-        'ﾖ': 'ヨ',
-        'ﾗ': 'ラ',
-        'ﾘ': 'リ',
-        'ﾙ': 'ル',
-        'ﾚ': 'レ',
-        'ﾛ': 'ロ',
-        'ﾜ': 'ワ',
-        'ｦ': 'ヲ',
-        'ﾝ': 'ン',
-        'ｯ': 'ッ',
-        'ｬ': 'ャ',
-        'ｭ': 'ュ',
-        'ｮ': 'ョ',
-        'ｰ': 'ー',
+        "ｱ": "ア",
+        "ｲ": "イ",
+        "ｳ": "ウ",
+        "ｴ": "エ",
+        "ｵ": "オ",
+        "ｧ": "ァ",
+        "ｨ": "ィ",
+        "ｩ": "ゥ",
+        "ｪ": "ェ",
+        "ｫ": "ォ",
+        "ｶ": "カ",
+        "ｷ": "キ",
+        "ｸ": "ク",
+        "ｹ": "ケ",
+        "ｺ": "コ",
+        "ｻ": "サ",
+        "ｼ": "シ",
+        "ｽ": "ス",
+        "ｾ": "セ",
+        "ｿ": "ソ",
+        "ﾀ": "タ",
+        "ﾁ": "チ",
+        "ﾂ": "ツ",
+        "ﾃ": "テ",
+        "ﾄ": "ト",
+        "ﾅ": "ナ",
+        "ﾆ": "ニ",
+        "ﾇ": "ヌ",
+        "ﾈ": "ネ",
+        "ﾉ": "ノ",
+        "ﾊ": "ハ",
+        "ﾋ": "ヒ",
+        "ﾌ": "フ",
+        "ﾍ": "ヘ",
+        "ﾎ": "ホ",
+        "ﾏ": "マ",
+        "ﾐ": "ミ",
+        "ﾑ": "ム",
+        "ﾒ": "メ",
+        "ﾓ": "モ",
+        "ﾔ": "ヤ",
+        "ﾕ": "ユ",
+        "ﾖ": "ヨ",
+        "ﾗ": "ラ",
+        "ﾘ": "リ",
+        "ﾙ": "ル",
+        "ﾚ": "レ",
+        "ﾛ": "ロ",
+        "ﾜ": "ワ",
+        "ｦ": "ヲ",
+        "ﾝ": "ン",
+        "ｯ": "ッ",
+        "ｬ": "ャ",
+        "ｭ": "ュ",
+        "ｮ": "ョ",
+        "ｰ": "ー",
       };
       return other[m.group(0)!] ?? m.group(0)!;
     });
@@ -222,21 +222,21 @@ extension StringExtensions on String {
   /// ```
   String removeOnlyEmoji() {
     final emojiRegExp = RegExp(
-      r'[\u{1F600}-\u{1F64F}' // Smiley (face made up of characters)
-      r'|\u{1F300}-\u{1F5FF}' // Symbols and pictographs
-      r'|\u{1F680}-\u{1F6FF}' // Transport and map symbols
-      r'|\u{1F700}-\u{1F77F}' // Alchemical symbols
-      r'|\u{1F780}-\u{1F7FF}' // Geometric symbols
-      r'|\u{1F800}-\u{1F8FF}' // Enclosed alphanumeric supplement
-      r'|\u{1F900}-\u{1F9FF}' // Enclosed alphanumeric supplement
-      r'|\u{1FA00}-\u{1FA6F}' // Enclosed alphanumeric supplement
-      r'|\u{1FA70}-\u{1FAFF}' // Enclosed alphanumeric supplement
-      r'|\u{2600}-\u{26FF}' // Various symbols
-      r'|\u{2700}-\u{27BF}]', // Decorative symbols
+      r"[\u{1F600}-\u{1F64F}" // Smiley (face made up of characters)
+      r"|\u{1F300}-\u{1F5FF}" // Symbols and pictographs
+      r"|\u{1F680}-\u{1F6FF}" // Transport and map symbols
+      r"|\u{1F700}-\u{1F77F}" // Alchemical symbols
+      r"|\u{1F780}-\u{1F7FF}" // Geometric symbols
+      r"|\u{1F800}-\u{1F8FF}" // Enclosed alphanumeric supplement
+      r"|\u{1F900}-\u{1F9FF}" // Enclosed alphanumeric supplement
+      r"|\u{1FA00}-\u{1FA6F}" // Enclosed alphanumeric supplement
+      r"|\u{1FA70}-\u{1FAFF}" // Enclosed alphanumeric supplement
+      r"|\u{2600}-\u{26FF}" // Various symbols
+      r"|\u{2700}-\u{27BF}]", // Decorative symbols
       unicode: true,
     );
 
-    return replaceAll(emojiRegExp, '');
+    return replaceAll(emojiRegExp, "");
   }
 
   /// Converts [String] to an array of one character at a time.
@@ -788,7 +788,7 @@ extension StringExtensions on String {
   ///
   /// URLの場合`true`を返します。
   bool isURL() {
-    return RegExp(r'https?://[a-zA-Z0-9\-%_/=&?.]+').hasMatch(this);
+    return RegExp(r"https?://[a-zA-Z0-9\-%_/=&?.]+").hasMatch(this);
   }
 
   /// Returns whether or not this string contains pictograms.

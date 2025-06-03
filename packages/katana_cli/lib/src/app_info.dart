@@ -1,20 +1,26 @@
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Package imports:
-import 'package:html/dom.dart';
-import 'package:html/parser.dart';
-import 'package:xml/xml.dart';
+import "package:html/dom.dart";
+import "package:html/parser.dart";
+import "package:xml/xml.dart";
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
+/// Application Information.
+///
+/// アプリケーションの情報。
 class AppInfo {
   const AppInfo._();
 
+  /// Apply the application information.
+  ///
+  /// アプリケーションの情報を適用します。
   static Future<void> apply({
-    String? defaultLocale,
     required Map<String, Map<String, String>> data,
+    String? defaultLocale,
     String? domain,
   }) async {
     label("Replace web information");
@@ -185,7 +191,7 @@ class AppInfo {
       final file = File("${dir.path}/strings.xml");
       if (!file.existsSync()) {
         final builder = XmlBuilder();
-        builder.processing('xml', 'version="1.0" encoding="utf-8" ');
+        builder.processing("xml", 'version="1.0" encoding="utf-8" ');
         builder.element(
           "resources",
           nest: () {

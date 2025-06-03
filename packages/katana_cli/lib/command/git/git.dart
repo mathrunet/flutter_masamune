@@ -1,11 +1,17 @@
 library katana_cli.github;
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
-part 'submodule.dart';
+part "submodule.dart";
 
+/// Configure settings related to Git and Github.
+///
+/// GitやGithubに関連する設定を行います。
 class GitCliCommand extends CliCommandGroup {
+  /// Configure settings related to Git and Github.
+  ///
+  /// GitやGithubに関連する設定を行います。
   const GitCliCommand();
 
   @override

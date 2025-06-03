@@ -58,13 +58,13 @@ class CodeStatefulCliCommand extends CliTestableCodeCommand {
     final packageName = retrievePackageName();
     return """
 // ignore: unused_import, unnecessary_import
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 // ignore: unused_import, unnecessary_import
-import 'package:masamune/masamune.dart';
-import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+import "package:masamune/masamune.dart";
+import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
 // ignore: unused_import, unnecessary_import
-import 'package:$packageName/main.dart';
+import "package:$packageName/main.dart";
 """;
   }
 
@@ -109,9 +109,9 @@ class _${className}State extends State<${className}Widget> {
       String path, String sourcePath, String baseName, String className) {
     final packageName = retrievePackageName();
     return """
-import 'package:masamune_test/masamune_test.dart';
+import "package:masamune_test/masamune_test.dart";
 
-import 'package:$packageName/widgets/$sourcePath.dart';
+import "package:$packageName/widgets/$sourcePath.dart";
 
 void main() {
   masamuneWidgetTest(

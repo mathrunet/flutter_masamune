@@ -1,4 +1,4 @@
-part of '/katana_auth.dart';
+part of "/katana_auth.dart";
 
 /// Class for implementing callbacks from [Authentication] or [AuthAdapter] during authentication.
 ///

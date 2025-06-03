@@ -9,8 +9,8 @@
 library katana_builder;
 
 // Package imports:
-import 'package:analyzer/dart/constant/value.dart';
-import 'package:analyzer/dart/element/type.dart';
+import "package:analyzer/dart/constant/value.dart";
+import "package:analyzer/dart/element/type.dart";
 
-part 'src/extensions.dart';
-part 'src/masamune_type.dart';
+part "src/extensions.dart";
+part "src/masamune_type.dart";

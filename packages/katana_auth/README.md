@@ -66,8 +66,8 @@ Pass an AuthAdapter such as `RuntimeAuthAdapter` as the adapter parameter.
 
 ```dart
 // main.dart
-import 'package:flutter/material.dart';
-import 'package:katana_auth/katana_auth.dart';
+import "package:flutter/material.dart";
+import "package:katana_auth/katana_auth.dart";
 
 void main() {
   runApp(const MyApp());
@@ -108,8 +108,8 @@ In addition, since `Authentication` inherits ChangeNotifier, it is possible to m
 
 ```dart
 // auth_page.dart
-import 'package:flutter/material.dart';
-import 'package:katana_auth/katana_auth.dart';
+import "package:flutter/material.dart";
+import "package:katana_auth/katana_auth.dart";
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});

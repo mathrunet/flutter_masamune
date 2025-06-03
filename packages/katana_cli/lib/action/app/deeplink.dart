@@ -1,12 +1,12 @@
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Package imports:
-import 'package:xml/xml.dart';
+import "package:xml/xml.dart";
 
 // Project imports:
-import 'package:katana_cli/action/firebase/authentication.dart';
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/action/firebase/authentication.dart";
+import "package:katana_cli/katana_cli.dart";
 
 /// Add a module to use Deeplink.
 ///
@@ -248,12 +248,12 @@ class AppDeeplinkCliAction extends CliCommand with CliActionMixin {
               .any((e) => e.key == "CODE_SIGN_ENTITLEMENTS")) {
             continue;
           }
-          if (buildConfiguration.baseConfigurationReference
-                      ?.contains("/* Release.xcconfig */") ==
-                  true ||
-              buildConfiguration.baseConfigurationReference
-                      ?.contains("/* Debug.xcconfig */") ==
-                  true) {
+          if ((buildConfiguration.baseConfigurationReference
+                      ?.contains("/* Release.xcconfig */") ??
+                  false) ||
+              (buildConfiguration.baseConfigurationReference
+                      ?.contains("/* Debug.xcconfig */") ??
+                  false)) {
             buildConfiguration.buildSettings.add(
               PBXBuildConfigurationSettings(
                   key: "CODE_SIGN_ENTITLEMENTS",

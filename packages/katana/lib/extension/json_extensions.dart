@@ -1,4 +1,4 @@
-part of '/katana.dart';
+part of "/katana.dart";
 
 /// Provides Json extension methods for [DynamicList].
 ///

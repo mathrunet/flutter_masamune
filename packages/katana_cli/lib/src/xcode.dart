@@ -1,9 +1,9 @@
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Package imports:
-import 'package:katana/katana.dart';
-import 'package:xml/xml.dart';
+import "package:katana/katana.dart";
+import "package:xml/xml.dart";
 
 /// Utility to edit XCode's project.pbxproj.
 ///
@@ -886,10 +886,10 @@ class PBXBuildFile {
   ///
   /// BuildFileのデータ。
   factory PBXBuildFile({
-    String? id,
     required String fileRef,
     required String fileName,
     required String fileDir,
+    String? id,
   }) {
     return PBXBuildFile._(
       fileDir: fileDir,
@@ -973,15 +973,15 @@ class PBXFileReference {
   ///
   /// FileReferenceのデータ。
   factory PBXFileReference({
-    String? id,
-    String? lastKnownFileType,
     required String path,
     required String comment,
+    required String sourceTree,
+    String? id,
+    String? lastKnownFileType,
     String? name,
     String? explicitFileType,
     int? fileEncoding,
     int? includeInIndex,
-    required String sourceTree,
   }) {
     return PBXFileReference._(
       name: name,
@@ -997,14 +997,14 @@ class PBXFileReference {
   }
   PBXFileReference._({
     required this.id,
-    this.lastKnownFileType,
     required this.path,
     required this.comment,
+    required this.sourceTree,
+    this.lastKnownFileType,
     this.name,
     this.fileEncoding,
     this.explicitFileType,
     this.includeInIndex,
-    required this.sourceTree,
   });
 
   static List<PBXFileReference> _load(String content) {
@@ -1105,10 +1105,10 @@ class PBXGroup {
   ///
   /// PBXGroupのデータ。
   factory PBXGroup({
-    String? id,
-    String? comment,
     required String sourceTree,
     required List<PBXGroupChild> children,
+    String? id,
+    String? comment,
     String? path,
     String? name,
   }) {
@@ -1123,11 +1123,11 @@ class PBXGroup {
   }
   PBXGroup._({
     required this.id,
+    required this.sourceTree,
+    required this.children,
     this.comment,
     this.path,
     this.name,
-    required this.sourceTree,
-    required this.children,
   });
 
   static List<PBXGroup> _load(String content) {
@@ -1210,8 +1210,8 @@ class PBXGroupChild {
   ///
   /// [PBXGroup]の`children`用のクラス。
   factory PBXGroupChild({
-    String? id,
     required String comment,
+    String? id,
   }) {
     return PBXGroupChild._(
       comment: comment,
@@ -1225,7 +1225,7 @@ class PBXGroupChild {
 
   static List<PBXGroupChild> _parse(String text) {
     return RegExp(
-      r'(?<id>[0-9A-Z]{24}) /\* (?<comment>[a-zA-Z_.-]+) \*/,',
+      r"(?<id>[0-9A-Z]{24}) /\* (?<comment>[a-zA-Z_.-]+) \*/,",
     ).allMatches(text).mapAndRemoveEmpty((e) {
       return PBXGroupChild._(
         id: e.namedGroup("id") ?? "",
@@ -1258,11 +1258,11 @@ class PBXResourcesBuildPhase {
   ///
   /// ResourcesBuildPhaseのデータ。
   factory PBXResourcesBuildPhase({
-    String? id,
-    String? comment,
     required List<PBXResourcesBuildPhaseFile> files,
     required int buildActionMask,
     required int runOnlyForDeploymentPostprocessing,
+    String? id,
+    String? comment,
   }) {
     return PBXResourcesBuildPhase._(
       buildActionMask: buildActionMask,
@@ -1274,10 +1274,10 @@ class PBXResourcesBuildPhase {
   }
   PBXResourcesBuildPhase._({
     required this.id,
-    this.comment,
     required this.buildActionMask,
     required this.runOnlyForDeploymentPostprocessing,
     required this.files,
+    this.comment,
   });
 
   static List<PBXResourcesBuildPhase> _load(String content) {
@@ -1288,7 +1288,7 @@ class PBXResourcesBuildPhase {
       return [];
     }
     return RegExp(
-      r'(?<id>[0-9A-Z]{24}) (/\* (?<comment>[a-zA-Z_.-]+) \*/ )?= {[\s\t\n]+isa = PBXResourcesBuildPhase;[\s\t\n]+buildActionMask = (?<buildActionMask>[0-9]+);[\s\t\n]+files = \((?<files>[^\)]+)\);[\s\t\n]+runOnlyForDeploymentPostprocessing = (?<runOnlyForDeploymentPostprocessing>[0-9]+);[\s\t\n]+};',
+      r"(?<id>[0-9A-Z]{24}) (/\* (?<comment>[a-zA-Z_.-]+) \*/ )?= {[\s\t\n]+isa = PBXResourcesBuildPhase;[\s\t\n]+buildActionMask = (?<buildActionMask>[0-9]+);[\s\t\n]+files = \((?<files>[^\)]+)\);[\s\t\n]+runOnlyForDeploymentPostprocessing = (?<runOnlyForDeploymentPostprocessing>[0-9]+);[\s\t\n]+};",
     ).allMatches(region.group(1) ?? "").mapAndRemoveEmpty((e) {
       return PBXResourcesBuildPhase._(
         id: e.namedGroup("id") ?? "",
@@ -1358,9 +1358,9 @@ class PBXResourcesBuildPhaseFile {
   ///
   /// [PBXResourcesBuildPhase]のファイル用のクラス。
   factory PBXResourcesBuildPhaseFile({
-    String? id,
     required String fileName,
     required String fileDir,
+    String? id,
   }) {
     return PBXResourcesBuildPhaseFile._(
       fileName: fileName,
@@ -1376,7 +1376,7 @@ class PBXResourcesBuildPhaseFile {
 
   static List<PBXResourcesBuildPhaseFile> _parse(String text) {
     return RegExp(
-      r'(?<id>[0-9A-Z]{24}) /\* (?<fileName>[a-zA-Z_.-]+) in (?<fileDir>[a-zA-Z_.-]+) \*/,',
+      r"(?<id>[0-9A-Z]{24}) /\* (?<fileName>[a-zA-Z_.-]+) in (?<fileDir>[a-zA-Z_.-]+) \*/,",
     ).allMatches(text).mapAndRemoveEmpty((e) {
       return PBXResourcesBuildPhaseFile._(
         id: e.namedGroup("id") ?? "",
@@ -1415,11 +1415,11 @@ class PBXVariantGroup {
   ///
   /// VariantGroupのデータ。
   factory PBXVariantGroup({
-    String? id,
-    String? comment,
     required List<PBXVariantGroupChild> children,
     required String name,
     required String sourceTree,
+    String? id,
+    String? comment,
   }) {
     return PBXVariantGroup._(
       name: name,
@@ -1431,10 +1431,10 @@ class PBXVariantGroup {
   }
   PBXVariantGroup._({
     required this.id,
-    this.comment,
     required this.name,
     required this.sourceTree,
     required this.children,
+    this.comment,
   });
 
   static List<PBXVariantGroup> _load(String content) {
@@ -1511,8 +1511,8 @@ class PBXVariantGroupChild {
   ///
   /// [PBXVariantGroup]の`children`のデータ。
   factory PBXVariantGroupChild({
-    String? id,
     required String comment,
+    String? id,
   }) {
     return PBXVariantGroupChild._(
       comment: comment,
@@ -1524,9 +1524,12 @@ class PBXVariantGroupChild {
     required this.comment,
   });
 
+  /// Parse the text to [PBXVariantGroupChild].
+  ///
+  /// テキストを[PBXVariantGroupChild]にパースします。
   static List<PBXVariantGroupChild> parse(String text) {
     return RegExp(
-      r'(?<id>[0-9A-Z]{24}) /\* (?<comment>[a-zA-Z_.-]+) \*/,',
+      r"(?<id>[0-9A-Z]{24}) /\* (?<comment>[a-zA-Z_.-]+) \*/,",
     ).allMatches(text).mapAndRemoveEmpty((e) {
       return PBXVariantGroupChild._(
         id: e.namedGroup("id") ?? "",
@@ -1559,11 +1562,11 @@ class PBXBuildConfiguration {
   ///
   /// BuildConfigurationのデータ。
   factory PBXBuildConfiguration({
-    String? id,
-    String? comment,
     required List<PBXBuildConfigurationSettings> buildSettings,
     required String name,
     required String baseConfigurationReference,
+    String? id,
+    String? comment,
   }) {
     return PBXBuildConfiguration._(
       name: name,
@@ -1575,9 +1578,9 @@ class PBXBuildConfiguration {
   }
   PBXBuildConfiguration._({
     required this.id,
-    this.comment,
     required this.name,
     required this.buildSettings,
+    this.comment,
     this.baseConfigurationReference,
   });
 
@@ -1671,6 +1674,9 @@ class PBXBuildConfigurationSettings {
     required this.value,
   });
 
+  /// Parse the text to [PBXBuildConfigurationSettings].
+  ///
+  /// テキストを[PBXBuildConfigurationSettings]にパースします。
   static List<PBXBuildConfigurationSettings> parse(String text) {
     return RegExp(
       r'(?<key>[a-z0-9A-Z\[\]=\*"_]+) = (?<value>[^;]+);',
@@ -1706,10 +1712,10 @@ class PBXFrameworksBuildPhase {
   ///
   /// FrameworksBuildPhaseのデータ。
   factory PBXFrameworksBuildPhase({
-    String? id,
-    String? comment,
     required String buildActionMask,
     required List<PBXFrameworksBuildPhaseFiles> files,
+    String? id,
+    String? comment,
     int? runOnlyForDeploymentPostprocessing,
   }) {
     return PBXFrameworksBuildPhase._(
@@ -1722,10 +1728,10 @@ class PBXFrameworksBuildPhase {
   }
   PBXFrameworksBuildPhase._({
     required this.id,
+    required this.files,
     this.comment,
     this.buildActionMask,
     this.runOnlyForDeploymentPostprocessing,
-    required this.files,
   });
 
   static List<PBXFrameworksBuildPhase> _load(String content) {
@@ -1736,7 +1742,7 @@ class PBXFrameworksBuildPhase {
       return [];
     }
     return RegExp(
-      r'(?<id>[0-9A-Z]{24}) (/\* (?<comment>[a-zA-Z_.-]+) \*/ )?= {[\s\t\n]+isa = PBXFrameworksBuildPhase;[\s\t\n]+buildActionMask = (?<buildActionMask>[0-9]+);[\s\t\n]+files = \((?<files>[^\)]+)\);[\s\t\n]+runOnlyForDeploymentPostprocessing = (?<runOnlyForDeploymentPostprocessing>[0-9]+);[\s\t\n]+};',
+      r"(?<id>[0-9A-Z]{24}) (/\* (?<comment>[a-zA-Z_.-]+) \*/ )?= {[\s\t\n]+isa = PBXFrameworksBuildPhase;[\s\t\n]+buildActionMask = (?<buildActionMask>[0-9]+);[\s\t\n]+files = \((?<files>[^\)]+)\);[\s\t\n]+runOnlyForDeploymentPostprocessing = (?<runOnlyForDeploymentPostprocessing>[0-9]+);[\s\t\n]+};",
     ).allMatches(region.group(1) ?? "").mapAndRemoveEmpty((e) {
       return PBXFrameworksBuildPhase._(
         id: e.namedGroup("id") ?? "",
@@ -1803,9 +1809,9 @@ class PBXFrameworksBuildPhaseFiles {
   ///
   /// [PBXFrameworksBuildPhase]の`files`用のクラス。
   factory PBXFrameworksBuildPhaseFiles({
-    String? id,
     required String fileName,
     required String fileDir,
+    String? id,
   }) {
     return PBXFrameworksBuildPhaseFiles._(
       fileName: fileName,
@@ -1821,7 +1827,7 @@ class PBXFrameworksBuildPhaseFiles {
 
   static List<PBXFrameworksBuildPhaseFiles> _parse(String text) {
     return RegExp(
-      r'(?<id>[0-9A-Z]{24}) /\* (?<file>[a-zA-Z_.-]+) in (?<dir>[a-zA-Z_.-]+) \*/,',
+      r"(?<id>[0-9A-Z]{24}) /\* (?<file>[a-zA-Z_.-]+) in (?<dir>[a-zA-Z_.-]+) \*/,",
     ).allMatches(text).mapAndRemoveEmpty((e) {
       return PBXFrameworksBuildPhaseFiles._(
         id: e.namedGroup("id") ?? "",
@@ -1888,11 +1894,11 @@ class PBXProject {
       return null;
     }
     final developmentRegion =
-        RegExp(r'developmentRegion = (?<defaultRegion>[a-zA-Z]+);')
+        RegExp(r"developmentRegion = (?<defaultRegion>[a-zA-Z]+);")
                 .firstMatch(code)
                 ?.namedGroup("defaultRegion") ??
             "";
-    final regions = RegExp(r'knownRegions = \((?<regions>[^\)]+)\);')
+    final regions = RegExp(r"knownRegions = \((?<regions>[^\)]+)\);")
             .firstMatch(code)
             ?.namedGroup("regions") ??
         "";
@@ -1948,10 +1954,10 @@ class PBXProject {
   @override
   String toString() {
     return code
-        .replaceAll(RegExp(r'developmentRegion = (?<defaultRegion>[a-zA-Z]+);'),
+        .replaceAll(RegExp(r"developmentRegion = (?<defaultRegion>[a-zA-Z]+);"),
             "developmentRegion = $defaultLocale;")
         .replaceAll(
-            RegExp(r'knownRegions = \((?<regions>[^\)]+)\);'),
+            RegExp(r"knownRegions = \((?<regions>[^\)]+)\);"),
             "knownRegions = (\n${[
               ...locales,
               if (!locales.contains("Base")) "Base",

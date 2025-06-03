@@ -1,13 +1,13 @@
 // Dart imports:
-import 'dart:convert';
-import 'dart:core' as core;
-import 'dart:core';
-import 'dart:io';
+import "dart:convert";
+import "dart:core" as core;
+import "dart:core";
+import "dart:io";
 
 // Package imports:
-import 'package:katana/katana.dart';
-import 'package:yaml/yaml.dart';
-import 'package:yaml_writer/yaml_writer.dart';
+import "package:katana/katana.dart";
+import "package:yaml/yaml.dart";
+import "package:yaml_writer/yaml_writer.dart";
 
 /// Prefix of the path to trim.
 ///
@@ -613,12 +613,14 @@ Future<String> command(
       runInShell: runInShell,
       mode: ProcessStartMode.normal,
     );
+    // ignore: unawaited_futures
     process.stderr.transform(utf8.decoder).forEach((line) {
       err = true;
       res += line;
       // ignore: avoid_print
       core.print(line);
     });
+    // ignore: unawaited_futures
     process.stdout.transform(utf8.decoder).forEach((line) {
       res += line;
       // ignore: avoid_print
@@ -772,6 +774,9 @@ String retrievePackageName() {
   return name;
 }
 
+/// Extended methods to make [Directory] easier to use.
+///
+/// [Directory]を使いやすくするための拡張メソッド。
 extension CliDirectoryExtensions on Directory {
   /// Obtains a path relative to the current directory.
   ///
@@ -802,12 +807,14 @@ extension ProcessExtensions on Future<Process> {
     final process = await this;
     var res = "";
     var err = false;
+    // ignore: unawaited_futures
     process.stderr.transform(utf8.decoder).forEach((e) {
       err = true;
       res += e;
       // ignore: avoid_print
       core.print(e);
     });
+    // ignore: unawaited_futures
     process.stdout.transform(utf8.decoder).forEach((e) {
       res += e;
       // ignore: avoid_print

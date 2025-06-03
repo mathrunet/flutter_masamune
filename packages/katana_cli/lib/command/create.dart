@@ -1,23 +1,23 @@
 // ignore_for_file: implementation_imports
 
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Package imports:
-import 'package:html/dom.dart';
-import 'package:html/parser.dart';
-import 'package:image/image.dart';
-import 'package:image/src/formats/ico_encoder.dart';
-import 'package:xml/xml.dart';
+import "package:html/dom.dart";
+import "package:html/parser.dart";
+import "package:image/image.dart";
+import "package:image/src/formats/ico_encoder.dart";
+import "package:xml/xml.dart";
 
 // Project imports:
-import 'package:katana_cli/ai/designs/designs.dart';
-import 'package:katana_cli/ai/docs/docs.dart';
-import 'package:katana_cli/ai/impls/impls.dart';
-import 'package:katana_cli/config.dart';
-import 'package:katana_cli/katana_cli.dart';
-import 'package:katana_cli/snippet/snippet.dart';
-import 'package:katana_cli/src/android_manifest.dart';
+import "package:katana_cli/ai/designs/designs.dart";
+import "package:katana_cli/ai/docs/docs.dart";
+import "package:katana_cli/ai/impls/impls.dart";
+import "package:katana_cli/config.dart";
+import "package:katana_cli/katana_cli.dart";
+import "package:katana_cli/snippet/snippet.dart";
+import "package:katana_cli/src/android_manifest.dart";
 
 /// Package to import.
 ///
@@ -136,7 +136,7 @@ class CreateCliCommand extends CliCommand {
       ],
     );
     label("Replace lib/main.dart");
-    await MainCliCode().generateDartCode("lib/main", "main");
+    await const MainCliCode().generateDartCode("lib/main", "main");
     label("Replace lib/theme.dart");
     await const MainThemeCliCode().generateDartCode("lib/theme", "theme");
     label("Replace lib/router.dart");
@@ -158,7 +158,7 @@ class CreateCliCommand extends CliCommand {
       await file.value.generateFile(file.key);
     }
     label("Create a katana.yaml");
-    await KatanaCliCode(false).generateFile("katana.yaml");
+    await const KatanaCliCode(false).generateFile("katana.yaml");
     label("Replace LICENSE");
     await const LicenseCliCode().generateFile("LICENSE");
     label("Create a katana_secrets.yaml");
@@ -481,7 +481,7 @@ class ComposeCliCommand extends CliCommand {
       ],
     );
     label("Replace lib/main.dart");
-    await MainCliCode().generateDartCode("lib/main", "main");
+    await const MainCliCode().generateDartCode("lib/main", "main");
     label("Replace lib/theme.dart");
     await const MainThemeCliCode().generateDartCode("lib/theme", "theme");
     label("Replace lib/router.dart");
@@ -500,13 +500,13 @@ class ComposeCliCommand extends CliCommand {
     for (final file in otherFiles.entries) {
       await file.value.generateFile(file.key);
     }
-    await CodeSnippetsCliGroup().generateFiles();
+    await const CodeSnippetsCliGroup().generateFiles();
     label("Generate file for Cursor AI");
     await const DesignsAiCode().exec(context);
     await const ImplsAiCode().exec(context);
     await const DocsAiCode().exec(context);
     label("Create a katana.yaml");
-    await KatanaCliCode(true).generateFile("katana.yaml");
+    await const KatanaCliCode(true).generateFile("katana.yaml");
     label("Replace LICENSE");
     await const LicenseCliCode().generateFile("LICENSE");
     label("Create a katana_secrets.yaml");
@@ -833,7 +833,7 @@ class PackageCliCommand extends CliCommand {
     for (final file in otherFiles.entries) {
       await file.value.generateFile(file.key);
     }
-    await CodeSnippetsCliGroup().generateFiles();
+    await const CodeSnippetsCliGroup().generateFiles();
     label("Replace package main file.");
     await PackageMainCliCode(packageName: projectName)
         .generateFile("${projectName.toSnakeCase()}.dart");
@@ -916,7 +916,7 @@ class PackageCliCommand extends CliCommand {
 
     for (final entity in entities) {
       final name = entity.path.split(Platform.pathSeparator).last;
-      final newPath = '$targetDir${Platform.pathSeparator}$name';
+      final newPath = "$targetDir${Platform.pathSeparator}$name";
 
       if (entity is File) {
         await entity.rename(newPath);
@@ -1039,19 +1039,19 @@ class MainCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-import 'package:masamune/masamune.dart';
-import 'config.dart';
-import 'router.dart';
-import 'theme.dart';
-import 'localize.dart';
-import 'adapter.dart';
+import "package:masamune/masamune.dart";
+import "config.dart";
+import "router.dart";
+import "theme.dart";
+import "localize.dart";
+import "adapter.dart";
 
-export 'config.dart';
-export 'router.dart';
-export 'theme.dart';
-export 'localize.dart';
-export 'adapter.dart';
-${module == null ? "" : "export 'module.dart';"}
+export "config.dart";
+export "router.dart";
+export "theme.dart";
+export "localize.dart";
+export "adapter.dart";
+${module == null ? "" : "export \"module.dart\";"}
 """;
   }
 
@@ -1162,15 +1162,15 @@ class MainThemeCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-import 'package:flutter/material.dart';
-import 'package:masamune/masamune.dart';
+import "package:flutter/material.dart";
+import "package:masamune/masamune.dart";
 """;
   }
 
   @override
   String header(String path, String baseName, String className) {
     return """
-part '$baseName.theme.dart';
+part "$baseName.theme.dart";
 """;
   }
 
@@ -1208,7 +1208,7 @@ class MainRouterCliCode extends CliCode {
   const MainRouterCliCode({
     this.module,
     this.initialQuery = "\${2:HomePage.query()}",
-    this.initialQueryImport = "import 'pages/home.dart';",
+    this.initialQueryImport = "import \"pages/home.dart\";",
   });
 
   /// Name of the module to be used.
@@ -1242,7 +1242,7 @@ class MainRouterCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 $initialQueryImport
 
 """;
@@ -1301,15 +1301,15 @@ class MainLocalizeCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-import 'package:flutter/material.dart';
-import 'package:masamune/masamune.dart';
+import "package:flutter/material.dart";
+import "package:masamune/masamune.dart";
 """;
   }
 
   @override
   String header(String path, String baseName, String className) {
     return """
-part '$baseName.localize.dart';
+part "$baseName.localize.dart";
 """;
   }
 
@@ -1365,9 +1365,9 @@ class MainAdapterCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-import 'package:masamune/masamune.dart';
-import 'package:masamune_universal_ui/masamune_universal_ui.dart';
-${module == null ? "" : "import 'module.dart';"}
+import "package:masamune/masamune.dart";
+import "package:masamune_universal_ui/masamune_universal_ui.dart";
+${module == null ? "" : "import \"module.dart\";"}
 """;
   }
 
@@ -1501,11 +1501,11 @@ class MainModuleCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-import 'package:flutter/material.dart';
-import 'package:masamune/masamune.dart';
-import 'package:masamune_universal_ui/masamune_universal_ui.dart';
-import 'package:${module.toSnakeCase()}/${module.toSnakeCase()}.dart';"
-import 'package:${module.toSnakeCase()}/pages/home.dart';"
+import "package:flutter/material.dart";
+import "package:masamune/masamune.dart";
+import "package:masamune_universal_ui/masamune_universal_ui.dart";
+import "package:${module.toSnakeCase()}/${module.toSnakeCase()}.dart";"
+import "package:${module.toSnakeCase()}/pages/home.dart";"
 """;
   }
 
@@ -1595,10 +1595,10 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
-    use_build_context_synchronously: false
+    prefer_double_quotes: true
+    use_build_context_synchronously: true
+    always_put_control_body_on_new_line: true
     library_private_types_in_public_api: false
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
@@ -1619,6 +1619,10 @@ analyzer:
     - "**/*.prefs.dart"
     - "**/*.m.dart"
     - "lib/dataconnect/**"
+  errors:
+    use_build_context_synchronously: warning
+    always_put_control_body_on_new_line: warning
+    prefer_double_quotes: warning
 """;
   }
 }
@@ -1769,11 +1773,11 @@ class FlutterTestConfigCliCode extends CliCode {
   String body(String path, String baseName, String className) {
     final packageName = retrievePackageName();
     return """
-import 'dart:async';
-import 'package:masamune_test/masamune_test.dart';
+import "dart:async";
+import "package:masamune_test/masamune_test.dart";
 
 // ignore: avoid_relative_lib_imports
-import 'package:$packageName/main.dart';
+import "package:$packageName/main.dart";
 
 /// Performing test initialization.
 Future<void> testExecutable(FutureOr<void> Function() testMain) async {
@@ -1835,7 +1839,7 @@ class WidgetTestCliCode extends CliCode {
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter_test/flutter_test.dart';
+import "package:flutter_test/flutter_test.dart";
 
 void main() {
   test("Test", () {});
@@ -2251,22 +2255,22 @@ class HomePageCliCode extends CliCode {
   String import(String path, String baseName, String className) {
     return """
 // ignore: unused_import, unnecessary_import
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 // ignore: unused_import, unnecessary_import
-import 'package:masamune/masamune.dart';
-import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+import "package:masamune/masamune.dart";
+import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
 // ignore: unused_import, unnecessary_import
-import '/${module != null ? module?.toSnakeCase() : "main"}.dart';
+import "/${module != null ? module?.toSnakeCase() : "main"}.dart";
 """;
   }
 
   @override
   String header(String path, String baseName, String className) {
     return """
-import '/models/counter.dart';
+import "/models/counter.dart";
 
-part '$baseName.page.dart';
+part "$baseName.page.dart";
 """;
   }
 
@@ -2373,23 +2377,23 @@ class CounterModelCliCode extends CliCode {
   String import(String path, String baseName, String className) {
     return """
 // ignore: unused_import, unnecessary_import
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 // ignore: unused_import, unnecessary_import
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
 // ignore: unused_import, unnecessary_import
-import '/${module != null ? module?.toSnakeCase() : "main"}.dart';
+import "/${module != null ? module?.toSnakeCase() : "main"}.dart";
 """;
   }
 
   @override
   String header(String path, String baseName, String className) {
     return """
-import 'package:freezed_annotation/freezed_annotation.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
 
-part '$baseName.m.dart';
-part '$baseName.g.dart';
-part '$baseName.freezed.dart';
+part "$baseName.m.dart";
+part "$baseName.g.dart";
+part "$baseName.freezed.dart";
 """;
   }
 
@@ -2473,22 +2477,22 @@ class ModuleCliCode extends CliCode {
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library ${className.toSnakeCase()};
 
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import 'package:masamune/masamune.dart';
-import 'package:masamune_module/masamune_module.dart';
+import "package:masamune/masamune.dart";
+import "package:masamune_module/masamune_module.dart";
 
-import 'pages/home.dart';
+import "pages/home.dart";
 
 // Package exports:
-export 'package:masamune_module/masamune_module.dart';
+export "package:masamune_module/masamune_module.dart";
 """;
   }
 
   @override
   String header(String path, String baseName, String className) {
     return """
-part '${className.toSnakeCase()}.localize.dart';
+part "${className.toSnakeCase()}.localize.dart";
 """;
   }
 
@@ -2969,7 +2973,8 @@ class PackageMainCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    return """// Copyright (c) 2024 mathru. All rights reserved.
+    return """
+// Copyright (c) 2024 mathru. All rights reserved.
 
 /// A new Flutter package project.
 ///
@@ -3023,7 +3028,8 @@ class PackageReadMeCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    return """<p align="center">
+    return """
+<p align="center">
   <a href="https://mathru.net">
     <img width="240px" src="https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/.github/images/icon.png" alt="Masamune logo" style="border-radius: 32px"s><br/>
   </a>

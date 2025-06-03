@@ -1,8 +1,8 @@
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Add automatic review function for pull requests using GPT.
 ///

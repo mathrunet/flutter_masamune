@@ -1,8 +1,8 @@
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Package imports:
-import 'package:katana/katana.dart';
+import "package:katana/katana.dart";
 
 /// Permission type for Podfile.
 ///
@@ -112,7 +112,8 @@ enum PodfilePermissionType {
       final distincted = permissions.distinct();
       final replaced = rawData.replaceAll(
         _permissionsRegExp,
-        """target.build_configurations.each do |config|
+        """
+target.build_configurations.each do |config|
       config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
         '\$(inherited)',
 ${distincted.map(
@@ -123,9 +124,9 @@ ${distincted.map(
       );
       await podfile.writeAsString(replaced);
     } else {
-      final replaced = rawData.replaceAll(
-          "flutter_additional_ios_build_settings(target)",
-          """flutter_additional_ios_build_settings(target)
+      final replaced = rawData
+          .replaceAll("flutter_additional_ios_build_settings(target)", """
+flutter_additional_ios_build_settings(target)
     target.build_configurations.each do |config|
       config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
         '\$(inherited)',

@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Contents of model_usage.md.
 ///
@@ -66,18 +66,18 @@ class ModelUsageMdCliAiCode extends CliAiCode {
                   // lib/models/memo.dart
 
                   // ignore: unused_import, unnecessary_import
-                  import 'package:flutter/material.dart';
+                  import "package:flutter/material.dart";
                   // ignore: unused_import, unnecessary_import
-                  import 'package:masamune/masamune.dart';
+                  import "package:masamune/masamune.dart";
 
                   // ignore: unused_import, unnecessary_import
-                  import 'package:$packageName/main.dart';
+                  import "package:$packageName/main.dart";
 
-                  import 'package:freezed_annotation/freezed_annotation.dart';
+                  import "package:freezed_annotation/freezed_annotation.dart";
 
-                  part 'memo.m.dart';
-                  part 'memo.g.dart';
-                  part 'memo.freezed.dart';
+                  part "memo.m.dart";
+                  part "memo.g.dart";
+                  part "memo.freezed.dart";
 
                   /// Value for model.
                   @freezed
@@ -199,18 +199,18 @@ class ModelUsageMdCliAiCode extends CliAiCode {
                   // lib/models/app_setting.dart
 
                   // ignore: unused_import, unnecessary_import
-                  import 'package:flutter/material.dart';
+                  import "package:flutter/material.dart";
                   // ignore: unused_import, unnecessary_import
-                  import 'package:masamune/masamune.dart';
+                  import "package:masamune/masamune.dart";
 
                   // ignore: unused_import, unnecessary_import
-                  import 'package:$packageName/main.dart';
+                  import "package:$packageName/main.dart";
 
-                  import 'package:freezed_annotation/freezed_annotation.dart';
+                  import "package:freezed_annotation/freezed_annotation.dart";
 
-                  part 'setting.m.dart';
-                  part 'setting.g.dart';
-                  part 'setting.freezed.dart';
+                  part "setting.m.dart";
+                  part "setting.g.dart";
+                  part "setting.freezed.dart";
 
                   /// Value for model.
                   @freezed

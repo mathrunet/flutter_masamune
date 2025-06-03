@@ -1,10 +1,10 @@
 // Dart imports:
-import 'dart:convert';
-import 'dart:io';
+import "dart:convert";
+import "dart:io";
 
 // Project imports:
-import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/action/post/firebase_deploy_post_action.dart";
+import "package:katana_cli/katana_cli.dart";
 
 /// Configure the scheduler with FirebaseFunctions. class FirebaseSchedulerCliAction extends CliCommand with CliActi
 ///

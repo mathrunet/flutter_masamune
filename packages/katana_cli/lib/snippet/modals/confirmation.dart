@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Confirmation modal template.
 ///
@@ -21,7 +21,8 @@ class ModalsConfirmationCliCodeSnippet extends CliCodeSnippet {
 
   @override
   String body(String path, String baseName, String className) {
-    return r"""Modal.confirm(
+    return r"""
+Modal.confirm(
   context,
   title: l().confirmation,
   // TODO: Write a message

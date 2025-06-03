@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:katana_cli/ai/docs/katana_ui_usage.dart';
+import "package:katana_cli/ai/docs/katana_ui_usage.dart";
 
 /// Contents of label.md.
 ///

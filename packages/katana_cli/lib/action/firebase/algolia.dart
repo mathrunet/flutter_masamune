@@ -1,9 +1,9 @@
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Project imports:
-import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/action/post/firebase_deploy_post_action.dart";
+import "package:katana_cli/katana_cli.dart";
 
 /// Algolia deployment process for Firebase.
 ///

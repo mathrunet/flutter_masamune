@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_final_fields
 
-part of '/katana_auth.dart';
+part of "/katana_auth.dart";
 
 /// A database for managing authentication information locally.
 ///
@@ -1035,6 +1035,9 @@ class AuthDatabase {
     _registeredInitialValue[path] = value._toMap();
   }
 
+  /// Set the initial user ID.
+  ///
+  /// 初期のユーザーIDを設定します。
   void setInitialId(String? uid) {
     _registeredCurrentId = uid;
   }
@@ -1167,9 +1170,9 @@ class AuthInitialValue {
   ///
   /// 認証情報の初期値を入力するためのクラス。
   const AuthInitialValue({
+    required this.userId,
     this.isVerified = false,
     this.isAnonymously = false,
-    required this.userId,
     this.name,
     this.email,
     this.phoneNumber,

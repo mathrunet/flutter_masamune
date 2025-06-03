@@ -1,16 +1,19 @@
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Package imports:
-import 'package:katana/katana.dart';
+import "package:katana/katana.dart";
 
 // Project imports:
-import 'package:katana_cli/config.dart';
+import "package:katana_cli/config.dart";
 
 /// Class for retrieving and saving files in `android/app/build.gradle`.
 ///
 /// `android/app/build.gradle`のファイルを取得して保存するためのクラス。
 class AppGradle {
+  /// Class for retrieving and saving files in `android/app/build.gradle`.
+  ///
+  /// `android/app/build.gradle`のファイルを取得して保存するためのクラス。
   AppGradle();
 
   /// Whether the file is written in Kotlin.
@@ -387,16 +390,16 @@ class GradleAndroid {
   ///
   /// `android`セクションのデータ。
   GradleAndroid({
-    this.namespace,
     required this.buildTypes,
     required this.compileOptions,
     required this.compileSdkVersion,
     required this.defaultConfig,
     required this.kotlinOptions,
+    required this.sourceSets,
+    this.namespace,
     this.ndkVersion,
     this.buildToolsVersion,
     this.signingConfigs,
-    required this.sourceSets,
   });
   static final _regExp = RegExp(r"android {([\s\S]+?)\n}");
 
@@ -918,6 +921,9 @@ class GradleAndroidSigningConfig {
   /// Keystoreのパスワード。
   String storePassword;
 
+  /// Whether the file is written in Kotlin.
+  ///
+  /// ファイルがKotlinで書かれているかどうか。
   bool get isKotlin => _isKotlin;
   final bool _isKotlin;
 
@@ -1025,6 +1031,9 @@ class GradleDependencies {
 ///
 /// `android/build.gradle`のファイルを取得して保存するためのクラス。
 class BuildGradle {
+  /// Class for retrieving and saving files in `android/build.gradle`.
+  ///
+  /// `android/build.gradle`のファイルを取得して保存するためのクラス。
   BuildGradle();
 
   /// Whether the file is written in Kotlin.
@@ -1281,6 +1290,9 @@ class GradleAllprojectsConfigurations {
 ///
 /// `android/settings.gradle`のファイルを取得して保存するためのクラス。
 class SettingsGradle {
+  /// Class for retrieving and saving files in `android/settings.gradle`.
+  ///
+  /// `android/settings.gradle`のファイルを取得して保存するためのクラス。
   SettingsGradle();
 
   /// Whether the file is written in Kotlin.

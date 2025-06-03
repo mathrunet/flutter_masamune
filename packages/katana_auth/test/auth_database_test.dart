@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 // Package imports:
-import 'package:test/test.dart';
+import "package:test/test.dart";
 
 // Project imports:
-import 'package:katana_auth/katana_auth.dart';
+import "package:katana_auth/katana_auth.dart";
 
 void main() {
   test("AuthDatabase.create", () async {

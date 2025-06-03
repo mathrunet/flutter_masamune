@@ -1,4 +1,4 @@
-part of '/katana_auth.dart';
+part of "/katana_auth.dart";
 
 /// Interface that represents the credentials returned by an auth provider.
 /// Implementations specify the details about each auth provider's credential
@@ -62,5 +62,5 @@ class Credential {
 
   @override
   String toString() =>
-      'AuthCredential(providerId: $providerId, signInMethod: $signInMethod, token: $token, accessToken: $accessToken, secret: $secret, idToken: $idToken)';
+      "AuthCredential(providerId: $providerId, signInMethod: $signInMethod, token: $token, accessToken: $accessToken, secret: $secret, idToken: $idToken)";
 }

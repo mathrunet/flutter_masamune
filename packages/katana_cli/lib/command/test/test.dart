@@ -1,9 +1,9 @@
 library katana_cli.test;
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
-part 'update.dart';
+part "update.dart";
 
 /// Providing test commands.
 ///

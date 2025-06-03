@@ -1,4 +1,4 @@
-part of '/katana_auth.dart';
+part of "/katana_auth.dart";
 
 /// {@template sns_auth}
 /// An `AuthQuery` for OAuth authentication for SNS.

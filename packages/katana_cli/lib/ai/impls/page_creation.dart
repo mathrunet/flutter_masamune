@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Contents of page_creation.md.
 ///
@@ -50,15 +50,15 @@ class PageCreationMdCliAiCode extends CliAiCode {
         // lib/pages/memo.dart
 
         // ignore: unused_import, unnecessary_import
-        import 'package:flutter/material.dart';
+        import "package:flutter/material.dart";
         // ignore: unused_import, unnecessary_import
-        import 'package:masamune/masamune.dart';
-        import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+        import "package:masamune/masamune.dart";
+        import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
         // ignore: unused_import, unnecessary_import
-        import 'package:$packageName/main.dart';
+        import "package:$packageName/main.dart";
 
-        part 'memo.page.dart';
+        part "memo.page.dart";
 
         /// Page widget for Memo.
         @immutable
@@ -132,15 +132,15 @@ class PageCreationMdCliAiCode extends CliAiCode {
         // lib/pages/memo.dart
 
         // ignore: unused_import, unnecessary_import
-        import 'package:flutter/material.dart';
+        import "package:flutter/material.dart";
         // ignore: unused_import, unnecessary_import
-        import 'package:masamune/masamune.dart';
-        import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+        import "package:masamune/masamune.dart";
+        import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
         // ignore: unused_import, unnecessary_import
-        import 'package:$packageName/main.dart';
+        import "package:$packageName/main.dart";
 
-        part 'memo.page.dart';
+        part "memo.page.dart";
 
         /// Page widget for Memo.
         @immutable
@@ -214,15 +214,15 @@ class PageCreationMdCliAiCode extends CliAiCode {
         // lib/pages/memo.dart
 
         // ignore: unused_import, unnecessary_import
-        import 'package:flutter/material.dart';
+        import "package:flutter/material.dart";
         // ignore: unused_import, unnecessary_import
-        import 'package:masamune/masamune.dart';
-        import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+        import "package:masamune/masamune.dart";
+        import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
         // ignore: unused_import, unnecessary_import
-        import 'package:$packageName/main.dart';
+        import "package:$packageName/main.dart";
 
-        part 'memo.page.dart';
+        part "memo.page.dart";
 
         /// Page widget for Memo.
         @immutable
@@ -291,15 +291,15 @@ class PageCreationMdCliAiCode extends CliAiCode {
         // lib/pages/memo_add.dart
 
         // ignore: unused_import, unnecessary_import
-        import 'package:flutter/material.dart';
+        import "package:flutter/material.dart";
         // ignore: unused_import, unnecessary_import
-        import 'package:masamune/masamune.dart';
-        import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+        import "package:masamune/masamune.dart";
+        import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
         // ignore: unused_import, unnecessary_import
-        import 'package:$packageName/main.dart';
+        import "package:$packageName/main.dart";
 
-        part 'memo_add.page.dart';
+        part "memo_add.page.dart";
 
         /// Page for forms to add data.
         @immutable
@@ -376,15 +376,15 @@ class PageCreationMdCliAiCode extends CliAiCode {
         // lib/pages/memo_edit.dart
 
         // ignore: unused_import, unnecessary_import
-        import 'package:flutter/material.dart';
+        import "package:flutter/material.dart";
         // ignore: unused_import, unnecessary_import
-        import 'package:masamune/masamune.dart';
-        import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+        import "package:masamune/masamune.dart";
+        import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
         // ignore: unused_import, unnecessary_import
-        import 'package:$packageName/main.dart';
+        import "package:$packageName/main.dart";
 
-        part 'memo_edit.page.dart';
+        part "memo_edit.page.dart";
 
         /// Page for forms to edit data.
         @immutable
@@ -462,15 +462,15 @@ class PageCreationMdCliAiCode extends CliAiCode {
         // lib/pages/memo_add.dart
 
         // ignore: unused_import, unnecessary_import
-        import 'package:flutter/material.dart';
+        import "package:flutter/material.dart";
         // ignore: unused_import, unnecessary_import
-        import 'package:masamune/masamune.dart';
-        import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+        import "package:masamune/masamune.dart";
+        import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
         // ignore: unused_import, unnecessary_import
-        import 'package:$packageName/main.dart';
+        import "package:$packageName/main.dart";
 
-        part 'memo_add.page.dart';
+        part "memo_add.page.dart";
 
         /// Page for forms to add data.
         @immutable
@@ -563,15 +563,15 @@ class PageCreationMdCliAiCode extends CliAiCode {
         // lib/pages/memo_edit.dart
 
         // ignore: unused_import, unnecessary_import
-        import 'package:flutter/material.dart';
+        import "package:flutter/material.dart";
         // ignore: unused_import, unnecessary_import
-        import 'package:masamune/masamune.dart';
-        import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+        import "package:masamune/masamune.dart";
+        import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
         // ignore: unused_import, unnecessary_import
-        import 'package:$packageName/main.dart';
+        import "package:$packageName/main.dart";
 
-        part 'memo_edit.page.dart';
+        part "memo_edit.page.dart";
 
         /// Page for forms to edit data.
         @immutable
@@ -651,15 +651,15 @@ class PageCreationMdCliAiCode extends CliAiCode {
         // lib/pages/index.dart
 
         // ignore: unused_import, unnecessary_import
-        import 'package:flutter/material.dart';
+        import "package:flutter/material.dart";
         // ignore: unused_import, unnecessary_import
-        import 'package:masamune/masamune.dart';
-        import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+        import "package:masamune/masamune.dart";
+        import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
         // ignore: unused_import, unnecessary_import
-        import 'package:$packageName/main.dart';
+        import "package:$packageName/main.dart";
 
-        part 'index.page.dart';
+        part "index.page.dart";
 
         /// Define a list of navigation for use with IndexPage.
         enum IndexPageNavigation {
@@ -800,15 +800,15 @@ class PageCreationMdCliAiCode extends CliAiCode {
         // lib/pages/home.dart
         
         // ignore: unused_import, unnecessary_import
-        import 'package:flutter/material.dart';
+        import "package:flutter/material.dart";
         // ignore: unused_import, unnecessary_import
-        import 'package:masamune/masamune.dart';
-        import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+        import "package:masamune/masamune.dart";
+        import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
         // ignore: unused_import, unnecessary_import
-        import 'package:$packageName/main.dart';
+        import "package:$packageName/main.dart";
 
-        part 'home.page.dart';
+        part "home.page.dart";
 
         /// Define a list of tabs for use with HomePage.
         enum HomePageTab {
@@ -927,15 +927,15 @@ class PageCreationMdCliAiCode extends CliAiCode {
         // lib/pages/memo.dart
 
         // ignore: unused_import, unnecessary_import
-        import 'package:flutter/material.dart';
+        import "package:flutter/material.dart";
         // ignore: unused_import, unnecessary_import
-        import 'package:masamune/masamune.dart';
-        import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+        import "package:masamune/masamune.dart";
+        import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
         // ignore: unused_import, unnecessary_import
-        import 'package:$packageName/main.dart';
+        import "package:$packageName/main.dart";
 
-        part 'memo.page.dart';
+        part "memo.page.dart";
 
         /// Page widget for Memo.
         @immutable

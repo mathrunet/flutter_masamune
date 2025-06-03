@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// User model template.
 ///
@@ -21,7 +21,8 @@ class ModelsUserCliCodeSnippet extends CliCodeSnippet {
 
   @override
   String body(String path, String baseName, String className) {
-    return r"""String? name,
+    return r"""
+String? name,
 String? description,
 ModelImageUri? icon,
 ModelToken? tokens,

@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Page logic for obtaining a user ID.
 ///
@@ -22,7 +22,8 @@ class PagesLogicRetrieveUserCliCodeSnippet extends CliCodeSnippet {
 
   @override
   String body(String path, String baseName, String className) {
-    return """final userId = appAuth.userId;
+    return """
+final userId = appAuth.userId;
 if (userId == null) {
   return const Empty();
 }

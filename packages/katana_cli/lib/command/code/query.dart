@@ -50,12 +50,12 @@ class CodeQueryCliCommand extends CliCodeCommand {
     final packageName = retrievePackageName();
     return """
 // ignore: unused_import, unnecessary_import
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 // ignore: unused_import, unnecessary_import
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
 // ignore: unused_import, unnecessary_import
-import 'package:$packageName/main.dart';
+import "package:$packageName/main.dart";
 """;
   }
 

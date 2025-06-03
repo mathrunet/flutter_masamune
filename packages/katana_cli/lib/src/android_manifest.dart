@@ -1,9 +1,9 @@
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Package imports:
-import 'package:katana/katana.dart';
-import 'package:xml/xml.dart';
+import "package:katana/katana.dart";
+import "package:xml/xml.dart";
 
 /// Permission type for AndroidManifest.
 ///

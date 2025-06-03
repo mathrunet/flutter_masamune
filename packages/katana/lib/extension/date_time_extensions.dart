@@ -1,4 +1,4 @@
-part of '/katana.dart';
+part of "/katana.dart";
 
 /// Provides extended methods for [DateTime].
 ///
@@ -91,9 +91,6 @@ extension DateTimeExtensions on DateTime {
         month == dateTime.month &&
         day == dateTime.day;
   }
-
-  @Deprecated('Use isThisDay instead')
-  bool isToday([DateTime? dateTime]) => isThisDay(dateTime);
 
   /// Returns `true` if the month is the same as a specific [dateTime] or the current time.
   ///

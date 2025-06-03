@@ -21,6 +21,7 @@ const _kSecondaryAppName = "secondary";
 /// 基本的にデフォルトの[FirebaseAuth.instance]が利用されますが、アダプターの作成時に[database]を渡すことで指定された認証データベースを利用することが可能です。
 ///
 /// [options]を渡すことでFirebaseの初期化を行うことができます。
+@immutable
 class FirebaseAuthAdapter extends AuthAdapter {
   /// Model adapter with FirebaseAuth available.
   ///
@@ -427,8 +428,8 @@ class FirebaseAuthAdapter extends AuthAdapter {
 
   @override
   Future<bool> tryRestoreAuth({
-    bool retryWhenTimeout = false,
     required VoidCallback onUserStateChanged,
+    bool retryWhenTimeout = false,
   }) async {
     try {
       await _initialize();

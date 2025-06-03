@@ -1,13 +1,13 @@
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Package imports:
-import 'package:image/image.dart';
-import 'package:xml/xml.dart';
+import "package:image/image.dart";
+import "package:xml/xml.dart";
 
 // Project imports:
-import 'package:katana_cli/action/post/firebase_deploy_post_action.dart';
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/action/post/firebase_deploy_post_action.dart";
+import "package:katana_cli/katana_cli.dart";
 
 /// Size list of notification icon.
 ///

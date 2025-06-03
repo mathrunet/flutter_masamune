@@ -1,4 +1,4 @@
-part of '/katana.dart';
+part of "/katana.dart";
 
 /// A class that represents a range of numbers.
 ///
@@ -8,6 +8,13 @@ part of '/katana.dart';
 ///
 /// [min]から[max]までの値を含みます。
 class NumRange<TNum extends num> {
+  /// A class that represents a range of numbers.
+  ///
+  /// Includes values from [min] to [max].
+  ///
+  /// 数値のレンジを表すクラス。
+  ///
+  /// [min]から[max]までの値を含みます。
   const NumRange(
     this.min,
     this.max,

@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Login page template.
 ///
@@ -22,7 +22,8 @@ class RedirectsLoginCliCodeSnippet extends CliCodeSnippet {
 
   @override
   String body(String path, String baseName, String className) {
-    return r"""// Handle the case where the user data does not exist.
+    return r"""
+// Handle the case where the user data does not exist.
 Future<RouteQuery> handleUserDataIsEmpty(UserModelDocument user) async {
   ${1}
   return source;

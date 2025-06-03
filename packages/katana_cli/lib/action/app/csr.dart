@@ -1,9 +1,9 @@
 // Dart imports:
-import 'dart:convert';
-import 'dart:io';
+import "dart:convert";
+import "dart:io";
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Automatically outputs `CertificateSigningRequest.certSigningRequest`.
 ///
@@ -67,7 +67,7 @@ class AppCsrCliAction extends CliCommand with CliActionMixin {
         runInShell: true,
         mode: ProcessStartMode.normal,
       );
-      // ignore: avoid_print
+      // ignore: avoid_print, unawaited_futures
       process.stdout.transform(utf8.decoder).forEach(print);
       process.stdin.write(".\n");
       process.stdin.write(".\n");

@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_field_initializers_in_const_classes
 
-part of '/katana_auth.dart';
+part of "/katana_auth.dart";
 
 const _kLocalDatabaseId = "auth://";
 
@@ -15,6 +15,7 @@ const _kLocalDatabaseId = "auth://";
 /// 外部に値を保存する必要のないアプリ開発に利用します。
 ///
 /// モバイルやデスクトップは外部ファイルに暗号化してデータが保存されWebの場合はLocalStorageに暗号化されデータが保存されます。
+@immutable
 class LocalAuthAdapter extends AuthAdapter {
   /// Authentication adapter that stores data on the local terminal.
   ///
@@ -68,7 +69,7 @@ class LocalAuthAdapter extends AuthAdapter {
     onInitialize: (database) async {
       try {
         database._data = await AuthExporter.import(
-          "${AuthExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
+          "${await AuthExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
         );
       } catch (e) {
         database._data = {};
@@ -76,7 +77,7 @@ class LocalAuthAdapter extends AuthAdapter {
     },
     onSaved: (database) async {
       await AuthExporter.export(
-        "${AuthExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
+        "${await AuthExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
         database._data,
       );
     },
@@ -124,8 +125,8 @@ class LocalAuthAdapter extends AuthAdapter {
 
   @override
   Future<bool> tryRestoreAuth({
-    bool retryWhenTimeout = false,
     required VoidCallback onUserStateChanged,
+    bool retryWhenTimeout = false,
   }) async {
     final signedIn = await database.tryRestoreAuth();
     if (signedIn) {

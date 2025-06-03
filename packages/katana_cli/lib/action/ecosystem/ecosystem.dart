@@ -3,10 +3,10 @@
 // Package imports:
 
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Add a module to use the Ecosystem.
 ///
@@ -76,14 +76,14 @@ class EcosystemCliAction extends CliCommand with CliActionMixin {
           }
           if (googlePlayRefreshToken.isEmpty) {
             error(
-              "The item [purchase]->[google_play]->[refresh_token] is empty. Please set it."
+              "The item [purchase]->[google_play]->[refresh_token] is empty. Please set it. "
               "After entering [purchase]->[google_play]->[oauth_client_id] and [purchase]->[google_play]->[oauth_client_secret], run `katana store android_token and run `katana store android_token` to get a refresh token.",
             );
             return;
           }
           if (googlePlayPubsubTopic.isEmpty) {
             error(
-              "The item [purchase]->[google_play]->[pubsub_topic] is empty. Please set it."
+              "The item [purchase]->[google_play]->[pubsub_topic] is empty. Please set it. "
               "Set the topic ID you set in Pubsub.",
             );
             return;

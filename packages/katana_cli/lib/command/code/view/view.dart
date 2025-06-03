@@ -1,23 +1,23 @@
 library katana_cli.code.view;
 
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
-part 'listform.dart';
-part 'tab.dart';
-part 'navigation.dart';
-part 'listview.dart';
-part 'gridview.dart';
-part 'fixedview.dart';
-part 'fixedform.dart';
-part 'page.dart';
-part 'fixedform_add.dart';
-part 'listform_add.dart';
-part 'fixedform_edit.dart';
-part 'listform_edit.dart';
+part "listform.dart";
+part "tab.dart";
+part "navigation.dart";
+part "listview.dart";
+part "gridview.dart";
+part "fixedview.dart";
+part "fixedform.dart";
+part "page.dart";
+part "fixedform_add.dart";
+part "listform_add.dart";
+part "fixedform_edit.dart";
+part "listform_edit.dart";
 
 /// Create a Dart/Flutter view template.
 ///

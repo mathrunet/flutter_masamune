@@ -1,14 +1,14 @@
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Package imports:
-import 'package:yaml/yaml.dart';
+import "package:yaml/yaml.dart";
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
-import 'platform/android.dart';
-import 'platform/ios.dart';
-import 'platform/web.dart';
+import "package:katana_cli/katana_cli.dart";
+import "platform/android.dart";
+import "platform/ios.dart";
+import "platform/web.dart";
 
 /// Output yaml for Github Actions.
 ///

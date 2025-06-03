@@ -1,14 +1,14 @@
 // Dart imports:
-import 'dart:convert';
-import 'dart:io';
+import "dart:convert";
+import "dart:io";
 
 // Package imports:
-import 'package:xml/xml.dart';
+import "package:xml/xml.dart";
 
 // Project imports:
-import 'package:katana_cli/action/firebase/authentication.dart';
-import 'package:katana_cli/config.dart';
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/action/firebase/authentication.dart";
+import "package:katana_cli/config.dart";
+import "package:katana_cli/katana_cli.dart";
 
 /// Firebase initial configuration.
 ///
@@ -1331,9 +1331,9 @@ class FirebaseDataConnectModelAdapterCliCode extends CliCode {
   String import(String path, String baseName, String className) {
     return """
 // ignore: unused_import, unnecessary_import
-import 'package:flutter/foundation.dart';
+import "package:flutter/foundation.dart";
 // ignore: unused_import, unnecessary_import
-import 'package:masamune_model_firebase_data_connect/masamune_model_firebase_data_connect.dart';
+import "package:masamune_model_firebase_data_connect/masamune_model_firebase_data_connect.dart";
 """;
   }
 
@@ -1341,9 +1341,9 @@ import 'package:masamune_model_firebase_data_connect/masamune_model_firebase_dat
   String header(String path, String baseName, String className) {
     return """
 // ignore: unused_import, unnecessary_import
-import '/dataconnect/connector.dart';
+import "/dataconnect/connector.dart";
 
-part 'firebase_data_connect_model_adapter.dataconnect.dart';
+part "firebase_data_connect_model_adapter.dataconnect.dart";
 """;
   }
 

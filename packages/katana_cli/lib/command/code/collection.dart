@@ -58,25 +58,25 @@ class CodeCollectionCliCommand extends CliTestableCodeCommand {
     final packageName = retrievePackageName();
     return """
 // ignore: unused_import, unnecessary_import
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 // ignore: unused_import, unnecessary_import
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
 // ignore: unused_import, unnecessary_import
-import 'package:$packageName/main.dart';
+import "package:$packageName/main.dart";
 """;
   }
 
   @override
   String header(String path, String baseName, String className) {
     return """
-import 'package:freezed_annotation/freezed_annotation.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
 
-part '$baseName.m.dart';
-part '$baseName.g.dart';
-part '$baseName.freezed.dart';
-part '$baseName.extensions.dart';
-part '$baseName.api.dart';
+part "$baseName.m.dart";
+part "$baseName.g.dart";
+part "$baseName.freezed.dart";
+part "$baseName.extensions.dart";
+part "$baseName.api.dart";
 """;
   }
 
@@ -203,10 +203,10 @@ typedef ${className}ModelMirrorCollection = _\$${className}ModelMirrorCollection
       String path, String sourcePath, String baseName, String className) {
     final packageName = retrievePackageName();
     return """
-import 'package:masamune/masamune.dart';
-import 'package:masamune_test/masamune_test.dart';
+import "package:masamune/masamune.dart";
+import "package:masamune_test/masamune_test.dart";
 
-import 'package:$packageName/models/$sourcePath.dart';
+import "package:$packageName/models/$sourcePath.dart";
 
 void main() {
   masamuneModelTileTest(
@@ -247,7 +247,7 @@ class CodeCollectionExtensionCliCommand extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-part of '${baseName.replaceAll(".extensions", "")}.dart';
+part of "${baseName.replaceAll(".extensions", "")}.dart";
 """;
   }
 
@@ -312,7 +312,7 @@ class CodeCollectionApiCliCommand extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-part of '${baseName.replaceAll(".api", "")}.dart';
+part of "${baseName.replaceAll(".api", "")}.dart";
 """;
   }
 

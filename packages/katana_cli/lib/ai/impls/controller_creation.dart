@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Contents of controller_creation.md.
 ///
@@ -45,14 +45,14 @@ class ControllerCreationMdCliAiCode extends CliAiCode {
         // lib/controllers/purchase.dart
 
         // ignore: unused_import, unnecessary_import
-        import 'package:flutter/material.dart';
+        import "package:flutter/material.dart";
         // ignore: unused_import, unnecessary_import
-        import 'package:masamune/masamune.dart';
+        import "package:masamune/masamune.dart";
 
         // ignore: unused_import, unnecessary_import
-        import 'package:$packageName/main.dart';
+        import "package:$packageName/main.dart";
 
-        part 'purchase.m.dart';
+        part "purchase.m.dart";
 
         /// Controller.
         @Controller(autoDisposeWhenUnreferenced: true)

@@ -1,4 +1,4 @@
-part of '/katana_builder.dart';
+part of "/katana_builder.dart";
 
 /// Special type used in Masamune framework.
 ///

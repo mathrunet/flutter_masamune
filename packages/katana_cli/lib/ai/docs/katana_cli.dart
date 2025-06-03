@@ -1,11 +1,11 @@
 // Project imports:
-import 'package:katana_cli/command/apply.dart';
-import 'package:katana_cli/command/code/server/server.dart';
-import 'package:katana_cli/command/code/view/view.dart';
-import 'package:katana_cli/command/deploy.dart';
-import 'package:katana_cli/command/doctor.dart';
-import 'package:katana_cli/command/store/store.dart';
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/command/apply.dart";
+import "package:katana_cli/command/code/server/server.dart";
+import "package:katana_cli/command/code/view/view.dart";
+import "package:katana_cli/command/deploy.dart";
+import "package:katana_cli/command/doctor.dart";
+import "package:katana_cli/command/store/store.dart";
+import "package:katana_cli/katana_cli.dart";
 
 const _kAvailableCommands = [
   ComposeCliCommand(),

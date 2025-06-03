@@ -1,8 +1,8 @@
 // Dart imports:
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
-import 'package:katana_cli/src/app_info.dart';
+import "package:katana_cli/katana_cli.dart";
+import "package:katana_cli/src/app_info.dart";
 
 /// Set the application information.
 ///

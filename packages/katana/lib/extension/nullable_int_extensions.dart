@@ -1,4 +1,4 @@
-part of '/katana.dart';
+part of "/katana.dart";
 
 /// Provides an extension method for [int] that is nullable.
 ///

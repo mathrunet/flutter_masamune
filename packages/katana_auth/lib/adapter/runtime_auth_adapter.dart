@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_field_initializers_in_const_classes
 
-part of '/katana_auth.dart';
+part of "/katana_auth.dart";
 
 /// Authentication adapter using a database that runs only in the app's memory.
 ///
@@ -21,6 +21,7 @@ part of '/katana_auth.dart';
 /// 通常はアプリ内全体での共通のデータベース[sharedDatabase]が利用されますが、テスト用などで毎回データベースをリセットする場合は[database]に個別のデータベースを渡してください。
 ///
 /// 個別のデータを予め設定しておくことで認証用のデータモックとして利用することができます。
+@immutable
 class RuntimeAuthAdapter extends AuthAdapter {
   /// Authentication adapter using a database that runs only in the app's memory.
   ///
@@ -128,8 +129,8 @@ class RuntimeAuthAdapter extends AuthAdapter {
 
   @override
   Future<bool> tryRestoreAuth({
-    bool retryWhenTimeout = false,
     required VoidCallback onUserStateChanged,
+    bool retryWhenTimeout = false,
   }) async {
     final signedIn = await database.tryRestoreAuth();
     if (signedIn) {

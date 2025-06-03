@@ -46,7 +46,8 @@ class CodeViewNavigationCliCommand extends CliTestableCodeCommand {
         if (existsMain) {
           return value;
         } else {
-          return """$value
+          return """
+$value
 /// [RouteQueryBuilder], which is also available externally.
 /// 
 /// ```dart
@@ -70,20 +71,20 @@ typedef ${path.split("/").distinct().join("_").toPascalCase()}PageQuery = _\$${p
     final packageName = retrievePackageName();
     return """
 // ignore: unused_import, unnecessary_import
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 // ignore: unused_import, unnecessary_import
-import 'package:masamune/masamune.dart';
-import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+import "package:masamune/masamune.dart";
+import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
 // ignore: unused_import, unnecessary_import
-import 'package:$packageName/main.dart';
+import "package:$packageName/main.dart";
 """;
   }
 
   @override
   String header(String path, String baseName, String className) {
     return """
-part '$baseName.page.dart';
+part "$baseName.page.dart";
 """;
   }
 
@@ -207,9 +208,9 @@ class ${className}Page extends PageScopedWidget {
       String path, String sourcePath, String baseName, String className) {
     final packageName = retrievePackageName();
     return """
-import 'package:masamune_test/masamune_test.dart';
+import "package:masamune_test/masamune_test.dart";
 
-import 'package:$packageName/pages/$sourcePath.dart';
+import "package:$packageName/pages/$sourcePath.dart";
 
 void main() {
   masamunePageTest(

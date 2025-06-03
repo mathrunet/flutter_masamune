@@ -1,6 +1,6 @@
 // Project imports:
-import 'package:katana_cli/action/firebase/deploy.dart';
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/action/firebase/deploy.dart";
+import "package:katana_cli/katana_cli.dart";
 
 /// Action to be performed.
 ///

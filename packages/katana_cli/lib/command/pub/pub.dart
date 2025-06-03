@@ -1,17 +1,17 @@
 library katana_cli.pub;
 
 // Dart imports:
-import 'dart:convert';
-import 'dart:io';
+import "dart:convert";
+import "dart:io";
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
-part 'get.dart';
-part 'add.dart';
-part 'version.dart';
-part 'upgrade.dart';
-part 'publish.dart';
+part "get.dart";
+part "add.dart";
+part "version.dart";
+part "upgrade.dart";
+part "publish.dart";
 
 /// Version and deployment management for pub.
 ///

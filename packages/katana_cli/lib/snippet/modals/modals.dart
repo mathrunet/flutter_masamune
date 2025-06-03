@@ -1,7 +1,7 @@
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
-import 'package:katana_cli/snippet/modals/confirmation.dart';
-import 'package:katana_cli/snippet/snippet.dart';
+import "package:katana_cli/katana_cli.dart";
+import "package:katana_cli/snippet/modals/confirmation.dart";
+import "package:katana_cli/snippet/snippet.dart";
 
 /// Modals code snippets.
 ///

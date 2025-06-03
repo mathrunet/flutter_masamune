@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Contents of widget_creation.md.
 ///
@@ -50,13 +50,13 @@ class WidgetCreationMdCliAiCode extends CliAiCode {
         // lib/widgets/title_app_bar.dart
 
         // ignore: unused_import, unnecessary_import
-        import 'package:flutter/material.dart';
+        import "package:flutter/material.dart";
         // ignore: unused_import, unnecessary_import
-        import 'package:masamune/masamune.dart';
-        import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+        import "package:masamune/masamune.dart";
+        import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
         // ignore: unused_import, unnecessary_import
-        import 'package:$packageName/main.dart';
+        import "package:$packageName/main.dart";
 
 
         /// StatelessWidget.
@@ -115,13 +115,13 @@ class WidgetCreationMdCliAiCode extends CliAiCode {
         // lib/widgets/title_app_bar.dart
 
         // ignore: unused_import, unnecessary_import
-        import 'package:flutter/material.dart';
+        import "package:flutter/material.dart";
         // ignore: unused_import, unnecessary_import
-        import 'package:masamune/masamune.dart';
-        import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+        import "package:masamune/masamune.dart";
+        import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
         // ignore: unused_import, unnecessary_import
-        import 'package:$packageName/main.dart';
+        import "package:$packageName/main.dart";
 
 
         /// ScopedWidget.

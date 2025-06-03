@@ -18,6 +18,6 @@ class CodeSnippetsCliCommand extends CliCommand {
   @override
   Future<void> exec(ExecContext context) async {
     label("Generate file for VSCode Snippets");
-    await CodeSnippetsCliGroup().generateFiles();
+    await const CodeSnippetsCliGroup().generateFiles();
   }
 }

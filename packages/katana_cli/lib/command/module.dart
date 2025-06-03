@@ -1,7 +1,7 @@
 // ignore_for_file: implementation_imports
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
 /// Create a new module-aware Flutter project.
 ///
@@ -168,18 +168,18 @@ class ModuleMainCliCode extends CliCode {
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_module_${className.toSnakeCase()};
 
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import 'package:masamune/masamune.dart';
-import 'package:masamune_module/masamune_module.dart';
-import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+import "package:masamune/masamune.dart";
+import "package:masamune_module/masamune_module.dart";
+import "package:masamune_universal_ui/masamune_universal_ui.dart";
 """;
   }
 
   @override
   String header(String path, String baseName, String className) {
     return """
-part 'masamune_module_${className.toSnakeCase()}.localize.dart';
+part "masamune_module_${className.toSnakeCase()}.localize.dart";
 """;
   }
 
@@ -272,18 +272,18 @@ class AppModuleMainCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import 'package:masamune/masamune.dart';
-import 'package:masamune_module/masamune_module.dart';
-import 'package:masamune_module_${className.toSnakeCase()}/masamune_module_${className.toSnakeCase()}.dart';
+import "package:masamune/masamune.dart";
+import "package:masamune_module/masamune_module.dart";
+import "package:masamune_module_${className.toSnakeCase()}/masamune_module_${className.toSnakeCase()}.dart";
 """;
   }
 
   @override
   String header(String path, String baseName, String className) {
     return """
-part 'main.theme.dart';
+part "main.theme.dart";
 """;
   }
 
@@ -351,7 +351,7 @@ class ModuleWidgetTestCliCode extends CliCode {
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter_test/flutter_test.dart';
+import "package:flutter_test/flutter_test.dart";
 
 void main() {
   test("Test", () {});

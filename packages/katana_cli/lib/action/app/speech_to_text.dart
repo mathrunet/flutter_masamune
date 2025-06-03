@@ -1,8 +1,8 @@
 // Dart imports:
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
-import 'package:katana_cli/src/android_manifest.dart';
+import "package:katana_cli/katana_cli.dart";
+import "package:katana_cli/src/android_manifest.dart";
 
 /// Add a module for using Speech-to-Text.
 ///

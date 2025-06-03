@@ -1,12 +1,12 @@
 // Project imports:
-import 'package:katana_cli/ai/designs/controller_design.dart';
-import 'package:katana_cli/ai/designs/metadata_design.dart';
-import 'package:katana_cli/ai/designs/model_design.dart';
-import 'package:katana_cli/ai/designs/page_design.dart';
-import 'package:katana_cli/ai/designs/plugin_design.dart';
-import 'package:katana_cli/ai/designs/theme_design.dart';
-import 'package:katana_cli/ai/designs/widget_design.dart';
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/ai/designs/controller_design.dart";
+import "package:katana_cli/ai/designs/metadata_design.dart";
+import "package:katana_cli/ai/designs/model_design.dart";
+import "package:katana_cli/ai/designs/page_design.dart";
+import "package:katana_cli/ai/designs/plugin_design.dart";
+import "package:katana_cli/ai/designs/theme_design.dart";
+import "package:katana_cli/ai/designs/widget_design.dart";
+import "package:katana_cli/katana_cli.dart";
 
 /// DesignsAiCode is a command that generates AI code to do the design.
 ///

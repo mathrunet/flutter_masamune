@@ -1,4 +1,4 @@
-part of '/katana_auth.dart';
+part of "/katana_auth.dart";
 
 /// An adapter used to execute various methods of [Authentication].
 ///

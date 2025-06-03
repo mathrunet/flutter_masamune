@@ -1,8 +1,8 @@
 // Package imports:
-import 'package:test/test.dart';
+import "package:test/test.dart";
 
 // Project imports:
-import 'package:katana/katana.dart';
+import "package:katana/katana.dart";
 
 void main() {
   test("StringExtensions.splitLength", () {
@@ -199,7 +199,7 @@ void main() {
   });
   test("StringExtensions.toJsonObject", () {
     const text = "[\"aaa\",\"bbb\",\"ccc\"]";
-    expect(text.toJsonObject(), ['aaa', 'bbb', 'ccc']);
+    expect(text.toJsonObject(), ["aaa", "bbb", "ccc"]);
   });
   test("StringExtensions.toJsonMap", () {
     const text = "{\"aaa\":1,\"bbb\":2,\"ccc\":3}";
@@ -207,7 +207,7 @@ void main() {
   });
   test("StringExtensions.toJsonList", () {
     const text = "[\"aaa\",\"bbb\",\"ccc\"]";
-    expect(text.toJsonList(), ['aaa', 'bbb', 'ccc']);
+    expect(text.toJsonList(), ["aaa", "bbb", "ccc"]);
   });
   test("StringExtensions.removeOnlyEmoji", () {
     const text = "Hello, 😊! How are you?😊😆";

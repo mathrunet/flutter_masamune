@@ -1,21 +1,21 @@
 // Project imports:
-import 'package:katana_cli/ai/docs/plugins/ads.dart';
-import 'package:katana_cli/ai/docs/plugins/agora.dart';
-import 'package:katana_cli/ai/docs/plugins/animate.dart';
-import 'package:katana_cli/ai/docs/plugins/calendar.dart';
-import 'package:katana_cli/ai/docs/plugins/camera.dart';
-import 'package:katana_cli/ai/docs/plugins/google_map.dart';
-import 'package:katana_cli/ai/docs/plugins/introduction.dart';
-import 'package:katana_cli/ai/docs/plugins/local_notification.dart';
-import 'package:katana_cli/ai/docs/plugins/location.dart';
-import 'package:katana_cli/ai/docs/plugins/openai.dart';
-import 'package:katana_cli/ai/docs/plugins/picker.dart';
-import 'package:katana_cli/ai/docs/plugins/purchase.dart';
-import 'package:katana_cli/ai/docs/plugins/sendgrid.dart';
-import 'package:katana_cli/ai/docs/plugins/speech_to_text.dart';
-import 'package:katana_cli/ai/docs/plugins/stripe.dart';
-import 'package:katana_cli/ai/docs/plugins/text_to_speech.dart';
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/ai/docs/plugins/ads.dart";
+import "package:katana_cli/ai/docs/plugins/agora.dart";
+import "package:katana_cli/ai/docs/plugins/animate.dart";
+import "package:katana_cli/ai/docs/plugins/calendar.dart";
+import "package:katana_cli/ai/docs/plugins/camera.dart";
+import "package:katana_cli/ai/docs/plugins/google_map.dart";
+import "package:katana_cli/ai/docs/plugins/introduction.dart";
+import "package:katana_cli/ai/docs/plugins/local_notification.dart";
+import "package:katana_cli/ai/docs/plugins/location.dart";
+import "package:katana_cli/ai/docs/plugins/openai.dart";
+import "package:katana_cli/ai/docs/plugins/picker.dart";
+import "package:katana_cli/ai/docs/plugins/purchase.dart";
+import "package:katana_cli/ai/docs/plugins/sendgrid.dart";
+import "package:katana_cli/ai/docs/plugins/speech_to_text.dart";
+import "package:katana_cli/ai/docs/plugins/stripe.dart";
+import "package:katana_cli/ai/docs/plugins/text_to_speech.dart";
+import "package:katana_cli/katana_cli.dart";
 
 /// List of Plugin types.
 ///

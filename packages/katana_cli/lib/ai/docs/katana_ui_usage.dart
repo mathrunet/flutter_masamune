@@ -1,18 +1,18 @@
 // Project imports:
-import 'package:katana_cli/ai/docs/katana_ui/avatar_tile.dart';
-import 'package:katana_cli/ai/docs/katana_ui/card_tile.dart';
-import 'package:katana_cli/ai/docs/katana_ui/chat_tile.dart';
-import 'package:katana_cli/ai/docs/katana_ui/indent.dart';
-import 'package:katana_cli/ai/docs/katana_ui/label.dart';
-import 'package:katana_cli/ai/docs/katana_ui/line_tile.dart';
-import 'package:katana_cli/ai/docs/katana_ui/list_tile_group.dart';
-import 'package:katana_cli/ai/docs/katana_ui/loading_builder.dart';
-import 'package:katana_cli/ai/docs/katana_ui/message_box.dart';
-import 'package:katana_cli/ai/docs/katana_ui/periodic_scope.dart';
-import 'package:katana_cli/ai/docs/katana_ui/scroll_builder.dart';
-import 'package:katana_cli/ai/docs/katana_ui/shimmer.dart';
-import 'package:katana_cli/ai/docs/katana_ui/square_avatar.dart';
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/ai/docs/katana_ui/avatar_tile.dart";
+import "package:katana_cli/ai/docs/katana_ui/card_tile.dart";
+import "package:katana_cli/ai/docs/katana_ui/chat_tile.dart";
+import "package:katana_cli/ai/docs/katana_ui/indent.dart";
+import "package:katana_cli/ai/docs/katana_ui/label.dart";
+import "package:katana_cli/ai/docs/katana_ui/line_tile.dart";
+import "package:katana_cli/ai/docs/katana_ui/list_tile_group.dart";
+import "package:katana_cli/ai/docs/katana_ui/loading_builder.dart";
+import "package:katana_cli/ai/docs/katana_ui/message_box.dart";
+import "package:katana_cli/ai/docs/katana_ui/periodic_scope.dart";
+import "package:katana_cli/ai/docs/katana_ui/scroll_builder.dart";
+import "package:katana_cli/ai/docs/katana_ui/shimmer.dart";
+import "package:katana_cli/ai/docs/katana_ui/square_avatar.dart";
+import "package:katana_cli/katana_cli.dart";
 
 /// List of KatanaUI types.
 ///

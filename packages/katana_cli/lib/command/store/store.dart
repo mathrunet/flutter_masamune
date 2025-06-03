@@ -1,19 +1,25 @@
 library katana_cli.store;
 
 // Dart imports:
-import 'dart:io';
+import "dart:io";
 
 // Package imports:
-import 'package:image/image.dart';
+import "package:image/image.dart";
 
 // Project imports:
-import 'package:katana_cli/katana_cli.dart';
+import "package:katana_cli/katana_cli.dart";
 
-part 'screenshot.dart';
-part 'android_token.dart';
-part 'build.dart';
+part "screenshot.dart";
+part "android_token.dart";
+part "build.dart";
 
+/// Configure settings for the store, including creating screenshots.
+///
+/// スクリーンショットの作成など、ストア用の設定を行います。
 class StoreCliCommand extends CliCommandGroup {
+  /// Configure settings for the store, including creating screenshots.
+  ///
+  /// スクリーンショットの作成など、ストア用の設定を行います。
   const StoreCliCommand();
 
   @override

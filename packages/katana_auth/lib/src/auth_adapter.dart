@@ -1,4 +1,4 @@
-part of '/katana_auth.dart';
+part of "/katana_auth.dart";
 
 /// Adapters to change the behavior of authentication on different platforms.
 ///
@@ -192,8 +192,8 @@ abstract class AuthAdapter {
   ///
   /// ユーザーの認証状態が変更されたときに[onUserStateChanged]を実行します。
   Future<bool> tryRestoreAuth({
-    bool retryWhenTimeout = false,
     required VoidCallback onUserStateChanged,
+    bool retryWhenTimeout = false,
   });
 
   /// Register users by passing a class inheriting from [CreateAuthProvider] in [provider].
@@ -474,9 +474,9 @@ class AuthAdapterScope extends StatefulWidget {
   /// }
   /// ```
   const AuthAdapterScope({
-    super.key,
     required this.child,
     required this.adapter,
+    super.key,
   });
 
   /// Children's widget.
