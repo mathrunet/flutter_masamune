@@ -7,7 +7,8 @@ part of '/masamune.dart';
 /// テスト用のアダプターやコンテナーを指定して入れ替えることができます。
 ///
 /// テストの最初に実行してください。
-void masamuneTest({
+void masamuneApplyTestMocks({
+  bool ensureInitialized = true,
   ScopedValueContainer? scopedValueContainer,
   AuthAdapter? authAdapter,
   StorageAdapter? storageAdapter,
@@ -15,7 +16,9 @@ void masamuneTest({
   List<LoggerAdapter> loggerAdapters = const [],
   ModelAdapter? modelAdapter,
 }) {
-  WidgetsFlutterBinding.ensureInitialized();
+  if (ensureInitialized) {
+    WidgetsFlutterBinding.ensureInitialized();
+  }
   if (scopedValueContainer != null) {
     TestAppScoped.setTestContainer(scopedValueContainer);
   }
