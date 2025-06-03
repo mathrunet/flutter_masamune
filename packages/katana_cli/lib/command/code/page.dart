@@ -139,17 +139,20 @@ class ${className}Page extends PageScopedWidget {
   }
 
   @override
-  String test(String path, String baseName, String className) {
+  String test(
+      String path, String sourcePath, String baseName, String className) {
+    final packageName = retrievePackageName();
     return """
-import 'package:masamune/masamune.dart';
 import 'package:masamune_test/masamune_test.dart';
+
+import 'package:$packageName/pages/$sourcePath.dart';
 
 void main() {
   masamunePageTest(
     name: "$className",
-    builder: (ref) {
+    builder: (context, ref) {
       // TODO: Write test code.
-      return const Empty();      
+      return const ${className}Page();      
     },
   );
 }

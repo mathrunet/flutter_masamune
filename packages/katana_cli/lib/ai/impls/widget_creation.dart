@@ -79,6 +79,22 @@ class WidgetCreationMdCliAiCode extends CliAiCode {
           }
         }
         ```
+5. 4で変更したコンストラクタのパラメーターに合わせて`test/widgets`以下に同じく作成された[WidgetName(SnakeCase&末尾のWidgetを取り除く)]_test.dartファイルの同一クラスの定義を書き換えエラーを解消する。
+    - パラメーターは自由に設定。
+    - 例：
+        ```dart
+        // test/widgets/title_app_bar_test.dart
+
+        void main() {
+          masamuneWidgetTest(
+            name: "TitleAppBarWidget",
+            builder: (context, ref) {
+              // TODO: Write test code.
+              return const TitleAppBarWidget(title: "Title");      
+            },
+          );
+        }
+        ```
 
 ## `stateful`
 
@@ -133,6 +149,22 @@ class WidgetCreationMdCliAiCode extends CliAiCode {
           }
         }
         ```
+5. 4で変更したコンストラクタのパラメーターに合わせて`test/widgets`以下に同じく作成された[WidgetName(SnakeCase&末尾のWidgetを取り除く)]_test.dartファイルの同一クラスの定義を書き換えエラーを解消する。
+    - パラメーターは自由に設定。
+    - 例：
+        ```dart
+        // test/widgets/title_app_bar_test.dart
+
+        void main() {
+          masamuneWidgetTest(
+            name: "TitleAppBarWidget",
+            builder: (context, ref) {
+              // TODO: Write test code.
+              return const TitleAppBarWidget(title: "Title");      
+            },
+          );
+        }
+        ```
 
 ## `model_extension`
 
@@ -150,6 +182,26 @@ class WidgetCreationMdCliAiCode extends CliAiCode {
           }
         }
         ```
+3. 2で定義したメソッドに合わせて`test/models`以下に同じく作成された[TargetModelのModelName(SnakeCase&末尾のModelを取り除く)]_test.dartファイルの同一クラスの定義を書き換えエラーを解消する。
+    - パラメーターは自由に設定。
+    - 例：
+        ```dart
+        // test/models/memo_test.dart
+
+        void main() {
+          masamuneModelTileTest(
+            name: "MemoModel",
+            // TODO: Set the document Id.
+            document: (ref) => ref.appRef.model(MemoModel.document("xxxx")),
+            builder: (context, ref, doc) {
+              // TODO: Write test code.
+              return doc.toTile(context);
+            },
+          );
+        }
+        ```
+
+- FlutterやMasamuneの実装方法の詳細や細かい制約については`documents/rules/**/*.md`を参照
 """;
   }
 }

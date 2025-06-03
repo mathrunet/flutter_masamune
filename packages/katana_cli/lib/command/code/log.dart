@@ -93,7 +93,8 @@ class ${className}Loggable extends Loggable {
   }
 
   @override
-  String test(String path, String baseName, String className) {
+  String test(
+      String path, String sourcePath, String baseName, String className) {
     throw UnsupportedError("Not supported.");
   }
 }

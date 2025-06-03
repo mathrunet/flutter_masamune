@@ -497,10 +497,11 @@ abstract class CliTestableCodeCommand extends CliCodeCommand {
   /// テストコードを生成するフォルダを指定します。
   String get testDirectory;
 
-  /// Define test code. The path [path] is passed relative to `lib`, [baseName] is the filename, and [className] is the filename converted to Pascal case.
+  /// Define test code. The path [path] is passed relative to `lib`, [sourcePath] is the source file path, [baseName] is the filename, and [className] is the filename converted to Pascal case.
   ///
-  /// テストコードを定義します。[path]に`lib`からの相対パス、[baseName]にファイル名が渡され、[className]にファイル名をパスカルケースに変換した値が渡されます。
-  String test(String path, String baseName, String className);
+  /// テストコードを定義します。[path]に`lib`からの相対パス、[sourcePath]にソースファイルのパス、[baseName]にファイル名が渡され、[className]にファイル名をパスカルケースに変換した値が渡されます。
+  String test(
+      String path, String sourcePath, String baseName, String className);
 
   /// Generate Dart test code in [path].
   ///
@@ -524,7 +525,7 @@ abstract class CliTestableCodeCommand extends CliCodeCommand {
       await dir.create(recursive: true);
     }
     final output = CliCode._removeCodeSnippetValue(
-      test(trimedPath, baseName, editClassName),
+      test(trimedPath, className, baseName, editClassName),
     );
     await File("${path}_test.$ext")
         .writeAsString(filter?.call(output) ?? output);

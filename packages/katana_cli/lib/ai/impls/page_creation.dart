@@ -973,11 +973,30 @@ class PageCreationMdCliAiCode extends CliAiCode {
           }
         }
         ```
-5. 最後に下記コマンドで残りのコードを自動生成する
+5. 4で変更したコンストラクタのパラメーターに合わせて`test/pages`以下に同じく作成された[PageName(SnakeCase&末尾のPageを取り除く)]_test.dartファイルの同一クラスの定義を書き換えエラーを解消する。
+    - パラメーターはこの時点では自由に設定。
+        - モックデータ作成後それに応じてパラメーターを有効なものに変更。
+    - 例：
+        ```dart
+        // test/pages/memo_test.dart
+
+        void main() {
+          masamunePageTest(
+            name: "MemoPage",
+            builder: (context, ref) {
+              // TODO: Write test code.
+              return const MemoPage(memoId: "1");      
+            },
+          );
+        }
+        ```
+6. 最後に下記コマンドで残りのコードを自動生成する
 
     ```shell
     katana code generate
     ```
+
+- FlutterやMasamuneの実装方法の詳細や細かい制約については`documents/rules/**/*.md`を参照
 """;
   }
 }

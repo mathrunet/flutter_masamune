@@ -58,6 +58,8 @@ class MetadataImplMdCliAiCode extends CliAiCode {
   ```bash
   katana apply
   ```
+
+- FlutterやMasamuneの実装方法の詳細や細かい制約については`documents/rules/**/*.md`を参照
 """;
   }
 }

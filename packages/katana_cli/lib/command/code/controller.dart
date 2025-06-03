@@ -101,11 +101,15 @@ class ${className}Controller extends ChangeNotifier {
   }
 
   @override
-  String test(String path, String baseName, String className) {
+  String test(
+      String path, String sourcePath, String baseName, String className) {
+    final packageName = retrievePackageName();
     return """
 import 'package:flutter_test/flutter_test.dart';
 import 'package:masamune/masamune.dart';
 import 'package:masamune_test/masamune_test.dart';
+
+import 'package:$packageName/controllers/$sourcePath.dart';
 
 void main() {
   masamuneControllerTest(

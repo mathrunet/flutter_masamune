@@ -105,16 +105,22 @@ class ${className}Widget extends ScopedWidget {
   }
 
   @override
-  String test(String path, String baseName, String className) {
+  String test(
+      String path, String sourcePath, String baseName, String className) {
+    final packageName = retrievePackageName();
     return """
-import 'package:flutter_test/flutter_test.dart';
-import 'package:masamune/masamune.dart';
+import 'package:masamune_test/masamune_test.dart';
+
+import 'package:$packageName/widgets/$sourcePath.dart';
 
 void main() {
-  testWidgets("$className", (tester) async {
-    masamuneTest();
-    // TODO: Write test code.
-  });
+  masamuneWidgetTest(
+    name: "$className",
+    builder: (context, ref) {
+      // TODO: Write test code.
+      return const ${className}Widget();      
+    },
+  );
 }
 """;
   }

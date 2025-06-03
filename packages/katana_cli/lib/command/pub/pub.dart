@@ -13,7 +13,13 @@ part 'version.dart';
 part 'upgrade.dart';
 part 'publish.dart';
 
+/// Version and deployment management for pub.
+///
+/// pub上のバージョンやデプロイの管理を行います。
 class PubCliCommand extends CliCommandGroup {
+  /// Version and deployment management for pub.
+  ///
+  /// pub上のバージョンやデプロイの管理を行います。
   const PubCliCommand();
 
   @override

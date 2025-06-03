@@ -134,7 +134,8 @@ export class ${className.toPascalCase()}FirestoreTriggered extends m.FirestoreTr
   }
 
   @override
-  String test(String path, String baseName, String className) {
+  String test(
+      String path, String sourcePath, String baseName, String className) {
     return """
 /**
  * Test for ${className.toPascalCase()} functions.

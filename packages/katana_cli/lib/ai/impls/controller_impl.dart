@@ -34,6 +34,8 @@ class ControllerImplMdCliAiCode extends CliAiCode {
     - 1で作成した`Controller`に対して、`documents/rules/impls/controller_method_creation.md`を参照して、`Controller`の各種メソッドを作成
 3. `Controller`の実装
     - 1で作成した`Controller`と2で作成した各種メソッドに対して、`documents/rules/impls/controller_method_impl.md`を参照して、`Controller`の各種メソッドの中身を実装
+
+- FlutterやMasamuneの実装方法の詳細や細かい制約については`documents/rules/**/*.md`を参照
 """;
   }
 }

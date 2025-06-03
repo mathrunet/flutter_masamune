@@ -89,6 +89,8 @@ class WidgetUiImplMdCliAiCode extends CliAiCode {
           child: Text(this.value?.title ?? ''),
         );
         ```
+
+- FlutterやMasamuneの実装方法の詳細や細かい制約については`documents/rules/**/*.md`を参照
 """;
   }
 }

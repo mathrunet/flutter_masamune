@@ -3,7 +3,7 @@ part of "code.dart";
 /// Create a base class for the collection model.
 ///
 /// コレクションモデルのベースクラスを作成します。
-class CodeCollectionCliCommand extends CliCodeCommand {
+class CodeCollectionCliCommand extends CliTestableCodeCommand {
   /// Create a base class for the collection model.
   ///
   /// コレクションモデルのベースクラスを作成します。
@@ -17,6 +17,9 @@ class CodeCollectionCliCommand extends CliCodeCommand {
 
   @override
   String get directory => "lib/models";
+
+  @override
+  String get testDirectory => "test/models";
 
   @override
   String get description =>
@@ -47,6 +50,7 @@ class CodeCollectionCliCommand extends CliCodeCommand {
         .generateDartCode("$directory/$path.extensions", path);
     await const CodeCollectionApiCliCommand()
         .generateDartCode("$directory/$path.api", path);
+    await generateDartTestCode("$testDirectory/$path", path);
   }
 
   @override
@@ -191,6 +195,30 @@ typedef ${className}ModelMirrorDocument = _\$${className}ModelMirrorDocument;
 
 /// Collection class for storing ${className}Model.
 typedef ${className}ModelMirrorCollection = _\$${className}ModelMirrorCollection;
+""";
+  }
+
+  @override
+  String test(
+      String path, String sourcePath, String baseName, String className) {
+    final packageName = retrievePackageName();
+    return """
+import 'package:masamune/masamune.dart';
+import 'package:masamune_test/masamune_test.dart';
+
+import 'package:$packageName/models/$sourcePath.dart';
+
+void main() {
+  masamuneModelTileTest(
+    name: "$className",
+    // TODO: Set the document Id.
+    document: (ref) => ref.appRef.model(${className}Model.document("${uuid()}")),
+    builder: (context, ref, doc) {
+      // TODO: Write test code.
+      return doc.toTile(context);
+    },
+  );
+}
 """;
   }
 }

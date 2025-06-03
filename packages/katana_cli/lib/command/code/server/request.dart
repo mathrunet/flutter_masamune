@@ -126,7 +126,7 @@ export class ${className.toPascalCase()}Request extends m.RequestProcessFunction
   }
 
   @override
-  String test(String path, String baseName, String className) {
+  String test(String path, String sourcePath, String baseName, String className) {
     return """
 /**
  * Test for ${className.toPascalCase()} functions.

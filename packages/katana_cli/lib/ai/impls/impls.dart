@@ -81,7 +81,7 @@ class ImplMdCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-`documents/designs/page_design.md`に記載されている`Page設計書`から`Page`を作成し実装
+`documents/designs/**/*.md`に記載されている各種`設計書`から実装を行う。
 下記の順番通りにステップごとに実施
 
 1. `MetaDataの実装`
@@ -123,6 +123,8 @@ class ImplMdCliAiCode extends CliAiCode {
     - `documents/rules/impls/router_impl.md`を参照し、`Router`の設定を実装
 9. `モックデータの実装`
     - `documents/rules/impls/mock_data_impl.md`を参照し各種`モックデータ`を実装
+
+- FlutterやMasamuneの実装方法の詳細や細かい制約については`documents/rules/**/*.md`を参照
 """;
   }
 }

@@ -131,7 +131,8 @@ export class ${className.toPascalCase()}Call extends m.CallProcessFunctionBase {
   }
 
   @override
-  String test(String path, String baseName, String className) {
+  String test(
+      String path, String sourcePath, String baseName, String className) {
     return """
 /**
  * Test for ${className.toPascalCase()} functions.

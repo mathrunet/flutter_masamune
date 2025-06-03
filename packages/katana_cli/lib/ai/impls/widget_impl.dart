@@ -34,6 +34,8 @@ class WidgetImplMdCliAiCode extends CliAiCode {
     - 1で作成した`Widget`に対して、`documents/rules/impls/widget_logic_impl.md`を参照して、`Widget`のロジックを実装
 3. `Widget`のUIの実装
     - 1で作成した`Widget`に対して、2で作成した`Widget`のロジックを用いながら`documents/rules/impls/widget_ui_impl.md`を参照して、`Widget`のUIを実装
+
+- FlutterやMasamuneの実装方法の詳細や細かい制約については`documents/rules/**/*.md`を参照
 """;
   }
 }

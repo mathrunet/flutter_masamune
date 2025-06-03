@@ -137,6 +137,8 @@ class PageLogicImplMdCliAiCode extends CliAiCode {
         final memoCollection = ref.app.model(MemoModel.collection())..load();
         final memoState = ref.page.watch((_) => ValueNotifier<bool>(false));
         ```
+
+- FlutterやMasamuneの実装方法の詳細や細かい制約については`documents/rules/**/*.md`を参照
 """;
   }
 }

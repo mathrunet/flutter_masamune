@@ -1,5 +1,6 @@
 // Project imports:
 import 'package:katana_cli/ai/docs/design_document.dart';
+import 'package:katana_cli/ai/docs/enum_usage.dart';
 import 'package:katana_cli/ai/docs/file_structure.dart';
 import 'package:katana_cli/ai/docs/flutter_types.dart';
 import 'package:katana_cli/ai/docs/flutter_widgets.dart';
@@ -41,6 +42,7 @@ class DocsAiCode extends CliAiCodeCommand {
   Map<String, CliAiCode> get codes => {
         "katana_cli": const KatanaCliDocsMdCliAiCode(),
         "model_usage": const ModelUsageMdCliAiCode(),
+        "enum_usage": const EnumUsageMdCliAiCode(),
         "state_management_usage": const StateManagementUsageMdCliAiCode(),
         "transition_usage": const TransitionUsageMdCliAiCode(),
         "router_usage": const RouterUsageMdCliAiCode(),

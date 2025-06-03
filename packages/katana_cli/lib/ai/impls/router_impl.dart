@@ -33,6 +33,8 @@ class RouterImplMdCliAiCode extends CliAiCode {
       - `Page`の中でトップページとなる`Page`を選出
         - 基本的には`PagePath`が`/`の`Page``を設定
       - `AppRouter`の`initialQuery`にトップページの`Page`に対する`[PageID(PascalCase&末尾にPageが付与されている)].query()`を設定
+
+- FlutterやMasamuneの実装方法の詳細や細かい制約については`documents/rules/**/*.md`を参照
 """;
   }
 }

@@ -3,7 +3,7 @@ part of "code.dart";
 /// Create a base class for the document model.
 ///
 /// ドキュメントモデルのベースクラスを作成します。
-class CodeDocumentCliCommand extends CliCodeCommand {
+class CodeDocumentCliCommand extends CliTestableCodeCommand {
   /// Create a base class for the document model.
   ///
   /// ドキュメントモデルのベースクラスを作成します。
@@ -17,6 +17,9 @@ class CodeDocumentCliCommand extends CliCodeCommand {
 
   @override
   String get directory => "lib/models";
+
+  @override
+  String get testDirectory => "test/models";
 
   @override
   String get description =>
@@ -47,6 +50,7 @@ class CodeDocumentCliCommand extends CliCodeCommand {
         .generateDartCode("$directory/$path.extensions", path);
     await const CodeDocumentApiCliCommand()
         .generateDartCode("$directory/$path.api", path);
+    await generateDartTestCode("$testDirectory/$path", path);
   }
 
   @override
@@ -190,6 +194,30 @@ extension ${className}ModelDocumentExtension on ${className}ModelDocument {
   Widget toTile(BuildContext context) {
     return const ListTile();
   }
+}
+""";
+  }
+
+  @override
+  String test(
+      String path, String sourcePath, String baseName, String className) {
+    final packageName = retrievePackageName();
+    return """
+import 'package:masamune/masamune.dart';
+import 'package:masamune_test/masamune_test.dart';
+
+import 'package:$packageName/models/$sourcePath.dart';
+
+void main() {
+  masamuneModelTileTest(
+    name: "$className",
+    // TODO: Set the document Id.
+    document: (ref) => ref.appRef.model(${className}Model.document()),
+    builder: (context, ref, doc) {
+      // TODO: Write test code.
+      return doc.toTile(context);
+    },
+  );
 }
 """;
   }

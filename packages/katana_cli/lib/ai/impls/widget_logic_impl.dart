@@ -53,6 +53,8 @@ class WidgetLogicImplMdCliAiCode extends CliAiCode {
 ## `model_extension`
 
 実施しない
+
+- FlutterやMasamuneの実装方法の詳細や細かい制約については`documents/rules/**/*.md`を参照
 """;
   }
 }
