@@ -723,6 +723,7 @@ class _MasamuneAppState extends State<MasamuneApp> {
         routes: widget.routes,
         initialRoute: widget.initialRoute,
         onGenerateRoute: widget.onGenerateRoute,
+        debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
         onGenerateInitialRoutes: widget.onGenerateInitialRoutes,
         onUnknownRoute: widget.onUnknownRoute,
         navigatorObservers: observers,
