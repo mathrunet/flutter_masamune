@@ -34,11 +34,11 @@ class WidgetUiImplMdCliAiCode extends CliAiCode {
 2. `Widget設計書`の`Content`に応じて`build`メソッド内の`// TODO: Implement the view.`以下を書き換え、適切なUIを構築して返す。
     - 適宜`import`を追加する
     - クラスに定義されている変数や`build`メソッド内で定義されている変数を利用する
+    - 必要であれば`onTap`などのアクションを引数にして定義。可能な限りタップ操作は外に切り出すようにする。
     - 下記の`Widget`を優先的に利用する
         - `KatanaUI`の`Widget`(`documents/rules/docs/katana_ui_usage.md`)
         - `Flutter`の`Widget`(`documents/rules/docs/flutter_widgets.md`)
         - `Form`の`Widget`やインタラクティブな操作を行うフィールドの`Widget`(`documents/rules/docs/form_usage.md`)
-    - `Router`を用いて別画面への遷移を行う。詳しくは`Router`の利用方法(`documents/rules/docs/router_usage.md`)を参照
     - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは[`Theme`の利用方法](documents/rules/docs/theme_usage.md)を参照
     - 例：
         ```dart
@@ -54,11 +54,11 @@ class WidgetUiImplMdCliAiCode extends CliAiCode {
 2. `Widget設計書`の`Content`に応じて`build`メソッド内の`// TODO: Implement the view.`以下を書き換え、適切なUIを構築して返す。
     - 適宜`import`を追加する
     - クラスに定義されている変数や`build`メソッド内で定義されている変数を利用する
+    - 必要であれば`onTap`などのアクションを引数にして定義。可能な限りタップ操作は外に切り出すようにする。
     - 下記の`Widget`を優先的に利用する
         - `KatanaUI`の`Widget`(`documents/rules/docs/katana_ui_usage.md`)
         - `Flutter`の`Widget`(`documents/rules/docs/flutter_widgets.md`)
         - `Form`の`Widget`やインタラクティブな操作を行うフィールドの`Widget`(`documents/rules/docs/form_usage.md`)
-    - `Router`を用いて別画面への遷移を行う。詳しくは`Router`の利用方法(`documents/rules/docs/router_usage.md`)を参照
     - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは`Theme`の利用方法(`documents/rules/docs/theme_usage.md`)を参照
     - 例：
         ```dart
@@ -73,6 +73,7 @@ class WidgetUiImplMdCliAiCode extends CliAiCode {
 1. `TargetModel`に対応する`lib/models/[TargetModelのModelName(SnakeCase&末尾のModelを取り除く)].extensions.dart`以下のファイルを開く。
 2. `Widget設計書`の`Content`に応じて該当する`toXXX`メソッド内を書き換え、適切なUIを構築して返す。
     - 適宜`import`を追加する
+    - 必要であれば`onTap`などのアクションを引数にして定義。可能な限りタップ操作は外に切り出すようにする。
     - `Model`の`Document`の変数をそのまま利用してもよい
         - `value`で`Model`の変数をそのまま利用可能
         - `uid`で`Model`の`DocumentID`を利用可能
@@ -80,7 +81,6 @@ class WidgetUiImplMdCliAiCode extends CliAiCode {
         - `KatanaUI`の`Widget`(`documents/rules/docs/katana_ui_usage.md`)
         - `Flutter`の`Widget`(`documents/rules/docs/flutter_widgets.md`)
         - `Form`の`Widget`やインタラクティブな操作を行うフィールドの`Widget`(`documents/rules/docs/form_usage.md`)
-    - `Router`を用いて別画面への遷移を行う。詳しくは`Router`の利用方法(`documents/rules/docs/router_usage.md`)を参照
     - `Theme`を利用する場合は`lib/theme.dart`にある`theme`を参照。詳しくは`Theme`の利用方法(`documents/rules/docs/theme_usage.md`)を参照
     - 例：
         ```dart

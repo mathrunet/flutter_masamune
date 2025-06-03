@@ -34,6 +34,7 @@ class MockDataImplMdCliAiCode extends CliAiCode {
     - 各種`ModelInitialValue`は`String`をキー、対応する`Model`を値とする`Map`を渡して定義する
         - キーは基本的に32桁の英数字（e.g. `a23c3fad389a45b39c9b1f930b364466`）を定義
             - Masamuneフレームワーク（`package:masamune/masamune.dart`）に実装されている`generateCode(32, seed: n)`でランダムに生成可能
+            - テスト用にいくつかは固定IDで作成することを推奨
     - `Collection`で利用する場合は10個程度のデータを用意
     - `ModelRef<AnyModel>`を参照する場合は`AnyModelRefPath(uid)`を渡すことで参照可能
         - `uid`は`AnyModelInitialCollection({uid: AnyModel()})`のように定義されていることが前提
@@ -48,10 +49,25 @@ class MockDataImplMdCliAiCode extends CliAiCode {
         ///
         /// By replacing this with another adapter, the data storage location can be changed.
         // TODO: Change the database.
-        final modelAdapter = RuntimeModelAdapter(
+        final modelAdapter = runtimeModelAdapter;
+        final runtimeModelAdapter = RuntimeModelAdapter(
           initialValue: [
             MemoModelInitialCollection({
-              for (var i = 0; i < 10; i++)
+              "a5ba9e241dd94d32b2d869d6bb3e804b" : MemoModel(
+                title: "title 0",
+                content: "content 0",
+                createdBy: UserModelRefPath(userUid),
+                createdAt: ModelTimestamp(DateTime.now().subtract(Duration(days: 0))),
+                updatedAt: ModelTimestamp(DateTime.now().subtract(Duration(days: 0))),
+              ),
+              "2844e503e4d242c79f5f45e59d7adeb6" : MemoModel(
+                title: "title 1",
+                content: "content 1",
+                createdBy: UserModelRefPath(userUid),
+                createdAt: ModelTimestamp(DateTime.now().subtract(Duration(days: 1))),
+                updatedAt: ModelTimestamp(DateTime.now().subtract(Duration(days: 1))),
+              ),
+              for (var i = 2; i < 10; i++)
               generateCode(32,  seed: i) : MemoModel(
                 title: "title $i",
                 content: "content $i",

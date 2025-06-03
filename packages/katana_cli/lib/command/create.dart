@@ -45,6 +45,7 @@ final importDevPackages = [
   "build_runner",
   "masamune_builder",
   "masamune_lints",
+  "masamune_test",
   "freezed",
   "json_serializable",
 ];
@@ -172,8 +173,11 @@ class CreateCliCommand extends CliCommand {
     label("Create a flutter_test_config.dart");
     await const FlutterTestConfigCliCode()
         .generateFile("flutter_test_config.dart");
-    label("Create a widget_test.dart");
-    await const WidgetTestCliCode().generateFile("widget_test.dart");
+    label("Remove a widget_test.dart");
+    final widgetTestFile = File("test/widget_test.dart");
+    if (widgetTestFile.existsSync()) {
+      await widgetTestFile.delete();
+    }
     label("Create a loader.css");
     await const LoaderCssCliCode().generateFile("loader.css");
     label("Create a flutter_bootstrap.js");
@@ -347,6 +351,15 @@ class CreateCliCommand extends CliCommand {
       }
     } else {
       gitignores.removeWhere((e) => e.startsWith("katana_secrets.yaml"));
+    }
+    if (!gitignores.any((e) => e.startsWith("test/**/goldens/**/*.*"))) {
+      gitignores.add("test/**/goldens/**/*.*");
+    }
+    if (!gitignores.any((e) => e.startsWith("test/**/failures/**/*.*"))) {
+      gitignores.add("test/**/failures/**/*.*");
+    }
+    if (!gitignores.any((e) => e.startsWith("!test/**/goldens/ci/*.*"))) {
+      gitignores.add("!test/**/goldens/ci/*.*");
     }
     await gitignore.writeAsString(gitignores.join("\n"));
     await Future.delayed(const Duration(seconds: 5));
@@ -505,8 +518,14 @@ class ComposeCliCommand extends CliCommand {
     await const BuildCliCode().generateFile("build.yaml");
     label("Edit a analysis_options.yaml");
     await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
-    label("Edit a widget_test.dart");
-    await const WidgetTestCliCode().generateFile("widget_test.dart");
+    label("Create a flutter_test_config.yaml");
+    await const FlutterTestConfigCliCode()
+        .generateFile("flutter_test_config.yaml");
+    label("Remove a widget_test.dart");
+    final widgetTestFile = File("test/widget_test.dart");
+    if (widgetTestFile.existsSync()) {
+      await widgetTestFile.delete();
+    }
     label("Create a loader.css");
     await const LoaderCssCliCode().generateFile("loader.css");
     label("Create a flutter_bootstrap.js");
@@ -681,6 +700,15 @@ class ComposeCliCommand extends CliCommand {
       }
     } else {
       gitignores.removeWhere((e) => e.startsWith("katana_secrets.yaml"));
+    }
+    if (!gitignores.any((e) => e.startsWith("test/**/goldens/**/*.*"))) {
+      gitignores.add("test/**/goldens/**/*.*");
+    }
+    if (!gitignores.any((e) => e.startsWith("test/**/failures/**/*.*"))) {
+      gitignores.add("test/**/failures/**/*.*");
+    }
+    if (!gitignores.any((e) => e.startsWith("!test/**/goldens/ci/*.*"))) {
+      gitignores.add("!test/**/goldens/ci/*.*");
     }
     await gitignore.writeAsString(gitignores.join("\n"));
     await Future.delayed(const Duration(seconds: 5));
@@ -1393,7 +1421,7 @@ final runtimeLoggerAdapters = <LoggerAdapter>[
 /// The Masamune framework plugin functions can be defined together.
 // TODO: Add the adapters.
 final masamuneAdapters = runtimeMasamuneAdapters;
-final runtimeMasamuneAdapters <MasamuneAdapter>[
+final runtimeMasamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
   ${module != null ? "appModule," : ""}
 ];

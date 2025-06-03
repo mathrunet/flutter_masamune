@@ -56,7 +56,9 @@ class PageUiImplMdCliAiCode extends CliAiCode {
               // TODO: Implement the list view.
               ...memoCollection.map(
                 (memo) {
-                  return memo.toTile(context);
+                  return memo.toTile(context, onTap: () {
+                    router.push(MemoDetailPage.query(memoId: memo.id));
+                  });
                 }
               ),
             ],
@@ -90,7 +92,9 @@ class PageUiImplMdCliAiCode extends CliAiCode {
               // TODO: Implement the grid view.
               ...memoCollection.map(
                 (memo) {
-                  return memo.toTile(context);
+                  return memo.toTile(context, onTap: () {
+                    router.push(MemoDetailPage.query(memoId: memo.id));
+                  });
                 }
               ),
             ],
@@ -124,7 +128,9 @@ class PageUiImplMdCliAiCode extends CliAiCode {
               // TODO: Implement the fixed view.
               ...memoCollection.map(
                 (memo) {
-                  return memo.toTile(context);
+                  return memo.toTile(context, onTap: () {
+                    router.push(MemoDetailPage.query(memoId: memo.id));
+                  });
                 }
               ),
             ],

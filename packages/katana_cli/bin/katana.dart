@@ -4,6 +4,7 @@ library katana_cli;
 import 'dart:io';
 
 // Package imports:
+import 'package:katana_cli/command/test/test.dart';
 import 'package:yaml/yaml.dart';
 
 // Project imports:
@@ -21,6 +22,7 @@ import 'package:katana_cli/katana_cli.dart';
 const commands = <String, CliCommand>{
   "pub": PubCliCommand(),
   "code": CodeCliCommand(),
+  "test": TestCliCommand(),
   "git": GitCliCommand(),
   "apply": ApplyCliCommand(),
   "create": CreateCliCommand(),

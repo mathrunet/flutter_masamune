@@ -3,7 +3,7 @@ part of "view.dart";
 /// Create a template for the list form page (when adding new).
 ///
 /// リストフォームページ（新規追加時）のテンプレートを作成します。
-class CodeViewListFormAddCliCommand extends CliCodeCommand {
+class CodeViewListFormAddCliCommand extends CliTestableCodeCommand {
   /// Create a template for the list form page (when adding new).
   ///
   /// リストフォームページ（新規追加時）のテンプレートを作成します。
@@ -17,6 +17,9 @@ class CodeViewListFormAddCliCommand extends CliCodeCommand {
 
   @override
   String get directory => "lib/pages";
+
+  @override
+  String get testDirectory => "test/pages";
 
   @override
   String get description =>
@@ -59,6 +62,7 @@ typedef ${path.split("/").distinct().join("_").toPascalCase()}PageQuery = _\$${p
         }
       },
     );
+    await generateDartTestCode("$testDirectory/$path", path);
   }
 
   @override
@@ -139,6 +143,27 @@ class _${className}Form extends FormScopedWidget {
       ),
     );
   }
+}
+""";
+  }
+
+  @override
+  String test(
+      String path, String sourcePath, String baseName, String className) {
+    final packageName = retrievePackageName();
+    return """
+import 'package:masamune_test/masamune_test.dart';
+
+import 'package:$packageName/pages/$sourcePath.dart';
+
+void main() {
+  masamunePageTest(
+    name: "$className",
+    builder: (context, ref) {
+      // TODO: Write test code.
+      return const ${className}Page();      
+    },
+  );
 }
 """;
   }

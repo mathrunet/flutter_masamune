@@ -3,7 +3,7 @@ part of "view.dart";
 /// Create a template for the list form page.
 ///
 /// リストフォームページのテンプレートを作成します。
-class CodeViewListFormCliCommand extends CliCodeCommand {
+class CodeViewListFormCliCommand extends CliTestableCodeCommand {
   /// Create a template for the list form page.
   ///
   /// リストフォームページのテンプレートを作成します。
@@ -17,6 +17,9 @@ class CodeViewListFormCliCommand extends CliCodeCommand {
 
   @override
   String get directory => "lib/pages";
+
+  @override
+  String get testDirectory => "test/pages";
 
   @override
   String get description =>
@@ -71,6 +74,7 @@ typedef ${path.split("/").distinct().join("_").toPascalCase()}EditPageQuery = _\
         }
       },
     );
+    await generateDartTestCode("$testDirectory/$path", path);
   }
 
   @override
@@ -190,6 +194,34 @@ class ${className}Form extends FormScopedWidget {
       ),
     );
   }
+}
+""";
+  }
+
+  @override
+  String test(
+      String path, String sourcePath, String baseName, String className) {
+    final packageName = retrievePackageName();
+    return """
+import 'package:masamune_test/masamune_test.dart';
+
+import 'package:$packageName/pages/$sourcePath.dart';
+
+void main() {
+  masamunePageTest(
+    name: "${className}Add",
+    builder: (context, ref) {
+      // TODO: Write test code.
+      return const ${className}AddPage();      
+    },
+  );
+  masamunePageTest(
+    name: "${className}Edit",
+    builder: (context, ref) {
+      // TODO: Write test code.
+      return const ${className}EditPage();      
+    },
+  );
 }
 """;
   }

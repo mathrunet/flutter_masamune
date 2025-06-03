@@ -113,6 +113,22 @@ class FormUsageMdCliAiCode extends CliAiCode {
 - `Form`は`FormController`を通して`State`によって管理される。
 - `FormController`中の`valudate()`メソッドを実行することで各`Form`の`validate`プロパティや`onSave`プロパティの処理を実行し入力・選択された値の検証や保存を行うことができる。
 - `FormStyle`を適用することでデザインを統一することができる。
+- `FormController`を渡さない使い方も可能。その場合は`onSaved`パラメーターではなく`onChanged`パラメーター等を利用する。
+- 各種`Form`は型パラメーターが用意されていることが多いが、基本的に型パラメーターは明示的に指定しない。必須パラメーターを型有りで渡すことで自動的に型パラメーターが推論される。
+    - 例：この場合`FormEnumDropdownFieldPicker`の`values`に`UserType.values`を渡すことで`picker`が`FormEnumDropdownFieldPicker<UserType>`であるという推論が行われる。また`formController`が`FormController<UserValue>`の型であれば、`picker`の型と`form`の型により`FormEnumDropdownField<UserType, UserValue>`であるという推論が行われる。
+        ```dart
+        FormEnumDropdownField(
+          form: formController,
+          initialValue: formController.value.type,
+          onSaved: (value) => formController.value.copyWith(type: value),
+          picker: FormEnumDropdownFieldPicker(
+            values: UserType.values,
+            labelBuilder: (value) {
+              return value.label;
+            },
+          ),
+        )
+        ```
 
 ## `Form`の一覧
 
