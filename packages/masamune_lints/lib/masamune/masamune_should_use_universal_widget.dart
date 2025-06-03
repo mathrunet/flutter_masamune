@@ -1,13 +1,13 @@
 part of '/masamune_lints.dart';
 
-class _MasamuneSuggestUniversalWidget extends DartLintRule {
-  const _MasamuneSuggestUniversalWidget()
+class _MasamuneShouldUseUniversalWidget extends DartLintRule {
+  const _MasamuneShouldUseUniversalWidget()
       : super(
           code: _code,
         );
 
   static const _code = lint_codes.LintCode(
-    name: "masamune_suggest_universal_widget",
+    name: "masamune_should_use_universal_widget",
     problemMessage:
         """The Masamune framework recommends using UniversalUI instead of Widgets such as Scaffold and ListView. MasamuneフレームワークではScaffoldやListViewなどのWidgetの代わりにUniversalUIを利用することを推奨しています。
 下記の変換を行ってください。
@@ -24,8 +24,6 @@ class _MasamuneSuggestUniversalWidget extends DartLintRule {
   );
 
   static const Map<String, String> _widgetSuggestions = {
-    "ListView": "UniversalListView",
-    "GridView": "UniversalGridView",
     "AppBar": "UniversalAppBar",
     "Scaffold": "UniversalScaffold",
   };
@@ -33,6 +31,8 @@ class _MasamuneSuggestUniversalWidget extends DartLintRule {
     "Container": "UniversalContainer",
     "Padding": "UniversalPadding",
     "Column": "UniversalColumn",
+    "ListView": "UniversalListView",
+    "GridView": "UniversalGridView",
   };
 
   @override
@@ -49,7 +49,7 @@ class _MasamuneSuggestUniversalWidget extends DartLintRule {
         final suggestedWidget = _widgetSuggestions[typeName]!;
 
         final customCode = lint_codes.LintCode(
-          name: "masamune_suggest_universal_widget",
+          name: "masamune_should_use_universal_widget",
           problemMessage:
               "Consider using $suggestedWidget instead of $typeName. $suggestedWidgetはUniversalUIの一部でより多くの機能を提供します。",
           errorSeverity: ErrorSeverity.WARNING,
@@ -57,11 +57,11 @@ class _MasamuneSuggestUniversalWidget extends DartLintRule {
 
         reporter.atNode(node, customCode);
       } else if (_widgetOnlyTopLevelSuggestions.containsKey(typeName)) {
-        if (_shouldSuggestUniversalContainer(node)) {
+        if (_shouldUseUniversalContainer(node)) {
           final suggestedWidget = _widgetOnlyTopLevelSuggestions[typeName]!;
 
           final customCode = lint_codes.LintCode(
-            name: "masamune_suggest_universal_widget",
+            name: "masamune_should_use_universal_widget",
             problemMessage:
                 "Consider using $suggestedWidget instead of $typeName. $suggestedWidgetはUniversalUIの一部でより多くの機能を提供します。",
             errorSeverity: ErrorSeverity.WARNING,
@@ -82,7 +82,7 @@ class _MasamuneSuggestUniversalWidget extends DartLintRule {
         final suggestedWidget = _widgetSuggestions[targetType]!;
 
         final customCode = lint_codes.LintCode(
-          name: "masamune_suggest_universal_widget",
+          name: "masamune_should_use_universal_widget",
           problemMessage:
               "Consider using $suggestedWidget.$methodName instead of $targetType.$methodName. UniversalUIウィジェットの使用を検討してください。",
           errorSeverity: ErrorSeverity.WARNING,
@@ -94,7 +94,7 @@ class _MasamuneSuggestUniversalWidget extends DartLintRule {
   }
 
   /// Containerに対してUniversalContainerを推奨すべきかどうかを判定する
-  bool _shouldSuggestUniversalContainer(InstanceCreationExpression node) {
+  bool _shouldUseUniversalContainer(InstanceCreationExpression node) {
     return _isInPageScopedWidgetBuild(node) || _isInUniversalScaffoldBody(node);
   }
 

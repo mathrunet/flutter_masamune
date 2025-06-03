@@ -34,8 +34,8 @@ part 'buttons/masamune_button_convert.dart';
 
 part 'common/masamune_limit_if_nesting.dart';
 part 'common/masamune_unwrap_nullable.dart';
-part 'masamune/masamune_suggest_universal_widget.dart';
-part 'masamune/masamune_suggest_form_widget.dart';
+part 'masamune/masamune_should_use_universal_widget.dart';
+part 'masamune/masamune_should_use_form_widget.dart';
 
 part 'src/extensions.dart';
 
@@ -51,8 +51,8 @@ class _MasamuneLints extends PluginBase {
         const _MasamuneModelShouldShowIndicatorWhileLoading(),
         const _MasamuneCollectionModelShouldAddLimitQuery(),
         const _MasamuneScopedQueryMustPassToAppropriateRef(),
-        const _MasamuneSuggestUniversalWidget(),
-        const _MasamuneSuggestFormWidget(),
+        const _MasamuneShouldUseUniversalWidget(),
+        const _MasamuneShouldUseFormWidget(),
         const _MasamuneLimitIfNesting(),
         const _MasamuneUnwrapNullable(),
       ];

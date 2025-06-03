@@ -1,13 +1,13 @@
 part of '/masamune_lints.dart';
 
-class _MasamuneSuggestFormWidget extends DartLintRule {
-  const _MasamuneSuggestFormWidget()
+class _MasamuneShouldUseFormWidget extends DartLintRule {
+  const _MasamuneShouldUseFormWidget()
       : super(
           code: _code,
         );
 
   static const _code = lint_codes.LintCode(
-    name: "masamune_suggest_form_widget",
+    name: "masamune_should_use_form_widget",
     problemMessage:
         """Masamuneフレームワークでは各種FormWidgetに対してKatanaFormを利用することを推奨しています。
 下記の変換を行ってください。
@@ -47,7 +47,7 @@ class _MasamuneSuggestFormWidget extends DartLintRule {
         final suggestedWidget = _widgetSuggestions[typeName]!;
 
         final customCode = lint_codes.LintCode(
-          name: "masamune_suggest_form_widget",
+          name: "masamune_should_use_form_widget",
           problemMessage:
               "Consider using $suggestedWidget instead of $typeName. $suggestedWidgetはUniversalUIの一部でより多くの機能を提供します。",
           errorSeverity: ErrorSeverity.WARNING,
