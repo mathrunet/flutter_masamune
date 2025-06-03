@@ -43,12 +43,10 @@ class RuntimeAuthAdapter extends AuthAdapter {
   /// 個別のデータを予め設定しておくことで認証用のデータモックとして利用することができます。
   const RuntimeAuthAdapter({
     AuthDatabase? database,
-    String? initialUserId,
-    List<AuthInitialValue>? initialValue,
+    this.initialUserId,
+    this.initialValue,
     super.authActions = const [],
-  })  : _database = database,
-        _initialUserId = initialUserId,
-        _initialValue = initialValue;
+  }) : _database = database;
 
   /// Designated database. Please use for testing purposes, etc.
   ///
@@ -56,15 +54,15 @@ class RuntimeAuthAdapter extends AuthAdapter {
   AuthDatabase get database {
     final database = _database ?? sharedDatabase;
     if (!database.isInitialValueRegistered) {
-      if (_initialValue.isNotEmpty) {
-        for (final value in _initialValue!) {
+      if (initialValue.isNotEmpty) {
+        for (final value in initialValue!) {
           database.setInitialValue(value);
         }
       }
-      if (_initialUserId.isNotEmpty) {
-        database.setInitialId(_initialUserId);
+      if (initialUserId.isNotEmpty) {
+        database.setInitialId(initialUserId);
         database.setInitialValue(
-          AuthInitialValue.anonymously(userId: _initialUserId!),
+          AuthInitialValue.anonymously(userId: initialUserId!),
         );
       }
     }
@@ -72,8 +70,16 @@ class RuntimeAuthAdapter extends AuthAdapter {
   }
 
   final AuthDatabase? _database;
-  final String? _initialUserId;
-  final List<AuthInitialValue>? _initialValue;
+
+  /// Initial user id.
+  ///
+  /// 初期ユーザーID。
+  final String? initialUserId;
+
+  /// Initial value.
+  ///
+  /// 初期値。
+  final List<AuthInitialValue>? initialValue;
 
   /// A common database throughout the application.
   ///
