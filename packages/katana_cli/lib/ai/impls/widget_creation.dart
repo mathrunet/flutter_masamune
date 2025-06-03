@@ -24,7 +24,8 @@ class WidgetCreationMdCliAiCode extends CliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    final packageName = retrievePackageName();
+    return """
 `documents/designs/widget_design.md`に記載されている`Widget設計書`からDartコードを生成
 `documents/designs/widget_design.md`が存在しない場合は絶対に実施しない
 
@@ -55,7 +56,7 @@ class WidgetCreationMdCliAiCode extends CliAiCode {
         import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
         // ignore: unused_import, unnecessary_import
-        import '/main.dart';
+        import 'package:$packageName/main.dart';
 
 
         /// StatelessWidget.
@@ -104,7 +105,7 @@ class WidgetCreationMdCliAiCode extends CliAiCode {
         import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
         // ignore: unused_import, unnecessary_import
-        import '/main.dart';
+        import 'package:$packageName/main.dart';
 
 
         /// ScopedWidget.

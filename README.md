@@ -186,7 +186,7 @@ import 'package:masamune/masamune.dart';
 import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
 // ignore: unused_import, unnecessary_import
-import '/main.dart';
+import 'package:xxxx/main.dart';
 
 part 'test.page.dart';
 
@@ -315,7 +315,7 @@ import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
 
 // ignore: unused_import, unnecessary_import
-import '/main.dart';
+import 'package:xxxx/main.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -565,7 +565,7 @@ import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
 
 // ignore: unused_import, unnecessary_import
-import '/main.dart';
+import 'package:xxxx/main.dart';
 
 part 'test.m.dart';
 
@@ -821,7 +821,7 @@ import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
 
 // ignore: unused_import, unnecessary_import
-import '/main.dart';
+import 'package:xxxx/main.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 

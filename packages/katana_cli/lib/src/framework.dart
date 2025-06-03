@@ -761,6 +761,16 @@ Future<Directory?> findGitDirectory(Directory current) {
   });
 }
 
+/// Retrieve the package name.
+///
+/// パッケージ名を取得します。
+String retrievePackageName() {
+  final pubspecFile = File("pubspec.yaml");
+  final pubspec = loadYaml(pubspecFile.readAsStringSync()) as Map;
+  final name = pubspec.get("name", "");
+  return name;
+}
+
 extension CliDirectoryExtensions on Directory {
   /// Obtains a path relative to the current directory.
   ///

@@ -24,7 +24,8 @@ class ControllerMethodImplMdCliAiCode extends CliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    final packageName = retrievePackageName();
+    return """
 `documents/designs/controller_design.md`に記載されている`Controller設計書`と`lib/controllers`に作成されているDartファイルを参照してすでに定義されている`Controller`のメソッドの中身を実装
 `documents/designs/controller_design.md`が存在しない場合は絶対に実施しない
 
@@ -41,7 +42,7 @@ class ControllerMethodImplMdCliAiCode extends CliAiCode {
     import 'package:masamune/masamune.dart';
 
     // ignore: unused_import, unnecessary_import
-    import '/main.dart';
+    import 'package:$packageName/main.dart';
 
     part 'purchase.m.dart';
 
@@ -63,7 +64,7 @@ class ControllerMethodImplMdCliAiCode extends CliAiCode {
       /// ref.app.controller(PurchaseController.query(parameters));    // Watch at application scope.
       /// ref.page.controller(PurchaseController.query(parameters));   // Watch at page scope.
       /// ```
-      static const query = _$PurchaseControllerQuery();
+      static const query = _\$PurchaseControllerQuery();
 
       // カートの`Collection`を取得
       late final CartModelCollection cartCollection = appRef.collection(

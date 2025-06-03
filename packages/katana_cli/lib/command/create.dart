@@ -169,7 +169,10 @@ class CreateCliCommand extends CliCommand {
     await const BuildCliCode().generateFile("build.yaml");
     label("Edit a analysis_options.yaml");
     await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
-    label("Edit a widget_test.dart");
+    label("Create a flutter_test_config.dart");
+    await const FlutterTestConfigCliCode()
+        .generateFile("flutter_test_config.dart");
+    label("Create a widget_test.dart");
     await const WidgetTestCliCode().generateFile("widget_test.dart");
     label("Create a loader.css");
     await const LoaderCssCliCode().generateFile("loader.css");
@@ -1352,31 +1355,36 @@ ${module == null ? "" : "import 'module.dart';"}
 ///
 /// By replacing this with another adapter, the data storage location can be changed.
 // TODO: Change the database.
-final modelAdapter = RuntimeModelAdapter();
+final modelAdapter = runtimeModelAdapter;
+final runtimeModelAdapter = RuntimeModelAdapter();
 
 /// App Auth.
 /// 
 /// Changing to another adapter allows you to change to another authentication mechanism.
 // TODO: Change the authentication.
-final authAdapter = RuntimeAuthAdapter();
+final authAdapter = runtimeAuthAdapter;
+final runtimeAuthAdapter = RuntimeAuthAdapter();
 
 /// App Storage.
 /// 
 /// Changing to another adapter allows you to change to another storage mechanism.
 // TODO: Change the storage.
-final storageAdapter = LocalStorageAdapter();
+final storageAdapter = runtimeStorageAdapter;
+final runtimeStorageAdapter = LocalStorageAdapter();
 
 /// App Functions.
 /// 
 /// Changing to another adapter allows you to change to another functions mechanism.
 // TODO: Change the functions.
-final functionsAdapter = RuntimeFunctionsAdapter();
+final functionsAdapter = runtimeFunctionsAdapter;
+final runtimeFunctionsAdapter = RuntimeFunctionsAdapter();
 
 /// Logger adapter list.
 /// 
 /// Adapters for logging can be defined here.
 // TODO: Change the loggers.
-final loggerAdapters = <LoggerAdapter>[
+final loggerAdapters = runtimeLoggerAdapters;
+final runtimeLoggerAdapters = <LoggerAdapter>[
   const ConsoleLoggerAdapter(),
 ];
 
@@ -1384,7 +1392,8 @@ final loggerAdapters = <LoggerAdapter>[
 /// 
 /// The Masamune framework plugin functions can be defined together.
 // TODO: Add the adapters.
-final masamuneAdapters = <MasamuneAdapter>[
+final masamuneAdapters = runtimeMasamuneAdapters;
+final runtimeMasamuneAdapters <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
   ${module != null ? "appModule," : ""}
 ];
@@ -1691,6 +1700,66 @@ class SettingsCliCode extends CliCode {
     "explorer.fileNesting.patterns": {
         "*.dart": "$(capture).m.dart,$(capture).page.dart,$(capture).localize.dart,$(capture).theme.dart,$(capture).g.dart,$(capture).freezed.dart,$(capture).extensions.dart,$(capture).api.dart"
     }
+}
+""";
+  }
+}
+
+/// Contents of flutter_test_config.dart.
+///
+/// flutter_test_config.dartの中身。
+class FlutterTestConfigCliCode extends CliCode {
+  /// Contents of flutter_test_config.dart.
+  ///
+  /// flutter_test_config.dartの中身。
+  const FlutterTestConfigCliCode();
+
+  @override
+  String get name => "flutter_test_config";
+
+  @override
+  String get prefix => "flutter_test_config";
+
+  @override
+  String get directory => "test";
+
+  @override
+  String get description =>
+      "Create `flutter_test_config.dart` for initial test setup. テストの初期設定を行う`flutter_test_config.dart`を作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    final packageName = retrievePackageName();
+    return """
+import 'dart:async';
+import 'package:masamune_test/masamune_test.dart';
+
+// ignore: avoid_relative_lib_imports
+import 'package:$packageName/main.dart';
+
+/// Performing test initialization.
+Future<void> testExecutable(FutureOr<void> Function() testMain) async {
+  return MasamuneTestConfig.initialize(
+    run: testMain,
+    initialUserId: ${uuid()},
+    theme: theme,
+    modelAdapter: runtimeModelAdapter,
+    authAdapter: runtimeAuthAdapter,
+    storageAdapter: runtimeStorageAdapter,
+    functionsAdapter: runtimeFunctionsAdapter,
+    loggerAdapters: runtimeLoggerAdapters,
+    masamuneAdapters: runtimeMasamuneAdapters,
+  );
 }
 """;
   }

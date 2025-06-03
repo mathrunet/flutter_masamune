@@ -55,6 +55,7 @@ class CodeControllerCliCommand extends CliTestableCodeCommand {
 
   @override
   String import(String path, String baseName, String className) {
+    final packageName = retrievePackageName();
     return """
 // ignore: unused_import, unnecessary_import
 import 'package:flutter/material.dart';
@@ -62,7 +63,7 @@ import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
 
 // ignore: unused_import, unnecessary_import
-import '/main.dart';
+import 'package:$packageName/main.dart';
 """;
   }
 
@@ -104,12 +105,16 @@ class ${className}Controller extends ChangeNotifier {
     return """
 import 'package:flutter_test/flutter_test.dart';
 import 'package:masamune/masamune.dart';
+import 'package:masamune_test/masamune_test.dart';
 
 void main() {
-  test("$className", () async {
-    masamuneTest();
-    // TODO: Write test code.
-  });
+  masamuneControllerTest(
+    name: "$className",
+    run: (ref) async {
+      // TODO: Write test code.
+
+    },
+  );
 }
 """;
   }

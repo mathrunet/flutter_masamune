@@ -24,7 +24,8 @@ class PageCreationMdCliAiCode extends CliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    final packageName = retrievePackageName();
+    return """
 `documents/designs/page_design.md`に記載されている`Page設計書`からDartコードを生成
 `documents/designs/page_design.md`が存在しない場合は絶対に実施しない
 
@@ -55,7 +56,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
         import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
         // ignore: unused_import, unnecessary_import
-        import '/main.dart';
+        import 'package:$packageName/main.dart';
 
         part 'memo.page.dart';
 
@@ -80,7 +81,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
           /// router.replace(MemoPage.query(parameters)); // Replace page to MemoPage.
           /// ```
           @pageRouteQuery
-          static const query = _$MemoPageQuery();
+          static const query = _\$MemoPageQuery();
 
           @override
           Widget build(BuildContext context, PageRef ref) {
@@ -137,7 +138,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
         import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
         // ignore: unused_import, unnecessary_import
-        import '/main.dart';
+        import 'package:$packageName/main.dart';
 
         part 'memo.page.dart';
 
@@ -162,7 +163,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
           /// router.replace(MemoPage.query(parameters)); // Replace page to MemoPage.
           /// ```
           @pageRouteQuery
-          static const query = _$MemoPageQuery();
+          static const query = _\$MemoPageQuery();
 
           @override
           Widget build(BuildContext context, PageRef ref) {
@@ -219,7 +220,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
         import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
         // ignore: unused_import, unnecessary_import
-        import '/main.dart';
+        import 'package:$packageName/main.dart';
 
         part 'memo.page.dart';
 
@@ -244,7 +245,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
           /// router.replace(MemoPage.query(parameters)); // Replace page to MemoPage.
           /// ```
           @pageRouteQuery
-          static const query = _$MemoPageQuery();
+          static const query = _\$MemoPageQuery();
 
           @override
           Widget build(BuildContext context, PageRef ref) {
@@ -296,7 +297,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
         import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
         // ignore: unused_import, unnecessary_import
-        import '/main.dart';
+        import 'package:$packageName/main.dart';
 
         part 'memo_add.page.dart';
 
@@ -315,7 +316,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
           /// router.replace(MemoAddPage.query(parameters)); // Replace page to MemoAddPage.
           /// ```
           @pageRouteQuery
-          static const query = _$MemoAddPageQuery();
+          static const query = _\$MemoAddPageQuery();
 
           @override
           FormScopedWidget build(BuildContext context, PageRef ref) =>
@@ -381,7 +382,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
         import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
         // ignore: unused_import, unnecessary_import
-        import '/main.dart';
+        import 'package:$packageName/main.dart';
 
         part 'memo_edit.page.dart';
 
@@ -401,7 +402,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
           /// router.replace(MemoEditPage.query(parameters)); // Replace page to MemoEditPage.
           /// ```
           @pageRouteQuery
-          static const query = _$MemoEditPageQuery();
+          static const query = _\$MemoEditPageQuery();
 
           @override
           FormScopedWidget build(BuildContext context, PageRef ref) =>
@@ -467,7 +468,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
         import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
         // ignore: unused_import, unnecessary_import
-        import '/main.dart';
+        import 'package:$packageName/main.dart';
 
         part 'memo_add.page.dart';
 
@@ -486,7 +487,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
           /// router.replace(MemoAddPage.query(parameters)); // Replace page to MemoAddPage.
           /// ```
           @pageRouteQuery
-          static const query = _$MemoAddPageQuery();
+          static const query = _\$MemoAddPageQuery();
 
           @override
           FormScopedWidget build(BuildContext context, PageRef ref) =>
@@ -568,7 +569,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
         import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
         // ignore: unused_import, unnecessary_import
-        import '/main.dart';
+        import 'package:$packageName/main.dart';
 
         part 'memo_edit.page.dart';
 
@@ -588,7 +589,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
           /// router.replace(MemoEditPage.query(parameters)); // Replace page to MemoEditPage.
           /// ```
           @pageRouteQuery
-          static const query = _$MemoEditPageQuery();
+          static const query = _\$MemoEditPageQuery();
 
           @override
           FormScopedWidget build(BuildContext context, PageRef ref) =>
@@ -656,7 +657,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
         import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
         // ignore: unused_import, unnecessary_import
-        import '/main.dart';
+        import 'package:$packageName/main.dart';
 
         part 'index.page.dart';
 
@@ -733,7 +734,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
           /// router.replace(IndexPage.query(parameters)); // Replace page to IndexPage.
           /// ```
           @pageRouteQuery
-          static const query = _$IndexPageQuery();
+          static const query = _\$IndexPageQuery();
 
           @override
           Widget build(BuildContext context, PageRef ref) {
@@ -805,7 +806,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
         import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
         // ignore: unused_import, unnecessary_import
-        import '/main.dart';
+        import 'package:$packageName/main.dart';
 
         part 'home.page.dart';
 
@@ -863,7 +864,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
           /// router.replace(HomePage.query(parameters)); // Replace page to HomePage.
           /// ```
           @pageRouteQuery
-          static const query = _$HomePageQuery();
+          static const query = _\$HomePageQuery();
 
           @override
           Widget build(BuildContext context, PageRef ref) {
@@ -932,7 +933,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
         import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
         // ignore: unused_import, unnecessary_import
-        import '/main.dart';
+        import 'package:$packageName/main.dart';
 
         part 'memo.page.dart';
 
@@ -957,7 +958,7 @@ class PageCreationMdCliAiCode extends CliAiCode {
           /// router.replace(MemoPage.query(parameters)); // Replace page to MemoPage.
           /// ```
           @pageRouteQuery
-          static const query = _$MemoPageQuery();
+          static const query = _\$MemoPageQuery();
 
           @override
           Widget build(BuildContext context, PageRef ref) {

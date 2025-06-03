@@ -24,7 +24,8 @@ class ModelImplMdCliAiCode extends CliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    final packageName = retrievePackageName();
+    return """
 `documents/designs/model_design.md`に記載されている`Model設計書`からDartコードを生成
 `documents/designs/model_design.md`が存在しない場合は絶対に実施しない
 
@@ -73,7 +74,7 @@ class ModelImplMdCliAiCode extends CliAiCode {
                   import 'package:masamune/masamune.dart';
 
                   // ignore: unused_import, unnecessary_import
-                  import '/main.dart';
+                  import 'package:$packageName/main.dart';
 
                   import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -87,7 +88,7 @@ class ModelImplMdCliAiCode extends CliAiCode {
                   @immutable
                   // TODO: Set the path for the collection.
                   @CollectionModelPath("memo")
-                  abstract class MemoModel with _$MemoModel {
+                  abstract class MemoModel with _\$MemoModel {
                     const factory MemoModel({
                       // TODO: Set the data fields.
                       required String title,
@@ -100,7 +101,7 @@ class ModelImplMdCliAiCode extends CliAiCode {
                     }) = _MemoModel;
                     const MemoModel._();
 
-                    factory MemoModel.fromJson(Map<String, Object?> json) => _$MemoModelFromJson(json);
+                    factory MemoModel.fromJson(Map<String, Object?> json) => _\$MemoModelFromJson(json);
 
                     /// Query for document.
                     ///
@@ -108,7 +109,7 @@ class ModelImplMdCliAiCode extends CliAiCode {
                     /// appRef.model(MemoModel.document(id));       // Get the document.
                     /// ref.app.model(MemoModel.document(id))..load();  // Load the document.
                     /// ```
-                    static const document = _$MemoModelDocumentQuery();
+                    static const document = _\$MemoModelDocumentQuery();
 
                     /// Query for collection.
                     ///
@@ -121,7 +122,7 @@ class ModelImplMdCliAiCode extends CliAiCode {
                     ///   )
                     /// )..load(); // Load the collection with filter.
                     /// ```
-                    static const collection = _$MemoModelCollectionQuery();
+                    static const collection = _\$MemoModelCollectionQuery();
 
                     /// Query for form value.
                     ///
@@ -129,11 +130,11 @@ class ModelImplMdCliAiCode extends CliAiCode {
                     /// ref.app.form(MemoModel.form(MemoModel()));    // Get the form controller in app scope.
                     /// ref.page.form(MemoModel.form(MemoModel()));    // Get the form controller in page scope.
                     /// ```
-                    static const form = _$MemoModelFormQuery();
+                    static const form = _\$MemoModelFormQuery();
                   }
 
                   /// [Enum] of the name of the value defined in MemoModel.
-                  typedef MemoModelKeys = _$MemoModelKeys;
+                  typedef MemoModelKeys = _\$MemoModelKeys;
 
                   /// Alias for ModelRef&lt;MemoModel&gt;.
                   ///
@@ -149,7 +150,7 @@ class ModelImplMdCliAiCode extends CliAiCode {
                   /// ```dart
                   /// MemoModelRefPath("xxx") // Define as a path.
                   /// ```
-                  typedef MemoModelRefPath = _$MemoModelRefPath;
+                  typedef MemoModelRefPath = _\$MemoModelRefPath;
 
                   /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
                   ///
@@ -162,20 +163,20 @@ class ModelImplMdCliAiCode extends CliAiCode {
                   ///   ],
                   /// );
                   /// ```
-                  typedef MemoModelInitialCollection = _$MemoModelInitialCollection;
+                  typedef MemoModelInitialCollection = _\$MemoModelInitialCollection;
 
                   /// Document class for storing MemoModel.
-                  typedef MemoModelDocument = _$MemoModelDocument;
+                  typedef MemoModelDocument = _\$MemoModelDocument;
 
                   /// Collection class for storing MemoModel.
-                  typedef MemoModelCollection = _$MemoModelCollection;
+                  typedef MemoModelCollection = _\$MemoModelCollection;
 
                   /// It can be defined as an empty ModelRef&lt;MemoModel&gt;.
                   ///
                   /// ```dart
                   /// MemoModelMirrorRefPath("xxx") // Define as a path.
                   /// ```
-                  typedef MemoModelMirrorRefPath = _$MemoModelMirrorRefPath;
+                  typedef MemoModelMirrorRefPath = _\$MemoModelMirrorRefPath;
 
                   /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
                   ///
@@ -188,13 +189,13 @@ class ModelImplMdCliAiCode extends CliAiCode {
                   ///   ],
                   /// );
                   /// ```
-                  typedef MemoModelMirrorInitialCollection = _$MemoModelMirrorInitialCollection;
+                  typedef MemoModelMirrorInitialCollection = _\$MemoModelMirrorInitialCollection;
 
                   /// Document class for storing MemoModel.
-                  typedef MemoModelMirrorDocument = _$MemoModelMirrorDocument;
+                  typedef MemoModelMirrorDocument = _\$MemoModelMirrorDocument;
 
                   /// Collection class for storing MemoModel.
-                  typedef MemoModelMirrorCollection = _$MemoModelMirrorCollection;
+                  typedef MemoModelMirrorCollection = _\$MemoModelMirrorCollection;
                   ```
                 - `AppSettingModel`（`ModelType`: `Document`）
                   ```dart
@@ -206,7 +207,7 @@ class ModelImplMdCliAiCode extends CliAiCode {
                   import 'package:masamune/masamune.dart';
 
                   // ignore: unused_import, unnecessary_import
-                  import '/main.dart';
+                  import 'package:$packageName/main.dart';
 
                   import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -220,14 +221,14 @@ class ModelImplMdCliAiCode extends CliAiCode {
                   @immutable
                   // TODO: Set the path for the document.
                   @DocumentModelPath("app/setting")
-                  abstract class AppSettingModel with _$AppSettingModel {
+                  abstract class AppSettingModel with _\$AppSettingModel {
                     const factory AppSettingModel({
                       // TODO: Set the data schema.
                       @Default("1.0.0") String version,
                     }) = _AppSettingModel;
                     const AppSettingModel._();
 
-                    factory AppSettingModel.fromJson(Map<String, Object?> json) => _$AppSettingModelFromJson(json);
+                    factory AppSettingModel.fromJson(Map<String, Object?> json) => _\$AppSettingModelFromJson(json);
 
                     /// Query for document.
                     ///
@@ -236,7 +237,7 @@ class ModelImplMdCliAiCode extends CliAiCode {
                     /// 
                     /// ref.page.form(CounterModel.form(CounterModel()));    // Get the form controller.(AppSettingModel.document())..load(); // Load the document.
                     /// ```
-                    static const document = _$AppSettingModelDocumentQuery();
+                    static const document = _\$AppSettingModelDocumentQuery();
 
                     /// Query for form value.
                     ///
@@ -244,11 +245,11 @@ class ModelImplMdCliAiCode extends CliAiCode {
                     /// ref.app.form(AppSettingModel.form(AppSettingModel()));    // Get the form controller in app scope.
                     /// ref.page.form(AppSettingModel.form(AppSettingModel()));    // Get the form controller in page scope.
                     /// ```
-                    static const form = _$AppSettingModelFormQuery();
+                    static const form = _\$AppSettingModelFormQuery();
                   }
 
                   /// [Enum] of the name of the value defined in AppSettingModel.
-                  typedef AppSettingModelKeys = _$AppSettingModelKeys;
+                  typedef AppSettingModelKeys = _\$AppSettingModelKeys;
 
                   /// Alias for ModelRef&lt;AppSettingModel&gt;.
                   ///
@@ -264,7 +265,7 @@ class ModelImplMdCliAiCode extends CliAiCode {
                   /// ```dart
                   /// AppSettingModelRefPath() // Define as a path.
                   /// ```
-                  typedef AppSettingModelRefPath = _$AppSettingModelRefPath;
+                  typedef AppSettingModelRefPath = _\$AppSettingModelRefPath;
 
                   /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
                   ///
@@ -277,17 +278,17 @@ class ModelImplMdCliAiCode extends CliAiCode {
                   ///   ],
                   /// );
                   /// ```
-                  typedef AppSettingModelInitialDocument = _$AppSettingModelInitialDocument;
+                  typedef AppSettingModelInitialDocument = _\$AppSettingModelInitialDocument;
 
                   /// Document class for storing AppSettingModel.
-                  typedef AppSettingModelDocument = _$AppSettingModelDocument;
+                  typedef AppSettingModelDocument = _\$AppSettingModelDocument;
 
                   /// It can be defined as an empty ModelRef&lt;AppSettingModel&gt;.
                   ///
                   /// ```dart
                   /// AppSettingModelMirrorRefPath() // Define as a path.
                   /// ```
-                  typedef AppSettingModelMirrorRefPath = _$AppSettingModelMirrorRefPath;
+                  typedef AppSettingModelMirrorRefPath = _\$AppSettingModelMirrorRefPath;
 
                   /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
                   ///
@@ -300,10 +301,10 @@ class ModelImplMdCliAiCode extends CliAiCode {
                   ///   ],
                   /// );
                   /// ```
-                  typedef AppSettingModelMirrorInitialDocument = _$AppSettingModelMirrorInitialDocument;
+                  typedef AppSettingModelMirrorInitialDocument = _\$AppSettingModelMirrorInitialDocument;
 
                   /// Document class for storing AppSettingModel.
-                  typedef AppSettingModelMirrorDocument = _$AppSettingModelMirrorDocument;
+                  typedef AppSettingModelMirrorDocument = _\$AppSettingModelMirrorDocument;
                   ```
     4. 下記コマンドを実行して残りのファイルを自動生成
         

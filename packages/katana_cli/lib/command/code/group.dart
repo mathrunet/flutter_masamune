@@ -47,6 +47,7 @@ class CodeGroupCliCommand extends CliCodeCommand {
 
   @override
   String import(String path, String baseName, String className) {
+    final packageName = retrievePackageName();
     return """
 // ignore: unused_import, unnecessary_import
 import 'package:flutter/material.dart';
@@ -54,7 +55,7 @@ import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
 
 // ignore: unused_import, unnecessary_import
-import '/main.dart';
+import 'package:$packageName/main.dart';
 """;
   }
 

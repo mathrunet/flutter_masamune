@@ -63,6 +63,7 @@ typedef ${path.split("/").distinct().join("_").toPascalCase()}PageQuery = _\$${p
 
   @override
   String import(String path, String baseName, String className) {
+    final packageName = retrievePackageName();
     return """
 // ignore: unused_import, unnecessary_import
 import 'package:flutter/material.dart';
@@ -71,7 +72,7 @@ import 'package:masamune/masamune.dart';
 import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
 // ignore: unused_import, unnecessary_import
-import '/main.dart';
+import 'package:$packageName/main.dart';
 """;
   }
 
