@@ -10,11 +10,15 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_test;
 
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:masamune/masamune.dart';
+
+// Package imports:
 import 'package:alchemist/alchemist.dart';
+import 'package:masamune/masamune.dart';
 import 'package:test/test.dart';
 
 part 'src/functions.dart';
