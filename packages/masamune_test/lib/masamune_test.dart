@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:alchemist/alchemist.dart';
 import 'package:masamune/masamune.dart';
 import 'package:test/test.dart';
+import 'package:meta/meta.dart';
 
 part 'src/functions.dart';
 part 'src/masamune_test_ref.dart';

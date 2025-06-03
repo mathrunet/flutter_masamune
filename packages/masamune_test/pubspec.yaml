@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
     
+  meta:
   katana: ^2.20.2
   masamune: ^2.24.0
   alchemist: ^0.12.0

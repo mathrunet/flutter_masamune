@@ -7,7 +7,8 @@ part of '/masamune_test.dart';
 /// ページのテストを行います。
 ///
 /// [name]にテスト名を渡し、[builder]にテストをしたいページの[Widget]を渡します。
-Future<void> masamunePageTest({
+@isTest
+void masamunePageTest({
   required String name,
   required Widget Function(BuildContext context, MasamuneTestRef ref) builder,
   List<MasamuneTestDevice> devices = const [
@@ -26,25 +27,26 @@ Future<void> masamunePageTest({
 /// Widgetのテストを行います。
 ///
 /// [name]にテスト名を渡し、[builder]にテストをしたい[Widget]を渡します。
-Future<void> masamuneWidgetTest({
+@isTest
+void masamuneWidgetTest({
   required String name,
   required Widget Function(BuildContext context, MasamuneTestRef ref) builder,
 }) =>
     _masamuneUITest(name: "$name Widget", builder: builder);
 
-Future<void> _masamuneUITest({
+void _masamuneUITest({
   required String name,
   required Widget Function(BuildContext context, MasamuneTestRef ref) builder,
   List<MasamuneTestDevice>? devices,
-}) async {
-  group(name.toPascalCase(), () async {
+}) {
+  group(name.toPascalCase(), () {
     final ref = MasamuneTestConfig.currentRef;
-    await goldenTest(
+    goldenTest(
       name.toPascalCase(),
       fileName: name.toSnakeCase(),
       builder: () {
         return GoldenTestGroup(
-          columns: devices.length,
+          columns: devices?.length ?? 1,
           children: [
             if (devices != null) ...[
               ...devices.map(
@@ -114,18 +116,13 @@ Future<void> _masamuneUITest({
 /// Modelの`toTile`エクステンションをテストします。
 ///
 /// [name]にテスト名を渡し、[document]でモデルを取得します。それを元に[builder]にテストをしたい[Widget]を渡します。
+@isTest
 void masamuneModelTileTest<T extends ModelRefBase>({
   required String name,
   required T Function(MasamuneTestRef ref) document,
   required Widget Function(
           BuildContext context, MasamuneTestRef ref, T document)
       builder,
-  List<MasamuneTestDevice> devices = const [
-    MasamuneTestDevice.phonePortrait,
-    MasamuneTestDevice.phoneLandscape,
-    MasamuneTestDevice.tabletPortrait,
-    MasamuneTestDevice.tabletLandscape,
-  ],
 }) {
   name = "$name Tile Extension";
   group(name.toPascalCase(), () {
@@ -135,7 +132,7 @@ void masamuneModelTileTest<T extends ModelRefBase>({
       fileName: name.toSnakeCase(),
       builder: () {
         return GoldenTestGroup(
-          columns: devices.length,
+          columns: 1,
           children: [
             MasamuneTestContainer(
               name: name,
@@ -179,6 +176,7 @@ void masamuneModelTileTest<T extends ModelRefBase>({
 /// コントローラのテストを行います。
 ///
 /// [name]にテスト名を渡し、[tests]にテストをしたいコントローラのテストを行います。
+@isTest
 void masamuneControllerTest({
   required String name,
   required List<MasamuneControllerTest> tests,
