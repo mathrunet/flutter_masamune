@@ -1,8 +1,8 @@
 // Project imports:
+import 'package:katana_cli/ai/docs/universal_ui/responsive_edge_insets.dart';
 import 'package:katana_cli/ai/docs/universal_ui/universal_app_bar.dart';
 import 'package:katana_cli/ai/docs/universal_ui/universal_column.dart';
 import 'package:katana_cli/ai/docs/universal_ui/universal_container.dart';
-import 'package:katana_cli/ai/docs/universal_ui/responsive_edge_insets.dart';
 import 'package:katana_cli/ai/docs/universal_ui/universal_grid_view.dart';
 import 'package:katana_cli/ai/docs/universal_ui/universal_header_tile.dart';
 import 'package:katana_cli/ai/docs/universal_ui/universal_list_view.dart';
