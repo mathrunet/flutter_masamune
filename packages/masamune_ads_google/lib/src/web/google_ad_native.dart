@@ -1,4 +1,4 @@
-part of 'web.dart';
+part of "web.dart";
 
 /// [GoogleNativeAd] Template Type.
 ///

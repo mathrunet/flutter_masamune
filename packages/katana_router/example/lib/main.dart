@@ -1,16 +1,16 @@
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:katana_router/katana_router.dart';
+import "package:katana_router/katana_router.dart";
 
 // Project imports:
-import 'main.router.dart';
+import "main.router.dart";
 
-part 'main.page.dart';
+part "main.page.dart";
 
 @appRoute
 final appRouter = AutoRouter();

@@ -1,4 +1,4 @@
-part of '/katana_model_firestore.dart';
+part of "/katana_model_firestore.dart";
 
 /// FirestoreConverter for [ModelTime].
 ///

@@ -1,4 +1,4 @@
-part of '/masamune.dart';
+part of "/masamune.dart";
 
 /// {@macro model_database_query}
 class ModelDatabaseConditionQuery implements ModelDatabaseQuery {

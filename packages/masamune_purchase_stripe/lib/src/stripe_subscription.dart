@@ -1,4 +1,4 @@
-part of '/masamune_purchase_stripe.dart';
+part of "/masamune_purchase_stripe.dart";
 
 /// Controller to manage subscriptions as defined in the stripe configuration screen.
 ///

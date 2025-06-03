@@ -1,4 +1,4 @@
-part of '/masamune_auth_apple_firebase.dart';
+part of "/masamune_auth_apple_firebase.dart";
 
 const _kAppleAuthProviderId = "apple.com";
 

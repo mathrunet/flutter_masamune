@@ -1,4 +1,4 @@
-part of 'others.dart';
+part of "others.dart";
 
 /// Class that can handle Svg files as [ImageProvider].
 ///

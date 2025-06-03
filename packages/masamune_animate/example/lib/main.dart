@@ -1,8 +1,8 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:masamune_animate/masamune_animate.dart';
+import "package:masamune_animate/masamune_animate.dart";
 
 void main() {
   runApp(const MyApp());

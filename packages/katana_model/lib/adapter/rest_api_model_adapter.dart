@@ -1,4 +1,4 @@
-part of '/katana_model.dart';
+part of "/katana_model.dart";
 
 /// Defines [ModelAdapter] to define [builders] and make them work accordingly.
 ///

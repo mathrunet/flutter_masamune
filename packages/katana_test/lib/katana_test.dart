@@ -9,6 +9,6 @@
 library katana_test;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
-part 'src/functions.dart';
+part "src/functions.dart";

@@ -1,11 +1,11 @@
 // Dart imports:
 
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
-import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+import "package:masamune/masamune.dart";
+import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
 final List<MasamuneAdapter> masamuneAdapters = [
   const UniversalMasamuneAdapter()

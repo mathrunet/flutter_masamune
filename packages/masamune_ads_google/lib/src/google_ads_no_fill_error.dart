@@ -1,4 +1,4 @@
-part of '/masamune_ads_google.dart';
+part of "/masamune_ads_google.dart";
 
 /// An error that occurs when an ad is not filled.
 ///

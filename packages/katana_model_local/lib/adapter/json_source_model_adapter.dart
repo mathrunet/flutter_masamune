@@ -1,4 +1,4 @@
-part of '/katana_model_local.dart';
+part of "/katana_model_local.dart";
 
 /// {@macro json_source_model_adapter}
 ///

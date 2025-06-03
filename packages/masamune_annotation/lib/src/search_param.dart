@@ -1,4 +1,4 @@
-part of '/masamune_annotation.dart';
+part of "/masamune_annotation.dart";
 
 /// When specifying each field in [CollectionModelPath] or [DocumentModelPath], you can annotate the field to make it a search target.
 ///

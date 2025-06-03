@@ -1,4 +1,4 @@
-part of '/masamune_firebase_app_check.dart';
+part of "/masamune_firebase_app_check.dart";
 
 /// Specify when to activate AppCheck.
 ///

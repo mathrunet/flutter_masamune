@@ -1,11 +1,11 @@
 // Dart imports:
-import 'dart:typed_data';
+import "dart:typed_data";
 
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:katana_storage/katana_storage.dart';
+import "package:katana_storage/katana_storage.dart";
 
 void main() {
   runApp(const MyApp());

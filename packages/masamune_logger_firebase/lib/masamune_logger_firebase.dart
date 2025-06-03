@@ -9,32 +9,32 @@
 library masamune_logger_firebase;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Flutter imports:
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import "package:flutter/foundation.dart";
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_performance/firebase_performance.dart';
-import 'package:katana_firebase/katana_firebase.dart';
-import 'package:masamune/masamune.dart';
-import 'package:universal_platform/universal_platform.dart';
+import "package:firebase_analytics/firebase_analytics.dart";
+import "package:firebase_crashlytics/firebase_crashlytics.dart";
+import "package:firebase_performance/firebase_performance.dart";
+import "package:katana_firebase/katana_firebase.dart";
+import "package:masamune/masamune.dart";
+import "package:universal_platform/universal_platform.dart";
 
-export 'package:katana_firebase/katana_firebase.dart';
+export "package:katana_firebase/katana_firebase.dart";
 
-part 'adapters/firebase_logger_adapter.dart';
-part 'adapters/firebase_logger_masamune_adapter.dart';
-part 'src/firebase_analytics_logger_event.dart';
+part "adapters/firebase_logger_adapter.dart";
+part "adapters/firebase_logger_masamune_adapter.dart";
+part "src/firebase_analytics_logger_event.dart";
 
-part 'loggable/firebase_analytics_register_loggable.dart';
-part 'loggable/firebase_analytics_register_or_signin_loggable.dart';
-part 'loggable/firebase_analytics_signin_loggable.dart';
+part "loggable/firebase_analytics_register_loggable.dart";
+part "loggable/firebase_analytics_register_or_signin_loggable.dart";
+part "loggable/firebase_analytics_signin_loggable.dart";
 
-part 'loggable/firebase_analytics_adshown_loggable.dart';
-part 'loggable/firebase_analytics_purchased_loggable.dart';
-part 'loggable/firebase_analytics_refund_loggable.dart';
-part 'loggable/firebase_analytics_tutorial_end_loggable.dart';
-part 'loggable/firebase_analytics_tutorial_start_loggable.dart';
+part "loggable/firebase_analytics_adshown_loggable.dart";
+part "loggable/firebase_analytics_purchased_loggable.dart";
+part "loggable/firebase_analytics_refund_loggable.dart";
+part "loggable/firebase_analytics_tutorial_end_loggable.dart";
+part "loggable/firebase_analytics_tutorial_start_loggable.dart";

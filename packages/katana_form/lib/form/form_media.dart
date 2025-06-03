@@ -1,4 +1,4 @@
-part of '/katana_form.dart';
+part of "/katana_form.dart";
 
 const _kErrorTextHeight = 20.0;
 const _kDefaultHeight = 196.0;

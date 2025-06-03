@@ -13,7 +13,7 @@ globs: *.dart
     ```dart
     // packages/katana_cli/lib/ai/docs/universal_ui/universal_list_view.dart
 
-    import 'package:katana_cli/katana_cli.dart';
+    import "package:katana_cli/katana_cli.dart";
 
     /// Contents of universal_list_view.mdc.
     ///

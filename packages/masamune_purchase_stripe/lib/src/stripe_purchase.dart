@@ -1,4 +1,4 @@
-part of '/masamune_purchase_stripe.dart';
+part of "/masamune_purchase_stripe.dart";
 
 /// Controller for the actual payment by the customer with the payment method created in [StripePayment.create].
 ///

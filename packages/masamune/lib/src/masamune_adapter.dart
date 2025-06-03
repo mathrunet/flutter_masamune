@@ -1,4 +1,4 @@
-part of '/masamune.dart';
+part of "/masamune.dart";
 
 /// Adapter for easily adding functions to Masamune Framework.
 ///

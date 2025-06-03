@@ -13,7 +13,7 @@ globs: *.dart
     ```dart
     // packages/katana_cli/lib/ai/docs/model_field_value/model_timestamp.dart
 
-    import 'package:katana_cli/katana_cli.dart';
+    import "package:katana_cli/katana_cli.dart";
 
     /// Contents of model_timestamp.mdc.
     ///
@@ -100,7 +100,7 @@ globs: *.dart
     ```dart
     // packages/katana_cli/lib/ai/docs/model_field_value/model_counter.dart
 
-    import 'package:katana_cli/katana_cli.dart';
+    import "package:katana_cli/katana_cli.dart";
 
     /// Contents of model_counter.mdc.
     ///

@@ -9,34 +9,34 @@
 library katana_logger;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 import 'dart:developer' as developer;
-import 'dart:math';
+import "dart:math";
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:katana/katana.dart';
+import "package:katana/katana.dart";
 
 import 'src/others/others.dart'
     if (dart.library.io) 'src/others/others.dart'
     if (dart.library.js) 'src/web/web.dart'
     if (dart.library.html) 'src/web/web.dart';
 
-export 'package:katana/katana.dart';
+export "package:katana/katana.dart";
 export 'src/others/others.dart'
     if (dart.library.io) 'src/others/others.dart'
     if (dart.library.js) 'src/web/web.dart'
     if (dart.library.html) 'src/web/web.dart';
 
-part 'adapter/console_logger_adapter.dart';
-part 'adapter/local_logger_adapter.dart';
-part 'adapter/runtime_logger_adapter.dart';
+part "adapter/console_logger_adapter.dart";
+part "adapter/local_logger_adapter.dart";
+part "adapter/runtime_logger_adapter.dart";
 
-part 'src/log_value.dart';
-part 'src/loggable.dart';
-part 'src/logger.dart';
-part 'src/logger_adapter.dart';
-part 'src/logger_database.dart';
-part 'src/logger_tracer.dart';
+part "src/log_value.dart";
+part "src/loggable.dart";
+part "src/logger.dart";
+part "src/logger_adapter.dart";
+part "src/logger_database.dart";
+part "src/logger_tracer.dart";

@@ -9,13 +9,13 @@
 library masamune_model_firestore;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Package imports:
-import 'package:katana_model_firestore/katana_model_firestore.dart';
-import 'package:masamune/masamune.dart';
+import "package:katana_model_firestore/katana_model_firestore.dart";
+import "package:masamune/masamune.dart";
 
-part 'adapter/cached_firestore_model_adapter.dart';
-part 'adapter/cached_listenable_firestore_model_adapter.dart';
+part "adapter/cached_firestore_model_adapter.dart";
+part "adapter/cached_listenable_firestore_model_adapter.dart";
 
-part 'src/cached_firestore_model_adapter_collection_loader.dart';
+part "src/cached_firestore_model_adapter_collection_loader.dart";

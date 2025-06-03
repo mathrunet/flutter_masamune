@@ -1,4 +1,4 @@
-part of '/masamune_app_review.dart';
+part of "/masamune_app_review.dart";
 
 /// [MasamuneControllerBase] for reviewing applications in the store.
 ///

@@ -1,4 +1,4 @@
-part of '/masamune_universal_ui.dart';
+part of "/masamune_universal_ui.dart";
 
 /// Tiles that can be used as headers for profiles, etc.
 ///

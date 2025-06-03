@@ -1,4 +1,4 @@
-part of '/katana_theme.dart';
+part of "/katana_theme.dart";
 
 /// Define a theme extension for [BuildContext].
 ///

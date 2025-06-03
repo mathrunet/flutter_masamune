@@ -1,4 +1,4 @@
-part of '/masamune_calendar.dart';
+part of "/masamune_calendar.dart";
 
 /// The design of the calendar is simply to display a marker in the center of the calendar on days that have events.
 ///

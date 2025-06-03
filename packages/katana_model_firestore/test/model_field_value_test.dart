@@ -1,18 +1,18 @@
 // ignore_for_file: avoid_print
 
 // Dart imports:
-import 'dart:ui';
+import "dart:ui";
 
 // Package imports:
-import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:test/test.dart';
+import "package:fake_cloud_firestore/fake_cloud_firestore.dart";
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:test/test.dart";
 
 // Project imports:
-import 'package:katana_model_firestore/katana_model_firestore.dart';
+import "package:katana_model_firestore/katana_model_firestore.dart";
 
-part 'model_field_value_test.freezed.dart';
-part 'model_field_value_test.g.dart';
+part "model_field_value_test.freezed.dart";
+part "model_field_value_test.g.dart";
 
 class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
   RuntimeMapDocumentModel(super.query);

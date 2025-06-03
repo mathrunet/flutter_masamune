@@ -1,4 +1,4 @@
-part of '/katana_model_local.dart';
+part of "/katana_model_local.dart";
 
 final _kGoogleDriveRegExp = RegExp(
   r"https://drive\.google\.com/file/d/([1-9a-zA-Z-]+)",

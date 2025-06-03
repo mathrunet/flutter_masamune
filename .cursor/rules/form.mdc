@@ -13,7 +13,7 @@ globs: *.dart
     ```dart
     // packages/katana_cli/lib/ai/docs/form/form_text_field.dart
 
-    import 'package:katana_cli/ai/docs/form_usage.dart';
+    import "package:katana_cli/ai/docs/form_usage.dart";
 
     /// Contents of form_text_field.mdc.
     ///

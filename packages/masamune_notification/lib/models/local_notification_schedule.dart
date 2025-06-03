@@ -1,15 +1,15 @@
 // ignore: unused_import, unnecessary_import
 
 // Package imports:
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:masamune/masamune.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:masamune/masamune.dart";
 
 // Project imports:
-import 'package:masamune_notification/masamune_notification.dart';
+import "package:masamune_notification/masamune_notification.dart";
 
-part 'local_notification_schedule.m.dart';
-part 'local_notification_schedule.g.dart';
-part 'local_notification_schedule.freezed.dart';
+part "local_notification_schedule.m.dart";
+part "local_notification_schedule.g.dart";
+part "local_notification_schedule.freezed.dart";
 
 /// Model for scheduling and registering local PUSH notifications.
 ///

@@ -1,4 +1,4 @@
-part of '/katana_form.dart';
+part of "/katana_form.dart";
 
 /// Create buttons for forms.
 ///

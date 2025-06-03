@@ -1,4 +1,4 @@
-part of '/masamune_location_background.dart';
+part of "/masamune_location_background.dart";
 
 class BackgroundLocationAndroidNotificationSettings {
   const BackgroundLocationAndroidNotificationSettings({

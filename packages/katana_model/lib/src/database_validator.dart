@@ -1,4 +1,4 @@
-part of '/katana_model.dart';
+part of "/katana_model.dart";
 
 /// An object that validates information in the database.
 ///

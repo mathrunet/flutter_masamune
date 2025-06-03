@@ -9,15 +9,15 @@
 library masamune_auth_facebook;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Flutter imports:
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import "package:flutter/foundation.dart";
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:masamune/masamune.dart';
+import "package:flutter_facebook_auth/flutter_facebook_auth.dart";
+import "package:masamune/masamune.dart";
 
-part 'adapter/facebook_auth_masamune_adapter.dart';
-part 'provider/facebook_auth_query.dart';
+part "adapter/facebook_auth_masamune_adapter.dart";
+part "provider/facebook_auth_query.dart";

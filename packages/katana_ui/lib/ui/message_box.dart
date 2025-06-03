@@ -1,4 +1,4 @@
-part of '/katana_ui.dart';
+part of "/katana_ui.dart";
 
 /// A box for displaying messages.
 ///

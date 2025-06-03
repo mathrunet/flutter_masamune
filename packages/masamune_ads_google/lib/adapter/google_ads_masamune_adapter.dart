@@ -1,4 +1,4 @@
-part of '/masamune_ads_google.dart';
+part of "/masamune_ads_google.dart";
 
 /// [MasamuneAdapter] for displaying mobile ads.
 ///

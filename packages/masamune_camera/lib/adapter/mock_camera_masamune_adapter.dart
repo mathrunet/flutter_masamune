@@ -1,4 +1,4 @@
-part of '/masamune_camera.dart';
+part of "/masamune_camera.dart";
 
 /// Initialize the camera for the mock [MasamuneAdapter].
 ///

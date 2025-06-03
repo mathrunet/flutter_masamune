@@ -1,4 +1,4 @@
-part of '/masamune_location_platform_interface.dart';
+part of "/masamune_location_platform_interface.dart";
 
 /// Location data class.
 ///

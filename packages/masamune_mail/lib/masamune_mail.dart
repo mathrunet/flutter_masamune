@@ -11,11 +11,11 @@ library masamune_mail;
 // Dart imports:
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
-part 'adapter/mail_masamune_adapter.dart';
-part 'functions/send_gmail_functions_action.dart';
-part 'functions/send_grid_functions_action.dart';
+part "adapter/mail_masamune_adapter.dart";
+part "functions/send_gmail_functions_action.dart";
+part "functions/send_grid_functions_action.dart";

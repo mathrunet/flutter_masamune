@@ -1,4 +1,4 @@
-part of '/katana_model.dart';
+part of "/katana_model.dart";
 
 /// Stores information for accessing the server.
 ///

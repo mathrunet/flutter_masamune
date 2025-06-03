@@ -1,4 +1,4 @@
-part of '/masamune_ai.dart';
+part of "/masamune_ai.dart";
 
 /// The exception that occurs when the AI role is invalid.
 ///

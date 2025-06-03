@@ -1,4 +1,4 @@
-part of '/katana_form.dart';
+part of "/katana_form.dart";
 
 /// Combined with [FormTextField], it can be used to control whether or not editing is allowed.
 ///

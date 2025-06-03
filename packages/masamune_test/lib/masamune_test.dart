@@ -11,21 +11,21 @@
 library masamune_test;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:alchemist/alchemist.dart';
-import 'package:masamune/masamune.dart';
-import 'package:test/test.dart';
-import 'package:meta/meta.dart';
+import "package:alchemist/alchemist.dart";
+import "package:masamune/masamune.dart";
+import "package:test/test.dart";
+import "package:meta/meta.dart";
 
-part 'src/functions.dart';
-part 'src/masamune_test_ref.dart';
-part 'src/masamune_test_config.dart';
-part 'src/masamune_test_device.dart';
-part 'src/masamune_test_container.dart';
-part 'src/masamune_test_loader.dart';
-part 'src/masamune_controller_test.dart';
+part "src/functions.dart";
+part "src/masamune_test_ref.dart";
+part "src/masamune_test_config.dart";
+part "src/masamune_test_device.dart";
+part "src/masamune_test_container.dart";
+part "src/masamune_test_loader.dart";
+part "src/masamune_controller_test.dart";

@@ -1,4 +1,4 @@
-part of '/masamune_lints.dart';
+part of "/masamune_lints.dart";
 
 class _MasamuneModelShouldLoad extends DartLintRule {
   const _MasamuneModelShouldLoad() : super(code: _code);

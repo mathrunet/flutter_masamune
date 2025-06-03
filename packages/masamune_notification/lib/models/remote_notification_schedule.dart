@@ -1,15 +1,15 @@
 // ignore: unused_import, unnecessary_import
 
 // Package imports:
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:masamune/masamune.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:masamune/masamune.dart";
 
 // Project imports:
-import 'package:masamune_notification/masamune_notification.dart';
+import "package:masamune_notification/masamune_notification.dart";
 
-part 'remote_notification_schedule.m.dart';
-part 'remote_notification_schedule.g.dart';
-part 'remote_notification_schedule.freezed.dart';
+part "remote_notification_schedule.m.dart";
+part "remote_notification_schedule.g.dart";
+part "remote_notification_schedule.freezed.dart";
 
 /// This model is for scheduling and registering remote PUSH notifications.
 ///

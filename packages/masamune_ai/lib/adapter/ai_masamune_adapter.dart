@@ -1,4 +1,4 @@
-part of '/masamune_ai.dart';
+part of "/masamune_ai.dart";
 
 /// Abstract class of [MasamuneAdapter] for configuring AI functions.
 ///

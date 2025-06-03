@@ -1,8 +1,8 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:katana_indicator/katana_indicator.dart';
+import "package:katana_indicator/katana_indicator.dart";
 
 void main() {
   runApp(const MyApp());

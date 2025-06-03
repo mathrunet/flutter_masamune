@@ -1,4 +1,4 @@
-part of '/masamune_logger_firebase.dart';
+part of "/masamune_logger_firebase.dart";
 
 /// Firebase Analytics and Performance are available [LoggerAdapter].
 ///

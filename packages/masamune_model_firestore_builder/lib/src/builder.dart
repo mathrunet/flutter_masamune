@@ -1,4 +1,4 @@
-part of '/masamune_model_firestore_builder.dart';
+part of "/masamune_model_firestore_builder.dart";
 
 /// Builder to generate rules and indexes for Firestore.
 ///

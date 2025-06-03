@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'csv_source_model_adapter_test.dart';
+part of "csv_source_model_adapter_test.dart";
 
 // **************************************************************************
 // JsonSerializableGenerator

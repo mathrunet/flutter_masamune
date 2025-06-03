@@ -1,6 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, unused_element, unused_element_parameter
 
-part of '/katana_form.dart';
+part of "/katana_form.dart";
 
 abstract class _PickerLocalizationsBase {
   final Locale? locale;

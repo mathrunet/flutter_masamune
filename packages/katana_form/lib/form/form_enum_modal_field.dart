@@ -1,4 +1,4 @@
-part of '/katana_form.dart';
+part of "/katana_form.dart";
 
 /// Form to select from all elements in [TEnum].
 ///

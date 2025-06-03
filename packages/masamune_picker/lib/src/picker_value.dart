@@ -1,4 +1,4 @@
-part of '/masamune_picker.dart';
+part of "/masamune_picker.dart";
 
 /// Provides an extension method for [PickerValue] that is nullable.
 ///

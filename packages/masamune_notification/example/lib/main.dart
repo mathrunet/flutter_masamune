@@ -1,9 +1,9 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
-import 'package:masamune_notification/masamune_notification.dart';
+import "package:masamune/masamune.dart";
+import "package:masamune_notification/masamune_notification.dart";
 
 const pushNotificationAdapter = RuntimeRemoteNotificationMasamuneAdapter(
   androidNotificationChannelId: "masamune_firebase_messaging_channel",

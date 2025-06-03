@@ -1,4 +1,4 @@
-part of '/masamune_speech_to_text.dart';
+part of "/masamune_speech_to_text.dart";
 
 const _kFinalStatus = "final";
 const _kDoneNoResultStatus = "doneNoResult";

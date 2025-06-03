@@ -1,4 +1,4 @@
-part of '/masamune_purchase_stripe.dart';
+part of "/masamune_purchase_stripe.dart";
 
 /// Set `return_url` when used with Stripe's WebView.
 ///

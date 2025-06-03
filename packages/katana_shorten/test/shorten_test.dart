@@ -1,11 +1,11 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:test/test.dart';
+import "package:test/test.dart";
 
 // Project imports:
-import 'package:katana_shorten/katana_shorten.dart';
+import "package:katana_shorten/katana_shorten.dart";
 
 void main() {
   test("Duration", () {

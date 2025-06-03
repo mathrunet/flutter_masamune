@@ -64,8 +64,8 @@ Pass a StorageAdapter such as `LocalStorageAdapter` as the parameter adapter.
 
 ```dart
 // main.dart
-import 'package:flutter/material.dart';
-import 'package:katana_storage/katana_storage.dart';
+import "package:flutter/material.dart";
+import "package:katana_storage/katana_storage.dart";
 
 void main() {
   runApp(const MyApp());

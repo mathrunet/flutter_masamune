@@ -1,4 +1,4 @@
-part of '/katana_prefs_builder.dart';
+part of "/katana_prefs_builder.dart";
 
 /// Generator that automatically creates classes to read and write SharedPreferences.
 ///

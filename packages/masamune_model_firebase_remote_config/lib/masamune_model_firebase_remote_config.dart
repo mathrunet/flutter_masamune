@@ -9,12 +9,12 @@
 library masamune_model_firebase_remote_config;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Package imports:
-import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:katana_firebase/katana_firebase.dart';
-import 'package:masamune/masamune.dart';
-import 'package:universal_platform/universal_platform.dart';
+import "package:firebase_remote_config/firebase_remote_config.dart";
+import "package:katana_firebase/katana_firebase.dart";
+import "package:masamune/masamune.dart";
+import "package:universal_platform/universal_platform.dart";
 
-part 'adapter/firebase_remote_config_model_adapter.dart';
+part "adapter/firebase_remote_config_model_adapter.dart";

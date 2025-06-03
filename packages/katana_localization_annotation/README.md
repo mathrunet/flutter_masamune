@@ -117,7 +117,7 @@ The same `{variable name}` can be included in the translation text so that the v
 
 Create a Dart file such as `localization.dart`.
 
-`part 'original filename.localize.dart';` to import a Part file.
+`part "original filename.localize.dart";` to import a Part file.
 
 Create a class with `GoogleSpreadSheetLocalize` annotations on it.
 
@@ -135,7 +135,7 @@ In addition, define the top-level fields for use with that class. **The shorter 
 
 ```dart
 // localization.dart
-import 'package:katana_localization/katana_localization.dart';
+import "package:katana_localization/katana_localization.dart";
 
 part ‘localization.localize.dart’;
 
@@ -161,10 +161,10 @@ Pass `AppLocalize` methods and fields to MaterialApp's `locale`, `localizationsD
 ```dart
 // main.dart
 
-import 'package:flutter/material.dart';
-import 'package:katana_localization/katana_localization.dart';
+import "package:flutter/material.dart";
+import "package:katana_localization/katana_localization.dart";
 
-import 'localization.dart';
+import "localization.dart";
 
 void main() {
   runApp(const MainPage());

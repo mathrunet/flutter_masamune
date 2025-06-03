@@ -1,4 +1,4 @@
-part of 'others.dart';
+part of "others.dart";
 
 /// This class displays interstitial advertisements.
 ///

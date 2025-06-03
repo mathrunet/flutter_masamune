@@ -261,14 +261,14 @@ packages:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "2.11.6"
+    version: "2.11.7"
   katana_form:
     dependency: "direct overridden"
     description:
       path: "../katana_form"
       relative: true
     source: path
-    version: "2.19.1"
+    version: "2.20.0"
   katana_functions:
     dependency: "direct overridden"
     description:
@@ -439,14 +439,14 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.23.19"
+    version: "2.24.0"
   masamune_annotation:
     dependency: "direct overridden"
     description:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "2.9.13"
+    version: "2.10.0"
   matcher:
     dependency: transitive
     description:

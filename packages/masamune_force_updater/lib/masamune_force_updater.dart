@@ -9,12 +9,12 @@
 library masamune_force_updater;
 
 // Flutter imports:
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
-part 'adapter/force_updater_masamune_adapter.dart';
-part 'src/force_updater.dart';
-part 'src/force_updater_item.dart';
+part "adapter/force_updater_masamune_adapter.dart";
+part "src/force_updater.dart";
+part "src/force_updater_item.dart";

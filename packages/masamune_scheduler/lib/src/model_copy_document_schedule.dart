@@ -1,4 +1,4 @@
-part of '/masamune_scheduler.dart';
+part of "/masamune_scheduler.dart";
 
 /// Abstract class for defining a document with a schedule for copying the document at a specified date and time.
 ///

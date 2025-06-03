@@ -1,4 +1,4 @@
-part of '/katana_router.dart';
+part of "/katana_router.dart";
 
 /// {@template katana_router.app_router}
 /// Controller to define routing for the entire app.

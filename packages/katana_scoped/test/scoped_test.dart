@@ -1,11 +1,11 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:test/test.dart';
+import "package:test/test.dart";
 
 // Project imports:
-import 'package:katana_scoped/katana_scoped.dart';
+import "package:katana_scoped/katana_scoped.dart";
 
 final scopedQuery = ChangeNotifierScopedQuery((ref) => ValueNotifier(0));
 

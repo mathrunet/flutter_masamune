@@ -1,4 +1,4 @@
-part of '/katana_model_firestore.dart';
+part of "/katana_model_firestore.dart";
 
 const _kCollectionQuerySplitCount = 30;
 const _kCollectionQuerySplitCountOnNotIn = 10;

@@ -1,4 +1,4 @@
-part of '/masamune_notification.dart';
+part of "/masamune_notification.dart";
 
 /// Set up repeated local PUSH notifications.
 ///

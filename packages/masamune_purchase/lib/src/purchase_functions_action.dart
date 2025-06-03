@@ -1,4 +1,4 @@
-part of '/masamune_purchase.dart';
+part of "/masamune_purchase.dart";
 
 /// InAppPurchase actions used in Functions.
 ///

@@ -1,4 +1,4 @@
-part of '/katana_ui.dart';
+part of "/katana_ui.dart";
 
 /// Items can be listed on the left and right [ListTile].
 ///

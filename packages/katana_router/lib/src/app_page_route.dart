@@ -1,4 +1,4 @@
-part of '/katana_router.dart';
+part of "/katana_router.dart";
 
 /// Duration of page transitions.
 ///

@@ -9,12 +9,12 @@
 library masamune_model_algolia;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Package imports:
-import 'package:algolia_helper_flutter/algolia_helper_flutter.dart';
-import 'package:katana_model_firestore/katana_model_firestore.dart';
-import 'package:masamune/masamune.dart';
-import 'package:meta/meta.dart';
+import "package:algolia_helper_flutter/algolia_helper_flutter.dart";
+import "package:katana_model_firestore/katana_model_firestore.dart";
+import "package:masamune/masamune.dart";
+import "package:meta/meta.dart";
 
-part 'adapter/algolia_model_adapter.dart';
+part "adapter/algolia_model_adapter.dart";

@@ -1,4 +1,4 @@
-part of '/masamune_camera.dart';
+part of "/masamune_camera.dart";
 
 /// [MasamuneAdapter] for initial camera settings.
 ///

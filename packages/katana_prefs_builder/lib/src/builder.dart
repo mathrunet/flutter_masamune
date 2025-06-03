@@ -1,4 +1,4 @@
-part of '/katana_prefs_builder.dart';
+part of "/katana_prefs_builder.dart";
 
 /// Builder to create a class to read and write SharedPreferences.
 ///

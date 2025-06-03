@@ -1,4 +1,4 @@
-part of '/masamune_mail.dart';
+part of "/masamune_mail.dart";
 
 /// [MasamuneAdapter] for configuring the mail function.
 ///

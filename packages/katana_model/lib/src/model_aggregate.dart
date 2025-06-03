@@ -1,4 +1,4 @@
-part of '/katana_model.dart';
+part of "/katana_model.dart";
 
 /// Query type for outputting an aggregate of the documents in a collection.
 ///

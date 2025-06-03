@@ -1,4 +1,4 @@
-part of '/katana_prefs_builder.dart';
+part of "/katana_prefs_builder.dart";
 
 final _regexp = RegExp(r"@Default\(([^\)]+)\)");
 final _classRegExp = RegExp(r"[a-zA-Z0-9_$-]+\(([^\)]+)\)");

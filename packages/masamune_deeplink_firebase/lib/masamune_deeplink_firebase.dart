@@ -9,16 +9,16 @@
 library masamune_deeplink_firebase;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:katana_firebase/katana_firebase.dart';
-import 'package:masamune/masamune.dart';
-import 'package:universal_platform/universal_platform.dart';
+import "package:firebase_dynamic_links/firebase_dynamic_links.dart";
+import "package:katana_firebase/katana_firebase.dart";
+import "package:masamune/masamune.dart";
+import "package:universal_platform/universal_platform.dart";
 
 export 'package:firebase_dynamic_links/firebase_dynamic_links.dart'
     show
@@ -30,7 +30,7 @@ export 'package:firebase_dynamic_links/firebase_dynamic_links.dart'
         NavigationInfoParameters,
         SocialMetaTagParameters;
 
-part 'adapter/firebase_deeplink_masamune_adapter.dart';
-part 'src/deeplink.dart';
-part 'src/firebase_deeplink_settings.dart';
-part 'src/firebase_deeplink_logger_event.dart';
+part "adapter/firebase_deeplink_masamune_adapter.dart";
+part "src/deeplink.dart";
+part "src/firebase_deeplink_settings.dart";
+part "src/firebase_deeplink_logger_event.dart";

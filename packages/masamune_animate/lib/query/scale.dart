@@ -1,4 +1,4 @@
-part of 'query.dart';
+part of "query.dart";
 
 /// Extension method for [EffectQuery] for scale animation.
 ///

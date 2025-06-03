@@ -9,17 +9,17 @@
 library masamune_agora;
 
 // Dart imports:
-import 'dart:convert';
-import 'dart:math';
-import 'dart:typed_data';
+import "dart:convert";
+import "dart:math";
+import "dart:typed_data";
 
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:agora_rtc_engine/agora_rtc_engine.dart';
-import 'package:masamune/masamune.dart';
-import 'package:universal_platform/universal_platform.dart';
+import "package:agora_rtc_engine/agora_rtc_engine.dart";
+import "package:masamune/masamune.dart";
+import "package:universal_platform/universal_platform.dart";
 
 // import 'package:agora_rtc_engine/src/render/video_view_controller.dart' as rtc_local_view;
 // import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
@@ -38,14 +38,14 @@ export 'package:agora_rtc_engine/agora_rtc_engine.dart'
         AudioRecordingQualityType,
         VideoPixelFormat;
 
-part 'adapter/agora_masamune_adapter.dart';
-part 'functions/agora_token_functions_action.dart';
+part "adapter/agora_masamune_adapter.dart";
+part "functions/agora_token_functions_action.dart";
 
-part 'src/agora_storage_bucket_config.dart';
-part 'src/agora_controller.dart';
-part 'src/agora_user.dart';
-part 'src/agora_logger_event.dart';
-part 'src/extensions.dart';
-part 'src/agora_screen.dart';
-part 'src/agora_video_profile.dart';
-part 'src/agora_video_orientation.dart';
+part "src/agora_storage_bucket_config.dart";
+part "src/agora_controller.dart";
+part "src/agora_user.dart";
+part "src/agora_logger_event.dart";
+part "src/extensions.dart";
+part "src/agora_screen.dart";
+part "src/agora_video_profile.dart";
+part "src/agora_video_orientation.dart";

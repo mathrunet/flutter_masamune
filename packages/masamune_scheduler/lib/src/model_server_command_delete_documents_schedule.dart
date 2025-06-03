@@ -1,4 +1,4 @@
-part of '/masamune_scheduler.dart';
+part of "/masamune_scheduler.dart";
 
 /// [ModelServerCommandBase] to delete all documents for the collection specified in [time].
 ///

@@ -1,4 +1,4 @@
-part of '/masamune_scheduler.dart';
+part of "/masamune_scheduler.dart";
 
 /// Abstract class for defining documents with a schedule for deleting all documents in a collection.
 ///

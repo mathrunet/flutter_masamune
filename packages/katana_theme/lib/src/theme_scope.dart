@@ -1,4 +1,4 @@
-part of '/katana_theme.dart';
+part of "/katana_theme.dart";
 
 /// [InheritedWidget] for placing [AppThemeData] on the widget tree.
 ///

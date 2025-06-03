@@ -8,15 +8,15 @@
 // ignore_for_file: avoid_print
 
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:flutter_test/flutter_test.dart';
+import "package:flutter_test/flutter_test.dart";
 
 // Project imports:
-import 'package:katana_listenables/katana_listenables.dart';
+import "package:katana_listenables/katana_listenables.dart";
 
-part 'listenable_test.listenable.dart';
+part "listenable_test.listenable.dart";
 
 @listenables
 class ListenableValue with _$ListenableValue, ChangeNotifier {

@@ -1,4 +1,4 @@
-part of '/katana_form.dart';
+part of "/katana_form.dart";
 
 /// A form to let you select a numerical value.
 ///

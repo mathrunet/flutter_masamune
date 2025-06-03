@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'firestore_model_test.dart';
+part of "firestore_model_test.dart";
 
 // **************************************************************************
 // JsonSerializableGenerator

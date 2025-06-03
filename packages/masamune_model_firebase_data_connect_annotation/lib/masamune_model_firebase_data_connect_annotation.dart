@@ -8,7 +8,7 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_model_firebase_data_connect_annotation;
 
-export 'package:masamune_annotation/masamune_annotation.dart';
+export "package:masamune_annotation/masamune_annotation.dart";
 
-part 'src/firebase_data_connect_adapter.dart';
-part 'src/firebase_data_connect.dart';
+part "src/firebase_data_connect_adapter.dart";
+part "src/firebase_data_connect.dart";

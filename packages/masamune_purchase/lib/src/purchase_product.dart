@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_initializing_formals
 
-part of '/masamune_purchase.dart';
+part of "/masamune_purchase.dart";
 
 /// Define chargeable items.
 ///

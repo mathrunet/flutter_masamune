@@ -11,21 +11,21 @@ library katana_localization;
 // Dart imports:
 
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/foundation.dart";
+import "package:flutter/material.dart";
 
 // Package imports:
-// import 'package:flutter_localizations/flutter_localizations.dart';
+// import "package:flutter_localizations/flutter_localizations.dart";
 
 export 'package:flutter/foundation.dart' show SynchronousFuture;
 export 'package:flutter/widgets.dart' show Locale, LocalizationsDelegate;
 // export 'package:flutter_localizations/flutter_localizations.dart'
 //     show GlobalMaterialLocalizations;
-export 'package:katana/katana.dart';
-export 'package:katana_localization_annotation/katana_localization_annotation.dart';
+export "package:katana/katana.dart";
+export "package:katana_localization_annotation/katana_localization_annotation.dart";
 
-part 'src/app_localize_base.dart';
-part 'src/localize_scope.dart';
-part 'src/localizations_delegate.dart';
-part 'src/extensions.dart';
+part "src/app_localize_base.dart";
+part "src/localize_scope.dart";
+part "src/localizations_delegate.dart";
+part "src/extensions.dart";

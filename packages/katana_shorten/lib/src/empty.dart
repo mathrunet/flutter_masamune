@@ -1,4 +1,4 @@
-part of '/katana_shorten.dart';
+part of "/katana_shorten.dart";
 
 /// Creates a box that will become as small as its parent allows.
 ///

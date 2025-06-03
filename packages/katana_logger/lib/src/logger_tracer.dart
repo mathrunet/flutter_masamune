@@ -1,4 +1,4 @@
-part of '/katana_logger.dart';
+part of "/katana_logger.dart";
 
 class LoggerTrace {
   LoggerTrace._(this.values, this._onStart, this._onStop);

@@ -1,4 +1,4 @@
-part of '/masamune_scheduler.dart';
+part of "/masamune_scheduler.dart";
 
 /// Holds configuration data for the scheduler.
 ///

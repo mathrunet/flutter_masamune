@@ -9,16 +9,16 @@
 library masamune_text_to_speech;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:flutter_tts/flutter_tts.dart';
-import 'package:masamune/masamune.dart';
-import 'package:universal_platform/universal_platform.dart';
+import "package:flutter_tts/flutter_tts.dart";
+import "package:masamune/masamune.dart";
+import "package:universal_platform/universal_platform.dart";
 
-part 'adapter/text_to_speech_masamune_adapter.dart';
-part 'src/text_to_speech_controller.dart';
-part 'src/text_to_speech_ios_audio_category.dart';
+part "adapter/text_to_speech_masamune_adapter.dart";
+part "src/text_to_speech_controller.dart";
+part "src/text_to_speech_ios_audio_category.dart";

@@ -1,4 +1,4 @@
-part of '/katana_model.dart';
+part of "/katana_model.dart";
 
 /// Mix-in to search for [ModelInitialCollection].
 ///

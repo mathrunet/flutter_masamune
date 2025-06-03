@@ -1,4 +1,4 @@
-part of '/masamune_model_algolia.dart';
+part of "/masamune_model_algolia.dart";
 
 /// Model adapter with Algolia available.
 ///

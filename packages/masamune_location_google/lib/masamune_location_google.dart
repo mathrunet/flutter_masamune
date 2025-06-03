@@ -9,18 +9,18 @@
 library masamune_location_google;
 
 // Dart imports:
-import 'dart:math';
-import 'dart:ui';
+import "dart:math";
+import "dart:ui";
 
 // Flutter imports:
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import "package:flutter/foundation.dart";
+import "package:flutter/gestures.dart";
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
-import 'package:masamune_location/masamune_location.dart';
+import "package:masamune/masamune.dart";
+import "package:masamune_location/masamune_location.dart";
 
 // Package imports:
 import 'package:google_maps_flutter/google_maps_flutter.dart'
@@ -35,7 +35,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart'
 import 'package:google_maps_flutter/google_maps_flutter.dart' as map
     show Marker, Polygon, Polyline, Circle, TileOverlay, CameraPosition;
 
-export 'package:masamune_location/masamune_location.dart';
+export "package:masamune_location/masamune_location.dart";
 export 'package:google_maps_flutter/google_maps_flutter.dart'
     show
         MapCreatedCallback,
@@ -45,17 +45,17 @@ export 'package:google_maps_flutter/google_maps_flutter.dart'
         ArgumentCallback,
         BitmapDescriptor;
 
-part 'adapter/google_mobile_location_masamune_adapter.dart';
-part 'adapter/google_mock_location_masamune_adapter.dart';
+part "adapter/google_mobile_location_masamune_adapter.dart";
+part "adapter/google_mock_location_masamune_adapter.dart";
 
-part 'src/map_style.dart';
-part 'src/map_controller.dart';
-part 'src/map_view.dart';
-part 'src/marker.dart';
-part 'src/polygon.dart';
-part 'src/extensions.dart';
-part 'src/polyline.dart';
-part 'src/circle.dart';
-part 'src/tile_overlay.dart';
-part 'src/camera_position.dart';
-part 'src/google_location_masamune_adapter.dart';
+part "src/map_style.dart";
+part "src/map_controller.dart";
+part "src/map_view.dart";
+part "src/marker.dart";
+part "src/polygon.dart";
+part "src/extensions.dart";
+part "src/polyline.dart";
+part "src/circle.dart";
+part "src/tile_overlay.dart";
+part "src/camera_position.dart";
+part "src/google_location_masamune_adapter.dart";

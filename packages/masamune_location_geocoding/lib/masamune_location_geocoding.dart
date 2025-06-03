@@ -11,10 +11,10 @@ library masamune_location_geocoding;
 // Dart imports:
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
-part 'adapter/geocoding_masamune_adapter.dart';
-part 'functions/geocoding_functions_action.dart';
+part "adapter/geocoding_masamune_adapter.dart";
+part "functions/geocoding_functions_action.dart";

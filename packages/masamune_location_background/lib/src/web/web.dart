@@ -2,18 +2,18 @@
 library masamune_location_background.web;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Flutter imports:
-import 'package:flutter/foundation.dart';
+import "package:flutter/foundation.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
 // Project imports:
-import 'package:masamune_location_background/masamune_location_background.dart';
+import "package:masamune_location_background/masamune_location_background.dart";
 
 export 'package:permission_handler/permission_handler.dart'
     show openAppSettings;
 
-part 'background_location.dart';
+part "background_location.dart";

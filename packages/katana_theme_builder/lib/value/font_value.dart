@@ -1,4 +1,4 @@
-part of '/katana_theme_builder.dart';
+part of "/katana_theme_builder.dart";
 
 /// Class that defines data for fonts.
 ///

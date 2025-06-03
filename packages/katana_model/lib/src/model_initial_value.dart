@@ -1,4 +1,4 @@
-part of '/katana_model.dart';
+part of "/katana_model.dart";
 
 /// {@template model_initial_value}
 /// Base class for data to be passed to various [ModelAdapter] `data`.

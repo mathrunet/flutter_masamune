@@ -1,4 +1,4 @@
-part of '/masamune_markdown.dart';
+part of "/masamune_markdown.dart";
 
 const _kToolbarHeight = kToolbarHeight;
 const _kLinkDialogHeight = _kToolbarHeight * 2;

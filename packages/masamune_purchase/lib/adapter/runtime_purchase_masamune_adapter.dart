@@ -1,4 +1,4 @@
-part of '/masamune_purchase.dart';
+part of "/masamune_purchase.dart";
 
 /// Initialize [MasamuneAdapter] to handle InAppPurchase in the mockup.
 ///

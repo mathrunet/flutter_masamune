@@ -1,4 +1,4 @@
-part of '/katana_model_firestore.dart';
+part of "/katana_model_firestore.dart";
 
 const _kTypeKey = "@type";
 const _kTargetKey = "@target";

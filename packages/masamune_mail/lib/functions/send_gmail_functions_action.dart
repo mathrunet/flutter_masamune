@@ -1,4 +1,4 @@
-part of '/masamune_mail.dart';
+part of "/masamune_mail.dart";
 
 /// [FunctionsAction] for sending Gmail from the server side.
 ///

@@ -1,4 +1,4 @@
-part of '/katana_localization.dart';
+part of "/katana_localization.dart";
 
 /// Extension to extend [Locale].
 ///

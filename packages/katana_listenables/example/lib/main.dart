@@ -1,13 +1,13 @@
 // Dart imports:
-import 'dart:math';
+import "dart:math";
 
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:katana_listenables/katana_listenables.dart';
+import "package:katana_listenables/katana_listenables.dart";
 
-part 'main.listenable.dart';
+part "main.listenable.dart";
 
 @listenables
 class ListenableValue with _$ListenableValue, ChangeNotifier {

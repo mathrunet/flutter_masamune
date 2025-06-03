@@ -9,13 +9,13 @@
 library katana_prefs;
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 export 'dart:async' show Completer;
 
-export 'package:katana/katana.dart';
-export 'package:katana_prefs_annotation/katana_prefs_annotation.dart';
+export "package:katana/katana.dart";
+export "package:katana_prefs_annotation/katana_prefs_annotation.dart";
 export 'package:shared_preferences/shared_preferences.dart'
     show SharedPreferences;
 
-part 'src/prefs_base.dart';
+part "src/prefs_base.dart";

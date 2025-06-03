@@ -1,17 +1,17 @@
 // ignore_for_file: avoid_print
 
 // Dart imports:
-import 'dart:convert';
+import "dart:convert";
 
 // Package imports:
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:test/test.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:test/test.dart";
 
 // Project imports:
-import 'package:katana_model_local/katana_model_local.dart';
+import "package:katana_model_local/katana_model_local.dart";
 
-part 'json_source_model_adapter_test.freezed.dart';
-part 'json_source_model_adapter_test.g.dart';
+part "json_source_model_adapter_test.freezed.dart";
+part "json_source_model_adapter_test.g.dart";
 
 class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
   RuntimeMapDocumentModel(super.query);

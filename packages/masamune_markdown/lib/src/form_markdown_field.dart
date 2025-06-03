@@ -1,4 +1,4 @@
-part of '/masamune_markdown.dart';
+part of "/masamune_markdown.dart";
 
 /// Widget for Markdown text field for forms.
 ///

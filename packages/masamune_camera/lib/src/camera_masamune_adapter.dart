@@ -1,4 +1,4 @@
-part of '/masamune_camera.dart';
+part of "/masamune_camera.dart";
 
 /// Base class for [MasamuneAdapter], which performs initial camera settings.
 ///

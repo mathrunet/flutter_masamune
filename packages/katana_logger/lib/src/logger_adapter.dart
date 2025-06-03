@@ -1,4 +1,4 @@
-part of '/katana_logger.dart';
+part of "/katana_logger.dart";
 
 /// Base class for defining platform adapters for storing logs.
 ///

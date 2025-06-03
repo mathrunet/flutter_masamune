@@ -1,8 +1,8 @@
 // Package imports:
-import 'package:test/test.dart';
+import "package:test/test.dart";
 
 // Project imports:
-import 'package:katana_logger/katana_logger.dart';
+import "package:katana_logger/katana_logger.dart";
 
 void main() {
   test("LoggerDatabase.limit", () async {

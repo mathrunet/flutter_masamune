@@ -8,4 +8,4 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_util;
 
-export 'src/japanese_prefectures.dart';
+export "src/japanese_prefectures.dart";

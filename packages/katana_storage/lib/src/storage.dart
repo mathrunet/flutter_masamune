@@ -1,4 +1,4 @@
-part of '/katana_storage.dart';
+part of "/katana_storage.dart";
 
 /// Provides access to file storage.
 ///

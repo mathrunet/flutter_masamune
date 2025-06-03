@@ -1,4 +1,4 @@
-part of '/katana_scoped.dart';
+part of "/katana_scoped.dart";
 
 /// Container object for storing [ScopedValue].
 ///

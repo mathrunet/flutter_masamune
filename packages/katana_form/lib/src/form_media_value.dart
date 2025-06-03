@@ -1,4 +1,4 @@
-part of '/katana_form.dart';
+part of "/katana_form.dart";
 
 /// Provides an extension method for [FormMediaValue] that is nullable.
 ///

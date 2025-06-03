@@ -13,7 +13,7 @@ globs: *.dart
     ```dart
     // packages/katana_cli/lib/ai/docs/katana_ui/line_tile.dart
 
-    import 'package:katana_cli/katana_cli.dart';
+    import "package:katana_cli/katana_cli.dart";
 
     /// Contents of line_tile.mdc.
     ///

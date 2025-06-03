@@ -1,4 +1,4 @@
-part of '/masamune_ai_openai.dart';
+part of "/masamune_ai_openai.dart";
 
 /// [AIMasamuneAdapter] for configuring OpenAI features.
 ///

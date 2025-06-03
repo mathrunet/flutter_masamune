@@ -3,11 +3,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
-import 'package:masamune_camera/masamune_camera.dart';
+import "package:masamune/masamune.dart";
+import "package:masamune_camera/masamune_camera.dart";
 
 final List<MasamuneAdapter> masamuneAdapters = [
   const MobileCameraMasamuneAdapter(),

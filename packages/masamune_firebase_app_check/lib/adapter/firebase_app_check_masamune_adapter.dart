@@ -1,4 +1,4 @@
-part of '/masamune_firebase_app_check.dart';
+part of "/masamune_firebase_app_check.dart";
 
 /// [MasamuneAdapter] for configuring FirebaseAppCheck features.
 ///

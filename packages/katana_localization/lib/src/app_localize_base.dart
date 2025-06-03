@@ -1,4 +1,4 @@
-part of '/katana_localization.dart';
+part of "/katana_localization.dart";
 
 /// Base class for building the localized configuration of the application.
 ///

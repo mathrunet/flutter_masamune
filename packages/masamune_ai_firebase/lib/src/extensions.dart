@@ -1,4 +1,4 @@
-part of '/masamune_ai_firebase.dart';
+part of "/masamune_ai_firebase.dart";
 
 extension on Content {
   List<AIContentPart> _toAIContentParts() {

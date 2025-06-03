@@ -1,4 +1,4 @@
-part of '/masamune_builder.dart';
+part of "/masamune_builder.dart";
 
 const _searchParamChecker = TypeChecker.fromRuntime(SearchParam);
 const _refParamChecker = TypeChecker.fromRuntime(RefParam);

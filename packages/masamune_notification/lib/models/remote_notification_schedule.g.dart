@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'remote_notification_schedule.dart';
+part of "remote_notification_schedule.dart";
 
 // **************************************************************************
 // JsonSerializableGenerator

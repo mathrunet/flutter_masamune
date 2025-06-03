@@ -11,32 +11,32 @@
 library masamune_purchase;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
 // Project imports:
-import 'package:masamune_purchase/models/purchase_subscription.dart';
-import 'package:masamune_purchase/models/purchase_user.dart';
+import "package:masamune_purchase/models/purchase_subscription.dart";
+import "package:masamune_purchase/models/purchase_user.dart";
 
-part 'adapter/runtime_purchase_masamune_adapter.dart';
+part "adapter/runtime_purchase_masamune_adapter.dart";
 
-part 'actions/android_consumable_purchase_functions_action.dart';
-part 'actions/ios_consumable_purchase_functions_action.dart';
-part 'actions/android_nonconsumable_purchase_functions_action.dart';
-part 'actions/ios_nonconsumable_purchase_functions_action.dart';
-part 'actions/android_subscription_purchase_functions_action.dart';
-part 'actions/ios_subscription_purchase_functions_action.dart';
+part "actions/android_consumable_purchase_functions_action.dart";
+part "actions/ios_consumable_purchase_functions_action.dart";
+part "actions/android_nonconsumable_purchase_functions_action.dart";
+part "actions/ios_nonconsumable_purchase_functions_action.dart";
+part "actions/android_subscription_purchase_functions_action.dart";
+part "actions/ios_subscription_purchase_functions_action.dart";
 
-part 'src/purchase.dart';
-part 'src/purchase_product.dart';
-part 'src/purchase_product_value.dart';
-part 'src/purchase_product_type.dart';
-part 'src/purchase_masamune_adapter.dart';
-part 'src/purchase_functions_action.dart';
-part 'src/purchase_delegate.dart';
-part 'src/purchase_subscription_period.dart';
+part "src/purchase.dart";
+part "src/purchase_product.dart";
+part "src/purchase_product_value.dart";
+part "src/purchase_product_type.dart";
+part "src/purchase_masamune_adapter.dart";
+part "src/purchase_functions_action.dart";
+part "src/purchase_delegate.dart";
+part "src/purchase_subscription_period.dart";

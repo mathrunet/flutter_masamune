@@ -1,10 +1,10 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:katana_localization/katana_localization.dart';
+import "package:katana_localization/katana_localization.dart";
 
-part 'main.localize.dart';
+part "main.localize.dart";
 
 final l = AppLocalize();
 

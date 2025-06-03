@@ -199,8 +199,8 @@ Place the `ModelAdapterScope` on top of the MaterialApp, for example, and specif
 
 ```dart
 // main.dart
-import 'package:flutter/material.dart';
-import 'package:katana_scoped/katana_scoped.dart';
+import "package:flutter/material.dart";
+import "package:katana_scoped/katana_scoped.dart";
 
 void main() {
   runApp(const MyApp());
@@ -358,11 +358,11 @@ In addition, the following rules apply to notifications
 The code is as follows: display the elements of the collection in a list, add elements with FAB, tap each ListTile to randomly update the contents of the field, and tap the Delete button to delete the element.
 
 ```dart
-import 'dart:math';
+import "dart:math";
 
-import 'package:katana_model/katana_model.dart';
+import "package:katana_model/katana_model.dart";
 
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class ModelDocument extends DocumentBase<Map<String, dynamic>> {
   ModelDocument(super.modelQuery);

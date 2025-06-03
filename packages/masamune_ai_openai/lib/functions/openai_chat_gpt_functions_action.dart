@@ -1,4 +1,4 @@
-part of '/masamune_ai_openai.dart';
+part of "/masamune_ai_openai.dart";
 
 /// [FunctionsAction] to send OpenAI's ChatGPT queries from the server side.
 ///

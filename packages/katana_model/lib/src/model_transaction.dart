@@ -1,4 +1,4 @@
-part of '/katana_model.dart';
+part of "/katana_model.dart";
 
 /// {@template model_transaction}
 /// Builder for transactions.

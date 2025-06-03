@@ -1,4 +1,4 @@
-part of '/masamune_model_firestore.dart';
+part of "/masamune_model_firestore.dart";
 
 /// Model adapter with Firebase Firestore available.
 ///

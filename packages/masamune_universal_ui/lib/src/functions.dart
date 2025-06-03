@@ -1,4 +1,4 @@
-part of '/masamune_universal_ui.dart';
+part of "/masamune_universal_ui.dart";
 
 /// Open a new external [url].
 ///

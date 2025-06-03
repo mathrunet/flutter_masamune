@@ -1,4 +1,4 @@
-part of '/katana_model.dart';
+part of "/katana_model.dart";
 
 /// You can implement adapters that define the internal specifications of the model.
 ///

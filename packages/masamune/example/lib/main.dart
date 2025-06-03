@@ -1,11 +1,11 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
-part 'main.theme.dart';
-part 'main.localize.dart';
+part "main.theme.dart";
+part "main.localize.dart";
 
 /// App Title.
 const title = "";

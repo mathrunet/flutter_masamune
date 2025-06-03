@@ -1,4 +1,4 @@
-part of '/katana_logger.dart';
+part of "/katana_logger.dart";
 
 const _kLogName = "Katana";
 

@@ -1,4 +1,4 @@
-part of '/katana_scoped.dart';
+part of "/katana_scoped.dart";
 
 /// Class for extensions to manage state.
 ///

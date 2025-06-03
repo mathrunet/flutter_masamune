@@ -1,4 +1,4 @@
-part of '/katana_theme.dart';
+part of "/katana_theme.dart";
 
 /// A custom [ImageProvider] that periodically switches between and displays multiple [ImageProvider]s.
 ///

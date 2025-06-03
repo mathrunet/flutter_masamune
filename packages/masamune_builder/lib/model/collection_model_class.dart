@@ -1,4 +1,4 @@
-part of '/masamune_builder.dart';
+part of "/masamune_builder.dart";
 
 /// The type of query method for the collection.
 ///

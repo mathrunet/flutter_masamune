@@ -1,4 +1,4 @@
-part of '/masamune_deeplink.dart';
+part of "/masamune_deeplink.dart";
 
 /// Class for handling deep links.
 ///

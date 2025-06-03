@@ -1,4 +1,4 @@
-part of 'web.dart';
+part of "web.dart";
 
 /// Class that manages all aspects of GoogleAd.
 ///

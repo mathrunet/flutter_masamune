@@ -1,4 +1,4 @@
-part of '/masamune_lints.dart';
+part of "/masamune_lints.dart";
 
 const _kMaxNestingCount = 3;
 

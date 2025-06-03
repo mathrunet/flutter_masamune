@@ -1,4 +1,4 @@
-part of '/katana_shorten.dart';
+part of "/katana_shorten.dart";
 
 /// Extension to make it easier to describe spaces in [num].
 ///

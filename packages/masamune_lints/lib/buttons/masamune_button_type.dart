@@ -1,4 +1,4 @@
-part of '/masamune_lints.dart';
+part of "/masamune_lints.dart";
 
 const _kConvertToOtherButtonPriority = 27;
 const _kAddOrRemoveIconPriority = 27;

@@ -1,10 +1,10 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:katana_theme/katana_theme.dart';
+import "package:katana_theme/katana_theme.dart";
 
-part 'main.theme.dart';
+part "main.theme.dart";
 
 @appTheme
 final theme = AppThemeData.light(

@@ -1,4 +1,4 @@
-part of '/masamune_test.dart';
+part of "/masamune_test.dart";
 
 /// Tests a page.
 ///

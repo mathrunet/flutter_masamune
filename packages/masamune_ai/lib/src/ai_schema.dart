@@ -1,4 +1,4 @@
-part of '/masamune_ai.dart';
+part of "/masamune_ai.dart";
 
 /// A schema for the data type of the AI.
 ///

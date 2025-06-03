@@ -1,4 +1,4 @@
-part of '/katana_form.dart';
+part of "/katana_form.dart";
 
 /// This widget is used to display switches and save ON/OFF of switches.
 ///

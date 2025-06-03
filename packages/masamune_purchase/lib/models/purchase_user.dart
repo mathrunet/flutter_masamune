@@ -3,14 +3,14 @@
 // Flutter imports:
 
 // Package imports:
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:masamune/masamune.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:masamune/masamune.dart";
 
 // ignore: unused_import, unnecessary_import
 
-part 'purchase_user.m.dart';
-part 'purchase_user.g.dart';
-part 'purchase_user.freezed.dart';
+part "purchase_user.m.dart";
+part "purchase_user.g.dart";
+part "purchase_user.freezed.dart";
 
 /// Model for storing user data for billing purposes.
 ///

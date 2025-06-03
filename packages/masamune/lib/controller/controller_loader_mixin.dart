@@ -1,4 +1,4 @@
-part of '/masamune.dart';
+part of "/masamune.dart";
 
 /// Provides the ability to load data into the controller.
 ///

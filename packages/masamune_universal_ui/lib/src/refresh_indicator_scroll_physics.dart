@@ -1,4 +1,4 @@
-part of '/masamune_universal_ui.dart';
+part of "/masamune_universal_ui.dart";
 
 /// ScrollPhysics for pull-to-refresh at a fixed location.
 ///

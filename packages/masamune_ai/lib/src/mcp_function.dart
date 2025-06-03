@@ -1,4 +1,4 @@
-part of '/masamune_ai.dart';
+part of "/masamune_ai.dart";
 
 /// Class for defining functions for MCP.
 ///

@@ -1,4 +1,4 @@
-part of 'value.dart';
+part of "value.dart";
 
 /// Provides an extended method for [Ref] to monitor [ChangeNotifier].
 ///

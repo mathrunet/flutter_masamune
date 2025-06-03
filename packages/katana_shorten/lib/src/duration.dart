@@ -1,4 +1,4 @@
-part of '/katana_shorten.dart';
+part of "/katana_shorten.dart";
 
 /// Extension to allow [Duration] to be easily described in [num].
 ///

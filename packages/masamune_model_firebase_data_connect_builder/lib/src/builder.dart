@@ -1,4 +1,4 @@
-part of '/masamune_model_firebase_data_connect_builder.dart';
+part of "/masamune_model_firebase_data_connect_builder.dart";
 
 const _firebaseDataConnectChecker =
     TypeChecker.fromRuntime(FirebaseDataConnect);

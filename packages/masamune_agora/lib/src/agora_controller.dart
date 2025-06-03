@@ -1,4 +1,4 @@
-part of '/masamune_agora.dart';
+part of "/masamune_agora.dart";
 
 /// Controller for connecting and disconnecting Agora.io, etc.
 ///

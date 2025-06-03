@@ -179,16 +179,16 @@ Describe the contents of the screen UI inside the `build`, just as you would wit
 // test.dart
 
 // ignore: unused_import, unnecessary_import
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 // ignore: unused_import, unnecessary_import
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 // ignore: unused_import, unnecessary_import
-import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+import "package:masamune_universal_ui/masamune_universal_ui.dart";
 
 // ignore: unused_import, unnecessary_import
-import 'package:xxxx/main.dart';
+import "package:xxxx/main.dart";
 
-part 'test.page.dart';
+part "test.page.dart";
 
 @immutable
 // TODO: Set the path for the page.
@@ -310,18 +310,18 @@ If a collection model is created with the above command, a document model will a
 // test.dart
 
 // ignore: unused_import, unnecessary_import
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 // ignore: unused_import, unnecessary_import
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
 // ignore: unused_import, unnecessary_import
-import 'package:xxxx/main.dart';
+import "package:xxxx/main.dart";
 
-import 'package:freezed_annotation/freezed_annotation.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
 
-part 'test.m.dart';
-part 'test.g.dart';
-part 'test.freezed.dart';
+part "test.m.dart";
+part "test.g.dart";
+part "test.freezed.dart";
 
 /// Value for model.
 @freezed
@@ -560,14 +560,14 @@ A class named `(Page name)Controller` is created as follows.
 // test.dart
 
 // ignore: unused_import, unnecessary_import
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 // ignore: unused_import, unnecessary_import
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
 // ignore: unused_import, unnecessary_import
-import 'package:xxxx/main.dart';
+import "package:xxxx/main.dart";
 
-part 'test.m.dart';
+part "test.m.dart";
 
 /// Controller.
 @Controller(autoDisposeWhenUnreferenced: false)
@@ -816,18 +816,18 @@ Internally, a class named `(Value name)Value` is created.
 // login.dart
 
 // ignore: unused_import, unnecessary_import
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 // ignore: unused_import, unnecessary_import
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
 // ignore: unused_import, unnecessary_import
-import 'package:xxxx/main.dart';
+import "package:xxxx/main.dart";
 
-import 'package:freezed_annotation/freezed_annotation.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
 
-part 'login.g.dart';
-part 'login.m.dart';
-part 'login.freezed.dart';
+part "login.g.dart";
+part "login.m.dart";
+part "login.freezed.dart";
 
 /// Immutable value.
 @freezed

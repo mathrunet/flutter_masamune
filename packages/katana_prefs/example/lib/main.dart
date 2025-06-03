@@ -1,10 +1,10 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:katana_prefs/katana_prefs.dart';
+import "package:katana_prefs/katana_prefs.dart";
 
-part 'main.prefs.dart';
+part "main.prefs.dart";
 
 @prefs
 class PrefsValue with _$PrefsValue, ChangeNotifier {

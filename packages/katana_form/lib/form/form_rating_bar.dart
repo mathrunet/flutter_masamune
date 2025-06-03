@@ -1,4 +1,4 @@
-part of '/katana_form.dart';
+part of "/katana_form.dart";
 
 /// Widget to display & edit by number of stars by passing [double].
 ///

@@ -1,4 +1,4 @@
-part of '/masamune_auth_facebook.dart';
+part of "/masamune_auth_facebook.dart";
 
 /// Initialize Facebook sign-in [MasamuneAdapter].
 ///

@@ -1,4 +1,4 @@
-part of 'others.dart';
+part of "others.dart";
 
 /// [GoogleNativeAd] Template Type.
 ///

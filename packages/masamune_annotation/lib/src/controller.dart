@@ -1,4 +1,4 @@
-part of '/masamune_annotation.dart';
+part of "/masamune_annotation.dart";
 
 /// Annotation for creating queries for controllers.
 ///

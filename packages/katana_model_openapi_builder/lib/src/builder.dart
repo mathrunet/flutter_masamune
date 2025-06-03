@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
 
-part of '/katana_model_openapi_builder.dart';
+part of "/katana_model_openapi_builder.dart";
 
 /// Builder factory for automatic OpenAPI generation.
 ///

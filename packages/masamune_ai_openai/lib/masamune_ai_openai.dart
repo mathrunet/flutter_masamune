@@ -11,17 +11,17 @@
 library masamune_ai_openai;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:dart_openai/dart_openai.dart';
-import 'package:masamune/masamune.dart';
-import 'package:masamune_ai/masamune_ai.dart';
+import "package:dart_openai/dart_openai.dart";
+import "package:masamune/masamune.dart";
+import "package:masamune_ai/masamune_ai.dart";
 
-part 'adapter/openai_ai_masamune_adapter.dart';
-part 'functions/openai_chat_gpt_functions_action.dart';
-part 'src/extensions.dart';
-part 'src/openai_ai_model.dart';
+part "adapter/openai_ai_masamune_adapter.dart";
+part "functions/openai_chat_gpt_functions_action.dart";
+part "src/extensions.dart";
+part "src/openai_ai_model.dart";

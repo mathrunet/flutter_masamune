@@ -1,4 +1,4 @@
-part of '/masamune_annotation.dart';
+part of "/masamune_annotation.dart";
 
 /// Ensure that serializable parameters can be successfully serialized to Json.
 ///

@@ -1,15 +1,15 @@
 // ignore_for_file: invalid_annotation_target
 
 // Package imports:
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:masamune/masamune.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:masamune/masamune.dart";
 
 // Project imports:
-import 'package:masamune_purchase_stripe/masamune_purchase_stripe.dart';
+import "package:masamune_purchase_stripe/masamune_purchase_stripe.dart";
 
-part 'stripe_payment.m.dart';
-part 'stripe_payment.g.dart';
-part 'stripe_payment.freezed.dart';
+part "stripe_payment.m.dart";
+part "stripe_payment.g.dart";
+part "stripe_payment.freezed.dart";
 
 /// A model for storing data on payment methods for stripes.
 ///

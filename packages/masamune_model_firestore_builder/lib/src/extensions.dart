@@ -1,4 +1,4 @@
-part of '/masamune_model_firestore_builder.dart';
+part of "/masamune_model_firestore_builder.dart";
 
 extension on InterfaceType {
   bool get isIterable {

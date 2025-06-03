@@ -59,10 +59,10 @@ This package can implement routing configuration as shown in the example below.
 ```dart
 // home.dart
 
-import 'package:katana_router/katana_router.dart';
-import 'package:flutter/material.dart';
+import "package:katana_router/katana_router.dart";
+import "package:flutter/material.dart";
 
-part 'home.page.dart';
+part "home.page.dart";
 
 @PagePath("/")
 class HomePage extends StatelessWidget {
@@ -88,10 +88,10 @@ class HomePage extends StatelessWidget {
 ```dart
 // main.dart
 
-import 'package:katana_router/katana_router.dart';
-import 'package:flutter/material.dart';
+import "package:katana_router/katana_router.dart";
+import "package:flutter/material.dart";
 
-import 'main.router.dart';
+import "main.router.dart";
 
 @appRoute
 final appRouter = AutoRouter();
@@ -139,7 +139,7 @@ flutter pub add --dev katana_router_builder
 
 Widget to display by page path`/user/any user ID` is implemented as follows.
 
-`part '(original filename).page.dart';` to import a Part file.
+`part "(original filename).page.dart";` to import a Part file.
 
 Define the Widget as a page in `@PagePath("path name")` Annotation.
 
@@ -152,10 +152,10 @@ Widget parameters can be defined as they are.
 ```dart
 // user.dart
 
-import 'package:katana_router/katana_router.dart';
-import 'package:flutter/material.dart';
+import "package:katana_router/katana_router.dart";
+import "package:flutter/material.dart";
 
-part 'user.page.dart';
+part "user.page.dart";
 
 @PagePath("/user/:user_id")
 class UserPage extends StatelessWidget {
@@ -183,7 +183,7 @@ class UserPage extends StatelessWidget {
 
 ## Router Creation
 
-`import '(original filename).router.dart';` to import library files.
+`import "(original filename).router.dart";` to import library files.
 
 To create a router, grant `@appRoute` Annotation with a top-level value.
 
@@ -194,10 +194,10 @@ Give that value directly to the `routerConfig` in `MaterialApp.router`. This wil
 ```dart
 // main.dart
 
-import 'package:katana_router/katana_router.dart';
-import 'package:flutter/material.dart';
+import "package:katana_router/katana_router.dart";
+import "package:flutter/material.dart";
 
-import 'main.router.dart';
+import "main.router.dart";
 
 @appRoute
 final appRouter = AutoRouter();
@@ -231,11 +231,11 @@ Use this function when automatic router creation does not work, or when you want
 ```dart
 // main.dart
 
-import 'package:katana_router/katana_router.dart';
-import 'package:flutter/material.dart';
-import 'pages/home.dart';
-import 'pages/edit.dart';
-import 'pages/detail.dart';
+import "package:katana_router/katana_router.dart";
+import "package:flutter/material.dart";
+import "pages/home.dart";
+import "pages/edit.dart";
+import "pages/detail.dart";
 
 @appRoute
 final appRouter = AppRouter(
@@ -321,10 +321,10 @@ In the following case, `text` is passed to searchQuery when accessed with `https
 ```dart
 // search.dart
 
-import 'package:katana_router/katana_router.dart';
-import 'package:flutter/material.dart';
+import "package:katana_router/katana_router.dart";
+import "package:flutter/material.dart";
 
-part 'search.page.dart';
+part "search.page.dart";
 
 @PagePath("/search")
 class SearchPage extends StatelessWidget {
@@ -361,8 +361,8 @@ The original RouteQuery is passed to `source`, so if the transition is to the pa
 If you want to transition to another page, pass a RouteQuery for that page.
 
 ```dart
-import 'package:katana_router/katana_router.dart';
-import 'dart:async';
+import "package:katana_router/katana_router.dart";
+import "dart:async";
 
 class LoginRequiredRedirectQuery extends RedirectQuery {
   const LoginRequiredRedirectQuery();
@@ -419,8 +419,8 @@ This splash page can be used to perform the first data load and other processes 
 Create a class inheriting from `BootRouteQueryBuilder` and define `onInit` (processing at startup), `build` (screen display at startup), `initialTransitionQuery` (transition from the startup screen to the first page), `onError` (processing on error).
 
 ```dart
-import 'package:katana_router/katana_router.dart';
-import 'package:flutter/material.dart';
+import "package:katana_router/katana_router.dart";
+import "package:flutter/material.dart";
 
 class AppBoot extends BootRouteQueryBuilder {
   const AppBoot();

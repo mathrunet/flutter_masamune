@@ -1,4 +1,4 @@
-part of '/masamune_markdown.dart';
+part of "/masamune_markdown.dart";
 
 /// An enumeration type for sub tools.
 ///

@@ -1,4 +1,4 @@
-part of '/masamune_location_google.dart';
+part of "/masamune_location_google.dart";
 
 /// [MasamuneAdapter] for the mock-up that handles location information and performs the initial setup for displaying GoogleMap.
 ///

@@ -1,4 +1,4 @@
-part of '/katana_scoped.dart';
+part of "/katana_scoped.dart";
 
 class _AppScopedScope extends InheritedWidget {
   const _AppScopedScope({

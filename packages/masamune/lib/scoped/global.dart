@@ -1,4 +1,4 @@
-part of '/masamune.dart';
+part of "/masamune.dart";
 
 /// Create an **application scope** extension method to handle the globally defined [ChangeNotifier].
 ///

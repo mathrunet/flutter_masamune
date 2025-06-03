@@ -1,14 +1,14 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:introduction_screen/introduction_screen.dart';
-import 'package:masamune/masamune.dart';
+import "package:introduction_screen/introduction_screen.dart";
+import "package:masamune/masamune.dart";
 
 // Project imports:
-import 'package:masamune_introduction/masamune_introduction.dart';
+import "package:masamune_introduction/masamune_introduction.dart";
 
-part 'masamune_introduction.page.dart';
+part "masamune_introduction.page.dart";
 
 /// [PageScopedWidget] in the introduction.
 ///

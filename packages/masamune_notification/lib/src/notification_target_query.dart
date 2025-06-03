@@ -1,4 +1,4 @@
-part of '/masamune_notification.dart';
+part of "/masamune_notification.dart";
 
 /// A query to set the recipients of remote notifications.
 ///

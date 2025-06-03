@@ -1,4 +1,4 @@
-part of '/masamune_location.dart';
+part of "/masamune_location.dart";
 
 /// [MasamuneAdapter] for creating location mocks.
 ///

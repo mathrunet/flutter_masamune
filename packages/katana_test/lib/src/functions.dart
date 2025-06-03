@@ -1,4 +1,4 @@
-part of '/katana_test.dart';
+part of "/katana_test.dart";
 
 /// Verify errors including Async.
 ///

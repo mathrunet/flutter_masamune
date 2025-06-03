@@ -1,4 +1,4 @@
-part of '/masamune.dart';
+part of "/masamune.dart";
 
 /// Create an extension method for [PageOrAppScopedValueOrAppRef] to handle Query for controllers and controller groups.
 ///

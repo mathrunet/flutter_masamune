@@ -1,4 +1,4 @@
-part of '/katana_functions.dart';
+part of "/katana_functions.dart";
 
 /// Adapter to execute functions using Rest API.
 ///

@@ -1,4 +1,4 @@
-part of '/masamune_agora.dart';
+part of "/masamune_agora.dart";
 
 /// Adapter to make Agora.io available on the Masamune framework.
 ///

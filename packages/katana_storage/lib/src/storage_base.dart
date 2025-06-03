@@ -1,4 +1,4 @@
-part of '/katana_storage.dart';
+part of "/katana_storage.dart";
 
 /// Abstract class for implementing internal storage functionality.
 ///

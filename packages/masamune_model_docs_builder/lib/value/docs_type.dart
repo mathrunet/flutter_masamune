@@ -1,4 +1,4 @@
-part of '/masamune_model_docs_builder.dart';
+part of "/masamune_model_docs_builder.dart";
 
 /// Firestore rule value type.
 ///

@@ -9,11 +9,11 @@
 library masamune_auth_apple;
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import "package:masamune/masamune.dart";
+import "package:sign_in_with_apple/sign_in_with_apple.dart";
 
-part 'adapter/apple_auth_masamune_adapter.dart';
-part 'provider/apple_auth_query.dart';
+part "adapter/apple_auth_masamune_adapter.dart";
+part "provider/apple_auth_query.dart";

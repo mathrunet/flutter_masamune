@@ -1,4 +1,4 @@
-part of '/masamune_purchase.dart';
+part of "/masamune_purchase.dart";
 
 /// Define consumable billing settings for IOS.
 ///

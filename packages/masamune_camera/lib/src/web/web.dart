@@ -2,17 +2,17 @@
 library masamune_camera.web;
 
 // Dart imports:
-import 'dart:typed_data';
+import "dart:typed_data";
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 // Package imports:
 import 'package:camera/camera.dart' as camera;
 import 'package:image/image.dart' as image;
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
 // Project imports:
-import 'package:masamune_camera/masamune_camera.dart';
+import "package:masamune_camera/masamune_camera.dart";
 
-part 'camera_value.dart';
+part "camera_value.dart";

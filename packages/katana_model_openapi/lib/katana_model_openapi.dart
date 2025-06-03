@@ -8,4 +8,4 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_model_openapi;
 
-export 'package:katana/katana.dart';
+export "package:katana/katana.dart";

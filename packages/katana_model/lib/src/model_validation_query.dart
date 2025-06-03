@@ -1,4 +1,4 @@
-part of '/katana_model.dart';
+part of "/katana_model.dart";
 
 /// {@template model_validation_query_permission_type}
 /// Specifies the permission type for validation.

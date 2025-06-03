@@ -9,10 +9,10 @@
 library masamune_ads_google;
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
 import 'src/others/others.dart'
     if (dart.library.io) 'src/others/others.dart'
@@ -24,5 +24,5 @@ export 'src/others/others.dart'
     if (dart.library.js) 'src/web/web.dart'
     if (dart.library.html) 'src/web/web.dart';
 
-part 'adapter/google_ads_masamune_adapter.dart';
-part 'src/google_ads_no_fill_error.dart';
+part "adapter/google_ads_masamune_adapter.dart";
+part "src/google_ads_no_fill_error.dart";

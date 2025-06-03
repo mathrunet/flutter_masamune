@@ -1,4 +1,4 @@
-part of '/katana_form.dart';
+part of "/katana_form.dart";
 
 /// A form that waits for another process to complete and updates the value of the form based on that value.
 ///

@@ -1,4 +1,4 @@
-part of '/masamune_camera.dart';
+part of "/masamune_camera.dart";
 
 /// Items for setting up the introductory page.
 ///

@@ -1,4 +1,4 @@
-part of '/katana_form.dart';
+part of "/katana_form.dart";
 
 const _kObjectReplacementChar = 0xFFFD;
 const _kFormHeight = 40.0;

@@ -1,9 +1,9 @@
 // Package imports:
-import 'package:katana_test/katana_test.dart';
-import 'package:test/test.dart';
+import "package:katana_test/katana_test.dart";
+import "package:test/test.dart";
 
 // Project imports:
-import 'package:katana_model/katana_model.dart';
+import "package:katana_model/katana_model.dart";
 
 class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
   RuntimeMapDocumentModel(super.query);

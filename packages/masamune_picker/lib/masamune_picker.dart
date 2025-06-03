@@ -9,23 +9,23 @@
 library masamune_picker;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Flutter imports:
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
+import "package:flutter/foundation.dart";
+import "package:flutter/services.dart";
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:file_picker/file_picker.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:masamune/masamune.dart';
-import 'package:mime/mime.dart';
+import "package:file_picker/file_picker.dart";
+import "package:image_picker/image_picker.dart";
+import "package:masamune/masamune.dart";
+import "package:mime/mime.dart";
 
-part 'adapter/picker_masamune_adapter.dart';
+part "adapter/picker_masamune_adapter.dart";
 
-part 'src/picker.dart';
-part 'src/picker_file_type.dart';
-part 'src/picker_value.dart';
-part 'storage/storage.dart';
-part 'src/masamune_picker_permission_denied_exception.dart';
+part "src/picker.dart";
+part "src/picker_file_type.dart";
+part "src/picker_value.dart";
+part "storage/storage.dart";
+part "src/masamune_picker_permission_denied_exception.dart";

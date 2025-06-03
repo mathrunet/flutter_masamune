@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'searchable_runtime_model_test.dart';
+part of "searchable_runtime_model_test.dart";
 
 // **************************************************************************
 // JsonSerializableGenerator

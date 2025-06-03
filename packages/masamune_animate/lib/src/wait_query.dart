@@ -1,4 +1,4 @@
-part of '/masamune_animate.dart';
+part of "/masamune_animate.dart";
 
 /// Extended method for [EffectQuery] to wait.
 ///

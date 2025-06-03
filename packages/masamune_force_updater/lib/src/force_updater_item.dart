@@ -1,4 +1,4 @@
-part of '/masamune_force_updater.dart';
+part of "/masamune_force_updater.dart";
 
 /// Class for storing the procedure for registering with [ForceUpdater].
 ///

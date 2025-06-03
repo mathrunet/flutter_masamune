@@ -1,4 +1,4 @@
-part of '/katana_model.dart';
+part of "/katana_model.dart";
 
 /// Mix-ins to create collections for which search functions are available.
 ///

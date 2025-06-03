@@ -1,4 +1,4 @@
-part of '/masamune_deeplink_firebase.dart';
+part of "/masamune_deeplink_firebase.dart";
 
 /// Class for handling DynamicLink.
 ///

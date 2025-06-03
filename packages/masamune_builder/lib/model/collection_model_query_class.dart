@@ -1,4 +1,4 @@
-part of '/masamune_builder.dart';
+part of "/masamune_builder.dart";
 
 String _querySelectorClass(ParamaterValue param, String queryClass) {
   final reference = param.reference;

@@ -9,15 +9,15 @@
 library masamune_deeplink;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:app_links/app_links.dart';
-import 'package:masamune/masamune.dart';
+import "package:app_links/app_links.dart";
+import "package:masamune/masamune.dart";
 
-part 'adapter/deeplink_masamune_adapter.dart';
-part 'src/deeplink.dart';
-part 'src/deeplink_logger_event.dart';
+part "adapter/deeplink_masamune_adapter.dart";
+part "src/deeplink.dart";
+part "src/deeplink_logger_event.dart";

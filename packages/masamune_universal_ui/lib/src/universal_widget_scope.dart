@@ -1,4 +1,4 @@
-part of '/masamune_universal_ui.dart';
+part of "/masamune_universal_ui.dart";
 
 /// Widget to disable child padding when [UniversalListView] or [UniversalContainer] installed in Body is installed in duplicate.
 ///

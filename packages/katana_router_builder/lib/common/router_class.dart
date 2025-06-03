@@ -1,4 +1,4 @@
-part of '/katana_router_builder.dart';
+part of "/katana_router_builder.dart";
 
 /// Create a class for the router.
 ///

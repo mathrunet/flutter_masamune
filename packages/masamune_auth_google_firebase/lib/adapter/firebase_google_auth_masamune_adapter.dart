@@ -1,4 +1,4 @@
-part of '/masamune_auth_google_firebase.dart';
+part of "/masamune_auth_google_firebase.dart";
 
 /// Initialize Google sign-in [MasamuneAdapter] on Firebase.
 ///

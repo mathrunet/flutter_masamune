@@ -6,11 +6,11 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 // Flutter imports:
-import 'package:flutter/rendering.dart';
+import "package:flutter/rendering.dart";
 
 // Package imports:
-import 'package:flutter_test/flutter_test.dart';
-import 'package:katana_router/katana_router.dart';
+import "package:flutter_test/flutter_test.dart";
+import "package:katana_router/katana_router.dart";
 
 void main() {
   test("regexsplit", () {

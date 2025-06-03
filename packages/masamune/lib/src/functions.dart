@@ -1,4 +1,4 @@
-part of '/masamune.dart';
+part of "/masamune.dart";
 
 /// Test adapters and containers can be specified and replaced.
 ///

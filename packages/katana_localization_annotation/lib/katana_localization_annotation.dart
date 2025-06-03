@@ -8,6 +8,6 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_localization_annotation;
 
-export 'package:katana/katana.dart';
+export "package:katana/katana.dart";
 
-part 'src/google_spread_sheet_localize.dart';
+part "src/google_spread_sheet_localize.dart";

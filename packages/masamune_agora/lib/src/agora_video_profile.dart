@@ -1,4 +1,4 @@
-part of '/masamune_agora.dart';
+part of "/masamune_agora.dart";
 
 /// Defines the video profiles available in Agora.
 ///

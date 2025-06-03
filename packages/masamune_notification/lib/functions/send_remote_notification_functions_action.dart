@@ -1,4 +1,4 @@
-part of '/masamune_notification.dart';
+part of "/masamune_notification.dart";
 
 /// [FunctionsAction] for sending remote PUSH notifications from the server side.
 ///

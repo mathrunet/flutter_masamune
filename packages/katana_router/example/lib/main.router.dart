@@ -10,10 +10,10 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:katana_router/katana_router.dart';
+import "package:katana_router/katana_router.dart";
 
 // Project imports:
 import 'package:katana_router_example/main.dart' as _$main;

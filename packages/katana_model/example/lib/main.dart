@@ -1,11 +1,11 @@
 // Dart imports:
-import 'dart:math';
+import "dart:math";
 
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:katana_model/katana_model.dart';
+import "package:katana_model/katana_model.dart";
 
 class ModelDocument extends DocumentBase<Map<String, dynamic>> {
   ModelDocument(super.modelQuery);

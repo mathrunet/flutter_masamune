@@ -1,4 +1,4 @@
-part of '/masamune_force_updater.dart';
+part of "/masamune_force_updater.dart";
 
 /// [MasamuneAdapter] to provide the ability to display forced updates.
 ///

@@ -1,4 +1,4 @@
-part of '/masamune_purchase_stripe.dart';
+part of "/masamune_purchase_stripe.dart";
 
 /// Initialize [MasamuneAdapter] to handle Stripe payments.
 ///

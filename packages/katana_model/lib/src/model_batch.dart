@@ -1,4 +1,4 @@
-part of '/katana_model.dart';
+part of "/katana_model.dart";
 
 /// {@template model_batch}
 /// Builder for batch processing.

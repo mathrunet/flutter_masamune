@@ -1,4 +1,4 @@
-part of 'value.dart';
+part of "value.dart";
 
 /// Provides an extension method for [AppScopedValueOrAppRef] to retrieve a [ScopedValue] that already exists.
 ///

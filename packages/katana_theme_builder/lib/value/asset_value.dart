@@ -1,4 +1,4 @@
-part of '/katana_theme_builder.dart';
+part of "/katana_theme_builder.dart";
 
 /// Stored data for Asset.
 ///

@@ -1,4 +1,4 @@
-part of 'value.dart';
+part of "value.dart";
 
 /// Provides extension methods for [PageOrWidgetScopedValueRef] to perform periodic processing.
 ///

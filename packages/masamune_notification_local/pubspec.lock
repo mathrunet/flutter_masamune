@@ -424,7 +424,7 @@ packages:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "2.11.6"
+    version: "2.11.7"
   katana_builder:
     dependency: "direct overridden"
     description:
@@ -438,7 +438,7 @@ packages:
       path: "../katana_form"
       relative: true
     source: path
-    version: "2.18.3"
+    version: "2.20.0"
   katana_functions:
     dependency: "direct overridden"
     description:
@@ -578,7 +578,7 @@ packages:
       path: "../katana_storage"
       relative: true
     source: path
-    version: "2.4.6"
+    version: "2.4.8"
   katana_test:
     dependency: "direct dev"
     description:
@@ -636,35 +636,35 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.23.16"
+    version: "2.24.0"
   masamune_annotation:
     dependency: "direct overridden"
     description:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "2.9.13"
+    version: "2.10.0"
   masamune_builder:
     dependency: "direct dev"
     description:
       path: "../masamune_builder"
       relative: true
     source: path
-    version: "2.22.3"
+    version: "2.23.0"
   masamune_notification:
     dependency: "direct main"
     description:
       path: "../masamune_notification"
       relative: true
     source: path
-    version: "2.11.21"
+    version: "2.11.25"
   masamune_scheduler:
     dependency: "direct overridden"
     description:
       path: "../masamune_scheduler"
       relative: true
     source: path
-    version: "2.4.25"
+    version: "2.4.29"
   matcher:
     dependency: transitive
     description:

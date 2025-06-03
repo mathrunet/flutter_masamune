@@ -115,7 +115,7 @@ flutter pub add --dev katana_prefs_builder
 
 Create a class as follows
 
-Add `part '(filename).prefs.dart';`.
+Add `part "(filename).prefs.dart";`.
 
 Annotate the defined class with `@prefs` and mixin `_$(defined class name)` and `ChangeNotifier`.
 
@@ -128,10 +128,10 @@ After the constructor, write `= _(defined class name)`.
 ```dart
 // prefs_value.dart
 
-import 'package:flutter/material.dart';
-import 'package:katana_prefs/katana_prefs.dart';
+import "package:flutter/material.dart";
+import "package:katana_prefs/katana_prefs.dart";
 
-part 'prefs_value.prefs.dart';
+part "prefs_value.prefs.dart";
 
 @prefs
 class PrefsValue with _$PrefsValue, ChangeNotifier {

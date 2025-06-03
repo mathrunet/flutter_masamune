@@ -1,4 +1,4 @@
-part of '/masamune_auth_firebase.dart';
+part of "/masamune_auth_firebase.dart";
 
 /// [FunctionsAction] for deleting a user in FirebaseAuthentication.
 ///

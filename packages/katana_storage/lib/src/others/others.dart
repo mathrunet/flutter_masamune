@@ -2,16 +2,16 @@
 library katana_storage.others;
 
 // Dart imports:
-import 'dart:async';
-import 'dart:io';
+import "dart:async";
+import "dart:io";
 
 // Flutter imports:
-import 'package:flutter/foundation.dart';
+import "package:flutter/foundation.dart";
 
 // Package imports:
-import 'package:path_provider/path_provider.dart';
+import "package:path_provider/path_provider.dart";
 
 // Project imports:
-import 'package:katana_storage/katana_storage.dart';
+import "package:katana_storage/katana_storage.dart";
 
-part 'file_storage.dart';
+part "file_storage.dart";

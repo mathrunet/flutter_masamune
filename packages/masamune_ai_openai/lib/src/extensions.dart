@@ -1,4 +1,4 @@
-part of '/masamune_ai_openai.dart';
+part of "/masamune_ai_openai.dart";
 
 extension on AIRole {
   String get _toOpenaiRoleLabel {

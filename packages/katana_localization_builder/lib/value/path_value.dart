@@ -1,4 +1,4 @@
-part of '/katana_localization_builder.dart';
+part of "/katana_localization_builder.dart";
 
 /// Value for path.
 ///

@@ -8,7 +8,7 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_purchase_mobile;
 
-export 'package:masamune_purchase/masamune_purchase.dart';
+export "package:masamune_purchase/masamune_purchase.dart";
 
 export 'adapter/others/others.dart'
     if (dart.library.io) 'adapter/others/others.dart'

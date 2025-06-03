@@ -1,15 +1,15 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 // Package imports:
-import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:test/test.dart';
+import "package:fake_cloud_firestore/fake_cloud_firestore.dart";
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:test/test.dart";
 
 // Project imports:
-import 'package:katana_model_firestore/katana_model_firestore.dart';
+import "package:katana_model_firestore/katana_model_firestore.dart";
 
-part 'model_query_test.freezed.dart';
-part 'model_query_test.g.dart';
+part "model_query_test.freezed.dart";
+part "model_query_test.g.dart";
 
 enum TestEnum {
   a,

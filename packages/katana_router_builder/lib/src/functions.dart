@@ -1,4 +1,4 @@
-part of '/katana_router_builder.dart';
+part of "/katana_router_builder.dart";
 
 String _defaultValue(ParamaterValue param) {
   final dartType = param.type;

@@ -1,4 +1,4 @@
-part of '/masamune_introduction.dart';
+part of "/masamune_introduction.dart";
 
 /// Initialize [MasamuneAdapter] to handle the introduction tutorial.
 ///

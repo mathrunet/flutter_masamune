@@ -88,7 +88,7 @@ Please add `part 'original filename.theme.dart'` to the file that uses @appTheme
 ```dart
 // theme.dart
 
-part 'theme.theme.dart';
+part "theme.theme.dart";
 
 @appTheme
 final theme = AppThemeData();

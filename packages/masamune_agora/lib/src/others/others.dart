@@ -7,4 +7,4 @@ import 'package:permission_handler/permission_handler.dart'
 export 'package:permission_handler/permission_handler.dart'
     show openAppSettings;
 
-part 'agora_permission.dart';
+part "agora_permission.dart";

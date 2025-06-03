@@ -1,4 +1,4 @@
-part of '/masamune_annotation.dart';
+part of "/masamune_annotation.dart";
 
 /// {@template model_database_query_filter_type}
 /// Define the filter type for ModelDatabaseQuery.

@@ -1,4 +1,4 @@
-part of '/masamune_annotation.dart';
+part of "/masamune_annotation.dart";
 
 /// {@template model_permission_query_type}
 /// Specifies the permission type for validation.

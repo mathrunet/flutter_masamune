@@ -1,4 +1,4 @@
-part of '/masamune_ai_openai.dart';
+part of "/masamune_ai_openai.dart";
 
 /// The model name of the AI.
 ///

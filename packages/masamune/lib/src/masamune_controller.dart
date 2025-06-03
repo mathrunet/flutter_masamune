@@ -1,4 +1,4 @@
-part of '/masamune.dart';
+part of "/masamune.dart";
 
 /// Abstract class to inherit when you want to create a controller using [MasamuneAdapter].
 ///

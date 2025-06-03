@@ -1,4 +1,4 @@
-part of '/masamune_annotation.dart';
+part of "/masamune_annotation.dart";
 
 /// When specifying each field in [CollectionModelPath] or [DocumentModelPath], it is possible to annotate the field with a comment.
 ///

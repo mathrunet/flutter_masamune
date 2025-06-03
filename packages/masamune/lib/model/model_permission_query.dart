@@ -1,4 +1,4 @@
-part of '/masamune.dart';
+part of "/masamune.dart";
 
 /// {@macro model_permission_query_permission_type_allow_read}
 ///

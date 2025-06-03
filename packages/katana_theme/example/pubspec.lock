@@ -359,7 +359,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.9.8"
+    version: "2.10.0"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:

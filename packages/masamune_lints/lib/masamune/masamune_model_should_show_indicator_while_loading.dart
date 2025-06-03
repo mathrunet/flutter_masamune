@@ -1,4 +1,4 @@
-part of '/masamune_lints.dart';
+part of "/masamune_lints.dart";
 
 class _MasamuneModelShouldShowIndicatorWhileLoading extends DartLintRule {
   const _MasamuneModelShouldShowIndicatorWhileLoading() : super(code: _code);

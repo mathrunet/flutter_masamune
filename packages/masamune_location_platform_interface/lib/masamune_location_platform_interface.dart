@@ -9,11 +9,11 @@
 library masamune_location_platform_interface;
 
 // Flutter imports:
-import 'package:flutter/foundation.dart';
+import "package:flutter/foundation.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
-part 'src/location_accuracy.dart';
-part 'src/location_data.dart';
-part 'src/compass_data.dart';
+part "src/location_accuracy.dart";
+part "src/location_data.dart";
+part "src/compass_data.dart";

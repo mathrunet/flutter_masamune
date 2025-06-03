@@ -50,8 +50,8 @@ Pass a LoggerAdapter such as `RuntimeLoggerAdapter` as the adapter parameter.
 
 ```dart
 // main.dart
-import 'package:flutter/material.dart';
-import 'package:katana_logger/katana_logger.dart';
+import "package:flutter/material.dart";
+import "package:katana_logger/katana_logger.dart";
 
 void main() {
   runApp(const MyApp());
@@ -91,8 +91,8 @@ It is also possible to check the logs recorded with the `logList` method.
 
 ```dart
 // logger_page.dart
-import 'package:flutter/material.dart';
-import 'package:katana_logger/katana_logger.dart';
+import "package:flutter/material.dart";
+import "package:katana_logger/katana_logger.dart";
 
 class LoggerPage extends StatefulWidget {
   const LoggerPage({super.key});

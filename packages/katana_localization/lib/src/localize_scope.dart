@@ -1,4 +1,4 @@
-part of '/katana_localization.dart';
+part of "/katana_localization.dart";
 
 /// Widget to detect localization changes.
 ///

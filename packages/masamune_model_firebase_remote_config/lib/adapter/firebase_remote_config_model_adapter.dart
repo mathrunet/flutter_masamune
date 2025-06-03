@@ -1,4 +1,4 @@
-part of '/masamune_model_firebase_remote_config.dart';
+part of "/masamune_model_firebase_remote_config.dart";
 
 /// Adapter to handle Firebase Remote Config as a document.
 ///

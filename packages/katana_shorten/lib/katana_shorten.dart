@@ -9,12 +9,12 @@
 library katana_shorten;
 
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-export 'package:katana/katana.dart';
+export "package:katana/katana.dart";
 
-part 'src/duration.dart';
-part 'src/edge_insets.dart';
-part 'src/space.dart';
-part 'src/empty.dart';
-part 'src/border_radius.dart';
+part "src/duration.dart";
+part "src/edge_insets.dart";
+part "src/space.dart";
+part "src/empty.dart";
+part "src/border_radius.dart";

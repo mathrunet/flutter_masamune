@@ -195,8 +195,8 @@ Be sure to create an `AppRef` and place the `AppScoped` widget near the root of 
 
 ```dart
 // main.dart
-import 'package:flutter/material.dart';
-import 'package:katana_scoped/katana_scoped.dart';
+import "package:flutter/material.dart";
+import "package:katana_scoped/katana_scoped.dart";
 
 void main() {
   runApp(const MyApp());
@@ -233,8 +233,8 @@ From `PageRef`, `app` and `page` can be obtained, and the status can be obtained
 
 ```dart
 // counter_page.dart
-import 'package:flutter/material.dart';
-import 'package:katana_scoped/katana_scoped.dart';
+import "package:flutter/material.dart";
+import "package:katana_scoped/katana_scoped.dart";
 
 class CounterPage extends PageScopedWidget {
   const CounterPage({super.key});
@@ -269,8 +269,8 @@ From `WidgetRef`, `app`, `page`, and `widget` can be obtained, and their states 
 
 ```dart
 // scoped_test_page.dart
-import 'package:flutter/material.dart';
-import 'package:katana_scoped/katana_scoped.dart';
+import "package:flutter/material.dart";
+import "package:katana_scoped/katana_scoped.dart";
 
 class ScopedTestPage extends PageScopedWidget {
   const ScopedTestPage({super.key});

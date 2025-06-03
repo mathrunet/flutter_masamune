@@ -9,12 +9,12 @@
 library masamune_introduction;
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
-export 'src/masamune_introduction.dart';
+export "src/masamune_introduction.dart";
 
-part 'adapter/introduction_masamune_adapter.dart';
-part 'src/introduction_item.dart';
+part "adapter/introduction_masamune_adapter.dart";
+part "src/introduction_item.dart";

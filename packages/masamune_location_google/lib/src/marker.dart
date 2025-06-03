@@ -1,4 +1,4 @@
-part of '/masamune_location_google.dart';
+part of "/masamune_location_google.dart";
 
 /// The shape of the marker icon.
 ///

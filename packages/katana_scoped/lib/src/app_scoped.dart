@@ -1,4 +1,4 @@
-part of '/katana_scoped.dart';
+part of "/katana_scoped.dart";
 
 /// Place it close to the route (e.g., on top of MaterialApp) to use state management in the app.
 ///

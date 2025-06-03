@@ -1,4 +1,4 @@
-part of '/masamune_calendar.dart';
+part of "/masamune_calendar.dart";
 
 /// A calendar delegate that specifies a builder to generate widgets according to the event data.
 ///

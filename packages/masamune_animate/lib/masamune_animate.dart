@@ -9,16 +9,16 @@
 library masamune_animate;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Flutter imports:
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/widgets.dart';
+import "package:flutter/scheduler.dart";
+import "package:flutter/widgets.dart";
 
-export 'query/query.dart';
+export "query/query.dart";
 
-part 'src/animate_scope.dart';
-part 'src/animate_query.dart';
-part 'src/animate_controller.dart';
-part 'src/wait_query.dart';
-part 'src/animate_runner.dart';
+part "src/animate_scope.dart";
+part "src/animate_query.dart";
+part "src/animate_controller.dart";
+part "src/wait_query.dart";
+part "src/animate_runner.dart";

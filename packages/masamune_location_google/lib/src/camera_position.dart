@@ -1,4 +1,4 @@
-part of '/masamune_location_google.dart';
+part of "/masamune_location_google.dart";
 
 /// The position of the map "camera", the view point from which the world is shown in the map view.
 ///

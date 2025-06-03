@@ -9,9 +9,9 @@
 library masamune_auth_firebase;
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:masamune/masamune.dart';
+import "package:masamune/masamune.dart";
 
-part 'functions/firebase_delete_user_functions_action.dart';
+part "functions/firebase_delete_user_functions_action.dart";

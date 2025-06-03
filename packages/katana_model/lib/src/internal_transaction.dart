@@ -1,4 +1,4 @@
-part of '/katana_model.dart';
+part of "/katana_model.dart";
 
 class _InternalTransactionMixin {
   final List<FutureOr<void> Function()> _transactionQueue = [];

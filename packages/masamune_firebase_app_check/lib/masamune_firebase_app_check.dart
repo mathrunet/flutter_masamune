@@ -11,20 +11,20 @@
 library masamune_firebase_app_check;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Flutter imports:
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import "package:flutter/foundation.dart";
+import "package:flutter/widgets.dart";
 
 // Package imports:
-import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:katana_firebase/katana_firebase.dart';
-import 'package:masamune/masamune.dart';
-import 'package:universal_platform/universal_platform.dart';
+import "package:firebase_app_check/firebase_app_check.dart";
+import "package:katana_firebase/katana_firebase.dart";
+import "package:masamune/masamune.dart";
+import "package:universal_platform/universal_platform.dart";
 
-part 'adapter/firebase_app_check_masamune_adapter.dart';
+part "adapter/firebase_app_check_masamune_adapter.dart";
 
-part 'src/firebase_app_check_android_provider.dart';
-part 'src/firebase_app_check_ios_provider.dart';
-part 'src/firebase_app_check_activate_timing.dart';
+part "src/firebase_app_check_android_provider.dart";
+part "src/firebase_app_check_ios_provider.dart";
+part "src/firebase_app_check_activate_timing.dart";

@@ -1,4 +1,4 @@
-part of '/katana_functions.dart';
+part of "/katana_functions.dart";
 
 /// Class for stubbing specific functions used in [RuntimeFunctionsAdapter].
 ///

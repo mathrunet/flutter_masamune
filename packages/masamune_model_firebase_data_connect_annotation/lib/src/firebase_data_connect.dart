@@ -1,4 +1,4 @@
-part of '/masamune_model_firebase_data_connect_annotation.dart';
+part of "/masamune_model_firebase_data_connect_annotation.dart";
 
 /// Annotation for use as a data scheme for FirebaseDataConnect.
 ///

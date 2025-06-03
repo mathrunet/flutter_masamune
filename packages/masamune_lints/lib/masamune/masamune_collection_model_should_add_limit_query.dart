@@ -1,4 +1,4 @@
-part of '/masamune_lints.dart';
+part of "/masamune_lints.dart";
 
 class _MasamuneCollectionModelShouldAddLimitQuery extends DartLintRule {
   const _MasamuneCollectionModelShouldAddLimitQuery() : super(code: _code);

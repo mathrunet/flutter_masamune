@@ -1,4 +1,4 @@
-part of '/katana_scoped.dart';
+part of "/katana_scoped.dart";
 
 /// Base class that can specify the type of the [provider] part of [ScopedQuery].
 ///

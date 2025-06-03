@@ -1,4 +1,4 @@
-part of '/katana_ui.dart';
+part of "/katana_ui.dart";
 
 /// Pass multiple Future/FutureOr/Null data and display [loading] or [CircularProgressIndicator] until all completions are completed.
 ///

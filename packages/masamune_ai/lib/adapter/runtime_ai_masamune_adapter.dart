@@ -1,4 +1,4 @@
-part of '/masamune_ai.dart';
+part of "/masamune_ai.dart";
 
 /// Simulates AI interactions only on the runtime without actually connecting to an AI service [AIMasamuneAdapter]
 ///

@@ -1,4 +1,4 @@
-part of '/masamune_builder.dart';
+part of "/masamune_builder.dart";
 
 const _documentModelPathChecker = TypeChecker.fromRuntime(DocumentModelPath);
 const _collectionModelPathChecker =

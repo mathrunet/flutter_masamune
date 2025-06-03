@@ -1,4 +1,4 @@
-part of '/katana_model.dart';
+part of "/katana_model.dart";
 
 /// Define a model [LocalizedValue] that stores locale and text pairs.
 ///

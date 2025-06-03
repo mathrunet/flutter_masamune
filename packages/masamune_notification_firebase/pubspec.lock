@@ -45,10 +45,10 @@ packages:
     dependency: transitive
     description:
       name: async
-      sha256: d2872f9c19731c2e5f10444b14686eb7cc85c76274bd6c16e1816bff9a3bab63
+      sha256: "758e6d74e971c3e5aceb4110bfd6698efc7f501675bcfe0c775459a8140750eb"
       url: "https://pub.dev"
     source: hosted
-    version: "2.12.0"
+    version: "2.13.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -253,10 +253,10 @@ packages:
     dependency: transitive
     description:
       name: fake_async
-      sha256: "6a95e56b2449df2273fd8c45a662d6947ce1ebb7aafe80e550a3f68297f3cacc"
+      sha256: "5368f224a74523e8d2e7399ea1638b37aecfca824a3cc4dfdf77bf1fa905ac44"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.2"
+    version: "1.3.3"
   ffi:
     dependency: transitive
     description:
@@ -346,26 +346,34 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_local_notifications
-      sha256: ef41ae901e7529e52934feba19ed82827b11baa67336829564aeab3129460610
+      sha256: b94a50aabbe56ef254f95f3be75640f99120429f0a153b2dc30143cffc9bfdf3
       url: "https://pub.dev"
     source: hosted
-    version: "18.0.1"
+    version: "19.2.1"
   flutter_local_notifications_linux:
     dependency: transitive
     description:
       name: flutter_local_notifications_linux
-      sha256: "8f685642876742c941b29c32030f6f4f6dacd0e4eaecb3efbb187d6a3812ca01"
+      sha256: e3c277b2daab8e36ac5a6820536668d07e83851aeeb79c446e525a70710770a5
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "6.0.0"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
       name: flutter_local_notifications_platform_interface
-      sha256: "6c5b83c86bf819cdb177a9247a3722067dd8cc6313827ce7c77a4b238a26fd52"
+      sha256: "2569b973fc9d1f63a37410a9f7c1c552081226c597190cb359ef5d5762d1631c"
       url: "https://pub.dev"
     source: hosted
-    version: "8.0.0"
+    version: "9.0.0"
+  flutter_local_notifications_windows:
+    dependency: transitive
+    description:
+      name: flutter_local_notifications_windows
+      sha256: f8fc0652a601f83419d623c85723a3e82ad81f92b33eaa9bcc21ea1b94773e6e
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   flutter_rating_bar:
     dependency: transitive
     description:
@@ -510,218 +518,218 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.20.1"
+    version: "2.20.2"
   katana_auth:
     dependency: "direct overridden"
     description:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "2.11.4"
+    version: "2.11.7"
   katana_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_builder"
       relative: true
     source: path
-    version: "2.3.0"
+    version: "2.3.1"
   katana_firebase:
     dependency: "direct main"
     description:
       path: "../katana_firebase"
       relative: true
     source: path
-    version: "2.2.19"
+    version: "2.2.20"
   katana_form:
     dependency: "direct overridden"
     description:
       path: "../katana_form"
       relative: true
     source: path
-    version: "2.18.0"
+    version: "2.20.0"
   katana_functions:
     dependency: "direct overridden"
     description:
       path: "../katana_functions"
       relative: true
     source: path
-    version: "2.10.3"
+    version: "2.10.4"
   katana_indicator:
     dependency: "direct overridden"
     description:
       path: "../katana_indicator"
       relative: true
     source: path
-    version: "2.4.4"
+    version: "2.4.6"
   katana_listenables:
     dependency: "direct overridden"
     description:
       path: "../katana_listenables"
       relative: true
     source: path
-    version: "2.2.18"
+    version: "2.2.20"
   katana_listenables_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_listenables_annotation"
       relative: true
     source: path
-    version: "2.1.18"
+    version: "2.1.20"
   katana_listenables_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_listenables_builder"
       relative: true
     source: path
-    version: "2.1.27"
+    version: "2.1.29"
   katana_localization:
     dependency: "direct overridden"
     description:
       path: "../katana_localization"
       relative: true
     source: path
-    version: "2.3.21"
+    version: "2.3.23"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_localization_annotation"
       relative: true
     source: path
-    version: "2.2.19"
+    version: "2.2.21"
   katana_localization_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_localization_builder"
       relative: true
     source: path
-    version: "2.3.7"
+    version: "2.3.9"
   katana_logger:
     dependency: "direct overridden"
     description:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "2.5.4"
+    version: "2.5.6"
   katana_model:
     dependency: "direct overridden"
     description:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.37.0"
+    version: "2.37.2"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "2.18.5"
+    version: "2.18.7"
   katana_prefs:
     dependency: "direct overridden"
     description:
       path: "../katana_prefs"
       relative: true
     source: path
-    version: "2.2.18"
+    version: "2.2.20"
   katana_prefs_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_prefs_annotation"
       relative: true
     source: path
-    version: "2.1.18"
+    version: "2.1.20"
   katana_prefs_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_prefs_builder"
       relative: true
     source: path
-    version: "2.1.28"
+    version: "2.1.30"
   katana_router:
     dependency: "direct overridden"
     description:
       path: "../katana_router"
       relative: true
     source: path
-    version: "2.7.0"
+    version: "2.7.2"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "2.1.20"
+    version: "2.1.22"
   katana_router_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_router_builder"
       relative: true
     source: path
-    version: "2.2.14"
+    version: "2.2.16"
   katana_scoped:
     dependency: "direct overridden"
     description:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "2.7.4"
+    version: "2.7.6"
   katana_shorten:
     dependency: "direct overridden"
     description:
       path: "../katana_shorten"
       relative: true
     source: path
-    version: "2.2.4"
+    version: "2.2.6"
   katana_storage:
     dependency: "direct overridden"
     description:
       path: "../katana_storage"
       relative: true
     source: path
-    version: "2.4.4"
+    version: "2.4.8"
   katana_test:
     dependency: "direct dev"
     description:
       path: "../katana_test"
       relative: true
     source: path
-    version: "2.1.3"
+    version: "2.1.4"
   katana_theme:
     dependency: "direct overridden"
     description:
       path: "../katana_theme"
       relative: true
     source: path
-    version: "2.9.6"
+    version: "2.10.0"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.3.4"
+    version: "2.3.6"
   katana_theme_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_theme_builder"
       relative: true
     source: path
-    version: "2.4.5"
+    version: "2.4.7"
   katana_ui:
     dependency: "direct overridden"
     description:
       path: "../katana_ui"
       relative: true
     source: path
-    version: "2.15.5"
+    version: "2.15.8"
   leak_tracker:
     dependency: transitive
     description:
       name: leak_tracker
-      sha256: c35baad643ba394b40aac41080300150a4f08fd0fd6a10378f8f7c6bc161acec
+      sha256: "6bb818ecbdffe216e81182c2f0714a2e62b593f4a4f13098713ff1685dfb6ab0"
       url: "https://pub.dev"
     source: hosted
-    version: "10.0.8"
+    version: "10.0.9"
   leak_tracker_flutter_testing:
     dependency: transitive
     description:
@@ -760,35 +768,35 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.23.13"
+    version: "2.24.0"
   masamune_annotation:
     dependency: "direct overridden"
     description:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "2.9.11"
+    version: "2.10.0"
   masamune_builder:
     dependency: "direct dev"
     description:
       path: "../masamune_builder"
       relative: true
     source: path
-    version: "2.22.1"
+    version: "2.23.0"
   masamune_notification:
     dependency: "direct main"
     description:
       path: "../masamune_notification"
       relative: true
     source: path
-    version: "2.11.18"
+    version: "2.11.25"
   masamune_scheduler:
     dependency: "direct overridden"
     description:
       path: "../masamune_scheduler"
       relative: true
     source: path
-    version: "2.4.22"
+    version: "2.4.29"
   matcher:
     dependency: transitive
     description:
@@ -1270,10 +1278,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "0968250880a6c5fe7edc067ed0a13d4bae1577fe2771dcf3010d52c4a9d3ca14"
+      sha256: ddfa8d30d89985b96407efce8acbdd124701f96741f2d981ca860662f1c0dc02
       url: "https://pub.dev"
     source: hosted
-    version: "14.3.1"
+    version: "15.0.0"
   watcher:
     dependency: transitive
     description:

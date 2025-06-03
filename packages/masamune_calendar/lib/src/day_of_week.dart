@@ -1,4 +1,4 @@
-part of '/masamune_calendar.dart';
+part of "/masamune_calendar.dart";
 
 /// Day of the week.
 ///

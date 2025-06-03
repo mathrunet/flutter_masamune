@@ -1,4 +1,4 @@
-part of '/masamune.dart';
+part of "/masamune.dart";
 
 /// Create an extension method for [AppScopedValueOrAppRef] to handle the Query for the model.
 ///

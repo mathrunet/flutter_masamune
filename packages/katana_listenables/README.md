@@ -106,7 +106,7 @@ flutter pub add --dev katana_listenables_builder
 
 Create a class as follows
 
-Add `part '(filename).listenable.dart';`.
+Add `part "(filename).listenable.dart";`.
 
 Annotate the defined class with `@listenables` and mixin `_$(defined class name)` and `ChangeNotifier`.
 
@@ -119,10 +119,10 @@ After the constructor, write `= _ (the name of the defined class)`.
 ```dart
 // controller.dart
 
-import 'package:flutter/material.dart';
-import 'package:katana_listenables/katana_listenables.dart';
+import "package:flutter/material.dart";
+import "package:katana_listenables/katana_listenables.dart";
 
-part 'controller.listenable.dart';
+part "controller.listenable.dart";
 
 @listenables
 class ControllerGroup with _$ControllerGroup, ChangeNotifier {
@@ -226,10 +226,10 @@ To add a method, use the following writing style.
 ```dart
 // controller.dart
 
-import 'package:flutter/material.dart';
-import 'package:katana_listenables/katana_listenables.dart';
+import "package:flutter/material.dart";
+import "package:katana_listenables/katana_listenables.dart";
 
-part 'controller.listenable.dart';
+part "controller.listenable.dart";
 
 @listenables
 class ControllerGroup with _$ControllerGroup, ChangeNotifier {

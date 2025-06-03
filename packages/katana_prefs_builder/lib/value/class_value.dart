@@ -1,4 +1,4 @@
-part of '/katana_prefs_builder.dart';
+part of "/katana_prefs_builder.dart";
 
 /// Defines the value of the class to which the annotation is assigned.
 ///

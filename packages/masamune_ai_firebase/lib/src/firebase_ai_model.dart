@@ -1,4 +1,4 @@
-part of '/masamune_ai_firebase.dart';
+part of "/masamune_ai_firebase.dart";
 
 /// The model name of the AI.
 ///

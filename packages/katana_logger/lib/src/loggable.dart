@@ -1,4 +1,4 @@
-part of '/katana_logger.dart';
+part of "/katana_logger.dart";
 
 /// Interface for objects that can be passed directly to [Logger.send].
 ///

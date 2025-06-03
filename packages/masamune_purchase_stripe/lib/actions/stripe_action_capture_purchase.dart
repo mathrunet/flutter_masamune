@@ -1,4 +1,4 @@
-part of '/masamune_purchase_stripe.dart';
+part of "/masamune_purchase_stripe.dart";
 
 /// [StripeFunctionsAction] for capturing Stripe purchases.
 ///

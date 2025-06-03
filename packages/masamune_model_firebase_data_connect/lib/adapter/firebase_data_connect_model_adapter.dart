@@ -1,4 +1,4 @@
-part of '/masamune_model_firebase_data_connect.dart';
+part of "/masamune_model_firebase_data_connect.dart";
 
 abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
   const FirebaseDataConnectModelAdapterBase({

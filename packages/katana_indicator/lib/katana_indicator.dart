@@ -9,15 +9,15 @@
 library katana_indicator;
 
 // Dart imports:
-import 'dart:async';
+import "dart:async";
 
 // Flutter imports:
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // Package imports:
-import 'package:katana/katana.dart';
+import "package:katana/katana.dart";
 
-export 'package:katana/katana.dart';
+export "package:katana/katana.dart";
 
-part 'src/future_indicator.dart';
-part 'src/progress_indicator.dart';
+part "src/future_indicator.dart";
+part "src/progress_indicator.dart";

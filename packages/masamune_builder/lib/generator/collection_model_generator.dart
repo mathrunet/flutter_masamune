@@ -1,4 +1,4 @@
-part of '/masamune_builder.dart';
+part of "/masamune_builder.dart";
 
 /// Collection model generator for classes annotated with [CollectionModelPath].
 ///

@@ -1,4 +1,4 @@
-part of '/masamune_text_to_speech.dart';
+part of "/masamune_text_to_speech.dart";
 
 /// Controller for Text-to-Speech.
 ///

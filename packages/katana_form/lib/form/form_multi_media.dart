@@ -1,4 +1,4 @@
-part of '/katana_form.dart';
+part of "/katana_form.dart";
 
 const _kTypeKey = "type";
 const _kPathKey = "path";

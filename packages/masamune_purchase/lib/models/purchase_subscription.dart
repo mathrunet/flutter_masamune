@@ -3,14 +3,14 @@
 // Flutter imports:
 
 // Package imports:
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:masamune/masamune.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:masamune/masamune.dart";
 
 // ignore: unused_import, unnecessary_import
 
-part 'purchase_subscription.m.dart';
-part 'purchase_subscription.g.dart';
-part 'purchase_subscription.freezed.dart';
+part "purchase_subscription.m.dart";
+part "purchase_subscription.g.dart";
+part "purchase_subscription.freezed.dart";
 
 /// Model for storing subscription data for billing purposes.
 ///

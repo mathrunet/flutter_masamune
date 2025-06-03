@@ -1,4 +1,4 @@
-part of '/katana_model.dart';
+part of "/katana_model.dart";
 
 /// Use this when registering special classes in [ModelFieldValue].
 ///
