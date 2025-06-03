@@ -108,9 +108,9 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
   FormFutureField({
+    required this.onTap,
     this.form,
     this.style,
-    required this.onTap,
     Widget Function(
       BuildContext context,
       FormFutureFieldRef<T, TValue> value,

@@ -40,6 +40,7 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   ///
   /// [region]を渡すことでインスタンスのリージョンを変更することが可能です。
   const FirebaseFunctionsAdapter({
+    required this.region,
     FirebaseOptions? options,
     this.iosOptions,
     this.androidOptions,
@@ -47,7 +48,6 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
     this.windowsOptions,
     this.macosOptions,
     this.linuxOptions,
-    required this.region,
     this.ignoreTimeout = false,
     FirebaseFunctions? functions,
     this.firestoreDatabaseId,

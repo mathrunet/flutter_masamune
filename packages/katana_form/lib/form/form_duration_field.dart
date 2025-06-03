@@ -566,8 +566,8 @@ class _FormDurationFieldState<TValue> extends State<FormDurationField<TValue>>
 class _DurationTextField<TValue> extends FormField<Duration> {
   _DurationTextField({
     required this.format,
-    this.form,
     required this.picker,
+    this.form,
     super.key,
     super.onSaved,
     super.validator,
@@ -849,7 +849,12 @@ class _DurationTextFieldState<TValue> extends FormFieldState<Duration> {
   }
 
   void _hideKeyboard() {
-    Future.microtask(() => FocusScope.of(context).requestFocus(FocusNode()));
+    Future.microtask(() {
+      final context = this.context;
+      if (context.mounted) {
+        FocusScope.of(context).requestFocus(FocusNode());
+      }
+    });
   }
 
   Future<void> clear() async {

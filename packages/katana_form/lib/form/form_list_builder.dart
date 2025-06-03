@@ -40,17 +40,17 @@ class FormListBuilder<T, TValue> extends FormField<List<T>> {
   ///
   /// [initialValue]を指定して初期のデータを設定してください。
   FormListBuilder({
-    super.key,
-    this.form,
-    this.top,
-    this.bottom,
-    this.style,
     required Widget Function(
       BuildContext context,
       FormListBuilderRef<T, TValue> ref,
       T item,
       int index,
     ) builder,
+    super.key,
+    this.form,
+    this.top,
+    this.bottom,
+    this.style,
     this.onChanged,
     TValue Function(List<T> value)? onSaved,
     String? Function(List<T> value)? validator,

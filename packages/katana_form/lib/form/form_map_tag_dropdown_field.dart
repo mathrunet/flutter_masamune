@@ -96,6 +96,7 @@ class FormMapTagDropdownField<TValue> extends FormField<List<String>> {
   ///
   /// [enabled]が`false`になると非有効化されます。
   FormMapTagDropdownField({
+    required this.picker,
     super.key,
     this.form,
     this.style,
@@ -103,7 +104,6 @@ class FormMapTagDropdownField<TValue> extends FormField<List<String>> {
     this.hintText,
     this.labelText,
     this.readOnly = false,
-    required this.picker,
     this.onChanged,
     this.maxChips,
     this.emptyErrorText,
@@ -915,7 +915,7 @@ class FormMapTagDropdownFieldPicker {
           key: ValueKey(key),
           value: key,
           name: data[key] ?? "",
-          selected: ref.value?.contains(key) == true,
+          selected: ref.value?.contains(key) ?? false,
           onEdit: () {
             ref._disableClosingBox();
           },
@@ -928,7 +928,7 @@ class FormMapTagDropdownFieldPicker {
             ref.delete(key);
           },
           onSelect: () {
-            if (ref.value?.contains(key) == true) {
+            if (ref.value?.contains(key) ?? false) {
               ref.unselect(key);
             } else {
               ref.select(key);
@@ -953,9 +953,9 @@ class FormMapTagDropdownFieldPicker {
 
 class _EditableListTile extends StatefulWidget {
   const _EditableListTile({
-    super.key,
     required this.value,
     required this.name,
+    super.key,
     this.onEdit,
     this.onEditted,
     this.onDelete,
@@ -1192,7 +1192,7 @@ class _AddibleListTileState extends State<_AddibleListTile> {
         children: [
           if (_editable) ...[
             IconButton(
-              key: ValueKey("_submit"),
+              key: const ValueKey("_submit"),
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
               icon: const Icon(Icons.check_circle),
@@ -1203,7 +1203,7 @@ class _AddibleListTileState extends State<_AddibleListTile> {
             ),
           ] else ...[
             IconButton(
-              key: ValueKey("_edit"),
+              key: const ValueKey("_edit"),
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
               icon: const Icon(Icons.add_circle),
@@ -1246,7 +1246,7 @@ class _SelectBoxController {
     if (_isOpened) {
       return;
     }
-    assert(overlayEntry != null);
+    assert(overlayEntry != null, "overlayEntry is null");
     Overlay.of(context).insert(overlayEntry!);
     _isOpened = true;
   }
@@ -1258,7 +1258,7 @@ class _SelectBoxController {
     if (!_isOpened) {
       return;
     }
-    assert(overlayEntry != null);
+    assert(overlayEntry != null, "overlayEntry is null");
     overlayEntry!.remove();
     _isOpened = false;
   }

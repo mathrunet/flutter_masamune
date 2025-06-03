@@ -119,16 +119,16 @@ class FormMedia<TValue> extends FormField<FormMediaValue> {
   ///
   /// [showOverlayIcon]を`true`にするとメディアが選択された後でもそのプレビューの上にアイコンを表示します。[icon]や[iconSize]、[overlayColor]、[overlayIconColor]を指定することでアイコンやオーバーレイのデザインを変更することができます。
   FormMedia({
-    super.key,
-    this.style,
-    this.onChanged,
-    this.readOnly = false,
-    this.form,
     required this.onTap,
     required Widget Function(
       BuildContext context,
       FormMediaValue value,
     ) builder,
+    super.key,
+    this.style,
+    this.onChanged,
+    this.readOnly = false,
+    this.form,
     this.showOverlayIcon = true,
     this.overlayColor = Colors.black38,
     this.overlayIconColor = Colors.white70,

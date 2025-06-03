@@ -581,8 +581,8 @@ class _FormDateFieldState<TValue> extends State<FormDateField<TValue>>
 class _DateTextField<TValue> extends FormField<DateTime> {
   _DateTextField({
     required this.format,
-    this.form,
     required this.picker,
+    this.form,
     super.key,
     super.onSaved,
     super.validator,
@@ -855,7 +855,12 @@ class _DateTextFieldState<TValue> extends FormFieldState<DateTime> {
   }
 
   void _hideKeyboard() {
-    Future.microtask(() => FocusScope.of(context).requestFocus(FocusNode()));
+    Future.microtask(() {
+      final context = this.context;
+      if (context.mounted) {
+        FocusScope.of(context).requestFocus(FocusNode());
+      }
+    });
   }
 
   Future<void> clear() async {

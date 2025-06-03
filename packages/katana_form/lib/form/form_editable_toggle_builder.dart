@@ -16,8 +16,8 @@ class FormEditableToggleBuilder extends StatefulWidget {
   ///
   /// [builder]に[FormTextField]などを渡してください。
   const FormEditableToggleBuilder({
-    super.key,
     required this.builder,
+    super.key,
     this.style,
     this.onToggle,
     this.editableOnInit = false,

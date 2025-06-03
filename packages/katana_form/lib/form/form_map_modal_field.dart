@@ -100,6 +100,7 @@ class FormMapModalField<TValue> extends StatefulWidget {
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
   const FormMapModalField({
+    required this.picker,
     this.form,
     super.key,
     this.controller,
@@ -113,7 +114,6 @@ class FormMapModalField<TValue> extends StatefulWidget {
     this.validator,
     this.onChanged,
     this.initialValue,
-    required this.picker,
     this.onSaved,
     this.focusNode,
     this.emptyErrorText,
@@ -764,7 +764,12 @@ class _SelectTextFieldState<TValue> extends FormFieldState<String> {
   }
 
   void _hideKeyboard() {
-    Future.microtask(() => FocusScope.of(context).requestFocus(FocusNode()));
+    Future.microtask(() {
+      final context = this.context;
+      if (context.mounted) {
+        FocusScope.of(context).requestFocus(FocusNode());
+      }
+    });
   }
 
   Future<void> clear() async {
@@ -806,8 +811,8 @@ class FormMapModalFieldPicker {
   ///
   /// [defaultKey]が[values]のキーにない場合エラーになります。
   FormMapModalFieldPicker({
-    this.defaultKey,
     required this.values,
+    this.defaultKey,
     this.backgroundColor,
     this.color,
     this.confirmText = "Confirm",

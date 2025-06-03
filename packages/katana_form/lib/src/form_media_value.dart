@@ -202,7 +202,9 @@ mixin _MapMixin<K, V> implements Map<K, V> {
   @override
   bool containsValue(Object? value) {
     for (K key in keys) {
-      if (this[key] == value) return true;
+      if (this[key] == value) {
+        return true;
+      }
     }
     return false;
   }
@@ -259,7 +261,9 @@ mixin _MapMixin<K, V> implements Map<K, V> {
   void removeWhere(bool Function(K key, V value) test) {
     var keysToRemove = <K>[];
     for (var key in keys) {
-      if (test(key, this[key] as V)) keysToRemove.add(key);
+      if (test(key, this[key] as V)) {
+        keysToRemove.add(key);
+      }
     }
     for (var key in keysToRemove) {
       this.remove(key);

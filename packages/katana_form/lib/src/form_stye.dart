@@ -451,9 +451,9 @@ class FormStyleScope extends InheritedWidget {
   ///
   /// [FormStyle]のスコープ。
   const FormStyleScope({
-    super.key,
     required this.style,
     required super.child,
+    super.key,
     this.enabled = true,
   });
 

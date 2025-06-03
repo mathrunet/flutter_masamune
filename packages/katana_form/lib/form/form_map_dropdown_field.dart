@@ -84,6 +84,7 @@ class FormMapDropdownField<TValue> extends FormField<String> {
   ///
   /// [enabled]が`false`になると非有効化されます。
   FormMapDropdownField({
+    required this.picker,
     this.form,
     super.key,
     this.prefix,
@@ -93,7 +94,6 @@ class FormMapDropdownField<TValue> extends FormField<String> {
     this.emptyErrorText,
     this.style,
     this.onChanged,
-    required this.picker,
     this.focusNode,
     this.keepAlive = true,
     this.icon,

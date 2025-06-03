@@ -23,7 +23,9 @@ class _PickerLocalizations extends _PickerLocalizationsBase {
     if (locale != null) {
       localData = localizedValues[locale!.languageCode];
     }
-    if (localData == null) return localizedValues["en"]![key];
+    if (localData == null) {
+      return localizedValues["en"]![key];
+    }
     return localData[key];
   }
 
@@ -39,7 +41,9 @@ class _PickerLocalizations extends _PickerLocalizationsBase {
       List<String>? ampm,
       List<String>? months,
       List<String>? monthsLong}) {
-    if (name.isEmpty) return;
+    if (name.isEmpty) {
+      return;
+    }
     if (ampm != null && ampm.length != 2) {
       throw Exception("ampm array length must be 2");
     }

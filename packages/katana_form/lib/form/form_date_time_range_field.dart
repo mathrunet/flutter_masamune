@@ -537,9 +537,9 @@ class _FormDateTimeRangeFieldState<TValue>
 
 class _DateTimeRangeTextField<TValue> extends FormField<DateTimeRange> {
   _DateTimeRangeTextField({
-    this.form,
     required this.delegate,
     required this.onShowPicker,
+    this.form,
     super.key,
     super.onSaved,
     super.validator,
@@ -793,7 +793,12 @@ class _DateTimeRangeTextFieldState<TValue>
   }
 
   void _hideKeyboard() {
-    Future.microtask(() => FocusScope.of(context).requestFocus(FocusNode()));
+    Future.microtask(() {
+      final context = this.context;
+      if (context.mounted) {
+        FocusScope.of(context).requestFocus(FocusNode());
+      }
+    });
   }
 
   Future<void> clear() async {
@@ -961,6 +966,7 @@ abstract class FormDateTimeRangeFieldPicker {
   ///
   /// フォームのピッカーやフォーマッタが定義されているデリゲート。
   const FormDateTimeRangeFieldPicker({
+    required this.dateFormat,
     this.startDate,
     this.endDate,
     this.defaultDateTimeRange,
@@ -975,7 +981,6 @@ abstract class FormDateTimeRangeFieldPicker {
     this.fieldEndHintText,
     this.fieldEndLabelText,
     this.initialEntryMode = DatePickerEntryMode.calendar,
-    required this.dateFormat,
     this.separator = " - ",
   });
 

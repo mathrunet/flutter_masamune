@@ -787,7 +787,12 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
   }
 
   void _hideKeyboard() {
-    Future.microtask(() => FocusScope.of(context).requestFocus(FocusNode()));
+    Future.microtask(() {
+      final context = this.context;
+      if (context.mounted) {
+        FocusScope.of(context).requestFocus(FocusNode());
+      }
+    });
   }
 
   Future<void> clear() async {

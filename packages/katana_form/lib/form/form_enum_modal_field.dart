@@ -100,6 +100,7 @@ class FormEnumModalField<TEnum extends Enum, TValue> extends StatefulWidget {
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
   const FormEnumModalField({
+    required this.picker,
     this.form,
     super.key,
     this.controller,
@@ -115,7 +116,6 @@ class FormEnumModalField<TEnum extends Enum, TValue> extends StatefulWidget {
     this.onChanged,
     this.onSubmitted,
     this.initialValue,
-    required this.picker,
     this.onSaved,
     this.focusNode,
     this.keepAlive = true,
@@ -773,7 +773,12 @@ class _EnumTextFieldState<TEnum extends Enum, TValue>
   }
 
   void _hideKeyboard() {
-    Future.microtask(() => FocusScope.of(context).requestFocus(FocusNode()));
+    Future.microtask(() {
+      final context = this.context;
+      if (context.mounted) {
+        FocusScope.of(context).requestFocus(FocusNode());
+      }
+    });
   }
 
   Future<void> clear() async {
@@ -795,8 +800,8 @@ class FormEnumModalFieldPicker<TEnum extends Enum> {
   ///
   /// [TEnum]を選択するためのピッカースタイルを定義するクラス。
   FormEnumModalFieldPicker({
-    this.defaultValue,
     required this.values,
+    this.defaultValue,
     this.labelBuilder,
     this.backgroundColor,
     this.color,

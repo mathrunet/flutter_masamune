@@ -145,6 +145,11 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
   ///
   /// [maxLength]が指定されている場合、それ以上項目を増やすことができなくなります。
   FormMultiMedia({
+    required Widget Function(
+      BuildContext context,
+      FormMediaValue value,
+    ) builder,
+    required this.onTap,
     super.key,
     this.form,
     this.style,
@@ -154,11 +159,6 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
     List<FormMediaValue>? initialValue,
     this.emptyErrorText,
     this.readOnly = false,
-    required Widget Function(
-      BuildContext context,
-      FormMediaValue value,
-    ) builder,
-    required this.onTap,
     this.onChanged,
     TValue Function(List<FormMediaValue> value)? onSaved,
     String Function(List<FormMediaValue> value)? validator,

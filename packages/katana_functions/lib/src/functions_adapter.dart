@@ -105,9 +105,9 @@ class FunctionsAdapterScope extends StatefulWidget {
   /// }
   /// ```
   const FunctionsAdapterScope({
-    super.key,
     required this.child,
     required this.adapter,
+    super.key,
   });
 
   /// Children's widget.

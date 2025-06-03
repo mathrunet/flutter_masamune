@@ -16,8 +16,8 @@ class FormFocusNodeBuilder extends StatefulWidget {
   ///
   /// [builder]に[FormTextField]などを渡してください。
   const FormFocusNodeBuilder({
-    super.key,
     required this.builder,
+    super.key,
     this.focusNode,
     this.style,
   });

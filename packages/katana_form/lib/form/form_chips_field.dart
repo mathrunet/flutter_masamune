@@ -66,7 +66,61 @@ typedef ChipBuilder<T> = Widget Function(
 ///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
 class FormChipsField<TValue> extends FormField<List<String>> {
+  /// Form to allow text to be entered and saved separately as [Chip].
+  ///
+  /// It can be used to create tags, etc.
+  ///
+  /// Specify [builder] to create the actual [Chip].
+  ///
+  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+  ///
+  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+  ///
+  /// Enter the initial value given by [FormController.value] in [initialValue].
+  ///
+  /// Each time the content is changed, [onChanged] is executed.
+  ///
+  /// If [suggestion] is specified, suggestions will be displayed according to what you have entered.
+  ///
+  /// When [FormController.validate] is executed, validation and data saving are performed.
+  ///
+  /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
+  ///
+  /// Other error checking is performed by specifying [validator].
+  /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
+  ///
+  /// If [enabled] is `false`, the text is deactivated.
+  ///
+  /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
+  ///
+  /// テキストを入力して[Chip]として分けて保存できるようにするためのフォーム。
+  ///
+  /// タグの作成などに利用できます。
+  ///
+  /// [builder]を指定して、実際の[Chip]を作成します。
+  ///
+  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+  ///
+  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+  ///
+  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
+  ///
+  /// 内容が変更される度[onChanged]が実行されます。
+  ///
+  /// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
+  ///
+  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
+  ///
+  /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
+  ///
+  /// それ以外のエラーチェックは[validator]を指定することで行ないます。
+  /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
+  ///
+  /// [enabled]が`false`になるとテキストが非有効化されます。
+  ///
+  /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
   FormChipsField({
+    required ChipBuilder<String> builder,
     super.key,
     this.form,
     this.style,
@@ -76,7 +130,6 @@ class FormChipsField<TValue> extends FormField<List<String>> {
     this.prefix,
     this.suffix,
     this.readOnly = false,
-    required ChipBuilder<String> builder,
     this.suggestionBuilder,
     this.suggestion = const [],
     this.onChanged,
@@ -509,14 +562,14 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
 
 class _ChipsInput<T> extends StatefulWidget {
   const _ChipsInput({
-    super.key,
-    this.initialValue = const [],
-    this.decoration = const InputDecoration(),
-    this.enabled = true,
     required this.chipBuilder,
     required this.suggestionBuilder,
     required this.findSuggestions,
     required this.onChanged,
+    super.key,
+    this.initialValue = const [],
+    this.decoration = const InputDecoration(),
+    this.enabled = true,
     this.suggestionBackgroundColor,
     this.suggestionColor,
     this.suggestionPadding = const EdgeInsets.all(0),
@@ -537,7 +590,10 @@ class _ChipsInput<T> extends StatefulWidget {
     this.focusNode,
     this.initialSuggestions,
     this.onChipTapped,
-  }) : assert(maxChips == null || initialValue.length <= maxChips);
+  }) : assert(
+          maxChips == null || initialValue.length <= maxChips,
+          "The number of initial values must be less than or equal to the maximum number of chips.",
+        );
 
   final InputDecoration decoration;
   final TextStyle? textStyle;
@@ -1088,7 +1144,7 @@ class _SuggestionsBoxController {
     if (_isOpened) {
       return;
     }
-    assert(overlayEntry != null);
+    assert(overlayEntry != null, "overlayEntry is null");
     Overlay.of(context).insert(overlayEntry!);
     _isOpened = true;
   }
@@ -1097,7 +1153,7 @@ class _SuggestionsBoxController {
     if (!_isOpened) {
       return;
     }
-    assert(overlayEntry != null);
+    assert(overlayEntry != null, "overlayEntry is null");
     overlayEntry!.remove();
     _isOpened = false;
   }

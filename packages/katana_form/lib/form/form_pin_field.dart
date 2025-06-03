@@ -344,12 +344,12 @@ class _FormPinFieldState<TValue> extends FormFieldState<String>
   }
 
   void _registerController() {
-    assert(_controller != null);
+    assert(_controller != null, "controller is null");
     registerForRestoration(_controller!, "controller");
   }
 
   void _createLocalController([TextEditingValue? value]) {
-    assert(_controller == null);
+    assert(_controller == null, "controller is not null");
     _controller = value == null
         ? RestorableTextEditingController()
         : RestorableTextEditingController.fromValue(value);
@@ -452,9 +452,9 @@ class _FormPinFieldState<TValue> extends FormFieldState<String>
 
 class _PinInputTextField extends StatefulWidget {
   _PinInputTextField({
+    required this.decoration,
     this.pinLength = kPinLength,
     this.onSubmit,
-    required this.decoration,
     this.inputFormatters,
     this.keyboardType = TextInputType.phone,
     this.controller,
@@ -468,14 +468,18 @@ class _PinInputTextField extends StatefulWidget {
     this.enableInteractiveSelection = false,
     this.autofillHints,
     Cursor? cursor,
-  })  : assert(pinLength > 0),
-        assert(decoration.hintText == null ||
-            decoration.hintText!.length == pinLength),
-        assert(decoration is! SupportGap ||
-            (decoration is SupportGap &&
-                    (decoration as SupportGap).getGapWidthList == null ||
-                (decoration as SupportGap).getGapWidthList!.length ==
-                    pinLength - 1)),
+  })  : assert(pinLength > 0, "pinLength is not greater than 0"),
+        assert(
+            decoration.hintText == null ||
+                decoration.hintText!.length == pinLength,
+            "decoration.hintText is not null and its length is not equal to pinLength"),
+        assert(
+            decoration is! SupportGap ||
+                (decoration is SupportGap &&
+                        (decoration as SupportGap).getGapWidthList == null ||
+                    (decoration as SupportGap).getGapWidthList!.length ==
+                        pinLength - 1),
+            "decoration is not SupportGap or its getGapWidthList is not null and its length is not equal to pinLength - 1"),
         textCapitalization = textCapitalization ?? TextCapitalization.none,
         cursor = cursor ?? Cursor.disabled();
 
@@ -646,7 +650,7 @@ class _PinInputTextFieldState extends State<_PinInputTextField>
       foregroundPainter: pinPaint,
       child: TextField(
         controller: _effectiveController,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.transparent,
         ),
         showCursor: false,
@@ -688,7 +692,8 @@ class _PinInputTextFieldState extends State<_PinInputTextField>
   }
 
   void _cursorWaitForStart(Timer timer) {
-    assert(widget.cursor.blinkHalfPeriod > widget.cursor.fadeDuration);
+    assert(widget.cursor.blinkHalfPeriod > widget.cursor.fadeDuration,
+        "widget.cursor.blinkHalfPeriod is not greater than widget.cursor.fadeDuration");
     _cursorTimer?.cancel();
     _cursorTimer = Timer.periodic(widget.cursor.blinkHalfPeriod, _cursorTick);
   }
@@ -728,20 +733,12 @@ class _PinInputTextFieldState extends State<_PinInputTextField>
 }
 
 class _PinPaint extends CustomPainter {
-  final String text;
-  final int pinLength;
-  final PinEntryType type;
-  final PinDecoration decoration;
-  final ThemeData themeData;
-  Cursor? cursor;
-  TextDirection textDirection;
-
   _PinPaint({
     required this.text,
     required this.pinLength,
     required PinDecoration decoration,
-    this.type = PinEntryType.boxTight,
     required this.themeData,
+    this.type = PinEntryType.boxTight,
     this.cursor,
     this.textDirection = TextDirection.ltr,
   }) : decoration = decoration.copyWith(
@@ -753,6 +750,13 @@ class _PinPaint extends CustomPainter {
               themeData.textTheme.headlineSmall
                   ?.copyWith(color: themeData.hintColor),
         );
+  final String text;
+  final int pinLength;
+  final PinEntryType type;
+  final PinDecoration decoration;
+  final ThemeData themeData;
+  Cursor? cursor;
+  TextDirection textDirection;
 
   @override
   bool shouldRepaint(_PinPaint oldDelegate) => oldDelegate != this;
@@ -780,6 +784,7 @@ class _PinPaint extends CustomPainter {
       );
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is _PinPaint &&
@@ -792,6 +797,7 @@ class _PinPaint extends CustomPainter {
           cursor == other.cursor;
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode =>
       text.hashCode ^
       pinLength.hashCode ^

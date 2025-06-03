@@ -16,8 +16,8 @@ class FormPasswordBuilder extends StatefulWidget {
   ///
   /// [builder]に[FormTextField]などを渡し、[switcherBuilder]には[IconButton]などを渡してください。
   const FormPasswordBuilder({
-    super.key,
     required this.builder,
+    super.key,
     this.switcherBuilder,
     this.padding,
     this.switchPadding,

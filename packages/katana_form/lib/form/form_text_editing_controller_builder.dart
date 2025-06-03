@@ -16,8 +16,8 @@ class FormTextEditingControllerBuilder extends StatefulWidget {
   ///
   /// [builder]に[FormTextField]などを渡してください。
   const FormTextEditingControllerBuilder({
-    super.key,
     required this.builder,
+    super.key,
     this.controller,
     this.style,
   });

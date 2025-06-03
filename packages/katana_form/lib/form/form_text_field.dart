@@ -1140,8 +1140,10 @@ class _TextFormField<TValue> extends FormField<String> {
     super.restorationId,
     bool enableIMEPersonalizedLearning = true,
     MouseCursor? mouseCursor,
-  })  : assert(maxLines == null || maxLines > 0),
-        assert(minLines == null || minLines > 0),
+  })  : assert(maxLines == null || maxLines > 0,
+            "maxLines is not null and is not greater than 0"),
+        assert(minLines == null || minLines > 0,
+            "minLines is not null and is not greater than 0"),
         assert(
           (maxLines == null) || (minLines == null) || (maxLines >= minLines),
           "minLines can't be greater than maxLines",
@@ -1158,6 +1160,7 @@ class _TextFormField<TValue> extends FormField<String> {
           maxLength == null ||
               maxLength == TextField.noMaxLength ||
               maxLength > 0,
+          "maxLength is not null and is not equal to TextField.noMaxLength and is not greater than 0",
         ),
         super(
           initialValue:
@@ -1267,12 +1270,12 @@ class _TextFormFieldState<TValue> extends FormFieldState<String> {
   }
 
   void _registerController() {
-    assert(_controller != null);
+    assert(_controller != null, "controller is null");
     registerForRestoration(_controller!, "controller");
   }
 
   void _createLocalController([TextEditingValue? value]) {
-    assert(_controller == null);
+    assert(_controller == null, "controller is not null");
     _controller = value == null
         ? RestorableTextEditingController()
         : RestorableTextEditingController.fromValue(value);

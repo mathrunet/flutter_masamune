@@ -1774,7 +1774,7 @@ class ModelTime extends ModelFieldValue<DateTime>
         _source = source;
 
   static final _dateRegExp = RegExp(r"^\d{4}-\d{2}-\d{2}");
-  static const _defaultYear = 1970;
+  static const _defaultYear = 2000;
   static const _defaultMonth = 1;
   static const _defaultDay = 1;
 

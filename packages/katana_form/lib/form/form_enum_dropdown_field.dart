@@ -85,6 +85,7 @@ class FormEnumDropdownField<TEnum extends Enum, TValue>
   ///
   /// [enabled]が`false`になると非有効化されます。
   FormEnumDropdownField({
+    required this.picker,
     super.key,
     this.form,
     this.prefix,
@@ -94,7 +95,6 @@ class FormEnumDropdownField<TEnum extends Enum, TValue>
     this.emptyErrorText,
     this.style,
     this.onChanged,
-    required this.picker,
     this.focusNode,
     this.keepAlive = true,
     this.icon,

@@ -581,8 +581,8 @@ class _FormMonthModalFieldState<TValue>
 class _MonthTextField<TValue> extends FormField<DateTime> {
   _MonthTextField({
     required this.format,
-    this.form,
     required this.picker,
+    this.form,
     super.key,
     super.onSaved,
     super.validator,
@@ -854,7 +854,12 @@ class _MonthTextFieldState<TValue> extends FormFieldState<DateTime> {
   }
 
   void _hideKeyboard() {
-    Future.microtask(() => FocusScope.of(context).requestFocus(FocusNode()));
+    Future.microtask(() {
+      final context = this.context;
+      if (context.mounted) {
+        FocusScope.of(context).requestFocus(FocusNode());
+      }
+    });
   }
 
   Future<void> clear() async {
@@ -1102,7 +1107,7 @@ class FormMonthModalFieldPicker {
         if (value[0] == 0) {
           month = month + ((begin?.month ?? 1) - 1);
         }
-        if (lastDayOfMonth == true) {
+        if (lastDayOfMonth ?? false) {
           res = DateTime(value[0] + startYear, month + 1, 0);
         } else {
           res = DateTime(value[0] + startYear, month, day ?? 1);

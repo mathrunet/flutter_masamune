@@ -540,9 +540,9 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
 
 class _DateTimeTextField<TValue> extends FormField<DateTime> {
   _DateTimeTextField({
-    this.form,
     required this.delegate,
     required this.onShowPicker,
+    this.form,
     super.key,
     super.onSaved,
     super.validator,
@@ -795,7 +795,12 @@ class _DateTimeTextFieldState<TValue> extends FormFieldState<DateTime> {
   }
 
   void _hideKeyboard() {
-    Future.microtask(() => FocusScope.of(context).requestFocus(FocusNode()));
+    Future.microtask(() {
+      final context = this.context;
+      if (context.mounted) {
+        FocusScope.of(context).requestFocus(FocusNode());
+      }
+    });
   }
 
   Future<void> clear() async {
@@ -944,7 +949,7 @@ class FormDateTimeFieldDateTimePicker extends FormDateTimeFieldPicker {
         );
       },
     );
-    if (date != null) {
+    if (date != null && context.mounted) {
       final time = await showTimePicker(
         context: context,
         helpText: timeSelectorHelpText ?? helpText,
@@ -1102,6 +1107,7 @@ abstract class FormDateTimeFieldPicker {
   ///
   /// 日付と時間を合わせて選択できる[FormDateTimeFieldDateTimePicker]と日付のみを選択できる[FormDateTimeFieldDatePicker]があります。
   const FormDateTimeFieldPicker({
+    required this.dateFormat,
     this.startDate,
     this.endDate,
     this.defaultDateTime,
@@ -1114,7 +1120,6 @@ abstract class FormDateTimeFieldPicker {
     this.fieldHintText,
     this.fieldLabelText,
     this.initialDatePickerMode = DatePickerMode.day,
-    required this.dateFormat,
     this.backgroundColor,
     this.foregroundColor,
     this.primaryColor,

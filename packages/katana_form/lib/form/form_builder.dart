@@ -64,14 +64,14 @@ class FormBuilder<T, TValue> extends FormField<T> {
   ///
   /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
   FormBuilder({
-    super.key,
-    this.form,
-    this.style,
     required Widget Function(
       BuildContext context,
       FormBuilderRef<T, TValue> ref,
       T? item,
     ) builder,
+    super.key,
+    this.form,
+    this.style,
     TValue? Function(T? value)? onSaved,
     super.initialValue,
     this.onChanged,
