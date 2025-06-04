@@ -1,3 +1,11 @@
+## 3.0.0
+
+ - Version update to further evolve as an AI-friendly Flutter Framework.
+
+ - **REFACTOR**: Apply strict Lint. ([79dfd383](https://github.com/mathrunet/flutter_masamune/commit/79dfd3830287b30c75e954e073b09c5c12fb74ed))
+ - **REFACTOR**: Applying strict Lints. ([93531062](https://github.com/mathrunet/flutter_masamune/commit/93531062cbb89fee5c7148cb25048952c1dd0168))
+ - **REFACTOR**: Standardize to double quotes. ([a2dd305a](https://github.com/mathrunet/flutter_masamune/commit/a2dd305a6582049ced8dc1280487fe7def8080b9))
+
 ## 2.9.9
 
  - Update a dependency to the latest release.

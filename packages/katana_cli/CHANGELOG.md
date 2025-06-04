@@ -1,3 +1,14 @@
+## 3.0.0
+
+ - Version update to further evolve as an AI-friendly Flutter Framework.
+
+ - **REFACTOR**: Set linting strictly. ([3d3c9e7c](https://github.com/mathrunet/flutter_masamune/commit/3d3c9e7c3b6901faf76f1b3b5b40ea518f319eb4))
+ - **REFACTOR**: Apply strict Lint. ([79dfd383](https://github.com/mathrunet/flutter_masamune/commit/79dfd3830287b30c75e954e073b09c5c12fb74ed))
+ - **REFACTOR**: Address strict Lints. ([4206ea6b](https://github.com/mathrunet/flutter_masamune/commit/4206ea6bcd737eb912ef7e997d14cecad06a6f3e))
+ - **FEAT**: Added testing mechanism. ([25e60cbc](https://github.com/mathrunet/flutter_masamune/commit/25e60cbc61c9cf1f6a24bf43f61e5f456930e0f2))
+ - **DOCS**: Ensured DartDoc is always included. ([1b816454](https://github.com/mathrunet/flutter_masamune/commit/1b8164542f2939dd4d14cad2b89e3fa80a7332be))
+ - **DOCS**: Add comment. ([16ce60eb](https://github.com/mathrunet/flutter_masamune/commit/16ce60ebc706bcbf5cf55b9591385eccd997f984))
+
 ## 2.42.0
 
  - **FEAT**: The call to Masamune's main.dart is now made via a package. ([984163b9](https://github.com/mathrunet/flutter_masamune/commit/984163b9c88ce558b4ccf8e70350de3b2fec3814))

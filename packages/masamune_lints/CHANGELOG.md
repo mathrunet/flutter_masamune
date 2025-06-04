@@ -1,3 +1,12 @@
+## 3.0.0
+
+ - Version update to further evolve as an AI-friendly Flutter Framework.
+
+ - **REFACTOR**: Set linting strictly. ([3d3c9e7c](https://github.com/mathrunet/flutter_masamune/commit/3d3c9e7c3b6901faf76f1b3b5b40ea518f319eb4))
+ - **REFACTOR**: Standardize to double quotes. ([a2dd305a](https://github.com/mathrunet/flutter_masamune/commit/a2dd305a6582049ced8dc1280487fe7def8080b9))
+ - **FIX**: Rename. ([c7a7377a](https://github.com/mathrunet/flutter_masamune/commit/c7a7377ac90665178fee5a645488a52cb6573552))
+ - **FEAT**: Add a Linter for Widgets. ([76e18cc5](https://github.com/mathrunet/flutter_masamune/commit/76e18cc5fae9a6eb0991bf5df538580d0e430072))
+
 ## 2.5.13
 
  - **FIX**: Version adjustment. ([71343169](https://github.com/mathrunet/flutter_masamune/commit/713431692884bdb56125f93d9e7f21d421eb62fc))

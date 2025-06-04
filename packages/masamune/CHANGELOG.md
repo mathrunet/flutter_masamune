@@ -1,3 +1,11 @@
+## 3.0.0
+
+ - Version update to further evolve as an AI-friendly Flutter Framework.
+
+ - **REFACTOR**: Set linting strictly. ([3d3c9e7c](https://github.com/mathrunet/flutter_masamune/commit/3d3c9e7c3b6901faf76f1b3b5b40ea518f319eb4))
+ - **REFACTOR**: Apply strict Lint. ([79dfd383](https://github.com/mathrunet/flutter_masamune/commit/79dfd3830287b30c75e954e073b09c5c12fb74ed))
+ - **REFACTOR**: Standardize to double quotes. ([a2dd305a](https://github.com/mathrunet/flutter_masamune/commit/a2dd305a6582049ced8dc1280487fe7def8080b9))
+
 ## 2.24.0
 
  - **FIX**: Fixed a bug where `debugShowCheckedModeBanner` was not passed when `home` was specified. ([9ee8d046](https://github.com/mathrunet/flutter_masamune/commit/9ee8d046876f115f5d0a9d006e557b94fbc513f2))

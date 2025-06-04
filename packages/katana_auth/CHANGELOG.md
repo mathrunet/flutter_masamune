@@ -1,3 +1,11 @@
+## 3.0.0
+
+ - Version update to further evolve as an AI-friendly Flutter Framework.
+
+ - **REFACTOR**: Set linting strictly. ([3d3c9e7c](https://github.com/mathrunet/flutter_masamune/commit/3d3c9e7c3b6901faf76f1b3b5b40ea518f319eb4))
+ - **REFACTOR**: Apply strict Lint. ([79dfd383](https://github.com/mathrunet/flutter_masamune/commit/79dfd3830287b30c75e954e073b09c5c12fb74ed))
+ - **REFACTOR**: Address strict Lints. ([4206ea6b](https://github.com/mathrunet/flutter_masamune/commit/4206ea6bcd737eb912ef7e997d14cecad06a6f3e))
+
 ## 2.11.7
 
  - **FIX**: Made initialUserId, etc. externally accessible. ([d1f28b56](https://github.com/mathrunet/flutter_masamune/commit/d1f28b56471e4dcb6a05de7858bfbe9e9f8f702d))

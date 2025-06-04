@@ -1,3 +1,10 @@
+## 3.0.0
+
+ - Version update to further evolve as an AI-friendly Flutter Framework.
+
+ - **REFACTOR**: Set linting strictly. ([3d3c9e7c](https://github.com/mathrunet/flutter_masamune/commit/3d3c9e7c3b6901faf76f1b3b5b40ea518f319eb4))
+ - **REFACTOR**: Standardize to double quotes. ([a2dd305a](https://github.com/mathrunet/flutter_masamune/commit/a2dd305a6582049ced8dc1280487fe7def8080b9))
+
 ## 2.2.0
 
  - **FEAT**: Change the name of FormStyleContainer. ([6dd0ab54](https://github.com/mathrunet/flutter_masamune/commit/6dd0ab5406474f19cf7bd9436c2ea60268b1eb11))

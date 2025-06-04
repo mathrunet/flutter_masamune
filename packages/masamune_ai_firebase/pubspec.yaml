@@ -1,6 +1,6 @@
 name: masamune_ai_firebase
 description: Plug-in to make Firebase Vertex AI available on Masamune Framework.
-version: 2.4.19
+version: 3.0.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_ai_firebase
 
@@ -12,16 +12,16 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.20.2
-  masamune: ^2.24.0
-  masamune_ai: ^2.5.19
-  katana_firebase: ^2.2.20
+  katana: ^3.0.0
+  masamune: ^3.0.0
+  masamune_ai: ^3.0.0
+  katana_firebase: ^3.0.0
   firebase_core: ^3.5.0
   firebase_vertexai: ^1.3.0
   universal_platform: ^1.0.0+1
   firebase_app_check: ^0.3.2+3
 dev_dependencies:
   test: ^1.24.0
-  katana_test: ^2.1.4
+  katana_test: ^3.0.0
   flutter_lints: ^5.0.0
   import_sorter: ^4.6.0

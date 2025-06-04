@@ -1,3 +1,10 @@
+## 3.0.0
+
+ - Version update to further evolve as an AI-friendly Flutter Framework.
+
+ - **REFACTOR**: Apply strict Lint. ([79dfd383](https://github.com/mathrunet/flutter_masamune/commit/79dfd3830287b30c75e954e073b09c5c12fb74ed))
+ - **REFACTOR**: Address strict Lints. ([4206ea6b](https://github.com/mathrunet/flutter_masamune/commit/4206ea6bcd737eb912ef7e997d14cecad06a6f3e))
+
 ## 2.20.2
 
  - **FIX**: Fixed an issue with the generated file names. ([b63f9f23](https://github.com/mathrunet/flutter_masamune/commit/b63f9f23b0481d3cf1ea88be6f7b890e2a98609e))
