@@ -361,28 +361,28 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.20.2"
+    version: "3.0.0"
   katana_builder:
     dependency: "direct overridden"
     description:
       path: "../../katana_builder"
       relative: true
     source: path
-    version: "2.3.1"
+    version: "3.0.0"
   katana_model_openapi:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.3.6"
+    version: "3.0.0"
   katana_model_openapi_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_model_openapi_builder"
       relative: true
     source: path
-    version: "2.1.24"
+    version: "3.0.0"
   leak_tracker:
     dependency: transitive
     description:

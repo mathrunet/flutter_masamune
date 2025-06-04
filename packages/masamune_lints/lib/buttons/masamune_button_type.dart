@@ -83,8 +83,6 @@ enum _SupportedIdentifier {
         return true;
       case _SupportedIdentifier.tonalIcon:
         return true;
-      default:
-        return false;
     }
   }
 
@@ -96,8 +94,6 @@ enum _SupportedIdentifier {
         return false;
       case _SupportedIdentifier.tonalIcon:
         return true;
-      default:
-        return false;
     }
   }
 }

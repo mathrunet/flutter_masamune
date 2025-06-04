@@ -217,14 +217,14 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.20.2"
+    version: "3.0.0"
   katana_test:
     dependency: "direct dev"
     description:
       path: "../katana_test"
       relative: true
     source: path
-    version: "2.1.4"
+    version: "3.0.0"
   lints:
     dependency: transitive
     description:
@@ -552,4 +552,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.7.0-0 <4.0.0"
-  flutter: ">=2.0.0"
+  flutter: ">=3.0.0"

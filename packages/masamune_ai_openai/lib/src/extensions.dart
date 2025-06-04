@@ -11,8 +11,6 @@ extension on AIRole {
         return "system";
       case AIRole.function:
         return "function";
-      default:
-        return "user";
     }
   }
 
@@ -26,8 +24,6 @@ extension on AIRole {
         return OpenAIChatMessageRole.system;
       case AIRole.function:
         return OpenAIChatMessageRole.function;
-      default:
-        return OpenAIChatMessageRole.user;
     }
   }
 }

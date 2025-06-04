@@ -75,7 +75,7 @@ class TemporaryTextProviderBuilder with _TextProviderBuilderMixin {
   final String _prefix = "document://";
 }
 
-abstract class _TextProviderBuilderMixin {
+mixin _TextProviderBuilderMixin {
   String? get _prefix;
 
   /// Obtains text from a text file that exists in [uri].
@@ -209,7 +209,7 @@ class TemporaryImageProviderBuilder with _ImageProviderBuilderMixin {
   final String _prefix = "document://";
 }
 
-abstract class _ImageProviderBuilderMixin {
+mixin _ImageProviderBuilderMixin {
   String? get _prefix;
 
   /// [ImageProvider] from the image file existing in [uri].

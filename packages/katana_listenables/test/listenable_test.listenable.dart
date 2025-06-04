@@ -8,7 +8,7 @@ part of "listenable_test.dart";
 // ListenablesGenerator
 // **************************************************************************
 
-abstract class _$ListenableValue implements Listenable {
+mixin _$ListenableValue implements Listenable {
   TextEditingController get controller => throw UnimplementedError();
 
   ValueNotifier<String>? get value => throw UnimplementedError();

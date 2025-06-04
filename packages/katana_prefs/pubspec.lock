@@ -230,21 +230,21 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.20.2"
+    version: "3.0.0"
   katana_prefs_annotation:
     dependency: "direct main"
     description:
       path: "../katana_prefs_annotation"
       relative: true
     source: path
-    version: "2.1.20"
+    version: "3.0.0"
   katana_test:
     dependency: "direct dev"
     description:
       path: "../katana_test"
       relative: true
     source: path
-    version: "2.1.4"
+    version: "3.0.0"
   lints:
     dependency: transitive
     description:

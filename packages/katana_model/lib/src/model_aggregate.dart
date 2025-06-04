@@ -85,8 +85,6 @@ class ModelAggregateQuery<TValue extends AsyncAggregateValue> {
           case ModelUpdateNotificationStatus.modified:
             await value.reload();
             break;
-          default:
-            break;
         }
       },
     );
@@ -113,8 +111,6 @@ class ModelAggregateQuery<TValue extends AsyncAggregateValue> {
           case ModelUpdateNotificationStatus.removed:
           case ModelUpdateNotificationStatus.modified:
             await value.reload();
-            break;
-          default:
             break;
         }
       },

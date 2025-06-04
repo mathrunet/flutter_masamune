@@ -780,8 +780,6 @@ class SaveDocumentModelRestApiQuery extends SaveDocumentModelRestApiBuilder {
           headers: headers,
         );
         break;
-      default:
-        throw UnimplementedError("Unsupported method: $method");
     }
     if (checkError?.call(response) ?? adapter.checkError(response)) {
       throw RestApiModelAdapterException(uri: uri, response: response.body);
