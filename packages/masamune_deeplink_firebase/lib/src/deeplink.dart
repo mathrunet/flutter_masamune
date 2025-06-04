@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 part of "/masamune_deeplink_firebase.dart";
 
 /// Class for handling DynamicLink.

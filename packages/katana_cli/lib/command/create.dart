@@ -2710,35 +2710,52 @@ class PubignoreCliCode extends CliCode {
     return r"""
 # See https://dart.dev/tools/pub/publishing#what-files-are-published
 
-# github
-.github/workflows/
+# example
 example/.github/
-
-# vscode
 example/.vscode/
-
-# firebase
 example/firebase/
-
-# documents
 example/documents/
-
-# lib
-secrets.dart
-firebase_options.dart
 example/ios/
 example/android/
 example/macos/
 example/windows/
 example/web/
 example/linux/
+example/build/
+example/.dart_tool
+example/.flutter-plugins
+example/.flutter-plugins-dependencies
+example/.packages
+example/.pub-cache/
+example/.pub/
+
+# android
+android/.classpath
+android/.project
+android/.settings/org.eclipse.buildship.core.prefs
+
+# lib
+firebase_options.dart
 
 # Yaml
 pubspec_overrides.yaml
-katana_secrets.yaml
 katana.yaml
 build.yaml
 lefthook.yaml
+
+# others
+.DS_Store
+.env
+.dart_tool/
+.packages
+.pub/
+build/
+*.iml
+.idea/
+.vscode/
+.flutter-plugins-dependencies
+flutter_export_environment.sh
+.last_build_id
 """;
   }
 }
