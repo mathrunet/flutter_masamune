@@ -7,6 +7,8 @@ import "package:katana_theme/katana_theme.dart";
 part "main.theme.dart";
 
 @appTheme
+
+/// Application theme configuration.
 final theme = AppThemeData.light(
   primary: Colors.red,
   secondary: Colors.orange,
@@ -17,7 +19,9 @@ void main() {
   runApp(const MyApp());
 }
 
+/// Main application widget that provides the root of the widget tree.
 class MyApp extends StatelessWidget {
+  /// Creates a [MyApp].
   const MyApp({super.key});
 
   @override
@@ -37,10 +41,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Home page widget that displays a counter.
 @immutable
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  /// Creates a [MyHomePage].
+  const MyHomePage({required this.title, super.key});
 
+  /// The title to display in the app bar.
   final String title;
 
   @override

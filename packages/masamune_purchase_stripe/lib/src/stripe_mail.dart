@@ -11,8 +11,8 @@ class StripeMail {
   const StripeMail({
     required this.title,
     required this.from,
-    this.to,
     required this.content,
+    this.to,
   });
 
   /// Email Title.

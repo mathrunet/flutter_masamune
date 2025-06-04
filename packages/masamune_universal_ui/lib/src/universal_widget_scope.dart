@@ -16,8 +16,8 @@ class UniversalWidgetScope extends InheritedWidget {
   ///
   /// [UniversalWidgetScope.of]で取得できた場合は、[UniversalListView]や[UniversalContainer]の子Widgetのパディングを無効化します。
   const UniversalWidgetScope({
-    super.key,
     required super.child,
+    super.key,
   });
 
   /// Get [UniversalWidgetScope] in the parent element if it exists.

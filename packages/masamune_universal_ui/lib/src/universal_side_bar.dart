@@ -29,11 +29,11 @@ class UniversalSideBar extends StatelessWidget implements PreferredSizeWidget {
   ///
   /// [breakpoint]を設定すると、その[Breakpoint]の横幅に合わせてサイドバーのパディングが切り替わります。
   UniversalSideBar({
+    required this.children,
     super.key,
     this.breakpoint,
     this.decoration,
     this.padding,
-    required this.children,
     this.width = kSideBarWidth,
   }) : preferredSize = Size.fromWidth(width);
 

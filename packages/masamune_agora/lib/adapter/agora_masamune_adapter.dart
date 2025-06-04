@@ -27,10 +27,10 @@ class AgoraMasamuneAdapter extends MasamuneAdapter {
     required this.appId,
     required this.customerId,
     required this.customerSecret,
+    required this.functionsAdapter,
     this.storageBucketConfig,
     this.enableRecordingByDefault = false,
     this.enableScreenCaptureByDefault = false,
-    required this.functionsAdapter,
   })  : assert(
           enableRecordingByDefault == false || storageBucketConfig != null,
           "If you want to use cloud recording, you must set [storageBucketConfig].",

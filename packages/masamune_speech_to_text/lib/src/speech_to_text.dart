@@ -1,10 +1,10 @@
 part of "/masamune_speech_to_text.dart";
 
 class _SpeechToText {
-  static const String listeningStatus = 'listening';
-  static const String doneStatus = 'done';
-  static const String _finalStatus = 'final';
-  static const String _doneNoResultStatus = 'doneNoResult';
+  static const String listeningStatus = "listening";
+  static const String doneStatus = "done";
+  static const String _finalStatus = "final";
+  static const String _doneNoResultStatus = "doneNoResult";
 
   static const defaultFinalTimeout = Duration(milliseconds: 2000);
   static const _minFinalTimeout = Duration(milliseconds: 50);
@@ -30,8 +30,8 @@ class _SpeechToText {
   Duration _finalTimeout = defaultFinalTimeout;
 
   bool _userEnded = false;
-  String _lastRecognized = '';
-  String _lastStatus = '';
+  String _lastRecognized = "";
+  String _lastStatus = "";
   double _lastSoundLevel = 0;
   Timer? _listenTimer;
   Timer? _notifyFinalTimer;
@@ -137,7 +137,7 @@ class _SpeechToText {
       throw SpeechToTextNotInitializedException();
     }
     _lastError = null;
-    _lastRecognized = '';
+    _lastRecognized = "";
     _userEnded = false;
     _lastSpeechResult = null;
     _cancelOnError = cancelOnError;
@@ -242,7 +242,7 @@ class _SpeechToText {
     final locales = await SpeechToTextPlatform.instance.locales();
     var filteredLocales = locales
         .map((locale) {
-          var components = locale.split(':');
+          var components = locale.split(":");
           if (components.length != 2) {
             return null;
           }
@@ -274,7 +274,9 @@ class _SpeechToText {
   }
 
   void _onFinalTimeout() {
-    if (_notifiedFinal) return;
+    if (_notifiedFinal) {
+      return;
+    }
     if (_lastSpeechResult != null && null != _resultListener) {
       var finalResult = _lastSpeechResult!.toFinal();
       _notifyResults(finalResult);
@@ -282,7 +284,9 @@ class _SpeechToText {
   }
 
   void _notifyResults(SpeechRecognitionResult speechResult) {
-    if (_notifiedFinal) return;
+    if (_notifiedFinal) {
+      return;
+    }
     if (_lastSpeechResult == null || _lastSpeechResult != speechResult) {
       _lastSpeechEventAt = clock.now().millisecondsSinceEpoch;
     }
@@ -325,10 +329,14 @@ class _SpeechToText {
     switch (status) {
       case doneStatus:
         _notifiedDone = true;
-        if (!_notifiedFinal) return;
+        if (!_notifiedFinal) {
+          return;
+        }
         break;
       case _finalStatus:
-        if (!_notifiedDone) return;
+        if (!_notifiedDone) {
+          return;
+        }
 
         status = _finalStatus;
         break;

@@ -60,6 +60,9 @@ class ReorderableListBuilder<T> extends StatefulWidget {
   /// [listenWhenListenable]が`true`になっている場合、[source]に[Listenable]を継承している場合[ListenableListener]が各要素にラップされます。
   /// そのため、[source]の各要素をそれぞれ監視し、いずれかの要素が更新された場合その要素のみ描画が更新されます。
   const ReorderableListBuilder({
+    required this.source,
+    required this.builder,
+    required this.onReorder,
     super.key,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
@@ -73,9 +76,6 @@ class ReorderableListBuilder<T> extends StatefulWidget {
     this.insertPosition = 0,
     this.bottom,
     this.itemExtent,
-    required this.source,
-    required this.builder,
-    required this.onReorder,
     this.cacheExtent,
     this.keyBuilder,
     this.listenWhenListenable = true,

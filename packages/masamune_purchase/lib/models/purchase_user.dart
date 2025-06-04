@@ -44,6 +44,11 @@ abstract class PurchaseUserModel with _$PurchaseUserModel {
   }) = _PurchaseUserModel;
   const PurchaseUserModel._();
 
+  /// Convert from JSON.
+  ///
+  /// ```dart
+  /// PurchaseUserModel.fromJson(json);
+  /// ```
   factory PurchaseUserModel.fromJson(Map<String, Object?> json) =>
       _$PurchaseUserModelFromJson(json);
 

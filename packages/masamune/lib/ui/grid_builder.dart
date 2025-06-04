@@ -32,6 +32,9 @@ class GridBuilder<T> extends StatelessWidget {
   /// [listenWhenListenable]が`true`になっている場合、[source]に[Listenable]を継承している場合[ListenableListener]が各要素にラップされます。
   /// そのため、[source]の各要素をそれぞれ監視し、いずれかの要素が更新された場合その要素のみ描画が更新されます。
   const GridBuilder.count({
+    required this.source,
+    required this.crossAxisCount,
+    required this.builder,
     super.key,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
@@ -40,9 +43,6 @@ class GridBuilder<T> extends StatelessWidget {
     this.physics,
     this.shrinkWrap = false,
     this.padding,
-    required this.source,
-    required this.crossAxisCount,
-    required this.builder,
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
     this.addSemanticIndexes = true,
@@ -77,6 +77,9 @@ class GridBuilder<T> extends StatelessWidget {
   /// [listenWhenListenable]が`true`になっている場合、[source]に[Listenable]を継承している場合[ListenableListener]が各要素にラップされます。
   /// そのため、[source]の各要素をそれぞれ監視し、いずれかの要素が更新された場合その要素のみ描画が更新されます。
   const GridBuilder.extent({
+    required this.source,
+    required this.maxCrossAxisExtent,
+    required this.builder,
     super.key,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
@@ -85,9 +88,6 @@ class GridBuilder<T> extends StatelessWidget {
     this.physics,
     this.shrinkWrap = false,
     this.padding,
-    required this.source,
-    required this.maxCrossAxisExtent,
-    required this.builder,
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
     this.addSemanticIndexes = true,

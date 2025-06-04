@@ -4,9 +4,12 @@
 library masamune_agora.web;
 
 // Dart imports:
-import "dart:html";
+import "dart:js_interop";
 
-export 'package:permission_handler/permission_handler.dart'
+// Package imports:
+import "package:web/web.dart" as web;
+
+export "package:permission_handler/permission_handler.dart"
     show openAppSettings;
 
 part "agora_permission.dart";

@@ -39,6 +39,11 @@ abstract class StripeUserModel with _$StripeUserModel {
   }) = _StripeUserModel;
   const StripeUserModel._();
 
+  /// Convert from JSON.
+  ///
+  /// ```dart
+  /// StripeUserModel.fromJson(json);
+  /// ```
   factory StripeUserModel.fromJson(Map<String, Object?> json) =>
       _$StripeUserModelFromJson(json);
 

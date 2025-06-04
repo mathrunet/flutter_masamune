@@ -24,14 +24,19 @@ abstract class StripePaymentModel with _$StripePaymentModel {
   const factory StripePaymentModel({
     @JsonKey(name: "id") required String paymentId,
     @JsonKey(name: "type") required String type,
-    @JsonKey(name: "expMonth") @Default(1) int expMonth,
-    @JsonKey(name: "expYear") @Default(2000) int expYear,
     @JsonKey(name: "brand") required String brand,
     @JsonKey(name: "numberLast") required String numberLast,
+    @JsonKey(name: "expMonth") @Default(1) int expMonth,
+    @JsonKey(name: "expYear") @Default(2000) int expYear,
     @JsonKey(name: "default") @Default(false) bool isDefault,
   }) = _StripePaymentModel;
   const StripePaymentModel._();
 
+  /// Convert from JSON.
+  ///
+  /// ```dart
+  /// StripePaymentModel.fromJson(json);
+  /// ```
   factory StripePaymentModel.fromJson(Map<String, Object?> json) =>
       _$StripePaymentModelFromJson(json);
 

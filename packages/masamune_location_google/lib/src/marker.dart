@@ -46,12 +46,12 @@ class Marker extends map.Marker {
   /// つまり、マップの回転、傾き、ズームによって必ずしも向きが変わるとは限りません。
   Marker.image({
     required String markerId,
+    required this.image,
     super.alpha = 1.0,
     super.anchor = const Offset(0.5, 1.0),
     super.consumeTapEvents = false,
     super.draggable = false,
     super.flat = false,
-    required this.image,
     this.size = 128,
     super.infoWindow = InfoWindow.noText,
     GeoValue position = const GeoValue(latitude: 0.0, longitude: 0.0),
@@ -88,6 +88,7 @@ class Marker extends map.Marker {
   /// つまり、マップの回転、傾き、ズームによって必ずしも向きが変わるとは限りません。
   Marker.icon({
     required String markerId,
+    required IconData icon,
     super.alpha = 1.0,
     this.padding = 0.0,
     this.borderColor,
@@ -97,7 +98,6 @@ class Marker extends map.Marker {
     super.consumeTapEvents = false,
     super.draggable = false,
     super.flat = false,
-    required IconData icon,
     this.color,
     this.size = 24,
     super.infoWindow = InfoWindow.noText,

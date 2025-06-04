@@ -58,8 +58,8 @@ class GoogleAdsCore {
   ///
   /// [adUnitId]に広告ユニットIDを[size]に広告サイズを指定します。
   static Future<void> preloadBannerAd({
-    String? adUnitId,
     required GoogleBannerAdSize size,
+    String? adUnitId,
   }) async {
     debugPrint("The web does not support GoogleAd.");
   }

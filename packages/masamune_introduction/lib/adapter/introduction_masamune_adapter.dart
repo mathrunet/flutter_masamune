@@ -9,12 +9,12 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
   /// 導入のチュートリアルを取り扱うための初期設定を行う[MasamuneAdapter]。
   const IntroductionMasamuneAdapter({
     required this.items,
-    this.enableSkip = true,
     required this.doneLabel,
+    required this.skipLabel,
+    this.enableSkip = true,
     this.backgroundColor,
     this.foregroundColor,
     this.activeColor,
-    required this.skipLabel,
     this.titlePadding,
     this.imagePadding,
     this.bodyPadding,

@@ -114,10 +114,12 @@ class AdapterGenerator
       workingDirectory: "${Directory.current.path}/firebase",
       mode: ProcessStartMode.normal,
     );
-    generateProcess.stdout.transform(utf8.decoder).forEach((line) {
-      // ignore: avoid_print
-      print(line);
-    });
+    unawaited(
+      generateProcess.stdout.transform(utf8.decoder).forEach((line) {
+        // ignore: avoid_print
+        print(line);
+      }),
+    );
     await generateProcess.exitCode;
   }
 

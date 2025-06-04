@@ -41,9 +41,9 @@ class ModelServerCommandDeleteDocumentsSchedule extends ModelServerCommandBase {
   /// **firestoreでこちらを利用する場合CollectionID:`schedule`で`_time`と`_done`のフィールドを指定してインデックスを作成してください。**
   const factory ModelServerCommandDeleteDocumentsSchedule({
     required String collectionPath,
+    required ModelTimestamp time,
     List<ModelServerCommandCondition>? where,
     List<ModelServerCommandCondition>? conditions,
-    required ModelTimestamp time,
   }) = _ModelServerCommandDeleteDocumentsSchedule;
 
   const ModelServerCommandDeleteDocumentsSchedule._()
@@ -149,9 +149,9 @@ class _ModelServerCommandDeleteDocumentsSchedule
     extends ModelServerCommandDeleteDocumentsSchedule {
   const _ModelServerCommandDeleteDocumentsSchedule({
     required this.collectionPath,
+    required this.time,
     this.where,
     this.conditions,
-    required this.time,
   }) : super._();
 
   @override

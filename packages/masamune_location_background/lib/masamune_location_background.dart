@@ -18,15 +18,15 @@ import "package:flutter/material.dart";
 import "package:masamune/masamune.dart";
 import "package:masamune_location_platform_interface/masamune_location_platform_interface.dart";
 
-import 'src/others/others.dart'
-    if (dart.library.io) 'src/others/others.dart'
-    if (dart.library.js) 'src/web/web.dart'
-    if (dart.library.html) 'src/web/web.dart';
+import "src/others/others.dart"
+    if (dart.library.io) "src/others/others.dart"
+    if (dart.library.js) "src/web/web.dart"
+    if (dart.library.html) "src/web/web.dart";
 
-export 'src/others/others.dart'
-    if (dart.library.io) 'src/others/others.dart'
-    if (dart.library.js) 'src/web/web.dart'
-    if (dart.library.html) 'src/web/web.dart';
+export "src/others/others.dart"
+    if (dart.library.io) "src/others/others.dart"
+    if (dart.library.js) "src/web/web.dart"
+    if (dart.library.html) "src/web/web.dart";
 export "package:masamune_location_platform_interface/masamune_location_platform_interface.dart";
 
 part "adapter/background_location_masamune_adapter.dart";

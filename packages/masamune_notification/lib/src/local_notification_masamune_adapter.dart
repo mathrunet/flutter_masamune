@@ -8,13 +8,13 @@ abstract class LocalNotificationMasamuneAdapter extends MasamuneAdapter {
   ///
   /// ローカルPUSH通知を受信するための[MasamuneAdapter]です。
   const LocalNotificationMasamuneAdapter({
+    required this.androidNotificationChannelId,
+    required this.androidNotificationChannelTitle,
+    required this.androidNotificationChannelDescription,
     this.localNotification,
     this.modelAdapter,
     this.loggerAdapters = const [],
     this.androidDefaultIcon = "@mipmap/ic_launcher",
-    required this.androidNotificationChannelId,
-    required this.androidNotificationChannelTitle,
-    required this.androidNotificationChannelDescription,
     this.onLink,
     this.defaultTimezone = "UTC",
     this.listenOnBoot = false,

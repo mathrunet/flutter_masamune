@@ -56,19 +56,19 @@ class AnimateController extends ChangeNotifier implements AnimateRunner {
   ///
   /// [AnimateScope]または[AnimateScopeBuilder]にコントローラーを渡すことで、アニメーションを再生することができます。
   AnimateController({
+    required this.scenario,
     this.autoPlay = false,
     this.repeat = false,
     this.repeatCount,
-    required this.scenario,
     this.keys = const [],
   });
 
   AnimateController._withVsync({
     required TickerProvider vsync,
+    required this.scenario,
     this.autoPlay = false,
     this.repeat = false,
     this.repeatCount,
-    required this.scenario,
     this.keys = const [],
   }) {
     _initialize(vsync);
@@ -147,7 +147,7 @@ class AnimateController extends ChangeNotifier implements AnimateRunner {
       if (playing) {
         _ticker?.stop(canceled: true);
       }
-      _ticker?.start();
+      unawaited(_ticker?.start());
       do {
         _queryStack.clear();
         await scenario.call(this);
@@ -257,6 +257,7 @@ class AnimateControllerCancelException implements Exception {
   const AnimateControllerCancelException();
 }
 
+@immutable
 class _AnimateQueryContainer {
   _AnimateQueryContainer({
     required this.query,

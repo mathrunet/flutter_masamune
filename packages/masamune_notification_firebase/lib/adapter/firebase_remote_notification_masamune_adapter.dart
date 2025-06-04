@@ -9,11 +9,11 @@ class FirebaseRemoteNotificationMasamuneAdapter
   ///
   /// Firebase用のリモートPUSH通知を受信するための[MasamuneAdapter]です。
   const FirebaseRemoteNotificationMasamuneAdapter({
-    super.functionsAdapter,
-    super.modelAdapter,
     required super.androidNotificationChannelId,
     required super.androidNotificationChannelTitle,
     required super.androidNotificationChannelDescription,
+    super.functionsAdapter,
+    super.modelAdapter,
     super.remoteNotification,
     super.subscribeOnBoot = const [],
     super.listenOnBoot = false,
@@ -221,7 +221,7 @@ class FirebaseRemoteNotificationMasamuneAdapter
   Future<void> _onMessage(RemoteMessage message,
       Future<void> Function(NotificationValue value) onMessage) async {
     final data = message.data;
-    onMessage.call(
+    await onMessage.call(
       NotificationValue(
         title: message.notification?.title ?? "",
         text: message.notification?.body ?? "",
@@ -237,7 +237,7 @@ class FirebaseRemoteNotificationMasamuneAdapter
     Future<void> Function(NotificationValue value) onMessageOpenedApp,
   ) async {
     final data = message.data;
-    onMessageOpenedApp.call(
+    await onMessageOpenedApp.call(
       NotificationValue(
         title: message.notification?.title ?? "",
         text: message.notification?.body ?? "",

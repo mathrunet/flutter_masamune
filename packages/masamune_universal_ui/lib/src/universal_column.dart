@@ -28,8 +28,8 @@ class UniversalColumn extends StatelessWidget {
   ///
   /// [UniversalScaffold.breakpoint]に応じて最大の横幅が自動で設定されます。
   const UniversalColumn({
-    super.key,
     required this.children,
+    super.key,
     this.padding,
     this.margin,
     this.color,

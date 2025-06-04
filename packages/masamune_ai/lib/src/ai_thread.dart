@@ -33,9 +33,9 @@ class AIThread
   ///
   /// [clear]メソッドでスレッドをクリアします。
   AIThread({
-    super.adapter,
     required this.threadId,
     required List<AIContent> initialContents,
+    super.adapter,
     this.config,
   }) {
     _value.addAll(initialContents);
@@ -282,8 +282,8 @@ class _$AIThreadQuery {
 class _$_AIThreadQuery extends ControllerQueryBase<AIThread> {
   const _$_AIThreadQuery(
     this._name, {
-    this.config,
     required this.initialContents,
+    this.config,
     this.adapter,
   });
 

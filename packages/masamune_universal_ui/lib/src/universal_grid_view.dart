@@ -44,8 +44,8 @@ class UniversalGridView extends StatelessWidget {
   ///
   /// レスポンシブ対応しており[UniversalScaffold.breakpoint]によって最大の横幅が設定されます。
   const UniversalGridView({
-    super.key,
     required this.children,
+    super.key,
     this.decoration,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
@@ -79,17 +79,20 @@ class UniversalGridView extends StatelessWidget {
     this.crossAxisSpacing = 0.0,
     this.childAspectRatio = 1.0,
   })  : assert(
-          !(controller != null && primary == true),
+          !(controller != null && (primary ?? false)),
           "Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. "
           "You cannot both set primary to true and pass an explicit controller.",
         ),
-        assert(!shrinkWrap || center == null),
-        assert(anchor >= 0.0 && anchor <= 1.0),
-        assert(semanticChildCount == null || semanticChildCount >= 0),
+        assert(!shrinkWrap || center == null,
+            "shrinkWrap cannot be true when center is not null"),
+        assert(anchor >= 0.0 && anchor <= 1.0,
+            "anchor must be between 0.0 and 1.0"),
+        assert(semanticChildCount == null || semanticChildCount >= 0,
+            "semanticChildCount must be null or greater than 0"),
         primary = primary ??
             controller == null && identical(scrollDirection, Axis.vertical),
         physics = physics ??
-            (primary == true ||
+            ((primary ?? false) ||
                     (primary == null &&
                         controller == null &&
                         identical(scrollDirection, Axis.vertical))

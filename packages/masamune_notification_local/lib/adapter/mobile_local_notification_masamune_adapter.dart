@@ -9,11 +9,11 @@ class MobileLocalNotificationMasamuneAdapter
   ///
   /// モバイル用のローカルPUSH通知を受信するための[MasamuneAdapter]です。
   const MobileLocalNotificationMasamuneAdapter({
-    super.loggerAdapters = const [],
-    super.androidDefaultIcon = "@mipmap/ic_launcher",
     required super.androidNotificationChannelId,
     required super.androidNotificationChannelTitle,
     required super.androidNotificationChannelDescription,
+    super.loggerAdapters = const [],
+    super.androidDefaultIcon = "@mipmap/ic_launcher",
     super.defaultTimezone = "UTC",
     super.localNotification,
     super.listenOnBoot = false,

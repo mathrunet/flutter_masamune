@@ -222,12 +222,12 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   @override
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
-    AIConfig? config,
-    Set<AITool> tools = const {},
-    bool includeSystemInitialContent = false,
     required Future<List<AIContentFunctionResponsePart>> Function(
             List<AIContentFunctionCallPart> functionCalls)
         onFunctionCall,
+    AIConfig? config,
+    Set<AITool> tools = const {},
+    bool includeSystemInitialContent = false,
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
         onGenerateFunctionCallingConfig,
@@ -245,19 +245,21 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
             .firstOrNull
         : null;
     final res = AIContent.model();
-    _generateContent(
-      contents: [
-        if (systemInitialContent != null) systemInitialContent,
-        ...contents.sortTo((a, b) => a.time.compareTo(b.time)).expand((e) {
-          return e._toContents();
-        }),
-      ],
-      response: res,
-      tools: tools,
-      generativeModel: generativeModel,
-      onFunctionCall: onFunctionCall,
-      onGenerateFunctionCallingConfig: onGenerateFunctionCallingConfig,
-      trialCount: 1,
+    unawaited(
+      _generateContent(
+        contents: [
+          if (systemInitialContent != null) systemInitialContent,
+          ...contents.sortTo((a, b) => a.time.compareTo(b.time)).expand((e) {
+            return e._toContents();
+          }),
+        ],
+        response: res,
+        tools: tools,
+        generativeModel: generativeModel,
+        onFunctionCall: onFunctionCall,
+        onGenerateFunctionCallingConfig: onGenerateFunctionCallingConfig,
+        trialCount: 1,
+      ),
     );
     return res;
   }
@@ -269,8 +271,8 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     required Future<List<AIContentFunctionResponsePart>> Function(
             List<AIContentFunctionCallPart> functionCalls)
         onFunctionCall,
-    Set<AITool> tools = const {},
     required int trialCount,
+    Set<AITool> tools = const {},
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
         onGenerateFunctionCallingConfig,
@@ -324,22 +326,24 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
                     functionResponse,
                     time: DateTime.now(),
                   );
-                  _generateContent(
-                    contents: contents,
-                    response: response,
-                    tools: tools,
-                    generativeModel: generativeModel,
-                    onFunctionCall: onFunctionCall,
-                    onGenerateFunctionCallingConfig:
-                        onGenerateFunctionCallingConfig,
-                    trialCount: trialCount + 1,
+                  unawaited(
+                    _generateContent(
+                      contents: contents,
+                      response: response,
+                      tools: tools,
+                      generativeModel: generativeModel,
+                      onFunctionCall: onFunctionCall,
+                      onGenerateFunctionCallingConfig:
+                          onGenerateFunctionCallingConfig,
+                      trialCount: trialCount + 1,
+                    ),
                   );
                   return;
                 }
               }
               response.complete(time: DateTime.now());
             } finally {
-              subscription?.cancel();
+              unawaited(subscription?.cancel());
               subscription = null;
               functionCallCompleter?.complete();
               functionCallCompleter = null;
@@ -366,22 +370,24 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
                   functionResponse,
                   time: DateTime.now(),
                 );
-                _generateContent(
-                  contents: contents,
-                  response: response,
-                  tools: tools,
-                  generativeModel: generativeModel,
-                  onFunctionCall: onFunctionCall,
-                  onGenerateFunctionCallingConfig:
-                      onGenerateFunctionCallingConfig,
-                  trialCount: trialCount + 1,
+                unawaited(
+                  _generateContent(
+                    contents: contents,
+                    response: response,
+                    tools: tools,
+                    generativeModel: generativeModel,
+                    onFunctionCall: onFunctionCall,
+                    onGenerateFunctionCallingConfig:
+                        onGenerateFunctionCallingConfig,
+                    trialCount: trialCount + 1,
+                  ),
                 );
                 return;
               }
             }
             response.complete(time: DateTime.now());
           } finally {
-            subscription?.cancel();
+            unawaited(subscription?.cancel());
             subscription = null;
             functionCallCompleter?.complete();
             functionCallCompleter = null;

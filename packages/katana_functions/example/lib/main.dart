@@ -8,11 +8,20 @@ void main() {
   runApp(const MyApp());
 }
 
+/// Test functions action for demonstrating functions usage.
+///
+/// Functions使用方法を実演するテスト用FunctionsAction。
 class TestFunctionsAction extends FunctionsAction<TestFunctionsActionResponse> {
+  /// Creates a TestFunctionsAction.
+  ///
+  /// TestFunctionsActionを作成します。
   const TestFunctionsAction({
     required this.responseMessage,
   });
 
+  /// Response message for the action.
+  ///
+  /// アクション用のレスポンスメッセージ。
   final String responseMessage;
 
   @override
@@ -33,13 +42,28 @@ class TestFunctionsAction extends FunctionsAction<TestFunctionsActionResponse> {
   }
 }
 
+/// Response class for TestFunctionsAction.
+///
+/// TestFunctionsAction用のレスポンスクラス。
 class TestFunctionsActionResponse extends FunctionsActionResponse {
+  /// Creates a TestFunctionsActionResponse.
+  ///
+  /// TestFunctionsActionResponseを作成します。
   const TestFunctionsActionResponse({required this.message});
 
+  /// Response message.
+  ///
+  /// レスポンスメッセージ。
   final String message;
 }
 
+/// Main application widget for functions demo.
+///
+/// Functions デモ用のメインアプリケーションWidget。
 class MyApp extends StatelessWidget {
+  /// Creates a MyApp widget.
+  ///
+  /// MyAppウィジェットを作成します。
   const MyApp({super.key});
 
   @override
@@ -57,14 +81,26 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Functions page widget to demonstrate functions functionality.
+///
+/// Functions機能を実演するページWidget。
 class FunctionsPage extends StatefulWidget {
+  /// Creates a FunctionsPage widget.
+  ///
+  /// FunctionsPageウィジェットを作成します。
   const FunctionsPage({super.key});
 
   @override
   State<StatefulWidget> createState() => FunctionsPageState();
 }
 
+/// State for FunctionsPage widget.
+///
+/// FunctionsPageウィジェットのState。
 class FunctionsPageState extends State<FunctionsPage> {
+  /// Functions instance for managing function executions.
+  ///
+  /// 関数実行を管理するFunctionsインスタンス。
   final functions = Functions();
 
   @override

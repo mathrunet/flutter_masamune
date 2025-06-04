@@ -45,11 +45,11 @@ class PurchaseProduct {
   const PurchaseProduct({
     required this.productId,
     required this.type,
+    required this.price,
     this.amount,
     String title = "",
     String description = "",
     this.icon,
-    required this.price,
     this.expiredPeriod,
     this.subscriptionPeriod = PurchaseSubscriptionPeriod.none,
     String? priceText,
@@ -84,10 +84,10 @@ class PurchaseProduct {
   const PurchaseProduct.wallet({
     required this.productId,
     required double amount,
+    required this.price,
     String title = "",
     String description = "",
     this.icon,
-    required this.price,
     String? priceText,
     this.debugForcePurchased = false,
     this.priceBuilder,
@@ -118,10 +118,10 @@ class PurchaseProduct {
   /// [price]は課金アイテムをストアからロードした際に上書きされます。[title]や[description]は[titleOnStore]や[descriptionOnStore]でストアからロードしたものを取得できます。
   const PurchaseProduct.unlock({
     required this.productId,
+    required this.price,
     String title = "",
     String description = "",
     this.icon,
-    required this.price,
     String? priceText,
     bool debugConsumeWhenPurchaseCompleted = false,
     this.debugForcePurchased = false,
@@ -157,11 +157,11 @@ class PurchaseProduct {
   /// [expiredPeriod]を指定するとテスト用のサブスクリプションの期間を指定することができます。
   const PurchaseProduct.subscription({
     required this.productId,
+    required this.price,
+    required Duration expiredPeriod,
     String title = "",
     String description = "",
-    required this.price,
     this.icon,
-    required Duration expiredPeriod,
     String? priceText,
     this.subscriptionPeriod = PurchaseSubscriptionPeriod.month,
     this.debugForcePurchased = false,

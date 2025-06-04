@@ -16,10 +16,10 @@ class RuntimePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
   ///
   /// [products]にアプリ内で利用するすべての課金用のアイテムを定義してください。
   const RuntimePurchaseMasamuneAdapter({
-    super.functionsAdapter,
-    super.modelAdapter,
     required super.products,
     required super.onRetrieveUserId,
+    super.functionsAdapter,
+    super.modelAdapter,
     super.purchase,
     super.consumablePurchaseDelegate,
     super.nonConsumablePurchaseDelegate,

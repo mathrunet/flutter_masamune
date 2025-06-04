@@ -36,7 +36,8 @@ class MobileLocationMasamuneAdapter extends LocationMasamuneAdapter {
   /// 位置情報を更新する際の最低距離（m）。
   final double defaultDistanceFilterMeters;
 
-  static location.LocationSettings _settings = location.LocationSettings();
+  static location.LocationSettings _settings =
+      const location.LocationSettings();
 
   @override
   Future<void> initialize({
@@ -49,7 +50,7 @@ class MobileLocationMasamuneAdapter extends LocationMasamuneAdapter {
     );
     if (!await location.Geolocator.isLocationServiceEnabled()
         .timeout(timeout)) {
-      throw LocationServiceNotAvailableException(
+      throw const LocationServiceNotAvailableException(
         "Location service not available. The platform may not be supported or it may be disabled in the settings. please confirm.",
       );
     }

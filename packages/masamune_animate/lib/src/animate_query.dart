@@ -11,6 +11,7 @@ part of "/masamune_animate.dart";
 /// これを継承してアニメーションを実装します。
 ///
 /// [duration]にアニメーションの時間を設定します。
+@immutable
 abstract class AnimateQuery {
   /// Base class for implementing animation.
   ///
@@ -100,9 +101,9 @@ abstract class EffectQuery<T> extends AnimateQuery {
   /// [curve]にアニメーションのカーブを設定します。
   const EffectQuery({
     required super.duration,
-    this.curve = Curves.linear,
     required this.begin,
     required this.end,
+    this.curve = Curves.linear,
   });
 
   /// Start value of the animation.

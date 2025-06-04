@@ -8,13 +8,30 @@ void main() {
   runApp(const MyApp());
 }
 
+/// Selection enum for form example.
+///
+/// フォーム例で使用する選択肢のEnum。
 enum Selection {
+  /// First option.
+  /// 最初の選択肢。
   one,
+
+  /// Second option.
+  /// 2番目の選択肢。
   two,
+
+  /// Third option.
+  /// 3番目の選択肢。
   three,
 }
 
+/// Main application widget.
+///
+/// メインアプリケーションWidget。
 class MyApp extends StatelessWidget {
+  /// Creates a MyApp widget.
+  ///
+  /// MyAppウィジェットを作成します。
   const MyApp({super.key});
 
   @override
@@ -29,14 +46,26 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Form page widget to demonstrate katana_form usage.
+///
+/// katana_formの使用方法を実演するフォームページWidget。
 class FormPage extends StatefulWidget {
+  /// Creates a FormPage widget.
+  ///
+  /// FormPageウィジェットを作成します。
   const FormPage({super.key});
 
   @override
   State<StatefulWidget> createState() => FormPageState();
 }
 
+/// State for FormPage widget.
+///
+/// FormPageウィジェットのState。
 class FormPageState extends State<FormPage> {
+  /// Form controller for managing form state and validation.
+  ///
+  /// フォームの状態と検証を管理するフォームコントローラー。
   final form = FormController(<String, dynamic>{
     "name": "aaaa",
     "description": "bbb",
@@ -149,12 +178,17 @@ class FormPageState extends State<FormPage> {
               if (value == null) {
                 return;
               }
+              // TODO: Handle form submission
+              debugPrint("Form submitted: $value");
             },
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          // TODO: Implement floating action button functionality
+          debugPrint("FloatingActionButton pressed");
+        },
         child: const Icon(Icons.check),
       ),
     );

@@ -32,8 +32,8 @@ class AgoraScreen extends StatefulWidget {
   ///
   /// [iconSize]や[disabledColor]、[disabledBackgroundColor]、[disabled]等を利用して、切断時のアイコン等を指定できます。
   const AgoraScreen({
-    super.key,
     required this.value,
+    super.key,
     this.iconSize = 48.0,
     this.disabledColor,
     this.disabledBackgroundColor,

@@ -8,7 +8,13 @@ void main() {
   runApp(const MyApp());
 }
 
+/// Main application widget for indicator demo.
+///
+/// Indicator デモ用のメインアプリケーションWidget。
 class MyApp extends StatelessWidget {
+  /// Creates a MyApp widget.
+  ///
+  /// MyAppウィジェットを作成します。
   const MyApp({super.key});
 
   @override
@@ -23,7 +29,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Page widget to demonstrate shorten indicator functionality.
+///
+/// ショートインジケーター機能を実演するページWidget。
 class ShortenPage extends StatelessWidget {
+  /// Creates a ShortenPage widget.
+  ///
+  /// ShortenPageウィジェットを作成します。
   const ShortenPage({super.key});
 
   @override

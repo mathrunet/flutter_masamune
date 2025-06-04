@@ -34,7 +34,7 @@ class CompassData {
 
   @override
   String toString() {
-    return 'heading: $heading\nheadingForCameraMode: $headingForCameraMode\naccuracy: $accuracy';
+    return "heading: $heading\nheadingForCameraMode: $headingForCameraMode\naccuracy: $accuracy";
   }
 
   @override

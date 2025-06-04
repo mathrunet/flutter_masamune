@@ -252,7 +252,7 @@ class MapController
     _tracking = true;
     await initialize();
     location.addListener(_handledOnUpdate);
-    location.listen();
+    unawaited(location.listen());
     notifyListeners();
   }
 
@@ -298,7 +298,7 @@ class MapController
     bool animated = true,
   }) async {
     untrack();
-    _move(
+    await _move(
       latitude: latitude,
       longitude: longitude,
       zoom: zoom,

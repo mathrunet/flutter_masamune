@@ -174,7 +174,11 @@ class _GoogleNatvieAdState extends State<GoogleNativeAd> {
   }
 
   Future<void> loadAd() async {
+    final context = this.context;
     await GoogleAdsCore.initialize();
+    if (!context.mounted) {
+      return;
+    }
     _nativeAd ??= NativeAd(
       adUnitId:
           widget.adUnitId ?? GoogleAdsMasamuneAdapter.primary.defaultAdUnitId,
@@ -234,7 +238,8 @@ class _GoogleNatvieAdState extends State<GoogleNativeAd> {
           style: _getStyle(widget.tertiaryTextStyle),
         ),
       ),
-    )..load();
+    );
+    await _nativeAd?.load();
   }
 
   NativeTemplateFontStyle? _getStyle(TextStyle? style) {

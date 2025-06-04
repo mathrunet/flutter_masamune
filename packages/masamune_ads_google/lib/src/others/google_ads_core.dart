@@ -79,8 +79,8 @@ class GoogleAdsCore {
   ///
   /// [adUnitId]に広告ユニットIDを[size]に広告サイズを指定します。
   static Future<void> preloadBannerAd({
-    String? adUnitId,
     required GoogleBannerAdSize size,
+    String? adUnitId,
   }) async {
     await initialize();
     final unit = _rentBannerAd(size: size, adUnitId: adUnitId);
@@ -89,8 +89,8 @@ class GoogleAdsCore {
   }
 
   static GoogleBannerAdUnit _rentBannerAd({
-    String? adUnitId,
     required GoogleBannerAdSize size,
+    String? adUnitId,
   }) {
     adUnitId ??= GoogleAdsMasamuneAdapter.primary.defaultAdUnitId;
     final key =

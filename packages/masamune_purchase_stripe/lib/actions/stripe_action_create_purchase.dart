@@ -11,12 +11,12 @@ class StripeCreatePurchaseAction
   const StripeCreatePurchaseAction({
     required this.userId,
     required this.priceAmount,
+    required this.orderId,
+    required this.email,
     this.revenueAmount = 0.0,
     this.currency = StripeCurrency.usd,
     this.targetUserId,
-    required this.orderId,
     this.description,
-    required this.email,
     this.locale = const Locale("en", "US"),
   });
 

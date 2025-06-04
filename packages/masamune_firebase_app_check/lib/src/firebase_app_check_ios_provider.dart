@@ -1,5 +1,8 @@
 part of "/masamune_firebase_app_check.dart";
 
+/// Provider for iOS App Check.
+///
+/// iOS App Checkのプロバイダー。
 enum FirebaseAppCheckIOSProvider {
   /// Use the debug provider.
   ///

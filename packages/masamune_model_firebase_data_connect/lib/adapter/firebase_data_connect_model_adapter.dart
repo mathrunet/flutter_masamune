@@ -1,6 +1,12 @@
 part of "/masamune_model_firebase_data_connect.dart";
 
+/// Base class for FirebaseDataConnect model adapter.
+///
+/// FirebaseDataConnectモデルアダプターの基底クラス。
 abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
+  /// Initialize the [FirebaseDataConnectModelAdapterBase].
+  ///
+  /// [FirebaseDataConnectModelAdapterBase]を初期化します。
   const FirebaseDataConnectModelAdapterBase({
     this.initialValue,
     NoSqlDatabase? localDatabase,

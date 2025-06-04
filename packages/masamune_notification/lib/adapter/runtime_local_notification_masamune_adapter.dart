@@ -9,11 +9,11 @@ class RuntimeLocalNotificationMasamuneAdapter
   ///
   /// テスト用のローカルPUSH通知を受信するための[MasamuneAdapter]です。
   const RuntimeLocalNotificationMasamuneAdapter({
-    super.loggerAdapters = const [],
-    super.onLink,
     required super.androidNotificationChannelId,
     required super.androidNotificationChannelTitle,
     required super.androidNotificationChannelDescription,
+    super.loggerAdapters = const [],
+    super.onLink,
     super.defaultTimezone = "UTC",
     super.localNotification,
     super.modelAdapter,

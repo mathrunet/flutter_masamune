@@ -159,7 +159,8 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
           floating || !snap,
           'The "snap" argument only makes sense for floating app bars.',
         ),
-        assert(stretchTriggerOffset > 0.0),
+        assert(stretchTriggerOffset > 0.0,
+            "stretchTriggerOffset must be greater than 0.0"),
         assert(
           collapsedHeight == null || collapsedHeight >= toolbarHeight,
           'The "collapsedHeight" argument has to be larger than or equal to [toolbarHeight].',
@@ -970,9 +971,9 @@ mixin SliverAppBarMixin on Widget {}
 class _DynamicExtentForegroundColorPreferredSizeWidget extends StatelessWidget
     implements PreferredSizeWidget {
   const _DynamicExtentForegroundColorPreferredSizeWidget({
+    required this.child,
     this.startForegroundColor,
     this.endForegroundColor,
-    required this.child,
   });
   final PreferredSizeWidget child;
 
@@ -993,9 +994,9 @@ class _DynamicExtentForegroundColorPreferredSizeWidget extends StatelessWidget
 
 class _DynamicExtentForegroundColor extends StatelessWidget {
   const _DynamicExtentForegroundColor({
+    required this.child,
     this.startForegroundColor,
     this.endForegroundColor,
-    required this.child,
   });
   final Widget child;
 

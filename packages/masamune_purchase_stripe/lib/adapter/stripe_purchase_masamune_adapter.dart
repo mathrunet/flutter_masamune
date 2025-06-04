@@ -16,10 +16,10 @@ class StripePurchaseMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 決済をサポートするための[supportEmail]とWebviewから戻るためのURLスキーム（モバイル）もしくはホスト名（web）を[callbackURLSchemeOrHost]に指定してください。
   const StripePurchaseMasamuneAdapter({
-    this.functionsAdapter,
-    this.modelAdapter,
     required this.callbackURLSchemeOrHost,
     required this.supportEmail,
+    this.functionsAdapter,
+    this.modelAdapter,
     this.hostingEndpoint,
     this.revenueRatio = 0.3,
     this.currency = StripeCurrency.usd,

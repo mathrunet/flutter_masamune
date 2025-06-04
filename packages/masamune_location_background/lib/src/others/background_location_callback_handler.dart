@@ -1,7 +1,13 @@
 part of "others.dart";
 
+/// Handler for background location callback.
+///
+/// バックグラウンド位置情報のコールバックハンドラー。
 @pragma("vm:entry-point")
 class IOSBackgroundLocationCallbackHandler {
+  /// Initialize the background location callback handler.
+  ///
+  /// バックグラウンド位置情報のコールバックハンドラーを初期化します。
   @pragma("vm:entry-point")
   static Future<void> init(Map<dynamic, dynamic> params) async {
     await _IOSBackgroundLocationRepository.saveAsLog(
@@ -13,6 +19,9 @@ class IOSBackgroundLocationCallbackHandler {
     // send?.send(null);
   }
 
+  /// Dispose the background location callback handler.
+  ///
+  /// バックグラウンド位置情報のコールバックハンドラーを破棄します。
   @pragma("vm:entry-point")
   static Future<void> dispose() async {
     await _IOSBackgroundLocationRepository.saveAsLog(
@@ -24,6 +33,9 @@ class IOSBackgroundLocationCallbackHandler {
     // send?.send(null);
   }
 
+  /// Handle the background location callback.
+  ///
+  /// バックグラウンド位置情報のコールバックを処理します。
   @pragma("vm:entry-point")
   static Future<void> callback(LocationDto locationDto) async {
     await _IOSBackgroundLocationRepository.saveAsLocation(locationDto);
@@ -32,14 +44,23 @@ class IOSBackgroundLocationCallbackHandler {
     // send?.send(locationDto.toJson());
   }
 
+  /// Handle the background location notification.
+  ///
+  /// バックグラウンド位置情報の通知を処理します。
   @pragma("vm:entry-point")
   static Future<void> notification() async {
     debugPrint("NotificationCallback");
   }
 }
 
+/// Handler for background location callback.
+///
+/// バックグラウンド位置情報のコールバックハンドラー。
 @pragma("vm:entry-point")
 class AndroidBackgroundLocationCallbackHandler {
+  /// Initialize the background location callback handler.
+  ///
+  /// バックグラウンド位置情報のコールバックハンドラーを初期化します。
   @pragma("vm:entry-point")
   static Future<void> init(Map<dynamic, dynamic> params) async {
     await _AndroidBackgroundLocationRepository.saveAsLog(
@@ -51,6 +72,9 @@ class AndroidBackgroundLocationCallbackHandler {
     // send?.send(null);
   }
 
+  /// Dispose the background location callback handler.
+  ///
+  /// バックグラウンド位置情報のコールバックハンドラーを破棄します。
   @pragma("vm:entry-point")
   static Future<void> dispose() async {
     await _AndroidBackgroundLocationRepository.saveAsLog(
@@ -62,6 +86,9 @@ class AndroidBackgroundLocationCallbackHandler {
     // send?.send(null);
   }
 
+  /// Handle the background location callback.
+  ///
+  /// バックグラウンド位置情報のコールバックを処理します。
   @pragma("vm:entry-point")
   static Future<void> callback(LocationDto locationDto) async {
     await _AndroidBackgroundLocationRepository.saveAsLocation(locationDto);
@@ -70,6 +97,9 @@ class AndroidBackgroundLocationCallbackHandler {
     // send?.send(locationDto.toJson());
   }
 
+  /// Handle the background location notification.
+  ///
+  /// バックグラウンド位置情報の通知を処理します。
   @pragma("vm:entry-point")
   static Future<void> notification() async {
     debugPrint("NotificationCallback");

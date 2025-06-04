@@ -212,7 +212,7 @@ List<Spec> documentModelQueryClass(
                 ),
               ])
               ..returns = const Reference("bool")
-              ..body = Code(
+              ..body = const Code(
                 "return regExp.hasMatch(path.trimQuery().trimString(\"/\"));",
               ),
           ),
@@ -484,7 +484,7 @@ List<Spec> documentModelQueryClass(
                   ),
                 ])
                 ..returns = const Reference("bool")
-                ..body = Code(
+                ..body = const Code(
                   "return regExp.hasMatch(path.trimQuery().trimString(\"/\"));",
                 ),
             ),

@@ -9,9 +9,9 @@
 library masamune_notification_local;
 
 // Package imports:
-import 'package:flutter_local_notifications/flutter_local_notifications.dart'
+import "package:flutter_local_notifications/flutter_local_notifications.dart"
     hide AndroidScheduleMode;
-import 'package:flutter_local_notifications/flutter_local_notifications.dart'
+import "package:flutter_local_notifications/flutter_local_notifications.dart"
     as local_notifications;
 
 // Package imports:

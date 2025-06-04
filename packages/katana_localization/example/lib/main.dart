@@ -6,8 +6,14 @@ import "package:katana_localization/katana_localization.dart";
 
 part "main.localize.dart";
 
+/// Global localization instance.
+///
+/// グローバルローカライゼーションインスタンス。
 final l = AppLocalize();
 
+/// Application localization class with Google Spreadsheet support.
+///
+/// Google Spreadsheet対応のアプリケーションローカライゼーションクラス。
 @GoogleSpreadSheetLocalize(
   [
     "https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808"
@@ -20,7 +26,13 @@ void main() {
   runApp(const MyApp());
 }
 
+/// Main application widget for localization demo.
+///
+/// ローカライゼーション デモ用のメインアプリケーションWidget。
 class MyApp extends StatelessWidget {
+  /// Creates a MyApp widget.
+  ///
+  /// MyAppウィジェットを作成します。
   const MyApp({super.key});
 
   @override
@@ -44,6 +56,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Main page widget to demonstrate localization functionality.
+///
+/// ローカライゼーション機能を実演するメインページWidget。
 // ignore: use_key_in_widget_constructors
 class MainPage extends StatelessWidget {
   @override

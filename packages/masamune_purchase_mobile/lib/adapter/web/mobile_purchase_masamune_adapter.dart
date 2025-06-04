@@ -16,12 +16,12 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
   ///
   /// [products]にアプリ内で利用するすべての課金用のアイテムを定義してください。
   const MobilePurchaseMasamuneAdapter({
+    required super.products,
+    required super.onRetrieveUserId,
     super.functionsAdapter,
     super.modelAdapter,
-    required super.products,
     this.automaticallyConsumeOnAndroid = true,
     this.iosSandboxTesting = false,
-    required super.onRetrieveUserId,
     super.purchase,
     super.initializeOnBoot = false,
   });

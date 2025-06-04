@@ -43,6 +43,9 @@ class StripeDashboardAccountAction
 /// Stripeのアカウントダッシュボードの表示を行うための[StripeFunctionsActionResponse]。
 class StripeDashboardAccountActionResponse
     extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] to display the Stripe account dashboard.
+  ///
+  /// Stripeのアカウントダッシュボードの表示を行うための
   const StripeDashboardAccountActionResponse({required this.endpoint});
 
   /// Account dashboard endpoints.

@@ -23,7 +23,7 @@ import "package:glob/glob.dart";
 import "package:katana_builder/katana_builder.dart";
 import "package:masamune_builder/masamune_builder.dart";
 import "package:masamune_model_firebase_data_connect_annotation/masamune_model_firebase_data_connect_annotation.dart";
-import 'package:source_gen/source_gen.dart' as source_gen;
+import "package:source_gen/source_gen.dart" as source_gen;
 import "package:source_gen/source_gen.dart";
 
 part "common/adapter_class.dart";

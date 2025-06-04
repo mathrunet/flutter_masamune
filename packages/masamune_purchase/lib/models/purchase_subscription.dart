@@ -32,6 +32,7 @@ abstract class PurchaseSubscriptionModel with _$PurchaseSubscriptionModel {
   ///
   /// [collection]と[document]をそれぞれ渡すことによりコレクションやドキュメントを取得することができます。
   const factory PurchaseSubscriptionModel({
+    required String userId,
     @Default(true) bool expired,
     String? token,
     String? platform,
@@ -40,10 +41,14 @@ abstract class PurchaseSubscriptionModel with _$PurchaseSubscriptionModel {
     String? packageName,
     int? expiredTime,
     String? orderId,
-    required String userId,
   }) = _PurchaseSubscriptionModel;
   const PurchaseSubscriptionModel._();
 
+  /// Convert from JSON.
+  ///
+  /// ```dart
+  /// PurchaseSubscriptionModel.fromJson(json);
+  /// ```
   factory PurchaseSubscriptionModel.fromJson(Map<String, Object?> json) =>
       _$PurchaseSubscriptionModelFromJson(json);
 

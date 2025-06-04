@@ -8,8 +8,8 @@ class FirebaseDeeplinkMasamuneAdapter extends MasamuneAdapter {
   ///
   /// Deeplinkを取り扱うための初期設定を行う[MasamuneAdapter]。
   const FirebaseDeeplinkMasamuneAdapter({
-    this.onLink,
     required this.settings,
+    this.onLink,
     this.deeplink,
     this.listenOnBoot = false,
     FirebaseOptions? options,

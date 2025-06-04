@@ -9,8 +9,8 @@ class MasamuneTestLoader<T extends ModelRefBase> extends StatefulWidget {
   /// デバイスの制約を持つウィジェットをテストするためのラッパー。
   const MasamuneTestLoader({
     required this.ref,
-    this.document,
     required this.builder,
+    this.document,
     super.key,
   });
 

@@ -20,10 +20,10 @@ import "models/stripe_payment.dart";
 import "models/stripe_purchase.dart";
 import "models/stripe_user.dart";
 
-import 'src/others/others.dart'
-    if (dart.library.io) 'src/others/others.dart'
-    if (dart.library.js) 'src/web/web.dart'
-    if (dart.library.html) 'src/web/web.dart';
+import "src/others/others.dart"
+    if (dart.library.io) "src/others/others.dart"
+    if (dart.library.js) "src/web/web.dart"
+    if (dart.library.html) "src/web/web.dart";
 
 part "actions/stripe_action_create_account.dart";
 part "actions/stripe_action_delete_account.dart";

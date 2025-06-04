@@ -22,10 +22,10 @@ part of "/masamune_agora.dart";
 class AgoraUser extends ChangeNotifier {
   AgoraUser._({
     required this.number,
+    required AgoraController controller,
     String? name,
     this.isLocalUser = false,
     String? channel,
-    required AgoraController controller,
     RemoteVideoState status = RemoteVideoState.remoteVideoStateStopped,
   })  : _channel = channel,
         _name = name,
@@ -91,9 +91,11 @@ class AgoraUser extends ChangeNotifier {
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(Object other) => hashCode == other.hashCode;
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode =>
       number.hashCode ^
       isLocalUser.hashCode ^

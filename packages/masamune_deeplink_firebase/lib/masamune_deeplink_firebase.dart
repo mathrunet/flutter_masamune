@@ -20,7 +20,7 @@ import "package:katana_firebase/katana_firebase.dart";
 import "package:masamune/masamune.dart";
 import "package:universal_platform/universal_platform.dart";
 
-export 'package:firebase_dynamic_links/firebase_dynamic_links.dart'
+export "package:firebase_dynamic_links/firebase_dynamic_links.dart"
     show
         DynamicLinkParameters,
         AndroidParameters,

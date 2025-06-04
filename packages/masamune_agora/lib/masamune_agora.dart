@@ -9,6 +9,7 @@
 library masamune_agora;
 
 // Dart imports:
+import "dart:async";
 import "dart:convert";
 import "dart:math";
 import "dart:typed_data";
@@ -24,12 +25,12 @@ import "package:universal_platform/universal_platform.dart";
 // import 'package:agora_rtc_engine/src/render/video_view_controller.dart' as rtc_local_view;
 // import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
 
-import 'src/others/others.dart'
-    if (dart.library.io) 'src/others/others.dart'
-    if (dart.library.js) 'src/web/web.dart'
-    if (dart.library.html) 'src/web/web.dart';
+import "src/others/others.dart"
+    if (dart.library.io) "src/others/others.dart"
+    if (dart.library.js) "src/web/web.dart"
+    if (dart.library.html) "src/web/web.dart";
 
-export 'package:agora_rtc_engine/agora_rtc_engine.dart'
+export "package:agora_rtc_engine/agora_rtc_engine.dart"
     show
         ClientRoleType,
         ChannelProfileType,

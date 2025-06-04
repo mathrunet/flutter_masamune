@@ -140,9 +140,9 @@ class SpeechToTextController extends MasamuneControllerBase<
   ///
   /// [duration]で認識を行う時間を指定します。
   Future<SpeechToTextResponse?> listen({
+    required Duration duration,
     Locale? locale,
     void Function(SpeechToTextResponse text)? onChanged,
-    required Duration duration,
   }) async {
     if (_listenCompleter != null) {
       await _stt.stop();

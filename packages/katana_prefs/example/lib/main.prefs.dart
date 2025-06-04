@@ -63,8 +63,8 @@ class _$_PrefsValue<T> {
 }
 
 mixin _$PrefsValue implements PrefsBase {
-  _$_PrefsValue<String?> get userToken => throw UnimplementedError();
   _$_PrefsValue<double> get volumeSetting => throw UnimplementedError();
+  _$_PrefsValue<String?> get userToken => throw UnimplementedError();
   @override
   void addListener(VoidCallback listener) => throw UnimplementedError();
   @override
@@ -77,7 +77,7 @@ mixin _$PrefsValue implements PrefsBase {
   bool get hasListeners => throw UnimplementedError();
   @override
   String toString() {
-    return "$runtimeType(userToken: $userToken, volumeSetting: $volumeSetting)";
+    return "$runtimeType(volumeSetting: $volumeSetting, userToken: $userToken)";
   }
 
   @override
@@ -89,18 +89,18 @@ mixin _$PrefsValue implements PrefsBase {
 }
 
 class _PrefsValue extends PrefsValue {
-  _PrefsValue({String? userToken, required double volumeSetting})
-      : _userToken = userToken,
-        _volumeSetting = volumeSetting,
+  _PrefsValue({required double volumeSetting, String? userToken})
+      : _volumeSetting = volumeSetting,
+        _userToken = userToken,
         super._();
 
   SharedPreferences? _prefs;
 
   Completer<void>? _completer;
 
-  final String? _userToken;
-
   final double _volumeSetting;
+
+  final String? _userToken;
 
   @override
   Future<void> load() async {
@@ -131,10 +131,10 @@ class _PrefsValue extends PrefsValue {
   Future<bool> clear() => _prefs?.clear() ?? Future.value(false);
 
   @override
-  _$_PrefsValue<String?> get userToken =>
-      _$_PrefsValue("_#userToken".toSHA1(), _userToken, this);
-
-  @override
   _$_PrefsValue<double> get volumeSetting =>
       _$_PrefsValue("_#volumeSetting".toSHA1(), _volumeSetting, this);
+
+  @override
+  _$_PrefsValue<String?> get userToken =>
+      _$_PrefsValue("_#userToken".toSHA1(), _userToken, this);
 }

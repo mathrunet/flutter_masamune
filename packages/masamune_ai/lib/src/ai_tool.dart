@@ -3,6 +3,7 @@ part of "/masamune_ai.dart";
 /// A tool for AI.
 ///
 /// AIのツール。
+@immutable
 class AITool {
   /// A tool for AI.
   ///

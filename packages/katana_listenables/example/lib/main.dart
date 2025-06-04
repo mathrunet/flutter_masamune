@@ -9,14 +9,23 @@ import "package:katana_listenables/katana_listenables.dart";
 
 part "main.listenable.dart";
 
+/// Example listenable value class demonstrating katana_listenables usage.
+///
+/// katana_listenablesの使用方法を実演するサンプルListenableValueクラス。
 @listenables
 class ListenableValue with _$ListenableValue, ChangeNotifier {
+  /// Creates a ListenableValue instance.
+  ///
+  /// ListenableValueインスタンスを作成します。
   factory ListenableValue({
     required TextEditingController controller,
     ValueNotifier<String> value,
   }) = _ListenableValue;
   ListenableValue._();
 
+  /// Gets the current state.
+  ///
+  /// 現在の状態を取得します。
   void get() {}
 }
 
@@ -24,7 +33,13 @@ void main() {
   runApp(const MyApp());
 }
 
+/// Main application widget for listenables demo.
+///
+/// Listenables デモ用のメインアプリケーションWidget。
 class MyApp extends StatelessWidget {
+  /// Creates a MyApp widget.
+  ///
+  /// MyAppウィジェットを作成します。
   const MyApp({super.key});
 
   @override
@@ -39,14 +54,26 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Page widget to demonstrate listenable functionality.
+///
+/// Listenable機能を実演するページWidget。
 class ListenablePage extends StatefulWidget {
+  /// Creates a ListenablePage widget.
+  ///
+  /// ListenablePageウィジェットを作成します。
   const ListenablePage({super.key});
 
   @override
   State<StatefulWidget> createState() => ListenablePageState();
 }
 
+/// State for ListenablePage widget.
+///
+/// ListenablePageウィジェットのState。
 class ListenablePageState extends State<ListenablePage> {
+  /// Listenable instance for managing state.
+  ///
+  /// 状態管理用のListenableインスタンス。
   final listenable = ListenableValue(
     controller: TextEditingController(text: "before click"),
     value: ValueNotifier("0"),

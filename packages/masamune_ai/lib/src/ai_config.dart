@@ -3,6 +3,7 @@ part of "/masamune_ai.dart";
 /// The configuration of the AI.
 ///
 /// AIの設定。
+@immutable
 class AIConfig {
   /// The configuration of the AI.
   ///
@@ -54,6 +55,7 @@ class AIConfig {
 /// AI tools and settings.
 ///
 /// AIのツールと設定。
+@immutable
 class AIConfigKey {
   /// AI tools and settings.
   ///

@@ -11,10 +11,10 @@ class StripeAuthorizationAction
   const StripeAuthorizationAction({
     required this.userId,
     required this.priceAmount,
-    this.currency = StripeCurrency.usd,
-    this.online = true,
     required this.email,
     required this.returnUrl,
+    this.currency = StripeCurrency.usd,
+    this.online = true,
   });
 
   /// User ID of the subject of the authorization.

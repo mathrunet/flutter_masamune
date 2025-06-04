@@ -28,22 +28,25 @@ class AgoraPermission {
     bool enableVideo = true,
     bool enableAudio = true,
   }) async {
-    if (enableVideo) {
-      var status =
-          await window.navigator.permissions?.query({"name": "camera"});
-      if (status?.state == "denied") {
-        return false;
+    try {
+      final constraints = <String, JSAny?>{};
+
+      if (enableVideo) {
+        constraints["video"] = true.toJS;
       }
-      await window.navigator.getUserMedia(video: true);
-    }
-    if (enableAudio) {
-      var status =
-          await window.navigator.permissions?.query({"name": "microphone"});
-      if (status?.state == "denied") {
-        return false;
+      if (enableAudio) {
+        constraints["audio"] = true.toJS;
       }
-      await window.navigator.getUserMedia(audio: true);
+
+      if (constraints.isNotEmpty) {
+        await web.window.navigator.mediaDevices
+            .getUserMedia(constraints.jsify()! as web.MediaStreamConstraints)
+            .toDart;
+      }
+
+      return true;
+    } catch (e) {
+      return false;
     }
-    return true;
   }
 }

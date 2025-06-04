@@ -54,8 +54,8 @@ class FormMarkdownToolbar extends StatefulWidget {
   /// 画像や映像のメディアを挿入することができます。
   /// `bold`, `italic`, `underline`, `strike`, `link`, `code`のフォントスタイルを使用することができます。
   const FormMarkdownToolbar({
-    super.key,
     required this.controller,
+    super.key,
     this.style,
     this.mentionHintText,
     this.mentionBuilder,
@@ -489,7 +489,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
         color: widget.style?.backgroundColor ?? theme.colorTheme?.background,
         height: _kLinkDialogHeight,
         width: double.infinity,
-        padding: EdgeInsets.fromLTRB(16, 0, 8, 0),
+        padding: const EdgeInsets.fromLTRB(16, 0, 8, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -498,7 +498,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.title),
+                const Icon(Icons.title),
                 16.sx,
                 Expanded(
                   child: FormTextField(
@@ -527,7 +527,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                     _linkSetting?.cancel();
                     _linkSetting = null;
                   },
-                  icon: Icon(Icons.cancel_outlined),
+                  icon: const Icon(Icons.cancel_outlined),
                 ),
               ],
             ),
@@ -535,7 +535,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.link),
+                const Icon(Icons.link),
                 16.sx,
                 Expanded(
                   child: FormTextField(
@@ -564,7 +564,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                       _linkSetting = null;
                     });
                   },
-                  icon: Icon(Icons.check_circle),
+                  icon: const Icon(Icons.check_circle),
                 ),
               ],
             ),
@@ -644,7 +644,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                               controller.insertMention(mention);
                             },
                             child: Padding(
-                              padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -684,7 +684,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -693,7 +693,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                     onPressed: () {
                       deleteMode();
                     },
-                    icon: Icon(Icons.arrow_back_ios),
+                    icon: const Icon(Icons.arrow_back_ios),
                   ),
                   Expanded(
                     child: FormTextField(

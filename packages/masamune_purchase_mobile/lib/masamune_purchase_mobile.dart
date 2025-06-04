@@ -10,7 +10,7 @@ library masamune_purchase_mobile;
 
 export "package:masamune_purchase/masamune_purchase.dart";
 
-export 'adapter/others/others.dart'
-    if (dart.library.io) 'adapter/others/others.dart'
-    if (dart.library.js) 'adapter/web/web.dart'
-    if (dart.library.html) 'adapter/web/web.dart';
+export "adapter/others/others.dart"
+    if (dart.library.io) "adapter/others/others.dart"
+    if (dart.library.js) "adapter/web/web.dart"
+    if (dart.library.html) "adapter/web/web.dart";

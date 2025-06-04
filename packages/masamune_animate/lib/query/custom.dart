@@ -25,10 +25,10 @@ extension CustomEffectQueryExtensions on AnimateRunner {
   /// [curve]にアニメーションのカーブを設定します。
   Future<void> custom<T>({
     required Duration duration,
-    Curve curve = Curves.linear,
     required Widget Function(BuildContext context, T value, Widget child)
         builder,
     required T Function(double value) transformer,
+    Curve curve = Curves.linear,
   }) {
     return runAnimateQuery(
       _CustomEffectQuery(
@@ -44,11 +44,11 @@ extension CustomEffectQueryExtensions on AnimateRunner {
 class _CustomEffectQuery<T> extends EffectQuery<double> {
   _CustomEffectQuery({
     required super.duration,
+    required this.builder,
+    required this.transformer,
     super.curve = Curves.linear,
     super.begin = 0.0,
     super.end = 1.0,
-    required this.builder,
-    required this.transformer,
   });
 
   final Widget Function(BuildContext context, T value, Widget child) builder;

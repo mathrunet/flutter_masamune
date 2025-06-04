@@ -12,8 +12,8 @@ class McpFunction {
     required this.description,
     required this.parameters,
     required this.serverProcess,
-    this.clientProcess,
     required this.generateResponse,
+    this.clientProcess,
     this.optionalParameters = const [],
   });
 

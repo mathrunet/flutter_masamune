@@ -11,10 +11,10 @@ class AndroidConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
     required this.packageName,
     required this.productId,
     required this.purchaseToken,
-    this.collectionPath = "plugins/iap/user",
-    this.fieldKey = "value",
     required this.documentId,
     required this.amount,
+    this.collectionPath = "plugins/iap/user",
+    this.fieldKey = "value",
   });
 
   /// Package Name.

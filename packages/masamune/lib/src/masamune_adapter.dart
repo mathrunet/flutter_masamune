@@ -193,9 +193,9 @@ class MasamuneAdapterScope<TAdapter extends MasamuneAdapter>
   /// }
   /// ```
   const MasamuneAdapterScope({
-    super.key,
     required this.child,
     required this.adapter,
+    super.key,
   });
 
   /// Children's widget.

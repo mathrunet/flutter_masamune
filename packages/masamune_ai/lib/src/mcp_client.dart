@@ -25,8 +25,8 @@ class McpClientConfig {
   /// MCPのクライアントコンフィグ。
   const McpClientConfig({
     required this.name,
-    this.version = "1.0.0",
     required this.transport,
+    this.version = "1.0.0",
   });
 
   /// Client name.

@@ -9,10 +9,10 @@ class IOSNonConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
   /// IOS用の非消耗型課金の設定を定義します。
   const IOSNonConsumablePurchaseFunctionsAction({
     required this.receiptData,
-    this.collectionPath = "plugins/iap/user",
     required this.fieldKey,
     required this.documentId,
     required this.productId,
+    this.collectionPath = "plugins/iap/user",
   });
 
   /// Receipt data.

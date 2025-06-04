@@ -59,9 +59,9 @@ class FirebaseAnalyticsPurchasedProduct {
   /// Firebase Analytics 購入商品用の Loggable。
   const FirebaseAnalyticsPurchasedProduct({
     required this.productId,
+    required this.price,
     this.name,
     this.category,
-    required this.price,
     this.quantity = 1,
   });
 
@@ -90,6 +90,9 @@ class FirebaseAnalyticsPurchasedProduct {
   /// 数量。
   final int quantity;
 
+  /// To JSON.
+  ///
+  /// JSONに変換します。
   Map<String, dynamic> toJson() {
     return {
       FirebaseAnalyticsLoggerEvent.idKey: productId,

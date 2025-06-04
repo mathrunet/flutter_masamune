@@ -1,11 +1,17 @@
 part of "/masamune_purchase.dart";
 
+/// Abstract class for [MasamuneAdapter] to handle InAppPurchase.
+///
+/// [MasamuneAdapter]を継承して、InAppPurchaseを取り扱うための抽象クラス。
 abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
+  /// Abstract class for [MasamuneAdapter] to handle InAppPurchase.
+  ///
+  /// [MasamuneAdapter]を継承して、InAppPurchaseを取り扱うための抽象クラス。
   const PurchaseMasamuneAdapter({
-    this.functionsAdapter,
-    this.modelAdapter,
     required this.products,
     required this.onRetrieveUserId,
+    this.functionsAdapter,
+    this.modelAdapter,
     Purchase? purchase,
     this.consumablePurchaseDelegate,
     this.nonConsumablePurchaseDelegate,

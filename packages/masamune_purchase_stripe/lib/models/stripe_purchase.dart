@@ -32,6 +32,13 @@ abstract class StripePurchaseModel with _$StripePurchaseModel {
   /// 運営への支払い、ユーザー間の支払い、サブスクリプションすべてこのデータベースに保存されます。
   const factory StripePurchaseModel({
     @JsonKey(name: "user") required String userId,
+    @JsonKey(name: "orderId") required String orderId,
+    @JsonKey(name: "purchaseId") required String purchaseId,
+    @JsonKey(name: "paymentMethodId") required String paymentMethodId,
+    @JsonKey(name: "customer") required String customerId,
+    @JsonKey(name: "clientSecret") required String clientSecret,
+    @JsonKey(name: "createdTime") required ModelTimestamp createdTime,
+    @JsonKey(name: "updatedTime") required ModelTimestamp updatedTime,
     @JsonKey(name: "confirm") @Default(false) bool confirm,
     @JsonKey(name: "verify") @Default(false) bool verified,
     @JsonKey(name: "capture") @Default(false) bool captured,
@@ -39,10 +46,6 @@ abstract class StripePurchaseModel with _$StripePurchaseModel {
     @JsonKey(name: "cancel") @Default(false) bool canceled,
     @JsonKey(name: "error") @Default(false) bool error,
     @JsonKey(name: "refund") @Default(false) bool refund,
-    @JsonKey(name: "orderId") required String orderId,
-    @JsonKey(name: "purchaseId") required String purchaseId,
-    @JsonKey(name: "paymentMethodId") required String paymentMethodId,
-    @JsonKey(name: "customer") required String customerId,
     @JsonKey(name: "amount") @Default(0.0) double amount,
     @JsonKey(name: "application") String? application,
     @JsonKey(name: "applicationFeeAmount")
@@ -53,9 +56,6 @@ abstract class StripePurchaseModel with _$StripePurchaseModel {
     @Default("")
     String transferDistination,
     @JsonKey(name: "currency") @Default("jpy") String currency,
-    @JsonKey(name: "clientSecret") required String clientSecret,
-    @JsonKey(name: "createdTime") required ModelTimestamp createdTime,
-    @JsonKey(name: "updatedTime") required ModelTimestamp updatedTime,
     @JsonKey(name: "emailFrom") String? emailFrom,
     @JsonKey(name: "emailTo") String? emailTo,
     @JsonKey(name: "emailTitle") String? emailTitle,
@@ -67,6 +67,11 @@ abstract class StripePurchaseModel with _$StripePurchaseModel {
   }) = _StripePurchaseModel;
   const StripePurchaseModel._();
 
+  /// Convert from JSON.
+  ///
+  /// ```dart
+  /// StripePurchaseModel.fromJson(json);
+  /// ```
   factory StripePurchaseModel.fromJson(Map<String, Object?> json) =>
       _$StripePurchaseModelFromJson(json);
 

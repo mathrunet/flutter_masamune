@@ -129,16 +129,16 @@ class TextToSpeechController
     try {
       await initialize();
       if (locale != null) {
-        _tts.setLanguage(locale.languageCode);
+        await _tts.setLanguage(locale.languageCode);
       }
       if (speechRate != null && speechRate > 0.0 && speechRate <= 1.0) {
-        _tts.setSpeechRate(speechRate);
+        await _tts.setSpeechRate(speechRate);
       }
       if (volume != null && volume > 0.0 && volume <= 1.0) {
-        _tts.setVolume(volume);
+        await _tts.setVolume(volume);
       }
       if (pitch != null && pitch > 0.0 && pitch <= 1.0) {
-        _tts.setPitch(pitch);
+        await _tts.setPitch(pitch);
       }
       await _tts.speak(text);
       notifyListeners();

@@ -8,9 +8,12 @@ void main() {
   runApp(const MyApp());
 }
 
+/// Global app reference for the application.
 final appRef = AppRef();
 
+/// Main application widget that provides the root of the widget tree.
 class MyApp extends StatelessWidget {
+  /// Creates a [MyApp].
   const MyApp({super.key});
 
   @override
@@ -28,12 +31,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Query for managing a ValueNotifier with an integer value.
 final valueNotifierQuery =
     ChangeNotifierAppScopedQueryFamily<ValueNotifier<int>, int>(
   (ref, p) => ValueNotifier(p),
 );
 
+/// A page widget that displays a counter and allows incrementing it.
 class CounterPage extends PageScopedWidget {
+  /// Creates a [CounterPage].
   const CounterPage({super.key});
 
   @override

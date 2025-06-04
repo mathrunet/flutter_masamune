@@ -8,7 +8,13 @@ void main() {
   runApp(const MyApp());
 }
 
+/// Main application widget for logger demo.
+///
+/// Logger デモ用のメインアプリケーションWidget。
 class MyApp extends StatelessWidget {
+  /// Creates a MyApp widget.
+  ///
+  /// MyAppウィジェットを作成します。
   const MyApp({super.key});
 
   @override
@@ -26,14 +32,26 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Page widget to demonstrate logger functionality.
+///
+/// Logger機能を実演するページWidget。
 class LoggerPage extends StatefulWidget {
+  /// Creates a LoggerPage widget.
+  ///
+  /// LoggerPageウィジェットを作成します。
   const LoggerPage({super.key});
 
   @override
   State<StatefulWidget> createState() => LoggerPageState();
 }
 
+/// State for LoggerPage widget.
+///
+/// LoggerPageウィジェットのState。
 class LoggerPageState extends State<LoggerPage> {
+  /// Logger instance for managing log operations.
+  ///
+  /// ログ操作を管理するLoggerインスタンス。
   final logger = Logger();
   List<LogValue> _values = [];
 

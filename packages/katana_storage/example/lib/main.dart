@@ -11,7 +11,9 @@ void main() {
   runApp(const MyApp());
 }
 
+/// Main application widget that provides the root of the widget tree.
 class MyApp extends StatelessWidget {
+  /// Creates a [MyApp].
   const MyApp({super.key});
 
   @override
@@ -29,15 +31,23 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// A page widget that demonstrates storage functionality.
 class StoragePage extends StatefulWidget {
+  /// Creates a [StoragePage].
   const StoragePage({super.key});
 
   @override
+
+  /// Creates the state for this widget.
   State<StatefulWidget> createState() => StoragePageState();
 }
 
+/// State class for [StoragePage].
 class StoragePageState extends State<StoragePage> {
+  /// Storage instance for managing file operations.
   final storage = Storage(const StorageQuery("test/file"));
+
+  /// Text controller for input field.
   final controller = TextEditingController();
 
   @override

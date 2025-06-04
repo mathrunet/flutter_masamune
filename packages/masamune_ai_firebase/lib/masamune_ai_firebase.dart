@@ -22,7 +22,7 @@ import "package:masamune_ai/masamune_ai.dart";
 import "package:universal_platform/universal_platform.dart";
 
 export "package:masamune_ai/masamune_ai.dart";
-export 'package:firebase_vertexai/firebase_vertexai.dart'
+export "package:firebase_vertexai/firebase_vertexai.dart"
     show FunctionCallingConfig;
 
 part "adapter/firebase_ai_masamune_adapter.dart";

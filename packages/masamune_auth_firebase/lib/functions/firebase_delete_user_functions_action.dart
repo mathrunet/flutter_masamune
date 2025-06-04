@@ -38,7 +38,7 @@ class FirebaseDeleteUserFunctionsAction
         throw Exception("Failed to get response from delete_user.");
       }
 
-      return FirebaseDeleteUserFunctionsActionResponse();
+      return const FirebaseDeleteUserFunctionsActionResponse();
     } catch (e) {
       debugPrint(e.toString());
       rethrow;

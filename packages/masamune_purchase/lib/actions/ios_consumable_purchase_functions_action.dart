@@ -9,11 +9,11 @@ class IOSConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
   /// IOS用の消耗型課金の設定を定義します。
   const IOSConsumablePurchaseFunctionsAction({
     required this.receiptData,
-    this.collectionPath = "plugins/iap/user",
-    this.fieldKey = "value",
     required this.documentId,
     required this.amount,
     required this.productId,
+    this.collectionPath = "plugins/iap/user",
+    this.fieldKey = "value",
   });
 
   /// Receipt data.

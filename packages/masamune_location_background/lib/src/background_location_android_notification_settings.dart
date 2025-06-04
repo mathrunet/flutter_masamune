@@ -1,6 +1,12 @@
 part of "/masamune_location_background.dart";
 
+/// Settings for Android notification.
+///
+/// Androidの通知の設定。
 class BackgroundLocationAndroidNotificationSettings {
+  /// Initialize the [BackgroundLocationAndroidNotificationSettings].
+  ///
+  /// [BackgroundLocationAndroidNotificationSettings]を初期化します。
   const BackgroundLocationAndroidNotificationSettings({
     this.channelName = "Location tracking",
     this.title = "Start Location Tracking",

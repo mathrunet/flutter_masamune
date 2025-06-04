@@ -57,6 +57,8 @@ class ListBuilder<T> extends StatelessWidget {
   /// [listenWhenListenable]が`true`になっている場合、[source]に[Listenable]を継承している場合[ListenableListener]が各要素にラップされます。
   /// そのため、[source]の各要素をそれぞれ監視し、いずれかの要素が更新された場合その要素のみ描画が更新されます。
   const ListBuilder({
+    required this.builder,
+    required this.source,
     super.key,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
@@ -70,8 +72,6 @@ class ListBuilder<T> extends StatelessWidget {
     this.insertPosition = 0,
     this.bottom,
     this.itemExtent,
-    required this.builder,
-    required this.source,
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
     this.addSemanticIndexes = true,

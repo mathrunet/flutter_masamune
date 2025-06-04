@@ -685,10 +685,10 @@ class UniversalScaffoldScope extends InheritedWidget {
   ///
   /// [UniversalScaffold.of]で取得できます。
   const UniversalScaffoldScope({
-    super.key,
     required super.child,
     required this.breakpoint,
     required this.sideBarWidth,
+    super.key,
   });
 
   /// Describe breakpoints for responsive containers.
@@ -729,8 +729,8 @@ class AutoDrawerSettings extends InheritedWidget {
   ///
   /// [UniversalScaffold]内で自動生成された[Drawer]内であるかどうかを確認したい場合ご利用ください。
   const AutoDrawerSettings({
-    super.key,
     required super.child,
+    super.key,
   });
 
   /// Get [AutoDrawerSettings] if the ancestor has [AutoDrawerSettings].

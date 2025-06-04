@@ -7,7 +7,13 @@ import "package:flutter/material.dart";
 // Package imports:
 import "package:katana_model/katana_model.dart";
 
+/// Document class for managing model data.
+///
+/// モデルデータを管理するDocumentクラス。
 class ModelDocument extends DocumentBase<Map<String, dynamic>> {
+  /// Creates a ModelDocument instance.
+  ///
+  /// ModelDocumentインスタンスを作成します。
   ModelDocument(super.modelQuery);
 
   @override
@@ -17,7 +23,13 @@ class ModelDocument extends DocumentBase<Map<String, dynamic>> {
   DynamicMap toMap(Map<String, dynamic> value) => value;
 }
 
+/// Collection class for managing model documents.
+///
+/// モデルドキュメントを管理するCollectionクラス。
 class ModelCollection extends CollectionBase<ModelDocument> {
+  /// Creates a ModelCollection instance.
+  ///
+  /// ModelCollectionインスタンスを作成します。
   ModelCollection(super.modelQuery);
 
   @override
@@ -30,7 +42,13 @@ void main() {
   runApp(const MyApp());
 }
 
+/// Main application widget for model demo.
+///
+/// Model デモ用のメインアプリケーションWidget。
 class MyApp extends StatelessWidget {
+  /// Creates a MyApp widget.
+  ///
+  /// MyAppウィジェットを作成します。
   const MyApp({super.key});
 
   @override
@@ -48,14 +66,26 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Page widget to demonstrate model functionality.
+///
+/// Model機能を実演するページWidget。
 class ModelPage extends StatefulWidget {
+  /// Creates a ModelPage widget.
+  ///
+  /// ModelPageウィジェットを作成します。
   const ModelPage({super.key});
 
   @override
   State<StatefulWidget> createState() => ModelPageState();
 }
 
+/// State for ModelPage widget.
+///
+/// ModelPageウィジェットのState。
 class ModelPageState extends State<ModelPage> {
+  /// Model collection instance for managing user data.
+  ///
+  /// ユーザーデータを管理するModelCollectionインスタンス。
   final collection = ModelCollection(const CollectionModelQuery("/user"));
 
   @override

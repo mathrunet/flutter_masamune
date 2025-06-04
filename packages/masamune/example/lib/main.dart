@@ -69,6 +69,12 @@ final router = AppRouter(
 /// ```
 final l = AppLocalize();
 
+/// App Localization.
+///
+/// By specifying the Google Spreadsheet URL, data is retrieved from the Google Spreadsheet and localization is performed.
+///
+/// For details, see the following page.
+/// https://mathru.net/dev/ee70b9c2d7f94c5aac6ba0b897cd037e/
 @GoogleSpreadSheetLocalize(
   [
     "https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808"

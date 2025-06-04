@@ -33,6 +33,9 @@ class AlgoliaModelAdapter extends ModelAdapter {
     required this.apiKey,
   });
 
+  /// Firestore model adapter.
+  ///
+  /// Firestoreモデルアダプター。
   final FirestoreModelAdapterBase firestoreModelAdapter;
 
   /// Algolia application ID.
@@ -138,7 +141,7 @@ class AlgoliaModelAdapter extends ModelAdapter {
       completer = null;
       rethrow;
     } finally {
-      subscription?.cancel();
+      unawaited(subscription?.cancel());
       searcher?.dispose();
       completer?.complete();
       completer = null;

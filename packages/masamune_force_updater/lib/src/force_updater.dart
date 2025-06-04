@@ -57,6 +57,9 @@ class ForceUpdater
         final ref = ForceUpdaterRef._(
           onUpdate: item.onUpdate ?? _defaultOnUpdate,
         );
+        if (!context.mounted) {
+          return;
+        }
         await item.onShowUpdateDialog(context, ref);
       }
     }
@@ -88,7 +91,7 @@ class ForceUpdaterRef {
   ///
   /// アプリケーションを終了します。
   Future<void> quit() async {
-    SystemNavigator.pop();
+    await SystemNavigator.pop();
   }
 }
 

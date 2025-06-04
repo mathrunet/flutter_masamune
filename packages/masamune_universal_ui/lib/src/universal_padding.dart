@@ -1,11 +1,25 @@
 part of "/masamune_universal_ui.dart";
 
+/// A widget that adds padding to its child.
+///
+/// Available instead of [Padding].
+///
+/// 子ウィジェットにパディングを追加するウィジェット。
+///
+/// [Padding]の代わりに利用可能です。
 class UniversalPadding extends StatelessWidget {
+  /// A widget that adds padding to its child.
+  ///
+  /// Available instead of [Padding].
+  ///
+  /// 子ウィジェットにパディングを追加するウィジェット。
+  ///
+  /// [Padding]の代わりに利用可能です。
   const UniversalPadding({
+    required this.child,
     super.key,
     this.padding,
     this.enableResponsivePadding,
-    required this.child,
   });
 
   /// Specify whether to enable responsive padding.

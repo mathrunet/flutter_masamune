@@ -23,7 +23,7 @@ import "package:masamune/masamune.dart";
 import "package:universal_platform/universal_platform.dart";
 import "package:url_launcher/url_launcher_string.dart";
 
-export 'package:url_launcher/url_launcher_string.dart' show LaunchMode;
+export "package:url_launcher/url_launcher_string.dart" show LaunchMode;
 
 part "adapter/universal_masamune_adapter.dart";
 part "adapter/precache_image_masamune_adapter.dart";

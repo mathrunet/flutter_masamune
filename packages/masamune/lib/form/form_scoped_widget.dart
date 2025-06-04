@@ -304,8 +304,8 @@ abstract class FormEditPageScopedWidget extends StatefulWidget
   ///
   /// {@macro form_scoped_widget}
   const FormEditPageScopedWidget({
-    super.key,
     required this.editId,
+    super.key,
   });
 
   /// Data ID currently being edited.

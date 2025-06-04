@@ -19,6 +19,13 @@ class RuntimeAIMasamuneAdapter extends AIMasamuneAdapter {
     this.onGenerateContent,
   });
 
+  /// Simulates AI interactions only on the runtime without actually connecting to an AI service [AIMasamuneAdapter]
+  ///
+  /// Please use it for tests, etc.
+  ///
+  /// 実際にAIサービスに繋げずにランタイム上のみでAIのやり取りをシミュレートする[AIMasamuneAdapter]
+  ///
+  /// テスト等でご利用ください。
   final Future<AIContent?> Function(List<AIContent> content, AIConfig? config)?
       onGenerateContent;
 
@@ -31,15 +38,17 @@ class RuntimeAIMasamuneAdapter extends AIMasamuneAdapter {
       true;
 
   @override
-  Future<AIContent?> generateContent(List<AIContent> content,
-      {AIConfig? config,
-      bool includeSystemInitialContent = true,
-      required Future<List<AIContentFunctionResponsePart>> Function(
-              List<AIContentFunctionCallPart>)
-          onFunctionCall,
-      AIFunctionCallingConfig? Function(AIContent, Set<AITool>, int)?
-          onGenerateFunctionCallingConfig,
-      Set<AITool> tools = const {}}) async {
+  Future<AIContent?> generateContent(
+    List<AIContent> content, {
+    required Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart>)
+        onFunctionCall,
+    AIConfig? config,
+    bool includeSystemInitialContent = true,
+    AIFunctionCallingConfig? Function(AIContent, Set<AITool>, int)?
+        onGenerateFunctionCallingConfig,
+    Set<AITool> tools = const {},
+  }) async {
     final res = await onGenerateContent?.call(content, config);
     res?.complete();
     return res;

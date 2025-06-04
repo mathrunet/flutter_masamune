@@ -48,6 +48,11 @@ abstract class RemoteNotificationScheduleModel
   }) = _RemoteNotificationScheduleModel;
   const RemoteNotificationScheduleModel._();
 
+  /// Convert from JSON.
+  ///
+  /// ```dart
+  /// RemoteNotificationScheduleModel.fromJson(json);
+  /// ```
   factory RemoteNotificationScheduleModel.fromJson(Map<String, Object?> json) =>
       _$RemoteNotificationScheduleModelFromJson(json);
 

@@ -5,6 +5,9 @@ part of "/masamune_location_platform_interface.dart";
 /// 位置情報のデータクラス。
 @immutable
 class LocationData {
+  /// Location data class.
+  ///
+  /// 位置情報のデータクラス。
   const LocationData({
     required this.longitude,
     required this.latitude,

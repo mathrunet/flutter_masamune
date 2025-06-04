@@ -12,9 +12,9 @@ class AndroidNonConsumablePurchaseFunctionsAction
     required this.packageName,
     required this.productId,
     required this.purchaseToken,
-    this.collectionPath = "plugins/iap/user",
     required this.fieldKey,
     required this.documentId,
+    this.collectionPath = "plugins/iap/user",
   });
 
   /// Package Name.

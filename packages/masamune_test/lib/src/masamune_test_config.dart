@@ -142,14 +142,14 @@ class MasamuneTestConfig {
   static RuntimeFunctionsAdapter _createFunctionsAdapter(
       FunctionsAdapter? adapter) {
     if (adapter == null) {
-      return RuntimeFunctionsAdapter();
+      return const RuntimeFunctionsAdapter();
     }
     if (adapter is RuntimeFunctionsAdapter) {
       return RuntimeFunctionsAdapter(
         functions: adapter.functions,
       );
     }
-    return RuntimeFunctionsAdapter();
+    return const RuntimeFunctionsAdapter();
   }
 
   static RuntimeLoggerAdapter _createLoggerAdapter(LoggerAdapter? adapter) {

@@ -3,6 +3,7 @@ part of "/masamune_model_firestore_builder.dart";
 /// Class for storing index values.
 ///
 /// インデックスの値を格納するためのクラス。
+@immutable
 class IndexValue {
   /// Class for storing index values.
   ///
@@ -57,6 +58,7 @@ class IndexValue {
 /// Value of the field in the index.
 ///
 /// インデックスのフィールドの値。
+@immutable
 class IndexFieldValue {
   /// Value of the field in the index.
   ///

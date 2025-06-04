@@ -40,7 +40,9 @@ class Transporter {
   ///
   /// サーバーにメッセージを送信します。
   void sendToServer(mcp.JsonRpcMessage message) {
-    if (!_connected) return;
+    if (!_connected) {
+      return;
+    }
     _clientToServerController.add(message);
   }
 
@@ -48,7 +50,9 @@ class Transporter {
   ///
   /// クライアントにメッセージを送信します。
   void sendToClient(mcp.JsonRpcMessage message) {
-    if (!_connected) return;
+    if (!_connected) {
+      return;
+    }
     _serverToClientController.add(message);
   }
 
@@ -63,7 +67,9 @@ class Transporter {
   ///
   /// 接続を閉じます。両方のストリームコントローラーも閉じます。
   void close() {
-    if (!_connected) return;
+    if (!_connected) {
+      return;
+    }
     _connected = false;
     _clientToServerController.close();
     _serverToClientController.close();
@@ -179,7 +185,7 @@ class LocalClientTransport implements Transport {
       } catch (e) {
         debugPrint("Error in onerror handler: $e");
       }
-      close();
+      unawaited(close());
       _sendCompleter?.completeError(sendError);
       _sendCompleter = null;
       throw sendError;
@@ -324,7 +330,7 @@ class LocalServerTransport implements Transport {
       } catch (e) {
         debugPrint("Error in onerror handler: $e");
       }
-      close();
+      unawaited(close());
       _sendCompleter?.completeError(sendError);
       _sendCompleter = null;
       throw sendError;

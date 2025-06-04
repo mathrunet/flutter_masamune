@@ -25,9 +25,9 @@ class StripeCreateAccountAction
   /// Stripeのアカウント作成を行うための[StripeFunctionsAction]。
   const StripeCreateAccountAction({
     required this.userId,
-    this.locale = const Locale("en", "US"),
     required this.refreshUrl,
     required this.returnUrl,
+    this.locale = const Locale("en", "US"),
   });
 
   /// ID of the account to be created.

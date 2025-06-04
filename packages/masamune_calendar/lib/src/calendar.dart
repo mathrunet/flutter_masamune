@@ -83,8 +83,8 @@ class Calendar<T> extends StatefulWidget {
   ///
   /// [expand]にtrueを指定すると、カレンダーの高さを自動的に調整します。
   const Calendar({
-    super.key,
     required this.events,
+    super.key,
     this.holidays = const [],
     this.controller,
     this.onTap,

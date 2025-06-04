@@ -449,6 +449,9 @@ class AsyncHistoryValue extends ChangeNotifier
     });
   }
 
+  /// Get the future of the [AsyncHistoryValue].
+  ///
+  /// [AsyncHistoryValue]のfutureを取得します。
   Future<void>? get future => _completer?.future;
   Completer<void>? _completer;
 

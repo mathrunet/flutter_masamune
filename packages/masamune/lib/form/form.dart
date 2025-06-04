@@ -1,24 +1,5 @@
 part of "/masamune.dart";
 
-/// Create an extension method for [RefHasPage] to handle Query for form.
-///
-/// フォーム用のQueryを処理するための[RefHasPage]の拡張メソッドを作成します。
-extension MasamuneFormRefHasPageExtensions on RefHasPage {
-  @Deprecated(
-    "It is no longer possible to use [form] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.page.form] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[form]の利用はできなくなります。代わりに[ref.page.form]でスコープを指定しての利用を行ってください。",
-  )
-  FormController<TModel> form<TModel>(
-    ChangeNotifierScopedQueryBase<FormController<TModel>, PageScopedValueRef>
-        query, {
-    bool? autoDisposeWhenUnreferenced,
-  }) {
-    return page.query(
-      query,
-      autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
-    );
-  }
-}
-
 /// Create an extension method for [PageOrAppScopedValueOrAppRef] to handle Query for form.
 ///
 /// フォーム用のQueryを処理するための[PageOrAppScopedValueOrAppRef]の拡張メソッドを作成します。

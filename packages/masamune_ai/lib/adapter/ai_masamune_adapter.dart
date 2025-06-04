@@ -125,12 +125,12 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   /// AIの内容を生成します。
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
-    AIConfig? config,
-    bool includeSystemInitialContent = false,
-    Set<AITool> tools = const {},
     required Future<List<AIContentFunctionResponsePart>> Function(
             List<AIContentFunctionCallPart> functionCalls)
         onFunctionCall,
+    AIConfig? config,
+    bool includeSystemInitialContent = false,
+    Set<AITool> tools = const {},
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
         onGenerateFunctionCallingConfig,

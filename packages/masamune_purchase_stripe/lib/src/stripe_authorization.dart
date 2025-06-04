@@ -66,13 +66,13 @@ class StripeAuthorization
   /// [online]が`false`の場合、メールにて認証を行うことができます。
   Future<void> authorization({
     required double priceAmount,
-    Locale locale = const Locale("en", "US"),
-    bool online = true,
     required void Function(
       Uri endpoint,
       Widget webView,
       VoidCallback onClosed,
     ) builder,
+    Locale locale = const Locale("en", "US"),
+    bool online = true,
     VoidCallback? onClosed,
     String? emailTitleOnRequired3DSecure,
     String? emailContentOnRequired3DSecure,

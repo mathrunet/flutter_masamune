@@ -241,6 +241,9 @@ extension ModelPermissionQueryTypeExtension on ModelPermissionQueryType {
     }
   }
 
+  /// Actual code.
+  ///
+  /// 実際のコード。
   String get code {
     switch (this) {
       case ModelPermissionQueryType.allowRead:
@@ -282,6 +285,9 @@ extension ModelPermissionQueryUserTypeExtension
     }
   }
 
+  /// Actual code.
+  ///
+  /// 実際のコード。
   String code([String? key, bool isReference = false]) {
     switch (this) {
       case ModelPermissionQueryUserType.allUsers:
@@ -429,6 +435,9 @@ extension QueryConditionValueListExtension on List<QueryConditionValue> {
     return res;
   }
 
+  /// Converted to required query parameters.
+  ///
+  /// 必須のクエリパラメーターに変換。
   String toRequiredQueryParameters() {
     return mapAndRemoveEmpty((e) {
       if (e.type == "limit" ||
@@ -440,7 +449,7 @@ extension QueryConditionValueListExtension on List<QueryConditionValue> {
           e.type == "arrayContainsAny") {
         return null;
       }
-      if (e.parameter?.type.isNullable == true) {
+      if (e.parameter?.type.isNullable ?? false) {
         return null;
       }
       final filterType = e.type.toFilterType();
@@ -455,6 +464,9 @@ extension QueryConditionValueListExtension on List<QueryConditionValue> {
     }).join(", ");
   }
 
+  /// Converted to optional query parameters.
+  ///
+  /// 任意のクエリパラメーターに変換。
   String toOptionalQueryParameters() {
     return mapAndRemoveEmpty((e) {
       if (e.type == "limit" ||

@@ -3,6 +3,7 @@ part of "/masamune_ai.dart";
 /// A schema for the data type of the AI.
 ///
 /// AIのデータ型のスキーマ。
+@immutable
 class AISchema {
   const AISchema._(
     this.type, {

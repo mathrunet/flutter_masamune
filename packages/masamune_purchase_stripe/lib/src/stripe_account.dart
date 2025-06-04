@@ -68,13 +68,13 @@ class StripeAccount
   /// [onClosed]を指定すると、WebViewが閉じられた時に呼び出されます。
   Future<void> create({
     required String userId,
-    Locale locale = const Locale("en", "US"),
     required void Function(
       Uri endpoint,
       Widget webView,
       VoidCallback onSuccess,
       VoidCallback onCancel,
     ) builder,
+    Locale locale = const Locale("en", "US"),
     VoidCallback? onClosed,
     Duration timeout = const Duration(seconds: 15),
   }) async {

@@ -6,9 +6,9 @@ part of "/masamune_builder.dart";
 @immutable
 class QueryValue {
   const QueryValue._({
-    this.conditions = const [],
     required this.rawValue,
     required this.name,
+    this.conditions = const [],
   });
 
   static final _queryValueRegExp =

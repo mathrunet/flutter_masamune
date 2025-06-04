@@ -44,10 +44,10 @@ class AppReview extends MasamuneControllerBase<void, AppReviewMasamuneAdapter> {
   Future<void> review() async {
     try {
       if (kIsWeb) {
-        throw Exception('Review is not available on web.');
+        throw Exception("Review is not available on web.");
       }
       if (await _instance.isAvailable()) {
-        _instance.requestReview();
+        await _instance.requestReview();
       } else {
         final url = UniversalPlatform.isIOS
             ? adapter.appStoreUrl

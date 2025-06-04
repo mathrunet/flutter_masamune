@@ -8,7 +8,9 @@ void main() {
   runApp(const MyApp());
 }
 
+/// Main application widget that provides the root of the widget tree.
 class MyApp extends StatelessWidget {
+  /// Creates a [MyApp].
   const MyApp({super.key});
 
   @override
@@ -23,7 +25,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// A page widget that demonstrates the katana_shorten package functionality.
 class ShortenPage extends StatelessWidget {
+  /// Creates a [ShortenPage].
   const ShortenPage({super.key});
 
   @override

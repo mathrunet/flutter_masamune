@@ -25,8 +25,8 @@ class McpServerConfig {
   /// MCPのサーバーコンフィグ。
   const McpServerConfig({
     required this.name,
-    this.version = "1.0.0",
     required this.transport,
+    this.version = "1.0.0",
   });
 
   /// Server name.
@@ -150,7 +150,7 @@ class McpServer
           callback: ({args, extra}) async {
             final result = await func.serverProcess(args ?? {});
             if (result == null) {
-              return mcp.CallToolResult(
+              return const mcp.CallToolResult(
                 content: [],
                 isError: true,
               );

@@ -227,11 +227,11 @@ class FormMarkdownField<TValue> extends FormField<String> {
                         header6: defaultStyles.inlineCode?.header6,
                         backgroundColor: style?.subBackgroundColor ??
                             theme.colorScheme.surface,
-                        radius: Radius.circular(4),
+                        radius: const Radius.circular(4),
                       ),
                       code: defaultStyles.code?.copyWith(
                         style: mainTextStyle,
-                        verticalSpacing: VerticalSpacing(12, 6),
+                        verticalSpacing: const VerticalSpacing(12, 6),
                         decoration: BoxDecoration(
                           color: style?.subBackgroundColor ??
                               theme.colorScheme.surface,
@@ -264,8 +264,8 @@ class FormMarkdownField<TValue> extends FormField<String> {
                       ),
                       quote: defaultStyles.quote?.copyWith(
                         style: mainTextStyle,
-                        verticalSpacing: VerticalSpacing(12, 6),
-                        lineSpacing: VerticalSpacing(0, 0),
+                        verticalSpacing: const VerticalSpacing(12, 6),
+                        lineSpacing: const VerticalSpacing(0, 0),
                         decoration: BoxDecoration(
                           border: Border(
                             left: BorderSide(
@@ -369,7 +369,7 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
   Delta? _delta;
 
   final QuillController _controller = QuillController(
-    config: QuillControllerConfig(),
+    config: const QuillControllerConfig(),
     document: Document(),
     selection: const TextSelection.collapsed(offset: 0),
     keepStyleOnNewLine: false,

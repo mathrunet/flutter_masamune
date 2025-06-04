@@ -4,8 +4,8 @@ extension on PurchaseProduct {
   PurchaseProduct _copyWith({
     required ProductDetails productDetails,
     required String? Function() onRetrieveUserId,
-    ModelAdapter? modelAdapter,
     required MobilePurchaseMasamuneAdapter purchaseAdapter,
+    ModelAdapter? modelAdapter,
   }) {
     final product = this;
     switch (type) {

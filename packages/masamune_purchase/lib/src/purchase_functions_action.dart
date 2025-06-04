@@ -44,8 +44,17 @@ abstract class PurchaseFunctionsAction
   }
 }
 
+/// Response for [PurchaseFunctionsAction].
+///
+/// [PurchaseFunctionsAction]のレスポンス。
 class PurchaseFunctionsActionResponse extends FunctionsActionResponse {
+  /// Response for [PurchaseFunctionsAction].
+  ///
+  /// [PurchaseFunctionsAction]のレスポンス。
   const PurchaseFunctionsActionResponse({required this.result});
 
+  /// Result.
+  ///
+  /// 結果。
   final bool result;
 }

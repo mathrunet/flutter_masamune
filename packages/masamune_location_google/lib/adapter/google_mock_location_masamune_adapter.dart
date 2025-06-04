@@ -9,10 +9,10 @@ class GoogleMockLocationMasamuneAdapter extends MockLocationMasamuneAdapter
   ///
   /// 位置情報を取り扱い、GoogleMapを表示するための初期設定を行うモック用の[MasamuneAdapter]。
   const GoogleMockLocationMasamuneAdapter({
+    required super.defaultLocationData,
     this.defaultMapStyle,
     super.location,
     super.listenOnBoot = false,
-    required super.defaultLocationData,
   });
 
   /// Default map style.

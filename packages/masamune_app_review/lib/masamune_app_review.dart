@@ -9,6 +9,8 @@
 library masamune_app_review;
 
 // Flutter imports:
+import "dart:async";
+
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 

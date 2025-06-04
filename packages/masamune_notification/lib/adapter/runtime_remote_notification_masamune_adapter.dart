@@ -9,11 +9,11 @@ class RuntimeRemoteNotificationMasamuneAdapter
   ///
   /// テスト用のリモートPUSH通知を受信するための[MasamuneAdapter]です。
   const RuntimeRemoteNotificationMasamuneAdapter({
-    super.functionsAdapter,
-    super.modelAdapter,
     required super.androidNotificationChannelId,
     required super.androidNotificationChannelTitle,
     required super.androidNotificationChannelDescription,
+    super.functionsAdapter,
+    super.modelAdapter,
     super.remoteNotification,
     super.subscribeOnBoot = const [],
     super.loggerAdapters = const [],

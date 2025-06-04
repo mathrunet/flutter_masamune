@@ -122,7 +122,7 @@ class ModelAnnotationValue {
   static final _mirrorWithDoubleQuoteRegExp =
       RegExp(r'mirror\s*:\s*("[^"]+")\s*,?');
   static final _mirrorWithVariableRegExp =
-      RegExp(r'mirror\s*:\s*([a-zA-Z0-9$._-]+)\s*,?');
+      RegExp(r"mirror\s*:\s*([a-zA-Z0-9$._-]+)\s*,?");
   static final _permissionRegExp =
       RegExp(r"permission\s*:\s*\[([^\]]*)\]\s*,?");
   static final _mirrorPermissionRegExp =

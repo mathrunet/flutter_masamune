@@ -82,7 +82,7 @@ class FirebaseDeeplinkSettings {
             if (iosParameters?.minimumVersion != null)
               "imv": iosParameters!.minimumVersion,
             if (navigationInfoParameters != null)
-              "efr": navigationInfoParameters!.forcedRedirectEnabled == true
+              "efr": (navigationInfoParameters!.forcedRedirectEnabled ?? false)
                   ? "1"
                   : "0"
           },

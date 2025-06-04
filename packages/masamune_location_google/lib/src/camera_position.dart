@@ -19,8 +19,8 @@ class CameraPosition extends map.CameraPosition {
   ///
   /// カメラの[target]の地理的位置、[zoom]レベル、[tilt]角度、[bearing]を集約します。
   CameraPosition({
-    super.bearing = 0.0,
     required GeoValue target,
+    super.bearing = 0.0,
     super.tilt = 0.0,
     super.zoom = 0.0,
   }) : super(target: target.toLatLng());

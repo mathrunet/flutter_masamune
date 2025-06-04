@@ -24,8 +24,8 @@ class UniversalHeaderTile extends StatelessWidget {
   ///
   /// [title]の下に[subtitle]を指定し、その下に[description]を指定することができます。
   const UniversalHeaderTile({
-    super.key,
     required this.title,
+    super.key,
     this.subtitle,
     this.description,
     this.titleTextStyle,

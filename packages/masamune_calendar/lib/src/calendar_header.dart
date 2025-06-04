@@ -41,8 +41,8 @@ class CalendarHeader extends StatefulWidget {
   ///
   /// [onTap]を渡すことでヘッダーをタップした際の処理を指定できます。
   const CalendarHeader({
-    super.key,
     required this.controller,
+    super.key,
     this.style = const CalendarHeaderStyle(),
     this.onTap,
     this.titleBuilder,

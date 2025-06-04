@@ -22,10 +22,10 @@ import "package:universal_platform/universal_platform.dart";
 // Project imports:
 import "package:masamune_location_background/masamune_location_background.dart";
 
-import 'package:background_locator_2/settings/locator_settings.dart'
+import "package:background_locator_2/settings/locator_settings.dart"
     as locator_settings;
 
-export 'package:permission_handler/permission_handler.dart'
+export "package:permission_handler/permission_handler.dart"
     show openAppSettings;
 
 part "background_location.dart";

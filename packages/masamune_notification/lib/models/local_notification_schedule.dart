@@ -53,6 +53,11 @@ abstract class LocalNotificationScheduleModel
   }) = _LocalNotificationScheduleModel;
   const LocalNotificationScheduleModel._();
 
+  /// Convert from JSON.
+  ///
+  /// ```dart
+  /// LocalNotificationScheduleModel.fromJson(json);
+  /// ```
   factory LocalNotificationScheduleModel.fromJson(Map<String, Object?> json) =>
       _$LocalNotificationScheduleModelFromJson(json);
 

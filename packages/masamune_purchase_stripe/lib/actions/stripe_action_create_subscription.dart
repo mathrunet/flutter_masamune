@@ -12,9 +12,9 @@ class StripeCreateSubscriptionAction
     required this.userId,
     required this.productId,
     required this.orderId,
-    this.count = 1,
     required this.successUrl,
     required this.cancelUrl,
+    this.count = 1,
   });
 
   /// User ID to purchase.

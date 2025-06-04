@@ -66,7 +66,7 @@ class AIFunctionCallingConfig {
   ///
   /// モードが[AIFunctionCallingMode.auto]に設定された[AIFunctionCallingConfig]インスタンスを返します。
   static AIFunctionCallingConfig auto() {
-    return AIFunctionCallingConfig._(mode: AIFunctionCallingMode.auto);
+    return const AIFunctionCallingConfig._(mode: AIFunctionCallingMode.auto);
   }
 
   /// Returns a [AIFunctionCallingConfig] instance with mode of [AIFunctionCallingMode.any].
@@ -82,6 +82,6 @@ class AIFunctionCallingConfig {
   ///
   /// モードが[AIFunctionCallingMode.none]に設定された[AIFunctionCallingConfig]インスタンスを返します。
   static AIFunctionCallingConfig none() {
-    return AIFunctionCallingConfig._(mode: AIFunctionCallingMode.none);
+    return const AIFunctionCallingConfig._(mode: AIFunctionCallingMode.none);
   }
 }

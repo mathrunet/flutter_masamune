@@ -8,5 +8,8 @@ part of "/masamune_scheduler.dart";
 ///
 /// これを[DocumentBase]に持たせる値に実装してください。
 abstract class ModelCopyDocumentScheduleBase {
+  /// Get the command for copying the document.
+  ///
+  /// ドキュメントをコピーするためのコマンドを取得します。
   ModelServerCommandCopyDocumentSchedule get command;
 }

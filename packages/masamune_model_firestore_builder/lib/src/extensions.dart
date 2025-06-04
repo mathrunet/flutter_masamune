@@ -91,6 +91,9 @@ extension ModelPermissionQueryTypeExtension on ModelPermissionQueryType {
     }
   }
 
+  /// Actual code.
+  ///
+  /// 実際のコード。
   String get code {
     switch (this) {
       case ModelPermissionQueryType.allowRead:

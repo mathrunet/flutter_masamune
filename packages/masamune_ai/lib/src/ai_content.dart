@@ -9,6 +9,13 @@ part of "/masamune_ai.dart";
 /// [role]に役割を設定可能です。
 class AIContent extends ChangeNotifier
     implements ValueListenable<List<AIContentPart>> {
+  /// The content of the AI.
+  ///
+  /// Roles can be set in [role].
+  ///
+  /// AIの内容。
+  ///
+  /// [role]に役割を設定可能です。
   AIContent({
     this.role = AIRole.system,
     DateTime? time,
@@ -480,6 +487,7 @@ class AIContent extends ChangeNotifier
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(Object other) {
     if (other is AIContent) {
       return toString() == other.toString();
@@ -488,6 +496,7 @@ class AIContent extends ChangeNotifier
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => toString().hashCode;
 }
 
@@ -525,6 +534,7 @@ abstract class AIContentPart {
 /// The text part of the AI content.
 ///
 /// AIの内容のテキストの一部。
+@immutable
 class AIContentTextPart extends AIContentPart {
   /// The text part of the AI content.
   ///
@@ -571,6 +581,7 @@ class AIContentTextPart extends AIContentPart {
 /// The binary part of the AI content.
 ///
 /// AIの内容のバイナリの一部。
+@immutable
 class AIContentBinaryPart extends AIContentPart {
   /// The binary part of the AI content.
   ///
@@ -620,6 +631,7 @@ class AIContentBinaryPart extends AIContentPart {
 /// The file part of the AI content.
 ///
 /// AIの内容のファイルの一部。
+@immutable
 class AIContentFilePart extends AIContentPart {
   /// The file part of the AI content.
   ///
@@ -661,6 +673,7 @@ class AIContentFilePart extends AIContentPart {
 /// The function call part of the AI content.
 ///
 /// AIの内容の関数呼び出しの一部。
+@immutable
 class AIContentFunctionCallPart extends AIContentPart {
   /// The function call part of the AI content.
   ///
@@ -717,6 +730,7 @@ class AIContentFunctionCallPart extends AIContentPart {
 /// The function call part of the AI content.
 ///
 /// AIの内容の関数呼び出しの一部。
+@immutable
 class AIContentFunctionResponsePart extends AIContentPart {
   /// The function response part of the AI content.
   ///
@@ -801,6 +815,7 @@ class AIContentFunctionPair {
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(Object other) {
     if (other is AIContentFunctionPair) {
       return call == other.call && response == other.response;
@@ -809,5 +824,6 @@ class AIContentFunctionPair {
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => call.hashCode ^ response.hashCode;
 }

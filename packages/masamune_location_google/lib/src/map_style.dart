@@ -24,7 +24,8 @@ class MapStyle {
   /// {@macro map_style}
   factory MapStyle.standard([bool hiddenLabel = false]) {
     final label = hiddenLabel
-        ? """{
+        ? """
+{
     "elementType": "labels.icon",
     "stylers": [
       {
@@ -55,7 +56,8 @@ class MapStyle {
   /// {@macro map_style}
   factory MapStyle.white([bool hiddenLabel = false]) {
     final label = hiddenLabel
-        ? """{
+        ? """
+{
     "elementType": "labels.icon",
     "stylers": [
       {
@@ -71,7 +73,8 @@ class MapStyle {
       }
     ]
   },"""
-        : """{
+        : """
+{
     "elementType": "labels.icon",
     "stylers": [
       {
@@ -80,7 +83,8 @@ class MapStyle {
     ]
   },""";
     return MapStyle(
-      """[
+      """
+[
   {
     "elementType": "geometry",
     "stylers": [
@@ -247,7 +251,8 @@ class MapStyle {
   /// {@macro map_style}
   factory MapStyle.retro([bool hiddenLabel = false]) {
     final label = hiddenLabel
-        ? """{
+        ? """
+{
     "elementType": "labels.icon",
     "stylers": [
       {
@@ -265,7 +270,8 @@ class MapStyle {
   },"""
         : "";
     return MapStyle(
-      """[
+      """
+[
   {
     "elementType": "geometry",
     "stylers": [
@@ -495,7 +501,8 @@ class MapStyle {
   /// {@macro map_style}
   factory MapStyle.dark([bool hiddenLabel = false]) {
     final label = hiddenLabel
-        ? """{
+        ? """
+{
     "elementType": "labels.icon",
     "stylers": [
       {
@@ -511,7 +518,8 @@ class MapStyle {
       }
     ]
   },"""
-        : """{
+        : """
+{
     "elementType": "labels.icon",
     "stylers": [
       {
@@ -520,7 +528,8 @@ class MapStyle {
     ]
   },""";
     return MapStyle(
-      """[
+      """
+[
   {
     "elementType": "geometry",
     "stylers": [
@@ -713,7 +722,8 @@ class MapStyle {
   /// {@macro map_style}
   factory MapStyle.night([bool hiddenLabel = false]) {
     final label = hiddenLabel
-        ? """{
+        ? """
+{
     "elementType": "labels.icon",
     "stylers": [
       {
@@ -731,7 +741,8 @@ class MapStyle {
   },"""
         : "";
     return MapStyle(
-      """[
+      """
+[
   {
     "elementType": "geometry",
     "stylers": [
@@ -907,7 +918,8 @@ class MapStyle {
   /// {@macro map_style}
   factory MapStyle.aubergine([bool hiddenLabel = false]) {
     final label = hiddenLabel
-        ? """{
+        ? """
+{
     "elementType": "labels.icon",
     "stylers": [
       {
@@ -925,7 +937,8 @@ class MapStyle {
   },"""
         : "";
     return MapStyle(
-      """[
+      """
+[
   {
     "elementType": "geometry",
     "stylers": [

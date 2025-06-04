@@ -209,12 +209,12 @@ class StripePurchase
   /// [onClosed]は[builder]によって表示されたWebViewが閉じられた際に呼び出されます。
   Future<void> confirm({
     required DocumentBase<StripePurchaseModel> purchase,
-    bool online = true,
     required void Function(
       Uri endpoint,
       Widget webView,
       VoidCallback onClosed,
     ) builder,
+    bool online = true,
     VoidCallback? onClosed,
     Duration timeout = const Duration(seconds: 15),
   }) async {

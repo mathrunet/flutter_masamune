@@ -2,53 +2,244 @@
 ///
 /// 日本の都道府県のenum。
 enum JapanesePrefectures {
+  /// Hokkaido.
+  ///
+  /// 北海道。
   hokkaido,
+
+  /// Aomori.
+  ///
+  /// 青森県。
   aomori,
+
+  /// Iwate.
+  ///
+  /// 岩手県。
   iwate,
+
+  /// Miyagi.
+  ///
+  /// 宮城県。
   miyagi,
+
+  /// Akita.
+  ///
+  /// 秋田県。
   akita,
+
+  /// Yamagata.
+  ///
+  /// 山形県。
   yamagata,
+
+  /// Fukushima.
+  ///
+  /// 福島県。
   fukushima,
+
+  /// Ibaraki.
+  ///
+  /// 茨城県。
   ibaraki,
+
+  /// Tochigi.
+  ///
+  /// 栃木県。
   tochigi,
+
+  /// Gunma.
+  ///
+  /// 群馬県。
   gunma,
+
+  /// Saitama.
+  ///
+  /// 埼玉県。
   saitama,
+
+  /// Chiba.
+  ///
+  /// 千葉県。
   chiba,
+
+  /// Tokyo.
+  ///
+  /// 東京都。
   tokyo,
+
+  /// Kanagawa.
+  ///
+  /// 神奈川県。
   kanagawa,
+
+  /// Niigata.
+  ///
+  /// 新潟県。
   niigata,
+
+  /// Toyama.
+  ///
+  /// 富山県。
   toyama,
+
+  /// Ishikawa.
+  ///
+  /// 石川県。
   ishikawa,
+
+  /// Fukui.
+  ///
+  /// 福井県。
   fukui,
+
+  /// Yamanashi.
+  ///
+  /// 山梨県。
   yamanashi,
+
+  /// Nagano.
+  ///
+  /// 長野県。
   nagano,
+
+  /// Gifu.
+  ///
+  /// 岐阜県。
   gifu,
+
+  /// Shizuoka.
+  ///
+  /// 静岡県。
   shizuoka,
+
+  /// Aichi.
+  ///
+  /// 愛知県。
   aichi,
+
+  /// Mie.
+  ///
+  /// 三重県。
   mie,
+
+  /// Shiga.
+  ///
+  /// 滋賀県。
   shiga,
+
+  /// Kyoto.
+  ///
+  /// 京都府。
   kyoto,
+
+  /// Osaka.
+  ///
+  /// 大阪府。
   osaka,
+
+  /// Hyogo.
+  ///
+  /// 兵庫県。
   hyogo,
+
+  /// Nara.
+  ///
+  /// 奈良県。
   nara,
+
+  /// Wakayama.
+  ///
+  /// 和歌山県。
   wakayama,
+
+  /// Tottori.
+  ///
+  /// 鳥取県。
   tottori,
+
+  /// Shimane.
+  ///
+  /// 島根県。
   shimane,
+
+  /// Okayama.
+  ///
+  /// 岡山県。
   okayama,
+
+  /// Hiroshima.
+  ///
+  /// 広島県。
   hiroshima,
+
+  /// Yamaguchi.
+  ///
+  /// 山口県。
   yamaguchi,
+
+  /// Tokushima.
+  ///
+  /// 徳島県。
   tokushima,
+
+  /// Kagawa.
+  ///
+  /// 香川県。
   kagawa,
+
+  /// Ehime.
+  ///
+  /// 愛媛県。
   ehime,
+
+  /// Kochi.
+  ///
+  /// 高知県。
   kochi,
+
+  /// Fukuoka.
+  ///
+  /// 福岡県。
   fukuoka,
+
+  /// Saga.
+  ///
+  /// 佐賀県。
   saga,
+
+  /// Nagasaki.
+  ///
+  /// 長崎県。
   nagasaki,
+
+  /// Kumamoto.
+  ///
+  /// 熊本県。
   kumamoto,
+
+  /// Oita.
+  ///
+  /// 大分県。
   oita,
+
+  /// Miyazaki.
+  ///
+  /// 宮崎県。
   miyazaki,
+
+  /// Kagoshima.
+  ///
+  /// 鹿児島県。
   kagoshima,
+
+  /// Okinawa.
+  ///
+  /// 沖縄県。
   okinawa,
+
+  /// Others.
+  ///
+  /// 海外。
   others;
 
   /// Prefectural labels.

@@ -160,13 +160,13 @@ class Responsive extends StatelessWidget {
   ///
   /// [child]には、カラムの中に配置するウィジェットを指定します。
   const Responsive({
+    required this.child,
     this.xs = 12,
     this.sm,
     this.md,
     this.lg,
     this.xl,
     this.xxl,
-    required this.child,
     this.padding,
     super.key,
   });

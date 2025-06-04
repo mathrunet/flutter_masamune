@@ -89,9 +89,9 @@ class _StripeWebviewState extends State<StripeWebview> {
       ),
       onRefresh: () async {
         if (UniversalPlatform.isAndroid) {
-          _webViewController?.reload();
+          await _webViewController?.reload();
         } else if (UniversalPlatform.isIOS) {
-          _webViewController?.loadUrl(
+          await _webViewController?.loadUrl(
             urlRequest: URLRequest(url: await _webViewController?.getUrl()),
           );
         }
@@ -132,7 +132,7 @@ class _StripeWebviewState extends State<StripeWebview> {
                 NavigationActionPolicy.ALLOW;
           },
           onLoadStop: (controller, url) async {
-            pullToRefreshController.endRefreshing();
+            await pullToRefreshController.endRefreshing();
             setState(() {
               _progress = 1.0;
             });

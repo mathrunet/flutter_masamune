@@ -13,7 +13,7 @@ import "package:masamune/masamune.dart";
 // Project imports:
 import "package:masamune_ads_google/masamune_ads_google.dart";
 
-export 'package:permission_handler/permission_handler.dart'
+export "package:permission_handler/permission_handler.dart"
     show openAppSettings;
 
 part "google_ads_core.dart";

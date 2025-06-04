@@ -8,11 +8,11 @@ abstract class RemoteNotificationMasamuneAdapter extends MasamuneAdapter {
   ///
   /// リモートPUSH通知を受信するための[MasamuneAdapter]です。
   const RemoteNotificationMasamuneAdapter({
-    this.functionsAdapter,
-    this.modelAdapter,
     required this.androidNotificationChannelId,
     required this.androidNotificationChannelTitle,
     required this.androidNotificationChannelDescription,
+    this.functionsAdapter,
+    this.modelAdapter,
     this.remoteNotification,
     this.subscribeOnBoot = const [],
     this.loggerAdapters = const [],

@@ -179,10 +179,10 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
 
   @override
   FutureOr<void> onMaybeBoot(BuildContext context) async {
+    await super.onMaybeBoot(context);
     if (activateTiming == FirebaseAppCheckActivateTiming.onBoot) {
       await _activate();
     }
-    return super.onMaybeBoot(context);
   }
 
   @override

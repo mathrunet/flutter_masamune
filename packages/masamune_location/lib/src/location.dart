@@ -322,7 +322,7 @@ class Location
         await adapter.enableBackgroundMode(enable: true);
       }
       _value = await adapter.getLocation().timeout(timeout);
-      _locationChangeStreamSubscription?.cancel();
+      unawaited(_locationChangeStreamSubscription?.cancel());
       _locationChangeStreamSubscription = adapter.listen(
         (value) {
           _updated = true;
@@ -358,7 +358,7 @@ class Location
     _updated = false;
     _timer?.cancel();
     _timer = null;
-    _locationChangeStreamSubscription?.cancel();
+    unawaited(_locationChangeStreamSubscription?.cancel());
     _locationChangeStreamSubscription = null;
   }
 

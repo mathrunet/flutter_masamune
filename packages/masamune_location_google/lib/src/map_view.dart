@@ -25,9 +25,9 @@ class MapView extends StatefulWidget {
   ///
   /// また、[initialCameraPosition]を利用して最初のマップの表示位置を指定してください。
   const MapView({
-    super.key,
     required this.controller,
     required this.initialCameraPosition,
+    super.key,
     this.onMapCreated,
     this.gestureRecognizers = const <Factory<OneSequenceGestureRecognizer>>{},
     this.compassEnabled = false,

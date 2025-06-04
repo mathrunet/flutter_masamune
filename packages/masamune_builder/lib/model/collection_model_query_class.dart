@@ -291,7 +291,7 @@ List<Spec> collectionModelQueryClass(
                 ),
               ])
               ..returns = const Reference("bool")
-              ..body = Code(
+              ..body = const Code(
                 "return regExp.hasMatch(path.trimQuery().trimString(\"/\"));",
               ),
           ),
@@ -430,7 +430,7 @@ List<Spec> collectionModelQueryClass(
                 ),
               ])
               ..returns = const Reference("bool")
-              ..body = Code(
+              ..body = const Code(
                 "return regExp.hasMatch(path.trimQuery().trimString(\"/\"));",
               ),
           ),
@@ -862,7 +862,7 @@ List<Spec> collectionModelQueryClass(
                   ),
                 ])
                 ..returns = const Reference("bool")
-                ..body = Code(
+                ..body = const Code(
                   "return regExp.hasMatch(path.trimQuery().trimString(\"/\"));",
                 ),
             ),
@@ -993,7 +993,7 @@ List<Spec> collectionModelQueryClass(
                   ),
                 ])
                 ..returns = const Reference("bool")
-                ..body = Code(
+                ..body = const Code(
                   "return regExp.hasMatch(path.trimQuery().trimString(\"/\"));",
                 ),
             ),

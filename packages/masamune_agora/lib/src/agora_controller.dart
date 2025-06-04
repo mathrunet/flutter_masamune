@@ -720,11 +720,13 @@ class AgoraController
       int retried = 0;
       ConnectionStateType? connectionState;
       do {
-        _engine?.joinChannel(
-          token: _token ?? "",
-          channelId: channelName,
-          uid: _localUserNumber!,
-          options: const ChannelMediaOptions(),
+        unawaited(
+          _engine?.joinChannel(
+            token: _token ?? "",
+            channelId: channelName,
+            uid: _localUserNumber!,
+            options: const ChannelMediaOptions(),
+          ),
         );
         await _connectingCompleter?.future;
         connectionState = await _engine?.getConnectionState();
@@ -772,7 +774,7 @@ class AgoraController
         );
       }
       do {
-        _engine?.leaveChannel();
+        unawaited(_engine?.leaveChannel());
         await _disconnectingCompleter?.future;
         connectionState = await _engine?.getConnectionState();
         if (connectionState !=
@@ -1111,7 +1113,7 @@ class AgoraController
               AgoraLoggerEvent.captureResourceId: _resourceVideoId,
             });
             if (adapter.storageBucketConfig?.enableDebug ?? false) {
-              _debugRecording();
+              unawaited(_debugRecording());
             }
             notifyListeners();
           } else {

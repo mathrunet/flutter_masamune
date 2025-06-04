@@ -55,12 +55,12 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
   @override
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
-    AIConfig? config,
-    Set<AITool> tools = const {},
-    bool includeSystemInitialContent = false,
     required Future<List<AIContentFunctionResponsePart>> Function(
             List<AIContentFunctionCallPart> functionCalls)
         onFunctionCall,
+    AIConfig? config,
+    Set<AITool> tools = const {},
+    bool includeSystemInitialContent = false,
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
         onGenerateFunctionCallingConfig,
@@ -73,20 +73,22 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
             .firstOrNull
         : null;
     final res = AIContent.model();
-    _generateContent(
-      model: config.model ?? model.model,
-      config: config,
-      contents: [
-        if (systemInitialContent != null) systemInitialContent,
-        ...contents.sortTo((a, b) => a.time.compareTo(b.time)).expand((e) {
-          return e._toContents();
-        }),
-      ],
-      response: res,
-      tools: tools,
-      onFunctionCall: onFunctionCall,
-      onGenerateFunctionCallingConfig: onGenerateFunctionCallingConfig,
-      trialCount: 1,
+    unawaited(
+      _generateContent(
+        model: config.model ?? model.model,
+        config: config,
+        contents: [
+          if (systemInitialContent != null) systemInitialContent,
+          ...contents.sortTo((a, b) => a.time.compareTo(b.time)).expand((e) {
+            return e._toContents();
+          }),
+        ],
+        response: res,
+        tools: tools,
+        onFunctionCall: onFunctionCall,
+        onGenerateFunctionCallingConfig: onGenerateFunctionCallingConfig,
+        trialCount: 1,
+      ),
     );
     return res;
   }
@@ -99,8 +101,8 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
     required Future<List<AIContentFunctionResponsePart>> Function(
             List<AIContentFunctionCallPart> functionCalls)
         onFunctionCall,
-    Set<AITool> tools = const {},
     required int trialCount,
+    Set<AITool> tools = const {},
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
         onGenerateFunctionCallingConfig,
@@ -126,7 +128,7 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
             try {
               response.complete(time: DateTime.now());
             } finally {
-              subscription?.cancel();
+              unawaited(subscription?.cancel());
               subscription = null;
             }
             return;
@@ -138,7 +140,7 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
           try {
             response.complete(time: DateTime.now());
           } finally {
-            subscription?.cancel();
+            unawaited(subscription?.cancel());
             subscription = null;
           }
         }

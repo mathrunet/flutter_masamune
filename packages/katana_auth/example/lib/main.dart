@@ -8,7 +8,13 @@ void main() {
   runApp(const MyApp());
 }
 
+/// Main application widget for authentication demo.
+///
+/// 認証デモ用のメインアプリケーションWidget。
 class MyApp extends StatelessWidget {
+  /// Creates a MyApp widget.
+  ///
+  /// MyAppウィジェットを作成します。
   const MyApp({super.key});
 
   @override
@@ -26,14 +32,26 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Authentication page widget to demonstrate auth functionality.
+///
+/// 認証機能を実演するページWidget。
 class AuthPage extends StatefulWidget {
+  /// Creates an AuthPage widget.
+  ///
+  /// AuthPageウィジェットを作成します。
   const AuthPage({super.key});
 
   @override
   State<StatefulWidget> createState() => AuthPageState();
 }
 
+/// State for AuthPage widget.
+///
+/// AuthPageウィジェットのState。
 class AuthPageState extends State<AuthPage> {
+  /// Authentication instance for managing user auth state.
+  ///
+  /// ユーザー認証状態を管理するAuthenticationインスタンス。
   final auth = Authentication();
 
   @override
@@ -93,12 +111,21 @@ class AuthPageState extends State<AuthPage> {
   }
 }
 
+/// Authentication control page widget with auth actions.
+///
+/// 認証アクションを含む認証制御ページWidget。
 class AuthControlPage extends StatelessWidget {
+  /// Creates an AuthControlPage widget.
+  ///
+  /// AuthControlPageウィジェットを作成します。
   const AuthControlPage({
     required this.auth,
     super.key,
   });
 
+  /// Authentication instance to perform auth operations.
+  ///
+  /// 認証操作を実行するAuthenticationインスタンス。
   final Authentication auth;
 
   @override

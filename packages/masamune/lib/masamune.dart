@@ -37,7 +37,7 @@ export "package:katana_storage/katana_storage.dart";
 export "package:katana_theme/katana_theme.dart";
 export "package:katana_ui/katana_ui.dart";
 export "package:masamune_annotation/masamune_annotation.dart";
-export 'package:meta/meta.dart' show useResult;
+export "package:meta/meta.dart" show useResult;
 
 part "form/form.dart";
 part "form/form_scoped_widget.dart";
