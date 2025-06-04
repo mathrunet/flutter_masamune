@@ -68,8 +68,8 @@ class AppCsrCliAction extends CliCommand with CliActionMixin {
         runInShell: true,
         mode: ProcessStartMode.normal,
       );
-      // ignore: avoid_print
       unawaited(
+        // ignore: avoid_print
         process.stdout.transform(utf8.decoder).forEach(print),
       );
       process.stdin.write(".\n");
