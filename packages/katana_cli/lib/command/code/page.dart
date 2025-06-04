@@ -106,6 +106,7 @@ part "$baseName.page.dart";
 // TODO: Set the path for the page.
 @PagePath("\${1:$path}")
 class ${className}Page extends PageScopedWidget {
+  /// Page widget for $className.
   const ${className}Page({
     super.key,
     // TODO: Set parameters for the page.

@@ -94,7 +94,9 @@ part "$baseName.page.dart";
 /// Define a list of navigation for use with ${className}Page.
 enum ${className}PageNavigation {
   // TODO: Define the type of navigation.
+  /// Navigation 1.
   navigation1,
+  /// Navigation 2.
   navigation2;
 
   /// The first navigation to display.
@@ -141,6 +143,7 @@ enum ${className}PageNavigation {
 // TODO: Set the path for the page.
 @PagePath("\${1:$path}")
 class ${className}Page extends PageScopedWidget {
+  /// Page widget for $className.
   const ${className}Page({
     super.key,
     // TODO: Set parameters for the page.

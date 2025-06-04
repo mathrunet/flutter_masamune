@@ -54,7 +54,7 @@ part "prefs.prefs.dart";
 
   @override
   String body(String path, String baseName, String className) {
-    return r"""
+    return """
 /// Get SharedPreferences for the app.
 /// 
 /// ```dart
@@ -63,15 +63,16 @@ part "prefs.prefs.dart";
 /// ```
 final appPrefs = Prefs(
   // TODO: Initial values defined in Prefs are listed here.
-  ${2}
+  \${2}
 );
 
-/// Shared Preferences.
+/// Shared Preferences for $className.
 @prefs
-abstract class Prefs with _$Prefs, ChangeNotifier {
+abstract class Prefs with _\$Prefs, ChangeNotifier {
+  /// Shared Preferences for $className.
   factory Prefs({
     // TODO: Define here the values to be managed in Shared Preferences.
-    ${1}
+    \${1}
   }) = _Prefs;
   Prefs._();
 }

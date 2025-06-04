@@ -70,10 +70,11 @@ part "$baseName.m.dart";
   @override
   String body(String path, String baseName, String className) {
     return """
-/// Controller Group.
+/// Controller Group for $className.
 @listenables
 @ControllerGroup(autoDisposeWhenUnreferenced: true)
 class ${className}ControllerGroup with _\$${className}ControllerGroup, ChangeNotifier {
+  /// Controller Group for $className.
   factory ${className}ControllerGroup({
     // TODO: Define the ChangeNotifier field here.
     \${1}

@@ -77,9 +77,10 @@ import "package:$packageName/main.dart";
   @override
   String body(String path, String baseName, String className) {
     return """
-/// StatelessWidget.
+/// StatelessWidget for $className.
 @immutable
 class ${className}Widget extends StatelessWidget {
+  /// StatelessWidget for $className.
   const ${className}Widget({
     super.key,
     // TODO: Set parameters for the widget.

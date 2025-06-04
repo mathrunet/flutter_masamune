@@ -91,10 +91,11 @@ part "$baseName.page.dart";
   @override
   String body(String path, String baseName, String className) {
     return """
-/// Page for forms to add data.
+/// Page widget for $className.
 @immutable
 @PagePath("\${2:$path}/add")
 class ${className}Page extends FormAddPageScopedWidget {
+  /// Page widget for $className.
   const ${className}Page({
     super.key,
   });
@@ -113,7 +114,6 @@ class ${className}Page extends FormAddPageScopedWidget {
       const _${className}Form();
 }
 
-/// Widgets for form views.
 @immutable
 class _${className}Form extends FormScopedWidget {
   const _${className}Form({super.key});

@@ -1637,6 +1637,7 @@ analyzer:
     - "**/*.prefs.dart"
     - "**/*.m.dart"
     - "lib/dataconnect/**"
+    - "lib/firebase_options.dart"
   errors:
     prefer_double_quotes: error
     unawaited_futures: error
@@ -2541,6 +2542,12 @@ part "${className.toSnakeCase()}.localize.dart";
 /// ```
 final ml = AppLocalize();
 
+/// App Localization.
+///
+/// By specifying the Google Spreadsheet URL, data is retrieved from the Google Spreadsheet and localization is performed.
+///
+/// For details, see the following page.
+/// https://mathru.net/dev/ee70b9c2d7f94c5aac6ba0b897cd037e/
 // TODO: Set the Google Spreadsheet URL for the translation.
 @GoogleSpreadSheetLocalize(
   [

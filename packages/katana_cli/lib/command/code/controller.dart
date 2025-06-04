@@ -77,9 +77,10 @@ part "$baseName.m.dart";
   @override
   String body(String path, String baseName, String className) {
     return """
-/// Controller.
+/// Controller for $className.
 @Controller(autoDisposeWhenUnreferenced: true)
 class ${className}Controller extends ChangeNotifier {
+  /// Controller for $className.
   ${className}Controller(
     // TODO: Define some arguments.
     \${1}

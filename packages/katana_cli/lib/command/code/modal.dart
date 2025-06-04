@@ -74,6 +74,7 @@ import "package:$packageName/main.dart";
 /// Modal widget for $className.
 @immutable
 class ${className}Modal extends Modal {
+  /// Modal widget for $className.
   const ${className}Modal();
 
   @override

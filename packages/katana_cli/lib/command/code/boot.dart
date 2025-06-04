@@ -67,6 +67,15 @@ import "package:$packageName/main.dart";
 /// ```
 @immutable
 class Boot extends BootRouteQueryBuilder {
+  /// Describe the page to be displayed when the application is launched.
+  /// 
+  /// By passing this object to the `boot` parameter of AppRouter, the processing of this class will be executed when the application starts.
+  /// 
+  /// ```dart
+  /// final router = AppRouter(
+  ///   boot: const Boot(),
+  /// );
+  /// ```
   const Boot({super.key});
 
   @override

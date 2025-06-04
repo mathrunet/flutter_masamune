@@ -59,6 +59,7 @@ import "package:masamune/masamune.dart";
 /// ```dart
 /// final response = await appFunction.execute(${className.toPascalCase()}FunctionsAction());
 /// ```
+@immutable
 class ${className.toPascalCase()}FunctionsAction
     extends RestApiFunctionsAction<${className.toPascalCase()}FunctionsActionResponse> {
   /// [FunctionsAction] for executing RestApi.

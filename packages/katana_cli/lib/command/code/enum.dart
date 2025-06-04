@@ -68,6 +68,7 @@ import "package:$packageName/main.dart";
   @override
   String body(String path, String baseName, String className) {
     return """
+/// Enum for $className.
 enum ${className}Enum {
   // TODO: Set the value of Enum.
 }

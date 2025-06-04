@@ -67,8 +67,9 @@ import "package:masamune/masamune.dart";
   @override
   String body(String path, String baseName, String className) {
     return """
-/// Loggable for Logger.
+/// $className Loggable for Logger.
 class ${className}Loggable extends Loggable {
+  /// $className Loggable for Logger.
   const ${className}Loggable(
     // TODO: Define some arguments.
     \${1}

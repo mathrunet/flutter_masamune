@@ -82,6 +82,17 @@ import "package:$packageName/main.dart";
 /// );
 /// ```
 class ${className}RedirectQuery extends RedirectQuery {
+  /// Describe the redirection process between pages.
+  /// 
+  /// It works by passing it as an argument to the AppRouter or PagePath annotation.
+  /// 
+  /// ```dart
+  /// final router = AppRouter(
+  ///   redirect: [
+  ///     ${className}RedirectQuery(),
+  ///   ],
+  /// );
+  /// ```
   const ${className}RedirectQuery();
 
   @override

@@ -94,7 +94,9 @@ part "$baseName.page.dart";
 /// Define a list of tabs for use with ${className}Page.
 enum ${className}PageTab {
   // TODO: Define the type of tabs.
+  /// Tab 1.
   tab1,
+  /// Tab 2.
   tab2;
 
   /// The first tab to display.
@@ -129,6 +131,7 @@ enum ${className}PageTab {
 // TODO: Set the path for the page.
 @PagePath("\${1:$path}")
 class ${className}Page extends PageScopedWidget {
+  /// Page widget for $className.
   const ${className}Page({
     super.key,
     // TODO: Set parameters for the page.

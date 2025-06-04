@@ -65,8 +65,10 @@ class CodeExceptionCliCommand extends CliTestableCodeCommand {
   @override
   String body(String path, String baseName, String className) {
     return """
-/// Exception.
+/// Exception for $className.
+@immutable
 class ${className}Exception implements Exception {
+  /// Exception for $className.
   const ${className}Exception(
     // TODO: Define some arguments.
     \${1}
