@@ -66,14 +66,14 @@ void main() {
     final model = RuntimeMapDocumentModel(query);
     await model.load();
     expect(model.value, null);
-    model.save({"name": "aaaa", "text": "bbbb"});
+    await model.save({"name": "aaaa", "text": "bbbb"});
     await model.saving;
     expect(model.value, {"name": "aaaa", "text": "bbbb"});
     final remodel = RuntimeMapDocumentModel(query);
     expect(remodel.value, null);
     expect(await remodel.load(), {"name": "aaaa", "text": "bbbb"});
     expect(remodel.value, {"name": "aaaa", "text": "bbbb"});
-    remodel.save({"name": "cccc", "text": "dddd"});
+    await remodel.save({"name": "cccc", "text": "dddd"});
     await remodel.saving;
     expect(remodel.value, {"name": "cccc", "text": "dddd"});
     await model.loading;
@@ -81,7 +81,7 @@ void main() {
     await model.delete();
     expect(model.value, null);
     expect(remodel.value, null);
-    model.save({"name": "aaaa", "text": "bbbb"});
+    await model.save({"name": "aaaa", "text": "bbbb"});
     await model.saving;
     expect(remodel.value, {"name": "aaaa", "text": "bbbb"});
   });
@@ -89,7 +89,7 @@ void main() {
     final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
     final query = CollectionModelQuery("test", adapter: adapter);
     final collection = RuntimeCollectionModel(query);
-    collection.load();
+    await collection.load();
     await collection.loading;
     expect(collection, []);
     final query1 = DocumentModelQuery("test/aaa", adapter: adapter);
@@ -169,7 +169,7 @@ void main() {
       adapter: adapter,
     ).contains("ids", 10);
     final collection = RuntimeCollectionModel(query);
-    collection.load();
+    await collection.load();
     await collection.loading;
     expect(collection, []);
     final query1 = DocumentModelQuery("test/aaa", adapter: adapter);
@@ -324,14 +324,14 @@ void main() {
     final model = RuntimeMTestValueDocumentModel(query);
     await model.load();
     expect(model.value, null);
-    model.save(const TestValue(name: "aaaa", text: "bbbb"));
+    await model.save(const TestValue(name: "aaaa", text: "bbbb"));
     await model.saving;
     expect(model.value, const TestValue(name: "aaaa", text: "bbbb"));
     final remodel = RuntimeMTestValueDocumentModel(query);
     expect(remodel.value, null);
     expect(await remodel.load(), const TestValue(name: "aaaa", text: "bbbb"));
     expect(remodel.value, const TestValue(name: "aaaa", text: "bbbb"));
-    remodel.save(const TestValue(name: "cccc", text: "dddd"));
+    await remodel.save(const TestValue(name: "cccc", text: "dddd"));
     await remodel.saving;
     expect(remodel.value, const TestValue(name: "cccc", text: "dddd"));
     await model.loading;
@@ -339,7 +339,7 @@ void main() {
     await model.delete();
     expect(model.value, null);
     expect(remodel.value, null);
-    model.save(const TestValue(name: "aaaa", text: "bbbb"));
+    await model.save(const TestValue(name: "aaaa", text: "bbbb"));
     await model.saving;
     expect(remodel.value, const TestValue(name: "aaaa", text: "bbbb"));
   });
@@ -347,7 +347,7 @@ void main() {
     final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
     final query = CollectionModelQuery("test", adapter: adapter);
     final collection = RuntimeTestValueCollectionModel(query);
-    collection.load();
+    await collection.load();
     await collection.loading;
     expect(collection, []);
     final query1 = DocumentModelQuery("test/aaa", adapter: adapter);
@@ -427,7 +427,7 @@ void main() {
       adapter: adapter,
     ).contains("ids", 10);
     final collection = RuntimeTestValueCollectionModel(query);
-    collection.load();
+    await collection.load();
     await collection.loading;
     expect(collection, []);
     final query1 = DocumentModelQuery("test/aaa", adapter: adapter);

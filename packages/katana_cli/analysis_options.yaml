@@ -28,7 +28,6 @@ linter:
     prefer_asserts_with_message: true
     use_build_context_synchronously: true
     cancel_subscriptions: true
-    eol_at_end_of_file: true
     prefer_const_constructors: true
     always_put_control_body_on_new_line: true
     prefer_if_elements_to_conditional_expressions: true
@@ -52,7 +51,6 @@ analyzer:
     - "**/*.freezed.dart"
   errors:
     prefer_double_quotes: error
-    eol_at_end_of_file: error
     unawaited_futures: error
     use_build_context_synchronously: error
     always_put_control_body_on_new_line: error

@@ -40,9 +40,9 @@ class ProgressIndicatorBuilder<T extends Listenable> extends StatefulWidget {
   ///
   /// デフォルトだと[defaultCircularProgressIndicator]が指定されます。他に[defaultLinearProgressIndicator]も利用可能です。
   const ProgressIndicatorBuilder({
-    super.key,
     required this.listenable,
     required this.progress,
+    super.key,
     this.builder = defaultCircularProgressIndicator,
   });
 

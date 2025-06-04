@@ -1,4 +1,5 @@
 // Dart imports:
+import "dart:async";
 import "dart:convert";
 import "dart:core" as core;
 import "dart:core";
@@ -613,20 +614,22 @@ Future<String> command(
       runInShell: runInShell,
       mode: ProcessStartMode.normal,
     );
-    // ignore: unawaited_futures
-    process.stderr.transform(utf8.decoder).forEach((line) {
-      err = true;
-      res += line;
-      // ignore: avoid_print
-      core.print(line);
-    });
-    // ignore: unawaited_futures
-    process.stdout.transform(utf8.decoder).forEach((line) {
-      res += line;
-      // ignore: avoid_print
-      print(line);
-      action.call(process, line);
-    });
+    unawaited(
+      process.stderr.transform(utf8.decoder).forEach((line) {
+        err = true;
+        res += line;
+        // ignore: avoid_print
+        core.print(line);
+      }),
+    );
+    unawaited(
+      process.stdout.transform(utf8.decoder).forEach((line) {
+        res += line;
+        // ignore: avoid_print
+        print(line);
+        action.call(process, line);
+      }),
+    );
     await process.exitCode;
     if (workingDirectory != null) {
       Directory.current = prevDirectory!;
@@ -807,19 +810,21 @@ extension ProcessExtensions on Future<Process> {
     final process = await this;
     var res = "";
     var err = false;
-    // ignore: unawaited_futures
-    process.stderr.transform(utf8.decoder).forEach((e) {
-      err = true;
-      res += e;
-      // ignore: avoid_print
-      core.print(e);
-    });
-    // ignore: unawaited_futures
-    process.stdout.transform(utf8.decoder).forEach((e) {
-      res += e;
-      // ignore: avoid_print
-      core.print(e);
-    });
+    unawaited(
+      process.stderr.transform(utf8.decoder).forEach((e) {
+        err = true;
+        res += e;
+        // ignore: avoid_print
+        core.print(e);
+      }),
+    );
+    unawaited(
+      process.stdout.transform(utf8.decoder).forEach((e) {
+        res += e;
+        // ignore: avoid_print
+        core.print(e);
+      }),
+    );
     await process.exitCode;
     if (catchError && err) {
       throw Exception(

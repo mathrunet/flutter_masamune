@@ -20,7 +20,7 @@ import "package:dart_style/dart_style.dart";
 import "package:glob/glob.dart";
 import "package:katana_builder/katana_builder.dart";
 import "package:katana_router_annotation/katana_router_annotation.dart";
-import 'package:source_gen/source_gen.dart' as source_gen;
+import "package:source_gen/source_gen.dart" as source_gen;
 import "package:source_gen/source_gen.dart";
 
 part "common/query_class.dart";

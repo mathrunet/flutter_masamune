@@ -80,7 +80,7 @@ class RuntimeLoggerAdapter extends LoggerAdapter {
 
   @override
   Future<void> send(String name, {DynamicMap? parameters}) async {
-    database.write(name, parameters: parameters);
+    await database.write(name, parameters: parameters);
   }
 
   @override
@@ -114,7 +114,7 @@ class _RuntimeLoggerTraceValue extends LoggerTraceValue {
   @override
   Future<void> stop(DateTime startTime, DateTime endTime) async {
     final diff = endTime.difference(startTime);
-    adapter.send(
+    await adapter.send(
       name,
       parameters: {"duration": diff.inMilliseconds},
     );

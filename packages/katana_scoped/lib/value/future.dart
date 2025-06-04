@@ -1,51 +1,5 @@
 part of "value.dart";
 
-/// Provides an extended method for [Ref] to monitor [Future].
-///
-/// [Future]の監視を行うための[Ref]用の拡張メソッドを提供します。
-extension RefFutureExtensions on Ref {
-  @Deprecated(
-    "[future] will no longer be available in App scope. Instead, use [ref.page.future] or [ref.widget.future] and limit its use to page scope or widget scope only. Appスコープでの[future]の利用はできなくなります。代わりに[ref.page.future]や[ref.widget.future]を利用し、ページスコープやウィジェットスコープのみでの利用に限定してください。",
-  )
-  FutureContext<T> future<T>(
-    FutureOr<T> Function() callback, {
-    List<Object> keys = const [],
-    Object? name,
-  }) {
-    return getScopedValue<FutureContext<T>, _FutureValue<T>>(
-      (ref) => _FutureValue<T>(
-        callback: callback,
-        keys: keys,
-      ),
-      listen: true,
-      name: name,
-    );
-  }
-}
-
-/// Provides an extended method for [RefHasPage] to monitor [Future].
-///
-/// [Future]の監視を行うための[RefHasPage]用の拡張メソッドを提供します。
-extension RefHasPageFutureExtensions on RefHasPage {
-  @Deprecated(
-    "It is no longer possible to use [future] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.page.future] or [ref.widget.future] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[future]の利用はできなくなります。代わりに[ref.page.future]や[ref.widget.future]でスコープを指定しての利用を行ってください。",
-  )
-  FutureContext<T> future<T>(
-    FutureOr<T> Function() callback, {
-    List<Object> keys = const [],
-    Object? name,
-  }) {
-    return page.getScopedValue<FutureContext<T>, _FutureValue<T>>(
-      (ref) => _FutureValue<T>(
-        callback: callback,
-        keys: keys,
-      ),
-      listen: true,
-      name: name,
-    );
-  }
-}
-
 /// Provides an extended method for [PageOrWidgetScopedValueRef] to monitor [Future].
 ///
 /// [Future]の監視を行うための[PageOrWidgetScopedValueRef]用の拡張メソッドを提供します。

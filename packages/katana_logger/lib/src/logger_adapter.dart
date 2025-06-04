@@ -3,6 +3,7 @@ part of "/katana_logger.dart";
 /// Base class for defining platform adapters for storing logs.
 ///
 /// ログを保存するためのプラットフォームアダプターを定義するためのベースクラス。
+@immutable
 abstract class LoggerAdapter {
   /// Base class for defining platform adapters for storing logs.
   ///
@@ -106,9 +107,9 @@ class LoggerAdapterScope extends StatefulWidget {
   /// }
   /// ```
   const LoggerAdapterScope({
-    super.key,
     required this.child,
     required this.adapters,
+    super.key,
   });
 
   /// Children's widget.

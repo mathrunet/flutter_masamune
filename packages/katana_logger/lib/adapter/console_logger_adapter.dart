@@ -71,7 +71,7 @@ class _ConsoleLoggerTraceValue extends LoggerTraceValue {
   @override
   Future<void> stop(DateTime startTime, DateTime endTime) async {
     final diff = endTime.difference(startTime);
-    adapter.send(
+    await adapter.send(
       name,
       parameters: {"duration": diff.inMilliseconds},
     );

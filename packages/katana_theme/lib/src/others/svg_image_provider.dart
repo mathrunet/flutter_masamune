@@ -56,6 +56,13 @@ class MemoizedNetworkSvgImageProvider extends _MemoizedSvgImageProvider {
 ///
 /// アプリアセットからSvgを読み込みます。
 class MemoizedAssetSvgImageProvider extends _MemoizedSvgImageProvider {
+  /// Class that can handle Svg files as [ImageProvider].
+  ///
+  /// Load Svg from appliasset.
+  ///
+  /// Svgファイルを[ImageProvider]として扱えるクラス。
+  ///
+  /// アプリアセットからSvgを読み込みます。
   const MemoizedAssetSvgImageProvider(
     super.path, {
     super.size,

@@ -37,9 +37,9 @@ abstract class AppPageRoute<T> extends Page<T> {
   ///
   /// `settings`に次のページに移るための[RouteSettings]を指定できます。
   factory AppPageRoute({
-    LocalKey? key,
     required WidgetBuilder builder,
     required String? path,
+    LocalKey? key,
     TransitionQuery? transitionQuery,
   }) {
     if (transitionQuery?.transition.isModal ?? false) {
@@ -72,9 +72,9 @@ abstract class AppPageRoute<T> extends Page<T> {
 @immutable
 class _ModalPageRoute<T> extends Page<T> implements AppPageRoute<T> {
   const _ModalPageRoute({
-    super.key,
     required this.builder,
     required String? path,
+    super.key,
     this.transitionQuery,
     this.isAndroidBackEnable = true,
     this.transitionDuration = const Duration(milliseconds: 300),
@@ -126,9 +126,9 @@ class _ModalPageRoute<T> extends Page<T> implements AppPageRoute<T> {
 @immutable
 class _DefaultPageRoute<T> extends Page<T> implements AppPageRoute<T> {
   const _DefaultPageRoute({
-    super.key,
     required this.builder,
     required String? path,
+    super.key,
     this.transitionQuery,
   }) : super(name: path, arguments: transitionQuery);
 
@@ -163,9 +163,9 @@ class _DefaultPageRoute<T> extends Page<T> implements AppPageRoute<T> {
 @immutable
 class _CupertinoPageRoute<T> extends Page<T> implements AppPageRoute<T> {
   const _CupertinoPageRoute({
-    super.key,
     required this.builder,
     required String? path,
+    super.key,
     this.transitionQuery,
   }) : super(name: path, arguments: transitionQuery);
 

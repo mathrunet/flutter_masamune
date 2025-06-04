@@ -149,9 +149,9 @@ abstract class ModelAdapter {
   /// コレクションの破棄時にはかならず実行してください。
   void disposeCollection(ModelAdapterCollectionQuery query);
 
-  // Set to `true` if changes can be monitored.
-
-  // 変更を監視可能な場合`true`にします。
+  /// Set to `true` if changes can be monitored.
+  ///
+  /// 変更を監視可能な場合`true`にします。
   bool get availableListen;
 
   /// Pass [query] to monitor the document.
@@ -381,9 +381,9 @@ class ModelAdapterScope extends StatefulWidget {
   ///
   /// ここで設定した[adapter]を[CollectionModelQuery]や[DocumentModelQuery]に渡すことでモデルの内部処理を変更することが可能です。
   const ModelAdapterScope({
-    super.key,
     required this.child,
     required this.adapter,
+    super.key,
   });
 
   /// Widgets to give to children.

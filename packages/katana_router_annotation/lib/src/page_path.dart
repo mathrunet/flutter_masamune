@@ -143,9 +143,6 @@ class PagePath {
 /// ```
 const hiddenPage = HiddenPage();
 
-@Deprecated("Use `hiddenPage` instead.")
-const nestedPage = hiddenPage;
-
 /// Pages to be used in nested navigators instead of at the top level or to intentionally not set URLs.
 ///
 /// If used with this, it will not be accessible via deep linking.
@@ -252,6 +249,3 @@ class HiddenPage {
   /// `RouteQueryBuilder`を継承したクラスを指定してページを入れ替え可能にします。
   final Type? implementType;
 }
-
-@Deprecated("NestedPage is changed to HiddenPage.")
-typedef NestedPage = HiddenPage;

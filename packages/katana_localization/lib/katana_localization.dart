@@ -18,8 +18,8 @@ import "package:flutter/material.dart";
 // Package imports:
 // import "package:flutter_localizations/flutter_localizations.dart";
 
-export 'package:flutter/foundation.dart' show SynchronousFuture;
-export 'package:flutter/widgets.dart' show Locale, LocalizationsDelegate;
+export "package:flutter/foundation.dart" show SynchronousFuture;
+export "package:flutter/widgets.dart" show Locale, LocalizationsDelegate;
 // export 'package:flutter_localizations/flutter_localizations.dart'
 //     show GlobalMaterialLocalizations;
 export "package:katana/katana.dart";

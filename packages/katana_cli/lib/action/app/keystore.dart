@@ -1,4 +1,5 @@
 // Dart imports:
+import "dart:async";
 import "dart:convert";
 import "dart:io";
 
@@ -278,17 +279,20 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
         "sha1",
         "-binary",
       ]);
-      // ignore: unawaited_futures
-      keytoolResult.stdout.pipe(openSslSha1Restul.stdin);
+      unawaited(
+        keytoolResult.stdout.pipe(openSslSha1Restul.stdin),
+      );
       final openSslBase64Result = await Process.start(openssl, ["base64"]);
-      // ignore: unawaited_futures
-      openSslSha1Restul.stdout.pipe(openSslBase64Result.stdin);
-      // ignore: unawaited_futures
-      openSslBase64Result.stdout.transform(utf8.decoder).forEach((e) {
-        keyHash += e;
-        // ignore: avoid_print
-        print(e);
-      });
+      unawaited(
+        openSslSha1Restul.stdout.pipe(openSslBase64Result.stdin),
+      );
+      unawaited(
+        openSslBase64Result.stdout.transform(utf8.decoder).forEach((e) {
+          keyHash += e;
+          // ignore: avoid_print
+          print(e);
+        }),
+      );
       await openSslBase64Result.exitCode;
       await keyHashFile.writeAsString(keyHash);
     }

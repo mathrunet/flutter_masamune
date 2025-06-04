@@ -9,10 +9,19 @@ class LocalizeLoader {
   /// 翻訳データをロードします。
   LocalizeLoader(this.paths);
 
+  /// The list of paths to load translation data.
+  ///
+  /// 翻訳データをロードするパスのリスト。
   final List<PathValue> paths;
 
+  /// The list of locales.
+  ///
+  /// ロケールのリスト。
   late final List<String> locales;
 
+  /// The list of localized values.
+  ///
+  /// ローカライズされた値のリスト。
   late final List<LocalizeValue> localized;
 
   /// Loads the file.

@@ -1365,160 +1365,160 @@ void main() {
     );
   });
   test("ModelQuery.ModelTime", () async {
-    var query = ModelQuery(
+    var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.equal(key: "time", value: ModelTime.time(10, 10, 10)),
       ],
     );
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 9)), false);
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), true);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 9)), false);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 10)), true);
     expect(
       query.hasMatchAsMap(
-          {"name": "test", "time": ModelTime.time(10, 9, 10).toJson()}),
+          {"name": "test", "time": const ModelTime.time(10, 9, 10).toJson()}),
       false,
     );
     expect(
       query.hasMatchAsMap(
-          {"name": "test", "time": ModelTime.time(10, 10, 10).toJson()}),
+          {"name": "test", "time": const ModelTime.time(10, 10, 10).toJson()}),
       true,
     );
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "time": ModelTime.time(9, 10, 10).toJson()}
+        {"name": "test2", "time": const ModelTime.time(9, 10, 10).toJson()}
       ]),
       false,
     );
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "time": ModelTime.time(10, 10, 10).toJson()}
+        {"name": "test2", "time": const ModelTime.time(10, 10, 10).toJson()}
       ]),
       true,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.notEqual(
             key: "time", value: ModelTime.time(10, 10, 10)),
       ],
     );
-    expect(query.hasMatchAsObject(ModelTime.time(9, 10, 10)), true);
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), false);
+    expect(query.hasMatchAsObject(const ModelTime.time(9, 10, 10)), true);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 10)), false);
     expect(
       query.hasMatchAsMap(
-          {"name": "test", "time": ModelTime.time(9, 10, 10).toJson()}),
+          {"name": "test", "time": const ModelTime.time(9, 10, 10).toJson()}),
       true,
     );
     expect(
       query.hasMatchAsMap(
-          {"name": "test", "time": ModelTime.time(10, 10, 10).toJson()}),
+          {"name": "test", "time": const ModelTime.time(10, 10, 10).toJson()}),
       false,
     );
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "time": ModelTime.time(10, 10, 10).toJson()}
+        {"name": "test2", "time": const ModelTime.time(10, 10, 10).toJson()}
       ]),
       true,
     );
     expect(
       query.hasMatchAsList([
-        {"name": "test", "time": ModelTime.time(10, 10, 10).toJson()},
-        {"name": "test2", "time": ModelTime.time(10, 10, 10).toJson()}
+        {"name": "test", "time": const ModelTime.time(10, 10, 10).toJson()},
+        {"name": "test2", "time": const ModelTime.time(10, 10, 10).toJson()}
       ]),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.lessThan(
             key: "time", value: ModelTime.time(10, 10, 10)),
       ],
     );
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 9)), true);
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), false);
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 11)), false);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 9)), true);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 10)), false);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 11)), false);
     expect(
         query.hasMatchAsMap(
-            {"time": ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
+            {"time": const ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
         true);
     expect(
         query.hasMatchAsMap(
-            {"time": ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+            {"time": const ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
         false);
     expect(
         query.hasMatchAsMap(
-            {"time": ModelTime.time(10, 10, 11).toJson(), "text": "aaaa"}),
+            {"time": const ModelTime.time(10, 10, 11).toJson(), "text": "aaaa"}),
         false);
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.greaterThan(
             key: "time", value: ModelTime.time(10, 10, 10)),
       ],
     );
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 9)), false);
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), false);
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 11)), true);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 9)), false);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 10)), false);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 11)), true);
     expect(
         query.hasMatchAsMap(
-            {"time": ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
+            {"time": const ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
         false);
     expect(
         query.hasMatchAsMap(
-            {"time": ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+            {"time": const ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
         false);
     expect(
         query.hasMatchAsMap(
-            {"time": ModelTime.time(10, 11, 10).toJson(), "text": "aaaa"}),
+            {"time": const ModelTime.time(10, 11, 10).toJson(), "text": "aaaa"}),
         true);
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.lessThanOrEqual(
             key: "time", value: ModelTime.time(10, 10, 10)),
       ],
     );
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 9)), true);
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), true);
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 11)), false);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 9)), true);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 10)), true);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 11)), false);
     expect(
         query.hasMatchAsMap(
-            {"time": ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
+            {"time": const ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
         true);
     expect(
         query.hasMatchAsMap(
-            {"time": ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+            {"time": const ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
         true);
     expect(
         query.hasMatchAsMap(
-            {"time": ModelTime.time(10, 11, 10).toJson(), "text": "aaaa"}),
+            {"time": const ModelTime.time(10, 11, 10).toJson(), "text": "aaaa"}),
         false);
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.greaterThanOrEqual(
             key: "time", value: ModelTime.time(10, 10, 10)),
       ],
     );
-    expect(query.hasMatchAsObject(ModelTime.time(10, 9, 10)), false);
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), true);
-    expect(query.hasMatchAsObject(ModelTime.time(10, 11, 10)), true);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 9, 10)), false);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 10)), true);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 11, 10)), true);
     expect(
         query.hasMatchAsMap(
-            {"time": ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
+            {"time": const ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
         false);
     expect(
         query.hasMatchAsMap(
-            {"time": ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+            {"time": const ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
         true);
     expect(
         query.hasMatchAsMap(
-            {"time": ModelTime.time(10, 11, 10).toJson(), "text": "aaaa"}),
+            {"time": const ModelTime.time(10, 11, 10).toJson(), "text": "aaaa"}),
         true);
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.contains(
@@ -1527,24 +1527,24 @@ void main() {
     );
     expect(
         query.hasMatchAsObject([
-          ModelTime.time(10, 9, 10),
-          ModelTime.time(10, 10, 10),
-          ModelTime.time(10, 11, 10)
+          const ModelTime.time(10, 9, 10),
+          const ModelTime.time(10, 10, 10),
+          const ModelTime.time(10, 11, 10)
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelTime.time(10, 9, 9),
-          ModelTime.time(10, 11, 10),
-          ModelTime.time(10, 11, 11)
+          const ModelTime.time(10, 9, 9),
+          const ModelTime.time(10, 11, 10),
+          const ModelTime.time(10, 11, 11)
         ]),
         false);
     expect(
       query.hasMatchAsMap({
         "time": [
-          ModelTime.time(10, 9, 10).toJson(),
-          ModelTime.time(10, 10, 10).toJson(),
-          ModelTime.time(10, 11, 10).toJson()
+          const ModelTime.time(10, 9, 10).toJson(),
+          const ModelTime.time(10, 10, 10).toJson(),
+          const ModelTime.time(10, 11, 10).toJson()
         ],
         "text": "aaaa"
       }),
@@ -1553,15 +1553,15 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "time": [
-          ModelTime.time(10, 9, 10).toJson(),
-          ModelTime.time(10, 11, 10).toJson(),
-          ModelTime.time(10, 11, 11).toJson()
+          const ModelTime.time(10, 9, 10).toJson(),
+          const ModelTime.time(10, 11, 10).toJson(),
+          const ModelTime.time(10, 11, 11).toJson()
         ],
         "text": "aaaa"
       }),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.containsAny(key: "time", values: [
@@ -1573,31 +1573,31 @@ void main() {
     );
     expect(
         query.hasMatchAsObject([
-          ModelTime.time(10, 9, 10),
-          ModelTime.time(10, 10, 10),
-          ModelTime.time(10, 11, 10)
+          const ModelTime.time(10, 9, 10),
+          const ModelTime.time(10, 10, 10),
+          const ModelTime.time(10, 11, 10)
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelTime.time(10, 9, 10),
-          ModelTime.time(11, 10, 10),
-          ModelTime.time(11, 11, 10)
+          const ModelTime.time(10, 9, 10),
+          const ModelTime.time(11, 10, 10),
+          const ModelTime.time(11, 11, 10)
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelTime.time(11, 9, 10),
-          ModelTime.time(11, 10, 10),
-          ModelTime.time(11, 11, 10)
+          const ModelTime.time(11, 9, 10),
+          const ModelTime.time(11, 10, 10),
+          const ModelTime.time(11, 11, 10)
         ]),
         false);
     expect(
       query.hasMatchAsMap({
         "time": [
-          ModelTime.time(11, 9, 10).toJson(),
-          ModelTime.time(10, 10, 10).toJson(),
-          ModelTime.time(11, 11, 10).toJson()
+          const ModelTime.time(11, 9, 10).toJson(),
+          const ModelTime.time(10, 10, 10).toJson(),
+          const ModelTime.time(11, 11, 10).toJson()
         ],
         "text": "aaaa"
       }),
@@ -1606,9 +1606,9 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "time": [
-          ModelTime.time(10, 9, 10).toJson(),
-          ModelTime.time(11, 10, 10).toJson(),
-          ModelTime.time(11, 11, 10).toJson()
+          const ModelTime.time(10, 9, 10).toJson(),
+          const ModelTime.time(11, 10, 10).toJson(),
+          const ModelTime.time(11, 11, 10).toJson()
         ],
         "text": "aaaa"
       }),
@@ -1617,15 +1617,15 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "time": [
-          ModelTime.time(11, 9, 10).toJson(),
-          ModelTime.time(11, 10, 10).toJson(),
-          ModelTime.time(11, 11, 10).toJson()
+          const ModelTime.time(11, 9, 10).toJson(),
+          const ModelTime.time(11, 10, 10).toJson(),
+          const ModelTime.time(11, 11, 10).toJson()
         ],
         "text": "aaaa"
       }),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.where(key: "time", values: [
@@ -1635,25 +1635,25 @@ void main() {
         ]),
       ],
     );
-    expect(query.hasMatchAsObject(ModelTime.time(10, 9, 9)), false);
-    expect(query.hasMatchAsObject(ModelTime.time(10, 9, 10)), true);
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), true);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 9, 9)), false);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 9, 10)), true);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 10)), true);
     expect(
       query.hasMatchAsMap(
-          {"time": ModelTime.time(10, 9, 9).toJson(), "text": "aaaa"}),
+          {"time": const ModelTime.time(10, 9, 9).toJson(), "text": "aaaa"}),
       false,
     );
     expect(
       query.hasMatchAsMap(
-          {"time": ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
+          {"time": const ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
       true,
     );
     expect(
       query.hasMatchAsMap(
-          {"time": ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+          {"time": const ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
       true,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.notWhere(key: "time", values: [
@@ -1663,22 +1663,22 @@ void main() {
         ]),
       ],
     );
-    expect(query.hasMatchAsObject(ModelTime.time(10, 9, 9)), true);
-    expect(query.hasMatchAsObject(ModelTime.time(10, 9, 10)), false);
-    expect(query.hasMatchAsObject(ModelTime.time(10, 10, 10)), false);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 9, 9)), true);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 9, 10)), false);
+    expect(query.hasMatchAsObject(const ModelTime.time(10, 10, 10)), false);
     expect(
       query.hasMatchAsMap(
-          {"time": ModelTime.time(10, 9, 9).toJson(), "text": "aaaa"}),
+          {"time": const ModelTime.time(10, 9, 9).toJson(), "text": "aaaa"}),
       true,
     );
     expect(
       query.hasMatchAsMap(
-          {"time": ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
+          {"time": const ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
       false,
     );
     expect(
       query.hasMatchAsMap(
-          {"time": ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+          {"time": const ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
       false,
     );
   });
@@ -5266,17 +5266,17 @@ void main() {
     expect(
       query.sort(
         [
-          MapEntry("dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
-          MapEntry("dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
-          MapEntry("dddd", {"time": ModelTime.time(12, 1, 3), "text": "a"}),
-          MapEntry("dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
+          const MapEntry("dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
+          const MapEntry("dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
+          const MapEntry("dddd", {"time": ModelTime.time(12, 1, 3), "text": "a"}),
+          const MapEntry("dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
         ],
       ).toString(),
       [
-        MapEntry("dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
-        MapEntry("dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
-        MapEntry("dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
-        MapEntry("dddd", {"time": ModelTime.time(12, 1, 3), "text": "a"}),
+        const MapEntry("dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
+        const MapEntry("dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
+        const MapEntry("dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
+        const MapEntry("dddd", {"time": ModelTime.time(12, 1, 3), "text": "a"}),
       ].toString(),
     );
     query = const ModelQuery(
@@ -5288,21 +5288,21 @@ void main() {
     expect(
       query.sort(
         [
-          MapEntry("dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
-          MapEntry("dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
-          MapEntry("dddd", {"time": ModelTime.time(12, 1, 3), "text": "a"}),
-          MapEntry("dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
+          const MapEntry("dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
+          const MapEntry("dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
+          const MapEntry("dddd", {"time": ModelTime.time(12, 1, 3), "text": "a"}),
+          const MapEntry("dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
         ],
       ).toString(),
       [
         MapEntry(
-            "dddd", {"time": ModelTime.time(12, 1, 3).toJson(), "text": "a"}),
+            "dddd", {"time": const ModelTime.time(12, 1, 3).toJson(), "text": "a"}),
         MapEntry(
-            "dddd", {"time": ModelTime.time(10, 1, 5).toJson(), "text": "a"}),
+            "dddd", {"time": const ModelTime.time(10, 1, 5).toJson(), "text": "a"}),
         MapEntry(
-            "dddd", {"time": ModelTime.time(8, 1, 4).toJson(), "text": "a"}),
+            "dddd", {"time": const ModelTime.time(8, 1, 4).toJson(), "text": "a"}),
         MapEntry(
-            "dddd", {"time": ModelTime.time(4, 1, 2).toJson(), "text": "a"}),
+            "dddd", {"time": const ModelTime.time(4, 1, 2).toJson(), "text": "a"}),
       ].toString(),
     );
   });

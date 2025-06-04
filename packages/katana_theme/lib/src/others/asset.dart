@@ -390,7 +390,7 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
         client = debugNetworkImageHttpClientProvider!();
       }
       return true;
-    }());
+    }(), "Failed to apply debugNetworkImageHttpClientProvider to the client.");
     return client ?? _sharedHttpClient;
   }
 
@@ -430,7 +430,7 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
     required ImageDecoderCallback decode,
   }) async {
     try {
-      assert(key == this);
+      assert(key == this, "key is not equal to this");
       final file = await _getLocalFile(key);
       if (file.existsSync()) {
         return _loadFileAsync(key, file: file, decode: decode);
@@ -473,7 +473,7 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
       });
       rethrow;
     } finally {
-      chunkEvents.close();
+      unawaited(chunkEvents.close());
     }
   }
 
@@ -542,7 +542,7 @@ class _MemoizedFileImage extends FileImage {
     FileImage key, {
     required Future<ui.Codec> Function(ui.ImmutableBuffer buffer) decode,
   }) async {
-    assert(key == this);
+    assert(key == this, "key is not equal to this");
     if (dirType == FileImageDirType.temporary) {
       final cacheDir = await getTemporaryDirectory();
       final fileName = key.file.path.trimString("/");

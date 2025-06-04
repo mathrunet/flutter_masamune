@@ -56,9 +56,9 @@ class Indent extends StatelessWidget {
   ///
   /// [verticalDirection]で、メイン軸方向として使用する方向を設定できます。
   const Indent({
-    super.key,
-    required this.padding,
     required this.children,
+    required this.padding,
+    super.key,
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.mainAxisSize = MainAxisSize.min,

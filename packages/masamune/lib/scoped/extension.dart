@@ -31,16 +31,3 @@ extension ControllerQueryBaseExtensions<TController extends Listenable>
     return ref.app.controller(this);
   }
 }
-
-/// This is an extension method of [Listenable].
-///
-/// [Listenable]の拡張メソッドです。
-extension ListenableQueryExtensions<TController extends Listenable>
-    on TController {
-  @Deprecated(
-    "This method will no longer be available. このメソッドは利用できなくなります。",
-  )
-  TController watch(RefHasApp ref) {
-    return ref.global(this);
-  }
-}

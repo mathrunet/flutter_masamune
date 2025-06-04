@@ -1,5 +1,16 @@
 part of "/katana_logger.dart";
 
+/// Base class for tracing logs and measuring performance.
+///
+/// Press [start] to start recording, and [stop] to complete and save the recording.
+///
+/// Logs are stored in [name].
+///
+/// ログをトレースしパフォーマンスを計測するためのベースクラス。
+///
+/// [start]で記録を開始し、[stop]で記録を完了、保存します。
+///
+/// [name]でログが保存されます。
 class LoggerTrace {
   LoggerTrace._(this.values, this._onStart, this._onStop);
 

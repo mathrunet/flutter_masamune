@@ -101,31 +101,6 @@ extension QueryScopedValueRefQueryExtensions<TRef extends Ref>
   }
 }
 
-/// Provides an extension method for [RefHasApp] to manage state using [ScopedQuery].
-///
-/// [ScopedQuery]を用いた状態管理を行うための[RefHasApp]用の拡張メソッドを提供します。
-extension RefHasAppQueryExtensions on RefHasApp {
-  @Deprecated(
-    "It is no longer possible to use [query] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.app.query] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[query]の利用はできなくなります。代わりに[ref.app.query]でスコープを指定しての利用を行ってください。",
-  )
-  T query<T>(
-    ScopedQueryBase<T, AppScopedValueRef> query, {
-    bool? autoDisposeWhenUnreferenced,
-  }) {
-    return app.getScopedValue<T, _QueryValue<T, AppScopedValueOrAppRef>>(
-      (ref) => _QueryValue<T, AppScopedValueOrAppRef>(
-        query: query,
-        ref: app,
-        listen: query.listen,
-        autoDisposeWhenUnreferenced:
-            autoDisposeWhenUnreferenced ?? query.autoDisposeWhenUnreferenced,
-      ),
-      listen: query.listen,
-      name: query.queryName,
-    );
-  }
-}
-
 @immutable
 class _QueryValue<T, TRef extends Ref> extends QueryScopedValue<T, TRef> {
   const _QueryValue({

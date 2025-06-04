@@ -24,8 +24,8 @@ class MessageBox extends StatelessWidget {
   ///
   /// [color]にメインの色、[backgroundColor]に背景色を設定することができます。
   const MessageBox({
-    super.key,
     required this.label,
+    super.key,
     this.icon,
     this.textStyle,
     this.backgroundColor,

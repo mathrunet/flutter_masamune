@@ -32,9 +32,9 @@ class LoadingBuilder extends StatelessWidget {
   ///
   /// [indicatorColor]を指定すると[loading]を指定しない場合に[CircularProgressIndicator]を表示するときにその色を変えることができます。
   const LoadingBuilder({
-    super.key,
     required this.futures,
     required this.builder,
+    super.key,
     this.indicatorColor,
     this.loading,
   });

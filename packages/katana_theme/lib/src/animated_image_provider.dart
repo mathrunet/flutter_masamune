@@ -7,6 +7,7 @@ part of "/katana_theme.dart";
 /// 複数の[ImageProvider]を定期的に切り替えて表示するカスタム[ImageProvider]。
 ///
 /// [providers]に表示したい画像のリストを指定し、[duration]で切り替え間隔を指定します。
+@immutable
 class AnimatedImageProvider extends ImageProvider<AnimatedImageProvider> {
   /// A custom [ImageProvider] that periodically switches between and displays multiple [ImageProvider]s.
   ///
@@ -18,7 +19,7 @@ class AnimatedImageProvider extends ImageProvider<AnimatedImageProvider> {
   const AnimatedImageProvider({
     required this.providers,
     this.duration = const Duration(seconds: 1),
-  }) : assert(providers.length > 0, 'providers must not be empty');
+  }) : assert(providers.length > 0, "providers must not be empty");
 
   /// List of images to display.
   ///
@@ -137,7 +138,7 @@ class AnimatedImageStreamCompleter extends ImageStreamCompleter {
             onError: (exception, stackTrace) {
               if (!_disposed) {
                 reportError(
-                  context: ErrorDescription('Failed to load image at index $i'),
+                  context: ErrorDescription("Failed to load image at index $i"),
                   exception: exception,
                   stack: stackTrace,
                 );
@@ -148,7 +149,7 @@ class AnimatedImageStreamCompleter extends ImageStreamCompleter {
       } catch (exception, stackTrace) {
         if (!_disposed) {
           reportError(
-            context: ErrorDescription('Failed to load image at index $i'),
+            context: ErrorDescription("Failed to load image at index $i"),
             exception: exception,
             stack: stackTrace,
           );

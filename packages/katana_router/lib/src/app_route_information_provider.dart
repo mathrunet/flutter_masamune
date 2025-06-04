@@ -103,14 +103,14 @@ class _AppRouteInformationProvider extends RouteInformationProvider
 
   @override
   Future<bool> didPushRouteInformation(RouteInformation routeInformation) {
-    assert(hasListeners);
+    assert(hasListeners, "hasListeners is false");
     _platformReportsNewRouteInformation(routeInformation);
     return SynchronousFuture<bool>(true);
   }
 
   @override
   Future<bool> didPushRoute(String route) {
-    assert(hasListeners);
+    assert(hasListeners, "hasListeners is false");
     if (!route.startsWith("/")) {
       route = "/$route";
     }
@@ -129,12 +129,21 @@ class _AppRouteInformationProvider extends RouteInformationProvider
   }
 }
 
+/// InitialRouteInformation is a class that contains the initial route information.
+///
+/// [InitialRouteInformation]は初期ルート情報を含むクラスです。
 class InitialRouteInformation extends RouteInformation {
+  /// InitialRouteInformation is a class that contains the initial route information.
+  ///
+  /// [InitialRouteInformation]は初期ルート情報を含むクラスです。
   const InitialRouteInformation({
     this.query,
     super.uri,
     super.state,
   });
 
+  /// Query is the query of the route.
+  ///
+  /// [query]はルートのクエリです。
   final RouteQuery? query;
 }

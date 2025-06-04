@@ -116,6 +116,7 @@ abstract class StorageFile {
 /// Class that defines the MimeType.
 ///
 /// MimeTypeを定義したクラス。
+@immutable
 class MimeTypeValue {
   /// Class that defines the MimeType.
   ///

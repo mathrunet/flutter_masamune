@@ -169,9 +169,6 @@ class ScopedValueContainer extends ChangeNotifier {
     }
   }
 
-  @Deprecated("Use [clear] instead.")
-  void reset() => clear();
-
   /// The contents of [ScopedValueContainer] are discarded and reset once.
   ///
   /// ScopedValueState.dispose] of the retained state is executed.

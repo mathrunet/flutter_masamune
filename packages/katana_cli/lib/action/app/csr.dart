@@ -1,4 +1,5 @@
 // Dart imports:
+import "dart:async";
 import "dart:convert";
 import "dart:io";
 
@@ -67,8 +68,10 @@ class AppCsrCliAction extends CliCommand with CliActionMixin {
         runInShell: true,
         mode: ProcessStartMode.normal,
       );
-      // ignore: avoid_print, unawaited_futures
-      process.stdout.transform(utf8.decoder).forEach(print);
+      // ignore: avoid_print
+      unawaited(
+        process.stdout.transform(utf8.decoder).forEach(print),
+      );
       process.stdin.write(".\n");
       process.stdin.write(".\n");
       process.stdin.write(".\n");

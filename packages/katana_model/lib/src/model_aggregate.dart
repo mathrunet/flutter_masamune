@@ -29,11 +29,11 @@ class ModelAggregateQuery<TValue extends AsyncAggregateValue> {
   ///
   /// コレクションのドキュメントの集計を出力するためのクエリ。
   const ModelAggregateQuery._({
-    this.key,
     required this.defaultValue,
     required this.type,
     required this.onCreate,
     required this.onUpdate,
+    this.key,
   });
 
   /// A query to output the total number of documents in the collection.

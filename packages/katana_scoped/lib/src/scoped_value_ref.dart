@@ -234,6 +234,11 @@ class QueryScopedValueRef<TRef extends Ref> implements Ref {
     required ScopedValueState state,
   }) : _state = state;
 
+  /// [Ref] to be used inside [ScopedQuery].
+  ///
+  /// [ScopedQuery]の内部で使用される[Ref]。
+  ///
+  /// {@macro ref}
   final TRef ref;
   final ScopedValueState _state;
 

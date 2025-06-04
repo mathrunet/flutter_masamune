@@ -20,17 +20,17 @@ import "package:flutter/widgets.dart";
 import "package:katana/katana.dart";
 import "package:mime/mime.dart";
 
-import 'src/others/others.dart'
-    if (dart.library.io) 'src/others/others.dart'
-    if (dart.library.js) 'src/web/web.dart'
-    if (dart.library.html) 'src/web/web.dart';
+import "src/others/others.dart"
+    if (dart.library.io) "src/others/others.dart"
+    if (dart.library.js) "src/web/web.dart"
+    if (dart.library.html) "src/web/web.dart";
 
 export "package:katana/katana.dart";
 
-export 'src/others/others.dart'
-    if (dart.library.io) 'src/others/others.dart'
-    if (dart.library.js) 'src/web/web.dart'
-    if (dart.library.html) 'src/web/web.dart';
+export "src/others/others.dart"
+    if (dart.library.io) "src/others/others.dart"
+    if (dart.library.js) "src/web/web.dart"
+    if (dart.library.html) "src/web/web.dart";
 
 part "adapter/local_storage_adapter.dart";
 part "adapter/runtime_storage_adapter.dart";

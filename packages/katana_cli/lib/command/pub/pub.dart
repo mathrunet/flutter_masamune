@@ -1,6 +1,7 @@
 library katana_cli.pub;
 
 // Dart imports:
+import "dart:async";
 import "dart:convert";
 import "dart:io";
 

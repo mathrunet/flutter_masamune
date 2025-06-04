@@ -44,28 +44,6 @@ extension PageOrWidgetScopedValueRefOnExtensions on PageOrWidgetScopedValueRef {
   }
 }
 
-/// Provides extension methods for [RefHasPage] for processing in the lifecycle.
-///
-/// ライフサイクルにおける処理を行うための[RefHasPage]用の拡張メソッドを提供します。
-extension RefHasPageOnExtensions on RefHasPage {
-  @Deprecated(
-    "It is no longer possible to use [on] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.page.on] or [ref.widget.on] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[on]の利用はできなくなります。代わりに[ref.page.on]や[ref.widget.on]でスコープを指定しての利用を行ってください。",
-  )
-  OnContext on({
-    FutureOr<void> Function()? initOrUpdate,
-    VoidCallback? disposed,
-    List<Object> keys = const [],
-  }) {
-    return page.getScopedValue<OnContext, _OnValue>(
-      (ref) => _OnValue(
-        onInitOrUpdate: initOrUpdate,
-        onDispose: disposed,
-        keys: keys,
-      ),
-    );
-  }
-}
-
 @immutable
 class _OnValue extends ScopedValue<OnContext> {
   const _OnValue({
@@ -126,8 +104,8 @@ class _OnValueStateWithWidgetsBindingObserver extends _OnValueState
 
   @override
   Future<void> initValue() async {
-    super.initValue();
     WidgetsBinding.instance.addObserver(this);
+    return super.initValue();
   }
 
   @override

@@ -39,15 +39,17 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
       completer = Completer<void>();
       var navigator = Navigator.of(context, rootNavigator: true);
       final rootContext = navigator.context;
-      futureOr.whenComplete(
-        () async {
-          completer?.complete();
-          completer = null;
-          if (route != null) {
-            navigator.removeRoute(route!);
-            route = null;
-          }
-        },
+      unawaited(
+        futureOr.whenComplete(
+          () async {
+            completer?.complete();
+            completer = null;
+            if (route != null) {
+              navigator.removeRoute(route!);
+              route = null;
+            }
+          },
+        ),
       );
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (completer == null) {

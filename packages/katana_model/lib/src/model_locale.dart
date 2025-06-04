@@ -479,6 +479,13 @@ class LocalizedValue<T>
 /// [locale]に言語情報、[value]に実際の値を格納します。
 @immutable
 class LocalizedLocaleValue<T> {
+  /// Class for restricting the types of values that can be stored in [LocalizedValue].
+  ///
+  /// The language information is stored in [locale] and the actual value in [value].
+  ///
+  /// [LocalizedValue]に格納できる値の型を制限するためのクラス。
+  ///
+  /// [locale]に言語情報、[value]に実際の値を格納します。
   const LocalizedLocaleValue(this.locale, this.value);
 
   /// Language Information.

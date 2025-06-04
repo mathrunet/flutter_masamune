@@ -16,8 +16,8 @@ class LineTileGroup extends StatelessWidget {
   ///
   /// [children]にそれぞれのタイルを指定します。
   const LineTileGroup({
-    super.key,
     required this.children,
+    super.key,
     this.shape,
     this.tileColor,
     this.divider,

@@ -101,9 +101,6 @@ class AppRef
         ?.build();
   }
 
-  @Deprecated("Use [clear] instead.")
-  void reset() => clear();
-
   /// Discard and clear all appscope states.
   ///
   /// Please use this function to reset the application once, such as when logging out.

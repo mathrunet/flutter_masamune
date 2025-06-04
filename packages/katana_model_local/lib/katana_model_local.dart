@@ -21,17 +21,17 @@ import "package:flutter/services.dart";
 import "package:csv/csv.dart";
 import "package:katana_model/katana_model.dart";
 
-import 'src/others/others.dart'
-    if (dart.library.io) 'src/others/others.dart'
-    if (dart.library.js) 'src/web/web.dart'
-    if (dart.library.html) 'src/web/web.dart';
+import "src/others/others.dart"
+    if (dart.library.io) "src/others/others.dart"
+    if (dart.library.js) "src/web/web.dart"
+    if (dart.library.html) "src/web/web.dart";
 
 export "package:katana_model/katana_model.dart";
 
-export 'src/others/others.dart'
-    if (dart.library.io) 'src/others/others.dart'
-    if (dart.library.js) 'src/web/web.dart'
-    if (dart.library.html) 'src/web/web.dart';
+export "src/others/others.dart"
+    if (dart.library.io) "src/others/others.dart"
+    if (dart.library.js) "src/web/web.dart"
+    if (dart.library.html) "src/web/web.dart";
 
 part "adapter/local_model_adapter.dart";
 part "adapter/csv_source_model_adapter.dart";

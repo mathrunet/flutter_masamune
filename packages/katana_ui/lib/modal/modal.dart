@@ -93,11 +93,11 @@ abstract class Modal<T> {
   /// モーダルが閉じるまで`await`で待つことが可能です。
   static Future<T?> show<T>(
     BuildContext context, {
+    required Modal<T> modal,
     Color? backgroundColor,
     Color? color,
     String? title,
     Widget? leading,
-    required Modal<T> modal,
     bool disableBackKey = false,
     bool popOnPress = true,
     bool willShowRepetition = false,
@@ -216,10 +216,10 @@ abstract class Modal<T> {
   /// モーダルが閉じるまで`await`で待つことが可能です。
   static Future<void> alert(
     BuildContext context, {
+    required String title,
     required String submitText,
     Color? backgroundColor,
     Color? color,
-    required String title,
     String? text,
     Widget? child,
     Widget? leading,
@@ -348,11 +348,11 @@ abstract class Modal<T> {
   /// モーダルの確定ボタンが押された場合`true`、キャンセルされた場合は`false`が返されます。
   static Future<bool> confirm(
     BuildContext context, {
-    Color? backgroundColor,
-    Color? color,
+    required String title,
     required String submitText,
     required String cancelText,
-    required String title,
+    Color? backgroundColor,
+    Color? color,
     String? text,
     Widget? child,
     Widget? leading,
@@ -462,11 +462,11 @@ abstract class Modal<T> {
   /// [backgroundColor]で背景色、[color]でテキストカラーを指定します。
   static Future<void> bottomSheet(
     BuildContext context, {
+    required List<Widget> Function(BuildContext context, VoidCallback onClose)
+        builder,
     Color? backgroundColor,
     Color? color,
     bool isScrollControlled = false,
-    required List<Widget> Function(BuildContext context, VoidCallback onClose)
-        builder,
     EdgeInsetsGeometry contentPadding =
         const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
   }) async {
@@ -533,6 +533,9 @@ class ModalRef<T> {
 
   final void Function(T? result) _onClose;
 
+  /// The root [BuildContext] of the modal.
+  ///
+  /// モーダルのルート[BuildContext]。
   BuildContext get rootContext => _context;
   final BuildContext _context;
 

@@ -1,6 +1,12 @@
 part of "/katana_model_openapi_builder.dart";
 
+/// Extension for [APISchemaObject] to convert to Dart type.
+///
+/// [APISchemaObject]をDartの型に変換するための拡張メソッド。
 extension APISchemaObjectExtensions on APISchemaObject {
+  /// Convert to Dart type.
+  ///
+  /// Dart型に変換します。
   String toDartType(
     String key, {
     List<String?> required = const [],

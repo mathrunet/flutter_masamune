@@ -351,13 +351,14 @@ class ModelServerCommandBaseFilter
 /// Condition class used in [ModelServerCommandBase].
 ///
 /// [ModelServerCommandBase]で用いる条件クラス。
+@immutable
 class ModelServerCommandCondition {
   /// Condition class used in [ModelServerCommandBase].
   ///
   /// [ModelServerCommandBase]で用いる条件クラス。
   const ModelServerCommandCondition({
-    this.type,
     required this.key,
+    this.type,
     this.value,
   });
 
@@ -470,6 +471,7 @@ class ModelServerCommandCondition {
 /// Field specification class used in [ModelServerCommandBase].
 ///
 /// [ModelServerCommandBase]で用いるフィールド指定クラス。
+@immutable
 class ModelServerCommandField {
   /// Field specification class used in [ModelServerCommandBase].
   ///

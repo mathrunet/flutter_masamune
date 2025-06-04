@@ -40,11 +40,11 @@ class ScrollBuilder extends StatefulWidget {
   ///
   /// 内部で[ScrollController]が作られ、それが[builder]に渡されます。自身で[ScrollController]を指定したい場合は[controller]に渡してください。
   const ScrollBuilder({
+    required this.builder,
     super.key,
     this.onRefresh,
     this.controller,
     this.showScrollbarWhenDesktopOrWeb = true,
-    required this.builder,
   });
 
   /// If [onRefresh] is not [null], a [RefreshIndicator] will be placed and Pull to Refresh will be enabled.

@@ -20,7 +20,7 @@ import "package:build/build.dart";
 import "package:code_builder/code_builder.dart";
 import "package:csv/csv.dart";
 import "package:dart_style/dart_style.dart";
-import 'package:http/http.dart' as http;
+import "package:http/http.dart" as http;
 import "package:katana_localization_annotation/katana_localization_annotation.dart";
 import "package:source_gen/source_gen.dart";
 

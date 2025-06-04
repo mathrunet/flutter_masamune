@@ -1153,6 +1153,7 @@ enum ModelQueryFilterType {
 ///
 /// [ModelQuery.filters]に与えることで条件を指定します。**複数与えるとAND条件**になります。
 /// {@endtemplate}
+@immutable
 class ModelQueryFilter {
   const ModelQueryFilter._({
     required this.type,

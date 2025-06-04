@@ -510,7 +510,8 @@ abstract class CollectionBase<TModel extends DocumentBase>
       }
       // Aggregationの処理
       for (final entry in _aggregate.entries) {
-        entry.key.onUpdate(update, entry.value);
+        // ここで待ってしまうとアップデート時の同期が取れなくなってしまうため待たない
+        unawaited(entry.key.onUpdate(update, entry.value));
       }
       var notify = false;
       switch (update.status) {

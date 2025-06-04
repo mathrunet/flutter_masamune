@@ -49,7 +49,6 @@ part "model/model_permission_query.dart";
 part "model/model_database_query.dart";
 part "model/model_query_selector.dart";
 part "scoped/controller.dart";
-part "scoped/global.dart";
 part "scoped/extension.dart";
 part "router/router.dart";
 part "src/masamune_app.dart";

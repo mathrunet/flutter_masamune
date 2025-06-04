@@ -10,7 +10,7 @@ library katana_theme;
 
 // Dart imports:
 import "dart:async";
-import 'dart:ui' as ui;
+import "dart:ui" as ui;
 import "dart:ui";
 
 // Flutter imports:
@@ -24,10 +24,10 @@ import "package:katana/katana.dart";
 export "package:katana/katana.dart";
 export "package:katana_theme_annotation/katana_theme_annotation.dart";
 
-export 'src/others/others.dart'
-    if (dart.library.io) 'src/others/others.dart'
-    if (dart.library.js) 'src/web/web.dart'
-    if (dart.library.html) 'src/web/web.dart';
+export "src/others/others.dart"
+    if (dart.library.io) "src/others/others.dart"
+    if (dart.library.js) "src/web/web.dart"
+    if (dart.library.html) "src/web/web.dart";
 
 part "src/app_theme_data.dart";
 part "src/theme_scope.dart";

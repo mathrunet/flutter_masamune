@@ -33,30 +33,6 @@ extension PageOrWidgetScopedValueRefTimerExtensions
   }
 }
 
-/// Provides extended methods for [RefHasPage] to process [Timer].
-///
-/// [Timer]の処理を行うための[RefHasPage]用の拡張メソッドを提供します。
-extension RefHasPageTimerExtensions on RefHasPage {
-  @Deprecated(
-    "It is no longer possible to use [timer] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.page.timer] or [ref.widget.timer] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[timer]の利用はできなくなります。代わりに[ref.page.timer]や[ref.widget.timer]でスコープを指定しての利用を行ってください。",
-  )
-  Timer? timer(
-    FutureOr<void> Function(DateTime currentTime, DateTime startTime)
-        callback, {
-    required Duration duration,
-    Object? name,
-  }) {
-    return page.getScopedValue<Timer?, _TimerValue>(
-      (ref) => _TimerValue(
-        callback: callback,
-        duration: duration,
-      ),
-      listen: true,
-      name: name,
-    );
-  }
-}
-
 @immutable
 class _TimerValue extends ScopedValue<Timer?> {
   const _TimerValue({

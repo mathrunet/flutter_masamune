@@ -33,30 +33,6 @@ extension PageOrWidgetScopedValueRefScheduleExtensions
   }
 }
 
-/// Provides extended methods for [RefHasPage] to perform scheduling.
-///
-/// スケジュール処理を行うための[RefHasPage]用の拡張メソッドを提供します。
-extension RefHasPageScheduleExtensions on RefHasPage {
-  @Deprecated(
-    "It is no longer possible to use [schedule] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.page.schedule] or [ref.widget.schedule] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[schedule]の利用はできなくなります。代わりに[ref.page.schedule]や[ref.widget.schedule]でスコープを指定しての利用を行ってください。",
-  )
-  ScheduleContext schedule(
-    FutureOr<void> Function(DateTime currentTime, DateTime startTime)
-        callback, {
-    required DateTime dateTime,
-    Object? name,
-  }) {
-    return page.getScopedValue<ScheduleContext, _ScheduleValue>(
-      (ref) => _ScheduleValue(
-        callback: callback,
-        dateTime: dateTime,
-      ),
-      listen: true,
-      name: "$name#${dateTime.toIso8601String()}",
-    );
-  }
-}
-
 @immutable
 class _ScheduleValue extends ScopedValue<ScheduleContext> {
   const _ScheduleValue({

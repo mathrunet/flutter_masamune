@@ -4,6 +4,9 @@ part of "/katana_model.dart";
 ///
 /// サーバーにアクセスするための情報を格納します。
 class ModelAccessQuery {
+  /// Stores information for accessing the server.
+  ///
+  /// サーバーにアクセスするための情報を格納します。
   const ModelAccessQuery({
     required this.endpoint,
     this.type = ModelAccessQueryType.get,

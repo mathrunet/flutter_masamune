@@ -13,6 +13,17 @@ part of "/katana_scoped.dart";
 /// 関連するステートを[ScopedValueState]で実装し[createState]で作成します。
 @immutable
 abstract class ScopedValue<TResult> {
+  /// Class for extensions to manage state.
+  ///
+  /// After managing the state, return an object of [TResult].
+  ///
+  /// Implement the relevant state with [ScopedValueState] and create it with [createState].
+  ///
+  /// 状態を管理するための拡張用のクラス。
+  ///
+  /// 状態を管理した後[TResult]のオブジェクトを返すようにします。
+  ///
+  /// 関連するステートを[ScopedValueState]で実装し[createState]で作成します。
   const ScopedValue();
 
   /// Creates and returns the associated state.
@@ -259,6 +270,21 @@ abstract class ScopedValueState<TResult,
 @immutable
 abstract class QueryScopedValue<TResult, TRef extends Ref>
     extends ScopedValue<TResult> {
+  /// Class for extensions to manage state.
+  ///
+  /// After managing the state, return an object of [TResult].
+  ///
+  /// Implement the relevant state with [ScopedValueState] and create it with [createState].
+  ///
+  /// You can also specify a [Ref] that can be referenced by a child element by passing [ref].
+  ///
+  /// 状態を管理するための拡張用のクラス。
+  ///
+  /// 状態を管理した後[TResult]のオブジェクトを返すようにします。
+  ///
+  /// 関連するステートを[ScopedValueState]で実装し[createState]で作成します。
+  ///
+  /// また[ref]を渡すことで子要素に参照可能な[Ref]を指定できます。
   const QueryScopedValue({required this.ref});
 
   /// Specify the associated [TRef], if any.

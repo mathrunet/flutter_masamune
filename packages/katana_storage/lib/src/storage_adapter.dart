@@ -202,9 +202,9 @@ class StorageAdapterScope extends StatefulWidget {
   /// }
   /// ```
   const StorageAdapterScope({
-    super.key,
     required this.child,
     required this.adapter,
+    super.key,
   });
 
   /// Children's widget.

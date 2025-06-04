@@ -8,8 +8,8 @@ class SnsImage extends StatelessWidget {
   ///
   /// サイズを指定して画像を表示するウィジェット。
   const SnsImage({
-    super.key,
     required this.images,
+    super.key,
     this.fit = BoxFit.cover,
     this.space = 2,
     this.height = 240,

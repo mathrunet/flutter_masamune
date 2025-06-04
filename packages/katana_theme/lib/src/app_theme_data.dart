@@ -3388,6 +3388,9 @@ class FontThemeData {
 ///
 /// AppBarのテーマを拡張するための拡張テーマ。
 class AppBarThemeExtension extends ThemeExtension<AppBarThemeExtension> {
+  /// Extended theme to extend the AppBar theme.
+  ///
+  /// AppBarのテーマを拡張するための拡張テーマ。
   AppBarThemeExtension({
     this.collapsedForegroundColor,
     this.expandedForegroundColor,
@@ -3443,6 +3446,9 @@ class AppBarThemeExtension extends ThemeExtension<AppBarThemeExtension> {
 ///
 /// Scaffoldのテーマを拡張するための拡張テーマ。
 class ScaffoldThemeExtension extends ThemeExtension<ScaffoldThemeExtension> {
+  /// Extended theme to extend the Scaffold theme.
+  ///
+  /// Scaffoldのテーマを拡張するための拡張テーマ。
   ScaffoldThemeExtension({
     this.backgroundColor,
     this.foregourendColor,

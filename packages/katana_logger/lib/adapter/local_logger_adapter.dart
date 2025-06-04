@@ -50,7 +50,7 @@ class LocalLoggerAdapter extends LoggerAdapter {
     onInitialize: (database) async {
       try {
         database._data = await LoggerExporter.import(
-          "${LoggerExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
+          "${await LoggerExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
         );
       } catch (e) {
         database._data = {};
@@ -58,7 +58,7 @@ class LocalLoggerAdapter extends LoggerAdapter {
     },
     onSaved: (database) async {
       await LoggerExporter.export(
-        "${LoggerExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
+        "${await LoggerExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
         database._data,
       );
     },
@@ -66,7 +66,7 @@ class LocalLoggerAdapter extends LoggerAdapter {
 
   @override
   Future<void> send(String name, {DynamicMap? parameters}) async {
-    database.write(name, parameters: parameters);
+    await database.write(name, parameters: parameters);
   }
 
   @override
@@ -100,7 +100,7 @@ class _LocalLoggerTraceValue extends LoggerTraceValue {
   @override
   Future<void> stop(DateTime startTime, DateTime endTime) async {
     final diff = endTime.difference(startTime);
-    adapter.send(
+    await adapter.send(
       name,
       parameters: {"duration": diff.inMilliseconds},
     );

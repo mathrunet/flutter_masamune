@@ -39,9 +39,9 @@ class ListenableListener<T extends Listenable> extends StatefulWidget {
   ///
   /// [Listenable]の変更を監視し変更があった場合、[builder]の内容を更新するウィジェット。
   const ListenableListener({
-    super.key,
     required this.listenable,
     required this.builder,
+    super.key,
   });
 
   /// [Listenable] for monitoring.

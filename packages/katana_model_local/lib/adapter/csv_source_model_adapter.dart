@@ -83,11 +83,11 @@ class CsvCollectionSourceModelAdapter extends CsvSourceModelAdapter {
   /// }
   /// ```
   const CsvCollectionSourceModelAdapter({
+    required super.source,
+    required this.idKey,
     super.initialValue,
     super.database,
     super.collectionPath,
-    required super.source,
-    required this.idKey,
     super.requestHeaders,
     super.requestMethod,
     this.skipIdPrefix = "#",
@@ -225,11 +225,11 @@ class CsvDocumentSourceModelAdapter extends CsvSourceModelAdapter {
   /// }
   /// ```
   const CsvDocumentSourceModelAdapter({
+    required super.source,
     super.initialValue,
     super.database,
     super.collectionPath,
     this.documentId,
-    required super.source,
     this.offset,
     this.direction = Axis.horizontal,
     super.requestHeaders,
@@ -457,9 +457,9 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
   ///
   /// [fromCsv]に変換用の処理を記述することでCSVのデータを[Map]に変換します。
   const CsvSourceModelAdapter({
+    required this.source,
     NoSqlDatabase? database,
     this.initialValue,
-    required this.source,
     this.requestHeaders,
     this.requestMethod,
     this.collectionPath,

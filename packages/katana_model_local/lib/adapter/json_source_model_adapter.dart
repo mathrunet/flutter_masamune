@@ -97,10 +97,10 @@ class JsonCollectionSourceModelAdapter extends JsonSourceModelAdapter {
   /// }
   /// ```
   const JsonCollectionSourceModelAdapter({
+    required super.source,
     super.initialValue,
     super.database,
     super.collectionPath,
-    required super.source,
     this.idKey,
     super.requestHeaders,
     super.requestMethod,
@@ -235,11 +235,11 @@ class JsonDocumentSourceModelAdapter extends JsonSourceModelAdapter {
   /// }
   /// ```
   const JsonDocumentSourceModelAdapter({
+    required super.source,
     super.initialValue,
     super.database,
     super.collectionPath,
     this.documentId,
-    required super.source,
     super.requestHeaders,
     super.requestMethod,
   });
@@ -397,9 +397,9 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
   ///
   /// [fromJson]に変換用の処理を記述することでJsonのデータを[Map]に変換します。
   const JsonSourceModelAdapter({
+    required this.source,
     NoSqlDatabase? database,
     this.initialValue,
-    required this.source,
     this.requestHeaders,
     this.requestMethod,
     this.collectionPath,

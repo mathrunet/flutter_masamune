@@ -311,7 +311,7 @@ class NoSqlDatabase {
     value = Map.from(value ?? {})..removeWhere((key, value) => value == null);
     if (value.isEmpty) {
       data._deleteFromPath(paths, 0);
-      onDeleted?.call(this);
+      await onDeleted?.call(this);
       return null;
     }
     data._writeToPath(paths, 0, value);

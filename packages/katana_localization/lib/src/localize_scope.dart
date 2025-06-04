@@ -52,9 +52,9 @@ class LocalizeScope extends StatefulWidget {
   /// );
   /// ```
   const LocalizeScope({
-    super.key,
     required this.localize,
     required this.builder,
+    super.key,
   });
 
   /// AppLocalizeBase] manages the language settings for the application.

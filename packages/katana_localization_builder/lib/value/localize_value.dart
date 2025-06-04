@@ -21,6 +21,17 @@ String _replaceText(String text) {
 ///
 /// [node]に起点となる[LocalizeWord]を入れます。
 class LocalizeValue {
+  /// Value to create a class for translation.
+  ///
+  /// Data is stored in a tree structure.
+  ///
+  /// Put the starting point [LocalizeWord] in [node].
+  ///
+  /// 翻訳のクラスを作るための値。
+  ///
+  /// ツリー構造でデータが保存されます。
+  ///
+  /// [node]に起点となる[LocalizeWord]を入れます。
   LocalizeValue(this.id, this.node);
 
   /// Starting point [LocalizeWord].
@@ -260,6 +271,17 @@ class LocalizeValue {
     }
   }
 
+  /// Add [LocalizeValue] to [current] by recursively building a tree structure.
+  ///
+  /// This method constructs a hierarchical tree structure of [LocalizeValue] nodes
+  /// from a list of [LocalizeWord] objects. It processes words sequentially,
+  /// creating new nodes or navigating to existing ones as needed.
+  ///
+  /// 翻訳キーの単語リストから[LocalizeValue]のツリー構造を再帰的に構築します。
+  ///
+  /// このメソッドは[LocalizeWord]オブジェクトのリストから階層的なツリー構造の
+  /// [LocalizeValue]ノードを構築します。単語を順次処理し、必要に応じて
+  /// 新しいノードを作成するか、既存のノードに移動します。
   static void add(
     List<LocalizeValue> current,
     List<LocalizeWord> words,

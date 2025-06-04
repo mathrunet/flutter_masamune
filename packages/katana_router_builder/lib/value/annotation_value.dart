@@ -90,7 +90,7 @@ class AnnotationValue {
   static final _nameWithSingleQuoteRegExp = RegExp(r"name\s*:\s*('[^']+'),?");
   static final _nameWithDoubleQuoteRegExp = RegExp(r'name\s*:\s*("[^"]+"),?');
   static final _nameWithVariableRegExp =
-      RegExp(r'name\s*:\s*([a-zA-Z0-9$._-]+),?');
+      RegExp(r"name\s*:\s*([a-zA-Z0-9$._-]+),?");
   static final _transitionRegExp =
       RegExp("transition\\s*:\\s*([a-zA-Z0-9\$._'\"-]+),?");
   static final _implementTypeRegExp =

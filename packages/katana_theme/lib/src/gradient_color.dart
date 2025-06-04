@@ -131,31 +131,31 @@ class GradientColor implements Color {
   }
 
   @override
-  @Deprecated('Use .a.')
+  @Deprecated("Use .a.")
   int get alpha => mainColor.alpha;
 
   @override
-  @Deprecated('Use .b.')
+  @Deprecated("Use .b.")
   int get blue => mainColor.blue;
 
   @override
-  @Deprecated('Use .g.')
+  @Deprecated("Use .g.")
   int get green => mainColor.green;
 
   @override
-  @Deprecated('Use .a.')
+  @Deprecated("Use .a.")
   double get opacity => mainColor.opacity;
 
   @override
-  @Deprecated('Use .r.')
+  @Deprecated("Use .r.")
   int get red => mainColor.red;
 
   @override
-  @Deprecated('Use component accessors like .r or .g.')
+  @Deprecated("Use component accessors like .r or .g.")
   int get value => mainColor.value;
 
   @override
-  @Deprecated('Use .withValues() to avoid precision loss.')
+  @Deprecated("Use .withValues() to avoid precision loss.")
   Color withOpacity(double opacity) {
     return mainColor.withOpacity(opacity);
   }

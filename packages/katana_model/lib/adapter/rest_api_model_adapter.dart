@@ -16,12 +16,12 @@ abstract class RestApiModelAdapter extends ModelAdapter {
   ///
   /// RestAPIとの通信を宣言的に記述することができます。
   const RestApiModelAdapter({
+    required this.builders,
+    required this.endpoint,
     NoSqlDatabase? database,
     this.validator,
-    required this.builders,
     this.headers = defaultHeaders,
     this.checkError = defaultCheckError,
-    required this.endpoint,
   }) : _database = database;
 
   /// Designated database. Please use for testing purposes, etc.
@@ -401,9 +401,9 @@ class CollectionModelRestApiQuery extends CollectionModelRestApiBuilder {
   const CollectionModelRestApiQuery({
     required super.match,
     required this.endpoint,
+    required this.onLoaded,
     this.checkError,
     this.headers,
-    required this.onLoaded,
   }) : super._();
 
   /// A function that returns the endpoint of the collection.
@@ -554,9 +554,9 @@ class LoadDocumentModelRestApiQuery extends LoadDocumentModelRestApiBuilder {
   /// REST APIを利用したドキュメントの読み込み用のモデルアダプターを作成するためのビルダー。
   const LoadDocumentModelRestApiQuery({
     required this.endpoint,
+    required this.onLoad,
     this.checkError,
     this.headers,
-    required this.onLoad,
   }) : super._();
 
   /// A function that returns the endpoint of the document.

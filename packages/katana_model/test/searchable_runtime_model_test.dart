@@ -232,7 +232,7 @@ void main() {
     );
 
     final collection = SearchableRuntimeTestValueCollectionModel(query);
-    collection.search("test");
+    await collection.search("test");
     await collection.loading;
     expect(collection, []);
     final query1 = DocumentModelQuery("test/aaa", adapter: adapter);
@@ -321,20 +321,20 @@ void main() {
       adapter: adapter,
     );
     final collection = SearchableRuntimeTestValueCollectionModel(query);
-    collection.search("test");
+    await collection.search("test");
     await collection.loading;
     expect(collection, []);
-    collection.search("aaaa");
+    await collection.search("aaaa");
     await collection.loading;
     expect(collection.map((e) => e.value), [
       const TestValue(name: "aaaa", text: "bbbb"),
     ]);
-    collection.search("dddd");
+    await collection.search("dddd");
     await collection.loading;
     expect(collection.map((e) => e.value), [
       const TestValue(name: "cccc", text: "dddd"),
     ]);
-    collection.search("gggg");
+    await collection.search("gggg");
     await collection.loading;
     expect(collection, []);
   });

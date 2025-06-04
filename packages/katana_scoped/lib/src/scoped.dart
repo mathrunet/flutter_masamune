@@ -25,8 +25,8 @@ class Scoped extends StatefulWidget {
   ///
   /// [builder]を渡すことでその中に更新を反映したいウィジェットを配置することができます。
   const Scoped({
-    super.key,
     required this.builder,
+    super.key,
   });
 
   /// A builder for building widgets under the page.
@@ -303,9 +303,9 @@ class ScopedWidgetScope extends StatefulWidget {
   ///
   /// [ScopedWidgetScope.of]で先祖にあるウィジェットを取り出すことができます。
   const ScopedWidgetScope({
-    super.key,
     required this.child,
     required this.widget,
+    super.key,
   });
 
   /// Widgets that inherit from [ScopedWidgetBase].

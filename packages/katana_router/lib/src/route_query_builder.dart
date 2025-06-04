@@ -175,7 +175,14 @@ class _BootRouteQueryBuilderState extends State<BootRouteQueryBuilder>
       ]);
       router._forcePop();
     } catch (e, stackTrace) {
-      widget.onError(context, this, e, stackTrace);
+      final context = this.context;
+      if (context.mounted) {
+        widget.onError(context, this, e, stackTrace);
+      } else {
+        throw Exception(
+          "The context is not mounted. Please check the log above for details.",
+        );
+      }
     }
   }
 }
@@ -268,6 +275,17 @@ class _BootRouteQuery extends RouteQuery {
 /// [build]で実装した画面が表示されます。
 @immutable
 abstract class UnknownRouteQueryBuilder extends StatelessWidget {
+  /// [RouteQueryBuilder] for building a page (404 page) to display if the page passed to [AppRouter] is not a hit for the entered path (URL).
+  ///
+  /// Passing it to [AppRouter] will display a 404 page.
+  ///
+  /// The screen implemented by [build] will be displayed.
+  ///
+  /// 入力されたパス（URL）に対し、[AppRouter]に渡したページがヒットしなかった場合に表示するページ（404ページ）のビルドを行うための[RouteQueryBuilder]。
+  ///
+  /// [AppRouter]に渡すことにより404ページを表示します。
+  ///
+  /// [build]で実装した画面が表示されます。
   const UnknownRouteQueryBuilder({super.key});
 
   /// Passing the current path to [path] returns the corresponding [RouteQuery].

@@ -36,29 +36,6 @@ extension PageOrWidgetScopedValueRefPeriodicExtensions
   }
 }
 
-/// Provides extension methods for [RefHasPage] to perform periodic processing.
-///
-/// 定期処理を行うための[RefHasPage]用の拡張メソッドを提供します。
-extension RefHasPagePeriodicExtensions on RefHasPage {
-  @Deprecated(
-    "It is no longer possible to use [periodic] by directly specifying [PageRef] or [WidgetRef]. Instead, use [ref.page.periodic] or [ref.widget.periodic] to specify the scope. [PageRef]や[WidgetRef]を直接指定しての[periodic]の利用はできなくなります。代わりに[ref.page.periodic]や[ref.widget.periodic]でスコープを指定しての利用を行ってください。",
-  )
-  Timer periodic(
-    FutureOr<void> Function(DateTime currentTime, DateTime startTime)
-        callback, {
-    required Duration duration,
-    Object? name,
-  }) {
-    return page.getScopedValue<Timer, _PeriodicValue>(
-      (ref) => _PeriodicValue(
-        callback: callback,
-        duration: duration,
-      ),
-      name: name,
-    );
-  }
-}
-
 @immutable
 class _PeriodicValue extends ScopedValue<Timer> {
   const _PeriodicValue({

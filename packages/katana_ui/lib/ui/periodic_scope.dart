@@ -16,9 +16,9 @@ class PeriodicScope extends StatefulWidget {
   ///
   /// [duration]の間隔ごとに[builder]を描画します。
   const PeriodicScope({
-    super.key,
     required this.duration,
     required this.builder,
+    super.key,
   });
 
   /// Interval between drawings.

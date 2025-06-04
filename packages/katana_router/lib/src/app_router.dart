@@ -110,11 +110,11 @@ class AppRouter extends ChangeNotifier
   /// ```
   /// {@endtemplate}
   AppRouter({
+    required List<RouteQueryBuilder> pages,
     UnknownRouteQueryBuilder? unknown,
     BootRouteQueryBuilder? boot,
     String? initialPath,
     RouteQuery? initialQuery,
-    required List<RouteQueryBuilder> pages,
     List<RedirectQuery> redirect = const [],
     List<NavigatorObserver> observers = const [],
     int redirectLimit = 5,
@@ -149,7 +149,7 @@ class AppRouter extends ChangeNotifier
 
     _routeInformationParser = _AppRouteInformationParser(this);
 
-    _hidden = nested || initialQuery?.hidden == true;
+    _hidden = nested || (initialQuery?.hidden ?? false);
     _initialPath = initialPath;
     _initialQuery = initialQuery;
   }
@@ -633,11 +633,11 @@ class NestedAppRouter extends AppRouter {
   ///
   /// {@macro katana_router.app_router}
   NestedAppRouter({
+    required super.pages,
     super.unknown,
     super.boot,
     super.initialPath,
     super.initialQuery,
-    required super.pages,
     super.redirect = const [],
     super.observers = const [],
     super.redirectLimit = 5,
@@ -659,10 +659,17 @@ class NestedAppRouter extends AppRouter {
 /// [AppRouter.of]でここで渡した[AppRouter]の値を取ることができます。
 @immutable
 class AppRouteScope extends InheritedWidget {
+  /// [InheritedWidget] for placing [AppRouter] on the widget tree.
+  ///
+  /// You can take the value of [AppRouter] passed here in [AppRouter.of].
+  ///
+  /// [AppRouter]をウィジェットツリー上に配置するための[InheritedWidget]。
+  ///
+  /// [AppRouter.of]でここで渡した[AppRouter]の値を取ることができます。
   const AppRouteScope({
-    super.key,
     required this.router,
     required super.child,
+    super.key,
   });
 
   /// Value of [AppRouter].
@@ -693,12 +700,12 @@ class _PageStackContainer<T> {
 @immutable
 class _AppRouterConfig {
   const _AppRouterConfig({
+    required this.navigatorKey,
     this.boot,
     this.unknown,
     this.pages = const [],
     this.redirect = const [],
     this.redirectLimite = 5,
-    required this.navigatorKey,
     this.defaultTransitionQuery,
     this.backgroundWidget = const Scaffold(),
     this.reportsRouteUpdateToEngine = true,

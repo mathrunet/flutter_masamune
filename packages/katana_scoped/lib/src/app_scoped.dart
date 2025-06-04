@@ -61,9 +61,9 @@ class AppScoped extends StatefulWidget {
   /// }
   /// ```
   const AppScoped({
-    super.key,
     required this.appRef,
     required this.child,
+    super.key,
   });
 
   /// Reference for managing the state of the app scope.

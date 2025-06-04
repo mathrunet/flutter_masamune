@@ -9,6 +9,13 @@ part of "/katana_model.dart";
 /// [onRetrieveUserId]には、認証済みのユーザーIDを取得する処理を指定します。
 @immutable
 class DatabaseValidator {
+  /// An object that validates information in the database.
+  ///
+  /// The [onRetrieveUserId] field specifies the process of retrieving the authenticated user ID.
+  ///
+  /// データベースの情報をバリデートするオブジェクト。
+  ///
+  /// [onRetrieveUserId]には、認証済みのユーザーIDを取得する処理を指定します。
   const DatabaseValidator({
     required this.onRetrieveUserId,
   });
@@ -244,8 +251,8 @@ class DatabaseValidator {
   /// [oldValue]に値があり、[newValue]に値がある場合は、更新とみなされます。
   Future<void> onSaveDocument(
     ModelAdapterDocumentQuery query, {
-    DynamicMap? oldValue,
     required DynamicMap newValue,
+    DynamicMap? oldValue,
   }) async {
     // 新規作成
     if (oldValue.isEmpty && newValue.isNotEmpty) {
@@ -410,7 +417,9 @@ class DatabaseValidationExcepction implements Exception {
   @override
   String toString() {
     Object? message = this.message;
-    if (message == null) return "DatabaseValidationExcepction";
+    if (message == null) {
+      return "DatabaseValidationExcepction";
+    }
     return "DatabaseValidationExcepction: $message";
   }
 }

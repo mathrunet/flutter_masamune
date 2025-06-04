@@ -12,17 +12,23 @@ Future<void> runGuardedErrorValidation(
   void Function(Object error, StackTrace stackTrace) onError,
 ) async {
   Completer<void>? completer = Completer();
-  runZonedGuarded(
-    () async {
-      await process();
-      completer?.completeError("Should not be here");
-      completer = null;
-    },
-    (error, stack) {
-      completer?.complete();
-      completer = null;
-      onError(error, stack);
-    },
+  // ここで待つと実行が終わらないため待たない
+  unawaited(
+    runZonedGuarded(
+      () async {
+        await process();
+        completer?.completeError("Should not be here");
+        completer = null;
+      },
+      (error, stack) {
+        if (completer == null) {
+          return;
+        }
+        completer?.complete();
+        completer = null;
+        onError(error, stack);
+      },
+    ),
   );
   await completer?.future;
 }

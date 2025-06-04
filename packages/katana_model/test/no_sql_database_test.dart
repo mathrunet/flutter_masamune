@@ -1164,7 +1164,7 @@ void main() {
         "image": "ccc",
       }
     });
-    db.replace({
+    await db.replace({
       "test": {
         "0002": {
           "num": 2,

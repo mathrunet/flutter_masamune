@@ -101,7 +101,7 @@ extension ThemeColorExtensions on Color {
   ///
   /// [Color]を[amount]の分だけより暗くします。
   Color darken([double amount = 0.1]) {
-    assert(amount >= 0 && amount <= 1);
+    assert(amount >= 0 && amount <= 1, "amount must be between 0 and 1");
     final hsl = HSLColor.fromColor(this);
     final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
     return hslDark.toColor();
@@ -111,7 +111,7 @@ extension ThemeColorExtensions on Color {
   ///
   /// [Color]を[amount]の分だけより明るくします。
   Color lighten([double amount = 0.1]) {
-    assert(amount >= 0 && amount <= 1);
+    assert(amount >= 0 && amount <= 1, "amount must be between 0 and 1");
     final hsl = HSLColor.fromColor(this);
     final hslLight =
         hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
@@ -228,20 +228,20 @@ extension ThemeDataExtensions on ThemeData {
   ///
   /// アセットテーマを返します。
   AssetThemeData get assetTheme {
-    return AssetThemeData._();
+    return const AssetThemeData._();
   }
 
   /// Returns the font theme.
   ///
   /// フォントテーマを返します。
   FontThemeData get fontTheme {
-    return FontThemeData._();
+    return const FontThemeData._();
   }
 
   /// Returns the widget theme.
   ///
   /// ウィジェットテーマを返します。
   WidgetThemeData get widgetTheme {
-    return WidgetThemeData._();
+    return const WidgetThemeData._();
   }
 }
