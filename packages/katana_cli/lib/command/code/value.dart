@@ -81,12 +81,18 @@ part "$baseName.extensions.dart";
 @formValue
 @immutable
 abstract class ${className}Value with _\$${className}Value {
+  /// Immutable value.
   const factory ${className}Value({
      // TODO: Set the data schema.
      \${2}
   }) = _${className}Value;
   const ${className}Value._();
 
+  /// Convert from JSON.
+  ///
+  /// ```dart
+  /// ${className}Value.fromJson(json);
+  /// ```
   factory ${className}Value.fromJson(Map<String, Object?> json) => _\$${className}ValueFromJson(json);
 
   /// Query for form value.

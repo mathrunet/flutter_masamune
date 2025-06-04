@@ -98,12 +98,18 @@ part "$baseName.api.dart";
 // TODO: Set the path for the document.
 @DocumentModelPath("\${1:$path}")
 abstract class ${className}Model with _\$${className}Model {
+  /// Value for model.
   const factory ${className}Model({
      // TODO: Set the data fields.
      \${2}
   }) = _${className}Model;
   const ${className}Model._();
 
+  /// Convert from JSON.
+  ///
+  /// ```dart
+  /// ${className}Model.fromJson(json);
+  /// ```
   factory ${className}Model.fromJson(Map<String, Object?> json) => _\$${className}ModelFromJson(json);
 
   /// Query for document.

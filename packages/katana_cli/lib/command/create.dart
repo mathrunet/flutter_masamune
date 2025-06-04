@@ -2444,11 +2444,17 @@ typedef CounterModelRef = ModelRef<CounterModel>?;
 @immutable
 @DocumentModelPath("app/counter")
 abstract class CounterModel with _\$CounterModel {
+  /// Value for model.
   const factory CounterModel({
      @Default(ModelCounter(0)) ModelCounter counter,
   }) = _CounterModel;
   const CounterModel._();
 
+  /// Convert from JSON.
+  ///
+  /// ```dart
+  /// CounterModel.fromJson(json);
+  /// ```
   factory CounterModel.fromJson(Map<String, Object?> json) => _\$CounterModelFromJson(json);
 
   /// Query for document.

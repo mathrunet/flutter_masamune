@@ -86,6 +86,7 @@ class ModelUsageMdCliAiCode extends CliAiCode {
                   // TODO: Set the path for the collection.
                   @CollectionModelPath("memo")
                   abstract class MemoModel with _\$MemoModel {
+                    /// Value for model.
                     const factory MemoModel({
                       // TODO: Set the data fields.
                       required String title,
@@ -98,6 +99,11 @@ class ModelUsageMdCliAiCode extends CliAiCode {
                     }) = _MemoModel;
                     const MemoModel._();
 
+                    /// Convert from JSON.
+                    ///
+                    /// ```dart
+                    /// MemoModel.fromJson(json);
+                    /// ```
                     factory MemoModel.fromJson(Map<String, Object?> json) => _\$MemoModelFromJson(json);
 
                     /// Query for document.
