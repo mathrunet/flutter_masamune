@@ -1,5 +1,5 @@
 // For web.
-library masamune_purchase_stripe.web;
+library;
 
 // Flutter imports:
 import "package:flutter/material.dart";

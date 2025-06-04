@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// Plug-in for Masamune that provides a app review function.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library masamune_app_review;
+library;
 
 // Flutter imports:
 import "dart:async";

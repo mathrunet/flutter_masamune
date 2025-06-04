@@ -1,7 +1,7 @@
 // For web.
 // ignore_for_file: avoid_web_libraries_in_flutter
 
-library masamune_agora.web;
+library;
 
 // Dart imports:
 import "dart:js_interop";

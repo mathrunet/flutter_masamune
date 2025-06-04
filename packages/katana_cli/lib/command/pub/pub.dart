@@ -1,4 +1,4 @@
-library katana_cli.pub;
+library;
 
 // Dart imports:
 import "dart:async";

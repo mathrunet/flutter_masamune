@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library katana_firebase;
+library;
 
 // Dart imports:
 import "dart:async";

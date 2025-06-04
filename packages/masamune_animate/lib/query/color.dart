@@ -47,7 +47,7 @@ extension ColorEffectQueryExtensions on AnimateRunner {
 }
 
 class _ColorEffectQuery extends EffectQuery<Color> {
-  _ColorEffectQuery({
+  const _ColorEffectQuery({
     required super.duration,
     super.curve = Curves.linear,
     super.begin = Colors.transparent,

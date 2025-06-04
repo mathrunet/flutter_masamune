@@ -1,7 +1,7 @@
 /// For web.
 // ignore_for_file: implementation_imports
 
-library katana_theme.web;
+library;
 
 // Dart imports:
 import "dart:async";

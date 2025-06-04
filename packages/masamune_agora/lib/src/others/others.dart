@@ -1,5 +1,5 @@
 // For others.
-library masamune_agora.others;
+library;
 
 import "package:permission_handler/permission_handler.dart"
     as permission_handler;

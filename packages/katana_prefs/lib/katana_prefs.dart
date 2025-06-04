@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// The base part of the package for type-safe use of retrieving and storing Shared Preferences values, defining data in a Freezed-like fashion.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library katana_prefs;
+library;
 
 // Flutter imports:
 import "package:flutter/widgets.dart";

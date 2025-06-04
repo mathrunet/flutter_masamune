@@ -1445,12 +1445,16 @@ void main() {
             {"time": const ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
         true);
     expect(
-        query.hasMatchAsMap(
-            {"time": const ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+        query.hasMatchAsMap({
+          "time": const ModelTime.time(10, 10, 10).toJson(),
+          "text": "aaaa"
+        }),
         false);
     expect(
-        query.hasMatchAsMap(
-            {"time": const ModelTime.time(10, 10, 11).toJson(), "text": "aaaa"}),
+        query.hasMatchAsMap({
+          "time": const ModelTime.time(10, 10, 11).toJson(),
+          "text": "aaaa"
+        }),
         false);
     query = const ModelQuery(
       "aaaa/bbbb",
@@ -1467,12 +1471,16 @@ void main() {
             {"time": const ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
         false);
     expect(
-        query.hasMatchAsMap(
-            {"time": const ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+        query.hasMatchAsMap({
+          "time": const ModelTime.time(10, 10, 10).toJson(),
+          "text": "aaaa"
+        }),
         false);
     expect(
-        query.hasMatchAsMap(
-            {"time": const ModelTime.time(10, 11, 10).toJson(), "text": "aaaa"}),
+        query.hasMatchAsMap({
+          "time": const ModelTime.time(10, 11, 10).toJson(),
+          "text": "aaaa"
+        }),
         true);
     query = const ModelQuery(
       "aaaa/bbbb",
@@ -1489,12 +1497,16 @@ void main() {
             {"time": const ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
         true);
     expect(
-        query.hasMatchAsMap(
-            {"time": const ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+        query.hasMatchAsMap({
+          "time": const ModelTime.time(10, 10, 10).toJson(),
+          "text": "aaaa"
+        }),
         true);
     expect(
-        query.hasMatchAsMap(
-            {"time": const ModelTime.time(10, 11, 10).toJson(), "text": "aaaa"}),
+        query.hasMatchAsMap({
+          "time": const ModelTime.time(10, 11, 10).toJson(),
+          "text": "aaaa"
+        }),
         false);
     query = const ModelQuery(
       "aaaa/bbbb",
@@ -1511,12 +1523,16 @@ void main() {
             {"time": const ModelTime.time(10, 9, 10).toJson(), "text": "aaaa"}),
         false);
     expect(
-        query.hasMatchAsMap(
-            {"time": const ModelTime.time(10, 10, 10).toJson(), "text": "aaaa"}),
+        query.hasMatchAsMap({
+          "time": const ModelTime.time(10, 10, 10).toJson(),
+          "text": "aaaa"
+        }),
         true);
     expect(
-        query.hasMatchAsMap(
-            {"time": const ModelTime.time(10, 11, 10).toJson(), "text": "aaaa"}),
+        query.hasMatchAsMap({
+          "time": const ModelTime.time(10, 11, 10).toJson(),
+          "text": "aaaa"
+        }),
         true);
     query = const ModelQuery(
       "aaaa/bbbb",
@@ -5266,10 +5282,14 @@ void main() {
     expect(
       query.sort(
         [
-          const MapEntry("dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
-          const MapEntry("dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
-          const MapEntry("dddd", {"time": ModelTime.time(12, 1, 3), "text": "a"}),
-          const MapEntry("dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
+          const MapEntry(
+              "dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
+          const MapEntry(
+              "dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
+          const MapEntry(
+              "dddd", {"time": ModelTime.time(12, 1, 3), "text": "a"}),
+          const MapEntry(
+              "dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
         ],
       ).toString(),
       [
@@ -5288,21 +5308,25 @@ void main() {
     expect(
       query.sort(
         [
-          const MapEntry("dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
-          const MapEntry("dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
-          const MapEntry("dddd", {"time": ModelTime.time(12, 1, 3), "text": "a"}),
-          const MapEntry("dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
+          const MapEntry(
+              "dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
+          const MapEntry(
+              "dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
+          const MapEntry(
+              "dddd", {"time": ModelTime.time(12, 1, 3), "text": "a"}),
+          const MapEntry(
+              "dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
         ],
       ).toString(),
       [
-        MapEntry(
-            "dddd", {"time": const ModelTime.time(12, 1, 3).toJson(), "text": "a"}),
-        MapEntry(
-            "dddd", {"time": const ModelTime.time(10, 1, 5).toJson(), "text": "a"}),
-        MapEntry(
-            "dddd", {"time": const ModelTime.time(8, 1, 4).toJson(), "text": "a"}),
-        MapEntry(
-            "dddd", {"time": const ModelTime.time(4, 1, 2).toJson(), "text": "a"}),
+        MapEntry("dddd",
+            {"time": const ModelTime.time(12, 1, 3).toJson(), "text": "a"}),
+        MapEntry("dddd",
+            {"time": const ModelTime.time(10, 1, 5).toJson(), "text": "a"}),
+        MapEntry("dddd",
+            {"time": const ModelTime.time(8, 1, 4).toJson(), "text": "a"}),
+        MapEntry("dddd",
+            {"time": const ModelTime.time(4, 1, 2).toJson(), "text": "a"}),
       ].toString(),
     );
   });

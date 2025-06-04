@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// A model adapter plugin that applies and expands on `katana_model_firestore` to retrieve data from Firestore.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library masamune_model_firestore;
+library;
 
 // Dart imports:
 import "dart:async";

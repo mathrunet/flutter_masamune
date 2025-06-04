@@ -3016,7 +3016,7 @@ class PackageMainCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return """
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// A new Flutter package project.
 ///

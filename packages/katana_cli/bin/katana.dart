@@ -4,7 +4,6 @@ library katana_cli;
 import "dart:io";
 
 // Package imports:
-import "package:katana_cli/command/test/test.dart";
 import "package:yaml/yaml.dart";
 
 // Project imports:
@@ -14,6 +13,7 @@ import "package:katana_cli/command/deploy.dart";
 import "package:katana_cli/command/doctor.dart";
 import "package:katana_cli/command/module.dart";
 import "package:katana_cli/command/store/store.dart";
+import "package:katana_cli/command/test/test.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Defines a list of commands.

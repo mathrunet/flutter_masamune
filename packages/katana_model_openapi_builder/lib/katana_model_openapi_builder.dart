@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// Building system for katana model open-api plugin packages. Create models of adapters and freezed available in katana_model from the open API yaml.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library katana_model_openapi_builder;
+library;
 
 // Dart imports:
 import "dart:async";

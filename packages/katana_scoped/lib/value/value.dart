@@ -1,4 +1,4 @@
-library katana_scoped.value;
+library;
 
 // Dart imports:
 import "dart:async";

@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// Plug-in package for server-side integration of Firebase Authentication.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library masamune_auth_firebase;
+library;
 
 // Flutter imports:
 import "package:flutter/widgets.dart";

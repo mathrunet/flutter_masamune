@@ -8,8 +8,7 @@ class _MasamuneShouldUseFormWidget extends DartLintRule {
 
   static const _code = lint_codes.LintCode(
     name: "masamune_should_use_form_widget",
-    problemMessage:
-        """
+    problemMessage: """
 Masamuneフレームワークでは各種FormWidgetに対してKatanaFormを利用することを推奨しています。
 下記の変換を行ってください。
 

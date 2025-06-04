@@ -1,5 +1,5 @@
 // For others.
-library masamune_location_background.others;
+library;
 
 // Dart imports:
 import "dart:async";

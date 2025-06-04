@@ -1,5 +1,5 @@
 // For web.
-library katana.web;
+library;
 
 // Dart imports:
 import "dart:async";

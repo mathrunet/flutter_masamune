@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// Building system for katana listenables packages. Create a ChangeNotifier that automatically groups multiple Listenables together.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library katana_listenables_builder;
+library;
 
 // Dart imports:
 import "dart:async";

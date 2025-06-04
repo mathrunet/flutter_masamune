@@ -1,5 +1,5 @@
 /// For web.
-library katana_storage_firebase.web;
+library;
 
 // Flutter imports:
 import "package:flutter/foundation.dart";

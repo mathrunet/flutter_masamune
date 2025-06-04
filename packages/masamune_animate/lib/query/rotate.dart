@@ -161,7 +161,7 @@ extension RotateEffectQueryExtensions on AnimateRunner {
 }
 
 class _RotateEffectQuery extends EffectQuery<double> {
-  _RotateEffectQuery({
+  const _RotateEffectQuery({
     required super.duration,
     super.curve = Curves.linear,
     super.begin = 0.0,

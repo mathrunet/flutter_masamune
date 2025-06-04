@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// Masamune plugin library to implement in-app purchases for GooglePlay and AppStore.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library masamune_purchase_mobile;
+library;
 
 export "package:masamune_purchase/masamune_purchase.dart";
 

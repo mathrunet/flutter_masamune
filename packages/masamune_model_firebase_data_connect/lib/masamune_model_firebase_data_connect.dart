@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// A model package for Masamune that automatically generates GraphQL files for Firebase Data Connect from Collection and Document data schemes so that they can be used in applications.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library masamune_model_firebase_data_connect;
+library;
 
 // Dart imports:
 import "dart:async";

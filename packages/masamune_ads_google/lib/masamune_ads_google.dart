@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// Masamune plugin package for GoogleAd. Plug-in package for displaying interstitial, native, and reward ads.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library masamune_ads_google;
+library;
 
 // Flutter imports:
 import "package:flutter/widgets.dart";

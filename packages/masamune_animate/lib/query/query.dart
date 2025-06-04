@@ -1,4 +1,4 @@
-library masamune_animate.query;
+library;
 
 // Dart imports:
 import "dart:math";

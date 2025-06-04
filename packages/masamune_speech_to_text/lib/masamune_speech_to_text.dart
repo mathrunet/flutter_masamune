@@ -1,6 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// Masamune plug-in adapter for use with Speech-to-Text. Provides a controller.
 ///
@@ -8,7 +8,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library masamune_speech_to_text;
+library;
 
 // Dart imports:
 import "dart:async";

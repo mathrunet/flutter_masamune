@@ -1,4 +1,4 @@
-library katana_cli.code.server;
+library;
 
 // Dart imports:
 import "dart:io";

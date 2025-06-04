@@ -1,5 +1,5 @@
 // For others.
-library masamune_camera.others;
+library;
 
 // Dart imports:
 import "dart:io";

@@ -42,7 +42,7 @@ extension CustomEffectQueryExtensions on AnimateRunner {
 }
 
 class _CustomEffectQuery<T> extends EffectQuery<double> {
-  _CustomEffectQuery({
+  const _CustomEffectQuery({
     required super.duration,
     required this.builder,
     required this.transformer,

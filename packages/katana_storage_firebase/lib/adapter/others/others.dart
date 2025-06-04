@@ -1,5 +1,5 @@
 /// For others.
-library katana_storage_firebase.others;
+library;
 
 // Dart imports:
 import "dart:io";

@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// Package for receiving PUSH notifications using Firebase Messaging. Firebase Functions can also be used to send notifications.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library masamune_notification_firebase;
+library;
 
 // Dart imports:
 import "dart:async";

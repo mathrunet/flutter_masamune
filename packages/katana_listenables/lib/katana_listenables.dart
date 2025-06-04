@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// The base part of the package that allows Listenable values to be grouped together and treated as a ChangeNotifier.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library katana_listenables;
+library;
 
 export "package:katana/katana.dart";
 export "package:katana_listenables_annotation/katana_listenables_annotation.dart";

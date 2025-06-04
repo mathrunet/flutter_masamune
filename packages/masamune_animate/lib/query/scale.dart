@@ -161,7 +161,7 @@ extension ScaleEffectQueryExtensions on AnimateRunner {
 }
 
 class _ScaleEffectQuery extends EffectQuery<Offset> {
-  _ScaleEffectQuery({
+  const _ScaleEffectQuery({
     required super.duration,
     super.curve = Curves.linear,
     super.begin = const Offset(0.0, 0.0),

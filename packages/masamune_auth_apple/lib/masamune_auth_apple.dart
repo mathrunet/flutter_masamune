@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// Authentication plugin for Masamune that can implement Apple sign-in, works only on IOS.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library masamune_auth_apple;
+library;
 
 // Flutter imports:
 import "package:flutter/widgets.dart";

@@ -1,5 +1,5 @@
 // For others.
-library masamune_ads_google.others;
+library;
 
 // Dart imports:
 import "dart:async";

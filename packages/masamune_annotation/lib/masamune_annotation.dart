@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// Define annotations to use the masamune builder. Build with masamune_builder using this annotation.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library masamune_annotation;
+library;
 
 export "package:katana/katana.dart";
 export "package:meta/meta.dart" show UseResult, useResult;

@@ -1,5 +1,5 @@
 // For others.
-library katana.others;
+library;
 
 // Dart imports:
 import "dart:async";

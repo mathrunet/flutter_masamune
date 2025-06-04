@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// A builder package to generate table and schema definitions for Firebase and databases from Masamune model definitions, output in Markdown tabular format.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library masamune_model_docs_builder;
+library;
 
 // Dart imports:
 import "dart:io";

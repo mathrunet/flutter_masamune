@@ -85,7 +85,7 @@ extension OpacityEffectQueryExtensions on AnimateRunner {
 }
 
 class _OpacityEffectQuery extends EffectQuery<double> {
-  _OpacityEffectQuery({
+  const _OpacityEffectQuery({
     required super.duration,
     super.curve = Curves.linear,
     super.begin = 0.0,

@@ -1,4 +1,4 @@
-// Copyright (c) 2024 mathru. All rights reserved.
+// Copyright (c) 2025 mathru. All rights reserved.
 
 /// Firebase plugin for katana_storage. A package to facilitate switching between Local and Firebase storage implementations.
 ///
@@ -6,7 +6,7 @@
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library katana_storage_firebase;
+library;
 
 export "package:katana_storage/katana_storage.dart";
 

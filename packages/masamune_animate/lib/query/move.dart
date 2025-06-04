@@ -105,7 +105,7 @@ extension MoveEffectQueryExtensions on AnimateRunner {
 }
 
 class _MoveEffectQuery extends EffectQuery<Offset> {
-  _MoveEffectQuery(
+  const _MoveEffectQuery(
       {required super.duration,
       super.curve = Curves.linear,
       super.begin = const Offset(0, 0),

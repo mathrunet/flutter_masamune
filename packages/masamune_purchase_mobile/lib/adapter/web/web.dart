@@ -1,6 +1,6 @@
 // For web.
 
-library masamune_purchase_mobile.web;
+library;
 
 // Dart imports:
 import "dart:async";

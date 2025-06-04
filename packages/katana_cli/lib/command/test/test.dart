@@ -1,4 +1,4 @@
-library katana_cli.test;
+library;
 
 // Project imports:
 import "package:katana_cli/katana_cli.dart";

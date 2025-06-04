@@ -1,7 +1,7 @@
 /// For others.
 // ignore_for_file: implementation_imports
 
-library katana_theme.others;
+library;
 
 // Dart imports:
 import "dart:async";

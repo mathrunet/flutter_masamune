@@ -1,5 +1,5 @@
 // For web.
-library masamune_camera.web;
+library;
 
 // Dart imports:
 import "dart:typed_data";

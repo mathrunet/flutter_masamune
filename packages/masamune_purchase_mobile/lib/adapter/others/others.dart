@@ -1,5 +1,5 @@
 // For others.
-library masamune_purchase_mobile.others;
+library;
 
 // Dart imports:
 import "dart:async";

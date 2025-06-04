@@ -1,4 +1,4 @@
-library katana_cli.github;
+library;
 
 // Project imports:
 import "package:katana_cli/katana_cli.dart";
