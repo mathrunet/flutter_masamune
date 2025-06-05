@@ -1,6 +1,6 @@
 name: masamune_ai
 description: This package is designed to interact with generative AI within the Masamune framework.
-version: 3.0.1
+version: 3.0.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_ai
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.0.0
-  masamune: ^3.0.1
+  katana: ^3.1.0
+  masamune: ^3.0.2
   mcp_dart: ^0.3.6
 dev_dependencies:
   test: ^1.24.0

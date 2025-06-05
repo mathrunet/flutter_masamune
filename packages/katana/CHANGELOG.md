@@ -1,3 +1,8 @@
+## 3.1.0
+
+ - **FIX**: Supports Clock. ([cf921b20](https://github.com/mathrunet/flutter_masamune/commit/cf921b2085f4f50e0cb46f2f29735b313febf450))
+ - **FEAT**: Add a testing Clock for DateTime. ([ec332d1e](https://github.com/mathrunet/flutter_masamune/commit/ec332d1e6c7f78a30437bd90717c27ed8b3f4816))
+
 ## 3.0.0
 
  - Version update to further evolve as an AI-friendly Flutter Framework.

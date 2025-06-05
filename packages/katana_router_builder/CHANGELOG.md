@@ -1,3 +1,7 @@
+## 3.0.1
+
+ - **FIX**: Supports Clock. ([cf921b20](https://github.com/mathrunet/flutter_masamune/commit/cf921b2085f4f50e0cb46f2f29735b313febf450))
+
 ## 3.0.0
 
  - Version update to further evolve as an AI-friendly Flutter Framework.
