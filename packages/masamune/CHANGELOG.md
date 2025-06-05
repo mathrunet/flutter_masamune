@@ -1,3 +1,7 @@
+## 3.0.3
+
+ - **FIX**: Made MasamuneAdapter available for testing. ([7419779d](https://github.com/mathrunet/flutter_masamune/commit/7419779ddd2439035a5617cc8c0dc312979ddf97))
+
 ## 3.0.2
 
  - **FIX**: Supports Clock. ([cf921b20](https://github.com/mathrunet/flutter_masamune/commit/cf921b2085f4f50e0cb46f2f29735b313febf450))

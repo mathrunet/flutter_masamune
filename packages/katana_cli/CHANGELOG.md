@@ -1,3 +1,7 @@
+## 3.0.2
+
+ - **FIX**: Test code fix. ([6f159bd1](https://github.com/mathrunet/flutter_masamune/commit/6f159bd1efb6405eb50a2a74a6ca3b4bacdba9c2))
+
 ## 3.0.1
 
  - **FIX**: Supports Clock. ([cf921b20](https://github.com/mathrunet/flutter_masamune/commit/cf921b2085f4f50e0cb46f2f29735b313febf450))

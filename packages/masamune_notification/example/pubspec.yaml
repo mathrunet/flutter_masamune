@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^3.0.2
+  masamune: ^3.0.3
   masamune_notification:
     path: "../"
 

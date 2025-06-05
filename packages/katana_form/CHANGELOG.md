@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - Update a dependency to the latest release.
+
 ## 3.1.1
 
  - **FIX**: Supports Clock. ([cf921b20](https://github.com/mathrunet/flutter_masamune/commit/cf921b2085f4f50e0cb46f2f29735b313febf450))

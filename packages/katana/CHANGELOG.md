@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - **FIX**: Add necessary methods to Clock. ([de9e369d](https://github.com/mathrunet/flutter_masamune/commit/de9e369d85ef37c7ab7beaca19b4da6fd73e8de3))
+
 ## 3.1.0
 
  - **FIX**: Supports Clock. ([cf921b20](https://github.com/mathrunet/flutter_masamune/commit/cf921b2085f4f50e0cb46f2f29735b313febf450))
