@@ -17,10 +17,10 @@ import "package:analyzer/dart/element/element.dart";
 import "package:analyzer/dart/element/type.dart";
 import "package:build/build.dart";
 import "package:glob/glob.dart";
-import "package:meta/meta.dart";
 import "package:katana_builder/katana_builder.dart";
 import "package:masamune_annotation/masamune_annotation.dart";
 import "package:masamune_builder/masamune_builder.dart";
+import "package:meta/meta.dart";
 import "package:source_gen/source_gen.dart";
 
 part "src/builder.dart";
