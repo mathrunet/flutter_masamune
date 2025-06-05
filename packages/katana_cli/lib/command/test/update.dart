@@ -29,7 +29,7 @@ class TestUpdateCliCommand extends CliCommand {
         "--update-goldens",
         if (target.isNotEmpty) ...[
           "--plain-name",
-          target,
+          "\"$target\"",
         ]
       ],
     );
