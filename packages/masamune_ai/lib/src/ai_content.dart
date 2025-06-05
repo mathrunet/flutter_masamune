@@ -23,7 +23,7 @@ class AIContent extends ChangeNotifier
     String? id,
     this.userId,
     bool completed = false,
-  })  : _time = time ?? DateTime.now(),
+  })  : _time = time ?? Clock.now(),
         id = id ?? uuid() {
     _value.addAll(values);
     if (!completed) {

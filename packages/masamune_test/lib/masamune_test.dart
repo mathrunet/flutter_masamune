@@ -19,6 +19,7 @@ import "package:flutter/material.dart";
 // Package imports:
 import "package:alchemist/alchemist.dart";
 import "package:masamune/masamune.dart";
+import "package:flutter_test/flutter_test.dart" as flutter_test;
 import "package:test/test.dart";
 import "package:meta/meta.dart";
 
@@ -28,4 +29,5 @@ part "src/masamune_test_config.dart";
 part "src/masamune_test_device.dart";
 part "src/masamune_test_container.dart";
 part "src/masamune_test_loader.dart";
+part "src/page_container.dart";
 part "src/masamune_controller_test.dart";

@@ -307,7 +307,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
           final parts = candidate.content._toAIContentParts();
           response.add(
             parts,
-            time: DateTime.now(),
+            time: Clock.now(),
           );
           if (functionCallCompleter != null) {
             await functionCallCompleter?.future;
@@ -324,7 +324,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
                   final functionResponse = await onFunctionCall(functionCall);
                   response.add(
                     functionResponse,
-                    time: DateTime.now(),
+                    time: Clock.now(),
                   );
                   unawaited(
                     _generateContent(
@@ -341,7 +341,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
                   return;
                 }
               }
-              response.complete(time: DateTime.now());
+              response.complete(time: Clock.now());
             } finally {
               unawaited(subscription?.cancel());
               subscription = null;
@@ -368,7 +368,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
                 final functionResponse = await onFunctionCall(functionCall);
                 response.add(
                   functionResponse,
-                  time: DateTime.now(),
+                  time: Clock.now(),
                 );
                 unawaited(
                   _generateContent(
@@ -385,7 +385,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
                 return;
               }
             }
-            response.complete(time: DateTime.now());
+            response.complete(time: Clock.now());
           } finally {
             unawaited(subscription?.cancel());
             subscription = null;

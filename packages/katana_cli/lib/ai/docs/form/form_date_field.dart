@@ -49,7 +49,7 @@ FormDateField(
 
 ```dart
 FormDateField(
-  initialValue: DateTime.now(),
+  initialValue: Clock.now(),
   onChanged: (value) {
     print(value);
   },
@@ -78,7 +78,7 @@ FormDateField(
     if (value == null) {
       return "日付を選択してください";
     }
-    if (value.isBefore(DateTime.now())) {
+    if (value.isBefore(Clock.now())) {
       return "過去の日付は選択できません";
     }
     return null;

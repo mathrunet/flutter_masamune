@@ -14,7 +14,7 @@ String _defaultValue(ParamaterValue param) {
       if (defaultValue != null) {
         return defaultValue.toString();
       }
-      return "DateTime.now()";
+      return "Clock.now()";
     case "TextEditingController":
       if (nullable) {
         return "null";

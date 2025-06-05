@@ -79,7 +79,7 @@ class CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
+    final now = Clock.now();
     return Scaffold(
       appBar: AppBar(
         title: const Text("App Demo"),

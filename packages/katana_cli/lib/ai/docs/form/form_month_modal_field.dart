@@ -80,7 +80,7 @@ FormMonthModalField(
     if (value == null) {
       return "月を選択してください";
     }
-    final now = DateTime.now();
+    final now = Clock.now();
     if (value.isBefore(DateTime(now.year, now.month))) {
       return "過去の月は選択できません";
     }

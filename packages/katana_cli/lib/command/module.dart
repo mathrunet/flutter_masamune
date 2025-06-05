@@ -158,7 +158,7 @@ class ModuleMainCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-// Copyright ${DateTime.now().format("yyyy")} mathru. All rights reserved.
+// Copyright ${Clock.now().format("yyyy")} mathru. All rights reserved.
 
 /// masamune_module for specific app.
 ///

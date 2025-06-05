@@ -67,7 +67,7 @@ class _ScheduleValueState
 
   Future<void> _init() async {
     _context._completer = Completer();
-    _startTime = DateTime.now();
+    _startTime = Clock.now();
     if (value.dateTime.isAfter(_startTime)) {
       _timer = Timer(
         value.dateTime.difference(_startTime),
@@ -75,7 +75,7 @@ class _ScheduleValueState
           _timer = null;
           _context._completer?.complete();
           _context._completer = null;
-          value.callback(DateTime.now(), _startTime);
+          value.callback(Clock.now(), _startTime);
           setState(() {});
         },
       );

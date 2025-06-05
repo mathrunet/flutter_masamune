@@ -41,7 +41,7 @@ class ConsoleLoggerAdapter extends LoggerAdapter {
     if (!(filter?.call(name, parameters) ?? true)) {
       return;
     }
-    final now = DateTime.now();
+    final now = Clock.now();
     developer.log(
       "[${now.toIso8601String()}] $name\n${_printMap(parameters)}",
       name: _kLogName,

@@ -86,7 +86,7 @@ await notification.show(
   // 本文。
   body: "通知の本文",
   // 通知を表示する日時。
-  scheduledDate: DateTime.now().add(const Duration(minutes: 5)),
+  scheduledDate: Clock.now().add(const Duration(minutes: 5)),
   // 通知のチャンネル。
   channel: const NotificationChannel(
     // チャンネルのID。

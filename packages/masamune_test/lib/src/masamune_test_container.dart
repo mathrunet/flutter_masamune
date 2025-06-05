@@ -11,6 +11,8 @@ class MasamuneTestContainer extends StatelessWidget {
     required this.name,
     required this.builder,
     this.device,
+    this.width,
+    this.height,
     super.key,
   });
 
@@ -29,13 +31,27 @@ class MasamuneTestContainer extends StatelessWidget {
   /// シナリオのビルダー。
   final Widget Function(BuildContext context) builder;
 
+  /// The width of the scenario.
+  ///
+  /// シナリオの幅。
+  final double? width;
+
+  /// The height of the scenario.
+  ///
+  /// シナリオの高さ。
+  final double? height;
+
   @override
   Widget build(BuildContext context) {
     final device = this.device;
     if (device == null) {
       return GoldenTestScenario(
         name: name,
-        child: Builder(builder: (context) => builder(context)),
+        child: SizedBox(
+          height: height,
+          width: width,
+          child: Builder(builder: (context) => builder(context)),
+        ),
       );
     }
     return GoldenTestScenario(
@@ -50,8 +66,8 @@ class MasamuneTestContainer extends StatelessWidget {
             textScaler: TextScaler.linear(device.textScaleFactor),
           ),
           child: SizedBox(
-            height: device.size.height,
-            width: device.size.width,
+            height: height ?? device.size.height,
+            width: width ?? device.size.width,
             child: Builder(builder: (context) => builder(context)),
           ),
         ),

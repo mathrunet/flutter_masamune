@@ -217,7 +217,7 @@ class FirebaseStorageAdapter extends StorageAdapter {
           final meta = await reference(remoteRelativePathOrId).getMetadata();
           if (localFile.lastModifiedSync().millisecondsSinceEpoch >=
               (meta.updated?.millisecondsSinceEpoch ??
-                  DateTime.now().millisecondsSinceEpoch)) {
+                  Clock.now().millisecondsSinceEpoch)) {
             debugPrint("The latest data in the cache: $remoteRelativePathOrId");
             return LocalFile(
               path: Uri.parse(localFullPath),

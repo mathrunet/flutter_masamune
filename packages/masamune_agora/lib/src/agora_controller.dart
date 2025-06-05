@@ -385,7 +385,7 @@ class AgoraController
     _initializeCompleter = Completer();
     try {
       if (_lastDisconnectedTime != null) {
-        final diff = DateTime.now().difference(_lastDisconnectedTime!);
+        final diff = Clock.now().difference(_lastDisconnectedTime!);
         if (diff.inSeconds < 5) {
           await Future.delayed(Duration(seconds: 5 - diff.inSeconds));
         }
@@ -790,7 +790,7 @@ class AgoraController
       notifyListeners();
       _disconnectingCompleter?.complete();
       _disconnectingCompleter = null;
-      _lastDisconnectedTime = DateTime.now();
+      _lastDisconnectedTime = Clock.now();
     } catch (e) {
       _disconnectingCompleter?.completeError(e);
       _disconnectingCompleter = null;
@@ -1201,7 +1201,7 @@ class AgoraController
       stride: width.toInt(),
       height: height.toInt(),
       timestamp: timestamp?.millisecondsSinceEpoch ??
-          DateTime.now().millisecondsSinceEpoch,
+          Clock.now().millisecondsSinceEpoch,
     );
 
     await _engine!.getMediaEngine().pushVideoFrame(frame: agoraFrame);
@@ -1391,7 +1391,7 @@ class AgoraController
     if (_engine == null) {
       return;
     }
-    _lastDisconnectedTime = DateTime.now();
+    _lastDisconnectedTime = Clock.now();
     final engine = _engine;
     _engine = null;
     _token = null;

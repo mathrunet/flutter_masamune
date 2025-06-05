@@ -165,7 +165,7 @@ Page（PageScopedWidgetを継承したもの）およびWidget（ScopedWidgetを
         // 指定した時間に実行される処理
       },
       // 実行日時
-      dateTime: DateTime.now().add(Duration(seconds: 1)),
+      dateTime: Clock.now().add(Duration(seconds: 1)),
     );
     ```
 

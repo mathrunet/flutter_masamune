@@ -122,7 +122,7 @@ class ReorderableListBuilder<T> extends StatefulWidget {
       if (reordered.length <= newPosition) {
         await onUpdate(
           data,
-          defaultOrderValue ?? DateTime.now().millisecondsSinceEpoch.toDouble(),
+          defaultOrderValue ?? Clock.now().millisecondsSinceEpoch.toDouble(),
         );
       } else {
         await onUpdate(
@@ -141,7 +141,7 @@ class ReorderableListBuilder<T> extends StatefulWidget {
       } else if (reordered.length - 1 <= newPosition) {
         await onUpdate(
           data,
-          defaultOrderValue ?? DateTime.now().millisecondsSinceEpoch.toDouble(),
+          defaultOrderValue ?? Clock.now().millisecondsSinceEpoch.toDouble(),
         );
       } else {
         await onUpdate(

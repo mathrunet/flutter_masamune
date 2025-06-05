@@ -816,14 +816,14 @@ class _DateTextFieldState<TValue> extends FormFieldState<DateTime> {
     if (match == null) {
       return null;
     }
-    final now = DateTime.now();
+    final now = Clock.now();
     final days = match.groupNames.contains("dd")
         ? int.tryParse(match.namedGroup("dd") ?? "") ?? 0
         : 0;
     final months = match.groupNames.contains("MM")
         ? int.tryParse(match.namedGroup("MM") ?? "") ?? 0
         : 0;
-    return DateTime(
+    return Clock(
       now.year,
       months,
       days,
@@ -987,7 +987,7 @@ class FormDateFieldPicker {
       adapter: _PickerDataAdapter<int>(
         data: [
           ...List.generate(12, (m) {
-            final month = DateTime(1970, m + 2, 0);
+            final month = Clock(1970, m + 2, 0);
             return _PickerItem(
               text: Text(
                 "${month.format(monthFormat)}$monthSuffix",
@@ -1015,8 +1015,8 @@ class FormDateFieldPicker {
       changeToFirst: true,
       hideHeader: false,
       onConfirm: (_Picker picker, List<int> value) {
-        final now = DateTime.now();
-        res = DateTime(now.year, value[0] + 1, value[1] + 1);
+        final now = Clock.now();
+        res = Clock(now.year, value[0] + 1, value[1] + 1);
       },
     ).showModal(context);
     return res;

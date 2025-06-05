@@ -19,7 +19,7 @@ const int _kIntMaxValue = 9007199254740991;
 /// [baseTime]を指定した場合、生成する日時を調節できます。[reverse]を指定した場合は、[baseTime]からの経過時間を反転させた値を使用します。
 String uuid({DateTime? baseTime, bool reverse = false}) {
   const uuid = Uuid();
-  baseTime ??= DateTime.now();
+  baseTime ??= Clock.now();
   if (reverse) {
     return uuid
         .v7(

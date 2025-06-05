@@ -122,11 +122,11 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
           final parts = choice.delta._toAIContentParts();
           response.add(
             parts,
-            time: DateTime.now(),
+            time: Clock.now(),
           );
           if (choice.finishReason != null) {
             try {
-              response.complete(time: DateTime.now());
+              response.complete(time: Clock.now());
             } finally {
               unawaited(subscription?.cancel());
               subscription = null;
@@ -138,7 +138,7 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
       onDone: () async {
         if (subscription != null) {
           try {
-            response.complete(time: DateTime.now());
+            response.complete(time: Clock.now());
           } finally {
             unawaited(subscription?.cancel());
             subscription = null;

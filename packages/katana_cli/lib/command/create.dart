@@ -2503,7 +2503,7 @@ class ModuleCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-// Copyright (c) ${DateTime.now().year} mathru. All rights reserved.
+// Copyright (c) ${Clock.now().year} mathru. All rights reserved.
 
 /// Any comment.
 ///
@@ -2969,7 +2969,7 @@ class LicenseCliCode extends CliCode {
     return """
 MIT License
 
-Copyright (c) ${DateTime.now().year} mathru (https://mathru.net)
+Copyright (c) ${Clock.now().year} mathru (https://mathru.net)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -770,7 +770,7 @@ class _DateTimeRangeTextFieldState<TValue>
     }
     if (!isShowingDialog) {
       isShowingDialog = true;
-      final now = DateTime.now();
+      final now = Clock.now();
       final newValue = await widget.onShowPicker?.call(
         context,
         value ?? DateTimeRange(start: now, end: now),
@@ -919,7 +919,7 @@ class FormDateTimeRangeFieldDatePicker extends FormDateTimeRangeFieldPicker {
     BuildContext context,
     DateTimeRange currentDateTimeRange,
   ) async {
-    final now = DateTime.now();
+    final now = Clock.now();
     final nowRange = defaultDateTimeRange;
     final date = await showDateRangePicker(
       context: context,

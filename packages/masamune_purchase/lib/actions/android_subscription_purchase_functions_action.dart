@@ -68,7 +68,7 @@ class AndroidSubscriptionPurchaseFunctionsAction
     if (response == null) {
       return false;
     }
-    final now = DateTime.now();
+    final now = Clock.now();
     final startTimeMillis = response.get<int?>("startTimeMillis", null) ??
         response.get<double?>("startTimeMillis", null)?.toInt() ??
         int.tryParse(response.get("startTimeMillis", "")) ??

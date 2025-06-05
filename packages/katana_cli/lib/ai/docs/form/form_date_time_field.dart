@@ -49,7 +49,7 @@ FormDateTimeField(
 
 ```dart
 FormDateTimeField(
-  initialValue: DateTime.now(),
+  initialValue: Clock.now(),
   onChanged: (value) {
     print(value);
   },

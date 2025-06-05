@@ -131,7 +131,7 @@ class LoggerDatabase {
     DateTime? dateTime,
   }) async {
     await _initialize();
-    final date = (dateTime ?? DateTime.now()).toIso8601String();
+    final date = (dateTime ?? Clock.now()).toIso8601String();
     _data[date] = {
       if (parameters != null) ...parameters,
       nameKey: name,

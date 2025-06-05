@@ -23,16 +23,16 @@ extension DateTimeExtensions on DateTime {
       (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
 
   static int _daysInMonth(int year, int month) =>
-      (month == DateTime.february && _isLeapYear(year))
+      (month == Clock.february && _isLeapYear(year))
           ? 29
           : _lengthInMonth[month - 1];
 
   DateTime _addDate(DateDuration duration) {
     var years = year + duration.year;
-    years += (month + duration.month) ~/ DateTime.monthsPerYear;
-    final months = (month + duration.month) % DateTime.monthsPerYear;
+    years += (month + duration.month) ~/ Clock.monthsPerYear;
+    final months = (month + duration.month) % Clock.monthsPerYear;
     final days = day + duration.day - 1;
-    return DateTime(years, months, 1).add(Duration(days: days));
+    return Clock(years, months, 1).add(Duration(days: days));
   }
 
   DateDuration _differenceDate(DateTime other) {
@@ -42,13 +42,13 @@ extension DateTimeExtensions on DateTime {
 
     if (month > other.month) {
       years -= 1;
-      months = DateTime.monthsPerYear + other.month - month;
+      months = Clock.monthsPerYear + other.month - month;
 
       if (day > other.day) {
         months -= 1;
         days = _daysInMonth(
               year + years,
-              ((month + months - 1) % DateTime.monthsPerYear) + 1,
+              ((month + months - 1) % Clock.monthsPerYear) + 1,
             ) +
             other.day -
             day;
@@ -58,10 +58,10 @@ extension DateTimeExtensions on DateTime {
     } else if (other.month == month) {
       if (day > other.day) {
         years -= 1;
-        months = DateTime.monthsPerYear - 1;
+        months = Clock.monthsPerYear - 1;
         days = _daysInMonth(
               year + years,
-              ((month + months - 1) % DateTime.monthsPerYear) + 1,
+              ((month + months - 1) % Clock.monthsPerYear) + 1,
             ) +
             other.day -
             day;
@@ -86,7 +86,7 @@ extension DateTimeExtensions on DateTime {
   ///
   /// 特定の[dateTime]もしくは現在時間と同じ日付の場合は`true`を返します
   bool isThisDay([DateTime? dateTime]) {
-    dateTime ??= DateTime.now();
+    dateTime ??= Clock.now();
     return year == dateTime.year &&
         month == dateTime.month &&
         day == dateTime.day;
@@ -96,7 +96,7 @@ extension DateTimeExtensions on DateTime {
   ///
   /// 特定の[dateTime]もしくは現在時間と同じ月の場合は`true`を返します。
   bool isThisMonth([DateTime? dateTime]) {
-    dateTime ??= DateTime.now();
+    dateTime ??= Clock.now();
     return year == dateTime.year && month == dateTime.month;
   }
 
@@ -104,7 +104,7 @@ extension DateTimeExtensions on DateTime {
   ///
   /// 特定の[dateTime]もしくは現在時間と同じ年の場合は`true`を返します。
   bool isThisYear([DateTime? dateTime]) {
-    dateTime ??= DateTime.now();
+    dateTime ??= Clock.now();
     return year == dateTime.year;
   }
 
@@ -112,7 +112,7 @@ extension DateTimeExtensions on DateTime {
   ///
   /// 特定の[dateTime]もしくは現在時間と同じ時刻の場合は`true`を返します。
   bool isThisHour([DateTime? dateTime]) {
-    dateTime ??= DateTime.now();
+    dateTime ??= Clock.now();
     return year == dateTime.year &&
         month == dateTime.month &&
         day == dateTime.day &&
@@ -123,7 +123,7 @@ extension DateTimeExtensions on DateTime {
   ///
   /// 特定の[dateTime]もしくは現在時間と同じ分の場合は`true`を返します。
   bool isThisMinute([DateTime? dateTime]) {
-    dateTime ??= DateTime.now();
+    dateTime ??= Clock.now();
     return year == dateTime.year &&
         month == dateTime.month &&
         day == dateTime.day &&
@@ -135,7 +135,7 @@ extension DateTimeExtensions on DateTime {
   ///
   /// 特定の[dateTime]もしくは現在時間と同じ秒の場合は`true`を返します。
   bool isThisSecond([DateTime? dateTime]) {
-    dateTime ??= DateTime.now();
+    dateTime ??= Clock.now();
     return year == dateTime.year &&
         month == dateTime.month &&
         day == dateTime.day &&
@@ -317,7 +317,7 @@ extension DateTimeExtensions on DateTime {
   ///
   /// 時刻分秒はすべて`0`になります。
   DateTime toDate() {
-    return DateTime(year, month, day);
+    return Clock(year, month, day);
   }
 
   /// Converts from [DateTime] to a [String] of the form `20221223`.
@@ -356,10 +356,10 @@ extension DateTimeExtensions on DateTime {
   ///
   /// https://en.wikipedia.org/wiki/ISO_8601
   int get weekNumber {
-    final thursday = DateTime.fromMillisecondsSinceEpoch(
+    final thursday = Clock.fromMillisecondsSinceEpoch(
       ((millisecondsSinceEpoch - 259200000) / 604800000).ceil() * 604800000,
     );
-    final firstDayOfYear = DateTime(thursday.year, 1, 1);
+    final firstDayOfYear = Clock(thursday.year, 1, 1);
     return ((thursday.millisecondsSinceEpoch -
                     firstDayOfYear.millisecondsSinceEpoch) /
                 604800000)
@@ -371,7 +371,7 @@ extension DateTimeExtensions on DateTime {
   ///
   /// パースの関係でUTCとして定義されていない[DateTime]をUTCとして扱いローカルタイムに変換します。
   DateTime toUnUtc() {
-    return DateTime.tryParse("${toIso8601String().trimStringRight("Z")}Z")!
+    return Clock.tryParse("${toIso8601String().trimStringRight("Z")}Z")!
         .toLocal();
   }
 
@@ -383,7 +383,7 @@ extension DateTimeExtensions on DateTime {
   /// final date = DateTime(1984, 8, 2).age(DateTime(2022, 10, 26)); // year: 38, month: 2, day: 24
   /// ```
   DateDuration age([DateTime? today]) {
-    return _differenceDate(today ?? DateTime.now());
+    return _differenceDate(today ?? Clock.now());
   }
 
   /// Returns the period until the next year date at [target] (or current time) for a date.
@@ -394,8 +394,8 @@ extension DateTimeExtensions on DateTime {
   /// final date = DateTime(1984, 8, 2).age(DateTime(2022, 10, 26)); // year: 38, month: 2, day: 24
   /// ```
   DateDuration dateToNextBirthday([DateTime? target]) {
-    final endDate = target ?? DateTime.now();
-    final tmpDate = DateTime(endDate.year, month, day);
+    final endDate = target ?? Clock.now();
+    final tmpDate = Clock(endDate.year, month, day);
     final nextBirthdayDate = tmpDate.isBefore(endDate)
         ? tmpDate._addDate(const DateDuration(1, 0, 0))
         : tmpDate;

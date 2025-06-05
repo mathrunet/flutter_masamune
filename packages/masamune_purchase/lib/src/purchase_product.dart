@@ -730,7 +730,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
     String orderId,
     DateTime expiredTime,
   ) async {
-    final now = DateTime.now();
+    final now = Clock.now();
     await document?.save(
       PurchaseSubscriptionModel(
         userId: userId,
@@ -752,7 +752,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
   ) async {
     await document?.save({
       "expired": false,
-      "expiredTime": DateTime.now().millisecondsSinceEpoch,
+      "expiredTime": Clock.now().millisecondsSinceEpoch,
     });
   }
 
@@ -788,7 +788,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
     assert(expiredPeriod != null, "[expiredPeriod] is not set.");
     await _collection?.reload();
     await _revokeForRuntime(replacedProduct: replacedProduct);
-    final now = DateTime.now();
+    final now = Clock.now();
     final expiredTime = now.add(expiredPeriod!);
     final doc = _collection?.create();
     await onSaveDocument.call(doc, this, _userId, orderId, expiredTime);

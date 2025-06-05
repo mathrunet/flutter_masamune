@@ -532,9 +532,9 @@ extension StringExtensions on String {
   /// パースできなかった場合、[defaultValue]、もしくは[DateTime.now]を返します。
   DateTime toDateTime([DateTime? defaultValue]) {
     if (isEmpty) {
-      return defaultValue ?? DateTime.now();
+      return defaultValue ?? Clock.now();
     }
-    final dateTime = DateTime.tryParse(this);
+    final dateTime = Clock.tryParse(this);
     if (dateTime != null) {
       return dateTime;
     }
@@ -545,24 +545,24 @@ extension StringExtensions on String {
     final minute = int.tryParse(substring(10, 12));
     final second = int.tryParse(substring(12, 14));
     if (year == null) {
-      return defaultValue ?? DateTime.now();
+      return defaultValue ?? Clock.now();
     }
     if (month == null) {
-      return DateTime(year);
+      return Clock(year);
     }
     if (day == null) {
-      return DateTime(year, month);
+      return Clock(year, month);
     }
     if (hour == null) {
-      return DateTime(year, month, day);
+      return Clock(year, month, day);
     }
     if (minute == null) {
-      return DateTime(year, month, day, hour);
+      return Clock(year, month, day, hour);
     }
     if (second == null) {
-      return DateTime(year, month, day, hour, minute);
+      return Clock(year, month, day, hour, minute);
     }
-    return DateTime(
+    return Clock(
       year,
       month,
       day,

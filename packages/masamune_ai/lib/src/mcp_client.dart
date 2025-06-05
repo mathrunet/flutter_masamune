@@ -297,7 +297,7 @@ class McpClient
     );
     return AIContent(
       role: AIRole.function,
-      time: DateTime.now(),
+      time: Clock.now(),
       values: result.content.mapAndRemoveEmpty(
         (e) => AIContentPart._fromContent(e),
       ),

@@ -44,7 +44,7 @@ class LoggerTrace {
     if (_startTime != null) {
       return;
     }
-    _startTime = DateTime.now();
+    _startTime = Clock.now();
     await Future.wait(values.map((e) => e.start(_startTime!)));
     _onStart.call();
   }
@@ -64,7 +64,7 @@ class LoggerTrace {
     if (_startTime == null) {
       return;
     }
-    final endTime = DateTime.now();
+    final endTime = Clock.now();
     await Future.wait(values.map((e) => e.stop(_startTime!, endTime)));
     _onStop.call();
   }

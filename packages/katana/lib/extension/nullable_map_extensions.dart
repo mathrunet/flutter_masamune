@@ -199,18 +199,18 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   /// [Map]に[key]の要素がない場合や[int]もしくは[DateTime]と型が合わない場合、自身が[Null]の場合は[orElse]が返されます。
   DateTime getAsDateTime(K key, [DateTime? orElse]) {
     if (this == null || !containsKey(key)) {
-      return orElse ?? DateTime.now();
+      return orElse ?? Clock.now();
     }
     if (this![key] is int?) {
       final microsecondsSinceEpoch = this![key] as int?;
       if (microsecondsSinceEpoch == null) {
-        return orElse ?? DateTime.now();
+        return orElse ?? Clock.now();
       }
-      return DateTime.fromMicrosecondsSinceEpoch(microsecondsSinceEpoch);
+      return Clock.fromMicrosecondsSinceEpoch(microsecondsSinceEpoch);
     } else if (this![key] is DateTime?) {
-      return (this![key] as DateTime?) ?? orElse ?? DateTime.now();
+      return (this![key] as DateTime?) ?? orElse ?? Clock.now();
     } else {
-      return orElse ?? DateTime.now();
+      return orElse ?? Clock.now();
     }
   }
 

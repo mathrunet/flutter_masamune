@@ -17,7 +17,7 @@ class _IOSBackgroundLocationRepository {
   static Future<void> saveAsLog(String type, String message) async {
     await save({
       _kTypeKey: type,
-      _kTimeKey: DateTime.now().millisecondsSinceEpoch,
+      _kTimeKey: Clock.now().millisecondsSinceEpoch,
       _kMessageKey: message,
     });
   }
@@ -109,7 +109,7 @@ class _AndroidBackgroundLocationRepository {
   static Future<void> saveAsLog(String type, String message) async {
     await save({
       _kTypeKey: type,
-      _kTimeKey: DateTime.now().millisecondsSinceEpoch,
+      _kTimeKey: Clock.now().millisecondsSinceEpoch,
       _kMessageKey: message,
     });
   }

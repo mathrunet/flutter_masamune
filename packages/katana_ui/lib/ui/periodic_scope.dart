@@ -55,7 +55,7 @@ class _PeriodicScopeState extends State<PeriodicScope> {
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
+    final now = Clock.now();
     return widget.builder.call(context, now);
   }
 }

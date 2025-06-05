@@ -8,9 +8,11 @@ part of "/masamune_test.dart";
 ///
 /// [name]にテスト名を渡し、[builder]にテストをしたいページの[Widget]を渡します。
 @isTest
-void masamunePageTest({
+void masamunePageTest<T>({
   required String name,
-  required Widget Function(BuildContext context, MasamuneTestRef ref) builder,
+  required Widget Function(BuildContext context, MasamuneTestRef ref, T? value)
+      builder,
+  FutureOr<T?> Function(BuildContext context, MasamuneTestRef ref)? loader,
   List<MasamuneTestDevice> devices = const [
     MasamuneTestDevice.phonePortrait,
     MasamuneTestDevice.phoneLandscape,
@@ -18,7 +20,12 @@ void masamunePageTest({
     MasamuneTestDevice.tabletLandscape,
   ],
 }) =>
-    _masamuneUITest(name: "$name Page", builder: builder, devices: devices);
+    _masamuneUITest(
+      name: "$name Page",
+      builder: builder,
+      loader: loader,
+      devices: devices,
+    );
 
 /// Tests a widget.
 ///
@@ -28,22 +35,42 @@ void masamunePageTest({
 ///
 /// [name]にテスト名を渡し、[builder]にテストをしたい[Widget]を渡します。
 @isTest
-void masamuneWidgetTest({
+void masamuneWidgetTest<T>({
   required String name,
-  required Widget Function(BuildContext context, MasamuneTestRef ref) builder,
+  required Widget Function(BuildContext context, MasamuneTestRef ref, T? value)
+      builder,
+  FutureOr<T?> Function(BuildContext context, MasamuneTestRef ref)? loader,
+  double width = 640,
+  double? height,
 }) =>
-    _masamuneUITest(name: "$name Widget", builder: builder);
+    _masamuneUITest(
+      name: "$name Widget",
+      loader: loader,
+      builder: (context, ref, value) {
+        return _PageContainer(
+          child: builder.call(context, ref, value),
+        );
+      },
+      width: width,
+      height: height,
+    );
 
-void _masamuneUITest({
+void _masamuneUITest<T>({
   required String name,
-  required Widget Function(BuildContext context, MasamuneTestRef ref) builder,
+  required Widget Function(BuildContext context, MasamuneTestRef ref, T? value)
+      builder,
+  FutureOr<T?> Function(BuildContext context, MasamuneTestRef ref)? loader,
   List<MasamuneTestDevice>? devices,
+  double? width,
+  double? height,
 }) {
   group(name.toPascalCase(), () {
     final ref = MasamuneTestConfig.currentRef;
     goldenTest(
       name.toPascalCase(),
       fileName: name.toSnakeCase(),
+      pumpBeforeTest: _pumpAndSettle,
+      pumpWidget: _pumpWidget,
       builder: () {
         return GoldenTestGroup(
           columns: devices?.length ?? 1,
@@ -53,6 +80,8 @@ void _masamuneUITest({
                 (device) => MasamuneTestContainer(
                   name: device.name,
                   device: device,
+                  width: width,
+                  height: height,
                   builder: (context) {
                     return MasamuneApp(
                       debugShowCheckedModeBanner: false,
@@ -68,8 +97,9 @@ void _masamuneUITest({
                       localizationsDelegates: ref.localizationsDelegates,
                       home: MasamuneTestLoader(
                         ref: ref,
-                        builder: (context, ref, doc) {
-                          return builder.call(context, ref);
+                        onLoad: loader,
+                        builder: (context, ref, value) {
+                          return builder.call(context, ref, value);
                         },
                       ),
                     );
@@ -79,6 +109,8 @@ void _masamuneUITest({
             ] else ...[
               MasamuneTestContainer(
                 name: name,
+                width: width,
+                height: height,
                 builder: (context) {
                   return MasamuneApp(
                     debugShowCheckedModeBanner: false,
@@ -94,8 +126,9 @@ void _masamuneUITest({
                     localizationsDelegates: ref.localizationsDelegates,
                     home: MasamuneTestLoader(
                       ref: ref,
-                      builder: (context, ref, doc) {
-                        return builder.call(context, ref);
+                      onLoad: loader,
+                      builder: (context, ref, value) {
+                        return builder.call(context, ref, value);
                       },
                     ),
                   );
@@ -119,9 +152,8 @@ void _masamuneUITest({
 @isTest
 void masamuneModelTileTest<T extends ModelRefBase>({
   required String name,
-  required T Function(MasamuneTestRef ref) document,
-  required Widget Function(
-          BuildContext context, MasamuneTestRef ref, T document)
+  required T Function(BuildContext context, MasamuneTestRef ref) document,
+  required Widget Function(BuildContext context, MasamuneTestRef ref, T value)
       builder,
 }) {
   name = "$name Tile Extension";
@@ -130,6 +162,8 @@ void masamuneModelTileTest<T extends ModelRefBase>({
     goldenTest(
       name.toPascalCase(),
       fileName: name.toSnakeCase(),
+      pumpBeforeTest: _pumpAndSettle,
+      pumpWidget: _pumpWidget,
       builder: () {
         return GoldenTestGroup(
           columns: 1,
@@ -151,12 +185,16 @@ void masamuneModelTileTest<T extends ModelRefBase>({
                   localizationsDelegates: ref.localizationsDelegates,
                   home: MasamuneTestLoader(
                     ref: ref,
-                    document: document,
-                    builder: (context, ref, T? doc) {
-                      if (doc == null) {
+                    onLoad: (context, ref) async {
+                      final doc = document.call(context, ref);
+                      await doc.load();
+                      return doc;
+                    },
+                    builder: (context, ref, value) {
+                      if (value == null) {
                         return const SizedBox.shrink();
                       }
-                      return builder.call(context, ref, doc);
+                      return builder.call(context, ref, value);
                     },
                   ),
                 );
@@ -189,4 +227,23 @@ void masamuneControllerTest({
       },
     );
   }
+}
+
+Future<void> _pumpAndSettle(flutter_test.WidgetTester tester) async {
+  await tester.pumpAndSettle();
+}
+
+Future<void> _pumpWidget(
+    flutter_test.WidgetTester tester, Widget widget) async {
+  await tester.runAsync(() async {
+    await tester.pumpWidget(widget);
+    for (var element in flutter_test.find.byType(Image).evaluate()) {
+      if (element.widget is! Image) {
+        continue;
+      }
+      final image = (element.widget as Image).image;
+      await precacheImage(image, element);
+      await tester.pumpAndSettle();
+    }
+  });
 }

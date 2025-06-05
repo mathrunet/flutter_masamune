@@ -641,7 +641,7 @@ class _DateTimeTextField<TValue> extends FormField<DateTime> {
       _DateTimeTextFieldState<TValue>();
 
   static DateTime combine(DateTime date, TimeOfDay time) =>
-      DateTime(date.year, date.month, date.day, time.hour, time.minute);
+      Clock(date.year, date.month, date.day, time.hour, time.minute);
 }
 
 class _DateTimeTextFieldState<TValue> extends FormFieldState<DateTime> {
@@ -776,7 +776,7 @@ class _DateTimeTextFieldState<TValue> extends FormFieldState<DateTime> {
     if (!isShowingDialog) {
       isShowingDialog = true;
       final newValue =
-          await widget.onShowPicker?.call(context, value ?? DateTime.now());
+          await widget.onShowPicker?.call(context, value ?? Clock.now());
       isShowingDialog = false;
       if (newValue != null) {
         _effectiveController?.text = format(newValue) ?? "";
@@ -890,7 +890,7 @@ class FormDateTimeFieldDateTimePicker extends FormDateTimeFieldPicker {
     DateTime currentDateTime,
   ) async {
     final theme = Theme.of(context);
-    final now = defaultDateTime ?? DateTime.now();
+    final now = defaultDateTime ?? Clock.now();
     final date = await showDatePicker(
       context: context,
       helpText: dateSelectorHelpText ?? helpText,
@@ -1024,7 +1024,7 @@ class FormDateTimeFieldDatePicker extends FormDateTimeFieldPicker {
     DateTime currentDateTime,
   ) async {
     final theme = Theme.of(context);
-    final now = defaultDateTime ?? startDate ?? endDate ?? DateTime.now();
+    final now = defaultDateTime ?? startDate ?? endDate ?? Clock.now();
     final date = await showDatePicker(
       context: context,
       helpText: helpText,

@@ -38,14 +38,17 @@ extension DateTimeIterableExtensions on Iterable<DateTime> {
         tmpPoint = p;
       }
     }
-    return res;
+    if (res == null) {
+      return null;
+    }
+    return Clock.fromDateTime(res);
   }
 
   /// Calculates the most recent date in the [DateTime] list.
   ///
   /// [DateTime]のリストの中で一番新しい日付を算出します。
   DateTime max() {
-    return DateTime.fromMicrosecondsSinceEpoch(
+    return Clock.fromMicrosecondsSinceEpoch(
       map((e) => e.microsecondsSinceEpoch).reduce((a, b) => a > b ? a : b),
     );
   }
@@ -54,7 +57,7 @@ extension DateTimeIterableExtensions on Iterable<DateTime> {
   ///
   /// [DateTime]のリストの中で一番古い日付を算出します。
   DateTime min() {
-    return DateTime.fromMicrosecondsSinceEpoch(
+    return Clock.fromMicrosecondsSinceEpoch(
       map((e) => e.microsecondsSinceEpoch).reduce((a, b) => a < b ? a : b),
     );
   }

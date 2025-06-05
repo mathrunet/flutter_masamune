@@ -105,7 +105,7 @@ class LocalNotification extends MasamuneControllerBase<NotificationValue,
       await wait(
         col.map((e) =>
             e.value?.repeat == LocalNotificationRepeatSettings.none &&
-                    (e.value?.time.value.isBefore(DateTime.now()) ?? false)
+                    (e.value?.time.value.isBefore(Clock.now()) ?? false)
                 ? e.delete()
                 : null),
       );

@@ -65,7 +65,7 @@ class _TimerValueState extends ScopedValueState<Timer?, _TimerValue> {
   @override
   void didUpdateValue(_TimerValue oldValue) {
     super.didUpdateValue(oldValue);
-    final now = DateTime.now();
+    final now = Clock.now();
     if (oldValue.duration != value.duration ||
         (_startTime != null && now.difference(_startTime!) >= value.duration)) {
       _update();
@@ -74,9 +74,9 @@ class _TimerValueState extends ScopedValueState<Timer?, _TimerValue> {
 
   void _update() {
     _timer?.cancel();
-    _startTime = DateTime.now();
+    _startTime = Clock.now();
     _timer = Timer(value.duration, () {
-      value.callback(DateTime.now(), _startTime ?? DateTime.now());
+      value.callback(Clock.now(), _startTime ?? Clock.now());
       _timer = null;
       setState(() {});
     });

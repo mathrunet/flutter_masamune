@@ -62,9 +62,9 @@ class _PeriodicValueState extends ScopedValueState<Timer, _PeriodicValue> {
   @override
   void initValue() {
     super.initValue();
-    final startTime = DateTime.now();
+    final startTime = Clock.now();
     _timer = Timer.periodic(value.duration, (timer) {
-      value.callback(DateTime.now(), startTime);
+      value.callback(Clock.now(), startTime);
     });
   }
 

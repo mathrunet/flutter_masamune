@@ -531,17 +531,17 @@ class _CalendarState<T> extends State<Calendar<T>>
 
   DateTime _prevMonth(DateTime month) {
     if (month.month == 1) {
-      return DateTime(month.year - 1, 12);
+      return Clock(month.year - 1, 12);
     } else {
-      return DateTime(month.year, month.month - 1);
+      return Clock(month.year, month.month - 1);
     }
   }
 
   DateTime _nextMonth(DateTime month) {
     if (month.month == 12) {
-      return DateTime(month.year + 1, 1);
+      return Clock(month.year + 1, 1);
     } else {
-      return DateTime(month.year, month.month + 1);
+      return Clock(month.year, month.month + 1);
     }
   }
 

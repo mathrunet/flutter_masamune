@@ -29,6 +29,7 @@ class MasamuneTestConfig {
     FunctionsAdapter? functionsAdapter,
     List<LoggerAdapter> loggerAdapters = const [],
     ModelAdapter? modelAdapter,
+    DateTime? testCurrentTime,
     AppThemeData? theme,
     List<MasamuneAdapter> masamuneAdapters = const [],
     List<LocalizationsDelegate>? localizationsDelegates,
@@ -65,6 +66,7 @@ class MasamuneTestConfig {
       functionsAdapter: runtimeFunctionsAdapter,
       loggerAdapters: runtimeLoggerAdapters,
       modelAdapter: runtimeModelAdapter,
+      testCurrentTime: testCurrentTime,
     );
     return AlchemistConfig.runWithConfig(
       config: AlchemistConfig(

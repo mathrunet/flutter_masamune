@@ -822,7 +822,7 @@ class _MonthTextFieldState<TValue> extends FormFieldState<DateTime> {
     final months = match.groupNames.contains("MM")
         ? int.tryParse(match.namedGroup("MM") ?? "") ?? 0
         : 0;
-    return DateTime(
+    return Clock(
       years,
       months,
       1,
@@ -1036,7 +1036,7 @@ class FormMonthModalFieldPicker {
     );
     final theme = Theme.of(context);
     DateTime? res;
-    final now = DateTime.now();
+    final now = Clock.now();
     final startYear = begin?.year ?? (now.year - 10);
     final endYear = end?.year ?? (now.year + 10);
     final selectedYear = ((currentDateTime?.year ??
@@ -1072,7 +1072,7 @@ class FormMonthModalFieldPicker {
         data: [
           for (var y = startYear; y < endYear; y++) ...[
             () {
-              final year = DateTime(y, 1, 1);
+              final year = Clock(y, 1, 1);
               final startMonth = y == startYear ? begin?.month ?? 1 : 1;
               final endMonth = y == endYear - 1 ? end?.month ?? 12 : 12;
               return _PickerItem(
@@ -1108,9 +1108,9 @@ class FormMonthModalFieldPicker {
           month = month + ((begin?.month ?? 1) - 1);
         }
         if (lastDayOfMonth ?? false) {
-          res = DateTime(value[0] + startYear, month + 1, 0);
+          res = Clock(value[0] + startYear, month + 1, 0);
         } else {
-          res = DateTime(value[0] + startYear, month, day ?? 1);
+          res = Clock(value[0] + startYear, month, day ?? 1);
         }
       },
     ).showModal(context);

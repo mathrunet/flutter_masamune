@@ -15,6 +15,7 @@ void masamuneApplyTestMocks({
   FunctionsAdapter? functionsAdapter,
   List<LoggerAdapter> loggerAdapters = const [],
   ModelAdapter? modelAdapter,
+  DateTime? testCurrentTime,
 }) {
   if (ensureInitialized) {
     WidgetsFlutterBinding.ensureInitialized();
@@ -36,5 +37,8 @@ void masamuneApplyTestMocks({
   }
   if (loggerAdapters.isNotEmpty) {
     TestLoggerAdapterScope.setTestAdapters(loggerAdapters);
+  }
+  if (testCurrentTime != null) {
+    Clock.setTestCurrentTime(testCurrentTime);
   }
 }

@@ -389,7 +389,7 @@ extension on LocationDto {
       speed: speed,
       speedAccuracy: speedAccuracy,
       heading: heading,
-      timestamp: time ?? DateTime.now(),
+      timestamp: time ?? Clock.now(),
     );
   }
 }

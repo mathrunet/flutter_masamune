@@ -412,7 +412,7 @@ class AccessTokenValue {
     if (expirationTime == null) {
       return false;
     }
-    return DateTime.now().isAfter(
+    return Clock.now().isAfter(
       expirationTime!.subtract(const Duration(minutes: 5)),
     );
   }

@@ -1350,7 +1350,7 @@ class _DateTimePickerAdapter extends _PickerAdapter<DateTime> {
         _needUpdatePrev = true;
       }
     }
-    value ??= DateTime.now();
+    value ??= Clock.now();
     _existSec = existSec();
     _verificationMinMaxValue();
   }
@@ -1670,7 +1670,7 @@ class _DateTimePickerAdapter extends _PickerAdapter<DateTime> {
                 s = 0;
               }
               final h = _colAP >= 0 ? _calcHourOfAMPM(sh, m) : sh;
-              value = DateTime(value!.year, value!.month, value!.day, h, m, s);
+              value = Clock(value!.year, value!.month, value!.day, h, m, s);
             }
           }
           break;
@@ -1765,7 +1765,7 @@ class _DateTimePickerAdapter extends _PickerAdapter<DateTime> {
       day = __day;
       _isChangeDay = true;
     }
-    value = DateTime(year, month, day, h, m, s);
+    value = Clock(year, month, day, h, m, s);
 
     if (_verificationMinMaxValue()) {
       notifyDataChanged();
@@ -1779,10 +1779,10 @@ class _DateTimePickerAdapter extends _PickerAdapter<DateTime> {
     DateTime? _minV = minValue;
     DateTime? _maxV = maxValue;
     if (_minV == null && yearBegin != null) {
-      _minV = DateTime(yearBegin!, 1, 1, minHour ?? 0);
+      _minV = Clock(yearBegin!, 1, 1, minHour ?? 0);
     }
     if (_maxV == null && yearEnd != null) {
-      _maxV = DateTime(yearEnd!, 12, 31, maxHour ?? 23, 59, 59);
+      _maxV = Clock(yearEnd!, 12, 31, maxHour ?? 23, 59, 59);
     }
     if (_minV != null &&
         (value!.millisecondsSinceEpoch < _minV.millisecondsSinceEpoch)) {

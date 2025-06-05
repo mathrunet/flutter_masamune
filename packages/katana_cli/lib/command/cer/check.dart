@@ -24,7 +24,7 @@ class CerCheckCliCommand extends CliCommand {
       return;
     }
     final dateTime = await cer.lastModified();
-    final duration = DateTime.now().difference(dateTime);
+    final duration = Clock.now().difference(dateTime);
     if (duration.inDays > 300) {
       throw Exception(
         "Cer file is too old. Please update it from https://mathru.notion.site/AppStoreConnect-ID-f516ff1a767146f69acd6780fbcf20fe",

@@ -69,8 +69,8 @@ class FormPageState extends State<FormPage> {
   final form = FormController(<String, dynamic>{
     "name": "aaaa",
     "description": "bbb",
-    "date": DateTime.now(),
-    "monthDay": DateTime.now(),
+    "date": Clock.now(),
+    "monthDay": Clock.now(),
     "number": 100,
   });
 

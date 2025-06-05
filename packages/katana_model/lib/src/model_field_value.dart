@@ -531,7 +531,7 @@ extension DynamicMapModelFieldValueExtensions on DynamicMap {
   /// [Map]に[key]の要素がない場合や[ModelTimestamp]と型が合わない場合、[defaultValue]が値となる[ModelTimestamp]が返されます。
   ModelTimestamp getAsModelTimestamp(String key, [DateTime? defaultValue]) {
     if (!containsKey(key) || this[key] is! ModelTimestamp) {
-      return ModelTimestamp(defaultValue ?? DateTime.now());
+      return ModelTimestamp(defaultValue ?? Clock.now());
     }
     return this[key] as ModelTimestamp;
   }
@@ -545,7 +545,7 @@ extension DynamicMapModelFieldValueExtensions on DynamicMap {
   /// [Map]に[key]の要素がない場合や[ModelDate]と型が合わない場合、[defaultValue]が値となる[ModelDate]が返されます。
   ModelDate getAsModelDate(String key, [DateTime? defaultValue]) {
     if (!containsKey(key) || this[key] is! ModelDate) {
-      return ModelDate(defaultValue ?? DateTime.now());
+      return ModelDate(defaultValue ?? Clock.now());
     }
     return this[key] as ModelDate;
   }
@@ -981,7 +981,7 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
   factory ModelTimestamp.fromJson(DynamicMap json) {
     final timestamp = json.get(
       kTimeKey,
-      DateTime.now().microsecondsSinceEpoch,
+      Clock.now().microsecondsSinceEpoch,
     );
     return ModelTimestamp.fromServer(
       DateTime.fromMicrosecondsSinceEpoch(timestamp),
@@ -1015,7 +1015,7 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
   static const kSourceKey = "@source";
 
   @override
-  DateTime get value => _value ?? DateTime.now();
+  DateTime get value => _value ?? Clock.now();
   final DateTime? _value;
 
   final ModelFieldValueSource _source;
@@ -1091,7 +1091,7 @@ class _ModelTimestampWithNow extends _ModelTimestamp {
 
   @override
   DateTime? get _value {
-    return DateTime.now();
+    return Clock.now();
   }
 }
 
@@ -1119,7 +1119,7 @@ class _ModelTimestampWithDateTime extends _ModelTimestamp {
 
   @override
   DateTime? get _value {
-    return DateTime(
+    return Clock(
       year,
       month ?? 1,
       day ?? 1,
@@ -1366,7 +1366,7 @@ class ModelDate extends ModelFieldValue<DateTime>
   factory ModelDate.fromJson(DynamicMap json) {
     final timestamp = json.get(
       kTimeKey,
-      DateTime.now().microsecondsSinceEpoch,
+      Clock.now().microsecondsSinceEpoch,
     );
     return ModelDate.fromServer(
       DateTime.fromMicrosecondsSinceEpoch(timestamp),
@@ -1396,8 +1396,8 @@ class ModelDate extends ModelFieldValue<DateTime>
 
   @override
   DateTime get value {
-    final now = _value ?? DateTime.now();
-    return DateTime(
+    final now = _value ?? Clock.now();
+    return Clock(
       now.year,
       now.month,
       now.day,
@@ -1482,7 +1482,7 @@ class _ModelDateWithNow extends _ModelDate {
 
   @override
   DateTime? get _value {
-    return DateTime.now();
+    return Clock.now();
   }
 }
 
@@ -1500,7 +1500,7 @@ class _ModelDateWithDateTime extends _ModelDate {
 
   @override
   DateTime? get _value {
-    return DateTime(
+    return Clock(
       year,
       month ?? 1,
       day ?? 1,
@@ -1626,14 +1626,11 @@ class ModelDateFilter extends ModelFieldValueFilter<ModelDate> {
       return filter(source.value.microsecondsSinceEpoch,
           target.value.microsecondsSinceEpoch);
     } else if (source is ModelDate && target is DateTime) {
-      return filter(
-          source.value.microsecondsSinceEpoch,
-          DateTime(target.year, target.month, target.day)
-              .microsecondsSinceEpoch);
+      return filter(source.value.microsecondsSinceEpoch,
+          Clock(target.year, target.month, target.day).microsecondsSinceEpoch);
     } else if (source is DateTime && target is ModelDate) {
       return filter(
-          DateTime(source.year, source.month, source.day)
-              .microsecondsSinceEpoch,
+          Clock(source.year, source.month, source.day).microsecondsSinceEpoch,
           target.value.microsecondsSinceEpoch);
     } else if (source is ModelDate && target is num) {
       return filter(source.value.microsecondsSinceEpoch, target);
@@ -1760,7 +1757,7 @@ class ModelTime extends ModelFieldValue<DateTime>
   factory ModelTime.fromJson(DynamicMap json) {
     final timestamp = json.get(
       kTimeKey,
-      DateTime.now().microsecondsSinceEpoch,
+      Clock.now().microsecondsSinceEpoch,
     );
     return ModelTime.fromServer(
       DateTime.fromMicrosecondsSinceEpoch(timestamp),
@@ -1795,8 +1792,8 @@ class ModelTime extends ModelFieldValue<DateTime>
 
   @override
   DateTime get value {
-    final now = _value ?? DateTime.now();
-    return DateTime(
+    final now = _value ?? Clock.now();
+    return Clock(
       _defaultYear,
       _defaultMonth,
       _defaultDay,
@@ -1817,7 +1814,7 @@ class ModelTime extends ModelFieldValue<DateTime>
   /// [ModelTimestamp]に変換します。日付は[date]、もしくは1970年1月1日になります。
   ModelTimestamp toModelTimestamp([ModelDate? date]) {
     return ModelTimestamp(
-      DateTime(
+      Clock(
         date?.value.year ?? _defaultYear,
         date?.value.month ?? _defaultMonth,
         date?.value.day ?? _defaultDay,
@@ -1908,7 +1905,7 @@ class _ModelTimeWithNow extends _ModelTime {
 
   @override
   DateTime? get _value {
-    return DateTime.now();
+    return Clock.now();
   }
 }
 
@@ -1930,7 +1927,7 @@ class _ModelTimeWithDateTime extends _ModelTime {
 
   @override
   DateTime? get _value {
-    return DateTime(
+    return Clock(
       ModelTime._defaultYear,
       ModelTime._defaultMonth,
       ModelTime._defaultDay,
@@ -2063,7 +2060,7 @@ class ModelTimeFilter extends ModelFieldValueFilter<ModelTime> {
     } else if (source is ModelTime && target is DateTime) {
       return filter(
           source.value.microsecondsSinceEpoch,
-          DateTime(
+          Clock(
                   ModelTime._defaultYear,
                   ModelTime._defaultMonth,
                   ModelTime._defaultDay,
@@ -2075,7 +2072,7 @@ class ModelTimeFilter extends ModelFieldValueFilter<ModelTime> {
               .microsecondsSinceEpoch);
     } else if (source is DateTime && target is ModelTime) {
       return filter(
-          DateTime(
+          Clock(
                   ModelTime._defaultYear,
                   ModelTime._defaultMonth,
                   ModelTime._defaultDay,
@@ -2170,11 +2167,11 @@ class ModelTimestampRange extends ModelFieldValue<DateTimeRange>
   factory ModelTimestampRange.fromJson(DynamicMap json) {
     final start = json.get(
       kStartTimeKey,
-      DateTime.now().microsecondsSinceEpoch,
+      Clock.now().microsecondsSinceEpoch,
     );
     final end = json.get(
       kEndTimeKey,
-      DateTime.now().microsecondsSinceEpoch + 1,
+      Clock.now().microsecondsSinceEpoch + 1,
     );
     return ModelTimestampRange.fromServer(
       DateTimeRange(
@@ -2214,8 +2211,8 @@ class ModelTimestampRange extends ModelFieldValue<DateTimeRange>
   DateTimeRange get value =>
       _value ??
       DateTimeRange(
-        start: DateTime.now(),
-        end: DateTime.now().add(const Duration(days: 1)),
+        start: Clock.now(),
+        end: Clock.now().add(const Duration(days: 1)),
       );
   final DateTimeRange? _value;
 
@@ -2498,11 +2495,11 @@ class ModelDateRange extends ModelFieldValue<DateTimeRange>
   factory ModelDateRange.fromJson(DynamicMap json) {
     final start = json.get(
       kStartTimeKey,
-      DateTime.now().microsecondsSinceEpoch,
+      Clock.now().microsecondsSinceEpoch,
     );
     final end = json.get(
       kEndTimeKey,
-      DateTime.now().microsecondsSinceEpoch + 1,
+      Clock.now().microsecondsSinceEpoch + 1,
     );
     return ModelDateRange.fromServer(
       DateTimeRange(
@@ -2542,16 +2539,16 @@ class ModelDateRange extends ModelFieldValue<DateTimeRange>
   DateTimeRange get value {
     final now = _value ??
         DateTimeRange(
-          start: DateTime.now(),
-          end: DateTime.now().add(const Duration(days: 1)),
+          start: Clock.now(),
+          end: Clock.now().add(const Duration(days: 1)),
         );
     return DateTimeRange(
-      start: DateTime(
+      start: Clock(
         now.start.year,
         now.start.month,
         now.start.day,
       ),
-      end: DateTime(
+      end: Clock(
         now.end.year,
         now.end.month,
         now.end.day,
@@ -2831,11 +2828,11 @@ class ModelTimeRange extends ModelFieldValue<DateTimeRange>
   factory ModelTimeRange.fromJson(DynamicMap json) {
     final start = json.get(
       kStartTimeKey,
-      DateTime.now().microsecondsSinceEpoch,
+      Clock.now().microsecondsSinceEpoch,
     );
     final end = json.get(
       kEndTimeKey,
-      DateTime.now().microsecondsSinceEpoch + 1,
+      Clock.now().microsecondsSinceEpoch + 1,
     );
     return ModelTimeRange.fromServer(
       DateTimeRange(
@@ -2875,8 +2872,8 @@ class ModelTimeRange extends ModelFieldValue<DateTimeRange>
   DateTimeRange get value {
     return _value ??
         DateTimeRange(
-          start: DateTime.now(),
-          end: DateTime.now().add(const Duration(hours: 1)),
+          start: Clock.now(),
+          end: Clock.now().add(const Duration(hours: 1)),
         );
   }
 
@@ -2890,7 +2887,7 @@ class ModelTimeRange extends ModelFieldValue<DateTimeRange>
   ModelTimestampRange toModelTimestampRange([ModelDate? date]) {
     return ModelTimestampRange(
       DateTimeRange(
-        start: DateTime(
+        start: Clock(
           date?.value.year ?? ModelTime._defaultYear,
           date?.value.month ?? ModelTime._defaultMonth,
           date?.value.day ?? ModelTime._defaultDay,
@@ -2900,7 +2897,7 @@ class ModelTimeRange extends ModelFieldValue<DateTimeRange>
           value.start.millisecond,
           value.start.microsecond,
         ),
-        end: DateTime(
+        end: Clock(
           date?.value.year ?? ModelTime._defaultYear,
           date?.value.month ?? ModelTime._defaultMonth,
           date?.value.day ?? ModelTime._defaultDay,

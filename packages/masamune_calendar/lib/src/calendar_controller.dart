@@ -31,7 +31,7 @@ class CalendarController
   /// Sets the date in focus for calendar display.
   ///
   /// カレンダーの表示を行うためフォーカスされている日付を設定します。
-  DateTime get focusedDay => _focusedDay ?? initialDay ?? DateTime.now();
+  DateTime get focusedDay => _focusedDay ?? initialDay ?? Clock.now();
 
   /// Sets the selected date in the calendar.
   ///

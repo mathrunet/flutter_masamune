@@ -63,7 +63,7 @@ PeriodicScope(
 ### カウントダウンタイマー
 
 ```dart
-final targetTime = DateTime.now().add(Duration(minutes: 5));
+final targetTime = Clock.now().add(Duration(minutes: 5));
 
 PeriodicScope(
   duration: const Duration(seconds: 1),
@@ -80,7 +80,7 @@ PeriodicScope(
 ### 経過時間の表示
 
 ```dart
-final startTime = DateTime.now();
+final startTime = Clock.now();
 
 PeriodicScope(
   duration: const Duration(seconds: 1),

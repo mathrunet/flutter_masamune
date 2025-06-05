@@ -63,7 +63,7 @@ class IOSSubscriptionPurchaseFunctionsAction extends PurchaseFunctionsAction {
     if (response.get<int?>("status", null) != 0) {
       return false;
     }
-    final now = DateTime.now();
+    final now = Clock.now();
     final latestReceiptInfo = response
         .getAsList("latest_receipt_info")
         .cast<Map>()
