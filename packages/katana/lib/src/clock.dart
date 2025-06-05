@@ -476,4 +476,24 @@ class Clock extends DateTime {
   ///
   /// 年の月数。
   static const int monthsPerYear = DateTime.monthsPerYear;
+
+  @override
+  Clock add(Duration duration) {
+    return Clock.fromDateTime(super.add(duration));
+  }
+
+  @override
+  Clock subtract(Duration duration) {
+    return Clock.fromDateTime(super.subtract(duration));
+  }
+
+  @override
+  Clock toLocal() {
+    return Clock.fromDateTime(super.toLocal());
+  }
+
+  @override
+  Clock toUtc() {
+    return Clock.fromDateTime(super.toUtc());
+  }
 }

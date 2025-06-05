@@ -37,7 +37,9 @@ export "src/others/others.dart"
 
 part "extension/date_time_extensions.dart";
 part "extension/boolean_extensions.dart";
+part "extension/clock_extensions.dart";
 part "extension/date_time_iterable_extensions.dart";
+part "extension/clock_iterable_extensions.dart";
 part "extension/double_extensions.dart";
 part "extension/double_iterable_extensions.dart";
 part "extension/duration_extensions.dart";
