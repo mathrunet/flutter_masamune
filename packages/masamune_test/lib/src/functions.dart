@@ -10,6 +10,7 @@ part of "/masamune_test.dart";
 @isTest
 void masamunePageTest<T>({
   required String name,
+  required String path,
   required Widget Function(BuildContext context, MasamuneTestRef ref, T? value)
       builder,
   FutureOr<T?> Function(BuildContext context, MasamuneTestRef ref)? loader,
@@ -21,7 +22,8 @@ void masamunePageTest<T>({
   ],
 }) =>
     _masamuneUITest(
-      name: "$name Page",
+      name: "${name.replaceAll(RegExp(r"Page$"), "")} Page".toPascalCase(),
+      path: "pages/${path.trimString("/")}",
       builder: builder,
       loader: loader,
       devices: devices,
@@ -37,6 +39,7 @@ void masamunePageTest<T>({
 @isTest
 void masamuneWidgetTest<T>({
   required String name,
+  required String path,
   required Widget Function(BuildContext context, MasamuneTestRef ref, T? value)
       builder,
   FutureOr<T?> Function(BuildContext context, MasamuneTestRef ref)? loader,
@@ -44,7 +47,8 @@ void masamuneWidgetTest<T>({
   double? height,
 }) =>
     _masamuneUITest(
-      name: "$name Widget",
+      name: "${name.replaceAll(RegExp(r"Widget$"), "")} Widget".toPascalCase(),
+      path: "widgets/${path.trimString("/")}",
       loader: loader,
       builder: (context, ref, value) {
         return _PageContainer(
@@ -57,6 +61,7 @@ void masamuneWidgetTest<T>({
 
 void _masamuneUITest<T>({
   required String name,
+  required String path,
   required Widget Function(BuildContext context, MasamuneTestRef ref, T? value)
       builder,
   FutureOr<T?> Function(BuildContext context, MasamuneTestRef ref)? loader,
@@ -67,9 +72,9 @@ void _masamuneUITest<T>({
   group(name.toPascalCase(), () {
     final ref = MasamuneTestConfig.currentRef;
     goldenTest(
+      tags: [],
       name.toPascalCase(),
-      fileName: name.toSnakeCase(),
-      pumpBeforeTest: _pumpAndSettle,
+      fileName: path,
       pumpWidget: _pumpWidget,
       builder: () {
         return GoldenTestGroup(
@@ -152,17 +157,18 @@ void _masamuneUITest<T>({
 @isTest
 void masamuneModelTileTest<T extends ModelRefBase>({
   required String name,
+  required String path,
   required T Function(BuildContext context, MasamuneTestRef ref) document,
   required Widget Function(BuildContext context, MasamuneTestRef ref, T value)
       builder,
 }) {
-  name = "$name Tile Extension";
+  name = "${name.replaceAll(RegExp(r"Model$"), "")} Model".toPascalCase();
   group(name.toPascalCase(), () {
     final ref = MasamuneTestConfig.currentRef;
     goldenTest(
+      tags: [],
       name.toPascalCase(),
-      fileName: name.toSnakeCase(),
-      pumpBeforeTest: _pumpAndSettle,
+      fileName: "models/${path.trimString("/")}",
       pumpWidget: _pumpWidget,
       builder: () {
         return GoldenTestGroup(
@@ -229,21 +235,39 @@ void masamuneControllerTest({
   }
 }
 
-Future<void> _pumpAndSettle(flutter_test.WidgetTester tester) async {
-  await tester.pumpAndSettle();
-}
-
 Future<void> _pumpWidget(
     flutter_test.WidgetTester tester, Widget widget) async {
+  await tester.pumpWidget(widget);
   await tester.runAsync(() async {
-    await tester.pumpWidget(widget);
-    for (var element in flutter_test.find.byType(Image).evaluate()) {
-      if (element.widget is! Image) {
-        continue;
-      }
-      final image = (element.widget as Image).image;
-      await precacheImage(image, element);
+    int retryCount = 0;
+    while (flutter_test.find.byType(_MasamuneTestLoaded).evaluate().isEmpty) {
+      retryCount++;
       await tester.pumpAndSettle();
+      await tester.pumpWidget(widget);
+      if (retryCount > 10) {
+        throw Exception("Failed to find MasamuneTestLoaded");
+      }
     }
+    final images = <Future<void>>[];
+    for (final element in flutter_test.find.byType(Image).evaluate()) {
+      final widget = element.widget as Image;
+      final image = widget.image;
+      images.add(precacheImage(image, element));
+    }
+    for (final element in flutter_test.find.byType(FadeInImage).evaluate()) {
+      final widget = element.widget as FadeInImage;
+      final image = widget.image;
+      images.add(precacheImage(image, element));
+    }
+    for (final element in flutter_test.find.byType(DecoratedBox).evaluate()) {
+      final widget = element.widget as DecoratedBox;
+      final decoration = widget.decoration;
+      if (decoration is BoxDecoration && decoration.image != null) {
+        final image = decoration.image!.image;
+        images.add(precacheImage(image, element));
+      }
+    }
+    await Future.wait(images);
   });
+  await tester.pumpWidget(widget);
 }

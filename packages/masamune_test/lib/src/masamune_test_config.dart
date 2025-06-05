@@ -46,9 +46,11 @@ class MasamuneTestConfig {
     final runtimeLoggerAdapters = loggerAdapters
         .map((loggerAdapter) => _createLoggerAdapter(loggerAdapter))
         .toList();
+    final appAuth = Authentication(adapter: runtimeAuthAdapter);
     final appRef = AppRef(scopedValueContainer: scopedValueContainer);
     _currentRef = MasamuneTestRef._(
       appRef: appRef,
+      appAuth: appAuth,
       masamuneAdapters: masamuneAdapters,
       theme: theme ?? AppThemeData(),
       modelAdapter: runtimeModelAdapter,
@@ -69,13 +71,20 @@ class MasamuneTestConfig {
       testCurrentTime: testCurrentTime,
       masamuneAdapters: masamuneAdapters,
     );
+    await appAuth.tryRestoreAuth();
     return AlchemistConfig.runWithConfig(
       config: AlchemistConfig(
         ciGoldensConfig: CiGoldensConfig(
-          filePathResolver: ciFilePathResolver,
+          filePathResolver: ciFilePathResolver ??
+              (fileName, environmentName) {
+                return "${Directory.current.path}/documents/test/ci/${fileName.trimString("/")}.png";
+              },
         ),
         platformGoldensConfig: PlatformGoldensConfig(
-          filePathResolver: platformFilePathResolver,
+          filePathResolver: platformFilePathResolver ??
+              (fileName, environmentName) {
+                return "${Directory.current.path}/documents/test/${environmentName.toLowerCase()}/${fileName.trimString("/")}.png";
+              },
           enabled: enablePlatformGoldensConfig,
         ),
       ),

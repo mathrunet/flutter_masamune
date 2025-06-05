@@ -37,6 +37,7 @@ class MasamuneTestLoader<T> extends StatefulWidget {
 
 class _MasamuneTestLoaderState<T> extends State<MasamuneTestLoader<T>> {
   T? value;
+  bool _isLoaded = false;
 
   @override
   void didChangeDependencies() {
@@ -46,19 +47,39 @@ class _MasamuneTestLoaderState<T> extends State<MasamuneTestLoader<T>> {
 
   Future<void> _load() async {
     final newValue = await widget.onLoad?.call(context, widget.ref);
-    if (value != newValue) {
-      setState(() {
-        value = newValue;
-      });
-    }
+    setState(() {
+      _isLoaded = true;
+      value = newValue;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    if (_isLoaded || widget.onLoad == null) {
+      return _MasamuneTestLoaded(
+        child: Material(
+          color: theme.backgroundColor,
+          child: widget.builder(context, widget.ref, value),
+        ),
+      );
+    }
     return Material(
       color: theme.backgroundColor,
       child: widget.builder(context, widget.ref, value),
     );
+  }
+}
+
+class _MasamuneTestLoaded extends StatelessWidget {
+  const _MasamuneTestLoaded({
+    required this.child,
+  });
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return child;
   }
 }

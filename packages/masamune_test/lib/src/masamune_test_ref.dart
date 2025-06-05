@@ -5,6 +5,7 @@ part of "/masamune_test.dart";
 /// Masamune Testの各種参照。
 class MasamuneTestRef {
   const MasamuneTestRef._({
+    required this.appAuth,
     required this.appRef,
     required this.modelAdapter,
     required this.storageAdapter,
@@ -20,6 +21,11 @@ class MasamuneTestRef {
   ///
   /// アプリの参照。
   final AppRef appRef;
+
+  /// The app auth.
+  ///
+  /// アプリの認証。
+  final Authentication? appAuth;
 
   /// The localizations delegates.
   ///
