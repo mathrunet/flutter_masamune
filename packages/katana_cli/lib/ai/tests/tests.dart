@@ -1,4 +1,7 @@
 // Project imports:
+import "package:katana_cli/ai/tests/model_extension_test.dart";
+import "package:katana_cli/ai/tests/page_test.dart";
+import "package:katana_cli/ai/tests/widget_test.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// TestsAiCode is a command that generates AI code to do the test.
@@ -17,6 +20,9 @@ class TestsAiCode extends CliAiCodeCommand {
   @override
   Map<String, CliAiCode> get codes => {
         "test": const TestMdCliAiCode(),
+        "model_extension_test": const ModelExtensionTestMdCliAiCode(),
+        "widget_test": const WidgetTestMdCliAiCode(),
+        "page_test": const PageTestMdCliAiCode(),
       };
 }
 

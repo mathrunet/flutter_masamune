@@ -8,6 +8,7 @@ import "package:html/dom.dart";
 import "package:html/parser.dart";
 import "package:image/image.dart";
 import "package:image/src/formats/ico_encoder.dart";
+import "package:katana_cli/ai/tests/tests.dart";
 import "package:xml/xml.dart";
 
 // Project imports:
@@ -505,6 +506,7 @@ class ComposeCliCommand extends CliCommand {
     await const DesignsAiCode().exec(context);
     await const ImplsAiCode().exec(context);
     await const DocsAiCode().exec(context);
+    await const TestsAiCode().exec(context);
     label("Create a katana.yaml");
     await const KatanaCliCode(true).generateFile("katana.yaml");
     label("Replace LICENSE");
@@ -1390,43 +1392,79 @@ ${module == null ? "" : "import \"module.dart\";"}
 /// By replacing this with another adapter, the data storage location can be changed.
 // TODO: Change the database.
 final modelAdapter = runtimeModelAdapter;
-final runtimeModelAdapter = RuntimeModelAdapter();
 
 /// App Auth.
 /// 
 /// Changing to another adapter allows you to change to another authentication mechanism.
 // TODO: Change the authentication.
 final authAdapter = runtimeAuthAdapter;
-final runtimeAuthAdapter = RuntimeAuthAdapter();
 
 /// App Storage.
 /// 
 /// Changing to another adapter allows you to change to another storage mechanism.
 // TODO: Change the storage.
 final storageAdapter = runtimeStorageAdapter;
-final runtimeStorageAdapter = LocalStorageAdapter();
 
 /// App Functions.
 /// 
 /// Changing to another adapter allows you to change to another functions mechanism.
 // TODO: Change the functions.
 final functionsAdapter = runtimeFunctionsAdapter;
-final runtimeFunctionsAdapter = RuntimeFunctionsAdapter();
 
 /// Logger adapter list.
 /// 
 /// Adapters for logging can be defined here.
 // TODO: Change the loggers.
 final loggerAdapters = runtimeLoggerAdapters;
-final runtimeLoggerAdapters = <LoggerAdapter>[
-  const ConsoleLoggerAdapter(),
-];
 
-/// Masamune adapter.
+/// Masamune adapter list.
 /// 
 /// The Masamune framework plugin functions can be defined together.
 // TODO: Add the adapters.
 final masamuneAdapters = runtimeMasamuneAdapters;
+
+/// Test user id.
+/// 
+/// Please set up mock data using this.
+const testUserUid = "${uuid()}";
+
+/// Current time.
+/// 
+/// Set the current time for testing.
+/// 
+/// Please set up mock data using this.
+final testCurrentTime = Clock(${Clock.now().year}, 1, 1, 12, 0, 0);
+
+/// App Model.
+/// 
+/// Testing model adapter.
+final runtimeModelAdapter = RuntimeModelAdapter();
+
+/// App Auth.
+/// 
+/// Test Auth adapter.
+final runtimeAuthAdapter = RuntimeAuthAdapter();
+
+/// App Storage.
+/// 
+/// Testing storage adapter.
+final runtimeStorageAdapter = LocalStorageAdapter();
+
+/// App Functions.
+/// 
+/// Testing functions adapter.
+final runtimeFunctionsAdapter = RuntimeFunctionsAdapter();
+
+/// Logger adapter list.
+/// 
+/// Testing logger adapter list.
+final runtimeLoggerAdapters = <LoggerAdapter>[
+  const ConsoleLoggerAdapter(),
+];
+
+/// Masamune adapter list.
+/// 
+/// Testing masamune adapter list.
 final runtimeMasamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
   ${module != null ? "appModule," : ""}

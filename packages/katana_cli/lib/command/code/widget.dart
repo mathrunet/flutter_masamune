@@ -116,8 +116,9 @@ import "package:$packageName/widgets/$sourcePath.dart";
 
 void main() {
   masamuneWidgetTest(
-    name: "$className",
-    builder: (context, ref) {
+    name: "${className}Widget",
+    path: "$sourcePath",
+    builder: (context, ref, value) {
       // TODO: Write test code.
       return const ${className}Widget();      
     },

@@ -42,46 +42,53 @@ class MockDataImplMdCliAiCode extends CliAiCode {
         ```dart
         // lib/adapter.dart
 
-        // 参照用のユーザーIDを予め定義しておく
-        const userUid = "5da16680f3234c6a9781505cc9080909";
+        /// Test user id.
+        /// 
+        /// Please set up mock data using this.
+        const testUserUid = "5da16680f3234c6a9781505cc9080909";
+
+        /// Current time.
+        /// 
+        /// Set the current time for testing.
+        /// 
+        /// Please set up mock data using this.
+        final testCurrentTime = Clock(2025, 1, 1, 12, 0, 0);
 
         /// App Model.
-        ///
-        /// By replacing this with another adapter, the data storage location can be changed.
-        // TODO: Change the database.
-        final modelAdapter = runtimeModelAdapter;
+        /// 
+        /// Testing model adapter.
         final runtimeModelAdapter = RuntimeModelAdapter(
           initialValue: [
             MemoModelInitialCollection({
               "a5ba9e241dd94d32b2d869d6bb3e804b" : MemoModel(
                 title: "title 0",
                 content: "content 0",
-                createdBy: UserModelRefPath(userUid),
-                createdAt: ModelTimestamp(Clock.now().subtract(Duration(days: 0))),
-                updatedAt: ModelTimestamp(Clock.now().subtract(Duration(days: 0))),
+                createdBy: UserModelRefPath(testUserUid),
+                createdAt: ModelTimestamp(testCurrentTime.subtract(Duration(days: 0))),
+                updatedAt: ModelTimestamp(testCurrentTime.subtract(Duration(days: 0))),
               ),
               "2844e503e4d242c79f5f45e59d7adeb6" : MemoModel(
                 title: "title 1",
                 content: "content 1",
-                createdBy: UserModelRefPath(userUid),
-                createdAt: ModelTimestamp(Clock.now().subtract(Duration(days: 1))),
-                updatedAt: ModelTimestamp(Clock.now().subtract(Duration(days: 1))),
+                createdBy: UserModelRefPath(testUserUid),
+                createdAt: ModelTimestamp(testCurrentTime.subtract(Duration(days: 1))),
+                updatedAt: ModelTimestamp(testCurrentTime.subtract(Duration(days: 1))),
               ),
               for (var i = 2; i < 10; i++)
               generateCode(32,  seed: i) : MemoModel(
                 title: "title $i",
                 content: "content $i",
-                createdBy: UserModelRefPath(userUid),
-                createdAt: ModelTimestamp(Clock.now().subtract(Duration(days: i))),
-                updatedAt: ModelTimestamp(Clock.now().subtract(Duration(days: i))),
+                createdBy: UserModelRefPath(testUserUid),
+                createdAt: ModelTimestamp(testCurrentTime.subtract(Duration(days: i))),
+                updatedAt: ModelTimestamp(testCurrentTime.subtract(Duration(days: i))),
               ),
             }),
             UserModelInitialCollection({
-              userUid: UserModel(
+              testUserUid: UserModel(
                 name: "Main User",
                 email: "main@example.com",
-                createdAt: ModelTimestamp(Clock.now().subtract(Duration(days: i))),
-                updatedAt: ModelTimestamp(Clock.now().subtract(Duration(days: i))),
+                createdAt: ModelTimestamp(testCurrentTime.subtract(Duration(days: i))),
+                updatedAt: ModelTimestamp(testCurrentTime.subtract(Duration(days: i))),
               ),
             }),
           ],

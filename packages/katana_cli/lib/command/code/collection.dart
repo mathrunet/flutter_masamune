@@ -216,12 +216,13 @@ import "package:$packageName/models/$sourcePath.dart";
 
 void main() {
   masamuneModelTileTest(
-    name: "$className",
+    name: "${className}Model",
+    path: "$sourcePath",
     // TODO: Set the document Id.
     document: (ref) => ref.appRef.model(${className}Model.document("${uuid()}")),
-    builder: (context, ref, doc) {
+    builder: (context, ref, value) {
       // TODO: Write test code.
-      return doc.toTile(context);
+      return value.toTile(context);
     },
   );
 }

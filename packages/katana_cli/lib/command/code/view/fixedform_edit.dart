@@ -160,10 +160,11 @@ import "package:$packageName/pages/$sourcePath.dart";
 
 void main() {
   masamunePageTest(
-    name: "$className",
-    builder: (context, ref) {
+    name: "${className}Page",
+    path: "$sourcePath",
+    builder: (context, ref, value) {
       // TODO: Write test code.
-      return const ${className}Page();      
+      return const ${className}Page();
     },
   );
 }

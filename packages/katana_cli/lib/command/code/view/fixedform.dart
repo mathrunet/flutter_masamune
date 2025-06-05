@@ -212,17 +212,19 @@ import "package:$packageName/pages/$sourcePath.dart";
 
 void main() {
   masamunePageTest(
-    name: "${className}Add",
+    name: "${className}AddPage",
+    path: "${sourcePath}_add",
     builder: (context, ref) {
       // TODO: Write test code.
-      return const ${className}AddPage();      
+      return const ${className}AddPage();
     },
   );
   masamunePageTest(
-    name: "${className}Edit",
-    builder: (context, ref) {
+    name: "${className}EditPage",
+    path: "${sourcePath}_edit",
+    builder: (context, ref, value) {
       // TODO: Write test code.
-      return const ${className}EditPage();      
+      return const ${className}EditPage();
     },
   );
 }

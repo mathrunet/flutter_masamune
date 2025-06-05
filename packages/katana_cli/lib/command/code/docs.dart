@@ -21,5 +21,6 @@ class CodeDocsCliCommand extends CliCommand {
     await const DesignsAiCode().exec(context);
     await const ImplsAiCode().exec(context);
     await const DocsAiCode().exec(context);
+    await const TestsAiCode().exec(context);
   }
 }
