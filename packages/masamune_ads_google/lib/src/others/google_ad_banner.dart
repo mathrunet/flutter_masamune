@@ -168,6 +168,9 @@ class _GoogleBannerAdState extends State<GoogleBannerAd> {
   }
 
   Future<void> loadAd() async {
+    if (GoogleAdsMasamuneAdapter.primary.isTest) {
+      return;
+    }
     await GoogleAdsCore.initialize();
     _bannerAd ??= GoogleAdsCore._rentBannerAd(
       adUnitId:
@@ -185,6 +188,19 @@ class _GoogleBannerAdState extends State<GoogleBannerAd> {
   @override
   Widget build(BuildContext context) {
     final adSize = widget.size._toAdSize();
+    if (GoogleAdsMasamuneAdapter.primary.isTest) {
+      return Container(
+        decoration: BoxDecoration(
+          border: widget.border,
+          color: Theme.of(context).disabledColor,
+        ),
+        width: adSize.width.toDouble(),
+        height: adSize.height.toDouble(),
+        child: const Center(
+          child: Text("AD BANNER"),
+        ),
+      );
+    }
     return Container(
       decoration: widget.border != null
           ? BoxDecoration(
