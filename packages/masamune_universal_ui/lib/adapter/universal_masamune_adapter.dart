@@ -44,15 +44,6 @@ class UniversalMasamuneAdapter extends MasamuneAdapter {
     this.enableResponsivePadding = true,
   });
 
-  @override
-  Widget onBuildApp(BuildContext context, Widget app) {
-    BreakpointSettings.value = breakpointSettings;
-    return MasamuneAdapterScope<UniversalMasamuneAdapter>(
-      adapter: this,
-      child: app,
-    );
-  }
-
   /// デフォルトのブレークポイント。
   final Breakpoint defaultBreakpoint;
 
@@ -101,4 +92,34 @@ class UniversalMasamuneAdapter extends MasamuneAdapter {
   ///
   /// [Null]の場合、親に[UniversalColumn]や[UniversalContainer]がある場合は自動的に`false`になります。ない場合は`true`になります。
   final bool enableResponsivePadding;
+
+  /// You can retrieve the [UniversalMasamuneAdapter] first given by [MasamuneAdapterScope].
+  ///
+  /// 最初に[MasamuneAdapterScope]で与えた[UniversalMasamuneAdapter]を取得することができます。
+  static UniversalMasamuneAdapter get primary {
+    assert(
+      _primary != null,
+      "UniversalMasamuneAdapter is not set. Place [MasamuneAdapterScope] widget closer to the root.",
+    );
+    return _primary!;
+  }
+
+  static UniversalMasamuneAdapter? _primary;
+
+  @override
+  void onInitScope(MasamuneAdapter adapter) {
+    super.onInitScope(adapter);
+    if (adapter is! UniversalMasamuneAdapter) {
+      return;
+    }
+    _primary = adapter;
+  }
+
+  @override
+  Widget onBuildApp(BuildContext context, Widget app) {
+    return MasamuneAdapterScope<UniversalMasamuneAdapter>(
+      adapter: this,
+      child: app,
+    );
+  }
 }

@@ -54,3 +54,5 @@ part "src/universal_widget_scope.dart";
 part "src/universal_search_bar.dart";
 part "src/universal_header_tile.dart";
 part "src/universal_grid_view.dart";
+part "src/universal_circular_progress_indicator.dart";
+part "src/universal_linear_progress_indicator.dart";
