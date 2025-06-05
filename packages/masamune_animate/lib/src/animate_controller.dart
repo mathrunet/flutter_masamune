@@ -79,6 +79,9 @@ class AnimateController
   @override
   AnimateMasamuneAdapter get primaryAdapter => AnimateMasamuneAdapter.primary;
 
+  @override
+  bool get isTest => primaryAdapter.isTest;
+
   /// Whether to play the animation automatically when the widget is built.
   ///
   /// ウィジェットがビルドされた際にアニメーションを自動的に再生するかどうか。
@@ -162,7 +165,18 @@ class AnimateController
       unawaited(_ticker?.start());
       do {
         _queryStack.clear();
-        await scenario.call(this);
+        if (adapter.isTest) {
+          try {
+            final future = scenario.call(this);
+            if (future is Future) {
+              await future.timeout(adapter.timeoutDurationOnTest);
+            }
+          } catch (e) {
+            debugPrint(e.toString());
+          }
+        } else {
+          await scenario.call(this);
+        }
         count++;
         if (repeat) {
           _completed = false;
@@ -213,7 +227,13 @@ class AnimateController
       return _latestChild!;
     }
     _latestChild = child;
-    return child;
+    if (!isTest) {
+      return child;
+    }
+    return TickerMode(
+      enabled: !isTest,
+      child: child,
+    );
   }
 
   static bool _equalsKeys(List<Object> keys1, List<Object> keys2) {

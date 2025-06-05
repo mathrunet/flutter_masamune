@@ -7,7 +7,7 @@ part of "/masamune_animate.dart";
 /// AIの機能を設定するための[MasamuneAdapter]の抽象クラス。
 ///
 /// このクラスを継承してAIの機能を設定してください。
-abstract class AnimateMasamuneAdapter extends MasamuneAdapter {
+class AnimateMasamuneAdapter extends MasamuneAdapter {
   /// Abstract class of [MasamuneAdapter] for configuring AI functions.
   ///
   /// Inherit this class to set up AI functions.
@@ -15,7 +15,14 @@ abstract class AnimateMasamuneAdapter extends MasamuneAdapter {
   /// AIの機能を設定するための[MasamuneAdapter]の抽象クラス。
   ///
   /// このクラスを継承してAIの機能を設定してください。
-  const AnimateMasamuneAdapter();
+  const AnimateMasamuneAdapter({
+    this.timeoutDurationOnTest = const Duration(seconds: 1),
+  });
+
+  /// The duration of the timeout for the animation in test mode.
+  ///
+  /// アニメーションのテストモードでのタイムアウト時間。
+  final Duration timeoutDurationOnTest;
 
   /// You can retrieve the [AnimateMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

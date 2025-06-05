@@ -12,4 +12,9 @@ abstract class AnimateRunner {
   ///
   /// アニメーションの再生が完了するまで終了を待機します。
   Future<void> runAnimateQuery(AnimateQuery query);
+
+  /// Whether the animation is running in test mode.
+  ///
+  /// アニメーションがテストモードで実行されているかどうか。
+  bool get isTest;
 }
