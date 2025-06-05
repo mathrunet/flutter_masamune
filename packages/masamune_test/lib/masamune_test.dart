@@ -19,10 +19,10 @@ import "package:flutter/material.dart";
 
 // Package imports:
 import "package:alchemist/alchemist.dart";
+import "package:flutter_test/flutter_test.dart" as flutter_test;
 import "package:masamune/masamune.dart";
 import "package:meta/meta.dart";
 import "package:test/test.dart";
-import "package:flutter_test/flutter_test.dart" as flutter_test;
 
 part "src/functions.dart";
 part "src/masamune_test_ref.dart";
