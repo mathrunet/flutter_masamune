@@ -16,7 +16,7 @@ class AnimateMasamuneAdapter extends MasamuneAdapter {
   ///
   /// このクラスを継承してAIの機能を設定してください。
   const AnimateMasamuneAdapter({
-    this.timeoutDurationOnTest = const Duration(seconds: 1),
+    this.timeoutDurationOnTest = const Duration(milliseconds: 100),
   });
 
   /// The duration of the timeout for the animation in test mode.

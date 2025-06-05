@@ -165,6 +165,8 @@ class _AnimateScopeState extends State<AnimateScope>
 
   @override
   void dispose() {
+    widget.controller?._internalNotifier.removeListener(_handeldOnUpdate);
+    _controller?._internalNotifier.removeListener(_handeldOnUpdate);
     _controller?.dispose();
     super.dispose();
   }

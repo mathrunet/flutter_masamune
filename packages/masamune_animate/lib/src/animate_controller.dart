@@ -133,6 +133,7 @@ class AnimateController
 
   TickerProvider? _vsync;
   Ticker? _ticker;
+  bool _disposed = false;
   final List<_AnimateQueryContainer> _queryStack = [];
   final _AnimateControllerNotifier _internalNotifier =
       _AnimateControllerNotifier();
@@ -172,7 +173,7 @@ class AnimateController
               await future.timeout(adapter.timeoutDurationOnTest);
             }
           } catch (e) {
-            debugPrint(e.toString());
+            // Ignore errors
           }
         } else {
           await scenario.call(this);
@@ -257,6 +258,9 @@ class AnimateController
   }
 
   void _handledOnTick(Duration elapsedDuration) {
+    if (_disposed) {
+      return;
+    }
     _elapsedDuration = elapsedDuration;
     _queryStack.removeWhere(
       (query) => !query._setDuration(elapsedDuration),
@@ -266,12 +270,16 @@ class AnimateController
 
   @override
   void notifyListeners() {
+    if (_disposed) {
+      return;
+    }
     _internalNotifier.notify();
     super.notifyListeners();
   }
 
   @override
   void dispose() {
+    _disposed = true;
     _ticker?.dispose();
     _queryStack.clear();
     super.dispose();
