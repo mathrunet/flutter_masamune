@@ -14,6 +14,7 @@ void masamuneApplyTestMocks({
   StorageAdapter? storageAdapter,
   FunctionsAdapter? functionsAdapter,
   List<LoggerAdapter> loggerAdapters = const [],
+  List<MasamuneAdapter> masamuneAdapters = const [],
   ModelAdapter? modelAdapter,
   DateTime? testCurrentTime,
 }) {
@@ -37,6 +38,9 @@ void masamuneApplyTestMocks({
   }
   if (loggerAdapters.isNotEmpty) {
     TestLoggerAdapterScope.setTestAdapters(loggerAdapters);
+  }
+  if (masamuneAdapters.isNotEmpty) {
+    TestMasamuneAdapterScope.setTestAdapters(masamuneAdapters);
   }
   if (testCurrentTime != null) {
     Clock.setTestCurrentTime(testCurrentTime);

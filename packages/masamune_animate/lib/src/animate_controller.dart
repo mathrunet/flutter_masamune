@@ -27,7 +27,9 @@ part of "/masamune_animate.dart";
 /// [keys]にウィジェットの再ビルドをトリガーとするキーを設定します。
 ///
 /// [AnimateScope]または[AnimateScopeBuilder]にコントローラーを渡すことで、アニメーションを再生することができます。
-class AnimateController extends ChangeNotifier implements AnimateRunner {
+class AnimateController
+    extends MasamuneControllerBase<void, AnimateMasamuneAdapter>
+    implements AnimateRunner {
   /// Controller that controls the animation.
   ///
   /// Set the animation scenario to [scenario] and call [play] to play the animation.
@@ -58,21 +60,24 @@ class AnimateController extends ChangeNotifier implements AnimateRunner {
   AnimateController({
     required this.scenario,
     this.autoPlay = false,
-    this.repeat = false,
+    bool repeat = false,
     this.repeatCount,
     this.keys = const [],
-  });
+  }) : _repeat = repeat;
 
   AnimateController._withVsync({
     required TickerProvider vsync,
     required this.scenario,
     this.autoPlay = false,
-    this.repeat = false,
+    bool repeat = false,
     this.repeatCount,
     this.keys = const [],
-  }) {
+  }) : _repeat = repeat {
     _initialize(vsync);
   }
+
+  @override
+  AnimateMasamuneAdapter get primaryAdapter => AnimateMasamuneAdapter.primary;
 
   /// Whether to play the animation automatically when the widget is built.
   ///
@@ -82,7 +87,14 @@ class AnimateController extends ChangeNotifier implements AnimateRunner {
   /// Whether to play the animation again when it ends.
   ///
   /// アニメーションが終了した際に再度アニメーションを再生するかどうか。
-  final bool repeat;
+  bool get repeat {
+    if (primaryAdapter.isTest) {
+      return false;
+    }
+    return _repeat;
+  }
+
+  final bool _repeat;
 
   /// Key that triggers the widget to be rebuilt.
   ///

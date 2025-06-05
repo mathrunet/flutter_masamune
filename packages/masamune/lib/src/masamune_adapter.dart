@@ -49,6 +49,8 @@ abstract class MasamuneAdapter {
   /// [onBuildApp]で[MasamuneApp]のビルド時にウィジェットを追加することが可能です。
   const MasamuneAdapter();
 
+  static final List<MasamuneAdapter> _test = [];
+
   /// If you set this to `true`, you can wrap [runApp] with [runZonedGuarded].
   ///
   /// これを`true`にした場合、[runApp]を[runZonedGuarded]でラッピングすることができます。
@@ -72,6 +74,11 @@ abstract class MasamuneAdapter {
   ///
   /// ロガー機能を追加するためのアダプターを定義することができます。
   List<LoggerAdapter> get loggerAdapters => const [];
+
+  /// If this is `true`, it indicates that test adapters are set in [TestMasamuneAdapterScope.setTestAdapters] and it is in test mode.
+  ///
+  /// これが`true`の場合、[TestMasamuneAdapterScope.setTestAdapters]にテスト用のアダプターがセットされておりテストモードであることを示します。
+  bool get isTest => _test.isNotEmpty;
 
   /// Widgets can be added during the build of [MasamuneApp].
   ///
@@ -216,6 +223,13 @@ class MasamuneAdapterScope<TAdapter extends MasamuneAdapter>
   ///
   /// 祖先に[MasamuneAdapterScope]がない場合はエラーになります。
   static TAdapter? of<TAdapter extends MasamuneAdapter>(BuildContext context) {
+    if (MasamuneAdapter._test.isNotEmpty) {
+      final found =
+          MasamuneAdapter._test.firstWhereOrNull((e) => e is TAdapter);
+      if (found != null) {
+        return found as TAdapter;
+      }
+    }
     final scope = context.getElementForInheritedWidgetOfExactType<
         _MasamuneAdapterScope<TAdapter>>();
     assert(
@@ -259,4 +273,21 @@ class _MasamuneAdapterScope<TAdapter extends MasamuneAdapter>
   bool updateShouldNotify(
           covariant _MasamuneAdapterScope<TAdapter> oldWidget) =>
       false;
+}
+
+/// Test scope for [MasamuneAdapter].
+///
+/// [MasamuneAdapter]のテスト用スコープ。
+class TestMasamuneAdapterScope {
+  const TestMasamuneAdapterScope._();
+
+  /// Set the [ModelAdapter] for testing.
+  ///
+  /// テスト用に[ModelAdapter]を設定します。
+  ///
+  /// これを設定した場合、
+  static void setTestAdapters(List<MasamuneAdapter> adapters) {
+    MasamuneAdapter._test.clear();
+    MasamuneAdapter._test.addAll(adapters);
+  }
 }

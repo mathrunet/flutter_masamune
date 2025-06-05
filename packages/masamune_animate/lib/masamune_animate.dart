@@ -14,8 +14,11 @@ import "dart:async";
 // Flutter imports:
 import "package:flutter/scheduler.dart";
 import "package:flutter/widgets.dart";
+import "package:masamune/masamune.dart";
 
 export "query/query.dart";
+
+part "adapter/animate_masamune_adapter.dart";
 
 part "src/animate_scope.dart";
 part "src/animate_query.dart";

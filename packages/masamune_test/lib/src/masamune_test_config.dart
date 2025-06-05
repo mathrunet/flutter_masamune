@@ -67,6 +67,7 @@ class MasamuneTestConfig {
       loggerAdapters: runtimeLoggerAdapters,
       modelAdapter: runtimeModelAdapter,
       testCurrentTime: testCurrentTime,
+      masamuneAdapters: masamuneAdapters,
     );
     return AlchemistConfig.runWithConfig(
       config: AlchemistConfig(
