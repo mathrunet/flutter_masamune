@@ -117,6 +117,7 @@ class LineTile extends ListTile {
         highlightColor:
             shimmerHighlightColor ?? Theme.of(context).scaffoldBackgroundColor,
         child: Material(
+          color: Colors.transparent,
           child: ListTile(
             leading: leading,
             title: _buildTitle(context),
@@ -170,6 +171,7 @@ class LineTile extends ListTile {
       );
     } else {
       return Material(
+        color: Colors.transparent,
         child: ListTile(
           leading: leading,
           title: _buildTitle(context),
