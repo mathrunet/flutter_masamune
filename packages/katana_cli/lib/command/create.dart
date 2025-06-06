@@ -1640,9 +1640,7 @@ linter:
   # producing the lint.
   rules:
     prefer_double_quotes: true
-    unawaited_futures: true
     prefer_asserts_with_message: true
-    use_build_context_synchronously: true
     cancel_subscriptions: true
     prefer_const_constructors: true
     always_put_control_body_on_new_line: true
@@ -1678,15 +1676,13 @@ analyzer:
     - "lib/firebase_options.dart"
   errors:
     prefer_double_quotes: error
-    unawaited_futures: error
-    use_build_context_synchronously: error
     always_put_control_body_on_new_line: error
     prefer_asserts_with_message: error
     leading_newlines_in_multiline_strings: error
-    prefer_const_constructors: error
     use_if_null_to_convert_nulls_to_bools: error
     missing_whitespace_between_adjacent_strings: error
     prefer_if_elements_to_conditional_expressions: error
+    prefer_const_constructors: warning
     public_member_api_docs: warning
     cancel_subscriptions: warning
     always_put_required_named_parameters_first: warning
