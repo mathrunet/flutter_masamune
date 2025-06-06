@@ -1653,6 +1653,7 @@ linter:
     public_member_api_docs: true
     no_default_cases: false
     library_private_types_in_public_api: false
+    use_build_context_synchronously: false
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
