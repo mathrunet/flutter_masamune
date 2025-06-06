@@ -1,3 +1,7 @@
+## 3.0.4
+
+ - **FIX**: Handling cases where it doesn't work well in testing. ([ec44a0c3](https://github.com/mathrunet/flutter_masamune/commit/ec44a0c309176dbca0eb6fb9c2ec8fe8a73b5c31))
+
 ## 3.0.3
 
  - **FIX**: Adding adapter and testing support. ([b4b8bf24](https://github.com/mathrunet/flutter_masamune/commit/b4b8bf2467e7ad900633f9c1e56cf7ece058ca65))

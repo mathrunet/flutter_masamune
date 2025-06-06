@@ -1,3 +1,7 @@
+## 3.0.3
+
+ - **FIX**: Fix the color issue. ([a84502c8](https://github.com/mathrunet/flutter_masamune/commit/a84502c85eacb665a44011770d63cb365dbc6e0f))
+
 ## 3.0.2
 
  - Update a dependency to the latest release.

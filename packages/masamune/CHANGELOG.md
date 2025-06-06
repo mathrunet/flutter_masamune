@@ -1,3 +1,7 @@
+## 3.0.4
+
+ - Update a dependency to the latest release.
+
 ## 3.0.3
 
  - **FIX**: Made MasamuneAdapter available for testing. ([7419779d](https://github.com/mathrunet/flutter_masamune/commit/7419779ddd2439035a5617cc8c0dc312979ddf97))

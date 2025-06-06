@@ -3,6 +3,133 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_ui` - `v3.0.3`](#katana_ui---v303)
+ - [`masamune_ads_google` - `v3.0.4`](#masamune_ads_google---v304)
+ - [`masamune_animate` - `v3.0.4`](#masamune_animate---v304)
+ - [`masamune_universal_ui` - `v3.1.0`](#masamune_universal_ui---v310)
+ - [`masamune` - `v3.0.4`](#masamune---v304)
+ - [`masamune_location_platform_interface` - `v3.0.4`](#masamune_location_platform_interface---v304)
+ - [`masamune_model_firebase_remote_config` - `v3.0.4`](#masamune_model_firebase_remote_config---v304)
+ - [`masamune_markdown` - `v3.0.4`](#masamune_markdown---v304)
+ - [`masamune_location_geocoding` - `v3.0.4`](#masamune_location_geocoding---v304)
+ - [`masamune_location` - `v3.0.4`](#masamune_location---v304)
+ - [`masamune_ai` - `v3.0.4`](#masamune_ai---v304)
+ - [`masamune_notification_local` - `v3.0.4`](#masamune_notification_local---v304)
+ - [`masamune_model_firestore` - `v3.0.4`](#masamune_model_firestore---v304)
+ - [`masamune_deeplink_firebase` - `v3.0.4`](#masamune_deeplink_firebase---v304)
+ - [`masamune_auth_apple` - `v3.0.4`](#masamune_auth_apple---v304)
+ - [`masamune_scheduler` - `v3.0.4`](#masamune_scheduler---v304)
+ - [`masamune_model_algolia` - `v3.0.4`](#masamune_model_algolia---v304)
+ - [`masamune_location_background` - `v3.0.4`](#masamune_location_background---v304)
+ - [`masamune_text_to_speech` - `v3.0.4`](#masamune_text_to_speech---v304)
+ - [`masamune_agora` - `v3.0.4`](#masamune_agora---v304)
+ - [`masamune_auth_google` - `v3.0.4`](#masamune_auth_google---v304)
+ - [`masamune_model_firebase_data_connect` - `v3.0.4`](#masamune_model_firebase_data_connect---v304)
+ - [`masamune_ai_openai` - `v3.0.4`](#masamune_ai_openai---v304)
+ - [`masamune_calendar` - `v3.0.4`](#masamune_calendar---v304)
+ - [`masamune_ai_firebase` - `v3.0.4`](#masamune_ai_firebase---v304)
+ - [`masamune_auth_google_firebase` - `v3.0.4`](#masamune_auth_google_firebase---v304)
+ - [`masamune_picker` - `v3.0.4`](#masamune_picker---v304)
+ - [`masamune_app_review` - `v3.0.4`](#masamune_app_review---v304)
+ - [`masamune_util` - `v3.0.4`](#masamune_util---v304)
+ - [`masamune_test` - `v3.0.4`](#masamune_test---v304)
+ - [`masamune_purchase_stripe` - `v3.6.34`](#masamune_purchase_stripe---v3634)
+ - [`masamune_auth_apple_firebase` - `v3.0.4`](#masamune_auth_apple_firebase---v304)
+ - [`masamune_notification` - `v3.0.4`](#masamune_notification---v304)
+ - [`masamune_logger_firebase` - `v3.0.3`](#masamune_logger_firebase---v303)
+ - [`masamune_firebase_app_check` - `v3.0.4`](#masamune_firebase_app_check---v304)
+ - [`masamune_introduction` - `v3.0.4`](#masamune_introduction---v304)
+ - [`masamune_deeplink` - `v3.0.4`](#masamune_deeplink---v304)
+ - [`masamune_speech_to_text` - `v3.0.4`](#masamune_speech_to_text---v304)
+ - [`masamune_auth_firebase` - `v3.0.4`](#masamune_auth_firebase---v304)
+ - [`masamune_auth_facebook` - `v3.0.4`](#masamune_auth_facebook---v304)
+ - [`masamune_force_updater` - `v3.0.4`](#masamune_force_updater---v304)
+ - [`masamune_location_google` - `v3.0.4`](#masamune_location_google---v304)
+ - [`masamune_mail` - `v3.0.4`](#masamune_mail---v304)
+ - [`masamune_purchase` - `v3.0.4`](#masamune_purchase---v304)
+ - [`masamune_notification_firebase` - `v3.0.4`](#masamune_notification_firebase---v304)
+ - [`masamune_purchase_mobile` - `v3.0.4`](#masamune_purchase_mobile---v304)
+ - [`masamune_camera` - `v3.0.4`](#masamune_camera---v304)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v3.0.4`
+ - `masamune_location_platform_interface` - `v3.0.4`
+ - `masamune_model_firebase_remote_config` - `v3.0.4`
+ - `masamune_markdown` - `v3.0.4`
+ - `masamune_location_geocoding` - `v3.0.4`
+ - `masamune_location` - `v3.0.4`
+ - `masamune_ai` - `v3.0.4`
+ - `masamune_notification_local` - `v3.0.4`
+ - `masamune_model_firestore` - `v3.0.4`
+ - `masamune_deeplink_firebase` - `v3.0.4`
+ - `masamune_auth_apple` - `v3.0.4`
+ - `masamune_scheduler` - `v3.0.4`
+ - `masamune_model_algolia` - `v3.0.4`
+ - `masamune_location_background` - `v3.0.4`
+ - `masamune_text_to_speech` - `v3.0.4`
+ - `masamune_agora` - `v3.0.4`
+ - `masamune_auth_google` - `v3.0.4`
+ - `masamune_model_firebase_data_connect` - `v3.0.4`
+ - `masamune_ai_openai` - `v3.0.4`
+ - `masamune_calendar` - `v3.0.4`
+ - `masamune_ai_firebase` - `v3.0.4`
+ - `masamune_auth_google_firebase` - `v3.0.4`
+ - `masamune_picker` - `v3.0.4`
+ - `masamune_app_review` - `v3.0.4`
+ - `masamune_util` - `v3.0.4`
+ - `masamune_test` - `v3.0.4`
+ - `masamune_purchase_stripe` - `v3.6.34`
+ - `masamune_auth_apple_firebase` - `v3.0.4`
+ - `masamune_notification` - `v3.0.4`
+ - `masamune_logger_firebase` - `v3.0.3`
+ - `masamune_firebase_app_check` - `v3.0.4`
+ - `masamune_introduction` - `v3.0.4`
+ - `masamune_deeplink` - `v3.0.4`
+ - `masamune_speech_to_text` - `v3.0.4`
+ - `masamune_auth_firebase` - `v3.0.4`
+ - `masamune_auth_facebook` - `v3.0.4`
+ - `masamune_force_updater` - `v3.0.4`
+ - `masamune_location_google` - `v3.0.4`
+ - `masamune_mail` - `v3.0.4`
+ - `masamune_purchase` - `v3.0.4`
+ - `masamune_notification_firebase` - `v3.0.4`
+ - `masamune_purchase_mobile` - `v3.0.4`
+ - `masamune_camera` - `v3.0.4`
+
+---
+
+#### `katana_ui` - `v3.0.3`
+
+ - **FIX**: Fix the color issue. ([a84502c8](https://github.com/mathrunet/flutter_masamune/commit/a84502c85eacb665a44011770d63cb365dbc6e0f))
+
+#### `masamune_ads_google` - `v3.0.4`
+
+ - **FIX**: Responding to tests. ([4a7a93fb](https://github.com/mathrunet/flutter_masamune/commit/4a7a93fb059cbfa5fe57017c998fca9eca2c01ab))
+
+#### `masamune_animate` - `v3.0.4`
+
+ - **FIX**: Handling cases where it doesn't work well in testing. ([ec44a0c3](https://github.com/mathrunet/flutter_masamune/commit/ec44a0c309176dbca0eb6fb9c2ec8fe8a73b5c31))
+
+#### `masamune_universal_ui` - `v3.1.0`
+
+ - **FEAT**: Add an indicator for testing. ([7535425a](https://github.com/mathrunet/flutter_masamune/commit/7535425a756c66680567a8a87994ff137b574ba4))
+
+
 ## 2025-06-05
 
 ### Changes

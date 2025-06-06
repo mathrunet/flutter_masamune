@@ -1,3 +1,7 @@
+## 3.0.4
+
+ - **FIX**: Responding to tests. ([4a7a93fb](https://github.com/mathrunet/flutter_masamune/commit/4a7a93fb059cbfa5fe57017c998fca9eca2c01ab))
+
 ## 3.0.3
 
  - Update a dependency to the latest release.

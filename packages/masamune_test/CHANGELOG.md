@@ -1,3 +1,7 @@
+## 3.0.4
+
+ - Update a dependency to the latest release.
+
 ## 3.0.3
 
  - **FIX**: Change the location of the test file. ([235e7ff8](https://github.com/mathrunet/flutter_masamune/commit/235e7ff8650f4d25c17393f01f50cd4fa74b4588))

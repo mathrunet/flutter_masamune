@@ -1,3 +1,7 @@
+## 3.1.0
+
+ - **FEAT**: Add an indicator for testing. ([7535425a](https://github.com/mathrunet/flutter_masamune/commit/7535425a756c66680567a8a87994ff137b574ba4))
+
 ## 3.0.3
 
  - Update a dependency to the latest release.
