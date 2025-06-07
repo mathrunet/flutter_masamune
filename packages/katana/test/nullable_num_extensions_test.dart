@@ -20,8 +20,8 @@ void main() {
   test("NullableDoubleExtensions.operator", () {
     const int? a = null;
     const num b = 10;
-    const int c = 20;
-    const int d = 30;
+    const c = 20;
+    const d = 30;
     expect(a + b, 10);
     expect(a - b, 10);
     expect(a * c, 20);

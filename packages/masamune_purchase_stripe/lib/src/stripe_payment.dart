@@ -137,9 +137,7 @@ class StripePayment
 
           return StripeNavigationActionPolicy.allow;
         },
-        onCloseWindow: () {
-          onCancel.call();
-        },
+        onCloseWindow: onCancel.call,
       );
       builder.call(response.endpoint, webView, onSuccess, onCancel);
       await internalCompleter!.future;

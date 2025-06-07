@@ -114,9 +114,7 @@ class _$_ForceUpdaterQuery extends ControllerQueryBase<ForceUpdater> {
   final String _name;
 
   @override
-  ForceUpdater Function() call(Ref ref) {
-    return () => ForceUpdater();
-  }
+  ForceUpdater Function() call(Ref ref) => ForceUpdater.new;
 
   @override
   String get queryName => _name;

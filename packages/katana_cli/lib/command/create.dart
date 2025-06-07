@@ -1112,6 +1112,7 @@ final appFunction = Functions();
 final appLogger = Logger();
 
 /// App Flavor.
+// ignore: do_not_use_environment
 const flavor = String.fromEnvironment("FLAVOR");
 
 /// App.
@@ -1659,7 +1660,7 @@ linter:
     matching_super_parameters: true
     no_literal_bool_comparisons: true
     omit_obvious_local_variable_types: true
-    omit_obvious_property_types: true
+    type_annotate_public_apis: true
     package_prefixed_library_names: true
     prefer_mixin: true
     prefer_void_to_null: true
@@ -1725,7 +1726,7 @@ analyzer:
     matching_super_parameters: warning
     no_literal_bool_comparisons: warning
     omit_obvious_local_variable_types: warning
-    omit_obvious_property_types: warning
+    type_annotate_public_apis: warning
     package_prefixed_library_names: warning
     unnecessary_lambdas: warning
     unnecessary_async: warning
@@ -1903,7 +1904,7 @@ import "package:masamune_test/masamune_test.dart";
 import "package:$packageName/main.dart";
 
 /// Performing test initialization.
-Future<void> testExecutable(FutureOr<void> Function() testMain) async {
+Future<void> testExecutable(FutureOr<void> Function() testMain) {
   return MasamuneTestConfig.initialize(
     run: testMain,
     initialUserId: ${uuid()},

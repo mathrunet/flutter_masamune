@@ -4,7 +4,7 @@ part of "/katana.dart";
 ///
 /// [DateTime]用の拡張メソッドを提供します。
 extension DateTimeExtensions on DateTime {
-  static const List<int> _lengthInMonth = [
+  static const _lengthInMonth = [
     31,
     28,
     31,
@@ -36,9 +36,9 @@ extension DateTimeExtensions on DateTime {
   }
 
   DateDuration _differenceDate(DateTime other) {
-    int years = other.year - year;
-    int months = 0;
-    int days = 0;
+    var years = other.year - year;
+    var months = 0;
+    var days = 0;
 
     if (month > other.month) {
       years -= 1;

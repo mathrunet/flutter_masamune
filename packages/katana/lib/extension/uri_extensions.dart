@@ -4,7 +4,7 @@ part of "/katana.dart";
 ///
 /// [Uri]用の拡張メソッドを提供します。
 extension UriExtensions on Uri {
-  static final RegExp _tail = RegExp(r"[^/]+$");
+  static final _tail = RegExp(r"[^/]+$");
 
   /// Divides [Uri] by [separator] and returns the number of elements.
   ///

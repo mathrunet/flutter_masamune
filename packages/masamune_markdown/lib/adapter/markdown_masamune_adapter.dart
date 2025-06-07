@@ -31,6 +31,7 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
   /// You can retrieve the [MarkdownMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
   /// 最初に[MasamuneAdapterScope]で与えた[MarkdownMasamuneAdapter]を取得することができます。
+  // ignore: prefer_constructors_over_static_methods
   static MarkdownMasamuneAdapter get primary {
     assert(
       _primary != null,

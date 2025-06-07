@@ -388,9 +388,7 @@ class _$_LocationQuery extends ControllerQueryBase<Location> {
   final String _name;
 
   @override
-  Location Function() call(Ref ref) {
-    return () => Location();
-  }
+  Location Function() call(Ref ref) => Location.new;
 
   @override
   String get queryName => _name;

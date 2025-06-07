@@ -41,7 +41,7 @@ abstract class AnimateQuery {
   );
 
   @override
-  operator ==(Object other) => hashCode == other.hashCode;
+  bool operator ==(Object other) => hashCode == other.hashCode;
 
   @override
   int get hashCode => duration.hashCode;
@@ -164,7 +164,7 @@ abstract class EffectQuery<T> extends AnimateQuery {
   }
 
   @override
-  operator ==(Object other) => hashCode == other.hashCode;
+  bool operator ==(Object other) => hashCode == other.hashCode;
 
   @override
   int get hashCode =>

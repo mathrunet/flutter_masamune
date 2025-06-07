@@ -234,6 +234,7 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
   /// You can retrieve the [PickerMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
   /// 最初に[MasamuneAdapterScope]で与えた[PickerMasamuneAdapter]を取得することができます。
+  // ignore: prefer_constructors_over_static_methods
   static PickerMasamuneAdapter get primary {
     assert(
       _primary != null,

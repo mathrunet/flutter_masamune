@@ -185,9 +185,7 @@ class _$_PickerQuery extends ControllerQueryBase<Picker> {
   final String _name;
 
   @override
-  Picker Function() call(Ref ref) {
-    return () => Picker();
-  }
+  Picker Function() call(Ref ref) => Picker.new;
 
   @override
   String get queryName => _name;

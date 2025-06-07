@@ -174,8 +174,7 @@ class FormPinField<TValue> extends FormField<String> {
           },
           autovalidateMode: AutovalidateMode.disabled,
           builder: (FormFieldState<String> field) {
-            final _FormPinFieldState<TValue> state =
-                field as _FormPinFieldState<TValue>;
+            final state = field as _FormPinFieldState<TValue>;
             final context = state.context;
             void onChangedHandler(String value) {
               field.didChange(value);
@@ -537,7 +536,7 @@ class _PinInputTextFieldState extends State<_PinInputTextField>
       widget.controller ?? _controller;
 
   void _pinChanged() {
-    setState(() => _updateText());
+    setState(_updateText);
   }
 
   FocusNode? _focusNode;
@@ -686,7 +685,7 @@ class _PinInputTextFieldState extends State<_PinInputTextField>
 
   void _cursorTick(Timer timer) {
     _targetCursorVisibility = !_targetCursorVisibility;
-    final double targetOpacity = _targetCursorVisibility ? 1.0 : 0.0;
+    final targetOpacity = _targetCursorVisibility ? 1.0 : 0.0;
     _cursorBlinkOpacityController.animateTo(targetOpacity,
         curve: Curves.easeOut);
   }

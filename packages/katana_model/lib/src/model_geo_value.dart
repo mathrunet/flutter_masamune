@@ -586,7 +586,7 @@ class _GeoUtility {
     }
 
     final chars = <String>[];
-    int bits = 0, bitsTotal = 0, hashValue = 0;
+    var bits = 0, bitsTotal = 0, hashValue = 0;
     double maxLat = 90, minLat = -90, maxLon = 180, minLon = -180, mid;
 
     while (chars.length < numberOfChars) {
@@ -627,9 +627,9 @@ class _GeoUtility {
     var isLon = true;
     double maxLat = 90, minLat = -90, maxLon = 180, minLon = -180, mid;
 
-    int hashValue = 0;
+    var hashValue = 0;
     final l = hashString.length;
-    for (int i = 0; i < l; i++) {
+    for (var i = 0; i < l; i++) {
       final code = hashString[i].toLowerCase();
       hashValue = base32CodesDic[code] ?? 0;
 

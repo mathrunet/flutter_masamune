@@ -22,7 +22,7 @@ class _MasamuneLimitIfNesting extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addIfStatement((node) {
-      int nestingLevel = 0;
+      var nestingLevel = 0;
       AstNode? currentNode = node;
 
       while (currentNode != null) {

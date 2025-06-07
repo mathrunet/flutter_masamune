@@ -282,7 +282,7 @@ class StripePurchase
       if (response.purchaseId.isEmpty) {
         throw Exception("Response is invalid.");
       }
-      bool authenticated = true;
+      var authenticated = true;
       onCompleted() {
         if (authenticated) {
           internalCompleter?.complete();
@@ -313,9 +313,7 @@ class StripePurchase
             }
             return StripeNavigationActionPolicy.allow;
           },
-          onCloseWindow: () {
-            onCompleted();
-          },
+          onCloseWindow: onCompleted,
         );
         builder.call(response.nextActionUrl!, webView, onCompleted);
         await internalCompleter!.future;

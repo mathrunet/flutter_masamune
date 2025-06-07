@@ -6,7 +6,7 @@ const _kMaxInt = 2 ^ 31 - 1;
 ///
 /// [String]用の拡張メソッドを提供します。
 extension StringExtensions on String {
-  static final RegExp _tail = RegExp(r"[^/]+$");
+  static final _tail = RegExp(r"[^/]+$");
 
   /// Divides [String] by [separator] and returns the number of elements.
   ///
@@ -112,7 +112,7 @@ extension StringExtensions on String {
   String toZenkakuKatakana() {
     var val = this;
     val = val.replaceAllMapped(RegExp("[ｳｶ-ﾄﾊ-ﾎ]ﾞ"), (Match m) {
-      Map<String, String> dakuten = {
+      var dakuten = <String, String>{
         "ｳﾞ": "ヴ",
         "ｶﾞ": "ガ",
         "ｷﾞ": "ギ",
@@ -138,7 +138,7 @@ extension StringExtensions on String {
       return dakuten[m.group(0)!] ?? m.group(0)!;
     });
     val = val.replaceAllMapped(RegExp("[ﾊ-ﾎ]ﾟ"), (Match m) {
-      Map<String, String> handakuten = {
+      var handakuten = <String, String>{
         "ﾊﾟ": "パ",
         "ﾋﾟ": "ピ",
         "ﾌﾟ": "プ",
@@ -148,7 +148,7 @@ extension StringExtensions on String {
       return handakuten[m.group(0)!] ?? m.group(0)!;
     });
     val = val.replaceAllMapped(RegExp("[ｦ-ﾝｰ]"), (Match m) {
-      Map<String, String> other = {
+      var other = <String, String>{
         "ｱ": "ア",
         "ｲ": "イ",
         "ｳ": "ウ",
@@ -254,7 +254,7 @@ extension StringExtensions on String {
       return [this];
     }
     final tmp = <String>[];
-    for (int i = 0; i < length; i++) {
+    for (var i = 0; i < length; i++) {
       tmp.add(substring(i, min(i + 1, length)));
     }
     return tmp;
@@ -275,7 +275,7 @@ extension StringExtensions on String {
       return [this];
     }
     final tmp = <String>[];
-    for (int i = 0; i < length - 1; i++) {
+    for (var i = 0; i < length - 1; i++) {
       tmp.add(substring(i, min(i + 2, length)));
     }
     return tmp;
@@ -310,7 +310,7 @@ extension StringExtensions on String {
       return [this];
     }
     final tmp = <String>[];
-    for (int i = 0; i < length - 2; i++) {
+    for (var i = 0; i < length - 2; i++) {
       tmp.add(substring(i, min(i + 3, length)));
     }
     return tmp;
@@ -799,7 +799,7 @@ extension StringExtensions on String {
   ///
   /// 絵文字が含まれている場合`true`を返します。
   bool isEmoji() {
-    RegExp regExp = RegExp(
+    var regExp = RegExp(
         r"[\u{1F600}-\u{1F64F}|\u{1F300}-\u{1F5FF}|\u{1F680}-\u{1F6FF}|\u{2600}-\u{26FF}|\u{2700}-\u{27BF}]",
         unicode: true);
     return regExp.hasMatch(this);

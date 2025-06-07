@@ -10,7 +10,7 @@ part "searchable_runtime_model_test.g.dart";
 
 class SearchableRuntimeMapDocumentModel extends DocumentBase<DynamicMap>
     with SearchableDocumentMixin<DynamicMap> {
-  SearchableRuntimeMapDocumentModel(super.query);
+  SearchableRuntimeMapDocumentModel(super.modelQuery);
 
   @override
   DynamicMap fromMap(DynamicMap map) => map;
@@ -27,7 +27,7 @@ class SearchableRuntimeMapDocumentModel extends DocumentBase<DynamicMap>
 class SearchableRuntimeCollectionModel
     extends CollectionBase<SearchableRuntimeMapDocumentModel>
     with SearchableCollectionMixin<SearchableRuntimeMapDocumentModel> {
-  SearchableRuntimeCollectionModel(super.query);
+  SearchableRuntimeCollectionModel(super.modelQuery);
 
   @override
   SearchableRuntimeMapDocumentModel create([String? id]) {
@@ -49,7 +49,7 @@ abstract class TestValue with _$TestValue {
 
 class SearchableRuntimeTestValueDocumentModel extends DocumentBase<TestValue>
     with SearchableDocumentMixin<TestValue> {
-  SearchableRuntimeTestValueDocumentModel(super.query);
+  SearchableRuntimeTestValueDocumentModel(super.modelQuery);
 
   @override
   TestValue fromMap(DynamicMap map) => TestValue.fromJson(map);
@@ -83,7 +83,7 @@ class SearchableRuntimeTestValueRawCollectionModel
 class SearchableRuntimeTestValueCollectionModel
     extends CollectionBase<SearchableRuntimeTestValueDocumentModel>
     with SearchableCollectionMixin<SearchableRuntimeTestValueDocumentModel> {
-  SearchableRuntimeTestValueCollectionModel(super.query);
+  SearchableRuntimeTestValueCollectionModel(super.modelQuery);
 
   @override
   SearchableRuntimeTestValueDocumentModel create([String? id]) {

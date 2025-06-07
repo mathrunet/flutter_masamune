@@ -82,9 +82,7 @@ class _$_AppReviewQuery extends ControllerQueryBase<AppReview> {
   final String _name;
 
   @override
-  AppReview Function() call(Ref ref) {
-    return () => AppReview();
-  }
+  AppReview Function() call(Ref ref) => AppReview.new;
 
   @override
   String get queryName => _name;

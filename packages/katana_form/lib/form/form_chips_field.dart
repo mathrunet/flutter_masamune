@@ -452,7 +452,7 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
                     widget.style?.activeColor ?? theme.colorScheme.onPrimary,
               ),
               child: MouseRegion(
-                cursor: widget.enabled == false
+                cursor: !widget.enabled
                     ? SystemMouseCursors.forbidden
                     : SystemMouseCursors.text,
                 child: _ChipsInput<String>(
@@ -521,7 +521,7 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
                             ?.call(context, state, value) ??
                         const SizedBox.shrink();
                   },
-                  findSuggestions: (value, chips) async {
+                  findSuggestions: (value, chips) {
                     final items = value.isNotEmpty ? [value] : <String>[];
                     for (var element in chips) {
                       items.add(element);
@@ -745,7 +745,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
     _nodeAttachment = _effectiveFocusNode.attach(context);
     _effectiveFocusNode.canRequestFocus = _canRequestFocus;
 
-    WidgetsBinding.instance.scheduleFrameCallback((_) async {
+    WidgetsBinding.instance.scheduleFrameCallback((_) {
       _initOverlayEntry();
       if (mounted && widget.autofocus) {
         FocusScope.of(context).autofocus(_effectiveFocusNode);
@@ -907,7 +907,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
 
     return NotificationListener<SizeChangedLayoutNotification>(
       onNotification: (SizeChangedLayoutNotification val) {
-        WidgetsBinding.instance.scheduleFrameCallback((_) async {
+        WidgetsBinding.instance.scheduleFrameCallback((_) {
           _suggestionsBoxController.overlayEntry?.markNeedsBuild();
         });
         return true;
@@ -920,9 +920,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
           children: <Widget>[
             GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: () {
-                requestKeyboard();
-              },
+              onTap: requestKeyboard,
               child: InputDecorator(
                 decoration: widget.decoration,
                 isFocused: _effectiveFocusNode.hasFocus,

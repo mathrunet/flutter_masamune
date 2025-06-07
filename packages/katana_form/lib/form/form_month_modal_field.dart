@@ -620,12 +620,12 @@ class _MonthTextField<TValue> extends FormField<DateTime> {
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
           builder: (field) {
-            final _MonthTextFieldState<TValue> state =
+            final state =
                 field as _MonthTextFieldState<TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(
-              mouseCursor: enabled == false
+              mouseCursor: !enabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
               controller: state._effectiveController ??

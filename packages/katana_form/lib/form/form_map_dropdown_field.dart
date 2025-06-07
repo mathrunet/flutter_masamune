@@ -356,7 +356,7 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
           child: ButtonTheme(
             alignedDropdown: widget.style?.alignedDropdown ?? false,
             child: MouseRegion(
-              cursor: widget.enabled == false
+              cursor: !widget.enabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
               child: DropdownButtonFormField<String>(
@@ -432,7 +432,7 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
                   return widget.validator?.call(value);
                 },
                 // focusColor: Colors.transparent,
-                onChanged: widget.enabled ? (value) => didChange(value) : null,
+                onChanged: widget.enabled ? didChange : null,
                 elevation: widget.style?.elevation.toInt() ?? 8,
                 style: widget.enabled ? mainTextStyle : disabledTextStyle,
                 icon: widget.icon,

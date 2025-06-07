@@ -267,7 +267,7 @@ class Clock extends DateTime {
   /// 無効なコンポーネント値を検出して拒否するには、[intl](https://pub.dev/packages/intl)パッケージの
   /// [DateFormat.parseStrict](https://pub.dev/documentation/intl/latest/intl/DateFormat/parseStrict.html)
   /// を使用してください。
-  static Clock parse(String formattedString) {
+  factory Clock.parse(String formattedString) {
     final dateTime = DateTime.parse(formattedString);
     return Clock.fromDateTime(dateTime);
   }
@@ -310,7 +310,7 @@ class Clock extends DateTime {
   ///     Clock.fromMillisecondsSinceEpoch(1641031200000, isUtc:true);
   /// print(newYearsDay); // 2022-01-01 10:00:00.000Z
   /// ```
-  static Clock fromMillisecondsSinceEpoch(
+  factory Clock.fromMillisecondsSinceEpoch(
     int millisecondsSinceEpoch, {
     bool isUtc = false,
   }) {
@@ -343,7 +343,7 @@ class Clock extends DateTime {
   ///     Clock.fromMicrosecondsSinceEpoch(1640979000000000, isUtc:true);
   /// print(newYearsEve); // 2021-12-31 19:30:00.000Z
   /// ```
-  static Clock fromMicrosecondsSinceEpoch(
+  factory Clock.fromMicrosecondsSinceEpoch(
     int microsecondsSinceEpoch, {
     bool isUtc = false,
   }) {
@@ -364,7 +364,7 @@ class Clock extends DateTime {
   ///
   /// [setTestCurrentTime]が呼び出されている場合、[setTestCurrentTime]で設定された時刻の
   /// [Clock]オブジェクトが返されます。
-  static setTestCurrentTime(DateTime? dateTime) {
+  static void setTestCurrentTime(DateTime? dateTime) {
     if (_testTime != dateTime) {
       _testTime = dateTime;
     }

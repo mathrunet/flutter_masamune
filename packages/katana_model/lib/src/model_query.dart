@@ -771,9 +771,7 @@ class ModelQuery {
   ///
   /// [List]内で再帰的に[hasMatchAsMap]を実行し、１つでも該当すれば`true`を返します。
   bool hasMatchAsList(List<DynamicMap> data) {
-    return data.any((element) {
-      return hasMatchAsMap(element);
-    });
+    return data.any(hasMatchAsMap);
   }
 
   /// Sort [data] according to the settings in [filters].

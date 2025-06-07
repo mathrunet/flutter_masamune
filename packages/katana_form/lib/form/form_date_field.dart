@@ -620,12 +620,12 @@ class _DateTextField<TValue> extends FormField<DateTime> {
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
           builder: (field) {
-            final _DateTextFieldState<TValue> state =
+            final state =
                 field as _DateTextFieldState<TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(
-              mouseCursor: enabled == false
+              mouseCursor: !enabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
               controller: state._effectiveController ??

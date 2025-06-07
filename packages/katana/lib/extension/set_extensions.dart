@@ -8,14 +8,14 @@ extension SetExtensions<T> on Set<T> {
   ///
   /// [Set]に[elements]のいずれかが含まれている場合`true`を返します。
   bool containsAny(Iterable<Object?> elements) {
-    return elements.any((element) => contains(element));
+    return elements.any(contains);
   }
 
   /// Returns `true` if [Set] contains all [elements].
   ///
   /// [Set]に[elements]がすべて含まれている場合`true`を返します。
   bool containsAll(Iterable<Object?> elements) {
-    return elements.every((element) => contains(element));
+    return elements.every(contains);
   }
 
   /// Clone another set from an existing set.

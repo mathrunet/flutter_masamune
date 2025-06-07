@@ -47,7 +47,7 @@ class FirebaseDataConnectModelLocaleConverter
           value.every((e) => prefixRegExp.hasMatch(e.toString()))) {
         return {
           key: value.mapAndRemoveEmpty(
-            (e) => _convertFrom(e),
+            _convertFrom,
           ),
         };
       }

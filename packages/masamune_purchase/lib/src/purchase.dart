@@ -373,9 +373,7 @@ class _$_PurchaseQuery extends ControllerQueryBase<Purchase> {
   final String _name;
 
   @override
-  Purchase Function() call(Ref ref) {
-    return () => Purchase();
-  }
+  Purchase Function() call(Ref ref) => Purchase.new;
 
   @override
   String get queryName => _name;

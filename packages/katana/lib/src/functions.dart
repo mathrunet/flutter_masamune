@@ -1,6 +1,6 @@
 part of "/katana.dart";
 
-const int _kIntMaxValue = 9007199254740991;
+const _kIntMaxValue = 9007199254740991;
 
 /// Generate and retrieve the UUID for Version 7.
 ///

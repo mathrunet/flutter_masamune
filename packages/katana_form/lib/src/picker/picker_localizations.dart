@@ -35,7 +35,7 @@ class _PickerLocalizations extends _PickerLocalizationsBase {
         _static;
   }
 
-  static registerCustomLanguage(String name,
+  static void registerCustomLanguage(String name,
       {String? cancelText,
       String? confirmText,
       List<String>? ampm,

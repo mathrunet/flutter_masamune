@@ -31,7 +31,7 @@ abstract class TestValue with _$TestValue {
 }
 
 class RuntimeMTestValueDocumentModel extends DocumentBase<TestValue> {
-  RuntimeMTestValueDocumentModel(super.query);
+  RuntimeMTestValueDocumentModel(super.modelQuery);
 
   @override
   TestValue fromMap(DynamicMap map) => TestValue.fromJson(map);
@@ -42,7 +42,7 @@ class RuntimeMTestValueDocumentModel extends DocumentBase<TestValue> {
 
 class RuntimeTestValueCollectionModel
     extends CollectionBase<RuntimeMTestValueDocumentModel> {
-  RuntimeTestValueCollectionModel(super.query);
+  RuntimeTestValueCollectionModel(super.modelQuery);
 
   @override
   RuntimeMTestValueDocumentModel create([String? id]) {
@@ -52,7 +52,7 @@ class RuntimeTestValueCollectionModel
 
 void main() {
   test("ModelQuery.notifyDocumentChanges", () async {
-    int seq = 0;
+    var seq = 0;
     void handledOnUpdate() {
       seq++;
     }
@@ -99,7 +99,7 @@ void main() {
     ]);
     collection.removeListener(handledOnUpdate);
   });
-  test("ModelQuery.hasMatch", () async {
+  test("ModelQuery.hasMatch", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -412,7 +412,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.ModelCounter", () async {
+  test("ModelQuery.ModelCounter", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -570,11 +570,9 @@ void main() {
       ],
     );
     expect(
-        query.hasMatchAsObject([0, 1, 2].map((e) => ModelCounter(e)).toList()),
-        true);
+        query.hasMatchAsObject([0, 1, 2].map(ModelCounter.new).toList()), true);
     expect(
-        query.hasMatchAsObject(
-            [100, 101, 102].map((e) => ModelCounter(e)).toList()),
+        query.hasMatchAsObject([100, 101, 102].map(ModelCounter.new).toList()),
         false);
     expect(
       query.hasMatchAsMap({
@@ -599,14 +597,11 @@ void main() {
       ],
     );
     expect(
-        query.hasMatchAsObject([0, 1, 2].map((e) => ModelCounter(e)).toList()),
-        true);
+        query.hasMatchAsObject([0, 1, 2].map(ModelCounter.new).toList()), true);
     expect(
-        query.hasMatchAsObject([2, 3, 4].map((e) => ModelCounter(e)).toList()),
-        true);
+        query.hasMatchAsObject([2, 3, 4].map(ModelCounter.new).toList()), true);
     expect(
-        query.hasMatchAsObject(
-            [100, 101, 102].map((e) => ModelCounter(e)).toList()),
+        query.hasMatchAsObject([100, 101, 102].map(ModelCounter.new).toList()),
         false);
     expect(
       query.hasMatchAsMap({
@@ -682,7 +677,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.ModelTimestamp", () async {
+  test("ModelQuery.ModelTimestamp", () {
     var query = ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -1045,7 +1040,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.ModelDate", () async {
+  test("ModelQuery.ModelDate", () {
     var query = ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -1364,7 +1359,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.ModelTime", () async {
+  test("ModelQuery.ModelTime", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -1698,7 +1693,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.ModelTimestampRange", () async {
+  test("ModelQuery.ModelTimestampRange", () {
     var query = ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -2114,7 +2109,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.ModelDateRange", () async {
+  test("ModelQuery.ModelDateRange", () {
     var query = ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -2530,7 +2525,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.ModelTimeRange", () async {
+  test("ModelQuery.ModelTimeRange", () {
     var query = ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -2953,7 +2948,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.ModelUri", () async {
+  test("ModelQuery.ModelUri", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -3239,7 +3234,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.ModelImageUri", () async {
+  test("ModelQuery.ModelImageUri", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -3533,7 +3528,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.ModelVideoUri", () async {
+  test("ModelQuery.ModelVideoUri", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -3827,7 +3822,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.ModelSearch", () async {
+  test("ModelQuery.ModelSearch", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -3967,7 +3962,7 @@ void main() {
       true,
     );
   });
-  test("ModelQuery.ModelGeoValue", () async {
+  test("ModelQuery.ModelGeoValue", () {
     const nijyuBashi = GeoValue(
       latitude: 35.68177834908552,
       longitude: 139.75310000426765,
@@ -4247,7 +4242,7 @@ void main() {
       true,
     );
   });
-  test("ModelQuery.ModelLocalizedValue", () async {
+  test("ModelQuery.ModelLocalizedValue", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -4466,7 +4461,7 @@ void main() {
       true,
     );
   });
-  test("ModelQuery.ModelLocale", () async {
+  test("ModelQuery.ModelLocale", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -4738,7 +4733,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.ModelRef", () async {
+  test("ModelQuery.ModelRef", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5032,7 +5027,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.sort", () async {
+  test("ModelQuery.sort", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5078,7 +5073,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.sort.ModelCounter", () async {
+  test("ModelQuery.sort.ModelCounter", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5132,7 +5127,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.sort.ModelTimestamp", () async {
+  test("ModelQuery.sort.ModelTimestamp", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5210,7 +5205,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.sort.ModelDate", () async {
+  test("ModelQuery.sort.ModelDate", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5272,7 +5267,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.sort.ModelTime", () async {
+  test("ModelQuery.sort.ModelTime", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5330,7 +5325,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.seekIndex", () async {
+  test("ModelQuery.seekIndex", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5428,7 +5423,7 @@ void main() {
       4,
     );
   });
-  test("ModelQuery.search", () async {
+  test("ModelQuery.search", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5518,7 +5513,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.Enum", () async {
+  test("ModelQuery.Enum", () {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [

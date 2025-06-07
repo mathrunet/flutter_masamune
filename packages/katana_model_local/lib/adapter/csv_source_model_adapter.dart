@@ -370,7 +370,7 @@ class CsvDocumentSourceModelAdapter extends CsvSourceModelAdapter {
   @override
   Future<Map<String, DynamicMap>> loadCollection(
     ModelAdapterCollectionQuery query,
-  ) async {
+  ) {
     throw UnsupportedError("This adapter cannot be used as a collection.");
   }
 
@@ -378,7 +378,7 @@ class CsvDocumentSourceModelAdapter extends CsvSourceModelAdapter {
   Future<T?> loadAggregation<T>(
     ModelAdapterCollectionQuery query,
     ModelAggregateQuery aggregateQuery,
-  ) async {
+  ) {
     throw UnsupportedError("This adapter cannot be used as a collection.");
   }
 
@@ -741,7 +741,7 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
   }
 
   @override
-  Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
+  Future<void> deleteDocument(ModelAdapterDocumentQuery query) {
     throw UnsupportedError("This adapter cannot delete.");
   }
 
@@ -749,7 +749,7 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
   Future<void> saveDocument(
     ModelAdapterDocumentQuery query,
     DynamicMap value,
-  ) async {
+  ) {
     throw UnsupportedError("This adapter cannot save.");
   }
 
@@ -1045,9 +1045,7 @@ DynamicMap _merged(DynamicMap map) {
   if (localized.isNotEmpty) {
     for (final l in localized.entries) {
       result[l.key] = ModelLocalizedValue.fromList(
-        l.value
-            .toList((key, value) => LocalizedLocaleValue(key, value))
-            .toList(),
+        l.value.toList(LocalizedLocaleValue.new).toList(),
       ).toJson();
     }
   }

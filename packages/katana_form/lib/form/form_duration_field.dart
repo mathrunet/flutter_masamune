@@ -605,12 +605,12 @@ class _DurationTextField<TValue> extends FormField<Duration> {
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
           builder: (field) {
-            final _DurationTextFieldState<TValue> state =
+            final state =
                 field as _DurationTextFieldState<TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(
-              mouseCursor: enabled == false
+              mouseCursor: !enabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
               controller: state._effectiveController ??
@@ -1007,7 +1007,7 @@ class FormDurationFieldPicker {
         end?.inSeconds.remainder(60) ??
         0);
 
-    List<_PickerItem<int>> pickerItems = <_PickerItem<int>>[];
+    var pickerItems = <_PickerItem<int>>[];
     for (var s = begin?.inSeconds.remainder(60) ?? 0;
         s <= (end?.inSeconds.remainder(60) ?? 0);
         s++) {

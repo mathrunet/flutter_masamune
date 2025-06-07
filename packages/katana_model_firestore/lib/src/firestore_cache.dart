@@ -2,16 +2,17 @@ part of "/katana_model_firestore.dart";
 
 class _FirestoreCache {
   _FirestoreCache();
-  final _document = <String, DynamicMap>{};
 
-  static final _caches = <FirebaseOptions?, _FirestoreCache>{};
-
-  static _FirestoreCache getCache(FirebaseOptions? options) {
+  factory _FirestoreCache.getCache(FirebaseOptions? options) {
     if (_caches.containsKey(options)) {
       return _caches[options]!;
     }
     return _caches[options] = _FirestoreCache();
   }
+
+  final _document = <String, DynamicMap>{};
+
+  static final _caches = <FirebaseOptions?, _FirestoreCache>{};
 
   void set(String path, [DynamicMap? value]) {
     if (value == null) {

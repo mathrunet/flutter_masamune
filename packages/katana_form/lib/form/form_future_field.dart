@@ -437,7 +437,7 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
               : Stack(
                   children: [
                     TextFormField(
-                      mouseCursor: widget.enabled == false
+                      mouseCursor: !widget.enabled
                           ? SystemMouseCursors.forbidden
                           : SystemMouseCursors.click,
                       enabled: widget.enabled,

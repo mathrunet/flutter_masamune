@@ -945,7 +945,7 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
   /// [formattedString]からパースして[ModelTimestamp]に変換します。
   ///
   /// 変換に失敗した場合は[FormatException]が発生します。
-  static ModelTimestamp parse(String formattedString) {
+  factory ModelTimestamp.parse(String formattedString) {
     final dateTime = DateTime.parse(formattedString);
     return ModelTimestamp(dateTime);
   }
@@ -1331,7 +1331,7 @@ class ModelDate extends ModelFieldValue<DateTime>
   /// [formattedString]からパースして[ModelDate]に変換します。
   ///
   /// 変換に失敗した場合は[FormatException]が発生します。
-  static ModelDate parse(String formattedString) {
+  factory ModelDate.parse(String formattedString) {
     final dateTime = DateTime.parse(formattedString);
     return ModelDate(dateTime);
   }
@@ -1707,7 +1707,7 @@ class ModelTime extends ModelFieldValue<DateTime>
   /// [formattedString]からパースして[ModelTime]に変換します。
   ///
   /// 変換に失敗した場合は[FormatException]が発生します。
-  static ModelTime parse(String formattedString) {
+  factory ModelTime.parse(String formattedString) {
     if (_dateRegExp.hasMatch(formattedString)) {
       final dateTime = DateTime.parse(formattedString);
       return ModelTime(dateTime);

@@ -49,7 +49,7 @@ class FirebaseDataConnectModelDateRangeConverter
       if (value.isNotEmpty && value.every((e) => e is DateTime)) {
         return {
           key: value.mapAndRemoveEmpty(
-            (e) => _convertFrom(e),
+            _convertFrom,
           ),
         };
       }

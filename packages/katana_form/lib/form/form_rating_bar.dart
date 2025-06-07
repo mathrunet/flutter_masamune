@@ -538,7 +538,7 @@ class _FormRatingBarState<TValue> extends FormFieldState<double>
           size: widget.iconSize,
         ),
         child: MouseRegion(
-          cursor: widget.enabled == false
+          cursor: !widget.enabled
               ? SystemMouseCursors.forbidden
               : SystemMouseCursors.click,
           child: RatingBar.builder(

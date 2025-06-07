@@ -115,10 +115,8 @@ class AdapterGenerator
       mode: ProcessStartMode.normal,
     );
     unawaited(
-      generateProcess.stdout.transform(utf8.decoder).forEach((line) {
-        // ignore: avoid_print
-        print(line);
-      }),
+      // ignore: avoid_print
+      generateProcess.stdout.transform(utf8.decoder).forEach(print),
     );
     await generateProcess.exitCode;
   }

@@ -252,7 +252,7 @@ class StoreScreenshotCliCommand extends CliCommand {
               ..clear(backgroundColor);
             file.writeAsBytesSync(encodePng(image));
           } else {
-            for (int i = 0; i < 2; i++) {
+            for (var i = 0; i < 2; i++) {
               final file = File("$exportDir/${key}_$i.png");
               if (file.existsSync()) {
                 continue;
@@ -275,7 +275,7 @@ class StoreScreenshotCliCommand extends CliCommand {
         for (final val in tmp.value.entries) {
           final key = val.key;
           final size = val.value;
-          for (int i = 0; i < sources.length; i++) {
+          for (var i = 0; i < sources.length; i++) {
             if (key == "icon") {
             } else if (key == "purchase") {
               final file = File(sources[i].path);
@@ -352,8 +352,8 @@ class StoreScreenshotCliCommand extends CliCommand {
     required Color foregroundColor,
     required Color backgroundColor,
   }) {
-    for (int y = 0; y < image.height; y++) {
-      for (int x = 0; x < image.width; x++) {
+    for (var y = 0; y < image.height; y++) {
+      for (var x = 0; x < image.width; x++) {
         final pixel = image.getPixel(x, y);
         final r = pixel.r;
         final g = pixel.g;

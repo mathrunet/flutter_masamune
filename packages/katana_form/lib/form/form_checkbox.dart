@@ -229,7 +229,7 @@ class FormCheckbox<TValue> extends FormField<bool> {
               style: style,
               enabled: enabled,
               child: MouseRegion(
-                cursor: enabled == false
+                cursor: !enabled
                     ? SystemMouseCursors.forbidden
                     : SystemMouseCursors.click,
                 child: InputDecorator(

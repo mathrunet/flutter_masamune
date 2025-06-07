@@ -30,7 +30,7 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
       );
     }
 
-    int i = 0;
+    var i = 0;
     final import = <String, String>{};
     final export = <String, List<String>>{};
     final queries = <QueryValue>[];

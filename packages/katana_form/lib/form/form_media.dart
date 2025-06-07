@@ -320,7 +320,7 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
         child: Column(
           children: [
             InkWell(
-              mouseCursor: widget.enabled == false
+              mouseCursor: !widget.enabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
               onTap: widget.readOnly || !widget.enabled

@@ -137,9 +137,7 @@ class _$_DeepLinkQuery extends ControllerQueryBase<Deeplink> {
   final String _name;
 
   @override
-  Deeplink Function() call(Ref ref) {
-    return () => Deeplink();
-  }
+  Deeplink Function() call(Ref ref) => Deeplink.new;
 
   @override
   String get queryName => _name;

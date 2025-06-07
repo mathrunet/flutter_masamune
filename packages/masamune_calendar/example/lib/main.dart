@@ -86,15 +86,11 @@ class CalendarPageState extends State<CalendarPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              _controller.prev();
-            },
+            onPressed: _controller.prev,
           ),
           IconButton(
             icon: const Icon(Icons.arrow_forward),
-            onPressed: () {
-              _controller.next();
-            },
+            onPressed: _controller.next,
           ),
         ],
       ),

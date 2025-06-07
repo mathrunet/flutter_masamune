@@ -213,12 +213,12 @@ class _FirebaseLoggerTraceValue extends LoggerTraceValue {
   final Trace trace;
 
   @override
-  Future<void> start(DateTime startTime) async {
+  Future<void> start(DateTime startTime) {
     return trace.start();
   }
 
   @override
-  Future<void> stop(DateTime startTime, DateTime endTime) async {
+  Future<void> stop(DateTime startTime, DateTime endTime) {
     return trace.stop();
   }
 }

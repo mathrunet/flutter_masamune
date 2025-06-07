@@ -11,7 +11,7 @@ part "transaction_test.freezed.dart";
 part "transaction_test.g.dart";
 
 class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
-  RuntimeMapDocumentModel(super.query);
+  RuntimeMapDocumentModel(super.modelQuery);
 
   @override
   DynamicMap fromMap(DynamicMap map) => map;
@@ -21,7 +21,7 @@ class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
 }
 
 class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
-  RuntimeCollectionModel(super.query);
+  RuntimeCollectionModel(super.modelQuery);
 
   @override
   RuntimeMapDocumentModel create([String? id]) {
@@ -31,7 +31,7 @@ class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
 
 class UserDocument extends DocumentBase<DynamicMap>
     with ModelRefMixin<DynamicMap> {
-  UserDocument(super.query);
+  UserDocument(super.modelQuery);
 
   @override
   DynamicMap fromMap(DynamicMap map) => map;
@@ -41,7 +41,7 @@ class UserDocument extends DocumentBase<DynamicMap>
 }
 
 class RuntimeCollectionRefModel extends CollectionBase<UserDocument> {
-  RuntimeCollectionRefModel(super.query);
+  RuntimeCollectionRefModel(super.modelQuery);
 
   @override
   UserDocument create([String? id]) {
@@ -51,7 +51,7 @@ class RuntimeCollectionRefModel extends CollectionBase<UserDocument> {
 
 class ShopDocument extends DocumentBase<DynamicMap>
     with ModelRefLoaderMixin<DynamicMap> {
-  ShopDocument(super.query);
+  ShopDocument(super.modelQuery);
 
   @override
   DynamicMap fromMap(DynamicMap map) => map;
@@ -63,7 +63,7 @@ class ShopDocument extends DocumentBase<DynamicMap>
   List<ModelRefBuilderBase<DynamicMap>> get builder => [
         ModelRefBuilder(
           modelRef: (value) => value.getAsModelRef("user", "/user/doc"),
-          document: (modelQuery) => UserDocument(modelQuery),
+          document: UserDocument.new,
           value: (value, document) {
             return {
               ...value,
@@ -75,7 +75,7 @@ class ShopDocument extends DocumentBase<DynamicMap>
 }
 
 class RuntimeCollectionLoaderModel extends CollectionBase<ShopDocument> {
-  RuntimeCollectionLoaderModel(super.query);
+  RuntimeCollectionLoaderModel(super.modelQuery);
 
   @override
   ShopDocument create([String? id]) {
@@ -106,7 +106,7 @@ abstract class TestValue with _$TestValue {
 }
 
 class RuntimeMTestValueDocumentModel extends DocumentBase<TestValue> {
-  RuntimeMTestValueDocumentModel(super.query);
+  RuntimeMTestValueDocumentModel(super.modelQuery);
 
   @override
   TestValue fromMap(DynamicMap map) => TestValue.fromJson(map);
@@ -117,7 +117,7 @@ class RuntimeMTestValueDocumentModel extends DocumentBase<TestValue> {
 
 class RuntimeTestValueCollectionModel
     extends CollectionBase<RuntimeMTestValueDocumentModel> {
-  RuntimeTestValueCollectionModel(super.query);
+  RuntimeTestValueCollectionModel(super.modelQuery);
 
   @override
   RuntimeMTestValueDocumentModel create([String? id]) {
@@ -170,7 +170,7 @@ abstract class ShopValue with _$ShopValue {
 
 class UserValueDocument extends DocumentBase<UserValue>
     with ModelRefMixin<UserValue> {
-  UserValueDocument(super.query);
+  UserValueDocument(super.modelQuery);
 
   @override
   UserValue fromMap(DynamicMap map) => UserValue.fromJson(map);
@@ -180,7 +180,7 @@ class UserValueDocument extends DocumentBase<UserValue>
 }
 
 class RuntimeCollectionRefValueModel extends CollectionBase<UserValueDocument> {
-  RuntimeCollectionRefValueModel(super.query);
+  RuntimeCollectionRefValueModel(super.modelQuery);
 
   @override
   UserValueDocument create([String? id]) {
@@ -190,7 +190,7 @@ class RuntimeCollectionRefValueModel extends CollectionBase<UserValueDocument> {
 
 class ShopValueDocument extends DocumentBase<ShopValue>
     with ModelRefLoaderMixin<ShopValue> {
-  ShopValueDocument(super.query);
+  ShopValueDocument(super.modelQuery);
 
   @override
   ShopValue fromMap(DynamicMap map) => ShopValue.fromJson(map);
@@ -202,7 +202,7 @@ class ShopValueDocument extends DocumentBase<ShopValue>
   List<ModelRefBuilderBase<ShopValue>> get builder => [
         ModelRefBuilder(
           modelRef: (value) => value.user,
-          document: (modelQuery) => UserValueDocument(modelQuery),
+          document: UserValueDocument.new,
           value: (value, ModelRef<UserValue> doc) {
             return value.copyWith(user: doc);
           },
@@ -212,7 +212,7 @@ class ShopValueDocument extends DocumentBase<ShopValue>
 
 class RuntimeCollectionLoaderValueModel
     extends CollectionBase<ShopValueDocument> {
-  RuntimeCollectionLoaderValueModel(super.query);
+  RuntimeCollectionLoaderValueModel(super.modelQuery);
 
   @override
   ShopValueDocument create([String? id]) {
@@ -269,7 +269,7 @@ void main() {
     final query = CollectionModelQuery("test", adapter: adapter);
     final model = RuntimeCollectionModel(query);
     final builder = model.batch();
-    await builder.call((ref, col) async {
+    await builder.call((ref, col) {
       for (var i = 0; i < 1000; i++) {
         final doc = ref.read(col.create());
         doc.save({"name": "aaa", "text": "bbb", "count": i});
@@ -280,7 +280,7 @@ void main() {
       final doc = model[i];
       expect(doc.value, {"name": "aaa", "text": "bbb", "count": i});
     }
-    await builder.call((ref, col) async {
+    await builder.call((ref, col) {
       for (var i = 0; i < col.length; i++) {
         final doc = ref.read(col[i]);
         doc.save({"name": "aaa", "text": "ccc", "count": i});
@@ -290,7 +290,7 @@ void main() {
       final doc = model[i];
       expect(doc.value, {"name": "aaa", "text": "ccc", "count": i});
     }
-    await builder.call((ref, col) async {
+    await builder.call((ref, col) {
       for (var i = 0; i < col.length; i++) {
         final doc = ref.read(col[i]);
         doc.delete();
@@ -384,7 +384,7 @@ void main() {
     final query = CollectionModelQuery("test", adapter: adapter);
     final model = RuntimeTestValueCollectionModel(query);
     final builder = model.batch();
-    await builder.call((ref, col) async {
+    await builder.call((ref, col) {
       for (var i = 0; i < 1000; i++) {
         final doc = ref.read(col.create());
         doc.save(TestValue(name: "aaa", text: "bbb", ids: [i]));
@@ -395,7 +395,7 @@ void main() {
       final doc = model[i];
       expect(doc.value, TestValue(name: "aaa", text: "bbb", ids: [i]));
     }
-    await builder.call((ref, col) async {
+    await builder.call((ref, col) {
       for (var i = 0; i < col.length; i++) {
         final doc = ref.read(col[i]);
         doc.save(TestValue(name: "aaa", text: "ccc", ids: [i]));
@@ -405,7 +405,7 @@ void main() {
       final doc = model[i];
       expect(doc.value, TestValue(name: "aaa", text: "ccc", ids: [i]));
     }
-    await builder.call((ref, col) async {
+    await builder.call((ref, col) {
       for (var i = 0; i < col.length; i++) {
         final doc = ref.read(col[i]);
         doc.delete();

@@ -403,7 +403,7 @@ class GradleAndroid {
   });
   static final _regExp = RegExp(r"android {([\s\S]+?)\n}");
 
-  static GradleAndroid _load(String content) {
+  factory GradleAndroid._load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
     final namespace =
         RegExp("namespace = ([a-zA-Z0-9_\"'.-]+)").firstMatch(region)?.group(1);
@@ -498,24 +498,8 @@ class GradleAndroidCompileOptions {
     required this.targetCompatibility,
     this.coreLibraryDesugaringEnabled,
   });
-  static final _regExp = RegExp(r"compileOptions {([\s\S]+?)}");
 
-  /// Data for `sourceCompatibility`.
-  ///
-  /// `sourceCompatibility`のデータ。
-  String sourceCompatibility;
-
-  /// Data for `targetCompatibility`.
-  ///
-  /// `targetCompatibility`のデータ。
-  String targetCompatibility;
-
-  /// Data for `coreLibraryDesugaringEnabled`.
-  ///
-  /// `coreLibraryDesugaringEnabled`のデータ。
-  bool? coreLibraryDesugaringEnabled;
-
-  static GradleAndroidCompileOptions _load(String content) {
+  factory GradleAndroidCompileOptions._load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
     final sourceCompatibility =
         RegExp("sourceCompatibility = ([a-zA-Z0-9_\"'.-]+)")
@@ -543,6 +527,23 @@ class GradleAndroidCompileOptions {
     );
   }
 
+  static final _regExp = RegExp(r"compileOptions {([\s\S]+?)}");
+
+  /// Data for `sourceCompatibility`.
+  ///
+  /// `sourceCompatibility`のデータ。
+  String sourceCompatibility;
+
+  /// Data for `targetCompatibility`.
+  ///
+  /// `targetCompatibility`のデータ。
+  String targetCompatibility;
+
+  /// Data for `coreLibraryDesugaringEnabled`.
+  ///
+  /// `coreLibraryDesugaringEnabled`のデータ。
+  bool? coreLibraryDesugaringEnabled;
+
   @override
   String toString() {
     return "    compileOptions {\n        sourceCompatibility = $sourceCompatibility\n        targetCompatibility = $targetCompatibility${coreLibraryDesugaringEnabled != null ? "\n        isCoreLibraryDesugaringEnabled = $coreLibraryDesugaringEnabled" : ""}\n    }\n";
@@ -559,14 +560,8 @@ class GradleAndroidKotlinOptions {
   GradleAndroidKotlinOptions({
     required this.jvmTarget,
   });
-  static final _regExp = RegExp(r"kotlinOptions {([\s\S]+?)}");
 
-  /// Setting of `jvmTarget`.
-  ///
-  /// `jvmTarget`の設定。
-  String jvmTarget;
-
-  static GradleAndroidKotlinOptions _load(String content) {
+  factory GradleAndroidKotlinOptions._load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
     final jvmTarget = RegExp("jvmTarget = ([a-zA-Z0-9_\"'().-]+)")
             .firstMatch(region)
@@ -576,6 +571,13 @@ class GradleAndroidKotlinOptions {
       jvmTarget: jvmTarget,
     );
   }
+
+  static final _regExp = RegExp(r"kotlinOptions {([\s\S]+?)}");
+
+  /// Setting of `jvmTarget`.
+  ///
+  /// `jvmTarget`の設定。
+  String jvmTarget;
 
   @override
   String toString() {
@@ -649,6 +651,38 @@ class GradleAndroidDefaultConfig {
     this.multiDexEnabled,
     this.resValues = const [],
   });
+
+  factory GradleAndroidDefaultConfig._load(String content) {
+    final region = _regExp.firstMatch(content)?.group(1) ?? "";
+    final applicationId =
+        RegExp("applicationId = (.+)").firstMatch(region)?.group(1) ?? "";
+    final minSdkVersion =
+        RegExp("minSdk = (.+)").firstMatch(region)?.group(1) ?? "";
+    final targetSdkVersion =
+        RegExp("targetSdk = (.+)").firstMatch(region)?.group(1) ?? "";
+    final versionCode =
+        RegExp("versionCode = (.+)").firstMatch(region)?.group(1) ?? "";
+    final versionName =
+        RegExp("versionName = (.+)").firstMatch(region)?.group(1) ?? "";
+    final testInstrumentationRunner =
+        RegExp("testInstrumentationRunner = (.+)").firstMatch(region)?.group(1);
+    final multiDexEnabled =
+        RegExp("multiDexEnabled = (.+)").firstMatch(region)?.group(1);
+    final resValues = RegExp("resValue(.+)")
+        .allMatches(region)
+        .mapAndRemoveEmpty((e) => e.group(1));
+    return GradleAndroidDefaultConfig(
+      applicationId: applicationId,
+      minSdkVersion: minSdkVersion,
+      targetSdkVersion: targetSdkVersion,
+      versionCode: versionCode,
+      versionName: versionName,
+      testInstrumentationRunner: testInstrumentationRunner,
+      multiDexEnabled: multiDexEnabled,
+      resValues: resValues,
+    );
+  }
+
   static final _regExp = RegExp(r"defaultConfig {([\s\S]+?)}");
 
   /// Application ID.
@@ -691,37 +725,6 @@ class GradleAndroidDefaultConfig {
   /// `resValue`の設定（複数設定可能）。
   List<String> resValues;
 
-  static GradleAndroidDefaultConfig _load(String content) {
-    final region = _regExp.firstMatch(content)?.group(1) ?? "";
-    final applicationId =
-        RegExp("applicationId = (.+)").firstMatch(region)?.group(1) ?? "";
-    final minSdkVersion =
-        RegExp("minSdk = (.+)").firstMatch(region)?.group(1) ?? "";
-    final targetSdkVersion =
-        RegExp("targetSdk = (.+)").firstMatch(region)?.group(1) ?? "";
-    final versionCode =
-        RegExp("versionCode = (.+)").firstMatch(region)?.group(1) ?? "";
-    final versionName =
-        RegExp("versionName = (.+)").firstMatch(region)?.group(1) ?? "";
-    final testInstrumentationRunner =
-        RegExp("testInstrumentationRunner = (.+)").firstMatch(region)?.group(1);
-    final multiDexEnabled =
-        RegExp("multiDexEnabled = (.+)").firstMatch(region)?.group(1);
-    final resValues = RegExp("resValue(.+)")
-        .allMatches(region)
-        .mapAndRemoveEmpty((e) => e.group(1));
-    return GradleAndroidDefaultConfig(
-      applicationId: applicationId,
-      minSdkVersion: minSdkVersion,
-      targetSdkVersion: targetSdkVersion,
-      versionCode: versionCode,
-      versionName: versionName,
-      testInstrumentationRunner: testInstrumentationRunner,
-      multiDexEnabled: multiDexEnabled,
-      resValues: resValues,
-    );
-  }
-
   @override
   String toString() {
     return "    defaultConfig {\n        applicationId = $applicationId\n        minSdk = $minSdkVersion\n        targetSdk = $targetSdkVersion\n        versionCode = $versionCode\n        versionName = $versionName\n${testInstrumentationRunner.isNotEmpty ? "        testInstrumentationRunner = $testInstrumentationRunner\n" : ""}${multiDexEnabled.isNotEmpty ? "        multiDexEnabled = $multiDexEnabled\n" : ""}${resValues.isNotEmpty ? "${resValues.map((e) => "        resValue${e.replaceAll(RegExp(r"^resValue\s*"), "")}").join("\n")}\n" : ""}    }\n";
@@ -739,6 +742,17 @@ class GradleAndroidBuildTypes {
     this.release,
     this.debug,
   });
+
+  factory GradleAndroidBuildTypes._load(String content) {
+    final region = _regExp.firstMatch(content)?.group(1) ?? "";
+    final release = _releaseRegExp.firstMatch(region)?.group(1);
+    final debug = _debugRegExp.firstMatch(region)?.group(1);
+    return GradleAndroidBuildTypes(
+      release: release != null ? GradleAndroidBuildType._load(release) : null,
+      debug: debug != null ? GradleAndroidBuildType._load(debug) : null,
+    );
+  }
+
   static final _regExp = RegExp(r"buildTypes {([\s\S]+)}");
   static final _releaseRegExp = RegExp(r"release {([\s\S]+?)}");
   static final _debugRegExp = RegExp(r"debug {([\s\S]+?)}");
@@ -752,16 +766,6 @@ class GradleAndroidBuildTypes {
   ///
   /// デバッグ時の設定。
   GradleAndroidBuildType? debug;
-
-  static GradleAndroidBuildTypes _load(String content) {
-    final region = _regExp.firstMatch(content)?.group(1) ?? "";
-    final release = _releaseRegExp.firstMatch(region)?.group(1);
-    final debug = _debugRegExp.firstMatch(region)?.group(1);
-    return GradleAndroidBuildTypes(
-      release: release != null ? GradleAndroidBuildType._load(release) : null,
-      debug: debug != null ? GradleAndroidBuildType._load(debug) : null,
-    );
-  }
 
   @override
   String toString() {
@@ -785,6 +789,20 @@ class GradleAndroidBuildType {
     this.shrinkResources,
   });
 
+  factory GradleAndroidBuildType._load(String content) {
+    final signingConfig =
+        RegExp("signingConfig = (.+)").firstMatch(content)?.group(1) ?? "";
+    final minifyEnabled =
+        RegExp("minifyEnabled = (.+)").firstMatch(content)?.group(1);
+    final shrinkResources =
+        RegExp("shrinkResources = (.+)").firstMatch(content)?.group(1);
+    return GradleAndroidBuildType(
+      signingConfig: signingConfig,
+      minifyEnabled: minifyEnabled,
+      shrinkResources: shrinkResources,
+    );
+  }
+
   /// Signature Method.
   ///
   /// 署名方法。
@@ -799,20 +817,6 @@ class GradleAndroidBuildType {
   ///
   /// `shrinkResources`の設定。
   String? shrinkResources;
-
-  static GradleAndroidBuildType _load(String content) {
-    final signingConfig =
-        RegExp("signingConfig = (.+)").firstMatch(content)?.group(1) ?? "";
-    final minifyEnabled =
-        RegExp("minifyEnabled = (.+)").firstMatch(content)?.group(1);
-    final shrinkResources =
-        RegExp("shrinkResources = (.+)").firstMatch(content)?.group(1);
-    return GradleAndroidBuildType(
-      signingConfig: signingConfig,
-      minifyEnabled: minifyEnabled,
-      shrinkResources: shrinkResources,
-    );
-  }
 
   @override
   String toString() {
@@ -832,6 +836,24 @@ class GradleAndroidSigningConfigs {
     this.debug,
     bool isKotlin = true,
   }) : _isKotlin = isKotlin;
+
+  factory GradleAndroidSigningConfigs._load(String content) {
+    final region = _regExp.firstMatch(content)?.group(1) ?? "";
+
+    final release = region.contains("create(") || region.contains("getByName(")
+        ? _releaseWithKotlinRegExp.firstMatch(region)?.group(1)
+        : _releaseRegExp.firstMatch(region)?.group(1);
+    final debug = region.contains("create(") || region.contains("getByName(")
+        ? _debugWithKotlinRegExp.firstMatch(region)?.group(1)
+        : _debugRegExp.firstMatch(region)?.group(1);
+    return GradleAndroidSigningConfigs(
+      release:
+          release != null ? GradleAndroidSigningConfig._load(release) : null,
+      debug: debug != null ? GradleAndroidSigningConfig._load(debug) : null,
+      isKotlin: region.contains("create(") || region.contains("getByName("),
+    );
+  }
+
   static final _regExp = RegExp(r"signingConfigs {([\s\S]+)}");
   static final _releaseRegExp = RegExp(r"release {([\s\S]+?)}");
   static final _debugRegExp = RegExp(r"debug {([\s\S]+?)}");
@@ -855,23 +877,6 @@ class GradleAndroidSigningConfigs {
   /// ファイルがKotlinで書かれているかどうか。
   bool get isKotlin => _isKotlin;
   final bool _isKotlin;
-
-  static GradleAndroidSigningConfigs _load(String content) {
-    final region = _regExp.firstMatch(content)?.group(1) ?? "";
-
-    final release = region.contains("create(") || region.contains("getByName(")
-        ? _releaseWithKotlinRegExp.firstMatch(region)?.group(1)
-        : _releaseRegExp.firstMatch(region)?.group(1);
-    final debug = region.contains("create(") || region.contains("getByName(")
-        ? _debugWithKotlinRegExp.firstMatch(region)?.group(1)
-        : _debugRegExp.firstMatch(region)?.group(1);
-    return GradleAndroidSigningConfigs(
-      release:
-          release != null ? GradleAndroidSigningConfig._load(release) : null,
-      debug: debug != null ? GradleAndroidSigningConfig._load(debug) : null,
-      isKotlin: region.contains("create(") || region.contains("getByName("),
-    );
-  }
 
   @override
   String toString() {
@@ -901,6 +906,24 @@ class GradleAndroidSigningConfig {
     bool isKotlin = false,
   }) : _isKotlin = isKotlin;
 
+  factory GradleAndroidSigningConfig._load(String content) {
+    final keyAlias =
+        RegExp("keyAlias = (.+)").firstMatch(content)?.group(1) ?? "";
+    final keyPassword =
+        RegExp("keyPassword = (.+)").firstMatch(content)?.group(1) ?? "";
+    final storeFile =
+        RegExp("storeFile = (.+)").firstMatch(content)?.group(1) ?? "";
+    final storePassword =
+        RegExp("storePassword = (.+)").firstMatch(content)?.group(1) ?? "";
+    return GradleAndroidSigningConfig(
+      keyAlias: keyAlias,
+      keyPassword: keyPassword,
+      storeFile: storeFile,
+      storePassword: storePassword,
+      isKotlin: content.contains("as String?"),
+    );
+  }
+
   /// Keystore alias.
   ///
   /// Keystoreのエイリアス。
@@ -926,24 +949,6 @@ class GradleAndroidSigningConfig {
   /// ファイルがKotlinで書かれているかどうか。
   bool get isKotlin => _isKotlin;
   final bool _isKotlin;
-
-  static GradleAndroidSigningConfig _load(String content) {
-    final keyAlias =
-        RegExp("keyAlias = (.+)").firstMatch(content)?.group(1) ?? "";
-    final keyPassword =
-        RegExp("keyPassword = (.+)").firstMatch(content)?.group(1) ?? "";
-    final storeFile =
-        RegExp("storeFile = (.+)").firstMatch(content)?.group(1) ?? "";
-    final storePassword =
-        RegExp("storePassword = (.+)").firstMatch(content)?.group(1) ?? "";
-    return GradleAndroidSigningConfig(
-      keyAlias: keyAlias,
-      keyPassword: keyPassword,
-      storeFile: storeFile,
-      storePassword: storePassword,
-      isKotlin: content.contains("as String?"),
-    );
-  }
 
   @override
   String toString() {
@@ -1107,9 +1112,7 @@ class GradleBuildScript {
     required List<GradleBuildscriptDependencies> dependencies,
   }) : _dependencies = dependencies;
 
-  static final _regExp = RegExp(r"buildscript {([\s\S]+?)\n}");
-
-  static GradleBuildScript _load(String content) {
+  factory GradleBuildScript._load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
     final kotlinVersion =
         (RegExp("ext.kotlin_version()[\\s\\S]+?=[\\s\\S]+?([a-zA-Z0-9_\"'.-]+)")
@@ -1124,6 +1127,8 @@ class GradleBuildScript {
       dependencies: dependencies,
     );
   }
+
+  static final _regExp = RegExp(r"buildscript {([\s\S]+?)\n}");
 
   static String _save(String content, GradleBuildScript data) {
     var region = _regExp.firstMatch(content)?.group(1) ?? "";
@@ -1211,14 +1216,14 @@ class GradleAllprojects {
     required List<GradleAllprojectsConfigurations> configurations,
   }) : _configurations = configurations;
 
-  static final _regExp = RegExp(r"allprojects {([\s\S]+?)\n}");
-
-  static GradleAllprojects _load(String content) {
+  factory GradleAllprojects._load(String content) {
     final configurations = GradleAllprojectsConfigurations._load(content);
     return GradleAllprojects(
       configurations: configurations,
     );
   }
+
+  static final _regExp = RegExp(r"allprojects {([\s\S]+?)\n}");
 
   static String _save(String content, GradleAllprojects data) {
     var region = _regExp.firstMatch(content)?.group(1) ?? "";

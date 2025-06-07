@@ -17,7 +17,7 @@ class MockLocationMasamuneAdapter extends LocationMasamuneAdapter {
   Future<void> initialize({
     bool checkPermission = true,
     Duration timeout = const Duration(seconds: 60),
-  }) async =>
+  }) =>
       Future.value();
 
   @override

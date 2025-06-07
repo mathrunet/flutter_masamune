@@ -103,13 +103,13 @@ class AppSpreadSheetCliAction extends CliCommand with CliActionMixin {
     final csv = await response.transform(utf8.decoder).join();
     final raw = const CsvToListConverter().convert(csv);
     final data = <String, Map<String, String>>{};
-    for (int i = 1; i < raw.length; i++) {
+    for (var i = 1; i < raw.length; i++) {
       final line = raw[i];
       if (line.length <= 1) {
         continue;
       }
       final mapped = <String, String>{};
-      for (int j = 0; j < line.length; j++) {
+      for (var j = 0; j < line.length; j++) {
         if (_mapping.length <= j) {
           break;
         }

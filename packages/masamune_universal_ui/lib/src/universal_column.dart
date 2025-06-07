@@ -259,7 +259,7 @@ class UniversalColumn extends StatelessWidget {
   }
 
   List<Widget> _createRows(BuildContext context, List<Widget> children) {
-    int accumulatedWidth = 0;
+    var accumulatedWidth = 0;
     var cols = <Widget>[];
     final rows = <Widget>[];
 

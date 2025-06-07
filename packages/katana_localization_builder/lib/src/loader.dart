@@ -79,12 +79,12 @@ class LocalizeLoader {
           .replaceAll("\r", "\n");
       final converted = const CsvToListConverter().convert(csv, eol: "\n");
       // Organize by language
-      for (int y = 1; y < converted.length; y++) {
+      for (var y = 1; y < converted.length; y++) {
         final line = converted[y];
         if (line.isEmpty) {
           continue;
         }
-        for (int x = 1; x < line.length; x++) {
+        for (var x = 1; x < line.length; x++) {
           final cell = line[x]?.toString();
           if (cell.isEmpty) {
             continue;

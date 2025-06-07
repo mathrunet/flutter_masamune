@@ -43,6 +43,29 @@ class AIFunctionCallingConfig {
   /// モデルが提供された関数をツールとして使用する方法を指定する設定。
   const AIFunctionCallingConfig._({this.mode, this.allowedFunctionNames});
 
+  /// Returns a [AIFunctionCallingConfig] instance with mode of [AIFunctionCallingMode.auto].
+  ///
+  /// モードが[AIFunctionCallingMode.auto]に設定された[AIFunctionCallingConfig]インスタンスを返します。
+  factory AIFunctionCallingConfig.auto() {
+    return const AIFunctionCallingConfig._(mode: AIFunctionCallingMode.auto);
+  }
+
+  /// Returns a [AIFunctionCallingConfig] instance with mode of [AIFunctionCallingMode.any].
+  ///
+  /// モードが[AIFunctionCallingMode.any]に設定された[AIFunctionCallingConfig]インスタンスを返します。
+  factory AIFunctionCallingConfig.any(Set<String> allowedFunctionNames) {
+    return AIFunctionCallingConfig._(
+        mode: AIFunctionCallingMode.any,
+        allowedFunctionNames: allowedFunctionNames);
+  }
+
+  /// Returns a [AIFunctionCallingConfig] instance with mode of [AIFunctionCallingMode.none].
+  ///
+  /// モードが[AIFunctionCallingMode.none]に設定された[AIFunctionCallingConfig]インスタンスを返します。
+  factory AIFunctionCallingConfig.none() {
+    return const AIFunctionCallingConfig._(mode: AIFunctionCallingMode.none);
+  }
+
   /// The mode in which function calling should execute.
   ///
   /// If null, the default behavior will match [AIFunctionCallingMode.auto].
@@ -61,27 +84,4 @@ class AIFunctionCallingConfig {
   ///
   /// 以下は、[AIFunctionCallingMode.any]がModeに設定されている場合にのみ設定されるべきです。関数名は[AITool.name]と一致する必要があります。Modeが`any`に設定されている場合、モデルは提供された関数名のセットから関数呼び出しを予測します。
   final Set<String>? allowedFunctionNames;
-
-  /// Returns a [AIFunctionCallingConfig] instance with mode of [AIFunctionCallingMode.auto].
-  ///
-  /// モードが[AIFunctionCallingMode.auto]に設定された[AIFunctionCallingConfig]インスタンスを返します。
-  static AIFunctionCallingConfig auto() {
-    return const AIFunctionCallingConfig._(mode: AIFunctionCallingMode.auto);
-  }
-
-  /// Returns a [AIFunctionCallingConfig] instance with mode of [AIFunctionCallingMode.any].
-  ///
-  /// モードが[AIFunctionCallingMode.any]に設定された[AIFunctionCallingConfig]インスタンスを返します。
-  static AIFunctionCallingConfig any(Set<String> allowedFunctionNames) {
-    return AIFunctionCallingConfig._(
-        mode: AIFunctionCallingMode.any,
-        allowedFunctionNames: allowedFunctionNames);
-  }
-
-  /// Returns a [AIFunctionCallingConfig] instance with mode of [AIFunctionCallingMode.none].
-  ///
-  /// モードが[AIFunctionCallingMode.none]に設定された[AIFunctionCallingConfig]インスタンスを返します。
-  static AIFunctionCallingConfig none() {
-    return const AIFunctionCallingConfig._(mode: AIFunctionCallingMode.none);
-  }
 }

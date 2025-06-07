@@ -148,9 +148,7 @@ class StripeAccount
             }
             return StripeNavigationActionPolicy.allow;
           },
-          onCloseWindow: () {
-            onCancel.call();
-          },
+          onCloseWindow: onCancel.call,
         );
         builder.call(endpoint, webView, onSuccess, onCancel);
         if (!kIsWeb) {
@@ -296,9 +294,7 @@ class StripeAccount
           }
           return StripeNavigationActionPolicy.allow;
         },
-        onCloseWindow: () {
-          onCompleted.call();
-        },
+        onCloseWindow: onCompleted.call,
       );
       if (!kIsWeb) {
         builder.call(response.endpoint, webView, onCompleted);
@@ -344,7 +340,7 @@ class _$_StripeAccountQuery extends ControllerQueryBase<StripeAccount> {
 
   @override
   StripeAccount Function() call(Ref ref) {
-    return () => StripeAccount();
+    return StripeAccount.new;
   }
 
   @override

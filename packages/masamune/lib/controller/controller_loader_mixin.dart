@@ -81,7 +81,7 @@ mixin ControllerLoaderMixin<T> on ChangeNotifier
   /// [loadRequest]の処理を実行しデータをロードします。
   ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
-  Future<void> reload() async {
+  Future<void> reload() {
     _loaded = false;
     return load();
   }

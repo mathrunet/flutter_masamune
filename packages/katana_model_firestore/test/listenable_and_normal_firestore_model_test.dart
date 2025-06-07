@@ -22,7 +22,7 @@ abstract class TestValue with _$TestValue {
 }
 
 class TestValueDocumentModel extends DocumentBase<TestValue> {
-  TestValueDocumentModel(super.query);
+  TestValueDocumentModel(super.modelQuery);
 
   @override
   TestValue fromMap(DynamicMap map) => TestValue.fromJson(map);
@@ -32,7 +32,7 @@ class TestValueDocumentModel extends DocumentBase<TestValue> {
 }
 
 class TestValueCollectionModel extends CollectionBase<TestValueDocumentModel> {
-  TestValueCollectionModel(super.query);
+  TestValueCollectionModel(super.modelQuery);
 
   @override
   TestValueDocumentModel create([String? id]) {

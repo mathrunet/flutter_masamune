@@ -5,7 +5,7 @@ import "package:test/test.dart";
 import "package:katana_model/katana_model.dart";
 
 void main() {
-  test("modelAdapter.hasMatch", () async {
+  test("modelAdapter.hasMatch", ()  {
     const modelAdapter = RuntimeModelAdapter();
     expect(modelAdapter.hasMatch(path: "shop", pattern: "shop"), []);
     expect(modelAdapter.hasMatch(path: "member", pattern: "shop"), null);

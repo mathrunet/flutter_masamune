@@ -231,28 +231,28 @@ extension MapExtensions<K, V> on Map<K, V> {
   ///
   /// [Map]のキーに[keys]のいずれかが含まれている場合`true`を返します。
   bool containsKeyAny(Iterable<Object?> keys) {
-    return keys.any((element) => containsKey(element));
+    return keys.any(containsKey);
   }
 
   /// Returns `true` if all [keys] are included in the keys of [Map].
   ///
   /// [Map]のキーに[keys]がすべて含まれている場合`true`を返します。
   bool containsKeyAll(Iterable<Object?> keys) {
-    return keys.every((element) => containsKey(element));
+    return keys.every(containsKey);
   }
 
   /// Returns `true` if the value of [Map] contains one of [values].
   ///
   /// [Map]の値に[values]のいずれかが含まれている場合`true`を返します。
   bool containsValueAny(Iterable<Object?> values) {
-    return values.any((element) => containsValue(element));
+    return values.any(containsValue);
   }
 
   /// Returns `true` if the value of [Map] contains all [values].
   ///
   /// [Map]の値に[values]がすべて含まれている場合`true`を返します。
   bool containsValueAll(Iterable<Object?> values) {
-    return values.every((element) => containsValue(element));
+    return values.every(containsValue);
   }
 
   /// Clone another map from an existing map.

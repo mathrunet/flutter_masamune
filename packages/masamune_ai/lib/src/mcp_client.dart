@@ -299,7 +299,7 @@ class McpClient
       role: AIRole.function,
       time: Clock.now(),
       values: result.content.mapAndRemoveEmpty(
-        (e) => AIContentPart._fromContent(e),
+        AIContentPart._fromContent,
       ),
     );
   }

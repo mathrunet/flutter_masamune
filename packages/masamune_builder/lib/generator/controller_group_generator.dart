@@ -14,7 +14,7 @@ class ControllerGroupGenerator extends GeneratorForAnnotation<ControllerGroup> {
     Element element,
     ConstantReader annotation,
     BuildStep buildStep,
-  ) async {
+  )  {
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
         "`@ControllerGroup()` can only be used on classes.",

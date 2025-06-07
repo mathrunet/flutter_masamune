@@ -459,9 +459,7 @@ class _$_RemoteNotificationQuery
   final String _name;
 
   @override
-  RemoteNotification Function() call(Ref ref) {
-    return () => RemoteNotification();
-  }
+  RemoteNotification Function() call(Ref ref) => RemoteNotification.new;
 
   @override
   String get queryName => _name;

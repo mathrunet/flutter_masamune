@@ -186,9 +186,7 @@ class _$_CameraQuery extends ControllerQueryBase<Camera> {
   final String _name;
 
   @override
-  Camera Function() call(Ref ref) {
-    return () => Camera();
-  }
+  Camera Function() call(Ref ref) => Camera.new;
 
   @override
   String get queryName => _name;

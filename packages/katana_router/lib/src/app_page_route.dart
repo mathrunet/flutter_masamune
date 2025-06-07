@@ -176,7 +176,7 @@ class _CupertinoPageRoute<T> extends Page<T> implements AppPageRoute<T> {
   Route<T> createRoute(BuildContext context) {
     return CupertinoPageRoute(
       settings: this,
-      builder: (context) => builder(context),
+      builder: builder,
     );
   }
 }

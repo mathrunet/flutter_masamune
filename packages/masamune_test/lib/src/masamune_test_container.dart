@@ -50,7 +50,7 @@ class MasamuneTestContainer extends StatelessWidget {
         child: SizedBox(
           height: height,
           width: width,
-          child: Builder(builder: (context) => builder(context)),
+          child: Builder(builder: builder),
         ),
       );
     }
@@ -68,7 +68,7 @@ class MasamuneTestContainer extends StatelessWidget {
           child: SizedBox(
             height: height ?? device.size.height,
             width: width ?? device.size.width,
-            child: Builder(builder: (context) => builder(context)),
+            child: Builder(builder: builder),
           ),
         ),
       ),

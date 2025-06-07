@@ -49,7 +49,7 @@ class FirebaseDataConnectModelTimestampRangeConverter
       if (value.isNotEmpty && value.every((e) => e is Timestamp)) {
         return {
           key: value.mapAndRemoveEmpty(
-            (e) => _convertFrom(e),
+            _convertFrom,
           ),
         };
       }

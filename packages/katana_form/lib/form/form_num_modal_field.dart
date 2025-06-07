@@ -578,12 +578,12 @@ class _NumTextField<TValue> extends FormField<num> {
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
           builder: (field) {
-            final _NumTextFieldState<TValue> state =
+            final state =
                 field as _NumTextFieldState<TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(
-              mouseCursor: enabled == false
+              mouseCursor: !enabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
               controller: state._effectiveController ??

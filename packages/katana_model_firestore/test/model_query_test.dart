@@ -29,7 +29,7 @@ abstract class TestValue with _$TestValue {
 }
 
 class RuntimeMTestValueDocumentModel extends DocumentBase<TestValue> {
-  RuntimeMTestValueDocumentModel(super.query);
+  RuntimeMTestValueDocumentModel(super.modelQuery);
 
   @override
   TestValue fromMap(DynamicMap map) => TestValue.fromJson(map);
@@ -40,7 +40,7 @@ class RuntimeMTestValueDocumentModel extends DocumentBase<TestValue> {
 
 class RuntimeTestValueCollectionModel
     extends CollectionBase<RuntimeMTestValueDocumentModel> {
-  RuntimeTestValueCollectionModel(super.query);
+  RuntimeTestValueCollectionModel(super.modelQuery);
 
   @override
   RuntimeMTestValueDocumentModel create([String? id]) {
@@ -50,7 +50,7 @@ class RuntimeTestValueCollectionModel
 
 void main() {
   test("firestoreModelAdapter.ModelQuery.notifyDocumentChanges", () async {
-    int seq = 0;
+    var seq = 0;
     void handledOnUpdate() {
       seq++;
     }

@@ -10,7 +10,7 @@ import "package:katana_scoped/katana_scoped.dart";
 final scopedQuery = ChangeNotifierScopedQuery((ref) => ValueNotifier(0));
 
 void main() {
-  test("ScopedQuery", () async {
+  test("ScopedQuery", () {
     WidgetsFlutterBinding.ensureInitialized();
     final container = ScopedValueContainer();
     final logger = RuntimeLoggerAdapter(database: LoggerDatabase());
@@ -48,7 +48,7 @@ void main() {
           for (var i = 1; i <= 4; i++) "ScopedLoggerEvent.dispose: $i"
         ]);
   });
-  test("Reset Test", () async {
+  test("Reset Test", () {
     WidgetsFlutterBinding.ensureInitialized();
     final container = ScopedValueContainer();
     final appRef = AppRef(scopedValueContainer: container);

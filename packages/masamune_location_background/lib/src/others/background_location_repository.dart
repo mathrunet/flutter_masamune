@@ -51,7 +51,7 @@ class _IOSBackgroundLocationRepository {
         .sortTo(
           (a, b) => a.getAsInt("timestamp", 0) - b.getAsInt("timestamp", 0),
         )
-        .mapAndRemoveEmpty((item) => LocationData.fromJson(item));
+        .mapAndRemoveEmpty(LocationData.fromJson);
   }
 
   static Future<LocationData?> loadAsLatestLocation() async {
@@ -143,7 +143,7 @@ class _AndroidBackgroundLocationRepository {
         .sortTo(
           (a, b) => a.getAsInt("timestamp", 0) - b.getAsInt("timestamp", 0),
         )
-        .mapAndRemoveEmpty((item) => LocationData.fromJson(item));
+        .mapAndRemoveEmpty(LocationData.fromJson);
   }
 
   static Future<LocationData?> loadAsLatestLocation() async {

@@ -41,7 +41,7 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
       final rootContext = navigator.context;
       unawaited(
         futureOr.whenComplete(
-          () async {
+          () {
             completer?.complete();
             completer = null;
             if (route != null) {

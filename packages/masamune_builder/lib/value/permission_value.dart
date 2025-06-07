@@ -14,13 +14,10 @@ class PermissionValue {
     this.key,
   });
 
-  static final _permissionValueRegExp =
-      RegExp(r"([a-zA-Z0-9_-]+)\.([a-zA-Z0-9_-]+)\(([^\)]*)\)");
-
   /// Parsed value for permissions.
   ///
   /// パーミッション用のパースされた値。
-  static PermissionValue from(String value) {
+  factory PermissionValue.from(String value) {
     final match = _permissionValueRegExp.firstMatch(value);
     if (match == null) {
       throw ArgumentError.value(value, "value");
@@ -32,6 +29,9 @@ class PermissionValue {
       key: match.group(3)?.trim().trimString("'").trimString('"'),
     );
   }
+
+  static final _permissionValueRegExp =
+      RegExp(r"([a-zA-Z0-9_-]+)\.([a-zA-Z0-9_-]+)\(([^\)]*)\)");
 
   /// Raw value passed.
   ///

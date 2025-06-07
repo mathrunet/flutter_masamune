@@ -101,12 +101,12 @@ class FunctionsEnv {
   /// Get the environment variable.
   ///
   /// 環境変数を取得する。
-  operator [](String key) => _env[key];
+  String operator [](String key) => _env[key] ?? "";
 
   /// Set the environment variable.
   ///
   /// 環境変数を設定する。
-  operator []=(String key, String value) => _env[key] = value;
+  void operator []=(String key, String value) => _env[key] = value;
 
   /// Get the environment variable.
   ///

@@ -338,9 +338,7 @@ class _$_LocalNotificationQuery extends ControllerQueryBase<LocalNotification> {
   final String _name;
 
   @override
-  LocalNotification Function() call(Ref ref) {
-    return () => LocalNotification();
-  }
+  LocalNotification Function() call(Ref ref) => LocalNotification.new;
 
   @override
   String get queryName => _name;

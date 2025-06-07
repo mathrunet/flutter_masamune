@@ -206,7 +206,7 @@ class FormSwitch<TValue> extends FormField<bool> {
               child: Padding(
                 padding: style?.padding ?? EdgeInsets.zero,
                 child: MouseRegion(
-                  cursor: enabled == false
+                  cursor: !enabled
                       ? SystemMouseCursors.forbidden
                       : SystemMouseCursors.click,
                   child: InputDecorator(

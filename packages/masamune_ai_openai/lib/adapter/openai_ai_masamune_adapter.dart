@@ -116,7 +116,7 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
       ],
     );
     subscription = stream.listen(
-      (line) async {
+      (line) {
         final choices = line.choices;
         for (final choice in choices) {
           final parts = choice.delta._toAIContentParts();
@@ -135,7 +135,7 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
           }
         }
       },
-      onDone: () async {
+      onDone: () {
         if (subscription != null) {
           try {
             response.complete(time: Clock.now());

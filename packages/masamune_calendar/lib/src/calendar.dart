@@ -640,7 +640,7 @@ class _CalendarState<T> extends State<Calendar<T>>
           if (widget.style.daysOfWeek.visible) _buildDaysOfWeek(),
         ];
 
-        int x = 0;
+        var x = 0;
         while (x < _visibleDays.length) {
           children.add(
             _buildTableRow(

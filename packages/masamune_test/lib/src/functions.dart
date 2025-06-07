@@ -224,11 +224,11 @@ void masamuneModelTileTest<T extends ModelRefBase>({
 void masamuneControllerTest({
   required String name,
   required List<MasamuneControllerTest> tests,
-}) async {
+}) {
   for (final t in tests) {
     test(
       "$name - ${t.name.toPascalCase()}",
-      () async {
+      () {
         return t.run(MasamuneTestConfig.currentRef);
       },
     );
@@ -239,7 +239,7 @@ Future<void> _pumpWidget(
     flutter_test.WidgetTester tester, Widget widget) async {
   await tester.pumpWidget(widget);
   await tester.runAsync(() async {
-    int retryCount = 0;
+    var retryCount = 0;
     while (flutter_test.find.byType(_MasamuneTestLoaded).evaluate().isEmpty) {
       retryCount++;
       await tester.pumpAndSettle();

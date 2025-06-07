@@ -65,7 +65,7 @@ class LocalAuthAdapter extends AuthAdapter {
   /// A common database throughout the application.
   ///
   /// アプリ内全体での共通のデータベース。
-  static final AuthDatabase sharedDatabase = AuthDatabase(
+  static final sharedDatabase = AuthDatabase(
     onInitialize: (database) async {
       try {
         database._data = await AuthExporter.import(

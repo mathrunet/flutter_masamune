@@ -74,7 +74,7 @@ class _SpeechToText {
   Future<bool> initialize(
       {SpeechErrorListener? onError,
       SpeechStatusListener? onStatus,
-      debugLogging = false,
+      bool debugLogging = false,
       Duration finalTimeout = defaultFinalTimeout,
       List<SpeechConfigOption>? options}) async {
     if (_initWorked) {
@@ -93,7 +93,7 @@ class _SpeechToText {
     return _initWorked;
   }
 
-  Future<void> stop() async {
+  Future<void> stop() {
     _userEnded = true;
     return _stop();
   }
@@ -109,7 +109,7 @@ class _SpeechToText {
     }
   }
 
-  Future<void> cancel() async {
+  Future<void> cancel() {
     _userEnded = true;
     return _cancel();
   }
@@ -122,17 +122,18 @@ class _SpeechToText {
     await SpeechToTextPlatform.instance.cancel();
   }
 
-  Future listen(
-      {SpeechResultListener? onResult,
-      Duration? listenFor,
-      Duration? pauseFor,
-      String? localeId,
-      SpeechSoundLevelChange? onSoundLevelChange,
-      cancelOnError = false,
-      partialResults = true,
-      onDevice = false,
-      ListenMode listenMode = ListenMode.confirmation,
-      sampleRate = 0}) async {
+  Future listen({
+    SpeechResultListener? onResult,
+    Duration? listenFor,
+    Duration? pauseFor,
+    String? localeId,
+    SpeechSoundLevelChange? onSoundLevelChange,
+    bool cancelOnError = false,
+    bool partialResults = true,
+    bool onDevice = false,
+    ListenMode listenMode = ListenMode.confirmation,
+    int sampleRate = 0,
+  }) async {
     if (!_initWorked) {
       throw SpeechToTextNotInitializedException();
     }

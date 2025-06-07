@@ -67,18 +67,19 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[DocumentBase.save]で保存してください。
   CollectionBase(
-    this._modelQuery, [
+    CollectionModelQuery modelQuery, [
     List<TModel>? value,
-  ])  : __value = value ?? [],
+  ])  : _modelQuery = modelQuery,
+        __value = value ?? [],
         assert(
-          !(_modelQuery.path.trimQuery().trimString("/").splitLength() <= 0 ||
-              _modelQuery.path.trimQuery().trimString("/").splitLength() % 2 !=
+          !(modelQuery.path.trimQuery().trimString("/").splitLength() <= 0 ||
+              modelQuery.path.trimQuery().trimString("/").splitLength() % 2 !=
                   1),
-          "The query path hierarchy must be an odd number: ${_modelQuery.path}",
+          "The query path hierarchy must be an odd number: ${modelQuery.path}",
         ),
         assert(
-          !_modelQuery.path.trimQuery().trimString("/").contains("//"),
-          "The query path hierarchy must not contain double slashes: ${_modelQuery.path}",
+          !modelQuery.path.trimQuery().trimString("/").contains("//"),
+          "The query path hierarchy must not contain double slashes: ${modelQuery.path}",
         );
 
   /// Define a collection model that includes [DocumentBase] as an element.

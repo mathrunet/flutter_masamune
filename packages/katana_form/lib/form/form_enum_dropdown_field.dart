@@ -359,7 +359,7 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
           child: ButtonTheme(
             alignedDropdown: widget.style?.alignedDropdown ?? false,
             child: MouseRegion(
-              cursor: widget.enabled == false
+              cursor: !widget.enabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
               child: DropdownButtonFormField<TEnum>(
@@ -432,7 +432,7 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
                 focusNode: widget.focusNode,
                 // focusColor: Colors.transparent,
                 value: widget.initialValue,
-                onChanged: widget.enabled ? (value) => didChange(value) : null,
+                onChanged: widget.enabled ? didChange : null,
                 elevation: widget.style?.elevation.toInt() ?? 8,
                 style: widget.enabled ? mainTextStyle : disabledTextStyle,
                 icon: widget.icon,

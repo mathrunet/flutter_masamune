@@ -111,7 +111,7 @@ abstract class Modal<T> {
           (title != null && leading != null),
       "If [leading] is used, [title] is also required.",
     );
-    bool clicked = false;
+    var clicked = false;
     ScaffoldMessenger.of(context);
     final overlay = Navigator.of(context).overlay;
     if (overlay == null) {
@@ -233,7 +233,7 @@ abstract class Modal<T> {
       (text != null && child == null) || (text == null && child != null),
       "If [child] is used, [text] is not required.",
     );
-    bool clicked = false;
+    var clicked = false;
     ScaffoldMessenger.of(context);
     final overlay = Navigator.of(context).overlay;
     if (overlay == null) {
@@ -363,8 +363,8 @@ abstract class Modal<T> {
     ButtonStyle? submitButtonStyle,
     ButtonStyle? cancelButtonStyle,
   }) async {
-    bool state = false;
-    bool clicked = false;
+    var state = false;
+    var clicked = false;
     final overlay = Navigator.of(context).overlay;
     if (overlay == null) {
       return state;

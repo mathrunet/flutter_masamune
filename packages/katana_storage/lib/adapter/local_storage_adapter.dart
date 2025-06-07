@@ -68,7 +68,7 @@ class LocalStorageAdapter extends StorageAdapter {
   }
 
   @override
-  Future<Uri> fetchDownloadURI(String remoteRelativePathOrId) async =>
+  Future<Uri> fetchDownloadURI(String remoteRelativePathOrId) =>
       fetchPublicURI(remoteRelativePathOrId);
 
   @override

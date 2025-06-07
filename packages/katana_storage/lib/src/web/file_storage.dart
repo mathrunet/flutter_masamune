@@ -18,17 +18,17 @@ class FileStorage extends StorageBase {
   const FileStorage();
 
   @override
-  Future<Uint8List> read(String fileFullPath) async {
+  Future<Uint8List> read(String fileFullPath) {
     throw UnsupportedError("This feature is not available on the Web.");
   }
 
   @override
-  Future<void> write(String fileFullPath, Uint8List bytes) async {
+  Future<void> write(String fileFullPath, Uint8List bytes) {
     throw UnsupportedError("This feature is not available on the Web.");
   }
 
   @override
-  Future<void> delete(String fileFullPath) async {
+  Future<void> delete(String fileFullPath) {
     throw UnsupportedError("This feature is not available on the Web.");
   }
 

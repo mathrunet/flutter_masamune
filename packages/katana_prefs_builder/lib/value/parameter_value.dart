@@ -27,7 +27,7 @@ class ParamaterValue {
         "`$name` is a prohibited word. This word cannot be set as a parameter. Please specify another name.",
       );
     }
-    bool exists = false;
+    var exists = false;
     type = element.type as InterfaceType;
     required = element.isRequired;
     for (final meta in element.metadata) {

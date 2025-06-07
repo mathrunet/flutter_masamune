@@ -136,7 +136,7 @@ extension IntIterableExtensions on Iterable<int> {
     final array = toList();
     final halfN = (n / 2).floor();
     final result = <double>[];
-    for (int i = 0; i < array.length; i++) {
+    for (var i = 0; i < array.length; i++) {
       int start = i - halfN;
       int end = i + halfN;
       if (start < 0) {
@@ -146,7 +146,7 @@ extension IntIterableExtensions on Iterable<int> {
         end = array.length - 1;
       }
       double sum = 0;
-      for (int j = start; j <= end; j++) {
+      for (var j = start; j <= end; j++) {
         sum += array[j];
       }
       result.add(sum / (end - start + 1));

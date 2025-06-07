@@ -369,9 +369,7 @@ class _$_BackgroundLocationQuery
   final String _name;
 
   @override
-  BackgroundLocation Function() call(Ref ref) {
-    return () => BackgroundLocation();
-  }
+  BackgroundLocation Function() call(Ref ref) => BackgroundLocation.new;
 
   @override
   String get queryName => _name;

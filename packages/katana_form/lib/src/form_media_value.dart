@@ -47,7 +47,7 @@ class _FormMediaValue extends FormMediaValue with _MapMixin<String, dynamic> {
   }
 
   @override
-  void operator []=(String key, value) {
+  void operator []=(String key, dynamic value) {
     throw UnsupportedError("Writing data is not supported.");
   }
 
@@ -177,7 +177,7 @@ mixin _MapMixin<K, V> implements Map<K, V> {
   @override
   V? operator [](Object? key);
   @override
-  operator []=(K key, V value);
+  void operator []=(K key, V value);
   @override
   V? remove(Object? key);
   @override

@@ -72,7 +72,7 @@ class AlgoliaModelAdapter extends ModelAdapter {
   }
 
   @override
-  Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
+  Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) {
     return firestoreModelAdapter.loadDocument(query);
   }
 
@@ -170,7 +170,7 @@ class AlgoliaModelAdapter extends ModelAdapter {
   Future<void> saveDocument(
     ModelAdapterDocumentQuery query,
     DynamicMap value,
-  ) async {
+  ) {
     return firestoreModelAdapter.saveDocument(query, value);
   }
 
@@ -203,7 +203,7 @@ class AlgoliaModelAdapter extends ModelAdapter {
   FutureOr<DynamicMap> loadOnTransaction(
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
-  ) async {
+  ) {
     return firestoreModelAdapter.loadOnTransaction(ref, query);
   }
 
@@ -221,7 +221,7 @@ class AlgoliaModelAdapter extends ModelAdapter {
     FutureOr<void> Function(
       ModelTransactionRef ref,
     ) transaction,
-  ) async {
+  ) {
     return firestoreModelAdapter.runTransaction(transaction);
   }
 
@@ -236,7 +236,7 @@ class AlgoliaModelAdapter extends ModelAdapter {
       ModelBatchRef ref,
     ) batch,
     int splitLength,
-  ) async {
+  ) {
     return firestoreModelAdapter.runBatch(batch, splitLength);
   }
 

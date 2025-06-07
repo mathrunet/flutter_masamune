@@ -409,7 +409,7 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
 
   ImageStreamCompleter _loadImage(
       NetworkImage key, ImageDecoderCallback decode) {
-    final StreamController<ImageChunkEvent> chunkEvents =
+    final chunkEvents =
         StreamController<ImageChunkEvent>();
 
     return MultiFrameImageStreamCompleter(

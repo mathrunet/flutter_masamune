@@ -158,7 +158,7 @@ class _FormBuilderState<T, TValue> extends FormFieldState<T>
   FormBuilder<T, TValue> get widget => super.widget as FormBuilder<T, TValue>;
 
   @override
-  void update(T item) async {
+  void update(T item) {
     setState(() {
       setValue(item);
     });

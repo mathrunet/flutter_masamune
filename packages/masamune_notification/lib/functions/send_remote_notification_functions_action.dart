@@ -84,9 +84,7 @@ class SendRemoteNotificationFunctionsAction
   @override
   SendRemoteNotificationFunctionsActionResponse toResponse(DynamicMap map) {
     return SendRemoteNotificationFunctionsActionResponse(
-      map.getAsMap("results", {}).map(
-        (key, value) => MapEntry(key, value),
-      ),
+      map.getAsMap("results", {}).map(MapEntry.new),
     );
   }
 }

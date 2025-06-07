@@ -44,7 +44,7 @@ class _MasamuneButtonAddIcon extends DartAssist {
           );
         }
 
-        bool existIcon = false;
+        var existIcon = false;
         for (var argument in node.argumentList.arguments) {
           if (argument is NamedExpression) {
             if (argument.name.label.name == "child") {

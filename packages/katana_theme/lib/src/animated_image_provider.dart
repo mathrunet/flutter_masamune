@@ -115,10 +115,10 @@ class AnimatedImageStreamCompleter extends ImageStreamCompleter {
   }
 
   Future<void> _loadAllImages() async {
-    for (int i = 0; i < providers.length; i++) {
+    for (var i = 0; i < providers.length; i++) {
       try {
         final ImageProvider provider = providers[i];
-        final ImageConfiguration configuration = ImageConfiguration.empty;
+        const ImageConfiguration configuration = ImageConfiguration.empty;
         // ignore: invalid_use_of_protected_member
         final ImageStreamCompleter completer = provider.loadImage(
           await provider.obtainKey(configuration),

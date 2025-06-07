@@ -106,7 +106,7 @@ class CameraPageState extends State<CameraPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (cameraController.initialized == false) {
+    if (!cameraController.initialized) {
       return const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),

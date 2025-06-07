@@ -159,7 +159,8 @@ class FormController<TValue> extends ValueNotifier<TValue> {
   ///   }
   /// }
   /// ```
-  FormController(super.value);
+  // ignore: use_super_parameters
+  FormController(TValue value) : super(value);
 
   /// Register [FormFieldState] to execute `validator` and `onSaved` when [validate] is executed.
   ///
@@ -283,7 +284,7 @@ class FormController<TValue> extends ValueNotifier<TValue> {
   }
 
   bool _validate() {
-    bool hasError = false;
+    var hasError = false;
     for (final field in _fields) {
       hasError = !field.validate() || hasError;
     }
@@ -292,7 +293,7 @@ class FormController<TValue> extends ValueNotifier<TValue> {
   }
 
   bool _validateContainer() {
-    bool hasError = false;
+    var hasError = false;
     for (final container in _containers) {
       hasError = !container._validate() || hasError;
     }

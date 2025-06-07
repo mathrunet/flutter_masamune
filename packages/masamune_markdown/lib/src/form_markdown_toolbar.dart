@@ -596,7 +596,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
         child: Column(
           children: [
             Expanded(
-              child: Container(
+              child: DecoratedBox(
                 decoration: BoxDecoration(
                   border: Border(
                     top: BorderSide(
@@ -690,9 +690,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
-                    onPressed: () {
-                      deleteMode();
-                    },
+                    onPressed: deleteMode,
                     icon: const Icon(Icons.arrow_back_ios),
                   ),
                   Expanded(
@@ -753,7 +751,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                 onTap: () {
                   e.onTap(context, this);
                 },
-                child: Container(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: widget.style?.subBackgroundColor ??
                         widget.style?.backgroundColor ??
@@ -818,7 +816,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                 onTap: () {
                   e.onTap(context, this);
                 },
-                child: Container(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: widget.style?.subBackgroundColor ??
                         widget.style?.backgroundColor ??
@@ -887,7 +885,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                 onTap: () {
                   e.onTap(context, this);
                 },
-                child: Container(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: widget.style?.subBackgroundColor ??
                         widget.style?.backgroundColor ??

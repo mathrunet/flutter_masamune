@@ -72,7 +72,7 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   Future<T?> resetAndPushPage<T extends Object?>(
     RouteQuery newRoutePage, [
     TransitionQuery? query,
-  ]) async {
+  ]) {
     final route = newRoutePage.route<T>(query);
     return resetAndPush<T>(
       route.createRoute(context),
@@ -117,7 +117,7 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   Future<T?> pushPage<T extends Object?>(
     RouteQuery routePage, [
     TransitionQuery? query,
-  ]) async {
+  ]) {
     final route = routePage.route<T>(query);
     return push<T>(
       route.createRoute(context),
@@ -139,7 +139,7 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
     RouteQuery newRoutePage,
     RoutePredicate predicate, [
     TransitionQuery? query,
-  ]) async {
+  ]) {
     final route = newRoutePage.route<T>(query);
     return pushAndRemoveUntil<T>(
       route.createRoute(context),
@@ -162,7 +162,7 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
     RouteQuery routePage, {
     TO? result,
     TransitionQuery? query,
-  }) async {
+  }) {
     return pushReplacement<T, TO>(
       routePage.route<T>(query).createRoute(context),
       result: result,

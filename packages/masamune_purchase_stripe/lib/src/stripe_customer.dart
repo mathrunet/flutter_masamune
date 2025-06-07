@@ -135,9 +135,7 @@ class StripeCustomer
           }
           return StripeNavigationActionPolicy.allow;
         },
-        onCloseWindow: () {
-          onCancel.call();
-        },
+        onCloseWindow: onCancel.call,
       );
       builder.call(response.endpoint, webView, onSuccess, onCancel);
       await internalCompleter!.future;
@@ -230,9 +228,7 @@ class _$_StripeCustomerQuery extends ControllerQueryBase<StripeCustomer> {
   final String _name;
 
   @override
-  StripeCustomer Function() call(Ref ref) {
-    return () => StripeCustomer();
-  }
+  StripeCustomer Function() call(Ref ref) => StripeCustomer.new;
 
   @override
   String get queryName => _name;

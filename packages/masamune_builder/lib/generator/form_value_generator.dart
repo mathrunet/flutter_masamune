@@ -14,7 +14,7 @@ class FormValueGenerator extends GeneratorForAnnotation<FormValue> {
     Element element,
     ConstantReader annotation,
     BuildStep buildStep,
-  ) async {
+  ) {
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
         "`@FormValue()` can only be used on classes.",

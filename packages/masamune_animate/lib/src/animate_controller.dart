@@ -157,7 +157,7 @@ class AnimateController
       "Vsync is null. Pass the controller to [AnimateScope] or [AnimateScopeBuilder].",
     );
     try {
-      int count = 0;
+      var count = 0;
       _completed = false;
       _elapsedDuration = null;
       if (playing) {
@@ -215,7 +215,7 @@ class AnimateController
   }
 
   Widget _build(BuildContext context, Widget child) {
-    bool isChanged = false;
+    var isChanged = false;
     for (final query in _queryStack) {
       final duration = elapsedDuration - query.startDuration;
       if (duration < Duration.zero) {
@@ -322,7 +322,7 @@ class _AnimateQueryContainer {
   }
 
   @override
-  operator ==(Object other) => hashCode == other.hashCode;
+  bool operator ==(Object other) => hashCode == other.hashCode;
 
   @override
   int get hashCode => query.hashCode ^ startDuration.hashCode;

@@ -409,7 +409,7 @@ class LocalizeSourceValue {
     }
     final convert = <String, String>{};
     final copied = <LocalizeWord>[];
-    int p = 0;
+    var p = 0;
     for (final word in words) {
       if (word.name.isEmpty) {
         continue;

@@ -337,7 +337,7 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
     _selections = widget.picker.values.clone();
     _selectBoxController = _SelectBoxController(context);
 
-    WidgetsBinding.instance.scheduleFrameCallback((_) async {
+    WidgetsBinding.instance.scheduleFrameCallback((_) {
       _initOverlayEntry();
     });
   }
@@ -446,7 +446,7 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
       enabled: widget.enabled,
       child: NotificationListener<SizeChangedLayoutNotification>(
         onNotification: (SizeChangedLayoutNotification val) {
-          WidgetsBinding.instance.scheduleFrameCallback((_) async {
+          WidgetsBinding.instance.scheduleFrameCallback((_) {
             _selectBoxController.overlayEntry?.markNeedsBuild();
           });
           return true;
@@ -476,7 +476,7 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
                           alignment: Alignment.centerLeft,
                           constraints: const BoxConstraints(minHeight: 32),
                           child: MouseRegion(
-                            cursor: widget.enabled == false
+                            cursor: !widget.enabled
                                 ? SystemMouseCursors.forbidden
                                 : SystemMouseCursors.text,
                             child: InputDecorator(
@@ -938,7 +938,7 @@ class FormMapTagDropdownFieldPicker {
       }),
       _AddibleListTile(
         tilePadding: tilePadding,
-        onAdd: () async {
+        onAdd: () {
           ref._disableClosingBox();
         },
         onAdded: (value) async {

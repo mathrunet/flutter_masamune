@@ -18,7 +18,7 @@ class Api {
     Map<String, String>? headers,
     Object? body,
     Encoding? encoding,
-  }) async {
+  }) {
     final url = Uri.parse(path);
     return http.delete(
       url,
@@ -38,7 +38,7 @@ class Api {
   static Future<ApiResponse> get(
     String path, {
     Map<String, String>? headers,
-  }) async {
+  }) {
     final url = Uri.parse(path);
     return http.get(
       url,
@@ -56,7 +56,7 @@ class Api {
   static Future<ApiResponse> head(
     String path, {
     Map<String, String>? headers,
-  }) async {
+  }) {
     final url = Uri.parse(path);
     return http.head(
       url,
@@ -88,7 +88,7 @@ class Api {
     Map<String, String>? headers,
     Object? body,
     Encoding? encoding,
-  }) async {
+  }) {
     final url = Uri.parse(path);
     return http.patch(
       url,
@@ -122,7 +122,7 @@ class Api {
     Map<String, String>? headers,
     Object? body,
     Encoding? encoding,
-  }) async {
+  }) {
     final url = Uri.parse(path);
     return http.post(
       url,
@@ -156,7 +156,7 @@ class Api {
     Map<String, String>? headers,
     Object? body,
     Encoding? encoding,
-  }) async {
+  }) {
     final url = Uri.parse(path);
     return http.put(
       url,
@@ -179,7 +179,7 @@ class Api {
   static Future<String> read(
     String path, {
     Map<String, String>? headers,
-  }) async {
+  }) {
     if (path.startsWith("/")) {
       final file = File(path);
       return file.readAsString();
@@ -203,7 +203,7 @@ class Api {
   static Future<Uint8List> readBytes(
     String path, {
     Map<String, String>? headers,
-  }) async {
+  }) {
     if (path.startsWith("/")) {
       final file = File(path);
       return file.readAsBytes();

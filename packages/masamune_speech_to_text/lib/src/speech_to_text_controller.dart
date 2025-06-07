@@ -306,9 +306,7 @@ class _$_SpeechToTextQuery extends ControllerQueryBase<SpeechToTextController> {
   final String _name;
 
   @override
-  SpeechToTextController Function() call(Ref ref) {
-    return () => SpeechToTextController();
-  }
+  SpeechToTextController Function() call(Ref ref) => SpeechToTextController.new;
 
   @override
   String get queryName => _name;

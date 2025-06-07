@@ -42,9 +42,9 @@ class ShortenPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("App Demo")),
-      body: Container(
+      body: const ColoredBox(
         color: Colors.blue,
-        child: const ColoredBox(
+        child: ColoredBox(
           color: Colors.red,
         ),
       ),

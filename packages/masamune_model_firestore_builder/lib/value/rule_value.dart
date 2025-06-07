@@ -55,7 +55,7 @@ class RuleValue {
     } else if (annotationValue.permission.isEmpty) {
       buffer.writeln("      allow read, write: if false;");
     } else {
-      bool useFunction = false;
+      var useFunction = false;
       for (final permission in annotationValue.permission!) {
         final permissionType = ModelPermissionQueryType.values.firstWhereOrNull(
           (item) => item.className == permission.type,

@@ -103,7 +103,7 @@ class _OnValueStateWithWidgetsBindingObserver extends _OnValueState
   }
 
   @override
-  Future<void> initValue() async {
+  Future<void> initValue() {
     WidgetsBinding.instance.addObserver(this);
     return super.initValue();
   }

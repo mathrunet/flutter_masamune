@@ -260,7 +260,7 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
     if (value == null) {
       return null;
     } else if (value is List<dynamic>) {
-      return value.map((e) => filterAnyValue(e)).toList();
+      return value.map(filterAnyValue).toList();
     } else if (value is Map<String, dynamic>) {
       return value.map((key, val) => MapEntry(key, filterAnyValue(val)));
     } else {

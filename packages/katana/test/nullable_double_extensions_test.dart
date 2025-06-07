@@ -19,9 +19,9 @@ void main() {
   });
   test("NullableDoubleExtensions.operator", () {
     const double? a = null;
-    const int b = 10;
-    const int c = 20;
-    const double d = 30;
+    const b = 10;
+    const c = 20;
+    const d = 30.0;
     expect(a + b, 10);
     expect(a - b, 10);
     expect(a * c, 20);

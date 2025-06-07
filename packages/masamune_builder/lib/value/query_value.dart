@@ -122,13 +122,10 @@ class QueryConditionValue {
     this.parameter,
   });
 
-  static final _queryConditionValueRegExp =
-      RegExp(r"([a-zA-Z0-9_-]+)\.([a-zA-Z0-9_-]+)\(([^\)]*)\)");
-
   /// Parsed values for queries.
   ///
   /// クエリー用のパースされた値。
-  static QueryConditionValue from(String value) {
+  factory QueryConditionValue.from(String value) {
     final match = _queryConditionValueRegExp.firstMatch(value);
     if (match == null) {
       throw ArgumentError.value(value, "value");
@@ -139,6 +136,9 @@ class QueryConditionValue {
       key: match.group(3)?.trim().trimString("'").trimString('"'),
     );
   }
+
+  static final _queryConditionValueRegExp =
+      RegExp(r"([a-zA-Z0-9_-]+)\.([a-zA-Z0-9_-]+)\(([^\)]*)\)");
 
   /// Raw value passed.
   ///

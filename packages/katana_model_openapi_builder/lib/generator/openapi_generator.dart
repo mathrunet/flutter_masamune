@@ -37,7 +37,7 @@ class OpenAPIGenerator {
   /// Generates a library.
   ///
   /// ライブラリーを生成します。
-  FutureOr<Library> generate() async {
+  FutureOr<Library> generate() {
     final schemas = (api.components?.schemas ?? {})
         .map((key, value) => MapEntry(key.toPascalCase(), value))
       ..removeWhere((key, value) => value == null);

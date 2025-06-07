@@ -568,12 +568,11 @@ class _EnumTextField<TEnum extends Enum, TValue> extends FormField<TEnum> {
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
           builder: (field) {
-            final _EnumTextFieldState<TEnum, TValue> state =
-                field as _EnumTextFieldState<TEnum, TValue>;
+            final state = field as _EnumTextFieldState<TEnum, TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(
-              mouseCursor: enabled == false
+              mouseCursor: !enabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
               controller: state._effectiveController ??

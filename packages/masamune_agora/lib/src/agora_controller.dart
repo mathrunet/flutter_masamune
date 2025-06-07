@@ -330,7 +330,7 @@ class AgoraController
     if (__recordingCaptureId.isNotEmpty) {
       return __recordingCaptureId!;
     }
-    int number = 0;
+    var number = 0;
     do {
       number = Random().nextInt(100000);
     } while (
@@ -354,7 +354,7 @@ class AgoraController
     if (__recordingVideoId.isNotEmpty) {
       return __recordingVideoId!;
     }
-    int number = 0;
+    var number = 0;
     do {
       number = Random().nextInt(100000);
     } while (value!.any((e) => e.number == number) ||
@@ -717,7 +717,7 @@ class AgoraController
           ordered: true,
         ));
       }
-      int retried = 0;
+      var retried = 0;
       ConnectionStateType? connectionState;
       do {
         unawaited(
@@ -765,7 +765,7 @@ class AgoraController
       return;
     }
     _disconnectingCompleter = Completer<void>();
-    int retried = 0;
+    var retried = 0;
     ConnectionStateType? connectionState;
     try {
       if (_engine == null) {

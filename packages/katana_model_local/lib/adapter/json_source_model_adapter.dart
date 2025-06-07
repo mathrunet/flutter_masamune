@@ -310,7 +310,7 @@ class JsonDocumentSourceModelAdapter extends JsonSourceModelAdapter {
   @override
   Future<Map<String, DynamicMap>> loadCollection(
     ModelAdapterCollectionQuery query,
-  ) async {
+  ) {
     throw UnsupportedError("This adapter cannot be used as a collection.");
   }
 
@@ -318,7 +318,7 @@ class JsonDocumentSourceModelAdapter extends JsonSourceModelAdapter {
   Future<T?> loadAggregation<T>(
     ModelAdapterCollectionQuery query,
     ModelAggregateQuery aggregateQuery,
-  ) async {
+  ) {
     throw UnsupportedError("This adapter cannot be used as a collection.");
   }
 
@@ -669,7 +669,7 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
   }
 
   @override
-  Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
+  Future<void> deleteDocument(ModelAdapterDocumentQuery query) {
     throw UnsupportedError("This adapter cannot delete.");
   }
 
@@ -677,7 +677,7 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
   Future<void> saveDocument(
     ModelAdapterDocumentQuery query,
     DynamicMap value,
-  ) async {
+  ) {
     throw UnsupportedError("This adapter cannot save.");
   }
 

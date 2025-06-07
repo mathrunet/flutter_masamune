@@ -34,7 +34,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with text prompts to be submitted by the user.
   ///
   /// ユーザーが投稿するテキストプロンプトを持つコンテンツを返します。
-  static AIContent text(String text,
+  factory AIContent.text(String text,
       {DateTime? time, String? id, String? userId, bool completed = false}) {
     return AIContent(
       role: AIRole.user,
@@ -49,7 +49,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with JSON.
   ///
   /// JSONを持つコンテンツを返します。
-  static AIContent json(Map<String, dynamic> json,
+  factory AIContent.json(Map<String, dynamic> json,
       {DateTime? time, String? id, String? userId, bool completed = false}) {
     return AIContent(
       role: AIRole.user,
@@ -64,7 +64,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with text prompts to be submitted by the model.
   ///
   /// モデルが投稿するテキストプロンプトを持つコンテンツを返します。
-  static AIContent model(
+  factory AIContent.model(
       {String? text,
       DateTime? time,
       String? id,
@@ -85,7 +85,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with system prompts.
   ///
   /// システムプロンプトを持つコンテンツを返します。
-  static AIContent system(List<AIContent> contents) {
+  factory AIContent.system(List<AIContent> contents) {
     return AIContent(
       role: AIRole.system,
       values: [...contents.expand((e) => e._value)],
@@ -96,7 +96,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with text file.
   ///
   /// テキストファイルを持つコンテンツを返します。
-  static AIContent textFile(Uint8List data,
+  factory AIContent.textFile(Uint8List data,
       {DateTime? time, String? id, String? userId, bool completed = false}) {
     return AIContent(
       role: AIRole.user,
@@ -111,7 +111,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with PNG image.
   ///
   /// PNG画像を持つコンテンツを返します。
-  static AIContent png(Uint8List data,
+  factory AIContent.png(Uint8List data,
       {DateTime? time, String? id, String? userId, bool completed = false}) {
     return AIContent(
       role: AIRole.user,
@@ -126,7 +126,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with JPEG image.
   ///
   /// JPEG画像を持つコンテンツを返します。
-  static AIContent jpeg(
+  factory AIContent.jpeg(
     Uint8List data, {
     DateTime? time,
     String? id,
@@ -146,7 +146,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with WebP image.
   ///
   /// WebP画像を持つコンテンツを返します。
-  static AIContent webp(
+  factory AIContent.webp(
     Uint8List data, {
     DateTime? time,
     String? id,
@@ -166,7 +166,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with MP4 video.
   ///
   /// MP4動画を持つコンテンツを返します。
-  static AIContent mp4Video(
+  factory AIContent.mp4Video(
     Uint8List data, {
     DateTime? time,
     String? id,
@@ -186,7 +186,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with QuickTime video.
   ///
   /// QuickTime動画を持つコンテンツを返します。
-  static AIContent movVideo(
+  factory AIContent.movVideo(
     Uint8List data, {
     DateTime? time,
     String? id,
@@ -206,7 +206,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with MP3 audio.
   ///
   /// MP3音声を持つコンテンツを返します。
-  static AIContent mp3Audio(
+  factory AIContent.mp3Audio(
     Uint8List data, {
     DateTime? time,
     String? id,
@@ -226,7 +226,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with WAV audio.
   ///
   /// WAV音声を持つコンテンツを返します。
-  static AIContent wavAudio(
+  factory AIContent.wavAudio(
     Uint8List data, {
     DateTime? time,
     String? id,
@@ -246,7 +246,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with MP4 audio.
   ///
   /// MP4音声を持つコンテンツを返します。
-  static AIContent mp4Audio(
+  factory AIContent.mp4Audio(
     Uint8List data, {
     DateTime? time,
     String? id,
@@ -266,7 +266,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with M4A audio.
   ///
   /// M4A音声を持つコンテンツを返します。
-  static AIContent m4aAudio(
+  factory AIContent.m4aAudio(
     Uint8List data, {
     DateTime? time,
     String? id,
@@ -286,7 +286,7 @@ class AIContent extends ChangeNotifier
   /// Returns content with PDF file.
   ///
   /// PDFファイルを持つコンテンツを返します。
-  static AIContent pdfFile(
+  factory AIContent.pdfFile(
     Uint8List data, {
     DateTime? time,
     String? id,

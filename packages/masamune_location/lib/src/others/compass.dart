@@ -234,9 +234,7 @@ class _$_CompassQuery extends ControllerQueryBase<Compass> {
   final String _name;
 
   @override
-  Compass Function() call(Ref ref) {
-    return () => Compass();
-  }
+  Compass Function() call(Ref ref) => Compass.new;
 
   @override
   String get queryName => _name;

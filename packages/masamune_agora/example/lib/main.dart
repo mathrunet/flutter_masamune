@@ -129,9 +129,7 @@ class AgoraPagePageState extends State<AgoraPage> {
       ),
       floatingActionButton: !_controller.connected
           ? FloatingActionButton(
-              onPressed: () {
-                _controller.disconnect();
-              },
+              onPressed: _controller.disconnect,
               child: const Icon(Icons.login),
             )
           : FloatingActionButton(

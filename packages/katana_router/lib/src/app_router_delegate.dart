@@ -34,9 +34,7 @@ class _AppRouterDelegate extends RouterDelegate<RouteQuery>
         //   pop();
         //   return true;
         // },
-        onDidRemovePage: (page) {
-          router._removeWith(page);
-        },
+        onDidRemovePage: router._removeWith,
       ),
     );
   }

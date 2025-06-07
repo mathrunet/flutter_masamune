@@ -831,12 +831,12 @@ class FirestoreModelAdapter extends ModelAdapter
   }
 
   @override
-  Future<void> clearAll() async {
+  Future<void> clearAll()  {
     throw UnimplementedError("This function is not available.");
   }
 
   @override
-  Future<void> clearCache() async {
+  Future<void> clearCache()  {
     _assert();
     _FirestoreCache._caches.clear();
     return cachedRuntimeDatabase.clearAll();

@@ -5,7 +5,7 @@ import "package:test/test.dart";
 import "package:katana_model/katana_model.dart";
 
 class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
-  RuntimeMapDocumentModel(super.query);
+  RuntimeMapDocumentModel(super.modelQuery);
 
   @override
   DynamicMap fromMap(DynamicMap map) => ModelFieldValue.fromMap(map);
@@ -15,7 +15,7 @@ class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
 }
 
 class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
-  RuntimeCollectionModel(super.query);
+  RuntimeCollectionModel(super.modelQuery);
 
   @override
   RuntimeMapDocumentModel create([String? id]) {

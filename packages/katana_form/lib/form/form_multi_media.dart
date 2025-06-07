@@ -637,7 +637,7 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
       return Stack(
         children: [
           InkWell(
-            mouseCursor: widget.enabled == false
+            mouseCursor: !widget.enabled
                 ? SystemMouseCursors.forbidden
                 : SystemMouseCursors.click,
             onLongPress: onRemove == null

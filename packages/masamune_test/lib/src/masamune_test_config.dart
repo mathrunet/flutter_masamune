@@ -44,7 +44,7 @@ class MasamuneTestConfig {
     final runtimeStorageAdapter = _createStorageAdapter(storageAdapter);
     final runtimeFunctionsAdapter = _createFunctionsAdapter(functionsAdapter);
     final runtimeLoggerAdapters = loggerAdapters
-        .map((loggerAdapter) => _createLoggerAdapter(loggerAdapter))
+        .map(_createLoggerAdapter)
         .toList();
     final appAuth = Authentication(adapter: runtimeAuthAdapter);
     final appRef = AppRef(scopedValueContainer: scopedValueContainer);

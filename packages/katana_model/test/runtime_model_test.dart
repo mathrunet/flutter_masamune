@@ -9,7 +9,7 @@ part "runtime_model_test.freezed.dart";
 part "runtime_model_test.g.dart";
 
 class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
-  RuntimeMapDocumentModel(super.query);
+  RuntimeMapDocumentModel(super.modelQuery);
 
   @override
   DynamicMap fromMap(DynamicMap map) => map;
@@ -19,7 +19,7 @@ class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
 }
 
 class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
-  RuntimeCollectionModel(super.query);
+  RuntimeCollectionModel(super.modelQuery);
 
   @override
   RuntimeMapDocumentModel create([String? id]) {
@@ -40,7 +40,7 @@ abstract class TestValue with _$TestValue {
 }
 
 class RuntimeMTestValueDocumentModel extends DocumentBase<TestValue> {
-  RuntimeMTestValueDocumentModel(super.query);
+  RuntimeMTestValueDocumentModel(super.modelQuery);
 
   @override
   TestValue fromMap(DynamicMap map) => TestValue.fromJson(map);
@@ -51,7 +51,7 @@ class RuntimeMTestValueDocumentModel extends DocumentBase<TestValue> {
 
 class RuntimeTestValueCollectionModel
     extends CollectionBase<RuntimeMTestValueDocumentModel> {
-  RuntimeTestValueCollectionModel(super.query);
+  RuntimeTestValueCollectionModel(super.modelQuery);
 
   @override
   RuntimeMTestValueDocumentModel create([String? id]) {

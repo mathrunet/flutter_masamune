@@ -297,7 +297,7 @@ class FirebaseRemoteConfigModelAdapter extends ModelAdapter {
   }
 
   @override
-  Future<void> clearCache() async {
+  Future<void> clearCache() {
     throw UnsupportedError("This function is not available.");
   }
 
