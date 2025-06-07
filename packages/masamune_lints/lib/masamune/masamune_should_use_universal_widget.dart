@@ -115,16 +115,17 @@ The Masamune framework recommends using UniversalUI instead of Widgets such as S
     }
 
     // Widget build(BuildContext context) => Container(); のような場合
-    if (parent is ExpressionFunctionBody) {
-      final method = _findParentMethod(parent);
-      if (method != null && method.name.lexeme == "build") {
-        final classDeclaration = _findParentClass(method);
-        if (classDeclaration != null &&
-            _extendsPageScopedWidget(classDeclaration)) {
-          return true;
-        }
-      }
-    }
+    // ここは必要なし
+    // if (parent is ExpressionFunctionBody) {
+    //   final method = _findParentMethod(parent);
+    //   if (method != null && method.name.lexeme == "build") {
+    //     final classDeclaration = _findParentClass(method);
+    //     if (classDeclaration != null &&
+    //         _extendsPageScopedWidget(classDeclaration)) {
+    //       return true;
+    //     }
+    //   }
+    // }
 
     return false;
   }
