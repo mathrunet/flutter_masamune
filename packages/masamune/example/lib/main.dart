@@ -117,6 +117,7 @@ final appAuth = Authentication();
 final appFunction = Functions();
 
 /// App Flavor.
+// ignore: do_not_use_environment
 const flavor = String.fromEnvironment("FLAVOR");
 
 /// App.

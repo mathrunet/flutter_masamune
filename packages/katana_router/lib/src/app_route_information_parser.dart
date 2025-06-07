@@ -16,6 +16,11 @@ class _AppRouteInformationParser extends RouteInformationParser<RouteQuery> {
     if (routeInformation is InitialRouteInformation &&
         routeInformation.query != null) {
       final query = routeInformation.query!;
+      // 初回時にbootが存在するとリダイレクトをスキップ
+      final boot = router._config.boot;
+      if (boot != null) {
+        return query;
+      }
       final redirect = await router._redirect(context, query);
       if (redirect != query) {
         return redirect;

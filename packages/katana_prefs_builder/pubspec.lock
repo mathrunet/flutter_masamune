@@ -239,21 +239,21 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "3.0.0"
+    version: "3.1.1"
   katana_builder:
     dependency: "direct main"
     description:
       path: "../katana_builder"
       relative: true
     source: path
-    version: "3.0.0"
+    version: "3.0.2"
   katana_prefs_annotation:
     dependency: "direct main"
     description:
       path: "../katana_prefs_annotation"
       relative: true
     source: path
-    version: "3.0.0"
+    version: "3.0.2"
   katana_test:
     dependency: "direct dev"
     description:

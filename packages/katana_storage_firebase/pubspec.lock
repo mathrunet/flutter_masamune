@@ -331,21 +331,21 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "3.0.0"
+    version: "3.1.1"
   katana_firebase:
     dependency: "direct main"
     description:
       path: "../katana_firebase"
       relative: true
     source: path
-    version: "3.0.0"
+    version: "3.0.2"
   katana_storage:
     dependency: "direct main"
     description:
       path: "../katana_storage"
       relative: true
     source: path
-    version: "3.0.0"
+    version: "3.0.2"
   katana_test:
     dependency: "direct dev"
     description:
