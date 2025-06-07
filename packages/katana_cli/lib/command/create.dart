@@ -1650,6 +1650,35 @@ linter:
     use_if_null_to_convert_nulls_to_bools: true
     missing_whitespace_between_adjacent_strings: true
     leading_newlines_in_multiline_strings: true
+    deprecated_member_use_from_same_package: true
+    close_sinks: true
+    avoid_print: true
+    no_duplicate_case_values: true
+    do_not_use_environment: true
+    library_names: true
+    matching_super_parameters: true
+    no_literal_bool_comparisons: true
+    omit_obvious_local_variable_types: true
+    omit_obvious_property_types: true
+    package_prefixed_library_names: true
+    prefer_mixin: true
+    prefer_void_to_null: true
+    unnecessary_lambdas: true
+    unnecessary_async: true
+    use_decorated_box: true
+    use_colored_box: true
+    sized_box_shrink_expand: true
+    unnecessary_null_aware_operator_on_extension_on_nullable: true
+    prefer_is_not_operator: true
+    prefer_iterable_whereType: true
+    exhaustive_cases: true
+    prefer_asserts_in_initializer_lists: true
+    prefer_conditional_assignment: true
+    prefer_const_constructors_in_immutables: true
+    prefer_const_declarations: true
+    prefer_const_literals_to_create_immutables: true
+    prefer_constructors_over_static_methods: true
+    prefer_contains: true
     public_member_api_docs: true
     no_default_cases: false
     library_private_types_in_public_api: false
@@ -1683,6 +1712,35 @@ analyzer:
     use_if_null_to_convert_nulls_to_bools: error
     missing_whitespace_between_adjacent_strings: error
     prefer_if_elements_to_conditional_expressions: error
+    do_not_use_environment: error
+    avoid_print: error
+    library_names: error
+    prefer_mixin: error
+    prefer_void_to_null: error
+    exhaustive_cases: error
+    prefer_asserts_in_initializer_lists: error
+    deprecated_member_use_from_same_package: warning
+    close_sinks: warning
+    no_duplicate_case_values: warning
+    matching_super_parameters: warning
+    no_literal_bool_comparisons: warning
+    omit_obvious_local_variable_types: warning
+    omit_obvious_property_types: warning
+    package_prefixed_library_names: warning
+    unnecessary_lambdas: warning
+    unnecessary_async: warning
+    use_decorated_box: warning
+    use_colored_box: warning
+    sized_box_shrink_expand: warning
+    unnecessary_null_aware_operator_on_extension_on_nullable: warning
+    prefer_is_not_operator: warning
+    prefer_iterable_whereType: warning
+    prefer_conditional_assignment: warning
+    prefer_const_constructors_in_immutables: warning
+    prefer_const_declarations: warning
+    prefer_const_literals_to_create_immutables: warning
+    prefer_constructors_over_static_methods: warning
+    prefer_contains: warning
     prefer_const_constructors: warning
     public_member_api_docs: warning
     cancel_subscriptions: warning

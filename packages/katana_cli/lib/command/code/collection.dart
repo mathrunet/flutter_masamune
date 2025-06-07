@@ -84,7 +84,7 @@ part "$baseName.api.dart";
   String body(String path, String baseName, String className) {
     final paths = path.split("/");
     if (paths.length.isEven) {
-      path = paths.sublist(0, paths.length - 1).join("/");
+      path = paths.sublist(1, paths.length).join("/");
     }
     return """
 /// Value for model.
@@ -219,7 +219,7 @@ void main() {
     name: "${className}Model",
     path: "$sourcePath",
     // TODO: Set the document Id.
-    document: (ref) => ref.appRef.model(${className}Model.document("${uuid()}")),
+    document: (context, ref) => ref.appRef.model(${className}Model.document("${uuid()}")),
     builder: (context, ref, value) {
       // TODO: Write test code.
       return value.toTile(context);

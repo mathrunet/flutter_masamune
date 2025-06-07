@@ -112,8 +112,8 @@ class FormRef implements WidgetRef {
 /// @PagePath("user/{edit_id}/edit")
 /// class UserEditPage extends FormEditPageScopedWidget {
 ///   const UserEditPage({
-///     super.key,
 ///     @PageParam("edit_id") required super.editId,
+///     super.key,
 ///   });
 ///
 ///   @pageRouteQuery
@@ -172,8 +172,8 @@ abstract class FormScopedWidget extends StatefulWidget
   /// @PagePath("user/{edit_id}/edit")
   /// class UserEditPage extends FormEditPageScopedWidget {
   ///   const UserEditPage({
-  ///     super.key,
   ///     @PageParam("edit_id") required super.editId,
+  ///     super.key,
   ///   });
   ///
   ///   @pageRouteQuery

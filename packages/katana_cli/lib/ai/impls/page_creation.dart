@@ -391,8 +391,8 @@ class PageCreationMdCliAiCode extends CliAiCode {
         @PagePath("memo/:edit_id/edit")
         class MemoEditPage extends FormEditPageScopedWidget {
           const MemoEditPage({
-            super.key,
             @PageParam("edit_id") required super.editId,
+            super.key,
           });
 
           /// Used to transition to the MemoEditPage screen.
@@ -578,8 +578,8 @@ class PageCreationMdCliAiCode extends CliAiCode {
         @PagePath("memo/:edit_id/edit")
         class MemoEditPage extends FormEditPageScopedWidget {
           const MemoEditPage({
-            super.key,
             @PageParam("edit_id") required super.editId,
+            super.key,
           });
 
           /// Used to transition to the MemoEditPage screen.

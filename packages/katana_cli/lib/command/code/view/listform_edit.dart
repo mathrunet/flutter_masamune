@@ -97,8 +97,8 @@ part "$baseName.page.dart";
 class ${className}Page extends FormEditPageScopedWidget {
   /// Page widget for $className.
   const ${className}Page({
-    super.key,
     @PageParam("edit_id") required super.editId,
+    super.key,
   });
 
   /// Used to transition to the ${className}Page screen.

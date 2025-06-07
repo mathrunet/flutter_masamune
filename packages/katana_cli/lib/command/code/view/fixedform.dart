@@ -132,8 +132,8 @@ class ${className}AddPage extends FormAddPageScopedWidget {
 class ${className}EditPage extends FormEditPageScopedWidget {
   /// Page widget for $className to edit data.
   const ${className}EditPage({
-    super.key,
     @PageParam("edit_id") required super.editId,
+    super.key,
   });
 
   /// Used to transition to the ${className}EditPage screen.
