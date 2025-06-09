@@ -12,7 +12,6 @@ const _actions = <CliActionMixin>[
   AppP12CliAction(),
   AppKeystoreCliAction(),
   GitActionCliAction(),
-  GitClaudeCodeCliAction(),
 ];
 
 /// The katana.yaml configuration is reflected in the application project, with updates only around the Keystore and CSRs.

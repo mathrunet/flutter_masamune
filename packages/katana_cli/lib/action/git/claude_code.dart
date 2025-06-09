@@ -39,13 +39,14 @@ class GitClaudeCodeCliAction extends CliCommand with CliActionMixin {
     final uses = plan.get("uses", "");
     final accessToken = plan.get("access_token", "");
     final refreshToken = plan.get("refresh_token", "");
-    final expiresAt = plan.get("expires_at", "");
+    final expiresAt = plan.get("expires_at", nullOfInt);
+    final model = claudeCode.get("model", "claude-sonnet-4-20250514");
 
-    if (!(apiKey.isNotEmpty) ||
-        !(uses.isNotEmpty &&
-            accessToken.isNotEmpty &&
-            refreshToken.isNotEmpty &&
-            expiresAt.isNotEmpty)) {
+    if (apiKey.isEmpty &&
+        (uses.isEmpty ||
+            accessToken.isEmpty ||
+            refreshToken.isEmpty ||
+            expiresAt == null)) {
       error(
         "Configuration not found. Please set one of the following: `[claude_code]->[api]->[api_key]`, `[claude_code]->[plan]->[uses]`, `[claude_code]->[plan]->[access_token]`, `[claude_code]->[plan]->[refresh_token]`, or `[claude_code]->[plan]->[expires_at]`.",
       );
@@ -94,7 +95,7 @@ class GitClaudeCodeCliAction extends CliCommand with CliActionMixin {
           "set",
           "CLAUDE_EXPIRES_AT",
           "--body",
-          expiresAt,
+          expiresAt.toString(),
         ],
       );
     }
@@ -102,6 +103,7 @@ class GitClaudeCodeCliAction extends CliCommand with CliActionMixin {
     final gitDir = await findGitDirectory(Directory.current);
     final workingPath = Directory.current.difference(gitDir);
     await GitClaudeCodeCliCode(
+      model: model,
       actionsRepositoryName: uses,
     ).generateFile(
       "${workingPath.isEmpty ? "." : workingPath}/.github/workflows/claude_code.yaml",
@@ -116,12 +118,20 @@ class GitClaudeCodeCliCode extends CliCode {
   /// Contents of claude_code.yaml.
   ///
   /// claude_code.yamlの中身。
-  const GitClaudeCodeCliCode({this.actionsRepositoryName});
+  const GitClaudeCodeCliCode({
+    required this.model,
+    this.actionsRepositoryName,
+  });
 
   /// Name of the Actions repository to be used.
   ///
   /// 利用するActionsのレポジトリの名前。
   final String? actionsRepositoryName;
+
+  /// Name of the model to be used.
+  ///
+  /// 利用するモデルの名前。
+  final String model;
 
   @override
   String get name => "claude_code";
@@ -188,8 +198,9 @@ jobs:
 
             - name: Run Claude Code
               id: claude
-              - uses: anthropics/claude-code-action@beta
+              - uses: anthropics/claude-code-action@main
                 with:
+                  model: $model
                   anthropic_api_key: \${{secrets.ANTHROPIC_API_KEY}}
                   github_token: \${{secrets.GITHUB_TOKEN}}
 """;
@@ -235,6 +246,7 @@ jobs:
               id: claude
               uses: $actionsRepositoryName
               with:
+                  model: $model
                   use_oauth: 'true'
                   claude_access_token: \${{secrets.CLAUDE_ACCESS_TOKEN}}
                   claude_refresh_token: \${{secrets.CLAUDE_REFRESH_TOKEN}}
