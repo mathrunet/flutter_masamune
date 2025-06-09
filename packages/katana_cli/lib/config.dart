@@ -562,14 +562,22 @@ github:
       # Please copy and include your team ID from https://developer.apple.com/account.
       # https://developer.apple.com/account のチームIDをコピーして記載してください。
       team_id: 
-  
-  # Describe the settings for automatic review when a Github pull request is created.
-  # Enter the OpenAI API key in [openai_api_key].
-  # Githubのプルリクエストが作成された際に自動でレビューを行うための設定を記述します。
-  # OpenAIのAPIキーを[openai_api_key]に記述してください。
-  review:
+
+${showAllConfig ? """
+  # Add an AI Agent using Claude Code.
+  # Please enter your Anthropic API key in [api]->[api_key]. Alternatively, you can make API calls within the paid plan by using Actions you forked within the [plan].
+  # CLAUDE CODEによるAIエージェントを追加します。
+  # [api]->[api_key]にAnthropicのAPIキーを記載してください。もしくは[plan]内でfolkしたActionsを使って有料プラン内でのAPI呼び出しも可能です。
+  claude_code:
     enable: false
-    openai_api_key:
+    api:
+      api_key:
+    plan:
+      uses:
+      access_token:
+      refresh_token:
+      expires_at:
+""" : ""}
 
 ${showAllConfig ? """
 # Store-related information.

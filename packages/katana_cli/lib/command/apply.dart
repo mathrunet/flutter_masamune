@@ -32,6 +32,7 @@ import "package:katana_cli/action/firebase/messaging.dart";
 import "package:katana_cli/action/firebase/scheduler.dart";
 import "package:katana_cli/action/firebase/terms_and_privacy.dart";
 import "package:katana_cli/action/git/action.dart";
+import "package:katana_cli/action/git/claude_code.dart";
 import "package:katana_cli/action/git/hook.dart";
 import "package:katana_cli/action/mail/gmail.dart";
 import "package:katana_cli/action/mail/send_grid.dart";
@@ -64,6 +65,7 @@ const _actions = <CliActionMixin>[
   FirebaseAlogliaCliAction(),
   FirebaseTermsAndPrivacyCliAction(),
   GitActionCliAction(),
+  GitClaudeCodeCliAction(),
   GitPreCommitCliAction(),
   AppOpenAICliAction(),
   AppAnimateCliAction(),
