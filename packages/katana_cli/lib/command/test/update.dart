@@ -30,7 +30,7 @@ class TestUpdateCliCommand extends CliCommand {
         "--dart-define=FLAVOR=dev",
         if (target.isNotEmpty) ...[
           "--plain-name",
-          "\"$target\"",
+          target,
         ]
       ],
     );
