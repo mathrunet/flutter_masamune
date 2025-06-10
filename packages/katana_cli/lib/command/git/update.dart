@@ -7,7 +7,10 @@ part of "git.dart";
 /// 実行するアクション。
 ///
 /// 実行する順番で並べてください。
-const _actions = <CliActionMixin>[GitClaudeCodeCliAction()];
+const _actions = <CliActionMixin>[
+  GitClaudeCodeCliAction(),
+  GitStatusCheckCliAction(),
+];
 
 /// The katana.yaml configuration is reflected in the application project, with updates only around the Git.
 ///

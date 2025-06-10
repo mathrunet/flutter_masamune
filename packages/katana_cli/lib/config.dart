@@ -577,6 +577,11 @@ ${showAllConfig ? """
       access_token:
       refresh_token:
       expires_at:
+  
+  # Enable status check.
+  # status checkを有効にします。
+  status_check:
+    enable: false
 """ : ""}
 
 ${showAllConfig ? """

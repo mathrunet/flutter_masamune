@@ -38,14 +38,15 @@ class MasamuneTestConfig {
     FutureOr<String> Function(String fileName, String environmentName)?
         platformFilePathResolver,
   }) async {
+    // ignore: do_not_use_environment
+    const isRunningInCi = bool.fromEnvironment("CI", defaultValue: false);
     final scopedValueContainer = ScopedValueContainer();
     final runtimeModelAdapter = _createModelAdapter(modelAdapter);
     final runtimeAuthAdapter = _createAuthAdapter(authAdapter);
     final runtimeStorageAdapter = _createStorageAdapter(storageAdapter);
     final runtimeFunctionsAdapter = _createFunctionsAdapter(functionsAdapter);
-    final runtimeLoggerAdapters = loggerAdapters
-        .map(_createLoggerAdapter)
-        .toList();
+    final runtimeLoggerAdapters =
+        loggerAdapters.map(_createLoggerAdapter).toList();
     final appAuth = Authentication(adapter: runtimeAuthAdapter);
     final appRef = AppRef(scopedValueContainer: scopedValueContainer);
     _currentRef = MasamuneTestRef._(
@@ -85,7 +86,7 @@ class MasamuneTestConfig {
               (fileName, environmentName) {
                 return "${Directory.current.path}/documents/test/${environmentName.toLowerCase()}/${fileName.trimString("/")}.png";
               },
-          enabled: enablePlatformGoldensConfig,
+          enabled: !isRunningInCi && enablePlatformGoldensConfig,
         ),
       ),
       run: run,

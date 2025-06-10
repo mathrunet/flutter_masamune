@@ -42,12 +42,12 @@ class PreCommitMdCliAiCode extends CliAiCode {
         - 各種UIが更新されているにも関わらずこのステップが実行されない場合は`flutter test`でエラーになります。
 
         ```bash
-        katana test update "[テスト対象のクラス名],[テスト対象のクラス名],..."
+        katana test update [テスト対象のクラス名],[テスト対象のクラス名],...
         ```
 
         - 例:
             ```bash
-            katana test update "TestPage,TestWidget,TestModel"
+            katana test update TestPage,TestWidget,TestModel
             ```
 
     4. 下記のコマンドを実施して全体のテストを行う。エラーがあれば修正。
