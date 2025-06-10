@@ -566,8 +566,7 @@ class _MapTextField<TValue> extends FormField<String> {
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
           builder: (field) {
-            final state =
-                field as _SelectTextFieldState<TValue>;
+            final state = field as _SelectTextFieldState<TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(

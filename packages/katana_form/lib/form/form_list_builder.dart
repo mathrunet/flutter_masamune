@@ -163,7 +163,7 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
       super.widget as FormListBuilder<T, TValue>;
 
   @override
-  void add(T item)  {
+  void add(T item) {
     setState(() {
       final newList = <T>[...(value ?? []), item];
       _version++;

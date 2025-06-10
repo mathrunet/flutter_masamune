@@ -578,8 +578,7 @@ class _NumTextField<TValue> extends FormField<num> {
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
           builder: (field) {
-            final state =
-                field as _NumTextFieldState<TValue>;
+            final state = field as _NumTextFieldState<TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(

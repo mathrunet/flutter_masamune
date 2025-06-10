@@ -207,7 +207,7 @@ class FirebaseStorageAdapter extends StorageAdapter {
   Future<LocalFile> download(
     String remoteRelativePathOrId, [
     String? localRelativePath,
-  ])  {
+  ]) {
     throw UnsupportedError("This feature is not supported.");
   }
 

@@ -298,7 +298,7 @@ class AppRouter extends ChangeNotifier
   Future<E?> pushNamed<E>(
     String path, [
     TransitionQuery? transitionQuery,
-  ])  {
+  ]) {
     for (final page in pages) {
       final resolved = page.resolve(path);
       if (resolved != null) {
@@ -354,7 +354,7 @@ class AppRouter extends ChangeNotifier
   Future<E?> replaceNamed<E>(
     String path, [
     TransitionQuery? transitionQuery,
-  ])  {
+  ]) {
     for (final page in pages) {
       final resolved = page.resolve(path);
       if (resolved != null) {

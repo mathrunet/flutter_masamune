@@ -14,7 +14,7 @@ class ListenablesGenerator extends GeneratorForAnnotation<Listenables> {
     Element element,
     ConstantReader annotation,
     BuildStep buildStep,
-  )  {
+  ) {
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
         "`@Listenables()` can only be used on classes.",

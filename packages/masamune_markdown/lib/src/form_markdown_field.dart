@@ -149,8 +149,7 @@ class FormMarkdownField<TValue> extends FormField<String> {
           },
           autovalidateMode: AutovalidateMode.disabled,
           builder: (FormFieldState<String> field) {
-            final state =
-                field as FormMarkdownFieldState<TValue>;
+            final state = field as FormMarkdownFieldState<TValue>;
             final context = state.context;
             final theme = Theme.of(context);
             final defaultStyles = DefaultStyles.getInstance(context);

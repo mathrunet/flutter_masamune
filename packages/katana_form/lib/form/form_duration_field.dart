@@ -605,8 +605,7 @@ class _DurationTextField<TValue> extends FormField<Duration> {
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
           builder: (field) {
-            final state =
-                field as _DurationTextFieldState<TValue>;
+            final state = field as _DurationTextFieldState<TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(

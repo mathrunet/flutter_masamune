@@ -620,8 +620,7 @@ class _DateTextField<TValue> extends FormField<DateTime> {
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
           builder: (field) {
-            final state =
-                field as _DateTextFieldState<TValue>;
+            final state = field as _DateTextFieldState<TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(

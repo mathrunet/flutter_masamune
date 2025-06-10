@@ -14,7 +14,7 @@ class PrefsGenerator extends GeneratorForAnnotation<Prefs> {
     Element element,
     ConstantReader annotation,
     BuildStep buildStep,
-  )  {
+  ) {
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
         "`@Prefs()` can only be used on classes.",

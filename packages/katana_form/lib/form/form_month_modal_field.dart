@@ -620,8 +620,7 @@ class _MonthTextField<TValue> extends FormField<DateTime> {
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
           builder: (field) {
-            final state =
-                field as _MonthTextFieldState<TValue>;
+            final state = field as _MonthTextFieldState<TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(

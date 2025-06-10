@@ -105,7 +105,7 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
   /// 位置情報が利用可能かどうかとパーミッションの許可を行います。
   Future<void> initialize({
     Duration timeout = const Duration(seconds: 60),
-  })  {
+  }) {
     throw UnsupportedError("This platform is not supported.");
   }
 
@@ -131,14 +131,14 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
     Duration timeout = const Duration(seconds: 60),
     FutureOr<void> Function(BackgroundLocation location)? onUpdate,
     FutureOr<void> Function(BackgroundLocation location)? onResume,
-  })  {
+  }) {
     throw UnsupportedError("This platform is not supported.");
   }
 
   /// Cancel acquisition of [LocationData].
   ///
   /// [LocationData]の取得をキャンセルします。
-  Future<void> unlisten()  {
+  Future<void> unlisten() {
     throw UnsupportedError("This platform is not supported.");
   }
 }

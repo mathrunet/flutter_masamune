@@ -218,7 +218,7 @@ class MapController
   /// 拒否されている場合は`false`を返します。
   Future<bool> requestPermission({
     Duration timeout = const Duration(seconds: 60),
-  })  {
+  }) {
     return location.requestPermission(timeout: timeout);
   }
 

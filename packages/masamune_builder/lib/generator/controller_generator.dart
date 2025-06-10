@@ -14,7 +14,7 @@ class ControllerGenerator extends GeneratorForAnnotation<Controller> {
     Element element,
     ConstantReader annotation,
     BuildStep buildStep,
-  )  {
+  ) {
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
         "`@Controller()` can only be used on classes.",
