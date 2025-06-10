@@ -1,4 +1,5 @@
 // Project imports:
+import "package:katana_cli/ai/docs/dart_doc.dart";
 import "package:katana_cli/ai/docs/design_document.dart";
 import "package:katana_cli/ai/docs/enum_usage.dart";
 import "package:katana_cli/ai/docs/file_structure.dart";
@@ -15,6 +16,7 @@ import "package:katana_cli/ai/docs/model_usage.dart";
 import "package:katana_cli/ai/docs/naming_convention.dart";
 import "package:katana_cli/ai/docs/page_types.dart";
 import "package:katana_cli/ai/docs/plugin_usage.dart";
+import "package:katana_cli/ai/docs/pre_commit.dart";
 import "package:katana_cli/ai/docs/primitive_types.dart";
 import "package:katana_cli/ai/docs/router_usage.dart";
 import "package:katana_cli/ai/docs/state_management_usage.dart";
@@ -74,5 +76,7 @@ class DocsAiCode extends CliAiCodeCommand {
         "technology_stack": const TechnologyStackDocsMdCliAiCode(),
         "terminology": const TerminologyDocsMdCliAiCode(),
         "functions_usage": const FunctionsUsageDocsMdCliAiCode(),
+        "dart_doc": const DartDocDocsMdCliAiCode(),
+        "pre_commit": const PreCommitMdCliAiCode(),
       };
 }
