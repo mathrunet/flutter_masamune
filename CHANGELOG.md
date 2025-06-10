@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.1.1`](#katana_cli---v311)
+
+---
+
+#### `katana_cli` - `v3.1.1`
+
+ - **FIX**: Fixed bug where target is not recognized properly. ([150c62cb](https://github.com/mathrunet/flutter_masamune/commit/150c62cbe532296af6ee1f14950dc1cd4db29972))
+
+
 ## 2025-06-10
 
 ### Changes

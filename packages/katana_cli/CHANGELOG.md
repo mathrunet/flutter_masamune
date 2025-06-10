@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - **FIX**: Fixed bug where target is not recognized properly. ([150c62cb](https://github.com/mathrunet/flutter_masamune/commit/150c62cbe532296af6ee1f14950dc1cd4db29972))
+
 ## 3.1.0
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))
