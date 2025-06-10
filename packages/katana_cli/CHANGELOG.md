@@ -1,3 +1,18 @@
+## 3.1.0
+
+ - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))
+ - **REFACTOR**: Fix Lint issues more strictly. ([f5a782d9](https://github.com/mathrunet/flutter_masamune/commit/f5a782d91267f1407f74778205a47fee9624110a))
+ - **FIX**: Corrected incorrect command. ([a7841a25](https://github.com/mathrunet/flutter_masamune/commit/a7841a25697a3a4016de290d5a3525c7bb904f07))
+ - **FIX**: Fix the bug in Build.yaml. ([123a10ee](https://github.com/mathrunet/flutter_masamune/commit/123a10eeac0db40f027d20332882536d7bea9558))
+ - **FIX**: Enabled model assignment. ([f6bf2e69](https://github.com/mathrunet/flutter_masamune/commit/f6bf2e6976bc2bf06eb27ffc85becd5fce5799a2))
+ - **FIX**: Test bug fix. ([19b785ad](https://github.com/mathrunet/flutter_masamune/commit/19b785ad496be58dcdbcc3d6bd90fc9900a3decc))
+ - **FIX**: Disable use_build_context_synchronously. ([11f0b9ec](https://github.com/mathrunet/flutter_masamune/commit/11f0b9ecd6f2d83a423d2be79c3bc0a6368c727a))
+ - **FIX**: Change `use_build_context_synchronously` to warning. ([cb28b9a1](https://github.com/mathrunet/flutter_masamune/commit/cb28b9a129ef676d2684b311433fd1fd726d392b))
+ - **FEAT**: Add StatusCheck workflow. ([1ef4eb59](https://github.com/mathrunet/flutter_masamune/commit/1ef4eb5906e7b7a3e239a4714857f620725957d3))
+ - **FEAT**: Implementation of ClaudeCodeActions. ([bfdb0594](https://github.com/mathrunet/flutter_masamune/commit/bfdb0594a5eb0d25b5645fdf410b31377f138a5e))
+ - **DOCS**: Fixes around Claude. ([f9550183](https://github.com/mathrunet/flutter_masamune/commit/f9550183e2309432569716890daf11b230ca69e9))
+ - **DOCS**: Add AI documentation. ([72cd0b1d](https://github.com/mathrunet/flutter_masamune/commit/72cd0b1da9c03ebf6d3127d073a551039044a783))
+
 ## 3.0.2
 
  - **FIX**: Test code fix. ([6f159bd1](https://github.com/mathrunet/flutter_masamune/commit/6f159bd1efb6405eb50a2a74a6ca3b4bacdba9c2))

@@ -1,6 +1,6 @@
 name: masamune_model_firebase_data_connect_builder
 description: Builder package to automatically generate GraphQL code for Firebase Data Connect.
-version: 3.0.2
+version: 3.0.3
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_firebase_data_connect_builder
 
@@ -8,8 +8,8 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  katana: ^3.1.1
-  katana_builder: ^3.0.2
+  katana: ^3.1.2
+  katana_builder: ^3.0.3
   yaml: ^3.1.2
   build: ^2.4.1
   dart_style: ^3.0.0
@@ -18,10 +18,10 @@ dependencies:
   analyzer: ^7.0.0
   http: ^1.2.2
   glob: ^2.1.2
-  masamune_model_firebase_data_connect_annotation: ^3.0.2
-  masamune_builder: ^3.0.2
+  masamune_model_firebase_data_connect_annotation: ^3.0.3
+  masamune_builder: ^3.0.3
 dev_dependencies:
   test: ^1.25.8
-  katana_test: ^3.0.0
+  katana_test: ^3.0.1
   flutter_lints: ^5.0.0
   import_sorter: ^4.6.0

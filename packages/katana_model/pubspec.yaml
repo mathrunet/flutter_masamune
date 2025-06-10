@@ -1,6 +1,6 @@
 name: katana_model
 description: A package that models data into documents and collections and allows Firestore, local DB, and data mocks to be handled in the same interface.
-version: 3.0.2
+version: 3.0.3
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_model
 
@@ -12,11 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.1.1
+  katana: ^3.1.2
 
 dev_dependencies:
   test: ^1.24.0
-  katana_test: ^3.0.0
+  katana_test: ^3.0.1
   flutter_lints: ^5.0.0
   
   freezed: ^3.0.0

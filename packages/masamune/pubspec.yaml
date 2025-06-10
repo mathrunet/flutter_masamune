@@ -1,6 +1,6 @@
 name: masamune
 description: An application development framework centered on automatic code generation using build_runner.
-version: 3.0.4
+version: 3.0.5
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune
 
@@ -14,27 +14,27 @@ dependencies:
 
   meta:
 
-  katana: ^3.1.1
-  katana_logger: ^3.0.2
-  katana_shorten: ^3.0.2
-  katana_indicator: ^3.0.2
-  katana_scoped: ^3.0.2
-  katana_model: ^3.0.2
-  katana_model_local: ^3.0.2
-  katana_listenables: ^3.0.2
-  katana_router: ^3.0.2
-  katana_theme: ^3.0.2
-  katana_localization: ^3.0.2
-  katana_form: ^3.1.2
-  katana_auth: ^3.0.2
-  katana_ui: ^3.0.3
-  katana_prefs: ^3.0.2
-  katana_storage: ^3.0.2
-  katana_functions: ^3.0.2
-  masamune_annotation: ^3.0.2
+  katana: ^3.1.2
+  katana_logger: ^3.0.3
+  katana_shorten: ^3.0.3
+  katana_indicator: ^3.0.3
+  katana_scoped: ^3.0.3
+  katana_model: ^3.0.3
+  katana_model_local: ^3.0.3
+  katana_listenables: ^3.0.3
+  katana_router: ^3.0.3
+  katana_theme: ^3.0.3
+  katana_localization: ^3.0.3
+  katana_form: ^3.1.3
+  katana_auth: ^3.0.3
+  katana_ui: ^3.0.4
+  katana_prefs: ^3.0.3
+  katana_storage: ^3.0.3
+  katana_functions: ^3.0.3
+  masamune_annotation: ^3.0.3
 dev_dependencies:
   test: ^1.24.0
-  katana_test: ^3.0.0
+  katana_test: ^3.0.1
   flutter_lints: ^5.0.0
   import_sorter: ^4.6.0
   

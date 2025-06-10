@@ -1,3 +1,9 @@
+## 3.1.2
+
+ - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))
+ - **REFACTOR**: Fix Lint issues more strictly. ([f5a782d9](https://github.com/mathrunet/flutter_masamune/commit/f5a782d91267f1407f74778205a47fee9624110a))
+ - **FIX**: Change `use_build_context_synchronously` to warning. ([cb28b9a1](https://github.com/mathrunet/flutter_masamune/commit/cb28b9a129ef676d2684b311433fd1fd726d392b))
+
 ## 3.1.1
 
  - **FIX**: Add necessary methods to Clock. ([de9e369d](https://github.com/mathrunet/flutter_masamune/commit/de9e369d85ef37c7ab7beaca19b4da6fd73e8de3))
