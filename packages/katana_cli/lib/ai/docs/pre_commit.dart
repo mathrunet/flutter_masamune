@@ -30,15 +30,15 @@ class PreCommitMdCliAiCode extends CliAiCode {
 - コミット前に下記作業を実施してコードの品質と安全性を保つ。
     1. 下記のコマンドを実施してコードのフォーマットを行う。
         ```bash
-        flutter format .
+        dart fix --apply lib && dart format . && flutter pub run import_sorter:main
         ```
 
-    2. 下記のコマンドを実施してコードのバリデーションを行う。
+    2. 下記のコマンドを実施してコードのバリデーションを行う。エラーがあれば修正。
         ```bash
         flutter analyze && dart run custom_lint
         ```
 
-    3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。
+    3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。エラーがあれば修正。
         - 各種UIが更新されているにも関わらずこのステップが実行されない場合は`flutter test`でエラーになります。
 
         ```bash
@@ -50,7 +50,7 @@ class PreCommitMdCliAiCode extends CliAiCode {
             katana test update "TestPage,TestWidget,TestModel"
             ```
 
-    4. 下記のコマンドを実施して全体のテストを行う。
+    4. 下記のコマンドを実施して全体のテストを行う。エラーがあれば修正。
         ```bash
         flutter test
         ```

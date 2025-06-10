@@ -101,7 +101,7 @@ pre-commit:
       glob: "*.dart"
       run: dart format {staged_files} && git add {staged_files}
     analyzer:
-      run: flutter analyze
+      run: flutter analyze && dart run custom_lint
     check_update:
       run: katana cer check
 """;

@@ -577,7 +577,7 @@ class GitClaudeMarkdownCliCode extends CliCode {
 - 作業実施後、コミット前に必ず下記を実施しコードの品質と安全性を保つ。
     1. 下記のコマンドを実施してコードのフォーマットを行う。
         ```bash
-        flutter format .
+        dart fix --apply lib && dart format . && flutter pub run import_sorter:main
         ```
 
     2. 下記のコマンドを実施してコードのバリデーションを行う。エラーがあれば修正。
