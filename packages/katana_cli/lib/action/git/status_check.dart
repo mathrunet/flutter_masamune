@@ -85,9 +85,6 @@ on:
       - feature/**/*
       - publish
 
-env:
-  CI: true
-
 jobs:
   status_check:
 
@@ -146,7 +143,7 @@ jobs:
       # Running the flutter test.
       # Flutter testの実行。
       - name: Testing flutter project
-        run: flutter test
+        run: flutter test --dart-define=CI=true --dart-define=FLAVOR=dev
 """;
   }
 }
@@ -396,7 +393,7 @@ class GitClaudeMarkdownCliCode extends CliCode {
 
     4. 下記のコマンドを実施して全体のテストを行う。エラーがあれば修正。
         ```bash
-        flutter test
+        flutter test --dart-define=CI=true --dart-define=FLAVOR=dev
         ```
 
     - これらの作業を実施してエラーが出た場合は該当箇所を修正し再度1から実施。

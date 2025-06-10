@@ -52,7 +52,7 @@ class PreCommitMdCliAiCode extends CliAiCode {
 
     4. 下記のコマンドを実施して全体のテストを行う。エラーがあれば修正。
         ```bash
-        flutter test
+        flutter test --dart-define=CI=true --dart-define=FLAVOR=dev
         ```
 
     - これらの作業を実施してエラーが出た場合は該当箇所を修正し再度1から実施してください。

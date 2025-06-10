@@ -431,7 +431,7 @@ jobs:
       # Running the flutter test.
       # Flutter testの実行。
       - name: Testing flutter project
-        run: flutter test
+        run: flutter test --dart-define=CI=true --dart-define=FLAVOR=dev
 
       # Certificate settings.
       # Certificateの設定。

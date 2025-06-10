@@ -27,6 +27,7 @@ class TestUpdateCliCommand extends CliCommand {
         flutter,
         "test",
         "--update-goldens",
+        "--dart-define=FLAVOR=dev",
         if (target.isNotEmpty) ...[
           "--plain-name",
           "\"$target\"",

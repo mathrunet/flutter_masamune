@@ -178,9 +178,6 @@ on:
     pull_request_review:
         types: [submitted]
 
-env:
-  CI: true
-
 jobs:
     claude:
         if: |
@@ -588,7 +585,7 @@ class GitClaudeMarkdownCliCode extends CliCode {
 
     4. 下記のコマンドを実施して全体のテストを行う。エラーがあれば修正。
         ```bash
-        flutter test
+        flutter test --dart-define=CI=true --dart-define=FLAVOR=dev
         ```
 
     5. 変更したファイルおよび下記のファイルも必ず含めてコミットする。基本的には.gitignoreで除外されているファイル以外で生成・変更されたファイルはすべてコミット。
