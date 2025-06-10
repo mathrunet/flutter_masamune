@@ -1,9 +1,10 @@
 library;
 
-// Project imports:
+import "package:katana_cli/action/git/claude_code.dart";
 import "package:katana_cli/katana_cli.dart";
 
 part "submodule.dart";
+part "update.dart";
 
 /// Configure settings related to Git and Github.
 ///
@@ -21,5 +22,6 @@ class GitCliCommand extends CliCommandGroup {
   @override
   Map<String, CliCommand> get commands => const {
         "submodule": GitSubmoduleCliCommand(),
+        "update": GitUpdateCliCommand(),
       };
 }

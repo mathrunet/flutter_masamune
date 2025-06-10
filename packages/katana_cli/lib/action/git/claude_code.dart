@@ -250,6 +250,7 @@ jobs:
               uses: anthropics/claude-code-action@main
               with:
                   model: $model
+                  allowed_tools: "Bash(firebase:*),Bash(flutterfire:*),Bash(katana:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"
                   anthropic_api_key: \${{secrets.ANTHROPIC_API_KEY}}
                   github_token: \${{secrets.GITHUB_TOKEN}}
 """;
@@ -286,6 +287,7 @@ jobs:
             id-token: write
 
         steps:
+            # Checkout repository
             # リポジトリをチェックアウト。
             - name: Checkout repository
               uses: actions/checkout@v4
@@ -323,18 +325,22 @@ jobs:
             - name: Create assets folder
               run: mkdir -p assets
 
+            # Install the firebase command
             # firebaseコマンドをインストール
             - name: Install firebase
               run: npm install -g firebase-tools
 
+            # Install the flutterfire command
             # flutterfireコマンドをインストール
             - name: Install flutterfire
               run: flutter pub global activate flutterfire_cli
 
+            # Install the katana command
             # katanaコマンドをインストール
             - name: Install katana
               run: flutter pub global activate katana_cli
 
+            # Install the katana command 
             # Claude Codeを実行
             - name: Run Claude Code
               id: claude
@@ -342,6 +348,7 @@ jobs:
               with:
                   model: $model
                   use_oauth: 'true'
+                  allowed_tools: "Bash(firebase:*),Bash(flutterfire:*),Bash(katana:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"
                   claude_access_token: \${{secrets.CLAUDE_ACCESS_TOKEN}}
                   claude_refresh_token: \${{secrets.CLAUDE_REFRESH_TOKEN}}
                   claude_expires_at: \${{secrets.CLAUDE_EXPIRES_AT}}
@@ -391,6 +398,8 @@ class GitClaudeMarkdownCliCode extends CliCode {
 - 与えられた業務に対して`開発`か`マーケティング・企画`、`営業・広報`、`経理`のいずれかの業務に該当するかを判断し、該当する業務に対するルールを遵守してください。
 
 ## `開発`時
+
+### ルール
 
 - Dart言語とFlutterフレームワークで開発を行う。
 - Flutter内のフレームワークであるMasamuneフレームワークを利用。
@@ -542,18 +551,41 @@ class GitClaudeMarkdownCliCode extends CliCode {
             - `model_locale.md`: ModelLocaleの使用方法
             - `model_localized_value.md`: ModelLocalizedValueの使用方法
             - `model_search.md`: ModelSearchの使用方法
+
+### 作業実施時
+
+- 作業実施時下記は徹底すること。
+    - １つの実装が完了したときに毎回必ず下記のコマンドを実行してコードにエラーがないかをチェック。エラーがある場合はエラー文に対処した後再度実行。
+
+        ```bash
+        flutter analyze && dart run custom_lint
+        ```
+
+    - １つの`Page`や`Widget`、`Model`の`toTile`のエクステンションの更新や作成が完了したときに毎回下記のコマンドを実行してコードにエラーがないか、またUIにズレがないかをチェック。エラーやUIにズレがある場合はそれらに対処した後再度実行。画像は`documents/test/**/*.png`に出力される。
+
+        ```bash
+        katana test update "[テスト対象のクラス名],[テスト対象のクラス名],..."
+        ```
+
+        - 例:
+            ```bash
+            katana test update "TestPage,TestWidget,TestModel"
+            ```
+
+### 作業完了後
+
 - 作業実施後、コミット前に必ず下記を実施しコードの品質と安全性を保つ。
     1. 下記のコマンドを実施してコードのフォーマットを行う。
         ```bash
         flutter format .
         ```
 
-    2. 下記のコマンドを実施してコードのバリデーションを行う。
+    2. 下記のコマンドを実施してコードのバリデーションを行う。エラーがあれば修正。
         ```bash
         flutter analyze && dart run custom_lint
         ```
 
-    3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。
+    3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。エラーがあれば修正。
         - 各種UIが更新されているにも関わらずこのステップが実行されない場合は`flutter test`でエラーになります。
 
         ```bash
@@ -565,7 +597,7 @@ class GitClaudeMarkdownCliCode extends CliCode {
             katana test update "TestPage,TestWidget,TestModel"
             ```
 
-    4. 下記のコマンドを実施して全体のテストを行う。
+    4. 下記のコマンドを実施して全体のテストを行う。エラーがあれば修正。
         ```bash
         flutter test
         ```
@@ -584,6 +616,7 @@ class GitClaudeMarkdownCliCode extends CliCode {
 ## `経理`時
 
 - ルールはまだありません。
+
 """;
   }
 }

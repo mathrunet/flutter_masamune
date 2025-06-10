@@ -353,14 +353,11 @@ class CreateCliCommand extends CliCommand {
     } else {
       gitignores.removeWhere((e) => e.startsWith("katana_secrets.yaml"));
     }
-    if (!gitignores.any((e) => e.startsWith("test/**/goldens/**/*.*"))) {
-      gitignores.add("test/**/goldens/**/*.*");
+    if (!gitignores.any((e) => e.startsWith("documents/test/macos/**/*.*"))) {
+      gitignores.add("documents/test/macos/**/*.*");
     }
     if (!gitignores.any((e) => e.startsWith("test/**/failures/**/*.*"))) {
       gitignores.add("test/**/failures/**/*.*");
-    }
-    if (!gitignores.any((e) => e.startsWith("!test/**/goldens/ci/*.*"))) {
-      gitignores.add("!test/**/goldens/ci/*.*");
     }
     await gitignore.writeAsString(gitignores.join("\n"));
     await Future.delayed(const Duration(seconds: 5));
@@ -703,14 +700,11 @@ class ComposeCliCommand extends CliCommand {
     } else {
       gitignores.removeWhere((e) => e.startsWith("katana_secrets.yaml"));
     }
-    if (!gitignores.any((e) => e.startsWith("test/**/goldens/**/*.*"))) {
-      gitignores.add("test/**/goldens/**/*.*");
+    if (!gitignores.any((e) => e.startsWith("documents/test/macos/**/*.*"))) {
+      gitignores.add("documents/test/macos/**/*.*");
     }
     if (!gitignores.any((e) => e.startsWith("test/**/failures/**/*.*"))) {
       gitignores.add("test/**/failures/**/*.*");
-    }
-    if (!gitignores.any((e) => e.startsWith("!test/**/goldens/ci/*.*"))) {
-      gitignores.add("!test/**/goldens/ci/*.*");
     }
     await gitignore.writeAsString(gitignores.join("\n"));
     await Future.delayed(const Duration(seconds: 5));
