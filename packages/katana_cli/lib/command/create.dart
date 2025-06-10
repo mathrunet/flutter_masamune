@@ -2047,10 +2047,60 @@ class BuildCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return r"""
+builders:
+  :katana_listenables_builder:
+    import: 'package:katana_listenables_builder/katana_listenables_builder.dart'
+    builder_factories: ['katanaListenablesBuilderFactory']
+    build_extensions: {'.dart': ['.listenable.dart']}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+  :katana_theme_builder:
+    import: 'package:katana_theme_builder/katana_theme_builder.dart'
+    builder_factories: ['katanaThemeBuilderFactory']
+    build_extensions: {'.dart': ['.theme.dart']}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+  :katana_router_page_builder:
+    import: 'package:katana_router_builder/katana_router_builder.dart'
+    builder_factories: ['katanaRouterPageBuilderFactory']
+    build_extensions: {'.dart': ['.page.dart']}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+  :katana_router_router_builder:
+    import: 'package:katana_router_builder/katana_router_builder.dart'
+    builder_factories: ['katanaRouterRouterBuilderFactory']
+    build_extensions: {'.dart': ['.router.dart']}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+  :katana_localization_builder:
+    import: 'package:katana_localization_builder/katana_localization_builder.dart'
+    builder_factories: ['katanaLocalizationBuilderFactory']
+    build_extensions: {'.dart': ['.localize.dart']}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+  :katana_prefs_builder:
+    import: 'package:katana_prefs_builder/katana_prefs_builder.dart'
+    builder_factories: ['katanaPrefsBuilderFactory']
+    build_extensions: {'.dart': ['.prefs.dart']}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+  :masamune_builder:
+    import: 'package:masamune_builder/masamune_builder.dart'
+    builder_factories: ['masamuneBuilderFactory']
+    build_extensions: {'.dart': ['.m.dart']}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
 targets:
   $default:
     builders:
-      masamune_builder:
+      :katana_theme_builder:
         enabled: true
         generate_for:
           include:
@@ -2062,7 +2112,7 @@ targets:
             - example/lib/**/*.dart
             - example/test/*.dart
             - example/test/**/*.dart
-      masamune_builder:katana_theme_builder:
+      :masamune_builder:
         enabled: true
         generate_for:
           include:
@@ -2074,7 +2124,7 @@ targets:
             - example/lib/**/*.dart
             - example/test/*.dart
             - example/test/**/*.dart
-      masamune_builder:katana_router_page_builder:
+      :katana_router_page_builder:
         enabled: true
         generate_for:
           include:
@@ -2086,7 +2136,7 @@ targets:
             - example/lib/**/*.dart
             - example/test/*.dart
             - example/test/**/*.dart
-      masamune_builder:katana_router_router_builder:
+      :katana_router_router_builder:
         enabled: true
         generate_for:
           include:
@@ -2098,7 +2148,7 @@ targets:
             - example/lib/**/*.dart
             - example/test/*.dart
             - example/test/**/*.dart
-      masamune_builder:katana_prefs_builder:
+      :katana_prefs_builder:
         enabled: true
         generate_for:
           include:
@@ -2110,7 +2160,7 @@ targets:
             - example/lib/**/*.dart
             - example/test/*.dart
             - example/test/**/*.dart
-      masamune_builder:katana_localization_builder:
+      :katana_localization_builder:
         enabled: true
         generate_for:
           include:
@@ -2122,7 +2172,7 @@ targets:
             - example/lib/**/*.dart
             - example/test/*.dart
             - example/test/**/*.dart
-      masamune_builder:katana_listenables_builder:
+      :katana_listenables_builder:
         enabled: true
         generate_for:
           include:

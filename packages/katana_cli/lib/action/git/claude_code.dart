@@ -191,15 +191,60 @@ jobs:
             id-token: write
 
         steps:
+            # リポジトリをチェックアウト。
             - name: Checkout repository
               uses: actions/checkout@v4
               with:
                   fetch-depth: 1
 
+            # Set up JDK 17.
+            # JDK 17のセットアップ
+            - name: Set up JDK 17
+              uses: actions/setup-java@v4
+              with:
+                distribution: microsoft
+                java-version: "17.0.10"
+
+            # Install flutter.
+            # Flutterのインストール。
+            - name: Install flutter
+              uses: subosito/flutter-action@v2
+              with:
+                channel: stable
+                cache: true
+
+            # Check flutter version.
+            # Flutterのバージョン確認。
+            - name: Run flutter version
+              run: flutter --version
+
+            # Run flutter pub get
+            # Flutterのパッケージを取得。
+            - name: Run flutter pub get
+              run: flutter pub get
+
+            # Creation of the Assets folder.
+            # Assetsフォルダの作成。
+            - name: Create assets folder
+              run: mkdir -p assets
+
+            # firebaseコマンドをインストール
+            - name: Install firebase
+              run: npm install -g firebase-tools
+
+            # flutterfireコマンドをインストール
+            - name: Install flutterfire
+              run: flutter pub global activate flutterfire_cli
+
+            # katanaコマンドをインストール
+            - name: Install katana
+              run: flutter pub global activate katana_cli
+
+            # Claude Codeを実行
             - name: Run Claude Code
               id: claude
-              - uses: anthropics/claude-code-action@main
-                with:
+              uses: anthropics/claude-code-action@main
+              with:
                   model: $model
                   anthropic_api_key: \${{secrets.ANTHROPIC_API_KEY}}
                   github_token: \${{secrets.GITHUB_TOKEN}}
@@ -237,11 +282,56 @@ jobs:
             id-token: write
 
         steps:
+            # リポジトリをチェックアウト。
             - name: Checkout repository
               uses: actions/checkout@v4
               with:
                   fetch-depth: 1
 
+            # Set up JDK 17.
+            # JDK 17のセットアップ
+            - name: Set up JDK 17
+              uses: actions/setup-java@v4
+              with:
+                distribution: microsoft
+                java-version: "17.0.10"
+
+            # Install flutter.
+            # Flutterのインストール。
+            - name: Install flutter
+              uses: subosito/flutter-action@v2
+              with:
+                channel: stable
+                cache: true
+
+            # Check flutter version.
+            # Flutterのバージョン確認。
+            - name: Run flutter version
+              run: flutter --version
+
+            # Run flutter pub get
+            # Flutterのパッケージを取得。
+            - name: Run flutter pub get
+              run: flutter pub get
+
+            # Creation of the Assets folder.
+            # Assetsフォルダの作成。
+            - name: Create assets folder
+              run: mkdir -p assets
+
+            # firebaseコマンドをインストール
+            - name: Install firebase
+              run: npm install -g firebase-tools
+
+            # flutterfireコマンドをインストール
+            - name: Install flutterfire
+              run: flutter pub global activate flutterfire_cli
+
+            # katanaコマンドをインストール
+            - name: Install katana
+              run: flutter pub global activate katana_cli
+
+            # Claude Codeを実行
             - name: Run Claude Code
               id: claude
               uses: $actionsRepositoryName
