@@ -174,10 +174,10 @@ jobs:
       - name: Analyzing flutter project
         run: flutter analyze
 
-      # Running the flutter test.
-      # Flutter testの実行。
+      # Running the katana test.
+      # katana testの実行。
       - name: Testing flutter project
-        run: flutter test --dart-define=CI=true --dart-define=FLAVOR=dev
+        run: katana test run
 
       # Generate web files.
       # Webファイルを生成。

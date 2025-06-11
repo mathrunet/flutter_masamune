@@ -140,10 +140,10 @@ jobs:
       - name: Analyzing flutter project
         run: flutter analyze && dart run custom_lint
 
-      # Running the flutter test.
-      # Flutter testの実行。
+      # Running the katana test.
+      # katana testの実行。
       - name: Testing flutter project
-        run: flutter test --dart-define=CI=true --dart-define=FLAVOR=dev
+        run: katana test run
 """;
   }
 }
@@ -380,7 +380,7 @@ class GitClaudeMarkdownCliCode extends CliCode {
         ```
 
     3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。エラーがあれば修正。
-        - 各種UIが更新されているにも関わらずこのステップが実行されない場合は`flutter test`でエラーになります。
+        - 各種UIが更新されているにも関わらずこのステップが実行されない場合は`katana test run`でエラーになります。
 
         ```bash
         katana test update [テスト対象のクラス名],[テスト対象のクラス名],...
@@ -393,7 +393,7 @@ class GitClaudeMarkdownCliCode extends CliCode {
 
     4. 下記のコマンドを実施して全体のテストを行う。エラーがあれば修正。
         ```bash
-        flutter test --dart-define=CI=true --dart-define=FLAVOR=dev
+        katana test run
         ```
 
     - これらの作業を実施してエラーが出た場合は該当箇所を修正し再度1から実施。
