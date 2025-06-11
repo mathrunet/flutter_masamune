@@ -32,3 +32,4 @@ part "src/masamune_test_container.dart";
 part "src/masamune_test_loader.dart";
 part "src/page_container.dart";
 part "src/masamune_controller_test.dart";
+part "src/masamune_test_pump_widget.dart";

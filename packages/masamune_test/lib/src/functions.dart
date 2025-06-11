@@ -14,6 +14,7 @@ void masamunePageTest<T>({
   required Widget Function(BuildContext context, MasamuneTestRef ref, T? value)
       builder,
   FutureOr<T?> Function(BuildContext context, MasamuneTestRef ref)? loader,
+  List<ImageProvider>? preCacheImages,
   List<MasamuneTestDevice> devices = const [
     MasamuneTestDevice.phonePortrait,
     MasamuneTestDevice.phoneLandscape,
@@ -27,6 +28,7 @@ void masamunePageTest<T>({
       builder: builder,
       loader: loader,
       devices: devices,
+      preCacheImages: preCacheImages,
     );
 
 /// Tests a widget.
@@ -43,6 +45,7 @@ void masamuneWidgetTest<T>({
   required Widget Function(BuildContext context, MasamuneTestRef ref, T? value)
       builder,
   FutureOr<T?> Function(BuildContext context, MasamuneTestRef ref)? loader,
+  List<ImageProvider>? preCacheImages,
   double width = 640,
   double? height,
 }) =>
@@ -55,6 +58,7 @@ void masamuneWidgetTest<T>({
           child: builder.call(context, ref, value),
         );
       },
+      preCacheImages: preCacheImages,
       width: width,
       height: height,
     );
@@ -65,6 +69,7 @@ void _masamuneUITest<T>({
   required Widget Function(BuildContext context, MasamuneTestRef ref, T? value)
       builder,
   FutureOr<T?> Function(BuildContext context, MasamuneTestRef ref)? loader,
+  List<ImageProvider>? preCacheImages,
   List<MasamuneTestDevice>? devices,
   double? width,
   double? height,
@@ -75,7 +80,8 @@ void _masamuneUITest<T>({
       tags: [],
       name.toPascalCase(),
       fileName: path,
-      pumpWidget: _pumpWidget,
+      pumpWidget:
+          _MasamuneTestPumpWidget(images: preCacheImages ?? [])._pumpWidget,
       builder: () {
         return GoldenTestGroup(
           columns: devices?.length ?? 1,
@@ -161,6 +167,7 @@ void masamuneModelTileTest<T extends ModelRefBase>({
   required T Function(BuildContext context, MasamuneTestRef ref) document,
   required Widget Function(BuildContext context, MasamuneTestRef ref, T value)
       builder,
+  List<ImageProvider>? preCacheImages,
 }) {
   name = "${name.replaceAll(RegExp(r"Model$"), "")} Model".toPascalCase();
   group(name.toPascalCase(), () {
@@ -169,7 +176,8 @@ void masamuneModelTileTest<T extends ModelRefBase>({
       tags: [],
       name.toPascalCase(),
       fileName: "models/${path.trimString("/")}",
-      pumpWidget: _pumpWidget,
+      pumpWidget:
+          _MasamuneTestPumpWidget(images: preCacheImages ?? [])._pumpWidget,
       builder: () {
         return GoldenTestGroup(
           columns: 1,
@@ -233,41 +241,4 @@ void masamuneControllerTest({
       },
     );
   }
-}
-
-Future<void> _pumpWidget(
-    flutter_test.WidgetTester tester, Widget widget) async {
-  await tester.pumpWidget(widget);
-  await tester.runAsync(() async {
-    var retryCount = 0;
-    while (flutter_test.find.byType(_MasamuneTestLoaded).evaluate().isEmpty) {
-      retryCount++;
-      await tester.pumpAndSettle();
-      await tester.pumpWidget(widget);
-      if (retryCount > 10) {
-        throw Exception("Failed to find MasamuneTestLoaded");
-      }
-    }
-    final images = <Future<void>>[];
-    for (final element in flutter_test.find.byType(Image).evaluate()) {
-      final widget = element.widget as Image;
-      final image = widget.image;
-      images.add(precacheImage(image, element));
-    }
-    for (final element in flutter_test.find.byType(FadeInImage).evaluate()) {
-      final widget = element.widget as FadeInImage;
-      final image = widget.image;
-      images.add(precacheImage(image, element));
-    }
-    for (final element in flutter_test.find.byType(DecoratedBox).evaluate()) {
-      final widget = element.widget as DecoratedBox;
-      final decoration = widget.decoration;
-      if (decoration is BoxDecoration && decoration.image != null) {
-        final image = decoration.image!.image;
-        images.add(precacheImage(image, element));
-      }
-    }
-    await Future.wait(images);
-  });
-  await tester.pumpWidget(widget);
 }
