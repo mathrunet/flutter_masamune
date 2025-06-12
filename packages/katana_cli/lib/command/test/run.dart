@@ -20,9 +20,14 @@ class TestRunCliCommand extends CliCommand {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final target = context.args.get(2, "");
+    final xvfb = File(".xvfb");
     await command(
       "Run the golden test images.",
       [
+        if (xvfb.existsSync()) ...[
+          "xvfb-run",
+          "-a",
+        ],
         flutter,
         "test",
         "--dart-define=CI=true",

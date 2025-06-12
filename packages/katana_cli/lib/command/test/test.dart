@@ -1,6 +1,8 @@
 library;
 
 // Project imports:
+import "dart:io";
+
 import "package:katana_cli/katana_cli.dart";
 
 part "update.dart";

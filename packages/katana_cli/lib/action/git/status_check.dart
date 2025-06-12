@@ -85,6 +85,9 @@ on:
       - feature/**/*
       - publish
 
+env:
+  DISPLAY: ":99"
+
 jobs:
   status_check:
 
@@ -107,6 +110,29 @@ jobs:
         with:
           distribution: microsoft
           java-version: "17.0.10"
+
+      # Install Linux dependencies for golden tests
+      # ゴールデンテスト用のLinux依存関係をインストール
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \\
+            libgtk-3-dev \\
+            libx11-dev \\
+            pkg-config \\
+            cmake \\
+            ninja-build \\
+            libblkid-dev \\
+            liblzma-dev \\
+            xvfb \\
+            fonts-liberation \\
+            fonts-noto-core \\
+            fonts-noto-ui-core
+      
+      # Create test file.
+      # テスト用のファイルを作成
+      - name: Create test file
+        run: touch .xvfb
 
       # Install flutter.
       # Flutterのインストール。
@@ -140,277 +166,19 @@ jobs:
       - name: Analyzing flutter project
         run: flutter analyze && dart run custom_lint
 
-      # Running the katana test.
-      # katana testの実行。
+      # Running the flutter test with Xvfb for golden tests.
+      # Flutter testの実行（ゴールデンテスト用にXvfbを使用）。
       - name: Testing flutter project
         run: katana test run
-""";
-  }
-}
 
-/// Contents of CLAUDE.md.
-///
-/// CLAUDE.mdの中身。
-class GitClaudeMarkdownCliCode extends CliCode {
-  /// Contents of CLAUDE.md.
-  ///
-  /// CLAUDE.mdの中身。
-  const GitClaudeMarkdownCliCode();
-
-  @override
-  String get name => "CLAUDE";
-
-  @override
-  String get prefix => "CLAUDE";
-
-  @override
-  String get directory => "";
-
-  @override
-  String get description =>
-      "Create CLAUDE.md for AI Agent using Claude Code. Claude Codeを利用したAIエージェント機能用のCLAUDE.mdを作成します。";
-
-  @override
-  String import(String path, String baseName, String className) {
-    return "";
-  }
-
-  @override
-  String header(String path, String baseName, String className) {
-    return "";
-  }
-
-  @override
-  String body(String path, String baseName, String className) {
-    return """
-# 基本ルール
-
-- レスポンスはすべて日本語で回答してください。
-- 与えられた業務に対して`開発`か`マーケティング・企画`、`営業・広報`、`経理`のいずれかの業務に該当するかを判断し、該当する業務に対するルールを遵守してください。
-
-## `開発`時
-
-### ルール
-
-- Dart言語とFlutterフレームワークで開発を行う。
-- Flutter内のフレームワークであるMasamuneフレームワークを利用。
-- 詳しいルールは下記の`documents/rules/**/*.md`を参照。
-    - `documents/rules/designs`: 設計書作成に関する手順
-        - `metadata_design.md`: MetaData設計書の作成手順
-        - `controller_design.md`: Controller設計書の作成手順
-        - `model_design.md`: Model設計書の作成手順
-        - `plugin_design.md`: プラグイン設計書の作成手順
-        - `theme_design.md`: Theme設計書の作成手順
-        - `widget_design.md`: Widget設計書の作成手順
-        - `page_design.md`: Page設計書の作成手順
-    - `documents/rules/impls`: 設計書を用いた新規実装に関する手順
-        - `impl.md`: 全体の設計書実装フロー
-        - `metadata_impl.md`: MetaData実装手順
-        - `plugin_impl.md`: プラグイン実装手順
-        - `theme_impl.md`: Theme実装手順
-        - `model_impl.md`: Model実装手順
-        - `controller_impl.md`: Controllerの一連の実装手順 
-        - `controller_creation.md`: Controllerの新規作成
-        - `controller_method_creation.md`: Controllerの各メソッドの作成手順
-        - `controller_method_impl.md`: Controllerの各メソッドの中身の実装手順
-        - `widget_impl.md`: Widget実装の一連の手順
-        - `widget_creation.md`: Widget新規作成手順
-        - `widget_logic_impl.md`: Widgetロジック実装手順
-        - `widget_ui_impl.md`: WidgetUI実装手順
-        - `page_impl.md`: Page実装の一連の手順
-        - `page_creation.md`: Page新規作成手順
-        - `page_logic_impl.md`: Pageロジック実装手順
-        - `page_ui_impl.md`: PageUI実装手順
-        - `router_impl.md`: ルーター実装手順
-        - `mock_data_impl.md`: モックデータ実装手順
-    - `documents/rules/tests`: テストの実装手順
-        - `test.md`: 全体のテスト実装フロー
-        - `page_test.md`: Pageテストの実装手順
-        - `model_extension_test.md`: ModelのtoTile拡張メソッドのテスト実装手順
-        - `widget_test.md`: Widgetテストの実装手順
-    - `documents/rules/docs`: Masamuneフレームワークを利用する上での実装上のルール
-        - `design_document.md`: 利用する設計書一覧
-        - `technology_stack.md`: 技術スタック一覧
-        - `terminology.md`: 用語・専門用語一覧
-        - `naming_convention.md`: 命名規則
-        - `file_structure.md`: ファイル・フォルダ構成
-        - `katana_cli.md`: katanaコマンドの一覧と使用方法
-        - `primitive_types.md`: プリミティブタイプ一覧
-        - `flutter_types.md`: Flutter/Dartのタイプ一覧
-        - `page_types.md`: Pageタイプの一覧
-        - `model_field_value_usage.md`: ModelFieldValueの使用方法
-        - `model_usage.md`: Model使用方法
-        - `model_filter_conditions.md`: Modelのフィルター条件
-        - `plugin_usage.md`: プラグインの使用方法
-        - `form_usage.md`: フォームの使用方法
-        - `universal_ui_usage.md`: UniversalUIの使用方法
-        - `katana_ui_usage.md`: KatanaUIの使用方法
-        - `flutter_widgets.md`: Flutterウィジェット
-        - `modal_usage.md`: モーダルの使用方法
-        - `theme_usage.md`: テーマの使用方法
-        - `router_usage.md`: ルーターの使用方法
-        - `state_management_usage.md`: 状態管理の使用方法
-        - `transition_usage.md`: 画面遷移の使用方法
-        - `enum_usage.md`: `Enum`の実装方法
-        - `functions_usage.md`: Functions使用方法
-        - `plugins/`: 各種プラグインの使用方法詳細
-            - `introduction.md`: プラグイン概要
-            - `picker.md`: ファイルピッカープラグイン
-            - `camera.md`: カメラプラグイン
-            - `location.md`: 位置情報プラグイン
-            - `google_map.md`: GoogleMapプラグイン
-            - `speech_to_text.md`: 音声認識プラグイン
-            - `text_to_speech.md`: 音声合成プラグイン
-            - `openai.md`: OpenAIプラグイン
-            - `stripe.md`: Stripeプラグイン
-            - `purchase.md`: アプリ内課金プラグイン
-            - `sendgrid.md`: SendGridプラグイン
-            - `local_notification.md`: ローカル通知プラグイン
-            - `ads.md`: 広告プラグイン
-            - `agora.md`: Agoraプラグイン
-            - `animate.md`: アニメーションプラグイン
-            - `calendar.md`: カレンダープラグイン
-        - `form/`: フォーム関連ウィジェットの詳細使用方法
-            - `form_builder.md`: FormBuilderの使用方法
-            - `form_text_field.md`: FormTextFieldの使用方法
-            - `form_num_field.md`: FormNumFieldの使用方法
-            - `form_password_builder.md`: FormPasswordBuilderの使用方法
-            - `form_rating_bar.md`: FormRatingBarの使用方法
-            - `form_media.md`: FormMediaの使用方法
-            - `form_multi_media.md`: FormMultiMediaの使用方法
-            - `form_date_field.md`: FormDateFieldの使用方法
-            - `form_date_time_field.md`: FormDateTimeFieldの使用方法
-            - `form_date_time_range_field.md`: FormDateTimeRangeFieldの使用方法
-            - `form_month_field.md`: FormMonthFieldの使用方法
-            - `form_duration_field.md`: FormDurationFieldの使用方法
-            - `form_pin_field.md`: FormPinFieldの使用方法
-            - `form_checkbox.md`: FormCheckboxの使用方法
-            - `form_switch.md`: FormSwitchの使用方法
-            - `form_chips_field.md`: FormChipsFieldの使用方法
-            - `form_enum_dropdown_field.md`: FormEnumDropdownFieldの使用方法
-            - `form_enum_modal_field.md`: FormEnumModalFieldの使用方法
-            - `form_map_dropdown_field.md`: FormMapDropdownFieldの使用方法
-            - `form_map_modal_field.md`: FormMapModalFieldの使用方法
-            - `form_future_field.md`: FormFutureFieldの使用方法
-            - `form_button.md`: FormButtonの使用方法
-            - `form_label.md`: FormLabelの使用方法
-            - `form_style_container.md`: FormStyleContainerの使用方法
-            - `form_list_builder.md`: FormListBuilderの使用方法
-            - `form_text_editing_controller_builder.md`: FormTextEditingControllerBuilderの使用方法
-            - `form_focus_node_builder.md`: FormFocusNodeBuilderの使用方法
-            - `form_editable_toggle_builder.md`: FormEditableToggleBuilderの使用方法
-        - `katana_ui/`: KatanaUIウィジェットの詳細使用方法
-            - `square_avatar.md`: SquareAvatarの使用方法
-            - `message_box.md`: MessageBoxの使用方法
-            - `periodic_scope.md`: PeriodicScopeの使用方法
-            - `scroll_builder.md`: ScrollBuilderの使用方法
-            - `shimmer.md`: Shimmerの使用方法
-            - `indent.md`: Indentの使用方法
-            - `label.md`: Labelの使用方法
-            - `line_tile.md`: LineTileの使用方法
-            - `list_tile_group.md`: ListTileGroupの使用方法
-            - `loading_builder.md`: LoadingBuilderの使用方法
-            - `avatar_tile.md`: AvatarTileの使用方法
-            - `card_tile.md`: CardTileの使用方法
-            - `chat_tile.md`: ChatTileの使用方法
-        - `universal_ui/`: UniversalUIウィジェットの詳細使用方法
-            - `universal_scaffold.md`: UniversalScaffoldの使用方法
-            - `universal_app_bar.md`: UniversalAppBarの使用方法
-            - `universal_list_view.md`: UniversalListViewの使用方法
-            - `universal_grid_view.md`: UniversalGridViewの使用方法
-            - `universal_column.md`: UniversalColumnの使用方法
-            - `universal_container.md`: UniversalContainerの使用方法
-            - `universal_padding.md`: UniversalPaddingの使用方法
-            - `universal_edge_insets.md`: UniversalEdgeInsetsの使用方法
-            - `universal_header_tile.md`: UniversalHeaderTileの使用方法
-            - `universal_search_bar.md`: UniversalSearchBarの使用方法
-            - `universal_side_bar.md`: UniversalSideBarの使用方法
-        - `model_field_value/`: ModelFieldValue各種の詳細使用方法
-            - `model_timestamp.md`: ModelTimestampの使用方法
-            - `model_timestamp_range.md`: ModelTimestampRangeの使用方法
-            - `model_date.md`: ModelDateの使用方法
-            - `model_date_range.md`: ModelDateRangeの使用方法
-            - `model_time.md`: ModelTimeの使用方法
-            - `model_time_range.md`: ModelTimeRangeの使用方法
-            - `model_uri.md`: ModelUriの使用方法
-            - `model_image_uri.md`: ModelImageUriの使用方法
-            - `model_video_uri.md`: ModelVideoUriの使用方法
-            - `model_ref.md`: ModelRefの使用方法
-            - `model_geo_value.md`: ModelGeoValueの使用方法
-            - `model_counter.md`: ModelCounterの使用方法
-            - `model_token.md`: ModelTokenの使用方法
-            - `model_locale.md`: ModelLocaleの使用方法
-            - `model_localized_value.md`: ModelLocalizedValueの使用方法
-            - `model_search.md`: ModelSearchの使用方法
-
-### 作業実施時
-
-- `Page`、`Model`、`Enum`、`Widget`、`Controller`等のDartファイルの作成は`katana`コマンドを用いて作成すること
-    - `katana`コマンドの使い方については`documents/rules/docs/katana_cli.md`に記載。
-
-- 作業実施時下記は徹底すること。
-    - １つの実装が完了したときに毎回必ず下記のコマンドを実行してコードにエラーがないかをチェック。エラーがある場合はエラー文に対処した後再度実行。
-
-        ```bash
-        flutter analyze && dart run custom_lint
-        ```
-
-    - １つの`Page`や`Widget`、`Model`の`toTile`のエクステンションの更新や作成が完了したときに毎回下記のコマンドを実行してコードにエラーがないか、またUIにズレがないかをチェック。エラーやUIにズレがある場合はそれらに対処した後再度実行。画像は`documents/test/**/*.png`に出力される。
-
-        ```bash
-        katana test update [テスト対象のクラス名],[テスト対象のクラス名],...
-        ```
-
-        - 例:
-            ```bash
-            katana test update TestPage,TestWidget,TestModel
-            ```
-
-### 作業完了後
-
-- 作業実施後、コミット前に必ず下記を実施しコードの品質と安全性を保つ。
-    1. 下記のコマンドを実施してコードのフォーマットを行う。
-        ```bash
-        dart fix --apply lib && dart format . && flutter pub run import_sorter:main
-        ```
-
-    2. 下記のコマンドを実施してコードのバリデーションを行う。エラーがあれば修正。
-        ```bash
-        flutter analyze && dart run custom_lint
-        ```
-
-    3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。エラーがあれば修正。
-        - 各種UIが更新されているにも関わらずこのステップが実行されない場合は`katana test run`でエラーになります。
-
-        ```bash
-        katana test update [テスト対象のクラス名],[テスト対象のクラス名],...
-        ```
-
-        - 例:
-            ```bash
-            katana test update TestPage,TestWidget,TestModel
-            ```
-
-    4. 下記のコマンドを実施して全体のテストを行う。エラーがあれば修正。
-        ```bash
-        katana test run
-        ```
-
-    - これらの作業を実施してエラーが出た場合は該当箇所を修正し再度1から実施。
-    - すべての作業がエラーなく完了した場合はコミットを行い、必要であればPullRequestを作成する。
-
-## `マーケティング・企画`時
-
-- ルールはまだありません。
-
-## `営業・広報`時
-
-- ルールはまだありません。
-
-## `経理`時
-
-- ルールはまだありません。
-
+      # Upload golden test failures.
+      # 差分画像をアップロード（失敗時のみ）
+      - name: Upload golden test failures
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: golden-test-failures
+          path: "test/**/failures/**/*.png"
 """;
   }
 }
