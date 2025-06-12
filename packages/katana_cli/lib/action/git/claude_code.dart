@@ -178,9 +178,6 @@ on:
     pull_request_review:
         types: [submitted]
 
-env:
-  DISPLAY: ":99"
-
 jobs:
     claude:
         if: |
@@ -212,29 +209,6 @@ jobs:
               with:
                 distribution: microsoft
                 java-version: "17.0.10"
-
-            # Install Linux dependencies for golden tests
-            # ゴールデンテスト用のLinux依存関係をインストール
-            - name: Install Linux dependencies
-              run: |
-                sudo apt-get update
-                sudo apt-get install -y \\
-                  libgtk-3-dev \\
-                  libx11-dev \\
-                  pkg-config \\
-                  cmake \\
-                  ninja-build \\
-                  libblkid-dev \\
-                  liblzma-dev \\
-                  xvfb \\
-                  fonts-liberation \\
-                  fonts-noto-core \\
-                  fonts-noto-ui-core
-            
-            # Create test file.
-            # テスト用のファイルを作成
-            - name: Create test file
-              run: touch .xvfb
 
             # Install flutter.
             # Flutterのインストール。
@@ -289,9 +263,6 @@ on:
     pull_request_review:
         types: [submitted]
 
-env:
-    DISPLAY: ":99"
-
 jobs:
     claude:
         if: |
@@ -323,29 +294,6 @@ jobs:
               with:
                 distribution: microsoft
                 java-version: "17.0.10"
-
-            # Install Linux dependencies for golden tests
-            # ゴールデンテスト用のLinux依存関係をインストール
-            - name: Install Linux dependencies
-              run: |
-                sudo apt-get update
-                sudo apt-get install -y \\
-                  libgtk-3-dev \\
-                  libx11-dev \\
-                  pkg-config \\
-                  cmake \\
-                  ninja-build \\
-                  libblkid-dev \\
-                  liblzma-dev \\
-                  xvfb \\
-                  fonts-liberation \\
-                  fonts-noto-core \\
-                  fonts-noto-ui-core
-            
-            # Create test file.
-            # テスト用のファイルを作成
-            - name: Create test file
-              run: touch .xvfb
 
             # Install flutter.
             # Flutterのインストール。
