@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.2.0`](#katana_cli---v320)
+ - [`masamune_test` - `v3.1.1`](#masamune_test---v311)
+
+---
+
+#### `katana_cli` - `v3.2.0`
+
+ - **FEAT**: Add katana test run. ([f6b9ca5f](https://github.com/mathrunet/flutter_masamune/commit/f6b9ca5f22b89735ca5195ba849c706f1aaafd5c))
+
+#### `masamune_test` - `v3.1.1`
+
+ - **FIX**: Allowed specifying images to cache. ([ff424fd6](https://github.com/mathrunet/flutter_masamune/commit/ff424fd6608dde3e50703694c8de0fcb211d9512))
+
+
 ## 2025-06-11
 
 ### Changes

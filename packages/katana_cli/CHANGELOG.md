@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**: Add katana test run. ([f6b9ca5f](https://github.com/mathrunet/flutter_masamune/commit/f6b9ca5f22b89735ca5195ba849c706f1aaafd5c))
+
 ## 3.1.1
 
  - **FIX**: Fixed bug where target is not recognized properly. ([150c62cb](https://github.com/mathrunet/flutter_masamune/commit/150c62cbe532296af6ee1f14950dc1cd4db29972))

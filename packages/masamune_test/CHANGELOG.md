@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - **FIX**: Allowed specifying images to cache. ([ff424fd6](https://github.com/mathrunet/flutter_masamune/commit/ff424fd6608dde3e50703694c8de0fcb211d9512))
+
 ## 3.1.0
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))
