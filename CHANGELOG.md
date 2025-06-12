@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.2.1`](#katana_cli---v321)
+
+---
+
+#### `katana_cli` - `v3.2.1`
+
+ - **FIX**: Support for Golden tests within GitHub Actions. ([f331d6d0](https://github.com/mathrunet/flutter_masamune/commit/f331d6d0a867055597772f08911330411587c841))
+
+
+## 2025-06-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.2.0`](#katana_cli---v320)
  - [`masamune_test` - `v3.1.1`](#masamune_test---v311)
 

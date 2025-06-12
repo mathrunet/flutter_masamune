@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - **FIX**: Support for Golden tests within GitHub Actions. ([f331d6d0](https://github.com/mathrunet/flutter_masamune/commit/f331d6d0a867055597772f08911330411587c841))
+
 ## 3.2.0
 
  - **FEAT**: Add katana test run. ([f6b9ca5f](https://github.com/mathrunet/flutter_masamune/commit/f6b9ca5f22b89735ca5195ba849c706f1aaafd5c))
