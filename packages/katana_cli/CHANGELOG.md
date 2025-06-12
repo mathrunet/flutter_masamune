@@ -1,3 +1,7 @@
+## 3.2.2
+
+ - **FIX**: Ensured that tests always run in a Linux environment. ([5f42255c](https://github.com/mathrunet/flutter_masamune/commit/5f42255c6dfbfc819f014b0d1b03af944ca5a485))
+
 ## 3.2.1
 
  - **FIX**: Support for Golden tests within GitHub Actions. ([f331d6d0](https://github.com/mathrunet/flutter_masamune/commit/f331d6d0a867055597772f08911330411587c841))

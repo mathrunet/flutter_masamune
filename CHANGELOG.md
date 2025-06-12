@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.2.2`](#katana_cli---v322)
+
+---
+
+#### `katana_cli` - `v3.2.2`
+
+ - **FIX**: Ensured that tests always run in a Linux environment. ([5f42255c](https://github.com/mathrunet/flutter_masamune/commit/5f42255c6dfbfc819f014b0d1b03af944ca5a485))
+
+
+## 2025-06-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.2.1`](#katana_cli---v321)
 
 ---
