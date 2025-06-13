@@ -49,7 +49,7 @@ Masamuneフレームワークでは各種FormWidgetに対してKatanaFormを利�
         final customCode = lint_codes.LintCode(
           name: "masamune_should_use_form_widget",
           problemMessage:
-              "Consider using $suggestedWidget instead of $typeName. $suggestedWidgetはUniversalUIの一部でより多くの機能を提供します。",
+              "Consider using $suggestedWidget instead of $typeName. $suggestedWidgetはKatanaFormの一部でより多くの機能を提供します。",
           errorSeverity: ErrorSeverity.WARNING,
         );
 
