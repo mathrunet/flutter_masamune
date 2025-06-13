@@ -80,6 +80,14 @@ class TestUpdateCliCommand extends CliCommand {
         workingDirectory: "docker",
       );
       await command(
+        "Run flutter pub get.",
+        [
+          flutter,
+          "pub",
+          "get",
+        ],
+      );
+      await command(
         "Update the golden test images.",
         [
           docker,

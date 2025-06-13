@@ -558,16 +558,14 @@ dynamic modifize(dynamic object) {
 ///
 /// ラベルを表示します。
 void label(String title) {
-  // ignore: avoid_print
-  print("\r\n#### $title");
+  stdout.add(utf8.encode("\r\n#### $title"));
 }
 
 /// Display errors.
 ///
 /// エラーを表示します。
 void error(String message) {
-  // ignore: avoid_print
-  print(message);
+  stderr.add(utf8.encode(message));
 }
 
 /// Run command.
@@ -594,8 +592,7 @@ Future<String> command(
   void Function(Process process, String line)? action,
 }) async {
   String? prevDirectory;
-  // ignore: avoid_print, prefer_interpolation_to_compose_strings
-  print("\r\n#### " + title);
+  stdout.add(utf8.encode("\r\n#### $title"));
   if (commands.isEmpty) {
     throw Exception("At least one command is required.");
   }
@@ -615,22 +612,27 @@ Future<String> command(
       mode: ProcessStartMode.normal,
     );
     unawaited(
-      process.stderr.transform(utf8.decoder).forEach((line) {
+      process.stderr.forEach((e) {
+        final line = utf8.decoder.convert(e);
         err = true;
         res += line;
-        // ignore: avoid_print
-        core.print(line);
+        stderr.add(e);
       }),
     );
     unawaited(
-      process.stdout.transform(utf8.decoder).forEach((line) {
+      process.stdout.forEach((e) {
+        final line = utf8.decoder.convert(e);
         res += line;
-        // ignore: avoid_print
-        print(line);
+        stdout.add(e);
         action.call(process, line);
       }),
     );
-    await process.exitCode;
+    final exitCode = await process.exitCode;
+    if (catchError && exitCode != 0) {
+      throw Exception(
+        "An error has occurred. Please check the log above for details.",
+      );
+    }
     if (workingDirectory != null) {
       Directory.current = prevDirectory!;
     }
@@ -811,21 +813,26 @@ extension ProcessExtensions on Future<Process> {
     var res = "";
     var err = false;
     unawaited(
-      process.stderr.transform(utf8.decoder).forEach((e) {
+      process.stderr.forEach((e) {
+        final line = utf8.decoder.convert(e);
         err = true;
-        res += e;
-        // ignore: avoid_print
-        core.print(e);
+        res += line;
+        stderr.add(e);
       }),
     );
     unawaited(
-      process.stdout.transform(utf8.decoder).forEach((e) {
-        res += e;
-        // ignore: avoid_print
-        core.print(e);
+      process.stdout.forEach((e) {
+        final line = utf8.decoder.convert(e);
+        res += line;
+        stdout.add(e);
       }),
     );
-    await process.exitCode;
+    final exitCode = await process.exitCode;
+    if (catchError && exitCode != 0) {
+      throw Exception(
+        "An error has occurred. Please check the log above for details.",
+      );
+    }
     if (catchError && err) {
       throw Exception(
         "An error has occurred. Please check the log above for details.",

@@ -262,8 +262,7 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
     label("Save the keyhash information.");
     final keyHashFile = File("android/app/appkey_keyhash.txt");
     if (!keyHashFile.existsSync()) {
-      // ignore: avoid_print
-      print("\r\n#### Create appkey_keyhash.txt");
+      label("Create appkey_keyhash.txt");
       var keyHash = "";
       final keytoolResult = await Process.start(keytool, [
         "-exportcert",
@@ -287,10 +286,10 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
         openSslSha1Restul.stdout.pipe(openSslBase64Result.stdin),
       );
       unawaited(
-        openSslBase64Result.stdout.transform(utf8.decoder).forEach((e) {
-          keyHash += e;
-          // ignore: avoid_print
-          print(e);
+        openSslBase64Result.stdout.forEach((e) {
+          final text = utf8.decoder.convert(e);
+          keyHash += text;
+          stdout.add(e);
         }),
       );
       await openSslBase64Result.exitCode;

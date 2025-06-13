@@ -125,8 +125,7 @@ class PubVersionCliCommand extends CliCommand {
               ],
             );
             unawaited(
-              // ignore: avoid_print
-              processVersionUp.stdout.transform(utf8.decoder).forEach(print),
+              processVersionUp.stdout.forEach((e) => stdout.add(e)),
             );
             processVersionUp.stdin
                 .write("chore: Fit versions with other packages.");
