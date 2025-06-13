@@ -1,3 +1,7 @@
+## 3.0.4
+
+ - **FIX**: Correction of wording. ([dd9df8c7](https://github.com/mathrunet/flutter_masamune/commit/dd9df8c7c4f7ba5ada5d0f51131f2b00f5a213fa))
+
 ## 3.0.3
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))

@@ -1,3 +1,7 @@
+## 3.2.3
+
+ - **FIX**: Modify to report error termination. ([b9805dd4](https://github.com/mathrunet/flutter_masamune/commit/b9805dd4ed0097252239c21dc3540f4c09877582))
+
 ## 3.2.2
 
  - **FIX**: Ensured that tests always run in a Linux environment. ([5f42255c](https://github.com/mathrunet/flutter_masamune/commit/5f42255c6dfbfc819f014b0d1b03af944ca5a485))
