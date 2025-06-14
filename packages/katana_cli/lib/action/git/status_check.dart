@@ -89,6 +89,7 @@ jobs:
   status_check:
 
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     defaults:
       run:
@@ -98,11 +99,13 @@ jobs:
       # Check-out.
       # リポジトリをチェックアウト。
       - name: Checkout repository
+        timeout-minutes: 10
         uses: actions/checkout@v4
 
       # Set up JDK 17.
       # JDK 17のセットアップ
       - name: Set up JDK 17
+        timeout-minutes: 10
         uses: actions/setup-java@v4
         with:
           distribution: microsoft
@@ -111,6 +114,7 @@ jobs:
       # Install flutter.
       # Flutterのインストール。
       - name: Install flutter
+        timeout-minutes: 10
         uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -120,35 +124,42 @@ jobs:
       # Flutterのバージョン確認。
       - name: Run flutter version
         run: flutter --version
+        timeout-minutes: 3
 
       # Run flutter pub get
       # Flutterのパッケージを取得。
       - name: Run flutter pub get
         run: flutter pub get
+        timeout-minutes: 3
 
       # Creation of the Assets folder.
       # Assetsフォルダの作成。
       - name: Create assets folder
         run: mkdir -p assets
+        timeout-minutes: 3
 
       # katanaコマンドをインストール
       - name: Install katana
         run: flutter pub global activate katana_cli
+        timeout-minutes: 3
 
       # Running flutter analyze.
       # Flutter analyzeとcustom_lintの実行。
       - name: Analyzing flutter project
         run: flutter analyze && dart run custom_lint
+        timeout-minutes: 10
 
       # Running the flutter test with Xvfb for golden tests.
       # Flutter testの実行（ゴールデンテスト用にXvfbを使用）。
       - name: Testing flutter project
         run: katana test run
+        timeout-minutes: 30
 
       # Upload golden test failures.
       # 差分画像をアップロード（失敗時のみ）
       - name: Upload golden test failures
         if: failure()
+        timeout-minutes: 10
         uses: actions/upload-artifact@v4
         with:
           name: golden-test-failures

@@ -7,6 +7,9 @@ import "package:katana_cli/katana_cli.dart";
 
 part "submodule.dart";
 part "update.dart";
+part "commit.dart";
+part "remove.dart";
+part "pull_request.dart";
 
 /// Configure settings related to Git and Github.
 ///
@@ -25,5 +28,8 @@ class GitCliCommand extends CliCommandGroup {
   Map<String, CliCommand> get commands => const {
         "submodule": GitSubmoduleCliCommand(),
         "update": GitUpdateCliCommand(),
+        "commit": GitCommitCliCommand(),
+        "remove": GitRemoveCliCommand(),
+        "pull_request": GitPullRequestCliCommand(),
       };
 }

@@ -131,6 +131,7 @@ jobs:
   build_web:
 
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     defaults:
       run:
@@ -140,11 +141,13 @@ jobs:
       # Check-out.
       # チェックアウト。
       - name: Checks-out my repository
+        timeout-minutes: 10
         uses: actions/checkout@v2
 
       # Install flutter.
       # Flutterのインストール。
       - name: Install flutter
+        timeout-minutes: 10
         uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -154,15 +157,23 @@ jobs:
       # Flutterのバージョン確認。
       - name: Run flutter version
         run: flutter --version
+        timeout-minutes: 3
 
       # flutterfireコマンドをインストール
       - name: Install flutterfire
         run: flutter pub global activate flutterfire_cli
+        timeout-minutes: 3
+
+      # katanaコマンドをインストール
+      - name: Install katana
+        run: flutter pub global activate katana_cli
+        timeout-minutes: 3
 
       # Download package.
       # パッケージのダウンロード。
       - name: Download flutter packages
         run: flutter pub get
+        timeout-minutes: 3
 
       # Creation of the Assets folder.
       # Assetsフォルダの作成。
@@ -172,22 +183,26 @@ jobs:
       # Running flutter analyze.
       # Flutter analyzeの実行。
       - name: Analyzing flutter project
-        run: flutter analyze
+        run: flutter analyze && dart run custom_lint
+        timeout-minutes: 10
 
       # Running the katana test.
       # katana testの実行。
       - name: Testing flutter project
         run: katana test run
+        timeout-minutes: 30
 
       # Generate web files.
       # Webファイルを生成。
       - name: Building web build
         run: flutter build web --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define=FLAVOR=prod
+        timeout-minutes: 30
 
       # Upload the generated files.
       # 生成されたファイルのアップロード。
       - name: Upload web artifacts
         uses: actions/upload-artifact@v4
+        timeout-minutes: 15
         with:
           name: web_release
           path: ${workingPath.isEmpty ? "." : workingPath}/build/web

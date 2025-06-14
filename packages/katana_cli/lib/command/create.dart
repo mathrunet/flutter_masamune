@@ -330,6 +330,8 @@ class CreateCliCommand extends CliCommand {
         "assets:\n    - assets/\n",
       ),
     );
+    label("Create a .gitattributes");
+    await const GitAttributesCliCode().generateFile(".gitattributes");
     label("Rewrite `.gitignore`.");
     final gitignore = File(".gitignore");
     if (!gitignore.existsSync()) {
@@ -677,6 +679,8 @@ class ComposeCliCommand extends CliCommand {
         "assets:\n    - assets/\n",
       ),
     );
+    label("Create a .gitattributes");
+    await const GitAttributesCliCode().generateFile(".gitattributes");
     label("Rewrite `.gitignore`.");
     final gitignore = File(".gitignore");
     if (!gitignore.existsSync()) {
@@ -1741,6 +1745,68 @@ analyzer:
     cancel_subscriptions: warning
     always_put_required_named_parameters_first: warning
     avoid_equals_and_hash_code_on_mutable_classes: warning
+""";
+  }
+}
+
+/// Contents of .gitattributes.
+///
+/// .gitattributesの中身。
+class GitAttributesCliCode extends CliCode {
+  /// Contents of .gitattributes.
+  ///
+  /// .gitattributesの中身。
+  const GitAttributesCliCode();
+
+  @override
+  String get name => ".gitattributes";
+
+  @override
+  String get prefix => ".gitattributes";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description =>
+      "Define `.gitattributes` with additional settings. `.gitattributes`を追加設定込で定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.gif binary
+*.svg binary
+*.webp binary
+*.zip binary
+*.mp3 binary
+*.mp4 binary
+*.wav binary
+*.ogg binary
+*.flac binary
+*.m4a binary
+*.m4v binary
+*.mov binary
+*.webm binary
+*.pdf binary
+*.doc binary
+*.docx binary
+*.xls binary
+*.xlsx binary
+*.ppt binary
+*.pptx binary
 """;
   }
 }

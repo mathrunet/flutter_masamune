@@ -262,6 +262,7 @@ jobs:
   build_android:
 
     runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     defaults:
       run:
@@ -271,11 +272,13 @@ jobs:
       # Check-out.
       # チェックアウト。
       - name: Checks-out my repository
+        timeout-minutes: 10
         uses: actions/checkout@v2
 
       # Set up JDK 17.
       # JDK 17のセットアップ
       - name: Set up JDK 17
+        timeout-minutes: 10
         uses: actions/setup-java@v4
         with:
           distribution: microsoft
@@ -284,6 +287,7 @@ jobs:
       # Install flutter.
       # Flutterのインストール。
       - name: Install flutter
+        timeout-minutes: 10
         uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -293,59 +297,76 @@ jobs:
       # Flutterのバージョン確認。
       - name: Run flutter version
         run: flutter --version
+        timeout-minutes: 3
 
       # flutterfireコマンドをインストール
       - name: Install flutterfire
         run: flutter pub global activate flutterfire_cli
+        timeout-minutes: 3
+
+      # katanaコマンドをインストール
+      - name: Install katana
+        run: flutter pub global activate katana_cli
+        timeout-minutes: 3
 
       # Download package.
       # パッケージのダウンロード。
       - name: Download flutter packages
         run: flutter pub get
+        timeout-minutes: 3
       
       # Creation of the Assets folder.
       # Assetsフォルダの作成。
       - name: Create assets folder
         run: mkdir -p assets
+        timeout-minutes: 3
 
       # Running flutter analyze.
       # Flutter analyzeの実行。
       - name: Analyzing flutter project
-        run: flutter analyze
+        run: flutter analyze && dart run custom_lint
+        timeout-minutes: 10
 
       # Running the katana test.
       # katana testの実行。
       - name: Testing flutter project
         run: katana test run
+        timeout-minutes: 30
 
       # Generate appkey.keystore from Secrets.
       # Secretsからappkey.keystoreを生成。
       - name: Create appkey.keystore
         run: echo -n \${{ secrets.ANDROID_KEYSTORE_#### REPLACE_APP_NAME #### }} | base64 -d > android/app/appkey.keystore
+        timeout-minutes: 3
 
       # Generate service_account_key.json from Secrets.
       # Secretsからservice_account_key.jsonを生成。
       - name: Create service_account_key.json
         run: echo -n \${{ secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON_#### REPLACE_APP_NAME #### }} | base64 -d > android/service_account_key.json
+        timeout-minutes: 3
 
       # Generate key.properties from Secrets.
       # Secretsからkey.propertiesを生成。
       - name: Create key.properties
         run: echo \${{ secrets.ANDROID_KEY_PROPERTIES_#### REPLACE_APP_NAME #### }} | base64 -d > android/key.properties
+        timeout-minutes: 3
 
       # Generate Apk.
       # Apkを生成。
       - name: Building Android apk
         run: flutter build apk --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define=FLAVOR=prod
+        timeout-minutes: 30
 
       # Generate app bundle.
       # App Bundleを生成。
       - name: Building Android AppBundle
         run: flutter build appbundle --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define=FLAVOR=prod
+        timeout-minutes: 30
       
       # Upload the generated files.
       # 生成されたファイルのアップロード。
       - name: Upload apk artifacts
+        timeout-minutes: 5
         uses: actions/upload-artifact@v4
         with:
           name: andoroid_apk_release
@@ -355,6 +376,7 @@ jobs:
       # Upload the generated files.
       # 生成されたファイルのアップロード。
       - name: Upload aab artifacts
+        timeout-minutes: 5
         uses: actions/upload-artifact@v4
         with:
           name: andoroid_aab_release
@@ -364,6 +386,7 @@ jobs:
       # Upload to Google Play Store.
       # Google Play Storeにアップロード。
       - name: Deploy to Google Play Store
+        timeout-minutes: 10
         id: deploy
         uses: r0adkll/upload-google-play@v1
         with:

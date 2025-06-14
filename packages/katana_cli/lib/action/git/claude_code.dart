@@ -187,6 +187,7 @@ jobs:
             (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
 
         runs-on: ubuntu-latest
+        timeout-minutes: 120
 
         permissions:
             contents: write
@@ -198,6 +199,7 @@ jobs:
             # Check-out.
             # リポジトリをチェックアウト。
             - name: Checkout repository
+              timeout-minutes: 10
               uses: actions/checkout@v4
               with:
                   fetch-depth: 1
@@ -205,6 +207,7 @@ jobs:
             # Set up JDK 17.
             # JDK 17のセットアップ
             - name: Set up JDK 17
+              timeout-minutes: 10
               uses: actions/setup-java@v4
               with:
                 distribution: microsoft
@@ -213,6 +216,7 @@ jobs:
             # Install flutter.
             # Flutterのインストール。
             - name: Install flutter
+              timeout-minutes: 10
               uses: subosito/flutter-action@v2
               with:
                 channel: stable
@@ -222,28 +226,38 @@ jobs:
             # Flutterのバージョン確認。
             - name: Run flutter version
               run: flutter --version
+              timeout-minutes: 3
 
             # Run flutter pub get
             # Flutterのパッケージを取得。
             - name: Run flutter pub get
               run: flutter pub get
+              timeout-minutes: 3
 
             # Creation of the Assets folder.
             # Assetsフォルダの作成。
             - name: Create assets folder
               run: mkdir -p assets
+              timeout-minutes: 3
 
             # katanaコマンドをインストール
             - name: Install katana
               run: flutter pub global activate katana_cli
+              timeout-minutes: 3
 
             # Claude Codeを実行
             - name: Run Claude Code
               id: claude
+              timeout-minutes: 120
+              env:
+                BASH_MAX_TIMEOUT_MS: 1800000
+                BASH_DEFAULT_TIMEOUT_MS: 1800000
+                GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
               uses: anthropics/claude-code-action@main
               with:
                   model: $model
-                  allowed_tools: "Bash(katana:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Bash(head:*),Bash(cd:*),Bash(ls:*),Bash(mkdir:*),Bash(chmod:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"
+                  disallowed_tools: "mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files"
+                  allowed_tools: "Bash(git:*),,Bash(gh:*),Bash(katana:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Bash(head:*),Bash(cd:*),Bash(ls:*),Bash(mkdir:*),Bash(chmod:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"
                   anthropic_api_key: \${{secrets.ANTHROPIC_API_KEY}}
                   github_token: \${{secrets.GITHUB_TOKEN}}
 """;
@@ -328,10 +342,15 @@ jobs:
             - name: Run Claude Code
               id: claude
               uses: $actionsRepositoryName
+              env:
+                BASH_MAX_TIMEOUT_MS: 1800000
+                BASH_DEFAULT_TIMEOUT_MS: 1800000
+                GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
               with:
                   model: $model
                   use_oauth: 'true'
-                  allowed_tools: "Bash(katana:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Bash(head:*),Bash(cd:*),Bash(ls:*),Bash(mkdir:*),Bash(chmod:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"
+                  disallowed_tools: "mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files"
+                  allowed_tools: "Bash(git:*),Bash(gh:*),Bash(katana:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Bash(head:*),Bash(cd:*),Bash(ls:*),Bash(mkdir:*),Bash(chmod:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"
                   claude_access_token: \${{secrets.CLAUDE_ACCESS_TOKEN}}
                   claude_refresh_token: \${{secrets.CLAUDE_REFRESH_TOKEN}}
                   claude_expires_at: \${{secrets.CLAUDE_EXPIRES_AT}}
@@ -588,10 +607,14 @@ class GitClaudeMarkdownCliCode extends CliCode {
         katana test run
         ```
 
-    5. 変更したファイルおよび下記のファイルも必ず含めてコミットする。基本的には.gitignoreで除外されているファイル以外で生成・変更されたファイルはすべてコミット。
+    5. 1〜4のステップでエラーが発生した場合は、再度1からステップをやり直す。エラーが無くなるまで繰り返す。
+
+    6. 変更したファイルおよび下記のファイルも必ず含めてコミットする。基本的には.gitignoreで除外されているファイル以外で生成・変更されたファイルはすべてコミット。
         - `katana code **`で生成した、もしくは変更したファイル
         - `katana code generate`で生成した、もしくは変更されたファイル
         - `katana test update`で生成した、もしくは変更されたファイル
+    
+    7. 6のコミットの中`katana test update`で生成した画像(`documents/test/**/*.png`)を「変更画像」としてすべてPullRequestのコメントに添付する。
 
 ## `マーケティング・企画`時
 

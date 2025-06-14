@@ -566,8 +566,10 @@ github:
 ${showAllConfig ? """
   # Add an AI Agent using Claude Code.
   # Please enter your Anthropic API key in [api]->[api_key]. Alternatively, you can make API calls within the paid plan by using Actions you forked within the [plan].
+  # Please specify user information for [author] when committing.
   # CLAUDE CODEによるAIエージェントを追加します。
   # [api]->[api_key]にAnthropicのAPIキーを記載してください。もしくは[plan]内でfolkしたActionsを使って有料プラン内でのAPI呼び出しも可能です。
+  # [author]にコミット時のユーザー情報を記載してください。
   claude_code:
     enable: false
     api:
@@ -577,6 +579,9 @@ ${showAllConfig ? """
       access_token:
       refresh_token:
       expires_at:
+    author:
+      email: "claude@anthropic.com"
+      name: "Claude Code"
   
   # Enable status check.
   # status checkを有効にします。

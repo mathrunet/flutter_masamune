@@ -375,6 +375,7 @@ jobs:
   build_ios:
 
     runs-on: macos-latest
+    timeout-minutes: 90
 
     defaults:
       run:
@@ -384,11 +385,13 @@ jobs:
       # Check-out.
       # チェックアウト。
       - name: Checks-out my repository
+        timeout-minutes: 10
         uses: actions/checkout@v2
 
       # Install flutter.
       # Flutterのインストール。
       - name: Install flutter
+        timeout-minutes: 10
         uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -398,20 +401,29 @@ jobs:
       # Flutterのバージョン確認。
       - name: Run flutter version
         run: flutter --version
+        timeout-minutes: 3
 
       # flutterfireコマンドをインストール
       - name: Install flutterfire
         run: flutter pub global activate flutterfire_cli
+        timeout-minutes: 3
+
+      # katanaコマンドをインストール
+      - name: Install katana
+        run: flutter pub global activate katana_cli
+        timeout-minutes: 3
 
       # Download package.
       # パッケージのダウンロード。
       - name: Download flutter packages
         run: flutter pub get
+        timeout-minutes: 3
 
       # Creation of the Assets folder.
       # Assetsフォルダの作成。
       - name: Create assets folder
         run: mkdir -p assets
+        timeout-minutes: 3
 
       # Updating pod files.
       # Podファイルのアップデート。
@@ -422,16 +434,19 @@ jobs:
           rm Podfile.lock
           pod install
           cd ..
+        timeout-minutes: 15
 
       # Running flutter analyze.
       # Flutter analyzeの実行。
       - name: Analyzing flutter project
-        run: flutter analyze
+        run: flutter analyze && dart run custom_lint
+        timeout-minutes: 10
 
       # Running the katana test.
       # katana testの実行。
       - name: Testing flutter project
         run: katana test run
+        timeout-minutes: 30
 
       # Certificate settings.
       # Certificateの設定。
@@ -455,6 +470,7 @@ jobs:
             # import certificate to keychain
             security import \$APPLE_DEVELOPMENT_CERTIFICATE -P "\$IOS_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k \$KEYCHAIN_PATH
             security list-keychain -d user -s \$KEYCHAIN_PATH
+        timeout-minutes: 3
       
       # Create AppStoreConnectAPI key.
       # AppStoreConnectAPIキーを作成。
@@ -465,12 +481,14 @@ jobs:
         run: |
           mkdir `pwd`/private_keys
           echo -n "\$IOS_API_AUTHKEY_P8" | base64 --decode --output `pwd`/private_keys/AuthKey_\$IOS_API_KEY_ID.p8
+        timeout-minutes: 3
 
       # Flutter build.
       # Flutterのビルド。
       - name: Run flutter build
         id: build
         run: flutter build ios --release --no-codesign --release --dart-define=FLAVOR=prod --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber))
+        timeout-minutes: 60
 
       # Archive of built data.
       # ビルドされたデータのアーカイブ。
@@ -479,6 +497,7 @@ jobs:
           IOS_API_ISSUER_ID: \${{ secrets.IOS_API_ISSUER_ID_#### REPLACE_APP_NAME #### }}
           IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID_#### REPLACE_APP_NAME #### }}
         run: xcodebuild archive -workspace ./ios/Runner.xcworkspace -scheme Runner -configuration Release -destination generic/platform=iOS -archivePath ./build/ios/Runner.xcarchive -allowProvisioningUpdates -authenticationKeyIssuerID \$IOS_API_ISSUER_ID -authenticationKeyID \$IOS_API_KEY_ID -authenticationKeyPath `pwd`/private_keys/AuthKey_\$IOS_API_KEY_ID.p8
+        timeout-minutes: 60
 
       # Export of built archives.
       # ビルドされたアーカイブのエクスポート。
@@ -487,12 +506,14 @@ jobs:
           IOS_API_ISSUER_ID: \${{ secrets.IOS_API_ISSUER_ID_#### REPLACE_APP_NAME #### }}
           IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID_#### REPLACE_APP_NAME #### }}
         run: xcodebuild -exportArchive -archivePath ./build/ios/Runner.xcarchive -exportPath ./build/ios/ipa -exportOptionsPlist ./ios/ExportOptions.plist -allowProvisioningUpdates -authenticationKeyIssuerID \$IOS_API_ISSUER_ID -authenticationKeyID \$IOS_API_KEY_ID -authenticationKeyPath `pwd`/private_keys/AuthKey_\$IOS_API_KEY_ID.p8
+        timeout-minutes: 60
 
       # IPA file detection.
       # IPAファイルの検出。
       - name: Detect path for ipa file
         run: |
           echo "IPA_PATH=\$(find build/ios/ipa -type f -name '*.ipa')" >> \$GITHUB_ENV
+        timeout-minutes: 3
 
       # Upload IPA files to AppStoreConnect.
       # IPAファイルのAppStoreConnectへのアップロード。
@@ -501,11 +522,13 @@ jobs:
           IOS_API_ISSUER_ID: \${{ secrets.IOS_API_ISSUER_ID_#### REPLACE_APP_NAME #### }}
           IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID_#### REPLACE_APP_NAME #### }}
         run: xcrun altool --upload-app --type ios -f \$IPA_PATH --apiKey \$IOS_API_KEY_ID --apiIssuer \$IOS_API_ISSUER_ID
+        timeout-minutes: 30
 
       # Delete cache.
       # キャッシュの削除。
       - name: Clean up keychain and provisioning profile
         run: security delete-keychain \$RUNNER_TEMP/app-signing.keychain-db
+        timeout-minutes: 3
 """;
   }
 
