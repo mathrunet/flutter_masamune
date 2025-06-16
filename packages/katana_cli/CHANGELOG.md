@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - **FEAT**: Add a new command for git. ([2502f991](https://github.com/mathrunet/flutter_masamune/commit/2502f9918ddc6b0b699bd1071c8a7d1c847eeab8))
+
 ## 3.2.3
 
  - **FIX**: Modify to report error termination. ([b9805dd4](https://github.com/mathrunet/flutter_masamune/commit/b9805dd4ed0097252239c21dc3540f4c09877582))

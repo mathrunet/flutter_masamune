@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.3.0`](#katana_cli---v330)
+
+---
+
+#### `katana_cli` - `v3.3.0`
+
+ - **FEAT**: Add a new command for git. ([2502f991](https://github.com/mathrunet/flutter_masamune/commit/2502f9918ddc6b0b699bd1071c8a7d1c847eeab8))
+
+
 ## 2025-06-13
 
 ### Changes
