@@ -1,3 +1,7 @@
+## 3.3.2
+
+ - **FIX**: Pull Request specification change. ([03cde22b](https://github.com/mathrunet/flutter_masamune/commit/03cde22b9145eec458231a5a77a775bdefcd269b))
+
 ## 3.3.1
 
  - **FIX**: Fix Pull Request. ([defdeb40](https://github.com/mathrunet/flutter_masamune/commit/defdeb40465d203a6b7532ec88a5167fe63bc523))

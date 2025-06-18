@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.3.2`](#katana_cli---v332)
+
+---
+
+#### `katana_cli` - `v3.3.2`
+
+ - **FIX**: Pull Request specification change. ([03cde22b](https://github.com/mathrunet/flutter_masamune/commit/03cde22b9145eec458231a5a77a775bdefcd269b))
+
+
+## 2025-06-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.3.1`](#katana_cli---v331)
 
 ---
