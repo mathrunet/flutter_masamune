@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.3.1`](#katana_cli---v331)
+
+---
+
+#### `katana_cli` - `v3.3.1`
+
+ - **FIX**: Fix Pull Request. ([defdeb40](https://github.com/mathrunet/flutter_masamune/commit/defdeb40465d203a6b7532ec88a5167fe63bc523))
+
+
 ## 2025-06-16
 
 ### Changes

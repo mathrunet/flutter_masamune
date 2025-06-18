@@ -1,3 +1,7 @@
+## 3.3.1
+
+ - **FIX**: Fix Pull Request. ([defdeb40](https://github.com/mathrunet/flutter_masamune/commit/defdeb40465d203a6b7532ec88a5167fe63bc523))
+
 ## 3.3.0
 
  - **FEAT**: Add a new command for git. ([2502f991](https://github.com/mathrunet/flutter_masamune/commit/2502f9918ddc6b0b699bd1071c8a7d1c847eeab8))
