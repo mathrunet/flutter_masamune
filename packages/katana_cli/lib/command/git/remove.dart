@@ -31,7 +31,7 @@ class GitRemoveCliCommand extends CliCommand {
       args.remove(messageArg);
     }
     final message = messageArg
-        ?.substring(messageArg.indexOf("=") + 1, messageArg.length - 1)
+        ?.substring(messageArg.indexOf("=") + 1, messageArg.length)
         .trim()
         .trimString("\"")
         .trimString("'")

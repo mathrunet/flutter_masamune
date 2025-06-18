@@ -9,6 +9,8 @@ class GitPullRequestCliCommand extends CliCommand {
   /// プルリクエストを作成します。
   const GitPullRequestCliCommand();
 
+  static final _linkRegex = RegExp(r"\[(.*?)\]\((.*?)\)");
+
   @override
   String get description => "Create a pull request. プルリクエストを作成します。";
 
@@ -32,7 +34,7 @@ class GitPullRequestCliCommand extends CliCommand {
       args.remove(targetArg);
     }
     final target = targetArg
-        ?.substring(targetArg.indexOf("=") + 1, targetArg.length - 1)
+        ?.substring(targetArg.indexOf("=") + 1, targetArg.length)
         .trim()
         .trimString("\"")
         .trimString("'")
@@ -43,7 +45,7 @@ class GitPullRequestCliCommand extends CliCommand {
       args.remove(sourceArg);
     }
     final source = sourceArg
-        ?.substring(sourceArg.indexOf("=") + 1, sourceArg.length - 1)
+        ?.substring(sourceArg.indexOf("=") + 1, sourceArg.length)
         .trim()
         .trimString("\"")
         .trimString("'")
@@ -54,22 +56,29 @@ class GitPullRequestCliCommand extends CliCommand {
       args.remove(titleArg);
     }
     final title = titleArg
-        ?.substring(titleArg.indexOf("=") + 1, titleArg.length - 1)
+        ?.substring(titleArg.indexOf("=") + 1, titleArg.length)
         .trim()
         .trimString("\"")
         .trimString("'")
-        .trim();
+        .trim()
+        .replaceAll("\\n", "\n")
+        .replaceAll('\\"', '"')
+        .replaceAll("\\!", "!");
     final bodyArg =
         args.firstWhereOrNull((element) => element.startsWith("--body="));
     if (bodyArg != null) {
       args.remove(bodyArg);
     }
     var body = bodyArg
-        ?.substring(bodyArg.indexOf("=") + 1, bodyArg.length - 1)
+        ?.substring(bodyArg.indexOf("=") + 1, bodyArg.length)
         .trim()
         .trimString("\"")
         .trimString("'")
-        .trim();
+        .trim()
+        .replaceAll("\\n", "\n")
+        .replaceAll('\\"', '"')
+        .replaceAll("\\!", "!");
+
     if (target == null || target.isEmpty) {
       error(
           "Target branch is required. e.g. `katana git pull_request --title=\"PullRequest title\" --body=\"PullRequest body\" --target=main --source=feature/fix_any_bug` documsnts/test/ci/pages/screenshot_image1.png documsnts/test/ci/pages/screenshot_image2.png`");
@@ -90,6 +99,38 @@ class GitPullRequestCliCommand extends CliCommand {
           "Body is required. e.g. `katana git pull_request --title=\"PullRequest title\" --body=\"PullRequest body\" --target=main --source=feature/fix_any_bug` documsnts/test/ci/pages/screenshot_image1.png documsnts/test/ci/pages/screenshot_image2.png`");
       return;
     }
+    // GitHubリポジトリ情報を動的に取得
+    final repoResult = await command(
+      "Get repository information.",
+      [
+        gh,
+        "repo",
+        "view",
+        "--json",
+        "owner,name",
+      ],
+    );
+    final repositoryInfoJson = jsonDecodeAsMap(repoResult);
+    final repositoryName = repositoryInfoJson.get("name", "");
+    final repositoryOwnerName =
+        repositoryInfoJson.getAsMap("owner").get("login", "");
+    final repositoryUrl =
+        "https://github.com/$repositoryOwnerName/$repositoryName";
+    final repositoryRawUrl = "$repositoryUrl/raw/$source".trimStringRight("/");
+    // Bodyからマークダウンのリンクを抽出し相対パスであればGithubの現在のレポジトリおよびブランチ名を取得しRawDataのパスに変換する
+    body = body.replaceAllMapped(_linkRegex, (m) {
+      final path = m.group(2);
+      if (path != null && !path.startsWith("http")) {
+        return "[${m.group(1)}]($repositoryRawUrl/${path.trimString("/")})";
+      }
+      return "[${m.group(1)}]($path)";
+    });
+    final screenshots = args.map((path) {
+      if (!path.startsWith("http")) {
+        return "- ${path.last()}\n![${path.last()}]($repositoryRawUrl/${path.trimString("/")})";
+      }
+      return "- ${path.last()}\n![$path]($path)";
+    }).join("\n");
     body = """
 # Summary
 
@@ -97,16 +138,20 @@ $body
 
 # Screenshots
 
-${args.map((e) => "- ${e.last()}\n![${e.last()}]($e)").join("\n")}
+$screenshots
 """;
     await command(
-      "Update author information.",
+      "Update email information.",
       [
         git,
         "config",
         "user.email",
         "\"$email\"",
-        "&&",
+      ],
+    );
+    await command(
+      "Update author information.",
+      [
         git,
         "config",
         "user.name",
@@ -123,10 +168,9 @@ ${args.map((e) => "- ${e.last()}\n![${e.last()}]($e)").join("\n")}
       source,
       "--json",
       "url",
-      "--jq",
-      "'.[0].url'",
     ]);
-    if (result.isEmpty) {
+    final json = jsonDecodeAsList<DynamicMap>(result);
+    if (json.isEmpty) {
       await command(
         "Create a pull request.",
         [
@@ -138,21 +182,26 @@ ${args.map((e) => "- ${e.last()}\n![${e.last()}]($e)").join("\n")}
           "--head",
           source,
           "--title",
-          "\"$title\"",
+          title,
           "--body",
-          "\"$body\"",
+          body,
+          "--assignee",
+          "@me"
         ],
       );
     } else {
+      final repo = json.first;
+      final url =
+          repo.get("url", "").trim().trimString("\"").trimString("'").trim();
       await command(
         "Post a comment to the pull request.",
         [
           gh,
           "pr",
           "comment",
-          "\"$result\"",
+          url,
           "--body",
-          "\"$body\"",
+          body,
         ],
       );
     }
