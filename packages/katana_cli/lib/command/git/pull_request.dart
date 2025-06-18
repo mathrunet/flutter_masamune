@@ -185,8 +185,6 @@ $screenshots
           title,
           "--body",
           body,
-          "--assignee",
-          "@me"
         ],
       );
     } else {

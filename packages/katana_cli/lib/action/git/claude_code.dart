@@ -257,7 +257,7 @@ jobs:
               with:
                   model: $model
                   disallowed_tools: "mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files"
-                  allowed_tools: "Bash(katana:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Bash(head:*),Bash(cd:*),Bash(ls:*),Bash(mkdir:*),Bash(chmod:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"
+                  allowed_tools: "Bash(katana:*),Bash(git:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Bash(head:*),Bash(cd:*),Bash(ls:*),Bash(mkdir:*),Bash(chmod:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"
                   anthropic_api_key: \${{secrets.ANTHROPIC_API_KEY}}
                   github_token: \${{secrets.GITHUB_TOKEN}}
 """;
@@ -350,7 +350,7 @@ jobs:
                   model: $model
                   use_oauth: 'true'
                   disallowed_tools: "mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files"
-                  allowed_tools: "Bash(katana:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Bash(head:*),Bash(cd:*),Bash(ls:*),Bash(mkdir:*),Bash(chmod:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"
+                  allowed_tools: "Bash(katana:*),Bash(git:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Bash(head:*),Bash(cd:*),Bash(ls:*),Bash(mkdir:*),Bash(chmod:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"
                   claude_access_token: \${{secrets.CLAUDE_ACCESS_TOKEN}}
                   claude_refresh_token: \${{secrets.CLAUDE_REFRESH_TOKEN}}
                   claude_expires_at: \${{secrets.CLAUDE_EXPIRES_AT}}
@@ -553,6 +553,16 @@ class GitClaudeMarkdownCliCode extends CliCode {
             - `model_locale.md`: ModelLocaleの使用方法
             - `model_localized_value.md`: ModelLocalizedValueの使用方法
             - `model_search.md`: ModelSearchの使用方法
+- GitのコミットおよびPullRequestの作成は必ず`katana`コマンドを用いて行うこと
+    - ファイルのステージングおよびGitのコミット
+        ```bash
+        katana git commit --message="コミットメッセージ" [コミット対象のファイル1] [コミット対象のファイル2] ...
+        ```
+    - PullRequestの作成
+        ```bash
+        katana git pull_request --target="マージ先のブランチ" --source="マージ元のブランチ" --title="PullRequestのタイトル" --body="PullRequestの説明（改行は`\\n`で行う）" [PullRequestの説明に加えるスクリーンショットのファイル1] [PullRequestの説明に加えるスクリーンショットのファイル2] ...
+        ```
+    - その他、`katana`コマンドの使い方については`documents/rules/docs/katana_cli.md`に記載。
 
 ### 作業実施時
 
@@ -560,13 +570,13 @@ class GitClaudeMarkdownCliCode extends CliCode {
     - `katana`コマンドの使い方については`documents/rules/docs/katana_cli.md`に記載。
 
 - 作業実施時下記は徹底すること。
-    - １つの実装が完了したときに毎回必ず下記のコマンドを実行してコードにエラーがないかをチェック。エラーがある場合はエラー文に対処した後再度実行。
+    - 1つの実装が完了したときに毎回必ず下記のコマンドを実行してコードにIssueがないかをチェック。Issueがある場合はそれらに対処した後再度実行。
 
         ```bash
         flutter analyze && dart run custom_lint
         ```
 
-    - １つの`Page`や`Widget`、`Model`の`toTile`のエクステンションの更新や作成が完了したときに毎回下記のコマンドを実行して生成された画像を確認し、コードにエラーがないか、またUIにズレがないかをチェック。エラーやUIにズレがある場合はそれらに対処した後再度実行。画像は`documents/test/**/*.png`に出力される。
+    - 1つの`Page`や`Widget`、`Model`の`toTile`のエクステンションの更新や作成が完了したときに毎回下記のコマンドを実行して生成された画像を読み込み、確認し、コードにエラーやIssueがないか、またUIにズレがないかをチェック。エラーやUIにズレがある場合はそれらに対処した後再度実行。画像は`documents/test/**/*.png`に出力される。
 
         ```bash
         katana test update [テスト対象のクラス名],[テスト対象のクラス名],...
@@ -585,12 +595,12 @@ class GitClaudeMarkdownCliCode extends CliCode {
         dart fix --apply lib && dart format . && flutter pub run import_sorter:main
         ```
 
-    2. 下記のコマンドを実施してコードのバリデーションを行う。エラーがあれば修正。
+    2. 下記のコマンドを実施してコードのバリデーションを行う。Issueがあれば修正。
         ```bash
         flutter analyze && dart run custom_lint
         ```
 
-    3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。エラーがあれば修正。
+    3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。エラーやIssueがあれば修正。
         - 各種UIが更新されているにも関わらずこのステップが実行されない場合は`katana test run`でエラーになります。
 
         ```bash
@@ -602,12 +612,12 @@ class GitClaudeMarkdownCliCode extends CliCode {
             katana test update TestPage,TestWidget,TestModel
             ```
 
-    4. 下記のコマンドを実施して全体のテストを行う。エラーがあれば修正。
+    4. 下記のコマンドを実施して全体のテストを行う。エラーやIssueがあれば修正。
         ```bash
         katana test run
         ```
 
-    5. 1〜4のステップでエラーが発生した場合は、再度1からステップをやり直す。エラーが無くなるまで繰り返す。
+    5. 1〜4のステップでエラーやIssueが発生した場合は、再度1からステップをやり直す。エラーやIssueが無くなるまで繰り返す。
 
     6. 下記コマンドで変更をCommit&Push。
         
