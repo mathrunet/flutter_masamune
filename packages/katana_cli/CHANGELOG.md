@@ -1,3 +1,7 @@
+## 3.4.0
+
+ - **FEAT**: Add issue template. ([490786a7](https://github.com/mathrunet/flutter_masamune/commit/490786a7ae8aef20c4c8b0fd7e7b9f8a10c7a391))
+
 ## 3.3.2
 
  - **FIX**: Pull Request specification change. ([03cde22b](https://github.com/mathrunet/flutter_masamune/commit/03cde22b9145eec458231a5a77a775bdefcd269b))
