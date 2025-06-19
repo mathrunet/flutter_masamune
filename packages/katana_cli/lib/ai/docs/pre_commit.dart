@@ -33,12 +33,12 @@ class PreCommitMdCliAiCode extends CliAiCode {
         dart fix --apply lib && dart format . && flutter pub run import_sorter:main
         ```
 
-    2. 下記のコマンドを実施してコードのバリデーションを行う。Issueがあれば修正。
+    2. 下記のコマンドを実施してコードのバリデーションを行う。ErrorやWarningがあれば修正して再度実行。ErrorやWarningがなくなるまで繰り返す。
         ```bash
         flutter analyze && dart run custom_lint
         ```
 
-    3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。エラーやIssueがあれば修正。
+    3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。ErrorやWarningがあれば修正して再度実行。ErrorやWarningがなくなるまで繰り返す。
         - 各種UIが更新されているにも関わらずこのステップが実行されない場合は`katana test run`でエラーになります。
 
         ```bash
@@ -50,12 +50,12 @@ class PreCommitMdCliAiCode extends CliAiCode {
             katana test update TestPage,TestWidget,TestModel
             ```
 
-    4. 下記のコマンドを実施して全体のテストを行う。エラーやIssueがあれば修正。
+    4. 下記のコマンドを実施して全体のテストを行う。ErrorやWarningがあれば修正して再度実行。ErrorやWarningがなくなるまで繰り返す。
         ```bash
         katana test run
         ```
 
-    5. 1〜4のステップでエラーやIssueが発生した場合は、再度1からステップをやり直す。エラーやIssueが無くなるまで繰り返す。
+    5. 1〜4のステップでエラーやWarningが発生した場合は、再度1からステップをやり直す。エラーやWarningがなくなるまで繰り返す。
 
     6. 下記コマンドで変更をCommit&Push。
         
@@ -68,13 +68,21 @@ class PreCommitMdCliAiCode extends CliAiCode {
             - `katana code generate`で生成した、もしくは変更されたファイル
             - `katana test update`で生成した、もしくは変更されたファイル
     
-    7. PullRequestが必要な場合は下記のコマンドでPullRequestを作成。
+    7. PullRequestを新しく作成するは下記のコマンドでPullRequestを作成。
 
         ```bash
         katana git pull_request --target="マージ先のブランチ" --source="マージ元のブランチ" --title="PullRequestのタイトル" --body="PullRequestの説明（改行は`\\n`で行う）" [PullRequestの説明に加えるスクリーンショットのファイル1] [PullRequestの説明に加えるスクリーンショットのファイル2] ...
         ```
 
         - 6のコミットの中`katana test update`で生成した画像(`documents/test/**/*.png`)を「PullRequestの説明に加えるスクリーンショットのファイル」として指定する。
+
+    8. PullRequestがすでに作成されており、さらにコメントを追加したい場合は下記のコマンドを用いてコメントを追加。
+
+        ```bash
+        katana git pull_request_comment --comment="PullRequestのコメント" --target="マージ先のブランチ" --source="マージ元のブランチ" [PullRequestのコメントに加えるスクリーンショットのファイル1] [PullRequestのコメントに加えるスクリーンショットのファイル2] ...
+        ```
+
+        - 6のコミットの中`katana test update`で生成した画像(`documents/test/**/*.png`)を「PullRequestのコメントに加えるスクリーンショットのファイル」として指定する。
 """;
   }
 }

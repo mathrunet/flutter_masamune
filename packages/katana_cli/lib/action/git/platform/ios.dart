@@ -3,6 +3,7 @@ import "dart:convert";
 import "dart:io";
 
 // Package imports:
+import "package:katana_cli/action/git/status_check.dart";
 import "package:xml/xml.dart";
 
 // Project imports:
@@ -23,6 +24,8 @@ Future<void> buildIOS(
   final issuerId = ios.get("issuer_id", "");
   final teamId = ios.get("team_id", "");
   final secretGithub = context.secrets.getAsMap("github");
+  final claudeCode = context.yaml.getAsMap("claude_code");
+  final build = claudeCode.get("build", "");
   final slack = secretGithub.getAsMap("slack");
   final slackIncomingWebhookUrl = slack.get("incoming_webhook_url", "");
   if (issuerId.isEmpty) {
@@ -166,9 +169,14 @@ Future<void> buildIOS(
     ],
   );
   final gitDir = await findGitDirectory(Directory.current);
+  final workingPath = Directory.current.difference(gitDir);
+  await const GitStatusCheckActionCliCode().generateFile(
+    "${workingPath.isEmpty ? "." : workingPath}/.github/workflows/actions/status_check/action.yaml",
+  );
   final iosCode = GithubActionsIOSCliCode(
     workingDirectory: gitDir,
     defaultIncrementNumber: defaultIncrementNumber,
+    buildOnClaudeCode: build.contains("ios"),
   );
   await iosCode.generateFile(
     "build_ios_${appName.toLowerCase()}.yaml",
@@ -292,6 +300,7 @@ class GithubActionsIOSCliCode extends CliCode {
     this.workingDirectory,
     this.defaultIncrementNumber = 0,
     this.slackWebhookURL,
+    this.buildOnClaudeCode = false,
   });
 
   /// Working Directory.
@@ -308,6 +317,11 @@ class GithubActionsIOSCliCode extends CliCode {
   ///
   /// Slack通知を利用する場合Incoming webhookのURLを記載。
   final String? slackWebhookURL;
+
+  /// Whether to build on claude code.
+  ///
+  /// claude codeでビルドを行うかどうか。
+  final bool buildOnClaudeCode;
 
   @override
   String get name => "build_ios";
@@ -363,30 +377,64 @@ class GithubActionsIOSCliCode extends CliCode {
 name: IOSProductionWorkflow
 
 on:
+${buildOnClaudeCode ? """
+  # This workflow runs when there is a pull_request on the main, master, develop branch.
+  # main, master, develop branch に pull_request があったらこの workflow が走る。
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+    types:
+      - opened
+      - reopened
+      - synchronize
+""" : ""} 
   # This workflow runs when there is a push on the publish branch.
   # publish branch に push があったらこの workflow が走る。
   push:
-    branches: [ publish ]
+    branches:
+      - publish
 
 jobs:
   # ----------------------------------------------------------------- #
-  # Build for IOS
+  # Status check
   # ----------------------------------------------------------------- #
-  build_ios:
-
-    runs-on: macos-latest
-    timeout-minutes: 90
-
+  status_check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
     defaults:
       run:
         working-directory: ${workingPath.isEmpty ? "." : workingPath}
-
     steps:
       # Check-out.
       # チェックアウト。
       - name: Checks-out my repository
         timeout-minutes: 10
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      # Flutter status check.
+      # Flutterのステータスチェックを行います。
+      - name: Flutter status check
+        timeout-minutes: 30
+        uses: ./.github/actions/status_check
+
+  # ----------------------------------------------------------------- #
+  # Build for IOS
+  # ----------------------------------------------------------------- #
+  build_ios:
+    runs-on: macos-latest
+    needs: status_check
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: ${workingPath.isEmpty ? "." : workingPath}
+    steps:
+      # Check-out.
+      # チェックアウト。
+      - name: Checks-out my repository
+        timeout-minutes: 10
+        uses: actions/checkout@v4
 
       # Install flutter.
       # Flutterのインストール。
@@ -403,16 +451,6 @@ jobs:
         run: flutter --version
         timeout-minutes: 3
 
-      # flutterfireコマンドをインストール
-      - name: Install flutterfire
-        run: flutter pub global activate flutterfire_cli
-        timeout-minutes: 3
-
-      # katanaコマンドをインストール
-      - name: Install katana
-        run: flutter pub global activate katana_cli
-        timeout-minutes: 3
-
       # Download package.
       # パッケージのダウンロード。
       - name: Download flutter packages
@@ -424,29 +462,6 @@ jobs:
       - name: Create assets folder
         run: mkdir -p assets
         timeout-minutes: 3
-
-      # Updating pod files.
-      # Podファイルのアップデート。
-      - name: Pod file update
-        run: |
-          cd ios
-          pod repo update
-          rm Podfile.lock
-          pod install
-          cd ..
-        timeout-minutes: 15
-
-      # Running flutter analyze.
-      # Flutter analyzeの実行。
-      - name: Analyzing flutter project
-        run: flutter analyze && dart run custom_lint
-        timeout-minutes: 10
-
-      # Running the katana test.
-      # katana testの実行。
-      - name: Testing flutter project
-        run: katana test run
-        timeout-minutes: 30
 
       # Certificate settings.
       # Certificateの設定。

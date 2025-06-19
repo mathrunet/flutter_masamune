@@ -3,6 +3,7 @@ import "dart:convert";
 import "dart:io";
 
 // Project imports:
+import "package:katana_cli/action/git/status_check.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Gibhut Actions build for Android.
@@ -22,6 +23,8 @@ Future<void> buildAndroid(
   final status = android.get("status", "draft");
   final keystoreFile = File("android/app/appkey.keystore");
   final secretGithub = context.secrets.getAsMap("github");
+  final claudeCode = context.yaml.getAsMap("claude_code");
+  final build = claudeCode.get("build", "");
   final slack = secretGithub.getAsMap("slack");
   final slackIncomingWebhookUrl = slack.get("incoming_webhook_url", "");
   if (!keystoreFile.existsSync()) {
@@ -94,11 +97,16 @@ Future<void> buildAndroid(
     ],
   );
   final gitDir = await findGitDirectory(Directory.current);
+  final workingPath = Directory.current.difference(gitDir);
+  await const GitStatusCheckActionCliCode().generateFile(
+    "${workingPath.isEmpty ? "." : workingPath}/.github/workflows/actions/status_check/action.yaml",
+  );
   final androidCode = GithubActionsAndroidCliCode(
     workingDirectory: gitDir,
     defaultIncrementNumber: defaultIncrementNumber,
     changesNotSentForReview: changesNotSentForReview,
     status: status,
+    buildOnClaudeCode: build.contains("android"),
   );
   await androidCode.generateFile(
     "build_android_${appName.toLowerCase()}.yaml",
@@ -171,6 +179,7 @@ class GithubActionsAndroidCliCode extends CliCode {
     this.changesNotSentForReview,
     this.status = "draft",
     this.slackWebhookURL,
+    this.buildOnClaudeCode = false,
   });
 
   /// Working Directory.
@@ -197,6 +206,11 @@ class GithubActionsAndroidCliCode extends CliCode {
   ///
   /// Slack通知を利用する場合Incoming webhookのURLを記載。
   final String? slackWebhookURL;
+
+  /// Whether to build on claude code.
+  ///
+  /// claude codeでビルドを行うかどうか。
+  final bool buildOnClaudeCode;
 
   @override
   String get name => "build_android";
@@ -250,30 +264,64 @@ class GithubActionsAndroidCliCode extends CliCode {
 name: AndroidProductionWorkflow
 
 on:
+${buildOnClaudeCode ? """
+  # This workflow runs when there is a pull_request on the main, master, develop branch.
+  # main, master, develop branch に pull_request があったらこの workflow が走る。
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+    types:
+      - opened
+      - reopened
+      - synchronize
+""" : ""} 
   # This workflow runs when there is a push on the publish branch.
   # publish branch に push があったらこの workflow が走る。
   push:
-    branches: [ publish ]
+    branches:
+      - publish
 
 jobs:
   # ----------------------------------------------------------------- #
-  # Build for Android
+  # Status check
   # ----------------------------------------------------------------- #
-  build_android:
-
+  status_check:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
-
+    timeout-minutes: 30
     defaults:
       run:
         working-directory: ${workingPath.isEmpty ? "." : workingPath}
-
     steps:
       # Check-out.
       # チェックアウト。
       - name: Checks-out my repository
         timeout-minutes: 10
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      # Flutter status check.
+      # Flutterのステータスチェックを行います。
+      - name: Flutter status check
+        timeout-minutes: 30
+        uses: ./.github/actions/status_check
+
+  # ----------------------------------------------------------------- #
+  # Build for Android
+  # ----------------------------------------------------------------- #
+  build_android:
+    runs-on: ubuntu-latest
+    needs: status_check
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: ${workingPath.isEmpty ? "." : workingPath}
+    steps:
+      # Check-out.
+      # チェックアウト。
+      - name: Checks-out my repository
+        timeout-minutes: 10
+        uses: actions/checkout@v4
 
       # Set up JDK 17.
       # JDK 17のセットアップ
@@ -299,11 +347,6 @@ jobs:
         run: flutter --version
         timeout-minutes: 3
 
-      # flutterfireコマンドをインストール
-      - name: Install flutterfire
-        run: flutter pub global activate flutterfire_cli
-        timeout-minutes: 3
-
       # katanaコマンドをインストール
       - name: Install katana
         run: flutter pub global activate katana_cli
@@ -320,18 +363,6 @@ jobs:
       - name: Create assets folder
         run: mkdir -p assets
         timeout-minutes: 3
-
-      # Running flutter analyze.
-      # Flutter analyzeの実行。
-      - name: Analyzing flutter project
-        run: flutter analyze && dart run custom_lint
-        timeout-minutes: 10
-
-      # Running the katana test.
-      # katana testの実行。
-      - name: Testing flutter project
-        run: katana test run
-        timeout-minutes: 30
 
       # Generate appkey.keystore from Secrets.
       # Secretsからappkey.keystoreを生成。

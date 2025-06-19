@@ -31,7 +31,12 @@ class GitStatusCheckCliAction extends CliCommand with CliActionMixin {
     label("Create status_check.yaml");
     final gitDir = await findGitDirectory(Directory.current);
     final workingPath = Directory.current.difference(gitDir);
-    await const GitStatusCheckCliCode().generateFile(
+    await const GitStatusCheckActionCliCode().generateFile(
+      "${workingPath.isEmpty ? "." : workingPath}/.github/workflows/actions/status_check/action.yaml",
+    );
+    await GitStatusCheckCliCode(
+      workingDirectory: gitDir,
+    ).generateFile(
       "${workingPath.isEmpty ? "." : workingPath}/.github/workflows/status_check.yaml",
     );
   }
@@ -44,7 +49,89 @@ class GitStatusCheckCliCode extends CliCode {
   /// Contents of status_check.yaml.
   ///
   /// status_check.yamlの中身。
-  const GitStatusCheckCliCode();
+  const GitStatusCheckCliCode({
+    this.workingDirectory,
+  });
+
+  /// Working Directory.
+  ///
+  /// ワーキングディレクトリ。
+  final Directory? workingDirectory;
+
+  @override
+  String get name => "status_check";
+
+  @override
+  String get prefix => "status_check";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description =>
+      "Create status_check.yaml for status check. status check用のstatus_check.yamlを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    final workingPath = workingDirectory?.difference(Directory.current);
+    return """
+# Flutter status check.
+# 
+# Flutterのステータスチェックを行います。
+name: FlutterStatusCheckWorkflow
+on:
+  # This workflow is run when there is a push to the branch in question.
+  # 該当のブランチ に push があったらこの workflow が走る。
+  pull_request:
+  push:
+    branches:
+      - feature/**/*
+      - claude/**/*
+      - publish
+
+jobs:
+  # ----------------------------------------------------------------- #
+  # Status check
+  # ----------------------------------------------------------------- #
+  status_check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: ${workingPath.isEmpty ? "." : workingPath}
+    steps:
+      # Check-out.
+      # チェックアウト。
+      - name: Checks-out my repository
+        timeout-minutes: 10
+        uses: actions/checkout@v4
+
+      # Flutter status check.
+      # Flutterのステータスチェックを行います。
+      - name: Flutter status check
+        uses: ./.github/actions/status_check
+""";
+  }
+}
+
+/// Contents of status_check.yaml.
+///
+/// status_check.yamlの中身。
+class GitStatusCheckActionCliCode extends CliCode {
+  /// Contents of status_check.yaml.
+  ///
+  /// status_check.yamlの中身。
+  const GitStatusCheckActionCliCode();
 
   @override
   String get name => "status_check";
@@ -72,98 +159,89 @@ class GitStatusCheckCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return """
+
 # Flutter status check.
 # 
 # Flutterのステータスチェックを行います。
-name: FlutterStatusCheckWorkflow
-on:
-  # This workflow is run when there is a push to the branch in question.
-  # 該当のブランチ に push があったらこの workflow が走る。
-  pull_request:
-  push:
-    branches:
-      - feature/**/*
-      - publish
+name: FlutterStatusCheckActions
+description: "Checking Flutter status. Flutterのステータスチェックを行います。"
+runs:
+  using: "composite"
+  steps:
+    # Check-out.
+    # リポジトリをチェックアウト。
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      timeout-minutes: 10
 
-jobs:
-  status_check:
+    # Set up JDK 17.
+    # JDK 17のセットアップ
+    - name: Set up JDK 17
+      timeout-minutes: 10
+      uses: actions/setup-java@v4
+      with:
+        distribution: microsoft
+        java-version: "17.0.10"
 
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # Install flutter.
+    # Flutterのインストール。
+    - name: Install flutter
+      timeout-minutes: 10
+      uses: subosito/flutter-action@v2
+      with:
+        channel: stable
+        cache: true
 
-    defaults:
-      run:
-        working-directory: .
+    # Check flutter version.
+    # Flutterのバージョン確認。
+    - name: Run flutter version
+      shell: bash
+      run: flutter --version
+      timeout-minutes: 3
 
-    steps:
-      # Check-out.
-      # リポジトリをチェックアウト。
-      - name: Checkout repository
-        timeout-minutes: 10
-        uses: actions/checkout@v4
+    # Run flutter pub get
+    # Flutterのパッケージを取得。
+    - name: Run flutter pub get
+      shell: bash
+      run: flutter pub get
+      timeout-minutes: 3
 
-      # Set up JDK 17.
-      # JDK 17のセットアップ
-      - name: Set up JDK 17
-        timeout-minutes: 10
-        uses: actions/setup-java@v4
-        with:
-          distribution: microsoft
-          java-version: "17.0.10"
+    # Creation of the Assets folder.
+    # Assetsフォルダの作成。
+    - name: Create assets folder
+      shell: bash
+      run: mkdir -p assets
+      timeout-minutes: 3
 
-      # Install flutter.
-      # Flutterのインストール。
-      - name: Install flutter
-        timeout-minutes: 10
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
+    # katanaコマンドをインストール
+    - name: Install katana
+      shell: bash
+      run: flutter pub global activate katana_cli
+      timeout-minutes: 3
 
-      # Check flutter version.
-      # Flutterのバージョン確認。
-      - name: Run flutter version
-        run: flutter --version
-        timeout-minutes: 3
+    # Running flutter analyze.
+    # Flutter analyzeとcustom_lintの実行。
+    - name: Analyzing flutter project
+      shell: bash
+      run: flutter analyze && dart run custom_lint
+      timeout-minutes: 10
 
-      # Run flutter pub get
-      # Flutterのパッケージを取得。
-      - name: Run flutter pub get
-        run: flutter pub get
-        timeout-minutes: 3
+    # Running the flutter test.
+    # Flutter testの実行。
+    - name: Testing flutter project
+      shell: bash
+      run: katana test run
+      timeout-minutes: 30
 
-      # Creation of the Assets folder.
-      # Assetsフォルダの作成。
-      - name: Create assets folder
-        run: mkdir -p assets
-        timeout-minutes: 3
-
-      # katanaコマンドをインストール
-      - name: Install katana
-        run: flutter pub global activate katana_cli
-        timeout-minutes: 3
-
-      # Running flutter analyze.
-      # Flutter analyzeとcustom_lintの実行。
-      - name: Analyzing flutter project
-        run: flutter analyze && dart run custom_lint
-        timeout-minutes: 10
-
-      # Running the flutter test with Xvfb for golden tests.
-      # Flutter testの実行（ゴールデンテスト用にXvfbを使用）。
-      - name: Testing flutter project
-        run: katana test run
-        timeout-minutes: 30
-
-      # Upload golden test failures.
-      # 差分画像をアップロード（失敗時のみ）
-      - name: Upload golden test failures
-        if: failure()
-        timeout-minutes: 10
-        uses: actions/upload-artifact@v4
-        with:
-          name: golden-test-failures
-          path: "test/**/failures/**/*.png"
+    # Upload golden test failures.
+    # 差分画像をアップロード（失敗時のみ）
+    - name: Upload golden test failures
+      if: failure()
+      uses: actions/upload-artifact@v4
+      timeout-minutes: 10
+      with:
+        name: golden-test-failures
+        path: "test/**/failures/**/*.png"
 """;
   }
 }

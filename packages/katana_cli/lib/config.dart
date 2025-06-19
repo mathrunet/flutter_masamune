@@ -566,12 +566,21 @@ github:
 ${showAllConfig ? """
   # Add an AI Agent using Claude Code.
   # Please enter your Anthropic API key in [api]->[api_key]. Alternatively, you can make API calls within the paid plan by using Actions you forked within the [plan].
+  # For `[build]`, please specify which platforms to build on when a PR is created or updated by claude code.
+  # Example: android ios web
+  # `[issue_template]` sets whether to create an Issue template that makes it easy to request from claude code.
   # Please specify user information for [author] when committing.
   # CLAUDE CODEによるAIエージェントを追加します。
   # [api]->[api_key]にAnthropicのAPIキーを記載してください。もしくは[plan]内でfolkしたActionsを使って有料プラン内でのAPI呼び出しも可能です。
+  # [build]には、claude codeによってPRが作成されたりPRが更新された場合、どのプラットフォームでビルドを行うかを記載してください。
+  # 例: android ios web
+  # [issue_template]には、claude codeに依頼しやすいようなIssueテンプレートを作成するかどうかを設定します。
   # [author]にコミット時のユーザー情報を記載してください。
   claude_code:
     enable: false
+    build: android ios web
+    issue_template:
+      enable: false
     api:
       api_key:
     plan:

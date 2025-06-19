@@ -250,8 +250,8 @@ jobs:
               id: claude
               timeout-minutes: 120
               env:
-                BASH_MAX_TIMEOUT_MS: 1800000
-                BASH_DEFAULT_TIMEOUT_MS: 1800000
+                BASH_MAX_TIMEOUT_MS: 3600000
+                BASH_DEFAULT_TIMEOUT_MS: 3600000
                 GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
               uses: anthropics/claude-code-action@main
               with:
@@ -343,8 +343,8 @@ jobs:
               id: claude
               uses: $actionsRepositoryName
               env:
-                BASH_MAX_TIMEOUT_MS: 1800000
-                BASH_DEFAULT_TIMEOUT_MS: 1800000
+                BASH_MAX_TIMEOUT_MS: 3600000
+                BASH_DEFAULT_TIMEOUT_MS: 3600000
                 GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
               with:
                   model: $model
@@ -569,14 +569,14 @@ class GitClaudeMarkdownCliCode extends CliCode {
 - `Page`、`Model`、`Enum`、`Widget`、`Controller`等のDartファイルの作成は`katana`コマンドを用いて作成すること
     - `katana`コマンドの使い方については`documents/rules/docs/katana_cli.md`に記載。
 
-- 作業実施時下記は徹底すること。
-    - 1つの実装が完了したときに毎回必ず下記のコマンドを実行してコードにIssueがないかをチェック。Issueがある場合はそれらに対処した後再度実行。
+- 作業実施時、下記の実施を徹底すること。
+    - 1つの実装が完了したときに毎回必ず下記のコマンドを実行してコードにErrorやWarningがないかをチェック。ErrorやWarningがある場合はそれらに対処した後、再度実行。ErrorやWarningがなくなるまで繰り返す。
 
         ```bash
         flutter analyze && dart run custom_lint
         ```
 
-    - 1つの`Page`や`Widget`、`Model`の`toTile`のエクステンションの更新や作成が完了したときに毎回下記のコマンドを実行して生成された画像を読み込み、確認し、コードにエラーやIssueがないか、またUIにズレがないかをチェック。エラーやUIにズレがある場合はそれらに対処した後再度実行。画像は`documents/test/**/*.png`に出力される。
+    - 1つの`Page`や`Widget`、`Model`の`toTile`のエクステンションの更新や作成が完了したときに毎回下記のコマンドを実行して生成された画像を読み込み、確認し、コードにErrorやWarningがないか、またUIにズレがないかをチェック。ErrorやWarning、UIにズレがある場合はそれらに対処した後、再度実行。ErrorやWarning、UIにズレがなくなるまで繰り返す。画像は`documents/test/**/*.png`に出力される。
 
         ```bash
         katana test update [テスト対象のクラス名],[テスト対象のクラス名],...
@@ -595,12 +595,14 @@ class GitClaudeMarkdownCliCode extends CliCode {
         dart fix --apply lib && dart format . && flutter pub run import_sorter:main
         ```
 
-    2. 下記のコマンドを実施してコードのバリデーションを行う。Issueがあれば修正。
+    2. 下記のコマンドを実施してコードのバリデーションを行う。ErrorやWarningがあれば修正して再度実行。ErrorやWarningがなくなるまで繰り返す。
+
         ```bash
         flutter analyze && dart run custom_lint
         ```
 
-    3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。エラーやIssueがあれば修正。
+    3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。ErrorやWarningがあれば修正して再度実行。ErrorやWarningがなくなるまで繰り返す。
+
         - 各種UIが更新されているにも関わらずこのステップが実行されない場合は`katana test run`でエラーになります。
 
         ```bash
@@ -612,12 +614,13 @@ class GitClaudeMarkdownCliCode extends CliCode {
             katana test update TestPage,TestWidget,TestModel
             ```
 
-    4. 下記のコマンドを実施して全体のテストを行う。エラーやIssueがあれば修正。
+    4. 下記のコマンドを実施して全体のテストを行う。ErrorやWarningがあれば修正して再度実行。
+    ErrorやWarningがなくなるまで繰り返す。
         ```bash
         katana test run
         ```
 
-    5. 1〜4のステップでエラーやIssueが発生した場合は、再度1からステップをやり直す。エラーやIssueが無くなるまで繰り返す。
+    5. 1〜4のステップでErrorやWarningが発生した場合は、再度1からステップをやり直す。ErrorやWarningが無くなるまで繰り返す。
 
     6. 下記コマンドで変更をCommit&Push。
         
@@ -630,13 +633,21 @@ class GitClaudeMarkdownCliCode extends CliCode {
             - `katana code generate`で生成した、もしくは変更されたファイル
             - `katana test update`で生成した、もしくは変更されたファイル
     
-    7. PullRequestが必要な場合は下記のコマンドでPullRequestを作成。
+    7. PullRequestを新しく作成するは下記のコマンドでPullRequestを作成。
 
         ```bash
         katana git pull_request --target="マージ先のブランチ" --source="マージ元のブランチ" --title="PullRequestのタイトル" --body="PullRequestの説明（改行は`\\n`で行う）" [PullRequestの説明に加えるスクリーンショットのファイル1] [PullRequestの説明に加えるスクリーンショットのファイル2] ...
         ```
 
         - 6のコミットの中`katana test update`で生成した画像(`documents/test/**/*.png`)を「PullRequestの説明に加えるスクリーンショットのファイル」として指定する。
+
+    8. PullRequestがすでに作成されており、さらにコメントを追加したい場合は下記のコマンドを用いてコメントを追加。
+
+        ```bash
+        katana git pull_request_comment --comment="PullRequestのコメント" --target="マージ先のブランチ" --source="マージ元のブランチ" [PullRequestのコメントに加えるスクリーンショットのファイル1] [PullRequestのコメントに加えるスクリーンショットのファイル2] ...
+        ```
+
+        - 6のコミットの中`katana test update`で生成した画像(`documents/test/**/*.png`)を「PullRequestのコメントに加えるスクリーンショットのファイル」として指定する。
 
 ## `マーケティング・企画`時
 

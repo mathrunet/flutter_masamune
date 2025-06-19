@@ -10,6 +10,7 @@ part "update.dart";
 part "commit.dart";
 part "remove.dart";
 part "pull_request.dart";
+part "pull_request_comment.dart";
 
 /// Configure settings related to Git and Github.
 ///
@@ -31,5 +32,6 @@ class GitCliCommand extends CliCommandGroup {
         "commit": GitCommitCliCommand(),
         "remove": GitRemoveCliCommand(),
         "pull_request": GitPullRequestCliCommand(),
+        "pull_request_comment": GitPullRequestCommentCliCommand(),
       };
 }
