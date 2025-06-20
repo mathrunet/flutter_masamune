@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.4.2`](#katana_cli---v342)
+
+---
+
+#### `katana_cli` - `v3.4.2`
+
+ - **FIX**: Commit bug fix. ([763bf432](https://github.com/mathrunet/flutter_masamune/commit/763bf4325ef36429c8ac144daa226e6aade208e2))
+
+
+## 2025-06-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.4.1`](#katana_cli---v341)
 
 ---

@@ -1,3 +1,7 @@
+## 3.4.2
+
+ - **FIX**: Commit bug fix. ([763bf432](https://github.com/mathrunet/flutter_masamune/commit/763bf4325ef36429c8ac144daa226e6aade208e2))
+
 ## 3.4.1
 
  - **FIX**: I started checking file paths using the `code` command. ([c5c4dc0c](https://github.com/mathrunet/flutter_masamune/commit/c5c4dc0c40f6814fdabca13be5100569d028407f))
