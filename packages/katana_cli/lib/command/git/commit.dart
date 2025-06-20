@@ -30,12 +30,20 @@ class GitCommitCliCommand extends CliCommand {
     if (messageArg != null) {
       args.remove(messageArg);
     }
-    final message = messageArg
+    var message = messageArg
         ?.substring(messageArg.indexOf("=") + 1, messageArg.length)
         .trim()
         .trimString("\"")
         .trimString("'")
-        .trim();
+        .trim()
+        .replaceAll("\\n", "\n")
+        .replaceAll('\\"', '"')
+        .replaceAll("\\!", "!");
+    if (message == null || message.isEmpty) {
+      error(
+          "Message is required. e.g. `katana git commit --message=\"Commit message\"` file-path1.py file-path2.js`");
+      return;
+    }
     await command(
       "Update author information.",
       [
@@ -64,7 +72,7 @@ class GitCommitCliCommand extends CliCommand {
         git,
         "commit",
         "-m",
-        "\"$message\"",
+        message,
       ],
     );
     await command(

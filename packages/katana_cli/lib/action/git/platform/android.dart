@@ -382,27 +382,11 @@ jobs:
         run: echo \${{ secrets.ANDROID_KEY_PROPERTIES_#### REPLACE_APP_NAME #### }} | base64 -d > android/key.properties
         timeout-minutes: 3
 
-      # Generate Apk.
-      # Apkを生成。
-      - name: Building Android apk
-        run: flutter build apk --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define=FLAVOR=prod
-        timeout-minutes: 30
-
       # Generate app bundle.
       # App Bundleを生成。
       - name: Building Android AppBundle
         run: flutter build appbundle --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define=FLAVOR=prod
         timeout-minutes: 30
-      
-      # Upload the generated files.
-      # 生成されたファイルのアップロード。
-      - name: Upload apk artifacts
-        timeout-minutes: 5
-        uses: actions/upload-artifact@v4
-        with:
-          name: andoroid_apk_release
-          path: ${workingPath.isEmpty ? "." : workingPath}/build/app/outputs/apk/release
-          retention-days: 1
 
       # Upload the generated files.
       # 生成されたファイルのアップロード。

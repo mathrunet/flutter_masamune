@@ -250,8 +250,8 @@ jobs:
               id: claude
               timeout-minutes: 120
               env:
-                BASH_MAX_TIMEOUT_MS: 3600000
-                BASH_DEFAULT_TIMEOUT_MS: 3600000
+                BASH_MAX_TIMEOUT_MS: 1800000
+                BASH_DEFAULT_TIMEOUT_MS: 1800000
                 GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
               uses: anthropics/claude-code-action@main
               with:
@@ -316,7 +316,7 @@ jobs:
             # Flutterのインストール。
             - name: Install flutter
               uses: subosito/flutter-action@v2
-              timeout_minutes: 10
+              timeout-minutes: 10
               with:
                 channel: stable
                 cache: true
@@ -325,31 +325,31 @@ jobs:
             # Flutterのバージョン確認。
             - name: Run flutter version
               run: flutter --version
-              timeout_minutes: 3
+              timeout-minutes: 3
 
             # Run flutter pub get
             # Flutterのパッケージを取得。
             - name: Run flutter pub get
               run: flutter pub get
-              timeout_minutes: 3
+              timeout-minutes: 3
 
             # Creation of the Assets folder.
             # Assetsフォルダの作成。
             - name: Create assets folder
               run: mkdir -p assets
-              timeout_minutes: 3
+              timeout-minutes: 3
 
             # Install the katana command
             # katanaコマンドをインストール
             - name: Install katana
               run: flutter pub global activate katana_cli
-              timeout_minutes: 3
+              timeout-minutes: 3
 
             # Install the katana command 
             # Claude Codeを実行
             - name: Run Claude Code
               id: claude
-              timeout_minutes: 120
+              timeout-minutes: 120
               uses: $actionsRepositoryName
               env:
                 BASH_MAX_TIMEOUT_MS: 3600000
