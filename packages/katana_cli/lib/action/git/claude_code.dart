@@ -40,6 +40,7 @@ class GitClaudeCodeCliAction extends CliCommand with CliActionMixin {
     final accessToken = plan.get("access_token", "");
     final refreshToken = plan.get("refresh_token", "");
     final expiresAt = plan.get("expires_at", nullOfInt);
+    final personalAccessToken = claudeCode.get("personal_access_token", "");
     final model = claudeCode.get("model", "claude-sonnet-4-20250514");
 
     if (apiKey.isEmpty &&
@@ -96,6 +97,19 @@ class GitClaudeCodeCliAction extends CliCommand with CliActionMixin {
           "CLAUDE_EXPIRES_AT",
           "--body",
           expiresAt.toString(),
+        ],
+      );
+    }
+    if (personalAccessToken.isNotEmpty) {
+      await command(
+        "Store `personal_access_token` in `secrets.PERSONAL_ACCESS_TOKEN`.",
+        [
+          gh,
+          "secret",
+          "set",
+          "PERSONAL_ACCESS_TOKEN",
+          "--body",
+          personalAccessToken,
         ],
       );
     }
@@ -202,7 +216,9 @@ jobs:
               timeout-minutes: 10
               uses: actions/checkout@v4
               with:
+                  ref: \${{github.event.pull_request.head.ref}}
                   fetch-depth: 1
+                  token: \${{secrets.PERSONAL_ACCESS_TOKEN || github.token}}
 
             # Set up JDK 17.
             # JDK 17のセットアップ
@@ -252,7 +268,7 @@ jobs:
               env:
                 BASH_MAX_TIMEOUT_MS: 1800000
                 BASH_DEFAULT_TIMEOUT_MS: 1800000
-                GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+                GITHUB_TOKEN: \${{secrets.PERSONAL_ACCESS_TOKEN || github.token}}
               uses: anthropics/claude-code-action@main
               with:
                   model: $model
@@ -295,13 +311,32 @@ jobs:
             id-token: write
 
         steps:
+            # Get PR information for review comments and reviews
+            # レビューコメントとレビューの場合のPR情報を取得
+            - name: Get PR information
+              if: github.event_name == 'pull_request_review_comment' || github.event_name == 'pull_request_review'
+              id: pr_info
+              run: |
+                if [ "\${{ github.event_name }}" = "pull_request_review_comment" ]; then
+                  PR_URL="\${{ github.event.comment.pull_request_url }}"
+                elif [ "\${{ github.event_name }}" = "pull_request_review" ]; then
+                  PR_URL="\${{ github.event.review.pull_request_url }}"
+                fi
+                PR_NUMBER=\$(echo "\$PR_URL" | grep -o '[0-9]*\$')
+                PR_DATA=\$(curl -s -H "Authorization: token \${{ secrets.PERSONAL_ACCESS_TOKEN || github.token }}" \\
+                  "https://api.github.com/repos/\${{ github.repository }}/pulls/\$PR_NUMBER")
+                echo "head_ref=\$(echo "\$PR_DATA" | jq -r '.head.ref')" >> \$GITHUB_OUTPUT
+                echo "head_sha=\$(echo "\$PR_DATA" | jq -r '.head.sha')" >> \$GITHUB_OUTPUT
+
             # Checkout repository
             # リポジトリをチェックアウト。
             - name: Checkout repository
               uses: actions/checkout@v4
               timeout-minutes: 10
               with:
+                  ref: \${{ steps.pr_info.outputs.head_ref || github.event.pull_request.head.ref || github.ref }}
                   fetch-depth: 1
+                  token: \${{secrets.PERSONAL_ACCESS_TOKEN || github.token}}
 
             # Set up JDK 17.
             # JDK 17のセットアップ
@@ -352,9 +387,9 @@ jobs:
               timeout-minutes: 120
               uses: $actionsRepositoryName
               env:
-                BASH_MAX_TIMEOUT_MS: 3600000
-                BASH_DEFAULT_TIMEOUT_MS: 3600000
-                GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+                BASH_MAX_TIMEOUT_MS: 1800000
+                BASH_DEFAULT_TIMEOUT_MS: 1800000
+                GITHUB_TOKEN: \${{secrets.PERSONAL_ACCESS_TOKEN || github.token}}
               with:
                   model: $model
                   timeout_minutes: 120

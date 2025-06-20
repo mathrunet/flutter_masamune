@@ -570,15 +570,18 @@ ${showAllConfig ? """
   # Example: android ios web
   # `[issue_template]` sets whether to create an Issue template that makes it easy to request from claude code.
   # Please specify user information for [author] when committing.
+  # If you trigger the workflow with commits by ClaudeCode, please provide your Github Personal Access Token in [personal_access_token].
   # CLAUDE CODEによるAIエージェントを追加します。
   # [api]->[api_key]にAnthropicのAPIキーを記載してください。もしくは[plan]内でfolkしたActionsを使って有料プラン内でのAPI呼び出しも可能です。
   # [build]には、claude codeによってPRが作成されたりPRが更新された場合、どのプラットフォームでビルドを行うかを記載してください。
   # 例: android ios web
   # [issue_template]には、claude codeに依頼しやすいようなIssueテンプレートを作成するかどうかを設定します。
   # [author]にコミット時のユーザー情報を記載してください。
+  # ClaudeCodeによるコミットによりワークフローを動かす場合は[personal_access_token]にGithubのPersonal Access Tokenを記載してください。
   claude_code:
     enable: false
-    build: android ios web
+    build: android web
+    personal_access_token: 
     issue_template:
       enable: false
     api:
