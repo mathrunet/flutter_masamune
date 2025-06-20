@@ -17,8 +17,9 @@ Future<void> buildWeb(
   required String appName,
   required int defaultIncrementNumber,
 }) async {
+  final github = context.yaml.getAsMap("github");
   final secretGithub = context.secrets.getAsMap("github");
-  final claudeCode = context.yaml.getAsMap("claude_code");
+  final claudeCode = github.getAsMap("claude_code");
   final build = claudeCode.get("build", "");
   final slack = secretGithub.getAsMap("slack");
   final slackIncomingWebhookUrl = slack.get("incoming_webhook_url", "");

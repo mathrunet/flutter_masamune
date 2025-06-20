@@ -23,7 +23,7 @@ Future<void> buildAndroid(
   final status = android.get("status", "draft");
   final keystoreFile = File("android/app/appkey.keystore");
   final secretGithub = context.secrets.getAsMap("github");
-  final claudeCode = context.yaml.getAsMap("claude_code");
+  final claudeCode = github.getAsMap("claude_code");
   final build = claudeCode.get("build", "");
   final slack = secretGithub.getAsMap("slack");
   final slackIncomingWebhookUrl = slack.get("incoming_webhook_url", "");
@@ -344,11 +344,6 @@ jobs:
       # Flutterのバージョン確認。
       - name: Run flutter version
         run: flutter --version
-        timeout-minutes: 3
-
-      # katanaコマンドをインストール
-      - name: Install katana
-        run: flutter pub global activate katana_cli
         timeout-minutes: 3
 
       # Download package.
