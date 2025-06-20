@@ -63,6 +63,9 @@ Future<void> main(List<String> args) async {
       for (final action in context.postActions) {
         await action.exec(context);
       }
+      if (isError) {
+        exit(1);
+      }
       return;
     }
   } else {
@@ -71,6 +74,9 @@ Future<void> main(List<String> args) async {
       error(
         "katana.yaml file could not be found. Place it in the root of the project.",
       );
+      if (isError) {
+        exit(1);
+      }
       return;
     }
 
@@ -88,6 +94,9 @@ Future<void> main(List<String> args) async {
       await tmp.value.exec(context);
       for (final action in context.postActions) {
         await action.exec(context);
+      }
+      if (isError) {
+        exit(1);
       }
       return;
     }

@@ -33,7 +33,13 @@ class CodeStatelessCliCommand extends CliTestableCodeCommand {
     final path = context.args.get(2, "");
     if (path.isEmpty) {
       error(
-        "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code stateless [path]\r\n",
+        "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code stateless [path]\r\n\r\n([path] must be entered in snake_case; numbers and underscores cannot be used at the beginning or end of the path. Also, you can create directories by using /.)\r\n",
+      );
+      return;
+    }
+    if (!validateFilePath(path)) {
+      error(
+        "Invalid path: $path. Please enter a valid path according to the following command.\r\nkatana code stateless [path]\r\n",
       );
       return;
     }

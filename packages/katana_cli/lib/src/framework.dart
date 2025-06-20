@@ -565,7 +565,29 @@ void label(String title) {
 ///
 /// エラーを表示します。
 void error(String message) {
+  _isError = true;
   stderr.add(utf8.encode(message));
+}
+
+/// Whether an error has occurred.
+///
+/// エラーが発生したかどうか。
+bool get isError => _isError;
+bool _isError = false;
+
+/// Validate the file path.
+///
+/// ファイルパスを検証します。
+bool validateFilePath(String path) {
+  if (!RegExp(r"^[a-z0-9/_]+$").hasMatch(path)) {
+    return false;
+  }
+  if (!path.startsWith(RegExp(r"[a-z]")) ||
+      !RegExp(r"[a-z]+$").hasMatch(path) ||
+      RegExp(r"/[0-9/_]+").hasMatch(path)) {
+    return false;
+  }
+  return true;
 }
 
 /// Run command.

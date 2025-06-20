@@ -256,6 +256,7 @@ jobs:
               uses: anthropics/claude-code-action@main
               with:
                   model: $model
+                  timeout_minutes: 120
                   disallowed_tools: "mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files"
                   allowed_tools: "Bash(katana:*),Bash(git:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Bash(head:*),Bash(cd:*),Bash(ls:*),Bash(mkdir:*),Bash(chmod:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"
                   anthropic_api_key: \${{secrets.ANTHROPIC_API_KEY}}
@@ -298,6 +299,7 @@ jobs:
             # リポジトリをチェックアウト。
             - name: Checkout repository
               uses: actions/checkout@v4
+              timeout-minutes: 10
               with:
                   fetch-depth: 1
 
@@ -305,6 +307,7 @@ jobs:
             # JDK 17のセットアップ
             - name: Set up JDK 17
               uses: actions/setup-java@v4
+              timeout-minutes: 10
               with:
                 distribution: microsoft
                 java-version: "17.0.10"
@@ -313,6 +316,7 @@ jobs:
             # Flutterのインストール。
             - name: Install flutter
               uses: subosito/flutter-action@v2
+              timeout_minutes: 10
               with:
                 channel: stable
                 cache: true
@@ -321,26 +325,31 @@ jobs:
             # Flutterのバージョン確認。
             - name: Run flutter version
               run: flutter --version
+              timeout_minutes: 3
 
             # Run flutter pub get
             # Flutterのパッケージを取得。
             - name: Run flutter pub get
               run: flutter pub get
+              timeout_minutes: 3
 
             # Creation of the Assets folder.
             # Assetsフォルダの作成。
             - name: Create assets folder
               run: mkdir -p assets
+              timeout_minutes: 3
 
             # Install the katana command
             # katanaコマンドをインストール
             - name: Install katana
               run: flutter pub global activate katana_cli
+              timeout_minutes: 3
 
             # Install the katana command 
             # Claude Codeを実行
             - name: Run Claude Code
               id: claude
+              timeout_minutes: 120
               uses: $actionsRepositoryName
               env:
                 BASH_MAX_TIMEOUT_MS: 3600000
@@ -348,6 +357,7 @@ jobs:
                 GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
               with:
                   model: $model
+                  timeout_minutes: 120
                   use_oauth: 'true'
                   disallowed_tools: "mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files"
                   allowed_tools: "Bash(katana:*),Bash(git:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Bash(head:*),Bash(cd:*),Bash(ls:*),Bash(mkdir:*),Bash(chmod:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"

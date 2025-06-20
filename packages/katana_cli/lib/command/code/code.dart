@@ -21,7 +21,6 @@ part "controller.dart";
 part "document.dart";
 part "format.dart";
 part "generate.dart";
-part "group.dart";
 part "page.dart";
 part "watch.dart";
 part "value.dart";
@@ -29,7 +28,6 @@ part "function.dart";
 part "redirect_query.dart";
 part "boot.dart";
 part "docs.dart";
-part "prefs.dart";
 part "widget.dart";
 part "stateless.dart";
 part "stateful.dart";
@@ -67,13 +65,11 @@ class CodeCliCommand extends CliCommandGroup {
         "generate": CodeGenerateCliCommand(),
         "watch": CodeWatchCliCommand(),
         "controller": CodeControllerCliCommand(),
-        "group": CodeGroupCliCommand(),
         "page": CodePageCliCommand(),
         "collection": CodeCollectionCliCommand(),
         "document": CodeDocumentCliCommand(),
         "value": CodeValueCliCommand(),
         "redirect": CodeRedirectQueryCliCommand(),
-        "prefs": CodePrefsCliCommand(),
         "widget": CodeWidgetCliCommand(),
         "stateless": CodeStatelessCliCommand(),
         "stateful": CodeStatefulCliCommand(),

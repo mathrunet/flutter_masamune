@@ -3,10 +3,10 @@ import "dart:convert";
 import "dart:io";
 
 // Package imports:
-import "package:katana_cli/action/git/status_check.dart";
 import "package:xml/xml.dart";
 
 // Project imports:
+import "package:katana_cli/action/git/status_check.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Gibhut Actions build for IOS.

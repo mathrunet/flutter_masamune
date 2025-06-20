@@ -2,10 +2,10 @@
 import "dart:io";
 
 // Package imports:
-import "package:katana_cli/action/git/status_check.dart";
 import "package:yaml/yaml.dart";
 
 // Project imports:
+import "package:katana_cli/action/git/status_check.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Gibhut Actions build for Web.

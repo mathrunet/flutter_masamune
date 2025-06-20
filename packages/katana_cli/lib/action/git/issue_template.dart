@@ -177,7 +177,7 @@ body:
         - `設計書`の作成手順は`documents/rules/designs/**/*.md`を参考に実施。
         - `実装`の手順は`documents/rules/impls/**/*.md`を参考に実施。
         - `テスト`の手順は`documents/rules/tests/**/*.md`を参考に実施。
-        - その他、FlutterおよびMasamuneフレームワークの実装のルールや手順については`documents/rules/docs/**/*.md`を参考に実施。
+        - その他、FlutterおよびMasamuneフレームワークの実装のルールや手順については`documents/rules/docs/**/*.md`を参考にする。
         - コーディングについては`flutter analyze && dart run custom_lint`を実行しながらErrorやWarningが発生しないように開発を実施。
         - PageやWidgetはのアプリケーションUIについては`katana test update`を実行してスクリーンショット画像を作成し、それを確認しながら開発を実施。
         - 変更のコミットは`katana git commit`を利用して実施。
@@ -293,7 +293,7 @@ body:
         - `設計書`の作成手順は`documents/rules/designs/**/*.md`を参考に実施。
         - `実装`の手順は`documents/rules/impls/**/*.md`を参考に実施。
         - `テスト`の手順は`documents/rules/tests/**/*.md`を参考に実施。
-        - その他、FlutterおよびMasamuneフレームワークの実装のルールや手順については`documents/rules/docs/**/*.md`を参考に実施。
+        - その他、FlutterおよびMasamuneフレームワークの実装のルールや手順については`documents/rules/docs/**/*.md`を参考にする。
         - コーディングについては`flutter analyze && dart run custom_lint`を実行しながらErrorやWarningが発生しないように開発を実施。
         - PageやWidgetはのアプリケーションUIについては`katana test update`を実行してスクリーンショット画像を作成し、それを確認しながら開発を実施。
         - 変更のコミットは`katana git commit`を利用して実施。
@@ -423,7 +423,7 @@ body:
         - `設計書`の作成手順は`documents/rules/designs/**/*.md`を参考に実施。
         - `実装`の手順は`documents/rules/impls/**/*.md`を参考に実施。
         - `テスト`の手順は`documents/rules/tests/**/*.md`を参考に実施。
-        - その他、FlutterおよびMasamuneフレームワークの実装のルールや手順については`documents/rules/docs/**/*.md`を参考に実施。
+        - その他、FlutterおよびMasamuneフレームワークの実装のルールや手順については`documents/rules/docs/**/*.md`を参考にする。
         - コーディングについては`flutter analyze && dart run custom_lint`を実行しながらErrorやWarningが発生しないように開発を実施。
         - PageやWidgetはのアプリケーションUIについては`katana test update`を実行してスクリーンショット画像を作成し、それを確認しながら開発を実施。
         - 変更のコミットは`katana git commit`を利用して実施。
@@ -612,7 +612,7 @@ body:
         - `設計書`の作成手順は`documents/rules/designs/**/*.md`を参考に実施。
         - `実装`の手順は`documents/rules/impls/**/*.md`を参考に実施。
         - `テスト`の手順は`documents/rules/tests/**/*.md`を参考に実施。
-        - その他、FlutterおよびMasamuneフレームワークの実装のルールや手順については`documents/rules/docs/**/*.md`を参考に実施。
+        - その他、FlutterおよびMasamuneフレームワークの実装のルールや手順については`documents/rules/docs/**/*.md`を参考にする。
         - コーディングについては`flutter analyze && dart run custom_lint`を実行しながらErrorやWarningが発生しないように開発を実施。
         - PageやWidgetはのアプリケーションUIについては`katana test update`を実行してスクリーンショット画像を作成し、それを確認しながら開発を実施。
         - 変更のコミットは`katana git commit`を利用して実施。

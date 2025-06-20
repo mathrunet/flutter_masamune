@@ -37,6 +37,12 @@ class CodeDocumentCliCommand extends CliTestableCodeCommand {
       );
       return;
     }
+    if (!validateFilePath(path)) {
+      error(
+        "Invalid path: $path. Please enter a valid path according to the following command.\r\nkatana code document [path]\r\n\r\n([path] must be entered in snake_case; numbers and underscores cannot be used at the beginning or end of the path. Also, you can create directories by using /.)\r\n",
+      );
+      return;
+    }
     label("Create a document class in `$directory/$path.dart`.");
     final parentPath = path.parentPath();
     if (parentPath.isNotEmpty) {
