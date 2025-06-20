@@ -172,6 +172,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   /// これが`true`になっている場合、[load]メソッドは実行しても読込は行われません。
   bool get loaded => _loaded;
   bool _loaded = false;
+  bool _reloaded = false;
 
   /// If [load] or [reload] is executed, it waits until the loading process is completed.
   ///
@@ -215,6 +216,9 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// If you wish to reload the file, use the [reload] method.
   ///
+  /// Setting [reloadOnce] to `true` will execute [reload] only once initially after [load].
+  /// Please use this for cases such as getting data from the server only on the first load when using a [ModelAdapter] with a local cache.
+  ///
   /// [modelQuery]に対応したドキュメントの読込を行います。
   ///
   /// 戻り値は[T]オブジェクトが返され、そのまま読込済みのデータの利用が可能になります。
@@ -222,7 +226,10 @@ abstract class DocumentBase<T> extends ChangeNotifier
   /// 一度読み込んだコンテンツに対しては、新しい読込は行われません。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内でも利用可能です。
   ///
   /// 再読み込みを行いたい場合は[reload]メソッドを利用してください。
-  Future<T?> load() async {
+  ///
+  /// [reloadOnce]を`true`にすると最初に1回だけ[load]後に[reload]を実行します。
+  /// ローカルキャッシュ付きの[ModelAdapter]を利用する場合に初回のみサーバーからのデータを取得する場合等に利用してください。
+  Future<T?> load({bool reloadOnce = false}) async {
     if (loaded) {
       return value;
     }
@@ -234,6 +241,10 @@ abstract class DocumentBase<T> extends ChangeNotifier
         return;
       }
       await _load();
+      if (reloadOnce && !_reloaded) {
+        _reloaded = true;
+        await reload();
+      }
     });
     return value;
   }
