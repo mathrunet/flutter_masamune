@@ -21,6 +21,7 @@ class TestUpdateCliCommand extends CliCommand {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final target = context.args.get(2, "");
+    final flutterVersion = await getFlutterVersion();
     final isLinux = Platform.isLinux;
     if (isLinux) {
       await command(
@@ -40,18 +41,8 @@ class TestUpdateCliCommand extends CliCommand {
       );
     } else {
       final docker = bin.get("docker", "docker");
-      await const TestDockerfileCliCode().generateFile("Dockerfile");
-      final flutterVersionSource = await command(
-        "Get Flutter version.",
-        [
-          flutter,
-          "--version",
-          "--machine",
-        ],
-        catchError: true,
-      );
-      final json = jsonDecodeAsMap(flutterVersionSource);
-      final flutterVersion = json.get("frameworkVersion", "");
+      await TestDockerfileCliCode(flutterVersion: flutterVersion)
+          .generateFile("Dockerfile");
       label("Flutter version: $flutterVersion");
       await command(
         "Build the docker image.",

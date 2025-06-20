@@ -595,6 +595,11 @@ ${showAllConfig ? """
       email: "claude@anthropic.com"
       name: "Claude Code"
   
+  # Configure settings for the cursor.
+  # Cursorのための設定を行います。
+  cursor:
+    enable: false
+  
   # Enable status check.
   # status checkを有効にします。
   status_check:

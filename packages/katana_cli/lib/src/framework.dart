@@ -740,6 +740,23 @@ Future<void> addFlutterImport(
   }
 }
 
+/// Get the Flutter version.
+///
+/// Flutterのバージョンを取得します。
+Future<String> getFlutterVersion() async {
+  final flutterVersionSource = await command(
+    "Get Flutter version.",
+    [
+      "flutter",
+      "--version",
+      "--machine",
+    ],
+    catchError: true,
+  );
+  final json = jsonDecodeAsMap(flutterVersionSource);
+  return json.get("frameworkVersion", "");
+}
+
 /// Get the first file that matches [pattern] in [root].
 ///
 /// [root]の中にある[pattern]に最初に当てはまるファイルを取得します。

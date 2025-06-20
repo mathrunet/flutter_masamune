@@ -215,13 +215,33 @@ jobs:
             id-token: write
 
         steps:
-            # Check-out.
+            # Get PR information for review comments and reviews
+            # レビューコメントとレビューの場合のPR情報を取得
+            - name: Get PR information
+              if: github.event_name == 'pull_request_review_comment' || github.event_name == 'pull_request_review' || github.event_name == 'issue_comment'
+              id: pr_info
+              run: |
+                if [ "\${{ github.event_name }}" = "pull_request_review_comment" ]; then
+                  PR_URL="\${{ github.event.comment.pull_request_url }}"
+                elif [ "\${{ github.event_name }}" = "pull_request_review" ]; then
+                  PR_URL="\${{ github.event.review.pull_request_url }}"
+                elif [ "\${{ github.event_name }}" = "issue_comment" ]; then
+                  PR_URL="\${{ github.event.issue.pull_request.url }}"
+                fi
+                PR_NUMBER=\$(echo "\$PR_URL" | grep -o '[0-9]*\$')
+                PR_DATA=\$(curl -s -H "Authorization: token \${{ secrets.PERSONAL_ACCESS_TOKEN || github.token }}" \\
+                  "https://api.github.com/repos/\${{ github.repository }}/pulls/\$PR_NUMBER")
+                echo "head_ref=\$(echo "\$PR_DATA" | jq -r '.head.ref')" >> \$GITHUB_OUTPUT
+                echo "head_sha=\$(echo "\$PR_DATA" | jq -r '.head.sha')" >> \$GITHUB_OUTPUT
+                echo "head_repo=\$(echo "\$PR_DATA" | jq -r '.head.repo.full_name')" >> \$GITHUB_OUTPUT
+
+            # Checkout repository
             # リポジトリをチェックアウト。
             - name: Checkout repository
-              timeout-minutes: 10
               uses: actions/checkout@v4
+              timeout-minutes: 10
               with:
-                  ref: \${{github.event.pull_request.head.ref}}
+                  ref: \${{ steps.pr_info.outputs.head_ref || github.event.pull_request.head.ref || github.ref }}
                   fetch-depth: 1
                   token: \${{secrets.PERSONAL_ACCESS_TOKEN || github.token}}
 
@@ -319,19 +339,22 @@ jobs:
             # Get PR information for review comments and reviews
             # レビューコメントとレビューの場合のPR情報を取得
             - name: Get PR information
-              if: github.event_name == 'pull_request_review_comment' || github.event_name == 'pull_request_review'
+              if: github.event_name == 'pull_request_review_comment' || github.event_name == 'pull_request_review' || github.event_name == 'issue_comment'
               id: pr_info
               run: |
                 if [ "\${{ github.event_name }}" = "pull_request_review_comment" ]; then
                   PR_URL="\${{ github.event.comment.pull_request_url }}"
                 elif [ "\${{ github.event_name }}" = "pull_request_review" ]; then
                   PR_URL="\${{ github.event.review.pull_request_url }}"
+                elif [ "\${{ github.event_name }}" = "issue_comment" ]; then
+                  PR_URL="\${{ github.event.issue.pull_request.url }}"
                 fi
                 PR_NUMBER=\$(echo "\$PR_URL" | grep -o '[0-9]*\$')
                 PR_DATA=\$(curl -s -H "Authorization: token \${{ secrets.PERSONAL_ACCESS_TOKEN || github.token }}" \\
                   "https://api.github.com/repos/\${{ github.repository }}/pulls/\$PR_NUMBER")
                 echo "head_ref=\$(echo "\$PR_DATA" | jq -r '.head.ref')" >> \$GITHUB_OUTPUT
                 echo "head_sha=\$(echo "\$PR_DATA" | jq -r '.head.sha')" >> \$GITHUB_OUTPUT
+                echo "head_repo=\$(echo "\$PR_DATA" | jq -r '.head.repo.full_name')" >> \$GITHUB_OUTPUT
 
             # Checkout repository
             # リポジトリをチェックアウト。
@@ -451,7 +474,41 @@ class GitClaudeMarkdownCliCode extends CliCode {
 
 ## `開発`時
 
-### ルール
+### `開発`時の手順
+
+#### 新規アプリ開発時
+
+1. `documents/rules/designs/design.md`を参考に要件定義から各種設計書を作成。
+   - 要件定義が指示として与えられない場合は`requirements.md`を参照。
+2. 作成した各種設計書を元に`documents/rules/impls/impls.md`を参考にしながらアプリケーションの開発を実施。
+3. `documents/rules/tests/tests.md`を参考にしながら各種テストを実施。
+4. `flutter analyze && dart run custom_lint`を実行してErrorやWarningがないか確認。ErrorやWarningが発生していた場合は修正を実施して再度実行。ErrorやWarningがなくなるまで繰り返す。
+5. `katana test update`を実行してゴールデンテスト用のスクリーンショット画像を作成。
+6. `katana test run`を実行してテストが全てパスするか確認。
+7. `katana git commit`を実行して変更をコミット。
+8. `katana git pull_request`を実行してPRを作成、既存のPRがある場合は`katana git pull_request_comment`でコメントを追加。
+
+#### 新規機能追加時
+
+1. 要件定義から実装を実施。
+    - 実装中に`flutter analyze && dart run custom_lint`や`katana test update`を実行してエラーがないか確認しながら１つずつ実装。
+2. `flutter analyze && dart run custom_lint`を実行してErrorやWarningがないか確認。ErrorやWarningが発生していた場合は修正を実施して再度実行。ErrorやWarningがなくなるまで繰り返す。
+3. 画面の作成や変更を行った場合は`katana test update`を実行してゴールデンテスト用のスクリーンショット画像を更新。
+4. `katana test run`を実行してテストが全てパスするか確認。
+5. `katana git commit`を実行して変更をコミット。
+6. `katana git pull_request`を実行してPRを作成、既存のPRがある場合は`katana git pull_request_comment`でコメントを追加。
+
+#### 改修、もしくはバグ修正
+
+1. 要件から改修を実施。
+   - 実装中に`flutter analyze && dart run custom_lint`や`katana test update`を実行してエラーがないか確認しながら１つずつ実装。
+2. `flutter analyze && dart run custom_lint`を実行してErrorやWarningがないか確認。ErrorやWarningが発生していた場合は修正を実施して再度実行。ErrorやWarningがなくなるまで繰り返す。
+3. 画面の作成や変更を行った場合は`katana test update`を実行してゴールデンテスト用のスクリーンショット画像を更新。
+4. `katana test run`を実行してテストが全てパスするか確認。
+5. `katana git commit`を実行して変更をコミット。
+6. `katana git pull_request`を実行してPRを作成。
+
+### `開発`時全般に関わるルール
 
 - Dart言語とFlutterフレームワークで開発を行う。
 - Flutter内のフレームワークであるMasamuneフレームワークを利用。
@@ -603,18 +660,24 @@ class GitClaudeMarkdownCliCode extends CliCode {
             - `model_locale.md`: ModelLocaleの使用方法
             - `model_localized_value.md`: ModelLocalizedValueの使用方法
             - `model_search.md`: ModelSearchの使用方法
-- GitのコミットおよびPullRequestの作成は必ず`katana`コマンドを用いて行うこと
+- Gitのコミットは必ず`katana git commit`コマンドを用いて行うこと
     - ファイルのステージングおよびGitのコミット
         ```bash
         katana git commit --message="コミットメッセージ" [コミット対象のファイル1] [コミット対象のファイル2] ...
         ```
+- 新規PullRequestの作成は必ず`katana git pull_request`コマンドを用いて行うこと
     - PullRequestの作成
         ```bash
-        katana git pull_request --target="マージ先のブランチ" --source="マージ元のブランチ" --title="PullRequestのタイトル" --body="PullRequestの説明（改行は`\\n`で行う）" [PullRequestの説明に加えるスクリーンショットのファイル1] [PullRequestの説明に加えるスクリーンショットのファイル2] ...
+        katana git pull_request --target="マージ先のブランチ" --source="マージ元のブランチ" --title="PullRequestのタイトル" --body="PullRequestの説明（改行は`\n`で行う）" [PullRequestの説明に加えるスクリーンショットのファイル1] [PullRequestの説明に加えるスクリーンショットのファイル2] ...
+        ```
+- 既存のPullRequestへのコメントは必ず`katana git pull_request_comment`コマンドを用いて行うこと
+    - PullRequestの作成
+        ```bash
+        katana git pull_request_comment --message="PullRequestに対するコメント（改行は`\n`で行う）" [PullRequestのコメントに加えるスクリーンショットのファイル1] [PullRequestのコメントに加えるスクリーンショットのファイル2] ...
         ```
     - その他、`katana`コマンドの使い方については`documents/rules/docs/katana_cli.md`に記載。
 
-### 作業実施時
+### 作業実施時のルール
 
 - `Page`、`Model`、`Enum`、`Widget`、`Controller`等のDartファイルの作成は`katana`コマンドを用いて作成すること
     - `katana`コマンドの使い方については`documents/rules/docs/katana_cli.md`に記載。
@@ -637,7 +700,7 @@ class GitClaudeMarkdownCliCode extends CliCode {
             katana test update TestPage,TestWidget,TestModel
             ```
 
-### 作業完了後
+### 作業完了後のルール
 
 - 作業実施後、コミット前に必ず下記を実施しコードの品質と安全性を保つ。
     1. 下記のコマンドを実施してコードのフォーマットを行う。
@@ -686,7 +749,7 @@ class GitClaudeMarkdownCliCode extends CliCode {
     7. PullRequestを新しく作成するは下記のコマンドでPullRequestを作成。
 
         ```bash
-        katana git pull_request --target="マージ先のブランチ" --source="マージ元のブランチ" --title="PullRequestのタイトル" --body="PullRequestの説明（改行は`\\n`で行う）" [PullRequestの説明に加えるスクリーンショットのファイル1] [PullRequestの説明に加えるスクリーンショットのファイル2] ...
+        katana git pull_request --target="マージ先のブランチ" --source="マージ元のブランチ" --title="PullRequestのタイトル" --body="PullRequestの説明（改行は`\n`で行う）" [PullRequestの説明に加えるスクリーンショットのファイル1] [PullRequestの説明に加えるスクリーンショットのファイル2] ...
         ```
 
         - 6のコミットの中`katana test update`で生成した画像(`documents/test/**/*.png`)を「PullRequestの説明に加えるスクリーンショットのファイル」として指定する。

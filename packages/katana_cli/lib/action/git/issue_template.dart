@@ -213,7 +213,7 @@ body:
         5. `katana test update`を実行してゴールデンテスト用のスクリーンショット画像を作成。
         6. `katana test run`を実行してテストが全てパスするか確認。
         7. `katana git commit`を実行して変更をコミット。
-        8. `katana git pull_request`を実行してPRを作成。
+        8. `katana git pull_request`を実行してPRを作成、既存のPRがある場合は`katana git pull_request_comment`でコメントを追加。
     validations:
       required: true
 """;
@@ -338,7 +338,7 @@ body:
         3. 画面の作成や変更を行った場合は`katana test update`を実行してゴールデンテスト用のスクリーンショット画像を更新。
         4. `katana test run`を実行してテストが全てパスするか確認。
         5. `katana git commit`を実行して変更をコミット。
-        6. `katana git pull_request`を実行してPRを作成。
+        6. `katana git pull_request`を実行してPRを作成、既存のPRがある場合は`katana git pull_request_comment`でコメントを追加。
     validations:
       required: true
 """;
@@ -478,7 +478,7 @@ body:
         3. 画面の作成や変更を行った場合は`katana test update`を実行してゴールデンテスト用のスクリーンショット画像を更新。
         4. `katana test run`を実行してテストが全てパスするか確認。
         5. `katana git commit`を実行して変更をコミット。
-        6. `katana git pull_request`を実行してPRを作成。
+        6. `katana git pull_request`を実行してPRを作成、既存のPRがある場合は`katana git pull_request_comment`でコメントを追加。
     validations:
       required: true
 """;
@@ -677,7 +677,7 @@ body:
         3. 画面の作成や変更を行った場合は`katana test update`を実行してゴールデンテスト用のスクリーンショット画像を更新。
         4. `katana test run`を実行してテストが全てパスするか確認。
         5. `katana git commit`を実行して変更をコミット。
-        6. `katana git pull_request`を実行してPRを作成。
+        6. `katana git pull_request`を実行してPRを作成、既存のPRがある場合は`katana git pull_request_comment`でコメントを追加。
     validations:
       required: true
 """;
