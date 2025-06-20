@@ -33,6 +33,8 @@ class GitCursorCliAction extends CliCommand with CliActionMixin {
     label("Create Dockerfile");
     await GitCursorDockerfileCliCode(flutterVersion: flutterVersion)
         .generateFile("Dockerfile");
+    label("Create environment.json");
+    await const GitCursorEnvironmentCliCode().generateFile("environment.json");
   }
 }
 
@@ -77,6 +79,52 @@ globs:
 alwaysApply: true
 ---
 ${const GitClaudeMarkdownCliCode().body(path, baseName, className)}
+""";
+  }
+}
+
+/// Contents of environment.json.
+///
+/// environment.jsonの中身。
+class GitCursorEnvironmentCliCode extends CliCode {
+  /// Contents of environment.json.
+  ///
+  /// environment.jsonの中身。
+  const GitCursorEnvironmentCliCode();
+
+  @override
+  String get name => "environment";
+
+  @override
+  String get prefix => "environment";
+
+  @override
+  String get directory => ".cursor";
+
+  @override
+  String get description =>
+      "Create environment.json for AI Agent using Cursor. Cursorを利用したAIエージェント機能用のenvironment.jsonを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+{
+  "build": {
+    "context": ".",
+    "dockerfile": "Dockerfile"
+  },
+  "install": "flutter pub get"
+}
 """;
   }
 }
@@ -129,7 +177,6 @@ ARG FLUTTER_VERSION=$flutterVersion
 
 ENV FLUTTER_VERSION=\$FLUTTER_VERSION
 
-# 基本的な開発ツールのインストール
 RUN apt-get update && apt-get install -y \\
     curl \\
     git \\
@@ -145,43 +192,34 @@ RUN apt-get update && apt-get install -y \\
     nano \\
     && rm -rf /var/lib/apt/lists/*
 
-# 非rootユーザーの作成
-RUN useradd -m -s /bin/bash ubuntu && \\
+RUN id -u ubuntu >/dev/null 2>&1 || useradd -m -s /bin/bash ubuntu && \\
     echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-# Flutterのインストール
 RUN curl -o flutter.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_\$FLUTTER_VERSION-stable.tar.xz \\
     && mkdir -p /usr/local/flutter \\
     && tar -xf flutter.tar.xz -C /usr/local/flutter --strip-components=1 \\
-    && git config --global --add safe.directory /usr/local/flutter \\
     && rm flutter.tar.xz
 
-# PATHの設定
+RUN chown -R ubuntu:ubuntu /usr/local/flutter
+
 ENV PATH="/usr/local/flutter/bin:\$PATH"
 
-# Flutterの初期設定
-RUN flutter doctor --android-licenses || true && flutter doctor || true
-
-# Katana CLIのインストール
-RUN flutter pub global activate katana_cli
-
-# グローバルパッケージのPATH追加
-ENV PATH="\$PATH:/home/ubuntu/.pub-cache/bin"
-
-# ubuntuユーザーに切り替え
 USER ubuntu
 
-# ワークディレクトリの設定
 WORKDIR /home/ubuntu
 
-# .pub-cacheディレクトリの所有権設定
 RUN mkdir -p /home/ubuntu/.pub-cache
 
-# Gitの基本設定
-RUN git config --global init.defaultBranch main
+RUN git config --global init.defaultBranch main && \\
+    git config --global --add safe.directory /usr/local/flutter
 
-# 動作確認
-RUN flutter --version && katana --version || echo "Setup complete"
+RUN flutter doctor --android-licenses || true && flutter doctor || true
+
+RUN flutter pub global activate katana_cli
+
+ENV PATH="\$PATH:/home/ubuntu/.pub-cache/bin"
+
+RUN flutter --version || echo "Setup complete"
 
 CMD ["/bin/bash"]
 """;
