@@ -1,3 +1,7 @@
+## 3.4.1
+
+ - **FIX**: I started checking file paths using the `code` command. ([c5c4dc0c](https://github.com/mathrunet/flutter_masamune/commit/c5c4dc0c40f6814fdabca13be5100569d028407f))
+
 ## 3.4.0
 
  - **FEAT**: Add issue template. ([490786a7](https://github.com/mathrunet/flutter_masamune/commit/490786a7ae8aef20c4c8b0fd7e7b9f8a10c7a391))
