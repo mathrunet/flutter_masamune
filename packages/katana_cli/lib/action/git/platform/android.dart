@@ -97,10 +97,9 @@ Future<void> buildAndroid(
     ],
   );
   final gitDir = await findGitDirectory(Directory.current);
-  final workingPath = Directory.current.difference(gitDir);
-  await const GitStatusCheckActionCliCode().generateFile(
-    "${workingPath.isEmpty ? "." : workingPath}/.github/workflows/actions/status_check/action.yaml",
-  );
+  await GitStatusCheckActionCliCode(
+    workingDirectory: gitDir,
+  ).generateFile("action.yaml");
   final androidCode = GithubActionsAndroidCliCode(
     workingDirectory: gitDir,
     defaultIncrementNumber: defaultIncrementNumber,

@@ -30,15 +30,12 @@ class GitStatusCheckCliAction extends CliCommand with CliActionMixin {
   Future<void> exec(ExecContext context) async {
     label("Create status_check.yaml");
     final gitDir = await findGitDirectory(Directory.current);
-    final workingPath = Directory.current.difference(gitDir);
-    await const GitStatusCheckActionCliCode().generateFile(
-      "${workingPath.isEmpty ? "." : workingPath}/.github/workflows/actions/status_check/action.yaml",
-    );
+    await GitStatusCheckActionCliCode(
+      workingDirectory: gitDir,
+    ).generateFile("action.yaml");
     await GitStatusCheckCliCode(
       workingDirectory: gitDir,
-    ).generateFile(
-      "${workingPath.isEmpty ? "." : workingPath}/.github/workflows/status_check.yaml",
-    );
+    ).generateFile("status_check.yaml");
   }
 }
 
@@ -65,7 +62,10 @@ class GitStatusCheckCliCode extends CliCode {
   String get prefix => "status_check";
 
   @override
-  String get directory => "";
+  String get directory {
+    final workingPath = Directory.current.difference(workingDirectory);
+    return "${workingPath.isEmpty ? "." : workingPath}/.github/workflows";
+  }
 
   @override
   String get description =>
@@ -119,6 +119,7 @@ jobs:
       # Flutter status check.
       # Flutterのステータスチェックを行います。
       - name: Flutter status check
+        timeout-minutes: 30
         uses: ./.github/actions/status_check
 """;
   }
@@ -131,16 +132,26 @@ class GitStatusCheckActionCliCode extends CliCode {
   /// Contents of status_check.yaml.
   ///
   /// status_check.yamlの中身。
-  const GitStatusCheckActionCliCode();
+  const GitStatusCheckActionCliCode({
+    this.workingDirectory,
+  });
+
+  /// Working Directory.
+  ///
+  /// ワーキングディレクトリ。
+  final Directory? workingDirectory;
 
   @override
-  String get name => "status_check";
+  String get name => "action";
 
   @override
-  String get prefix => "status_check";
+  String get prefix => "action";
 
   @override
-  String get directory => "";
+  String get directory {
+    final workingPath = Directory.current.difference(workingDirectory);
+    return "${workingPath.isEmpty ? "." : workingPath}/.github/actions/status_check";
+  }
 
   @override
   String get description =>
@@ -172,12 +183,10 @@ runs:
     # リポジトリをチェックアウト。
     - name: Checkout repository
       uses: actions/checkout@v4
-      timeout-minutes: 10
 
     # Set up JDK 17.
     # JDK 17のセットアップ
     - name: Set up JDK 17
-      timeout-minutes: 10
       uses: actions/setup-java@v4
       with:
         distribution: microsoft
@@ -186,7 +195,6 @@ runs:
     # Install flutter.
     # Flutterのインストール。
     - name: Install flutter
-      timeout-minutes: 10
       uses: subosito/flutter-action@v2
       with:
         channel: stable
@@ -197,48 +205,41 @@ runs:
     - name: Run flutter version
       shell: bash
       run: flutter --version
-      timeout-minutes: 3
 
     # Run flutter pub get
     # Flutterのパッケージを取得。
     - name: Run flutter pub get
       shell: bash
       run: flutter pub get
-      timeout-minutes: 3
 
     # Creation of the Assets folder.
     # Assetsフォルダの作成。
     - name: Create assets folder
       shell: bash
       run: mkdir -p assets
-      timeout-minutes: 3
 
     # katanaコマンドをインストール
     - name: Install katana
       shell: bash
       run: flutter pub global activate katana_cli
-      timeout-minutes: 3
 
     # Running flutter analyze.
     # Flutter analyzeとcustom_lintの実行。
     - name: Analyzing flutter project
       shell: bash
       run: flutter analyze && dart run custom_lint
-      timeout-minutes: 10
 
     # Running the flutter test.
     # Flutter testの実行。
     - name: Testing flutter project
       shell: bash
       run: katana test run
-      timeout-minutes: 30
 
     # Upload golden test failures.
     # 差分画像をアップロード（失敗時のみ）
     - name: Upload golden test failures
       if: failure()
       uses: actions/upload-artifact@v4
-      timeout-minutes: 10
       with:
         name: golden-test-failures
         path: "test/**/failures/**/*.png"

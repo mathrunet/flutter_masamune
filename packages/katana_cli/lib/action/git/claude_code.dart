@@ -115,17 +115,13 @@ class GitClaudeCodeCliAction extends CliCommand with CliActionMixin {
     }
     label("Create claude_code.yaml");
     final gitDir = await findGitDirectory(Directory.current);
-    final workingPath = Directory.current.difference(gitDir);
     await GitClaudeCodeCliCode(
       model: model,
       actionsRepositoryName: uses,
-    ).generateFile(
-      "${workingPath.isEmpty ? "." : workingPath}/.github/workflows/claude_code.yaml",
-    );
-    label("Create claude_code.yaml");
-    await const GitClaudeMarkdownCliCode().generateFile(
-      "${workingPath.isEmpty ? "." : workingPath}/CLAUDE.md",
-    );
+      workingDirectory: gitDir,
+    ).generateFile("claude_code.yaml");
+    label("Create CLAUDE.md");
+    await const GitClaudeMarkdownCliCode().generateFile("CLAUDE.md");
   }
 }
 
@@ -139,7 +135,13 @@ class GitClaudeCodeCliCode extends CliCode {
   const GitClaudeCodeCliCode({
     required this.model,
     this.actionsRepositoryName,
+    this.workingDirectory,
   });
+
+  /// Working Directory.
+  ///
+  /// ワーキングディレクトリ。
+  final Directory? workingDirectory;
 
   /// Name of the Actions repository to be used.
   ///
@@ -158,7 +160,10 @@ class GitClaudeCodeCliCode extends CliCode {
   String get prefix => "claude_code";
 
   @override
-  String get directory => "";
+  String get directory {
+    final workingPath = Directory.current.difference(workingDirectory);
+    return "${workingPath.isEmpty ? "." : workingPath}/.github/workflows";
+  }
 
   @override
   String get description =>

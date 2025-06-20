@@ -35,24 +35,35 @@ class GitIssueTemplateCliAction extends CliCommand with CliActionMixin {
   Future<void> exec(ExecContext context) async {
     label("Create issue_template.");
     final gitDir = await findGitDirectory(Directory.current);
-    final workingPath = Directory.current.difference(gitDir);
-    await const GitCreateAppIssueTemplateCliCode().generateFile(
-      "${workingPath.isEmpty ? "." : workingPath}/.github/ISSUE_TEMPLATE/01_create_app.yaml",
+    await GitCreateAppIssueTemplateCliCode(
+      workingDirectory: gitDir,
+    ).generateFile(
+      "01_create_app.yaml",
     );
-    await const GitNewFeatureIssueTemplateCliCode().generateFile(
-      "${workingPath.isEmpty ? "." : workingPath}/.github/ISSUE_TEMPLATE/02_new_feature.yaml",
+    await GitNewFeatureIssueTemplateCliCode(
+      workingDirectory: gitDir,
+    ).generateFile(
+      "02_new_feature.yaml",
     );
-    await const GitEnhancementIssueTemplateCliCode().generateFile(
-      "${workingPath.isEmpty ? "." : workingPath}/.github/ISSUE_TEMPLATE/03_enhancement.yaml",
+    await GitEnhancementIssueTemplateCliCode(
+      workingDirectory: gitDir,
+    ).generateFile(
+      "03_enhancement.yaml",
     );
-    await const GitBugReportIssueTemplateCliCode().generateFile(
-      "${workingPath.isEmpty ? "." : workingPath}/.github/ISSUE_TEMPLATE/04_bug_report.yaml",
+    await GitBugReportIssueTemplateCliCode(
+      workingDirectory: gitDir,
+    ).generateFile(
+      "04_bug_report.yaml",
     );
-    await const GitQuestionIssueTemplateCliCode().generateFile(
-      "${workingPath.isEmpty ? "." : workingPath}/.github/ISSUE_TEMPLATE/05_question.yaml",
+    await GitQuestionIssueTemplateCliCode(
+      workingDirectory: gitDir,
+    ).generateFile(
+      "05_question.yaml",
     );
-    await const GitConfigIssueTemplateCliCode().generateFile(
-      "${workingPath.isEmpty ? "." : workingPath}/.github/ISSUE_TEMPLATE/config.yaml",
+    await GitConfigIssueTemplateCliCode(
+      workingDirectory: gitDir,
+    ).generateFile(
+      "config.yaml",
     );
   }
 }
@@ -64,7 +75,14 @@ class GitCreateAppIssueTemplateCliCode extends CliCode {
   /// Create an issue template.
   ///
   /// Issueテンプレートを作成します。
-  const GitCreateAppIssueTemplateCliCode();
+  const GitCreateAppIssueTemplateCliCode({
+    this.workingDirectory,
+  });
+
+  /// Working Directory.
+  ///
+  /// ワーキングディレクトリ。
+  final Directory? workingDirectory;
 
   @override
   String get name => "01_create_app";
@@ -73,7 +91,10 @@ class GitCreateAppIssueTemplateCliCode extends CliCode {
   String get prefix => "01_create_app";
 
   @override
-  String get directory => "";
+  String get directory {
+    final workingPath = Directory.current.difference(workingDirectory);
+    return "${workingPath.isEmpty ? "." : workingPath}/.github/ISSUE_TEMPLATE";
+  }
 
   @override
   String get description =>
@@ -206,7 +227,14 @@ class GitNewFeatureIssueTemplateCliCode extends CliCode {
   /// Create an issue template.
   ///
   /// Issueテンプレートを作成します。
-  const GitNewFeatureIssueTemplateCliCode();
+  const GitNewFeatureIssueTemplateCliCode({
+    this.workingDirectory,
+  });
+
+  /// Working Directory.
+  ///
+  /// ワーキングディレクトリ。
+  final Directory? workingDirectory;
 
   @override
   String get name => "02_new_feature";
@@ -215,7 +243,10 @@ class GitNewFeatureIssueTemplateCliCode extends CliCode {
   String get prefix => "02_new_feature";
 
   @override
-  String get directory => "";
+  String get directory {
+    final workingPath = Directory.current.difference(workingDirectory);
+    return "${workingPath.isEmpty ? "." : workingPath}/.github/ISSUE_TEMPLATE";
+  }
 
   @override
   String get description =>
@@ -321,7 +352,14 @@ class GitEnhancementIssueTemplateCliCode extends CliCode {
   /// Create an issue template.
   ///
   /// Issueテンプレートを作成します。
-  const GitEnhancementIssueTemplateCliCode();
+  const GitEnhancementIssueTemplateCliCode({
+    this.workingDirectory,
+  });
+
+  /// Working Directory.
+  ///
+  /// ワーキングディレクトリ。
+  final Directory? workingDirectory;
 
   @override
   String get name => "03_enhancement";
@@ -330,7 +368,10 @@ class GitEnhancementIssueTemplateCliCode extends CliCode {
   String get prefix => "03_enhancement";
 
   @override
-  String get directory => "";
+  String get directory {
+    final workingPath = Directory.current.difference(workingDirectory);
+    return "${workingPath.isEmpty ? "." : workingPath}/.github/ISSUE_TEMPLATE";
+  }
 
   @override
   String get description =>
@@ -451,7 +492,14 @@ class GitBugReportIssueTemplateCliCode extends CliCode {
   /// Create an issue template.
   ///
   /// Issueテンプレートを作成します。
-  const GitBugReportIssueTemplateCliCode();
+  const GitBugReportIssueTemplateCliCode({
+    this.workingDirectory,
+  });
+
+  /// Working Directory.
+  ///
+  /// ワーキングディレクトリ。
+  final Directory? workingDirectory;
 
   @override
   String get name => "04_bug_report";
@@ -460,7 +508,10 @@ class GitBugReportIssueTemplateCliCode extends CliCode {
   String get prefix => "04_bug_report";
 
   @override
-  String get directory => "";
+  String get directory {
+    final workingPath = Directory.current.difference(workingDirectory);
+    return "${workingPath.isEmpty ? "." : workingPath}/.github/ISSUE_TEMPLATE";
+  }
 
   @override
   String get description =>
@@ -640,7 +691,14 @@ class GitQuestionIssueTemplateCliCode extends CliCode {
   /// Create an issue template.
   ///
   /// Issueテンプレートを作成します。
-  const GitQuestionIssueTemplateCliCode();
+  const GitQuestionIssueTemplateCliCode({
+    this.workingDirectory,
+  });
+
+  /// Working Directory.
+  ///
+  /// ワーキングディレクトリ。
+  final Directory? workingDirectory;
 
   @override
   String get name => "05_question";
@@ -649,7 +707,10 @@ class GitQuestionIssueTemplateCliCode extends CliCode {
   String get prefix => "05_question";
 
   @override
-  String get directory => "";
+  String get directory {
+    final workingPath = Directory.current.difference(workingDirectory);
+    return "${workingPath.isEmpty ? "." : workingPath}/.github/ISSUE_TEMPLATE";
+  }
 
   @override
   String get description =>
@@ -732,7 +793,14 @@ class GitConfigIssueTemplateCliCode extends CliCode {
   /// Create an issue template.
   ///
   /// Issueテンプレートを作成します。
-  const GitConfigIssueTemplateCliCode();
+  const GitConfigIssueTemplateCliCode({
+    this.workingDirectory,
+  });
+
+  /// Working Directory.
+  ///
+  /// ワーキングディレクトリ。
+  final Directory? workingDirectory;
 
   @override
   String get name => "config";

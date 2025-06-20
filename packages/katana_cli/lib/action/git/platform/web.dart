@@ -23,10 +23,9 @@ Future<void> buildWeb(
   final slack = secretGithub.getAsMap("slack");
   final slackIncomingWebhookUrl = slack.get("incoming_webhook_url", "");
   final gitDir = await findGitDirectory(Directory.current);
-  final workingPath = Directory.current.difference(gitDir);
-  await const GitStatusCheckActionCliCode().generateFile(
-    "${workingPath.isEmpty ? "." : workingPath}/.github/workflows/actions/status_check/action.yaml",
-  );
+  await GitStatusCheckActionCliCode(
+    workingDirectory: gitDir,
+  ).generateFile("action.yaml");
   final webCode = GithubActionsWebCliCode(
     workingDirectory: gitDir,
     defaultIncrementNumber: defaultIncrementNumber,
