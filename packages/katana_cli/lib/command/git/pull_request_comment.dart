@@ -58,13 +58,7 @@ class GitPullRequestCommentCliCommand extends CliCommand {
     }
     var comment = commentArg
         ?.substring(commentArg.indexOf("=") + 1, commentArg.length)
-        .trim()
-        .trimString("\"")
-        .trimString("'")
-        .trim()
-        .replaceAll("\\n", "\n")
-        .replaceAll('\\"', '"')
-        .replaceAll("\\!", "!");
+        .escape();
 
     if (target == null || target.isEmpty) {
       error(

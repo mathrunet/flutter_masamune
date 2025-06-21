@@ -57,27 +57,16 @@ class GitPullRequestCliCommand extends CliCommand {
     }
     final title = titleArg
         ?.substring(titleArg.indexOf("=") + 1, titleArg.length)
-        .trim()
-        .trimString("\"")
-        .trimString("'")
-        .trim()
-        .replaceAll("\\n", "\n")
-        .replaceAll('\\"', '"')
-        .replaceAll("\\!", "!");
+        .escape();
     final bodyArg =
         args.firstWhereOrNull((element) => element.startsWith("--body="));
     if (bodyArg != null) {
       args.remove(bodyArg);
     }
-    var body = bodyArg
-        ?.substring(bodyArg.indexOf("=") + 1, bodyArg.length)
-        .trim()
-        .trimString("\"")
-        .trimString("'")
-        .trim()
-        .replaceAll("\\n", "\n")
-        .replaceAll('\\"', '"')
-        .replaceAll("\\!", "!");
+    var body =
+        bodyArg?.substring(bodyArg.indexOf("=") + 1, bodyArg.length).escape();
+    // ignore: avoid_print
+    print(body);
 
     if (target == null || target.isEmpty) {
       error(

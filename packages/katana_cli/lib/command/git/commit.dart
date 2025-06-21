@@ -32,13 +32,7 @@ class GitCommitCliCommand extends CliCommand {
     }
     var message = messageArg
         ?.substring(messageArg.indexOf("=") + 1, messageArg.length)
-        .trim()
-        .trimString("\"")
-        .trimString("'")
-        .trim()
-        .replaceAll("\\n", "\n")
-        .replaceAll('\\"', '"')
-        .replaceAll("\\!", "!");
+        .escape();
     if (message == null || message.isEmpty) {
       error(
           "Message is required. e.g. `katana git commit --message=\"Commit message\"` file-path1.py file-path2.js`");

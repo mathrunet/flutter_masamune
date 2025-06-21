@@ -35,3 +35,22 @@ class GitCliCommand extends CliCommandGroup {
         "pull_request_comment": GitPullRequestCommentCliCommand(),
       };
 }
+
+extension on String {
+  /// Escape the string.
+  ///
+  /// 文字列をエスケープします。
+  String escape() {
+    return trim()
+        .trimString("\"")
+        .trimString("'")
+        .trim()
+        .replaceAll(RegExp(r"[\\]+!"), "!")
+        .replaceAll(RegExp(r'[\\]+"'), '"')
+        .replaceAll(RegExp(r'[\\]+\n"'), "\n")
+        .replaceAll(RegExp(r'[\\]+`"'), r"\`")
+        .replaceAllMapped(RegExp(r"([^\\])`"), (m) {
+      return "${m.group(1)}\\`";
+    });
+  }
+}
