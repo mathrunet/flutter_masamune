@@ -468,6 +468,7 @@ class ModelAdapterDocumentQuery {
     this.method,
     this.reload = false,
     this.reference = false,
+    this.asyncOnSave = false,
   });
 
   /// Document query.
@@ -514,11 +515,16 @@ class ModelAdapterDocumentQuery {
   /// ドキュメントが他からの参照を示す場合は`true`を返します。
   final bool reference;
 
-  /// Change [headers] or [method], [reload], [reference], and [query] and copy.
+  /// Set to `true` to save asynchronously.
+  ///
+  /// 非同期で保存を行う場合は`true`を設定します。
+  final bool asyncOnSave;
+
+  /// Change [headers] or [method], [reload], [reference], [asyncOnSave], and [query] and copy.
   ///
   /// Copied objects are recognized as the same object.
   ///
-  /// [headers]もしくは[method]、[reload]、[reference]、[query]を変更してコピーします。
+  /// [headers]もしくは[method]、[reload]、[reference]、[asyncOnSave]、[query]を変更してコピーします。
   ///
   /// コピーされたオブジェクトは同一オブジェクトとして認識されます。
   ModelAdapterDocumentQuery copyWith({
@@ -527,6 +533,7 @@ class ModelAdapterDocumentQuery {
     String? method,
     bool? reload,
     bool? reference,
+    bool? asyncOnSave,
   }) {
     return ModelAdapterDocumentQuery(
       query: query ?? this.query,
@@ -537,12 +544,13 @@ class ModelAdapterDocumentQuery {
       method: method ?? this.method,
       reload: reload ?? this.reload,
       reference: reference ?? this.reference,
+      asyncOnSave: asyncOnSave ?? this.asyncOnSave,
     );
   }
 
   @override
   String toString() {
-    return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode}, headers: $headers, method: $method, reload: $reload, reference: $reference)";
+    return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode}, headers: $headers, method: $method, reload: $reload, reference: $reference, asyncOnSave: $asyncOnSave)";
   }
 
   @override

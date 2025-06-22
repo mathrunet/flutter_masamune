@@ -19,6 +19,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
     required this.builders,
     required this.endpoint,
     NoSqlDatabase? database,
+    this.asyncSavingManager,
     this.validator,
     this.headers = defaultHeaders,
     this.checkError = defaultCheckError,
@@ -67,6 +68,15 @@ abstract class RestApiModelAdapter extends ModelAdapter {
   ///
   /// レスポンスがエラーの場合は`true`を返します。
   final bool Function(ApiResponse response) checkError;
+
+  /// A function that returns the async saving manager.
+  ///
+  /// If this is set, when saving and deleting, data will be temporarily stored in [database], and its content will be saved asynchronously.
+  ///
+  /// 非同期保存マネージャーを設定します。
+  ///
+  /// これが設定されている場合、保存および削除時は[database]にデータを一時的に保存し、その内容を非同期で保存するようにします。
+  final AsyncSavingManager? asyncSavingManager;
 
   /// A function that returns the headers.
   ///
@@ -733,6 +743,70 @@ class SaveDocumentModelRestApiQuery extends SaveDocumentModelRestApiBuilder {
     DynamicMap value,
     RestApiModelAdapter adapter,
   ) async {
+    if (adapter.asyncSavingManager != null) {
+      if (query.asyncOnSave) {
+        final uri = endpoint(adapter.endpoint, query);
+        final headers =
+            await this.headers?.call(query) ?? await adapter.headers();
+        final method = this.method(query, value);
+        ApiResponse? response;
+        switch (method) {
+          case ApiMethod.get:
+            response = await Api.post(
+              uri.toString(),
+              headers: headers,
+            );
+            break;
+          case ApiMethod.post:
+            final body = await dataOnSave(query, value);
+            response = await Api.post(
+              uri.toString(),
+              headers: headers,
+              body: body,
+            );
+            break;
+          case ApiMethod.put:
+            final body = await dataOnSave(query, value);
+            response = await Api.put(
+              uri.toString(),
+              headers: headers,
+              body: body,
+            );
+            break;
+          case ApiMethod.patch:
+            final body = await dataOnSave(query, value);
+            response = await Api.patch(
+              uri.toString(),
+              headers: headers,
+              body: body,
+            );
+            break;
+          case ApiMethod.delete:
+            response = await Api.delete(
+              uri.toString(),
+              headers: headers,
+            );
+            break;
+          case ApiMethod.head:
+            response = await Api.head(
+              uri.toString(),
+              headers: headers,
+            );
+            break;
+        }
+        if (checkError?.call(response) ?? adapter.checkError(response)) {
+          throw RestApiModelAdapterException(uri: uri, response: response.body);
+        }
+        return onSaved?.call(query, value) ?? Future.value();
+      }
+      if (adapter.validator != null) {
+        final oldValue = await adapter.database.loadDocument(query);
+        await adapter.validator!
+            .onSaveDocument(query, oldValue: oldValue, newValue: value);
+      }
+      await adapter.database.saveDocument(query, value);
+      return await adapter.asyncSavingManager!.enqueueOnSave(query);
+    }
     final uri = endpoint(adapter.endpoint, query);
     final headers = await this.headers?.call(query) ?? await adapter.headers();
     final method = this.method(query, value);
@@ -883,6 +957,24 @@ class DeleteDocumentModelRestApiQuery
   @override
   Future<void> process(
       ModelAdapterDocumentQuery query, RestApiModelAdapter adapter) async {
+    if (adapter.asyncSavingManager != null) {
+      if (query.asyncOnSave) {
+        final uri = endpoint(adapter.endpoint, query);
+        final headers =
+            await this.headers?.call(query) ?? await adapter.headers();
+        final response = await Api.delete(uri.toString(), headers: headers);
+        if (checkError?.call(response) ?? adapter.checkError(response)) {
+          throw RestApiModelAdapterException(uri: uri, response: response.body);
+        }
+        return onDeleted?.call(query) ?? Future.value();
+      }
+      if (adapter.validator != null) {
+        final oldValue = await adapter.database.loadDocument(query);
+        await adapter.validator!.onDeleteDocument(query, oldValue);
+      }
+      await adapter.database.deleteDocument(query);
+      return await adapter.asyncSavingManager!.enqueueOnDelete(query);
+    }
     final uri = endpoint(adapter.endpoint, query);
     final headers = await this.headers?.call(query) ?? await adapter.headers();
     final response = await Api.delete(uri.toString(), headers: headers);

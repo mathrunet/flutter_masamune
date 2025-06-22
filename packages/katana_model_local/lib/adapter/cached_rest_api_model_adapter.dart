@@ -35,6 +35,16 @@ abstract class CachedRestApiModelAdapter extends RestApiModelAdapter {
 
   final NoSqlDatabase? _database;
 
+  @override
+  AsyncSavingManager? get asyncSavingManager {
+    _sharedAsyncSavingManager ??= LocalRestApiModelAsyncSavingManager(
+      adapter: this,
+    );
+    return _sharedAsyncSavingManager;
+  }
+
+  static AsyncSavingManager? _sharedAsyncSavingManager;
+
   /// A common database throughout the application.
   ///
   /// アプリ内全体での共通のデータベース。
