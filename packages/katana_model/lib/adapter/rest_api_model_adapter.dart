@@ -38,7 +38,9 @@ abstract class RestApiModelAdapter extends ModelAdapter {
   /// A common database throughout the application.
   ///
   /// アプリ内全体での共通のデータベース。
-  static final NoSqlDatabase sharedDatabase = NoSqlDatabase();
+  static final NoSqlDatabase sharedDatabase = NoSqlDatabase(
+    enableCollectionQueryOnLoad: false,
+  );
 
   /// The base endpoint of the REST API.
   ///
@@ -101,7 +103,33 @@ abstract class RestApiModelAdapter extends ModelAdapter {
       if (collectionBuilder == null || !await collectionBuilder.match(query)) {
         continue;
       }
-      return await collectionBuilder.process(query, this);
+      final values = await collectionBuilder.process(query, this);
+      final limitValue = NoSqlDatabase.limitValue(query);
+      final entries = query.query.sort(
+        values
+            .toList(
+              (key, value) {
+                // ignore: unnecessary_type_check
+                if (value is! Map) {
+                  return null;
+                }
+                return MapEntry(
+                  key,
+                  Map<String, dynamic>.from(value),
+                );
+              },
+            )
+            .where(
+              (element) =>
+                  element != null && query.query.hasMatchAsMap(element.value),
+            )
+            .removeEmpty(),
+      );
+      final limited = entries.sublist(
+        0,
+        limitValue != null ? min(limitValue, entries.length) : null,
+      );
+      return Map<String, DynamicMap>.fromEntries(limited);
     }
     throw UnimplementedError("Endpoint is not found: ${query.query.path}");
   }

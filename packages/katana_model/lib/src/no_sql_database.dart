@@ -77,6 +77,7 @@ class NoSqlDatabase {
     this.onSaved,
     this.onDeleted,
     this.onClear,
+    this.enableCollectionQueryOnLoad = true,
   });
 
   /// Location where real data is stored.
@@ -112,6 +113,11 @@ class NoSqlDatabase {
   ///
   /// Databaseの全削除時に実行されます。
   final Future<void> Function(NoSqlDatabase database)? onClear;
+
+  /// Enable collection query on load.
+  ///
+  /// コレクションクエリーを読み込み時に有効にします。
+  final bool enableCollectionQueryOnLoad;
 
   bool _initialized = false;
   Completer<void>? _completer;
@@ -386,7 +392,22 @@ class NoSqlDatabase {
     if (value is! DynamicMap) {
       return null;
     }
-    final limitValue = _limitValue(query);
+    if (!enableCollectionQueryOnLoad) {
+      return Map<String, DynamicMap>.fromEntries(
+        value.toList(
+          (key, value) {
+            if (value is! Map) {
+              return null;
+            }
+            return MapEntry(
+              key,
+              Map<String, dynamic>.from(value),
+            );
+          },
+        ).removeEmpty(),
+      );
+    }
+    final limitValue = NoSqlDatabase.limitValue(query);
     final entries = query.query.sort(
       value
           .toList(
@@ -453,6 +474,26 @@ class NoSqlDatabase {
     if (newValue is! DynamicMap) {
       return null;
     }
+    if (!enableCollectionQueryOnLoad) {
+      final limited = newValue.toList(
+        (key, value) {
+          if (value is! Map) {
+            return null;
+          }
+          return MapEntry(
+            key,
+            Map<String, dynamic>.from(value),
+          );
+        },
+      ).removeEmpty();
+      if (isCollectionGroup) {
+        _collectionGroupEntries[query.origin] = List.from(limited);
+      } else {
+        _collectionEntries[query.origin] = List.from(limited);
+      }
+      await onSaved?.call(this);
+      return limited.toMap((item) => MapEntry(item.key, item.value));
+    }
     final limitValue = query.query.filters
         .firstWhereOrNull((e) => e.type == ModelQueryFilterType.limit)
         ?.value as int?;
@@ -460,7 +501,6 @@ class NoSqlDatabase {
       newValue
           .toList(
             (key, value) {
-              // ignore: unnecessary_type_check
               if (value is! Map) {
                 return null;
               }
@@ -1146,7 +1186,10 @@ class NoSqlDatabase {
     }
   }
 
-  int? _limitValue(ModelAdapterCollectionQuery query) {
+  /// Returns the limit value of the query.
+  ///
+  /// クエリーのlimit値を返します。
+  static int? limitValue(ModelAdapterCollectionQuery query) {
     final limitValue = query.query.filters
         .firstWhereOrNull((e) => e.type == ModelQueryFilterType.limit)
         ?.value as int?;
