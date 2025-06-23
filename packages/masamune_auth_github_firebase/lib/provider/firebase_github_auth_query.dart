@@ -1,18 +1,18 @@
 part of "/masamune_auth_github_firebase.dart";
 
-const _kGoogleAuthProviderId = "google.com";
+const _kGitHubAuthProviderId = "github.com";
 
-/// {@template google_auth}
-/// An `AuthQuery` to authenticate with a Google account on Firebase.
+/// {@template github_auth}
+/// An `AuthQuery` to authenticate with a GitHub account on Firebase.
 ///
 /// [signIn] and [reauth] are available.
 ///
-/// FirebaseにおけるGoogleアカウントでの認証を行うための`AuthQuery`。
+/// FirebaseにおけるGitHubアカウントでの認証を行うための`AuthQuery`。
 ///
 /// [signIn]および[reauth]が利用可能です。
 /// {@endtemplate}
-class FirebaseGoogleAuthQuery {
-  const FirebaseGoogleAuthQuery._();
+class FirebaseGithubAuthQuery {
+  const FirebaseGithubAuthQuery._();
 
   /// ID that defines the provider's process.
   ///
@@ -21,69 +21,63 @@ class FirebaseGoogleAuthQuery {
   /// プロバイダーの処理を定義したID。
   ///
   /// 基本的にfirebaseの`PROVIDER_ID`をベースに定義されます。
-  static const String providerId = _kGoogleAuthProviderId;
+  static const String providerId = _kGitHubAuthProviderId;
 
-  /// [AuthProvider] for performing [Authentication.signIn].
+  /// [firebase_auth.AuthProvider] for performing [Authentication.signIn].
   ///
-  /// [Authentication.signIn]を実行するための[AuthProvider]。
+  /// [Authentication.signIn]を実行するための[firebase_auth.AuthProvider]。
   ///
-  /// {@macro google_auth}
-  static FirebaseGoogleSignInAuthProvider signIn() {
-    return const FirebaseGoogleSignInAuthProvider();
+  /// {@macro github_auth}
+  static FirebaseGitHubSignInAuthProvider signIn() {
+    return const FirebaseGitHubSignInAuthProvider();
   }
 
-  /// [AuthProvider] for performing [Authentication.reauth].
+  /// [firebase_auth.AuthProvider] for performing [Authentication.reauth].
   ///
-  /// [Authentication.reauth]を実行するための[AuthProvider]。
+  /// [Authentication.reauth]を実行するための[firebase_auth.AuthProvider]。
   ///
-  /// {@macro google_auth}
-  static FirebaseGoogleReAuthProvider reauth() {
-    return const FirebaseGoogleReAuthProvider();
+  /// {@macro github_auth}
+  static FirebaseGitHubReAuthProvider reauth() {
+    return const FirebaseGitHubReAuthProvider();
   }
 }
 
-/// An `AuthQuery` for Google's OAuth authentication on Firebase.
+/// An `AuthQuery` for GitHub's OAuth authentication on Firebase.
 ///
-/// FirebaseにおけるGoogleのOAuth認証を行うための`AuthQuery`。
-class FirebaseGoogleSignInAuthProvider extends FirebaseSnsSignInAuthProvider {
-  /// An `AuthQuery` for Google's OAuth authentication on Firebase.
+/// FirebaseにおけるGitHubのOAuth認証を行うための`AuthQuery`。
+class FirebaseGitHubSignInAuthProvider extends FirebaseSnsSignInAuthProvider {
+  /// An `AuthQuery` for GitHub's OAuth authentication on Firebase.
   ///
-  /// FirebaseにおけるGoogleのOAuth認証を行うための`AuthQuery`。
-  const FirebaseGoogleSignInAuthProvider({super.allowMultiProvider = true});
+  /// FirebaseにおけるGitHubのOAuth認証を行うための`AuthQuery`。
+  const FirebaseGitHubSignInAuthProvider({super.allowMultiProvider = true});
 
   @override
-  String get providerId => _kGoogleAuthProviderId;
+  String get providerId => _kGitHubAuthProviderId;
 
   @override
   firebase_auth.AuthProvider authProvider() {
-    final provider = GoogleAuthProvider();
-    provider.setCustomParameters({
-      "prompt": "select_account",
-    });
+    final provider = GithubAuthProvider();
     return provider;
   }
 }
 
-/// An `AuthQuery` for Google's OAuth authentication on Firebase.
+/// An `AuthQuery` for GitHub's OAuth authentication on Firebase.
 ///
-/// FirebaseにおけるGoogleのOAuth認証を行うための`AuthQuery`。
-class FirebaseGoogleReAuthProvider extends FirebaseSnsReAuthProvider {
-  /// An `AuthQuery` for Google's OAuth authentication on Firebase.
+/// FirebaseにおけるGitHubのOAuth認証を行うための`AuthQuery`。
+class FirebaseGitHubReAuthProvider extends FirebaseSnsReAuthProvider {
+  /// An `AuthQuery` for GitHub's OAuth authentication on Firebase.
   ///
-  /// FirebaseにおけるGoogleのOAuth認証を行うための`AuthQuery`。
-  const FirebaseGoogleReAuthProvider();
+  /// FirebaseにおけるGitHubのOAuth認証を行うための`AuthQuery`。
+  const FirebaseGitHubReAuthProvider();
 
-  static const _signInProvider = FirebaseGoogleSignInAuthProvider();
+  static const _signInProvider = FirebaseGitHubSignInAuthProvider();
 
   @override
   String get providerId => _signInProvider.providerId;
 
   @override
   firebase_auth.AuthProvider authProvider() {
-    final provider = GoogleAuthProvider();
-    provider.setCustomParameters({
-      "prompt": "select_account",
-    });
+    final provider = GithubAuthProvider();
     return provider;
   }
 }

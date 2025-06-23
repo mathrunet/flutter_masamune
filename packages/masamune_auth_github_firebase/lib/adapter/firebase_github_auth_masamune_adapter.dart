@@ -1,27 +1,27 @@
 part of "/masamune_auth_github_firebase.dart";
 
-/// Initialize Google sign-in [MasamuneAdapter] on Firebase.
+/// Initialize GitHub sign-in [MasamuneAdapter] on Firebase.
 ///
-/// FirebaseにおけるGoogleサインインの初期設定を行う[MasamuneAdapter]。
-class FirebaseGoogleAuthMasamuneAdapter extends MasamuneAdapter {
-  /// Initialize Google sign-in [MasamuneAdapter] on Firebase.
+/// FirebaseにおけるGitHubサインインの初期設定を行う[MasamuneAdapter]。
+class FirebaseGithubAuthMasamuneAdapter extends MasamuneAdapter {
+  /// Initialize GitHub sign-in [MasamuneAdapter] on Firebase.
   ///
-  /// FirebaseにおけるGoogleサインインの初期設定を行う[MasamuneAdapter]。
-  const FirebaseGoogleAuthMasamuneAdapter();
+  /// FirebaseにおけるGitHubサインインの初期設定を行う[MasamuneAdapter]。
+  const FirebaseGithubAuthMasamuneAdapter();
 
-  /// You can retrieve the [FirebaseGoogleAuthMasamuneAdapter] first given by [MasamuneAdapterScope].
+  /// You can retrieve the [FirebaseGithubAuthMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
-  /// 最初に[MasamuneAdapterScope]で与えた[FirebaseGoogleAuthMasamuneAdapter]を取得することができます。
-  static FirebaseGoogleAuthMasamuneAdapter? get primary {
+  /// 最初に[MasamuneAdapterScope]で与えた[FirebaseGithubAuthMasamuneAdapter]を取得することができます。
+  static FirebaseGithubAuthMasamuneAdapter? get primary {
     return _primary!;
   }
 
-  static FirebaseGoogleAuthMasamuneAdapter? _primary;
+  static FirebaseGithubAuthMasamuneAdapter? _primary;
 
   @override
   void onInitScope(MasamuneAdapter adapter) {
     super.onInitScope(adapter);
-    if (adapter is! FirebaseGoogleAuthMasamuneAdapter) {
+    if (adapter is! FirebaseGithubAuthMasamuneAdapter) {
       return;
     }
     _primary = adapter;
@@ -29,7 +29,7 @@ class FirebaseGoogleAuthMasamuneAdapter extends MasamuneAdapter {
 
   @override
   Widget onBuildApp(BuildContext context, Widget app) {
-    return MasamuneAdapterScope<FirebaseGoogleAuthMasamuneAdapter>(
+    return MasamuneAdapterScope<FirebaseGithubAuthMasamuneAdapter>(
       adapter: this,
       child: app,
     );
