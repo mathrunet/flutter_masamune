@@ -5,6 +5,8 @@ import "dart:io";
 
 // Package imports:
 import "package:archive/archive_io.dart";
+import "package:katana_cli/action/git/claude_code.dart";
+import "package:katana_cli/action/git/cursor.dart";
 
 // Project imports:
 import "package:katana_cli/ai/designs/designs.dart";
