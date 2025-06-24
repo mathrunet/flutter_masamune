@@ -519,9 +519,9 @@ class ComposeCliCommand extends CliCommand {
     await const BuildCliCode().generateFile("build.yaml");
     label("Edit a analysis_options.yaml");
     await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
-    label("Create a flutter_test_config.yaml");
+    label("Create a flutter_test_config.dart");
     await const FlutterTestConfigCliCode()
-        .generateFile("flutter_test_config.yaml");
+        .generateFile("flutter_test_config.dart");
     label("Remove a widget_test.dart");
     final widgetTestFile = File("test/widget_test.dart");
     if (widgetTestFile.existsSync()) {
@@ -1967,7 +1967,7 @@ import "package:$packageName/main.dart";
 Future<void> testExecutable(FutureOr<void> Function() testMain) {
   return MasamuneTestConfig.initialize(
     run: testMain,
-    initialUserId: ${uuid()},
+    initialUserId: "${uuid()}",
     theme: theme,
     modelAdapter: runtimeModelAdapter,
     authAdapter: runtimeAuthAdapter,

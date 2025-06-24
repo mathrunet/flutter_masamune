@@ -121,10 +121,10 @@ import "package:$packageName/controllers/$sourcePath.dart";
 void main() {
   masamuneControllerTest(
     name: "$className",
-    run: (ref) async {
+    tests: [
       // TODO: Write test code.
 
-    },
+    ],
   );
 }
 """;
