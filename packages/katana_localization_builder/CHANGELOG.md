@@ -1,3 +1,7 @@
+## 3.1.0
+
+ - **FEAT**: Added YamlLocalize feature. ([3fe6488e](https://github.com/mathrunet/flutter_masamune/commit/3fe6488e06f968e2779b0150a6296dbdb2b5391d))
+
 ## 3.0.3
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))

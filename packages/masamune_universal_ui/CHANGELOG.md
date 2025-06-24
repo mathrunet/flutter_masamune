@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - Update a dependency to the latest release.
+
 ## 3.1.1
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))

@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - Update a dependency to the latest release.
+
 ## 3.1.1
 
  - **FIX**: Allowed specifying images to cache. ([ff424fd6](https://github.com/mathrunet/flutter_masamune/commit/ff424fd6608dde3e50703694c8de0fcb211d9512))

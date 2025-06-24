@@ -1,3 +1,9 @@
+## 3.1.0
+
+ - **FIX**: Add enableCollectionQueryOnLoad to NoSQLDatabase. ([40f1cd35](https://github.com/mathrunet/flutter_masamune/commit/40f1cd351203d633c3a221d20dbac4963cd84b84))
+ - **FEAT**: Add AsyncSavingManager. ([199c7c67](https://github.com/mathrunet/flutter_masamune/commit/199c7c6755a9519b98caa866ce3d069d1423543d))
+ - **FEAT**: Add reloadOnce argument to load method. ([ba0e23a7](https://github.com/mathrunet/flutter_masamune/commit/ba0e23a706d798898d1f633ba05502114c9bcaa1))
+
 ## 3.0.3
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))

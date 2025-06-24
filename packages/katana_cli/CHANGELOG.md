@@ -1,3 +1,17 @@
+## 3.5.0
+
+ - **FIX**: Add a newline at the end. ([34e29229](https://github.com/mathrunet/flutter_masamune/commit/34e2922958f466781f0e8bf4b80f744bd9208601))
+ - **FIX**: Add Claude and Cursor to Docs. ([a5f9332f](https://github.com/mathrunet/flutter_masamune/commit/a5f9332fd370fa8dd66fda0d433eccdcfc52940b))
+ - **FIX**: Fix the error in the initial command. ([d8c2a723](https://github.com/mathrunet/flutter_masamune/commit/d8c2a7238c2d3c9f228e1e6160e689b64e1a7e08))
+ - **FIX**: Escaping has been made stricter. ([8bf5cb42](https://github.com/mathrunet/flutter_masamune/commit/8bf5cb42e89c82b676a60c586dce95ea8075d655))
+ - **FIX**: Add environment.json. ([f94a61d1](https://github.com/mathrunet/flutter_masamune/commit/f94a61d1c311ce19e155b103e9db27501086ddcb))
+ - **FIX**: Platform bug fixes. ([017f0f3b](https://github.com/mathrunet/flutter_masamune/commit/017f0f3b6f631484351d657bd9f2292b4aa32174))
+ - **FIX**: Fixed a bug where folders are not automatically created. ([5ed11e36](https://github.com/mathrunet/flutter_masamune/commit/5ed11e362ee20b6824dcd701f28e44d06143c6bd))
+ - **FIX**: Enabled the workflow to run during PR reviews as well, using a PAT. ([6a1b543f](https://github.com/mathrunet/flutter_masamune/commit/6a1b543fb6ae01ac113ae03e3a87ceda1e4d5c31))
+ - **FEAT**: Add Localize command. ([1b535d4a](https://github.com/mathrunet/flutter_masamune/commit/1b535d4afaa62c2526f0faa59cb3748875c898b4))
+ - **FEAT**: Added YamlLocalize feature. ([3fe6488e](https://github.com/mathrunet/flutter_masamune/commit/3fe6488e06f968e2779b0150a6296dbdb2b5391d))
+ - **FEAT**: Add settings for Cursor. ([f6630ee4](https://github.com/mathrunet/flutter_masamune/commit/f6630ee492da3df4dc5c395303a73f9ba1fe7134))
+
 ## 3.4.2
 
  - **FIX**: Commit bug fix. ([763bf432](https://github.com/mathrunet/flutter_masamune/commit/763bf4325ef36429c8ac144daa226e6aade208e2))
