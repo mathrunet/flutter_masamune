@@ -42,6 +42,7 @@ part "exception.dart";
 part "modal.dart";
 part "log.dart";
 part "snippets.dart";
+part "localize.dart";
 
 /// Dart/Flutter code generation and editing.
 ///
@@ -84,5 +85,6 @@ class CodeCliCommand extends CliCommandGroup {
         "modal": CodeModalCliCommand(),
         "log": CodeLogCliCommand(),
         "function": CodeFunctionCliCommand(),
+        "localize": CodeLocalizeCliCommand(),
       };
 }
