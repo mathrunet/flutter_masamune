@@ -38,12 +38,12 @@ const commands = <String, CliCommand>{
 Future<void> main(List<String> args) async {
   if (args.isEmpty) {
     showReadme();
-    return;
+    exit(0);
   }
   final command = args.firstOrNull;
   if (command == "help") {
     showReadme();
-    return;
+    exit(0);
   }
   final katana = File("katana.yaml");
   final katanaSecrets = File("katana_secrets.yaml");
@@ -66,7 +66,8 @@ Future<void> main(List<String> args) async {
       if (isError) {
         exit(1);
       }
-      return;
+      stdout.writeln();
+      exit(0);
     }
   } else {
     final yaml = modifize(loadYaml(await katana.readAsString()));
@@ -77,7 +78,8 @@ Future<void> main(List<String> args) async {
       if (isError) {
         exit(1);
       }
-      return;
+      stdout.writeln();
+      exit(0);
     }
 
     for (final tmp in commands.entries) {
@@ -98,10 +100,12 @@ Future<void> main(List<String> args) async {
       if (isError) {
         exit(1);
       }
-      return;
+      stdout.writeln();
+      exit(0);
     }
   }
   showReadme();
+  exit(0);
 }
 
 /// Displays a description of the command.
