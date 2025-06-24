@@ -32,12 +32,12 @@ class YamlLocalizeGenerator extends GeneratorForAnnotation<YamlLocalize> {
             1,
           ),
         );
-      } else if (annotation.read("url").isList) {
-        final list = annotation.read("url").listValue;
+      } else if (annotation.read("path").isList) {
+        final list = annotation.read("path").listValue;
 
         if (list.isEmpty) {
           throw InvalidGenerationSourceError(
-            "Be sure to add at least one URL to the `path` of `@YamlLocalize()`.",
+            "Be sure to add at least one path to the `path` of `@YamlLocalize()`.",
             element: element,
           );
         }

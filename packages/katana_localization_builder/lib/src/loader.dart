@@ -170,17 +170,17 @@ class LocalizeLoader {
         for (final tmp in bytes.entries) {
           final yamlTxt = utf8.decode(tmp.value);
           final yaml = loadYaml(yamlTxt);
-          if (yaml is! Map<String, dynamic>) {
+          if (yaml is! Map) {
             continue;
           }
-          final localizes = yaml.getAsList<DynamicMap>("localize");
+          final localizes = yaml.getAsList<Map>("localize");
           for (final localize in localizes) {
             final key = localize.get(_kYamlKey, "");
             if (key.isEmpty) {
               continue;
             }
             for (final entry in localize.entries) {
-              final locale = entry.key;
+              final locale = entry.key.toString();
               final val = entry.value.toString();
               if (locale == _kYamlKey || val.isEmpty) {
                 continue;
