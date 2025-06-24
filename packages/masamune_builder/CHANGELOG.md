@@ -1,3 +1,7 @@
+## 3.0.5
+
+ - Update a dependency to the latest release.
+
 ## 3.0.4
 
  - **FIX**: Fixed a bug where paths were getting mixed up. ([4dab1f6c](https://github.com/mathrunet/flutter_masamune/commit/4dab1f6ca84a3af7ba739c532e2e5d5846084cbe))

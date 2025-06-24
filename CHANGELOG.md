@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_localization_builder` - `v3.1.1`](#katana_localization_builder---v311)
+ - [`masamune_builder` - `v3.0.5`](#masamune_builder---v305)
+ - [`masamune_model_firebase_data_connect_builder` - `v3.0.5`](#masamune_model_firebase_data_connect_builder---v305)
+ - [`masamune_model_docs_builder` - `v3.0.5`](#masamune_model_docs_builder---v305)
+ - [`masamune_model_firestore_builder` - `v3.0.5`](#masamune_model_firestore_builder---v305)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_builder` - `v3.0.5`
+ - `masamune_model_firebase_data_connect_builder` - `v3.0.5`
+ - `masamune_model_docs_builder` - `v3.0.5`
+ - `masamune_model_firestore_builder` - `v3.0.5`
+
+---
+
+#### `katana_localization_builder` - `v3.1.1`
+
+ - **FIX**: Fix the YamlLocalize errors. ([20961e69](https://github.com/mathrunet/flutter_masamune/commit/20961e69856d126a1ea8331f2117e84ab5efdd06))
+
+
 ## 2025-06-24
 
 ### Changes

@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - **FIX**: Fix the YamlLocalize errors. ([20961e69](https://github.com/mathrunet/flutter_masamune/commit/20961e69856d126a1ea8331f2117e84ab5efdd06))
+
 ## 3.1.0
 
  - **FEAT**: Added YamlLocalize feature. ([3fe6488e](https://github.com/mathrunet/flutter_masamune/commit/3fe6488e06f968e2779b0150a6296dbdb2b5391d))
