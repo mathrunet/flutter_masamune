@@ -8,6 +8,8 @@ import "package:html/dom.dart";
 import "package:html/parser.dart";
 import "package:image/image.dart";
 import "package:image/src/formats/ico_encoder.dart";
+import "package:katana_cli/katana.dart";
+import "package:katana_cli/localize.dart";
 import "package:xml/xml.dart";
 
 // Project imports:
@@ -15,7 +17,6 @@ import "package:katana_cli/ai/designs/designs.dart";
 import "package:katana_cli/ai/docs/docs.dart";
 import "package:katana_cli/ai/impls/impls.dart";
 import "package:katana_cli/ai/tests/tests.dart";
-import "package:katana_cli/config.dart";
 import "package:katana_cli/katana_cli.dart";
 import "package:katana_cli/snippet/snippet.dart";
 import "package:katana_cli/src/android_manifest.dart";
@@ -145,6 +146,10 @@ class CreateCliCommand extends CliCommand {
     label("Replace lib/localize.dart");
     await const MainLocalizeCliCode()
         .generateDartCode("lib/localize", "localize");
+    label("Generate localize.base.yaml");
+    await const LocalizeYamlCliCode().generateFile("localize.base.yaml");
+    label("Generate localize.app.yaml");
+    await const LocalizeYamlCliCode().generateFile("localize.app.yaml");
     label("Replace lib/adapter.dart");
     await const MainAdapterCliCode().generateDartCode("lib/adapter", "adapter");
     label("Replace lib/config.dart");
@@ -492,6 +497,10 @@ class ComposeCliCommand extends CliCommand {
     label("Replace lib/localize.dart");
     await const MainLocalizeCliCode()
         .generateDartCode("lib/localize", "localize");
+    label("Generate localize.base.yaml");
+    await const LocalizeYamlCliCode().generateFile("localize.base.yaml");
+    label("Generate localize.app.yaml");
+    await const LocalizeYamlCliCode().generateFile("localize.app.yaml");
     label("Replace lib/adapter.dart");
     await const MainAdapterCliCode().generateDartCode("lib/adapter", "adapter");
     label("Replace lib/config.dart");
@@ -967,7 +976,7 @@ class KatanaCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    return Config.katanaYamlCode(showAllConfig);
+    return katanaYamlCode(showAllConfig);
   }
 }
 
@@ -1005,7 +1014,7 @@ class KatanaSecretsCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    return Config.katanaSecretsYamlCode();
+    return katanaSecretsYamlCode();
   }
 }
 
@@ -1326,19 +1335,48 @@ final l = AppLocalize();
 
 /// App Localization.
 ///
-/// By specifying the Google Spreadsheet URL, data is retrieved from the Google Spreadsheet and localization is performed.
-///
-/// For details, see the following page.
-/// https://mathru.net/dev/ee70b9c2d7f94c5aac6ba0b897cd037e/
-// TODO: Set the Google Spreadsheet URL for the translation.
-@GoogleSpreadSheetLocalize(
-  [
-    "\${1:https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808}",
-  ],
-  version: 1,
-)
+/// You can add multilingual support by editing `localize.yaml`.
+@yamlLocalize
 class AppLocalize extends _\$AppLocalize {}
 """;
+  }
+}
+
+/// Contents of katana.yaml.
+///
+/// katana.yamlの中身。
+class LocalizeYamlCliCode extends CliCode {
+  /// Contents of katana.yaml.
+  ///
+  /// katana.yamlの中身。
+  const LocalizeYamlCliCode();
+
+  @override
+  String get name => "localize";
+
+  @override
+  String get prefix => "localize";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description =>
+      "Create localize.yaml for katana_cli. katana_cli用のlocalize.yamlを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return localizeYamlCode();
   }
 }
 
@@ -1913,8 +1951,9 @@ class SettingsCliCode extends CliCode {
     return r"""
 {
     "explorer.fileNesting.enabled": true,
-    "explorer.fileNesting.patterns": {
-        "*.dart": "$(capture).m.dart,$(capture).page.dart,$(capture).localize.dart,$(capture).theme.dart,$(capture).g.dart,$(capture).freezed.dart,$(capture).extensions.dart,$(capture).api.dart"
+    "explorer.fileNesting.patterns": {        
+        "*.dart": "$(capture).m.dart,$(capture).model.dart,$(capture).page.dart,$(capture).localize.dart,$(capture).theme.dart,$(capture).g.dart,$(capture).freezed.dart,$(capture).extensions.dart,$(capture).api.dart",
+        "*.yaml": "$(capture).base.yaml,$(capture).app.yaml"
     }
 }
 """;
@@ -2748,17 +2787,8 @@ final ml = AppLocalize();
 
 /// App Localization.
 ///
-/// By specifying the Google Spreadsheet URL, data is retrieved from the Google Spreadsheet and localization is performed.
-///
-/// For details, see the following page.
-/// https://mathru.net/dev/ee70b9c2d7f94c5aac6ba0b897cd037e/
-// TODO: Set the Google Spreadsheet URL for the translation.
-@GoogleSpreadSheetLocalize(
-  [
-    "\${6:https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808}",
-  ],
-  version: 1,
-)
+/// You can add multilingual support by editing `localize.yaml`.
+@yamlLocalize
 class AppLocalize extends _\$AppLocalize {}
 
 /// Define [${className.toPascalCase()}MasamuneAdapter] specific words and settings.

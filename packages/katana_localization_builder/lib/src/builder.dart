@@ -7,6 +7,7 @@ Builder katanaLocalizationBuilderFactory(BuilderOptions options) {
   return PartBuilder(
     [
       GoogleSpreadSheetLocalizeGenerator(),
+      YamlLocalizeGenerator(),
     ],
     ".localize.dart",
     header:

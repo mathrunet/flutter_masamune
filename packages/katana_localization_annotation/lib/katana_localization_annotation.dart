@@ -11,3 +11,4 @@ library;
 export "package:katana/katana.dart";
 
 part "src/google_spread_sheet_localize.dart";
+part "src/yaml_localize.dart";

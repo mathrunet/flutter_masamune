@@ -23,10 +23,12 @@ import "package:dart_style/dart_style.dart";
 import "package:http/http.dart" as http;
 import "package:katana_localization_annotation/katana_localization_annotation.dart";
 import "package:source_gen/source_gen.dart";
+import "package:yaml/yaml.dart";
 
 part "common/base_class.dart";
 part "common/localize_class.dart";
-part "generator/localize_generator.dart";
+part "generator/google_spread_sheet_localize_generator.dart";
+part "generator/yaml_localize_generator.dart";
 part "src/builder.dart";
 part "src/config.dart";
 part "src/loader.dart";

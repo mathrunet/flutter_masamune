@@ -3,12 +3,11 @@ part of "/katana_localization_builder.dart";
 /// Automatic generation of translations from Google spreadsheets.
 ///
 /// Googleスプレッドシートから翻訳の自動生成を行います。
-class GoogleSpreadSheetLocalizeGenerator
-    extends GeneratorForAnnotation<GoogleSpreadSheetLocalize> {
+class YamlLocalizeGenerator extends GeneratorForAnnotation<YamlLocalize> {
   /// Automatic generation of translations from Google spreadsheets.
   ///
   /// Googleスプレッドシートから翻訳の自動生成を行います。
-  GoogleSpreadSheetLocalizeGenerator();
+  YamlLocalizeGenerator();
 
   @override
   FutureOr<String> generateForAnnotatedElement(
@@ -19,19 +18,18 @@ class GoogleSpreadSheetLocalizeGenerator
     try {
       if (element is! ClassElement) {
         throw InvalidGenerationSourceError(
-          "`@GoogleSpreadSheetLocalize()` can only be used on classes.",
+          "`@YamlLocalize()` can only be used on classes.",
           element: element,
         );
       }
 
       final pathValues = <PathValue>[];
-      final version = annotation.read("version").intValue;
 
-      if (annotation.read("url").isString) {
+      if (annotation.read("path").isString) {
         pathValues.add(
           PathValue(
-            annotation.read("url").stringValue.trimString("/"),
-            version,
+            annotation.read("path").stringValue.trimString("/"),
+            1,
           ),
         );
       } else if (annotation.read("url").isList) {
@@ -39,7 +37,7 @@ class GoogleSpreadSheetLocalizeGenerator
 
         if (list.isEmpty) {
           throw InvalidGenerationSourceError(
-            "Be sure to add at least one URL to the `url` of `@GoogleSpreadSheetLocalize()`.",
+            "Be sure to add at least one URL to the `path` of `@YamlLocalize()`.",
             element: element,
           );
         }
@@ -52,14 +50,17 @@ class GoogleSpreadSheetLocalizeGenerator
           pathValues.add(
             PathValue(
               val!.trimString("/"),
-              version,
+              1,
             ),
           );
         }
       }
 
       final classValue = ClassValue(element);
-      final loader = LocalizeLoader(pathValues);
+      final loader = LocalizeLoader(
+        pathValues,
+        LocalizeFileType.yaml,
+      );
 
       await loader.load();
 
