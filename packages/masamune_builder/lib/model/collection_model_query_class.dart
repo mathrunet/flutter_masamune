@@ -277,7 +277,7 @@ List<Spec> collectionModelQueryClass(
               ..type = MethodType.getter
               ..returns = const Reference("RegExp")
               ..body = Code(
-                "return RegExp(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "([^/]+)")}/([^/]+)\".trimQuery().trimString(\"/\"));",
+                "return RegExp(r\"^${path.path.replaceAllMapped(_pathRegExp, (m) => "([^/]+)")}/([^/]+)\$\".trimQuery().trimString(\"/\"));",
               ),
           ),
           Method(
@@ -416,7 +416,7 @@ List<Spec> collectionModelQueryClass(
               ..type = MethodType.getter
               ..returns = const Reference("RegExp")
               ..body = Code(
-                "return RegExp(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "([^/]+)")}\".trimQuery().trimString(\"/\"));",
+                "return RegExp(r\"^${path.path.replaceAllMapped(_pathRegExp, (m) => "([^/]+)")}\$\".trimQuery().trimString(\"/\"));",
               ),
           ),
           Method(
@@ -848,7 +848,7 @@ List<Spec> collectionModelQueryClass(
                 ..type = MethodType.getter
                 ..returns = const Reference("RegExp")
                 ..body = Code(
-                  "return RegExp(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "([^/]+)")}/([^/]+)\".trimQuery().trimString(\"/\"));",
+                  "return RegExp(r\"^${mirror.path.replaceAllMapped(_pathRegExp, (m) => "([^/]+)")}/([^/]+)\$\".trimQuery().trimString(\"/\"));",
                 ),
             ),
             Method(
@@ -979,7 +979,7 @@ List<Spec> collectionModelQueryClass(
                 ..type = MethodType.getter
                 ..returns = const Reference("RegExp")
                 ..body = Code(
-                  "return RegExp(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "([^/]+)")}\".trimQuery().trimString(\"/\"));",
+                  "return RegExp(r\"^${mirror.path.replaceAllMapped(_pathRegExp, (m) => "([^/]+)")}\$\".trimQuery().trimString(\"/\"));",
                 ),
             ),
             Method(
