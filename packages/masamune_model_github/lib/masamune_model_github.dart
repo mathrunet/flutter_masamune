@@ -8,6 +8,10 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library;
 
+import "dart:async";
+
+import "package:github/github.dart" as github;
 import "package:masamune/masamune.dart";
+import "package:meta/meta.dart";
 
 part "adapter/github_model_adapter.dart";

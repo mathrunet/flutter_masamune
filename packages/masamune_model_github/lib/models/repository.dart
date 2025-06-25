@@ -15,8 +15,23 @@ part "repository.freezed.dart";
 abstract class RepositoryModel with _$RepositoryModel {
   /// Value for model.
   const factory RepositoryModel({
-     // TODO: Set the data fields.
-     
+    @Default("") String name,
+    @Default("") String fullName,
+    @Default("") String description,
+    @Default(false) bool private,
+    int? id,
+    String? htmlUrl,
+    String? cloneUrl,
+    String? sshUrl,
+    @Default(<String, dynamic>{}) Map<String, dynamic> owner,
+    String? defaultBranch,
+    String? language,
+    @Default(0) int stargazersCount,
+    @Default(0) int forksCount,
+    @Default(0) int openIssuesCount,
+    String? createdAt,
+    String? updatedAt,
+    String? pushedAt,
   }) = _RepositoryModel;
   const RepositoryModel._();
 

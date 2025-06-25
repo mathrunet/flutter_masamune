@@ -16,8 +16,16 @@ part "issue.freezed.dart";
 abstract class IssueModel with _$IssueModel {
   /// Value for model.
   const factory IssueModel({
-     // TODO: Set the data fields.
-     
+    @Default("") String title,
+    @Default("") String body,
+    @Default("open") String state,
+    int? id,
+    int? number,
+    @Default(<String, dynamic>{}) Map<String, dynamic> user,
+    @Default(<Map<String, dynamic>>[]) List<Map<String, dynamic>> labels,
+    String? createdAt,
+    String? updatedAt,
+    String? closedAt,
   }) = _IssueModel;
   const IssueModel._();
 

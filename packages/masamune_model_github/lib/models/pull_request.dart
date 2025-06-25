@@ -16,8 +16,17 @@ part "pull_request.freezed.dart";
 abstract class PullRequestModel with _$PullRequestModel {
   /// Value for model.
   const factory PullRequestModel({
-     // TODO: Set the data fields.
-     
+    @Default("") String title,
+    @Default("") String body,
+    @Default("open") String state,
+    int? id,
+    int? number,
+    @Default(<String, dynamic>{}) Map<String, dynamic> user,
+    @Default(<String, dynamic>{}) Map<String, dynamic> head,
+    @Default(<String, dynamic>{}) Map<String, dynamic> base,
+    String? createdAt,
+    String? updatedAt,
+    String? mergedAt,
   }) = _PullRequestModel;
   const PullRequestModel._();
 
