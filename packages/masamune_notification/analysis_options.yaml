@@ -79,6 +79,7 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "**/*.m.dart"
+    - "**/*.model.dart"
   errors:
     prefer_double_quotes: error
     unawaited_futures: error
