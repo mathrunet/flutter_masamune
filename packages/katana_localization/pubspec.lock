@@ -217,21 +217,21 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "3.1.1"
+    version: "3.1.2"
   katana_localization_annotation:
     dependency: "direct main"
     description:
       path: "../katana_localization_annotation"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.1.0"
   katana_test:
     dependency: "direct dev"
     description:
       path: "../katana_test"
       relative: true
     source: path
-    version: "3.0.0"
+    version: "3.0.1"
   lints:
     dependency: transitive
     description:
