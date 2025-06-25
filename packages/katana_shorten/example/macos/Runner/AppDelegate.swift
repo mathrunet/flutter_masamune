@@ -1,3 +1,4 @@
+#if canImport(Cocoa) && canImport(FlutterMacOS)
 import Cocoa
 import FlutterMacOS
 
@@ -7,3 +8,4 @@ class AppDelegate: FlutterAppDelegate {
     return true
   }
 }
+#endif

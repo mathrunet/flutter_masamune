@@ -1,3 +1,4 @@
+#if canImport(Cocoa) && canImport(FlutterMacOS)
 import Cocoa
 import FlutterMacOS
 
@@ -13,3 +14,4 @@ class MainFlutterWindow: NSWindow {
     super.awakeFromNib()
   }
 }
+#endif
