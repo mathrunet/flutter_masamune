@@ -288,6 +288,61 @@ class CreateCliCommand extends CliCommand {
     await AndroidManifestQueryType.dialTel.enableQuery();
     await AndroidManifestQueryType.sendEmail.enableQuery();
     await AndroidManifestQueryType.sendAny.enableQuery();
+    label("Edit AppDelegate.swift on IOS");
+    final appDelegateIos = File("ios/Runner/AppDelegate.swift");
+    if (appDelegateIos.existsSync()) {
+      final document = await appDelegateIos.readAsString();
+      final newDocument = """
+#if canImport(UIKit) && canImport(Flutter)
+$document
+#endif
+""";
+      await appDelegateIos.writeAsString(newDocument);
+    }
+    label("Edit RunnerTest.swift on IOS");
+    final runnerTestsIos = File("ios/RunnerTests/RunnerTests.swift");
+    if (runnerTestsIos.existsSync()) {
+      final document = await runnerTestsIos.readAsString();
+      final newDocument = """
+#if canImport(UIKit) && canImport(Flutter) && canImport(XCTest)
+$document
+#endif
+""";
+      await runnerTestsIos.writeAsString(newDocument);
+    }
+    label("Edit AppDelegate.swift on MacOS");
+    final appDelegateMacOS = File("macos/Runner/AppDelegate.swift");
+    if (appDelegateMacOS.existsSync()) {
+      final document = await appDelegateMacOS.readAsString();
+      final newDocument = """
+#if canImport(Cocoa) && canImport(FlutterMacOS)
+$document
+#endif
+""";
+      await appDelegateMacOS.writeAsString(newDocument);
+    }
+    label("Edit MainFlutterWindow.swift on MacOS");
+    final mainFlutterWindowMacOS = File("macos/Runner/MainFlutterWindow.swift");
+    if (mainFlutterWindowMacOS.existsSync()) {
+      final document = await mainFlutterWindowMacOS.readAsString();
+      final newDocument = """
+#if canImport(Cocoa) && canImport(FlutterMacOS)
+$document
+#endif
+""";
+      await mainFlutterWindowMacOS.writeAsString(newDocument);
+    }
+    label("Edit RunnerTest.swift on MacOS");
+    final runnerTestsMacOS = File("macos/RunnerTests/RunnerTests.swift");
+    if (runnerTestsMacOS.existsSync()) {
+      final document = await runnerTestsMacOS.readAsString();
+      final newDocument = """
+#if canImport(Cocoa) && canImport(FlutterMacOS) && canImport(XCTest)
+$document
+#endif
+""";
+      await runnerTestsMacOS.writeAsString(newDocument);
+    }
     label("Edit DebugProfile.entitlements.");
     final debugEntitlements = File("macos/Runner/DebugProfile.entitlements");
     if (debugEntitlements.existsSync()) {
@@ -641,6 +696,61 @@ class ComposeCliCommand extends CliCommand {
     await AndroidManifestQueryType.dialTel.enableQuery();
     await AndroidManifestQueryType.sendEmail.enableQuery();
     await AndroidManifestQueryType.sendAny.enableQuery();
+    label("Edit AppDelegate.swift on IOS");
+    final appDelegateIos = File("ios/Runner/AppDelegate.swift");
+    if (appDelegateIos.existsSync()) {
+      final document = await appDelegateIos.readAsString();
+      final newDocument = """
+#if canImport(UIKit) && canImport(Flutter)
+$document
+#endif
+""";
+      await appDelegateIos.writeAsString(newDocument);
+    }
+    label("Edit RunnerTest.swift on IOS");
+    final runnerTestsIos = File("ios/RunnerTests/RunnerTests.swift");
+    if (runnerTestsIos.existsSync()) {
+      final document = await runnerTestsIos.readAsString();
+      final newDocument = """
+#if canImport(UIKit) && canImport(Flutter) && canImport(XCTest)
+$document
+#endif
+""";
+      await runnerTestsIos.writeAsString(newDocument);
+    }
+    label("Edit AppDelegate.swift on MacOS");
+    final appDelegateMacOS = File("macos/Runner/AppDelegate.swift");
+    if (appDelegateMacOS.existsSync()) {
+      final document = await appDelegateMacOS.readAsString();
+      final newDocument = """
+#if canImport(Cocoa) && canImport(FlutterMacOS)
+$document
+#endif
+""";
+      await appDelegateMacOS.writeAsString(newDocument);
+    }
+    label("Edit MainFlutterWindow.swift on MacOS");
+    final mainFlutterWindowMacOS = File("macos/Runner/MainFlutterWindow.swift");
+    if (mainFlutterWindowMacOS.existsSync()) {
+      final document = await mainFlutterWindowMacOS.readAsString();
+      final newDocument = """
+#if canImport(Cocoa) && canImport(FlutterMacOS)
+$document
+#endif
+""";
+      await mainFlutterWindowMacOS.writeAsString(newDocument);
+    }
+    label("Edit RunnerTest.swift on MacOS");
+    final runnerTestsMacOS = File("macos/RunnerTests/RunnerTests.swift");
+    if (runnerTestsMacOS.existsSync()) {
+      final document = await runnerTestsMacOS.readAsString();
+      final newDocument = """
+#if canImport(Cocoa) && canImport(FlutterMacOS) && canImport(XCTest)
+$document
+#endif
+""";
+      await runnerTestsMacOS.writeAsString(newDocument);
+    }
     label("Edit DebugProfile.entitlements.");
     final debugEntitlements = File("macos/Runner/DebugProfile.entitlements");
     if (debugEntitlements.existsSync()) {
