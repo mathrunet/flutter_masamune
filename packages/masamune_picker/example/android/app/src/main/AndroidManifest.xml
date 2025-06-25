@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.katana_router_example">
+    package="com.example.masamune_picker_example">
    <application
-        android:label="katana_router_example"
+        android:label="masamune_picker_example"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

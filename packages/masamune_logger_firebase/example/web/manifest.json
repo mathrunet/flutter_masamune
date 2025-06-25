@@ -1,6 +1,6 @@
 {
-    "name": "katana_router_example",
-    "short_name": "katana_router_example",
+    "name": "masamune_logger_firebase_example",
+    "short_name": "masamune_logger_firebase_example",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
