@@ -149,7 +149,7 @@ class CreateCliCommand extends CliCommand {
     label("Generate localize.base.yaml");
     await const LocalizeYamlCliCode().generateFile("localize.base.yaml");
     label("Generate localize.app.yaml");
-    await const LocalizeYamlCliCode().generateFile("localize.app.yaml");
+    await const AppLocalizeYamlCliCode().generateFile("localize.app.yaml");
     label("Replace lib/adapter.dart");
     await const MainAdapterCliCode().generateDartCode("lib/adapter", "adapter");
     label("Replace lib/config.dart");
@@ -500,7 +500,7 @@ class ComposeCliCommand extends CliCommand {
     label("Generate localize.base.yaml");
     await const LocalizeYamlCliCode().generateFile("localize.base.yaml");
     label("Generate localize.app.yaml");
-    await const LocalizeYamlCliCode().generateFile("localize.app.yaml");
+    await const AppLocalizeYamlCliCode().generateFile("localize.app.yaml");
     label("Replace lib/adapter.dart");
     await const MainAdapterCliCode().generateDartCode("lib/adapter", "adapter");
     label("Replace lib/config.dart");
@@ -1342,27 +1342,27 @@ class AppLocalize extends _\$AppLocalize {}
   }
 }
 
-/// Contents of katana.yaml.
+/// Contents of localize.base.yaml.
 ///
-/// katana.yamlの中身。
+/// localize.base.yamlの中身。
 class LocalizeYamlCliCode extends CliCode {
-  /// Contents of katana.yaml.
+  /// Contents of localize.base.yaml.
   ///
-  /// katana.yamlの中身。
+  /// localize.base.yamlの中身。
   const LocalizeYamlCliCode();
 
   @override
-  String get name => "localize";
+  String get name => "localize.base";
 
   @override
-  String get prefix => "localize";
+  String get prefix => "localize.base";
 
   @override
   String get directory => "";
 
   @override
   String get description =>
-      "Create localize.yaml for katana_cli. katana_cli用のlocalize.yamlを作成します。";
+      "Create localize.base.yaml for katana_cli. katana_cli用のlocalize.base.yamlを作成します。";
 
   @override
   String import(String path, String baseName, String className) {
@@ -1377,6 +1377,44 @@ class LocalizeYamlCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return localizeYamlCode();
+  }
+}
+
+/// Contents of localize.app.yaml.
+///
+/// localize.app.yamlの中身。
+class AppLocalizeYamlCliCode extends CliCode {
+  /// Contents of localize.app.yaml.
+  ///
+  /// localize.app.yamlの中身。
+  const AppLocalizeYamlCliCode();
+
+  @override
+  String get name => "localize.app";
+
+  @override
+  String get prefix => "localize.app";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description =>
+      "Create localize.app.yaml for katana_cli. katana_cli用のlocalize.app.yamlを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return appLocalizeYamlCode();
   }
 }
 
@@ -1739,6 +1777,7 @@ analyzer:
     - "**/*.router.dart"
     - "**/*.prefs.dart"
     - "**/*.m.dart"
+    - "**/*.model.dart"
     - "lib/dataconnect/**"
     - "lib/firebase_options.dart"
   errors:
@@ -2178,7 +2217,7 @@ builders:
   :katana_localization_builder:
     import: 'package:katana_localization_builder/katana_localization_builder.dart'
     builder_factories: ['katanaLocalizationBuilderFactory']
-    build_extensions: {'.dart': ['.localize.dart']}
+    build_extensions: {'.dart': ['.localize.dart'], '.yaml': ['.localize.dart']}
     auto_apply: dependents
     build_to: source
     applies_builders: ["source_gen|combining_builder"]
@@ -2263,6 +2302,7 @@ targets:
         enabled: true
         generate_for:
           include:
+            - localize.*.yaml
             - lib/*.dart
             - lib/**/*.dart
             - test/*.dart

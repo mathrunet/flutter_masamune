@@ -2,7 +2,7 @@ builders:
   katana_localization_builder:
     import: 'package:katana_localization_builder/katana_localization_builder.dart'
     builder_factories: ['katanaLocalizationBuilderFactory']
-    build_extensions: {'.dart': ['.localize.dart']}
+    build_extensions: {'.dart': ['.localize.dart'], '.yaml': ['.localize.dart']}
     auto_apply: dependents
     build_to: source
     applies_builders: ["source_gen|combining_builder"]
@@ -22,5 +22,6 @@ targets:
             - linux
             - web
           include:
+            - localize.*.yaml
             - test/integration/*
             - test/integration/**/*

@@ -65,6 +65,7 @@ targets:
         enabled: true
         generate_for:
           include:
+            - localize.*.yaml
             - lib/*.dart
             - lib/**/*.dart
             - test/*.dart

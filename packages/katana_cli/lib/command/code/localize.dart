@@ -22,7 +22,7 @@ class CodeLocalizeCliCommand extends CliCommand {
     await const LocalizeYamlCliCode().generateFile("localize.base.yaml");
     if (!File("localize.app.yaml").existsSync()) {
       label("Generate localize.app.yaml");
-      await const LocalizeYamlCliCode().generateFile("localize.app.yaml");
+      await const AppLocalizeYamlCliCode().generateFile("localize.app.yaml");
     }
   }
 }
