@@ -18,6 +18,10 @@ dependencies:
   masamune: ^3.0.6
   algolia_helper_flutter: ^1.0.0
   katana_model_firestore: ^3.1.0
+  algolia_client_core: 1.27.1
+  algolia_client_insights: 1.27.1
+  algolia_client_search: 1.27.1
+  algoliasearch: 1.27.1
 dev_dependencies:
   test: ^1.24.0
   katana_test: ^3.0.1
