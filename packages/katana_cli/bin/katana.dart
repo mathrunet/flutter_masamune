@@ -4,6 +4,7 @@ library;
 import "dart:io";
 
 // Package imports:
+import "package:katana_cli/command/analytics/analytics.dart";
 import "package:yaml/yaml.dart";
 
 // Project imports:
@@ -33,6 +34,7 @@ const commands = <String, CliCommand>{
   "module": CreateModuleCliCommand(),
   "doctor": DoctorCliCommand(),
   "cer": CerCliCommand(),
+  "analytics": AnalyticsCliCommand(),
 };
 
 Future<void> main(List<String> args) async {
