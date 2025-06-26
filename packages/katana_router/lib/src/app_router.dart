@@ -125,6 +125,7 @@ class AppRouter extends ChangeNotifier
     Widget backgroundWidget = const Scaffold(),
     List<LoggerAdapter> loggerAdapters = const [],
     bool nested = false,
+    RouteQuery? Function(String path, bool initial)? onDeepLink,
   }) : _loggerAdapters = loggerAdapters {
     navigatorKey ??= GlobalKey<NavigatorState>();
 
@@ -139,6 +140,7 @@ class AppRouter extends ChangeNotifier
       reportsRouteUpdateToEngine: reportsRouteUpdateToEngine,
       backgroundWidget: backgroundWidget,
       nested: nested,
+      onDeepLink: onDeepLink,
     );
 
     _routerDelegate = _AppRouterDelegate(
@@ -262,6 +264,9 @@ class AppRouter extends ChangeNotifier
     RouteQuery routeQuery, [
     TransitionQuery? transitionQuery,
   ]) async {
+    if (routeQuery is _EmptyRouteQuery) {
+      return null;
+    }
     final completer = Completer<E?>();
     final resolveQuery = _InnerRouteQueryImpl(
       routeQuery: _context != null
@@ -710,6 +715,7 @@ class _AppRouterConfig {
     this.backgroundWidget = const Scaffold(),
     this.reportsRouteUpdateToEngine = true,
     this.nested = false,
+    this.onDeepLink,
   });
   final bool nested;
   final BootRouteQueryBuilder? boot;
@@ -721,6 +727,7 @@ class _AppRouterConfig {
   final TransitionQuery? defaultTransitionQuery;
   final bool reportsRouteUpdateToEngine;
   final Widget backgroundWidget;
+  final RouteQuery? Function(String path, bool initial)? onDeepLink;
 }
 
 mixin _NavigatorObserverMixin implements NavigatorObserver {
