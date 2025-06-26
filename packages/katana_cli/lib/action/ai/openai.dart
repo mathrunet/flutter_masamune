@@ -16,7 +16,7 @@ class AppOpenAICliAction extends CliCommand with CliActionMixin {
 
   @override
   bool checkEnabled(ExecContext context) {
-    final value = context.yaml.getAsMap("app").getAsMap("openai");
+    final value = context.yaml.getAsMap("generative_ai").getAsMap("openai");
     final enabled = value.get("enable", false);
     if (!enabled) {
       return false;

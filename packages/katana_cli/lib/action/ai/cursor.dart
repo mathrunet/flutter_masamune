@@ -17,7 +17,7 @@ class GitCursorCliAction extends CliCommand with CliActionMixin {
 
   @override
   bool checkEnabled(ExecContext context) {
-    final value = context.yaml.getAsMap("github").getAsMap("cursor");
+    final value = context.yaml.getAsMap("generative_ai").getAsMap("cursor");
     final enabled = value.get("enable", false);
     if (!enabled) {
       return false;
@@ -27,14 +27,19 @@ class GitCursorCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
+    final cursor = context.yaml.getAsMap("generative_ai").getAsMap("cursor");
+    final backgroundMode = cursor.get("background_mode", false);
     final flutterVersion = await getFlutterVersion();
     label("Create global.mdc");
     await const GitCursorGlobalMdcCliCode().generateFile("global.mdc");
-    label("Create Dockerfile");
-    await GitCursorDockerfileCliCode(flutterVersion: flutterVersion)
-        .generateFile("Dockerfile");
-    label("Create environment.json");
-    await const GitCursorEnvironmentCliCode().generateFile("environment.json");
+    if (backgroundMode) {
+      label("Create Dockerfile");
+      await GitCursorDockerfileCliCode(flutterVersion: flutterVersion)
+          .generateFile("Dockerfile");
+      label("Create environment.json");
+      await const GitCursorEnvironmentCliCode()
+          .generateFile("environment.json");
+    }
   }
 }
 

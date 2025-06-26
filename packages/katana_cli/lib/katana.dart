@@ -198,11 +198,6 @@ ${showAllConfig ? """
   # カレンダーを利用するための設定を記述します。
   calendar:
     enable: false
-  
-  # Describe the settings for using OpenAI's GPT, etc.
-  # OpenAIのGPT等を利用するための設定を記述します。
-  openai:
-    enable: false
 
   # Describe the settings for using speech synthesis.
   # 音声合成による発話を利用するための設定を記述します。
@@ -533,26 +528,22 @@ github:
       team_id: 
 
 ${showAllConfig ? """
-  # Add an AI Agent using Claude Code.
+  # Add an AI Agent using Claude Code Actions.
   # Please enter your Anthropic API key in [api]->[api_key]. Alternatively, you can make API calls within the paid plan by using Actions you forked within the [plan].
   # For `[build]`, please specify which platforms to build on when a PR is created or updated by claude code.
   # Example: android ios web
-  # `[issue_template]` sets whether to create an Issue template that makes it easy to request from claude code.
   # Please specify user information for [author] when committing.
   # If you trigger the workflow with commits by ClaudeCode, please provide your Github Personal Access Token in [personal_access_token].
-  # CLAUDE CODEによるAIエージェントを追加します。
+  # CLAUDE CODE ACTIONSによるAIエージェントを追加します。
   # [api]->[api_key]にAnthropicのAPIキーを記載してください。もしくは[plan]内でfolkしたActionsを使って有料プラン内でのAPI呼び出しも可能です。
   # [build]には、claude codeによってPRが作成されたりPRが更新された場合、どのプラットフォームでビルドを行うかを記載してください。
   # 例: android ios web
-  # [issue_template]には、claude codeに依頼しやすいようなIssueテンプレートを作成するかどうかを設定します。
   # [author]にコミット時のユーザー情報を記載してください。
   # ClaudeCodeによるコミットによりワークフローを動かす場合は[personal_access_token]にGithubのPersonal Access Tokenを記載してください。
   claude_code:
     enable: false
     build: android web
     personal_access_token: 
-    issue_template:
-      enable: false
     api:
       api_key:
     plan:
@@ -563,10 +554,10 @@ ${showAllConfig ? """
     author:
       email: "claude@anthropic.com"
       name: "Claude Code"
-  
-  # Configure settings for the cursor.
-  # Cursorのための設定を行います。
-  cursor:
+
+  # `[issue_template]` sets whether to create an Issue template that makes it easy to request from claude code.
+  # [issue_template]には、claude codeに依頼しやすいようなIssueテンプレートを作成するかどうかを設定します。
+  issue_template:
     enable: false
   
   # Enable status check.
@@ -839,6 +830,32 @@ sendgrid:
   # SendGridのAPIキー。下記URLから発行可能です。
   # https://app.sendgrid.com/settings/api_keys
   api_key:
+
+# Configure settings for generative AI.
+# 生成AIの設定を行います。
+generative_ai:
+  # Describe the settings for using OpenAI's GPT, etc.
+  # OpenAIのGPT等を利用するための設定を記述します。
+  openai:
+    enable: false
+
+  # Configure settings for the gemini.
+  # Geminiのための設定を行います。
+  gemini:
+    enable: false
+  
+  # Configure settings for the claude code.
+  # ClaudeCodeのための設定を行います。
+  claude_code:
+    enable: false
+
+  # Configure settings for the cursor.
+  # Setting `[background_mode]` to true enables Cursor's background mode.
+  # Cursorのための設定を行います。
+  # [background_mode]をtrueにすると、Cursorのバックグラウンドモードを有効にします。
+  cursor:
+    enable: false
+    background_mode: false
 """ : ""}
 """;
 

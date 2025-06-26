@@ -18,14 +18,9 @@ class GitIssueTemplateCliAction extends CliCommand with CliActionMixin {
 
   @override
   bool checkEnabled(ExecContext context) {
-    final value = context.yaml.getAsMap("github").getAsMap("claude_code");
+    final value = context.yaml.getAsMap("github").getAsMap("issue_template");
     final enabled = value.get("enable", false);
     if (!enabled) {
-      return false;
-    }
-    final issueTemplate = value.getAsMap("issue_template");
-    final enabledIssueTemplate = issueTemplate.get("enable", false);
-    if (!enabledIssueTemplate) {
       return false;
     }
     return true;
