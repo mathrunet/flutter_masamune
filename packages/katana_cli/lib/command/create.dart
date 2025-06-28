@@ -1446,7 +1446,9 @@ final l = AppLocalize();
 /// App Localization.
 ///
 /// You can add multilingual support by editing `localize.yaml`.
-@yamlLocalize
+/// 
+/// [version] is the version of the Yaml file.
+@YamlLocalize(version: 1)
 class AppLocalize extends _\$AppLocalize {}
 """;
   }
@@ -2938,7 +2940,9 @@ final ml = AppLocalize();
 /// App Localization.
 ///
 /// You can add multilingual support by editing `localize.yaml`.
-@yamlLocalize
+/// 
+/// [version] is the version of the Yaml file.
+@YamlLocalize(version: 1)
 class AppLocalize extends _\$AppLocalize {}
 
 /// Define [${className.toPascalCase()}MasamuneAdapter] specific words and settings.
