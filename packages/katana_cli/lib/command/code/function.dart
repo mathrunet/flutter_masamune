@@ -46,6 +46,7 @@ class CodeFunctionCliCommand extends CliCodeCommand {
   @override
   String import(String path, String baseName, String className) {
     return """
+import "package:flutter/foundation.dart";
 import "package:masamune/masamune.dart";
 """;
   }
