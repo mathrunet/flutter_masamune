@@ -1,3 +1,7 @@
+## 3.0.4
+
+ - **FIX**: Fixed an issue where Localization failed to build properly. ([b15b4815](https://github.com/mathrunet/flutter_masamune/commit/b15b481568a8ea2a98c2fd4f595aa96f43823993))
+
 ## 3.0.3
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))

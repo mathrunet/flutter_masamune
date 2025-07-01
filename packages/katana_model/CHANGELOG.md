@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - **FIX**: Fixed an issue where Localization failed to build properly. ([b15b4815](https://github.com/mathrunet/flutter_masamune/commit/b15b481568a8ea2a98c2fd4f595aa96f43823993))
+
 ## 3.1.0
 
  - **FIX**: Add enableCollectionQueryOnLoad to NoSQLDatabase. ([40f1cd35](https://github.com/mathrunet/flutter_masamune/commit/40f1cd351203d633c3a221d20dbac4963cd84b84))

@@ -1,3 +1,9 @@
+## 3.5.1
+
+ - **FIX**: Add translation. ([5857cead](https://github.com/mathrunet/flutter_masamune/commit/5857ceadde8ad8aaeed5cf63e3e180de3704c0ff))
+ - **FIX**: Added the ability to specify the Yaml version. ([f33f7cc2](https://github.com/mathrunet/flutter_masamune/commit/f33f7cc2eff3336f4e97a1d468b04562ca47425e))
+ - **FIX**: Fixed an issue where Localization failed to build properly. ([b15b4815](https://github.com/mathrunet/flutter_masamune/commit/b15b481568a8ea2a98c2fd4f595aa96f43823993))
+
 ## 3.5.0
 
  - **FIX**: Add a newline at the end. ([34e29229](https://github.com/mathrunet/flutter_masamune/commit/34e2922958f466781f0e8bf4b80f744bd9208601))

@@ -1,3 +1,7 @@
+## 3.0.7
+
+ - **FIX**: Pinning the package because the build fails. ([e73721fb](https://github.com/mathrunet/flutter_masamune/commit/e73721fbd9dbaf5577522dd86c6e8e8cb6de8e9b))
+
 ## 3.0.6
 
  - Update a dependency to the latest release.

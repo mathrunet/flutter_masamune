@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - **FIX**: Added the ability to specify the Yaml version. ([f33f7cc2](https://github.com/mathrunet/flutter_masamune/commit/f33f7cc2eff3336f4e97a1d468b04562ca47425e))
+
 ## 3.1.0
 
  - **FEAT**: Added YamlLocalize feature. ([3fe6488e](https://github.com/mathrunet/flutter_masamune/commit/3fe6488e06f968e2779b0150a6296dbdb2b5391d))

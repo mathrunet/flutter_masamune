@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - Update a dependency to the latest release.
+
 ## 3.1.0
 
  - **FEAT**: Add AsyncSavingManager. ([199c7c67](https://github.com/mathrunet/flutter_masamune/commit/199c7c6755a9519b98caa866ce3d069d1423543d))

@@ -1,3 +1,7 @@
+## 3.0.7
+
+ - **FIX**: Fixed an issue where Localization failed to build properly. ([b15b4815](https://github.com/mathrunet/flutter_masamune/commit/b15b481568a8ea2a98c2fd4f595aa96f43823993))
+
 ## 3.0.6
 
  - Update a dependency to the latest release.
