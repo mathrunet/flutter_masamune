@@ -44,67 +44,82 @@ class TestUpdateCliCommand extends CliCommand {
       await TestDockerfileCliCode(flutterVersion: flutterVersion)
           .generateFile("Dockerfile");
       label("Flutter version: $flutterVersion");
-      await command(
-        "Build the docker image.",
-        [
-          docker,
-          "buildx",
-          "build",
-          "--platform",
-          "linux/x86_64",
-          "--build-arg",
-          "FLUTTER_VERSION=$flutterVersion",
-          "-t",
-          "flutter_golden_test",
-          ".",
-        ],
-        workingDirectory: "docker",
-      );
-      await command(
-        "Create the docker volume.",
-        [
-          docker,
-          "volume",
-          "create",
-          "flutter_golden_test_dart_tool",
-        ],
-        workingDirectory: "docker",
-      );
-      await command(
-        "Run flutter pub get.",
-        [
-          flutter,
-          "pub",
-          "get",
-        ],
-      );
-      await command(
-        "Update the golden test images.",
-        [
-          docker,
-          "run",
-          "--rm",
-          "-v",
-          "${Directory.current.path}:/app",
-          "-v",
-          "flutter_golden_test_dart_tool:/app/.dart_tool",
-          "--platform",
-          "linux/x86_64",
-          "-w",
-          "/app",
-          "flutter_golden_test",
-          flutter,
-          "test",
-          "--update-goldens",
-          "--dart-define=CI=true",
-          "--dart-define=FLAVOR=dev",
-          if (target.isNotEmpty) ...[
-            "--plain-name",
-            target,
-          ]
-        ],
-        workingDirectory: "docker",
-      );
+
+      // Check if pubspec_overrides.yaml exists and temporarily move it
+      final pubspecOverridesFile = File("pubspec_overrides.yaml");
+      final tempPubspecOverridesFile = File("pubspec_overrides.yaml.tmp");
+      var hasPubspecOverrides = false;
+
+      if (await pubspecOverridesFile.exists()) {
+        hasPubspecOverrides = true;
+        await pubspecOverridesFile.rename("pubspec_overrides.yaml.tmp");
+        label(
+            "Temporarily moved pubspec_overrides.yaml to exclude from Docker");
+      }
+
+      try {
+        await command(
+          "Build the docker image.",
+          [
+            docker,
+            "buildx",
+            "build",
+            "--platform",
+            "linux/x86_64",
+            "--build-arg",
+            "FLUTTER_VERSION=$flutterVersion",
+            "-t",
+            "flutter_golden_test",
+            ".",
+          ],
+          workingDirectory: "docker",
+        );
+        await command(
+          "Create the docker volume.",
+          [
+            docker,
+            "volume",
+            "create",
+            "flutter_golden_test_dart_tool",
+          ],
+          workingDirectory: "docker",
+        );
+        await command(
+          "Run flutter pub get.",
+          [
+            flutter,
+            "pub",
+            "get",
+          ],
+        );
+        await command(
+          "Update the golden test images.",
+          [
+            docker,
+            "run",
+            "--rm",
+            "-v",
+            "${Directory.current.path}:/app",
+            "-v",
+            "flutter_golden_test_dart_tool:/app/.dart_tool",
+            "--platform",
+            "linux/x86_64",
+            "-w",
+            "/app",
+            "flutter_golden_test",
+            "sh",
+            "-c",
+            "flutter pub get && flutter test --update-goldens --dart-define=CI=true --dart-define=FLAVOR=dev ${target.isNotEmpty ? '--plain-name $target' : ''}",
+          ],
+          workingDirectory: "docker",
+        );
+      } finally {
+        // Restore pubspec_overrides.yaml if it was moved
+        if (hasPubspecOverrides && await tempPubspecOverridesFile.exists()) {
+          await tempPubspecOverridesFile.rename("pubspec_overrides.yaml");
+          label("Restored pubspec_overrides.yaml");
+        }
+      }
     }
   }
 }
