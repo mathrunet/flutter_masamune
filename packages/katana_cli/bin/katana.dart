@@ -4,10 +4,10 @@ library;
 import "dart:io";
 
 // Package imports:
-import "package:katana_cli/command/analytics/analytics.dart";
 import "package:yaml/yaml.dart";
 
 // Project imports:
+import "package:katana_cli/command/analytics/analytics.dart";
 import "package:katana_cli/command/apply.dart";
 import "package:katana_cli/command/cer/cer.dart";
 import "package:katana_cli/command/deploy.dart";

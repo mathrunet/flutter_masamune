@@ -1,6 +1,8 @@
 // Project imports:
 import "package:katana_cli/action/ads/ads.dart";
 import "package:katana_cli/action/agora/agora.dart";
+import "package:katana_cli/action/ai/cursor.dart";
+import "package:katana_cli/action/ai/openai.dart";
 import "package:katana_cli/action/app/animate.dart";
 import "package:katana_cli/action/app/app_review.dart";
 import "package:katana_cli/action/app/att.dart";
@@ -16,7 +18,6 @@ import "package:katana_cli/action/app/introduction.dart";
 import "package:katana_cli/action/app/keystore.dart";
 import "package:katana_cli/action/app/local_notification.dart";
 import "package:katana_cli/action/app/location.dart";
-import "package:katana_cli/action/ai/openai.dart";
 import "package:katana_cli/action/app/p12.dart";
 import "package:katana_cli/action/app/picker.dart";
 import "package:katana_cli/action/app/privacy_manifests.dart";
@@ -33,7 +34,6 @@ import "package:katana_cli/action/firebase/scheduler.dart";
 import "package:katana_cli/action/firebase/terms_and_privacy.dart";
 import "package:katana_cli/action/git/action.dart";
 import "package:katana_cli/action/git/claude_code.dart";
-import "package:katana_cli/action/ai/cursor.dart";
 import "package:katana_cli/action/git/hook.dart";
 import "package:katana_cli/action/git/status_check.dart";
 import "package:katana_cli/action/mail/gmail.dart";
