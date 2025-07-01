@@ -21,6 +21,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
     NoSqlDatabase? database,
     this.asyncSavingManager,
     this.validator,
+    this.emptyWhenThrowError = false,
     this.headers = defaultHeaders,
     this.checkError = defaultCheckError,
   }) : _database = database;
@@ -80,6 +81,11 @@ abstract class RestApiModelAdapter extends ModelAdapter {
   /// これが設定されている場合、保存および削除時は[database]にデータを一時的に保存し、その内容を非同期で保存するようにします。
   final AsyncSavingManager? asyncSavingManager;
 
+  /// If the response is an error, return empty data.
+  ///
+  /// レスポンスがエラーの場合は空のデータを返します。
+  final bool emptyWhenThrowError;
+
   /// A function that returns the headers.
   ///
   /// ヘッダーを返します。
@@ -103,33 +109,41 @@ abstract class RestApiModelAdapter extends ModelAdapter {
       if (collectionBuilder == null || !await collectionBuilder.match(query)) {
         continue;
       }
-      final values = await collectionBuilder.process(query, this);
-      final limitValue = NoSqlDatabase.limitValue(query);
-      final entries = query.query.sort(
-        values
-            .toList(
-              (key, value) {
-                // ignore: unnecessary_type_check
-                if (value is! Map) {
-                  return null;
-                }
-                return MapEntry(
-                  key,
-                  Map<String, dynamic>.from(value),
-                );
-              },
-            )
-            .where(
-              (element) =>
-                  element != null && query.query.hasMatchAsMap(element.value),
-            )
-            .removeEmpty(),
-      );
-      final limited = entries.sublist(
-        0,
-        limitValue != null ? min(limitValue, entries.length) : null,
-      );
-      return Map<String, DynamicMap>.fromEntries(limited);
+      try {
+        final values = await collectionBuilder.process(query, this);
+        final limitValue = NoSqlDatabase.limitValue(query);
+        final entries = query.query.sort(
+          values
+              .toList(
+                (key, value) {
+                  // ignore: unnecessary_type_check
+                  if (value is! Map) {
+                    return null;
+                  }
+                  return MapEntry(
+                    key,
+                    Map<String, dynamic>.from(value),
+                  );
+                },
+              )
+              .where(
+                (element) =>
+                    element != null && query.query.hasMatchAsMap(element.value),
+              )
+              .removeEmpty(),
+        );
+        final limited = entries.sublist(
+          0,
+          limitValue != null ? min(limitValue, entries.length) : null,
+        );
+        return Map<String, DynamicMap>.fromEntries(limited);
+      } catch (e, stackTrace) {
+        if (emptyWhenThrowError) {
+          debugPrint("$e\n$stackTrace");
+          return {};
+        }
+        rethrow;
+      }
     }
     throw UnimplementedError("Endpoint is not found: ${query.query.path}");
   }
@@ -144,7 +158,15 @@ abstract class RestApiModelAdapter extends ModelAdapter {
           !await documentBuilder.match(query)) {
         continue;
       }
-      return await loadBuilder.process(query, this);
+      try {
+        return await loadBuilder.process(query, this);
+      } catch (e, stackTrace) {
+        if (emptyWhenThrowError) {
+          debugPrint("$e\n$stackTrace");
+          return {};
+        }
+        rethrow;
+      }
     }
     throw UnimplementedError("Endpoint is not found: ${query.query.path}");
   }
