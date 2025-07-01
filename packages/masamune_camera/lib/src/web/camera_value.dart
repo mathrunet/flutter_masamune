@@ -16,14 +16,14 @@ class CameraValue {
   ///
   /// モック用のデータを生成します。
   static Future<CameraValue> create({
-    required ImageFormat format,
+    required MediaFormat format,
     int? width,
     int? height,
   }) async {
     final source = image.Image(width: width ?? 512, height: height ?? 512);
     final exportedFile = "${uuid()}.${format.extension}";
     switch (format) {
-      case ImageFormat.jpg:
+      case MediaFormat.jpg:
         final convertedBytes = image.encodeJpg(source);
         return CameraValue._(
           uri: Uri(path: exportedFile),
@@ -31,13 +31,20 @@ class CameraValue {
           format: format,
           bytes: convertedBytes,
         );
-      case ImageFormat.png:
+      case MediaFormat.png:
         final convertedBytes = image.encodePng(source);
         return CameraValue._(
           uri: Uri(path: exportedFile),
           name: exportedFile,
           format: format,
           bytes: convertedBytes,
+        );
+      case MediaFormat.mp4:
+        return CameraValue._(
+          uri: Uri(path: exportedFile),
+          name: exportedFile,
+          format: format,
+          bytes: null,
         );
     }
   }
@@ -47,7 +54,7 @@ class CameraValue {
   /// [XFile]から[CameraValue]を生成します。
   static Future<CameraValue> fromXFile({
     required camera.XFile file,
-    required ImageFormat format,
+    required MediaFormat format,
     int? width,
     int? height,
   }) async {
@@ -84,19 +91,26 @@ class CameraValue {
       }
     }
     switch (format) {
-      case ImageFormat.jpg:
+      case MediaFormat.jpg:
         return CameraValue._(
           uri: Uri.parse(file.path),
           name: file.name,
           format: format,
           bytes: image.encodeJpg(source),
         );
-      case ImageFormat.png:
+      case MediaFormat.png:
         return CameraValue._(
           uri: Uri.parse(file.path),
           name: file.name,
           format: format,
           bytes: image.encodePng(source),
+        );
+      case MediaFormat.mp4:
+        return CameraValue._(
+          uri: Uri.parse(file.path),
+          name: file.name,
+          format: format,
+          bytes: bytes,
         );
     }
   }
@@ -114,7 +128,7 @@ class CameraValue {
   /// Image format.
   ///
   /// 画像のフォーマット。
-  final ImageFormat format;
+  final MediaFormat format;
 
   /// Byte data.
   ///

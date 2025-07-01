@@ -132,7 +132,7 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
   Future<CameraValue?> takePicture({
     int? width,
     int? height,
-    ImageFormat? format,
+    MediaFormat? format,
   }) async {
     if (_recordingCompleter != null) {
       return _recordingCompleter!.future;
@@ -153,11 +153,62 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
     } catch (e, stacktrace) {
       _recordingCompleter?.completeError(e, stacktrace);
       _recordingCompleter = null;
+      rethrow;
     } finally {
       _recordingCompleter?.complete(null);
       _recordingCompleter = null;
     }
-    return null;
+  }
+
+  /// Start video recording.
+  ///
+  /// ビデオ撮影を開始します。
+  Future<void> startVideoRecording() async {
+    if (_recordingCompleter != null) {
+      await _recordingCompleter!.future;
+      return;
+    }
+    _recordingCompleter = Completer<CameraValue>();
+    try {
+      await initialize();
+      await adapter.startVideoRecording(
+        controller: _controller,
+      );
+      notifyListeners();
+    } catch (e, stacktrace) {
+      _recordingCompleter?.completeError(e, stacktrace);
+      _recordingCompleter = null;
+      rethrow;
+    }
+  }
+
+  /// Stop video recording.
+  ///
+  /// If the video recording is not started, an exception will be thrown.
+  ///
+  /// ビデオ撮影を停止します。
+  ///
+  /// 撮影したファイルは[CameraValue]として返されます。
+  Future<CameraValue?> stopVideoRecording() async {
+    if (_recordingCompleter == null) {
+      throw Exception("Video recording is not started.");
+    }
+    try {
+      final value = await adapter.stopVideoRecording(
+        controller: _controller,
+      );
+      notifyListeners();
+      _recordingCompleter?.complete(value);
+      _recordingCompleter = null;
+      return value;
+    } catch (e, stacktrace) {
+      _recordingCompleter?.completeError(e, stacktrace);
+      _recordingCompleter = null;
+      rethrow;
+    } finally {
+      _recordingCompleter?.complete(null);
+      _recordingCompleter = null;
+    }
   }
 
   @override

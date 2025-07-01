@@ -1,9 +1,9 @@
 part of "/masamune_camera.dart";
 
-/// Image format.
+/// Media format.
 ///
-/// 画像フォーマット。
-enum ImageFormat {
+/// メディアフォーマット。
+enum MediaFormat {
   /// Jpeg format.
   ///
   /// Jpegフォーマット。
@@ -12,17 +12,24 @@ enum ImageFormat {
   /// Png format.
   ///
   /// Pngフォーマット。
-  png;
+  png,
+
+  /// Mp4 format.
+  ///
+  /// Mp4フォーマット。
+  mp4;
 
   /// Extension.
   ///
   /// 拡張子。
   String get extension {
     switch (this) {
-      case ImageFormat.jpg:
+      case MediaFormat.jpg:
         return "jpg";
-      case ImageFormat.png:
+      case MediaFormat.png:
         return "png";
+      case MediaFormat.mp4:
+        return "mp4";
     }
   }
 }

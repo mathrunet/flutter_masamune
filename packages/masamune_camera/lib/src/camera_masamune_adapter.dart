@@ -9,7 +9,7 @@ abstract class CameraMasamuneAdapter extends MasamuneAdapter {
   /// カメラの初期設定を行う[MasamuneAdapter]のベースクラス。
   const CameraMasamuneAdapter({
     this.defaultResolutionPreset = ResolutionPreset.high,
-    this.defaultImageFormat = ImageFormat.jpg,
+    this.defaultImageFormat = MediaFormat.jpg,
     this.enableAudio = true,
   });
 
@@ -21,7 +21,7 @@ abstract class CameraMasamuneAdapter extends MasamuneAdapter {
   /// Image format.
   ///
   /// 画像フォーマット。
-  final ImageFormat defaultImageFormat;
+  final MediaFormat defaultImageFormat;
 
   /// `true` to set audio.
   ///
@@ -88,7 +88,21 @@ abstract class CameraMasamuneAdapter extends MasamuneAdapter {
     required camera.CameraController? controller,
     int? width,
     int? height,
-    ImageFormat? format,
+    MediaFormat? format,
+  });
+
+  /// Start video recording.
+  ///
+  /// ビデオ撮影を開始します。
+  Future<void> startVideoRecording({
+    required camera.CameraController? controller,
+  });
+
+  /// Stop video recording.
+  ///
+  /// ビデオ撮影を停止します。
+  Future<CameraValue?> stopVideoRecording({
+    required camera.CameraController? controller,
   });
 
   /// Dispose of the camera.

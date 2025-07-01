@@ -9,7 +9,7 @@ class MockCameraMasamuneAdapter extends CameraMasamuneAdapter {
   /// モック用のカメラの初期設定を行う[MasamuneAdapter]。
   const MockCameraMasamuneAdapter({
     super.defaultResolutionPreset = ResolutionPreset.high,
-    super.defaultImageFormat = ImageFormat.jpg,
+    super.defaultImageFormat = MediaFormat.jpg,
     super.enableAudio = true,
   });
 
@@ -44,13 +44,24 @@ class MockCameraMasamuneAdapter extends CameraMasamuneAdapter {
     required camera.CameraController? controller,
     int? width,
     int? height,
-    ImageFormat? format,
+    MediaFormat? format,
   }) async {
     return await CameraValue.create(
       format: format ?? defaultImageFormat,
       width: width,
       height: height,
     );
+  }
+
+  @override
+  Future<void> startVideoRecording({
+    required camera.CameraController? controller,
+  }) async {}
+
+  @override
+  Future<CameraValue?> stopVideoRecording(
+      {required camera.CameraController? controller}) async {
+    return null;
   }
 
   @override

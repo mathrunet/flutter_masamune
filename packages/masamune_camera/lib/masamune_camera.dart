@@ -31,6 +31,6 @@ part "adapter/mobile_camera_masamune_adapter.dart";
 part "adapter/mock_camera_masamune_adapter.dart";
 part "src/camera.dart";
 part "src/resolution_preset.dart";
-part "src/image_format.dart";
+part "src/media_format.dart";
 part "src/camera_masamune_adapter.dart";
 part "storage/storage.dart";

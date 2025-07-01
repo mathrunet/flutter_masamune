@@ -9,7 +9,7 @@ class MobileCameraMasamuneAdapter extends CameraMasamuneAdapter {
   /// カメラの初期設定を行う[MasamuneAdapter]。
   const MobileCameraMasamuneAdapter({
     super.defaultResolutionPreset = ResolutionPreset.high,
-    super.defaultImageFormat = ImageFormat.jpg,
+    super.defaultImageFormat = MediaFormat.jpg,
     super.enableAudio = true,
   });
 
@@ -66,7 +66,7 @@ class MobileCameraMasamuneAdapter extends CameraMasamuneAdapter {
     required camera.CameraController? controller,
     int? width,
     int? height,
-    ImageFormat? format,
+    MediaFormat? format,
   }) async {
     final file = await controller?.takePicture();
     if (file == null) {
@@ -77,6 +77,26 @@ class MobileCameraMasamuneAdapter extends CameraMasamuneAdapter {
       format: format ?? defaultImageFormat,
       width: width,
       height: height,
+    );
+  }
+
+  @override
+  Future<void> startVideoRecording({
+    required camera.CameraController? controller,
+  }) async {
+    return controller?.startVideoRecording();
+  }
+
+  @override
+  Future<CameraValue?> stopVideoRecording(
+      {required camera.CameraController? controller}) async {
+    final file = await controller?.stopVideoRecording();
+    if (file == null) {
+      return null;
+    }
+    return await CameraValue.fromXFile(
+      file: file,
+      format: MediaFormat.mp4,
     );
   }
 
