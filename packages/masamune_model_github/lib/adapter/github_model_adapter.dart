@@ -44,15 +44,18 @@ class GithubModelAdapter extends ModelAdapter {
   /// リポジトリ名（オプション）。
   final String? repository;
 
-  late final github.GitHub _github = github.GitHub(auth: github.Authentication.withToken(token));
+  late final github.GitHub _github =
+      github.GitHub(auth: github.Authentication.withToken(token));
 
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     final path = _parsePath(query.query.path);
-    
+
     switch (path.collection) {
       case "issue":
-        if (path.owner == null || path.repository == null || path.documentId == null) {
+        if (path.owner == null ||
+            path.repository == null ||
+            path.documentId == null) {
           throw ArgumentError("Invalid path for issue document deletion");
         }
         await _github.issues.edit(
@@ -62,8 +65,11 @@ class GithubModelAdapter extends ModelAdapter {
         );
         break;
       case "pull_request":
-        if (path.owner == null || path.repository == null || path.documentId == null) {
-          throw ArgumentError("Invalid path for pull request document deletion");
+        if (path.owner == null ||
+            path.repository == null ||
+            path.documentId == null) {
+          throw ArgumentError(
+              "Invalid path for pull request document deletion");
         }
         await _github.pullRequests.edit(
           github.RepositorySlug(path.owner!, path.repository!),
@@ -75,7 +81,8 @@ class GithubModelAdapter extends ModelAdapter {
         if (path.owner == null || path.documentId == null) {
           throw ArgumentError("Invalid path for repository document deletion");
         }
-        await _github.repositories.deleteRepository(github.RepositorySlug(path.owner!, path.documentId!));
+        await _github.repositories.deleteRepository(
+            github.RepositorySlug(path.owner!, path.documentId!));
         break;
       default:
         throw UnsupportedError("Unsupported collection: ${path.collection}");
@@ -85,10 +92,12 @@ class GithubModelAdapter extends ModelAdapter {
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     final path = _parsePath(query.query.path);
-    
+
     switch (path.collection) {
       case "issue":
-        if (path.owner == null || path.repository == null || path.documentId == null) {
+        if (path.owner == null ||
+            path.repository == null ||
+            path.documentId == null) {
           throw ArgumentError("Invalid path for issue document");
         }
         final issue = await _github.issues.get(
@@ -97,7 +106,9 @@ class GithubModelAdapter extends ModelAdapter {
         );
         return _convertIssueToMap(issue);
       case "pull_request":
-        if (path.owner == null || path.repository == null || path.documentId == null) {
+        if (path.owner == null ||
+            path.repository == null ||
+            path.documentId == null) {
           throw ArgumentError("Invalid path for pull request document");
         }
         final pr = await _github.pullRequests.get(
@@ -109,7 +120,8 @@ class GithubModelAdapter extends ModelAdapter {
         if (path.owner == null || path.documentId == null) {
           throw ArgumentError("Invalid path for repository document");
         }
-        final repo = await _github.repositories.getRepository(github.RepositorySlug(path.owner!, path.documentId!));
+        final repo = await _github.repositories.getRepository(
+            github.RepositorySlug(path.owner!, path.documentId!));
         return _convertRepositoryToMap(repo);
       default:
         throw UnsupportedError("Unsupported collection: ${path.collection}");
@@ -128,16 +140,18 @@ class GithubModelAdapter extends ModelAdapter {
   ) async {
     final path = _parsePath(query.query.path);
     final Map<String, DynamicMap> result = {};
-    
+
     switch (path.collection) {
       case "issue":
         if (path.owner == null || path.repository == null) {
           throw ArgumentError("Invalid path for issue collection");
         }
-        final issues = await _github.issues.listByRepo(
-          github.RepositorySlug(path.owner!, path.repository!),
-          state: "all",
-        ).toList();
+        final issues = await _github.issues
+            .listByRepo(
+              github.RepositorySlug(path.owner!, path.repository!),
+              state: "all",
+            )
+            .toList();
         for (final issue in issues) {
           result[issue.number.toString()] = _convertIssueToMap(issue);
         }
@@ -146,10 +160,12 @@ class GithubModelAdapter extends ModelAdapter {
         if (path.owner == null || path.repository == null) {
           throw ArgumentError("Invalid path for pull request collection");
         }
-        final prs = await _github.pullRequests.list(
-          github.RepositorySlug(path.owner!, path.repository!),
-          state: "all",
-        ).toList();
+        final prs = await _github.pullRequests
+            .list(
+              github.RepositorySlug(path.owner!, path.repository!),
+              state: "all",
+            )
+            .toList();
         for (final pr in prs) {
           result[pr.number.toString()] = _convertPullRequestToMap(pr);
         }
@@ -158,7 +174,9 @@ class GithubModelAdapter extends ModelAdapter {
         if (path.owner == null) {
           throw ArgumentError("Invalid path for repository collection");
         }
-        final repos = await _github.repositories.listUserRepositories(path.owner!).toList();
+        final repos = await _github.repositories
+            .listUserRepositories(path.owner!)
+            .toList();
         for (final repo in repos) {
           result[repo.name] = _convertRepositoryToMap(repo);
         }
@@ -166,7 +184,7 @@ class GithubModelAdapter extends ModelAdapter {
       default:
         throw UnsupportedError("Unsupported collection: ${path.collection}");
     }
-    
+
     return result;
   }
 
@@ -194,7 +212,7 @@ class GithubModelAdapter extends ModelAdapter {
     DynamicMap value,
   ) async {
     final path = _parsePath(query.query.path);
-    
+
     switch (path.collection) {
       case "issue":
         if (path.owner == null || path.repository == null) {
@@ -347,16 +365,16 @@ class GithubModelAdapter extends ModelAdapter {
   _GitHubPath _parsePath(String path) {
     final trimmedPath = path.trimQuery().trimString("/");
     final parts = trimmedPath.split("/");
-    
+
     if (parts.isEmpty) {
       throw ArgumentError("Invalid path format");
     }
-    
+
     final collection = parts[0];
     String? pathOwner = owner;
     String? pathRepository = repository;
     String? documentId;
-    
+
     // Parse path based on collection type
     switch (collection) {
       case "issue":
@@ -380,7 +398,7 @@ class GithubModelAdapter extends ModelAdapter {
         }
         break;
     }
-    
+
     return _GitHubPath(
       collection: collection,
       owner: pathOwner,
@@ -402,10 +420,12 @@ class GithubModelAdapter extends ModelAdapter {
         "login": issue.user?.login,
         "avatar_url": issue.user?.avatarUrl,
       },
-      "labels": issue.labels.map((label) => {
-        "name": label.name,
-        "color": label.color,
-      }).toList(),
+      "labels": issue.labels
+          .map((label) => {
+                "name": label.name,
+                "color": label.color,
+              })
+          .toList(),
       "created_at": issue.createdAt?.toIso8601String(),
       "updated_at": issue.updatedAt?.toIso8601String(),
       "closed_at": issue.closedAt?.toIso8601String(),

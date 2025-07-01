@@ -1,8 +1,8 @@
 // ignore: unused_import, unnecessary_import
-import "package:masamune/masamune.dart";
 
-
+// Package imports:
 import "package:freezed_annotation/freezed_annotation.dart";
+import "package:masamune/masamune.dart";
 
 part "issue.m.dart";
 part "issue.g.dart";
@@ -34,7 +34,8 @@ abstract class IssueModel with _$IssueModel {
   /// ```dart
   /// IssueModel.fromJson(json);
   /// ```
-  factory IssueModel.fromJson(Map<String, Object?> json) => _$IssueModelFromJson(json);
+  factory IssueModel.fromJson(Map<String, Object?> json) =>
+      _$IssueModelFromJson(json);
 
   /// Query for document.
   ///

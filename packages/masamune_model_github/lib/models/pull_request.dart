@@ -1,8 +1,8 @@
 // ignore: unused_import, unnecessary_import
-import "package:masamune/masamune.dart";
 
-
+// Package imports:
 import "package:freezed_annotation/freezed_annotation.dart";
+import "package:masamune/masamune.dart";
 
 part "pull_request.m.dart";
 part "pull_request.g.dart";
@@ -35,7 +35,8 @@ abstract class PullRequestModel with _$PullRequestModel {
   /// ```dart
   /// PullRequestModel.fromJson(json);
   /// ```
-  factory PullRequestModel.fromJson(Map<String, Object?> json) => _$PullRequestModelFromJson(json);
+  factory PullRequestModel.fromJson(Map<String, Object?> json) =>
+      _$PullRequestModelFromJson(json);
 
   /// Query for document.
   ///
@@ -123,7 +124,8 @@ typedef PullRequestModelMirrorRefPath = _$PullRequestModelMirrorRefPath;
 ///   ],
 /// );
 /// ```
-typedef PullRequestModelMirrorInitialCollection = _$PullRequestModelMirrorInitialCollection;
+typedef PullRequestModelMirrorInitialCollection
+    = _$PullRequestModelMirrorInitialCollection;
 
 /// Document class for storing PullRequestModel.
 typedef PullRequestModelMirrorDocument = _$PullRequestModelMirrorDocument;

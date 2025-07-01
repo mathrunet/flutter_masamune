@@ -1,7 +1,8 @@
 // ignore: unused_import, unnecessary_import
-import "package:masamune/masamune.dart";
 
+// Package imports:
 import "package:freezed_annotation/freezed_annotation.dart";
+import "package:masamune/masamune.dart";
 
 part "repository.m.dart";
 part "repository.g.dart";
@@ -40,7 +41,8 @@ abstract class RepositoryModel with _$RepositoryModel {
   /// ```dart
   /// RepositoryModel.fromJson(json);
   /// ```
-  factory RepositoryModel.fromJson(Map<String, Object?> json) => _$RepositoryModelFromJson(json);
+  factory RepositoryModel.fromJson(Map<String, Object?> json) =>
+      _$RepositoryModelFromJson(json);
 
   /// Query for document.
   ///
@@ -128,7 +130,8 @@ typedef RepositoryModelMirrorRefPath = _$RepositoryModelMirrorRefPath;
 ///   ],
 /// );
 /// ```
-typedef RepositoryModelMirrorInitialCollection = _$RepositoryModelMirrorInitialCollection;
+typedef RepositoryModelMirrorInitialCollection
+    = _$RepositoryModelMirrorInitialCollection;
 
 /// Document class for storing RepositoryModel.
 typedef RepositoryModelMirrorDocument = _$RepositoryModelMirrorDocument;
