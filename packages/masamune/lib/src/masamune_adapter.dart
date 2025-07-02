@@ -75,6 +75,11 @@ abstract class MasamuneAdapter {
   /// ロガー機能を追加するためのアダプターを定義することができます。
   List<LoggerAdapter> get loggerAdapters => const [];
 
+  /// You can define adapters to add features to the Masamune Framework.
+  ///
+  /// Masamune Frameworkに機能を追加するためのアダプターを定義することができます。
+  List<MasamuneAdapter> get masamuneAdapters => const [];
+
   /// If this is `true`, it indicates that test adapters are set in [TestMasamuneAdapterScope.setTestAdapters] and it is in test mode.
   ///
   /// これが`true`の場合、[TestMasamuneAdapterScope.setTestAdapters]にテスト用のアダプターがセットされておりテストモードであることを示します。
@@ -141,6 +146,21 @@ abstract class MasamuneAdapter {
   ///
   /// [error]と[stackTrace]にエラーが起きた際のオブジェクトが渡されます。
   void onError(Object error, StackTrace stackTrace) {}
+
+  static List<MasamuneAdapter> _extractMasamuneAdapters(
+    List<MasamuneAdapter> adapters,
+  ) {
+    final result = <MasamuneAdapter>[];
+    for (final adapter in adapters) {
+      final masamuneAdapters = adapter.masamuneAdapters;
+      result.add(adapter);
+      if (masamuneAdapters.isNotEmpty) {
+        final extracted = _extractMasamuneAdapters(masamuneAdapters);
+        result.addAll(extracted);
+      }
+    }
+    return result.distinct((e) => e.runtimeType);
+  }
 }
 
 /// [MasamuneAdapter] for the entire app by placing it on top of [MaterialApp], etc.

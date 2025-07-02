@@ -34,9 +34,11 @@ Future<void> runMasamuneApp(
   // if (setPathUrlStrategy) {
   //   AppRouter.setPathUrlStrategy();
   // }
-  masamuneAdapters = masamuneAdapters.sortTo(
-    (a, b) => a.priority.compareTo(b.priority),
-  );
+  masamuneAdapters = MasamuneAdapter._extractMasamuneAdapters(masamuneAdapters)
+      .distinct((e) => e.runtimeType)
+      .sortTo(
+        (a, b) => a.priority.compareTo(b.priority),
+      );
   final useRunZonedGuarded = masamuneAdapters.any((e) => e.runZonedGuarded);
   if (useRunZonedGuarded) {
     unawaited(
