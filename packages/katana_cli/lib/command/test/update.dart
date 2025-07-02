@@ -45,7 +45,6 @@ class TestUpdateCliCommand extends CliCommand {
           .generateFile("Dockerfile");
       label("Flutter version: $flutterVersion");
 
-      // Check if pubspec_overrides.yaml exists and temporarily move it
       final pubspecOverridesFile = File("pubspec_overrides.yaml");
       final tempPubspecOverridesFile = File("pubspec_overrides.yaml.tmp");
       var hasPubspecOverrides = false;
@@ -114,7 +113,6 @@ class TestUpdateCliCommand extends CliCommand {
           workingDirectory: "docker",
         );
       } finally {
-        // Restore pubspec_overrides.yaml if it was moved
         if (hasPubspecOverrides && await tempPubspecOverridesFile.exists()) {
           await tempPubspecOverridesFile.rename("pubspec_overrides.yaml");
           label("Restored pubspec_overrides.yaml");
