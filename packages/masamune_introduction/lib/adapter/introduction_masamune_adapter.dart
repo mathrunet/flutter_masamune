@@ -12,6 +12,7 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
     required this.doneLabel,
     required this.skipLabel,
     this.enableSkip = true,
+    this.background,
     this.backgroundColor,
     this.foregroundColor,
     this.activeColor,
@@ -20,6 +21,7 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
     this.bodyPadding,
     this.pagePadding,
     this.contentPadding,
+    this.imageDecoration,
   });
 
   /// Foreground color.
@@ -36,6 +38,11 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 背景色。
   final Color? backgroundColor;
+
+  /// Background widget.
+  ///
+  /// 背景のウィジェット。
+  final Widget? background;
 
   /// List of tutorial pages.
   ///
@@ -81,6 +88,11 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
   ///
   /// コンテンツのパディング。
   final EdgeInsets? contentPadding;
+
+  /// Image decoration.
+  ///
+  /// 画像のデコレーション。
+  final BoxDecoration? imageDecoration;
 
   /// You can retrieve the [IntroductionMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
