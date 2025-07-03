@@ -22,6 +22,7 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
     this.pagePadding,
     this.contentPadding,
     this.imageDecoration,
+    this.onDone,
   });
 
   /// Foreground color.
@@ -93,6 +94,11 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 画像のデコレーション。
   final BoxDecoration? imageDecoration;
+
+  /// Callback function when the done button is pressed.
+  ///
+  /// 完了ボタンが押されたときのコールバック関数。
+  final FutureOr<void> Function()? onDone;
 
   /// You can retrieve the [IntroductionMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

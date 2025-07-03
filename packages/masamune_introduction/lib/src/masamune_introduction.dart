@@ -1,4 +1,6 @@
 // Flutter imports:
+import "dart:async";
+
 import "package:flutter/material.dart";
 
 // Package imports:
@@ -193,12 +195,18 @@ class _MasamuneIntroductionState extends State<MasamuneIntroduction> {
                 color: adapter.activeColor ?? Theme.of(context).primaryColor,
               ),
             ),
-            onDone: () {
+            onDone: () async {
+              await adapter.onDone?.call();
+              if (!context.mounted) {
+                return;
+              }
               if (widget.routeQuery == null) {
                 context.router.pop();
               } else {
-                context.router.replace(
-                  widget.routeQuery!,
+                unawaited(
+                  context.router.replace(
+                    widget.routeQuery!,
+                  ),
                 );
               }
             },
@@ -206,8 +214,10 @@ class _MasamuneIntroductionState extends State<MasamuneIntroduction> {
               if (widget.routeQuery == null) {
                 context.router.pop();
               } else {
-                context.router.replace(
-                  widget.routeQuery!,
+                unawaited(
+                  context.router.replace(
+                    widget.routeQuery!,
+                  ),
                 );
               }
             },
@@ -223,6 +233,7 @@ class _MasamuneIntroductionState extends State<MasamuneIntroduction> {
     if (adapter.background != null) {
       contents = Stack(
         fit: StackFit.expand,
+        clipBehavior: Clip.none,
         children: [
           adapter.background!,
           contents,
@@ -275,7 +286,7 @@ extension on IntroductionItem {
               style: appliedBodyTextStyle.copyWith(color: foregroundColor),
               child: body!)
           : null,
-      image: imageDecoration != null
+      image: imageDecoration != null && image != null
           ? DecoratedBox(
               decoration: imageDecoration,
               position: DecorationPosition.foreground,
