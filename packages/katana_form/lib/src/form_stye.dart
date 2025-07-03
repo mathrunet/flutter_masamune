@@ -49,7 +49,7 @@ class FormStyle {
     this.suffix,
     this.elevation = 8.0,
     this.borderStyle = FormInputBorderStyle.none,
-    this.alignedDropdown = false,
+    this.alignedDropdown = true,
   });
 
   /// Form Height.
