@@ -7,17 +7,17 @@ class Config {
   /// Version of the Android GoogleServices.
   ///
   /// AndroidのGoogleServicesのバージョン。
-  static const String googleServicesVersion = "4.3.14";
+  static const String googleServicesVersion = "4.4.0";
 
   /// Version of the Android Kotlin.
   ///
   /// AndroidのKotlinのバージョン。
-  static const String androidKotlinVersion = "1.9.22";
+  static const String androidKotlinVersion = "2.1.0";
 
   /// Version of the Android Billing Library.
   ///
   /// AndroidのBillingライブラリのバージョン。
-  static const String androidBillingVersion = "6.0.1";
+  static const String androidBillingVersion = "7.0.0";
 
   /// Sdk version at Android billing.
   ///
