@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - **FIX**: Add the emptyWhenThrowError parameter. ([b89f52dc](https://github.com/mathrunet/flutter_masamune/commit/b89f52dc801a8c13322d4c043b871b4dd19a6c4a))
+
 ## 3.1.1
 
  - **FIX**: Fixed an issue where Localization failed to build properly. ([b15b4815](https://github.com/mathrunet/flutter_masamune/commit/b15b481568a8ea2a98c2fd4f595aa96f43823993))

@@ -1,3 +1,8 @@
+## 3.5.2
+
+ - **FIX**: Various upgrades. ([05d3decc](https://github.com/mathrunet/flutter_masamune/commit/05d3decc391ddfc22fe83f2fe528fe4b15e82b45))
+ - **FIX**: Decided to temporarily move pubspec_overrides.yaml. ([2e880b84](https://github.com/mathrunet/flutter_masamune/commit/2e880b842fda62aad18153bf7015406512b8afd2))
+
 ## 3.5.1
 
  - **FIX**: Add translation. ([5857cead](https://github.com/mathrunet/flutter_masamune/commit/5857ceadde8ad8aaeed5cf63e3e180de3704c0ff))

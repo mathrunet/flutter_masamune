@@ -1,3 +1,7 @@
+## 3.1.0
+
+ - **FEAT**: Enabled the definition of MasamuneAdapter within MasamuneAdapter. ([c1cdc05c](https://github.com/mathrunet/flutter_masamune/commit/c1cdc05c80c0ed8bec5fd2793a1e54da4536f181))
+
 ## 3.0.7
 
  - **FIX**: Fixed an issue where Localization failed to build properly. ([b15b4815](https://github.com/mathrunet/flutter_masamune/commit/b15b481568a8ea2a98c2fd4f595aa96f43823993))

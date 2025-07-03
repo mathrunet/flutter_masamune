@@ -1,3 +1,8 @@
+## 3.1.0
+
+ - **FEAT**: Add the `onDone` parameter to the Adapter. ([1d401e42](https://github.com/mathrunet/flutter_masamune/commit/1d401e4255c20a62d3c997c4d114866c0b009595))
+ - **FEAT**: Enabled adding background widgets. ([fe928d55](https://github.com/mathrunet/flutter_masamune/commit/fe928d55e0fc5673c2dcf81a8a2e3b6850ec1c82))
+
 ## 3.0.7
 
  - Update a dependency to the latest release.

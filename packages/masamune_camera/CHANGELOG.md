@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - Update a dependency to the latest release.
+
 ## 3.1.0
 
  - **FEAT**: Add video recording function. ([a6e44126](https://github.com/mathrunet/flutter_masamune/commit/a6e4412617ab940eb3aa54387f0c5b005073ac09))
