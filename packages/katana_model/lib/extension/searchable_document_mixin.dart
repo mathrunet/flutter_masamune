@@ -109,23 +109,9 @@ mixin SearchableDocumentMixin<T> on DocumentBase<T> {
       return super.filterOnSave(rawData);
     }
     return super.filterOnSave(
-      Map.unmodifiable({
+      Map.unmodifiable(<String, dynamic>{
         ...rawData,
-        searchValueFieldKey: searchText
-            .replaceAll("　", " ")
-            .split(" ")
-            .expand(
-              (e) => e
-                  .toLowerCase()
-                  .replaceAll(".", "")
-                  .toHankakuNumericAndAlphabet()
-                  .toZenkakuKatakana()
-                  .toKatakana()
-                  .removeOnlyEmoji()
-                  .splitByCharacterAndBigram(),
-            )
-            .distinct()
-            .toMap((e) => MapEntry(e, true)),
+        searchValueFieldKey: searchText.toSearchableMap(),
       }),
     );
   }

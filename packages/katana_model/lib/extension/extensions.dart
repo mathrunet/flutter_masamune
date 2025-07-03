@@ -33,3 +33,28 @@ extension DynamicListModelExtensions on DynamicList {
     return res;
   }
 }
+
+/// Extension methods for [String].
+///
+/// [String]の拡張メソッド。
+extension ModelStringExtensions on String {
+  /// Converts [String] to a searchable map.
+  ///
+  /// [String]を検索可能なマップに変換します。
+  Map<String, dynamic> toSearchableMap() {
+    return replaceAll("　", " ")
+        .split(" ")
+        .expand(
+          (e) => e
+              .toLowerCase()
+              .replaceAll(".", "")
+              .toHankakuNumericAndAlphabet()
+              .toZenkakuKatakana()
+              .toKatakana()
+              .removeOnlyEmoji()
+              .splitByCharacterAndBigram(),
+        )
+        .distinct()
+        .toMap((e) => MapEntry(e, true));
+  }
+}
