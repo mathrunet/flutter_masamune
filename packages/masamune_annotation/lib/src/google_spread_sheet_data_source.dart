@@ -175,6 +175,20 @@ class GoogleSpreadSheetDataSource {
   ///
   /// Y軸のオフセット。
   final int offsetY;
+
+  /// Convert the URL to the export URL.
+  ///
+  /// エクスポート用のURLに変換します。
+  static String convertExportUrl(String source) {
+    return source.replaceAllMapped(
+        RegExp(r"/edit(\?([^#]+))?(#gid=([0-9]+))?$"), (match) {
+      final gid = match.group(4);
+      if (gid?.isEmpty ?? true) {
+        return "/export?format=csv";
+      }
+      return "/export?format=csv&gid=$gid";
+    });
+  }
 }
 
 /// Orientation for using data source for documents at [GoogleSpreadSheetDataSource].
