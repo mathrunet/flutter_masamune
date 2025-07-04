@@ -110,8 +110,19 @@ class MasamuneIntroduction extends StatefulWidget {
   const MasamuneIntroduction({
     super.key,
     this.routeQuery,
-    this.padding = const EdgeInsets.all(16.0),
-    this.contentPadding = const EdgeInsets.all(16.0),
+    this.padding,
+    this.contentPadding,
+    this.titlePadding,
+    this.imagePadding,
+    this.bodyPadding,
+    this.foregroundColor,
+    this.backgroundColor,
+    this.activeColor,
+    this.background,
+    this.enableSkip,
+    this.imageDecoration,
+    this.doneLabel,
+    this.skipLabel,
   });
 
   /// If you want to specify the page after the introduction, specify [routeQuery].
@@ -124,12 +135,67 @@ class MasamuneIntroduction extends StatefulWidget {
   /// Outer padding.
   ///
   /// 外側のパディング。
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
 
   /// Content Padding.
   ///
   /// コンテンツのパディング。
-  final EdgeInsets contentPadding;
+  final EdgeInsets? contentPadding;
+
+  /// Title Padding.
+  ///
+  /// タイトルのパディング。
+  final EdgeInsets? titlePadding;
+
+  /// Image Padding.
+  ///
+  /// 画像のパディング。
+  final EdgeInsets? imagePadding;
+
+  /// Body Padding.
+  ///
+  /// 本文のパディング。
+  final EdgeInsets? bodyPadding;
+
+  /// Foreground Color.
+  ///
+  /// テキストの色。
+  final Color? foregroundColor;
+
+  /// Background Color.
+  ///
+  /// 背景の色。
+  final Color? backgroundColor;
+
+  /// Active Color.
+  ///
+  /// アクティブな色。
+  final Color? activeColor;
+
+  /// Background.
+  ///
+  /// 背景。
+  final Widget? background;
+
+  /// Enable Skip.
+  ///
+  /// スキップを有効にするかどうか。
+  final bool? enableSkip;
+
+  /// Image Decoration.
+  ///
+  /// 画像のデコレーション。
+  final BoxDecoration? imageDecoration;
+
+  /// Done Label.
+  ///
+  /// 完了ボタンのラベル。
+  final LocalizedValue<String>? doneLabel;
+
+  /// Skip Label.
+  ///
+  /// スキップボタンのラベル。
+  final LocalizedValue<String>? skipLabel;
 
   @override
   State<StatefulWidget> createState() => _MasamuneIntroductionState();
@@ -147,53 +213,73 @@ class _MasamuneIntroductionState extends State<MasamuneIntroduction> {
       return const SizedBox();
     }
 
+    final background = widget.background ?? adapter.background;
+
     Widget contents = SafeArea(
       child: DefaultTextStyle(
         style: TextStyle(
-          color: adapter.foregroundColor ??
+          color: widget.foregroundColor ??
+              adapter.foregroundColor ??
               Theme.of(context).textTheme.bodyMedium?.color,
         ),
         child: IconTheme(
           data: IconThemeData(
-            color: adapter.foregroundColor ?? Theme.of(context).iconTheme.color,
+            color: widget.foregroundColor ??
+                adapter.foregroundColor ??
+                Theme.of(context).iconTheme.color,
           ),
           child: IntroductionScreen(
             key: _introKey,
-            controlsPadding: adapter.contentPadding ?? widget.contentPadding,
-            globalBackgroundColor: adapter.background != null
+            controlsPadding: widget.contentPadding ??
+                adapter.contentPadding ??
+                const EdgeInsets.all(16.0),
+            globalBackgroundColor: background != null
                 ? Colors.transparent
-                : adapter.backgroundColor,
+                : (widget.backgroundColor ?? adapter.backgroundColor),
             dotsDecorator: DotsDecorator(
-              activeColor:
-                  adapter.activeColor ?? Theme.of(context).primaryColor,
+              activeColor: widget.activeColor ??
+                  adapter.activeColor ??
+                  Theme.of(context).primaryColor,
             ),
             pages: [
               ...(adapter.items.value(context.locale) ?? []).map(
                 (e) => e.toPageViewModel(
                   context,
-                  titlePadding: adapter.titlePadding,
-                  imagePadding: adapter.imagePadding,
-                  bodyPadding: adapter.bodyPadding,
-                  foregroundColor: adapter.foregroundColor ??
+                  titlePadding: widget.titlePadding ?? adapter.titlePadding,
+                  imagePadding: widget.imagePadding ?? adapter.imagePadding,
+                  bodyPadding: widget.bodyPadding ?? adapter.bodyPadding,
+                  foregroundColor: widget.foregroundColor ??
+                      adapter.foregroundColor ??
                       Theme.of(context).textTheme.bodyMedium?.color,
-                  backgroundColor: adapter.background != null
+                  backgroundColor: background != null
                       ? Colors.transparent
-                      : adapter.backgroundColor,
-                  pagePadding: adapter.pagePadding ?? widget.padding,
-                  imageDecoration: adapter.imageDecoration,
+                      : (widget.backgroundColor ?? adapter.backgroundColor),
+                  pagePadding: widget.padding ??
+                      adapter.pagePadding ??
+                      const EdgeInsets.all(16.0),
+                  imageDecoration:
+                      widget.imageDecoration ?? adapter.imageDecoration,
                 ),
               ),
             ],
             done: Text(
-              adapter.doneLabel.value(context.locale) ?? "",
+              widget.doneLabel?.value(context.locale) ??
+                  adapter.doneLabel.value(context.locale) ??
+                  "",
               style: TextStyle(
-                color: adapter.activeColor ?? Theme.of(context).primaryColor,
+                color: widget.activeColor ??
+                    adapter.activeColor ??
+                    Theme.of(context).primaryColor,
               ),
             ),
             skip: Text(
-              adapter.skipLabel.value(context.locale) ?? "",
+              widget.skipLabel?.value(context.locale) ??
+                  adapter.skipLabel.value(context.locale) ??
+                  "",
               style: TextStyle(
-                color: adapter.activeColor ?? Theme.of(context).primaryColor,
+                color: widget.activeColor ??
+                    adapter.activeColor ??
+                    Theme.of(context).primaryColor,
               ),
             ),
             onDone: () async {
@@ -222,7 +308,7 @@ class _MasamuneIntroductionState extends State<MasamuneIntroduction> {
                 );
               }
             },
-            showSkipButton: adapter.enableSkip,
+            showSkipButton: widget.enableSkip ?? adapter.enableSkip,
             showNextButton: false,
             showBackButton: false,
             showDoneButton: true,
@@ -231,20 +317,21 @@ class _MasamuneIntroductionState extends State<MasamuneIntroduction> {
       ),
     );
 
-    if (adapter.background != null) {
+    if (background != null) {
       contents = Stack(
         fit: StackFit.expand,
         clipBehavior: Clip.none,
         children: [
-          adapter.background!,
+          background,
           contents,
         ],
       );
     }
 
     return ColoredBox(
-      color:
-          adapter.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+      color: widget.backgroundColor ??
+          adapter.backgroundColor ??
+          Theme.of(context).scaffoldBackgroundColor,
       child: contents,
     );
   }
