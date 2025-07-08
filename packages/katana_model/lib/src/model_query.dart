@@ -78,6 +78,17 @@ class DocumentModelQuery extends ModelQuery {
     super.name,
   });
 
+  /// Create a [DocumentModelQuery] from a [Map].
+  ///
+  /// [Map]から[DocumentModelQuery]を作成します。
+  factory DocumentModelQuery.fromJson(Map<String, Object?> json) {
+    final type = json.get(ModelQuery._kTypeKey, "");
+    assert(type == "DocumentModelQuery", "type is not DocumentModelQuery");
+    return DocumentModelQuery(
+      json.get(ModelQuery._kPathKey, ""),
+    );
+  }
+
   /// Copy [DocumentModelQuery] with [path], [adapter], [accessQuery] and [validationQueries].
   ///
   /// [path]と[adapter]、[accessQuery]、[validationQueries]を指定して[DocumentModelQuery]をコピーします。
@@ -193,6 +204,21 @@ class CollectionModelQuery extends ModelQuery {
     super.useTestModelAdapter = true,
     super.name,
   });
+
+  /// Create a [CollectionModelQuery] from a [Map].
+  ///
+  /// [Map]から[CollectionModelQuery]を作成します。
+  factory CollectionModelQuery.fromJson(Map<String, Object?> json) {
+    final type = json.get(ModelQuery._kTypeKey, "");
+    assert(type == "CollectionModelQuery", "type is not CollectionModelQuery");
+    return CollectionModelQuery._(
+      json.get(ModelQuery._kPathKey, ""),
+      filters: json
+          .getAsList<DynamicMap>(ModelQuery._kFiltersKey)
+          .map(ModelQueryFilter.fromJson)
+          .toList(),
+    );
+  }
 
   const CollectionModelQuery._(
     super.path, {
@@ -667,6 +693,22 @@ class ModelQuery {
     this.name,
   }) : _adapter = adapter;
 
+  /// Create a [ModelQuery] from a [Map].
+  ///
+  /// [Map]から[ModelQuery]を作成します。
+  factory ModelQuery.fromJson(Map<String, Object?> json) {
+    final type = json.get(ModelQuery._kTypeKey, "");
+    assert(type.isNotEmpty, "ModelQuery is empty");
+    switch (type) {
+      case "DocumentModelQuery":
+        return DocumentModelQuery.fromJson(json);
+      case "CollectionModelQuery":
+        return CollectionModelQuery.fromJson(json);
+      default:
+        throw UnimplementedError("ModelQuery is not implemented: $type");
+    }
+  }
+
   /// Path definition for the model.
   ///
   /// モデルに対するパス定義。
@@ -717,6 +759,23 @@ class ModelQuery {
   ///
   /// [Null]でない場合はすべて拒否され、中身の[ModelValidationQuery]に応じて許可されます。
   final List<ModelValidationQuery>? validationQueries;
+
+  /// Convert [ModelQuery] to [Map].
+  ///
+  /// [ModelQuery]を[Map]に変換します。
+  Map<String, Object?> toJson() {
+    final filters = this.filters.sortTo((a, b) => a.type.index - b.type.index);
+    return {
+      _kTypeKey: runtimeType.toString(),
+      _kPathKey: path,
+      if (filters.isNotEmpty)
+        _kFiltersKey: filters.map((e) => e.toJson()).toList(),
+    };
+  }
+
+  static const String _kTypeKey = "type";
+  static const String _kPathKey = "path";
+  static const String _kFiltersKey = "filters";
 
   @override
   String toString() {
@@ -1159,6 +1218,21 @@ class ModelQueryFilter {
     this.value,
     this.query,
   });
+
+  /// Create a [ModelQueryFilter] from a [Map].
+  ///
+  /// [Map]から[ModelQueryFilter]を作成します。
+  factory ModelQueryFilter.fromJson(Map<String, Object?> json) {
+    final type = json.get(ModelQueryFilter._kTypeKey, "");
+    final key = json.get(ModelQueryFilter._kKeyKey, "");
+    assert(type.isNotEmpty, "ModelQueryFilter is empty");
+    assert(key.isNotEmpty, "Key is empty");
+    return ModelQueryFilter._(
+      type: ModelQueryFilterType.values.byName(type),
+      key: key,
+      value: json[ModelQueryFilter._kValueKey],
+    );
+  }
 
   /// You can filter only those elements for which the value for [key] matches the value for [value].
   ///
@@ -1627,5 +1701,38 @@ extension ModelQueryFilterListExtension on List<ModelQueryFilter> {
       return value;
     }
     return null;
+  }
+
+  /// Get the value of the filter condition that matches the key and type.
+  ///
+  /// Retrieve the filter condition value for [key] for [types] as a list.
+  ///
+  /// キーと型が一致するフィルター条件の値をリストで取得します。
+  ///
+  /// [key]に対するフィルター条件の値を[types]に対してリストで取得します。
+  List<T> getAsList<T>({
+    String? key,
+    List<ModelQueryFilterType> types = const [],
+  }) {
+    final list = <T>[];
+    for (final filter in this) {
+      if (key != null && filter.key != key) {
+        continue;
+      }
+      if (types.isNotEmpty && !types.contains(filter.type)) {
+        continue;
+      }
+      final value = filter.value;
+      if (value is T) {
+        list.add(value);
+      } else if (value is List) {
+        for (final e in value) {
+          if (e is T) {
+            list.add(e);
+          }
+        }
+      }
+    }
+    return list;
   }
 }

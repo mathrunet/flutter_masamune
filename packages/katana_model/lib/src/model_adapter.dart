@@ -471,6 +471,25 @@ class ModelAdapterDocumentQuery {
     this.asyncOnSave = false,
   });
 
+  /// Create a [ModelAdapterDocumentQuery] from a [Map].
+  ///
+  /// [Map]から[ModelAdapterDocumentQuery]を作成します。
+  factory ModelAdapterDocumentQuery.fromJson(Map<String, Object?> json) {
+    final type = json.get(ModelAdapterDocumentQuery._kTypeKey, "");
+    assert(type == "ModelAdapterDocumentQuery",
+        "type is not ModelAdapterDocumentQuery");
+    final query = json.getAsMap(ModelAdapterDocumentQuery._kQueryKey);
+    return ModelAdapterDocumentQuery(
+      query: DocumentModelQuery.fromJson(query),
+      listen: json.get(ModelAdapterDocumentQuery._kListenKey, true),
+      headers: json.getAsMap(ModelAdapterDocumentQuery._kHeadersKey),
+      method: json.get(ModelAdapterDocumentQuery._kMethodKey, nullOfString),
+      reload: json.get(ModelAdapterDocumentQuery._kReloadKey, false),
+      reference: json.get(ModelAdapterDocumentQuery._kReferenceKey, false),
+      asyncOnSave: json.get(ModelAdapterDocumentQuery._kAsyncOnSaveKey, false),
+    );
+  }
+
   /// Document query.
   ///
   /// ドキュメントのクエリー。
@@ -519,6 +538,31 @@ class ModelAdapterDocumentQuery {
   ///
   /// 非同期で保存を行う場合は`true`を設定します。
   final bool asyncOnSave;
+
+  /// Convert [ModelAdapterDocumentQuery] to [Map].
+  ///
+  /// [ModelAdapterDocumentQuery]を[Map]に変換します。
+  Map<String, Object?> toJson() {
+    return {
+      _kTypeKey: runtimeType.toString(),
+      _kQueryKey: query.toJson(),
+      if (headers.isNotEmpty) _kHeadersKey: headers,
+      if (method != null) _kMethodKey: method,
+      _kListenKey: listen,
+      _kReloadKey: reload,
+      _kReferenceKey: reference,
+      _kAsyncOnSaveKey: asyncOnSave,
+    };
+  }
+
+  static const String _kTypeKey = "type";
+  static const String _kQueryKey = "query";
+  static const String _kHeadersKey = "headers";
+  static const String _kMethodKey = "method";
+  static const String _kListenKey = "listen";
+  static const String _kReloadKey = "reload";
+  static const String _kReferenceKey = "reference";
+  static const String _kAsyncOnSaveKey = "asyncOnSave";
 
   /// Change [headers] or [method], [reload], [reference], [asyncOnSave], and [query] and copy.
   ///
@@ -592,6 +636,24 @@ class ModelAdapterCollectionQuery {
     this.reload = false,
   });
 
+  /// Create a [ModelAdapterCollectionQuery] from a [Map].
+  ///
+  /// [Map]から[ModelAdapterCollectionQuery]を作成します。
+  factory ModelAdapterCollectionQuery.fromJson(Map<String, Object?> json) {
+    final type = json.get(ModelAdapterCollectionQuery._kTypeKey, "");
+    assert(type == "ModelAdapterCollectionQuery",
+        "type is not ModelAdapterCollectionQuery");
+    final query = json.getAsMap(ModelAdapterCollectionQuery._kQueryKey);
+    return ModelAdapterCollectionQuery(
+      query: CollectionModelQuery.fromJson(query),
+      listen: json.get(ModelAdapterCollectionQuery._kListenKey, true),
+      page: json.get(ModelAdapterCollectionQuery._kPageKey, 1),
+      headers: json.getAsMap(ModelAdapterCollectionQuery._kHeadersKey),
+      method: json.get(ModelAdapterCollectionQuery._kMethodKey, nullOfString),
+      reload: json.get(ModelAdapterCollectionQuery._kReloadKey, false),
+    );
+  }
+
   /// Collection queries.
   ///
   /// コレクションのクエリー。
@@ -659,6 +721,29 @@ class ModelAdapterCollectionQuery {
       method: method,
     );
   }
+
+  /// Convert [ModelAdapterCollectionQuery] to [Map].
+  ///
+  /// [ModelAdapterCollectionQuery]を[Map]に変換します。
+  Map<String, Object?> toJson() {
+    return {
+      _kTypeKey: runtimeType.toString(),
+      _kQueryKey: query.toJson(),
+      if (headers.isNotEmpty) _kHeadersKey: headers,
+      if (method != null) _kMethodKey: method,
+      _kPageKey: page,
+      _kListenKey: listen,
+      _kReloadKey: reload,
+    };
+  }
+
+  static const String _kTypeKey = "type";
+  static const String _kQueryKey = "query";
+  static const String _kHeadersKey = "headers";
+  static const String _kMethodKey = "method";
+  static const String _kPageKey = "page";
+  static const String _kListenKey = "listen";
+  static const String _kReloadKey = "reload";
 
   /// Change [headers] or [method], [page], [query], and [reload] and copy.
   ///
