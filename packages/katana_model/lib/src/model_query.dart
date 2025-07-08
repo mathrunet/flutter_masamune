@@ -1597,3 +1597,35 @@ class ModelQueryFilter {
     };
   }
 }
+
+/// Extension method for a list of [ModelQueryFilter].
+///
+/// [ModelQueryFilter]のリストの拡張メソッド。
+extension ModelQueryFilterListExtension on List<ModelQueryFilter> {
+  /// Get the value of the filter condition that matches the key and type.
+  ///
+  /// Retrieve the filter condition value for [key] for [types].
+  ///
+  /// キーと型が一致するフィルター条件の値を取得します。
+  ///
+  /// [key]に対するフィルター条件の値を[types]に対して取得します。
+  T? get<T>({
+    String? key,
+    List<ModelQueryFilterType> types = const [],
+  }) {
+    for (final filter in this) {
+      if (key != null && filter.key != key) {
+        continue;
+      }
+      if (types.isNotEmpty && !types.contains(filter.type)) {
+        continue;
+      }
+      final value = filter.value;
+      if (value is! T) {
+        continue;
+      }
+      return value;
+    }
+    return null;
+  }
+}
