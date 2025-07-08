@@ -1,3 +1,7 @@
+## 3.0.4
+
+ - **FIX**: Provide a `convertExportUrl` method. ([7395bd96](https://github.com/mathrunet/flutter_masamune/commit/7395bd969b6b780ea2731dc45b56e326d3b1f576))
+
 ## 3.0.3
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))

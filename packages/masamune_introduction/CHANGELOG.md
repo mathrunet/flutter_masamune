@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**: Made it possible to directly specify parameters for MasamuneIntroduction. ([9cef000c](https://github.com/mathrunet/flutter_masamune/commit/9cef000c676cf9b71c0d5cb343354d6abdaba83c))
+
 ## 3.1.0
 
  - **FEAT**: Add the `onDone` parameter to the Adapter. ([1d401e42](https://github.com/mathrunet/flutter_masamune/commit/1d401e4255c20a62d3c997c4d114866c0b009595))

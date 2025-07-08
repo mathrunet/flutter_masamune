@@ -1,3 +1,7 @@
+## 3.5.3
+
+ - **FIX**: Delete, as saving to a temporary file is dangerous. ([04c8bdc9](https://github.com/mathrunet/flutter_masamune/commit/04c8bdc912a0d7e7647fdaaa620506b326c7fe93))
+
 ## 3.5.2
 
  - **FIX**: Various upgrades. ([05d3decc](https://github.com/mathrunet/flutter_masamune/commit/05d3decc391ddfc22fe83f2fe528fe4b15e82b45))

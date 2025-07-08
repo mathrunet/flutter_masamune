@@ -1,3 +1,7 @@
+## 3.1.4
+
+ - **FIX**: Change the default settings. ([19f5474d](https://github.com/mathrunet/flutter_masamune/commit/19f5474d28f035f12101ff3ac7635c6d73a12bde))
+
 ## 3.1.3
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))

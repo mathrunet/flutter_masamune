@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - Update a dependency to the latest release.
+
 ## 3.1.0
 
  - **FEAT**: Enabled the definition of MasamuneAdapter within MasamuneAdapter. ([c1cdc05c](https://github.com/mathrunet/flutter_masamune/commit/c1cdc05c80c0ed8bec5fd2793a1e54da4536f181))

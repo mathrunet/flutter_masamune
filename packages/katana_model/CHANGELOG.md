@@ -1,3 +1,8 @@
+## 3.1.3
+
+ - **FIX**: Add search-friendly methods to ModelQueryFilter. ([13d6da56](https://github.com/mathrunet/flutter_masamune/commit/13d6da568cfb9b40b781abfaa2f095c624994a7d))
+ - **FIX**: Create toSearchableMap. ([83420f7d](https://github.com/mathrunet/flutter_masamune/commit/83420f7d19f4ecdf54e06b4fc7be433bdcbcd566))
+
 ## 3.1.2
 
  - **FIX**: Add the emptyWhenThrowError parameter. ([b89f52dc](https://github.com/mathrunet/flutter_masamune/commit/b89f52dc801a8c13322d4c043b871b4dd19a6c4a))
