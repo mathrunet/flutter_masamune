@@ -3,7 +3,7 @@ builders:
     import: 'package:masamune_model_firestore_builder/masamune_model_firestore_builder.dart'
     builder_factories: ['masamuneModelFirestoreBuilderFactory']
     build_extensions: {'.dart': []}
-    auto_apply: dependents
+    auto_apply: all_packages
     build_to: source
     applies_builders: ["source_gen|combining_builder"]
 targets:

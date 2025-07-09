@@ -3,7 +3,7 @@ builders:
     import: 'package:katana_theme_builder/katana_theme_builder.dart'
     builder_factories: ['katanaThemeBuilderFactory']
     build_extensions: {'.dart': ['.theme.dart']}
-    auto_apply: dependents
+    auto_apply: all_packages
     build_to: source
     applies_builders: ["source_gen|combining_builder"]
 targets:

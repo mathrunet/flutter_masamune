@@ -172,8 +172,8 @@ class CreateCliCommand extends CliCommand {
     label("Create a pubspec_overrides.yaml");
     await const PubspecOverridesCliCode()
         .generateFile("pubspec_overrides.yaml");
-    label("Create a build.yaml");
-    await const BuildCliCode().generateFile("build.yaml");
+    // label("Create a build.yaml");
+    // await const BuildCliCode().generateFile("build.yaml");
     label("Edit a analysis_options.yaml");
     await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
     label("Create a flutter_test_config.dart");
@@ -579,8 +579,8 @@ class ComposeCliCommand extends CliCommand {
     label("Create a pubspec_overrides.yaml");
     await const PubspecOverridesCliCode()
         .generateFile("pubspec_overrides.yaml");
-    label("Create a build.yaml");
-    await const BuildCliCode().generateFile("build.yaml");
+    // label("Create a build.yaml");
+    // await const BuildCliCode().generateFile("build.yaml");
     label("Edit a analysis_options.yaml");
     await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
     label("Create a flutter_test_config.dart");
@@ -964,8 +964,8 @@ class PackageCliCommand extends CliCommand {
     label("Create a pubspec_overrides.yaml");
     await const PubspecOverridesCliCode()
         .generateFile("pubspec_overrides.yaml");
-    label("Create a build.yaml");
-    await const BuildCliCode().generateFile("build.yaml");
+    // label("Create a build.yaml");
+    // await const BuildCliCode().generateFile("build.yaml");
     label("Edit a analysis_options.yaml");
     await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
     label("Rewrite `.gitignore`.");

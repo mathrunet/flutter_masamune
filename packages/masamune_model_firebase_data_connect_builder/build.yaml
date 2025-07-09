@@ -3,14 +3,14 @@ builders:
     import: 'package:masamune_model_firebase_data_connect_builder/masamune_model_firebase_data_connect_builder.dart'
     builder_factories: ['masamuneModelFirebaseDataConnectBuilderFactory']
     build_extensions: {'.dart': []}
-    auto_apply: dependents
+    auto_apply: all_packages
     build_to: source
     applies_builders: ["source_gen|combining_builder"]
   masamune_model_firebase_data_connect_adapter_builder:
     import: 'package:masamune_model_firebase_data_connect_builder/masamune_model_firebase_data_connect_builder.dart'
     builder_factories: ['masamuneModelFirebaseDataConnectAdapterBuilderFactory']
     build_extensions: {'.dart': ['.dataconnect.dart']}
-    auto_apply: dependents
+    auto_apply: all_packages
     build_to: source
     applies_builders: ["source_gen|combining_builder"]
     required_inputs: [".gql"]

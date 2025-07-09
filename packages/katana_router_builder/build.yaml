@@ -3,14 +3,14 @@ builders:
     import: 'package:katana_router_builder/katana_router_builder.dart'
     builder_factories: ['katanaRouterPageBuilderFactory']
     build_extensions: {'.dart': ['.page.dart']}
-    auto_apply: dependents
+    auto_apply: all_packages
     build_to: source
     applies_builders: ["source_gen|combining_builder"]
   katana_router_router_builder:
     import: 'package:katana_router_builder/katana_router_builder.dart'
     builder_factories: ['katanaRouterRouterBuilderFactory']
     build_extensions: {'.dart': ['.router.dart']}
-    auto_apply: dependents
+    auto_apply: all_packages
     build_to: source
     applies_builders: ["source_gen|combining_builder"]
     required_inputs: [".page.dart"]
