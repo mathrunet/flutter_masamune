@@ -1,3 +1,7 @@
+## 3.1.4
+
+ - **FIX**: Added `build.yaml` to `pubignore` as it was not included. ([3ef6e8ee](https://github.com/mathrunet/flutter_masamune/commit/3ef6e8eed60e0bd6a706a994285c57df85622dfb))
+
 ## 3.1.3
 
  - **FIX**: Bug fix in build.yaml. ([9e6ac559](https://github.com/mathrunet/flutter_masamune/commit/9e6ac559bcef651562cb32f257c7af46a780b297))

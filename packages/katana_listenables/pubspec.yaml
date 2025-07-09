@@ -22,4 +22,4 @@ dev_dependencies:
   katana_test: ^3.0.1
   flutter_lints: ^5.0.0
   import_sorter: ^4.6.0
-  katana_listenables_builder: ^3.0.4
+  katana_listenables_builder: ^3.0.5

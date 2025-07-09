@@ -15,6 +15,79 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_builder` - `v3.0.4`](#katana_builder---v304)
+ - [`katana_listenables_builder` - `v3.0.5`](#katana_listenables_builder---v305)
+ - [`katana_localization_builder` - `v3.1.4`](#katana_localization_builder---v314)
+ - [`katana_model_openapi_builder` - `v3.0.4`](#katana_model_openapi_builder---v304)
+ - [`katana_prefs_builder` - `v3.0.5`](#katana_prefs_builder---v305)
+ - [`katana_router_builder` - `v3.0.5`](#katana_router_builder---v305)
+ - [`masamune_builder` - `v3.0.9`](#masamune_builder---v309)
+ - [`masamune_model_docs_builder` - `v3.0.9`](#masamune_model_docs_builder---v309)
+ - [`masamune_model_firebase_data_connect_builder` - `v3.0.9`](#masamune_model_firebase_data_connect_builder---v309)
+ - [`masamune_model_firestore_builder` - `v3.0.9`](#masamune_model_firestore_builder---v309)
+ - [`katana_theme_builder` - `v3.0.5`](#katana_theme_builder---v305)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_theme_builder` - `v3.0.5`
+
+---
+
+#### `katana_builder` - `v3.0.4`
+
+ - **FIX**: Added `build.yaml` to `pubignore` as it was not included. ([3ef6e8ee](https://github.com/mathrunet/flutter_masamune/commit/3ef6e8eed60e0bd6a706a994285c57df85622dfb))
+
+#### `katana_listenables_builder` - `v3.0.5`
+
+ - **FIX**: Added `build.yaml` to `pubignore` as it was not included. ([3ef6e8ee](https://github.com/mathrunet/flutter_masamune/commit/3ef6e8eed60e0bd6a706a994285c57df85622dfb))
+
+#### `katana_localization_builder` - `v3.1.4`
+
+ - **FIX**: Added `build.yaml` to `pubignore` as it was not included. ([3ef6e8ee](https://github.com/mathrunet/flutter_masamune/commit/3ef6e8eed60e0bd6a706a994285c57df85622dfb))
+
+#### `katana_model_openapi_builder` - `v3.0.4`
+
+ - **FIX**: Added `build.yaml` to `pubignore` as it was not included. ([3ef6e8ee](https://github.com/mathrunet/flutter_masamune/commit/3ef6e8eed60e0bd6a706a994285c57df85622dfb))
+
+#### `katana_prefs_builder` - `v3.0.5`
+
+ - **FIX**: Added `build.yaml` to `pubignore` as it was not included. ([3ef6e8ee](https://github.com/mathrunet/flutter_masamune/commit/3ef6e8eed60e0bd6a706a994285c57df85622dfb))
+
+#### `katana_router_builder` - `v3.0.5`
+
+ - **FIX**: Added `build.yaml` to `pubignore` as it was not included. ([3ef6e8ee](https://github.com/mathrunet/flutter_masamune/commit/3ef6e8eed60e0bd6a706a994285c57df85622dfb))
+
+#### `masamune_builder` - `v3.0.9`
+
+ - **FIX**: Added `build.yaml` to `pubignore` as it was not included. ([3ef6e8ee](https://github.com/mathrunet/flutter_masamune/commit/3ef6e8eed60e0bd6a706a994285c57df85622dfb))
+
+#### `masamune_model_docs_builder` - `v3.0.9`
+
+ - **FIX**: Added `build.yaml` to `pubignore` as it was not included. ([3ef6e8ee](https://github.com/mathrunet/flutter_masamune/commit/3ef6e8eed60e0bd6a706a994285c57df85622dfb))
+
+#### `masamune_model_firebase_data_connect_builder` - `v3.0.9`
+
+ - **FIX**: Added `build.yaml` to `pubignore` as it was not included. ([3ef6e8ee](https://github.com/mathrunet/flutter_masamune/commit/3ef6e8eed60e0bd6a706a994285c57df85622dfb))
+
+#### `masamune_model_firestore_builder` - `v3.0.9`
+
+ - **FIX**: Added `build.yaml` to `pubignore` as it was not included. ([3ef6e8ee](https://github.com/mathrunet/flutter_masamune/commit/3ef6e8eed60e0bd6a706a994285c57df85622dfb))
+
+
+## 2025-07-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.5.4`](#katana_cli---v354)
  - [`katana_form` - `v3.1.5`](#katana_form---v315)
  - [`katana_listenables` - `v3.0.5`](#katana_listenables---v305)
