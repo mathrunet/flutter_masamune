@@ -1,3 +1,10 @@
+## 3.1.4
+
+ - **FIX**: Bug fix in build.yaml. ([9e6ac559](https://github.com/mathrunet/flutter_masamune/commit/9e6ac559bcef651562cb32f257c7af46a780b297))
+ - **FIX**: Made ModelQuery etc. JSON serializable. ([2ecc6a58](https://github.com/mathrunet/flutter_masamune/commit/2ecc6a5800e6af8426fc0eed332c6e0f7de670d9))
+ - **FIX**: Add search-friendly methods to ModelQueryFilter. ([13d6da56](https://github.com/mathrunet/flutter_masamune/commit/13d6da568cfb9b40b781abfaa2f095c624994a7d))
+ - **FIX**: Create toSearchableMap. ([83420f7d](https://github.com/mathrunet/flutter_masamune/commit/83420f7d19f4ecdf54e06b4fc7be433bdcbcd566))
+
 ## 3.1.3
 
  - **FIX**: Add search-friendly methods to ModelQueryFilter. ([13d6da56](https://github.com/mathrunet/flutter_masamune/commit/13d6da568cfb9b40b781abfaa2f095c624994a7d))

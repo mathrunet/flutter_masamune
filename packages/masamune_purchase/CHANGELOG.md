@@ -1,3 +1,7 @@
+## 3.0.10
+
+ - **FIX**: Bug fix in build.yaml. ([9e6ac559](https://github.com/mathrunet/flutter_masamune/commit/9e6ac559bcef651562cb32f257c7af46a780b297))
+
 ## 3.0.9
 
  - Update a dependency to the latest release.

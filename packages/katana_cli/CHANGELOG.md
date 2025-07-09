@@ -1,3 +1,8 @@
+## 3.5.4
+
+ - **FIX**: Bug fix in build.yaml. ([9e6ac559](https://github.com/mathrunet/flutter_masamune/commit/9e6ac559bcef651562cb32f257c7af46a780b297))
+ - **FIX**: Delete, as saving to a temporary file is dangerous. ([04c8bdc9](https://github.com/mathrunet/flutter_masamune/commit/04c8bdc912a0d7e7647fdaaa620506b326c7fe93))
+
 ## 3.5.3
 
  - **FIX**: Delete, as saving to a temporary file is dangerous. ([04c8bdc9](https://github.com/mathrunet/flutter_masamune/commit/04c8bdc912a0d7e7647fdaaa620506b326c7fe93))

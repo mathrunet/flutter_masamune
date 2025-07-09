@@ -1,3 +1,7 @@
+## 3.0.5
+
+ - **FIX**: Bug fix in build.yaml. ([9e6ac559](https://github.com/mathrunet/flutter_masamune/commit/9e6ac559bcef651562cb32f257c7af46a780b297))
+
 ## 3.0.4
 
  - **FIX**: Fixed an issue where Localization failed to build properly. ([b15b4815](https://github.com/mathrunet/flutter_masamune/commit/b15b481568a8ea2a98c2fd4f595aa96f43823993))

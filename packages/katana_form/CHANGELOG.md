@@ -1,3 +1,7 @@
+## 3.1.5
+
+ - **FIX**: Change the default settings. ([19f5474d](https://github.com/mathrunet/flutter_masamune/commit/19f5474d28f035f12101ff3ac7635c6d73a12bde))
+
 ## 3.1.4
 
  - **FIX**: Change the default settings. ([19f5474d](https://github.com/mathrunet/flutter_masamune/commit/19f5474d28f035f12101ff3ac7635c6d73a12bde))

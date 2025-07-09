@@ -1,3 +1,7 @@
+## 3.0.5
+
+ - **FIX**: Provide a `convertExportUrl` method. ([7395bd96](https://github.com/mathrunet/flutter_masamune/commit/7395bd969b6b780ea2731dc45b56e326d3b1f576))
+
 ## 3.0.4
 
  - **FIX**: Provide a `convertExportUrl` method. ([7395bd96](https://github.com/mathrunet/flutter_masamune/commit/7395bd969b6b780ea2731dc45b56e326d3b1f576))
