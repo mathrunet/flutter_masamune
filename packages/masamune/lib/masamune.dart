@@ -56,7 +56,15 @@ part "src/masamune_adapter.dart";
 part "src/masamune_controller.dart";
 part "src/extensions.dart";
 part "src/functions.dart";
-part "controller/controller_loader_mixin.dart";
+part "controller/loadable_controller_mixin.dart";
+part "controller/deletable_controller_mixin.dart";
+part "controller/initializable_controller_mixin.dart";
+part "controller/purchasable_controller_mixin.dart";
+part "controller/savable_controller_mixin.dart";
+part "controller/start_and_stoppable_controller_mixin.dart";
+part "controller/salable_controller_mixin.dart";
+part "controller/connect_controller_mixin.dart";
+part "controller/disconnect_controller_mixin.dart";
 
 part "ui/grid_builder.dart";
 part "ui/list_builder.dart";

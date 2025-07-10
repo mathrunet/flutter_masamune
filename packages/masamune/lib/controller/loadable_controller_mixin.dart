@@ -11,7 +11,7 @@ part of "/masamune.dart";
 /// [loadRequest]にデータのロード処理を記述します。
 ///
 /// [load]を呼び出すことでデータをロードします。[reload]でデータを再ロードします。
-mixin ControllerLoaderMixin<T> on ChangeNotifier
+mixin LoadableControllerMixin<T> on ChangeNotifier
     implements ValueListenable<T?> {
   /// Return `true` if data is loaded.
   ///
