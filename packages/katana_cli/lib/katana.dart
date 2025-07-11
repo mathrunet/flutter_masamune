@@ -333,6 +333,15 @@ ${showAllConfig ? """
         app_id: 
         app_secret: 
         client_token: 
+      
+      # You will log in using your GitHub account.
+      # Please create an application from the GitHub application creation page (https://github.com/settings/applications/new) to obtain your `Client ID` and `Client Secret`.
+      # Additionally, from the Firebase console (https://console.firebase.google.com/), select [Authentication] -> [Sign-in method] and enable `GitHub`.
+      # Githubアカウントによるログインを行います。
+      # Githubのアプリケーション作成のページ(https://github.com/settings/applications/new)からアプリケーションを作成して`Client ID`と`Client Secret`を取得してください。
+      # またFirebaseのコンソール（https://console.firebase.google.com/）から[Authentication]->[Sing-in method]を選択し`Github`を有効にしてください。
+      github:
+        enable: false
 """ : ""}
 
   # Enable Cloud Storage for Firebase.

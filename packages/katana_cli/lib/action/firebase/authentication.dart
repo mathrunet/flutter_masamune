@@ -51,6 +51,7 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
     final apple = providers.getAsMap("apple");
     final facebook = providers.getAsMap("facebook");
     final google = providers.getAsMap("google");
+    final github = providers.getAsMap("github");
     final deleteUser = authentication.getAsMap("delete_user");
     final enableDeleteUser = deleteUser.get("enable", false);
     final functions = firebase.getAsMap("functions");
@@ -58,6 +59,7 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
     final enableApple = apple.get("enable", false);
     final enableGoogle = google.get("enable", false);
     final enableFacebook = facebook.get("enable", false);
+    final enableGithub = github.get("enable", false);
     final facebookAppId = facebook.get<int?>("app_id", null)?.toString() ??
         facebook.get("app_id", "") ??
         "";
@@ -101,10 +103,15 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
         if (enableDeleteUser) ...[
           "masamune_auth_firebase",
         ],
+        if (enableGithub) ...[
+          "masamune_auth_github_firebase",
+        ],
       ],
     );
-    if (enableGoogle || enableFacebook) {
+    if (enableGoogle || enableFacebook || enableGithub) {
       label("Load GoogleService-Info.plist.");
+      String? reversedClientId;
+      String? googleAppId;
       final googleServicePlist = File("ios/Runner/GoogleService-Info.plist");
       final googleServiceDocument =
           XmlDocument.parse(await googleServicePlist.readAsString());
@@ -115,34 +122,55 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
           "Could not find `dict` element in `ios/Runner/GoogleService-Info.plist`. File is corrupt.",
         );
       }
-      final clientIdNode = googleServiceDict.children.firstWhereOrNull((p0) {
-        return p0 is XmlElement &&
-            p0.name.toString() == "key" &&
-            p0.innerText == "CLIENT_ID";
-      });
-      if (clientIdNode == null) {
-        throw Exception(
-          "Could not find `CLIENT_ID` element in `ios/Runner/GoogleService-Info.plist`. File is corrupt.",
-        );
+      if (enableGoogle) {
+        final clientIdNode = googleServiceDict.children.firstWhereOrNull((p0) {
+          return p0 is XmlElement &&
+              p0.name.toString() == "key" &&
+              p0.innerText == "CLIENT_ID";
+        });
+        if (clientIdNode == null) {
+          throw Exception(
+            "Could not find `CLIENT_ID` element in `ios/Runner/GoogleService-Info.plist`. File is corrupt.",
+          );
+        }
+        final clientId = clientIdNode.nextElementSibling?.innerText;
+        final reversedClientIdNode =
+            googleServiceDict.children.firstWhereOrNull((p0) {
+          return p0 is XmlElement &&
+              p0.name.toString() == "key" &&
+              p0.innerText == "REVERSED_CLIENT_ID";
+        });
+        if (reversedClientIdNode == null) {
+          throw Exception(
+            "Could not find `REVERSED_CLIENT_ID` element in `ios/Runner/GoogleService-Info.plist`. File is corrupt.",
+          );
+        }
+        reversedClientId = reversedClientIdNode.nextElementSibling?.innerText;
+        if (clientId.isEmpty || reversedClientId.isEmpty) {
+          throw Exception(
+            "Could not find `CLIENT_ID` or `REVERSED_CLIENT_ID` element in `ios/Runner/GoogleService-Info.plist`. File is corrupt.",
+          );
+        }
       }
-      final clientId = clientIdNode.nextElementSibling?.innerText;
-      final reversedClientIdNode =
-          googleServiceDict.children.firstWhereOrNull((p0) {
-        return p0 is XmlElement &&
-            p0.name.toString() == "key" &&
-            p0.innerText == "REVERSED_CLIENT_ID";
-      });
-      if (reversedClientIdNode == null) {
-        throw Exception(
-          "Could not find `REVERSED_CLIENT_ID` element in `ios/Runner/GoogleService-Info.plist`. File is corrupt.",
-        );
-      }
-      final reversedClientId =
-          reversedClientIdNode.nextElementSibling?.innerText;
-      if (clientId.isEmpty || reversedClientId.isEmpty) {
-        throw Exception(
-          "Could not find `CLIENT_ID` or `REVERSED_CLIENT_ID` element in `ios/Runner/GoogleService-Info.plist`. File is corrupt.",
-        );
+      if (enableGithub) {
+        final googleAppIdNode =
+            googleServiceDict.children.firstWhereOrNull((p0) {
+          return p0 is XmlElement &&
+              p0.name.toString() == "key" &&
+              p0.innerText == "GOOGLE_APP_ID";
+        });
+        if (googleAppIdNode == null) {
+          throw Exception(
+            "Could not find `GOOGLE_APP_ID` element in `ios/Runner/GoogleService-Info.plist`. File is corrupt.",
+          );
+        }
+        googleAppId = googleAppIdNode.nextElementSibling?.innerText;
+        if (googleAppId.isEmpty) {
+          throw Exception(
+            "Could not find `GOOGLE_APP_ID` element in `ios/Runner/GoogleService-Info.plist`. File is corrupt.",
+          );
+        }
+        googleAppId = "app-${googleAppId?.replaceAll(":", "-")}";
       }
       label("Edit Info.plist.");
       final plist = File("ios/Runner/Info.plist");
@@ -201,12 +229,20 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
                       XmlName("array"),
                       [],
                       [
-                        if (enableGoogle)
+                        if (googleAppId != null)
                           XmlElement(
                             XmlName("string"),
                             [],
                             [
-                              XmlText(reversedClientId!),
+                              XmlText(googleAppId),
+                            ],
+                          ),
+                        if (reversedClientId != null)
+                          XmlElement(
+                            XmlName("string"),
+                            [],
+                            [
+                              XmlText(reversedClientId),
                             ],
                           ),
                         if (enableFacebook)
@@ -334,6 +370,61 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
                       [],
                       [
                         XmlText("fb$facebookAppId"),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }
+        if (enableGithub &&
+            !urlSchemeArray.children.any(
+              (p1) =>
+                  p1 is XmlElement &&
+                  p1.children.any((p2) =>
+                      p2 is XmlElement &&
+                      p2.name.toString() == "array" &&
+                      p2.children.any((p3) =>
+                          p3 is XmlElement &&
+                          p3.name.toString() == "string" &&
+                          p3.innerText == googleAppId)),
+            )) {
+          urlSchemeArray.children.add(
+            XmlElement(
+              XmlName("dict"),
+              [],
+              [
+                XmlElement(
+                  XmlName("key"),
+                  [],
+                  [
+                    XmlText("CFBundleTypeRole"),
+                  ],
+                ),
+                XmlElement(
+                  XmlName("string"),
+                  [],
+                  [
+                    XmlText("Editor"),
+                  ],
+                ),
+                XmlElement(
+                  XmlName("key"),
+                  [],
+                  [
+                    XmlText("CFBundleURLSchemes"),
+                  ],
+                ),
+                XmlElement(
+                  XmlName("array"),
+                  [],
+                  [
+                    XmlElement(
+                      XmlName("string"),
+                      [],
+                      [
+                        XmlText(googleAppId!),
                       ],
                     ),
                   ],
