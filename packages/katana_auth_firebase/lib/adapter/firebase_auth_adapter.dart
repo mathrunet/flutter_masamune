@@ -682,23 +682,25 @@ class FirebaseAuthAdapter extends AuthAdapter {
           );
         }
       }
+      late UserCredential userCredential;
       final authProvider = provider.authProvider();
       if (_user != null) {
         if (kIsWeb) {
-          await _user!.linkWithPopup(authProvider);
+          userCredential = await _user!.linkWithPopup(authProvider);
         } else {
-          await _user!.linkWithProvider(authProvider);
+          userCredential = await _user!.linkWithProvider(authProvider);
         }
       } else {
         if (kIsWeb) {
-          await database.signInWithPopup(authProvider);
+          userCredential = await database.signInWithPopup(authProvider);
         } else {
-          await database.signInWithProvider(authProvider);
+          userCredential = await database.signInWithProvider(authProvider);
         }
       }
       if (_user == null || _user!.uid.isEmpty) {
         throw Exception("User is not found.");
       }
+      await provider.onSignedInWithProvider(userCredential);
       onUserStateChanged.call();
     } else if (provider is SnsSignInAuthProvider) {
       await _prepareProcessInternal();
@@ -832,12 +834,14 @@ class FirebaseAuthAdapter extends AuthAdapter {
       return true;
     } else if (provider is FirebaseSnsReAuthProvider) {
       await _prepareProcessInternal();
+      late UserCredential userCredential;
       final authProvider = provider.authProvider();
       if (kIsWeb) {
-        await _user!.reauthenticateWithPopup(authProvider);
+        userCredential = await _user!.reauthenticateWithPopup(authProvider);
       } else {
-        await _user!.reauthenticateWithProvider(authProvider);
+        userCredential = await _user!.reauthenticateWithProvider(authProvider);
       }
+      await provider.onReAuthenticatedWithProvider(userCredential);
       return true;
     } else if (provider is SnsReAuthProvider) {
       await _prepareProcessInternal();

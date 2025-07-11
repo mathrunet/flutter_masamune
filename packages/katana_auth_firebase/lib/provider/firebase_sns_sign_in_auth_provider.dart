@@ -17,6 +17,16 @@ abstract class FirebaseSnsSignInAuthProvider extends SignInAuthProvider {
   ///
   /// FirebaseにおけるSNSサインインを行うための認証プロバイダーを取得します。
   firebase_auth.AuthProvider authProvider();
+
+  /// Called when a user signs in with a provider.
+  ///
+  /// SNS sign-in credentials are stored in [credential].
+  ///
+  /// ユーザーがプロバイダーでサインインしたときに呼び出されます。
+  ///
+  /// [credential]にSNSサインインの認証情報が格納されています。
+  Future<void> onSignedInWithProvider(UserCredential credential) =>
+      Future.value();
 }
 
 /// {@template firebase_sns_reauth}
@@ -36,4 +46,14 @@ abstract class FirebaseSnsReAuthProvider extends ReAuthProvider {
   ///
   /// FirebaseにおけるSNS再認証を行うための認証プロバイダーを取得します。
   firebase_auth.AuthProvider authProvider();
+
+  /// Called when a user re-authenticates with a provider.
+  ///
+  /// SNS re-authentication credentials are stored in [credential].
+  ///
+  /// ユーザーがプロバイダーで再認証したときに呼び出されます。
+  ///
+  /// [credential]にSNS再認証の認証情報が格納されています。
+  Future<void> onReAuthenticatedWithProvider(UserCredential credential) =>
+      Future.value();
 }

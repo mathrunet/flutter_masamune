@@ -7,7 +7,14 @@ class FirebaseGithubAuthMasamuneAdapter extends MasamuneAdapter {
   /// Initialize GitHub sign-in [MasamuneAdapter] on Firebase.
   ///
   /// FirebaseにおけるGitHubサインインの初期設定を行う[MasamuneAdapter]。
-  const FirebaseGithubAuthMasamuneAdapter();
+  const FirebaseGithubAuthMasamuneAdapter({
+    this.keepGithubAccessToken = false,
+  });
+
+  /// Whether to keep the GitHub access token.
+  ///
+  /// GitHubのアクセストークンを保持するかどうか。
+  final bool keepGithubAccessToken;
 
   /// You can retrieve the [FirebaseGithubAuthMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
@@ -25,6 +32,7 @@ class FirebaseGithubAuthMasamuneAdapter extends MasamuneAdapter {
       return;
     }
     _primary = adapter;
+    Authentication.registerAuthAction(const GithubAuthAction());
   }
 
   @override

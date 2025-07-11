@@ -1,6 +1,7 @@
 part of "/masamune_auth_github_firebase.dart";
 
 const _kGitHubAuthProviderId = "github.com";
+const _kGitHubAccessTokenKey = "github_access_token";
 
 /// {@template github_auth}
 /// An `AuthQuery` to authenticate with a GitHub account on Firebase.
@@ -40,6 +41,14 @@ class FirebaseGithubAuthQuery {
   static FirebaseGitHubReAuthProvider reauth() {
     return const FirebaseGitHubReAuthProvider();
   }
+
+  /// Get the GitHub access token.
+  ///
+  /// GitHubのアクセストークンを取得します。
+  static Future<String?> getAccessToken() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getString(_kGitHubAccessTokenKey.toSHA1());
+  }
 }
 
 /// An `AuthQuery` for GitHub's OAuth authentication on Firebase.
@@ -58,6 +67,20 @@ class FirebaseGitHubSignInAuthProvider extends FirebaseSnsSignInAuthProvider {
   firebase_auth.AuthProvider authProvider() {
     final provider = GithubAuthProvider();
     return provider;
+  }
+
+  @override
+  Future<void> onSignedInWithProvider(UserCredential credential) async {
+    final accessToken = credential.credential?.accessToken;
+    if (accessToken != null &&
+        (FirebaseGithubAuthMasamuneAdapter.primary?.keepGithubAccessToken ??
+            false)) {
+      final sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString(
+        _kGitHubAccessTokenKey.toSHA1(),
+        accessToken,
+      );
+    }
   }
 }
 
@@ -79,5 +102,19 @@ class FirebaseGitHubReAuthProvider extends FirebaseSnsReAuthProvider {
   firebase_auth.AuthProvider authProvider() {
     final provider = GithubAuthProvider();
     return provider;
+  }
+
+  @override
+  Future<void> onReAuthenticatedWithProvider(UserCredential credential) async {
+    final accessToken = credential.credential?.accessToken;
+    if (accessToken != null &&
+        (FirebaseGithubAuthMasamuneAdapter.primary?.keepGithubAccessToken ??
+            false)) {
+      final sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString(
+        _kGitHubAccessTokenKey.toSHA1(),
+        accessToken,
+      );
+    }
   }
 }
