@@ -244,13 +244,17 @@ firebase:
   # Enable Firebase Firestore.
   # Set [generate_rules_and_indexes] to `true` to automatically generate Firestore security rules and indexes.
   # If [primary_remote_index] is set to `true`, indexes on the console are prioritized and automatic index import is enabled.
+  # For [database], specify the Firestore database name. Multiple can be specified.
   # Firebase Firestoreを有効にします。
   # [generate_rules_and_indexes]を`true`にするとFirestoreのセキュリティルールとインデックスを自動生成します。
   # [primary_remote_index]を`true`にするとコンソール上のインデックスが優先されるため、インデックスの自動インポートが有効になります。
+  # [database]にはFirestoreのデータベース名を指定します。複数指定可能です。
   firestore:
     enable: false
     generate_rules_and_indexes: false
     primary_remote_index: false
+    database:
+      - "(default)"
 
   # Enable Firebase Data Connect.
   # Firebase Data Connectを有効にします。
@@ -349,7 +353,7 @@ ${showAllConfig ? """
     # FirebaseFunctionsのRegionを指定します。
     # FirebaseFunctionsのRegionは以下のリンクを参考にしてください。
     # https://firebase.google.com/docs/functions/locations?hl=ja
-    region: asia-northeast1
+    region: us-central1
   
   # Enable Firebase Remote Config.
   # Firebase Remote Configを有効にします。

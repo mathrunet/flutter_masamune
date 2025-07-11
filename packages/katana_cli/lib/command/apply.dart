@@ -28,6 +28,7 @@ import "package:katana_cli/action/ecosystem/ecosystem.dart";
 import "package:katana_cli/action/firebase/algolia.dart";
 import "package:katana_cli/action/firebase/authentication.dart";
 import "package:katana_cli/action/firebase/dynamic_links.dart";
+import "package:katana_cli/action/firebase/firestore.dart";
 import "package:katana_cli/action/firebase/init.dart";
 import "package:katana_cli/action/firebase/messaging.dart";
 import "package:katana_cli/action/firebase/scheduler.dart";
@@ -66,6 +67,7 @@ const _actions = <CliActionMixin>[
   FirebaseDynamicLinksCliAction(),
   FirebaseAlogliaCliAction(),
   FirebaseTermsAndPrivacyCliAction(),
+  FirebaseFirestoreCliAction(),
   GitActionCliAction(),
   GitClaudeCodeCliAction(),
   GitCursorCliAction(),

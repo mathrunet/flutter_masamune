@@ -161,7 +161,7 @@ const testProjectId = "\${testProjectId}";
 /**
  * Regions to deploy Functions.
  */
-const regions = ["asia-northeast1"];
+const regions = ["us-central1"];
 
 // Create tests for Functions.
 const tester = require("firebase-functions-test")({

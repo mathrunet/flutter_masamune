@@ -981,7 +981,7 @@ if (admin.apps.length === 0) {
 // Functionsに追加する機能を[m.Functions.xxxx]を定義してください。
 m.deploy(
   exports,
-  ["us-central1", "asia-northeast1"],
+  ["us-central1"],
   [],
 );
 """;

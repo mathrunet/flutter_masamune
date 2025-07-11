@@ -45,11 +45,11 @@ class FirebaseCore {
 
   /// Returns the Firebase region.
   ///
-  /// The [region] passed at the time of [initialize] is stored. The default is `asia-northeast1`.
+  /// The [region] passed at the time of [initialize] is stored. The default is `us-central1`.
   ///
   /// Firebaseのregionを返します。
   ///
-  /// [initialize]時に渡した[region]が格納されます。デフォルトは`asia-northeast1`です。
+  /// [initialize]時に渡した[region]が格納されます。デフォルトは`us-central1`です。
   static late final FirebaseRegion region;
 
   /// Initialize Firebase.
@@ -84,7 +84,7 @@ class FirebaseCore {
   /// await FirebaseCore.initialize();
   /// ```
   static Future<void> initialize({
-    FirebaseRegion region = FirebaseRegion.asiaNortheast1,
+    FirebaseRegion region = FirebaseRegion.usCentral1,
     FirebaseOptions? options,
   }) async {
     if (_completer != null) {
@@ -127,7 +127,7 @@ class FirebaseCore {
   ///
   /// Create from the initialized FirebaseApp project ID and the [region] passed at [initialize].
   ///
-  /// The default for [region] is `asia-northeast1`.
+  /// The default for [region] is `us-central1`.
   ///
   /// Returns [Exception] if not initialized.
   ///
@@ -135,7 +135,7 @@ class FirebaseCore {
   ///
   /// 初期化されたFirebaseAppのプロジェクトIDと[initialize]時に渡された[region]から作成します。
   ///
-  /// [region]のデフォルトは`asia-northeast1`です。
+  /// [region]のデフォルトは`us-central1`です。
   ///
   /// 初期化されていない場合は[Exception]を返します。
   static String get functionsEndpoint {
