@@ -1,3 +1,7 @@
+## 3.0.4
+
+ - **FIX**: Make UsCentral default. ([fd4eb5ad](https://github.com/mathrunet/flutter_masamune/commit/fd4eb5ad74a9109c566c342b3753b743722c2daf))
+
 ## 3.0.3
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))

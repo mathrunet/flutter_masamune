@@ -1,3 +1,7 @@
+## 3.3.1
+
+ - Update a dependency to the latest release.
+
 ## 3.3.0
 
  - **FEAT**: Made it possible to directly specify parameters for MasamuneIntroduction. ([9cef000c](https://github.com/mathrunet/flutter_masamune/commit/9cef000c676cf9b71c0d5cb343354d6abdaba83c))

@@ -1,3 +1,7 @@
+## 3.0.10
+
+ - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
+
 ## 3.0.9
 
  - **FIX**: Added `build.yaml` to `pubignore` as it was not included. ([3ef6e8ee](https://github.com/mathrunet/flutter_masamune/commit/3ef6e8eed60e0bd6a706a994285c57df85622dfb))

@@ -1,3 +1,10 @@
+## 3.5.5
+
+ - **FIX**: Remove Deprecated. ([67a254a8](https://github.com/mathrunet/flutter_masamune/commit/67a254a8b4e6d89e58aaae548b441fe945ccb447))
+ - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
+ - **FIX**: Enabled GitHub login. ([1872e96d](https://github.com/mathrunet/flutter_masamune/commit/1872e96d206377251220cf78a320e3e0859a4d84))
+ - **FIX**: Make UsCentral default. ([fd4eb5ad](https://github.com/mathrunet/flutter_masamune/commit/fd4eb5ad74a9109c566c342b3753b743722c2daf))
+
 ## 3.5.4
 
  - **FIX**: Bug fix in build.yaml. ([9e6ac559](https://github.com/mathrunet/flutter_masamune/commit/9e6ac559bcef651562cb32f257c7af46a780b297))

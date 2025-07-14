@@ -1,3 +1,7 @@
+## 3.1.6
+
+ - **FIX**: Remove Deprecated. ([67a254a8](https://github.com/mathrunet/flutter_masamune/commit/67a254a8b4e6d89e58aaae548b441fe945ccb447))
+
 ## 3.1.5
 
  - **FIX**: Change the default settings. ([19f5474d](https://github.com/mathrunet/flutter_masamune/commit/19f5474d28f035f12101ff3ac7635c6d73a12bde))

@@ -3,6 +3,197 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-07-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth_firebase` - `v3.1.0`](#katana_auth_firebase---v310)
+ - [`katana_cli` - `v3.5.5`](#katana_cli---v355)
+ - [`katana_firebase` - `v3.0.4`](#katana_firebase---v304)
+ - [`katana_form` - `v3.1.6`](#katana_form---v316)
+ - [`katana_model` - `v3.2.0`](#katana_model---v320)
+ - [`masamune` - `v3.2.0`](#masamune---v320)
+ - [`masamune_ai` - `v3.0.11`](#masamune_ai---v3011)
+ - [`masamune_auth_github_firebase` - `v3.2.0`](#masamune_auth_github_firebase---v320)
+ - [`masamune_builder` - `v3.0.10`](#masamune_builder---v3010)
+ - [`masamune_camera` - `v3.1.4`](#masamune_camera---v314)
+ - [`masamune_location_background` - `v3.0.11`](#masamune_location_background---v3011)
+ - [`masamune_model_github` - `v3.1.4`](#masamune_model_github---v314)
+ - [`masamune_purchase_stripe` - `v3.6.41`](#masamune_purchase_stripe---v3641)
+ - [`masamune_universal_ui` - `v3.1.7`](#masamune_universal_ui---v317)
+ - [`masamune_auth_google_firebase` - `v3.0.11`](#masamune_auth_google_firebase---v3011)
+ - [`masamune_auth_apple_firebase` - `v3.0.11`](#masamune_auth_apple_firebase---v3011)
+ - [`masamune_auth_firebase` - `v3.0.11`](#masamune_auth_firebase---v3011)
+ - [`masamune_model_firebase_remote_config` - `v3.0.11`](#masamune_model_firebase_remote_config---v3011)
+ - [`katana_functions_firebase` - `v3.0.4`](#katana_functions_firebase---v304)
+ - [`masamune_deeplink_firebase` - `v3.0.11`](#masamune_deeplink_firebase---v3011)
+ - [`masamune_model_firebase_data_connect` - `v3.0.11`](#masamune_model_firebase_data_connect---v3011)
+ - [`masamune_ai_firebase` - `v3.0.11`](#masamune_ai_firebase---v3011)
+ - [`katana_storage_firebase` - `v3.0.4`](#katana_storage_firebase---v304)
+ - [`katana_model_firestore` - `v3.1.5`](#katana_model_firestore---v315)
+ - [`masamune_logger_firebase` - `v3.0.10`](#masamune_logger_firebase---v3010)
+ - [`masamune_firebase_app_check` - `v3.0.11`](#masamune_firebase_app_check---v3011)
+ - [`masamune_notification_firebase` - `v3.0.11`](#masamune_notification_firebase---v3011)
+ - [`masamune_model_firestore` - `v3.0.11`](#masamune_model_firestore---v3011)
+ - [`masamune_model_algolia` - `v3.0.11`](#masamune_model_algolia---v3011)
+ - [`masamune_location_platform_interface` - `v3.0.11`](#masamune_location_platform_interface---v3011)
+ - [`masamune_markdown` - `v3.0.11`](#masamune_markdown---v3011)
+ - [`masamune_location_geocoding` - `v3.0.11`](#masamune_location_geocoding---v3011)
+ - [`masamune_location` - `v3.0.11`](#masamune_location---v3011)
+ - [`masamune_notification_local` - `v3.0.11`](#masamune_notification_local---v3011)
+ - [`masamune_auth_apple` - `v3.0.11`](#masamune_auth_apple---v3011)
+ - [`masamune_scheduler` - `v3.0.11`](#masamune_scheduler---v3011)
+ - [`masamune_text_to_speech` - `v3.0.11`](#masamune_text_to_speech---v3011)
+ - [`masamune_agora` - `v3.0.11`](#masamune_agora---v3011)
+ - [`masamune_auth_google` - `v3.0.11`](#masamune_auth_google---v3011)
+ - [`masamune_ai_openai` - `v3.0.11`](#masamune_ai_openai---v3011)
+ - [`masamune_calendar` - `v3.0.11`](#masamune_calendar---v3011)
+ - [`masamune_animate` - `v3.0.11`](#masamune_animate---v3011)
+ - [`masamune_picker` - `v3.0.11`](#masamune_picker---v3011)
+ - [`masamune_app_review` - `v3.0.11`](#masamune_app_review---v3011)
+ - [`masamune_util` - `v3.0.11`](#masamune_util---v3011)
+ - [`masamune_test` - `v3.1.7`](#masamune_test---v317)
+ - [`masamune_notification` - `v3.0.11`](#masamune_notification---v3011)
+ - [`masamune_introduction` - `v3.3.1`](#masamune_introduction---v331)
+ - [`masamune_deeplink` - `v3.0.11`](#masamune_deeplink---v3011)
+ - [`masamune_speech_to_text` - `v3.0.11`](#masamune_speech_to_text---v3011)
+ - [`masamune_auth_facebook` - `v3.0.11`](#masamune_auth_facebook---v3011)
+ - [`masamune_force_updater` - `v3.0.11`](#masamune_force_updater---v3011)
+ - [`masamune_location_google` - `v3.0.11`](#masamune_location_google---v3011)
+ - [`masamune_mail` - `v3.0.11`](#masamune_mail---v3011)
+ - [`masamune_purchase` - `v3.0.11`](#masamune_purchase---v3011)
+ - [`masamune_purchase_mobile` - `v3.0.11`](#masamune_purchase_mobile---v3011)
+ - [`masamune_ads_google` - `v3.0.11`](#masamune_ads_google---v3011)
+ - [`katana_model_local` - `v3.1.5`](#katana_model_local---v315)
+ - [`masamune_model_firebase_data_connect_builder` - `v3.0.10`](#masamune_model_firebase_data_connect_builder---v3010)
+ - [`masamune_model_docs_builder` - `v3.0.10`](#masamune_model_docs_builder---v3010)
+ - [`masamune_model_firestore_builder` - `v3.0.10`](#masamune_model_firestore_builder---v3010)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_auth_google_firebase` - `v3.0.11`
+ - `masamune_auth_apple_firebase` - `v3.0.11`
+ - `masamune_auth_firebase` - `v3.0.11`
+ - `masamune_model_firebase_remote_config` - `v3.0.11`
+ - `katana_functions_firebase` - `v3.0.4`
+ - `masamune_deeplink_firebase` - `v3.0.11`
+ - `masamune_model_firebase_data_connect` - `v3.0.11`
+ - `masamune_ai_firebase` - `v3.0.11`
+ - `katana_storage_firebase` - `v3.0.4`
+ - `katana_model_firestore` - `v3.1.5`
+ - `masamune_logger_firebase` - `v3.0.10`
+ - `masamune_firebase_app_check` - `v3.0.11`
+ - `masamune_notification_firebase` - `v3.0.11`
+ - `masamune_model_firestore` - `v3.0.11`
+ - `masamune_model_algolia` - `v3.0.11`
+ - `masamune_location_platform_interface` - `v3.0.11`
+ - `masamune_markdown` - `v3.0.11`
+ - `masamune_location_geocoding` - `v3.0.11`
+ - `masamune_location` - `v3.0.11`
+ - `masamune_notification_local` - `v3.0.11`
+ - `masamune_auth_apple` - `v3.0.11`
+ - `masamune_scheduler` - `v3.0.11`
+ - `masamune_text_to_speech` - `v3.0.11`
+ - `masamune_agora` - `v3.0.11`
+ - `masamune_auth_google` - `v3.0.11`
+ - `masamune_ai_openai` - `v3.0.11`
+ - `masamune_calendar` - `v3.0.11`
+ - `masamune_animate` - `v3.0.11`
+ - `masamune_picker` - `v3.0.11`
+ - `masamune_app_review` - `v3.0.11`
+ - `masamune_util` - `v3.0.11`
+ - `masamune_test` - `v3.1.7`
+ - `masamune_notification` - `v3.0.11`
+ - `masamune_introduction` - `v3.3.1`
+ - `masamune_deeplink` - `v3.0.11`
+ - `masamune_speech_to_text` - `v3.0.11`
+ - `masamune_auth_facebook` - `v3.0.11`
+ - `masamune_force_updater` - `v3.0.11`
+ - `masamune_location_google` - `v3.0.11`
+ - `masamune_mail` - `v3.0.11`
+ - `masamune_purchase` - `v3.0.11`
+ - `masamune_purchase_mobile` - `v3.0.11`
+ - `masamune_ads_google` - `v3.0.11`
+ - `katana_model_local` - `v3.1.5`
+ - `masamune_model_firebase_data_connect_builder` - `v3.0.10`
+ - `masamune_model_docs_builder` - `v3.0.10`
+ - `masamune_model_firestore_builder` - `v3.0.10`
+
+---
+
+#### `katana_auth_firebase` - `v3.1.0`
+
+ - **FEAT**: Enabled retrieval of SNS login information. ([2b800e36](https://github.com/mathrunet/flutter_masamune/commit/2b800e36f0185354c79ff63613196e6d65469a8d))
+
+#### `katana_cli` - `v3.5.5`
+
+ - **FIX**: Remove Deprecated. ([67a254a8](https://github.com/mathrunet/flutter_masamune/commit/67a254a8b4e6d89e58aaae548b441fe945ccb447))
+ - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
+ - **FIX**: Enabled GitHub login. ([1872e96d](https://github.com/mathrunet/flutter_masamune/commit/1872e96d206377251220cf78a320e3e0859a4d84))
+ - **FIX**: Make UsCentral default. ([fd4eb5ad](https://github.com/mathrunet/flutter_masamune/commit/fd4eb5ad74a9109c566c342b3753b743722c2daf))
+
+#### `katana_firebase` - `v3.0.4`
+
+ - **FIX**: Make UsCentral default. ([fd4eb5ad](https://github.com/mathrunet/flutter_masamune/commit/fd4eb5ad74a9109c566c342b3753b743722c2daf))
+
+#### `katana_form` - `v3.1.6`
+
+ - **FIX**: Remove Deprecated. ([67a254a8](https://github.com/mathrunet/flutter_masamune/commit/67a254a8b4e6d89e58aaae548b441fe945ccb447))
+
+#### `katana_model` - `v3.2.0`
+
+ - **FEAT**: Delete katana_model_openapi. ([35ad3d70](https://github.com/mathrunet/flutter_masamune/commit/35ad3d70bc0e9c8aead1e65a5d5ff3715e9e62d2))
+
+#### `masamune` - `v3.2.0`
+
+ - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
+ - **FEAT**: Add Mixin for Controller. ([43b69dfb](https://github.com/mathrunet/flutter_masamune/commit/43b69dfbf4806133d9ef00939d052dc99ce72b33))
+
+#### `masamune_ai` - `v3.0.11`
+
+ - **FIX**: Switch data based on initial content. ([48c44a39](https://github.com/mathrunet/flutter_masamune/commit/48c44a39a94a7a58ba9a6fbc1eddac1be9a9f76c))
+
+#### `masamune_auth_github_firebase` - `v3.2.0`
+
+ - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
+ - **FEAT**: Enabled retrieval of SNS login information. ([2b800e36](https://github.com/mathrunet/flutter_masamune/commit/2b800e36f0185354c79ff63613196e6d65469a8d))
+
+#### `masamune_builder` - `v3.0.10`
+
+ - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
+
+#### `masamune_camera` - `v3.1.4`
+
+ - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
+
+#### `masamune_location_background` - `v3.0.11`
+
+ - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
+
+#### `masamune_model_github` - `v3.1.4`
+
+ - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
+ - **FIX**: Retrieve GitHub data. ([e23bc5ec](https://github.com/mathrunet/flutter_masamune/commit/e23bc5ecf7e03bbfe78dc24a6f81e64aaf0f268a))
+
+#### `masamune_purchase_stripe` - `v3.6.41`
+
+ - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
+
+#### `masamune_universal_ui` - `v3.1.7`
+
+ - **FIX**: Remove Deprecated. ([67a254a8](https://github.com/mathrunet/flutter_masamune/commit/67a254a8b4e6d89e58aaae548b441fe945ccb447))
+
+
 ## 2025-07-09
 
 ### Changes

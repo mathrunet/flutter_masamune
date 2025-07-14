@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**: Delete katana_model_openapi. ([35ad3d70](https://github.com/mathrunet/flutter_masamune/commit/35ad3d70bc0e9c8aead1e65a5d5ff3715e9e62d2))
+
 ## 3.1.4
 
  - **FIX**: Bug fix in build.yaml. ([9e6ac559](https://github.com/mathrunet/flutter_masamune/commit/9e6ac559bcef651562cb32f257c7af46a780b297))

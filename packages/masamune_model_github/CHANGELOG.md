@@ -1,3 +1,8 @@
+## 3.1.4
+
+ - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
+ - **FIX**: Retrieve GitHub data. ([e23bc5ec](https://github.com/mathrunet/flutter_masamune/commit/e23bc5ecf7e03bbfe78dc24a6f81e64aaf0f268a))
+
 ## 3.1.3
 
  - **FIX**: Bug fix in build.yaml. ([9e6ac559](https://github.com/mathrunet/flutter_masamune/commit/9e6ac559bcef651562cb32f257c7af46a780b297))

@@ -1,3 +1,8 @@
+## 3.2.0
+
+ - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
+ - **FEAT**: Enabled retrieval of SNS login information. ([2b800e36](https://github.com/mathrunet/flutter_masamune/commit/2b800e36f0185354c79ff63613196e6d65469a8d))
+
 ## 3.1.4
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 3.0.11
+
+ - **FIX**: Switch data based on initial content. ([48c44a39](https://github.com/mathrunet/flutter_masamune/commit/48c44a39a94a7a58ba9a6fbc1eddac1be9a9f76c))
+
 ## 3.0.10
 
  - Update a dependency to the latest release.

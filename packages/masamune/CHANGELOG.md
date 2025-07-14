@@ -1,3 +1,8 @@
+## 3.2.0
+
+ - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
+ - **FEAT**: Add Mixin for Controller. ([43b69dfb](https://github.com/mathrunet/flutter_masamune/commit/43b69dfbf4806133d9ef00939d052dc99ce72b33))
+
 ## 3.1.2
 
  - **FIX**: Bug fix in build.yaml. ([9e6ac559](https://github.com/mathrunet/flutter_masamune/commit/9e6ac559bcef651562cb32f257c7af46a780b297))

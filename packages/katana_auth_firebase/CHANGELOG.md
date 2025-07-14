@@ -1,3 +1,7 @@
+## 3.1.0
+
+ - **FEAT**: Enabled retrieval of SNS login information. ([2b800e36](https://github.com/mathrunet/flutter_masamune/commit/2b800e36f0185354c79ff63613196e6d65469a8d))
+
 ## 3.0.3
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))

@@ -1,3 +1,7 @@
+## 3.6.41
+
+ - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
+
 ## 3.6.40
 
  - **FIX**: Bug fix in build.yaml. ([9e6ac559](https://github.com/mathrunet/flutter_masamune/commit/9e6ac559bcef651562cb32f257c7af46a780b297))
