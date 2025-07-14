@@ -303,7 +303,16 @@ class _$_AIThreadQuery extends ControllerQueryBase<AIThread> {
   }
 
   @override
-  String get queryName => _name;
+  String get queryName => "$_name@${_hashCode.toString()}";
+
+  int get _hashCode {
+    if (initialContents.isEmpty) {
+      return 0;
+    }
+    final hashCode = initialContents.fold(0, (a, b) => a ^ b.hashCode);
+    return hashCode;
+  }
+
   @override
   bool get autoDisposeWhenUnreferenced => false;
 }
