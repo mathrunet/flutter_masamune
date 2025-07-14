@@ -1,121 +1,69 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of "local_notification_schedule.dart";
+part of 'local_notification_schedule.dart';
 
 // **************************************************************************
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-LocalNotificationScheduleModel _$LocalNotificationScheduleModelFromJson(
-    Map<String, dynamic> json) {
-  return _LocalNotificationScheduleModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$LocalNotificationScheduleModel {
-  int? get id => throw _privateConstructorUsedError;
-  ModelTimestamp get time => throw _privateConstructorUsedError;
-  LocalNotificationRepeatSettings get repeat =>
-      throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
-  String get text => throw _privateConstructorUsedError;
-  Map<String, dynamic> get data => throw _privateConstructorUsedError;
-
-  /// Serializes this LocalNotificationScheduleModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  int? get id;
+  ModelTimestamp get time;
+  LocalNotificationRepeatSettings get repeat;
+  String get title;
+  String get text;
+  DynamicMap get data;
 
   /// Create a copy of LocalNotificationScheduleModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $LocalNotificationScheduleModelCopyWith<LocalNotificationScheduleModel>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $LocalNotificationScheduleModelCopyWith<$Res> {
-  factory $LocalNotificationScheduleModelCopyWith(
-          LocalNotificationScheduleModel value,
-          $Res Function(LocalNotificationScheduleModel) then) =
-      _$LocalNotificationScheduleModelCopyWithImpl<$Res,
-          LocalNotificationScheduleModel>;
-  @useResult
-  $Res call(
-      {int? id,
-      ModelTimestamp time,
-      LocalNotificationRepeatSettings repeat,
-      String title,
-      String text,
-      Map<String, dynamic> data});
-}
-
-/// @nodoc
-class _$LocalNotificationScheduleModelCopyWithImpl<$Res,
-        $Val extends LocalNotificationScheduleModel>
-    implements $LocalNotificationScheduleModelCopyWith<$Res> {
-  _$LocalNotificationScheduleModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of LocalNotificationScheduleModel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $LocalNotificationScheduleModelCopyWith<LocalNotificationScheduleModel>
+      get copyWith => _$LocalNotificationScheduleModelCopyWithImpl<
+              LocalNotificationScheduleModel>(
+          this as LocalNotificationScheduleModel, _$identity);
+
+  /// Serializes this LocalNotificationScheduleModel to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? id = freezed,
-    Object? time = null,
-    Object? repeat = null,
-    Object? title = null,
-    Object? text = null,
-    Object? data = null,
-  }) {
-    return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int?,
-      time: null == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
-              as ModelTimestamp,
-      repeat: null == repeat
-          ? _value.repeat
-          : repeat // ignore: cast_nullable_to_non_nullable
-              as LocalNotificationRepeatSettings,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as String,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is LocalNotificationScheduleModel &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.time, time) || other.time == time) &&
+            (identical(other.repeat, repeat) || other.repeat == repeat) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.text, text) || other.text == text) &&
+            const DeepCollectionEquality().equals(other.data, data));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, time, repeat, title, text,
+      const DeepCollectionEquality().hash(data));
+
+  @override
+  String toString() {
+    return 'LocalNotificationScheduleModel(id: $id, time: $time, repeat: $repeat, title: $title, text: $text, data: $data)';
   }
 }
 
 /// @nodoc
-abstract class _$$LocalNotificationScheduleModelImplCopyWith<$Res>
-    implements $LocalNotificationScheduleModelCopyWith<$Res> {
-  factory _$$LocalNotificationScheduleModelImplCopyWith(
-          _$LocalNotificationScheduleModelImpl value,
-          $Res Function(_$LocalNotificationScheduleModelImpl) then) =
-      __$$LocalNotificationScheduleModelImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $LocalNotificationScheduleModelCopyWith<$Res> {
+  factory $LocalNotificationScheduleModelCopyWith(
+          LocalNotificationScheduleModel value,
+          $Res Function(LocalNotificationScheduleModel) _then) =
+      _$LocalNotificationScheduleModelCopyWithImpl;
   @useResult
   $Res call(
       {int? id,
@@ -127,14 +75,12 @@ abstract class _$$LocalNotificationScheduleModelImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$LocalNotificationScheduleModelImplCopyWithImpl<$Res>
-    extends _$LocalNotificationScheduleModelCopyWithImpl<$Res,
-        _$LocalNotificationScheduleModelImpl>
-    implements _$$LocalNotificationScheduleModelImplCopyWith<$Res> {
-  __$$LocalNotificationScheduleModelImplCopyWithImpl(
-      _$LocalNotificationScheduleModelImpl _value,
-      $Res Function(_$LocalNotificationScheduleModelImpl) _then)
-      : super(_value, _then);
+class _$LocalNotificationScheduleModelCopyWithImpl<$Res>
+    implements $LocalNotificationScheduleModelCopyWith<$Res> {
+  _$LocalNotificationScheduleModelCopyWithImpl(this._self, this._then);
+
+  final LocalNotificationScheduleModel _self;
+  final $Res Function(LocalNotificationScheduleModel) _then;
 
   /// Create a copy of LocalNotificationScheduleModel
   /// with the given fields replaced by the non-null parameter values.
@@ -148,29 +94,29 @@ class __$$LocalNotificationScheduleModelImplCopyWithImpl<$Res>
     Object? text = null,
     Object? data = null,
   }) {
-    return _then(_$LocalNotificationScheduleModelImpl(
+    return _then(_self.copyWith(
       id: freezed == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
       time: null == time
-          ? _value.time
+          ? _self.time
           : time // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
       repeat: null == repeat
-          ? _value.repeat
+          ? _self.repeat
           : repeat // ignore: cast_nullable_to_non_nullable
               as LocalNotificationRepeatSettings,
       title: null == title
-          ? _value.title
+          ? _self.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
       text: null == text
-          ? _value.text
+          ? _self.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
       data: null == data
-          ? _value._data
+          ? _self.data!
           : data // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
     ));
@@ -179,9 +125,8 @@ class __$$LocalNotificationScheduleModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$LocalNotificationScheduleModelImpl
-    extends _LocalNotificationScheduleModel {
-  const _$LocalNotificationScheduleModelImpl(
+class _LocalNotificationScheduleModel extends LocalNotificationScheduleModel {
+  const _LocalNotificationScheduleModel(
       {this.id,
       this.time = const ModelTimestamp(),
       this.repeat = LocalNotificationRepeatSettings.none,
@@ -190,10 +135,8 @@ class _$LocalNotificationScheduleModelImpl
       final Map<String, dynamic> data = const {}})
       : _data = data,
         super._();
-
-  factory _$LocalNotificationScheduleModelImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$LocalNotificationScheduleModelImplFromJson(json);
+  factory _LocalNotificationScheduleModel.fromJson(Map<String, dynamic> json) =>
+      _$LocalNotificationScheduleModelFromJson(json);
 
   @override
   final int? id;
@@ -218,16 +161,27 @@ class _$LocalNotificationScheduleModelImpl
     return EqualUnmodifiableMapView(_data);
   }
 
+  /// Create a copy of LocalNotificationScheduleModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'LocalNotificationScheduleModel(id: $id, time: $time, repeat: $repeat, title: $title, text: $text, data: $data)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LocalNotificationScheduleModelCopyWith<_LocalNotificationScheduleModel>
+      get copyWith => __$LocalNotificationScheduleModelCopyWithImpl<
+          _LocalNotificationScheduleModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$LocalNotificationScheduleModelToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LocalNotificationScheduleModelImpl &&
+            other is _LocalNotificationScheduleModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.time, time) || other.time == time) &&
             (identical(other.repeat, repeat) || other.repeat == repeat) &&
@@ -241,56 +195,77 @@ class _$LocalNotificationScheduleModelImpl
   int get hashCode => Object.hash(runtimeType, id, time, repeat, title, text,
       const DeepCollectionEquality().hash(_data));
 
-  /// Create a copy of LocalNotificationScheduleModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$LocalNotificationScheduleModelImplCopyWith<
-          _$LocalNotificationScheduleModelImpl>
-      get copyWith => __$$LocalNotificationScheduleModelImplCopyWithImpl<
-          _$LocalNotificationScheduleModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$LocalNotificationScheduleModelImplToJson(
-      this,
-    );
+  String toString() {
+    return 'LocalNotificationScheduleModel(id: $id, time: $time, repeat: $repeat, title: $title, text: $text, data: $data)';
   }
 }
 
-abstract class _LocalNotificationScheduleModel
-    extends LocalNotificationScheduleModel {
-  const factory _LocalNotificationScheduleModel(
-      {final int? id,
-      final ModelTimestamp time,
-      final LocalNotificationRepeatSettings repeat,
-      final String title,
-      final String text,
-      final Map<String, dynamic> data}) = _$LocalNotificationScheduleModelImpl;
-  const _LocalNotificationScheduleModel._() : super._();
+/// @nodoc
+abstract mixin class _$LocalNotificationScheduleModelCopyWith<$Res>
+    implements $LocalNotificationScheduleModelCopyWith<$Res> {
+  factory _$LocalNotificationScheduleModelCopyWith(
+          _LocalNotificationScheduleModel value,
+          $Res Function(_LocalNotificationScheduleModel) _then) =
+      __$LocalNotificationScheduleModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {int? id,
+      ModelTimestamp time,
+      LocalNotificationRepeatSettings repeat,
+      String title,
+      String text,
+      Map<String, dynamic> data});
+}
 
-  factory _LocalNotificationScheduleModel.fromJson(Map<String, dynamic> json) =
-      _$LocalNotificationScheduleModelImpl.fromJson;
+/// @nodoc
+class __$LocalNotificationScheduleModelCopyWithImpl<$Res>
+    implements _$LocalNotificationScheduleModelCopyWith<$Res> {
+  __$LocalNotificationScheduleModelCopyWithImpl(this._self, this._then);
 
-  @override
-  int? get id;
-  @override
-  ModelTimestamp get time;
-  @override
-  LocalNotificationRepeatSettings get repeat;
-  @override
-  String get title;
-  @override
-  String get text;
-  @override
-  Map<String, dynamic> get data;
+  final _LocalNotificationScheduleModel _self;
+  final $Res Function(_LocalNotificationScheduleModel) _then;
 
   /// Create a copy of LocalNotificationScheduleModel
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LocalNotificationScheduleModelImplCopyWith<
-          _$LocalNotificationScheduleModelImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = freezed,
+    Object? time = null,
+    Object? repeat = null,
+    Object? title = null,
+    Object? text = null,
+    Object? data = null,
+  }) {
+    return _then(_LocalNotificationScheduleModel(
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      time: null == time
+          ? _self.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as ModelTimestamp,
+      repeat: null == repeat
+          ? _self.repeat
+          : repeat // ignore: cast_nullable_to_non_nullable
+              as LocalNotificationRepeatSettings,
+      title: null == title
+          ? _self.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: null == text
+          ? _self.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _self._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ));
+  }
 }
+
+// dart format on

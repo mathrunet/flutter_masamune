@@ -3,7 +3,7 @@
 
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps
 
-part of "main.dart";
+part of 'main.dart';
 
 // **************************************************************************
 // GoogleSpreadSheetLocalizeGenerator
@@ -70,6 +70,8 @@ abstract class _$AppLocalizeBase {
   String get appTitle => throw UnimplementedError();
 
   String get subTitle => throw UnimplementedError();
+
+  String get mathruNet => throw UnimplementedError();
 
   String get yes => throw UnimplementedError();
 
@@ -189,6 +191,8 @@ abstract class _$AppLocalizeBase {
 
   String get review => throw UnimplementedError();
 
+  String get history => throw UnimplementedError();
+
   String get buy => throw UnimplementedError();
 
   String get buying => throw UnimplementedError();
@@ -196,6 +200,8 @@ abstract class _$AppLocalizeBase {
   String get alreadyBought => throw UnimplementedError();
 
   String get alreadyRegistered => throw UnimplementedError();
+
+  String get notification => throw UnimplementedError();
 
   String get restore => throw UnimplementedError();
 
@@ -209,7 +215,11 @@ abstract class _$AppLocalizeBase {
 
   String get privacyPolicy => throw UnimplementedError();
 
+  String get officialWebsite => throw UnimplementedError();
+
   String get user => throw UnimplementedError();
+
+  String get favorite => throw UnimplementedError();
 
   String get content => throw UnimplementedError();
 
@@ -240,6 +250,10 @@ abstract class _$AppLocalizeBase {
   String get scenario => throw UnimplementedError();
 
   String get random => throw UnimplementedError();
+
+  String get link => throw UnimplementedError();
+
+  String get events => throw UnimplementedError();
 
   String get unchangeable => throw UnimplementedError();
 
@@ -281,6 +295,10 @@ abstract class _$AppLocalizeBase {
 
   String get nickname => throw UnimplementedError();
 
+  String get familyName => throw UnimplementedError();
+
+  String get givenName => throw UnimplementedError();
+
   String get guest => throw UnimplementedError();
 
   String get gender => throw UnimplementedError();
@@ -292,6 +310,8 @@ abstract class _$AppLocalizeBase {
   String get address => throw UnimplementedError();
 
   String get age => throw UnimplementedError();
+
+  String get language => throw UnimplementedError();
 
   String get birthday => throw UnimplementedError();
 
@@ -322,6 +342,10 @@ abstract class _$AppLocalizeBase {
   String get sendCode => throw UnimplementedError();
 
   String get profileSettings => throw UnimplementedError();
+
+  String get profileCheck => throw UnimplementedError();
+
+  String get notificationSettings => throw UnimplementedError();
 
   String get accountDeletion => throw UnimplementedError();
 
@@ -452,8 +476,6 @@ abstract class _$AppLocalizeBase {
 
   String get amazon => throw UnimplementedError();
 
-  String get mathruNet => throw UnimplementedError();
-
   _$00d0796f61e7ee7614446fbc3f31ae7dbab192adBase get thereAre =>
       throw UnimplementedError();
 
@@ -470,6 +492,9 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
 
   @override
   String get subTitle => "SubTitle";
+
+  @override
+  String get mathruNet => "mathru.net";
 
   @override
   String get yes => "Yes";
@@ -649,6 +674,9 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   String get review => "Review";
 
   @override
+  String get history => "History";
+
+  @override
   String get buy => "Buy";
 
   @override
@@ -659,6 +687,9 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
 
   @override
   String get alreadyRegistered => "Already registered";
+
+  @override
+  String get notification => "Notification";
 
   @override
   String get restore => "Restore";
@@ -679,7 +710,13 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   String get privacyPolicy => "Privacy Policy";
 
   @override
+  String get officialWebsite => "Official website";
+
+  @override
   String get user => "User";
+
+  @override
+  String get favorite => "Favorite";
 
   @override
   String get content => "Content";
@@ -725,6 +762,12 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
 
   @override
   String get random => "Random";
+
+  @override
+  String get link => "Link";
+
+  @override
+  String get events => "Events";
 
   @override
   String get unchangeable => "Unchangeable";
@@ -787,6 +830,12 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   String get nickname => "Nickname";
 
   @override
+  String get familyName => "Family name";
+
+  @override
+  String get givenName => "Given name";
+
+  @override
   String get guest => "Guest";
 
   @override
@@ -803,6 +852,9 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
 
   @override
   String get age => "Age";
+
+  @override
+  String get language => "Language";
 
   @override
   String get birthday => "Birthday";
@@ -847,6 +899,12 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
 
   @override
   String get profileSettings => "Profile Settings";
+
+  @override
+  String get profileCheck => "Profile Check";
+
+  @override
+  String get notificationSettings => "Notification Settings";
 
   @override
   String get accountDeletion => "Account Deletion";
@@ -1030,9 +1088,6 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   String get amazon => "Amazon";
 
   @override
-  String get mathruNet => "mathru.net";
-
-  @override
   _$00d0796f61e7ee7614446fbc3f31ae7dbab192adEnus get thereAre =>
       _$00d0796f61e7ee7614446fbc3f31ae7dbab192adEnus();
 
@@ -1051,6 +1106,9 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
 
   @override
   String get subTitle => "サブタイトル";
+
+  @override
+  String get mathruNet => "mathru.net";
 
   @override
   String get yes => "はい";
@@ -1230,6 +1288,9 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
   String get review => "評価";
 
   @override
+  String get history => "履歴";
+
+  @override
   String get buy => "購入";
 
   @override
@@ -1240,6 +1301,9 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
 
   @override
   String get alreadyRegistered => "登録済み";
+
+  @override
+  String get notification => "通知";
 
   @override
   String get restore => "復元";
@@ -1260,7 +1324,13 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
   String get privacyPolicy => "プライバシーポリシー";
 
   @override
+  String get officialWebsite => "公式サイト";
+
+  @override
   String get user => "ユーザー";
+
+  @override
+  String get favorite => "お気に入り";
 
   @override
   String get content => "コンテンツ";
@@ -1306,6 +1376,12 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
 
   @override
   String get random => "ランダム";
+
+  @override
+  String get link => "リンク";
+
+  @override
+  String get events => "イベント";
 
   @override
   String get unchangeable => "変更不可";
@@ -1368,6 +1444,12 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
   String get nickname => "ニックネーム";
 
   @override
+  String get familyName => "姓";
+
+  @override
+  String get givenName => "名";
+
+  @override
   String get guest => "ゲスト";
 
   @override
@@ -1384,6 +1466,9 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
 
   @override
   String get age => "年齢";
+
+  @override
+  String get language => "言語";
 
   @override
   String get birthday => "生年月日";
@@ -1428,6 +1513,12 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
 
   @override
   String get profileSettings => "プロフィール設定";
+
+  @override
+  String get profileCheck => "プロフィール確認";
+
+  @override
+  String get notificationSettings => "通知設定";
 
   @override
   String get accountDeletion => "アカウント削除";
@@ -1598,7 +1689,7 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
   String get sunday => "日曜日";
 
   @override
-  String get holiday => "假期";
+  String get holiday => "祝日";
 
   @override
   String get google => "Google";
@@ -1611,9 +1702,6 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
 
   @override
   String get amazon => "Amazon";
-
-  @override
-  String get mathruNet => "mathru.net";
 
   @override
   _$00d0796f61e7ee7614446fbc3f31ae7dbab192adJajp get thereAre =>
@@ -1634,6 +1722,9 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
 
   @override
   String get subTitle => "字幕";
+
+  @override
+  String get mathruNet => "mathru.net";
 
   @override
   String get yes => "是的";
@@ -1813,6 +1904,9 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
   String get review => "评估";
 
   @override
+  String get history => "历史";
+
+  @override
   String get buy => "购买";
 
   @override
@@ -1823,6 +1917,9 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
 
   @override
   String get alreadyRegistered => "挂号的";
+
+  @override
+  String get notification => "通知";
 
   @override
   String get restore => "恢复";
@@ -1843,7 +1940,13 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
   String get privacyPolicy => "隐私政策";
 
   @override
+  String get officialWebsite => "官方网站";
+
+  @override
   String get user => "用户";
+
+  @override
+  String get favorite => "最喜欢的";
 
   @override
   String get content => "内容";
@@ -1889,6 +1992,12 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
 
   @override
   String get random => "随机的";
+
+  @override
+  String get link => "链接";
+
+  @override
+  String get events => "事件";
 
   @override
   String get unchangeable => "它不能更改";
@@ -1951,6 +2060,12 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
   String get nickname => "昵称";
 
   @override
+  String get familyName => "姓";
+
+  @override
+  String get givenName => "名";
+
+  @override
   String get guest => "客人";
 
   @override
@@ -1967,6 +2082,9 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
 
   @override
   String get age => "年龄";
+
+  @override
+  String get language => "语言";
 
   @override
   String get birthday => "出生日期";
@@ -2010,6 +2128,12 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
 
   @override
   String get profileSettings => "个人资料设置";
+
+  @override
+  String get profileCheck => "确认个人资料";
+
+  @override
+  String get notificationSettings => "通知设置";
 
   @override
   String get accountDeletion => "帐户删除";
@@ -2180,7 +2304,7 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
   String get sunday => "星期 天";
 
   @override
-  String get holiday => "휴일";
+  String get holiday => "节日";
 
   @override
   String get google => "Google";
@@ -2193,9 +2317,6 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
 
   @override
   String get amazon => "Amazon";
-
-  @override
-  String get mathruNet => "mathru.net";
 
   @override
   _$00d0796f61e7ee7614446fbc3f31ae7dbab192adZhcn get thereAre =>
@@ -2216,6 +2337,9 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
 
   @override
   String get subTitle => "부제";
+
+  @override
+  String get mathruNet => "mathru.net";
 
   @override
   String get yes => "예";
@@ -2395,6 +2519,9 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
   String get review => "평가";
 
   @override
+  String get history => "이력";
+
+  @override
   String get buy => "구매";
 
   @override
@@ -2405,6 +2532,9 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
 
   @override
   String get alreadyRegistered => "등록됨";
+
+  @override
+  String get notification => "알림";
 
   @override
   String get restore => "복원";
@@ -2425,7 +2555,13 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
   String get privacyPolicy => "개인 정보 보호 정책";
 
   @override
+  String get officialWebsite => "공식 사이트";
+
+  @override
   String get user => "사용자";
+
+  @override
+  String get favorite => "가장 좋아하는";
 
   @override
   String get content => "콘텐츠";
@@ -2471,6 +2607,12 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
 
   @override
   String get random => "무작위의";
+
+  @override
+  String get link => "링크";
+
+  @override
+  String get events => "행사";
 
   @override
   String get unchangeable => "변경할 수 없습니다";
@@ -2533,6 +2675,12 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
   String get nickname => "별명";
 
   @override
+  String get familyName => "성";
+
+  @override
+  String get givenName => "명";
+
+  @override
   String get guest => "손님들";
 
   @override
@@ -2549,6 +2697,9 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
 
   @override
   String get age => "나이";
+
+  @override
+  String get language => "언어";
 
   @override
   String get birthday => "생일";
@@ -2593,6 +2744,12 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
 
   @override
   String get profileSettings => "프로필 설정";
+
+  @override
+  String get profileCheck => "프로필 확인";
+
+  @override
+  String get notificationSettings => "알림 설정";
 
   @override
   String get accountDeletion => "계정 삭제";
@@ -2763,7 +2920,7 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
   String get sunday => "일요일";
 
   @override
-  String get holiday => "";
+  String get holiday => "공휴일";
 
   @override
   String get google => "Google";
@@ -2776,9 +2933,6 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
 
   @override
   String get amazon => "Amazon";
-
-  @override
-  String get mathruNet => "mathru.net";
 
   @override
   _$00d0796f61e7ee7614446fbc3f31ae7dbab192adKokr get thereAre =>

@@ -1,18 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "model_query_test.dart";
+part of 'model_query_test.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TestValueImpl _$$TestValueImplFromJson(Map<String, dynamic> json) =>
-    _$TestValueImpl(
+_TestValue _$TestValueFromJson(Map<String, dynamic> json) => _TestValue(
       name: json['name'] as String,
       en: $enumDecodeNullable(_$TestEnumEnumMap, json['en']),
     );
 
-Map<String, dynamic> _$$TestValueImplToJson(_$TestValueImpl instance) =>
+Map<String, dynamic> _$TestValueToJson(_TestValue instance) =>
     <String, dynamic>{
       'name': instance.name,
       'en': _$TestEnumEnumMap[instance.en],

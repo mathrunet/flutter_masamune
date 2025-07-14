@@ -1,101 +1,69 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of "transaction_test.dart";
+part of 'transaction_test.dart';
 
 // **************************************************************************
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-TestValue _$TestValueFromJson(Map<String, dynamic> json) {
-  return _TestValue.fromJson(json);
-}
 
 /// @nodoc
 mixin _$TestValue {
-  String? get name => throw _privateConstructorUsedError;
-  String? get text => throw _privateConstructorUsedError;
-  List<int> get ids => throw _privateConstructorUsedError;
-
-  /// Serializes this TestValue to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String? get name;
+  String? get text;
+  List<int> get ids;
 
   /// Create a copy of TestValue
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $TestValueCopyWith<TestValue> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $TestValueCopyWith<$Res> {
-  factory $TestValueCopyWith(TestValue value, $Res Function(TestValue) then) =
-      _$TestValueCopyWithImpl<$Res, TestValue>;
-  @useResult
-  $Res call({String? name, String? text, List<int> ids});
-}
-
-/// @nodoc
-class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
-    implements $TestValueCopyWith<$Res> {
-  _$TestValueCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of TestValue
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $TestValueCopyWith<TestValue> get copyWith =>
+      _$TestValueCopyWithImpl<TestValue>(this as TestValue, _$identity);
+
+  /// Serializes this TestValue to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? name = freezed,
-    Object? text = freezed,
-    Object? ids = null,
-  }) {
-    return _then(_value.copyWith(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      text: freezed == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as String?,
-      ids: null == ids
-          ? _value.ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<int>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is TestValue &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.text, text) || other.text == text) &&
+            const DeepCollectionEquality().equals(other.ids, ids));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, name, text, const DeepCollectionEquality().hash(ids));
+
+  @override
+  String toString() {
+    return 'TestValue(name: $name, text: $text, ids: $ids)';
   }
 }
 
 /// @nodoc
-abstract class _$$TestValueImplCopyWith<$Res>
-    implements $TestValueCopyWith<$Res> {
-  factory _$$TestValueImplCopyWith(
-          _$TestValueImpl value, $Res Function(_$TestValueImpl) then) =
-      __$$TestValueImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $TestValueCopyWith<$Res> {
+  factory $TestValueCopyWith(TestValue value, $Res Function(TestValue) _then) =
+      _$TestValueCopyWithImpl;
   @useResult
   $Res call({String? name, String? text, List<int> ids});
 }
 
 /// @nodoc
-class __$$TestValueImplCopyWithImpl<$Res>
-    extends _$TestValueCopyWithImpl<$Res, _$TestValueImpl>
-    implements _$$TestValueImplCopyWith<$Res> {
-  __$$TestValueImplCopyWithImpl(
-      _$TestValueImpl _value, $Res Function(_$TestValueImpl) _then)
-      : super(_value, _then);
+class _$TestValueCopyWithImpl<$Res> implements $TestValueCopyWith<$Res> {
+  _$TestValueCopyWithImpl(this._self, this._then);
+
+  final TestValue _self;
+  final $Res Function(TestValue) _then;
 
   /// Create a copy of TestValue
   /// with the given fields replaced by the non-null parameter values.
@@ -106,17 +74,17 @@ class __$$TestValueImplCopyWithImpl<$Res>
     Object? text = freezed,
     Object? ids = null,
   }) {
-    return _then(_$TestValueImpl(
+    return _then(_self.copyWith(
       name: freezed == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
       text: freezed == text
-          ? _value.text
+          ? _self.text
           : text // ignore: cast_nullable_to_non_nullable
               as String?,
       ids: null == ids
-          ? _value._ids
+          ? _self.ids
           : ids // ignore: cast_nullable_to_non_nullable
               as List<int>,
     ));
@@ -125,12 +93,11 @@ class __$$TestValueImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$TestValueImpl implements _TestValue {
-  const _$TestValueImpl({this.name, this.text, final List<int> ids = const []})
+class _TestValue implements TestValue {
+  const _TestValue({this.name, this.text, final List<int> ids = const []})
       : _ids = ids;
-
-  factory _$TestValueImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TestValueImplFromJson(json);
+  factory _TestValue.fromJson(Map<String, dynamic> json) =>
+      _$TestValueFromJson(json);
 
   @override
   final String? name;
@@ -145,16 +112,26 @@ class _$TestValueImpl implements _TestValue {
     return EqualUnmodifiableListView(_ids);
   }
 
+  /// Create a copy of TestValue
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'TestValue(name: $name, text: $text, ids: $ids)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$TestValueCopyWith<_TestValue> get copyWith =>
+      __$TestValueCopyWithImpl<_TestValue>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$TestValueToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TestValueImpl &&
+            other is _TestValue &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.text, text) || other.text == text) &&
             const DeepCollectionEquality().equals(other._ids, _ids));
@@ -165,167 +142,76 @@ class _$TestValueImpl implements _TestValue {
   int get hashCode => Object.hash(
       runtimeType, name, text, const DeepCollectionEquality().hash(_ids));
 
-  /// Create a copy of TestValue
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$TestValueImplCopyWith<_$TestValueImpl> get copyWith =>
-      __$$TestValueImplCopyWithImpl<_$TestValueImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TestValueImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _TestValue implements TestValue {
-  const factory _TestValue(
-      {final String? name,
-      final String? text,
-      final List<int> ids}) = _$TestValueImpl;
-
-  factory _TestValue.fromJson(Map<String, dynamic> json) =
-      _$TestValueImpl.fromJson;
-
-  @override
-  String? get name;
-  @override
-  String? get text;
-  @override
-  List<int> get ids;
-
-  /// Create a copy of TestValue
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TestValueImplCopyWith<_$TestValueImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-UserValue _$UserValueFromJson(Map<String, dynamic> json) {
-  return _UserValue.fromJson(json);
-}
-
-/// @nodoc
-mixin _$UserValue {
-  String? get name => throw _privateConstructorUsedError;
-  String? get text => throw _privateConstructorUsedError;
-
-  /// Serializes this UserValue to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of UserValue
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $UserValueCopyWith<UserValue> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $UserValueCopyWith<$Res> {
-  factory $UserValueCopyWith(UserValue value, $Res Function(UserValue) then) =
-      _$UserValueCopyWithImpl<$Res, UserValue>;
-  @useResult
-  $Res call({String? name, String? text});
-}
-
-/// @nodoc
-class _$UserValueCopyWithImpl<$Res, $Val extends UserValue>
-    implements $UserValueCopyWith<$Res> {
-  _$UserValueCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of UserValue
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = freezed,
-    Object? text = freezed,
-  }) {
-    return _then(_value.copyWith(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      text: freezed == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+  String toString() {
+    return 'TestValue(name: $name, text: $text, ids: $ids)';
   }
 }
 
 /// @nodoc
-abstract class _$$UserValueImplCopyWith<$Res>
-    implements $UserValueCopyWith<$Res> {
-  factory _$$UserValueImplCopyWith(
-          _$UserValueImpl value, $Res Function(_$UserValueImpl) then) =
-      __$$UserValueImplCopyWithImpl<$Res>;
+abstract mixin class _$TestValueCopyWith<$Res>
+    implements $TestValueCopyWith<$Res> {
+  factory _$TestValueCopyWith(
+          _TestValue value, $Res Function(_TestValue) _then) =
+      __$TestValueCopyWithImpl;
   @override
   @useResult
-  $Res call({String? name, String? text});
+  $Res call({String? name, String? text, List<int> ids});
 }
 
 /// @nodoc
-class __$$UserValueImplCopyWithImpl<$Res>
-    extends _$UserValueCopyWithImpl<$Res, _$UserValueImpl>
-    implements _$$UserValueImplCopyWith<$Res> {
-  __$$UserValueImplCopyWithImpl(
-      _$UserValueImpl _value, $Res Function(_$UserValueImpl) _then)
-      : super(_value, _then);
+class __$TestValueCopyWithImpl<$Res> implements _$TestValueCopyWith<$Res> {
+  __$TestValueCopyWithImpl(this._self, this._then);
 
-  /// Create a copy of UserValue
+  final _TestValue _self;
+  final $Res Function(_TestValue) _then;
+
+  /// Create a copy of TestValue
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
     Object? name = freezed,
     Object? text = freezed,
+    Object? ids = null,
   }) {
-    return _then(_$UserValueImpl(
+    return _then(_TestValue(
       name: freezed == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
       text: freezed == text
-          ? _value.text
+          ? _self.text
           : text // ignore: cast_nullable_to_non_nullable
               as String?,
+      ids: null == ids
+          ? _self._ids
+          : ids // ignore: cast_nullable_to_non_nullable
+              as List<int>,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$UserValueImpl implements _UserValue {
-  const _$UserValueImpl({this.name, this.text});
+mixin _$UserValue {
+  String? get name;
+  String? get text;
 
-  factory _$UserValueImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserValueImplFromJson(json);
+  /// Create a copy of UserValue
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UserValueCopyWith<UserValue> get copyWith =>
+      _$UserValueCopyWithImpl<UserValue>(this as UserValue, _$identity);
 
-  @override
-  final String? name;
-  @override
-  final String? text;
-
-  @override
-  String toString() {
-    return 'UserValue(name: $name, text: $text)';
-  }
+  /// Serializes this UserValue to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UserValueImpl &&
+            other is UserValue &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.text, text) || other.text == text));
   }
@@ -334,176 +220,154 @@ class _$UserValueImpl implements _UserValue {
   @override
   int get hashCode => Object.hash(runtimeType, name, text);
 
-  /// Create a copy of UserValue
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$UserValueImplCopyWith<_$UserValueImpl> get copyWith =>
-      __$$UserValueImplCopyWithImpl<_$UserValueImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$UserValueImplToJson(
-      this,
-    );
+  String toString() {
+    return 'UserValue(name: $name, text: $text)';
   }
 }
 
-abstract class _UserValue implements UserValue {
-  const factory _UserValue({final String? name, final String? text}) =
-      _$UserValueImpl;
+/// @nodoc
+abstract mixin class $UserValueCopyWith<$Res> {
+  factory $UserValueCopyWith(UserValue value, $Res Function(UserValue) _then) =
+      _$UserValueCopyWithImpl;
+  @useResult
+  $Res call({String? name, String? text});
+}
 
-  factory _UserValue.fromJson(Map<String, dynamic> json) =
-      _$UserValueImpl.fromJson;
+/// @nodoc
+class _$UserValueCopyWithImpl<$Res> implements $UserValueCopyWith<$Res> {
+  _$UserValueCopyWithImpl(this._self, this._then);
 
-  @override
-  String? get name;
-  @override
-  String? get text;
+  final UserValue _self;
+  final $Res Function(UserValue) _then;
 
   /// Create a copy of UserValue
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UserValueImplCopyWith<_$UserValueImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-ShopValue _$ShopValueFromJson(Map<String, dynamic> json) {
-  return _ShopValue.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ShopValue {
-  String? get name => throw _privateConstructorUsedError;
-  String? get text => throw _privateConstructorUsedError;
-  ModelRefBase<UserValue>? get user => throw _privateConstructorUsedError;
-
-  /// Serializes this ShopValue to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ShopValue
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ShopValueCopyWith<ShopValue> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ShopValueCopyWith<$Res> {
-  factory $ShopValueCopyWith(ShopValue value, $Res Function(ShopValue) then) =
-      _$ShopValueCopyWithImpl<$Res, ShopValue>;
-  @useResult
-  $Res call({String? name, String? text, ModelRefBase<UserValue>? user});
-}
-
-/// @nodoc
-class _$ShopValueCopyWithImpl<$Res, $Val extends ShopValue>
-    implements $ShopValueCopyWith<$Res> {
-  _$ShopValueCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ShopValue
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? name = freezed,
     Object? text = freezed,
-    Object? user = freezed,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       name: freezed == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
       text: freezed == text
-          ? _value.text
+          ? _self.text
           : text // ignore: cast_nullable_to_non_nullable
               as String?,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as ModelRefBase<UserValue>?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$ShopValueImplCopyWith<$Res>
-    implements $ShopValueCopyWith<$Res> {
-  factory _$$ShopValueImplCopyWith(
-          _$ShopValueImpl value, $Res Function(_$ShopValueImpl) then) =
-      __$$ShopValueImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String? name, String? text, ModelRefBase<UserValue>? user});
-}
-
-/// @nodoc
-class __$$ShopValueImplCopyWithImpl<$Res>
-    extends _$ShopValueCopyWithImpl<$Res, _$ShopValueImpl>
-    implements _$$ShopValueImplCopyWith<$Res> {
-  __$$ShopValueImplCopyWithImpl(
-      _$ShopValueImpl _value, $Res Function(_$ShopValueImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ShopValue
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = freezed,
-    Object? text = freezed,
-    Object? user = freezed,
-  }) {
-    return _then(_$ShopValueImpl(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      text: freezed == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as String?,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as ModelRefBase<UserValue>?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ShopValueImpl implements _ShopValue {
-  const _$ShopValueImpl({this.name, this.text, this.user});
-
-  factory _$ShopValueImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ShopValueImplFromJson(json);
+class _UserValue implements UserValue {
+  const _UserValue({this.name, this.text});
+  factory _UserValue.fromJson(Map<String, dynamic> json) =>
+      _$UserValueFromJson(json);
 
   @override
   final String? name;
   @override
   final String? text;
+
+  /// Create a copy of UserValue
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  final ModelRefBase<UserValue>? user;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$UserValueCopyWith<_UserValue> get copyWith =>
+      __$UserValueCopyWithImpl<_UserValue>(this, _$identity);
 
   @override
-  String toString() {
-    return 'ShopValue(name: $name, text: $text, user: $user)';
+  Map<String, dynamic> toJson() {
+    return _$UserValueToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShopValueImpl &&
+            other is _UserValue &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, text);
+
+  @override
+  String toString() {
+    return 'UserValue(name: $name, text: $text)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$UserValueCopyWith<$Res>
+    implements $UserValueCopyWith<$Res> {
+  factory _$UserValueCopyWith(
+          _UserValue value, $Res Function(_UserValue) _then) =
+      __$UserValueCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String? name, String? text});
+}
+
+/// @nodoc
+class __$UserValueCopyWithImpl<$Res> implements _$UserValueCopyWith<$Res> {
+  __$UserValueCopyWithImpl(this._self, this._then);
+
+  final _UserValue _self;
+  final $Res Function(_UserValue) _then;
+
+  /// Create a copy of UserValue
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? name = freezed,
+    Object? text = freezed,
+  }) {
+    return _then(_UserValue(
+      name: freezed == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      text: freezed == text
+          ? _self.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$ShopValue {
+  String? get name;
+  String? get text;
+  ModelRef<UserValue> get user;
+
+  /// Create a copy of ShopValue
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ShopValueCopyWith<ShopValue> get copyWith =>
+      _$ShopValueCopyWithImpl<ShopValue>(this as ShopValue, _$identity);
+
+  /// Serializes this ShopValue to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ShopValue &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.user, user) || other.user == user));
@@ -513,42 +377,144 @@ class _$ShopValueImpl implements _ShopValue {
   @override
   int get hashCode => Object.hash(runtimeType, name, text, user);
 
-  /// Create a copy of ShopValue
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$ShopValueImplCopyWith<_$ShopValueImpl> get copyWith =>
-      __$$ShopValueImplCopyWithImpl<_$ShopValueImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ShopValueImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ShopValue(name: $name, text: $text, user: $user)';
   }
 }
 
-abstract class _ShopValue implements ShopValue {
-  const factory _ShopValue(
-      {final String? name,
-      final String? text,
-      final ModelRefBase<UserValue>? user}) = _$ShopValueImpl;
+/// @nodoc
+abstract mixin class $ShopValueCopyWith<$Res> {
+  factory $ShopValueCopyWith(ShopValue value, $Res Function(ShopValue) _then) =
+      _$ShopValueCopyWithImpl;
+  @useResult
+  $Res call({String? name, String? text, ModelRefBase<UserValue>? user});
+}
 
-  factory _ShopValue.fromJson(Map<String, dynamic> json) =
-      _$ShopValueImpl.fromJson;
+/// @nodoc
+class _$ShopValueCopyWithImpl<$Res> implements $ShopValueCopyWith<$Res> {
+  _$ShopValueCopyWithImpl(this._self, this._then);
+
+  final ShopValue _self;
+  final $Res Function(ShopValue) _then;
+
+  /// Create a copy of ShopValue
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? text = freezed,
+    Object? user = freezed,
+  }) {
+    return _then(_self.copyWith(
+      name: freezed == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      text: freezed == text
+          ? _self.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String?,
+      user: freezed == user
+          ? _self.user!
+          : user // ignore: cast_nullable_to_non_nullable
+              as ModelRefBase<UserValue>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _ShopValue implements ShopValue {
+  const _ShopValue({this.name, this.text, this.user});
+  factory _ShopValue.fromJson(Map<String, dynamic> json) =>
+      _$ShopValueFromJson(json);
 
   @override
-  String? get name;
+  final String? name;
   @override
-  String? get text;
+  final String? text;
   @override
-  ModelRefBase<UserValue>? get user;
+  final ModelRefBase<UserValue>? user;
 
   /// Create a copy of ShopValue
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ShopValueImplCopyWith<_$ShopValueImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$ShopValueCopyWith<_ShopValue> get copyWith =>
+      __$ShopValueCopyWithImpl<_ShopValue>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$ShopValueToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ShopValue &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.user, user) || other.user == user));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, text, user);
+
+  @override
+  String toString() {
+    return 'ShopValue(name: $name, text: $text, user: $user)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$ShopValueCopyWith<$Res>
+    implements $ShopValueCopyWith<$Res> {
+  factory _$ShopValueCopyWith(
+          _ShopValue value, $Res Function(_ShopValue) _then) =
+      __$ShopValueCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String? name, String? text, ModelRefBase<UserValue>? user});
+}
+
+/// @nodoc
+class __$ShopValueCopyWithImpl<$Res> implements _$ShopValueCopyWith<$Res> {
+  __$ShopValueCopyWithImpl(this._self, this._then);
+
+  final _ShopValue _self;
+  final $Res Function(_ShopValue) _then;
+
+  /// Create a copy of ShopValue
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? name = freezed,
+    Object? text = freezed,
+    Object? user = freezed,
+  }) {
+    return _then(_ShopValue(
+      name: freezed == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      text: freezed == text
+          ? _self.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String?,
+      user: freezed == user
+          ? _self.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as ModelRefBase<UserValue>?,
+    ));
+  }
+}
+
+// dart format on

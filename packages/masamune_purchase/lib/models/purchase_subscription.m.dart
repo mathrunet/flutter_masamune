@@ -3,7 +3,7 @@
 
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations
 
-part of "purchase_subscription.dart";
+part of 'purchase_subscription.dart';
 
 // **************************************************************************
 // CollectionModelGenerator
@@ -16,6 +16,7 @@ extension on PurchaseSubscriptionModel {
 }
 
 enum _$PurchaseSubscriptionModelKeys {
+  userId,
   expired,
   token,
   platform,
@@ -24,13 +25,12 @@ enum _$PurchaseSubscriptionModelKeys {
   packageName,
   expiredTime,
   orderId,
-  userId,
 }
 
 class _$PurchaseSubscriptionModelDocument
     extends DocumentBase<PurchaseSubscriptionModel>
     with ModelRefMixin<PurchaseSubscriptionModel> {
-  _$PurchaseSubscriptionModelDocument(super.modelQuery);
+  _$PurchaseSubscriptionModelDocument(super.modelQuery, [super._value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
 
@@ -54,7 +54,7 @@ class _$PurchaseSubscriptionModelCollection
     with
         FilterableCollectionMixin<_$PurchaseSubscriptionModelDocument,
             _$_PurchaseSubscriptionModelCollectionQuery> {
-  _$PurchaseSubscriptionModelCollection(super.modelQuery);
+  _$PurchaseSubscriptionModelCollection(super.modelQuery, [super.value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
 
@@ -133,10 +133,14 @@ class _$PurchaseSubscriptionModelDocumentQuery {
     );
   }
 
-  bool hasMatchPath(String path) {
+  RegExp get regExp {
     return RegExp(
-      "plugins/iap/subscription/[^/]+".trimQuery().trimString("/"),
-    ).hasMatch(path.trimQuery().trimString("/"));
+      r"^plugins/iap/subscription/([^/]+)$".trimQuery().trimString("/"),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return regExp.hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -179,10 +183,12 @@ class _$PurchaseSubscriptionModelCollectionQuery {
     );
   }
 
+  RegExp get regExp {
+    return RegExp(r"^plugins/iap/subscription$".trimQuery().trimString("/"));
+  }
+
   bool hasMatchPath(String path) {
-    return RegExp(
-      "plugins/iap/subscription".trimQuery().trimString("/"),
-    ).hasMatch(path.trimQuery().trimString("/"));
+    return regExp.hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -228,6 +234,14 @@ class _$_PurchaseSubscriptionModelCollectionQuery
       get uid =>
           StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
             key: "@uid",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
+
+  StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
+      get userId =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+            key: "userId",
             toQuery: _toQuery,
             modelQuery: modelQuery,
           );
@@ -292,14 +306,6 @@ class _$_PurchaseSubscriptionModelCollectionQuery
       get orderId =>
           StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
             key: "orderId",
-            toQuery: _toQuery,
-            modelQuery: modelQuery,
-          );
-
-  StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
-      get userId =>
-          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
-            key: "userId",
             toQuery: _toQuery,
             modelQuery: modelQuery,
           );

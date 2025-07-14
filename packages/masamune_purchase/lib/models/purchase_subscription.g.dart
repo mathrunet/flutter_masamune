@@ -1,14 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "purchase_subscription.dart";
+part of 'purchase_subscription.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PurchaseSubscriptionModelImpl _$$PurchaseSubscriptionModelImplFromJson(
+_PurchaseSubscriptionModel _$PurchaseSubscriptionModelFromJson(
         Map<String, dynamic> json) =>
-    _$PurchaseSubscriptionModelImpl(
+    _PurchaseSubscriptionModel(
+      userId: json['userId'] as String,
       expired: json['expired'] as bool? ?? true,
       token: json['token'] as String?,
       platform: json['platform'] as String?,
@@ -17,12 +18,12 @@ _$PurchaseSubscriptionModelImpl _$$PurchaseSubscriptionModelImplFromJson(
       packageName: json['packageName'] as String?,
       expiredTime: (json['expiredTime'] as num?)?.toInt(),
       orderId: json['orderId'] as String?,
-      userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$$PurchaseSubscriptionModelImplToJson(
-        _$PurchaseSubscriptionModelImpl instance) =>
+Map<String, dynamic> _$PurchaseSubscriptionModelToJson(
+        _PurchaseSubscriptionModel instance) =>
     <String, dynamic>{
+      'userId': instance.userId,
       'expired': instance.expired,
       'token': instance.token,
       'platform': instance.platform,
@@ -31,5 +32,4 @@ Map<String, dynamic> _$$PurchaseSubscriptionModelImplToJson(
       'packageName': instance.packageName,
       'expiredTime': instance.expiredTime,
       'orderId': instance.orderId,
-      'userId': instance.userId,
     };

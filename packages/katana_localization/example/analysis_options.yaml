@@ -78,6 +78,7 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
+    - "**/*.localize.dart"
   errors:
     prefer_double_quotes: error
     unawaited_futures: error

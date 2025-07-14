@@ -3,7 +3,7 @@
 
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations
 
-part of "local_notification_schedule.dart";
+part of 'local_notification_schedule.dart';
 
 // **************************************************************************
 // CollectionModelGenerator
@@ -27,7 +27,7 @@ enum _$LocalNotificationScheduleModelKeys {
 class _$LocalNotificationScheduleModelDocument
     extends DocumentBase<LocalNotificationScheduleModel>
     with ModelRefMixin<LocalNotificationScheduleModel> {
-  _$LocalNotificationScheduleModelDocument(super.modelQuery);
+  _$LocalNotificationScheduleModelDocument(super.modelQuery, [super._value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
 
@@ -52,7 +52,7 @@ class _$LocalNotificationScheduleModelCollection
     with
         FilterableCollectionMixin<_$LocalNotificationScheduleModelDocument,
             _$_LocalNotificationScheduleModelCollectionQuery> {
-  _$LocalNotificationScheduleModelCollection(super.modelQuery);
+  _$LocalNotificationScheduleModelCollection(super.modelQuery, [super.value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
 
@@ -132,10 +132,14 @@ class _$LocalNotificationScheduleModelDocumentQuery {
     );
   }
 
-  bool hasMatchPath(String path) {
+  RegExp get regExp {
     return RegExp(
-      "plugins/scheduler/schedule/[^/]+".trimQuery().trimString("/"),
-    ).hasMatch(path.trimQuery().trimString("/"));
+      r"^plugins/scheduler/schedule/([^/]+)$".trimQuery().trimString("/"),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return regExp.hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -178,10 +182,12 @@ class _$LocalNotificationScheduleModelCollectionQuery {
     );
   }
 
+  RegExp get regExp {
+    return RegExp(r"^plugins/scheduler/schedule$".trimQuery().trimString("/"));
+  }
+
   bool hasMatchPath(String path) {
-    return RegExp(
-      "plugins/scheduler/schedule".trimQuery().trimString("/"),
-    ).hasMatch(path.trimQuery().trimString("/"));
+    return regExp.hasMatch(path.trimQuery().trimString("/"));
   }
 }
 

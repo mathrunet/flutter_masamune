@@ -3,7 +3,7 @@
 
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations
 
-part of "stripe_user.dart";
+part of 'stripe_user.dart';
 
 // **************************************************************************
 // CollectionModelGenerator
@@ -25,7 +25,7 @@ enum _$StripeUserModelKeys {
 
 class _$StripeUserModelDocument extends DocumentBase<StripeUserModel>
     with ModelRefMixin<StripeUserModel> {
-  _$StripeUserModelDocument(super.modelQuery);
+  _$StripeUserModelDocument(super.modelQuery, [super._value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
 
@@ -47,7 +47,7 @@ class _$StripeUserModelCollection
     with
         FilterableCollectionMixin<_$StripeUserModelDocument,
             _$_StripeUserModelCollectionQuery> {
-  _$StripeUserModelCollection(super.modelQuery);
+  _$StripeUserModelCollection(super.modelQuery, [super.value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
 
@@ -120,10 +120,12 @@ class _$StripeUserModelDocumentQuery {
     );
   }
 
+  RegExp get regExp {
+    return RegExp(r"^plugins/stripe/user/([^/]+)$".trimQuery().trimString("/"));
+  }
+
   bool hasMatchPath(String path) {
-    return RegExp(
-      "plugins/stripe/user/[^/]+".trimQuery().trimString("/"),
-    ).hasMatch(path.trimQuery().trimString("/"));
+    return regExp.hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -164,10 +166,12 @@ class _$StripeUserModelCollectionQuery {
     );
   }
 
+  RegExp get regExp {
+    return RegExp(r"^plugins/stripe/user$".trimQuery().trimString("/"));
+  }
+
   bool hasMatchPath(String path) {
-    return RegExp(
-      "plugins/stripe/user".trimQuery().trimString("/"),
-    ).hasMatch(path.trimQuery().trimString("/"));
+    return regExp.hasMatch(path.trimQuery().trimString("/"));
   }
 }
 

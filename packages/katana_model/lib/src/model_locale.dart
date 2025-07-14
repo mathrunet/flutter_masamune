@@ -575,6 +575,35 @@ class ModelLocale extends ModelFieldValue<Locale>
     );
   }
 
+  /// Define a model [Locale] that stores the locale.
+  ///
+  /// The base value is given as [value]. If not given, it is set as `en_US`.
+  ///
+  /// ロケールを保存する[Locale]をモデルとして定義します。
+  ///
+  /// ベースの値を[value]として与えます。与えられなかった場合`en_US`としてセットされます。
+  const factory ModelLocale.parse([String? value]) = _ModelLocaleWithParse;
+
+  /// Define a model [Locale] that stores the locale.
+  ///
+  /// The base value is given as [value]. If not given, it is set as `en_US`.
+  ///
+  /// ロケールを保存する[Locale]をモデルとして定義します。
+  ///
+  /// ベースの値を[value]として与えます。与えられなかった場合`en_US`としてセットされます。
+  static ModelLocale? tryParse(String? value) {
+    if (value == null) {
+      return null;
+    }
+    final parts = value.replaceAll("-", "_").split("_");
+    if (parts.isEmpty) {
+      return null;
+    }
+    final language = parts.first;
+    final country = parts.length > 1 ? parts.last : null;
+    return ModelLocale.fromCode(language, country);
+  }
+
   const ModelLocale._([
     Locale? value,
     ModelFieldValueSource source = ModelFieldValueSource.user,
@@ -647,6 +676,26 @@ class _ModelLocaleWithCode extends _ModelLocale {
     return Locale(
       language,
       country,
+    );
+  }
+}
+
+@immutable
+class _ModelLocaleWithParse extends _ModelLocale {
+  const _ModelLocaleWithParse([this._locale]) : super();
+
+  final String? _locale;
+
+  @override
+  Locale? get _value {
+    if (_locale == null) {
+      return null;
+    }
+    final parts = _locale!.replaceAll("-", "_").split("_");
+
+    return Locale(
+      parts.first,
+      parts.length > 1 ? parts.last : null,
     );
   }
 }

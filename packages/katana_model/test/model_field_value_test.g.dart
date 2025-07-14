@@ -1,13 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "model_field_value_test.dart";
+part of 'model_field_value_test.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TestValueImpl _$$TestValueImplFromJson(Map<String, dynamic> json) =>
-    _$TestValueImpl(
+_TestValue _$TestValueFromJson(Map<String, dynamic> json) => _TestValue(
       dateTime: json['dateTime'] == null
           ? const ModelTimestamp()
           : ModelTimestamp.fromJson(json['dateTime'] as Map<String, dynamic>),
@@ -78,7 +77,7 @@ _$TestValueImpl _$$TestValueImplFromJson(Map<String, dynamic> json) =>
           const [],
     );
 
-Map<String, dynamic> _$$TestValueImplToJson(_$TestValueImpl instance) =>
+Map<String, dynamic> _$TestValueToJson(_TestValue instance) =>
     <String, dynamic>{
       'dateTime': instance.dateTime,
       'date': instance.date,

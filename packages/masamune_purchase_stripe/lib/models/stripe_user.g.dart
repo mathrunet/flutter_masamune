@@ -1,14 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "stripe_user.dart";
+part of 'stripe_user.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$StripeUserModelImpl _$$StripeUserModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$StripeUserModelImpl(
+_StripeUserModel _$StripeUserModelFromJson(Map<String, dynamic> json) =>
+    _StripeUserModel(
       userId: json['user'] as String,
       accountId: json['account'] as String?,
       customerId: json['customer'] as String?,
@@ -16,8 +15,7 @@ _$StripeUserModelImpl _$$StripeUserModelImplFromJson(
       capablity: json['capability'] as Map<String, dynamic>? ?? const {},
     );
 
-Map<String, dynamic> _$$StripeUserModelImplToJson(
-        _$StripeUserModelImpl instance) =>
+Map<String, dynamic> _$StripeUserModelToJson(_StripeUserModel instance) =>
     <String, dynamic>{
       'user': instance.userId,
       'account': instance.accountId,

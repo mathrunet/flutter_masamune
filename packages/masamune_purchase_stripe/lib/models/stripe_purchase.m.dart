@@ -3,7 +3,7 @@
 
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations
 
-part of "stripe_purchase.dart";
+part of 'stripe_purchase.dart';
 
 // **************************************************************************
 // CollectionModelGenerator
@@ -17,6 +17,13 @@ extension on StripePurchaseModel {
 
 enum _$StripePurchaseModelKeys {
   userId,
+  orderId,
+  purchaseId,
+  paymentMethodId,
+  customerId,
+  clientSecret,
+  createdTime,
+  updatedTime,
   confirm,
   verified,
   captured,
@@ -24,19 +31,12 @@ enum _$StripePurchaseModelKeys {
   canceled,
   error,
   refund,
-  orderId,
-  purchaseId,
-  paymentMethodId,
-  customerId,
   amount,
   application,
   applicationFeeAmount,
   transferAmount,
   transferDistination,
   currency,
-  clientSecret,
-  createdTime,
-  updatedTime,
   emailFrom,
   emailTo,
   emailTitle,
@@ -47,7 +47,7 @@ enum _$StripePurchaseModelKeys {
 
 class _$StripePurchaseModelDocument extends DocumentBase<StripePurchaseModel>
     with ModelRefMixin<StripePurchaseModel> {
-  _$StripePurchaseModelDocument(super.modelQuery);
+  _$StripePurchaseModelDocument(super.modelQuery, [super._value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
 
@@ -70,7 +70,7 @@ class _$StripePurchaseModelCollection
     with
         FilterableCollectionMixin<_$StripePurchaseModelDocument,
             _$_StripePurchaseModelCollectionQuery> {
-  _$StripePurchaseModelCollection(super.modelQuery);
+  _$StripePurchaseModelCollection(super.modelQuery, [super.value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
 
@@ -155,10 +155,16 @@ class _$StripePurchaseModelDocumentQuery {
     );
   }
 
-  bool hasMatchPath(String path) {
+  RegExp get regExp {
     return RegExp(
-      "plugins/stripe/user/[^/]+/purchase/[^/]+".trimQuery().trimString("/"),
-    ).hasMatch(path.trimQuery().trimString("/"));
+      r"^plugins/stripe/user/([^/]+)/purchase/([^/]+)$".trimQuery().trimString(
+            "/",
+          ),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return regExp.hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -201,10 +207,14 @@ class _$StripePurchaseModelCollectionQuery {
     );
   }
 
-  bool hasMatchPath(String path) {
+  RegExp get regExp {
     return RegExp(
-      "plugins/stripe/user/[^/]+/purchase".trimQuery().trimString("/"),
-    ).hasMatch(path.trimQuery().trimString("/"));
+      r"^plugins/stripe/user/([^/]+)/purchase$".trimQuery().trimString("/"),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return regExp.hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -255,6 +265,61 @@ class _$_StripePurchaseModelCollectionQuery
         toQuery: _toQuery,
         modelQuery: modelQuery,
       );
+
+  StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery> get orderId =>
+      StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
+        key: "orderId",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
+
+  StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
+      get purchaseId =>
+          StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
+            key: "purchaseId",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
+
+  StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
+      get paymentMethodId =>
+          StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
+            key: "paymentMethodId",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
+
+  StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
+      get customerId =>
+          StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
+            key: "customer",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
+
+  StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
+      get clientSecret =>
+          StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
+            key: "clientSecret",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
+
+  ModelTimestampModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
+      get createdTime => ModelTimestampModelQuerySelector<
+              _$_StripePurchaseModelCollectionQuery>(
+            key: "createdTime",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
+
+  ModelTimestampModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
+      get updatedTime => ModelTimestampModelQuerySelector<
+              _$_StripePurchaseModelCollectionQuery>(
+            key: "updatedTime",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   BooleanModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
       get confirm =>
@@ -310,37 +375,6 @@ class _$_StripePurchaseModelCollectionQuery
         modelQuery: modelQuery,
       );
 
-  StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery> get orderId =>
-      StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
-        key: "orderId",
-        toQuery: _toQuery,
-        modelQuery: modelQuery,
-      );
-
-  StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
-      get purchaseId =>
-          StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
-            key: "purchaseId",
-            toQuery: _toQuery,
-            modelQuery: modelQuery,
-          );
-
-  StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
-      get paymentMethodId =>
-          StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
-            key: "paymentMethodId",
-            toQuery: _toQuery,
-            modelQuery: modelQuery,
-          );
-
-  StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
-      get customerId =>
-          StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
-            key: "customer",
-            toQuery: _toQuery,
-            modelQuery: modelQuery,
-          );
-
   NumModelQuerySelector<_$_StripePurchaseModelCollectionQuery> get amount =>
       NumModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
         key: "amount",
@@ -384,30 +418,6 @@ class _$_StripePurchaseModelCollectionQuery
       get currency =>
           StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
             key: "currency",
-            toQuery: _toQuery,
-            modelQuery: modelQuery,
-          );
-
-  StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
-      get clientSecret =>
-          StringModelQuerySelector<_$_StripePurchaseModelCollectionQuery>(
-            key: "clientSecret",
-            toQuery: _toQuery,
-            modelQuery: modelQuery,
-          );
-
-  ModelTimestampModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
-      get createdTime => ModelTimestampModelQuerySelector<
-              _$_StripePurchaseModelCollectionQuery>(
-            key: "createdTime",
-            toQuery: _toQuery,
-            modelQuery: modelQuery,
-          );
-
-  ModelTimestampModelQuerySelector<_$_StripePurchaseModelCollectionQuery>
-      get updatedTime => ModelTimestampModelQuerySelector<
-              _$_StripePurchaseModelCollectionQuery>(
-            key: "updatedTime",
             toQuery: _toQuery,
             modelQuery: modelQuery,
           );

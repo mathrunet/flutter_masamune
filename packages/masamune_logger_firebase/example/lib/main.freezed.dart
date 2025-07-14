@@ -1,90 +1,67 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of "main.dart";
+part of 'main.dart';
 
 // **************************************************************************
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-AnalyticsValue _$AnalyticsValueFromJson(Map<String, dynamic> json) {
-  return _AnalyticsValue.fromJson(json);
-}
 
 /// @nodoc
 mixin _$AnalyticsValue {
-  String get userId => throw _privateConstructorUsedError;
-
-  /// Serializes this AnalyticsValue to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get userId;
 
   /// Create a copy of AnalyticsValue
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AnalyticsValueCopyWith<AnalyticsValue> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AnalyticsValueCopyWith<$Res> {
-  factory $AnalyticsValueCopyWith(
-          AnalyticsValue value, $Res Function(AnalyticsValue) then) =
-      _$AnalyticsValueCopyWithImpl<$Res, AnalyticsValue>;
-  @useResult
-  $Res call({String userId});
-}
-
-/// @nodoc
-class _$AnalyticsValueCopyWithImpl<$Res, $Val extends AnalyticsValue>
-    implements $AnalyticsValueCopyWith<$Res> {
-  _$AnalyticsValueCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of AnalyticsValue
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $AnalyticsValueCopyWith<AnalyticsValue> get copyWith =>
+      _$AnalyticsValueCopyWithImpl<AnalyticsValue>(
+          this as AnalyticsValue, _$identity);
+
+  /// Serializes this AnalyticsValue to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? userId = null,
-  }) {
-    return _then(_value.copyWith(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AnalyticsValue &&
+            (identical(other.userId, userId) || other.userId == userId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, userId);
+
+  @override
+  String toString() {
+    return 'AnalyticsValue(userId: $userId)';
   }
 }
 
 /// @nodoc
-abstract class _$$AnalyticsValueImplCopyWith<$Res>
-    implements $AnalyticsValueCopyWith<$Res> {
-  factory _$$AnalyticsValueImplCopyWith(_$AnalyticsValueImpl value,
-          $Res Function(_$AnalyticsValueImpl) then) =
-      __$$AnalyticsValueImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $AnalyticsValueCopyWith<$Res> {
+  factory $AnalyticsValueCopyWith(
+          AnalyticsValue value, $Res Function(AnalyticsValue) _then) =
+      _$AnalyticsValueCopyWithImpl;
   @useResult
   $Res call({String userId});
 }
 
 /// @nodoc
-class __$$AnalyticsValueImplCopyWithImpl<$Res>
-    extends _$AnalyticsValueCopyWithImpl<$Res, _$AnalyticsValueImpl>
-    implements _$$AnalyticsValueImplCopyWith<$Res> {
-  __$$AnalyticsValueImplCopyWithImpl(
-      _$AnalyticsValueImpl _value, $Res Function(_$AnalyticsValueImpl) _then)
-      : super(_value, _then);
+class _$AnalyticsValueCopyWithImpl<$Res>
+    implements $AnalyticsValueCopyWith<$Res> {
+  _$AnalyticsValueCopyWithImpl(this._self, this._then);
+
+  final AnalyticsValue _self;
+  final $Res Function(AnalyticsValue) _then;
 
   /// Create a copy of AnalyticsValue
   /// with the given fields replaced by the non-null parameter values.
@@ -93,9 +70,9 @@ class __$$AnalyticsValueImplCopyWithImpl<$Res>
   $Res call({
     Object? userId = null,
   }) {
-    return _then(_$AnalyticsValueImpl(
+    return _then(_self.copyWith(
       userId: null == userId
-          ? _value.userId
+          ? _self.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -104,25 +81,34 @@ class __$$AnalyticsValueImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$AnalyticsValueImpl extends _AnalyticsValue {
-  const _$AnalyticsValueImpl({required this.userId}) : super._();
-
-  factory _$AnalyticsValueImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AnalyticsValueImplFromJson(json);
+class _AnalyticsValue extends AnalyticsValue {
+  const _AnalyticsValue({required this.userId}) : super._();
+  factory _AnalyticsValue.fromJson(Map<String, dynamic> json) =>
+      _$AnalyticsValueFromJson(json);
 
   @override
   final String userId;
 
+  /// Create a copy of AnalyticsValue
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'AnalyticsValue(userId: $userId)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$AnalyticsValueCopyWith<_AnalyticsValue> get copyWith =>
+      __$AnalyticsValueCopyWithImpl<_AnalyticsValue>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$AnalyticsValueToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AnalyticsValueImpl &&
+            other is _AnalyticsValue &&
             (identical(other.userId, userId) || other.userId == userId));
   }
 
@@ -130,38 +116,45 @@ class _$AnalyticsValueImpl extends _AnalyticsValue {
   @override
   int get hashCode => Object.hash(runtimeType, userId);
 
-  /// Create a copy of AnalyticsValue
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$AnalyticsValueImplCopyWith<_$AnalyticsValueImpl> get copyWith =>
-      __$$AnalyticsValueImplCopyWithImpl<_$AnalyticsValueImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AnalyticsValueImplToJson(
-      this,
-    );
+  String toString() {
+    return 'AnalyticsValue(userId: $userId)';
   }
 }
 
-abstract class _AnalyticsValue extends AnalyticsValue {
-  const factory _AnalyticsValue({required final String userId}) =
-      _$AnalyticsValueImpl;
-  const _AnalyticsValue._() : super._();
-
-  factory _AnalyticsValue.fromJson(Map<String, dynamic> json) =
-      _$AnalyticsValueImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$AnalyticsValueCopyWith<$Res>
+    implements $AnalyticsValueCopyWith<$Res> {
+  factory _$AnalyticsValueCopyWith(
+          _AnalyticsValue value, $Res Function(_AnalyticsValue) _then) =
+      __$AnalyticsValueCopyWithImpl;
   @override
-  String get userId;
+  @useResult
+  $Res call({String userId});
+}
+
+/// @nodoc
+class __$AnalyticsValueCopyWithImpl<$Res>
+    implements _$AnalyticsValueCopyWith<$Res> {
+  __$AnalyticsValueCopyWithImpl(this._self, this._then);
+
+  final _AnalyticsValue _self;
+  final $Res Function(_AnalyticsValue) _then;
 
   /// Create a copy of AnalyticsValue
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AnalyticsValueImplCopyWith<_$AnalyticsValueImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? userId = null,
+  }) {
+    return _then(_AnalyticsValue(
+      userId: null == userId
+          ? _self.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
+
+// dart format on

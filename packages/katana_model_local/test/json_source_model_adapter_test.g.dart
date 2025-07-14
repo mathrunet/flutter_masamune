@@ -1,13 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "json_source_model_adapter_test.dart";
+part of 'json_source_model_adapter_test.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TestValueImpl _$$TestValueImplFromJson(Map<String, dynamic> json) =>
-    _$TestValueImpl(
+_TestValue _$TestValueFromJson(Map<String, dynamic> json) => _TestValue(
       id: json['id'] as String,
       name: json['name'] as String?,
       age: (json['age'] as num?)?.toInt(),
@@ -15,7 +14,7 @@ _$TestValueImpl _$$TestValueImplFromJson(Map<String, dynamic> json) =>
       flag: json['flag'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$TestValueImplToJson(_$TestValueImpl instance) =>
+Map<String, dynamic> _$TestValueToJson(_TestValue instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

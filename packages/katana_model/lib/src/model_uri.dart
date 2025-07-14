@@ -27,6 +27,16 @@ class ModelImageUri extends ModelFieldValue<Uri>
   /// 必ず画像URIとしての定義を行いたい場合は[ModelImageUri]を利用してください。
   const factory ModelImageUri([Uri? value]) = _ModelImageUri;
 
+  /// Used to disguise the retrieval of data from the server.
+  ///
+  /// Use for testing purposes.
+  ///
+  /// サーバーからのデータの取得に偽装するために利用します。
+  ///
+  /// テスト用途で用いてください。
+  const factory ModelImageUri.fromServer([Uri? value]) =
+      _ModelImageUri.fromServer;
+
   /// Define the field as an image URI.
   ///
   /// The base value is given as [value]. An empty [Uri] is defined.
@@ -38,17 +48,29 @@ class ModelImageUri extends ModelFieldValue<Uri>
   /// ベースの値を[value]として与えます。空の[Uri]が定義されます。
   ///
   /// 必ず画像URIとしての定義を行いたい場合は[ModelImageUri]を利用してください。
-  const factory ModelImageUri.parse([String? value]) = _ModelImageUriWithUri;
+  const factory ModelImageUri.parse([String? value]) = _ModelImageUriWithParse;
 
-  /// Used to disguise the retrieval of data from the server.
+  /// Define the field as an image URI.
   ///
-  /// Use for testing purposes.
+  /// The base value is given as [value]. An empty [Uri] is defined.
   ///
-  /// サーバーからのデータの取得に偽装するために利用します。
+  /// Use [ModelImageUri] if you want to be sure to define the image as an image URI.
   ///
-  /// テスト用途で用いてください。
-  const factory ModelImageUri.fromServer([Uri? value]) =
-      _ModelImageUri.fromServer;
+  /// フィールドを画像URIとして定義します。
+  ///
+  /// ベースの値を[value]として与えます。空の[Uri]が定義されます。
+  ///
+  /// 必ず画像URIとしての定義を行いたい場合は[ModelImageUri]を利用してください。
+  static ModelImageUri? tryParse([String? value]) {
+    if (value == null) {
+      return null;
+    }
+    final uri = Uri.tryParse(value);
+    if (uri == null) {
+      return null;
+    }
+    return ModelImageUri(uri);
+  }
 
   /// Convert from [json] map to [ModelImageUri].
   ///
@@ -112,8 +134,8 @@ class ModelImageUri extends ModelFieldValue<Uri>
 }
 
 @immutable
-class _ModelImageUriWithUri extends _ModelImageUri {
-  const _ModelImageUriWithUri([this._path]) : super();
+class _ModelImageUriWithParse extends _ModelImageUri {
+  const _ModelImageUriWithParse([this._path]) : super();
 
   final String? _path;
 
@@ -301,6 +323,16 @@ class ModelVideoUri extends ModelFieldValue<Uri>
   /// 必ず映像URIとしての定義を行いたい場合は[ModelVideoUri]を利用してください。
   const factory ModelVideoUri([Uri? value]) = _ModelVideoUri;
 
+  /// Used to disguise the retrieval of data from the server.
+  ///
+  /// Use for testing purposes.
+  ///
+  /// サーバーからのデータの取得に偽装するために利用します。
+  ///
+  /// テスト用途で用いてください。
+  const factory ModelVideoUri.fromServer([Uri? value]) =
+      _ModelVideoUri.fromServer;
+
   /// Define the field as a video URI.
   ///
   /// The base value is given as [value]. An empty [Uri] is defined.
@@ -312,17 +344,29 @@ class ModelVideoUri extends ModelFieldValue<Uri>
   /// ベースの値を[value]として与えます。空の[Uri]が定義されます。
   ///
   /// 必ず映像URIとしての定義を行いたい場合は[ModelVideoUri]を利用してください。
-  const factory ModelVideoUri.parse([String? value]) = _ModelVideoUriWithUri;
+  const factory ModelVideoUri.parse([String? value]) = _ModelVideoUriWithParse;
 
-  /// Used to disguise the retrieval of data from the server.
+  /// Define the field as a video URI.
   ///
-  /// Use for testing purposes.
+  /// The base value is given as [value]. An empty [Uri] is defined.
   ///
-  /// サーバーからのデータの取得に偽装するために利用します。
+  /// Use [ModelVideoUri] if you want to be sure to define it as a video URI.
   ///
-  /// テスト用途で用いてください。
-  const factory ModelVideoUri.fromServer([Uri? value]) =
-      _ModelVideoUri.fromServer;
+  /// フィールドを映像URIとして定義します。
+  ///
+  /// ベースの値を[value]として与えます。空の[Uri]が定義されます。
+  ///
+  /// 必ず映像URIとしての定義を行いたい場合は[ModelVideoUri]を利用してください。
+  static ModelVideoUri? tryParse([String? value]) {
+    if (value == null) {
+      return null;
+    }
+    final uri = Uri.tryParse(value);
+    if (uri == null) {
+      return null;
+    }
+    return ModelVideoUri(uri);
+  }
 
   /// Convert from [json] map to [ModelVideoUri].
   ///
@@ -386,8 +430,8 @@ class ModelVideoUri extends ModelFieldValue<Uri>
 }
 
 @immutable
-class _ModelVideoUriWithUri extends _ModelVideoUri {
-  const _ModelVideoUriWithUri([this._path]) : super();
+class _ModelVideoUriWithParse extends _ModelVideoUri {
+  const _ModelVideoUriWithParse([this._path]) : super();
 
   final String? _path;
 
@@ -574,6 +618,15 @@ class ModelUri extends ModelFieldValue<Uri> implements Comparable<ModelUri> {
   /// 必ずURIとしての定義を行いたい場合は[ModelUri]を利用してください。
   const factory ModelUri([Uri? value]) = _ModelUri;
 
+  /// Used to disguise the retrieval of data from the server.
+  ///
+  /// Use for testing purposes.
+  ///
+  /// サーバーからのデータの取得に偽装するために利用します。
+  ///
+  /// テスト用途で用いてください。
+  const factory ModelUri.fromServer([Uri? value]) = _ModelUri.fromServer;
+
   /// Define the field as a URI.
   ///
   /// The base value is given as [value]. An empty [Uri] is defined.
@@ -585,16 +638,29 @@ class ModelUri extends ModelFieldValue<Uri> implements Comparable<ModelUri> {
   /// ベースの値を[value]として与えます。空の[Uri]が定義されます。
   ///
   /// 必ずURIとしての定義を行いたい場合は[ModelUri]を利用してください。
-  const factory ModelUri.parse([String? value]) = _ModelUriWithUri;
+  const factory ModelUri.parse([String? value]) = _ModelUriWithParse;
 
-  /// Used to disguise the retrieval of data from the server.
+  /// Define the field as a URI.
   ///
-  /// Use for testing purposes.
+  /// The base value is given as [value]. An empty [Uri] is defined.
   ///
-  /// サーバーからのデータの取得に偽装するために利用します。
+  /// Use [ModelUri] if you want to be sure to define it as a URI.
   ///
-  /// テスト用途で用いてください。
-  const factory ModelUri.fromServer([Uri? value]) = _ModelUri.fromServer;
+  /// フィールドをURIとして定義します。
+  ///
+  /// ベースの値を[value]として与えます。空の[Uri]が定義されます。
+  ///
+  /// 必ずURIとしての定義を行いたい場合は[ModelUri]を利用してください。
+  static ModelUri? tryParse([String? value]) {
+    if (value == null) {
+      return null;
+    }
+    final uri = Uri.tryParse(value);
+    if (uri == null) {
+      return null;
+    }
+    return ModelUri(uri);
+  }
 
   /// Convert from [json] map to [ModelUri].
   ///
@@ -673,8 +739,8 @@ class ModelUri extends ModelFieldValue<Uri> implements Comparable<ModelUri> {
 }
 
 @immutable
-class _ModelUriWithUri extends _ModelUri {
-  const _ModelUriWithUri([this._path]) : super();
+class _ModelUriWithParse extends _ModelUri {
+  const _ModelUriWithParse([this._path]) : super();
 
   final String? _path;
 

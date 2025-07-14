@@ -3,7 +3,7 @@
 
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations
 
-part of "stripe_payment.dart";
+part of 'stripe_payment.dart';
 
 // **************************************************************************
 // CollectionModelGenerator
@@ -18,16 +18,16 @@ extension on StripePaymentModel {
 enum _$StripePaymentModelKeys {
   paymentId,
   type,
-  expMonth,
-  expYear,
   brand,
   numberLast,
+  expMonth,
+  expYear,
   isDefault,
 }
 
 class _$StripePaymentModelDocument extends DocumentBase<StripePaymentModel>
     with ModelRefMixin<StripePaymentModel> {
-  _$StripePaymentModelDocument(super.modelQuery);
+  _$StripePaymentModelDocument(super.modelQuery, [super._value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
 
@@ -50,7 +50,7 @@ class _$StripePaymentModelCollection
     with
         FilterableCollectionMixin<_$StripePaymentModelDocument,
             _$_StripePaymentModelCollectionQuery> {
-  _$StripePaymentModelCollection(super.modelQuery);
+  _$StripePaymentModelCollection(super.modelQuery, [super.value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
 
@@ -135,10 +135,16 @@ class _$StripePaymentModelDocumentQuery {
     );
   }
 
-  bool hasMatchPath(String path) {
+  RegExp get regExp {
     return RegExp(
-      "plugins/stripe/user/[^/]+/payment/[^/]+".trimQuery().trimString("/"),
-    ).hasMatch(path.trimQuery().trimString("/"));
+      r"^plugins/stripe/user/([^/]+)/payment/([^/]+)$".trimQuery().trimString(
+            "/",
+          ),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return regExp.hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -181,10 +187,14 @@ class _$StripePaymentModelCollectionQuery {
     );
   }
 
-  bool hasMatchPath(String path) {
+  RegExp get regExp {
     return RegExp(
-      "plugins/stripe/user/[^/]+/payment".trimQuery().trimString("/"),
-    ).hasMatch(path.trimQuery().trimString("/"));
+      r"^plugins/stripe/user/([^/]+)/payment$".trimQuery().trimString("/"),
+    );
+  }
+
+  bool hasMatchPath(String path) {
+    return regExp.hasMatch(path.trimQuery().trimString("/"));
   }
 }
 
@@ -244,20 +254,6 @@ class _$_StripePaymentModelCollectionQuery
         modelQuery: modelQuery,
       );
 
-  NumModelQuerySelector<_$_StripePaymentModelCollectionQuery> get expMonth =>
-      NumModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
-        key: "expMonth",
-        toQuery: _toQuery,
-        modelQuery: modelQuery,
-      );
-
-  NumModelQuerySelector<_$_StripePaymentModelCollectionQuery> get expYear =>
-      NumModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
-        key: "expYear",
-        toQuery: _toQuery,
-        modelQuery: modelQuery,
-      );
-
   StringModelQuerySelector<_$_StripePaymentModelCollectionQuery> get brand =>
       StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
         key: "brand",
@@ -272,6 +268,20 @@ class _$_StripePaymentModelCollectionQuery
             toQuery: _toQuery,
             modelQuery: modelQuery,
           );
+
+  NumModelQuerySelector<_$_StripePaymentModelCollectionQuery> get expMonth =>
+      NumModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
+        key: "expMonth",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
+
+  NumModelQuerySelector<_$_StripePaymentModelCollectionQuery> get expYear =>
+      NumModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
+        key: "expYear",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
 
   BooleanModelQuerySelector<_$_StripePaymentModelCollectionQuery>
       get isDefault =>

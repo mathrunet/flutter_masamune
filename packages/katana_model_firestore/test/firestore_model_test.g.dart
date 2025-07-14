@@ -1,13 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "firestore_model_test.dart";
+part of 'firestore_model_test.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TestValueImpl _$$TestValueImplFromJson(Map<String, dynamic> json) =>
-    _$TestValueImpl(
+_TestValue _$TestValueFromJson(Map<String, dynamic> json) => _TestValue(
       name: json['name'] as String?,
       text: json['text'] as String?,
       ids: (json['ids'] as List<dynamic>?)
@@ -16,7 +15,7 @@ _$TestValueImpl _$$TestValueImplFromJson(Map<String, dynamic> json) =>
           const [],
     );
 
-Map<String, dynamic> _$$TestValueImplToJson(_$TestValueImpl instance) =>
+Map<String, dynamic> _$TestValueToJson(_TestValue instance) =>
     <String, dynamic>{
       'name': instance.name,
       'text': instance.text,
