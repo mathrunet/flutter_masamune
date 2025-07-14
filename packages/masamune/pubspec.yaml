@@ -21,14 +21,12 @@ dependencies:
   katana_scoped: ^3.0.3
   katana_model: ^3.1.4
   katana_model_local: ^3.1.4
-  katana_listenables: ^3.0.5
   katana_router: ^3.1.1
   katana_theme: ^3.0.5
   katana_localization: ^3.0.6
   katana_form: ^3.1.5
   katana_auth: ^3.0.3
   katana_ui: ^3.0.4
-  katana_prefs: ^3.0.5
   katana_storage: ^3.0.3
   katana_functions: ^3.0.3
   masamune_annotation: ^3.0.5

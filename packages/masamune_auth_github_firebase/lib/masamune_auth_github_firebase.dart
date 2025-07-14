@@ -18,6 +18,7 @@ import "package:masamune/masamune.dart";
 
 import "package:firebase_auth/firebase_auth.dart" as firebase_auth
     show AuthProvider;
+import "package:shared_preferences/shared_preferences.dart";
 
 part "actions/github_auth_action.dart";
 part "adapter/firebase_github_auth_masamune_adapter.dart";

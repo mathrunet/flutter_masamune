@@ -17,6 +17,7 @@ import "package:background_locator_2/settings/ios_settings.dart";
 import "package:masamune/masamune.dart";
 import "package:path_provider/path_provider.dart";
 import "package:permission_handler/permission_handler.dart";
+import "package:shared_preferences/shared_preferences.dart";
 import "package:universal_platform/universal_platform.dart";
 
 // Project imports:

@@ -23,10 +23,6 @@ dependencies:
   katana_localization_annotation: ^3.1.1
   katana_router_builder: ^3.0.5
   katana_router_annotation: ^3.0.3
-  katana_listenables_annotation: ^3.0.3
-  katana_listenables_builder: ^3.0.5
-  katana_prefs_annotation: ^3.0.3
-  katana_prefs_builder: ^3.0.5
   masamune_annotation: ^3.0.5
 dev_dependencies:
   test: ^1.25.8
