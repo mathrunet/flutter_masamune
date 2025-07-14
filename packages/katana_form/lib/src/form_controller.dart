@@ -192,42 +192,6 @@ class FormController<TValue> extends ValueNotifier<TValue> {
   /// [Form]に渡す[GlobalKey]。
   final GlobalKey<FormState> key = GlobalKey<FormState>();
 
-  /// Validation is performed on all forms placed under [Form] to which [key] is passed, and if there are no problems, `onSaved` is executed.
-  ///
-  /// If the validation is problematic, `false` is returned.
-  ///
-  /// The `onSaved` is only executed if `true` is returned.
-  ///
-  /// If [autoUnfocus] is `true`, the focus on the form is released.
-  ///
-  /// [key]を渡した[Form]の配下に置かれているすべてのフォームでバリデーションを行ない、問題なければ`onSaved`が実行されます。
-  ///
-  /// バリデーションが問題ある場合は`false`が返されます。
-  ///
-  /// `onSaved`が実行されるのは`true`が返される場合のみです。
-  ///
-  /// [autoUnfocus]が`true`の場合、フォームにあるフォーカスが解除されます。
-  @Deprecated(
-    "Use validate instead. This method will be removed in the next major version.",
-  )
-  bool validateAndSave({bool autoUnfocus = true}) {
-    if (autoUnfocus) {
-      FocusManager.instance.primaryFocus?.unfocus();
-    }
-    if (key.currentState == null) {
-      if (!_validate()) {
-        return false;
-      }
-      _save();
-      return true;
-    }
-    if (!key.currentState!.validate()) {
-      return false;
-    }
-    key.currentState!.save();
-    return true;
-  }
-
   /// Validate all forms placed under [Form] to which [key] is passed, and if there are no problems, `onSaved` is executed and the value is returned.
   ///
   /// If the validation is problematic, `null` is returned.

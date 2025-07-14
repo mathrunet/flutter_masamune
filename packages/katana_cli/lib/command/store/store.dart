@@ -10,7 +10,6 @@ import "package:image/image.dart";
 import "package:katana_cli/katana_cli.dart";
 
 part "screenshot.dart";
-part "android_token.dart";
 part "build.dart";
 
 /// Configure settings for the store, including creating screenshots.
