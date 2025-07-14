@@ -3,6 +3,8 @@
 // Package imports:
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
+
+// Project imports:
 import "package:masamune_model_github/models/github_label.dart";
 import "package:masamune_model_github/models/github_milestone.dart";
 import "package:masamune_model_github/models/github_pull_request_head.dart";

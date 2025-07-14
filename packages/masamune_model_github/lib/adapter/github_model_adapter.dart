@@ -340,8 +340,9 @@ extension on PullRequestComment {
       originalPosition: originalPosition,
       commitId: commitId,
       originalCommitId: originalCommitId,
-      links:
-          ModelUri.tryParse(links?.html?.toString() ?? links?.git?.toString() ?? links?.self?.toString()),
+      links: ModelUri.tryParse(links?.html?.toString() ??
+          links?.git?.toString() ??
+          links?.self?.toString()),
     );
   }
 }
