@@ -11,7 +11,7 @@ class GithubAuthAction extends AuthAction {
 
   @override
   Future<void> onSignOut() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
+    final sharedPreferences = SharedPreferencesAsync();
     await sharedPreferences.remove(_kGitHubAccessTokenKey.toSHA1());
   }
 }

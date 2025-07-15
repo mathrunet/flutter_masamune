@@ -19,7 +19,7 @@ dependencies:
   permission_handler: ^11.0.0
   masamune_location_platform_interface: ^3.0.11
   universal_platform: ^1.0.0+1
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   test: ^1.24.0

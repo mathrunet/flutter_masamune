@@ -221,7 +221,17 @@ class FirebaseAuthAdapter extends AuthAdapter {
     }
     _initializeCompleter = Completer();
     try {
-      _sharedPreferences = await SharedPreferences.getInstance();
+      _sharedPreferences = await SharedPreferencesWithCache.create(
+        cacheOptions: SharedPreferencesWithCacheOptions(
+          allowList: {
+            _kSmsVerificationIdKey.toSHA1(),
+            _kUserEmailKey.toSHA1(),
+            _kUserPhoneNumberKey.toSHA1(),
+            _kAllowMultiProvidersKey.toSHA1(),
+            _kSecondaryAppName.toSHA1(),
+          },
+        ),
+      );
       await FirebaseCore.initialize(options: options);
       _initialized = true;
       _initializeCompleter?.complete();
@@ -236,7 +246,7 @@ class FirebaseAuthAdapter extends AuthAdapter {
     }
   }
 
-  static late final SharedPreferences _sharedPreferences;
+  static late final SharedPreferencesWithCache _sharedPreferences;
   static bool _initialized = false;
   static Completer<void>? _initializeCompleter;
 

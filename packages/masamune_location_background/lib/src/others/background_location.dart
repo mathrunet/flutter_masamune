@@ -177,8 +177,9 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
       }
       await BackgroundLocator.initialize();
       _running = await BackgroundLocator.isServiceRunning();
-      final sharedPreferences = await SharedPreferences.getInstance();
-      _running = sharedPreferences.getBool(_kRunningKey.toSHA1()) ?? _running;
+      final sharedPreferences = SharedPreferencesAsync();
+      _running =
+          await sharedPreferences.getBool(_kRunningKey.toSHA1()) ?? _running;
       if (_running) {
         if (UniversalPlatform.isAndroid) {
           _value =
@@ -294,7 +295,7 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
         );
         _value = await _IOSBackgroundLocationRepository.loadAsLatestLocation();
       }
-      final sharedPreferences = await SharedPreferences.getInstance();
+      final sharedPreferences = SharedPreferencesAsync();
       await sharedPreferences.setBool(_kRunningKey.toSHA1(), true);
       _running = await BackgroundLocator.isServiceRunning();
       notifyListeners();
@@ -334,7 +335,7 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
     await BackgroundLocator.unRegisterLocationUpdate();
     await clear();
     _running = await BackgroundLocator.isServiceRunning();
-    final sharedPreferences = await SharedPreferences.getInstance();
+    final sharedPreferences = SharedPreferencesAsync();
     await sharedPreferences.setBool(_kRunningKey.toSHA1(), false);
     notifyListeners();
   }

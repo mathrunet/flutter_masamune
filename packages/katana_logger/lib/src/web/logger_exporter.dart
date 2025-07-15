@@ -38,7 +38,7 @@ class LoggerExporter {
     try {
       WidgetsBinding.instance.scheduleFrameCallback((_) async {
         try {
-          final sharedPreference = await SharedPreferences.getInstance();
+          final sharedPreference = SharedPreferencesAsync();
           final json = jsonEncode(_unsupportedObjectFilter(data)).toAES(
             fileName.last().toSHA1(),
           );
@@ -71,8 +71,8 @@ class LoggerExporter {
   ///
   /// [fileName]に基づく復号化を行ないます。エクスポート時と[fileName]が異なる場合インポートできません。
   static Future<Map<String, DynamicMap>> import(String fileName) async {
-    final sharedPreference = await SharedPreferences.getInstance();
-    final json = sharedPreference.getString(fileName.toSHA1()) ?? "";
+    final sharedPreference = SharedPreferencesAsync();
+    final json = await sharedPreference.getString(fileName.toSHA1()) ?? "";
     return jsonDecodeAsMap(json.fromAES(fileName.last().toSHA1()), {});
   }
 

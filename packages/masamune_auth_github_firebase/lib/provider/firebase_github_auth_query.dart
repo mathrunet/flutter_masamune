@@ -46,8 +46,8 @@ class FirebaseGithubAuthQuery {
   ///
   /// GitHubのアクセストークンを取得します。
   static Future<String?> getAccessToken() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getString(_kGitHubAccessTokenKey.toSHA1());
+    final sharedPreferences = SharedPreferencesAsync();
+    return await sharedPreferences.getString(_kGitHubAccessTokenKey.toSHA1());
   }
 }
 
@@ -75,7 +75,7 @@ class FirebaseGitHubSignInAuthProvider extends FirebaseSnsSignInAuthProvider {
     if (accessToken != null &&
         (FirebaseGithubAuthMasamuneAdapter.primary?.keepGithubAccessToken ??
             false)) {
-      final sharedPreferences = await SharedPreferences.getInstance();
+      final sharedPreferences = SharedPreferencesAsync();
       await sharedPreferences.setString(
         _kGitHubAccessTokenKey.toSHA1(),
         accessToken,
@@ -110,7 +110,7 @@ class FirebaseGitHubReAuthProvider extends FirebaseSnsReAuthProvider {
     if (accessToken != null &&
         (FirebaseGithubAuthMasamuneAdapter.primary?.keepGithubAccessToken ??
             false)) {
-      final sharedPreferences = await SharedPreferences.getInstance();
+      final sharedPreferences = SharedPreferencesAsync();
       await sharedPreferences.setString(
         _kGitHubAccessTokenKey.toSHA1(),
         accessToken,
