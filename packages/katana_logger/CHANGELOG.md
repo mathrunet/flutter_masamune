@@ -1,3 +1,7 @@
+## 3.0.4
+
+ - **FIX**: SharedPreferencesのアップデートに対応. ([9565d9f1](https://github.com/mathrunet/flutter_masamune/commit/9565d9f1a63f653217f6c97273bf52091e76892e))
+
 ## 3.0.3
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))

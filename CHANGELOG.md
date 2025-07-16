@@ -3,6 +3,156 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-07-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth` - `v3.0.4`](#katana_auth---v304)
+ - [`katana_auth_firebase` - `v3.1.1`](#katana_auth_firebase---v311)
+ - [`katana_logger` - `v3.0.4`](#katana_logger---v304)
+ - [`katana_model_local` - `v3.1.6`](#katana_model_local---v316)
+ - [`masamune_auth_github_firebase` - `v3.2.1`](#masamune_auth_github_firebase---v321)
+ - [`masamune_location_background` - `v3.0.12`](#masamune_location_background---v3012)
+ - [`masamune_model_github` - `v3.1.5`](#masamune_model_github---v315)
+ - [`masamune_auth_firebase` - `v3.0.12`](#masamune_auth_firebase---v3012)
+ - [`masamune` - `v3.2.1`](#masamune---v321)
+ - [`masamune_auth_google_firebase` - `v3.0.12`](#masamune_auth_google_firebase---v3012)
+ - [`masamune_auth_apple_firebase` - `v3.0.12`](#masamune_auth_apple_firebase---v3012)
+ - [`masamune_location_platform_interface` - `v3.0.12`](#masamune_location_platform_interface---v3012)
+ - [`masamune_model_firebase_remote_config` - `v3.0.12`](#masamune_model_firebase_remote_config---v3012)
+ - [`masamune_markdown` - `v3.0.12`](#masamune_markdown---v3012)
+ - [`masamune_location_geocoding` - `v3.0.12`](#masamune_location_geocoding---v3012)
+ - [`masamune_location` - `v3.0.12`](#masamune_location---v3012)
+ - [`masamune_ai` - `v3.0.12`](#masamune_ai---v3012)
+ - [`masamune_notification_local` - `v3.0.12`](#masamune_notification_local---v3012)
+ - [`masamune_model_firestore` - `v3.0.12`](#masamune_model_firestore---v3012)
+ - [`masamune_deeplink_firebase` - `v3.0.12`](#masamune_deeplink_firebase---v3012)
+ - [`masamune_auth_apple` - `v3.0.12`](#masamune_auth_apple---v3012)
+ - [`masamune_scheduler` - `v3.0.12`](#masamune_scheduler---v3012)
+ - [`masamune_model_algolia` - `v3.0.12`](#masamune_model_algolia---v3012)
+ - [`masamune_text_to_speech` - `v3.0.12`](#masamune_text_to_speech---v3012)
+ - [`masamune_agora` - `v3.0.12`](#masamune_agora---v3012)
+ - [`masamune_auth_google` - `v3.0.12`](#masamune_auth_google---v3012)
+ - [`masamune_model_firebase_data_connect` - `v3.0.12`](#masamune_model_firebase_data_connect---v3012)
+ - [`masamune_ai_openai` - `v3.0.12`](#masamune_ai_openai---v3012)
+ - [`masamune_calendar` - `v3.0.12`](#masamune_calendar---v3012)
+ - [`masamune_ai_firebase` - `v3.0.12`](#masamune_ai_firebase---v3012)
+ - [`masamune_animate` - `v3.0.12`](#masamune_animate---v3012)
+ - [`masamune_picker` - `v3.0.12`](#masamune_picker---v3012)
+ - [`masamune_app_review` - `v3.0.12`](#masamune_app_review---v3012)
+ - [`masamune_util` - `v3.0.12`](#masamune_util---v3012)
+ - [`masamune_test` - `v3.1.8`](#masamune_test---v318)
+ - [`masamune_universal_ui` - `v3.1.8`](#masamune_universal_ui---v318)
+ - [`masamune_purchase_stripe` - `v3.6.42`](#masamune_purchase_stripe---v3642)
+ - [`masamune_notification` - `v3.0.12`](#masamune_notification---v3012)
+ - [`masamune_logger_firebase` - `v3.0.11`](#masamune_logger_firebase---v3011)
+ - [`masamune_firebase_app_check` - `v3.0.12`](#masamune_firebase_app_check---v3012)
+ - [`masamune_introduction` - `v3.3.2`](#masamune_introduction---v332)
+ - [`masamune_deeplink` - `v3.0.12`](#masamune_deeplink---v3012)
+ - [`masamune_speech_to_text` - `v3.0.12`](#masamune_speech_to_text---v3012)
+ - [`masamune_auth_facebook` - `v3.0.12`](#masamune_auth_facebook---v3012)
+ - [`masamune_force_updater` - `v3.0.12`](#masamune_force_updater---v3012)
+ - [`masamune_location_google` - `v3.0.12`](#masamune_location_google---v3012)
+ - [`masamune_mail` - `v3.0.12`](#masamune_mail---v3012)
+ - [`masamune_purchase` - `v3.0.12`](#masamune_purchase---v3012)
+ - [`masamune_notification_firebase` - `v3.0.12`](#masamune_notification_firebase---v3012)
+ - [`masamune_purchase_mobile` - `v3.0.12`](#masamune_purchase_mobile---v3012)
+ - [`masamune_ads_google` - `v3.0.12`](#masamune_ads_google---v3012)
+ - [`masamune_camera` - `v3.1.5`](#masamune_camera---v315)
+ - [`katana_scoped` - `v3.0.4`](#katana_scoped---v304)
+ - [`katana_router` - `v3.1.2`](#katana_router---v312)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_auth_firebase` - `v3.0.12`
+ - `masamune` - `v3.2.1`
+ - `masamune_auth_google_firebase` - `v3.0.12`
+ - `masamune_auth_apple_firebase` - `v3.0.12`
+ - `masamune_location_platform_interface` - `v3.0.12`
+ - `masamune_model_firebase_remote_config` - `v3.0.12`
+ - `masamune_markdown` - `v3.0.12`
+ - `masamune_location_geocoding` - `v3.0.12`
+ - `masamune_location` - `v3.0.12`
+ - `masamune_ai` - `v3.0.12`
+ - `masamune_notification_local` - `v3.0.12`
+ - `masamune_model_firestore` - `v3.0.12`
+ - `masamune_deeplink_firebase` - `v3.0.12`
+ - `masamune_auth_apple` - `v3.0.12`
+ - `masamune_scheduler` - `v3.0.12`
+ - `masamune_model_algolia` - `v3.0.12`
+ - `masamune_text_to_speech` - `v3.0.12`
+ - `masamune_agora` - `v3.0.12`
+ - `masamune_auth_google` - `v3.0.12`
+ - `masamune_model_firebase_data_connect` - `v3.0.12`
+ - `masamune_ai_openai` - `v3.0.12`
+ - `masamune_calendar` - `v3.0.12`
+ - `masamune_ai_firebase` - `v3.0.12`
+ - `masamune_animate` - `v3.0.12`
+ - `masamune_picker` - `v3.0.12`
+ - `masamune_app_review` - `v3.0.12`
+ - `masamune_util` - `v3.0.12`
+ - `masamune_test` - `v3.1.8`
+ - `masamune_universal_ui` - `v3.1.8`
+ - `masamune_purchase_stripe` - `v3.6.42`
+ - `masamune_notification` - `v3.0.12`
+ - `masamune_logger_firebase` - `v3.0.11`
+ - `masamune_firebase_app_check` - `v3.0.12`
+ - `masamune_introduction` - `v3.3.2`
+ - `masamune_deeplink` - `v3.0.12`
+ - `masamune_speech_to_text` - `v3.0.12`
+ - `masamune_auth_facebook` - `v3.0.12`
+ - `masamune_force_updater` - `v3.0.12`
+ - `masamune_location_google` - `v3.0.12`
+ - `masamune_mail` - `v3.0.12`
+ - `masamune_purchase` - `v3.0.12`
+ - `masamune_notification_firebase` - `v3.0.12`
+ - `masamune_purchase_mobile` - `v3.0.12`
+ - `masamune_ads_google` - `v3.0.12`
+ - `masamune_camera` - `v3.1.5`
+ - `katana_scoped` - `v3.0.4`
+ - `katana_router` - `v3.1.2`
+
+---
+
+#### `katana_auth` - `v3.0.4`
+
+ - **FIX**: SharedPreferencesのアップデートに対応. ([9565d9f1](https://github.com/mathrunet/flutter_masamune/commit/9565d9f1a63f653217f6c97273bf52091e76892e))
+
+#### `katana_auth_firebase` - `v3.1.1`
+
+ - **FIX**: SharedPreferencesのアップデートに対応. ([9565d9f1](https://github.com/mathrunet/flutter_masamune/commit/9565d9f1a63f653217f6c97273bf52091e76892e))
+
+#### `katana_logger` - `v3.0.4`
+
+ - **FIX**: SharedPreferencesのアップデートに対応. ([9565d9f1](https://github.com/mathrunet/flutter_masamune/commit/9565d9f1a63f653217f6c97273bf52091e76892e))
+
+#### `katana_model_local` - `v3.1.6`
+
+ - **FIX**: SharedPreferencesのアップデートに対応. ([9565d9f1](https://github.com/mathrunet/flutter_masamune/commit/9565d9f1a63f653217f6c97273bf52091e76892e))
+
+#### `masamune_auth_github_firebase` - `v3.2.1`
+
+ - **FIX**: SharedPreferencesのアップデートに対応. ([9565d9f1](https://github.com/mathrunet/flutter_masamune/commit/9565d9f1a63f653217f6c97273bf52091e76892e))
+
+#### `masamune_location_background` - `v3.0.12`
+
+ - **FIX**: SharedPreferencesのアップデートに対応. ([9565d9f1](https://github.com/mathrunet/flutter_masamune/commit/9565d9f1a63f653217f6c97273bf52091e76892e))
+
+#### `masamune_model_github` - `v3.1.5`
+
+ - **FIX**: Adapter maintenance complete. ([0bb3bf21](https://github.com/mathrunet/flutter_masamune/commit/0bb3bf21ec32b875e892f7aa7de36cc9b137f1a8))
+
+
 ## 2025-07-14
 
 ### Changes

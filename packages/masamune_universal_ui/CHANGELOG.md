@@ -1,3 +1,7 @@
+## 3.1.8
+
+ - Update a dependency to the latest release.
+
 ## 3.1.7
 
  - **FIX**: Remove Deprecated. ([67a254a8](https://github.com/mathrunet/flutter_masamune/commit/67a254a8b4e6d89e58aaae548b441fe945ccb447))

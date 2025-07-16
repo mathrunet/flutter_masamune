@@ -1,3 +1,7 @@
+## 3.1.5
+
+ - **FIX**: Adapter maintenance complete. ([0bb3bf21](https://github.com/mathrunet/flutter_masamune/commit/0bb3bf21ec32b875e892f7aa7de36cc9b137f1a8))
+
 ## 3.1.4
 
  - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))

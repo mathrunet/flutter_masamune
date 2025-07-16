@@ -1,3 +1,7 @@
+## 3.0.12
+
+ - **FIX**: SharedPreferencesのアップデートに対応. ([9565d9f1](https://github.com/mathrunet/flutter_masamune/commit/9565d9f1a63f653217f6c97273bf52091e76892e))
+
 ## 3.0.11
 
  - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))
