@@ -83,6 +83,7 @@ _GithubIssueModel _$GithubIssueModelFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updatedAt'] == null
           ? const ModelTimestamp.now()
           : ModelTimestamp.fromJson(json['updatedAt'] as Map<String, dynamic>),
+      fromServer: json['fromServer'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$GithubIssueModelToJson(_GithubIssueModel instance) =>
@@ -118,4 +119,5 @@ Map<String, dynamic> _$GithubIssueModelToJson(_GithubIssueModel instance) =>
       'closedAt': instance.closedAt,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
+      'fromServer': instance.fromServer,
     };

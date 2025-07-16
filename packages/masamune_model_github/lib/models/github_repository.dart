@@ -15,7 +15,6 @@ import "package:masamune_model_github/models/github_user.dart";
 
 // ignore: unused_import, unnecessary_import
 
-
 part "github_repository.m.dart";
 part "github_repository.g.dart";
 part "github_repository.freezed.dart";
@@ -121,6 +120,7 @@ abstract class GithubRepositoryModel with _$GithubRepositoryModel {
     ModelTimestamp? pushedAt,
     @Default(ModelTimestamp.now()) ModelTimestamp createdAt,
     @Default(ModelTimestamp.now()) ModelTimestamp updatedAt,
+    @Default(false) bool fromServer,
   }) = _GithubRepositoryModel;
   const GithubRepositoryModel._();
 

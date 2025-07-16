@@ -30,6 +30,7 @@ enum _$GithubPullRequestCommentModelKeys {
   links,
   createdAt,
   updatedAt,
+  fromServer,
 }
 
 class _$GithubPullRequestCommentModelDocument
@@ -396,6 +397,11 @@ class _$_GithubPullRequestCommentModelCollectionQuery
       get updatedAt => ModelTimestampModelQuerySelector<
               _$_GithubPullRequestCommentModelCollectionQuery>(
           key: "updatedAt", toQuery: _toQuery, modelQuery: modelQuery);
+
+  BooleanModelQuerySelector<_$_GithubPullRequestCommentModelCollectionQuery>
+      get fromServer => BooleanModelQuerySelector<
+              _$_GithubPullRequestCommentModelCollectionQuery>(
+          key: "fromServer", toQuery: _toQuery, modelQuery: modelQuery);
 }
 
 typedef _$GithubPullRequestCommentModelMirrorRefPath

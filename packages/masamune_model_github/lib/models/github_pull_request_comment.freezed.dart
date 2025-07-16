@@ -29,6 +29,7 @@ mixin _$GithubPullRequestCommentModel {
   ModelUri? get links;
   ModelTimestamp get createdAt;
   ModelTimestamp get updatedAt;
+  bool get fromServer;
 
   /// Create a copy of GithubPullRequestCommentModel
   /// with the given fields replaced by the non-null parameter values.
@@ -68,7 +69,9 @@ mixin _$GithubPullRequestCommentModel {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.fromServer, fromServer) ||
+                other.fromServer == fromServer));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -88,11 +91,12 @@ mixin _$GithubPullRequestCommentModel {
       pullRequestUrl,
       links,
       createdAt,
-      updatedAt);
+      updatedAt,
+      fromServer);
 
   @override
   String toString() {
-    return 'GithubPullRequestCommentModel(id: $id, body: $body, diffHunk: $diffHunk, path: $path, position: $position, originalPosition: $originalPosition, commitId: $commitId, originalCommitId: $originalCommitId, user: $user, url: $url, pullRequestUrl: $pullRequestUrl, links: $links, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GithubPullRequestCommentModel(id: $id, body: $body, diffHunk: $diffHunk, path: $path, position: $position, originalPosition: $originalPosition, commitId: $commitId, originalCommitId: $originalCommitId, user: $user, url: $url, pullRequestUrl: $pullRequestUrl, links: $links, createdAt: $createdAt, updatedAt: $updatedAt, fromServer: $fromServer)';
   }
 }
 
@@ -117,7 +121,8 @@ abstract mixin class $GithubPullRequestCommentModelCopyWith<$Res> {
       ModelUri? pullRequestUrl,
       ModelUri? links,
       ModelTimestamp createdAt,
-      ModelTimestamp updatedAt});
+      ModelTimestamp updatedAt,
+      bool fromServer});
 }
 
 /// @nodoc
@@ -147,6 +152,7 @@ class _$GithubPullRequestCommentModelCopyWithImpl<$Res>
     Object? links = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? fromServer = null,
   }) {
     return _then(_self.copyWith(
       id: freezed == id
@@ -205,6 +211,10 @@ class _$GithubPullRequestCommentModelCopyWithImpl<$Res>
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
+      fromServer: null == fromServer
+          ? _self.fromServer
+          : fromServer // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -317,7 +327,8 @@ extension GithubPullRequestCommentModelPatterns
             ModelUri? pullRequestUrl,
             ModelUri? links,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)?
+            ModelTimestamp updatedAt,
+            bool fromServer)?
         $default, {
     required TResult orElse(),
   }) {
@@ -338,7 +349,8 @@ extension GithubPullRequestCommentModelPatterns
             _that.pullRequestUrl,
             _that.links,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         return orElse();
     }
@@ -373,7 +385,8 @@ extension GithubPullRequestCommentModelPatterns
             ModelUri? pullRequestUrl,
             ModelUri? links,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)
+            ModelTimestamp updatedAt,
+            bool fromServer)
         $default,
   ) {
     final _that = this;
@@ -393,7 +406,8 @@ extension GithubPullRequestCommentModelPatterns
             _that.pullRequestUrl,
             _that.links,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -427,7 +441,8 @@ extension GithubPullRequestCommentModelPatterns
             ModelUri? pullRequestUrl,
             ModelUri? links,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)?
+            ModelTimestamp updatedAt,
+            bool fromServer)?
         $default,
   ) {
     final _that = this;
@@ -447,7 +462,8 @@ extension GithubPullRequestCommentModelPatterns
             _that.pullRequestUrl,
             _that.links,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         return null;
     }
@@ -469,9 +485,10 @@ class _GithubPullRequestCommentModel extends GithubPullRequestCommentModel {
       @refParam this.user,
       this.url,
       this.pullRequestUrl,
-      this.links = const [],
+      this.links,
       this.createdAt = const ModelTimestamp.now(),
-      this.updatedAt = const ModelTimestamp.now()})
+      this.updatedAt = const ModelTimestamp.now(),
+      this.fromServer = false})
       : super._();
   factory _GithubPullRequestCommentModel.fromJson(Map<String, dynamic> json) =>
       _$GithubPullRequestCommentModelFromJson(json);
@@ -500,7 +517,6 @@ class _GithubPullRequestCommentModel extends GithubPullRequestCommentModel {
   @override
   final ModelUri? pullRequestUrl;
   @override
-  @JsonKey()
   final ModelUri? links;
   @override
   @JsonKey()
@@ -508,6 +524,9 @@ class _GithubPullRequestCommentModel extends GithubPullRequestCommentModel {
   @override
   @JsonKey()
   final ModelTimestamp updatedAt;
+  @override
+  @JsonKey()
+  final bool fromServer;
 
   /// Create a copy of GithubPullRequestCommentModel
   /// with the given fields replaced by the non-null parameter values.
@@ -551,7 +570,9 @@ class _GithubPullRequestCommentModel extends GithubPullRequestCommentModel {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.fromServer, fromServer) ||
+                other.fromServer == fromServer));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -571,11 +592,12 @@ class _GithubPullRequestCommentModel extends GithubPullRequestCommentModel {
       pullRequestUrl,
       links,
       createdAt,
-      updatedAt);
+      updatedAt,
+      fromServer);
 
   @override
   String toString() {
-    return 'GithubPullRequestCommentModel(id: $id, body: $body, diffHunk: $diffHunk, path: $path, position: $position, originalPosition: $originalPosition, commitId: $commitId, originalCommitId: $originalCommitId, user: $user, url: $url, pullRequestUrl: $pullRequestUrl, links: $links, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GithubPullRequestCommentModel(id: $id, body: $body, diffHunk: $diffHunk, path: $path, position: $position, originalPosition: $originalPosition, commitId: $commitId, originalCommitId: $originalCommitId, user: $user, url: $url, pullRequestUrl: $pullRequestUrl, links: $links, createdAt: $createdAt, updatedAt: $updatedAt, fromServer: $fromServer)';
   }
 }
 
@@ -602,7 +624,8 @@ abstract mixin class _$GithubPullRequestCommentModelCopyWith<$Res>
       ModelUri? pullRequestUrl,
       ModelUri? links,
       ModelTimestamp createdAt,
-      ModelTimestamp updatedAt});
+      ModelTimestamp updatedAt,
+      bool fromServer});
 }
 
 /// @nodoc
@@ -632,6 +655,7 @@ class __$GithubPullRequestCommentModelCopyWithImpl<$Res>
     Object? links = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? fromServer = null,
   }) {
     return _then(_GithubPullRequestCommentModel(
       id: freezed == id
@@ -690,6 +714,10 @@ class __$GithubPullRequestCommentModelCopyWithImpl<$Res>
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
+      fromServer: null == fromServer
+          ? _self.fromServer
+          : fromServer // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }

@@ -1,6 +1,12 @@
 part of "/masamune_model_github.dart";
 
+const _kLocalDatabaseId = "github://";
+
 extension on Organization {
+  String? get uid {
+    return login;
+  }
+
   GithubOrganizationModel toGithubOrganizationModel() {
     final organization = this;
     return GithubOrganizationModel(
@@ -27,7 +33,17 @@ extension on Organization {
   }
 }
 
+extension on UserInformation {
+  String? get uid {
+    return login;
+  }
+}
+
 extension on User {
+  String? get uid {
+    return login;
+  }
+
   GithubUserModel toGithubUserModel() {
     final user = this;
     return GithubUserModel(
@@ -72,6 +88,10 @@ extension on User {
 }
 
 extension on Repository {
+  String? get uid {
+    return name;
+  }
+
   GithubRepositoryModel toGithubRepositoryModel(String organizationId) {
     final repository = this;
     return GithubRepositoryModel(
@@ -79,7 +99,7 @@ extension on Repository {
       name: repository.name,
       fullName: repository.fullName,
       owner: repository.owner != null
-          ? GithubUserModelRefPath(repository.owner!.id.toString())
+          ? GithubUserModelRefPath(repository.owner?.uid ?? "")
           : null,
       organization: GithubOrganizationModelRefPath(organizationId),
       language: ModelLocale.tryParse(repository.language),
@@ -132,6 +152,7 @@ extension on Repository {
       updatedAt: repository.updatedAt != null
           ? ModelTimestamp(repository.updatedAt!)
           : const ModelTimestamp.now(),
+      fromServer: true,
     );
   }
 }
@@ -164,6 +185,10 @@ extension on ReactionRollup {
 }
 
 extension on Issue {
+  String? get uid {
+    return number.toString();
+  }
+
   GithubIssueModel toGithubIssueModel() {
     final issue = this;
     return GithubIssueModel(
@@ -173,7 +198,7 @@ extension on Issue {
       body: issue.body,
       state: issue.state,
       user: issue.user != null
-          ? GithubUserModelRefPath(issue.user!.id.toString())
+          ? GithubUserModelRefPath(issue.user?.uid ?? "")
           : null,
       labels: issue.labels.map((e) => e.toGithubLabelValue()).toList(),
       reactions: issue.reactions?.toGithubReactionValue(),
@@ -185,7 +210,7 @@ extension on Issue {
           : const ModelTimestamp.now(),
       closedAt: issue.closedAt != null ? ModelTimestamp(issue.closedAt!) : null,
       closedBy: issue.closedBy != null
-          ? GithubUserModelRefPath(issue.closedBy!.id.toString())
+          ? GithubUserModelRefPath(issue.closedBy?.uid ?? "")
           : null,
       activeLockReason: issue.activeLockReason,
       authorAssociation: issue.authorAssociation,
@@ -198,9 +223,8 @@ extension on Issue {
       nodeId: issue.nodeId,
       repository: issue.repository != null
           ? GithubRepositoryModelRefPath(
-              issue.repository?.id.toString() ?? "",
-              organizationId:
-                  issue.repository?.organization?.id.toString() ?? "",
+              issue.repository?.uid ?? "",
+              organizationId: issue.repository?.owner?.uid ?? "",
             )
           : null,
       repositoryUrl: ModelUri.tryParse(issue.repositoryUrl),
@@ -208,16 +232,21 @@ extension on Issue {
       timelineUrl: ModelUri.tryParse(issue.timelineUrl),
       url: ModelUri.tryParse(issue.url),
       htmlUrl: ModelUri.tryParse(issue.htmlUrl),
+      fromServer: true,
     );
   }
 }
 
 extension on IssueComment {
+  String? get uid {
+    return id?.toString();
+  }
+
   GithubIssueCommentModel toGithubIssueCommentModel() {
     return GithubIssueCommentModel(
       id: id,
       body: body,
-      user: user != null ? GithubUserModelRefPath(user!.id.toString()) : null,
+      user: user != null ? GithubUserModelRefPath(user?.uid ?? "") : null,
       url: ModelUri.tryParse(url),
       htmlUrl: ModelUri.tryParse(htmlUrl),
       issueUrl: ModelUri.tryParse(issueUrl),
@@ -228,6 +257,23 @@ extension on IssueComment {
       updatedAt: updatedAt != null
           ? ModelTimestamp(updatedAt!)
           : const ModelTimestamp.now(),
+      fromServer: true,
+    );
+  }
+
+  GithubPullRequestCommentModel toGithubPullRequestCommentModel() {
+    return GithubPullRequestCommentModel(
+      id: id,
+      body: body,
+      user: user != null ? GithubUserModelRefPath(user?.uid ?? "") : null,
+      url: ModelUri.tryParse(url),
+      createdAt: createdAt != null
+          ? ModelTimestamp(createdAt!)
+          : const ModelTimestamp.now(),
+      updatedAt: updatedAt != null
+          ? ModelTimestamp(updatedAt!)
+          : const ModelTimestamp.now(),
+      fromServer: true,
     );
   }
 }
@@ -238,11 +284,11 @@ extension on PullRequestHead {
       label: label,
       ref: ref,
       sha: sha,
-      user: user != null ? GithubUserModelRefPath(user!.id.toString()) : null,
+      user: user != null ? GithubUserModelRefPath(user?.uid ?? "") : null,
       repo: repo != null
           ? GithubRepositoryModelRefPath(
-              repo!.id.toString(),
-              organizationId: repo!.organization!.id.toString(),
+              repo!.uid ?? "",
+              organizationId: repo!.owner?.uid ?? "",
             )
           : null,
     );
@@ -258,9 +304,8 @@ extension on Milestone {
       title: title,
       description: description,
       nodeId: nodeId,
-      creator: creator != null
-          ? GithubUserModelRefPath(creator!.id.toString())
-          : null,
+      creator:
+          creator != null ? GithubUserModelRefPath(creator?.uid ?? "") : null,
       openIssuesCount: openIssuesCount ?? 0,
       closedIssuesCount: closedIssuesCount ?? 0,
       url: ModelUri.tryParse(url),
@@ -279,6 +324,10 @@ extension on Milestone {
 }
 
 extension on PullRequest {
+  String? get uid {
+    return number?.toString();
+  }
+
   GithubPullRequestModel toGithubPullRequestModel() {
     final pullRequest = this;
     return GithubPullRequestModel(
@@ -288,7 +337,7 @@ extension on PullRequest {
       body: pullRequest.body,
       state: pullRequest.state,
       user: pullRequest.user != null
-          ? GithubUserModelRefPath(pullRequest.user!.id.toString())
+          ? GithubUserModelRefPath(pullRequest.user?.uid ?? "")
           : null,
       labels:
           pullRequest.labels?.map((e) => e.toGithubLabelValue()).toList() ?? [],
@@ -297,8 +346,8 @@ extension on PullRequest {
       milestone: pullRequest.milestone?.toGithubMilestoneValue(),
       repository: pullRequest.repo != null
           ? GithubRepositoryModelRefPath(
-              pullRequest.repo!.id.toString(),
-              organizationId: pullRequest.repo!.organization!.id.toString(),
+              pullRequest.repo!.uid ?? "",
+              organizationId: pullRequest.repo!.owner?.uid ?? "",
             )
           : null,
       htmlUrl: ModelUri.tryParse(pullRequest.htmlUrl),
@@ -316,33 +365,143 @@ extension on PullRequest {
       updatedAt: pullRequest.updatedAt != null
           ? ModelTimestamp(pullRequest.updatedAt!)
           : const ModelTimestamp.now(),
+      fromServer: true,
     );
   }
 }
 
-extension on PullRequestComment {
-  GithubPullRequestCommentModel toGithubPullRequestCommentModel() {
-    return GithubPullRequestCommentModel(
-      id: id,
-      body: body,
-      user: user != null ? GithubUserModelRefPath(user!.id.toString()) : null,
+extension on CommitData {
+  GithubCommitModel toGithubCommitModel() {
+    return GithubCommitModel(
+      sha: sha,
+      message: commit?.message,
+      commentCount: commit?.commentCount ?? 0,
       url: ModelUri.tryParse(url),
-      pullRequestUrl: ModelUri.tryParse(pullRequestUrl),
-      createdAt: createdAt != null
-          ? ModelTimestamp(createdAt!)
-          : const ModelTimestamp.now(),
-      updatedAt: updatedAt != null
-          ? ModelTimestamp(updatedAt!)
-          : const ModelTimestamp.now(),
-      diffHunk: diffHunk,
+      htmlUrl: ModelUri.tryParse(htmlUrl),
+      commentsUrl: ModelUri.tryParse(commentsUrl),
+      author: author != null ? GithubUserModelRefPath(author?.uid ?? "") : null,
+      committer: committer != null
+          ? GithubUserModelRefPath(committer?.uid ?? "")
+          : null,
+      parents:
+          commit?.parents?.mapAndRemoveEmpty((e) => e.toGithubCommitModel()) ??
+              [],
+      fromServer: true,
+    );
+  }
+}
+
+extension on CommitDataUser {
+  String? get uid {
+    return login;
+  }
+}
+
+extension on GitCommit {
+  GithubCommitModel toGithubCommitModel() {
+    return GithubCommitModel(
+      sha: sha,
+      url: ModelUri.tryParse(url),
+      message: message,
+      commentCount: commentCount ?? 0,
+      parents: parents?.mapAndRemoveEmpty((e) => e.toGithubCommitModel()) ?? [],
+      fromServer: true,
+    );
+  }
+}
+
+extension on Branch {
+  String? get uid {
+    return name;
+  }
+
+  GithubBranchModel toGithubBranchModel() {
+    return GithubBranchModel(
+      name: name,
+      commit: commit?.toGithubCommitModel(),
+      fromServer: true,
+    );
+  }
+}
+
+extension on CommitFile {
+  GithubContentModel toGithubContentModel() {
+    return GithubContentModel(
+      name: name,
+      status: status,
+      patch: patch,
+      additionsCount: additions ?? 0,
+      deletionsCount: deletions ?? 0,
+      changesCount: changes ?? 0,
+      rawUrl: ModelUri.tryParse(rawUrl),
+      blobUrl: ModelUri.tryParse(blobUrl),
+      fromServer: true,
+    );
+  }
+}
+
+extension on RepositoryCommit {
+  String? get uid {
+    return sha;
+  }
+
+  GithubCommitModel toGithubCommitModel() {
+    return GithubCommitModel(
+      sha: sha,
+      url: ModelUri.tryParse(url),
+      htmlUrl: ModelUri.tryParse(htmlUrl),
+      commentsUrl: ModelUri.tryParse(commentsUrl),
+      author: author != null ? GithubUserModelRefPath(author?.uid ?? "") : null,
+      committer: committer != null
+          ? GithubUserModelRefPath(committer?.uid ?? "")
+          : null,
+      additionsCount: stats?.additions ?? 0,
+      deletionsCount: stats?.deletions ?? 0,
+      totalCount: stats?.total ?? 0,
+      parents: parents?.mapAndRemoveEmpty((e) => e.toGithubCommitModel()) ?? [],
+      contents: files?.map((e) => e.toGithubContentModel()).toList() ?? [],
+      fromServer: true,
+    );
+  }
+}
+
+extension on GitHubFile {
+  String? get uid {
+    return sha;
+  }
+
+  GithubContentModel toGithubContentModel() {
+    return GithubContentModel(
+      name: name,
       path: path,
-      position: position,
-      originalPosition: originalPosition,
-      commitId: commitId,
-      originalCommitId: originalCommitId,
-      links: ModelUri.tryParse(links?.html?.toString() ??
-          links?.git?.toString() ??
-          links?.self?.toString()),
+      content: content,
+      sha: sha,
+      type: type,
+      encoding: encoding,
+      size: size ?? 0,
+      htmlUrl: ModelUri.tryParse(htmlUrl),
+      gitUrl: ModelUri.tryParse(gitUrl),
+      downloadUrl: ModelUri.tryParse(downloadUrl),
+      fromServer: true,
+    );
+  }
+}
+
+extension on RepositoryContents {
+  GithubContentModel toGithubContentModel() {
+    return GithubContentModel(
+      name: file?.name,
+      path: file?.path,
+      content: file?.content,
+      sha: file?.sha,
+      type: file?.type,
+      encoding: file?.encoding,
+      size: file?.size ?? 0,
+      htmlUrl: ModelUri.tryParse(file?.htmlUrl),
+      gitUrl: ModelUri.tryParse(file?.gitUrl),
+      downloadUrl: ModelUri.tryParse(file?.downloadUrl),
+      children: tree?.map((e) => e.toGithubContentModel()).toList(),
+      fromServer: true,
     );
   }
 }
@@ -373,13 +532,70 @@ class GithubModelAdapter extends ModelAdapter {
   /// すべてのCRUD操作が利用できます。
   const GithubModelAdapter({
     required this.onRetrieveToken,
+    NoSqlDatabase? database,
     GitHub? github,
-  }) : _github = github;
+    this.useLocalDatabase = true,
+  })  : _github = github,
+        _database = database;
 
   /// GitHub API token.
   ///
   /// GitHubのAPIトークンを取得します。
   final Future<String> Function() onRetrieveToken;
+
+  /// Use local database.
+  ///
+  /// ローカルデータベースを使用します。
+  final bool useLocalDatabase;
+
+  /// Designated database. Please use for testing purposes, etc.
+  ///
+  /// 指定のデータベース。テスト用途などにご利用ください。
+  NoSqlDatabase get database {
+    final database = _database ??
+        (useLocalDatabase ? sharedLocalDatabase : sharedRuntimeDatabase);
+    return database;
+  }
+
+  final NoSqlDatabase? _database;
+
+  /// A common internal database throughout the app.
+  ///
+  /// アプリ内全体での共通の内部データベース。
+  static final NoSqlDatabase sharedRuntimeDatabase = NoSqlDatabase();
+
+  /// A common internal database throughout the app.
+  ///
+  /// アプリ内全体での共通の内部データベース。
+  static final NoSqlDatabase sharedLocalDatabase = NoSqlDatabase(
+    onInitialize: (database) async {
+      try {
+        database.data = await DatabaseExporter.import(
+          "${await DatabaseExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
+        );
+      } catch (e) {
+        database.data = {};
+      }
+    },
+    onSaved: (database) async {
+      await DatabaseExporter.export(
+        "${await DatabaseExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
+        database.data,
+      );
+    },
+    onDeleted: (database) async {
+      await DatabaseExporter.export(
+        "${await DatabaseExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
+        database.data,
+      );
+    },
+    onClear: (database) async {
+      await DatabaseExporter.export(
+        "${await DatabaseExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
+        {},
+      );
+    },
+  );
 
   Future<GitHub> _getInstance() async {
     if (_github != null) {
@@ -398,21 +614,25 @@ class GithubModelAdapter extends ModelAdapter {
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
+    final res = await database.loadDocument(query);
+    if (res != null) {
+      return res;
+    }
     final github = await _getInstance();
 
     if (GithubOrganizationModel.document.hasMatchPath(query.query.path)) {
       final organizationId = query.query.path.split("/").last;
       final organization = await github.organizations.get(organizationId);
-      return organization.toGithubOrganizationModel().toJson().toEntireJson();
+      final res =
+          organization.toGithubOrganizationModel().toJson().toEntireJson();
+      await database.syncDocument(query, res);
+      return res;
     } else if (GithubUserModel.document.hasMatchPath(query.query.path)) {
-      final match =
-          GithubUserModel.document.regExp.firstMatch(query.query.path);
-      final ownerId = match?.group(1);
-      if (ownerId == null) {
-        throw Exception("Invalid path for owner document load");
-      }
+      final ownerId = query.query.path.split("/").last;
       final owner = await github.users.getUser(ownerId);
-      return owner.toGithubUserModel().toJson().toEntireJson();
+      final res = owner.toGithubUserModel().toJson().toEntireJson();
+      await database.syncDocument(query, res);
+      return res;
     } else if (GithubRepositoryModel.document.hasMatchPath(query.query.path)) {
       final match =
           GithubRepositoryModel.document.regExp.firstMatch(query.query.path);
@@ -423,10 +643,12 @@ class GithubModelAdapter extends ModelAdapter {
       }
       final repository = await github.repositories
           .getRepository(RepositorySlug(organizationId, repositoryId));
-      return repository
+      final res = repository
           .toGithubRepositoryModel(organizationId)
           .toJson()
           .toEntireJson();
+      await database.syncDocument(query, res);
+      return res;
     } else if (GithubIssueModel.document.hasMatchPath(query.query.path)) {
       final match =
           GithubIssueModel.document.regExp.firstMatch(query.query.path);
@@ -440,7 +662,9 @@ class GithubModelAdapter extends ModelAdapter {
         RepositorySlug(organizationId, repositoryId),
         issueId,
       );
-      return issue.toGithubIssueModel().toJson().toEntireJson();
+      final res = issue.toGithubIssueModel().toJson().toEntireJson();
+      await database.syncDocument(query, res);
+      return res;
     } else if (GithubIssueCommentModel.document
         .hasMatchPath(query.query.path)) {
       final match =
@@ -459,7 +683,9 @@ class GithubModelAdapter extends ModelAdapter {
         RepositorySlug(organizationId, repositoryId),
         commentId,
       );
-      return issue.toGithubIssueCommentModel().toJson().toEntireJson();
+      final res = issue.toGithubIssueCommentModel().toJson().toEntireJson();
+      await database.syncDocument(query, res);
+      return res;
     } else if (GithubPullRequestModel.document.hasMatchPath(query.query.path)) {
       final match =
           GithubPullRequestModel.document.regExp.firstMatch(query.query.path);
@@ -471,19 +697,593 @@ class GithubModelAdapter extends ModelAdapter {
           pullRequestId == null) {
         throw Exception("Invalid path for pull request document load");
       }
-      final pullRequest = await github.pullRequests
-          .get(
-            RepositorySlug(organizationId, repositoryId),
-            pullRequestId,
-          )
-          .then((value) => value.toGithubPullRequestModel());
-      return pullRequest.toJson().toEntireJson();
+      final pullRequest = await github.pullRequests.get(
+        RepositorySlug(organizationId, repositoryId),
+        pullRequestId,
+      );
+      final res =
+          pullRequest.toGithubPullRequestModel().toJson().toEntireJson();
+      await database.syncDocument(query, res);
+      return res;
     } else if (GithubPullRequestCommentModel.document
         .hasMatchPath(query.query.path)) {
-      throw UnsupportedError(
-          "Pull request comment document load is not supported");
+      final match = GithubPullRequestCommentModel.document.regExp
+          .firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final pullRequestId = match?.group(3);
+      final commentId = int.tryParse(query.query.path.split("/").last);
+      if (organizationId == null ||
+          repositoryId == null ||
+          pullRequestId == null ||
+          commentId == null) {
+        throw Exception("Invalid path for pull request comment document load");
+      }
+      final issue = await github.issues.getComment(
+        RepositorySlug(organizationId, repositoryId),
+        commentId,
+      );
+      final res =
+          issue.toGithubPullRequestCommentModel().toJson().toEntireJson();
+      await database.syncDocument(query, res);
+      return res;
+    } else if (GithubBranchModel.document.hasMatchPath(query.query.path)) {
+      final match =
+          GithubBranchModel.document.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final branchId = query.query.path.split("/").last;
+      if (organizationId == null || repositoryId == null) {
+        throw Exception("Invalid path for branch document load");
+      }
+      final branch = await github.repositories.getBranch(
+        RepositorySlug(organizationId, repositoryId),
+        branchId,
+      );
+      final res = branch.toGithubBranchModel().toJson().toEntireJson();
+      await database.syncDocument(query, res);
+      return res;
+    } else if (GithubCommitModel.document.hasMatchPath(query.query.path)) {
+      final match =
+          GithubCommitModel.document.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final branchId = match?.group(3);
+      final commitId = query.query.path.split("/").last;
+      if (organizationId == null || repositoryId == null || branchId == null) {
+        throw Exception("Invalid path for commit document load");
+      }
+      final commit = await github.repositories.getCommit(
+        RepositorySlug(organizationId, repositoryId),
+        commitId,
+      );
+      final res = commit.toGithubCommitModel().toJson().toEntireJson();
+      await database.syncDocument(query, res);
+      return res;
+    } else if (GithubContentModel.document.hasMatchPath(query.query.path)) {
+      final match =
+          GithubContentModel.document.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final branchId = match?.group(3);
+      final commitId = match?.group(4);
+      final contentId = query.query.path.split("/").last;
+      if (organizationId == null ||
+          repositoryId == null ||
+          branchId == null ||
+          commitId == null) {
+        throw Exception("Invalid path for content document load");
+      }
+      final contents = await github.repositories.getContents(
+        RepositorySlug(organizationId, repositoryId), "", // ルートディレクトリ
+        ref: contentId,
+      );
+      final res = contents.toGithubContentModel().toJson().toEntireJson();
+      await database.syncDocument(query, res);
+      return res;
+    }
+    throw UnsupportedError("Unsupported document: ${query.query.path}");
+  }
+
+  @override
+  Future<Map<String, DynamicMap>> loadCollection(
+    ModelAdapterCollectionQuery query,
+  ) async {
+    final res = await database.loadCollection(query);
+    if (res != null) {
+      return res;
+    }
+    final github = await _getInstance();
+
+    if (GithubOrganizationModel.collection.hasMatchPath(query.query.path)) {
+      final organizations = github.organizations.list();
+      final res = (await organizations.map((e) => e).toList()).toMap((e) {
+        final id = e.uid;
+        if (id == null) {
+          return null;
+        }
+        return MapEntry(
+          id,
+          e.toGithubOrganizationModel().toJson().toEntireJson(),
+        );
+      });
+      await database.syncCollection(query, res);
+      return res;
+    } else if (GithubUserModel.collection.hasMatchPath(query.query.path)) {
+      final users = github.users.listUsers();
+      final res = (await users.map((e) => e).toList()).toMap((e) {
+        final id = e.uid;
+        if (id == null) {
+          return null;
+        }
+        return MapEntry(id, e.toGithubUserModel().toJson().toEntireJson());
+      });
+      await database.syncCollection(query, res);
+      return res;
+    } else if (GithubRepositoryModel.collection
+        .hasMatchPath(query.query.path)) {
+      final match =
+          GithubRepositoryModel.collection.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      if (organizationId == null) {
+        throw Exception("Invalid path for repository collection load");
+      }
+      final repositories = github.repositories.listRepositories();
+      final res = (await repositories.map((e) => e).toList()).toMap((e) {
+        final id = e.uid;
+        if (id == null) {
+          return null;
+        }
+        return MapEntry(id,
+            e.toGithubRepositoryModel(organizationId).toJson().toEntireJson());
+      });
+      await database.syncCollection(query, res);
+      return res;
+    } else if (GithubIssueModel.collection.hasMatchPath(query.query.path)) {
+      final match =
+          GithubIssueModel.collection.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      if (organizationId == null || repositoryId == null) {
+        throw Exception("Invalid path for issue collection load");
+      }
+      final issues = github.issues.listByRepo(
+        RepositorySlug(organizationId, repositoryId),
+      );
+      final res = (await issues.map((e) => e).toList()).toMap((e) {
+        final id = e.uid;
+        if (id == null) {
+          return null;
+        }
+        return MapEntry(id, e.toGithubIssueModel().toJson().toEntireJson());
+      });
+      await database.syncCollection(query, res);
+      return res;
+    } else if (GithubIssueCommentModel.collection
+        .hasMatchPath(query.query.path)) {
+      final match = GithubIssueCommentModel.collection.regExp
+          .firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final issueId = match?.group(3);
+      if (organizationId == null || repositoryId == null || issueId == null) {
+        throw Exception("Invalid path for issue comment collection load");
+      }
+      final comments = github.issues.listCommentsByRepo(
+        RepositorySlug(organizationId, repositoryId),
+      );
+      final res = (await comments.map((e) => e).toList()).toMap((e) {
+        final id = e.uid;
+        if (id == null) {
+          return null;
+        }
+        return MapEntry(
+            id, e.toGithubIssueCommentModel().toJson().toEntireJson());
+      });
+      await database.syncCollection(query, res);
+      return res;
+    } else if (GithubPullRequestModel.collection
+        .hasMatchPath(query.query.path)) {
+      final match =
+          GithubPullRequestModel.collection.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      if (organizationId == null || repositoryId == null) {
+        throw Exception("Invalid path for pull request collection load");
+      }
+      final pullRequest = github.pullRequests.list(
+        RepositorySlug(organizationId, repositoryId),
+      );
+      final res = (await pullRequest.map((e) => e).toList()).toMap((e) {
+        final id = e.uid;
+        if (id == null) {
+          return null;
+        }
+        return MapEntry(
+            id, e.toGithubPullRequestModel().toJson().toEntireJson());
+      });
+      await database.syncCollection(query, res);
+      return res;
+    } else if (GithubPullRequestCommentModel.collection
+        .hasMatchPath(query.query.path)) {
+      final match = GithubPullRequestCommentModel.collection.regExp
+          .firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final pullRequestId = match?.group(3);
+      if (organizationId == null ||
+          repositoryId == null ||
+          pullRequestId == null) {
+        throw Exception(
+            "Invalid path for pull request comment collection load");
+      }
+      final pullRequest = github.issues.listCommentsByIssue(
+        RepositorySlug(organizationId, repositoryId),
+        int.parse(pullRequestId),
+      );
+      final res = (await pullRequest.map((e) => e).toList()).toMap((e) {
+        final id = e.uid;
+        if (id == null) {
+          return null;
+        }
+        return MapEntry(
+            id, e.toGithubPullRequestCommentModel().toJson().toEntireJson());
+      });
+      await database.syncCollection(query, res);
+      return res;
+    } else if (GithubBranchModel.collection.hasMatchPath(query.query.path)) {
+      final match =
+          GithubBranchModel.collection.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      if (organizationId == null || repositoryId == null) {
+        throw Exception("Invalid path for branch collection load");
+      }
+      final branch = github.repositories.listBranches(
+        RepositorySlug(organizationId, repositoryId),
+      );
+      final res = (await branch.map((e) => e).toList()).toMap((e) {
+        final id = e.uid;
+        if (id == null) {
+          return null;
+        }
+        return MapEntry(id, e.toGithubBranchModel().toJson().toEntireJson());
+      });
+      await database.syncCollection(query, res);
+      return res;
+    } else if (GithubCommitModel.collection.hasMatchPath(query.query.path)) {
+      final match =
+          GithubCommitModel.collection.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final branchId = match?.group(3);
+      if (organizationId == null || repositoryId == null || branchId == null) {
+        throw Exception("Invalid path for commit collection load");
+      }
+      final commit = github.repositories.listCommits(
+        RepositorySlug(organizationId, repositoryId),
+        sha: branchId,
+      );
+      final res = (await commit.map((e) => e).toList()).toMap((e) {
+        final id = e.uid;
+        if (id == null) {
+          return null;
+        }
+        return MapEntry(id, e.toGithubCommitModel().toJson().toEntireJson());
+      });
+      await database.syncCollection(query, res);
+      return res;
+    } else if (GithubContentModel.collection.hasMatchPath(query.query.path)) {
+      final match =
+          GithubContentModel.collection.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final branchId = match?.group(3);
+      final commitId = match?.group(4);
+      if (organizationId == null ||
+          repositoryId == null ||
+          branchId == null ||
+          commitId == null) {
+        throw Exception("Invalid path for content collection load");
+      }
+      final contents = await github.repositories.getContents(
+        RepositorySlug(organizationId, repositoryId), "", // ルートディレクトリ
+        ref: commitId,
+      );
+      final res = contents.tree?.toMap((e) {
+            final id = e.uid;
+            if (id == null) {
+              return null;
+            }
+            return MapEntry(
+                id, e.toGithubContentModel().toJson().toEntireJson());
+          }) ??
+          {};
+      await database.syncCollection(query, res);
+      return res;
     }
     throw UnsupportedError("Unsupported collection: ${query.query.path}");
+  }
+
+  @override
+  Future<void> saveDocument(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) async {
+    final github = await _getInstance();
+
+    if (GithubOrganizationModel.document.hasMatchPath(query.query.path)) {
+      final organizationId = query.query.path.split("/").last;
+      final model = GithubOrganizationModel.fromJson(value);
+      await github.organizations.edit(
+        organizationId,
+        name: model.name,
+        location: model.location,
+        company: model.company,
+        email: model.email,
+      );
+      await database.saveDocument(query, value);
+      return;
+    } else if (GithubUserModel.document.hasMatchPath(query.query.path)) {
+      final model = GithubUserModel.fromJson(value);
+      await github.users.editCurrentUser(
+        name: model.name,
+        email: model.email,
+        blog: model.blog,
+        company: model.company,
+        location: model.location,
+        bio: model.bio,
+      );
+      await database.saveDocument(query, value);
+      return;
+    } else if (GithubRepositoryModel.document.hasMatchPath(query.query.path)) {
+      final match =
+          GithubRepositoryModel.document.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = query.query.path.split("/").last;
+      if (organizationId == null) {
+        throw Exception("Invalid path for repository document save");
+      }
+      final model = GithubRepositoryModel.fromJson(value);
+      final fromServer = model.fromServer;
+      if (!fromServer) {
+        await github.repositories.createRepository(
+          CreateRepository(
+            model.name,
+            description: model.description,
+            homepage: model.homepageUrl?.toString(),
+            private: model.isPrivate,
+            hasWiki: model.hasWiki,
+            hasIssues: model.hasIssues,
+            hasDownloads: model.hasDownloads,
+          ),
+          org: organizationId,
+        );
+      } else {
+        await github.repositories.editRepository(
+          RepositorySlug(organizationId, repositoryId),
+          name: model.name,
+          description: model.description,
+          homepage: model.homepageUrl?.toString(),
+          private: model.isPrivate,
+          hasWiki: model.hasWiki,
+          hasIssues: model.hasIssues,
+          hasDownloads: model.hasDownloads,
+        );
+      }
+      await database.saveDocument(query, value);
+      return;
+    } else if (GithubIssueModel.document.hasMatchPath(query.query.path)) {
+      final match =
+          GithubIssueModel.document.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final issueId = int.tryParse(query.query.path.split("/").last);
+      if (organizationId == null || repositoryId == null || issueId == null) {
+        throw Exception("Invalid path for issue document save");
+      }
+      final model = GithubIssueModel.fromJson(value);
+      final fromServer = model.fromServer;
+      if (!fromServer) {
+        await github.issues.create(
+          RepositorySlug(organizationId, repositoryId),
+          IssueRequest(
+            title: model.title,
+            body: model.body,
+            assignee: model.assignee?.value?.login,
+            state: "open",
+            assignees:
+                model.assignees.mapAndRemoveEmpty((e) => e?.value?.login),
+            labels: model.labels.mapAndRemoveEmpty((e) => e.name),
+          ),
+        );
+      } else {
+        await github.issues.edit(
+          RepositorySlug(organizationId, repositoryId),
+          issueId,
+          IssueRequest(state: "closed"),
+        );
+      }
+      await database.saveDocument(query, value);
+      return;
+    } else if (GithubIssueCommentModel.document
+        .hasMatchPath(query.query.path)) {
+      final match =
+          GithubIssueCommentModel.document.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final issueId = int.tryParse(match?.group(3) ?? "");
+      final commentId = int.tryParse(query.query.path.split("/").last);
+      if (organizationId == null ||
+          repositoryId == null ||
+          issueId == null ||
+          commentId == null) {
+        throw Exception("Invalid path for issue document deletion");
+      }
+      final model = GithubIssueCommentModel.fromJson(value);
+      final fromServer = model.fromServer;
+      if (!fromServer) {
+        await github.issues.createComment(
+          RepositorySlug(organizationId, repositoryId),
+          issueId,
+          model.body ?? "",
+        );
+      } else {
+        await github.issues.updateComment(
+          RepositorySlug(organizationId, repositoryId),
+          commentId,
+          model.body ?? "",
+        );
+      }
+      await database.saveDocument(query, value);
+      return;
+    } else if (GithubPullRequestModel.document.hasMatchPath(query.query.path)) {
+      final match =
+          GithubPullRequestModel.document.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final pullRequestId = int.tryParse(query.query.path.split("/").last);
+      if (organizationId == null ||
+          repositoryId == null ||
+          pullRequestId == null) {
+        throw Exception("Invalid path for pull request document deletion");
+      }
+      final model = GithubPullRequestModel.fromJson(value);
+      final fromServer = model.fromServer;
+      if (!fromServer) {
+        await github.pullRequests.create(
+          RepositorySlug(organizationId, repositoryId),
+          CreatePullRequest(
+            model.title,
+            model.head?.ref,
+            model.base?.ref,
+            draft: model.draft,
+            body: model.body,
+          ),
+        );
+      } else {
+        await github.pullRequests.edit(
+          RepositorySlug(organizationId, repositoryId),
+          pullRequestId,
+          title: model.title,
+          body: model.body,
+          base: model.base?.ref,
+        );
+      }
+      await database.saveDocument(query, value);
+      return;
+    } else if (GithubPullRequestCommentModel.document
+        .hasMatchPath(query.query.path)) {
+      final match = GithubPullRequestCommentModel.document.regExp
+          .firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final pullRequestId = int.tryParse(match?.group(3) ?? "");
+      final commentId = int.tryParse(query.query.path.split("/").last);
+      if (organizationId == null ||
+          repositoryId == null ||
+          pullRequestId == null ||
+          commentId == null) {
+        throw Exception("Invalid path for pull request document deletion");
+      }
+      final model = GithubPullRequestCommentModel.fromJson(value);
+      final fromServer = model.fromServer;
+      if (!fromServer) {
+        await github.issues.createComment(
+          RepositorySlug(organizationId, repositoryId),
+          pullRequestId,
+          model.body ?? "",
+        );
+      } else {
+        await github.issues.updateComment(
+          RepositorySlug(organizationId, repositoryId),
+          commentId,
+          model.body ?? "",
+        );
+      }
+      await database.saveDocument(query, value);
+      return;
+    } else if (GithubBranchModel.document.hasMatchPath(query.query.path)) {
+      final match =
+          GithubBranchModel.document.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final branchId = query.query.path.split("/").last;
+      if (organizationId == null || repositoryId == null) {
+        throw Exception("Invalid path for branch document deletion");
+      }
+      final model = GithubBranchModel.fromJson(value);
+      final fromServer = model.fromServer;
+      if (!fromServer) {
+        final baseRefName = model.baseRef?.value?.name;
+        if (baseRefName == null) {
+          throw Exception("Invalid base ref for branch.");
+        }
+        final baseRef = await github.git.getReference(
+          RepositorySlug(organizationId, repositoryId),
+          "heads/$baseRefName",
+        );
+        final baseSha = baseRef.object?.sha;
+        if (baseSha == null) {
+          throw Exception("Invalid base ref for branch.");
+        }
+        await github.git.createReference(
+          RepositorySlug(organizationId, repositoryId),
+          "refs/heads/$branchId",
+          baseSha,
+        );
+      } else {
+        throw UnsupportedError("Branch update is not supported");
+      }
+      await database.saveDocument(query, value);
+      return;
+    } else if (GithubCommitModel.document.hasMatchPath(query.query.path)) {
+      throw UnsupportedError("Commit update is not supported");
+    } else if (GithubContentModel.document.hasMatchPath(query.query.path)) {
+      final match =
+          GithubContentModel.document.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final branchId = match?.group(3);
+      final commitId = match?.group(4);
+      if (organizationId == null ||
+          repositoryId == null ||
+          branchId == null ||
+          commitId == null) {
+        throw Exception("Invalid path for content document deletion");
+      }
+      final model = GithubContentModel.fromJson(value);
+      final fromServer = model.fromServer;
+      if (!fromServer) {
+        await github.repositories.createFile(
+          RepositorySlug(organizationId, repositoryId),
+          CreateFile(
+            path: model.path,
+            message: "chore: Create file(${model.path?.last()})",
+            content: model.content,
+            branch: branchId,
+            committer: model.committer != null
+                ? CommitUser(
+                    model.committer?.value?.name,
+                    model.committer?.value?.email,
+                  )
+                : null,
+          ),
+        );
+      } else {
+        await github.repositories.updateFile(
+          RepositorySlug(organizationId, repositoryId),
+          model.path ?? "",
+          "chore: Update file(${model.path?.last()})",
+          model.content ?? "",
+          model.sha ?? "",
+          branch: branchId,
+        );
+      }
+      await database.saveDocument(query, value);
+      return;
+    }
+    throw UnsupportedError("Unsupported document: ${query.query.path}");
   }
 
   @override
@@ -504,6 +1304,8 @@ class GithubModelAdapter extends ModelAdapter {
       }
       await github.repositories
           .deleteRepository(RepositorySlug(organizationId, repositoryId));
+      await database.deleteDocument(query);
+      return;
     } else if (GithubIssueModel.document.hasMatchPath(query.query.path)) {
       final match =
           GithubIssueModel.document.regExp.firstMatch(query.query.path);
@@ -518,6 +1320,28 @@ class GithubModelAdapter extends ModelAdapter {
         issueId,
         IssueRequest(state: "closed"),
       );
+      await database.deleteDocument(query);
+      return;
+    } else if (GithubIssueCommentModel.document
+        .hasMatchPath(query.query.path)) {
+      final match =
+          GithubIssueCommentModel.document.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final issueId = match?.group(3);
+      final commentId = int.tryParse(query.query.path.split("/").last);
+      if (organizationId == null ||
+          repositoryId == null ||
+          issueId == null ||
+          commentId == null) {
+        throw Exception("Invalid path for issue document deletion");
+      }
+      await github.issues.deleteComment(
+        RepositorySlug(organizationId, repositoryId),
+        commentId,
+      );
+      await database.deleteDocument(query);
+      return;
     } else if (GithubPullRequestModel.document.hasMatchPath(query.query.path)) {
       final match =
           GithubPullRequestModel.document.regExp.firstMatch(query.query.path);
@@ -534,68 +1358,92 @@ class GithubModelAdapter extends ModelAdapter {
         pullRequestId,
         state: "closed",
       );
+      await database.deleteDocument(query);
+      return;
+    } else if (GithubPullRequestCommentModel.document
+        .hasMatchPath(query.query.path)) {
+      final match = GithubPullRequestCommentModel.document.regExp
+          .firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final pullRequestId = match?.group(3);
+      final commentId = int.tryParse(query.query.path.split("/").last);
+      if (organizationId == null ||
+          repositoryId == null ||
+          pullRequestId == null ||
+          commentId == null) {
+        throw Exception("Invalid path for pull request document deletion");
+      }
+      await github.issues.deleteComment(
+        RepositorySlug(organizationId, repositoryId),
+        commentId,
+      );
+      await database.deleteDocument(query);
+      return;
+    } else if (GithubBranchModel.document.hasMatchPath(query.query.path)) {
+      final match =
+          GithubBranchModel.document.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final branchId = query.query.path.split("/").last;
+      if (organizationId == null || repositoryId == null) {
+        throw Exception("Invalid path for branch document deletion");
+      }
+      await github.git.deleteReference(
+        RepositorySlug(organizationId, repositoryId),
+        "refs/heads/$branchId",
+      );
+      await database.deleteDocument(query);
+      return;
+    } else if (GithubCommitModel.document.hasMatchPath(query.query.path)) {
+      throw UnsupportedError("Commit deletion is not supported");
+    } else if (GithubContentModel.document.hasMatchPath(query.query.path)) {
+      final match =
+          GithubContentModel.document.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final branchId = match?.group(3);
+      final commitId = match?.group(4);
+      final contentId = query.query.path.split("/").last;
+      if (organizationId == null ||
+          repositoryId == null ||
+          branchId == null ||
+          commitId == null) {
+        throw Exception("Invalid path for content document deletion");
+      }
+      String? path;
+      final res = await database.loadDocument(query);
+      if (res == null) {
+        final contents = await github.repositories.getContents(
+          RepositorySlug(organizationId, repositoryId), "", // ルートディレクトリ
+          ref: contentId,
+        );
+        path = contents.file?.path;
+      }
+      if (path == null) {
+        throw Exception("Invalid path for content document deletion");
+      }
+      await github.repositories.deleteFile(
+        RepositorySlug(organizationId, repositoryId),
+        path,
+        "chore: Delete file(${path.last()})",
+        contentId,
+        branchId,
+      );
+      await database.deleteDocument(query);
+      return;
     }
-    throw UnsupportedError("Unsupported collection: ${query.query.path}");
+    throw UnsupportedError("Unsupported document: ${query.query.path}");
   }
 
   @override
-  void disposeCollection(ModelAdapterCollectionQuery query) {}
+  void disposeCollection(ModelAdapterCollectionQuery query) {
+    database.removeCollectionListener(query);
+  }
 
   @override
-  void disposeDocument(ModelAdapterDocumentQuery query) {}
-
-  @override
-  Future<Map<String, DynamicMap>> loadCollection(
-    ModelAdapterCollectionQuery query,
-  ) async {
-    final path = _parsePath(query.query.path);
-    final Map<String, DynamicMap> result = {};
-
-    switch (path.collection) {
-      case "issue":
-        if (path.owner == null || path.repository == null) {
-          throw ArgumentError("Invalid path for issue collection");
-        }
-        final issues = await _github.issues
-            .listByRepo(
-              RepositorySlug(path.owner!, path.repository!),
-              state: "all",
-            )
-            .toList();
-        for (final issue in issues) {
-          result[issue.number.toString()] = _convertIssueToMap(issue);
-        }
-        break;
-      case "pull_request":
-        if (path.owner == null || path.repository == null) {
-          throw ArgumentError("Invalid path for pull request collection");
-        }
-        final prs = await _github.pullRequests
-            .list(
-              RepositorySlug(path.owner!, path.repository!),
-              state: "all",
-            )
-            .toList();
-        for (final pr in prs) {
-          result[pr.number.toString()] = _convertPullRequestToMap(pr);
-        }
-        break;
-      case "repository":
-        if (path.owner == null) {
-          throw ArgumentError("Invalid path for repository collection");
-        }
-        final repos = await _github.repositories
-            .listUserRepositories(path.owner!)
-            .toList();
-        for (final repo in repos) {
-          result[repo.name] = _convertRepositoryToMap(repo);
-        }
-        break;
-      default:
-        throw UnsupportedError("Unsupported collection: ${path.collection}");
-    }
-
-    return result;
+  void disposeDocument(ModelAdapterDocumentQuery query) {
+    database.removeDocumentListener(query);
   }
 
   @override
@@ -613,76 +1461,6 @@ class GithubModelAdapter extends ModelAdapter {
         return val as T;
       default:
         throw UnsupportedError("This aggregation function is not available.");
-    }
-  }
-
-  @override
-  Future<void> saveDocument(
-    ModelAdapterDocumentQuery query,
-    DynamicMap value,
-  ) async {
-    final path = _parsePath(query.query.path);
-
-    switch (path.collection) {
-      case "issue":
-        if (path.owner == null || path.repository == null) {
-          throw ArgumentError("Invalid path for issue document save");
-        }
-        if (path.documentId == null) {
-          // Create new issue
-          await _github.issues.create(
-            RepositorySlug(path.owner!, path.repository!),
-            IssueRequest(
-              title: value["title"] ?? "",
-              body: value["body"] ?? "",
-              labels: (value["labels"] as List?)?.cast<String>(),
-            ),
-          );
-        } else {
-          // Update existing issue
-          await _github.issues.edit(
-            RepositorySlug(path.owner!, path.repository!),
-            int.parse(path.documentId!),
-            IssueRequest(
-              title: value["title"],
-              body: value["body"],
-              state: value["state"],
-              labels: (value["labels"] as List?)?.cast<String>(),
-            ),
-          );
-        }
-        break;
-      case "pull_request":
-        if (path.owner == null || path.repository == null) {
-          throw ArgumentError("Invalid path for pull request document save");
-        }
-        if (path.documentId == null) {
-          // Create new pull request
-          await _github.pullRequests.create(
-            RepositorySlug(path.owner!, path.repository!),
-            CreatePullRequest(
-              value["title"] ?? "",
-              value["head"] ?? "",
-              value["base"] ?? "",
-              body: value["body"],
-            ),
-          );
-        } else {
-          // Update existing pull request
-          await _github.pullRequests.edit(
-            RepositorySlug(path.owner!, path.repository!),
-            int.parse(path.documentId!),
-            title: value["title"],
-            body: value["body"],
-            state: value["state"],
-          );
-        }
-        break;
-      case "repository":
-        // Repository creation/update is limited in GitHub API
-        throw UnsupportedError("Repository save operation is not supported");
-      default:
-        throw UnsupportedError("Unsupported collection: ${path.collection}");
     }
   }
 
@@ -763,137 +1541,12 @@ class GithubModelAdapter extends ModelAdapter {
 
   @override
   Future<void> clearAll() {
-    // GitHub doesn't support clearing all data
     throw UnsupportedError("Clear all operation is not supported.");
   }
 
   @override
   Future<void> clearCache() async {
-    // No cache to clear
-  }
-
-  _GitHubPath _parsePath(String path) {
-    final trimmedPath = path.trimQuery().trimString("/");
-    final parts = trimmedPath.split("/");
-
-    if (parts.isEmpty) {
-      throw ArgumentError("Invalid path format");
-    }
-
-    final collection = parts[0];
-    String? pathOwner = owner;
-    String? pathRepository = repository;
-    String? documentId;
-
-    // Parse path based on collection type
-    switch (collection) {
-      case "issue":
-      case "pull_request":
-        if (parts.length >= 3) {
-          pathOwner = parts[1];
-          pathRepository = parts[2];
-          if (parts.length >= 4) {
-            documentId = parts[3];
-          }
-        } else if (parts.length == 2) {
-          documentId = parts[1];
-        }
-        break;
-      case "repository":
-        if (parts.length >= 2) {
-          pathOwner = parts[1];
-          if (parts.length >= 3) {
-            documentId = parts[2];
-          }
-        }
-        break;
-    }
-
-    return _GitHubPath(
-      collection: collection,
-      owner: pathOwner,
-      repository: pathRepository,
-      documentId: documentId,
-    );
-  }
-
-  DynamicMap _convertIssueToMap(Issue issue) {
-    return {
-      kUidFieldKey: issue.number.toString(),
-      "id": issue.id,
-      "number": issue.number,
-      "title": issue.title,
-      "body": issue.body,
-      "state": issue.state,
-      "user": {
-        "id": issue.user?.id,
-        "login": issue.user?.login,
-        "avatar_url": issue.user?.avatarUrl,
-      },
-      "labels": issue.labels
-          .map((label) => {
-                "name": label.name,
-                "color": label.color,
-              })
-          .toList(),
-      "created_at": issue.createdAt?.toIso8601String(),
-      "updated_at": issue.updatedAt?.toIso8601String(),
-      "closed_at": issue.closedAt?.toIso8601String(),
-    };
-  }
-
-  DynamicMap _convertPullRequestToMap(PullRequest pr) {
-    return {
-      kUidFieldKey: pr.number.toString(),
-      "id": pr.id,
-      "number": pr.number,
-      "title": pr.title,
-      "body": pr.body,
-      "state": pr.state,
-      "user": {
-        "id": pr.user?.id,
-        "login": pr.user?.login,
-        "avatar_url": pr.user?.avatarUrl,
-      },
-      "head": {
-        "ref": pr.head?.ref,
-        "sha": pr.head?.sha,
-      },
-      "base": {
-        "ref": pr.base?.ref,
-        "sha": pr.base?.sha,
-      },
-      "created_at": pr.createdAt?.toIso8601String(),
-      "updated_at": pr.updatedAt?.toIso8601String(),
-      "merged_at": pr.mergedAt?.toIso8601String(),
-    };
-  }
-
-  DynamicMap _convertRepositoryToMap(Repository repo) {
-    return {
-      kUidFieldKey: repo.name,
-      "id": repo.id,
-      "name": repo.name,
-      "full_name": repo.fullName,
-      "description": repo.description,
-      "private": repo.isPrivate,
-      "html_url": repo.htmlUrl,
-      "clone_url": repo.cloneUrl,
-      "ssh_url": repo.sshUrl,
-      "owner": {
-        "id": repo.owner?.id,
-        "login": repo.owner?.login,
-        "avatar_url": repo.owner?.avatarUrl,
-      },
-      "default_branch": repo.defaultBranch,
-      "language": repo.language,
-      "stargazers_count": repo.stargazersCount,
-      "forks_count": repo.forksCount,
-      "open_issues_count": repo.openIssuesCount,
-      "created_at": repo.createdAt?.toIso8601String(),
-      "updated_at": repo.updatedAt?.toIso8601String(),
-      "pushed_at": repo.pushedAt?.toIso8601String(),
-    };
+    await database.clearAll();
   }
 
   @override
@@ -901,21 +1554,6 @@ class GithubModelAdapter extends ModelAdapter {
 
   @override
   int get hashCode {
-    return onRetrieveToken.hashCode;
+    return onRetrieveToken.hashCode ^ database.hashCode;
   }
-}
-
-@immutable
-class _GitHubPath {
-  const _GitHubPath({
-    required this.collection,
-    this.owner,
-    this.repository,
-    this.documentId,
-  });
-
-  final String collection;
-  final String? owner;
-  final String? repository;
-  final String? documentId;
 }

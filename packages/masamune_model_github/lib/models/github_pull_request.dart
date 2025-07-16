@@ -59,6 +59,7 @@ abstract class GithubPullRequestModel with _$GithubPullRequestModel {
     ModelTimestamp? mergedAt,
     @Default(ModelTimestamp.now()) ModelTimestamp createdAt,
     @Default(ModelTimestamp.now()) ModelTimestamp updatedAt,
+    @Default(false) bool fromServer,
   }) = _GithubPullRequestModel;
   const GithubPullRequestModel._();
 

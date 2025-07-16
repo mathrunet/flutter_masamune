@@ -52,6 +52,7 @@ enum _$GithubIssueModelKeys {
   closedAt,
   createdAt,
   updatedAt,
+  fromServer,
 }
 
 class _$GithubIssueModelDocument extends DocumentBase<GithubIssueModel>
@@ -541,6 +542,14 @@ class _$_GithubIssueModelCollectionQuery
       get updatedAt =>
           ModelTimestampModelQuerySelector<_$_GithubIssueModelCollectionQuery>(
             key: "updatedAt",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
+
+  BooleanModelQuerySelector<_$_GithubIssueModelCollectionQuery>
+      get fromServer =>
+          BooleanModelQuerySelector<_$_GithubIssueModelCollectionQuery>(
+            key: "fromServer",
             toQuery: _toQuery,
             modelQuery: modelQuery,
           );

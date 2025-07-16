@@ -25,6 +25,7 @@ enum _$GithubIssueCommentModelKeys {
   issueUrl,
   createdAt,
   updatedAt,
+  fromServer,
 }
 
 class _$GithubIssueCommentModelDocument
@@ -350,6 +351,14 @@ class _$_GithubIssueCommentModelCollectionQuery
       get updatedAt => ModelTimestampModelQuerySelector<
               _$_GithubIssueCommentModelCollectionQuery>(
           key: "updatedAt", toQuery: _toQuery, modelQuery: modelQuery);
+
+  BooleanModelQuerySelector<_$_GithubIssueCommentModelCollectionQuery>
+      get fromServer =>
+          BooleanModelQuerySelector<_$_GithubIssueCommentModelCollectionQuery>(
+            key: "fromServer",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 }
 
 typedef _$GithubIssueCommentModelMirrorRefPath

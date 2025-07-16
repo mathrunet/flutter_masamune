@@ -24,6 +24,7 @@ mixin _$GithubIssueCommentModel {
   ModelUri? get issueUrl;
   ModelTimestamp get createdAt;
   ModelTimestamp get updatedAt;
+  bool get fromServer;
 
   /// Create a copy of GithubIssueCommentModel
   /// with the given fields replaced by the non-null parameter values.
@@ -53,17 +54,19 @@ mixin _$GithubIssueCommentModel {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.fromServer, fromServer) ||
+                other.fromServer == fromServer));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, body, authorAssociation,
-      user, url, htmlUrl, issueUrl, createdAt, updatedAt);
+      user, url, htmlUrl, issueUrl, createdAt, updatedAt, fromServer);
 
   @override
   String toString() {
-    return 'GithubIssueCommentModel(id: $id, body: $body, authorAssociation: $authorAssociation, user: $user, url: $url, htmlUrl: $htmlUrl, issueUrl: $issueUrl, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GithubIssueCommentModel(id: $id, body: $body, authorAssociation: $authorAssociation, user: $user, url: $url, htmlUrl: $htmlUrl, issueUrl: $issueUrl, createdAt: $createdAt, updatedAt: $updatedAt, fromServer: $fromServer)';
   }
 }
 
@@ -82,7 +85,8 @@ abstract mixin class $GithubIssueCommentModelCopyWith<$Res> {
       ModelUri? htmlUrl,
       ModelUri? issueUrl,
       ModelTimestamp createdAt,
-      ModelTimestamp updatedAt});
+      ModelTimestamp updatedAt,
+      bool fromServer});
 }
 
 /// @nodoc
@@ -107,6 +111,7 @@ class _$GithubIssueCommentModelCopyWithImpl<$Res>
     Object? issueUrl = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? fromServer = null,
   }) {
     return _then(_self.copyWith(
       id: freezed == id
@@ -145,6 +150,10 @@ class _$GithubIssueCommentModelCopyWithImpl<$Res>
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
+      fromServer: null == fromServer
+          ? _self.fromServer
+          : fromServer // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -251,7 +260,8 @@ extension GithubIssueCommentModelPatterns on GithubIssueCommentModel {
             ModelUri? htmlUrl,
             ModelUri? issueUrl,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)?
+            ModelTimestamp updatedAt,
+            bool fromServer)?
         $default, {
     required TResult orElse(),
   }) {
@@ -267,7 +277,8 @@ extension GithubIssueCommentModelPatterns on GithubIssueCommentModel {
             _that.htmlUrl,
             _that.issueUrl,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         return orElse();
     }
@@ -297,7 +308,8 @@ extension GithubIssueCommentModelPatterns on GithubIssueCommentModel {
             ModelUri? htmlUrl,
             ModelUri? issueUrl,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)
+            ModelTimestamp updatedAt,
+            bool fromServer)
         $default,
   ) {
     final _that = this;
@@ -312,7 +324,8 @@ extension GithubIssueCommentModelPatterns on GithubIssueCommentModel {
             _that.htmlUrl,
             _that.issueUrl,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -341,7 +354,8 @@ extension GithubIssueCommentModelPatterns on GithubIssueCommentModel {
             ModelUri? htmlUrl,
             ModelUri? issueUrl,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)?
+            ModelTimestamp updatedAt,
+            bool fromServer)?
         $default,
   ) {
     final _that = this;
@@ -356,7 +370,8 @@ extension GithubIssueCommentModelPatterns on GithubIssueCommentModel {
             _that.htmlUrl,
             _that.issueUrl,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         return null;
     }
@@ -375,7 +390,8 @@ class _GithubIssueCommentModel extends GithubIssueCommentModel {
       this.htmlUrl,
       this.issueUrl,
       this.createdAt = const ModelTimestamp.now(),
-      this.updatedAt = const ModelTimestamp.now()})
+      this.updatedAt = const ModelTimestamp.now(),
+      this.fromServer = false})
       : super._();
   factory _GithubIssueCommentModel.fromJson(Map<String, dynamic> json) =>
       _$GithubIssueCommentModelFromJson(json);
@@ -401,6 +417,9 @@ class _GithubIssueCommentModel extends GithubIssueCommentModel {
   @override
   @JsonKey()
   final ModelTimestamp updatedAt;
+  @override
+  @JsonKey()
+  final bool fromServer;
 
   /// Create a copy of GithubIssueCommentModel
   /// with the given fields replaced by the non-null parameter values.
@@ -435,17 +454,19 @@ class _GithubIssueCommentModel extends GithubIssueCommentModel {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.fromServer, fromServer) ||
+                other.fromServer == fromServer));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, body, authorAssociation,
-      user, url, htmlUrl, issueUrl, createdAt, updatedAt);
+      user, url, htmlUrl, issueUrl, createdAt, updatedAt, fromServer);
 
   @override
   String toString() {
-    return 'GithubIssueCommentModel(id: $id, body: $body, authorAssociation: $authorAssociation, user: $user, url: $url, htmlUrl: $htmlUrl, issueUrl: $issueUrl, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GithubIssueCommentModel(id: $id, body: $body, authorAssociation: $authorAssociation, user: $user, url: $url, htmlUrl: $htmlUrl, issueUrl: $issueUrl, createdAt: $createdAt, updatedAt: $updatedAt, fromServer: $fromServer)';
   }
 }
 
@@ -466,7 +487,8 @@ abstract mixin class _$GithubIssueCommentModelCopyWith<$Res>
       ModelUri? htmlUrl,
       ModelUri? issueUrl,
       ModelTimestamp createdAt,
-      ModelTimestamp updatedAt});
+      ModelTimestamp updatedAt,
+      bool fromServer});
 }
 
 /// @nodoc
@@ -491,6 +513,7 @@ class __$GithubIssueCommentModelCopyWithImpl<$Res>
     Object? issueUrl = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? fromServer = null,
   }) {
     return _then(_GithubIssueCommentModel(
       id: freezed == id
@@ -529,6 +552,10 @@ class __$GithubIssueCommentModelCopyWithImpl<$Res>
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
+      fromServer: null == fromServer
+          ? _self.fromServer
+          : fromServer // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }

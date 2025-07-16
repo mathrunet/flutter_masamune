@@ -85,6 +85,7 @@ _GithubPullRequestModel _$GithubPullRequestModelFromJson(
       updatedAt: json['updatedAt'] == null
           ? const ModelTimestamp.now()
           : ModelTimestamp.fromJson(json['updatedAt'] as Map<String, dynamic>),
+      fromServer: json['fromServer'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$GithubPullRequestModelToJson(
@@ -125,4 +126,5 @@ Map<String, dynamic> _$GithubPullRequestModelToJson(
       'mergedAt': instance.mergedAt,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
+      'fromServer': instance.fromServer,
     };

@@ -28,7 +28,7 @@ _GithubPullRequestCommentModel _$GithubPullRequestCommentModelFromJson(
           ? null
           : ModelUri.fromJson(json['pullRequestUrl'] as Map<String, dynamic>),
       links: json['links'] == null
-          ? const []
+          ? null
           : ModelUri.fromJson(json['links'] as Map<String, dynamic>),
       createdAt: json['createdAt'] == null
           ? const ModelTimestamp.now()
@@ -36,6 +36,7 @@ _GithubPullRequestCommentModel _$GithubPullRequestCommentModelFromJson(
       updatedAt: json['updatedAt'] == null
           ? const ModelTimestamp.now()
           : ModelTimestamp.fromJson(json['updatedAt'] as Map<String, dynamic>),
+      fromServer: json['fromServer'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$GithubPullRequestCommentModelToJson(
@@ -55,4 +56,5 @@ Map<String, dynamic> _$GithubPullRequestCommentModelToJson(
       'links': instance.links,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
+      'fromServer': instance.fromServer,
     };

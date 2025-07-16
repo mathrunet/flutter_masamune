@@ -57,6 +57,7 @@ mixin _$GithubPullRequestModel {
   ModelTimestamp? get mergedAt;
   ModelTimestamp get createdAt;
   ModelTimestamp get updatedAt;
+  bool get fromServer;
 
   /// Create a copy of GithubPullRequestModel
   /// with the given fields replaced by the non-null parameter values.
@@ -129,7 +130,9 @@ mixin _$GithubPullRequestModel {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.fromServer, fromServer) ||
+                other.fromServer == fromServer));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -170,12 +173,13 @@ mixin _$GithubPullRequestModel {
         closedAt,
         mergedAt,
         createdAt,
-        updatedAt
+        updatedAt,
+        fromServer
       ]);
 
   @override
   String toString() {
-    return 'GithubPullRequestModel(id: $id, nodeId: $nodeId, number: $number, state: $state, title: $title, body: $body, mergeCommitSha: $mergeCommitSha, mergeableState: $mergeableState, authorAssociation: $authorAssociation, draft: $draft, merged: $merged, mergeable: $mergeable, rebaseable: $rebaseable, maintainerCanModify: $maintainerCanModify, commentsCount: $commentsCount, commitsCount: $commitsCount, additionsCount: $additionsCount, deletionsCount: $deletionsCount, changedFilesCount: $changedFilesCount, reviewCommentCount: $reviewCommentCount, repository: $repository, user: $user, mergedBy: $mergedBy, requestedReviewers: $requestedReviewers, labels: $labels, head: $head, base: $base, milestone: $milestone, htmlUrl: $htmlUrl, diffUrl: $diffUrl, patchUrl: $patchUrl, closedAt: $closedAt, mergedAt: $mergedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GithubPullRequestModel(id: $id, nodeId: $nodeId, number: $number, state: $state, title: $title, body: $body, mergeCommitSha: $mergeCommitSha, mergeableState: $mergeableState, authorAssociation: $authorAssociation, draft: $draft, merged: $merged, mergeable: $mergeable, rebaseable: $rebaseable, maintainerCanModify: $maintainerCanModify, commentsCount: $commentsCount, commitsCount: $commitsCount, additionsCount: $additionsCount, deletionsCount: $deletionsCount, changedFilesCount: $changedFilesCount, reviewCommentCount: $reviewCommentCount, repository: $repository, user: $user, mergedBy: $mergedBy, requestedReviewers: $requestedReviewers, labels: $labels, head: $head, base: $base, milestone: $milestone, htmlUrl: $htmlUrl, diffUrl: $diffUrl, patchUrl: $patchUrl, closedAt: $closedAt, mergedAt: $mergedAt, createdAt: $createdAt, updatedAt: $updatedAt, fromServer: $fromServer)';
   }
 }
 
@@ -220,7 +224,8 @@ abstract mixin class $GithubPullRequestModelCopyWith<$Res> {
       ModelTimestamp? closedAt,
       ModelTimestamp? mergedAt,
       ModelTimestamp createdAt,
-      ModelTimestamp updatedAt});
+      ModelTimestamp updatedAt,
+      bool fromServer});
 
   $GithubPullRequestHeadValueCopyWith<$Res>? get head;
   $GithubPullRequestHeadValueCopyWith<$Res>? get base;
@@ -275,6 +280,7 @@ class _$GithubPullRequestModelCopyWithImpl<$Res>
     Object? mergedAt = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? fromServer = null,
   }) {
     return _then(_self.copyWith(
       id: freezed == id
@@ -417,6 +423,10 @@ class _$GithubPullRequestModelCopyWithImpl<$Res>
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
+      fromServer: null == fromServer
+          ? _self.fromServer
+          : fromServer // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -591,7 +601,8 @@ extension GithubPullRequestModelPatterns on GithubPullRequestModel {
             ModelTimestamp? closedAt,
             ModelTimestamp? mergedAt,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)?
+            ModelTimestamp updatedAt,
+            bool fromServer)?
         $default, {
     required TResult orElse(),
   }) {
@@ -633,7 +644,8 @@ extension GithubPullRequestModelPatterns on GithubPullRequestModel {
             _that.closedAt,
             _that.mergedAt,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         return orElse();
     }
@@ -689,7 +701,8 @@ extension GithubPullRequestModelPatterns on GithubPullRequestModel {
             ModelTimestamp? closedAt,
             ModelTimestamp? mergedAt,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)
+            ModelTimestamp updatedAt,
+            bool fromServer)
         $default,
   ) {
     final _that = this;
@@ -730,7 +743,8 @@ extension GithubPullRequestModelPatterns on GithubPullRequestModel {
             _that.closedAt,
             _that.mergedAt,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -785,7 +799,8 @@ extension GithubPullRequestModelPatterns on GithubPullRequestModel {
             ModelTimestamp? closedAt,
             ModelTimestamp? mergedAt,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)?
+            ModelTimestamp updatedAt,
+            bool fromServer)?
         $default,
   ) {
     final _that = this;
@@ -826,7 +841,8 @@ extension GithubPullRequestModelPatterns on GithubPullRequestModel {
             _that.closedAt,
             _that.mergedAt,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         return null;
     }
@@ -872,7 +888,8 @@ class _GithubPullRequestModel extends GithubPullRequestModel {
       this.closedAt,
       this.mergedAt,
       this.createdAt = const ModelTimestamp.now(),
-      this.updatedAt = const ModelTimestamp.now()})
+      this.updatedAt = const ModelTimestamp.now(),
+      this.fromServer = false})
       : _requestedReviewers = requestedReviewers,
         _labels = labels,
         super._();
@@ -985,6 +1002,9 @@ class _GithubPullRequestModel extends GithubPullRequestModel {
   @override
   @JsonKey()
   final ModelTimestamp updatedAt;
+  @override
+  @JsonKey()
+  final bool fromServer;
 
   /// Create a copy of GithubPullRequestModel
   /// with the given fields replaced by the non-null parameter values.
@@ -1062,7 +1082,9 @@ class _GithubPullRequestModel extends GithubPullRequestModel {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.fromServer, fromServer) ||
+                other.fromServer == fromServer));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1103,12 +1125,13 @@ class _GithubPullRequestModel extends GithubPullRequestModel {
         closedAt,
         mergedAt,
         createdAt,
-        updatedAt
+        updatedAt,
+        fromServer
       ]);
 
   @override
   String toString() {
-    return 'GithubPullRequestModel(id: $id, nodeId: $nodeId, number: $number, state: $state, title: $title, body: $body, mergeCommitSha: $mergeCommitSha, mergeableState: $mergeableState, authorAssociation: $authorAssociation, draft: $draft, merged: $merged, mergeable: $mergeable, rebaseable: $rebaseable, maintainerCanModify: $maintainerCanModify, commentsCount: $commentsCount, commitsCount: $commitsCount, additionsCount: $additionsCount, deletionsCount: $deletionsCount, changedFilesCount: $changedFilesCount, reviewCommentCount: $reviewCommentCount, repository: $repository, user: $user, mergedBy: $mergedBy, requestedReviewers: $requestedReviewers, labels: $labels, head: $head, base: $base, milestone: $milestone, htmlUrl: $htmlUrl, diffUrl: $diffUrl, patchUrl: $patchUrl, closedAt: $closedAt, mergedAt: $mergedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GithubPullRequestModel(id: $id, nodeId: $nodeId, number: $number, state: $state, title: $title, body: $body, mergeCommitSha: $mergeCommitSha, mergeableState: $mergeableState, authorAssociation: $authorAssociation, draft: $draft, merged: $merged, mergeable: $mergeable, rebaseable: $rebaseable, maintainerCanModify: $maintainerCanModify, commentsCount: $commentsCount, commitsCount: $commitsCount, additionsCount: $additionsCount, deletionsCount: $deletionsCount, changedFilesCount: $changedFilesCount, reviewCommentCount: $reviewCommentCount, repository: $repository, user: $user, mergedBy: $mergedBy, requestedReviewers: $requestedReviewers, labels: $labels, head: $head, base: $base, milestone: $milestone, htmlUrl: $htmlUrl, diffUrl: $diffUrl, patchUrl: $patchUrl, closedAt: $closedAt, mergedAt: $mergedAt, createdAt: $createdAt, updatedAt: $updatedAt, fromServer: $fromServer)';
   }
 }
 
@@ -1155,7 +1178,8 @@ abstract mixin class _$GithubPullRequestModelCopyWith<$Res>
       ModelTimestamp? closedAt,
       ModelTimestamp? mergedAt,
       ModelTimestamp createdAt,
-      ModelTimestamp updatedAt});
+      ModelTimestamp updatedAt,
+      bool fromServer});
 
   @override
   $GithubPullRequestHeadValueCopyWith<$Res>? get head;
@@ -1213,6 +1237,7 @@ class __$GithubPullRequestModelCopyWithImpl<$Res>
     Object? mergedAt = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? fromServer = null,
   }) {
     return _then(_GithubPullRequestModel(
       id: freezed == id
@@ -1355,6 +1380,10 @@ class __$GithubPullRequestModelCopyWithImpl<$Res>
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
+      fromServer: null == fromServer
+          ? _self.fromServer
+          : fromServer // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 

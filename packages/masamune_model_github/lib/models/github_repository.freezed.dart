@@ -112,6 +112,7 @@ mixin _$GithubRepositoryModel {
   ModelTimestamp? get pushedAt;
   ModelTimestamp get createdAt;
   ModelTimestamp get updatedAt;
+  bool get fromServer;
 
   /// Create a copy of GithubRepositoryModel
   /// with the given fields replaced by the non-null parameter values.
@@ -256,7 +257,8 @@ mixin _$GithubRepositoryModel {
             (identical(other.starredAt, starredAt) || other.starredAt == starredAt) &&
             (identical(other.pushedAt, pushedAt) || other.pushedAt == pushedAt) &&
             (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.fromServer, fromServer) || other.fromServer == fromServer));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -355,12 +357,13 @@ mixin _$GithubRepositoryModel {
         starredAt,
         pushedAt,
         createdAt,
-        updatedAt
+        updatedAt,
+        fromServer
       ]);
 
   @override
   String toString() {
-    return 'GithubRepositoryModel(id: $id, name: $name, fullName: $fullName, owner: $owner, organization: $organization, language: $language, license: $license, permissions: $permissions, isPrivate: $isPrivate, isFork: $isFork, isTemplate: $isTemplate, description: $description, masterBranch: $masterBranch, mergeCommitMessage: $mergeCommitMessage, mergeCommitTitle: $mergeCommitTitle, squashMergeCommitMessage: $squashMergeCommitMessage, squashMergeCommitTitle: $squashMergeCommitTitle, nodeId: $nodeId, tempCloneToken: $tempCloneToken, visibility: $visibility, topics: $topics, archived: $archived, disabled: $disabled, hasIssues: $hasIssues, hasWiki: $hasWiki, hasDownloads: $hasDownloads, hasPages: $hasPages, hasDiscussions: $hasDiscussions, hasProjects: $hasProjects, allowAutoMerge: $allowAutoMerge, allowForking: $allowForking, allowMergeCommit: $allowMergeCommit, allowRebaseMerge: $allowRebaseMerge, allowSquashMerge: $allowSquashMerge, allowUpdateBranch: $allowUpdateBranch, anonymousAccessEnabled: $anonymousAccessEnabled, deleteBranchOnMerge: $deleteBranchOnMerge, webCommitSignoffRequired: $webCommitSignoffRequired, size: $size, stargazersCount: $stargazersCount, watchersCount: $watchersCount, forksCount: $forksCount, openIssuesCount: $openIssuesCount, subscribersCount: $subscribersCount, networkCount: $networkCount, htmlUrl: $htmlUrl, cloneUrl: $cloneUrl, sshUrl: $sshUrl, svnUrl: $svnUrl, gitUrl: $gitUrl, homepageUrl: $homepageUrl, archiveUrl: $archiveUrl, assigneesUrl: $assigneesUrl, blobsUrl: $blobsUrl, branchesUrl: $branchesUrl, collaboratorsUrl: $collaboratorsUrl, commentsUrl: $commentsUrl, commitsUrl: $commitsUrl, compareUrl: $compareUrl, contentsUrl: $contentsUrl, contributorsUrl: $contributorsUrl, deploymentsUrl: $deploymentsUrl, downloadsUrl: $downloadsUrl, eventsUrl: $eventsUrl, forksUrl: $forksUrl, gitCommitsUrl: $gitCommitsUrl, gitRefsUrl: $gitRefsUrl, gitTagsUrl: $gitTagsUrl, hooksUrl: $hooksUrl, issueCommentUrl: $issueCommentUrl, issueEventsUrl: $issueEventsUrl, issuesUrl: $issuesUrl, keysUrl: $keysUrl, labelsUrl: $labelsUrl, languagesUrl: $languagesUrl, mergesUrl: $mergesUrl, milestonesUrl: $milestonesUrl, mirrorUrl: $mirrorUrl, notificationsUrl: $notificationsUrl, pullsUrl: $pullsUrl, releasesUrl: $releasesUrl, stargazersUrl: $stargazersUrl, statusesUrl: $statusesUrl, subscribersUrl: $subscribersUrl, subscriptionUrl: $subscriptionUrl, tagsUrl: $tagsUrl, teamsUrl: $teamsUrl, treesUrl: $treesUrl, templateRepository: $templateRepository, starredAt: $starredAt, pushedAt: $pushedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GithubRepositoryModel(id: $id, name: $name, fullName: $fullName, owner: $owner, organization: $organization, language: $language, license: $license, permissions: $permissions, isPrivate: $isPrivate, isFork: $isFork, isTemplate: $isTemplate, description: $description, masterBranch: $masterBranch, mergeCommitMessage: $mergeCommitMessage, mergeCommitTitle: $mergeCommitTitle, squashMergeCommitMessage: $squashMergeCommitMessage, squashMergeCommitTitle: $squashMergeCommitTitle, nodeId: $nodeId, tempCloneToken: $tempCloneToken, visibility: $visibility, topics: $topics, archived: $archived, disabled: $disabled, hasIssues: $hasIssues, hasWiki: $hasWiki, hasDownloads: $hasDownloads, hasPages: $hasPages, hasDiscussions: $hasDiscussions, hasProjects: $hasProjects, allowAutoMerge: $allowAutoMerge, allowForking: $allowForking, allowMergeCommit: $allowMergeCommit, allowRebaseMerge: $allowRebaseMerge, allowSquashMerge: $allowSquashMerge, allowUpdateBranch: $allowUpdateBranch, anonymousAccessEnabled: $anonymousAccessEnabled, deleteBranchOnMerge: $deleteBranchOnMerge, webCommitSignoffRequired: $webCommitSignoffRequired, size: $size, stargazersCount: $stargazersCount, watchersCount: $watchersCount, forksCount: $forksCount, openIssuesCount: $openIssuesCount, subscribersCount: $subscribersCount, networkCount: $networkCount, htmlUrl: $htmlUrl, cloneUrl: $cloneUrl, sshUrl: $sshUrl, svnUrl: $svnUrl, gitUrl: $gitUrl, homepageUrl: $homepageUrl, archiveUrl: $archiveUrl, assigneesUrl: $assigneesUrl, blobsUrl: $blobsUrl, branchesUrl: $branchesUrl, collaboratorsUrl: $collaboratorsUrl, commentsUrl: $commentsUrl, commitsUrl: $commitsUrl, compareUrl: $compareUrl, contentsUrl: $contentsUrl, contributorsUrl: $contributorsUrl, deploymentsUrl: $deploymentsUrl, downloadsUrl: $downloadsUrl, eventsUrl: $eventsUrl, forksUrl: $forksUrl, gitCommitsUrl: $gitCommitsUrl, gitRefsUrl: $gitRefsUrl, gitTagsUrl: $gitTagsUrl, hooksUrl: $hooksUrl, issueCommentUrl: $issueCommentUrl, issueEventsUrl: $issueEventsUrl, issuesUrl: $issuesUrl, keysUrl: $keysUrl, labelsUrl: $labelsUrl, languagesUrl: $languagesUrl, mergesUrl: $mergesUrl, milestonesUrl: $milestonesUrl, mirrorUrl: $mirrorUrl, notificationsUrl: $notificationsUrl, pullsUrl: $pullsUrl, releasesUrl: $releasesUrl, stargazersUrl: $stargazersUrl, statusesUrl: $statusesUrl, subscribersUrl: $subscribersUrl, subscriptionUrl: $subscriptionUrl, tagsUrl: $tagsUrl, teamsUrl: $teamsUrl, treesUrl: $treesUrl, templateRepository: $templateRepository, starredAt: $starredAt, pushedAt: $pushedAt, createdAt: $createdAt, updatedAt: $updatedAt, fromServer: $fromServer)';
   }
 }
 
@@ -463,7 +466,8 @@ abstract mixin class $GithubRepositoryModelCopyWith<$Res> {
       ModelTimestamp? starredAt,
       ModelTimestamp? pushedAt,
       ModelTimestamp createdAt,
-      ModelTimestamp updatedAt});
+      ModelTimestamp updatedAt,
+      bool fromServer});
 
   $GithubLicenseValueCopyWith<$Res>? get license;
   $GithubRepositoryPermissionValueCopyWith<$Res>? get permissions;
@@ -575,6 +579,7 @@ class _$GithubRepositoryModelCopyWithImpl<$Res>
     Object? pushedAt = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? fromServer = null,
   }) {
     return _then(_self.copyWith(
       id: freezed == id
@@ -949,6 +954,10 @@ class _$GithubRepositoryModelCopyWithImpl<$Res>
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
+      fromServer: null == fromServer
+          ? _self.fromServer
+          : fromServer // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -1168,7 +1177,8 @@ extension GithubRepositoryModelPatterns on GithubRepositoryModel {
             ModelTimestamp? starredAt,
             ModelTimestamp? pushedAt,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)?
+            ModelTimestamp updatedAt,
+            bool fromServer)?
         $default, {
     required TResult orElse(),
   }) {
@@ -1268,7 +1278,8 @@ extension GithubRepositoryModelPatterns on GithubRepositoryModel {
             _that.starredAt,
             _that.pushedAt,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         return orElse();
     }
@@ -1382,7 +1393,8 @@ extension GithubRepositoryModelPatterns on GithubRepositoryModel {
             ModelTimestamp? starredAt,
             ModelTimestamp? pushedAt,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)
+            ModelTimestamp updatedAt,
+            bool fromServer)
         $default,
   ) {
     final _that = this;
@@ -1481,7 +1493,8 @@ extension GithubRepositoryModelPatterns on GithubRepositoryModel {
             _that.starredAt,
             _that.pushedAt,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -1594,7 +1607,8 @@ extension GithubRepositoryModelPatterns on GithubRepositoryModel {
             ModelTimestamp? starredAt,
             ModelTimestamp? pushedAt,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)?
+            ModelTimestamp updatedAt,
+            bool fromServer)?
         $default,
   ) {
     final _that = this;
@@ -1693,7 +1707,8 @@ extension GithubRepositoryModelPatterns on GithubRepositoryModel {
             _that.starredAt,
             _that.pushedAt,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         return null;
     }
@@ -1796,7 +1811,8 @@ class _GithubRepositoryModel extends GithubRepositoryModel {
       this.starredAt,
       this.pushedAt,
       this.createdAt = const ModelTimestamp.now(),
-      this.updatedAt = const ModelTimestamp.now()})
+      this.updatedAt = const ModelTimestamp.now(),
+      this.fromServer = false})
       : _topics = topics,
         super._();
   factory _GithubRepositoryModel.fromJson(Map<String, dynamic> json) =>
@@ -2029,6 +2045,9 @@ class _GithubRepositoryModel extends GithubRepositoryModel {
   @override
   @JsonKey()
   final ModelTimestamp updatedAt;
+  @override
+  @JsonKey()
+  final bool fromServer;
 
   /// Create a copy of GithubRepositoryModel
   /// with the given fields replaced by the non-null parameter values.
@@ -2178,7 +2197,8 @@ class _GithubRepositoryModel extends GithubRepositoryModel {
             (identical(other.starredAt, starredAt) || other.starredAt == starredAt) &&
             (identical(other.pushedAt, pushedAt) || other.pushedAt == pushedAt) &&
             (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.fromServer, fromServer) || other.fromServer == fromServer));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2277,12 +2297,13 @@ class _GithubRepositoryModel extends GithubRepositoryModel {
         starredAt,
         pushedAt,
         createdAt,
-        updatedAt
+        updatedAt,
+        fromServer
       ]);
 
   @override
   String toString() {
-    return 'GithubRepositoryModel(id: $id, name: $name, fullName: $fullName, owner: $owner, organization: $organization, language: $language, license: $license, permissions: $permissions, isPrivate: $isPrivate, isFork: $isFork, isTemplate: $isTemplate, description: $description, masterBranch: $masterBranch, mergeCommitMessage: $mergeCommitMessage, mergeCommitTitle: $mergeCommitTitle, squashMergeCommitMessage: $squashMergeCommitMessage, squashMergeCommitTitle: $squashMergeCommitTitle, nodeId: $nodeId, tempCloneToken: $tempCloneToken, visibility: $visibility, topics: $topics, archived: $archived, disabled: $disabled, hasIssues: $hasIssues, hasWiki: $hasWiki, hasDownloads: $hasDownloads, hasPages: $hasPages, hasDiscussions: $hasDiscussions, hasProjects: $hasProjects, allowAutoMerge: $allowAutoMerge, allowForking: $allowForking, allowMergeCommit: $allowMergeCommit, allowRebaseMerge: $allowRebaseMerge, allowSquashMerge: $allowSquashMerge, allowUpdateBranch: $allowUpdateBranch, anonymousAccessEnabled: $anonymousAccessEnabled, deleteBranchOnMerge: $deleteBranchOnMerge, webCommitSignoffRequired: $webCommitSignoffRequired, size: $size, stargazersCount: $stargazersCount, watchersCount: $watchersCount, forksCount: $forksCount, openIssuesCount: $openIssuesCount, subscribersCount: $subscribersCount, networkCount: $networkCount, htmlUrl: $htmlUrl, cloneUrl: $cloneUrl, sshUrl: $sshUrl, svnUrl: $svnUrl, gitUrl: $gitUrl, homepageUrl: $homepageUrl, archiveUrl: $archiveUrl, assigneesUrl: $assigneesUrl, blobsUrl: $blobsUrl, branchesUrl: $branchesUrl, collaboratorsUrl: $collaboratorsUrl, commentsUrl: $commentsUrl, commitsUrl: $commitsUrl, compareUrl: $compareUrl, contentsUrl: $contentsUrl, contributorsUrl: $contributorsUrl, deploymentsUrl: $deploymentsUrl, downloadsUrl: $downloadsUrl, eventsUrl: $eventsUrl, forksUrl: $forksUrl, gitCommitsUrl: $gitCommitsUrl, gitRefsUrl: $gitRefsUrl, gitTagsUrl: $gitTagsUrl, hooksUrl: $hooksUrl, issueCommentUrl: $issueCommentUrl, issueEventsUrl: $issueEventsUrl, issuesUrl: $issuesUrl, keysUrl: $keysUrl, labelsUrl: $labelsUrl, languagesUrl: $languagesUrl, mergesUrl: $mergesUrl, milestonesUrl: $milestonesUrl, mirrorUrl: $mirrorUrl, notificationsUrl: $notificationsUrl, pullsUrl: $pullsUrl, releasesUrl: $releasesUrl, stargazersUrl: $stargazersUrl, statusesUrl: $statusesUrl, subscribersUrl: $subscribersUrl, subscriptionUrl: $subscriptionUrl, tagsUrl: $tagsUrl, teamsUrl: $teamsUrl, treesUrl: $treesUrl, templateRepository: $templateRepository, starredAt: $starredAt, pushedAt: $pushedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GithubRepositoryModel(id: $id, name: $name, fullName: $fullName, owner: $owner, organization: $organization, language: $language, license: $license, permissions: $permissions, isPrivate: $isPrivate, isFork: $isFork, isTemplate: $isTemplate, description: $description, masterBranch: $masterBranch, mergeCommitMessage: $mergeCommitMessage, mergeCommitTitle: $mergeCommitTitle, squashMergeCommitMessage: $squashMergeCommitMessage, squashMergeCommitTitle: $squashMergeCommitTitle, nodeId: $nodeId, tempCloneToken: $tempCloneToken, visibility: $visibility, topics: $topics, archived: $archived, disabled: $disabled, hasIssues: $hasIssues, hasWiki: $hasWiki, hasDownloads: $hasDownloads, hasPages: $hasPages, hasDiscussions: $hasDiscussions, hasProjects: $hasProjects, allowAutoMerge: $allowAutoMerge, allowForking: $allowForking, allowMergeCommit: $allowMergeCommit, allowRebaseMerge: $allowRebaseMerge, allowSquashMerge: $allowSquashMerge, allowUpdateBranch: $allowUpdateBranch, anonymousAccessEnabled: $anonymousAccessEnabled, deleteBranchOnMerge: $deleteBranchOnMerge, webCommitSignoffRequired: $webCommitSignoffRequired, size: $size, stargazersCount: $stargazersCount, watchersCount: $watchersCount, forksCount: $forksCount, openIssuesCount: $openIssuesCount, subscribersCount: $subscribersCount, networkCount: $networkCount, htmlUrl: $htmlUrl, cloneUrl: $cloneUrl, sshUrl: $sshUrl, svnUrl: $svnUrl, gitUrl: $gitUrl, homepageUrl: $homepageUrl, archiveUrl: $archiveUrl, assigneesUrl: $assigneesUrl, blobsUrl: $blobsUrl, branchesUrl: $branchesUrl, collaboratorsUrl: $collaboratorsUrl, commentsUrl: $commentsUrl, commitsUrl: $commitsUrl, compareUrl: $compareUrl, contentsUrl: $contentsUrl, contributorsUrl: $contributorsUrl, deploymentsUrl: $deploymentsUrl, downloadsUrl: $downloadsUrl, eventsUrl: $eventsUrl, forksUrl: $forksUrl, gitCommitsUrl: $gitCommitsUrl, gitRefsUrl: $gitRefsUrl, gitTagsUrl: $gitTagsUrl, hooksUrl: $hooksUrl, issueCommentUrl: $issueCommentUrl, issueEventsUrl: $issueEventsUrl, issuesUrl: $issuesUrl, keysUrl: $keysUrl, labelsUrl: $labelsUrl, languagesUrl: $languagesUrl, mergesUrl: $mergesUrl, milestonesUrl: $milestonesUrl, mirrorUrl: $mirrorUrl, notificationsUrl: $notificationsUrl, pullsUrl: $pullsUrl, releasesUrl: $releasesUrl, stargazersUrl: $stargazersUrl, statusesUrl: $statusesUrl, subscribersUrl: $subscribersUrl, subscriptionUrl: $subscriptionUrl, tagsUrl: $tagsUrl, teamsUrl: $teamsUrl, treesUrl: $treesUrl, templateRepository: $templateRepository, starredAt: $starredAt, pushedAt: $pushedAt, createdAt: $createdAt, updatedAt: $updatedAt, fromServer: $fromServer)';
   }
 }
 
@@ -2387,7 +2408,8 @@ abstract mixin class _$GithubRepositoryModelCopyWith<$Res>
       ModelTimestamp? starredAt,
       ModelTimestamp? pushedAt,
       ModelTimestamp createdAt,
-      ModelTimestamp updatedAt});
+      ModelTimestamp updatedAt,
+      bool fromServer});
 
   @override
   $GithubLicenseValueCopyWith<$Res>? get license;
@@ -2501,6 +2523,7 @@ class __$GithubRepositoryModelCopyWithImpl<$Res>
     Object? pushedAt = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? fromServer = null,
   }) {
     return _then(_GithubRepositoryModel(
       id: freezed == id
@@ -2875,6 +2898,10 @@ class __$GithubRepositoryModelCopyWithImpl<$Res>
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
+      fromServer: null == fromServer
+          ? _self.fromServer
+          : fromServer // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 

@@ -52,6 +52,7 @@ mixin _$GithubIssueModel {
   ModelTimestamp? get closedAt;
   ModelTimestamp get createdAt;
   ModelTimestamp get updatedAt;
+  bool get fromServer;
 
   /// Create a copy of GithubIssueModel
   /// with the given fields replaced by the non-null parameter values.
@@ -117,7 +118,9 @@ mixin _$GithubIssueModel {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.fromServer, fromServer) ||
+                other.fromServer == fromServer));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -154,12 +157,13 @@ mixin _$GithubIssueModel {
         reactions,
         closedAt,
         createdAt,
-        updatedAt
+        updatedAt,
+        fromServer
       ]);
 
   @override
   String toString() {
-    return 'GithubIssueModel(id: $id, number: $number, title: $title, body: $body, bodyHtml: $bodyHtml, bodyText: $bodyText, state: $state, stateReason: $stateReason, activeLockReason: $activeLockReason, authorAssociation: $authorAssociation, nodeId: $nodeId, draft: $draft, locked: $locked, commentsCount: $commentsCount, repository: $repository, user: $user, assignee: $assignee, assignees: $assignees, closedBy: $closedBy, labels: $labels, url: $url, htmlUrl: $htmlUrl, commentsUrl: $commentsUrl, eventsUrl: $eventsUrl, labelsUrl: $labelsUrl, repositoryUrl: $repositoryUrl, timelineUrl: $timelineUrl, reactions: $reactions, closedAt: $closedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GithubIssueModel(id: $id, number: $number, title: $title, body: $body, bodyHtml: $bodyHtml, bodyText: $bodyText, state: $state, stateReason: $stateReason, activeLockReason: $activeLockReason, authorAssociation: $authorAssociation, nodeId: $nodeId, draft: $draft, locked: $locked, commentsCount: $commentsCount, repository: $repository, user: $user, assignee: $assignee, assignees: $assignees, closedBy: $closedBy, labels: $labels, url: $url, htmlUrl: $htmlUrl, commentsUrl: $commentsUrl, eventsUrl: $eventsUrl, labelsUrl: $labelsUrl, repositoryUrl: $repositoryUrl, timelineUrl: $timelineUrl, reactions: $reactions, closedAt: $closedAt, createdAt: $createdAt, updatedAt: $updatedAt, fromServer: $fromServer)';
   }
 }
 
@@ -200,7 +204,8 @@ abstract mixin class $GithubIssueModelCopyWith<$Res> {
       @jsonParam GithubReactionValue? reactions,
       ModelTimestamp? closedAt,
       ModelTimestamp createdAt,
-      ModelTimestamp updatedAt});
+      ModelTimestamp updatedAt,
+      bool fromServer});
 
   $GithubReactionValueCopyWith<$Res>? get reactions;
 }
@@ -249,6 +254,7 @@ class _$GithubIssueModelCopyWithImpl<$Res>
     Object? closedAt = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? fromServer = null,
   }) {
     return _then(_self.copyWith(
       id: freezed == id
@@ -375,6 +381,10 @@ class _$GithubIssueModelCopyWithImpl<$Res>
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
+      fromServer: null == fromServer
+          ? _self.fromServer
+          : fromServer // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -517,7 +527,8 @@ extension GithubIssueModelPatterns on GithubIssueModel {
             @jsonParam GithubReactionValue? reactions,
             ModelTimestamp? closedAt,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)?
+            ModelTimestamp updatedAt,
+            bool fromServer)?
         $default, {
     required TResult orElse(),
   }) {
@@ -555,7 +566,8 @@ extension GithubIssueModelPatterns on GithubIssueModel {
             _that.reactions,
             _that.closedAt,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         return orElse();
     }
@@ -607,7 +619,8 @@ extension GithubIssueModelPatterns on GithubIssueModel {
             @jsonParam GithubReactionValue? reactions,
             ModelTimestamp? closedAt,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)
+            ModelTimestamp updatedAt,
+            bool fromServer)
         $default,
   ) {
     final _that = this;
@@ -644,7 +657,8 @@ extension GithubIssueModelPatterns on GithubIssueModel {
             _that.reactions,
             _that.closedAt,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -695,7 +709,8 @@ extension GithubIssueModelPatterns on GithubIssueModel {
             @jsonParam GithubReactionValue? reactions,
             ModelTimestamp? closedAt,
             ModelTimestamp createdAt,
-            ModelTimestamp updatedAt)?
+            ModelTimestamp updatedAt,
+            bool fromServer)?
         $default,
   ) {
     final _that = this;
@@ -732,7 +747,8 @@ extension GithubIssueModelPatterns on GithubIssueModel {
             _that.reactions,
             _that.closedAt,
             _that.createdAt,
-            _that.updatedAt);
+            _that.updatedAt,
+            _that.fromServer);
       case _:
         return null;
     }
@@ -774,7 +790,8 @@ class _GithubIssueModel extends GithubIssueModel {
       @jsonParam this.reactions,
       this.closedAt,
       this.createdAt = const ModelTimestamp.now(),
-      this.updatedAt = const ModelTimestamp.now()})
+      this.updatedAt = const ModelTimestamp.now(),
+      this.fromServer = false})
       : _assignees = assignees,
         _labels = labels,
         super._();
@@ -869,6 +886,9 @@ class _GithubIssueModel extends GithubIssueModel {
   @override
   @JsonKey()
   final ModelTimestamp updatedAt;
+  @override
+  @JsonKey()
+  final bool fromServer;
 
   /// Create a copy of GithubIssueModel
   /// with the given fields replaced by the non-null parameter values.
@@ -939,7 +959,9 @@ class _GithubIssueModel extends GithubIssueModel {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.fromServer, fromServer) ||
+                other.fromServer == fromServer));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -976,12 +998,13 @@ class _GithubIssueModel extends GithubIssueModel {
         reactions,
         closedAt,
         createdAt,
-        updatedAt
+        updatedAt,
+        fromServer
       ]);
 
   @override
   String toString() {
-    return 'GithubIssueModel(id: $id, number: $number, title: $title, body: $body, bodyHtml: $bodyHtml, bodyText: $bodyText, state: $state, stateReason: $stateReason, activeLockReason: $activeLockReason, authorAssociation: $authorAssociation, nodeId: $nodeId, draft: $draft, locked: $locked, commentsCount: $commentsCount, repository: $repository, user: $user, assignee: $assignee, assignees: $assignees, closedBy: $closedBy, labels: $labels, url: $url, htmlUrl: $htmlUrl, commentsUrl: $commentsUrl, eventsUrl: $eventsUrl, labelsUrl: $labelsUrl, repositoryUrl: $repositoryUrl, timelineUrl: $timelineUrl, reactions: $reactions, closedAt: $closedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GithubIssueModel(id: $id, number: $number, title: $title, body: $body, bodyHtml: $bodyHtml, bodyText: $bodyText, state: $state, stateReason: $stateReason, activeLockReason: $activeLockReason, authorAssociation: $authorAssociation, nodeId: $nodeId, draft: $draft, locked: $locked, commentsCount: $commentsCount, repository: $repository, user: $user, assignee: $assignee, assignees: $assignees, closedBy: $closedBy, labels: $labels, url: $url, htmlUrl: $htmlUrl, commentsUrl: $commentsUrl, eventsUrl: $eventsUrl, labelsUrl: $labelsUrl, repositoryUrl: $repositoryUrl, timelineUrl: $timelineUrl, reactions: $reactions, closedAt: $closedAt, createdAt: $createdAt, updatedAt: $updatedAt, fromServer: $fromServer)';
   }
 }
 
@@ -1024,7 +1047,8 @@ abstract mixin class _$GithubIssueModelCopyWith<$Res>
       @jsonParam GithubReactionValue? reactions,
       ModelTimestamp? closedAt,
       ModelTimestamp createdAt,
-      ModelTimestamp updatedAt});
+      ModelTimestamp updatedAt,
+      bool fromServer});
 
   @override
   $GithubReactionValueCopyWith<$Res>? get reactions;
@@ -1074,6 +1098,7 @@ class __$GithubIssueModelCopyWithImpl<$Res>
     Object? closedAt = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? fromServer = null,
   }) {
     return _then(_GithubIssueModel(
       id: freezed == id
@@ -1200,6 +1225,10 @@ class __$GithubIssueModelCopyWithImpl<$Res>
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
+      fromServer: null == fromServer
+          ? _self.fromServer
+          : fromServer // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 

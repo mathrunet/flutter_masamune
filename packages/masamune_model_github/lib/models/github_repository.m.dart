@@ -114,6 +114,7 @@ enum _$GithubRepositoryModelKeys {
   pushedAt,
   createdAt,
   updatedAt,
+  fromServer,
 }
 
 class _$GithubRepositoryModelDocument
@@ -1096,6 +1097,14 @@ class _$_GithubRepositoryModelCollectionQuery
       get updatedAt => ModelTimestampModelQuerySelector<
               _$_GithubRepositoryModelCollectionQuery>(
             key: "updatedAt",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
+
+  BooleanModelQuerySelector<_$_GithubRepositoryModelCollectionQuery>
+      get fromServer =>
+          BooleanModelQuerySelector<_$_GithubRepositoryModelCollectionQuery>(
+            key: "fromServer",
             toQuery: _toQuery,
             modelQuery: modelQuery,
           );

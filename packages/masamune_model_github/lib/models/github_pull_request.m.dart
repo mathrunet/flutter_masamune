@@ -58,6 +58,7 @@ enum _$GithubPullRequestModelKeys {
   mergedAt,
   createdAt,
   updatedAt,
+  fromServer,
 }
 
 class _$GithubPullRequestModelDocument
@@ -584,6 +585,14 @@ class _$_GithubPullRequestModelCollectionQuery
       get updatedAt => ModelTimestampModelQuerySelector<
               _$_GithubPullRequestModelCollectionQuery>(
           key: "updatedAt", toQuery: _toQuery, modelQuery: modelQuery);
+
+  BooleanModelQuerySelector<_$_GithubPullRequestModelCollectionQuery>
+      get fromServer =>
+          BooleanModelQuerySelector<_$_GithubPullRequestModelCollectionQuery>(
+            key: "fromServer",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 }
 
 typedef _$GithubPullRequestModelMirrorRefPath = _$GithubPullRequestModelRefPath;

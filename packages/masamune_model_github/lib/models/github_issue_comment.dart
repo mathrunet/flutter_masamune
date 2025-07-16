@@ -12,7 +12,6 @@ import "package:masamune_model_github/models/github_user.dart";
 
 // ignore: unused_import, unnecessary_import
 
-
 part "github_issue_comment.m.dart";
 part "github_issue_comment.g.dart";
 part "github_issue_comment.freezed.dart";
@@ -35,6 +34,7 @@ abstract class GithubIssueCommentModel with _$GithubIssueCommentModel {
     ModelUri? issueUrl,
     @Default(ModelTimestamp.now()) ModelTimestamp createdAt,
     @Default(ModelTimestamp.now()) ModelTimestamp updatedAt,
+    @Default(false) bool fromServer,
   }) = _GithubIssueCommentModel;
   const GithubIssueCommentModel._();
 

@@ -217,6 +217,7 @@ _GithubRepositoryModel _$GithubRepositoryModelFromJson(
       updatedAt: json['updatedAt'] == null
           ? const ModelTimestamp.now()
           : ModelTimestamp.fromJson(json['updatedAt'] as Map<String, dynamic>),
+      fromServer: json['fromServer'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$GithubRepositoryModelToJson(
@@ -315,4 +316,5 @@ Map<String, dynamic> _$GithubRepositoryModelToJson(
       'pushedAt': instance.pushedAt,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
+      'fromServer': instance.fromServer,
     };

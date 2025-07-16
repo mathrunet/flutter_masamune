@@ -31,6 +31,7 @@ _GithubIssueCommentModel _$GithubIssueCommentModelFromJson(
       updatedAt: json['updatedAt'] == null
           ? const ModelTimestamp.now()
           : ModelTimestamp.fromJson(json['updatedAt'] as Map<String, dynamic>),
+      fromServer: json['fromServer'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$GithubIssueCommentModelToJson(
@@ -45,4 +46,5 @@ Map<String, dynamic> _$GithubIssueCommentModelToJson(
       'issueUrl': instance.issueUrl,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
+      'fromServer': instance.fromServer,
     };
