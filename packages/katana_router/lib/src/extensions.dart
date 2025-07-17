@@ -199,10 +199,11 @@ extension RoutingBuildContedxtExtensions on BuildContext {
   /// Get the root [BuildContext] that is not affected by the build of the page.
   ///
   /// ページのビルドに影響されないルートの[BuildContext]を取得します。
-  BuildContext get rootContext {
-    final navigator = Navigator.of(this, rootNavigator: true);
-    return navigator.context;
-  }
+  // TODO: このメソッドは使用しない
+  // BuildContext get rootContext {
+  //   final navigator = Navigator.of(this, rootNavigator: true);
+  //   return navigator.context;
+  // }
 }
 
 /// Provides extension methods for [RouteQuery].
