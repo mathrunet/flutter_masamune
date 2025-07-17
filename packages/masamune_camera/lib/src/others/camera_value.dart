@@ -10,6 +10,8 @@ class CameraValue {
     required this.name,
     required this.format,
     this.bytes,
+    this.startTime,
+    this.endTime,
   });
 
   /// Generate data for mock.
@@ -19,6 +21,8 @@ class CameraValue {
     required MediaFormat format,
     int? width,
     int? height,
+    DateTime? startTime,
+    DateTime? endTime,
   }) async {
     final directory = await getTemporaryDirectory();
     final source = image.Image(width: width ?? 512, height: height ?? 512);
@@ -34,6 +38,7 @@ class CameraValue {
           name: exportedFile.path.last(),
           format: format,
           bytes: convertedBytes,
+          startTime: startTime,
         );
       case MediaFormat.png:
         final convertedBytes = image.encodePng(source);
@@ -43,6 +48,7 @@ class CameraValue {
           name: exportedFile.path.last(),
           format: format,
           bytes: convertedBytes,
+          startTime: startTime,
         );
       case MediaFormat.mp4:
         return null;
@@ -57,6 +63,8 @@ class CameraValue {
     required MediaFormat format,
     int? width,
     int? height,
+    DateTime? startTime,
+    DateTime? endTime,
   }) async {
     final bytes = await file.readAsBytes();
     var source = image.decodeImage(bytes);
@@ -66,6 +74,8 @@ class CameraValue {
         name: file.name,
         format: format,
         bytes: bytes,
+        startTime: startTime,
+        endTime: endTime,
       );
     }
     if (width != null || height != null) {
@@ -100,6 +110,7 @@ class CameraValue {
           name: exportedFile.path.last(),
           format: format,
           bytes: convertedBytes,
+          startTime: startTime,
         );
       case MediaFormat.png:
         final convertedBytes = image.encodePng(source);
@@ -109,6 +120,7 @@ class CameraValue {
           name: exportedFile.path.last(),
           format: format,
           bytes: convertedBytes,
+          startTime: startTime,
         );
       case MediaFormat.mp4:
         return CameraValue._(
@@ -116,6 +128,8 @@ class CameraValue {
           name: file.name,
           format: format,
           bytes: bytes,
+          startTime: startTime,
+          endTime: endTime,
         );
     }
   }
@@ -139,4 +153,26 @@ class CameraValue {
   ///
   /// バイトデータ。サイズ変換された後のデータが入ります。
   final Uint8List? bytes;
+
+  /// Start time of the video recording.
+  ///
+  /// ビデオ撮影の開始時間。
+  final DateTime? startTime;
+
+  /// End time of the video recording.
+  ///
+  /// ビデオ撮影の終了時間。
+  final DateTime? endTime;
+
+  /// Duration of the video recording.
+  ///
+  /// ビデオ撮影の時間。
+  Duration? get duration {
+    final start = startTime;
+    final end = endTime;
+    if (start == null || end == null) {
+      return null;
+    }
+    return end.difference(start);
+  }
 }

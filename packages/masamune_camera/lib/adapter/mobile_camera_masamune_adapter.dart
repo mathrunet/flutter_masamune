@@ -77,6 +77,7 @@ class MobileCameraMasamuneAdapter extends CameraMasamuneAdapter {
       format: format ?? defaultImageFormat,
       width: width,
       height: height,
+      startTime: DateTime.now(),
     );
   }
 
@@ -88,8 +89,10 @@ class MobileCameraMasamuneAdapter extends CameraMasamuneAdapter {
   }
 
   @override
-  Future<CameraValue?> stopVideoRecording(
-      {required camera.CameraController? controller}) async {
+  Future<CameraValue?> stopVideoRecording({
+    required camera.CameraController? controller,
+    required DateTime startRecordingTime,
+  }) async {
     final file = await controller?.stopVideoRecording();
     if (file == null) {
       return null;
@@ -97,6 +100,8 @@ class MobileCameraMasamuneAdapter extends CameraMasamuneAdapter {
     return await CameraValue.fromXFile(
       file: file,
       format: MediaFormat.mp4,
+      startTime: startRecordingTime,
+      endTime: DateTime.now(),
     );
   }
 

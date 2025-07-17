@@ -103,6 +103,7 @@ abstract class CameraMasamuneAdapter extends MasamuneAdapter {
   /// ビデオ撮影を停止します。
   Future<CameraValue?> stopVideoRecording({
     required camera.CameraController? controller,
+    required DateTime startRecordingTime,
   });
 
   /// Dispose of the camera.

@@ -42,6 +42,8 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
 
   Completer<CameraValue?>? _recordingCompleter;
 
+  DateTime? _startRecordingTime;
+
   @override
   CameraMasamuneAdapter get primaryAdapter => CameraMasamuneAdapter.primary;
 
@@ -171,6 +173,7 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
     _recordingCompleter = Completer<CameraValue>();
     try {
       await initialize();
+      _startRecordingTime = DateTime.now();
       await adapter.startVideoRecording(
         controller: _controller,
       );
@@ -196,6 +199,7 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
     try {
       final value = await adapter.stopVideoRecording(
         controller: _controller,
+        startRecordingTime: _startRecordingTime!,
       );
       notifyListeners();
       _recordingCompleter?.complete(value);

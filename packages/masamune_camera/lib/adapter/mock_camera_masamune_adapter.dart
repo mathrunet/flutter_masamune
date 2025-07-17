@@ -59,8 +59,10 @@ class MockCameraMasamuneAdapter extends CameraMasamuneAdapter {
   }) async {}
 
   @override
-  Future<CameraValue?> stopVideoRecording(
-      {required camera.CameraController? controller}) async {
+  Future<CameraValue?> stopVideoRecording({
+    required camera.CameraController? controller,
+    required DateTime startRecordingTime,
+  }) async {
     return null;
   }
 
