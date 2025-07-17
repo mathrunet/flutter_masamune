@@ -113,22 +113,22 @@ class Label extends StatelessWidget {
       color: backgroundColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           if (leading != null) ...[
             IconTheme(
               data: IconThemeData(
                 color: color ?? textTheme?.color,
-                size: iconSize ?? textTheme?.fontSize,
+                size: iconSize ?? textTheme?.fontSize * 1.5,
               ),
               child: leading!,
             ),
-            SizedBox(width: leadingSpace ?? 16),
+            SizedBox(width: leadingSpace ?? 8),
           ],
           Text(
             text,
-            style: textTheme?.copyWith(color: color),
+            style: textTheme?.copyWith(color: color, height: 1.0),
             textAlign: textAlign,
           ),
           if (actions.isNotEmpty) ...[
