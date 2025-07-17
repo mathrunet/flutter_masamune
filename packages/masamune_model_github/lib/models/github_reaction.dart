@@ -12,12 +12,16 @@ part "github_reaction.m.dart";
 part "github_reaction.g.dart";
 part "github_reaction.freezed.dart";
 
-/// Immutable value.
+/// Model for managing Github reactions.
+///
+/// Githubのリアクションを管理するためのモデル。
 @freezed
 @formValue
 @immutable
 abstract class GithubReactionValue with _$GithubReactionValue {
-  /// Immutable value.
+  /// Model for managing Github reactions.
+  ///
+  /// Githubのリアクションを管理するためのモデル。
   const factory GithubReactionValue({
     int? plusOne,
     int? minusOne,

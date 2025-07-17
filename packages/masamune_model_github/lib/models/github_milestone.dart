@@ -15,12 +15,16 @@ part "github_milestone.m.dart";
 part "github_milestone.g.dart";
 part "github_milestone.freezed.dart";
 
-/// Immutable value.
+/// Model for managing Github milestones.
+///
+/// Githubのマイルストーンを管理するためのモデル。
 @freezed
 @formValue
 @immutable
 abstract class GithubMilestoneValue with _$GithubMilestoneValue {
-  /// Immutable value.
+  /// Model for managing Github milestones.
+  ///
+  /// Githubのマイルストーンを管理するためのモデル。
   const factory GithubMilestoneValue({
     int? id,
     int? number,

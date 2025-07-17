@@ -5,8 +5,7 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
 
 // Project imports:
-import "package:masamune_model_github/models/github_content.dart";
-import "package:masamune_model_github/models/github_user.dart";
+import "package:masamune_model_github/masamune_model_github.dart";
 
 // ignore: unused_import, unnecessary_import
 
@@ -14,14 +13,19 @@ part "github_commit.m.dart";
 part "github_commit.g.dart";
 part "github_commit.freezed.dart";
 
-/// Value for model.
+/// Model for managing Github commits.
+///
+/// Githubのコミットを管理するためのモデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath(
-    "organization/:organization_id/repository/:repository_id/branch/:branch_id/commit")
+    "organization/:organization_id/repository/:repository_id/branch/:branch_id/commit",
+    adapter: "GithubModelMasamuneAdapter.primary.modelAdapter")
 abstract class GithubCommitModel with _$GithubCommitModel {
-  /// Value for model.
+  /// Model for managing Github commits.
+  ///
+  /// Githubのコミットを管理するためのモデル。
   const factory GithubCommitModel({
     String? sha,
     String? message,

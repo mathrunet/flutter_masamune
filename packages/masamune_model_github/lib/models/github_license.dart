@@ -12,12 +12,16 @@ part "github_license.m.dart";
 part "github_license.g.dart";
 part "github_license.freezed.dart";
 
-/// Immutable value.
+/// Model for managing Github licenses.
+///
+/// Githubのライセンスを管理するためのモデル。
 @freezed
 @formValue
 @immutable
 abstract class GithubLicenseValue with _$GithubLicenseValue {
-  /// Immutable value.
+  /// Model for managing Github licenses.
+  ///
+  /// Githubのライセンスを管理するためのモデル。
   const factory GithubLicenseValue({
     String? key,
     String? name,

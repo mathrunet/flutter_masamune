@@ -7,7 +7,7 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
 
 // Project imports:
-import "package:masamune_model_github/models/github_user.dart";
+import "package:masamune_model_github/masamune_model_github.dart";
 
 // ignore: unused_import, unnecessary_import
 
@@ -15,14 +15,19 @@ part "github_issue_comment.m.dart";
 part "github_issue_comment.g.dart";
 part "github_issue_comment.freezed.dart";
 
-/// Value for model.
+/// Model for managing Github issue comments.
+///
+/// GithubのIssueコメントを管理するためのモデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath(
-    "organization/:organization_id/repository/:repository_id/issue/:issue_id/comment")
+    "organization/:organization_id/repository/:repository_id/issue/:issue_id/comment",
+    adapter: "GithubModelMasamuneAdapter.primary.modelAdapter")
 abstract class GithubIssueCommentModel with _$GithubIssueCommentModel {
-  /// Value for model.
+  /// Model for managing Github issue comments.
+  ///
+  /// GithubのIssueコメントを管理するためのモデル。
   const factory GithubIssueCommentModel({
     int? id,
     String? body,

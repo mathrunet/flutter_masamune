@@ -7,18 +7,24 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
 
 // ignore: unused_import, unnecessary_import
+import "package:masamune_model_github/masamune_model_github.dart";
 
 part "github_user.m.dart";
 part "github_user.g.dart";
 part "github_user.freezed.dart";
 
-/// Value for model.
+/// Model for managing Github users.
+///
+/// Githubのユーザーを管理するためのモデル。
 @freezed
 @formValue
 @immutable
-@CollectionModelPath("owner")
+@CollectionModelPath("owner",
+    adapter: "GithubModelMasamuneAdapter.primary.modelAdapter")
 abstract class GithubUserModel with _$GithubUserModel {
-  /// Value for model.
+  /// Model for managing Github users.
+  ///
+  /// Githubのユーザーを管理するためのモデル。
   const factory GithubUserModel({
     int? id,
     String? login,

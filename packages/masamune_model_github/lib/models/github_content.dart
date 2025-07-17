@@ -8,23 +8,27 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
 
 // Project imports:
-import "package:masamune_model_github/models/github_user.dart";
+import "package:masamune_model_github/masamune_model_github.dart";
 
 // ignore: unused_import, unnecessary_import
-
 
 part "github_content.m.dart";
 part "github_content.g.dart";
 part "github_content.freezed.dart";
 
-/// Value for model.
+/// Model for managing Github contents.
+///
+/// Githubのコンテンツを管理するためのモデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath(
-    "organization/:organization_id/repository/:repository_id/issue/:issue_id/comment/:comment_id/content")
+    "organization/:organization_id/repository/:repository_id/issue/:issue_id/comment/:comment_id/content",
+    adapter: "GithubModelMasamuneAdapter.primary.modelAdapter")
 abstract class GithubContentModel with _$GithubContentModel {
-  /// Value for model.
+  /// Model for managing Github contents.
+  ///
+  /// Githubのコンテンツを管理するためのモデル。
   const factory GithubContentModel({
     String? name,
     String? path,

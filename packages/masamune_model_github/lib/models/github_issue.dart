@@ -5,23 +5,25 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
 
 // Project imports:
-import "package:masamune_model_github/models/github_label.dart";
-import "package:masamune_model_github/models/github_reaction.dart";
-import "package:masamune_model_github/models/github_repository.dart";
-import "package:masamune_model_github/models/github_user.dart";
+import "package:masamune_model_github/masamune_model_github.dart";
 
 part "github_issue.m.dart";
 part "github_issue.g.dart";
 part "github_issue.freezed.dart";
 
-/// Value for model.
+/// Model for managing Github issues.
+///
+/// GithubのIssueを管理するためのモデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath(
-    "organization/:organization_id/repository/:repository_id/issue")
+    "organization/:organization_id/repository/:repository_id/issue",
+    adapter: "GithubModelMasamuneAdapter.primary.modelAdapter")
 abstract class GithubIssueModel with _$GithubIssueModel {
-  /// Value for model.
+  /// Model for managing Github issues.
+  ///
+  /// GithubのIssueを管理するためのモデル。
   const factory GithubIssueModel({
     int? id,
     int? number,

@@ -7,10 +7,7 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
 
 // Project imports:
-import "package:masamune_model_github/models/github_license.dart";
-import "package:masamune_model_github/models/github_organization.dart";
-import "package:masamune_model_github/models/github_repository_permission.dart";
-import "package:masamune_model_github/models/github_user.dart";
+import "package:masamune_model_github/masamune_model_github.dart";
 
 // ignore: unused_import, unnecessary_import
 
@@ -18,13 +15,18 @@ part "github_repository.m.dart";
 part "github_repository.g.dart";
 part "github_repository.freezed.dart";
 
-/// Value for model.
+/// Model for managing Github repositories.
+///
+/// Githubのリポジトリを管理するためのモデル。
 @freezed
 @formValue
 @immutable
-@CollectionModelPath("organization/:organization_id/repository")
+@CollectionModelPath("organization/:organization_id/repository",
+    adapter: "GithubModelMasamuneAdapter.primary.modelAdapter")
 abstract class GithubRepositoryModel with _$GithubRepositoryModel {
-  /// Value for model.
+  /// Model for managing Github repositories.
+  ///
+  /// Githubのリポジトリを管理するためのモデル。
   const factory GithubRepositoryModel({
     int? id,
     String? name,

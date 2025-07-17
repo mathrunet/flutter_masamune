@@ -7,18 +7,24 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
 
 // ignore: unused_import, unnecessary_import
+import "package:masamune_model_github/masamune_model_github.dart";
 
 part "github_organization.m.dart";
 part "github_organization.g.dart";
 part "github_organization.freezed.dart";
 
-/// Value for model.
+/// Model for managing Github organizations.
+///
+/// GithubのOrganizationを管理するためのモデル。
 @freezed
 @formValue
 @immutable
-@CollectionModelPath("organization")
+@CollectionModelPath("organization",
+    adapter: "GithubModelMasamuneAdapter.primary.modelAdapter")
 abstract class GithubOrganizationModel with _$GithubOrganizationModel {
-  /// Value for model.
+  /// Model for managing Github organizations.
+  ///
+  /// GithubのOrganizationを管理するためのモデル。
   const factory GithubOrganizationModel({
     int? id,
     String? name,

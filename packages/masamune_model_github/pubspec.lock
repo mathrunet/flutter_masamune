@@ -400,7 +400,7 @@ packages:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "3.0.3"
+    version: "3.0.4"
   katana_builder:
     dependency: "direct overridden"
     description:
@@ -456,7 +456,7 @@ packages:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "3.0.3"
+    version: "3.0.4"
   katana_model:
     dependency: "direct overridden"
     description:
@@ -470,14 +470,14 @@ packages:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "3.1.5"
+    version: "3.1.6"
   katana_router:
     dependency: "direct overridden"
     description:
       path: "../katana_router"
       relative: true
     source: path
-    version: "3.1.1"
+    version: "3.1.2"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
@@ -498,7 +498,7 @@ packages:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "3.0.3"
+    version: "3.0.4"
   katana_shorten:
     dependency: "direct overridden"
     description:
@@ -570,7 +570,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "3.2.0"
+    version: "3.2.1"
   masamune_annotation:
     dependency: "direct overridden"
     description:

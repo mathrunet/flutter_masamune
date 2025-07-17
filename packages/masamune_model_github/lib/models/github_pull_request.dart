@@ -5,24 +5,25 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
 
 // Project imports:
-import "package:masamune_model_github/models/github_label.dart";
-import "package:masamune_model_github/models/github_milestone.dart";
-import "package:masamune_model_github/models/github_pull_request_head.dart";
-import "package:masamune_model_github/models/github_repository.dart";
-import "package:masamune_model_github/models/github_user.dart";
+import "package:masamune_model_github/masamune_model_github.dart";
 
 part "github_pull_request.m.dart";
 part "github_pull_request.g.dart";
 part "github_pull_request.freezed.dart";
 
-/// Value for model.
+/// Model for managing Github pull requests.
+///
+/// GithubのPull Requestを管理するためのモデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath(
-    "organization/:organization_id/repository/:repository_id/pull_request")
+    "organization/:organization_id/repository/:repository_id/pull_request",
+    adapter: "GithubModelMasamuneAdapter.primary.modelAdapter")
 abstract class GithubPullRequestModel with _$GithubPullRequestModel {
-  /// Value for model.
+  /// Model for managing Github pull requests.
+  ///
+  /// GithubのPull Requestを管理するためのモデル。
   const factory GithubPullRequestModel({
     int? id,
     String? nodeId,

@@ -1,30 +1,31 @@
 // ignore: unused_import, unnecessary_import
 
-// Flutter imports:
-import "package:flutter/material.dart";
-
 // Package imports:
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
 
 // Project imports:
-import "package:masamune_model_github/models/github_commit.dart";
+import "package:masamune_model_github/masamune_model_github.dart";
 
 // ignore: unused_import, unnecessary_import
-
 
 part "github_branch.m.dart";
 part "github_branch.g.dart";
 part "github_branch.freezed.dart";
 
-/// Value for model.
+/// Model for managing Github branches.
+///
+/// Githubのブランチを管理するためのモデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath(
-    "organization/:organization_id/repository/:repository_id/branch")
+    "organization/:organization_id/repository/:repository_id/branch",
+    adapter: "GithubModelMasamuneAdapter.primary.modelAdapter")
 abstract class GithubBranchModel with _$GithubBranchModel {
-  /// Value for model.
+  /// Model for managing Github branches.
+  ///
+  /// Githubのブランチを管理するためのモデル。
   const factory GithubBranchModel({
     String? name,
     @jsonParam GithubCommitModel? commit,

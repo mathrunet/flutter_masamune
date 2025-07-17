@@ -12,12 +12,16 @@ part "github_label.m.dart";
 part "github_label.g.dart";
 part "github_label.freezed.dart";
 
-/// Immutable value.
+/// Model for managing Github labels.
+///
+/// Githubのラベルを管理するためのモデル。
 @freezed
 @formValue
 @immutable
 abstract class GithubLabelValue with _$GithubLabelValue {
-  /// Immutable value.
+  /// Model for managing Github labels.
+  ///
+  /// Githubのラベルを管理するためのモデル。
   const factory GithubLabelValue({
     String? name,
     String? color,

@@ -12,13 +12,17 @@ part "github_repository_permission.m.dart";
 part "github_repository_permission.g.dart";
 part "github_repository_permission.freezed.dart";
 
-/// Immutable value.
+/// Model for managing Github repository permissions.
+///
+/// Githubのリポジトリ権限を管理するためのモデル。
 @freezed
 @formValue
 @immutable
 abstract class GithubRepositoryPermissionValue
     with _$GithubRepositoryPermissionValue {
-  /// Immutable value.
+  /// Model for managing Github repository permissions.
+  ///
+  /// Githubのリポジトリ権限を管理するためのモデル。
   const factory GithubRepositoryPermissionValue({
     @Default(false) bool admin,
     @Default(false) bool push,

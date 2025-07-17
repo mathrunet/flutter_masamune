@@ -16,12 +16,16 @@ part "github_pull_request_head.m.dart";
 part "github_pull_request_head.g.dart";
 part "github_pull_request_head.freezed.dart";
 
-/// Immutable value.
+/// Model for managing Github pull request heads.
+///
+/// GithubのPull Requestヘッダーを管理するためのモデル。
 @freezed
 @formValue
 @immutable
 abstract class GithubPullRequestHeadValue with _$GithubPullRequestHeadValue {
-  /// Immutable value.
+  /// Model for managing Github pull request heads.
+  ///
+  /// GithubのPull Requestヘッダーを管理するためのモデル。
   const factory GithubPullRequestHeadValue({
     String? label,
     String? ref,

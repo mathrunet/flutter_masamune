@@ -508,28 +508,20 @@ extension on RepositoryContents {
 
 /// Model adapter with GitHub available.
 ///
-/// Obtain [token] from the GitHub API token and provide it.
-///
-/// All CRUD operations are available.
+/// Please provide a GitHub API token using [onRetrieveToken].
 ///
 /// GitHubを利用できるようにしたモデルアダプター。
 ///
-/// GitHubのAPIトークンから[token]を取得して与えてください。
-///
-/// すべてのCRUD操作が利用できます。
+/// [onRetrieveToken]を利用してGitHubのAPIトークンを与えてください。
 @immutable
 class GithubModelAdapter extends ModelAdapter {
   /// Model adapter with GitHub available.
   ///
-  /// Obtain [token] from the GitHub API token and provide it.
-  ///
-  /// All CRUD operations are available.
+  /// Please provide a GitHub API token using [onRetrieveToken].
   ///
   /// GitHubを利用できるようにしたモデルアダプター。
   ///
-  /// GitHubのAPIトークンから[token]を取得して与えてください。
-  ///
-  /// すべてのCRUD操作が利用できます。
+  /// [onRetrieveToken]を利用してGitHubのAPIトークンを与えてください。
   const GithubModelAdapter({
     required this.onRetrieveToken,
     NoSqlDatabase? database,
