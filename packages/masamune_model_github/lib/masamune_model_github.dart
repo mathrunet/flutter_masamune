@@ -15,12 +15,12 @@ import "dart:async";
 import "package:github/github.dart" as git_hub show Authentication;
 import "package:github/github.dart" hide Authentication;
 import "package:masamune/masamune.dart";
-import "package:masamune_model_github/models/github_branch.dart";
-import "package:masamune_model_github/models/github_commit.dart";
-import "package:masamune_model_github/models/github_content.dart";
 import "package:meta/meta.dart";
 
 // Project imports:
+import "package:masamune_model_github/models/github_branch.dart";
+import "package:masamune_model_github/models/github_commit.dart";
+import "package:masamune_model_github/models/github_content.dart";
 import "package:masamune_model_github/models/github_issue.dart";
 import "package:masamune_model_github/models/github_issue_comment.dart";
 import "package:masamune_model_github/models/github_label.dart";

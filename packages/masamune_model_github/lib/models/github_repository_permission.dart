@@ -1,14 +1,12 @@
 // ignore: unused_import, unnecessary_import
 
 // Flutter imports:
-import "package:flutter/material.dart";
 
 // Package imports:
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
 
 // ignore: unused_import, unnecessary_import
-
 
 part "github_repository_permission.m.dart";
 part "github_repository_permission.g.dart";
