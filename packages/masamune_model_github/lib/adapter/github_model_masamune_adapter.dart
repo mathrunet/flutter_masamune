@@ -17,7 +17,13 @@ class GithubModelMasamuneAdapter extends MasamuneAdapter {
   /// [modelAdapter]にGithubのモデルアダプターを指定してください。
   const GithubModelMasamuneAdapter({
     required this.modelAdapter,
+    required this.appRef,
   });
+
+  /// Application reference.
+  ///
+  /// アプリケーションの参照。
+  final AppRef appRef;
 
   /// Github model adapter.
   ///

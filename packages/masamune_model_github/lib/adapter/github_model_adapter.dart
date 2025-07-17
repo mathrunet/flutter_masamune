@@ -533,7 +533,7 @@ class GithubModelAdapter extends ModelAdapter {
   /// GitHub API token.
   ///
   /// GitHubのAPIトークンを取得します。
-  final Future<String> Function() onRetrieveToken;
+  final Future<String?> Function() onRetrieveToken;
 
   /// Use local database.
   ///

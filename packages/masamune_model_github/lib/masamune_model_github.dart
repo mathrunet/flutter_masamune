@@ -52,3 +52,5 @@ export "models/github_user.dart";
 
 part "adapter/github_model_adapter.dart";
 part "adapter/github_model_masamune_adapter.dart";
+
+part "src/github_user_controller.dart";
