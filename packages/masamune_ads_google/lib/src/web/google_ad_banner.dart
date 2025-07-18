@@ -126,14 +126,12 @@ class GoogleBannerAd extends StatefulWidget {
   State<StatefulWidget> createState() => _GoogleBannerAdState();
 }
 
-class _GoogleBannerAdState extends State<GoogleBannerAd> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class _GoogleBannerAdState extends State<GoogleBannerAd>
+    with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final adSize = widget.size._toAdSize();
     return Container(
       decoration: widget.border != null
@@ -146,4 +144,7 @@ class _GoogleBannerAdState extends State<GoogleBannerAd> {
       child: const Empty(),
     );
   }
+
+  @override
+  bool get wantKeepAlive => false;
 }

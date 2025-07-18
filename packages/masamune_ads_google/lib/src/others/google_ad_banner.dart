@@ -140,7 +140,8 @@ class GoogleBannerAd extends StatefulWidget {
   State<StatefulWidget> createState() => _GoogleBannerAdState();
 }
 
-class _GoogleBannerAdState extends State<GoogleBannerAd> {
+class _GoogleBannerAdState extends State<GoogleBannerAd>
+    with AutomaticKeepAliveClientMixin {
   GoogleBannerAdUnit? _bannerAd;
 
   @override
@@ -187,6 +188,7 @@ class _GoogleBannerAdState extends State<GoogleBannerAd> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final adSize = widget.size._toAdSize();
     if (GoogleAdsMasamuneAdapter.primary.isTest) {
       return Container(
@@ -216,6 +218,9 @@ class _GoogleBannerAdState extends State<GoogleBannerAd> {
             ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => _bannerAd?.loaded ?? false;
 }
 
 /// Class for managing banner ads.
