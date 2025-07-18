@@ -128,7 +128,6 @@ class GoogleBannerAd extends StatefulWidget {
 
 class _GoogleBannerAdState extends State<GoogleBannerAd>
     with AutomaticKeepAliveClientMixin {
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
