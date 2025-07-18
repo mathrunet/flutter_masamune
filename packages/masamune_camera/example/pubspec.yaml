@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^3.2.1
+  masamune: ^3.2.2
   masamune_camera:
     path: "../"
 

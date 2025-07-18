@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**: Enabled the camera to record start and end times. ([a02b2530](https://github.com/mathrunet/flutter_masamune/commit/a02b2530c7d600298b27dc886e59b037cc79a3a5))
+
 ## 3.1.5
 
  - Update a dependency to the latest release.

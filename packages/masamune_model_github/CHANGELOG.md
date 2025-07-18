@@ -1,3 +1,8 @@
+## 3.1.6
+
+ - **FIX**: Adding a controller for users. ([2f9fc33e](https://github.com/mathrunet/flutter_masamune/commit/2f9fc33e4443e1dce5e6d054b6389023e5dae3d7))
+ - **FIX**: Add MasamuneAdapter. ([7a6ba55f](https://github.com/mathrunet/flutter_masamune/commit/7a6ba55f6c9fc38cfc2967bdcf4c49bea9f422e4))
+
 ## 3.1.5
 
  - **FIX**: Adapter maintenance complete. ([0bb3bf21](https://github.com/mathrunet/flutter_masamune/commit/0bb3bf21ec32b875e892f7aa7de36cc9b137f1a8))

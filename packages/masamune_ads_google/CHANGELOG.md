@@ -1,3 +1,7 @@
+## 3.0.13
+
+ - **FIX**: Enabled setting the banner to keepAlive. ([1a629fbf](https://github.com/mathrunet/flutter_masamune/commit/1a629fbffbc4fe3ef002ac993dfbfbd289a3ee2f))
+
 ## 3.0.12
 
  - Update a dependency to the latest release.

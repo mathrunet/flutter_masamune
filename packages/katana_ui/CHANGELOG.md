@@ -1,3 +1,7 @@
+## 3.0.5
+
+ - **FIX**: Adjusting label icons. ([3a7d7f4c](https://github.com/mathrunet/flutter_masamune/commit/3a7d7f4c469b1515cc6796e38e38338cc32bfbe8))
+
 ## 3.0.4
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))

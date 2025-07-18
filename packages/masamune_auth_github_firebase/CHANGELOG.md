@@ -1,3 +1,7 @@
+## 3.2.2
+
+ - Update a dependency to the latest release.
+
 ## 3.2.1
 
  - **FIX**: SharedPreferencesのアップデートに対応. ([9565d9f1](https://github.com/mathrunet/flutter_masamune/commit/9565d9f1a63f653217f6c97273bf52091e76892e))

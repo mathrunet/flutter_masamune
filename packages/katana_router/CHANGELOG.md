@@ -1,3 +1,7 @@
+## 3.1.3
+
+ - **FIX**: Removed rootContext due to numerous bugs. ([bb0f41b2](https://github.com/mathrunet/flutter_masamune/commit/bb0f41b29e2da8f7423aaac96e025d094ef64956))
+
 ## 3.1.2
 
  - Update a dependency to the latest release.
