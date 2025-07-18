@@ -11,8 +11,10 @@ library;
 // Dart imports:
 import "dart:async";
 
-// Package imports:
+// Flutter imports:
 import "package:flutter/widgets.dart";
+
+// Package imports:
 import "package:github/github.dart" as git_hub show Authentication;
 import "package:github/github.dart" hide Authentication;
 import "package:masamune/masamune.dart";
