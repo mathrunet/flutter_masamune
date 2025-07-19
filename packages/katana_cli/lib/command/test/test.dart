@@ -8,6 +8,7 @@ import "package:katana_cli/katana_cli.dart";
 
 part "update.dart";
 part "run.dart";
+part "debug.dart";
 
 /// Providing test commands.
 ///
@@ -25,6 +26,7 @@ class TestCliCommand extends CliCommandGroup {
   Map<String, CliCommand> get commands => const {
         "update": TestUpdateCliCommand(),
         "run": TestRunCliCommand(),
+        "debug": TestDebugCliCommand(),
       };
 }
 

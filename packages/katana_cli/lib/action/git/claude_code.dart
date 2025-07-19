@@ -34,22 +34,16 @@ class GitClaudeCodeCliAction extends CliCommand with CliActionMixin {
     final github = context.yaml.getAsMap("github");
     final claudeCode = github.getAsMap("claude_code");
     final api = claudeCode.getAsMap("api");
-    final plan = claudeCode.getAsMap("plan");
+    final oauth = claudeCode.getAsMap("oauth");
     final apiKey = api.get("api_key", "");
-    final uses = plan.get("uses", "");
-    final accessToken = plan.get("access_token", "");
-    final refreshToken = plan.get("refresh_token", "");
-    final expiresAt = plan.get("expires_at", nullOfInt);
+    final token = oauth.get("token", "");
     final personalAccessToken = claudeCode.get("personal_access_token", "");
     final model = claudeCode.get("model", "claude-sonnet-4-20250514");
+    final uses = claudeCode.get("uses", "anthropics/claude-code-action");
 
-    if (apiKey.isEmpty &&
-        (uses.isEmpty ||
-            accessToken.isEmpty ||
-            refreshToken.isEmpty ||
-            expiresAt == null)) {
+    if (apiKey.isEmpty && token.isEmpty) {
       error(
-        "Configuration not found. Please set one of the following: `[claude_code]->[api]->[api_key]`, `[claude_code]->[plan]->[uses]`, `[claude_code]->[plan]->[access_token]`, `[claude_code]->[plan]->[refresh_token]`, or `[claude_code]->[plan]->[expires_at]`.",
+        "Configuration not found. Please set one of the following: `[claude_code]->[api]->[api_key]`, `[claude_code]->[oauth]->[token]`.",
       );
       return;
     }
@@ -74,29 +68,7 @@ class GitClaudeCodeCliAction extends CliCommand with CliActionMixin {
           "set",
           "CLAUDE_ACCESS_TOKEN",
           "--body",
-          accessToken,
-        ],
-      );
-      await command(
-        "Set Claude Refresh Token in `secrets.CLAUDE_REFRESH_TOKEN`.",
-        [
-          gh,
-          "secret",
-          "set",
-          "CLAUDE_REFRESH_TOKEN",
-          "--body",
-          refreshToken,
-        ],
-      );
-      await command(
-        "Set Claude Expires At in `secrets.CLAUDE_EXPIRES_AT`.",
-        [
-          gh,
-          "secret",
-          "set",
-          "CLAUDE_EXPIRES_AT",
-          "--body",
-          expiresAt.toString(),
+          token,
         ],
       );
     }
@@ -119,6 +91,7 @@ class GitClaudeCodeCliAction extends CliCommand with CliActionMixin {
       model: model,
       actionsRepositoryName: uses,
       workingDirectory: gitDir,
+      useApiKey: apiKey.isNotEmpty,
     ).generateFile("claude_code.yaml");
     label("Create CLAUDE.md");
     await const GitClaudeMarkdownCliCode().generateFile("CLAUDE.md");
@@ -136,7 +109,13 @@ class GitClaudeCodeCliCode extends CliCode {
     required this.model,
     this.actionsRepositoryName,
     this.workingDirectory,
+    this.useApiKey = false,
   });
+
+  /// Whether to use the API key.
+  ///
+  /// APIキーを使用するかどうか。
+  final bool useApiKey;
 
   /// Working Directory.
   ///
@@ -181,8 +160,10 @@ class GitClaudeCodeCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    if (actionsRepositoryName.isEmpty) {
-      return """
+    final credentials = useApiKey
+        ? "anthropic_api_key: \${{secrets.ANTHROPIC_API_KEY}}"
+        : "claude_code_oauth_token: \${{secrets.CLAUDE_ACCESS_TOKEN}}";
+    return """
 # AI Agent using Claude Code.
 # 
 # Claude Codeを利用したAIエージェント機能を追加します。
@@ -294,141 +275,16 @@ jobs:
                 BASH_MAX_TIMEOUT_MS: 1800000
                 BASH_DEFAULT_TIMEOUT_MS: 1800000
                 GITHUB_TOKEN: \${{secrets.PERSONAL_ACCESS_TOKEN || github.token}}
-              uses: anthropics/claude-code-action@main
-              with:
-                  model: $model
-                  timeout_minutes: 120
-                  disallowed_tools: "mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files"
-                  allowed_tools: "Bash(katana:*),Bash(git:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Bash(head:*),Bash(cd:*),Bash(ls:*),Bash(mkdir:*),Bash(chmod:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"
-                  anthropic_api_key: \${{secrets.ANTHROPIC_API_KEY}}
-                  github_token: \${{secrets.GITHUB_TOKEN}}
-""";
-    } else {
-      return """
-# AI Agent using Claude Code.
-# 
-# Claude Codeを利用したAIエージェント機能を追加します。
-name: Claude Code
-on:
-    issue_comment:
-        types: [created]
-    pull_request_review_comment:
-        types: [created]
-    issues:
-        types: [opened, assigned]
-    pull_request_review:
-        types: [submitted]
-
-jobs:
-    claude:
-        if: |
-            (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
-            (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
-            (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
-            (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
-
-        runs-on: ubuntu-latest
-
-        permissions:
-            contents: write
-            pull-requests: write
-            issues: write
-            id-token: write
-
-        steps:
-            # Get PR information for review comments and reviews
-            # レビューコメントとレビューの場合のPR情報を取得
-            - name: Get PR information
-              if: github.event_name == 'pull_request_review_comment' || github.event_name == 'pull_request_review' || github.event_name == 'issue_comment'
-              id: pr_info
-              run: |
-                if [ "\${{ github.event_name }}" = "pull_request_review_comment" ]; then
-                  PR_URL="\${{ github.event.comment.pull_request_url }}"
-                elif [ "\${{ github.event_name }}" = "pull_request_review" ]; then
-                  PR_URL="\${{ github.event.review.pull_request_url }}"
-                elif [ "\${{ github.event_name }}" = "issue_comment" ]; then
-                  PR_URL="\${{ github.event.issue.pull_request.url }}"
-                fi
-                PR_NUMBER=\$(echo "\$PR_URL" | grep -o '[0-9]*\$')
-                PR_DATA=\$(curl -s -H "Authorization: token \${{ secrets.PERSONAL_ACCESS_TOKEN || github.token }}" \\
-                  "https://api.github.com/repos/\${{ github.repository }}/pulls/\$PR_NUMBER")
-                echo "head_ref=\$(echo "\$PR_DATA" | jq -r '.head.ref')" >> \$GITHUB_OUTPUT
-                echo "head_sha=\$(echo "\$PR_DATA" | jq -r '.head.sha')" >> \$GITHUB_OUTPUT
-                echo "head_repo=\$(echo "\$PR_DATA" | jq -r '.head.repo.full_name')" >> \$GITHUB_OUTPUT
-
-            # Checkout repository
-            # リポジトリをチェックアウト。
-            - name: Checkout repository
-              uses: actions/checkout@v4
-              timeout-minutes: 10
-              with:
-                  ref: \${{ steps.pr_info.outputs.head_ref || github.event.pull_request.head.ref || github.ref }}
-                  fetch-depth: 1
-                  token: \${{secrets.PERSONAL_ACCESS_TOKEN || github.token}}
-
-            # Set up JDK 17.
-            # JDK 17のセットアップ
-            - name: Set up JDK 17
-              uses: actions/setup-java@v4
-              timeout-minutes: 10
-              with:
-                distribution: microsoft
-                java-version: "17.0.10"
-
-            # Install flutter.
-            # Flutterのインストール。
-            - name: Install flutter
-              uses: subosito/flutter-action@v2
-              timeout-minutes: 10
-              with:
-                channel: stable
-                cache: true
-
-            # Check flutter version.
-            # Flutterのバージョン確認。
-            - name: Run flutter version
-              run: flutter --version
-              timeout-minutes: 3
-
-            # Run flutter pub get
-            # Flutterのパッケージを取得。
-            - name: Run flutter pub get
-              run: flutter pub get
-              timeout-minutes: 3
-
-            # Creation of the Assets folder.
-            # Assetsフォルダの作成。
-            - name: Create assets folder
-              run: mkdir -p assets
-              timeout-minutes: 3
-
-            # Install the katana command
-            # katanaコマンドをインストール
-            - name: Install katana
-              run: flutter pub global activate katana_cli
-              timeout-minutes: 3
-
-            # Install the katana command 
-            # Claude Codeを実行
-            - name: Run Claude Code
-              id: claude
-              timeout-minutes: 120
+              
               uses: $actionsRepositoryName
-              env:
-                BASH_MAX_TIMEOUT_MS: 1800000
-                BASH_DEFAULT_TIMEOUT_MS: 1800000
-                GITHUB_TOKEN: \${{secrets.PERSONAL_ACCESS_TOKEN || github.token}}
               with:
                   model: $model
                   timeout_minutes: 120
-                  use_oauth: 'true'
                   disallowed_tools: "mcp__github_file_ops__commit_files,mcp__github_file_ops__delete_files"
                   allowed_tools: "Bash(katana:*),Bash(git:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Bash(head:*),Bash(cd:*),Bash(ls:*),Bash(mkdir:*),Bash(chmod:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"
-                  claude_access_token: \${{secrets.CLAUDE_ACCESS_TOKEN}}
-                  claude_refresh_token: \${{secrets.CLAUDE_REFRESH_TOKEN}}
-                  claude_expires_at: \${{secrets.CLAUDE_EXPIRES_AT}}
+                  github_token: \${{secrets.PERSONAL_ACCESS_TOKEN || github.token}}
+                  $credentials
 """;
-    }
   }
 }
 

@@ -542,28 +542,28 @@ github:
 
 ${showAllConfig ? """
   # Add an AI Agent using Claude Code Actions.
-  # Please enter your Anthropic API key in [api]->[api_key]. Alternatively, you can make API calls within the paid plan by using Actions you forked within the [plan].
+  # Please enter your Anthropic API key in \[api]->\[api_key]. Alternatively, you can enter the token obtained using the `claude setup-token` command within \[oauth].
   # For `[build]`, please specify which platforms to build on when a PR is created or updated by claude code.
   # Example: android ios web
   # Please specify user information for [author] when committing.
   # If you trigger the workflow with commits by ClaudeCode, please provide your Github Personal Access Token in [personal_access_token].
+  # In [uses], please specify the repositories of Actions to be used.
   # CLAUDE CODE ACTIONSによるAIエージェントを追加します。
-  # [api]->[api_key]にAnthropicのAPIキーを記載してください。もしくは[plan]内でfolkしたActionsを使って有料プラン内でのAPI呼び出しも可能です。
+  # [api]->[api_key]にAnthropicのAPIキーを記載してください。もしくは[oauth]内で`claude setup-token`コマンドで取得したトークンを記載可能です。
   # [build]には、claude codeによってPRが作成されたりPRが更新された場合、どのプラットフォームでビルドを行うかを記載してください。
   # 例: android ios web
   # [author]にコミット時のユーザー情報を記載してください。
   # ClaudeCodeによるコミットによりワークフローを動かす場合は[personal_access_token]にGithubのPersonal Access Tokenを記載してください。
+  # [uses]には、使用するActionsのリポジトリを記載してください。
   claude_code:
     enable: false
     build: android web
     personal_access_token: 
+    uses: anthropics/claude-code-action@main
     api:
       api_key:
-    plan:
-      uses:
-      access_token:
-      refresh_token:
-      expires_at:
+    oauth:
+      token:
     author:
       email: "claude@anthropic.com"
       name: "Claude Code"
