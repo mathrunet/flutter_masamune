@@ -30,21 +30,21 @@
 
 ---
 
-A package that includes extension methods and utility functions that support the Katana/Masamune Framework.
+A library defining functions and classes for use with the Katana/Masamune builder.
 
 # Installation
 
 Import the following packages.
 
 ```dart
-flutter pub add katana
+flutter pub add katana_builder
 ```
 
 # Usage
 
 Please review the following documents.
 
-[https://pub.dev/documentation/katana/latest/katana/katana-library.html](https://pub.dev/documentation/katana/latest/katana/katana-library.html)
+[https://pub.dev/documentation/katana_builder/latest/katana_builder/](https://pub.dev/documentation/katana_builder/latest/katana_builder/)
 
 # GitHub Sponsors
 

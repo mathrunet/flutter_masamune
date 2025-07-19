@@ -30,21 +30,21 @@
 
 ---
 
-A package that includes extension methods and utility functions that support the Katana/Masamune Framework.
+A library defining functions and classes for running tests within the Katana/Masamune framework.
 
 # Installation
 
 Import the following packages.
 
 ```dart
-flutter pub add katana
+flutter pub add katana_test
 ```
 
 # Usage
 
 Please review the following documents.
 
-[https://pub.dev/documentation/katana/latest/katana/katana-library.html](https://pub.dev/documentation/katana/latest/katana/katana-library.html)
+[https://pub.dev/documentation/katana_test/latest/katana_test/](https://pub.dev/documentation/katana_test/latest/katana_test/)
 
 # GitHub Sponsors
 

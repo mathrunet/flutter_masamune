@@ -44,7 +44,7 @@ flutter pub add katana
 
 Please review the following documents.
 
-[https://pub.dev/documentation/katana/latest/katana/katana-library.html](https://pub.dev/documentation/katana/latest/katana/katana-library.html)
+[https://pub.dev/documentation/katana/latest/katana/](https://pub.dev/documentation/katana/latest/katana/)
 
 # GitHub Sponsors
 
