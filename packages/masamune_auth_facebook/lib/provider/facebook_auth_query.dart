@@ -79,14 +79,14 @@ class FacebookSignInAuthProvider extends SnsSignInAuthProvider {
       default:
         break;
     }
-    if (result.accessToken == null || result.accessToken!.token.isEmpty) {
+    if (result.accessToken == null || result.accessToken!.tokenString.isEmpty) {
       throw Exception(
         "Login failed because the authentication information cannot be found.",
       );
     }
     return Credential(
       providerId: providerId,
-      accessToken: result.accessToken!.token,
+      accessToken: result.accessToken!.tokenString,
     );
   }
 }

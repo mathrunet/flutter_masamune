@@ -16,7 +16,7 @@ dependencies:
   masamune: ^3.3.2
   background_locator_2: ^2.0.6
   path_provider: ^2.1.3
-  permission_handler: ^11.0.0
+  permission_handler: ^12.0.0
   masamune_location_platform_interface: ^3.0.16
   shared_preferences: ^2.5.3
 

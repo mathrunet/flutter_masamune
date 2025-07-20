@@ -14,8 +14,8 @@ dependencies:
     
   katana: ^3.1.4
   masamune: ^3.3.2
-  google_mobile_ads: ^5.0.0
-  permission_handler: ^11.1.0
+  google_mobile_ads: ^6.0.0
+  permission_handler: ^12.0.0
 
 dev_dependencies:
   test: ^1.24.0

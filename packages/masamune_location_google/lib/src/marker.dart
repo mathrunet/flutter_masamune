@@ -57,7 +57,11 @@ class Marker extends map.Marker {
     GeoValue position = const GeoValue(latitude: 0.0, longitude: 0.0),
     super.rotation = 0.0,
     super.visible = true,
+    @Deprecated(
+      "Use zIndexInt instead. On some platforms zIndex is truncated to an int, which can lead to incorrect/unstable ordering.",
+    )
     super.zIndex = 0.0,
+    super.zIndexInt = 0,
     super.onTap,
     super.onDrag,
     super.onDragStart,
@@ -104,7 +108,11 @@ class Marker extends map.Marker {
     GeoValue position = const GeoValue(latitude: 0.0, longitude: 0.0),
     super.rotation = 0.0,
     super.visible = true,
+    @Deprecated(
+      "Use zIndexInt instead. On some platforms zIndex is truncated to an int, which can lead to incorrect/unstable ordering.",
+    )
     super.zIndex = 0.0,
+    super.zIndexInt = 0,
     super.onTap,
     super.onDrag,
     super.onDragStart,
@@ -193,7 +201,7 @@ class Marker extends map.Marker {
         infoWindow: infoWindow,
         rotation: rotation,
         visible: visible,
-        zIndex: zIndex,
+        zIndexInt: zIndexInt,
         onTap: onTap,
         onDrag: onDrag,
         onDragStart: onDragStart,
@@ -228,7 +236,7 @@ class Marker extends map.Marker {
         infoWindow: infoWindow,
         rotation: rotation,
         visible: visible,
-        zIndex: zIndex,
+        zIndexInt: zIndexInt,
         onTap: onTap,
         onDrag: onDrag,
         onDragStart: onDragStart,

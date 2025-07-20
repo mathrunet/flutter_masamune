@@ -15,14 +15,13 @@ import "dart:async";
 
 // Package imports:
 import "package:firebase_app_check/firebase_app_check.dart";
-import "package:firebase_vertexai/firebase_vertexai.dart";
+import "package:firebase_ai/firebase_ai.dart";
 import "package:katana_firebase/katana_firebase.dart";
 import "package:masamune/masamune.dart";
 import "package:masamune_ai/masamune_ai.dart";
 
 export "package:masamune_ai/masamune_ai.dart";
-export "package:firebase_vertexai/firebase_vertexai.dart"
-    show FunctionCallingConfig;
+export "package:firebase_ai/firebase_ai.dart" show FunctionCallingConfig;
 
 part "adapter/firebase_ai_masamune_adapter.dart";
 part "src/extensions.dart";

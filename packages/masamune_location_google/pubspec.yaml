@@ -17,7 +17,7 @@ dependencies:
   masamune_location: ^3.0.16
   google_maps_flutter: ^2.6.1
   flutter_polyline_points: ^2.0.0
-  permission_handler: ^11.3.1
+  permission_handler: ^12.0.0
 
 dev_dependencies:
   test: ^1.24.0

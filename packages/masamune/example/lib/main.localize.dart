@@ -1,7 +1,7 @@
 // dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations, unused_element_parameter, prefer_constructors_over_static_methods, matching_super_parameters, prefer_double_quotes, unused_local_variable
 
 part of 'main.dart';
 
@@ -359,32 +359,32 @@ abstract class _$AppLocalizeBase {
   String get youWillLogOutAreYouOK => throw UnimplementedError();
 
   String
-      get passwordResetEmailHasBeenSentToYouPleaseUseTheLinkInTheEmailToSetANewPassword =>
-          throw UnimplementedError();
+  get passwordResetEmailHasBeenSentToYouPleaseUseTheLinkInTheEmailToSetANewPassword =>
+      throw UnimplementedError();
 
   String get pleaseRegisterAgain => throw UnimplementedError();
 
   String get pleaseTryAgain => throw UnimplementedError();
 
   String
-      get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
-          throw UnimplementedError();
+  get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
+      throw UnimplementedError();
 
   String
-      get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
-          throw UnimplementedError();
+  get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
+      throw UnimplementedError();
 
   String get couldNotLoginPleaseCheckYourLoginInformationAgain =>
       throw UnimplementedError();
 
   _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Base
-      get initializationFailedExitTheApplication => throw UnimplementedError();
+  get initializationFailedExitTheApplication => throw UnimplementedError();
 
   String get thereIsANewUpdate => throw UnimplementedError();
 
   String
-      get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
-          throw UnimplementedError();
+  get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
+      throw UnimplementedError();
 
   _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Base $(Object? _p1) =>
       throw UnimplementedError();
@@ -924,7 +924,8 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   String get youWillLogOutAreYouOK => "You will log out.\n\nAre you OK?";
 
   @override
-  String get passwordResetEmailHasBeenSentToYouPleaseUseTheLinkInTheEmailToSetANewPassword =>
+  String
+  get passwordResetEmailHasBeenSentToYouPleaseUseTheLinkInTheEmailToSetANewPassword =>
       "Password reset email has been sent to you.\n\nPlease use the link in the email to set a new password.";
 
   @override
@@ -934,11 +935,13 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   String get pleaseTryAgain => "Please try again.";
 
   @override
-  String get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
+  String
+  get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
       "Do you want to delete your account?\n\nOnce an account is deleted, it cannot be restored.";
 
   @override
-  String get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
+  String
+  get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
       "Since your subscription is active, you cannot delete your account.\n\nPlease cancel your subscription and try again.";
 
   @override
@@ -947,14 +950,15 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
 
   @override
   _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Enus
-      get initializationFailedExitTheApplication =>
-          _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Enus();
+  get initializationFailedExitTheApplication =>
+      _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Enus();
 
   @override
   String get thereIsANewUpdate => "There is a new update";
 
   @override
-  String get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
+  String
+  get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
       "There is a new update.\n\nPlease update the application in the store and then launch the application again.";
 
   @override
@@ -1537,8 +1541,8 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
 
   @override
   String
-      get passwordResetEmailHasBeenSentToYouPleaseUseTheLinkInTheEmailToSetANewPassword =>
-          "パスワードリセットメールを送信しました。\n\nメール中に記載されているリンクから新しいパスワードを設定してください。";
+  get passwordResetEmailHasBeenSentToYouPleaseUseTheLinkInTheEmailToSetANewPassword =>
+      "パスワードリセットメールを送信しました。\n\nメール中に記載されているリンクから新しいパスワードを設定してください。";
 
   @override
   String get pleaseRegisterAgain => "お手数ですが、再度新規登録をお願いします。";
@@ -1548,13 +1552,13 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
 
   @override
   String
-      get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
-          "アカウントを削除しますか？\n\n一度削除すると元に戻すことはできません。";
+  get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
+      "アカウントを削除しますか？\n\n一度削除すると元に戻すことはできません。";
 
   @override
   String
-      get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
-          "サブスクリプションが有効のため、アカウント削除はできません。\n\n一度サブスクリプションを解約した後、再度お試しください。";
+  get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
+      "サブスクリプションが有効のため、アカウント削除はできません。\n\n一度サブスクリプションを解約した後、再度お試しください。";
 
   @override
   String get couldNotLoginPleaseCheckYourLoginInformationAgain =>
@@ -1562,16 +1566,16 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
 
   @override
   _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Jajp
-      get initializationFailedExitTheApplication =>
-          _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Jajp();
+  get initializationFailedExitTheApplication =>
+      _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Jajp();
 
   @override
   String get thereIsANewUpdate => "新しいアップデート";
 
   @override
   String
-      get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
-          "新しいアップデートがあります。\n\nストアでアプリをアップデートしてから再度アプリを起動してください。";
+  get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
+      "新しいアップデートがあります。\n\nストアでアプリをアップデートしてから再度アプリを起動してください。";
 
   @override
   _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Jajp $(Object? _p1) =>
@@ -2152,8 +2156,8 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
 
   @override
   String
-      get passwordResetEmailHasBeenSentToYouPleaseUseTheLinkInTheEmailToSetANewPassword =>
-          "我发送了密码重置电子邮件。\n\n从电子邮件中列出的链接中设置一个新密码。";
+  get passwordResetEmailHasBeenSentToYouPleaseUseTheLinkInTheEmailToSetANewPassword =>
+      "我发送了密码重置电子邮件。\n\n从电子邮件中列出的链接中设置一个新密码。";
 
   @override
   String get pleaseRegisterAgain => "对于给您带来的不便，我们深表歉意，但请重新注册。";
@@ -2163,13 +2167,13 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
 
   @override
   String
-      get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
-          "您想删除您的帐户吗？ \n\n一旦删除，将无法恢复。";
+  get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
+      "您想删除您的帐户吗？ \n\n一旦删除，将无法恢复。";
 
   @override
   String
-      get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
-          "您的帐户无法删除，因为您的订阅处于活动状态。 \n\n请取消您的订阅并重试。";
+  get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
+      "您的帐户无法删除，因为您的订阅处于活动状态。 \n\n请取消您的订阅并重试。";
 
   @override
   String get couldNotLoginPleaseCheckYourLoginInformationAgain =>
@@ -2177,16 +2181,16 @@ class _$AppLocalizeZhcn extends _$AppLocalizeBase {
 
   @override
   _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Zhcn
-      get initializationFailedExitTheApplication =>
-          _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Zhcn();
+  get initializationFailedExitTheApplication =>
+      _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Zhcn();
 
   @override
   String get thereIsANewUpdate => "新更新";
 
   @override
   String
-      get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
-          "有新的更新。\n\n请从商店更新应用程序，然后再次启动该应用程序。";
+  get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
+      "有新的更新。\n\n请从商店更新应用程序，然后再次启动该应用程序。";
 
   @override
   _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Zhcn $(Object? _p1) =>
@@ -2768,8 +2772,8 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
 
   @override
   String
-      get passwordResetEmailHasBeenSentToYouPleaseUseTheLinkInTheEmailToSetANewPassword =>
-          "비밀번호 재설정 이메일을 보냈습니다. \n\n이메일에 나열된 링크에서 새 비밀번호를 설정합니다.";
+  get passwordResetEmailHasBeenSentToYouPleaseUseTheLinkInTheEmailToSetANewPassword =>
+      "비밀번호 재설정 이메일을 보냈습니다. \n\n이메일에 나열된 링크에서 새 비밀번호를 설정합니다.";
 
   @override
   String get pleaseRegisterAgain => "죄송 합니다만, 다시 신규 등록을 부탁드립니다.";
@@ -2779,13 +2783,13 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
 
   @override
   String
-      get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
-          "계정을 삭제하시겠습니까? \n\n한 번 삭제하면 되돌릴 수 없습니다.";
+  get doYouWantToDeleteYourAccountOnceAnAccountIsDeletedItCannotBeRestored =>
+      "계정을 삭제하시겠습니까? \n\n한 번 삭제하면 되돌릴 수 없습니다.";
 
   @override
   String
-      get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
-          "구독이 활성화되어 계정을 삭제할 수 없습니다.";
+  get sinceYourSubscriptionIsActiveYouCannotDeleteYourAccountPleaseCancelYourSubscriptionAndTryAgain =>
+      "구독이 활성화되어 계정을 삭제할 수 없습니다.";
 
   @override
   String get couldNotLoginPleaseCheckYourLoginInformationAgain =>
@@ -2793,16 +2797,16 @@ class _$AppLocalizeKokr extends _$AppLocalizeBase {
 
   @override
   _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Kokr
-      get initializationFailedExitTheApplication =>
-          _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Kokr();
+  get initializationFailedExitTheApplication =>
+      _$ee3cdde455f5dd463564a735df43c1a8f5dad3b8Kokr();
 
   @override
   String get thereIsANewUpdate => "새로운 업데이트";
 
   @override
   String
-      get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
-          "새로운 업데이트가 있습니다.\n\n스토어에서 앱을 업데이트한 다음 앱을 다시 시작하세요.";
+  get thereIsANewUpdatePleaseUpdateTheApplicationInTheStoreAndThenLaunchTheApplicationAgain =>
+      "새로운 업데이트가 있습니다.\n\n스토어에서 앱을 업데이트한 다음 앱을 다시 시작하세요.";
 
   @override
   _$a1dd18c1c4364639c09234f7ad8df55d6c7a6328Kokr $(Object? _p1) =>

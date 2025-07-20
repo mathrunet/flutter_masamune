@@ -99,11 +99,11 @@ String generateCode(
   return String.fromCharCodes(codeUnits);
 }
 
-/// Converts [json] to a Json-decoded Map<String, dynamic> object.
+/// Converts [json] to a Json-decoded Map&lt;String, dynamic&gt; object.
 ///
 /// If [String] is in a format that cannot be decoded by Json, [defaultValue] is returned.
 ///
-/// [json]をJsonデコードされたMap<String, dynamic>オブジェクトに変換します。
+/// [json]をJsonデコードされたMap&lt;String, dynamic&gt;オブジェクトに変換します。
 ///
 /// [String]がJsonでデコード不可能な形式だった場合[defaultValue]が返されます。
 Map<String, T> jsonDecodeAsMap<T extends Object?>(

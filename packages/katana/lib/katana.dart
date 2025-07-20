@@ -27,7 +27,7 @@ import "package:uuid/uuid.dart";
 
 export "package:intl/date_symbol_data_local.dart" show initializeDateFormatting;
 export "package:intl/intl.dart" show DateFormat;
-export "package:meta/meta.dart" show Immutable, Required;
+export "package:meta/meta.dart" show Immutable;
 export "package:sprintf/sprintf.dart" show sprintf;
 
 export "src/others/others.dart"

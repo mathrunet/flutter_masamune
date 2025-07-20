@@ -16,7 +16,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   ///
   /// [options]にFirebaseのオプションを設定してください。
   const FirebaseAIMasamuneAdapter({
-    FirebaseVertexAI? vertexAI,
+    FirebaseAI? ai,
     FirebaseOptions? options,
     this.model = FirebaseAIModel.defaultModel,
     this.enableAppCheck = true,
@@ -34,7 +34,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     super.onGenerateFunctionCallingConfig,
     super.listenMcpServerOnRunApp = false,
   })  : _options = options,
-        _vertexAI = vertexAI;
+        _instance = ai;
 
   /// The model name of the AI.
   ///
@@ -49,12 +49,12 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   /// FirebaseVertexAI instance.
   ///
   /// FirebaseVertexAIのインスタンス。
-  FirebaseVertexAI get vertexAI =>
-      _vertexAI ??
-      FirebaseVertexAI.instanceFor(
+  FirebaseAI get instance =>
+      _instance ??
+      FirebaseAI.googleAI(
         appCheck: enableAppCheck ? FirebaseAppCheck.instance : null,
       );
-  final FirebaseVertexAI? _vertexAI;
+  final FirebaseAI? _instance;
 
   static final Map<AIConfigKey, GenerativeModel> _generativeModel = {};
   static const _platformInfo = PlatformInfo();
@@ -202,7 +202,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     await FirebaseCore.initialize(options: options);
     final systemPromptContent = config.systemPromptContent;
     final responseSchema = config.responseSchema;
-    _generativeModel[key] = vertexAI.generativeModel(
+    _generativeModel[key] = instance.generativeModel(
       model: config.model ?? model.model,
       generationConfig: GenerationConfig(
         responseMimeType: responseSchema != null ? "application/json" : null,
