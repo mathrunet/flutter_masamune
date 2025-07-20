@@ -450,6 +450,12 @@ jobs:
         run: flutter --version
         timeout-minutes: 3
 
+      # Install FlutterFire CLI.
+      # FlutterFire CLIをインストール。
+      - name: Install FlutterFire CLI
+        run: flutter pub global activate flutterfire_cli
+        timeout-minutes: 3
+
       # Download package.
       # パッケージのダウンロード。
       - name: Download flutter packages

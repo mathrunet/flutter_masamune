@@ -223,6 +223,12 @@ runs:
       shell: bash
       run: flutter pub global activate katana_cli
 
+    # Install FlutterFire CLI.
+    # FlutterFire CLIをインストール。
+    - name: Install FlutterFire CLI
+      shell: bash
+      run: flutter pub global activate flutterfire_cli
+
     # Running flutter analyze.
     # Flutter analyzeとcustom_lintの実行。
     - name: Analyzing flutter project
