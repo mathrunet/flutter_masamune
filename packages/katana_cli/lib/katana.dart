@@ -542,7 +542,7 @@ github:
 
 ${showAllConfig ? """
   # Add an AI Agent using Claude Code Actions.
-  # Please enter your Anthropic API key in \[api]->\[api_key]. Alternatively, you can enter the token obtained using the `claude setup-token` command within \[oauth].
+  # Please enter your Anthropic API key in [api]->[api_key]. Alternatively, you can enter the token obtained using the `claude setup-token` command within [oauth].
   # For `[build]`, please specify which platforms to build on when a PR is created or updated by claude code.
   # Example: android ios web
   # Please specify user information for [author] when committing.

@@ -8,7 +8,10 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library;
 
+// Flutter imports:
 import "package:flutter/widgets.dart";
+
+// Project imports:
 import "package:katana_platform_info/katana_platform_info.dart";
 
 export "adapter/others/others.dart"
