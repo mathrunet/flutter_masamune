@@ -8,9 +8,10 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library;
 
-// Flutter imports:
+// Dart imports:
 import "dart:typed_data";
 
+// Flutter imports:
 import "package:flutter/widgets.dart";
 
 // Project imports:
