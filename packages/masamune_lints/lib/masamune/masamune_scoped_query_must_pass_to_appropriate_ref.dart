@@ -162,8 +162,8 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
             if (ancestor == null) {
               return;
             }
-            final elementType =
-                function.parameters?.parameterElements.firstOrNull?.type;
+            final elementType = function
+                .parameters?.parameterFragments.firstOrNull?.element.type;
             if (elementType == null || elementType is! InterfaceType) {
               return;
             }
