@@ -150,12 +150,12 @@ class McpServer
           callback: ({args, extra}) async {
             final result = await func.serverProcess(args ?? {});
             if (result == null) {
-              return const mcp.CallToolResult(
+              return mcp.CallToolResult.fromContent(
                 content: [],
                 isError: true,
               );
             }
-            return mcp.CallToolResult(
+            return mcp.CallToolResult.fromContent(
               content: [
                 ...result.value.mapAndRemoveEmpty((e) {
                   return e._toMcpContent();
