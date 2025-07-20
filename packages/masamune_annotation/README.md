@@ -631,23 +631,57 @@ State management can also be extended, so please see the package details page fo
 
 ## Translation
 
-Translation will be done through a Google spreadsheet.
+Translation is done through Yaml files.
 
-Please see below for preparation.
+Please refer to the `Local translation management` section on the page below for preparation.
 
-[https://pub.dev/packages/katana_localization#advance-preparation](https://pub.dev/packages/katana_localization#advance-preparation)
+[https://pub.dev/packages/katana_localization](https://pub.dev/packages/katana_localization)
 
-To update the translation, AppLocalize is defined in main.dart, so update the `version` there.
+To update translations, update the `version` in AppLocalize which is defined in main.dart.
 
 ```dart
-@GoogleSpreadSheetLocalize(
-  "https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808",
-  version: 1, // When updating, increment this version.
+@YamlLocalize(
+  version: 1, // Increment this version when updating.
 )
 class AppLocalize extends _$AppLocalize {}
 ```
 
-Acquisition of the translation text is done using the `l` object.
+`localize.app.yaml` and `localize.base.yaml` are created in the project root, so please write translations in `localize.app.yaml` as shown below.
+
+```yaml
+localize:
+  # Apps
+  - key: "AppTitle"
+    en_US: "AppTitle"
+    ja_JP: "アプリタイトル"
+    zh_CN: "应用标题"
+    ko_KR: "앱 제목"
+    es_ES: "Título de la aplicación"
+    fr_FR: "Titre de l'application"
+    de_DE: "Anwendungstitel"
+    pt_PT: "Título da aplicação"
+    ru_RU: "Заголовок приложения"
+    id_ID: "Judul aplikasi"
+  - key: "SubTitle"
+    en_US: "SubTitle"
+    ja_JP: "サブタイトル"
+    zh_CN: "字幕"
+    ko_KR: "부제"
+    es_ES: "Subtítulo"
+    fr_FR: "Sous-titre"
+    de_DE: "Untertitel"
+    pt_PT: "Subtítulo"
+    ru_RU: "Подзаголовок"
+    id_ID: "Subjudul"
+```
+
+Execute the command below to generate code.
+
+```yaml
+katana code generate
+```
+
+To retrieve translation text, use the `l` object.
 
 ```dart
 Text(l().success);

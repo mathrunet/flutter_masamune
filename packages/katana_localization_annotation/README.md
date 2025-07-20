@@ -247,6 +247,45 @@ Otherwise, it will remain unchanged.
 
 If `setCurrentLocale` is executed and the locale change is successful, the `LocalizeScope` is rebuilt. In addition, since AppLocalize itself is a `ChangeNotifier`, it is possible to implement processing that detects changes in other places by monitoring changes with addListener.
 
+# Local Translation Management
+
+Google Spreadsheet can be difficult to manage with AI.
+
+From version 3.0.0, you can manage translations with YAML files by using `YamlLocalize` instead of GoogleSpreadSheetLocalize.
+
+Specify the file path from the project root in `path`. Multiple files can be specified.
+
+```dart
+// localization.dart
+import 'package:katana_localization/katana_localization.dart';
+
+part ‘localization.localize.dart’;
+
+@YamlLocalize(
+  verions: 1,
+  path: ["localize.yaml"]
+)
+class AppLocalize extends _$AppLocalize { }
+
+final l = AppLocalize();
+```
+
+In `localize.yaml`, translations are written under the `localize` property with the `key` and locale codes such as `en_US`.
+
+```dart
+# localize.yaml
+
+localize:
+  - key: "Hello"
+    en_US: "Hello"
+    ja_JP: "こんにちは"
+    zh_CN: "你好"
+  - key: "Thank you"
+    en_US: "Thank you"
+    ja_JP: "ありがとうございます"
+    zh_CN: "谢谢"
+```
+
 # GitHub Sponsors
 
 Sponsors are always welcome. Thank you for your support!
