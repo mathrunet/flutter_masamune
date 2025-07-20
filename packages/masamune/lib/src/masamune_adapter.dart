@@ -138,6 +138,11 @@ abstract class MasamuneAdapter {
   /// そのままだと利用されず`boot.dart`などを自身で作成しこの処理を明示的に呼び出す必要があります。
   FutureOr<void> onMaybeBoot(BuildContext context) {}
 
+  /// It may be called when the application is restarted.
+  ///
+  /// アプリの再起動時に呼び出されることがあります。
+  FutureOr<void> onRestarted() {}
+
   /// You can describe the process when [runZonedGuarded] is set to `true`.
   ///
   /// The object in which the error occurred is passed to [error] and [stackTrace].

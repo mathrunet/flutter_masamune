@@ -547,6 +547,13 @@ class _MasamuneAppState extends State<MasamuneApp> {
         debugPrint(e.toString());
       }
     }
+    try {
+      for (final adapter in widget.masamuneAdapters) {
+        await adapter.onRestarted();
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
     setState(() {
       _key = UniqueKey();
     });
