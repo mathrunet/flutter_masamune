@@ -64,7 +64,7 @@ abstract class Ref implements RefOrRefHasAny {
   /// If [listen] is specified, the process of redrawing the widget or page will run when the value is updated (when [ScopedValueState.setState] is executed) on the widget or page that uses this.
   ///
   /// Basically, [TScopedValue] is stored with the type name of [TScopedValue] as `Key`.
-  /// (All generic types are also taken into account. ValueNotifier<int>` and `ValueNotifier<double>` are recognized as separate `Keys`)
+  /// (All generic types are also taken into account. ValueNotifier&lt;int&gt;` and `ValueNotifier&lt;double&gt;` are recognized as separate `Keys`)
   ///
   /// If a value already exists for the same `Key` in the respective scopes of the app, page, and widget, the same object is retrieved as the last retrieved object.
   /// (If the scope is different, such as app and page, you will get a different object even if the same `Key` is used.)

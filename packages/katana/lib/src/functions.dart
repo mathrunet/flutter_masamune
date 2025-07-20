@@ -117,11 +117,11 @@ Map<String, T> jsonDecodeAsMap<T extends Object?>(
   return defaultValue;
 }
 
-/// Converts [json] to a Json-decoded List<dynamic> object.
+/// Converts [json] to a Json-decoded List&lt;dynamic&gt; object.
 ///
 /// If [String] is in a format that cannot be decoded by Json, [defaultValue] is returned.
 ///
-/// [json]をJsonデコードされたList<dynamic>オブジェクトに変換します。
+/// [json]をJsonデコードされたList&lt;dynamic&gt;オブジェクトに変換します。
 ///
 /// [String]がJsonでデコード不可能な形式だった場合[defaultValue]が返されます。
 List<T> jsonDecodeAsList<T extends Object?>(

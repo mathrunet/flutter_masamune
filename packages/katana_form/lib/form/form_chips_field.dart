@@ -1052,7 +1052,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
   @override
   void insertContent(KeyboardInsertedContent content) {}
 
-  void _updateTextInputState({replaceText = false, putText = ""}) {
+  void _updateTextInputState({bool replaceText = false, String putText = ""}) {
     if (replaceText || putText != "") {
       final updatedText =
           String.fromCharCodes(_chips.map((_) => _kObjectReplacementChar)) +
