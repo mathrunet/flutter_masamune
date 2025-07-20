@@ -37,15 +37,16 @@ void masamuneApplyTestMocks({
   if (functionsAdapter != null) {
     TestFunctionsAdapterScope.setTestAdapter(functionsAdapter);
   }
-  if (platformInfoAdapter != null) {
-    TestPlatformInfoAdapterScope.setTestAdapter(platformInfoAdapter);
-  }
   if (loggerAdapters.isNotEmpty) {
     TestLoggerAdapterScope.setTestAdapters(loggerAdapters);
   }
   if (masamuneAdapters.isNotEmpty) {
     TestMasamuneAdapterScope.setTestAdapters(masamuneAdapters);
   }
+  TestPlatformInfoAdapterScope.setTestAdapter(
+    isTest: true,
+    adapter: platformInfoAdapter,
+  );
   if (testCurrentTime != null) {
     Clock.setTestCurrentTime(testCurrentTime);
   }

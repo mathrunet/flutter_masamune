@@ -152,7 +152,10 @@ abstract class MasamuneAdapter {
   /// [error]と[stackTrace]にエラーが起きた際のオブジェクトが渡されます。
   void onError(Object error, StackTrace stackTrace) {}
 
-  static List<MasamuneAdapter> _extractMasamuneAdapters(
+  /// Extract the nested [MasamuneAdapter] from [adapters].
+  ///
+  /// [adapters]からネストされた[MasamuneAdapter]を抽出します。
+  static List<MasamuneAdapter> extractMasamuneAdapters(
     List<MasamuneAdapter> adapters,
   ) {
     final result = <MasamuneAdapter>[];
@@ -160,7 +163,7 @@ abstract class MasamuneAdapter {
       final masamuneAdapters = adapter.masamuneAdapters;
       result.add(adapter);
       if (masamuneAdapters.isNotEmpty) {
-        final extracted = _extractMasamuneAdapters(masamuneAdapters);
+        final extracted = extractMasamuneAdapters(masamuneAdapters);
         result.addAll(extracted);
       }
     }

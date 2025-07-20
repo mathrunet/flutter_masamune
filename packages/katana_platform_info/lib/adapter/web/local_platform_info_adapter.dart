@@ -72,4 +72,7 @@ class LocalPlatformInfoAdapter extends PlatformInfoAdapter {
 
   @override
   bool get isMobile => UniversalPlatform.isMobile;
+
+  @override
+  Future<Uint8List?> get debugImageData => Future.value(null);
 }

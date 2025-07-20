@@ -99,4 +99,18 @@ class PlatformInfo {
   ///
   /// プラットフォームがモバイルかどうかを確認します。
   bool get isMobile => adapter.isMobile;
+
+  /// Check if the platform is test.
+  ///
+  /// プラットフォームがテストかどうかを確認します。
+  bool get isTest => adapter.isTest;
+
+  /// Get image for debugging.
+  ///
+  /// If not [Null], all images will be replaced with this data.
+  ///
+  /// デバッグ用の画像を取得します。
+  ///
+  /// [Null]でない場合画像はすべてこのデータに入れ替わります。
+  Future<Uint8List?> get debugImageData => adapter.debugImageData;
 }

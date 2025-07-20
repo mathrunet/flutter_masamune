@@ -66,6 +66,7 @@ abstract class PlatformInfoAdapter {
 
   static PlatformInfoAdapter? _primary;
   static PlatformInfoAdapter? _test;
+  static bool _isTest = false;
 
   /// Get the application ID.
   ///
@@ -143,6 +144,20 @@ abstract class PlatformInfoAdapter {
   ///
   /// プラットフォームがモバイルかどうかを確認します。
   bool get isMobile;
+
+  /// Checks if it is under test.
+  ///
+  /// テスト中かどうかを確認します。
+  bool get isTest => _isTest;
+
+  /// Get image for debugging.
+  ///
+  /// If not [Null], all images will be replaced with this data.
+  ///
+  /// デバッグ用の画像を取得します。
+  ///
+  /// [Null]でない場合画像はすべてこのデータに入れ替わります。
+  Future<Uint8List?> get debugImageData;
 }
 
 /// Place it on top of [MaterialApp], etc., and set [PlatformInfoAdapter] for the entire app.
@@ -242,7 +257,13 @@ class TestPlatformInfoAdapterScope {
   /// Set the [PlatformInfoAdapter] for testing.
   ///
   /// テスト用に[PlatformInfoAdapter]を設定します。
-  static void setTestAdapter(PlatformInfoAdapter adapter) {
-    PlatformInfoAdapter._test = adapter;
+  static void setTestAdapter({
+    PlatformInfoAdapter? adapter,
+    bool isTest = true,
+  }) {
+    PlatformInfoAdapter._isTest = isTest;
+    if (adapter != null) {
+      PlatformInfoAdapter._test = adapter;
+    }
   }
 }

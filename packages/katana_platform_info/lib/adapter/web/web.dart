@@ -3,6 +3,7 @@ library;
 
 // Dart imports:
 import "dart:async";
+import "dart:typed_data";
 
 // Flutter imports:
 import "package:flutter/widgets.dart";

@@ -9,6 +9,8 @@
 library;
 
 // Flutter imports:
+import "dart:typed_data";
+
 import "package:flutter/widgets.dart";
 
 // Project imports:

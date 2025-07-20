@@ -431,6 +431,10 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
   }) async {
     try {
       assert(key == this, "key is not equal to this");
+      final debugImageData = await _platformInfo.debugImageData;
+      if (debugImageData != null) {
+        return decode(await ui.ImmutableBuffer.fromUint8List(debugImageData));
+      }
       final file = await _getLocalFile(key);
       if (file.existsSync()) {
         return _loadFileAsync(key, file: file, decode: decode);

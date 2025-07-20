@@ -34,7 +34,7 @@ Future<void> runMasamuneApp(
   // if (setPathUrlStrategy) {
   //   AppRouter.setPathUrlStrategy();
   // }
-  masamuneAdapters = MasamuneAdapter._extractMasamuneAdapters(masamuneAdapters)
+  masamuneAdapters = MasamuneAdapter.extractMasamuneAdapters(masamuneAdapters)
       .distinct((e) => e.runtimeType)
       .sortTo(
         (a, b) => a.priority.compareTo(b.priority),
