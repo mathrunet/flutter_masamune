@@ -15,6 +15,7 @@ import "dart:async";
 import "package:flutter/foundation.dart";
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
+import "package:katana_platform_info/katana_platform_info.dart";
 
 // Project imports:
 import "package:masamune/masamune.dart";

@@ -211,6 +211,7 @@ class MasamuneApp extends StatefulWidget {
     this.authAdapter,
     this.storageAdapter,
     this.functionsAdapter,
+    this.platformInfoAdapter,
     this.loggerAdapters = const [],
     this.theme,
     this.localize,
@@ -300,6 +301,11 @@ class MasamuneApp extends StatefulWidget {
   ///
   /// `katana_functions`で利用されるサーバー処理用のアダプター。
   final FunctionsAdapter? functionsAdapter;
+
+  /// Adapter for platform information used by `katana_platform_info`.
+  ///
+  /// `katana_platform_info`で利用されるプラットフォーム情報用のアダプター。
+  final PlatformInfoAdapter? platformInfoAdapter;
 
   /// Adapter for logging used by `katana_logger`.
   ///
@@ -551,23 +557,26 @@ class _MasamuneAppState extends State<MasamuneApp> {
     if (_key == null) {
       return const Empty();
     }
-    var child = _buildAppFunctions(
+    var child = _buildAppPlatformInfo(
       context,
-      _buildAppStorage(
+      _buildAppFunctions(
         context,
-        _buildAppAuth(
+        _buildAppStorage(
           context,
-          _buildAppLogger(
+          _buildAppAuth(
             context,
-            _buildAppModel(
+            _buildAppLogger(
               context,
-              _buildAppScoped(
+              _buildAppModel(
                 context,
-                _buildAppTheme(
+                _buildAppScoped(
                   context,
-                  _buildAppLocalize(
+                  _buildAppTheme(
                     context,
-                    _buildAppRouter(context),
+                    _buildAppLocalize(
+                      context,
+                      _buildAppRouter(context),
+                    ),
                   ),
                 ),
               ),
@@ -616,6 +625,16 @@ class _MasamuneAppState extends State<MasamuneApp> {
     if (widget.appRef != null) {
       return AppScoped(
         appRef: widget.appRef!,
+        child: child,
+      );
+    }
+    return child;
+  }
+
+  Widget _buildAppPlatformInfo(BuildContext context, Widget child) {
+    if (widget.platformInfoAdapter != null) {
+      return PlatformInfoAdapterScope(
+        adapter: widget.platformInfoAdapter!,
         child: child,
       );
     }

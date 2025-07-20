@@ -13,6 +13,7 @@ void masamuneApplyTestMocks({
   AuthAdapter? authAdapter,
   StorageAdapter? storageAdapter,
   FunctionsAdapter? functionsAdapter,
+  PlatformInfoAdapter? platformInfoAdapter,
   List<LoggerAdapter> loggerAdapters = const [],
   List<MasamuneAdapter> masamuneAdapters = const [],
   ModelAdapter? modelAdapter,
@@ -35,6 +36,9 @@ void masamuneApplyTestMocks({
   }
   if (functionsAdapter != null) {
     TestFunctionsAdapterScope.setTestAdapter(functionsAdapter);
+  }
+  if (platformInfoAdapter != null) {
+    TestPlatformInfoAdapterScope.setTestAdapter(platformInfoAdapter);
   }
   if (loggerAdapters.isNotEmpty) {
     TestLoggerAdapterScope.setTestAdapters(loggerAdapters);
