@@ -1,3 +1,7 @@
+## 3.1.11
+
+ - Update a dependency to the latest release.
+
 ## 3.1.10
 
  - **FIX**: Applying PlatformInfo. ([0e834212](https://github.com/mathrunet/flutter_masamune/commit/0e834212490a646ff2fa9caf5b54ed10581db738))

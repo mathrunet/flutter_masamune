@@ -15,6 +15,129 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v3.3.1`](#masamune---v331)
+ - [`masamune_model_github` - `v3.1.8`](#masamune_model_github---v318)
+ - [`masamune_location_platform_interface` - `v3.0.15`](#masamune_location_platform_interface---v3015)
+ - [`masamune_model_firebase_remote_config` - `v3.0.15`](#masamune_model_firebase_remote_config---v3015)
+ - [`masamune_markdown` - `v3.0.15`](#masamune_markdown---v3015)
+ - [`masamune_location_geocoding` - `v3.0.15`](#masamune_location_geocoding---v3015)
+ - [`masamune_location` - `v3.0.15`](#masamune_location---v3015)
+ - [`masamune_ai` - `v3.0.15`](#masamune_ai---v3015)
+ - [`masamune_notification_local` - `v3.0.15`](#masamune_notification_local---v3015)
+ - [`masamune_model_firestore` - `v3.0.15`](#masamune_model_firestore---v3015)
+ - [`masamune_deeplink_firebase` - `v3.0.15`](#masamune_deeplink_firebase---v3015)
+ - [`masamune_auth_apple` - `v3.0.15`](#masamune_auth_apple---v3015)
+ - [`masamune_scheduler` - `v3.0.15`](#masamune_scheduler---v3015)
+ - [`masamune_model_algolia` - `v3.0.15`](#masamune_model_algolia---v3015)
+ - [`masamune_location_background` - `v3.0.15`](#masamune_location_background---v3015)
+ - [`masamune_text_to_speech` - `v3.0.15`](#masamune_text_to_speech---v3015)
+ - [`masamune_agora` - `v3.0.15`](#masamune_agora---v3015)
+ - [`masamune_auth_google` - `v3.0.15`](#masamune_auth_google---v3015)
+ - [`masamune_model_firebase_data_connect` - `v3.0.15`](#masamune_model_firebase_data_connect---v3015)
+ - [`masamune_ai_openai` - `v3.0.15`](#masamune_ai_openai---v3015)
+ - [`masamune_calendar` - `v3.0.15`](#masamune_calendar---v3015)
+ - [`masamune_ai_firebase` - `v3.0.15`](#masamune_ai_firebase---v3015)
+ - [`masamune_auth_google_firebase` - `v3.0.15`](#masamune_auth_google_firebase---v3015)
+ - [`masamune_animate` - `v3.0.15`](#masamune_animate---v3015)
+ - [`masamune_picker` - `v3.0.15`](#masamune_picker---v3015)
+ - [`masamune_app_review` - `v3.0.15`](#masamune_app_review---v3015)
+ - [`masamune_util` - `v3.0.15`](#masamune_util---v3015)
+ - [`masamune_test` - `v3.1.11`](#masamune_test---v3111)
+ - [`masamune_universal_ui` - `v3.1.11`](#masamune_universal_ui---v3111)
+ - [`masamune_purchase_stripe` - `v3.6.45`](#masamune_purchase_stripe---v3645)
+ - [`masamune_auth_apple_firebase` - `v3.0.15`](#masamune_auth_apple_firebase---v3015)
+ - [`masamune_auth_github_firebase` - `v3.2.4`](#masamune_auth_github_firebase---v324)
+ - [`masamune_notification` - `v3.0.15`](#masamune_notification---v3015)
+ - [`masamune_logger_firebase` - `v3.0.14`](#masamune_logger_firebase---v3014)
+ - [`masamune_firebase_app_check` - `v3.0.15`](#masamune_firebase_app_check---v3015)
+ - [`masamune_introduction` - `v3.3.5`](#masamune_introduction---v335)
+ - [`masamune_deeplink` - `v3.0.15`](#masamune_deeplink---v3015)
+ - [`masamune_speech_to_text` - `v3.0.15`](#masamune_speech_to_text---v3015)
+ - [`masamune_auth_firebase` - `v3.0.15`](#masamune_auth_firebase---v3015)
+ - [`masamune_auth_facebook` - `v3.0.15`](#masamune_auth_facebook---v3015)
+ - [`masamune_force_updater` - `v3.0.15`](#masamune_force_updater---v3015)
+ - [`masamune_location_google` - `v3.0.15`](#masamune_location_google---v3015)
+ - [`masamune_mail` - `v3.0.15`](#masamune_mail---v3015)
+ - [`masamune_purchase` - `v3.0.15`](#masamune_purchase---v3015)
+ - [`masamune_notification_firebase` - `v3.0.15`](#masamune_notification_firebase---v3015)
+ - [`masamune_purchase_mobile` - `v3.0.15`](#masamune_purchase_mobile---v3015)
+ - [`masamune_ads_google` - `v3.0.15`](#masamune_ads_google---v3015)
+ - [`masamune_camera` - `v3.2.2`](#masamune_camera---v322)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_platform_interface` - `v3.0.15`
+ - `masamune_model_firebase_remote_config` - `v3.0.15`
+ - `masamune_markdown` - `v3.0.15`
+ - `masamune_location_geocoding` - `v3.0.15`
+ - `masamune_location` - `v3.0.15`
+ - `masamune_ai` - `v3.0.15`
+ - `masamune_notification_local` - `v3.0.15`
+ - `masamune_model_firestore` - `v3.0.15`
+ - `masamune_deeplink_firebase` - `v3.0.15`
+ - `masamune_auth_apple` - `v3.0.15`
+ - `masamune_scheduler` - `v3.0.15`
+ - `masamune_model_algolia` - `v3.0.15`
+ - `masamune_location_background` - `v3.0.15`
+ - `masamune_text_to_speech` - `v3.0.15`
+ - `masamune_agora` - `v3.0.15`
+ - `masamune_auth_google` - `v3.0.15`
+ - `masamune_model_firebase_data_connect` - `v3.0.15`
+ - `masamune_ai_openai` - `v3.0.15`
+ - `masamune_calendar` - `v3.0.15`
+ - `masamune_ai_firebase` - `v3.0.15`
+ - `masamune_auth_google_firebase` - `v3.0.15`
+ - `masamune_animate` - `v3.0.15`
+ - `masamune_picker` - `v3.0.15`
+ - `masamune_app_review` - `v3.0.15`
+ - `masamune_util` - `v3.0.15`
+ - `masamune_test` - `v3.1.11`
+ - `masamune_universal_ui` - `v3.1.11`
+ - `masamune_purchase_stripe` - `v3.6.45`
+ - `masamune_auth_apple_firebase` - `v3.0.15`
+ - `masamune_auth_github_firebase` - `v3.2.4`
+ - `masamune_notification` - `v3.0.15`
+ - `masamune_logger_firebase` - `v3.0.14`
+ - `masamune_firebase_app_check` - `v3.0.15`
+ - `masamune_introduction` - `v3.3.5`
+ - `masamune_deeplink` - `v3.0.15`
+ - `masamune_speech_to_text` - `v3.0.15`
+ - `masamune_auth_firebase` - `v3.0.15`
+ - `masamune_auth_facebook` - `v3.0.15`
+ - `masamune_force_updater` - `v3.0.15`
+ - `masamune_location_google` - `v3.0.15`
+ - `masamune_mail` - `v3.0.15`
+ - `masamune_purchase` - `v3.0.15`
+ - `masamune_notification_firebase` - `v3.0.15`
+ - `masamune_purchase_mobile` - `v3.0.15`
+ - `masamune_ads_google` - `v3.0.15`
+ - `masamune_camera` - `v3.2.2`
+
+---
+
+#### `masamune` - `v3.3.1`
+
+ - **FIX**: Add onRestarted to MasamuneAdapter. ([3fc3459a](https://github.com/mathrunet/flutter_masamune/commit/3fc3459a6e857f14599a777e52bc17df95d0bcba))
+
+#### `masamune_model_github` - `v3.1.8`
+
+ - **FIX**: Add OnRestart. ([b40a38ee](https://github.com/mathrunet/flutter_masamune/commit/b40a38ee4d04284229f04948df3bb4b4b615140d))
+
+
+## 2025-07-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.6.1`](#katana_cli---v361)
 
 ---

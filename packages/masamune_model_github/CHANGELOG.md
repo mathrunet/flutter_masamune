@@ -1,3 +1,7 @@
+## 3.1.8
+
+ - **FIX**: Add OnRestart. ([b40a38ee](https://github.com/mathrunet/flutter_masamune/commit/b40a38ee4d04284229f04948df3bb4b4b615140d))
+
 ## 3.1.7
 
  - **FIX**: Applying PlatformInfo. ([0e834212](https://github.com/mathrunet/flutter_masamune/commit/0e834212490a646ff2fa9caf5b54ed10581db738))

@@ -1,3 +1,7 @@
+## 3.3.1
+
+ - **FIX**: Add onRestarted to MasamuneAdapter. ([3fc3459a](https://github.com/mathrunet/flutter_masamune/commit/3fc3459a6e857f14599a777e52bc17df95d0bcba))
+
 ## 3.3.0
 
  - **FIX**: Applying PlatformInfo. ([0e834212](https://github.com/mathrunet/flutter_masamune/commit/0e834212490a646ff2fa9caf5b54ed10581db738))
