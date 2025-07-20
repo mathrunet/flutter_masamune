@@ -64,6 +64,8 @@ class FirebaseStorageAdapter extends StorageAdapter {
 
   String get _storageBucket => storage.bucket;
 
+  static const _platformInfo = PlatformInfo();
+
   /// Options for initializing Firebase.
   ///
   /// If platform-specific options are specified, they take precedence.
@@ -72,17 +74,17 @@ class FirebaseStorageAdapter extends StorageAdapter {
   ///
   /// プラットフォーム固有のオプションが指定されている場合はそちらが優先されます。
   FirebaseOptions? get options {
-    if (UniversalPlatform.isIOS) {
+    if (_platformInfo.isIOS) {
       return iosOptions ?? _options;
-    } else if (UniversalPlatform.isAndroid) {
+    } else if (_platformInfo.isAndroid) {
       return androidOptions ?? _options;
-    } else if (UniversalPlatform.isWeb) {
+    } else if (_platformInfo.isWeb) {
       return webOptions ?? _options;
-    } else if (UniversalPlatform.isLinux) {
+    } else if (_platformInfo.isLinux) {
       return linuxOptions ?? _options;
-    } else if (UniversalPlatform.isWindows) {
+    } else if (_platformInfo.isWindows) {
       return windowsOptions ?? _options;
-    } else if (UniversalPlatform.isMacOS) {
+    } else if (_platformInfo.isMacOS) {
       return macosOptions ?? _options;
     } else {
       return _options;
