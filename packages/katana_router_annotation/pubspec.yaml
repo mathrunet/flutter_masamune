@@ -14,5 +14,5 @@ dependencies:
 dev_dependencies:
   test: ^1.24.0
   katana_test: ^3.0.2
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   import_sorter: ^4.6.0
