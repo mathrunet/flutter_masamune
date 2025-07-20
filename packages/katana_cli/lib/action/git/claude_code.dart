@@ -39,7 +39,7 @@ class GitClaudeCodeCliAction extends CliCommand with CliActionMixin {
     final token = oauth.get("token", "");
     final personalAccessToken = claudeCode.get("personal_access_token", "");
     final model = claudeCode.get("model", "claude-sonnet-4-20250514");
-    final uses = claudeCode.get("uses", "anthropics/claude-code-action");
+    final uses = claudeCode.get("uses", "anthropics/claude-code-action@beta");
 
     if (apiKey.isEmpty && token.isEmpty) {
       error(
@@ -61,12 +61,12 @@ class GitClaudeCodeCliAction extends CliCommand with CliActionMixin {
       );
     } else {
       await command(
-        "Set Claude Access Token in `secrets.CLAUDE_ACCESS_TOKEN`.",
+        "Set Claude Access Token in `secrets.CLAUDE_CODE_OAUTH_TOKEN`.",
         [
           gh,
           "secret",
           "set",
-          "CLAUDE_ACCESS_TOKEN",
+          "CLAUDE_CODE_OAUTH_TOKEN",
           "--body",
           token,
         ],
@@ -162,7 +162,7 @@ class GitClaudeCodeCliCode extends CliCode {
   String body(String path, String baseName, String className) {
     final credentials = useApiKey
         ? "anthropic_api_key: \${{secrets.ANTHROPIC_API_KEY}}"
-        : "claude_code_oauth_token: \${{secrets.CLAUDE_ACCESS_TOKEN}}";
+        : "claude_code_oauth_token: \${{secrets.CLAUDE_CODE_OAUTH_TOKEN}}";
     return """
 # AI Agent using Claude Code.
 # 
@@ -275,7 +275,7 @@ jobs:
                 BASH_MAX_TIMEOUT_MS: 1800000
                 BASH_DEFAULT_TIMEOUT_MS: 1800000
                 GITHUB_TOKEN: \${{secrets.PERSONAL_ACCESS_TOKEN || github.token}}
-              
+                CLAUDE_CODE_OAUTH_TOKEN: \${{secrets.CLAUDE_CODE_OAUTH_TOKEN}}              
               uses: $actionsRepositoryName
               with:
                   model: $model
