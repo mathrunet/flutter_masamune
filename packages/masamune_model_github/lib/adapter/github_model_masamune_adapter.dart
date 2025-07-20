@@ -59,4 +59,9 @@ class GithubModelMasamuneAdapter extends MasamuneAdapter {
       child: app,
     );
   }
+
+  @override
+  FutureOr<void> onRestarted() async {
+    await modelAdapter.clearCache();
+  }
 }
