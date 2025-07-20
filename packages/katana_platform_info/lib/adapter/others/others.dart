@@ -6,7 +6,6 @@ import "dart:async";
 
 // Flutter imports:
 import "package:flutter/foundation.dart";
-import "package:flutter/widgets.dart";
 
 // Package imports:
 import "package:package_info_plus/package_info_plus.dart" as package_info;

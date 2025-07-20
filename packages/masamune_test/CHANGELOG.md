@@ -1,3 +1,9 @@
+## 3.1.12
+
+ - **FIX**: Changing Device Specification Method. ([b0e9eabb](https://github.com/mathrunet/flutter_masamune/commit/b0e9eabbc5c80e8e56c6704c2268ac4637d6e1b8))
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+ - **FIX**: Add PlatformInfo to Test. ([c1d9efa4](https://github.com/mathrunet/flutter_masamune/commit/c1d9efa4b8d6760f9a164ce59052fe2142737851))
+
 ## 3.1.11
 
  - Update a dependency to the latest release.

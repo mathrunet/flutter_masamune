@@ -1,3 +1,8 @@
+## 3.0.7
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+ - **DOCS**: Localization document update. ([19202d83](https://github.com/mathrunet/flutter_masamune/commit/19202d834e6bd5fdfd55caee82ccbf517bebb3c9))
+
 ## 3.0.6
 
  - Update a dependency to the latest release.

@@ -861,7 +861,7 @@ class _PickerDataAdapter<T> extends _PickerAdapter<T> {
     }
   }
 
-  _parseArrayPickerDataItem(List? pickerData, List<_PickerItem> data) {
+  void _parseArrayPickerDataItem(List? pickerData, List<_PickerItem> data) {
     if (pickerData == null) {
       return;
     }
@@ -894,7 +894,7 @@ class _PickerDataAdapter<T> extends _PickerAdapter<T> {
     }
   }
 
-  _parsePickerDataItem(List? pickerData, List<_PickerItem> data) {
+  void _parsePickerDataItem(List? pickerData, List<_PickerItem> data) {
     if (pickerData == null) {
       return;
     }
@@ -1043,7 +1043,7 @@ class _PickerDataAdapter<T> extends _PickerAdapter<T> {
     return _items;
   }
 
-  _checkPickerDataLevel(List<_PickerItem>? data, int level) {
+  void _checkPickerDataLevel(List<_PickerItem>? data, int level) {
     if (data == null) {
       return;
     }

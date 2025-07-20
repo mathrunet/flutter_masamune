@@ -1,3 +1,9 @@
+## 3.3.2
+
+ - **FIX**: Add isTest to PlatformInfo. ([a6d82102](https://github.com/mathrunet/flutter_masamune/commit/a6d821029da7ca0d2ee9872d6bb67af3a2f0c72d))
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+ - **DOCS**: Localization document update. ([19202d83](https://github.com/mathrunet/flutter_masamune/commit/19202d834e6bd5fdfd55caee82ccbf517bebb3c9))
+
 ## 3.3.1
 
  - **FIX**: Add onRestarted to MasamuneAdapter. ([3fc3459a](https://github.com/mathrunet/flutter_masamune/commit/3fc3459a6e857f14599a777e52bc17df95d0bcba))

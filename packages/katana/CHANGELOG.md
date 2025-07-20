@@ -1,3 +1,7 @@
+## 3.1.4
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
 ## 3.1.3
 
  - **DOCS**: Document update. ([4ef2f559](https://github.com/mathrunet/flutter_masamune/commit/4ef2f5593815e1357b917cbbb0c62bf7d31ee6a9))

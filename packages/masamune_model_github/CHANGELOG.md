@@ -1,3 +1,7 @@
+## 3.1.9
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
 ## 3.1.8
 
  - **FIX**: Add OnRestart. ([b40a38ee](https://github.com/mathrunet/flutter_masamune/commit/b40a38ee4d04284229f04948df3bb4b4b615140d))

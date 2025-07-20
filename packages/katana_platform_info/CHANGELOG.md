@@ -1,3 +1,8 @@
+## 3.1.1
+
+ - **FIX**: Add isTest to PlatformInfo. ([a6d82102](https://github.com/mathrunet/flutter_masamune/commit/a6d821029da7ca0d2ee9872d6bb67af3a2f0c72d))
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
 ## 3.1.0
 
  - **FIX**: Applying PlatformInfo. ([0e834212](https://github.com/mathrunet/flutter_masamune/commit/0e834212490a646ff2fa9caf5b54ed10581db738))

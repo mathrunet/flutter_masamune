@@ -1,3 +1,7 @@
+## 3.6.2
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
 ## 3.6.1
 
  - **FIX**: Installed FlutterFire. ([7236336f](https://github.com/mathrunet/flutter_masamune/commit/7236336f82852959e4cd50d7f4d502f7f11fc6aa))

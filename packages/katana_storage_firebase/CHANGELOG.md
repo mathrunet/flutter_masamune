@@ -1,3 +1,7 @@
+## 3.0.7
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
 ## 3.0.6
 
  - **FIX**: Applicable to PlatformInfo. ([8e31cf00](https://github.com/mathrunet/flutter_masamune/commit/8e31cf00eb202a3880589d2be1443a27747b493a))

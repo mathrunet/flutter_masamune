@@ -15,6 +15,459 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana` - `v3.1.4`](#katana---v314)
+ - [`katana_auth` - `v3.0.6`](#katana_auth---v306)
+ - [`katana_auth_firebase` - `v3.1.3`](#katana_auth_firebase---v313)
+ - [`katana_builder` - `v3.0.6`](#katana_builder---v306)
+ - [`katana_cli` - `v3.6.2`](#katana_cli---v362)
+ - [`katana_firebase` - `v3.0.6`](#katana_firebase---v306)
+ - [`katana_form` - `v3.1.8`](#katana_form---v318)
+ - [`katana_functions` - `v3.0.5`](#katana_functions---v305)
+ - [`katana_functions_firebase` - `v3.0.6`](#katana_functions_firebase---v306)
+ - [`katana_indicator` - `v3.0.5`](#katana_indicator---v305)
+ - [`katana_localization` - `v3.0.8`](#katana_localization---v308)
+ - [`katana_localization_annotation` - `v3.1.3`](#katana_localization_annotation---v313)
+ - [`katana_localization_builder` - `v3.1.6`](#katana_localization_builder---v316)
+ - [`katana_logger` - `v3.0.6`](#katana_logger---v306)
+ - [`katana_model` - `v3.2.2`](#katana_model---v322)
+ - [`katana_model_firestore` - `v3.1.7`](#katana_model_firestore---v317)
+ - [`katana_model_local` - `v3.1.8`](#katana_model_local---v318)
+ - [`katana_platform_info` - `v3.1.1`](#katana_platform_info---v311)
+ - [`katana_router` - `v3.1.5`](#katana_router---v315)
+ - [`katana_router_annotation` - `v3.0.5`](#katana_router_annotation---v305)
+ - [`katana_router_builder` - `v3.0.7`](#katana_router_builder---v307)
+ - [`katana_scoped` - `v3.0.6`](#katana_scoped---v306)
+ - [`katana_shorten` - `v3.0.5`](#katana_shorten---v305)
+ - [`katana_storage` - `v3.0.5`](#katana_storage---v305)
+ - [`katana_storage_firebase` - `v3.0.7`](#katana_storage_firebase---v307)
+ - [`katana_test` - `v3.0.3`](#katana_test---v303)
+ - [`katana_theme` - `v3.0.7`](#katana_theme---v307)
+ - [`katana_theme_annotation` - `v3.0.5`](#katana_theme_annotation---v305)
+ - [`katana_theme_builder` - `v3.0.7`](#katana_theme_builder---v307)
+ - [`katana_ui` - `v3.0.7`](#katana_ui---v307)
+ - [`masamune` - `v3.3.2`](#masamune---v332)
+ - [`masamune_ads_google` - `v3.0.16`](#masamune_ads_google---v3016)
+ - [`masamune_agora` - `v3.0.16`](#masamune_agora---v3016)
+ - [`masamune_ai` - `v3.0.16`](#masamune_ai---v3016)
+ - [`masamune_ai_firebase` - `v3.0.16`](#masamune_ai_firebase---v3016)
+ - [`masamune_ai_openai` - `v3.0.16`](#masamune_ai_openai---v3016)
+ - [`masamune_animate` - `v3.0.16`](#masamune_animate---v3016)
+ - [`masamune_annotation` - `v3.0.7`](#masamune_annotation---v307)
+ - [`masamune_app_review` - `v3.0.16`](#masamune_app_review---v3016)
+ - [`masamune_auth_apple` - `v3.0.16`](#masamune_auth_apple---v3016)
+ - [`masamune_auth_apple_firebase` - `v3.0.16`](#masamune_auth_apple_firebase---v3016)
+ - [`masamune_auth_facebook` - `v3.0.16`](#masamune_auth_facebook---v3016)
+ - [`masamune_auth_firebase` - `v3.0.16`](#masamune_auth_firebase---v3016)
+ - [`masamune_auth_github_firebase` - `v3.2.5`](#masamune_auth_github_firebase---v325)
+ - [`masamune_auth_google` - `v3.0.16`](#masamune_auth_google---v3016)
+ - [`masamune_auth_google_firebase` - `v3.0.16`](#masamune_auth_google_firebase---v3016)
+ - [`masamune_builder` - `v3.0.12`](#masamune_builder---v3012)
+ - [`masamune_calendar` - `v3.0.16`](#masamune_calendar---v3016)
+ - [`masamune_camera` - `v3.2.3`](#masamune_camera---v323)
+ - [`masamune_deeplink` - `v3.0.16`](#masamune_deeplink---v3016)
+ - [`masamune_deeplink_firebase` - `v3.0.16`](#masamune_deeplink_firebase---v3016)
+ - [`masamune_firebase_app_check` - `v3.0.16`](#masamune_firebase_app_check---v3016)
+ - [`masamune_force_updater` - `v3.0.16`](#masamune_force_updater---v3016)
+ - [`masamune_introduction` - `v3.3.6`](#masamune_introduction---v336)
+ - [`masamune_lints` - `v3.0.6`](#masamune_lints---v306)
+ - [`masamune_location` - `v3.0.16`](#masamune_location---v3016)
+ - [`masamune_location_background` - `v3.0.16`](#masamune_location_background---v3016)
+ - [`masamune_location_geocoding` - `v3.0.16`](#masamune_location_geocoding---v3016)
+ - [`masamune_location_google` - `v3.0.16`](#masamune_location_google---v3016)
+ - [`masamune_location_platform_interface` - `v3.0.16`](#masamune_location_platform_interface---v3016)
+ - [`masamune_logger_firebase` - `v3.0.15`](#masamune_logger_firebase---v3015)
+ - [`masamune_mail` - `v3.0.16`](#masamune_mail---v3016)
+ - [`masamune_markdown` - `v3.0.16`](#masamune_markdown---v3016)
+ - [`masamune_model_algolia` - `v3.0.16`](#masamune_model_algolia---v3016)
+ - [`masamune_model_docs_builder` - `v3.0.12`](#masamune_model_docs_builder---v3012)
+ - [`masamune_model_firebase_data_connect` - `v3.0.16`](#masamune_model_firebase_data_connect---v3016)
+ - [`masamune_model_firebase_data_connect_annotation` - `v3.0.7`](#masamune_model_firebase_data_connect_annotation---v307)
+ - [`masamune_model_firebase_data_connect_builder` - `v3.0.12`](#masamune_model_firebase_data_connect_builder---v3012)
+ - [`masamune_model_firebase_remote_config` - `v3.0.16`](#masamune_model_firebase_remote_config---v3016)
+ - [`masamune_model_firestore` - `v3.0.16`](#masamune_model_firestore---v3016)
+ - [`masamune_model_firestore_builder` - `v3.0.12`](#masamune_model_firestore_builder---v3012)
+ - [`masamune_model_github` - `v3.1.9`](#masamune_model_github---v319)
+ - [`masamune_notification` - `v3.0.16`](#masamune_notification---v3016)
+ - [`masamune_notification_firebase` - `v3.0.16`](#masamune_notification_firebase---v3016)
+ - [`masamune_notification_local` - `v3.0.16`](#masamune_notification_local---v3016)
+ - [`masamune_picker` - `v3.0.16`](#masamune_picker---v3016)
+ - [`masamune_purchase` - `v3.0.16`](#masamune_purchase---v3016)
+ - [`masamune_purchase_mobile` - `v3.0.16`](#masamune_purchase_mobile---v3016)
+ - [`masamune_purchase_stripe` - `v3.6.46`](#masamune_purchase_stripe---v3646)
+ - [`masamune_scheduler` - `v3.0.16`](#masamune_scheduler---v3016)
+ - [`masamune_speech_to_text` - `v3.0.16`](#masamune_speech_to_text---v3016)
+ - [`masamune_test` - `v3.1.12`](#masamune_test---v3112)
+ - [`masamune_text_to_speech` - `v3.0.16`](#masamune_text_to_speech---v3016)
+ - [`masamune_universal_ui` - `v3.1.12`](#masamune_universal_ui---v3112)
+ - [`masamune_util` - `v3.0.16`](#masamune_util---v3016)
+
+---
+
+#### `katana` - `v3.1.4`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_auth` - `v3.0.6`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_auth_firebase` - `v3.1.3`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_builder` - `v3.0.6`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_cli` - `v3.6.2`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_firebase` - `v3.0.6`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_form` - `v3.1.8`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_functions` - `v3.0.5`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_functions_firebase` - `v3.0.6`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_indicator` - `v3.0.5`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_localization` - `v3.0.8`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+ - **DOCS**: Localization document update. ([19202d83](https://github.com/mathrunet/flutter_masamune/commit/19202d834e6bd5fdfd55caee82ccbf517bebb3c9))
+
+#### `katana_localization_annotation` - `v3.1.3`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+ - **DOCS**: Localization document update. ([19202d83](https://github.com/mathrunet/flutter_masamune/commit/19202d834e6bd5fdfd55caee82ccbf517bebb3c9))
+
+#### `katana_localization_builder` - `v3.1.6`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+ - **DOCS**: Localization document update. ([19202d83](https://github.com/mathrunet/flutter_masamune/commit/19202d834e6bd5fdfd55caee82ccbf517bebb3c9))
+
+#### `katana_logger` - `v3.0.6`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_model` - `v3.2.2`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_model_firestore` - `v3.1.7`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_model_local` - `v3.1.8`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_platform_info` - `v3.1.1`
+
+ - **FIX**: Add isTest to PlatformInfo. ([a6d82102](https://github.com/mathrunet/flutter_masamune/commit/a6d821029da7ca0d2ee9872d6bb67af3a2f0c72d))
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_router` - `v3.1.5`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_router_annotation` - `v3.0.5`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_router_builder` - `v3.0.7`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_scoped` - `v3.0.6`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_shorten` - `v3.0.5`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_storage` - `v3.0.5`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_storage_firebase` - `v3.0.7`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_test` - `v3.0.3`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_theme` - `v3.0.7`
+
+ - **FIX**: Add isTest to PlatformInfo. ([a6d82102](https://github.com/mathrunet/flutter_masamune/commit/a6d821029da7ca0d2ee9872d6bb67af3a2f0c72d))
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_theme_annotation` - `v3.0.5`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_theme_builder` - `v3.0.7`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `katana_ui` - `v3.0.7`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune` - `v3.3.2`
+
+ - **FIX**: Add isTest to PlatformInfo. ([a6d82102](https://github.com/mathrunet/flutter_masamune/commit/a6d821029da7ca0d2ee9872d6bb67af3a2f0c72d))
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+ - **DOCS**: Localization document update. ([19202d83](https://github.com/mathrunet/flutter_masamune/commit/19202d834e6bd5fdfd55caee82ccbf517bebb3c9))
+
+#### `masamune_ads_google` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_agora` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_ai` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_ai_firebase` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_ai_openai` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_animate` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_annotation` - `v3.0.7`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+ - **DOCS**: Localization document update. ([19202d83](https://github.com/mathrunet/flutter_masamune/commit/19202d834e6bd5fdfd55caee82ccbf517bebb3c9))
+
+#### `masamune_app_review` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_auth_apple` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_auth_apple_firebase` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_auth_facebook` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_auth_firebase` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_auth_github_firebase` - `v3.2.5`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_auth_google` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_auth_google_firebase` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_builder` - `v3.0.12`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+ - **DOCS**: Localization document update. ([19202d83](https://github.com/mathrunet/flutter_masamune/commit/19202d834e6bd5fdfd55caee82ccbf517bebb3c9))
+
+#### `masamune_calendar` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_camera` - `v3.2.3`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_deeplink` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_deeplink_firebase` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_firebase_app_check` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_force_updater` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_introduction` - `v3.3.6`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_lints` - `v3.0.6`
+
+ - **FIX**: Change deprecated methods. ([fd216336](https://github.com/mathrunet/flutter_masamune/commit/fd21633641d39e5c481daaeef2ea26972572a424))
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_location` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_location_background` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_location_geocoding` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_location_google` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_location_platform_interface` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_logger_firebase` - `v3.0.15`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_mail` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_markdown` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_model_algolia` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_model_docs_builder` - `v3.0.12`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_model_firebase_data_connect` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_model_firebase_data_connect_annotation` - `v3.0.7`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_model_firebase_data_connect_builder` - `v3.0.12`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_model_firebase_remote_config` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_model_firestore` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_model_firestore_builder` - `v3.0.12`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_model_github` - `v3.1.9`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_notification` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_notification_firebase` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_notification_local` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_picker` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_purchase` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_purchase_mobile` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_purchase_stripe` - `v3.6.46`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_scheduler` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_speech_to_text` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_test` - `v3.1.12`
+
+ - **FIX**: Changing Device Specification Method. ([b0e9eabb](https://github.com/mathrunet/flutter_masamune/commit/b0e9eabbc5c80e8e56c6704c2268ac4637d6e1b8))
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+ - **FIX**: Add PlatformInfo to Test. ([c1d9efa4](https://github.com/mathrunet/flutter_masamune/commit/c1d9efa4b8d6760f9a164ce59052fe2142737851))
+
+#### `masamune_text_to_speech` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_universal_ui` - `v3.1.12`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+#### `masamune_util` - `v3.0.16`
+
+ - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))
+
+
+## 2025-07-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_storage_firebase` - `v3.0.6`](#katana_storage_firebase---v306)
 
 ---
