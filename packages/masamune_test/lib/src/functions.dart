@@ -15,19 +15,14 @@ void masamunePageTest<T>({
       builder,
   FutureOr<T?> Function(BuildContext context, MasamuneTestRef ref)? loader,
   List<ImageProvider>? preCacheImages,
-  List<MasamuneTestDevice> devices = const [
-    MasamuneTestDevice.phonePortrait,
-    MasamuneTestDevice.phoneLandscape,
-    MasamuneTestDevice.tabletPortrait,
-    MasamuneTestDevice.tabletLandscape,
-  ],
+  List<MasamuneTestDevice>? devices,
 }) =>
     _masamuneUITest(
       name: "${name.replaceAll(RegExp(r"Page$"), "")} Page".toPascalCase(),
       path: "pages/${path.trimString("/")}",
       builder: builder,
       loader: loader,
-      devices: devices,
+      devices: devices ?? MasamuneTestConfig.defaultDevices,
       preCacheImages: preCacheImages,
     );
 

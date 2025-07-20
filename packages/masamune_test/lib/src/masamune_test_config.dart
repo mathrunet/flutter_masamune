@@ -12,6 +12,12 @@ class MasamuneTestConfig {
   static MasamuneTestRef get currentRef => _currentRef!;
   static MasamuneTestRef? _currentRef;
 
+  /// The default devices of the Masamune Test.
+  ///
+  /// Masamune Testのデフォルトデバイス。
+  static List<MasamuneTestDevice> defaultDevices = _defaultDevices ?? [];
+  static List<MasamuneTestDevice>? _defaultDevices;
+
   /// Initialize the Masamune Test.
   ///
   /// Please use this within `test/flutter_test_config.dart`.
@@ -38,6 +44,12 @@ class MasamuneTestConfig {
         ciFilePathResolver,
     FutureOr<String> Function(String fileName, String environmentName)?
         platformFilePathResolver,
+    List<MasamuneTestDevice> defaultDevices = const [
+      MasamuneTestDevice.phonePortrait,
+      MasamuneTestDevice.phoneLandscape,
+      MasamuneTestDevice.tabletPortrait,
+      MasamuneTestDevice.tabletLandscape,
+    ],
   }) async {
     // ignore: do_not_use_environment
     const isRunningInCi = bool.fromEnvironment("CI", defaultValue: false);
@@ -52,6 +64,12 @@ class MasamuneTestConfig {
         loggerAdapters.map(_createLoggerAdapter).toList();
     final appAuth = Authentication(adapter: runtimeAuthAdapter);
     final appRef = AppRef(scopedValueContainer: scopedValueContainer);
+    _defaultDevices = defaultDevices;
+    masamuneAdapters = MasamuneAdapter.extractMasamuneAdapters(masamuneAdapters)
+        .distinct((e) => e.runtimeType)
+        .sortTo(
+          (a, b) => a.priority.compareTo(b.priority),
+        );
     _currentRef = MasamuneTestRef._(
       appRef: appRef,
       appAuth: appAuth,
