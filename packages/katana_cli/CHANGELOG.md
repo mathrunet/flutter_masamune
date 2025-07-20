@@ -1,3 +1,8 @@
+## 3.6.0
+
+ - **FIX**: Supports ClaudeCode's Max Plan. ([11fec8a1](https://github.com/mathrunet/flutter_masamune/commit/11fec8a147b90ad6a10f99744d55081cdffcc763))
+ - **FEAT**: Support for MaxPlan by ClaudeCode. ([140fa681](https://github.com/mathrunet/flutter_masamune/commit/140fa681126e7e3bede9c9b0d4b969dc69b84c9e))
+
 ## 3.5.5
 
  - **FIX**: Remove Deprecated. ([67a254a8](https://github.com/mathrunet/flutter_masamune/commit/67a254a8b4e6d89e58aaae548b441fe945ccb447))

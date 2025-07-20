@@ -1,3 +1,7 @@
+## 3.0.6
+
+ - Update a dependency to the latest release.
+
 ## 3.0.5
 
  - **FIX**: Added `build.yaml` to `pubignore` as it was not included. ([3ef6e8ee](https://github.com/mathrunet/flutter_masamune/commit/3ef6e8eed60e0bd6a706a994285c57df85622dfb))

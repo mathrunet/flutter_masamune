@@ -1,3 +1,8 @@
+## 3.2.1
+
+ - **FIX**: Applying PlatformInfo. ([0e834212](https://github.com/mathrunet/flutter_masamune/commit/0e834212490a646ff2fa9caf5b54ed10581db738))
+ - **FIX**: Package update. ([c8c11738](https://github.com/mathrunet/flutter_masamune/commit/c8c11738b560969e519fdb1952d4d32402e2a522))
+
 ## 3.2.0
 
  - **FEAT**: Enabled the camera to record start and end times. ([a02b2530](https://github.com/mathrunet/flutter_masamune/commit/a02b2530c7d600298b27dc886e59b037cc79a3a5))

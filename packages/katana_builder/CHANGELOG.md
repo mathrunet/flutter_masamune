@@ -1,3 +1,7 @@
+## 3.0.5
+
+ - **DOCS**: Document update. ([4ef2f559](https://github.com/mathrunet/flutter_masamune/commit/4ef2f5593815e1357b917cbbb0c62bf7d31ee6a9))
+
 ## 3.0.4
 
  - **FIX**: Added `build.yaml` to `pubignore` as it was not included. ([3ef6e8ee](https://github.com/mathrunet/flutter_masamune/commit/3ef6e8eed60e0bd6a706a994285c57df85622dfb))

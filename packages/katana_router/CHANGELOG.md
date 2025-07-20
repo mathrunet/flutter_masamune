@@ -1,3 +1,7 @@
+## 3.1.4
+
+ - **FIX**: Applying PlatformInfo. ([0e834212](https://github.com/mathrunet/flutter_masamune/commit/0e834212490a646ff2fa9caf5b54ed10581db738))
+
 ## 3.1.3
 
  - **FIX**: Removed rootContext due to numerous bugs. ([bb0f41b2](https://github.com/mathrunet/flutter_masamune/commit/bb0f41b29e2da8f7423aaac96e025d094ef64956))

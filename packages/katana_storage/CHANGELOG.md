@@ -1,3 +1,7 @@
+## 3.0.4
+
+ - **FIX**: Applying PlatformInfo. ([0e834212](https://github.com/mathrunet/flutter_masamune/commit/0e834212490a646ff2fa9caf5b54ed10581db738))
+
 ## 3.0.3
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))

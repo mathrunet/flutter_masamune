@@ -1,3 +1,7 @@
+## 3.0.6
+
+ - **FIX**: Applying PlatformInfo. ([0e834212](https://github.com/mathrunet/flutter_masamune/commit/0e834212490a646ff2fa9caf5b54ed10581db738))
+
 ## 3.0.5
 
  - **FIX**: Adjusting label icons. ([3a7d7f4c](https://github.com/mathrunet/flutter_masamune/commit/3a7d7f4c469b1515cc6796e38e38338cc32bfbe8))

@@ -1,3 +1,7 @@
+## 3.0.11
+
+ - Update a dependency to the latest release.
+
 ## 3.0.10
 
  - **FIX**: Fix imports for deleted packages. ([d7e54897](https://github.com/mathrunet/flutter_masamune/commit/d7e5489731460a7e2040f24cb411e423a4077c93))

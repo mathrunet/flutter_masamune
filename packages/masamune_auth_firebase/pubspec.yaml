@@ -1,6 +1,6 @@
 name: masamune_auth_firebase
 description: Plug-in package for server-side integration of Firebase Authentication.
-version: 3.0.13
+version: 3.0.14
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_auth_firebase
 
@@ -12,15 +12,15 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.1.2
-  masamune: ^3.2.2
-  katana_auth: ^3.0.4
-  katana_firebase: ^3.0.4
-  katana_auth_firebase: ^3.1.1
+  katana: ^3.1.3
+  masamune: ^3.3.0
+  katana_auth: ^3.0.5
+  katana_firebase: ^3.0.5
+  katana_auth_firebase: ^3.1.2
 
 dev_dependencies:
   test: ^1.24.0
-  katana_test: ^3.0.1
+  katana_test: ^3.0.2
   flutter_lints: ^5.0.0
   import_sorter: ^4.6.0
 

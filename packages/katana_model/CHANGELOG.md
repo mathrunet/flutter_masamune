@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - Update a dependency to the latest release.
+
 ## 3.2.0
 
  - **FEAT**: Delete katana_model_openapi. ([35ad3d70](https://github.com/mathrunet/flutter_masamune/commit/35ad3d70bc0e9c8aead1e65a5d5ff3715e9e62d2))

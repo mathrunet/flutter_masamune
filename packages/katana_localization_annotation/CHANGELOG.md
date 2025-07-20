@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - Update a dependency to the latest release.
+
 ## 3.1.1
 
  - **FIX**: Added the ability to specify the Yaml version. ([f33f7cc2](https://github.com/mathrunet/flutter_masamune/commit/f33f7cc2eff3336f4e97a1d468b04562ca47425e))

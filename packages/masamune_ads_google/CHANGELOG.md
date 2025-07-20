@@ -1,3 +1,7 @@
+## 3.0.14
+
+ - **FIX**: Applying PlatformInfo. ([0e834212](https://github.com/mathrunet/flutter_masamune/commit/0e834212490a646ff2fa9caf5b54ed10581db738))
+
 ## 3.0.13
 
  - **FIX**: Enabled setting the banner to keepAlive. ([1a629fbf](https://github.com/mathrunet/flutter_masamune/commit/1a629fbffbc4fe3ef002ac993dfbfbd289a3ee2f))

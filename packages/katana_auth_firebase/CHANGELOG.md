@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - **FIX**: Applying PlatformInfo. ([0e834212](https://github.com/mathrunet/flutter_masamune/commit/0e834212490a646ff2fa9caf5b54ed10581db738))
+
 ## 3.1.1
 
  - **FIX**: SharedPreferencesのアップデートに対応. ([9565d9f1](https://github.com/mathrunet/flutter_masamune/commit/9565d9f1a63f653217f6c97273bf52091e76892e))

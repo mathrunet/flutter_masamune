@@ -1,3 +1,7 @@
+## 3.0.2
+
+ - **DOCS**: Document update. ([4ef2f559](https://github.com/mathrunet/flutter_masamune/commit/4ef2f5593815e1357b917cbbb0c62bf7d31ee6a9))
+
 ## 3.0.1
 
  - **REFACTOR**: Handle strict Lint. ([361a632a](https://github.com/mathrunet/flutter_masamune/commit/361a632a5807d95cdde8f42f82e8b9a3dfbd36e3))

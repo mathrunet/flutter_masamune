@@ -1,3 +1,7 @@
+## 3.0.5
+
+ - Update a dependency to the latest release.
+
 ## 3.0.4
 
  - **FIX**: Correction of wording. ([dd9df8c7](https://github.com/mathrunet/flutter_masamune/commit/dd9df8c7c4f7ba5ada5d0f51131f2b00f5a213fa))

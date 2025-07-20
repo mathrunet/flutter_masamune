@@ -1,3 +1,7 @@
+## 3.0.5
+
+ - Update a dependency to the latest release.
+
 ## 3.0.4
 
  - **FIX**: Make UsCentral default. ([fd4eb5ad](https://github.com/mathrunet/flutter_masamune/commit/fd4eb5ad74a9109c566c342b3753b743722c2daf))
