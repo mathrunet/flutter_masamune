@@ -1,3 +1,7 @@
+## 3.3.7
+
+ - **FIX**: Fixed minor bugs. ([77e3de7f](https://github.com/mathrunet/flutter_masamune/commit/77e3de7f573a3bc043012aa5a0d3df0addd29086))
+
 ## 3.3.6
 
  - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))

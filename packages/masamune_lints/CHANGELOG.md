@@ -1,3 +1,7 @@
+## 3.0.7
+
+ - Update a dependency to the latest release.
+
 ## 3.0.6
 
  - **FIX**: Change deprecated methods. ([fd216336](https://github.com/mathrunet/flutter_masamune/commit/fd21633641d39e5c481daaeef2ea26972572a424))

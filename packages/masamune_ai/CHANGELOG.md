@@ -1,3 +1,8 @@
+## 3.0.17
+
+ - **FIX**: Adapted to CallToolResult specification changes. ([fa36fbaa](https://github.com/mathrunet/flutter_masamune/commit/fa36fbaac2c4a8824fb91cbf984a83898a48826e))
+ - **FIX**: Fixed minor bugs. ([77e3de7f](https://github.com/mathrunet/flutter_masamune/commit/77e3de7f573a3bc043012aa5a0d3df0addd29086))
+
 ## 3.0.16
 
  - **FIX**: Package update. ([0c24ea94](https://github.com/mathrunet/flutter_masamune/commit/0c24ea9444e019b80146018ee8c88c80e653bf44))

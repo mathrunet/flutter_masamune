@@ -1,6 +1,6 @@
 name: masamune_logger_firebase
 description: Plug-in package to easily add Firebase Analytics, Performance and Crashlytics on Masamune Framework. The functionality is available by simply adding an Adapter.
-version: 3.0.15
+version: 3.0.16
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_logger_firebase
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  masamune: ^3.3.2
-  katana_firebase: ^3.0.6
+  masamune: ^3.3.3
+  katana_firebase: ^3.0.7
   firebase_core: ^3.5.0
   firebase_crashlytics: ^4.1.2
   firebase_analytics: ^11.3.2

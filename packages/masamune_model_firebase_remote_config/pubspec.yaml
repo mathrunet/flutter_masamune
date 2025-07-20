@@ -1,6 +1,6 @@
 name: masamune_model_firebase_remote_config
 description: Package that allows remote configurations to be retrieved as a Masamune framework documentation model.
-version: 3.0.16
+version: 3.0.17
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_firebase_remote_config
 
@@ -13,9 +13,9 @@ dependencies:
     sdk: flutter
 
   meta:
-  katana: ^3.1.4
-  masamune: ^3.3.2
-  katana_firebase: ^3.0.6
+  katana: ^3.1.5
+  masamune: ^3.3.3
+  katana_firebase: ^3.0.7
   firebase_remote_config: ^5.4.0
 dev_dependencies:
   test: ^1.24.0

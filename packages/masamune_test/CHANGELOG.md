@@ -1,3 +1,7 @@
+## 3.1.13
+
+ - Update a dependency to the latest release.
+
 ## 3.1.12
 
  - **FIX**: Changing Device Specification Method. ([b0e9eabb](https://github.com/mathrunet/flutter_masamune/commit/b0e9eabbc5c80e8e56c6704c2268ac4637d6e1b8))

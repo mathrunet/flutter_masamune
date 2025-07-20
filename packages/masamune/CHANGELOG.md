@@ -1,3 +1,7 @@
+## 3.3.3
+
+ - **FIX**: Fixed minor bugs. ([77e3de7f](https://github.com/mathrunet/flutter_masamune/commit/77e3de7f573a3bc043012aa5a0d3df0addd29086))
+
 ## 3.3.2
 
  - **FIX**: Add isTest to PlatformInfo. ([a6d82102](https://github.com/mathrunet/flutter_masamune/commit/a6d821029da7ca0d2ee9872d6bb67af3a2f0c72d))

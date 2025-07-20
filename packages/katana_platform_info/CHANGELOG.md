@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - Update a dependency to the latest release.
+
 ## 3.1.1
 
  - **FIX**: Add isTest to PlatformInfo. ([a6d82102](https://github.com/mathrunet/flutter_masamune/commit/a6d821029da7ca0d2ee9872d6bb67af3a2f0c72d))
