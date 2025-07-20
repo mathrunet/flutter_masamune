@@ -27,6 +27,7 @@ class MasamuneTestConfig {
     AuthAdapter? authAdapter,
     StorageAdapter? storageAdapter,
     FunctionsAdapter? functionsAdapter,
+    PlatformInfoAdapter? platformInfoAdapter,
     List<LoggerAdapter> loggerAdapters = const [],
     ModelAdapter? modelAdapter,
     DateTime? testCurrentTime,
@@ -45,6 +46,8 @@ class MasamuneTestConfig {
     final runtimeAuthAdapter = _createAuthAdapter(authAdapter);
     final runtimeStorageAdapter = _createStorageAdapter(storageAdapter);
     final runtimeFunctionsAdapter = _createFunctionsAdapter(functionsAdapter);
+    final runtimePlatformInfoAdapter =
+        _createPlatformInfoAdapter(platformInfoAdapter);
     final runtimeLoggerAdapters =
         loggerAdapters.map(_createLoggerAdapter).toList();
     final appAuth = Authentication(adapter: runtimeAuthAdapter);
@@ -60,6 +63,7 @@ class MasamuneTestConfig {
       functionsAdapter: runtimeFunctionsAdapter,
       loggerAdapters: runtimeLoggerAdapters,
       localizationsDelegates: localizationsDelegates,
+      platformInfoAdapter: runtimePlatformInfoAdapter,
     );
     masamuneApplyTestMocks(
       ensureInitialized: false,
@@ -71,6 +75,7 @@ class MasamuneTestConfig {
       modelAdapter: runtimeModelAdapter,
       testCurrentTime: testCurrentTime,
       masamuneAdapters: masamuneAdapters,
+      platformInfoAdapter: runtimePlatformInfoAdapter,
     );
     await appAuth.tryRestoreAuth();
     return AlchemistConfig.runWithConfig(
@@ -163,6 +168,14 @@ class MasamuneTestConfig {
       );
     }
     return const RuntimeFunctionsAdapter();
+  }
+
+  static RuntimePlatformInfoAdapter _createPlatformInfoAdapter(
+      PlatformInfoAdapter? adapter) {
+    return const RuntimePlatformInfoAdapter(
+      platformType: PlatformType.web,
+      applicationId: "com.example.app",
+    );
   }
 
   static RuntimeLoggerAdapter _createLoggerAdapter(LoggerAdapter? adapter) {

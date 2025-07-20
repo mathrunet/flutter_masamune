@@ -14,6 +14,7 @@ class MasamuneTestRef {
     required this.authAdapter,
     required this.theme,
     required this.masamuneAdapters,
+    required this.platformInfoAdapter,
     this.localizationsDelegates,
   });
 
@@ -66,4 +67,9 @@ class MasamuneTestRef {
   ///
   /// 認証アダプタ。
   final RuntimeAuthAdapter authAdapter;
+
+  /// The platform info adapter.
+  ///
+  /// プラットフォーム情報アダプタ。
+  final RuntimePlatformInfoAdapter platformInfoAdapter;
 }
