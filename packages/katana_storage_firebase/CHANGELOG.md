@@ -1,3 +1,7 @@
+## 3.0.6
+
+ - **FIX**: Applicable to PlatformInfo. ([8e31cf00](https://github.com/mathrunet/flutter_masamune/commit/8e31cf00eb202a3880589d2be1443a27747b493a))
+
 ## 3.0.5
 
  - **FIX**: Applying PlatformInfo. ([0e834212](https://github.com/mathrunet/flutter_masamune/commit/0e834212490a646ff2fa9caf5b54ed10581db738))

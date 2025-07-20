@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_storage_firebase` - `v3.0.6`](#katana_storage_firebase---v306)
+
+---
+
+#### `katana_storage_firebase` - `v3.0.6`
+
+ - **FIX**: Applicable to PlatformInfo. ([8e31cf00](https://github.com/mathrunet/flutter_masamune/commit/8e31cf00eb202a3880589d2be1443a27747b493a))
+
+
+## 2025-07-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v3.3.1`](#masamune---v331)
  - [`masamune_model_github` - `v3.1.8`](#masamune_model_github---v318)
  - [`masamune_location_platform_interface` - `v3.0.15`](#masamune_location_platform_interface---v3015)
