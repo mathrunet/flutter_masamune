@@ -19,7 +19,6 @@ dependencies:
   masamune_model_firebase_data_connect_annotation: ^3.0.5
   katana_firebase: ^3.0.4
   firebase_data_connect: ^0.1.2
-  universal_platform: ^1.1.0
 dev_dependencies:
   test: ^1.24.0
   katana_test: ^3.0.1

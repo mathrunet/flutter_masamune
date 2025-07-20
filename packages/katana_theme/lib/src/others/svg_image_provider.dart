@@ -96,6 +96,7 @@ class _MemoizedSvgImageProvider extends ImageProvider<_SvgImageProviderKey> {
   final Map<String, String>? headers;
   final FileImageDirType dirType;
 
+  static const _platformInfo = PlatformInfo();
   static final Map<_SvgImageProviderKey, String> _cache = {};
 
   @override
@@ -127,7 +128,7 @@ class _MemoizedSvgImageProvider extends ImageProvider<_SvgImageProviderKey> {
 
   Future<String> _getSvgString(_SvgImageProviderKey key) async {
     if (dirType == FileImageDirType.temporary) {
-      final cacheDir = await getTemporaryDirectory();
+      final cacheDir = await _platformInfo.getTemporaryDirectory();
       final fileName = key.path.trimString("/");
       final file = File("${cacheDir.path}/$fileName");
       key = _SvgImageProviderKey(
@@ -139,7 +140,7 @@ class _MemoizedSvgImageProvider extends ImageProvider<_SvgImageProviderKey> {
         source: key.source,
       );
     } else if (dirType == FileImageDirType.document) {
-      final cacheDir = await getApplicationDocumentsDirectory();
+      final cacheDir = await _platformInfo.getApplicationDocumentsDirectory();
       final fileName = key.path.trimString("/");
       final file = File("${cacheDir.path}/$fileName");
       key = _SvgImageProviderKey(

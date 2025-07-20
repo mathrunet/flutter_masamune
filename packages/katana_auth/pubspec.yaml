@@ -16,6 +16,7 @@ dependencies:
   katana_logger: ^3.0.4
   path_provider: ^2.1.3
   shared_preferences: ^2.0.15
+  katana_platform_info: ^3.0.0
 
 dev_dependencies:
   test: ^1.24.0

@@ -15,6 +15,5 @@ import "dart:async";
 import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:katana_firebase/katana_firebase.dart";
 import "package:masamune/masamune.dart";
-import "package:universal_platform/universal_platform.dart";
 
 part "adapter/firebase_remote_config_model_adapter.dart";

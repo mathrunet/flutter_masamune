@@ -17,7 +17,6 @@ import "package:flutter/widgets.dart";
 // Package imports:
 import "package:flutter_tts/flutter_tts.dart";
 import "package:masamune/masamune.dart";
-import "package:universal_platform/universal_platform.dart";
 
 part "adapter/text_to_speech_masamune_adapter.dart";
 part "src/text_to_speech_controller.dart";

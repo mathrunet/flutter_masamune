@@ -16,7 +16,6 @@ dependencies:
   masamune: ^3.2.2
   google_mobile_ads: ^5.0.0
   permission_handler: ^11.1.0
-  universal_platform: ^1.0.0+1
 
 dev_dependencies:
   test: ^1.24.0

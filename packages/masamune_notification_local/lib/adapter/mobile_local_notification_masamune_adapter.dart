@@ -22,6 +22,8 @@ class MobileLocalNotificationMasamuneAdapter
     this.androidScheduleMode = AndroidScheduleMode.exactAllowWhileIdle,
   });
 
+  static const _platformInfo = PlatformInfo();
+
   static FlutterLocalNotificationsPlugin get _instance {
     return __instance ??= FlutterLocalNotificationsPlugin();
   }
@@ -105,7 +107,7 @@ class MobileLocalNotificationMasamuneAdapter
   }
 
   Future<void> _requestPermissions() async {
-    if (UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
+    if (_platformInfo.isIOS || _platformInfo.isMacOS) {
       await _instance
           .resolvePlatformSpecificImplementation<
               IOSFlutterLocalNotificationsPlugin>()
@@ -122,7 +124,7 @@ class MobileLocalNotificationMasamuneAdapter
             badge: true,
             sound: true,
           );
-    } else if (UniversalPlatform.isAndroid) {
+    } else if (_platformInfo.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
           _instance.resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>();

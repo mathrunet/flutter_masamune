@@ -21,7 +21,6 @@ import "package:flutter/widgets.dart";
 import "package:firebase_app_check/firebase_app_check.dart";
 import "package:katana_firebase/katana_firebase.dart";
 import "package:masamune/masamune.dart";
-import "package:universal_platform/universal_platform.dart";
 
 part "adapter/firebase_app_check_masamune_adapter.dart";
 

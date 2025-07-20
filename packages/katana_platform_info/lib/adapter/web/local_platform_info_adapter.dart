@@ -42,6 +42,11 @@ class LocalPlatformInfoAdapter extends PlatformInfoAdapter {
   }
 
   @override
+  Future<Uri> getLibraryDirectory() {
+    throw UnsupportedError("Library directory is not supported on web.");
+  }
+
+  @override
   bool get isIOS => UniversalPlatform.isIOS;
 
   @override

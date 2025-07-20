@@ -9,6 +9,12 @@
 library;
 
 import "package:flutter/widgets.dart";
+import "package:katana_platform_info/katana_platform_info.dart";
+
+export "adapter/others/others.dart"
+    if (dart.library.io) "adapter/others/others.dart"
+    if (dart.library.js) "adapter/web/web.dart"
+    if (dart.library.html) "adapter/web/web.dart";
 
 part "src/platform_info.dart";
 part "src/platform_info_adapter.dart";

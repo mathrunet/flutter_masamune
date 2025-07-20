@@ -248,6 +248,8 @@ class UniversalGridView extends StatelessWidget {
   /// 各子要素のメイン軸の範囲に対するクロス軸の比率。
   final double childAspectRatio;
 
+  static const _platformInfo = PlatformInfo();
+
   @override
   Widget build(BuildContext context) {
     return UniversalWidgetScope(
@@ -313,7 +315,7 @@ class UniversalGridView extends StatelessWidget {
 
   Widget _buildScrollbar(BuildContext context, Widget child) {
     if (showScrollbarWhenDesktopOrWeb &&
-        (UniversalPlatform.isDesktop || UniversalPlatform.isWeb)) {
+        (_platformInfo.isDesktop || _platformInfo.isWeb)) {
       final universalScope =
           MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
       return Scrollbar(

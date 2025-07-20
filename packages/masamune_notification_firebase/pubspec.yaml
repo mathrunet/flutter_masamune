@@ -18,7 +18,6 @@ dependencies:
   firebase_messaging: ^15.1.2
   flutter_local_notifications: ^19.0.0
   katana_firebase: ^3.0.4
-  universal_platform: ^1.0.0+1
   masamune_notification: ^3.0.13
 
 dev_dependencies:

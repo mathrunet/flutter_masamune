@@ -238,6 +238,8 @@ class UniversalListView extends StatelessWidget {
   /// 上部のスペースを指定。
   final double? topExtent;
 
+  static const _platformInfo = PlatformInfo();
+
   @override
   Widget build(BuildContext context) {
     final rows = _createRows(context, children);
@@ -357,7 +359,7 @@ class UniversalListView extends StatelessWidget {
 
   Widget _buildScrollbar(BuildContext context, Widget child) {
     if (showScrollbarWhenDesktopOrWeb &&
-        (UniversalPlatform.isDesktop || UniversalPlatform.isWeb)) {
+        (_platformInfo.isDesktop || _platformInfo.isWeb)) {
       final universalScope =
           MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
       return Scrollbar(

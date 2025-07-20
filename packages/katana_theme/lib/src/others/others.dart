@@ -17,8 +17,8 @@ import "package:flutter/src/painting/_network_image_io.dart" as network_image;
 
 // Package imports:
 import "package:flutter_svg/flutter_svg.dart";
+import "package:katana_platform_info/katana_platform_info.dart";
 import "package:meta/meta.dart";
-import "package:path_provider/path_provider.dart";
 
 // Project imports:
 import "package:katana_theme/katana_theme.dart";

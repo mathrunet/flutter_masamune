@@ -106,6 +106,8 @@ class _IOSBackgroundLocationRepository {
 class _AndroidBackgroundLocationRepository {
   const _AndroidBackgroundLocationRepository._();
 
+  static const _platformInfo = PlatformInfo();
+
   static Future<void> saveAsLog(String type, String message) async {
     await save({
       _kTypeKey: type,
@@ -179,7 +181,7 @@ class _AndroidBackgroundLocationRepository {
   }
 
   static Future<File> _getTempLogFile() async {
-    final directory = await getTemporaryDirectory();
+    final directory = await _platformInfo.getTemporaryDirectory();
     final file = File(
       "${directory.path}/${_kBackgroundLocationRepositoryId.toSHA1()}",
     );

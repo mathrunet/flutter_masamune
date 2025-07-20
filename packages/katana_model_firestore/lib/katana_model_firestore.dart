@@ -19,7 +19,7 @@ import "package:flutter/widgets.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:katana_firebase/katana_firebase.dart";
 import "package:katana_model/katana_model.dart";
-import "package:universal_platform/universal_platform.dart";
+import "package:katana_platform_info/katana_platform_info.dart";
 
 // Flutter imports:
 

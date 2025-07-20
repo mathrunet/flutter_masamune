@@ -342,168 +342,147 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "3.1.1"
+    version: "3.1.2"
   katana_auth:
     dependency: "direct overridden"
     description:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.0.4"
   katana_firebase:
     dependency: "direct main"
     description:
       path: "../katana_firebase"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.0.4"
   katana_form:
     dependency: "direct overridden"
     description:
       path: "../katana_form"
       relative: true
     source: path
-    version: "3.1.2"
+    version: "3.1.6"
   katana_functions:
     dependency: "direct overridden"
     description:
       path: "../katana_functions"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.0.3"
   katana_indicator:
     dependency: "direct overridden"
     description:
       path: "../katana_indicator"
       relative: true
     source: path
-    version: "3.0.2"
-  katana_listenables:
-    dependency: "direct overridden"
-    description:
-      path: "../katana_listenables"
-      relative: true
-    source: path
-    version: "3.0.2"
-  katana_listenables_annotation:
-    dependency: "direct overridden"
-    description:
-      path: "../katana_listenables_annotation"
-      relative: true
-    source: path
-    version: "3.0.2"
+    version: "3.0.3"
   katana_localization:
     dependency: "direct overridden"
     description:
       path: "../katana_localization"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.0.6"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_localization_annotation"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.1.1"
   katana_logger:
     dependency: "direct overridden"
     description:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.0.4"
   katana_model:
     dependency: "direct overridden"
     description:
       path: "../katana_model"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.2.0"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "3.0.2"
-  katana_prefs:
+    version: "3.1.6"
+  katana_platform_info:
     dependency: "direct overridden"
     description:
-      path: "../katana_prefs"
+      path: "../katana_platform_info"
       relative: true
     source: path
-    version: "3.0.2"
-  katana_prefs_annotation:
-    dependency: "direct overridden"
-    description:
-      path: "../katana_prefs_annotation"
-      relative: true
-    source: path
-    version: "3.0.2"
+    version: "3.0.0"
   katana_router:
     dependency: "direct overridden"
     description:
       path: "../katana_router"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.1.3"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.0.3"
   katana_scoped:
     dependency: "direct overridden"
     description:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.0.4"
   katana_shorten:
     dependency: "direct overridden"
     description:
       path: "../katana_shorten"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.0.3"
   katana_storage:
     dependency: "direct overridden"
     description:
       path: "../katana_storage"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.0.3"
   katana_test:
     dependency: "direct dev"
     description:
       path: "../katana_test"
       relative: true
     source: path
-    version: "3.0.0"
+    version: "3.0.1"
   katana_theme:
     dependency: "direct overridden"
     description:
       path: "../katana_theme"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.0.5"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_theme_annotation"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.0.3"
   katana_ui:
     dependency: "direct overridden"
     description:
       path: "../katana_ui"
       relative: true
     source: path
-    version: "3.0.3"
+    version: "3.0.5"
   leak_tracker:
     dependency: transitive
     description:
@@ -550,14 +529,14 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "3.0.4"
+    version: "3.2.2"
   masamune_annotation:
     dependency: "direct overridden"
     description:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.0.5"
   matcher:
     dependency: transitive
     description:
@@ -606,6 +585,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  package_info_plus:
+    dependency: transitive
+    description:
+      name: package_info_plus
+      sha256: "7976bfe4c583170d6cdc7077e3237560b364149fcd268b5f53d95a991963b191"
+      url: "https://pub.dev"
+    source: hosted
+    version: "8.3.0"
+  package_info_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: package_info_plus_platform_interface
+      sha256: "6c935fb612dff8e3cc9632c2b301720c77450a126114126ffaafe28d2e87956c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.0"
   path:
     dependency: transitive
     description:
@@ -940,7 +935,7 @@ packages:
     source: hosted
     version: "1.4.0"
   universal_platform:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: universal_platform
       sha256: "64e16458a0ea9b99260ceb5467a214c1f298d647c659af1bff6d3bf82536b1ec"
@@ -1035,6 +1030,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  win32:
+    dependency: transitive
+    description:
+      name: win32
+      sha256: "329edf97fdd893e0f1e3b9e88d6a0e627128cc17cc316a8d67fda8f1451178ba"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.13.0"
   xdg_directories:
     dependency: transitive
     description:
@@ -1060,5 +1063,5 @@ packages:
     source: hosted
     version: "3.1.3"
 sdks:
-  dart: ">=3.7.0-0 <4.0.0"
+  dart: ">=3.7.0 <4.0.0"
   flutter: ">=3.24.0"

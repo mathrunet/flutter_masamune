@@ -29,6 +29,8 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     super.initializeOnBoot = false,
   });
 
+  static const _platformInfo = PlatformInfo();
+
   InAppPurchase get _iap => InAppPurchase.instance;
 
   /// If you are using an Android device, set to `true` to automatically consume charged items.
@@ -59,9 +61,9 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
       );
     }
     if (productDetailResponse.productDetails.isEmpty) {
-      if (UniversalPlatform.isAndroid) {
+      if (_platformInfo.isAndroid) {
         debugPrint("The product is empty.");
-      } else if (UniversalPlatform.isIOS) {
+      } else if (_platformInfo.isIOS) {
         debugPrint("The product is empty.");
       } else {
         debugPrint("The product is empty.");
@@ -119,7 +121,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                     "Purchase completed with error: ${purchase.productID}:${purchase.error.toString()}",
                   );
                 } else if (purchase.status == PurchaseStatus.purchased) {
-                  if (UniversalPlatform.isAndroid) {
+                  if (_platformInfo.isAndroid) {
                     final androidPurchase =
                         purchase as GooglePlayPurchaseDetails;
                     switch (product.type) {
@@ -180,7 +182,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                       case PurchaseProductType.subscriptionOffer:
                         break;
                     }
-                  } else if (UniversalPlatform.isIOS) {
+                  } else if (_platformInfo.isIOS) {
                     final iosPurchase = purchase as AppStorePurchaseDetails;
                     switch (product.type) {
                       case PurchaseProductType.consumable:
@@ -237,7 +239,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                   }
                 } else if (purchase.status == PurchaseStatus.restored) {
                   if (product.type != PurchaseProductType.consumable) {
-                    if (UniversalPlatform.isAndroid) {
+                    if (_platformInfo.isAndroid) {
                       final androidPurchase =
                           purchase as GooglePlayPurchaseDetails;
                       switch (product.type) {
@@ -298,7 +300,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                         case PurchaseProductType.subscriptionOffer:
                           break;
                       }
-                    } else if (UniversalPlatform.isIOS) {
+                    } else if (_platformInfo.isIOS) {
                       final iosPurchase = purchase as AppStorePurchaseDetails;
                       switch (product.type) {
                         case PurchaseProductType.consumable:
@@ -361,7 +363,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                 } else if (purchase.status == PurchaseStatus.canceled) {
                   throw Exception("Your purchase has been canceled.");
                 }
-                if (UniversalPlatform.isAndroid) {
+                if (_platformInfo.isAndroid) {
                   if ((!automaticallyConsumeOnAndroid &&
                           product.type == PurchaseProductType.consumable) ||
                       product.debugConsumeWhenPurchaseCompleted) {
@@ -408,7 +410,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
 
   @override
   Future<void> initialize() async {
-    if (UniversalPlatform.isIOS) {
+    if (_platformInfo.isIOS) {
       final paymentWrapper = SKPaymentQueueWrapper();
       final transactions = await paymentWrapper.transactions();
       for (final transaction in transactions) {
@@ -440,7 +442,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
       );
       if (!await _iap.buyConsumable(
         purchaseParam: purchaseParam,
-        autoConsume: automaticallyConsumeOnAndroid || UniversalPlatform.isIOS,
+        autoConsume: automaticallyConsumeOnAndroid || _platformInfo.isIOS,
       )) {
         throw Exception("Purchase failed or was canceled.");
       }
@@ -456,7 +458,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
       final changeSubscription =
           await _getReplacedPurchaseDetails(replacedProduct: replacedProduct);
 
-      final purchaseParam = UniversalPlatform.isAndroid
+      final purchaseParam = _platformInfo.isAndroid
           ? GooglePlayPurchaseParam(
               productDetails: product.productDetails,
               applicationUserName: userId ?? product.userId,
@@ -482,7 +484,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
 
   Future<GooglePlayPurchaseDetails?> _getReplacedPurchaseDetails(
       {PurchaseProduct? replacedProduct}) async {
-    if (!UniversalPlatform.isAndroid) {
+    if (!_platformInfo.isAndroid) {
       return null;
     }
     if (replacedProduct == null) {

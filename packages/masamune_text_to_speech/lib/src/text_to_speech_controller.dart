@@ -63,6 +63,7 @@ class TextToSpeechController
   bool get speaking => _speakCompleter != null;
 
   final _tts = FlutterTts();
+  static const _platformInfo = PlatformInfo();
 
   /// Initialize the controller.
   ///
@@ -80,7 +81,7 @@ class TextToSpeechController
     }
     _initializeCompleter = Completer();
     try {
-      if (UniversalPlatform.isIOS) {
+      if (_platformInfo.isIOS) {
         await _tts.setSharedInstance(true);
         await _tts.setIosAudioCategory(
           adapter.defaultIosAudioCategory._toIosTextToSpeechAudioCategory(),

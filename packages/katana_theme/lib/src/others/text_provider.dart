@@ -19,6 +19,8 @@ class FileTextProvider extends TextProvider {
     _load();
   }
 
+  static const _platformInfo = PlatformInfo();
+
   /// Paths in the asset.
   ///
   /// アセット内のパス。
@@ -38,11 +40,11 @@ class FileTextProvider extends TextProvider {
     try {
       late File file;
       if (dirType == FileImageDirType.temporary) {
-        final cacheDir = await getTemporaryDirectory();
+        final cacheDir = await _platformInfo.getTemporaryDirectory();
         final fileName = path.trimString("/");
         file = File("${cacheDir.path}/$fileName");
       } else if (dirType == FileImageDirType.document) {
-        final cacheDir = await getApplicationDocumentsDirectory();
+        final cacheDir = await _platformInfo.getApplicationDocumentsDirectory();
         final fileName = path.trimString("/");
         file = File("${cacheDir.path}/$fileName");
       } else {

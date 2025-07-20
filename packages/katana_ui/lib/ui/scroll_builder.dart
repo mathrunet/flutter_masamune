@@ -78,6 +78,8 @@ class _ScrollBuilderState extends State<ScrollBuilder> {
   ScrollController get _effectiveScrollController =>
       widget.controller ?? _scrollController;
 
+  static const _platformInfo = PlatformInfo();
+
   @override
   void initState() {
     super.initState();
@@ -99,7 +101,7 @@ class _ScrollBuilderState extends State<ScrollBuilder> {
 
   Widget _buildScrollbar(BuildContext context, Widget child) {
     if (widget.showScrollbarWhenDesktopOrWeb &&
-        (UniversalPlatform.isDesktop || UniversalPlatform.isWeb)) {
+        (_platformInfo.isDesktop || _platformInfo.isWeb)) {
       return Scrollbar(
         interactive: true,
         trackVisibility: true,

@@ -3,11 +3,12 @@ part of "/katana_platform_info.dart";
 /// A class that provides platform information.
 ///
 /// プラットフォーム情報を提供するクラス。
+@immutable
 class PlatformInfo {
   /// A class that provides platform information.
   ///
   /// プラットフォーム情報を提供するクラス。
-  PlatformInfo({
+  const PlatformInfo({
     PlatformInfoAdapter? adapter,
   }) : _adapter = adapter;
 
@@ -46,6 +47,11 @@ class PlatformInfo {
   /// アプリケーションのドキュメントディレクトリを取得します。
   Future<Uri> getApplicationDocumentsDirectory() =>
       adapter.getApplicationDocumentsDirectory();
+
+  /// Get the library directory.
+  ///
+  /// ライブラリディレクトリを取得します。
+  Future<Uri> getLibraryDirectory() => adapter.getLibraryDirectory();
 
   /// Check if the platform is iOS.
   ///

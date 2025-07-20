@@ -94,6 +94,8 @@ class AgoraScreen extends StatefulWidget {
 }
 
 class _AgoraScreenState extends State<AgoraScreen> {
+  static const _platformInfo = PlatformInfo();
+
   @override
   void initState() {
     super.initState();
@@ -163,7 +165,7 @@ class _AgoraScreenState extends State<AgoraScreen> {
           canvas: const VideoCanvas(uid: 0),
           useFlutterTexture: widget.useFlutterTexture,
           useAndroidSurfaceView:
-              UniversalPlatform.isAndroid && widget.useAndroidSurfaceView,
+              _platformInfo.isAndroid && widget.useAndroidSurfaceView,
         ),
         onAgoraVideoViewCreated: (viewId) {
           AgoraController._engine!.startPreview();
@@ -177,7 +179,7 @@ class _AgoraScreenState extends State<AgoraScreen> {
         connection: RtcConnection(channelId: channel ?? ""),
         useFlutterTexture: widget.useFlutterTexture,
         useAndroidSurfaceView:
-            UniversalPlatform.isAndroid && widget.useAndroidSurfaceView,
+            _platformInfo.isAndroid && widget.useAndroidSurfaceView,
       ),
     );
   }

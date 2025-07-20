@@ -689,6 +689,8 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
 
   bool get _canRequestFocus => widget.enabled;
 
+  static const _platformInfo = PlatformInfo();
+
   @override
   void requestKeyboard() {
     if (_effectiveFocusNode.hasFocus) {
@@ -1062,7 +1064,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
         _value = _value.copyWith(
           text: updatedText,
           selection: TextSelection.collapsed(offset: textLength),
-          composing: (UniversalPlatform.isIOS || replacedLength == textLength)
+          composing: (_platformInfo.isIOS || replacedLength == textLength)
               ? TextRange.empty
               : TextRange(
                   start: replacedLength,
@@ -1070,13 +1072,13 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
                 ),
         );
       });
-      if (UniversalPlatform.isIOS) {
+      if (_platformInfo.isIOS) {
         _textInputConnection ??=
             TextInput.attach(this, _textInputConfiguration);
         _textInputConnection?.setEditingState(_value);
       }
     }
-    if (!UniversalPlatform.isIOS) {
+    if (!_platformInfo.isIOS) {
       _textInputConnection ??= TextInput.attach(this, _textInputConfiguration);
       _textInputConnection?.setEditingState(_value);
     }

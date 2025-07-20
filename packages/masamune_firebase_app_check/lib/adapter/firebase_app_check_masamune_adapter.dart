@@ -30,6 +30,8 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
   })  : _options = options,
         _appCheck = appCheck;
 
+  static const _platformInfo = PlatformInfo();
+
   /// The provider for Android.
   ///
   /// Androidのプロバイダー。
@@ -53,17 +55,17 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
   ///
   /// プラットフォーム固有のオプションが指定されている場合はそちらが優先されます。
   FirebaseOptions? get options {
-    if (UniversalPlatform.isIOS) {
+    if (_platformInfo.isIOS) {
       return iosOptions ?? _options;
-    } else if (UniversalPlatform.isAndroid) {
+    } else if (_platformInfo.isAndroid) {
       return androidOptions ?? _options;
-    } else if (UniversalPlatform.isWeb) {
+    } else if (_platformInfo.isWeb) {
       return webOptions ?? _options;
-    } else if (UniversalPlatform.isLinux) {
+    } else if (_platformInfo.isLinux) {
       return linuxOptions ?? _options;
-    } else if (UniversalPlatform.isWindows) {
+    } else if (_platformInfo.isWindows) {
       return windowsOptions ?? _options;
-    } else if (UniversalPlatform.isMacOS) {
+    } else if (_platformInfo.isMacOS) {
       return macosOptions ?? _options;
     } else {
       return _options;
@@ -199,7 +201,7 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
       androidProvider: androidProvider._toAndroidProvider(),
       appleProvider: iosProvider._toAppleProvider(),
     );
-    if (UniversalPlatform.isAndroid) {
+    if (_platformInfo.isAndroid) {
       switch (androidProvider) {
         case FirebaseAppCheckAndroidProvider.debug:
           await FirebaseAppCheck.instance.getToken();
@@ -212,7 +214,7 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
         default:
           break;
       }
-    } else if (UniversalPlatform.isIOS) {
+    } else if (_platformInfo.isIOS) {
       // switch (iosProvider) {
       //   case FirebaseAppCheckIOSProvider.debug:
       //     await FirebaseAppCheck.instance.getToken();

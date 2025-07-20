@@ -16,6 +16,8 @@ class DatabaseExporter {
 
   static Completer<void>? _completer;
 
+  static const _platformInfo = PlatformInfo();
+
   /// Export [data] against [fileName].
   ///
   /// For Web, output to `LocalStorage` with [fileName] as the key.
@@ -99,9 +101,9 @@ class DatabaseExporter {
   /// `Web`は[Null]を返します。
   static Future<String?> get documentDirectory async {
     if (Platform.isIOS) {
-      return (await getLibraryDirectory()).path;
+      return (await _platformInfo.getLibraryDirectory()).path;
     } else {
-      return (await getApplicationDocumentsDirectory()).path;
+      return (await _platformInfo.getApplicationDocumentsDirectory()).path;
     }
   }
 

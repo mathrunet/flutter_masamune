@@ -16,7 +16,6 @@ dependencies:
   masamune: ^3.2.2
   agora_rtc_engine: ^6.2.0
   permission_handler: ^11.0.0
-  universal_platform: ^1.0.0+1
   web: ^1.1.1
 dev_dependencies:
   test: ^1.24.0

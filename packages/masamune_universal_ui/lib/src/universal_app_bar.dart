@@ -397,6 +397,8 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
   /// レスポンシブのパディングを有効にする場合は`true`にします。
   final bool? enableResponsivePadding;
 
+  static const _platformInfo = PlatformInfo();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).appBarTheme;
@@ -707,7 +709,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     if (titlePosition != UniversalAppBarTitlePosition.flexible) {
       return titlePosition;
     }
-    if (!(UniversalPlatform.isDesktop || UniversalPlatform.isWeb)) {
+    if (!(_platformInfo.isDesktop || _platformInfo.isWeb)) {
       return UniversalAppBarTitlePosition.bottom;
     }
     return UniversalAppBarTitlePosition.top;

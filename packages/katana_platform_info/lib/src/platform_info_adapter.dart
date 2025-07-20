@@ -61,19 +61,7 @@ abstract class PlatformInfoAdapter {
   ///
   /// 最初に[PlatformInfoAdapterScope]で与えた[PlatformInfoAdapter]を取得することができます。
   static PlatformInfoAdapter get primary {
-    assert(
-      _primary != null,
-      "PlatformInfoAdapter is not set. Place [PlatformInfoAdapterScope] widget closer to the root.",
-    );
-    return _primary ??
-        const RuntimePlatformInfoAdapter(
-          platformType: PlatformType.web,
-          applicationId: "com.example.app",
-          applicationVersion: "1.0.0",
-          applicationBuildNumber: "1",
-          temporaryDirectory: "tmp",
-          applicationDocumentsDirectory: "documents",
-        );
+    return _primary ?? const LocalPlatformInfoAdapter();
   }
 
   static PlatformInfoAdapter? _primary;
@@ -103,6 +91,11 @@ abstract class PlatformInfoAdapter {
   ///
   /// アプリケーションのドキュメントディレクトリを取得します。
   Future<Uri> getApplicationDocumentsDirectory();
+
+  /// Get the library directory.
+  ///
+  /// ライブラリディレクトリを取得します。
+  Future<Uri> getLibraryDirectory();
 
   /// Check if the platform is iOS.
   ///

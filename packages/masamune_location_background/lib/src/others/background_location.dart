@@ -75,11 +75,13 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
   LocationData? get value => _value;
   LocationData? _value;
 
+  static const _platformInfo = PlatformInfo();
+
   /// Get a list of all currently recorded location logs.
   ///
   /// 現在記録されているすべての位置情報ログの一覧を取得します。
   AsyncHistoryValue history() {
-    if (UniversalPlatform.isAndroid) {
+    if (_platformInfo.isAndroid) {
       return AsyncHistoryValue._(
         _AndroidBackgroundLocationRepository.loadAsLocations(),
       );
@@ -94,7 +96,7 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
   ///
   /// 履歴を削除します。
   Future<void> clear() {
-    if (UniversalPlatform.isAndroid) {
+    if (_platformInfo.isAndroid) {
       return _AndroidBackgroundLocationRepository.clear();
     } else {
       return _IOSBackgroundLocationRepository.clear();
@@ -181,7 +183,7 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
       _running =
           await sharedPreferences.getBool(_kRunningKey.toSHA1()) ?? _running;
       if (_running) {
-        if (UniversalPlatform.isAndroid) {
+        if (_platformInfo.isAndroid) {
           _value =
               await _AndroidBackgroundLocationRepository.loadAsLatestLocation();
         } else {
@@ -248,7 +250,7 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
       if (_running) {
         await BackgroundLocator.unRegisterLocationUpdate();
       }
-      if (UniversalPlatform.isAndroid) {
+      if (_platformInfo.isAndroid) {
         await BackgroundLocator.registerLocationUpdate(
           AndroidBackgroundLocationCallbackHandler.callback,
           initCallback: AndroidBackgroundLocationCallbackHandler.init,
@@ -315,7 +317,7 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
     if (!_running) {
       return;
     }
-    final value = UniversalPlatform.isAndroid
+    final value = _platformInfo.isAndroid
         ? await _AndroidBackgroundLocationRepository.loadAsLatestLocation()
         : await _IOSBackgroundLocationRepository.loadAsLatestLocation();
     if (value != _value) {

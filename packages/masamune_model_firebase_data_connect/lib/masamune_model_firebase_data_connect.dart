@@ -19,7 +19,6 @@ import "package:flutter/foundation.dart";
 import "package:firebase_data_connect/firebase_data_connect.dart";
 import "package:katana_firebase/katana_firebase.dart";
 import "package:masamune/masamune.dart";
-import "package:universal_platform/universal_platform.dart";
 
 export "package:masamune/masamune.dart";
 export "package:masamune_model_firebase_data_connect_annotation/masamune_model_firebase_data_connect_annotation.dart";

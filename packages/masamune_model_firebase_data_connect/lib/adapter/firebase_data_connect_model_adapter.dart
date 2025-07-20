@@ -20,6 +20,8 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
   })  : _options = options,
         _localDatabase = localDatabase;
 
+  static const _platformInfo = PlatformInfo();
+
   /// The specified internal database, caching data retrieved from FirebaseDataConnect.
   ///
   /// 指定の内部データベース。FirebaseDataConnectから取得したデータをキャッシュします。
@@ -67,17 +69,17 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
   ///
   /// プラットフォーム固有のオプションが指定されている場合はそちらが優先されます。
   FirebaseOptions? get options {
-    if (UniversalPlatform.isIOS) {
+    if (_platformInfo.isIOS) {
       return iosOptions ?? _options;
-    } else if (UniversalPlatform.isAndroid) {
+    } else if (_platformInfo.isAndroid) {
       return androidOptions ?? _options;
-    } else if (UniversalPlatform.isWeb) {
+    } else if (_platformInfo.isWeb) {
       return webOptions ?? _options;
-    } else if (UniversalPlatform.isLinux) {
+    } else if (_platformInfo.isLinux) {
       return linuxOptions ?? _options;
-    } else if (UniversalPlatform.isWindows) {
+    } else if (_platformInfo.isWindows) {
       return windowsOptions ?? _options;
-    } else if (UniversalPlatform.isMacOS) {
+    } else if (_platformInfo.isMacOS) {
       return macosOptions ?? _options;
     } else {
       return _options;

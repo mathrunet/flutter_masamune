@@ -7,6 +7,7 @@ import "dart:io";
 
 // Flutter imports:
 import "package:flutter/foundation.dart";
+import "package:katana_platform_info/katana_platform_info.dart";
 
 // Package imports:
 import "package:path_provider/path_provider.dart";

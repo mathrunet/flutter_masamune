@@ -380,6 +380,7 @@ class _ImageMemoryCache {
 class _MemoizedNetworkImage extends network_image.NetworkImage {
   const _MemoizedNetworkImage(super.url, {super.headers});
 
+  static const _platformInfo = PlatformInfo();
   static final HttpClient _sharedHttpClient = HttpClient()
     ..autoUncompress = false;
 
@@ -494,7 +495,7 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
   }
 
   Future<File> _getLocalFile(NetworkImage key) async {
-    final cacheDir = await getTemporaryDirectory();
+    final cacheDir = await _platformInfo.getTemporaryDirectory();
     final fileName = key.url.last();
     final ext = fileName.contains(".") ? fileName.last(separator: ".") : null;
     return File(
@@ -510,6 +511,8 @@ class _MemoizedFileImage extends FileImage {
   });
 
   final FileImageDirType dirType;
+
+  static const _platformInfo = PlatformInfo();
 
   @override
   ImageStreamCompleter loadImage(FileImage key, ImageDecoderCallback decode) {
@@ -543,12 +546,12 @@ class _MemoizedFileImage extends FileImage {
   }) async {
     assert(key == this, "key is not equal to this");
     if (dirType == FileImageDirType.temporary) {
-      final cacheDir = await getTemporaryDirectory();
+      final cacheDir = await _platformInfo.getTemporaryDirectory();
       final fileName = key.file.path.trimString("/");
       final file = File("${cacheDir.path}/$fileName");
       key = FileImage(file, scale: key.scale);
     } else if (dirType == FileImageDirType.document) {
-      final cacheDir = await getApplicationDocumentsDirectory();
+      final cacheDir = await _platformInfo.getApplicationDocumentsDirectory();
       final fileName = key.file.path.trimString("/");
       final file = File("${cacheDir.path}/$fileName");
       key = FileImage(file, scale: key.scale);

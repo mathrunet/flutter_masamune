@@ -17,6 +17,7 @@ class RuntimePlatformInfoAdapter extends PlatformInfoAdapter {
     this.applicationBuildNumber = "1",
     this.temporaryDirectory = "tmp",
     this.applicationDocumentsDirectory = "documents",
+    this.libraryDirectory = "library",
   });
 
   /// The platform type.
@@ -49,6 +50,11 @@ class RuntimePlatformInfoAdapter extends PlatformInfoAdapter {
   /// アプリケーションドキュメントディレクトリ。
   final String applicationDocumentsDirectory;
 
+  /// The library directory.
+  ///
+  /// ライブラリディレクトリ。
+  final String libraryDirectory;
+
   @override
   Future<String> getApplicationId() async {
     return applicationId;
@@ -72,6 +78,11 @@ class RuntimePlatformInfoAdapter extends PlatformInfoAdapter {
   @override
   Future<Uri> getApplicationDocumentsDirectory() async {
     return Uri.file(applicationDocumentsDirectory);
+  }
+
+  @override
+  Future<Uri> getLibraryDirectory() async {
+    return Uri.file(libraryDirectory);
   }
 
   @override

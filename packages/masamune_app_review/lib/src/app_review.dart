@@ -31,6 +31,7 @@ class AppReview extends MasamuneControllerBase<void, AppReviewMasamuneAdapter> {
       AppReviewMasamuneAdapter.primary;
 
   static final InAppReview _instance = InAppReview.instance;
+  static const _platformInfo = PlatformInfo();
 
   /// Review by store.
   ///
@@ -49,7 +50,7 @@ class AppReview extends MasamuneControllerBase<void, AppReviewMasamuneAdapter> {
       if (await _instance.isAvailable()) {
         await _instance.requestReview();
       } else {
-        final url = UniversalPlatform.isIOS
+        final url = _platformInfo.isIOS
             ? adapter.appStoreUrl
             : adapter.googlePlayStoreUrl;
 

@@ -12,7 +12,6 @@ import "package:flutter/widgets.dart";
 import "package:camera/camera.dart" as camera;
 import "package:image/image.dart" as image;
 import "package:masamune/masamune.dart";
-import "package:path_provider/path_provider.dart";
 
 // Project imports:
 import "package:masamune_camera/masamune_camera.dart";

@@ -17,6 +17,8 @@ class FileStorage extends StorageBase {
   /// ルートフォルダはIOSの場合、[getLibraryDirectory]がそれ以外は[getApplicationDocumentsDirectory]が用いられます。
   const FileStorage();
 
+  static const _platformInfo = PlatformInfo();
+
   @override
   Future<Uint8List> read(String fileFullPath) async {
     return await File(fileFullPath).readAsBytes();
@@ -54,9 +56,11 @@ class FileStorage extends StorageBase {
   /// `Web`は[Null]を返します。
   static Future<String?> get documentDirectory async {
     if (Platform.isIOS) {
-      return (await getLibraryDirectory()).path.replaceAll("//", "/");
+      return (await _platformInfo.getLibraryDirectory())
+          .path
+          .replaceAll("//", "/");
     } else {
-      return (await getApplicationDocumentsDirectory())
+      return (await _platformInfo.getApplicationDocumentsDirectory())
           .path
           .replaceAll("//", "/");
     }

@@ -28,6 +28,8 @@ class FirebaseRemoteConfigModelAdapter extends ModelAdapter {
     this.minimumFetchInterval = const Duration(seconds: 10),
   }) : _options = options;
 
+  static const _platformInfo = PlatformInfo();
+
   /// A common internal database throughout the app.
   ///
   /// アプリ内全体での共通の内部データベース。
@@ -56,17 +58,17 @@ class FirebaseRemoteConfigModelAdapter extends ModelAdapter {
   ///
   /// プラットフォーム固有のオプションが指定されている場合はそちらが優先されます。
   FirebaseOptions? get options {
-    if (UniversalPlatform.isIOS) {
+    if (_platformInfo.isIOS) {
       return iosOptions ?? _options;
-    } else if (UniversalPlatform.isAndroid) {
+    } else if (_platformInfo.isAndroid) {
       return androidOptions ?? _options;
-    } else if (UniversalPlatform.isWeb) {
+    } else if (_platformInfo.isWeb) {
       return webOptions ?? _options;
-    } else if (UniversalPlatform.isLinux) {
+    } else if (_platformInfo.isLinux) {
       return linuxOptions ?? _options;
-    } else if (UniversalPlatform.isWindows) {
+    } else if (_platformInfo.isWindows) {
       return windowsOptions ?? _options;
-    } else if (UniversalPlatform.isMacOS) {
+    } else if (_platformInfo.isMacOS) {
       return macosOptions ?? _options;
     } else {
       return _options;

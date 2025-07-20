@@ -22,8 +22,8 @@ import "package:flutter/services.dart";
 // Package imports:
 import "package:flutter_rating_bar/flutter_rating_bar.dart";
 import "package:katana/katana.dart";
+import "package:katana_platform_info/katana_platform_info.dart";
 import "package:pin_input_text_field/pin_input_text_field.dart";
-import "package:universal_platform/universal_platform.dart";
 
 export "package:katana/katana.dart";
 

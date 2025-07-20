@@ -43,6 +43,12 @@ class LocalPlatformInfoAdapter extends PlatformInfoAdapter {
   }
 
   @override
+  Future<Uri> getLibraryDirectory() async {
+    final directory = await path_provider.getLibraryDirectory();
+    return directory.uri;
+  }
+
+  @override
   bool get isIOS => UniversalPlatform.isIOS;
 
   @override

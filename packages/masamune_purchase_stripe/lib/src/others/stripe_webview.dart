@@ -79,6 +79,7 @@ class _StripeWebviewState extends State<StripeWebview> {
   InAppWebViewController? _webViewController;
   double _progress = 0.0;
   late final PullToRefreshController pullToRefreshController;
+  static const _platformInfo = PlatformInfo();
 
   @override
   void initState() {
@@ -88,9 +89,9 @@ class _StripeWebviewState extends State<StripeWebview> {
         color: Theme.of(context).colorScheme.primary,
       ),
       onRefresh: () async {
-        if (UniversalPlatform.isAndroid) {
+        if (_platformInfo.isAndroid) {
           await _webViewController?.reload();
-        } else if (UniversalPlatform.isIOS) {
+        } else if (_platformInfo.isIOS) {
           await _webViewController?.loadUrl(
             urlRequest: URLRequest(url: await _webViewController?.getUrl()),
           );

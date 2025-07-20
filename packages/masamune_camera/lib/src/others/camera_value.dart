@@ -14,6 +14,8 @@ class CameraValue {
     this.endTime,
   });
 
+  static const _platformInfo = PlatformInfo();
+
   /// Generate data for mock.
   ///
   /// モック用のデータを生成します。
@@ -24,7 +26,7 @@ class CameraValue {
     DateTime? startTime,
     DateTime? endTime,
   }) async {
-    final directory = await getTemporaryDirectory();
+    final directory = await _platformInfo.getTemporaryDirectory();
     final source = image.Image(width: width ?? 512, height: height ?? 512);
     final exportedFile = File(
       "${directory.path}/${uuid()}.${format.extension}",
