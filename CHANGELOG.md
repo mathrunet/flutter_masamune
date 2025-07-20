@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.6.1`](#katana_cli---v361)
+
+---
+
+#### `katana_cli` - `v3.6.1`
+
+ - **FIX**: Installed FlutterFire. ([7236336f](https://github.com/mathrunet/flutter_masamune/commit/7236336f82852959e4cd50d7f4d502f7f11fc6aa))
+
+
+## 2025-07-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v3.1.3`](#katana---v313)
  - [`katana_auth` - `v3.0.5`](#katana_auth---v305)
  - [`katana_auth_firebase` - `v3.1.2`](#katana_auth_firebase---v312)

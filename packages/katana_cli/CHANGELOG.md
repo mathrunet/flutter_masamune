@@ -1,3 +1,7 @@
+## 3.6.1
+
+ - **FIX**: Installed FlutterFire. ([7236336f](https://github.com/mathrunet/flutter_masamune/commit/7236336f82852959e4cd50d7f4d502f7f11fc6aa))
+
 ## 3.6.0
 
  - **FIX**: Supports ClaudeCode's Max Plan. ([11fec8a1](https://github.com/mathrunet/flutter_masamune/commit/11fec8a147b90ad6a10f99744d55081cdffcc763))
