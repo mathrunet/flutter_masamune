@@ -1232,6 +1232,9 @@ final appLogger = Logger();
 // ignore: do_not_use_environment
 const flavor = String.fromEnvironment("FLAVOR");
 
+/// App Platform.
+const platform = PlatformInfo();
+
 /// App.
 void main() {
   runMasamuneApp(

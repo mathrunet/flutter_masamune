@@ -46,16 +46,14 @@ class _$PurchaseSubscriptionModelDocument
   DynamicMap toMap(PurchaseSubscriptionModel value) => value.rawValue;
 }
 
-typedef _$PurchaseSubscriptionModelMirrorDocument =
-    _$PurchaseSubscriptionModelDocument;
+typedef _$PurchaseSubscriptionModelMirrorDocument
+    = _$PurchaseSubscriptionModelDocument;
 
 class _$PurchaseSubscriptionModelCollection
     extends CollectionBase<_$PurchaseSubscriptionModelDocument>
     with
-        FilterableCollectionMixin<
-          _$PurchaseSubscriptionModelDocument,
-          _$_PurchaseSubscriptionModelCollectionQuery
-        > {
+        FilterableCollectionMixin<_$PurchaseSubscriptionModelDocument,
+            _$_PurchaseSubscriptionModelCollectionQuery> {
   _$PurchaseSubscriptionModelCollection(super.modelQuery, [super.value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
@@ -72,8 +70,7 @@ class _$PurchaseSubscriptionModelCollection
   Future<CollectionBase<_$PurchaseSubscriptionModelDocument>> filter(
     _$_PurchaseSubscriptionModelCollectionQuery Function(
       _$_PurchaseSubscriptionModelCollectionQuery source,
-    )
-    callback,
+    ) callback,
   ) {
     final query = callback.call(
       _$_PurchaseSubscriptionModelCollectionQuery(modelQuery),
@@ -82,8 +79,8 @@ class _$PurchaseSubscriptionModelCollection
   }
 }
 
-typedef _$PurchaseSubscriptionModelMirrorCollection =
-    _$PurchaseSubscriptionModelCollection;
+typedef _$PurchaseSubscriptionModelMirrorCollection
+    = _$PurchaseSubscriptionModelCollection;
 
 @immutable
 class _$PurchaseSubscriptionModelRefPath
@@ -128,8 +125,7 @@ class _$PurchaseSubscriptionModelDocumentQuery {
         adapter:
             adapter ?? _$PurchaseSubscriptionModelDocument.defaultModelAdapter,
         useTestModelAdapter: useTestModelAdapter,
-        accessQuery:
-            accessQuery ??
+        accessQuery: accessQuery ??
             _$PurchaseSubscriptionModelDocument.defaultModelAccessQuery,
         validationQueries:
             _$PurchaseSubscriptionModelDocument.defaultValidationQueries,
@@ -176,12 +172,10 @@ class _$PurchaseSubscriptionModelCollectionQuery {
     return _$_PurchaseSubscriptionModelCollectionQuery(
       CollectionModelQuery(
         "plugins/iap/subscription",
-        adapter:
-            adapter ??
+        adapter: adapter ??
             _$PurchaseSubscriptionModelCollection.defaultModelAdapter,
         useTestModelAdapter: useTestModelAdapter,
-        accessQuery:
-            accessQuery ??
+        accessQuery: accessQuery ??
             _$PurchaseSubscriptionModelCollection.defaultModelAccessQuery,
         validationQueries:
             _$PurchaseSubscriptionModelCollection.defaultValidationQueries,
@@ -214,7 +208,8 @@ class _$_PurchaseSubscriptionModelCollectionQuery
 
   static _$_PurchaseSubscriptionModelCollectionQuery _toQuery(
     CollectionModelQuery query,
-  ) => _$_PurchaseSubscriptionModelCollectionQuery(query);
+  ) =>
+      _$_PurchaseSubscriptionModelCollectionQuery(query);
 
   _$_PurchaseSubscriptionModelCollectionQuery collectionGroup() =>
       _$_PurchaseSubscriptionModelCollectionQuery(modelQuery.collectionGroup());
@@ -224,7 +219,8 @@ class _$_PurchaseSubscriptionModelCollectionQuery
 
   _$_PurchaseSubscriptionModelCollectionQuery remove(
     ModelQueryFilterType type,
-  ) => _$_PurchaseSubscriptionModelCollectionQuery(modelQuery.remove(type));
+  ) =>
+      _$_PurchaseSubscriptionModelCollectionQuery(modelQuery.remove(type));
 
   _$_PurchaseSubscriptionModelCollectionQuery notifyDocumentChanges() =>
       _$_PurchaseSubscriptionModelCollectionQuery(
@@ -235,90 +231,90 @@ class _$_PurchaseSubscriptionModelCollectionQuery
       _$_PurchaseSubscriptionModelCollectionQuery(modelQuery.limitTo(value));
 
   StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
-  get uid =>
-      StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
-        key: "@uid",
-        toQuery: _toQuery,
-        modelQuery: modelQuery,
-      );
+      get uid =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+            key: "@uid",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
-  get userId =>
-      StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
-        key: "userId",
-        toQuery: _toQuery,
-        modelQuery: modelQuery,
-      );
+      get userId =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+            key: "userId",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   BooleanModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
-  get expired =>
-      BooleanModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
-        key: "expired",
-        toQuery: _toQuery,
-        modelQuery: modelQuery,
-      );
+      get expired => BooleanModelQuerySelector<
+              _$_PurchaseSubscriptionModelCollectionQuery>(
+            key: "expired",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
-  get token =>
-      StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
-        key: "token",
-        toQuery: _toQuery,
-        modelQuery: modelQuery,
-      );
+      get token =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+            key: "token",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
-  get platform =>
-      StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
-        key: "platform",
-        toQuery: _toQuery,
-        modelQuery: modelQuery,
-      );
+      get platform =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+            key: "platform",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
-  get productId =>
-      StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
-        key: "productId",
-        toQuery: _toQuery,
-        modelQuery: modelQuery,
-      );
+      get productId =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+            key: "productId",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
-  get purchaseId =>
-      StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
-        key: "purchaseId",
-        toQuery: _toQuery,
-        modelQuery: modelQuery,
-      );
+      get purchaseId =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+            key: "purchaseId",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
-  get packageName =>
-      StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
-        key: "packageName",
-        toQuery: _toQuery,
-        modelQuery: modelQuery,
-      );
+      get packageName =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+            key: "packageName",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   NumModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
-  get expiredTime =>
-      NumModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
-        key: "expiredTime",
-        toQuery: _toQuery,
-        modelQuery: modelQuery,
-      );
+      get expiredTime =>
+          NumModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+            key: "expiredTime",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
-  get orderId =>
-      StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
-        key: "orderId",
-        toQuery: _toQuery,
-        modelQuery: modelQuery,
-      );
+      get orderId =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+            key: "orderId",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 }
 
-typedef _$PurchaseSubscriptionModelMirrorRefPath =
-    _$PurchaseSubscriptionModelRefPath;
-typedef _$PurchaseSubscriptionModelMirrorInitialCollection =
-    _$PurchaseSubscriptionModelInitialCollection;
+typedef _$PurchaseSubscriptionModelMirrorRefPath
+    = _$PurchaseSubscriptionModelRefPath;
+typedef _$PurchaseSubscriptionModelMirrorInitialCollection
+    = _$PurchaseSubscriptionModelInitialCollection;
 
 // **************************************************************************
 // FormValueGenerator

@@ -39,10 +39,8 @@ typedef _$PurchaseUserModelMirrorDocument = _$PurchaseUserModelDocument;
 class _$PurchaseUserModelCollection
     extends CollectionBase<_$PurchaseUserModelDocument>
     with
-        FilterableCollectionMixin<
-          _$PurchaseUserModelDocument,
-          _$_PurchaseUserModelCollectionQuery
-        > {
+        FilterableCollectionMixin<_$PurchaseUserModelDocument,
+            _$_PurchaseUserModelCollectionQuery> {
   _$PurchaseUserModelCollection(super.modelQuery, [super.value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
@@ -59,8 +57,7 @@ class _$PurchaseUserModelCollection
   Future<CollectionBase<_$PurchaseUserModelDocument>> filter(
     _$_PurchaseUserModelCollectionQuery Function(
       _$_PurchaseUserModelCollectionQuery source,
-    )
-    callback,
+    ) callback,
   ) {
     final query = callback.call(
       _$_PurchaseUserModelCollectionQuery(modelQuery),
@@ -158,8 +155,7 @@ class _$PurchaseUserModelCollectionQuery {
         "plugins/iap/user",
         adapter: adapter ?? _$PurchaseUserModelCollection.defaultModelAdapter,
         useTestModelAdapter: useTestModelAdapter,
-        accessQuery:
-            accessQuery ??
+        accessQuery: accessQuery ??
             _$PurchaseUserModelCollection.defaultModelAccessQuery,
         validationQueries:
             _$PurchaseUserModelCollection.defaultValidationQueries,
@@ -192,7 +188,8 @@ class _$_PurchaseUserModelCollectionQuery
 
   static _$_PurchaseUserModelCollectionQuery _toQuery(
     CollectionModelQuery query,
-  ) => _$_PurchaseUserModelCollectionQuery(query);
+  ) =>
+      _$_PurchaseUserModelCollectionQuery(query);
 
   _$_PurchaseUserModelCollectionQuery collectionGroup() =>
       _$_PurchaseUserModelCollectionQuery(modelQuery.collectionGroup());
@@ -225,8 +222,8 @@ class _$_PurchaseUserModelCollectionQuery
 }
 
 typedef _$PurchaseUserModelMirrorRefPath = _$PurchaseUserModelRefPath;
-typedef _$PurchaseUserModelMirrorInitialCollection =
-    _$PurchaseUserModelInitialCollection;
+typedef _$PurchaseUserModelMirrorInitialCollection
+    = _$PurchaseUserModelInitialCollection;
 
 // **************************************************************************
 // FormValueGenerator
