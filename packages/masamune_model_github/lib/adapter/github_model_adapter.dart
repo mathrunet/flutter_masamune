@@ -782,8 +782,8 @@ class GithubModelAdapter extends ModelAdapter {
     ModelAdapterCollectionQuery query,
   ) async {
     final res = await database.loadCollection(query);
-    if (res != null) {
-      return res;
+    if (res.isNotEmpty) {
+      return res ?? {};
     }
     final github = await _getInstance();
 

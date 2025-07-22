@@ -7,6 +7,7 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
 
 // ignore: unused_import, unnecessary_import
+import "package:masamune_model_github/masamune_model_github.dart";
 
 part "github_user.m.dart";
 part "github_user.g.dart";

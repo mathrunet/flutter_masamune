@@ -60,6 +60,16 @@ class GithubUserController extends MasamuneControllerBase<GithubUserModel?,
 
   GithubOrganizationModelDocument? _currentOrganization;
 
+  /// Returns the current repository slug.
+  ///
+  /// 現在のリポジトリのスラッグを返します。
+  String? get currentRepositorySlug {
+    if (currentOrganization == null) {
+      return uid;
+    }
+    return currentOrganization?.uid ?? uid;
+  }
+
   /// Returns the repositories of the user.
 
   /// Loads the user.
