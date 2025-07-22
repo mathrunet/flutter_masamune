@@ -2652,6 +2652,17 @@ localize:
     pt_PT: "Gostaria de avaliar o aplicativo?"
     ru_RU: "Хотели бы вы оценить приложение?"
     id_ID: "Apakah Anda ingin meninjau aplikasi?"
+  - key: "Official website"
+    en_US: "Official website"
+    ja_JP: "公式サイト"
+    zh_CN: "官方网站"
+    ko_KR: "공식 사이트"
+    es_ES: "Sitio web oficial"
+    fr_FR: "Site officiel"
+    de_DE: "Offizielle Website"
+    pt_PT: "Site oficial"
+    ru_RU: "Официальный сайт"
+    id_ID: "Situs web resmi"
 """;
 
 /// Contents of localize.app.yaml.
