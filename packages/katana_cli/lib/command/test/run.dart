@@ -17,6 +17,11 @@ class TestRunCliCommand extends CliCommand {
 
   @override
   Future<void> exec(ExecContext context) async {
+    if (!Directory("${Directory.current.path}/test").existsSync()) {
+      // ignore: avoid_print
+      print("Skipping because the test directory was not found.");
+      return;
+    }
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final target = context.args.get(2, "");
