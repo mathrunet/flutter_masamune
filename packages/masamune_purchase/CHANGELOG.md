@@ -1,3 +1,7 @@
+## 3.0.18
+
+ - **FIX**: Made PlatformInfo globally available. ([02451a0f](https://github.com/mathrunet/flutter_masamune/commit/02451a0fc235fc173f2c8a01e0434f6e4bdef7cf))
+
 ## 3.0.17
 
  - **FIX**: Fixed minor bugs. ([77e3de7f](https://github.com/mathrunet/flutter_masamune/commit/77e3de7f573a3bc043012aa5a0d3df0addd29086))

@@ -1,3 +1,7 @@
+## 3.2.5
+
+ - **FIX**: Reverting to an older version because it crashes on Android. ([8901c2b9](https://github.com/mathrunet/flutter_masamune/commit/8901c2b98cca65dc913eb502c72abd2765e27a75))
+
 ## 3.2.4
 
  - **FIX**: Fixed minor bugs. ([77e3de7f](https://github.com/mathrunet/flutter_masamune/commit/77e3de7f573a3bc043012aa5a0d3df0addd29086))

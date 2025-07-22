@@ -1,3 +1,8 @@
+## 3.6.4
+
+ - **FIX**: Skip if the test directory does not exist. ([271df10d](https://github.com/mathrunet/flutter_masamune/commit/271df10d557e75a0317cab1157a2f13c205e0d27))
+ - **FIX**: Made PlatformInfo globally available. ([02451a0f](https://github.com/mathrunet/flutter_masamune/commit/02451a0fc235fc173f2c8a01e0434f6e4bdef7cf))
+
 ## 3.6.3
 
  - Update a dependency to the latest release.

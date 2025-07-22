@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-07-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.6.4`](#katana_cli---v364)
+ - [`masamune_camera` - `v3.2.5`](#masamune_camera---v325)
+ - [`masamune_purchase` - `v3.0.18`](#masamune_purchase---v3018)
+ - [`masamune_purchase_mobile` - `v3.0.18`](#masamune_purchase_mobile---v3018)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_purchase_mobile` - `v3.0.18`
+
+---
+
+#### `katana_cli` - `v3.6.4`
+
+ - **FIX**: Skip if the test directory does not exist. ([271df10d](https://github.com/mathrunet/flutter_masamune/commit/271df10d557e75a0317cab1157a2f13c205e0d27))
+ - **FIX**: Made PlatformInfo globally available. ([02451a0f](https://github.com/mathrunet/flutter_masamune/commit/02451a0fc235fc173f2c8a01e0434f6e4bdef7cf))
+
+#### `masamune_camera` - `v3.2.5`
+
+ - **FIX**: Reverting to an older version because it crashes on Android. ([8901c2b9](https://github.com/mathrunet/flutter_masamune/commit/8901c2b98cca65dc913eb502c72abd2765e27a75))
+
+#### `masamune_purchase` - `v3.0.18`
+
+ - **FIX**: Made PlatformInfo globally available. ([02451a0f](https://github.com/mathrunet/flutter_masamune/commit/02451a0fc235fc173f2c8a01e0434f6e4bdef7cf))
+
+
 ## 2025-07-21
 
 ### Changes
