@@ -9,12 +9,18 @@ class FirebaseGithubAuthMasamuneAdapter extends MasamuneAdapter {
   /// FirebaseにおけるGitHubサインインの初期設定を行う[MasamuneAdapter]。
   const FirebaseGithubAuthMasamuneAdapter({
     this.keepGithubAccessToken = false,
+    this.scopes = const [],
   });
 
   /// Whether to keep the GitHub access token.
   ///
   /// GitHubのアクセストークンを保持するかどうか。
   final bool keepGithubAccessToken;
+
+  /// The scopes to request from the user.
+  ///
+  /// ユーザーに要求するスコープ。
+  final List<GithubAuthScope> scopes;
 
   /// You can retrieve the [FirebaseGithubAuthMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
