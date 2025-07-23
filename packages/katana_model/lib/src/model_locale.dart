@@ -673,6 +673,9 @@ class _ModelLocaleWithCode extends _ModelLocale {
 
   @override
   Locale? get _value {
+    if (language.isEmpty) {
+      return null;
+    }
     return Locale(
       language,
       country,

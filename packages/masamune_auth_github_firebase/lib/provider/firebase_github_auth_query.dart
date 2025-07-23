@@ -66,6 +66,10 @@ class FirebaseGitHubSignInAuthProvider extends FirebaseSnsSignInAuthProvider {
   @override
   firebase_auth.AuthProvider authProvider() {
     final provider = GithubAuthProvider();
+    for (final scope in FirebaseGithubAuthMasamuneAdapter.primary?.scopes ??
+        <GithubAuthScope>[]) {
+      provider.addScope(scope.scope);
+    }
     return provider;
   }
 
