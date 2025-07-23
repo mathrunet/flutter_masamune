@@ -20,9 +20,7 @@ _GithubRepositoryModel _$GithubRepositoryModelFromJson(
           ? null
           : ModelRefBase<GithubOrganizationModel>.fromJson(
               json['organization'] as Map<String, dynamic>),
-      language: json['language'] == null
-          ? null
-          : ModelLocale.fromJson(json['language'] as Map<String, dynamic>),
+      language: json['language'] as String?,
       license: json['license'] == null
           ? null
           : GithubLicenseValue.fromJson(

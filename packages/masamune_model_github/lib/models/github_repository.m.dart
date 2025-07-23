@@ -121,6 +121,7 @@ class _$GithubRepositoryModelDocument
     extends DocumentBase<GithubRepositoryModel>
     with
         ModelRefMixin<GithubRepositoryModel>,
+        SearchableDocumentMixin<GithubRepositoryModel>,
         ModelRefLoaderMixin<GithubRepositoryModel> {
   _$GithubRepositoryModelDocument(super.modelQuery, [super._value]);
 
@@ -137,6 +138,13 @@ class _$GithubRepositoryModelDocument
 
   @override
   DynamicMap toMap(GithubRepositoryModel value) => value.rawValue;
+
+  @override
+  String buildSearchText(GithubRepositoryModel value) =>
+      (value.name?.toString() ?? "") +
+      (value.fullName?.toString() ?? "") +
+      (value.language?.toString() ?? "") +
+      (value.description?.toString() ?? "");
 
   @override
   List<ModelRefBuilderBase<GithubRepositoryModel>> get builder => [
@@ -175,7 +183,8 @@ class _$GithubRepositoryModelCollection
     extends CollectionBase<_$GithubRepositoryModelDocument>
     with
         FilterableCollectionMixin<_$GithubRepositoryModelDocument,
-            _$_GithubRepositoryModelCollectionQuery> {
+            _$_GithubRepositoryModelCollectionQuery>,
+        SearchableCollectionMixin<_$GithubRepositoryModelDocument> {
   _$GithubRepositoryModelCollection(super.modelQuery, [super.value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
@@ -226,7 +235,8 @@ class _$GithubRepositoryModelRefPath
 
 @immutable
 class _$GithubRepositoryModelInitialCollection
-    extends ModelInitialCollection<GithubRepositoryModel> {
+    extends ModelInitialCollection<GithubRepositoryModel>
+    with SearchableInitialCollectionMixin<GithubRepositoryModel> {
   const _$GithubRepositoryModelInitialCollection(
     super.value, {
     required String organizationId,
@@ -239,6 +249,13 @@ class _$GithubRepositoryModelInitialCollection
 
   @override
   DynamicMap toMap(GithubRepositoryModel value) => value.rawValue;
+
+  @override
+  String buildSearchText(GithubRepositoryModel value) =>
+      (value.name?.toString() ?? "") +
+      (value.fullName?.toString() ?? "") +
+      (value.language?.toString() ?? "") +
+      (value.description?.toString() ?? "");
 }
 
 @immutable
@@ -405,9 +422,9 @@ class _$_GithubRepositoryModelCollectionQuery
               _$_GithubRepositoryModelCollectionQuery>(
           key: "organization", toQuery: _toQuery, modelQuery: modelQuery);
 
-  ModelLocaleModelQuerySelector<_$_GithubRepositoryModelCollectionQuery>
-      get language => ModelLocaleModelQuerySelector<
-              _$_GithubRepositoryModelCollectionQuery>(
+  StringModelQuerySelector<_$_GithubRepositoryModelCollectionQuery>
+      get language =>
+          StringModelQuerySelector<_$_GithubRepositoryModelCollectionQuery>(
             key: "language",
             toQuery: _toQuery,
             modelQuery: modelQuery,

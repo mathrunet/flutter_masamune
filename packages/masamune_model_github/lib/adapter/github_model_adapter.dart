@@ -29,6 +29,31 @@ extension on Organization {
       updatedAt: organization.updatedAt != null
           ? ModelTimestamp(organization.updatedAt!)
           : const ModelTimestamp.now(),
+      type: GithubOrganizationType.organization,
+    );
+  }
+}
+
+extension on GithubUserModel {
+  GithubOrganizationModel toGithubOrganizationModel() {
+    final user = this;
+    return GithubOrganizationModel(
+      id: user.id,
+      name: user.name,
+      login: user.login,
+      company: user.company,
+      blog: user.blog,
+      location: user.location,
+      email: user.email,
+      publicReposCount: user.publicReposCount,
+      publicGistsCount: user.publicGistsCount,
+      followersCount: user.followersCount,
+      followingCount: user.followingCount,
+      htmlUrl: user.htmlUrl,
+      avatarUrl: user.avatarUrl,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      type: GithubOrganizationType.user,
     );
   }
 }
@@ -102,7 +127,7 @@ extension on Repository {
           ? GithubUserModelRefPath(repository.owner?.uid ?? "")
           : null,
       organization: GithubOrganizationModelRefPath(organizationId),
-      language: ModelLocale.tryParse(repository.language),
+      language: repository.language,
       isPrivate: repository.isPrivate,
       isFork: repository.isFork,
       isTemplate: repository.isTemplate ?? false,
@@ -614,6 +639,30 @@ class GithubModelAdapter extends ModelAdapter {
 
     if (GithubOrganizationModel.document.hasMatchPath(query.query.path)) {
       final organizationId = query.query.path.split("/").last;
+      final userQuery = ModelAdapterDocumentQuery(
+          query: GithubUserModel.document(organizationId).modelQuery);
+      final userRes = await database.loadDocument(userQuery);
+      if (userRes != null) {
+        final res = GithubUserModel.fromJson(userRes)
+            .toGithubOrganizationModel()
+            .toJson()
+            .toEntireJson();
+        await database.syncDocument(query, res);
+        return res;
+      } else {
+        final currentUser = await github.users.getCurrentUser();
+        if (currentUser.uid == organizationId) {
+          final githubUser = currentUser.toGithubUserModel();
+          await database.syncDocument(
+            userQuery,
+            githubUser.toJson().toEntireJson(),
+          );
+          final res =
+              githubUser.toGithubOrganizationModel().toJson().toEntireJson();
+          await database.syncDocument(query, res);
+          return res;
+        }
+      }
       final organization = await github.organizations.get(organizationId);
       final res =
           organization.toGithubOrganizationModel().toJson().toEntireJson();
@@ -781,15 +830,15 @@ class GithubModelAdapter extends ModelAdapter {
   Future<Map<String, DynamicMap>> loadCollection(
     ModelAdapterCollectionQuery query,
   ) async {
-    final res = await database.loadCollection(query);
-    if (res.isNotEmpty) {
-      return res ?? {};
-    }
     final github = await _getInstance();
 
     if (GithubOrganizationModel.collection.hasMatchPath(query.query.path)) {
+      var res = await database.loadCollection(query);
+      if (res.isNotEmpty) {
+        return res ?? {};
+      }
       final organizations = github.organizations.list();
-      final res = (await organizations.map((e) => e).toList()).toMap((e) {
+      res = (await organizations.map((e) => e).toList()).toMap((e) {
         final id = e.uid;
         if (id == null) {
           return null;
@@ -799,11 +848,24 @@ class GithubModelAdapter extends ModelAdapter {
           e.toGithubOrganizationModel().toJson().toEntireJson(),
         );
       });
+      final currentUser = await github.users.getCurrentUser();
+      res = {
+        currentUser.uid ?? "": currentUser
+            .toGithubUserModel()
+            .toGithubOrganizationModel()
+            .toJson()
+            .toEntireJson(),
+        ...res
+      };
       await database.syncCollection(query, res);
       return res;
     } else if (GithubUserModel.collection.hasMatchPath(query.query.path)) {
+      var res = await database.loadCollection(query);
+      if (res.isNotEmpty) {
+        return res ?? {};
+      }
       final users = github.users.listUsers();
-      final res = (await users.map((e) => e).toList()).toMap((e) {
+      res = (await users.map((e) => e).toList()).toMap((e) {
         final id = e.uid;
         if (id == null) {
           return null;
@@ -814,24 +876,105 @@ class GithubModelAdapter extends ModelAdapter {
       return res;
     } else if (GithubRepositoryModel.collection
         .hasMatchPath(query.query.path)) {
+      var res = await database.loadCollection(query);
+      if (res.isNotEmpty) {
+        return res ?? {};
+      }
       final match =
           GithubRepositoryModel.collection.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
       if (organizationId == null) {
         throw Exception("Invalid path for repository collection load");
       }
-      final repositories = github.repositories.listRepositories();
-      final res = (await repositories.map((e) => e).toList()).toMap((e) {
-        final id = e.uid;
-        if (id == null) {
-          return null;
+      final search = query.query.filters.get<String>(
+        types: [ModelQueryFilterType.like],
+      );
+      if (search != null) {
+        final repositories = github.search.repositories(
+          "owner:$organizationId $search",
+        );
+        res = (await repositories.map((e) => e).toList()).toMap((e) {
+          final id = e.uid;
+          if (id == null) {
+            return null;
+          }
+          return MapEntry(
+              id,
+              e
+                  .toGithubRepositoryModel(organizationId)
+                  .toJson()
+                  .toEntireJson());
+        });
+        await database.syncCollection(query, res);
+        return res;
+      }
+      // organizationIdが一致するか取得
+      var isOrganization = false;
+      final organizationRes = await database.loadDocument(
+        ModelAdapterDocumentQuery(
+            query: GithubOrganizationModel.document(organizationId).modelQuery),
+      );
+      if (organizationRes != null) {
+        isOrganization = true;
+      } else {
+        final userQuery = ModelAdapterDocumentQuery(
+            query: GithubUserModel.document(organizationId).modelQuery);
+        final userRes = await database.loadDocument(userQuery);
+        if (userRes != null) {
+          isOrganization = false;
+        } else {
+          final currentUser = await github.users.getCurrentUser();
+          await database.syncDocument(
+            userQuery,
+            currentUser.toGithubUserModel().toJson().toEntireJson(),
+          );
+          if (currentUser.uid == organizationId) {
+            isOrganization = false;
+          } else {
+            isOrganization = true;
+          }
         }
-        return MapEntry(id,
-            e.toGithubRepositoryModel(organizationId).toJson().toEntireJson());
-      });
-      await database.syncCollection(query, res);
-      return res;
+      }
+      if (isOrganization) {
+        final repositories = github.repositories.listOrganizationRepositories(
+          organizationId,
+        );
+        res = (await repositories.map((e) => e).toList()).toMap((e) {
+          final id = e.uid;
+          if (id == null) {
+            return null;
+          }
+          return MapEntry(
+              id,
+              e
+                  .toGithubRepositoryModel(organizationId)
+                  .toJson()
+                  .toEntireJson());
+        });
+        await database.syncCollection(query, res);
+        return res;
+      } else {
+        final repositories = github.repositories.listRepositories();
+        res = (await repositories.map((e) => e).toList()).toMap((e) {
+          final id = e.uid;
+          if (id == null) {
+            return null;
+          }
+          return MapEntry(
+              id,
+              e
+                  .toGithubRepositoryModel(organizationId)
+                  .toJson()
+                  .toEntireJson());
+        });
+        await database.syncCollection(query, res);
+        return res;
+      }
     } else if (GithubIssueModel.collection.hasMatchPath(query.query.path)) {
+      var res = await database.loadCollection(query);
+      if (res.isNotEmpty) {
+        return res ?? {};
+      }
       final match =
           GithubIssueModel.collection.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -842,7 +985,7 @@ class GithubModelAdapter extends ModelAdapter {
       final issues = github.issues.listByRepo(
         RepositorySlug(organizationId, repositoryId),
       );
-      final res = (await issues.map((e) => e).toList()).toMap((e) {
+      res = (await issues.map((e) => e).toList()).toMap((e) {
         final id = e.uid;
         if (id == null) {
           return null;
@@ -853,6 +996,10 @@ class GithubModelAdapter extends ModelAdapter {
       return res;
     } else if (GithubIssueCommentModel.collection
         .hasMatchPath(query.query.path)) {
+      var res = await database.loadCollection(query);
+      if (res.isNotEmpty) {
+        return res ?? {};
+      }
       final match = GithubIssueCommentModel.collection.regExp
           .firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -864,7 +1011,7 @@ class GithubModelAdapter extends ModelAdapter {
       final comments = github.issues.listCommentsByRepo(
         RepositorySlug(organizationId, repositoryId),
       );
-      final res = (await comments.map((e) => e).toList()).toMap((e) {
+      res = (await comments.map((e) => e).toList()).toMap((e) {
         final id = e.uid;
         if (id == null) {
           return null;
@@ -876,6 +1023,10 @@ class GithubModelAdapter extends ModelAdapter {
       return res;
     } else if (GithubPullRequestModel.collection
         .hasMatchPath(query.query.path)) {
+      var res = await database.loadCollection(query);
+      if (res.isNotEmpty) {
+        return res ?? {};
+      }
       final match =
           GithubPullRequestModel.collection.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -886,7 +1037,7 @@ class GithubModelAdapter extends ModelAdapter {
       final pullRequest = github.pullRequests.list(
         RepositorySlug(organizationId, repositoryId),
       );
-      final res = (await pullRequest.map((e) => e).toList()).toMap((e) {
+      res = (await pullRequest.map((e) => e).toList()).toMap((e) {
         final id = e.uid;
         if (id == null) {
           return null;
@@ -898,6 +1049,10 @@ class GithubModelAdapter extends ModelAdapter {
       return res;
     } else if (GithubPullRequestCommentModel.collection
         .hasMatchPath(query.query.path)) {
+      var res = await database.loadCollection(query);
+      if (res.isNotEmpty) {
+        return res ?? {};
+      }
       final match = GithubPullRequestCommentModel.collection.regExp
           .firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -913,7 +1068,7 @@ class GithubModelAdapter extends ModelAdapter {
         RepositorySlug(organizationId, repositoryId),
         int.parse(pullRequestId),
       );
-      final res = (await pullRequest.map((e) => e).toList()).toMap((e) {
+      res = (await pullRequest.map((e) => e).toList()).toMap((e) {
         final id = e.uid;
         if (id == null) {
           return null;
@@ -924,6 +1079,10 @@ class GithubModelAdapter extends ModelAdapter {
       await database.syncCollection(query, res);
       return res;
     } else if (GithubBranchModel.collection.hasMatchPath(query.query.path)) {
+      var res = await database.loadCollection(query);
+      if (res.isNotEmpty) {
+        return res ?? {};
+      }
       final match =
           GithubBranchModel.collection.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -934,7 +1093,7 @@ class GithubModelAdapter extends ModelAdapter {
       final branch = github.repositories.listBranches(
         RepositorySlug(organizationId, repositoryId),
       );
-      final res = (await branch.map((e) => e).toList()).toMap((e) {
+      res = (await branch.map((e) => e).toList()).toMap((e) {
         final id = e.uid;
         if (id == null) {
           return null;
@@ -944,6 +1103,10 @@ class GithubModelAdapter extends ModelAdapter {
       await database.syncCollection(query, res);
       return res;
     } else if (GithubCommitModel.collection.hasMatchPath(query.query.path)) {
+      var res = await database.loadCollection(query);
+      if (res.isNotEmpty) {
+        return res ?? {};
+      }
       final match =
           GithubCommitModel.collection.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -956,7 +1119,7 @@ class GithubModelAdapter extends ModelAdapter {
         RepositorySlug(organizationId, repositoryId),
         sha: branchId,
       );
-      final res = (await commit.map((e) => e).toList()).toMap((e) {
+      res = (await commit.map((e) => e).toList()).toMap((e) {
         final id = e.uid;
         if (id == null) {
           return null;
@@ -966,6 +1129,10 @@ class GithubModelAdapter extends ModelAdapter {
       await database.syncCollection(query, res);
       return res;
     } else if (GithubContentModel.collection.hasMatchPath(query.query.path)) {
+      var res = await database.loadCollection(query);
+      if (res.isNotEmpty) {
+        return res ?? {};
+      }
       final match =
           GithubContentModel.collection.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -982,7 +1149,7 @@ class GithubModelAdapter extends ModelAdapter {
         RepositorySlug(organizationId, repositoryId), "", // ルートディレクトリ
         ref: commitId,
       );
-      final res = contents.tree?.toMap((e) {
+      res = contents.tree?.toMap((e) {
             final id = e.uid;
             if (id == null) {
               return null;

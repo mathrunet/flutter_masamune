@@ -15,13 +15,16 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GithubRepositoryModel {
   int? get id;
+  @searchParam
   String? get name;
+  @searchParam
   String? get fullName;
   @refParam
   GithubUserModelRef get owner;
   @refParam
   GithubOrganizationModelRef get organization;
-  ModelLocale? get language;
+  @searchParam
+  String? get language;
   @jsonParam
   GithubLicenseValue? get license;
   @jsonParam
@@ -29,6 +32,7 @@ mixin _$GithubRepositoryModel {
   bool get isPrivate;
   bool get isFork;
   bool get isTemplate;
+  @searchParam
   String? get description;
   String? get masterBranch;
   String? get mergeCommitMessage;
@@ -375,17 +379,17 @@ abstract mixin class $GithubRepositoryModelCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
-      String? name,
-      String? fullName,
+      @searchParam String? name,
+      @searchParam String? fullName,
       @refParam GithubUserModelRef owner,
       @refParam GithubOrganizationModelRef organization,
-      ModelLocale? language,
+      @searchParam String? language,
       @jsonParam GithubLicenseValue? license,
       @jsonParam GithubRepositoryPermissionValue? permissions,
       bool isPrivate,
       bool isFork,
       bool isTemplate,
-      String? description,
+      @searchParam String? description,
       String? masterBranch,
       String? mergeCommitMessage,
       String? mergeCommitTitle,
@@ -605,7 +609,7 @@ class _$GithubRepositoryModelCopyWithImpl<$Res>
       language: freezed == language
           ? _self.language
           : language // ignore: cast_nullable_to_non_nullable
-              as ModelLocale?,
+              as String?,
       license: freezed == license
           ? _self.license
           : license // ignore: cast_nullable_to_non_nullable
@@ -1086,17 +1090,17 @@ extension GithubRepositoryModelPatterns on GithubRepositoryModel {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
             int? id,
-            String? name,
-            String? fullName,
+            @searchParam String? name,
+            @searchParam String? fullName,
             @refParam GithubUserModelRef owner,
             @refParam GithubOrganizationModelRef organization,
-            ModelLocale? language,
+            @searchParam String? language,
             @jsonParam GithubLicenseValue? license,
             @jsonParam GithubRepositoryPermissionValue? permissions,
             bool isPrivate,
             bool isFork,
             bool isTemplate,
-            String? description,
+            @searchParam String? description,
             String? masterBranch,
             String? mergeCommitMessage,
             String? mergeCommitTitle,
@@ -1302,17 +1306,17 @@ extension GithubRepositoryModelPatterns on GithubRepositoryModel {
   TResult when<TResult extends Object?>(
     TResult Function(
             int? id,
-            String? name,
-            String? fullName,
+            @searchParam String? name,
+            @searchParam String? fullName,
             @refParam GithubUserModelRef owner,
             @refParam GithubOrganizationModelRef organization,
-            ModelLocale? language,
+            @searchParam String? language,
             @jsonParam GithubLicenseValue? license,
             @jsonParam GithubRepositoryPermissionValue? permissions,
             bool isPrivate,
             bool isFork,
             bool isTemplate,
-            String? description,
+            @searchParam String? description,
             String? masterBranch,
             String? mergeCommitMessage,
             String? mergeCommitTitle,
@@ -1516,17 +1520,17 @@ extension GithubRepositoryModelPatterns on GithubRepositoryModel {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
             int? id,
-            String? name,
-            String? fullName,
+            @searchParam String? name,
+            @searchParam String? fullName,
             @refParam GithubUserModelRef owner,
             @refParam GithubOrganizationModelRef organization,
-            ModelLocale? language,
+            @searchParam String? language,
             @jsonParam GithubLicenseValue? license,
             @jsonParam GithubRepositoryPermissionValue? permissions,
             bool isPrivate,
             bool isFork,
             bool isTemplate,
-            String? description,
+            @searchParam String? description,
             String? masterBranch,
             String? mergeCommitMessage,
             String? mergeCommitTitle,
@@ -1720,17 +1724,17 @@ extension GithubRepositoryModelPatterns on GithubRepositoryModel {
 class _GithubRepositoryModel extends GithubRepositoryModel {
   const _GithubRepositoryModel(
       {this.id,
-      this.name,
-      this.fullName,
+      @searchParam this.name,
+      @searchParam this.fullName,
       @refParam this.owner,
       @refParam this.organization,
-      this.language,
+      @searchParam this.language,
       @jsonParam this.license,
       @jsonParam this.permissions,
       this.isPrivate = false,
       this.isFork = false,
       this.isTemplate = false,
-      this.description,
+      @searchParam this.description,
       this.masterBranch,
       this.mergeCommitMessage,
       this.mergeCommitTitle,
@@ -1821,8 +1825,10 @@ class _GithubRepositoryModel extends GithubRepositoryModel {
   @override
   final int? id;
   @override
+  @searchParam
   final String? name;
   @override
+  @searchParam
   final String? fullName;
   @override
   @refParam
@@ -1831,7 +1837,8 @@ class _GithubRepositoryModel extends GithubRepositoryModel {
   @refParam
   final GithubOrganizationModelRef organization;
   @override
-  final ModelLocale? language;
+  @searchParam
+  final String? language;
   @override
   @jsonParam
   final GithubLicenseValue? license;
@@ -1848,6 +1855,7 @@ class _GithubRepositoryModel extends GithubRepositoryModel {
   @JsonKey()
   final bool isTemplate;
   @override
+  @searchParam
   final String? description;
   @override
   final String? masterBranch;
@@ -2317,17 +2325,17 @@ abstract mixin class _$GithubRepositoryModelCopyWith<$Res>
   @useResult
   $Res call(
       {int? id,
-      String? name,
-      String? fullName,
+      @searchParam String? name,
+      @searchParam String? fullName,
       @refParam GithubUserModelRef owner,
       @refParam GithubOrganizationModelRef organization,
-      ModelLocale? language,
+      @searchParam String? language,
       @jsonParam GithubLicenseValue? license,
       @jsonParam GithubRepositoryPermissionValue? permissions,
       bool isPrivate,
       bool isFork,
       bool isTemplate,
-      String? description,
+      @searchParam String? description,
       String? masterBranch,
       String? mergeCommitMessage,
       String? mergeCommitTitle,
@@ -2549,7 +2557,7 @@ class __$GithubRepositoryModelCopyWithImpl<$Res>
       language: freezed == language
           ? _self.language
           : language // ignore: cast_nullable_to_non_nullable
-              as ModelLocale?,
+              as String?,
       license: freezed == license
           ? _self.license
           : license // ignore: cast_nullable_to_non_nullable

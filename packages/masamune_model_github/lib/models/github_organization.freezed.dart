@@ -27,6 +27,7 @@ mixin _$GithubOrganizationModel {
   int get followingCount;
   ModelUri? get htmlUrl;
   ModelImageUri? get avatarUrl;
+  GithubOrganizationType get type;
   ModelTimestamp get createdAt;
   ModelTimestamp get updatedAt;
 
@@ -65,6 +66,7 @@ mixin _$GithubOrganizationModel {
             (identical(other.htmlUrl, htmlUrl) || other.htmlUrl == htmlUrl) &&
             (identical(other.avatarUrl, avatarUrl) ||
                 other.avatarUrl == avatarUrl) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -88,12 +90,13 @@ mixin _$GithubOrganizationModel {
       followingCount,
       htmlUrl,
       avatarUrl,
+      type,
       createdAt,
       updatedAt);
 
   @override
   String toString() {
-    return 'GithubOrganizationModel(id: $id, name: $name, login: $login, company: $company, blog: $blog, location: $location, email: $email, publicReposCount: $publicReposCount, publicGistsCount: $publicGistsCount, followersCount: $followersCount, followingCount: $followingCount, htmlUrl: $htmlUrl, avatarUrl: $avatarUrl, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GithubOrganizationModel(id: $id, name: $name, login: $login, company: $company, blog: $blog, location: $location, email: $email, publicReposCount: $publicReposCount, publicGistsCount: $publicGistsCount, followersCount: $followersCount, followingCount: $followingCount, htmlUrl: $htmlUrl, avatarUrl: $avatarUrl, type: $type, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }
 
@@ -117,6 +120,7 @@ abstract mixin class $GithubOrganizationModelCopyWith<$Res> {
       int followingCount,
       ModelUri? htmlUrl,
       ModelImageUri? avatarUrl,
+      GithubOrganizationType type,
       ModelTimestamp createdAt,
       ModelTimestamp updatedAt});
 }
@@ -147,6 +151,7 @@ class _$GithubOrganizationModelCopyWithImpl<$Res>
     Object? followingCount = null,
     Object? htmlUrl = freezed,
     Object? avatarUrl = freezed,
+    Object? type = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -203,6 +208,10 @@ class _$GithubOrganizationModelCopyWithImpl<$Res>
           ? _self.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
               as ModelImageUri?,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as GithubOrganizationType,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -322,6 +331,7 @@ extension GithubOrganizationModelPatterns on GithubOrganizationModel {
             int followingCount,
             ModelUri? htmlUrl,
             ModelImageUri? avatarUrl,
+            GithubOrganizationType type,
             ModelTimestamp createdAt,
             ModelTimestamp updatedAt)?
         $default, {
@@ -344,6 +354,7 @@ extension GithubOrganizationModelPatterns on GithubOrganizationModel {
             _that.followingCount,
             _that.htmlUrl,
             _that.avatarUrl,
+            _that.type,
             _that.createdAt,
             _that.updatedAt);
       case _:
@@ -380,6 +391,7 @@ extension GithubOrganizationModelPatterns on GithubOrganizationModel {
             int followingCount,
             ModelUri? htmlUrl,
             ModelImageUri? avatarUrl,
+            GithubOrganizationType type,
             ModelTimestamp createdAt,
             ModelTimestamp updatedAt)
         $default,
@@ -401,6 +413,7 @@ extension GithubOrganizationModelPatterns on GithubOrganizationModel {
             _that.followingCount,
             _that.htmlUrl,
             _that.avatarUrl,
+            _that.type,
             _that.createdAt,
             _that.updatedAt);
       case _:
@@ -436,6 +449,7 @@ extension GithubOrganizationModelPatterns on GithubOrganizationModel {
             int followingCount,
             ModelUri? htmlUrl,
             ModelImageUri? avatarUrl,
+            GithubOrganizationType type,
             ModelTimestamp createdAt,
             ModelTimestamp updatedAt)?
         $default,
@@ -457,6 +471,7 @@ extension GithubOrganizationModelPatterns on GithubOrganizationModel {
             _that.followingCount,
             _that.htmlUrl,
             _that.avatarUrl,
+            _that.type,
             _that.createdAt,
             _that.updatedAt);
       case _:
@@ -482,6 +497,7 @@ class _GithubOrganizationModel extends GithubOrganizationModel {
       this.followingCount = 0,
       this.htmlUrl,
       this.avatarUrl,
+      this.type = GithubOrganizationType.organization,
       this.createdAt = const ModelTimestamp.now(),
       this.updatedAt = const ModelTimestamp.now()})
       : super._();
@@ -518,6 +534,9 @@ class _GithubOrganizationModel extends GithubOrganizationModel {
   final ModelUri? htmlUrl;
   @override
   final ModelImageUri? avatarUrl;
+  @override
+  @JsonKey()
+  final GithubOrganizationType type;
   @override
   @JsonKey()
   final ModelTimestamp createdAt;
@@ -565,6 +584,7 @@ class _GithubOrganizationModel extends GithubOrganizationModel {
             (identical(other.htmlUrl, htmlUrl) || other.htmlUrl == htmlUrl) &&
             (identical(other.avatarUrl, avatarUrl) ||
                 other.avatarUrl == avatarUrl) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -588,12 +608,13 @@ class _GithubOrganizationModel extends GithubOrganizationModel {
       followingCount,
       htmlUrl,
       avatarUrl,
+      type,
       createdAt,
       updatedAt);
 
   @override
   String toString() {
-    return 'GithubOrganizationModel(id: $id, name: $name, login: $login, company: $company, blog: $blog, location: $location, email: $email, publicReposCount: $publicReposCount, publicGistsCount: $publicGistsCount, followersCount: $followersCount, followingCount: $followingCount, htmlUrl: $htmlUrl, avatarUrl: $avatarUrl, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'GithubOrganizationModel(id: $id, name: $name, login: $login, company: $company, blog: $blog, location: $location, email: $email, publicReposCount: $publicReposCount, publicGistsCount: $publicGistsCount, followersCount: $followersCount, followingCount: $followingCount, htmlUrl: $htmlUrl, avatarUrl: $avatarUrl, type: $type, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }
 
@@ -619,6 +640,7 @@ abstract mixin class _$GithubOrganizationModelCopyWith<$Res>
       int followingCount,
       ModelUri? htmlUrl,
       ModelImageUri? avatarUrl,
+      GithubOrganizationType type,
       ModelTimestamp createdAt,
       ModelTimestamp updatedAt});
 }
@@ -649,6 +671,7 @@ class __$GithubOrganizationModelCopyWithImpl<$Res>
     Object? followingCount = null,
     Object? htmlUrl = freezed,
     Object? avatarUrl = freezed,
+    Object? type = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -705,6 +728,10 @@ class __$GithubOrganizationModelCopyWithImpl<$Res>
           ? _self.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
               as ModelImageUri?,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as GithubOrganizationType,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable

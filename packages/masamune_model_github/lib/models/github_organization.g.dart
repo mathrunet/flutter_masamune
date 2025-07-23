@@ -26,6 +26,9 @@ _GithubOrganizationModel _$GithubOrganizationModelFromJson(
       avatarUrl: json['avatarUrl'] == null
           ? null
           : ModelImageUri.fromJson(json['avatarUrl'] as Map<String, dynamic>),
+      type:
+          $enumDecodeNullable(_$GithubOrganizationTypeEnumMap, json['type']) ??
+              GithubOrganizationType.organization,
       createdAt: json['createdAt'] == null
           ? const ModelTimestamp.now()
           : ModelTimestamp.fromJson(json['createdAt'] as Map<String, dynamic>),
@@ -50,6 +53,12 @@ Map<String, dynamic> _$GithubOrganizationModelToJson(
       'followingCount': instance.followingCount,
       'htmlUrl': instance.htmlUrl,
       'avatarUrl': instance.avatarUrl,
+      'type': _$GithubOrganizationTypeEnumMap[instance.type]!,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
     };
+
+const _$GithubOrganizationTypeEnumMap = {
+  GithubOrganizationType.organization: 'organization',
+  GithubOrganizationType.user: 'user',
+};

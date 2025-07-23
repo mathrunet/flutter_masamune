@@ -39,6 +39,7 @@ abstract class GithubOrganizationModel with _$GithubOrganizationModel {
     @Default(0) int followingCount,
     ModelUri? htmlUrl,
     ModelImageUri? avatarUrl,
+    @Default(GithubOrganizationType.organization) GithubOrganizationType type,
     @Default(ModelTimestamp.now()) ModelTimestamp createdAt,
     @Default(ModelTimestamp.now()) ModelTimestamp updatedAt,
   }) = _GithubOrganizationModel;

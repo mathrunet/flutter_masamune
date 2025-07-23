@@ -29,6 +29,7 @@ enum _$GithubOrganizationModelKeys {
   followingCount,
   htmlUrl,
   avatarUrl,
+  type,
   createdAt,
   updatedAt,
 }
@@ -340,6 +341,12 @@ class _$_GithubOrganizationModelCollectionQuery
       get avatarUrl => ModelImageUriModelQuerySelector<
               _$_GithubOrganizationModelCollectionQuery>(
           key: "avatarUrl", toQuery: _toQuery, modelQuery: modelQuery);
+
+  ValueModelQuerySelector<GithubOrganizationType,
+          _$_GithubOrganizationModelCollectionQuery>
+      get type => ValueModelQuerySelector<GithubOrganizationType,
+              _$_GithubOrganizationModelCollectionQuery>(
+          key: "type", toQuery: _toQuery, modelQuery: modelQuery);
 
   ModelTimestampModelQuerySelector<_$_GithubOrganizationModelCollectionQuery>
       get createdAt => ModelTimestampModelQuerySelector<
