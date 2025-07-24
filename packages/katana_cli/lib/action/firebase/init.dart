@@ -1231,9 +1231,24 @@ class FirebaseStorageRulesCliCode extends CliCode {
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
+    match /public/{allPaths=**} {
+      allow read: if isAssets(resource);
+      allow write: if isAuthUser() && isAssets(request.resource);
+    }
+    match /private/{userId}/{allPaths=**} {
+      allow read, write: if isSpecifiedUser(userId);
+    }
     match /{allPaths=**} {
-      allow read: if true;
-      allow write: if request.auth != null;
+      allow read, write: if false;
+    }
+    function isSpecifiedUser(userId) {
+      return isAuthUser() && request.auth.uid == userId;
+    }
+    function isAssets(data) {
+      return data != null && (data.contentType.matches('image/.*') || data.contentType.matches('video/.*') || data.contentType.matches('audio/.*') || data.contentType == 'application/vnd.apple.mpegurl');
+    }
+    function isAuthUser() {
+      return request.auth != null;
     }
   }
 }
