@@ -1,3 +1,8 @@
+## 3.1.11
+
+ - **FIX**: Fixed inability to load. ([628b4e49](https://github.com/mathrunet/flutter_masamune/commit/628b4e49abe9e9c99e71800dfd1bc32903053e19))
+ - **FIX**: ModelAdapter has been specified.ModelAdapter has been specified. ([690f08b1](https://github.com/mathrunet/flutter_masamune/commit/690f08b1ed5bb70ca91d961d915f2611cc9cc10e))
+
 ## 3.1.10
 
  - **FIX**: Fixed minor bugs. ([77e3de7f](https://github.com/mathrunet/flutter_masamune/commit/77e3de7f573a3bc043012aa5a0d3df0addd29086))

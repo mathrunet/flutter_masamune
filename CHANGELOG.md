@@ -3,6 +3,202 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-07-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_localization` - `v3.0.10`](#katana_localization---v3010)
+ - [`katana_localization_builder` - `v3.1.8`](#katana_localization_builder---v318)
+ - [`katana_model` - `v3.2.4`](#katana_model---v324)
+ - [`katana_router` - `v3.1.7`](#katana_router---v317)
+ - [`katana_router_builder` - `v3.0.9`](#katana_router_builder---v309)
+ - [`katana_theme` - `v3.0.9`](#katana_theme---v309)
+ - [`katana_theme_builder` - `v3.0.9`](#katana_theme_builder---v309)
+ - [`masamune` - `v3.3.4`](#masamune---v334)
+ - [`masamune_auth_github_firebase` - `v3.3.0`](#masamune_auth_github_firebase---v330)
+ - [`masamune_builder` - `v3.0.14`](#masamune_builder---v3014)
+ - [`masamune_introduction` - `v3.3.8`](#masamune_introduction---v338)
+ - [`masamune_model_firebase_data_connect_builder` - `v3.0.14`](#masamune_model_firebase_data_connect_builder---v3014)
+ - [`masamune_model_github` - `v3.1.11`](#masamune_model_github---v3111)
+ - [`masamune_notification` - `v3.0.18`](#masamune_notification---v3018)
+ - [`masamune_picker` - `v3.1.0`](#masamune_picker---v310)
+ - [`masamune_purchase` - `v3.0.19`](#masamune_purchase---v3019)
+ - [`masamune_purchase_stripe` - `v3.6.48`](#masamune_purchase_stripe---v3648)
+ - [`masamune_location_platform_interface` - `v3.0.18`](#masamune_location_platform_interface---v3018)
+ - [`masamune_model_firebase_remote_config` - `v3.0.18`](#masamune_model_firebase_remote_config---v3018)
+ - [`masamune_markdown` - `v3.0.18`](#masamune_markdown---v3018)
+ - [`masamune_location_geocoding` - `v3.0.18`](#masamune_location_geocoding---v3018)
+ - [`masamune_location` - `v3.0.18`](#masamune_location---v3018)
+ - [`masamune_ai` - `v3.0.18`](#masamune_ai---v3018)
+ - [`masamune_notification_local` - `v3.0.18`](#masamune_notification_local---v3018)
+ - [`masamune_model_firestore` - `v3.0.18`](#masamune_model_firestore---v3018)
+ - [`masamune_deeplink_firebase` - `v3.0.18`](#masamune_deeplink_firebase---v3018)
+ - [`masamune_auth_apple` - `v3.0.18`](#masamune_auth_apple---v3018)
+ - [`masamune_scheduler` - `v3.0.18`](#masamune_scheduler---v3018)
+ - [`masamune_model_algolia` - `v3.0.18`](#masamune_model_algolia---v3018)
+ - [`masamune_location_background` - `v3.0.18`](#masamune_location_background---v3018)
+ - [`masamune_text_to_speech` - `v3.0.18`](#masamune_text_to_speech---v3018)
+ - [`masamune_agora` - `v3.0.18`](#masamune_agora---v3018)
+ - [`masamune_auth_google` - `v3.0.18`](#masamune_auth_google---v3018)
+ - [`masamune_model_firebase_data_connect` - `v3.0.18`](#masamune_model_firebase_data_connect---v3018)
+ - [`masamune_ai_openai` - `v3.0.18`](#masamune_ai_openai---v3018)
+ - [`masamune_calendar` - `v3.0.18`](#masamune_calendar---v3018)
+ - [`masamune_ai_firebase` - `v3.0.18`](#masamune_ai_firebase---v3018)
+ - [`masamune_auth_google_firebase` - `v3.0.18`](#masamune_auth_google_firebase---v3018)
+ - [`masamune_animate` - `v3.0.18`](#masamune_animate---v3018)
+ - [`masamune_app_review` - `v3.0.18`](#masamune_app_review---v3018)
+ - [`masamune_util` - `v3.0.18`](#masamune_util---v3018)
+ - [`masamune_test` - `v3.1.14`](#masamune_test---v3114)
+ - [`masamune_universal_ui` - `v3.1.14`](#masamune_universal_ui---v3114)
+ - [`masamune_auth_apple_firebase` - `v3.0.18`](#masamune_auth_apple_firebase---v3018)
+ - [`masamune_logger_firebase` - `v3.0.17`](#masamune_logger_firebase---v3017)
+ - [`masamune_firebase_app_check` - `v3.0.18`](#masamune_firebase_app_check---v3018)
+ - [`masamune_deeplink` - `v3.0.18`](#masamune_deeplink---v3018)
+ - [`masamune_speech_to_text` - `v3.0.18`](#masamune_speech_to_text---v3018)
+ - [`masamune_auth_firebase` - `v3.0.18`](#masamune_auth_firebase---v3018)
+ - [`masamune_auth_facebook` - `v3.0.18`](#masamune_auth_facebook---v3018)
+ - [`masamune_force_updater` - `v3.0.18`](#masamune_force_updater---v3018)
+ - [`masamune_location_google` - `v3.0.18`](#masamune_location_google---v3018)
+ - [`masamune_mail` - `v3.0.18`](#masamune_mail---v3018)
+ - [`masamune_notification_firebase` - `v3.0.18`](#masamune_notification_firebase---v3018)
+ - [`masamune_purchase_mobile` - `v3.0.19`](#masamune_purchase_mobile---v3019)
+ - [`masamune_ads_google` - `v3.0.18`](#masamune_ads_google---v3018)
+ - [`masamune_camera` - `v3.2.6`](#masamune_camera---v326)
+ - [`masamune_model_docs_builder` - `v3.0.14`](#masamune_model_docs_builder---v3014)
+ - [`masamune_model_firestore_builder` - `v3.0.14`](#masamune_model_firestore_builder---v3014)
+ - [`katana_model_local` - `v3.1.10`](#katana_model_local---v3110)
+ - [`katana_model_firestore` - `v3.1.9`](#katana_model_firestore---v319)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_platform_interface` - `v3.0.18`
+ - `masamune_model_firebase_remote_config` - `v3.0.18`
+ - `masamune_markdown` - `v3.0.18`
+ - `masamune_location_geocoding` - `v3.0.18`
+ - `masamune_location` - `v3.0.18`
+ - `masamune_ai` - `v3.0.18`
+ - `masamune_notification_local` - `v3.0.18`
+ - `masamune_model_firestore` - `v3.0.18`
+ - `masamune_deeplink_firebase` - `v3.0.18`
+ - `masamune_auth_apple` - `v3.0.18`
+ - `masamune_scheduler` - `v3.0.18`
+ - `masamune_model_algolia` - `v3.0.18`
+ - `masamune_location_background` - `v3.0.18`
+ - `masamune_text_to_speech` - `v3.0.18`
+ - `masamune_agora` - `v3.0.18`
+ - `masamune_auth_google` - `v3.0.18`
+ - `masamune_model_firebase_data_connect` - `v3.0.18`
+ - `masamune_ai_openai` - `v3.0.18`
+ - `masamune_calendar` - `v3.0.18`
+ - `masamune_ai_firebase` - `v3.0.18`
+ - `masamune_auth_google_firebase` - `v3.0.18`
+ - `masamune_animate` - `v3.0.18`
+ - `masamune_app_review` - `v3.0.18`
+ - `masamune_util` - `v3.0.18`
+ - `masamune_test` - `v3.1.14`
+ - `masamune_universal_ui` - `v3.1.14`
+ - `masamune_auth_apple_firebase` - `v3.0.18`
+ - `masamune_logger_firebase` - `v3.0.17`
+ - `masamune_firebase_app_check` - `v3.0.18`
+ - `masamune_deeplink` - `v3.0.18`
+ - `masamune_speech_to_text` - `v3.0.18`
+ - `masamune_auth_firebase` - `v3.0.18`
+ - `masamune_auth_facebook` - `v3.0.18`
+ - `masamune_force_updater` - `v3.0.18`
+ - `masamune_location_google` - `v3.0.18`
+ - `masamune_mail` - `v3.0.18`
+ - `masamune_notification_firebase` - `v3.0.18`
+ - `masamune_purchase_mobile` - `v3.0.19`
+ - `masamune_ads_google` - `v3.0.18`
+ - `masamune_camera` - `v3.2.6`
+ - `masamune_model_docs_builder` - `v3.0.14`
+ - `masamune_model_firestore_builder` - `v3.0.14`
+ - `katana_model_local` - `v3.1.10`
+ - `katana_model_firestore` - `v3.1.9`
+
+---
+
+#### `katana_localization` - `v3.0.10`
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
+#### `katana_localization_builder` - `v3.1.8`
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
+#### `katana_model` - `v3.2.4`
+
+ - **FIX**: Bug fix. ([a9bb8870](https://github.com/mathrunet/flutter_masamune/commit/a9bb8870c766dd0469e2014f8550521161581e1b))
+
+#### `katana_router` - `v3.1.7`
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
+#### `katana_router_builder` - `v3.0.9`
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
+#### `katana_theme` - `v3.0.9`
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
+#### `katana_theme_builder` - `v3.0.9`
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
+#### `masamune` - `v3.3.4`
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
+#### `masamune_auth_github_firebase` - `v3.3.0`
+
+ - **FIX**: Bug fix. ([a9bb8870](https://github.com/mathrunet/flutter_masamune/commit/a9bb8870c766dd0469e2014f8550521161581e1b))
+ - **FEAT**: Made it possible to specify the scope. ([6c9c756f](https://github.com/mathrunet/flutter_masamune/commit/6c9c756f7e86eb7dba62b0563c39ec2f43006925))
+
+#### `masamune_builder` - `v3.0.14`
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
+#### `masamune_introduction` - `v3.3.8`
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
+#### `masamune_model_firebase_data_connect_builder` - `v3.0.14`
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
+#### `masamune_model_github` - `v3.1.11`
+
+ - **FIX**: Fixed inability to load. ([628b4e49](https://github.com/mathrunet/flutter_masamune/commit/628b4e49abe9e9c99e71800dfd1bc32903053e19))
+ - **FIX**: ModelAdapter has been specified.ModelAdapter has been specified. ([690f08b1](https://github.com/mathrunet/flutter_masamune/commit/690f08b1ed5bb70ca91d961d915f2611cc9cc10e))
+
+#### `masamune_notification` - `v3.0.18`
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
+#### `masamune_picker` - `v3.1.0`
+
+ - **FEAT**: Enabled client-side image resizing. ([371d3c15](https://github.com/mathrunet/flutter_masamune/commit/371d3c158cfc806f751aa1fde06dfed27e44d065))
+
+#### `masamune_purchase` - `v3.0.19`
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
+#### `masamune_purchase_stripe` - `v3.6.48`
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
+
 ## 2025-07-22
 
 ### Changes

@@ -1,3 +1,8 @@
+## 3.3.0
+
+ - **FIX**: Bug fix. ([a9bb8870](https://github.com/mathrunet/flutter_masamune/commit/a9bb8870c766dd0469e2014f8550521161581e1b))
+ - **FEAT**: Made it possible to specify the scope. ([6c9c756f](https://github.com/mathrunet/flutter_masamune/commit/6c9c756f7e86eb7dba62b0563c39ec2f43006925))
+
 ## 3.2.6
 
  - Update a dependency to the latest release.

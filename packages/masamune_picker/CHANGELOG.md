@@ -1,3 +1,7 @@
+## 3.1.0
+
+ - **FEAT**: Enabled client-side image resizing. ([371d3c15](https://github.com/mathrunet/flutter_masamune/commit/371d3c158cfc806f751aa1fde06dfed27e44d065))
+
 ## 3.0.17
 
  - **FIX**: Fixed minor bugs. ([77e3de7f](https://github.com/mathrunet/flutter_masamune/commit/77e3de7f573a3bc043012aa5a0d3df0addd29086))

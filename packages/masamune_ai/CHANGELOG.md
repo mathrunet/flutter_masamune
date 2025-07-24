@@ -1,3 +1,7 @@
+## 3.0.18
+
+ - Update a dependency to the latest release.
+
 ## 3.0.17
 
  - **FIX**: Adapted to CallToolResult specification changes. ([fa36fbaa](https://github.com/mathrunet/flutter_masamune/commit/fa36fbaac2c4a8824fb91cbf984a83898a48826e))

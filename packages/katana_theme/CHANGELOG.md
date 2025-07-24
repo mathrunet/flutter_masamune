@@ -1,3 +1,7 @@
+## 3.0.9
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
 ## 3.0.8
 
  - **FIX**: Fixed minor bugs. ([77e3de7f](https://github.com/mathrunet/flutter_masamune/commit/77e3de7f573a3bc043012aa5a0d3df0addd29086))

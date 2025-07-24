@@ -1,3 +1,7 @@
+## 3.0.18
+
+ - Update a dependency to the latest release.
+
 ## 3.0.17
 
  - **FIX**: Fixed minor bugs. ([77e3de7f](https://github.com/mathrunet/flutter_masamune/commit/77e3de7f573a3bc043012aa5a0d3df0addd29086))

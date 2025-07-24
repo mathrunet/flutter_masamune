@@ -1,3 +1,7 @@
+## 3.0.19
+
+ - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
+
 ## 3.0.18
 
  - **FIX**: Made PlatformInfo globally available. ([02451a0f](https://github.com/mathrunet/flutter_masamune/commit/02451a0fc235fc173f2c8a01e0434f6e4bdef7cf))
