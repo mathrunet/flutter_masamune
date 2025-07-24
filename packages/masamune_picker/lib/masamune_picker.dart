@@ -22,10 +22,15 @@ import "package:image_picker/image_picker.dart";
 import "package:masamune/masamune.dart";
 import "package:mime/mime.dart";
 
+export "storage/others/others.dart"
+    if (dart.library.io) "storage/others/others.dart"
+    if (dart.library.js) "storage/web/web.dart"
+    if (dart.library.html) "storage/web/web.dart";
+
 part "adapter/picker_masamune_adapter.dart";
 
 part "src/picker.dart";
 part "src/picker_file_type.dart";
 part "src/picker_value.dart";
-part "storage/storage.dart";
+part "src/picker_interpolation.dart";
 part "src/masamune_picker_permission_denied_exception.dart";

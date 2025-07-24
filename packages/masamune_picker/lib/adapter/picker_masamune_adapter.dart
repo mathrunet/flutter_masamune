@@ -27,7 +27,30 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
   /// [PickerFileType]やプラットフォームに応じて使い分けます。
   ///
   /// [pickCamera]でカメラ撮影したメディアファイルをピックアップすることができます。
-  const PickerMasamuneAdapter();
+  const PickerMasamuneAdapter({
+    this.forceImageResize = true,
+    this.imageResizeInterpolation = PickerInterpolation.linear,
+    this.imageResizeLimits = const [32, 64, 128, 256, 512, 1024, 2048],
+  });
+
+  /// Whether to force resize the image.
+  ///
+  /// 画像をリサイズするかどうかを指定します。
+  final bool forceImageResize;
+
+  /// The limits of the image size to be resized.
+  ///
+  /// It will be resized to the closest smaller size among those listed.
+  ///
+  /// リサイズする画像のサイズの制限を指定します。
+  ///
+  /// ここに並べられているサイズの中で、最も近い小さいサイズにリサイズされます。
+  final List<int> imageResizeLimits;
+
+  /// The interpolation method to use when resizing images.
+  ///
+  /// リサイズする画像の補間方法を指定します。
+  final PickerInterpolation imageResizeInterpolation;
 
   /// Implement a process to pick up multiple files.
   ///
