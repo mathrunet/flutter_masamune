@@ -1231,9 +1231,10 @@ class FirebaseStorageRulesCliCode extends CliCode {
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    match /public/{allPaths=**} {
+    match /public/{userId}/{allPaths=**} {
       allow read: if isAssets(resource);
-      allow write: if isAuthUser() && isAssets(request.resource);
+      allow create, update: if isSpecifiedUser(userId) && isAssets(request.resource);
+      allow delete: if isSpecifiedUser(userId);
     }
     match /private/{userId}/{allPaths=**} {
       allow read, write: if isSpecifiedUser(userId);
