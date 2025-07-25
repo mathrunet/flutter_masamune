@@ -10,8 +10,8 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
   ///
   /// After uploading, the public URL is returned after the upload.
   ///
-  /// Additionally, by passing [limitSize], you can specify the maximum vertical and horizontal dimensions.
-  /// This value is applied if [PickerMasamuneAdapter.forceImageResize] is true.
+  /// You can also specify the maximum vertical and horizontal size of the image by passing [limitSize].
+  /// This value is applied if [PickerMasamuneAdapter.forceImageResize] is `true`.
   ///
   /// ピックアップしたファイルを直接ストレージにアップロードします。
   ///
@@ -19,7 +19,7 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
   ///
   /// アップロードした後、アップロード後の公開URLが返されます。
   ///
-  /// また[limitSize]を渡すことで、縦および横の最大サイズを指定することが可能です。
+  /// また[limitSize]を渡すことで、画像の縦および横の最大サイズを指定することが可能です。
   /// [PickerMasamuneAdapter.forceImageResize]がtrueの場合、この値が適用されます。
   Future<Uri> upload({String relativeDirPath = "", int? limitSize}) async {
     relativeDirPath = relativeDirPath.trimQuery().trimString("/");
@@ -122,26 +122,28 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
     }
   }
 
-  /// Uploads the selected file directly to the storage's `public` folder.
+  /// Uploads the selected file directly to the storage's `public/userId` folder.
   ///
-  /// Pass `[relativeDirPath]` the relative path (within the `public` folder) of the folder where you want to upload the file.
+  /// Pass `[relativeDirPath]` the relative path (within the `public/userId` folder) of the folder where you want to upload the file.
   ///
   /// After uploading, the public URL is returned after the upload.
   ///
-  /// Additionally, by passing [limitSize], you can specify the maximum vertical and horizontal dimensions.
-  /// This value is applied if [PickerMasamuneAdapter.forceImageResize] is true.
+  /// You can also specify the maximum vertical and horizontal size of the image by passing [limitSize].
+  /// This value is applied if [PickerMasamuneAdapter.forceImageResize] is `true`.
   ///
-  /// ピックアップしたファイルを直接ストレージの`public`フォルダにアップロードします。
+  /// ピックアップしたファイルを直接ストレージの`public/userId`フォルダにアップロードします。
   ///
-  /// [relativeDirPath]にファイルをアップロードしたいフォルダの相対パス（publicフォルダ内）を渡してください。
+  /// [relativeDirPath]にファイルをアップロードしたいフォルダの相対パス（public/userIdフォルダ内）を渡してください。
   ///
   /// アップロードした後、アップロード後の公開URLが返されます。
   ///
-  /// また[limitSize]を渡すことで、縦および横の最大サイズを指定することが可能です。
+  /// また[limitSize]を渡すことで、画像の縦および横の最大サイズを指定することが可能です。
   /// [PickerMasamuneAdapter.forceImageResize]がtrueの場合、この値が適用されます。
-  Future<Uri> uploadToPublic({String relativeDirPath = "", int? limitSize}) {
+  Future<Uri> uploadToPublic(String userId,
+      {String relativeDirPath = "", int? limitSize}) {
     return upload(
-      relativeDirPath: "public/${relativeDirPath.trimStringLeft("/")}",
+      relativeDirPath:
+          "public/${userId.trimQuery().trimString("/")}/${relativeDirPath.trimStringLeft("/")}",
       limitSize: limitSize,
     );
   }
@@ -152,8 +154,8 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
   ///
   /// After uploading, the private URL is returned after the upload.
   ///
-  /// Additionally, by passing [limitSize], you can specify the maximum vertical and horizontal dimensions.
-  /// This value is applied if [PickerMasamuneAdapter.forceImageResize] is true.
+  /// You can also specify the maximum vertical and horizontal size of the image by passing [limitSize].
+  /// This value is applied if [PickerMasamuneAdapter.forceImageResize] is `true`.
   ///
   /// ピックアップしたファイルを直接ストレージの`private/userId`フォルダにアップロードします。
   ///
@@ -161,7 +163,7 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
   ///
   /// アップロードした後、アップロード後の非公開URLが返されます。
   ///
-  /// また[limitSize]を渡すことで、縦および横の最大サイズを指定することが可能です。
+  /// また[limitSize]を渡すことで、画像の縦および横の最大サイズを指定することが可能です。
   /// [PickerMasamuneAdapter.forceImageResize]がtrueの場合、この値が適用されます。
   Future<Uri> uploadToPrivate(String userId,
       {String relativeDirPath = "", int? limitSize}) {
