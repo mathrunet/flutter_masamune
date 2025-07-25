@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-07-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.6.5`](#katana_cli---v365)
+ - [`masamune_picker` - `v3.1.1`](#masamune_picker---v311)
+
+---
+
+#### `katana_cli` - `v3.6.5`
+
+ - **FIX**: Changes to storage rules. ([c6057549](https://github.com/mathrunet/flutter_masamune/commit/c60575495f337fc52d3329748eefbfb328da575a))
+
+#### `masamune_picker` - `v3.1.1`
+
+ - **FIX**: The public directory was also separated per user. ([979cc968](https://github.com/mathrunet/flutter_masamune/commit/979cc9680e6f66f01ad160244596d876e511f9dd))
+
+
 ## 2025-07-24
 
 ### Changes

@@ -1,3 +1,7 @@
+## 3.6.5
+
+ - **FIX**: Changes to storage rules. ([c6057549](https://github.com/mathrunet/flutter_masamune/commit/c60575495f337fc52d3329748eefbfb328da575a))
+
 ## 3.6.4
 
  - **FIX**: Skip if the test directory does not exist. ([271df10d](https://github.com/mathrunet/flutter_masamune/commit/271df10d557e75a0317cab1157a2f13c205e0d27))

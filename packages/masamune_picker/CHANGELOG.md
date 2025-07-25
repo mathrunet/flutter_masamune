@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - **FIX**: The public directory was also separated per user. ([979cc968](https://github.com/mathrunet/flutter_masamune/commit/979cc9680e6f66f01ad160244596d876e511f9dd))
+
 ## 3.1.0
 
  - **FEAT**: Enabled client-side image resizing. ([371d3c15](https://github.com/mathrunet/flutter_masamune/commit/371d3c158cfc806f751aa1fde06dfed27e44d065))
