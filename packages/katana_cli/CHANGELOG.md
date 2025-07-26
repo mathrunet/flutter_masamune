@@ -1,3 +1,7 @@
+## 3.6.6
+
+ - **FIX**: Add size check. ([14baab0b](https://github.com/mathrunet/flutter_masamune/commit/14baab0b2d03346e097d01300978d281af7fb534))
+
 ## 3.6.5
 
  - **FIX**: Changes to storage rules. ([c6057549](https://github.com/mathrunet/flutter_masamune/commit/c60575495f337fc52d3329748eefbfb328da575a))

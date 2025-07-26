@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-07-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.6.6`](#katana_cli---v366)
+ - [`masamune_introduction` - `v3.3.9`](#masamune_introduction---v339)
+
+---
+
+#### `katana_cli` - `v3.6.6`
+
+ - **FIX**: Add size check. ([14baab0b](https://github.com/mathrunet/flutter_masamune/commit/14baab0b2d03346e097d01300978d281af7fb534))
+
+#### `masamune_introduction` - `v3.3.9`
+
+ - **FIX**: Add onSkip. ([72bc608e](https://github.com/mathrunet/flutter_masamune/commit/72bc608eb5481bc06d4da4206097ab7bded1249c))
+
+
 ## 2025-07-25
 
 ### Changes

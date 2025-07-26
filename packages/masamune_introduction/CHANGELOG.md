@@ -1,3 +1,7 @@
+## 3.3.9
+
+ - **FIX**: Add onSkip. ([72bc608e](https://github.com/mathrunet/flutter_masamune/commit/72bc608eb5481bc06d4da4206097ab7bded1249c))
+
 ## 3.3.8
 
  - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))
