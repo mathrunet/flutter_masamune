@@ -297,7 +297,11 @@ class _MasamuneIntroductionState extends State<MasamuneIntroduction> {
                 );
               }
             },
-            onSkip: () {
+            onSkip: () async {
+              await adapter.onSkip?.call();
+              if (!context.mounted) {
+                return;
+              }
               if (widget.routeQuery == null) {
                 context.router.pop();
               } else {

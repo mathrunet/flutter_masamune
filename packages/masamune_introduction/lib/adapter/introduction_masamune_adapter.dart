@@ -23,6 +23,7 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
     this.contentPadding,
     this.imageDecoration,
     this.onDone,
+    this.onSkip,
   });
 
   /// Foreground color.
@@ -99,6 +100,11 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 完了ボタンが押されたときのコールバック関数。
   final FutureOr<void> Function()? onDone;
+
+  /// Callback function when the skip button is pressed.
+  ///
+  /// スキップボタンが押されたときのコールバック関数。
+  final FutureOr<void> Function()? onSkip;
 
   /// You can retrieve the [IntroductionMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
