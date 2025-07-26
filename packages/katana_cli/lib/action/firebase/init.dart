@@ -1233,7 +1233,7 @@ service firebase.storage {
   match /b/{bucket}/o {
     match /public/{userId}/{allPaths=**} {
       allow read: if isAssets(resource);
-      allow create, update: if isSpecifiedUser(userId) && isAssets(request.resource);
+      allow create, update: if isSpecifiedUser(userId) && isAssets(request.resource) && isNotTooLarge(request.resource);
       allow delete: if isSpecifiedUser(userId);
     }
     match /private/{userId}/{allPaths=**} {
@@ -1250,6 +1250,9 @@ service firebase.storage {
     }
     function isAuthUser() {
       return request.auth != null;
+    }
+    function isNotTooLarge(data) {
+      return data.size <= 2 * 1024 * 1024;
     }
   }
 }
