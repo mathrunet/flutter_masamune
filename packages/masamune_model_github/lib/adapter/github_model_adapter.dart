@@ -267,11 +267,11 @@ extension on IssueComment {
     return id?.toString();
   }
 
-  GithubIssueCommentModel toGithubIssueCommentModel() {
-    return GithubIssueCommentModel(
+  GithubIssueTimelineModel toGithubIssueTimelineModel() {
+    return GithubIssueTimelineModel(
       id: id,
       body: body,
-      user: user != null ? GithubUserModelRefPath(user?.uid ?? "") : null,
+      user: user?.toGithubUserModel(),
       url: ModelUri.tryParse(url),
       htmlUrl: ModelUri.tryParse(htmlUrl),
       issueUrl: ModelUri.tryParse(issueUrl),
@@ -286,11 +286,11 @@ extension on IssueComment {
     );
   }
 
-  GithubPullRequestCommentModel toGithubPullRequestCommentModel() {
-    return GithubPullRequestCommentModel(
+  GithubPullRequestTimelineModel toGithubPullRequestTimelineModel() {
+    return GithubPullRequestTimelineModel(
       id: id,
       body: body,
-      user: user != null ? GithubUserModelRefPath(user?.uid ?? "") : null,
+      user: user?.toGithubUserModel(),
       url: ModelUri.tryParse(url),
       createdAt: createdAt != null
           ? ModelTimestamp(createdAt!)
@@ -299,6 +299,29 @@ extension on IssueComment {
           ? ModelTimestamp(updatedAt!)
           : const ModelTimestamp.now(),
       fromServer: true,
+    );
+  }
+}
+
+extension on TimelineEvent {
+  String? get uid {
+    return id.toString();
+  }
+
+  GithubIssueTimelineModel toGithubIssueTimelineModel() {
+    final timelineEvent = GithubTimelineEvent.fromString(event);
+    return timelineEvent.toGithubIssueTimelineModelFromTimelineEvent(this);
+  }
+}
+
+extension on ProjectCard {
+  GithubProjectModel toGithubProjectEventValue() {
+    return GithubProjectModel(
+      id: projectId,
+      name: columnName,
+      previousName: previousColumnName,
+      projectUrl: ModelUri.tryParse(projectUrl),
+      url: ModelUri.tryParse(url),
     );
   }
 }
@@ -712,10 +735,10 @@ class GithubModelAdapter extends ModelAdapter {
       final res = issue.toGithubIssueModel().toJson().toEntireJson();
       await database.syncDocument(query, res);
       return res;
-    } else if (GithubIssueCommentModel.document
+    } else if (GithubIssueTimelineModel.document
         .hasMatchPath(query.query.path)) {
       final match =
-          GithubIssueCommentModel.document.regExp.firstMatch(query.query.path);
+          GithubIssueTimelineModel.document.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
       final repositoryId = match?.group(2);
       final issueId = match?.group(3);
@@ -730,7 +753,7 @@ class GithubModelAdapter extends ModelAdapter {
         RepositorySlug(organizationId, repositoryId),
         commentId,
       );
-      final res = issue.toGithubIssueCommentModel().toJson().toEntireJson();
+      final res = issue.toGithubIssueTimelineModel().toJson().toEntireJson();
       await database.syncDocument(query, res);
       return res;
     } else if (GithubPullRequestModel.document.hasMatchPath(query.query.path)) {
@@ -752,9 +775,9 @@ class GithubModelAdapter extends ModelAdapter {
           pullRequest.toGithubPullRequestModel().toJson().toEntireJson();
       await database.syncDocument(query, res);
       return res;
-    } else if (GithubPullRequestCommentModel.document
+    } else if (GithubPullRequestTimelineModel.document
         .hasMatchPath(query.query.path)) {
-      final match = GithubPullRequestCommentModel.document.regExp
+      final match = GithubPullRequestTimelineModel.document.regExp
           .firstMatch(query.query.path);
       final organizationId = match?.group(1);
       final repositoryId = match?.group(2);
@@ -771,7 +794,7 @@ class GithubModelAdapter extends ModelAdapter {
         commentId,
       );
       final res =
-          issue.toGithubPullRequestCommentModel().toJson().toEntireJson();
+          issue.toGithubPullRequestTimelineModel().toJson().toEntireJson();
       await database.syncDocument(query, res);
       return res;
     } else if (GithubBranchModel.document.hasMatchPath(query.query.path)) {
@@ -1000,13 +1023,13 @@ class GithubModelAdapter extends ModelAdapter {
       });
       await database.syncCollection(query, res);
       return res;
-    } else if (GithubIssueCommentModel.collection
+    } else if (GithubIssueTimelineModel.collection
         .hasMatchPath(query.query.path)) {
       var res = await database.loadCollection(query);
       if (!query.reload && res.isNotEmpty) {
         return res ?? {};
       }
-      final match = GithubIssueCommentModel.collection.regExp
+      final match = GithubIssueTimelineModel.collection.regExp
           .firstMatch(query.query.path);
       final organizationId = match?.group(1);
       final repositoryId = match?.group(2);
@@ -1014,17 +1037,17 @@ class GithubModelAdapter extends ModelAdapter {
       if (organizationId == null || repositoryId == null || issueId == null) {
         throw Exception("Invalid path for issue comment collection load");
       }
-      final comments = github.issues.listCommentsByIssue(
+      final timelines = github.issues.listTimeline(
         RepositorySlug(organizationId, repositoryId),
         int.parse(issueId),
       );
-      res = (await comments.map((e) => e).toList()).toMap((e) {
+      res = (await timelines.map((e) => e).toList()).toMap((e) {
         final id = e.uid;
         if (id == null) {
           return null;
         }
         return MapEntry(
-            id, e.toGithubIssueCommentModel().toJson().toEntireJson());
+            id, e.toGithubIssueTimelineModel().toJson().toEntireJson());
       });
       await database.syncCollection(query, res);
       return res;
@@ -1054,13 +1077,13 @@ class GithubModelAdapter extends ModelAdapter {
       });
       await database.syncCollection(query, res);
       return res;
-    } else if (GithubPullRequestCommentModel.collection
+    } else if (GithubPullRequestTimelineModel.collection
         .hasMatchPath(query.query.path)) {
       var res = await database.loadCollection(query);
       if (!query.reload && res.isNotEmpty) {
         return res ?? {};
       }
-      final match = GithubPullRequestCommentModel.collection.regExp
+      final match = GithubPullRequestTimelineModel.collection.regExp
           .firstMatch(query.query.path);
       final organizationId = match?.group(1);
       final repositoryId = match?.group(2);
@@ -1081,7 +1104,7 @@ class GithubModelAdapter extends ModelAdapter {
           return null;
         }
         return MapEntry(
-            id, e.toGithubPullRequestCommentModel().toJson().toEntireJson());
+            id, e.toGithubPullRequestTimelineModel().toJson().toEntireJson());
       });
       await database.syncCollection(query, res);
       return res;
@@ -1271,10 +1294,10 @@ class GithubModelAdapter extends ModelAdapter {
       }
       await database.saveDocument(query, value);
       return;
-    } else if (GithubIssueCommentModel.document
+    } else if (GithubIssueTimelineModel.document
         .hasMatchPath(query.query.path)) {
       final match =
-          GithubIssueCommentModel.document.regExp.firstMatch(query.query.path);
+          GithubIssueTimelineModel.document.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
       final repositoryId = match?.group(2);
       final issueId = int.tryParse(match?.group(3) ?? "");
@@ -1285,7 +1308,7 @@ class GithubModelAdapter extends ModelAdapter {
           commentId == null) {
         throw Exception("Invalid path for issue document deletion");
       }
-      final model = GithubIssueCommentModel.fromJson(value);
+      final model = GithubIssueTimelineModel.fromJson(value);
       final fromServer = model.fromServer;
       if (!fromServer) {
         await github.issues.createComment(
@@ -1337,9 +1360,9 @@ class GithubModelAdapter extends ModelAdapter {
       }
       await database.saveDocument(query, value);
       return;
-    } else if (GithubPullRequestCommentModel.document
+    } else if (GithubPullRequestTimelineModel.document
         .hasMatchPath(query.query.path)) {
-      final match = GithubPullRequestCommentModel.document.regExp
+      final match = GithubPullRequestTimelineModel.document.regExp
           .firstMatch(query.query.path);
       final organizationId = match?.group(1);
       final repositoryId = match?.group(2);
@@ -1351,7 +1374,7 @@ class GithubModelAdapter extends ModelAdapter {
           commentId == null) {
         throw Exception("Invalid path for pull request document deletion");
       }
-      final model = GithubPullRequestCommentModel.fromJson(value);
+      final model = GithubPullRequestTimelineModel.fromJson(value);
       final fromServer = model.fromServer;
       if (!fromServer) {
         await github.issues.createComment(
@@ -1487,10 +1510,10 @@ class GithubModelAdapter extends ModelAdapter {
       );
       await database.deleteDocument(query);
       return;
-    } else if (GithubIssueCommentModel.document
+    } else if (GithubIssueTimelineModel.document
         .hasMatchPath(query.query.path)) {
       final match =
-          GithubIssueCommentModel.document.regExp.firstMatch(query.query.path);
+          GithubIssueTimelineModel.document.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
       final repositoryId = match?.group(2);
       final issueId = match?.group(3);
@@ -1525,9 +1548,9 @@ class GithubModelAdapter extends ModelAdapter {
       );
       await database.deleteDocument(query);
       return;
-    } else if (GithubPullRequestCommentModel.document
+    } else if (GithubPullRequestTimelineModel.document
         .hasMatchPath(query.query.path)) {
-      final match = GithubPullRequestCommentModel.document.regExp
+      final match = GithubPullRequestTimelineModel.document.regExp
           .firstMatch(query.query.path);
       final organizationId = match?.group(1);
       final repositoryId = match?.group(2);

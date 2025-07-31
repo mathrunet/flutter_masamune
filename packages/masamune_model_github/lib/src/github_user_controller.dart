@@ -98,7 +98,7 @@ class GithubUserController extends MasamuneControllerBase<GithubUserModel?,
         }
         final value =
             this.adapter.appRef.model(GithubUserModel.document(userId));
-        await value.load();
+        await value.reload();
         _value = value.value;
       }
       _organizations ??=
