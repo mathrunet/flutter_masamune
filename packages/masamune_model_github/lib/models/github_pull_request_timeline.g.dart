@@ -132,5 +132,7 @@ const _$GithubTimelineEventEnumMap = {
   GithubTimelineEvent.reviewed: 'reviewed',
   GithubTimelineEvent.unassigned: 'unassigned',
   GithubTimelineEvent.unlabeled: 'unlabeled',
+  GithubTimelineEvent.pinned: 'pinned',
+  GithubTimelineEvent.unlocked: 'unlocked',
   GithubTimelineEvent.unknown: 'unknown',
 };

@@ -130,6 +130,20 @@ enum GithubTimelineEvent {
   /// https://docs.github.com/en/rest/issues/timeline?apiVersion=2022-11-28#timeline-events
   unlabeled,
 
+  /// Pinned
+  ///
+  /// ピン留め。
+  ///
+  /// https://docs.github.com/en/rest/issues/timeline?apiVersion=2022-11-28#timeline-events
+  pinned,
+
+  /// Unlocked
+  ///
+  /// ロック解除。
+  ///
+  /// https://docs.github.com/en/rest/issues/timeline?apiVersion=2022-11-28#timeline-events
+  unlocked,
+
   /// Unknown
   ///
   /// 不明。
@@ -178,7 +192,12 @@ enum GithubTimelineEvent {
         return unassigned;
       case "unlabeled":
         return unlabeled;
+      case "pinned":
+        return pinned;
+      case "unlocked":
+        return unlocked;
       default:
+        debugPrint("Unknown timeline event: $value");
         return unknown;
     }
   }
