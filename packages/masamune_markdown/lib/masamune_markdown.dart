@@ -36,3 +36,5 @@ part "src/form_markdown_toolbar.dart";
 part "src/markdown_tools_config.dart";
 part "src/markdown_mention.dart";
 part "src/markdown.dart";
+part "src/markdown_style.dart";
+part "src/markdown_vertical_spacing.dart";

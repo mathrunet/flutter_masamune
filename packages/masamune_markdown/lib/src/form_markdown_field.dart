@@ -153,6 +153,9 @@ class FormMarkdownField<TValue> extends FormField<String> {
             final context = state.context;
             final theme = Theme.of(context);
             final defaultStyles = DefaultStyles.getInstance(context);
+            final adapter =
+                MasamuneAdapterScope.of<MarkdownMasamuneAdapter>(context) ??
+                    MarkdownMasamuneAdapter.primary;
 
             final mainTextStyle = style?.textStyle?.copyWith(
                   color: style.color,
@@ -214,6 +217,34 @@ class FormMarkdownField<TValue> extends FormField<String> {
                     DefaultStyles(
                       color: mainTextStyle.color,
                       link: linkTextStyle,
+                      paragraph: defaultStyles.paragraph?.copyWith(
+                        verticalSpacing: adapter.markdownStyle
+                            .paragraphVerticalSpacing._verticalSpacing,
+                      ),
+                      h1: defaultStyles.h1?.copyWith(
+                        verticalSpacing: adapter
+                            .markdownStyle.h1VerticalSpacing._verticalSpacing,
+                      ),
+                      h2: defaultStyles.h2?.copyWith(
+                        verticalSpacing: adapter
+                            .markdownStyle.h2VerticalSpacing._verticalSpacing,
+                      ),
+                      h3: defaultStyles.h3?.copyWith(
+                        verticalSpacing: adapter
+                            .markdownStyle.h3VerticalSpacing._verticalSpacing,
+                      ),
+                      h4: defaultStyles.h4?.copyWith(
+                        verticalSpacing: adapter
+                            .markdownStyle.h4VerticalSpacing._verticalSpacing,
+                      ),
+                      h5: defaultStyles.h5?.copyWith(
+                        verticalSpacing: adapter
+                            .markdownStyle.h5VerticalSpacing._verticalSpacing,
+                      ),
+                      h6: defaultStyles.h6?.copyWith(
+                        verticalSpacing: adapter
+                            .markdownStyle.h6VerticalSpacing._verticalSpacing,
+                      ),
                       inlineCode: InlineCodeStyle(
                         style: mainTextStyle.copyWith(
                           fontSize: mainTextStyle.fontSize! * 0.8,
@@ -230,7 +261,8 @@ class FormMarkdownField<TValue> extends FormField<String> {
                       ),
                       code: defaultStyles.code?.copyWith(
                         style: mainTextStyle,
-                        verticalSpacing: const VerticalSpacing(12, 6),
+                        verticalSpacing: adapter
+                            .markdownStyle.codeVerticalSpacing._verticalSpacing,
                         decoration: BoxDecoration(
                           color: style?.subBackgroundColor ??
                               theme.colorScheme.surface,
@@ -239,9 +271,13 @@ class FormMarkdownField<TValue> extends FormField<String> {
                       ),
                       placeHolder: defaultStyles.placeHolder?.copyWith(
                         style: subTextStyle,
+                        verticalSpacing: adapter.markdownStyle
+                            .placeHolderVerticalSpacing._verticalSpacing,
                       ),
                       lists: defaultStyles.lists?.copyWith(
                         style: mainTextStyle,
+                        verticalSpacing: adapter
+                            .markdownStyle.listVerticalSpacing._verticalSpacing,
                         indentWidthBuilder:
                             (block, context, count, numberPointWidthDelegate) {
                           final res = TextBlockUtils.defaultIndentWidthBuilder(
@@ -263,7 +299,8 @@ class FormMarkdownField<TValue> extends FormField<String> {
                       ),
                       quote: defaultStyles.quote?.copyWith(
                         style: mainTextStyle,
-                        verticalSpacing: const VerticalSpacing(12, 6),
+                        verticalSpacing: adapter.markdownStyle
+                            .quoteVerticalSpacing._verticalSpacing,
                         lineSpacing: const VerticalSpacing(0, 0),
                         decoration: BoxDecoration(
                           border: Border(

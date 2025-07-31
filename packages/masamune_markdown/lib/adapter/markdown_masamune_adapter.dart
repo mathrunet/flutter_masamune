@@ -17,6 +17,7 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
   /// 内部的には`flutter_quill`および`markdown_widget`のパッケージを利用しています。
   const MarkdownMasamuneAdapter({
     this.toolsConfig = const MarkdownToolsConfig(),
+    this.markdownStyle = const MarkdownStyle(),
   });
 
   /// Configuration for Markdown tools.
@@ -27,6 +28,11 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
   ///
   /// [MarkdownToolLabelConfig]を使用して、各ツールのラベルとアイコンを設定します。
   final MarkdownToolsConfig toolsConfig;
+
+  /// Style for markdown.
+  ///
+  /// マークダウンのスタイル。
+  final MarkdownStyle markdownStyle;
 
   /// You can retrieve the [MarkdownMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
