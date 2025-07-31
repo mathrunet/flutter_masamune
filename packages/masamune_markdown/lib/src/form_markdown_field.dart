@@ -205,6 +205,7 @@ class FormMarkdownField<TValue> extends FormField<String> {
                 config: QuillEditorConfig(
                   scrollable: scrollable,
                   autoFocus: autofocus,
+                  showCursor: !readOnly,
                   linkActionPickerDelegate: defaultLinkActionPickerDelegate,
                   padding: style?.contentPadding ?? EdgeInsets.zero,
                   expands: expands,
@@ -404,11 +405,12 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
   String? _text;
   Delta? _delta;
 
-  final QuillController _controller = QuillController(
+  late final QuillController _controller = QuillController(
     config: const QuillControllerConfig(),
     document: Document(),
     selection: const TextSelection.collapsed(offset: 0),
     keepStyleOnNewLine: false,
+    readOnly: widget.readOnly,
   );
   final MarkdownToDelta _mdToDelta = MarkdownToDelta(
     markdownDocument: md.Document(encodeHtml: false),
