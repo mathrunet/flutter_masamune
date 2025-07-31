@@ -23,7 +23,7 @@ part "github_content.freezed.dart";
 @formValue
 @immutable
 @CollectionModelPath(
-    "organization/:organization_id/repository/:repository_id/issue/:issue_id/comment/:comment_id/content",
+    "organization/:organization_id/repository/:repository_id/branch/:branch_id/commit/:commit_id/content",
     adapter: "GithubModelMasamuneAdapter.primary.modelAdapter")
 abstract class GithubContentModel with _$GithubContentModel {
   /// Model for managing Github contents.

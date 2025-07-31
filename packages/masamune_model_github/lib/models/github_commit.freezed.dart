@@ -27,6 +27,8 @@ mixin _$GithubCommitModel {
   GithubUserModelRef? get author;
   @refParam
   GithubUserModelRef? get committer;
+  ModelTimestamp? get authorDate;
+  ModelTimestamp? get committerDate;
   @jsonParam
   List<GithubCommitModel> get parents;
   @jsonParam
@@ -66,6 +68,10 @@ mixin _$GithubCommitModel {
             (identical(other.author, author) || other.author == author) &&
             (identical(other.committer, committer) ||
                 other.committer == committer) &&
+            (identical(other.authorDate, authorDate) ||
+                other.authorDate == authorDate) &&
+            (identical(other.committerDate, committerDate) ||
+                other.committerDate == committerDate) &&
             const DeepCollectionEquality().equals(other.parents, parents) &&
             const DeepCollectionEquality().equals(other.contents, contents) &&
             (identical(other.fromServer, fromServer) ||
@@ -87,13 +93,15 @@ mixin _$GithubCommitModel {
       commentsUrl,
       author,
       committer,
+      authorDate,
+      committerDate,
       const DeepCollectionEquality().hash(parents),
       const DeepCollectionEquality().hash(contents),
       fromServer);
 
   @override
   String toString() {
-    return 'GithubCommitModel(sha: $sha, message: $message, commentCount: $commentCount, additionsCount: $additionsCount, deletionsCount: $deletionsCount, totalCount: $totalCount, url: $url, htmlUrl: $htmlUrl, commentsUrl: $commentsUrl, author: $author, committer: $committer, parents: $parents, contents: $contents, fromServer: $fromServer)';
+    return 'GithubCommitModel(sha: $sha, message: $message, commentCount: $commentCount, additionsCount: $additionsCount, deletionsCount: $deletionsCount, totalCount: $totalCount, url: $url, htmlUrl: $htmlUrl, commentsUrl: $commentsUrl, author: $author, committer: $committer, authorDate: $authorDate, committerDate: $committerDate, parents: $parents, contents: $contents, fromServer: $fromServer)';
   }
 }
 
@@ -115,6 +123,8 @@ abstract mixin class $GithubCommitModelCopyWith<$Res> {
       ModelUri? commentsUrl,
       @refParam GithubUserModelRef? author,
       @refParam GithubUserModelRef? committer,
+      ModelTimestamp? authorDate,
+      ModelTimestamp? committerDate,
       @jsonParam List<GithubCommitModel> parents,
       @jsonParam List<GithubContentModel> contents,
       bool fromServer});
@@ -144,6 +154,8 @@ class _$GithubCommitModelCopyWithImpl<$Res>
     Object? commentsUrl = freezed,
     Object? author = freezed,
     Object? committer = freezed,
+    Object? authorDate = freezed,
+    Object? committerDate = freezed,
     Object? parents = null,
     Object? contents = null,
     Object? fromServer = null,
@@ -193,6 +205,14 @@ class _$GithubCommitModelCopyWithImpl<$Res>
           ? _self.committer
           : committer // ignore: cast_nullable_to_non_nullable
               as GithubUserModelRef?,
+      authorDate: freezed == authorDate
+          ? _self.authorDate
+          : authorDate // ignore: cast_nullable_to_non_nullable
+              as ModelTimestamp?,
+      committerDate: freezed == committerDate
+          ? _self.committerDate
+          : committerDate // ignore: cast_nullable_to_non_nullable
+              as ModelTimestamp?,
       parents: null == parents
           ? _self.parents
           : parents // ignore: cast_nullable_to_non_nullable
@@ -314,6 +334,8 @@ extension GithubCommitModelPatterns on GithubCommitModel {
             ModelUri? commentsUrl,
             @refParam GithubUserModelRef? author,
             @refParam GithubUserModelRef? committer,
+            ModelTimestamp? authorDate,
+            ModelTimestamp? committerDate,
             @jsonParam List<GithubCommitModel> parents,
             @jsonParam List<GithubContentModel> contents,
             bool fromServer)?
@@ -335,6 +357,8 @@ extension GithubCommitModelPatterns on GithubCommitModel {
             _that.commentsUrl,
             _that.author,
             _that.committer,
+            _that.authorDate,
+            _that.committerDate,
             _that.parents,
             _that.contents,
             _that.fromServer);
@@ -370,6 +394,8 @@ extension GithubCommitModelPatterns on GithubCommitModel {
             ModelUri? commentsUrl,
             @refParam GithubUserModelRef? author,
             @refParam GithubUserModelRef? committer,
+            ModelTimestamp? authorDate,
+            ModelTimestamp? committerDate,
             @jsonParam List<GithubCommitModel> parents,
             @jsonParam List<GithubContentModel> contents,
             bool fromServer)
@@ -390,6 +416,8 @@ extension GithubCommitModelPatterns on GithubCommitModel {
             _that.commentsUrl,
             _that.author,
             _that.committer,
+            _that.authorDate,
+            _that.committerDate,
             _that.parents,
             _that.contents,
             _that.fromServer);
@@ -424,6 +452,8 @@ extension GithubCommitModelPatterns on GithubCommitModel {
             ModelUri? commentsUrl,
             @refParam GithubUserModelRef? author,
             @refParam GithubUserModelRef? committer,
+            ModelTimestamp? authorDate,
+            ModelTimestamp? committerDate,
             @jsonParam List<GithubCommitModel> parents,
             @jsonParam List<GithubContentModel> contents,
             bool fromServer)?
@@ -444,6 +474,8 @@ extension GithubCommitModelPatterns on GithubCommitModel {
             _that.commentsUrl,
             _that.author,
             _that.committer,
+            _that.authorDate,
+            _that.committerDate,
             _that.parents,
             _that.contents,
             _that.fromServer);
@@ -454,7 +486,8 @@ extension GithubCommitModelPatterns on GithubCommitModel {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _GithubCommitModel extends GithubCommitModel {
   const _GithubCommitModel(
       {this.sha,
@@ -468,6 +501,8 @@ class _GithubCommitModel extends GithubCommitModel {
       this.commentsUrl,
       @refParam this.author,
       @refParam this.committer,
+      this.authorDate,
+      this.committerDate,
       @jsonParam final List<GithubCommitModel> parents = const [],
       @jsonParam final List<GithubContentModel> contents = const [],
       this.fromServer = false})
@@ -505,6 +540,10 @@ class _GithubCommitModel extends GithubCommitModel {
   @override
   @refParam
   final GithubUserModelRef? committer;
+  @override
+  final ModelTimestamp? authorDate;
+  @override
+  final ModelTimestamp? committerDate;
   final List<GithubCommitModel> _parents;
   @override
   @JsonKey()
@@ -566,6 +605,10 @@ class _GithubCommitModel extends GithubCommitModel {
             (identical(other.author, author) || other.author == author) &&
             (identical(other.committer, committer) ||
                 other.committer == committer) &&
+            (identical(other.authorDate, authorDate) ||
+                other.authorDate == authorDate) &&
+            (identical(other.committerDate, committerDate) ||
+                other.committerDate == committerDate) &&
             const DeepCollectionEquality().equals(other._parents, _parents) &&
             const DeepCollectionEquality().equals(other._contents, _contents) &&
             (identical(other.fromServer, fromServer) ||
@@ -587,13 +630,15 @@ class _GithubCommitModel extends GithubCommitModel {
       commentsUrl,
       author,
       committer,
+      authorDate,
+      committerDate,
       const DeepCollectionEquality().hash(_parents),
       const DeepCollectionEquality().hash(_contents),
       fromServer);
 
   @override
   String toString() {
-    return 'GithubCommitModel(sha: $sha, message: $message, commentCount: $commentCount, additionsCount: $additionsCount, deletionsCount: $deletionsCount, totalCount: $totalCount, url: $url, htmlUrl: $htmlUrl, commentsUrl: $commentsUrl, author: $author, committer: $committer, parents: $parents, contents: $contents, fromServer: $fromServer)';
+    return 'GithubCommitModel(sha: $sha, message: $message, commentCount: $commentCount, additionsCount: $additionsCount, deletionsCount: $deletionsCount, totalCount: $totalCount, url: $url, htmlUrl: $htmlUrl, commentsUrl: $commentsUrl, author: $author, committer: $committer, authorDate: $authorDate, committerDate: $committerDate, parents: $parents, contents: $contents, fromServer: $fromServer)';
   }
 }
 
@@ -617,6 +662,8 @@ abstract mixin class _$GithubCommitModelCopyWith<$Res>
       ModelUri? commentsUrl,
       @refParam GithubUserModelRef? author,
       @refParam GithubUserModelRef? committer,
+      ModelTimestamp? authorDate,
+      ModelTimestamp? committerDate,
       @jsonParam List<GithubCommitModel> parents,
       @jsonParam List<GithubContentModel> contents,
       bool fromServer});
@@ -646,6 +693,8 @@ class __$GithubCommitModelCopyWithImpl<$Res>
     Object? commentsUrl = freezed,
     Object? author = freezed,
     Object? committer = freezed,
+    Object? authorDate = freezed,
+    Object? committerDate = freezed,
     Object? parents = null,
     Object? contents = null,
     Object? fromServer = null,
@@ -695,6 +744,14 @@ class __$GithubCommitModelCopyWithImpl<$Res>
           ? _self.committer
           : committer // ignore: cast_nullable_to_non_nullable
               as GithubUserModelRef?,
+      authorDate: freezed == authorDate
+          ? _self.authorDate
+          : authorDate // ignore: cast_nullable_to_non_nullable
+              as ModelTimestamp?,
+      committerDate: freezed == committerDate
+          ? _self.committerDate
+          : committerDate // ignore: cast_nullable_to_non_nullable
+              as ModelTimestamp?,
       parents: null == parents
           ? _self._parents
           : parents // ignore: cast_nullable_to_non_nullable

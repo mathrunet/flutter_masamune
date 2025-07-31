@@ -30,14 +30,14 @@ mixin _$GithubIssueModel {
   int get commentsCount;
   @refParam
   GithubRepositoryModelRef? get repository;
-  @refParam
-  GithubUserModelRef? get user;
-  @refParam
-  GithubUserModelRef? get assignee;
-  @refParam
-  List<GithubUserModelRef> get assignees;
-  @refParam
-  GithubUserModelRef? get closedBy;
+  @jsonParam
+  GithubUserModel? get user;
+  @jsonParam
+  GithubUserModel? get assignee;
+  @jsonParam
+  List<GithubUserModel> get assignees;
+  @jsonParam
+  GithubUserModel? get closedBy;
   @jsonParam
   List<GithubLabelValue> get labels;
   ModelUri? get url;
@@ -189,10 +189,10 @@ abstract mixin class $GithubIssueModelCopyWith<$Res> {
       bool locked,
       int commentsCount,
       @refParam GithubRepositoryModelRef? repository,
-      @refParam GithubUserModelRef? user,
-      @refParam GithubUserModelRef? assignee,
-      @refParam List<GithubUserModelRef> assignees,
-      @refParam GithubUserModelRef? closedBy,
+      @jsonParam GithubUserModel? user,
+      @jsonParam GithubUserModel? assignee,
+      @jsonParam List<GithubUserModel> assignees,
+      @jsonParam GithubUserModel? closedBy,
       @jsonParam List<GithubLabelValue> labels,
       ModelUri? url,
       ModelUri? htmlUrl,
@@ -207,6 +207,9 @@ abstract mixin class $GithubIssueModelCopyWith<$Res> {
       ModelTimestamp updatedAt,
       bool fromServer});
 
+  $GithubUserModelCopyWith<$Res>? get user;
+  $GithubUserModelCopyWith<$Res>? get assignee;
+  $GithubUserModelCopyWith<$Res>? get closedBy;
   $GithubReactionValueCopyWith<$Res>? get reactions;
 }
 
@@ -320,19 +323,19 @@ class _$GithubIssueModelCopyWithImpl<$Res>
       user: freezed == user
           ? _self.user
           : user // ignore: cast_nullable_to_non_nullable
-              as GithubUserModelRef?,
+              as GithubUserModel?,
       assignee: freezed == assignee
           ? _self.assignee
           : assignee // ignore: cast_nullable_to_non_nullable
-              as GithubUserModelRef?,
+              as GithubUserModel?,
       assignees: null == assignees
           ? _self.assignees
           : assignees // ignore: cast_nullable_to_non_nullable
-              as List<GithubUserModelRef>,
+              as List<GithubUserModel>,
       closedBy: freezed == closedBy
           ? _self.closedBy
           : closedBy // ignore: cast_nullable_to_non_nullable
-              as GithubUserModelRef?,
+              as GithubUserModel?,
       labels: null == labels
           ? _self.labels
           : labels // ignore: cast_nullable_to_non_nullable
@@ -386,6 +389,48 @@ class _$GithubIssueModelCopyWithImpl<$Res>
           : fromServer // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
+  }
+
+  /// Create a copy of GithubIssueModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $GithubUserModelCopyWith<$Res>? get user {
+    if (_self.user == null) {
+      return null;
+    }
+
+    return $GithubUserModelCopyWith<$Res>(_self.user!, (value) {
+      return _then(_self.copyWith(user: value));
+    });
+  }
+
+  /// Create a copy of GithubIssueModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $GithubUserModelCopyWith<$Res>? get assignee {
+    if (_self.assignee == null) {
+      return null;
+    }
+
+    return $GithubUserModelCopyWith<$Res>(_self.assignee!, (value) {
+      return _then(_self.copyWith(assignee: value));
+    });
+  }
+
+  /// Create a copy of GithubIssueModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $GithubUserModelCopyWith<$Res>? get closedBy {
+    if (_self.closedBy == null) {
+      return null;
+    }
+
+    return $GithubUserModelCopyWith<$Res>(_self.closedBy!, (value) {
+      return _then(_self.copyWith(closedBy: value));
+    });
   }
 
   /// Create a copy of GithubIssueModel
@@ -512,10 +557,10 @@ extension GithubIssueModelPatterns on GithubIssueModel {
             bool locked,
             int commentsCount,
             @refParam GithubRepositoryModelRef? repository,
-            @refParam GithubUserModelRef? user,
-            @refParam GithubUserModelRef? assignee,
-            @refParam List<GithubUserModelRef> assignees,
-            @refParam GithubUserModelRef? closedBy,
+            @jsonParam GithubUserModel? user,
+            @jsonParam GithubUserModel? assignee,
+            @jsonParam List<GithubUserModel> assignees,
+            @jsonParam GithubUserModel? closedBy,
             @jsonParam List<GithubLabelValue> labels,
             ModelUri? url,
             ModelUri? htmlUrl,
@@ -604,10 +649,10 @@ extension GithubIssueModelPatterns on GithubIssueModel {
             bool locked,
             int commentsCount,
             @refParam GithubRepositoryModelRef? repository,
-            @refParam GithubUserModelRef? user,
-            @refParam GithubUserModelRef? assignee,
-            @refParam List<GithubUserModelRef> assignees,
-            @refParam GithubUserModelRef? closedBy,
+            @jsonParam GithubUserModel? user,
+            @jsonParam GithubUserModel? assignee,
+            @jsonParam List<GithubUserModel> assignees,
+            @jsonParam GithubUserModel? closedBy,
             @jsonParam List<GithubLabelValue> labels,
             ModelUri? url,
             ModelUri? htmlUrl,
@@ -694,10 +739,10 @@ extension GithubIssueModelPatterns on GithubIssueModel {
             bool locked,
             int commentsCount,
             @refParam GithubRepositoryModelRef? repository,
-            @refParam GithubUserModelRef? user,
-            @refParam GithubUserModelRef? assignee,
-            @refParam List<GithubUserModelRef> assignees,
-            @refParam GithubUserModelRef? closedBy,
+            @jsonParam GithubUserModel? user,
+            @jsonParam GithubUserModel? assignee,
+            @jsonParam List<GithubUserModel> assignees,
+            @jsonParam GithubUserModel? closedBy,
             @jsonParam List<GithubLabelValue> labels,
             ModelUri? url,
             ModelUri? htmlUrl,
@@ -756,7 +801,8 @@ extension GithubIssueModelPatterns on GithubIssueModel {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _GithubIssueModel extends GithubIssueModel {
   const _GithubIssueModel(
       {this.id,
@@ -774,10 +820,10 @@ class _GithubIssueModel extends GithubIssueModel {
       this.locked = false,
       this.commentsCount = 0,
       @refParam this.repository,
-      @refParam this.user,
-      @refParam this.assignee,
-      @refParam final List<GithubUserModelRef> assignees = const [],
-      @refParam this.closedBy,
+      @jsonParam this.user,
+      @jsonParam this.assignee,
+      @jsonParam final List<GithubUserModel> assignees = const [],
+      @jsonParam this.closedBy,
       @jsonParam
       final List<GithubLabelValue> labels = const <GithubLabelValue>[],
       this.url,
@@ -833,24 +879,24 @@ class _GithubIssueModel extends GithubIssueModel {
   @refParam
   final GithubRepositoryModelRef? repository;
   @override
-  @refParam
-  final GithubUserModelRef? user;
+  @jsonParam
+  final GithubUserModel? user;
   @override
-  @refParam
-  final GithubUserModelRef? assignee;
-  final List<GithubUserModelRef> _assignees;
+  @jsonParam
+  final GithubUserModel? assignee;
+  final List<GithubUserModel> _assignees;
   @override
   @JsonKey()
-  @refParam
-  List<GithubUserModelRef> get assignees {
+  @jsonParam
+  List<GithubUserModel> get assignees {
     if (_assignees is EqualUnmodifiableListView) return _assignees;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_assignees);
   }
 
   @override
-  @refParam
-  final GithubUserModelRef? closedBy;
+  @jsonParam
+  final GithubUserModel? closedBy;
   final List<GithubLabelValue> _labels;
   @override
   @JsonKey()
@@ -1032,10 +1078,10 @@ abstract mixin class _$GithubIssueModelCopyWith<$Res>
       bool locked,
       int commentsCount,
       @refParam GithubRepositoryModelRef? repository,
-      @refParam GithubUserModelRef? user,
-      @refParam GithubUserModelRef? assignee,
-      @refParam List<GithubUserModelRef> assignees,
-      @refParam GithubUserModelRef? closedBy,
+      @jsonParam GithubUserModel? user,
+      @jsonParam GithubUserModel? assignee,
+      @jsonParam List<GithubUserModel> assignees,
+      @jsonParam GithubUserModel? closedBy,
       @jsonParam List<GithubLabelValue> labels,
       ModelUri? url,
       ModelUri? htmlUrl,
@@ -1050,6 +1096,12 @@ abstract mixin class _$GithubIssueModelCopyWith<$Res>
       ModelTimestamp updatedAt,
       bool fromServer});
 
+  @override
+  $GithubUserModelCopyWith<$Res>? get user;
+  @override
+  $GithubUserModelCopyWith<$Res>? get assignee;
+  @override
+  $GithubUserModelCopyWith<$Res>? get closedBy;
   @override
   $GithubReactionValueCopyWith<$Res>? get reactions;
 }
@@ -1164,19 +1216,19 @@ class __$GithubIssueModelCopyWithImpl<$Res>
       user: freezed == user
           ? _self.user
           : user // ignore: cast_nullable_to_non_nullable
-              as GithubUserModelRef?,
+              as GithubUserModel?,
       assignee: freezed == assignee
           ? _self.assignee
           : assignee // ignore: cast_nullable_to_non_nullable
-              as GithubUserModelRef?,
+              as GithubUserModel?,
       assignees: null == assignees
           ? _self._assignees
           : assignees // ignore: cast_nullable_to_non_nullable
-              as List<GithubUserModelRef>,
+              as List<GithubUserModel>,
       closedBy: freezed == closedBy
           ? _self.closedBy
           : closedBy // ignore: cast_nullable_to_non_nullable
-              as GithubUserModelRef?,
+              as GithubUserModel?,
       labels: null == labels
           ? _self._labels
           : labels // ignore: cast_nullable_to_non_nullable
@@ -1230,6 +1282,48 @@ class __$GithubIssueModelCopyWithImpl<$Res>
           : fromServer // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
+  }
+
+  /// Create a copy of GithubIssueModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $GithubUserModelCopyWith<$Res>? get user {
+    if (_self.user == null) {
+      return null;
+    }
+
+    return $GithubUserModelCopyWith<$Res>(_self.user!, (value) {
+      return _then(_self.copyWith(user: value));
+    });
+  }
+
+  /// Create a copy of GithubIssueModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $GithubUserModelCopyWith<$Res>? get assignee {
+    if (_self.assignee == null) {
+      return null;
+    }
+
+    return $GithubUserModelCopyWith<$Res>(_self.assignee!, (value) {
+      return _then(_self.copyWith(assignee: value));
+    });
+  }
+
+  /// Create a copy of GithubIssueModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $GithubUserModelCopyWith<$Res>? get closedBy {
+    if (_self.closedBy == null) {
+      return null;
+    }
+
+    return $GithubUserModelCopyWith<$Res>(_self.closedBy!, (value) {
+      return _then(_self.copyWith(closedBy: value));
+    });
   }
 
   /// Create a copy of GithubIssueModel

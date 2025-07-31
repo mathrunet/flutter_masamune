@@ -222,9 +222,11 @@ extension on Issue {
       title: issue.title,
       body: issue.body,
       state: issue.state,
-      user: issue.user != null
-          ? GithubUserModelRefPath(issue.user?.uid ?? "")
-          : null,
+      assignee: issue.assignee?.toGithubUserModel(),
+      assignees:
+          issue.assignees?.mapAndRemoveEmpty((e) => e.toGithubUserModel()) ??
+              [],
+      user: issue.user?.toGithubUserModel(),
       labels: issue.labels.map((e) => e.toGithubLabelValue()).toList(),
       reactions: issue.reactions?.toGithubReactionValue(),
       createdAt: issue.createdAt != null
@@ -234,9 +236,7 @@ extension on Issue {
           ? ModelTimestamp(issue.updatedAt!)
           : const ModelTimestamp.now(),
       closedAt: issue.closedAt != null ? ModelTimestamp(issue.closedAt!) : null,
-      closedBy: issue.closedBy != null
-          ? GithubUserModelRefPath(issue.closedBy?.uid ?? "")
-          : null,
+      closedBy: issue.closedBy?.toGithubUserModel(),
       activeLockReason: issue.activeLockReason,
       authorAssociation: issue.authorAssociation,
       bodyHtml: issue.bodyHtml,
@@ -480,6 +480,12 @@ extension on RepositoryCommit {
       committer: committer != null
           ? GithubUserModelRefPath(committer?.uid ?? "")
           : null,
+      authorDate: commit?.author?.date != null
+          ? ModelTimestamp(commit!.author!.date!)
+          : null,
+      committerDate: commit?.committer?.date != null
+          ? ModelTimestamp(commit!.committer!.date!)
+          : null,
       additionsCount: stats?.additions ?? 0,
       deletionsCount: stats?.deletions ?? 0,
       totalCount: stats?.total ?? 0,
@@ -632,7 +638,7 @@ class GithubModelAdapter extends ModelAdapter {
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     final res = await database.loadDocument(query);
-    if (res != null) {
+    if (!query.reload && res != null) {
       return res;
     }
     final github = await _getInstance();
@@ -834,7 +840,7 @@ class GithubModelAdapter extends ModelAdapter {
 
     if (GithubOrganizationModel.collection.hasMatchPath(query.query.path)) {
       var res = await database.loadCollection(query);
-      if (res.isNotEmpty) {
+      if (!query.reload && res.isNotEmpty) {
         return res ?? {};
       }
       final organizations = github.organizations.list();
@@ -861,7 +867,7 @@ class GithubModelAdapter extends ModelAdapter {
       return res;
     } else if (GithubUserModel.collection.hasMatchPath(query.query.path)) {
       var res = await database.loadCollection(query);
-      if (res.isNotEmpty) {
+      if (!query.reload && res.isNotEmpty) {
         return res ?? {};
       }
       final users = github.users.listUsers();
@@ -877,7 +883,7 @@ class GithubModelAdapter extends ModelAdapter {
     } else if (GithubRepositoryModel.collection
         .hasMatchPath(query.query.path)) {
       var res = await database.loadCollection(query);
-      if (res.isNotEmpty) {
+      if (!query.reload && res.isNotEmpty) {
         return res ?? {};
       }
       final match =
@@ -972,7 +978,7 @@ class GithubModelAdapter extends ModelAdapter {
       }
     } else if (GithubIssueModel.collection.hasMatchPath(query.query.path)) {
       var res = await database.loadCollection(query);
-      if (res.isNotEmpty) {
+      if (!query.reload && res.isNotEmpty) {
         return res ?? {};
       }
       final match =
@@ -997,7 +1003,7 @@ class GithubModelAdapter extends ModelAdapter {
     } else if (GithubIssueCommentModel.collection
         .hasMatchPath(query.query.path)) {
       var res = await database.loadCollection(query);
-      if (res.isNotEmpty) {
+      if (!query.reload && res.isNotEmpty) {
         return res ?? {};
       }
       final match = GithubIssueCommentModel.collection.regExp
@@ -1024,7 +1030,7 @@ class GithubModelAdapter extends ModelAdapter {
     } else if (GithubPullRequestModel.collection
         .hasMatchPath(query.query.path)) {
       var res = await database.loadCollection(query);
-      if (res.isNotEmpty) {
+      if (!query.reload && res.isNotEmpty) {
         return res ?? {};
       }
       final match =
@@ -1050,7 +1056,7 @@ class GithubModelAdapter extends ModelAdapter {
     } else if (GithubPullRequestCommentModel.collection
         .hasMatchPath(query.query.path)) {
       var res = await database.loadCollection(query);
-      if (res.isNotEmpty) {
+      if (!query.reload && res.isNotEmpty) {
         return res ?? {};
       }
       final match = GithubPullRequestCommentModel.collection.regExp
@@ -1080,7 +1086,7 @@ class GithubModelAdapter extends ModelAdapter {
       return res;
     } else if (GithubBranchModel.collection.hasMatchPath(query.query.path)) {
       var res = await database.loadCollection(query);
-      if (res.isNotEmpty) {
+      if (!query.reload && res.isNotEmpty) {
         return res ?? {};
       }
       final match =
@@ -1104,7 +1110,7 @@ class GithubModelAdapter extends ModelAdapter {
       return res;
     } else if (GithubCommitModel.collection.hasMatchPath(query.query.path)) {
       var res = await database.loadCollection(query);
-      if (res.isNotEmpty) {
+      if (!query.reload && res.isNotEmpty) {
         return res ?? {};
       }
       final match =
@@ -1130,7 +1136,7 @@ class GithubModelAdapter extends ModelAdapter {
       return res;
     } else if (GithubContentModel.collection.hasMatchPath(query.query.path)) {
       var res = await database.loadCollection(query);
-      if (res.isNotEmpty) {
+      if (!query.reload && res.isNotEmpty) {
         return res ?? {};
       }
       final match =
@@ -1249,10 +1255,9 @@ class GithubModelAdapter extends ModelAdapter {
           IssueRequest(
             title: model.title,
             body: model.body,
-            assignee: model.assignee?.value?.login,
+            assignee: model.assignee?.login,
             state: "open",
-            assignees:
-                model.assignees.mapAndRemoveEmpty((e) => e?.value?.login),
+            assignees: model.assignees.mapAndRemoveEmpty((e) => e.login),
             labels: model.labels.mapAndRemoveEmpty((e) => e.name),
           ),
         );

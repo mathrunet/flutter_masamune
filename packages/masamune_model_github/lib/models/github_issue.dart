@@ -24,6 +24,8 @@ abstract class GithubIssueModel with _$GithubIssueModel {
   /// Model for managing Github issues.
   ///
   /// GithubのIssueを管理するためのモデル。
+  // ignore: invalid_annotation_target
+  @JsonSerializable(explicitToJson: true)
   const factory GithubIssueModel({
     int? id,
     int? number,
@@ -40,10 +42,10 @@ abstract class GithubIssueModel with _$GithubIssueModel {
     @Default(false) bool locked,
     @Default(0) int commentsCount,
     @refParam GithubRepositoryModelRef? repository,
-    @refParam GithubUserModelRef? user,
-    @refParam GithubUserModelRef? assignee,
-    @Default([]) @refParam List<GithubUserModelRef> assignees,
-    @refParam GithubUserModelRef? closedBy,
+    @jsonParam GithubUserModel? user,
+    @jsonParam GithubUserModel? assignee,
+    @Default([]) @jsonParam List<GithubUserModel> assignees,
+    @jsonParam GithubUserModel? closedBy,
     @jsonParam @Default(<GithubLabelValue>[]) List<GithubLabelValue> labels,
     ModelUri? url,
     ModelUri? htmlUrl,

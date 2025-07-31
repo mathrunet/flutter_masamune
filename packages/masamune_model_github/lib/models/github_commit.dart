@@ -1,5 +1,7 @@
 // ignore: unused_import, unnecessary_import
 
+// ignore_for_file: invalid_annotation_target
+
 // Package imports:
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
@@ -26,6 +28,7 @@ abstract class GithubCommitModel with _$GithubCommitModel {
   /// Model for managing Github commits.
   ///
   /// Githubのコミットを管理するためのモデル。
+  @JsonSerializable(explicitToJson: true)
   const factory GithubCommitModel({
     String? sha,
     String? message,
@@ -38,6 +41,8 @@ abstract class GithubCommitModel with _$GithubCommitModel {
     ModelUri? commentsUrl,
     @refParam GithubUserModelRef? author,
     @refParam GithubUserModelRef? committer,
+    ModelTimestamp? authorDate,
+    ModelTimestamp? committerDate,
     @jsonParam @Default([]) List<GithubCommitModel> parents,
     @jsonParam @Default([]) List<GithubContentModel> contents,
     @Default(false) bool fromServer,

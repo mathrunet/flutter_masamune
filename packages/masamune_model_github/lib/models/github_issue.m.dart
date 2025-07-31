@@ -14,6 +14,10 @@ extension on GithubIssueModel {
     final map = toJson();
     return {
       ...map,
+      "user": user?.toJson(),
+      "assignee": assignee?.toJson(),
+      "assignees": assignees.map((e) => e.toJson()).toList(),
+      "closedBy": closedBy?.toJson(),
       "labels": labels.map((e) => e.toJson()).toList(),
       "reactions": reactions?.toJson(),
     };
@@ -84,38 +88,6 @@ class _$GithubIssueModelDocument extends DocumentBase<GithubIssueModel>
           accessQuery: GithubRepositoryModelDocument.defaultModelAccessQuery,
           validationQueries:
               GithubRepositoryModelDocument.defaultValidationQueries,
-        ),
-        ModelRefBuilder(
-          modelRef: (value) => value.user,
-          document: (modelQuery) => GithubUserModelDocument(modelQuery),
-          value: (value, doc) => value.copyWith(user: doc),
-          adapter: GithubUserModelDocument.defaultModelAdapter,
-          accessQuery: GithubUserModelDocument.defaultModelAccessQuery,
-          validationQueries: GithubUserModelDocument.defaultValidationQueries,
-        ),
-        ModelRefBuilder(
-          modelRef: (value) => value.assignee,
-          document: (modelQuery) => GithubUserModelDocument(modelQuery),
-          value: (value, doc) => value.copyWith(assignee: doc),
-          adapter: GithubUserModelDocument.defaultModelAdapter,
-          accessQuery: GithubUserModelDocument.defaultModelAccessQuery,
-          validationQueries: GithubUserModelDocument.defaultValidationQueries,
-        ),
-        ModelRefListBuilder(
-          modelRef: (value) => value.assignees,
-          document: (modelQuery) => GithubUserModelDocument(modelQuery),
-          value: (value, docs) => value.copyWith(assignees: docs),
-          adapter: GithubUserModelDocument.defaultModelAdapter,
-          accessQuery: GithubUserModelDocument.defaultModelAccessQuery,
-          validationQueries: GithubUserModelDocument.defaultValidationQueries,
-        ),
-        ModelRefBuilder(
-          modelRef: (value) => value.closedBy,
-          document: (modelQuery) => GithubUserModelDocument(modelQuery),
-          value: (value, doc) => value.copyWith(closedBy: doc),
-          adapter: GithubUserModelDocument.defaultModelAdapter,
-          accessQuery: GithubUserModelDocument.defaultModelAccessQuery,
-          validationQueries: GithubUserModelDocument.defaultValidationQueries,
         ),
       ];
 }
@@ -436,26 +408,23 @@ class _$_GithubIssueModelCollectionQuery
               _$_GithubIssueModelCollectionQuery>(
           key: "repository", toQuery: _toQuery, modelQuery: modelQuery);
 
-  ModelRefModelQuerySelector<GithubUserModel,
-          _$_GithubIssueModelCollectionQuery>
-      get user => ModelRefModelQuerySelector<GithubUserModel,
+  ValueModelQuerySelector<GithubUserModel, _$_GithubIssueModelCollectionQuery>
+      get user => ValueModelQuerySelector<GithubUserModel,
               _$_GithubIssueModelCollectionQuery>(
           key: "user", toQuery: _toQuery, modelQuery: modelQuery);
 
-  ModelRefModelQuerySelector<GithubUserModel,
-          _$_GithubIssueModelCollectionQuery>
-      get assignee => ModelRefModelQuerySelector<GithubUserModel,
+  ValueModelQuerySelector<GithubUserModel, _$_GithubIssueModelCollectionQuery>
+      get assignee => ValueModelQuerySelector<GithubUserModel,
               _$_GithubIssueModelCollectionQuery>(
           key: "assignee", toQuery: _toQuery, modelQuery: modelQuery);
 
-  ListModelQuerySelector<GithubUserModelRef, _$_GithubIssueModelCollectionQuery>
-      get assignees => ListModelQuerySelector<GithubUserModelRef,
+  ListModelQuerySelector<GithubUserModel, _$_GithubIssueModelCollectionQuery>
+      get assignees => ListModelQuerySelector<GithubUserModel,
               _$_GithubIssueModelCollectionQuery>(
           key: "assignees", toQuery: _toQuery, modelQuery: modelQuery);
 
-  ModelRefModelQuerySelector<GithubUserModel,
-          _$_GithubIssueModelCollectionQuery>
-      get closedBy => ModelRefModelQuerySelector<GithubUserModel,
+  ValueModelQuerySelector<GithubUserModel, _$_GithubIssueModelCollectionQuery>
+      get closedBy => ValueModelQuerySelector<GithubUserModel,
               _$_GithubIssueModelCollectionQuery>(
           key: "closedBy", toQuery: _toQuery, modelQuery: modelQuery);
 

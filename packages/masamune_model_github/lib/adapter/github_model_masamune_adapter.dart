@@ -18,6 +18,7 @@ class GithubModelMasamuneAdapter extends MasamuneAdapter {
   const GithubModelMasamuneAdapter({
     required this.modelAdapter,
     required this.appRef,
+    this.debugAuthDapter,
   });
 
   /// Application reference.
@@ -28,7 +29,12 @@ class GithubModelMasamuneAdapter extends MasamuneAdapter {
   /// Github model adapter.
   ///
   /// Githubのモデルアダプター。
-  final GithubModelAdapter modelAdapter;
+  final ModelAdapter modelAdapter;
+
+  /// Debug auth adapter.
+  ///
+  /// デバッグ用の認証アダプター。
+  final AuthAdapter? debugAuthDapter;
 
   /// You can retrieve the [GithubModelMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

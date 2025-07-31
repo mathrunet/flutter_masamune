@@ -32,6 +32,8 @@ enum _$GithubCommitModelKeys {
   commentsUrl,
   author,
   committer,
+  authorDate,
+  committerDate,
   parents,
   contents,
   fromServer,
@@ -375,6 +377,22 @@ class _$_GithubCommitModelCollectionQuery
       get committer => ModelRefModelQuerySelector<GithubUserModel,
               _$_GithubCommitModelCollectionQuery>(
           key: "committer", toQuery: _toQuery, modelQuery: modelQuery);
+
+  ModelTimestampModelQuerySelector<_$_GithubCommitModelCollectionQuery>
+      get authorDate =>
+          ModelTimestampModelQuerySelector<_$_GithubCommitModelCollectionQuery>(
+            key: "authorDate",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
+
+  ModelTimestampModelQuerySelector<_$_GithubCommitModelCollectionQuery>
+      get committerDate =>
+          ModelTimestampModelQuerySelector<_$_GithubCommitModelCollectionQuery>(
+            key: "committerDate",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
 
   ListModelQuerySelector<GithubCommitModel, _$_GithubCommitModelCollectionQuery>
       get parents => ListModelQuerySelector<GithubCommitModel,

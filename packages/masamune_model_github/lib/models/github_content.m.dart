@@ -113,25 +113,25 @@ class _$GithubContentModelRefPath extends ModelRefPath<GithubContentModel> {
     super.uid, {
     required String organizationId,
     required String repositoryId,
-    required String issueId,
-    required String commentId,
+    required String branchId,
+    required String commitId,
   })  : _organizationId = organizationId,
         _repositoryId = repositoryId,
-        _issueId = issueId,
-        _commentId = commentId;
+        _branchId = branchId,
+        _commitId = commitId;
 
   final String _organizationId;
 
   final String _repositoryId;
 
-  final String _issueId;
+  final String _branchId;
 
-  final String _commentId;
+  final String _commitId;
 
   @override
   DocumentModelQuery get modelQuery {
     return DocumentModelQuery(
-      "organization/$_organizationId/repository/$_repositoryId/issue/$_issueId/comment/$_commentId/content/${path.trimQuery().trimString("/")}",
+      "organization/$_organizationId/repository/$_repositoryId/branch/$_branchId/commit/$_commitId/content/${path.trimQuery().trimString("/")}",
       adapter: adapter,
     );
   }
@@ -144,24 +144,24 @@ class _$GithubContentModelInitialCollection
     super.value, {
     required String organizationId,
     required String repositoryId,
-    required String issueId,
-    required String commentId,
+    required String branchId,
+    required String commitId,
   })  : _organizationId = organizationId,
         _repositoryId = repositoryId,
-        _issueId = issueId,
-        _commentId = commentId;
+        _branchId = branchId,
+        _commitId = commitId;
 
   final String _organizationId;
 
   final String _repositoryId;
 
-  final String _issueId;
+  final String _branchId;
 
-  final String _commentId;
+  final String _commitId;
 
   @override
   String get path =>
-      "organization/$_organizationId/repository/$_repositoryId/issue/$_issueId/comment/$_commentId/content";
+      "organization/$_organizationId/repository/$_repositoryId/branch/$_branchId/commit/$_commitId/content";
 
   @override
   DynamicMap toMap(GithubContentModel value) => value.rawValue;
@@ -176,15 +176,15 @@ class _$GithubContentModelDocumentQuery {
     Object _id, {
     required String organizationId,
     required String repositoryId,
-    required String issueId,
-    required String commentId,
+    required String branchId,
+    required String commitId,
     ModelAdapter? adapter,
     bool useTestModelAdapter = true,
     ModelAccessQuery? accessQuery,
   }) {
     return _$_GithubContentModelDocumentQuery(
       DocumentModelQuery(
-        "organization/$organizationId/repository/$repositoryId/issue/$issueId/comment/$commentId/content/$_id",
+        "organization/$organizationId/repository/$repositoryId/branch/$branchId/commit/$commitId/content/$_id",
         adapter: adapter ?? _$GithubContentModelDocument.defaultModelAdapter,
         useTestModelAdapter: useTestModelAdapter,
         accessQuery:
@@ -197,7 +197,7 @@ class _$GithubContentModelDocumentQuery {
 
   RegExp get regExp {
     return RegExp(
-      r"^organization/([^/]+)/repository/([^/]+)/issue/([^/]+)/comment/([^/]+)/content/([^/]+)$"
+      r"^organization/([^/]+)/repository/([^/]+)/branch/([^/]+)/commit/([^/]+)/content/([^/]+)$"
           .trimQuery()
           .trimString("/"),
     );
@@ -231,15 +231,15 @@ class _$GithubContentModelCollectionQuery {
   _$_GithubContentModelCollectionQuery call({
     required String organizationId,
     required String repositoryId,
-    required String issueId,
-    required String commentId,
+    required String branchId,
+    required String commitId,
     bool useTestModelAdapter = true,
     ModelAdapter? adapter,
     ModelAccessQuery? accessQuery,
   }) {
     return _$_GithubContentModelCollectionQuery(
       CollectionModelQuery(
-        "organization/$organizationId/repository/$repositoryId/issue/$issueId/comment/$commentId/content",
+        "organization/$organizationId/repository/$repositoryId/branch/$branchId/commit/$commitId/content",
         adapter: adapter ?? _$GithubContentModelCollection.defaultModelAdapter,
         useTestModelAdapter: useTestModelAdapter,
         accessQuery: accessQuery ??
@@ -252,7 +252,7 @@ class _$GithubContentModelCollectionQuery {
 
   RegExp get regExp {
     return RegExp(
-      r"^organization/([^/]+)/repository/([^/]+)/issue/([^/]+)/comment/([^/]+)/content$"
+      r"^organization/([^/]+)/repository/([^/]+)/branch/([^/]+)/commit/([^/]+)/content$"
           .trimQuery()
           .trimString("/"),
     );

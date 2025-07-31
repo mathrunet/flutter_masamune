@@ -60,10 +60,10 @@ class GithubUserController extends MasamuneControllerBase<GithubUserModel?,
 
   GithubOrganizationModelDocument? _currentOrganization;
 
-  /// Returns the current repository slug.
+  /// Returns the current organization slug.
   ///
-  /// 現在のリポジトリのスラッグを返します。
-  String? get currentRepositorySlug {
+  /// 現在の組織のスラッグを返します。
+  String? get currentOrganizationSlug {
     if (currentOrganization == null) {
       return uid;
     }
@@ -86,12 +86,24 @@ class GithubUserController extends MasamuneControllerBase<GithubUserModel?,
     _loadingCompleter = Completer<void>();
     try {
       final adapter = this.adapter.modelAdapter;
-      final github = await adapter._getInstance();
+      if (adapter is GithubModelAdapter) {
+        final github = await adapter._getInstance();
+        final user = await github.users.getCurrentUser();
+        _value = user.toGithubUserModel();
+      } else {
+        final authAdapter = this.adapter.debugAuthDapter;
+        final userId = authAdapter?.userId;
+        if (userId == null) {
+          throw Exception("User ID is not set.");
+        }
+        final value =
+            this.adapter.appRef.model(GithubUserModel.document(userId));
+        await value.load();
+        _value = value.value;
+      }
       _organizations ??=
           this.adapter.appRef.model(GithubOrganizationModel.collection());
       await _organizations?.reload();
-      final user = await github.users.getCurrentUser();
-      _value = user.toGithubUserModel();
       _loaded = true;
       notifyListeners();
       _loadingCompleter?.complete();

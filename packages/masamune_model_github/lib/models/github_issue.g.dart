@@ -28,23 +28,17 @@ _GithubIssueModel _$GithubIssueModelFromJson(Map<String, dynamic> json) =>
               json['repository'] as Map<String, dynamic>),
       user: json['user'] == null
           ? null
-          : ModelRefBase<GithubUserModel>.fromJson(
-              json['user'] as Map<String, dynamic>),
+          : GithubUserModel.fromJson(json['user'] as Map<String, dynamic>),
       assignee: json['assignee'] == null
           ? null
-          : ModelRefBase<GithubUserModel>.fromJson(
-              json['assignee'] as Map<String, dynamic>),
+          : GithubUserModel.fromJson(json['assignee'] as Map<String, dynamic>),
       assignees: (json['assignees'] as List<dynamic>?)
-              ?.map((e) => e == null
-                  ? null
-                  : ModelRefBase<GithubUserModel>.fromJson(
-                      e as Map<String, dynamic>))
+              ?.map((e) => GithubUserModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
       closedBy: json['closedBy'] == null
           ? null
-          : ModelRefBase<GithubUserModel>.fromJson(
-              json['closedBy'] as Map<String, dynamic>),
+          : GithubUserModel.fromJson(json['closedBy'] as Map<String, dynamic>),
       labels: (json['labels'] as List<dynamic>?)
               ?.map((e) => GithubLabelValue.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -102,22 +96,22 @@ Map<String, dynamic> _$GithubIssueModelToJson(_GithubIssueModel instance) =>
       'draft': instance.draft,
       'locked': instance.locked,
       'commentsCount': instance.commentsCount,
-      'repository': instance.repository,
-      'user': instance.user,
-      'assignee': instance.assignee,
-      'assignees': instance.assignees,
-      'closedBy': instance.closedBy,
-      'labels': instance.labels,
-      'url': instance.url,
-      'htmlUrl': instance.htmlUrl,
-      'commentsUrl': instance.commentsUrl,
-      'eventsUrl': instance.eventsUrl,
-      'labelsUrl': instance.labelsUrl,
-      'repositoryUrl': instance.repositoryUrl,
-      'timelineUrl': instance.timelineUrl,
-      'reactions': instance.reactions,
-      'closedAt': instance.closedAt,
-      'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
+      'repository': instance.repository?.toJson(),
+      'user': instance.user?.toJson(),
+      'assignee': instance.assignee?.toJson(),
+      'assignees': instance.assignees.map((e) => e.toJson()).toList(),
+      'closedBy': instance.closedBy?.toJson(),
+      'labels': instance.labels.map((e) => e.toJson()).toList(),
+      'url': instance.url?.toJson(),
+      'htmlUrl': instance.htmlUrl?.toJson(),
+      'commentsUrl': instance.commentsUrl?.toJson(),
+      'eventsUrl': instance.eventsUrl?.toJson(),
+      'labelsUrl': instance.labelsUrl?.toJson(),
+      'repositoryUrl': instance.repositoryUrl?.toJson(),
+      'timelineUrl': instance.timelineUrl?.toJson(),
+      'reactions': instance.reactions?.toJson(),
+      'closedAt': instance.closedAt?.toJson(),
+      'createdAt': instance.createdAt.toJson(),
+      'updatedAt': instance.updatedAt.toJson(),
       'fromServer': instance.fromServer,
     };
