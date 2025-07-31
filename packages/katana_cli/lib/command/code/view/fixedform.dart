@@ -159,6 +159,7 @@ class ${className}EditPage extends FormEditPageScopedWidget {
 /// Widgets for form views.
 @immutable
 class ${className}Form extends FormScopedWidget {
+  /// Widgets for form views.
   const ${className}Form({super.key});
 
   /// Used to transition to the ${className}AddPage screen.
