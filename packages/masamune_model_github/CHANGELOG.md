@@ -1,3 +1,7 @@
+## 3.1.12
+
+ - **FIX**: Corrected data errors. ([4e7a81fb](https://github.com/mathrunet/flutter_masamune/commit/4e7a81fbd1d20fa64bcb457e9d5a96c4815b5879))
+
 ## 3.1.11
 
  - **FIX**: Fixed inability to load. ([628b4e49](https://github.com/mathrunet/flutter_masamune/commit/628b4e49abe9e9c99e71800dfd1bc32903053e19))

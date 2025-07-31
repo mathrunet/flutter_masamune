@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - Update a dependency to the latest release.
+
 ## 3.1.1
 
  - **FIX**: The public directory was also separated per user. ([979cc968](https://github.com/mathrunet/flutter_masamune/commit/979cc9680e6f66f01ad160244596d876e511f9dd))

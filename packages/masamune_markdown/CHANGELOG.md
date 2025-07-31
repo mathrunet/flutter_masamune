@@ -1,3 +1,7 @@
+## 3.1.0
+
+ - **FEAT**: Add Markdown Style. ([0785b0dc](https://github.com/mathrunet/flutter_masamune/commit/0785b0dc47ff7692496e72ff0d80e8278719003d))
+
 ## 3.0.18
 
  - Update a dependency to the latest release.

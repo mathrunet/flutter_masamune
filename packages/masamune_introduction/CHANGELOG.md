@@ -1,3 +1,7 @@
+## 3.3.10
+
+ - Update a dependency to the latest release.
+
 ## 3.3.9
 
  - **FIX**: Add onSkip. ([72bc608e](https://github.com/mathrunet/flutter_masamune/commit/72bc608eb5481bc06d4da4206097ab7bded1249c))

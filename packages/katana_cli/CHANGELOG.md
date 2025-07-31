@@ -1,3 +1,7 @@
+## 3.6.7
+
+ - **FIX**: Add translation. ([21783b2f](https://github.com/mathrunet/flutter_masamune/commit/21783b2f7ceec7ab9e46a4421c4c65395a4c6bb9))
+
 ## 3.6.6
 
  - **FIX**: Add size check. ([14baab0b](https://github.com/mathrunet/flutter_masamune/commit/14baab0b2d03346e097d01300978d281af7fb534))
