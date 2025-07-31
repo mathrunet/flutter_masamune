@@ -38,28 +38,27 @@ class LoggerExporter {
     }
     _completer = Completer();
     try {
-      WidgetsBinding.instance.scheduleFrameCallback((_) async {
-        try {
-          await compute<_ComputeMessaging, void>(
-            (message) async {
-              final json =
-                  jsonEncode(_unsupportedObjectFilter(message.data)).toAES(
-                message.fileName.last().toSHA1(),
-              );
-              await File(message.fileName).writeAsString(json);
-            },
-            _ComputeMessaging(fileName: fileName, data: data),
-          );
-          _completer?.complete();
-          _completer = null;
-        } catch (e) {
-          _completer?.completeError(e);
-          _completer = null;
-        } finally {
-          _completer?.complete();
-          _completer = null;
-        }
-      });
+      await Future.delayed(Duration.zero);
+      try {
+        await compute<_ComputeMessaging, void>(
+          (message) async {
+            final json =
+                jsonEncode(_unsupportedObjectFilter(message.data)).toAES(
+              message.fileName.last().toSHA1(),
+            );
+            await File(message.fileName).writeAsString(json);
+          },
+          _ComputeMessaging(fileName: fileName, data: data),
+        );
+        _completer?.complete();
+        _completer = null;
+      } catch (e) {
+        _completer?.completeError(e);
+        _completer = null;
+      } finally {
+        _completer?.complete();
+        _completer = null;
+      }
     } catch (e) {
       _completer?.completeError(e);
       _completer = null;

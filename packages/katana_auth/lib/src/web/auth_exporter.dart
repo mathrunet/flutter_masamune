@@ -33,23 +33,22 @@ class AuthExporter {
     }
     _completer = Completer();
     try {
-      WidgetsBinding.instance.scheduleFrameCallback((_) async {
-        try {
-          final sharedPreference = SharedPreferencesAsync();
-          final json = jsonEncode(_unsupportedObjectFilter(data)).toAES(
-            fileName.last().toSHA1(),
-          );
-          await sharedPreference.setString(fileName.toSHA1(), json);
-          _completer?.complete();
-          _completer = null;
-        } catch (e) {
-          _completer?.completeError(e);
-          _completer = null;
-        } finally {
-          _completer?.complete();
-          _completer = null;
-        }
-      });
+      await Future.delayed(Duration.zero);
+      try {
+        final sharedPreference = SharedPreferencesAsync();
+        final json = jsonEncode(_unsupportedObjectFilter(data)).toAES(
+          fileName.last().toSHA1(),
+        );
+        await sharedPreference.setString(fileName.toSHA1(), json);
+        _completer?.complete();
+        _completer = null;
+      } catch (e) {
+        _completer?.completeError(e);
+        _completer = null;
+      } finally {
+        _completer?.complete();
+        _completer = null;
+      }
     } catch (e) {
       _completer?.completeError(e);
       _completer = null;
