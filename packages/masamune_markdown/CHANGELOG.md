@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - **FIX**: Fixed readonly not working. ([e0e1a91a](https://github.com/mathrunet/flutter_masamune/commit/e0e1a91ae50d8db7517272f04c23e59ec1d2e172))
+
 ## 3.1.0
 
  - **FEAT**: Add Markdown Style. ([0785b0dc](https://github.com/mathrunet/flutter_masamune/commit/0785b0dc47ff7692496e72ff0d80e8278719003d))

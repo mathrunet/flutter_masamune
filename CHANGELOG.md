@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-08-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_markdown` - `v3.1.1`](#masamune_markdown---v311)
+ - [`masamune_model_github` - `v3.2.0`](#masamune_model_github---v320)
+
+---
+
+#### `masamune_markdown` - `v3.1.1`
+
+ - **FIX**: Fixed readonly not working. ([e0e1a91a](https://github.com/mathrunet/flutter_masamune/commit/e0e1a91ae50d8db7517272f04c23e59ec1d2e172))
+
+#### `masamune_model_github` - `v3.2.0`
+
+ - **FIX**: Add missing events. ([6c89979f](https://github.com/mathrunet/flutter_masamune/commit/6c89979ff2ec1e6f79c670a3e845254740fcd7c7))
+ - **FEAT**: I incorporated the timeline. ([65169f2e](https://github.com/mathrunet/flutter_masamune/commit/65169f2e5355c2b86ae668f1f0ad85f1f34e828c))
+
+
 ## 2025-07-31
 
 ### Changes

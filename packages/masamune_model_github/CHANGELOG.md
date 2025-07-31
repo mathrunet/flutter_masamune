@@ -1,3 +1,8 @@
+## 3.2.0
+
+ - **FIX**: Add missing events. ([6c89979f](https://github.com/mathrunet/flutter_masamune/commit/6c89979ff2ec1e6f79c670a3e845254740fcd7c7))
+ - **FEAT**: I incorporated the timeline. ([65169f2e](https://github.com/mathrunet/flutter_masamune/commit/65169f2e5355c2b86ae668f1f0ad85f1f34e828c))
+
 ## 3.1.12
 
  - **FIX**: Corrected data errors. ([4e7a81fb](https://github.com/mathrunet/flutter_masamune/commit/4e7a81fbd1d20fa64bcb457e9d5a96c4815b5879))
