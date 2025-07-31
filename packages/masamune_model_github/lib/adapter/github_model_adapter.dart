@@ -1014,8 +1014,9 @@ class GithubModelAdapter extends ModelAdapter {
       if (organizationId == null || repositoryId == null || issueId == null) {
         throw Exception("Invalid path for issue comment collection load");
       }
-      final comments = github.issues.listCommentsByRepo(
+      final comments = github.issues.listCommentsByIssue(
         RepositorySlug(organizationId, repositoryId),
+        int.parse(issueId),
       );
       res = (await comments.map((e) => e).toList()).toMap((e) {
         final id = e.uid;
