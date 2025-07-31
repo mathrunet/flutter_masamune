@@ -50,3 +50,20 @@ extension ImageProviderExtensions on ImageProvider {
     );
   }
 }
+
+/// Extensions for [String].
+///
+/// [String]の拡張メソッド。
+extension StringToColorExtensions on String {
+  /// Converts the [String] to a [Color].
+  ///
+  /// [String]を[Color]に変換します。
+  Color toColor({int alpha = 255}) {
+    return Color.fromARGB(
+      alpha,
+      int.parse(substring(0, 2), radix: 16),
+      int.parse(substring(2, 4), radix: 16),
+      int.parse(substring(4, 6), radix: 16),
+    );
+  }
+}
