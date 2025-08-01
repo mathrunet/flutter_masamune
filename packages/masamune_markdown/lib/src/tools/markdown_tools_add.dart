@@ -115,30 +115,39 @@ enum MarkdownToolAdd {
     switch (this) {
       case MarkdownToolAdd.text:
         ref.focusedController?.addFormattedLine(null);
+        ref.deleteMode();
         break;
       case MarkdownToolAdd.h1:
         ref.focusedController?.addFormattedLine(Attribute.h1);
+        ref.deleteMode();
         break;
       case MarkdownToolAdd.h2:
         ref.focusedController?.addFormattedLine(Attribute.h2);
+        ref.deleteMode();
         break;
       case MarkdownToolAdd.h3:
         ref.focusedController?.addFormattedLine(Attribute.h3);
+        ref.deleteMode();
         break;
       case MarkdownToolAdd.bulletedList:
         ref.focusedController?.addFormattedLine(Attribute.ul);
+        ref.deleteMode();
         break;
       case MarkdownToolAdd.numberList:
         ref.focusedController?.addFormattedLine(Attribute.ol);
+        ref.deleteMode();
         break;
       case MarkdownToolAdd.toggleList:
         ref.focusedController?.addFormattedLine(Attribute.checked);
+        ref.deleteMode();
         break;
       case MarkdownToolAdd.code:
         ref.focusedController?.addFormattedLine(Attribute.codeBlock);
+        ref.deleteMode();
         break;
       case MarkdownToolAdd.quote:
         ref.focusedController?.addFormattedLine(Attribute.blockQuote);
+        ref.deleteMode();
         break;
     }
   }

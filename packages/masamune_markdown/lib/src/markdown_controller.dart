@@ -48,6 +48,11 @@ class MarkdownController extends MasamuneControllerBase<List<TextEditingValue>,
 
   final Set<FormMarkdownFieldState> _states = {};
 
+  /// This is used to control the focus of the markdown controller.
+  ///
+  /// これは、markdownコントローラーのフォーカスを制御するために使用されます。
+  final FocusNode focusNode = FocusNode();
+
   void _registerState(FormMarkdownFieldState state) {
     _states.add(state);
     state._controller.addListener(_handleQuillControllerOnChanged);

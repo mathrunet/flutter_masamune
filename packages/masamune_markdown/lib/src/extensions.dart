@@ -57,7 +57,9 @@ extension QuillControllerExtension on QuillController {
   /// 行をフォーマットします。
   void formatLine(Attribute? attribute, {bool shouldNotifyListeners = true}) {
     final text = document.toPlainText();
-    final lineStart = text.lastIndexOf("\n", selection.baseOffset - 1) + 1;
+    final lineStart = selection.baseOffset > 0
+        ? (text.lastIndexOf("\n", selection.baseOffset - 1) + 1)
+        : 0;
     final lineEnd = text.indexOf("\n", selection.baseOffset);
     formatText(lineStart, lineEnd - lineStart, attribute,
         shouldNotifyListeners: shouldNotifyListeners);
@@ -69,10 +71,30 @@ extension QuillControllerExtension on QuillController {
   void removeFormatSelection(Attribute attribute,
       {bool shouldNotifyListeners = true}) {
     final text = document.toPlainText();
-    final lineStart = text.lastIndexOf("\n", selection.baseOffset - 1) + 1;
+    final lineStart = selection.baseOffset > 0
+        ? (text.lastIndexOf("\n", selection.baseOffset - 1) + 1)
+        : 0;
     final lineEnd = text.indexOf("\n", selection.baseOffset);
     formatText(lineStart, lineEnd - lineStart, Attribute.clone(attribute, null),
         shouldNotifyListeners: shouldNotifyListeners);
+  }
+
+  /// Check if the selection has any format.
+  ///
+  /// 選択範囲にフォーマットがあるかどうかをチェックします。
+  bool hasFormatAny() {
+    final text = document.toPlainText();
+    final lineStart = selection.baseOffset > 0
+        ? (text.lastIndexOf("\n", selection.baseOffset - 1) + 1)
+        : 0;
+    final lineEnd = text.indexOf("\n", selection.baseOffset);
+    if (lineStart != lineEnd) {
+      return false;
+    }
+    final style = document
+        .collectStyle(lineStart, lineEnd - lineStart)
+        .mergeAll(toggledStyle);
+    return style.attributes.isNotEmpty && style.attributes.keys.isNotEmpty;
   }
 
   /// Remove a format.
@@ -80,11 +102,19 @@ extension QuillControllerExtension on QuillController {
   /// フォーマットを削除します。
   void removeFormat({bool shouldNotifyListeners = true}) {
     final text = document.toPlainText();
-    final lineStart = text.lastIndexOf("\n", selection.baseOffset - 1) + 1;
+    final lineStart = selection.baseOffset > 0
+        ? (text.lastIndexOf("\n", selection.baseOffset - 1) + 1)
+        : 0;
     final lineEnd = text.indexOf("\n", selection.baseOffset);
     formatText(lineStart, lineEnd - lineStart, Attribute.h6);
     formatText(
         lineStart, lineEnd - lineStart, Attribute.clone(Attribute.h6, null));
+    formatText(
+        lineStart, lineEnd - lineStart, Attribute.clone(Attribute.list, null));
+    formatText(lineStart, lineEnd - lineStart,
+        Attribute.clone(Attribute.codeBlock, null));
+    formatText(lineStart, lineEnd - lineStart,
+        Attribute.clone(Attribute.blockQuote, null));
   }
 
   /// Check if the indent can be increased.

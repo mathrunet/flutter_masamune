@@ -130,6 +130,7 @@ class FormMarkdownField<TValue> extends FormField<String> {
     String? hintText,
     void Function(String link)? onTapLink,
     this.autofocus = false,
+    VoidCallback? onTap,
   })  : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
@@ -203,6 +204,22 @@ class FormMarkdownField<TValue> extends FormField<String> {
                 controller: state._controller,
                 focusNode: state._effectiveFocusNode,
                 config: QuillEditorConfig(
+                  onTapDown: (details, p1) {
+                    onTap?.call();
+                    return false;
+                  },
+                  // onTapOutside: (details, p1) {
+                  //   onTap?.call();
+                  // },
+                  onKeyPressed: (event, node) {
+                    if (event.logicalKey == LogicalKeyboardKey.backspace) {
+                      if (state._controller.hasFormatAny()) {
+                        state._controller.removeFormat();
+                        return KeyEventResult.handled;
+                      }
+                    }
+                    return KeyEventResult.ignored;
+                  },
                   scrollable: scrollable,
                   autoFocus: autofocus,
                   showCursor: !readOnly,
@@ -417,7 +434,8 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
   );
   final DeltaToMarkdown _deltaToMd = DeltaToMarkdown();
 
-  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode!;
+  FocusNode get _effectiveFocusNode =>
+      widget.focusNode ?? widget.controller?.focusNode ?? _focusNode!;
   FocusNode? _focusNode;
 
   @override
@@ -469,6 +487,9 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
     }
+    if (widget.readOnly != oldWidget.readOnly) {
+      _controller.readOnly = widget.readOnly;
+    }
     if (oldWidget.initialValue != widget.initialValue &&
         widget.initialValue != null) {
       reset();
@@ -504,7 +525,12 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
         _delta = _controller.document.toDelta();
       } else {
         _delta = _mdToDelta.convert(value);
-        _controller.document = Document.fromDelta(_delta!);
+        if (_delta != null && _delta!.length > 0) {
+          _controller.document = Document.fromDelta(_delta!);
+        } else {
+          _controller.document = Document();
+          _delta = _controller.document.toDelta();
+        }
       }
     }
   }

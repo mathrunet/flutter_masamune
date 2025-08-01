@@ -115,30 +115,39 @@ enum MarkdownToolExchange {
     switch (this) {
       case MarkdownToolExchange.text:
         ref.focusedController?.removeFormat();
+        ref.deleteMode();
         break;
       case MarkdownToolExchange.h1:
         ref.focusedController?.formatLine(Attribute.h1);
+        ref.deleteMode();
         break;
       case MarkdownToolExchange.h2:
         ref.focusedController?.formatLine(Attribute.h2);
+        ref.deleteMode();
         break;
       case MarkdownToolExchange.h3:
         ref.focusedController?.formatLine(Attribute.h3);
+        ref.deleteMode();
         break;
       case MarkdownToolExchange.bulletedList:
         ref.focusedController?.formatLine(Attribute.ul);
+        ref.deleteMode();
         break;
       case MarkdownToolExchange.numberList:
         ref.focusedController?.formatLine(Attribute.ol);
+        ref.deleteMode();
         break;
       case MarkdownToolExchange.toggleList:
         ref.focusedController?.formatLine(Attribute.unchecked);
+        ref.deleteMode();
         break;
       case MarkdownToolExchange.code:
         ref.focusedController?.formatLine(Attribute.codeBlock);
+        ref.deleteMode();
         break;
       case MarkdownToolExchange.quote:
         ref.focusedController?.formatLine(Attribute.blockQuote);
+        ref.deleteMode();
         break;
     }
   }

@@ -61,6 +61,7 @@ class FormMarkdownToolbar extends StatefulWidget {
     this.mentionBuilder,
     this.linkTitleHintText,
     this.linkLinkHintText,
+    this.subMenuItems = const [],
   }) : assert(
           (mentionBuilder == null && mentionHintText == null) ||
               mentionBuilder != null,
@@ -96,6 +97,11 @@ class FormMarkdownToolbar extends StatefulWidget {
   /// リンクリンクのヒントテキスト。
   final String? linkLinkHintText;
 
+  /// Sub menu items of the toolbar.
+  ///
+  /// ツールバーのサブメニューアイテム。
+  final List<FormMarkdownToolbarSubMenuItem> subMenuItems;
+
   /// Builder for the mentions.
   ///
   /// メンションのビルダー。
@@ -106,13 +112,13 @@ class FormMarkdownToolbar extends StatefulWidget {
 }
 
 class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
-    with WidgetsBindingObserver
     implements MarkdownToolRef {
   bool _isKeyboardHidden = false;
   bool _showBlockMenu = false;
   double _blockMenuHeight = 0;
   double _lastBottomInset = 0;
   Duration? _blockMenuToggleDuration;
+  double? _prevBottomInset;
 
   _LinkSetting? _linkSetting;
   _MentionSetting? _mentionSetting;
@@ -123,23 +129,32 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
   void initState() {
     super.initState();
     widget.controller.addListener(_handleControllerStateOnChanged);
-    WidgetsBinding.instance.addObserver(this);
     _clipboardMonitor.monitorClipboard(true, _handledClipboardStateOnChanged);
+  }
+
+  @override
+  void didUpdateWidget(FormMarkdownToolbar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!widget.subMenuItems.equalsTo(oldWidget.subMenuItems)) {
+      setState(() {});
+    }
   }
 
   @override
   void dispose() {
     _clipboardMonitor.monitorClipboard(false, _handledClipboardStateOnChanged);
-    WidgetsBinding.instance.removeObserver(this);
     widget.controller.removeListener(_handleControllerStateOnChanged);
     _linkSetting?.cancel();
     _mentionSetting?.cancel();
     super.dispose();
   }
 
-  @override
-  void didChangeMetrics() {
+  void _handledOnKeyboardStateChanged() {
     final currentBottomInset = context.mediaQuery.viewInsets.bottom;
+    if (_prevBottomInset == currentBottomInset) {
+      return;
+    }
+    _prevBottomInset = currentBottomInset;
     final isKeyboardShowing =
         _lastBottomInset + _kMinChangeSize < currentBottomInset;
     if (currentBottomInset > 0) {
@@ -205,6 +220,15 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
   }
 
   @override
+  FocusNode? get focusedFocusNode {
+    final state = focuedState;
+    if (state == null) {
+      return null;
+    }
+    return state._effectiveFocusNode;
+  }
+
+  @override
   List<MarkdownMention> Function(BuildContext context)? get mentionBuilder =>
       widget.mentionBuilder;
 
@@ -219,6 +243,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
           }
           _showBlockMenu = false;
           SystemChannels.textInput.invokeMethod("TextInput.show");
+          widget.controller.focusNode.requestFocus();
         } else {
           if (mode.hideKeyboardOnSelected) {
             if (_blockMenuHeight == 0) {
@@ -239,6 +264,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
             }
             _showBlockMenu = false;
             SystemChannels.textInput.invokeMethod("TextInput.show");
+            widget.controller.focusNode.requestFocus();
           }
         } else {
           if (mode.hideKeyboardOnSelected) {
@@ -439,6 +465,29 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
       }
       return null;
     });
+    final subMenuItems = widget.subMenuItems.mapAndRemoveEmpty((e) {
+      if (isTextSelected) {
+        return null;
+      }
+      if (e.active) {
+        return IconButton.filled(
+          style: IconButton.styleFrom(
+            backgroundColor: widget.style?.activeBackgroundColor ??
+                theme.colorTheme?.primary ??
+                theme.colorScheme.primary,
+            foregroundColor: widget.style?.activeColor ??
+                theme.colorTheme?.onPrimary ??
+                theme.colorScheme.onPrimary,
+          ),
+          onPressed: e.onTap,
+          icon: e.icon,
+        );
+      }
+      return IconButton(
+        onPressed: e.onTap,
+        icon: e.icon,
+      );
+    });
     if (subMenu.isNotEmpty) {
       return [
         VerticalDivider(
@@ -446,6 +495,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
           color: (widget.style?.borderColor ?? theme.colorScheme.outline)
               .withAlpha(128),
         ),
+        ...subMenuItems,
         ...subMenu,
       ];
     }
@@ -774,6 +824,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                         flex: 2,
                         child: Text(e.label(context)),
                       ),
+                      const SizedBox(width: 16),
                     ],
                   ),
                 ),
@@ -837,8 +888,12 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                       ),
                       Expanded(
                         flex: 2,
-                        child: Text(e.label(context)),
+                        child: Text(
+                          e.label(context),
+                          style: theme.textTheme.labelMedium,
+                        ),
                       ),
+                      const SizedBox(width: 16),
                     ],
                   ),
                 ),
@@ -908,6 +963,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                         flex: 2,
                         child: Text(e.label(context)),
                       ),
+                      const SizedBox(width: 16),
                     ],
                   ),
                 ),
@@ -921,6 +977,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
 
   @override
   Widget build(BuildContext context) {
+    _handledOnKeyboardStateChanged();
     final theme = Theme.of(context);
     var height = _blockMenuHeight;
     if (_linkSetting != null) {
@@ -1054,6 +1111,11 @@ abstract class MarkdownToolRef {
   /// コントローラーを取得します。
   QuillController? get focusedController;
 
+  /// Get the focused focus node.
+  ///
+  /// フォーカスされているフォーカスノードを取得します。
+  FocusNode? get focusedFocusNode;
+
   /// Check if the attribute is active.
   ///
   /// 属性がアクティブかどうかを確認します。
@@ -1083,6 +1145,49 @@ abstract class MarkdownToolRef {
   ///
   /// メンションビルダーを取得します。
   List<MarkdownMention> Function(BuildContext context)? get mentionBuilder;
+}
+
+/// A sub menu item of the markdown toolbar.
+///
+/// マークダウンツールバーのサブメニューアイテム。
+@immutable
+class FormMarkdownToolbarSubMenuItem {
+  /// A sub menu item of the markdown toolbar.
+  ///
+  /// マークダウンツールバーのサブメニューアイテム。
+  const FormMarkdownToolbarSubMenuItem({
+    required this.icon,
+    required this.onTap,
+    this.active = false,
+  });
+
+  /// The icon of the sub menu item.
+  ///
+  /// サブメニューアイコン。
+  final Widget icon;
+
+  /// The on tap callback of the sub menu item.
+  ///
+  /// サブメニューアイコンをタップしたときのコールバック。
+  final VoidCallback onTap;
+
+  /// Whether the sub menu item is active.
+  ///
+  /// サブメニューアイテムがアクティブかどうか。
+  final bool active;
+
+  @override
+  int get hashCode => icon.hashCode ^ onTap.hashCode ^ active.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is FormMarkdownToolbarSubMenuItem &&
+            runtimeType == other.runtimeType &&
+            icon == other.icon &&
+            onTap == other.onTap &&
+            active == other.active;
+  }
 }
 
 class _LinkSetting {
