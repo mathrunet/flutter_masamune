@@ -47,6 +47,58 @@ class MarkdownController extends MasamuneControllerBase<List<TextEditingValue>,
       ];
 
   final Set<FormMarkdownFieldState> _states = {};
+  FormMarkdownFieldState? _latestState;
+
+  /// Get the last state.
+  ///
+  /// 最後にフォーカスした状態を取得します。
+  FormMarkdownFieldState? get lastState {
+    return _latestState;
+  }
+
+  /// Get the last controller.
+  ///
+  /// 最後にフォーカスしたコントローラーを取得します。
+  QuillController? get lastController {
+    return _latestState?._controller;
+  }
+
+  /// Get the last focus node.
+  ///
+  /// 最後にフォーカスしたフォーカスノードを取得します。
+  FocusNode? get lastFocusNode {
+    return _latestState?._effectiveFocusNode;
+  }
+
+  /// Get the focused state.
+  ///
+  /// フォーカスされている状態を取得します。
+  FormMarkdownFieldState? get focuedState {
+    return _states.firstWhereOrNull(
+      (state) => state._effectiveFocusNode.hasFocus,
+    );
+  }
+
+  /// Get the controller.
+  ///
+  /// コントローラーを取得します。
+  QuillController? get focusedController {
+    return focuedState?._controller;
+  }
+
+  /// Get the focused focus node.
+  ///
+  /// フォーカスされているフォーカスノードを取得します。
+  FocusNode? get focusedFocusNode {
+    return focuedState?._effectiveFocusNode;
+  }
+
+  /// Get the focused selection.
+  ///
+  /// フォーカスされている選択範囲を取得します。
+  TextSelection? get focusedSelection {
+    return focuedState?._controller.selection;
+  }
 
   /// This is used to control the focus of the markdown controller.
   ///
@@ -65,6 +117,24 @@ class MarkdownController extends MasamuneControllerBase<List<TextEditingValue>,
 
   void _handleQuillControllerOnChanged() {
     notifyListeners();
+  }
+
+  /// Focus the last field.
+  ///
+  /// 最後のフィールドにフォーカスを当てます。
+  Future<void> focusLastField() async {
+    await Future.delayed(const Duration(milliseconds: 50));
+    lastState?.quillEditorState?.editableTextKey.currentState?.renderEditor
+      ?..selectPosition(cause: SelectionChangedCause.tap)
+      ..onSelectionCompleted();
+    lastState?.quillEditorState?.editableTextKey.currentState
+        ?.requestKeyboard();
+    await Future.delayed(const Duration(milliseconds: 50));
+    lastState?.quillEditorState?.editableTextKey.currentState?.renderEditor
+      ?..selectPosition(cause: SelectionChangedCause.tap)
+      ..onSelectionCompleted();
+    lastState?.quillEditorState?.editableTextKey.currentState
+        ?.requestKeyboard();
   }
 }
 

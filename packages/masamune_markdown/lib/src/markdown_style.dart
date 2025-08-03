@@ -23,6 +23,8 @@ class MarkdownStyle {
     this.codeVerticalSpacing = const MarkdownVerticalSpacing(top: 8, bottom: 8),
     this.placeHolderVerticalSpacing =
         const MarkdownVerticalSpacing(top: 8, bottom: 8),
+    this.indentVerticalSpacing =
+        const MarkdownVerticalSpacing(top: 8, bottom: 8),
   });
 
   /// Vertical spacing for paragraph.
@@ -79,4 +81,9 @@ class MarkdownStyle {
   ///
   /// プレースホルダーの垂直スペース。
   final MarkdownVerticalSpacing placeHolderVerticalSpacing;
+
+  /// Vertical spacing for indent.
+  ///
+  /// インデントの垂直スペース。
+  final MarkdownVerticalSpacing indentVerticalSpacing;
 }

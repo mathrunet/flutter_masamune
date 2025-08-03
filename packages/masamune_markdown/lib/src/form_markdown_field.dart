@@ -201,6 +201,7 @@ class FormMarkdownField<TValue> extends FormField<String> {
                     }
                   : null,
               child: QuillEditor.basic(
+                key: state._quillEditorKey,
                 controller: state._controller,
                 focusNode: state._effectiveFocusNode,
                 config: QuillEditorConfig(
@@ -238,6 +239,10 @@ class FormMarkdownField<TValue> extends FormField<String> {
                       paragraph: defaultStyles.paragraph?.copyWith(
                         verticalSpacing: adapter.markdownStyle
                             .paragraphVerticalSpacing._verticalSpacing,
+                      ),
+                      indent: defaultStyles.indent?.copyWith(
+                        verticalSpacing: adapter.markdownStyle
+                            .indentVerticalSpacing._verticalSpacing,
                       ),
                       h1: defaultStyles.h1?.copyWith(
                         verticalSpacing: adapter
@@ -442,6 +447,12 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
   FormMarkdownField<TValue> get widget =>
       super.widget as FormMarkdownField<TValue>;
 
+  /// QuillEditorState.
+  ///
+  /// QuillEditorのステート。
+  QuillEditorState? get quillEditorState => _quillEditorKey.currentState;
+  final _quillEditorKey = GlobalKey<QuillEditorState>();
+
   /// Check if the cursor is in a link.
   ///
   /// カーソルがリンク内にあるかどうかをチェックします。
@@ -464,11 +475,12 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
     super.initState();
     _controller.addListener(_handleOnChanged);
     _syncQuillController(widget.initialValue);
-    if (widget.focusNode == null) {
+    if (widget.focusNode == null && widget.controller?.focusNode == null) {
       _focusNode = FocusNode();
     }
     widget.controller?._registerState(this);
     widget.form?.register(this);
+    _effectiveFocusNode.addListener(_handledOnFocusChanged);
   }
 
   @override
@@ -478,10 +490,17 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
       oldWidget.controller?._unregisterState(this);
       widget.controller?._registerState(this);
     }
-    if (widget.focusNode != oldWidget.focusNode) {
-      if (widget.focusNode == null) {
+    if (widget.focusNode != oldWidget.focusNode ||
+        widget.controller?.focusNode != oldWidget.controller?.focusNode) {
+      if (widget.focusNode == null &&
+          widget.controller?.focusNode == null &&
+          _focusNode != null) {
         _focusNode = FocusNode();
       }
+      _focusNode?.removeListener(_handledOnFocusChanged);
+      oldWidget.focusNode?.removeListener(_handledOnFocusChanged);
+      oldWidget.controller?.focusNode.removeListener(_handledOnFocusChanged);
+      _effectiveFocusNode.addListener(_handledOnFocusChanged);
     }
     if (widget.form != oldWidget.form) {
       oldWidget.form?.unregister(this);
@@ -502,6 +521,10 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
     _controller.removeListener(_handleOnChanged);
     _controller.dispose();
     widget.form?.unregister(this);
+    _focusNode?.removeListener(_handledOnFocusChanged);
+    widget.focusNode?.removeListener(_handledOnFocusChanged);
+    widget.controller?.focusNode.removeListener(_handledOnFocusChanged);
+    _focusNode?.dispose();
     super.dispose();
   }
 
@@ -515,6 +538,14 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
   void reset() {
     _syncQuillController(null);
     super.reset();
+  }
+
+  void _handledOnFocusChanged() {
+    if (_effectiveFocusNode.hasFocus) {
+      if (mounted) {
+        widget.controller?._latestState = this;
+      }
+    }
   }
 
   void _syncQuillController(String? value) {

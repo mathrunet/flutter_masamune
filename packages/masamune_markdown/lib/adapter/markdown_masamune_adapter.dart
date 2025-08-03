@@ -16,18 +16,35 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 内部的には`flutter_quill`および`markdown_widget`のパッケージを利用しています。
   const MarkdownMasamuneAdapter({
-    this.toolsConfig = const MarkdownToolsConfig(),
     this.markdownStyle = const MarkdownStyle(),
+    this.defaultPrimaryTools = const [
+      AddMarkdownPrimaryTools(),
+      FontMarkdownPrimaryTools(),
+      MentionMarkdownPrimaryTools(),
+      MediaMarkdownPrimaryTools(),
+      ExchangeMarkdownPrimaryTools(),
+      UndoMarkdownPrimaryTools(),
+      RedoMarkdownPrimaryTools(),
+      IndentUpMarkdownPrimaryTools(),
+      IndentDownMarkdownPrimaryTools(),
+    ],
+    this.defaultSecondaryTools = const [
+      CopyMarkdownSecondaryTools(),
+      CutMarkdownSecondaryTools(),
+      PasteMarkdownSecondaryTools(),
+      CloseMarkdownSecondaryTools(),
+    ],
   });
 
-  /// Configuration for Markdown tools.
+  /// Primary tools for markdown.
   ///
-  /// Set the label and icon for each tool using [MarkdownToolLabelConfig].
+  /// マークダウンのプライマリーツール。
+  final List<MarkdownPrimaryTools> defaultPrimaryTools;
+
+  /// Secondary tools for markdown.
   ///
-  /// Markdownツールの設定。
-  ///
-  /// [MarkdownToolLabelConfig]を使用して、各ツールのラベルとアイコンを設定します。
-  final MarkdownToolsConfig toolsConfig;
+  /// マークダウンのセカンダリーツール。
+  final List<MarkdownSecondaryTools> defaultSecondaryTools;
 
   /// Style for markdown.
   ///

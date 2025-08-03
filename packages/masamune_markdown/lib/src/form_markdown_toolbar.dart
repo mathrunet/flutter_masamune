@@ -55,6 +55,8 @@ class FormMarkdownToolbar extends StatefulWidget {
   /// `bold`, `italic`, `underline`, `strike`, `link`, `code`のフォントスタイルを使用することができます。
   const FormMarkdownToolbar({
     required this.controller,
+    this.primaryTools,
+    this.secondaryTools,
     super.key,
     this.style,
     this.mentionHintText,
@@ -67,6 +69,16 @@ class FormMarkdownToolbar extends StatefulWidget {
               mentionBuilder != null,
           "MentionHintText is required when using [mentionBuilder].",
         );
+
+  /// Primary tools for the toolbar.
+  ///
+  /// ツールバーのプライマリーツール。
+  final List<MarkdownPrimaryTools>? primaryTools;
+
+  /// Secondary tools for the toolbar.
+  ///
+  /// ツールバーのセカンダリーツール。
+  final List<MarkdownSecondaryTools>? secondaryTools;
 
   /// [MarkdownController] for the toolbar.
   ///
@@ -175,8 +187,8 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
   }
 
   @override
-  MarkdownToolMain? get currentMode => _currentMode;
-  MarkdownToolMain? _currentMode;
+  MarkdownTools? get currentTool => _currentTool;
+  MarkdownTools? _currentTool;
 
   @override
   bool get canPaste => _clipboardMonitor.canPaste;
@@ -186,19 +198,32 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
       _showBlockMenu || context.mediaQuery.viewInsets.bottom > 0;
 
   @override
+  FormMarkdownFieldState? get lastState => widget.controller.lastState;
+
+  @override
+  QuillController? get lastController => widget.controller.lastController;
+
+  @override
+  FocusNode? get lastFocusNode => widget.controller.lastFocusNode;
+
+  @override
   FormMarkdownFieldState? get focuedState {
-    return widget.controller._states.firstWhereOrNull(
-      (state) => state._effectiveFocusNode.hasFocus,
-    );
+    return widget.controller.focuedState;
+  }
+
+  @override
+  QuillController? get focusedController {
+    return widget.controller.focusedController;
+  }
+
+  @override
+  FocusNode? get focusedFocusNode {
+    return widget.controller.focusedFocusNode;
   }
 
   @override
   TextSelection? get focusedSelection {
-    final state = focuedState;
-    if (state == null) {
-      return null;
-    }
-    return state._controller.selection;
+    return widget.controller.focusedSelection;
   }
 
   @override
@@ -211,31 +236,13 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
   }
 
   @override
-  QuillController? get focusedController {
-    final state = focuedState;
-    if (state == null) {
-      return null;
-    }
-    return state._controller;
-  }
-
-  @override
-  FocusNode? get focusedFocusNode {
-    final state = focuedState;
-    if (state == null) {
-      return null;
-    }
-    return state._effectiveFocusNode;
-  }
-
-  @override
   List<MarkdownMention> Function(BuildContext context)? get mentionBuilder =>
       widget.mentionBuilder;
 
   @override
-  void toggleMode(MarkdownToolMain mode) {
+  void toggleMode(MarkdownPrimaryTools tool) {
     setState(() {
-      if (mode == _currentMode) {
+      if (tool == _currentTool) {
         if (_showBlockMenu) {
           if (_blockMenuToggleDuration != null) {
             _blockMenuHeight = 0;
@@ -243,9 +250,9 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
           }
           _showBlockMenu = false;
           SystemChannels.textInput.invokeMethod("TextInput.show");
-          widget.controller.focusNode.requestFocus();
+          widget.controller.focusLastField();
         } else {
-          if (mode.hideKeyboardOnSelected) {
+          if (tool.hideKeyboardOnSelected) {
             if (_blockMenuHeight == 0) {
               _blockMenuHeight = context.mediaQuery.size.height / 3.0;
               _blockMenuToggleDuration = _kBlockMenuToggleDuration;
@@ -254,20 +261,20 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
             SystemChannels.textInput.invokeMethod("TextInput.hide");
           }
         }
-        _currentMode = mode;
+        _currentTool = tool;
       } else {
         if (_showBlockMenu) {
-          if (!mode.hideKeyboardOnSelected) {
+          if (!tool.hideKeyboardOnSelected) {
             if (_blockMenuToggleDuration != null) {
               _blockMenuHeight = 0;
               _blockMenuToggleDuration = _kBlockMenuToggleDuration;
             }
             _showBlockMenu = false;
             SystemChannels.textInput.invokeMethod("TextInput.show");
-            widget.controller.focusNode.requestFocus();
+            widget.controller.focusLastField();
           }
         } else {
-          if (mode.hideKeyboardOnSelected) {
+          if (tool.hideKeyboardOnSelected) {
             _showBlockMenu = true;
             SystemChannels.textInput.invokeMethod("TextInput.hide");
             if (_blockMenuHeight == 0) {
@@ -276,17 +283,17 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
             }
           }
         }
-        if (mode == MarkdownToolMain.mention) {
+        if (tool is MentionMarkdownPrimaryTools) {
           _mentionSetting = _MentionSetting(
             controller: focusedController!,
           );
           _mentionSetting!.focusNode.requestFocus();
         }
-        if (_currentMode == MarkdownToolMain.mention) {
+        if (_currentTool is MentionMarkdownPrimaryTools) {
           _mentionSetting?.cancel();
           _mentionSetting = null;
         }
-        _currentMode = mode;
+        _currentTool = tool;
       }
     });
   }
@@ -312,7 +319,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
   @override
   void deleteMode() {
     setState(() {
-      if (_currentMode == MarkdownToolMain.mention) {
+      if (_currentTool is MentionMarkdownPrimaryTools) {
         _mentionSetting?.cancel();
         _mentionSetting = null;
       }
@@ -320,7 +327,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
         _blockMenuHeight = 0;
         _blockMenuToggleDuration = _kBlockMenuToggleDuration;
       }
-      _currentMode = null;
+      _currentTool = null;
       _showBlockMenu = false;
       SystemChannels.textInput.invokeMethod("TextInput.show");
     });
@@ -351,10 +358,10 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
   }
 
   void _handleControllerStateOnChanged() {
-    if ((isTextSelected && _currentMode != MarkdownToolMain.font) ||
-        (!isTextSelected && _currentMode == MarkdownToolMain.font)) {
+    if ((isTextSelected && _currentTool is! FontMarkdownPrimaryTools) ||
+        (!isTextSelected && _currentTool is FontMarkdownPrimaryTools)) {
       if (isTextSelected) {
-        toggleMode(MarkdownToolMain.font);
+        toggleMode(const FontMarkdownPrimaryTools());
       } else {
         deleteMode();
       }
@@ -364,10 +371,10 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
         });
       }
     }
-    if (_currentMode == MarkdownToolMain.mention &&
+    if (_currentTool is MentionMarkdownPrimaryTools &&
         _showBlockMenu &&
         (focuedState?.cursorInLink ?? false)) {
-      toggleMode(MarkdownToolMain.mention);
+      toggleMode(const MentionMarkdownPrimaryTools());
     }
   }
 
@@ -375,20 +382,22 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     setState(() {});
   }
 
-  Iterable<Widget> _buildMainMenu(BuildContext context, ThemeData theme) {
-    return MarkdownToolMain.values.mapAndRemoveEmpty((e) {
-      if (!e.show(context, this)) {
+  Iterable<Widget> _buildPrimaryTools(BuildContext context, ThemeData theme) {
+    final primaryTools =
+        widget.primaryTools ?? widget.controller.adapter.defaultPrimaryTools;
+    return primaryTools.mapAndRemoveEmpty((e) {
+      if (!e.shown(context, this)) {
         return null;
       }
-      if (!e.enabled(context, this) || !e.active(context, this)) {
+      if (!e.enabled(context, this) || !e.actived(context, this)) {
         return IconButton(
           onPressed: null,
           icon: Icon(e.icon(context)),
         );
       } else {
         final controller = focuedState?._controller;
-        if (e == MarkdownToolMain.mention && controller != null) {
-          if (_currentMode == e && _showBlockMenu) {
+        if (e is MentionMarkdownPrimaryTools && controller != null) {
+          if (_currentTool == e && _showBlockMenu) {
             return ListenableBuilder(
                 listenable: controller,
                 builder: (context, child) {
@@ -425,7 +434,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
             );
           }
         } else {
-          if (_currentMode == e && _showBlockMenu) {
+          if (_currentTool == e && _showBlockMenu) {
             return IconButton.filled(
               style: IconButton.styleFrom(
                 backgroundColor: widget.style?.activeBackgroundColor ??
@@ -453,9 +462,11 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     });
   }
 
-  Iterable<Widget> _buildSubMenu(BuildContext context, ThemeData theme) {
-    final subMenu = MarkdownToolSub.values.mapAndRemoveEmpty((e) {
-      if (e.show(context, this)) {
+  Iterable<Widget> _buildSecondaryTools(BuildContext context, ThemeData theme) {
+    final secondaryTools = widget.secondaryTools ??
+        widget.controller.adapter.defaultSecondaryTools;
+    final subMenu = secondaryTools.mapAndRemoveEmpty((e) {
+      if (e.shown(context, this)) {
         return IconButton(
           onPressed: () {
             e.onTap(context, this);
@@ -502,9 +513,13 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     return [];
   }
 
-  Iterable<Widget> _buildFontMenu(BuildContext context, ThemeData theme) {
-    return MarkdownToolFont.values.map((e) {
-      if (e.active(context, this)) {
+  Iterable<Widget> _buildInlineTools(
+    BuildContext context,
+    ThemeData theme,
+    List<MarkdownInlineTools> tools,
+  ) {
+    return tools.map((e) {
+      if (e.actived(context, this)) {
         return IconButton.filled(
           style: IconButton.styleFrom(
             backgroundColor: widget.style?.activeBackgroundColor ??
@@ -688,10 +703,12 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                         itemBuilder: (context, index) {
                           final mention = mentions[index];
                           return GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+                              _mentionSetting?.focusNode.unfocus();
                               final controller = _mentionSetting!.controller;
-                              deleteMode();
                               controller.insertMention(mention);
+                              deleteMode();
+                              await widget.controller.focusLastField();
                             },
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -740,7 +757,11 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
-                    onPressed: deleteMode,
+                    onPressed: () async {
+                      _mentionSetting?.focusNode.unfocus();
+                      deleteMode();
+                      await widget.controller.focusLastField();
+                    },
                     icon: const Icon(Icons.arrow_back_ios),
                   ),
                   Expanded(
@@ -766,7 +787,11 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     );
   }
 
-  Widget _buildAddMenu(BuildContext context, ThemeData theme) {
+  Widget _buildBlockTools(
+    BuildContext context,
+    ThemeData theme,
+    List<MarkdownBlockTools> tools,
+  ) {
     return Positioned(
       left: 0,
       right: 0,
@@ -796,146 +821,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
             16 + context.mediaQuery.viewPadding.bottom,
           ),
           children: [
-            ...MarkdownToolAdd.values.map((e) {
-              return InkWell(
-                onTap: () {
-                  e.onTap(context, this);
-                },
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: widget.style?.subBackgroundColor ??
-                        widget.style?.backgroundColor ??
-                        theme.colorScheme.surface,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Icon(
-                            e.icon(context),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Text(e.label(context)),
-                      ),
-                      const SizedBox(width: 16),
-                    ],
-                  ),
-                ),
-              );
-            }),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMediaMenu(BuildContext context, ThemeData theme) {
-    return Positioned(
-      left: 0,
-      right: 0,
-      bottom: 0,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: (widget.style?.borderColor ??
-                      theme.colorTheme?.outline ??
-                      theme.colorScheme.outline)
-                  .withAlpha(128),
-            ),
-          ),
-        ),
-        height: _blockMenuHeight,
-        width: double.infinity,
-        child: GridView.extent(
-          maxCrossAxisExtent: 240,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
-          childAspectRatio: 3,
-          padding: EdgeInsets.fromLTRB(
-              16, 16, 16, 16 + context.mediaQuery.viewPadding.bottom),
-          children: [
-            ...MarkdownToolMedia.values.map((e) {
-              return InkWell(
-                onTap: () {
-                  e.onTap(context, this);
-                },
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: widget.style?.subBackgroundColor ??
-                        widget.style?.backgroundColor ??
-                        theme.colorScheme.surface,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Icon(
-                            e.icon(context),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          e.label(context),
-                          style: theme.textTheme.labelMedium,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                    ],
-                  ),
-                ),
-              );
-            }),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildExchangeMenu(BuildContext context, ThemeData theme) {
-    return Positioned(
-      left: 0,
-      right: 0,
-      bottom: 0,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: (widget.style?.borderColor ??
-                      theme.colorTheme?.outline ??
-                      theme.colorScheme.outline)
-                  .withAlpha(128),
-            ),
-          ),
-        ),
-        height: _blockMenuHeight,
-        width: double.infinity,
-        child: GridView.extent(
-          maxCrossAxisExtent: 240,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
-          childAspectRatio: 3,
-          padding: EdgeInsets.fromLTRB(
-            16,
-            16,
-            16,
-            16 + context.mediaQuery.viewPadding.bottom,
-          ),
-          children: [
-            ...MarkdownToolExchange.values.map((e) {
+            ...tools.map((e) {
               return InkWell(
                 onTap: () {
                   e.onTap(context, this);
@@ -982,7 +868,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     var height = _blockMenuHeight;
     if (_linkSetting != null) {
       height += _kLinkDialogHeight;
-    } else if (_currentMode == MarkdownToolMain.mention) {
+    } else if (_currentTool is MentionMarkdownPrimaryTools) {
       height += context.mediaQuery.size.height -
           _blockMenuHeight -
           _kToolbarHeight -
@@ -995,6 +881,13 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     } else {
       height += _kToolbarHeight;
     }
+
+    final inlineTools = _currentTool is MarkdownPrimaryTools
+        ? (_currentTool as MarkdownPrimaryTools).inlineTools
+        : null;
+    final blockTools = _currentTool is MarkdownPrimaryTools
+        ? (_currentTool as MarkdownPrimaryTools).blockTools
+        : null;
 
     return IconTheme(
       data: IconThemeData(
@@ -1014,12 +907,8 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
           height: height,
           child: Stack(
             children: [
-              if (_currentMode == MarkdownToolMain.add) ...[
-                _buildAddMenu(context, theme),
-              ] else if (_currentMode == MarkdownToolMain.media) ...[
-                _buildMediaMenu(context, theme),
-              ] else if (_currentMode == MarkdownToolMain.exchange) ...[
-                _buildExchangeMenu(context, theme),
+              if (blockTools != null) ...[
+                _buildBlockTools(context, theme, blockTools),
               ],
               Positioned(
                 left: 0,
@@ -1045,21 +934,22 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                             children: [
                               if (!(focuedState?._selectInMentionLink ??
                                       false) &&
-                                  _currentMode == MarkdownToolMain.font) ...[
-                                ..._buildFontMenu(context, theme),
+                                  inlineTools != null) ...[
+                                ..._buildInlineTools(
+                                    context, theme, inlineTools),
                               ] else ...[
-                                ..._buildMainMenu(context, theme),
+                                ..._buildPrimaryTools(context, theme),
                               ],
                             ],
                           ),
                         ),
                       ),
-                      ..._buildSubMenu(context, theme),
+                      ..._buildSecondaryTools(context, theme),
                     ],
                   ),
                 ),
               ),
-              if (_currentMode == MarkdownToolMain.mention) ...[
+              if (_currentTool is MentionMarkdownPrimaryTools) ...[
                 _buildMentionDialog(context, theme),
               ] else if (_linkSetting != null) ...[
                 _buildLinkDialog(context, theme),
@@ -1076,20 +966,10 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
 ///
 /// マークダウンのツールの参照クラス。
 abstract class MarkdownToolRef {
-  /// Get the focused selection.
-  ///
-  /// フォーカスされている選択範囲を取得します。
-  TextSelection? get focusedSelection;
-
-  /// Check if the text is selected.
-  ///
-  /// テキストが選択されているかどうかを確認します。
-  bool get isTextSelected;
-
   /// Toggle the mode.
   ///
   /// モードを切り替えます。
-  void toggleMode(MarkdownToolMain mode);
+  void toggleMode(MarkdownPrimaryTools tool);
 
   /// Delete the mode.
   ///
@@ -1100,6 +980,21 @@ abstract class MarkdownToolRef {
   ///
   /// キーボードを閉じます。
   void closeKeyboard();
+
+  /// Get the last state.
+  ///
+  /// 最後にフォーカスした状態を取得します。
+  FormMarkdownFieldState? get lastState;
+
+  /// Get the last controller.
+  ///
+  /// 最後にフォーカスしたコントローラーを取得します。
+  QuillController? get lastController;
+
+  /// Get the last focus node.
+  ///
+  /// 最後にフォーカスしたフォーカスノードを取得します。
+  FocusNode? get lastFocusNode;
 
   /// Get the focused state.
   ///
@@ -1116,6 +1011,16 @@ abstract class MarkdownToolRef {
   /// フォーカスされているフォーカスノードを取得します。
   FocusNode? get focusedFocusNode;
 
+  /// Get the focused selection.
+  ///
+  /// フォーカスされている選択範囲を取得します。
+  TextSelection? get focusedSelection;
+
+  /// Check if the text is selected.
+  ///
+  /// テキストが選択されているかどうかを確認します。
+  bool get isTextSelected;
+
   /// Check if the attribute is active.
   ///
   /// 属性がアクティブかどうかを確認します。
@@ -1124,7 +1029,7 @@ abstract class MarkdownToolRef {
   /// Get the current mode.
   ///
   /// 現在のモードを取得します。
-  MarkdownToolMain? get currentMode;
+  MarkdownTools? get currentTool;
 
   /// Check if the keyboard should be shown.
   ///
