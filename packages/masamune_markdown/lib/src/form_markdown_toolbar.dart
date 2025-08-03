@@ -2,7 +2,7 @@ part of "/masamune_markdown.dart";
 
 const _kToolbarHeight = kToolbarHeight;
 const _kLinkDialogHeight = _kToolbarHeight * 2;
-const _kMentionDialogSpaceHeight = _kToolbarHeight;
+const _kMentionDialogSpaceHeight = _kToolbarHeight + 24.0;
 const _kMinChangeSize = 16.0;
 const _kBlockMenuToggleDuration = Duration(milliseconds: 200);
 
@@ -772,6 +772,10 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                       style: FormStyle(
                         borderStyle: FormInputBorderStyle.outline,
                         borderRadius: BorderRadius.circular(32),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
                         backgroundColor: widget.style?.subBackgroundColor ??
                             widget.style?.backgroundColor ??
                             theme.colorTheme?.surface,
