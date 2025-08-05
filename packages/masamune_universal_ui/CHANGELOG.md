@@ -1,3 +1,7 @@
+## 3.1.16
+
+ - **FIX**: Add header items to openURL. ([c1f9b326](https://github.com/mathrunet/flutter_masamune/commit/c1f9b326ef7bc9e1ae9e45e65f6780898bb4dd78))
+
 ## 3.1.15
 
  - Update a dependency to the latest release.

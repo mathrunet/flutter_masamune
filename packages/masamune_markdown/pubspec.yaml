@@ -1,6 +1,6 @@
 name: masamune_markdown
 description: Masamune package that allows for displaying and editing Markdown.
-version: 3.1.1
+version: 3.2.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_markdown
 

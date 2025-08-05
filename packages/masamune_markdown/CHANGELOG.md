@@ -1,3 +1,10 @@
+## 3.2.0
+
+ - **FIX**: Internal specifications changed. ([e11146a9](https://github.com/mathrunet/flutter_masamune/commit/e11146a97f094ae56d9390db19c1ee9ca198a97a))
+ - **FIX**: Mention時のrenderbox errorの修正。. ([7688839d](https://github.com/mathrunet/flutter_masamune/commit/7688839de953185ac6050c710f868f5e21c471f0))
+ - **FIX**: Bug fixes during editing. ([b6ee5632](https://github.com/mathrunet/flutter_masamune/commit/b6ee5632731ac4be70af07b641c8c8b54668a1f3))
+ - **FEAT**: Modified internal structure. ([b0df1067](https://github.com/mathrunet/flutter_masamune/commit/b0df1067ac09d08355902bcc128ade7fe5eae252))
+
 ## 3.1.1
 
  - **FIX**: Fixed readonly not working. ([e0e1a91a](https://github.com/mathrunet/flutter_masamune/commit/e0e1a91ae50d8db7517272f04c23e59ec1d2e172))

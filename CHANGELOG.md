@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-08-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_markdown` - `v3.2.0`](#masamune_markdown---v320)
+ - [`masamune_painter` - `v3.1.0`](#masamune_painter---v310)
+ - [`masamune_universal_ui` - `v3.1.16`](#masamune_universal_ui---v3116)
+
+---
+
+#### `masamune_markdown` - `v3.2.0`
+
+ - **FIX**: Internal specifications changed. ([e11146a9](https://github.com/mathrunet/flutter_masamune/commit/e11146a97f094ae56d9390db19c1ee9ca198a97a))
+ - **FIX**: Mention時のrenderbox errorの修正。. ([7688839d](https://github.com/mathrunet/flutter_masamune/commit/7688839de953185ac6050c710f868f5e21c471f0))
+ - **FIX**: Bug fixes during editing. ([b6ee5632](https://github.com/mathrunet/flutter_masamune/commit/b6ee5632731ac4be70af07b641c8c8b54668a1f3))
+ - **FEAT**: Modified internal structure. ([b0df1067](https://github.com/mathrunet/flutter_masamune/commit/b0df1067ac09d08355902bcc128ade7fe5eae252))
+
+#### `masamune_painter` - `v3.1.0`
+
+ - **FEAT**: Initial commit. ([4c947066](https://github.com/mathrunet/flutter_masamune/commit/4c947066d24f39e74d0501ca99e51ce66f4f5972))
+
+#### `masamune_universal_ui` - `v3.1.16`
+
+ - **FIX**: Add header items to openURL. ([c1f9b326](https://github.com/mathrunet/flutter_masamune/commit/c1f9b326ef7bc9e1ae9e45e65f6780898bb4dd78))
+
+
 ## 2025-08-01
 
 ### Changes
