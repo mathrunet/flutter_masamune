@@ -129,12 +129,35 @@ class MarkdownController extends MasamuneControllerBase<List<TextEditingValue>,
       ..onSelectionCompleted();
     lastState?.quillEditorState?.editableTextKey.currentState
         ?.requestKeyboard();
+    // フォーカスがあたっても編集できないため回避のためにもう１回実行
     await Future.delayed(const Duration(milliseconds: 50));
     lastState?.quillEditorState?.editableTextKey.currentState?.renderEditor
       ?..selectPosition(cause: SelectionChangedCause.tap)
       ..onSelectionCompleted();
     lastState?.quillEditorState?.editableTextKey.currentState
         ?.requestKeyboard();
+  }
+
+  /// Insert image.
+  ///
+  /// 画像を挿入します。
+  void insertImage(Uri uri) {
+    final state = lastState;
+    if (state == null) {
+      return;
+    }
+    state._controller.insertImage(uri);
+  }
+
+  /// Insert video.
+  ///
+  /// ビデオを挿入します。
+  void insertVideo(Uri uri) {
+    final state = lastState;
+    if (state == null) {
+      return;
+    }
+    state._controller.insertVideo(uri);
   }
 }
 

@@ -12,11 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
   
-  file_picker: ^10.2.0
   katana: ^3.1.5
   masamune: ^3.3.5
   flutter_quill: ^11.4.1
-  markdown: ^7.3.0
   markdown_quill: ^4.3.0
   font_awesome_flutter: ^10.8.0
 dev_dependencies:

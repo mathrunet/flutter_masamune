@@ -21,7 +21,6 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
       AddMarkdownPrimaryTools(),
       FontMarkdownPrimaryTools(),
       MentionMarkdownPrimaryTools(),
-      MediaMarkdownPrimaryTools(),
       ExchangeMarkdownPrimaryTools(),
       UndoMarkdownPrimaryTools(),
       RedoMarkdownPrimaryTools(),
@@ -34,6 +33,7 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
       PasteMarkdownSecondaryTools(),
       CloseMarkdownSecondaryTools(),
     ],
+    this.imageLimit = 256,
   });
 
   /// Primary tools for markdown.
@@ -50,6 +50,11 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
   ///
   /// マークダウンのスタイル。
   final MarkdownStyle markdownStyle;
+
+  /// The limit of the image embed.
+  ///
+  /// 画像埋め込みのサイズ制限。
+  final double imageLimit;
 
   /// You can retrieve the [MarkdownMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

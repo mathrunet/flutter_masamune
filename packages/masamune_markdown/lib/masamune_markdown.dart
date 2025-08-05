@@ -31,6 +31,7 @@ part "src/markdown.dart";
 part "src/markdown_style.dart";
 part "src/markdown_vertical_spacing.dart";
 part "src/markdown_tools.dart";
+part "src/embed/markdown_image_embed.dart";
 
 part "tools/primary/add_markdown_primary_tools.dart";
 part "tools/primary/mention_markdown_primary_tools.dart";

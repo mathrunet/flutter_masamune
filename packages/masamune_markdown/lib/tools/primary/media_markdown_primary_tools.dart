@@ -9,6 +9,7 @@ class MediaMarkdownPrimaryTools extends MarkdownPrimaryTools {
   ///
   /// メディアを追加するメニューを表示する[MarkdownTools]。
   const MediaMarkdownPrimaryTools({
+    required this.tools,
     super.config = const MarkdownToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
@@ -22,12 +23,6 @@ class MediaMarkdownPrimaryTools extends MarkdownPrimaryTools {
       ]),
       icon: Icons.image,
     ),
-    this.tools = const [
-      ImageFromCameraMediaMarkdownBlockTools(),
-      ImageFromLibraryMediaMarkdownBlockTools(),
-      VideoFromCameraMediaMarkdownBlockTools(),
-      VideoFromLibraryMediaMarkdownBlockTools(),
-    ],
   });
 
   /// Tools for adding media.
@@ -53,14 +48,14 @@ class MediaMarkdownPrimaryTools extends MarkdownPrimaryTools {
   bool actived(BuildContext context, MarkdownToolRef ref) => true;
 
   @override
-  IconData icon(BuildContext context) {
-    return config.icon;
+  Widget icon(BuildContext context, MarkdownToolRef ref) {
+    return Icon(config.icon);
   }
 
   @override
-  String label(BuildContext context) {
+  Widget label(BuildContext context, MarkdownToolRef ref) {
     final locale = context.locale;
-    return config.title.value(locale) ?? "";
+    return Text(config.title.value(locale) ?? "");
   }
 
   @override

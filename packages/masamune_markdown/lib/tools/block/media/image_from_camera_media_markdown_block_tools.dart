@@ -9,6 +9,7 @@ class ImageFromCameraMediaMarkdownBlockTools extends MarkdownBlockTools {
   ///
   /// カメラから画像を選択するメニューを表示する[MarkdownTools]。
   const ImageFromCameraMediaMarkdownBlockTools({
+    required this.onPickImage,
     super.config = const MarkdownToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
@@ -24,6 +25,12 @@ class ImageFromCameraMediaMarkdownBlockTools extends MarkdownBlockTools {
     ),
   });
 
+  /// Pick image from camera.
+  ///
+  /// カメラから画像を選択します。
+  final Future<Uri?> Function(BuildContext context, MarkdownToolRef ref)
+      onPickImage;
+
   @override
   String get id => "__markdown_block_media_image_from_camera__";
 
@@ -37,19 +44,23 @@ class ImageFromCameraMediaMarkdownBlockTools extends MarkdownBlockTools {
   bool actived(BuildContext context, MarkdownToolRef ref) => true;
 
   @override
-  IconData icon(BuildContext context) {
-    return config.icon;
+  Widget icon(BuildContext context, MarkdownToolRef ref) {
+    return Icon(config.icon);
   }
 
   @override
-  String label(BuildContext context) {
+  Widget label(BuildContext context, MarkdownToolRef ref) {
     final locale = context.locale;
-    return config.title.value(locale) ?? "";
+    return Text(config.title.value(locale) ?? "");
   }
 
   @override
-  void onTap(BuildContext context, MarkdownToolRef ref) {
-    
+  Future<void> onTap(BuildContext context, MarkdownToolRef ref) async {
+    final uri = await onPickImage(context, ref);
+    if (uri == null) {
+      return;
+    }
+    ref.insertImage(uri);
     ref.deleteMode();
   }
 }

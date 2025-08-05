@@ -205,6 +205,9 @@ class FormMarkdownField<TValue> extends FormField<String> {
                 controller: state._controller,
                 focusNode: state._effectiveFocusNode,
                 config: QuillEditorConfig(
+                  embedBuilders: [
+                    MarkdownImageEmbed(limit: adapter.imageLimit),
+                  ],
                   onTapDown: (details, p1) {
                     onTap?.call();
                     return false;
@@ -214,9 +217,9 @@ class FormMarkdownField<TValue> extends FormField<String> {
                   // },
                   onKeyPressed: (event, node) {
                     if (event.logicalKey == LogicalKeyboardKey.backspace) {
-                      if (state._controller.hasFormatAny()) {
-                        state._controller.removeFormat();
-                        return KeyEventResult.handled;
+                      if (state._controller.removeLinkOnBackspace() ||
+                          state._controller.removeBlockOnBackspace()) {
+                        return KeyEventResult.ignored;
                       }
                     }
                     return KeyEventResult.ignored;
@@ -585,30 +588,32 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
       final document = _controller.document;
       final text = document.toPlainText();
       var index = selection.baseOffset;
-      final lineStart = text.lastIndexOf("\n", index - 1) + 1;
-      var res = document.queryChild(index);
-      final node = res.node;
-      if (node is Line) {
-        for (final child in node.children) {
-          final linkAttribute = child.style.attributes[Attribute.link.key];
-          if (linkAttribute != null) {
-            final link = linkAttribute.value as String;
-            if (link.startsWith("@")) {
-              _selectInMentionLink = true;
+      if (index > 0) {
+        final lineStart = text.lastIndexOf("\n", index - 1) + 1;
+        var res = document.queryChild(index);
+        final node = res.node;
+        if (node is Line) {
+          for (final child in node.children) {
+            final linkAttribute = child.style.attributes[Attribute.link.key];
+            if (linkAttribute != null) {
+              final link = linkAttribute.value as String;
+              if (link.startsWith("@")) {
+                _selectInMentionLink = true;
+              }
+              _selectInLink = true;
+              final baseOffset = lineStart + child.offset;
+              final extentOffset = baseOffset + child.length;
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                _controller.updateSelection(
+                  TextSelection(
+                    baseOffset: baseOffset,
+                    extentOffset: extentOffset,
+                  ),
+                  ChangeSource.local,
+                );
+              });
+              return;
             }
-            _selectInLink = true;
-            final baseOffset = lineStart + child.offset;
-            final extentOffset = baseOffset + child.length;
-            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-              _controller.updateSelection(
-                TextSelection(
-                  baseOffset: baseOffset,
-                  extentOffset: extentOffset,
-                ),
-                ChangeSource.local,
-              );
-            });
-            return;
           }
         }
       }

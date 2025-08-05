@@ -10,8 +10,6 @@ const _kBlockMenuToggleDuration = Duration(milliseconds: 200);
 ///
 /// Pass the [MarkdownController] and the same controller to [FormMarkdownField].
 ///
-/// Design and wording can be changed via [MarkdownMasamuneAdapter.toolsConfig].
-///
 /// By specifying [mentionBuilder], a list of mentions can be displayed.
 ///
 /// You can use block styles for `h1`, `h2`, `h3`, and quotes and code blocks.
@@ -21,8 +19,6 @@ const _kBlockMenuToggleDuration = Duration(milliseconds: 200);
 /// Markdown用のツールバー。
 ///
 /// [MarkdownController]を渡し同じコントローラーを[FormMarkdownField]に渡してください。
-///
-/// デザイン及び文言は[MarkdownMasamuneAdapter.toolsConfig]経由で変更されます。
 ///
 /// [mentionBuilder]を指定することでメンションのリストを表示することができます。
 ///
@@ -34,8 +30,6 @@ class FormMarkdownToolbar extends StatefulWidget {
   ///
   /// Pass the [MarkdownController] and the same controller to [FormMarkdownField].
   ///
-  /// Design and wording can be changed via [MarkdownMasamuneAdapter.toolsConfig].
-  ///
   /// By specifying [mentionBuilder], a list of mentions can be displayed.
   ///
   /// You can use block styles for `h1`, `h2`, `h3`, and quotes and code blocks.
@@ -45,8 +39,6 @@ class FormMarkdownToolbar extends StatefulWidget {
   /// Markdown用のツールバー。
   ///
   /// [MarkdownController]を渡し同じコントローラーを[FormMarkdownField]に渡してください。
-  ///
-  /// デザイン及び文言は[MarkdownMasamuneAdapter.toolsConfig]経由で変更されます。
   ///
   /// [mentionBuilder]を指定することでメンションのリストを表示することができます。
   ///
@@ -63,7 +55,6 @@ class FormMarkdownToolbar extends StatefulWidget {
     this.mentionBuilder,
     this.linkTitleHintText,
     this.linkLinkHintText,
-    this.subMenuItems = const [],
   }) : assert(
           (mentionBuilder == null && mentionHintText == null) ||
               mentionBuilder != null,
@@ -109,11 +100,6 @@ class FormMarkdownToolbar extends StatefulWidget {
   /// リンクリンクのヒントテキスト。
   final String? linkLinkHintText;
 
-  /// Sub menu items of the toolbar.
-  ///
-  /// ツールバーのサブメニューアイテム。
-  final List<FormMarkdownToolbarSubMenuItem> subMenuItems;
-
   /// Builder for the mentions.
   ///
   /// メンションのビルダー。
@@ -142,14 +128,6 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     super.initState();
     widget.controller.addListener(_handleControllerStateOnChanged);
     _clipboardMonitor.monitorClipboard(true, _handledClipboardStateOnChanged);
-  }
-
-  @override
-  void didUpdateWidget(FormMarkdownToolbar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (!widget.subMenuItems.equalsTo(oldWidget.subMenuItems)) {
-      setState(() {});
-    }
   }
 
   @override
@@ -357,6 +335,16 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
         false;
   }
 
+  @override
+  void insertImage(Uri uri) {
+    widget.controller.insertImage(uri);
+  }
+
+  @override
+  void insertVideo(Uri uri) {
+    widget.controller.insertVideo(uri);
+  }
+
   void _handleControllerStateOnChanged() {
     if ((isTextSelected && _currentTool is! FontMarkdownPrimaryTools) ||
         (!isTextSelected && _currentTool is FontMarkdownPrimaryTools)) {
@@ -392,7 +380,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
       if (!e.enabled(context, this) || !e.actived(context, this)) {
         return IconButton(
           onPressed: null,
-          icon: Icon(e.icon(context)),
+          icon: e.icon(context, this),
         );
       } else {
         final controller = focuedState?._controller;
@@ -415,7 +403,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                         : () {
                             e.onTap(context, this);
                           },
-                    icon: Icon(e.icon(context)),
+                    icon: e.icon(context, this),
                   );
                 });
           } else {
@@ -428,7 +416,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                       : () {
                           e.onTap(context, this);
                         },
-                  icon: Icon(e.icon(context)),
+                  icon: e.icon(context, this),
                 );
               },
             );
@@ -447,14 +435,14 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
               onPressed: () {
                 e.onTap(context, this);
               },
-              icon: Icon(e.icon(context)),
+              icon: e.icon(context, this),
             );
           } else {
             return IconButton(
               onPressed: () {
                 e.onTap(context, this);
               },
-              icon: Icon(e.icon(context)),
+              icon: e.icon(context, this),
             );
           }
         }
@@ -471,33 +459,10 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
           onPressed: () {
             e.onTap(context, this);
           },
-          icon: Icon(e.icon(context)),
+          icon: e.icon(context, this),
         );
       }
       return null;
-    });
-    final subMenuItems = widget.subMenuItems.mapAndRemoveEmpty((e) {
-      if (isTextSelected) {
-        return null;
-      }
-      if (e.active) {
-        return IconButton.filled(
-          style: IconButton.styleFrom(
-            backgroundColor: widget.style?.activeBackgroundColor ??
-                theme.colorTheme?.primary ??
-                theme.colorScheme.primary,
-            foregroundColor: widget.style?.activeColor ??
-                theme.colorTheme?.onPrimary ??
-                theme.colorScheme.onPrimary,
-          ),
-          onPressed: e.onTap,
-          icon: e.icon,
-        );
-      }
-      return IconButton(
-        onPressed: e.onTap,
-        icon: e.icon,
-      );
     });
     if (subMenu.isNotEmpty) {
       return [
@@ -506,7 +471,6 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
           color: (widget.style?.borderColor ?? theme.colorScheme.outline)
               .withAlpha(128),
         ),
-        ...subMenuItems,
         ...subMenu,
       ];
     }
@@ -532,14 +496,14 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
           onPressed: () {
             e.onDeactive(context, this);
           },
-          icon: Icon(e.icon(context)),
+          icon: e.icon(context, this),
         );
       } else {
         return IconButton(
           onPressed: () {
             e.onActive(context, this);
           },
-          icon: Icon(e.icon(context)),
+          icon: e.icon(context, this),
         );
       }
     });
@@ -844,14 +808,16 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                       Expanded(
                         flex: 1,
                         child: Center(
-                          child: Icon(
-                            e.icon(context),
-                          ),
+                          child: e.icon(context, this),
                         ),
                       ),
                       Expanded(
                         flex: 2,
-                        child: Text(e.label(context)),
+                        child: DefaultTextStyle(
+                          style:
+                              theme.textTheme.labelMedium ?? const TextStyle(),
+                          child: e.label(context, this),
+                        ),
                       ),
                       const SizedBox(width: 16),
                     ],
@@ -970,6 +936,8 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
 ///
 /// マークダウンのツールの参照クラス。
 abstract class MarkdownToolRef {
+  const MarkdownToolRef._();
+
   /// Toggle the mode.
   ///
   /// モードを切り替えます。
@@ -1054,49 +1022,16 @@ abstract class MarkdownToolRef {
   ///
   /// メンションビルダーを取得します。
   List<MarkdownMention> Function(BuildContext context)? get mentionBuilder;
-}
 
-/// A sub menu item of the markdown toolbar.
-///
-/// マークダウンツールバーのサブメニューアイテム。
-@immutable
-class FormMarkdownToolbarSubMenuItem {
-  /// A sub menu item of the markdown toolbar.
+  /// Insert image.
   ///
-  /// マークダウンツールバーのサブメニューアイテム。
-  const FormMarkdownToolbarSubMenuItem({
-    required this.icon,
-    required this.onTap,
-    this.active = false,
-  });
+  /// 画像を挿入します。
+  void insertImage(Uri uri);
 
-  /// The icon of the sub menu item.
+  /// Insert video.
   ///
-  /// サブメニューアイコン。
-  final Widget icon;
-
-  /// The on tap callback of the sub menu item.
-  ///
-  /// サブメニューアイコンをタップしたときのコールバック。
-  final VoidCallback onTap;
-
-  /// Whether the sub menu item is active.
-  ///
-  /// サブメニューアイテムがアクティブかどうか。
-  final bool active;
-
-  @override
-  int get hashCode => icon.hashCode ^ onTap.hashCode ^ active.hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is FormMarkdownToolbarSubMenuItem &&
-            runtimeType == other.runtimeType &&
-            icon == other.icon &&
-            onTap == other.onTap &&
-            active == other.active;
-  }
+  /// ビデオを挿入します。
+  void insertVideo(Uri uri);
 }
 
 class _LinkSetting {

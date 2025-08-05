@@ -177,14 +177,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.1"
-  file_picker:
-    dependency: "direct main"
-    description:
-      name: file_picker
-      sha256: "13ba4e627ef24503a465d1d61b32596ce10eb6b8903678d362a528f9939b4aa8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "10.2.1"
   file_selector_linux:
     dependency: transitive
     description:
@@ -283,14 +275,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_plugin_android_lifecycle:
-    dependency: transitive
-    description:
-      name: flutter_plugin_android_lifecycle
-      sha256: f948e346c12f8d5480d2825e03de228d0eb8c3a737e4cdaa122267b89c022b5e
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.28"
   flutter_quill:
     dependency: "direct main"
     description:
@@ -556,14 +540,6 @@ packages:
       relative: true
     source: path
     version: "3.1.0"
-  keyboard_detection:
-    dependency: "direct main"
-    description:
-      name: keyboard_detection
-      sha256: "8eba8e340595216872fbef9d1b97e1bf560d59110fe4847cca69cfa9a568a136"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.8.0"
   lints:
     dependency: transitive
     description:
@@ -581,7 +557,7 @@ packages:
     source: hosted
     version: "1.3.0"
   markdown:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: markdown
       sha256: "935e23e1ff3bc02d390bad4d4be001208ee92cc217cb5b5a6c19bc14aaa318c1"

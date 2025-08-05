@@ -37,14 +37,14 @@ class Headline1AddMarkdownBlockTools extends MarkdownBlockTools {
   bool actived(BuildContext context, MarkdownToolRef ref) => true;
 
   @override
-  IconData icon(BuildContext context) {
-    return config.icon;
+  Widget icon(BuildContext context, MarkdownToolRef ref) {
+    return Icon(config.icon);
   }
 
   @override
-  String label(BuildContext context) {
+  Widget label(BuildContext context, MarkdownToolRef ref) {
     final locale = context.locale;
-    return config.title.value(locale) ?? "";
+    return Text(config.title.value(locale) ?? "");
   }
 
   @override

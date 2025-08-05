@@ -40,12 +40,12 @@ abstract class MarkdownTools {
   /// Get the label for the tool.
   ///
   /// ツールのラベルを取得します。
-  String label(BuildContext context);
+  Widget label(BuildContext context, MarkdownToolRef ref);
 
   /// Get the icon for the tool.
   ///
   /// ツールのアイコンを取得します。
-  IconData icon(BuildContext context);
+  Widget icon(BuildContext context, MarkdownToolRef ref);
 
   /// Execute the tool.
   ///
