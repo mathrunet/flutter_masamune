@@ -11,6 +11,7 @@ Future<void> openURL(
   String url, {
   LaunchMode mode = LaunchMode.platformDefault,
   bool openSelfWindowOnWeb = false,
+  Map<String, String>? headers,
 }) async {
   // canLaunchUrlStringが動かなくなった
   // if (await canLaunchUrlString(url)) {
@@ -18,6 +19,7 @@ Future<void> openURL(
     url,
     mode: mode,
     webOnlyWindowName: kIsWeb && openSelfWindowOnWeb ? "_self" : null,
+    webViewConfiguration: WebViewConfiguration(headers: headers ?? {}),
   );
   // } else {
   //   throw Exception("Could not Launch $url");
