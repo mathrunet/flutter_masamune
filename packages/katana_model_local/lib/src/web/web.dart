@@ -11,5 +11,4 @@ import "package:shared_preferences/shared_preferences.dart";
 
 // Flutter imports:
 
-
 part "database_exporter.dart";

@@ -44,7 +44,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   ///
   /// キャンバスのサイズ。
   Size get canvasSize => _canvasSize ?? adapter.defaultCanvasSize;
-  Size? _canvasSize;
+  final Size? _canvasSize;
 
   @override
   PainterMasamuneAdapter get primaryAdapter => PainterMasamuneAdapter.primary;

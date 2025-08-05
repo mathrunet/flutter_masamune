@@ -8,9 +8,12 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library;
 
+// Flutter imports:
 import "package:flutter/material.dart";
-import "package:masamune/masamune.dart";
+
+// Package imports:
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import "package:masamune/masamune.dart";
 
 part "adapter/painter_masamune_adapter.dart";
 

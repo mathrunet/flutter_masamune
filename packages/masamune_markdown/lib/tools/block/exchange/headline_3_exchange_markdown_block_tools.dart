@@ -25,7 +25,7 @@ class Headline3ExchangeMarkdownBlockTools extends MarkdownBlockTools {
   });
 
   @override
-    String get id => "__markdown_block_exchange_headline_3__";
+  String get id => "__markdown_block_exchange_headline_3__";
 
   @override
   bool shown(BuildContext context, MarkdownToolRef ref) => true;

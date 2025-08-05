@@ -41,8 +41,8 @@ class MarkdownImageEmbed extends EmbedBuilder {
 
     return Image(
       image: Asset.image(imageSource),
-      width: limit ,
-      height: limit ,
+      width: limit,
+      height: limit,
       fit: BoxFit.contain,
       alignment: Alignment.centerLeft,
     );
