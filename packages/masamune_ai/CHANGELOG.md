@@ -1,3 +1,7 @@
+## 3.0.20
+
+ - **FIX**: Fix: Cannot build on the web. ([4cde1659](https://github.com/mathrunet/flutter_masamune/commit/4cde16593c674fe9ca96208dc1d1b5edb9342c4d))
+
 ## 3.0.19
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - **FIX**: Cannot upload, needs fixing. ([255c1b20](https://github.com/mathrunet/flutter_masamune/commit/255c1b20b2a074685fdf89f4069c749c9db09522))
+
 ## 3.2.0
 
  - **FIX**: Internal specifications changed. ([e11146a9](https://github.com/mathrunet/flutter_masamune/commit/e11146a97f094ae56d9390db19c1ee9ca198a97a))

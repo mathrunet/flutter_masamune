@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-08-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ai` - `v3.0.20`](#masamune_ai---v3020)
+ - [`masamune_markdown` - `v3.2.1`](#masamune_markdown---v321)
+ - [`masamune_ai_openai` - `v3.0.20`](#masamune_ai_openai---v3020)
+ - [`masamune_ai_firebase` - `v3.0.20`](#masamune_ai_firebase---v3020)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_ai_openai` - `v3.0.20`
+ - `masamune_ai_firebase` - `v3.0.20`
+
+---
+
+#### `masamune_ai` - `v3.0.20`
+
+ - **FIX**: Fix: Cannot build on the web. ([4cde1659](https://github.com/mathrunet/flutter_masamune/commit/4cde16593c674fe9ca96208dc1d1b5edb9342c4d))
+
+#### `masamune_markdown` - `v3.2.1`
+
+ - **FIX**: Cannot upload, needs fixing. ([255c1b20](https://github.com/mathrunet/flutter_masamune/commit/255c1b20b2a074685fdf89f4069c749c9db09522))
+
+
 ## 2025-08-05
 
 ### Changes
