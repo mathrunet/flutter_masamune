@@ -1,49 +1,4 @@
-part of "/masamune_ai.dart";
-
-/// Status of the MCP server.
-///
-/// MCPサーバーの状態。
-enum McpServerStatus {
-  /// The server is listening.
-  ///
-  /// サーバーがリッスンしています。
-  listened,
-
-  /// The server is not listening.
-  ///
-  /// サーバーがリッスンしていません。
-  unlistened;
-}
-
-/// Server configuration for MCP.
-///
-/// MCPのサーバーコンフィグ。
-@immutable
-class McpServerConfig {
-  /// Server configuration for MCP.
-  ///
-  /// MCPのサーバーコンフィグ。
-  const McpServerConfig({
-    required this.name,
-    required this.transport,
-    this.version = "1.0.0",
-  });
-
-  /// Server name.
-  ///
-  /// サーバー名。
-  final String name;
-
-  /// Server version.
-  ///
-  /// サーバーバージョン。
-  final String version;
-
-  /// Transport settings.
-  ///
-  /// トランスポート設定。
-  final Transport transport;
-}
+part of "web.dart";
 
 /// Controller for MCP server.
 ///
@@ -108,8 +63,7 @@ class McpServer
   ///
   /// AIとのやりとりの結果。
   @override
-  McpServerStatus get value => _value;
-  McpServerStatus _value = McpServerStatus.unlistened;
+  McpServerStatus get value => McpServerStatus.unlistened;
 
   /// Whether the MCP server is initialized.
   ///
@@ -119,8 +73,6 @@ class McpServer
 
   Completer<void>? _initializeCompleter;
   Completer<void>? _connectCompleter;
-
-  late final mcp.McpServer _server;
 
   /// Initialize the MCP server.
   ///
@@ -138,33 +90,7 @@ class McpServer
       if (config == null) {
         throw ArgumentError("AIMasamuneAdapter.mcpServerConfig is required.");
       }
-      _server = mcp.McpServer(
-        mcp.Implementation(name: config.name, version: config.version),
-      );
-      for (final func in adapter.mcpFunctions) {
-        _server.tool(
-          func.name,
-          description: func.description,
-          inputSchemaProperties: func.parameters
-              .map((key, value) => MapEntry(key, value.toJson())),
-          callback: ({args, extra}) async {
-            final result = await func.serverProcess(args ?? {});
-            if (result == null) {
-              return mcp.CallToolResult.fromContent(
-                content: [],
-                isError: true,
-              );
-            }
-            return mcp.CallToolResult.fromContent(
-              content: [
-                ...result.value.mapAndRemoveEmpty((e) {
-                  return e._toMcpContent();
-                })
-              ],
-            );
-          },
-        );
-      }
+      debugPrint("McpServer is not supported on web.");
       _initialized = true;
       notifyListeners();
       _initializeCompleter?.complete();
@@ -192,7 +118,7 @@ class McpServer
     if (_connectCompleter != null) {
       return _connectCompleter?.future;
     }
-    if (_value == McpServerStatus.listened) {
+    if (value == McpServerStatus.listened) {
       return;
     }
     _connectCompleter = Completer<void>();
@@ -203,8 +129,6 @@ class McpServer
       if (transport == null) {
         throw ArgumentError("AIMasamuneAdapter.mcpServerConfig is required.");
       }
-      await _server.connect(transport);
-      _value = McpServerStatus.listened;
       notifyListeners();
       _connectCompleter?.complete();
       _connectCompleter = null;
@@ -225,14 +149,12 @@ class McpServer
     if (_connectCompleter != null) {
       return _connectCompleter?.future;
     }
-    if (_value == McpServerStatus.unlistened) {
+    if (value == McpServerStatus.unlistened) {
       return;
     }
     _connectCompleter = Completer<void>();
     try {
       await initialize();
-      await _server.close();
-      _value = McpServerStatus.unlistened;
       notifyListeners();
       _connectCompleter?.complete();
       _connectCompleter = null;

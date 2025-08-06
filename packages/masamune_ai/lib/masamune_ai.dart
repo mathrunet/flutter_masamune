@@ -28,6 +28,11 @@ export "package:mcp_dart/src/shared/transport.dart" show Transport;
 export "package:mcp_dart/mcp_dart.dart"
     show SseServerTransport, StdioServerTransport, StdioClientTransport;
 
+import "src/others/others.dart"
+    if (dart.library.io) "src/others/others.dart"
+    if (dart.library.js) "src/web/web.dart"
+    if (dart.library.html) "src/web/web.dart";
+
 part "adapter/ai_masamune_adapter.dart";
 part "adapter/runtime_ai_masamune_adapter.dart";
 part "src/ai_content.dart";
@@ -39,9 +44,9 @@ part "src/ai_schema.dart";
 part "src/ai_schema_type.dart";
 part "src/ai_config.dart";
 part "src/ai_file_type.dart";
-part "src/mcp_server.dart";
 part "src/mcp_function.dart";
 part "src/mcp_client.dart";
 part "src/ai_tool.dart";
 part "src/local_transport.dart";
 part "src/ai_function_call_config.dart";
+part "src/mcp_server_config.dart";

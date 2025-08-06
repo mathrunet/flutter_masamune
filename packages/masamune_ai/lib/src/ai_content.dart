@@ -528,7 +528,10 @@ abstract class AIContentPart {
     return null;
   }
 
-  Content? _toMcpContent();
+  /// Converts the AI content part to a MCP content.
+  ///
+  /// AIの内容の一部をMCPの内容に変換します。
+  Content? toMcpContent();
 }
 
 /// The text part of the AI content.
@@ -557,7 +560,7 @@ class AIContentTextPart extends AIContentPart {
   }
 
   @override
-  Content? _toMcpContent() {
+  Content? toMcpContent() {
     return mcp.TextContent(text: text);
   }
 
@@ -599,7 +602,7 @@ class AIContentBinaryPart extends AIContentPart {
   final Uint8List value;
 
   @override
-  Content? _toMcpContent() {
+  Content? toMcpContent() {
     switch (type) {
       case AIFileType.jpeg:
       case AIFileType.png:
@@ -649,7 +652,7 @@ class AIContentFilePart extends AIContentPart {
   final Uri uri;
 
   @override
-  Content? _toMcpContent() {
+  Content? toMcpContent() {
     return null;
   }
 
@@ -706,7 +709,7 @@ class AIContentFunctionCallPart extends AIContentPart {
   }
 
   @override
-  Content? _toMcpContent() {
+  Content? toMcpContent() {
     return null;
   }
 
@@ -751,7 +754,7 @@ class AIContentFunctionResponsePart extends AIContentPart {
   final Map<String, dynamic> response;
 
   @override
-  Content? _toMcpContent() {
+  Content? toMcpContent() {
     return null;
   }
 
