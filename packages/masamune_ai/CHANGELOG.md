@@ -1,3 +1,7 @@
+## 3.0.21
+
+ - **FIX**: Fixed an issue where InitialContents was not loading. ([1a05877b](https://github.com/mathrunet/flutter_masamune/commit/1a05877bd062520fc7a455f24e2a6a47e33e5156))
+
 ## 3.0.20
 
  - **FIX**: Fix: Cannot build on the web. ([4cde1659](https://github.com/mathrunet/flutter_masamune/commit/4cde16593c674fe9ca96208dc1d1b5edb9342c4d))

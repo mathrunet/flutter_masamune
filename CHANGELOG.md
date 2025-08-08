@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-08-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ai` - `v3.0.21`](#masamune_ai---v3021)
+ - [`masamune_ai_firebase` - `v3.0.21`](#masamune_ai_firebase---v3021)
+ - [`masamune_ai_openai` - `v3.0.21`](#masamune_ai_openai---v3021)
+
+---
+
+#### `masamune_ai` - `v3.0.21`
+
+ - **FIX**: Fixed an issue where InitialContents was not loading. ([1a05877b](https://github.com/mathrunet/flutter_masamune/commit/1a05877bd062520fc7a455f24e2a6a47e33e5156))
+
+#### `masamune_ai_firebase` - `v3.0.21`
+
+ - **FIX**: Fixed an issue where InitialContents was not loading. ([1a05877b](https://github.com/mathrunet/flutter_masamune/commit/1a05877bd062520fc7a455f24e2a6a47e33e5156))
+
+#### `masamune_ai_openai` - `v3.0.21`
+
+ - **FIX**: Fixed an issue where InitialContents was not loading. ([1a05877b](https://github.com/mathrunet/flutter_masamune/commit/1a05877bd062520fc7a455f24e2a6a47e33e5156))
+
+
 ## 2025-08-06
 
 ### Changes
