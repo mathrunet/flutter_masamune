@@ -64,7 +64,7 @@ extension on AIContent {
   AIContent _toSystemInitialContent() {
     return AIContent(
       role: AIRole.user,
-      values: value.where((e) => e is! AIContentTextPart).toList(),
+      values: value.whereType<AIContentTextPart>().toList(),
     );
   }
 }
