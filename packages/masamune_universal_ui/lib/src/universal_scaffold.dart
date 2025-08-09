@@ -539,12 +539,17 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     if (widget.width == null && widget.height == null) {
       return child;
     }
-    return Align(
-      alignment: widget.alignment,
-      child: SizedBox(
-        width: widget.width,
-        height: widget.height,
-        child: _borderRadius(context, child),
+    return Padding(
+      padding: widget.resizeToAvoidBottomInset ?? false
+          ? EdgeInsets.only(bottom: context.mediaQuery.viewInsets.bottom)
+          : const EdgeInsets.all(0),
+      child: Align(
+        alignment: widget.alignment,
+        child: SizedBox(
+          width: widget.width,
+          height: widget.height,
+          child: _borderRadius(context, child),
+        ),
       ),
     );
   }
