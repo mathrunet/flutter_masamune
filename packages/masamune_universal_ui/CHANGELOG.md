@@ -1,3 +1,7 @@
+## 3.1.17
+
+ - **FIX**: Bottom padding is now utilized with `resizeToAvoidBottomInset`. ([2921e53c](https://github.com/mathrunet/flutter_masamune/commit/2921e53c6e82d00ee01be8e4d43c3963a39d1e5a))
+
 ## 3.1.16
 
  - **FIX**: Add header items to openURL. ([c1f9b326](https://github.com/mathrunet/flutter_masamune/commit/c1f9b326ef7bc9e1ae9e45e65f6780898bb4dd78))

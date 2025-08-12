@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-08-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_universal_ui` - `v3.1.17`](#masamune_universal_ui---v3117)
+
+---
+
+#### `masamune_universal_ui` - `v3.1.17`
+
+ - **FIX**: Bottom padding is now utilized with `resizeToAvoidBottomInset`. ([2921e53c](https://github.com/mathrunet/flutter_masamune/commit/2921e53c6e82d00ee01be8e4d43c3963a39d1e5a))
+
+
 ## 2025-08-08
 
 ### Changes
