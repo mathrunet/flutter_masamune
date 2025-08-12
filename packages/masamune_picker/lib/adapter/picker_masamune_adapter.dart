@@ -76,7 +76,7 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
               return PickerValue(
                 uri: Uri.tryParse(file.path),
                 bytes: await file.readAsBytes(),
-                mimeType: file.mimeType,
+                mimeType: file.mimeType ?? lookupMimeType(file.name),
               );
             }),
           );
@@ -97,7 +97,7 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
             return PickerValue(
               uri: Uri.tryParse(file.path!),
               bytes: file.bytes!,
-              mimeType: file.xFile.mimeType,
+              mimeType: file.xFile.mimeType ?? lookupMimeType(file.name),
             );
           });
         default:
@@ -116,7 +116,7 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
             return PickerValue(
               uri: Uri.tryParse(file.path!),
               bytes: file.bytes!,
-              mimeType: file.xFile.mimeType,
+              mimeType: file.xFile.mimeType ?? lookupMimeType(file.name),
             );
           });
       }
@@ -159,7 +159,7 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
           return PickerValue(
             uri: Uri.tryParse(file.path),
             bytes: await file.readAsBytes(),
-            mimeType: file.mimeType,
+            mimeType: file.mimeType ?? lookupMimeType(file.name),
           );
         case PickerFileType.video:
           final file =
@@ -170,7 +170,7 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
           return PickerValue(
             uri: Uri.tryParse(file.path),
             bytes: await file.readAsBytes(),
-            mimeType: file.mimeType,
+            mimeType: file.mimeType ?? lookupMimeType(file.name),
           );
         default:
           final res = await FilePicker.platform.pickFiles(
@@ -183,7 +183,7 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
           return PickerValue(
             uri: Uri.tryParse(file.path!),
             bytes: file.bytes!,
-            mimeType: file.xFile.mimeType,
+            mimeType: file.xFile.mimeType ?? lookupMimeType(file.name),
           );
       }
     } on PlatformException catch (e) {
@@ -225,7 +225,7 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
           return PickerValue(
             uri: Uri.tryParse(file.path),
             bytes: await file.readAsBytes(),
-            mimeType: file.mimeType,
+            mimeType: file.mimeType ?? lookupMimeType(file.name),
           );
         case PickerFileType.video:
           final file =
@@ -236,7 +236,7 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
           return PickerValue(
             uri: Uri.tryParse(file.path),
             bytes: await file.readAsBytes(),
-            mimeType: file.mimeType,
+            mimeType: file.mimeType ?? lookupMimeType(file.name),
           );
         default:
           throw UnsupportedError("This file format is not supported.");

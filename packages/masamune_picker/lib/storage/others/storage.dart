@@ -39,7 +39,7 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
           image,
           maintainAspect: true,
           interpolation: adapter.imageResizeInterpolation.toInterpolation(),
-          width: width > height
+          width: width >= height
               ? limitSize != null
                   ? limitSize <= width
                       ? limitSize
