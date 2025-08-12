@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_picker` - `v3.1.3`](#masamune_picker---v313)
+
+---
+
+#### `masamune_picker` - `v3.1.3`
+
+ - **FIX**: Fixed a bug where MimeType was not included. ([2f821c3d](https://github.com/mathrunet/flutter_masamune/commit/2f821c3d3721380adebbd80d484e1838c563bbfd))
+
+
+## 2025-08-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_universal_ui` - `v3.1.17`](#masamune_universal_ui---v3117)
 
 ---
