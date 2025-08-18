@@ -462,6 +462,12 @@ jobs:
         run: flutter pub get
         timeout-minutes: 3
 
+      # Download IOS Platform
+      # IOSプラットフォームのダウンロード。
+      - name: Download IOS Platform
+        run: xcodebuild -downloadPlatform iOS
+        timeout-minutes: 10
+
       # Creation of the Assets folder.
       # Assetsフォルダの作成。
       - name: Create assets folder
