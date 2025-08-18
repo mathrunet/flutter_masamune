@@ -1,3 +1,7 @@
+## 3.6.8
+
+ - **FIX**: Resolve GitHub errors. ([2d562c2f](https://github.com/mathrunet/flutter_masamune/commit/2d562c2f9ae849cc4820e0579939270a48e1ddf7))
+
 ## 3.6.7
 
  - **FIX**: Add translation. ([21783b2f](https://github.com/mathrunet/flutter_masamune/commit/21783b2f7ceec7ab9e46a4421c4c65395a4c6bb9))

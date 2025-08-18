@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-08-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.6.8`](#katana_cli---v368)
+ - [`masamune_purchase` - `v3.0.21`](#masamune_purchase---v3021)
+ - [`masamune_purchase_mobile` - `v3.0.21`](#masamune_purchase_mobile---v3021)
+
+---
+
+#### `katana_cli` - `v3.6.8`
+
+ - **FIX**: Resolve GitHub errors. ([2d562c2f](https://github.com/mathrunet/flutter_masamune/commit/2d562c2f9ae849cc4820e0579939270a48e1ddf7))
+
+#### `masamune_purchase` - `v3.0.21`
+
+ - **FIX**: Add StackTrace. ([2ff5b091](https://github.com/mathrunet/flutter_masamune/commit/2ff5b091ddc3b78694393949b5c26f80e629bed7))
+
+#### `masamune_purchase_mobile` - `v3.0.21`
+
+ - **FIX**: Fix SK2PurchaseDetails as it is not functioning. ([aa84f084](https://github.com/mathrunet/flutter_masamune/commit/aa84f084924d98588dd9299c47a7caaf6432c619))
+
+
 ## 2025-08-12
 
 ### Changes

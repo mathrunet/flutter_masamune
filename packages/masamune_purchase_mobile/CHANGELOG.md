@@ -1,3 +1,7 @@
+## 3.0.21
+
+ - **FIX**: Fix SK2PurchaseDetails as it is not functioning. ([aa84f084](https://github.com/mathrunet/flutter_masamune/commit/aa84f084924d98588dd9299c47a7caaf6432c619))
+
 ## 3.0.20
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 3.0.21
+
+ - **FIX**: Add StackTrace. ([2ff5b091](https://github.com/mathrunet/flutter_masamune/commit/2ff5b091ddc3b78694393949b5c26f80e629bed7))
+
 ## 3.0.20
 
  - Update a dependency to the latest release.
