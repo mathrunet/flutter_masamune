@@ -183,58 +183,117 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                         break;
                     }
                   } else if (_platformInfo.isIOS) {
-                    final iosPurchase = purchase as AppStorePurchaseDetails;
-                    switch (product.type) {
-                      case PurchaseProductType.consumable:
-                        final storeProduct =
-                            product as _StoreConsumablePurchaseProduct;
-                        if (!(await functions.execute(
-                          IOSConsumablePurchaseFunctionsAction(
-                            receiptData: iosPurchase
-                                .verificationData.serverVerificationData,
-                            documentId: userId ?? storeProduct.userId,
-                            amount: storeProduct.amount ?? 0.0,
-                            productId: iosPurchase.productID,
-                          ),
-                        ))
-                            .result) {
-                          throw Exception("Failed to validate purchase.");
-                        }
-                        break;
-                      case PurchaseProductType.nonConsumable:
-                        final storeProduct =
-                            product as _StoreNonConsumablePurchaseProduct;
-                        if (!(await functions.execute(
-                          IOSNonConsumablePurchaseFunctionsAction(
-                            receiptData: iosPurchase
-                                .verificationData.serverVerificationData,
-                            productId: iosPurchase.productID,
-                            documentId: userId ?? storeProduct.userId,
-                            fieldKey: iosPurchase.productID.toCamelCase(),
-                          ),
-                        ))
-                            .result) {
-                          throw Exception("Failed to validate purchase.");
-                        }
-                        break;
-                      case PurchaseProductType.subscription:
-                        final storeProduct =
-                            product as _StoreSubscriptionPurchaseProduct;
-                        if (!(await functions.execute(
-                          IOSSubscriptionPurchaseFunctionsAction(
-                            receiptData: iosPurchase
-                                .verificationData.serverVerificationData,
-                            productId: iosPurchase.productID,
-                            purchaseId: iosPurchase.purchaseID ?? "",
-                            userId: userId ?? storeProduct.userId,
-                          ),
-                        ))
-                            .result) {
-                          throw Exception("Failed to validate purchase.");
-                        }
-                        break;
-                      case PurchaseProductType.subscriptionOffer:
-                        break;
+                    if (purchase is AppStorePurchaseDetails) {
+                      final iosPurchase = purchase;
+                      switch (product.type) {
+                        case PurchaseProductType.consumable:
+                          final storeProduct =
+                              product as _StoreConsumablePurchaseProduct;
+                          if (!(await functions.execute(
+                            IOSConsumablePurchaseFunctionsAction(
+                              receiptData: iosPurchase
+                                  .verificationData.serverVerificationData,
+                              documentId: userId ?? storeProduct.userId,
+                              amount: storeProduct.amount ?? 0.0,
+                              productId: iosPurchase.productID,
+                            ),
+                          ))
+                              .result) {
+                            throw Exception("Failed to validate purchase.");
+                          }
+                          break;
+                        case PurchaseProductType.nonConsumable:
+                          final storeProduct =
+                              product as _StoreNonConsumablePurchaseProduct;
+                          if (!(await functions.execute(
+                            IOSNonConsumablePurchaseFunctionsAction(
+                              receiptData: iosPurchase
+                                  .verificationData.serverVerificationData,
+                              productId: iosPurchase.productID,
+                              documentId: userId ?? storeProduct.userId,
+                              fieldKey: iosPurchase.productID.toCamelCase(),
+                            ),
+                          ))
+                              .result) {
+                            throw Exception("Failed to validate purchase.");
+                          }
+                          break;
+                        case PurchaseProductType.subscription:
+                          final storeProduct =
+                              product as _StoreSubscriptionPurchaseProduct;
+                          if (!(await functions.execute(
+                            IOSSubscriptionPurchaseFunctionsAction(
+                              receiptData: iosPurchase
+                                  .verificationData.serverVerificationData,
+                              productId: iosPurchase.productID,
+                              purchaseId: iosPurchase.purchaseID ?? "",
+                              userId: userId ?? storeProduct.userId,
+                            ),
+                          ))
+                              .result) {
+                            throw Exception("Failed to validate purchase.");
+                          }
+                          break;
+                        case PurchaseProductType.subscriptionOffer:
+                          break;
+                      }
+                    } else if (purchase is SK2PurchaseDetails) {
+                      final iosPurchase = purchase;
+                      switch (product.type) {
+                        case PurchaseProductType.consumable:
+                          final storeProduct =
+                              product as _StoreConsumablePurchaseProduct;
+                          if (!(await functions.execute(
+                            IOSConsumablePurchaseFunctionsAction(
+                              receiptData: iosPurchase
+                                  .verificationData.serverVerificationData,
+                              documentId: userId ?? storeProduct.userId,
+                              amount: storeProduct.amount ?? 0.0,
+                              productId: iosPurchase.productID,
+                            ),
+                          ))
+                              .result) {
+                            throw Exception("Failed to validate purchase.");
+                          }
+                          break;
+                        case PurchaseProductType.nonConsumable:
+                          final storeProduct =
+                              product as _StoreNonConsumablePurchaseProduct;
+                          if (!(await functions.execute(
+                            IOSNonConsumablePurchaseFunctionsAction(
+                              receiptData: iosPurchase
+                                  .verificationData.serverVerificationData,
+                              productId: iosPurchase.productID,
+                              documentId: userId ?? storeProduct.userId,
+                              fieldKey: iosPurchase.productID.toCamelCase(),
+                            ),
+                          ))
+                              .result) {
+                            throw Exception("Failed to validate purchase.");
+                          }
+                          break;
+                        case PurchaseProductType.subscription:
+                          final storeProduct =
+                              product as _StoreSubscriptionPurchaseProduct;
+                          if (!(await functions.execute(
+                            IOSSubscriptionPurchaseFunctionsAction(
+                              receiptData: iosPurchase
+                                  .verificationData.serverVerificationData,
+                              productId: iosPurchase.productID,
+                              purchaseId: iosPurchase.purchaseID ?? "",
+                              userId: userId ?? storeProduct.userId,
+                            ),
+                          ))
+                              .result) {
+                            throw Exception("Failed to validate purchase.");
+                          }
+                          break;
+                        case PurchaseProductType.subscriptionOffer:
+                          break;
+                      }
+                    } else {
+                      throw Exception(
+                          "Purchase ${purchase.runtimeType} is not supported.");
                     }
                   }
                 } else if (purchase.status == PurchaseStatus.restored) {
@@ -301,59 +360,118 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                           break;
                       }
                     } else if (_platformInfo.isIOS) {
-                      final iosPurchase = purchase as AppStorePurchaseDetails;
-                      switch (product.type) {
-                        case PurchaseProductType.consumable:
-                          final storeProduct =
-                              product as _StoreConsumablePurchaseProduct;
-                          if (!(await functions.execute(
-                            IOSConsumablePurchaseFunctionsAction(
-                              receiptData: iosPurchase
-                                  .verificationData.serverVerificationData,
-                              documentId: userId ?? storeProduct.userId,
-                              amount: storeProduct.amount ?? 0.0,
-                              productId: iosPurchase.productID,
-                            ),
-                          ))
-                              .result) {
-                            throw Exception("Failed to validate purchase.");
-                          }
-                          break;
-                        case PurchaseProductType.nonConsumable:
-                          final storeProduct =
-                              product as _StoreNonConsumablePurchaseProduct;
-                          if (!(await functions.execute(
-                            IOSNonConsumablePurchaseFunctionsAction(
-                              receiptData: iosPurchase
-                                  .verificationData.serverVerificationData,
-                              documentId: userId ?? storeProduct.userId,
-                              productId: iosPurchase.productID,
-                              fieldKey: iosPurchase.productID.toCamelCase(),
-                            ),
-                          ))
-                              .result) {
-                            throw Exception("Failed to validate purchase.");
-                          }
-                          break;
-                        case PurchaseProductType.subscription:
-                          final storeProduct =
-                              product as _StoreSubscriptionPurchaseProduct;
-                          if (!(await functions.execute(
-                            IOSSubscriptionPurchaseFunctionsAction(
-                              receiptData: iosPurchase
-                                  .verificationData.serverVerificationData,
-                              productId: iosPurchase.productID,
-                              purchaseId: iosPurchase.purchaseID ?? "",
-                              userId: userId ?? storeProduct.userId,
-                            ),
-                          ))
-                              .result) {
-                            throw Exception("Failed to validate purchase.");
-                          }
-                          break;
-                        case PurchaseProductType.subscriptionOffer:
-                          break;
+                      if (purchase is AppStorePurchaseDetails) {
+                        final iosPurchase = purchase;
+                        switch (product.type) {
+                          case PurchaseProductType.consumable:
+                            final storeProduct =
+                                product as _StoreConsumablePurchaseProduct;
+                            if (!(await functions.execute(
+                              IOSConsumablePurchaseFunctionsAction(
+                                receiptData: iosPurchase
+                                    .verificationData.serverVerificationData,
+                                documentId: userId ?? storeProduct.userId,
+                                amount: storeProduct.amount ?? 0.0,
+                                productId: iosPurchase.productID,
+                              ),
+                            ))
+                                .result) {
+                              throw Exception("Failed to validate purchase.");
+                            }
+                            break;
+                          case PurchaseProductType.nonConsumable:
+                            final storeProduct =
+                                product as _StoreNonConsumablePurchaseProduct;
+                            if (!(await functions.execute(
+                              IOSNonConsumablePurchaseFunctionsAction(
+                                receiptData: iosPurchase
+                                    .verificationData.serverVerificationData,
+                                documentId: userId ?? storeProduct.userId,
+                                productId: iosPurchase.productID,
+                                fieldKey: iosPurchase.productID.toCamelCase(),
+                              ),
+                            ))
+                                .result) {
+                              throw Exception("Failed to validate purchase.");
+                            }
+                            break;
+                          case PurchaseProductType.subscription:
+                            final storeProduct =
+                                product as _StoreSubscriptionPurchaseProduct;
+                            if (!(await functions.execute(
+                              IOSSubscriptionPurchaseFunctionsAction(
+                                receiptData: iosPurchase
+                                    .verificationData.serverVerificationData,
+                                productId: iosPurchase.productID,
+                                purchaseId: iosPurchase.purchaseID ?? "",
+                                userId: userId ?? storeProduct.userId,
+                              ),
+                            ))
+                                .result) {
+                              throw Exception("Failed to validate purchase.");
+                            }
+                            break;
+                          case PurchaseProductType.subscriptionOffer:
+                            break;
+                        }
+                      } else if (purchase is SK2PurchaseDetails) {
+                        final iosPurchase = purchase;
+                        switch (product.type) {
+                          case PurchaseProductType.consumable:
+                            final storeProduct =
+                                product as _StoreConsumablePurchaseProduct;
+                            if (!(await functions.execute(
+                              IOSConsumablePurchaseFunctionsAction(
+                                receiptData: iosPurchase
+                                    .verificationData.serverVerificationData,
+                                documentId: userId ?? storeProduct.userId,
+                                amount: storeProduct.amount ?? 0.0,
+                                productId: iosPurchase.productID,
+                              ),
+                            ))
+                                .result) {
+                              throw Exception("Failed to validate purchase.");
+                            }
+                            break;
+                          case PurchaseProductType.nonConsumable:
+                            final storeProduct =
+                                product as _StoreNonConsumablePurchaseProduct;
+                            if (!(await functions.execute(
+                              IOSNonConsumablePurchaseFunctionsAction(
+                                receiptData: iosPurchase
+                                    .verificationData.serverVerificationData,
+                                documentId: userId ?? storeProduct.userId,
+                                productId: iosPurchase.productID,
+                                fieldKey: iosPurchase.productID.toCamelCase(),
+                              ),
+                            ))
+                                .result) {
+                              throw Exception("Failed to validate purchase.");
+                            }
+                            break;
+                          case PurchaseProductType.subscription:
+                            final storeProduct =
+                                product as _StoreSubscriptionPurchaseProduct;
+                            if (!(await functions.execute(
+                              IOSSubscriptionPurchaseFunctionsAction(
+                                receiptData: iosPurchase
+                                    .verificationData.serverVerificationData,
+                                productId: iosPurchase.productID,
+                                purchaseId: iosPurchase.purchaseID ?? "",
+                                userId: userId ?? storeProduct.userId,
+                              ),
+                            ))
+                                .result) {
+                              throw Exception("Failed to validate purchase.");
+                            }
+                            break;
+                          case PurchaseProductType.subscriptionOffer:
+                            break;
+                        }
                       }
+                    } else {
+                      throw Exception(
+                          "Purchase ${purchase.runtimeType} is not supported.");
                     }
                   } else {
                     throw Exception(
