@@ -163,9 +163,9 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
           dispose();
         },
         onError: (e, stacktrace) {
-          _initializeCompleter?.completeError(e);
+          _initializeCompleter?.completeError(e, stacktrace);
           _initializeCompleter = null;
-          _purchaseCompleter?.completeError(e);
+          _purchaseCompleter?.completeError(e, stacktrace);
           _purchaseCompleter = null;
         },
       );
@@ -174,11 +174,11 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
       _initializeCompleter?.complete();
       _initializeCompleter = null;
       notifyListeners();
-    } catch (e) {
-      _initializeCompleter?.completeError(e);
+    } catch (e, stacktrace) {
+      _initializeCompleter?.completeError(e, stacktrace);
       _initializeCompleter = null;
       throw Exception(
-        "Purchase completed with error: ${e.toString()}:${StackTrace.current.toString()}",
+        "Purchase initializing completed with error: ${e.toString()}:${stacktrace.toString()}",
       );
     } finally {
       _initializeCompleter?.complete();
