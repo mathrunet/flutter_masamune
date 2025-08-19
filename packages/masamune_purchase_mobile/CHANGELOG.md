@@ -1,3 +1,7 @@
+## 3.0.22
+
+ - **FIX**: Added support for StoreKit2 server verification. ([525e6ade](https://github.com/mathrunet/flutter_masamune/commit/525e6ade367a235fae665aec533373bc14a55764))
+
 ## 3.0.21
 
  - **FIX**: Fix SK2PurchaseDetails as it is not functioning. ([aa84f084](https://github.com/mathrunet/flutter_masamune/commit/aa84f084924d98588dd9299c47a7caaf6432c619))

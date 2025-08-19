@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-08-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_purchase` - `v3.0.22`](#masamune_purchase---v3022)
+ - [`masamune_purchase_mobile` - `v3.0.22`](#masamune_purchase_mobile---v3022)
+
+---
+
+#### `masamune_purchase` - `v3.0.22`
+
+ - **FIX**: Added support for StoreKit2 server verification. ([525e6ade](https://github.com/mathrunet/flutter_masamune/commit/525e6ade367a235fae665aec533373bc14a55764))
+
+#### `masamune_purchase_mobile` - `v3.0.22`
+
+ - **FIX**: Added support for StoreKit2 server verification. ([525e6ade](https://github.com/mathrunet/flutter_masamune/commit/525e6ade367a235fae665aec533373bc14a55764))
+
+
 ## 2025-08-18
 
 ### Changes

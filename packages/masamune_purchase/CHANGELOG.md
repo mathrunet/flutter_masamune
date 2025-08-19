@@ -1,3 +1,7 @@
+## 3.0.22
+
+ - **FIX**: Added support for StoreKit2 server verification. ([525e6ade](https://github.com/mathrunet/flutter_masamune/commit/525e6ade367a235fae665aec533373bc14a55764))
+
 ## 3.0.21
 
  - **FIX**: Add StackTrace. ([2ff5b091](https://github.com/mathrunet/flutter_masamune/commit/2ff5b091ddc3b78694393949b5c26f80e629bed7))
