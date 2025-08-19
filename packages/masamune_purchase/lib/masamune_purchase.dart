@@ -40,3 +40,4 @@ part "src/purchase_masamune_adapter.dart";
 part "src/purchase_functions_action.dart";
 part "src/purchase_delegate.dart";
 part "src/purchase_subscription_period.dart";
+part "src/purchase_storekit_version.dart";

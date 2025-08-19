@@ -12,8 +12,20 @@ class IOSSubscriptionPurchaseFunctionsAction extends PurchaseFunctionsAction {
     required this.productId,
     required this.purchaseId,
     required this.userId,
+    required this.storeKitVersion,
+    this.transactionId,
     this.data,
   });
+
+  /// StoreKit version.
+  ///
+  /// StoreKitのバージョン。
+  final PurchaseStoreKitVersion storeKitVersion;
+
+  /// Transaction ID.
+  ///
+  /// トランザクションID。
+  final String? transactionId;
 
   /// Receipt data.
   ///
@@ -46,12 +58,18 @@ class IOSSubscriptionPurchaseFunctionsAction extends PurchaseFunctionsAction {
   @override
   DynamicMap? toMap() {
     assert(userId.isNotEmpty, "The user id must not be empty.");
+    assert(
+        storeKitVersion == PurchaseStoreKitVersion.storeKit1 ||
+            transactionId.isNotEmpty,
+        "Transaction ID is required for StoreKit2 verification.");
     return {
       "receiptData": receiptData,
       "productId": productId,
       "data": data ?? <String, dynamic>{},
       "userId": userId,
       "purchaseId": purchaseId,
+      "storeKitVersion": storeKitVersion.version,
+      if (transactionId != null) "transactionId": transactionId,
     };
   }
 

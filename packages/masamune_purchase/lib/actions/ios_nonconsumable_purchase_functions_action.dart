@@ -12,8 +12,23 @@ class IOSNonConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
     required this.fieldKey,
     required this.documentId,
     required this.productId,
+    required this.storeKitVersion,
+    this.transactionId,
     this.collectionPath = "plugins/iap/user",
-  });
+  }) : assert(
+            storeKitVersion == PurchaseStoreKitVersion.storeKit1 ||
+                transactionId != null,
+            "Transaction ID is required for StoreKit2 verification.");
+
+  /// StoreKit version.
+  ///
+  /// StoreKitのバージョン。
+  final PurchaseStoreKitVersion storeKitVersion;
+
+  /// Transaction ID.
+  ///
+  /// トランザクションID。
+  final String? transactionId;
 
   /// Receipt data.
   ///
@@ -48,10 +63,16 @@ class IOSNonConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
     assert(collectionPath.isNotEmpty, "The collection path must not be empty.");
     assert(documentId.isNotEmpty, "The document id must not be empty.");
     assert(fieldKey.isNotEmpty, "The field key must not be empty.");
+    assert(
+        storeKitVersion == PurchaseStoreKitVersion.storeKit1 ||
+            transactionId.isNotEmpty,
+        "Transaction ID is required for StoreKit2 verification.");
     return {
       "receiptData": receiptData,
       "path": "$collectionPath/$documentId/$fieldKey",
       "productId": productId,
+      "storeKitVersion": storeKitVersion.version,
+      if (transactionId != null) "transactionId": transactionId,
     };
   }
 

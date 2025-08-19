@@ -196,6 +196,8 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                               documentId: userId ?? storeProduct.userId,
                               amount: storeProduct.amount ?? 0.0,
                               productId: iosPurchase.productID,
+                              storeKitVersion:
+                                  PurchaseStoreKitVersion.storeKit1,
                             ),
                           ))
                               .result) {
@@ -212,6 +214,8 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                               productId: iosPurchase.productID,
                               documentId: userId ?? storeProduct.userId,
                               fieldKey: iosPurchase.productID.toCamelCase(),
+                              storeKitVersion:
+                                  PurchaseStoreKitVersion.storeKit1,
                             ),
                           ))
                               .result) {
@@ -228,6 +232,8 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                               productId: iosPurchase.productID,
                               purchaseId: iosPurchase.purchaseID ?? "",
                               userId: userId ?? storeProduct.userId,
+                              storeKitVersion:
+                                  PurchaseStoreKitVersion.storeKit1,
                             ),
                           ))
                               .result) {
@@ -250,6 +256,9 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                               documentId: userId ?? storeProduct.userId,
                               amount: storeProduct.amount ?? 0.0,
                               productId: iosPurchase.productID,
+                              storeKitVersion:
+                                  PurchaseStoreKitVersion.storeKit2,
+                              transactionId: iosPurchase.purchaseID,
                             ),
                           ))
                               .result) {
@@ -266,6 +275,9 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                               productId: iosPurchase.productID,
                               documentId: userId ?? storeProduct.userId,
                               fieldKey: iosPurchase.productID.toCamelCase(),
+                              storeKitVersion:
+                                  PurchaseStoreKitVersion.storeKit2,
+                              transactionId: iosPurchase.purchaseID,
                             ),
                           ))
                               .result) {
@@ -282,6 +294,9 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                               productId: iosPurchase.productID,
                               purchaseId: iosPurchase.purchaseID ?? "",
                               userId: userId ?? storeProduct.userId,
+                              storeKitVersion:
+                                  PurchaseStoreKitVersion.storeKit2,
+                              transactionId: iosPurchase.purchaseID,
                             ),
                           ))
                               .result) {
@@ -373,6 +388,8 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                                 documentId: userId ?? storeProduct.userId,
                                 amount: storeProduct.amount ?? 0.0,
                                 productId: iosPurchase.productID,
+                                storeKitVersion:
+                                    PurchaseStoreKitVersion.storeKit1,
                               ),
                             ))
                                 .result) {
@@ -389,6 +406,8 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                                 documentId: userId ?? storeProduct.userId,
                                 productId: iosPurchase.productID,
                                 fieldKey: iosPurchase.productID.toCamelCase(),
+                                storeKitVersion:
+                                    PurchaseStoreKitVersion.storeKit1,
                               ),
                             ))
                                 .result) {
@@ -405,6 +424,8 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                                 productId: iosPurchase.productID,
                                 purchaseId: iosPurchase.purchaseID ?? "",
                                 userId: userId ?? storeProduct.userId,
+                                storeKitVersion:
+                                    PurchaseStoreKitVersion.storeKit1,
                               ),
                             ))
                                 .result) {
@@ -427,6 +448,9 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                                 documentId: userId ?? storeProduct.userId,
                                 amount: storeProduct.amount ?? 0.0,
                                 productId: iosPurchase.productID,
+                                storeKitVersion:
+                                    PurchaseStoreKitVersion.storeKit2,
+                                transactionId: iosPurchase.purchaseID,
                               ),
                             ))
                                 .result) {
@@ -443,6 +467,9 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                                 documentId: userId ?? storeProduct.userId,
                                 productId: iosPurchase.productID,
                                 fieldKey: iosPurchase.productID.toCamelCase(),
+                                storeKitVersion:
+                                    PurchaseStoreKitVersion.storeKit2,
+                                transactionId: iosPurchase.purchaseID,
                               ),
                             ))
                                 .result) {
@@ -459,6 +486,9 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                                 productId: iosPurchase.productID,
                                 purchaseId: iosPurchase.purchaseID ?? "",
                                 userId: userId ?? storeProduct.userId,
+                                storeKitVersion:
+                                    PurchaseStoreKitVersion.storeKit2,
+                                transactionId: iosPurchase.purchaseID,
                               ),
                             ))
                                 .result) {
