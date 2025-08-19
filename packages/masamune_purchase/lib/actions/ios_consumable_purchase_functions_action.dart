@@ -69,7 +69,8 @@ class IOSConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
     assert(collectionPath.isNotEmpty, "The collection path must not be empty.");
     assert(documentId.isNotEmpty, "The document id must not be empty.");
     assert(fieldKey.isNotEmpty, "The field key must not be empty.");
-    assert(storeKitVersion == PurchaseStoreKitVersion.storeKit1 ||
+    assert(
+        storeKitVersion == PurchaseStoreKitVersion.storeKit1 ||
             transactionId.isNotEmpty,
         "Transaction ID is required for StoreKit2 verification.");
     return {
@@ -78,7 +79,7 @@ class IOSConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
       "value": amount,
       "productId": productId,
       "storeKitVersion": storeKitVersion.version,
-      if(transactionId != null) "transactionId": transactionId,
+      if (transactionId != null) "transactionId": transactionId,
     };
   }
 
