@@ -173,6 +173,7 @@ class AIThread
     AIConfig? config,
     Set<AITool> tools = const {},
     bool includeSystemInitialContent = false,
+    List<AIContent> Function(List<AIContent> contents)? contentFilter,
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
         onGenerateFunctionCallingConfig,
@@ -198,7 +199,9 @@ class AIThread
       _value.sort((a, b) => b.time.compareTo(a.time));
       notifyListeners();
       final res = await adapter.generateContent(
-        value,
+        contentFilter?.call(contents) ??
+            adapter.contentFilter?.call(contents) ??
+            contents,
         config: config ?? this.config,
         tools: tools,
         includeSystemInitialContent: includeSystemInitialContent,

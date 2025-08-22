@@ -23,6 +23,7 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
     this.mcpFunctions = const [],
     this.onGenerateFunctionCallingConfig,
     this.listenMcpServerOnRunApp = false,
+    this.contentFilter,
   });
 
   static McpServer? _mcpServer;
@@ -57,6 +58,11 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   ///
   /// [onPreRunApp]でMCPサーバーを監視するかどうか。
   final bool listenMcpServerOnRunApp;
+
+  /// Called before content is generated.
+  ///
+  /// 内容が生成される前に呼び出されます。
+  final List<AIContent> Function(List<AIContent> contents)? contentFilter;
 
   /// Called when the function calling config is generated.
   ///

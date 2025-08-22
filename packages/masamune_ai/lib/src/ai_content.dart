@@ -481,6 +481,25 @@ class AIContent extends ChangeNotifier
     );
   }
 
+  /// Copies the AI content.
+  ///
+  /// AIの内容をコピーします。
+  AIContent copyWith({
+    List<AIContentPart>? values,
+    DateTime? time,
+    String? id,
+    String? userId,
+  }) {
+    return AIContent(
+      role: role,
+      values: values ?? _value,
+      time: time ?? _time,
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      completed: _completer == null,
+    );
+  }
+
   @override
   String toString() {
     return _value.map((e) => e.toString()).join();
@@ -564,6 +583,15 @@ class AIContentTextPart extends AIContentPart {
     return mcp.TextContent(text: text);
   }
 
+  /// Copies the AI content text part.
+  ///
+  /// AIの内容のテキストの一部をコピーします。
+  AIContentTextPart copyWith({
+    String? text,
+  }) {
+    return AIContentTextPart(text ?? this.text);
+  }
+
   @override
   String toString() {
     return text;
@@ -614,6 +642,16 @@ class AIContentBinaryPart extends AIContentPart {
     }
   }
 
+  /// Copies the AI content binary part.
+  ///
+  /// AIの内容のバイナリの一部をコピーします。
+  AIContentBinaryPart copyWith({
+    AIFileType? type,
+    Uint8List? value,
+  }) {
+    return AIContentBinaryPart(type ?? this.type, value ?? this.value);
+  }
+
   @override
   String toString() {
     return "";
@@ -654,6 +692,16 @@ class AIContentFilePart extends AIContentPart {
   @override
   Content? toMcpContent() {
     return null;
+  }
+
+  /// Copies the AI content file part.
+
+  /// AIの内容のファイルの一部をコピーします。
+  AIContentFilePart copyWith({
+    AIFileType? type,
+    Uri? uri,
+  }) {
+    return AIContentFilePart(type ?? this.type, uri ?? this.uri);
   }
 
   @override
@@ -713,6 +761,19 @@ class AIContentFunctionCallPart extends AIContentPart {
     return null;
   }
 
+  /// Copies the AI content function call part.
+  ///
+  /// AIの内容の関数呼び出しの一部をコピーします。
+  AIContentFunctionCallPart copyWith({
+    String? name,
+    Map<String, dynamic>? args,
+  }) {
+    return AIContentFunctionCallPart(
+      name: name ?? this.name,
+      args: args ?? this.args,
+    );
+  }
+
   @override
   String toString() {
     return "";
@@ -756,6 +817,16 @@ class AIContentFunctionResponsePart extends AIContentPart {
   @override
   Content? toMcpContent() {
     return null;
+  }
+
+  /// Copies the AI content function response part.
+  ///
+  /// AIの内容の関数レスポンスの一部をコピーします。
+  AIContentFunctionResponsePart copyWith({
+    Map<String, dynamic>? response,
+  }) {
+    return AIContentFunctionResponsePart(
+        name: name, response: response ?? this.response);
   }
 
   @override

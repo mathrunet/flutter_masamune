@@ -139,6 +139,7 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
     AIConfig? config,
+    List<AIContent> Function(List<AIContent> contents)? contentFilter,
     Set<AITool> tools = const {},
     bool includeSystemInitialContent = false,
     AIFunctionCallingConfig? Function(
@@ -154,7 +155,9 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
         tools = {...tools, ..._mcpClient?.value ?? const {}};
       }
       final res = await adapter.generateContent(
-        contents,
+        contentFilter?.call(contents) ??
+            adapter.contentFilter?.call(contents) ??
+            contents,
         config: config ?? this.config,
         tools: tools,
         includeSystemInitialContent: includeSystemInitialContent,

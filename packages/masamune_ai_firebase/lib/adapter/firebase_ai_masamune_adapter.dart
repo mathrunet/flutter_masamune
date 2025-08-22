@@ -33,6 +33,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     super.mcpFunctions = const [],
     super.onGenerateFunctionCallingConfig,
     super.listenMcpServerOnRunApp = false,
+    super.contentFilter,
   })  : _options = options,
         _instance = ai;
 
