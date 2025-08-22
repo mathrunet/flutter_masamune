@@ -1,3 +1,7 @@
+## 3.0.22
+
+ - **FIX**: ContentFilterを追加。. ([b3e2ab3e](https://github.com/mathrunet/flutter_masamune/commit/b3e2ab3e440a97fd768f172b196b467506c64130))
+
 ## 3.0.21
 
  - **FIX**: Fixed an issue where InitialContents was not loading. ([1a05877b](https://github.com/mathrunet/flutter_masamune/commit/1a05877bd062520fc7a455f24e2a6a47e33e5156))

@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-08-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ai` - `v3.0.22`](#masamune_ai---v3022)
+ - [`masamune_ai_firebase` - `v3.0.22`](#masamune_ai_firebase---v3022)
+ - [`masamune_ai_openai` - `v3.0.22`](#masamune_ai_openai---v3022)
+
+---
+
+#### `masamune_ai` - `v3.0.22`
+
+ - **FIX**: ContentFilterを追加。. ([b3e2ab3e](https://github.com/mathrunet/flutter_masamune/commit/b3e2ab3e440a97fd768f172b196b467506c64130))
+
+#### `masamune_ai_firebase` - `v3.0.22`
+
+ - **FIX**: ContentFilterを追加。. ([b3e2ab3e](https://github.com/mathrunet/flutter_masamune/commit/b3e2ab3e440a97fd768f172b196b467506c64130))
+
+#### `masamune_ai_openai` - `v3.0.22`
+
+ - **FIX**: ContentFilterを追加。. ([b3e2ab3e](https://github.com/mathrunet/flutter_masamune/commit/b3e2ab3e440a97fd768f172b196b467506c64130))
+
+
 ## 2025-08-19
 
 ### Changes
