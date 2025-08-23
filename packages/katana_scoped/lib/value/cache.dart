@@ -86,7 +86,7 @@ class _CacheValueState<T, TRef extends Ref>
     extends QueryScopedValueState<T, TRef, _CacheValue<T, TRef>> {
   _CacheValueState();
 
-  late T _value;
+  late T _cache;
 
   @override
   bool get autoDisposeWhenUnreferenced => false;
@@ -94,23 +94,23 @@ class _CacheValueState<T, TRef extends Ref>
   @override
   void initValue() {
     super.initValue();
-    _value = value.callback(ref);
+    _cache = value.callback(ref);
   }
 
   @override
   void didUpdateValue(_CacheValue<T, TRef> oldValue) {
     super.didUpdateValue(oldValue);
     if (!equalsKeys(value.keys, oldValue.keys)) {
-      _value = value.callback(ref);
+      _cache = value.callback(ref);
     }
   }
 
   @override
   void didUpdateDescendant() {
     super.didUpdateDescendant();
-    _value = value.callback(ref);
+    _cache = value.callback(ref);
   }
 
   @override
-  T build() => _value;
+  T build() => _cache;
 }
