@@ -1,5 +1,8 @@
 part of "/katana_model.dart";
 
+const _kAliasFromKey = "__alias_from__";
+const _kAliasToKey = "__alias_to__";
+
 /// Class for building a NoSql database model within an application.
 ///
 /// It is based on the Firestore model and handles data separately as documents and collections.
@@ -35,6 +38,8 @@ part of "/katana_model.dart";
 /// オブジェクトの作成時に[onInitialize]、[onLoad]、[onSaved]、[onDeleted]のコールバックを渡すことができ、データの読み出し時や保存時などに外部のデータベース等との連携処理を追加することが可能です。
 ///
 /// ドキュメントやコレクションが破棄される際は[removeDocumentListener]、[removeCollectionListener]で各ドキュメントやコレクションを監視対象から外してください。
+///
+/// また
 class NoSqlDatabase {
   /// Class for building a NoSql database model within an application.
   ///
@@ -288,7 +293,16 @@ class NoSqlDatabase {
     if (value is! Map) {
       return null;
     }
-    return Map<String, dynamic>.from(value);
+    final aliasTo = value.get(_kAliasToKey, nullOfString);
+    if (aliasTo != null) {
+      return await loadDocument(
+        query.copyWith(query: query.query.copyWith(path: aliasTo)),
+        prefix: prefix,
+      );
+    }
+    return Map<String, dynamic>.from(value)
+      ..remove(_kAliasFromKey)
+      ..remove(_kAliasToKey);
   }
 
   /// Stores [value] in the path corresponding to [query] and then returns [value].
@@ -392,38 +406,44 @@ class NoSqlDatabase {
     if (value is! DynamicMap) {
       return null;
     }
+    final converted = <MapEntry<String, Map<String, dynamic>>>[];
+    for (final entry in value.entries) {
+      final key = entry.key;
+      final val = entry.value;
+      if (val is! Map) {
+        continue;
+      }
+      final aliasPath = val.get(_kAliasToKey, nullOfString);
+      if (aliasPath != null) {
+        final key = aliasPath.last();
+        final docQuery = query.create(key);
+        final val = await loadDocument(docQuery, prefix: prefix);
+        if (val == null) {
+          continue;
+        }
+        converted.add(MapEntry(
+          key,
+          Map<String, dynamic>.from(val)
+            ..remove(_kAliasFromKey)
+            ..remove(_kAliasToKey),
+        ));
+      } else {
+        converted.add(MapEntry(
+          key,
+          Map<String, dynamic>.from(val)
+            ..remove(_kAliasFromKey)
+            ..remove(_kAliasToKey),
+        ));
+      }
+    }
     if (!enableCollectionQueryOnLoad) {
-      return Map<String, DynamicMap>.fromEntries(
-        value.toList(
-          (key, value) {
-            if (value is! Map) {
-              return null;
-            }
-            return MapEntry(
-              key,
-              Map<String, dynamic>.from(value),
-            );
-          },
-        ).removeEmpty(),
-      );
+      return Map<String, DynamicMap>.fromEntries(converted);
     }
     final limitValue = NoSqlDatabase.limitValue(query);
     final entries = query.query.sort(
-      value
-          .toList(
-            (key, value) {
-              if (value is! Map) {
-                return null;
-              }
-              return MapEntry(
-                key,
-                Map<String, dynamic>.from(value),
-              );
-            },
-          )
+      converted
           .where(
-            (element) =>
-                element != null && query.query.hasMatchAsMap(element.value),
+            (element) => query.query.hasMatchAsMap(element.value),
           )
           .removeEmpty(),
     );
@@ -689,6 +709,7 @@ class NoSqlDatabase {
     ModelAdapterDocumentQuery query,
     DynamicMap value, {
     String? prefix,
+    bool retreiveAlias = true,
   }) async {
     _addDocumentListener(query, prefix: prefix);
     await _initialize();
@@ -697,7 +718,26 @@ class NoSqlDatabase {
     if (paths.isEmpty) {
       return;
     }
+    String? aliasFrom;
+    if (retreiveAlias) {
+      final prevValue = data._readFromPath(paths, 0);
+      if (prevValue is Map) {
+        final aliasTo = prevValue.get(_kAliasToKey, nullOfString);
+        aliasFrom = prevValue.get(_kAliasFromKey, nullOfString);
+        if (aliasTo != null) {
+          return await _saveDocument(
+            query.copyWith(query: query.query.copyWith(path: aliasTo)),
+            value,
+            prefix: prefix,
+            retreiveAlias: false,
+          );
+        }
+      }
+    }
     value = Map.from(value)..removeWhere((key, value) => value == null);
+    if (aliasFrom != null) {
+      value[_kAliasFromKey] = aliasFrom;
+    }
     if (value.isEmpty) {
       return deleteDocument(query, prefix: prefix);
     }
@@ -735,12 +775,41 @@ class NoSqlDatabase {
     ModelAdapterDocumentQuery query, {
     String? prefix,
   }) async {
+    await _deleteDocument(query, prefix: prefix);
+  }
+
+  Future<void> _deleteDocument(
+    ModelAdapterDocumentQuery query, {
+    String? prefix,
+    bool retreiveAlias = true,
+  }) async {
     _addDocumentListener(query, prefix: prefix);
     await _initialize();
     final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");
     if (paths.isEmpty) {
       return;
+    }
+    if (retreiveAlias) {
+      final prevValue = data._readFromPath(paths, 0);
+      if (prevValue is Map) {
+        final aliasTo = prevValue.get(_kAliasToKey, nullOfString);
+        if (aliasTo != null) {
+          await _deleteDocument(
+            query.copyWith(query: query.query.copyWith(path: aliasTo)),
+            prefix: prefix,
+            retreiveAlias: false,
+          );
+        }
+        final aliasFrom = prevValue.get(_kAliasFromKey, nullOfString);
+        if (aliasFrom != null) {
+          await _deleteDocument(
+            query.copyWith(query: query.query.copyWith(path: aliasFrom)),
+            prefix: prefix,
+            retreiveAlias: false,
+          );
+        }
+      }
     }
     data._deleteFromPath(paths, 0);
     notifyDocuments(
@@ -771,6 +840,58 @@ class NoSqlDatabase {
     _collectionGroupListeners.clear();
     _collectionGroupEntries.clear();
     await onDeleted?.call(this);
+  }
+
+  /// Aliases a document.
+  ///
+  /// Changes the document path from [from] to [to].
+  ///
+  /// The aliased document is treated as if its actual data exists at the [to] path.
+  ///
+  /// If retrieved with [loadDocument], data can still be obtained using the [from] path, but if retrieved with [loadCollection], the [from] path will not be included.
+  ///
+  /// ドキュメントをエイリアス化します。
+  ///
+  /// ドキュメントのパスを[from]から[to]に変更します。
+  ///
+  /// エイリアス化されたドキュメントは[to]のパスに実データが存在しているものとして扱われます。
+  ///
+  /// [loadDocument]で取得した場合は、[from]のパスでもデータは取得できますが、[loadCollection]で取得した場合は[from]のパスは含まれません。
+  Future<void> aliasDocument({
+    required ModelAdapterDocumentQuery from,
+    required ModelAdapterDocumentQuery to,
+    String? prefix,
+  }) async {
+    if (from.query.path.parentPath() != to.query.path.parentPath()) {
+      throw Exception(
+          "The collection path of [from] and [to] must be the same: ${from.query.path} and ${to.query.path}.");
+    }
+    final toValue = await loadDocument(to, prefix: prefix) ?? {};
+    final fromPath = toValue.get(_kAliasFromKey, nullOfString);
+    if (toValue.isNotEmpty && fromPath != from.query.path) {
+      if (fromPath != null) {
+        throw Exception(
+            "${to.query.path} is already aliased from other path: $fromPath.");
+      } else {
+        throw Exception("${to.query.path} is already exists.");
+      }
+    }
+    final fromValue = await loadDocument(from, prefix: prefix) ?? {};
+    await saveDocument(
+      to,
+      {
+        ...fromValue,
+        _kAliasFromKey: from.query.path,
+      },
+      prefix: prefix,
+    );
+    await saveDocument(
+      from,
+      {
+        _kAliasToKey: to.query.path,
+      },
+      prefix: prefix,
+    );
   }
 
   /// Replaces all data in the database inside by giving [replaceData].

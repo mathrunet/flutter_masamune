@@ -1478,4 +1478,120 @@ void main() {
       }
     ]);
   });
+  test("NoSqlDatabase.alias", () async {
+    final db = NoSqlDatabase();
+    final adapter = RuntimeModelAdapter(database: db);
+    final query1 = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("test/doc1", adapter: adapter),
+    );
+    final value1 = {
+      "name": "aaa",
+      "text": "bbb",
+    };
+    await db.saveDocument(query1, value1);
+    final query2 = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("test/doc2", adapter: adapter),
+    );
+    final value2 = {
+      "name": "ccc",
+      "text": "ddd",
+    };
+    await db.saveDocument(query2, value2);
+    final aliasQuery1 = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("test/alias1", adapter: adapter),
+    );
+    await db.aliasDocument(from: query1, to: aliasQuery1);
+    expect(await db.loadDocument(aliasQuery1), value1);
+    expect(await db.loadDocument(query1), value1);
+    final col = await db.loadCollection(
+      ModelAdapterCollectionQuery(
+        query: CollectionModelQuery("test", adapter: adapter),
+      ),
+    );
+    expect(col, {
+      "alias1": value1,
+      "doc2": value2,
+    });
+    final aliasQuery2 = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("test/alias2", adapter: adapter),
+    );
+    await db.aliasDocument(from: query2, to: aliasQuery2);
+    expect(await db.loadDocument(aliasQuery2), value2);
+    expect(await db.loadDocument(query2), value2);
+    final col2 = await db.loadCollection(
+      ModelAdapterCollectionQuery(
+        query: CollectionModelQuery("test", adapter: adapter),
+      ),
+    );
+    expect(col2, {
+      "alias1": value1,
+      "alias2": value2,
+    });
+    final value12 = {
+      "name": "ccc",
+      "text": "ddd",
+    };
+    await db.saveDocument(query1, value12);
+    expect(await db.loadDocument(aliasQuery1), value12);
+    expect(await db.loadDocument(query1), value12);
+    final value13 = {
+      "name": "eee",
+      "text": "fff",
+    };
+    await db.saveDocument(aliasQuery1, value13);
+    expect(await db.loadDocument(aliasQuery1), value13);
+    expect(await db.loadDocument(query1), value13);
+    final col3 = await db.loadCollection(
+      ModelAdapterCollectionQuery(
+        query: CollectionModelQuery("test", adapter: adapter),
+      ),
+    );
+    expect(col3, {
+      "alias1": value13,
+      "alias2": value2,
+    });
+    final value22 = {
+      "name": "ggg",
+      "text": "hhh",
+    };
+    await db.saveDocument(query2, value22);
+    expect(await db.loadDocument(aliasQuery2), value22);
+    expect(await db.loadDocument(query2), value22);
+    final value23 = {
+      "name": "iii",
+      "text": "jjj",
+    };
+    await db.saveDocument(aliasQuery2, value23);
+    expect(await db.loadDocument(aliasQuery2), value23);
+    expect(await db.loadDocument(query2), value23);
+    final col4 = await db.loadCollection(
+      ModelAdapterCollectionQuery(
+        query: CollectionModelQuery("test", adapter: adapter),
+      ),
+    );
+    expect(col4, {
+      "alias1": value13,
+      "alias2": value23,
+    });
+    await db.deleteDocument(query1);
+    expect(await db.loadDocument(aliasQuery1), null);
+    expect(await db.loadDocument(query1), null);
+    final col5 = await db.loadCollection(
+      ModelAdapterCollectionQuery(
+        query: CollectionModelQuery("test", adapter: adapter),
+      ),
+    );
+    expect(col5, {
+      "alias2": value23,
+    });
+    await db.deleteDocument(aliasQuery2);
+    expect(await db.loadDocument(aliasQuery2), null);
+    expect(await db.loadDocument(query2), null);
+    final col6 = await db.loadCollection(
+      ModelAdapterCollectionQuery(
+        query: CollectionModelQuery("test", adapter: adapter),
+      ),
+    );
+    expect(col6, {});
+  });
 }
