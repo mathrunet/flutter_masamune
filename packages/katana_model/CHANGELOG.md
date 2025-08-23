@@ -1,3 +1,8 @@
+## 3.3.0
+
+ - **FIX**: Fixed a bug where the `hashCode` constantly changed for 'now'. ([f18f120c](https://github.com/mathrunet/flutter_masamune/commit/f18f120c088f7c1d9d187289e9b483151fdda4f1))
+ - **FEAT**: Add alias functionality to NoSQL Database. ([d07f0de9](https://github.com/mathrunet/flutter_masamune/commit/d07f0de99946ecb86f650fef10c9ce4fb2c45d81))
+
 ## 3.2.4
 
  - **FIX**: Bug fix. ([a9bb8870](https://github.com/mathrunet/flutter_masamune/commit/a9bb8870c766dd0469e2014f8550521161581e1b))

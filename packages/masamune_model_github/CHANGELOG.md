@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - Update a dependency to the latest release.
+
 ## 3.2.0
 
  - **FIX**: Add missing events. ([6c89979f](https://github.com/mathrunet/flutter_masamune/commit/6c89979ff2ec1e6f79c670a3e845254740fcd7c7))

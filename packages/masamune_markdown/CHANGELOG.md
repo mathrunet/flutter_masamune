@@ -1,3 +1,7 @@
+## 3.2.2
+
+ - Update a dependency to the latest release.
+
 ## 3.2.1
 
  - **FIX**: Cannot upload, needs fixing. ([255c1b20](https://github.com/mathrunet/flutter_masamune/commit/255c1b20b2a074685fdf89f4069c749c9db09522))

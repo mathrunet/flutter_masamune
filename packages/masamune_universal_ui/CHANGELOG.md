@@ -1,3 +1,7 @@
+## 3.1.18
+
+ - Update a dependency to the latest release.
+
 ## 3.1.17
 
  - **FIX**: Bottom padding is now utilized with `resizeToAvoidBottomInset`. ([2921e53c](https://github.com/mathrunet/flutter_masamune/commit/2921e53c6e82d00ee01be8e4d43c3963a39d1e5a))

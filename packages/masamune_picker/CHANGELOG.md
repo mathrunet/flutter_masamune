@@ -1,3 +1,7 @@
+## 3.1.4
+
+ - Update a dependency to the latest release.
+
 ## 3.1.3
 
  - **FIX**: Fixed a bug where MimeType was not included. ([2f821c3d](https://github.com/mathrunet/flutter_masamune/commit/2f821c3d3721380adebbd80d484e1838c563bbfd))

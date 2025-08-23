@@ -1,3 +1,7 @@
+## 3.0.23
+
+ - Update a dependency to the latest release.
+
 ## 3.0.22
 
  - **FIX**: ContentFilterを追加。. ([b3e2ab3e](https://github.com/mathrunet/flutter_masamune/commit/b3e2ab3e440a97fd768f172b196b467506c64130))
