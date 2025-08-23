@@ -1089,10 +1089,18 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
 class _ModelTimestampWithNow extends _ModelTimestamp {
   const _ModelTimestampWithNow() : super();
 
+  static const _kNowKey = "@now";
+
   @override
   DateTime? get _value {
     return Clock.now();
   }
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode => "$runtimeType$_kNowKey".hashCode;
 }
 
 @immutable
@@ -1480,10 +1488,18 @@ class ModelDate extends ModelFieldValue<DateTime>
 class _ModelDateWithNow extends _ModelDate {
   const _ModelDateWithNow() : super();
 
+  static const _kNowKey = "@now";
+
   @override
   DateTime? get _value {
     return Clock.now();
   }
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode => "$runtimeType$_kNowKey".hashCode;
 }
 
 @immutable
@@ -1903,10 +1919,18 @@ class ModelTime extends ModelFieldValue<DateTime>
 class _ModelTimeWithNow extends _ModelTime {
   const _ModelTimeWithNow() : super();
 
+  static const _kNowKey = "@now";
+
   @override
   DateTime? get _value {
     return Clock.now();
   }
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode => "$runtimeType$_kNowKey".hashCode;
 }
 
 @immutable
