@@ -734,14 +734,16 @@ class NoSqlDatabase {
         }
       }
     }
+
     value = Map.from(value)..removeWhere((key, value) => value == null);
-    if (aliasFrom != null) {
-      value[_kAliasFromKey] = aliasFrom;
-    }
     if (value.isEmpty) {
       return deleteDocument(query, prefix: prefix);
     }
-    final isAdd = data._writeToPath(paths, 0, value);
+    final isAdd = data._writeToPath(
+      paths,
+      0,
+      aliasFrom != null ? {...value, _kAliasFromKey: aliasFrom} : value,
+    );
     if (isAdd == null) {
       return;
     }
@@ -877,21 +879,46 @@ class NoSqlDatabase {
       }
     }
     final fromValue = await loadDocument(from, prefix: prefix) ?? {};
-    await saveDocument(
-      to,
-      {
-        ...fromValue,
-        _kAliasFromKey: from.query.path,
-      },
-      prefix: prefix,
-    );
-    await saveDocument(
-      from,
-      {
-        _kAliasToKey: to.query.path,
-      },
-      prefix: prefix,
-    );
+    final trimToPath = _path(to.query.path, prefix);
+    final toPaths = trimToPath.split("/");
+    if (toPaths.isNotEmpty) {
+      final isAdd = data._writeToPath(
+        toPaths,
+        0,
+        {...fromValue, _kAliasFromKey: from.query.path},
+      );
+      if (isAdd == null) {
+        return;
+      }
+      notifyDocuments(
+        trimToPath,
+        toPaths.last,
+        fromValue,
+        isAdd
+            ? ModelUpdateNotificationStatus.added
+            : ModelUpdateNotificationStatus.modified,
+        to,
+      );
+    }
+    final trimFromPath = _path(from.query.path, prefix);
+    final fromPaths = trimFromPath.split("/");
+    if (fromPaths.isNotEmpty) {
+      final isAdd = data._writeToPath(
+        fromPaths,
+        0,
+        {_kAliasToKey: to.query.path},
+      );
+      if (isAdd == null) {
+        return;
+      }
+      notifyDocuments(
+        trimFromPath,
+        fromPaths.last,
+        {},
+        ModelUpdateNotificationStatus.removed,
+        from,
+      );
+    }
   }
 
   /// Replaces all data in the database inside by giving [replaceData].
