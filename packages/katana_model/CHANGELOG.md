@@ -1,3 +1,7 @@
+## 3.3.1
+
+ - **FIX**: Fixed notifications not working correctly. ([61be1082](https://github.com/mathrunet/flutter_masamune/commit/61be10820a0deb6ae4b491522012b8bde9d24f4b))
+
 ## 3.3.0
 
  - **FIX**: Fixed a bug where the `hashCode` constantly changed for 'now'. ([f18f120c](https://github.com/mathrunet/flutter_masamune/commit/f18f120c088f7c1d9d187289e9b483151fdda4f1))
