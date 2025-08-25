@@ -41,7 +41,6 @@ class ChatTile extends StatelessWidget {
     this.actions = const [],
     this.leading,
     this.trailing,
-    this.elevation = 0.0,
     this.borderRadius,
     this.padding = const EdgeInsets.symmetric(vertical: 4),
     this.contentPadding = const EdgeInsets.all(16),
@@ -77,11 +76,6 @@ class ChatTile extends StatelessWidget {
   ///
   /// チャット本文の下に配置するアクション。
   final List<Widget> actions;
-
-  /// Chat container height.
-  ///
-  /// チャットコンテナの高さ。
-  final double elevation;
 
   /// Rounded corners for chat containers.
   ///
@@ -178,16 +172,13 @@ class ChatTile extends StatelessWidget {
                             if (title != null) ...[
                               title!,
                             ],
-                            Card(
-                              elevation: elevation,
-                              shape: RoundedRectangleBorder(
+                            DecoratedBox(
+                              decoration: BoxDecoration(
                                 borderRadius:
                                     borderRadius ?? BorderRadius.circular(8.0),
+                                color: backgroundColor ??
+                                    Theme.of(context).colorScheme.surface,
                               ),
-                              color: backgroundColor ??
-                                  Theme.of(context).colorScheme.surface,
-                              surfaceTintColor: backgroundColor ??
-                                  Theme.of(context).colorScheme.surface,
                               child: Padding(
                                 padding: contentPadding,
                                 child: Column(
@@ -242,16 +233,13 @@ class ChatTile extends StatelessWidget {
                             if (title != null) ...[
                               title!,
                             ],
-                            Card(
-                              elevation: elevation,
-                              shape: RoundedRectangleBorder(
+                            DecoratedBox(
+                              decoration: BoxDecoration(
                                 borderRadius:
                                     borderRadius ?? BorderRadius.circular(8.0),
+                                color: backgroundColor ??
+                                    Theme.of(context).colorScheme.surface,
                               ),
-                              color: backgroundColor ??
-                                  Theme.of(context).colorScheme.surface,
-                              surfaceTintColor: backgroundColor ??
-                                  Theme.of(context).colorScheme.surface,
                               child: Padding(
                                 padding: contentPadding,
                                 child: Column(
