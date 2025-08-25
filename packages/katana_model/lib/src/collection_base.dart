@@ -253,11 +253,11 @@ abstract class CollectionBase<TModel extends DocumentBase>
         return;
       }
       await _load();
-      if (reloadOnce && !_reloaded) {
-        _reloaded = true;
-        await reload();
-      }
     });
+    if (reloadOnce && !_reloaded) {
+      _reloaded = true;
+      await reload();
+    }
     return this;
   }
 

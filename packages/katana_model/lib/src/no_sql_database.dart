@@ -462,19 +462,20 @@ class NoSqlDatabase {
   /// Stores [value] in the path corresponding to [query] and then returns [value].
   ///
   /// Used to synchronize [NoSqlDatabase] with other databases.
-  /// (Strictly speaking, the given value is stocked, not synchronized.)
+  /// (Strictly speaking, the given value is stocked, not synchronized. Setting [overwrite] to `true` will delete old data.)
   ///
   /// [prefix] can be specified to prefix the path.
   ///
   /// [query]に対応するパスに[value]を格納してから[value]を返します。
   ///
   /// 他のデータベースと[NoSqlDatabase]を同期するために利用します。
-  /// （厳密には同期ではなく与えられた値をストックしていきます。）
+  /// （厳密には同期ではなく与えられた値をストックしていきます。[overwrite]を`true`にすると古いデータは削除されます。）
   ///
   /// [prefix]を指定するとパスにプレフィックスを付与可能です。
   Future<Map<String, DynamicMap>?> syncCollection(
     ModelAdapterCollectionQuery query,
     Map<String, DynamicMap>? value, {
+    bool overwrite = false,
     String? prefix,
   }) async {
     _addCollectionListener(query, prefix: prefix);
@@ -485,6 +486,9 @@ class NoSqlDatabase {
       return value;
     }
     final isCollectionGroup = query.query.isCollectionGroup;
+    if (overwrite) {
+      data._clearFromPath(paths, 0);
+    }
     for (final tmp in value.entries) {
       final key = tmp.key;
       final val = Map<String, dynamic>.from(tmp.value);
@@ -1411,6 +1415,11 @@ extension _NoSqlDatabaseDynamicMapExtensions on Map {
     final collection = getAsMap(collectionPath);
     collection.remove(documentId);
     this[collectionPath] = collection;
+  }
+
+  void _clearFromPath(List<String> paths, int index) {
+    final collectionPath = paths.join("/");
+    remove(collectionPath);
   }
 }
 
