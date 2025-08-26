@@ -1,3 +1,7 @@
+## 3.1.12
+
+ - **FIX**: Bug fix for negative timestamp values. ([211b5429](https://github.com/mathrunet/flutter_masamune/commit/211b5429deec107c242fa25c9d4f19c6ea9fad88))
+
 ## 3.1.11
 
  - Update a dependency to the latest release.

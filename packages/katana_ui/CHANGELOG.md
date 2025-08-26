@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - **FIX**: I decided not to use the card. ([282c70f8](https://github.com/mathrunet/flutter_masamune/commit/282c70f8bea0ecc771d90f2a6e39d3959287bf30))
+
 ## 3.1.0
 
  - **FEAT**: Add toColor method. ([8168812a](https://github.com/mathrunet/flutter_masamune/commit/8168812a8ac1aa5c3c38a976bed2cc41830bb362))

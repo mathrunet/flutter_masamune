@@ -1,3 +1,7 @@
+## 3.3.2
+
+ - **FIX**: Add syncCollection.overwrite feature to NoSqlDatabase. ([bee2c9b5](https://github.com/mathrunet/flutter_masamune/commit/bee2c9b587d48207df910c4cb2a9ccda40ca5de6))
+
 ## 3.3.1
 
  - **FIX**: Fixed notifications not working correctly. ([61be1082](https://github.com/mathrunet/flutter_masamune/commit/61be10820a0deb6ae4b491522012b8bde9d24f4b))
