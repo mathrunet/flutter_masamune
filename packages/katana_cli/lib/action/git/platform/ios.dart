@@ -465,8 +465,19 @@ jobs:
       # Download IOS Platform
       # IOSプラットフォームのダウンロード。
       - name: Download IOS Platform
-        run: xcodebuild -downloadPlatform iOS
-        timeout-minutes: 10
+        run: |
+          attempt=1
+          until xcodebuild -downloadPlatform iOS; do
+            if [ \$attempt -ge 3 ]; then
+              echo "xcodebuild -downloadPlatform iOS failed after \$attempt attempts."
+              exit 1
+            fi
+            wait_sec=\$((attempt * 15))
+            echo "Failed (attempt \$attempt). Retrying in \${wait_sec}s..."
+            sleep \$wait_sec
+            attempt=\$((attempt + 1))
+          done
+        timeout-minutes: 30
 
       # Creation of the Assets folder.
       # Assetsフォルダの作成。
