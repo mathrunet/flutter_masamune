@@ -5,6 +5,22 @@ part of "/katana_model_firestore.dart";
 /// [ModelTimestamp]用のFirestoreConverter。
 class FirestoreModelTimestampConverter
     extends FirestoreModelFieldValueConverter {
+  static Timestamp _createTimestampFromMicroseconds(int microseconds) {
+    if (microseconds >= 0) {
+      return Timestamp.fromMicrosecondsSinceEpoch(microseconds);
+    }
+
+    final int seconds = (microseconds / 1000000).floor();
+    final int remainingMicros = microseconds - (seconds * 1000000);
+    final int nanoseconds = remainingMicros * 1000;
+
+    if (nanoseconds < 0) {
+      return Timestamp(seconds - 1, nanoseconds + 1000000000);
+    }
+
+    return Timestamp(seconds, nanoseconds);
+  }
+
   /// FirestoreConverter for [ModelTimestamp].
   ///
   /// [ModelTimestamp]用のFirestoreConverter。
@@ -120,9 +136,9 @@ class FirestoreModelTimestampConverter
             if (useNow)
               key: FieldValue.serverTimestamp()
             else
-              key: Timestamp.fromMicrosecondsSinceEpoch(val.toInt()),
+              key: _createTimestampFromMicroseconds(val.toInt()),
           } else ...{
-            key: Timestamp.fromMicrosecondsSinceEpoch(val.toInt()),
+            key: _createTimestampFromMicroseconds(val.toInt()),
           },
         };
       }
@@ -146,10 +162,10 @@ class FirestoreModelTimestampConverter
             if (useNow) {
               res.add(FieldValue.serverTimestamp());
             } else {
-              res.add(Timestamp.fromMicrosecondsSinceEpoch(time.toInt()));
+              res.add(_createTimestampFromMicroseconds(time.toInt()));
             }
           } else {
-            res.add(Timestamp.fromMicrosecondsSinceEpoch(time.toInt()));
+            res.add(_createTimestampFromMicroseconds(time.toInt()));
           }
         }
         return {
@@ -180,11 +196,10 @@ class FirestoreModelTimestampConverter
             if (useNow) {
               res[entry.key] = FieldValue.serverTimestamp();
             } else {
-              res[entry.key] =
-                  Timestamp.fromMicrosecondsSinceEpoch(time.toInt());
+              res[entry.key] = _createTimestampFromMicroseconds(time.toInt());
             }
           } else {
-            res[entry.key] = Timestamp.fromMicrosecondsSinceEpoch(time.toInt());
+            res[entry.key] = _createTimestampFromMicroseconds(time.toInt());
           }
         }
         return {
@@ -203,7 +218,8 @@ class FirestoreModelTimestampConverter
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
   ]) {
-    return Timestamp.fromDate((value as ModelTimestamp).value);
+    return _createTimestampFromMicroseconds(
+        (value as ModelTimestamp).value.microsecondsSinceEpoch);
   }
 
   @override

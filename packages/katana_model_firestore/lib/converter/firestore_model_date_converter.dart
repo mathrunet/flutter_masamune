@@ -4,6 +4,22 @@ part of "/katana_model_firestore.dart";
 ///
 /// [ModelDate]用のFirestoreConverter。
 class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
+  static Timestamp _createTimestampFromMicroseconds(int microseconds) {
+    if (microseconds >= 0) {
+      return Timestamp.fromMicrosecondsSinceEpoch(microseconds);
+    }
+
+    final int seconds = (microseconds / 1000000).floor();
+    final int remainingMicros = microseconds - (seconds * 1000000);
+    final int nanoseconds = remainingMicros * 1000;
+
+    if (nanoseconds < 0) {
+      return Timestamp(seconds - 1, nanoseconds + 1000000000);
+    }
+
+    return Timestamp(seconds, nanoseconds);
+  }
+
   /// FirestoreConverter for [ModelDate].
   ///
   /// [ModelDate]用のFirestoreConverter。
@@ -116,7 +132,7 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
             ModelDate.kTimeKey: val,
             _kTargetKey: key,
           },
-          key: Timestamp.fromMicrosecondsSinceEpoch(val.toInt()),
+          key: _createTimestampFromMicroseconds(val.toInt()),
         };
       }
     } else if (value is List) {
@@ -132,7 +148,7 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
             ModelDate.kTimeKey: time,
             _kTargetKey: key,
           });
-          res.add(Timestamp.fromMicrosecondsSinceEpoch(time.toInt()));
+          res.add(_createTimestampFromMicroseconds(time.toInt()));
         }
         return {
           targetKey: target,
@@ -155,7 +171,7 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
             ModelDate.kTimeKey: time,
             _kTargetKey: key,
           };
-          res[entry.key] = Timestamp.fromMicrosecondsSinceEpoch(time.toInt());
+          res[entry.key] = _createTimestampFromMicroseconds(time.toInt());
         }
         return {
           targetKey: target,
@@ -173,7 +189,8 @@ class FirestoreModelDateConverter extends FirestoreModelFieldValueConverter {
     ModelAdapterCollectionQuery query, [
     FirestoreModelAdapterBase? adapter,
   ]) {
-    return Timestamp.fromDate((value as ModelDate).value);
+    return _createTimestampFromMicroseconds(
+        (value as ModelDate).value.microsecondsSinceEpoch);
   }
 
   @override
