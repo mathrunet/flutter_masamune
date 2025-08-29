@@ -9,5 +9,6 @@ import "dart:typed_data";
 
 // Package imports:
 import "package:http/http.dart" as http;
+import "package:katana/katana.dart";
 
 part "api.dart";

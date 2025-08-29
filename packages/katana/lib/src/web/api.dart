@@ -166,6 +166,68 @@ class Api {
     );
   }
 
+  /// Sends a multipart POST request containing multiple [files] to [path].
+  ///
+  /// [files] should be a list of [ApiMultipartFile].
+  ///
+  /// [headers] specifies the request headers.
+  ///
+  /// [body] specifies the request body.
+  ///
+  /// [path]に対して[files]を複数含んだマルチパートPOSTリクエストを送信します。
+  ///
+  /// [files]には[ApiMultipartFile]のリストを指定します。
+  ///
+  /// [headers]にはリクエストのヘッダーを指定します。
+  ///
+  /// [body]にはリクエストの本文を指定します。
+  static Future<ApiResponse> multiPartPost(
+    String path, {
+    required List<ApiMultipartFile> files,
+    Map<String, String>? headers,
+    Map<String, String>? body,
+  }) async {
+    final request = http.MultipartRequest("POST", Uri.parse(path));
+    request.headers.addAll(headers ?? {});
+    request.files.addAll(await files.toMultipartFiles());
+    if (body != null) {
+      request.fields.addAll(body);
+    }
+    var streamedResponse = await request.send();
+    return await http.Response.fromStream(streamedResponse);
+  }
+
+  /// Sends a multipart PUT request containing multiple [files] to [path].
+  ///
+  /// [files] should be a list of [ApiMultipartFile].
+  ///
+  /// [headers] specifies the request headers.
+  ///
+  /// [body] specifies the request body.
+  ///
+  /// [path]に対して[files]を複数含んだマルチパートPUTリクエストを送信します。
+  ///
+  /// [files]には[ApiMultipartFile]のリストを指定します。
+  ///
+  /// [headers]にはリクエストのヘッダーを指定します。
+  ///
+  /// [body]にはリクエストの本文を指定します。
+  static Future<ApiResponse> multiPartPut(
+    String path, {
+    required List<ApiMultipartFile> files,
+    Map<String, String>? headers,
+    Map<String, String>? body,
+  }) async {
+    final request = http.MultipartRequest("PUT", Uri.parse(path));
+    request.headers.addAll(headers ?? {});
+    request.files.addAll(await files.toMultipartFiles());
+    if (body != null) {
+      request.fields.addAll(body);
+    }
+    var streamedResponse = await request.send();
+    return await http.Response.fromStream(streamedResponse);
+  }
+
   /// Sends an HTTP GET request with the given headers to the given URL and　returns a Future that completes to the body of the response as a [String].
   ///
   /// The Future will emit a [http.ClientException] if the response doesn't have a success status code.
@@ -247,4 +309,27 @@ enum ApiMethod {
   ///
   /// HEAD
   head;
+}
+
+extension on List<ApiMultipartFile> {
+  Future<List<http.MultipartFile>> toMultipartFiles() async {
+    final res = <http.MultipartFile>[];
+    for (final e in this) {
+      switch (e.type) {
+        case ApiMultipartFileType.string:
+          res.add(
+            http.MultipartFile.fromString(e.field, e.value!,
+                filename: e.filename),
+          );
+        case ApiMultipartFileType.bytes:
+          res.add(
+            http.MultipartFile.fromBytes(e.field, e.bytes!,
+                filename: e.filename),
+          );
+        case ApiMultipartFileType.path:
+          res.add(await http.MultipartFile.fromPath(e.field, e.value!));
+      }
+    }
+    return res;
+  }
 }
