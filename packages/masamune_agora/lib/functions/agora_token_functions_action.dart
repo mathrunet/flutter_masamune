@@ -32,6 +32,7 @@ class AgoraTokenFunctionsAction
     this.clientRole = AgoraClientRole.audience,
     this.uid,
     this.account,
+    this.expirationTime = const Duration(hours: 1),
   }) : assert(uid != null || account != null, "uid or account is required.");
 
   /// Name of the channel to be created.
@@ -54,6 +55,11 @@ class AgoraTokenFunctionsAction
   /// アカウント名。
   final String? account;
 
+  /// Expiration time of the token.
+  ///
+  /// トークンの有効期限。
+  final Duration expirationTime;
+
   @override
   String get action => "agora_token";
 
@@ -65,6 +71,7 @@ class AgoraTokenFunctionsAction
       "name": channelName,
       if (uid != null) "uid": uid,
       if (account != null) "account": account,
+      "expirationSeconds": expirationTime.inSeconds,
     };
   }
 
