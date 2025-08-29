@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**: Enabled sending MultipartRequest. ([800336a6](https://github.com/mathrunet/flutter_masamune/commit/800336a620f36760b541dfbdd81703901affb7a5))
+
 ## 3.1.5
 
  - **FIX**: Fixed minor bugs. ([77e3de7f](https://github.com/mathrunet/flutter_masamune/commit/77e3de7f573a3bc043012aa5a0d3df0addd29086))

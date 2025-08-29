@@ -1,3 +1,7 @@
+## 3.0.15
+
+ - Update a dependency to the latest release.
+
 ## 3.0.14
 
  - **DOCS**: Add Lint to ignore. ([92b6861a](https://github.com/mathrunet/flutter_masamune/commit/92b6861a3f97f06678c03c9a73bf7911e0cf6cd5))

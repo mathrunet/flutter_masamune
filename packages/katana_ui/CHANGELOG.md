@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - Update a dependency to the latest release.
+
 ## 3.1.1
 
  - **FIX**: I decided not to use the card. ([282c70f8](https://github.com/mathrunet/flutter_masamune/commit/282c70f8bea0ecc771d90f2a6e39d3959287bf30))

@@ -1,6 +1,6 @@
 name: masamune_camera
 description: Masamune plug-in package for simple use of the camera.
-version: 3.2.10
+version: 3.2.11
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_camera
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.1.5
-  masamune: ^3.3.8
+  katana: ^3.2.0
+  masamune: ^3.3.9
   # TODO: 0.11移行ではAndroidだと落ちてしまうので、0.10に戻す
   camera: ^0.10.0
   image: ^4.2.0
@@ -26,6 +26,6 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   import_sorter: ^4.6.0
   build_runner: ^2.3.3
-  masamune_builder: ^3.0.14
+  masamune_builder: ^3.0.15
 
 

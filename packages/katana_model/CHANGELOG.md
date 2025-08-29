@@ -1,3 +1,7 @@
+## 3.3.3
+
+ - Update a dependency to the latest release.
+
 ## 3.3.2
 
  - **FIX**: Add syncCollection.overwrite feature to NoSqlDatabase. ([bee2c9b5](https://github.com/mathrunet/flutter_masamune/commit/bee2c9b587d48207df910c4cb2a9ccda40ca5de6))

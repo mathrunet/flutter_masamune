@@ -1,3 +1,7 @@
+## 3.0.9
+
+ - Update a dependency to the latest release.
+
 ## 3.0.8
 
  - **FIX**: Stopped using `scheduleFrameCallback` for database storage. ([71d5df29](https://github.com/mathrunet/flutter_masamune/commit/71d5df296bbb73e735cbc0f0d308d7958b4bccf4))

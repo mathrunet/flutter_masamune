@@ -1,3 +1,7 @@
+## 3.0.10
+
+ - Update a dependency to the latest release.
+
 ## 3.0.9
 
  - **FIX**: Change value. ([965aea50](https://github.com/mathrunet/flutter_masamune/commit/965aea50eb502e2b7050c7e6be4d61789b931925))

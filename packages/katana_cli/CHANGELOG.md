@@ -1,3 +1,7 @@
+## 3.6.9
+
+ - **FIX**: Retry the iOS platform download. ([549b879c](https://github.com/mathrunet/flutter_masamune/commit/549b879cf9aab2718c8468499654893ac42981ad))
+
 ## 3.6.8
 
  - **FIX**: Resolve GitHub errors. ([2d562c2f](https://github.com/mathrunet/flutter_masamune/commit/2d562c2f9ae849cc4820e0579939270a48e1ddf7))
