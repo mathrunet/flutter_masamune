@@ -529,6 +529,7 @@ class AgoraController
           clientRole: AgoraClientRole.values
                   .firstWhereOrNull((item) => item.index == clientRole.index) ??
               AgoraClientRole.audience,
+          expirationTime: adapter.tokenExpirationTime,
         ),
       );
       _token = res.token;

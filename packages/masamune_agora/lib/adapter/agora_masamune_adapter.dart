@@ -31,6 +31,7 @@ class AgoraMasamuneAdapter extends MasamuneAdapter {
     this.storageBucketConfig,
     this.enableRecordingByDefault = false,
     this.enableScreenCaptureByDefault = false,
+    this.tokenExpirationTime = const Duration(hours: 1),
   })  : assert(
           !enableRecordingByDefault || storageBucketConfig != null,
           "If you want to use cloud recording, you must set [storageBucketConfig].",
@@ -114,6 +115,15 @@ class AgoraMasamuneAdapter extends MasamuneAdapter {
   ///
   /// [storageBucketConfig]の設定が必須です。
   final bool enableScreenCaptureByDefault;
+
+  /// The time to expire the token.
+  ///
+  /// The default is 1 hours.
+  ///
+  /// トークンの有効期限。
+  ///
+  /// デフォルトは1時間です。
+  final Duration tokenExpirationTime;
 
   /// You can retrieve the [AgoraMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
