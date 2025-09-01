@@ -34,6 +34,10 @@ class UniversalHeaderTile extends StatelessWidget {
     this.actions = const [],
     this.padding = const EdgeInsets.symmetric(horizontal: 16),
     this.contentPadding = const EdgeInsets.all(16),
+    this.shimmer = false,
+    this.shimmerBaseColor,
+    this.shimmerHighlightColor,
+    this.shimmerDescriptionLineCount = 4,
   });
 
   /// Title.
@@ -81,6 +85,26 @@ class UniversalHeaderTile extends StatelessWidget {
   /// コンテンツのパディング。
   final EdgeInsetsGeometry contentPadding;
 
+  /// Specify `true` to use shimmer effect.
+  ///
+  /// シマーエフェクトを利用する場合に`true`を指定します。
+  final bool shimmer;
+
+  /// Shimmer description line count.
+  ///
+  /// シマーエフェクトを利用する場合の説明の行数。
+  final int shimmerDescriptionLineCount;
+
+  /// Base color for shimmer effects.
+  ///
+  /// シマーエフェクトを利用する場合のベースカラー。
+  final Color? shimmerBaseColor;
+
+  /// Highlight color when using shimmer effect.
+  ///
+  /// シマーエフェクトを利用する場合のハイライトカラー。
+  final Color? shimmerHighlightColor;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -96,50 +120,109 @@ class UniversalHeaderTile extends StatelessWidget {
         );
     final iconColor = theme.disabledColor;
 
-    return Container(
-      margin: padding,
-      padding: contentPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          DefaultTextStyle(
-            style: titleTextStyle ?? const TextStyle(),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
+    if (shimmer) {
+      return sm.Shimmer.fromColors(
+        baseColor: shimmerBaseColor ?? Theme.of(context).colorScheme.surface,
+        highlightColor:
+            shimmerHighlightColor ?? Theme.of(context).scaffoldBackgroundColor,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            margin: padding,
+            padding: contentPadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: title,
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: shimmerBaseColor ??
+                          Theme.of(context).colorScheme.surface,
+                    ),
+                    height: titleTextStyle?.fontSize ?? 32,
+                    width: double.infinity,
                   ),
                 ),
-                ...actions,
+                if (subtitle != null) ...[
+                  4.sy,
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: shimmerBaseColor ??
+                          Theme.of(context).colorScheme.surface,
+                    ),
+                    height: subtitleTextStyle?.fontSize ?? 22,
+                    width: double.infinity,
+                  ),
+                ],
+                if (description != null) ...[
+                  16.sy,
+                  for (var i = 0; i < shimmerDescriptionLineCount; i++) ...[
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: shimmerBaseColor ??
+                            Theme.of(context).colorScheme.surface,
+                      ),
+                      height: descriptionTextStyle?.fontSize ?? 14,
+                      width: double.infinity,
+                    ),
+                    4.sy,
+                  ],
+                ],
               ],
             ),
           ),
-          if (subtitle != null) ...[
-            4.sy,
-            IconTheme(
-              data: IconThemeData(
-                color: iconColor,
-                size: subtitleTextStyle?.fontSize,
-              ),
-              child: DefaultTextStyle(
-                style: subtitleTextStyle ?? const TextStyle(),
-                child: subtitle!,
-              ),
-            ),
-          ],
-          if (description != null) ...[
-            16.sy,
+        ),
+      );
+    } else {
+      return Container(
+        margin: padding,
+        padding: contentPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
             DefaultTextStyle(
-              style: descriptionTextStyle ?? const TextStyle(),
-              child: description!,
+              style: titleTextStyle ?? const TextStyle(),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: title,
+                    ),
+                  ),
+                  ...actions,
+                ],
+              ),
             ),
+            if (subtitle != null) ...[
+              4.sy,
+              IconTheme(
+                data: IconThemeData(
+                  color: iconColor,
+                  size: subtitleTextStyle?.fontSize,
+                ),
+                child: DefaultTextStyle(
+                  style: subtitleTextStyle ?? const TextStyle(),
+                  child: subtitle!,
+                ),
+              ),
+            ],
+            if (description != null) ...[
+              16.sy,
+              DefaultTextStyle(
+                style: descriptionTextStyle ?? const TextStyle(),
+                child: description!,
+              ),
+            ],
           ],
-        ],
-      ),
-    );
+        ),
+      );
+    }
   }
 }

@@ -21,6 +21,7 @@ import "package:flutter/services.dart";
 // Package imports:
 import "package:masamune/masamune.dart";
 import "package:url_launcher/url_launcher_string.dart";
+import "package:shimmer/shimmer.dart" as sm;
 
 export "package:url_launcher/url_launcher_string.dart" show LaunchMode;
 
