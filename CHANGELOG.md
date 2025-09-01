@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-09-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_universal_ui` - `v3.1.22`](#masamune_universal_ui---v3122)
+
+---
+
+#### `masamune_universal_ui` - `v3.1.22`
+
+ - **FIX**: Add a Shimmer effect to UniversalHeaderTile. ([b81f6fb4](https://github.com/mathrunet/flutter_masamune/commit/b81f6fb42186703dace9d5b35234b91804eda122))
+
+
 ## 2025-08-29
 
 ### Changes
