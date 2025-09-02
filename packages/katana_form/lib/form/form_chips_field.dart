@@ -301,7 +301,14 @@ class FormChipsField<TValue> extends FormField<List<String>> {
 
 class _FormChipsField<TValue> extends FormFieldState<List<String>>
     with AutomaticKeepAliveClientMixin<FormField<List<String>>> {
-  final FocusNode _focusNode = FocusNode();
+  FocusNode? _focusNode;
+
+  FocusNode get _effectiveFocusNode {
+    if (widget.focusNode == null) {
+      return _focusNode ??= FocusNode();
+    }
+    return widget.focusNode!;
+  }
 
   @override
   FormChipsField<TValue> get widget => super.widget as FormChipsField<TValue>;
@@ -310,7 +317,7 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
   void initState() {
     super.initState();
     widget.form?.register(this);
-    _focusNode.addListener(_handleFocus);
+    _effectiveFocusNode.addListener(_handleFocus);
   }
 
   @override
@@ -324,17 +331,21 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
         widget.initialValue != null) {
       reset();
     }
+    if (oldWidget.focusNode != widget.focusNode) {
+      oldWidget.focusNode?.removeListener(_handleFocus);
+      _effectiveFocusNode.addListener(_handleFocus);
+    }
   }
 
   @override
   void dispose() {
     super.dispose();
     widget.form?.unregister(this);
-    _focusNode.removeListener(_handleFocus);
+    _effectiveFocusNode.removeListener(_handleFocus);
   }
 
   void _handleFocus() {
-    if (!_focusNode.hasFocus) {
+    if (!_effectiveFocusNode.hasFocus) {
       return;
     }
   }
@@ -536,7 +547,7 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
                     setValue(values);
                     widget.onChanged?.call(values);
                   },
-                  focusNode: _focusNode,
+                  focusNode: _effectiveFocusNode,
                   onChipTapped: widget.onChipTapped,
                   maxChips: widget.maxChips,
                   suggestionsBoxMaxHeight: suggestionStyle.maxHeight,
@@ -1101,7 +1112,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
       WidgetsBinding.instance.scheduleFrameCallback((_) async {
         final renderBox = context.findRenderObject() as RenderBox?;
         if (renderBox != null) {
-          await Scrollable.of(context).position.ensureVisible(renderBox);
+          await Scrollable.maybeOf(context)?.position.ensureVisible(renderBox);
         }
       });
     });
