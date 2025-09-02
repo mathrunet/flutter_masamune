@@ -1,3 +1,7 @@
+## 3.1.11
+
+ - **FIX**: Fixed an issue where FocusNode was not working. ([dfd9d050](https://github.com/mathrunet/flutter_masamune/commit/dfd9d050379ae34ed1183622d823dc1736f714bf))
+
 ## 3.1.10
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 3.1.23
+
+ - Update a dependency to the latest release.
+
 ## 3.1.22
 
  - **FIX**: Add a Shimmer effect to UniversalHeaderTile. ([b81f6fb4](https://github.com/mathrunet/flutter_masamune/commit/b81f6fb42186703dace9d5b35234b91804eda122))

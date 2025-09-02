@@ -1,3 +1,7 @@
+## 3.0.24
+
+ - Update a dependency to the latest release.
+
 ## 3.0.23
 
  - **FIX**: The token's validity period can now be configured via the Adapter. ([c3f6c2d4](https://github.com/mathrunet/flutter_masamune/commit/c3f6c2d49585df446664f40443a62247703ae726))

@@ -1,3 +1,7 @@
+## 3.1.16
+
+ - **FIX**: AsyncSavingManager sometimes fails to initialize. ([f3db94d9](https://github.com/mathrunet/flutter_masamune/commit/f3db94d9567a1e9c5049a3ab1d30b86219f30b34))
+
 ## 3.1.15
 
  - Update a dependency to the latest release.
