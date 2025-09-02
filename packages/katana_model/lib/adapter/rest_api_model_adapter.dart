@@ -104,6 +104,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
   Future<Map<String, DynamicMap>> loadCollection(
     ModelAdapterCollectionQuery query,
   ) async {
+    await asyncSavingManager?.initialize();
     for (final builder in builders) {
       final collectionBuilder = builder.collection;
       if (collectionBuilder == null || !await collectionBuilder.match(query)) {
@@ -150,6 +151,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
+    await asyncSavingManager?.initialize();
     for (final builder in builders) {
       final documentBuilder = builder.document;
       final loadBuilder = documentBuilder?.load;
@@ -174,6 +176,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
   @override
   Future<void> saveDocument(
       ModelAdapterDocumentQuery query, DynamicMap value) async {
+    await asyncSavingManager?.initialize();
     for (final builder in builders) {
       final documentBuilder = builder.document;
       final saveBuilder = documentBuilder?.save;
@@ -189,6 +192,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
 
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
+    await asyncSavingManager?.initialize();
     for (final builder in builders) {
       final documentBuilder = builder.document;
       final deleteBuilder = documentBuilder?.delete;

@@ -23,6 +23,7 @@ abstract class AsyncSavingManager {
   /// 初期キューアイテム読み込み用の[onLoad]が必要です。
   AsyncSavingManager({
     Duration timerInterval = const Duration(milliseconds: 1000),
+    this.maxRetryCount = 3,
   }) : _timerInterval = timerInterval {
     initialize();
   }
@@ -31,6 +32,11 @@ abstract class AsyncSavingManager {
   ///
   /// ドキュメント読み込み用のデータベースインスタンス。
   NoSqlDatabase get database;
+
+  /// The maximum retry count.
+  ///
+  /// 最大リトライ回数。
+  final int maxRetryCount;
 
   /// Callback for saving documents.
   ///
@@ -58,6 +64,8 @@ abstract class AsyncSavingManager {
 
   final Duration _timerInterval;
   List<ModelAdapterDocumentQuery> _queue = [];
+  bool _initialized = false;
+  Completer<void>? _initializeCompleter;
   Timer? _timer;
   bool _isProcessing = false;
 
@@ -65,18 +73,36 @@ abstract class AsyncSavingManager {
   ///
   /// マネージャーを初期化し、タイマーを開始します。
   Future<void> initialize() async {
-    // Load initial queue items
-    try {
-      _queue = await onLoad();
-    } catch (e) {
-      // Handle initialization error
-      debugPrint("Error loading initial queue items: $e");
+    if (_initialized) {
+      return;
     }
+    if (_initializeCompleter != null) {
+      return _initializeCompleter?.future;
+    }
+    _initializeCompleter = Completer<void>();
+    try {
+      // Load initial queue items
+      try {
+        _queue = await onLoad();
+      } catch (e) {
+        // Handle initialization error
+        debugPrint("Error loading initial queue items: $e");
+      }
 
-    // Start the timer
-    _timer = Timer.periodic(_timerInterval, (_) {
-      _processQueue();
-    });
+      // Start the timer
+      _timer = Timer.periodic(_timerInterval, (_) {
+        _processQueue();
+      });
+      _initialized = true;
+      _initializeCompleter?.complete();
+      _initializeCompleter = null;
+    } catch (e) {
+      _initializeCompleter?.completeError(e);
+      _initializeCompleter = null;
+    } finally {
+      _initializeCompleter?.complete();
+      _initializeCompleter = null;
+    }
   }
 
   /// Add a save operation to the queue.
@@ -134,10 +160,15 @@ abstract class AsyncSavingManager {
       // Notify about the updated queue
       _queue = await onQueueChanged(_queue);
     } catch (e) {
-      // On error, re-add the item to the queue
-      _queue.add(query);
-      _queue = await onQueueChanged(_queue);
-      debugPrint("Error processing queue item: $e");
+      // If the retry count is greater than the maximum retry count, remove the item from the queue
+      if (query.retryCount >= maxRetryCount) {
+        _queue = await onQueueChanged(_queue);
+      } else {
+        // On error, re-add the item to the queue
+        _queue.add(query.copyWith(retryCount: query.retryCount + 1));
+        _queue = await onQueueChanged(_queue);
+        debugPrint("Error processing queue item: $e");
+      }
     } finally {
       _isProcessing = false;
     }

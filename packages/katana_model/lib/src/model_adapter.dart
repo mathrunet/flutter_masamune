@@ -469,6 +469,7 @@ class ModelAdapterDocumentQuery {
     this.reload = false,
     this.reference = false,
     this.asyncOnSave = false,
+    this.retryCount = 0,
   });
 
   /// Create a [ModelAdapterDocumentQuery] from a [Map].
@@ -487,6 +488,7 @@ class ModelAdapterDocumentQuery {
       reload: json.get(ModelAdapterDocumentQuery._kReloadKey, false),
       reference: json.get(ModelAdapterDocumentQuery._kReferenceKey, false),
       asyncOnSave: json.get(ModelAdapterDocumentQuery._kAsyncOnSaveKey, false),
+      retryCount: json.get(ModelAdapterDocumentQuery._kRetryCountKey, 0),
     );
   }
 
@@ -539,6 +541,11 @@ class ModelAdapterDocumentQuery {
   /// 非同期で保存を行う場合は`true`を設定します。
   final bool asyncOnSave;
 
+  /// Retry count.
+  ///
+  /// リトライ回数。
+  final int retryCount;
+
   /// Convert [ModelAdapterDocumentQuery] to [Map].
   ///
   /// [ModelAdapterDocumentQuery]を[Map]に変換します。
@@ -552,6 +559,7 @@ class ModelAdapterDocumentQuery {
       _kReloadKey: reload,
       _kReferenceKey: reference,
       _kAsyncOnSaveKey: asyncOnSave,
+      _kRetryCountKey: retryCount,
     };
   }
 
@@ -563,6 +571,7 @@ class ModelAdapterDocumentQuery {
   static const String _kReloadKey = "reload";
   static const String _kReferenceKey = "reference";
   static const String _kAsyncOnSaveKey = "asyncOnSave";
+  static const String _kRetryCountKey = "retryCount";
 
   /// Change [headers] or [method], [reload], [reference], [asyncOnSave], and [query] and copy.
   ///
@@ -578,6 +587,7 @@ class ModelAdapterDocumentQuery {
     bool? reload,
     bool? reference,
     bool? asyncOnSave,
+    int? retryCount,
   }) {
     return ModelAdapterDocumentQuery(
       query: query ?? this.query,
@@ -589,12 +599,13 @@ class ModelAdapterDocumentQuery {
       reload: reload ?? this.reload,
       reference: reference ?? this.reference,
       asyncOnSave: asyncOnSave ?? this.asyncOnSave,
+      retryCount: retryCount ?? this.retryCount,
     );
   }
 
   @override
   String toString() {
-    return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode}, headers: $headers, method: $method, reload: $reload, reference: $reference, asyncOnSave: $asyncOnSave)";
+    return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode}, headers: $headers, method: $method, reload: $reload, reference: $reference, asyncOnSave: $asyncOnSave, retryCount: $retryCount)";
   }
 
   @override
@@ -634,6 +645,7 @@ class ModelAdapterCollectionQuery {
     this.headers = const {},
     this.method,
     this.reload = false,
+    this.retryCount = 0,
   });
 
   /// Create a [ModelAdapterCollectionQuery] from a [Map].
@@ -651,6 +663,7 @@ class ModelAdapterCollectionQuery {
       headers: json.getAsMap(ModelAdapterCollectionQuery._kHeadersKey),
       method: json.get(ModelAdapterCollectionQuery._kMethodKey, nullOfString),
       reload: json.get(ModelAdapterCollectionQuery._kReloadKey, false),
+      retryCount: json.get(ModelAdapterCollectionQuery._kRetryCountKey, 0),
     );
   }
 
@@ -698,6 +711,11 @@ class ModelAdapterCollectionQuery {
   /// 強制的に再読み込みを行う場合は`true`を設定します。
   final bool reload;
 
+  /// Retry count.
+  ///
+  /// リトライ回数。
+  final int retryCount;
+
   /// Create a [ModelAdapterDocumentQuery] for a document under a collection using its own [CollectionModelQuery] and [id].
   ///
   /// If [id] is [Null], [uuid] (32-byte non-hyphenated string) is used.
@@ -734,6 +752,7 @@ class ModelAdapterCollectionQuery {
       _kPageKey: page,
       _kListenKey: listen,
       _kReloadKey: reload,
+      _kRetryCountKey: retryCount,
     };
   }
 
@@ -744,6 +763,7 @@ class ModelAdapterCollectionQuery {
   static const String _kPageKey = "page";
   static const String _kListenKey = "listen";
   static const String _kReloadKey = "reload";
+  static const String _kRetryCountKey = "retryCount";
 
   /// Change [headers] or [method], [page], [query], and [reload] and copy.
   ///
@@ -758,6 +778,7 @@ class ModelAdapterCollectionQuery {
     int? page,
     CollectionModelQuery? query,
     bool? reload,
+    int? retryCount,
   }) {
     return ModelAdapterCollectionQuery(
       query: query ?? this.query,
@@ -768,12 +789,13 @@ class ModelAdapterCollectionQuery {
       method: method ?? this.method,
       page: page ?? this.page,
       reload: reload ?? this.reload,
+      retryCount: retryCount ?? this.retryCount,
     );
   }
 
   @override
   String toString() {
-    return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode}, headers: $headers, method: $method, reload: $reload)";
+    return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode}, headers: $headers, method: $method, reload: $reload, retryCount: $retryCount)";
   }
 
   @override

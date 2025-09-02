@@ -88,6 +88,7 @@ class LocalRestApiModelAsyncSavingManager extends AsyncSavingManager {
           "method": e.method,
           "path": e.query.path,
           "priority": priority++,
+          "retryCount": e.retryCount,
         });
       }),
     );
@@ -97,9 +98,10 @@ class LocalRestApiModelAsyncSavingManager extends AsyncSavingManager {
   @override
   Future<List<ModelAdapterDocumentQuery>> onLoad() async {
     try {
-      final data = await DatabaseExporter.import(
+      final data = (await DatabaseExporter.import(
         "${await DatabaseExporter.documentDirectory}/${_kAsyncSavingManagerId.toSHA1()}",
-      );
+      ))
+          .cast<String, DynamicMap>();
       return data.entries
           .toList()
           .sortTo(
@@ -115,10 +117,12 @@ class LocalRestApiModelAsyncSavingManager extends AsyncSavingManager {
               adapter: adapter,
             ),
             method: e.value.get("method", ""),
+            retryCount: e.value.get("retryCount", 0),
           );
         },
       ).toList();
     } catch (e) {
+      debugPrint("Error loading initial queue items: $e");
       return [];
     }
   }
