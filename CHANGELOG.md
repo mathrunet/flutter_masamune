@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-09-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ai_openai` - `v3.1.0`](#masamune_ai_openai---v310)
+
+---
+
+#### `masamune_ai_openai` - `v3.1.0`
+
+ - **FEAT**: Add GPT5. ([463428e4](https://github.com/mathrunet/flutter_masamune/commit/463428e47eba8af39f74d4defc500abb1ccb6848))
+
+
 ## 2025-09-02
 
 ### Changes
