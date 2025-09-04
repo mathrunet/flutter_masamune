@@ -42,10 +42,20 @@ enum OpenaiAIModel {
   /// o1 Mini
   ///
   /// o1 Mini
-  o1Mini;
+  o1Mini,
+
+  /// gpt5
+  ///
+  /// gpt5
+  gpt5,
+
+  /// gpt5 Mini
+  ///
+  /// gpt5 Mini
+  gpt5Mini;
 
   /// デフォルトのモデル。
-  static const OpenaiAIModel defaultModel = gpt41;
+  static const OpenaiAIModel defaultModel = gpt5;
 
   /// The model name of the AI.
   ///
@@ -68,6 +78,10 @@ enum OpenaiAIModel {
         return "o3-mini";
       case o1Mini:
         return "o1-mini";
+      case gpt5:
+        return "gpt-5";
+      case gpt5Mini:
+        return "gpt-5-mini";
     }
   }
 
@@ -92,6 +106,10 @@ enum OpenaiAIModel {
         return 1.1 / 1000000;
       case o1Mini:
         return 1.1 / 1000000;
+      case gpt5:
+        return 1.25 / 1000000;
+      case gpt5Mini:
+        return 0.25 / 1000000;
     }
   }
 
@@ -116,6 +134,10 @@ enum OpenaiAIModel {
         return 4.4 / 1000000;
       case o1Mini:
         return 4.4 / 1000000;
+      case gpt5:
+        return 10.0 / 1000000;
+      case gpt5Mini:
+        return 2.0 / 1000000;
     }
   }
 
