@@ -199,9 +199,9 @@ class AIThread
       _value.sort((a, b) => b.time.compareTo(a.time));
       notifyListeners();
       final res = await adapter.generateContent(
-        contentFilter?.call(contents) ??
-            adapter.contentFilter?.call(contents) ??
-            contents,
+        contentFilter?.call(_value) ??
+            adapter.contentFilter?.call(_value) ??
+            _value,
         config: config ?? this.config,
         tools: tools,
         includeSystemInitialContent: includeSystemInitialContent,
