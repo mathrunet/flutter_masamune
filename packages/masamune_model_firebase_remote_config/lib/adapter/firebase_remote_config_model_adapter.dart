@@ -24,8 +24,8 @@ class FirebaseRemoteConfigModelAdapter extends ModelAdapter {
     this.linuxOptions,
     this.windowsOptions,
     this.macosOptions,
-    this.fetchTimeout = const Duration(seconds: 10),
-    this.minimumFetchInterval = const Duration(seconds: 10),
+    this.fetchTimeout = const Duration(minutes: 1),
+    this.minimumFetchInterval = const Duration(hours: 1),
   }) : _options = options;
 
   static const _platformInfo = PlatformInfo();
