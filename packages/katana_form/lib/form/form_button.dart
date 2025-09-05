@@ -113,7 +113,7 @@ class FormButton extends StatelessWidget {
     final foregroundColor =
         style?.color ?? Theme.of(context).colorScheme.onPrimary;
     final disabledForegroundColor =
-        style?.color ?? Theme.of(context).colorScheme.onSurface;
+        style?.disabledColor ?? Theme.of(context).colorScheme.onPrimary;
     final textStyle = style?.textStyle?.copyWith(
           color: enabled ? foregroundColor : disabledForegroundColor,
           fontFamily: theme.textTheme.bodyMedium?.fontFamily,
