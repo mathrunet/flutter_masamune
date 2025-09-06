@@ -1,3 +1,7 @@
+## 3.1.12
+
+ - **FIX**: Corrected the disabled color, as it was displaying as the normal color. ([02dcdffa](https://github.com/mathrunet/flutter_masamune/commit/02dcdffaba0d9699fb3e44d03d05efea9f29f8f2))
+
 ## 3.1.11
 
  - **FIX**: Fixed an issue where FocusNode was not working. ([dfd9d050](https://github.com/mathrunet/flutter_masamune/commit/dfd9d050379ae34ed1183622d823dc1736f714bf))

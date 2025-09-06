@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - Update a dependency to the latest release.
+
 ## 3.1.0
 
  - **FEAT**: Add GPT5. ([463428e4](https://github.com/mathrunet/flutter_masamune/commit/463428e47eba8af39f74d4defc500abb1ccb6848))
