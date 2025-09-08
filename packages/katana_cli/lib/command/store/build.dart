@@ -20,6 +20,13 @@ class StoreAndroidBuildCliCommand extends CliCommand {
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
+    final prodEnvFile = File("${Directory.current.path}/dart_defines/prod.env");
+    if (prodEnvFile.existsSync()) {
+      await prodEnvFile
+          .copy("${Directory.current.path}/ios/Flutter/DartDefine.xcconfig");
+      await prodEnvFile
+          .copy("${Directory.current.path}/android/env.properties");
+    }
     await command(
       "Build for appbunle.",
       [
