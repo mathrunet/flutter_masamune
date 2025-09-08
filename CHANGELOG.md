@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-09-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_camera` - `v3.2.14`](#masamune_camera---v3214)
+
+---
+
+#### `masamune_camera` - `v3.2.14`
+
+ - **FIX**: Fixed to restart when the camera fails to launch. ([c36e59a2](https://github.com/mathrunet/flutter_masamune/commit/c36e59a2bcd2f3d1d99f82663b0a6992f228d761))
+
+
 ## 2025-09-06
 
 ### Changes
