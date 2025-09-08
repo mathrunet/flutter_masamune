@@ -401,6 +401,23 @@ class RemoteNotification extends MasamuneControllerBase<NotificationValue,
     });
   }
 
+  /// Remove the badge.
+  ///
+  /// バッジを削除します。
+  Future<void> removeBadge() async {
+    await FlutterAppBadgeControl.removeBadge();
+  }
+
+  /// Update the badge count.
+  ///
+  /// [count]にバッジに表示する数を指定します。
+  Future<void> updateBadgeCount(int count) async {
+    if (count <= 0) {
+      return removeBadge();
+    }
+    await FlutterAppBadgeControl.updateBadgeCount(count);
+  }
+
   Future<void> _onMessage(NotificationValue value) async {
     _value = value;
     final onLink = this.onLink ?? adapter.onLink;

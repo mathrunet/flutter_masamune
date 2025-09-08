@@ -293,6 +293,20 @@ class LocalNotification extends MasamuneControllerBase<NotificationValue,
     }
   }
 
+  /// Remove the badge.
+  ///
+  /// バッジを削除します。
+  Future<void> removeBadge() async {
+    await FlutterAppBadgeControl.removeBadge();
+  }
+
+  /// Update the badge count.
+  ///
+  /// [count]にバッジに表示する数を指定します。
+  Future<void> updateBadgeCount(int count) async {
+    await FlutterAppBadgeControl.updateBadgeCount(count);
+  }
+
   Future<void> _onMessageOpenedApp(NotificationValue? value) async {
     if (value == null) {
       return;
