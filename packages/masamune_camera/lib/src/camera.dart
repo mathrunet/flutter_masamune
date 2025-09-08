@@ -67,7 +67,7 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
   ///
   /// カメラの初期化を行います。
   Future<void> initialize() async {
-    if (_initialized) {
+    if (_initialized && _controller != null) {
       return;
     }
     if (_initializeCompleter != null) {
@@ -141,12 +141,11 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
     }
     _recordingCompleter = Completer<CameraValue>();
     try {
-      await initialize();
-      final value = await adapter.takePicture(
-        controller: _controller,
+      final value = await _takePicture(
         width: width,
         height: height,
         format: format,
+        retryCount: 0,
       );
       notifyListeners();
       _recordingCompleter?.complete(value);
@@ -162,6 +161,41 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
     }
   }
 
+  Future<CameraValue?> _takePicture({
+    int? width,
+    int? height,
+    MediaFormat? format,
+    int retryCount = 0,
+  }) async {
+    try {
+      await initialize();
+      final value = await adapter.takePicture(
+        controller: _controller,
+        width: width,
+        height: height,
+        format: format,
+      );
+      return value;
+    } catch (e) {
+      try {
+        await _controller?.dispose();
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+      _controller = null;
+      // 失敗しても3回まで再試行
+      if (retryCount < 3) {
+        return _takePicture(
+          width: width,
+          height: height,
+          format: format,
+          retryCount: retryCount + 1,
+        );
+      }
+      rethrow;
+    }
+  }
+
   /// Start video recording.
   ///
   /// ビデオ撮影を開始します。
@@ -173,14 +207,37 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
     _recordingCompleter = Completer<CameraValue>();
     try {
       await initialize();
-      _startRecordingTime = DateTime.now();
-      await adapter.startVideoRecording(
-        controller: _controller,
-      );
+      await _startVideoRecording();
       notifyListeners();
     } catch (e, stacktrace) {
       _recordingCompleter?.completeError(e, stacktrace);
       _recordingCompleter = null;
+      rethrow;
+    }
+  }
+
+  Future<void> _startVideoRecording({
+    int retryCount = 0,
+  }) async {
+    try {
+      await initialize();
+      _startRecordingTime = DateTime.now();
+      await adapter.startVideoRecording(
+        controller: _controller,
+      );
+    } catch (e) {
+      try {
+        await _controller?.dispose();
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+      _controller = null;
+      // 失敗しても3回まで再試行
+      if (retryCount < 3) {
+        return _startVideoRecording(
+          retryCount: retryCount + 1,
+        );
+      }
       rethrow;
     }
   }
@@ -197,10 +254,7 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
       throw Exception("Video recording is not started.");
     }
     try {
-      final value = await adapter.stopVideoRecording(
-        controller: _controller,
-        startRecordingTime: _startRecordingTime!,
-      );
+      final value = await _stopVideoRecording();
       notifyListeners();
       _recordingCompleter?.complete(value);
       _recordingCompleter = null;
@@ -215,9 +269,40 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
     }
   }
 
+  Future<CameraValue?> _stopVideoRecording({
+    int retryCount = 0,
+  }) async {
+    try {
+      final value = await adapter.stopVideoRecording(
+        controller: _controller,
+        startRecordingTime: _startRecordingTime!,
+      );
+      return value;
+    } catch (e) {
+      try {
+        await _controller?.dispose();
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+      _controller = null;
+      // 失敗しても3回まで再試行
+      if (retryCount < 3) {
+        return _stopVideoRecording(
+          retryCount: retryCount + 1,
+        );
+      }
+      rethrow;
+    }
+  }
+
   @override
   void dispose() {
+    if (_controller == null) {
+      super.dispose();
+      return;
+    }
     adapter.dispose(controller: _controller);
+    _controller = null;
     super.dispose();
   }
 }
