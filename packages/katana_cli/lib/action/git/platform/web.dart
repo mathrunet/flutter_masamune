@@ -227,7 +227,7 @@ jobs:
       # Generate web files.
       # Webファイルを生成。
       - name: Building web build
-        run: flutter build web --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define=FLAVOR=prod
+        run: flutter build web --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define-from-file=dart_defines/prod.env
         timeout-minutes: 30
 
       # Upload the generated files.

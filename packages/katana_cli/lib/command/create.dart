@@ -67,6 +67,7 @@ final importDevPackages = [
 const otherFiles = {
   "launch.json": LaunchCliCode(),
   "settings.json": SettingsCliCode(),
+  "tasks.json": TasksCliCode(),
 };
 
 final _faviconSize = [
@@ -188,7 +189,7 @@ class CreateCliCommand extends CliCommand {
       await DartDefinesCliCode(
         packageName: "$domain.$projectName",
         flavor: flavor,
-      ).generateFile("dart_defines/$flavor.env");
+      ).generateFile("$flavor.env");
     }
     label("Edit a analysis_options.yaml");
     await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
@@ -307,7 +308,7 @@ class CreateCliCommand extends CliCommand {
     label("Edit env.properties");
     await DartDefinesEnvPropertiesCliCode(
       packageName: "$domain.$projectName",
-    ).generateFile("android/env.properties");
+    ).generateFile("env.properties");
     label("Add processing to the Gradle file.");
     final gradle = AppGradle();
     await gradle.load();
@@ -361,7 +362,7 @@ class CreateCliCommand extends CliCommand {
     label("Edit DartDefine.xcconfig");
     await DartDefinesXcconfigCliCode(
       packageName: "$domain.$projectName",
-    ).generateFile("ios/Flutter/DartDefine.xcconfig");
+    ).generateFile("DartDefine.xcconfig");
     label("Edit AppDelegate.swift on IOS");
     final appDelegateIos = File("ios/Runner/AppDelegate.swift");
     if (appDelegateIos.existsSync()) {
@@ -667,7 +668,7 @@ class ComposeCliCommand extends CliCommand {
       await DartDefinesCliCode(
         packageName: "$domain.$projectName",
         flavor: flavor,
-      ).generateFile("dart_defines/$flavor.env");
+      ).generateFile("$flavor.env");
     }
     label("Edit a analysis_options.yaml");
     await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
@@ -787,7 +788,7 @@ class ComposeCliCommand extends CliCommand {
     label("Edit env.properties");
     await DartDefinesEnvPropertiesCliCode(
       packageName: "$domain.$projectName",
-    ).generateFile("android/env.properties");
+    ).generateFile("env.properties");
     label("Add processing to the Gradle file.");
     final gradle = AppGradle();
     await gradle.load();
@@ -852,7 +853,7 @@ $document
     label("Edit DartDefine.xcconfig");
     await DartDefinesXcconfigCliCode(
       packageName: "$domain.$projectName",
-    ).generateFile("ios/Flutter/DartDefine.xcconfig");
+    ).generateFile("DartDefine.xcconfig");
     label("Edit RunnerTest.swift on IOS");
     final runnerTestsIos = File("ios/RunnerTests/RunnerTests.swift");
     if (runnerTestsIos.existsSync()) {
@@ -2267,6 +2268,67 @@ class SettingsCliCode extends CliCode {
   }
 }
 
+/// Contents of tasks.json.
+///
+/// tasks.jsonの中身。
+class TasksCliCode extends CliCode {
+  /// Contents of tasks.json.
+  ///
+  /// tasks.jsonの中身。
+  const TasksCliCode();
+
+  @override
+  String get name => "tasks";
+
+  @override
+  String get prefix => "tasks";
+
+  @override
+  String get directory => ".vscode";
+
+  @override
+  String get description =>
+      "Create tasks.json for VSCode. VSCode用のtasks.jsonを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "flavor_dev",
+            "type": "shell",
+            "command": "katana flavor dev",
+        },
+        {
+            "label": "flavor_stg",
+            "type": "shell",
+            "command": "katana flavor stg",
+        },
+        {
+            "label": "flavor_prod",
+            "type": "shell",
+            "command": "katana flavor prod",
+        }
+    ]
+}
+""";
+  }
+}
+
 /// Contents of flutter_test_config.dart.
 ///
 /// flutter_test_config.dartの中身。
@@ -3652,7 +3714,7 @@ class DartDefinesCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return """
-flavor=$flavor
+flavor="$flavor"
 applicationId="$packageName"
 """;
   }
