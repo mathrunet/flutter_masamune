@@ -339,8 +339,7 @@ class _InternalPickerWidget<T> extends StatefulWidget {
   @override
   _InternalPickerWidgetState createState() =>
       // ignore: no_logic_in_create_state
-      _InternalPickerWidgetState<T>(
-          picker: this.picker, themeData: this.themeData);
+      _InternalPickerWidgetState<T>(picker: picker, themeData: themeData);
 }
 
 class _InternalPickerWidgetState<T> extends State<_InternalPickerWidget> {

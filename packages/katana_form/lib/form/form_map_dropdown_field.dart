@@ -424,7 +424,7 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
                   helperStyle: subTextStyle,
                   errorStyle: errorTextStyle,
                 ).copyWith(errorText: errorText),
-                value: widget.initialValue,
+                initialValue: widget.initialValue,
                 validator: (value) {
                   if (widget.emptyErrorText.isNotEmpty && value == null) {
                     return widget.emptyErrorText;

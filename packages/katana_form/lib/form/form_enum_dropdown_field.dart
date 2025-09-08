@@ -431,7 +431,7 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
                 ).copyWith(errorText: errorText),
                 focusNode: widget.focusNode,
                 // focusColor: Colors.transparent,
-                value: widget.initialValue,
+                initialValue: widget.initialValue,
                 onChanged: widget.enabled ? didChange : null,
                 elevation: widget.style?.elevation.toInt() ?? 8,
                 style: widget.enabled ? mainTextStyle : disabledTextStyle,

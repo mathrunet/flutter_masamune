@@ -536,7 +536,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
             return;
           }
           // すでに追加されているのに追加でデータが来た場合は無視
-          if (this._value.any((e) => e.uid == update.id)) {
+          if (_value.any((e) => e.uid == update.id)) {
             return;
           }
           final value = create(update.id.trimQuery().trimString("?"));
@@ -610,7 +610,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
             return;
           }
           // すでに削除されているのに削除でデータが来た場合は無視
-          if (!this._value.any((e) => e.uid == update.id)) {
+          if (!_value.any((e) => e.uid == update.id)) {
             return;
           }
           _value.removeAt(update.oldIndex!);

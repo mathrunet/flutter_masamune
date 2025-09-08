@@ -187,7 +187,7 @@ class FormSwitch<TValue> extends FormField<bool> {
               value: field.value ?? false,
               onChanged:
                   enabled && !readOnly ? (val) => field.didChange(val) : null,
-              activeColor: style?.activeColor ??
+              activeThumbColor: style?.activeColor ??
                   Theme.of(field.context).colorScheme.primary,
               inactiveThumbColor:
                   style?.disabledColor ?? Theme.of(field.context).disabledColor,

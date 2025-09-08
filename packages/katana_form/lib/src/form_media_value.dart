@@ -219,7 +219,7 @@ mixin _MapMixin<K, V> implements Map<K, V> {
 
   @override
   V update(K key, V Function(V value) update, {V Function()? ifAbsent}) {
-    if (this.containsKey(key)) {
+    if (containsKey(key)) {
       return this[key] = update(this[key] as V);
     }
     if (ifAbsent != null) {
@@ -230,7 +230,7 @@ mixin _MapMixin<K, V> implements Map<K, V> {
 
   @override
   void updateAll(V Function(K key, V value) update) {
-    for (var key in this.keys) {
+    for (var key in keys) {
       this[key] = update(key, this[key] as V);
     }
   }
@@ -243,7 +243,7 @@ mixin _MapMixin<K, V> implements Map<K, V> {
   @override
   Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> Function(K key, V value) transform) {
     var result = <K2, V2>{};
-    for (var key in this.keys) {
+    for (var key in keys) {
       var entry = transform(key, this[key] as V);
       result[entry.key] = entry.value;
     }
@@ -266,7 +266,7 @@ mixin _MapMixin<K, V> implements Map<K, V> {
       }
     }
     for (var key in keysToRemove) {
-      this.remove(key);
+      remove(key);
     }
   }
 
