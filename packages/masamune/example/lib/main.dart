@@ -118,7 +118,7 @@ final appFunction = Functions();
 
 /// App Flavor.
 // ignore: do_not_use_environment
-const flavor = String.fromEnvironment("FLAVOR");
+const flavor = String.fromEnvironment("flavor");
 
 /// App.
 void main() {
