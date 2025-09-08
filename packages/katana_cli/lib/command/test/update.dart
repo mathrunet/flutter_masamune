@@ -36,7 +36,7 @@ class TestUpdateCliCommand extends CliCommand {
           "test",
           "--update-goldens",
           "--dart-define=CI=true",
-          "--dart-define=FLAVOR=dev",
+          "--dart-define-from-file=dart_defines/dev.env",
           if (target.isNotEmpty) ...[
             "--plain-name",
             target,
@@ -101,7 +101,7 @@ class TestUpdateCliCommand extends CliCommand {
           "flutter_golden_test",
           "sh",
           "-c",
-          "flutter pub get && flutter test --update-goldens --dart-define=CI=true --dart-define=FLAVOR=dev ${target.isNotEmpty ? '--plain-name $target' : ''}",
+          "flutter pub get && flutter test --update-goldens --dart-define=CI=true --dart-define-from-file=dart_defines/dev.env ${target.isNotEmpty ? '--plain-name $target' : ''}",
         ],
         workingDirectory: "docker",
       );

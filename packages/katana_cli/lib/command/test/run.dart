@@ -34,7 +34,7 @@ class TestRunCliCommand extends CliCommand {
           flutter,
           "test",
           "--dart-define=CI=true",
-          "--dart-define=FLAVOR=dev",
+          "--dart-define-from-file=dart_defines/dev.env",
           if (target.isNotEmpty) ...[
             "--plain-name",
             target,
@@ -99,7 +99,7 @@ class TestRunCliCommand extends CliCommand {
           "flutter_golden_test",
           "sh",
           "-c",
-          "flutter pub get && flutter test --dart-define=CI=true --dart-define=FLAVOR=dev ${target.isNotEmpty ? '--plain-name $target' : ''}",
+          "flutter pub get && flutter test --dart-define=CI=true --dart-define-from-file=dart_defines/dev.env ${target.isNotEmpty ? '--plain-name $target' : ''}",
         ],
         workingDirectory: "docker",
       );

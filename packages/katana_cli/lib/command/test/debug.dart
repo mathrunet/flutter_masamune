@@ -33,7 +33,7 @@ class TestDebugCliCommand extends CliCommand {
         "test",
         "--update-goldens",
         "--dart-define=CI=true",
-        "--dart-define=FLAVOR=dev",
+        "--dart-define-from-file=dart_defines/dev.env",
         if (target.isNotEmpty) ...[
           "--plain-name",
           target,

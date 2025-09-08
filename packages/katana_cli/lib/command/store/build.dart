@@ -27,7 +27,7 @@ class StoreAndroidBuildCliCommand extends CliCommand {
         "build",
         "appbundle",
         "--release",
-        "--dart-define=FLAVOR=prod",
+        "--dart-define-from-file=dart_defines/prod.env",
       ],
     );
   }

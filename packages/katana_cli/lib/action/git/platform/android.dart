@@ -381,11 +381,24 @@ jobs:
       - name: Create key.properties
         run: echo \${{ secrets.ANDROID_KEY_PROPERTIES_#### REPLACE_APP_NAME #### }} | base64 -d > android/key.properties
         timeout-minutes: 3
+      
+      # Copy dart_defines/prod.env to env.properties if exists.
+      # dart_defines/prod.envファイルが存在する場合、env.propertiesにコピー。
+      - name: Copy dart_defines/prod.env to env.properties
+        run: |
+          if [ -f "dart_defines/prod.env" ]; then
+            echo "Copying dart_defines/prod.env to android/env.properties"
+            cp dart_defines/prod.env android/env.properties
+            echo "env.properties has been updated with prod.env contents"
+          else
+            echo "dart_defines/prod.env not found, skipping copy"
+          fi
+        timeout-minutes: 3
 
       # Generate app bundle.
       # App Bundleを生成。
       - name: Building Android AppBundle
-        run: flutter build appbundle --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define=FLAVOR=prod
+        run: flutter build appbundle --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define-from-file=dart_defines/prod.env
         timeout-minutes: 30
 
       # Upload the generated files.

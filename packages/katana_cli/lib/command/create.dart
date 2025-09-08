@@ -21,6 +21,15 @@ import "package:katana_cli/localize.dart";
 import "package:katana_cli/snippet/snippet.dart";
 import "package:katana_cli/src/android_manifest.dart";
 
+/// Flavors.
+///
+/// フレーバー。
+final flavors = [
+  "dev",
+  "stg",
+  "prod",
+];
+
 /// Package to import.
 ///
 /// インポートするパッケージ。
@@ -174,6 +183,13 @@ class CreateCliCommand extends CliCommand {
         .generateFile("pubspec_overrides.yaml");
     // label("Create a build.yaml");
     // await const BuildCliCode().generateFile("build.yaml");
+    label("Create a dart_defines/**.env");
+    for (final flavor in flavors) {
+      await DartDefinesCliCode(
+        packageName: "$domain.$projectName",
+        flavor: flavor,
+      ).generateFile("dart_defines/$flavor.env");
+    }
     label("Edit a analysis_options.yaml");
     await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
     label("Create a flutter_test_config.dart");
@@ -288,6 +304,60 @@ class CreateCliCommand extends CliCommand {
     await AndroidManifestQueryType.dialTel.enableQuery();
     await AndroidManifestQueryType.sendEmail.enableQuery();
     await AndroidManifestQueryType.sendAny.enableQuery();
+    label("Add processing to the Gradle file.");
+    final gradle = AppGradle();
+    await gradle.load();
+    if (gradle.isKotlin &&
+        !gradle.imports.any((e) => e.import == "java.util.Properties")) {
+      gradle.imports.add(
+        GradleImport(
+          import: "java.util.Properties",
+        ),
+      );
+    }
+    if (!gradle.loadProperties.any((e) => e.name == "envProperties")) {
+      gradle.loadProperties.add(
+        GradleLoadProperties(
+          path: "env.properties",
+          name: "envProperties",
+          file: "envPropertiesFile",
+          isKotlin: gradle.isKotlin,
+        ),
+      );
+    }
+    await gradle.save();
+    label("Edit Debug.xcconfig");
+    final xcconfigDebugFile = File("ios/Flutter/Debug.xcconfig");
+    if (!xcconfigDebugFile.existsSync()) {
+      error(
+        "Cannot find `ios/Flutter/Debug.xcconfig`. Project is broken.",
+      );
+      return;
+    }
+    final xcconfigDebug = await xcconfigDebugFile.readAsLines();
+    if (!xcconfigDebug
+        .any((e) => e.startsWith("#include \"DartDefine.xcconfig\""))) {
+      xcconfigDebug.add("#include \"DartDefine.xcconfig\"");
+    }
+    await xcconfigDebugFile.writeAsString(xcconfigDebug.join("\n"));
+    label("Edit Release.xcconfig");
+    final xcconfigReleaseFile = File("ios/Flutter/Release.xcconfig");
+    if (!xcconfigDebugFile.existsSync()) {
+      error(
+        "Cannot find `ios/Flutter/Release.xcconfig`. Project is broken.",
+      );
+      return;
+    }
+    final xcconfigRelease = await xcconfigReleaseFile.readAsLines();
+    if (!xcconfigRelease
+        .any((e) => e.startsWith("#include \"DartDefine.xcconfig\""))) {
+      xcconfigRelease.add("#include \"DartDefine.xcconfig\"");
+    }
+    await xcconfigReleaseFile.writeAsString(xcconfigRelease.join("\n"));
+    label("Edit DartDefine.xcconfig");
+    await DartDefinesXcconfigCliCode(
+      packageName: "$domain.$projectName",
+    ).generateFile("ios/Flutter/DartDefine.xcconfig");
     label("Edit AppDelegate.swift on IOS");
     final appDelegateIos = File("ios/Runner/AppDelegate.swift");
     if (appDelegateIos.existsSync()) {
@@ -407,6 +477,13 @@ $document
     }
     if (!gitignores.any((e) => e.startsWith("/android/app/.cxx/"))) {
       gitignores.add("/android/app/.cxx/");
+    }
+    if (!gitignores.any((e) => e.startsWith("/android/env.properties"))) {
+      gitignores.add("/android/env.properties");
+    }
+    if (!gitignores
+        .any((e) => e.startsWith("/ios/Flutter/DartDefine.xcconfig"))) {
+      gitignores.add("/ios/Flutter/DartDefine.xcconfig");
     }
     if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
       if (!gitignores.any((e) => e.startsWith("katana_secrets.yaml"))) {
@@ -581,6 +658,13 @@ class ComposeCliCommand extends CliCommand {
         .generateFile("pubspec_overrides.yaml");
     // label("Create a build.yaml");
     // await const BuildCliCode().generateFile("build.yaml");
+    label("Create a dart_defines/**.env");
+    for (final flavor in flavors) {
+      await DartDefinesCliCode(
+        packageName: "$domain.$projectName",
+        flavor: flavor,
+      ).generateFile("dart_defines/$flavor.env");
+    }
     label("Edit a analysis_options.yaml");
     await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
     label("Create a flutter_test_config.dart");
@@ -696,6 +780,28 @@ class ComposeCliCommand extends CliCommand {
     await AndroidManifestQueryType.dialTel.enableQuery();
     await AndroidManifestQueryType.sendEmail.enableQuery();
     await AndroidManifestQueryType.sendAny.enableQuery();
+    label("Add processing to the Gradle file.");
+    final gradle = AppGradle();
+    await gradle.load();
+    if (gradle.isKotlin &&
+        !gradle.imports.any((e) => e.import == "java.util.Properties")) {
+      gradle.imports.add(
+        GradleImport(
+          import: "java.util.Properties",
+        ),
+      );
+    }
+    if (!gradle.loadProperties.any((e) => e.name == "envProperties")) {
+      gradle.loadProperties.add(
+        GradleLoadProperties(
+          path: "env.properties",
+          name: "envProperties",
+          file: "envPropertiesFile",
+          isKotlin: gradle.isKotlin,
+        ),
+      );
+    }
+    await gradle.save();
     label("Edit AppDelegate.swift on IOS");
     final appDelegateIos = File("ios/Runner/AppDelegate.swift");
     if (appDelegateIos.existsSync()) {
@@ -707,6 +813,38 @@ $document
 """;
       await appDelegateIos.writeAsString(newDocument);
     }
+    label("Edit Debug.xcconfig");
+    final xcconfigDebugFile = File("ios/Flutter/Debug.xcconfig");
+    if (!xcconfigDebugFile.existsSync()) {
+      error(
+        "Cannot find `ios/Flutter/Debug.xcconfig`. Project is broken.",
+      );
+      return;
+    }
+    final xcconfigDebug = await xcconfigDebugFile.readAsLines();
+    if (!xcconfigDebug
+        .any((e) => e.startsWith("#include \"DartDefine.xcconfig\""))) {
+      xcconfigDebug.add("#include \"DartDefine.xcconfig\"");
+    }
+    await xcconfigDebugFile.writeAsString(xcconfigDebug.join("\n"));
+    label("Edit Release.xcconfig");
+    final xcconfigReleaseFile = File("ios/Flutter/Release.xcconfig");
+    if (!xcconfigDebugFile.existsSync()) {
+      error(
+        "Cannot find `ios/Flutter/Release.xcconfig`. Project is broken.",
+      );
+      return;
+    }
+    final xcconfigRelease = await xcconfigReleaseFile.readAsLines();
+    if (!xcconfigRelease
+        .any((e) => e.startsWith("#include \"DartDefine.xcconfig\""))) {
+      xcconfigRelease.add("#include \"DartDefine.xcconfig\"");
+    }
+    await xcconfigReleaseFile.writeAsString(xcconfigRelease.join("\n"));
+    label("Edit DartDefine.xcconfig");
+    await DartDefinesXcconfigCliCode(
+      packageName: "$domain.$projectName",
+    ).generateFile("ios/Flutter/DartDefine.xcconfig");
     label("Edit RunnerTest.swift on IOS");
     final runnerTestsIos = File("ios/RunnerTests/RunnerTests.swift");
     if (runnerTestsIos.existsSync()) {
@@ -815,6 +953,13 @@ $document
     }
     if (!gitignores.any((e) => e.startsWith("/android/app/.cxx/"))) {
       gitignores.add("/android/app/.cxx/");
+    }
+    if (!gitignores.any((e) => e.startsWith("/android/env.properties"))) {
+      gitignores.add("/android/env.properties");
+    }
+    if (!gitignores
+        .any((e) => e.startsWith("/ios/Flutter/DartDefine.xcconfig"))) {
+      gitignores.add("/ios/Flutter/DartDefine.xcconfig");
     }
     if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
       if (!gitignores.any((e) => e.startsWith("katana_secrets.yaml"))) {
@@ -1230,7 +1375,7 @@ final appLogger = Logger();
 
 /// App Flavor.
 // ignore: do_not_use_environment
-const flavor = String.fromEnvironment("FLAVOR");
+const flavor = String.fromEnvironment("flavor");
 
 /// App Platform.
 const platform = PlatformInfo();
@@ -2048,19 +2193,19 @@ class LaunchCliCode extends CliCode {
       "name": "Development",
       "request": "launch",
       "type": "dart",
-      "args": ["--dart-define=FLAVOR=dev", "--web-port=5555"]
+      "args": ["--dart-define-from-file=dart_defines/dev.env", "--web-port=5555"]
     },
     {
       "name": "Staging",
       "request": "launch",
       "type": "dart",
-      "args": ["--dart-define=FLAVOR=stg", "--web-port=5555"]
+      "args": ["--dart-define-from-file=dart_defines/stg.env", "--web-port=5555"]
     },
     {
       "name": "Production",
       "request": "launch",
       "type": "dart",
-      "args": ["--dart-define=FLAVOR=prod", "--web-port=5555", "--release"]
+      "args": ["--dart-define-from-file=dart_defines/prod.env", "--web-port=5555", "--release"]
     }
   ]
 }
@@ -3448,5 +3593,106 @@ For more information about Masamune Framework, please click here.
 Sponsors are always welcome. Thank you for your support!
 
 [https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)""";
+  }
+}
+
+/// Contents of dart_defines/**.env
+///
+/// dart_defines/**.envの中身。
+class DartDefinesCliCode extends CliCode {
+  /// Contents of dart_defines/**.env
+  ///
+  /// dart_defines/**.envの中身。
+  const DartDefinesCliCode({
+    required this.packageName,
+    required this.flavor,
+  });
+
+  /// Package Name.
+  ///
+  /// パッケージ名。
+  final String packageName;
+
+  /// Flavor.
+  ///
+  /// フレーバー。
+  final String flavor;
+
+  @override
+  String get name => flavor;
+
+  @override
+  String get prefix => flavor;
+
+  @override
+  String get directory => "dart_defines";
+
+  @override
+  String get description =>
+      "Define the dart_defines/**.env file. dart_defines/**.envファイルを定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+flavor=$flavor
+applicationId="$packageName"
+""";
+  }
+}
+
+/// Contents of ios/Flutter/DartDefine.xcconfig
+///
+/// ios/Flutter/DartDefine.xcconfigの中身。
+class DartDefinesXcconfigCliCode extends CliCode {
+  /// Contents of ios/Flutter/DartDefine.xcconfig
+  ///
+  /// ios/Flutter/DartDefine.xcconfigの中身。
+  const DartDefinesXcconfigCliCode({
+    required this.packageName,
+  });
+
+  /// Package Name.
+  ///
+  /// パッケージ名。
+  final String packageName;
+
+  @override
+  String get name => "DartDefine";
+
+  @override
+  String get prefix => "DartDefine";
+
+  @override
+  String get directory => "ios/Flutter";
+
+  @override
+  String get description =>
+      "Define the ios/Flutter/DartDefine.xcconfig file. ios/Flutter/DartDefine.xcconfigファイルを定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+applicationId="$packageName"
+""";
   }
 }
