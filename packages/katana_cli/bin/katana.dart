@@ -4,6 +4,7 @@ library;
 import "dart:io";
 
 // Package imports:
+import "package:katana_cli/command/flavor/flavor.dart";
 import "package:yaml/yaml.dart";
 
 // Project imports:
@@ -34,6 +35,7 @@ const commands = <String, CliCommand>{
   "module": CreateModuleCliCommand(),
   "doctor": DoctorCliCommand(),
   "cer": CerCliCommand(),
+  "flavor": FlavorCliCommand(),
   "analytics": AnalyticsCliCommand(),
 };
 

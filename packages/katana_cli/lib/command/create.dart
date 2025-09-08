@@ -304,6 +304,10 @@ class CreateCliCommand extends CliCommand {
     await AndroidManifestQueryType.dialTel.enableQuery();
     await AndroidManifestQueryType.sendEmail.enableQuery();
     await AndroidManifestQueryType.sendAny.enableQuery();
+    label("Edit env.properties");
+    await DartDefinesEnvPropertiesCliCode(
+      packageName: "$domain.$projectName",
+    ).generateFile("android/env.properties");
     label("Add processing to the Gradle file.");
     final gradle = AppGradle();
     await gradle.load();
@@ -780,6 +784,10 @@ class ComposeCliCommand extends CliCommand {
     await AndroidManifestQueryType.dialTel.enableQuery();
     await AndroidManifestQueryType.sendEmail.enableQuery();
     await AndroidManifestQueryType.sendAny.enableQuery();
+    label("Edit env.properties");
+    await DartDefinesEnvPropertiesCliCode(
+      packageName: "$domain.$projectName",
+    ).generateFile("android/env.properties");
     label("Add processing to the Gradle file.");
     final gradle = AppGradle();
     await gradle.load();
@@ -3678,6 +3686,53 @@ class DartDefinesXcconfigCliCode extends CliCode {
   @override
   String get description =>
       "Define the ios/Flutter/DartDefine.xcconfig file. ios/Flutter/DartDefine.xcconfigファイルを定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+applicationId="$packageName"
+""";
+  }
+}
+
+/// Contents of android/env.properties
+///
+/// android/env.propertiesの中身。
+class DartDefinesEnvPropertiesCliCode extends CliCode {
+  /// Contents of android/env.properties
+  ///
+  /// android/env.propertiesの中身。
+  const DartDefinesEnvPropertiesCliCode({
+    required this.packageName,
+  });
+
+  /// Package Name.
+  ///
+  /// パッケージ名。
+  final String packageName;
+
+  @override
+  String get name => "env";
+
+  @override
+  String get prefix => "env";
+
+  @override
+  String get directory => "android";
+
+  @override
+  String get description =>
+      "Define the android/env.properties file. android/env.propertiesファイルを定義します。";
 
   @override
   String import(String path, String baseName, String className) {
