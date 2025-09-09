@@ -241,11 +241,11 @@ abstract class DocumentBase<T> extends ChangeNotifier
         return;
       }
       await _load();
-      if (reloadOnce && !_reloaded) {
-        _reloaded = true;
-        await reload();
-      }
     });
+    if (reloadOnce && !_reloaded) {
+      _reloaded = true;
+      await reload();
+    }
     return value;
   }
 
