@@ -3714,8 +3714,8 @@ class DartDefinesCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return """
-flavor="$flavor"
-applicationId="$packageName"
+flavor=$flavor
+applicationId=$packageName
 """;
   }
 }
@@ -3762,7 +3762,7 @@ class DartDefinesXcconfigCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return """
-applicationId="$packageName"
+applicationId=$packageName
 """;
   }
 }
@@ -3809,7 +3809,7 @@ class DartDefinesEnvPropertiesCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return """
-applicationId="$packageName"
+applicationId=$packageName
 """;
   }
 }
