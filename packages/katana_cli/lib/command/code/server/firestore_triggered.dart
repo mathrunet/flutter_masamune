@@ -107,9 +107,12 @@ export class ${className.toPascalCase()}FirestoreTriggered extends m.FirestoreTr
     id = "${className.toSnakeCase()}_firestore_triggered";
     /**
      * @param {string} path
-     * Specifies the path to be processed.
+     * Specify the target path for execution. Include the document ID.
      *
-     * 処理を実行する対象のパスを指定します。
+     * 処理を実行する対象のパスを指定します。ドキュメントIDまで設定してください。
+     * 
+     * e.g.
+     * "my-collection/{docId}"
      *
      * https://firebase.google.com/docs/functions/firestore-events
      */
