@@ -47,7 +47,38 @@ void main() {
     expect(jsonEncodable(intMap), false);
     expect(jsonEncodable(dynamicValue), true);
   });
-  test("NullableObjectExtensions.jsonEncodable", () {});
+  test("uuid", () {
+    final uid = uuid();
+    expect(uid.length, 32);
+    expect(uid.replaceAll("-", ""), isA<String>());
+    final uid2 =
+        uuid(baseTime: DateTime.now().subtract(const Duration(hours: 1)));
+    expect(uid2.length, 32);
+    expect(uid2.replaceAll("-", ""), isA<String>());
+    final uid3 = uuid(reverse: true);
+    expect(uid3.length, 32);
+    expect(uid3.replaceAll("-", ""), isA<String>());
+    final ids = <String>[];
+    for (final i in List.generate(5, (index) => index)) {
+      final dateTime = DateTime(2024, 1, 1, 0, 0, i);
+      final uid = uuid(baseTime: dateTime);
+      // ignore: avoid_print
+      print(uid);
+      ids.add(uid);
+    }
+    var sortedIds = ids.sortTo((a, b) => a.compareTo(b));
+    expect(sortedIds, ids);
+    ids.clear();
+    for (final i in List.generate(5, (index) => index)) {
+      final dateTime = DateTime(2024, 1, 1, 0, 0, i);
+      final uid = uuid(baseTime: dateTime, reverse: true);
+      // ignore: avoid_print
+      print(uid);
+      ids.add(uid);
+    }
+    sortedIds = ids.sortTo((a, b) => b.compareTo(a));
+    expect(sortedIds, ids);
+  });
 }
 
 class _Test {

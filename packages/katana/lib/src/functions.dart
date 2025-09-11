@@ -1,7 +1,5 @@
 part of "/katana.dart";
 
-const _kIntMaxValue = 9007199254740991;
-
 /// Generate and retrieve the UUID for Version 7.
 ///
 /// The strings can be sorted in chronological order of generation.
@@ -20,25 +18,34 @@ const _kIntMaxValue = 9007199254740991;
 String uuid({DateTime? baseTime, bool reverse = false}) {
   const uuid = Uuid();
   baseTime ??= Clock.now();
+  final generated = uuid
+      .v7(
+        config: V7Options(
+          baseTime.toUtc().millisecondsSinceEpoch,
+          _randomData(),
+        ),
+      )
+      .replaceAll("-", "");
   if (reverse) {
-    return uuid
-        .v7(
-          config: V7Options(
-            _kIntMaxValue - baseTime.toUtc().millisecondsSinceEpoch,
-            _randomData(),
-          ),
-        )
-        .replaceAll("-", "");
-  } else {
-    return uuid
-        .v7(
-          config: V7Options(
-            baseTime.toUtc().millisecondsSinceEpoch,
-            _randomData(),
-          ),
-        )
-        .replaceAll("-", "");
+    return _createComplementaryString(generated);
   }
+  return generated;
+}
+
+String _createComplementaryString(String originalString) {
+  final buffer = StringBuffer();
+  const charList = "0123456789abcdef";
+
+  for (var i = 0; i < originalString.length; i++) {
+    final chatIndex = charList.indexOf(originalString[i]);
+    if (chatIndex == -1) {
+      continue;
+    }
+    final complementIndex = charList.length - chatIndex - 1;
+    buffer.write(charList[complementIndex]);
+  }
+
+  return buffer.toString();
 }
 
 List<int> _randomData() {
