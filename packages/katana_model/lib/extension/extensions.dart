@@ -38,6 +38,21 @@ extension DynamicListModelExtensions on DynamicList {
 ///
 /// [String]の拡張メソッド。
 extension ModelStringExtensions on String {
+  /// Converts [String] to a valid Firestore map key by removing invalid characters.
+  ///
+  /// FirestoreのMapのキーとして使用できるように、[string]から無効な文字を削除します。
+  ///
+  /// Invalid characters removed: . / ~ * [ ]
+  /// 削除される無効な文字: . / ~ * [ ]
+  String toFirestoreMapKey() {
+    return replaceAll(".", "")
+        .replaceAll("/", "")
+        .replaceAll("~", "")
+        .replaceAll("*", "")
+        .replaceAll("[", "")
+        .replaceAll("]", "");
+  }
+
   /// Converts [String] to a searchable map.
   ///
   /// [String]を検索可能なマップに変換します。
@@ -52,6 +67,7 @@ extension ModelStringExtensions on String {
               .toZenkakuKatakana()
               .toKatakana()
               .removeOnlyEmoji()
+              .toFirestoreMapKey()
               .splitByCharacterAndBigram(),
         )
         .distinct()
