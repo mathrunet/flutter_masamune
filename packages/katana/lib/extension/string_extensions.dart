@@ -222,7 +222,8 @@ extension StringExtensions on String {
   /// ```
   String removeOnlyEmoji() {
     final emojiRegExp = RegExp(
-      r"[\u{1F600}-\u{1F64F}" // Smiley (face made up of characters)
+      r"[\u{1F100}-\u{1F1FF}" // Enclosed alphanumeric supplement (includes 🆕)
+      r"|\u{1F600}-\u{1F64F}" // Smiley (face made up of characters)
       r"|\u{1F300}-\u{1F5FF}" // Symbols and pictographs
       r"|\u{1F680}-\u{1F6FF}" // Transport and map symbols
       r"|\u{1F700}-\u{1F77F}" // Alchemical symbols
