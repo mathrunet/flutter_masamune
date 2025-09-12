@@ -12,6 +12,7 @@ class DocumentModelFunctionsAction
     required this.path,
     required this.method,
     this.action = "document_model_firestore",
+    this.databaseId,
     this.data,
   });
 
@@ -19,6 +20,11 @@ class DocumentModelFunctionsAction
   ///
   /// PostやPutのデータ。
   final DynamicMap? data;
+
+  /// Database ID.
+  ///
+  /// データベースID。
+  final String? databaseId;
 
   @override
   final String path;

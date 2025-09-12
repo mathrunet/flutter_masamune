@@ -19,6 +19,7 @@ class FunctionsModelAdapter extends ModelAdapter {
     required this.functionsAdapter,
     this.documentAction = "document_model_firestore",
     this.collectionAction = "collection_model_firestore",
+    this.databaseId,
     NoSqlDatabase? cachedRuntimeDatabase,
   }) : _cachedRuntimeDatabase = cachedRuntimeDatabase;
 
@@ -52,6 +53,11 @@ class FunctionsModelAdapter extends ModelAdapter {
   /// Functionsアダプター。
   final FunctionsAdapter functionsAdapter;
 
+  /// Database ID.
+  ///
+  /// データベースID。
+  final String? databaseId;
+
   @override
   bool get availableListen => false;
 
@@ -63,6 +69,7 @@ class FunctionsModelAdapter extends ModelAdapter {
       path: query.query.path,
       action: collectionAction,
       method: ApiMethod.get,
+      databaseId: databaseId,
     ));
     if (!res.status.toString().startsWith("2")) {
       throw Exception("Failed to load collection");
@@ -80,6 +87,7 @@ class FunctionsModelAdapter extends ModelAdapter {
       path: query.query.path,
       action: documentAction,
       method: ApiMethod.get,
+      databaseId: databaseId,
     ));
     if (!res.status.toString().startsWith("2")) {
       throw Exception("Failed to load document");
@@ -97,6 +105,7 @@ class FunctionsModelAdapter extends ModelAdapter {
       action: documentAction,
       method: ApiMethod.post,
       data: value,
+      databaseId: databaseId,
     ));
     if (!res.status.toString().startsWith("2")) {
       throw Exception("Failed to load document");
@@ -110,6 +119,7 @@ class FunctionsModelAdapter extends ModelAdapter {
       path: query.query.path,
       action: documentAction,
       method: ApiMethod.delete,
+      databaseId: databaseId,
     ));
     if (!res.status.toString().startsWith("2")) {
       throw Exception("Failed to delete document");
