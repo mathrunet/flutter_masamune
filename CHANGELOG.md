@@ -15,6 +15,51 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.7.1`](#katana_cli---v371)
+ - [`masamune_model_functions` - `v3.1.1`](#masamune_model_functions---v311)
+ - [`masamune_notification` - `v3.1.1`](#masamune_notification---v311)
+ - [`masamune_storage_functions` - `v3.1.1`](#masamune_storage_functions---v311)
+ - [`masamune_notification_local` - `v3.0.27`](#masamune_notification_local---v3027)
+ - [`masamune_notification_firebase` - `v3.0.27`](#masamune_notification_firebase---v3027)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_notification_local` - `v3.0.27`
+ - `masamune_notification_firebase` - `v3.0.27`
+
+---
+
+#### `katana_cli` - `v3.7.1`
+
+ - **FIX**: Add path. ([5461b884](https://github.com/mathrunet/flutter_masamune/commit/5461b884ef9819ca6d41857e88315b0e33705e39))
+
+#### `masamune_model_functions` - `v3.1.1`
+
+ - **FIX**: Add path. ([5461b884](https://github.com/mathrunet/flutter_masamune/commit/5461b884ef9819ca6d41857e88315b0e33705e39))
+
+#### `masamune_notification` - `v3.1.1`
+
+ - **FIX**: Add path. ([5461b884](https://github.com/mathrunet/flutter_masamune/commit/5461b884ef9819ca6d41857e88315b0e33705e39))
+
+#### `masamune_storage_functions` - `v3.1.1`
+
+ - **FIX**: Reflect bucket settings. ([bf34d9c0](https://github.com/mathrunet/flutter_masamune/commit/bf34d9c04ce1d6f5764a190900b03faed49f6c6b))
+
+
+## 2025-09-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v3.2.1`](#katana---v321)
  - [`katana_auth` - `v3.0.10`](#katana_auth---v3010)
  - [`katana_cli` - `v3.7.0`](#katana_cli---v370)

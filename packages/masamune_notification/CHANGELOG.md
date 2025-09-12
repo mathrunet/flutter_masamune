@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - **FIX**: Add path. ([5461b884](https://github.com/mathrunet/flutter_masamune/commit/5461b884ef9819ca6d41857e88315b0e33705e39))
+
 ## 3.1.0
 
  - **FEAT**: Add badge control. ([62e3b764](https://github.com/mathrunet/flutter_masamune/commit/62e3b764e66de37ec129b96e1477d1026c7f910e))
