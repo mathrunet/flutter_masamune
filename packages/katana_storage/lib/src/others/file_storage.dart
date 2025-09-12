@@ -55,7 +55,7 @@ class FileStorage extends StorageBase {
   ///
   /// `Web`は[Null]を返します。
   static Future<String?> get documentDirectory async {
-    if (Platform.isIOS) {
+    if (_platformInfo.isIOS) {
       return (await _platformInfo.getLibraryDirectory())
           .path
           .replaceAll("//", "/");
