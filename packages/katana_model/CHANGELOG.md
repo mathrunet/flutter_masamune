@@ -1,3 +1,8 @@
+## 3.3.5
+
+ - **FIX**: Add a method to create Map keys for Firebase. ([3178d25b](https://github.com/mathrunet/flutter_masamune/commit/3178d25bd13ec56eeae8fd655bebf650b8464cf5))
+ - **FIX**: Fixed a bug where `reloadOnce` could not be obtained. ([4128ee1b](https://github.com/mathrunet/flutter_masamune/commit/4128ee1b886ae39abe2f476dfd06c506b851380c))
+
 ## 3.3.4
 
  - **FIX**: AsyncSavingManager sometimes fails to initialize. ([f3db94d9](https://github.com/mathrunet/flutter_masamune/commit/f3db94d9567a1e9c5049a3ab1d30b86219f30b34))

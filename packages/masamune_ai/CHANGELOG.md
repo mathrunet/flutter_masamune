@@ -1,3 +1,7 @@
+## 3.0.29
+
+ - Update a dependency to the latest release.
+
 ## 3.0.28
 
  - **FIX**: Fixed because previous content was not passed on. ([5200b3dc](https://github.com/mathrunet/flutter_masamune/commit/5200b3dceb8810d78d001e6f69d90273e2827010))

@@ -1,3 +1,7 @@
+## 3.0.26
+
+ - Update a dependency to the latest release.
+
 ## 3.0.25
 
  - **FIX**: Adjust the time interval. ([dd6f4c8e](https://github.com/mathrunet/flutter_masamune/commit/dd6f4c8e8b57999e82c68926714d3d8aa12702f2))

@@ -1,3 +1,7 @@
+## 3.1.0
+
+ - **FEAT**: Add badge control. ([62e3b764](https://github.com/mathrunet/flutter_masamune/commit/62e3b764e66de37ec129b96e1477d1026c7f910e))
+
 ## 3.0.25
 
  - Update a dependency to the latest release.

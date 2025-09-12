@@ -1,3 +1,7 @@
+## 3.1.13
+
+ - Update a dependency to the latest release.
+
 ## 3.1.12
 
  - **FIX**: Corrected the disabled color, as it was displaying as the normal color. ([02dcdffa](https://github.com/mathrunet/flutter_masamune/commit/02dcdffaba0d9699fb3e44d03d05efea9f29f8f2))

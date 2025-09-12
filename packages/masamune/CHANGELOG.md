@@ -1,3 +1,7 @@
+## 3.3.12
+
+ - **FIX**: Lowercase Flavor. ([ea04033e](https://github.com/mathrunet/flutter_masamune/commit/ea04033e8ae5dfd290ca12e31cea7661caff0a93))
+
 ## 3.3.11
 
  - Update a dependency to the latest release.

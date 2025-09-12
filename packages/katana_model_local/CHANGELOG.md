@@ -1,3 +1,7 @@
+## 3.1.17
+
+ - **FIX**: Fixed because PlatformInfo was not used. ([b52de4be](https://github.com/mathrunet/flutter_masamune/commit/b52de4be85939aa060e4ad645c8386864fe6c074))
+
 ## 3.1.16
 
  - **FIX**: AsyncSavingManager sometimes fails to initialize. ([f3db94d9](https://github.com/mathrunet/flutter_masamune/commit/f3db94d9567a1e9c5049a3ab1d30b86219f30b34))

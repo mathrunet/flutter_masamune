@@ -1,3 +1,7 @@
+## 3.2.15
+
+ - Update a dependency to the latest release.
+
 ## 3.2.14
 
  - **FIX**: Fixed to restart when the camera fails to launch. ([c36e59a2](https://github.com/mathrunet/flutter_masamune/commit/c36e59a2bcd2f3d1d99f82663b0a6992f228d761))

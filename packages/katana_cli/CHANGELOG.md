@@ -1,3 +1,12 @@
+## 3.7.0
+
+ - **FIX**: Please delete it because double quotation marks are included. ([d23a6b52](https://github.com/mathrunet/flutter_masamune/commit/d23a6b522dda2d85cf815a96ec58c2a9fe5e3e23))
+ - **FIX**: Copy the configuration file during a store build. ([b629e1d5](https://github.com/mathrunet/flutter_masamune/commit/b629e1d561d0526667281f7402895e4325cbc9ab))
+ - **FIX**: Bug fix. ([251860c0](https://github.com/mathrunet/flutter_masamune/commit/251860c0b2f5c31c25c9d3fc784fe279fa010ae2))
+ - **FEAT**: Add flavor command. ([4f86ebb9](https://github.com/mathrunet/flutter_masamune/commit/4f86ebb96b5de18730836c202eee5f4f319e4d7b))
+ - **FEAT**: Supports dart_defines files. ([0f96c304](https://github.com/mathrunet/flutter_masamune/commit/0f96c304985c9d5a152fdc012f3c9d7a4ecec7b5))
+ - **DOCS**: Add comment. ([273cae58](https://github.com/mathrunet/flutter_masamune/commit/273cae58c8778afd88734a78e1b783777a285089))
+
 ## 3.6.9
 
  - **FIX**: Retry the iOS platform download. ([549b879c](https://github.com/mathrunet/flutter_masamune/commit/549b879cf9aab2718c8468499654893ac42981ad))

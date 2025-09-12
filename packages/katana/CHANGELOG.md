@@ -1,3 +1,8 @@
+## 3.2.1
+
+ - **FIX**: Removed unremovable emojis. ([a2461ac3](https://github.com/mathrunet/flutter_masamune/commit/a2461ac35357740ce296237312ba3060c3d7dcf5))
+ - **FIX**: Revise the UUID reverse specification. ([da55455e](https://github.com/mathrunet/flutter_masamune/commit/da55455e242a95a03f464c0482c778d227c1c645))
+
 ## 3.2.0
 
  - **FEAT**: Enabled sending MultipartRequest. ([800336a6](https://github.com/mathrunet/flutter_masamune/commit/800336a620f36760b541dfbdd81703901affb7a5))
