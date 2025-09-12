@@ -20,7 +20,8 @@ class FunctionsStorageAdapter extends StorageAdapter {
   /// [StorageFunctionsAction]を実行することによりFunctionsとのやりとりを行います。
   const FunctionsStorageAdapter({
     required this.functionsAdapter,
-    required this.action,
+    required this.bucketName,
+    this.action = "storage_firebase",
     FunctionsStorageDatabase? cachedDatabase,
   }) : _cachedDatabase = cachedDatabase;
 
@@ -33,6 +34,11 @@ class FunctionsStorageAdapter extends StorageAdapter {
   ///
   /// アクション名。
   final String action;
+
+  /// Bucket name.
+  ///
+  /// バケット名。
+  final String bucketName;
 
   /// Cached database.
   ///
@@ -74,6 +80,7 @@ class FunctionsStorageAdapter extends StorageAdapter {
   Future<void> delete(String remoteRelativePathOrId) async {
     final res = await functionsAdapter.execute(StorageFunctionsAction(
       action: action,
+      bucketName: bucketName,
       path: remoteRelativePathOrId,
       method: ApiMethod.delete,
     ));
@@ -105,6 +112,7 @@ class FunctionsStorageAdapter extends StorageAdapter {
       final byte = await Api.readBytes(localFullPath);
       final res = await functionsAdapter.execute(StorageFunctionsAction(
         action: action,
+        bucketName: bucketName,
         path: remoteRelativePathOrId,
         method: ApiMethod.post,
         meta: mimeType != null ? {"contentType": mimeType} : null,
@@ -134,6 +142,7 @@ class FunctionsStorageAdapter extends StorageAdapter {
       assert(uploadFileByte.isNotEmpty, "Bytes is empty.");
       final res = await functionsAdapter.execute(StorageFunctionsAction(
         action: action,
+        bucketName: bucketName,
         path: remoteRelativePathOrId,
         method: ApiMethod.post,
         meta: mimeType != null ? {"contentType": mimeType} : null,

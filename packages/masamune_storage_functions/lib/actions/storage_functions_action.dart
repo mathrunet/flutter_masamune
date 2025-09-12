@@ -9,12 +9,18 @@ class StorageFunctionsAction
   ///
   /// ストレージにファイルをアップロードするためのFunctionsAction。
   const StorageFunctionsAction({
-    required this.action,
+    required this.bucketName,
     required this.path,
     required this.method,
+    this.action = "storage_firebase",
     this.meta,
     this.binary,
   });
+
+  /// Bucket name.
+  ///
+  /// バケット名。
+  final String bucketName;
 
   /// Path.
   ///
@@ -40,14 +46,18 @@ class StorageFunctionsAction
 
   @override
   DynamicMap? toMap() {
+    final bucketName = this.bucketName.trimQuery().trimString("/");
+    final path = this.path.trimQuery().trimString("/");
     assert(
         method == ApiMethod.get ||
             method == ApiMethod.delete ||
             binary.isNotEmpty,
         "If the method is POST or PUT, data is required.");
+    assert(bucketName.isNotEmpty, "Bucket name is empty.");
+    assert(path.isNotEmpty, "Path is empty.");
     return {
       "method": method.name,
-      "path": path,
+      "path": "$bucketName/$path",
       if (binary != null) "data": base64Encode(binary!),
       if (meta != null) "meta": meta,
     };
@@ -58,7 +68,6 @@ class StorageFunctionsAction
     final status = map.getAsInt("status");
     final meta = map.getAsMap("meta");
     final data = map.get("data", "");
-    final path = map.get("path", "");
     final binary = data.isEmpty ? null : base64Decode(data);
     return StorageFunctionsActionResponse(
       status: status,
