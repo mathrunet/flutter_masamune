@@ -16,9 +16,9 @@ import "package:flutter/foundation.dart";
 import "package:flutter/widgets.dart";
 
 // Package imports:
+import "package:flutter_app_badge_control/flutter_app_badge_control.dart";
 import "package:masamune/masamune.dart";
 import "package:masamune_scheduler/masamune_scheduler.dart";
-import "package:flutter_app_badge_control/flutter_app_badge_control.dart";
 
 // Project imports:
 import "models/local_notification_schedule.dart";

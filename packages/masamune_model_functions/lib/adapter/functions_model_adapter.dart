@@ -17,8 +17,8 @@ class FunctionsModelAdapter extends ModelAdapter {
   /// [DocumentModelFunctionsAction]と[CollectionModelFunctionsAction]を実行することによりFunctionsとのやりとりを行います。
   const FunctionsModelAdapter({
     required this.functionsAdapter,
-    required this.documentAction,
-    required this.collectionAction,
+    this.documentAction = "document_model_firestore",
+    this.collectionAction = "collection_model_firestore",
     NoSqlDatabase? cachedRuntimeDatabase,
   }) : _cachedRuntimeDatabase = cachedRuntimeDatabase;
 
@@ -60,6 +60,7 @@ class FunctionsModelAdapter extends ModelAdapter {
     ModelAdapterCollectionQuery query,
   ) async {
     final res = await functionsAdapter.execute(CollectionModelFunctionsAction(
+      path: query.query.path,
       action: collectionAction,
       method: ApiMethod.get,
     ));
@@ -76,6 +77,7 @@ class FunctionsModelAdapter extends ModelAdapter {
     ModelAdapterDocumentQuery query,
   ) async {
     final res = await functionsAdapter.execute(DocumentModelFunctionsAction(
+      path: query.query.path,
       action: documentAction,
       method: ApiMethod.get,
     ));
@@ -91,6 +93,7 @@ class FunctionsModelAdapter extends ModelAdapter {
   Future<void> saveDocument(
       ModelAdapterDocumentQuery query, DynamicMap value) async {
     final res = await functionsAdapter.execute(DocumentModelFunctionsAction(
+      path: query.query.path,
       action: documentAction,
       method: ApiMethod.post,
       data: value,
@@ -104,6 +107,7 @@ class FunctionsModelAdapter extends ModelAdapter {
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     final res = await functionsAdapter.execute(DocumentModelFunctionsAction(
+      path: query.query.path,
       action: documentAction,
       method: ApiMethod.delete,
     ));

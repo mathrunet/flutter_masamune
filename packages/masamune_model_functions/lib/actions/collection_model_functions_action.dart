@@ -9,8 +9,9 @@ class CollectionModelFunctionsAction
   ///
   /// コレクションを読み書きするためのFunctionsAction。
   const CollectionModelFunctionsAction({
-    required this.action,
+    required this.path,
     required this.method,
+    this.action = "collection_model_firestore",
     this.data,
   });
 
@@ -20,6 +21,9 @@ class CollectionModelFunctionsAction
   final Map<String, DynamicMap>? data;
 
   @override
+  final String path;
+
+  @override
   final ApiMethod method;
 
   @override
@@ -27,12 +31,22 @@ class CollectionModelFunctionsAction
 
   @override
   DynamicMap? toMap() {
+    final path = this.path.trimQuery().trimString("/");
     assert(
         method == ApiMethod.get ||
             method == ApiMethod.delete ||
             data.isNotEmpty,
         "If the method is POST or PUT, data is required.");
+    assert(
+      !(path.splitLength() <= 0 || path.splitLength() % 2 != 1),
+      "The query path hierarchy must be an odd number: $path",
+    );
+    assert(
+      !path.contains("//"),
+      "The query path hierarchy must not contain double slashes: $path",
+    );
     return {
+      "path": path,
       "method": method.name,
       if (data != null) "data": data,
     };
