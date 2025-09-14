@@ -54,6 +54,7 @@ class DocumentModelFunctionsAction
     return {
       "path": path,
       "method": method.name,
+      "databaseId": databaseId,
       if (data != null) "data": data,
     };
   }

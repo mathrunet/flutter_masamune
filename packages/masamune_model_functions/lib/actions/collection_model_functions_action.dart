@@ -12,6 +12,7 @@ class CollectionModelFunctionsAction
     required this.path,
     required this.method,
     this.action = "collection_model_firestore",
+    this.databaseId,
     this.data,
   });
 
@@ -19,6 +20,11 @@ class CollectionModelFunctionsAction
   ///
   /// PostやPutのデータ。
   final Map<String, DynamicMap>? data;
+
+  /// Database ID.
+  ///
+  /// データベースID。
+  final String? databaseId;
 
   @override
   final String path;
@@ -48,6 +54,7 @@ class CollectionModelFunctionsAction
     return {
       "path": path,
       "method": method.name,
+      "databaseId": databaseId,
       if (data != null) "data": data,
     };
   }
