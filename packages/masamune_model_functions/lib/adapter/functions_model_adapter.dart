@@ -19,6 +19,7 @@ class FunctionsModelAdapter extends ModelAdapter {
     required this.functionsAdapter,
     this.documentAction = "document_model_firestore",
     this.collectionAction = "collection_model_firestore",
+    this.aggregateAction = "aggregate_model_firestore",
     this.databaseId,
     NoSqlDatabase? cachedRuntimeDatabase,
   }) : _cachedRuntimeDatabase = cachedRuntimeDatabase;
@@ -47,6 +48,11 @@ class FunctionsModelAdapter extends ModelAdapter {
   ///
   /// コレクションアクション。
   final String collectionAction;
+
+  /// Aggregate action.
+  ///
+  /// 集計アクション。
+  final String aggregateAction;
 
   /// Functions adapter.
   ///
@@ -128,6 +134,36 @@ class FunctionsModelAdapter extends ModelAdapter {
   }
 
   @override
+  Future<T?> loadAggregation<T>(ModelAdapterCollectionQuery query,
+      ModelAggregateQuery<AsyncAggregateValue> aggregateQuery) async {
+    final res = await functionsAdapter.execute(AggregateModelFunctionsAction(
+      path: query.query.path,
+      aggregateType: aggregateQuery.type,
+      action: aggregateAction,
+      databaseId: databaseId,
+    ));
+    if (!res.status.toString().startsWith("2")) {
+      throw Exception("Failed to load aggregation");
+    }
+    final value = res.value;
+    switch (aggregateQuery.type) {
+      case ModelAggregateQueryType.count:
+        final converted = value.toInt();
+        if (converted is! T) {
+          return null;
+        }
+        return converted as T;
+      case ModelAggregateQueryType.sum:
+      case ModelAggregateQueryType.average:
+        final converted = value.toDouble();
+        if (converted is! T) {
+          return null;
+        }
+        return converted as T;
+    }
+  }
+
+  @override
   void disposeCollection(ModelAdapterCollectionQuery query) {
     cachedRuntimeDatabase.removeCollectionListener(query);
   }
@@ -146,12 +182,6 @@ class FunctionsModelAdapter extends ModelAdapter {
   @override
   Future<List<StreamSubscription>> listenDocument(
       ModelAdapterDocumentQuery query) {
-    throw UnsupportedError("This function is not available.");
-  }
-
-  @override
-  Future<T?> loadAggregation<T>(ModelAdapterCollectionQuery query,
-      ModelAggregateQuery<AsyncAggregateValue> aggregateQuery) {
     throw UnsupportedError("This function is not available.");
   }
 
