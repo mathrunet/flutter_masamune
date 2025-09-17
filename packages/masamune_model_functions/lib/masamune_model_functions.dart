@@ -10,6 +10,7 @@ library;
 
 // Dart imports:
 import "dart:async";
+import "dart:convert";
 
 // Package imports:
 import "package:masamune/masamune.dart";
@@ -17,3 +18,4 @@ import "package:masamune/masamune.dart";
 part "adapter/functions_model_adapter.dart";
 part "actions/document_model_functions_action.dart";
 part "actions/collection_model_functions_action.dart";
+part "actions/aggregate_model_functions_action.dart";

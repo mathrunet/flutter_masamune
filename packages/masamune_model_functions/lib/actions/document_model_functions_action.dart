@@ -55,14 +55,15 @@ class DocumentModelFunctionsAction
       "path": path,
       "method": method.name,
       "databaseId": databaseId,
-      if (data != null) "data": data,
+      if (data != null) "data": jsonEncode(data),
     };
   }
 
   @override
   DocumentModelFunctionsActionResponse toResponse(DynamicMap map) {
     final status = map.getAsInt("status");
-    final data = map.getAsMap("data");
+    final json = map.get("data", "");
+    final data = jsonDecodeAsMap(json);
     return DocumentModelFunctionsActionResponse(
       status: status,
       data: data.isEmpty ? null : data,

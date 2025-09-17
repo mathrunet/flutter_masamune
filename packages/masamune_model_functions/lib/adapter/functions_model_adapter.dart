@@ -114,7 +114,7 @@ class FunctionsModelAdapter extends ModelAdapter {
       databaseId: databaseId,
     ));
     if (!res.status.toString().startsWith("2")) {
-      throw Exception("Failed to load document");
+      throw Exception("Failed to save document");
     }
     await cachedRuntimeDatabase.saveDocument(query, value);
   }
@@ -134,10 +134,14 @@ class FunctionsModelAdapter extends ModelAdapter {
   }
 
   @override
-  Future<T?> loadAggregation<T>(ModelAdapterCollectionQuery query,
-      ModelAggregateQuery<AsyncAggregateValue> aggregateQuery) async {
+  Future<T?> loadAggregation<T>(
+    ModelAdapterCollectionQuery query,
+    ModelAggregateQuery<AsyncAggregateValue> aggregateQuery,
+  ) async {
+    final path =
+        "${query.query.path.trimQuery().trimString("/")}/${aggregateQuery.key?.trimQuery().trimString("/") ?? ""}";
     final res = await functionsAdapter.execute(AggregateModelFunctionsAction(
-      path: query.query.path,
+      path: path,
       aggregateType: aggregateQuery.type,
       action: aggregateAction,
       databaseId: databaseId,

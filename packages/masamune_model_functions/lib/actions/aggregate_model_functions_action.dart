@@ -34,10 +34,20 @@ class AggregateModelFunctionsAction
   @override
   DynamicMap? toMap() {
     final path = this.path.trimQuery().trimString("/");
-    assert(
-      !(path.splitLength() <= 0 || path.splitLength() % 2 != 0),
-      "The query path hierarchy must be an even number: $path",
-    );
+    switch (aggregateType) {
+      case ModelAggregateQueryType.count:
+        assert(
+          !(path.splitLength() <= 0 || path.splitLength() % 2 != 1),
+          "The query path hierarchy must be an odd number: $path",
+        );
+        break;
+      case ModelAggregateQueryType.sum:
+      case ModelAggregateQueryType.average:
+        assert(
+          !(path.splitLength() <= 0 || path.splitLength() % 2 != 0),
+          "The query path hierarchy must be an even number: $path",
+        );
+    }
     assert(
       !path.contains("//"),
       "The query path hierarchy must not contain double slashes: $path",
@@ -52,10 +62,11 @@ class AggregateModelFunctionsAction
   @override
   AggregateModelFunctionsActionResponse toResponse(DynamicMap map) {
     final status = map.getAsInt("status");
-    final data = map.getAsMap("data");
+    final data = map.get("data", "");
+    final parsed = jsonDecodeAsMap(data);
     return AggregateModelFunctionsActionResponse(
       status: status,
-      value: data.getAsDouble("value"),
+      value: parsed.getAsDouble("value"),
     );
   }
 }

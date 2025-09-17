@@ -55,14 +55,15 @@ class CollectionModelFunctionsAction
       "path": path,
       "method": method.name,
       "databaseId": databaseId,
-      if (data != null) "data": data,
+      if (data != null) "data": jsonEncode(data),
     };
   }
 
   @override
   CollectionModelFunctionsActionResponse toResponse(DynamicMap map) {
     final status = map.getAsInt("status");
-    final data = map.getAsMap<DynamicMap>("data");
+    final json = map.get("data", "");
+    final data = jsonDecodeAsMap<DynamicMap>(json);
     return CollectionModelFunctionsActionResponse(
       status: status,
       data: data.isEmpty ? null : data,
