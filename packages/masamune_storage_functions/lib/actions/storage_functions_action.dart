@@ -58,7 +58,7 @@ class StorageFunctionsAction
     return {
       "method": method.name,
       "path": "$bucketName/$path",
-      if (binary != null) "data": base64Encode(binary!),
+      if (binary != null) "binary": base64Encode(binary!),
       if (meta != null) "meta": meta,
     };
   }
@@ -67,8 +67,8 @@ class StorageFunctionsAction
   StorageFunctionsActionResponse toResponse(DynamicMap map) {
     final status = map.getAsInt("status");
     final meta = map.getAsMap("meta");
-    final data = map.get("data", "");
-    final binary = data.isEmpty ? null : base64Decode(data);
+    final binarySource = map.get("binary", "");
+    final binary = binarySource.isEmpty ? null : base64Decode(binarySource);
     return StorageFunctionsActionResponse(
       status: status,
       path: path,
