@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - **FIX**: Modify Storage response. ([798146a9](https://github.com/mathrunet/flutter_masamune/commit/798146a981196d4e4e59efefe82fdd3dc2f479d5))
+
 ## 3.1.1
 
  - **FIX**: Reflect bucket settings. ([bf34d9c0](https://github.com/mathrunet/flutter_masamune/commit/bf34d9c04ce1d6f5764a190900b03faed49f6c6b))
