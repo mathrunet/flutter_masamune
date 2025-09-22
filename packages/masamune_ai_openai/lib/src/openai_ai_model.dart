@@ -52,7 +52,12 @@ enum OpenaiAIModel {
   /// gpt5 Mini
   ///
   /// gpt5 Mini
-  gpt5Mini;
+  gpt5Mini,
+
+  /// gpt5 Chat
+  ///
+  /// gpt5 Chat
+  gpt5Chat;
 
   /// デフォルトのモデル。
   static const OpenaiAIModel defaultModel = gpt5;
@@ -82,6 +87,8 @@ enum OpenaiAIModel {
         return "gpt-5";
       case gpt5Mini:
         return "gpt-5-mini";
+      case gpt5Chat:
+        return "gpt-5-chat-latest";
     }
   }
 
@@ -110,6 +117,8 @@ enum OpenaiAIModel {
         return 1.25 / 1000000;
       case gpt5Mini:
         return 0.25 / 1000000;
+      case gpt5Chat:
+        return 1.25 / 1000000;
     }
   }
 
@@ -138,6 +147,8 @@ enum OpenaiAIModel {
         return 10.0 / 1000000;
       case gpt5Mini:
         return 2.0 / 1000000;
+      case gpt5Chat:
+        return 10.0 / 1000000;
     }
   }
 
