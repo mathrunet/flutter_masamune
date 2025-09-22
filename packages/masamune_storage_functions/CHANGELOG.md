@@ -1,3 +1,7 @@
+## 3.1.3
+
+ - Update a dependency to the latest release.
+
 ## 3.1.2
 
  - **FIX**: Modify Storage response. ([798146a9](https://github.com/mathrunet/flutter_masamune/commit/798146a981196d4e4e59efefe82fdd3dc2f479d5))

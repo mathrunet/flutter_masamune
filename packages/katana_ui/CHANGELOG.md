@@ -1,3 +1,7 @@
+## 3.1.4
+
+ - **FIX**: Fix: Circle cannot use `borderRadius`. ([d04ceb3a](https://github.com/mathrunet/flutter_masamune/commit/d04ceb3a163c509983ec8b28a9e046dc6245c3ae))
+
 ## 3.1.3
 
  - Update a dependency to the latest release.

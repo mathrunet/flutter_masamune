@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - Update a dependency to the latest release.
+
 ## 3.1.1
 
  - **FIX**: Add path. ([5461b884](https://github.com/mathrunet/flutter_masamune/commit/5461b884ef9819ca6d41857e88315b0e33705e39))

@@ -1,3 +1,7 @@
+## 3.3.6
+
+ - **FIX**: Fix: `onSave` is not executed when creating an alias. ([d0f62b67](https://github.com/mathrunet/flutter_masamune/commit/d0f62b671c25dc9bebc6441cb5012e2dd795e948))
+
 ## 3.3.5
 
  - **FIX**: Add a method to create Map keys for Firebase. ([3178d25b](https://github.com/mathrunet/flutter_masamune/commit/3178d25bd13ec56eeae8fd655bebf650b8464cf5))

@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - Update a dependency to the latest release.
+
 ## 3.2.0
 
  - **FIX**: Fix the model's error. ([391c3dcf](https://github.com/mathrunet/flutter_masamune/commit/391c3dcf411271c5777521474e43b33cb4758aa3))
