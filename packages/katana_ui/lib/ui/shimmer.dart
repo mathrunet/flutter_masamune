@@ -96,7 +96,9 @@ class ShimmerBox extends StatelessWidget {
       child: child ??
           Container(
             decoration: BoxDecoration(
-              borderRadius: borderRadius ?? BorderRadius.circular(h / 4),
+              borderRadius: shape == BoxShape.circle
+                  ? null
+                  : borderRadius ?? BorderRadius.circular(h / 4),
               color: baseColor ?? Theme.of(context).colorScheme.surface,
               shape: shape,
             ),
