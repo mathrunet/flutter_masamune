@@ -891,18 +891,17 @@ class NoSqlDatabase {
         0,
         {...fromValue, _kAliasFromKey: from.query.path},
       );
-      if (isAdd == null) {
-        return;
+      if (isAdd != null) {
+        notifyDocuments(
+          trimToPath,
+          toPaths.last,
+          fromValue,
+          isAdd
+              ? ModelUpdateNotificationStatus.added
+              : ModelUpdateNotificationStatus.modified,
+          to,
+        );
       }
-      notifyDocuments(
-        trimToPath,
-        toPaths.last,
-        fromValue,
-        isAdd
-            ? ModelUpdateNotificationStatus.added
-            : ModelUpdateNotificationStatus.modified,
-        to,
-      );
     }
     final trimFromPath = _path(from.query.path, prefix);
     final fromPaths = trimFromPath.split("/");
@@ -912,17 +911,17 @@ class NoSqlDatabase {
         0,
         {_kAliasToKey: to.query.path},
       );
-      if (isAdd == null) {
-        return;
+      if (isAdd != null) {
+        notifyDocuments(
+          trimFromPath,
+          fromPaths.last,
+          {},
+          ModelUpdateNotificationStatus.removed,
+          from,
+        );
       }
-      notifyDocuments(
-        trimFromPath,
-        fromPaths.last,
-        {},
-        ModelUpdateNotificationStatus.removed,
-        from,
-      );
     }
+    await onSaved?.call(this);
   }
 
   /// Replaces all data in the database inside by giving [replaceData].
