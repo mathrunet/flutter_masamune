@@ -134,6 +134,7 @@ class FormChipsField<TValue> extends FormField<List<String>> {
     this.suggestion = const [],
     this.onChanged,
     this.onChipTapped,
+    this.onUpdatedText,
     this.maxChips,
     this.emptyErrorText,
     this.focusNode,
@@ -227,6 +228,11 @@ class FormChipsField<TValue> extends FormField<List<String>> {
   ///
   /// [Chip]をタップしたときの処理。
   final void Function(String value)? onChipTapped;
+
+  /// Process when the text is updated.
+  ///
+  /// テキストが更新されたときの処理。
+  final void Function(String value)? onUpdatedText;
 
   /// Mobile software keyboard type.
   ///
@@ -533,6 +539,7 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
                         const SizedBox.shrink();
                   },
                   findSuggestions: (value, chips) {
+                    widget.onUpdatedText?.call(value);
                     final items = value.isNotEmpty ? [value] : <String>[];
                     for (var element in chips) {
                       items.add(element);
