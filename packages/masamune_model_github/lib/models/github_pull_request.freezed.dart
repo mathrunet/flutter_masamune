@@ -850,7 +850,8 @@ extension GithubPullRequestModelPatterns on GithubPullRequestModel {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _GithubPullRequestModel extends GithubPullRequestModel {
   const _GithubPullRequestModel(
       {this.id,

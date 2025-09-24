@@ -1,5 +1,7 @@
 // ignore: unused_import, unnecessary_import
 
+// ignore_for_file: invalid_annotation_target
+
 // Package imports:
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
@@ -24,6 +26,7 @@ abstract class GithubPullRequestModel with _$GithubPullRequestModel {
   /// Model for managing Github pull requests.
   ///
   /// GithubのPull Requestを管理するためのモデル。
+  @JsonSerializable(explicitToJson: true)
   const factory GithubPullRequestModel({
     int? id,
     String? nodeId,

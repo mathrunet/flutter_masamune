@@ -1014,7 +1014,10 @@ class GithubModelAdapter extends ModelAdapter {
       final issues = github.issues.listByRepo(
         RepositorySlug(organizationId, repositoryId),
       );
-      res = (await issues.map((e) => e).toList()).toMap((e) {
+      res = (await issues.map((e) => e).toList()).where((e) {
+        // Pull Requestを除外する (htmlUrlに"/pull/"が含まれる場合はPull Request)
+        return !e.htmlUrl.contains("/pull/");
+      }).toMap((e) {
         final id = e.uid;
         if (id == null) {
           return null;
