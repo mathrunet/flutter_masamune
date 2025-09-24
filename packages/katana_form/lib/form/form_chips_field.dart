@@ -141,6 +141,7 @@ class FormChipsField<TValue> extends FormField<List<String>> {
     this.obscureText = false,
     this.suggestionStyle,
     this.keepAlive = true,
+    this.includeEditingTextOnSave = false,
     TValue Function(List<String> value)? onSaved,
     String Function(List<String>? value)? validator,
     List<String> super.initialValue = const [],
@@ -295,6 +296,11 @@ class FormChipsField<TValue> extends FormField<List<String>> {
   /// `value`に現在の値が渡されます。
   final void Function(List<String>? value)? onChanged;
 
+  /// If this is `true`, the editing text will be included in the saved value.
+  ///
+  /// これが`true`の場合、編集中のテキストが保存された値に含まれます。
+  final bool includeEditingTextOnSave;
+
   @override
   FormFieldState<List<String>> createState() => _FormChipsField<TValue>();
 }
@@ -302,6 +308,7 @@ class FormChipsField<TValue> extends FormField<List<String>> {
 class _FormChipsField<TValue> extends FormFieldState<List<String>>
     with AutomaticKeepAliveClientMixin<FormField<List<String>>> {
   FocusNode? _focusNode;
+  String? _updatedText;
 
   FocusNode get _effectiveFocusNode {
     if (widget.focusNode == null) {
@@ -348,6 +355,19 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
     if (!_effectiveFocusNode.hasFocus) {
       return;
     }
+  }
+
+  @override
+  void save() {
+    if (widget.includeEditingTextOnSave) {
+      final updatedText = _updatedText;
+      if (updatedText != null && updatedText.isNotEmpty) {
+        widget.onSaved
+            ?.call(List<String>.unmodifiable([...value ?? [], updatedText]));
+        return;
+      }
+    }
+    widget.onSaved?.call(value);
   }
 
   @override
@@ -543,6 +563,12 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
                     );
                     return items;
                   },
+                  onUpdatedText: (updatedText) {
+                    if (updatedText == _updatedText) {
+                      return;
+                    }
+                    _updatedText = updatedText;
+                  },
                   onChanged: (values) {
                     setValue(values);
                     widget.onChanged?.call(values);
@@ -577,6 +603,7 @@ class _ChipsInput<T> extends StatefulWidget {
     required this.suggestionBuilder,
     required this.findSuggestions,
     required this.onChanged,
+    required this.onUpdatedText,
     super.key,
     this.initialValue = const [],
     this.decoration = const InputDecoration(),
@@ -635,6 +662,7 @@ class _ChipsInput<T> extends StatefulWidget {
   final EdgeInsetsGeometry suggestionMargin;
   final Color? suggestionBackgroundColor;
   final Color? suggestionColor;
+  final ValueChanged<String> onUpdatedText;
 
   final TextCapitalization textCapitalization;
 
@@ -984,7 +1012,9 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
       } else {
         _updateTextInputState();
       }
-      _onSearchChanged(_value.normalCharactersText);
+      final updatedText = _value.normalCharactersText;
+      widget.onUpdatedText(updatedText);
+      _onSearchChanged(updatedText);
     }
   }
 
