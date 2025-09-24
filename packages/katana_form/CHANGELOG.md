@@ -1,3 +1,7 @@
+## 3.1.14
+
+ - **FIX**: Modification to allow saving the value being edited in FormChipsField. ([c517bb73](https://github.com/mathrunet/flutter_masamune/commit/c517bb7361c6a676d45e2bc81ccb56f597df7207))
+
 ## 3.1.13
 
  - Update a dependency to the latest release.

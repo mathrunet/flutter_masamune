@@ -1,3 +1,7 @@
+## 3.1.4
+
+ - Update a dependency to the latest release.
+
 ## 3.1.3
 
  - **FIX**: Add ChatGPT5 model. ([7cea4912](https://github.com/mathrunet/flutter_masamune/commit/7cea4912ecc3e5dfb151b17b784c8ba9f4ea85aa))
