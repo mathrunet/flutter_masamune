@@ -132,9 +132,21 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
               child = InteractiveViewer(child: child);
             }
 
+            final backgroundColor = style?.backgroundColor ?? kWhiteColor;
+            final padding = style?.padding ?? EdgeInsets.zero;
+            final contentPadding = style?.contentPadding ?? EdgeInsets.zero;
+
             return FormContainer(
               form: form,
-              style: style,
+              style: style?.copyWith(
+                      backgroundColor: backgroundColor,
+                      padding: padding,
+                      contentPadding: contentPadding) ??
+                  FormStyle(
+                    backgroundColor: backgroundColor,
+                    padding: padding,
+                    contentPadding: contentPadding,
+                  ),
               enabled: enabled,
               alignment: style?.alignment ?? Alignment.topLeft,
               contentPadding: style?.contentPadding ?? EdgeInsets.zero,

@@ -100,7 +100,7 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   }
 
   @override
-  bool get canPaste => throw UnimplementedError();
+  bool get canPaste => false;
 
   @override
   PaintingValue? get currentValue => widget.controller._currentValue;
@@ -226,9 +226,10 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final inlineTools = _currentTool is PainterPrimaryTools
-        ? (_currentTool as PainterPrimaryTools).tools
-        : null;
+    final inlineTools =
+        _currentTool != null && _currentTool is PainterPrimaryTools
+            ? (_currentTool as PainterPrimaryTools).tools
+            : null;
 
     return IconTheme(
       data: IconThemeData(
