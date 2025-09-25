@@ -176,6 +176,20 @@ class RectanglePaintingValue extends PaintingValue {
   }
 
   @override
+  Rect? paint(Canvas canvas) {
+    final rect = Rect.fromPoints(start, end);
+
+    // 四角形を描画
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = width
+      ..style = filled ? PaintingStyle.fill : PaintingStyle.stroke;
+
+    canvas.drawRect(rect, paint);
+    return rect;
+  }
+
+  @override
   RectanglePaintingValue updateOnCreating({
     required Offset startPoint,
     required Offset currentPoint,

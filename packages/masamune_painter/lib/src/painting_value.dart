@@ -118,6 +118,11 @@ abstract class PaintingValue {
     required PainterResizeDirection direction,
   });
 
+  /// Painting the painting value.
+  ///
+  /// 描画用のデータを描画します。
+  Rect? paint(Canvas canvas);
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) {

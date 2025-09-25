@@ -483,23 +483,10 @@ class _RawPainter extends CustomPainter {
   }
 
   void _paintValue(Canvas canvas, PaintingValue value, bool isSelected) {
-    if (value is RectanglePaintingValue) {
-      final rect = Rect.fromPoints(value.start, value.end);
-
-      // 四角形を描画
-      final paint = Paint()
-        ..color = value.color
-        ..strokeWidth = value.width
-        ..style = value.filled ? PaintingStyle.fill : PaintingStyle.stroke;
-
-      canvas.drawRect(rect, paint);
-
-      // 選択状態の場合は選択枠を描画
-      if (isSelected) {
-        _paintSelection(canvas, rect);
-      }
+    final rect = value.paint(canvas);
+    if (isSelected && rect != null) {
+      _paintSelection(canvas, rect);
     }
-    // 他の図形タイプもここに追加可能
   }
 
   void _paintSelection(Canvas canvas, Rect rect) {
