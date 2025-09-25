@@ -8,6 +8,9 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library;
 
+// Dart imports:
+import "dart:math" as math;
+
 // Flutter imports:
 import "package:flutter/material.dart";
 

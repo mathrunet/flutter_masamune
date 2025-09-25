@@ -17,6 +17,8 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
   /// 内部的には`flutter_quill`および`markdown_widget`のパッケージを利用しています。
   const PainterMasamuneAdapter({
     this.defaultCanvasSize = const Size(1024, 1024),
+    this.defaultColor = Colors.black,
+    this.defaultStrokeWidth = 2.0,
     this.defaultPrimaryTools = const [
       SelectPainterPrimaryTools(),
       ShapePainterPrimaryTools(),
@@ -42,6 +44,16 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
   ///
   /// キャンバスのデフォルトサイズ。
   final Size defaultCanvasSize;
+
+  /// The default color for drawing.
+  ///
+  /// 描画用のデフォルトカラー。
+  final Color defaultColor;
+
+  /// The default stroke width for drawing.
+  ///
+  /// 描画用のデフォルトストローク幅。
+  final double defaultStrokeWidth;
 
   /// You can retrieve the [PainterMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

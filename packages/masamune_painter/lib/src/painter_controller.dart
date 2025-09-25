@@ -76,7 +76,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   }
 
   PaintingValue? _currentValue;
-
   final List<PaintingValue> _values = [];
 
   /// Clear the current value.
@@ -84,6 +83,14 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// 現在の値をクリアします。
   void clear() {
     _values.clear();
+    notifyListeners();
+  }
+
+  /// Update the current value for editing.
+  ///
+  /// 編集用の現在値を更新します。
+  void updateCurrentValue(PaintingValue? value) {
+    _currentValue = value;
     notifyListeners();
   }
 }

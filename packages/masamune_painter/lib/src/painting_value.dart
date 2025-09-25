@@ -90,13 +90,6 @@ abstract class PaintingValue {
   /// 描画用のデータの終了点のキー。
   static const String endYKey = "endY";
 
-  Paint get _painter {
-    return Paint()
-      ..color = color
-      ..strokeWidth = width
-      ..style = filled ? PaintingStyle.fill : PaintingStyle.stroke;
-  }
-
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) {
