@@ -307,6 +307,15 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
 
         // 要素の外側をタップした場合は選択解除
         if (!_isPointInSelectionArea(position, rect)) {
+          // 編集中の値を_valuesに反映
+          if (widget.controller._currentValue != null) {
+            final currentValue = widget.controller._currentValue!;
+            final existingIndex = widget.controller._values
+                .indexWhere((v) => v.id == currentValue.id);
+            if (existingIndex >= 0) {
+              widget.controller._values[existingIndex] = currentValue;
+            }
+          }
           widget.controller._currentValue = null;
           setState(() {});
         } else {
@@ -381,9 +390,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   }
 
   void _handlePanEnd(DragEndDetails details) {
-    if (_dragMode == _DragMode.creating &&
-        widget.controller._currentValue != null) {
-      // 新規作成を確定
+    if (widget.controller._currentValue != null) {
       final currentValue = widget.controller._currentValue!;
 
       // すでに存在するIDの場合は更新、そうでなければ追加

@@ -66,8 +66,9 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       if (_currentValue != null && value.id == _currentValue?.id) {
         updating = true;
         res.add(_currentValue!);
+      } else {
+        res.add(value);
       }
-      res.add(value);
     }
     if (!updating) {
       res.add(_currentValue!);
