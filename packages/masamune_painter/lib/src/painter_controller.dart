@@ -46,6 +46,12 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   Size get canvasSize => _canvasSize ?? adapter.defaultCanvasSize;
   final Size? _canvasSize;
 
+  /// The tool currently in use.
+  ///
+  /// 現在使用しているツール。
+  PainterTools? get currentTool => _currentTool;
+  PainterTools? _currentTool;
+
   @override
   PainterMasamuneAdapter get primaryAdapter => PainterMasamuneAdapter.primary;
 
@@ -70,6 +76,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   }
 
   PaintingValue? _currentValue;
+
   final List<PaintingValue> _values = [];
 
   /// Clear the current value.

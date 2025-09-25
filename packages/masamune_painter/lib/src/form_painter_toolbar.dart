@@ -106,20 +106,19 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   PaintingValue? get currentValue => widget.controller._currentValue;
 
   @override
-  PainterTools? get currentTool => _currentTool;
-  PainterTools? _currentTool;
+  PainterTools? get currentTool => widget.controller._currentTool;
 
   @override
   void toggleMode(PainterTools tool) {
     setState(() {
-      _currentTool = tool;
+      widget.controller._currentTool = tool;
     });
   }
 
   @override
   void deleteMode() {
     setState(() {
-      _currentTool = null;
+      widget.controller._currentTool = null;
     });
   }
 
@@ -226,10 +225,10 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final inlineTools =
-        _currentTool != null && _currentTool is PainterPrimaryTools
-            ? (_currentTool as PainterPrimaryTools).tools
-            : null;
+    final inlineTools = widget.controller._currentTool != null &&
+            widget.controller._currentTool is PainterPrimaryTools
+        ? (widget.controller._currentTool as PainterPrimaryTools).tools
+        : null;
 
     return IconTheme(
       data: IconThemeData(
