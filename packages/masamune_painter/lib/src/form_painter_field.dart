@@ -259,7 +259,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
     }
-    if (oldWidget.initialValue != widget.initialValue &&
+    if (!oldWidget.initialValue.equalsTo(widget.initialValue) &&
         widget.initialValue != null) {
       reset();
     }
@@ -311,14 +311,9 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
 
       // 要素の外側をタップした場合は選択解除
       if (!_isPointInSelectionArea(position, rect)) {
-        // 編集中の値を_valuesに反映
-        final existingIndex = widget.controller._values
-            .indexWhere((v) => v.id == currentValue.id);
-        if (existingIndex >= 0) {
-          widget.controller._values[existingIndex] = currentValue;
-        }
+        // unselect()メソッド内で値の保存も行われる
         widget.controller.unselect();
-        setState(() {});
+        // setState(() {});
       } else {
         // リサイズ方向を判定
         _resizeDirection = _getResizeDirection(position, rect);
@@ -357,17 +352,13 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
         startPoint: _dragStartPoint!,
         currentPoint: position,
       );
-      if (updatedValue != widget.controller._currentValue) {
-        widget.controller._currentValue = updatedValue;
-      }
+      widget.controller._currentValue = updatedValue;
       // 移動処理
     } else if (_dragMode == PainterDragMode.moving) {
       final updatedValue = currentValue.updateOnMoving(
         delta: position - (_dragEndPoint ?? position),
       );
-      if (updatedValue != widget.controller._currentValue) {
-        widget.controller._currentValue = updatedValue;
-      }
+      widget.controller._currentValue = updatedValue;
       // リサイズ処理
     } else if (_dragMode == PainterDragMode.resizing) {
       final resizeDirection = _resizeDirection;
@@ -378,9 +369,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
         currentPoint: position,
         direction: resizeDirection,
       );
-      if (updatedValue != widget.controller._currentValue) {
-        widget.controller._currentValue = updatedValue;
-      }
+      widget.controller._currentValue = updatedValue;
     }
     _dragEndPoint = position;
 
@@ -389,20 +378,8 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
 
   // ドラッグ終了時。
   void _handlePanEnd(DragEndDetails details) {
-    final currentValue = _currentValue;
-    if (currentValue != null) {
-      // すでに存在するIDの場合は更新、そうでなければ追加
-      final existingIndex =
-          widget.controller._values.indexWhere((v) => v.id == currentValue.id);
-      if (existingIndex >= 0) {
-        widget.controller._values[existingIndex] = currentValue;
-      } else {
-        widget.controller._values.add(currentValue);
-      }
-
-      // currentValueは選択状態のままにする
-      setState(() {});
-    }
+    // 編集中の値を保存
+    widget.controller.saveCurrentValue();
 
     _isDragging = false;
     _dragMode = PainterDragMode.none;

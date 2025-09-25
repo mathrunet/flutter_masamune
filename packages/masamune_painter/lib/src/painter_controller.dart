@@ -79,10 +79,27 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   PaintingValue? _currentValue;
   final List<PaintingValue> _values = [];
 
+  /// Save the current editing value to values list.
+  ///
+  /// 現在編集中の値を値リストに保存。
+  void saveCurrentValue() {
+    if (_currentValue != null) {
+      final existingIndex =
+          _values.indexWhere((v) => v.id == _currentValue!.id);
+      if (existingIndex >= 0) {
+        _values[existingIndex] = _currentValue!;
+      } else {
+        _values.add(_currentValue!);
+      }
+    }
+  }
+
   /// Deselect.
   ///
   /// 選択解除。
   void unselect() {
+    // 選択解除前に編集中の値を保存
+    saveCurrentValue();
     _currentTool = null;
     _currentValue = null;
     notifyListeners();
