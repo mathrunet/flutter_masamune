@@ -22,5 +22,10 @@ enum PainterDragMode {
   /// Resizing.
   ///
   /// リサイズ中。
-  resizing;
+  resizing,
+  
+  /// Selecting.
+  ///
+  /// 選択中。
+  selecting;
 }

@@ -130,7 +130,9 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
               child: CustomPaint(
                 painter: _RawPainter(
                   values: state.value ?? [],
-                  currentValue: controller._currentValue,
+                  currentValues: controller.currentValues,
+                  dragSelectionRect: controller.dragSelectionRect,
+                  selectionBounds: controller.selectionBounds,
                   dragStartPoint: state._dragStartPoint,
                   dragEndPoint: state._dragEndPoint,
                   isDragging: state._isDragging,
@@ -235,9 +237,6 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     return widget.controller._currentTool;
   }
 
-  PaintingValue? get _currentValue {
-    return widget.controller._currentValue;
-  }
 
   @override
   void initState() {
@@ -288,26 +287,72 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   void _handleTapDown(TapDownDetails details, Size canvasSize) {
     final position = details.localPosition;
     final currentTool = _currentTool;
-    final currentValue = _currentValue;
-
-    // 現在のツールが選択されているときは新規作成
-    if (currentTool != null &&
-        currentTool is PainterVariableInlineTools &&
-        currentValue == null) {
+    
+    // SelectPainterPrimaryToolsが選択されている場合（選択ツール）
+    if (currentTool == null) {
+      // 複数選択時の処理
+      if (widget.controller.hasMultipleSelection) {
+        final bounds = widget.controller.selectionBounds;
+        if (bounds != null) {
+          // リサイズハンドルのチェック
+          final resizeDir = widget.controller.getResizeDirectionAt(position);
+          if (resizeDir != null) {
+            _resizeDirection = resizeDir;
+            _dragMode = PainterDragMode.resizing;
+            _dragStartPoint = position;
+            _isDragging = true;
+            setState(() {});
+            return;
+          }
+          // 選択範囲内のチェック
+          if (bounds.contains(position)) {
+            _dragMode = PainterDragMode.moving;
+            _dragStartPoint = position;
+            _isDragging = true;
+            setState(() {});
+            return;
+          }
+        }
+      }
+      
+      // 既存のオブジェクトをタップしたかチェック
+      final tappedValue = widget.controller.findValueAt(position);
+      if (tappedValue != null) {
+        // 単一のオブジェクトを選択
+        widget.controller.updateCurrentValue(tappedValue);
+        _dragMode = PainterDragMode.moving;
+        _dragStartPoint = position;
+        _isDragging = true;
+        setState(() {});
+      } else {
+        // 何もない場所をタップ - ドラッグ選択開始
+        widget.controller.unselect();
+        _dragStartPoint = position;
+        _dragEndPoint = position;
+        _isDragging = true;
+        _dragMode = PainterDragMode.selecting;
+        setState(() {});
+      }
+    }
+    // ツールが選択されているときは新規作成
+    else if (currentTool is PainterVariableInlineTools &&
+        widget.controller.currentValue == null) {
       // 新しい四角形を作成
       final newValue = currentTool.create(
         color: widget.controller.adapter.defaultColor,
         width: widget.controller.adapter.defaultStrokeWidth,
         point: position,
       );
-      widget.controller._currentValue = newValue;
+      widget.controller.updateCurrentValue(newValue);
       _dragStartPoint = position;
       _dragEndPoint = position;
       _isDragging = true;
       _dragMode = PainterDragMode.creating;
       setState(() {});
-    } else if (currentValue != null) {
-      final rect = currentValue.rect;
+    } 
+    // 単一選択時の処理（後方互換性）
+    else if (widget.controller.currentValue != null) {
+      final rect = widget.controller.currentValue!.rect;
 
       // 要素の外側をタップした場合は選択解除
       if (!_isPointInSelectionArea(position, rect)) {
@@ -335,12 +380,46 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       return;
     }
 
-    final currentValue = _currentValue;
-    if (currentValue == null) {
+    final position = details.localPosition;
+
+    // ドラッグ選択処理
+    if (_dragMode == PainterDragMode.selecting) {
+      final dragStartPoint = _dragStartPoint;
+      if (dragStartPoint == null) {
+        return;
+      }
+      // ドラッグ選択矩形を更新
+      final selectionRect = Rect.fromPoints(dragStartPoint, position);
+      widget.controller.updateDragSelectionRect(selectionRect);
+      _dragEndPoint = position;
+      setState(() {});
+      return;
+    }
+    
+    // 複数選択時の処理
+    if (widget.controller.hasMultipleSelection) {
+      if (_dragMode == PainterDragMode.moving) {
+        final delta = position - (_dragEndPoint ?? position);
+        widget.controller.moveSelectedValues(delta);
+      } else if (_dragMode == PainterDragMode.resizing) {
+        final resizeDirection = _resizeDirection;
+        if (resizeDirection != null) {
+          widget.controller.resizeSelectedValues(
+            currentPoint: position,
+            direction: resizeDirection,
+          );
+        }
+      }
+      _dragEndPoint = position;
+      setState(() {});
       return;
     }
 
-    final position = details.localPosition;
+    // 単一選択時の処理（後方互換性）
+    final currentValue = widget.controller.currentValue;
+    if (currentValue == null) {
+      return;
+    }
 
     // 作成処理
     if (_dragMode == PainterDragMode.creating) {
@@ -349,16 +428,16 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
         return;
       }
       final updatedValue = currentValue.updateOnCreating(
-        startPoint: _dragStartPoint!,
+        startPoint: dragStartPoint,
         currentPoint: position,
       );
-      widget.controller._currentValue = updatedValue;
+      widget.controller.updateCurrentValue(updatedValue);
       // 移動処理
     } else if (_dragMode == PainterDragMode.moving) {
       final updatedValue = currentValue.updateOnMoving(
         delta: position - (_dragEndPoint ?? position),
       );
-      widget.controller._currentValue = updatedValue;
+      widget.controller.updateCurrentValue(updatedValue);
       // リサイズ処理
     } else if (_dragMode == PainterDragMode.resizing) {
       final resizeDirection = _resizeDirection;
@@ -369,7 +448,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
         currentPoint: position,
         direction: resizeDirection,
       );
-      widget.controller._currentValue = updatedValue;
+      widget.controller.updateCurrentValue(updatedValue);
     }
     _dragEndPoint = position;
 
@@ -378,8 +457,14 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
 
   // ドラッグ終了時。
   void _handlePanEnd(DragEndDetails details) {
-    // 編集中の値を保存
-    widget.controller.saveCurrentValue();
+    // ドラッグ選択終了時の処理
+    if (_dragMode == PainterDragMode.selecting) {
+      // ドラッグ選択矩形をクリア
+      widget.controller.dragSelectionRect = null;
+    } else {
+      // 編集中の値を保存
+      widget.controller.saveCurrentValue();
+    }
 
     _isDragging = false;
     _dragMode = PainterDragMode.none;
@@ -447,14 +532,18 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
 class _RawPainter extends CustomPainter {
   _RawPainter({
     required this.values,
-    this.currentValue,
+    required this.currentValues,
+    this.dragSelectionRect,
+    this.selectionBounds,
     this.dragStartPoint,
     this.dragEndPoint,
     this.isDragging = false,
   });
 
   final List<PaintingValue> values;
-  final PaintingValue? currentValue;
+  final List<PaintingValue> currentValues;
+  final Rect? dragSelectionRect;
+  final Rect? selectionBounds;
   final Offset? dragStartPoint;
   final Offset? dragEndPoint;
   final bool isDragging;
@@ -467,26 +556,53 @@ class _RawPainter extends CustomPainter {
       Paint()..color = Colors.white,
     );
 
+    // 現在選択中のIDのセットを作成
+    final selectedIds = currentValues.map((v) => v.id).toSet();
+
     // 既存の値を描画
     for (final value in values) {
-      // currentValueと同じIDの場合はスキップ（後で描画）
-      if (currentValue != null && value.id == currentValue!.id) {
+      // 選択中の値はスキップ（後で描画）
+      if (selectedIds.contains(value.id)) {
         continue;
       }
       _paintValue(canvas, value, false);
     }
 
-    // currentValueを描画（選択状態または作成中）
-    if (currentValue != null) {
-      _paintValue(canvas, currentValue!, true);
+    // 選択中の値を描画
+    for (final value in currentValues) {
+      _paintValue(canvas, value, true);
+    }
+
+    // ドラッグ選択矩形を描画
+    if (dragSelectionRect != null) {
+      final paint = Paint()
+        ..color = Colors.blue.withValues(alpha: 0.2)
+        ..style = PaintingStyle.fill;
+      canvas.drawRect(dragSelectionRect!, paint);
+      
+      final borderPaint = Paint()
+        ..color = Colors.blue
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.0;
+      canvas.drawRect(dragSelectionRect!, borderPaint);
+    }
+
+    // 複数選択時の選択範囲を描画
+    if (currentValues.length > 1 && selectionBounds != null) {
+      _paintSelectionBounds(canvas, selectionBounds!);
     }
   }
 
   void _paintValue(Canvas canvas, PaintingValue value, bool isSelected) {
     final rect = value.paint(canvas);
-    if (isSelected && rect != null) {
+    if (isSelected && rect != null && currentValues.length <= 1) {
       _paintSelection(canvas, rect);
     }
+  }
+  
+  void _paintSelectionBounds(Canvas canvas, Rect bounds) {
+    // 複数選択時の境界枠を描画
+    _paintSelection(canvas, bounds);
   }
 
   void _paintSelection(Canvas canvas, Rect rect) {
@@ -563,7 +679,9 @@ class _RawPainter extends CustomPainter {
   bool shouldRepaint(_RawPainter oldDelegate) {
     return oldDelegate.values.length != values.length ||
         !oldDelegate.values.equalsTo(values) ||
-        oldDelegate.currentValue != currentValue ||
+        !oldDelegate.currentValues.equalsTo(currentValues) ||
+        oldDelegate.dragSelectionRect != dragSelectionRect ||
+        oldDelegate.selectionBounds != selectionBounds ||
         oldDelegate.dragStartPoint != dragStartPoint ||
         oldDelegate.dragEndPoint != dragEndPoint ||
         oldDelegate.isDragging != isDragging;

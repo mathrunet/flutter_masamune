@@ -103,7 +103,7 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   bool get canPaste => false;
 
   @override
-  PaintingValue? get currentValue => widget.controller._currentValue;
+  PaintingValue? get currentValue => widget.controller.currentValue;
 
   @override
   PainterTools? get currentTool => widget.controller._currentTool;
