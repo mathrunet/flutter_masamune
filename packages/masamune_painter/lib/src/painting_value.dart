@@ -25,6 +25,11 @@ abstract class PaintingValue {
   /// 描画用のデータをJSONオブジェクトに変換します。
   DynamicMap toJson();
 
+  /// Object's area (rectangle).
+  ///
+  /// オブジェクトのエリア（四角）。
+  Rect get rect;
+
   /// The id of the painting value.
   ///
   /// 描画用のデータのID。
@@ -89,6 +94,29 @@ abstract class PaintingValue {
   ///
   /// 描画用のデータの終了点のキー。
   static const String endYKey = "endY";
+
+  /// Updating data being created (while dragging).
+  ///
+  /// 作成中（ドラッグ中）のデータの更新をします。
+  PaintingValue updateOnCreating({
+    required Offset startPoint,
+    required Offset currentPoint,
+  });
+
+  /// Updating data being moved (while dragging).
+  ///
+  /// 移動中（ドラッグ中）のデータの更新をします。
+  PaintingValue updateOnMoving({
+    required Offset delta,
+  });
+
+  /// Updating data being resized (while dragging).
+  ///
+  /// リサイズ中（ドラッグ中）のデータの更新をします。
+  PaintingValue updateOnResizing({
+    required Offset currentPoint,
+    required PainterResizeDirection direction,
+  });
 
   @override
   bool operator ==(Object other) {

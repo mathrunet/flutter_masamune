@@ -156,6 +156,11 @@ class RectanglePaintingValue extends PaintingValue {
   String get type => "__painter_shape_rectangle__";
 
   @override
+  Rect get rect {
+    return Rect.fromPoints(start, end);
+  }
+
+  @override
   DynamicMap toJson() {
     return {
       PaintingValue.typeKey: type,
@@ -168,5 +173,129 @@ class RectanglePaintingValue extends PaintingValue {
       PaintingValue.endXKey: end.dx,
       PaintingValue.endYKey: end.dy,
     };
+  }
+
+  @override
+  RectanglePaintingValue updateOnCreating({
+    required Offset startPoint,
+    required Offset currentPoint,
+  }) {
+    return RectanglePaintingValue(
+      id: id,
+      color: color,
+      width: width,
+      start: startPoint,
+      end: currentPoint,
+    );
+  }
+
+  @override
+  PaintingValue updateOnMoving({required Offset delta}) {
+    return RectanglePaintingValue(
+      id: id,
+      color: color,
+      width: width,
+      start: start + delta,
+      end: end + delta,
+    );
+  }
+
+  @override
+  PaintingValue updateOnResizing({
+    required Offset currentPoint,
+    required PainterResizeDirection direction,
+  }) {
+    var newStart = start;
+    var newEnd = end;
+
+    switch (direction) {
+      case PainterResizeDirection.topLeft:
+        // 右下を固定点として、左上をドラッグ
+        final currentRect = rect;
+        final aspectRatio = currentRect.width / currentRect.height;
+        final fixedPoint = Offset(currentRect.right, currentRect.bottom);
+        final newWidth = (fixedPoint.dx - currentPoint.dx).abs();
+        final newHeight = newWidth / aspectRatio;
+        newStart = Offset(
+          fixedPoint.dx - newWidth,
+          fixedPoint.dy - newHeight,
+        );
+        newEnd = fixedPoint;
+        break;
+      case PainterResizeDirection.topRight:
+        // 左下を固定点として、右上をドラッグ
+        final currentRect = rect;
+        final aspectRatio = currentRect.width / currentRect.height;
+        final fixedPoint = Offset(currentRect.left, currentRect.bottom);
+        final newWidth = (currentPoint.dx - fixedPoint.dx).abs();
+        final newHeight = newWidth / aspectRatio;
+        newStart = fixedPoint;
+        newEnd = Offset(
+          fixedPoint.dx + newWidth,
+          fixedPoint.dy - newHeight,
+        );
+        break;
+      case PainterResizeDirection.bottomLeft:
+        // 右上を固定点として、左下をドラッグ
+        final currentRect = rect;
+        final aspectRatio = currentRect.width / currentRect.height;
+        final fixedPoint = Offset(currentRect.right, currentRect.top);
+        final newWidth = (fixedPoint.dx - currentPoint.dx).abs();
+        final newHeight = newWidth / aspectRatio;
+        newStart = Offset(
+          fixedPoint.dx - newWidth,
+          fixedPoint.dy,
+        );
+        newEnd = Offset(
+          fixedPoint.dx,
+          fixedPoint.dy + newHeight,
+        );
+        break;
+      case PainterResizeDirection.bottomRight:
+        // 左上を固定点として、右下をドラッグ
+        final currentRect = rect;
+        final aspectRatio = currentRect.width / currentRect.height;
+        final fixedPoint = Offset(currentRect.left, currentRect.top);
+        final newWidth = (currentPoint.dx - fixedPoint.dx).abs();
+        final newHeight = newWidth / aspectRatio;
+        newStart = fixedPoint;
+        newEnd = Offset(
+          fixedPoint.dx + newWidth,
+          fixedPoint.dy + newHeight,
+        );
+        break;
+      case PainterResizeDirection.left:
+        // 左辺をドラッグ（右辺は固定）
+        final currentRect = rect;
+        newStart = Offset(currentPoint.dx, currentRect.top);
+        newEnd = Offset(currentRect.right, currentRect.bottom);
+        break;
+      case PainterResizeDirection.right:
+        // 右辺をドラッグ（左辺は固定）
+        final currentRect = rect;
+        newStart = Offset(currentRect.left, currentRect.top);
+        newEnd = Offset(currentPoint.dx, currentRect.bottom);
+        break;
+      case PainterResizeDirection.top:
+        // 上辺をドラッグ（下辺は固定）
+        final currentRect = rect;
+        newStart = Offset(currentRect.left, currentPoint.dy);
+        newEnd = Offset(currentRect.right, currentRect.bottom);
+        break;
+      case PainterResizeDirection.bottom:
+        // 下辺をドラッグ（上辺は固定）
+        final currentRect = rect;
+        newStart = Offset(currentRect.left, currentRect.top);
+        newEnd = Offset(currentRect.right, currentPoint.dy);
+        break;
+    }
+
+    return RectanglePaintingValue(
+      id: id,
+      color: color,
+      width: width,
+      start: newStart,
+      end: newEnd,
+    );
   }
 }

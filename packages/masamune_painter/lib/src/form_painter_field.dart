@@ -123,9 +123,6 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
               onTapDown: (enabled && !readOnly)
                   ? (details) => state._handleTapDown(details, canvasSize)
                   : null,
-              onPanStart: (enabled && !readOnly)
-                  ? (details) => state._handlePanStart(details, canvasSize)
-                  : null,
               onPanUpdate: (enabled && !readOnly)
                   ? (details) => state._handlePanUpdate(details, canvasSize)
                   : null,
@@ -231,8 +228,16 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   Offset? _dragStartPoint;
   Offset? _dragEndPoint;
   bool _isDragging = false;
-  _DragMode _dragMode = _DragMode.none;
-  _ResizeDirection? _resizeDirection;
+  PainterDragMode _dragMode = PainterDragMode.none;
+  PainterResizeDirection? _resizeDirection;
+
+  PainterTools? get _currentTool {
+    return widget.controller._currentTool;
+  }
+
+  PaintingValue? get _currentValue {
+    return widget.controller._currentValue;
+  }
 
   @override
   void initState() {
@@ -279,16 +284,18 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     super.reset();
   }
 
+  // タップ開始時。
   void _handleTapDown(TapDownDetails details, Size canvasSize) {
     final position = details.localPosition;
+    final currentTool = _currentTool;
+    final currentValue = _currentValue;
 
-    // 現在のツールがRectangleShapeで、currentValueがnullの場合のみ新規作成
-    if (widget.controller._currentTool is RectangleShapePainterInlineTools &&
-        widget.controller._currentValue == null) {
+    // 現在のツールが選択されているときは新規作成
+    if (currentTool != null &&
+        currentTool is PainterVariableInlineTools &&
+        currentValue == null) {
       // 新しい四角形を作成
-      final tool =
-          widget.controller._currentTool as RectangleShapePainterInlineTools;
-      final newValue = tool.create(
+      final newValue = currentTool.create(
         color: widget.controller.adapter.defaultColor,
         width: widget.controller.adapter.defaultStrokeWidth,
         point: position,
@@ -297,91 +304,82 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       _dragStartPoint = position;
       _dragEndPoint = position;
       _isDragging = true;
-      _dragMode = _DragMode.creating;
+      _dragMode = PainterDragMode.creating;
       setState(() {});
-    } else if (widget.controller._currentValue != null) {
-      // 既存の要素の選択や編集
-      final currentValue = widget.controller._currentValue;
-      if (currentValue is RectanglePaintingValue) {
-        final rect = _getRectFromValue(currentValue);
+    } else if (currentValue != null) {
+      final rect = currentValue.rect;
 
-        // 要素の外側をタップした場合は選択解除
-        if (!_isPointInSelectionArea(position, rect)) {
-          // 編集中の値を_valuesに反映
-          if (widget.controller._currentValue != null) {
-            final currentValue = widget.controller._currentValue!;
-            final existingIndex = widget.controller._values
-                .indexWhere((v) => v.id == currentValue.id);
-            if (existingIndex >= 0) {
-              widget.controller._values[existingIndex] = currentValue;
-            }
-          }
-          widget.controller._currentValue = null;
-          setState(() {});
-        } else {
-          // リサイズ方向を判定
-          _resizeDirection = _getResizeDirection(position, rect);
-          if (_resizeDirection != null) {
-            _dragMode = _DragMode.resizing;
-          } else if (rect.contains(position)) {
-            _dragMode = _DragMode.moving;
-          }
-          _dragStartPoint = position;
-          _isDragging = true;
-          setState(() {});
+      // 要素の外側をタップした場合は選択解除
+      if (!_isPointInSelectionArea(position, rect)) {
+        // 編集中の値を_valuesに反映
+        final existingIndex = widget.controller._values
+            .indexWhere((v) => v.id == currentValue.id);
+        if (existingIndex >= 0) {
+          widget.controller._values[existingIndex] = currentValue;
         }
+        widget.controller.unselect();
+        setState(() {});
+      } else {
+        // リサイズ方向を判定
+        _resizeDirection = _getResizeDirection(position, rect);
+        if (_resizeDirection != null) {
+          _dragMode = PainterDragMode.resizing;
+        } else if (rect.contains(position)) {
+          _dragMode = PainterDragMode.moving;
+        }
+        _dragStartPoint = position;
+        _isDragging = true;
+        setState(() {});
       }
     }
   }
 
-  void _handlePanStart(DragStartDetails details, Size canvasSize) {
-    // タップダウンで処理済みなので、特に追加処理なし
-  }
-
+  // ドラッグ中。
   void _handlePanUpdate(DragUpdateDetails details, Size canvasSize) {
     if (!_isDragging) {
       return;
     }
 
+    final currentValue = _currentValue;
+    if (currentValue == null) {
+      return;
+    }
+
     final position = details.localPosition;
 
-    if (_dragMode == _DragMode.creating) {
-      // 新規作成中の四角形をアップデート
-      if (widget.controller._currentValue is RectanglePaintingValue) {
-        final currentValue =
-            widget.controller._currentValue as RectanglePaintingValue;
-        widget.controller._currentValue = RectanglePaintingValue(
-          id: currentValue.id,
-          color: currentValue.color,
-          width: currentValue.width,
-          start: _dragStartPoint!,
-          end: position,
-        );
+    // 作成処理
+    if (_dragMode == PainterDragMode.creating) {
+      final dragStartPoint = _dragStartPoint;
+      if (dragStartPoint == null) {
+        return;
       }
-    } else if (_dragMode == _DragMode.moving &&
-        widget.controller._currentValue != null) {
-      // 要素を移動
-      if (widget.controller._currentValue is RectanglePaintingValue) {
-        final currentValue =
-            widget.controller._currentValue as RectanglePaintingValue;
-        final delta = position - (_dragEndPoint ?? position);
-        widget.controller._currentValue = RectanglePaintingValue(
-          id: currentValue.id,
-          color: currentValue.color,
-          width: currentValue.width,
-          start: currentValue.start + delta,
-          end: currentValue.end + delta,
-        );
+      final updatedValue = currentValue.updateOnCreating(
+        startPoint: _dragStartPoint!,
+        currentPoint: position,
+      );
+      if (updatedValue != widget.controller._currentValue) {
+        widget.controller._currentValue = updatedValue;
       }
-    } else if (_dragMode == _DragMode.resizing &&
-        widget.controller._currentValue != null) {
+      // 移動処理
+    } else if (_dragMode == PainterDragMode.moving) {
+      final updatedValue = currentValue.updateOnMoving(
+        delta: position - (_dragEndPoint ?? position),
+      );
+      if (updatedValue != widget.controller._currentValue) {
+        widget.controller._currentValue = updatedValue;
+      }
       // リサイズ処理
-      if (widget.controller._currentValue is RectanglePaintingValue) {
-        final currentValue =
-            widget.controller._currentValue as RectanglePaintingValue;
-        final newValue =
-            _getResizedValue(currentValue, position, _resizeDirection!);
-        widget.controller._currentValue = newValue;
+    } else if (_dragMode == PainterDragMode.resizing) {
+      final resizeDirection = _resizeDirection;
+      if (resizeDirection == null) {
+        return;
+      }
+      final updatedValue = currentValue.updateOnResizing(
+        currentPoint: position,
+        direction: resizeDirection,
+      );
+      if (updatedValue != widget.controller._currentValue) {
+        widget.controller._currentValue = updatedValue;
       }
     }
     _dragEndPoint = position;
@@ -389,10 +387,10 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     setState(() {});
   }
 
+  // ドラッグ終了時。
   void _handlePanEnd(DragEndDetails details) {
-    if (widget.controller._currentValue != null) {
-      final currentValue = widget.controller._currentValue!;
-
+    final currentValue = _currentValue;
+    if (currentValue != null) {
       // すでに存在するIDの場合は更新、そうでなければ追加
       final existingIndex =
           widget.controller._values.indexWhere((v) => v.id == currentValue.id);
@@ -407,15 +405,11 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     }
 
     _isDragging = false;
-    _dragMode = _DragMode.none;
+    _dragMode = PainterDragMode.none;
     _dragStartPoint = null;
     _dragEndPoint = null;
     _resizeDirection = null;
     setState(() {});
-  }
-
-  Rect _getRectFromValue(RectanglePaintingValue value) {
-    return Rect.fromPoints(value.start, value.end);
   }
 
   bool _isPointInSelectionArea(Offset point, Rect rect) {
@@ -424,145 +418,46 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     return expandedRect.contains(point);
   }
 
-  _ResizeDirection? _getResizeDirection(Offset point, Rect rect) {
+  PainterResizeDirection? _getResizeDirection(Offset point, Rect rect) {
     const handleSize = 10.0;
 
     // 角のハンドル
     if ((point - rect.topLeft).distance <= handleSize) {
-      return _ResizeDirection.topLeft;
+      return PainterResizeDirection.topLeft;
     }
     if ((point - rect.topRight).distance <= handleSize) {
-      return _ResizeDirection.topRight;
+      return PainterResizeDirection.topRight;
     }
     if ((point - rect.bottomLeft).distance <= handleSize) {
-      return _ResizeDirection.bottomLeft;
+      return PainterResizeDirection.bottomLeft;
     }
     if ((point - rect.bottomRight).distance <= handleSize) {
-      return _ResizeDirection.bottomRight;
+      return PainterResizeDirection.bottomRight;
     }
 
     // 辺のハンドル
     if ((point.dx - rect.left).abs() <= handleSize &&
         point.dy >= rect.top &&
         point.dy <= rect.bottom) {
-      return _ResizeDirection.left;
+      return PainterResizeDirection.left;
     }
     if ((point.dx - rect.right).abs() <= handleSize &&
         point.dy >= rect.top &&
         point.dy <= rect.bottom) {
-      return _ResizeDirection.right;
+      return PainterResizeDirection.right;
     }
     if ((point.dy - rect.top).abs() <= handleSize &&
         point.dx >= rect.left &&
         point.dx <= rect.right) {
-      return _ResizeDirection.top;
+      return PainterResizeDirection.top;
     }
     if ((point.dy - rect.bottom).abs() <= handleSize &&
         point.dx >= rect.left &&
         point.dx <= rect.right) {
-      return _ResizeDirection.bottom;
+      return PainterResizeDirection.bottom;
     }
 
     return null;
-  }
-
-  RectanglePaintingValue _getResizedValue(
-    RectanglePaintingValue value,
-    Offset newPoint,
-    _ResizeDirection direction,
-  ) {
-    Offset newStart = value.start;
-    Offset newEnd = value.end;
-
-    switch (direction) {
-      case _ResizeDirection.topLeft:
-        // 右下を固定点として、左上をドラッグ
-        final currentRect = _getRectFromValue(value);
-        final aspectRatio = currentRect.width / currentRect.height;
-        final fixedPoint = Offset(currentRect.right, currentRect.bottom);
-        final newWidth = (fixedPoint.dx - newPoint.dx).abs();
-        final newHeight = newWidth / aspectRatio;
-        newStart = Offset(
-          fixedPoint.dx - newWidth,
-          fixedPoint.dy - newHeight,
-        );
-        newEnd = fixedPoint;
-        break;
-      case _ResizeDirection.topRight:
-        // 左下を固定点として、右上をドラッグ
-        final currentRect = _getRectFromValue(value);
-        final aspectRatio = currentRect.width / currentRect.height;
-        final fixedPoint = Offset(currentRect.left, currentRect.bottom);
-        final newWidth = (newPoint.dx - fixedPoint.dx).abs();
-        final newHeight = newWidth / aspectRatio;
-        newStart = fixedPoint;
-        newEnd = Offset(
-          fixedPoint.dx + newWidth,
-          fixedPoint.dy - newHeight,
-        );
-        break;
-      case _ResizeDirection.bottomLeft:
-        // 右上を固定点として、左下をドラッグ
-        final currentRect = _getRectFromValue(value);
-        final aspectRatio = currentRect.width / currentRect.height;
-        final fixedPoint = Offset(currentRect.right, currentRect.top);
-        final newWidth = (fixedPoint.dx - newPoint.dx).abs();
-        final newHeight = newWidth / aspectRatio;
-        newStart = Offset(
-          fixedPoint.dx - newWidth,
-          fixedPoint.dy,
-        );
-        newEnd = Offset(
-          fixedPoint.dx,
-          fixedPoint.dy + newHeight,
-        );
-        break;
-      case _ResizeDirection.bottomRight:
-        // 左上を固定点として、右下をドラッグ
-        final currentRect = _getRectFromValue(value);
-        final aspectRatio = currentRect.width / currentRect.height;
-        final fixedPoint = Offset(currentRect.left, currentRect.top);
-        final newWidth = (newPoint.dx - fixedPoint.dx).abs();
-        final newHeight = newWidth / aspectRatio;
-        newStart = fixedPoint;
-        newEnd = Offset(
-          fixedPoint.dx + newWidth,
-          fixedPoint.dy + newHeight,
-        );
-        break;
-      case _ResizeDirection.left:
-        // 左辺をドラッグ（右辺は固定）
-        final currentRect = _getRectFromValue(value);
-        newStart = Offset(newPoint.dx, currentRect.top);
-        newEnd = Offset(currentRect.right, currentRect.bottom);
-        break;
-      case _ResizeDirection.right:
-        // 右辺をドラッグ（左辺は固定）
-        final currentRect = _getRectFromValue(value);
-        newStart = Offset(currentRect.left, currentRect.top);
-        newEnd = Offset(newPoint.dx, currentRect.bottom);
-        break;
-      case _ResizeDirection.top:
-        // 上辺をドラッグ（下辺は固定）
-        final currentRect = _getRectFromValue(value);
-        newStart = Offset(currentRect.left, newPoint.dy);
-        newEnd = Offset(currentRect.right, currentRect.bottom);
-        break;
-      case _ResizeDirection.bottom:
-        // 下辺をドラッグ（上辺は固定）
-        final currentRect = _getRectFromValue(value);
-        newStart = Offset(currentRect.left, currentRect.top);
-        newEnd = Offset(currentRect.right, newPoint.dy);
-        break;
-    }
-
-    return RectanglePaintingValue(
-      id: value.id,
-      color: value.color,
-      width: value.width,
-      start: newStart,
-      end: newEnd,
-    );
   }
 
   @override
@@ -570,26 +465,6 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     super.build(context);
     return widget.builder(this);
   }
-}
-
-// ドラッグモードの列挙型
-enum _DragMode {
-  none,
-  creating,
-  moving,
-  resizing,
-}
-
-// リサイズ方向の列挙型
-enum _ResizeDirection {
-  topLeft,
-  topRight,
-  bottomLeft,
-  bottomRight,
-  left,
-  right,
-  top,
-  bottom,
 }
 
 class _RawPainter extends CustomPainter {

@@ -24,6 +24,8 @@ part "src/painter_controller.dart";
 part "src/form_painter_field.dart";
 part "src/form_painter_toolbar.dart";
 part "src/painting_value.dart";
+part "src/painter_drag_mode.dart";
+part "src/painter_resize_direction.dart";
 part "src/painter_tools.dart";
 
 part "tools/primary/select_painter_primary_tools.dart";

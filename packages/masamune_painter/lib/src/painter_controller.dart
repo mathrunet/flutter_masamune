@@ -79,6 +79,15 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   PaintingValue? _currentValue;
   final List<PaintingValue> _values = [];
 
+  /// Deselect.
+  ///
+  /// 選択解除。
+  void unselect() {
+    _currentTool = null;
+    _currentValue = null;
+    notifyListeners();
+  }
+
   /// Clear the current value.
   ///
   /// 現在の値をクリアします。
