@@ -145,6 +145,7 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
                   dragStartPoint: state._dragStartPoint,
                   dragEndPoint: state._dragEndPoint,
                   isDragging: state._isDragging,
+                  actualCanvasSize: controller.canvasSize,
                 ),
                 size: canvasSize,
               ),
@@ -154,7 +155,8 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
               child = InteractiveViewer(child: child);
             }
 
-            final backgroundColor = style?.backgroundColor ?? kWhiteColor;
+            final backgroundColor =
+                style?.backgroundColor ?? Colors.grey.shade300;
             final padding = style?.padding ?? EdgeInsets.zero;
             final contentPadding = style?.contentPadding ?? EdgeInsets.zero;
 
@@ -595,6 +597,7 @@ class _RawPainter extends CustomPainter {
   _RawPainter({
     required this.values,
     required this.currentValues,
+    required this.actualCanvasSize,
     this.dragSelectionRect,
     this.selectionBounds,
     this.dragStartPoint,
@@ -609,14 +612,28 @@ class _RawPainter extends CustomPainter {
   final Offset? dragStartPoint;
   final Offset? dragEndPoint;
   final bool isDragging;
+  final Size actualCanvasSize;
 
   @override
   void paint(Canvas canvas, Size size) {
-    // 背景を白で塗りつぶす
-    canvas.drawRect(
-      Rect.fromLTWH(0, 0, size.width, size.height),
-      Paint()..color = Colors.white,
-    );
+    // キャンバス領域を白で塗りつぶす
+    final canvasRect =
+        Rect.fromLTWH(0, 0, actualCanvasSize.width, actualCanvasSize.height);
+    if (canvasRect.width > 0 && canvasRect.height > 0) {
+      canvas.drawRect(
+        canvasRect,
+        Paint()..color = Colors.white,
+      );
+
+      // キャンバスの境界線を描画
+      canvas.drawRect(
+        canvasRect,
+        Paint()
+          ..color = Colors.grey.shade600
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.0,
+      );
+    }
 
     // 現在選択中のIDのセットを作成
     final selectedIds = currentValues.map((v) => v.id).toSet();
@@ -746,6 +763,7 @@ class _RawPainter extends CustomPainter {
         oldDelegate.selectionBounds != selectionBounds ||
         oldDelegate.dragStartPoint != dragStartPoint ||
         oldDelegate.dragEndPoint != dragEndPoint ||
-        oldDelegate.isDragging != isDragging;
+        oldDelegate.isDragging != isDragging ||
+        oldDelegate.actualCanvasSize != actualCanvasSize;
   }
 }

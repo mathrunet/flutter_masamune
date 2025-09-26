@@ -44,13 +44,24 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   ///
   /// キャンバスのサイズ。
   Size get canvasSize => _canvasSize ?? adapter.defaultCanvasSize;
-  final Size? _canvasSize;
+  Size? _canvasSize;
 
   /// The tool currently in use.
   ///
   /// 現在使用しているツール。
   PainterTools? get currentTool => _currentTool;
   PainterTools? _currentTool;
+
+  /// Set the canvas size.
+  ///
+  /// キャンバスサイズを設定します。
+  void setCanvasSize(Size size) {
+    if (_canvasSize == size) {
+      return;
+    }
+    _canvasSize = size;
+    notifyListeners();
+  }
 
   @override
   PainterMasamuneAdapter get primaryAdapter => PainterMasamuneAdapter.primary;
