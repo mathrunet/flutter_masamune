@@ -121,12 +121,21 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
             // GestureDetectorでラップしてドラッグ操作を可能にする
             Widget child = GestureDetector(
               onTapDown: (enabled && !readOnly)
-                  ? (details) => state._handleTapDown(details, canvasSize)
+                  ? (details) =>
+                      state._handledOnTapDown(details.localPosition, canvasSize)
+                  : null,
+              onTapUp: (enabled && !readOnly)
+                  ? (details) =>
+                      state._handledOnTapUp(details.localPosition, canvasSize)
                   : null,
               onPanUpdate: (enabled && !readOnly)
-                  ? (details) => state._handlePanUpdate(details, canvasSize)
+                  ? (details) => state._handledOnDragging(
+                      details.localPosition, canvasSize)
                   : null,
-              onPanEnd: (enabled && !readOnly) ? state._handlePanEnd : null,
+              onPanEnd: (enabled && !readOnly)
+                  ? (details) =>
+                      state._handledOnDragEnd(details.localPosition, canvasSize)
+                  : null,
               child: CustomPaint(
                 painter: _RawPainter(
                   values: state.value ?? [],
@@ -238,10 +247,6 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     return widget.controller._currentTool;
   }
 
-  List<PaintingValue> get _currentValues {
-    return widget.controller.currentValues;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -288,112 +293,76 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   }
 
   // タップ開始時。
-  void _handleTapDown(TapDownDetails details, Size canvasSize) {
+  void _handledOnTapDown(Offset position, Size canvasSize) {
     _isDragStarted = false;
-    final position = details.localPosition;
+    _handledOnDragStart(position, canvasSize);
+  }
+
+  // タップ終了時。
+  void _handledOnTapUp(Offset position, Size canvasSize) {
+    _isDragging = false;
+    _isDragStarted = false;
+    _dragMode = PainterDragMode.none;
+    _dragStartPoint = null;
+    _dragEndPoint = null;
+    _resizeDirection = null;
+  }
+
+  // ドラッグ開始時。
+  void _handledOnDragStart(Offset position, Size canvasSize) {
     final currentTool = _currentTool;
-    final currentValues = _currentValues;
 
-    // SelectPainterPrimaryToolsが選択されている場合（選択ツール）
-    if (currentTool == null && currentValues.isEmpty) {
-      // 複数選択時の処理
-      if (widget.controller.hasMultipleSelection) {
-        final bounds = widget.controller.selectionBounds;
-        if (bounds != null) {
-          // リサイズハンドルのチェック
-          final resizeDir = widget.controller.getResizeDirectionAt(position);
-          if (resizeDir != null) {
-            _resizeDirection = resizeDir;
-            _dragMode = PainterDragMode.resizing;
-            _dragStartPoint = position;
-            _isDragging = true;
-            setState(() {});
-            return;
-          }
-          // 選択範囲内のチェック（マージンを考慮）
-          // 選択範囲内であれば、その位置に他のオブジェクトがあっても移動モードにする
-          if (_isPointInSelectionArea(position, bounds)) {
-            _dragMode = PainterDragMode.moving;
-            _dragStartPoint = position;
-            _isDragging = true;
-            setState(() {});
-            return;
-          }
-        }
-      }
-
-      // 複数選択中でない場合のみ、既存のオブジェクトをチェック
-      // 複数選択中で選択範囲外をクリックした場合は、ドラッグ選択を開始
-      if (!widget.controller.hasMultipleSelection) {
-        // 既存のオブジェクトをタップしたかチェック
-        final tappedValue = widget.controller.findValueAt(position);
-        if (tappedValue != null) {
-          // 単一のオブジェクトを選択
-          widget.controller.updateCurrentValue(tappedValue);
-          _dragMode = PainterDragMode.moving;
-          _dragStartPoint = position;
-          _isDragging = true;
-          setState(() {});
+    // 複数選択時の処理
+    if (widget.controller.hasMultipleSelection) {
+      debugPrint("hasMultipleSelection");
+      final bounds = widget.controller.selectionBounds;
+      if (bounds != null) {
+        if (_editingStart(
+          position: position,
+          rect: bounds,
+        )) {
           return;
         }
       }
-
-      // 何もない場所をタップ、または複数選択中で選択範囲外をタップ - ドラッグ選択開始
-      widget.controller.unselect();
-      _dragStartPoint = position;
-      _dragEndPoint = position;
-      _isDragging = true;
-      _dragMode = PainterDragMode.selecting;
-      setState(() {});
-    }
-    // ツールが選択されているときは新規作成
-    else if (currentTool is PainterVariableInlineTools &&
-        widget.controller.currentValue == null) {
-      // 新しい四角形を作成
-      final newValue = currentTool.create(
-        color: widget.controller.adapter.defaultColor,
-        width: widget.controller.adapter.defaultStrokeWidth,
-        point: position,
+      _selectingStart(
+        position: position,
       );
-      widget.controller.updateCurrentValue(newValue);
-      _dragStartPoint = position;
-      _dragEndPoint = position;
-      _isDragging = true;
-      _dragMode = PainterDragMode.creating;
-      setState(() {});
-    }
-    // 単一選択時の処理（後方互換性）
-    else if (widget.controller.currentValue != null) {
-      final rect = widget.controller.currentValue!.rect;
-
-      // 要素の外側をタップした場合は選択解除
-      if (!_isPointInSelectionArea(position, rect)) {
-        // unselect()メソッド内で値の保存も行われる
-        widget.controller.unselect();
-        // setState(() {});
-      } else {
-        // リサイズ方向を判定
-        _resizeDirection = _getResizeDirection(position, rect);
-        if (_resizeDirection != null) {
-          _dragMode = PainterDragMode.resizing;
-        } else if (rect.contains(position)) {
-          _dragMode = PainterDragMode.moving;
-        }
-        _dragStartPoint = position;
-        _isDragging = true;
-        setState(() {});
+      // 選択されている場合
+    } else if (widget.controller.currentValues.isNotEmpty) {
+      final currentValue = widget.controller.currentValues.first;
+      final rect = currentValue.rect;
+      if (_editingStart(
+        position: position,
+        rect: rect,
+      )) {
+        return;
       }
+      _selectingStart(
+        position: position,
+      );
+      // 複数選択中でない場合のみ、既存のオブジェクトをチェック
+      // 複数選択中で選択範囲外をクリックした場合は、ドラッグ選択を開始
+    } else if (currentTool == null) {
+      _selectingStart(
+        position: position,
+      );
+      // ツールが選択されているときは新規作成
+    } else if (currentTool is PainterVariableInlineTools &&
+        widget.controller.currentValues.isEmpty) {
+      _creatingStart(
+        position: position,
+        currentTool: currentTool,
+      );
     }
   }
 
   // ドラッグ中。
-  void _handlePanUpdate(DragUpdateDetails details, Size canvasSize) {
+  void _handledOnDragging(Offset position, Size canvasSize) {
+    _isDragStarted = true;
     if (!_isDragging) {
+      _handledOnDragStart(position, canvasSize);
       return;
     }
-
-    _isDragStarted = true;
-    final position = details.localPosition;
 
     // ドラッグ選択処理
     if (_dragMode == PainterDragMode.selecting) {
@@ -406,6 +375,10 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       widget.controller.updateDragSelectionRect(selectionRect);
       _dragEndPoint = position;
       setState(() {});
+      return;
+    }
+
+    if (widget.controller.currentValues.isEmpty) {
       return;
     }
 
@@ -423,55 +396,48 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
           );
         }
       }
-      _dragEndPoint = position;
-      setState(() {});
-      return;
-    }
+    } else {
+      final currentValue = widget.controller.currentValues.first;
 
-    // 単一選択時の処理（後方互換性）
-    final currentValue = widget.controller.currentValue;
-    if (currentValue == null) {
-      return;
-    }
-
-    // 作成処理
-    if (_dragMode == PainterDragMode.creating) {
-      final dragStartPoint = _dragStartPoint;
-      if (dragStartPoint == null) {
-        return;
+      // 作成処理
+      if (_dragMode == PainterDragMode.creating) {
+        final dragStartPoint = _dragStartPoint;
+        if (dragStartPoint == null) {
+          return;
+        }
+        final updatedEndPoint = currentValue._getMinimumSizeOffsetOnCreating(
+          dragStartPoint,
+          position,
+        );
+        final updatedValue = currentValue.updateOnCreating(
+          startPoint: dragStartPoint,
+          currentPoint: updatedEndPoint,
+        );
+        widget.controller.updateCurrentValue(updatedValue);
+        // 移動処理
+      } else if (_dragMode == PainterDragMode.moving) {
+        final updatedValue = currentValue.updateOnMoving(
+          delta: position - (_dragEndPoint ?? position),
+        );
+        widget.controller.updateCurrentValue(updatedValue);
+        // リサイズ処理
+      } else if (_dragMode == PainterDragMode.resizing) {
+        final resizeDirection = _resizeDirection;
+        if (resizeDirection == null) {
+          return;
+        }
+        final updatedPoint = currentValue._getMinimumSizeOffsetOnResizing(
+          position,
+          resizeDirection,
+        );
+        final updatedValue = currentValue.updateOnResizing(
+          currentPoint: position,
+          direction: resizeDirection,
+          startPoint: updatedPoint.startPoint,
+          endPoint: updatedPoint.endPoint,
+        );
+        widget.controller.updateCurrentValue(updatedValue);
       }
-      final updatedEndPoint = currentValue._getMinimumSizeOffsetOnCreating(
-        dragStartPoint,
-        position,
-      );
-      final updatedValue = currentValue.updateOnCreating(
-        startPoint: dragStartPoint,
-        currentPoint: updatedEndPoint,
-      );
-      widget.controller.updateCurrentValue(updatedValue);
-      // 移動処理
-    } else if (_dragMode == PainterDragMode.moving) {
-      final updatedValue = currentValue.updateOnMoving(
-        delta: position - (_dragEndPoint ?? position),
-      );
-      widget.controller.updateCurrentValue(updatedValue);
-      // リサイズ処理
-    } else if (_dragMode == PainterDragMode.resizing) {
-      final resizeDirection = _resizeDirection;
-      if (resizeDirection == null) {
-        return;
-      }
-      final updatedPoint = currentValue._getMinimumSizeOffsetOnResizing(
-        position,
-        resizeDirection,
-      );
-      final updatedValue = currentValue.updateOnResizing(
-        currentPoint: position,
-        direction: resizeDirection,
-        startPoint: updatedPoint.startPoint,
-        endPoint: updatedPoint.endPoint,
-      );
-      widget.controller.updateCurrentValue(updatedValue);
     }
     _dragEndPoint = position;
 
@@ -479,7 +445,8 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   }
 
   // ドラッグ終了時。
-  void _handlePanEnd(DragEndDetails details) {
+  void _handledOnDragEnd(Offset position, Size canvasSize) {
+    debugPrint("drag end");
     // ドラッグ選択終了時の処理
     if (_dragMode == PainterDragMode.selecting) {
       // ドラッグ選択矩形をクリア
@@ -504,51 +471,119 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   }
 
   bool _isPointInSelectionArea(Offset point, Rect rect) {
-    const selectionMargin = 10.0;
+    const selectionMargin = 40.0;
     final expandedRect = rect.inflate(selectionMargin);
     return expandedRect.contains(point);
   }
 
   PainterResizeDirection? _getResizeDirection(Offset point, Rect rect) {
-    const handleSize = 10.0;
+    const handleSize = 24.0;
+    const extraMargin = 16.0; // 10px分の外側マージン
 
     // 角のハンドル
-    if ((point - rect.topLeft).distance <= handleSize) {
+    if ((point - rect.topLeft).distance <= handleSize + extraMargin) {
       return PainterResizeDirection.topLeft;
     }
-    if ((point - rect.topRight).distance <= handleSize) {
+    if ((point - rect.topRight).distance <= handleSize + extraMargin) {
       return PainterResizeDirection.topRight;
     }
-    if ((point - rect.bottomLeft).distance <= handleSize) {
+    if ((point - rect.bottomLeft).distance <= handleSize + extraMargin) {
       return PainterResizeDirection.bottomLeft;
     }
-    if ((point - rect.bottomRight).distance <= handleSize) {
+    if ((point - rect.bottomRight).distance <= handleSize + extraMargin) {
       return PainterResizeDirection.bottomRight;
     }
 
     // 辺のハンドル
-    if ((point.dx - rect.left).abs() <= handleSize &&
-        point.dy >= rect.top &&
-        point.dy <= rect.bottom) {
+    if ((point.dx - rect.left).abs() <= handleSize + extraMargin &&
+        point.dy >= rect.top - extraMargin &&
+        point.dy <= rect.bottom + extraMargin) {
       return PainterResizeDirection.left;
     }
-    if ((point.dx - rect.right).abs() <= handleSize &&
-        point.dy >= rect.top &&
-        point.dy <= rect.bottom) {
+    if ((point.dx - rect.right).abs() <= handleSize + extraMargin &&
+        point.dy >= rect.top - extraMargin &&
+        point.dy <= rect.bottom + extraMargin) {
       return PainterResizeDirection.right;
     }
-    if ((point.dy - rect.top).abs() <= handleSize &&
-        point.dx >= rect.left &&
-        point.dx <= rect.right) {
+    if ((point.dy - rect.top).abs() <= handleSize + extraMargin &&
+        point.dx >= rect.left - extraMargin &&
+        point.dx <= rect.right + extraMargin) {
       return PainterResizeDirection.top;
     }
-    if ((point.dy - rect.bottom).abs() <= handleSize &&
-        point.dx >= rect.left &&
-        point.dx <= rect.right) {
+    if ((point.dy - rect.bottom).abs() <= handleSize + extraMargin &&
+        point.dx >= rect.left - extraMargin &&
+        point.dx <= rect.right + extraMargin) {
       return PainterResizeDirection.bottom;
     }
 
     return null;
+  }
+
+  bool _editingStart({
+    required Offset position,
+    required Rect rect,
+  }) {
+    final resizeDir = _getResizeDirection(position, rect);
+    if (resizeDir != null) {
+      _resizeDirection = resizeDir;
+      _dragMode = PainterDragMode.resizing;
+      _dragStartPoint = position;
+      _isDragging = true;
+      setState(() {});
+      return true;
+      // 選択範囲内のチェック（マージンを考慮）
+      // 選択範囲内であれば、その位置に他のオブジェクトがあっても移動モードにする
+    } else if (_isPointInSelectionArea(position, rect)) {
+      _dragMode = PainterDragMode.moving;
+      _dragStartPoint = position;
+      _dragEndPoint = position;
+      _isDragging = true;
+      setState(() {});
+      return true;
+    }
+    return false;
+  }
+
+  void _selectingStart({
+    required Offset position,
+  }) {
+    // 既存のオブジェクトをタップしたかチェック
+    final tappedValue = widget.controller.findValueAt(position);
+    if (tappedValue != null) {
+      // 単一のオブジェクトを選択
+      widget.controller.updateCurrentValue(tappedValue);
+      _dragMode = PainterDragMode.moving;
+      _dragStartPoint = position;
+      _dragEndPoint = position;
+      _isDragging = true;
+      setState(() {});
+    } else {
+      // 何もない場所をタップ、または複数選択中で選択範囲外をタップ - ドラッグ選択開始
+      widget.controller.unselect();
+      _dragStartPoint = position;
+      _dragEndPoint = position;
+      _isDragging = true;
+      _dragMode = PainterDragMode.selecting;
+      setState(() {});
+    }
+  }
+
+  void _creatingStart({
+    required Offset position,
+    required PainterVariableInlineTools currentTool,
+  }) {
+    // 新しい四角形を作成
+    final newValue = currentTool.create(
+      color: widget.controller.adapter.defaultColor,
+      width: widget.controller.adapter.defaultStrokeWidth,
+      point: position,
+    );
+    widget.controller.updateCurrentValue(newValue);
+    _dragStartPoint = position;
+    _dragEndPoint = position;
+    _isDragging = true;
+    _dragMode = PainterDragMode.creating;
+    setState(() {});
   }
 
   @override
@@ -682,7 +717,7 @@ class _RawPainter extends CustomPainter {
     canvas.drawPath(path, selectionPaint);
 
     // リサイズハンドルを描画
-    const handleSize = 8.0;
+    const handleSize = 16.0;
     final handlePaint = Paint()
       ..color = Colors.blue
       ..style = PaintingStyle.fill;

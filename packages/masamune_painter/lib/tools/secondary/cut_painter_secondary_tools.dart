@@ -29,7 +29,7 @@ class CutPainterSecondaryTools extends PainterSecondaryTools {
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
-    return ref.currentValue != null;
+    return ref.currentValues.isNotEmpty;
   }
 
   @override

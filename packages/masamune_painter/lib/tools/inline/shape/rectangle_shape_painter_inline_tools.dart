@@ -66,6 +66,7 @@ class RectangleShapePainterInlineTools
 
   @override
   Future<void> onActive(BuildContext context, PainterToolRef ref) async {
+    ref.unselect();
     ref.toggleMode(this);
   }
 

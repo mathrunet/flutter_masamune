@@ -87,12 +87,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   List<PaintingValue> get currentValues => _currentValues;
   final List<PaintingValue> _currentValues = [];
 
-  /// Get the first selected value (for backward compatibility).
-  ///
-  /// 最初に選択された値を取得（後方互換性のため）。
-  PaintingValue? get currentValue =>
-      _currentValues.isNotEmpty ? _currentValues.first : null;
-
   final List<PaintingValue> _values = [];
 
   /// The bounding rectangle of all selected elements.
@@ -356,7 +350,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   ///
   /// 指定された点にある値を見つける。
   PaintingValue? findValueAt(Offset point) {
-    // Search from the end (top layer) to the beginning (bottom layer)
     for (int i = _values.length - 1; i >= 0; i--) {
       final value = _values[i];
       if (value.rect.contains(point)) {

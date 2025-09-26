@@ -103,7 +103,7 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   bool get canPaste => false;
 
   @override
-  PaintingValue? get currentValue => widget.controller.currentValue;
+  List<PaintingValue> get currentValues => widget.controller.currentValues;
 
   @override
   PainterTools? get currentTool => widget.controller._currentTool;
@@ -120,6 +120,11 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
     setState(() {
       widget.controller._currentTool = null;
     });
+  }
+
+  @override
+  void unselect() {
+    widget.controller.unselect();
   }
 
   void _handleControllerStateOnChanged() {}
@@ -292,6 +297,11 @@ abstract class PainterToolRef {
   /// モードを削除します。
   void deleteMode();
 
+  /// Deselect object.
+  ///
+  /// オブジェクトの選択を解除します。
+  void unselect();
+
   /// Get the current mode.
   ///
   /// 現在のモードを取得します。
@@ -300,7 +310,7 @@ abstract class PainterToolRef {
   /// Get the current value.
   ///
   /// 現在の値を取得します。
-  PaintingValue? get currentValue;
+  List<PaintingValue> get currentValues;
 
   /// Check if the clipboard can be pasted.
   ///
