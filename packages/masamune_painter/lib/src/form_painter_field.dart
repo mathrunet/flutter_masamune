@@ -406,7 +406,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
           return;
         }
       }
-      _selectingStart(
+      _selectingStartWithSelectingTool(
         position: position,
       );
       // 選択されている場合
@@ -419,18 +419,17 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       )) {
         return;
       }
-      _selectingStart(
+      _selectingStartWithSelectingTool(
         position: position,
       );
       // 選択ツールが選択されているときは選択開始
     } else if (currentTool is SelectPainterPrimaryTools) {
-      _selectingStart(
+      _selectingStartWithSelectingTool(
         position: position,
       );
     } else if (currentTool == null) {
-      _selectingStart(
+      _selectingStartWithoutTool(
         position: position,
-        onlyFound: true,
       );
       // ツールが選択されているときは新規作成
     } else if (currentTool is PainterVariableInlineTools &&
@@ -654,18 +653,13 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     return false;
   }
 
-  void _selectingStart({
+  void _selectingStartWithSelectingTool({
     required Offset position,
-    bool onlyFound = false,
   }) {
     // 既存のオブジェクトをタップしたかチェック
     final tappedValue = widget.controller.findValueAt(position);
     // 単一のオブジェクトを選択
     if (tappedValue != null) {
-      // ツールが無い場合は選択ツールを設定
-      if (onlyFound && widget.controller._currentTool == null) {
-        widget.controller._currentTool = const SelectPainterPrimaryTools();
-      }
       widget.controller.updateCurrentValue(tappedValue);
       _dragMode = PainterDragMode.moving;
       _dragStartPoint = position;
@@ -673,9 +667,6 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       _isDragging = true;
       setState(() {});
     } else {
-      if (onlyFound) {
-        return;
-      }
       // 何もない場所をタップ、または複数選択中で選択範囲外をタップ - ドラッグ選択開始
       widget.controller.unselect();
       _dragStartPoint = position;
@@ -684,6 +675,25 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       _dragMode = PainterDragMode.selecting;
       setState(() {});
     }
+  }
+
+  void _selectingStartWithoutTool({
+    required Offset position,
+  }) {
+    // 既存のオブジェクトをタップしたかチェック
+    final tappedValue = widget.controller.findValueAt(position);
+    // 単一のオブジェクトを選択
+    if (tappedValue == null) {
+      return;
+    }
+    // ツールが無い場合は選択ツールを設定
+    widget.controller._currentTool ??= const SelectPainterPrimaryTools();
+    widget.controller.updateCurrentValue(tappedValue);
+    _dragMode = PainterDragMode.moving;
+    _dragStartPoint = position;
+    _dragEndPoint = position;
+    _isDragging = true;
+    setState(() {});
   }
 
   void _creatingStart({
