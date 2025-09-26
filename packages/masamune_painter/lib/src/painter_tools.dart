@@ -52,6 +52,11 @@ abstract class PainterTools {
   /// ツールを実行します。
   void onTap(BuildContext context, PainterToolRef ref);
 
+  /// Check if the tool should unselect on done.
+  ///
+  /// ツールを実行した後に選択を解除するかどうかを確認します。
+  bool get unselectOnDone => true;
+
   @override
   int get hashCode => id.hashCode;
 

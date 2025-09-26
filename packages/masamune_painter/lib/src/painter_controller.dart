@@ -228,7 +228,9 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   void unselect() {
     // 選択解除前に編集中の値を保存
     saveCurrentValue();
-    _currentTool = null;
+    if (_currentTool?.unselectOnDone ?? true) {
+      _currentTool = null;
+    }
     _currentValues.clear();
     dragSelectionRect = null;
     notifyListeners();

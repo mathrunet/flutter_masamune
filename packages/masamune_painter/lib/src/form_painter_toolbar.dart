@@ -117,7 +117,11 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   @override
   void toggleMode(PainterTools tool) {
     setState(() {
-      widget.controller._currentTool = tool;
+      if (widget.controller._currentTool == tool) {
+        widget.controller._currentTool = null;
+      } else {
+        widget.controller._currentTool = tool;
+      }
     });
   }
 
