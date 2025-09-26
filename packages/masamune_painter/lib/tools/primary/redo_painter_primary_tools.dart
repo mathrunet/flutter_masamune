@@ -20,7 +20,7 @@ class RedoPainterPrimaryTools extends PainterPrimaryTools {
           "Redo",
         ),
       ]),
-      icon: FontAwesomeIcons.arrowPointer,
+      icon: FontAwesomeIcons.arrowRotateRight,
     ),
   });
 
@@ -33,7 +33,7 @@ class RedoPainterPrimaryTools extends PainterPrimaryTools {
   }
 
   @override
-  bool enabled(BuildContext context, PainterToolRef ref) => true;
+  bool enabled(BuildContext context, PainterToolRef ref) => ref.canRedo;
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
@@ -53,6 +53,6 @@ class RedoPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   void onTap(BuildContext context, PainterToolRef ref) {
-    ref.deleteMode();
+    ref.redo();
   }
 }

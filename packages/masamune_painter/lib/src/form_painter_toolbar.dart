@@ -103,6 +103,12 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   bool get canPaste => widget.controller.canPaste;
 
   @override
+  bool get canUndo => widget.controller.canUndo;
+
+  @override
+  bool get canRedo => widget.controller.canRedo;
+
+  @override
   List<PaintingValue> get currentValues => widget.controller.currentValues;
 
   @override
@@ -166,6 +172,18 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
       scale: scale,
       backgroundColor: backgroundColor,
     );
+  }
+
+  @override
+  void undo() {
+    widget.controller.undo();
+    setState(() {});
+  }
+
+  @override
+  void redo() {
+    widget.controller.redo();
+    setState(() {});
   }
 
   void _handleControllerStateOnChanged() {}
@@ -358,6 +376,16 @@ abstract class PainterToolRef {
   /// クリップボードに貼り付け可能かどうかを確認します。
   bool get canPaste;
 
+  /// Check if undo is available.
+  ///
+  /// Undoが利用可能かどうかを確認します。
+  bool get canUndo;
+
+  /// Check if redo is available.
+  ///
+  /// Redoが利用可能かどうかを確認します。
+  bool get canRedo;
+
   /// Copy selected values to clipboard.
   ///
   /// 選択した値をクリップボードにコピーします。
@@ -387,4 +415,14 @@ abstract class PainterToolRef {
   ///
   /// 選択した値を画像としてエクスポートします。
   Future<Uint8List?> exportAsImage({double scale, Color? backgroundColor});
+
+  /// Undo the last action.
+  ///
+  /// 最後のアクションを元に戻します。
+  void undo();
+
+  /// Redo the last undone action.
+  ///
+  /// 最後に元に戻したアクションをやり直します。
+  void redo();
 }

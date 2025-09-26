@@ -17,7 +17,11 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   ///
   /// これを渡すことで[FormPainterToolbar]のツールと連携することができます。
   PainterController({super.adapter, Size? canvasSize})
-      : _canvasSize = canvasSize;
+      : _canvasSize = canvasSize {
+    // Initialize history with empty state
+    _history.add(<PaintingValue>[]);
+    _historyIndex = 0;
+  }
 
   /// Query for PainterController.
   ///
@@ -150,10 +154,55 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// コピー/カット用のクリップボードデータ。
   List<PaintingValue>? _clipboardData;
 
+  /// History for undo/redo functionality.
+  ///
+  /// Undo/Redo機能用の履歴。
+  final List<List<PaintingValue>> _history = [];
+
+  /// Current position in history for undo/redo.
+  ///
+  /// Undo/Redo用の履歴内の現在位置。
+  int _historyIndex = -1;
+
+  /// Maximum number of history entries to keep.
+  ///
+  /// 保持する履歴エントリの最大数。
+  static const int _maxHistorySize = 50;
+
   /// Check if there is data in the clipboard that can be pasted.
   ///
   /// ペースト可能なデータがクリップボードにあるかチェック。
   bool get canPaste => _clipboardData != null && _clipboardData!.isNotEmpty;
+
+  /// Check if undo is available.
+  ///
+  /// Undoが利用可能かチェック。
+  bool get canUndo => _historyIndex > 0;
+
+  /// Check if redo is available.
+  ///
+  /// Redoが利用可能かチェック。
+  bool get canRedo => _historyIndex < _history.length - 1;
+
+  /// Save the current state to history for undo/redo.
+  ///
+  /// Undo/Redo用に現在の状態を履歴に保存。
+  void _saveToHistory() {
+    // Remove any history after the current index (when we're in the middle of history)
+    if (_historyIndex < _history.length - 1) {
+      _history.removeRange(_historyIndex + 1, _history.length);
+    }
+
+    // Add current state to history
+    _history.add(List<PaintingValue>.from(_values));
+    _historyIndex = _history.length - 1;
+
+    // Limit history size
+    if (_history.length > _maxHistorySize) {
+      _history.removeAt(0);
+      _historyIndex--;
+    }
+  }
 
   /// Save the current editing values to values list.
   ///
@@ -185,7 +234,40 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   ///
   /// 現在の値をクリアします。
   void clear() {
+    _saveToHistory();
     _values.clear();
+    _currentValues.clear();
+    dragSelectionRect = null;
+    notifyListeners();
+  }
+
+  /// Undo the last action.
+  ///
+  /// 最後のアクションを元に戻す。
+  void undo() {
+    if (!canUndo) {
+      return;
+    }
+
+    _historyIndex--;
+    _values.clear();
+    _values.addAll(List<PaintingValue>.from(_history[_historyIndex]));
+    _currentValues.clear();
+    dragSelectionRect = null;
+    notifyListeners();
+  }
+
+  /// Redo the last undone action.
+  ///
+  /// 最後に元に戻したアクションをやり直す。
+  void redo() {
+    if (!canRedo) {
+      return;
+    }
+
+    _historyIndex++;
+    _values.clear();
+    _values.addAll(List<PaintingValue>.from(_history[_historyIndex]));
     _currentValues.clear();
     dragSelectionRect = null;
     notifyListeners();
@@ -200,6 +282,15 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       _currentValues.add(value);
     }
     dragSelectionRect = null;
+    notifyListeners();
+  }
+
+  /// Save current state to history and add a new value.
+  ///
+  /// 現在の状態を履歴に保存して新しい値を追加。
+  void addValue(PaintingValue value) {
+    _saveToHistory();
+    _values.add(value);
     notifyListeners();
   }
 
@@ -466,6 +557,8 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       return;
     }
 
+    _saveToHistory();
+
     // Copy to clipboard
     await copy();
 
@@ -509,6 +602,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
     // Save current values
     saveCurrentValue();
+    _saveToHistory();
 
     // Calculate paste offset (slightly offset from original position)
     const pasteOffset = Offset(20, 20);
@@ -535,6 +629,8 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     if (_currentValues.isEmpty) {
       return;
     }
+
+    _saveToHistory();
 
     // Remove selected values from the main list
     final selectedIds = _currentValues.map((v) => v.id).toSet();
