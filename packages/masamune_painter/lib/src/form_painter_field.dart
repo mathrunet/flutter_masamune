@@ -62,6 +62,10 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
   ///
   /// If [readOnly] is set to `true`, the activation is displayed, but the drawing area cannot be changed.
   ///
+  /// If [scrollable] is `true`, the canvas can be zoomed with pinch gestures and panned with two-finger drag.
+  ///
+  /// [minScale] and [maxScale] control the zoom range when [scrollable] is `true`.
+  ///
   /// フォーム用の描画フィールド用のウィジェット。
   ///
   /// 自由に描画を行いそのレイヤーデータを保存することができます。
@@ -83,12 +87,18 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
   /// [enabled]が`false`になると描画エリアが非有効化されます。
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、描画エリアが変更できなくなります。
+  ///
+  /// [scrollable]が`true`の場合、ピンチジェスチャーでキャンバスのズームと、2本指ドラッグでパンが可能になります。
+  ///
+  /// [minScale]と[maxScale]は[scrollable]が`true`の時のズーム範囲を制御します。
   FormPainterField({
     required this.controller,
     super.key,
     this.keepAlive = true,
     bool expands = false,
-    bool scrollable = true,
+    this.scrollable = true,
+    this.minScale = 0.1,
+    this.maxScale = 5.0,
     this.form,
     this.style,
     super.enabled = true,
@@ -118,42 +128,43 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
             final state = field as FormPainterFieldState<TValue>;
             final canvasSize = controller.canvasSize;
 
-            // GestureDetectorでラップしてドラッグ操作を可能にする
-            Widget child = GestureDetector(
-              onTapDown: (enabled && !readOnly)
-                  ? (details) =>
-                      state._handledOnTapDown(details.localPosition, canvasSize)
-                  : null,
-              onTapUp: (enabled && !readOnly)
-                  ? (details) =>
-                      state._handledOnTapUp(details.localPosition, canvasSize)
-                  : null,
-              onPanUpdate: (enabled && !readOnly)
-                  ? (details) => state._handledOnDragging(
-                      details.localPosition, canvasSize)
-                  : null,
-              onPanEnd: (enabled && !readOnly)
-                  ? (details) =>
-                      state._handledOnDragEnd(details.localPosition, canvasSize)
-                  : null,
-              child: CustomPaint(
-                painter: _RawPainter(
-                  values: state.value ?? [],
-                  currentValues: controller.currentValues,
-                  dragSelectionRect: controller.dragSelectionRect,
-                  selectionBounds: controller.selectionBounds,
-                  dragStartPoint: state._dragStartPoint,
-                  dragEndPoint: state._dragEndPoint,
-                  isDragging: state._isDragging,
-                  actualCanvasSize: controller.canvasSize,
-                ),
-                size: canvasSize,
+            // CustomPaintウィジェット
+            Widget paintWidget = CustomPaint(
+              painter: _RawPainter(
+                values: state.value ?? [],
+                currentValues: controller.currentValues,
+                dragSelectionRect: controller.dragSelectionRect,
+                selectionBounds: controller.selectionBounds,
+                dragStartPoint: state._dragStartPoint,
+                dragEndPoint: state._dragEndPoint,
+                isDragging: state._isDragging,
+                actualCanvasSize: controller.canvasSize,
               ),
+              size: canvasSize,
             );
 
-            if (scrollable) {
-              child = InteractiveViewer(child: child);
-            }
+            // GestureDetectorでスケールとドラッグを処理
+            Widget child = GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTapDown: (enabled && !readOnly)
+                  ? (details) {
+                      final transformedPosition =
+                          state._transformPosition(details.localPosition);
+                      state._handledOnDragStart(
+                          transformedPosition, canvasSize);
+                    }
+                  : null,
+              onScaleStart:
+                  (enabled && !readOnly) ? state._handledOnScaleStart : null,
+              onScaleUpdate:
+                  (enabled && !readOnly) ? state._handledOnScaleUpdate : null,
+              onScaleEnd:
+                  (enabled && !readOnly) ? state._handledOnScaleEnd : null,
+              child: Transform(
+                transform: state._transformMatrix,
+                child: paintWidget,
+              ),
+            );
 
             final backgroundColor =
                 style?.backgroundColor ?? Colors.grey.shade300;
@@ -189,6 +200,16 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
   /// `true`の場合、スクロール時にフォームが破棄されません。
   final bool keepAlive;
 
+  /// Minimum scale for pinch zoom.
+  ///
+  /// ピンチズームの最小倍率。
+  final double minScale;
+
+  /// Maximum scale for pinch zoom.
+  ///
+  /// ピンチズームの最大倍率。
+  final double maxScale;
+
   /// Context for forms.
   ///
   /// The widget is created outside of the widget in advance and handed over to the client.
@@ -207,6 +228,15 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
   ///
   /// 描画フォーム用のコントローラー。
   final PainterController controller;
+
+  /// If `true`, the canvas can be zoomed with pinch gestures and panned with two-finger drag.
+  ///
+  /// [minScale] and [maxScale] control the zoom range when [scrollable] is `true`.
+  ///
+  /// ピンチジェスチャーでキャンバスのズームと、2本指ドラッグでパンが可能かどうか。
+  ///
+  /// [minScale]と[maxScale]は[scrollable]が`true`の時のズーム範囲を制御します。
+  final bool scrollable;
 
   /// Callback to be executed each time the value is changed.
   ///
@@ -236,6 +266,16 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
 
   @override
   bool get wantKeepAlive => widget.keepAlive;
+
+  // 変換行列とスケール/パン管理
+  Matrix4 _transformMatrix = Matrix4.identity();
+  double _currentScale = 1.0;
+  Offset _currentOffset = Offset.zero;
+
+  // スケール操作用の変数
+  double _baseScale = 1.0;
+  Offset _startFocalPoint = Offset.zero;
+  bool _isScaling = false;
 
   // ドラッグ操作用の変数
   Offset? _dragStartPoint;
@@ -294,20 +334,54 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     super.reset();
   }
 
-  // タップ開始時。
-  void _handledOnTapDown(Offset position, Size canvasSize) {
-    _isDragStarted = false;
-    _handledOnDragStart(position, canvasSize);
+  // スケール開始時
+  void _handledOnScaleStart(ScaleStartDetails details) {
+    _baseScale = _currentScale;
+    _startFocalPoint = details.focalPoint - _currentOffset;
+    _isScaling = details.pointerCount > 1;
+
+    if (!_isScaling) {
+      // シングルタッチの場合は描画操作開始
+      final transformedPosition = _transformPosition(details.localFocalPoint);
+      _handledOnDragStart(transformedPosition, widget.controller.canvasSize);
+    }
   }
 
-  // タップ終了時。
-  void _handledOnTapUp(Offset position, Size canvasSize) {
-    _isDragging = false;
-    _isDragStarted = false;
-    _dragMode = PainterDragMode.none;
-    _dragStartPoint = null;
-    _dragEndPoint = null;
-    _resizeDirection = null;
+  // スケール更新時
+  void _handledOnScaleUpdate(ScaleUpdateDetails details) {
+    if (details.pointerCount > 1 && widget.scrollable) {
+      _isScaling = true;
+      // ピンチズームとパン
+      final newScale = (_baseScale * details.scale).clamp(
+        widget.minScale,
+        widget.maxScale,
+      );
+
+      // スケールが変わった場合、焦点を中心にズーム
+      final focalPointInWidget = details.focalPoint;
+
+      // パンの計算：現在のフォーカル点と開始時のフォーカル点の差分
+      final newOffset = focalPointInWidget - _startFocalPoint * details.scale;
+
+      _currentScale = newScale;
+      _currentOffset = newOffset;
+      _updateTransformMatrix();
+      setState(() {});
+    } else if (!_isScaling) {
+      // シングルタッチドラッグ
+      final transformedPosition = _transformPosition(details.localFocalPoint);
+      _handledOnDragging(transformedPosition, widget.controller.canvasSize);
+    }
+  }
+
+  // スケール終了時
+  void _handledOnScaleEnd(ScaleEndDetails details) {
+    if (!_isScaling) {
+      // シングルタッチの場合は描画操作終了
+      const lastPosition = Offset.zero; // 最後の位置は利用可能でない
+      _handledOnDragEnd(lastPosition, widget.controller.canvasSize);
+    }
+    _isScaling = false;
   }
 
   // ドラッグ開始時。
@@ -517,6 +591,22 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     }
 
     return null;
+  }
+
+  // 変換行列を考慮した座標変換
+  Offset _transformPosition(Offset localPosition) {
+    final invertedMatrix = Matrix4.inverted(_transformMatrix);
+    final vector = Vector3(localPosition.dx, localPosition.dy, 0);
+    final transformed = invertedMatrix.transform3(vector);
+    return Offset(transformed.x, transformed.y);
+  }
+
+  // 変換行列を更新
+  void _updateTransformMatrix() {
+    _transformMatrix = Matrix4.identity();
+    _transformMatrix.translateByDouble(
+        _currentOffset.dx, _currentOffset.dy, 0.0, 1.0);
+    _transformMatrix.scaleByDouble(_currentScale, _currentScale, 1.0, 1.0);
   }
 
   bool _editingStart({
