@@ -281,62 +281,98 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       return;
     }
 
-    // For multiple selection, calculate scale factor
-    var scaleX = 1.0;
-    var scaleY = 1.0;
-
+    // Calculate new bounds after scaling
+    late final Rect newBounds;
     switch (direction) {
       case PainterResizeDirection.topLeft:
-        scaleX = (bounds.right - currentPoint.dx) / bounds.width;
-        scaleY = (bounds.bottom - currentPoint.dy) / bounds.height;
+        newBounds = Rect.fromLTRB(
+          currentPoint.dx,
+          currentPoint.dy,
+          bounds.right,
+          bounds.bottom,
+        );
         break;
       case PainterResizeDirection.topRight:
-        scaleX = (currentPoint.dx - bounds.left) / bounds.width;
-        scaleY = (bounds.bottom - currentPoint.dy) / bounds.height;
+        newBounds = Rect.fromLTRB(
+          bounds.left,
+          currentPoint.dy,
+          currentPoint.dx,
+          bounds.bottom,
+        );
         break;
       case PainterResizeDirection.bottomLeft:
-        scaleX = (bounds.right - currentPoint.dx) / bounds.width;
-        scaleY = (currentPoint.dy - bounds.top) / bounds.height;
+        newBounds = Rect.fromLTRB(
+          currentPoint.dx,
+          bounds.top,
+          bounds.right,
+          currentPoint.dy,
+        );
         break;
       case PainterResizeDirection.bottomRight:
-        scaleX = (currentPoint.dx - bounds.left) / bounds.width;
-        scaleY = (currentPoint.dy - bounds.top) / bounds.height;
+        newBounds = Rect.fromLTRB(
+          bounds.left,
+          bounds.top,
+          currentPoint.dx,
+          currentPoint.dy,
+        );
         break;
       case PainterResizeDirection.left:
-        scaleX = (bounds.right - currentPoint.dx) / bounds.width;
+        newBounds = Rect.fromLTRB(
+          currentPoint.dx,
+          bounds.top,
+          bounds.right,
+          bounds.bottom,
+        );
         break;
       case PainterResizeDirection.right:
-        scaleX = (currentPoint.dx - bounds.left) / bounds.width;
+        newBounds = Rect.fromLTRB(
+          bounds.left,
+          bounds.top,
+          currentPoint.dx,
+          bounds.bottom,
+        );
         break;
       case PainterResizeDirection.top:
-        scaleY = (bounds.bottom - currentPoint.dy) / bounds.height;
+        newBounds = Rect.fromLTRB(
+          bounds.left,
+          currentPoint.dy,
+          bounds.right,
+          bounds.bottom,
+        );
         break;
       case PainterResizeDirection.bottom:
-        scaleY = (currentPoint.dy - bounds.top) / bounds.height;
+        newBounds = Rect.fromLTRB(
+          bounds.left,
+          bounds.top,
+          bounds.right,
+          currentPoint.dy,
+        );
         break;
     }
 
     // Apply resize to each selected value
     final updatedValues = <PaintingValue>[];
     for (final value in _currentValues) {
-      // Calculate new position for each value based on scale
+      // Calculate relative position within original bounds
       final valueRect = value.rect;
       final relativeX = (valueRect.left - bounds.left) / bounds.width;
       final relativeY = (valueRect.top - bounds.top) / bounds.height;
+      final relativeWidth = valueRect.width / bounds.width;
+      final relativeHeight = valueRect.height / bounds.height;
 
-      final newLeft = bounds.left + relativeX * bounds.width * scaleX;
-      final newTop = bounds.top + relativeY * bounds.height * scaleY;
-      final newPoint = Offset(newLeft + valueRect.width * scaleX,
-          newTop + valueRect.height * scaleY);
+      // Calculate new position and size based on new bounds
+      final newLeft = newBounds.left + relativeX * newBounds.width;
+      final newTop = newBounds.top + relativeY * newBounds.height;
+      final newWidth = relativeWidth * newBounds.width;
+      final newHeight = relativeHeight * newBounds.height;
 
-      final updatedPoint = value._getMinimumSizeOffsetOnResizing(
-        newPoint,
-        direction,
-      );
+      final newStartPoint = Offset(newLeft, newTop);
+      final newEndPoint = Offset(newLeft + newWidth, newTop + newHeight);
+
       updatedValues.add(value.updateOnResizing(
-        currentPoint: updatedPoint.startPoint,
-        startPoint: updatedPoint.startPoint,
-        endPoint: updatedPoint.endPoint,
+        currentPoint: newEndPoint,
+        startPoint: newStartPoint,
+        endPoint: newEndPoint,
         direction: direction,
       ));
     }
@@ -356,59 +392,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
         return value;
       }
     }
-    return null;
-  }
-
-  /// Check if the given point is on the selection bounds edge (for resize handles).
-  ///
-  /// 指定された点が選択境界のエッジ上にあるかチェック（リサイズハンドル用）。
-  PainterResizeDirection? getResizeDirectionAt(Offset point,
-      {double tolerance = 8.0}) {
-    final bounds = selectionBounds;
-    if (bounds == null) {
-      return null;
-    }
-
-    // Check corners first
-    if ((point.dx - bounds.left).abs() <= tolerance &&
-        (point.dy - bounds.top).abs() <= tolerance) {
-      return PainterResizeDirection.topLeft;
-    }
-    if ((point.dx - bounds.right).abs() <= tolerance &&
-        (point.dy - bounds.top).abs() <= tolerance) {
-      return PainterResizeDirection.topRight;
-    }
-    if ((point.dx - bounds.left).abs() <= tolerance &&
-        (point.dy - bounds.bottom).abs() <= tolerance) {
-      return PainterResizeDirection.bottomLeft;
-    }
-    if ((point.dx - bounds.right).abs() <= tolerance &&
-        (point.dy - bounds.bottom).abs() <= tolerance) {
-      return PainterResizeDirection.bottomRight;
-    }
-
-    // Check edges
-    if ((point.dx - bounds.left).abs() <= tolerance &&
-        point.dy >= bounds.top &&
-        point.dy <= bounds.bottom) {
-      return PainterResizeDirection.left;
-    }
-    if ((point.dx - bounds.right).abs() <= tolerance &&
-        point.dy >= bounds.top &&
-        point.dy <= bounds.bottom) {
-      return PainterResizeDirection.right;
-    }
-    if ((point.dy - bounds.top).abs() <= tolerance &&
-        point.dx >= bounds.left &&
-        point.dx <= bounds.right) {
-      return PainterResizeDirection.top;
-    }
-    if ((point.dy - bounds.bottom).abs() <= tolerance &&
-        point.dx >= bounds.left &&
-        point.dx <= bounds.right) {
-      return PainterResizeDirection.bottom;
-    }
-
     return null;
   }
 }

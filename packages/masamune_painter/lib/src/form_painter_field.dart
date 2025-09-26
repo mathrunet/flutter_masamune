@@ -314,7 +314,6 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
 
     // 複数選択時の処理
     if (widget.controller.hasMultipleSelection) {
-      debugPrint("hasMultipleSelection");
       final bounds = widget.controller.selectionBounds;
       if (bounds != null) {
         if (_editingStart(
@@ -446,7 +445,6 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
 
   // ドラッグ終了時。
   void _handledOnDragEnd(Offset position, Size canvasSize) {
-    debugPrint("drag end");
     // ドラッグ選択終了時の処理
     if (_dragMode == PainterDragMode.selecting) {
       // ドラッグ選択矩形をクリア
@@ -471,14 +469,14 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   }
 
   bool _isPointInSelectionArea(Offset point, Rect rect) {
-    const selectionMargin = 40.0;
+    const selectionMargin = 16.0;
     final expandedRect = rect.inflate(selectionMargin);
     return expandedRect.contains(point);
   }
 
   PainterResizeDirection? _getResizeDirection(Offset point, Rect rect) {
-    const handleSize = 24.0;
-    const extraMargin = 16.0; // 10px分の外側マージン
+    const handleSize = 16.0;
+    const extraMargin = 16.0;
 
     // 角のハンドル
     if ((point - rect.topLeft).distance <= handleSize + extraMargin) {
