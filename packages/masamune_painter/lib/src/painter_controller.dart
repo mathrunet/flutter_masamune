@@ -335,8 +335,14 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       final newPoint = Offset(newLeft + valueRect.width * scaleX,
           newTop + valueRect.height * scaleY);
 
+      final updatedPoint = value._getMinimumSizeOffsetOnResizing(
+        newPoint,
+        direction,
+      );
       updatedValues.add(value.updateOnResizing(
-        currentPoint: newPoint,
+        currentPoint: updatedPoint.startPoint,
+        startPoint: updatedPoint.startPoint,
+        endPoint: updatedPoint.endPoint,
         direction: direction,
       ));
     }

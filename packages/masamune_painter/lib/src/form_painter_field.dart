@@ -238,6 +238,10 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     return widget.controller._currentTool;
   }
 
+  List<PaintingValue> get _currentValues {
+    return widget.controller.currentValues;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -288,9 +292,10 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     _isDragStarted = false;
     final position = details.localPosition;
     final currentTool = _currentTool;
+    final currentValues = _currentValues;
 
     // SelectPainterPrimaryToolsが選択されている場合（選択ツール）
-    if (currentTool == null) {
+    if (currentTool == null && currentValues.isEmpty) {
       // 複数選択時の処理
       if (widget.controller.hasMultipleSelection) {
         final bounds = widget.controller.selectionBounds;
@@ -429,9 +434,13 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       if (dragStartPoint == null) {
         return;
       }
+      final updatedEndPoint = currentValue._getMinimumSizeOffsetOnCreating(
+        dragStartPoint,
+        position,
+      );
       final updatedValue = currentValue.updateOnCreating(
         startPoint: dragStartPoint,
-        currentPoint: position,
+        currentPoint: updatedEndPoint,
       );
       widget.controller.updateCurrentValue(updatedValue);
       // 移動処理
@@ -446,9 +455,15 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       if (resizeDirection == null) {
         return;
       }
+      final updatedPoint = currentValue._getMinimumSizeOffsetOnResizing(
+        position,
+        resizeDirection,
+      );
       final updatedValue = currentValue.updateOnResizing(
         currentPoint: position,
         direction: resizeDirection,
+        startPoint: updatedPoint.startPoint,
+        endPoint: updatedPoint.endPoint,
       );
       widget.controller.updateCurrentValue(updatedValue);
     }
