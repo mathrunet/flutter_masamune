@@ -29,7 +29,7 @@ class SelectPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
-    return ref.currentValue != null;
+    return true;
   }
 
   @override

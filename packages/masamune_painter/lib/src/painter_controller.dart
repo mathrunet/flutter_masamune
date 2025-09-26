@@ -62,7 +62,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     }
     final res = <PaintingValue>[];
     final currentIds = _currentValues.map((v) => v.id).toSet();
-    
+
     for (final value in _values) {
       if (currentIds.contains(value.id)) {
         res.add(_currentValues.firstWhere((v) => v.id == value.id));
@@ -70,14 +70,14 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
         res.add(value);
       }
     }
-    
+
     // Add new values that don't exist in _values
     for (final current in _currentValues) {
       if (!_values.any((v) => v.id == current.id)) {
         res.add(current);
       }
     }
-    
+
     return res;
   }
 
@@ -86,14 +86,15 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// 現在選択中の値（複数選択対応）。
   List<PaintingValue> get currentValues => _currentValues;
   final List<PaintingValue> _currentValues = [];
-  
+
   /// Get the first selected value (for backward compatibility).
   ///
   /// 最初に選択された値を取得（後方互換性のため）。
-  PaintingValue? get currentValue => _currentValues.isNotEmpty ? _currentValues.first : null;
-  
+  PaintingValue? get currentValue =>
+      _currentValues.isNotEmpty ? _currentValues.first : null;
+
   final List<PaintingValue> _values = [];
-  
+
   /// The bounding rectangle of all selected elements.
   ///
   /// 全選択要素の境界矩形。
@@ -101,12 +102,12 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     if (_currentValues.isEmpty) {
       return null;
     }
-    
+
     double minX = double.infinity;
     double minY = double.infinity;
     double maxX = double.negativeInfinity;
     double maxY = double.negativeInfinity;
-    
+
     for (final value in _currentValues) {
       final rect = value.rect;
       if (rect.left < minX) {
@@ -122,18 +123,18 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
         maxY = rect.bottom;
       }
     }
-    
+
     if (minX == double.infinity) {
       return null;
     }
     return Rect.fromLTRB(minX, minY, maxX, maxY);
   }
-  
+
   /// Check if multiple elements are selected.
   ///
   /// 複数要素が選択されているかチェック。
   bool get hasMultipleSelection => _currentValues.length > 1;
-  
+
   /// The drag selection rectangle.
   ///
   /// ドラッグ選択矩形。
@@ -186,7 +187,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     dragSelectionRect = null;
     notifyListeners();
   }
-  
+
   /// Update the current values for editing (multiple selection).
   ///
   /// 編集用の現在値を更新します（複数選択）。
@@ -196,7 +197,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     dragSelectionRect = null;
     notifyListeners();
   }
-  
+
   /// Add a value to the current selection.
   ///
   /// 現在の選択に値を追加。
@@ -206,7 +207,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       notifyListeners();
     }
   }
-  
+
   /// Remove a value from the current selection.
   ///
   /// 現在の選択から値を削除。
@@ -214,7 +215,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     _currentValues.removeWhere((v) => v.id == value.id);
     notifyListeners();
   }
-  
+
   /// Toggle a value in the current selection.
   ///
   /// 現在の選択で値を切り替え。
@@ -227,13 +228,13 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     }
     notifyListeners();
   }
-  
+
   /// Select values within the given rectangle.
   ///
   /// 指定された矩形内の値を選択。
   void selectInRectangle(Rect rect) {
     _currentValues.clear();
-    
+
     for (final value in _values) {
       final valueRect = value.rect;
       // Check if the value's rectangle intersects with the selection rectangle
@@ -241,10 +242,10 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
         _currentValues.add(value);
       }
     }
-    
+
     notifyListeners();
   }
-  
+
   /// Update drag selection rectangle.
   ///
   /// ドラッグ選択矩形を更新。
@@ -255,7 +256,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     }
     notifyListeners();
   }
-  
+
   /// Move all selected values by the given delta.
   ///
   /// 選択された全ての値を指定されたデルタ分移動。
@@ -268,7 +269,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     _currentValues.addAll(updatedValues);
     notifyListeners();
   }
-  
+
   /// Resize all selected values.
   ///
   /// 選択された全ての値をリサイズ。
@@ -279,17 +280,17 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     if (_currentValues.isEmpty) {
       return;
     }
-    
+
     // Calculate the resize ratio based on the selection bounds
     final bounds = selectionBounds;
     if (bounds == null) {
       return;
     }
-    
+
     // For multiple selection, calculate scale factor
     var scaleX = 1.0;
     var scaleY = 1.0;
-    
+
     switch (direction) {
       case PainterResizeDirection.topLeft:
         scaleX = (bounds.right - currentPoint.dx) / bounds.width;
@@ -320,7 +321,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
         scaleY = (currentPoint.dy - bounds.top) / bounds.height;
         break;
     }
-    
+
     // Apply resize to each selected value
     final updatedValues = <PaintingValue>[];
     for (final value in _currentValues) {
@@ -328,22 +329,23 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       final valueRect = value.rect;
       final relativeX = (valueRect.left - bounds.left) / bounds.width;
       final relativeY = (valueRect.top - bounds.top) / bounds.height;
-      
+
       final newLeft = bounds.left + relativeX * bounds.width * scaleX;
       final newTop = bounds.top + relativeY * bounds.height * scaleY;
-      final newPoint = Offset(newLeft + valueRect.width * scaleX, newTop + valueRect.height * scaleY);
-      
+      final newPoint = Offset(newLeft + valueRect.width * scaleX,
+          newTop + valueRect.height * scaleY);
+
       updatedValues.add(value.updateOnResizing(
         currentPoint: newPoint,
         direction: direction,
       ));
     }
-    
+
     _currentValues.clear();
     _currentValues.addAll(updatedValues);
     notifyListeners();
   }
-  
+
   /// Find a value at the given point.
   ///
   /// 指定された点にある値を見つける。
@@ -357,52 +359,57 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     }
     return null;
   }
-  
+
   /// Check if the given point is on the selection bounds edge (for resize handles).
   ///
   /// 指定された点が選択境界のエッジ上にあるかチェック（リサイズハンドル用）。
-  PainterResizeDirection? getResizeDirectionAt(Offset point, {double tolerance = 8.0}) {
+  PainterResizeDirection? getResizeDirectionAt(Offset point,
+      {double tolerance = 8.0}) {
     final bounds = selectionBounds;
     if (bounds == null) {
       return null;
     }
-    
+
     // Check corners first
-    if ((point.dx - bounds.left).abs() <= tolerance && 
+    if ((point.dx - bounds.left).abs() <= tolerance &&
         (point.dy - bounds.top).abs() <= tolerance) {
       return PainterResizeDirection.topLeft;
     }
-    if ((point.dx - bounds.right).abs() <= tolerance && 
+    if ((point.dx - bounds.right).abs() <= tolerance &&
         (point.dy - bounds.top).abs() <= tolerance) {
       return PainterResizeDirection.topRight;
     }
-    if ((point.dx - bounds.left).abs() <= tolerance && 
+    if ((point.dx - bounds.left).abs() <= tolerance &&
         (point.dy - bounds.bottom).abs() <= tolerance) {
       return PainterResizeDirection.bottomLeft;
     }
-    if ((point.dx - bounds.right).abs() <= tolerance && 
+    if ((point.dx - bounds.right).abs() <= tolerance &&
         (point.dy - bounds.bottom).abs() <= tolerance) {
       return PainterResizeDirection.bottomRight;
     }
-    
+
     // Check edges
-    if ((point.dx - bounds.left).abs() <= tolerance && 
-        point.dy >= bounds.top && point.dy <= bounds.bottom) {
+    if ((point.dx - bounds.left).abs() <= tolerance &&
+        point.dy >= bounds.top &&
+        point.dy <= bounds.bottom) {
       return PainterResizeDirection.left;
     }
-    if ((point.dx - bounds.right).abs() <= tolerance && 
-        point.dy >= bounds.top && point.dy <= bounds.bottom) {
+    if ((point.dx - bounds.right).abs() <= tolerance &&
+        point.dy >= bounds.top &&
+        point.dy <= bounds.bottom) {
       return PainterResizeDirection.right;
     }
-    if ((point.dy - bounds.top).abs() <= tolerance && 
-        point.dx >= bounds.left && point.dx <= bounds.right) {
+    if ((point.dy - bounds.top).abs() <= tolerance &&
+        point.dx >= bounds.left &&
+        point.dx <= bounds.right) {
       return PainterResizeDirection.top;
     }
-    if ((point.dy - bounds.bottom).abs() <= tolerance && 
-        point.dx >= bounds.left && point.dx <= bounds.right) {
+    if ((point.dy - bounds.bottom).abs() <= tolerance &&
+        point.dx >= bounds.left &&
+        point.dx <= bounds.right) {
       return PainterResizeDirection.bottom;
     }
-    
+
     return null;
   }
 }

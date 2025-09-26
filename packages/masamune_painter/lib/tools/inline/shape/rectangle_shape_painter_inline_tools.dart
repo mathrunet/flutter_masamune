@@ -161,6 +161,12 @@ class RectanglePaintingValue extends PaintingValue {
   }
 
   @override
+  double get minimumArea => 25.0;
+
+  @override
+  Size get minimumSize => const Size(5, 5);
+
+  @override
   DynamicMap toJson() {
     return {
       PaintingValue.typeKey: type,

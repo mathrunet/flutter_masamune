@@ -230,13 +230,13 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   Offset? _dragStartPoint;
   Offset? _dragEndPoint;
   bool _isDragging = false;
+  bool _isDragStarted = false;
   PainterDragMode _dragMode = PainterDragMode.none;
   PainterResizeDirection? _resizeDirection;
 
   PainterTools? get _currentTool {
     return widget.controller._currentTool;
   }
-
 
   @override
   void initState() {
@@ -285,9 +285,10 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
 
   // タップ開始時。
   void _handleTapDown(TapDownDetails details, Size canvasSize) {
+    _isDragStarted = false;
     final position = details.localPosition;
     final currentTool = _currentTool;
-    
+
     // SelectPainterPrimaryToolsが選択されている場合（選択ツール）
     if (currentTool == null) {
       // 複数選択時の処理
@@ -314,7 +315,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
           }
         }
       }
-      
+
       // 既存のオブジェクトをタップしたかチェック
       final tappedValue = widget.controller.findValueAt(position);
       if (tappedValue != null) {
@@ -349,7 +350,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       _isDragging = true;
       _dragMode = PainterDragMode.creating;
       setState(() {});
-    } 
+    }
     // 単一選択時の処理（後方互換性）
     else if (widget.controller.currentValue != null) {
       final rect = widget.controller.currentValue!.rect;
@@ -380,6 +381,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       return;
     }
 
+    _isDragStarted = true;
     final position = details.localPosition;
 
     // ドラッグ選択処理
@@ -395,7 +397,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       setState(() {});
       return;
     }
-    
+
     // 複数選択時の処理
     if (widget.controller.hasMultipleSelection) {
       if (_dragMode == PainterDragMode.moving) {
@@ -461,12 +463,18 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     if (_dragMode == PainterDragMode.selecting) {
       // ドラッグ選択矩形をクリア
       widget.controller.dragSelectionRect = null;
+    } else if (_dragMode == PainterDragMode.creating) {
+      // 作成中の場合はドラッグが行われていないと保存しない
+      if (_isDragStarted) {
+        widget.controller.saveCurrentValue();
+      }
     } else {
       // 編集中の値を保存
       widget.controller.saveCurrentValue();
     }
 
     _isDragging = false;
+    _isDragStarted = false;
     _dragMode = PainterDragMode.none;
     _dragStartPoint = null;
     _dragEndPoint = null;
@@ -579,7 +587,7 @@ class _RawPainter extends CustomPainter {
         ..color = Colors.blue.withValues(alpha: 0.2)
         ..style = PaintingStyle.fill;
       canvas.drawRect(dragSelectionRect!, paint);
-      
+
       final borderPaint = Paint()
         ..color = Colors.blue
         ..style = PaintingStyle.stroke
@@ -599,7 +607,7 @@ class _RawPainter extends CustomPainter {
       _paintSelection(canvas, rect);
     }
   }
-  
+
   void _paintSelectionBounds(Canvas canvas, Rect bounds) {
     // 複数選択時の境界枠を描画
     _paintSelection(canvas, bounds);

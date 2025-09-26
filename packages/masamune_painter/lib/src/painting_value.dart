@@ -123,6 +123,16 @@ abstract class PaintingValue {
   /// 描画用のデータを描画します。
   Rect? paint(Canvas canvas);
 
+  /// The minimum rectangle of the painting value.
+  ///
+  /// 描画用のデータの最小四角形。
+  Size get minimumSize;
+
+  /// Minimum area (height x width) for drawing data.
+  ///
+  /// 描画用のデータの縦✕横の最小面積。
+  double get minimumArea;
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) {
