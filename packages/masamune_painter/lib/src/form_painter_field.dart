@@ -311,6 +311,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
             return;
           }
           // 選択範囲内のチェック（マージンを考慮）
+          // 選択範囲内であれば、その位置に他のオブジェクトがあっても移動モードにする
           if (_isPointInSelectionArea(position, bounds)) {
             _dragMode = PainterDragMode.moving;
             _dragStartPoint = position;
@@ -321,24 +322,29 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
         }
       }
 
-      // 既存のオブジェクトをタップしたかチェック
-      final tappedValue = widget.controller.findValueAt(position);
-      if (tappedValue != null) {
-        // 単一のオブジェクトを選択
-        widget.controller.updateCurrentValue(tappedValue);
-        _dragMode = PainterDragMode.moving;
-        _dragStartPoint = position;
-        _isDragging = true;
-        setState(() {});
-      } else {
-        // 何もない場所をタップ - ドラッグ選択開始
-        widget.controller.unselect();
-        _dragStartPoint = position;
-        _dragEndPoint = position;
-        _isDragging = true;
-        _dragMode = PainterDragMode.selecting;
-        setState(() {});
+      // 複数選択中でない場合のみ、既存のオブジェクトをチェック
+      // 複数選択中で選択範囲外をクリックした場合は、ドラッグ選択を開始
+      if (!widget.controller.hasMultipleSelection) {
+        // 既存のオブジェクトをタップしたかチェック
+        final tappedValue = widget.controller.findValueAt(position);
+        if (tappedValue != null) {
+          // 単一のオブジェクトを選択
+          widget.controller.updateCurrentValue(tappedValue);
+          _dragMode = PainterDragMode.moving;
+          _dragStartPoint = position;
+          _isDragging = true;
+          setState(() {});
+          return;
+        }
       }
+
+      // 何もない場所をタップ、または複数選択中で選択範囲外をタップ - ドラッグ選択開始
+      widget.controller.unselect();
+      _dragStartPoint = position;
+      _dragEndPoint = position;
+      _isDragging = true;
+      _dragMode = PainterDragMode.selecting;
+      setState(() {});
     }
     // ツールが選択されているときは新規作成
     else if (currentTool is PainterVariableInlineTools &&
