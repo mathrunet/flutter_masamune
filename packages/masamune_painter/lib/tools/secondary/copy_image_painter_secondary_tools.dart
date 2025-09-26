@@ -1,31 +1,31 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to cut drawing data [PainterTools].
+/// Display the menu to copy drawing data as image [PainterTools].
 ///
-/// 描画データを切り取るメニューを表示する[PainterTools]。
+/// 描画データを画像としてコピーするメニューを表示する[PainterTools]。
 @immutable
-class CutPainterSecondaryTools extends PainterSecondaryTools {
-  /// Display the menu to cut drawing data [PainterTools].
+class CopyImagePainterSecondaryTools extends PainterSecondaryTools {
+  /// Display the menu to copy drawing data as image [PainterTools].
   ///
-  /// 描画データを切り取るメニューを表示する[PainterTools]。
-  const CutPainterSecondaryTools({
+  /// 描画データを画像としてコピーするメニューを表示する[PainterTools]。
+  const CopyImagePainterSecondaryTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "切り取り",
+          "画像としてコピー",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Cut",
+          "Copy as Image",
         ),
       ]),
-      icon: Icons.cut,
+      icon: Icons.image,
     ),
   });
 
   @override
-  String get id => "__painter_cut__";
+  String get id => "__painter_copy_image__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
@@ -51,6 +51,6 @@ class CutPainterSecondaryTools extends PainterSecondaryTools {
 
   @override
   void onTap(BuildContext context, PainterToolRef ref) {
-    ref.cut();
+    ref.copyAsImage();
   }
 }

@@ -50,5 +50,7 @@ class CopyPainterSecondaryTools extends PainterSecondaryTools {
   }
 
   @override
-  void onTap(BuildContext context, PainterToolRef ref) {}
+  void onTap(BuildContext context, PainterToolRef ref) {
+    ref.copy();
+  }
 }

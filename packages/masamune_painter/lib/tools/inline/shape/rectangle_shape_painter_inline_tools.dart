@@ -173,6 +173,25 @@ class RectanglePaintingValue extends PaintingValue {
   }
 
   @override
+  RectanglePaintingValue copyWith({
+    Offset? offset,
+    Color? color,
+    double? width,
+    bool? filled,
+    Offset? start,
+    Offset? end,
+    String? id,
+  }) {
+    return RectanglePaintingValue(
+      id: id ?? this.id,
+      color: color ?? this.color,
+      width: width ?? this.width,
+      start: (start ?? this.start) + (offset ?? Offset.zero),
+      end: (end ?? this.end) + (offset ?? Offset.zero),
+    );
+  }
+
+  @override
   Rect? paint(Canvas canvas) {
     final rect = Rect.fromPoints(start, end);
 

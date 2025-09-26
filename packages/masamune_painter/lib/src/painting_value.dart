@@ -132,6 +132,19 @@ abstract class PaintingValue {
     required Offset endPoint,
   });
 
+  /// Pasting the painting value.
+  ///
+  /// 描画用のデータをペーストします。
+  PaintingValue copyWith({
+    Offset? offset,
+    String? id,
+    Color? color,
+    double? width,
+    bool? filled,
+    Offset? start,
+    Offset? end,
+  });
+
   /// Painting the painting value.
   ///
   /// 描画用のデータを描画します。

@@ -9,10 +9,13 @@
 library;
 
 // Dart imports:
+import "dart:convert";
 import "dart:math" as math;
+import "dart:ui" as ui;
 
 // Flutter imports:
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 
 // Package imports:
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
@@ -32,7 +35,9 @@ part "tools/primary/select_painter_primary_tools.dart";
 part "tools/primary/shape_painter_primary_tools.dart";
 
 part "tools/secondary/copy_painter_secondary_tools.dart";
+part "tools/secondary/copy_image_painter_secondary_tools.dart";
 part "tools/secondary/cut_painter_secondary_tools.dart";
+part "tools/secondary/delete_painter_secondary_tools.dart";
 part "tools/secondary/paste_painter_secondary_tools.dart";
 
 part "tools/inline/shape/back_shape_painter_inline_tools.dart";

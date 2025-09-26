@@ -100,7 +100,7 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   }
 
   @override
-  bool get canPaste => false;
+  bool get canPaste => widget.controller.canPaste;
 
   @override
   List<PaintingValue> get currentValues => widget.controller.currentValues;
@@ -125,6 +125,47 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   @override
   void unselect() {
     widget.controller.unselect();
+  }
+
+  @override
+  Future<void> copy() async {
+    await widget.controller.copy();
+    setState(() {});
+  }
+
+  @override
+  Future<void> cut() async {
+    await widget.controller.cut();
+    setState(() {});
+  }
+
+  @override
+  Future<void> paste() async {
+    await widget.controller.paste();
+    setState(() {});
+  }
+
+  @override
+  void deleteSelected() {
+    widget.controller.deleteSelected();
+    setState(() {});
+  }
+
+  @override
+  Future<void> copyAsImage() async {
+    await widget.controller.copyAsImage();
+    setState(() {});
+  }
+
+  @override
+  Future<Uint8List?> exportAsImage({
+    double scale = 1.0,
+    Color? backgroundColor,
+  }) async {
+    return await widget.controller.exportSelectionAsImage(
+      scale: scale,
+      backgroundColor: backgroundColor,
+    );
   }
 
   void _handleControllerStateOnChanged() {}
@@ -316,4 +357,34 @@ abstract class PainterToolRef {
   ///
   /// クリップボードに貼り付け可能かどうかを確認します。
   bool get canPaste;
+
+  /// Copy selected values to clipboard.
+  ///
+  /// 選択した値をクリップボードにコピーします。
+  Future<void> copy();
+
+  /// Cut selected values to clipboard.
+  ///
+  /// 選択した値をクリップボードにカットします。
+  Future<void> cut();
+
+  /// Paste values from clipboard.
+  ///
+  /// クリップボードから値をペーストします。
+  Future<void> paste();
+
+  /// Delete selected values.
+  ///
+  /// 選択した値を削除します。
+  void deleteSelected();
+
+  /// Copy selected values as image to clipboard.
+  ///
+  /// 選択した値を画像としてクリップボードにコピーします。
+  Future<void> copyAsImage();
+
+  /// Export selected values as image.
+  ///
+  /// 選択した値を画像としてエクスポートします。
+  Future<Uint8List?> exportAsImage({double scale, Color? backgroundColor});
 }

@@ -134,6 +134,16 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// ドラッグ選択矩形。
   Rect? dragSelectionRect;
 
+  /// The clipboard data for copying/cutting.
+  ///
+  /// コピー/カット用のクリップボードデータ。
+  List<PaintingValue>? _clipboardData;
+
+  /// Check if there is data in the clipboard that can be pasted.
+  ///
+  /// ペースト可能なデータがクリップボードにあるかチェック。
+  bool get canPaste => _clipboardData != null && _clipboardData!.isNotEmpty;
+
   /// Save the current editing values to values list.
   ///
   /// 現在編集中の値を値リストに保存。
@@ -393,6 +403,354 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       }
     }
     return null;
+  }
+
+  /// Copy the selected values to clipboard.
+  ///
+  /// 選択した値をクリップボードにコピー。
+  Future<void> copy() async {
+    if (_currentValues.isEmpty) {
+      return;
+    }
+
+    // Save current editing values first
+    saveCurrentValue();
+
+    // Copy to internal clipboard
+    _clipboardData = List<PaintingValue>.from(_currentValues);
+
+    // Try to copy to system clipboard as both JSON and image
+    try {
+      // Copy as JSON for internal use
+      final jsonData = _currentValues.map((v) => v.toJson()).toList();
+      final jsonString = jsonEncode({
+        "type": "masamune_painter_data",
+        "version": "1.0",
+        "data": jsonData,
+      });
+
+      // Copy as image for external use
+      final imageData = await _captureSelectionAsImage();
+      if (imageData != null) {
+        // Set both text and image data
+        await Clipboard.setData(ClipboardData(text: jsonString));
+        // Note: Flutter doesn't support setting image data directly to clipboard
+        // This would require platform-specific implementation
+      } else {
+        // Fallback to JSON only
+        await Clipboard.setData(ClipboardData(text: jsonString));
+      }
+    } catch (e) {
+      // Ignore errors for system clipboard
+    }
+
+    notifyListeners();
+  }
+
+  /// Cut the selected values to clipboard.
+  ///
+  /// 選択した値をクリップボードにカット。
+  Future<void> cut() async {
+    if (_currentValues.isEmpty) {
+      return;
+    }
+
+    // Copy to clipboard
+    await copy();
+
+    // Remove cut values from the main list
+    final cutIds = _currentValues.map((v) => v.id).toSet();
+    _values.removeWhere((v) => cutIds.contains(v.id));
+
+    // Clear selection
+    _currentValues.clear();
+    dragSelectionRect = null;
+
+    notifyListeners();
+  }
+
+  /// Paste values from clipboard.
+  ///
+  /// クリップボードから値をペースト。
+  Future<void> paste() async {
+    // First try to get data from system clipboard
+    try {
+      final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+      if (clipboardData != null && clipboardData.text != null) {
+        final jsonData = jsonDecode(clipboardData.text!);
+        if (jsonData is Map &&
+            jsonData.get("type", "") == "masamune_painter_data") {
+          final dataList = jsonData.getAsList<DynamicMap>("data");
+          _clipboardData = dataList
+              .map(_createPaintingValueFromJson)
+              .whereType<PaintingValue>()
+              .toList();
+        }
+      }
+    } catch (e) {
+      // Ignore errors and use internal clipboard
+    }
+
+    // Paste from internal clipboard
+    if (_clipboardData == null || _clipboardData!.isEmpty) {
+      return;
+    }
+
+    // Save current values
+    saveCurrentValue();
+
+    // Calculate paste offset (slightly offset from original position)
+    const pasteOffset = Offset(20, 20);
+
+    // Create new instances with new IDs and offset positions
+    final newValues = <PaintingValue>[];
+    for (final value in _clipboardData!) {
+      final newValue = _createPastedValue(value, pasteOffset);
+      newValues.add(newValue);
+      _values.add(newValue);
+    }
+
+    // Select the pasted values
+    _currentValues.clear();
+    _currentValues.addAll(newValues);
+
+    notifyListeners();
+  }
+
+  /// Delete selected values.
+  ///
+  /// 選択した値を削除。
+  void deleteSelected() {
+    if (_currentValues.isEmpty) {
+      return;
+    }
+
+    // Remove selected values from the main list
+    final selectedIds = _currentValues.map((v) => v.id).toSet();
+    _values.removeWhere((v) => selectedIds.contains(v.id));
+
+    // Clear selection
+    _currentValues.clear();
+    dragSelectionRect = null;
+
+    notifyListeners();
+  }
+
+  /// Create a PaintingValue from JSON data.
+  ///
+  /// JSONデータからPaintingValueを作成。
+  PaintingValue? _createPaintingValueFromJson(DynamicMap json) {
+    final type = json.get("type", nullOfString);
+
+    if (type == null) {
+      return null;
+    }
+
+    final tools = adapter.defaultPrimaryTools
+        .expand((e) => e.tools ?? <PainterInlineTools>[])
+        .toList();
+
+    for (final tool in tools) {
+      if (tool is! PainterVariableInlineTools) {
+        continue;
+      }
+      final value = tool.convertFromJson(json);
+      if (value != null) {
+        return value;
+      }
+    }
+
+    return null;
+  }
+
+  /// Create a new PaintingValue with a new ID and offset.
+  ///
+  /// 新しいIDとオフセットで新しいPaintingValueを作成。
+  PaintingValue _createPastedValue(PaintingValue value, Offset offset) {
+    return value.copyWith(offset: offset, id: uuid());
+  }
+
+  /// Capture the selected objects as an image.
+  ///
+  /// 選択されたオブジェクトを画像としてキャプチャ。
+  Future<Uint8List?> _captureSelectionAsImage() async {
+    if (_currentValues.isEmpty) {
+      return null;
+    }
+
+    try {
+      // Get the bounding rectangle of all selected objects
+      final bounds = selectionBounds;
+      if (bounds == null || bounds.width <= 0 || bounds.height <= 0) {
+        return null;
+      }
+
+      // Add some padding around the selection
+      const padding = 10.0;
+      final paddedBounds = Rect.fromLTRB(
+        bounds.left - padding,
+        bounds.top - padding,
+        bounds.right + padding,
+        bounds.bottom + padding,
+      );
+
+      // Create a picture recorder to capture the drawing
+      final recorder = ui.PictureRecorder();
+      final canvas = Canvas(recorder, paddedBounds);
+
+      // Fill background with transparent color
+      canvas.drawRect(paddedBounds, Paint()..color = Colors.transparent);
+
+      // Translate canvas to center the selection
+      canvas.translate(-paddedBounds.left, -paddedBounds.top);
+
+      // Draw only the selected objects
+      for (final value in _currentValues) {
+        value.paint(canvas);
+      }
+
+      // End recording and create image
+      final picture = recorder.endRecording();
+      final image = await picture.toImage(
+        paddedBounds.width.ceil(),
+        paddedBounds.height.ceil(),
+      );
+
+      // Convert to PNG bytes
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      picture.dispose();
+      image.dispose();
+
+      return byteData?.buffer.asUint8List();
+    } catch (e) {
+      // Return null if image capture fails
+      return null;
+    }
+  }
+
+  /// Get the captured image data of selected objects.
+  ///
+  /// 選択されたオブジェクトの画像データを取得。
+  Future<Uint8List?> captureSelectionAsImage() async {
+    return await _captureSelectionAsImage();
+  }
+
+  /// Export selected objects as image file.
+  ///
+  /// 選択されたオブジェクトを画像ファイルとしてエクスポート。
+  Future<Uint8List?> exportSelectionAsImage({
+    double scale = 1.0,
+    Color? backgroundColor,
+  }) async {
+    if (_currentValues.isEmpty) {
+      return null;
+    }
+
+    try {
+      // Get the bounding rectangle of all selected objects
+      final bounds = selectionBounds;
+      if (bounds == null || bounds.width <= 0 || bounds.height <= 0) {
+        return null;
+      }
+
+      // Add some padding around the selection
+      const padding = 10.0;
+      final paddedBounds = Rect.fromLTRB(
+        bounds.left - padding,
+        bounds.top - padding,
+        bounds.right + padding,
+        bounds.bottom + padding,
+      );
+
+      // Create a picture recorder to capture the drawing
+      final recorder = ui.PictureRecorder();
+      final canvas = Canvas(recorder, paddedBounds);
+
+      // Fill background with specified color or transparent
+      final bgColor = backgroundColor ?? Colors.transparent;
+      canvas.drawRect(paddedBounds, Paint()..color = bgColor);
+
+      // Translate canvas to center the selection
+      canvas.translate(-paddedBounds.left, -paddedBounds.top);
+
+      // Draw only the selected objects
+      for (final value in _currentValues) {
+        value.paint(canvas);
+      }
+
+      // End recording and create image with scaling
+      final picture = recorder.endRecording();
+      final image = await picture.toImage(
+        (paddedBounds.width * scale).ceil(),
+        (paddedBounds.height * scale).ceil(),
+      );
+
+      // Convert to PNG bytes
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      picture.dispose();
+      image.dispose();
+
+      return byteData?.buffer.asUint8List();
+    } catch (e) {
+      // Return null if image capture fails
+      return null;
+    }
+  }
+
+  /// Copy selected objects as image only.
+  ///
+  /// 選択されたオブジェクトを画像のみでコピー。
+  Future<void> copyAsImage() async {
+    if (_currentValues.isEmpty) {
+      return;
+    }
+
+    // Save current editing values first
+    saveCurrentValue();
+
+    // Copy to internal clipboard
+    _clipboardData = List<PaintingValue>.from(_currentValues);
+
+    // Try to capture and save as image
+    try {
+      final imageData = await _captureSelectionAsImage();
+      if (imageData != null) {
+        // For now, we'll save as base64 text since Flutter doesn't support
+        // direct image clipboard on all platforms
+        final base64Image = base64Encode(imageData);
+        final imageText = "data:image/png;base64,$base64Image";
+        await Clipboard.setData(ClipboardData(text: imageText));
+      }
+    } catch (e) {
+      // Ignore errors for system clipboard
+    }
+
+    notifyListeners();
+  }
+
+  /// Save selected objects as image file data.
+  ///
+  /// 選択されたオブジェクトを画像ファイルデータとして保存。
+  Future<Map<String, dynamic>?> saveSelectionAsImageData({
+    double scale = 1.0,
+    Color? backgroundColor,
+  }) async {
+    final imageData = await exportSelectionAsImage(
+      scale: scale,
+      backgroundColor: backgroundColor,
+    );
+
+    if (imageData == null) {
+      return null;
+    }
+
+    return {
+      "imageData": imageData,
+      "width": (selectionBounds?.width ?? 0) * scale,
+      "height": (selectionBounds?.height ?? 0) * scale,
+      "format": "png",
+      "mimeType": "image/png",
+    };
   }
 }
 

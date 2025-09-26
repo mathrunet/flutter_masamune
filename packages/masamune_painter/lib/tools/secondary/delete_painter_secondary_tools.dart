@@ -1,31 +1,31 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to cut drawing data [PainterTools].
+/// Display the menu to delete drawing data [PainterTools].
 ///
-/// 描画データを切り取るメニューを表示する[PainterTools]。
+/// 描画データを削除するメニューを表示する[PainterTools]。
 @immutable
-class CutPainterSecondaryTools extends PainterSecondaryTools {
-  /// Display the menu to cut drawing data [PainterTools].
+class DeletePainterSecondaryTools extends PainterSecondaryTools {
+  /// Display the menu to delete drawing data [PainterTools].
   ///
-  /// 描画データを切り取るメニューを表示する[PainterTools]。
-  const CutPainterSecondaryTools({
+  /// 描画データを削除するメニューを表示する[PainterTools]。
+  const DeletePainterSecondaryTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "切り取り",
+          "削除",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Cut",
+          "Delete",
         ),
       ]),
-      icon: Icons.cut,
+      icon: Icons.delete,
     ),
   });
 
   @override
-  String get id => "__painter_cut__";
+  String get id => "__painter_delete__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
@@ -51,6 +51,6 @@ class CutPainterSecondaryTools extends PainterSecondaryTools {
 
   @override
   void onTap(BuildContext context, PainterToolRef ref) {
-    ref.cut();
+    ref.deleteSelected();
   }
 }
