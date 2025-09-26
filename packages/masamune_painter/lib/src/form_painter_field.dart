@@ -310,8 +310,8 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
             setState(() {});
             return;
           }
-          // 選択範囲内のチェック
-          if (bounds.contains(position)) {
+          // 選択範囲内のチェック（マージンを考慮）
+          if (_isPointInSelectionArea(position, bounds)) {
             _dragMode = PainterDragMode.moving;
             _dragStartPoint = position;
             _isDragging = true;
