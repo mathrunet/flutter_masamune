@@ -377,7 +377,17 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     } else if (!_isScaling) {
       // シングルタッチドラッグ
       final transformedPosition = _transformPosition(details.localFocalPoint);
-      _handledOnDragging(transformedPosition, widget.controller.canvasSize);
+
+      // パンモードの場合は、2本指パンと同じ方法で処理
+      if (_dragMode == PainterDragMode.panning) {
+        final focalPointInWidget = details.focalPoint;
+        final newOffset = focalPointInWidget - _startFocalPoint;
+        _currentOffset = newOffset;
+        _updateTransformMatrix();
+        setState(() {});
+      } else {
+        _handledOnDragging(transformedPosition, widget.controller.canvasSize);
+      }
     }
   }
 
@@ -446,6 +456,11 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     _isDragStarted = true;
     if (!_isDragging) {
       _handledOnDragStart(position, canvasSize);
+      return;
+    }
+
+    // パンモード時の処理はonScaleUpdateで行うため、ここでは何もしない
+    if (_dragMode == PainterDragMode.panning) {
       return;
     }
 
@@ -531,8 +546,11 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
 
   // ドラッグ終了時。
   void _handledOnDragEnd(Offset position, Size canvasSize) {
-    // ドラッグ選択終了時の処理
-    if (_dragMode == PainterDragMode.selecting) {
+    // パンモード終了時の処理
+    if (_dragMode == PainterDragMode.panning) {
+      // パンモードの場合は特別な処理はなし
+    } else if (_dragMode == PainterDragMode.selecting) {
+      // ドラッグ選択終了時の処理
       // ドラッグ選択矩形をクリア
       widget.controller.dragSelectionRect = null;
       if (!_isDragStarted) {
@@ -684,6 +702,11 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     final tappedValue = widget.controller.findValueAt(position);
     // 単一のオブジェクトを選択
     if (tappedValue == null) {
+      // 何もない場所をタップした場合はパンモードを開始
+      _dragMode = PainterDragMode.panning;
+      _dragStartPoint = position;
+      _isDragging = true;
+      setState(() {});
       return;
     }
     // ツールが無い場合は選択ツールを設定

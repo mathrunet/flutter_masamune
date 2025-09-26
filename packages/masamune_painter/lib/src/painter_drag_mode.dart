@@ -27,5 +27,10 @@ enum PainterDragMode {
   /// Selecting.
   ///
   /// 選択中。
-  selecting;
+  selecting,
+
+  /// Panning.
+  ///
+  /// パン（視点移動）中。
+  panning;
 }
