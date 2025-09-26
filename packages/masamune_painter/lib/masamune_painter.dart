@@ -36,6 +36,9 @@ part "tools/primary/select_painter_primary_tools.dart";
 part "tools/primary/shape_painter_primary_tools.dart";
 part "tools/primary/redo_painter_primary_tools.dart";
 part "tools/primary/undo_painter_primary_tools.dart";
+part "tools/primary/foreground_color_painter_primary_tools.dart";
+part "tools/primary/background_color_painter_primary_tools.dart";
+part "tools/primary/line_painter_primary_tools.dart";
 
 part "tools/secondary/copy_painter_secondary_tools.dart";
 part "tools/secondary/copy_image_painter_secondary_tools.dart";

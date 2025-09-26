@@ -20,7 +20,7 @@ class UndoPainterPrimaryTools extends PainterPrimaryTools {
           "Undo",
         ),
       ]),
-      icon: FontAwesomeIcons.arrowRotateLeft,
+      icon: Icons.undo,
     ),
   });
 
@@ -36,9 +36,7 @@ class UndoPainterPrimaryTools extends PainterPrimaryTools {
   bool enabled(BuildContext context, PainterToolRef ref) => ref.canUndo;
 
   @override
-  bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool == null;
-  }
+  bool actived(BuildContext context, PainterToolRef ref) => false;
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {

@@ -22,6 +22,8 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
     this.defaultPrimaryTools = const [
       SelectPainterPrimaryTools(),
       ShapePainterPrimaryTools(),
+      UndoPainterPrimaryTools(),
+      RedoPainterPrimaryTools(),
     ],
     this.defaultSecondaryTools = const [
       CopyPainterSecondaryTools(),

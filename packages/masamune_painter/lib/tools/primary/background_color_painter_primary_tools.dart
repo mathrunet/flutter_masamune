@@ -1,31 +1,31 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to redo [PainterTools].
+/// Display the menu to undo [PainterTools].
 ///
-/// やり直しメニューを表示する[PainterTools]。
+/// 元に戻すメニューを表示する[PainterTools]。
 @immutable
-class RedoPainterPrimaryTools extends PainterPrimaryTools {
-  /// Display the menu to redo [PainterTools].
+class BackgroundColorPainterPrimaryTools extends PainterPrimaryTools {
+  /// Display the menu to undo [PainterTools].
   ///
-  /// やり直しメニューを表示する[PainterTools]。
-  const RedoPainterPrimaryTools({
+  /// 元に戻すメニューを表示する[PainterTools]。
+  const BackgroundColorPainterPrimaryTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "やり直し",
+          "背景色",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Redo",
+          "Background Color",
         ),
       ]),
-      icon: Icons.redo,
+      icon: FontAwesomeIcons.paintRoller,
     ),
   });
 
   @override
-  String get id => "__painter_redo__";
+  String get id => "__painter_background_color__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
@@ -33,10 +33,12 @@ class RedoPainterPrimaryTools extends PainterPrimaryTools {
   }
 
   @override
-  bool enabled(BuildContext context, PainterToolRef ref) => ref.canRedo;
+  bool enabled(BuildContext context, PainterToolRef ref) => ref.canUndo;
 
   @override
-  bool actived(BuildContext context, PainterToolRef ref) => false;
+  bool actived(BuildContext context, PainterToolRef ref) {
+    return ref.currentTool == null;
+  }
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
@@ -51,6 +53,6 @@ class RedoPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   void onTap(BuildContext context, PainterToolRef ref) {
-    ref.redo();
+    ref.undo();
   }
 }

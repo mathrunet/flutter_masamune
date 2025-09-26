@@ -528,10 +528,16 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     } else if (_dragMode == PainterDragMode.creating) {
       // 作成中の場合はドラッグが行われていないと保存しない
       if (_isDragStarted) {
-        widget.controller.saveCurrentValue();
+        widget.controller.saveCurrentValue(saveToHistory: true);
+      }
+    } else if (_dragMode == PainterDragMode.moving ||
+        _dragMode == PainterDragMode.resizing) {
+      // 移動・リサイズ完了時は値と履歴を保存
+      if (_isDragStarted) {
+        widget.controller.saveCurrentValue(saveToHistory: true);
       }
     } else {
-      // 編集中の値を保存
+      // その他の編集中の値を保存（履歴保存なし）
       widget.controller.saveCurrentValue();
     }
 

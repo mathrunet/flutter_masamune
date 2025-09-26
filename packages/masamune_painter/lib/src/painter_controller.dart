@@ -207,7 +207,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// Save the current editing values to values list.
   ///
   /// 現在編集中の値を値リストに保存。
-  void saveCurrentValue() {
+  void saveCurrentValue({bool saveToHistory = false}) {
     for (final currentValue in _currentValues) {
       final existingIndex = _values.indexWhere((v) => v.id == currentValue.id);
       if (existingIndex >= 0) {
@@ -215,6 +215,10 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       } else {
         _values.add(currentValue);
       }
+    }
+
+    if (saveToHistory) {
+      _saveToHistory();
     }
   }
 
@@ -234,10 +238,16 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   ///
   /// 現在の値をクリアします。
   void clear() {
-    _saveToHistory();
+    // Save current values first
+    saveCurrentValue();
+
     _values.clear();
     _currentValues.clear();
     dragSelectionRect = null;
+
+    // Save to history after clearing
+    _saveToHistory();
+
     notifyListeners();
   }
 
@@ -282,15 +292,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       _currentValues.add(value);
     }
     dragSelectionRect = null;
-    notifyListeners();
-  }
-
-  /// Save current state to history and add a new value.
-  ///
-  /// 現在の状態を履歴に保存して新しい値を追加。
-  void addValue(PaintingValue value) {
-    _saveToHistory();
-    _values.add(value);
     notifyListeners();
   }
 
@@ -515,7 +516,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       return;
     }
 
-    // Save current editing values first
+    // Save current editing values first (without history)
     saveCurrentValue();
 
     // Copy to internal clipboard
@@ -557,9 +558,10 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       return;
     }
 
-    _saveToHistory();
+    // Save current values first
+    saveCurrentValue();
 
-    // Copy to clipboard
+    // Copy to clipboard (without additional history save)
     await copy();
 
     // Remove cut values from the main list
@@ -569,6 +571,9 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     // Clear selection
     _currentValues.clear();
     dragSelectionRect = null;
+
+    // Save to history after cutting
+    _saveToHistory();
 
     notifyListeners();
   }
@@ -600,9 +605,8 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       return;
     }
 
-    // Save current values
+    // Save current values first
     saveCurrentValue();
-    _saveToHistory();
 
     // Calculate paste offset (slightly offset from original position)
     const pasteOffset = Offset(20, 20);
@@ -619,6 +623,9 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     _currentValues.clear();
     _currentValues.addAll(newValues);
 
+    // Save to history after pasting
+    _saveToHistory();
+
     notifyListeners();
   }
 
@@ -630,7 +637,8 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       return;
     }
 
-    _saveToHistory();
+    // Save current values first
+    saveCurrentValue();
 
     // Remove selected values from the main list
     final selectedIds = _currentValues.map((v) => v.id).toSet();
@@ -639,6 +647,9 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     // Clear selection
     _currentValues.clear();
     dragSelectionRect = null;
+
+    // Save to history after deleting
+    _saveToHistory();
 
     notifyListeners();
   }
@@ -812,7 +823,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       return;
     }
 
-    // Save current editing values first
+    // Save current editing values first (without history)
     saveCurrentValue();
 
     // Copy to internal clipboard
