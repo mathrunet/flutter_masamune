@@ -139,6 +139,7 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
                 dragEndPoint: state._dragEndPoint,
                 isDragging: state._isDragging,
                 actualCanvasSize: controller.canvasSize,
+                currentScale: state._currentScale,
               ),
               size: canvasSize,
             );
@@ -550,7 +551,6 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     if (_dragMode == PainterDragMode.panning) {
       // パンモードの場合は特別な処理はなし
     } else if (_dragMode == PainterDragMode.selecting) {
-      // ドラッグ選択終了時の処理
       // ドラッグ選択矩形をクリア
       widget.controller.dragSelectionRect = null;
       if (!_isDragStarted) {
@@ -581,15 +581,37 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     setState(() {});
   }
 
+  /// Get the scaled handle size based on current zoom level.
+  /// スケールに応じたハンドルサイズを取得。
+  double get _scaledHandleSize {
+    const baseHandleSize = 16.0;
+    // スケールが小さいときはハンドルを大きく、大きいときは小さくする
+    return baseHandleSize / _currentScale;
+  }
+
+  /// Get the scaled selection margin based on current zoom level.
+  /// スケールに応じた選択マージンを取得。
+  double get _scaledSelectionMargin {
+    const baseSelectionMargin = 16.0;
+    return baseSelectionMargin / _currentScale;
+  }
+
+  /// Get the scaled extra margin for handle tap area based on current zoom level.
+  /// スケールに応じたハンドルタップエリアの追加マージンを取得。
+  double get _scaledExtraMargin {
+    const baseExtraMargin = 16.0;
+    return baseExtraMargin / _currentScale;
+  }
+
   bool _isPointInSelectionArea(Offset point, Rect rect) {
-    const selectionMargin = 16.0;
+    final selectionMargin = _scaledSelectionMargin;
     final expandedRect = rect.inflate(selectionMargin);
     return expandedRect.contains(point);
   }
 
   PainterResizeDirection? _getResizeDirection(Offset point, Rect rect) {
-    const handleSize = 16.0;
-    const extraMargin = 16.0;
+    final handleSize = _scaledHandleSize;
+    final extraMargin = _scaledExtraMargin;
 
     // 角のハンドル
     if ((point - rect.topLeft).distance <= handleSize + extraMargin) {
@@ -749,6 +771,7 @@ class _RawPainter extends CustomPainter {
     required this.values,
     required this.currentValues,
     required this.actualCanvasSize,
+    required this.currentScale,
     this.dragSelectionRect,
     this.selectionBounds,
     this.dragStartPoint,
@@ -764,6 +787,7 @@ class _RawPainter extends CustomPainter {
   final Offset? dragEndPoint;
   final bool isDragging;
   final Size actualCanvasSize;
+  final double currentScale;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -835,74 +859,94 @@ class _RawPainter extends CustomPainter {
     _paintSelection(canvas, bounds);
   }
 
+  /// Get the scaled handle size based on current zoom level.
+  /// スケールに応じたハンドルサイズを取得。
+  double get _scaledHandleSize {
+    const baseHandleSize = 16.0;
+    // スケールが小さいときはハンドルを大きく、大きいときは小さくする
+    return baseHandleSize / currentScale;
+  }
+
   void _paintSelection(Canvas canvas, Rect rect) {
+    // スケールに応じた値を取得
+    final handleSize = _scaledHandleSize;
+    final scaledStrokeWidth = 2.0 / currentScale;
+    final scaledDashWidth = 5.0 / currentScale;
+    final scaledDashSpace = 3.0 / currentScale;
+
     // 選択枠を描画
     final selectionPaint = Paint()
       ..color = Colors.blue.withValues(alpha: 0.5)
-      ..strokeWidth = 2
+      ..strokeWidth = scaledStrokeWidth
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
     // 点線風の選択枠
-    const dashWidth = 5.0;
-    const dashSpace = 3.0;
     final path = Path();
 
     // 上辺
     double x = rect.left;
     while (x < rect.right) {
       path.moveTo(x, rect.top);
-      path.lineTo(math.min(x + dashWidth, rect.right), rect.top);
-      x += dashWidth + dashSpace;
+      path.lineTo(math.min(x + scaledDashWidth, rect.right), rect.top);
+      x += scaledDashWidth + scaledDashSpace;
     }
 
     // 右辺
     double y = rect.top;
     while (y < rect.bottom) {
       path.moveTo(rect.right, y);
-      path.lineTo(rect.right, math.min(y + dashWidth, rect.bottom));
-      y += dashWidth + dashSpace;
+      path.lineTo(rect.right, math.min(y + scaledDashWidth, rect.bottom));
+      y += scaledDashWidth + scaledDashSpace;
     }
 
     // 下辺
     x = rect.right;
     while (x > rect.left) {
       path.moveTo(x, rect.bottom);
-      path.lineTo(math.max(x - dashWidth, rect.left), rect.bottom);
-      x -= dashWidth + dashSpace;
+      path.lineTo(math.max(x - scaledDashWidth, rect.left), rect.bottom);
+      x -= scaledDashWidth + scaledDashSpace;
     }
 
     // 左辺
     y = rect.bottom;
     while (y > rect.top) {
       path.moveTo(rect.left, y);
-      path.lineTo(rect.left, math.max(y - dashWidth, rect.top));
-      y -= dashWidth + dashSpace;
+      path.lineTo(rect.left, math.max(y - scaledDashWidth, rect.top));
+      y -= scaledDashWidth + scaledDashSpace;
     }
 
     canvas.drawPath(path, selectionPaint);
 
     // リサイズハンドルを描画
-    const handleSize = 16.0;
     final handlePaint = Paint()
       ..color = Colors.blue
       ..style = PaintingStyle.fill;
 
+    final handleBorderPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = scaledStrokeWidth;
+
+    // ハンドル描画のヘルパー関数
+    void drawHandle(Offset center) {
+      // 白い縁取りを描画
+      canvas.drawCircle(center, handleSize / 2, handleBorderPaint);
+      // メインの色を描画
+      canvas.drawCircle(center, handleSize / 2, handlePaint);
+    }
+
     // 角のハンドル
-    canvas.drawCircle(rect.topLeft, handleSize / 2, handlePaint);
-    canvas.drawCircle(rect.topRight, handleSize / 2, handlePaint);
-    canvas.drawCircle(rect.bottomLeft, handleSize / 2, handlePaint);
-    canvas.drawCircle(rect.bottomRight, handleSize / 2, handlePaint);
+    drawHandle(rect.topLeft);
+    drawHandle(rect.topRight);
+    drawHandle(rect.bottomLeft);
+    drawHandle(rect.bottomRight);
 
     // 辺の中央のハンドル
-    canvas.drawCircle(
-        Offset(rect.center.dx, rect.top), handleSize / 2, handlePaint);
-    canvas.drawCircle(
-        Offset(rect.center.dx, rect.bottom), handleSize / 2, handlePaint);
-    canvas.drawCircle(
-        Offset(rect.left, rect.center.dy), handleSize / 2, handlePaint);
-    canvas.drawCircle(
-        Offset(rect.right, rect.center.dy), handleSize / 2, handlePaint);
+    drawHandle(Offset(rect.center.dx, rect.top));
+    drawHandle(Offset(rect.center.dx, rect.bottom));
+    drawHandle(Offset(rect.left, rect.center.dy));
+    drawHandle(Offset(rect.right, rect.center.dy));
   }
 
   @override
