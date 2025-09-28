@@ -100,74 +100,86 @@ class ColorPickerModal extends Modal {
                 const SizedBox(width: 16),
               ],
             ),
-            Indent(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ListenableBuilder(
-                  listenable: this.ref.controller,
-                  builder: (context, _) {
-                    if (activeTool is BackgroundColorPainterPrimaryTools) {
-                      return ColorPicker(
-                        pickerColor: this.ref.currentBackgroundColor,
-                        onColorChanged: (Color newColor) {
-                          this.ref.setProperty(backgroundColor: newColor);
-                        },
-                        pickerAreaHeightPercent: 0.8,
-                        enableAlpha: true,
-                        displayThumbColor: true,
-                        labelTypes: const [],
-                        paletteType: PaletteType.hsv,
-                      );
-                    } else {
-                      return ColorPicker(
-                        pickerColor: this.ref.currentForegroundColor,
-                        onColorChanged: (Color newColor) {
-                          this.ref.setProperty(foregroundColor: newColor);
-                        },
-                        pickerAreaHeightPercent: 0.8,
-                        enableAlpha: true,
-                        displayThumbColor: true,
-                        labelTypes: const [],
-                        paletteType: PaletteType.hsv,
-                      );
-                    }
-                  },
-                ),
-                if (this.ref.controller.colorHistory.isNotEmpty) ...[
-                  ...this.ref.controller.colorHistory.split(5).map((r) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ...r.map((e) => SizedBox(
-                                width: 28,
-                                height: 28,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    this.ref.setProperty(backgroundColor: e);
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: e,
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: theme.colorTheme?.onBackground ??
-                                            theme.colorScheme.outline,
-                                        width: 2,
+            ListenableBuilder(
+              listenable: this.ref.controller,
+              builder: (context, _) {
+                Widget? picker;
+                if (activeTool is BackgroundColorPainterPrimaryTools) {
+                  picker = ColorPicker(
+                    pickerColor: this.ref.currentBackgroundColor,
+                    onColorChanged: (Color newColor) {
+                      this.ref.setProperty(backgroundColor: newColor);
+                    },
+                    pickerAreaHeightPercent: 0.8,
+                    enableAlpha: true,
+                    displayThumbColor: true,
+                    labelTypes: const [],
+                    paletteType: PaletteType.hsv,
+                  );
+                } else {
+                  picker = ColorPicker(
+                    pickerColor: this.ref.currentForegroundColor,
+                    onColorChanged: (Color newColor) {
+                      this.ref.setProperty(foregroundColor: newColor);
+                    },
+                    pickerAreaHeightPercent: 0.8,
+                    enableAlpha: true,
+                    displayThumbColor: true,
+                    labelTypes: const [],
+                    paletteType: PaletteType.hsv,
+                  );
+                }
+                return Indent(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    picker,
+                    if (this.ref.controller.colorHistory.isNotEmpty) ...[
+                      ...this.ref.controller.colorHistory.split(5).map((r) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ...r.map((e) => SizedBox(
+                                    width: 28,
+                                    height: 28,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        if (activeTool
+                                            is BackgroundColorPainterPrimaryTools) {
+                                          this
+                                              .ref
+                                              .setProperty(backgroundColor: e);
+                                        } else {
+                                          this
+                                              .ref
+                                              .setProperty(foregroundColor: e);
+                                        }
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: e,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: theme
+                                                    .colorTheme?.onBackground ??
+                                                theme.colorScheme.outline,
+                                            width: 2,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              )),
-                        ],
-                      ),
-                    );
-                  }),
-                ],
-              ],
+                                  )),
+                            ],
+                          ),
+                        );
+                      }),
+                    ],
+                  ],
+                );
+              },
             ),
           ],
         ),
