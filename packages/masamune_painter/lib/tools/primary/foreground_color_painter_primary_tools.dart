@@ -43,6 +43,7 @@ class ForegroundColorPainterPrimaryTools extends PainterPrimaryTools {
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
     final disabled = ref.currentForegroundColor.a <= 0.0;
+    final theme = Theme.of(context);
     return Container(
       width: 26,
       height: 26,
@@ -63,6 +64,11 @@ class ForegroundColorPainterPrimaryTools extends PainterPrimaryTools {
             child: Icon(
               config.icon,
               size: 18,
+              color: ref.currentForegroundColor.a < 0.5
+                  ? theme.colorTheme?.onBackground ?? Colors.transparent
+                  : ref.currentForegroundColor.computeLuminance() > 0.5
+                      ? kBlackColor
+                      : kWhiteColor,
             ),
           ),
         ),

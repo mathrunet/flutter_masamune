@@ -59,3 +59,4 @@ part "tools/block/filter/blur_filter_painter_block_tools.dart";
 
 part "tools/block/group/grouping_group_painter_block_tools.dart";
 part "tools/block/line/solid_1px_line_painter_block_tools.dart";
+part "tools/block/line/solid_10px_line_painter_block_tools.dart";

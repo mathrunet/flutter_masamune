@@ -77,8 +77,8 @@ class ColorPickerModal extends Modal {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Theme.of(context).colorTheme?.onBackground ??
-                          Colors.transparent,
+                      color:
+                          theme.colorTheme?.onBackground ?? Colors.transparent,
                       width: 1,
                     ),
                     borderRadius: BorderRadius.circular(4),

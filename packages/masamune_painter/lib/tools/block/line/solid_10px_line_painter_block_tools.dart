@@ -1,23 +1,23 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to draw a 1px solid line [PainterTools].
+/// Display the menu to draw a 10px solid line [PainterTools].
 ///
-/// 1px実線を描画するメニューを表示する[PainterTools]。
+/// 10px実線を描画するメニューを表示する[PainterTools]。
 @immutable
-class Solid1pxLinePainterBlockTools extends PainterLineBlockTools {
-  /// Display the menu to draw a 1px solid line [PainterTools].
+class Solid10pxLinePainterBlockTools extends PainterLineBlockTools {
+  /// Display the menu to draw a 10px solid line [PainterTools].
   ///
-  /// 1px実線を描画するメニューを表示する[PainterTools]。
-  const Solid1pxLinePainterBlockTools({
+  /// 10px実線を描画するメニューを表示する[PainterTools]。
+  const Solid10pxLinePainterBlockTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "1px実線",
+          "10px実線",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "1px Solid Line",
+          "10px Solid Line",
         ),
       ]),
       icon: Icons.line_weight,
@@ -25,10 +25,10 @@ class Solid1pxLinePainterBlockTools extends PainterLineBlockTools {
   });
 
   @override
-  String get id => "__painter_block_line_solid_1px__";
+  String get id => "__painter_block_line_solid_10px__";
 
   @override
-  double get strokeWidth => 1.0;
+  double get strokeWidth => 10.0;
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) => true;
@@ -57,9 +57,9 @@ class Solid1pxLinePainterBlockTools extends PainterLineBlockTools {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("1px", style: theme.textTheme.labelSmall?.smallize(3)),
+          Text("10px", style: theme.textTheme.labelSmall?.smallize(3)),
           Container(
-            height: 1,
+            height: 5,
             color: theme.colorTheme?.onBackground,
           ),
         ],

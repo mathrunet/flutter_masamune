@@ -27,6 +27,7 @@ class LinePainterPrimaryTools extends PainterPrimaryTools {
   @override
   List<PainterBlockTools> get blockTools => const [
         Solid1pxLinePainterBlockTools(),
+        Solid10pxLinePainterBlockTools(),
       ];
 
   @override
@@ -59,5 +60,6 @@ class LinePainterPrimaryTools extends PainterPrimaryTools {
   @override
   void onTap(BuildContext context, PainterToolRef ref) {
     ref.toggleMode(this);
+    
   }
 }
