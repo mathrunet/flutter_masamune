@@ -201,6 +201,13 @@ class RectanglePaintingValue extends PaintingValue {
       ..strokeWidth = width
       ..style = filled ? PaintingStyle.fill : PaintingStyle.stroke;
 
+    if (rect.width.isNaN ||
+        rect.height.isNaN ||
+        rect.width.isInfinite ||
+        rect.height.isInfinite) {
+      return null;
+    }
+
     canvas.drawRect(rect, paint);
     return rect;
   }
