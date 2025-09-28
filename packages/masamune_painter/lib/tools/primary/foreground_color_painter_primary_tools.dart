@@ -20,7 +20,7 @@ class ForegroundColorPainterPrimaryTools extends PainterPrimaryTools {
           "Foreground Color",
         ),
       ]),
-      icon: Icons.format_color_fill,
+      icon: Icons.border_color,
     ),
   });
 
@@ -43,21 +43,29 @@ class ForegroundColorPainterPrimaryTools extends PainterPrimaryTools {
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
     final disabled = ref.currentForegroundColor == Colors.transparent;
-    return Opacity(
-      opacity: disabled ? 0.25 : 1,
-      child: Container(
-        width: 26,
-        height: 26,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Theme.of(context).colorTheme?.onBackground ??
-                Colors.transparent,
-            width: 1,
-          ),
-          color: ref.currentForegroundColor,
-          borderRadius: BorderRadius.circular(4),
+    return Container(
+      width: 26,
+      height: 26,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color:
+              Theme.of(context).colorTheme?.onBackground ?? Colors.transparent,
+          width: 1,
         ),
-        child: Icon(config.icon, size: 18),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: Opacity(
+          opacity: disabled ? 0.25 : 1,
+          child: ColoredBox(
+            color: ref.currentForegroundColor,
+            child: Icon(
+              config.icon,
+              size: 18,
+            ),
+          ),
+        ),
       ),
     );
   }
