@@ -83,7 +83,12 @@ abstract class PainterPrimaryTools extends PainterTools {
   /// Get the inline tools.
   ///
   /// インラインツールを取得します。
-  List<PainterInlineTools>? get tools => null;
+  List<PainterInlineTools>? get inlineTools => null;
+
+  /// Get the block tools.
+  ///
+  /// ブロックツールを取得します。
+  List<PainterBlockTools>? get blockTools => null;
 }
 
 /// Base class for painter sub tools.
@@ -95,6 +100,19 @@ abstract class PainterSecondaryTools extends PainterTools {
   ///
   /// 描画ツールのサブツールの基底クラス。
   const PainterSecondaryTools({
+    required super.config,
+  });
+}
+
+/// Base class for painter block tools.
+///
+/// 描画ツールのブロックツールの基底クラス。
+@immutable
+abstract class PainterBlockTools extends PainterTools {
+  /// Base class for painter block tools.
+  ///
+  /// 描画ツールのブロックツールの基底クラス。
+  const PainterBlockTools({
     required super.config,
   });
 }

@@ -1,6 +1,7 @@
 part of "/masamune_painter.dart";
 
 const _kToolbarHeight = kToolbarHeight;
+const _kBlockMenuToggleDuration = Duration(milliseconds: 200);
 
 /// Markdown toolbar.
 ///
@@ -87,6 +88,10 @@ class FormPainterToolbar extends StatefulWidget {
 
 class _FormPainterToolbarState extends State<FormPainterToolbar>
     implements PainterToolRef {
+  bool _showBlockMenu = false;
+  double _blockMenuHeight = 0;
+  Duration? _blockMenuToggleDuration;
+
   @override
   void initState() {
     super.initState();
@@ -117,9 +122,41 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   @override
   void toggleMode(PainterTools tool) {
     setState(() {
-      if (widget.controller._currentTool == tool) {
+      if (tool == widget.controller._currentTool) {
+        if (_showBlockMenu) {
+          if (_blockMenuToggleDuration != null) {
+            _blockMenuHeight = 0;
+            _blockMenuToggleDuration = _kBlockMenuToggleDuration;
+          }
+          _showBlockMenu = false;
+        } else {
+          if (tool is PainterPrimaryTools && tool.blockTools.isNotEmpty) {
+            if (_blockMenuHeight == 0) {
+              _blockMenuHeight = context.mediaQuery.size.height / 3.0;
+              _blockMenuToggleDuration = _kBlockMenuToggleDuration;
+            }
+            _showBlockMenu = true;
+          }
+        }
         widget.controller._currentTool = null;
       } else {
+        if (_showBlockMenu) {
+          if (tool is! PainterPrimaryTools || tool.blockTools.isEmpty) {
+            if (_blockMenuToggleDuration != null) {
+              _blockMenuHeight = 0;
+              _blockMenuToggleDuration = _kBlockMenuToggleDuration;
+            }
+            _showBlockMenu = false;
+          }
+        } else {
+          if (tool is PainterPrimaryTools && tool.blockTools.isNotEmpty) {
+            _showBlockMenu = true;
+            if (_blockMenuHeight == 0) {
+              _blockMenuHeight = context.mediaQuery.size.height / 3.0;
+              _blockMenuToggleDuration = _kBlockMenuToggleDuration;
+            }
+          }
+        }
         widget.controller._currentTool = tool;
       }
     });
@@ -128,7 +165,12 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   @override
   void deleteMode() {
     setState(() {
+      if (_blockMenuToggleDuration != null) {
+        _blockMenuHeight = 0;
+        _blockMenuToggleDuration = _kBlockMenuToggleDuration;
+      }
       widget.controller._currentTool = null;
+      _showBlockMenu = false;
     });
   }
 
@@ -289,13 +331,93 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
     });
   }
 
+  Widget _buildBlockTools(
+    BuildContext context,
+    ThemeData theme,
+    List<PainterBlockTools> tools,
+  ) {
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 0,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: (widget.style?.borderColor ??
+                      theme.colorTheme?.outline ??
+                      theme.colorScheme.outline)
+                  .withAlpha(128),
+            ),
+          ),
+        ),
+        height: _blockMenuHeight,
+        width: double.infinity,
+        child: GridView.extent(
+          maxCrossAxisExtent: 240,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          childAspectRatio: 3,
+          padding: EdgeInsets.fromLTRB(
+            16,
+            16,
+            16,
+            16 + context.mediaQuery.viewPadding.bottom,
+          ),
+          children: [
+            ...tools.map((e) {
+              return InkWell(
+                onTap: () {
+                  e.onTap(context, this);
+                },
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: widget.style?.subBackgroundColor ??
+                        widget.style?.backgroundColor ??
+                        theme.colorScheme.surface,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: e.icon(context, this),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: DefaultTextStyle(
+                          style:
+                              theme.textTheme.labelMedium ?? const TextStyle(),
+                          child: e.label(context, this),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                    ],
+                  ),
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final height = _blockMenuHeight + _kToolbarHeight;
 
     final inlineTools = widget.controller._currentTool != null &&
             widget.controller._currentTool is PainterPrimaryTools
-        ? (widget.controller._currentTool as PainterPrimaryTools).tools
+        ? (widget.controller._currentTool as PainterPrimaryTools).inlineTools
+        : null;
+    final blockTools = widget.controller._currentTool is PainterPrimaryTools
+        ? (widget.controller._currentTool as PainterPrimaryTools).blockTools
         : null;
 
     return IconTheme(
@@ -309,33 +431,53 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
             TextStyle(
               color: widget.style?.color ?? theme.colorTheme?.onBackground,
             ),
-        child: Container(
+        child: AnimatedContainer(
+          duration: _blockMenuToggleDuration ?? Duration.zero,
+          curve: Curves.easeInOut,
           color: widget.style?.backgroundColor ?? theme.colorTheme?.background,
-          height: _kToolbarHeight,
-          width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
+          height: height,
+          child: Stack(
             children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
+              if (blockTools != null && blockTools.isNotEmpty) ...[
+                _buildBlockTools(context, theme, blockTools),
+              ],
+              Positioned(
+                left: 0,
+                right: 0,
+                top: 0,
+                child: Container(
+                  color: widget.style?.backgroundColor ??
+                      theme.colorTheme?.background,
+                  height: _kToolbarHeight,
+                  width: double.infinity,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
+                    mainAxisSize: MainAxisSize.max,
                     children: [
-                      if (inlineTools != null) ...[
-                        ..._buildInlineTools(context, theme, inlineTools),
-                      ] else ...[
-                        ..._buildPrimaryTools(context, theme),
-                      ],
+                      Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (inlineTools != null) ...[
+                                ..._buildInlineTools(
+                                    context, theme, inlineTools),
+                              ] else ...[
+                                ..._buildPrimaryTools(context, theme),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                      ..._buildSecondaryTools(context, theme),
                     ],
                   ),
                 ),
               ),
-              ..._buildSecondaryTools(context, theme),
             ],
           ),
         ),

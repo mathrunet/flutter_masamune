@@ -404,6 +404,9 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
 
   // ドラッグ開始時。
   void _handledOnDragStart(Offset position, Size canvasSize) {
+    if (_isDragging) {
+      return;
+    }
     final currentTool = _currentTool;
 
     // 複数選択時の処理

@@ -33,11 +33,11 @@ class LinePainterPrimaryTools extends PainterPrimaryTools {
   }
 
   @override
-  bool enabled(BuildContext context, PainterToolRef ref) => ref.canUndo;
+  bool enabled(BuildContext context, PainterToolRef ref) => true;
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool == null;
+    return false;
   }
 
   @override
