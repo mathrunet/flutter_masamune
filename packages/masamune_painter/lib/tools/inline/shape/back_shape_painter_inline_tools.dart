@@ -24,6 +24,7 @@ class BackShapePainterInlineTools extends PainterInlineTools {
     ),
   });
 
+
   @override
   String get id => "__painter_shape_back__";
 

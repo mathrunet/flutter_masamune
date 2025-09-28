@@ -9,6 +9,7 @@
 library;
 
 // Dart imports:
+import "dart:async";
 import "dart:convert";
 import "dart:math" as math;
 import "dart:ui" as ui;
@@ -18,8 +19,10 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
 // Package imports:
+import "package:flutter_colorpicker/flutter_colorpicker.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
 import "package:masamune/masamune.dart";
+import "package:shared_preferences/shared_preferences.dart";
 import "package:vector_math/vector_math_64.dart" hide Colors;
 
 part "adapter/painter_masamune_adapter.dart";
@@ -31,6 +34,7 @@ part "src/painting_value.dart";
 part "src/painter_drag_mode.dart";
 part "src/painter_resize_direction.dart";
 part "src/painter_tools.dart";
+part "src/color_picker_modal.dart";
 
 part "tools/primary/select_painter_primary_tools.dart";
 part "tools/primary/shape_painter_primary_tools.dart";

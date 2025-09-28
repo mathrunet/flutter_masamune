@@ -1,5 +1,7 @@
 part of "/masamune_painter.dart";
 
+const _kColorHistoryKey = "colorHistory";
+
 /// Controller for [FormPainterField].
 ///
 /// By passing this, you can integrate with [FormPainterToolbar] tools.
@@ -128,6 +130,80 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// 現在の値の線ブロックツール。
   PainterLineBlockTools get currentLine => _currentLine ?? adapter.defaultLine;
   PainterLineBlockTools? _currentLine;
+
+  bool _loaded = false;
+  Completer<void>? _loadCompleter;
+  SharedPreferencesWithCache? _cachedSharedPreferences;
+
+  /// Load color history.
+  ///
+  /// 色履歴を読み込みます。
+  Future<void> load() async {
+    if (_loadCompleter != null) {
+      return _loadCompleter!.future;
+    }
+    if (_loaded) {
+      return;
+    }
+    _loadCompleter = Completer<void>();
+    try {
+      _cachedSharedPreferences = await SharedPreferencesWithCache.create(
+        cacheOptions: SharedPreferencesWithCacheOptions(
+          allowList: {
+            _kColorHistoryKey.toSHA1(),
+          },
+        ),
+      );
+      _loaded = true;
+      notifyListeners();
+      _loadCompleter?.complete();
+      _loadCompleter = null;
+    } catch (e) {
+      _loadCompleter?.completeError(e);
+      _loadCompleter = null;
+    } finally {
+      _loadCompleter?.complete();
+      _loadCompleter = null;
+    }
+  }
+
+  /// Get the color history.
+  ///
+  /// 色履歴を取得します。
+  List<Color> get colorHistory =>
+      _cachedSharedPreferences
+          ?.getStringList(_kColorHistoryKey.toSHA1())
+          ?.mapAndRemoveEmpty((e) {
+        final colorInt = int.tryParse("0x$e");
+        if (colorInt == null) {
+          return null;
+        }
+        return Color(colorInt);
+      }) ??
+      [];
+
+  /// Add a color to the color history.
+  ///
+  /// 色履歴に色を追加します。
+  Future<void> addColorToHistory(Color color) async {
+    final history = colorHistory.clone(growable: true);
+    var removed = false;
+    history.removeWhere((e) {
+      if (e == color) {
+        removed = true;
+        return true;
+      }
+      return false;
+    });
+    if (!removed && history.length >= adapter.maxColorHistory) {
+      history.removeLast();
+    }
+    history.insertFirst(color);
+    await _cachedSharedPreferences?.setStringList(
+      _kColorHistoryKey.toSHA1(),
+      history.map((e) => e.toHexString()).toList(),
+    );
+  }
 
   /// Set the property of the current values.
   ///

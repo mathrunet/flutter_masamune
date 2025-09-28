@@ -42,7 +42,7 @@ class ForegroundColorPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
-    final disabled = ref.currentForegroundColor == Colors.transparent;
+    final disabled = ref.currentForegroundColor.a <= 0.0;
     return Container(
       width: 26,
       height: 26,
@@ -77,7 +77,11 @@ class ForegroundColorPainterPrimaryTools extends PainterPrimaryTools {
   }
 
   @override
-  void onTap(BuildContext context, PainterToolRef ref) {
-    ref.setProperty(foregroundColor: ref.currentForegroundColor);
+  void onTap(BuildContext context, PainterToolRef ref) async {
+    // カラーピッカーダイアログを表示
+    await Modal.show(
+      context,
+      modal: ColorPickerModal(ref: ref, activeTool: this),
+    );
   }
 }

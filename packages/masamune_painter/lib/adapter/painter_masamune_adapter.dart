@@ -20,6 +20,7 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
     this.defaultBackgroundColor = Colors.transparent,
     this.defaultForegroundColor = Colors.black,
     this.defaultLine = const Solid1pxLinePainterBlockTools(),
+    this.maxColorHistory = 10,
     this.defaultPrimaryTools = const [
       SelectPainterPrimaryTools(),
       ShapePainterPrimaryTools(),
@@ -67,6 +68,11 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 描画用のデフォルト線ブロックツール。
   final PainterLineBlockTools defaultLine;
+
+  /// The maximum number of color history.
+  ///
+  /// 色履歴の最大数。
+  final int maxColorHistory;
 
   /// You can retrieve the [PainterMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

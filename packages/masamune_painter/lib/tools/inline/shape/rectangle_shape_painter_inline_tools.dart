@@ -219,15 +219,13 @@ class RectanglePaintingValue extends PaintingValue {
 
     final backgroundColor = this.backgroundColor;
     final foregroundColor = this.foregroundColor;
-    if ((backgroundColor == Colors.transparent || backgroundColor == null) &&
-        (foregroundColor == Colors.transparent ||
-            foregroundColor == null ||
-            width <= 0.0)) {
+    if ((backgroundColor == null || backgroundColor.a <= 0.0) &&
+        (foregroundColor == null || foregroundColor.a <= 0.0 || width <= 0.0)) {
       return rect;
     }
 
     // 塗りつぶしの四角を描画
-    if (backgroundColor != Colors.transparent && backgroundColor != null) {
+    if (backgroundColor != null && backgroundColor.a > 0.0) {
       final paint = Paint()
         ..color = backgroundColor
         ..strokeWidth = width
@@ -236,9 +234,7 @@ class RectanglePaintingValue extends PaintingValue {
     }
 
     // 線の四角を描画
-    if (foregroundColor != Colors.transparent &&
-        foregroundColor != null &&
-        width > 0.0) {
+    if (foregroundColor != null && foregroundColor.a > 0.0 && width > 0.0) {
       final paint = Paint()
         ..color = foregroundColor
         ..strokeWidth = width

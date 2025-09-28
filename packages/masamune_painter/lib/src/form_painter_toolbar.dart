@@ -105,6 +105,9 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   }
 
   @override
+  PainterController get controller => widget.controller;
+
+  @override
   bool get canPaste => widget.controller.canPaste;
 
   @override
@@ -582,6 +585,11 @@ abstract class PainterToolRef {
   ///
   /// オブジェクトの選択を解除します。
   void unselect();
+
+  /// Get the controller.
+  ///
+  /// コントローラーを取得します。
+  PainterController get controller;
 
   /// Get the current mode.
   ///
