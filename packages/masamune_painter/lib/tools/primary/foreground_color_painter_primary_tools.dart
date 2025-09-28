@@ -20,7 +20,7 @@ class ForegroundColorPainterPrimaryTools extends PainterPrimaryTools {
           "Foreground Color",
         ),
       ]),
-      icon: FontAwesomeIcons.paintRoller,
+      icon: Icons.format_color_fill,
     ),
   });
 
@@ -42,7 +42,24 @@ class ForegroundColorPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
-    return Icon(config.icon);
+    final disabled = ref.currentForegroundColor == Colors.transparent;
+    return Opacity(
+      opacity: disabled ? 0.25 : 1,
+      child: Container(
+        width: 26,
+        height: 26,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Theme.of(context).colorTheme?.onBackground ??
+                Colors.transparent,
+            width: 1,
+          ),
+          color: ref.currentForegroundColor,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Icon(config.icon, size: 18),
+      ),
+    );
   }
 
   @override
@@ -53,6 +70,6 @@ class ForegroundColorPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   void onTap(BuildContext context, PainterToolRef ref) {
-    ref.undo();
+    ref.setProperty(foregroundColor: ref.currentForegroundColor);
   }
 }

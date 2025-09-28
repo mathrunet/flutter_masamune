@@ -133,7 +133,7 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
               painter: _RawPainter(
                 values: state.value ?? [],
                 currentValues: controller.currentValues,
-                dragSelectionRect: controller.dragSelectionRect,
+                dragSelectionRect: controller._dragSelectionRect,
                 selectionBounds: controller.selectionBounds,
                 dragStartPoint: state._dragStartPoint,
                 dragEndPoint: state._dragEndPoint,
@@ -555,7 +555,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       // パンモードの場合は特別な処理はなし
     } else if (_dragMode == PainterDragMode.selecting) {
       // ドラッグ選択矩形をクリア
-      widget.controller.dragSelectionRect = null;
+      widget.controller._dragSelectionRect = null;
       if (!_isDragStarted) {
         widget.controller._currentTool = null;
       }
@@ -750,8 +750,9 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   }) {
     // 新しい四角形を作成
     final newValue = currentTool.create(
-      color: widget.controller.adapter.defaultColor,
-      width: widget.controller.adapter.defaultStrokeWidth,
+      backgroundColor: widget.controller.currentBackgroundColor,
+      foregroundColor: widget.controller.currentForegroundColor,
+      line: widget.controller.currentLine,
       point: position,
     );
     widget.controller.updateCurrentValue(newValue);

@@ -117,6 +117,24 @@ abstract class PainterBlockTools extends PainterTools {
   });
 }
 
+/// Base class for painter line block tools.
+///
+/// 描画ツールの線ブロックツールの基底クラス。
+@immutable
+abstract class PainterLineBlockTools extends PainterBlockTools {
+  /// Base class for painter line block tools.
+  ///
+  /// 描画ツールの線ブロックツールの基底クラス。
+  const PainterLineBlockTools({
+    required super.config,
+  });
+
+  /// Get the stroke width.
+  ///
+  /// ストローク幅を取得します。
+  double get strokeWidth;
+}
+
 /// Base class for painter inline tools.
 ///
 /// 描画ツールのインラインツールの基底クラス。
@@ -157,9 +175,10 @@ abstract class PainterVariableInlineTools<TValue extends PaintingValue>
   ///
   /// 新しい描画用のデータを作成します。
   TValue create({
-    required Color color,
-    required double width,
     required Offset point,
+    PainterLineBlockTools? line,
+    Color? backgroundColor,
+    Color? foregroundColor,
     String? uid,
   });
 

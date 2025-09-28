@@ -10,11 +10,11 @@ abstract class PaintingValue {
   /// 描画用のデータを格納するクラス。
   const PaintingValue({
     required this.id,
-    required this.color,
+    required this.backgroundColor,
+    required this.foregroundColor,
     required this.width,
     required this.start,
     required this.end,
-    this.filled = false,
   });
 
   /// The type of the painting value.
@@ -40,17 +40,17 @@ abstract class PaintingValue {
   /// The color of the painting value.
   ///
   /// 描画用のデータの色。
-  final Color color;
+  final Color? backgroundColor;
+
+  /// The foreground color of the painting value.
+  ///
+  /// 描画用のデータの前景色。
+  final Color? foregroundColor;
 
   /// The width of the painting value.
   ///
   /// 描画用のデータの幅。
   final double width;
-
-  /// Whether the painting value is filled.
-  ///
-  /// 描画用のデータが塗りつぶされているかどうか。
-  final bool filled;
 
   /// The start point of the area.
   ///
@@ -75,7 +75,12 @@ abstract class PaintingValue {
   /// The key for the color.
   ///
   /// 描画用のデータの色のキー。
-  static const String colorKey = "color";
+  static const String backgroundColorKey = "backgroundColor";
+
+  /// The key for the foreground color.
+  ///
+  /// 描画用のデータの前景色のキー。
+  static const String foregroundColorKey = "foregroundColor";
 
   /// The key for the width.
   ///
@@ -138,9 +143,9 @@ abstract class PaintingValue {
   PaintingValue copyWith({
     Offset? offset,
     String? id,
-    Color? color,
+    Color? backgroundColor,
+    Color? foregroundColor,
     double? width,
-    bool? filled,
     Offset? start,
     Offset? end,
   });

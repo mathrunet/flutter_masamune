@@ -120,6 +120,28 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   PainterTools? get currentTool => widget.controller._currentTool;
 
   @override
+  Color get currentBackgroundColor => widget.controller.currentBackgroundColor;
+
+  @override
+  Color get currentForegroundColor => widget.controller.currentForegroundColor;
+
+  @override
+  PainterLineBlockTools get currentLine => widget.controller.currentLine;
+
+  @override
+  void setProperty({
+    Color? backgroundColor,
+    Color? foregroundColor,
+    PainterLineBlockTools? line,
+  }) {
+    widget.controller.setProperty(
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      line: line,
+    );
+  }
+
+  @override
   void toggleMode(PainterTools tool) {
     setState(() {
       if (tool == widget.controller._currentTool) {
@@ -366,37 +388,91 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
           ),
           children: [
             ...tools.map((e) {
+              final actived = e.actived(context, this);
+              if (actived) {
+                return InkWell(
+                  onTap: () {
+                    e.onTap(context, this);
+                  },
+                  child: IconTheme(
+                    data: IconThemeData(
+                      color: theme.colorScheme.onPrimary,
+                    ),
+                    child: DefaultTextStyle(
+                      style: (theme.textTheme.labelMedium ?? const TextStyle())
+                          .withColor(theme.colorScheme.onPrimary),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primary,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Center(
+                                child: e.icon(context, this),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: DefaultTextStyle(
+                                style: (theme.textTheme.labelMedium ??
+                                        const TextStyle())
+                                    .withColor(theme.colorScheme.onPrimary),
+                                child: e.label(context, this),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }
               return InkWell(
                 onTap: () {
                   e.onTap(context, this);
                 },
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: widget.style?.subBackgroundColor ??
-                        widget.style?.backgroundColor ??
-                        theme.colorScheme.surface,
-                    borderRadius: BorderRadius.circular(4),
+                child: IconTheme(
+                  data: IconThemeData(
+                    color: theme.colorTheme?.onBackground,
                   ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: e.icon(context, this),
-                        ),
+                  child: DefaultTextStyle(
+                    style: (theme.textTheme.labelMedium ?? const TextStyle())
+                        .copyWith(color: theme.colorTheme?.onBackground),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: widget.style?.subBackgroundColor ??
+                            widget.style?.backgroundColor ??
+                            theme.colorScheme.surface,
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                      Expanded(
-                        flex: 2,
-                        child: DefaultTextStyle(
-                          style:
-                              theme.textTheme.labelMedium ?? const TextStyle(),
-                          child: e.label(context, this),
-                        ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Center(
+                              child: e.icon(context, this),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: DefaultTextStyle(
+                              style: theme.textTheme.labelMedium ??
+                                  const TextStyle(),
+                              child: e.label(context, this),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                        ],
                       ),
-                      const SizedBox(width: 16),
-                    ],
+                    ),
                   ),
                 ),
               );
@@ -516,6 +592,30 @@ abstract class PainterToolRef {
   ///
   /// 現在の値を取得します。
   List<PaintingValue> get currentValues;
+
+  /// The background color of the current values.
+  ///
+  /// 現在の値の背景色。
+  Color get currentBackgroundColor;
+
+  /// The foreground color of the current values.
+  ///
+  /// 現在の値の前景色。
+  Color get currentForegroundColor;
+
+  /// The line block tools of the current values.
+  ///
+  /// 現在の値の線ブロックツール。
+  PainterLineBlockTools get currentLine;
+
+  /// Set the property of the current values.
+  ///
+  /// 現在の値のプロパティを設定します。
+  void setProperty({
+    Color? backgroundColor,
+    Color? foregroundColor,
+    PainterLineBlockTools? line,
+  });
 
   /// Check if the clipboard can be pasted.
   ///

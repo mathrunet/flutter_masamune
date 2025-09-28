@@ -34,7 +34,7 @@ class GroupingGroupPainterBlockTools extends PainterBlockTools {
   bool enabled(BuildContext context, PainterToolRef ref) => true;
 
   @override
-  bool actived(BuildContext context, PainterToolRef ref) => true;
+  bool actived(BuildContext context, PainterToolRef ref) => false;
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {

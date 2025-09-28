@@ -77,14 +77,16 @@ class RectangleShapePainterInlineTools
 
   @override
   RectanglePaintingValue create(
-      {required Color color,
-      required double width,
-      required Offset point,
+      {required Offset point,
+      Color? backgroundColor,
+      Color? foregroundColor,
+      PainterLineBlockTools? line,
       String? uid}) {
     return RectanglePaintingValue(
       id: uid ?? uuid(),
-      color: color,
-      width: width,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      width: line?.strokeWidth ?? 0.0,
       start: point,
       end: point,
     );
@@ -118,20 +120,27 @@ class RectanglePaintingValue extends PaintingValue {
   /// 四角形描画用のデータを格納するクラス。
   const RectanglePaintingValue({
     required super.id,
-    required super.color,
+    required super.backgroundColor,
+    required super.foregroundColor,
     required super.width,
     required super.start,
     required super.end,
-  }) : super(filled: false);
+  });
 
   /// Create a [RectanglePaintingValue] from a [DynamicMap].
   ///
   /// [DynamicMap]から[RectanglePaintingValue]を作成します。
   factory RectanglePaintingValue.fromJson(DynamicMap json) {
+    final backgroundColor =
+        json.get(PaintingValue.backgroundColorKey, nullOfNum)?.toInt();
+    final foregroundColor =
+        json.get(PaintingValue.foregroundColorKey, nullOfNum)?.toInt();
+    final width = json.get(PaintingValue.widthKey, 0.0);
     return RectanglePaintingValue(
       id: json.get(PaintingValue.idKey, ""),
-      color: Color(json.getAsInt(PaintingValue.colorKey)),
-      width: json.get(PaintingValue.widthKey, 1.0),
+      backgroundColor: backgroundColor != null ? Color(backgroundColor) : null,
+      foregroundColor: foregroundColor != null ? Color(foregroundColor) : null,
+      width: width,
       start: Offset(
         json.get(PaintingValue.startXKey, 0.0),
         json.get(PaintingValue.startYKey, 0.0),
@@ -159,10 +168,15 @@ class RectanglePaintingValue extends PaintingValue {
 
   @override
   DynamicMap toJson() {
+    final backgroundColor = this.backgroundColor?.toInt();
+    final foregroundColor = this.foregroundColor?.toInt();
     return {
       PaintingValue.typeKey: type,
       PaintingValue.idKey: id,
-      PaintingValue.colorKey: color.toInt(),
+      if (backgroundColor != null)
+        PaintingValue.backgroundColorKey: backgroundColor,
+      if (foregroundColor != null)
+        PaintingValue.foregroundColorKey: foregroundColor,
       PaintingValue.widthKey: width,
       PaintingValue.filledKey: false,
       PaintingValue.startXKey: start.dx,
@@ -175,16 +189,17 @@ class RectanglePaintingValue extends PaintingValue {
   @override
   RectanglePaintingValue copyWith({
     Offset? offset,
-    Color? color,
+    Color? backgroundColor,
+    Color? foregroundColor,
     double? width,
-    bool? filled,
     Offset? start,
     Offset? end,
     String? id,
   }) {
     return RectanglePaintingValue(
       id: id ?? this.id,
-      color: color ?? this.color,
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      foregroundColor: foregroundColor ?? this.foregroundColor,
       width: width ?? this.width,
       start: (start ?? this.start) + (offset ?? Offset.zero),
       end: (end ?? this.end) + (offset ?? Offset.zero),
@@ -195,12 +210,6 @@ class RectanglePaintingValue extends PaintingValue {
   Rect? paint(Canvas canvas) {
     final rect = Rect.fromPoints(start, end);
 
-    // 四角形を描画
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = width
-      ..style = filled ? PaintingStyle.fill : PaintingStyle.stroke;
-
     if (rect.width.isNaN ||
         rect.height.isNaN ||
         rect.width.isInfinite ||
@@ -208,7 +217,35 @@ class RectanglePaintingValue extends PaintingValue {
       return null;
     }
 
-    canvas.drawRect(rect, paint);
+    final backgroundColor = this.backgroundColor;
+    final foregroundColor = this.foregroundColor;
+    if ((backgroundColor == Colors.transparent || backgroundColor == null) &&
+        (foregroundColor == Colors.transparent ||
+            foregroundColor == null ||
+            width <= 0.0)) {
+      return rect;
+    }
+
+    // 塗りつぶしの四角を描画
+    if (backgroundColor != Colors.transparent && backgroundColor != null) {
+      final paint = Paint()
+        ..color = backgroundColor
+        ..strokeWidth = width
+        ..style = PaintingStyle.fill;
+      canvas.drawRect(rect, paint);
+    }
+
+    // 線の四角を描画
+    if (foregroundColor != Colors.transparent &&
+        foregroundColor != null &&
+        width > 0.0) {
+      final paint = Paint()
+        ..color = foregroundColor
+        ..strokeWidth = width
+        ..style = PaintingStyle.stroke;
+
+      canvas.drawRect(rect, paint);
+    }
     return rect;
   }
 
@@ -219,7 +256,8 @@ class RectanglePaintingValue extends PaintingValue {
   }) {
     return RectanglePaintingValue(
       id: id,
-      color: color,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
       width: width,
       start: startPoint,
       end: currentPoint,
@@ -230,7 +268,8 @@ class RectanglePaintingValue extends PaintingValue {
   PaintingValue updateOnMoving({required Offset delta}) {
     return RectanglePaintingValue(
       id: id,
-      color: color,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
       width: width,
       start: start + delta,
       end: end + delta,
@@ -246,7 +285,8 @@ class RectanglePaintingValue extends PaintingValue {
   }) {
     return RectanglePaintingValue(
       id: id,
-      color: color,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
       width: width,
       start: startPoint,
       end: endPoint,

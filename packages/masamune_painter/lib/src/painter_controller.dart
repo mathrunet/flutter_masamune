@@ -32,6 +32,11 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// ```
   static const query = _$PainterControllerQuery();
 
+  /// Maximum number of history entries to keep.
+  ///
+  /// 保持する履歴エントリの最大数。
+  static const int _maxHistorySize = 50;
+
   void _registerState(FormPainterFieldState state) {
     _currentState = state;
   }
@@ -104,6 +109,52 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
   final List<PaintingValue> _values = [];
 
+  /// The background color of the current values.
+  ///
+  /// 現在の値の背景色。
+  Color get currentBackgroundColor =>
+      _currentBackgroundColor ?? adapter.defaultBackgroundColor;
+  Color? _currentBackgroundColor;
+
+  /// The foreground color of the current values.
+  ///
+  /// 現在の値の前景色。
+  Color get currentForegroundColor =>
+      _currentForegroundColor ?? adapter.defaultForegroundColor;
+  Color? _currentForegroundColor;
+
+  /// The line block tools of the current values.
+  ///
+  /// 現在の値の線ブロックツール。
+  PainterLineBlockTools get currentLine => _currentLine ?? adapter.defaultLine;
+  PainterLineBlockTools? _currentLine;
+
+  /// Set the property of the current values.
+  ///
+  /// 現在の値のプロパティを設定します。
+  void setProperty({
+    Color? backgroundColor,
+    Color? foregroundColor,
+    PainterLineBlockTools? line,
+  }) {
+    var changed = false;
+    if (backgroundColor != null && backgroundColor != _currentBackgroundColor) {
+      _currentBackgroundColor = backgroundColor;
+      changed = true;
+    }
+    if (foregroundColor != null && foregroundColor != _currentForegroundColor) {
+      _currentForegroundColor = foregroundColor;
+      changed = true;
+    }
+    if (line != null && line != _currentLine) {
+      _currentLine = line;
+      changed = true;
+    }
+    if (changed) {
+      notifyListeners();
+    }
+  }
+
   /// The bounding rectangle of all selected elements.
   ///
   /// 全選択要素の境界矩形。
@@ -144,31 +195,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// 複数要素が選択されているかチェック。
   bool get hasMultipleSelection => _currentValues.length > 1;
 
-  /// The drag selection rectangle.
-  ///
-  /// ドラッグ選択矩形。
-  Rect? dragSelectionRect;
-
-  /// The clipboard data for copying/cutting.
-  ///
-  /// コピー/カット用のクリップボードデータ。
-  List<PaintingValue>? _clipboardData;
-
-  /// History for undo/redo functionality.
-  ///
-  /// Undo/Redo機能用の履歴。
-  final List<List<PaintingValue>> _history = [];
-
-  /// Current position in history for undo/redo.
-  ///
-  /// Undo/Redo用の履歴内の現在位置。
-  int _historyIndex = -1;
-
-  /// Maximum number of history entries to keep.
-  ///
-  /// 保持する履歴エントリの最大数。
-  static const int _maxHistorySize = 50;
-
   /// Check if there is data in the clipboard that can be pasted.
   ///
   /// ペースト可能なデータがクリップボードにあるかチェック。
@@ -184,25 +210,11 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// Redoが利用可能かチェック。
   bool get canRedo => _historyIndex < _history.length - 1;
 
-  /// Save the current state to history for undo/redo.
-  ///
-  /// Undo/Redo用に現在の状態を履歴に保存。
-  void _saveToHistory() {
-    // Remove any history after the current index (when we're in the middle of history)
-    if (_historyIndex < _history.length - 1) {
-      _history.removeRange(_historyIndex + 1, _history.length);
-    }
+  int _historyIndex = -1;
+  Rect? _dragSelectionRect;
+  List<PaintingValue>? _clipboardData;
 
-    // Add current state to history
-    _history.add(List<PaintingValue>.from(_values));
-    _historyIndex = _history.length - 1;
-
-    // Limit history size
-    if (_history.length > _maxHistorySize) {
-      _history.removeAt(0);
-      _historyIndex--;
-    }
-  }
+  final List<List<PaintingValue>> _history = [];
 
   /// Save the current editing values to values list.
   ///
@@ -222,6 +234,23 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     }
   }
 
+  void _saveToHistory() {
+    // Remove any history after the current index (when we're in the middle of history)
+    if (_historyIndex < _history.length - 1) {
+      _history.removeRange(_historyIndex + 1, _history.length);
+    }
+
+    // Add current state to history
+    _history.add(List<PaintingValue>.from(_values));
+    _historyIndex = _history.length - 1;
+
+    // Limit history size
+    if (_history.length > _maxHistorySize) {
+      _history.removeAt(0);
+      _historyIndex--;
+    }
+  }
+
   /// Deselect all.
   ///
   /// 全選択解除。
@@ -232,7 +261,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       _currentTool = null;
     }
     _currentValues.clear();
-    dragSelectionRect = null;
+    _dragSelectionRect = null;
     notifyListeners();
   }
 
@@ -245,7 +274,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
     _values.clear();
     _currentValues.clear();
-    dragSelectionRect = null;
+    _dragSelectionRect = null;
 
     // Save to history after clearing
     _saveToHistory();
@@ -265,7 +294,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     _values.clear();
     _values.addAll(List<PaintingValue>.from(_history[_historyIndex]));
     _currentValues.clear();
-    dragSelectionRect = null;
+    _dragSelectionRect = null;
     notifyListeners();
   }
 
@@ -281,7 +310,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     _values.clear();
     _values.addAll(List<PaintingValue>.from(_history[_historyIndex]));
     _currentValues.clear();
-    dragSelectionRect = null;
+    _dragSelectionRect = null;
     notifyListeners();
   }
 
@@ -293,7 +322,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     if (value != null) {
       _currentValues.add(value);
     }
-    dragSelectionRect = null;
+    _dragSelectionRect = null;
     notifyListeners();
   }
 
@@ -303,7 +332,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   void updateCurrentValues(List<PaintingValue> values) {
     _currentValues.clear();
     _currentValues.addAll(values);
-    dragSelectionRect = null;
+    _dragSelectionRect = null;
     notifyListeners();
   }
 
@@ -359,7 +388,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   ///
   /// ドラッグ選択矩形を更新。
   void updateDragSelectionRect(Rect? rect) {
-    dragSelectionRect = rect;
+    _dragSelectionRect = rect;
     if (rect != null) {
       selectInRectangle(rect);
     }
@@ -572,7 +601,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
     // Clear selection
     _currentValues.clear();
-    dragSelectionRect = null;
+    _dragSelectionRect = null;
 
     // Save to history after cutting
     _saveToHistory();
@@ -648,7 +677,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
     // Clear selection
     _currentValues.clear();
-    dragSelectionRect = null;
+    _dragSelectionRect = null;
 
     // Save to history after deleting
     _saveToHistory();

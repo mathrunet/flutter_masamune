@@ -25,6 +25,11 @@ class LinePainterPrimaryTools extends PainterPrimaryTools {
   });
 
   @override
+  List<PainterBlockTools> get blockTools => const [
+        Solid1pxLinePainterBlockTools(),
+      ];
+
+  @override
   String get id => "__painter_line__";
 
   @override
@@ -37,12 +42,12 @@ class LinePainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return false;
+    return ref.currentTool is LinePainterPrimaryTools;
   }
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
-    return Icon(config.icon);
+    return ref.currentLine.icon(context, ref);
   }
 
   @override
@@ -53,6 +58,6 @@ class LinePainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   void onTap(BuildContext context, PainterToolRef ref) {
-    ref.undo();
+    ref.toggleMode(this);
   }
 }
