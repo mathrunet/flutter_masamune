@@ -4,28 +4,33 @@ part of "/masamune_painter.dart";
 ///
 /// 元に戻すメニューを表示する[PainterTools]。
 @immutable
-class ForegroundColorPainterPrimaryTools extends PainterPrimaryTools {
+class FilterPainterPrimaryTools extends PainterPrimaryTools {
   /// Display the menu to undo [PainterTools].
   ///
   /// 元に戻すメニューを表示する[PainterTools]。
-  const ForegroundColorPainterPrimaryTools({
+  const FilterPainterPrimaryTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "前景色",
+          "フィルター",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Foreground Color",
+          "Filter",
         ),
       ]),
-      icon: FontAwesomeIcons.paintRoller,
+      icon: Icons.filter_list,
     ),
   });
 
   @override
-  String get id => "__painter_foreground_color__";
+  List<PainterBlockTools> get blockTools => [
+        const BlurFilterPainterBlockTools(),
+      ];
+
+  @override
+  String get id => "__painter_filter__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
@@ -37,7 +42,7 @@ class ForegroundColorPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return false;
+    return ref.currentTool is FilterPainterPrimaryTools;
   }
 
   @override
@@ -53,6 +58,6 @@ class ForegroundColorPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   void onTap(BuildContext context, PainterToolRef ref) {
-    ref.undo();
+    ref.toggleMode(this);
   }
 }

@@ -1,44 +1,40 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to undo [PainterTools].
+/// Display the menu to grouping blocks [PainterTools].
 ///
-/// 元に戻すメニューを表示する[PainterTools]。
+/// グループ化するメニューを表示する[PainterTools]。
 @immutable
-class ForegroundColorPainterPrimaryTools extends PainterPrimaryTools {
-  /// Display the menu to undo [PainterTools].
+class GroupingGroupPainterBlockTools extends PainterBlockTools {
+  /// Display the menu to grouping blocks [PainterTools].
   ///
-  /// 元に戻すメニューを表示する[PainterTools]。
-  const ForegroundColorPainterPrimaryTools({
+  /// グループ化するメニューを表示する[PainterTools]。
+  const GroupingGroupPainterBlockTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "前景色",
+          "グループ化",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Foreground Color",
+          "Grouping",
         ),
       ]),
-      icon: FontAwesomeIcons.paintRoller,
+      icon: Icons.group,
     ),
   });
 
   @override
-  String get id => "__painter_foreground_color__";
+  String get id => "__painter_block_group_grouping__";
 
   @override
-  bool shown(BuildContext context, PainterToolRef ref) {
-    return true;
-  }
+  bool shown(BuildContext context, PainterToolRef ref) => true;
 
   @override
   bool enabled(BuildContext context, PainterToolRef ref) => true;
 
   @override
-  bool actived(BuildContext context, PainterToolRef ref) {
-    return false;
-  }
+  bool actived(BuildContext context, PainterToolRef ref) => true;
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
@@ -53,6 +49,6 @@ class ForegroundColorPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   void onTap(BuildContext context, PainterToolRef ref) {
-    ref.undo();
+    ref.deleteMode();
   }
 }

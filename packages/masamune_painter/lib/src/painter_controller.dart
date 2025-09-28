@@ -667,7 +667,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     }
 
     final tools = adapter.defaultPrimaryTools
-        .expand((e) => e.tools ?? <PainterInlineTools>[])
+        .expand((e) => e.inlineTools ?? <PainterInlineTools>[])
         .toList();
 
     for (final tool in tools) {

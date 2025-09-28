@@ -39,6 +39,8 @@ part "tools/primary/undo_painter_primary_tools.dart";
 part "tools/primary/foreground_color_painter_primary_tools.dart";
 part "tools/primary/background_color_painter_primary_tools.dart";
 part "tools/primary/line_painter_primary_tools.dart";
+part "tools/primary/group_painter_primary_tools.dart";
+part "tools/primary/filter_painter_primary_tools.dart";
 
 part "tools/secondary/copy_painter_secondary_tools.dart";
 part "tools/secondary/copy_image_painter_secondary_tools.dart";
@@ -48,3 +50,7 @@ part "tools/secondary/paste_painter_secondary_tools.dart";
 
 part "tools/inline/shape/back_shape_painter_inline_tools.dart";
 part "tools/inline/shape/rectangle_shape_painter_inline_tools.dart";
+
+part "tools/block/filter/blur_filter_painter_block_tools.dart";
+
+part "tools/block/group/grouping_group_painter_block_tools.dart";

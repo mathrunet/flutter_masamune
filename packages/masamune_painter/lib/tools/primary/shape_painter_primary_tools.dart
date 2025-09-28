@@ -22,14 +22,18 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
       ]),
       icon: FontAwesomeIcons.shapes,
     ),
-    this.tools = const [
+    this.inlineTools = const [
       BackShapePainterInlineTools(),
       RectangleShapePainterInlineTools(),
     ],
+    this.blockTools = const [],
   });
 
   @override
-  final List<PainterInlineTools> tools;
+  final List<PainterInlineTools> inlineTools;
+
+  @override
+  final List<PainterBlockTools> blockTools;
 
   @override
   String get id => "__painter_shape__";
@@ -42,12 +46,12 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool != null && tools.contains(ref.currentTool);
+    return ref.currentTool != null && inlineTools.contains(ref.currentTool);
   }
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
-    final activeTool = tools.firstWhereOrNull((e) {
+    final activeTool = inlineTools.firstWhereOrNull((e) {
       return e == ref.currentTool;
     });
     if (activeTool != null) {
@@ -58,7 +62,7 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   Widget label(BuildContext context, PainterToolRef ref) {
-    final activeTool = tools.firstWhereOrNull((e) {
+    final activeTool = inlineTools.firstWhereOrNull((e) {
       return e == ref.currentTool;
     });
     if (activeTool != null) {
