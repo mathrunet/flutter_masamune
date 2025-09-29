@@ -12,7 +12,7 @@ abstract class PaintingValue {
     required this.id,
     required this.backgroundColor,
     required this.foregroundColor,
-    required this.width,
+    required this.tool,
     required this.start,
     required this.end,
   });
@@ -47,10 +47,10 @@ abstract class PaintingValue {
   /// 描画用のデータの前景色。
   final Color? foregroundColor;
 
-  /// The width of the painting value.
+  /// The tool of the painting value.
   ///
-  /// 描画用のデータの幅。
-  final double width;
+  /// 描画用のデータのツール。
+  final PainterLineBlockTools? tool;
 
   /// The start point of the area.
   ///
@@ -82,10 +82,10 @@ abstract class PaintingValue {
   /// 描画用のデータの前景色のキー。
   static const String foregroundColorKey = "foregroundColor";
 
-  /// The key for the width.
+  /// The key for the tool.
   ///
-  /// 描画用のデータの幅のキー。
-  static const String widthKey = "width";
+  /// 描画用のデータのツールのキー。
+  static const String toolKey = "tool";
 
   /// The key for the filled.
   ///
@@ -145,7 +145,7 @@ abstract class PaintingValue {
     String? id,
     Color? backgroundColor,
     Color? foregroundColor,
-    double? width,
+    PainterLineBlockTools? tool,
     Offset? start,
     Offset? end,
   });

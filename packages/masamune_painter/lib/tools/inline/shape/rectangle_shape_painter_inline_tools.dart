@@ -80,13 +80,13 @@ class RectangleShapePainterInlineTools
       {required Offset point,
       Color? backgroundColor,
       Color? foregroundColor,
-      PainterLineBlockTools? line,
+      PainterLineBlockTools? tool,
       String? uid}) {
     return RectanglePaintingValue(
       id: uid ?? uuid(),
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
-      width: line?.strokeWidth ?? 0.0,
+      tool: tool,
       start: point,
       end: point,
     );
@@ -122,7 +122,7 @@ class RectanglePaintingValue extends PaintingValue {
     required super.id,
     required super.backgroundColor,
     required super.foregroundColor,
-    required super.width,
+    required super.tool,
     required super.start,
     required super.end,
   });
@@ -135,12 +135,18 @@ class RectanglePaintingValue extends PaintingValue {
         json.get(PaintingValue.backgroundColorKey, nullOfNum)?.toInt();
     final foregroundColor =
         json.get(PaintingValue.foregroundColorKey, nullOfNum)?.toInt();
-    final width = json.get(PaintingValue.widthKey, 0.0);
+    final toolId = json.get(PaintingValue.toolKey, "");
+    final lineTool =
+        PainterMasamuneAdapter.primary.defaultPrimaryTools.firstWhereOrNull(
+      (e) => e is LinePainterPrimaryTools,
+    );
+    final lineTools = lineTool?.blockTools?.whereType<PainterLineBlockTools>();
+    final tool = lineTools?.firstWhereOrNull((e) => e.id == toolId);
     return RectanglePaintingValue(
       id: json.get(PaintingValue.idKey, ""),
       backgroundColor: backgroundColor != null ? Color(backgroundColor) : null,
       foregroundColor: foregroundColor != null ? Color(foregroundColor) : null,
-      width: width,
+      tool: tool,
       start: Offset(
         json.get(PaintingValue.startXKey, 0.0),
         json.get(PaintingValue.startYKey, 0.0),
@@ -177,7 +183,7 @@ class RectanglePaintingValue extends PaintingValue {
         PaintingValue.backgroundColorKey: backgroundColor,
       if (foregroundColor != null)
         PaintingValue.foregroundColorKey: foregroundColor,
-      PaintingValue.widthKey: width,
+      PaintingValue.toolKey: tool?.id,
       PaintingValue.filledKey: false,
       PaintingValue.startXKey: start.dx,
       PaintingValue.startYKey: start.dy,
@@ -191,7 +197,7 @@ class RectanglePaintingValue extends PaintingValue {
     Offset? offset,
     Color? backgroundColor,
     Color? foregroundColor,
-    double? width,
+    PainterLineBlockTools? tool,
     Offset? start,
     Offset? end,
     String? id,
@@ -200,7 +206,7 @@ class RectanglePaintingValue extends PaintingValue {
       id: id ?? this.id,
       backgroundColor: backgroundColor ?? this.backgroundColor,
       foregroundColor: foregroundColor ?? this.foregroundColor,
-      width: width ?? this.width,
+      tool: tool ?? this.tool,
       start: (start ?? this.start) + (offset ?? Offset.zero),
       end: (end ?? this.end) + (offset ?? Offset.zero),
     );
@@ -220,7 +226,7 @@ class RectanglePaintingValue extends PaintingValue {
     final backgroundColor = this.backgroundColor;
     final foregroundColor = this.foregroundColor;
     if ((backgroundColor == null || backgroundColor.a <= 0.0) &&
-        (foregroundColor == null || foregroundColor.a <= 0.0 || width <= 0.0)) {
+        (foregroundColor == null || foregroundColor.a <= 0.0 || tool == null)) {
       return rect;
     }
 
@@ -228,16 +234,16 @@ class RectanglePaintingValue extends PaintingValue {
     if (backgroundColor != null && backgroundColor.a > 0.0) {
       final paint = Paint()
         ..color = backgroundColor
-        ..strokeWidth = width
+        ..strokeWidth = tool?.strokeWidth ?? 1.0
         ..style = PaintingStyle.fill;
       canvas.drawRect(rect, paint);
     }
 
     // 線の四角を描画
-    if (foregroundColor != null && foregroundColor.a > 0.0 && width > 0.0) {
+    if (foregroundColor != null && foregroundColor.a > 0.0 && tool != null) {
       final paint = Paint()
         ..color = foregroundColor
-        ..strokeWidth = width
+        ..strokeWidth = tool?.strokeWidth ?? 1.0
         ..style = PaintingStyle.stroke;
 
       canvas.drawRect(rect, paint);
@@ -254,7 +260,7 @@ class RectanglePaintingValue extends PaintingValue {
       id: id,
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
-      width: width,
+      tool: tool,
       start: startPoint,
       end: currentPoint,
     );
@@ -266,7 +272,7 @@ class RectanglePaintingValue extends PaintingValue {
       id: id,
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
-      width: width,
+      tool: tool,
       start: start + delta,
       end: end + delta,
     );
@@ -283,7 +289,7 @@ class RectanglePaintingValue extends PaintingValue {
       id: id,
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
-      width: width,
+      tool: tool,
       start: startPoint,
       end: endPoint,
     );

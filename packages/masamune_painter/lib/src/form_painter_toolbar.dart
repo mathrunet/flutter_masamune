@@ -123,24 +123,52 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   PainterTools? get currentTool => widget.controller._currentTool;
 
   @override
-  Color get currentBackgroundColor => widget.controller.currentBackgroundColor;
+  Color get currentToolBackgroundColor =>
+      widget.controller.currentToolBackgroundColor;
 
   @override
-  Color get currentForegroundColor => widget.controller.currentForegroundColor;
+  Color get currentToolForegroundColor =>
+      widget.controller.currentToolForegroundColor;
 
   @override
-  PainterLineBlockTools get currentLine => widget.controller.currentLine;
+  PainterLineBlockTools get currentToolLine =>
+      widget.controller.currentToolLine;
 
   @override
-  void setProperty({
+  Color? get currentValueBackgroundColor =>
+      widget.controller.currentValueBackgroundColor;
+
+  @override
+  Color? get currentValueForegroundColor =>
+      widget.controller.currentValueForegroundColor;
+
+  @override
+  PainterLineBlockTools? get currentValueLine =>
+      widget.controller.currentValueLine;
+
+  @override
+  void setToolProperty({
     Color? backgroundColor,
     Color? foregroundColor,
-    PainterLineBlockTools? line,
+    PainterLineBlockTools? tool,
   }) {
-    widget.controller.setProperty(
+    widget.controller.setToolProperty(
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
-      line: line,
+      tool: tool,
+    );
+  }
+
+  @override
+  void setValueProperty({
+    Color? backgroundColor,
+    Color? foregroundColor,
+    PainterLineBlockTools? tool,
+  }) {
+    widget.controller.setValueProperty(
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      tool: tool,
     );
   }
 
@@ -601,28 +629,52 @@ abstract class PainterToolRef {
   /// 現在の値を取得します。
   List<PaintingValue> get currentValues;
 
-  /// The background color of the current values.
+  /// The background color of the current tool.
+  ///
+  /// 現在のツールの背景色。
+  Color get currentToolBackgroundColor;
+
+  /// The foreground color of the current tool.
+  ///
+  /// 現在のツールの前景色。
+  Color get currentToolForegroundColor;
+
+  /// The line block tools of the current tool.
+  ///
+  /// 現在のツールの線ブロックツール。
+  PainterLineBlockTools get currentToolLine;
+
+  /// The background color of the current value.
   ///
   /// 現在の値の背景色。
-  Color get currentBackgroundColor;
+  Color? get currentValueBackgroundColor;
 
-  /// The foreground color of the current values.
+  /// The foreground color of the current value.
   ///
   /// 現在の値の前景色。
-  Color get currentForegroundColor;
+  Color? get currentValueForegroundColor;
 
-  /// The line block tools of the current values.
+  /// The line block tools of the current value.
   ///
   /// 現在の値の線ブロックツール。
-  PainterLineBlockTools get currentLine;
+  PainterLineBlockTools? get currentValueLine;
+
+  /// Set the property of the current tool.
+  ///
+  /// 現在のツールのプロパティを設定します。
+  void setToolProperty({
+    Color? backgroundColor,
+    Color? foregroundColor,
+    PainterLineBlockTools? tool,
+  });
 
   /// Set the property of the current values.
   ///
   /// 現在の値のプロパティを設定します。
-  void setProperty({
+  void setValueProperty({
     Color? backgroundColor,
     Color? foregroundColor,
-    PainterLineBlockTools? line,
+    PainterLineBlockTools? tool,
   });
 
   /// Check if the clipboard can be pasted.

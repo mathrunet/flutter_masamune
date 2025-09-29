@@ -38,7 +38,11 @@ class Solid1pxLinePainterBlockTools extends PainterLineBlockTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentLine == this;
+    if (ref.currentValues.isNotEmpty) {
+      return ref.currentValueLine == this;
+    } else {
+      return ref.currentToolLine == this;
+    }
   }
 
   @override
@@ -75,7 +79,11 @@ class Solid1pxLinePainterBlockTools extends PainterLineBlockTools {
 
   @override
   void onTap(BuildContext context, PainterToolRef ref) {
-    ref.setProperty(line: this);
+    if (ref.currentValues.isNotEmpty) {
+      ref.setValueProperty(tool: this);
+    } else {
+      ref.setToolProperty(tool: this);
+    }
     ref.deleteMode();
   }
 }

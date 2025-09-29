@@ -176,7 +176,7 @@ abstract class PainterVariableInlineTools<TValue extends PaintingValue>
   /// 新しい描画用のデータを作成します。
   TValue create({
     required Offset point,
-    PainterLineBlockTools? line,
+    PainterLineBlockTools? tool,
     Color? backgroundColor,
     Color? foregroundColor,
     String? uid,

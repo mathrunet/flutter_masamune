@@ -48,7 +48,50 @@ class LinePainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
-    return ref.currentLine.icon(context, ref);
+    if (ref.currentValues.isNotEmpty) {
+      final theme = Theme.of(context);
+      return ref.currentValueLine?.icon(context, ref) ??
+          Container(
+            height: 26,
+            width: 26,
+            decoration: BoxDecoration(
+              border: Border.all(
+                  color: theme.colorTheme?.onBackground ?? Colors.transparent),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Stack(
+              children: [
+                Center(
+                  child: Opacity(
+                    opacity: 0.25,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("???",
+                            style: theme.textTheme.labelSmall?.smallize(3)),
+                        Container(
+                          height: 1,
+                          color: theme.colorTheme?.onBackground,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Icon(
+                    Icons.question_mark,
+                    size: 18,
+                    color: theme.colorTheme?.onBackground ?? Colors.transparent,
+                  ),
+                ),
+              ],
+            ),
+          );
+    } else {
+      return ref.currentToolLine.icon(context, ref);
+    }
   }
 
   @override
@@ -60,6 +103,5 @@ class LinePainterPrimaryTools extends PainterPrimaryTools {
   @override
   void onTap(BuildContext context, PainterToolRef ref) {
     ref.toggleMode(this);
-    
   }
 }

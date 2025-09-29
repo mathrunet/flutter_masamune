@@ -19,6 +19,8 @@ class ColorPickerModal extends Modal {
   const ColorPickerModal({
     required this.ref,
     required this.activeTool,
+    this.onColorChanged,
+    this.onRetrieveColor,
     this.submitLabel,
     this.submitIcon,
   });
@@ -43,6 +45,16 @@ class ColorPickerModal extends Modal {
   /// 確定ボタンのアイコン。
   final Widget? submitIcon;
 
+  /// Color changed.
+  ///
+  /// 色が変更された。
+  final void Function(Color color)? onColorChanged;
+
+  /// Retrieve color.
+  ///
+  /// 色を取得する。
+  final Color? Function()? onRetrieveColor;
+
   @override
   Widget build(BuildContext context, ModalRef ref) {
     final theme = Theme.of(context);
@@ -60,11 +72,11 @@ class ColorPickerModal extends Modal {
                   onPressed: () {
                     if (activeTool is BackgroundColorPainterPrimaryTools) {
                       this.ref.controller.addColorToHistory(
-                            this.ref.currentBackgroundColor,
+                            this.ref.currentToolBackgroundColor,
                           );
                     } else {
                       this.ref.controller.addColorToHistory(
-                            this.ref.currentForegroundColor,
+                            this.ref.currentToolForegroundColor,
                           );
                     }
                     ref.close();
@@ -103,38 +115,25 @@ class ColorPickerModal extends Modal {
             ListenableBuilder(
               listenable: this.ref.controller,
               builder: (context, _) {
-                Widget? picker;
-                if (activeTool is BackgroundColorPainterPrimaryTools) {
-                  picker = ColorPicker(
-                    pickerColor: this.ref.currentBackgroundColor,
-                    onColorChanged: (Color newColor) {
-                      this.ref.setProperty(backgroundColor: newColor);
-                    },
-                    pickerAreaHeightPercent: 0.8,
-                    enableAlpha: true,
-                    displayThumbColor: true,
-                    labelTypes: const [],
-                    paletteType: PaletteType.hsv,
-                  );
-                } else {
-                  picker = ColorPicker(
-                    pickerColor: this.ref.currentForegroundColor,
-                    onColorChanged: (Color newColor) {
-                      this.ref.setProperty(foregroundColor: newColor);
-                    },
-                    pickerAreaHeightPercent: 0.8,
-                    enableAlpha: true,
-                    displayThumbColor: true,
-                    labelTypes: const [],
-                    paletteType: PaletteType.hsv,
-                  );
-                }
                 return Indent(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
                   // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    picker,
+                    ColorPicker(
+                      pickerColor:
+                          onRetrieveColor?.call() ?? Colors.transparent,
+                      onColorChanged: (color) {
+                        onColorChanged?.call(color);
+                      },
+                      pickerAreaHeightPercent: 0.8,
+                      enableAlpha: true,
+                      displayThumbColor: true,
+                      labelTypes: const [],
+                      paletteType: PaletteType.hsv,
+                    ),
                     if (this.ref.controller.colorHistory.isNotEmpty) ...[
                       ...this.ref.controller.colorHistory.split(5).map((r) {
                         return Padding(
@@ -142,36 +141,29 @@ class ColorPickerModal extends Modal {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              ...r.map((e) => SizedBox(
-                                    width: 28,
-                                    height: 28,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        if (activeTool
-                                            is BackgroundColorPainterPrimaryTools) {
-                                          this
-                                              .ref
-                                              .setProperty(backgroundColor: e);
-                                        } else {
-                                          this
-                                              .ref
-                                              .setProperty(foregroundColor: e);
-                                        }
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: e,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: theme
-                                                    .colorTheme?.onBackground ??
-                                                theme.colorScheme.outline,
-                                            width: 2,
-                                          ),
+                              ...r.map(
+                                (e) => SizedBox(
+                                  width: 28,
+                                  height: 28,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      onColorChanged?.call(e);
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: e,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color:
+                                              theme.colorTheme?.onBackground ??
+                                                  theme.colorScheme.outline,
+                                          width: 2,
                                         ),
                                       ),
                                     ),
-                                  )),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         );

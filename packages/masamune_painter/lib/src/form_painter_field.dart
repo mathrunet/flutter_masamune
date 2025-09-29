@@ -750,9 +750,9 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   }) {
     // 新しい四角形を作成
     final newValue = currentTool.create(
-      backgroundColor: widget.controller.currentBackgroundColor,
-      foregroundColor: widget.controller.currentForegroundColor,
-      line: widget.controller.currentLine,
+      backgroundColor: widget.controller.currentToolBackgroundColor,
+      foregroundColor: widget.controller.currentToolForegroundColor,
+      tool: widget.controller.currentToolLine,
       point: position,
     );
     widget.controller.updateCurrentValue(newValue);

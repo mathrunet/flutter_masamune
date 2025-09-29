@@ -111,25 +111,83 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
   final List<PaintingValue> _values = [];
 
-  /// The background color of the current values.
+  /// The background color of the current tool.
+  ///
+  /// 現在のツールの背景色。
+  Color get currentToolBackgroundColor =>
+      _currentToolBackgroundColor ?? adapter.defaultBackgroundColor;
+  Color? _currentToolBackgroundColor;
+
+  /// The foreground color of the current tool.
+  ///
+  /// 現在のツールの前景色。
+  Color get currentToolForegroundColor =>
+      _currentToolForegroundColor ?? adapter.defaultForegroundColor;
+  Color? _currentToolForegroundColor;
+
+  /// The line block tools of the current tool.
+  ///
+  /// 現在のツールの線ブロックツール。
+  PainterLineBlockTools get currentToolLine =>
+      _currentToolLine ?? adapter.defaultLine;
+  PainterLineBlockTools? _currentToolLine;
+
+  /// The background color of the current value.
   ///
   /// 現在の値の背景色。
-  Color get currentBackgroundColor =>
-      _currentBackgroundColor ?? adapter.defaultBackgroundColor;
-  Color? _currentBackgroundColor;
+  Color? get currentValueBackgroundColor {
+    var different = false;
+    final colors = <Color?>[];
+    for (final value in currentValues) {
+      final color = value.backgroundColor;
+      if (colors.any((e) => e != color)) {
+        different = true;
+      }
+      colors.add(color);
+    }
+    if (different) {
+      return null;
+    }
+    return colors.first ?? Colors.transparent;
+  }
 
-  /// The foreground color of the current values.
+  /// The foreground color of the current value.
   ///
   /// 現在の値の前景色。
-  Color get currentForegroundColor =>
-      _currentForegroundColor ?? adapter.defaultForegroundColor;
-  Color? _currentForegroundColor;
+  Color? get currentValueForegroundColor {
+    var different = false;
+    final colors = <Color?>[];
+    for (final value in currentValues) {
+      final color = value.foregroundColor;
+      if (colors.any((e) => e != color)) {
+        different = true;
+      }
+      colors.add(color);
+    }
+    if (different) {
+      return null;
+    }
+    return colors.first ?? Colors.transparent;
+  }
 
-  /// The line block tools of the current values.
+  /// The line block tools of the current value.
   ///
   /// 現在の値の線ブロックツール。
-  PainterLineBlockTools get currentLine => _currentLine ?? adapter.defaultLine;
-  PainterLineBlockTools? _currentLine;
+  PainterLineBlockTools? get currentValueLine {
+    var different = false;
+    final tools = <PainterLineBlockTools?>[];
+    for (final value in currentValues) {
+      final tool = value.tool;
+      if (tools.any((e) => e?.id != tool?.id)) {
+        different = true;
+      }
+      tools.add(tool);
+    }
+    if (different) {
+      return null;
+    }
+    return tools.first ?? PainterMasamuneAdapter.primary.defaultLine;
+  }
 
   bool _loaded = false;
   Completer<void>? _loadCompleter;
@@ -205,28 +263,65 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     );
   }
 
-  /// Set the property of the current values.
+  /// Sets the properties of the current tool.
   ///
-  /// 現在の値のプロパティを設定します。
-  void setProperty({
+  /// 現在のツールのプロパティを設定します。
+  void setToolProperty({
     Color? backgroundColor,
     Color? foregroundColor,
-    PainterLineBlockTools? line,
+    PainterLineBlockTools? tool,
   }) {
     var changed = false;
-    if (backgroundColor != null && backgroundColor != _currentBackgroundColor) {
-      _currentBackgroundColor = backgroundColor;
+    if (backgroundColor != null &&
+        backgroundColor != _currentToolBackgroundColor) {
+      _currentToolBackgroundColor = backgroundColor;
       changed = true;
     }
-    if (foregroundColor != null && foregroundColor != _currentForegroundColor) {
-      _currentForegroundColor = foregroundColor;
+    if (foregroundColor != null &&
+        foregroundColor != _currentToolForegroundColor) {
+      _currentToolForegroundColor = foregroundColor;
       changed = true;
     }
-    if (line != null && line != _currentLine) {
-      _currentLine = line;
+    if (tool != null && tool != _currentToolLine) {
+      _currentToolLine = tool;
       changed = true;
     }
     if (changed) {
+      notifyListeners();
+    }
+  }
+
+  /// Sets the properties of the current values.
+  ///
+  /// 現在の値のプロパティを設定します。
+  void setValueProperty({
+    Color? backgroundColor,
+    Color? foregroundColor,
+    PainterLineBlockTools? tool,
+  }) {
+    var changed = false;
+    for (var i = 0; i < _currentValues.length; i++) {
+      if (backgroundColor != null) {
+        changed = true;
+        _currentValues[i] = _currentValues[i].copyWith(
+          backgroundColor: backgroundColor,
+        );
+      }
+      if (foregroundColor != null) {
+        changed = true;
+        _currentValues[i] = _currentValues[i].copyWith(
+          foregroundColor: foregroundColor,
+        );
+      }
+      if (tool != null) {
+        changed = true;
+        _currentValues[i] = _currentValues[i].copyWith(
+          tool: tool,
+        );
+      }
+    }
+    if (changed) {
+      saveCurrentValue(saveToHistory: true);
       notifyListeners();
     }
   }
