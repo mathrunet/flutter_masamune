@@ -62,6 +62,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// 現在使用しているツール。
   PainterTools? get currentTool => _currentTool;
   PainterTools? _currentTool;
+  PainterTools? _prevTool;
 
   /// Set the canvas size.
   ///

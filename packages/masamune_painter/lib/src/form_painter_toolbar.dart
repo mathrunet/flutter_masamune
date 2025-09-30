@@ -175,6 +175,7 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   @override
   void toggleMode(PainterTools tool) {
     setState(() {
+      widget.controller._prevTool = null;
       if (tool == widget.controller._currentTool) {
         if (_showBlockMenu) {
           if (_blockMenuToggleDuration != null) {
@@ -183,7 +184,9 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
           }
           _showBlockMenu = false;
         } else {
-          if (tool is PainterPrimaryTools && tool.blockTools.isNotEmpty) {
+          if ((tool is PainterPrimaryTools && tool.blockTools.isNotEmpty) ||
+              (tool is PainterInlinePrimaryTools &&
+                  tool.blockTools.isNotEmpty)) {
             if (_blockMenuHeight == 0) {
               _blockMenuHeight = context.mediaQuery.size.height / 3.0;
               _blockMenuToggleDuration = _kBlockMenuToggleDuration;
@@ -194,7 +197,8 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
         widget.controller._currentTool = null;
       } else {
         if (_showBlockMenu) {
-          if (tool is! PainterPrimaryTools || tool.blockTools.isEmpty) {
+          if ((tool is! PainterPrimaryTools || tool.blockTools.isEmpty) ||
+              (tool is PainterInlinePrimaryTools && tool.blockTools.isEmpty)) {
             if (_blockMenuToggleDuration != null) {
               _blockMenuHeight = 0;
               _blockMenuToggleDuration = _kBlockMenuToggleDuration;
@@ -202,7 +206,8 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
             _showBlockMenu = false;
           }
         } else {
-          if (tool is PainterPrimaryTools && tool.blockTools.isNotEmpty) {
+          if ((tool is PainterPrimaryTools && tool.blockTools.isNotEmpty) ||
+              (tool is LinePainterInlineTools && tool.blockTools.isNotEmpty)) {
             _showBlockMenu = true;
             if (_blockMenuHeight == 0) {
               _blockMenuHeight = context.mediaQuery.size.height / 3.0;
@@ -514,18 +519,53 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
     );
   }
 
+  List<PainterInlineTools>? _getInlineTools() {
+    final currentTool = widget.controller._currentTool;
+    if (currentTool is PainterPrimaryTools) {
+      return currentTool.inlineTools;
+    }
+    if (currentTool is PainterInlinePrimaryTools) {
+      return currentTool.inlineTools;
+    }
+    if (currentValues.isNotEmpty) {
+      final selectPainterInlineTools =
+          widget.controller.adapter.defaultPrimaryTools.firstWhereOrNull(
+        (e) => e is SelectPainterPrimaryTools,
+      );
+      if (selectPainterInlineTools != null) {
+        return selectPainterInlineTools.inlineTools;
+      }
+    }
+    return null;
+  }
+
+  List<PainterBlockTools>? _getBlockTools() {
+    final currentTool = widget.controller._currentTool;
+    if (currentTool is PainterPrimaryTools) {
+      return currentTool.blockTools;
+    }
+    if (currentTool is PainterInlinePrimaryTools) {
+      return currentTool.blockTools;
+    }
+    if (currentValues.isNotEmpty) {
+      final selectPainterPrimaryTools =
+          widget.controller.adapter.defaultPrimaryTools.firstWhereOrNull(
+        (e) => e is SelectPainterPrimaryTools,
+      );
+      if (selectPainterPrimaryTools != null) {
+        return selectPainterPrimaryTools.blockTools;
+      }
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final height = _blockMenuHeight + _kToolbarHeight;
 
-    final inlineTools = widget.controller._currentTool != null &&
-            widget.controller._currentTool is PainterPrimaryTools
-        ? (widget.controller._currentTool as PainterPrimaryTools).inlineTools
-        : null;
-    final blockTools = widget.controller._currentTool is PainterPrimaryTools
-        ? (widget.controller._currentTool as PainterPrimaryTools).blockTools
-        : null;
+    final inlineTools = _getInlineTools();
+    final blockTools = _getBlockTools();
 
     return IconTheme(
       data: IconThemeData(

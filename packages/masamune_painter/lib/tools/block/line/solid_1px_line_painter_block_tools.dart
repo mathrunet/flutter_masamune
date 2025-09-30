@@ -84,6 +84,11 @@ class Solid1pxLinePainterBlockTools extends PainterLineBlockTools {
     } else {
       ref.setToolProperty(tool: this);
     }
-    ref.deleteMode();
+    final prevTool = ref.controller._prevTool;
+    if (prevTool != null) {
+      ref.toggleMode(prevTool);
+    } else {
+      ref.deleteMode();
+    }
   }
 }

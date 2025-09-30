@@ -24,11 +24,6 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
     this.defaultPrimaryTools = const [
       SelectPainterPrimaryTools(),
       ShapePainterPrimaryTools(),
-      BackgroundColorPainterPrimaryTools(),
-      ForegroundColorPainterPrimaryTools(),
-      LinePainterPrimaryTools(),
-      GroupPainterPrimaryTools(),
-      FilterPainterPrimaryTools(),
       UndoPainterPrimaryTools(),
       RedoPainterPrimaryTools(),
     ],

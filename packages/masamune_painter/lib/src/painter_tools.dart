@@ -91,6 +91,41 @@ abstract class PainterPrimaryTools extends PainterTools {
   List<PainterBlockTools>? get blockTools => null;
 }
 
+/// Base class for painter variable primary tools.
+///
+/// 描画ツールの変数プライマリツールの基底クラス。
+@immutable
+abstract class PainterVariablePrimaryTools<TValue extends PaintingValue>
+    extends PainterPrimaryTools {
+  /// Base class for painter variable primary tools.
+  ///
+  /// 描画ツールの変数プライマリツールの基底クラス。
+  const PainterVariablePrimaryTools({
+    required super.config,
+  });
+
+  /// Create a new painting value.
+  ///
+  /// 新しい描画用のデータを作成します。
+  TValue create({
+    required Offset point,
+    PainterLineBlockTools? tool,
+    Color? backgroundColor,
+    Color? foregroundColor,
+    String? uid,
+  });
+
+  /// Convert a JSON object to a painting value.
+  ///
+  /// JSONオブジェクトを描画用のデータに変換します。
+  TValue? convertFromJson(DynamicMap json);
+
+  /// Convert a painting value to a JSON object.
+  ///
+  /// 描画用のデータをJSONオブジェクトに変換します。
+  DynamicMap? convertToJson(TValue value);
+}
+
 /// Base class for painter sub tools.
 ///
 /// 描画ツールのサブツールの基底クラス。
@@ -156,6 +191,29 @@ abstract class PainterInlineTools extends PainterTools {
   ///
   /// ツールを非アクティブにします。
   Future<void> onDeactive(BuildContext context, PainterToolRef ref);
+}
+
+/// Base class for an inline tool that displays a submenu of drawing tools.
+///
+/// 描画ツールのサブメニューを表示するインラインツールの基底クラス。
+@immutable
+abstract class PainterInlinePrimaryTools extends PainterInlineTools {
+  /// Base class for an inline tool that displays a submenu of drawing tools.
+  ///
+  /// 描画ツールのサブメニューを表示するインラインツールの基底クラス。
+  const PainterInlinePrimaryTools({
+    required super.config,
+  });
+
+  /// Get the inline tools.
+  ///
+  /// インラインツールを取得します。
+  List<PainterInlineTools>? get inlineTools => null;
+
+  /// Get the block tools.
+  ///
+  /// ブロックツールを取得します。
+  List<PainterBlockTools>? get blockTools => null;
 }
 
 /// Base class for painter variable inline tools.

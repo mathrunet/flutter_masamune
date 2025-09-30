@@ -33,7 +33,7 @@ class ColorPickerModal extends Modal {
   /// Active tool.
   ///
   /// 現在のツール。
-  final PainterPrimaryTools activeTool;
+  final PainterTools activeTool;
 
   /// Submit label.
   ///
@@ -70,14 +70,9 @@ class ColorPickerModal extends Modal {
               children: [
                 IconButton(
                   onPressed: () {
-                    if (activeTool is BackgroundColorPainterPrimaryTools) {
-                      this.ref.controller.addColorToHistory(
-                            this.ref.currentToolBackgroundColor,
-                          );
-                    } else {
-                      this.ref.controller.addColorToHistory(
-                            this.ref.currentToolForegroundColor,
-                          );
+                    final color = onRetrieveColor?.call();
+                    if (color != null) {
+                      this.ref.controller.addColorToHistory(color);
                     }
                     ref.close();
                   },

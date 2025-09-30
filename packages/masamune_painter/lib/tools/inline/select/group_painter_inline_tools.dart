@@ -4,11 +4,11 @@ part of "/masamune_painter.dart";
 ///
 /// 元に戻すメニューを表示する[PainterTools]。
 @immutable
-class GroupPainterPrimaryTools extends PainterPrimaryTools {
+class GroupPainterInlineTools extends PainterInlinePrimaryTools {
   /// Display the menu to undo [PainterTools].
   ///
   /// 元に戻すメニューを表示する[PainterTools]。
-  const GroupPainterPrimaryTools({
+  const GroupPainterInlineTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
@@ -42,7 +42,7 @@ class GroupPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool is GroupPainterPrimaryTools;
+    return ref.currentTool is GroupPainterInlineTools;
   }
 
   @override
@@ -57,7 +57,21 @@ class GroupPainterPrimaryTools extends PainterPrimaryTools {
   }
 
   @override
-  void onTap(BuildContext context, PainterToolRef ref) {
+  void onTap(BuildContext context, PainterToolRef ref) {}
+
+  @override
+  Future<void> onActive(BuildContext context, PainterToolRef ref) async {
     ref.toggleMode(this);
+    ref.controller._prevTool = ref.currentTool;
+  }
+
+  @override
+  Future<void> onDeactive(BuildContext context, PainterToolRef ref) async {
+    final prevTool = ref.controller._prevTool;
+    if (prevTool != null) {
+      ref.toggleMode(prevTool);
+    } else {
+      ref.toggleMode(this);
+    }
   }
 }

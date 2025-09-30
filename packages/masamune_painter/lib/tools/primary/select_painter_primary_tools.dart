@@ -22,7 +22,21 @@ class SelectPainterPrimaryTools extends PainterPrimaryTools {
       ]),
       icon: FontAwesomeIcons.arrowPointer,
     ),
+    this.inlineTools = const [
+      SelectPainterInlineTools(),
+      BackgroundColorPainterInlineTools(),
+      ForegroundColorPainterInlineTools(),
+      LinePainterInlineTools(),
+      GroupPainterInlineTools(),
+      FilterPainterInlineTools(),
+    ],
   });
+
+  /// Inline tools for select painter.
+  ///
+  /// 選択ツールのインラインツール。
+  @override
+  final List<PainterInlineTools> inlineTools;
 
   @override
   String get id => "__painter_select__";
@@ -53,7 +67,13 @@ class SelectPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   void onTap(BuildContext context, PainterToolRef ref) {
-    ref.toggleMode(this);
+    if (ref.currentTool is SelectPainterPrimaryTools ||
+        ref.controller._prevTool is SelectPainterPrimaryTools) {
+      ref.controller.unselect();
+      ref.deleteMode();
+    } else {
+      ref.toggleMode(this);
+    }
   }
 
   @override

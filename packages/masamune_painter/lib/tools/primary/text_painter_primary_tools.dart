@@ -1,32 +1,32 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to draw a rectangle [PainterTools].
+/// Display the menu to select text [PainterTools].
 ///
-/// 四角形を描画するメニューを表示する[PainterTools]。
+/// テキストを選択するメニューを表示する[PainterTools]。
 @immutable
-class RectangleShapePainterInlineTools
-    extends PainterVariableInlineTools<RectanglePaintingValue> {
-  /// Display the menu to draw a rectangle [PainterTools].
+class TextPainterPrimaryTools
+    extends PainterVariablePrimaryTools<TextPaintingValue> {
+  /// Display the menu to select text [PainterTools].
   ///
-  /// 四角形を描画するメニューを表示する[PainterTools]。
-  const RectangleShapePainterInlineTools({
+  /// テキストを選択するメニューを表示する[PainterTools]。
+  const TextPainterPrimaryTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "四角形",
+          "テキスト",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Rectangle",
+          "Text",
         ),
       ]),
-      icon: Icons.rectangle,
+      icon: FontAwesomeIcons.font,
     ),
   });
 
   @override
-  String get id => "__painter_shape_rectangle__";
+  String get id => "__painter_text__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) => true;
@@ -36,23 +36,12 @@ class RectangleShapePainterInlineTools
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool == null;
+    return ref.currentTool is TextPainterPrimaryTools;
   }
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
-    final theme = Theme.of(context);
-    return Container(
-      width: 24,
-      height: 24,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(0),
-        border: Border.all(
-          color: theme.dividerColor,
-          width: 2,
-        ),
-      ),
-    );
+    return Icon(config.icon);
   }
 
   @override
@@ -62,27 +51,18 @@ class RectangleShapePainterInlineTools
   }
 
   @override
-  void onTap(BuildContext context, PainterToolRef ref) {}
-
-  @override
-  Future<void> onActive(BuildContext context, PainterToolRef ref) async {
-    ref.unselect();
+  void onTap(BuildContext context, PainterToolRef ref) {
     ref.toggleMode(this);
   }
 
   @override
-  Future<void> onDeactive(BuildContext context, PainterToolRef ref) async {
-    ref.deleteMode();
-  }
-
-  @override
-  RectanglePaintingValue create(
+  TextPaintingValue create(
       {required Offset point,
       Color? backgroundColor,
       Color? foregroundColor,
       PainterLineBlockTools? tool,
       String? uid}) {
-    return RectanglePaintingValue(
+    return TextPaintingValue(
       id: uid ?? uuid(),
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
@@ -93,32 +73,32 @@ class RectangleShapePainterInlineTools
   }
 
   @override
-  RectanglePaintingValue? convertFromJson(DynamicMap json) {
+  TextPaintingValue? convertFromJson(DynamicMap json) {
     final type = json.get(PaintingValue.typeKey, "");
     if (type == id) {
-      return RectanglePaintingValue.fromJson(json);
+      return TextPaintingValue.fromJson(json);
     }
     return null;
   }
 
   @override
   DynamicMap? convertToJson(PaintingValue value) {
-    if (value is RectanglePaintingValue) {
+    if (value is TextPaintingValue) {
       return value.toJson();
     }
     return null;
   }
 }
 
-/// A class for storing rectangle drawing data.
+/// A class for storing text drawing data.
 ///
-/// 四角形描画用のデータを格納するクラス。
+/// テキスト描画用のデータを格納するクラス。
 @immutable
-class RectanglePaintingValue extends PaintingValue {
-  /// A class for storing rectangle drawing data.
+class TextPaintingValue extends PaintingValue {
+  /// A class for storing text drawing data.
   ///
-  /// 四角形描画用のデータを格納するクラス。
-  const RectanglePaintingValue({
+  /// テキスト描画用のデータを格納するクラス。
+  const TextPaintingValue({
     required super.id,
     required super.backgroundColor,
     required super.foregroundColor,
@@ -127,18 +107,22 @@ class RectanglePaintingValue extends PaintingValue {
     required super.end,
   });
 
-  /// Create a [RectanglePaintingValue] from a [DynamicMap].
+  /// Create a [TextPaintingValue] from a [DynamicMap].
   ///
-  /// [DynamicMap]から[RectanglePaintingValue]を作成します。
-  factory RectanglePaintingValue.fromJson(DynamicMap json) {
+  /// [DynamicMap]から[TextPaintingValue]を作成します。
+  factory TextPaintingValue.fromJson(DynamicMap json) {
     final backgroundColor =
         json.get(PaintingValue.backgroundColorKey, nullOfNum)?.toInt();
     final foregroundColor =
         json.get(PaintingValue.foregroundColorKey, nullOfNum)?.toInt();
-    final tool = PaintingValue.findLineTool(
-      json.get(PaintingValue.toolKey, ""),
+    final toolId = json.get(PaintingValue.toolKey, "");
+    final lineTool =
+        PainterMasamuneAdapter.primary.defaultPrimaryTools.firstWhereOrNull(
+      (e) => e is LinePainterInlineTools,
     );
-    return RectanglePaintingValue(
+    final lineTools = lineTool?.blockTools?.whereType<PainterLineBlockTools>();
+    final tool = lineTools?.firstWhereOrNull((e) => e.id == toolId);
+    return TextPaintingValue(
       id: json.get(PaintingValue.idKey, ""),
       backgroundColor: backgroundColor != null ? Color(backgroundColor) : null,
       foregroundColor: foregroundColor != null ? Color(foregroundColor) : null,
@@ -155,7 +139,7 @@ class RectanglePaintingValue extends PaintingValue {
   }
 
   @override
-  String get type => "__painter_shape_rectangle__";
+  String get type => "__painter_shape_text__";
 
   @override
   Rect get rect {
@@ -189,7 +173,7 @@ class RectanglePaintingValue extends PaintingValue {
   }
 
   @override
-  RectanglePaintingValue copyWith({
+  TextPaintingValue copyWith({
     Offset? offset,
     Color? backgroundColor,
     Color? foregroundColor,
@@ -198,7 +182,7 @@ class RectanglePaintingValue extends PaintingValue {
     Offset? end,
     String? id,
   }) {
-    return RectanglePaintingValue(
+    return TextPaintingValue(
       id: id ?? this.id,
       backgroundColor: backgroundColor ?? this.backgroundColor,
       foregroundColor: foregroundColor ?? this.foregroundColor,
@@ -248,11 +232,11 @@ class RectanglePaintingValue extends PaintingValue {
   }
 
   @override
-  RectanglePaintingValue updateOnCreating({
+  TextPaintingValue updateOnCreating({
     required Offset startPoint,
     required Offset currentPoint,
   }) {
-    return RectanglePaintingValue(
+    return TextPaintingValue(
       id: id,
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
@@ -263,8 +247,8 @@ class RectanglePaintingValue extends PaintingValue {
   }
 
   @override
-  RectanglePaintingValue updateOnMoving({required Offset delta}) {
-    return RectanglePaintingValue(
+  TextPaintingValue updateOnMoving({required Offset delta}) {
+    return TextPaintingValue(
       id: id,
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
@@ -275,13 +259,13 @@ class RectanglePaintingValue extends PaintingValue {
   }
 
   @override
-  RectanglePaintingValue updateOnResizing({
+  TextPaintingValue updateOnResizing({
     required Offset currentPoint,
     required PainterResizeDirection direction,
     required Offset startPoint,
     required Offset endPoint,
   }) {
-    return RectanglePaintingValue(
+    return TextPaintingValue(
       id: id,
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,

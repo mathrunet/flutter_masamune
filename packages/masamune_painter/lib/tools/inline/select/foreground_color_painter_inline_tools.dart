@@ -4,28 +4,28 @@ part of "/masamune_painter.dart";
 ///
 /// 元に戻すメニューを表示する[PainterTools]。
 @immutable
-class BackgroundColorPainterPrimaryTools extends PainterPrimaryTools {
+class ForegroundColorPainterInlineTools extends PainterInlineTools {
   /// Display the menu to undo [PainterTools].
   ///
   /// 元に戻すメニューを表示する[PainterTools]。
-  const BackgroundColorPainterPrimaryTools({
+  const ForegroundColorPainterInlineTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "背景色",
+          "前景色",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Background Color",
+          "Foreground Color",
         ),
       ]),
-      icon: Icons.format_color_fill,
+      icon: Icons.border_color,
     ),
   });
 
   @override
-  String get id => "__painter_background_color__";
+  String get id => "__painter_foreground_color__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
@@ -45,7 +45,7 @@ class BackgroundColorPainterPrimaryTools extends PainterPrimaryTools {
     // 選択されている場合はそのプロパティを表示
     final theme = Theme.of(context);
     if (ref.currentValues.isNotEmpty) {
-      final color = ref.currentValueBackgroundColor;
+      final color = ref.currentValueForegroundColor;
 
       if (color == null) {
         return Container(
@@ -118,7 +118,7 @@ class BackgroundColorPainterPrimaryTools extends PainterPrimaryTools {
       }
       // それ以外はデフォルトのプロパティを表示
     } else {
-      final disabled = ref.currentToolBackgroundColor.a <= 0.0;
+      final disabled = ref.currentToolForegroundColor.a <= 0.0;
       return Container(
         width: 26,
         height: 26,
@@ -134,13 +134,13 @@ class BackgroundColorPainterPrimaryTools extends PainterPrimaryTools {
           child: Opacity(
             opacity: disabled ? 0.25 : 1,
             child: ColoredBox(
-              color: ref.currentToolBackgroundColor,
+              color: ref.currentToolForegroundColor,
               child: Icon(
                 config.icon,
                 size: 18,
-                color: ref.currentToolBackgroundColor.a < 0.5
+                color: ref.currentToolForegroundColor.a < 0.5
                     ? theme.colorTheme?.onBackground ?? Colors.transparent
-                    : ref.currentToolBackgroundColor.computeLuminance() > 0.5
+                    : ref.currentToolForegroundColor.computeLuminance() > 0.5
                         ? kBlackColor
                         : kWhiteColor,
               ),
@@ -167,10 +167,10 @@ class BackgroundColorPainterPrimaryTools extends PainterPrimaryTools {
           ref: ref,
           activeTool: this,
           onRetrieveColor: () {
-            return ref.currentValueBackgroundColor;
+            return ref.currentValueForegroundColor;
           },
           onColorChanged: (color) {
-            ref.setValueProperty(backgroundColor: color);
+            ref.setValueProperty(foregroundColor: color);
           },
         ),
       );
@@ -181,13 +181,23 @@ class BackgroundColorPainterPrimaryTools extends PainterPrimaryTools {
           ref: ref,
           activeTool: this,
           onRetrieveColor: () {
-            return ref.currentToolBackgroundColor;
+            return ref.currentToolForegroundColor;
           },
           onColorChanged: (color) {
-            ref.setToolProperty(backgroundColor: color);
+            ref.setToolProperty(foregroundColor: color);
           },
         ),
       );
     }
+  }
+
+  @override
+  Future<void> onActive(BuildContext context, PainterToolRef ref) async {
+    onTap(context, ref);
+  }
+
+  @override
+  Future<void> onDeactive(BuildContext context, PainterToolRef ref) async {
+    onTap(context, ref);
   }
 }

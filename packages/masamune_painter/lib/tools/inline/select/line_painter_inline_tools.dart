@@ -4,11 +4,11 @@ part of "/masamune_painter.dart";
 ///
 /// 元に戻すメニューを表示する[PainterTools]。
 @immutable
-class LinePainterPrimaryTools extends PainterPrimaryTools {
+class LinePainterInlineTools extends PainterInlinePrimaryTools {
   /// Display the menu to undo [PainterTools].
   ///
   /// 元に戻すメニューを表示する[PainterTools]。
-  const LinePainterPrimaryTools({
+  const LinePainterInlineTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
@@ -23,6 +23,16 @@ class LinePainterPrimaryTools extends PainterPrimaryTools {
       icon: FontAwesomeIcons.line,
     ),
   });
+
+  @override
+  List<PainterInlineTools> get inlineTools => const [
+        SelectPainterInlineTools(),
+        BackgroundColorPainterInlineTools(),
+        ForegroundColorPainterInlineTools(),
+        LinePainterInlineTools(),
+        GroupPainterInlineTools(),
+        FilterPainterInlineTools(),
+      ];
 
   @override
   List<PainterBlockTools> get blockTools => const [
@@ -43,7 +53,7 @@ class LinePainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool is LinePainterPrimaryTools;
+    return ref.currentTool is LinePainterInlineTools;
   }
 
   @override
@@ -101,7 +111,22 @@ class LinePainterPrimaryTools extends PainterPrimaryTools {
   }
 
   @override
-  void onTap(BuildContext context, PainterToolRef ref) {
+  void onTap(BuildContext context, PainterToolRef ref) {}
+
+  @override
+  Future<void> onActive(BuildContext context, PainterToolRef ref) async {
+    final prevTool = ref.currentTool;
     ref.toggleMode(this);
+    ref.controller._prevTool = prevTool;
+  }
+
+  @override
+  Future<void> onDeactive(BuildContext context, PainterToolRef ref) async {
+    final prevTool = ref.controller._prevTool;
+    if (prevTool != null) {
+      ref.toggleMode(prevTool);
+    } else {
+      ref.toggleMode(this);
+    }
   }
 }
