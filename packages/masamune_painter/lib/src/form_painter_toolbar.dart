@@ -132,8 +132,11 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
         widget.controller._currentTool = null;
       } else {
         if (_showBlockMenu) {
-          if ((tool is! PainterPrimaryTools || tool.blockTools.isEmpty) ||
-              (tool is PainterInlinePrimaryTools && tool.blockTools.isEmpty)) {
+          // blockToolsを持つツールでない場合のみBlockMenuを閉じる
+          final hasBlockTools = (tool is PainterPrimaryTools &&
+                  tool.blockTools.isNotEmpty) ||
+              (tool is PainterInlinePrimaryTools && tool.blockTools.isNotEmpty);
+          if (!hasBlockTools) {
             if (_blockMenuToggleDuration != null) {
               _blockMenuHeight = 0;
               _blockMenuToggleDuration = _kBlockMenuToggleDuration;
