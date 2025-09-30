@@ -72,7 +72,7 @@ class ColorPickerModal extends Modal {
                   onPressed: () {
                     final color = onRetrieveColor?.call();
                     if (color != null) {
-                      this.ref.controller.addColorToHistory(color);
+                      this.ref.controller.colorPalette.add(color);
                     }
                     ref.close();
                   },
@@ -129,8 +129,14 @@ class ColorPickerModal extends Modal {
                       labelTypes: const [],
                       paletteType: PaletteType.hsv,
                     ),
-                    if (this.ref.controller.colorHistory.isNotEmpty) ...[
-                      ...this.ref.controller.colorHistory.split(5).map((r) {
+                    if (this.ref.controller.colorPalette.value.isNotEmpty) ...[
+                      ...this
+                          .ref
+                          .controller
+                          .colorPalette
+                          .value
+                          .split(5)
+                          .map((r) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: Row(

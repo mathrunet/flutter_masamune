@@ -25,6 +25,7 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
     this.defaultFontSize = const Size10pxFontPainterBlockTools(),
     this.defaultFontStyle = const StyleNormalFontPainterBlockTools(),
     this.maxColorHistory = 10,
+    this.maxActionHistory = 50,
     this.defaultPrimaryTools = const [
       SelectPainterPrimaryTools(),
       ShapePainterPrimaryTools(),
@@ -127,6 +128,11 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 色履歴の最大数。
   final int maxColorHistory;
+
+  /// Maximum number of history entries to keep.
+  ///
+  /// 保持する履歴エントリの最大数。
+  final int maxActionHistory;
 
   /// Find the shape tool.
   ///

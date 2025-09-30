@@ -34,7 +34,7 @@ class RedoPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   bool enabled(BuildContext context, PainterToolRef ref) =>
-      ref.controller.canRedo;
+      ref.controller.history.canRedo;
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) => false;

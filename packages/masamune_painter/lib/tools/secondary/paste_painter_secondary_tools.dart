@@ -29,7 +29,7 @@ class PastePainterSecondaryTools extends PainterSecondaryTools {
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
-    return ref.controller.canPaste;
+    return ref.controller.clipboard.canPaste;
   }
 
   @override

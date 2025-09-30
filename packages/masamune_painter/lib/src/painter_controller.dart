@@ -19,11 +19,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   ///
   /// これを渡すことで[FormPainterToolbar]のツールと連携することができます。
   PainterController({super.adapter, Size? canvasSize})
-      : _canvasSize = canvasSize {
-    // Initialize history with empty state
-    _history.add(<PaintingValue>[]);
-    _historyIndex = 0;
-  }
+      : _canvasSize = canvasSize;
 
   /// Query for PainterController.
   ///
@@ -33,47 +29,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// ref.page.controller(PainterController.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _$PainterControllerQuery();
-
-  /// Maximum number of history entries to keep.
-  ///
-  /// 保持する履歴エントリの最大数。
-  static const int _maxHistorySize = 50;
-
-  void _registerState(FormPainterFieldState state) {
-    _currentState = state;
-  }
-
-  void _unregisterState(FormPainterFieldState state) {
-    if (_currentState == state) {
-      _currentState = null;
-    }
-  }
-
-  FormPainterFieldState? _currentState;
-
-  /// The size of the canvas.
-  ///
-  /// キャンバスのサイズ。
-  Size get canvasSize => _canvasSize ?? adapter.defaultCanvasSize;
-  Size? _canvasSize;
-
-  /// The tool currently in use.
-  ///
-  /// 現在使用しているツール。
-  PainterTools? get currentTool => _currentTool;
-  PainterTools? _currentTool;
-  PainterTools? _prevTool;
-
-  /// Set the canvas size.
-  ///
-  /// キャンバスサイズを設定します。
-  void setCanvasSize(Size size) {
-    if (_canvasSize == size) {
-      return;
-    }
-    _canvasSize = size;
-    notifyListeners();
-  }
 
   @override
   PainterMasamuneAdapter get primaryAdapter => PainterMasamuneAdapter.primary;
@@ -104,13 +59,49 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     return res;
   }
 
+  final List<PaintingValue> _values = [];
+
   /// Currently selected values (support multiple selection).
   ///
   /// 現在選択中の値（複数選択対応）。
   List<PaintingValue> get currentValues => _currentValues;
   final List<PaintingValue> _currentValues = [];
 
-  final List<PaintingValue> _values = [];
+  /// The tool currently in use.
+  ///
+  /// 現在使用しているツール。
+  PainterTools? get currentTool => _currentTool;
+  PainterTools? _currentTool;
+  PainterTools? _prevTool;
+
+  void _registerState(FormPainterFieldState state) {
+    _currentState = state;
+  }
+
+  void _unregisterState(FormPainterFieldState state) {
+    if (_currentState == state) {
+      _currentState = null;
+    }
+  }
+
+  FormPainterFieldState? _currentState;
+
+  /// The size of the canvas.
+  ///
+  /// キャンバスのサイズ。
+  Size get canvasSize => _canvasSize ?? adapter.defaultCanvasSize;
+  Size? _canvasSize;
+
+  /// Set the canvas size.
+  ///
+  /// キャンバスサイズを設定します。
+  void setCanvasSize(Size size) {
+    if (_canvasSize == size) {
+      return;
+    }
+    _canvasSize = size;
+    notifyListeners();
+  }
 
   /// Property of [PainterController].
   ///
@@ -118,9 +109,27 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   late final PainterControllerProperty property =
       PainterControllerProperty._(this);
 
+  /// History of actions of [PainterController].
+  ///
+  /// [PainterController]のアクション履歴。
+  late final PainterControllerHistory history =
+      PainterControllerHistory._(this);
+
+  /// History of colors of [PainterController].
+  ///
+  /// [PainterController]の色パレット履歴。
+  late final PainterControllerColorPalette colorPalette =
+      PainterControllerColorPalette._(this);
+
+  /// History of clipboard of [PainterController].
+  ///
+  /// [PainterController]のクリップボード履歴。
+  late final PainterControllerClipboard clipboard =
+      PainterControllerClipboard._(this);
+
   bool _loaded = false;
   Completer<void>? _loadCompleter;
-  SharedPreferencesWithCache? _cachedSharedPreferences;
+  Rect? _dragSelectionRect;
 
   /// Load color history.
   ///
@@ -134,13 +143,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     }
     _loadCompleter = Completer<void>();
     try {
-      _cachedSharedPreferences = await SharedPreferencesWithCache.create(
-        cacheOptions: SharedPreferencesWithCacheOptions(
-          allowList: {
-            _kColorHistoryKey.toSHA1(),
-          },
-        ),
-      );
+      await colorPalette._initialize();
       _loaded = true;
       notifyListeners();
       _loadCompleter?.complete();
@@ -152,44 +155,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       _loadCompleter?.complete();
       _loadCompleter = null;
     }
-  }
-
-  /// Get the color history.
-  ///
-  /// 色履歴を取得します。
-  List<Color> get colorHistory =>
-      _cachedSharedPreferences
-          ?.getStringList(_kColorHistoryKey.toSHA1())
-          ?.mapAndRemoveEmpty((e) {
-        final colorInt = int.tryParse("0x$e");
-        if (colorInt == null) {
-          return null;
-        }
-        return Color(colorInt);
-      }) ??
-      [];
-
-  /// Add a color to the color history.
-  ///
-  /// 色履歴に色を追加します。
-  Future<void> addColorToHistory(Color color) async {
-    final history = colorHistory.clone(growable: true);
-    var removed = false;
-    history.removeWhere((e) {
-      if (e == color) {
-        removed = true;
-        return true;
-      }
-      return false;
-    });
-    if (!removed && history.length >= adapter.maxColorHistory) {
-      history.removeLast();
-    }
-    history.insertFirst(color);
-    await _cachedSharedPreferences?.setStringList(
-      _kColorHistoryKey.toSHA1(),
-      history.map((e) => e.toHexString()).toList(),
-    );
   }
 
   /// The bounding rectangle of all selected elements.
@@ -232,27 +197,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// 複数要素が選択されているかチェック。
   bool get hasMultipleSelection => _currentValues.length > 1;
 
-  /// Check if there is data in the clipboard that can be pasted.
-  ///
-  /// ペースト可能なデータがクリップボードにあるかチェック。
-  bool get canPaste => _clipboardData != null && _clipboardData!.isNotEmpty;
-
-  /// Check if undo is available.
-  ///
-  /// Undoが利用可能かチェック。
-  bool get canUndo => _historyIndex > 0;
-
-  /// Check if redo is available.
-  ///
-  /// Redoが利用可能かチェック。
-  bool get canRedo => _historyIndex < _history.length - 1;
-
-  int _historyIndex = -1;
-  Rect? _dragSelectionRect;
-  List<PaintingValue>? _clipboardData;
-
-  final List<List<PaintingValue>> _history = [];
-
   /// Save the current editing values to values list.
   ///
   /// 現在編集中の値を値リストに保存。
@@ -267,24 +211,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     }
 
     if (saveToHistory) {
-      _saveToHistory();
-    }
-  }
-
-  void _saveToHistory() {
-    // Remove any history after the current index (when we're in the middle of history)
-    if (_historyIndex < _history.length - 1) {
-      _history.removeRange(_historyIndex + 1, _history.length);
-    }
-
-    // Add current state to history
-    _history.add(List<PaintingValue>.from(_values));
-    _historyIndex = _history.length - 1;
-
-    // Limit history size
-    if (_history.length > _maxHistorySize) {
-      _history.removeAt(0);
-      _historyIndex--;
+      history._saveToHistory();
     }
   }
 
@@ -314,40 +241,8 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     _dragSelectionRect = null;
 
     // Save to history after clearing
-    _saveToHistory();
+    history._saveToHistory();
 
-    notifyListeners();
-  }
-
-  /// Undo the last action.
-  ///
-  /// 最後のアクションを元に戻す。
-  void undo() {
-    if (!canUndo) {
-      return;
-    }
-
-    _historyIndex--;
-    _values.clear();
-    _values.addAll(List<PaintingValue>.from(_history[_historyIndex]));
-    _currentValues.clear();
-    _dragSelectionRect = null;
-    notifyListeners();
-  }
-
-  /// Redo the last undone action.
-  ///
-  /// 最後に元に戻したアクションをやり直す。
-  void redo() {
-    if (!canRedo) {
-      return;
-    }
-
-    _historyIndex++;
-    _values.clear();
-    _values.addAll(List<PaintingValue>.from(_history[_historyIndex]));
-    _currentValues.clear();
-    _dragSelectionRect = null;
     notifyListeners();
   }
 
@@ -576,164 +471,13 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     return null;
   }
 
-  /// Copy the selected values to clipboard.
+  /// Get the captured image data of selected objects.
   ///
-  /// 選択した値をクリップボードにコピー。
-  Future<void> copy() async {
-    if (_currentValues.isEmpty) {
-      return;
-    }
-
-    // Save current editing values first (without history)
-    saveCurrentValue();
-
-    // Copy to internal clipboard
-    _clipboardData = List<PaintingValue>.from(_currentValues);
-
-    // Try to copy to system clipboard as both JSON and image
-    try {
-      // Copy as JSON for internal use
-      final jsonData = _currentValues.map((v) => v.toJson()).toList();
-      final jsonString = jsonEncode({
-        "type": "masamune_painter_data",
-        "version": "1.0",
-        "data": jsonData,
-      });
-
-      // Copy as image for external use
-      final imageData = await _captureSelectionAsImage();
-      if (imageData != null) {
-        // Set both text and image data
-        await Clipboard.setData(ClipboardData(text: jsonString));
-        // Note: Flutter doesn't support setting image data directly to clipboard
-        // This would require platform-specific implementation
-      } else {
-        // Fallback to JSON only
-        await Clipboard.setData(ClipboardData(text: jsonString));
-      }
-    } catch (e) {
-      // Ignore errors for system clipboard
-    }
-
-    notifyListeners();
+  /// 選択されたオブジェクトの画像データを取得。
+  Future<Uint8List?> captureSelectionAsImage() async {
+    return await _captureSelectionAsImage();
   }
 
-  /// Cut the selected values to clipboard.
-  ///
-  /// 選択した値をクリップボードにカット。
-  Future<void> cut() async {
-    if (_currentValues.isEmpty) {
-      return;
-    }
-
-    // Save current values first
-    saveCurrentValue();
-
-    // Copy to clipboard (without additional history save)
-    await copy();
-
-    // Remove cut values from the main list
-    final cutIds = _currentValues.map((v) => v.id).toSet();
-    _values.removeWhere((v) => cutIds.contains(v.id));
-
-    // Clear selection
-    _currentValues.clear();
-    _dragSelectionRect = null;
-
-    // Save to history after cutting
-    _saveToHistory();
-
-    notifyListeners();
-  }
-
-  /// Paste values from clipboard.
-  ///
-  /// クリップボードから値をペースト。
-  Future<void> paste() async {
-    // First try to get data from system clipboard
-    try {
-      final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-      if (clipboardData != null && clipboardData.text != null) {
-        final jsonData = jsonDecode(clipboardData.text!);
-        if (jsonData is Map &&
-            jsonData.get("type", "") == "masamune_painter_data") {
-          final dataList = jsonData.getAsList<DynamicMap>("data");
-          _clipboardData = dataList
-              .map(_createPaintingValueFromJson)
-              .whereType<PaintingValue>()
-              .toList();
-        }
-      }
-    } catch (e) {
-      // Ignore errors and use internal clipboard
-    }
-
-    // Paste from internal clipboard
-    if (_clipboardData == null || _clipboardData!.isEmpty) {
-      return;
-    }
-
-    // Save current values first
-    saveCurrentValue();
-
-    // Calculate paste offset (slightly offset from original position)
-    const pasteOffset = Offset(20, 20);
-
-    // Create new instances with new IDs and offset positions
-    final newValues = <PaintingValue>[];
-    for (final value in _clipboardData!) {
-      final newValue = _createPastedValue(value, pasteOffset);
-      newValues.add(newValue);
-      _values.add(newValue);
-    }
-
-    // Select the pasted values
-    _currentValues.clear();
-    _currentValues.addAll(newValues);
-
-    // Save to history after pasting
-    _saveToHistory();
-
-    notifyListeners();
-  }
-
-  /// Create a PaintingValue from JSON data.
-  ///
-  /// JSONデータからPaintingValueを作成。
-  PaintingValue? _createPaintingValueFromJson(DynamicMap json) {
-    final type = json.get("type", nullOfString);
-
-    if (type == null) {
-      return null;
-    }
-
-    final tools = adapter.defaultPrimaryTools
-        .expand((e) => e.inlineTools ?? <PainterInlineTools>[])
-        .toList();
-
-    for (final tool in tools) {
-      if (tool is! PainterVariableTools) {
-        continue;
-      }
-      final value = (tool as PainterVariableTools).convertFromJson(json);
-      if (value != null) {
-        return value;
-      }
-    }
-
-    return null;
-  }
-
-  /// Create a new PaintingValue with a new ID and offset.
-  ///
-  /// 新しいIDとオフセットで新しいPaintingValueを作成。
-  PaintingValue _createPastedValue(PaintingValue value, Offset offset) {
-    return value.copyWith(offset: offset, id: uuid());
-  }
-
-  /// Capture the selected objects as an image.
-  ///
-  /// 選択されたオブジェクトを画像としてキャプチャ。
   Future<Uint8List?> _captureSelectionAsImage() async {
     if (_currentValues.isEmpty) {
       return null;
@@ -787,13 +531,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       // Return null if image capture fails
       return null;
     }
-  }
-
-  /// Get the captured image data of selected objects.
-  ///
-  /// 選択されたオブジェクトの画像データを取得。
-  Future<Uint8List?> captureSelectionAsImage() async {
-    return await _captureSelectionAsImage();
   }
 
   /// Export selected objects as image file.
@@ -856,6 +593,317 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       // Return null if image capture fails
       return null;
     }
+  }
+
+  void _notifyListeners() {
+    notifyListeners();
+  }
+}
+
+/// History of [PainterController].
+///
+/// [PainterController]の履歴。
+class PainterControllerHistory {
+  PainterControllerHistory._(this._controller) {
+    // Initialize history with empty state
+    _history.add(<PaintingValue>[]);
+    _historyIndex = 0;
+  }
+
+  int _historyIndex = -1;
+  final PainterController _controller;
+  final List<List<PaintingValue>> _history = [];
+
+  /// Check if undo is available.
+  ///
+  /// Undoが利用可能かチェック。
+  bool get canUndo => _historyIndex > 0;
+
+  /// Check if redo is available.
+  ///
+  /// Redoが利用可能かチェック。
+  bool get canRedo => _historyIndex < _history.length - 1;
+
+  /// Undo the last action.
+  ///
+  /// 最後のアクションを元に戻す。
+  void undo() {
+    if (!canUndo) {
+      return;
+    }
+
+    _historyIndex--;
+    _controller._values.clear();
+    _controller._values
+        .addAll(List<PaintingValue>.from(_history[_historyIndex]));
+    _controller._currentValues.clear();
+    _controller._dragSelectionRect = null;
+    _controller._notifyListeners();
+  }
+
+  /// Redo the last undone action.
+  ///
+  /// 最後に元に戻したアクションをやり直す。
+  void redo() {
+    if (!canRedo) {
+      return;
+    }
+
+    _historyIndex++;
+    _controller._values.clear();
+    _controller._values
+        .addAll(List<PaintingValue>.from(_history[_historyIndex]));
+    _controller._currentValues.clear();
+    _controller._dragSelectionRect = null;
+    _controller._notifyListeners();
+  }
+
+  void _saveToHistory() {
+    // Remove any history after the current index (when we're in the middle of history)
+    if (_historyIndex < _history.length - 1) {
+      _history.removeRange(_historyIndex + 1, _history.length);
+    }
+
+    // Add current state to history
+    _history.add(List<PaintingValue>.from(_controller._values));
+    _historyIndex = _history.length - 1;
+
+    // Limit history size
+    if (_history.length > _controller.adapter.maxActionHistory) {
+      _history.removeAt(0);
+      _historyIndex--;
+    }
+  }
+}
+
+/// History of colors of [PainterController].
+///
+/// [PainterController]の色履歴。
+class PainterControllerColorPalette {
+  PainterControllerColorPalette._(this._controller);
+
+  final PainterController _controller;
+  SharedPreferencesWithCache? _cachedSharedPreferences;
+
+  Future<void> _initialize() async {
+    _cachedSharedPreferences = await SharedPreferencesWithCache.create(
+      cacheOptions: SharedPreferencesWithCacheOptions(
+        allowList: {
+          _kColorHistoryKey.toSHA1(),
+        },
+      ),
+    );
+  }
+
+  /// Get the color history.
+  ///
+  /// 色履歴を取得します。
+  List<Color> get value =>
+      _cachedSharedPreferences
+          ?.getStringList(_kColorHistoryKey.toSHA1())
+          ?.mapAndRemoveEmpty((e) {
+        final colorInt = int.tryParse("0x$e");
+        if (colorInt == null) {
+          return null;
+        }
+        return Color(colorInt);
+      }) ??
+      [];
+
+  /// Add a color to the color history.
+  ///
+  /// 色履歴に色を追加します。
+  Future<void> add(Color color) async {
+    final history = value.clone(growable: true);
+    var removed = false;
+    history.removeWhere((e) {
+      if (e == color) {
+        removed = true;
+        return true;
+      }
+      return false;
+    });
+    if (!removed && history.length >= _controller.adapter.maxColorHistory) {
+      history.removeLast();
+    }
+    history.insertFirst(color);
+    await _cachedSharedPreferences?.setStringList(
+      _kColorHistoryKey.toSHA1(),
+      history.map((e) => e.toHexString()).toList(),
+    );
+  }
+}
+
+/// History of clipboard of [PainterController].
+///
+/// [PainterController]のクリップボード履歴。
+class PainterControllerClipboard {
+  PainterControllerClipboard._(this._controller);
+
+  final PainterController _controller;
+  List<PaintingValue>? _clipboardData;
+  int _clipboardPasteCount = 0;
+
+  /// Check if there is data in the clipboard that can be pasted.
+  ///
+  /// ペースト可能なデータがクリップボードにあるかチェック。
+  bool get canPaste => _clipboardData != null && _clipboardData!.isNotEmpty;
+
+  /// Copy the selected values to clipboard.
+  ///
+  /// 選択した値をクリップボードにコピー。
+  Future<void> copy() async {
+    if (_controller._currentValues.isEmpty) {
+      return;
+    }
+
+    // Save current editing values first (without history)
+    _controller.saveCurrentValue();
+
+    // Copy to internal clipboard
+    _clipboardData = List<PaintingValue>.from(_controller._currentValues);
+
+    // Try to copy to system clipboard as both JSON and image
+    try {
+      // Copy as JSON for internal use
+      final jsonData =
+          _controller._currentValues.map((v) => v.toJson()).toList();
+      final jsonString = jsonEncode({
+        "type": "masamune_painter_data",
+        "version": "1.0",
+        "data": jsonData,
+      });
+
+      // Copy as image for external use
+      final imageData = await _controller._captureSelectionAsImage();
+      if (imageData != null) {
+        // Set both text and image data
+        await Clipboard.setData(ClipboardData(text: jsonString));
+        // Note: Flutter doesn't support setting image data directly to clipboard
+        // This would require platform-specific implementation
+      } else {
+        // Fallback to JSON only
+        await Clipboard.setData(ClipboardData(text: jsonString));
+      }
+    } catch (e) {
+      // Ignore errors for system clipboard
+    }
+
+    _clipboardPasteCount = 0;
+    _controller._notifyListeners();
+  }
+
+  /// Cut the selected values to clipboard.
+  ///
+  /// 選択した値をクリップボードにカット。
+  Future<void> cut() async {
+    if (_controller._currentValues.isEmpty) {
+      return;
+    }
+
+    // Save current values first
+    _controller.saveCurrentValue();
+
+    // Copy to clipboard (without additional history save)
+    await copy();
+
+    // Remove cut values from the main list
+    final cutIds = _controller._currentValues.map((v) => v.id).toSet();
+    _controller._values.removeWhere((v) => cutIds.contains(v.id));
+
+    // Clear selection
+    _controller._currentValues.clear();
+    _controller._dragSelectionRect = null;
+
+    // Save to history after cutting
+    _controller.history._saveToHistory();
+
+    _clipboardPasteCount = 0;
+    _controller._notifyListeners();
+  }
+
+  /// Paste values from clipboard.
+  ///
+  /// クリップボードから値をペースト。
+  Future<void> paste() async {
+    // First try to get data from system clipboard
+    try {
+      final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+      if (clipboardData != null && clipboardData.text != null) {
+        final jsonData = jsonDecode(clipboardData.text!);
+        if (jsonData is Map &&
+            jsonData.get("type", "") == "masamune_painter_data") {
+          final dataList = jsonData.getAsList<DynamicMap>("data");
+          _clipboardData = dataList
+              .map(_createPaintingValueFromJson)
+              .whereType<PaintingValue>()
+              .toList();
+        }
+      }
+    } catch (e) {
+      // Ignore errors and use internal clipboard
+    }
+
+    // Paste from internal clipboard
+    if (_clipboardData == null || _clipboardData!.isEmpty) {
+      return;
+    }
+
+    // Save current values first
+    _controller.saveCurrentValue();
+
+    // Calculate paste offset (slightly offset from original position)
+
+    _clipboardPasteCount++;
+    final pasteOffset = Offset(
+      20.0 * _clipboardPasteCount,
+      20.0 * _clipboardPasteCount,
+    );
+
+    // Create new instances with new IDs and offset positions
+    final newValues = <PaintingValue>[];
+    for (final value in _clipboardData!) {
+      final newValue = _createPastedValue(value, pasteOffset);
+      newValues.add(newValue);
+      _controller._values.add(newValue);
+    }
+
+    // Select the pasted values
+    _controller._currentValues.clear();
+    _controller._currentValues.addAll(newValues);
+
+    // Save to history after pasting
+    _controller.history._saveToHistory();
+
+    _controller._notifyListeners();
+  }
+
+  PaintingValue _createPastedValue(PaintingValue value, Offset offset) {
+    return value.copyWith(offset: offset, id: uuid());
+  }
+
+  PaintingValue? _createPaintingValueFromJson(DynamicMap json) {
+    final type = json.get("type", nullOfString);
+
+    if (type == null) {
+      return null;
+    }
+
+    final tools = _controller.adapter.defaultPrimaryTools
+        .expand((e) => e.inlineTools ?? <PainterInlineTools>[])
+        .toList();
+
+    for (final tool in tools) {
+      if (tool is! PainterVariableTools) {
+        continue;
+      }
+      final value = (tool as PainterVariableTools).convertFromJson(json);
+      if (value != null) {
+        return value;
+      }
+    }
+
+    return null;
   }
 }
 
@@ -1077,8 +1125,7 @@ class PainterControllerProperty {
       changed = true;
     }
     if (changed) {
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      _controller.notifyListeners();
+      _controller._notifyListeners();
     }
   }
 
@@ -1146,8 +1193,7 @@ class PainterControllerProperty {
     }
     if (changed) {
       _controller.saveCurrentValue(saveToHistory: true);
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      _controller.notifyListeners();
+      _controller._notifyListeners();
     }
   }
 }

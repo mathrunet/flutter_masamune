@@ -175,31 +175,31 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
 
   @override
   Future<void> copy() async {
-    await widget.controller.copy();
+    await widget.controller.clipboard.copy();
     setState(() {});
   }
 
   @override
   Future<void> cut() async {
-    await widget.controller.cut();
+    await widget.controller.clipboard.cut();
     setState(() {});
   }
 
   @override
   Future<void> paste() async {
-    await widget.controller.paste();
+    await widget.controller.clipboard.paste();
     setState(() {});
   }
 
   @override
   void undo() {
-    widget.controller.undo();
+    widget.controller.history.undo();
     setState(() {});
   }
 
   @override
   void redo() {
-    widget.controller.redo();
+    widget.controller.history.redo();
     setState(() {});
   }
 
