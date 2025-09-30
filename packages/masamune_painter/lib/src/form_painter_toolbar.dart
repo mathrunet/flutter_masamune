@@ -521,12 +521,6 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
 
   List<PainterInlineTools>? _getInlineTools() {
     final currentTool = widget.controller._currentTool;
-    if (currentTool is PainterPrimaryTools) {
-      return currentTool.inlineTools;
-    }
-    if (currentTool is PainterInlinePrimaryTools) {
-      return currentTool.inlineTools;
-    }
     if (currentValues.isNotEmpty) {
       final selectPainterInlineTools =
           widget.controller.adapter.defaultPrimaryTools.firstWhereOrNull(
@@ -535,6 +529,12 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
       if (selectPainterInlineTools != null) {
         return selectPainterInlineTools.inlineTools;
       }
+    }
+    if (currentTool is PainterPrimaryTools) {
+      return currentTool.inlineTools;
+    }
+    if (currentTool is PainterInlinePrimaryTools) {
+      return currentTool.inlineTools;
     }
     return null;
   }

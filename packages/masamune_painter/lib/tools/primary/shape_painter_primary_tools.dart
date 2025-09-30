@@ -23,7 +23,7 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
       icon: FontAwesomeIcons.shapes,
     ),
     this.inlineTools = const [
-      BackShapePainterInlineTools(),
+      BackPainterInlineTools(),
       RectangleShapePainterInlineTools(),
     ],
     this.blockTools = const [],
@@ -76,4 +76,7 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
   void onTap(BuildContext context, PainterToolRef ref) {
     ref.toggleMode(this);
   }
+
+  @override
+  bool get canSelect => true;
 }

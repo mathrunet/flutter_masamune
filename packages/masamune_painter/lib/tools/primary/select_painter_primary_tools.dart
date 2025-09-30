@@ -51,7 +51,8 @@ class SelectPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool is SelectPainterPrimaryTools;
+    return ref.currentValues.isNotEmpty ||
+        ref.currentTool is SelectPainterPrimaryTools;
   }
 
   @override

@@ -46,28 +46,26 @@ class Solid1pxLinePainterBlockTools extends PainterLineBlockTools {
   }
 
   @override
-  Widget icon(BuildContext context, PainterToolRef ref) {
+  Widget strokeIcon(
+    BuildContext context,
+    PainterToolRef ref, {
+    Color? color,
+  }) {
     final theme = Theme.of(context);
-    return Container(
-      height: 26,
-      width: 26,
-      decoration: BoxDecoration(
-        border: Border.all(
-            color: theme.colorTheme?.onBackground ?? Colors.transparent),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("1px", style: theme.textTheme.labelSmall?.smallize(3)),
-          Container(
-            height: 1,
-            color: theme.colorTheme?.onBackground,
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "1px",
+          style: theme.textTheme.labelSmall?.smallize(3).copyWith(color: color),
+        ),
+        Container(
+          height: 1,
+          color: color ?? theme.colorTheme?.onBackground,
+        ),
+      ],
     );
   }
 

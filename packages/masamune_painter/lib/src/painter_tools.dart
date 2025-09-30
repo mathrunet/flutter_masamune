@@ -89,6 +89,11 @@ abstract class PainterPrimaryTools extends PainterTools {
   ///
   /// ブロックツールを取得します。
   List<PainterBlockTools>? get blockTools => null;
+
+  /// Check if the tool can be selected.
+  ///
+  /// ツールが選択可能かどうかを確認します。
+  bool get canSelect => false;
 }
 
 /// Base class for painter variable primary tools.
@@ -162,6 +167,30 @@ abstract class PainterLineBlockTools extends PainterBlockTools {
   /// 描画ツールの線ブロックツールの基底クラス。
   const PainterLineBlockTools({
     required super.config,
+  });
+
+  @override
+  Widget icon(BuildContext context, PainterToolRef ref) {
+    final theme = Theme.of(context);
+    return Container(
+      height: 26,
+      width: 26,
+      decoration: BoxDecoration(
+        border: Border.all(
+            color: theme.colorTheme?.onBackground ?? Colors.transparent),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: strokeIcon(context, ref),
+    );
+  }
+
+  /// Get the stroke icon.
+  ///
+  /// ストロークアイコンを取得します。
+  Widget strokeIcon(
+    BuildContext context,
+    PainterToolRef ref, {
+    Color? color,
   });
 
   /// Get the stroke width.

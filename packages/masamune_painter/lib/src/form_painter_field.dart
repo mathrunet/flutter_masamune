@@ -441,7 +441,8 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       _selectingStartWithSelectingTool(
         position: position,
       );
-    } else if (currentTool == null) {
+    } else if (currentTool == null ||
+        (currentTool is PainterPrimaryTools && currentTool.canSelect)) {
       _selectingStartWithoutTool(
         position: position,
       );

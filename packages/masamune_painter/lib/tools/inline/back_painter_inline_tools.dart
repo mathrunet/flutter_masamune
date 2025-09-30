@@ -1,14 +1,14 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to back shape [PainterTools].
+/// Display the menu to back [PainterTools].
 ///
-/// 図形メニューから戻るメニューを表示する[PainterTools]。
+/// インラインメニューから戻るメニューを表示する[PainterTools]。
 @immutable
-class BackShapePainterInlineTools extends PainterInlineTools {
-  /// Display the menu to back shape [PainterTools].
+class BackPainterInlineTools extends PainterInlineTools {
+  /// Display the menu to back [PainterTools].
   ///
-  /// 図形メニューから戻るメニューを表示する[PainterTools]。
-  const BackShapePainterInlineTools({
+  /// インラインメニューから戻るメニューを表示する[PainterTools]。
+  const BackPainterInlineTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
@@ -24,9 +24,8 @@ class BackShapePainterInlineTools extends PainterInlineTools {
     ),
   });
 
-
   @override
-  String get id => "__painter_shape_back__";
+  String get id => "__painter_back__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) => true;
