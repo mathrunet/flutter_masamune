@@ -489,7 +489,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// Update the current value for editing (single selection).
   ///
   /// 編集用の現在値を更新します（単一選択）。
-  void updateCurrentValue(PaintingValue? value) {
+  void updateCurrentValue([PaintingValue? value]) {
     _currentValues.clear();
     if (value != null) {
       _currentValues.add(value);

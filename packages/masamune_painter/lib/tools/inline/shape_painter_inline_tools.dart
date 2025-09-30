@@ -1,14 +1,14 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to select shape [PainterTools].
+/// Display the Shapes menu [PainterTools].
 ///
-/// 図形を選択するメニューを表示する[PainterTools]。
+/// 図形メニューを表示する[PainterTools]。
 @immutable
-class ShapePainterPrimaryTools extends PainterPrimaryTools {
-  /// Display the menu to select shape [PainterTools].
+class ShapePainterInlineTools extends PainterInlineTools {
+  /// Display the Shapes menu [PainterTools].
   ///
-  /// 図形を選択するメニューを表示する[PainterTools]。
-  const ShapePainterPrimaryTools({
+  /// 図形メニューを表示する[PainterTools]。
+  const ShapePainterInlineTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
@@ -22,17 +22,10 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
       ]),
       icon: FontAwesomeIcons.shapes,
     ),
-    this.inlineTools = const [
-      BackPainterInlineTools(),
-      RectangleShapePainterInlineTools(),
-    ],
   });
 
   @override
-  final List<PainterInlineTools> inlineTools;
-
-  @override
-  String get id => "__painter_shape__";
+  String get id => "__painter_shape_inline__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) => true;
@@ -42,15 +35,20 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
+    final shapeTool =
+        PainterMasamuneAdapter.findTool<ShapePainterPrimaryTools>();
+    if (shapeTool == null) {
+      return false;
+    }
     if (ref.currentTool == null) {
       return false;
     }
-    if (inlineTools.contains(ref.currentTool)) {
+    if (shapeTool.inlineTools.contains(ref.currentTool)) {
       return true;
     }
     final prevTool = ref.controller._prevTool;
     if (prevTool != null) {
-      if (inlineTools.contains(prevTool)) {
+      if (shapeTool.inlineTools.contains(prevTool)) {
         return true;
       }
     }
@@ -59,7 +57,12 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
-    final activeTool = inlineTools.firstWhereOrNull((e) {
+    final shapeTool =
+        PainterMasamuneAdapter.findTool<ShapePainterPrimaryTools>();
+    if (shapeTool == null) {
+      return Icon(config.icon);
+    }
+    final activeTool = shapeTool.inlineTools.firstWhereOrNull((e) {
       return e == ref.currentTool;
     });
     if (activeTool != null) {
@@ -67,7 +70,7 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
     }
     final prevTool = ref.controller._prevTool;
     if (prevTool != null) {
-      final activeTool = inlineTools.firstWhereOrNull((e) {
+      final activeTool = shapeTool.inlineTools.firstWhereOrNull((e) {
         return e == prevTool;
       });
       if (activeTool != null) {
@@ -79,21 +82,21 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   Widget label(BuildContext context, PainterToolRef ref) {
-    final activeTool = inlineTools.firstWhereOrNull((e) {
-      return e == ref.currentTool;
-    });
-    if (activeTool != null) {
-      return activeTool.label(context, ref);
-    }
     final locale = context.locale;
     return Text(config.title.value(locale) ?? "");
   }
 
   @override
-  void onTap(BuildContext context, PainterToolRef ref) {
-    ref.toggleMode(this);
+  void onTap(BuildContext context, PainterToolRef ref) {}
+
+  @override
+  Future<void> onActive(BuildContext context, PainterToolRef ref) async {
+    ref.deleteMode();
   }
 
   @override
-  bool get canSelect => true;
+  Future<void> onDeactive(BuildContext context, PainterToolRef ref) async {
+    ref.controller.unselect();
+    ref.deleteMode();
+  }
 }

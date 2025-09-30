@@ -1,5 +1,25 @@
 part of "/masamune_painter.dart";
 
+/// The type of the painting value.
+///
+/// 描画用のデータの型。
+enum PaintingValueCategory {
+  /// Text.
+  ///
+  /// テキスト。
+  text,
+
+  /// Shape.
+  ///
+  /// 図形。
+  shape,
+
+  /// Image.
+  ///
+  /// 画像。
+  image,
+}
+
 /// A class for storing drawing data.
 ///
 /// 描画用のデータを格納するクラス。
@@ -21,6 +41,11 @@ abstract class PaintingValue {
   ///
   /// 描画用のデータの型。
   String get type;
+
+  /// The category of the painting value.
+  ///
+  /// 描画用のデータのカテゴリ。
+  PaintingValueCategory get category;
 
   /// Convert the painting value to a JSON object.
   ///
@@ -111,22 +136,6 @@ abstract class PaintingValue {
   ///
   /// 描画用のデータの終了点のキー。
   static const String endYKey = "endY";
-
-  /// Find the line tool.
-  ///
-  /// 線ブロックツールを取得します。
-  static PainterLineBlockTools findLineTool(String toolId) {
-    final selectTool =
-        PainterMasamuneAdapter.primary.defaultPrimaryTools.firstWhereOrNull(
-      (e) => e is SelectPainterPrimaryTools,
-    );
-    final lineTool = selectTool?.inlineTools.firstWhereOrNull(
-      (e) => e is LinePainterInlineTools,
-    ) as LinePainterInlineTools?;
-    final lineTools = lineTool?.blockTools.whereType<PainterLineBlockTools>();
-    return lineTools?.firstWhereOrNull((e) => e.id == toolId) ??
-        PainterMasamuneAdapter.primary.defaultLine;
-  }
 
   /// Updating data being created (while dragging).
   ///

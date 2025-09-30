@@ -1,14 +1,14 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to undo [PainterTools].
+/// Display background color properties [PainterTools].
 ///
-/// 元に戻すメニューを表示する[PainterTools]。
+/// 背景色のプロパティを表示する[PainterTools]。
 @immutable
-class BackgroundColorPainterInlineTools extends PainterInlineTools {
-  /// Display the menu to undo [PainterTools].
+class BackgroundPropertyColorPainterInlineTools extends PainterInlineTools {
+  /// Display background color properties [PainterTools].
   ///
-  /// 元に戻すメニューを表示する[PainterTools]。
-  const BackgroundColorPainterInlineTools({
+  /// 背景色のプロパティを表示する[PainterTools]。
+  const BackgroundPropertyColorPainterInlineTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
@@ -25,10 +25,18 @@ class BackgroundColorPainterInlineTools extends PainterInlineTools {
   });
 
   @override
-  String get id => "__painter_background_color__";
+  String get id => "__painter_property_background_color__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
+    final inlineMode = ref.toolInlineMode;
+    if (inlineMode == PainterToolInlineMode.select) {
+      final values = ref.currentValues;
+      if (values.any((e) => e.category == PaintingValueCategory.shape)) {
+        return true;
+      }
+      return false;
+    }
     return true;
   }
 

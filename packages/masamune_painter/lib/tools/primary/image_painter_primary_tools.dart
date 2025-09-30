@@ -118,7 +118,7 @@ class ImagePaintingValue extends PaintingValue {
     final toolId = json.get(PaintingValue.toolKey, "");
     final lineTool =
         PainterMasamuneAdapter.primary.defaultPrimaryTools.firstWhereOrNull(
-      (e) => e is LinePainterInlineTools,
+      (e) => e is LinePropertyPainterInlineTools,
     );
     final lineTools = lineTool?.blockTools?.whereType<PainterLineBlockTools>();
     final tool = lineTools?.firstWhereOrNull((e) => e.id == toolId);
@@ -140,6 +140,9 @@ class ImagePaintingValue extends PaintingValue {
 
   @override
   String get type => "__painter_shape_image__";
+
+  @override
+  PaintingValueCategory get category => PaintingValueCategory.image;
 
   @override
   Rect get rect {

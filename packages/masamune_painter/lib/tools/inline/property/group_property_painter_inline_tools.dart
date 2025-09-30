@@ -1,14 +1,14 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to undo [PainterTools].
+/// Display group properties [PainterTools].
 ///
-/// 元に戻すメニューを表示する[PainterTools]。
+/// グループのプロパティを表示する[PainterTools]。
 @immutable
-class GroupPainterInlineTools extends PainterInlinePrimaryTools {
-  /// Display the menu to undo [PainterTools].
+class GroupPropertyPainterInlineTools extends PainterInlinePrimaryTools {
+  /// Display group properties [PainterTools].
   ///
-  /// 元に戻すメニューを表示する[PainterTools]。
-  const GroupPainterInlineTools({
+  /// グループのプロパティを表示する[PainterTools]。
+  const GroupPropertyPainterInlineTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
@@ -22,15 +22,16 @@ class GroupPainterInlineTools extends PainterInlinePrimaryTools {
       ]),
       icon: Icons.group,
     ),
+    this.blockTools = const [
+      GroupingGroupPainterBlockTools(),
+    ],
   });
 
   @override
-  List<PainterBlockTools> get blockTools => [
-        const GroupingGroupPainterBlockTools(),
-      ];
+  final List<PainterBlockTools> blockTools;
 
   @override
-  String get id => "__painter_group__";
+  String get id => "__painter_property_group__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
@@ -42,7 +43,7 @@ class GroupPainterInlineTools extends PainterInlinePrimaryTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool is GroupPainterInlineTools;
+    return ref.currentTool is GroupPropertyPainterInlineTools;
   }
 
   @override

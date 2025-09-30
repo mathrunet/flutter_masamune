@@ -1,48 +1,45 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to undo [PainterTools].
+/// Display the text menu [PainterTools].
 ///
-/// 元に戻すメニューを表示する[PainterTools]。
+/// テキストメニューを表示する[PainterTools]。
 @immutable
-class FilterPainterInlineTools extends PainterInlinePrimaryTools {
-  /// Display the menu to undo [PainterTools].
+class TextPainterInlineTools extends PainterInlineTools {
+  /// Display the text menu [PainterTools].
   ///
-  /// 元に戻すメニューを表示する[PainterTools]。
-  const FilterPainterInlineTools({
+  /// テキストメニューを表示する[PainterTools]。
+  const TextPainterInlineTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "フィルター",
+          "テキスト",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Filter",
+          "Text",
         ),
       ]),
-      icon: Icons.filter_list,
+      icon: FontAwesomeIcons.font,
     ),
   });
 
   @override
-  List<PainterBlockTools> get blockTools => [
-        const BlurFilterPainterBlockTools(),
-      ];
+  String get id => "__painter_text_inline__";
 
   @override
-  String get id => "__painter_filter__";
-
-  @override
-  bool shown(BuildContext context, PainterToolRef ref) {
-    return true;
-  }
+  bool shown(BuildContext context, PainterToolRef ref) => true;
 
   @override
   bool enabled(BuildContext context, PainterToolRef ref) => true;
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool is FilterPainterInlineTools;
+    return ref.currentValues.isNotEmpty ||
+        ref.currentTool is SelectPainterInlineTools ||
+        ref.currentTool is SelectPainterPrimaryTools ||
+        ref.controller._prevTool is SelectPainterInlineTools ||
+        ref.controller._prevTool is SelectPainterPrimaryTools;
   }
 
   @override
@@ -61,17 +58,12 @@ class FilterPainterInlineTools extends PainterInlinePrimaryTools {
 
   @override
   Future<void> onActive(BuildContext context, PainterToolRef ref) async {
-    ref.toggleMode(this);
-    ref.controller._prevTool = ref.currentTool;
+    ref.deleteMode();
   }
 
   @override
   Future<void> onDeactive(BuildContext context, PainterToolRef ref) async {
-    final prevTool = ref.controller._prevTool;
-    if (prevTool != null) {
-      ref.toggleMode(prevTool);
-    } else {
-      ref.toggleMode(this);
-    }
+    ref.controller.unselect();
+    ref.deleteMode();
   }
 }

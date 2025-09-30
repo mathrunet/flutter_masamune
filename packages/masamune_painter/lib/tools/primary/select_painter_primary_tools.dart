@@ -24,11 +24,11 @@ class SelectPainterPrimaryTools extends PainterPrimaryTools {
     ),
     this.inlineTools = const [
       SelectPainterInlineTools(),
-      BackgroundColorPainterInlineTools(),
-      ForegroundColorPainterInlineTools(),
-      LinePainterInlineTools(),
-      GroupPainterInlineTools(),
-      FilterPainterInlineTools(),
+      BackgroundPropertyColorPainterInlineTools(),
+      ForegroundPropertyColorPainterInlineTools(),
+      LinePropertyPainterInlineTools(),
+      GroupPropertyPainterInlineTools(),
+      FilterPropertyPainterInlineTools(),
     ],
   });
 

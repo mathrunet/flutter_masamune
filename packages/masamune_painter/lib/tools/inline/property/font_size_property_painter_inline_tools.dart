@@ -1,50 +1,49 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to undo [PainterTools].
+/// Display font size properties [PainterTools].
 ///
-/// 元に戻すメニューを表示する[PainterTools]。
+/// フォントサイズのプロパティを表示する[PainterTools]。
 @immutable
-class LinePainterInlineTools extends PainterInlinePrimaryTools {
-  /// Display the menu to undo [PainterTools].
+class FontSizePropertyPainterInlineTools extends PainterInlinePrimaryTools {
+  /// Display font size properties [PainterTools].
   ///
-  /// 元に戻すメニューを表示する[PainterTools]。
-  const LinePainterInlineTools({
+  /// フォントサイズのプロパティを表示する[PainterTools]。
+  const FontSizePropertyPainterInlineTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "線",
+          "フォントサイズ",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Line",
+          "Font Size",
         ),
       ]),
-      icon: FontAwesomeIcons.line,
+      icon: FontAwesomeIcons.font,
     ),
+    this.blockTools = const [
+      Solid1pxLinePainterBlockTools(),
+      Solid10pxLinePainterBlockTools(),
+    ],
   });
 
   @override
-  List<PainterInlineTools> get inlineTools => const [
-        SelectPainterInlineTools(),
-        BackgroundColorPainterInlineTools(),
-        ForegroundColorPainterInlineTools(),
-        LinePainterInlineTools(),
-        GroupPainterInlineTools(),
-        FilterPainterInlineTools(),
-      ];
+  final List<PainterBlockTools> blockTools;
 
   @override
-  List<PainterBlockTools> get blockTools => const [
-        Solid1pxLinePainterBlockTools(),
-        Solid10pxLinePainterBlockTools(),
-      ];
-
-  @override
-  String get id => "__painter_line__";
+  String get id => "__painter_property_font_size__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
+    final inlineMode = ref.toolInlineMode;
+    if (inlineMode == PainterToolInlineMode.select) {
+      final values = ref.currentValues;
+      if (values.any((e) => e.category == PaintingValueCategory.text)) {
+        return true;
+      }
+      return false;
+    }
     return true;
   }
 
@@ -53,7 +52,7 @@ class LinePainterInlineTools extends PainterInlinePrimaryTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool is LinePainterInlineTools;
+    return ref.currentTool is LinePropertyPainterInlineTools;
   }
 
   @override

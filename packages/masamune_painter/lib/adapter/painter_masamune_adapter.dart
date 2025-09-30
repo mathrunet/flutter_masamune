@@ -24,7 +24,7 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
     this.defaultPrimaryTools = const [
       SelectPainterPrimaryTools(),
       ShapePainterPrimaryTools(),
-      PropertyPainterPrimaryTools(),
+      TextPainterPrimaryTools(),
       UndoPainterPrimaryTools(),
       RedoPainterPrimaryTools(),
     ],
@@ -32,6 +32,27 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
       CopyPainterSecondaryTools(),
       CutPainterSecondaryTools(),
       PastePainterSecondaryTools(),
+    ],
+    this.defaultSelectInlineTools = const [
+      SelectPainterInlineTools(),
+      BackgroundPropertyColorPainterInlineTools(),
+      ForegroundPropertyColorPainterInlineTools(),
+      LinePropertyPainterInlineTools(),
+      GroupPropertyPainterInlineTools(),
+      FilterPropertyPainterInlineTools(),
+    ],
+    this.defaultShapeInlineTools = const [
+      ShapePainterInlineTools(),
+      BackgroundPropertyColorPainterInlineTools(),
+      ForegroundPropertyColorPainterInlineTools(),
+      LinePropertyPainterInlineTools(),
+    ],
+    this.defaultTextInlineTools = const [
+      TextPainterInlineTools(),
+      ForegroundPropertyColorPainterInlineTools(),
+      FontSizePropertyPainterInlineTools(),
+      FontStylePropertyPainterInlineTools(),
+      ParagraphAlignPropertyPainterInlineTools(),
     ],
   });
 
@@ -44,6 +65,21 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 描画ツールのセカンダリーツール。
   final List<PainterSecondaryTools> defaultSecondaryTools;
+
+  /// Default select inline tools for painter.
+  ///
+  /// 描画ツールの選択インラインツール。
+  final List<PainterInlineTools> defaultSelectInlineTools;
+
+  /// Default shape inline tools for painter.
+  ///
+  /// 描画ツールの図形インラインツール。
+  final List<PainterInlineTools> defaultShapeInlineTools;
+
+  /// Default text inline tools for painter.
+  ///
+  /// 描画ツールのテキストインラインツール。
+  final List<PainterInlineTools> defaultTextInlineTools;
 
   /// The default size of the canvas.
   ///
@@ -69,6 +105,101 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 色履歴の最大数。
   final int maxColorHistory;
+
+  /// Find the shape tool.
+  ///
+  /// 図形ツールを取得します。
+  static TTool? findTool<TTool extends PainterTools>({
+    String? toolId,
+    bool recursive = false,
+  }) {
+    final primaryTool = _findTool<TTool>(
+      primary.defaultPrimaryTools,
+      toolId: toolId,
+      recursive: recursive,
+    );
+    if (primaryTool != null) {
+      return primaryTool;
+    }
+    final secondaryTool = _findTool<TTool>(
+      primary.defaultSecondaryTools,
+      toolId: toolId,
+      recursive: recursive,
+    );
+    if (secondaryTool != null) {
+      return secondaryTool;
+    }
+    final selectInlineTool = _findTool<TTool>(
+      primary.defaultSelectInlineTools,
+      toolId: toolId,
+      recursive: recursive,
+    );
+    if (selectInlineTool != null) {
+      return selectInlineTool;
+    }
+    final shapeInlineTool = _findTool<TTool>(
+      primary.defaultShapeInlineTools,
+      toolId: toolId,
+      recursive: recursive,
+    );
+    if (shapeInlineTool != null) {
+      return shapeInlineTool;
+    }
+    final textInlineTool = _findTool<TTool>(
+      primary.defaultTextInlineTools,
+      toolId: toolId,
+      recursive: recursive,
+    );
+    if (textInlineTool != null) {
+      return textInlineTool;
+    }
+    return null;
+  }
+
+  static TTool? _findTool<TTool extends PainterTools>(
+    List<PainterTools> tools, {
+    String? toolId,
+    bool recursive = false,
+  }) {
+    for (final tool in tools) {
+      if (tool is TTool) {
+        if (toolId == null || tool.id == toolId) {
+          return tool;
+        }
+      }
+      if (recursive) {
+        if (tool is PainterPrimaryTools) {
+          final inlineFound = _findTool<TTool>(
+            tool.inlineTools ?? [],
+            toolId: toolId,
+            recursive: true,
+          );
+          if (inlineFound != null) {
+            return inlineFound;
+          }
+          final blockFound = _findTool<TTool>(
+            tool.blockTools ?? [],
+            toolId: toolId,
+            recursive: true,
+          );
+          if (blockFound != null) {
+            return blockFound;
+          }
+        }
+        if (tool is PainterInlinePrimaryTools) {
+          final found = _findTool<TTool>(
+            tool.blockTools ?? [],
+            toolId: toolId,
+            recursive: true,
+          );
+          if (found != null) {
+            return found;
+          }
+        }
+      }
+    }
+    return null;
+  }
 
   /// You can retrieve the [PainterMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

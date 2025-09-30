@@ -207,7 +207,8 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
           }
         } else {
           if ((tool is PainterPrimaryTools && tool.blockTools.isNotEmpty) ||
-              (tool is LinePainterInlineTools && tool.blockTools.isNotEmpty)) {
+              (tool is LinePropertyPainterInlineTools &&
+                  tool.blockTools.isNotEmpty)) {
             _showBlockMenu = true;
             if (_blockMenuHeight == 0) {
               _blockMenuHeight = context.mediaQuery.size.height / 3.0;
@@ -519,27 +520,67 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
     );
   }
 
-  List<PainterInlineTools>? _getInlineTools() {
+  @override
+  PainterToolInlineMode? get toolInlineMode {
     final currentTool = widget.controller._currentTool;
     if (currentValues.isNotEmpty) {
-      final selectPainterInlineTools =
-          widget.controller.adapter.defaultPrimaryTools.firstWhereOrNull(
-        (e) => e is SelectPainterPrimaryTools,
-      );
-      if (selectPainterInlineTools != null) {
-        return selectPainterInlineTools.inlineTools;
+      return PainterToolInlineMode.select;
+    }
+    if (currentTool == null) {
+      return null;
+    }
+    if (currentTool is SelectPainterPrimaryTools ||
+        currentTool is SelectPainterInlineTools) {
+      return PainterToolInlineMode.select;
+    }
+    final shapeTool =
+        PainterMasamuneAdapter.findTool<ShapePainterPrimaryTools>();
+    if (shapeTool != null) {
+      if (shapeTool.inlineTools.contains(currentTool)) {
+        return PainterToolInlineMode.shape;
+      }
+      final prevTool = widget.controller._prevTool;
+      if (prevTool != null && shapeTool.inlineTools.contains(prevTool)) {
+        return PainterToolInlineMode.shape;
       }
     }
-    if (currentTool is PainterPrimaryTools) {
-      return currentTool.inlineTools;
-    }
-    if (currentTool is PainterInlinePrimaryTools) {
-      return currentTool.inlineTools;
+    final textTool = PainterMasamuneAdapter.findTool<TextPainterPrimaryTools>();
+    if (textTool != null) {
+      if (textTool.inlineTools.contains(currentTool)) {
+        return PainterToolInlineMode.text;
+      }
+      final prevTool = widget.controller._prevTool;
+      if (prevTool != null && textTool.inlineTools.contains(prevTool)) {
+        return PainterToolInlineMode.text;
+      }
     }
     return null;
   }
 
-  List<PainterBlockTools>? _getBlockTools() {
+  List<PainterInlineTools>? _getInlineTools(PainterToolInlineMode? mode) {
+    switch (mode) {
+      case PainterToolInlineMode.select:
+        return widget.controller.adapter.defaultSelectInlineTools;
+      case PainterToolInlineMode.shape:
+        return widget.controller.adapter.defaultShapeInlineTools;
+      case PainterToolInlineMode.text:
+        return widget.controller.adapter.defaultTextInlineTools;
+      default:
+        final currentTool = widget.controller._currentTool;
+        if (currentTool is PainterPrimaryTools) {
+          return currentTool.inlineTools;
+        }
+        if (currentTool is PainterInlinePrimaryTools) {
+          final prevTool = controller._prevTool;
+          if (prevTool != null && prevTool is PainterPrimaryTools) {
+            return prevTool.inlineTools;
+          }
+        }
+        return null;
+    }
+  }
+
+  List<PainterBlockTools>? _getBlockTools(PainterToolInlineMode? mode) {
     final currentTool = widget.controller._currentTool;
     if (currentTool is PainterPrimaryTools) {
       return currentTool.blockTools;
@@ -564,8 +605,10 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
     final theme = Theme.of(context);
     final height = _blockMenuHeight + _kToolbarHeight;
 
-    final inlineTools = _getInlineTools();
-    final blockTools = _getBlockTools();
+    final toolMode = toolInlineMode;
+
+    final inlineTools = _getInlineTools(toolMode);
+    final blockTools = _getBlockTools(toolMode);
 
     return IconTheme(
       data: IconThemeData(
@@ -653,6 +696,11 @@ abstract class PainterToolRef {
   ///
   /// オブジェクトの選択を解除します。
   void unselect();
+
+  /// Get the tool mode.
+  ///
+  /// ツールモードを取得します。
+  PainterToolInlineMode? get toolInlineMode;
 
   /// Get the controller.
   ///

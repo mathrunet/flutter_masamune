@@ -1,14 +1,14 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to undo [PainterTools].
+/// Display foreground color properties [PainterTools].
 ///
-/// 元に戻すメニューを表示する[PainterTools]。
+/// 前景色のプロパティを表示する[PainterTools]。
 @immutable
-class ForegroundColorPainterInlineTools extends PainterInlineTools {
-  /// Display the menu to undo [PainterTools].
+class ForegroundPropertyColorPainterInlineTools extends PainterInlineTools {
+  /// Display foreground color properties [PainterTools].
   ///
-  /// 元に戻すメニューを表示する[PainterTools]。
-  const ForegroundColorPainterInlineTools({
+  /// 前景色のプロパティを表示する[PainterTools]。
+  const ForegroundPropertyColorPainterInlineTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
@@ -25,10 +25,20 @@ class ForegroundColorPainterInlineTools extends PainterInlineTools {
   });
 
   @override
-  String get id => "__painter_foreground_color__";
+  String get id => "__painter_property_foreground_color__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
+    final inlineMode = ref.toolInlineMode;
+    if (inlineMode == PainterToolInlineMode.select) {
+      final values = ref.currentValues;
+      if (values.any((e) =>
+          e.category == PaintingValueCategory.text ||
+          e.category == PaintingValueCategory.shape)) {
+        return true;
+      }
+      return false;
+    }
     return true;
   }
 

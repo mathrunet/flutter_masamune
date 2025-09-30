@@ -34,10 +34,10 @@ part "src/painting_value.dart";
 part "src/painter_drag_mode.dart";
 part "src/painter_resize_direction.dart";
 part "src/painter_tools.dart";
+part "src/painter_tool_inline_mode.dart";
 part "src/color_picker_modal.dart";
 
 part "tools/primary/select_painter_primary_tools.dart";
-part "tools/primary/property_painter_primary_tools.dart";
 part "tools/primary/shape_painter_primary_tools.dart";
 part "tools/primary/text_painter_primary_tools.dart";
 part "tools/primary/image_painter_primary_tools.dart";
@@ -50,14 +50,19 @@ part "tools/secondary/cut_painter_secondary_tools.dart";
 part "tools/secondary/delete_painter_secondary_tools.dart";
 part "tools/secondary/paste_painter_secondary_tools.dart";
 
+part "tools/inline/select_painter_inline_tools.dart";
+part "tools/inline/shape_painter_inline_tools.dart";
+part "tools/inline/text_painter_inline_tools.dart";
 part "tools/inline/back_painter_inline_tools.dart";
 
-part "tools/inline/select/select_painter_inline_tools.dart";
-part "tools/inline/select/background_color_painter_inline_tools.dart";
-part "tools/inline/select/foreground_color_painter_inline_tools.dart";
-part "tools/inline/select/line_painter_inline_tools.dart";
-part "tools/inline/select/group_painter_inline_tools.dart";
-part "tools/inline/select/filter_painter_inline_tools.dart";
+part "tools/inline/property/background_property_color_painter_inline_tools.dart";
+part "tools/inline/property/foreground_property_color_painter_inline_tools.dart";
+part "tools/inline/property/line_property_painter_inline_tools.dart";
+part "tools/inline/property/group_property_painter_inline_tools.dart";
+part "tools/inline/property/filter_property_painter_inline_tools.dart";
+part "tools/inline/property/font_size_property_painter_inline_tools.dart";
+part "tools/inline/property/font_style_property_painter_inline_tools.dart";
+part "tools/inline/property/paragraph_align_property_painter_inline_tools.dart";
 
 part "tools/inline/shape/rectangle_shape_painter_inline_tools.dart";
 

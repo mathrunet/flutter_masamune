@@ -234,11 +234,6 @@ abstract class PainterInlinePrimaryTools extends PainterInlineTools {
     required super.config,
   });
 
-  /// Get the inline tools.
-  ///
-  /// インラインツールを取得します。
-  List<PainterInlineTools>? get inlineTools => null;
-
   /// Get the block tools.
   ///
   /// ブロックツールを取得します。

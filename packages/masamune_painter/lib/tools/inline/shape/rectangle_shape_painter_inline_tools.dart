@@ -135,8 +135,9 @@ class RectanglePaintingValue extends PaintingValue {
         json.get(PaintingValue.backgroundColorKey, nullOfNum)?.toInt();
     final foregroundColor =
         json.get(PaintingValue.foregroundColorKey, nullOfNum)?.toInt();
-    final tool = PaintingValue.findLineTool(
-      json.get(PaintingValue.toolKey, ""),
+    final tool = PainterMasamuneAdapter.findTool<PainterLineBlockTools>(
+      toolId: json.get(PaintingValue.toolKey, ""),
+      recursive: true,
     );
     return RectanglePaintingValue(
       id: json.get(PaintingValue.idKey, ""),
@@ -156,6 +157,9 @@ class RectanglePaintingValue extends PaintingValue {
 
   @override
   String get type => "__painter_shape_rectangle__";
+
+  @override
+  PaintingValueCategory get category => PaintingValueCategory.shape;
 
   @override
   Rect get rect {

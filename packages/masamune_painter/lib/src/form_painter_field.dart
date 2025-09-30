@@ -561,9 +561,17 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
         widget.controller._currentTool = null;
       }
     } else if (_dragMode == PainterDragMode.creating) {
-      // 作成中の場合はドラッグが行われていないと保存しない
+      // 作成中の場合はドラッグが行われていない or 最低のサイズであれば保存しない
       if (_isDragStarted) {
+        final currentValue = widget.controller.currentValues.first;
+        if (currentValue.rect.width < currentValue.minimumSize.width ||
+            currentValue.rect.height < currentValue.minimumSize.height) {
+          widget.controller.updateCurrentValue();
+          return;
+        }
         widget.controller.saveCurrentValue(saveToHistory: true);
+      } else {
+        widget.controller.updateCurrentValue();
       }
     } else if (_dragMode == PainterDragMode.moving ||
         _dragMode == PainterDragMode.resizing) {
