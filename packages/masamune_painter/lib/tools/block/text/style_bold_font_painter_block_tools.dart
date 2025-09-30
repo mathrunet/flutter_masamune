@@ -1,23 +1,23 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to draw a normal font [PainterTools].
+/// Display the menu to draw a bold font [PainterTools].
 ///
-/// 標準フォントを描画するメニューを表示する[PainterTools]。
+/// 太字フォントを描画するメニューを表示する[PainterTools]。
 @immutable
-class StyleNormalFontPainterBlockTools extends PainterFontStyleBlockTools {
-  /// Display the menu to draw a normal font [PainterTools].
+class StyleBoldFontPainterBlockTools extends PainterFontStyleBlockTools {
+  /// Display the menu to draw a bold font [PainterTools].
   ///
-  /// 標準フォントを描画するメニューを表示する[PainterTools]。
-  const StyleNormalFontPainterBlockTools({
+  /// 太字フォントを描画するメニューを表示する[PainterTools]。
+  const StyleBoldFontPainterBlockTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "標準",
+          "太字",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Normal",
+          "Bold",
         ),
       ]),
       icon: Icons.line_weight,
@@ -25,7 +25,7 @@ class StyleNormalFontPainterBlockTools extends PainterFontStyleBlockTools {
   });
 
   @override
-  String get id => "__painter_block_text_style_normal__";
+  String get id => "__painter_block_text_style_bold__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) => true;
@@ -76,8 +76,10 @@ class StyleNormalFontPainterBlockTools extends PainterFontStyleBlockTools {
       ),
       child: Center(
         child: Text(
-          "N",
-          style: theme.textTheme.labelMedium,
+          "B",
+          style: theme.textTheme.labelMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
