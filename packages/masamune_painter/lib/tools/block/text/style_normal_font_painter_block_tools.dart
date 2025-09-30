@@ -64,6 +64,9 @@ class StyleNormalFontPainterBlockTools extends PainterFontStyleBlockTools {
   }
 
   @override
+  FontWeight get fontWeight => FontWeight.normal;
+
+  @override
   Widget icon(BuildContext context, PainterToolRef ref) {
     final theme = Theme.of(context);
     return Container(

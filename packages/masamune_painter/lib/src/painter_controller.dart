@@ -889,11 +889,23 @@ class PainterControllerClipboard {
       return null;
     }
 
-    final tools = _controller.adapter.defaultPrimaryTools
+    // Check primary tools first
+    for (final tool in _controller.adapter.defaultPrimaryTools) {
+      if (tool is! PainterVariableTools) {
+        continue;
+      }
+      final value = (tool as PainterVariableTools).convertFromJson(json);
+      if (value != null) {
+        return value;
+      }
+    }
+
+    // Check inline tools
+    final inlineTools = _controller.adapter.defaultPrimaryTools
         .expand((e) => e.inlineTools ?? <PainterInlineTools>[])
         .toList();
 
-    for (final tool in tools) {
+    for (final tool in inlineTools) {
       if (tool is! PainterVariableTools) {
         continue;
       }

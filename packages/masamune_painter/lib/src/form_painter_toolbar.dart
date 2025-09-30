@@ -91,6 +91,7 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   bool _showBlockMenu = false;
   double _blockMenuHeight = 0;
   Duration? _blockMenuToggleDuration;
+  _TextSetting? _textSetting;
 
   @override
   void initState() {
@@ -101,6 +102,7 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   @override
   void dispose() {
     widget.controller.removeListener(_handleControllerStateOnChanged);
+    _textSetting?.cancel();
     super.dispose();
   }
 
@@ -110,6 +112,14 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   @override
   void toggleMode(PainterTools tool) {
     setState(() {
+      // テキスト編集を終了
+      if (_textSetting != null &&
+          widget.controller._currentTool is! TextPainterPrimaryTools &&
+          tool is! TextPainterPrimaryTools &&
+          widget.controller._currentTool is! TextPainterInlineTools &&
+          tool is! TextPainterInlineTools) {
+        _finishTextEditing();
+      }
       widget.controller._prevTool = null;
       if (tool == widget.controller._currentTool) {
         if (_showBlockMenu) {
@@ -162,6 +172,10 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   @override
   void deleteMode() {
     setState(() {
+      // テキスト編集を終了
+      if (_textSetting != null) {
+        _finishTextEditing();
+      }
       if (_blockMenuToggleDuration != null) {
         _blockMenuHeight = 0;
         _blockMenuToggleDuration = _kBlockMenuToggleDuration;
@@ -206,7 +220,75 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
     setState(() {});
   }
 
-  void _handleControllerStateOnChanged() {}
+  void _handleControllerStateOnChanged() {
+    final currentValue = widget.controller.currentValues.firstOrNull;
+
+    // 選択が変わった場合、以前のテキスト編集を終了
+    if (_textSetting != null) {
+      if (currentValue == null || currentValue.id != _textSetting!.value.id) {
+        _finishTextEditing();
+        // 新しいテキストオブジェクトが選択されている場合は続行
+        // そうでない場合は終了
+        if (currentValue == null || currentValue is! TextPaintingValue) {
+          return;
+        }
+      } else {
+        // 同じテキストオブジェクトが選択されている場合は何もしない
+        return;
+      }
+    }
+
+    // テキスト矩形が作成された後、または単独でテキストオブジェクトが選択された後にテキスト入力を開始
+    if (widget.controller.currentValues.length == 1 &&
+        widget.controller.currentValues.first is TextPaintingValue) {
+      final textValue =
+          widget.controller.currentValues.first as TextPaintingValue;
+      // テキストツールで作成中、または既存のテキストを選択した場合
+      final isCreating =
+          widget.controller._currentTool is TextPainterPrimaryTools;
+      final isSelecting =
+          widget.controller._currentTool is SelectPainterPrimaryTools ||
+              widget.controller._currentTool is SelectPainterInlineTools ||
+              widget.controller._currentTool == null;
+
+      if (isCreating || isSelecting) {
+        if (textValue.rect.width >= textValue.minimumSize.width &&
+            textValue.rect.height >= textValue.minimumSize.height) {
+          setState(() {
+            _textSetting = _TextSetting(
+              value: textValue,
+            );
+            _textSetting!.focusNode.requestFocus();
+            _textSetting!.textEditingController.addListener(_handleTextChanged);
+          });
+        }
+      }
+    }
+  }
+
+  void _handleTextChanged() {
+    if (_textSetting == null) {
+      return;
+    }
+    final currentText = _textSetting!.textEditingController.text;
+    final currentValue = widget.controller.currentValues.firstOrNull;
+    if (currentValue is TextPaintingValue && currentValue.text != currentText) {
+      // テキストを更新（履歴には保存しない）
+      final updatedValue = currentValue.copyWith(text: currentText);
+      widget.controller.updateCurrentValue(updatedValue);
+    }
+  }
+
+  void _finishTextEditing() {
+    if (_textSetting == null) {
+      return;
+    }
+    _textSetting!.textEditingController.removeListener(_handleTextChanged);
+    _textSetting!.cancel();
+    _textSetting = null;
+    // 履歴に保存
+    widget.controller.saveCurrentValue(saveToHistory: true);
+  }
 
   Iterable<Widget> _buildPrimaryTools(BuildContext context, ThemeData theme) {
     final primaryTools =
@@ -306,6 +388,44 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
         );
       }
     });
+  }
+
+  Widget _buildTextDialog(BuildContext context, ThemeData theme) {
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: _blockMenuHeight + _kToolbarHeight,
+      child: Container(
+        decoration: BoxDecoration(
+          color: widget.style?.backgroundColor ??
+              theme.colorTheme?.background ??
+              theme.colorScheme.surface,
+          border: Border(
+            bottom: BorderSide(
+              color: (widget.style?.borderColor ??
+                      theme.colorTheme?.outline ??
+                      theme.colorScheme.outline)
+                  .withAlpha(128),
+            ),
+          ),
+        ),
+        width: double.infinity,
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        child: FormTextField(
+          focusNode: _textSetting?.focusNode,
+          controller: _textSetting?.textEditingController,
+          keyboardType: TextInputType.multiline,
+          minLines: 3,
+          maxLines: 5,
+          style: FormStyle(
+            borderStyle: FormInputBorderStyle.outline,
+            backgroundColor: widget.style?.subBackgroundColor ??
+                widget.style?.backgroundColor ??
+                theme.colorTheme?.surface,
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildBlockTools(
@@ -520,7 +640,12 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final height = _blockMenuHeight + _kToolbarHeight;
+    var height = _blockMenuHeight + _kToolbarHeight;
+    if (_textSetting != null) {
+      // テキストフィールドの高さ：3行分 + パディング + ボーダー
+      // フォントサイズを考慮した概算
+      height += _kToolbarHeight * 2.2;
+    }
 
     final toolMode = toolInlineMode;
 
@@ -548,10 +673,13 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
               if (blockTools != null && blockTools.isNotEmpty) ...[
                 _buildBlockTools(context, theme, blockTools),
               ],
+              if (_textSetting != null) ...[
+                _buildTextDialog(context, theme),
+              ],
               Positioned(
                 left: 0,
                 right: 0,
-                top: 0,
+                bottom: _blockMenuHeight,
                 child: Container(
                   color: widget.style?.backgroundColor ??
                       theme.colorTheme?.background,
@@ -648,4 +776,21 @@ abstract class PainterToolRef {
   ///
   /// 最後に元に戻したアクションをやり直します。
   void redo();
+}
+
+class _TextSetting {
+  _TextSetting({
+    required this.value,
+  }) {
+    textEditingController.text = value.text;
+  }
+
+  final TextPaintingValue value;
+  final TextEditingController textEditingController = TextEditingController();
+  final FocusNode focusNode = FocusNode();
+
+  void cancel() {
+    textEditingController.dispose();
+    focusNode.dispose();
+  }
 }

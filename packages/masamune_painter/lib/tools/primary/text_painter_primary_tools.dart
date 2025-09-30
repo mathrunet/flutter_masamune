@@ -111,7 +111,13 @@ class TextPaintingValue extends PaintingValue {
     required super.property,
     required super.start,
     required super.end,
+    this.text = "",
   });
+
+  /// The text content.
+  ///
+  /// テキストコンテンツ。
+  final String text;
 
   /// Create a [TextPaintingValue] from a [DynamicMap].
   ///
@@ -131,8 +137,14 @@ class TextPaintingValue extends PaintingValue {
         json.get(PaintingValue.endXKey, 0.0),
         json.get(PaintingValue.endYKey, 0.0),
       ),
+      text: json.get(textKey, ""),
     );
   }
+
+  /// The key for the text.
+  ///
+  /// テキストのキー。
+  static const String textKey = "text";
 
   @override
   String get type => "__painter_shape_text__";
@@ -161,6 +173,7 @@ class TextPaintingValue extends PaintingValue {
       PaintingValue.startYKey: start.dy,
       PaintingValue.endXKey: end.dx,
       PaintingValue.endYKey: end.dy,
+      textKey: text,
     };
   }
 
@@ -171,12 +184,14 @@ class TextPaintingValue extends PaintingValue {
     Offset? start,
     Offset? end,
     String? id,
+    String? text,
   }) {
     return TextPaintingValue(
       id: id ?? this.id,
       property: property ?? this.property,
       start: (start ?? this.start) + (offset ?? Offset.zero),
       end: (end ?? this.end) + (offset ?? Offset.zero),
+      text: text ?? this.text,
     );
   }
 
@@ -191,32 +206,47 @@ class TextPaintingValue extends PaintingValue {
       return null;
     }
 
-    final backgroundColor = property.backgroundColor;
     final foregroundColor = property.foregroundColor;
-    final line = property.line;
-    if ((backgroundColor == null || backgroundColor.a <= 0.0) &&
-        (foregroundColor == null || foregroundColor.a <= 0.0 || line == null)) {
-      return rect;
+
+    // テキストを描画
+    if (text.isNotEmpty && foregroundColor != null && foregroundColor.a > 0.0) {
+      final fontSize = property.fontSize?.fontSize ?? 16.0;
+      final fontStyle = property.fontStyle;
+      final paragraphAlign = property.paragraphAlign;
+
+      // TextStyleを作成
+      final textStyle = TextStyle(
+        color: foregroundColor,
+        fontSize: fontSize,
+        fontWeight: fontStyle?.fontWeight ?? FontWeight.normal,
+      );
+
+      // TextAlignを設定
+      final textAlign = paragraphAlign?.paragraphAlign ?? TextAlign.left;
+
+      // TextSpanを作成
+      final textSpan = TextSpan(
+        text: text,
+        style: textStyle,
+      );
+
+      // TextPainterを作成
+      final textPainter = TextPainter(
+        text: textSpan,
+        textAlign: textAlign,
+        textDirection: TextDirection.ltr,
+      );
+
+      // レイアウトを実行（横幅を制約）
+      textPainter.layout(
+        minWidth: 0,
+        maxWidth: rect.width,
+      );
+
+      // テキストを描画
+      textPainter.paint(canvas, Offset(rect.left, rect.top));
     }
 
-    // 塗りつぶしの四角を描画
-    if (backgroundColor != null && backgroundColor.a > 0.0) {
-      final paint = Paint()
-        ..color = backgroundColor
-        ..strokeWidth = line?.strokeWidth ?? 1.0
-        ..style = PaintingStyle.fill;
-      canvas.drawRect(rect, paint);
-    }
-
-    // 線の四角を描画
-    if (foregroundColor != null && foregroundColor.a > 0.0 && line != null) {
-      final paint = Paint()
-        ..color = foregroundColor
-        ..strokeWidth = line.strokeWidth
-        ..style = PaintingStyle.stroke;
-
-      canvas.drawRect(rect, paint);
-    }
     return rect;
   }
 
@@ -230,6 +260,7 @@ class TextPaintingValue extends PaintingValue {
       property: property,
       start: startPoint,
       end: currentPoint,
+      text: text,
     );
   }
 
@@ -240,6 +271,7 @@ class TextPaintingValue extends PaintingValue {
       property: property,
       start: start + delta,
       end: end + delta,
+      text: text,
     );
   }
 
@@ -255,6 +287,7 @@ class TextPaintingValue extends PaintingValue {
       property: property,
       start: startPoint,
       end: endPoint,
+      text: text,
     );
   }
 }

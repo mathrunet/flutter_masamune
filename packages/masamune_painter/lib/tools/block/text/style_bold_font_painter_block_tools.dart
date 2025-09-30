@@ -84,4 +84,7 @@ class StyleBoldFontPainterBlockTools extends PainterFontStyleBlockTools {
       ),
     );
   }
+
+  @override
+  FontWeight get fontWeight => FontWeight.bold;
 }

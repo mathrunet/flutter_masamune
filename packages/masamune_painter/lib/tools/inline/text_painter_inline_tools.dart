@@ -62,7 +62,8 @@ class TextPainterInlineTools extends PainterInlineTools {
 
   @override
   Future<void> onDeactive(BuildContext context, PainterToolRef ref) async {
-    ref.controller.unselect();
+    // テキスト編集を終了してから選択解除
     ref.deleteMode();
+    ref.controller.unselect();
   }
 }

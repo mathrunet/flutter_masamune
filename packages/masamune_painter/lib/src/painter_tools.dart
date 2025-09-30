@@ -233,6 +233,11 @@ abstract class PainterFontStyleBlockTools extends PainterBlockTools {
   const PainterFontStyleBlockTools({
     required super.config,
   });
+
+  /// Get the font weight.
+  ///
+  /// フォントウェイトを取得します。
+  FontWeight get fontWeight;
 }
 
 /// Base class for painter paragraph align block tools.
