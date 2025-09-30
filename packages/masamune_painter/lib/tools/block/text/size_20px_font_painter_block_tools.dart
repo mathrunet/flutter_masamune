@@ -1,23 +1,23 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to draw a 10px font [PainterTools].
+/// Display the menu to draw a 20px font [PainterTools].
 ///
-/// 10pxフォントを描画するメニューを表示する[PainterTools]。
+/// 20pxフォントを描画するメニューを表示する[PainterTools]。
 @immutable
-class Size10pxFontPainterBlockTools extends PainterFontSizeBlockTools {
-  /// Display the menu to draw a 10px font [PainterTools].
+class Size20pxFontPainterBlockTools extends PainterFontSizeBlockTools {
+  /// Display the menu to draw a 20px font [PainterTools].
   ///
-  /// 10pxフォントを描画するメニューを表示する[PainterTools]。
-  const Size10pxFontPainterBlockTools({
+  /// 20pxフォントを描画するメニューを表示する[PainterTools]。
+  const Size20pxFontPainterBlockTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "10px",
+          "20px",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "10px",
+          "20px",
         ),
       ]),
       icon: Icons.line_weight,
@@ -25,7 +25,7 @@ class Size10pxFontPainterBlockTools extends PainterFontSizeBlockTools {
   });
 
   @override
-  String get id => "__painter_block_text_size_10px__";
+  String get id => "__painter_block_text_size_20px__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) => true;
@@ -64,7 +64,7 @@ class Size10pxFontPainterBlockTools extends PainterFontSizeBlockTools {
   }
 
   @override
-  double get fontSize => 10.0;
+  double get fontSize => 20.0;
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
@@ -79,7 +79,7 @@ class Size10pxFontPainterBlockTools extends PainterFontSizeBlockTools {
       ),
       child: Center(
         child: Text(
-          "10px",
+          "20px",
           style: theme.textTheme.labelSmall?.smallize(3),
         ),
       ),

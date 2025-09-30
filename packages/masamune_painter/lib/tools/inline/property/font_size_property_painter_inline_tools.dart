@@ -23,8 +23,12 @@ class FontSizePropertyPainterInlineTools extends PainterInlinePrimaryTools {
       icon: FontAwesomeIcons.font,
     ),
     this.blockTools = const [
-      Solid1pxLinePainterBlockTools(),
-      Solid10pxLinePainterBlockTools(),
+      Size10pxFontPainterBlockTools(),
+      Size12pxFontPainterBlockTools(),
+      Size14pxFontPainterBlockTools(),
+      Size16pxFontPainterBlockTools(),
+      Size18pxFontPainterBlockTools(),
+      Size20pxFontPainterBlockTools(),
     ],
   });
 
@@ -52,14 +56,14 @@ class FontSizePropertyPainterInlineTools extends PainterInlinePrimaryTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.controller.currentTool is LinePropertyPainterInlineTools;
+    return ref.controller.currentTool is FontSizePropertyPainterInlineTools;
   }
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
+    final theme = Theme.of(context);
     if (ref.controller.currentValues.isNotEmpty) {
-      final theme = Theme.of(context);
-      return ref.controller.property.currentValueLine?.icon(context, ref) ??
+      return ref.controller.property.currentValueFontSize?.icon(context, ref) ??
           Container(
             height: 26,
             width: 26,
@@ -99,7 +103,45 @@ class FontSizePropertyPainterInlineTools extends PainterInlinePrimaryTools {
             ),
           );
     } else {
-      return ref.controller.property.currentToolLine.icon(context, ref);
+      return ref.controller.property.currentToolFontSize?.icon(context, ref) ??
+          Container(
+            height: 26,
+            width: 26,
+            decoration: BoxDecoration(
+              border: Border.all(
+                  color: theme.colorTheme?.onBackground ?? Colors.transparent),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Stack(
+              children: [
+                Center(
+                  child: Opacity(
+                    opacity: 0.25,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("???",
+                            style: theme.textTheme.labelSmall?.smallize(3)),
+                        Container(
+                          height: 1,
+                          color: theme.colorTheme?.onBackground,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Icon(
+                    Icons.question_mark,
+                    size: 18,
+                    color: theme.colorTheme?.onBackground ?? Colors.transparent,
+                  ),
+                ),
+              ],
+            ),
+          );
     }
   }
 

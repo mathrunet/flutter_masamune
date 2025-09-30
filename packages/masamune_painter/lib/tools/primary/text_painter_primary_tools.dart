@@ -23,7 +23,17 @@ class TextPainterPrimaryTools
       ]),
       icon: FontAwesomeIcons.font,
     ),
+    this.inlineTools = const [
+      TextPainterInlineTools(),
+      ForegroundPropertyColorPainterInlineTools(),
+      FontSizePropertyPainterInlineTools(),
+      FontStylePropertyPainterInlineTools(),
+      ParagraphAlignPropertyPainterInlineTools(),
+    ],
   });
+
+  @override
+  final List<PainterInlineTools> inlineTools;
 
   @override
   String get id => "__painter_text__";

@@ -142,7 +142,7 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
           }
         } else {
           if ((tool is PainterPrimaryTools && tool.blockTools.isNotEmpty) ||
-              (tool is LinePropertyPainterInlineTools &&
+              (tool is PainterInlinePrimaryTools &&
                   tool.blockTools.isNotEmpty)) {
             _showBlockMenu = true;
             if (_blockMenuHeight == 0) {

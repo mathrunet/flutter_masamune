@@ -36,7 +36,9 @@ class TextPainterInlineTools extends PainterInlineTools {
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
     return ref.controller.currentTool is TextPainterInlineTools ||
-        ref.controller.currentTool is TextPainterPrimaryTools;
+        ref.controller.currentTool is TextPainterPrimaryTools ||
+        ref.controller._prevTool is TextPainterInlineTools ||
+        ref.controller._prevTool is TextPainterPrimaryTools;
   }
 
   @override
