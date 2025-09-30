@@ -1,24 +1,24 @@
 part of "/masamune_painter.dart";
 
-/// Display the menu to draw a left align [PainterTools].
+/// Display the menu to draw a center align [PainterTools].
 ///
-/// 左寄せを描画するメニューを表示する[PainterTools]。
+/// 中央揃えを描画するメニューを表示する[PainterTools]。
 @immutable
-class ParagraphAlignLeftTextPainterBlockTools
+class ParagraphAlignCenterTextPainterBlockTools
     extends PainterParagraphAlignBlockTools {
-  /// Display the menu to draw a left align [PainterTools].
+  /// Display the menu to draw a center align [PainterTools].
   ///
-  /// 左寄せを描画するメニューを表示する[PainterTools]。
-  const ParagraphAlignLeftTextPainterBlockTools({
+  /// 中央揃えを描画するメニューを表示する[PainterTools]。
+  const ParagraphAlignCenterTextPainterBlockTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "左寄せ",
+          "中央揃え",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Left Align",
+          "Center Align",
         ),
       ]),
       icon: Icons.line_weight,
@@ -26,7 +26,7 @@ class ParagraphAlignLeftTextPainterBlockTools
   });
 
   @override
-  String get id => "__painter_block_text_paragraph_align_left__";
+  String get id => "__painter_block_text_paragraph_align_center__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) => true;
@@ -55,7 +55,7 @@ class ParagraphAlignLeftTextPainterBlockTools
         borderRadius: BorderRadius.circular(4),
       ),
       child: Icon(
-        Icons.format_align_left,
+        Icons.format_align_center,
         size: 16,
         color: theme.colorTheme?.onBackground,
       ),
@@ -84,5 +84,5 @@ class ParagraphAlignLeftTextPainterBlockTools
   }
 
   @override
-  ui.TextAlign get paragraphAlign => ui.TextAlign.left;
+  ui.TextAlign get paragraphAlign => ui.TextAlign.center;
 }

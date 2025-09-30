@@ -24,8 +24,10 @@ class ParagraphAlignPropertyPainterInlineTools
       icon: FontAwesomeIcons.paragraph,
     ),
     this.blockTools = const [
-      Solid1pxLinePainterBlockTools(),
-      Solid10pxLinePainterBlockTools(),
+      ParagraphAlignLeftTextPainterBlockTools(),
+      ParagraphAlignCenterTextPainterBlockTools(),
+      ParagraphAlignRightTextPainterBlockTools(),
+      ParagraphAlignJustifyTextPainterBlockTools(),
     ],
   });
 
@@ -33,7 +35,7 @@ class ParagraphAlignPropertyPainterInlineTools
   final List<PainterBlockTools> blockTools;
 
   @override
-  String get id => "__painter_property_line__";
+  String get id => "__painter_property_paragraph_align__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
@@ -53,14 +55,16 @@ class ParagraphAlignPropertyPainterInlineTools
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.controller.currentTool is LinePropertyPainterInlineTools;
+    return ref.controller.currentTool
+        is ParagraphAlignPropertyPainterInlineTools;
   }
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
+    final theme = Theme.of(context);
     if (ref.controller.currentValues.isNotEmpty) {
-      final theme = Theme.of(context);
-      return ref.controller.property.currentValueLine?.icon(context, ref) ??
+      return ref.controller.property.currentValueParagraphAlign
+              ?.icon(context, ref) ??
           Container(
             height: 26,
             width: 26,
@@ -100,7 +104,46 @@ class ParagraphAlignPropertyPainterInlineTools
             ),
           );
     } else {
-      return ref.controller.property.currentToolLine.icon(context, ref);
+      return ref.controller.property.currentToolParagraphAlign
+              ?.icon(context, ref) ??
+          Container(
+            height: 26,
+            width: 26,
+            decoration: BoxDecoration(
+              border: Border.all(
+                  color: theme.colorTheme?.onBackground ?? Colors.transparent),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Stack(
+              children: [
+                Center(
+                  child: Opacity(
+                    opacity: 0.25,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("???",
+                            style: theme.textTheme.labelSmall?.smallize(3)),
+                        Container(
+                          height: 1,
+                          color: theme.colorTheme?.onBackground,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Icon(
+                    Icons.question_mark,
+                    size: 18,
+                    color: theme.colorTheme?.onBackground ?? Colors.transparent,
+                  ),
+                ),
+              ],
+            ),
+          );
     }
   }
 
