@@ -158,9 +158,14 @@ class ParagraphAlignPropertyPainterInlineTools
 
   @override
   Future<void> onActive(BuildContext context, PainterToolRef ref) async {
-    final prevTool = ref.controller.currentTool;
+    // 他のPainterInlinePrimaryToolsから切り替える場合は_prevToolを保持
+    final currentTool = ref.controller.currentTool;
+    final shouldPreservePrevTool =
+        currentTool is PainterInlinePrimaryTools && currentTool != this;
+    final prevToolToPreserve =
+        shouldPreservePrevTool ? ref.controller._prevTool : currentTool;
     ref.toggleMode(this);
-    ref.controller._prevTool = prevTool;
+    ref.controller._prevTool = prevToolToPreserve;
   }
 
   @override

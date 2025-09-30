@@ -70,8 +70,14 @@ class FilterPropertyPainterInlineTools extends PainterInlinePrimaryTools {
 
   @override
   Future<void> onActive(BuildContext context, PainterToolRef ref) async {
+    // 他のPainterInlinePrimaryToolsから切り替える場合は_prevToolを保持
+    final currentTool = ref.controller.currentTool;
+    final shouldPreservePrevTool =
+        currentTool is PainterInlinePrimaryTools && currentTool != this;
+    final prevToolToPreserve =
+        shouldPreservePrevTool ? ref.controller._prevTool : currentTool;
     ref.toggleMode(this);
-    ref.controller._prevTool = ref.controller.currentTool;
+    ref.controller._prevTool = prevToolToPreserve;
   }
 
   @override
