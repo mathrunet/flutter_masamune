@@ -36,7 +36,7 @@ class RectangleShapePainterInlineTools
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool == null;
+    return ref.controller.currentTool == null;
   }
 
   @override
@@ -76,17 +76,14 @@ class RectangleShapePainterInlineTools
   }
 
   @override
-  RectanglePaintingValue create(
-      {required Offset point,
-      Color? backgroundColor,
-      Color? foregroundColor,
-      PainterLineBlockTools? tool,
-      String? uid}) {
+  RectanglePaintingValue create({
+    required Offset point,
+    required PaintingProperty property,
+    String? uid,
+  }) {
     return RectanglePaintingValue(
       id: uid ?? uuid(),
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      tool: tool,
+      property: property,
       start: point,
       end: point,
     );
@@ -120,9 +117,7 @@ class RectanglePaintingValue extends PaintingValue {
   /// 四角形描画用のデータを格納するクラス。
   const RectanglePaintingValue({
     required super.id,
-    required super.backgroundColor,
-    required super.foregroundColor,
-    required super.tool,
+    required super.property,
     required super.start,
     required super.end,
   });
@@ -131,19 +126,12 @@ class RectanglePaintingValue extends PaintingValue {
   ///
   /// [DynamicMap]から[RectanglePaintingValue]を作成します。
   factory RectanglePaintingValue.fromJson(DynamicMap json) {
-    final backgroundColor =
-        json.get(PaintingValue.backgroundColorKey, nullOfNum)?.toInt();
-    final foregroundColor =
-        json.get(PaintingValue.foregroundColorKey, nullOfNum)?.toInt();
-    final tool = PainterMasamuneAdapter.findTool<PainterLineBlockTools>(
-      toolId: json.get(PaintingValue.toolKey, ""),
-      recursive: true,
+    final properties = PaintingProperty.fromJson(
+      json.getAsMap(PaintingValue.propertyKey),
     );
     return RectanglePaintingValue(
       id: json.get(PaintingValue.idKey, ""),
-      backgroundColor: backgroundColor != null ? Color(backgroundColor) : null,
-      foregroundColor: foregroundColor != null ? Color(foregroundColor) : null,
-      tool: tool,
+      property: properties,
       start: Offset(
         json.get(PaintingValue.startXKey, 0.0),
         json.get(PaintingValue.startYKey, 0.0),
@@ -174,17 +162,10 @@ class RectanglePaintingValue extends PaintingValue {
 
   @override
   DynamicMap toJson() {
-    final backgroundColor = this.backgroundColor?.toInt();
-    final foregroundColor = this.foregroundColor?.toInt();
     return {
       PaintingValue.typeKey: type,
       PaintingValue.idKey: id,
-      if (backgroundColor != null)
-        PaintingValue.backgroundColorKey: backgroundColor,
-      if (foregroundColor != null)
-        PaintingValue.foregroundColorKey: foregroundColor,
-      PaintingValue.toolKey: tool?.id,
-      PaintingValue.filledKey: false,
+      PaintingValue.propertyKey: property.toJson(),
       PaintingValue.startXKey: start.dx,
       PaintingValue.startYKey: start.dy,
       PaintingValue.endXKey: end.dx,
@@ -195,18 +176,14 @@ class RectanglePaintingValue extends PaintingValue {
   @override
   RectanglePaintingValue copyWith({
     Offset? offset,
-    Color? backgroundColor,
-    Color? foregroundColor,
-    PainterLineBlockTools? tool,
+    PaintingProperty? property,
     Offset? start,
     Offset? end,
     String? id,
   }) {
     return RectanglePaintingValue(
       id: id ?? this.id,
-      backgroundColor: backgroundColor ?? this.backgroundColor,
-      foregroundColor: foregroundColor ?? this.foregroundColor,
-      tool: tool ?? this.tool,
+      property: property ?? this.property,
       start: (start ?? this.start) + (offset ?? Offset.zero),
       end: (end ?? this.end) + (offset ?? Offset.zero),
     );
@@ -223,10 +200,11 @@ class RectanglePaintingValue extends PaintingValue {
       return null;
     }
 
-    final backgroundColor = this.backgroundColor;
-    final foregroundColor = this.foregroundColor;
+    final backgroundColor = property.backgroundColor;
+    final foregroundColor = property.foregroundColor;
+    final line = property.line;
     if ((backgroundColor == null || backgroundColor.a <= 0.0) &&
-        (foregroundColor == null || foregroundColor.a <= 0.0 || tool == null)) {
+        (foregroundColor == null || foregroundColor.a <= 0.0 || line == null)) {
       return rect;
     }
 
@@ -234,16 +212,16 @@ class RectanglePaintingValue extends PaintingValue {
     if (backgroundColor != null && backgroundColor.a > 0.0) {
       final paint = Paint()
         ..color = backgroundColor
-        ..strokeWidth = tool?.strokeWidth ?? 1.0
+        ..strokeWidth = line?.strokeWidth ?? 1.0
         ..style = PaintingStyle.fill;
       canvas.drawRect(rect, paint);
     }
 
     // 線の四角を描画
-    if (foregroundColor != null && foregroundColor.a > 0.0 && tool != null) {
+    if (foregroundColor != null && foregroundColor.a > 0.0 && line != null) {
       final paint = Paint()
         ..color = foregroundColor
-        ..strokeWidth = tool?.strokeWidth ?? 1.0
+        ..strokeWidth = line.strokeWidth
         ..style = PaintingStyle.stroke;
 
       canvas.drawRect(rect, paint);
@@ -258,9 +236,7 @@ class RectanglePaintingValue extends PaintingValue {
   }) {
     return RectanglePaintingValue(
       id: id,
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      tool: tool,
+      property: property,
       start: startPoint,
       end: currentPoint,
     );
@@ -270,9 +246,7 @@ class RectanglePaintingValue extends PaintingValue {
   RectanglePaintingValue updateOnMoving({required Offset delta}) {
     return RectanglePaintingValue(
       id: id,
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      tool: tool,
+      property: property,
       start: start + delta,
       end: end + delta,
     );
@@ -287,9 +261,7 @@ class RectanglePaintingValue extends PaintingValue {
   }) {
     return RectanglePaintingValue(
       id: id,
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      tool: tool,
+      property: property,
       start: startPoint,
       end: endPoint,
     );

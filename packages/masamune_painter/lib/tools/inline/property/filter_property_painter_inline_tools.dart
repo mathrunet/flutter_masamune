@@ -37,7 +37,7 @@ class FilterPropertyPainterInlineTools extends PainterInlinePrimaryTools {
   bool shown(BuildContext context, PainterToolRef ref) {
     final inlineMode = ref.toolInlineMode;
     if (inlineMode == PainterToolInlineMode.select) {
-      final values = ref.currentValues;
+      final values = ref.controller.currentValues;
       if (values.any((e) => e.category == PaintingValueCategory.shape)) {
         return true;
       }
@@ -51,7 +51,7 @@ class FilterPropertyPainterInlineTools extends PainterInlinePrimaryTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool is FilterPropertyPainterInlineTools;
+    return ref.controller.currentTool is FilterPropertyPainterInlineTools;
   }
 
   @override
@@ -71,7 +71,7 @@ class FilterPropertyPainterInlineTools extends PainterInlinePrimaryTools {
   @override
   Future<void> onActive(BuildContext context, PainterToolRef ref) async {
     ref.toggleMode(this);
-    ref.controller._prevTool = ref.currentTool;
+    ref.controller._prevTool = ref.controller.currentTool;
   }
 
   @override

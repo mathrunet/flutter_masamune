@@ -45,9 +45,7 @@ part "tools/primary/redo_painter_primary_tools.dart";
 part "tools/primary/undo_painter_primary_tools.dart";
 
 part "tools/secondary/copy_painter_secondary_tools.dart";
-part "tools/secondary/copy_image_painter_secondary_tools.dart";
 part "tools/secondary/cut_painter_secondary_tools.dart";
-part "tools/secondary/delete_painter_secondary_tools.dart";
 part "tools/secondary/paste_painter_secondary_tools.dart";
 
 part "tools/inline/select_painter_inline_tools.dart";
@@ -71,3 +69,6 @@ part "tools/block/filter/blur_filter_painter_block_tools.dart";
 part "tools/block/group/grouping_group_painter_block_tools.dart";
 part "tools/block/line/solid_1px_line_painter_block_tools.dart";
 part "tools/block/line/solid_10px_line_painter_block_tools.dart";
+part "tools/block/text/paragraph_align_left_text_painter_block_tools.dart";
+part "tools/block/text/size_10px_font_painter_block_tools.dart";
+part "tools/block/text/style_normal_font_painter_block_tools.dart";

@@ -20,6 +20,10 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
     this.defaultBackgroundColor = Colors.transparent,
     this.defaultForegroundColor = Colors.black,
     this.defaultLine = const Solid1pxLinePainterBlockTools(),
+    this.defaultParagraphAlign =
+        const ParagraphAlignLeftTextPainterBlockTools(),
+    this.defaultFontSize = const Size10pxFontPainterBlockTools(),
+    this.defaultFontStyle = const StyleNormalFontPainterBlockTools(),
     this.maxColorHistory = 10,
     this.defaultPrimaryTools = const [
       SelectPainterPrimaryTools(),
@@ -38,6 +42,9 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
       BackgroundPropertyColorPainterInlineTools(),
       ForegroundPropertyColorPainterInlineTools(),
       LinePropertyPainterInlineTools(),
+      FontSizePropertyPainterInlineTools(),
+      FontStylePropertyPainterInlineTools(),
+      ParagraphAlignPropertyPainterInlineTools(),
       GroupPropertyPainterInlineTools(),
       FilterPropertyPainterInlineTools(),
     ],
@@ -100,6 +107,21 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 描画用のデフォルト線ブロックツール。
   final PainterLineBlockTools defaultLine;
+
+  /// The default paragraph align block tools for drawing.
+  ///
+  /// 描画用のデフォルト段落揃えブロックツール。
+  final PainterParagraphAlignBlockTools defaultParagraphAlign;
+
+  /// The default font size block tools for drawing.
+  ///
+  /// 描画用のデフォルトフォントサイズブロックツール。
+  final PainterFontSizeBlockTools defaultFontSize;
+
+  /// The default font style block tools for drawing.
+  ///
+  /// 描画用のデフォルトフォントスタイルブロックツール。
+  final PainterFontStyleBlockTools defaultFontStyle;
 
   /// The maximum number of color history.
   ///

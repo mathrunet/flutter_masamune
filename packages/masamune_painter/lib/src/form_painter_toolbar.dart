@@ -108,71 +108,6 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   PainterController get controller => widget.controller;
 
   @override
-  bool get canPaste => widget.controller.canPaste;
-
-  @override
-  bool get canUndo => widget.controller.canUndo;
-
-  @override
-  bool get canRedo => widget.controller.canRedo;
-
-  @override
-  List<PaintingValue> get currentValues => widget.controller.currentValues;
-
-  @override
-  PainterTools? get currentTool => widget.controller._currentTool;
-
-  @override
-  Color get currentToolBackgroundColor =>
-      widget.controller.currentToolBackgroundColor;
-
-  @override
-  Color get currentToolForegroundColor =>
-      widget.controller.currentToolForegroundColor;
-
-  @override
-  PainterLineBlockTools get currentToolLine =>
-      widget.controller.currentToolLine;
-
-  @override
-  Color? get currentValueBackgroundColor =>
-      widget.controller.currentValueBackgroundColor;
-
-  @override
-  Color? get currentValueForegroundColor =>
-      widget.controller.currentValueForegroundColor;
-
-  @override
-  PainterLineBlockTools? get currentValueLine =>
-      widget.controller.currentValueLine;
-
-  @override
-  void setToolProperty({
-    Color? backgroundColor,
-    Color? foregroundColor,
-    PainterLineBlockTools? tool,
-  }) {
-    widget.controller.setToolProperty(
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      tool: tool,
-    );
-  }
-
-  @override
-  void setValueProperty({
-    Color? backgroundColor,
-    Color? foregroundColor,
-    PainterLineBlockTools? tool,
-  }) {
-    widget.controller.setValueProperty(
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      tool: tool,
-    );
-  }
-
-  @override
   void toggleMode(PainterTools tool) {
     setState(() {
       widget.controller._prevTool = null;
@@ -254,29 +189,6 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   Future<void> paste() async {
     await widget.controller.paste();
     setState(() {});
-  }
-
-  @override
-  void deleteSelected() {
-    widget.controller.deleteSelected();
-    setState(() {});
-  }
-
-  @override
-  Future<void> copyAsImage() async {
-    await widget.controller.copyAsImage();
-    setState(() {});
-  }
-
-  @override
-  Future<Uint8List?> exportAsImage({
-    double scale = 1.0,
-    Color? backgroundColor,
-  }) async {
-    return await widget.controller.exportSelectionAsImage(
-      scale: scale,
-      backgroundColor: backgroundColor,
-    );
   }
 
   @override
@@ -529,6 +441,7 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   @override
   PainterToolInlineMode? get toolInlineMode {
     final currentTool = widget.controller._currentTool;
+    final currentValues = widget.controller.currentValues;
     if (currentValues.isNotEmpty) {
       return PainterToolInlineMode.select;
     }
@@ -582,6 +495,7 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
 
   List<PainterBlockTools>? _getBlockTools(PainterToolInlineMode? mode) {
     final currentTool = widget.controller._currentTool;
+    final currentValues = widget.controller.currentValues;
     if (currentTool is PainterPrimaryTools) {
       return currentTool.blockTools;
     }
@@ -692,93 +606,20 @@ abstract class PainterToolRef {
   /// モードを削除します。
   void deleteMode();
 
-  /// Deselect object.
+  /// Get the controller.
   ///
-  /// オブジェクトの選択を解除します。
-  void unselect();
+  /// コントローラーを取得します。
+  PainterController get controller;
 
   /// Get the tool mode.
   ///
   /// ツールモードを取得します。
   PainterToolInlineMode? get toolInlineMode;
 
-  /// Get the controller.
+  /// Deselect object.
   ///
-  /// コントローラーを取得します。
-  PainterController get controller;
-
-  /// Get the current mode.
-  ///
-  /// 現在のモードを取得します。
-  PainterTools? get currentTool;
-
-  /// Get the current value.
-  ///
-  /// 現在の値を取得します。
-  List<PaintingValue> get currentValues;
-
-  /// The background color of the current tool.
-  ///
-  /// 現在のツールの背景色。
-  Color get currentToolBackgroundColor;
-
-  /// The foreground color of the current tool.
-  ///
-  /// 現在のツールの前景色。
-  Color get currentToolForegroundColor;
-
-  /// The line block tools of the current tool.
-  ///
-  /// 現在のツールの線ブロックツール。
-  PainterLineBlockTools get currentToolLine;
-
-  /// The background color of the current value.
-  ///
-  /// 現在の値の背景色。
-  Color? get currentValueBackgroundColor;
-
-  /// The foreground color of the current value.
-  ///
-  /// 現在の値の前景色。
-  Color? get currentValueForegroundColor;
-
-  /// The line block tools of the current value.
-  ///
-  /// 現在の値の線ブロックツール。
-  PainterLineBlockTools? get currentValueLine;
-
-  /// Set the property of the current tool.
-  ///
-  /// 現在のツールのプロパティを設定します。
-  void setToolProperty({
-    Color? backgroundColor,
-    Color? foregroundColor,
-    PainterLineBlockTools? tool,
-  });
-
-  /// Set the property of the current values.
-  ///
-  /// 現在の値のプロパティを設定します。
-  void setValueProperty({
-    Color? backgroundColor,
-    Color? foregroundColor,
-    PainterLineBlockTools? tool,
-  });
-
-  /// Check if the clipboard can be pasted.
-  ///
-  /// クリップボードに貼り付け可能かどうかを確認します。
-  bool get canPaste;
-
-  /// Check if undo is available.
-  ///
-  /// Undoが利用可能かどうかを確認します。
-  bool get canUndo;
-
-  /// Check if redo is available.
-  ///
-  /// Redoが利用可能かどうかを確認します。
-  bool get canRedo;
+  /// オブジェクトの選択を解除します。
+  void unselect();
 
   /// Copy selected values to clipboard.
   ///
@@ -794,21 +635,6 @@ abstract class PainterToolRef {
   ///
   /// クリップボードから値をペーストします。
   Future<void> paste();
-
-  /// Delete selected values.
-  ///
-  /// 選択した値を削除します。
-  void deleteSelected();
-
-  /// Copy selected values as image to clipboard.
-  ///
-  /// 選択した値を画像としてクリップボードにコピーします。
-  Future<void> copyAsImage();
-
-  /// Export selected values as image.
-  ///
-  /// 選択した値を画像としてエクスポートします。
-  Future<Uint8List?> exportAsImage({double scale, Color? backgroundColor});
 
   /// Undo the last action.
   ///

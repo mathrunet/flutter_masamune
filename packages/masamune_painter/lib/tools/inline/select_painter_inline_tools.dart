@@ -35,9 +35,9 @@ class SelectPainterInlineTools extends PainterInlineTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentValues.isNotEmpty ||
-        ref.currentTool is SelectPainterInlineTools ||
-        ref.currentTool is SelectPainterPrimaryTools ||
+    return ref.controller.currentValues.isNotEmpty ||
+        ref.controller.currentTool is SelectPainterInlineTools ||
+        ref.controller.currentTool is SelectPainterPrimaryTools ||
         ref.controller._prevTool is SelectPainterInlineTools ||
         ref.controller._prevTool is SelectPainterPrimaryTools;
   }

@@ -40,10 +40,10 @@ class ShapePainterInlineTools extends PainterInlineTools {
     if (shapeTool == null) {
       return false;
     }
-    if (ref.currentTool == null) {
+    if (ref.controller.currentTool == null) {
       return false;
     }
-    if (shapeTool.inlineTools.contains(ref.currentTool)) {
+    if (shapeTool.inlineTools.contains(ref.controller.currentTool)) {
       return true;
     }
     final prevTool = ref.controller._prevTool;
@@ -63,7 +63,7 @@ class ShapePainterInlineTools extends PainterInlineTools {
       return Icon(config.icon);
     }
     final activeTool = shapeTool.inlineTools.firstWhereOrNull((e) {
-      return e == ref.currentTool;
+      return e == ref.controller.currentTool;
     });
     if (activeTool != null) {
       return activeTool.icon(context, ref);

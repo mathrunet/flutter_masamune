@@ -51,8 +51,8 @@ class SelectPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentValues.isNotEmpty ||
-        ref.currentTool is SelectPainterPrimaryTools;
+    return ref.controller.currentValues.isNotEmpty ||
+        ref.controller.currentTool is SelectPainterPrimaryTools;
   }
 
   @override
@@ -68,7 +68,7 @@ class SelectPainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   void onTap(BuildContext context, PainterToolRef ref) {
-    if (ref.currentTool is SelectPainterPrimaryTools ||
+    if (ref.controller.currentTool is SelectPainterPrimaryTools ||
         ref.controller._prevTool is SelectPainterPrimaryTools) {
       ref.controller.unselect();
       ref.deleteMode();

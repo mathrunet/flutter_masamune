@@ -33,7 +33,8 @@ class UndoPainterPrimaryTools extends PainterPrimaryTools {
   }
 
   @override
-  bool enabled(BuildContext context, PainterToolRef ref) => ref.canUndo;
+  bool enabled(BuildContext context, PainterToolRef ref) =>
+      ref.controller.canUndo;
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) => false;

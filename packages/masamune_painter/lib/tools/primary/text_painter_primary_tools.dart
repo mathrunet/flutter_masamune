@@ -36,8 +36,8 @@ class TextPainterPrimaryTools
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool is TextPainterInlineTools ||
-        ref.currentTool is TextPainterPrimaryTools;
+    return ref.controller.currentTool is TextPainterInlineTools ||
+        ref.controller.currentTool is TextPainterPrimaryTools;
   }
 
   @override
@@ -57,17 +57,14 @@ class TextPainterPrimaryTools
   }
 
   @override
-  TextPaintingValue create(
-      {required Offset point,
-      Color? backgroundColor,
-      Color? foregroundColor,
-      PainterLineBlockTools? tool,
-      String? uid}) {
+  TextPaintingValue create({
+    required Offset point,
+    required PaintingProperty property,
+    String? uid,
+  }) {
     return TextPaintingValue(
       id: uid ?? uuid(),
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      tool: tool,
+      property: property,
       start: point,
       end: point,
     );
@@ -101,9 +98,7 @@ class TextPaintingValue extends PaintingValue {
   /// テキスト描画用のデータを格納するクラス。
   const TextPaintingValue({
     required super.id,
-    required super.backgroundColor,
-    required super.foregroundColor,
-    required super.tool,
+    required super.property,
     required super.start,
     required super.end,
   });
@@ -112,22 +107,12 @@ class TextPaintingValue extends PaintingValue {
   ///
   /// [DynamicMap]から[TextPaintingValue]を作成します。
   factory TextPaintingValue.fromJson(DynamicMap json) {
-    final backgroundColor =
-        json.get(PaintingValue.backgroundColorKey, nullOfNum)?.toInt();
-    final foregroundColor =
-        json.get(PaintingValue.foregroundColorKey, nullOfNum)?.toInt();
-    final toolId = json.get(PaintingValue.toolKey, "");
-    final lineTool =
-        PainterMasamuneAdapter.primary.defaultPrimaryTools.firstWhereOrNull(
-      (e) => e is LinePropertyPainterInlineTools,
+    final properties = PaintingProperty.fromJson(
+      json.getAsMap(PaintingValue.propertyKey),
     );
-    final lineTools = lineTool?.blockTools?.whereType<PainterLineBlockTools>();
-    final tool = lineTools?.firstWhereOrNull((e) => e.id == toolId);
     return TextPaintingValue(
       id: json.get(PaintingValue.idKey, ""),
-      backgroundColor: backgroundColor != null ? Color(backgroundColor) : null,
-      foregroundColor: foregroundColor != null ? Color(foregroundColor) : null,
-      tool: tool,
+      property: properties,
       start: Offset(
         json.get(PaintingValue.startXKey, 0.0),
         json.get(PaintingValue.startYKey, 0.0),
@@ -158,17 +143,10 @@ class TextPaintingValue extends PaintingValue {
 
   @override
   DynamicMap toJson() {
-    final backgroundColor = this.backgroundColor?.toInt();
-    final foregroundColor = this.foregroundColor?.toInt();
     return {
       PaintingValue.typeKey: type,
       PaintingValue.idKey: id,
-      if (backgroundColor != null)
-        PaintingValue.backgroundColorKey: backgroundColor,
-      if (foregroundColor != null)
-        PaintingValue.foregroundColorKey: foregroundColor,
-      PaintingValue.toolKey: tool?.id,
-      PaintingValue.filledKey: false,
+      PaintingValue.propertyKey: property.toJson(),
       PaintingValue.startXKey: start.dx,
       PaintingValue.startYKey: start.dy,
       PaintingValue.endXKey: end.dx,
@@ -179,18 +157,14 @@ class TextPaintingValue extends PaintingValue {
   @override
   TextPaintingValue copyWith({
     Offset? offset,
-    Color? backgroundColor,
-    Color? foregroundColor,
-    PainterLineBlockTools? tool,
+    PaintingProperty? property,
     Offset? start,
     Offset? end,
     String? id,
   }) {
     return TextPaintingValue(
       id: id ?? this.id,
-      backgroundColor: backgroundColor ?? this.backgroundColor,
-      foregroundColor: foregroundColor ?? this.foregroundColor,
-      tool: tool ?? this.tool,
+      property: property ?? this.property,
       start: (start ?? this.start) + (offset ?? Offset.zero),
       end: (end ?? this.end) + (offset ?? Offset.zero),
     );
@@ -207,10 +181,11 @@ class TextPaintingValue extends PaintingValue {
       return null;
     }
 
-    final backgroundColor = this.backgroundColor;
-    final foregroundColor = this.foregroundColor;
+    final backgroundColor = property.backgroundColor;
+    final foregroundColor = property.foregroundColor;
+    final line = property.line;
     if ((backgroundColor == null || backgroundColor.a <= 0.0) &&
-        (foregroundColor == null || foregroundColor.a <= 0.0 || tool == null)) {
+        (foregroundColor == null || foregroundColor.a <= 0.0 || line == null)) {
       return rect;
     }
 
@@ -218,16 +193,16 @@ class TextPaintingValue extends PaintingValue {
     if (backgroundColor != null && backgroundColor.a > 0.0) {
       final paint = Paint()
         ..color = backgroundColor
-        ..strokeWidth = tool?.strokeWidth ?? 1.0
+        ..strokeWidth = line?.strokeWidth ?? 1.0
         ..style = PaintingStyle.fill;
       canvas.drawRect(rect, paint);
     }
 
     // 線の四角を描画
-    if (foregroundColor != null && foregroundColor.a > 0.0 && tool != null) {
+    if (foregroundColor != null && foregroundColor.a > 0.0 && line != null) {
       final paint = Paint()
         ..color = foregroundColor
-        ..strokeWidth = tool?.strokeWidth ?? 1.0
+        ..strokeWidth = line.strokeWidth
         ..style = PaintingStyle.stroke;
 
       canvas.drawRect(rect, paint);
@@ -242,9 +217,7 @@ class TextPaintingValue extends PaintingValue {
   }) {
     return TextPaintingValue(
       id: id,
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      tool: tool,
+      property: property,
       start: startPoint,
       end: currentPoint,
     );
@@ -254,9 +227,7 @@ class TextPaintingValue extends PaintingValue {
   TextPaintingValue updateOnMoving({required Offset delta}) {
     return TextPaintingValue(
       id: id,
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      tool: tool,
+      property: property,
       start: start + delta,
       end: end + delta,
     );
@@ -271,9 +242,7 @@ class TextPaintingValue extends PaintingValue {
   }) {
     return TextPaintingValue(
       id: id,
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      tool: tool,
+      property: property,
       start: startPoint,
       end: endPoint,
     );

@@ -35,7 +35,7 @@ class GroupPropertyPainterInlineTools extends PainterInlinePrimaryTools {
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
-    return ref.currentValues.length > 1;
+    return ref.controller.currentValues.length > 1;
   }
 
   @override
@@ -43,7 +43,7 @@ class GroupPropertyPainterInlineTools extends PainterInlinePrimaryTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool is GroupPropertyPainterInlineTools;
+    return ref.controller.currentTool is GroupPropertyPainterInlineTools;
   }
 
   @override
@@ -63,7 +63,7 @@ class GroupPropertyPainterInlineTools extends PainterInlinePrimaryTools {
   @override
   Future<void> onActive(BuildContext context, PainterToolRef ref) async {
     ref.toggleMode(this);
-    ref.controller._prevTool = ref.currentTool;
+    ref.controller._prevTool = ref.controller.currentTool;
   }
 
   @override

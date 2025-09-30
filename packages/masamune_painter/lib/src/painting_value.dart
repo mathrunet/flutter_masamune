@@ -30,11 +30,9 @@ abstract class PaintingValue {
   /// 描画用のデータを格納するクラス。
   const PaintingValue({
     required this.id,
-    required this.backgroundColor,
-    required this.foregroundColor,
-    required this.tool,
     required this.start,
     required this.end,
+    required this.property,
   });
 
   /// The type of the painting value.
@@ -62,20 +60,10 @@ abstract class PaintingValue {
   /// 描画用のデータのID。
   final String id;
 
-  /// The color of the painting value.
+  /// The property of the painting value.
   ///
-  /// 描画用のデータの色。
-  final Color? backgroundColor;
-
-  /// The foreground color of the painting value.
-  ///
-  /// 描画用のデータの前景色。
-  final Color? foregroundColor;
-
-  /// The tool of the painting value.
-  ///
-  /// 描画用のデータのツール。
-  final PainterLineBlockTools? tool;
+  /// 描画用のデータのプロパティ。
+  final PaintingProperty property;
 
   /// The start point of the area.
   ///
@@ -97,25 +85,10 @@ abstract class PaintingValue {
   /// 描画用のデータのIDのキー。
   static const String idKey = "id";
 
-  /// The key for the color.
+  /// The key for the property.
   ///
-  /// 描画用のデータの色のキー。
-  static const String backgroundColorKey = "backgroundColor";
-
-  /// The key for the foreground color.
-  ///
-  /// 描画用のデータの前景色のキー。
-  static const String foregroundColorKey = "foregroundColor";
-
-  /// The key for the tool.
-  ///
-  /// 描画用のデータのツールのキー。
-  static const String toolKey = "tool";
-
-  /// The key for the filled.
-  ///
-  /// 描画用のデータが塗りつぶされているかどうかのキー。
-  static const String filledKey = "filled";
+  /// 描画用のデータのプロパティのキー。
+  static const String propertyKey = "property";
 
   /// The key for the start.
   ///
@@ -168,9 +141,7 @@ abstract class PaintingValue {
   PaintingValue copyWith({
     Offset? offset,
     String? id,
-    Color? backgroundColor,
-    Color? foregroundColor,
-    PainterLineBlockTools? tool,
+    PaintingProperty? property,
     Offset? start,
     Offset? end,
   });
@@ -474,4 +445,174 @@ abstract class PaintingValue {
 
   @override
   int get hashCode => id.hashCode ^ type.hashCode;
+}
+
+/// Property of [PaintingValue].
+///
+/// [PaintingValue]のプロパティ。
+@immutable
+class PaintingProperty {
+  /// Property of [PaintingValue].
+  ///
+  /// [PaintingValue]のプロパティ。
+  const PaintingProperty({
+    this.backgroundColor,
+    this.foregroundColor,
+    this.line,
+    this.fontSize,
+    this.fontStyle,
+    this.paragraphAlign,
+  });
+
+  /// Create a [PaintingProperty] from a [DynamicMap].
+  ///
+  /// [DynamicMap]から[PaintingProperty]を作成します。
+  factory PaintingProperty.fromJson(DynamicMap json) {
+    final backgroundColor = json.get(backgroundColorKey, nullOfNum)?.toInt();
+    final foregroundColor = json.get(foregroundColorKey, nullOfNum)?.toInt();
+    final line = PainterMasamuneAdapter.findTool<PainterLineBlockTools>(
+      toolId: json.get(lineKey, ""),
+      recursive: true,
+    );
+    final fontSize = PainterMasamuneAdapter.findTool<PainterFontSizeBlockTools>(
+      toolId: json.get(fontSizeKey, ""),
+      recursive: true,
+    );
+    final fontStyle =
+        PainterMasamuneAdapter.findTool<PainterFontStyleBlockTools>(
+      toolId: json.get(fontStyleKey, ""),
+    );
+    final paragraphAlign =
+        PainterMasamuneAdapter.findTool<PainterParagraphAlignBlockTools>(
+      toolId: json.get(paragraphAlignKey, ""),
+      recursive: true,
+    );
+
+    return PaintingProperty(
+      backgroundColor: backgroundColor != null ? Color(backgroundColor) : null,
+      foregroundColor: foregroundColor != null ? Color(foregroundColor) : null,
+      line: line,
+      fontSize: fontSize,
+      fontStyle: fontStyle,
+      paragraphAlign: paragraphAlign,
+    );
+  }
+
+  /// The key for the color.
+  ///
+  /// 描画用のデータの色のキー。
+  static const String backgroundColorKey = "backgroundColor";
+
+  /// The key for the foreground color.
+  ///
+  /// 描画用のデータの前景色のキー。
+  static const String foregroundColorKey = "foregroundColor";
+
+  /// Key for drawing line data.
+  ///
+  /// 描画用のラインデータのキー。
+  static const String lineKey = "line";
+
+  /// Key for drawing font size data.
+  ///
+  /// 描画用のフォントサイズデータのキー。
+  static const String fontSizeKey = "fontSize";
+
+  /// Key for drawing font style data.
+  ///
+  /// 描画用のフォントスタイルデータのキー。
+  static const String fontStyleKey = "fontStyle";
+
+  /// Key for drawing paragraph align data.
+  ///
+  /// 描画用の段落揃えデータのキー。
+  static const String paragraphAlignKey = "paragraphAlign";
+
+  /// The color of the painting value.
+  ///
+  /// 描画用のデータの色。
+  final Color? backgroundColor;
+
+  /// The foreground color of the painting value.
+  ///
+  /// 描画用のデータの前景色。
+  final Color? foregroundColor;
+
+  /// The line of the painting value.
+  ///
+  /// 描画用のラインデータ。
+  final PainterLineBlockTools? line;
+
+  /// The font size of the painting value.
+  ///
+  /// 描画用のフォントサイズデータ。
+  final PainterFontSizeBlockTools? fontSize;
+
+  /// The font style of the painting value.
+  ///
+  /// 描画用のフォントスタイルデータ。
+  final PainterFontStyleBlockTools? fontStyle;
+
+  /// The paragraph align of the painting value.
+  ///
+  /// 描画用の段落揃えデータ。
+  final PainterParagraphAlignBlockTools? paragraphAlign;
+
+  /// Convert the painting property to a JSON object.
+  ///
+  /// 描画用のデータのプロパティをJSONオブジェクトに変換します。
+  DynamicMap toJson() {
+    return {
+      backgroundColorKey: backgroundColor?.toInt(),
+      foregroundColorKey: foregroundColor?.toInt(),
+      lineKey: line?.id,
+      fontSizeKey: fontSize?.id,
+      fontStyleKey: fontStyle?.id,
+      paragraphAlignKey: paragraphAlign?.id,
+    };
+  }
+
+  /// Copy the painting property with the given fields.
+  ///
+  /// 描画用のデータのプロパティをコピーします。
+  PaintingProperty copyWith({
+    Color? backgroundColor,
+    Color? foregroundColor,
+    PainterLineBlockTools? line,
+    PainterFontSizeBlockTools? fontSize,
+    PainterFontStyleBlockTools? fontStyle,
+    PainterParagraphAlignBlockTools? paragraphAlign,
+  }) {
+    return PaintingProperty(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      foregroundColor: foregroundColor ?? this.foregroundColor,
+      line: line ?? this.line,
+      fontSize: fontSize ?? this.fontSize,
+      fontStyle: fontStyle ?? this.fontStyle,
+      paragraphAlign: paragraphAlign ?? this.paragraphAlign,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is PaintingProperty &&
+        other.backgroundColor == backgroundColor &&
+        other.foregroundColor == foregroundColor &&
+        other.line == line &&
+        other.fontSize == fontSize &&
+        other.fontStyle == fontStyle &&
+        other.paragraphAlign == paragraphAlign;
+  }
+
+  @override
+  int get hashCode =>
+      backgroundColor.hashCode ^
+      foregroundColor.hashCode ^
+      line.hashCode ^
+      fontSize.hashCode ^
+      fontStyle.hashCode ^
+      paragraphAlign.hashCode;
 }

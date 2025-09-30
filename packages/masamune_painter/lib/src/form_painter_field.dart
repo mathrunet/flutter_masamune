@@ -447,7 +447,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
         position: position,
       );
       // ツールが選択されているときは新規作成
-    } else if (currentTool is PainterVariableInlineTools &&
+    } else if (currentTool is PainterVariableTools &&
         widget.controller.currentValues.isEmpty) {
       _creatingStart(
         position: position,
@@ -755,13 +755,11 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
 
   void _creatingStart({
     required Offset position,
-    required PainterVariableInlineTools currentTool,
+    required PainterVariableTools currentTool,
   }) {
     // 新しい四角形を作成
     final newValue = currentTool.create(
-      backgroundColor: widget.controller.currentToolBackgroundColor,
-      foregroundColor: widget.controller.currentToolForegroundColor,
-      tool: widget.controller.currentToolLine,
+      property: widget.controller.property.currentToolProperty,
       point: position,
     );
     widget.controller.updateCurrentValue(newValue);

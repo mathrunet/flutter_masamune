@@ -39,7 +39,7 @@ class ParagraphAlignPropertyPainterInlineTools
   bool shown(BuildContext context, PainterToolRef ref) {
     final inlineMode = ref.toolInlineMode;
     if (inlineMode == PainterToolInlineMode.select) {
-      final values = ref.currentValues;
+      final values = ref.controller.currentValues;
       if (values.any((e) => e.category == PaintingValueCategory.text)) {
         return true;
       }
@@ -53,14 +53,14 @@ class ParagraphAlignPropertyPainterInlineTools
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool is LinePropertyPainterInlineTools;
+    return ref.controller.currentTool is LinePropertyPainterInlineTools;
   }
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
-    if (ref.currentValues.isNotEmpty) {
+    if (ref.controller.currentValues.isNotEmpty) {
       final theme = Theme.of(context);
-      return ref.currentValueLine?.icon(context, ref) ??
+      return ref.controller.property.currentValueLine?.icon(context, ref) ??
           Container(
             height: 26,
             width: 26,
@@ -100,7 +100,7 @@ class ParagraphAlignPropertyPainterInlineTools
             ),
           );
     } else {
-      return ref.currentToolLine.icon(context, ref);
+      return ref.controller.property.currentToolLine.icon(context, ref);
     }
   }
 
@@ -115,7 +115,7 @@ class ParagraphAlignPropertyPainterInlineTools
 
   @override
   Future<void> onActive(BuildContext context, PainterToolRef ref) async {
-    final prevTool = ref.currentTool;
+    final prevTool = ref.controller.currentTool;
     ref.toggleMode(this);
     ref.controller._prevTool = prevTool;
   }

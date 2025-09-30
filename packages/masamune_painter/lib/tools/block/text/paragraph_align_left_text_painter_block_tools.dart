@@ -1,31 +1,32 @@
 part of "/masamune_painter.dart";
 
-/// Display the text menu [PainterTools].
+/// Display the menu to draw a left align [PainterTools].
 ///
-/// テキストメニューを表示する[PainterTools]。
+/// 左寄せを描画するメニューを表示する[PainterTools]。
 @immutable
-class TextPainterInlineTools extends PainterInlineTools {
-  /// Display the text menu [PainterTools].
+class ParagraphAlignLeftTextPainterBlockTools
+    extends PainterParagraphAlignBlockTools {
+  /// Display the menu to draw a left align [PainterTools].
   ///
-  /// テキストメニューを表示する[PainterTools]。
-  const TextPainterInlineTools({
+  /// 左寄せを描画するメニューを表示する[PainterTools]。
+  const ParagraphAlignLeftTextPainterBlockTools({
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "テキスト",
+          "左寄せ",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Text",
+          "Left Align",
         ),
       ]),
-      icon: FontAwesomeIcons.font,
+      icon: Icons.line_weight,
     ),
   });
 
   @override
-  String get id => "__painter_text_inline__";
+  String get id => "__painter_block_text_paragraph_align_left__";
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) => true;
@@ -35,13 +36,17 @@ class TextPainterInlineTools extends PainterInlineTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.controller.currentTool is TextPainterInlineTools ||
-        ref.controller.currentTool is TextPainterPrimaryTools;
+    if (ref.controller.currentValues.isNotEmpty) {
+      return ref.controller.property.currentValueLine == this;
+    } else {
+      return ref.controller.property.currentToolLine == this;
+    }
   }
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
-    return Icon(config.icon);
+    // TODO: implement icon
+    throw UnimplementedError();
   }
 
   @override
@@ -54,13 +59,5 @@ class TextPainterInlineTools extends PainterInlineTools {
   void onTap(BuildContext context, PainterToolRef ref) {}
 
   @override
-  Future<void> onActive(BuildContext context, PainterToolRef ref) async {
-    ref.deleteMode();
-  }
-
-  @override
-  Future<void> onDeactive(BuildContext context, PainterToolRef ref) async {
-    ref.controller.unselect();
-    ref.deleteMode();
-  }
+  ui.TextAlign get paragraphAlign => ui.TextAlign.left;
 }

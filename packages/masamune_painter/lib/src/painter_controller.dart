@@ -112,83 +112,11 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
   final List<PaintingValue> _values = [];
 
-  /// The background color of the current tool.
+  /// Property of [PainterController].
   ///
-  /// 現在のツールの背景色。
-  Color get currentToolBackgroundColor =>
-      _currentToolBackgroundColor ?? adapter.defaultBackgroundColor;
-  Color? _currentToolBackgroundColor;
-
-  /// The foreground color of the current tool.
-  ///
-  /// 現在のツールの前景色。
-  Color get currentToolForegroundColor =>
-      _currentToolForegroundColor ?? adapter.defaultForegroundColor;
-  Color? _currentToolForegroundColor;
-
-  /// The line block tools of the current tool.
-  ///
-  /// 現在のツールの線ブロックツール。
-  PainterLineBlockTools get currentToolLine =>
-      _currentToolLine ?? adapter.defaultLine;
-  PainterLineBlockTools? _currentToolLine;
-
-  /// The background color of the current value.
-  ///
-  /// 現在の値の背景色。
-  Color? get currentValueBackgroundColor {
-    var different = false;
-    final colors = <Color?>[];
-    for (final value in currentValues) {
-      final color = value.backgroundColor;
-      if (colors.any((e) => e != color)) {
-        different = true;
-      }
-      colors.add(color);
-    }
-    if (different) {
-      return null;
-    }
-    return colors.first ?? Colors.transparent;
-  }
-
-  /// The foreground color of the current value.
-  ///
-  /// 現在の値の前景色。
-  Color? get currentValueForegroundColor {
-    var different = false;
-    final colors = <Color?>[];
-    for (final value in currentValues) {
-      final color = value.foregroundColor;
-      if (colors.any((e) => e != color)) {
-        different = true;
-      }
-      colors.add(color);
-    }
-    if (different) {
-      return null;
-    }
-    return colors.first ?? Colors.transparent;
-  }
-
-  /// The line block tools of the current value.
-  ///
-  /// 現在の値の線ブロックツール。
-  PainterLineBlockTools? get currentValueLine {
-    var different = false;
-    final tools = <PainterLineBlockTools?>[];
-    for (final value in currentValues) {
-      final tool = value.tool;
-      if (tools.any((e) => e?.id != tool?.id)) {
-        different = true;
-      }
-      tools.add(tool);
-    }
-    if (different) {
-      return null;
-    }
-    return tools.first ?? PainterMasamuneAdapter.primary.defaultLine;
-  }
+  /// [PainterController]のツール等のプロパティ。
+  late final PainterControllerProperty property =
+      PainterControllerProperty._(this);
 
   bool _loaded = false;
   Completer<void>? _loadCompleter;
@@ -262,69 +190,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       _kColorHistoryKey.toSHA1(),
       history.map((e) => e.toHexString()).toList(),
     );
-  }
-
-  /// Sets the properties of the current tool.
-  ///
-  /// 現在のツールのプロパティを設定します。
-  void setToolProperty({
-    Color? backgroundColor,
-    Color? foregroundColor,
-    PainterLineBlockTools? tool,
-  }) {
-    var changed = false;
-    if (backgroundColor != null &&
-        backgroundColor != _currentToolBackgroundColor) {
-      _currentToolBackgroundColor = backgroundColor;
-      changed = true;
-    }
-    if (foregroundColor != null &&
-        foregroundColor != _currentToolForegroundColor) {
-      _currentToolForegroundColor = foregroundColor;
-      changed = true;
-    }
-    if (tool != null && tool != _currentToolLine) {
-      _currentToolLine = tool;
-      changed = true;
-    }
-    if (changed) {
-      notifyListeners();
-    }
-  }
-
-  /// Sets the properties of the current values.
-  ///
-  /// 現在の値のプロパティを設定します。
-  void setValueProperty({
-    Color? backgroundColor,
-    Color? foregroundColor,
-    PainterLineBlockTools? tool,
-  }) {
-    var changed = false;
-    for (var i = 0; i < _currentValues.length; i++) {
-      if (backgroundColor != null) {
-        changed = true;
-        _currentValues[i] = _currentValues[i].copyWith(
-          backgroundColor: backgroundColor,
-        );
-      }
-      if (foregroundColor != null) {
-        changed = true;
-        _currentValues[i] = _currentValues[i].copyWith(
-          foregroundColor: foregroundColor,
-        );
-      }
-      if (tool != null) {
-        changed = true;
-        _currentValues[i] = _currentValues[i].copyWith(
-          tool: tool,
-        );
-      }
-    }
-    if (changed) {
-      saveCurrentValue(saveToHistory: true);
-      notifyListeners();
-    }
   }
 
   /// The bounding rectangle of all selected elements.
@@ -832,31 +697,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     notifyListeners();
   }
 
-  /// Delete selected values.
-  ///
-  /// 選択した値を削除。
-  void deleteSelected() {
-    if (_currentValues.isEmpty) {
-      return;
-    }
-
-    // Save current values first
-    saveCurrentValue();
-
-    // Remove selected values from the main list
-    final selectedIds = _currentValues.map((v) => v.id).toSet();
-    _values.removeWhere((v) => selectedIds.contains(v.id));
-
-    // Clear selection
-    _currentValues.clear();
-    _dragSelectionRect = null;
-
-    // Save to history after deleting
-    _saveToHistory();
-
-    notifyListeners();
-  }
-
   /// Create a PaintingValue from JSON data.
   ///
   /// JSONデータからPaintingValueを作成。
@@ -872,10 +712,10 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
         .toList();
 
     for (final tool in tools) {
-      if (tool is! PainterVariableInlineTools) {
+      if (tool is! PainterVariableTools) {
         continue;
       }
-      final value = tool.convertFromJson(json);
+      final value = (tool as PainterVariableTools).convertFromJson(json);
       if (value != null) {
         return value;
       }
@@ -1017,61 +857,298 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       return null;
     }
   }
+}
 
-  /// Copy selected objects as image only.
+/// Tool and other properties of [PainterController].
+///
+/// [PainterController]のツール等のプロパティ。
+class PainterControllerProperty {
+  PainterControllerProperty._(this._controller);
+
+  final PainterController _controller;
+
+  /// The property of the current tool.
   ///
-  /// 選択されたオブジェクトを画像のみでコピー。
-  Future<void> copyAsImage() async {
-    if (_currentValues.isEmpty) {
-      return;
-    }
-
-    // Save current editing values first (without history)
-    saveCurrentValue();
-
-    // Copy to internal clipboard
-    _clipboardData = List<PaintingValue>.from(_currentValues);
-
-    // Try to capture and save as image
-    try {
-      final imageData = await _captureSelectionAsImage();
-      if (imageData != null) {
-        // For now, we'll save as base64 text since Flutter doesn't support
-        // direct image clipboard on all platforms
-        final base64Image = base64Encode(imageData);
-        final imageText = "data:image/png;base64,$base64Image";
-        await Clipboard.setData(ClipboardData(text: imageText));
-      }
-    } catch (e) {
-      // Ignore errors for system clipboard
-    }
-
-    notifyListeners();
+  /// 現在のツールのプロパティ。
+  PaintingProperty get currentToolProperty {
+    return PaintingProperty(
+      backgroundColor: currentToolBackgroundColor,
+      foregroundColor: currentToolForegroundColor,
+      line: currentToolLine,
+      paragraphAlign: currentToolParagraphAlign,
+      fontSize: currentToolFontSize,
+      fontStyle: _currentToolFontStyle ?? _controller.adapter.defaultFontStyle,
+    );
   }
 
-  /// Save selected objects as image file data.
+  /// The background color of the current tool.
   ///
-  /// 選択されたオブジェクトを画像ファイルデータとして保存。
-  Future<Map<String, dynamic>?> saveSelectionAsImageData({
-    double scale = 1.0,
-    Color? backgroundColor,
-  }) async {
-    final imageData = await exportSelectionAsImage(
-      scale: scale,
-      backgroundColor: backgroundColor,
-    );
+  /// 現在のツールの背景色。
+  Color get currentToolBackgroundColor =>
+      _currentToolBackgroundColor ?? _controller.adapter.defaultBackgroundColor;
+  Color? _currentToolBackgroundColor;
 
-    if (imageData == null) {
+  /// The foreground color of the current tool.
+  ///
+  /// 現在のツールの前景色。
+  Color get currentToolForegroundColor =>
+      _currentToolForegroundColor ?? _controller.adapter.defaultForegroundColor;
+  Color? _currentToolForegroundColor;
+
+  /// The line block tools of the current tool.
+  ///
+  /// 現在のツールの線ブロックツール。
+  PainterLineBlockTools get currentToolLine =>
+      _currentToolLine ?? _controller.adapter.defaultLine;
+  PainterLineBlockTools? _currentToolLine;
+
+  /// The paragraph align block tools of the current tool.
+  ///
+  /// 現在のツールの段落揃えブロックツール。
+  PainterParagraphAlignBlockTools? get currentToolParagraphAlign =>
+      _currentToolParagraphAlign ?? _controller.adapter.defaultParagraphAlign;
+  PainterParagraphAlignBlockTools? _currentToolParagraphAlign;
+
+  /// The font size block tools of the current tool.
+  ///
+  /// 現在のツールのフォントサイズブロックツール。
+  PainterFontSizeBlockTools? get currentToolFontSize =>
+      _currentToolFontSize ?? _controller.adapter.defaultFontSize;
+  PainterFontSizeBlockTools? _currentToolFontSize;
+
+  /// The font style block tools of the current tool.
+  ///
+  /// 現在のツールのフォントスタイルブロックツール。
+  PainterFontStyleBlockTools? get currentToolFontStyle =>
+      _currentToolFontStyle ?? _controller.adapter.defaultFontStyle;
+  PainterFontStyleBlockTools? _currentToolFontStyle;
+
+  /// The background color of the current value.
+  ///
+  /// 現在の値の背景色。
+  Color? get currentValueBackgroundColor {
+    var different = false;
+    final colors = <Color?>[];
+    for (final value in _controller.currentValues) {
+      final color = value.property.backgroundColor;
+      if (colors.any((e) => e != color)) {
+        different = true;
+      }
+      colors.add(color);
+    }
+    if (different) {
       return null;
     }
+    return colors.first ?? Colors.transparent;
+  }
 
-    return {
-      "imageData": imageData,
-      "width": (selectionBounds?.width ?? 0) * scale,
-      "height": (selectionBounds?.height ?? 0) * scale,
-      "format": "png",
-      "mimeType": "image/png",
-    };
+  /// The foreground color of the current value.
+  ///
+  /// 現在の値の前景色。
+  Color? get currentValueForegroundColor {
+    var different = false;
+    final colors = <Color?>[];
+    for (final value in _controller.currentValues) {
+      final color = value.property.foregroundColor;
+      if (colors.any((e) => e != color)) {
+        different = true;
+      }
+      colors.add(color);
+    }
+    if (different) {
+      return null;
+    }
+    return colors.first ?? Colors.transparent;
+  }
+
+  /// The line block tools of the current value.
+  ///
+  /// 現在の値の線ブロックツール。
+  PainterLineBlockTools? get currentValueLine {
+    var different = false;
+    final tools = <PainterLineBlockTools?>[];
+    for (final value in _controller.currentValues) {
+      final tool = value.property.line;
+      if (tools.any((e) => e?.id != tool?.id)) {
+        different = true;
+      }
+      tools.add(tool);
+    }
+    if (different) {
+      return null;
+    }
+    return tools.first ?? PainterMasamuneAdapter.primary.defaultLine;
+  }
+
+  /// The paragraph align block tools of the current value.
+  ///
+  /// 現在の値の段落揃えブロックツール。
+  PainterParagraphAlignBlockTools? get currentValueParagraphAlign {
+    var different = false;
+    final tools = <PainterParagraphAlignBlockTools?>[];
+    for (final value in _controller.currentValues) {
+      final tool = value.property.paragraphAlign;
+      if (tools.any((e) => e?.id != tool?.id)) {
+        different = true;
+      }
+      tools.add(tool);
+    }
+    if (different) {
+      return null;
+    }
+    return tools.first ?? PainterMasamuneAdapter.primary.defaultParagraphAlign;
+  }
+
+  /// The font size block tools of the current value.
+  ///
+  /// 現在の値のフォントサイズブロックツール。
+  PainterFontSizeBlockTools? get currentValueFontSize {
+    var different = false;
+    final tools = <PainterFontSizeBlockTools?>[];
+    for (final value in _controller.currentValues) {
+      final tool = value.property.fontSize;
+      if (tools.any((e) => e?.id != tool?.id)) {
+        different = true;
+      }
+      tools.add(tool);
+    }
+    if (different) {
+      return null;
+    }
+    return tools.first ?? PainterMasamuneAdapter.primary.defaultFontSize;
+  }
+
+  /// The font style block tools of the current value.
+  ///
+  /// 現在の値のフォントスタイルブロックツール。
+  PainterFontStyleBlockTools? get currentValueFontStyle {
+    var different = false;
+    final tools = <PainterFontStyleBlockTools?>[];
+    for (final value in _controller.currentValues) {
+      final tool = value.property.fontStyle;
+      if (tools.any((e) => e?.id != tool?.id)) {
+        different = true;
+      }
+      tools.add(tool);
+    }
+    if (different) {
+      return null;
+    }
+    return tools.first ?? PainterMasamuneAdapter.primary.defaultFontStyle;
+  }
+
+  /// Sets the properties of the current tool.
+  ///
+  /// 現在のツールのプロパティを設定します。
+  void setTool({
+    Color? backgroundColor,
+    Color? foregroundColor,
+    PainterLineBlockTools? line,
+    PainterParagraphAlignBlockTools? paragraphAlign,
+    PainterFontSizeBlockTools? fontSize,
+    PainterFontStyleBlockTools? fontStyle,
+  }) {
+    var changed = false;
+    if (backgroundColor != null &&
+        backgroundColor != _currentToolBackgroundColor) {
+      _currentToolBackgroundColor = backgroundColor;
+      changed = true;
+    }
+    if (foregroundColor != null &&
+        foregroundColor != _currentToolForegroundColor) {
+      _currentToolForegroundColor = foregroundColor;
+      changed = true;
+    }
+    if (line != null && line != _currentToolLine) {
+      _currentToolLine = line;
+      changed = true;
+    }
+    if (paragraphAlign != null &&
+        paragraphAlign != _currentToolParagraphAlign) {
+      _currentToolParagraphAlign = paragraphAlign;
+      changed = true;
+    }
+    if (fontSize != null && fontSize != _currentToolFontSize) {
+      _currentToolFontSize = fontSize;
+      changed = true;
+    }
+    if (fontStyle != null && fontStyle != _currentToolFontStyle) {
+      _currentToolFontStyle = fontStyle;
+      changed = true;
+    }
+    if (changed) {
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+      _controller.notifyListeners();
+    }
+  }
+
+  /// Sets the properties of the current values.
+  ///
+  /// 現在の値のプロパティを設定します。
+  void setValues({
+    Color? backgroundColor,
+    Color? foregroundColor,
+    PainterLineBlockTools? line,
+    PainterParagraphAlignBlockTools? paragraphAlign,
+    PainterFontSizeBlockTools? fontSize,
+    PainterFontStyleBlockTools? fontStyle,
+  }) {
+    var changed = false;
+    for (var i = 0; i < _controller.currentValues.length; i++) {
+      if (backgroundColor != null) {
+        changed = true;
+        _controller.currentValues[i] = _controller.currentValues[i].copyWith(
+          property: _controller.currentValues[i].property.copyWith(
+            backgroundColor: backgroundColor,
+          ),
+        );
+      }
+      if (foregroundColor != null) {
+        changed = true;
+        _controller.currentValues[i] = _controller.currentValues[i].copyWith(
+          property: _controller.currentValues[i].property.copyWith(
+            foregroundColor: foregroundColor,
+          ),
+        );
+      }
+      if (line != null) {
+        changed = true;
+        _controller.currentValues[i] = _controller.currentValues[i].copyWith(
+          property: _controller.currentValues[i].property.copyWith(
+            line: line,
+          ),
+        );
+      }
+      if (paragraphAlign != null) {
+        changed = true;
+        _controller.currentValues[i] = _controller.currentValues[i].copyWith(
+          property: _controller.currentValues[i].property.copyWith(
+            paragraphAlign: paragraphAlign,
+          ),
+        );
+      }
+      if (fontSize != null) {
+        changed = true;
+        _controller.currentValues[i] = _controller.currentValues[i].copyWith(
+          property: _controller.currentValues[i].property.copyWith(
+            fontSize: fontSize,
+          ),
+        );
+      }
+      if (fontStyle != null) {
+        changed = true;
+        _controller.currentValues[i] = _controller.currentValues[i].copyWith(
+          property: _controller.currentValues[i].property.copyWith(
+            fontStyle: fontStyle,
+          ),
+        );
+      }
+    }
+    if (changed) {
+      _controller.saveCurrentValue(saveToHistory: true);
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+      _controller.notifyListeners();
+    }
   }
 }
 

@@ -31,7 +31,7 @@ class ForegroundPropertyColorPainterInlineTools extends PainterInlineTools {
   bool shown(BuildContext context, PainterToolRef ref) {
     final inlineMode = ref.toolInlineMode;
     if (inlineMode == PainterToolInlineMode.select) {
-      final values = ref.currentValues;
+      final values = ref.controller.currentValues;
       if (values.any((e) =>
           e.category == PaintingValueCategory.text ||
           e.category == PaintingValueCategory.shape)) {
@@ -54,8 +54,8 @@ class ForegroundPropertyColorPainterInlineTools extends PainterInlineTools {
   Widget icon(BuildContext context, PainterToolRef ref) {
     // 選択されている場合はそのプロパティを表示
     final theme = Theme.of(context);
-    if (ref.currentValues.isNotEmpty) {
-      final color = ref.currentValueForegroundColor;
+    if (ref.controller.currentValues.isNotEmpty) {
+      final color = ref.controller.property.currentValueForegroundColor;
 
       if (color == null) {
         return Container(
@@ -128,7 +128,8 @@ class ForegroundPropertyColorPainterInlineTools extends PainterInlineTools {
       }
       // それ以外はデフォルトのプロパティを表示
     } else {
-      final disabled = ref.currentToolForegroundColor.a <= 0.0;
+      final disabled =
+          ref.controller.property.currentToolForegroundColor.a <= 0.0;
       return Container(
         width: 26,
         height: 26,
@@ -144,15 +145,18 @@ class ForegroundPropertyColorPainterInlineTools extends PainterInlineTools {
           child: Opacity(
             opacity: disabled ? 0.25 : 1,
             child: ColoredBox(
-              color: ref.currentToolForegroundColor,
+              color: ref.controller.property.currentToolForegroundColor,
               child: Icon(
                 config.icon,
                 size: 18,
-                color: ref.currentToolForegroundColor.a < 0.5
-                    ? theme.colorTheme?.onBackground ?? Colors.transparent
-                    : ref.currentToolForegroundColor.computeLuminance() > 0.5
-                        ? kBlackColor
-                        : kWhiteColor,
+                color:
+                    ref.controller.property.currentToolForegroundColor.a < 0.5
+                        ? theme.colorTheme?.onBackground ?? Colors.transparent
+                        : ref.controller.property.currentToolForegroundColor
+                                    .computeLuminance() >
+                                0.5
+                            ? kBlackColor
+                            : kWhiteColor,
               ),
             ),
           ),
@@ -170,17 +174,17 @@ class ForegroundPropertyColorPainterInlineTools extends PainterInlineTools {
   @override
   void onTap(BuildContext context, PainterToolRef ref) async {
     // カラーピッカーダイアログを表示
-    if (ref.currentValues.isNotEmpty) {
+    if (ref.controller.currentValues.isNotEmpty) {
       await Modal.show(
         context,
         modal: ColorPickerModal(
           ref: ref,
           activeTool: this,
           onRetrieveColor: () {
-            return ref.currentValueForegroundColor;
+            return ref.controller.property.currentValueForegroundColor;
           },
           onColorChanged: (color) {
-            ref.setValueProperty(foregroundColor: color);
+            ref.controller.property.setValues(foregroundColor: color);
           },
         ),
       );
@@ -191,10 +195,10 @@ class ForegroundPropertyColorPainterInlineTools extends PainterInlineTools {
           ref: ref,
           activeTool: this,
           onRetrieveColor: () {
-            return ref.currentToolForegroundColor;
+            return ref.controller.property.currentToolForegroundColor;
           },
           onColorChanged: (color) {
-            ref.setToolProperty(foregroundColor: color);
+            ref.controller.property.setTool(foregroundColor: color);
           },
         ),
       );

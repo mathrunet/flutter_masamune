@@ -42,10 +42,10 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    if (ref.currentTool == null) {
+    if (ref.controller.currentTool == null) {
       return false;
     }
-    if (inlineTools.contains(ref.currentTool)) {
+    if (inlineTools.contains(ref.controller.currentTool)) {
       return true;
     }
     final prevTool = ref.controller._prevTool;
@@ -60,7 +60,7 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
     final activeTool = inlineTools.firstWhereOrNull((e) {
-      return e == ref.currentTool;
+      return e == ref.controller.currentTool;
     });
     if (activeTool != null) {
       return activeTool.icon(context, ref);
@@ -80,7 +80,7 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
   @override
   Widget label(BuildContext context, PainterToolRef ref) {
     final activeTool = inlineTools.firstWhereOrNull((e) {
-      return e == ref.currentTool;
+      return e == ref.controller.currentTool;
     });
     if (activeTool != null) {
       return activeTool.label(context, ref);

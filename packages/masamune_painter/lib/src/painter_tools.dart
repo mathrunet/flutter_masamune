@@ -68,6 +68,32 @@ abstract class PainterTools {
           id == other.id;
 }
 
+/// Base class for painter variable tools.
+///
+/// 描画ツールの変数ツールの基底クラス。
+@immutable
+abstract class PainterVariableTools<TValue extends PaintingValue>
+    implements PainterTools {
+  /// Create a new painting value.
+  ///
+  /// 新しい描画用のデータを作成します。
+  TValue create({
+    required Offset point,
+    required PaintingProperty property,
+    String? uid,
+  });
+
+  /// Convert a JSON object to a painting value.
+  ///
+  /// JSONオブジェクトを描画用のデータに変換します。
+  TValue? convertFromJson(DynamicMap json);
+
+  /// Convert a painting value to a JSON object.
+  ///
+  /// 描画用のデータをJSONオブジェクトに変換します。
+  DynamicMap? convertToJson(TValue value);
+}
+
 /// Base class for painter primary tools.
 ///
 /// 描画ツールのプライマリツールの基底クラス。
@@ -101,34 +127,13 @@ abstract class PainterPrimaryTools extends PainterTools {
 /// 描画ツールの変数プライマリツールの基底クラス。
 @immutable
 abstract class PainterVariablePrimaryTools<TValue extends PaintingValue>
-    extends PainterPrimaryTools {
+    extends PainterPrimaryTools implements PainterVariableTools<TValue> {
   /// Base class for painter variable primary tools.
   ///
   /// 描画ツールの変数プライマリツールの基底クラス。
   const PainterVariablePrimaryTools({
     required super.config,
   });
-
-  /// Create a new painting value.
-  ///
-  /// 新しい描画用のデータを作成します。
-  TValue create({
-    required Offset point,
-    PainterLineBlockTools? tool,
-    Color? backgroundColor,
-    Color? foregroundColor,
-    String? uid,
-  });
-
-  /// Convert a JSON object to a painting value.
-  ///
-  /// JSONオブジェクトを描画用のデータに変換します。
-  TValue? convertFromJson(DynamicMap json);
-
-  /// Convert a painting value to a JSON object.
-  ///
-  /// 描画用のデータをJSONオブジェクトに変換します。
-  DynamicMap? convertToJson(TValue value);
 }
 
 /// Base class for painter sub tools.
@@ -199,6 +204,55 @@ abstract class PainterLineBlockTools extends PainterBlockTools {
   double get strokeWidth;
 }
 
+/// Base class for painter font size block tools.
+///
+/// 描画ツールのフォントサイズブロックツールの基底クラス。
+@immutable
+abstract class PainterFontSizeBlockTools extends PainterBlockTools {
+  /// Base class for painter font size block tools.
+  ///
+  /// 描画ツールのフォントサイズブロックツールの基底クラス。
+  const PainterFontSizeBlockTools({
+    required super.config,
+  });
+
+  /// Get the font size.
+  ///
+  /// フォントサイズを取得します。
+  double get fontSize;
+}
+
+/// Base class for painter font style block tools.
+///
+/// 描画ツールのフォントスタイルブロックツールの基底クラス。
+@immutable
+abstract class PainterFontStyleBlockTools extends PainterBlockTools {
+  /// Base class for painter font style block tools.
+  ///
+  /// 描画ツールのフォントスタイルブロックツールの基底クラス。
+  const PainterFontStyleBlockTools({
+    required super.config,
+  });
+}
+
+/// Base class for painter paragraph align block tools.
+///
+/// 描画ツールの段落揃えブロックツールの基底クラス。
+@immutable
+abstract class PainterParagraphAlignBlockTools extends PainterBlockTools {
+  /// Base class for painter paragraph align block tools.
+  ///
+  /// 描画ツールの段落揃えブロックツールの基底クラス。
+  const PainterParagraphAlignBlockTools({
+    required super.config,
+  });
+
+  /// Get the paragraph align.
+  ///
+  /// 段落揃えを取得します。
+  TextAlign get paragraphAlign;
+}
+
 /// Base class for painter inline tools.
 ///
 /// 描画ツールのインラインツールの基底クラス。
@@ -245,34 +299,13 @@ abstract class PainterInlinePrimaryTools extends PainterInlineTools {
 /// 描画ツールの変数インラインツールの基底クラス。
 @immutable
 abstract class PainterVariableInlineTools<TValue extends PaintingValue>
-    extends PainterInlineTools {
+    extends PainterInlineTools implements PainterVariableTools<TValue> {
   /// Base class for painter variable inline tools.
   ///
   /// 描画ツールの変数インラインツールの基底クラス。
   const PainterVariableInlineTools({
     required super.config,
   });
-
-  /// Create a new painting value.
-  ///
-  /// 新しい描画用のデータを作成します。
-  TValue create({
-    required Offset point,
-    PainterLineBlockTools? tool,
-    Color? backgroundColor,
-    Color? foregroundColor,
-    String? uid,
-  });
-
-  /// Convert a JSON object to a painting value.
-  ///
-  /// JSONオブジェクトを描画用のデータに変換します。
-  TValue? convertFromJson(DynamicMap json);
-
-  /// Convert a painting value to a JSON object.
-  ///
-  /// 描画用のデータをJSONオブジェクトに変換します。
-  DynamicMap? convertToJson(TValue value);
 }
 
 /// Configuration class for Painter tool label.

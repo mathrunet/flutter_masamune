@@ -29,7 +29,7 @@ class CopyPainterSecondaryTools extends PainterSecondaryTools {
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
-    return ref.currentValues.isNotEmpty;
+    return ref.controller.currentValues.isNotEmpty;
   }
 
   @override
