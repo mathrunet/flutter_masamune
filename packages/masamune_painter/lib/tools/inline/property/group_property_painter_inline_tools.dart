@@ -35,7 +35,7 @@ class GroupPropertyPainterInlineTools extends PainterInlinePrimaryTools {
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
-    return true;
+    return ref.currentValues.length > 1;
   }
 
   @override

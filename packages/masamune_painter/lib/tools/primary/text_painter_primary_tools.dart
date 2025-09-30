@@ -36,7 +36,8 @@ class TextPainterPrimaryTools
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.currentTool is TextPainterPrimaryTools;
+    return ref.currentTool is TextPainterInlineTools ||
+        ref.currentTool is TextPainterPrimaryTools;
   }
 
   @override

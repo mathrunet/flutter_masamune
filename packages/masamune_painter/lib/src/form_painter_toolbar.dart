@@ -363,7 +363,10 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
     ThemeData theme,
     List<PainterInlineTools> tools,
   ) {
-    return tools.map((e) {
+    return tools.mapAndRemoveEmpty((e) {
+      if (!e.shown(context, this)) {
+        return null;
+      }
       if (e.actived(context, this)) {
         return IconButton.filled(
           style: IconButton.styleFrom(
@@ -424,7 +427,10 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
             16 + context.mediaQuery.viewPadding.bottom,
           ),
           children: [
-            ...tools.map((e) {
+            ...tools.mapAndRemoveEmpty((e) {
+              if (!e.shown(context, this)) {
+                return null;
+              }
               final actived = e.actived(context, this);
               if (actived) {
                 return InkWell(
@@ -544,15 +550,9 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
         return PainterToolInlineMode.shape;
       }
     }
-    final textTool = PainterMasamuneAdapter.findTool<TextPainterPrimaryTools>();
-    if (textTool != null) {
-      if (textTool.inlineTools.contains(currentTool)) {
-        return PainterToolInlineMode.text;
-      }
-      final prevTool = widget.controller._prevTool;
-      if (prevTool != null && textTool.inlineTools.contains(prevTool)) {
-        return PainterToolInlineMode.text;
-      }
+    if (currentTool is TextPainterPrimaryTools ||
+        currentTool is TextPainterInlineTools) {
+      return PainterToolInlineMode.text;
     }
     return null;
   }
