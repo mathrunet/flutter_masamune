@@ -89,10 +89,13 @@ class FormPainterToolbar extends StatefulWidget {
   final String? textFieldHintLabel;
 
   @override
-  State<FormPainterToolbar> createState() => _FormPainterToolbarState();
+  State<FormPainterToolbar> createState() => FormPainterToolbarState();
 }
 
-class _FormPainterToolbarState extends State<FormPainterToolbar>
+/// State of [FormPainterToolbar].
+///
+/// [FormPainterToolbar]の状態。
+class FormPainterToolbarState extends State<FormPainterToolbar>
     with WidgetsBindingObserver
     implements PainterToolRef {
   bool _showBlockMenu = false;
@@ -104,13 +107,30 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   @override
   void initState() {
     super.initState();
+    widget.controller._registerToolbar(this);
     widget.controller.addListener(_handleControllerStateOnChanged);
+    widget.controller._onDragEndCallback.add(_handleOnDragEnd);
     WidgetsBinding.instance.addObserver(this);
   }
 
   @override
+  void didUpdateWidget(FormPainterToolbar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.controller != oldWidget.controller) {
+      oldWidget.controller._unregisterToolbar(this);
+      oldWidget.controller.removeListener(_handleControllerStateOnChanged);
+      oldWidget.controller._onDragEndCallback.remove(_handleOnDragEnd);
+      widget.controller._registerToolbar(this);
+      widget.controller.addListener(_handleControllerStateOnChanged);
+      widget.controller._onDragEndCallback.add(_handleOnDragEnd);
+    }
+  }
+
+  @override
   void dispose() {
+    widget.controller._unregisterToolbar(this);
     widget.controller.removeListener(_handleControllerStateOnChanged);
+    widget.controller._onDragEndCallback.remove(_handleOnDragEnd);
     WidgetsBinding.instance.removeObserver(this);
     _textSetting?.cancel();
     super.dispose();
@@ -273,7 +293,9 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
         return;
       }
     }
+  }
 
+  void _handleOnDragEnd() {
     // テキスト矩形が作成された後、または単独でテキストオブジェクトが選択された後にテキスト入力を開始
     if (widget.controller.currentValues.length == 1 &&
         widget.controller.currentValues.first is TextPaintingValue) {
@@ -296,6 +318,10 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
             );
             _textSetting!.focusNode.requestFocus();
             _textSetting!.textEditingController.addListener(_handleTextChanged);
+          });
+          // テキスト編集開始時にパンを調整
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _adjustPanForTextEditing();
           });
         }
       }
@@ -340,7 +366,67 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
         );
         _textSetting!.focusNode.requestFocus();
         _textSetting!.textEditingController.addListener(_handleTextChanged);
+        // テキスト編集開始時にパンを調整
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _adjustPanForTextEditing();
+        });
       }
+    }
+  }
+
+  void _adjustPanForTextEditing() {
+    if (_textSetting == null || widget.controller._currentState == null) {
+      return;
+    }
+
+    final textValue = _textSetting!.value;
+    final fieldState = widget.controller._currentState!;
+
+    // 現在のビューの情報を取得
+    final viewInsets = View.of(context).viewInsets.bottom;
+    final blockTools = _getBlockTools(inlineMode);
+    final hasBlockTools = blockTools != null && blockTools.isNotEmpty;
+
+    // ツールバーとテキストフィールドの高さを計算
+    var uiHeight = _kToolbarHeight;
+    if (hasBlockTools) {
+      uiHeight += _blockMenuHeight;
+    }
+    // テキストフィールドの高さ
+    uiHeight += _kToolbarHeight * 2.2;
+
+    // キーボードとUIの合計高さ
+    final totalBottomHeight = viewInsets + uiHeight;
+
+    // キャンバスの表示可能領域を計算
+    final renderBox = context.findRenderObject() as RenderBox?;
+    if (renderBox == null) {
+      return;
+    }
+
+    final viewportSize = renderBox.size;
+    final availableHeight = viewportSize.height - totalBottomHeight;
+
+    // テキストオブジェクトの位置を変換後の座標で取得
+    final textRect = textValue.rect;
+    final transformedRect = fieldState._transformRect(textRect);
+
+    // テキストオブジェクトが見える位置にあるかチェック
+    // 上部のマージンを少し取る
+    const topMargin = 16.0;
+    const visibleTop = topMargin;
+    final visibleBottom = availableHeight;
+
+    // テキストオブジェクトの中心が見えているかチェック
+    final textCenterY = transformedRect.center.dy;
+
+    if (textCenterY < visibleTop || textCenterY > visibleBottom) {
+      // テキストオブジェクトが見えない場合、パンを調整
+      final targetY = availableHeight / 2;
+      final deltaY = targetY - textCenterY;
+
+      // パンを調整
+      fieldState._adjustPan(Offset(0, deltaY));
     }
   }
 

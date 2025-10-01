@@ -454,6 +454,9 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
         currentTool: currentTool,
       );
     }
+    for (var callback in widget.controller._onDragStartCallback) {
+      callback();
+    }
   }
 
   // ドラッグ中。
@@ -590,6 +593,9 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     _dragStartPoint = null;
     _dragEndPoint = null;
     _resizeDirection = null;
+    for (var callback in widget.controller._onDragEndCallback) {
+      callback();
+    }
     setState(() {});
   }
 
@@ -670,6 +676,25 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     final vector = Vector3(localPosition.dx, localPosition.dy, 0);
     final transformed = invertedMatrix.transform3(vector);
     return Offset(transformed.x, transformed.y);
+  }
+
+  // 変換行列を考慮した矩形変換
+  Rect _transformRect(Rect rect) {
+    final topLeft =
+        _transformMatrix.transform3(Vector3(rect.left, rect.top, 0));
+    final bottomRight =
+        _transformMatrix.transform3(Vector3(rect.right, rect.bottom, 0));
+    return Rect.fromPoints(
+      Offset(topLeft.x, topLeft.y),
+      Offset(bottomRight.x, bottomRight.y),
+    );
+  }
+
+  // パンを調整
+  void _adjustPan(Offset delta) {
+    _currentOffset += delta;
+    _updateTransformMatrix();
+    setState(() {});
   }
 
   // 変換行列を更新

@@ -86,6 +86,18 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
   FormPainterFieldState? _currentState;
 
+  void _registerToolbar(FormPainterToolbarState state) {
+    _currentToolbar = state;
+  }
+
+  void _unregisterToolbar(FormPainterToolbarState state) {
+    if (_currentToolbar == state) {
+      _currentToolbar = null;
+    }
+  }
+
+  FormPainterToolbarState? _currentToolbar;
+
   /// The size of the canvas.
   ///
   /// キャンバスのサイズ。
@@ -130,6 +142,9 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   bool _loaded = false;
   Completer<void>? _loadCompleter;
   Rect? _dragSelectionRect;
+
+  final List<VoidCallback> _onDragStartCallback = [];
+  final List<VoidCallback> _onDragEndCallback = [];
 
   /// Load color history.
   ///
