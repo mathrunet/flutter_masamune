@@ -240,13 +240,28 @@ class TextPaintingValue extends PaintingValue {
       );
 
       // レイアウトを実行（横幅を制約）
+      // 両端揃えの場合はminWidthを設定してテキストを幅いっぱいに広げる
       textPainter.layout(
-        minWidth: 0,
+        minWidth: textAlign == TextAlign.justify ? rect.width : 0,
         maxWidth: rect.width,
       );
 
+      // テキストの配置位置を計算
+      double xOffset;
+      switch (textAlign) {
+        case TextAlign.right:
+        case TextAlign.end:
+          xOffset = rect.right - textPainter.width;
+        case TextAlign.center:
+          xOffset = rect.left + (rect.width - textPainter.width) / 2;
+        case TextAlign.left:
+        case TextAlign.start:
+        case TextAlign.justify:
+          xOffset = rect.left;
+      }
+
       // テキストを描画
-      textPainter.paint(canvas, Offset(rect.left, rect.top));
+      textPainter.paint(canvas, Offset(xOffset, rect.top));
     }
 
     return rect;

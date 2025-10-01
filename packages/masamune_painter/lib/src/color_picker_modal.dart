@@ -58,123 +58,135 @@ class ColorPickerModal extends Modal {
   @override
   Widget build(BuildContext context, ModalRef ref) {
     final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0.0),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    final color = onRetrieveColor?.call();
-                    if (color != null) {
-                      this.ref.controller.colorPalette.add(color);
-                    }
-                    ref.close();
-                  },
-                  icon: submitIcon ?? const Icon(Icons.close),
-                ),
-                const Spacer(),
-                Container(
-                  height: 26,
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color:
-                          theme.colorTheme?.onBackground ?? Colors.transparent,
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(activeTool.config.icon, size: 18),
-                      const SizedBox(width: 8),
-                      DefaultTextStyle(
-                        style: theme.textTheme.titleMedium ?? const TextStyle(),
-                        child: activeTool.label(context, this.ref),
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) {
+          final color = onRetrieveColor?.call();
+          if (color != null) {
+            this.ref.controller.colorPalette.add(color);
+          }
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(width: 16),
+                  Container(
+                    height: 26,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: theme.colorTheme?.onBackground ??
+                            Colors.transparent,
+                        width: 1,
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 16),
-              ],
-            ),
-            ListenableBuilder(
-              listenable: this.ref.controller,
-              builder: (context, _) {
-                return Indent(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 8.0,
-                  ),
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    ColorPicker(
-                      pickerColor:
-                          onRetrieveColor?.call() ?? Colors.transparent,
-                      onColorChanged: (color) {
-                        onColorChanged?.call(color);
-                      },
-                      pickerAreaHeightPercent: 0.8,
-                      enableAlpha: true,
-                      displayThumbColor: true,
-                      labelTypes: const [],
-                      paletteType: PaletteType.hsv,
+                      borderRadius: BorderRadius.circular(4),
                     ),
-                    if (this.ref.controller.colorPalette.value.isNotEmpty) ...[
-                      ...this
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(activeTool.config.icon, size: 18),
+                        const SizedBox(width: 8),
+                        DefaultTextStyle(
+                          style:
+                              theme.textTheme.titleMedium ?? const TextStyle(),
+                          child: activeTool.label(context, this.ref),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      ref.close();
+                    },
+                    icon: submitIcon ?? const Icon(Icons.close),
+                  ),
+                ],
+              ),
+              ListenableBuilder(
+                listenable: this.ref.controller,
+                builder: (context, _) {
+                  return Indent(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 8.0,
+                    ),
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ColorPicker(
+                        pickerColor:
+                            onRetrieveColor?.call() ?? Colors.transparent,
+                        onColorChanged: (color) {
+                          onColorChanged?.call(color);
+                        },
+                        pickerAreaHeightPercent: 0.8,
+                        enableAlpha: true,
+                        displayThumbColor: true,
+                        labelTypes: const [],
+                        paletteType: PaletteType.hsv,
+                      ),
+                      if (this
                           .ref
                           .controller
                           .colorPalette
                           .value
-                          .split(5)
-                          .map((r) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ...r.map(
-                                (e) => SizedBox(
-                                  width: 28,
-                                  height: 28,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      onColorChanged?.call(e);
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: e,
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color:
-                                              theme.colorTheme?.onBackground ??
-                                                  theme.colorScheme.outline,
-                                          width: 2,
+                          .isNotEmpty) ...[
+                        ...this
+                            .ref
+                            .controller
+                            .colorPalette
+                            .value
+                            .split(5)
+                            .map((r) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ...r.map(
+                                  (e) => SizedBox(
+                                    width: 28,
+                                    height: 28,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        onColorChanged?.call(e);
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: e,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: theme
+                                                    .colorTheme?.onBackground ??
+                                                theme.colorScheme.outline,
+                                            width: 2,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
+                              ],
+                            ),
+                          );
+                        }),
+                      ],
                     ],
-                  ],
-                );
-              },
-            ),
-          ],
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

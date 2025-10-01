@@ -27,7 +27,7 @@ class ParagraphAlignPropertyPainterInlineTools
       ParagraphAlignLeftTextPainterBlockTools(),
       ParagraphAlignCenterTextPainterBlockTools(),
       ParagraphAlignRightTextPainterBlockTools(),
-      ParagraphAlignJustifyTextPainterBlockTools(),
+      // ParagraphAlignJustifyTextPainterBlockTools(),
     ],
   });
 

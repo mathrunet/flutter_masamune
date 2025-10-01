@@ -175,6 +175,7 @@ class BackgroundPropertyColorPainterInlineTools extends PainterInlineTools {
     if (ref.controller.currentValues.isNotEmpty) {
       await Modal.show(
         context,
+        barrierDismissible: true,
         modal: ColorPickerModal(
           ref: ref,
           activeTool: this,
@@ -189,6 +190,7 @@ class BackgroundPropertyColorPainterInlineTools extends PainterInlineTools {
     } else {
       await Modal.show(
         context,
+        barrierDismissible: true,
         modal: ColorPickerModal(
           ref: ref,
           activeTool: this,
