@@ -93,23 +93,47 @@ class FormPainterToolbar extends StatefulWidget {
 }
 
 class _FormPainterToolbarState extends State<FormPainterToolbar>
+    with WidgetsBindingObserver
     implements PainterToolRef {
   bool _showBlockMenu = false;
   double _blockMenuHeight = 0;
   Duration? _blockMenuToggleDuration;
   _TextSetting? _textSetting;
+  double _previousViewInsets = 0;
 
   @override
   void initState() {
     super.initState();
     widget.controller.addListener(_handleControllerStateOnChanged);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     widget.controller.removeListener(_handleControllerStateOnChanged);
+    WidgetsBinding.instance.removeObserver(this);
     _textSetting?.cancel();
     super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+    // キーボードの表示状態の変化を検知
+    final currentViewInsets = View.of(context).viewInsets.bottom;
+    if (currentViewInsets > _previousViewInsets && _showBlockMenu) {
+      // キーボードが開いた場合、ブロックメニューを閉じる
+      setState(() {
+        if (_blockMenuToggleDuration != null) {
+          _blockMenuHeight = 0;
+          _blockMenuToggleDuration = _kBlockMenuToggleDuration;
+        }
+        _showBlockMenu = false;
+        // ブロックメニューを開いていたツールを非アクティブにする
+        widget.controller._currentTool = null;
+      });
+    }
+    _previousViewInsets = currentViewInsets;
   }
 
   @override
