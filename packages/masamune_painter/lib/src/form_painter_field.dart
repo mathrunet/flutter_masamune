@@ -282,6 +282,16 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   double _currentScale = 1.0;
   Offset _currentOffset = Offset.zero;
 
+  /// Get the current scale of the canvas.
+  ///
+  /// キャンバスの現在のスケールを取得します。
+  double get currentScale => _currentScale;
+
+  /// Get the current offset of the canvas.
+  ///
+  /// キャンバスの現在のオフセットを取得します。
+  Offset get currentOffset => _currentOffset;
+
   // アニメーション用
   AnimationController? _panAnimationController;
   Animation<Offset>? _panAnimation;
