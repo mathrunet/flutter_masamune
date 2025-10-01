@@ -481,6 +481,7 @@ class PaintingProperty {
     final fontStyle =
         PainterMasamuneAdapter.findTool<PainterFontStyleBlockTools>(
       toolId: json.get(fontStyleKey, ""),
+      recursive: true,
     );
     final paragraphAlign =
         PainterMasamuneAdapter.findTool<PainterParagraphAlignBlockTools>(

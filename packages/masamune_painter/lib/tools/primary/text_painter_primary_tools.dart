@@ -1,5 +1,7 @@
 part of "/masamune_painter.dart";
 
+const _kTextPainterPrimaryToolsId = "__painter_text__";
+
 /// Display the menu to select text [PainterTools].
 ///
 /// テキストを選択するメニューを表示する[PainterTools]。
@@ -36,7 +38,7 @@ class TextPainterPrimaryTools
   final List<PainterInlineTools> inlineTools;
 
   @override
-  String get id => "__painter_text__";
+  String get id => _kTextPainterPrimaryToolsId;
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) => true;
@@ -83,7 +85,7 @@ class TextPainterPrimaryTools
   @override
   TextPaintingValue? convertFromJson(DynamicMap json) {
     final type = json.get(PaintingValue.typeKey, "");
-    if (type == id) {
+    if (type == _kTextPainterPrimaryToolsId) {
       return TextPaintingValue.fromJson(json);
     }
     return null;
@@ -147,7 +149,7 @@ class TextPaintingValue extends PaintingValue {
   static const String textKey = "text";
 
   @override
-  String get type => "__painter_shape_text__";
+  String get type => _kTextPainterPrimaryToolsId;
 
   @override
   PaintingValueCategory get category => PaintingValueCategory.text;

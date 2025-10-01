@@ -1,5 +1,7 @@
 part of "/masamune_painter.dart";
 
+const _kRectangleShapePainterInlineToolsId = "__painter_shape_rectangle__";
+
 /// Display the menu to draw a rectangle [PainterTools].
 ///
 /// 四角形を描画するメニューを表示する[PainterTools]。
@@ -26,7 +28,7 @@ class RectangleShapePainterInlineTools
   });
 
   @override
-  String get id => "__painter_shape_rectangle__";
+  String get id => _kRectangleShapePainterInlineToolsId;
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) => true;
@@ -92,7 +94,7 @@ class RectangleShapePainterInlineTools
   @override
   RectanglePaintingValue? convertFromJson(DynamicMap json) {
     final type = json.get(PaintingValue.typeKey, "");
-    if (type == id) {
+    if (type == _kRectangleShapePainterInlineToolsId) {
       return RectanglePaintingValue.fromJson(json);
     }
     return null;
@@ -144,7 +146,7 @@ class RectanglePaintingValue extends PaintingValue {
   }
 
   @override
-  String get type => "__painter_shape_rectangle__";
+  String get type => _kRectangleShapePainterInlineToolsId;
 
   @override
   PaintingValueCategory get category => PaintingValueCategory.shape;

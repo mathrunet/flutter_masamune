@@ -56,6 +56,7 @@ class FormPainterToolbar extends StatefulWidget {
     this.secondaryTools,
     super.key,
     this.style,
+    this.textFieldHintLabel,
   });
 
   /// Primary tools for the toolbar.
@@ -81,6 +82,11 @@ class FormPainterToolbar extends StatefulWidget {
   ///
   /// ツールバーのスタイル。
   final FormStyle? style;
+
+  /// Hint text for the text field.
+  ///
+  /// テキストフィールドのヒントテキスト。
+  final String? textFieldHintLabel;
 
   @override
   State<FormPainterToolbar> createState() => _FormPainterToolbarState();
@@ -421,6 +427,7 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   ) {
     return Positioned(
       left: 0,
+      top: 0,
       right: 0,
       bottom: hasBlockTools
           ? (_blockMenuHeight + _kToolbarHeight)
@@ -440,18 +447,21 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
           ),
         ),
         width: double.infinity,
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
         child: FormTextField(
           focusNode: _textSetting?.focusNode,
           controller: _textSetting?.textEditingController,
           keyboardType: TextInputType.multiline,
-          minLines: 3,
-          maxLines: 5,
+          expands: true,
+          hintText: widget.textFieldHintLabel,
           style: FormStyle(
-            borderStyle: FormInputBorderStyle.outline,
-            backgroundColor: widget.style?.subBackgroundColor ??
-                widget.style?.backgroundColor ??
-                theme.colorTheme?.surface,
+            textAlignVertical: TextAlignVertical.top,
+            borderStyle: FormInputBorderStyle.none,
+            borderRadius: BorderRadius.circular(0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            backgroundColor:
+                widget.style?.backgroundColor ?? theme.colorTheme?.background,
           ),
         ),
       ),
