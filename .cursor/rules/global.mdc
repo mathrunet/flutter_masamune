@@ -272,7 +272,7 @@ alwaysApply: true
 
     5. 1〜4のステップでErrorやWarningが発生した場合は、再度1からステップをやり直す。ErrorやWarningが無くなるまで繰り返す。
 
-    6. 下記コマンドで変更をCommit&Push。
+    6. バックグランドで指示が与えられ動作している場合は、下記コマンドで変更をCommit&Push。それ以外は終了。
         
         ```bash
         katana git commit --message="コミットメッセージ" [コミット対象のファイル1] [コミット対象のファイル2] ...
@@ -283,7 +283,7 @@ alwaysApply: true
             - `katana code generate`で生成した、もしくは変更されたファイル
             - `katana test update`で生成した、もしくは変更されたファイル
     
-    7. PullRequestを新しく作成するは下記のコマンドでPullRequestを作成。
+    7. バックグランドで指示が与えられ動作しておりPullRequestを新しく作成する場合は、下記のコマンドでPullRequestを作成。
 
         ```bash
         katana git pull_request --target="マージ先のブランチ" --source="マージ元のブランチ" --title="PullRequestのタイトル" --body="PullRequestの説明（改行は`
