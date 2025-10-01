@@ -10,6 +10,7 @@ class ImagePainterPrimaryTools
   ///
   /// 画像を選択するメニューを表示する[PainterTools]。
   const ImagePainterPrimaryTools({
+    required this.blockTools,
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
@@ -24,6 +25,12 @@ class ImagePainterPrimaryTools
       icon: FontAwesomeIcons.image,
     ),
   });
+
+  /// Tools for selecting image.
+  ///
+  /// 画像を選択するツール。
+  @override
+  final List<PainterBlockTools> blockTools;
 
   @override
   String get id => "__painter_image__";
@@ -60,12 +67,14 @@ class ImagePainterPrimaryTools
     required Offset point,
     required PaintingProperty property,
     String? uid,
+    Uri? uri,
   }) {
     return ImagePaintingValue(
       id: uid ?? uuid(),
       property: property,
       start: point,
       end: point,
+      uri: uri,
     );
   }
 
@@ -100,7 +109,13 @@ class ImagePaintingValue extends PaintingValue {
     required super.property,
     required super.start,
     required super.end,
+    this.uri,
   });
+
+  /// The URI of the image.
+  ///
+  /// 画像のURI。
+  final Uri? uri;
 
   /// Create a [ImagePaintingValue] from a [DynamicMap].
   ///
@@ -109,6 +124,7 @@ class ImagePaintingValue extends PaintingValue {
     final properties = PaintingProperty.fromJson(
       json.getAsMap(PaintingValue.propertyKey),
     );
+    final uriString = json.get("uri", "");
     return ImagePaintingValue(
       id: json.get(PaintingValue.idKey, ""),
       property: properties,
@@ -120,6 +136,7 @@ class ImagePaintingValue extends PaintingValue {
         json.get(PaintingValue.endXKey, 0.0),
         json.get(PaintingValue.endYKey, 0.0),
       ),
+      uri: uriString.isNotEmpty ? Uri.tryParse(uriString) : null,
     );
   }
 
@@ -150,6 +167,7 @@ class ImagePaintingValue extends PaintingValue {
       PaintingValue.startYKey: start.dy,
       PaintingValue.endXKey: end.dx,
       PaintingValue.endYKey: end.dy,
+      "uri": uri?.toString() ?? "",
     };
   }
 
@@ -160,12 +178,14 @@ class ImagePaintingValue extends PaintingValue {
     Offset? start,
     Offset? end,
     String? id,
+    Uri? uri,
   }) {
     return ImagePaintingValue(
       id: id ?? this.id,
       property: property ?? this.property,
       start: (start ?? this.start) + (offset ?? Offset.zero),
       end: (end ?? this.end) + (offset ?? Offset.zero),
+      uri: uri ?? this.uri,
     );
   }
 
@@ -180,24 +200,31 @@ class ImagePaintingValue extends PaintingValue {
       return null;
     }
 
-    final backgroundColor = property.backgroundColor;
+    // Draw image if uri is available
+    if (uri != null) {
+      final image = _imageCache[uri];
+      if (image != null) {
+        final paint = Paint()..filterQuality = FilterQuality.high;
+        canvas.drawImageRect(
+          image,
+          Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
+          rect,
+          paint,
+        );
+      } else {
+        // Load image if not cached
+        _loadImage(uri!);
+        // Draw placeholder
+        _drawPlaceholder(canvas, rect);
+      }
+    } else {
+      // Draw placeholder if no uri
+      _drawPlaceholder(canvas, rect);
+    }
+
+    // Draw border if foreground color is set
     final foregroundColor = property.foregroundColor;
     final line = property.line;
-    if ((backgroundColor == null || backgroundColor.a <= 0.0) &&
-        (foregroundColor == null || foregroundColor.a <= 0.0 || line == null)) {
-      return rect;
-    }
-
-    // 塗りつぶしの四角を描画
-    if (backgroundColor != null && backgroundColor.a > 0.0) {
-      final paint = Paint()
-        ..color = backgroundColor
-        ..strokeWidth = line?.strokeWidth ?? 1.0
-        ..style = PaintingStyle.fill;
-      canvas.drawRect(rect, paint);
-    }
-
-    // 線の四角を描画
     if (foregroundColor != null && foregroundColor.a > 0.0 && line != null) {
       final paint = Paint()
         ..color = foregroundColor
@@ -207,6 +234,118 @@ class ImagePaintingValue extends PaintingValue {
       canvas.drawRect(rect, paint);
     }
     return rect;
+  }
+
+  void _drawPlaceholder(Canvas canvas, Rect rect) {
+    final backgroundColor = property.backgroundColor ?? const Color(0xFFE0E0E0);
+    final foregroundColor = property.foregroundColor ?? const Color(0xFF9E9E9E);
+    final line = property.line;
+
+    // Draw background
+    final bgPaint = Paint()
+      ..color = backgroundColor
+      ..style = PaintingStyle.fill;
+    canvas.drawRect(rect, bgPaint);
+
+    // Draw icon
+    final iconSize = math.min(rect.width, rect.height) * 0.5;
+    final iconRect = Rect.fromCenter(
+      center: rect.center,
+      width: iconSize,
+      height: iconSize,
+    );
+
+    final iconPaint = Paint()
+      ..color = foregroundColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0;
+
+    // Draw simple image icon (mountain with sun)
+    final path = Path();
+    path.moveTo(iconRect.left, iconRect.bottom);
+    path.lineTo(iconRect.left + iconRect.width * 0.3,
+        iconRect.top + iconRect.height * 0.4);
+    path.lineTo(iconRect.left + iconRect.width * 0.6, iconRect.bottom);
+    path.moveTo(iconRect.left + iconRect.width * 0.4, iconRect.bottom);
+    path.lineTo(iconRect.right, iconRect.top + iconRect.height * 0.3);
+    path.lineTo(iconRect.right, iconRect.bottom);
+    canvas.drawPath(path, iconPaint);
+
+    // Draw sun
+    canvas.drawCircle(
+      Offset(iconRect.right - iconRect.width * 0.25,
+          iconRect.top + iconRect.height * 0.25),
+      iconRect.width * 0.15,
+      iconPaint,
+    );
+
+    // Draw border
+    if (line != null) {
+      final borderPaint = Paint()
+        ..color = foregroundColor
+        ..strokeWidth = line.strokeWidth
+        ..style = PaintingStyle.stroke;
+      canvas.drawRect(rect, borderPaint);
+    }
+  }
+
+  static final Map<Uri, ui.Image> _imageCache = {};
+  static final Set<Uri> _loadingImages = {};
+  static VoidCallback? _onImageLoaded;
+
+  /// Set the callback to be called when an image is loaded.
+  ///
+  /// 画像が読み込まれたときに呼び出されるコールバックを設定します。
+  static void setOnImageLoaded(VoidCallback? callback) {
+    _onImageLoaded = callback;
+  }
+
+  static Future<void> _loadImage(Uri uri) async {
+    if (_imageCache.containsKey(uri) || _loadingImages.contains(uri)) {
+      return;
+    }
+
+    _loadingImages.add(uri);
+
+    try {
+      final Uint8List bytes;
+      if (uri.isScheme("file")) {
+        final file = File(uri.toFilePath());
+        bytes = await file.readAsBytes();
+      } else if (uri.isScheme("http") || uri.isScheme("https")) {
+        final response = await http.get(uri);
+        bytes = response.bodyBytes;
+      } else if (uri.isScheme("data")) {
+        final uriData = UriData.fromUri(uri);
+        bytes = uriData.contentAsBytes();
+      } else {
+        _loadingImages.remove(uri);
+        return;
+      }
+
+      final codec = await ui.instantiateImageCodec(bytes);
+      final frame = await codec.getNextFrame();
+      _imageCache[uri] = frame.image;
+      codec.dispose();
+
+      // Notify that image is loaded
+      _onImageLoaded?.call();
+    } catch (e) {
+      // Image load failed, ignore
+    } finally {
+      _loadingImages.remove(uri);
+    }
+  }
+
+  /// Clear the image cache.
+  ///
+  /// 画像キャッシュをクリアします。
+  static void clearImageCache() {
+    for (final image in _imageCache.values) {
+      image.dispose();
+    }
+    _imageCache.clear();
+    _loadingImages.clear();
   }
 
   @override
@@ -219,6 +358,7 @@ class ImagePaintingValue extends PaintingValue {
       property: property,
       start: startPoint,
       end: currentPoint,
+      uri: uri,
     );
   }
 
@@ -229,6 +369,7 @@ class ImagePaintingValue extends PaintingValue {
       property: property,
       start: start + delta,
       end: end + delta,
+      uri: uri,
     );
   }
 
@@ -244,6 +385,7 @@ class ImagePaintingValue extends PaintingValue {
       property: property,
       start: startPoint,
       end: endPoint,
+      uri: uri,
     );
   }
 }

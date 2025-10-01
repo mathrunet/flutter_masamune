@@ -11,6 +11,7 @@ library;
 // Dart imports:
 import "dart:async";
 import "dart:convert";
+import "dart:io";
 import "dart:math" as math;
 import "dart:ui" as ui;
 
@@ -21,6 +22,7 @@ import "package:flutter/services.dart";
 // Package imports:
 import "package:flutter_colorpicker/flutter_colorpicker.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import "package:http/http.dart" as http;
 import "package:masamune/masamune.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import "package:vector_math/vector_math_64.dart" hide Colors;
@@ -67,6 +69,10 @@ part "tools/inline/shape/rectangle_shape_painter_inline_tools.dart";
 part "tools/block/filter/blur_filter_painter_block_tools.dart";
 
 part "tools/block/group/grouping_group_painter_block_tools.dart";
+
+part "tools/block/image/image_from_camera_image_painter_block_tools.dart";
+part "tools/block/image/image_from_library_image_painter_block_tools.dart";
+
 part "tools/block/line/solid_1px_line_painter_block_tools.dart";
 part "tools/block/line/solid_10px_line_painter_block_tools.dart";
 part "tools/block/text/paragraph_align_left_text_painter_block_tools.dart";

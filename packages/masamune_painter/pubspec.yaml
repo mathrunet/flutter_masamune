@@ -17,6 +17,7 @@ dependencies:
   image_painter: ^0.7.1
   font_awesome_flutter: ^10.8.0
   flutter_colorpicker: ^1.1.0
+  http: ^1.2.2
   shared_preferences: ^2.5.3
   vector_math: ^2.1.4
 dev_dependencies:

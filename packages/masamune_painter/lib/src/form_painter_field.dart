@@ -312,6 +312,12 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       duration: const Duration(milliseconds: 100),
       vsync: this,
     );
+    // Set image load callback to refresh UI
+    ImagePaintingValue.setOnImageLoaded(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -339,6 +345,8 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     widget.controller._unregisterState(this);
     widget.controller.removeListener(_handleControllerChanged);
     _panAnimationController?.dispose();
+    // Clear image load callback
+    ImagePaintingValue.setOnImageLoaded(null);
     super.dispose();
   }
 

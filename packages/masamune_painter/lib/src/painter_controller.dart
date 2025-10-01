@@ -261,6 +261,51 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     notifyListeners();
   }
 
+  /// Insert an image to the canvas.
+  ///
+  /// キャンバスに画像を挿入します。
+  Future<void> insertImage(Uri uri) async {
+    // Save current values first
+    saveCurrentValue();
+
+    // Find ImagePainterPrimaryTools
+    final imageTool = adapter.defaultPrimaryTools
+        .whereType<ImagePainterPrimaryTools>()
+        .firstOrNull;
+
+    if (imageTool == null) {
+      return;
+    }
+
+    // Create a new image value at the center of the canvas
+    final center = Offset(canvasSize.width / 2, canvasSize.height / 2);
+    const defaultSize = Size(200, 200);
+    final startPoint =
+        center - Offset(defaultSize.width / 2, defaultSize.height / 2);
+    final endPoint =
+        center + Offset(defaultSize.width / 2, defaultSize.height / 2);
+
+    final imageValue = ImagePaintingValue(
+      id: uuid(),
+      property: property.currentToolProperty,
+      start: startPoint,
+      end: endPoint,
+      uri: uri,
+    );
+
+    // Add to values
+    _values.add(imageValue);
+
+    // Select the new image
+    _currentValues.clear();
+    _currentValues.add(imageValue);
+
+    // Save to history
+    history._saveToHistory();
+
+    notifyListeners();
+  }
+
   /// Update the current value for editing (single selection).
   ///
   /// 編集用の現在値を更新します（単一選択）。
