@@ -78,3 +78,6 @@ part "tools/inline/font/underline_font_markdown_inline_tools.dart";
 part "tools/inline/font/strike_font_markdown_inline_tools.dart";
 part "tools/inline/font/link_font_markdown_inline_tools.dart";
 part "tools/inline/font/code_font_markdown_inline_tools.dart";
+
+part "src/new_editor/form_markdown_field_2.dart";
+part "src/new_editor/markdown_controller_2.dart";
