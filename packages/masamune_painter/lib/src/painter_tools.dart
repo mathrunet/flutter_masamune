@@ -92,6 +92,11 @@ abstract class PainterVariableTools<TValue extends PaintingValue>
   ///
   /// 描画用のデータをJSONオブジェクトに変換します。
   DynamicMap? convertToJson(TValue value);
+
+  /// Check if the tool can be drawn.
+  ///
+  /// ツールが描画可能かどうかを確認します。
+  bool get canDraw => false;
 }
 
 /// Base class for painter primary tools.

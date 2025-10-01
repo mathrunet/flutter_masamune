@@ -314,7 +314,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       property: property.currentToolProperty,
       start: startPoint,
       end: endPoint,
-      uri: uri,
+      path: uri,
     );
 
     // Add to values

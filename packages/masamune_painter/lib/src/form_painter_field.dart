@@ -478,10 +478,16 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       // ツールが選択されているときは新規作成
     } else if (currentTool is PainterVariableTools &&
         widget.controller.currentValues.isEmpty) {
-      _creatingStart(
-        position: position,
-        currentTool: currentTool,
-      );
+      if (currentTool.canDraw) {
+        _creatingStart(
+          position: position,
+          currentTool: currentTool,
+        );
+      } else {
+        _selectingStartWithoutTool(
+          position: position,
+        );
+      }
     }
     for (var callback in widget.controller._onDragStartCallback) {
       callback();

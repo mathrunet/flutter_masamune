@@ -69,6 +69,9 @@ class TextPainterPrimaryTools
   }
 
   @override
+  bool get canDraw => true;
+
+  @override
   TextPaintingValue create({
     required Offset point,
     required PaintingProperty property,

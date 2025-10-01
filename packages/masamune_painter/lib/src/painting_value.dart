@@ -110,6 +110,11 @@ abstract class PaintingValue {
   /// 描画用のデータの終了点のキー。
   static const String endYKey = "endY";
 
+  /// The key for the path.
+  ///
+  /// 描画用のデータのパスのキー。
+  static const String pathKey = "path";
+
   /// Updating data being created (while dragging).
   ///
   /// 作成中（ドラッグ中）のデータの更新をします。

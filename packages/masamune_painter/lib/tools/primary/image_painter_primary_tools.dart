@@ -1,5 +1,7 @@
 part of "/masamune_painter.dart";
 
+const _kImagePainterPrimaryToolsId = "__painter_image__";
+
 /// Display the menu to select image [PainterTools].
 ///
 /// 画像を選択するメニューを表示する[PainterTools]。
@@ -33,7 +35,7 @@ class ImagePainterPrimaryTools
   final List<PainterBlockTools> blockTools;
 
   @override
-  String get id => "__painter_image__";
+  String get id => _kImagePainterPrimaryToolsId;
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) => true;
@@ -63,6 +65,9 @@ class ImagePainterPrimaryTools
   }
 
   @override
+  bool get canDraw => false;
+
+  @override
   ImagePaintingValue create({
     required Offset point,
     required PaintingProperty property,
@@ -74,14 +79,14 @@ class ImagePainterPrimaryTools
       property: property,
       start: point,
       end: point,
-      uri: uri,
+      path: uri,
     );
   }
 
   @override
   ImagePaintingValue? convertFromJson(DynamicMap json) {
     final type = json.get(PaintingValue.typeKey, "");
-    if (type == id) {
+    if (type == _kImagePainterPrimaryToolsId) {
       return ImagePaintingValue.fromJson(json);
     }
     return null;
@@ -109,13 +114,13 @@ class ImagePaintingValue extends PaintingValue {
     required super.property,
     required super.start,
     required super.end,
-    this.uri,
+    this.path,
   });
 
   /// The URI of the image.
   ///
   /// 画像のURI。
-  final Uri? uri;
+  final Uri? path;
 
   /// Create a [ImagePaintingValue] from a [DynamicMap].
   ///
@@ -124,7 +129,7 @@ class ImagePaintingValue extends PaintingValue {
     final properties = PaintingProperty.fromJson(
       json.getAsMap(PaintingValue.propertyKey),
     );
-    final uriString = json.get("uri", "");
+    final path = json.get(PaintingValue.pathKey, "");
     return ImagePaintingValue(
       id: json.get(PaintingValue.idKey, ""),
       property: properties,
@@ -136,12 +141,12 @@ class ImagePaintingValue extends PaintingValue {
         json.get(PaintingValue.endXKey, 0.0),
         json.get(PaintingValue.endYKey, 0.0),
       ),
-      uri: uriString.isNotEmpty ? Uri.tryParse(uriString) : null,
+      path: path.isNotEmpty ? Uri.tryParse(path) : null,
     );
   }
 
   @override
-  String get type => "__painter_shape_image__";
+  String get type => _kImagePainterPrimaryToolsId;
 
   @override
   PaintingValueCategory get category => PaintingValueCategory.image;
@@ -167,7 +172,7 @@ class ImagePaintingValue extends PaintingValue {
       PaintingValue.startYKey: start.dy,
       PaintingValue.endXKey: end.dx,
       PaintingValue.endYKey: end.dy,
-      "uri": uri?.toString() ?? "",
+      PaintingValue.pathKey: path?.toString() ?? "",
     };
   }
 
@@ -178,14 +183,14 @@ class ImagePaintingValue extends PaintingValue {
     Offset? start,
     Offset? end,
     String? id,
-    Uri? uri,
+    Uri? path,
   }) {
     return ImagePaintingValue(
       id: id ?? this.id,
       property: property ?? this.property,
       start: (start ?? this.start) + (offset ?? Offset.zero),
       end: (end ?? this.end) + (offset ?? Offset.zero),
-      uri: uri ?? this.uri,
+      path: path ?? this.path,
     );
   }
 
@@ -201,8 +206,8 @@ class ImagePaintingValue extends PaintingValue {
     }
 
     // Draw image if uri is available
-    if (uri != null) {
-      final image = _imageCache[uri];
+    if (path != null) {
+      final image = _imageCache[path];
       if (image != null) {
         final paint = Paint()..filterQuality = FilterQuality.high;
         canvas.drawImageRect(
@@ -213,7 +218,7 @@ class ImagePaintingValue extends PaintingValue {
         );
       } else {
         // Load image if not cached
-        _loadImage(uri!);
+        _loadImage(path!);
         // Draw placeholder
         _drawPlaceholder(canvas, rect);
       }
@@ -358,7 +363,7 @@ class ImagePaintingValue extends PaintingValue {
       property: property,
       start: startPoint,
       end: currentPoint,
-      uri: uri,
+      path: path,
     );
   }
 
@@ -369,7 +374,7 @@ class ImagePaintingValue extends PaintingValue {
       property: property,
       start: start + delta,
       end: end + delta,
-      uri: uri,
+      path: path,
     );
   }
 
@@ -385,7 +390,7 @@ class ImagePaintingValue extends PaintingValue {
       property: property,
       start: startPoint,
       end: endPoint,
-      uri: uri,
+      path: path,
     );
   }
 }

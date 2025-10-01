@@ -78,6 +78,9 @@ class RectangleShapePainterInlineTools
   }
 
   @override
+  bool get canDraw => true;
+
+  @override
   RectanglePaintingValue create({
     required Offset point,
     required PaintingProperty property,
