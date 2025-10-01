@@ -189,6 +189,10 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
               _blockMenuToggleDuration = _kBlockMenuToggleDuration;
             }
             _showBlockMenu = true;
+            // ブロックメニュー表示時にパンを調整
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _adjustPanForBlockMenu();
+            });
           }
         }
         widget.controller._currentTool = null;
@@ -216,6 +220,10 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
               _blockMenuHeight = context.mediaQuery.size.height / 3.0;
               _blockMenuToggleDuration = _kBlockMenuToggleDuration;
             }
+            // ブロックメニュー表示時にパンを調整
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _adjustPanForBlockMenu();
+            });
           }
         }
         widget.controller._currentTool = tool;
@@ -423,6 +431,73 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
 
     // テキストオブジェクトの中心を表示可能領域の中央に配置
     final deltaY = visibleAreaCenterY - textCenterY;
+
+    // パンを調整（わずかな差でも調整）
+    if (deltaY.abs() > 1.0) {
+      fieldState._adjustPan(Offset(0, deltaY));
+    }
+  }
+
+  void _adjustPanForBlockMenu() {
+    if (widget.controller._currentState == null) {
+      return;
+    }
+
+    final fieldState = widget.controller._currentState!;
+    final currentValues = widget.controller.currentValues;
+
+    // 選択中のオブジェクトがない場合は何もしない
+    if (currentValues.isEmpty) {
+      return;
+    }
+
+    // キャンバス（FormPainterField）のRenderBoxを取得
+    final fieldContext = fieldState.context;
+    final fieldRenderBox = fieldContext.findRenderObject() as RenderBox?;
+    if (fieldRenderBox == null) {
+      return;
+    }
+
+    // 現在のビューの情報を取得
+    final viewInsets = View.of(fieldContext).viewInsets.bottom;
+
+    // ツールバーとブロックメニューの高さを計算
+    var uiHeight = _kToolbarHeight;
+    uiHeight += _blockMenuHeight;
+
+    // キーボードとUIの合計高さ
+    final totalBottomHeight = viewInsets + uiHeight;
+
+    // キャンバスのサイズを取得
+    final canvasSize = fieldRenderBox.size;
+
+    // 表示可能領域の高さを計算
+    final availableHeight = canvasSize.height - totalBottomHeight;
+
+    // 表示可能領域の中央のY座標（キャンバス座標系）
+    final visibleAreaCenterY = availableHeight / 2;
+
+    // 選択中のオブジェクトの境界を取得
+    Rect targetRect;
+    if (currentValues.length == 1) {
+      targetRect = currentValues.first.rect;
+    } else {
+      // 複数選択の場合は全体の境界を使用
+      final bounds = widget.controller.selectionBounds;
+      if (bounds == null) {
+        return;
+      }
+      targetRect = bounds;
+    }
+
+    // オブジェクトの位置を変換後の座標で取得
+    final transformedRect = fieldState._transformRect(targetRect);
+
+    // オブジェクトの中心のY座標
+    final objectCenterY = transformedRect.center.dy;
+
+    // オブジェクトの中心を表示可能領域の中央に配置
+    final deltaY = visibleAreaCenterY - objectCenterY;
 
     // パンを調整（わずかな差でも調整）
     if (deltaY.abs() > 1.0) {
