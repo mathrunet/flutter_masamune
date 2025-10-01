@@ -277,27 +277,29 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       return;
     }
 
-    // Calculate the center of the viewport (visible area)
+    // Calculate the center of the visible area
     Offset center;
     if (_currentState != null) {
-      // Get the viewport size from the state
-      final viewportSize = _currentState!.context.size ?? Size.zero;
       final scale = _currentState!.currentScale;
       final offset = _currentState!.currentOffset;
+      final viewportSize = _currentState!.context.size ?? canvasSize;
 
-      // Consider toolbar height if it exists
-      final toolbarHeight = _currentToolbar?.context.size?.height ?? 0.0;
-
-      // Calculate the center of the visible area in canvas coordinates
-      // Viewport center in screen coordinates
-      final viewportCenterX = viewportSize.width / 2;
-      final viewportCenterY = (viewportSize.height - toolbarHeight) / 2;
-
-      // Convert to canvas coordinates
-      center = Offset(
-        (viewportCenterX - offset.dx) / scale,
-        (viewportCenterY - offset.dy) / scale,
+      // Calculate the viewport center in screen coordinates
+      final screenCenter = Offset(
+        viewportSize.width / 2,
+        viewportSize.height / 2,
       );
+
+      // Build the transform matrix (same as FormPainterFieldState)
+      final transformMatrix = Matrix4.identity();
+      transformMatrix.translateByDouble(offset.dx, offset.dy, 0.0, 1.0);
+      transformMatrix.scaleByDouble(scale, scale, 1.0, 1.0);
+
+      // Convert screen coordinates to canvas coordinates using inverse matrix
+      final invertedMatrix = Matrix4.inverted(transformMatrix);
+      final vector = Vector3(screenCenter.dx, screenCenter.dy, 0);
+      final transformed = invertedMatrix.transform3(vector);
+      center = Offset(transformed.x, transformed.y);
     } else {
       // Fallback to canvas center if state is not available
       center = Offset(canvasSize.width / 2, canvasSize.height / 2);
