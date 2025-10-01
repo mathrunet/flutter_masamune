@@ -414,11 +414,17 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
     });
   }
 
-  Widget _buildTextDialog(BuildContext context, ThemeData theme) {
+  Widget _buildTextDialog(
+    BuildContext context,
+    ThemeData theme,
+    bool hasBlockTools,
+  ) {
     return Positioned(
       left: 0,
       right: 0,
-      bottom: _blockMenuHeight + _kToolbarHeight,
+      bottom: hasBlockTools
+          ? (_blockMenuHeight + _kToolbarHeight)
+          : _kToolbarHeight,
       child: Container(
         decoration: BoxDecoration(
           color: widget.style?.backgroundColor ??
@@ -664,17 +670,21 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    var height = _blockMenuHeight + _kToolbarHeight;
+    final toolMode = inlineMode;
+
+    final inlineTools = _getInlineTools(toolMode);
+    final blockTools = _getBlockTools(toolMode);
+
+    var height = _kToolbarHeight;
+    // ブロックメニューが実際に表示される場合のみ高さを加算
+    if (blockTools != null && blockTools.isNotEmpty) {
+      height += _blockMenuHeight;
+    }
     if (_textSetting != null) {
       // テキストフィールドの高さ：3行分 + パディング + ボーダー
       // フォントサイズを考慮した概算
       height += _kToolbarHeight * 2.2;
     }
-
-    final toolMode = inlineMode;
-
-    final inlineTools = _getInlineTools(toolMode);
-    final blockTools = _getBlockTools(toolMode);
 
     return IconTheme(
       data: IconThemeData(
@@ -698,12 +708,18 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
                 _buildBlockTools(context, theme, blockTools),
               ],
               if (_textSetting != null) ...[
-                _buildTextDialog(context, theme),
+                _buildTextDialog(
+                  context,
+                  theme,
+                  blockTools != null && blockTools.isNotEmpty,
+                ),
               ],
               Positioned(
                 left: 0,
                 right: 0,
-                bottom: _blockMenuHeight,
+                bottom: (blockTools != null && blockTools.isNotEmpty)
+                    ? _blockMenuHeight
+                    : 0,
                 child: Container(
                   color: widget.style?.backgroundColor ??
                       theme.colorTheme?.background,
