@@ -264,7 +264,9 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
 ///
 /// フォーム用のMarkdownテキストフィールド用のステート。
 class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
-    with AutomaticKeepAliveClientMixin<FormField<List<PaintingValue>>> {
+    with
+        AutomaticKeepAliveClientMixin<FormField<List<PaintingValue>>>,
+        SingleTickerProviderStateMixin<FormField<List<PaintingValue>>> {
   @override
   List<PaintingValue>? get value => widget.controller.value;
 
@@ -279,6 +281,10 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   Matrix4 _transformMatrix = Matrix4.identity();
   double _currentScale = 1.0;
   Offset _currentOffset = Offset.zero;
+
+  // アニメーション用
+  AnimationController? _panAnimationController;
+  Animation<Offset>? _panAnimation;
 
   // スケール操作用の変数
   double _baseScale = 1.0;
@@ -302,6 +308,10 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     super.initState();
     widget.controller._registerState(this);
     widget.controller.addListener(_handleControllerChanged);
+    _panAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 100),
+      vsync: this,
+    );
   }
 
   @override
@@ -328,6 +338,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     widget.form?.unregister(this);
     widget.controller._unregisterState(this);
     widget.controller.removeListener(_handleControllerChanged);
+    _panAnimationController?.dispose();
     super.dispose();
   }
 
@@ -690,11 +701,39 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     );
   }
 
-  // パンを調整
+  // パンを調整（アニメーション付き）
   void _adjustPan(Offset delta) {
-    _currentOffset += delta;
-    _updateTransformMatrix();
-    setState(() {});
+    if (_panAnimationController == null) {
+      // アニメーションコントローラーがない場合は即座に適用
+      _currentOffset += delta;
+      _updateTransformMatrix();
+      setState(() {});
+      return;
+    }
+
+    // 現在のアニメーションを停止
+    _panAnimationController!.stop();
+
+    // 開始位置と終了位置を設定
+    final startOffset = _currentOffset;
+    final endOffset = _currentOffset + delta;
+
+    // アニメーションを設定
+    _panAnimation = Tween<Offset>(
+      begin: startOffset,
+      end: endOffset,
+    ).animate(CurvedAnimation(
+      parent: _panAnimationController!,
+      curve: Curves.easeOut,
+    ))
+      ..addListener(() {
+        _currentOffset = _panAnimation!.value;
+        _updateTransformMatrix();
+        setState(() {});
+      });
+
+    // アニメーションを開始
+    _panAnimationController!.forward(from: 0.0);
   }
 
   // 変換行列を更新

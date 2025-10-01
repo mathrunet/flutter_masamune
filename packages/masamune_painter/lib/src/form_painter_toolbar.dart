@@ -382,8 +382,15 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
     final textValue = _textSetting!.value;
     final fieldState = widget.controller._currentState!;
 
+    // キャンバス（FormPainterField）のRenderBoxを取得
+    final fieldContext = fieldState.context;
+    final fieldRenderBox = fieldContext.findRenderObject() as RenderBox?;
+    if (fieldRenderBox == null) {
+      return;
+    }
+
     // 現在のビューの情報を取得
-    final viewInsets = View.of(context).viewInsets.bottom;
+    final viewInsets = View.of(fieldContext).viewInsets.bottom;
     final blockTools = _getBlockTools(inlineMode);
     final hasBlockTools = blockTools != null && blockTools.isNotEmpty;
 
@@ -398,34 +405,27 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
     // キーボードとUIの合計高さ
     final totalBottomHeight = viewInsets + uiHeight;
 
-    // キャンバスの表示可能領域を計算
-    final renderBox = context.findRenderObject() as RenderBox?;
-    if (renderBox == null) {
-      return;
-    }
+    // キャンバスのサイズを取得
+    final canvasSize = fieldRenderBox.size;
 
-    final viewportSize = renderBox.size;
-    final availableHeight = viewportSize.height - totalBottomHeight;
+    // 表示可能領域の高さを計算
+    final availableHeight = canvasSize.height - totalBottomHeight;
+
+    // 表示可能領域の中央のY座標（キャンバス座標系）
+    final visibleAreaCenterY = availableHeight / 2;
 
     // テキストオブジェクトの位置を変換後の座標で取得
     final textRect = textValue.rect;
     final transformedRect = fieldState._transformRect(textRect);
 
-    // テキストオブジェクトが見える位置にあるかチェック
-    // 上部のマージンを少し取る
-    const topMargin = 16.0;
-    const visibleTop = topMargin;
-    final visibleBottom = availableHeight;
-
-    // テキストオブジェクトの中心が見えているかチェック
+    // テキストオブジェクトの中心のY座標
     final textCenterY = transformedRect.center.dy;
 
-    if (textCenterY < visibleTop || textCenterY > visibleBottom) {
-      // テキストオブジェクトが見えない場合、パンを調整
-      final targetY = availableHeight / 2;
-      final deltaY = targetY - textCenterY;
+    // テキストオブジェクトの中心を表示可能領域の中央に配置
+    final deltaY = visibleAreaCenterY - textCenterY;
 
-      // パンを調整
+    // パンを調整（わずかな差でも調整）
+    if (deltaY.abs() > 1.0) {
       fieldState._adjustPan(Offset(0, deltaY));
     }
   }
