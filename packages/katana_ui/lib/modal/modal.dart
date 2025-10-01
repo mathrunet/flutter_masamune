@@ -101,6 +101,7 @@ abstract class Modal<T> {
     bool disableBackKey = false,
     bool popOnPress = true,
     bool willShowRepetition = false,
+    bool barrierDismissible = false,
     EdgeInsetsGeometry contentPadding =
         const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 16.0),
     AlignmentGeometry? alignment,
@@ -133,7 +134,7 @@ abstract class Modal<T> {
     do {
       result = await showDialog<T>(
         context: overlay.context,
-        barrierDismissible: false,
+        barrierDismissible: barrierDismissible,
         builder: (context) {
           return Theme(
             data: theme.copyWith(
@@ -228,6 +229,7 @@ abstract class Modal<T> {
     bool popOnPress = true,
     bool willShowRepetition = false,
     ButtonStyle? buttonStyle,
+    bool barrierDismissible = false,
   }) async {
     assert(
       (text != null && child == null) || (text == null && child != null),
@@ -248,7 +250,7 @@ abstract class Modal<T> {
     do {
       await showDialog(
         context: overlay.context,
-        barrierDismissible: false,
+        barrierDismissible: barrierDismissible,
         builder: (context) {
           return Theme(
             data: theme.copyWith(
@@ -360,6 +362,7 @@ abstract class Modal<T> {
     VoidCallback? onCancel,
     bool popOnPress = true,
     bool willShowRepetition = false,
+    bool barrierDismissible = false,
     ButtonStyle? submitButtonStyle,
     ButtonStyle? cancelButtonStyle,
   }) async {
@@ -377,7 +380,7 @@ abstract class Modal<T> {
     do {
       await showDialog(
         context: overlay.context,
-        barrierDismissible: false,
+        barrierDismissible: barrierDismissible,
         builder: (context) {
           return Theme(
             data: theme.copyWith(
@@ -467,6 +470,7 @@ abstract class Modal<T> {
     Color? backgroundColor,
     Color? color,
     bool isScrollControlled = false,
+    bool barrierDismissible = false,
     EdgeInsetsGeometry contentPadding =
         const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
   }) async {
@@ -487,6 +491,7 @@ abstract class Modal<T> {
       context: overlay.context,
       isScrollControlled: isScrollControlled,
       backgroundColor: backgroundColor,
+      isDismissible: barrierDismissible,
       useSafeArea: true,
       builder: (context) {
         return Theme(
