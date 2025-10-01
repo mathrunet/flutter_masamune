@@ -3,7 +3,7 @@ part of "/masamune_painter.dart";
 /// ToolMode enumeration.
 ///
 /// ツールモードの列挙型。
-enum PainterToolInlineMode {
+enum PainterInlineMode {
   /// Select.
   ///
   /// 選択。

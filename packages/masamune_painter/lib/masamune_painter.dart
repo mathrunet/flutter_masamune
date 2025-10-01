@@ -34,7 +34,7 @@ part "src/painting_value.dart";
 part "src/painter_drag_mode.dart";
 part "src/painter_resize_direction.dart";
 part "src/painter_tools.dart";
-part "src/painter_tool_inline_mode.dart";
+part "src/painter_inline_mode.dart";
 part "src/color_picker_modal.dart";
 
 part "tools/primary/select_painter_primary_tools.dart";

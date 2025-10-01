@@ -128,6 +128,8 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
             _blockMenuToggleDuration = _kBlockMenuToggleDuration;
           }
           _showBlockMenu = false;
+          // ブロックメニューを閉じた後、テキストオブジェクトが選択されている場合はテキストフィールドを再表示
+          _restoreTextEditingIfNeeded();
         } else {
           if ((tool is PainterPrimaryTools && tool.blockTools.isNotEmpty) ||
               (tool is PainterInlinePrimaryTools &&
@@ -152,6 +154,8 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
               _blockMenuToggleDuration = _kBlockMenuToggleDuration;
             }
             _showBlockMenu = false;
+            // ブロックメニューを閉じた後、テキストオブジェクトが選択されている場合はテキストフィールドを再表示
+            _restoreTextEditingIfNeeded();
           }
         } else {
           if ((tool is PainterPrimaryTools && tool.blockTools.isNotEmpty) ||
@@ -182,6 +186,8 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
       }
       widget.controller._currentTool = null;
       _showBlockMenu = false;
+      // ブロックメニューを閉じた後、テキストオブジェクトが選択されている場合はテキストフィールドを再表示
+      _restoreTextEditingIfNeeded();
     });
   }
 
@@ -288,6 +294,24 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
     _textSetting = null;
     // 履歴に保存
     widget.controller.saveCurrentValue(saveToHistory: true);
+  }
+
+  void _restoreTextEditingIfNeeded() {
+    // テキストオブジェクトが単独で選択されている場合、テキストフィールドを再表示
+    if (_textSetting == null &&
+        widget.controller.currentValues.length == 1 &&
+        widget.controller.currentValues.first is TextPaintingValue) {
+      final textValue =
+          widget.controller.currentValues.first as TextPaintingValue;
+      if (textValue.rect.width >= textValue.minimumSize.width &&
+          textValue.rect.height >= textValue.minimumSize.height) {
+        _textSetting = _TextSetting(
+          value: textValue,
+        );
+        _textSetting!.focusNode.requestFocus();
+        _textSetting!.textEditingController.addListener(_handleTextChanged);
+      }
+    }
   }
 
   Iterable<Widget> _buildPrimaryTools(BuildContext context, ThemeData theme) {
@@ -562,44 +586,44 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
   }
 
   @override
-  PainterToolInlineMode? get toolInlineMode {
+  PainterInlineMode? get inlineMode {
     final currentTool = widget.controller._currentTool;
     final currentValues = widget.controller.currentValues;
     if (currentValues.isNotEmpty) {
-      return PainterToolInlineMode.select;
+      return PainterInlineMode.select;
     }
     if (currentTool == null) {
       return null;
     }
     if (currentTool is SelectPainterPrimaryTools ||
         currentTool is SelectPainterInlineTools) {
-      return PainterToolInlineMode.select;
+      return PainterInlineMode.select;
     }
     final shapeTool =
         PainterMasamuneAdapter.findTool<ShapePainterPrimaryTools>();
     if (shapeTool != null) {
       if (shapeTool.inlineTools.contains(currentTool)) {
-        return PainterToolInlineMode.shape;
+        return PainterInlineMode.shape;
       }
       final prevTool = widget.controller._prevTool;
       if (prevTool != null && shapeTool.inlineTools.contains(prevTool)) {
-        return PainterToolInlineMode.shape;
+        return PainterInlineMode.shape;
       }
     }
     if (currentTool is TextPainterPrimaryTools ||
         currentTool is TextPainterInlineTools) {
-      return PainterToolInlineMode.text;
+      return PainterInlineMode.text;
     }
     return null;
   }
 
-  List<PainterInlineTools>? _getInlineTools(PainterToolInlineMode? mode) {
+  List<PainterInlineTools>? _getInlineTools(PainterInlineMode? mode) {
     switch (mode) {
-      case PainterToolInlineMode.select:
+      case PainterInlineMode.select:
         return widget.controller.adapter.defaultSelectInlineTools;
-      case PainterToolInlineMode.shape:
+      case PainterInlineMode.shape:
         return widget.controller.adapter.defaultShapeInlineTools;
-      case PainterToolInlineMode.text:
+      case PainterInlineMode.text:
         return widget.controller.adapter.defaultTextInlineTools;
       default:
         final currentTool = widget.controller._currentTool;
@@ -616,7 +640,7 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
     }
   }
 
-  List<PainterBlockTools>? _getBlockTools(PainterToolInlineMode? mode) {
+  List<PainterBlockTools>? _getBlockTools(PainterInlineMode? mode) {
     final currentTool = widget.controller._currentTool;
     final currentValues = widget.controller.currentValues;
     if (currentTool is PainterPrimaryTools) {
@@ -647,7 +671,7 @@ class _FormPainterToolbarState extends State<FormPainterToolbar>
       height += _kToolbarHeight * 2.2;
     }
 
-    final toolMode = toolInlineMode;
+    final toolMode = inlineMode;
 
     final inlineTools = _getInlineTools(toolMode);
     final blockTools = _getBlockTools(toolMode);
@@ -745,7 +769,7 @@ abstract class PainterToolRef {
   /// Get the tool mode.
   ///
   /// ツールモードを取得します。
-  PainterToolInlineMode? get toolInlineMode;
+  PainterInlineMode? get inlineMode;
 
   /// Deselect object.
   ///

@@ -39,8 +39,8 @@ class ParagraphAlignPropertyPainterInlineTools
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
-    final inlineMode = ref.toolInlineMode;
-    if (inlineMode == PainterToolInlineMode.select) {
+    final inlineMode = ref.inlineMode;
+    if (inlineMode == PainterInlineMode.select) {
       final values = ref.controller.currentValues;
       if (values.any((e) => e.category == PaintingValueCategory.text)) {
         return true;
