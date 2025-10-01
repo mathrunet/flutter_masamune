@@ -341,8 +341,8 @@ class GitClaudeMarkdownCliCode extends CliCode {
 4. `flutter analyze && dart run custom_lint`を実行してErrorやWarningがないか確認。ErrorやWarningが発生していた場合は修正を実施して再度実行。ErrorやWarningがなくなるまで繰り返す。
 5. `katana test update`を実行してゴールデンテスト用のスクリーンショット画像を作成。
 6. `katana test run`を実行してテストが全てパスするか確認。
-7. `katana git commit`を実行して変更をコミット。
-8. `katana git pull_request`を実行してPRを作成、既存のPRがある場合は`katana git pull_request_comment`でコメントを追加。
+7. バックグランドでの実行の場合、`katana git commit`を実行して変更をコミット。
+8. バックグランドでの実行の場合、`katana git pull_request`を実行してPRを作成、既存のPRがある場合は`katana git pull_request_comment`でコメントを追加。
 
 #### 新規機能追加時
 
@@ -351,8 +351,8 @@ class GitClaudeMarkdownCliCode extends CliCode {
 2. `flutter analyze && dart run custom_lint`を実行してErrorやWarningがないか確認。ErrorやWarningが発生していた場合は修正を実施して再度実行。ErrorやWarningがなくなるまで繰り返す。
 3. 画面の作成や変更を行った場合は`katana test update`を実行してゴールデンテスト用のスクリーンショット画像を更新。
 4. `katana test run`を実行してテストが全てパスするか確認。
-5. `katana git commit`を実行して変更をコミット。
-6. `katana git pull_request`を実行してPRを作成、既存のPRがある場合は`katana git pull_request_comment`でコメントを追加。
+5. バックグランドでの実行の場合、`katana git commit`を実行して変更をコミット。
+6. バックグランドでの実行の場合、`katana git pull_request`を実行してPRを作成、既存のPRがある場合は`katana git pull_request_comment`でコメントを追加。
 
 #### 改修、もしくはバグ修正
 
@@ -361,8 +361,8 @@ class GitClaudeMarkdownCliCode extends CliCode {
 2. `flutter analyze && dart run custom_lint`を実行してErrorやWarningがないか確認。ErrorやWarningが発生していた場合は修正を実施して再度実行。ErrorやWarningがなくなるまで繰り返す。
 3. 画面の作成や変更を行った場合は`katana test update`を実行してゴールデンテスト用のスクリーンショット画像を更新。
 4. `katana test run`を実行してテストが全てパスするか確認。
-5. `katana git commit`を実行して変更をコミット。
-6. `katana git pull_request`を実行してPRを作成。
+5. バックグランドでの実行の場合、`katana git commit`を実行して変更をコミット。
+6. バックグランドでの実行の場合、`katana git pull_request`を実行してPRを作成。
 
 ### `開発`時全般に関わるルール
 
@@ -591,7 +591,7 @@ class GitClaudeMarkdownCliCode extends CliCode {
 
     5. 1〜4のステップでErrorやWarningが発生した場合は、再度1からステップをやり直す。ErrorやWarningが無くなるまで繰り返す。
 
-    6. 下記コマンドで変更をCommit&Push。
+    6. バックグランドで指示が与えられ動作している場合は、下記コマンドで変更をCommit&Push。クライアント側で動作している場合は終了。
         
         ```bash
         katana git commit --message="コミットメッセージ" [コミット対象のファイル1] [コミット対象のファイル2] ...
@@ -602,7 +602,7 @@ class GitClaudeMarkdownCliCode extends CliCode {
             - `katana code generate`で生成した、もしくは変更されたファイル
             - `katana test update`で生成した、もしくは変更されたファイル
     
-    7. PullRequestを新しく作成するは下記のコマンドでPullRequestを作成。
+    7. バックグランドで指示が与えられ動作しておりPullRequestを新しく作成する場合は、下記のコマンドでPullRequestを作成。
 
         ```bash
         katana git pull_request --target="マージ先のブランチ" --source="マージ元のブランチ" --title="PullRequestのタイトル" --body="PullRequestの説明（改行は`\n`で行う）" [PullRequestの説明に加えるスクリーンショットのファイル1] [PullRequestの説明に加えるスクリーンショットのファイル2] ...
