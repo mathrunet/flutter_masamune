@@ -244,15 +244,21 @@ mixin _ImageProviderBuilderMixin {
   }
 }
 
-class _ImageMemoryCache {
-  const _ImageMemoryCache._();
+/// Memory cache for images.
+///
+/// 画像のメモリキャッシュ。
+class ImageMemoryCache {
+  const ImageMemoryCache._();
 
-  static int maxCacheImages = 100;
+  static const int _maxCacheImages = 100;
   static final Map<String, ImageStreamCompleter> _manager = {};
   static final Map<String, ImageStreamCompleterHandle> _managerHandles = {};
   static final List<String> _savedImages = [];
 
-  static ImageStreamCompleter? _getCache(String? key) {
+  /// Get the cache for the image.
+  ///
+  /// 画像のキャッシュを取得します。
+  static ImageStreamCompleter? getCache(String? key) {
     if (key.isEmpty) {
       return null;
     }
@@ -262,14 +268,17 @@ class _ImageMemoryCache {
     return null;
   }
 
-  static ImageStreamCompleter _setCache(
+  /// Set the cache for the image.
+  ///
+  /// 画像のキャッシュを設定します。
+  static ImageStreamCompleter setCache(
     String? key,
     ImageStreamCompleter completer,
   ) {
     if (key.isEmpty) {
       return completer;
     }
-    if (_savedImages.length == maxCacheImages) {
+    if (_savedImages.length == _maxCacheImages) {
       final removedUrl = _savedImages.removeAt(0);
       _manager.remove(removedUrl);
       _managerHandles[removedUrl]?.dispose();
@@ -291,11 +300,11 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
     if (key.url.isEmpty) {
       return super.loadImage(key, decode);
     }
-    final cache = _ImageMemoryCache._getCache(key.url);
+    final cache = ImageMemoryCache.getCache(key.url);
     if (cache != null) {
       return cache;
     }
-    return _ImageMemoryCache._setCache(key.url, super.loadImage(key, decode));
+    return ImageMemoryCache.setCache(key.url, super.loadImage(key, decode));
   }
 }
 
@@ -308,10 +317,10 @@ class _MemoizedAssetImage extends AssetImage {
     if (key.name.isEmpty) {
       return super.loadImage(key, decode);
     }
-    final cache = _ImageMemoryCache._getCache(key.name);
+    final cache = ImageMemoryCache.getCache(key.name);
     if (cache != null) {
       return cache;
     }
-    return _ImageMemoryCache._setCache(key.name, super.loadImage(key, decode));
+    return ImageMemoryCache.setCache(key.name, super.loadImage(key, decode));
   }
 }
