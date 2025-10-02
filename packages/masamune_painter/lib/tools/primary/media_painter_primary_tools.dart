@@ -117,6 +117,7 @@ class MediaPaintingValue extends PaintingValue {
     required super.property,
     required super.start,
     required super.end,
+    super.name,
     this.path,
   });
 
@@ -136,6 +137,7 @@ class MediaPaintingValue extends PaintingValue {
     return MediaPaintingValue(
       id: json.get(PaintingValue.idKey, ""),
       property: properties,
+      name: json.get(PaintingValue.nameKey, nullOfString),
       start: Offset(
         json.get(PaintingValue.startXKey, 0.0),
         json.get(PaintingValue.startYKey, 0.0),
@@ -176,6 +178,7 @@ class MediaPaintingValue extends PaintingValue {
       PaintingValue.endXKey: end.dx,
       PaintingValue.endYKey: end.dy,
       PaintingValue.pathKey: path?.toString() ?? "",
+      if (name != null) PaintingValue.nameKey: name,
     };
   }
 
@@ -187,6 +190,7 @@ class MediaPaintingValue extends PaintingValue {
     Offset? end,
     String? id,
     Uri? path,
+    String? name,
   }) {
     return MediaPaintingValue(
       id: id ?? this.id,
@@ -194,6 +198,7 @@ class MediaPaintingValue extends PaintingValue {
       start: (start ?? this.start) + (offset ?? Offset.zero),
       end: (end ?? this.end) + (offset ?? Offset.zero),
       path: path ?? this.path,
+      name: name ?? this.name,
     );
   }
 
@@ -298,4 +303,7 @@ class MediaPaintingValue extends PaintingValue {
       path: path,
     );
   }
+
+  @override
+  Widget get icon => const Icon(FontAwesomeIcons.image);
 }

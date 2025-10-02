@@ -73,7 +73,7 @@ class SelectPainterPrimaryTools extends PainterPrimaryTools {
   void onTap(BuildContext context, PainterToolRef ref) {
     if (ref.controller.currentTool is SelectPainterPrimaryTools ||
         ref.controller._prevTool is SelectPainterPrimaryTools) {
-      ref.controller.unselect();
+      ref.controller.unselectAll();
       ref.deleteMode();
     } else {
       ref.toggleMode(this);

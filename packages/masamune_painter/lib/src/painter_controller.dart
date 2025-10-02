@@ -230,10 +230,30 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     }
   }
 
+  /// Select a value.
+  ///
+  /// 値を選択します。
+  void select(PaintingValue value) {
+    saveCurrentValue();
+    _currentValues.add(value);
+    _dragSelectionRect = null;
+    notifyListeners();
+  }
+
+  /// Unselect a value.
+  ///
+  /// 値を選択解除します。
+  void unselect(PaintingValue value) {
+    saveCurrentValue();
+    _currentValues.removeWhere((v) => v.id == value.id);
+    _dragSelectionRect = null;
+    notifyListeners();
+  }
+
   /// Deselect all.
   ///
   /// 全選択解除。
-  void unselect() {
+  void unselectAll() {
     // 選択解除前に編集中の値を保存
     saveCurrentValue();
     if (_currentTool?.unselectOnDone ?? true) {

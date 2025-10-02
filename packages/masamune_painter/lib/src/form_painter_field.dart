@@ -814,7 +814,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       setState(() {});
     } else {
       // 何もない場所をタップ、または複数選択中で選択範囲外をタップ - ドラッグ選択開始
-      widget.controller.unselect();
+      widget.controller.unselectAll();
       _dragStartPoint = position;
       _dragEndPoint = position;
       _isDragging = true;

@@ -259,7 +259,7 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
 
   @override
   void unselect() {
-    widget.controller.unselect();
+    widget.controller.unselectAll();
   }
 
   @override

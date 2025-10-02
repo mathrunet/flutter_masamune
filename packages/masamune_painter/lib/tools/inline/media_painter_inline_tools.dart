@@ -63,6 +63,6 @@ class MediaPainterInlineTools extends PainterInlineTools {
   @override
   Future<void> onDeactive(BuildContext context, PainterToolRef ref) async {
     ref.deleteMode();
-    ref.controller.unselect();
+    ref.controller.unselectAll();
   }
 }

@@ -116,6 +116,7 @@ class TextPaintingValue extends PaintingValue {
     required super.property,
     required super.start,
     required super.end,
+    super.name,
     this.text = "",
   });
 
@@ -142,6 +143,7 @@ class TextPaintingValue extends PaintingValue {
         json.get(PaintingValue.endXKey, 0.0),
         json.get(PaintingValue.endYKey, 0.0),
       ),
+      name: json.get(PaintingValue.nameKey, nullOfString),
       text: json.get(textKey, ""),
     );
   }
@@ -179,6 +181,7 @@ class TextPaintingValue extends PaintingValue {
       PaintingValue.endXKey: end.dx,
       PaintingValue.endYKey: end.dy,
       textKey: text,
+      if (name != null) PaintingValue.nameKey: name,
     };
   }
 
@@ -190,6 +193,7 @@ class TextPaintingValue extends PaintingValue {
     Offset? end,
     String? id,
     String? text,
+    String? name,
   }) {
     return TextPaintingValue(
       id: id ?? this.id,
@@ -197,6 +201,7 @@ class TextPaintingValue extends PaintingValue {
       start: (start ?? this.start) + (offset ?? Offset.zero),
       end: (end ?? this.end) + (offset ?? Offset.zero),
       text: text ?? this.text,
+      name: name ?? this.name,
     );
   }
 
@@ -310,4 +315,7 @@ class TextPaintingValue extends PaintingValue {
       text: text,
     );
   }
+
+  @override
+  Widget get icon => const Icon(FontAwesomeIcons.font);
 }

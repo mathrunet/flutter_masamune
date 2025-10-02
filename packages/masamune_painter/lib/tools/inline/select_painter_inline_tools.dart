@@ -63,7 +63,7 @@ class SelectPainterInlineTools extends PainterInlineTools {
 
   @override
   Future<void> onDeactive(BuildContext context, PainterToolRef ref) async {
-    ref.controller.unselect();
+    ref.controller.unselectAll();
     ref.deleteMode();
   }
 }

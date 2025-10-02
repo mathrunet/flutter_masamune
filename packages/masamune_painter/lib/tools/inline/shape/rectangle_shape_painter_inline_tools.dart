@@ -125,6 +125,7 @@ class RectanglePaintingValue extends PaintingValue {
     required super.property,
     required super.start,
     required super.end,
+    super.name,
   });
 
   /// Create a [RectanglePaintingValue] from a [DynamicMap].
@@ -145,6 +146,7 @@ class RectanglePaintingValue extends PaintingValue {
         json.get(PaintingValue.endXKey, 0.0),
         json.get(PaintingValue.endYKey, 0.0),
       ),
+      name: json.get(PaintingValue.nameKey, nullOfString),
     );
   }
 
@@ -175,6 +177,7 @@ class RectanglePaintingValue extends PaintingValue {
       PaintingValue.startYKey: start.dy,
       PaintingValue.endXKey: end.dx,
       PaintingValue.endYKey: end.dy,
+      if (name != null) PaintingValue.nameKey: name,
     };
   }
 
@@ -185,12 +188,14 @@ class RectanglePaintingValue extends PaintingValue {
     Offset? start,
     Offset? end,
     String? id,
+    String? name,
   }) {
     return RectanglePaintingValue(
       id: id ?? this.id,
       property: property ?? this.property,
       start: (start ?? this.start) + (offset ?? Offset.zero),
       end: (end ?? this.end) + (offset ?? Offset.zero),
+      name: name ?? this.name,
     );
   }
 
@@ -274,4 +279,7 @@ class RectanglePaintingValue extends PaintingValue {
       end: endPoint,
     );
   }
+
+  @override
+  Widget get icon => const Icon(Icons.rectangle);
 }

@@ -33,6 +33,7 @@ abstract class PaintingValue {
     required this.start,
     required this.end,
     required this.property,
+    this.name,
   });
 
   /// The type of the painting value.
@@ -60,6 +61,11 @@ abstract class PaintingValue {
   /// 描画用のデータのID。
   final String id;
 
+  /// The name of the painting value.
+  ///
+  /// 描画用のデータの名前。
+  final String? name;
+
   /// The property of the painting value.
   ///
   /// 描画用のデータのプロパティ。
@@ -84,6 +90,11 @@ abstract class PaintingValue {
   ///
   /// 描画用のデータのIDのキー。
   static const String idKey = "id";
+
+  /// The key for the name.
+  ///
+  /// 描画用のデータの名前のキー。
+  static const String nameKey = "name";
 
   /// The key for the property.
   ///
@@ -114,6 +125,11 @@ abstract class PaintingValue {
   ///
   /// 描画用のデータのパスのキー。
   static const String pathKey = "path";
+
+  /// The icon of the painting value.
+  ///
+  /// 描画用のデータのアイコン。
+  Widget get icon;
 
   /// Updating data being created (while dragging).
   ///
@@ -149,6 +165,7 @@ abstract class PaintingValue {
     PaintingProperty? property,
     Offset? start,
     Offset? end,
+    String? name,
   });
 
   /// Painting the painting value.
