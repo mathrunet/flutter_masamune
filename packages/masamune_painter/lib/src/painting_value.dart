@@ -22,7 +22,23 @@ enum PaintingValueCategory {
 
 /// A class for storing drawing data.
 ///
+/// This class is designed to support future group functionality where
+/// layers can be organized in a parent-child hierarchy. When implementing
+/// groups, consider adding:
+/// - `parentId`: ID of the parent group (null if at root level)
+/// - `children`: List of child PaintingValue items (for group items)
+/// - `isGroup`: Flag to indicate if this is a group container
+/// - `depth`: Nesting level in the hierarchy
+///
 /// 描画用のデータを格納するクラス。
+///
+/// このクラスは、レイヤーを親子階層で整理できる将来的なグループ機能を
+/// サポートするように設計されています。グループを実装する際は、
+/// 以下の追加を検討してください:
+/// - `parentId`: 親グループのID（ルートレベルの場合はnull）
+/// - `children`: 子PaintingValueアイテムのリスト（グループアイテム用）
+/// - `isGroup`: これがグループコンテナかどうかを示すフラグ
+/// - `depth`: 階層内のネストレベル
 @immutable
 abstract class PaintingValue {
   /// A class for storing drawing data.

@@ -39,11 +39,11 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       return _values;
     }
     final res = <PaintingValue>[];
-    final currentIds = _currentValues.map((v) => v.id).toSet();
 
     for (final value in _values) {
-      if (currentIds.contains(value.id)) {
-        res.add(_currentValues.firstWhere((v) => v.id == value.id));
+      final found = _currentValues.firstWhereOrNull((v) => v.id == value.id);
+      if (found != null) {
+        res.add(found);
       } else {
         res.add(value);
       }
@@ -51,9 +51,10 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
     // Add new values that don't exist in _values
     for (final current in _currentValues) {
-      if (!_values.any((v) => v.id == current.id)) {
-        res.add(current);
+      if (_values.any((v) => v.id == current.id)) {
+        continue;
       }
+      res.add(current);
     }
 
     return res;
@@ -239,7 +240,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     _dragSelectionRect = null;
     notifyListeners();
   }
-  
+
   /// Select all values.
   ///
   /// 全ての値を選択します。
@@ -292,6 +293,90 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
     notifyListeners();
   }
+
+  /// Reorder values in the list.
+  ///
+  /// This method supports future group functionality where parent and child
+  /// items can be reordered together.
+  ///
+  /// リスト内の値の順序を変更します。
+  ///
+  /// このメソッドは将来的なグループ機能をサポートし、親と子のアイテムを
+  /// 一緒に並び替えることができます。
+  ///
+  /// [oldIndex] is the current index of the item to move.
+  /// [newIndex] is the target index where the item should be moved.
+  /// [groupId] is optional and will be used in future for group reordering.
+  ///
+  /// Future enhancements for group functionality:
+  /// - When moving a parent group, all child items should move together
+  /// - When moving a child item out of a group, update its parentId
+  /// - Validate depth constraints to prevent excessive nesting
+  /// - Preserve the relative order of children within moved groups
+  void reorder(int oldIndex, int newIndex, {String? groupId}) {
+    // Save current values before reordering
+    saveCurrentValue();
+
+    // Adjust newIndex if it's greater than oldIndex
+    // (This is required due to ReorderableListView's behavior)
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+
+    // Ensure indices are within bounds
+    if (oldIndex < 0 ||
+        oldIndex >= _values.length ||
+        newIndex < 0 ||
+        newIndex >= _values.length) {
+      return;
+    }
+
+    // TODO: When implementing groups, check if the item is a group
+    // and move all its children together:
+    // if (item.isGroup) {
+    //   final childIndices = _getChildIndices(item.id);
+    //   // Move parent and all children maintaining their relative positions
+    // }
+
+    // Move the item from oldIndex to newIndex
+    final item = _values.removeAt(oldIndex);
+    _values.insert(newIndex, item);
+
+    // TODO: When implementing groups, update parentId if the item
+    // is being moved into or out of a group based on newIndex position
+
+    // Save to history
+    history._saveToHistory();
+
+    notifyListeners();
+  }
+
+  // TODO: Implement group-related methods in the future:
+  //
+  // /// Create a group from selected values.
+  // void createGroup(String groupName) {
+  //   // Create a new group PaintingValue
+  //   // Move selected items into the group (set their parentId)
+  //   // Update the _values list structure
+  // }
+  //
+  // /// Ungroup a group, moving children to parent level.
+  // void ungroup(String groupId) {
+  //   // Find the group and its children
+  //   // Clear parentId from children
+  //   // Remove the group container
+  // }
+  //
+  // /// Move item into a group.
+  // void moveToGroup(String itemId, String? groupId) {
+  //   // Update the item's parentId
+  //   // Reorder to be under the group
+  // }
+  //
+  // /// Get all children of a group recursively.
+  // List<PaintingValue> _getChildrenRecursive(String parentId) {
+  //   // Return all descendants of the group
+  // }
 
   /// Rename a value.
   ///

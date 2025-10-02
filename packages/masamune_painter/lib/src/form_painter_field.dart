@@ -915,25 +915,16 @@ class _RawPainter extends CustomPainter {
       );
     }
 
-    // 現在選択中のIDのセットを作成
-    final selectedIds = currentValues.map((v) => v.id).toSet();
-
     // 既存の値を描画
     for (final value in values) {
-      // 選択中の値はスキップ（後で描画）
-      if (selectedIds.contains(value.id)) {
-        continue;
-      }
-      _paintValue(canvas, value, false);
-    }
-
-    // 選択中の値を描画
-    for (final value in currentValues) {
-      _paintValue(canvas, value, true);
+      value.paint(canvas);
     }
 
     // ドラッグ選択矩形を描画
-    if (dragSelectionRect != null) {
+    if (currentValues.length == 1) {
+      final rect = currentValues.first.rect;
+      _paintSelection(canvas, rect);
+    } else if (dragSelectionRect != null) {
       final paint = Paint()
         ..color = Colors.blue.withValues(alpha: 0.2)
         ..style = PaintingStyle.fill;
@@ -949,13 +940,6 @@ class _RawPainter extends CustomPainter {
     // 複数選択時の選択範囲を描画
     if (currentValues.length > 1 && selectionBounds != null) {
       _paintSelectionBounds(canvas, selectionBounds!);
-    }
-  }
-
-  void _paintValue(Canvas canvas, PaintingValue value, bool isSelected) {
-    final rect = value.paint(canvas);
-    if (isSelected && rect != null && currentValues.length <= 1) {
-      _paintSelection(canvas, rect);
     }
   }
 

@@ -74,95 +74,123 @@ class _PainterLayerListState extends State<PainterLayerList> {
   Widget build(BuildContext context) {
     final locale = context.locale;
     final theme = Theme.of(context);
-    return ListBuilder(
+    final items = widget.controller.value;
+
+    return ReorderableListView.builder(
       padding: EdgeInsets.zero,
-      source: widget.controller.value,
       shrinkWrap: widget.shrinkWrap,
-      builder: (context, item, index) {
+      itemCount: items.length,
+      onReorder: (oldIndex, newIndex) {
+        widget.controller.reorder(oldIndex, newIndex);
+      },
+      itemBuilder: (context, index) {
+        final item = items[index];
         final builder = widget.builder;
         final selected = widget.controller.currentValues.contains(item);
+
+        // Custom builder
         if (builder != null) {
-          return [builder(context, item, selected)];
+          return _buildReorderableItem(
+            key: ValueKey(item.id),
+            child: builder(context, item, selected),
+          );
         }
+
+        // Default builder
         final tool =
             PainterMasamuneAdapter.findTool(toolId: item.type, recursive: true);
-        if (selected) {
-          return [
-            ListTile(
-              leading: item.icon,
-              tileColor: Colors.transparent,
-              selected: selected,
-              selectedTileColor: theme.colorScheme.primary,
-              selectedColor: theme.colorScheme.onPrimary,
-              title: Text(item.name ?? tool?.config.title.value(locale) ?? ""),
-              onTap: () {
+
+        return _buildReorderableItem(
+          key: ValueKey(item.id),
+          child: ListTile(
+            leading: item.icon,
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Drag handle
+                ReorderableDragStartListener(
+                  index: index,
+                  child: const Icon(
+                    Icons.drag_handle,
+                    size: 24,
+                  ),
+                ),
+              ],
+            ),
+            tileColor: Colors.transparent,
+            selected: selected,
+            selectedTileColor: theme.colorScheme.primary,
+            selectedColor: selected
+                ? theme.colorScheme.onPrimary
+                : theme.textTheme.bodyMedium?.color,
+            title: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child:
+                      Text(item.name ?? tool?.config.title.value(locale) ?? ""),
+                ),
+                16.sx,
+                InkWell(
+                  onTap: () {
+                    Modal.show(
+                      context,
+                      barrierDismissible: true,
+                      contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                      modal: ChangeLayerNameModal(
+                        initialValue:
+                            item.name ?? tool?.config.title.value(locale) ?? "",
+                        hintText: widget.hintTextOnChangeName,
+                        onChanged: (value) {
+                          widget.controller.rename(item, value);
+                        },
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: theme.colorScheme.outline,
+                        width: 1,
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(2),
+                    child: const Icon(Icons.edit, size: 12),
+                  ),
+                ),
+              ],
+            ),
+            onTap: () {
+              if (selected) {
                 widget.controller.unselect(item);
-              },
-              trailing: IconButton(
-                padding: EdgeInsets.zero,
-                visualDensity: VisualDensity.compact,
-                style: IconButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  visualDensity: VisualDensity.compact,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                onPressed: () {
-                  Modal.show(
-                    context,
-                    barrierDismissible: true,
-                    contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                    modal: ChangeLayerNameModal(
-                      initialValue:
-                          item.name ?? tool?.config.title.value(locale) ?? "",
-                      hintText: widget.hintTextOnChangeName,
-                      onChanged: (value) {
-                        widget.controller.rename(item, value);
-                      },
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.edit),
-              ),
-            )
-          ];
-        } else {
-          return [
-            ListTile(
-              leading: item.icon,
-              tileColor: Colors.transparent,
-              title: Text(item.name ?? tool?.config.title.value(locale) ?? ""),
-              onTap: () {
+              } else {
                 widget.controller.select(item);
-              },
-              trailing: IconButton(
-                padding: EdgeInsets.zero,
-                visualDensity: VisualDensity.compact,
-                style: IconButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  visualDensity: VisualDensity.compact,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                onPressed: () {
-                  Modal.show(
-                    context,
-                    contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                    barrierDismissible: true,
-                    modal: ChangeLayerNameModal(
-                      initialValue:
-                          item.name ?? tool?.config.title.value(locale) ?? "",
-                      hintText: widget.hintTextOnChangeName,
-                      onChanged: (value) {
-                        widget.controller.rename(item, value);
-                      },
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.edit),
-              ),
-            )
-          ];
-        }
+              }
+            },
+          ),
+        );
       },
+    );
+  }
+
+  /// Builds a reorderable item with proper key.
+  ///
+  /// This wrapper is designed to support future group functionality
+  /// where items can be nested.
+  ///
+  /// 適切なキーを持つ並べ替え可能なアイテムを構築します。
+  ///
+  /// このラッパーは、将来的なグループ機能をサポートするために設計されており、
+  /// アイテムをネストすることができます。
+  Widget _buildReorderableItem({
+    required Key key,
+    required Widget child,
+  }) {
+    return Container(
+      key: key,
+      child: child,
     );
   }
 }
