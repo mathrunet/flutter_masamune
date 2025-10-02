@@ -274,6 +274,7 @@ class MediaPaintingValue extends PaintingValue {
       start: startPoint,
       end: currentPoint,
       path: path,
+      name: name,
     );
   }
 
@@ -285,6 +286,7 @@ class MediaPaintingValue extends PaintingValue {
       start: start + delta,
       end: end + delta,
       path: path,
+      name: name,
     );
   }
 
@@ -301,6 +303,7 @@ class MediaPaintingValue extends PaintingValue {
       start: startPoint,
       end: endPoint,
       path: path,
+      name: name,
     );
   }
 

@@ -286,6 +286,7 @@ class TextPaintingValue extends PaintingValue {
       start: startPoint,
       end: currentPoint,
       text: text,
+      name: name,
     );
   }
 
@@ -297,6 +298,7 @@ class TextPaintingValue extends PaintingValue {
       start: start + delta,
       end: end + delta,
       text: text,
+      name: name,
     );
   }
 
@@ -313,6 +315,7 @@ class TextPaintingValue extends PaintingValue {
       start: startPoint,
       end: endPoint,
       text: text,
+      name: name,
     );
   }
 

@@ -239,6 +239,19 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     _dragSelectionRect = null;
     notifyListeners();
   }
+  
+  /// Select all values.
+  ///
+  /// 全ての値を選択します。
+  void selectAll() {
+    saveCurrentValue();
+    _currentValues.clear();
+    for (final value in _values) {
+      _currentValues.add(value);
+    }
+    _dragSelectionRect = null;
+    notifyListeners();
+  }
 
   /// Unselect a value.
   ///
@@ -254,7 +267,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   ///
   /// 全選択解除。
   void unselectAll() {
-    // 選択解除前に編集中の値を保存
     saveCurrentValue();
     if (_currentTool?.unselectOnDone ?? true) {
       _currentTool = null;
@@ -279,6 +291,28 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     history._saveToHistory();
 
     notifyListeners();
+  }
+
+  /// Rename a value.
+  ///
+  /// 値をリネームします。
+  Future<void> rename(PaintingValue value, String name) async {
+    for (var i = 0; i < _values.length; i++) {
+      if (value.id == _values[i].id && _values[i].name != name) {
+        _values[i] = value.copyWith(name: name);
+        saveCurrentValue();
+        notifyListeners();
+        break;
+      }
+    }
+    for (var i = 0; i < _currentValues.length; i++) {
+      if (value.id == _currentValues[i].id && _currentValues[i].name != name) {
+        _currentValues[i] = value.copyWith(name: name);
+        saveCurrentValue();
+        notifyListeners();
+        break;
+      }
+    }
   }
 
   /// Insert an image to the canvas.

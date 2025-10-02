@@ -29,6 +29,7 @@ import "package:vector_math/vector_math_64.dart" hide Colors;
 part "adapter/painter_masamune_adapter.dart";
 
 part "src/painter_controller.dart";
+part "src/chage_layer_name_modal.dart";
 part "src/form_painter_field.dart";
 part "src/form_painter_toolbar.dart";
 part "src/painting_value.dart";
@@ -38,6 +39,7 @@ part "src/painter_tools.dart";
 part "src/painter_inline_mode.dart";
 part "src/color_picker_modal.dart";
 part "src/painter_media_database.dart";
+part "src/painter_layer_list.dart";
 
 part "tools/primary/select_painter_primary_tools.dart";
 part "tools/primary/shape_painter_primary_tools.dart";

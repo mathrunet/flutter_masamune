@@ -11,6 +11,7 @@ class PainterLayerList extends StatefulWidget {
     required this.controller,
     this.shrinkWrap = false,
     this.builder,
+    this.hintTextOnChangeName,
     super.key,
   });
 
@@ -23,6 +24,11 @@ class PainterLayerList extends StatefulWidget {
   ///
   /// これが`true`の場合、スクロールの領域がコンテンツが存在する部分に限定されます。
   final bool shrinkWrap;
+
+  /// Hint text.
+  ///
+  /// ヒントテキスト。
+  final String? hintTextOnChangeName;
 
   /// Builder to display on the list.
   ///
@@ -69,6 +75,7 @@ class _PainterLayerListState extends State<PainterLayerList> {
     final locale = context.locale;
     final theme = Theme.of(context);
     return ListBuilder(
+      padding: EdgeInsets.zero,
       source: widget.controller.value,
       shrinkWrap: widget.shrinkWrap,
       builder: (context, item, index) {
@@ -91,6 +98,31 @@ class _PainterLayerListState extends State<PainterLayerList> {
               onTap: () {
                 widget.controller.unselect(item);
               },
+              trailing: IconButton(
+                padding: EdgeInsets.zero,
+                visualDensity: VisualDensity.compact,
+                style: IconButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  visualDensity: VisualDensity.compact,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                onPressed: () {
+                  Modal.show(
+                    context,
+                    barrierDismissible: true,
+                    contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                    modal: ChangeLayerNameModal(
+                      initialValue:
+                          item.name ?? tool?.config.title.value(locale) ?? "",
+                      hintText: widget.hintTextOnChangeName,
+                      onChanged: (value) {
+                        widget.controller.rename(item, value);
+                      },
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.edit),
+              ),
             )
           ];
         } else {
@@ -102,6 +134,31 @@ class _PainterLayerListState extends State<PainterLayerList> {
               onTap: () {
                 widget.controller.select(item);
               },
+              trailing: IconButton(
+                padding: EdgeInsets.zero,
+                visualDensity: VisualDensity.compact,
+                style: IconButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  visualDensity: VisualDensity.compact,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                onPressed: () {
+                  Modal.show(
+                    context,
+                    contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                    barrierDismissible: true,
+                    modal: ChangeLayerNameModal(
+                      initialValue:
+                          item.name ?? tool?.config.title.value(locale) ?? "",
+                      hintText: widget.hintTextOnChangeName,
+                      onChanged: (value) {
+                        widget.controller.rename(item, value);
+                      },
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.edit),
+              ),
             )
           ];
         }

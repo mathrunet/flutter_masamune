@@ -252,6 +252,7 @@ class RectanglePaintingValue extends PaintingValue {
       property: property,
       start: startPoint,
       end: currentPoint,
+      name: name,
     );
   }
 
@@ -262,6 +263,7 @@ class RectanglePaintingValue extends PaintingValue {
       property: property,
       start: start + delta,
       end: end + delta,
+      name: name,
     );
   }
 
@@ -277,6 +279,7 @@ class RectanglePaintingValue extends PaintingValue {
       property: property,
       start: startPoint,
       end: endPoint,
+      name: name,
     );
   }
 
