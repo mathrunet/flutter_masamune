@@ -4,11 +4,11 @@ part of "/masamune_painter.dart";
 ///
 /// ライブラリから画像を選択するメニューを表示する[PainterTools]。
 @immutable
-class ImageFromLibraryImagePainterBlockTools extends PainterBlockTools {
+class ImageFromLibraryMediaPainterBlockTools extends PainterBlockTools {
   /// Display the menu to select image from library [PainterTools].
   ///
   /// ライブラリから画像を選択するメニューを表示する[PainterTools]。
-  const ImageFromLibraryImagePainterBlockTools({
+  const ImageFromLibraryMediaPainterBlockTools({
     required this.onPickImage,
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
@@ -61,6 +61,5 @@ class ImageFromLibraryImagePainterBlockTools extends PainterBlockTools {
       return;
     }
     await ref.controller.insertImage(uri);
-    ref.deleteMode();
   }
 }

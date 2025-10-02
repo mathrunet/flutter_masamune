@@ -4,11 +4,11 @@ part of "/masamune_painter.dart";
 ///
 /// カメラから画像を選択するメニューを表示する[PainterTools]。
 @immutable
-class ImageFromCameraImagePainterBlockTools extends PainterBlockTools {
+class ImageFromCameraMediaPainterBlockTools extends PainterBlockTools {
   /// Display the menu to select image from camera [PainterTools].
   ///
   /// カメラから画像を選択するメニューを表示する[PainterTools]。
-  const ImageFromCameraImagePainterBlockTools({
+  const ImageFromCameraMediaPainterBlockTools({
     required this.onPickImage,
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
@@ -61,6 +61,5 @@ class ImageFromCameraImagePainterBlockTools extends PainterBlockTools {
       return;
     }
     await ref.controller.insertImage(uri);
-    ref.deleteMode();
   }
 }

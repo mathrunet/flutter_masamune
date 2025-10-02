@@ -3,60 +3,48 @@ part of "/masamune_painter.dart";
 const _kToolbarHeight = kToolbarHeight;
 const _kBlockMenuToggleDuration = Duration(milliseconds: 200);
 
-/// Markdown toolbar.
+/// Toolbar for [FormPainterField].
 ///
-/// Pass the [MarkdownController] and the same controller to [FormMarkdownField].
+/// Pass a [PainterController] and provide the same controller to [FormPainterField].
 ///
-/// Design and wording can be changed via [MarkdownMasamuneAdapter.toolsConfig].
+/// The contents of the tools are changed by the various settings of [PainterMasamuneAdapter]. You can also change the contents of the tools by specifying [primaryTools] and [secondaryTools].
 ///
-/// By specifying [mentionBuilder], a list of mentions can be displayed.
+/// You can change the toolbar's style with [style]. By specifying [textFieldHintLabel], you can display a hint label when entering text.
 ///
-/// You can use block styles for `h1`, `h2`, `h3`, and quotes and code blocks.
-/// You can insert image and video media.
-/// You can use font styles such as `bold`, `italic`, `underline`, `strike`, `link`, `code`.
-///
-/// Painter用のツールバー。
+/// [FormPainterField]用のツールバー。
 ///
 /// [PainterController]を渡し同じコントローラーを[FormPainterField]に渡してください。
 ///
-/// デザイン及び文言は[MarkdownMasamuneAdapter.toolsConfig]経由で変更されます。
+/// ツールの内容は[PainterMasamuneAdapter]の各種設定で変更されます。また[primaryTools]と[secondaryTools]を指定することでツールの内容を変更することができます。
 ///
-/// [mentionBuilder]を指定することでメンションのリストを表示することができます。
-///
-/// `h1`, `h2`, `h3`および引用やコードのブロックスタイルを使用することができます。
-/// 画像や映像のメディアを挿入することができます。
-/// `bold`, `italic`, `underline`, `strike`, `link`, `code`のフォントスタイルを使用することができます。
+///　[style]でツールバーのスタイルを変更することができます。[textFieldHintLabel]を指定するとテキスト入力時のヒントラベルを表示することができます。
 class FormPainterToolbar extends StatefulWidget {
-  /// Markdown toolbar.
+  /// Toolbar for [FormPainterField].
   ///
-  /// Pass the [MarkdownController] and the same controller to [FormMarkdownField].
+  /// Pass a [PainterController] and provide the same controller to [FormPainterField].
   ///
-  /// Design and wording can be changed via [MarkdownMasamuneAdapter.toolsConfig].
+  /// The contents of the tools are changed by the various settings of [PainterMasamuneAdapter]. You can also change the contents of the tools by specifying [primaryTools] and [secondaryTools].
   ///
-  /// By specifying [mentionBuilder], a list of mentions can be displayed.
+  /// You can change the toolbar's style with [style]. By specifying [textFieldHintLabel], you can display a hint label when entering text.
   ///
-  /// You can use block styles for `h1`, `h2`, `h3`, and quotes and code blocks.
-  /// You can insert image and video media.
-  /// You can use font styles such as `bold`, `italic`, `underline`, `strike`, `link`, `code`.
+  /// [FormPainterField]用のツールバー。
   ///
-  /// Markdown用のツールバー。
+  /// [PainterController]を渡し同じコントローラーを[FormPainterField]に渡してください。
   ///
-  /// [MarkdownController]を渡し同じコントローラーを[FormMarkdownField]に渡してください。
+  /// ツールの内容は[PainterMasamuneAdapter]の各種設定で変更されます。また[primaryTools]と[secondaryTools]を指定することでツールの内容を変更することができます。
   ///
-  /// デザイン及び文言は[MarkdownMasamuneAdapter.toolsConfig]経由で変更されます。
-  ///
-  /// [mentionBuilder]を指定することでメンションのリストを表示することができます。
-  ///
-  /// `h1`, `h2`, `h3`および引用やコードのブロックスタイルを使用することができます。
-  /// 画像や映像のメディアを挿入することができます。
-  /// `bold`, `italic`, `underline`, `strike`, `link`, `code`のフォントスタイルを使用することができます。
+  ///　[style]でツールバーのスタイルを変更することができます。[textFieldHintLabel]を指定するとテキスト入力時のヒントラベルを表示することができます。
   const FormPainterToolbar({
     required this.controller,
     this.primaryTools,
     this.secondaryTools,
-    super.key,
+    this.selectInlineTools,
+    this.shapeInlineTools,
+    this.textInlineTools,
+    this.mediaInlineTools,
     this.style,
     this.textFieldHintLabel,
+    super.key,
   });
 
   /// Primary tools for the toolbar.
@@ -68,6 +56,26 @@ class FormPainterToolbar extends StatefulWidget {
   ///
   /// ツールバーのセカンダリーツール。
   final List<PainterSecondaryTools>? secondaryTools;
+
+  /// Default select inline tools for painter.
+  ///
+  /// 描画ツールの選択インラインツール。
+  final List<PainterInlineTools>? selectInlineTools;
+
+  /// Default shape inline tools for painter.
+  ///
+  /// 描画ツールの図形インラインツール。
+  final List<PainterInlineTools>? shapeInlineTools;
+
+  /// Default text inline tools for painter.
+  ///
+  /// 描画ツールのテキストインラインツール。
+  final List<PainterInlineTools>? textInlineTools;
+
+  /// Media inline tool for drawing tools.
+  ///
+  /// 描画ツールのメディアインラインツール。
+  final List<PainterInlineTools>? mediaInlineTools;
 
   /// [PainterController] for the toolbar.
   ///
@@ -815,17 +823,33 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
         currentTool is TextPainterInlineTools) {
       return PainterInlineMode.text;
     }
+    if (currentTool is MediaPainterPrimaryTools ||
+        currentTool is MediaPainterInlineTools) {
+      return PainterInlineMode.media;
+    }
+    final prevTool = widget.controller._prevTool;
+    if (prevTool != null &&
+        (prevTool is MediaPainterPrimaryTools ||
+            prevTool is MediaPainterInlineTools)) {
+      return PainterInlineMode.media;
+    }
     return null;
   }
 
   List<PainterInlineTools>? _getInlineTools(PainterInlineMode? mode) {
     switch (mode) {
       case PainterInlineMode.select:
-        return widget.controller.adapter.defaultSelectInlineTools;
+        return widget.selectInlineTools ??
+            widget.controller.adapter.defaultSelectInlineTools;
       case PainterInlineMode.shape:
-        return widget.controller.adapter.defaultShapeInlineTools;
+        return widget.shapeInlineTools ??
+            widget.controller.adapter.defaultShapeInlineTools;
       case PainterInlineMode.text:
-        return widget.controller.adapter.defaultTextInlineTools;
+        return widget.textInlineTools ??
+            widget.controller.adapter.defaultTextInlineTools;
+      case PainterInlineMode.media:
+        return widget.mediaInlineTools ??
+            widget.controller.adapter.defaultMediaInlineTools;
       default:
         final currentTool = widget.controller._currentTool;
         if (currentTool is PainterPrimaryTools) {

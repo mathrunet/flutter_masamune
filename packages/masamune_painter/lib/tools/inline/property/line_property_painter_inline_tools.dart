@@ -39,7 +39,9 @@ class LinePropertyPainterInlineTools extends PainterInlinePrimaryTools {
     final inlineMode = ref.inlineMode;
     if (inlineMode == PainterInlineMode.select) {
       final values = ref.controller.currentValues;
-      if (values.any((e) => e.category == PaintingValueCategory.shape)) {
+      if (values.any((e) =>
+          e.category == PaintingValueCategory.shape ||
+          e.category == PaintingValueCategory.image)) {
         return true;
       }
       return false;

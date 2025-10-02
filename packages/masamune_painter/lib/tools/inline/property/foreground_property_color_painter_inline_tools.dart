@@ -34,7 +34,8 @@ class ForegroundPropertyColorPainterInlineTools extends PainterInlineTools {
       final values = ref.controller.currentValues;
       if (values.any((e) =>
           e.category == PaintingValueCategory.text ||
-          e.category == PaintingValueCategory.shape)) {
+          e.category == PaintingValueCategory.shape ||
+          e.category == PaintingValueCategory.image)) {
         return true;
       }
       return false;

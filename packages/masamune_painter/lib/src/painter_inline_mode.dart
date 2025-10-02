@@ -17,5 +17,10 @@ enum PainterInlineMode {
   /// Text.
   ///
   /// テキスト。
-  text;
+  text,
+
+  /// Images and other media.
+  ///
+  /// 画像などのメディア。
+  media;
 }

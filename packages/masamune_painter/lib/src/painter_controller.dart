@@ -270,7 +270,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
     // Find ImagePainterPrimaryTools
     final imageTool = adapter.defaultPrimaryTools
-        .whereType<ImagePainterPrimaryTools>()
+        .whereType<MediaPainterPrimaryTools>()
         .firstOrNull;
 
     if (imageTool == null) {
@@ -311,7 +311,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     final endPoint =
         center + Offset(defaultSize.width / 2, defaultSize.height / 2);
 
-    final imageValue = ImagePaintingValue(
+    final imageValue = MediaPaintingValue(
       id: uuid(),
       property: property.currentToolProperty,
       start: startPoint,

@@ -19,7 +19,9 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
     this.defaultCanvasSize = const Size(1024, 1024),
     this.defaultBackgroundColor = Colors.transparent,
     this.defaultForegroundColor = Colors.black,
+    this.defaultImagePlaceholder = "assets/image.png",
     this.defaultLine = const Solid1pxLinePainterBlockTools(),
+    PainterMediaDatabase? mediaDatabase,
     this.defaultParagraphAlign =
         const ParagraphAlignLeftTextPainterBlockTools(),
     this.defaultFontSize = const Size10pxFontPainterBlockTools(),
@@ -62,7 +64,28 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
       FontStylePropertyPainterInlineTools(),
       ParagraphAlignPropertyPainterInlineTools(),
     ],
-  });
+    this.defaultMediaInlineTools = const [
+      MediaPainterInlineTools(),
+      ForegroundPropertyColorPainterInlineTools(),
+      LinePropertyPainterInlineTools(),
+    ],
+  }) : _mediaDatabase = mediaDatabase;
+
+  /// The media database for caching media to be loaded by a painter.
+  ///
+  /// ペインターで読み込むメディアをキャッシュするためのデータベース。
+  PainterMediaDatabase get mediaDatabase {
+    final database = _mediaDatabase ?? sharedMediaDatabase;
+    return database;
+  }
+
+  final PainterMediaDatabase? _mediaDatabase;
+
+  /// The shared media database for caching media to be loaded by a painter.
+  ///
+  /// ペインターで読み込むメディアをキャッシュするための共有データベース。
+  static final PainterMediaDatabase sharedMediaDatabase =
+      PainterMediaDatabase();
 
   /// Primary tools for painter.
   ///
@@ -88,6 +111,11 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 描画ツールのテキストインラインツール。
   final List<PainterInlineTools> defaultTextInlineTools;
+
+  /// Media inline tool for drawing tools.
+  ///
+  /// 描画ツールのメディアインラインツール。
+  final List<PainterInlineTools> defaultMediaInlineTools;
 
   /// The default size of the canvas.
   ///
@@ -133,6 +161,11 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 保持する履歴エントリの最大数。
   final int maxActionHistory;
+
+  /// The default image placeholder.
+  ///
+  /// デフォルトの画像プレースホルダー。
+  final String defaultImagePlaceholder;
 
   /// Find the shape tool.
   ///

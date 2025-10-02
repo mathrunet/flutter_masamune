@@ -322,12 +322,8 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       duration: const Duration(milliseconds: 100),
       vsync: this,
     );
-    // Set image load callback to refresh UI
-    ImagePaintingValue.setOnImageLoaded(() {
-      if (mounted) {
-        setState(() {});
-      }
-    });
+    widget.controller.adapter.mediaDatabase
+        .addListener(_handledOnImageDatabaseLoaded);
   }
 
   @override
@@ -336,8 +332,12 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller._unregisterState(this);
       oldWidget.controller.removeListener(_handleControllerChanged);
+      oldWidget.controller.adapter.mediaDatabase
+          .removeListener(_handledOnImageDatabaseLoaded);
       widget.controller._registerState(this);
       widget.controller.addListener(_handleControllerChanged);
+      widget.controller.adapter.mediaDatabase
+          .addListener(_handledOnImageDatabaseLoaded);
     }
     if (widget.form != oldWidget.form) {
       oldWidget.form?.unregister(this);
@@ -355,8 +355,8 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     widget.controller._unregisterState(this);
     widget.controller.removeListener(_handleControllerChanged);
     _panAnimationController?.dispose();
-    // Clear image load callback
-    ImagePaintingValue.setOnImageLoaded(null);
+    widget.controller.adapter.mediaDatabase
+        .removeListener(_handledOnImageDatabaseLoaded);
     super.dispose();
   }
 
@@ -369,6 +369,12 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     widget.controller.clear();
     widget.controller._values.addAll(widget.initialValue ?? []);
     super.reset();
+  }
+
+  void _handledOnImageDatabaseLoaded() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   // スケール開始時

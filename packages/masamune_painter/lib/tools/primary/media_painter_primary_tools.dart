@@ -1,34 +1,41 @@
 part of "/masamune_painter.dart";
 
-const _kRectangleShapePainterInlineToolsId = "__painter_shape_rectangle__";
+const _kMediaPainterPrimaryToolsId = "__painter_media__";
 
-/// Display the menu to draw a rectangle [PainterTools].
+/// Display the menu to select media [PainterTools].
 ///
-/// 四角形を描画するメニューを表示する[PainterTools]。
+/// メディアを選択するメニューを表示する[PainterTools]。
 @immutable
-class RectangleShapePainterInlineTools
-    extends PainterVariableInlineTools<RectanglePaintingValue> {
-  /// Display the menu to draw a rectangle [PainterTools].
+class MediaPainterPrimaryTools
+    extends PainterVariablePrimaryTools<MediaPaintingValue> {
+  /// Display the menu to select media [PainterTools].
   ///
-  /// 四角形を描画するメニューを表示する[PainterTools]。
-  const RectangleShapePainterInlineTools({
+  /// メディアを選択するメニューを表示する[PainterTools]。
+  const MediaPainterPrimaryTools({
+    required this.blockTools,
     super.config = const PainterToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "四角形",
+          "メディア",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Rectangle",
+          "Media",
         ),
       ]),
-      icon: Icons.rectangle,
+      icon: FontAwesomeIcons.image,
     ),
   });
 
+  /// Tools for selecting media.
+  ///
+  /// メディアを選択するツール。
   @override
-  String get id => _kRectangleShapePainterInlineToolsId;
+  final List<PainterBlockTools> blockTools;
+
+  @override
+  String get id => _kMediaPainterPrimaryToolsId;
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) => true;
@@ -38,23 +45,15 @@ class RectangleShapePainterInlineTools
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) {
-    return ref.controller.currentTool == null;
+    return ref.controller.currentTool is MediaPainterInlineTools ||
+        ref.controller.currentTool is MediaPainterPrimaryTools ||
+        ref.controller._prevTool is MediaPainterInlineTools ||
+        ref.controller._prevTool is MediaPainterPrimaryTools;
   }
 
   @override
   Widget icon(BuildContext context, PainterToolRef ref) {
-    final theme = Theme.of(context);
-    return Container(
-      width: 24,
-      height: 24,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(0),
-        border: Border.all(
-          color: theme.dividerColor,
-          width: 2,
-        ),
-      ),
-    );
+    return Icon(config.icon);
   }
 
   @override
@@ -64,77 +63,77 @@ class RectangleShapePainterInlineTools
   }
 
   @override
-  void onTap(BuildContext context, PainterToolRef ref) {}
-
-  @override
-  Future<void> onActive(BuildContext context, PainterToolRef ref) async {
-    ref.unselect();
+  void onTap(BuildContext context, PainterToolRef ref) {
     ref.toggleMode(this);
   }
 
   @override
-  Future<void> onDeactive(BuildContext context, PainterToolRef ref) async {
-    ref.deleteMode();
-  }
+  bool get canDraw => false;
 
   @override
-  bool get canDraw => true;
-
-  @override
-  RectanglePaintingValue create({
+  MediaPaintingValue create({
     required Offset point,
     required PaintingProperty property,
     String? uid,
+    Uri? uri,
   }) {
-    return RectanglePaintingValue(
+    return MediaPaintingValue(
       id: uid ?? uuid(),
       property: property,
       start: point,
       end: point,
+      path: uri,
     );
   }
 
   @override
-  RectanglePaintingValue? convertFromJson(DynamicMap json) {
+  MediaPaintingValue? convertFromJson(DynamicMap json) {
     final type = json.get(PaintingValue.typeKey, "");
-    if (type == _kRectangleShapePainterInlineToolsId) {
-      return RectanglePaintingValue.fromJson(json);
+    if (type == _kMediaPainterPrimaryToolsId) {
+      return MediaPaintingValue.fromJson(json);
     }
     return null;
   }
 
   @override
   DynamicMap? convertToJson(PaintingValue value) {
-    if (value is RectanglePaintingValue) {
+    if (value is MediaPaintingValue) {
       return value.toJson();
     }
     return null;
   }
 }
 
-/// A class for storing rectangle drawing data.
+/// A class for storing media drawing data.
 ///
-/// 四角形描画用のデータを格納するクラス。
+/// メディア描画用のデータを格納するクラス。
 @immutable
-class RectanglePaintingValue extends PaintingValue {
-  /// A class for storing rectangle drawing data.
+class MediaPaintingValue extends PaintingValue {
+  /// A class for storing media drawing data.
   ///
-  /// 四角形描画用のデータを格納するクラス。
-  const RectanglePaintingValue({
+  /// メディア描画用のデータを格納するクラス。
+  const MediaPaintingValue({
     required super.id,
     required super.property,
     required super.start,
     required super.end,
+    this.path,
   });
 
-  /// Create a [RectanglePaintingValue] from a [DynamicMap].
+  /// The URI of the media.
   ///
-  /// [DynamicMap]から[RectanglePaintingValue]を作成します。
-  factory RectanglePaintingValue.fromJson(DynamicMap json) {
+  /// メディアのURI。
+  final Uri? path;
+
+  /// Create a [MediaPaintingValue] from a [DynamicMap].
+  ///
+  /// [DynamicMap]から[MediaPaintingValue]を作成します。
+  factory MediaPaintingValue.fromJson(DynamicMap json) {
     final properties = PaintingProperty.fromJson(
       json.getAsMap(PaintingValue.propertyKey),
     );
-    return RectanglePaintingValue(
+    final path = json.get(PaintingValue.pathKey, "");
+    return MediaPaintingValue(
       id: json.get(PaintingValue.idKey, ""),
       property: properties,
       start: Offset(
@@ -145,14 +144,15 @@ class RectanglePaintingValue extends PaintingValue {
         json.get(PaintingValue.endXKey, 0.0),
         json.get(PaintingValue.endYKey, 0.0),
       ),
+      path: path.isNotEmpty ? Uri.tryParse(path) : null,
     );
   }
 
   @override
-  String get type => _kRectangleShapePainterInlineToolsId;
+  String get type => _kMediaPainterPrimaryToolsId;
 
   @override
-  PaintingValueCategory get category => PaintingValueCategory.shape;
+  PaintingValueCategory get category => PaintingValueCategory.image;
 
   @override
   Rect get rect {
@@ -175,27 +175,31 @@ class RectanglePaintingValue extends PaintingValue {
       PaintingValue.startYKey: start.dy,
       PaintingValue.endXKey: end.dx,
       PaintingValue.endYKey: end.dy,
+      PaintingValue.pathKey: path?.toString() ?? "",
     };
   }
 
   @override
-  RectanglePaintingValue copyWith({
+  MediaPaintingValue copyWith({
     Offset? offset,
     PaintingProperty? property,
     Offset? start,
     Offset? end,
     String? id,
+    Uri? path,
   }) {
-    return RectanglePaintingValue(
+    return MediaPaintingValue(
       id: id ?? this.id,
       property: property ?? this.property,
       start: (start ?? this.start) + (offset ?? Offset.zero),
       end: (end ?? this.end) + (offset ?? Offset.zero),
+      path: path ?? this.path,
     );
   }
 
   @override
   Rect? paint(Canvas canvas) {
+    final path = this.path;
     final rect = Rect.fromPoints(start, end);
 
     if (rect.width.isNaN ||
@@ -205,24 +209,30 @@ class RectanglePaintingValue extends PaintingValue {
       return null;
     }
 
-    final backgroundColor = property.backgroundColor;
+    // Draw media if uri is available
+    if (path != null) {
+      final database = PainterMasamuneAdapter.primary.mediaDatabase;
+      final media = database.get(path.toString());
+      if (media != null) {
+        final paint = Paint()..filterQuality = FilterQuality.high;
+        canvas.drawImageRect(
+          media,
+          Rect.fromLTWH(0, 0, media.width.toDouble(), media.height.toDouble()),
+          rect,
+          paint,
+        );
+      } else {
+        // Draw placeholder
+        _drawPlaceholder(canvas, rect);
+      }
+    } else {
+      // Draw placeholder if no uri
+      _drawPlaceholder(canvas, rect);
+    }
+
+    // Draw border if foreground color is set
     final foregroundColor = property.foregroundColor;
     final line = property.line;
-    if ((backgroundColor == null || backgroundColor.a <= 0.0) &&
-        (foregroundColor == null || foregroundColor.a <= 0.0 || line == null)) {
-      return rect;
-    }
-
-    // 塗りつぶしの四角を描画
-    if (backgroundColor != null && backgroundColor.a > 0.0) {
-      final paint = Paint()
-        ..color = backgroundColor
-        ..strokeWidth = line?.strokeWidth ?? 0.0
-        ..style = PaintingStyle.fill;
-      canvas.drawRect(rect, paint);
-    }
-
-    // 線の四角を描画
     if (foregroundColor != null &&
         foregroundColor.a > 0.0 &&
         line != null &&
@@ -237,41 +247,55 @@ class RectanglePaintingValue extends PaintingValue {
     return rect;
   }
 
+  void _drawPlaceholder(Canvas canvas, Rect rect) {
+    // 灰色の背景
+    const backgroundColor = Color(0xFFBDBDBD);
+
+    // Draw background
+    final bgPaint = Paint()
+      ..color = backgroundColor
+      ..style = PaintingStyle.fill;
+    canvas.drawRect(rect, bgPaint);
+  }
+
   @override
-  RectanglePaintingValue updateOnCreating({
+  MediaPaintingValue updateOnCreating({
     required Offset startPoint,
     required Offset currentPoint,
   }) {
-    return RectanglePaintingValue(
+    return MediaPaintingValue(
       id: id,
       property: property,
       start: startPoint,
       end: currentPoint,
+      path: path,
     );
   }
 
   @override
-  RectanglePaintingValue updateOnMoving({required Offset delta}) {
-    return RectanglePaintingValue(
+  MediaPaintingValue updateOnMoving({required Offset delta}) {
+    return MediaPaintingValue(
       id: id,
       property: property,
       start: start + delta,
       end: end + delta,
+      path: path,
     );
   }
 
   @override
-  RectanglePaintingValue updateOnResizing({
+  MediaPaintingValue updateOnResizing({
     required Offset currentPoint,
     required PainterResizeDirection direction,
     required Offset startPoint,
     required Offset endPoint,
   }) {
-    return RectanglePaintingValue(
+    return MediaPaintingValue(
       id: id,
       property: property,
       start: startPoint,
       end: endPoint,
+      path: path,
     );
   }
 }
