@@ -45,6 +45,7 @@ part "tools/primary/select_painter_primary_tools.dart";
 part "tools/primary/shape_painter_primary_tools.dart";
 part "tools/primary/text_painter_primary_tools.dart";
 part "tools/primary/media_painter_primary_tools.dart";
+part "tools/primary/group_painter_primary_tools.dart";
 part "tools/primary/redo_painter_primary_tools.dart";
 part "tools/primary/undo_painter_primary_tools.dart";
 

@@ -76,17 +76,34 @@ class _PainterLayerListState extends State<PainterLayerList> {
     final theme = Theme.of(context);
     final items = widget.controller.value;
 
+    // Build flat list with groups and their children
+    final flatList = _buildFlatList(items);
+
     return ReorderableListView.builder(
       padding: EdgeInsets.zero,
       shrinkWrap: widget.shrinkWrap,
-      itemCount: items.length,
+      itemCount: flatList.length,
       onReorder: (oldIndex, newIndex) {
-        widget.controller.reorder(oldIndex, newIndex);
+        final oldItem = flatList[oldIndex];
+        final newItem = flatList[newIndex];
+
+        // Find actual indices in the main list
+        final actualOldIndex = items.indexWhere((v) => v.id == oldItem.item.id);
+        final actualNewIndex = items.indexWhere((v) => v.id == newItem.item.id);
+
+        if (actualOldIndex >= 0 && actualNewIndex >= 0) {
+          widget.controller.reorder(actualOldIndex, actualNewIndex);
+        }
       },
       itemBuilder: (context, index) {
-        final item = items[index];
+        final flatItem = flatList[index];
+        final item = flatItem.item;
+        final depth = flatItem.depth;
+        final isGroupChild = flatItem.isGroupChild;
+
         final builder = widget.builder;
-        final selected = widget.controller.currentValues.contains(item);
+        final selected =
+            widget.controller.currentValues.any((v) => v.id == item.id);
 
         // Custom builder
         if (builder != null) {
@@ -97,55 +114,91 @@ class _PainterLayerListState extends State<PainterLayerList> {
         }
 
         // Default builder
-        final tool =
-            PainterMasamuneAdapter.findTool(toolId: item.type, recursive: true);
+        return _buildLayerItem(
+          context: context,
+          theme: theme,
+          locale: locale,
+          item: item,
+          index: index,
+          depth: depth,
+          isGroupChild: isGroupChild,
+          selected: selected,
+        );
+      },
+    );
+  }
 
-        return _buildReorderableItem(
-          key: ValueKey(item.id),
-          child: ListTile(
-            leading: item.icon,
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Drag handle
-                ReorderableDragStartListener(
-                  index: index,
-                  child: const Icon(
-                    Icons.drag_handle,
-                    size: 24,
-                  ),
-                ),
-              ],
-            ),
-            tileColor: Colors.transparent,
-            selected: selected,
-            selectedTileColor: theme.colorScheme.primary,
-            selectedColor: selected
-                ? theme.colorScheme.onPrimary
-                : theme.textTheme.bodyMedium?.color,
-            title: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  child:
-                      Text(item.name ?? tool?.config.title.value(locale) ?? ""),
-                ),
-                16.sx,
+  /// Build flat list from hierarchical structure
+  ///
+  /// 階層構造からフラットリストを構築
+  List<_FlatLayerItem> _buildFlatList(List<PaintingValue> items) {
+    final result = <_FlatLayerItem>[];
+
+    for (final item in items) {
+      result.add(_FlatLayerItem(item: item, depth: 0, isGroupChild: false));
+
+      if (item is GroupPaintingValue && item.isExpanded) {
+        // Add children from childValues
+        for (final child in item.childValues) {
+          result.add(_FlatLayerItem(item: child, depth: 1, isGroupChild: true));
+        }
+      }
+    }
+
+    return result;
+  }
+
+  /// Build a single layer item
+  ///
+  /// 単一のレイヤーアイテムを構築
+  Widget _buildLayerItem({
+    required BuildContext context,
+    required ThemeData theme,
+    required Locale locale,
+    required PaintingValue item,
+    required int index,
+    required int depth,
+    required bool isGroupChild,
+    required bool selected,
+  }) {
+    final tool =
+        PainterMasamuneAdapter.findTool(toolId: item.type, recursive: true);
+    final isGroup = item is GroupPaintingValue;
+
+    return _buildReorderableItem(
+      key: ValueKey(item.id),
+      child: Container(
+        margin: EdgeInsets.only(left: depth * 24.0),
+        child: ListTile(
+          leading: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (isGroup) ...[
+                // Expand/collapse icon for groups
                 InkWell(
                   onTap: () {
-                    Modal.show(
-                      context,
-                      barrierDismissible: true,
-                      contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                      modal: ChangeLayerNameModal(
-                        initialValue:
-                            item.name ?? tool?.config.title.value(locale) ?? "",
-                        hintText: widget.hintTextOnChangeName,
-                        onChanged: (value) {
-                          widget.controller.rename(item, value);
-                        },
-                      ),
-                    );
+                    widget.controller.toggleGroupExpansion(item.id);
+                  },
+                  child: Icon(
+                    item.isExpanded
+                        ? Icons.keyboard_arrow_down
+                        : Icons.keyboard_arrow_right,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 4),
+              ],
+              item.icon,
+            ],
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (isGroup) ...[
+                // Ungroup button
+                InkWell(
+                  onTap: () {
+                    widget.controller.ungroup(item.id);
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -157,21 +210,80 @@ class _PainterLayerListState extends State<PainterLayerList> {
                     ),
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(2),
-                    child: const Icon(Icons.edit, size: 12),
+                    child: const Icon(Icons.unfold_more, size: 12),
                   ),
                 ),
+                const SizedBox(width: 8),
               ],
-            ),
-            onTap: () {
-              if (selected) {
-                widget.controller.unselect(item);
-              } else {
-                widget.controller.select(item);
-              }
-            },
+              // Drag handle
+              ReorderableDragStartListener(
+                index: index,
+                child: const Icon(
+                  Icons.drag_handle,
+                  size: 24,
+                ),
+              ),
+            ],
           ),
-        );
-      },
+          tileColor: Colors.transparent,
+          selected: selected,
+          selectedTileColor: theme.colorScheme.primary,
+          selectedColor: selected
+              ? theme.colorScheme.onPrimary
+              : theme.textTheme.bodyMedium?.color,
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                child: Text(
+                  item.name ?? tool?.config.title.value(locale) ?? "",
+                ),
+              ),
+              16.sx,
+              InkWell(
+                onTap: () {
+                  Modal.show(
+                    context,
+                    barrierDismissible: true,
+                    contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                    modal: ChangeLayerNameModal(
+                      initialValue:
+                          item.name ?? tool?.config.title.value(locale) ?? "",
+                      hintText: widget.hintTextOnChangeName,
+                      onChanged: (value) {
+                        widget.controller.rename(item, value);
+                      },
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: theme.colorScheme.outline,
+                      width: 1,
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(2),
+                  child: const Icon(Icons.edit, size: 12),
+                ),
+              ),
+            ],
+          ),
+          onTap: () {
+            // When selecting a group, all children are also selected (multiple selection behavior)
+            // When selecting a child directly, only that child is selected
+            // グループを選択すると、すべての子要素も選択されます（複数選択の動作）
+            // 子要素を直接選択すると、その子要素のみが選択されます
+            if (selected) {
+              widget.controller.unselect(item);
+            } else {
+              widget.controller.select(item);
+            }
+          },
+        ),
+      ),
     );
   }
 
@@ -193,4 +305,33 @@ class _PainterLayerListState extends State<PainterLayerList> {
       child: child,
     );
   }
+}
+
+/// Helper class for flat layer list representation.
+///
+/// フラットレイヤーリスト表現のためのヘルパークラス。
+class _FlatLayerItem {
+  /// Helper class for flat layer list representation.
+  ///
+  /// フラットレイヤーリスト表現のためのヘルパークラス。
+  const _FlatLayerItem({
+    required this.item,
+    required this.depth,
+    required this.isGroupChild,
+  });
+
+  /// The painting value item.
+  ///
+  /// 描画値アイテム。
+  final PaintingValue item;
+
+  /// The depth in the hierarchy (0 for root items).
+  ///
+  /// 階層の深さ（ルートアイテムの場合は0）。
+  final int depth;
+
+  /// Whether this item is a child of a group.
+  ///
+  /// このアイテムがグループの子かどうか。
+  final bool isGroupChild;
 }

@@ -217,6 +217,40 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   ///
   /// 現在編集中の値を値リストに保存。
   void saveCurrentValue({bool saveToHistory = false}) {
+    // First, update child values in their parent groups
+    for (final currentValue in _currentValues) {
+      // Check if this value is a child of a group
+      final parentGroupIndex = _values.indexWhere((v) {
+        if (v is GroupPaintingValue) {
+          return v.children.contains(currentValue.id);
+        }
+        return false;
+      });
+
+      if (parentGroupIndex >= 0) {
+        final parentGroup = _values[parentGroupIndex] as GroupPaintingValue;
+
+        // Update the child value in the group
+        final updatedChildValues = parentGroup.childValues.map((child) {
+          if (child.id == currentValue.id) {
+            return currentValue;
+          }
+          return child;
+        }).toList();
+
+        // Calculate new bounds for the group based on child values
+        final bounds = _calculateBounds(updatedChildValues);
+
+        // Update the group with new child values and bounds
+        _values[parentGroupIndex] = parentGroup.copyWith(
+          childValues: updatedChildValues,
+          start: bounds.topLeft,
+          end: bounds.bottomRight,
+        );
+      }
+    }
+
+    // Then save all current values normally
     for (final currentValue in _currentValues) {
       final existingIndex = _values.indexWhere((v) => v.id == currentValue.id);
       if (existingIndex >= 0) {
@@ -233,10 +267,24 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
   /// Select a value.
   ///
+  /// If the value is a group, all child values are also selected.
+  ///
   /// 値を選択します。
+  ///
+  /// 値がグループの場合、すべての子要素も選択されます。
   void select(PaintingValue value) {
     saveCurrentValue();
     _currentValues.add(value);
+
+    // If selecting a group, also add its children to selection
+    if (value is GroupPaintingValue) {
+      for (final child in value.childValues) {
+        if (!_currentValues.any((v) => v.id == child.id)) {
+          _currentValues.add(child);
+        }
+      }
+    }
+
     _dragSelectionRect = null;
     notifyListeners();
   }
@@ -256,10 +304,21 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
   /// Unselect a value.
   ///
+  /// If the value is a group, all child values are also unselected.
+  ///
   /// 値を選択解除します。
+  ///
+  /// 値がグループの場合、すべての子要素も選択解除されます。
   void unselect(PaintingValue value) {
     saveCurrentValue();
     _currentValues.removeWhere((v) => v.id == value.id);
+
+    // If unselecting a group, also remove its children from selection
+    if (value is GroupPaintingValue) {
+      final childIds = value.children.toSet();
+      _currentValues.removeWhere((v) => childIds.contains(v.id));
+    }
+
     _dragSelectionRect = null;
     notifyListeners();
   }
@@ -351,32 +410,155 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     notifyListeners();
   }
 
-  // TODO: Implement group-related methods in the future:
-  //
-  // /// Create a group from selected values.
-  // void createGroup(String groupName) {
-  //   // Create a new group PaintingValue
-  //   // Move selected items into the group (set their parentId)
-  //   // Update the _values list structure
-  // }
-  //
-  // /// Ungroup a group, moving children to parent level.
-  // void ungroup(String groupId) {
-  //   // Find the group and its children
-  //   // Clear parentId from children
-  //   // Remove the group container
-  // }
-  //
-  // /// Move item into a group.
-  // void moveToGroup(String itemId, String? groupId) {
-  //   // Update the item's parentId
-  //   // Reorder to be under the group
-  // }
-  //
-  // /// Get all children of a group recursively.
-  // List<PaintingValue> _getChildrenRecursive(String parentId) {
-  //   // Return all descendants of the group
-  // }
+  /// Create a group from selected values.
+  ///
+  /// The group will be placed at the position of the frontmost selected item.
+  ///
+  /// 選択した値からグループを作成します。
+  ///
+  /// グループは選択したアイテムの中で最も前面にあるものの位置に配置されます。
+  void createGroup({String? groupName}) {
+    if (_currentValues.length < 2) {
+      return;
+    }
+
+    // Save current values before grouping
+    saveCurrentValue();
+
+    // Find the indices of selected items in _values
+    final selectedIndices = <int>[];
+    for (var i = 0; i < _values.length; i++) {
+      if (_currentValues.any((v) => v.id == _values[i].id)) {
+        selectedIndices.add(i);
+      }
+    }
+
+    if (selectedIndices.isEmpty) {
+      return;
+    }
+
+    // The frontmost item is the one with the highest index (rendered last)
+    final frontmostIndex = selectedIndices.reduce((a, b) => a > b ? a : b);
+
+    // Get the IDs of selected items and their values
+    final childIds = _currentValues.map((v) => v.id).toList();
+    final childValuesCopy = List<PaintingValue>.from(_currentValues);
+
+    // Create group with calculated bounds
+    final bounds = _calculateBounds(_currentValues);
+    final groupId = uuid();
+    final group = GroupPaintingValue(
+      id: groupId,
+      property: property.currentToolProperty,
+      start: bounds.topLeft,
+      end: bounds.bottomRight,
+      name: groupName ?? "Group",
+      children: childIds,
+      childValues: childValuesCopy,
+      isExpanded: true,
+    );
+
+    // Remove selected items from _values (they're now children of the group)
+    _values.removeWhere((v) => childIds.contains(v.id));
+
+    // Find the new position (adjust for removed items)
+    var insertIndex = frontmostIndex;
+    for (var i = selectedIndices.length - 1; i >= 0; i--) {
+      if (selectedIndices[i] < frontmostIndex) {
+        insertIndex--;
+      }
+    }
+
+    // Insert the group at the frontmost position
+    _values.insert(insertIndex, group);
+
+    // Clear current selection and select the new group
+    _currentValues.clear();
+    _currentValues.add(group);
+
+    // Save to history
+    history._saveToHistory();
+
+    notifyListeners();
+  }
+
+  /// Ungroup a group, moving children back to the layer list.
+  ///
+  /// グループを解除し、子要素をレイヤーリストに戻します。
+  void ungroup(String groupId) {
+    saveCurrentValue();
+
+    final groupIndex = _values.indexWhere((v) => v.id == groupId);
+    if (groupIndex < 0) {
+      return;
+    }
+
+    final group = _values[groupIndex];
+    if (group is! GroupPaintingValue) {
+      return;
+    }
+
+    // Get the children from the group's childValues
+    final children = List<PaintingValue>.from(group.childValues);
+
+    // Remove the group
+    _values.removeAt(groupIndex);
+
+    // Insert children at the same position
+    _values.insertAll(groupIndex, children);
+
+    // Update selection
+    _currentValues.clear();
+    _currentValues.addAll(children);
+
+    // Save to history
+    history._saveToHistory();
+
+    notifyListeners();
+  }
+
+  /// Toggle group expansion state.
+  ///
+  /// グループの展開状態を切り替えます。
+  void toggleGroupExpansion(String groupId) {
+    final groupIndex = _values.indexWhere((v) => v.id == groupId);
+    if (groupIndex < 0) {
+      return;
+    }
+
+    final group = _values[groupIndex];
+    if (group is! GroupPaintingValue) {
+      return;
+    }
+
+    _values[groupIndex] = group.copyWith(isExpanded: !group.isExpanded);
+
+    notifyListeners();
+  }
+
+  /// Calculate the bounding rectangle for a list of painting values.
+  ///
+  /// 描画値のリストの境界矩形を計算します。
+  Rect _calculateBounds(List<PaintingValue> values) {
+    if (values.isEmpty) {
+      return Rect.zero;
+    }
+
+    var left = double.infinity;
+    var top = double.infinity;
+    var right = double.negativeInfinity;
+    var bottom = double.negativeInfinity;
+
+    for (final value in values) {
+      final rect = value.rect;
+      left = math.min(left, rect.left);
+      top = math.min(top, rect.top);
+      right = math.max(right, rect.right);
+      bottom = math.max(bottom, rect.bottom);
+    }
+
+    return Rect.fromLTRB(left, top, right, bottom);
+  }
 
   /// Rename a value.
   ///
@@ -683,10 +865,30 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     notifyListeners();
   }
 
-  /// Find a value at the given point.
+  /// Find a value at the given point on the canvas.
   ///
-  /// 指定された点にある値を見つける。
+  /// If a child of a group is clicked, the parent group is returned
+  /// so that the entire group can be moved/resized together.
+  ///
+  /// キャンバス上の指定された点にある値を見つけます。
+  ///
+  /// グループの子要素がクリックされた場合は、グループ全体を一緒に
+  /// 移動・リサイズできるように親グループを返します。
   PaintingValue? findValueAt(Offset point) {
+    // First check if we clicked on a group's child
+    for (int i = _values.length - 1; i >= 0; i--) {
+      final value = _values[i];
+      if (value is GroupPaintingValue) {
+        // Check if any child contains the point
+        for (final child in value.childValues) {
+          if (child.rect.contains(point)) {
+            return value; // Return the parent group
+          }
+        }
+      }
+    }
+
+    // Then check for direct hits on top-level values
     for (int i = _values.length - 1; i >= 0; i--) {
       final value = _values[i];
       if (value.rect.contains(point)) {

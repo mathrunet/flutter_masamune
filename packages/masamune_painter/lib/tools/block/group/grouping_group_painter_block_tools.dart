@@ -49,6 +49,7 @@ class GroupingGroupPainterBlockTools extends PainterBlockTools {
 
   @override
   void onTap(BuildContext context, PainterToolRef ref) {
-    ref.deleteMode();
+    // Create a group from selected values
+    ref.controller.createGroup();
   }
 }

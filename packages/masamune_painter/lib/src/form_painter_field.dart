@@ -806,7 +806,10 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     final tappedValue = widget.controller.findValueAt(position);
     // 単一のオブジェクトを選択
     if (tappedValue != null) {
-      widget.controller.updateCurrentValue(tappedValue);
+      // Use select instead of updateCurrentValue to handle group selection properly
+      // グループ選択を適切に処理するために、updateCurrentValueの代わりにselectを使用
+      widget.controller.unselectAll();
+      widget.controller.select(tappedValue);
       _dragMode = PainterDragMode.moving;
       _dragStartPoint = position;
       _dragEndPoint = position;
@@ -839,7 +842,10 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     }
     // ツールが無い場合は選択ツールを設定
     widget.controller._currentTool ??= const SelectPainterPrimaryTools();
-    widget.controller.updateCurrentValue(tappedValue);
+    // Use select instead of updateCurrentValue to handle group selection properly
+    // グループ選択を適切に処理するために、updateCurrentValueの代わりにselectを使用
+    widget.controller.unselectAll();
+    widget.controller.select(tappedValue);
     _dragMode = PainterDragMode.moving;
     _dragStartPoint = position;
     _dragEndPoint = position;
@@ -917,7 +923,7 @@ class _RawPainter extends CustomPainter {
 
     // 既存の値を描画
     for (final value in values) {
-      value.paint(canvas);
+      _paintValue(canvas, value);
     }
 
     // ドラッグ選択矩形を描画
@@ -940,6 +946,17 @@ class _RawPainter extends CustomPainter {
     // 複数選択時の選択範囲を描画
     if (currentValues.length > 1 && selectionBounds != null) {
       _paintSelectionBounds(canvas, selectionBounds!);
+    }
+  }
+
+  void _paintValue(Canvas canvas, PaintingValue value) {
+    // グループの場合は子要素も描画
+    if (value is GroupPaintingValue) {
+      for (final child in value.childValues) {
+        child.paint(canvas);
+      }
+    } else {
+      value.paint(canvas);
     }
   }
 
