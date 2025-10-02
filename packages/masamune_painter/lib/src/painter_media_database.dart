@@ -70,10 +70,10 @@ class PainterMediaDatabase extends ChangeNotifier {
   /// データベースからメディアを取得します。
   ui.Image? get(String path, {bool loadWhenNotExists = true}) {
     if (path.isEmpty || !_values.containsKey(path)) {
+      if (loadWhenNotExists) {
+        load(path);
+      }
       return _values[placeholderImagePath];
-    }
-    if (loadWhenNotExists) {
-      load(path);
     }
     return _values[path] ?? _values[placeholderImagePath];
   }
