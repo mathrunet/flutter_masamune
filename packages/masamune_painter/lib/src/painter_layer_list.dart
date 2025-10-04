@@ -116,6 +116,14 @@ class _PainterLayerListState extends State<PainterLayerList> {
     ThemeData theme,
   ) {
     final lists = <DragAndDropList>[];
+    final groupedItems = <PaintingValue>[];
+
+    for (final item in items) {
+      if (item is! GroupPaintingValue) {
+        continue;
+      }
+      groupedItems.addAll(item.childValues);
+    }
 
     for (final item in items) {
       if (item is GroupPaintingValue) {
@@ -153,6 +161,9 @@ class _PainterLayerListState extends State<PainterLayerList> {
           ),
         );
       } else {
+        if (groupedItems.any((v) => v.id == item.id)) {
+          continue;
+        }
         // Single item as a list
         lists.add(
           DragAndDropList(

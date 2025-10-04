@@ -245,7 +245,7 @@ class GroupPaintingValue extends PaintingValue {
     String? name,
     List<String>? children,
     List<PaintingValue>? childValues,
-    bool? isExpanded,
+    bool? expanded,
   }) {
     return GroupPaintingValue(
       id: id ?? this.id,
@@ -255,7 +255,7 @@ class GroupPaintingValue extends PaintingValue {
       name: name ?? this.name,
       children: children ?? this.children,
       childValues: childValues ?? this.childValues,
-      expanded: isExpanded ?? this.expanded,
+      expanded: expanded ?? this.expanded,
     );
   }
 

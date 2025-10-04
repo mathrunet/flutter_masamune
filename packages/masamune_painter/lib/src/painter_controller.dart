@@ -531,7 +531,15 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       return;
     }
 
-    _values[groupIndex] = group.copyWith(isExpanded: !group.expanded);
+    final updatedGroup = group.copyWith(expanded: !group.expanded);
+    _values[groupIndex] = updatedGroup;
+
+    // CurrentValueにも一致するものがあれば更新
+    final currentGroupIndex =
+        _currentValues.indexWhere((v) => v.id == group.id);
+    if (currentGroupIndex >= 0) {
+      _currentValues[currentGroupIndex] = updatedGroup;
+    }
 
     notifyListeners();
   }
