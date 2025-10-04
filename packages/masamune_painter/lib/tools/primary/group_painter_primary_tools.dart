@@ -110,7 +110,7 @@ class GroupPaintingValue extends PaintingValue {
     required this.children,
     required this.childValues,
     super.name,
-    this.isExpanded = true,
+    this.expanded = true,
   });
 
   /// The IDs of child painting values in this group.
@@ -126,7 +126,7 @@ class GroupPaintingValue extends PaintingValue {
   /// Whether this group is expanded in the layer list.
   ///
   /// レイヤーリストでこのグループが展開されているかどうか。
-  final bool isExpanded;
+  final bool expanded;
 
   /// The key for the children.
   ///
@@ -184,7 +184,7 @@ class GroupPaintingValue extends PaintingValue {
       name: json.get(PaintingValue.nameKey, nullOfString),
       children: json.getAsList(childrenKey, []).cast<String>(),
       childValues: childValues,
-      isExpanded: json.get(isExpandedKey, true),
+      expanded: json.get(isExpandedKey, true),
     );
   }
 
@@ -231,7 +231,7 @@ class GroupPaintingValue extends PaintingValue {
       if (name != null) PaintingValue.nameKey: name,
       childrenKey: children,
       childValuesKey: childValuesJson,
-      isExpandedKey: isExpanded,
+      isExpandedKey: expanded,
     };
   }
 
@@ -255,7 +255,7 @@ class GroupPaintingValue extends PaintingValue {
       name: name ?? this.name,
       children: children ?? this.children,
       childValues: childValues ?? this.childValues,
-      isExpanded: isExpanded ?? this.isExpanded,
+      expanded: isExpanded ?? this.expanded,
     );
   }
 

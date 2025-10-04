@@ -455,7 +455,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       name: groupName ?? "Group",
       children: childIds,
       childValues: childValuesCopy,
-      isExpanded: true,
+      expanded: true,
     );
 
     // Remove selected items from _values (they're now children of the group)
@@ -531,8 +531,255 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       return;
     }
 
-    _values[groupIndex] = group.copyWith(isExpanded: !group.isExpanded);
+    _values[groupIndex] = group.copyWith(isExpanded: !group.expanded);
 
+    notifyListeners();
+  }
+
+  /// Reorder children within a group.
+  ///
+  /// グループ内の子要素を並び替えます。
+  void reorderInGroup(String groupId, int oldIndex, int newIndex) {
+    final groupIndex = _values.indexWhere((v) => v.id == groupId);
+    if (groupIndex < 0) {
+      return;
+    }
+
+    final group = _values[groupIndex];
+    if (group is! GroupPaintingValue) {
+      return;
+    }
+
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+
+    if (oldIndex < 0 ||
+        oldIndex >= group.childValues.length ||
+        newIndex < 0 ||
+        newIndex >= group.childValues.length ||
+        oldIndex == newIndex) {
+      return;
+    }
+
+    final updatedChildren = List<String>.from(group.children);
+    final updatedChildValues = List<PaintingValue>.from(group.childValues);
+
+    final childId = updatedChildren.removeAt(oldIndex);
+    final childValue = updatedChildValues.removeAt(oldIndex);
+
+    updatedChildren.insert(newIndex, childId);
+    updatedChildValues.insert(newIndex, childValue);
+
+    _values[groupIndex] = group.copyWith(
+      children: updatedChildren,
+      childValues: updatedChildValues,
+    );
+
+    history._saveToHistory();
+    notifyListeners();
+  }
+
+  /// Move an item from one group to another.
+  ///
+  /// アイテムを別のグループに移動します。
+  void moveToGroup(
+    String itemId,
+    String fromGroupId,
+    String toGroupId,
+    int toIndex,
+  ) {
+    // Find the from group
+    final fromGroupIndex = _values.indexWhere((v) => v.id == fromGroupId);
+    if (fromGroupIndex < 0) {
+      return;
+    }
+
+    final fromGroup = _values[fromGroupIndex];
+    if (fromGroup is! GroupPaintingValue) {
+      return;
+    }
+
+    // Find the to group
+    final toGroupIndex = _values.indexWhere((v) => v.id == toGroupId);
+    if (toGroupIndex < 0) {
+      return;
+    }
+
+    final toGroup = _values[toGroupIndex];
+    if (toGroup is! GroupPaintingValue) {
+      return;
+    }
+
+    // Find the item in from group
+    final child = fromGroup.childValues.firstWhereOrNull((v) => v.id == itemId);
+    if (child == null) {
+      return;
+    }
+
+    // Remove from fromGroup
+    final fromUpdatedChildren = List<String>.from(fromGroup.children)
+      ..remove(itemId);
+    final fromUpdatedChildValues =
+        List<PaintingValue>.from(fromGroup.childValues)
+          ..removeWhere((v) => v.id == itemId);
+
+    // Add to toGroup
+    final toUpdatedChildren = List<String>.from(toGroup.children);
+    final toUpdatedChildValues = List<PaintingValue>.from(toGroup.childValues);
+
+    final clampedIndex = toIndex.clamp(0, toUpdatedChildren.length);
+    toUpdatedChildren.insert(clampedIndex, itemId);
+    toUpdatedChildValues.insert(clampedIndex, child);
+
+    // Update both groups
+    if (fromUpdatedChildValues.isEmpty) {
+      // Remove empty group
+      _values.removeAt(fromGroupIndex);
+
+      // Adjust toGroupIndex if needed
+      var adjustedToGroupIndex = toGroupIndex;
+      if (toGroupIndex > fromGroupIndex) {
+        adjustedToGroupIndex -= 1;
+      }
+
+      if (adjustedToGroupIndex >= 0 && adjustedToGroupIndex < _values.length) {
+        final toGroupBounds = _calculateBounds(toUpdatedChildValues);
+        _values[adjustedToGroupIndex] = toGroup.copyWith(
+          children: toUpdatedChildren,
+          childValues: toUpdatedChildValues,
+          start: toGroupBounds.topLeft,
+          end: toGroupBounds.bottomRight,
+        );
+      }
+    } else {
+      final fromGroupBounds = _calculateBounds(fromUpdatedChildValues);
+      _values[fromGroupIndex] = fromGroup.copyWith(
+        children: fromUpdatedChildren,
+        childValues: fromUpdatedChildValues,
+        start: fromGroupBounds.topLeft,
+        end: fromGroupBounds.bottomRight,
+      );
+
+      final toGroupBounds = _calculateBounds(toUpdatedChildValues);
+      _values[toGroupIndex] = toGroup.copyWith(
+        children: toUpdatedChildren,
+        childValues: toUpdatedChildValues,
+        start: toGroupBounds.topLeft,
+        end: toGroupBounds.bottomRight,
+      );
+    }
+
+    history._saveToHistory();
+    notifyListeners();
+  }
+
+  /// Add an item to a group.
+  ///
+  /// グループにアイテムを追加します。
+  void addToGroup(String itemId, String groupId, {int? insertIndex}) {
+    final groupIndex = _values.indexWhere((v) => v.id == groupId);
+    if (groupIndex < 0) {
+      return;
+    }
+
+    final group = _values[groupIndex];
+    if (group is! GroupPaintingValue) {
+      return;
+    }
+
+    // Find the item
+    final itemIndex = _values.indexWhere((v) => v.id == itemId);
+    if (itemIndex < 0) {
+      return;
+    }
+
+    final item = _values[itemIndex];
+
+    // Remove the item from _values
+    _values.removeAt(itemIndex);
+
+    // Add to the group
+    final updatedChildren = List<String>.from(group.children);
+    final updatedChildValues = List<PaintingValue>.from(group.childValues);
+
+    final clampedIndex = (insertIndex ?? updatedChildren.length)
+        .clamp(0, updatedChildren.length);
+    updatedChildren.insert(clampedIndex, itemId);
+    updatedChildValues.insert(clampedIndex, item);
+
+    // Calculate new bounds
+    final bounds = _calculateBounds(updatedChildValues);
+
+    // Adjust group index if needed
+    var adjustedGroupIndex = groupIndex;
+    if (itemIndex < groupIndex) {
+      adjustedGroupIndex -= 1;
+    }
+
+    _values[adjustedGroupIndex] = group.copyWith(
+      children: updatedChildren,
+      childValues: updatedChildValues,
+      start: bounds.topLeft,
+      end: bounds.bottomRight,
+    );
+
+    history._saveToHistory();
+    notifyListeners();
+  }
+
+  /// Remove an item from its parent group.
+  ///
+  /// 親グループからアイテムを削除します。
+  void removeFromGroup(String itemId, {int? insertIndex}) {
+    final groupIndex = _values.indexWhere((v) {
+      if (v is GroupPaintingValue) {
+        return v.children.contains(itemId);
+      }
+      return false;
+    });
+
+    if (groupIndex < 0) {
+      return;
+    }
+
+    final group = _values[groupIndex] as GroupPaintingValue;
+
+    // Find the child
+    final child = group.childValues.firstWhereOrNull((v) => v.id == itemId);
+    if (child == null) {
+      return;
+    }
+
+    // Remove from group
+    final updatedChildren = List<String>.from(group.children)..remove(itemId);
+    final updatedChildValues = List<PaintingValue>.from(group.childValues)
+      ..removeWhere((v) => v.id == itemId);
+
+    if (updatedChildValues.isEmpty) {
+      // If the group becomes empty, remove it
+      _values.removeAt(groupIndex);
+
+      final clampedIndex = (insertIndex ?? groupIndex).clamp(0, _values.length);
+      _values.insert(clampedIndex, child);
+    } else {
+      // Calculate new bounds
+      final bounds = _calculateBounds(updatedChildValues);
+
+      _values[groupIndex] = group.copyWith(
+        children: updatedChildren,
+        childValues: updatedChildValues,
+        start: bounds.topLeft,
+        end: bounds.bottomRight,
+      );
+
+      // Add the child back to _values
+      final clampedIndex =
+          (insertIndex ?? groupIndex + 1).clamp(0, _values.length);
+      _values.insert(clampedIndex, child);
+    }
+
+    history._saveToHistory();
     notifyListeners();
   }
 

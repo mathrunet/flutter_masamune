@@ -76,262 +76,351 @@ class _PainterLayerListState extends State<PainterLayerList> {
     final theme = Theme.of(context);
     final items = widget.controller.value;
 
-    // Build flat list with groups and their children
-    final flatList = _buildFlatList(items);
+    // Build lists using drag_and_drop_lists
+    final lists = _buildDragAndDropLists(items, locale, theme);
 
-    return ReorderableListView.builder(
-      padding: EdgeInsets.zero,
-      shrinkWrap: widget.shrinkWrap,
-      itemCount: flatList.length,
-      onReorder: (oldIndex, newIndex) {
-        final oldItem = flatList[oldIndex];
-        final newItem = flatList[newIndex];
-
-        // Find actual indices in the main list
-        final actualOldIndex = items.indexWhere((v) => v.id == oldItem.item.id);
-        final actualNewIndex = items.indexWhere((v) => v.id == newItem.item.id);
-
-        if (actualOldIndex >= 0 && actualNewIndex >= 0) {
-          widget.controller.reorder(actualOldIndex, actualNewIndex);
-        }
-      },
-      itemBuilder: (context, index) {
-        final flatItem = flatList[index];
-        final item = flatItem.item;
-        final depth = flatItem.depth;
-        final isGroupChild = flatItem.isGroupChild;
-
-        final builder = widget.builder;
-        final selected =
-            widget.controller.currentValues.any((v) => v.id == item.id);
-
-        // Custom builder
-        if (builder != null) {
-          return _buildReorderableItem(
-            key: ValueKey(item.id),
-            child: builder(context, item, selected),
-          );
-        }
-
-        // Default builder
-        return _buildLayerItem(
-          context: context,
-          theme: theme,
-          locale: locale,
-          item: item,
-          index: index,
-          depth: depth,
-          isGroupChild: isGroupChild,
-          selected: selected,
-        );
-      },
+    return DragAndDropLists(
+      children: lists,
+      onItemReorder: _onItemReorder,
+      onListReorder: _onListReorder,
+      listDivider: const SizedBox(height: 0),
+      itemDivider: const SizedBox(height: 0),
+      listPadding: EdgeInsets.zero,
+      removeTopPadding: true,
+      lastListTargetSize: 48,
+      lastItemTargetHeight: 0,
+      listGhost: DecoratedBox(
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surface.withValues(alpha: 0.3),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: const SizedBox(height: 48),
+      ),
+      itemGhost: DecoratedBox(
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surface.withValues(alpha: 0.3),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: const SizedBox(height: 48),
+      ),
+      contentsWhenEmpty: const SizedBox.shrink(),
     );
   }
 
-  /// Build flat list from hierarchical structure
+  /// Build DragAndDropLists from PaintingValues
   ///
-  /// 階層構造からフラットリストを構築
-  List<_FlatLayerItem> _buildFlatList(List<PaintingValue> items) {
-    final result = <_FlatLayerItem>[];
+  /// PaintingValueからDragAndDropListsを構築
+  List<DragAndDropList> _buildDragAndDropLists(
+    List<PaintingValue> items,
+    Locale locale,
+    ThemeData theme,
+  ) {
+    final lists = <DragAndDropList>[];
 
     for (final item in items) {
-      result.add(_FlatLayerItem(item: item, depth: 0, isGroupChild: false));
+      if (item is GroupPaintingValue) {
+        // Create a list for the group with its children
+        // Only show children when expanded
+        final children = item.expanded
+            ? item.childValues.asMap().entries.map((entry) {
+                final child = entry.value;
+                return DragAndDropItem(
+                  child: KeyedSubtree(
+                    key: ValueKey(child.id),
+                    child: _buildLayerItem(
+                      item: child,
+                      locale: locale,
+                      theme: theme,
+                      depth: 1,
+                      isGroupChild: true,
+                    ),
+                  ),
+                );
+              }).toList()
+            : <DragAndDropItem>[];
 
-      if (item is GroupPaintingValue && item.isExpanded) {
-        // Add children from childValues
-        for (final child in item.childValues) {
-          result.add(_FlatLayerItem(item: child, depth: 1, isGroupChild: true));
-        }
+        lists.add(
+          DragAndDropList(
+            key: ValueKey(item.id),
+            header: _buildGroupHeader(
+              item: item,
+              locale: locale,
+              theme: theme,
+            ),
+            children: children,
+            canDrag: true,
+            contentsWhenEmpty: const SizedBox.shrink(),
+          ),
+        );
+      } else {
+        // Single item as a list
+        lists.add(
+          DragAndDropList(
+            key: ValueKey(item.id),
+            children: [
+              DragAndDropItem(
+                child: KeyedSubtree(
+                  key: ValueKey(item.id),
+                  child: _buildLayerItem(
+                    item: item,
+                    locale: locale,
+                    theme: theme,
+                    depth: 0,
+                    isGroupChild: false,
+                  ),
+                ),
+              ),
+            ],
+            canDrag: true,
+          ),
+        );
       }
     }
 
-    return result;
+    return lists;
   }
 
-  /// Build a single layer item
+  /// Build group header
   ///
-  /// 単一のレイヤーアイテムを構築
-  Widget _buildLayerItem({
-    required BuildContext context,
-    required ThemeData theme,
+  /// グループヘッダーを構築
+  Widget _buildGroupHeader({
+    required GroupPaintingValue item,
     required Locale locale,
-    required PaintingValue item,
-    required int index,
-    required int depth,
-    required bool isGroupChild,
-    required bool selected,
+    required ThemeData theme,
+    int depth = 0,
   }) {
     final tool =
         PainterMasamuneAdapter.findTool(toolId: item.type, recursive: true);
-    final isGroup = item is GroupPaintingValue;
+    final selected =
+        widget.controller.currentValues.any((v) => v.id == item.id);
 
-    return _buildReorderableItem(
-      key: ValueKey(item.id),
-      child: Container(
-        margin: EdgeInsets.only(left: depth * 24.0),
-        child: ListTile(
-          leading: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (isGroup) ...[
-                // Expand/collapse icon for groups
-                InkWell(
-                  onTap: () {
-                    widget.controller.toggleGroupExpansion(item.id);
-                  },
-                  child: Icon(
-                    item.isExpanded
-                        ? Icons.keyboard_arrow_down
-                        : Icons.keyboard_arrow_right,
-                    size: 20,
-                  ),
-                ),
-                const SizedBox(width: 4),
-              ],
-              item.icon,
-            ],
+    return ListTile(
+      contentPadding: EdgeInsets.fromLTRB(depth * 16.0 + 16.0, 0, 16.0, 0),
+      selected: selected,
+      tileColor: selected ? theme.colorScheme.primary : Colors.transparent,
+      selectedTileColor:
+          selected ? theme.colorScheme.primary : Colors.transparent,
+      iconColor: selected
+          ? theme.colorScheme.onPrimary
+          : theme.colorTheme?.onBackground,
+      leading: InkWell(
+        onTap: () {
+          widget.controller.toggleGroupExpansion(item.id);
+        },
+        child: IconTheme(
+          data: IconThemeData(
+            color:
+                selected ? theme.colorScheme.onPrimary : theme.iconTheme.color,
           ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (isGroup) ...[
-                // Ungroup button
-                InkWell(
-                  onTap: () {
-                    widget.controller.ungroup(item.id);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: theme.colorScheme.outline,
-                        width: 1,
-                      ),
-                    ),
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(2),
-                    child: const Icon(Icons.unfold_more, size: 12),
-                  ),
-                ),
-                const SizedBox(width: 8),
-              ],
-              // Drag handle
-              ReorderableDragStartListener(
-                index: index,
-                child: const Icon(
-                  Icons.drag_handle,
-                  size: 24,
-                ),
-              ),
-            ],
-          ),
-          tileColor: Colors.transparent,
-          selected: selected,
-          selectedTileColor: theme.colorScheme.primary,
-          selectedColor: selected
-              ? theme.colorScheme.onPrimary
-              : theme.textTheme.bodyMedium?.color,
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(
-                child: Text(
-                  item.name ?? tool?.config.title.value(locale) ?? "",
-                ),
-              ),
-              16.sx,
-              InkWell(
-                onTap: () {
-                  Modal.show(
-                    context,
-                    barrierDismissible: true,
-                    contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                    modal: ChangeLayerNameModal(
-                      initialValue:
-                          item.name ?? tool?.config.title.value(locale) ?? "",
-                      hintText: widget.hintTextOnChangeName,
-                      onChanged: (value) {
-                        widget.controller.rename(item, value);
-                      },
-                    ),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: theme.colorScheme.outline,
-                      width: 1,
-                    ),
-                  ),
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(2),
-                  child: const Icon(Icons.edit, size: 12),
-                ),
-              ),
-            ],
-          ),
-          onTap: () {
-            // When selecting a group, all children are also selected (multiple selection behavior)
-            // When selecting a child directly, only that child is selected
-            // グループを選択すると、すべての子要素も選択されます（複数選択の動作）
-            // 子要素を直接選択すると、その子要素のみが選択されます
-            if (selected) {
-              widget.controller.unselect(item);
-            } else {
-              widget.controller.select(item);
-            }
-          },
+          child: item.expanded
+              ? const Icon(Icons.folder_open)
+              : const Icon(Icons.folder),
         ),
       ),
+      title: Text(
+        item.name ?? tool?.config.title.value(locale) ?? "",
+        overflow: TextOverflow.ellipsis,
+        style: (theme.textTheme.bodyMedium ?? const TextStyle()).copyWith(
+          color: selected
+              ? theme.colorScheme.onPrimary
+              : theme.textTheme.bodyMedium?.color,
+        ),
+      ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            iconSize: 16,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minHeight: 28, minWidth: 28),
+            color:
+                selected ? theme.colorScheme.onPrimary : theme.iconTheme.color,
+            onPressed: () {
+              Modal.show(
+                context,
+                barrierDismissible: true,
+                contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                modal: ChangeLayerNameModal(
+                  initialValue:
+                      item.name ?? tool?.config.title.value(locale) ?? "",
+                  hintText: widget.hintTextOnChangeName,
+                  onChanged: (value) {
+                    widget.controller.rename(item, value);
+                  },
+                ),
+              );
+            },
+            icon: const Icon(Icons.edit, size: 16),
+          ),
+          const SizedBox(width: 4),
+          Icon(
+            Icons.drag_handle,
+            color:
+                selected ? theme.colorScheme.onPrimary : theme.iconTheme.color,
+          ),
+        ],
+      ),
+      onTap: () {
+        if (selected) {
+          widget.controller.unselect(item);
+        } else {
+          widget.controller.select(item);
+        }
+      },
     );
   }
 
-  /// Builds a reorderable item with proper key.
+  /// Build layer item
   ///
-  /// This wrapper is designed to support future group functionality
-  /// where items can be nested.
-  ///
-  /// 適切なキーを持つ並べ替え可能なアイテムを構築します。
-  ///
-  /// このラッパーは、将来的なグループ機能をサポートするために設計されており、
-  /// アイテムをネストすることができます。
-  Widget _buildReorderableItem({
-    required Key key,
-    required Widget child,
+  /// レイヤーアイテムを構築
+  Widget _buildLayerItem({
+    required PaintingValue item,
+    required Locale locale,
+    required ThemeData theme,
+    required bool isGroupChild,
+    int depth = 0,
   }) {
-    return Container(
-      key: key,
-      child: child,
+    final tool =
+        PainterMasamuneAdapter.findTool(toolId: item.type, recursive: true);
+    final selected =
+        widget.controller.currentValues.any((v) => v.id == item.id);
+
+    return ListTile(
+      contentPadding: EdgeInsets.fromLTRB(depth * 16.0 + 16.0, 0, 16.0, 0),
+      selected: selected,
+      tileColor: selected ? theme.colorScheme.primary : Colors.transparent,
+      selectedTileColor:
+          selected ? theme.colorScheme.primary : Colors.transparent,
+      iconColor: selected
+          ? theme.colorScheme.onPrimary
+          : theme.colorTheme?.onBackground,
+      textColor: selected
+          ? theme.colorScheme.onPrimary
+          : theme.colorTheme?.onBackground,
+      leading: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconTheme(
+            data: IconThemeData(
+              color: selected
+                  ? theme.colorScheme.onPrimary
+                  : theme.colorTheme?.onBackground,
+            ),
+            child: item.icon,
+          ),
+        ],
+      ),
+      title: Text(
+        item.name ?? tool?.config.title.value(locale) ?? "",
+        overflow: TextOverflow.ellipsis,
+        style: (theme.textTheme.bodyMedium ?? const TextStyle()).copyWith(
+          color: selected
+              ? theme.colorScheme.onPrimary
+              : theme.colorTheme?.onBackground,
+        ),
+      ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            iconSize: 16,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minHeight: 28, minWidth: 28),
+            color:
+                selected ? theme.colorScheme.onPrimary : theme.iconTheme.color,
+            onPressed: () {
+              Modal.show(
+                context,
+                barrierDismissible: true,
+                contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                modal: ChangeLayerNameModal(
+                  initialValue:
+                      item.name ?? tool?.config.title.value(locale) ?? "",
+                  hintText: widget.hintTextOnChangeName,
+                  onChanged: (value) {
+                    widget.controller.rename(item, value);
+                  },
+                ),
+              );
+            },
+            icon: const Icon(Icons.edit, size: 16),
+          ),
+          const SizedBox(width: 4),
+          Icon(
+            Icons.drag_handle,
+            color:
+                selected ? theme.colorScheme.onPrimary : theme.iconTheme.color,
+          ),
+        ],
+      ),
+      onTap: () {
+        if (selected) {
+          widget.controller.unselect(item);
+        } else {
+          widget.controller.select(item);
+        }
+      },
     );
   }
-}
 
-/// Helper class for flat layer list representation.
-///
-/// フラットレイヤーリスト表現のためのヘルパークラス。
-class _FlatLayerItem {
-  /// Helper class for flat layer list representation.
+  /// Handle item reorder within a list or between lists
   ///
-  /// フラットレイヤーリスト表現のためのヘルパークラス。
-  const _FlatLayerItem({
-    required this.item,
-    required this.depth,
-    required this.isGroupChild,
-  });
+  /// リスト内またはリスト間でのアイテムの並び替えを処理
+  void _onItemReorder(
+    int oldItemIndex,
+    int oldListIndex,
+    int newItemIndex,
+    int newListIndex,
+  ) {
+    final items = widget.controller.value;
 
-  /// The painting value item.
-  ///
-  /// 描画値アイテム。
-  final PaintingValue item;
+    // Same list reordering
+    if (oldListIndex == newListIndex) {
+      final listItem = items[oldListIndex];
 
-  /// The depth in the hierarchy (0 for root items).
-  ///
-  /// 階層の深さ（ルートアイテムの場合は0）。
-  final int depth;
+      if (listItem is GroupPaintingValue) {
+        // Reorder within group
+        widget.controller.reorderInGroup(
+          listItem.id,
+          oldItemIndex,
+          newItemIndex,
+        );
+      }
+      return;
+    }
 
-  /// Whether this item is a child of a group.
+    // Moving between lists
+    final oldListItem = items[oldListIndex];
+    final newListItem = items[newListIndex];
+
+    if (oldListItem is GroupPaintingValue &&
+        newListItem is GroupPaintingValue) {
+      // Move from one group to another
+      final child = oldListItem.childValues[oldItemIndex];
+      widget.controller.moveToGroup(
+        child.id,
+        oldListItem.id,
+        newListItem.id,
+        newItemIndex,
+      );
+    } else if (oldListItem is GroupPaintingValue) {
+      // Move from group to top level
+      final child = oldListItem.childValues[oldItemIndex];
+      widget.controller.removeFromGroup(child.id, insertIndex: newListIndex);
+    } else if (newListItem is GroupPaintingValue) {
+      // Move from top level to group
+      widget.controller.addToGroup(
+        oldListItem.id,
+        newListItem.id,
+        insertIndex: newItemIndex,
+      );
+    }
+  }
+
+  /// Handle list reorder (top-level items including groups)
   ///
-  /// このアイテムがグループの子かどうか。
-  final bool isGroupChild;
+  /// リストの並び替えを処理（グループを含むトップレベルアイテム）
+  void _onListReorder(int oldListIndex, int newListIndex) {
+    widget.controller.reorder(oldListIndex, newListIndex);
+  }
 }
