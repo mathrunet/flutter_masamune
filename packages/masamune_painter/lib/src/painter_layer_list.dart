@@ -45,10 +45,15 @@ class PainterLayerList extends StatefulWidget {
 }
 
 class _PainterLayerListState extends State<PainterLayerList> {
+  late TreeViewController _treeViewController;
+  List<TreeViewNode<PaintingValue>> _treeNodes = [];
+
   @override
   void initState() {
     super.initState();
+    _treeViewController = TreeViewController();
     widget.controller.addListener(_handleControllerChanged);
+    _rebuildTree();
   }
 
   @override
@@ -57,6 +62,7 @@ class _PainterLayerListState extends State<PainterLayerList> {
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller.removeListener(_handleControllerChanged);
       widget.controller.addListener(_handleControllerChanged);
+      _rebuildTree();
     }
   }
 
@@ -67,371 +73,559 @@ class _PainterLayerListState extends State<PainterLayerList> {
   }
 
   void _handleControllerChanged() {
-    setState(() {});
+    setState(_rebuildTree);
+  }
+
+  /// Rebuild tree structure from PainterController values
+  ///
+  /// PainterControllerの値からツリー構造を再構築
+  void _rebuildTree() {
+    final items = widget.controller.value;
+    _treeNodes = _buildTreeViewNodes(items);
+
+    // Note: TreeViewNode expansion state is set during construction
+  }
+
+  /// Build TreeViewNode list from PaintingValues
+  ///
+  /// PaintingValueからTreeViewNodeリストを構築
+  List<TreeViewNode<PaintingValue>> _buildTreeViewNodes(
+      List<PaintingValue> items) {
+    final nodes = <TreeViewNode<PaintingValue>>[];
+
+    for (final item in items) {
+      final node = _createTreeViewNode(item);
+      if (node != null) {
+        nodes.add(node);
+      }
+    }
+
+    return nodes;
+  }
+
+  /// Create a TreeViewNode from a PaintingValue
+  ///
+  /// PaintingValueからTreeViewNodeを作成
+  TreeViewNode<PaintingValue>? _createTreeViewNode(PaintingValue value) {
+    if (value is GroupPaintingValue) {
+      // Create children nodes recursively
+      final childNodes = <TreeViewNode<PaintingValue>>[];
+      for (final childValue in value.childValues) {
+        final childNode = _createTreeViewNode(childValue);
+        if (childNode != null) {
+          childNodes.add(childNode);
+        }
+      }
+
+      return TreeViewNode<PaintingValue>(
+        value,
+        children: childNodes,
+        expanded: value.expanded,
+      );
+    } else {
+      return TreeViewNode<PaintingValue>(value);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final locale = context.locale;
-    final theme = Theme.of(context);
-    final items = widget.controller.value;
-
-    // Build lists using drag_and_drop_lists
-    final lists = _buildDragAndDropLists(items, locale, theme);
-
-    return DragAndDropLists(
-      children: lists,
-      onItemReorder: _onItemReorder,
-      onListReorder: _onListReorder,
-      listDivider: const SizedBox(height: 0),
-      itemDivider: const SizedBox(height: 0),
-      listPadding: EdgeInsets.zero,
-      removeTopPadding: true,
-      lastListTargetSize: 48,
-      lastItemTargetHeight: 0,
-      listGhost: DecoratedBox(
-        decoration: BoxDecoration(
-          color: theme.colorScheme.surface.withValues(alpha: 0.3),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: const SizedBox(height: 48),
-      ),
-      itemGhost: DecoratedBox(
-        decoration: BoxDecoration(
-          color: theme.colorScheme.surface.withValues(alpha: 0.3),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: const SizedBox(height: 48),
-      ),
-      contentsWhenEmpty: const SizedBox.shrink(),
+    return TreeView<PaintingValue>(
+      tree: _treeNodes,
+      controller: _treeViewController,
+      onNodeToggle: _onNodeToggle,
+      treeNodeBuilder: _treeNodeBuilder,
+      treeRowBuilder: _treeRowBuilder,
+      indentation: TreeViewIndentationType.standard,
+      primary: false,
+      cacheExtent: 500,
     );
   }
 
-  /// Build DragAndDropLists from PaintingValues
+  /// Handle node toggle (expand/collapse)
   ///
-  /// PaintingValueからDragAndDropListsを構築
-  List<DragAndDropList> _buildDragAndDropLists(
-    List<PaintingValue> items,
-    Locale locale,
-    ThemeData theme,
-  ) {
-    final lists = <DragAndDropList>[];
-    final groupedItems = <PaintingValue>[];
+  /// ノードのトグル（展開/折りたたみ）を処理
+  void _onNodeToggle(TreeViewNode<PaintingValue> node) {
+    if (node.content is GroupPaintingValue) {
+      widget.controller.toggleGroupExpansion(node.content.id);
+    }
+  }
 
-    for (final item in items) {
-      if (item is! GroupPaintingValue) {
-        continue;
-      }
-      groupedItems.addAll(item.childValues);
+  /// Build tree row configuration
+  ///
+  /// ツリー行の設定を構築
+  TreeRow _treeRowBuilder(TreeViewNode<PaintingValue> node) {
+    return const TreeRow(
+      extent: FixedTreeRowExtent(48.0),
+    );
+  }
+
+  /// Build tree node widget with drag and drop support
+  ///
+  /// ドラッグ&ドロップ対応のツリーノードウィジェットを構築
+  Widget _treeNodeBuilder(
+    BuildContext context,
+    TreeViewNode<PaintingValue> node,
+    AnimationStyle toggleAnimationStyle,
+  ) {
+    return _DraggableTreeTile(
+      node: node,
+      controller: widget.controller,
+      hintTextOnChangeName: widget.hintTextOnChangeName,
+      onDropAccepted: _handleDrop,
+      toggleAnimationStyle: toggleAnimationStyle,
+      treeViewController: _treeViewController,
+    );
+  }
+
+  /// Handle drop operation
+  ///
+  /// ドロップ操作を処理
+  void _handleDrop(
+    PaintingValue dragged,
+    PaintingValue target,
+    _DropPosition position,
+  ) {
+    switch (position) {
+      case _DropPosition.above:
+        _insertBefore(dragged, target);
+        break;
+      case _DropPosition.inside:
+        if (target is GroupPaintingValue) {
+          _addToGroup(dragged, target);
+        } else {
+          _createGroup(dragged, target);
+        }
+        break;
+      case _DropPosition.below:
+        _insertAfter(dragged, target);
+        break;
     }
 
+    _rebuildTree();
+  }
+
+  /// Insert dragged value before target
+  ///
+  /// ドラッグした値をターゲットの前に挿入
+  void _insertBefore(PaintingValue dragged, PaintingValue target) {
+    final items = widget.controller.value;
+
+    // Find target's parent
+    final targetParent = _findParent(target, items);
+
+    if (targetParent != null) {
+      // Target is inside a group
+      final targetIndex = targetParent.childValues.indexOf(target);
+
+      // Remove dragged from its current location
+      _removeFromCurrentLocation(dragged);
+
+      // Insert before target
+      widget.controller.addToGroup(
+        dragged.id,
+        targetParent.id,
+        insertIndex: targetIndex,
+      );
+    } else {
+      // Target is at root level
+      final targetIndex = items.indexOf(target);
+
+      // Remove dragged from its current location
+      _removeFromCurrentLocation(dragged);
+
+      // Insert at root level
+      final draggedIndex = items.indexWhere((v) => v.id == dragged.id);
+      if (draggedIndex >= 0) {
+        widget.controller.reorder(draggedIndex, targetIndex);
+      }
+    }
+  }
+
+  /// Insert dragged value after target
+  ///
+  /// ドラッグした値をターゲットの後に挿入
+  void _insertAfter(PaintingValue dragged, PaintingValue target) {
+    final items = widget.controller.value;
+
+    // Find target's parent
+    final targetParent = _findParent(target, items);
+
+    if (targetParent != null) {
+      // Target is inside a group
+      final targetIndex = targetParent.childValues.indexOf(target);
+
+      // Remove dragged from its current location
+      _removeFromCurrentLocation(dragged);
+
+      // Insert after target
+      widget.controller.addToGroup(
+        dragged.id,
+        targetParent.id,
+        insertIndex: targetIndex + 1,
+      );
+    } else {
+      // Target is at root level
+      final targetIndex = items.indexOf(target);
+
+      // Remove dragged from its current location
+      _removeFromCurrentLocation(dragged);
+
+      // Insert at root level
+      final draggedIndex = items.indexWhere((v) => v.id == dragged.id);
+      if (draggedIndex >= 0) {
+        widget.controller.reorder(draggedIndex, targetIndex + 1);
+      }
+    }
+  }
+
+  /// Add dragged value to a group
+  ///
+  /// ドラッグした値をグループに追加
+  void _addToGroup(PaintingValue dragged, GroupPaintingValue targetGroup) {
+    // Remove dragged from its current location
+    _removeFromCurrentLocation(dragged);
+
+    // Add to group
+    widget.controller.addToGroup(
+      dragged.id,
+      targetGroup.id,
+    );
+
+    // Ensure target group is expanded
+    if (!targetGroup.expanded) {
+      widget.controller.toggleGroupExpansion(targetGroup.id);
+    }
+  }
+
+  /// Create a new group with dragged and target values
+  ///
+  /// ドラッグした値とターゲット値で新しいグループを作成
+  void _createGroup(PaintingValue dragged, PaintingValue target) {
+    // Remove dragged from its current location
+    _removeFromCurrentLocation(dragged);
+
+    // Create group
+    final group = widget.controller.createGroup(
+      [target, dragged],
+    );
+
+    // Ensure group is expanded
+    if (group != null && !group.expanded) {
+      widget.controller.toggleGroupExpansion(group.id);
+    }
+  }
+
+  /// Remove value from its current location
+  ///
+  /// 値を現在の位置から削除
+  void _removeFromCurrentLocation(PaintingValue value) {
+    final items = widget.controller.value;
+    final parent = _findParent(value, items);
+
+    if (parent != null) {
+      // Value is inside a group
+      widget.controller.removeFromGroup(value.id);
+    }
+    // If not in a group, it will be moved by reorder
+  }
+
+  /// Find the parent group of a value
+  ///
+  /// 値の親グループを検索
+  GroupPaintingValue? _findParent(
+      PaintingValue value, List<PaintingValue> items) {
     for (final item in items) {
       if (item is GroupPaintingValue) {
-        // Create a list for the group with its children
-        // Only show children when expanded
-        final children = item.expanded
-            ? item.childValues.asMap().entries.map((entry) {
-                final child = entry.value;
-                return DragAndDropItem(
-                  child: KeyedSubtree(
-                    key: ValueKey(child.id),
-                    child: _buildLayerItem(
-                      item: child,
-                      locale: locale,
-                      theme: theme,
-                      depth: 1,
-                      isGroupChild: true,
-                    ),
-                  ),
-                );
-              }).toList()
-            : <DragAndDropItem>[];
-
-        lists.add(
-          DragAndDropList(
-            key: ValueKey(item.id),
-            header: _buildGroupHeader(
-              item: item,
-              locale: locale,
-              theme: theme,
-            ),
-            children: children,
-            canDrag: true,
-            contentsWhenEmpty: const SizedBox.shrink(),
-          ),
-        );
-      } else {
-        if (groupedItems.any((v) => v.id == item.id)) {
-          continue;
+        // Check direct children
+        if (item.childValues.any((child) => child.id == value.id)) {
+          return item;
         }
-        // Single item as a list
-        lists.add(
-          DragAndDropList(
-            key: ValueKey(item.id),
-            children: [
-              DragAndDropItem(
-                child: KeyedSubtree(
-                  key: ValueKey(item.id),
-                  child: _buildLayerItem(
-                    item: item,
-                    locale: locale,
-                    theme: theme,
-                    depth: 0,
-                    isGroupChild: false,
-                  ),
-                ),
-              ),
-            ],
-            canDrag: true,
-          ),
-        );
+
+        // Check nested children recursively
+        final nestedParent = _findParent(value, item.childValues);
+        if (nestedParent != null) {
+          return nestedParent;
+        }
       }
     }
-
-    return lists;
+    return null;
   }
+}
 
-  /// Build group header
-  ///
-  /// グループヘッダーを構築
-  Widget _buildGroupHeader({
-    required GroupPaintingValue item,
-    required Locale locale,
-    required ThemeData theme,
-    int depth = 0,
-  }) {
-    final tool =
-        PainterMasamuneAdapter.findTool(toolId: item.type, recursive: true);
-    final selected =
-        widget.controller.currentValues.any((v) => v.id == item.id);
+/// Drop position enum
+///
+/// ドロップ位置の列挙型
+enum _DropPosition {
+  above,
+  inside,
+  below,
+}
 
-    return ListTile(
-      contentPadding: EdgeInsets.fromLTRB(depth * 16.0 + 16.0, 0, 16.0, 0),
-      selected: selected,
-      tileColor: selected ? theme.colorScheme.primary : Colors.transparent,
-      selectedTileColor:
-          selected ? theme.colorScheme.primary : Colors.transparent,
-      iconColor: selected
-          ? theme.colorScheme.onPrimary
-          : theme.colorTheme?.onBackground,
-      leading: InkWell(
-        onTap: () {
-          widget.controller.toggleGroupExpansion(item.id);
+/// Draggable tree tile with drop target support
+///
+/// ドロップターゲット対応のドラッグ可能ツリータイル
+class _DraggableTreeTile extends StatefulWidget {
+  const _DraggableTreeTile({
+    required this.node,
+    required this.controller,
+    required this.onDropAccepted,
+    required this.toggleAnimationStyle,
+    required this.treeViewController,
+    this.hintTextOnChangeName,
+  });
+
+  final TreeViewNode<PaintingValue> node;
+  final PainterController controller;
+  final String? hintTextOnChangeName;
+  final void Function(
+    PaintingValue dragged,
+    PaintingValue target,
+    _DropPosition position,
+  ) onDropAccepted;
+  final AnimationStyle toggleAnimationStyle;
+  final TreeViewController treeViewController;
+
+  @override
+  State<_DraggableTreeTile> createState() => _DraggableTreeTileState();
+}
+
+class _DraggableTreeTileState extends State<_DraggableTreeTile> {
+  _DropPosition? _currentDropPosition;
+  bool _isDraggingOver = false;
+  final GlobalKey _tileKey = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final item = widget.node.content;
+
+    return LongPressDraggable<PaintingValue>(
+      data: item,
+      feedback: Material(
+        elevation: 4,
+        child: SizedBox(
+          width: 300,
+          child: _buildTileContent(context, item, theme, showIndent: false),
+        ),
+      ),
+      childWhenDragging: Opacity(
+        opacity: 0.5,
+        child: DragTarget<PaintingValue>(
+          onWillAcceptWithDetails: (details) => false,
+          builder: (context, candidateData, rejectedData) {
+            return Container(
+              key: _tileKey,
+              child: _buildTileContent(context, item, theme),
+            );
+          },
+        ),
+      ),
+      child: DragTarget<PaintingValue>(
+        onWillAcceptWithDetails: (details) {
+          // Don't allow dropping on itself
+          return details.data.id != item.id;
         },
-        child: IconTheme(
-          data: IconThemeData(
-            color:
-                selected ? theme.colorScheme.onPrimary : theme.iconTheme.color,
-          ),
-          child: item.expanded
-              ? const Icon(Icons.folder_open)
-              : const Icon(Icons.folder),
-        ),
+        onAcceptWithDetails: (details) {
+          widget.onDropAccepted(
+            details.data,
+            item,
+            _currentDropPosition ?? _DropPosition.below,
+          );
+          setState(() {
+            _isDraggingOver = false;
+            _currentDropPosition = null;
+          });
+        },
+        onMove: (details) {
+          // Calculate drop position based on vertical offset
+          final renderBox =
+              _tileKey.currentContext?.findRenderObject() as RenderBox?;
+          if (renderBox == null || !renderBox.hasSize) {
+            return;
+          }
+
+          final localPosition = renderBox.globalToLocal(details.offset);
+          final height = renderBox.size.height;
+
+          final newPosition = _calculateDropPosition(localPosition.dy, height);
+
+          if (newPosition != _currentDropPosition) {
+            setState(() {
+              _currentDropPosition = newPosition;
+            });
+          }
+
+          if (!_isDraggingOver) {
+            setState(() {
+              _isDraggingOver = true;
+            });
+          }
+        },
+        onLeave: (_) {
+          setState(() {
+            _isDraggingOver = false;
+            _currentDropPosition = null;
+          });
+        },
+        builder: (context, candidateData, rejectedData) {
+          // Always return the same widget structure
+          Border? border;
+          if (_isDraggingOver && _currentDropPosition != null) {
+            final borderSide = BorderSide(
+              color: theme.colorScheme.primary,
+              width: 2.0,
+            );
+
+            switch (_currentDropPosition!) {
+              case _DropPosition.above:
+                border = Border(top: borderSide);
+                break;
+              case _DropPosition.inside:
+                border = Border.fromBorderSide(borderSide);
+                break;
+              case _DropPosition.below:
+                border = Border(bottom: borderSide);
+                break;
+            }
+          }
+
+          // ignore: use_decorated_box
+          return Container(
+            key: _tileKey,
+            decoration: border != null ? BoxDecoration(border: border) : null,
+            child: _buildTileContent(context, item, theme),
+          );
+        },
       ),
-      title: Text(
-        item.name ?? tool?.config.title.value(locale) ?? "",
-        overflow: TextOverflow.ellipsis,
-        style: (theme.textTheme.bodyMedium ?? const TextStyle()).copyWith(
-          color: selected
-              ? theme.colorScheme.onPrimary
-              : theme.textTheme.bodyMedium?.color,
-        ),
-      ),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            iconSize: 16,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(minHeight: 28, minWidth: 28),
-            color:
-                selected ? theme.colorScheme.onPrimary : theme.iconTheme.color,
-            onPressed: () {
-              Modal.show(
-                context,
-                barrierDismissible: true,
-                contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                modal: ChangeLayerNameModal(
-                  initialValue:
-                      item.name ?? tool?.config.title.value(locale) ?? "",
-                  hintText: widget.hintTextOnChangeName,
-                  onChanged: (value) {
-                    widget.controller.rename(item, value);
-                  },
-                ),
-              );
-            },
-            icon: const Icon(Icons.edit, size: 16),
-          ),
-          const SizedBox(width: 4),
-          Icon(
-            Icons.drag_handle,
-            color:
-                selected ? theme.colorScheme.onPrimary : theme.iconTheme.color,
-          ),
-        ],
-      ),
-      onTap: () {
-        if (selected) {
-          widget.controller.unselect(item);
-        } else {
-          widget.controller.select(item);
-        }
-      },
     );
   }
 
-  /// Build layer item
+  /// Calculate drop position from vertical offset
   ///
-  /// レイヤーアイテムを構築
-  Widget _buildLayerItem({
-    required PaintingValue item,
-    required Locale locale,
-    required ThemeData theme,
-    required bool isGroupChild,
-    int depth = 0,
+  /// 縦方向のオフセットからドロップ位置を計算
+  _DropPosition _calculateDropPosition(double dy, double height) {
+    final oneThird = height * 0.3;
+
+    if (dy < oneThird) {
+      return _DropPosition.above;
+    } else if (dy < oneThird * 2) {
+      return _DropPosition.inside;
+    } else {
+      return _DropPosition.below;
+    }
+  }
+
+  /// Build tile content
+  ///
+  /// タイルのコンテンツを構築
+  Widget _buildTileContent(
+    BuildContext context,
+    PaintingValue item,
+    ThemeData theme, {
+    bool showIndent = true,
   }) {
+    final locale = context.locale;
     final tool =
         PainterMasamuneAdapter.findTool(toolId: item.type, recursive: true);
     final selected =
         widget.controller.currentValues.any((v) => v.id == item.id);
 
-    return ListTile(
-      contentPadding: EdgeInsets.fromLTRB(depth * 16.0 + 16.0, 0, 16.0, 0),
-      selected: selected,
-      tileColor: selected ? theme.colorScheme.primary : Colors.transparent,
-      selectedTileColor:
-          selected ? theme.colorScheme.primary : Colors.transparent,
-      iconColor: selected
-          ? theme.colorScheme.onPrimary
-          : theme.colorTheme?.onBackground,
-      textColor: selected
-          ? theme.colorScheme.onPrimary
-          : theme.colorTheme?.onBackground,
-      leading: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconTheme(
-            data: IconThemeData(
+    // Wrap ListTile with ConstrainedBox to handle infinite width constraints
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 600),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+        selected: selected,
+        tileColor: selected ? theme.colorScheme.primary : Colors.transparent,
+        selectedTileColor:
+            selected ? theme.colorScheme.primary : Colors.transparent,
+        iconColor: selected
+            ? theme.colorScheme.onPrimary
+            : theme.colorTheme?.onBackground,
+        textColor: selected
+            ? theme.colorScheme.onPrimary
+            : theme.colorTheme?.onBackground,
+        leading: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (item is GroupPaintingValue)
+              TreeView.wrapChildToToggleNode(
+                node: widget.node,
+                child: IconTheme(
+                  data: IconThemeData(
+                    color: selected
+                        ? theme.colorScheme.onPrimary
+                        : theme.iconTheme.color,
+                  ),
+                  child: widget.treeViewController.isExpanded(widget.node)
+                      ? const Icon(Icons.folder_open)
+                      : const Icon(Icons.folder),
+                ),
+              )
+            else
+              IconTheme(
+                data: IconThemeData(
+                  color: selected
+                      ? theme.colorScheme.onPrimary
+                      : theme.colorTheme?.onBackground,
+                ),
+                child: item.icon,
+              ),
+          ],
+        ),
+        title: Text(
+          item.name ?? tool?.config.title.value(locale) ?? "",
+          overflow: TextOverflow.ellipsis,
+          style: (theme.textTheme.bodyMedium ?? const TextStyle()).copyWith(
+            color: selected
+                ? theme.colorScheme.onPrimary
+                : theme.textTheme.bodyMedium?.color,
+          ),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              iconSize: 16,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(minHeight: 28, minWidth: 28),
               color: selected
                   ? theme.colorScheme.onPrimary
-                  : theme.colorTheme?.onBackground,
+                  : theme.iconTheme.color,
+              onPressed: () {
+                Modal.show(
+                  context,
+                  barrierDismissible: true,
+                  contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                  modal: ChangeLayerNameModal(
+                    initialValue:
+                        item.name ?? tool?.config.title.value(locale) ?? "",
+                    hintText: widget.hintTextOnChangeName,
+                    onChanged: (value) {
+                      widget.controller.rename(item, value);
+                    },
+                  ),
+                );
+              },
+              icon: const Icon(Icons.edit, size: 16),
             ),
-            child: item.icon,
-          ),
-        ],
-      ),
-      title: Text(
-        item.name ?? tool?.config.title.value(locale) ?? "",
-        overflow: TextOverflow.ellipsis,
-        style: (theme.textTheme.bodyMedium ?? const TextStyle()).copyWith(
-          color: selected
-              ? theme.colorScheme.onPrimary
-              : theme.colorTheme?.onBackground,
+            const SizedBox(width: 4),
+            Icon(
+              Icons.drag_handle,
+              color: selected
+                  ? theme.colorScheme.onPrimary
+                  : theme.iconTheme.color,
+            ),
+          ],
         ),
+        onTap: () {
+          if (selected) {
+            widget.controller.unselect(item);
+          } else {
+            widget.controller.select(item);
+          }
+        },
       ),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            iconSize: 16,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(minHeight: 28, minWidth: 28),
-            color:
-                selected ? theme.colorScheme.onPrimary : theme.iconTheme.color,
-            onPressed: () {
-              Modal.show(
-                context,
-                barrierDismissible: true,
-                contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                modal: ChangeLayerNameModal(
-                  initialValue:
-                      item.name ?? tool?.config.title.value(locale) ?? "",
-                  hintText: widget.hintTextOnChangeName,
-                  onChanged: (value) {
-                    widget.controller.rename(item, value);
-                  },
-                ),
-              );
-            },
-            icon: const Icon(Icons.edit, size: 16),
-          ),
-          const SizedBox(width: 4),
-          Icon(
-            Icons.drag_handle,
-            color:
-                selected ? theme.colorScheme.onPrimary : theme.iconTheme.color,
-          ),
-        ],
-      ),
-      onTap: () {
-        if (selected) {
-          widget.controller.unselect(item);
-        } else {
-          widget.controller.select(item);
-        }
-      },
     );
-  }
-
-  /// Handle item reorder within a list or between lists
-  ///
-  /// リスト内またはリスト間でのアイテムの並び替えを処理
-  void _onItemReorder(
-    int oldItemIndex,
-    int oldListIndex,
-    int newItemIndex,
-    int newListIndex,
-  ) {
-    final items = widget.controller.value;
-
-    // Same list reordering
-    if (oldListIndex == newListIndex) {
-      final listItem = items[oldListIndex];
-
-      if (listItem is GroupPaintingValue) {
-        // Reorder within group
-        widget.controller.reorderInGroup(
-          listItem.id,
-          oldItemIndex,
-          newItemIndex,
-        );
-      }
-      return;
-    }
-
-    // Moving between lists
-    final oldListItem = items[oldListIndex];
-    final newListItem = items[newListIndex];
-
-    if (oldListItem is GroupPaintingValue &&
-        newListItem is GroupPaintingValue) {
-      // Move from one group to another
-      final child = oldListItem.childValues[oldItemIndex];
-      widget.controller.moveToGroup(
-        child.id,
-        oldListItem.id,
-        newListItem.id,
-        newItemIndex,
-      );
-    } else if (oldListItem is GroupPaintingValue) {
-      // Move from group to top level
-      final child = oldListItem.childValues[oldItemIndex];
-      widget.controller.removeFromGroup(child.id, insertIndex: newListIndex);
-    } else if (newListItem is GroupPaintingValue) {
-      // Move from top level to group
-      widget.controller.addToGroup(
-        oldListItem.id,
-        newListItem.id,
-        insertIndex: newItemIndex,
-      );
-    }
-  }
-
-  /// Handle list reorder (top-level items including groups)
-  ///
-  /// リストの並び替えを処理（グループを含むトップレベルアイテム）
-  void _onListReorder(int oldListIndex, int newListIndex) {
-    widget.controller.reorder(oldListIndex, newListIndex);
   }
 }

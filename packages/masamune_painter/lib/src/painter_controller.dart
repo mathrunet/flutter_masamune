@@ -417,9 +417,17 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// 選択した値からグループを作成します。
   ///
   /// グループは選択したアイテムの中で最も前面にあるものの位置に配置されます。
-  void createGroup({String? groupName}) {
-    if (_currentValues.length < 2) {
-      return;
+  GroupPaintingValue? createGroupFromSelection({String? groupName}) {
+    return createGroup(_currentValues, groupName: groupName);
+  }
+
+  /// Create a group from a list of values.
+  ///
+  /// リスト内の値からグループを作成します。
+  GroupPaintingValue? createGroup(List<PaintingValue> values,
+      {String? groupName}) {
+    if (values.length < 2) {
+      return null;
     }
 
     // Save current values before grouping
@@ -428,24 +436,24 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     // Find the indices of selected items in _values
     final selectedIndices = <int>[];
     for (var i = 0; i < _values.length; i++) {
-      if (_currentValues.any((v) => v.id == _values[i].id)) {
+      if (values.any((v) => v.id == _values[i].id)) {
         selectedIndices.add(i);
       }
     }
 
     if (selectedIndices.isEmpty) {
-      return;
+      return null;
     }
 
     // The frontmost item is the one with the highest index (rendered last)
     final frontmostIndex = selectedIndices.reduce((a, b) => a > b ? a : b);
 
     // Get the IDs of selected items and their values
-    final childIds = _currentValues.map((v) => v.id).toList();
-    final childValuesCopy = List<PaintingValue>.from(_currentValues);
+    final childIds = values.map((v) => v.id).toList();
+    final childValuesCopy = List<PaintingValue>.from(values);
 
     // Create group with calculated bounds
-    final bounds = _calculateBounds(_currentValues);
+    final bounds = _calculateBounds(values);
     final groupId = uuid();
     final group = GroupPaintingValue(
       id: groupId,
@@ -480,6 +488,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     history._saveToHistory();
 
     notifyListeners();
+    return group;
   }
 
   /// Ungroup a group, moving children back to the layer list.
