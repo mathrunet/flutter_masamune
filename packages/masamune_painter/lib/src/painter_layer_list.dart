@@ -12,8 +12,14 @@ class PainterLayerList extends StatefulWidget {
     this.shrinkWrap = false,
     this.builder,
     this.hintTextOnChangeName,
+    this.rowHeight = 56,
     super.key,
   });
+
+  /// Row height.
+  ///
+  /// 行の高さ。
+  final double rowHeight;
 
   /// Controller for [FormPainterField].
   ///
@@ -129,16 +135,23 @@ class _PainterLayerListState extends State<PainterLayerList> {
 
   @override
   Widget build(BuildContext context) {
-    return TreeView<PaintingValue>(
-      tree: _treeNodes,
-      controller: _treeViewController,
-      onNodeToggle: _onNodeToggle,
-      treeNodeBuilder: _treeNodeBuilder,
-      treeRowBuilder: _treeRowBuilder,
-      indentation: TreeViewIndentationType.standard,
-      primary: false,
-      cacheExtent: 500,
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      return TreeView<PaintingValue>(
+        tree: _treeNodes,
+        controller: _treeViewController,
+        onNodeToggle: _onNodeToggle,
+        treeNodeBuilder: (
+          context,
+          node,
+          toggleAnimationStyle,
+        ) =>
+            _treeNodeBuilder(context, node, toggleAnimationStyle, constraints),
+        treeRowBuilder: _treeRowBuilder,
+        indentation: TreeViewIndentationType.standard,
+        primary: false,
+        cacheExtent: 500,
+      );
+    });
   }
 
   /// Handle node toggle (expand/collapse)
@@ -154,8 +167,8 @@ class _PainterLayerListState extends State<PainterLayerList> {
   ///
   /// ツリー行の設定を構築
   TreeRow _treeRowBuilder(TreeViewNode<PaintingValue> node) {
-    return const TreeRow(
-      extent: FixedTreeRowExtent(48.0),
+    return TreeRow(
+      extent: FixedTreeRowExtent(widget.rowHeight),
     );
   }
 
@@ -166,12 +179,16 @@ class _PainterLayerListState extends State<PainterLayerList> {
     BuildContext context,
     TreeViewNode<PaintingValue> node,
     AnimationStyle toggleAnimationStyle,
+    BoxConstraints constraints,
   ) {
     return _DraggableTreeTile(
+      key: ValueKey(node.content.id),
       node: node,
       controller: widget.controller,
+      constraints: constraints,
       hintTextOnChangeName: widget.hintTextOnChangeName,
       onDropAccepted: _handleDrop,
+      height: widget.rowHeight,
       toggleAnimationStyle: toggleAnimationStyle,
       treeViewController: _treeViewController,
     );
@@ -371,9 +388,14 @@ class _DraggableTreeTile extends StatefulWidget {
     required this.onDropAccepted,
     required this.toggleAnimationStyle,
     required this.treeViewController,
+    required this.constraints,
+    required this.height,
+    super.key,
     this.hintTextOnChangeName,
   });
 
+  final double height;
+  final BoxConstraints constraints;
   final TreeViewNode<PaintingValue> node;
   final PainterController controller;
   final String? hintTextOnChangeName;
@@ -401,10 +423,22 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
 
     return LongPressDraggable<PaintingValue>(
       data: item,
+      onDragEnd: (details) {
+        // ドラッグ終了時に状態をリセット
+        if (_isDraggingOver || _currentDropPosition != null) {
+          setState(() {
+            _isDraggingOver = false;
+            _currentDropPosition = null;
+          });
+        }
+      },
       feedback: Material(
         elevation: 4,
-        child: SizedBox(
-          width: 300,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minWidth: widget.constraints.minWidth,
+            maxWidth: widget.constraints.maxWidth,
+          ),
           child: _buildTileContent(context, item, theme, showIndent: false),
         ),
       ),
@@ -426,15 +460,22 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
           return details.data.id != item.id;
         },
         onAcceptWithDetails: (details) {
-          widget.onDropAccepted(
-            details.data,
-            item,
-            _currentDropPosition ?? _DropPosition.below,
-          );
+          // ドロップ位置を先に保存
+          final dropPosition = _currentDropPosition ?? _DropPosition.below;
+
+          // 状態をリセット
           setState(() {
+            debugPrint("onAcceptWithDetails");
             _isDraggingOver = false;
             _currentDropPosition = null;
           });
+
+          // その後にドロップ処理を実行
+          widget.onDropAccepted(
+            details.data,
+            item,
+            dropPosition,
+          );
         },
         onMove: (details) {
           // Calculate drop position based on vertical offset
@@ -457,12 +498,14 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
 
           if (!_isDraggingOver) {
             setState(() {
+              debugPrint("onMove");
               _isDraggingOver = true;
             });
           }
         },
         onLeave: (_) {
           setState(() {
+            debugPrint("onLeave");
             _isDraggingOver = false;
             _currentDropPosition = null;
           });
@@ -471,6 +514,7 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
           // Always return the same widget structure
           Border? border;
           if (_isDraggingOver && _currentDropPosition != null) {
+            debugPrint("build $_isDraggingOver $_currentDropPosition");
             final borderSide = BorderSide(
               color: theme.colorScheme.primary,
               width: 2.0,
@@ -532,9 +576,13 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
 
     // Wrap ListTile with ConstrainedBox to handle infinite width constraints
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 600),
+      constraints: BoxConstraints(
+        minHeight: widget.height,
+        minWidth: widget.constraints.minWidth,
+        maxWidth: widget.constraints.maxWidth,
+        maxHeight: widget.height,
+      ),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
         selected: selected,
         tileColor: selected ? theme.colorScheme.primary : Colors.transparent,
         selectedTileColor:
@@ -547,6 +595,7 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
             : theme.colorTheme?.onBackground,
         leading: Row(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (item is GroupPaintingValue)
               TreeView.wrapChildToToggleNode(
@@ -573,15 +622,13 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
               ),
           ],
         ),
-        title: Text(
-          item.name ?? tool?.config.title.value(locale) ?? "",
-          overflow: TextOverflow.ellipsis,
-          style: (theme.textTheme.bodyMedium ?? const TextStyle()).copyWith(
-            color: selected
-                ? theme.colorScheme.onPrimary
-                : theme.textTheme.bodyMedium?.color,
-          ),
-        ),
+        title: Text(item.name ?? tool?.config.title.value(locale) ?? "",
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: selected
+                  ? theme.colorScheme.onPrimary
+                  : theme.textTheme.bodyMedium?.color,
+            )),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
