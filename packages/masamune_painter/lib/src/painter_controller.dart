@@ -820,19 +820,55 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// 値をリネームします。
   Future<void> rename(PaintingValue value, String name) async {
     for (var i = 0; i < _values.length; i++) {
-      if (value.id == _values[i].id && _values[i].name != name) {
+      final item = _values[i];
+      if (value.id == item.id && item.name != name) {
         _values[i] = value.copyWith(name: name);
         saveCurrentValue();
         notifyListeners();
         break;
       }
+      if (item is GroupPaintingValue) {
+        var changed = false;
+        final childValues = List<PaintingValue>.from(item.childValues);
+        for (var j = 0; j < childValues.length; j++) {
+          if (childValues[j].id == value.id && childValues[j].name != name) {
+            childValues[j] = childValues[j].copyWith(name: name);
+            changed = true;
+            break;
+          }
+        }
+        if (changed) {
+          _values[i] = item.copyWith(childValues: childValues);
+          saveCurrentValue();
+          notifyListeners();
+          break;
+        }
+      }
     }
     for (var i = 0; i < _currentValues.length; i++) {
-      if (value.id == _currentValues[i].id && _currentValues[i].name != name) {
+      final item = _currentValues[i];
+      if (value.id == item.id && item.name != name) {
         _currentValues[i] = value.copyWith(name: name);
         saveCurrentValue();
         notifyListeners();
         break;
+      }
+      if (item is GroupPaintingValue) {
+        var changed = false;
+        final childValues = List<PaintingValue>.from(item.childValues);
+        for (var j = 0; j < childValues.length; j++) {
+          if (childValues[j].id == value.id && childValues[j].name != name) {
+            childValues[j] = childValues[j].copyWith(name: name);
+            changed = true;
+            break;
+          }
+        }
+        if (changed) {
+          _currentValues[i] = item.copyWith(childValues: childValues);
+          saveCurrentValue();
+          notifyListeners();
+          break;
+        }
       }
     }
   }
