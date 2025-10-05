@@ -28,10 +28,14 @@ class GroupingGroupPainterBlockTools extends PainterBlockTools {
   String get id => "__painter_block_group_grouping__";
 
   @override
-  bool shown(BuildContext context, PainterToolRef ref) => true;
+  bool shown(BuildContext context, PainterToolRef ref) {
+    return ref.controller.ungroupedValues.length > 1;
+  }
 
   @override
-  bool enabled(BuildContext context, PainterToolRef ref) => true;
+  bool enabled(BuildContext context, PainterToolRef ref) {
+    return true;
+  }
 
   @override
   bool actived(BuildContext context, PainterToolRef ref) => false;
@@ -51,5 +55,6 @@ class GroupingGroupPainterBlockTools extends PainterBlockTools {
   void onTap(BuildContext context, PainterToolRef ref) {
     // Create a group from selected values
     ref.controller.createGroupFromSelection();
+    ref.deleteMode();
   }
 }

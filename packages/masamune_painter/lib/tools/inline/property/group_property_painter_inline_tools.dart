@@ -35,7 +35,8 @@ class GroupPropertyPainterInlineTools extends PainterInlinePrimaryTools {
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
-    return ref.controller.currentValues.length > 1;
+    return ref.controller.currentUngroupedValues.length > 1 ||
+        ref.controller.currentValues.any((e) => e is GroupPaintingValue);
   }
 
   @override

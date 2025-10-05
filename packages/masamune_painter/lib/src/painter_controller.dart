@@ -60,6 +60,28 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     return res;
   }
 
+  /// Get the values that are not in a group.
+  ///
+  /// グループに含まれていない値を取得します。
+  List<PaintingValue> get ungroupedValues {
+    final groupedValues = value
+        .expand(
+            (v) => v is GroupPaintingValue ? v.childValues : <PaintingValue>[])
+        .toList();
+    return value.where((v) => !groupedValues.contains(v)).toList();
+  }
+
+  /// Get the values that are not in a group.
+  ///
+  /// グループに含まれていない値を取得します。
+  List<PaintingValue> get currentUngroupedValues {
+    final groupedValues = currentValues
+        .expand(
+            (v) => v is GroupPaintingValue ? v.childValues : <PaintingValue>[])
+        .toList();
+    return currentValues.where((v) => !groupedValues.contains(v)).toList();
+  }
+
   final List<PaintingValue> _values = [];
 
   /// Currently selected values (support multiple selection).
@@ -362,16 +384,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   ///
   /// このメソッドは将来的なグループ機能をサポートし、親と子のアイテムを
   /// 一緒に並び替えることができます。
-  ///
-  /// [oldIndex] is the current index of the item to move.
-  /// [newIndex] is the target index where the item should be moved.
-  /// [groupId] is optional and will be used in future for group reordering.
-  ///
-  /// Future enhancements for group functionality:
-  /// - When moving a parent group, all child items should move together
-  /// - When moving a child item out of a group, update its parentId
-  /// - Validate depth constraints to prevent excessive nesting
-  /// - Preserve the relative order of children within moved groups
   void reorder(int oldIndex, int newIndex, {String? groupId}) {
     // Save current values before reordering
     saveCurrentValue();
@@ -384,13 +396,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       return;
     }
 
-    // TODO: When implementing groups, check if the item is a group
-    // and move all its children together:
-    // if (item.isGroup) {
-    //   final childIndices = _getChildIndices(item.id);
-    //   // Move parent and all children maintaining their relative positions
-    // }
-
     // Move the item from oldIndex to newIndex
     final item = _values.removeAt(oldIndex);
     if (_values.length <= newIndex) {
@@ -398,9 +403,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     } else {
       _values.insert(newIndex, item);
     }
-
-    // TODO: When implementing groups, update parentId if the item
-    // is being moved into or out of a group based on newIndex position
 
     // Save to history
     history._saveToHistory();
