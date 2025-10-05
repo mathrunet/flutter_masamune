@@ -186,7 +186,7 @@ class _PainterLayerListState extends State<PainterLayerList> {
         ) =>
             _treeNodeBuilder(context, node, toggleAnimationStyle, constraints),
         treeRowBuilder: _treeRowBuilder,
-        indentation: TreeViewIndentationType.standard,
+        indentation: TreeViewIndentationType.custom(0),
         primary: false,
         cacheExtent: 500,
       );
@@ -536,6 +536,7 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final item = widget.node.content!;
+    final depth = widget.node.depth ?? 0;
 
     return LongPressDraggable<PaintingValue>(
       data: item,
@@ -581,7 +582,6 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
 
           // 状態をリセット
           setState(() {
-            debugPrint("onAcceptWithDetails");
             _isDraggingOver = false;
             _currentDropPosition = null;
           });
@@ -614,14 +614,12 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
 
           if (!_isDraggingOver) {
             setState(() {
-              debugPrint("onMove");
               _isDraggingOver = true;
             });
           }
         },
         onLeave: (_) {
           setState(() {
-            debugPrint("onLeave");
             _isDraggingOver = false;
             _currentDropPosition = null;
           });
@@ -630,7 +628,6 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
           // Always return the same widget structure
           Border? border;
           if (_isDraggingOver && _currentDropPosition != null) {
-            debugPrint("build $_isDraggingOver $_currentDropPosition");
             final borderSide = BorderSide(
               color: theme.colorScheme.primary,
               width: 2.0,
@@ -653,7 +650,7 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
           return Container(
             key: _tileKey,
             decoration: border != null ? BoxDecoration(border: border) : null,
-            child: _buildTileContent(context, item, theme),
+            child: _buildTileContent(context, item, theme, depth: depth),
           );
         },
       ),
@@ -682,6 +679,7 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
     BuildContext context,
     PaintingValue item,
     ThemeData theme, {
+    int depth = 0,
     bool showIndent = true,
   }) {
     final locale = context.locale;
@@ -691,104 +689,110 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
         widget.controller.currentValues.any((v) => v.id == item.id);
 
     // Wrap ListTile with ConstrainedBox to handle infinite width constraints
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        minHeight: widget.height,
-        minWidth: widget.constraints.minWidth,
-        maxWidth: widget.constraints.maxWidth,
-        maxHeight: widget.height,
-      ),
-      child: ListTile(
-        selected: selected,
-        tileColor: selected ? theme.colorScheme.primary : Colors.transparent,
-        selectedTileColor:
-            selected ? theme.colorScheme.primary : Colors.transparent,
-        iconColor: selected
-            ? theme.colorScheme.onPrimary
-            : theme.colorTheme?.onBackground,
-        textColor: selected
-            ? theme.colorScheme.onPrimary
-            : theme.colorTheme?.onBackground,
-        leading: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            if (item is GroupPaintingValue) ...[
-              TreeView.wrapChildToToggleNode(
-                node: widget.node,
-                child: IconTheme(
+    // ClipRect prevents background color from overflowing during animations
+    return Material(
+      color: Colors.transparent,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: widget.height,
+          minWidth: widget.constraints.minWidth,
+          maxWidth: widget.constraints.maxWidth,
+          maxHeight: widget.height,
+        ),
+        child: ListTile(
+          selected: selected,
+          contentPadding:
+              EdgeInsets.fromLTRB(16 + (8 * depth).toDouble(), 0, 16, 0),
+          tileColor: selected ? theme.colorScheme.primary : Colors.transparent,
+          selectedTileColor:
+              selected ? theme.colorScheme.primary : Colors.transparent,
+          iconColor: selected
+              ? theme.colorScheme.onPrimary
+              : theme.colorTheme?.onBackground,
+          textColor: selected
+              ? theme.colorScheme.onPrimary
+              : theme.colorTheme?.onBackground,
+          leading: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (item is GroupPaintingValue) ...[
+                TreeView.wrapChildToToggleNode(
+                  node: widget.node,
+                  child: IconTheme(
+                    data: IconThemeData(
+                      color: selected
+                          ? theme.colorScheme.onPrimary
+                          : theme.iconTheme.color,
+                    ),
+                    child: widget.treeViewController.isExpanded(widget.node)
+                        ? const Icon(Icons.folder_open)
+                        : const Icon(Icons.folder),
+                  ),
+                )
+              ] else ...[
+                IconTheme(
                   data: IconThemeData(
                     color: selected
                         ? theme.colorScheme.onPrimary
-                        : theme.iconTheme.color,
+                        : theme.colorTheme?.onBackground,
                   ),
-                  child: widget.treeViewController.isExpanded(widget.node)
-                      ? const Icon(Icons.folder_open)
-                      : const Icon(Icons.folder),
+                  child: item.icon,
                 ),
-              )
-            ] else ...[
-              IconTheme(
-                data: IconThemeData(
-                  color: selected
-                      ? theme.colorScheme.onPrimary
-                      : theme.colorTheme?.onBackground,
-                ),
-                child: item.icon,
+              ],
+            ],
+          ),
+          title: Text(item.name ?? tool?.config.title.value(locale) ?? "",
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: selected
+                    ? theme.colorScheme.onPrimary
+                    : theme.textTheme.bodyMedium?.color,
+              )),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                iconSize: 16,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(minHeight: 28, minWidth: 28),
+                color: selected
+                    ? theme.colorScheme.onPrimary
+                    : theme.iconTheme.color,
+                onPressed: () {
+                  Modal.show(
+                    context,
+                    barrierDismissible: true,
+                    contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                    modal: ChangeLayerNameModal(
+                      initialValue:
+                          item.name ?? tool?.config.title.value(locale) ?? "",
+                      hintText: widget.hintTextOnChangeName,
+                      onChanged: (value) {
+                        widget.controller.rename(item, value);
+                      },
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.edit, size: 16),
+              ),
+              const SizedBox(width: 4),
+              Icon(
+                Icons.drag_handle,
+                color: selected
+                    ? theme.colorScheme.onPrimary
+                    : theme.iconTheme.color,
               ),
             ],
-          ],
+          ),
+          onTap: () {
+            if (selected) {
+              widget.controller.unselect(item);
+            } else {
+              widget.controller.select(item);
+            }
+          },
         ),
-        title: Text(item.name ?? tool?.config.title.value(locale) ?? "",
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: selected
-                  ? theme.colorScheme.onPrimary
-                  : theme.textTheme.bodyMedium?.color,
-            )),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              iconSize: 16,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(minHeight: 28, minWidth: 28),
-              color: selected
-                  ? theme.colorScheme.onPrimary
-                  : theme.iconTheme.color,
-              onPressed: () {
-                Modal.show(
-                  context,
-                  barrierDismissible: true,
-                  contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                  modal: ChangeLayerNameModal(
-                    initialValue:
-                        item.name ?? tool?.config.title.value(locale) ?? "",
-                    hintText: widget.hintTextOnChangeName,
-                    onChanged: (value) {
-                      widget.controller.rename(item, value);
-                    },
-                  ),
-                );
-              },
-              icon: const Icon(Icons.edit, size: 16),
-            ),
-            const SizedBox(width: 4),
-            Icon(
-              Icons.drag_handle,
-              color: selected
-                  ? theme.colorScheme.onPrimary
-                  : theme.iconTheme.color,
-            ),
-          ],
-        ),
-        onTap: () {
-          if (selected) {
-            widget.controller.unselect(item);
-          } else {
-            widget.controller.select(item);
-          }
-        },
       ),
     );
   }
