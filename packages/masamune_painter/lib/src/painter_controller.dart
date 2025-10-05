@@ -431,18 +431,47 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     // Save current values before grouping
     saveCurrentValue();
 
-    // Get the IDs of selected items and their values
-    final childIds = values.map((v) => v.id).toList();
-    final childValuesCopy = List<PaintingValue>.from(values);
+    // Flatten groups: if any selected values are groups, extract their children recursively
+    final flattenedValues = <PaintingValue>[];
+    final flattenedIds = <String>{};
+    final groupIdsToRemove = <String>[];
 
-    // Remove selected items from their current locations
-    // This includes both root level items and items inside groups
-    _removeItemsFromCurrentLocations(childIds);
+    void flattenValue(PaintingValue value) {
+      if (value is GroupPaintingValue) {
+        // If it's a group, recursively flatten all its children
+        groupIdsToRemove.add(value.id);
+        for (final child in value.childValues) {
+          flattenValue(child);
+        }
+      } else {
+        // If it's a normal value, add it (avoid duplicates)
+        if (!flattenedIds.contains(value.id)) {
+          flattenedIds.add(value.id);
+          flattenedValues.add(value);
+        }
+      }
+    }
+
+    for (final value in values) {
+      flattenValue(value);
+    }
+
+    // Check if we have enough items after flattening
+    if (flattenedValues.length < 2) {
+      return null;
+    }
+
+    // Get the IDs of all items (including both original items and group IDs to remove)
+    final childIds = flattenedValues.map((v) => v.id).toList();
+    final allIdsToRemove = <String>[...childIds, ...groupIdsToRemove];
+
+    // Remove selected items and groups from their current locations
+    _removeItemsFromCurrentLocations(allIdsToRemove);
 
     // Find the insertion index based on the first selected item's position
     var insertIndex = _values.length;
     for (var i = 0; i < _values.length; i++) {
-      if (childIds.contains(_values[i].id)) {
+      if (allIdsToRemove.contains(_values[i].id)) {
         insertIndex = i;
         break;
       }
@@ -453,7 +482,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     }
 
     // Create group with calculated bounds
-    final bounds = _calculateBounds(values);
+    final bounds = _calculateBounds(flattenedValues);
     final groupId = uuid();
     final group = GroupPaintingValue(
       id: groupId,
@@ -462,7 +491,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       end: bounds.bottomRight,
       name: groupName ?? "Group",
       children: childIds,
-      childValues: childValuesCopy,
+      childValues: flattenedValues,
       expanded: true,
     );
 
