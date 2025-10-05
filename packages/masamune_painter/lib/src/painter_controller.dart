@@ -376,12 +376,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     // Save current values before reordering
     saveCurrentValue();
 
-    // Adjust newIndex if it's greater than oldIndex
-    // (This is required due to ReorderableListView's behavior)
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
-
     // Ensure indices are within bounds
     if (oldIndex < 0 ||
         oldIndex >= _values.length ||
@@ -399,7 +393,11 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
     // Move the item from oldIndex to newIndex
     final item = _values.removeAt(oldIndex);
-    _values.insert(newIndex, item);
+    if (_values.length <= newIndex) {
+      _values.add(item);
+    } else {
+      _values.insert(newIndex, item);
+    }
 
     // TODO: When implementing groups, update parentId if the item
     // is being moved into or out of a group based on newIndex position

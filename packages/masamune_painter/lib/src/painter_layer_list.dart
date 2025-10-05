@@ -52,7 +52,7 @@ class PainterLayerList extends StatefulWidget {
 
 class _PainterLayerListState extends State<PainterLayerList> {
   late TreeViewController _treeViewController;
-  List<TreeViewNode<PaintingValue>> _treeNodes = [];
+  List<TreeViewNode<PaintingValue?>> _treeNodes = [];
 
   @override
   void initState() {
@@ -95,9 +95,9 @@ class _PainterLayerListState extends State<PainterLayerList> {
   /// Build TreeViewNode list from PaintingValues
   ///
   /// PaintingValueからTreeViewNodeリストを構築
-  List<TreeViewNode<PaintingValue>> _buildTreeViewNodes(
+  List<TreeViewNode<PaintingValue?>> _buildTreeViewNodes(
       List<PaintingValue> items) {
-    final nodes = <TreeViewNode<PaintingValue>>[];
+    final nodes = <TreeViewNode<PaintingValue?>>[];
 
     for (final item in items) {
       final node = _createTreeViewNode(item);
@@ -106,16 +106,19 @@ class _PainterLayerListState extends State<PainterLayerList> {
       }
     }
 
+    // Add null node at the end as drop target
+    nodes.add(TreeViewNode<PaintingValue?>(null));
+
     return nodes;
   }
 
   /// Create a TreeViewNode from a PaintingValue
   ///
   /// PaintingValueからTreeViewNodeを作成
-  TreeViewNode<PaintingValue>? _createTreeViewNode(PaintingValue value) {
+  TreeViewNode<PaintingValue?>? _createTreeViewNode(PaintingValue value) {
     if (value is GroupPaintingValue) {
       // Create children nodes recursively
-      final childNodes = <TreeViewNode<PaintingValue>>[];
+      final childNodes = <TreeViewNode<PaintingValue?>>[];
       for (final childValue in value.childValues) {
         final childNode = _createTreeViewNode(childValue);
         if (childNode != null) {
@@ -123,20 +126,20 @@ class _PainterLayerListState extends State<PainterLayerList> {
         }
       }
 
-      return TreeViewNode<PaintingValue>(
+      return TreeViewNode<PaintingValue?>(
         value,
         children: childNodes,
         expanded: value.expanded,
       );
     } else {
-      return TreeViewNode<PaintingValue>(value);
+      return TreeViewNode<PaintingValue?>(value);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      return TreeView<PaintingValue>(
+      return TreeView<PaintingValue?>(
         tree: _treeNodes,
         controller: _treeViewController,
         onNodeToggle: _onNodeToggle,
@@ -157,16 +160,17 @@ class _PainterLayerListState extends State<PainterLayerList> {
   /// Handle node toggle (expand/collapse)
   ///
   /// ノードのトグル（展開/折りたたみ）を処理
-  void _onNodeToggle(TreeViewNode<PaintingValue> node) {
-    if (node.content is GroupPaintingValue) {
-      widget.controller.toggleGroupExpansion(node.content.id);
+  void _onNodeToggle(TreeViewNode<PaintingValue?> node) {
+    final content = node.content;
+    if (content != null && content is GroupPaintingValue) {
+      widget.controller.toggleGroupExpansion(content.id);
     }
   }
 
   /// Build tree row configuration
   ///
   /// ツリー行の設定を構築
-  TreeRow _treeRowBuilder(TreeViewNode<PaintingValue> node) {
+  TreeRow _treeRowBuilder(TreeViewNode<PaintingValue?> node) {
     return TreeRow(
       extent: FixedTreeRowExtent(widget.rowHeight),
     );
@@ -177,12 +181,23 @@ class _PainterLayerListState extends State<PainterLayerList> {
   /// ドラッグ&ドロップ対応のツリーノードウィジェットを構築
   Widget _treeNodeBuilder(
     BuildContext context,
-    TreeViewNode<PaintingValue> node,
+    TreeViewNode<PaintingValue?> node,
     AnimationStyle toggleAnimationStyle,
     BoxConstraints constraints,
   ) {
+    // If content is null, this is the bottom drop target
+    if (node.content == null) {
+      return _BottomDropTarget(
+        key: const ValueKey("bottom_drop_target"),
+        controller: widget.controller,
+        constraints: constraints,
+        height: widget.rowHeight,
+        onDropAccepted: _appendToEnd,
+      );
+    }
+
     return _DraggableTreeTile(
-      key: ValueKey(node.content.id),
+      key: ValueKey(node.content!.id),
       node: node,
       controller: widget.controller,
       constraints: constraints,
@@ -192,6 +207,29 @@ class _PainterLayerListState extends State<PainterLayerList> {
       toggleAnimationStyle: toggleAnimationStyle,
       treeViewController: _treeViewController,
     );
+  }
+
+  /// Append dragged value to the end of the list
+  ///
+  /// ドラッグした値をリストの最後に追加
+  void _appendToEnd(PaintingValue dragged) {
+    final items = widget.controller.value;
+    final draggedIndex = items.indexWhere((v) => v.id == dragged.id);
+
+    if (draggedIndex < 0) {
+      return;
+    }
+
+    // Remove dragged from its current location
+    _removeFromCurrentLocation(dragged);
+
+    // Move to the end
+    final newIndex = items.length - 1;
+    if (draggedIndex != newIndex) {
+      widget.controller.reorder(draggedIndex, newIndex);
+    }
+
+    _rebuildTree();
   }
 
   /// Handle drop operation
@@ -246,15 +284,23 @@ class _PainterLayerListState extends State<PainterLayerList> {
     } else {
       // Target is at root level
       final targetIndex = items.indexOf(target);
+      final draggedIndex = items.indexWhere((v) => v.id == dragged.id);
+
+      if (draggedIndex < 0) {
+        return;
+      }
 
       // Remove dragged from its current location
       _removeFromCurrentLocation(dragged);
 
+      // Calculate new index considering the removal
+      // If dragging down (draggedIndex < targetIndex), we need to adjust
+      // because the item will be removed first, shifting indices
+      final newIndex =
+          draggedIndex < targetIndex ? targetIndex - 1 : targetIndex;
+
       // Insert at root level
-      final draggedIndex = items.indexWhere((v) => v.id == dragged.id);
-      if (draggedIndex >= 0) {
-        widget.controller.reorder(draggedIndex, targetIndex);
-      }
+      widget.controller.reorder(draggedIndex, newIndex);
     }
   }
 
@@ -283,15 +329,23 @@ class _PainterLayerListState extends State<PainterLayerList> {
     } else {
       // Target is at root level
       final targetIndex = items.indexOf(target);
+      final draggedIndex = items.indexWhere((v) => v.id == dragged.id);
+
+      if (draggedIndex < 0) {
+        return;
+      }
 
       // Remove dragged from its current location
       _removeFromCurrentLocation(dragged);
 
+      // Calculate new index considering the removal
+      // If dragging down (draggedIndex < targetIndex), targetIndex stays the same
+      // because the item will be removed first
+      final newIndex =
+          draggedIndex < targetIndex ? targetIndex : targetIndex + 1;
+
       // Insert at root level
-      final draggedIndex = items.indexWhere((v) => v.id == dragged.id);
-      if (draggedIndex >= 0) {
-        widget.controller.reorder(draggedIndex, targetIndex + 1);
-      }
+      widget.controller.reorder(draggedIndex, newIndex);
     }
   }
 
@@ -396,7 +450,7 @@ class _DraggableTreeTile extends StatefulWidget {
 
   final double height;
   final BoxConstraints constraints;
-  final TreeViewNode<PaintingValue> node;
+  final TreeViewNode<PaintingValue?> node;
   final PainterController controller;
   final String? hintTextOnChangeName;
   final void Function(
@@ -419,7 +473,7 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final item = widget.node.content;
+    final item = widget.node.content!;
 
     return LongPressDraggable<PaintingValue>(
       data: item,
@@ -597,7 +651,7 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (item is GroupPaintingValue)
+            if (item is GroupPaintingValue) ...[
               TreeView.wrapChildToToggleNode(
                 node: widget.node,
                 child: IconTheme(
@@ -611,7 +665,7 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
                       : const Icon(Icons.folder),
                 ),
               )
-            else
+            ] else ...[
               IconTheme(
                 data: IconThemeData(
                   color: selected
@@ -620,6 +674,7 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
                 ),
                 child: item.icon,
               ),
+            ],
           ],
         ),
         title: Text(item.name ?? tool?.config.title.value(locale) ?? "",
@@ -673,6 +728,83 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
           }
         },
       ),
+    );
+  }
+}
+
+/// Bottom drop target widget
+///
+/// 最下部のドロップターゲットウィジェット
+class _BottomDropTarget extends StatefulWidget {
+  const _BottomDropTarget({
+    required this.controller,
+    required this.constraints,
+    required this.height,
+    required this.onDropAccepted,
+    super.key,
+  });
+
+  final PainterController controller;
+  final BoxConstraints constraints;
+  final double height;
+  final void Function(PaintingValue dragged) onDropAccepted;
+
+  @override
+  State<_BottomDropTarget> createState() => _BottomDropTargetState();
+}
+
+class _BottomDropTargetState extends State<_BottomDropTarget> {
+  bool _isDraggingOver = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return DragTarget<PaintingValue>(
+      onWillAcceptWithDetails: (details) => true,
+      onAcceptWithDetails: (details) {
+        setState(() {
+          _isDraggingOver = false;
+        });
+        widget.onDropAccepted(details.data);
+      },
+      onMove: (details) {
+        if (!_isDraggingOver) {
+          setState(() {
+            _isDraggingOver = true;
+          });
+        }
+      },
+      onLeave: (_) {
+        setState(() {
+          _isDraggingOver = false;
+        });
+      },
+      builder: (context, candidateData, rejectedData) {
+        return Container(
+          width: widget.constraints.maxWidth,
+          height: widget.height,
+          decoration: _isDraggingOver
+              ? BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      color: theme.colorScheme.primary,
+                      width: 2.0,
+                    ),
+                  ),
+                )
+              : null,
+          child: _isDraggingOver
+              ? Center(
+                  child: Icon(
+                    Icons.arrow_drop_down,
+                    color: theme.colorScheme.primary,
+                    size: 32,
+                  ),
+                )
+              : null,
+        );
+      },
     );
   }
 }
