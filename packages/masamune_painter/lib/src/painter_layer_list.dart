@@ -99,10 +99,22 @@ class _PainterLayerListState extends State<PainterLayerList> {
       List<PaintingValue> items) {
     final nodes = <TreeViewNode<PaintingValue?>>[];
 
+    // Collect all IDs that are already inside groups
+    final childIdsInGroups = <String>{};
     for (final item in items) {
-      final node = _createTreeViewNode(item);
-      if (node != null) {
-        nodes.add(node);
+      if (item is GroupPaintingValue) {
+        _collectChildIds(item, childIdsInGroups);
+      }
+    }
+
+    // Build nodes, but skip items that are already in groups
+    for (final item in items) {
+      // Skip if this item is already a child of a group
+      if (!childIdsInGroups.contains(item.id)) {
+        final node = _createTreeViewNode(item);
+        if (node != null) {
+          nodes.add(node);
+        }
       }
     }
 
@@ -110,6 +122,18 @@ class _PainterLayerListState extends State<PainterLayerList> {
     nodes.add(TreeViewNode<PaintingValue?>(null));
 
     return nodes;
+  }
+
+  /// Collect all child IDs from a group recursively
+  ///
+  /// グループから再帰的にすべての子要素のIDを収集
+  void _collectChildIds(GroupPaintingValue group, Set<String> childIds) {
+    for (final child in group.childValues) {
+      childIds.add(child.id);
+      if (child is GroupPaintingValue) {
+        _collectChildIds(child, childIds);
+      }
+    }
   }
 
   /// Create a TreeViewNode from a PaintingValue

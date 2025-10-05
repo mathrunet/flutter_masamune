@@ -431,24 +431,26 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     // Save current values before grouping
     saveCurrentValue();
 
-    // Find the indices of selected items in _values
-    final selectedIndices = <int>[];
-    for (var i = 0; i < _values.length; i++) {
-      if (values.any((v) => v.id == _values[i].id)) {
-        selectedIndices.add(i);
-      }
-    }
-
-    if (selectedIndices.isEmpty) {
-      return null;
-    }
-
-    // The frontmost item is the one with the highest index (rendered last)
-    final frontmostIndex = selectedIndices.reduce((a, b) => a > b ? a : b);
-
     // Get the IDs of selected items and their values
     final childIds = values.map((v) => v.id).toList();
     final childValuesCopy = List<PaintingValue>.from(values);
+
+    // Remove selected items from their current locations
+    // This includes both root level items and items inside groups
+    _removeItemsFromCurrentLocations(childIds);
+
+    // Find the insertion index based on the first selected item's position
+    var insertIndex = _values.length;
+    for (var i = 0; i < _values.length; i++) {
+      if (childIds.contains(_values[i].id)) {
+        insertIndex = i;
+        break;
+      }
+    }
+    // If no items found at root level, use the end
+    if (insertIndex == _values.length) {
+      insertIndex = _values.length;
+    }
 
     // Create group with calculated bounds
     final bounds = _calculateBounds(values);
@@ -464,18 +466,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       expanded: true,
     );
 
-    // Remove selected items from _values (they're now children of the group)
-    _values.removeWhere((v) => childIds.contains(v.id));
-
-    // Find the new position (adjust for removed items)
-    var insertIndex = frontmostIndex;
-    for (var i = selectedIndices.length - 1; i >= 0; i--) {
-      if (selectedIndices[i] < frontmostIndex) {
-        insertIndex--;
-      }
-    }
-
-    // Insert the group at the frontmost position
+    // Insert the group at the calculated position
     _values.insert(insertIndex, group);
 
     // Clear current selection and select the new group
@@ -487,6 +478,96 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
     notifyListeners();
     return group;
+  }
+
+  /// Remove items from their current locations (root level or inside groups)
+  ///
+  /// アイテムを現在の位置から削除（ルートレベルまたはグループ内）
+  void _removeItemsFromCurrentLocations(List<String> itemIds) {
+    // Remove from root level
+    _values.removeWhere((v) => itemIds.contains(v.id));
+
+    // Remove from groups recursively
+    for (var i = 0; i < _values.length; i++) {
+      if (_values[i] is GroupPaintingValue) {
+        final group = _values[i] as GroupPaintingValue;
+        final updatedGroup = _removeItemsFromGroup(group, itemIds);
+        if (updatedGroup != null) {
+          if (updatedGroup.childValues.isEmpty) {
+            // If group becomes empty, remove it
+            _values.removeAt(i);
+            i--;
+          } else {
+            _values[i] = updatedGroup;
+          }
+        }
+      }
+    }
+  }
+
+  /// Remove items from a group recursively
+  ///
+  /// グループから再帰的にアイテムを削除
+  GroupPaintingValue? _removeItemsFromGroup(
+      GroupPaintingValue group, List<String> itemIds) {
+    var updated = false;
+    var updatedChildren = List<String>.from(group.children);
+    var updatedChildValues = List<PaintingValue>.from(group.childValues);
+
+    // Remove direct children
+    updatedChildren.removeWhere((id) {
+      if (itemIds.contains(id)) {
+        updated = true;
+        return true;
+      }
+      return false;
+    });
+    updatedChildValues.removeWhere((v) {
+      if (itemIds.contains(v.id)) {
+        return true;
+      }
+      return false;
+    });
+
+    // Process nested groups
+    for (var i = 0; i < updatedChildValues.length; i++) {
+      if (updatedChildValues[i] is GroupPaintingValue) {
+        final childGroup = updatedChildValues[i] as GroupPaintingValue;
+        final updatedChildGroup = _removeItemsFromGroup(childGroup, itemIds);
+        if (updatedChildGroup != null) {
+          if (updatedChildGroup.childValues.isEmpty) {
+            // If nested group becomes empty, remove it
+            updatedChildren.removeAt(i);
+            updatedChildValues.removeAt(i);
+            i--;
+            updated = true;
+          } else {
+            updatedChildValues[i] = updatedChildGroup;
+            updated = true;
+          }
+        }
+      }
+    }
+
+    if (!updated) {
+      return null;
+    }
+
+    // Recalculate bounds
+    if (updatedChildValues.isEmpty) {
+      return group.copyWith(
+        children: updatedChildren,
+        childValues: updatedChildValues,
+      );
+    }
+
+    final bounds = _calculateBounds(updatedChildValues);
+    return group.copyWith(
+      children: updatedChildren,
+      childValues: updatedChildValues,
+      start: bounds.topLeft,
+      end: bounds.bottomRight,
+    );
   }
 
   /// Ungroup a group, moving children back to the layer list.
