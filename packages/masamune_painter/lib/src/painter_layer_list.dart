@@ -142,7 +142,19 @@ class _PainterLayerListState extends State<PainterLayerList> {
       return TreeView<PaintingValue?>(
         tree: _treeNodes,
         controller: _treeViewController,
-        onNodeToggle: _onNodeToggle,
+        onNodeToggle: (node) {
+          // Update PainterController expansion state without triggering rebuild
+          final content = node.content;
+          if (content != null && content is GroupPaintingValue) {
+            // Temporarily remove listener to avoid rebuild during toggle
+            widget.controller.removeListener(_handleControllerChanged);
+            try {
+              widget.controller.toggleGroupExpansion(content.id);
+            } finally {
+              widget.controller.addListener(_handleControllerChanged);
+            }
+          }
+        },
         treeNodeBuilder: (
           context,
           node,
@@ -155,16 +167,6 @@ class _PainterLayerListState extends State<PainterLayerList> {
         cacheExtent: 500,
       );
     });
-  }
-
-  /// Handle node toggle (expand/collapse)
-  ///
-  /// ノードのトグル（展開/折りたたみ）を処理
-  void _onNodeToggle(TreeViewNode<PaintingValue?> node) {
-    final content = node.content;
-    if (content != null && content is GroupPaintingValue) {
-      widget.controller.toggleGroupExpansion(content.id);
-    }
   }
 
   /// Build tree row configuration
