@@ -217,18 +217,24 @@ class _PainterLayerListState extends State<PainterLayerList> {
   void _appendToEnd(PaintingValue dragged) {
     final items = widget.controller.value;
     final draggedIndex = items.indexWhere((v) => v.id == dragged.id);
+    final draggedParent = _findParent(dragged, items);
 
-    if (draggedIndex < 0) {
-      return;
-    }
+    if (draggedParent != null) {
+      // Dragged is inside a group, move it to root level at the end
+      widget.controller.removeFromGroup(
+        dragged.id,
+        insertIndex: items.length,
+      );
+    } else if (draggedIndex >= 0) {
+      // Dragged is at root level, reorder to end
+      // Remove dragged from its current location
+      _removeFromCurrentLocation(dragged);
 
-    // Remove dragged from its current location
-    _removeFromCurrentLocation(dragged);
-
-    // Move to the end
-    final newIndex = items.length - 1;
-    if (draggedIndex != newIndex) {
-      widget.controller.reorder(draggedIndex, newIndex);
+      // Move to the end
+      final newIndex = items.length - 1;
+      if (draggedIndex != newIndex) {
+        widget.controller.reorder(draggedIndex, newIndex);
+      }
     }
 
     _rebuildTree();
@@ -288,21 +294,36 @@ class _PainterLayerListState extends State<PainterLayerList> {
       final targetIndex = items.indexOf(target);
       final draggedIndex = items.indexWhere((v) => v.id == dragged.id);
 
-      if (draggedIndex < 0) {
-        return;
+      final draggedParent = _findParent(dragged, items);
+
+      if (draggedParent != null) {
+        // Dragged is inside a group, move it to root level
+        // Calculate new index considering if group will be removed
+        final groupIndex = items.indexWhere((v) => v.id == draggedParent.id);
+        final willGroupBeRemoved = draggedParent.childValues.length == 1;
+
+        final newIndex = willGroupBeRemoved && groupIndex < targetIndex
+            ? targetIndex - 1
+            : targetIndex;
+
+        widget.controller.removeFromGroup(
+          dragged.id,
+          insertIndex: newIndex,
+        );
+      } else if (draggedIndex >= 0) {
+        // Dragged is at root level, reorder
+        // Remove dragged from its current location
+        _removeFromCurrentLocation(dragged);
+
+        // Calculate new index considering the removal
+        // If dragging down (draggedIndex < targetIndex), we need to adjust
+        // because the item will be removed first, shifting indices
+        final newIndex =
+            draggedIndex < targetIndex ? targetIndex - 1 : targetIndex;
+
+        // Insert at root level
+        widget.controller.reorder(draggedIndex, newIndex);
       }
-
-      // Remove dragged from its current location
-      _removeFromCurrentLocation(dragged);
-
-      // Calculate new index considering the removal
-      // If dragging down (draggedIndex < targetIndex), we need to adjust
-      // because the item will be removed first, shifting indices
-      final newIndex =
-          draggedIndex < targetIndex ? targetIndex - 1 : targetIndex;
-
-      // Insert at root level
-      widget.controller.reorder(draggedIndex, newIndex);
     }
   }
 
@@ -333,21 +354,36 @@ class _PainterLayerListState extends State<PainterLayerList> {
       final targetIndex = items.indexOf(target);
       final draggedIndex = items.indexWhere((v) => v.id == dragged.id);
 
-      if (draggedIndex < 0) {
-        return;
+      final draggedParent = _findParent(dragged, items);
+
+      if (draggedParent != null) {
+        // Dragged is inside a group, move it to root level
+        // Calculate new index considering if group will be removed
+        final groupIndex = items.indexWhere((v) => v.id == draggedParent.id);
+        final willGroupBeRemoved = draggedParent.childValues.length == 1;
+
+        final newIndex = willGroupBeRemoved && groupIndex < targetIndex
+            ? targetIndex
+            : targetIndex + 1;
+
+        widget.controller.removeFromGroup(
+          dragged.id,
+          insertIndex: newIndex,
+        );
+      } else if (draggedIndex >= 0) {
+        // Dragged is at root level, reorder
+        // Remove dragged from its current location
+        _removeFromCurrentLocation(dragged);
+
+        // Calculate new index considering the removal
+        // If dragging down (draggedIndex < targetIndex), targetIndex stays the same
+        // because the item will be removed first
+        final newIndex =
+            draggedIndex < targetIndex ? targetIndex : targetIndex + 1;
+
+        // Insert at root level
+        widget.controller.reorder(draggedIndex, newIndex);
       }
-
-      // Remove dragged from its current location
-      _removeFromCurrentLocation(dragged);
-
-      // Calculate new index considering the removal
-      // If dragging down (draggedIndex < targetIndex), targetIndex stays the same
-      // because the item will be removed first
-      final newIndex =
-          draggedIndex < targetIndex ? targetIndex : targetIndex + 1;
-
-      // Insert at root level
-      widget.controller.reorder(draggedIndex, newIndex);
     }
   }
 
