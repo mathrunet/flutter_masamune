@@ -26,6 +26,7 @@ class GroupPropertyPainterInlineTools extends PainterInlinePrimaryTools {
     ),
     this.blockTools = const [
       GroupingGroupPainterBlockTools(),
+      UngroupGroupPainterBlockTools(),
     ],
   });
 

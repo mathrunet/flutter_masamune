@@ -46,7 +46,6 @@ part "tools/primary/select_painter_primary_tools.dart";
 part "tools/primary/shape_painter_primary_tools.dart";
 part "tools/primary/text_painter_primary_tools.dart";
 part "tools/primary/media_painter_primary_tools.dart";
-part "tools/primary/group_painter_primary_tools.dart";
 part "tools/primary/redo_painter_primary_tools.dart";
 part "tools/primary/undo_painter_primary_tools.dart";
 
@@ -68,12 +67,15 @@ part "tools/inline/property/filter_property_painter_inline_tools.dart";
 part "tools/inline/property/font_size_property_painter_inline_tools.dart";
 part "tools/inline/property/font_style_property_painter_inline_tools.dart";
 part "tools/inline/property/paragraph_align_property_painter_inline_tools.dart";
+part "tools/inline/property/layer_forward_property_painter_inline_tools.dart";
+part "tools/inline/property/layer_backward_property_painter_inline_tools.dart";
 
 part "tools/inline/shape/rectangle_shape_painter_inline_tools.dart";
 
 part "tools/block/filter/blur_filter_painter_block_tools.dart";
 
 part "tools/block/group/grouping_group_painter_block_tools.dart";
+part "tools/block/group/ungroup_group_painter_block_tools.dart";
 
 part "tools/block/media/image_from_camera_media_painter_block_tools.dart";
 part "tools/block/media/image_from_library_media_painter_block_tools.dart";

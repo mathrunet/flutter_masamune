@@ -50,6 +50,8 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
       ParagraphAlignPropertyPainterInlineTools(),
       GroupPropertyPainterInlineTools(),
       FilterPropertyPainterInlineTools(),
+      LayerForwardPropertyPainterInlineTools(),
+      LayerBackwardPropertyPainterInlineTools(),
     ],
     this.defaultShapeInlineTools = const [
       ShapePainterInlineTools(),

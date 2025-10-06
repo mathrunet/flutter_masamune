@@ -951,8 +951,6 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   ///
   /// グループを解除し、子要素をレイヤーリストに戻します。
   void ungroup(String groupId) {
-    saveCurrentValue();
-
     final groupIndex = _values.indexWhere((v) => v.id == groupId);
     if (groupIndex < 0) {
       return;
@@ -962,6 +960,15 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     if (group is! GroupPaintingValue) {
       return;
     }
+
+    // Remove group's children from current values to avoid duplicates
+    // when saveCurrentValue() is called
+    _currentValues.removeWhere((v) {
+      return group.children.any((child) => child.id == v.id);
+    });
+
+    // Save current values (should only contain the group now)
+    saveCurrentValue();
 
     // Get the children from the group's children.
     final children = List<PaintingValue>.from(group.children);
@@ -1086,6 +1093,274 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
     history._saveToHistory();
     notifyListeners();
+  }
+
+  /// Move selected layers forward (towards front).
+  ///
+  /// When multiple items are selected, they are moved together by moving
+  /// all selected items after the first non-selected item immediately after them.
+  /// If selected items are inside a group, they move within that group only.
+  ///
+  /// 選択したレイヤーを前面に1つ移動します。
+  ///
+  /// 複数選択時は、選択要素全体をその直後の非選択要素の後ろに移動します。
+  /// グループ内の要素の場合、そのグループ内でのみ移動します。
+  void moveSelectedLayersForward() {
+    if (_currentValues.isEmpty) {
+      return;
+    }
+
+    saveCurrentValue();
+
+    var changed = false;
+
+    // Group selected items by their parent (null for root level)
+    final selectedByParent = <String?, List<PaintingValue>>{};
+
+    for (final currentValue in _currentValues) {
+      // Find parent group for this value
+      String? parentGroupId;
+      for (var i = 0; i < _values.length; i++) {
+        if (_values[i] is GroupPaintingValue) {
+          final group = _values[i] as GroupPaintingValue;
+          if (group.children.any((child) => child.id == currentValue.id)) {
+            parentGroupId = group.id;
+            break;
+          }
+        }
+      }
+
+      selectedByParent.putIfAbsent(parentGroupId, () => []).add(currentValue);
+    }
+
+    // Process each group (including root level)
+    for (final entry in selectedByParent.entries) {
+      final parentGroupId = entry.key;
+      final selectedInGroup = entry.value;
+
+      if (parentGroupId == null) {
+        // Root level items
+        if (_moveItemsForwardInList(_values, selectedInGroup)) {
+          changed = true;
+        }
+      } else {
+        // Items inside a group
+        final groupIndex = _values.indexWhere((v) => v.id == parentGroupId);
+        if (groupIndex >= 0 && _values[groupIndex] is GroupPaintingValue) {
+          final group = _values[groupIndex] as GroupPaintingValue;
+          final updatedChildren = List<PaintingValue>.from(group.children);
+
+          if (_moveItemsForwardInList(updatedChildren, selectedInGroup)) {
+            final bounds = _calculateBounds(updatedChildren);
+            _values[groupIndex] = group.copyWith(
+              children: updatedChildren,
+              start: bounds.topLeft,
+              end: bounds.bottomRight,
+            );
+            changed = true;
+          }
+        }
+      }
+    }
+
+    if (changed) {
+      history._saveToHistory();
+      notifyListeners();
+    }
+  }
+
+  /// Helper method to move items forward in a list
+  bool _moveItemsForwardInList(
+    List<PaintingValue> list,
+    List<PaintingValue> itemsToMove,
+  ) {
+    // Find indices of items to move
+    final selectedIndices = <int>[];
+    for (final item in itemsToMove) {
+      final index = list.indexWhere((v) => v.id == item.id);
+      if (index >= 0) {
+        selectedIndices.add(index);
+      }
+    }
+
+    if (selectedIndices.isEmpty) {
+      return false;
+    }
+
+    // Sort indices in ascending order
+    selectedIndices.sort();
+
+    // Find the backmost (lowest index) selected item
+    final backmostIndex = selectedIndices.first;
+
+    // Check if there's a non-selected item after selected items
+    int? swapTargetIndex;
+    for (var i = backmostIndex + 1; i < list.length; i++) {
+      if (!selectedIndices.contains(i)) {
+        swapTargetIndex = i;
+        break;
+      }
+    }
+
+    // If no non-selected item found after, can't move forward
+    if (swapTargetIndex == null) {
+      return false;
+    }
+
+    // Collect all selected items in their current order
+    final selectedItems = <PaintingValue>[];
+    for (final index in selectedIndices) {
+      selectedItems.add(list[index]);
+    }
+
+    // Get the swap target item
+    final swapTargetItem = list[swapTargetIndex];
+
+    // Remove all selected items and the swap target from their positions
+    final allIndicesToRemove = [...selectedIndices, swapTargetIndex]..sort();
+    for (final index in allIndicesToRemove.reversed) {
+      list.removeAt(index);
+    }
+
+    // Insert swap target first, then all selected items after it
+    list.insert(backmostIndex, swapTargetItem);
+    list.insertAll(backmostIndex + 1, selectedItems);
+
+    return true;
+  }
+
+  /// Move selected layers backward (towards back).
+  ///
+  /// When multiple items are selected, they are moved together by moving
+  /// all selected items before the first non-selected item immediately before them.
+  /// If selected items are inside a group, they move within that group only.
+  ///
+  /// 選択したレイヤーを背面に1つ移動します。
+  ///
+  /// 複数選択時は、選択要素全体をその直前の非選択要素の前に移動します。
+  /// グループ内の要素の場合、そのグループ内でのみ移動します。
+  void moveSelectedLayersBackward() {
+    if (_currentValues.isEmpty) {
+      return;
+    }
+
+    saveCurrentValue();
+
+    var changed = false;
+
+    // Group selected items by their parent (null for root level)
+    final selectedByParent = <String?, List<PaintingValue>>{};
+
+    for (final currentValue in _currentValues) {
+      // Find parent group for this value
+      String? parentGroupId;
+      for (var i = 0; i < _values.length; i++) {
+        if (_values[i] is GroupPaintingValue) {
+          final group = _values[i] as GroupPaintingValue;
+          if (group.children.any((child) => child.id == currentValue.id)) {
+            parentGroupId = group.id;
+            break;
+          }
+        }
+      }
+
+      selectedByParent.putIfAbsent(parentGroupId, () => []).add(currentValue);
+    }
+
+    // Process each group (including root level)
+    for (final entry in selectedByParent.entries) {
+      final parentGroupId = entry.key;
+      final selectedInGroup = entry.value;
+
+      if (parentGroupId == null) {
+        // Root level items
+        if (_moveItemsBackwardInList(_values, selectedInGroup)) {
+          changed = true;
+        }
+      } else {
+        // Items inside a group
+        final groupIndex = _values.indexWhere((v) => v.id == parentGroupId);
+        if (groupIndex >= 0 && _values[groupIndex] is GroupPaintingValue) {
+          final group = _values[groupIndex] as GroupPaintingValue;
+          final updatedChildren = List<PaintingValue>.from(group.children);
+
+          if (_moveItemsBackwardInList(updatedChildren, selectedInGroup)) {
+            final bounds = _calculateBounds(updatedChildren);
+            _values[groupIndex] = group.copyWith(
+              children: updatedChildren,
+              start: bounds.topLeft,
+              end: bounds.bottomRight,
+            );
+            changed = true;
+          }
+        }
+      }
+    }
+
+    if (changed) {
+      history._saveToHistory();
+      notifyListeners();
+    }
+  }
+
+  /// Helper method to move items backward in a list
+  bool _moveItemsBackwardInList(
+    List<PaintingValue> list,
+    List<PaintingValue> itemsToMove,
+  ) {
+    // Find indices of items to move
+    final selectedIndices = <int>[];
+    for (final item in itemsToMove) {
+      final index = list.indexWhere((v) => v.id == item.id);
+      if (index >= 0) {
+        selectedIndices.add(index);
+      }
+    }
+
+    if (selectedIndices.isEmpty) {
+      return false;
+    }
+
+    // Sort indices in ascending order
+    selectedIndices.sort();
+
+    // Find the frontmost (highest index) selected item
+    final frontmostIndex = selectedIndices.last;
+
+    // Check if there's a non-selected item before selected items
+    int? swapTargetIndex;
+    for (var i = frontmostIndex - 1; i >= 0; i--) {
+      if (!selectedIndices.contains(i)) {
+        swapTargetIndex = i;
+        break;
+      }
+    }
+
+    // If no non-selected item found before, can't move backward
+    if (swapTargetIndex == null) {
+      return false;
+    }
+
+    // Collect all selected items in their current order
+    final selectedItems = <PaintingValue>[];
+    for (final index in selectedIndices) {
+      selectedItems.add(list[index]);
+    }
+
+    // Get the swap target item
+    final swapTargetItem = list[swapTargetIndex];
+
+    // Remove all selected items and the swap target from their positions
+    final allIndicesToRemove = [...selectedIndices, swapTargetIndex]..sort();
+    for (final index in allIndicesToRemove.reversed) {
+      list.removeAt(index);
+    }
+
+    // Insert all selected items first, then swap target after them
+    list.insertAll(swapTargetIndex, selectedItems);
+    list.insert(swapTargetIndex + selectedItems.length, swapTargetItem);
+
+    return true;
   }
 
   /// Rename a value.
