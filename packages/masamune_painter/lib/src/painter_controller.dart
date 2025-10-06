@@ -141,6 +141,19 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
     // Then save all current values normally
     for (final currentValue in _currentValues) {
+      // Check if this value is a child of any group in _values
+      final isChildOfGroup = _values.any((v) {
+        if (v is GroupPaintingValue) {
+          return v.children.any((child) => child.id == currentValue.id);
+        }
+        return false;
+      });
+
+      // Skip saving if it's a child of a group (it's already been updated above)
+      if (isChildOfGroup) {
+        continue;
+      }
+
       final existingIndex = _values.indexWhere((v) => v.id == currentValue.id);
       if (existingIndex >= 0) {
         _values[existingIndex] = currentValue;
