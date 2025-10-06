@@ -147,13 +147,13 @@ class ColorPickerModal extends Modal {
                             .colorPalette
                             .value
                             .split(5)
-                            .map((r) {
+                            .map((color) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                ...r.map(
+                                ...color.map(
                                   (e) => SizedBox(
                                     width: 28,
                                     height: 28,

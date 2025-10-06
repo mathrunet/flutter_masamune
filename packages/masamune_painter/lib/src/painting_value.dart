@@ -22,23 +22,7 @@ enum PaintingValueCategory {
 
 /// A class for storing drawing data.
 ///
-/// This class is designed to support future group functionality where
-/// layers can be organized in a parent-child hierarchy. When implementing
-/// groups, consider adding:
-/// - `parentId`: ID of the parent group (null if at root level)
-/// - `children`: List of child PaintingValue items (for group items)
-/// - `isGroup`: Flag to indicate if this is a group container
-/// - `depth`: Nesting level in the hierarchy
-///
 /// 描画用のデータを格納するクラス。
-///
-/// このクラスは、レイヤーを親子階層で整理できる将来的なグループ機能を
-/// サポートするように設計されています。グループを実装する際は、
-/// 以下の追加を検討してください:
-/// - `parentId`: 親グループのID（ルートレベルの場合はnull）
-/// - `children`: 子PaintingValueアイテムのリスト（グループアイテム用）
-/// - `isGroup`: これがグループコンテナかどうかを示すフラグ
-/// - `depth`: 階層内のネストレベル
 @immutable
 abstract class PaintingValue {
   /// A class for storing drawing data.
@@ -142,6 +126,16 @@ abstract class PaintingValue {
   /// 描画用のデータのパスのキー。
   static const String pathKey = "path";
 
+  /// The key for the children.
+  ///
+  /// 子要素のキー。
+  static const String childrenKey = "children";
+
+  /// The key for the isExpanded.
+  ///
+  /// 展開状態のキー。
+  static const String expandedKey = "expanded";
+
   /// The icon of the painting value.
   ///
   /// 描画用のデータのアイコン。
@@ -199,9 +193,7 @@ abstract class PaintingValue {
   /// 描画用のデータの縦✕横の最小面積。
   double get minimumArea;
 
-  /// Getting the minimum size offset on creating.
-  ///
-  /// 作成中の最小サイズオフセットを取得します。
+  // 作成中の最小サイズオフセットを取得します。
   Offset _getMinimumSizeOffsetOnCreating(
     Offset startPoint,
     Offset currentPoint,
@@ -238,9 +230,7 @@ abstract class PaintingValue {
     return Offset(adjustedEndX, adjustedEndY);
   }
 
-  /// Getting the minimum size offset on resizing.
-  ///
-  /// リサイズ中の最小サイズオフセットを取得します。
+  // リサイズ中の最小サイズオフセットを取得します。
   ({Offset startPoint, Offset endPoint}) _getMinimumSizeOffsetOnResizing(
     Offset currentPoint,
     PainterResizeDirection direction,

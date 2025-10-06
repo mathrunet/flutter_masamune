@@ -513,6 +513,7 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
     }
   }
 
+  // プライマリツールをビルド
   Iterable<Widget> _buildPrimaryTools(BuildContext context, ThemeData theme) {
     final primaryTools =
         widget.primaryTools ?? widget.controller.adapter.defaultPrimaryTools;
@@ -551,6 +552,7 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
     });
   }
 
+  // セカンダリツールをビルド
   Iterable<Widget> _buildSecondaryTools(BuildContext context, ThemeData theme) {
     final secondaryTools = widget.secondaryTools ??
         widget.controller.adapter.defaultSecondaryTools;
@@ -578,6 +580,7 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
     return [];
   }
 
+  // インラインツールをビルド
   Iterable<Widget> _buildInlineTools(
     BuildContext context,
     ThemeData theme,
@@ -613,6 +616,7 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
     });
   }
 
+  // テキストダイアログをビルド
   Widget _buildTextDialog(
     BuildContext context,
     ThemeData theme,
@@ -661,6 +665,7 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
     );
   }
 
+  // ブロックツールをビルド
   Widget _buildBlockTools(
     BuildContext context,
     ThemeData theme,

@@ -82,19 +82,13 @@ class _PainterLayerListState extends State<PainterLayerList> {
     setState(_rebuildTree);
   }
 
-  /// Rebuild tree structure from PainterController values
-  ///
-  /// PainterControllerの値からツリー構造を再構築
+  // PainterControllerの値からツリー構造を再構築
   void _rebuildTree() {
     final items = widget.controller.value;
     _treeNodes = _buildTreeViewNodes(items);
-
-    // Note: TreeViewNode expansion state is set during construction
   }
 
-  /// Build TreeViewNode list from PaintingValues
-  ///
-  /// PaintingValueからTreeViewNodeリストを構築
+  // PaintingValueからTreeViewNodeリストを構築
   List<TreeViewNode<PaintingValue?>> _buildTreeViewNodes(
       List<PaintingValue> items) {
     final nodes = <TreeViewNode<PaintingValue?>>[];
@@ -124,11 +118,9 @@ class _PainterLayerListState extends State<PainterLayerList> {
     return nodes;
   }
 
-  /// Collect all child IDs from a group recursively
-  ///
-  /// グループから再帰的にすべての子要素のIDを収集
+  // グループから再帰的にすべての子要素のIDを収集
   void _collectChildIds(GroupPaintingValue group, Set<String> childIds) {
-    for (final child in group.childValues) {
+    for (final child in group.children) {
       childIds.add(child.id);
       if (child is GroupPaintingValue) {
         _collectChildIds(child, childIds);
@@ -136,14 +128,12 @@ class _PainterLayerListState extends State<PainterLayerList> {
     }
   }
 
-  /// Create a TreeViewNode from a PaintingValue
-  ///
-  /// PaintingValueからTreeViewNodeを作成
+  // PaintingValueからTreeViewNodeを作成
   TreeViewNode<PaintingValue?>? _createTreeViewNode(PaintingValue value) {
     if (value is GroupPaintingValue) {
       // Create children nodes recursively
       final childNodes = <TreeViewNode<PaintingValue?>>[];
-      for (final childValue in value.childValues) {
+      for (final childValue in value.children) {
         final childNode = _createTreeViewNode(childValue);
         if (childNode != null) {
           childNodes.add(childNode);
@@ -193,18 +183,14 @@ class _PainterLayerListState extends State<PainterLayerList> {
     });
   }
 
-  /// Build tree row configuration
-  ///
-  /// ツリー行の設定を構築
+  // ツリー行の設定を構築
   TreeRow _treeRowBuilder(TreeViewNode<PaintingValue?> node) {
     return TreeRow(
       extent: FixedTreeRowExtent(widget.rowHeight),
     );
   }
 
-  /// Build tree node widget with drag and drop support
-  ///
-  /// ドラッグ&ドロップ対応のツリーノードウィジェットを構築
+  // ドラッグ&ドロップ対応のツリーノードウィジェットを構築
   Widget _treeNodeBuilder(
     BuildContext context,
     TreeViewNode<PaintingValue?> node,
@@ -235,9 +221,7 @@ class _PainterLayerListState extends State<PainterLayerList> {
     );
   }
 
-  /// Append dragged value to the end of the list
-  ///
-  /// ドラッグした値をリストの最後に追加
+  // ドラッグした値をリストの最後に追加
   void _appendToEnd(PaintingValue dragged) {
     final items = widget.controller.value;
     final draggedIndex = items.indexWhere((v) => v.id == dragged.id);
@@ -264,9 +248,7 @@ class _PainterLayerListState extends State<PainterLayerList> {
     _rebuildTree();
   }
 
-  /// Handle drop operation
-  ///
-  /// ドロップ操作を処理
+  // ドロップ操作を処理
   void _handleDrop(
     PaintingValue dragged,
     PaintingValue target,
@@ -291,9 +273,7 @@ class _PainterLayerListState extends State<PainterLayerList> {
     _rebuildTree();
   }
 
-  /// Insert dragged value before target
-  ///
-  /// ドラッグした値をターゲットの前に挿入
+  // ドラッグした値をターゲットの前に挿入
   void _insertBefore(PaintingValue dragged, PaintingValue target) {
     final items = widget.controller.value;
 
@@ -302,7 +282,7 @@ class _PainterLayerListState extends State<PainterLayerList> {
 
     if (targetParent != null) {
       // Target is inside a group
-      final targetIndex = targetParent.childValues.indexOf(target);
+      final targetIndex = targetParent.children.indexOf(target);
 
       // Remove dragged from its current location
       _removeFromCurrentLocation(dragged);
@@ -324,7 +304,7 @@ class _PainterLayerListState extends State<PainterLayerList> {
         // Dragged is inside a group, move it to root level
         // Calculate new index considering if group will be removed
         final groupIndex = items.indexWhere((v) => v.id == draggedParent.id);
-        final willGroupBeRemoved = draggedParent.childValues.length == 1;
+        final willGroupBeRemoved = draggedParent.children.length == 1;
 
         final newIndex = willGroupBeRemoved && groupIndex < targetIndex
             ? targetIndex - 1
@@ -351,9 +331,7 @@ class _PainterLayerListState extends State<PainterLayerList> {
     }
   }
 
-  /// Insert dragged value after target
-  ///
-  /// ドラッグした値をターゲットの後に挿入
+  // ドラッグした値をターゲットの後に挿入
   void _insertAfter(PaintingValue dragged, PaintingValue target) {
     final items = widget.controller.value;
 
@@ -362,7 +340,7 @@ class _PainterLayerListState extends State<PainterLayerList> {
 
     if (targetParent != null) {
       // Target is inside a group
-      final targetIndex = targetParent.childValues.indexOf(target);
+      final targetIndex = targetParent.children.indexOf(target);
 
       // Remove dragged from its current location
       _removeFromCurrentLocation(dragged);
@@ -384,7 +362,7 @@ class _PainterLayerListState extends State<PainterLayerList> {
         // Dragged is inside a group, move it to root level
         // Calculate new index considering if group will be removed
         final groupIndex = items.indexWhere((v) => v.id == draggedParent.id);
-        final willGroupBeRemoved = draggedParent.childValues.length == 1;
+        final willGroupBeRemoved = draggedParent.children.length == 1;
 
         final newIndex = willGroupBeRemoved && groupIndex < targetIndex
             ? targetIndex
@@ -411,9 +389,7 @@ class _PainterLayerListState extends State<PainterLayerList> {
     }
   }
 
-  /// Add dragged value to a group
-  ///
-  /// ドラッグした値をグループに追加
+  // ドラッグした値をグループに追加
   void _addToGroup(PaintingValue dragged, GroupPaintingValue targetGroup) {
     // Remove dragged from its current location
     _removeFromCurrentLocation(dragged);
@@ -462,20 +438,18 @@ class _PainterLayerListState extends State<PainterLayerList> {
     // If not in a group, it will be moved by reorder
   }
 
-  /// Find the parent group of a value
-  ///
-  /// 値の親グループを検索
+  // 値の親グループを検索
   GroupPaintingValue? _findParent(
       PaintingValue value, List<PaintingValue> items) {
     for (final item in items) {
       if (item is GroupPaintingValue) {
         // Check direct children
-        if (item.childValues.any((child) => child.id == value.id)) {
+        if (item.children.any((child) => child.id == value.id)) {
           return item;
         }
 
         // Check nested children recursively
-        final nestedParent = _findParent(value, item.childValues);
+        final nestedParent = _findParent(value, item.children);
         if (nestedParent != null) {
           return nestedParent;
         }
@@ -657,9 +631,7 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
     );
   }
 
-  /// Calculate drop position from vertical offset
-  ///
-  /// 縦方向のオフセットからドロップ位置を計算
+  // 縦方向のオフセットからドロップ位置を計算
   _DropPosition _calculateDropPosition(double dy, double height) {
     final oneThird = height * 0.3;
 
@@ -672,9 +644,7 @@ class _DraggableTreeTileState extends State<_DraggableTreeTile> {
     }
   }
 
-  /// Build tile content
-  ///
-  /// タイルのコンテンツを構築
+  // タイルのコンテンツを構築
   Widget _buildTileContent(
     BuildContext context,
     PaintingValue item,

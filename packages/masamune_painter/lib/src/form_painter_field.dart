@@ -277,11 +277,6 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   @override
   bool get wantKeepAlive => widget.keepAlive;
 
-  // 変換行列とスケール/パン管理
-  Matrix4 _transformMatrix = Matrix4.identity();
-  double _currentScale = 1.0;
-  Offset _currentOffset = Offset.zero;
-
   /// Get the current scale of the canvas.
   ///
   /// キャンバスの現在のスケールを取得します。
@@ -291,6 +286,11 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   ///
   /// キャンバスの現在のオフセットを取得します。
   Offset get currentOffset => _currentOffset;
+
+  // 変換行列とスケール/パン管理
+  Matrix4 _transformMatrix = Matrix4.identity();
+  double _currentScale = 1.0;
+  Offset _currentOffset = Offset.zero;
 
   // アニメーション用
   AnimationController? _panAnimationController;
@@ -361,7 +361,9 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   }
 
   void _handleControllerChanged() {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -640,23 +642,20 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     setState(() {});
   }
 
-  /// Get the scaled handle size based on current zoom level.
-  /// スケールに応じたハンドルサイズを取得。
+  // スケールに応じたハンドルサイズを取得。
   double get _scaledHandleSize {
     const baseHandleSize = 16.0;
     // スケールが小さいときはハンドルを大きく、大きいときは小さくする
     return baseHandleSize / _currentScale;
   }
 
-  /// Get the scaled selection margin based on current zoom level.
-  /// スケールに応じた選択マージンを取得。
+  // スケールに応じた選択マージンを取得。
   double get _scaledSelectionMargin {
     const baseSelectionMargin = 16.0;
     return baseSelectionMargin / _currentScale;
   }
 
-  /// Get the scaled extra margin for handle tap area based on current zoom level.
-  /// スケールに応じたハンドルタップエリアの追加マージンを取得。
+  // スケールに応じたハンドルタップエリアの追加マージンを取得。
   double get _scaledExtraMargin {
     const baseExtraMargin = 16.0;
     return baseExtraMargin / _currentScale;
@@ -806,7 +805,6 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     final tappedValue = widget.controller.findValueAt(position);
     // 単一のオブジェクトを選択
     if (tappedValue != null) {
-      // Use select instead of updateCurrentValue to handle group selection properly
       // グループ選択を適切に処理するために、updateCurrentValueの代わりにselectを使用
       widget.controller.unselectAll();
       widget.controller.select(tappedValue);
@@ -842,7 +840,6 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     }
     // ツールが無い場合は選択ツールを設定
     widget.controller._currentTool ??= const SelectPainterPrimaryTools();
-    // Use select instead of updateCurrentValue to handle group selection properly
     // グループ選択を適切に処理するために、updateCurrentValueの代わりにselectを使用
     widget.controller.unselectAll();
     widget.controller.select(tappedValue);
@@ -952,7 +949,7 @@ class _RawPainter extends CustomPainter {
   void _paintValue(Canvas canvas, PaintingValue value) {
     // グループの場合は子要素も描画
     if (value is GroupPaintingValue) {
-      for (final child in value.childValues) {
+      for (final child in value.children) {
         child.paint(canvas);
       }
     } else {
@@ -965,8 +962,7 @@ class _RawPainter extends CustomPainter {
     _paintSelection(canvas, bounds);
   }
 
-  /// Get the scaled handle size based on current zoom level.
-  /// スケールに応じたハンドルサイズを取得。
+  // スケールに応じたハンドルサイズを取得。
   double get _scaledHandleSize {
     const baseHandleSize = 16.0;
     // スケールが小さいときはハンドルを大きく、大きいときは小さくする
