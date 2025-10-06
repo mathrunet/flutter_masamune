@@ -757,12 +757,34 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       ...childrenCandidates.map((v) => v.id),
     ];
 
+    // Save the original _values list to calculate correct insertion index
+    final originalValues = List<PaintingValue>.from(_values);
+
+    // Find the insertion index BEFORE removing items
+    // Use the position of the frontmost (highest index) selected item at root level
+    var insertIndex = -1;
+    for (var i = 0; i < originalValues.length; i++) {
+      if (allIds.contains(originalValues[i].id)) {
+        insertIndex = i;
+        // Keep looking for higher indices (frontmost items)
+      }
+    }
+    // If no items found at root level, use the end
+    if (insertIndex < 0) {
+      insertIndex = originalValues.length;
+    }
+
     // Remove items from their current locations
     _removeItemsFromCurrentLocations(allIds);
 
-    // Insert the clipping group at the frontmost position (where clipShape was)
-    // Since we removed items, insert at the end (which is now the frontmost)
-    final insertIndex = _values.length;
+    // Adjust insertIndex based on how many items were removed before it
+    var removedCount = 0;
+    for (var i = 0; i < insertIndex; i++) {
+      if (allIds.contains(originalValues[i].id)) {
+        removedCount++;
+      }
+    }
+    insertIndex -= removedCount;
 
     // Create clipping group with calculated bounds
     final bounds =
@@ -841,21 +863,34 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     final childIds = flattenedValues.map((v) => v.id).toList();
     final allIdsToRemove = <String>[...childIds, ...groupIdsToRemove];
 
-    // Remove selected items and groups from their current locations
-    _removeItemsFromCurrentLocations(allIdsToRemove);
+    // Save the original _values list to calculate correct insertion index
+    final originalValues = List<PaintingValue>.from(_values);
 
-    // Find the insertion index based on the first selected item's position
-    var insertIndex = _values.length;
-    for (var i = 0; i < _values.length; i++) {
-      if (allIdsToRemove.contains(_values[i].id)) {
+    // Find the insertion index BEFORE removing items
+    // Use the position of the frontmost (highest index) selected item at root level
+    var insertIndex = -1;
+    for (var i = 0; i < originalValues.length; i++) {
+      if (allIdsToRemove.contains(originalValues[i].id)) {
         insertIndex = i;
-        break;
+        // Keep looking for higher indices (frontmost items)
       }
     }
     // If no items found at root level, use the end
-    if (insertIndex == _values.length) {
-      insertIndex = _values.length;
+    if (insertIndex < 0) {
+      insertIndex = originalValues.length;
     }
+
+    // Remove selected items and groups from their current locations
+    _removeItemsFromCurrentLocations(allIdsToRemove);
+
+    // Adjust insertIndex based on how many items were removed before it
+    var removedCount = 0;
+    for (var i = 0; i < insertIndex; i++) {
+      if (allIdsToRemove.contains(originalValues[i].id)) {
+        removedCount++;
+      }
+    }
+    insertIndex -= removedCount;
 
     // Create group with calculated bounds
     final bounds = _calculateBounds(flattenedValues);

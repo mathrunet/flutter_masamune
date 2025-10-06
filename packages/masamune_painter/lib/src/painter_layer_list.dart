@@ -233,20 +233,19 @@ class _PainterLayerListState extends State<PainterLayerList> {
     final draggedIndex = items.indexWhere((v) => v.id == dragged.id);
     final draggedParent = _findParent(dragged, items);
 
-    // Since display is reversed, dropping at the bottom (visually back)
-    // means inserting at the beginning of data (index 0)
+    // Display is reversed, so bottom of list = back = index 0
     if (draggedParent != null) {
-      // Dragged is inside a group, move it to root level at the beginning
+      // Dragged is inside a group, move it to root level at index 0 (back)
       widget.controller.removeFromGroup(
         dragged.id,
         insertIndex: 0,
       );
     } else if (draggedIndex >= 0) {
-      // Dragged is at root level, reorder to beginning
+      // Dragged is at root level, reorder to index 0 (back)
       // Remove dragged from its current location
       _removeFromCurrentLocation(dragged);
 
-      // Move to the beginning
+      // Move to the beginning (index 0 = back)
       if (draggedIndex != 0) {
         widget.controller.reorder(draggedIndex, 0);
       }
@@ -261,11 +260,11 @@ class _PainterLayerListState extends State<PainterLayerList> {
     PaintingValue target,
     _DropPosition position,
   ) {
-    // Since the display order is reversed (front to back, top to bottom),
-    // we need to swap above and below operations to match user's visual intention
+    // Display is reversed: top = front (high index), bottom = back (low index)
+    // So above/below need to be swapped
     switch (position) {
       case _DropPosition.above:
-        // Display above (front) = Insert after in data (back to front order)
+        // Visual above = front = need higher index = insertAfter
         _insertAfter(dragged, target);
         break;
       case _DropPosition.inside:
@@ -276,7 +275,7 @@ class _PainterLayerListState extends State<PainterLayerList> {
         }
         break;
       case _DropPosition.below:
-        // Display below (back) = Insert before in data (back to front order)
+        // Visual below = back = need lower index = insertBefore
         _insertBefore(dragged, target);
         break;
     }

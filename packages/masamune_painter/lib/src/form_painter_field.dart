@@ -999,6 +999,8 @@ class _RawPainter extends CustomPainter {
       }
     } else if (value is GroupPaintingValue) {
       // 通常のグループの場合は子要素を描画
+      // Children are stored in back-to-front order (same as root level)
+      // So we paint them in order (back to front)
       for (final child in value.children) {
         child.paint(canvas);
       }
