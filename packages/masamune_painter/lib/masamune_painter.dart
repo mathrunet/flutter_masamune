@@ -76,6 +76,7 @@ part "tools/block/filter/blur_filter_painter_block_tools.dart";
 
 part "tools/block/group/grouping_group_painter_block_tools.dart";
 part "tools/block/group/ungroup_group_painter_block_tools.dart";
+part "tools/block/group/clippling_group_painter_block_tools.dart";
 
 part "tools/block/media/image_from_camera_media_painter_block_tools.dart";
 part "tools/block/media/image_from_library_media_painter_block_tools.dart";

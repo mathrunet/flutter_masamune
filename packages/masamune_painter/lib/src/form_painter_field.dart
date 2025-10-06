@@ -947,8 +947,28 @@ class _RawPainter extends CustomPainter {
   }
 
   void _paintValue(Canvas canvas, PaintingValue value) {
-    // グループの場合は子要素も描画
-    if (value is GroupPaintingValue) {
+    // クリッピンググループの場合は、clipShapeでクリップしてから子要素を描画
+    if (value is ClippingGroupPaintingValue) {
+      // クリッピング領域を設定して子要素を描画
+      // ClipShape自体は描画せず、マスクとしてのみ使用
+      canvas.save();
+
+      final clipRect = value.clipShape.rect;
+      if (value.clipShape is RectanglePaintingValue) {
+        canvas.clipRect(clipRect);
+      } else {
+        // 将来的に他のシェイプ（楕円など）をサポート
+        canvas.clipRect(clipRect);
+      }
+
+      // 子要素を描画（クリッピングが適用される）
+      for (final child in value.children) {
+        child.paint(canvas);
+      }
+
+      canvas.restore();
+    } else if (value is GroupPaintingValue) {
+      // 通常のグループの場合は子要素を描画
       for (final child in value.children) {
         child.paint(canvas);
       }

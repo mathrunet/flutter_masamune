@@ -29,7 +29,7 @@ class UngroupGroupPainterBlockTools extends PainterBlockTools {
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
-    // Show when at least one selected value is a group
+    // Show when at least one selected value is a group (including ClippingGroup)
     return ref.controller.currentValues.any((v) => v is GroupPaintingValue);
   }
 

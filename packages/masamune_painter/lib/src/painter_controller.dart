@@ -112,15 +112,31 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
           return child;
         }).toList();
 
-        // Calculate new bounds for the group based on child values
-        final bounds = _calculateBounds(updatedChildren);
+        // Calculate new bounds for the group based on child values (and clipShape for ClippingGroup)
+        final Rect bounds;
+        if (parentGroup is ClippingGroupPaintingValue) {
+          // For ClippingGroup, include clipShape in bounds calculation
+          bounds =
+              _calculateBounds([parentGroup.clipShape, ...updatedChildren]);
+        } else {
+          bounds = _calculateBounds(updatedChildren);
+        }
 
         // Update the group with new child values and bounds
-        _values[parentGroupIndex] = parentGroup.copyWith(
-          children: updatedChildren,
-          start: bounds.topLeft,
-          end: bounds.bottomRight,
-        );
+        // Preserve the type (ClippingGroupPaintingValue vs GroupPaintingValue)
+        if (parentGroup is ClippingGroupPaintingValue) {
+          _values[parentGroupIndex] = parentGroup.copyWith(
+            children: updatedChildren,
+            start: bounds.topLeft,
+            end: bounds.bottomRight,
+          );
+        } else {
+          _values[parentGroupIndex] = parentGroup.copyWith(
+            children: updatedChildren,
+            start: bounds.topLeft,
+            end: bounds.bottomRight,
+          );
+        }
       }
     }
 
@@ -298,7 +314,8 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     _currentValues.add(value);
 
     // If selecting a group, also add its children to selection
-    if (value is GroupPaintingValue) {
+    // EXCEPT for ClippingGroupPaintingValue - allow separate child selection
+    if (value is GroupPaintingValue && value is! ClippingGroupPaintingValue) {
       for (final child in value.children) {
         if (!_currentValues.any((v) => v.id == child.id)) {
           _currentValues.add(child);
@@ -335,7 +352,8 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     _currentValues.removeWhere((v) => v.id == value.id);
 
     // If unselecting a group, also remove its children from selection
-    if (value is GroupPaintingValue) {
+    // EXCEPT for ClippingGroupPaintingValue - allow separate child selection
+    if (value is GroupPaintingValue && value is! ClippingGroupPaintingValue) {
       final children = value.children;
       _currentValues.removeWhere(
         (v) => children.any((e) => e.id == v.id),
@@ -446,7 +464,27 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   void moveSelectedValues(Offset delta) {
     final updatedValues = <PaintingValue>[];
     for (final value in _currentValues) {
-      updatedValues.add(value.updateOnMoving(delta: delta));
+      // For ClippingGroup, check if only the group is selected (no children selected)
+      if (value is ClippingGroupPaintingValue) {
+        // Check if any children are selected
+        final hasChildrenSelected = _currentValues
+            .any((v) => value.children.any((child) => child.id == v.id));
+
+        if (!hasChildrenSelected) {
+          // Only the ClippingGroup is selected -> move only clipShape
+          final movedClipShape = value.clipShape.updateOnMoving(delta: delta);
+          updatedValues.add(value.copyWith(
+            clipShape: movedClipShape,
+            start: movedClipShape.start,
+            end: movedClipShape.end,
+          ));
+        } else {
+          // Children are selected -> move entire group
+          updatedValues.add(value.updateOnMoving(delta: delta));
+        }
+      } else {
+        updatedValues.add(value.updateOnMoving(delta: delta));
+      }
     }
     _currentValues.clear();
     _currentValues.addAll(updatedValues);
@@ -542,6 +580,81 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     // Apply resize to each selected value
     final updatedValues = <PaintingValue>[];
     for (final value in _currentValues) {
+      // For ClippingGroup with children selected, resize entire group
+      if (value is ClippingGroupPaintingValue) {
+        final hasChildrenSelected = _currentValues
+            .any((v) => value.children.any((child) => child.id == v.id));
+
+        if (hasChildrenSelected) {
+          // Resize entire group (clipShape + children)
+          final oldWidth = (value.end.dx - value.start.dx).abs();
+          final oldHeight = (value.end.dy - value.start.dy).abs();
+
+          final newRect = Rect.fromPoints(
+            Offset(newBounds.left, newBounds.top),
+            Offset(newBounds.right, newBounds.bottom),
+          );
+          final newWidth = newRect.width;
+          final newHeight = newRect.height;
+
+          if (oldWidth == 0 || oldHeight == 0) {
+            updatedValues.add(value);
+            continue;
+          }
+
+          // Transform all children
+          final resizedChildren = value.children.map((child) {
+            final childRect = child.rect;
+
+            final relativeLeft = (childRect.left - value.start.dx) / oldWidth;
+            final relativeTop = (childRect.top - value.start.dy) / oldHeight;
+            final relativeRight = (childRect.right - value.start.dx) / oldWidth;
+            final relativeBottom =
+                (childRect.bottom - value.start.dy) / oldHeight;
+
+            final newLeft = newBounds.left + (relativeLeft * newWidth);
+            final newTop = newBounds.top + (relativeTop * newHeight);
+            final newRight = newBounds.left + (relativeRight * newWidth);
+            final newBottom = newBounds.top + (relativeBottom * newHeight);
+
+            return child.copyWith(
+              start: Offset(newLeft, newTop),
+              end: Offset(newRight, newBottom),
+            );
+          }).toList();
+
+          // Also resize clipShape
+          final clipShapeRect = value.clipShape.rect;
+          final clipRelativeLeft =
+              (clipShapeRect.left - value.start.dx) / oldWidth;
+          final clipRelativeTop =
+              (clipShapeRect.top - value.start.dy) / oldHeight;
+          final clipRelativeRight =
+              (clipShapeRect.right - value.start.dx) / oldWidth;
+          final clipRelativeBottom =
+              (clipShapeRect.bottom - value.start.dy) / oldHeight;
+
+          final clipNewLeft = newBounds.left + (clipRelativeLeft * newWidth);
+          final clipNewTop = newBounds.top + (clipRelativeTop * newHeight);
+          final clipNewRight = newBounds.left + (clipRelativeRight * newWidth);
+          final clipNewBottom =
+              newBounds.top + (clipRelativeBottom * newHeight);
+
+          final resizedClipShape = value.clipShape.copyWith(
+            start: Offset(clipNewLeft, clipNewTop),
+            end: Offset(clipNewRight, clipNewBottom),
+          );
+
+          updatedValues.add(value.copyWith(
+            start: newBounds.topLeft,
+            end: newBounds.bottomRight,
+            children: resizedChildren,
+            clipShape: resizedClipShape,
+          ));
+          continue;
+        }
+      }
+
       // Calculate relative position within original bounds
       final valueRect = value.rect;
       final relativeX = (valueRect.left - bounds.left) / bounds.width;
@@ -582,6 +695,101 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     String? groupName,
   }) {
     return createGroup(_currentValues, groupName: groupName);
+  }
+
+  /// Create a clipping group from selected values.
+  ///
+  /// The frontmost selected item must be a shape (RectanglePaintingValue) and will become the clipShape.
+  /// The remaining selected items will become children of the clipping group.
+  ///
+  /// 選択した値からクリッピンググループを作成します。
+  ///
+  /// 最前面の選択アイテムはシェイプ（RectanglePaintingValue）である必要があり、clipShapeになります。
+  /// 残りの選択アイテムはクリッピンググループの子要素になります。
+  ClippingGroupPaintingValue? createClippingGroupFromSelection({
+    String? groupName,
+  }) {
+    if (_currentValues.length < 2) {
+      return null;
+    }
+
+    // Save current values before grouping
+    saveCurrentValue();
+
+    // Get ungrouped values (flatten any groups)
+    final ungroupedValues = currentUngroupedValues;
+
+    if (ungroupedValues.length < 2) {
+      return null;
+    }
+
+    // Find the frontmost item in layer order (not selection order)
+    // _values[0] is the backmost, _values[length-1] is the frontmost
+    // So we need to find the item with largest index
+    PaintingValue? clipShapeCandidate;
+    var maxIndex = -1;
+
+    for (final value in ungroupedValues) {
+      final index = _values.indexWhere((v) => v.id == value.id);
+      if (index >= 0 && index > maxIndex && value is RectanglePaintingValue) {
+        maxIndex = index;
+        clipShapeCandidate = value;
+      }
+    }
+
+    // Check if we found a valid clip shape
+    if (clipShapeCandidate == null) {
+      return null;
+    }
+
+    // The remaining items become children
+    final childrenCandidates =
+        ungroupedValues.where((v) => v.id != clipShapeCandidate!.id).toList();
+
+    if (childrenCandidates.isEmpty) {
+      return null;
+    }
+
+    // Get all IDs to remove (clipShape + children)
+    final allIds = [
+      clipShapeCandidate.id,
+      ...childrenCandidates.map((v) => v.id),
+    ];
+
+    // Remove items from their current locations
+    _removeItemsFromCurrentLocations(allIds);
+
+    // Insert the clipping group at the frontmost position (where clipShape was)
+    // Since we removed items, insert at the end (which is now the frontmost)
+    final insertIndex = _values.length;
+
+    // Create clipping group with calculated bounds
+    final bounds =
+        _calculateBounds([clipShapeCandidate, ...childrenCandidates]);
+    final groupId = uuid();
+    final clippingGroup = ClippingGroupPaintingValue(
+      id: groupId,
+      property: property.currentToolProperty,
+      start: bounds.topLeft,
+      end: bounds.bottomRight,
+      name: groupName ?? "Clipping Group",
+      children: childrenCandidates,
+      clipShape: clipShapeCandidate,
+      expanded: true,
+    );
+
+    // Insert the clipping group at the calculated position
+    _values.insert(insertIndex, clippingGroup);
+
+    // Clear current selection and select the new clipping group
+    _currentValues.clear();
+    _currentValues.add(clippingGroup);
+
+    // Save to history
+    history._saveToHistory();
+
+    notifyListeners();
+    return clippingGroup;
   }
 
   /// Create a group from a list of values.
@@ -973,15 +1181,22 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     // Get the children from the group's children.
     final children = List<PaintingValue>.from(group.children);
 
+    // For ClippingGroup, also restore the clipShape
+    final allItems = List<PaintingValue>.from(children);
+    if (group is ClippingGroupPaintingValue) {
+      // Add the clipShape as a normal layer
+      allItems.add(group.clipShape);
+    }
+
     // Remove the group
     _values.removeAt(groupIndex);
 
-    // Insert children at the same position
-    _values.insertAll(groupIndex, children);
+    // Insert children (and clipShape if clipping group) at the same position
+    _values.insertAll(groupIndex, allItems);
 
     // Update selection
     _currentValues.clear();
-    _currentValues.addAll(children);
+    _currentValues.addAll(allItems);
 
     // Save to history
     history._saveToHistory();

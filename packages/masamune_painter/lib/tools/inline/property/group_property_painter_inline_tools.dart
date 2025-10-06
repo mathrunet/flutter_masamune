@@ -1,6 +1,8 @@
 part of "/masamune_painter.dart";
 
 const _kGroupPainterPrimaryToolsId = "__painter_property_group__";
+const _kClippingGroupPainterPrimaryToolsId =
+    "__painter_property_clipping_group__";
 
 /// Display group properties [PainterTools].
 ///
@@ -27,6 +29,7 @@ class GroupPropertyPainterInlineTools extends PainterInlinePrimaryTools {
     this.blockTools = const [
       GroupingGroupPainterBlockTools(),
       UngroupGroupPainterBlockTools(),
+      ClipplingGroupPainterBlockTools(),
     ],
   });
 
@@ -109,6 +112,12 @@ class GroupPaintingValue extends PaintingValue {
   ///
   /// [DynamicMap]から[GroupPaintingValue]を作成します。
   factory GroupPaintingValue.fromJson(DynamicMap json) {
+    // Check if this is a ClippingGroupPaintingValue
+    final type = json.get(PaintingValue.typeKey, "");
+    if (type == _kClippingGroupPainterPrimaryToolsId) {
+      return ClippingGroupPaintingValue.fromJson(json);
+    }
+
     final properties = PaintingProperty.fromJson(
       json.getAsMap(PaintingValue.propertyKey),
     );
@@ -118,9 +127,9 @@ class GroupPaintingValue extends PaintingValue {
         json.getAsList<DynamicMap>(PaintingValue.childrenKey, []);
     final children = <PaintingValue>[];
     for (final childJson in childrenJson) {
-      final type = childJson.get(PaintingValue.typeKey, "");
+      final childType = childJson.get(PaintingValue.typeKey, "");
       final tool =
-          PainterMasamuneAdapter.findTool(toolId: type, recursive: true);
+          PainterMasamuneAdapter.findTool(toolId: childType, recursive: true);
       if (tool is PainterVariableTools) {
         final value = tool.convertFromJson(childJson);
         if (value != null) {
@@ -302,6 +311,211 @@ class GroupPaintingValue extends PaintingValue {
       start: startPoint,
       end: endPoint,
       children: resizedChildren,
+    );
+  }
+}
+
+/// A class for storing clipping group drawing data.
+///
+/// クリッピンググループ描画用のデータを格納するクラス。
+@immutable
+class ClippingGroupPaintingValue extends GroupPaintingValue {
+  /// A class for storing clipping group drawing data.
+  ///
+  /// クリッピンググループ描画用のデータを格納するクラス。
+  const ClippingGroupPaintingValue({
+    required super.id,
+    required super.property,
+    required super.start,
+    required super.end,
+    required super.children,
+    required this.clipShape,
+    super.name,
+    super.expanded = true,
+  });
+
+  /// Create a [ClippingGroupPaintingValue] from a [DynamicMap].
+  ///
+  /// [DynamicMap]から[ClippingGroupPaintingValue]を作成します。
+  factory ClippingGroupPaintingValue.fromJson(DynamicMap json) {
+    final properties = PaintingProperty.fromJson(
+      json.getAsMap(PaintingValue.propertyKey),
+    );
+
+    // Restore child values from JSON
+    final childrenJson =
+        json.getAsList<DynamicMap>(PaintingValue.childrenKey, []);
+    final children = <PaintingValue>[];
+    for (final childJson in childrenJson) {
+      final type = childJson.get(PaintingValue.typeKey, "");
+      final tool =
+          PainterMasamuneAdapter.findTool(toolId: type, recursive: true);
+      if (tool is PainterVariableTools) {
+        final value = tool.convertFromJson(childJson);
+        if (value != null) {
+          children.add(value);
+        }
+      }
+    }
+
+    // Restore clipShape from JSON
+    final clipShapeJson = json.getAsMap(clipShapeKey);
+    final clipShapeType = clipShapeJson.get(PaintingValue.typeKey, "");
+    final clipShapeTool =
+        PainterMasamuneAdapter.findTool(toolId: clipShapeType, recursive: true);
+    PaintingValue? clipShape;
+    if (clipShapeTool is PainterVariableTools) {
+      clipShape = clipShapeTool.convertFromJson(clipShapeJson);
+    }
+
+    if (clipShape == null) {
+      throw Exception("ClipShape not found in JSON");
+    }
+
+    return ClippingGroupPaintingValue(
+      id: json.get(PaintingValue.idKey, ""),
+      property: properties,
+      start: Offset(
+        json.get(PaintingValue.startXKey, 0.0),
+        json.get(PaintingValue.startYKey, 0.0),
+      ),
+      end: Offset(
+        json.get(PaintingValue.endXKey, 0.0),
+        json.get(PaintingValue.endYKey, 0.0),
+      ),
+      name: json.get(PaintingValue.nameKey, nullOfString),
+      expanded: json.get(PaintingValue.expandedKey, true),
+      children: children,
+      clipShape: clipShape,
+    );
+  }
+
+  /// The key for the clipShape.
+  ///
+  /// クリップシェイプのキー。
+  static const String clipShapeKey = "clipShape";
+
+  /// The shape used for clipping.
+  ///
+  /// クリッピングに使用するシェイプ。
+  final PaintingValue clipShape;
+
+  @override
+  String get type => _kClippingGroupPainterPrimaryToolsId;
+
+  @override
+  Widget get icon => const Icon(Icons.crop);
+
+  @override
+  DynamicMap toJson() {
+    // Serialize child values
+    final childrenJson = children
+        .map((child) {
+          final tool = PainterMasamuneAdapter.findTool(
+              toolId: child.type, recursive: true);
+          if (tool is PainterVariableTools) {
+            return tool.convertToJson(child);
+          }
+          return null;
+        })
+        .whereType<DynamicMap>()
+        .toList();
+
+    // Serialize clipShape
+    final clipShapeTool = PainterMasamuneAdapter.findTool(
+        toolId: clipShape.type, recursive: true);
+    DynamicMap? clipShapeJson;
+    if (clipShapeTool is PainterVariableTools) {
+      clipShapeJson = clipShapeTool.convertToJson(clipShape);
+    }
+
+    return {
+      PaintingValue.typeKey: type,
+      PaintingValue.idKey: id,
+      PaintingValue.propertyKey: property.toJson(),
+      PaintingValue.startXKey: start.dx,
+      PaintingValue.startYKey: start.dy,
+      PaintingValue.endXKey: end.dx,
+      PaintingValue.endYKey: end.dy,
+      if (name != null) PaintingValue.nameKey: name,
+      PaintingValue.childrenKey: childrenJson,
+      PaintingValue.expandedKey: expanded,
+      if (clipShapeJson != null) clipShapeKey: clipShapeJson,
+    };
+  }
+
+  @override
+  ClippingGroupPaintingValue copyWith({
+    Offset? offset,
+    PaintingProperty? property,
+    Offset? start,
+    Offset? end,
+    String? id,
+    String? name,
+    List<PaintingValue>? children,
+    bool? expanded,
+    PaintingValue? clipShape,
+  }) {
+    return ClippingGroupPaintingValue(
+      id: id ?? this.id,
+      property: property ?? this.property,
+      start: start ?? this.start,
+      end: end ?? this.end,
+      name: name ?? this.name,
+      children: children ?? this.children,
+      expanded: expanded ?? this.expanded,
+      clipShape: clipShape ?? this.clipShape,
+    );
+  }
+
+  @override
+  Rect? paint(Canvas canvas) {
+    // Clipping groups don't paint anything themselves
+    // Clipping and child painting are handled by FormPainterField._paintValue()
+    return null;
+  }
+
+  @override
+  ClippingGroupPaintingValue updateOnMoving({
+    required Offset delta,
+  }) {
+    // Move all children with the group
+    final movedChildren = children.map((child) {
+      return child.updateOnMoving(delta: delta);
+    }).toList();
+
+    // Move clipShape as well
+    final movedClipShape = clipShape.updateOnMoving(delta: delta);
+
+    return copyWith(
+      start: start + delta,
+      end: end + delta,
+      children: movedChildren,
+      clipShape: movedClipShape,
+    );
+  }
+
+  @override
+  ClippingGroupPaintingValue updateOnResizing({
+    required Offset currentPoint,
+    required PainterResizeDirection direction,
+    required Offset startPoint,
+    required Offset endPoint,
+  }) {
+    // For ClippingGroup, only resize the clipShape by default
+    // (when the group itself is selected without children)
+    // Resizing with children is handled by PainterController.resizeSelectedValues
+    final resizedClipShape = clipShape.updateOnResizing(
+      currentPoint: currentPoint,
+      direction: direction,
+      startPoint: startPoint,
+      endPoint: endPoint,
+    );
+
+    return copyWith(
+      clipShape: resizedClipShape,
+      start: resizedClipShape.start,
+      end: resizedClipShape.end,
     );
   }
 }
