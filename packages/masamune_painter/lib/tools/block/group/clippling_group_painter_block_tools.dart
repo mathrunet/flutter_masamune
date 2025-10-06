@@ -37,13 +37,15 @@ class ClipplingGroupPainterBlockTools extends PainterBlockTools {
 
     // Find the frontmost item in layer order (not selection order)
     // _values[0] is the backmost, _values[length-1] is the frontmost
-    // Check if there's at least one RectanglePaintingValue among selected items
+    // Check if there's at least one shape (Rectangle or Ellipse) among selected items
     var hasFrontmostShape = false;
     var maxIndex = -1;
 
     for (final value in ungroupedValues) {
       final index = ref.controller.value.indexWhere((v) => v.id == value.id);
-      if (index >= 0 && index > maxIndex && value is RectanglePaintingValue) {
+      if (index >= 0 &&
+          index > maxIndex &&
+          (value is RectanglePaintingValue || value is EllipsePaintingValue)) {
         maxIndex = index;
         hasFrontmostShape = true;
       }

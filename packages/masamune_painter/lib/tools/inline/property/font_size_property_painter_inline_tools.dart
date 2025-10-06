@@ -29,6 +29,18 @@ class FontSizePropertyPainterInlineTools extends PainterInlinePrimaryTools {
       Size16pxFontPainterBlockTools(),
       Size18pxFontPainterBlockTools(),
       Size20pxFontPainterBlockTools(),
+      Size24pxFontPainterBlockTools(),
+      Size28pxFontPainterBlockTools(),
+      Size32pxFontPainterBlockTools(),
+      Size36pxFontPainterBlockTools(),
+      Size40pxFontPainterBlockTools(),
+      Size48pxFontPainterBlockTools(),
+      Size56pxFontPainterBlockTools(),
+      Size64pxFontPainterBlockTools(),
+      Size80pxFontPainterBlockTools(),
+      Size96pxFontPainterBlockTools(),
+      Size112pxFontPainterBlockTools(),
+      Size128pxFontPainterBlockTools(),
     ],
   });
 

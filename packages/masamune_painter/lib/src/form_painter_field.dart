@@ -982,8 +982,11 @@ class _RawPainter extends CustomPainter {
         final clipRect = value.clipShape.rect;
         if (value.clipShape is RectanglePaintingValue) {
           canvas.clipRect(clipRect);
+        } else if (value.clipShape is EllipsePaintingValue) {
+          final path = Path()..addOval(clipRect);
+          canvas.clipPath(path);
         } else {
-          // 将来的に他のシェイプ（楕円など）をサポート
+          // 他のシェイプはRectでクリップ
           canvas.clipRect(clipRect);
         }
 

@@ -731,7 +731,9 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
     for (final value in ungroupedValues) {
       final index = _values.indexWhere((v) => v.id == value.id);
-      if (index >= 0 && index > maxIndex && value is RectanglePaintingValue) {
+      if (index >= 0 &&
+          index > maxIndex &&
+          (value is RectanglePaintingValue || value is EllipsePaintingValue)) {
         maxIndex = index;
         clipShapeCandidate = value;
       }
@@ -1910,8 +1912,11 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       final clipRect = value.clipShape.rect;
       if (value.clipShape is RectanglePaintingValue) {
         canvas.clipRect(clipRect);
+      } else if (value.clipShape is EllipsePaintingValue) {
+        final path = Path()..addOval(clipRect);
+        canvas.clipPath(path);
       } else {
-        // 将来的に他のシェイプ（楕円など）をサポート
+        // 他のシェイプはRectでクリップ
         canvas.clipRect(clipRect);
       }
 

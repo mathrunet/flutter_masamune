@@ -25,6 +25,7 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
     this.inlineTools = const [
       BackPainterInlineTools(),
       RectangleShapePainterInlineTools(),
+      EllipseShapePainterInlineTools(),
     ],
   });
 

@@ -75,6 +75,7 @@ part "tools/inline/property/layer_forward_property_painter_inline_tools.dart";
 part "tools/inline/property/layer_backward_property_painter_inline_tools.dart";
 
 part "tools/inline/shape/rectangle_shape_painter_inline_tools.dart";
+part "tools/inline/shape/ellipse_shape_painter_inline_tools.dart";
 
 part "tools/block/filter/blur_filter_painter_block_tools.dart";
 
@@ -97,5 +98,17 @@ part "tools/block/text/size_14px_font_painter_block_tools.dart";
 part "tools/block/text/size_16px_font_painter_block_tools.dart";
 part "tools/block/text/size_18px_font_painter_block_tools.dart";
 part "tools/block/text/size_20px_font_painter_block_tools.dart";
+part "tools/block/text/size_24px_font_painter_block_tools.dart";
+part "tools/block/text/size_28px_font_painter_block_tools.dart";
+part "tools/block/text/size_32px_font_painter_block_tools.dart";
+part "tools/block/text/size_36px_font_painter_block_tools.dart";
+part "tools/block/text/size_40px_font_painter_block_tools.dart";
+part "tools/block/text/size_48px_font_painter_block_tools.dart";
+part "tools/block/text/size_56px_font_painter_block_tools.dart";
+part "tools/block/text/size_64px_font_painter_block_tools.dart";
+part "tools/block/text/size_80px_font_painter_block_tools.dart";
+part "tools/block/text/size_96px_font_painter_block_tools.dart";
+part "tools/block/text/size_112px_font_painter_block_tools.dart";
+part "tools/block/text/size_128px_font_painter_block_tools.dart";
 part "tools/block/text/style_normal_font_painter_block_tools.dart";
 part "tools/block/text/style_bold_font_painter_block_tools.dart";

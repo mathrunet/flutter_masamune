@@ -49,7 +49,7 @@ class PainterMasamuneAdapter extends MasamuneAdapter {
       FontStylePropertyPainterInlineTools(),
       ParagraphAlignPropertyPainterInlineTools(),
       GroupPropertyPainterInlineTools(),
-      FilterPropertyPainterInlineTools(),
+      // FilterPropertyPainterInlineTools(),
       LayerForwardPropertyPainterInlineTools(),
       LayerBackwardPropertyPainterInlineTools(),
     ],
