@@ -29,7 +29,10 @@ class GroupingGroupPainterBlockTools extends PainterBlockTools {
 
   @override
   bool shown(BuildContext context, PainterToolRef ref) {
-    return ref.controller.ungroupedValues.length > 1;
+    // Show only when 2 or more ungrouped values are selected
+    // Hide when only a single group is selected (can't group a group by itself)
+    final ungroupedValues = ref.controller.currentUngroupedValues;
+    return ungroupedValues.length > 1;
   }
 
   @override
