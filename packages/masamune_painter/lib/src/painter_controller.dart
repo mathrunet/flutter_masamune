@@ -1769,6 +1769,136 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     notifyListeners();
   }
 
+  /// Save the current canvas data and rendered image.
+  ///
+  /// Returns [PainterExportValue] containing:
+  /// - NoSQL database structure data
+  /// - Local image path (non-Web platforms)
+  /// - Base64 encoded image (Web platform)
+  ///
+  /// 現在のキャンバスデータとレンダリング画像を保存します。
+  ///
+  /// [PainterExportValue]を返します。これには以下が含まれます：
+  /// - NoSQLデータベース構造データ
+  /// - ローカル画像パス（Web以外のプラットフォーム）
+  /// - Base64エンコードされた画像（Webプラットフォーム）
+  Future<PainterExportValue> save() async {
+    // Save current values first
+    saveCurrentValue();
+
+    // Build NoSQL database structure
+    final data = <String, DynamicMap>{};
+    final layerCollection = <String, DynamicMap>{};
+
+    for (final value in _values) {
+      final json = value.toJson();
+
+      if (value is GroupPaintingValue) {
+        // For groups, store the group data without children
+        final groupJson = Map<String, dynamic>.from(json);
+        groupJson.remove("children");
+
+        // For ClippingGroup, also remove clipShape from root as it's stored in subcollection
+        if (value is ClippingGroupPaintingValue) {
+          groupJson.remove("clipShape");
+        }
+
+        layerCollection[value.id] = groupJson;
+
+        // Store children in subcollection
+        final childrenCollection = <String, DynamicMap>{};
+
+        // For ClippingGroup, first add clipShape
+        if (value is ClippingGroupPaintingValue) {
+          childrenCollection[value.clipShape.id] = value.clipShape.toJson();
+        }
+
+        // Then add children
+        for (final child in value.children) {
+          childrenCollection[child.id] = child.toJson();
+        }
+        data["layer/${value.id}/children"] = childrenCollection;
+      } else {
+        // For normal values, store directly
+        layerCollection[value.id] = json;
+      }
+    }
+
+    data["layer"] = layerCollection;
+
+    // Render canvas to image
+    final imageData = await _captureCanvasAsImage();
+
+    if (kIsWeb) {
+      // Web: encode as base64
+      if (imageData != null) {
+        final base64String = base64Encode(imageData);
+        return PainterExportValue(
+          data: data,
+          base64Image: base64String,
+        );
+      } else {
+        return PainterExportValue(data: data);
+      }
+    } else {
+      // Non-Web: save to temporary directory
+      if (imageData != null) {
+        final tempDir = await getTemporaryDirectory();
+        final timestamp = DateTime.now().millisecondsSinceEpoch;
+        final filePath = path.join(tempDir.path, "painter_$timestamp.png");
+        final file = File(filePath);
+        await file.writeAsBytes(imageData);
+
+        return PainterExportValue(
+          data: data,
+          localImagePath: filePath,
+        );
+      } else {
+        return PainterExportValue(data: data);
+      }
+    }
+  }
+
+  /// Capture the entire canvas as image.
+  ///
+  /// キャンバス全体を画像としてキャプチャします。
+  Future<Uint8List?> _captureCanvasAsImage() async {
+    try {
+      // Create a picture recorder to capture the drawing
+      final recorder = ui.PictureRecorder();
+      final canvas = Canvas(
+          recorder, Rect.fromLTWH(0, 0, canvasSize.width, canvasSize.height));
+
+      // Fill background with white color
+      canvas.drawRect(
+        Rect.fromLTWH(0, 0, canvasSize.width, canvasSize.height),
+        Paint()..color = Colors.white,
+      );
+
+      // Draw all values
+      for (final value in _values) {
+        value.paint(canvas);
+      }
+
+      // End recording and create image
+      final picture = recorder.endRecording();
+      final image = await picture.toImage(
+        canvasSize.width.ceil(),
+        canvasSize.height.ceil(),
+      );
+
+      // Convert to PNG bytes
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      picture.dispose();
+      image.dispose();
+
+      return byteData?.buffer.asUint8List();
+    } catch (e) {
+      // Return null if image capture fails
+      return null;
+    }
+  }
+
   /// Get the captured image data of selected objects.
   ///
   /// 選択されたオブジェクトの画像データを取得。

@@ -16,6 +16,7 @@ import "dart:math" as math;
 import "dart:ui" as ui;
 
 // Flutter imports:
+import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
@@ -23,6 +24,8 @@ import "package:flutter/services.dart";
 import "package:flutter_colorpicker/flutter_colorpicker.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
 import "package:masamune/masamune.dart";
+import "package:path/path.dart" as path;
+import "package:path_provider/path_provider.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import "package:two_dimensional_scrollables/two_dimensional_scrollables.dart";
 import "package:vector_math/vector_math_64.dart" hide Colors;
@@ -41,6 +44,7 @@ part "src/painter_inline_mode.dart";
 part "src/color_picker_modal.dart";
 part "src/painter_media_database.dart";
 part "src/painter_layer_list.dart";
+part "src/painter_export_value.dart";
 
 part "tools/primary/select_painter_primary_tools.dart";
 part "tools/primary/shape_painter_primary_tools.dart";
