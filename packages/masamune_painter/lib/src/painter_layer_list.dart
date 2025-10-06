@@ -112,10 +112,13 @@ class _PainterLayerListState extends State<PainterLayerList> {
       }
     }
 
-    // Add null node at the end as drop target
-    nodes.add(TreeViewNode<PaintingValue?>(null));
+    // Reverse the list to display from front to back (top to bottom)
+    final reversedNodes = nodes.reversed.toList();
 
-    return nodes;
+    // Add null node at the end as drop target
+    reversedNodes.add(TreeViewNode<PaintingValue?>(null));
+
+    return reversedNodes;
   }
 
   // グループから再帰的にすべての子要素のIDを収集
@@ -140,9 +143,12 @@ class _PainterLayerListState extends State<PainterLayerList> {
         }
       }
 
+      // Reverse children to display from front to back (top to bottom)
+      final reversedChildNodes = childNodes.reversed.toList();
+
       return TreeViewNode<PaintingValue?>(
         value,
-        children: childNodes,
+        children: reversedChildNodes,
         expanded: value.expanded,
       );
     } else {
@@ -227,21 +233,22 @@ class _PainterLayerListState extends State<PainterLayerList> {
     final draggedIndex = items.indexWhere((v) => v.id == dragged.id);
     final draggedParent = _findParent(dragged, items);
 
+    // Since display is reversed, dropping at the bottom (visually back)
+    // means inserting at the beginning of data (index 0)
     if (draggedParent != null) {
-      // Dragged is inside a group, move it to root level at the end
+      // Dragged is inside a group, move it to root level at the beginning
       widget.controller.removeFromGroup(
         dragged.id,
-        insertIndex: items.length,
+        insertIndex: 0,
       );
     } else if (draggedIndex >= 0) {
-      // Dragged is at root level, reorder to end
+      // Dragged is at root level, reorder to beginning
       // Remove dragged from its current location
       _removeFromCurrentLocation(dragged);
 
-      // Move to the end
-      final newIndex = items.length - 1;
-      if (draggedIndex != newIndex) {
-        widget.controller.reorder(draggedIndex, newIndex);
+      // Move to the beginning
+      if (draggedIndex != 0) {
+        widget.controller.reorder(draggedIndex, 0);
       }
     }
 
@@ -254,9 +261,12 @@ class _PainterLayerListState extends State<PainterLayerList> {
     PaintingValue target,
     _DropPosition position,
   ) {
+    // Since the display order is reversed (front to back, top to bottom),
+    // we need to swap above and below operations to match user's visual intention
     switch (position) {
       case _DropPosition.above:
-        _insertBefore(dragged, target);
+        // Display above (front) = Insert after in data (back to front order)
+        _insertAfter(dragged, target);
         break;
       case _DropPosition.inside:
         if (target is GroupPaintingValue) {
@@ -266,7 +276,8 @@ class _PainterLayerListState extends State<PainterLayerList> {
         }
         break;
       case _DropPosition.below:
-        _insertAfter(dragged, target);
+        // Display below (back) = Insert before in data (back to front order)
+        _insertBefore(dragged, target);
         break;
     }
 
@@ -394,7 +405,8 @@ class _PainterLayerListState extends State<PainterLayerList> {
     // Remove dragged from its current location
     _removeFromCurrentLocation(dragged);
 
-    // Add to group
+    // Add to group at the end (which appears at the top in reversed display)
+    // Since display is reversed, adding to the end of data means showing at the front
     widget.controller.addToGroup(
       dragged.id,
       targetGroup.id,
@@ -413,7 +425,8 @@ class _PainterLayerListState extends State<PainterLayerList> {
     // Remove dragged from its current location
     _removeFromCurrentLocation(dragged);
 
-    // Create group
+    // Create group with [target, dragged] order (back to front in data)
+    // This will display as [dragged, target] (front to back) due to reversed display
     final group = widget.controller.createGroup(
       [target, dragged],
     );
