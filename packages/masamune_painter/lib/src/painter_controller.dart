@@ -1115,9 +1115,15 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     var changed = false;
 
     // Group selected items by their parent (null for root level)
+    // Exclude group objects themselves, only process individual items
     final selectedByParent = <String?, List<PaintingValue>>{};
 
     for (final currentValue in _currentValues) {
+      // Skip group objects - they are containers, not movable items
+      if (currentValue is GroupPaintingValue) {
+        continue;
+      }
+
       // Find parent group for this value
       String? parentGroupId;
       for (var i = 0; i < _values.length; i++) {
@@ -1249,9 +1255,15 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     var changed = false;
 
     // Group selected items by their parent (null for root level)
+    // Exclude group objects themselves, only process individual items
     final selectedByParent = <String?, List<PaintingValue>>{};
 
     for (final currentValue in _currentValues) {
+      // Skip group objects - they are containers, not movable items
+      if (currentValue is GroupPaintingValue) {
+        continue;
+      }
+
       // Find parent group for this value
       String? parentGroupId;
       for (var i = 0; i < _values.length; i++) {
