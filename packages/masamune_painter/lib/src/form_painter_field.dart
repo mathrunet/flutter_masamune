@@ -979,10 +979,10 @@ class _RawPainter extends CustomPainter {
         // When not selected: apply clipping and hide ClipShape
         canvas.save();
 
-        final clipRect = value.clipShape.rect;
-        if (value.clipShape is RectanglePaintingValue) {
+        final clipRect = value.clipper.rect;
+        if (value.clipper is RectanglePaintingValue) {
           canvas.clipRect(clipRect);
-        } else if (value.clipShape is EllipsePaintingValue) {
+        } else if (value.clipper is EllipsePaintingValue) {
           final path = Path()..addOval(clipRect);
           canvas.clipPath(path);
         } else {

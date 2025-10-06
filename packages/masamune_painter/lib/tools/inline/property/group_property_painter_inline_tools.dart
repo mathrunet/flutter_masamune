@@ -329,7 +329,7 @@ class ClippingGroupPaintingValue extends GroupPaintingValue {
     required super.start,
     required super.end,
     required super.children,
-    required this.clipShape,
+    required this.clipper,
     super.name,
     super.expanded = true,
   });
@@ -359,7 +359,7 @@ class ClippingGroupPaintingValue extends GroupPaintingValue {
     }
 
     // Restore clipShape from JSON
-    final clipShapeJson = json.getAsMap(clipShapeKey);
+    final clipShapeJson = json.getAsMap(clipperKey);
     final clipShapeType = clipShapeJson.get(PaintingValue.typeKey, "");
     final clipShapeTool =
         PainterMasamuneAdapter.findTool(toolId: clipShapeType, recursive: true);
@@ -386,19 +386,19 @@ class ClippingGroupPaintingValue extends GroupPaintingValue {
       name: json.get(PaintingValue.nameKey, nullOfString),
       expanded: json.get(PaintingValue.expandedKey, true),
       children: children,
-      clipShape: clipShape,
+      clipper: clipShape,
     );
   }
 
   /// The key for the clipShape.
   ///
   /// クリップシェイプのキー。
-  static const String clipShapeKey = "clipShape";
+  static const String clipperKey = "clipper";
 
   /// The shape used for clipping.
   ///
   /// クリッピングに使用するシェイプ。
-  final PaintingValue clipShape;
+  final PaintingValue clipper;
 
   @override
   String get type => _kClippingGroupPainterPrimaryToolsId;
@@ -422,11 +422,11 @@ class ClippingGroupPaintingValue extends GroupPaintingValue {
         .toList();
 
     // Serialize clipShape
-    final clipShapeTool = PainterMasamuneAdapter.findTool(
-        toolId: clipShape.type, recursive: true);
-    DynamicMap? clipShapeJson;
-    if (clipShapeTool is PainterVariableTools) {
-      clipShapeJson = clipShapeTool.convertToJson(clipShape);
+    final clipperTool =
+        PainterMasamuneAdapter.findTool(toolId: clipper.type, recursive: true);
+    DynamicMap? clipperJson;
+    if (clipperTool is PainterVariableTools) {
+      clipperJson = clipperTool.convertToJson(clipper);
     }
 
     return {
@@ -440,7 +440,7 @@ class ClippingGroupPaintingValue extends GroupPaintingValue {
       if (name != null) PaintingValue.nameKey: name,
       PaintingValue.childrenKey: childrenJson,
       PaintingValue.expandedKey: expanded,
-      if (clipShapeJson != null) clipShapeKey: clipShapeJson,
+      if (clipperJson != null) clipperKey: clipperJson,
     };
   }
 
@@ -454,7 +454,7 @@ class ClippingGroupPaintingValue extends GroupPaintingValue {
     String? name,
     List<PaintingValue>? children,
     bool? expanded,
-    PaintingValue? clipShape,
+    PaintingValue? clipper,
   }) {
     return ClippingGroupPaintingValue(
       id: id ?? this.id,
@@ -464,7 +464,7 @@ class ClippingGroupPaintingValue extends GroupPaintingValue {
       name: name ?? this.name,
       children: children ?? this.children,
       expanded: expanded ?? this.expanded,
-      clipShape: clipShape ?? this.clipShape,
+      clipper: clipper ?? this.clipper,
     );
   }
 
@@ -485,13 +485,13 @@ class ClippingGroupPaintingValue extends GroupPaintingValue {
     }).toList();
 
     // Move clipShape as well
-    final movedClipShape = clipShape.updateOnMoving(delta: delta);
+    final movedClipShape = clipper.updateOnMoving(delta: delta);
 
     return copyWith(
       start: start + delta,
       end: end + delta,
       children: movedChildren,
-      clipShape: movedClipShape,
+      clipper: movedClipShape,
     );
   }
 
@@ -505,7 +505,7 @@ class ClippingGroupPaintingValue extends GroupPaintingValue {
     // For ClippingGroup, only resize the clipShape by default
     // (when the group itself is selected without children)
     // Resizing with children is handled by PainterController.resizeSelectedValues
-    final resizedClipShape = clipShape.updateOnResizing(
+    final resizedClipShape = clipper.updateOnResizing(
       currentPoint: currentPoint,
       direction: direction,
       startPoint: startPoint,
@@ -513,7 +513,7 @@ class ClippingGroupPaintingValue extends GroupPaintingValue {
     );
 
     return copyWith(
-      clipShape: resizedClipShape,
+      clipper: resizedClipShape,
       start: resizedClipShape.start,
       end: resizedClipShape.end,
     );

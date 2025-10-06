@@ -116,8 +116,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
         final Rect bounds;
         if (parentGroup is ClippingGroupPaintingValue) {
           // For ClippingGroup, include clipShape in bounds calculation
-          bounds =
-              _calculateBounds([parentGroup.clipShape, ...updatedChildren]);
+          bounds = _calculateBounds([parentGroup.clipper, ...updatedChildren]);
         } else {
           bounds = _calculateBounds(updatedChildren);
         }
@@ -472,9 +471,9 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
         if (!hasChildrenSelected) {
           // Only the ClippingGroup is selected -> move only clipShape
-          final movedClipShape = value.clipShape.updateOnMoving(delta: delta);
+          final movedClipShape = value.clipper.updateOnMoving(delta: delta);
           updatedValues.add(value.copyWith(
-            clipShape: movedClipShape,
+            clipper: movedClipShape,
             start: movedClipShape.start,
             end: movedClipShape.end,
           ));
@@ -624,7 +623,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
           }).toList();
 
           // Also resize clipShape
-          final clipShapeRect = value.clipShape.rect;
+          final clipShapeRect = value.clipper.rect;
           final clipRelativeLeft =
               (clipShapeRect.left - value.start.dx) / oldWidth;
           final clipRelativeTop =
@@ -640,7 +639,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
           final clipNewBottom =
               newBounds.top + (clipRelativeBottom * newHeight);
 
-          final resizedClipShape = value.clipShape.copyWith(
+          final resizedClipShape = value.clipper.copyWith(
             start: Offset(clipNewLeft, clipNewTop),
             end: Offset(clipNewRight, clipNewBottom),
           );
@@ -649,7 +648,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
             start: newBounds.topLeft,
             end: newBounds.bottomRight,
             children: resizedChildren,
-            clipShape: resizedClipShape,
+            clipper: resizedClipShape,
           ));
           continue;
         }
@@ -776,7 +775,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       end: bounds.bottomRight,
       name: groupName ?? "Clipping Group",
       children: childrenCandidates,
-      clipShape: clipShapeCandidate,
+      clipper: clipShapeCandidate,
       expanded: true,
     );
 
@@ -1187,7 +1186,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     final allItems = List<PaintingValue>.from(children);
     if (group is ClippingGroupPaintingValue) {
       // Add the clipShape as a normal layer
-      allItems.add(group.clipShape);
+      allItems.add(group.clipper);
     }
 
     // Remove the group
@@ -1812,7 +1811,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
         // For ClippingGroup, first add clipShape
         if (value is ClippingGroupPaintingValue) {
-          childrenCollection[value.clipShape.id] = value.clipShape.toJson();
+          childrenCollection[value.clipper.id] = value.clipper.toJson();
         }
 
         // Then add children
@@ -1909,10 +1908,10 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       // For clipping groups, apply clipping and draw children
       canvas.save();
 
-      final clipRect = value.clipShape.rect;
-      if (value.clipShape is RectanglePaintingValue) {
+      final clipRect = value.clipper.rect;
+      if (value.clipper is RectanglePaintingValue) {
         canvas.clipRect(clipRect);
-      } else if (value.clipShape is EllipsePaintingValue) {
+      } else if (value.clipper is EllipsePaintingValue) {
         final path = Path()..addOval(clipRect);
         canvas.clipPath(path);
       } else {
