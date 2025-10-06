@@ -1877,7 +1877,7 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
       // Draw all values
       for (final value in _values) {
-        value.paint(canvas);
+        _paintValueRecursive(canvas, value);
       }
 
       // End recording and create image
@@ -1896,6 +1896,39 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     } catch (e) {
       // Return null if image capture fails
       return null;
+    }
+  }
+
+  /// Paint a value recursively, handling groups and clipping groups.
+  ///
+  /// グループとクリッピンググループを処理しながら、値を再帰的に描画します。
+  void _paintValueRecursive(Canvas canvas, PaintingValue value) {
+    if (value is ClippingGroupPaintingValue) {
+      // For clipping groups, apply clipping and draw children
+      canvas.save();
+
+      final clipRect = value.clipShape.rect;
+      if (value.clipShape is RectanglePaintingValue) {
+        canvas.clipRect(clipRect);
+      } else {
+        // 将来的に他のシェイプ（楕円など）をサポート
+        canvas.clipRect(clipRect);
+      }
+
+      // Draw children with clipping applied
+      for (final child in value.children) {
+        _paintValueRecursive(canvas, child);
+      }
+
+      canvas.restore();
+    } else if (value is GroupPaintingValue) {
+      // For normal groups, draw children recursively
+      for (final child in value.children) {
+        _paintValueRecursive(canvas, child);
+      }
+    } else {
+      // For normal values, paint directly
+      value.paint(canvas);
     }
   }
 
