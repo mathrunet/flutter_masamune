@@ -13,11 +13,11 @@ class ClipplingGroupPainterBlockTools extends PainterBlockTools {
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "クリッピンググループ",
+          "クリッピング\nグループ",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Clipping Group",
+          "Clipping\nGroup",
         ),
       ]),
       icon: Icons.crop,

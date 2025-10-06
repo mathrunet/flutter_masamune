@@ -949,24 +949,51 @@ class _RawPainter extends CustomPainter {
   void _paintValue(Canvas canvas, PaintingValue value) {
     // クリッピンググループの場合は、clipShapeでクリップしてから子要素を描画
     if (value is ClippingGroupPaintingValue) {
-      // クリッピング領域を設定して子要素を描画
-      // ClipShape自体は描画せず、マスクとしてのみ使用
-      canvas.save();
+      // Check if the clipping group or any of its children are selected
+      final isGroupSelected = currentValues.any((v) => v.id == value.id);
+      final isAnyChildSelected = currentValues
+          .any((v) => value.children.any((child) => child.id == v.id));
+      final isSelected = isGroupSelected || isAnyChildSelected;
 
-      final clipRect = value.clipShape.rect;
-      if (value.clipShape is RectanglePaintingValue) {
-        canvas.clipRect(clipRect);
+      if (isSelected) {
+        // When selected: show ClipShape with yellow border and no clipping
+        // Draw ClipShape with yellow border and transparent background
+        // final clipRect = value.clipShape.rect;
+        // final yellowBorderPaint = Paint()
+        //   ..color = Colors.yellow
+        //   ..strokeWidth = 2.0
+        //   ..style = PaintingStyle.stroke;
+
+        // if (value.clipShape is RectanglePaintingValue) {
+        //   canvas.drawRect(clipRect, yellowBorderPaint);
+        // } else {
+        //   // 将来的に他のシェイプ（楕円など）をサポート
+        //   canvas.drawRect(clipRect, yellowBorderPaint);
+        // }
+
+        // Draw children without clipping
+        for (final child in value.children) {
+          child.paint(canvas);
+        }
       } else {
-        // 将来的に他のシェイプ（楕円など）をサポート
-        canvas.clipRect(clipRect);
-      }
+        // When not selected: apply clipping and hide ClipShape
+        canvas.save();
 
-      // 子要素を描画（クリッピングが適用される）
-      for (final child in value.children) {
-        child.paint(canvas);
-      }
+        final clipRect = value.clipShape.rect;
+        if (value.clipShape is RectanglePaintingValue) {
+          canvas.clipRect(clipRect);
+        } else {
+          // 将来的に他のシェイプ（楕円など）をサポート
+          canvas.clipRect(clipRect);
+        }
 
-      canvas.restore();
+        // 子要素を描画（クリッピングが適用される）
+        for (final child in value.children) {
+          child.paint(canvas);
+        }
+
+        canvas.restore();
+      }
     } else if (value is GroupPaintingValue) {
       // 通常のグループの場合は子要素を描画
       for (final child in value.children) {
