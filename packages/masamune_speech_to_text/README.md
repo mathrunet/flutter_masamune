@@ -30,11 +30,80 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Speech-to-Text
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_speech_to_text
+```
+
+Run `flutter pub get` when editing `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Configure `SpeechToTextMasamuneAdapter` before launching the app. Provide optional language settings or custom configuration if needed.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used in the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  const SpeechToTextMasamuneAdapter(
+    defaultLocaleId: "en_US",
+    listenMode: ListenMode.confirmation,
+  ),
+];
+```
+
+### Speech-to-Text Controller
+
+Use `SpeechToTextController` to initialize speech recognition, start listening, and handle results.
+
+```dart
+final stt = ref.page.controller(SpeechToTextController.query());
+
+await stt.initialize();
+
+await stt.listen(
+  onResult: (SpeechRecognitionResult result) {
+    debugPrint("Recognized: ${result.recognizedWords}");
+  },
+);
+
+await stt.stop();
+```
+
+### Continuous Listening
+
+- `listen()` starts recognition; set `partialResults: true` to receive interim transcripts.
+- Use `stt.pause()` / `stt.resume()` to manage listening sessions without full reinitialization.
+- Handle permission checks; the controller throws if microphone access is denied.
+
+### Error Handling
+
+Listen to the error stream or supply `onError` to `listen()` to capture `SpeechRecognitionError` details.
+
+```dart
+await stt.listen(
+  onError: (SpeechRecognitionError error) {
+    debugPrint("Error: ${error.errorMsg}");
+  },
+);
+```
+
+### Tips
+
+- Always call `initialize()` before listening; reuse the controller across sessions for performance.
+- Provide UI feedback (animations, status indicators) while listening.
+- Localize locale IDs (e.g., `ja_JP`, `fr_FR`) to match target audiences.
+- Combine with text input fields to let users edit recognized text.
 
 # GitHub Sponsors
 

@@ -30,11 +30,28 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Model Docs Builder
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+1. Add the builder as a development dependency along with the runtime packages that define your Masamune models.
+
+```yaml
+dev_dependencies:
+  masamune_model_docs_builder: ^latest
+```
+
+2. Annotate your models with the standard Masamune annotations (`@CollectionModelPath`, `@DocumentModelPath`, fields, etc.). The builder scans these definitions to generate Markdown documentation.
+
+3. Run the code generator via `katana code generate` (wraps `build_runner`).
+
+```bash
+katana code generate
+```
+
+The builder outputs Markdown tables describing the schema and field metadata under `docs/model/` by default. Check `build.yaml` to adjust the destination if needed.
+
+4. Commit the generated docs or publish them as part of your project documentation to keep database schemas synchronized with your Masamune models.
 
 # GitHub Sponsors
 

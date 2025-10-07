@@ -30,11 +30,72 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Deeplink
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_deeplink
+```
+
+Run `flutter pub get` when editing `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Add `DeepLinkMasamuneAdapter` to your adapter list. Configure supported URI schemes in your platform projects (iOS `Info.plist`, Android `AndroidManifest.xml`).
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used by the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  DeepLinkMasamuneAdapter(
+    enableLogging: true,
+    loggerAdapters: [FirebaseLoggerAdapter()],
+  ),
+];
+```
+
+### Handle Deep Links
+
+Use the `DeepLink` controller to listen for incoming URIs and route users accordingly.
+
+```dart
+final deepLink = ref.app.controller(DeepLink.query());
+
+deepLink.addListener(() {
+  final uri = deepLink.value;
+  if (uri == null) {
+    return;
+  }
+  router.pushNamed(uri.path, queryParams: uri.queryParameters);
+});
+
+await deepLink.initialize();
+```
+
+### Initial Link vs. Stream
+
+- `deepLink.value` holds the latest URI.
+- `deepLink.initialLink` returns the URI used to launch the app.
+- `deepLink.uriStream` emits new links while the app is running.
+
+### Logging
+
+Enable logging (`enableLogging: true`) and supply `loggerAdapters` to capture `DeepLinkLoggerEvent`s for analytics.
+
+### Tips
+
+- Configure universal links/app links to support both custom schemes and HTTPS URLs.
+- Validate incoming URIs to avoid navigating to unexpected destinations.
+- Combine with Masamune Router to generate strongly typed routes.
+- Test deep links on both cold start and warm state scenarios.
 
 # GitHub Sponsors
 

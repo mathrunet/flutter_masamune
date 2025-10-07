@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/sponsors/mathrunet"><img src="https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=ff69b4&link=https://github.com/sponsors/mathrunet" alt="GitHub Sponsor" /></a>
+  <a href="https://github.com/sponsors/mathrunet"><img src="https://img.shields.io/static.v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=ff69b4&link=https://github.com/sponsors/mathrunet" alt="GitHub Sponsor" /></a>
 </p>
 
 ---
@@ -30,11 +30,89 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Auth Github for Firebase
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+`masamune_auth_github_firebase` enables GitHub OAuth sign-in with Firebase Authentication using the Masamune/Katana auth stack. It is intended to be used with:
+
+- `katana_auth` – core authentication abstractions
+- `katana_auth_firebase` – Firebase Authentication integration
+
+### Installation
+
+Install the base packages first:
+
+```bash
+flutter pub add katana_auth
+flutter pub add katana_auth_firebase
+```
+
+Then install the GitHub integration:
+
+```bash
+flutter pub add masamune_auth_github_firebase
+```
+
+### Register Adapters
+
+Add the adapters near the root of your app so GitHub tokens can be exchanged for Firebase credentials.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used in the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  const RuntimeAuthMasamuneAdapter(),
+  FirebaseAuthMasamuneAdapter(
+    firebaseOptions: DefaultFirebaseOptions.currentPlatform,
+  ),
+
+  FirebaseGithubAuthMasamuneAdapter(
+    functionsAdapter: const FunctionsMasamuneAdapter(),
+  ),
+];
+```
+
+`FirebaseGithubAuthMasamuneAdapter` expects a Cloud Functions endpoint (or your own backend) that validates GitHub OAuth codes and mints Firebase tokens.
+
+### Authenticate Users
+
+Use `Authentication` from `katana_auth` to trigger GitHub sign-in. The query handles OAuth authorization and token exchange.
+
+```dart
+final auth = ref.app.controller(Authentication.query());
+
+await auth.initialize();
+
+await auth.signIn(FirebaseGithubAuthQuery.signIn());
+```
+
+After completion, `auth.isSignedIn` becomes `true` and the Firebase user is authenticated.
+
+### Cloud Functions Outline
+
+Implement the supplied Functions action to exchange GitHub credentials:
+
+1. Receive the GitHub authorization code from the client.
+2. Exchange it for an access token via GitHub’s OAuth API.
+3. Use the token to fetch the user’s GitHub profile (optional).
+4. Mint a Firebase custom token or use `signInWithCredential` on the backend.
+5. Return the Firebase ID token or custom token to the app.
+
+### Linking Accounts
+
+- Use `auth.link(FirebaseGithubAuthQuery.link())` to add GitHub as an additional provider for an existing user.
+- Anonymous users can upgrade to GitHub sign-in without losing data.
+
+### Tips
+
+- Configure GitHub OAuth application settings (client ID, client secret, redirect URI) in the GitHub Developer portal.
+- Ensure redirect URIs match those used in your Cloud Functions.
+- Provide alternative sign-in options for users without GitHub accounts.
+- Log sign-in events via `AuthLoggerAdapter` for debugging and analytics.
 
 # GitHub Sponsors
 

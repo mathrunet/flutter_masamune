@@ -30,11 +30,65 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Model FirebaseDataConnect
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+1. Add the packages to your Masamune project. Include the runtime package plus the annotation and builder packages so that generated adapters and GraphQL assets are produced.
+
+```yaml
+dependencies:
+  masamune_model_firebase_data_connect: ^latest
+  masamune_model_firebase_data_connect_annotation: ^latest
+
+dev_dependencies:
+  masamune_model_firebase_data_connect_builder: ^latest
+```
+
+2. Import the libraries and annotate your model with `@firebaseDataConnect` together with `@CollectionModelPath`/`@DocumentModelPath`. The generator relies on `freezed`/Masamune conventions, so be sure to keep the `part` directives.
+
+```dart
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:masamune/masamune.dart';
+import 'package:masamune_model_firebase_data_connect/masamune_model_firebase_data_connect.dart';
+import 'package:masamune_model_firebase_data_connect_annotation/masamune_model_firebase_data_connect_annotation.dart';
+
+part 'user.model.dart';
+part 'user.dataconnect.dart';
+
+@freezed
+@formValue
+@immutable
+@firebaseDataConnect
+@CollectionModelPath('user')
+class UserModel with _$UserModel {
+  const factory UserModel({
+    @Default('') String name,
+    @Default('') String description,
+  }) = _UserModel;
+
+  const UserModel._();
+
+  factory UserModel.fromJson(Map<String, Object?> json) => _$UserModelFromJson(json);
+
+  static const document = _$UserModelDocumentQuery();
+  static const collection = _$UserModelCollectionQuery();
+}
+```
+
+3. Run the generator. Masamune projects use `katana code generate`, which wraps `build_runner` and produces GraphQL schemas, connector definitions, and the `.dataconnect.dart` adapter parts.
+
+```bash
+katana code generate
+```
+
+After the command finishes, you will find:
+
+- `.gql` schema, query, and mutation files under the directory configured by the annotation (defaults to `firebase/dataconnect/`).
+- `connector.yaml` describing the Firebase Data Connect connector.
+- A generated adapter mixin in `*.dataconnect.dart`, which extends `FirebaseDataConnectModelAdapterBase` and is ready to be wired into your Masamune model layer.
+
+4. Register or instantiate the generated adapter where you configure your models so that the runtime package can convert values to and from Firebase Data Connect.
 
 # GitHub Sponsors
 

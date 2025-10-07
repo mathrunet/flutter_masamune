@@ -30,11 +30,73 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Calendar
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_calendar
+```
+
+Run `flutter pub get` if you edit `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Configure calendar defaults such as the starting weekday and weekend days.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used by the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  const CalendarMasamuneAdapter(
+    startingDayOfWeek: DayOfWeek.monday,
+    weekendDays: [DayOfWeek.saturday, DayOfWeek.sunday],
+  ),
+];
+```
+
+The adapter registers itself via `MasamuneAdapterScope`, making it accessible through `CalendarMasamuneAdapter.primary`.
+
+### Build a Calendar
+
+Use `CalendarController` to manage state and `Calendar` widget (from this package) to render the UI.
+
+```dart
+final controller = ref.page.controller(
+  CalendarController.query(initialDay: DateTime.now()),
+);
+
+return Calendar(
+  controller: controller,
+  headerStyle: const CalendarHeaderStyle(showFormatButton: true),
+  calendarStyle: CalendarStyle.weekView(),
+);
+```
+
+### Listen to User Interaction
+
+`CalendarController` exposes methods to navigate and select dates. Attach listeners to react to user actions.
+
+```dart
+controller.select(DateTime(2025, 1, 15));
+controller.next();
+controller.prev();
+```
+
+You can also override delegates (`BuilderCalendarDelegate`, `MarkerCalendarDelegate`) to customize day cells, markers, or headers.
+
+### Save and Restore State
+
+- `controller.focusedDay` and `controller.selectedDay` keep track of the current view and selection.
+- Use `CalendarMasamuneAdapter` to change global defaults without touching individual widgets.
+- Store selections in your own state management layer (e.g., Riverpod) if you need cross-page persistence.
 
 # GitHub Sponsors
 

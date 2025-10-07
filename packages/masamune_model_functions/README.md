@@ -30,11 +30,55 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Model Functions
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+1. Add the package to your project.
+
+```bash
+flutter pub add masamune_model_functions
+```
+
+Run `flutter pub get` after editing `pubspec.yaml` manually.
+
+2. Register the adapter with your Masamune model adapters. Supply a configured `FunctionsAdapter` that knows how to contact your backend (e.g. Firebase Functions, Cloud Run).
+
+```dart
+import 'package:masamune_model_functions/masamune_model_functions.dart';
+import 'package:katana_functions_firebase/katana_functions_firebase.dart';
+
+final functions = FirebaseFunctionsAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  region: FirebaseRegion.asiaNortheast1
+);
+
+final modelAdapters = FunctionsModelAdapter(functionsAdapter: functions);
+```
+
+3. Execute Masamune model operations as usual. Reads and writes are proxied through the configured Functions endpoints.
+
+```dart
+await UserModel.collection.save(
+  const UserModel(id: 'user_123', name: 'Masamune'),
+  adapter: modelAdapters.first,
+);
+
+final users = await UserModel.collection.load(adapter: modelAdapters.first);
+```
+
+4. Customize the action names (`documentAction`, `collectionAction`, `aggregateAction`) if your Functions expect different identifiers.
+
+```dart
+final adapter = FunctionsModelAdapter(
+  functionsAdapter: functions,
+  documentAction: 'document_model_custom',
+  collectionAction: 'collection_model_custom',
+  aggregateAction: 'aggregate_model_custom',
+);
+```
+
+5. Aggregations are available via `ModelAggregateQuery`. Ensure your server action returns numeric values that can be cast to the requested type.
 
 # GitHub Sponsors
 

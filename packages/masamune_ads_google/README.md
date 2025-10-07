@@ -30,11 +30,117 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Ads Google 
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_ads_google
+```
+
+Run `flutter pub get` after editing `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Configure Masamune adapters before running the app. Provide the default ad unit ID that should be used when each widget or controller does not specify one explicitly.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapter.
+///
+/// Collect all Masamune adapters used in the app.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  // Register the Google Ads adapter.
+  const GoogleAdsMasamuneAdapter(
+    defaultAdUnitId: "ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx",
+  ),
+];
+```
+
+`GoogleAdsMasamuneAdapter` initializes Google Mobile Ads and App Tracking Transparency (iOS) automatically in `onPreRunApp`. The adapter instance is exposed via `GoogleAdsMasamuneAdapter.primary` inside controllers and widgets.
+
+### Banner Ads
+
+Use `GoogleBannerAd` to place banner ads in the widget tree. If `adUnitId` is omitted, the adapter's `defaultAdUnitId` is applied. Specify the size with `GoogleBannerAdSize` and optionally customize border, loading indicator, or event callbacks.
+
+```dart
+GoogleBannerAd(
+  size: GoogleBannerAdSize.leaderboard,
+  onAdClicked: () => debugPrint("Banner clicked."),
+  onPaidEvent: (value, currency) {
+    debugPrint("Earned $value $currency.");
+  },
+)
+```
+
+Preload banner ads to reduce rendering latency.
+
+```dart
+await GoogleAdsCore.preloadBannerAd(
+  size: GoogleBannerAdSize.mediumRectangle,
+);
+```
+
+### Interstitial Ads
+
+`GoogleAdInterstitial` is a Masamune controller that loads and shows interstitial ads. Request the controller through the usual query API and call `load()`/`show()`.
+
+```dart
+final interstitial = ref.page.controller(
+  GoogleAdInterstitial.query(adUnitId: "ca-app-pub-xxxx/yyyy"),
+);
+
+await interstitial.load();
+await interstitial.show(
+  onAdClicked: () => debugPrint("Interstitial clicked."),
+);
+```
+
+If the network fails to fill the ad inventory, a `GoogleAdsNoFillError` is thrown.
+
+### Rewarded Ads
+
+Use `GoogleAdRewarded` for video ads with rewards. Provide `onEarnedReward` to handle the reward payload.
+
+```dart
+final rewarded = ref.page.controller(GoogleAdRewarded.query());
+
+await rewarded.show(
+  onEarnedReward: (amount, type) async {
+    await grantReward(amount, type);
+  },
+  onAdClicked: () => debugPrint("Rewarded clicked."),
+);
+```
+
+`GoogleAdRewardedInterstitial` is also available if you need rewarded interstitial ads.
+
+### Native Ads
+
+`GoogleNativeAd` renders native ads using Google's template styles. Customize colors or text styles as needed.
+
+```dart
+GoogleNativeAd(
+  templateType: GoogleNativeAdTemplateType.medium,
+  primaryTextStyle: Theme.of(context).textTheme.titleMedium,
+  onAdClicked: () => debugPrint("Native clicked."),
+)
+```
+
+### Web Support
+
+The package offers no actual ad rendering on the web. Widgets return placeholders and controllers resolve immediately, enabling common code paths without runtime errors.
+
+### Permissions
+
+`GoogleAdsCore.initialize()` requests App Tracking Transparency permission on iOS and initializes the Google Mobile Ads SDK. Use `openAppSettings()` from `permission_handler` (re-exported) if you need to prompt users manually.
 
 # GitHub Sponsors
 

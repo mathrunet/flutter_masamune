@@ -30,11 +30,79 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Text-to-Speech
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_text_to_speech
+```
+
+Run `flutter pub get` when editing `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Configure `TextToSpeechMasamuneAdapter` before runApp. Set default language, speech rate, or iOS audio category if needed.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used in the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  const TextToSpeechMasamuneAdapter(
+    language: "en-US",
+    speechRate: 0.5,
+    volume: 1.0,
+    iosAudioCategory: TextToSpeechIOSAudioCategory.playback,
+  ),
+];
+```
+
+### Text-to-Speech Controller
+
+Use `TextToSpeechController` to speak text, stop playback, and query voices.
+
+```dart
+final tts = ref.page.controller(TextToSpeechController.query());
+
+await tts.initialize();
+
+await tts.speak("Hello Masamune!");
+
+await tts.stop();
+```
+
+### Configure Voice Parameters
+
+Change pitch, rate, or language dynamically.
+
+```dart
+await tts.setLanguage("ja-JP");
+await tts.setSpeechRate(0.6);
+await tts.setPitch(1.2);
+await tts.speak("こんにちは");
+```
+
+Use `availableLanguages()` and `availableVoices()` to present selection UI to users.
+
+### Queueing and Completion
+
+- `await tts.speak()` resolves when playback completes.
+- Use `tts.setQueueMode(QueueMode.queue)` to enqueue multiple sentences.
+- Register `onComplete` callback to react when speech finishes.
+
+### Tips
+
+- Set the iOS audio category (`playback`, `ambient`, etc.) to control mixing with other audio.
+- Handle `tts.initialize()` errors gracefully, especially on web where permissions differ.
+- Cache frequently used phrases if you need low latency in successive calls.
+- Combine with `masamune_speech_to_text` to build conversational interfaces.
 
 # GitHub Sponsors
 

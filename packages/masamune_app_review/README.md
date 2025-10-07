@@ -30,11 +30,57 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune App Review
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_app_review
+```
+
+Run `flutter pub get` if you edited `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Register the `AppReviewMasamuneAdapter` before launching the application. Provide the store URLs that should open when in-app review dialogs are unavailable.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used by the app.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  const AppReviewMasamuneAdapter(
+    googlePlayStoreUrl: "https://play.google.com/store/apps/details?id=com.example.app",
+    appStoreUrl: "https://apps.apple.com/app/id0000000000",
+  ),
+];
+```
+
+The adapter registers itself in `MasamuneAdapterScope`, allowing access via `AppReviewMasamuneAdapter.primary`.
+
+### Request a Review
+
+Use the `AppReview` controller to trigger in-app review dialogs. If the platform cannot display the native dialog, the controller falls back to launching the store URL.
+
+```dart
+final appReview = ref.page.controller(AppReview.query());
+
+await appReview.review();
+```
+
+`review()` throws when review is not supported (for example, on web) or when the URL cannot be opened. Handle exceptions if you need custom fallback logic.
+
+### Advanced Usage
+
+- Use `adapter.googlePlayStoreUrl` / `adapter.appStoreUrl` directly when you need to build custom links.
+- Combine with analytics or logging by wrapping `review()` in your own service layer.
+- Call `InAppReview.instance.isAvailable()` beforehand if you want to show UI prompts explaining the review flow.
 
 # GitHub Sponsors
 

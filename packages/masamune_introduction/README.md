@@ -30,11 +30,87 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Introduction
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_introduction
+```
+
+Run `flutter pub get` if you edit `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Configure default introduction pages with `IntroductionMasamuneAdapter`. Each `IntroductionItem` defines the title, body, image, and optional actions.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used in the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  IntroductionMasamuneAdapter(
+    items: const [
+      IntroductionItem(
+        title: LocalizedValue("Welcome"),
+        body: LocalizedValue("Discover the features of our app."),
+        image: AssetImage("assets/images/tutorial_1.png"),
+      ),
+      IntroductionItem(
+        title: LocalizedValue("Stay organized"),
+        body: LocalizedValue("Keep track of your tasks effortlessly."),
+        image: AssetImage("assets/images/tutorial_2.png"),
+      ),
+    ],
+  ),
+];
+```
+
+`IntroductionMasamuneAdapter.primary` grants access to the configured items at runtime.
+
+### Show the Introduction as a Widget
+
+Embed `MasamuneIntroduction` directly in your widget tree. Customize padding, colors, and button labels as needed.
+
+```dart
+MasamuneIntroduction(
+  enableSkip: true,
+  activeColor: Theme.of(context).colorScheme.primary,
+  doneLabel: LocalizedValue("Get Started"),
+  skipLabel: LocalizedValue("Skip"),
+)
+```
+
+Pass `routeQuery` to navigate to another page when the introduction completes.
+
+### Use as a Page
+
+`MasamuneIntroductionPage` is a `PageScopedWidget` with a generated route query. Push it via the router to display the introduction flow.
+
+```dart
+router.push(MasamuneIntroductionPage.query());
+```
+
+Provide `routeQuery` if you want to navigate elsewhere when the user taps "Done".
+
+### Customizing Slides
+
+- Supply `background`, `foregroundColor`, or custom padding for each slide.
+- Localize `title`, `body`, and button texts with `LocalizedValue`.
+- Override `imageDecoration` to control radius or shadows on slide images.
+- Add analytics by wrapping `MasamuneIntroduction` and observing lifecycle events.
+
+### Tips
+
+- Use feature flags to show the introduction only on first launch.
+- Combine with `SharedPreferences` or your own storage to remember completion state.
+- Add video or animations by providing custom widgets in `IntroductionItem.customBuilder` (if available in your version).
 
 # GitHub Sponsors
 

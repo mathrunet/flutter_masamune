@@ -30,11 +30,88 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Animate
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Overview
+- Masamune Animate extends the Masamune framework with scenario-based animations.
+- `AnimateScope` and `AnimateController` are the core APIs for building animation flows.
+- Register `AnimateMasamuneAdapter` in `MasamuneApp` to enable the animation features.
+
+### Setup
+1. Add `masamune_animate` to your `pubspec.yaml`.
+2. Pass `AnimateMasamuneAdapter` through the `MasamuneApp.adapters` list. You can override settings such as the test timeout if needed.
+
+```dart
+void main() {
+  runApp(
+    MasamuneApp(
+      appRef: appRef,
+      adapters: const [
+        UniversalMasamuneAdapter(),
+        AnimateMasamuneAdapter(
+          timeoutDurationOnTest: Duration(milliseconds: 300),
+        ),
+      ],
+    ),
+  );
+}
+```
+
+### AnimateScope
+- Requires either a `controller` or a `scenario` callback.
+- `autoPlay`, `repeat`, `repeatCount`, and `keys` control when the animation plays and how the widget rebuilds.
+- Use `scenario` for lightweight inline setups or supply an `AnimateController` when you need external triggers.
+
+### AnimateController
+- Extends `MasamuneControllerBase` and implements `AnimateRunner`.
+- Provide a `scenario` (async function) and call `play()` to run it; you can also enable automatic playback with `autoPlay`.
+- The controller exposes `primaryAdapter` and `isTest` so you can adjust behavior when running under tests.
+
+### Scenario Example
+
+```dart
+final controller = AnimateController(
+  autoPlay: true,
+  scenario: (runner) async {
+    await runner.fadeIn(duration: const Duration(milliseconds: 300));
+    await runner.wait(const Duration(milliseconds: 200));
+    await runner.moveY(
+      duration: const Duration(milliseconds: 500),
+      begin: -20,
+      end: 0,
+      curve: Curves.easeOut,
+    );
+  },
+);
+
+Widget build(BuildContext context) {
+  return AnimateScope(
+    controller: controller,
+    child: const Text("Masamune Animate"),
+  );
+}
+```
+
+### Built-in Queries
+- **Opacity**: `opacity`, `fadeIn`, `fadeOut`
+- **Movement**: `move`, `moveX`, `moveY`
+- **Rotation**: `rotate`
+- **Scale**: `scale`, `scaleX`, `scaleY`, `scaleXY`
+- **Color filter**: `color`
+- **Custom values**: `custom`
+- **Delay**: `wait`
+
+Each helper is defined as an `AnimateRunner` extension, so you can `await` calls sequentially to build a scenario.
+
+### Testing Tips
+- In test mode (`AnimateMasamuneAdapter.isTest == true`), repeat playback is disabled and `TickerMode` is set to `false` to avoid unnecessary frames.
+- Keep waits inside scenarios within the configured `timeoutDurationOnTest` to prevent test hangs.
+
+### Operations
+- Follow the project rules for managing adapters in `lib/adapter.dart` by listing them inside the `masamuneAdapters` collection.
+- When updating UI affected by animations, run `katana test update` and `katana test run` to refresh golden images and verify behavior.
 
 # GitHub Sponsors
 

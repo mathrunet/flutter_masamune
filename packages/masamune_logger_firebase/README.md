@@ -30,11 +30,80 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Logger Firebase
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_logger_firebase
+```
+
+Run `flutter pub get` after editing `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Set up Masamune adapters before running the app. Provide `FirebaseOptions` per platform if you need to override the default Firebase configuration.
+
+```dart
+import 'package:masamune/masamune.dart';
+import 'package:masamune_logger_firebase/masamune_logger_firebase.dart';
+
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+  const FirebaseLoggerMasamuneAdapter(
+    options: FirebaseOptions(
+      apiKey: "YOUR_API_KEY",
+      appId: "YOUR_APP_ID",
+      messagingSenderId: "YOUR_SENDER_ID",
+      projectId: "YOUR_PROJECT_ID",
+    ),
+  ),
+];
+```
+
+`FirebaseLoggerMasamuneAdapter` initializes Firebase, attaches Crashlytics error handling, and exposes analytics/performance instances through `FirebaseLoggerMasamuneAdapter.primary`.
+
+### Logging Events
+
+Use the provided loggable classes or send events via the logger API. The adapter automatically adds navigation observers and routes log events to Firebase Analytics.
+
+```dart
+await logger.send(const FirebaseAnalyticsSignInLoggable(
+  userId: "user_123",
+  providerId: "google.com",
+));
+
+await logger.send(const FirebaseAnalyticsPurchasedLoggable(
+  transactionId: "order-001",
+  currency: "USD",
+  price: 9.99,
+  products: [
+    FirebaseAnalyticsPurchaseProduct(
+      id: "sku-1",
+      name: "Premium Plan",
+      price: 9.99,
+      quantity: 1,
+    ),
+  ],
+));
+```
+
+Performance traces can also be instrumented via the Masamune logging API:
+
+```dart
+final trace = logger.trace("load_profile");
+await trace.start();
+// Execute the operation you want to measure.
+await trace.stop();
+```
+
+### Crashlytics
+
+Crash reports are captured automatically when the adapter is registered. To send a test crash, call `FirebaseLoggerAdapter.primary.crash()` after confirming Crashlytics integration.
 
 # GitHub Sponsors
 

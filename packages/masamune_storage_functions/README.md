@@ -30,11 +30,54 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Storage Functions
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+1. Add the package to your project.
+
+```bash
+flutter pub add masamune_storage_functions
+```
+
+Run `flutter pub get` after editing `pubspec.yaml` manually.
+
+2. Configure the storage adapter backed by Cloud Functions. Supply a `FunctionsAdapter` (for example, `FirebaseFunctionsAdapter`) and the Storage bucket name.
+
+```dart
+import 'package:masamune_storage_functions/masamune_storage_functions.dart';
+import 'package:katana_functions_firebase/katana_functions_firebase.dart';
+
+final functionsAdapter = FirebaseFunctionsAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  region: FirebaseRegion.usCentral1,
+);
+
+final storageAdapter = FunctionsStorageAdapter(
+  functionsAdapter: functionsAdapter,
+  bucketName: 'your-project.appspot.com',
+);
+```
+
+3. Register the adapter with Masamune so `StorageQuery` and other storage utilities use it by default.
+
+```dart
+final masamuneAdapters = <MasamuneAdapter>[
+  StorageMasamuneAdapter(adapter: storageAdapter),
+];
+```
+
+4. Upload and download files through Functions. Metadata such as public/download URLs is cached automatically.
+
+```dart
+final file = await storageAdapter.uploadWithBytes(
+  await File('assets/logo.png').readAsBytes(),
+  'uploads/logo.png',
+  mimeType: 'image/png',
+);
+
+final download = await storageAdapter.download('uploads/logo.png');
+```
 
 # GitHub Sponsors
 

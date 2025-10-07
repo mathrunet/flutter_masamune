@@ -30,11 +30,53 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Model Github
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+1. Add the package to your project.
+
+```bash
+flutter pub add masamune_model_github
+```
+
+Run `flutter pub get` after editing `pubspec.yaml` manually.
+
+2. Provide a GitHub API token so the adapter can authenticate requests. The token should have the scopes required for the data you plan to access or mutate.
+
+```dart
+import 'package:masamune_model_github/masamune_model_github.dart';
+
+final githubAdapter = GithubModelAdapter(
+  onRetrieveToken: () async => await loadGithubToken(),
+);
+
+final masamuneAdapters = <MasamuneAdapter>[
+  GithubModelMasamuneAdapter(
+    modelAdapter: githubAdapter,
+    appRef: appRef,
+  ),
+];
+```
+
+3. Load and edit GitHub resources using the generated models. Each model maps to a GitHub API entity (organization, repository, pull request, etc.).
+
+```dart
+final repos = await GithubRepositoryModel.collection
+    .query(organizationId: "orgId")
+    .load(adapter: githubAdapter);
+
+final repo = GithubRepositoryModel(
+  id: repos.keys.first,
+  name: 'example',
+  isPrivate: false,
+);
+
+await GithubRepositoryModel.document("documentId", organizationId: "orgId")
+    .save(repo, adapter: githubAdapter);
+```
+
+4. Use the helper Masamune adapter (`GithubModelMasamuneAdapter`) to expose the primary instance, automatically clear caches on app restart, and share the adapter across your application.
 
 # GitHub Sponsors
 

@@ -30,11 +30,86 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Scheduler
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_scheduler
+```
+
+Run `flutter pub get` when editing `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Configure scheduler queries alongside other Masamune adapters. The scheduler works with Functions to copy or delete documents on a schedule.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used by the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+  const FunctionsMasamuneAdapter(),
+  const ModelAdapter(),
+  const SchedulerMasamuneAdapter(),
+];
+```
+
+Ensure you have set up Masamune Models for your app because scheduler queries operate on them.
+
+### Define Schedules
+
+Use the provided schedule models to set up copy/delete operations triggered by server commands.
+
+```dart
+// Copy a document at a scheduled time.
+final copySchedule = ModelCopyDocumentSchedule(
+  sourceCollectionPath: "posts",
+  sourceDocumentId: "draft",
+  targetCollectionPath: "posts",
+  targetDocumentId: "published",
+  executeAt: DateTime.now().add(const Duration(hours: 1)),
+);
+
+await copySchedule.save();
+```
+
+Schedule deletion of documents as well.
+
+```dart
+final deleteSchedule = ModelDeleteDocumentsSchedule(
+  collectionPath: "logs",
+  field: "createdAt",
+  endAt: DateTime.now().subtract(const Duration(days: 30)),
+);
+
+await deleteSchedule.save();
+```
+
+### Trigger via Functions
+
+Deploy Cloud Functions that listen to scheduler queries and execute them at the specified times (e.g., via cron jobs or scheduled triggers). Use the `model_server_command_*` classes to create commands the server processes.
+
+```dart
+final command = ModelServerCommandCopyDocumentSchedule(
+  scheduleId: copySchedule.id,
+);
+await command.save();
+```
+
+Your backend should periodically query pending commands and execute them.
+
+### Tips
+
+- Combine with `katana_cli` generated models to ensure type safety.
+- Store schedule metadata in Firestore/Database for auditing.
+- Implement retries and error logging in your Functions to handle transient failures.
+- Use server timestamps (`FieldValue.serverTimestamp()`) for consistent scheduling across time zones.
 
 # GitHub Sponsors
 

@@ -30,11 +30,92 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Painter
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_painter
+```
+
+Run `flutter pub get` if you edit `pubspec.yaml` manually.
+
+### Register the Adapter
+
+`PainterMasamuneAdapter` configures default drawing behavior, storage paths, and media handlers. Register it before launching the app.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used in the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  PainterMasamuneAdapter(
+    enableAutosave: true,
+    storageDirectory: "painter",
+  ),
+];
+```
+
+### Painter Controller
+
+Use `PainterController` to manage drawing state. It stores layers, tools, and undo/redo stacks.
+
+```dart
+final painter = ref.page.controller(PainterController.query());
+
+await painter.initialize();
+painter.selectPrimaryTool(PainterPrimaryTool.pen);
+painter.changeColor(Colors.blue);
+```
+
+Listen for changes via `painter.addListener` or watch with Masamune controllers to rebuild UI.
+
+### Painter Widget
+
+Embed the painter canvas and toolbars in your UI.
+
+```dart
+Painter(
+  controller: painter,
+  toolbar: FormPainterToolbar(controller: painter),
+  layerList: PainterLayerList(controller: painter),
+)
+```
+
+- `FormPainterToolbar` provides primary and secondary tools (pen, shapes, text, media).
+- `PainterLayerList` manages layer ordering and visibility.
+- Inline property panels let users change colors, stroke width, fonts, and filters.
+
+### Storage and Export
+
+`PainterController` saves drawings as JSON or image assets. Use the storage helpers provided under `storage/` to persist data locally or upload to the cloud.
+
+```dart
+final export = await painter.export();
+await painter.saveToLocal(export, fileName: "sketch.json");
+
+final image = await painter.renderImage();
+await painter.saveImageToGallery(image);
+```
+
+### Advanced Features
+
+- Autosave support via `enableAutosave` and `PainterMediaDatabase`.
+- Import/export stroke data with `PainterExportValue`.
+- Grouping, filters, and text formatting via primary/secondary/inline tool sets.
+- Media insertion from camera or gallery when combined with Masamune Picker.
+
+### Tips
+
+- Provide onboarding hints so users discover layer management and advanced tools.
+- Persist user settings (pen color, brush size) between sessions.
+- Consider disabling high-cost filters on low-end devices to maintain performance.
 
 # GitHub Sponsors
 

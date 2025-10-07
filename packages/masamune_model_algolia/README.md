@@ -30,11 +30,45 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Model Algolia
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+1. Add the package to your project.
+
+```bash
+flutter pub add masamune_model_algolia
+```
+
+Run `flutter pub get` after editing `pubspec.yaml` manually.
+
+2. Combine the adapter with an existing Firestore model adapter. Algolia handles collection loading, while Firestore continues to manage mutations and document access.
+
+```dart
+import 'package:masamune_model_algolia/masamune_model_algolia.dart';
+import 'package:katana_model_firestore/katana_model_firestore.dart';
+
+final modelAdapter = AlgoliaModelAdapter(
+  firestoreModelAdapter: const FirestoreModelAdapter(
+    options: DefaultFirebaseOptions.currentPlatform,
+  ),
+  applicationId: "YOUR_ALGOLIA_APP_ID",
+  apiKey: "YOUR_ALGOLIA_SEARCH_API_KEY",
+);
+```
+
+3. Apply `ModelQueryFilter.like()` to send the search keyword to Algolia. Pagination relies on `limit()` and the internal page parameter.
+
+```dart
+final result = await UserModel.collection.query(
+  filters: [
+    ModelQueryFilter.like(UserModel.kNameKey, keyword),
+    ModelQueryFilter.limit(20),
+  ],
+).load(adapter: algoliaAdapter);
+```
+
+Ensure your Algolia index stores entries containing the Masamune model `@uid` so `AlgoliaModelAdapter` can map hits back to documents.
 
 # GitHub Sponsors
 

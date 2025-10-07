@@ -30,11 +30,79 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Firebase App Check
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_firebase_app_check
+```
+
+Run `flutter pub get` after editing `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Configure Firebase App Check before bootstrapping your Masamune app. Provide Firebase options and choose the activation timing.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used by the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  FirebaseAppCheckMasamuneAdapter(
+    options: const FirebaseOptions(
+      apiKey: "YOUR_API_KEY",
+      appId: "YOUR_APP_ID",
+      messagingSenderId: "YOUR_SENDER_ID",
+      projectId: "YOUR_PROJECT_ID",
+    ),
+    activateTiming: FirebaseAppCheckActivateTiming.onPreRunApp,
+    androidProvider: FirebaseAppCheckAndroidProvider.playIntegrity,
+    iosProvider: FirebaseAppCheckIOSProvider.deviceCheck,
+  ),
+];
+```
+
+You can supply platform-specific options (`iosOptions`, `androidOptions`, etc.) if the defaults differ across platforms.
+
+### Activation Timing
+
+`activateTiming` controls when `FirebaseAppCheck.activate()` runs:
+
+- `onPreRunApp` (default) activates before `runApp`
+- `onBoot` activates during `onMaybeBoot`
+
+Pick the timing that matches your initialization flow. The adapter automatically calls `FirebaseCore.initialize` with the provided options.
+
+### Providers
+
+Select the provider for each platform:
+
+- Android: `debug`, `playIntegrity`, or `platformDependent`
+- iOS/macOS: `debug`, `deviceCheck`, `appAttest`, or `platformDependent`
+
+Debug providers fetch a token to register the device automatically when running in debug mode. Customize by setting `androidProvider` / `iosProvider`.
+
+### Accessing the Adapter
+
+Retrieve the adapter instance via `FirebaseAppCheckMasamuneAdapter.primary` when you need to call `appCheck.activate` manually or to access tokens.
+
+```dart
+final appCheck = FirebaseAppCheckMasamuneAdapter.primary.appCheck;
+final token = await appCheck.getToken();
+```
+
+### Troubleshooting
+
+- Ensure Firebase project settings include App Check for each platform.
+- When using debug providers, enable debug mode on the device according to Firebase App Check documentation.
+- For web, supply `webOptions` and configure reCAPTCHA or other supported provider.
 
 # GitHub Sponsors
 

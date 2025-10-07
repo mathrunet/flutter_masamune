@@ -30,11 +30,29 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Model Firestore Builder
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+1. Add the builder as a development dependency alongside the runtime package so Firestore rules and indexes can be generated automatically.
+
+```yaml
+dependencies:
+  katana_model_firestore: ^latest
+
+dev_dependencies:
+  masamune_model_firestore_builder: ^latest
+```
+
+2. Annotate your models with `@CollectionModelPath` and/or `@DocumentModelPath`, then execute `katana code generate` (wraps `build_runner`) whenever you update those models.
+
+```bash
+katana code generate
+```
+
+3. Check the generated artifacts inside `firebase/`: the builder outputs `firestore.rules` and `firestore.indexes.json` that reflect your Masamune model schema.
+
+4. Deploy the generated security rules and indexes to Firebase as part of your release pipeline (for example with `firebase deploy --only firestore:rules,firestore:indexes`).
 
 # GitHub Sponsors
 

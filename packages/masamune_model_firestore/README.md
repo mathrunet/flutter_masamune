@@ -30,11 +30,46 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Model Firestore
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+1. Add the package to your Masamune project so you can leverage Firestore-backed model adapters.
+
+```yaml
+dependencies:
+  masamune_model_firestore: ^latest
+```
+
+2. Annotate your models with `@CollectionModelPath` and/or `@DocumentModelPath` along with your existing Masamune/`freezed` setup. Keep the `part` directives so the generated sources compile, and refresh the generated files with your usual `katana code generate` workflow.
+
+```dart
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:masamune/masamune.dart';
+import 'package:masamune_model_firestore/masamune_model_firestore.dart';
+
+part 'user.model.dart';
+
+@freezed
+@formValue
+@immutable
+@CollectionModelPath('user')
+class UserModel with _$UserModel {
+  const factory UserModel({
+    @Default('') String name,
+    @Default('') String description,
+  }) = _UserModel;
+
+  const UserModel._();
+
+  factory UserModel.fromJson(Map<String, Object?> json) => _$UserModelFromJson(json);
+
+  static const document = _$UserModelDocumentQuery();
+  static const collection = _$UserModelCollectionQuery();
+}
+```
+
+3. Choose the adapter that fits your caching strategy, such as `CachedFirestoreModelAdapter` or `CachedListenableFirestoreModelAdapter`, and register it in your Masamune application so models read and write through Firestore while benefiting from local caching.
 
 # GitHub Sponsors
 

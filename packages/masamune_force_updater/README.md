@@ -36,6 +36,109 @@ For more information about Masamune Framework, please click here.
 
 [https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
 
+# Masamune Force Updater
+
+## Usage
+
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_force_updater
+```
+
+Run `flutter pub get` when editing `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Define the forced update rules in `ForceUpdaterMasamuneAdapter`. Each rule is represented by a `ForceUpdaterItem` that decides whether to show an update dialog and how to handle the action.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used across the app.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  ForceUpdaterMasamuneAdapter(
+    defaultUpdates: [
+      ForceUpdaterItem(
+        minimumVersion: "2.0.0",
+        targetPlatforms: const [ForceUpdaterPlatform.iOS, ForceUpdaterPlatform.android],
+        storeUri: Uri.parse("https://example.com/store"),
+      ),
+    ],
+  ),
+];
+```
+
+`ForceUpdaterItem` accepts conditions such as minimum version, target platforms, and a custom dialog builder (`onShowUpdateDialog`).
+
+### Check for Updates
+
+Call `ForceUpdater` from your UI to evaluate update rules and display dialogs.
+
+```dart
+final updater = ref.page.controller(ForceUpdater.query());
+
+await updater.checkUpdate(context);
+```
+
+Pass a custom list of `ForceUpdaterItem`s to override the default adapter configuration:
+
+```dart
+await updater.checkUpdate(
+  context,
+  items: [
+    ForceUpdaterItem(
+      minimumVersion: "3.0.0",
+      onShowUpdateDialog: (context, ref) async {
+        final confirmed = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("Update required"),
+            content: const Text("A new version is available."),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text("Close"),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text("Update"),
+              ),
+            ],
+          ),
+        );
+        if (confirmed == true) {
+          await ref.update();
+        } else {
+          await ref.quit();
+        }
+      },
+    ),
+  ],
+);
+```
+
+### ForceUpdaterRef
+
+Inside `onShowUpdateDialog`, use `ForceUpdaterRef` to trigger updates or exit the app:
+
+- `ref.update()` executes the provided `onUpdate` callback (defaults to opening the store URI).
+- `ref.quit()` closes the application via `SystemNavigator.pop()`.
+
+### Version Comparison
+
+`ForceUpdaterItem` compares semantic version strings. Ensure the current app version (from `PackageInfo`) matches the format you use in rules.
+
+### Tips
+
+- Combine with remote config or Firestore to download update rules dynamically, then pass them to `checkUpdate`.
+- Localize dialog texts using `LocalizedValue<String>` or your app's localization approach.
+- Test on all target platforms to confirm store URIs and dialog behavior.
+
 # GitHub Sponsors
 
 Sponsors are always welcome. Thank you for your support!

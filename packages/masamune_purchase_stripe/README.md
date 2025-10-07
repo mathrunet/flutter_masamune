@@ -30,11 +30,68 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Purchase Stripe
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+1. Add the package to your project.
+
+```bash
+flutter pub add masamune_purchase_stripe
+```
+
+Run `flutter pub get` after editing `pubspec.yaml` manually.
+
+2. Register the Stripe purchase adapter in your Masamune configuration. Provide the Functions adapter for server-side integration, a model adapter for persisting Stripe models, the callback URL scheme/host, and a support email.
+
+```dart
+import 'package:masamune_purchase_stripe/masamune_purchase_stripe.dart';
+import 'package:katana_functions_firebase/katana_functions_firebase.dart';
+import 'package:katana_model_firestore/katana_model_firestore.dart';
+
+final functionsAdapter = FirebaseFunctionsAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  region: FirebaseRegion.asiaNortheast1,
+);
+
+final modelAdapter = const FirestoreModelAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
+
+final masamuneAdapters = <MasamuneAdapter>[
+  StripePurchaseMasamuneAdapter(
+    callbackURLSchemeOrHost: Uri.parse('yourapp://stripe'),
+    supportEmail: 'support@example.com',
+    functionsAdapter: functionsAdapter,
+    modelAdapter: modelAdapter,
+  ),
+];
+```
+
+3. Create Stripe actions to onboard accounts, store customer payment methods, and initiate purchases. These actions call your configured Firebase Functions.
+
+```dart
+final ref = StripePurchaseMasamuneAdapter.primary.appRef;
+
+// Create or update Stripe customer and default payment method.
+await ref.functions.execute(
+  StripeActionCreateCustomerAndPayment(
+    email: 'user@example.com',
+    paymentMethodId: 'pm_xxx',
+  ),
+);
+
+// Start a purchase flow.
+final purchase = await ref.functions.execute(
+  StripeActionCreatePurchase(
+    amount: 1200,
+    currency: StripeCurrency.jpy,
+    description: 'Monthly subscription',
+  ),
+);
+```
+
+4. Use the generated models (`StripeUserModel`, `StripePurchaseModel`, `StripePaymentModel`) with your configured model adapter to track subscription state, payment status, and invoices inside your application.
 
 # GitHub Sponsors
 

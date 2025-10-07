@@ -30,11 +30,94 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Auth Google for Firebase
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+`masamune_auth_google_firebase` bridges Google Sign In credentials to Firebase Authentication using the Masamune/Katana stack. Use it alongside:
+
+- `katana_auth` – core authentication abstractions
+- `katana_auth_firebase` – Firebase Authentication integration
+- `masamune_auth_google` – native Google sign-in flow
+
+### Installation
+
+Install the base packages first:
+
+```bash
+flutter pub add katana_auth
+flutter pub add katana_auth_firebase
+```
+
+Then add Google sign-in support:
+
+```bash
+flutter pub add masamune_auth_google
+flutter pub add masamune_auth_google_firebase
+```
+
+### Register Adapters
+
+Configure adapters near the top of your widget tree so Google tokens can be exchanged for Firebase credentials.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used in the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  const RuntimeAuthMasamuneAdapter(),
+  FirebaseAuthMasamuneAdapter(
+    firebaseOptions: DefaultFirebaseOptions.currentPlatform,
+  ),
+
+  const GoogleAuthMasamuneAdapter(
+    clientId: "YOUR_GOOGLE_CLIENT_ID",
+  ),
+  FirebaseGoogleAuthMasamuneAdapter(
+    functionsAdapter: const FunctionsMasamuneAdapter(),
+  ),
+];
+```
+
+`FirebaseGoogleAuthMasamuneAdapter` expects a backend (Cloud Functions or your own server) that validates Google ID tokens and returns Firebase credentials to the app.
+
+### Authenticate Users
+
+Use `Authentication` from `katana_auth` to start the Google sign-in flow.
+
+```dart
+final auth = ref.app.controller(Authentication.query());
+
+await auth.initialize();
+
+await auth.signIn(GoogleAuthQuery.signIn());
+```
+
+After completion, Firebase Authentication holds the signed-in user and `auth.isSignedIn` becomes `true`.
+
+### Backend Token Exchange
+
+Implement `FirebaseGoogleAuthFunctionsAction` to exchange Google credentials:
+
+1. Receive the ID token and optional server auth code from the client.
+2. Verify the token with Google’s OAuth endpoints.
+3. Exchange tokens if necessary (server auth code flow).
+4. Mint a Firebase custom token or use `signInWithCredential`.
+5. Return the Firebase ID token/custom token to the client.
+
+### Linking Providers
+
+- Call `auth.link(GoogleAuthQuery.link())` to add Google as another sign-in method for an existing user.
+- Supports upgrading anonymous accounts to Google sign-in without losing data.
+
+### Tips
+
+- Configure OAuth consent screen, package names, SHA certificates, and reversed client IDs in Google Cloud Console.
+- Test on real devices; some emulators lack Google Play Services support.
+- Provide fallback authentication methods for users without Google accounts.
+- Log sign-in attempts using `AuthLoggerAdapter` for analytics and debugging.
 
 # GitHub Sponsors
 

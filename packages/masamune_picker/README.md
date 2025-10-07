@@ -30,11 +30,77 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Picker
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_picker
+```
+
+Run `flutter pub get` when editing `pubspec.yaml` manually.
+
+### Register the Adapter
+
+`PickerMasamuneAdapter` integrates file selection, camera capture, and storage handling. Register it before runApp.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used in the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  const PickerMasamuneAdapter(),
+];
+```
+
+The adapter provides platform-specific implementations for mobile, desktop, and web, exporting storage utilities under `storage/`.
+
+### Picker Controller
+
+Use `Picker` to launch pickers and retrieve selected files.
+
+```dart
+final picker = ref.page.controller(Picker.query());
+
+final image = await picker.pickSingle(type: PickerFileType.image);
+debugPrint("Picked: ${image.path}");
+
+final docs = await picker.pickMultiple(type: PickerFileType.custom(["pdf", "docx"]));
+```
+
+Access the last selected values via `picker.value` and listen for updates with standard Masamune controller patterns.
+
+### Camera Capture
+
+On supported platforms, `pickCamera()` opens the camera and returns a `PickerValue` for the captured media.
+
+```dart
+final photo = await picker.pickCamera(type: PickerFileType.image);
+```
+
+Ensure camera permissions are granted; the adapter throws `MasamunePickerPermissionDeniedException` if denied.
+
+### Storage Helpers
+
+The package exports storage helpers under `storage/`. Use them to persist picked files locally or upload them to cloud storage.
+
+```dart
+final storage = PickerStorage();
+await storage.save(picker.value?.first, fileName: "upload.jpg");
+```
+
+### Tips
+
+- Customize allowed file types with `PickerFileType` (any/image/video/audio/custom).
+- Provide localized dialog titles via the `dialogTitle` parameter.
+- Handle `picker.future` if you need to show loading indicators while selection is in progress.
+- Combine with `MasamuneCamera` for advanced capture scenarios or with storage adapters for automatic uploads.
 
 # GitHub Sponsors
 

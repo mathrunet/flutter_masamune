@@ -30,11 +30,97 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Auth Facebook
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+`masamune_auth_facebook` integrates Facebook login with the Masamune/Katana authentication stack. It is intended to work alongside:
+
+- `katana_auth` – core authentication abstractions
+- `katana_auth_firebase` – optional Firebase Authentication integration
+
+### Installation
+
+Install the base packages first:
+
+```bash
+flutter pub add katana_auth
+flutter pub add katana_auth_firebase
+```
+
+Then add Facebook support:
+
+```bash
+flutter pub add masamune_auth_facebook
+```
+
+If you need to link Facebook with Firebase, also install:
+
+```bash
+flutter pub add masamune_auth_facebook_firebase
+```
+
+### Register Adapters
+
+Configure adapters near the root of your application so the Facebook SDK can authenticate properly.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used in the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  const RuntimeAuthMasamuneAdapter(),
+  FirebaseAuthMasamuneAdapter(
+    firebaseOptions: DefaultFirebaseOptions.currentPlatform,
+  ),
+
+  const FacebookAuthMasamuneAdapter(
+    clientToken: "YOUR_FACEBOOK_APP_ID",
+    clientSecret: "YOUR_FACEBOOK_APP_SECRET",
+  ),
+];
+```
+
+`FacebookAuthMasamuneAdapter` handles the native login flow and provides access tokens to the Katana authentication layer.
+
+### Authenticate Users
+
+Use `Authentication` from `katana_auth` to initiate the Facebook sign-in flow.
+
+```dart
+final auth = ref.app.controller(Authentication.query());
+
+await auth.initialize();
+
+await auth.signIn(FacebookAuthQuery.signIn());
+```
+
+After sign-in, inspect `auth.isSignedIn`, `auth.userId`, `auth.userEmail`, and related getters to update your UI or business logic.
+
+### Firebase Integration
+
+If you also include `masamune_auth_facebook_firebase`, add the Firebase adapter and ensure you exchange Facebook credentials for Firebase tokens on the server (via Cloud Functions) or directly with the Firebase SDK.
+
+```dart
+FirebaseFacebookAuthMasamuneAdapter(
+  functionsAdapter: const FunctionsMasamuneAdapter(),
+),
+```
+
+### Facebook Platform Setup
+
+- Create a Facebook app and obtain the App ID and App Secret.
+- Configure redirect URIs, bundle IDs, and package names in Facebook Developer settings.
+- Update your iOS and Android projects with the required meta-data (e.g., `AndroidManifest.xml`, `Info.plist`).
+
+### Tips
+
+- Test on real devices; browsers and simulators may have limitations when invoking the Facebook app or WebView.
+- Provide fallbacks or alternative sign-in options for regions where Facebook is unavailable.
+- Monitor token expiration and refresh logic if your app relies on long-lived sessions.
+- Pair with `AuthLoggerAdapter` to capture login analytics.
 
 # GitHub Sponsors
 
