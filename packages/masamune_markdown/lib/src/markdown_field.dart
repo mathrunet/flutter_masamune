@@ -1025,7 +1025,7 @@ class _RenderMarkdownEditor extends RenderBox {
     super.detach();
   }
 
-  List<_BlockLayout> _buildBlockLayouts(BuildContext? context) {
+  List<_BlockLayout> _buildBlockLayouts() {
     if (_blockLayouts.isNotEmpty) {
       return _blockLayouts;
     }
@@ -1052,15 +1052,17 @@ class _RenderMarkdownEditor extends RenderBox {
           final text = blockText.toString();
 
           // Get block style from controller
-          EdgeInsets padding = EdgeInsets.zero;
-          EdgeInsets margin = EdgeInsets.zero;
-          TextStyle textStyle = _style;
+          final padding = (_controller.style.paragraph.padding ??
+              EdgeInsets.zero) as EdgeInsets;
+          final margin = (_controller.style.paragraph.margin ?? EdgeInsets.zero)
+              as EdgeInsets;
 
-          if (context != null) {
-            padding = block.padding(context, _controller) as EdgeInsets;
-            margin = block.margin(context, _controller) as EdgeInsets;
-            textStyle = block.textStyle(context, _controller);
-          }
+          // Build text style
+          final baseStyle = _controller.style.paragraph.textStyle ?? _style;
+          final textStyle = baseStyle.copyWith(
+            color:
+                _controller.style.paragraph.foregroundColor ?? baseStyle.color,
+          );
 
           // Create text painter for this block
           final painter = TextPainter(
@@ -1092,7 +1094,7 @@ class _RenderMarkdownEditor extends RenderBox {
 
   @override
   void performLayout() {
-    final layouts = _buildBlockLayouts(null);
+    final layouts = _buildBlockLayouts();
 
     var totalHeight = 0.0;
     final maxWidth = constraints.maxWidth;
@@ -1127,7 +1129,8 @@ class _RenderMarkdownEditor extends RenderBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     final canvas = context.canvas;
-    final layouts = _buildBlockLayouts(context as BuildContext?);
+    // Use already computed layouts from performLayout
+    final layouts = _blockLayouts;
 
     var currentTextOffset = 0;
 
