@@ -64,38 +64,96 @@ final masamuneAdapters = <MasamuneAdapter>[
 
 ### Handle Deep Links
 
-Use the `DeepLink` controller to listen for incoming URIs and route users accordingly.
+Use the `Deeplink` controller to listen for incoming URIs and route users accordingly.
 
 ```dart
-final deepLink = ref.app.controller(DeepLink.query());
+final deeplink = ref.app.controller(Deeplink.query());
 
-deepLink.addListener(() {
-  final uri = deepLink.value;
+deeplink.addListener(() {
+  final uri = deeplink.value;
   if (uri == null) {
     return;
   }
-  router.pushNamed(uri.path, queryParams: uri.queryParameters);
+  // Navigate to the appropriate page based on the URI
+  router.pushNamed(uri.path, queryParameters: uri.queryParameters);
 });
 
-await deepLink.initialize();
+// Start listening for deep links
+await deeplink.listen();
 ```
 
 ### Initial Link vs. Stream
 
-- `deepLink.value` holds the latest URI.
-- `deepLink.initialLink` returns the URI used to launch the app.
-- `deepLink.uriStream` emits new links while the app is running.
+- `deeplink.value` holds the latest URI received.
+- The initial link (used to launch the app) is automatically handled when you call `listen()`.
+- New links received while the app is running trigger the `addListener` callback automatically.
 
 ### Logging
 
-Enable logging (`enableLogging: true`) and supply `loggerAdapters` to capture `DeepLinkLoggerEvent`s for analytics.
+Enable logging to track deep link events for analytics:
+
+```dart
+DeeplinkMasamuneAdapter(
+  enableLogging: true,
+  loggerAdapters: [FirebaseLoggerAdapter()],  // Or your custom logger
+)
+```
+
+The adapter captures `DeeplinkLoggerEvent` with details about received links.
+
+### Advanced Usage
+
+**Custom Link Handling**:
+
+```dart
+await deeplink.listen(
+  onLink: (uri, onOpenedApp) async {
+    if (onOpenedApp) {
+      // Link was used to open the app (cold start)
+      print("App opened with: $uri");
+    } else {
+      // Link received while app was running
+      print("Received while running: $uri");
+    }
+    // Perform custom routing or validation
+    await handleCustomRoute(uri);
+  },
+);
+```
+
+### Platform Configuration
+
+**iOS (Info.plist)**:
+
+```xml
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>myapp</string>
+    </array>
+  </dict>
+</array>
+```
+
+**Android (AndroidManifest.xml)**:
+
+```xml
+<intent-filter>
+  <action android:name="android.intent.action.VIEW" />
+  <category android:name="android.intent.category.DEFAULT" />
+  <category android:name="android.intent.category.BROWSABLE" />
+  <data android:scheme="myapp" />
+</intent-filter>
+```
 
 ### Tips
 
-- Configure universal links/app links to support both custom schemes and HTTPS URLs.
-- Validate incoming URIs to avoid navigating to unexpected destinations.
-- Combine with Masamune Router to generate strongly typed routes.
-- Test deep links on both cold start and warm state scenarios.
+- Configure universal links (iOS) / app links (Android) to support both custom schemes and HTTPS URLs.
+- Always validate incoming URIs before navigation to prevent security issues.
+- Combine with Masamune Router for type-safe route generation.
+- Test deep links on both cold start (app not running) and warm state (app in background) scenarios.
 
 # GitHub Sponsors
 

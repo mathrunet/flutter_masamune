@@ -66,37 +66,117 @@ The adapter registers itself via `MasamuneAdapterScope`, making it accessible th
 
 ### Build a Calendar
 
-Use `CalendarController` to manage state and `Calendar` widget (from this package) to render the UI.
+Use `CalendarController` to manage state and the `Calendar` widget to render the UI.
 
 ```dart
-final controller = ref.page.controller(
-  CalendarController.query(initialDay: DateTime.now()),
-);
+class MyCalendarPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final controller = ref.page.controller(
+      CalendarController.query(initialDay: DateTime.now()),
+    );
 
-return Calendar(
-  controller: controller,
-  headerStyle: const CalendarHeaderStyle(showFormatButton: true),
-  calendarStyle: CalendarStyle.weekView(),
-);
+    return Scaffold(
+      appBar: AppBar(title: const Text("Calendar")),
+      body: Calendar(
+        controller: controller,
+        headerStyle: const CalendarHeaderStyle(
+          showFormatButton: true,  // Show month/week/2-week view toggle
+        ),
+        calendarStyle: CalendarStyle.monthView(),  // or weekView(), twoWeekView()
+      ),
+    );
+  }
+}
 ```
 
-### Listen to User Interaction
+### Navigate and Select Dates
 
-`CalendarController` exposes methods to navigate and select dates. Attach listeners to react to user actions.
+`CalendarController` provides methods to programmatically control the calendar:
 
 ```dart
+// Select a specific date
 controller.select(DateTime(2025, 1, 15));
+
+// Navigate to next/previous month
 controller.next();
 controller.prev();
+
+// Focus on a specific date without selecting
+controller.focus(DateTime(2025, 2, 1));
+
+// Access current state
+final selectedDate = controller.selectedDay;  // Currently selected date
+final focusedDate = controller.focusedDay;   // Currently displayed month/week
 ```
 
-You can also override delegates (`BuilderCalendarDelegate`, `MarkerCalendarDelegate`) to customize day cells, markers, or headers.
+### React to User Actions
 
-### Save and Restore State
+Attach listeners to respond when users interact with the calendar:
 
-- `controller.focusedDay` and `controller.selectedDay` keep track of the current view and selection.
-- Use `CalendarMasamuneAdapter` to change global defaults without touching individual widgets.
-- Store selections in your own state management layer (e.g., Riverpod) if you need cross-page persistence.
+```dart
+controller.addListener(() {
+  final selected = controller.selectedDay;
+  if (selected != null) {
+    print("User selected: $selected");
+    // Load events for this date, update UI, etc.
+  }
+});
+```
+
+### Customize Appearance
+
+**Using Delegates**: Customize day cells, markers, or headers:
+
+```dart
+Calendar(
+  controller: controller,
+  builderDelegate: BuilderCalendarDelegate(
+    dayBuilder: (context, day, focusedDay) {
+      // Custom day cell widget
+      return Container(
+        decoration: BoxDecoration(
+          color: day.weekday == DateTime.saturday ? Colors.blue : null,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Center(child: Text('${day.day}')),
+      );
+    },
+  ),
+  markerDelegate: MarkerCalendarDelegate(
+    markerBuilder: (context, day, events) {
+      // Add event markers
+      if (events.isNotEmpty) {
+        return Positioned(
+          bottom: 1,
+          child: Container(
+            width: 7,
+            height: 7,
+            decoration: BoxDecoration(
+              color: Colors.red,
+              shape: BoxShape.circle,
+            ),
+          ),
+        );
+      }
+      return const SizedBox.shrink();
+    },
+  ),
+)
+```
+
+**Using Styles**: Customize colors and text styles:
+
+```dart
+Calendar(
+  controller: controller,
+  calendarStyle: CalendarStyle.monthView().copyWith(
+    selectedDayColor: Colors.blue,
+    todayColor: Colors.orange,
+    weekendTextStyle: TextStyle(color: Colors.red),
+  ),
+)
+```
 
 # GitHub Sponsors
 

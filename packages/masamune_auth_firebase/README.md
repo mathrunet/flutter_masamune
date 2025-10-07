@@ -32,9 +32,21 @@
 
 # Masamune Auth Firebase
 
+## Overview
+
+`masamune_auth_firebase` provides server-side integration utilities for Firebase Authentication in Masamune apps. This package focuses on backend operations that cannot be safely performed on the client side.
+
+**Note**: This package does NOT include a client-side auth adapter. For Firebase Authentication adapters, see:
+- `katana_auth_firebase` - Core Firebase Auth adapter
+- `masamune_auth_google_firebase` - Google Sign-In with Firebase
+- `masamune_auth_apple_firebase` - Apple Sign-In with Firebase
+- `masamune_auth_github_firebase` - GitHub Sign-In with Firebase
+
 ## Usage
 
-1. Add the plugin to your project.
+### Installation
+
+Add the package to your project.
 
 ```bash
 flutter pub add masamune_auth_firebase
@@ -42,43 +54,63 @@ flutter pub add masamune_auth_firebase
 
 Run `flutter pub get` after editing `pubspec.yaml` manually.
 
-2. Import the package and register the Firebase Auth adapter when you configure Masamune adapters. Pass Firebase options per platform if you need to override the default configuration.
+### Delete User with Functions Action
 
-```dart
-import 'package:masamune/masamune.dart';
-import 'package:masamune_auth_firebase/masamune_auth_firebase.dart';
+This package provides `FirebaseDeleteUserFunctionsAction` for securely deleting Firebase Authentication users from your backend.
 
-final masamuneAdapters = <MasamuneAdapter>[
-  const UniversalMasamuneAdapter(),
-  const FirebaseAuthMasamuneAdapter(
-    options: FirebaseOptions(
-      apiKey: "YOUR_API_KEY",
-      appId: "YOUR_APP_ID",
-      messagingSenderId: "YOUR_SENDER_ID",
-      projectId: "YOUR_PROJECT_ID",
-    ),
-  ),
-];
-```
-
-`FirebaseAuthMasamuneAdapter` initializes Firebase and exposes `FirebaseAuthMasamuneAdapter.primary` so controllers and widgets can access the configured instance.
-
-3. Use the provided Cloud Functions action when you need to delete a Firebase Authentication user from secure server-side code.
+**Client-side usage**:
 
 ```dart
 import 'package:masamune_functions/masamune_functions.dart';
 import 'package:masamune_auth_firebase/masamune_auth_firebase.dart';
 
-Future<void> deleteUser(String uid) async {
-  final response = await FunctionsQuery
-      .call(const FirebaseDeleteUserFunctionsAction(userId: uid));
-  // Handle the response if necessary. An exception is thrown on failure.
+// In your controller or page
+final functions = ref.app.functions();
+
+Future<void> deleteUserAccount(String uid) async {
+  try {
+    final response = await functions.execute(
+      FirebaseDeleteUserFunctionsAction(userId: uid),
+    );
+    // User deleted successfully
+  } catch (e) {
+    debugPrint("Failed to delete user: $e");
+    rethrow;
+  }
 }
 ```
 
-The action posts `{ "userId": uid }` to your Masamune Functions endpoint and returns an empty response on success. Configure the corresponding server-side function to authenticate and delete the user via the Firebase Admin SDK.
+**Server-side implementation**:
 
-4. Combine this package with platform-specific sign-in plugins (e.g. `masamune_auth_google`) to add authentication providers, while `masamune_auth_firebase` keeps token management consistent across your app.
+Your Masamune Functions backend should handle the `delete_user` action:
+
+```dart
+// In your Cloud Functions or backend
+if (action == "delete_user") {
+  final userId = data["userId"];
+  
+  // Authenticate the request
+  // Verify user has permission to delete this account
+  
+  // Delete using Firebase Admin SDK
+  await admin.auth().deleteUser(userId);
+  
+  return {"success": true};
+}
+```
+
+The action sends `{ "userId": uid }` to your backend and expects an empty response (or throws an exception on failure).
+
+### Authentication Flow
+
+For complete Firebase Authentication integration, combine with:
+
+1. **Core Auth**: `katana_auth_firebase` for basic Firebase Auth
+2. **Sign-In Methods**: Platform-specific packages like:
+   - `masamune_auth_google_firebase` (Google Sign-In)
+   - `masamune_auth_apple_firebase` (Apple Sign-In)
+   - `masamune_auth_github_firebase` (GitHub Sign-In)
+3. **Server Operations**: This package (`masamune_auth_firebase`) for secure backend operations
 
 # GitHub Sponsors
 
