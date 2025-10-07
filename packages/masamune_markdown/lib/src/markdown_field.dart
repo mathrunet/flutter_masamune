@@ -718,6 +718,15 @@ class _MarkdownFieldState extends State<MarkdownField>
           _cursorBlinkController.reset();
           _cursorBlinkController.repeat();
         });
+
+        // When selection changes by tap/drag, clear composing region to commit IME text
+        // タップやドラッグでカーソルが移動した場合、コンポージングをクリアしてIMEテキストを確定
+        if (cause == SelectionChangedCause.tap ||
+            cause == SelectionChangedCause.drag ||
+            cause == SelectionChangedCause.toolbar) {
+          _composingRegion = null;
+        }
+
         _updateRemoteEditingValue();
       },
       onTap: () {
