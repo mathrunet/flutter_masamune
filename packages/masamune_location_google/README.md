@@ -32,119 +32,176 @@
 
 # Masamune Location Google
 
+## Overview
+
+`masamune_location_google` provides Google Maps integration for Masamune apps. Display maps, add markers, and use Google-specific location features.
+
+**Note**: Requires `masamune_location` for core location functionality.
+
 ## Usage
 
-These packages provide a unified location stack:
-
-- `masamune_location` – core abstractions, controllers, and runtime adapters
-- `masamune_location_geocoding` – geocoding/ reverse geocoding via Cloud Functions
-- `masamune_location_google` – Google Maps integration helpers
-
-Install the packages you need.
+### Installation
 
 ```bash
 flutter pub add masamune_location
-flutter pub add masamune_location_geocoding
 flutter pub add masamune_location_google
 ```
 
-Run `flutter pub get` after editing `pubspec.yaml` manually.
+### Register the Adapter
 
-### Register Adapters
-
-Configure the adapters in your Masamune setup. The example below adds a mobile location adapter and geocoding adapter (which delegates to Cloud Functions).
+Configure `GoogleMobileLocationMasamuneAdapter` for Google Maps functionality.
 
 ```dart
 // lib/adapter.dart
 
+import 'package:masamune_location_google/masamune_location_google.dart';
+
 /// Masamune adapters used in the application.
 final masamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
-  const FunctionsMasamuneAdapter(),
 
-  MobileLocationMasamuneAdapter(
+  GoogleMobileLocationMasamuneAdapter(
+    apiKey: "YOUR_GOOGLE_MAPS_API_KEY",  // Google Maps API key
     requestWhenInUsePermissionOnInit: true,
     locationAccuracy: LocationAccuracy.high,
-  ),
-
-  GeocodingMasamuneAdapter(
-    functionsAdapter: const FunctionsMasamuneAdapter(),
   ),
 ];
 ```
 
-`MobileLocationMasamuneAdapter` provides real device GPS access, while `GeocodingMasamuneAdapter` calls server-side geocoding endpoints.
+### Display Google Map
 
-### Request Permissions and Fetch Location
-
-Use the `Location` controller to fetch the current position or listen for updates.
+Use the `MapView` widget to display a Google Map:
 
 ```dart
-final location = ref.app.controller(Location.query());
+class MapPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final mapController = ref.page.controller(MapController.query());
 
-await location.initialize();
-
-final position = await location.getCurrentPosition();
-debugPrint("Location: ${position.latitude}, ${position.longitude}");
-
-location.addListener(() {
-  final latest = location.value;
-  if (latest != null) {
-    debugPrint("Updated: ${latest.latitude}, ${latest.longitude}");
+    return Scaffold(
+      appBar: AppBar(title: const Text("Map")),
+      body: MapView(
+        controller: mapController,
+        initialCameraPosition: CameraPosition(
+          target: LatLng(35.6812, 139.7671),  // Tokyo Station
+          zoom: 15,
+        ),
+        onMapCreated: (controller) {
+          print("Map created!");
+        },
+      ),
+    );
   }
-});
-
-await location.startListening(
-  distanceFilter: 50,
-  timeInterval: const Duration(seconds: 30),
-);
-```
-
-`startListening` streams continuous updates; call `stopListening()` when no longer needed.
-
-### Handle Permissions
-
-Use the adapter helpers to request permissions and open app settings when required.
-
-```dart
-final permissionStatus = await location.requestPermission();
-if (!permissionStatus.granted) {
-  await openAppSettings();
 }
 ```
 
-### Geocoding
+### Add Markers
 
-`GeocodingMasamuneAdapter` exposes Functions actions to convert between coordinates and addresses.
+Add markers to the map:
 
 ```dart
-final geocoding = GeocodingMasamuneAdapter.primary;
-
-final address = await geocoding.fromLatLng(
-  latitude: position.latitude,
-  longitude: position.longitude,
+// Add a marker
+mapController.addMarker(
+  Marker(
+    markerId: MarkerId("tokyo-station"),
+    position: LatLng(35.6812, 139.7671),
+    title: "Tokyo Station",
+    snippet: "Major railway station",
+    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+  ),
 );
 
-final coordinates = await geocoding.fromAddress("Tokyo Station");
+// Remove a marker
+mapController.removeMarker(MarkerId("tokyo-station"));
+
+// Clear all markers
+mapController.clearMarkers();
 ```
 
-Implement the corresponding Firebase Function (or REST endpoint) to call external geocoding APIs such as Google Maps Geocoding.
+### Camera Control
 
-### Google Maps Helpers
+Move the camera programmatically:
 
-`masamune_location_google` provides utilities to integrate with Google Maps SDKs, such as map controllers, markers, and place lookups. Register adapters from that package if you need Google-specific features.
+```dart
+// Animate to location
+await mapController.animateCamera(
+  CameraPosition(
+    target: LatLng(35.6812, 139.7671),
+    zoom: 17,
+    tilt: 45,
+    bearing: 90,
+  ),
+);
 
-### Mocking and Testing
+// Move immediately
+await mapController.moveCamera(
+  CameraPosition(
+    target: LatLng(35.6812, 139.7671),
+    zoom: 15,
+  ),
+);
+```
 
-- Use `MockLocationMasamuneAdapter` for widget tests or environments without GPS access.
-- Inject mock adapters during development to simulate location updates or geocoding responses.
+### Add Shapes
+
+Add circles, polygons, and polylines:
+
+```dart
+// Add circle
+mapController.addCircle(
+  Circle(
+    circleId: CircleId("area"),
+    center: LatLng(35.6812, 139.7671),
+    radius: 500,  // meters
+    fillColor: Colors.blue.withOpacity(0.3),
+    strokeColor: Colors.blue,
+    strokeWidth: 2,
+  ),
+);
+
+// Add polygon
+mapController.addPolygon(
+  Polygon(
+    polygonId: PolygonId("zone"),
+    points: [
+      LatLng(35.68, 139.76),
+      LatLng(35.69, 139.77),
+      LatLng(35.68, 139.78),
+    ],
+    fillColor: Colors.green.withOpacity(0.3),
+  ),
+);
+
+// Add polyline (route)
+mapController.addPolyline(
+  Polyline(
+    polylineId: PolylineId("route"),
+    points: [
+      LatLng(35.6812, 139.7671),
+      LatLng(35.6897, 139.6917),
+    ],
+    color: Colors.red,
+    width: 5,
+  ),
+);
+```
+
+### Map Styling
+
+Apply custom map styles:
+
+```dart
+mapController.setMapStyle(
+  MapStyle.dark,  // or MapStyle.light, MapStyle.custom(jsonString)
+);
+```
 
 ### Tips
 
-- Handle platform permissions carefully: Android 12+ requires approximate/precise location toggles, iOS may need `NSLocationAlwaysUsageDescription` strings.
-- Cache last known locations to reduce sensor usage and provide instant UI feedback.
-- Respect user privacy by communicating why location data is collected and storing it securely.
-- Combine with `masamune_scheduler` to trigger location-based reminders or geofencing workflows.
+- Obtain a Google Maps API key from [Google Cloud Console](https://console.cloud.google.com/)
+- Enable Google Maps SDK for iOS/Android in your Google Cloud project
+- Configure API key restrictions to prevent unauthorized usage
+- Test on real devices for accurate GPS behavior
 
 # GitHub Sponsors
 

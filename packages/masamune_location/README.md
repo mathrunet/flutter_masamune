@@ -75,32 +75,77 @@ final masamuneAdapters = <MasamuneAdapter>[
 
 `MobileLocationMasamuneAdapter` provides real device GPS access, while `GeocodingMasamuneAdapter` calls server-side geocoding endpoints.
 
-### Request Permissions and Fetch Location
+### Get Current Location
 
 Use the `Location` controller to fetch the current position or listen for updates.
 
 ```dart
-final location = ref.app.controller(Location.query());
+class LocationPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final location = ref.app.controller(Location.query());
 
-await location.initialize();
+    // Initialize on page load
+    ref.page.on(
+      initOrUpdate: () {
+        location.initialize();
+      },
+    );
 
-final position = await location.getCurrentPosition();
-debugPrint("Location: ${position.latitude}, ${position.longitude}");
+    return Scaffold(
+      appBar: AppBar(title: const Text("Location")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (location.value != null)
+              Column(
+                children: [
+                  Text("Latitude: ${location.value!.latitude}"),
+                  Text("Longitude: ${location.value!.longitude}"),
+                  Text("Accuracy: ${location.value!.accuracy}m"),
+                ],
+              )
+            else
+              Text("No location data"),
+            
+            ElevatedButton(
+              onPressed: () async {
+                final position = await location.getCurrentPosition();
+                print("Location: ${position.latitude}, ${position.longitude}");
+              },
+              child: const Text("Get Location"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
 
+### Continuous Location Updates
+
+Listen for location changes automatically:
+
+```dart
+// Start listening for updates
+await location.startListening(
+  distanceFilter: 50,              // Update when moved 50+ meters
+  timeInterval: Duration(seconds: 30),  // Or every 30 seconds
+);
+
+// Listen to changes
 location.addListener(() {
   final latest = location.value;
   if (latest != null) {
-    debugPrint("Updated: ${latest.latitude}, ${latest.longitude}");
+    print("Updated: ${latest.latitude}, ${latest.longitude}");
   }
 });
 
-await location.startListening(
-  distanceFilter: 50,
-  timeInterval: const Duration(seconds: 30),
-);
+// Stop listening when done
+await location.stopListening();
 ```
-
-`startListening` streams continuous updates; call `stopListening()` when no longer needed.
 
 ### Handle Permissions
 

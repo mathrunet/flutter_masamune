@@ -32,119 +32,146 @@
 
 # Masamune Location Geocoding
 
+## Overview
+
+`masamune_location_geocoding` provides geocoding and reverse geocoding functionality for Masamune apps via Cloud Functions. Convert between coordinates and addresses.
+
+**Note**: Requires `masamune_location` for core location functionality.
+
 ## Usage
 
-These packages provide a unified location stack:
-
-- `masamune_location` – core abstractions, controllers, and runtime adapters
-- `masamune_location_geocoding` – geocoding/ reverse geocoding via Cloud Functions
-- `masamune_location_google` – Google Maps integration helpers
-
-Install the packages you need.
+### Installation
 
 ```bash
 flutter pub add masamune_location
 flutter pub add masamune_location_geocoding
-flutter pub add masamune_location_google
 ```
 
-Run `flutter pub get` after editing `pubspec.yaml` manually.
+### Register the Adapter
 
-### Register Adapters
-
-Configure the adapters in your Masamune setup. The example below adds a mobile location adapter and geocoding adapter (which delegates to Cloud Functions).
+Configure `GeocodingMasamuneAdapter` with a Functions adapter for backend integration.
 
 ```dart
 // lib/adapter.dart
 
+import 'package:masamune_location_geocoding/masamune_location_geocoding.dart';
+import 'package:katana_functions_firebase/katana_functions_firebase.dart';
+
+final functionsAdapter = FirebaseFunctionsAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  region: FirebaseRegion.asiaNortheast1,
+);
+
 /// Masamune adapters used in the application.
 final masamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
-  const FunctionsMasamuneAdapter(),
-
-  MobileLocationMasamuneAdapter(
-    requestWhenInUsePermissionOnInit: true,
-    locationAccuracy: LocationAccuracy.high,
-  ),
 
   GeocodingMasamuneAdapter(
-    functionsAdapter: const FunctionsMasamuneAdapter(),
+    functionsAdapter: functionsAdapter,
   ),
 ];
 ```
 
-`MobileLocationMasamuneAdapter` provides real device GPS access, while `GeocodingMasamuneAdapter` calls server-side geocoding endpoints.
+### Reverse Geocoding (Coordinates → Address)
 
-### Request Permissions and Fetch Location
-
-Use the `Location` controller to fetch the current position or listen for updates.
+Convert latitude/longitude to a human-readable address:
 
 ```dart
-final location = ref.app.controller(Location.query());
+class GeocodingPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final geocoding = GeocodingMasamuneAdapter.primary;
 
-await location.initialize();
-
-final position = await location.getCurrentPosition();
-debugPrint("Location: ${position.latitude}, ${position.longitude}");
-
-location.addListener(() {
-  final latest = location.value;
-  if (latest != null) {
-    debugPrint("Updated: ${latest.latitude}, ${latest.longitude}");
+    return ElevatedButton(
+      onPressed: () async {
+        try {
+          final address = await geocoding.fromLatLng(
+            latitude: 35.6812,
+            longitude: 139.7671,
+          );
+          
+          print("Address: $address");
+          // e.g., "Tokyo Station, Tokyo, Japan"
+        } catch (e) {
+          print("Geocoding failed: $e");
+        }
+      },
+      child: const Text("Get Address"),
+    );
   }
-});
-
-await location.startListening(
-  distanceFilter: 50,
-  timeInterval: const Duration(seconds: 30),
-);
-```
-
-`startListening` streams continuous updates; call `stopListening()` when no longer needed.
-
-### Handle Permissions
-
-Use the adapter helpers to request permissions and open app settings when required.
-
-```dart
-final permissionStatus = await location.requestPermission();
-if (!permissionStatus.granted) {
-  await openAppSettings();
 }
 ```
 
-### Geocoding
+### Geocoding (Address → Coordinates)
 
-`GeocodingMasamuneAdapter` exposes Functions actions to convert between coordinates and addresses.
+Convert an address to latitude/longitude:
 
 ```dart
-final geocoding = GeocodingMasamuneAdapter.primary;
+final coordinates = await geocoding.fromAddress("Tokyo Station, Japan");
 
-final address = await geocoding.fromLatLng(
-  latitude: position.latitude,
-  longitude: position.longitude,
-);
-
-final coordinates = await geocoding.fromAddress("Tokyo Station");
+print("Lat: ${coordinates.latitude}, Lng: ${coordinates.longitude}");
 ```
 
-Implement the corresponding Firebase Function (or REST endpoint) to call external geocoding APIs such as Google Maps Geocoding.
+### Backend Implementation
 
-### Google Maps Helpers
+Your Cloud Functions must implement the geocoding actions using an external API (e.g., Google Maps Geocoding API):
 
-`masamune_location_google` provides utilities to integrate with Google Maps SDKs, such as map controllers, markers, and place lookups. Register adapters from that package if you need Google-specific features.
+```typescript
+// Cloud Functions
+import * as functions from 'firebase-functions';
+import axios from 'axios';
 
-### Mocking and Testing
-
-- Use `MockLocationMasamuneAdapter` for widget tests or environments without GPS access.
-- Inject mock adapters during development to simulate location updates or geocoding responses.
+export const geocoding = functions.https.onCall(async (data, context) => {
+  const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
+  
+  if (data.action === "geocoding") {
+    const { latitude, longitude, address } = data;
+    
+    if (latitude && longitude) {
+      // Reverse geocoding (coordinates -> address)
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json`,
+        {
+          params: {
+            latlng: `${latitude},${longitude}`,
+            key: GOOGLE_MAPS_API_KEY,
+          },
+        }
+      );
+      
+      return {
+        address: response.data.results[0]?.formatted_address,
+      };
+    }
+    
+    if (address) {
+      // Geocoding (address -> coordinates)
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json`,
+        {
+          params: {
+            address: address,
+            key: GOOGLE_MAPS_API_KEY,
+          },
+        }
+      );
+      
+      const location = response.data.results[0]?.geometry?.location;
+      return {
+        latitude: location.lat,
+        longitude: location.lng,
+      };
+    }
+  }
+});
+```
 
 ### Tips
 
-- Handle platform permissions carefully: Android 12+ requires approximate/precise location toggles, iOS may need `NSLocationAlwaysUsageDescription` strings.
-- Cache last known locations to reduce sensor usage and provide instant UI feedback.
-- Respect user privacy by communicating why location data is collected and storing it securely.
-- Combine with `masamune_scheduler` to trigger location-based reminders or geofencing workflows.
+- Store Google Maps API key securely using environment variables
+- Implement rate limiting in your backend to prevent API quota exhaustion
+- Cache frequently requested addresses to reduce API calls
+- Handle errors gracefully when geocoding fails (e.g., invalid address)
 
 # GitHub Sponsors
 
