@@ -166,6 +166,27 @@ class MarkdownController extends MasamuneControllerBase<
     final safeStart = localStart.clamp(0, oldText.length);
     final safeEnd = localEnd.clamp(0, oldText.length);
 
+    // Check if backspace at the beginning of an empty or near-empty block
+    if (safeStart == 0 &&
+        safeEnd == 0 &&
+        text.isEmpty &&
+        targetBlockIndex > 0 &&
+        oldText.isEmpty) {
+      // Delete the current empty block and merge with previous block
+      blocks.removeAt(targetBlockIndex);
+
+      // Update field
+      final newField = MarkdownFieldValue(
+        id: field.id,
+        property: field.property,
+        children: blocks,
+      );
+
+      _value[0] = newField;
+      notifyListeners();
+      return;
+    }
+
     // Create new text
     final newText =
         oldText.substring(0, safeStart) + text + oldText.substring(safeEnd);

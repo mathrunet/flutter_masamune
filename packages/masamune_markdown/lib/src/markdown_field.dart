@@ -440,10 +440,27 @@ class _MarkdownFieldState extends State<MarkdownField>
         // Update cursor position to the end of inserted text
         _selection = TextSelection.collapsed(offset: start);
       } else {
+        // Check if backspace deleted a block
+        final blockCountBefore =
+            widget.controller.value?.firstOrNull?.children.length ?? 0;
+
         // Normal text replacement
         widget.controller.replaceText(start, oldEnd, replacementText);
-        // Update cursor position
-        _selection = value.selection;
+
+        final blockCountAfter =
+            widget.controller.value?.firstOrNull?.children.length ?? 0;
+
+        // If a block was deleted (backspace at empty block start)
+        if (blockCountAfter < blockCountBefore &&
+            oldEnd > start &&
+            replacementText.isEmpty) {
+          // Move cursor to the end of the previous block
+          final newCursorPos = start > 0 ? start - 1 : 0;
+          _selection = TextSelection.collapsed(offset: newCursorPos);
+        } else {
+          // Update cursor position
+          _selection = value.selection;
+        }
       }
 
       widget.onChanged?.call(widget.controller.value ?? []);
