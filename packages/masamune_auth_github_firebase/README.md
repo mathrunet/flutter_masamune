@@ -65,16 +65,13 @@ Add the adapters near the root of your app so GitHub tokens can be exchanged for
 final masamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
 
-  const RuntimeAuthMasamuneAdapter(),
-  FirebaseAuthMasamuneAdapter(
-    firebaseOptions: DefaultFirebaseOptions.currentPlatform,
-  ),
-
   FirebaseGithubAuthMasamuneAdapter(
     functionsAdapter: const FunctionsMasamuneAdapter(),
   ),
 ];
 ```
+
+**Note**: This package requires `katana_auth` and `katana_auth_firebase` to be installed separately. Those packages provide the core authentication infrastructure.
 
 `FirebaseGithubAuthMasamuneAdapter` expects a Cloud Functions endpoint (or your own backend) that validates GitHub OAuth codes and mints Firebase tokens.
 

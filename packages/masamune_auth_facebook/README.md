@@ -71,17 +71,14 @@ Configure adapters near the root of your application so the Facebook SDK can aut
 final masamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
 
-  const RuntimeAuthMasamuneAdapter(),
-  FirebaseAuthMasamuneAdapter(
-    firebaseOptions: DefaultFirebaseOptions.currentPlatform,
-  ),
-
   const FacebookAuthMasamuneAdapter(
     clientToken: "YOUR_FACEBOOK_APP_ID",
     clientSecret: "YOUR_FACEBOOK_APP_SECRET",
   ),
 ];
 ```
+
+**Note**: This package requires `katana_auth` and `katana_auth_firebase` to be installed separately. Those packages provide the core authentication infrastructure.
 
 `FacebookAuthMasamuneAdapter` handles the native login flow and provides access tokens to the Katana authentication layer.
 

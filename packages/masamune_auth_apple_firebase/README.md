@@ -67,17 +67,14 @@ Place the adapters near the root of your application so that Apple credentials c
 final masamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
 
-  const RuntimeAuthMasamuneAdapter(),
-  FirebaseAuthMasamuneAdapter(
-    firebaseOptions: DefaultFirebaseOptions.currentPlatform,
-  ),
-
   const AppleAuthMasamuneAdapter(),
   FirebaseAppleAuthMasamuneAdapter(
     functionsAdapter: const FunctionsMasamuneAdapter(),
   ),
 ];
 ```
+
+**Note**: This package requires `katana_auth` and `katana_auth_firebase` to be installed separately. Those packages provide the core authentication infrastructure.
 
 `FirebaseAppleAuthMasamuneAdapter` expects a Cloud Functions endpoint (or direct Firebase SDK) capable of validating Apple ID tokens and minting Firebase credentials.
 

@@ -67,11 +67,6 @@ Configure adapters near the root of your app so Google Sign In works across the 
 final masamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
 
-  const RuntimeAuthMasamuneAdapter(),
-  FirebaseAuthMasamuneAdapter(
-    firebaseOptions: DefaultFirebaseOptions.currentPlatform,
-  ),
-
   const GoogleAuthMasamuneAdapter(
     clientId: "YOUR_GOOGLE_CLIENT_ID",
   ),
@@ -80,6 +75,8 @@ final masamuneAdapters = <MasamuneAdapter>[
   ),
 ];
 ```
+
+**Note**: This package requires `katana_auth` and `katana_auth_firebase` to be installed separately. Those packages provide the core authentication infrastructure.
 
 Provide the appropriate `clientId` for the platform. On Android, configure the reversed client ID in the manifest; on iOS, update the URL types in `Info.plist`.
 

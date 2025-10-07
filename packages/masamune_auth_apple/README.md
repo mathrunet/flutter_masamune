@@ -67,12 +67,6 @@ Place the adapters near the root of your app so they are available to the authen
 final masamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
 
-  /// Core authentication adapters
-  const RuntimeAuthMasamuneAdapter(),
-  FirebaseAuthMasamuneAdapter(
-    firebaseOptions: DefaultFirebaseOptions.currentPlatform,
-  ),
-
   /// Apple Sign In adapters
   const AppleAuthMasamuneAdapter(),
   FirebaseAppleAuthMasamuneAdapter(
@@ -80,6 +74,8 @@ final masamuneAdapters = <MasamuneAdapter>[
   ),
 ];
 ```
+
+**Note**: This package requires `katana_auth` and `katana_auth_firebase` to be installed separately. Those packages provide the core authentication infrastructure (`AuthAdapter`, `FirebaseAuthAdapter`).
 
 `AppleAuthMasamuneAdapter` prepares the native Apple sign-in flow on iOS. `FirebaseAppleAuthMasamuneAdapter` exchanges the Apple credential for a Firebase token (via Cloud Functions or the Firebase SDK).
 
@@ -148,9 +144,9 @@ class SignInPage extends PageScopedWidget {
 
 ### Handling Tokens and Linking
 
-- When the Firebase adapter is present, Apple credentials are automatically linked to the Firebase user.
-- For mock or offline testing, rely on `RuntimeAuthMasamuneAdapter` without the Firebase adapter.
+- When `katana_auth_firebase` is installed, Apple credentials are automatically linked to the Firebase user.
 - Link additional providers later with `auth.link(AppleAuthQuery.link())` if your application allows multiple sign-in methods.
+- For anonymous user upgrade: `auth.link(AppleAuthQuery.link())` preserves existing user data.
 
 ### iOS Configuration
 

@@ -67,11 +67,6 @@ Configure adapters near the top of your widget tree so Google tokens can be exch
 final masamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
 
-  const RuntimeAuthMasamuneAdapter(),
-  FirebaseAuthMasamuneAdapter(
-    firebaseOptions: DefaultFirebaseOptions.currentPlatform,
-  ),
-
   const GoogleAuthMasamuneAdapter(
     clientId: "YOUR_GOOGLE_CLIENT_ID",
   ),
@@ -80,6 +75,8 @@ final masamuneAdapters = <MasamuneAdapter>[
   ),
 ];
 ```
+
+**Note**: This package requires `katana_auth` and `katana_auth_firebase` to be installed separately. Those packages provide the core authentication infrastructure.
 
 `FirebaseGoogleAuthMasamuneAdapter` expects a backend (Cloud Functions or your own server) that validates Google ID tokens and returns Firebase credentials to the app.
 
