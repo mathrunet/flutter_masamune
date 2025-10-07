@@ -46,6 +46,8 @@ class MarkdownField extends StatefulWidget {
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.enableInteractiveSelection = true,
     this.contextMenuBuilder,
+    this.onLongPress,
+    this.onDoubleTap,
   });
 
   /// Controller for the markdown editor.
@@ -231,7 +233,20 @@ class MarkdownField extends StatefulWidget {
   /// Builder for the context menu.
   ///
   /// コンテキストメニューのビルダー。
-  final EditableTextContextMenuBuilder? contextMenuBuilder;
+  final Widget Function(
+    BuildContext context,
+    TextSelectionDelegate delegate,
+  )? contextMenuBuilder;
+
+  /// Called when a long press is detected.
+  ///
+  /// 長押しが検出されたときに呼ばれます。
+  final void Function(Offset globalPosition)? onLongPress;
+
+  /// Called when a double tap is detected.
+  ///
+  /// ダブルタップが検出されたときに呼ばれます。
+  final void Function(Offset globalPosition)? onDoubleTap;
 
   @override
   State<MarkdownField> createState() => _MarkdownFieldState();
@@ -254,6 +269,9 @@ class _MarkdownFieldState extends State<MarkdownField>
   // For tracking cursor blink
   bool _showCursor = true;
   late AnimationController _cursorBlinkController;
+
+  // Context menu overlay
+  OverlayEntry? _contextMenuOverlay;
 
   @override
   void initState() {
@@ -286,6 +304,7 @@ class _MarkdownFieldState extends State<MarkdownField>
 
   @override
   void dispose() {
+    _hideContextMenu();
     _closeInputConnectionIfNeeded();
     _cursorBlinkController.dispose();
     _focusNode.removeListener(_handleFocusChanged);
@@ -294,6 +313,32 @@ class _MarkdownFieldState extends State<MarkdownField>
       _scrollController.dispose();
     }
     super.dispose();
+  }
+
+  void _hideContextMenu() {
+    _contextMenuOverlay?.remove();
+    _contextMenuOverlay = null;
+  }
+
+  void _showContextMenu(Offset globalPosition) {
+    _hideContextMenu();
+
+    if (widget.contextMenuBuilder == null) {
+      return;
+    }
+
+    final overlay = Overlay.of(context);
+
+    _contextMenuOverlay = OverlayEntry(
+      builder: (context) {
+        return widget.contextMenuBuilder!(
+          context,
+          this,
+        );
+      },
+    );
+
+    overlay.insert(_contextMenuOverlay!);
   }
 
   void _onCursorBlink() {
@@ -730,10 +775,20 @@ class _MarkdownFieldState extends State<MarkdownField>
         _updateRemoteEditingValue();
       },
       onTap: () {
+        _hideContextMenu();
         if (!_focusNode.hasFocus) {
           _focusNode.requestFocus();
         }
         widget.onTap?.call();
+      },
+      onLongPress: (globalPosition) {
+        widget.onLongPress?.call(globalPosition);
+        if (widget.contextMenuBuilder != null) {
+          _showContextMenu(globalPosition);
+        }
+      },
+      onDoubleTap: (globalPosition) {
+        widget.onDoubleTap?.call(globalPosition);
       },
     );
 
@@ -777,6 +832,8 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
     this.cursorRadius,
     this.textHeightBehavior,
     this.strutStyle,
+    this.onLongPress,
+    this.onDoubleTap,
   });
 
   final MarkdownController controller;
@@ -797,6 +854,8 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
   final StrutStyle? strutStyle;
   final SelectionChangedCallback onSelectionChanged;
   final VoidCallback? onTap;
+  final void Function(Offset globalPosition)? onLongPress;
+  final void Function(Offset globalPosition)? onDoubleTap;
 
   @override
   RenderObject createRenderObject(BuildContext context) {
@@ -819,6 +878,8 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       strutStyle: strutStyle,
       onSelectionChanged: onSelectionChanged,
       onTap: onTap,
+      onLongPress: onLongPress,
+      onDoubleTap: onDoubleTap,
     );
   }
 
@@ -845,7 +906,9 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       ..textHeightBehavior = textHeightBehavior
       ..strutStyle = strutStyle
       .._onSelectionChanged = onSelectionChanged
-      .._onTap = onTap;
+      .._onTap = onTap
+      .._onLongPress = onLongPress
+      .._onDoubleTap = onDoubleTap;
   }
 }
 
@@ -872,6 +935,8 @@ class _RenderMarkdownEditor extends RenderBox {
     Radius? cursorRadius,
     TextHeightBehavior? textHeightBehavior,
     StrutStyle? strutStyle,
+    void Function(Offset globalPosition)? onLongPress,
+    void Function(Offset globalPosition)? onDoubleTap,
   })  : _controller = controller,
         _focusNode = focusNode,
         _selection = selection,
@@ -889,7 +954,9 @@ class _RenderMarkdownEditor extends RenderBox {
         _textHeightBehavior = textHeightBehavior,
         _strutStyle = strutStyle,
         _onSelectionChanged = onSelectionChanged,
-        _onTap = onTap;
+        _onTap = onTap,
+        _onLongPress = onLongPress,
+        _onDoubleTap = onDoubleTap;
 
   MarkdownController _controller;
   MarkdownController get controller => _controller;
@@ -1057,11 +1124,23 @@ class _RenderMarkdownEditor extends RenderBox {
 
   VoidCallback? _onTap;
 
+  void Function(Offset globalPosition)? _onLongPress;
+
+  void Function(Offset globalPosition)? _onDoubleTap;
+
   // Block layout information
   List<_BlockLayout> _blockLayouts = [];
 
   // Tap tracking
   Offset? _lastTapDownPosition;
+  int? _lastTapTime;
+  Timer? _longPressTimer;
+  bool _longPressDetected = false;
+  bool _doubleTapDetected = false;
+
+  // Double tap tracking
+  static const _doubleTapTimeout = Duration(milliseconds: 300);
+  static const _longPressTimeout = Duration(milliseconds: 500);
 
   void _handleControllerChanged() {
     _blockLayouts = []; // Clear cache when controller changes
@@ -1076,6 +1155,7 @@ class _RenderMarkdownEditor extends RenderBox {
 
   @override
   void detach() {
+    _longPressTimer?.cancel();
     _controller.removeListener(_handleControllerChanged);
     super.detach();
   }
@@ -1282,7 +1362,17 @@ class _RenderMarkdownEditor extends RenderBox {
       _handleTapUp(event);
     } else if (event is PointerMoveEvent) {
       _handleDragUpdate(event);
+    } else if (event is PointerCancelEvent) {
+      _handlePointerCancel(event);
     }
+  }
+
+  void _handlePointerCancel(PointerCancelEvent event) {
+    _longPressTimer?.cancel();
+    _longPressTimer = null;
+    _lastTapDownPosition = null;
+    _longPressDetected = false;
+    _doubleTapDetected = false;
   }
 
   int? _getTextOffsetForPosition(Offset position) {
@@ -1309,15 +1399,60 @@ class _RenderMarkdownEditor extends RenderBox {
   }
 
   void _handleTapDown(PointerDownEvent event) {
-    _lastTapDownPosition = globalToLocal(event.position);
+    final now = DateTime.now().millisecondsSinceEpoch;
+    final position = globalToLocal(event.position);
+
+    // Reset flags
+    _longPressDetected = false;
+    _doubleTapDetected = false;
+
+    // Check for double tap
+    if (_lastTapTime != null &&
+        _lastTapDownPosition != null &&
+        now - _lastTapTime! < _doubleTapTimeout.inMilliseconds &&
+        (position - _lastTapDownPosition!).distance < 20) {
+      // Double tap detected
+      _doubleTapDetected = true;
+      _handleDoubleTapDetected(event.position);
+      _lastTapTime = null;
+      _lastTapDownPosition = null;
+      _longPressTimer?.cancel();
+      return;
+    }
+
+    _lastTapDownPosition = position;
+    _lastTapTime = now;
+
+    // Start long press timer
+    _longPressTimer?.cancel();
+    _longPressTimer = Timer(_longPressTimeout, () {
+      _longPressDetected = true;
+      _handleLongPressDetected(event.position);
+    });
   }
 
   void _handleTapUp(PointerUpEvent event) {
+    _longPressTimer?.cancel();
+    _longPressTimer = null;
+
+    // If long press or double tap was detected, don't process as normal tap
+    if (_longPressDetected || _doubleTapDetected) {
+      _longPressDetected = false;
+      _doubleTapDetected = false;
+      return;
+    }
+
     if (_lastTapDownPosition == null) {
       return;
     }
 
     final position = globalToLocal(event.position);
+
+    // Check if it's a drag (moved too far from tap down position)
+    if ((position - _lastTapDownPosition!).distance > 10) {
+      return;
+    }
+
     final textOffset = _getTextOffsetForPosition(position);
 
     if (textOffset != null) {
@@ -1327,7 +1462,104 @@ class _RenderMarkdownEditor extends RenderBox {
         SelectionChangedCause.tap,
       );
     }
-    _lastTapDownPosition = null;
+  }
+
+  void _handleDoubleTapDetected(Offset globalPosition) {
+    final position = globalToLocal(globalPosition);
+    final textOffset = _getTextOffsetForPosition(position);
+
+    if (textOffset != null) {
+      // Select word at position
+      final text = _controller.getPlainText();
+      final wordBoundary = _getWordBoundary(text, textOffset);
+
+      _onSelectionChanged(
+        TextSelection(
+          baseOffset: wordBoundary.start,
+          extentOffset: wordBoundary.end,
+        ),
+        SelectionChangedCause.doubleTap,
+      );
+
+      _onDoubleTap?.call(globalPosition);
+    }
+  }
+
+  void _handleLongPressDetected(Offset globalPosition) {
+    final position = globalToLocal(globalPosition);
+    final textOffset = _getTextOffsetForPosition(position);
+
+    if (textOffset != null) {
+      // Select word at position
+      final text = _controller.getPlainText();
+      final wordBoundary = _getWordBoundary(text, textOffset);
+
+      _onSelectionChanged(
+        TextSelection(
+          baseOffset: wordBoundary.start,
+          extentOffset: wordBoundary.end,
+        ),
+        SelectionChangedCause.longPress,
+      );
+
+      _onLongPress?.call(globalPosition);
+    }
+  }
+
+  TextRange _getWordBoundary(String text, int offset) {
+    // Word boundary detection
+    var start = offset;
+    var end = offset;
+
+    // Find start of word
+    while (start > 0 && !_isWordBoundary(text[start - 1])) {
+      start--;
+    }
+
+    // Find end of word
+    while (end < text.length && !_isWordBoundary(text[end])) {
+      end++;
+    }
+
+    return TextRange(start: start, end: end);
+  }
+
+  bool _isWordBoundary(String char) {
+    // Consider whitespace, punctuation as word boundaries
+    return char == " " ||
+        char == "\n" ||
+        char == "\t" ||
+        char == "." ||
+        char == "," ||
+        char == "!" ||
+        char == "?" ||
+        char == ";" ||
+        char == ":" ||
+        char == "-" ||
+        char == "(" ||
+        char == ")" ||
+        char == "[" ||
+        char == "]" ||
+        char == "{" ||
+        char == "}" ||
+        char == "<" ||
+        char == ">" ||
+        char == "/" ||
+        char == "\\" ||
+        char == "|" ||
+        char == "@" ||
+        char == "#" ||
+        char == "\$" ||
+        char == "%" ||
+        char == "^" ||
+        char == "&" ||
+        char == "*" ||
+        char == "+" ||
+        char == "=" ||
+        char == "~" ||
+        char == "`" ||
+        char == "\"" ||
+        char == "'";
   }
 
   void _handleDragUpdate(PointerMoveEvent event) {
@@ -1336,6 +1568,13 @@ class _RenderMarkdownEditor extends RenderBox {
     }
 
     final position = globalToLocal(event.position);
+
+    // Cancel long press if moved too far
+    if ((position - _lastTapDownPosition!).distance > 10) {
+      _longPressTimer?.cancel();
+      _longPressTimer = null;
+    }
+
     final textOffset = _getTextOffsetForPosition(position);
 
     if (textOffset != null) {
