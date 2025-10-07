@@ -459,12 +459,16 @@ class _MarkdownFieldState extends State<MarkdownField>
         } else {
           // Update cursor position and composing region
           _selection = value.selection;
-          _composingRegion = value.composing.isValid
-              ? TextSelection(
-                  baseOffset: value.composing.start,
-                  extentOffset: value.composing.end,
-                )
-              : null;
+
+          // Clear composing region when composing ends (start == -1)
+          if (!value.composing.isValid || value.composing.start == -1) {
+            _composingRegion = null;
+          } else {
+            _composingRegion = TextSelection(
+              baseOffset: value.composing.start,
+              extentOffset: value.composing.end,
+            );
+          }
         }
       }
 
@@ -476,12 +480,19 @@ class _MarkdownFieldState extends State<MarkdownField>
     } else {
       // Only selection or composing region changed
       _selection = value.selection;
-      _composingRegion = value.composing.isValid
-          ? TextSelection(
-              baseOffset: value.composing.start,
-              extentOffset: value.composing.end,
-            )
-          : null;
+
+      // Clear composing region when composing ends (start == -1)
+      if (!value.composing.isValid || value.composing.start == -1) {
+        _composingRegion = null;
+      } else {
+        _composingRegion = TextSelection(
+          baseOffset: value.composing.start,
+          extentOffset: value.composing.end,
+        );
+      }
+
+      // Update remote value to sync with IME
+      _updateRemoteEditingValue();
       setState(() {});
     }
   }
