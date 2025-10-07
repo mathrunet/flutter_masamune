@@ -248,6 +248,9 @@ class _MarkdownFieldState extends State<MarkdownField>
   TextSelection _selection = const TextSelection.collapsed(offset: 0);
   TextSelection? _composingRegion;
 
+  // Keep track of the last text value sent to/from the text input
+  String _lastKnownText = "";
+
   // For tracking cursor blink
   bool _showCursor = true;
   late AnimationController _cursorBlinkController;
@@ -330,6 +333,8 @@ class _MarkdownFieldState extends State<MarkdownField>
       );
       _textInputConnection = TextInput.attach(this, textInputConfiguration);
       _textInputConnection!.show();
+      // Initialize _lastKnownText before updating remote value
+      _lastKnownText = _getPlainText();
       _updateRemoteEditingValue();
     }
   }
@@ -350,6 +355,7 @@ class _MarkdownFieldState extends State<MarkdownField>
     }
 
     final text = _getPlainText();
+    _lastKnownText = text;
     _textInputConnection!.setEditingState(
       TextEditingValue(
         text: text,
@@ -375,12 +381,11 @@ class _MarkdownFieldState extends State<MarkdownField>
       return;
     }
 
-    final oldValue = currentTextEditingValue;
+    final oldText = _lastKnownText;
+    final newText = value.text;
 
-    if (oldValue.text != value.text) {
+    if (oldText != newText) {
       // Text changed, update controller
-      final oldText = oldValue.text;
-      final newText = value.text;
 
       // Find the difference
       var start = 0;
