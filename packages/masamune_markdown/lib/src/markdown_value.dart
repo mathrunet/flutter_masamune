@@ -10,7 +10,6 @@ abstract class MarkdownValue {
   /// マークダウンのデータを格納するクラス。
   const MarkdownValue({
     required this.id,
-    required this.type,
     this.start,
     this.end,
   });
@@ -23,7 +22,7 @@ abstract class MarkdownValue {
   /// The type of the markdown value.
   ///
   /// マークダウンのデータの型。
-  final String type;
+  String get type;
 
   /// The start point of the markdown value.
   ///
@@ -97,9 +96,9 @@ class MarkdownSpanValue extends MarkdownValue {
   /// マークダウンのスパンの値を格納するクラス。
   const MarkdownSpanValue({
     required super.id,
-    required super.type,
     required this.value,
     required this.property,
+    this.editable = true,
   });
 
   /// Create a [MarkdownSpanValue] from a [DynamicMap].
@@ -108,13 +107,20 @@ class MarkdownSpanValue extends MarkdownValue {
   factory MarkdownSpanValue.fromJson(DynamicMap json) {
     return MarkdownSpanValue(
       id: json.get(MarkdownValue.idKey, ""),
-      type: json.get(MarkdownValue.typeKey, ""),
       value: json.get(MarkdownValue.valueKey, ""),
       property: MarkdownSpanProperty.fromJson(
         json.getAsMap(MarkdownValue.propertyKey),
       ),
     );
   }
+
+  @override
+  String get type => "__text_span__";
+
+  /// The editable of the markdown span value.
+  ///
+  /// マークダウンのスパンの編集可能なフラグ。
+  final bool editable;
 
   /// The value of the markdown span value.
   ///
@@ -141,43 +147,44 @@ class MarkdownSpanValue extends MarkdownValue {
 ///
 /// マークダウンの段落の値を格納するクラス。
 @immutable
-class MarkdownParagraphValue extends MarkdownValue {
+class MarkdownLineValue extends MarkdownValue {
   /// A class for storing markdown paragraph value.
   ///
   /// マークダウンの段落の値を格納するクラス。
-  const MarkdownParagraphValue({
+  const MarkdownLineValue({
     required super.id,
-    required super.type,
     required this.children,
     required this.property,
   });
 
-  /// Create a [MarkdownParagraphValue] from a [DynamicMap].
+  /// Create a [MarkdownLineValue] from a [DynamicMap].
   ///
-  /// [DynamicMap]から[MarkdownParagraphValue]を作成します。
-  factory MarkdownParagraphValue.fromJson(DynamicMap json) {
-    return MarkdownParagraphValue(
+  /// [DynamicMap]から[MarkdownLineValue]を作成します。
+  factory MarkdownLineValue.fromJson(DynamicMap json) {
+    return MarkdownLineValue(
       id: json.get(MarkdownValue.idKey, ""),
-      type: json.get(MarkdownValue.typeKey, ""),
       children: json
           .getAsList(MarkdownValue.childrenKey, [])
           .map((e) => MarkdownSpanValue.fromJson(e))
           .toList(),
-      property: MarkdownParagraphProperty.fromJson(
+      property: MarkdownLineProperty.fromJson(
         json.getAsMap(MarkdownValue.propertyKey),
       ),
     );
   }
 
-  /// The children of the markdown paragraph value.
+  @override
+  String get type => "__text_line__";
+
+  /// The children of the markdown 1 line value.
   ///
-  /// マークダウンの段落の子要素。
+  /// マークダウンの１行の子要素。
   final List<MarkdownSpanValue> children;
 
-  /// The property of the markdown paragraph value.
+  /// The property of the markdown 1 line value.
   ///
-  /// マークダウンの段落のプロパティ。
-  final MarkdownParagraphProperty property;
+  /// マークダウンの１行のプロパティ。
+  final MarkdownLineProperty property;
 
   @override
   DynamicMap toJson() {
@@ -200,8 +207,13 @@ abstract class MarkdownBlockValue extends MarkdownValue {
   /// マークダウンのブロックの値を格納するクラス。
   const MarkdownBlockValue({
     required super.id,
-    required super.type,
+    required this.property,
   });
+
+  /// The property of the markdown block value.
+  ///
+  /// マークダウンのブロックのプロパティ。
+  final MarkdownBlockProperty property;
 }
 
 /// A class for storing markdown paragraph block value.
@@ -214,20 +226,17 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
   /// マークダウンの段落ブロックの値を格納するクラス。
   const MarkdownParagraphBlockValue({
     required super.id,
-    required super.type,
     required this.children,
-    required this.property,
+    required super.property,
   });
 
-  /// The children of the markdown paragraph block value.
-  ///
-  /// マークダウンの段落ブロックの子要素。
-  final List<MarkdownParagraphValue> children;
+  @override
+  String get type => "__text_block_paragraph__";
 
-  /// The property of the markdown paragraph block value.
+  /// The children of the markdown block value.
   ///
-  /// マークダウンの段落ブロックのプロパティ。
-  final MarkdownParagraphProperty property;
+  /// マークダウンのブロックの子要素。
+  final List<MarkdownLineValue> children;
 
   @override
   DynamicMap toJson() {
@@ -235,6 +244,7 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
       MarkdownValue.idKey: id,
       MarkdownValue.typeKey: type,
       MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
+      MarkdownValue.propertyKey: property.toJson(),
     };
   }
 }
@@ -249,7 +259,6 @@ class MarkdownFieldValue extends MarkdownValue {
   /// マークダウンのフィールドの値を格納するクラス。
   const MarkdownFieldValue({
     required super.id,
-    required super.type,
     required this.children,
     required this.property,
   });
@@ -260,13 +269,15 @@ class MarkdownFieldValue extends MarkdownValue {
   factory MarkdownFieldValue.fromJson(DynamicMap json) {
     return MarkdownFieldValue(
       id: json.get(MarkdownValue.idKey, ""),
-      type: json.get(MarkdownValue.typeKey, ""),
       // ToDo: implement
       children: const [],
       property: MarkdownFieldProperty.fromJson(
           json.getAsMap(MarkdownValue.propertyKey)),
     );
   }
+
+  @override
+  String get type => "__text_field__";
 
   /// The children of the markdown field value.
   ///
@@ -364,28 +375,28 @@ class MarkdownSpanProperty extends MarkdownProperty {
   }
 }
 
-/// A class for storing markdown paragraph property.
+/// A class for storing markdown 1 line property.
 ///
-/// マークダウンの段落のプロパティを格納するクラス。
+/// マークダウンの１行のプロパティを格納するクラス。
 @immutable
-class MarkdownParagraphProperty extends MarkdownProperty {
-  /// A class for storing markdown paragraph property.
+class MarkdownLineProperty extends MarkdownProperty {
+  /// A class for storing markdown 1 line property.
   ///
-  /// マークダウンの段落のプロパティを格納するクラス。
-  const MarkdownParagraphProperty({
+  /// マークダウンの１行のプロパティを格納するクラス。
+  const MarkdownLineProperty({
     required super.backgroundColor,
     required super.foregroundColor,
   });
 
-  /// Create a [MarkdownParagraphProperty] from a [DynamicMap].
+  /// Create a [MarkdownLineProperty] from a [DynamicMap].
   ///
-  /// [DynamicMap]から[MarkdownParagraphProperty]を作成します。
-  factory MarkdownParagraphProperty.fromJson(DynamicMap json) {
+  /// [DynamicMap]から[MarkdownLineProperty]を作成します。
+  factory MarkdownLineProperty.fromJson(DynamicMap json) {
     final backgroundColor =
         json.get(MarkdownProperty.backgroundColorKey, nullOfNum)?.toInt();
     final foregroundColor =
         json.get(MarkdownProperty.foregroundColorKey, nullOfNum)?.toInt();
-    return MarkdownParagraphProperty(
+    return MarkdownLineProperty(
       backgroundColor: backgroundColor != null ? Color(backgroundColor) : null,
       foregroundColor: foregroundColor != null ? Color(foregroundColor) : null,
     );

@@ -47,6 +47,196 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// これは、markdownコントローラーのフォーカスを制御するために使用されます。
   final FocusNode focusNode = FocusNode();
+
+  /// Replaces text in the specified range.
+  ///
+  /// 指定された範囲のテキストを置換します。
+  void replaceText(int start, int end, String text) {
+    // Ensure we have a valid structure
+    if (_value.isEmpty ||
+        _value.first.children.isEmpty ||
+        _value.first.children.first is! MarkdownParagraphBlockValue) {
+      // Create initial structure
+      final field = MarkdownFieldValue(
+        id: uuid(),
+        property: const MarkdownFieldProperty(
+          backgroundColor: null,
+          foregroundColor: null,
+        ),
+        children: [
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            property: const MarkdownBlockProperty(
+              backgroundColor: null,
+              foregroundColor: null,
+            ),
+            children: [
+              MarkdownLineValue(
+                id: uuid(),
+                property: const MarkdownLineProperty(
+                  backgroundColor: null,
+                  foregroundColor: null,
+                ),
+                children: [
+                  MarkdownSpanValue(
+                    id: uuid(),
+                    value: text,
+                    property: const MarkdownSpanProperty(
+                      backgroundColor: null,
+                      foregroundColor: null,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      );
+      _value.clear();
+      _value.add(field);
+      notifyListeners();
+      return;
+    }
+
+    // Update the first span
+    final field = _value.first;
+    final block = field.children.first as MarkdownParagraphBlockValue;
+
+    if (block.children.isEmpty) {
+      // Create first line if needed
+      final newLine = MarkdownLineValue(
+        id: uuid(),
+        property: const MarkdownLineProperty(
+          backgroundColor: null,
+          foregroundColor: null,
+        ),
+        children: [
+          MarkdownSpanValue(
+            id: uuid(),
+            value: text,
+            property: const MarkdownSpanProperty(
+              backgroundColor: null,
+              foregroundColor: null,
+            ),
+          ),
+        ],
+      );
+
+      final newBlock = MarkdownParagraphBlockValue(
+        id: block.id,
+        property: block.property,
+        children: [newLine],
+      );
+
+      final newField = MarkdownFieldValue(
+        id: field.id,
+        property: field.property,
+        children: [newBlock],
+      );
+
+      _value[0] = newField;
+      notifyListeners();
+      return;
+    }
+
+    final line = block.children.first;
+    if (line.children.isEmpty) {
+      // Create first span if needed
+      final newSpan = MarkdownSpanValue(
+        id: uuid(),
+        value: text,
+        property: const MarkdownSpanProperty(
+          backgroundColor: null,
+          foregroundColor: null,
+        ),
+      );
+
+      final newLine = MarkdownLineValue(
+        id: line.id,
+        property: line.property,
+        children: [newSpan],
+      );
+
+      final newBlock = MarkdownParagraphBlockValue(
+        id: block.id,
+        property: block.property,
+        children: [newLine],
+      );
+
+      final newField = MarkdownFieldValue(
+        id: field.id,
+        property: field.property,
+        children: [newBlock],
+      );
+
+      _value[0] = newField;
+      notifyListeners();
+      return;
+    }
+
+    // Update existing span
+    final span = line.children.first;
+    final oldText = span.value;
+
+    // Ensure indices are within bounds
+    final safeStart = start.clamp(0, oldText.length);
+    final safeEnd = end.clamp(0, oldText.length);
+
+    final newText =
+        oldText.substring(0, safeStart) + text + oldText.substring(safeEnd);
+
+    final newSpan = MarkdownSpanValue(
+      id: span.id,
+      value: newText,
+      property: span.property,
+      editable: span.editable,
+    );
+
+    final newLine = MarkdownLineValue(
+      id: line.id,
+      property: line.property,
+      children: [newSpan],
+    );
+
+    final newBlock = MarkdownParagraphBlockValue(
+      id: block.id,
+      property: block.property,
+      children: [newLine],
+    );
+
+    final newField = MarkdownFieldValue(
+      id: field.id,
+      property: field.property,
+      children: [newBlock],
+    );
+
+    _value[0] = newField;
+    notifyListeners();
+  }
+
+  /// Gets plain text representation of the content.
+  ///
+  /// コンテンツのプレーンテキスト表現を取得します。
+  String getPlainText() {
+    final buffer = StringBuffer();
+    for (final field in _value) {
+      for (final block in field.children) {
+        if (block is MarkdownParagraphBlockValue) {
+          for (var i = 0; i < block.children.length; i++) {
+            final line = block.children[i];
+            for (final span in line.children) {
+              buffer.write(span.value);
+            }
+            // Add newline except for the last line
+            if (i < block.children.length - 1) {
+              buffer.writeln();
+            }
+          }
+        }
+      }
+    }
+    return buffer.toString();
+  }
 }
 
 @immutable
