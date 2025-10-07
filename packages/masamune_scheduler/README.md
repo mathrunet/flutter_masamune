@@ -66,43 +66,110 @@ Ensure you have set up Masamune Models for your app because scheduler queries op
 
 Use the provided schedule models to set up copy/delete operations triggered by server commands.
 
-```dart
-// Copy a document at a scheduled time.
-final copySchedule = ModelCopyDocumentSchedule(
-  sourceCollectionPath: "posts",
-  sourceDocumentId: "draft",
-  targetCollectionPath: "posts",
-  targetDocumentId: "published",
-  executeAt: DateTime.now().add(const Duration(hours: 1)),
-);
+**Copy Document Schedule**:
 
-await copySchedule.save();
+```dart
+class ScheduledPostPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    return ElevatedButton(
+      onPressed: () async {
+        // Schedule a document copy (e.g., publish draft at specific time)
+        final schedule = ref.app.model(
+          ModelCopyDocumentSchedule.collection(),
+        ).create();
+        
+        await schedule.save(
+          ModelCopyDocumentSchedule(
+            sourceCollectionPath: "posts",
+            sourceDocumentId: "draft_123",
+            targetCollectionPath: "posts",
+            targetDocumentId: "published_123",
+            executeAt: DateTime.now().add(const Duration(hours: 1)),
+          ),
+        );
+        
+        print("Scheduled to publish in 1 hour");
+      },
+      child: const Text("Schedule Post"),
+    );
+  }
+}
 ```
 
-Schedule deletion of documents as well.
+**Delete Documents Schedule**:
 
 ```dart
-final deleteSchedule = ModelDeleteDocumentsSchedule(
-  collectionPath: "logs",
-  field: "createdAt",
-  endAt: DateTime.now().subtract(const Duration(days: 30)),
+// Schedule deletion of old logs
+final deleteScheduleCollection = ref.app.model(
+  ModelDeleteDocumentsSchedule.collection(),
 );
 
-await deleteSchedule.save();
+final deleteSchedule = deleteScheduleCollection.create();
+await deleteSchedule.save(
+  ModelDeleteDocumentsSchedule(
+    collectionPath: "logs",
+    field: "createdAt",
+    endAt: DateTime.now().subtract(const Duration(days: 30)),  // Delete logs older than 30 days
+  ),
+);
 ```
 
-### Trigger via Functions
+### Backend Implementation
 
-Deploy Cloud Functions that listen to scheduler queries and execute them at the specified times (e.g., via cron jobs or scheduled triggers). Use the `model_server_command_*` classes to create commands the server processes.
+Your Cloud Functions should periodically check for pending schedules and execute them:
+
+**Scheduled Function Example**:
+
+```typescript
+// Cloud Functions (runs every 5 minutes)
+export const processSchedules = functions.pubsub
+  .schedule('every 5 minutes')
+  .onRun(async (context) => {
+    const now = admin.firestore.Timestamp.now();
+    
+    // Find pending copy schedules
+    const copySchedules = await admin.firestore()
+      .collection('model_copy_document_schedule')
+      .where('executeAt', '<=', now)
+      .where('executed', '==', false)
+      .get();
+    
+    for (const doc of copySchedules.docs) {
+      const schedule = doc.data();
+      
+      // Copy document
+      const sourceDoc = await admin.firestore()
+        .collection(schedule.sourceCollectionPath)
+        .doc(schedule.sourceDocumentId)
+        .get();
+      
+      if (sourceDoc.exists) {
+        await admin.firestore()
+          .collection(schedule.targetCollectionPath)
+          .doc(schedule.targetDocumentId)
+          .set(sourceDoc.data());
+      }
+      
+      // Mark as executed
+      await doc.ref.update({ executed: true });
+    }
+    
+    // Process delete schedules similarly...
+  });
+```
+
+**Alternative: Server Command Pattern**:
 
 ```dart
+// Client creates a command for the server to process
 final command = ModelServerCommandCopyDocumentSchedule(
   scheduleId: copySchedule.id,
 );
 await command.save();
 ```
 
-Your backend should periodically query pending commands and execute them.
+Your backend queries pending commands and executes them.
 
 ### Tips
 

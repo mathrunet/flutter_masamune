@@ -69,13 +69,46 @@ final masamuneAdapters = <MasamuneAdapter>[
 Use `TextToSpeechController` to speak text, stop playback, and query voices.
 
 ```dart
-final tts = ref.page.controller(TextToSpeechController.query());
+class TextReaderPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final tts = ref.page.controller(TextToSpeechController.query());
 
-await tts.initialize();
+    // Initialize on page load
+    ref.page.on(
+      initOrUpdate: () {
+        tts.initialize();
+      },
+    );
 
-await tts.speak("Hello Masamune!");
-
-await tts.stop();
+    return Scaffold(
+      appBar: AppBar(title: const Text("Text to Speech")),
+      body: Column(
+        children: [
+          TextField(
+            onChanged: (text) {
+              // Store text to speak
+            },
+          ),
+          
+          ElevatedButton(
+            onPressed: () async {
+              await tts.speak("Hello Masamune!");
+            },
+            child: const Text("Speak"),
+          ),
+          
+          ElevatedButton(
+            onPressed: () async {
+              await tts.stop();
+            },
+            child: const Text("Stop"),
+          ),
+        ],
+      ),
+    );
+  }
+}
 ```
 
 ### Configure Voice Parameters

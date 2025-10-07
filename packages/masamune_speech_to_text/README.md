@@ -67,17 +67,43 @@ final masamuneAdapters = <MasamuneAdapter>[
 Use `SpeechToTextController` to initialize speech recognition, start listening, and handle results.
 
 ```dart
-final stt = ref.page.controller(SpeechToTextController.query());
+class VoiceInputPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final stt = ref.page.controller(SpeechToTextController.query());
 
-await stt.initialize();
+    // Initialize on page load
+    ref.page.on(
+      initOrUpdate: () {
+        stt.initialize();
+      },
+    );
 
-await stt.listen(
-  onResult: (SpeechRecognitionResult result) {
-    debugPrint("Recognized: ${result.recognizedWords}");
-  },
-);
-
-await stt.stop();
+    return Scaffold(
+      appBar: AppBar(title: const Text("Voice Input")),
+      body: Column(
+        children: [
+          Text(stt.recognizedText ?? "Say something..."),
+          
+          ElevatedButton(
+            onPressed: () async {
+              if (stt.isListening) {
+                await stt.stop();
+              } else {
+                await stt.listen(
+                  onResult: (result) {
+                    print("Recognized: ${result.recognizedWords}");
+                  },
+                );
+              }
+            },
+            child: Text(stt.isListening ? "Stop" : "Start Listening"),
+          ),
+        ],
+      ),
+    );
+  }
+}
 ```
 
 ### Continuous Listening

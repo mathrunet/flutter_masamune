@@ -34,49 +34,145 @@
 
 ## Usage
 
+### Installation
+
 1. Add the package to your project.
 
 ```bash
 flutter pub add masamune_storage_functions
 ```
 
-Run `flutter pub get` after editing `pubspec.yaml` manually.
+### Setup
 
-2. Configure the storage adapter backed by Cloud Functions. Supply a `FunctionsAdapter` (for example, `FirebaseFunctionsAdapter`) and the Storage bucket name.
+2. Configure the storage adapter backed by Cloud Functions.
 
 ```dart
+// lib/main.dart
+
 import 'package:masamune_storage_functions/masamune_storage_functions.dart';
 import 'package:katana_functions_firebase/katana_functions_firebase.dart';
 
 final functionsAdapter = FirebaseFunctionsAdapter(
   options: DefaultFirebaseOptions.currentPlatform,
-  region: FirebaseRegion.usCentral1,
+  region: FirebaseRegion.asiaNortheast1,
 );
 
 final storageAdapter = FunctionsStorageAdapter(
   functionsAdapter: functionsAdapter,
-  bucketName: 'your-project.appspot.com',
-);
-```
-
-3. Register the adapter with Masamune so `StorageQuery` and other storage utilities use it by default.
-
-```dart
-final masamuneAdapters = <MasamuneAdapter>[
-  StorageMasamuneAdapter(adapter: storageAdapter),
-];
-```
-
-4. Upload and download files through Functions. Metadata such as public/download URLs is cached automatically.
-
-```dart
-final file = await storageAdapter.uploadWithBytes(
-  await File('assets/logo.png').readAsBytes(),
-  'uploads/logo.png',
-  mimeType: 'image/png',
+  bucketName: 'your-project.appspot.com',  // Your Cloud Storage bucket
 );
 
-final download = await storageAdapter.download('uploads/logo.png');
+void main() {
+  runMasamuneApp(
+    appRef: appRef,
+    storageAdapter: storageAdapter,
+    (appRef, _) => MasamuneApp(
+      appRef: appRef,
+      home: HomePage(),
+    ),
+  );
+}
+```
+
+### Upload Files
+
+3. Upload files through your Cloud Functions backend:
+
+```dart
+class FileUploadPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final storage = ref.app.storage();
+
+    return ElevatedButton(
+      onPressed: () async {
+        // Upload from bytes
+        final bytes = await File('path/to/image.png').readAsBytes();
+        final uploadedFile = await storage.uploadWithBytes(
+          bytes,
+          'uploads/user_${userId}/profile.png',
+          mimeType: 'image/png',
+        );
+        
+        print("Uploaded to: ${uploadedFile.publicUrl}");
+      },
+      child: const Text("Upload File"),
+    );
+  }
+}
+```
+
+**Upload from URI**:
+
+```dart
+// Upload from ModelImageUri or ModelVideoUri
+final modelImageUri = ModelImageUri.fromPath('local/path/image.jpg');
+final result = await storage.uploadWithUri(
+  modelImageUri.uri,
+  'uploads/image.jpg',
+);
+
+print("Download URL: ${result.downloadUrl}");
+```
+
+### Download Files
+
+4. Download files from Cloud Storage:
+
+```dart
+// Download file bytes
+final bytes = await storage.download('uploads/image.png');
+
+// Save to local file
+await File('local/path/downloaded.png').writeAsBytes(bytes);
+```
+
+### Delete Files
+
+```dart
+// Delete a file
+await storage.delete('uploads/old_file.png');
+```
+
+### Backend Implementation
+
+Your Cloud Functions must handle storage operations:
+
+```typescript
+// Cloud Functions
+export const storage = functions.https.onCall(async (data, context) => {
+  const bucket = admin.storage().bucket();
+  
+  switch (data.action) {
+    case "upload":
+      // Handle file upload
+      const file = bucket.file(data.path);
+      await file.save(Buffer.from(data.bytes, 'base64'), {
+        contentType: data.mimeType,
+      });
+      
+      const [url] = await file.getSignedUrl({
+        action: 'read',
+        expires: Date.now() + 3600000,
+      });
+      
+      return { 
+        publicUrl: url,
+        downloadUrl: url,
+      };
+      
+    case "download":
+      // Handle file download
+      const downloadFile = bucket.file(data.path);
+      const [buffer] = await downloadFile.download();
+      return { bytes: buffer.toString('base64') };
+      
+    case "delete":
+      // Handle file deletion
+      await bucket.file(data.path).delete();
+      return { success: true };
+  }
+});
 ```
 
 # GitHub Sponsors
