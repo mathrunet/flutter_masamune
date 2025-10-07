@@ -21,3 +21,4 @@ part "adapter/markdown_masamune_adapter.dart";
 part "src/markdown_value.dart";
 part "src/markdown_field.dart";
 part "src/markdown_controller.dart";
+part "src/markdown_style.dart";

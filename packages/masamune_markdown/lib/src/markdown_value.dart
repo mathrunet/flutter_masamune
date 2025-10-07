@@ -214,6 +214,30 @@ abstract class MarkdownBlockValue extends MarkdownValue {
   ///
   /// マークダウンのブロックのプロパティ。
   final MarkdownBlockProperty property;
+
+  /// The padding of the markdown block value.
+  ///
+  /// マークダウンのブロックのパディング。
+  EdgeInsetsGeometry padding(
+    BuildContext context,
+    MarkdownController controller,
+  );
+
+  /// The margin of the markdown block value.
+  ///
+  /// マークダウンのブロックのマージン。
+  EdgeInsetsGeometry margin(
+    BuildContext context,
+    MarkdownController controller,
+  );
+
+  /// The text style of the markdown block value.
+  ///
+  /// マークダウンのブロックのテキストスタイル。
+  TextStyle textStyle(
+    BuildContext context,
+    MarkdownController controller,
+  );
 }
 
 /// A class for storing markdown paragraph block value.
@@ -246,6 +270,36 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
       MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
       MarkdownValue.propertyKey: property.toJson(),
     };
+  }
+
+  @override
+  EdgeInsetsGeometry padding(
+    BuildContext context,
+    MarkdownController controller,
+  ) {
+    return controller.style.paragraph.padding ?? EdgeInsets.zero;
+  }
+
+  @override
+  EdgeInsetsGeometry margin(
+    BuildContext context,
+    MarkdownController controller,
+  ) {
+    return controller.style.paragraph.margin ?? EdgeInsets.zero;
+  }
+
+  @override
+  TextStyle textStyle(
+    BuildContext context,
+    MarkdownController controller,
+  ) {
+    final theme = Theme.of(context);
+    return (controller.style.paragraph.textStyle ??
+            theme.textTheme.bodyMedium ??
+            const TextStyle())
+        .copyWith(
+      color: controller.style.paragraph.foregroundColor,
+    );
   }
 }
 
@@ -332,6 +386,36 @@ abstract class MarkdownProperty {
   ///
   /// マークダウンのプロパティの前景色のキー。
   static const String foregroundColorKey = "foregroundColor";
+
+  /// The key for the padding.
+  ///
+  /// マークダウンのプロパティのパディングのキー。
+  static const String paddingKey = "padding";
+
+  /// The key for the margin.
+  ///
+  /// マークダウンのプロパティのマージンのキー。
+  static const String marginKey = "margin";
+
+  /// The left key of a Markdown property.
+  ///
+  /// マークダウンのプロパティの左のキー。
+  static const String leftKey = "left";
+
+  /// The right key of a Markdown property.
+  ///
+  /// マークダウンのプロパティの右のキー。
+  static const String rightKey = "right";
+
+  /// The top key of a Markdown property.
+  ///
+  /// マークダウンのプロパティの上のキー。
+  static const String topKey = "top";
+
+  /// The bottom key of a Markdown property.
+  ///
+  /// マークダウンのプロパティの下のキー。
+  static const String bottomKey = "bottom";
 
   /// Convert the markdown property to a JSON object.
   ///
@@ -432,6 +516,7 @@ class MarkdownBlockProperty extends MarkdownProperty {
         json.get(MarkdownProperty.backgroundColorKey, nullOfNum)?.toInt();
     final foregroundColor =
         json.get(MarkdownProperty.foregroundColorKey, nullOfNum)?.toInt();
+
     return MarkdownBlockProperty(
       backgroundColor: backgroundColor != null ? Color(backgroundColor) : null,
       foregroundColor: foregroundColor != null ? Color(foregroundColor) : null,

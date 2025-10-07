@@ -16,8 +16,14 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 内部的には`flutter_quill`および`markdown_widget`のパッケージを利用しています。
   const MarkdownMasamuneAdapter({
+    this.defaultStyle = const MarkdownStyle(),
     this.imageLimit = 256,
   });
+
+  /// Default style for markdown.
+  ///
+  /// マークダウンのデフォルトのスタイル。
+  final MarkdownStyle defaultStyle;
 
   /// The limit of the image embed.
   ///

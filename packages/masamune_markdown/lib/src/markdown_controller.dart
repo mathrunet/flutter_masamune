@@ -43,6 +43,11 @@ class MarkdownController extends MasamuneControllerBase<
 
   final List<MarkdownFieldValue> _value = [];
 
+  /// Default style for markdown.
+  ///
+  /// マークダウンのデフォルトのスタイル。
+  MarkdownStyle get style => adapter.defaultStyle;
+
   /// This is used to control the focus of the markdown controller.
   ///
   /// これは、markdownコントローラーのフォーカスを制御するために使用されます。
