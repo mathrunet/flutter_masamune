@@ -81,11 +81,12 @@ class SplashPage extends PageScopedWidget {
   Widget build(BuildContext context, PageRef ref) {
     final updater = ref.page.controller(ForceUpdater.query());
     
-    useEffect(() {
-      // Check for updates on page load
-      updater.checkUpdate(context);
-      return null;
-    }, []);
+    // Check for updates when page is displayed
+    ref.page.on(
+      initOrUpdate: () {
+        updater.checkUpdate(context);
+      },
+    );
 
     return Scaffold(
       body: Center(child: CircularProgressIndicator()),
