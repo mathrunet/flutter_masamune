@@ -43,10 +43,15 @@
 
 1. Add the package to `pubspec.yaml`.
 
+**Note**: This is the base package. You'll also need a concrete implementation:
+- `masamune_ai_firebase` for Firebase Vertex AI / Gemini
+- `masamune_ai_openai` for OpenAI ChatGPT
+
 ```yaml
 dependencies:
   masamune: ^xxx
   masamune_ai:
+  masamune_ai_firebase:  # or masamune_ai_openai
 ```
 
 2. Register an AI adapter in `MasamuneApp`.
@@ -57,7 +62,8 @@ void main() {
     MasamuneApp(
       appRef: appRef,
       adapters: const [
-        MyAIMasamuneAdapter(),
+        // Use FirebaseAIMasamuneAdapter or OpenaiAIMasamuneAdapter
+        // See implementation-specific packages for details
       ],
     ),
   );
@@ -90,72 +96,20 @@ class MockAdapter extends RuntimeAIMasamuneAdapter {
 }
 ```
 
-### Firebase AI Adapter
+### Concrete Implementations
 
-- Available via `masamune_ai_firebase` (`FirebaseAIMasamuneAdapter`).
-- Requires Firebase initialization (`FirebaseOptions`) and optionally platform-specific options.
-- Supports Gemini models (`FirebaseAIModel`) and Vertex AI function-calling when MCP tools are provided.
+**Firebase AI Adapter** (`masamune_ai_firebase`)
+- Provides `FirebaseAIMasamuneAdapter` for Firebase Vertex AI / Gemini models
+- Requires Firebase initialization and supports `FirebaseAIModel` (gemini-2.0-flash, etc.)
+- Includes Vertex AI function-calling support for MCP tools
+- See `masamune_ai_firebase` package for detailed setup
 
-```dart
-import "package:masamune_ai_firebase/masamune_ai_firebase.dart";
-
-void main() {
-  runApp(
-    MasamuneApp(
-      appRef: appRef,
-      adapters: const [
-        FirebaseAIMasamuneAdapter(
-          options: DefaultFirebaseOptions.currentPlatform,
-          model: FirebaseAIModel.gemini20Flash,
-          enableAppCheck: true,
-          defaultConfig: AIConfig(
-            systemPromptContent: AIContent.system([
-              AIContent.model(text: "You are a helpful assistant."),
-            ]),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-```
-
-- Call `initialize` once before generating content. The adapter caches Vertex AI `GenerativeModel` instances per `AIConfigKey` (config + tools).
-- When MCP tools are provided, they are converted to Vertex AI function declarations. Use `onGenerateFunctionCallingConfig` to control retries or limits.
-
-### OpenAI Adapter
-
-- Available via `masamune_ai_openai` (`OpenaiAIMasamuneAdapter`).
-- Requires an OpenAI API key (`apiKey`) and supports the latest `OpenaiAIModel` definitions.
-- Streams responses from the Chat Completions API; additional filtering can be applied through `contentFilter`.
-
-```dart
-import "package:masamune_ai_openai/masamune_ai_openai.dart";
-
-void main() {
-  runApp(
-    MasamuneApp(
-      appRef: appRef,
-      adapters: const [
-        OpenaiAIMasamuneAdapter(
-          apiKey: String.fromEnvironment("OPENAI_API_KEY"),
-          model: OpenaiAIModel.gpt5Mini,
-          contentFilter: _sanitizeMessages,
-        ),
-      ],
-    ),
-  );
-}
-
-List<AIContent> _sanitizeMessages(List<AIContent> contents) {
-  return contents
-      .map((content) => content.where((part) => part is AIContentTextPart))
-      .toList();
-}
-```
-
-- Initializes the `dart_openai` client once and streams deltas into `AIContent` instances.
-- For backend automation, use `OpenaiChatGPTFunctionsAction` (see `masamune_ai_openai/functions`) to trigger ChatGPT requests from Masamune Functions.
+**OpenAI Adapter** (`masamune_ai_openai`)
+- Provides `OpenaiAIMasamuneAdapter` for OpenAI ChatGPT models
+- Requires an OpenAI API key and supports `OpenaiAIModel` (gpt-4o, gpt-5-mini, etc.)
+- Streams responses from Chat Completions API
+- Includes `OpenaiChatGPTFunctionsAction` for backend Functions integration
+- See `masamune_ai_openai` package for detailed setup
 
 ## AIConfig and AITool
 

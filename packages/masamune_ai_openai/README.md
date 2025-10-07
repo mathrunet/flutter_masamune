@@ -30,14 +30,15 @@
 
 ---
 
-# Masamune AI
+# Masamune AI OpenAI
 
 ## Overview
 
-- `masamune_ai` is a generative AI integration library for the Masamune framework.
-- Configure AI behavior through the adapter (`AIMasamuneAdapter`), including Model Context Protocol (MCP) settings.
-- Use `AIThread` to manage multi-turn conversations and `AISingle` for single-turn prompts.
-- Manage tool integrations via the MCP client (`McpClient`) and `AITool`.
+- `masamune_ai_openai` provides OpenAI ChatGPT integration for the Masamune AI framework.
+- Extends `masamune_ai` with `OpenaiAIMasamuneAdapter` for OpenAI-powered generative AI.
+- Supports GPT-4o, GPT-5-mini, and other OpenAI models.
+- Streams responses from the Chat Completions API with real-time delta updates.
+- Includes `OpenaiChatGPTFunctionsAction` for backend integration via Masamune Functions.
 
 ## Setup
 
@@ -46,68 +47,23 @@
 ```yaml
 dependencies:
   masamune: ^xxx
-  masamune_ai:
+  masamune_ai: ^xxx
+  masamune_ai_openai: ^xxx
 ```
 
-2. Register an AI adapter in `MasamuneApp`.
+2. Register `OpenaiAIMasamuneAdapter` in `MasamuneApp` with your API key.
 
 ```dart
-void main() {
-  runApp(
-    MasamuneApp(
-      appRef: appRef,
-      adapters: const [
-        MyAIMasamuneAdapter(),
-      ],
-    ),
-  );
-}
-```
-
-## AIMasamuneAdapter
-
-- Implements common AI initialization and configuration logic.
-- Provide the following when extending:
-  - `defaultConfig`: an `AIConfig` describing the model, system prompt, and response schema.
-  - `initialize` and `generateContent`: connect to the actual AI service.
-  - `mcpServerConfig`, `mcpClientConfig`, `mcpFunctions`: settings for MCP integration.
-  - `contentFilter` and `onGenerateFunctionCallingConfig`: preprocess content or control function-calling retries.
-
-### Runtime Adapter Example
-
-Use `RuntimeAIMasamuneAdapter` for tests or mock implementations.
-
-```dart
-class MockAdapter extends RuntimeAIMasamuneAdapter {
-  const MockAdapter()
-      : super(
-          onGenerateContent: (contents, config) async {
-            final response = AIContent.model(text: "Mock response!");
-            response.complete();
-            return response;
-          },
-        );
-}
-```
-
-### Firebase AI Adapter
-
-- Available via `masamune_ai_firebase` (`FirebaseAIMasamuneAdapter`).
-- Requires Firebase initialization (`FirebaseOptions`) and optionally platform-specific options.
-- Supports Gemini models (`FirebaseAIModel`) and Vertex AI function-calling when MCP tools are provided.
-
-```dart
-import "package:masamune_ai_firebase/masamune_ai_firebase.dart";
+import "package:masamune_ai_openai/masamune_ai_openai.dart";
 
 void main() {
   runApp(
     MasamuneApp(
       appRef: appRef,
       adapters: const [
-        FirebaseAIMasamuneAdapter(
-          options: DefaultFirebaseOptions.currentPlatform,
-          model: FirebaseAIModel.gemini20Flash,
-          enableAppCheck: true,
+        OpenaiAIMasamuneAdapter(
+          apiKey: String.fromEnvironment("OPENAI_API_KEY"),  // Required
+          model: OpenaiAIModel.gpt4o,                        // OpenAI model
           defaultConfig: AIConfig(
             systemPromptContent: AIContent.system([
               AIContent.model(text: "You are a helpful assistant."),
@@ -120,16 +76,123 @@ void main() {
 }
 ```
 
-- Call `initialize` once before generating content. The adapter caches Vertex AI `GenerativeModel` instances per `AIConfigKey` (config + tools).
-- When MCP tools are provided, they are converted to Vertex AI function declarations. Use `onGenerateFunctionCallingConfig` to control retries or limits.
+## OpenaiAIMasamuneAdapter Configuration
 
-### OpenAI Adapter
+### Required Parameters
 
-- Available via `masamune_ai_openai` (`OpenaiAIMasamuneAdapter`).
-- Requires an OpenAI API key (`apiKey`) and supports the latest `OpenaiAIModel` definitions.
-- Streams responses from the Chat Completions API; additional filtering can be applied through `contentFilter`.
+- `apiKey` (`String`): Your OpenAI API key (get from [OpenAI Platform](https://platform.openai.com/api-keys))
+- `model` (`OpenaiAIModel`): The OpenAI model to use (see Available Models section)
+
+### Optional Parameters
+
+- `defaultConfig` (`AIConfig`): Default system prompt and response schema
+- `contentFilter`: Preprocess messages before sending to OpenAI
+- `onGenerateFunctionCallingConfig`: Control function-calling retry logic
+- `mcpServerConfig`, `mcpClientConfig`, `mcpFunctions`: MCP tool integration settings
+
+## Available Models
+
+The `OpenaiAIModel` enum provides the following OpenAI models:
 
 ```dart
+OpenaiAIModel.gpt4o                 // GPT-4o (default)
+OpenaiAIModel.gpt4oMini             // GPT-4o mini
+OpenaiAIModel.gpt5Mini              // GPT-5 mini (latest)
+OpenaiAIModel.o1                    // O1 model
+OpenaiAIModel.o1Mini                // O1 mini
+OpenaiAIModel.o1Preview             // O1 preview
+OpenaiAIModel.gpt4                  // GPT-4
+OpenaiAIModel.gpt4Turbo             // GPT-4 Turbo
+OpenaiAIModel.gpt35Turbo            // GPT-3.5 Turbo
+```
+
+## Key Features
+
+### Streaming Responses
+
+The adapter streams deltas from OpenAI's Chat Completions API, providing real-time updates:
+
+```dart
+final thread = ref.app.controller(
+  AIThread.query(threadId: "chat-1"),
+);
+
+final response = await thread.generateContent([
+  AIContent.text("Tell me a story"),
+]);
+
+// Monitor streaming updates
+response.loading.then((_) {
+  print("Response complete!");
+});
+```
+
+### Content Filtering
+
+Apply custom filtering to sanitize messages before sending:
+
+```dart
+OpenaiAIMasamuneAdapter(
+  apiKey: String.fromEnvironment("OPENAI_API_KEY"),
+  model: OpenaiAIModel.gpt4o,
+  contentFilter: (contents) {
+    // Remove non-text parts or apply other transformations
+    return contents
+        .map((content) => content.where((part) => part is AIContentTextPart))
+        .toList();
+  },
+)
+```
+
+### Backend Functions Integration
+
+Use `OpenaiChatGPTFunctionsAction` to trigger ChatGPT requests from Masamune Functions on your backend:
+
+```dart
+import "package:masamune_ai_openai/functions.dart";
+
+// In your Masamune Functions handler
+final response = await functions.execute(
+  OpenaiChatGPTFunctionsAction(
+    apiKey: yourApiKey,
+    model: "gpt-4o",
+    messages: [
+      {"role": "user", "content": "Hello, ChatGPT!"},
+    ],
+  ),
+);
+
+print(response.text);
+```
+
+## Usage with AIThread and AISingle
+
+For conversation management and content generation, use `AIThread` (multi-turn) and `AISingle` (single-turn) controllers from the `masamune_ai` package:
+
+```dart
+// Multi-turn conversation
+final thread = ref.app.controller(
+  AIThread.query(
+    threadId: "chat-1",
+    initialContents: [AIContent.text("Hello!")],
+  ),
+);
+
+await thread.generateContent([
+  AIContent.text("Tell me about GPT-4o"),
+]);
+
+// Single-turn interaction
+final single = ref.app.controller(AISingle.query());
+final result = await single.generateContent([
+  AIContent.text("Summarize this"),
+]);
+```
+
+## Complete Example
+
+```dart
+import "package:masamune_ai/masamune_ai.dart";
 import "package:masamune_ai_openai/masamune_ai_openai.dart";
 
 void main() {
@@ -139,118 +202,65 @@ void main() {
       adapters: const [
         OpenaiAIMasamuneAdapter(
           apiKey: String.fromEnvironment("OPENAI_API_KEY"),
-          model: OpenaiAIModel.gpt5Mini,
-          contentFilter: _sanitizeMessages,
+          model: OpenaiAIModel.gpt4o,
+          defaultConfig: AIConfig(
+            systemPromptContent: AIContent.system([
+              AIContent.model(text: "You are a helpful AI assistant."),
+            ]),
+          ),
         ),
       ],
+      child: MyApp(),
     ),
   );
 }
 
-List<AIContent> _sanitizeMessages(List<AIContent> contents) {
-  return contents
-      .map((content) => content.where((part) => part is AIContentTextPart))
-      .toList();
+class MyApp extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final thread = ref.app.controller(
+      AIThread.query(threadId: "main-chat"),
+    );
+
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: thread.value.length,
+        itemBuilder: (context, index) {
+          final content = thread.value[index];
+          return ListTile(
+            title: Text(content.role.name),
+            subtitle: Text(content.text),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await thread.generateContent([
+            AIContent.text("Hello, ChatGPT!"),
+          ]);
+        },
+        child: Icon(Icons.send),
+      ),
+    );
+  }
 }
 ```
 
-- Initializes the `dart_openai` client once and streams deltas into `AIContent` instances.
-- For backend automation, use `OpenaiChatGPTFunctionsAction` (see `masamune_ai_openai/functions`) to trigger ChatGPT requests from Masamune Functions.
+## Environment Variables
 
-## AIConfig and AITool
+Set your OpenAI API key using environment variables:
 
-- `AIConfig`: holds the model name, system prompt (`AIContent.system`), and response schema (`AISchema`).
-- `AITool`: defines a tool that can be invoked through MCP or function calls.
+```bash
+# In your terminal or .env file
+export OPENAI_API_KEY="sk-your-api-key-here"
 
-```dart
-final weatherTool = AITool(
-  name: "weather",
-  description: "Get the current weather",
-  parameters: {
-    "city": AISchema.string(description: "City name"),
-  },
-);
+# Or use --dart-define when running
+flutter run --dart-define=OPENAI_API_KEY=sk-your-api-key-here
 ```
 
-## Conversation Management with AIThread
+## Additional Resources
 
-- Maintains a list of `AIContent` exchanges and supports multi-turn conversations.
-- Call `initialize` to set up the model, then `generateContent` to send user input and receive responses.
-
-```dart
-final thread = ref.app.controller(
-  AIThread.query(
-    threadId: "chat-1",
-    initialContents: [
-      AIContent.text("Hello!"),
-    ],
-  ),
-);
-
-final updatedContents = await thread.generateContent(
-  [AIContent.text("Tell me the latest news")],
-  config: AIConfig(model: "gpt-4o-mini"),
-  tools: {weatherTool},
-);
-```
-
-## Single Interaction with AISingle
-
-- Use when only one response is needed.
-
-```dart
-final single = ref.app.controller(
-  AISingle.query(
-    config: AIConfig(model: "gpt-4o-mini"),
-  ),
-);
-
-final result = await single.generateContent([
-  AIContent.text("Summarize this"),
-]);
-```
-
-## MCP Client Integration
-
-- `McpClient` loads tools from an MCP server and processes AI function calls.
-
-```dart
-final mcpClient = ref.app.controller(McpClient.query());
-await mcpClient.load();
-final toolResult = await mcpClient.call("weather", {"city": "Tokyo"});
-```
-
-- When `mcpClientConfig` and `mcpFunctions` are configured in the adapter, `AIThread` and `AISingle` automatically invoke tools through MCP during `generateContent`.
-
-## Working with AIContent
-
-- Represents messages exchanged with the model.
-- Factory constructors support multiple data types: `AIContent.text`, `AIContent.png`, `AIContent.system`, and more.
-- Use `AIContentFunctionCallPart` and `AIContentFunctionResponsePart` to model structured function calls.
-- Streamed responses can be handled via `add`, `complete`, and `error`.
-
-## Typical Workflow
-
-1. Register a custom `AIMasamuneAdapter` in `MasamuneApp`.
-2. Obtain `AIThread` or `AISingle` via `ref.app.controller`.
-3. Optionally load MCP tools.
-4. Call `generateContent` with user `AIContent`.
-5. Render the AI response from the controller’s `value`.
-6. Handle function calls via MCP or custom logic.
-
-## Common Customizations
-
-- **System Prompt**: Provide `AIConfig.systemPromptContent` with `AIContent.system`.
-- **Response Schema**: Define structured JSON outputs using `AISchema`.
-- **Usage Tracking**: Inspect `onGeneratedContentUsage` for prompt and candidate token counts.
-- **Content Filtering**: Apply `contentFilter` or per-call filters to sanitize requests.
-- **Function Calling Control**: Customize retries or forced execution with `onGenerateFunctionCallingConfig`.
-
-## Development Tips
-
-- Follow Masamune controller patterns (`appRef`, `ref.app.controller`) for lifecycle-aware access.
-- Monitor the `loading` future on `AIContent` for streaming updates.
-- Even without MCP, the adapter’s `onFunctionCall` must return an empty list to satisfy the interface.
+For detailed information on `AIThread`, `AISingle`, `AIContent`, `AITool`, and MCP integration, refer to the [`masamune_ai` package documentation](https://pub.dev/packages/masamune_ai).
 
 # GitHub Sponsors
 
