@@ -377,15 +377,6 @@ class _MarkdownFieldState extends State<MarkdownField>
 
     final oldValue = currentTextEditingValue;
 
-    // Update selection and composing region first
-    _selection = value.selection;
-    _composingRegion = value.composing.isValid
-        ? TextSelection(
-            baseOffset: value.composing.start,
-            extentOffset: value.composing.end,
-          )
-        : null;
-
     if (oldValue.text != value.text) {
       // Text changed, update controller
       final oldText = oldValue.text;
@@ -439,6 +430,8 @@ class _MarkdownFieldState extends State<MarkdownField>
 
         // Update cursor position to the end of inserted text
         _selection = TextSelection.collapsed(offset: start);
+        // Clear composing region after newline
+        _composingRegion = null;
       } else {
         // Check if backspace deleted a block
         final blockCountBefore =
@@ -457,9 +450,16 @@ class _MarkdownFieldState extends State<MarkdownField>
           // Move cursor to the end of the previous block
           final newCursorPos = start > 0 ? start - 1 : 0;
           _selection = TextSelection.collapsed(offset: newCursorPos);
+          _composingRegion = null;
         } else {
-          // Update cursor position
+          // Update cursor position and composing region
           _selection = value.selection;
+          _composingRegion = value.composing.isValid
+              ? TextSelection(
+                  baseOffset: value.composing.start,
+                  extentOffset: value.composing.end,
+                )
+              : null;
         }
       }
 
@@ -469,7 +469,14 @@ class _MarkdownFieldState extends State<MarkdownField>
       // Trigger rebuild to reflect changes
       setState(() {});
     } else {
-      // Only selection changed
+      // Only selection or composing region changed
+      _selection = value.selection;
+      _composingRegion = value.composing.isValid
+          ? TextSelection(
+              baseOffset: value.composing.start,
+              extentOffset: value.composing.end,
+            )
+          : null;
       setState(() {});
     }
   }
