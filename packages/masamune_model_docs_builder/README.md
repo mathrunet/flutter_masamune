@@ -38,10 +38,9 @@
 
 1. Add the builder as a development dependency.
 
-```yaml
-dev_dependencies:
-  masamune_model_docs_builder: ^latest
-  build_runner: ^latest
+```bash
+flutter pub add --dev masamune_model_docs_builder
+flutter pub add --dev build_runner
 ```
 
 ### Generate Documentation

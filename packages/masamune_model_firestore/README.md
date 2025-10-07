@@ -42,13 +42,6 @@
 flutter pub add masamune_model_firestore
 ```
 
-Or add to `pubspec.yaml`:
-
-```yaml
-dependencies:
-  masamune_model_firestore: ^latest
-```
-
 ### Model Definition
 
 2. Define your models using standard Masamune annotations. Use `katana code collection` or `katana code document` to generate model templates.

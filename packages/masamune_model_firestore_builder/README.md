@@ -38,13 +38,10 @@
 
 1. Add the builder as a development dependency alongside the runtime package.
 
-```yaml
-dependencies:
-  katana_model_firestore: ^latest
-
-dev_dependencies:
-  masamune_model_firestore_builder: ^latest
-  build_runner: ^latest
+```bash
+flutter pub add katana_model_firestore
+flutter pub add --dev masamune_model_firestore_builder
+flutter pub add --dev build_runner
 ```
 
 ### Generate Firestore Rules and Indexes

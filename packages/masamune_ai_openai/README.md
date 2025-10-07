@@ -42,13 +42,11 @@
 
 ## Setup
 
-1. Add the package to `pubspec.yaml`.
+1. Add the package to your project.
 
-```yaml
-dependencies:
-  masamune: ^xxx
-  masamune_ai: ^xxx
-  masamune_ai_openai: ^xxx
+```bash
+flutter pub add masamune_ai
+flutter pub add masamune_ai_openai
 ```
 
 2. Register `OpenaiAIMasamuneAdapter` in `MasamuneApp` with your API key.

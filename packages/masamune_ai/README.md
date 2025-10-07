@@ -41,17 +41,15 @@
 
 ## Setup
 
-1. Add the package to `pubspec.yaml`.
+1. Add the package to your project.
 
 **Note**: This is the base package. You'll also need a concrete implementation:
 - `masamune_ai_firebase` for Firebase Vertex AI / Gemini
 - `masamune_ai_openai` for OpenAI ChatGPT
 
-```yaml
-dependencies:
-  masamune: ^xxx
-  masamune_ai:
-  masamune_ai_firebase:  # or masamune_ai_openai
+```bash
+flutter pub add masamune_ai
+flutter pub add masamune_ai_firebase  # or masamune_ai_openai
 ```
 
 2. Register an AI adapter in `MasamuneApp`.

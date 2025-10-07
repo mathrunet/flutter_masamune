@@ -34,15 +34,12 @@
 
 ## Usage
 
-1. Add the packages to your Masamune project. Include the runtime package plus the annotation and builder packages so that generated adapters and GraphQL assets are produced.
+1. Add the packages to your Masamune project. Include the runtime package plus the annotation and builder packages.
 
-```yaml
-dependencies:
-  masamune_model_firebase_data_connect: ^latest
-  masamune_model_firebase_data_connect_annotation: ^latest
-
-dev_dependencies:
-  masamune_model_firebase_data_connect_builder: ^latest
+```bash
+flutter pub add masamune_model_firebase_data_connect
+flutter pub add masamune_model_firebase_data_connect_annotation
+flutter pub add --dev masamune_model_firebase_data_connect_builder
 ```
 
 2. Import the libraries and annotate your model with `@firebaseDataConnect` together with `@CollectionModelPath`/`@DocumentModelPath`. The generator relies on `freezed`/Masamune conventions, so be sure to keep the `part` directives.
