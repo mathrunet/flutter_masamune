@@ -30,11 +30,20 @@
 
 ---
 
-# Masamune Model FirebaseDataConnect
+# Masamune Model Firebase Data Connect
+
+## Overview
+
+`masamune_model_firebase_data_connect` provides Firebase Data Connect integration for Masamune models. Use GraphQL-powered data access with automatic schema generation from your Dart models.
+
+**Package Roles**:
+- `masamune_model_firebase_data_connect` (this package) - Runtime adapter and converters
+- `masamune_model_firebase_data_connect_annotation` - Annotations (`@firebaseDataConnect`)
+- `masamune_model_firebase_data_connect_builder` - Code generator
 
 ## Usage
 
-1. Add the packages to your Masamune project. Include the runtime package plus the annotation and builder packages.
+### Installation
 
 ```bash
 flutter pub add masamune_model_firebase_data_connect
@@ -42,26 +51,30 @@ flutter pub add masamune_model_firebase_data_connect_annotation
 flutter pub add --dev masamune_model_firebase_data_connect_builder
 ```
 
-2. Import the libraries and annotate your model with `@firebaseDataConnect` together with `@CollectionModelPath`/`@DocumentModelPath`. The generator relies on `freezed`/Masamune conventions, so be sure to keep the `part` directives.
+### Annotate Models
+
+Add `@firebaseDataConnect` to your Masamune models:
 
 ```dart
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:masamune/masamune.dart';
-import 'package:masamune_model_firebase_data_connect/masamune_model_firebase_data_connect.dart';
 import 'package:masamune_model_firebase_data_connect_annotation/masamune_model_firebase_data_connect_annotation.dart';
 
-part 'user.model.dart';
-part 'user.dataconnect.dart';
+part 'user.m.dart';
+part 'user.g.dart';
+part 'user.freezed.dart';
+part 'user.dataconnect.dart';  // Generated
 
 @freezed
 @formValue
 @immutable
-@firebaseDataConnect
+@firebaseDataConnect  // Enable Data Connect
 @CollectionModelPath('user')
 class UserModel with _$UserModel {
   const factory UserModel({
-    @Default('') String name,
-    @Default('') String description,
+    required String name,
+    @Default('') String email,
+    @Default(ModelTimestamp.now()) ModelTimestamp createdAt,
   }) = _UserModel;
 
   const UserModel._();
@@ -73,19 +86,111 @@ class UserModel with _$UserModel {
 }
 ```
 
-3. Run the generator. Masamune projects use `katana code generate`, which wraps `build_runner` and produces GraphQL schemas, connector definitions, and the `.dataconnect.dart` adapter parts.
+### Generate GraphQL Schema
+
+Run the code generator:
 
 ```bash
 katana code generate
 ```
 
-After the command finishes, you will find:
+This generates:
+- GraphQL schema, queries, and mutations in `firebase/dataconnect/`
+- `connector.yaml` configuration
+- `*.dataconnect.dart` adapter implementation
 
-- `.gql` schema, query, and mutation files under the directory configured by the annotation (defaults to `firebase/dataconnect/`).
-- `connector.yaml` describing the Firebase Data Connect connector.
-- A generated adapter mixin in `*.dataconnect.dart`, which extends `FirebaseDataConnectModelAdapterBase` and is ready to be wired into your Masamune model layer.
+### Register the Adapter
 
-4. Register or instantiate the generated adapter where you configure your models so that the runtime package can convert values to and from Firebase Data Connect.
+Configure the Firebase Data Connect adapter in your app:
+
+```dart
+// lib/main.dart
+
+import 'package:masamune_model_firebase_data_connect/masamune_model_firebase_data_connect.dart';
+
+final modelAdapter = FirebaseDataConnectModelAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  connectorId: "default",  // Your connector ID
+);
+
+void main() {
+  runMasamuneApp(
+    appRef: appRef,
+    modelAdapter: modelAdapter,
+    (appRef, _) => MasamuneApp(
+      appRef: appRef,
+      home: HomePage(),
+    ),
+  );
+}
+```
+
+### Use Your Models
+
+Use models with Firebase Data Connect just like other Masamune models:
+
+```dart
+class UserListPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final users = ref.app.model(UserModel.collection())..load();
+
+    return ListView.builder(
+      itemCount: users.length,
+      itemBuilder: (context, index) {
+        final user = users[index].value;
+        return ListTile(
+          title: Text(user?.name ?? ''),
+          subtitle: Text(user?.email ?? ''),
+        );
+      },
+    );
+  }
+}
+```
+
+**Create/Update**:
+
+```dart
+final collection = ref.app.model(UserModel.collection());
+final newDoc = collection.create();
+await newDoc.save(
+  UserModel(
+    name: "John Doe",
+    email: "john@example.com",
+  ),
+);
+```
+
+### Deploy to Firebase
+
+Deploy generated files to Firebase Data Connect:
+
+```bash
+firebase deploy --only dataconnect
+```
+
+### Field Value Converters
+
+The package includes converters for Masamune field types:
+- `ModelTimestamp` / `ModelTimestampRange`
+- `ModelDate` / `ModelDateRange` / `ModelTime` / `ModelTimeRange`
+- `ModelUri` / `ModelImageUri` / `ModelVideoUri`
+- `ModelRef` (references)
+- `ModelGeoValue` (geographic coordinates)
+- `ModelCounter` / `ModelToken`
+- `ModelLocale` / `ModelLocalizedValue`
+- And more...
+
+These are automatically applied during schema generation and data conversion.
+
+### Tips
+
+- Annotate all models you want to sync with Data Connect
+- Run `katana code generate` after model changes
+- Review generated GraphQL before deploying
+- Use Firebase Data Connect Studio to test queries
+- Monitor query performance in Firebase Console
 
 # GitHub Sponsors
 
