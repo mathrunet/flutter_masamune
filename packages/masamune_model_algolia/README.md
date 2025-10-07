@@ -57,16 +57,39 @@ final modelAdapter = AlgoliaModelAdapter(
 );
 ```
 
-3. Apply `ModelQueryFilter.like()` to send the search keyword to Algolia. Pagination relies on `limit()` and the internal page parameter.
+3. Use filters to search and paginate data. The `like` filter sends the search keyword to Algolia, while `limitTo` controls pagination.
+
+**Using standard filters (for exact matches, ordering, etc.)**
 
 ```dart
-final result = await UserModel.collection.query(
-  filters: [
-    ModelQueryFilter.like(UserModel.kNameKey, keyword),
-    ModelQueryFilter.limit(20),
-  ],
-).load(adapter: algoliaAdapter);
+// In your widget or controller
+final collection = appRef.model(
+  UserModel.collection()
+    .name.equal("John")       // Filter by exact match
+    .limitTo(20),             // Limit to 20 results per page
+)..load();
+
+// Access via next() for pagination
+await collection.next();
 ```
+
+**Using full-text search with Algolia**
+
+For full-text search, Algolia looks for the `like` filter in the query. The simplest way is to use models that extend `SearchableCollectionMixin`:
+
+```dart
+// Extend your collection with SearchableCollectionMixin in your model file
+// Then use the search method:
+final collection = appRef.model(UserModel.collection());
+await collection.load();
+await collection.search(keyword);  // Trigger Algolia full-text search
+```
+
+The search method automatically creates a `like` filter with the `@search` field (or your custom search field). Make sure your Algolia index includes bigram-tokenized data for the search field.
+
+**Advanced: Direct filter usage**
+
+If you need more control, you can use the raw filter approach by extending the generated collection query with custom filters. However, this is not the recommended approach for typical use cases.
 
 Ensure your Algolia index stores entries containing the Masamune model `@uid` so `AlgoliaModelAdapter` can map hits back to documents.
 
