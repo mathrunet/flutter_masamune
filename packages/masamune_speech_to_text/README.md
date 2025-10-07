@@ -46,7 +46,7 @@ Run `flutter pub get` when editing `pubspec.yaml` manually.
 
 ### Register the Adapter
 
-Configure `SpeechToTextMasamuneAdapter` before launching the app. Provide optional language settings or custom configuration if needed.
+Configure `SpeechToTextMasamuneAdapter` before launching the app. Provide the default language settings.
 
 ```dart
 // lib/adapter.dart
@@ -56,10 +56,30 @@ final masamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
 
   const SpeechToTextMasamuneAdapter(
-    defaultLocaleId: "en_US",
-    listenMode: ListenMode.confirmation,
+    defaultLocale: Locale('en', 'US'),  // Default language (required)
   ),
 ];
+```
+
+**For Japanese**:
+
+```dart
+const SpeechToTextMasamuneAdapter(
+  defaultLocale: Locale('ja', 'JP'),
+)
+```
+
+**With Auto-initialization** (optional):
+
+```dart
+// Create controller for auto-initialization
+final sttController = SpeechToTextController();
+
+const SpeechToTextMasamuneAdapter(
+  defaultLocale: Locale('en', 'US'),
+  speechToTextController: sttController,  // Will initialize on boot
+  initializeOnBoot: true,                 // Auto-initialize
+)
 ```
 
 ### Speech-to-Text Controller

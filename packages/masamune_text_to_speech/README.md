@@ -56,10 +56,14 @@ final masamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
 
   const TextToSpeechMasamuneAdapter(
-    language: "en-US",
-    speechRate: 0.5,
-    volume: 1.0,
-    iosAudioCategory: TextToSpeechIOSAudioCategory.playback,
+    defaultLocale: Locale('en', 'US'),                         // Default language (required)
+    defaultSpeechRate: 0.5,                                    // Speech speed (0.0-1.0, default: 1.0)
+    defaultVolume: 1.0,                                        // Volume (0.0-1.0, default: 1.0)
+    defaultPitch: 1.0,                                         // Pitch (0.0-1.0, default: 1.0)
+    defaultIosAudioCategory: TextToSpeechIosAudioCategory.playback,  // iOS audio category
+    defaultIosAudioCategoryOptions: [
+      TextToSpeechIosAudioCategoryOptions.mixWithOthers,       // Mix with other audio
+    ],
   ),
 ];
 ```
