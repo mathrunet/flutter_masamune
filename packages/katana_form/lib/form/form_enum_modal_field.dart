@@ -2,103 +2,153 @@ part of "/katana_form.dart";
 
 /// Form to select from all elements in [TEnum].
 ///
-/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+/// モーダルで列挙型の選択肢から選択することができるフォーム。
+/// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで列挙型の値を管理可能。
+/// 列挙型の値をラベル付きで表示、カスタムデザインなどの機能を備えています。
 ///
-/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+/// ## ピッカーの指定
 ///
-/// Enter the initial value given by [FormController.value] in [initialValue].
+/// Specify [picker] to define the selection options.
 ///
-/// Each time the content is changed, [onChanged] is executed.
+/// [picker]を指定して選択肢を定義します。
 ///
-/// If [FormController.validate] is executed, validation and data saving are performed.
+/// ## 基本的な使用例
 ///
-/// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
+/// ```dart
+/// enum UserType {
+///   admin,
+///   user,
+///   guest;
 ///
-/// Other error checking is performed by specifying [validator].
-/// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
+///   String get label => switch (this) {
+///       admin => "管理者",
+///       user => "一般ユーザー",
+///       guest => "ゲスト",
+///     };
+/// }
 ///
-/// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
+/// FormEnumModalField(
+///   form: formController,
+///   initialValue: formController.value.type,
+///   onSaved: (value) => formController.value.copyWith(type: value),
+///   picker: FormEnumModalFieldPicker(
+///     values: UserType.values,
+///   ),
+/// );
+/// ```
 ///
-/// By specifying [picker], it is possible to set the selection method for [TEnum].
+/// ## ラベル付きの使用例
 ///
-/// If [enabled] is `false`, the text is deactivated.
+/// ```dart
+/// FormEnumModalField(
+///   form: formController,
+///   initialValue: formController.value.type,
+///   onSaved: (value) => formController.value.copyWith(type: value),
+///   picker: FormEnumModalFieldPicker(
+///     values: UserType.values,
+///     labelBuilder: (value) {
+///       return value.label;
+///     },
+///   ),
+/// );
+/// ```
 ///
-/// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
+/// ## バリデーション付きの使用例
 ///
-/// [TEnum]のすべての要素から選択するためのフォーム。
-///
-/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-///
-/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-///
-/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-///
-/// 内容が変更される度[onChanged]が実行されます。
-///
-/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-///
-/// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-///
-/// それ以外のエラーチェックは[validator]を指定することで行ないます。
-/// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-///
-/// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
-///
-/// [picker]を指定することで[TEnum]の選択方法を設定することが可能です。
-///
-/// [enabled]が`false`になるとテキストが非有効化されます。
-///
-/// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
+/// ```dart
+/// FormEnumModalField(
+///   form: formController,
+///   initialValue: formController.value.type,
+///   validator: (value) {
+///     if (value == null) {
+///       return "ユーザータイプを選択してください";
+///     }
+///     if (value == UserType.guest) {
+///       return "ゲストユーザーは選択できません";
+///     }
+///     return null;
+///   },
+///   onSaved: (value) => formController.value.copyWith(type: value),
+///   picker: FormEnumModalFieldPicker(
+///     values: UserType.values,
+///   ),
+/// );
+/// ```
 class FormEnumModalField<TEnum extends Enum, TValue> extends StatefulWidget {
   /// Form to select from all elements in [TEnum].
   ///
-  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+  /// モーダルで列挙型の選択肢から選択することができるフォーム。
+  /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで列挙型の値を管理可能。
+  /// 列挙型の値をラベル付きで表示、カスタムデザインなどの機能を備えています。
   ///
-  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+  /// ## ピッカーの指定
   ///
-  /// Enter the initial value given by [FormController.value] in [initialValue].
+  /// Specify [picker] to define the selection options.
   ///
-  /// Each time the content is changed, [onChanged] is executed.
+  /// [picker]を指定して選択肢を定義します。
   ///
-  /// If [FormController.validate] is executed, validation and data saving are performed.
+  /// ## 基本的な使用例
   ///
-  /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
+  /// ```dart
+  /// enum UserType {
+  ///   admin,
+  ///   user,
+  ///   guest;
   ///
-  /// Other error checking is performed by specifying [validator].
-  /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
+  ///   String get label => switch (this) {
+  ///       admin => "管理者",
+  ///       user => "一般ユーザー",
+  ///       guest => "ゲスト",
+  ///     };
+  /// }
   ///
-  /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
+  /// FormEnumModalField(
+  ///   form: formController,
+  ///   initialValue: formController.value.type,
+  ///   onSaved: (value) => formController.value.copyWith(type: value),
+  ///   picker: FormEnumModalFieldPicker(
+  ///     values: UserType.values,
+  ///   ),
+  /// );
+  /// ```
   ///
-  /// By specifying [picker], it is possible to set the selection method for [TEnum].
+  /// ## ラベル付きの使用例
   ///
-  /// If [enabled] is `false`, the text is deactivated.
+  /// ```dart
+  /// FormEnumModalField(
+  ///   form: formController,
+  ///   initialValue: formController.value.type,
+  ///   onSaved: (value) => formController.value.copyWith(type: value),
+  ///   picker: FormEnumModalFieldPicker(
+  ///     values: UserType.values,
+  ///     labelBuilder: (value) {
+  ///       return value.label;
+  ///     },
+  ///   ),
+  /// );
+  /// ```
   ///
-  /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
+  /// ## バリデーション付きの使用例
   ///
-  /// [TEnum]のすべての要素から選択するためのフォーム。
-  ///
-  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-  ///
-  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-  ///
-  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-  ///
-  /// 内容が変更される度[onChanged]が実行されます。
-  ///
-  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-  ///
-  /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-  ///
-  /// それ以外のエラーチェックは[validator]を指定することで行ないます。
-  /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-  ///
-  /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
-  ///
-  /// [picker]を指定することで[TEnum]の選択方法を設定することが可能です。
-  ///
-  /// [enabled]が`false`になるとテキストが非有効化されます。
-  ///
-  /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
+  /// ```dart
+  /// FormEnumModalField(
+  ///   form: formController,
+  ///   initialValue: formController.value.type,
+  ///   validator: (value) {
+  ///     if (value == null) {
+  ///       return "ユーザータイプを選択してください";
+  ///     }
+  ///     if (value == UserType.guest) {
+  ///       return "ゲストユーザーは選択できません";
+  ///     }
+  ///     return null;
+  ///   },
+  ///   onSaved: (value) => formController.value.copyWith(type: value),
+  ///   picker: FormEnumModalFieldPicker(
+  ///     values: UserType.values,
+  ///   ),
+  /// );
+  /// ```
   const FormEnumModalField({
     required this.picker,
     this.form,

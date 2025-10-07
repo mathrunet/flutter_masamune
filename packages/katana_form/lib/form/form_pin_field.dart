@@ -7,115 +7,97 @@ const kPinLength = 6;
 
 /// Widget for Pin text field for forms.
 ///
-/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+/// PINコード入力用のフォームフィールド。
+/// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでPINコードの状態管理を行えます。
+/// 桁数設定などの機能を備えています。
 ///
-/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+/// ## 基本的な使用例
 ///
-/// Enter the initial value given by [FormController.value] in [initialValue].
+/// ```dart
+/// FormPinField(
+///   form: formController,
+///   initialValue: "1234",
+///   onSaved: (value) => formController.value.copyWith(pin: value),
+/// );
+/// ```
 ///
-/// Each time the content is changed, [onChanged] is executed.
+/// ## 最大桁数を指定した使用例
 ///
-/// When [FormController.validate] is executed, validation and data saving are performed.
+/// ```dart
+/// FormPinField(
+///   form: formController,
+///   onSaved: (value) => formController.value.copyWith(pin: value),
+///   maxLength: 6,
+/// );
+/// ```
 ///
-/// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
-/// Only when [lengthErrorText] is specified, if the number of characters entered is less than [minLength], it is displayed as [lengthErrorText].
+/// ## バリデーション付きの使用例
 ///
-/// Other error checking is performed by specifying [validator].
-/// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-///
-/// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
-///
-/// If [enabled] is `false`, the text is deactivated.
-///
-/// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
-///
-/// If [obscureText] is set to `true`, the input string will be hidden. Please use this function for inputting passwords, etc.
-///
-/// If [inputFormatters] is specified, it is possible to restrict the characters to be entered.
-///
-/// フォーム用のPinテキストフィールド用のウィジェット。
-///
-/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-///
-/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-///
-/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-///
-/// 内容が変更される度[onChanged]が実行されます。
-///
-/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-///
-/// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-/// [lengthErrorText]が指定されている時に限り、[minLength]より入力された文字数が少ない場合[lengthErrorText]として表示されます。
-///
-/// それ以外のエラーチェックは[validator]を指定することで行ないます。
-/// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-///
-/// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
-///
-/// [enabled]が`false`になるとテキストが非有効化されます。
-///
-/// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-///
-/// [obscureText]が`true`になると入力された文字列が隠されます。パスワードの入力などにご利用ください。
-///
-/// [inputFormatters]が指定されると入力される文字を制限することが可能です。
+/// ```dart
+/// FormPinField(
+///   form: formController,
+///   validator: (value) {
+///     if (value == null || value.isEmpty) {
+///       return "PINコードを入力してください";
+///     }
+///     if (value.length != 4) {
+///       return "PINコードは4桁で入力してください";
+///     }
+///     if (!RegExp(r'^[0-9]+\$').hasMatch(value)) {
+///       return "PINコードは数字のみ入力可能です";
+///     }
+///     return null;
+///   },
+///   onSaved: (value) => formController.value.copyWith(pin: value),
+/// );
+/// ```
 class FormPinField<TValue> extends FormField<String> {
   /// Widget for Pin text field for forms.
   ///
-  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+  /// PINコード入力用のフォームフィールド。
+  /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでPINコードの状態管理を行えます。
+  /// 桁数設定などの機能を備えています。
   ///
-  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+  /// ## 基本的な使用例
   ///
-  /// Enter the initial value given by [FormController.value] in [initialValue].
+  /// ```dart
+  /// FormPinField(
+  ///   form: formController,
+  ///   initialValue: "1234",
+  ///   onSaved: (value) => formController.value.copyWith(pin: value),
+  /// );
+  /// ```
   ///
-  /// Each time the content is changed, [onChanged] is executed.
+  /// ## 最大桁数を指定した使用例
   ///
-  /// When [FormController.validate] is executed, validation and data saving are performed.
+  /// ```dart
+  /// FormPinField(
+  ///   form: formController,
+  ///   onSaved: (value) => formController.value.copyWith(pin: value),
+  ///   maxLength: 6,
+  /// );
+  /// ```
   ///
-  /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
-  /// Only when [lengthErrorText] is specified, if the number of characters entered is less than [minLength], it is displayed as [lengthErrorText].
+  /// ## バリデーション付きの使用例
   ///
-  /// Other error checking is performed by specifying [validator].
-  /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-  ///
-  /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
-  ///
-  /// If [enabled] is `false`, the text is deactivated.
-  ///
-  /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
-  ///
-  /// If [obscureText] is set to `true`, the input string will be hidden. Please use this function for inputting passwords, etc.
-  ///
-  /// If [inputFormatters] is specified, it is possible to restrict the characters to be entered.
-  ///
-  /// フォーム用のPinテキストフィールド用のウィジェット。
-  ///
-  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-  ///
-  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-  ///
-  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-  ///
-  /// 内容が変更される度[onChanged]が実行されます。
-  ///
-  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-  ///
-  /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-  /// [lengthErrorText]が指定されている時に限り、[minLength]より入力された文字数が少ない場合[lengthErrorText]として表示されます。
-  ///
-  /// それ以外のエラーチェックは[validator]を指定することで行ないます。
-  /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-  ///
-  /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
-  ///
-  /// [enabled]が`false`になるとテキストが非有効化されます。
-  ///
-  /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-  ///
-  /// [obscureText]が`true`になると入力された文字列が隠されます。パスワードの入力などにご利用ください。
-  ///
-  /// [inputFormatters]が指定されると入力される文字を制限することが可能です。
+  /// ```dart
+  /// FormPinField(
+  ///   form: formController,
+  ///   validator: (value) {
+  ///     if (value == null || value.isEmpty) {
+  ///       return "PINコードを入力してください";
+  ///     }
+  ///     if (value.length != 4) {
+  ///       return "PINコードは4桁で入力してください";
+  ///     }
+  ///     if (!RegExp(r'^[0-9]+\$').hasMatch(value)) {
+  ///       return "PINコードは数字のみ入力可能です";
+  ///     }
+  ///     return null;
+  ///   },
+  ///   onSaved: (value) => formController.value.copyWith(pin: value),
+  /// );
+  /// ```
   FormPinField({
     super.key,
     this.keepAlive = true,

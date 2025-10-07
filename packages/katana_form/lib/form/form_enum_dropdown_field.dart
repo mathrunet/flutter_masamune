@@ -2,88 +2,160 @@ part of "/katana_form.dart";
 
 /// Drop-down form to select from all elements in [TEnum].
 ///
-/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+/// 列挙型の値をドロップダウンメニューで選択できるフォームフィールド。
+/// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。
+/// カスタムラベルやバリデーションなどを備えています。
 ///
-/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+/// ## ピッカーの指定
 ///
-/// Enter the initial value given by [FormController.value] in [initialValue].
+/// Specify [picker] to define the selection options.
 ///
-/// Each time the content is changed, [onChanged] is executed.
+/// [picker]を指定して選択肢を定義します。
 ///
-/// If [FormController.validate] is executed, validation and data saving are performed.
+/// ## 基本的な使用例
 ///
-/// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
+/// ```dart
+/// enum UserType {
+///   admin,
+///   user,
+///   guest;
 ///
-/// Other error checking is performed by specifying [validator].
-/// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
+///   String get label => switch (this) {
+///       admin => "管理者",
+///       user => "一般ユーザー",
+///       guest => "ゲスト",
+///     };
+/// }
 ///
-/// By specifying [picker], it is possible to set the selection method for [TEnum].
+/// FormEnumDropdownField(
+///   form: formController,
+///   initialValue: formController.value.type,
+///   onSaved: (value) => formController.value.copyWith(type: value),
+///   picker: FormEnumDropdownFieldPicker(
+///     values: UserType.values,
+///     labelBuilder: (value) {
+///       return value.label;
+///     },
+///   ),
+/// );
+/// ```
 ///
-/// Deactivated when [enabled] is set to `false`.
+/// ## カスタムラベルの使用例
 ///
-/// [TEnum]のすべての要素から選択するためのドロップダウンフォーム。
+/// ```dart
+/// FormEnumDropdownField(
+///   form: formController,
+///   initialValue: formController.value.type,
+///   onSaved: (value) => formController.value.copyWith(type: value),
+///   picker: FormEnumDropdownFieldPicker(
+///     values: UserType.values,
+///     labelBuilder: (value) {
+///       return value.label;
+///     },
+///   ),
+/// );
+/// ```
 ///
-/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+/// ## バリデーション付きの使用例
 ///
-/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-///
-/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-///
-/// 内容が変更される度[onChanged]が実行されます。
-///
-/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-///
-/// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-///
-/// それ以外のエラーチェックは[validator]を指定することで行ないます。
-/// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-///
-/// [picker]を指定することで[TEnum]の選択方法を設定することが可能です。
-///
-/// [enabled]が`false`になると非有効化されます。
+/// ```dart
+/// FormEnumDropdownField<UserType>(
+///   form: formController,
+///   initialValue: formController.value.type,
+///   onSaved: (value) => formController.value.copyWith(type: value),
+///   validator: (value) {
+///     if (value == null) {
+///       return "ユーザータイプを選択してください";
+///     }
+///     if (value == UserType.guest) {
+///       return "ゲストユーザーは選択できません";
+///     }
+///     return null;
+///   },
+///   picker: FormEnumDropdownFieldPicker(
+///     values: UserType.values,
+///   ),
+/// );
+/// ```
 class FormEnumDropdownField<TEnum extends Enum, TValue>
     extends FormField<TEnum> {
   /// Drop-down form to select from all elements in [TEnum].
   ///
-  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+  /// 列挙型の値をドロップダウンメニューで選択できるフォームフィールド。
+  /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。
+  /// カスタムラベルやバリデーションなどを備えています。
   ///
-  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+  /// ## ピッカーの指定
   ///
-  /// Enter the initial value given by [FormController.value] in [initialValue].
+  /// Specify [picker] to define the selection options.
   ///
-  /// Each time the content is changed, [onChanged] is executed.
+  /// [picker]を指定して選択肢を定義します。
   ///
-  /// If [FormController.validate] is executed, validation and data saving are performed.
+  /// ## 基本的な使用例
   ///
-  /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
+  /// ```dart
+  /// enum UserType {
+  ///   admin,
+  ///   user,
+  ///   guest;
   ///
-  /// Other error checking is performed by specifying [validator].
-  /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
+  ///   String get label => switch (this) {
+  ///       admin => "管理者",
+  ///       user => "一般ユーザー",
+  ///       guest => "ゲスト",
+  ///     };
+  /// }
   ///
-  /// By specifying [picker], it is possible to set the selection method for [TEnum].
+  /// FormEnumDropdownField(
+  ///   form: formController,
+  ///   initialValue: formController.value.type,
+  ///   onSaved: (value) => formController.value.copyWith(type: value),
+  ///   picker: FormEnumDropdownFieldPicker(
+  ///     values: UserType.values,
+  ///     labelBuilder: (value) {
+  ///       return value.label;
+  ///     },
+  ///   ),
+  /// );
+  /// ```
   ///
-  /// Deactivated when [enabled] is set to `false`.
+  /// ## カスタムラベルの使用例
   ///
-  /// [TEnum]のすべての要素から選択するためのドロップダウンフォーム。
+  /// ```dart
+  /// FormEnumDropdownField(
+  ///   form: formController,
+  ///   initialValue: formController.value.type,
+  ///   onSaved: (value) => formController.value.copyWith(type: value),
+  ///   picker: FormEnumDropdownFieldPicker(
+  ///     values: UserType.values,
+  ///     labelBuilder: (value) {
+  ///       return value.label;
+  ///     },
+  ///   ),
+  /// );
+  /// ```
   ///
-  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+  /// ## バリデーション付きの使用例
   ///
-  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-  ///
-  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-  ///
-  /// 内容が変更される度[onChanged]が実行されます。
-  ///
-  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-  ///
-  /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-  ///
-  /// それ以外のエラーチェックは[validator]を指定することで行ないます。
-  /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-  ///
-  /// [picker]を指定することで[TEnum]の選択方法を設定することが可能です。
-  ///
-  /// [enabled]が`false`になると非有効化されます。
+  /// ```dart
+  /// FormEnumDropdownField<UserType>(
+  ///   form: formController,
+  ///   initialValue: formController.value.type,
+  ///   onSaved: (value) => formController.value.copyWith(type: value),
+  ///   validator: (value) {
+  ///     if (value == null) {
+  ///       return "ユーザータイプを選択してください";
+  ///     }
+  ///     if (value == UserType.guest) {
+  ///       return "ゲストユーザーは選択できません";
+  ///     }
+  ///     return null;
+  ///   },
+  ///   picker: FormEnumDropdownFieldPicker(
+  ///     values: UserType.values,
+  ///   ),
+  /// );
+  /// ```
   FormEnumDropdownField({
     required this.picker,
     super.key,

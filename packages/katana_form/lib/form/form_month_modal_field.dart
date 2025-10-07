@@ -2,103 +2,55 @@ part of "/katana_form.dart";
 
 /// A form to have the date (year and month) selected.
 ///
-/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+/// 年月をモーダルで選択するためのフォームフィールド。
+/// `FormStyle`で共通したデザインを適用可能で、`FormController`を利用することで選択状態を管理できます。
 ///
-/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+/// ## 基本的な使用例
 ///
-/// Enter the initial value given by [FormController.value] in [initialValue].
+/// ```dart
+/// FormMonthModalField(
+///   form: formController,
+///   initialValue: formController.value.month.value,
+///   onSaved: (value) => formController.value.copyWith(month: ModelDate(value)),
+/// );
+/// ```
 ///
-/// Each time the content is changed, [onChanged] is executed.
+/// ## カスタムフォーマットの使用例
 ///
-/// If [FormController.validate] is executed, validation and data saving are performed.
-///
-/// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
-///
-/// Other error checking is performed by specifying [validator].
-/// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-///
-/// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
-///
-/// The date selection method can be set by specifying [picker].
-///
-/// If [enabled] is `false`, the text is deactivated.
-///
-/// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
-///
-/// 日付（年月）を選択させるためのフォーム。
-///
-/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-///
-/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-///
-/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-///
-/// 内容が変更される度[onChanged]が実行されます。
-///
-/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-///
-/// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-///
-/// それ以外のエラーチェックは[validator]を指定することで行ないます。
-/// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-///
-/// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
-///
-/// [picker]を指定することで日付の選択方法を設定することが可能です。
-///
-/// [enabled]が`false`になるとテキストが非有効化されます。
-///
-/// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
+/// ```dart
+/// FormMonthModalField(
+///   form: formController,
+///   initialValue: formController.value.month.value,
+///   format: "yyyy年MM月",
+///   onSaved: (value) => formController.value.copyWith(month: ModelDate(value)),
+/// );
+/// ```
 class FormMonthModalField<TValue> extends StatefulWidget {
   /// A form to have the date (year and month) selected.
   ///
-  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+  /// 年月をモーダルで選択するためのフォームフィールド。
+  /// `FormStyle`で共通したデザインを適用可能で、`FormController`を利用することで選択状態を管理できます。
   ///
-  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+  /// ## 基本的な使用例
   ///
-  /// Enter the initial value given by [FormController.value] in [initialValue].
+  /// ```dart
+  /// FormMonthModalField(
+  ///   form: formController,
+  ///   initialValue: formController.value.month.value,
+  ///   onSaved: (value) => formController.value.copyWith(month: ModelDate(value)),
+  /// );
+  /// ```
   ///
-  /// Each time the content is changed, [onChanged] is executed.
+  /// ## カスタムフォーマットの使用例
   ///
-  /// If [FormController.validate] is executed, validation and data saving are performed.
-  ///
-  /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
-  ///
-  /// Other error checking is performed by specifying [validator].
-  /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-  ///
-  /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
-  ///
-  /// The date selection method can be set by specifying [picker].
-  ///
-  /// If [enabled] is `false`, the text is deactivated.
-  ///
-  /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
-  ///
-  /// 日付（年月）を選択させるためのフォーム。
-  ///
-  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-  ///
-  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-  ///
-  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-  ///
-  /// 内容が変更される度[onChanged]が実行されます。
-  ///
-  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-  ///
-  /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-  ///
-  /// それ以外のエラーチェックは[validator]を指定することで行ないます。
-  /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-  ///
-  /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
-  ///
-  /// [picker]を指定することで日付の選択方法を設定することが可能です。
-  ///
-  /// [enabled]が`false`になるとテキストが非有効化されます。
-  ///
-  /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
+  /// ```dart
+  /// FormMonthModalField(
+  ///   form: formController,
+  ///   initialValue: formController.value.month.value,
+  ///   format: "yyyy年MM月",
+  ///   onSaved: (value) => formController.value.copyWith(month: ModelDate(value)),
+  /// );
+  /// ```
   const FormMonthModalField({
     this.form,
     super.key,

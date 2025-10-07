@@ -2,103 +2,215 @@ part of "/katana_form.dart";
 
 /// A form to have the date (month and day) selected.
 ///
+/// モーダルピッカーにて日付を選択することができるフォームフィールド。
+/// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで日付の値を管理可能。
+/// カスタムフォーマットなどの機能を備えています。
+///
+/// ## 配置方法
+///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+///
+/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+///
+/// ## フォーム管理
 ///
 /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
 ///
+/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+///
+/// ## 初期値とコールバック
+///
 /// Enter the initial value given by [FormController.value] in [initialValue].
+///
+/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
 ///
 /// Each time the content is changed, [onChanged] is executed.
 ///
+/// 内容が変更される度[onChanged]が実行されます。
+///
+/// ## バリデーション
+///
 /// If [FormController.validate] is executed, validation and data saving are performed.
 ///
+/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
+///
 /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
+///
+/// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
 ///
 /// Other error checking is performed by specifying [validator].
 /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
 ///
-/// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
-///
-/// The date selection method can be set by specifying [picker].
-///
-/// If [enabled] is `false`, the text is deactivated.
-///
-/// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
-///
-/// 日付（月日）を選択させるためのフォーム。
-///
-/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-///
-/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-///
-/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-///
-/// 内容が変更される度[onChanged]が実行されます。
-///
-/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-///
-/// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-///
 /// それ以外のエラーチェックは[validator]を指定することで行ないます。
 /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
 ///
+/// ## イベント処理
+///
+/// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
+///
 /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
+///
+/// ## ピッカーのカスタマイズ
+///
+/// The date selection method can be set by specifying [picker].
 ///
 /// [picker]を指定することで日付の選択方法を設定することが可能です。
 ///
+/// ## フィールドの状態
+///
+/// If [enabled] is `false`, the text is deactivated.
+///
 /// [enabled]が`false`になるとテキストが非有効化されます。
 ///
+/// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
+///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
+///
+/// ## 基本的な使用例
+///
+/// ```dart
+/// FormDateField(
+///   form: formController,
+///   initialValue: formController.value.date.value,
+///   onSaved: (value) => formController.value.copyWith(date: ModelDate(value)),
+/// );
+/// ```
+///
+/// ## カスタムフォーマット付きの使用例
+///
+/// ```dart
+/// FormDateField(
+///   form: formController,
+///   initialValue: formController.value.date.value,
+///   format: "yyyy年MM月dd日",
+///   onSaved: (value) => formController.value.copyWith(date: ModelDate(value)),
+/// );
+/// ```
+///
+/// ## バリデーション付きの使用例
+///
+/// ```dart
+/// FormDateField(
+///   form: formController,
+///   initialValue: formController.value.date.value,
+///   onSaved: (value) => formController.value.copyWith(date: ModelDate(value)),
+///   validator: (value) {
+///     if (value == null) {
+///       return "日付を選択してください";
+///     }
+///     if (value.isBefore(Clock.now())) {
+///       return "過去の日付は選択できません";
+///     }
+///     return null;
+///   },
+/// );
+/// ```
 class FormDateField<TValue> extends StatefulWidget {
   /// A form to have the date (month and day) selected.
   ///
+  /// モーダルピッカーにて日付を選択することができるフォームフィールド。
+  /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで日付の値を管理可能。
+  /// カスタムフォーマットなどの機能を備えています。
+  ///
+  /// ## 配置方法
+  ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+  ///
+  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+  ///
+  /// ## フォーム管理
   ///
   /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
   ///
+  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+  ///
+  /// ## 初期値とコールバック
+  ///
   /// Enter the initial value given by [FormController.value] in [initialValue].
+  ///
+  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
   ///
   /// Each time the content is changed, [onChanged] is executed.
   ///
+  /// 内容が変更される度[onChanged]が実行されます。
+  ///
+  /// ## バリデーション
+  ///
   /// If [FormController.validate] is executed, validation and data saving are performed.
   ///
+  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
+  ///
   /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
+  ///
+  /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
   ///
   /// Other error checking is performed by specifying [validator].
   /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
   ///
-  /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
-  ///
-  /// The date selection method can be set by specifying [picker].
-  ///
-  /// If [enabled] is `false`, the text is deactivated.
-  ///
-  /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
-  ///
-  /// 日付（月日）を選択させるためのフォーム。
-  ///
-  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-  ///
-  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-  ///
-  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-  ///
-  /// 内容が変更される度[onChanged]が実行されます。
-  ///
-  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-  ///
-  /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-  ///
   /// それ以外のエラーチェックは[validator]を指定することで行ないます。
   /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
   ///
+  /// ## イベント処理
+  ///
+  /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
+  ///
   /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
+  ///
+  /// ## ピッカーのカスタマイズ
+  ///
+  /// The date selection method can be set by specifying [picker].
   ///
   /// [picker]を指定することで日付の選択方法を設定することが可能です。
   ///
+  /// ## フィールドの状態
+  ///
+  /// If [enabled] is `false`, the text is deactivated.
+  ///
   /// [enabled]が`false`になるとテキストが非有効化されます。
   ///
+  /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
+  ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
+  ///
+  /// ## 基本的な使用例
+  ///
+  /// ```dart
+  /// FormDateField(
+  ///   form: formController,
+  ///   initialValue: formController.value.date.value,
+  ///   onSaved: (value) => formController.value.copyWith(date: ModelDate(value)),
+  /// );
+  /// ```
+  ///
+  /// ## カスタムフォーマット付きの使用例
+  ///
+  /// ```dart
+  /// FormDateField(
+  ///   form: formController,
+  ///   initialValue: formController.value.date.value,
+  ///   format: "yyyy年MM月dd日",
+  ///   onSaved: (value) => formController.value.copyWith(date: ModelDate(value)),
+  /// );
+  /// ```
+  ///
+  /// ## バリデーション付きの使用例
+  ///
+  /// ```dart
+  /// FormDateField(
+  ///   form: formController,
+  ///   initialValue: formController.value.date.value,
+  ///   onSaved: (value) => formController.value.copyWith(date: ModelDate(value)),
+  ///   validator: (value) {
+  ///     if (value == null) {
+  ///       return "日付を選択してください";
+  ///     }
+  ///     if (value.isBefore(Clock.now())) {
+  ///       return "過去の日付は選択できません";
+  ///     }
+  ///     return null;
+  ///   },
+  /// );
+  /// ```
   const FormDateField({
     this.form,
     super.key,

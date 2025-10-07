@@ -10,140 +10,86 @@ const kFormMultiMediaInlineHeight = 96.0;
 
 /// Form for submitting images and videos. Multiple media can be submitted.
 ///
+/// `FormMedia`の複数選択版。`FormStyle`で共通したデザインを適用可能。
+/// また`FormController`を利用して複数のメディアの選択と管理を行うことができます。
+/// 画像・動画の複数選択、プレビュー表示、並び替え、削除などの機能を備えています。
+///
 /// All media is managed by [FormMediaValue].
-///
-/// The path to the file asset and the asset type are passed to [FormMediaValue] as [FormMediaType], so display and save accordingly.
-///
-/// Describe the process when the form is tapped in the [onTap] field. Normally, use `image_picker` or `file_picker` to display a dialog to select a file and return the media path to `onUpdate`.
-///
-/// Implement the part that actually displays the image based on the [FormMediaValue] in [builder].
-///
-/// Specify a callback for deleting items in [onRemove].
-///
-/// The entire design can be changed by specifying [delegate].
-/// Specify [FormMultiMediaInlineDelegate] to display a list of media inline. Specify [FormMultiMediaListTileDelegate] to display a list of media in a vertical list view.
-///
-/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
-///
-/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
-///
-/// Enter the initial value given by [FormController.value] in [initialValue].
-///
-/// Each time the content is changed, [onChanged] is executed.
-///
-/// When [FormController.validate] is executed, validation and data saving are performed.
-///
-/// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if the item is not specified.
-///
-/// Other error checking is performed by specifying [validator].
-/// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-///
-/// Deactivated if [enabled] is `false` or [readOnly] is `true`.
-///
-/// If [maxLength] is specified, no more items can be added.
-///
-/// 画像や映像を投稿するためのフォーム。複数のメディアを投稿することが可能です。
 ///
 /// メディアはすべて[FormMediaValue]で管理されます。
 ///
-/// [FormMediaValue]にファイルアセットへのパスとアセットのタイプが[FormMediaType]で渡されるのでそれに応じて表示や保存を行ってください。
+/// ## 基本的な使用例
 ///
-/// [onTap]にフォームがタップされた場合の処理を記述します。通常は`image_picker`や`file_picker`を用いてファイルを選択するダイアログを表示しメディアのパスを`onUpdate`に返すようにします。
-///
-/// [builder]に[FormMediaValue]を元に実際に画像を表示する部分を実装してください。
-///
-/// [onRemove]に項目の削除時のコールバックを指定します。
-///
-/// [delegate]を指定することで、全体のデザインを変更することが可能です。
-/// [FormMultiMediaInlineDelegate]を指定するとインライン内でメディアの一覧が表示されるようになります。[FormMultiMediaListTileDelegate]を指定すると縦にリスト表示でメディアの一覧が表示されるようになります。
-///
-/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-///
-/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-///
-/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-///
-/// 内容が変更される度[onChanged]が実行されます。
-///
-/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-///
-/// [emptyErrorText]が指定されている時に限り、項目が指定されていない場合[emptyErrorText]がエラーとして表示されます。
-///
-/// それ以外のエラーチェックは[validator]を指定することで行ないます。
-/// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-///
-/// [enabled]が`false`になる、もしくは[readOnly]が`true`になっている場合は非有効化されます。
-///
-/// [maxLength]が指定されている場合、それ以上項目を増やすことができなくなります。
+/// ```dart
+/// FormMultiMedia(
+///   form: formController,
+///   initialValue: formController.value.mediaList.map((e) => e.toFormMediaValue()).toList(),
+///   onSaved: (value) => formController.value.copyWith(mediaList: value.map((e) => e.toModelImageUri()).toList()),
+///   onTap: (ref) async {
+///     final picked = await picker.pickMulti();
+///     final uris = picked.map((e) => e.uri).toList();
+///     if (uris.isEmpty) {
+///       return;
+///     }
+///     ref.update(uris, FormMediaType.image);
+///   },
+///   builder: (context, value) {
+///     return Container(
+///       width: 200,
+///       height: 200,
+///       decoration: BoxDecoration(
+///         color: Colors.grey[200],
+///         image: DecorationImage(
+///           image: value?.toImageProvider(),
+///           fit: BoxFit.cover,
+///         ),
+///       ),
+///     );
+///   },
+/// );
+/// ```
 @immutable
 class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
   /// Form for submitting images and videos. Multiple media can be submitted.
   ///
+  /// `FormMedia`の複数選択版。`FormStyle`で共通したデザインを適用可能。
+  /// また`FormController`を利用して複数のメディアの選択と管理を行うことができます。
+  /// 画像・動画の複数選択、プレビュー表示、並び替え、削除などの機能を備えています。
+  ///
   /// All media is managed by [FormMediaValue].
-  ///
-  /// The path to the file asset and the asset type are passed to [FormMediaValue] as [FormMediaType], so display and save accordingly.
-  ///
-  /// Describe the process when the form is tapped in the [onTap] field. Normally, use `image_picker` or `file_picker` to display a dialog to select a file and return the media path to `onUpdate`.
-  ///
-  /// Implement the part that actually displays the image based on the [FormMediaValue] in [builder].
-  ///
-  /// Specify a callback for deleting items in [onRemove].
-  ///
-  /// The entire design can be changed by specifying [delegate].
-  /// Specify [FormMultiMediaInlineDelegate] to display a list of media inline. Specify [FormMultiMediaListTileDelegate] to display a list of media in a vertical list view.
-  ///
-  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
-  ///
-  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
-  ///
-  /// Enter the initial value given by [FormController.value] in [initialValue].
-  ///
-  /// Each time the content is changed, [onChanged] is executed.
-  ///
-  /// When [FormController.validate] is executed, validation and data saving are performed.
-  ///
-  /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if the item is not specified.
-  ///
-  /// Other error checking is performed by specifying [validator].
-  /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-  ///
-  /// Deactivated if [enabled] is `false` or [readOnly] is `true`.
-  ///
-  /// If [maxLength] is specified, no more items can be added.
-  ///
-  /// 画像や映像を投稿するためのフォーム。複数のメディアを投稿することが可能です。
   ///
   /// メディアはすべて[FormMediaValue]で管理されます。
   ///
-  /// [FormMediaValue]にファイルアセットへのパスとアセットのタイプが[FormMediaType]で渡されるのでそれに応じて表示や保存を行ってください。
+  /// ## 基本的な使用例
   ///
-  /// [onTap]にフォームがタップされた場合の処理を記述します。通常は`image_picker`や`file_picker`を用いてファイルを選択するダイアログを表示しメディアのパスを`onUpdate`に返すようにします。
-  ///
-  /// [builder]に[FormMediaValue]を元に実際に画像を表示する部分を実装してください。
-  ///
-  /// [onRemove]に項目の削除時のコールバックを指定します。
-  ///
-  /// [delegate]を指定することで、全体のデザインを変更することが可能です。
-  /// [FormMultiMediaInlineDelegate]を指定するとインライン内でメディアの一覧が表示されるようになります。[FormMultiMediaListTileDelegate]を指定すると縦にリスト表示でメディアの一覧が表示されるようになります。
-  ///
-  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-  ///
-  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-  ///
-  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-  ///
-  /// 内容が変更される度[onChanged]が実行されます。
-  ///
-  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-  ///
-  /// [emptyErrorText]が指定されている時に限り、項目が指定されていない場合[emptyErrorText]がエラーとして表示されます。
-  ///
-  /// それ以外のエラーチェックは[validator]を指定することで行ないます。
-  /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-  ///
-  /// [enabled]が`false`になる、もしくは[readOnly]が`true`になっている場合は非有効化されます。
-  ///
-  /// [maxLength]が指定されている場合、それ以上項目を増やすことができなくなります。
+  /// ```dart
+  /// FormMultiMedia(
+  ///   form: formController,
+  ///   initialValue: formController.value.mediaList.map((e) => e.toFormMediaValue()).toList(),
+  ///   onSaved: (value) => formController.value.copyWith(mediaList: value.map((e) => e.toModelImageUri()).toList()),
+  ///   onTap: (ref) async {
+  ///     final picked = await picker.pickMulti();
+  ///     final uris = picked.map((e) => e.uri).toList();
+  ///     if (uris.isEmpty) {
+  ///       return;
+  ///     }
+  ///     ref.update(uris, FormMediaType.image);
+  ///   },
+  ///   builder: (context, value) {
+  ///     return Container(
+  ///       width: 200,
+  ///       height: 200,
+  ///       decoration: BoxDecoration(
+  ///         color: Colors.grey[200],
+  ///         image: DecorationImage(
+  ///           image: value?.toImageProvider(),
+  ///           fit: BoxFit.cover,
+  ///         ),
+  ///       ),
+  ///     );
+  ///   },
+  /// );
+  /// ```
   FormMultiMedia({
     required Widget Function(
       BuildContext context,

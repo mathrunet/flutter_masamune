@@ -2,6 +2,13 @@ part of "/katana_form.dart";
 
 /// Widgets for text fields for forms.
 ///
+/// フォーム用のテキストフィールド用のウィジェット。
+///
+/// Masamune framework version of `TextFormField`. A form field for text input.
+/// Common design can be applied with `FormStyle`. Also, the value of `TextFormField` can be managed using `FormController`.
+/// It has functions such as validation, suggestion function (advanced input completion by `SuggestionConfig`), custom design,
+/// focus control, multi-line input, and character count restriction.
+///
 /// `TextFormField`のMasamuneフレームワーク版。テキスト入力を行うフォームフィールド。
 /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで`TextFormField`の値を管理可能。
 /// バリデーション、サジェスト機能（`SuggestionConfig`による高度な入力補完）、カスタムデザイン、
@@ -173,6 +180,13 @@ part of "/katana_form.dart";
 /// ```
 class FormTextField<TValue> extends StatefulWidget {
   /// Widgets for text fields for forms.
+  ///
+  /// フォーム用のテキストフィールド用のウィジェット。
+  ///
+  /// Masamune framework version of `TextFormField`. A form field for text input.
+  /// Common design can be applied with `FormStyle`. Also, the value of `TextFormField` can be managed using `FormController`.
+  /// It has functions such as validation, suggestion function (advanced input completion by `SuggestionConfig`), custom design,
+  /// focus control, multi-line input, and character count restriction.
   ///
   /// `TextFormField`のMasamuneフレームワーク版。テキスト入力を行うフォームフィールド。
   /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで`TextFormField`の値を管理可能。

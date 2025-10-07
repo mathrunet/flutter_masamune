@@ -2,136 +2,106 @@ part of "/katana_form.dart";
 
 /// Widget to display & edit by number of stars by passing [double].
 ///
-/// Can be used to evaluate users and articles.
+/// 評価を星やアイコンで入力するためのフォームフィールド。
+/// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで評価値を管理できます。
+/// カスタムアイコン、半星表示、タップ・ドラッグでの入力、ラベルの表示などの機能を備えています。
 ///
-/// [iconCount] allows you to specify the number of icons. The icon widget itself can be specified with [icon], and the design can be changed by specifying [iconSize], [activeColor], and [inactiveColor]. Also, if [iconBuilder] is specified, the icon can be created in a callback.
+/// ## 基本的な使用例
 ///
-/// The minimum and maximum values can be specified with [min] and [max].
+/// ```dart
+/// FormRatingBar(
+///   form: formController,
+///   initialValue: formController.value.rating,
+///   onSaved: (value) => formController.value.copyWith(rating: value),
+/// );
+/// ```
 ///
-/// You can specify whether to allow half stars with [allowHalfRating].
+/// ## カスタムアイコンの使用例
 ///
-/// Normally, the value can be changed by dragging, but [tapOnlyMode] allows the value to be specified only by tapping.
+/// ```dart
+/// FormRatingBar(
+///   form: formController,
+///   initialValue: formController.value.rating,
+///   icon: Icon(Icons.favorite),
+///   iconSize: 48.0,
+///   onSaved: (value) => formController.value.copyWith(rating: value),
+/// );
+/// ```
 ///
-/// If [showLabel] is specified, the actual value can be displayed as a numerical value.
+/// ## 半星表示の使用例
 ///
-/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+/// ```dart
+/// FormRatingBar(
+///   form: formController,
+///   initialValue: formController.value.rating,
+///   allowHalfRating: true,
+///   onSaved: (value) => formController.value.copyWith(rating: value),
+/// );
+/// ```
 ///
-/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+/// ## ラベル付き表示の使用例
 ///
-/// Enter the initial value given by [FormController.value] in [initialValue].
-///
-/// Each time the content is changed, [onChanged] is executed.
-///
-/// If [FormController.validate] is executed, validation and data saving are performed.
-///
-/// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
-///
-/// Other error checking is performed by specifying [validator].
-/// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-///
-/// If [enabled] is `false`, the text is deactivated.
-///
-/// If [readOnly] is set to `true`, it will show enabled, but the value cannot be changed.
-///
-/// [double]を渡して星の数で表示＆編集するためのウィジェット。
-///
-/// ユーザーや記事の評価に使用可能です。
-///
-/// [iconCount]を使用するとアイコンの数を指定できます。[icon]でアイコンウィジェットそのものを指定でき、[iconSize]や[activeColor]、[inactiveColor]を指定するとデザインを変更することができます。また、[iconBuilder]を指定するとコールバックでアイコンを作成可能です。
-///
-/// [min]と[max]で値の最小値、最大値を指定できます。
-///
-/// [allowHalfRating]で半分の星を許可するかどうかを指定できます。
-///
-/// 通常はドラッグで値を変更できますが、[tapOnlyMode]でタップのみで値を指定可能にします。
-///
-/// [showLabel]を指定すると実際の値を数値として表示することが可能です。
-///
-/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-///
-/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-///
-/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-///
-/// 内容が変更される度[onChanged]が実行されます。
-///
-/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-///
-/// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-///
-/// それ以外のエラーチェックは[validator]を指定することで行ないます。
-/// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-///
-/// [enabled]が`false`になるとテキストが非有効化されます。
-///
-/// [readOnly]が`true`になっている場合は、有効化の表示になりますが、値が変更できなくなります。
+/// ```dart
+/// FormRatingBar(
+///   form: formController,
+///   initialValue: formController.value.rating,
+///   showLabel: true,
+///   format: "0.#",
+///   onSaved: (value) => formController.value.copyWith(rating: value),
+/// );
+/// ```
 @immutable
 class FormRatingBar<TValue> extends FormField<double> {
   /// Widget to display & edit by number of stars by passing [double].
   ///
-  /// Can be used to evaluate users and articles.
+  /// 評価を星やアイコンで入力するためのフォームフィールド。
+  /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで評価値を管理できます。
+  /// カスタムアイコン、半星表示、タップ・ドラッグでの入力、ラベルの表示などの機能を備えています。
   ///
-  /// [iconCount] allows you to specify the number of icons. The icon widget itself can be specified with [icon], and the design can be changed by specifying [iconSize], [activeColor], and [inactiveColor]. Also, if [iconBuilder] is specified, the icon can be created in a callback.
+  /// ## 基本的な使用例
   ///
-  /// The minimum and maximum values can be specified with [min] and [max].
+  /// ```dart
+  /// FormRatingBar(
+  ///   form: formController,
+  ///   initialValue: formController.value.rating,
+  ///   onSaved: (value) => formController.value.copyWith(rating: value),
+  /// );
+  /// ```
   ///
-  /// You can specify whether to allow half stars with [allowHalfRating].
+  /// ## カスタムアイコンの使用例
   ///
-  /// Normally, the value can be changed by dragging, but [tapOnlyMode] allows the value to be specified only by tapping.
+  /// ```dart
+  /// FormRatingBar(
+  ///   form: formController,
+  ///   initialValue: formController.value.rating,
+  ///   icon: Icon(Icons.favorite),
+  ///   iconSize: 48.0,
+  ///   onSaved: (value) => formController.value.copyWith(rating: value),
+  /// );
+  /// ```
   ///
-  /// If [showLabel] is specified, the actual value can be displayed as a numerical value.
+  /// ## 半星表示の使用例
   ///
-  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+  /// ```dart
+  /// FormRatingBar(
+  ///   form: formController,
+  ///   initialValue: formController.value.rating,
+  ///   allowHalfRating: true,
+  ///   onSaved: (value) => formController.value.copyWith(rating: value),
+  /// );
+  /// ```
   ///
-  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+  /// ## ラベル付き表示の使用例
   ///
-  /// Enter the initial value given by [FormController.value] in [initialValue].
-  ///
-  /// Each time the content is changed, [onChanged] is executed.
-  ///
-  /// If [FormController.validate] is executed, validation and data saving are performed.
-  ///
-  /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
-  ///
-  /// Other error checking is performed by specifying [validator].
-  /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-  ///
-  /// If [enabled] is `false`, the text is deactivated.
-  ///
-  /// If [readOnly] is set to `true`, it will show enabled, but the value cannot be changed.
-  ///
-  /// [double]を渡して星の数で表示＆編集するためのウィジェット。
-  ///
-  /// ユーザーや記事の評価に使用可能です。
-  ///
-  /// [iconCount]を使用するとアイコンの数を指定できます。[icon]でアイコンウィジェットそのものを指定でき、[iconSize]や[activeColor]、[inactiveColor]を指定するとデザインを変更することができます。また、[iconBuilder]を指定するとコールバックでアイコンを作成可能です。
-  ///
-  /// [min]と[max]で値の最小値、最大値を指定できます。
-  ///
-  /// [allowHalfRating]で半分の星を許可するかどうかを指定できます。
-  ///
-  /// 通常はドラッグで値を変更できますが、[tapOnlyMode]でタップのみで値を指定可能にします。
-  ///
-  /// [showLabel]を指定すると実際の値を数値として表示することが可能です。
-  ///
-  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-  ///
-  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-  ///
-  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-  ///
-  /// 内容が変更される度[onChanged]が実行されます。
-  ///
-  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-  ///
-  /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-  ///
-  /// それ以外のエラーチェックは[validator]を指定することで行ないます。
-  /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-  ///
-  /// [enabled]が`false`になるとテキストが非有効化されます。
-  ///
-  /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、値が変更できなくなります。
+  /// ```dart
+  /// FormRatingBar(
+  ///   form: formController,
+  ///   initialValue: formController.value.rating,
+  ///   showLabel: true,
+  ///   format: "0.#",
+  ///   onSaved: (value) => formController.value.copyWith(rating: value),
+  /// );
+  /// ```
   FormRatingBar({
     this.form,
     this.style,

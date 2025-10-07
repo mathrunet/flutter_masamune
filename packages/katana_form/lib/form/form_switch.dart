@@ -2,79 +2,149 @@ part of "/katana_form.dart";
 
 /// This widget is used to display switches and save ON/OFF of switches.
 ///
+/// `Switch`のMasamuneフレームワーク版。トグルスイッチを表示し切り替えるフォームフィールド。
+/// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでスイッチの値を管理可能。
+/// ラベル付きスイッチ、カスタムデザインなどの機能を備えています。
+///
+/// ## ラベルの表示
+///
 /// If [labelText] or [labelWidget] is specified, the switch is displayed with a label.
 /// Only one of [labelText] and [labelWidget] should be specified.
-///
-/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
-///
-/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
-///
-/// Enter the initial value given by [FormController.value] in [initialValue].
-///
-/// Each time the content is changed, [onChanged] is executed.
-///
-/// When [FormController.validate] is executed, validation and data saving are performed.
-///
-/// If [enabled] is `false`, the switch is deactivated.
-///
-/// If [readOnly] is set to `true`, it will show enabled, but the value cannot be changed.
-///
-/// スイッチを表示して、スイッチのON・OFFを保存するためのウィジェットです。
 ///
 /// [labelText]もしくは[labelWidget]を指定するとラベル付きでスイッチが表示されます。
 /// [labelText]と[labelWidget]はどちらか一方のみを指定してください。
 ///
+/// ## 配置方法
+///
+/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+///
+/// ## フォーム管理
+///
+/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
 ///
 /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
 ///
+/// ## 初期値とコールバック
+///
+/// Enter the initial value given by [FormController.value] in [initialValue].
+///
 /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
+///
+/// Each time the content is changed, [onChanged] is executed.
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
+/// ## バリデーション
+///
+/// When [FormController.validate] is executed, validation and data saving are performed.
+///
 /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
+///
+/// ## スイッチの状態
+///
+/// If [enabled] is `false`, the switch is deactivated.
 ///
 /// [enabled]が`false`になるとスイッチが非有効化されます。
 ///
+/// If [readOnly] is set to `true`, it will show enabled, but the value cannot be changed.
+///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、値が変更できなくなります。
+///
+/// ## 基本的な使用例
+///
+/// ```dart
+/// FormSwitch(
+///   form: formController,
+///   initialValue: formController.value.enabled,
+///   onSaved: (value) => formController.value.copyWith(enabled: value),
+/// );
+/// ```
+///
+/// ## ラベル付きの使用例
+///
+/// ```dart
+/// FormSwitch(
+///   form: formController,
+///   initialValue: formController.value.enabled,
+///   labelText: "通知を有効にする",
+///   onSaved: (value) => formController.value.copyWith(enabled: value),
+/// );
+/// ```
 class FormSwitch<TValue> extends FormField<bool> {
   /// This widget is used to display switches and save ON/OFF of switches.
+  ///
+  /// `Switch`のMasamuneフレームワーク版。トグルスイッチを表示し切り替えるフォームフィールド。
+  /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでスイッチの値を管理可能。
+  /// ラベル付きスイッチ、カスタムデザインなどの機能を備えています。
+  ///
+  /// ## ラベルの表示
   ///
   /// If [labelText] or [labelWidget] is specified, the switch is displayed with a label.
   /// Only one of [labelText] and [labelWidget] should be specified.
   ///
-  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
-  ///
-  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
-  ///
-  /// Enter the initial value given by [FormController.value] in [initialValue].
-  ///
-  /// Each time the content is changed, [onChanged] is executed.
-  ///
-  /// When [FormController.validate] is executed, validation and data saving are performed.
-  ///
-  /// If [enabled] is `false`, the switch is deactivated.
-  ///
-  /// If [readOnly] is set to `true`, it will show enabled, but the value cannot be changed.
-  ///
-  /// スイッチを表示して、スイッチのON・OFFを保存するためのウィジェットです。
-  ///
   /// [labelText]もしくは[labelWidget]を指定するとラベル付きでスイッチが表示されます。
   /// [labelText]と[labelWidget]はどちらか一方のみを指定してください。
   ///
+  /// ## 配置方法
+  ///
+  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+  ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+  ///
+  /// ## フォーム管理
+  ///
+  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
   ///
   /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
   ///
+  /// ## 初期値とコールバック
+  ///
+  /// Enter the initial value given by [FormController.value] in [initialValue].
+  ///
   /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
+  ///
+  /// Each time the content is changed, [onChanged] is executed.
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
+  /// ## バリデーション
+  ///
+  /// When [FormController.validate] is executed, validation and data saving are performed.
+  ///
   /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
+  ///
+  /// ## スイッチの状態
+  ///
+  /// If [enabled] is `false`, the switch is deactivated.
   ///
   /// [enabled]が`false`になるとスイッチが非有効化されます。
   ///
+  /// If [readOnly] is set to `true`, it will show enabled, but the value cannot be changed.
+  ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、値が変更できなくなります。
+  ///
+  /// ## 基本的な使用例
+  ///
+  /// ```dart
+  /// FormSwitch(
+  ///   form: formController,
+  ///   initialValue: formController.value.enabled,
+  ///   onSaved: (value) => formController.value.copyWith(enabled: value),
+  /// );
+  /// ```
+  ///
+  /// ## ラベル付きの使用例
+  ///
+  /// ```dart
+  /// FormSwitch(
+  ///   form: formController,
+  ///   initialValue: formController.value.enabled,
+  ///   labelText: "通知を有効にする",
+  ///   onSaved: (value) => formController.value.copyWith(enabled: value),
+  /// );
+  /// ```
   FormSwitch({
     this.form,
     super.key,

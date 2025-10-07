@@ -2,111 +2,113 @@ part of "/katana_form.dart";
 
 /// A form that waits for another process to complete and updates the value of the form based on that value.
 ///
+/// 非同期処理の結果を表示・入力するためのフォームフィールド。
+/// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで非同期データの管理と表示を行えます。
+/// 主に`Modal`や別`Page`にフォームフィールドを作成し、その結果を受け取るために利用することが多いです。
+///
+/// ## onTapの使用方法
+///
 /// Use this when moving to another page and updating form values based on values entered on that page, or updating form values based on API responses.
-///
-/// Specifying [onTap] describes the data acquisition process after a tap.
-///
-/// You can freely change the display by passing a widget with [builder]. If [builder] is not passed, a TextField will be displayed. In that case, you can use [parseToString] to convert the value of [T] to a string.
-///
-/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
-///
-/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
-///
-/// Enter the initial value given by [FormController.value] in [initialValue].
-///
-/// Each time the content is changed, [onChanged] is executed.
-///
-/// When [FormController.validate] is executed, validation and data saving are performed.
-///
-/// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
-///
-/// Other error checking is performed by specifying [validator].
-/// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-///
-/// If [enabled] is `false`, the text is deactivated.
-///
-/// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
-///
-/// 別の処理の完了を待ってその値を元にフォームの値を更新するフォーム。
 ///
 /// 別のページに遷移してそのページで入力した値を元にフォームの値を更新する場合やAPIのレスポンスを元にフォームの値を更新する場合に使用します。
 ///
+/// Specifying [onTap] describes the data acquisition process after a tap.
+///
 /// [onTap]を指定することでタップした後のデータ取得処理を記述します。
 ///
-/// [builder]でウィジェットを渡すことで自由に表示を変更できます。[builder]が渡されない場合はTextFieldが表示されます。その際[parseToString]で[T]の値を文字列に変換することが可能です。
+/// ## ビルダーの使用方法
 ///
-/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+/// You can freely change the display by passing a widget with [builder].
 ///
-/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+/// [builder]でウィジェットを渡すことで自由に表示を変更できます。
 ///
-/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
+/// ## 基本的な使用例
 ///
-/// 内容が変更される度[onChanged]が実行されます。
+/// ```dart
+/// FormFutureField(
+///   form: formController,
+///   initialValue: formController.value.icon.value.toString(),
+///   onSaved: (value) => formController.value.copyWith(icon: ModelImageUri.parse(value)),
+///   onTap: (currentValue) async {
+///     final selectValue = await router.push(
+///       IconSelectPage.query(selected: currentValue),
+///     );
+///     return selectValue;
+///   }
+/// );
+/// ```
 ///
-/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
+/// ## 表示テキストを変更する使用例
 ///
-/// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-///
-/// それ以外のエラーチェックは[validator]を指定することで行ないます。
-/// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-///
-/// [enabled]が`false`になるとテキストが非有効化されます。
-///
-/// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
+/// ```dart
+/// FormFutureField(
+///   form: formController,
+///   initialValue: formController.value.icon.value.toString(),
+///   onSaved: (value) => formController.value.copyWith(icon: ModelImageUri.parse(value)),
+///   parseToString: (value) => value.label,
+///   onTap: (currentValue) async {
+///     final selectValue = await router.push(
+///       IconSelectPage.query(selected: currentValue),
+///     );
+///     return selectValue;
+///   }
+/// );
+/// ```
 class FormFutureField<T extends Object, TValue> extends FormField<T> {
   /// A form that waits for another process to complete and updates the value of the form based on that value.
   ///
+  /// 非同期処理の結果を表示・入力するためのフォームフィールド。
+  /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで非同期データの管理と表示を行えます。
+  /// 主に`Modal`や別`Page`にフォームフィールドを作成し、その結果を受け取るために利用することが多いです。
+  ///
+  /// ## onTapの使用方法
+  ///
   /// Use this when moving to another page and updating form values based on values entered on that page, or updating form values based on API responses.
-  ///
-  /// Specifying [onTap] describes the data acquisition process after a tap.
-  ///
-  /// You can freely change the display by passing a widget with [builder]. If [builder] is not passed, a TextField will be displayed. In that case, you can use [parseToString] to convert the value of [T] to a string.
-  ///
-  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
-  ///
-  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
-  ///
-  /// Enter the initial value given by [FormController.value] in [initialValue].
-  ///
-  /// Each time the content is changed, [onChanged] is executed.
-  ///
-  /// When [FormController.validate] is executed, validation and data saving are performed.
-  ///
-  /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
-  ///
-  /// Other error checking is performed by specifying [validator].
-  /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-  ///
-  /// If [enabled] is `false`, the text is deactivated.
-  ///
-  /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
-  ///
-  /// 別の処理の完了を待ってその値を元にフォームの値を更新するフォーム。
   ///
   /// 別のページに遷移してそのページで入力した値を元にフォームの値を更新する場合やAPIのレスポンスを元にフォームの値を更新する場合に使用します。
   ///
+  /// Specifying [onTap] describes the data acquisition process after a tap.
+  ///
   /// [onTap]を指定することでタップした後のデータ取得処理を記述します。
   ///
-  /// [builder]でウィジェットを渡すことで自由に表示を変更できます。[builder]が渡されない場合はTextFieldが表示されます。その際[parseToString]で[T]の値を文字列に変換することが可能です。
+  /// ## ビルダーの使用方法
   ///
-  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+  /// You can freely change the display by passing a widget with [builder].
   ///
-  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+  /// [builder]でウィジェットを渡すことで自由に表示を変更できます。
   ///
-  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
+  /// ## 基本的な使用例
   ///
-  /// 内容が変更される度[onChanged]が実行されます。
+  /// ```dart
+  /// FormFutureField(
+  ///   form: formController,
+  ///   initialValue: formController.value.icon.value.toString(),
+  ///   onSaved: (value) => formController.value.copyWith(icon: ModelImageUri.parse(value)),
+  ///   onTap: (currentValue) async {
+  ///     final selectValue = await router.push(
+  ///       IconSelectPage.query(selected: currentValue),
+  ///     );
+  ///     return selectValue;
+  ///   }
+  /// );
+  /// ```
   ///
-  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
+  /// ## 表示テキストを変更する使用例
   ///
-  /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-  ///
-  /// それ以外のエラーチェックは[validator]を指定することで行ないます。
-  /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-  ///
-  /// [enabled]が`false`になるとテキストが非有効化されます。
-  ///
-  /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
+  /// ```dart
+  /// FormFutureField(
+  ///   form: formController,
+  ///   initialValue: formController.value.icon.value.toString(),
+  ///   onSaved: (value) => formController.value.copyWith(icon: ModelImageUri.parse(value)),
+  ///   parseToString: (value) => value.label,
+  ///   onTap: (currentValue) async {
+  ///     final selectValue = await router.push(
+  ///       IconSelectPage.query(selected: currentValue),
+  ///     );
+  ///     return selectValue;
+  ///   }
+  /// );
+  /// ```
   FormFutureField({
     required this.onTap,
     this.form,

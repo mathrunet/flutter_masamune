@@ -2,67 +2,217 @@ part of "/katana_form.dart";
 
 /// A builder that can freely change the UI within a form.
 ///
-/// Please return the form to [builder].
+/// `FormController`を使用して独自のフォームを構築するためのビルダー。
+/// `ref.update`メソッドでフォームの情報を更新することができるため、
+/// ボタンを並べたフォームやモーダルで表示するフォームなどを構築することができます。
 ///
-/// You can change the value of the form by putting a new value in [FormBuilderRef.update] in [builder].
+/// ## 配置方法
 ///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
-/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
-///
-/// Enter the initial value given by [FormController.value] in [initialValue].
-///
-/// Each time the content is changed, [onChanged] is executed.
-///
-/// When [FormController.validate] is executed, validation and data saving are performed.
-///
-/// フォームの中のUIを自由に変更することができるビルダー。
-///
-/// [builder]にフォームを返すようにしてください。
-///
-/// [builder]の中にある[FormBuilderRef.update]に新しい値を入れることでフォームの値を変更することが可能です。
-///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+///
+/// ## フォーム管理
+///
+/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
 ///
 /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
 ///
+/// ## 初期値とコールバック
+///
+/// Enter the initial value given by [FormController.value] in [initialValue].
+///
 /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
+///
+/// Each time the content is changed, [onChanged] is executed.
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
+/// ## バリデーション
+///
+/// When [FormController.validate] is executed, validation and data saving are performed.
+///
 /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
+///
+/// ## ビルダーの使用方法
+///
+/// Please return the form to [builder].
+///
+/// [builder]にフォームを返すようにしてください。
+///
+/// You can change the value of the form by putting a new value in [FormBuilderRef.update] in [builder].
+///
+/// [builder]の中にある[FormBuilderRef.update]に新しい値を入れることでフォームの値を変更することが可能です。
+///
+/// ## 基本的な使用例（ボタンリスト）
+///
+/// ```dart
+/// FormBuilder(
+///   form: formController,
+///   initialValue: formController.value.type,
+///   onSaved: (value) => formController.value.copyWith(type: value),
+///   builder: (context, ref, item) {
+///     return Row(
+///       children: [
+///         FilledButton(
+///           onPressed: item == UserType.admin ? null : () {
+///             ref.update(UserType.admin);
+///           },
+///           child: const Text("管理者"),
+///         ),
+///         const SizedBox(width: 16),
+///         FilledButton(
+///           onPressed: item == UserType.user ? null : () {
+///             ref.update(UserType.user);
+///           },
+///           child: const Text("一般ユーザー"),
+///         ),
+///       ],
+///     );
+///   },
+/// );
+/// ```
+///
+/// ## モーダルを利用した使用例
+///
+/// ```dart
+/// FormBuilder(
+///   form: formController,
+///   onSaved: (value) => formController.value.copyWith(type: value),
+///   initialValue: formController.value.type,
+///   builder: (context, ref, item) {
+///     return FilledButton(
+///       onPressed: () async {
+///         final res = await showModalBottomSheet(
+///           context: context,
+///           builder: (context) {
+///             return FormEnumModalField(
+///               initialValue: formController.value.type,
+///               onChanged: (value) {
+///                 Navigator.pop(context, value);
+///               },
+///               picker: FormEnumModalFieldPicker(
+///                 values: UserType.values,
+///               ),
+///             );
+///           },
+///         );
+///         if (res != null) {
+///           ref.update(res);
+///         }
+///       },
+///       child: const Text("モーダルを表示して選択"),
+///     );
+///   },
+/// );
+/// ```
 class FormBuilder<T, TValue> extends FormField<T> {
   /// A builder that can freely change the UI within a form.
   ///
-  /// Please return the form to [builder].
+  /// `FormController`を使用して独自のフォームを構築するためのビルダー。
+  /// `ref.update`メソッドでフォームの情報を更新することができるため、
+  /// ボタンを並べたフォームやモーダルで表示するフォームなどを構築することができます。
   ///
-  /// You can change the value of the form by putting a new value in [FormBuilderRef.update] in [builder].
+  /// ## 配置方法
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
-  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
-  ///
-  /// Enter the initial value given by [FormController.value] in [initialValue].
-  ///
-  /// Each time the content is changed, [onChanged] is executed.
-  ///
-  /// When [FormController.validate] is executed, validation and data saving are performed.
-  ///
-  /// フォームの中のUIを自由に変更することができるビルダー。
-  ///
-  /// [builder]にフォームを返すようにしてください。
-  ///
-  /// [builder]の中にある[FormBuilderRef.update]に新しい値を入れることでフォームの値を変更することが可能です。
-  ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+  ///
+  /// ## フォーム管理
+  ///
+  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
   ///
   /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
   ///
+  /// ## 初期値とコールバック
+  ///
+  /// Enter the initial value given by [FormController.value] in [initialValue].
+  ///
   /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
+  ///
+  /// Each time the content is changed, [onChanged] is executed.
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
+  /// ## バリデーション
+  ///
+  /// When [FormController.validate] is executed, validation and data saving are performed.
+  ///
   /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
+  ///
+  /// ## ビルダーの使用方法
+  ///
+  /// Please return the form to [builder].
+  ///
+  /// [builder]にフォームを返すようにしてください。
+  ///
+  /// You can change the value of the form by putting a new value in [FormBuilderRef.update] in [builder].
+  ///
+  /// [builder]の中にある[FormBuilderRef.update]に新しい値を入れることでフォームの値を変更することが可能です。
+  ///
+  /// ## 基本的な使用例（ボタンリスト）
+  ///
+  /// ```dart
+  /// FormBuilder(
+  ///   form: formController,
+  ///   initialValue: formController.value.type,
+  ///   onSaved: (value) => formController.value.copyWith(type: value),
+  ///   builder: (context, ref, item) {
+  ///     return Row(
+  ///       children: [
+  ///         FilledButton(
+  ///           onPressed: item == UserType.admin ? null : () {
+  ///             ref.update(UserType.admin);
+  ///           },
+  ///           child: const Text("管理者"),
+  ///         ),
+  ///         const SizedBox(width: 16),
+  ///         FilledButton(
+  ///           onPressed: item == UserType.user ? null : () {
+  ///             ref.update(UserType.user);
+  ///           },
+  ///           child: const Text("一般ユーザー"),
+  ///         ),
+  ///       ],
+  ///     );
+  ///   },
+  /// );
+  /// ```
+  ///
+  /// ## モーダルを利用した使用例
+  ///
+  /// ```dart
+  /// FormBuilder(
+  ///   form: formController,
+  ///   onSaved: (value) => formController.value.copyWith(type: value),
+  ///   initialValue: formController.value.type,
+  ///   builder: (context, ref, item) {
+  ///     return FilledButton(
+  ///       onPressed: () async {
+  ///         final res = await showModalBottomSheet(
+  ///           context: context,
+  ///           builder: (context) {
+  ///             return FormEnumModalField(
+  ///               initialValue: formController.value.type,
+  ///               onChanged: (value) {
+  ///                 Navigator.pop(context, value);
+  ///               },
+  ///               picker: FormEnumModalFieldPicker(
+  ///                 values: UserType.values,
+  ///               ),
+  ///             );
+  ///           },
+  ///         );
+  ///         if (res != null) {
+  ///           ref.update(res);
+  ///         }
+  ///       },
+  ///       child: const Text("モーダルを表示して選択"),
+  ///     );
+  ///   },
+  /// );
+  /// ```
   FormBuilder({
     required Widget Function(
       BuildContext context,

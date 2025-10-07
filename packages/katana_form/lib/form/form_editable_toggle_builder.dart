@@ -2,19 +2,121 @@ part of "/katana_form.dart";
 
 /// Combined with [FormTextField], it can be used to control whether or not editing is allowed.
 ///
+/// 編集モードと表示モードを切り替えられるフォームビルダー。
+/// `FormController`の状態に応じて、編集可能なフォームと読み取り専用の表示を切り替えることができます。
+/// 編集・保存・キャンセルなどの機能を備えています。
+///
+/// ## ビルダーの使用方法
+///
 /// Pass [FormTextField], etc. to [builder].
 ///
-/// [FormTextField]と組み合わせることで、編集の可否の制御を行うことができます。
-///
 /// [builder]に[FormTextField]などを渡してください。
+///
+/// The [ref.editable] property can be used to get the current editing state.
+///
+/// [ref.editable]プロパティで現在の編集状態を取得できます。
+///
+/// The [ref.toggle] method can be used to toggle the editing state.
+///
+/// [ref.toggle]メソッドで編集状態を切り替えることができます。
+///
+/// ## 基本的な使用例
+///
+/// ```dart
+/// FormEditableToggleBuilder(
+///   builder: (context, ref) {
+///     return Column(
+///       children: [
+///         if (ref.editable)
+///           FormTextField(
+///             form: form,
+///             initialValue: form.value.text,
+///             onSaved: (value) => form.value.copyWith(text: value),
+///           )
+///         else
+///           Text(form.value.text),
+///         FormButton(
+///           label: ref.editable ? "保存" : "編集",
+///           onPressed: () {
+///             if (ref.editable) {
+///               final value = form.validate();
+///               if (value == null) {
+///                 return;
+///               }
+///               final document = appRef.model(AnyModel.collection()).create();
+///               await document.save(value);
+///               // 表示モードへ切り替え
+///               ref.toggle();
+///             } else {
+///               // 編集モードへ切り替え
+///               ref.toggle();
+///             }
+///           },
+///         ),
+///       ],
+///     );
+///   },
+/// );
+/// ```
 class FormEditableToggleBuilder extends StatefulWidget {
   /// Combined with [FormTextField], it can be used to control whether or not editing is allowed.
   ///
+  /// 編集モードと表示モードを切り替えられるフォームビルダー。
+  /// `FormController`の状態に応じて、編集可能なフォームと読み取り専用の表示を切り替えることができます。
+  /// 編集・保存・キャンセルなどの機能を備えています。
+  ///
+  /// ## ビルダーの使用方法
+  ///
   /// Pass [FormTextField], etc. to [builder].
   ///
-  /// [FormTextField]と組み合わせることで、編集の可否の制御を行うことができます。
-  ///
   /// [builder]に[FormTextField]などを渡してください。
+  ///
+  /// The [ref.editable] property can be used to get the current editing state.
+  ///
+  /// [ref.editable]プロパティで現在の編集状態を取得できます。
+  ///
+  /// The [ref.toggle] method can be used to toggle the editing state.
+  ///
+  /// [ref.toggle]メソッドで編集状態を切り替えることができます。
+  ///
+  /// ## 基本的な使用例
+  ///
+  /// ```dart
+  /// FormEditableToggleBuilder(
+  ///   builder: (context, ref) {
+  ///     return Column(
+  ///       children: [
+  ///         if (ref.editable)
+  ///           FormTextField(
+  ///             form: form,
+  ///             initialValue: form.value.text,
+  ///             onSaved: (value) => form.value.copyWith(text: value),
+  ///           )
+  ///         else
+  ///           Text(form.value.text),
+  ///         FormButton(
+  ///           label: ref.editable ? "保存" : "編集",
+  ///           onPressed: () {
+  ///             if (ref.editable) {
+  ///               final value = form.validate();
+  ///               if (value == null) {
+  ///                 return;
+  ///               }
+  ///               final document = appRef.model(AnyModel.collection()).create();
+  ///               await document.save(value);
+  ///               // 表示モードへ切り替え
+  ///               ref.toggle();
+  ///             } else {
+  ///               // 編集モードへ切り替え
+  ///               ref.toggle();
+  ///             }
+  ///           },
+  ///         ),
+  ///       ],
+  ///     );
+  ///   },
+  /// );
+  /// ```
   const FormEditableToggleBuilder({
     required this.builder,
     super.key,

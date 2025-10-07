@@ -2,19 +2,117 @@ part of "/katana_form.dart";
 
 /// Combined with [FormTextField], it can be used to control the visibility of passwords.
 ///
+/// パスワード入力時の内容を隠すかどうかを切り替えることができるフォームビルダー。
+/// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでパスワードの状態管理を行えます。
+/// パスワードの表示/非表示切り替え、および表示切替のトグルスイッチの機能を備えています。
+///
+/// ## ビルダーの使用方法
+///
 /// Pass [FormTextField] etc. to [builder] and pass [IconButton] etc. to [switcherBuilder].
 ///
-/// [FormTextField]と組み合わせることで、パスワードの可視化の制御を行うことができます。
-///
 /// [builder]に[FormTextField]などを渡し、[switcherBuilder]には[IconButton]などを渡してください。
+///
+/// ## 基本的な使用例
+///
+/// ```dart
+/// FormPasswordBuilder(
+///   builder: (context, obscure) {
+///     return FormTextField(
+///       form: formController,
+///       initialValue: formController.value.password,
+///       obscureText: obscure,
+///       onSaved: (value) => formController.value.copyWith(password: value),
+///     );
+///   },
+/// );
+/// ```
+///
+/// ## カスタムトグルスイッチの使用例
+///
+/// ```dart
+/// FormPasswordBuilder(
+///   builder: (context, obscure) {
+///     return FormTextField(
+///       form: formController,
+///       initialValue: formController.value.password,
+///       obscureText: obscure,
+///       onSaved: (value) => formController.value.copyWith(password: value),
+///     );
+///   },
+///   switchBuilder: (context, obscure, onSwitch) {
+///     return Positioned.fill(
+///       right: 16,
+///       child: Align(
+///         alignment: Alignment.centerRight,
+///         child: IconButton(
+///           icon: Icon(
+///             obscure ? Icons.visibility : Icons.visibility_off,
+///           ),
+///           onPressed: onSwitch,
+///           color: Colors.blue,
+///         ),
+///       ),
+///     );
+///   },
+/// );
+/// ```
 class FormPasswordBuilder extends StatefulWidget {
   /// Combined with [FormTextField], it can be used to control the visibility of passwords.
   ///
+  /// パスワード入力時の内容を隠すかどうかを切り替えることができるフォームビルダー。
+  /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでパスワードの状態管理を行えます。
+  /// パスワードの表示/非表示切り替え、および表示切替のトグルスイッチの機能を備えています。
+  ///
+  /// ## ビルダーの使用方法
+  ///
   /// Pass [FormTextField] etc. to [builder] and pass [IconButton] etc. to [switcherBuilder].
   ///
-  /// [FormTextField]と組み合わせることで、パスワードの可視化の制御を行うことができます。
-  ///
   /// [builder]に[FormTextField]などを渡し、[switcherBuilder]には[IconButton]などを渡してください。
+  ///
+  /// ## 基本的な使用例
+  ///
+  /// ```dart
+  /// FormPasswordBuilder(
+  ///   builder: (context, obscure) {
+  ///     return FormTextField(
+  ///       form: formController,
+  ///       initialValue: formController.value.password,
+  ///       obscureText: obscure,
+  ///       onSaved: (value) => formController.value.copyWith(password: value),
+  ///     );
+  ///   },
+  /// );
+  /// ```
+  ///
+  /// ## カスタムトグルスイッチの使用例
+  ///
+  /// ```dart
+  /// FormPasswordBuilder(
+  ///   builder: (context, obscure) {
+  ///     return FormTextField(
+  ///       form: formController,
+  ///       initialValue: formController.value.password,
+  ///       obscureText: obscure,
+  ///       onSaved: (value) => formController.value.copyWith(password: value),
+  ///     );
+  ///   },
+  ///   switchBuilder: (context, obscure, onSwitch) {
+  ///     return Positioned.fill(
+  ///       right: 16,
+  ///       child: Align(
+  ///         alignment: Alignment.centerRight,
+  ///         child: IconButton(
+  ///           icon: Icon(
+  ///             obscure ? Icons.visibility : Icons.visibility_off,
+  ///           ),
+  ///           onPressed: onSwitch,
+  ///           color: Colors.blue,
+  ///         ),
+  ///       ),
+  ///     );
+  ///   },
+  /// );
+  /// ```
   const FormPasswordBuilder({
     required this.builder,
     super.key,
