@@ -61,46 +61,166 @@ final masamuneAdapters = <MasamuneAdapter>[
 
 The adapter provides platform-specific implementations for mobile, desktop, and web, exporting storage utilities under `storage/`.
 
-### Picker Controller
+### Basic Usage
 
-Use `Picker` to launch pickers and retrieve selected files.
+Use the `Picker` controller to select files or capture from camera.
+
+**Pick a Single Image**:
 
 ```dart
-final picker = ref.page.controller(Picker.query());
+class MyPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final picker = ref.page.controller(Picker.query());
 
-final image = await picker.pickSingle(type: PickerFileType.image);
-debugPrint("Picked: ${image.path}");
-
-final docs = await picker.pickMultiple(type: PickerFileType.custom(["pdf", "docx"]));
+    return ElevatedButton(
+      onPressed: () async {
+        final image = await picker.pickSingle(
+          type: PickerFileType.image,
+          dialogTitle: "Select an image",
+        );
+        
+        if (image != null) {
+          print("Selected: ${image.path}");
+          print("Size: ${image.bytes?.length} bytes");
+        }
+      },
+      child: const Text("Pick Image"),
+    );
+  }
+}
 ```
 
-Access the last selected values via `picker.value` and listen for updates with standard Masamune controller patterns.
+**Pick Multiple Files**:
+
+```dart
+final files = await picker.pickMultiple(
+  type: PickerFileType.custom(["pdf", "docx", "txt"]),
+  dialogTitle: "Select documents",
+);
+
+for (final file in files) {
+  print("File: ${file.name}, Size: ${file.bytes?.length}");
+}
+```
+
+**Access Last Selection**:
+
+```dart
+// Access the last selected files
+final lastFiles = picker.value;
+if (lastFiles != null && lastFiles.isNotEmpty) {
+  print("Last picked: ${lastFiles.first.name}");
+}
+
+// Listen for changes
+picker.addListener(() {
+  final files = picker.value;
+  // Update UI with selected files
+});
+```
 
 ### Camera Capture
 
-On supported platforms, `pickCamera()` opens the camera and returns a `PickerValue` for the captured media.
+On supported platforms, capture photos or videos directly from the camera:
 
 ```dart
-final photo = await picker.pickCamera(type: PickerFileType.image);
+// Capture a photo
+final photo = await picker.pickCamera(
+  type: PickerFileType.image,
+  dialogTitle: "Take a photo",
+);
+
+// Capture a video
+final video = await picker.pickCamera(
+  type: PickerFileType.video,
+  dialogTitle: "Record a video",
+);
 ```
 
-Ensure camera permissions are granted; the adapter throws `MasamunePickerPermissionDeniedException` if denied.
-
-### Storage Helpers
-
-The package exports storage helpers under `storage/`. Use them to persist picked files locally or upload them to cloud storage.
+**Error Handling**:
 
 ```dart
-final storage = PickerStorage();
-await storage.save(picker.value?.first, fileName: "upload.jpg");
+try {
+  final photo = await picker.pickCamera(type: PickerFileType.image);
+  print("Captured: ${photo?.path}");
+} on MasamunePickerPermissionDeniedException {
+  print("Camera permission denied");
+  // Show permission request dialog
+} catch (e) {
+  print("Picker error: $e");
+}
+```
+
+### File Types
+
+Specify the type of files to allow:
+
+```dart
+// Any file
+await picker.pickSingle(type: PickerFileType.any);
+
+// Images only
+await picker.pickSingle(type: PickerFileType.image);
+
+// Videos only
+await picker.pickSingle(type: PickerFileType.video);
+
+// Audio files
+await picker.pickSingle(type: PickerFileType.audio);
+
+// Custom extensions
+await picker.pickSingle(
+  type: PickerFileType.custom(["pdf", "docx", "xlsx"]),
+);
+```
+
+### Display Selected Images
+
+Show selected images in your UI:
+
+```dart
+class ImagePickerWidget extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final picker = ref.page.controller(Picker.query());
+
+    return Column(
+      children: [
+        // Display selected images
+        if (picker.value != null && picker.value!.isNotEmpty)
+          Wrap(
+            spacing: 8,
+            children: picker.value!.map((file) {
+              return Image.memory(
+                file.bytes!,
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              );
+            }).toList(),
+          ),
+        
+        // Pick button
+        ElevatedButton(
+          onPressed: () async {
+            await picker.pickMultiple(type: PickerFileType.image);
+          },
+          child: const Text("Select Images"),
+        ),
+      ],
+    );
+  }
+}
 ```
 
 ### Tips
 
-- Customize allowed file types with `PickerFileType` (any/image/video/audio/custom).
-- Provide localized dialog titles via the `dialogTitle` parameter.
-- Handle `picker.future` if you need to show loading indicators while selection is in progress.
-- Combine with `MasamuneCamera` for advanced capture scenarios or with storage adapters for automatic uploads.
+- Use `PickerFileType.custom()` for specific file extensions
+- Provide localized dialog titles via the `dialogTitle` parameter
+- Monitor `picker.future` to show loading indicators during selection
+- Combine with `masamune_camera` for advanced capture scenarios
+- Use with storage adapters to automatically upload selected files to cloud storage
 
 # GitHub Sponsors
 

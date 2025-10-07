@@ -34,40 +34,117 @@
 
 ## Usage
 
+### Installation
+
 1. Add the package to your project.
 
 ```bash
 flutter pub add masamune_model_functions
 ```
 
-Run `flutter pub get` after editing `pubspec.yaml` manually.
+### Setup
 
-2. Register the adapter with your Masamune model adapters. Supply a configured `FunctionsAdapter` that knows how to contact your backend (e.g. Firebase Functions, Cloud Run).
+2. Register the adapter with your model configuration. Supply a configured `FunctionsAdapter` that connects to your backend (e.g., Firebase Functions, Cloud Run).
 
 ```dart
+// lib/main.dart
+
 import 'package:masamune_model_functions/masamune_model_functions.dart';
 import 'package:katana_functions_firebase/katana_functions_firebase.dart';
 
 final functions = FirebaseFunctionsAdapter(
   options: DefaultFirebaseOptions.currentPlatform,
-  region: FirebaseRegion.asiaNortheast1
+  region: FirebaseRegion.asiaNortheast1,  // Your region
 );
 
-final modelAdapters = FunctionsModelAdapter(functionsAdapter: functions);
+final modelAdapter = FunctionsModelAdapter(
+  functionsAdapter: functions,
+);
+
+void main() {
+  runMasamuneApp(
+    appRef: appRef,
+    modelAdapter: modelAdapter,
+    (appRef, _) => MasamuneApp(
+      appRef: appRef,
+      home: HomePage(),
+    ),
+  );
+}
 ```
 
-3. Execute Masamune model operations as usual. Reads and writes are proxied through the configured Functions endpoints.
+### Basic Operations
+
+3. Execute Masamune model operations as usual. All reads and writes are proxied through your backend Functions.
+
+**Load a Collection**:
 
 ```dart
-await UserModel.collection.save(
-  const UserModel(id: 'user_123', name: 'Masamune'),
-  adapter: modelAdapters.first,
-);
+class MyPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final users = ref.app.model(UserModel.collection())..load();
 
-final users = await UserModel.collection.load(adapter: modelAdapters.first);
+    return ListView.builder(
+      itemCount: users.length,
+      itemBuilder: (context, index) {
+        final user = users[index].value;
+        return ListTile(
+          title: Text(user?.name ?? ''),
+        );
+      },
+    );
+  }
+}
 ```
 
-4. Customize the action names (`documentAction`, `collectionAction`, `aggregateAction`) if your Functions expect different identifiers.
+**Save a Document**:
+
+```dart
+final collection = ref.app.model(UserModel.collection());
+final newDoc = collection.create();
+await newDoc.save(
+  UserModel(
+    name: 'John Doe',
+    email: 'john@example.com',
+  ),
+);
+```
+
+### Backend Implementation
+
+Your backend must implement handlers for the following actions:
+
+- `document_model`: Handle document load/save/delete operations
+- `collection_model`: Handle collection load operations
+- `aggregate_model`: Handle aggregation queries (count, sum, etc.)
+
+**Example Cloud Functions Handler**:
+
+```typescript
+// Cloud Functions
+export const model = functions.https.onCall(async (data, context) => {
+  const { action, path, query, value } = data;
+  
+  switch (action) {
+    case "document_model":
+      // Handle document operations
+      return await handleDocument(path, value);
+      
+    case "collection_model":
+      // Handle collection queries
+      return await handleCollection(path, query);
+      
+    case "aggregate_model":
+      // Handle aggregations
+      return await handleAggregate(path, query);
+  }
+});
+```
+
+### Custom Action Names
+
+4. Customize the action names if your Functions use different identifiers:
 
 ```dart
 final adapter = FunctionsModelAdapter(
@@ -78,7 +155,19 @@ final adapter = FunctionsModelAdapter(
 );
 ```
 
-5. Aggregations are available via `ModelAggregateQuery`. Ensure your server action returns numeric values that can be cast to the requested type.
+### Aggregations
+
+5. Perform aggregation queries through your backend:
+
+```dart
+final count = await ref.app.model(
+  UserModel.collection().limitTo(100),
+).aggregate(ModelAggregateQuery.count());
+
+print("Total users: $count");
+```
+
+Ensure your server action returns numeric values that can be cast to the requested type.
 
 # GitHub Sponsors
 

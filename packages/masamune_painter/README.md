@@ -62,60 +62,179 @@ final masamuneAdapters = <MasamuneAdapter>[
 ];
 ```
 
-### Painter Controller
+### Basic Usage
 
-Use `PainterController` to manage drawing state. It stores layers, tools, and undo/redo stacks.
+Use `PainterController` to manage drawing state and the `Painter` widget to display the canvas.
 
 ```dart
-final painter = ref.page.controller(PainterController.query());
+class DrawingPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final painter = ref.page.controller(PainterController.query());
 
-await painter.initialize();
+    // Initialize on page load
+    ref.page.on(
+      initOrUpdate: () {
+        painter.initialize();
+      },
+    );
+
+    return Scaffold(
+      appBar: AppBar(title: const Text("Painter")),
+      body: Column(
+        children: [
+          // Toolbar with drawing tools
+          FormPainterToolbar(controller: painter),
+          
+          // Main drawing canvas
+          Expanded(
+            child: Painter(controller: painter),
+          ),
+          
+          // Layer management
+          Container(
+            height: 100,
+            child: PainterLayerList(controller: painter),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+### Drawing Tools
+
+Control the painter programmatically:
+
+```dart
+// Select drawing tool
 painter.selectPrimaryTool(PainterPrimaryTool.pen);
+painter.selectPrimaryTool(PainterPrimaryTool.shape);
+painter.selectPrimaryTool(PainterPrimaryTool.text);
+
+// Change drawing properties
 painter.changeColor(Colors.blue);
+painter.changeStrokeWidth(5.0);
+
+// Undo/Redo
+painter.undo();
+painter.redo();
 ```
 
-Listen for changes via `painter.addListener` or watch with Masamune controllers to rebuild UI.
+### UI Components
 
-### Painter Widget
+**FormPainterToolbar**: Provides tool selection buttons
+- Primary tools: Pen, shape, text, media, select
+- Secondary tools: Copy, cut, paste
+- Inline tools: Color picker, stroke settings, font properties
 
-Embed the painter canvas and toolbars in your UI.
-
-```dart
-Painter(
-  controller: painter,
-  toolbar: FormPainterToolbar(controller: painter),
-  layerList: PainterLayerList(controller: painter),
-)
-```
-
-- `FormPainterToolbar` provides primary and secondary tools (pen, shapes, text, media).
-- `PainterLayerList` manages layer ordering and visibility.
-- Inline property panels let users change colors, stroke width, fonts, and filters.
+**PainterLayerList**: Manages layers
+- Add/remove layers
+- Change layer order
+- Toggle layer visibility
+- Rename layers
 
 ### Storage and Export
 
-`PainterController` saves drawings as JSON or image assets. Use the storage helpers provided under `storage/` to persist data locally or upload to the cloud.
+Save drawings as JSON or export as images:
+
+**Export as JSON**:
 
 ```dart
-final export = await painter.export();
-await painter.saveToLocal(export, fileName: "sketch.json");
+// Export drawing data
+final exportData = await painter.export();
 
-final image = await painter.renderImage();
-await painter.saveImageToGallery(image);
+// Save to file (contains all layers, strokes, and settings)
+await File('path/to/drawing.json').writeAsString(
+  jsonEncode(exportData.toJson()),
+);
+
+// Import later
+final jsonData = await File('path/to/drawing.json').readAsString();
+final importData = PainterExportValue.fromJson(jsonDecode(jsonData));
+await painter.import(importData);
+```
+
+**Export as Image**:
+
+```dart
+// Render drawing to image
+final imageBytes = await painter.renderImage(
+  width: 1920,
+  height: 1080,
+  format: ImageByteFormat.png,
+);
+
+// Save to gallery or file
+await painter.saveImageToGallery(imageBytes);
+
+// Or save to file
+await File('path/to/image.png').writeAsBytes(imageBytes);
+```
+
+**Autosave**:
+
+Enable autosave in the adapter to automatically persist drawings:
+
+```dart
+PainterMasamuneAdapter(
+  enableAutosave: true,
+  autosaveInterval: Duration(seconds: 30),  // Save every 30 seconds
+  storageDirectory: "painter",
+)
 ```
 
 ### Advanced Features
 
-- Autosave support via `enableAutosave` and `PainterMediaDatabase`.
-- Import/export stroke data with `PainterExportValue`.
-- Grouping, filters, and text formatting via primary/secondary/inline tool sets.
-- Media insertion from camera or gallery when combined with Masamune Picker.
+**Layer Management**:
+
+```dart
+// Add new layer
+painter.addLayer();
+
+// Remove layer
+painter.removeLayer(layerId);
+
+// Rename layer
+painter.renameLayer(layerId, "Background");
+
+// Change layer order
+painter.moveLayerUp(layerId);
+painter.moveLayerDown(layerId);
+
+// Toggle visibility
+painter.toggleLayerVisibility(layerId);
+```
+
+**Filters and Effects**:
+
+Apply filters to selected elements:
+
+```dart
+painter.selectPrimaryTool(PainterPrimaryTool.select);
+// Select an element
+painter.applyFilter(PainterFilter.blur);
+painter.applyFilter(PainterFilter.grayscale);
+```
+
+**Media Insertion**:
+
+Insert images from camera or gallery (requires `masamune_picker`):
+
+```dart
+painter.selectPrimaryTool(PainterPrimaryTool.media);
+// Opens picker to select image
+// Image is inserted as a new layer
+```
 
 ### Tips
 
-- Provide onboarding hints so users discover layer management and advanced tools.
-- Persist user settings (pen color, brush size) between sessions.
-- Consider disabling high-cost filters on low-end devices to maintain performance.
+- Provide onboarding hints for layer management and advanced tools
+- Persist user preferences (pen color, brush size) using shared preferences
+- Consider disabling filters on low-end devices for better performance
+- Use autosave to prevent data loss
+- Test export/import flow thoroughly for data integrity
 
 # GitHub Sponsors
 
