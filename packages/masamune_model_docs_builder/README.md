@@ -2,7 +2,7 @@
   <a href="https://mathru.net">
     <img width="240px" src="https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/.github/images/icon.png" alt="Masamune logo" style="border-radius: 32px"s><br/>
   </a>
-  <h1 align="center">Masamune Model Docs</h1>
+  <h1 align="center">Masamune Model Docs Builder</h1>
 </p>
 
 <p align="center">
@@ -34,24 +34,98 @@
 
 ## Usage
 
-1. Add the builder as a development dependency along with the runtime packages that define your Masamune models.
+### Installation
+
+1. Add the builder as a development dependency.
 
 ```yaml
 dev_dependencies:
   masamune_model_docs_builder: ^latest
+  build_runner: ^latest
 ```
 
-2. Annotate your models with the standard Masamune annotations (`@CollectionModelPath`, `@DocumentModelPath`, fields, etc.). The builder scans these definitions to generate Markdown documentation.
+### Generate Documentation
 
-3. Run the code generator via `katana code generate` (wraps `build_runner`).
+2. Annotate your models with standard Masamune annotations:
+
+```dart
+// lib/models/user.dart
+
+@freezed
+@formValue
+@immutable
+@CollectionModelPath('user')
+class UserModel with _$UserModel {
+  const factory UserModel({
+    /// User's display name
+    required String name,
+    
+    /// User's email address
+    @Default('') String email,
+    
+    /// Timestamp when the user was created
+    @Default(ModelTimestamp.now()) ModelTimestamp createdAt,
+  }) = _UserModel;
+  // ... rest of the model
+}
+```
+
+3. Run the code generator:
 
 ```bash
 katana code generate
 ```
 
-The builder outputs Markdown tables describing the schema and field metadata under `docs/model/` by default. Check `build.yaml` to adjust the destination if needed.
+This generates Markdown documentation files in `docs/model/` with:
+- Model name and type (Collection/Document)
+- Field names, types, and descriptions
+- Default values and constraints
 
-4. Commit the generated docs or publish them as part of your project documentation to keep database schemas synchronized with your Masamune models.
+### Generated Documentation Example
+
+The builder creates files like `docs/model/user.md`:
+
+```markdown
+# UserModel
+
+Type: Collection
+Path: `user`
+
+## Fields
+
+| Field Name | Type | Required | Default | Description |
+|------------|------|----------|---------|-------------|
+| name | String | Yes | - | User's display name |
+| email | String | No | '' | User's email address |
+| createdAt | ModelTimestamp | No | now() | Timestamp when the user was created |
+```
+
+### Customize Output
+
+Configure the output directory in `build.yaml`:
+
+```yaml
+targets:
+  $default:
+    builders:
+      masamune_model_docs_builder:
+        options:
+          output_dir: "docs/model"  # Default output directory
+```
+
+### Use Cases
+
+- **Team Documentation**: Keep database schemas documented and in sync with code
+- **API Documentation**: Generate reference docs for your backend API
+- **Onboarding**: Help new developers understand data models
+- **Version Control**: Track schema changes over time in git history
+
+### Tips
+
+- Run `katana code generate` after model changes to update docs
+- Commit generated docs to version control
+- Use detailed Dart doc comments on fields for better documentation
+- Integrate with your CI/CD to ensure docs stay up-to-date
 
 # GitHub Sponsors
 
