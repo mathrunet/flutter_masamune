@@ -894,7 +894,7 @@ class _RenderMarkdownEditor extends RenderBox {
       return;
     }
     _style = value;
-    _textPainter = null;
+    _blockLayouts = [];
     markNeedsLayout();
   }
 
@@ -1002,13 +1002,14 @@ class _RenderMarkdownEditor extends RenderBox {
 
   VoidCallback? _onTap;
 
-  TextPainter? _textPainter;
+  // Block layout information
+  List<_BlockLayout> _blockLayouts = [];
 
   // Tap tracking
   Offset? _lastTapDownPosition;
 
   void _handleControllerChanged() {
-    _textPainter = null; // Clear cache when controller changes
+    _blockLayouts = []; // Clear cache when controller changes
     markNeedsLayout();
   }
 
@@ -1024,82 +1025,190 @@ class _RenderMarkdownEditor extends RenderBox {
     super.detach();
   }
 
-  String _buildPlainText() {
-    return _controller.getPlainText();
-  }
-
-  TextPainter _getTextPainter() {
-    if (_textPainter != null) {
-      return _textPainter!;
+  List<_BlockLayout> _buildBlockLayouts(BuildContext? context) {
+    if (_blockLayouts.isNotEmpty) {
+      return _blockLayouts;
     }
 
-    final text = _buildPlainText();
-    _textPainter = TextPainter(
-      text: TextSpan(text: text, style: _style),
-      textAlign: _textAlign,
-      textDirection: _textDirection,
-      textWidthBasis: _textWidthBasis,
-      textHeightBehavior: _textHeightBehavior,
-      strutStyle: _strutStyle,
-    );
+    final fields = _controller.value ?? [];
+    final layouts = <_BlockLayout>[];
+    var textOffset = 0;
 
-    return _textPainter!;
+    for (final field in fields) {
+      for (final block in field.children) {
+        if (block is MarkdownParagraphBlockValue) {
+          // Get block text
+          final blockText = StringBuffer();
+          for (var i = 0; i < block.children.length; i++) {
+            final line = block.children[i];
+            for (final span in line.children) {
+              blockText.write(span.value);
+            }
+            if (i < block.children.length - 1) {
+              blockText.writeln();
+            }
+          }
+
+          final text = blockText.toString();
+
+          // Get block style from controller
+          EdgeInsets padding = EdgeInsets.zero;
+          EdgeInsets margin = EdgeInsets.zero;
+          TextStyle textStyle = _style;
+
+          if (context != null) {
+            padding = block.padding(context, _controller) as EdgeInsets;
+            margin = block.margin(context, _controller) as EdgeInsets;
+            textStyle = block.textStyle(context, _controller);
+          }
+
+          // Create text painter for this block
+          final painter = TextPainter(
+            text: TextSpan(text: text, style: textStyle),
+            textAlign: _textAlign,
+            textDirection: _textDirection,
+            textWidthBasis: _textWidthBasis,
+            textHeightBehavior: _textHeightBehavior,
+            strutStyle: _strutStyle,
+          );
+
+          layouts.add(_BlockLayout(
+            block: block,
+            painter: painter,
+            textOffset: textOffset,
+            textLength: text.length,
+            padding: padding,
+            margin: margin,
+          ));
+
+          textOffset += text.length + 1; // +1 for newline between blocks
+        }
+      }
+    }
+
+    _blockLayouts = layouts;
+    return layouts;
   }
 
   @override
   void performLayout() {
-    final painter = _getTextPainter();
-    painter.layout(
-      minWidth: constraints.minWidth,
-      maxWidth: constraints.maxWidth,
-    );
+    final layouts = _buildBlockLayouts(null);
+
+    var totalHeight = 0.0;
+    final maxWidth = constraints.maxWidth;
+
+    for (final layout in layouts) {
+      // Add margin top
+      totalHeight += layout.margin.top;
+
+      // Layout text painter with padding
+      final contentWidth = maxWidth - layout.padding.horizontal;
+      layout.painter.layout(
+        minWidth: contentWidth,
+        maxWidth: contentWidth,
+      );
+
+      // Calculate block height with padding
+      final blockHeight = layout.painter.height +
+          layout.padding.vertical +
+          layout.margin.bottom;
+      layout.offset = Offset(0, totalHeight + layout.padding.top);
+      layout.height = blockHeight;
+
+      totalHeight += blockHeight;
+    }
 
     size = constraints.constrain(Size(
       constraints.maxWidth,
-      painter.height,
+      totalHeight,
     ));
   }
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    final painter = _getTextPainter();
     final canvas = context.canvas;
+    final layouts = _buildBlockLayouts(context as BuildContext?);
 
-    // Draw selection
-    if (_selection.isValid && !_selection.isCollapsed) {
-      final boxes = painter.getBoxesForSelection(_selection);
-      final paint = Paint()..color = _selectionColor;
-      for (final box in boxes) {
-        canvas.drawRect(box.toRect().shift(offset), paint);
-      }
-    }
+    var currentTextOffset = 0;
 
-    // Draw text
-    painter.paint(canvas, offset);
+    for (final layout in layouts) {
+      final blockOffset =
+          offset + layout.offset + Offset(layout.padding.left, 0);
 
-    // Draw cursor
-    if (_showCursor && _selection.isValid && _selection.isCollapsed) {
-      final cursorOffset = painter.getOffsetForCaret(
-        TextPosition(offset: _selection.baseOffset),
-        Rect.zero,
-      );
-      final cursorHeight = _cursorHeight ?? painter.preferredLineHeight;
-      final cursorRect = Rect.fromLTWH(
-        offset.dx + cursorOffset.dx,
-        offset.dy + cursorOffset.dy,
-        _cursorWidth,
-        cursorHeight,
-      );
-
-      final paint = Paint()..color = _cursorColor;
-      if (_cursorRadius != null) {
-        canvas.drawRRect(
-          RRect.fromRectAndRadius(cursorRect, _cursorRadius!),
-          paint,
+      // Draw block background if any
+      if (layout.block.property.backgroundColor != null) {
+        final blockRect = Rect.fromLTWH(
+          offset.dx,
+          offset.dy + layout.offset.dy - layout.padding.top,
+          size.width,
+          layout.height,
         );
-      } else {
-        canvas.drawRect(cursorRect, paint);
+        canvas.drawRect(
+          blockRect,
+          Paint()..color = layout.block.property.backgroundColor!,
+        );
       }
+
+      // Calculate selection for this block
+      final blockStart = currentTextOffset;
+      final blockEnd = currentTextOffset + layout.textLength;
+
+      // Draw selection for this block
+      if (_selection.isValid && !_selection.isCollapsed) {
+        if (_selection.start < blockEnd && _selection.end > blockStart) {
+          final localStart =
+              (_selection.start - blockStart).clamp(0, layout.textLength);
+          final localEnd =
+              (_selection.end - blockStart).clamp(0, layout.textLength);
+
+          final localSelection = TextSelection(
+            baseOffset: localStart,
+            extentOffset: localEnd,
+          );
+
+          final boxes = layout.painter.getBoxesForSelection(localSelection);
+          final paint = Paint()..color = _selectionColor;
+          for (final box in boxes) {
+            canvas.drawRect(box.toRect().shift(blockOffset), paint);
+          }
+        }
+      }
+
+      // Draw text
+      layout.painter.paint(canvas, blockOffset);
+
+      // Draw cursor for this block
+      if (_showCursor &&
+          _selection.isValid &&
+          _selection.isCollapsed &&
+          _selection.baseOffset >= blockStart &&
+          _selection.baseOffset <= blockEnd) {
+        final localOffset = _selection.baseOffset - blockStart;
+        final cursorOffset = layout.painter.getOffsetForCaret(
+          TextPosition(offset: localOffset),
+          Rect.zero,
+        );
+        final cursorHeight =
+            _cursorHeight ?? layout.painter.preferredLineHeight;
+        final cursorRect = Rect.fromLTWH(
+          blockOffset.dx + cursorOffset.dx,
+          blockOffset.dy + cursorOffset.dy,
+          _cursorWidth,
+          cursorHeight,
+        );
+
+        final paint = Paint()..color = _cursorColor;
+        if (_cursorRadius != null) {
+          canvas.drawRRect(
+            RRect.fromRectAndRadius(cursorRect, _cursorRadius!),
+            paint,
+          );
+        } else {
+          canvas.drawRect(cursorRect, paint);
+        }
+      }
+
+      currentTextOffset = blockEnd + 1; // +1 for newline between blocks
     }
   }
 
@@ -1118,6 +1227,29 @@ class _RenderMarkdownEditor extends RenderBox {
     }
   }
 
+  int? _getTextOffsetForPosition(Offset position) {
+    final layouts = _blockLayouts;
+    var currentTextOffset = 0;
+
+    for (final layout in layouts) {
+      final blockOffset = layout.offset + Offset(layout.padding.left, 0);
+      final blockBottom = blockOffset.dy + layout.painter.height;
+
+      if (position.dy >= blockOffset.dy && position.dy <= blockBottom) {
+        // Position is within this block
+        final localPosition = position - blockOffset;
+        final textPosition = layout.painter.getPositionForOffset(localPosition);
+        return currentTextOffset + textPosition.offset;
+      }
+
+      currentTextOffset +=
+          layout.textLength + 1; // +1 for newline between blocks
+    }
+
+    // Position is after all blocks, return end of text
+    return currentTextOffset > 0 ? currentTextOffset - 1 : 0;
+  }
+
   void _handleTapDown(PointerDownEvent event) {
     _lastTapDownPosition = globalToLocal(event.position);
   }
@@ -1128,14 +1260,15 @@ class _RenderMarkdownEditor extends RenderBox {
     }
 
     final position = globalToLocal(event.position);
-    final painter = _getTextPainter();
-    final textPosition = painter.getPositionForOffset(position);
+    final textOffset = _getTextOffsetForPosition(position);
 
-    _onTap?.call();
-    _onSelectionChanged(
-      TextSelection.collapsed(offset: textPosition.offset),
-      SelectionChangedCause.tap,
-    );
+    if (textOffset != null) {
+      _onTap?.call();
+      _onSelectionChanged(
+        TextSelection.collapsed(offset: textOffset),
+        SelectionChangedCause.tap,
+      );
+    }
     _lastTapDownPosition = null;
   }
 
@@ -1145,28 +1278,85 @@ class _RenderMarkdownEditor extends RenderBox {
     }
 
     final position = globalToLocal(event.position);
-    final painter = _getTextPainter();
-    final textPosition = painter.getPositionForOffset(position);
+    final textOffset = _getTextOffsetForPosition(position);
 
-    if (_selection.isCollapsed) {
-      // Start selection from tap down position
-      final downPosition = painter.getPositionForOffset(_lastTapDownPosition!);
-      _onSelectionChanged(
-        TextSelection(
-          baseOffset: downPosition.offset,
-          extentOffset: textPosition.offset,
-        ),
-        SelectionChangedCause.drag,
-      );
-    } else {
-      // Extend selection
-      _onSelectionChanged(
-        TextSelection(
-          baseOffset: _selection.baseOffset,
-          extentOffset: textPosition.offset,
-        ),
-        SelectionChangedCause.drag,
-      );
+    if (textOffset != null) {
+      if (_selection.isCollapsed) {
+        // Start selection from tap down position
+        final downOffset = _getTextOffsetForPosition(_lastTapDownPosition!);
+        if (downOffset != null) {
+          _onSelectionChanged(
+            TextSelection(
+              baseOffset: downOffset,
+              extentOffset: textOffset,
+            ),
+            SelectionChangedCause.drag,
+          );
+        }
+      } else {
+        // Extend selection
+        _onSelectionChanged(
+          TextSelection(
+            baseOffset: _selection.baseOffset,
+            extentOffset: textOffset,
+          ),
+          SelectionChangedCause.drag,
+        );
+      }
     }
   }
+}
+
+/// Layout information for a single markdown block.
+///
+/// 単一のマークダウンブロックのレイアウト情報。
+class _BlockLayout {
+  _BlockLayout({
+    required this.block,
+    required this.painter,
+    required this.textOffset,
+    required this.textLength,
+    required this.padding,
+    required this.margin,
+  });
+
+  /// The markdown block.
+  ///
+  /// マークダウンブロック。
+  final MarkdownParagraphBlockValue block;
+
+  /// Text painter for this block.
+  ///
+  /// このブロックのテキストペインター。
+  final TextPainter painter;
+
+  /// Text offset in the overall document.
+  ///
+  /// ドキュメント全体でのテキストオフセット。
+  final int textOffset;
+
+  /// Length of text in this block.
+  ///
+  /// このブロックのテキストの長さ。
+  final int textLength;
+
+  /// Padding for this block.
+  ///
+  /// このブロックのパディング。
+  final EdgeInsets padding;
+
+  /// Margin for this block.
+  ///
+  /// このブロックのマージン。
+  final EdgeInsets margin;
+
+  /// Offset where this block is positioned.
+  ///
+  /// このブロックが配置されるオフセット。
+  Offset offset = Offset.zero;
+
+  /// Height of this block including padding and margin.
+  ///
+  /// パディングとマージンを含むこのブロックの高さ。
+  double height = 0;
 }
