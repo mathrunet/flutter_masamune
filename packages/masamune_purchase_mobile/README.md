@@ -48,141 +48,295 @@ flutter pub add masamune_purchase_mobile
 
 Run `flutter pub get` after editing `pubspec.yaml` manually.
 
-### Register Adapters
+### Register the Adapter
 
-Register the purchase adapters with Masamune. The core package ships the abstract `PurchaseMasamuneAdapter`; the mobile package provides `MobilePurchaseMasamuneAdapter` that integrates with `in_app_purchase`.
+Configure `MobilePurchaseMasamuneAdapter` with your products and backend integration.
 
 ```dart
 // lib/adapter.dart
 
+import 'package:masamune_purchase_mobile/masamune_purchase_mobile.dart';
+import 'package:katana_functions_firebase/katana_functions_firebase.dart';
+import 'package:katana_model_firestore/katana_model_firestore.dart';
+
+final functionsAdapter = FirebaseFunctionsAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  region: FirebaseRegion.asiaNortheast1,
+);
+
+final modelAdapter = FirestoreModelAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
+
 /// Masamune adapters used in the application.
 final masamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
-  const FunctionsMasamuneAdapter(),
-  const ModelAdapter(),
 
   MobilePurchaseMasamuneAdapter(
     products: const [
+      // Subscription product
       PurchaseProduct.subscription(
-        productId: "premium_monthly",
+        productId: "premium_monthly",          // Must match App Store/Play Console
         title: LocalizedValue("Premium Monthly"),
-        description: LocalizedValue("Unlock all features."),
+        description: LocalizedValue("Unlock all features"),
         period: PurchaseSubscriptionPeriod.month,
       ),
+      
+      // Non-consumable (one-time purchase)
       PurchaseProduct.nonConsumable(
         productId: "lifetime_unlock",
-        title: LocalizedValue("Lifetime Unlock"),
+        title: LocalizedValue("Lifetime Access"),
       ),
+      
+      // Consumable (coins, credits)
       PurchaseProduct.consumable(
         productId: "coin_pack_100",
         title: LocalizedValue("100 Coins"),
         amount: 100,
       ),
     ],
-    onRetrieveUserId: () => authUserIdOrNull,
-    functionsAdapter: const FunctionsMasamuneAdapter(),
-    modelAdapter: const ModelAdapter(),
-    initializeOnBoot: true,
+    onRetrieveUserId: () => currentUserId,    // Current authenticated user ID
+    functionsAdapter: functionsAdapter,       // For backend validation
+    modelAdapter: modelAdapter,               // For storing purchases
+    initializeOnBoot: true,                   // Auto-initialize on app start
   ),
 ];
 ```
 
-Define all billable items in `products`. `onRetrieveUserId` must return the currently authenticated user ID (or `null` for guests).
+**Important**: Product IDs must match exactly with those configured in Google Play Console and App Store Connect.
 
-### Initialize and Listen
+### Display Products and Purchase
 
-Use the `Purchase` controller to initialize IAP, load products, and trigger purchases.
+Use the `Purchase` controller to load and display available products:
 
 ```dart
-final purchase = ref.app.controller(Purchase.query());
+class StorePage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final purchase = ref.app.controller(Purchase.query());
 
-await purchase.initialize();
+    // Initialize on page load
+    ref.page.on(
+      initOrUpdate: () {
+        purchase.initialize();
+      },
+    );
 
-// Observe products
-final products = purchase.products;
-
-// Find a specific product
-final subscription = purchase.findProductById("premium_monthly");
-
-await purchase.purchase(
-  product: subscription,
-  onDone: () => debugPrint("Purchase completed"),
-);
-
-await purchase.restore();
+    return Scaffold(
+      appBar: AppBar(title: const Text("Store")),
+      body: purchase.initialized
+          ? ListView.builder(
+              itemCount: purchase.products.length,
+              itemBuilder: (context, index) {
+                final product = purchase.products[index];
+                
+                return ListTile(
+                  title: Text(product.title.value),
+                  subtitle: Text(product.description.value),
+                  trailing: ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        await purchase.purchase(
+                          product: product,
+                          onDone: () {
+                            print("Purchase completed!");
+                            // Show success dialog
+                          },
+                        );
+                      } catch (e) {
+                        print("Purchase failed: $e");
+                        // Show error dialog
+                      }
+                    },
+                    child: Text(product.price ?? "Buy"),
+                  ),
+                );
+              },
+            )
+          : Center(child: CircularProgressIndicator()),
+    );
+  }
+}
 ```
 
-`Purchase.products` returns the validated product list populated from the store. Use `purchase.loading` or `purchase.initialized` to gate UI states.
+### Restore Purchases
+
+Allow users to restore previous purchases:
+
+```dart
+ElevatedButton(
+  onPressed: () async {
+    await purchase.restore();
+    print("Purchases restored");
+  },
+  child: const Text("Restore Purchases"),
+)
+```
 
 ### Backend Validation
 
-The mobile adapter validates purchases through Cloud Functions. Implement the provided Functions actions on your server (`android_*_purchase_functions_action.dart`, `ios_*_purchase_functions_action.dart`). A minimal Dart Functions handler might look like:
+Your Cloud Functions must validate purchase receipts with Google Play or App Store:
 
-```dart
-Future<AndroidConsumablePurchaseFunctionsActionResponse> validateAndroidConsumable(
-  AndroidConsumablePurchaseFunctionsAction action,
-) async {
-  final isValid = await googlePlayValidator.verify(
-    packageName: action.packageName,
-    productId: action.productId,
-    purchaseToken: action.purchaseToken,
-  );
+**Android Validation (TypeScript)**:
+
+```typescript
+// Cloud Functions
+import { google } from 'googleapis';
+
+export const validateAndroidPurchase = functions.https.onCall(async (data, context) => {
+  const { packageName, productId, purchaseToken } = data;
+  
+  // Verify with Google Play Billing API
+  const androidPublisher = google.androidpublisher('v3');
+  const response = await androidPublisher.purchases.products.get({
+    packageName,
+    productId,
+    token: purchaseToken,
+    auth: googleAuth,
+  });
+  
+  const isValid = response.data.purchaseState === 0;  // 0 = purchased
+  
   if (isValid) {
-    await creditUser(action.documentId, action.amount);
+    // Grant entitlement to user
+    await grantPurchase(data.userId, productId);
   }
-  return AndroidConsumablePurchaseFunctionsActionResponse(result: isValid);
-}
+  
+  return { result: isValid };
+});
 ```
 
-Return `result: true` when the validation succeeds; otherwise the purchase is rejected and an exception is thrown on the client.
+**iOS Validation (TypeScript)**:
 
-### iOS StoreKit 1/2 Support
+```typescript
+// Cloud Functions
+export const validateIosPurchase = functions.https.onCall(async (data, context) => {
+  const { receiptData, productId } = data;
+  
+  // Verify with App Store Server API
+  const response = await axios.post(
+    'https://buy.itunes.apple.com/verifyReceipt',  // or sandbox URL for testing
+    {
+      'receipt-data': receiptData,
+      'password': process.env.APP_STORE_SHARED_SECRET,
+    }
+  );
+  
+  const isValid = response.data.status === 0;
+  
+  if (isValid) {
+    await grantPurchase(data.userId, productId);
+  }
+  
+  return { result: isValid };
+});
+```
 
-The mobile adapter automatically detects StoreKit v1/v2 and sends appropriate payloads (`transactionId`, `receiptData`, `storeKitVersion`). Ensure your Functions handlers support both formats when verifying receipts with App Store Server APIs.
+**StoreKit 2 Support**: The adapter automatically detects StoreKit v1/v2 and sends appropriate payloads (`transactionId`, `receiptData`, `storeKitVersion`).
 
-### Entitlements and Models
+### Check User Entitlements
 
-The core package includes Masamune models for persisting purchaser data:
+Query purchase models to check user access:
 
-- `Purchase.user` → document storing user-level entitlements
-- `Purchase.subscription` → document storing subscription state and renewal dates
+```dart
+class PremiumFeaturePage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final purchaseUser = ref.app.model(
+      PurchaseUserModel.document(userId: currentUserId),
+    )..load();
 
-Use `ref.app.model(Purchase.user.document(userId))` to query or update entitlements in tandem with validation results.
+    final hasPremium = purchaseUser.value?.hasPremiumAccess ?? false;
+
+    return hasPremium
+        ? PremiumContent()
+        : UpgradePrompt();
+  }
+}
+```
 
 ### Custom Delegates
 
-Provide delegates to hook into lifecycle events:
-
-- `ConsumablePurchaseDelegate`
-- `NonConsumablePurchaseDelegate`
-- `SubscriptionPurchaseDelegate`
-
-Example:
+Provide delegates for purchase lifecycle events:
 
 ```dart
+// Consumable purchases (coins, credits)
 class CoinsDelegate extends ConsumablePurchaseDelegate {
   @override
-  Future<void> onDelivered({required PurchaseProduct product, required double amount}) async {
-    await coinsRepository.addCoins(amount.toInt());
+  Future<void> onDelivered({
+    required PurchaseProduct product,
+    required double amount,
+  }) async {
+    await userRepository.addCoins(currentUserId, amount.toInt());
+  }
+}
+
+// Subscription purchases
+class PremiumDelegate extends SubscriptionPurchaseDelegate {
+  @override
+  Future<void> onActivated({required PurchaseProduct product}) async {
+    await userRepository.setPremiumStatus(currentUserId, true);
+  }
+  
+  @override
+  Future<void> onExpired({required PurchaseProduct product}) async {
+    await userRepository.setPremiumStatus(currentUserId, false);
   }
 }
 ```
 
-Pass delegates to `MobilePurchaseMasamuneAdapter` to execute additional business logic after validation succeeds.
+Pass delegates to the adapter:
 
-### Testing Tips
+```dart
+MobilePurchaseMasamuneAdapter(
+  products: [...],
+  consumableDelegate: CoinsDelegate(),
+  subscriptionDelegate: PremiumDelegate(),
+  ...
+)
+```
 
-- **Android**: upload a signed build to Play Console (internal testing) before querying products.
-- **iOS**: configure App Store Connect, banking, tax info, and use Sandbox testers or StoreKit test certificates.
-- Toggle `automaticallyConsumeOnAndroid` or `iosSandboxTesting` to match your test workflow.
-- Use the mock runtime adapter (`RuntimePurchaseMasamuneAdapter`) for widget tests or platforms without native billing.
+### Platform Setup
+
+**Google Play Console**:
+1. Create in-app products in Play Console
+2. Note the product IDs
+3. Set up a service account for API access
+4. Upload a signed build to internal testing track
+
+**App Store Connect**:
+1. Create in-app purchases in App Store Connect
+2. Note the product IDs
+3. Set up banking and tax information
+4. Create sandbox tester accounts for testing
+
+### Testing
+
+**Android**: Use internal testing track in Play Console
+
+```dart
+MobilePurchaseMasamuneAdapter(
+  products: [...],
+  automaticallyConsumeOnAndroid: true,  // Auto-consume for testing
+)
+```
+
+**iOS**: Use sandbox testers or StoreKit Configuration files
+
+```dart
+MobilePurchaseMasamuneAdapter(
+  products: [...],
+  iosSandboxTesting: true,  // Enable sandbox mode
+)
+```
 
 ### Troubleshooting
 
-- Ensure SKU identifiers in the store match `PurchaseProduct.productId`.
-- Handle exceptions from `purchase.purchase` and surface user-friendly error messages.
-- Verify Firestore/Database security rules if entitlements are stored server-side.
-- Collect logs via `loggerAdapters` to audit billing events.
+- Ensure product IDs match exactly between code and store configurations
+- Check that products are in "Active" state in store consoles
+- Verify backend Functions are deployed and accessible
+- Test restore functionality for subscription recovery
+- Handle purchase exceptions gracefully with user-friendly error messages
 
 # GitHub Sponsors
 

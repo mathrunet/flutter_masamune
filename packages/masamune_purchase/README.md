@@ -32,157 +32,165 @@
 
 # Masamune Purchase
 
+## Overview
+
+`masamune_purchase` is the base package for in-app purchase functionality in Masamune apps. It provides:
+- Abstract purchase controllers and adapters
+- Purchase product definitions
+- Functions actions for backend validation
+- Purchase models for persisting user entitlements
+- Delegate interfaces for purchase lifecycle events
+
+**Note**: This is the base package. You'll also need concrete implementations:
+- `masamune_purchase_mobile` for Google Play / App Store (in-app purchases)
+- `masamune_purchase_stripe` for Stripe-based web payments
+
 ## Usage
 
 ### Installation
 
-Add the packages required for your target platforms.
-
 ```bash
-# Core purchase models, controllers, and functions actions
 flutter pub add masamune_purchase
-
-# Mobile IAP adapter (Google Play / App Store)
-flutter pub add masamune_purchase_mobile
+flutter pub add masamune_purchase_mobile  # For mobile IAP
 ```
 
-Run `flutter pub get` after editing `pubspec.yaml` manually.
+### Concrete Implementations
 
-### Register Adapters
+This base package provides the interfaces. Use concrete implementations:
 
-Register the purchase adapters with Masamune. The core package ships the abstract `PurchaseMasamuneAdapter`; the mobile package provides `MobilePurchaseMasamuneAdapter` that integrates with `in_app_purchase`.
+**Mobile IAP** (`masamune_purchase_mobile`)
+- Provides `MobilePurchaseMasamuneAdapter`
+- Integrates with Google Play Billing and App Store
+- Supports consumable, non-consumable, and subscription products
+- See `masamune_purchase_mobile` package for setup
+
+**Stripe Payments** (`masamune_purchase_stripe`)
+- Provides `StripePurchaseMasamuneAdapter`
+- Web-based payment flows
+- See `masamune_purchase_stripe` package for setup
+
+**Runtime Adapter** (Testing)
+- `RuntimePurchaseMasamuneAdapter` - Mock purchases for testing
+
+### Purchase Product Definitions
+
+Define your products using `PurchaseProduct`:
+
+**Subscription**:
+```dart
+PurchaseProduct.subscription(
+  productId: "premium_monthly",
+  title: LocalizedValue("Premium Monthly"),
+  description: LocalizedValue("Unlock all features"),
+  period: PurchaseSubscriptionPeriod.month,
+)
+```
+
+**Non-Consumable** (one-time purchase):
+```dart
+PurchaseProduct.nonConsumable(
+  productId: "lifetime_unlock",
+  title: LocalizedValue("Lifetime Access"),
+  description: LocalizedValue("Permanent access to all features"),
+)
+```
+
+**Consumable** (coins, credits, etc.):
+```dart
+PurchaseProduct.consumable(
+  productId: "coin_pack_100",
+  title: LocalizedValue("100 Coins"),
+  description: LocalizedValue("Get 100 coins"),
+  amount: 100,
+)
+```
+
+### Purchase Models
+
+The package includes Masamune models for persisting purchase data:
+
+**PurchaseUserModel**: Store user-level entitlements
 
 ```dart
-// lib/adapter.dart
+final purchaseUser = ref.app.model(
+  PurchaseUserModel.document(userId: currentUserId),
+)..load();
 
-/// Masamune adapters used in the application.
-final masamuneAdapters = <MasamuneAdapter>[
-  const UniversalMasamuneAdapter(),
-  const FunctionsMasamuneAdapter(),
-  const ModelAdapter(),
+// Check if user has premium access
+final hasPremium = purchaseUser.value?.hasPremiumAccess ?? false;
+```
 
-  MobilePurchaseMasamuneAdapter(
-    products: const [
-      PurchaseProduct.subscription(
-        productId: "premium_monthly",
-        title: LocalizedValue("Premium Monthly"),
-        description: LocalizedValue("Unlock all features."),
-        period: PurchaseSubscriptionPeriod.month,
-      ),
-      PurchaseProduct.nonConsumable(
-        productId: "lifetime_unlock",
-        title: LocalizedValue("Lifetime Unlock"),
-      ),
-      PurchaseProduct.consumable(
-        productId: "coin_pack_100",
-        title: LocalizedValue("100 Coins"),
-        amount: 100,
-      ),
-    ],
-    onRetrieveUserId: () => authUserIdOrNull,
-    functionsAdapter: const FunctionsMasamuneAdapter(),
-    modelAdapter: const ModelAdapter(),
-    initializeOnBoot: true,
+**PurchaseSubscriptionModel**: Store subscription state
+
+```dart
+final subscription = ref.app.model(
+  PurchaseSubscriptionModel.document(
+    userId: currentUserId,
+    subscriptionId: "premium_monthly",
   ),
-];
+)..load();
+
+// Check subscription status
+final isActive = subscription.value?.isActive ?? false;
+final expiresAt = subscription.value?.expiresAt;
 ```
 
-Define all billable items in `products`. `onRetrieveUserId` must return the currently authenticated user ID (or `null` for guests).
+### Functions Actions
 
-### Initialize and Listen
+The package provides Functions actions for backend validation:
 
-Use the `Purchase` controller to initialize IAP, load products, and trigger purchases.
+**Android**:
+- `AndroidConsumablePurchaseFunctionsAction`
+- `AndroidNonConsumablePurchaseFunctionsAction`
+- `AndroidSubscriptionPurchaseFunctionsAction`
 
-```dart
-final purchase = ref.app.controller(Purchase.query());
+**iOS**:
+- `IosConsumablePurchaseFunctionsAction`
+- `IosNonConsumablePurchaseFunctionsAction`
+- `IosSubscriptionPurchaseFunctionsAction`
 
-await purchase.initialize();
+These actions send purchase receipts to your backend for validation.
 
-// Observe products
-final products = purchase.products;
+### Purchase Delegates
 
-// Find a specific product
-final subscription = purchase.findProductById("premium_monthly");
+Define custom logic for purchase lifecycle events:
 
-await purchase.purchase(
-  product: subscription,
-  onDone: () => debugPrint("Purchase completed"),
-);
-
-await purchase.restore();
-```
-
-`Purchase.products` returns the validated product list populated from the store. Use `purchase.loading` or `purchase.initialized` to gate UI states.
-
-### Backend Validation
-
-The mobile adapter validates purchases through Cloud Functions. Implement the provided Functions actions on your server (`android_*_purchase_functions_action.dart`, `ios_*_purchase_functions_action.dart`). A minimal Dart Functions handler might look like:
-
-```dart
-Future<AndroidConsumablePurchaseFunctionsActionResponse> validateAndroidConsumable(
-  AndroidConsumablePurchaseFunctionsAction action,
-) async {
-  final isValid = await googlePlayValidator.verify(
-    packageName: action.packageName,
-    productId: action.productId,
-    purchaseToken: action.purchaseToken,
-  );
-  if (isValid) {
-    await creditUser(action.documentId, action.amount);
-  }
-  return AndroidConsumablePurchaseFunctionsActionResponse(result: isValid);
-}
-```
-
-Return `result: true` when the validation succeeds; otherwise the purchase is rejected and an exception is thrown on the client.
-
-### iOS StoreKit 1/2 Support
-
-The mobile adapter automatically detects StoreKit v1/v2 and sends appropriate payloads (`transactionId`, `receiptData`, `storeKitVersion`). Ensure your Functions handlers support both formats when verifying receipts with App Store Server APIs.
-
-### Entitlements and Models
-
-The core package includes Masamune models for persisting purchaser data:
-
-- `Purchase.user` → document storing user-level entitlements
-- `Purchase.subscription` → document storing subscription state and renewal dates
-
-Use `ref.app.model(Purchase.user.document(userId))` to query or update entitlements in tandem with validation results.
-
-### Custom Delegates
-
-Provide delegates to hook into lifecycle events:
-
-- `ConsumablePurchaseDelegate`
-- `NonConsumablePurchaseDelegate`
-- `SubscriptionPurchaseDelegate`
-
-Example:
-
+**ConsumablePurchaseDelegate**:
 ```dart
 class CoinsDelegate extends ConsumablePurchaseDelegate {
   @override
-  Future<void> onDelivered({required PurchaseProduct product, required double amount}) async {
-    await coinsRepository.addCoins(amount.toInt());
+  Future<void> onDelivered({
+    required PurchaseProduct product,
+    required double amount,
+  }) async {
+    // Credit coins to user account
+    await userRepository.addCoins(userId, amount.toInt());
   }
 }
 ```
 
-Pass delegates to `MobilePurchaseMasamuneAdapter` to execute additional business logic after validation succeeds.
+**SubscriptionPurchaseDelegate**:
+```dart
+class PremiumDelegate extends SubscriptionPurchaseDelegate {
+  @override
+  Future<void> onActivated({required PurchaseProduct product}) async {
+    // Grant premium access
+    await userRepository.setPremiumStatus(userId, true);
+  }
+  
+  @override
+  Future<void> onExpired({required PurchaseProduct product}) async {
+    // Revoke premium access
+    await userRepository.setPremiumStatus(userId, false);
+  }
+}
+```
 
-### Testing Tips
+### For Implementation Details
 
-- **Android**: upload a signed build to Play Console (internal testing) before querying products.
-- **iOS**: configure App Store Connect, banking, tax info, and use Sandbox testers or StoreKit test certificates.
-- Toggle `automaticallyConsumeOnAndroid` or `iosSandboxTesting` to match your test workflow.
-- Use the mock runtime adapter (`RuntimePurchaseMasamuneAdapter`) for widget tests or platforms without native billing.
-
-### Troubleshooting
-
-- Ensure SKU identifiers in the store match `PurchaseProduct.productId`.
-- Handle exceptions from `purchase.purchase` and surface user-friendly error messages.
-- Verify Firestore/Database security rules if entitlements are stored server-side.
-- Collect logs via `loggerAdapters` to audit billing events.
+See the implementation-specific packages:
+- `masamune_purchase_mobile` - Mobile IAP (Google Play / App Store) setup and usage
+- `masamune_purchase_stripe` - Stripe payment integration
 
 # GitHub Sponsors
 
