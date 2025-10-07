@@ -2,10 +2,13 @@ part of "/katana_form.dart";
 
 /// Builder to hold and provide [FocusNode].
 ///
+/// A builder for holding and providing focus nodes.
+/// You can manage focus state and implement processing when focus is acquired or released.
+///
 /// フォーカスノードを保持して提供するためのビルダー。
 /// フォーカス状態を管理し、フォーカスの取得・解放時の処理を実装できます。
 ///
-/// ## ビルダーの使用方法
+/// ## Builder Usage ビルダーの使用方法
 ///
 /// Pass [FormTextField], etc. to [builder].
 ///
@@ -15,7 +18,7 @@ part of "/katana_form.dart";
 ///
 /// ビルダーの[focusNode]パラメータに[FocusNode]が渡されます。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormFocusNodeBuilder(
@@ -30,7 +33,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## カスタムデザインの使用例
+/// ## Custom Design Usage Example カスタムデザインの使用例
 ///
 /// ```dart
 /// FormFocusNodeBuilder(
@@ -50,10 +53,13 @@ part of "/katana_form.dart";
 class FormFocusNodeBuilder extends StatefulWidget {
   /// Builder to hold and provide [FocusNode].
   ///
+  /// A builder for holding and providing focus nodes.
+  /// You can manage focus state and implement processing when focus is acquired or released.
+  ///
   /// フォーカスノードを保持して提供するためのビルダー。
   /// フォーカス状態を管理し、フォーカスの取得・解放時の処理を実装できます。
   ///
-  /// ## ビルダーの使用方法
+  /// ## Builder Usage ビルダーの使用方法
   ///
   /// Pass [FormTextField], etc. to [builder].
   ///
@@ -63,7 +69,7 @@ class FormFocusNodeBuilder extends StatefulWidget {
   ///
   /// ビルダーの[focusNode]パラメータに[FocusNode]が渡されます。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormFocusNodeBuilder(
@@ -78,7 +84,7 @@ class FormFocusNodeBuilder extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// ## カスタムデザインの使用例
+  /// ## Custom Design Usage Example カスタムデザインの使用例
   ///
   /// ```dart
   /// FormFocusNodeBuilder(

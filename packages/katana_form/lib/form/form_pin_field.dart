@@ -7,11 +7,15 @@ const kPinLength = 6;
 
 /// Widget for Pin text field for forms.
 ///
+/// A form field for PIN code input.
+/// Common design can be applied with `FormStyle`, and PIN code state management can be performed using `FormController`.
+/// It provides features such as digit number settings.
+///
 /// PINコード入力用のフォームフィールド。
 /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでPINコードの状態管理を行えます。
 /// 桁数設定などの機能を備えています。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormPinField(
@@ -21,7 +25,7 @@ const kPinLength = 6;
 /// );
 /// ```
 ///
-/// ## 最大桁数を指定した使用例
+/// ## Usage Example with Maximum Digits Specified 最大桁数を指定した使用例
 ///
 /// ```dart
 /// FormPinField(
@@ -31,7 +35,7 @@ const kPinLength = 6;
 /// );
 /// ```
 ///
-/// ## バリデーション付きの使用例
+/// ## Usage Example with Validation バリデーション付きの使用例
 ///
 /// ```dart
 /// FormPinField(
@@ -54,11 +58,15 @@ const kPinLength = 6;
 class FormPinField<TValue> extends FormField<String> {
   /// Widget for Pin text field for forms.
   ///
+  /// A form field for PIN code input.
+  /// Common design can be applied with `FormStyle`, and PIN code state management can be performed using `FormController`.
+  /// It provides features such as digit number settings.
+  ///
   /// PINコード入力用のフォームフィールド。
   /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでPINコードの状態管理を行えます。
   /// 桁数設定などの機能を備えています。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormPinField(
@@ -68,7 +76,7 @@ class FormPinField<TValue> extends FormField<String> {
   /// );
   /// ```
   ///
-  /// ## 最大桁数を指定した使用例
+  /// ## Usage Example with Maximum Digits Specified 最大桁数を指定した使用例
   ///
   /// ```dart
   /// FormPinField(
@@ -78,7 +86,7 @@ class FormPinField<TValue> extends FormField<String> {
   /// );
   /// ```
   ///
-  /// ## バリデーション付きの使用例
+  /// ## Usage Example with Validation バリデーション付きの使用例
   ///
   /// ```dart
   /// FormPinField(

@@ -2,10 +2,13 @@ part of "/katana_form.dart";
 
 /// Builder to hold and provide [TextEditingController].
 ///
+/// A builder that provides TextEditingController.
+/// Common design can be applied with `FormStyle`, and text input state management can be performed using `FormController`.
+///
 /// TextEditingControllerを提供するビルダー。
 /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでテキスト入力の状態管理を行えます。
 ///
-/// ## ビルダーの使用方法
+/// ## Builder Usage ビルダーの使用方法
 ///
 /// Pass [FormTextField], etc. to [builder].
 ///
@@ -15,7 +18,7 @@ part of "/katana_form.dart";
 ///
 /// ビルダーの[controller]パラメータに[TextEditingController]が渡されます。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormTextEditingControllerBuilder(
@@ -29,7 +32,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## カスタムデザインの使用例
+/// ## Custom Design Usage Example カスタムデザインの使用例
 ///
 /// ```dart
 /// FormTextEditingControllerBuilder(
@@ -48,10 +51,13 @@ part of "/katana_form.dart";
 class FormTextEditingControllerBuilder extends StatefulWidget {
   /// Builder to hold and provide [TextEditingController].
   ///
+  /// A builder that provides TextEditingController.
+  /// Common design can be applied with `FormStyle`, and text input state management can be performed using `FormController`.
+  ///
   /// TextEditingControllerを提供するビルダー。
   /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでテキスト入力の状態管理を行えます。
   ///
-  /// ## ビルダーの使用方法
+  /// ## Builder Usage ビルダーの使用方法
   ///
   /// Pass [FormTextField], etc. to [builder].
   ///
@@ -61,7 +67,7 @@ class FormTextEditingControllerBuilder extends StatefulWidget {
   ///
   /// ビルダーの[controller]パラメータに[TextEditingController]が渡されます。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormTextEditingControllerBuilder(
@@ -75,7 +81,7 @@ class FormTextEditingControllerBuilder extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// ## カスタムデザインの使用例
+  /// ## Custom Design Usage Example カスタムデザインの使用例
   ///
   /// ```dart
   /// FormTextEditingControllerBuilder(

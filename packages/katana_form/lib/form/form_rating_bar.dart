@@ -2,11 +2,15 @@ part of "/katana_form.dart";
 
 /// Widget to display & edit by number of stars by passing [double].
 ///
+/// A form field for inputting ratings with stars or icons.
+/// Common design can be applied with `FormStyle`, and rating values can be managed using `FormController`.
+/// It provides features such as custom icons, half-star display, input by tap/drag, and label display.
+///
 /// 評価を星やアイコンで入力するためのフォームフィールド。
 /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで評価値を管理できます。
 /// カスタムアイコン、半星表示、タップ・ドラッグでの入力、ラベルの表示などの機能を備えています。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormRatingBar(
@@ -16,7 +20,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## カスタムアイコンの使用例
+/// ## Custom Icon Usage Example カスタムアイコンの使用例
 ///
 /// ```dart
 /// FormRatingBar(
@@ -28,7 +32,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## 半星表示の使用例
+/// ## Half Star Display Usage Example 半星表示の使用例
 ///
 /// ```dart
 /// FormRatingBar(
@@ -39,7 +43,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## ラベル付き表示の使用例
+/// ## Usage Example with Label Display ラベル付き表示の使用例
 ///
 /// ```dart
 /// FormRatingBar(
@@ -54,11 +58,15 @@ part of "/katana_form.dart";
 class FormRatingBar<TValue> extends FormField<double> {
   /// Widget to display & edit by number of stars by passing [double].
   ///
+  /// A form field for inputting ratings with stars or icons.
+  /// Common design can be applied with `FormStyle`, and rating values can be managed using `FormController`.
+  /// It provides features such as custom icons, half-star display, input by tap/drag, and label display.
+  ///
   /// 評価を星やアイコンで入力するためのフォームフィールド。
   /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで評価値を管理できます。
   /// カスタムアイコン、半星表示、タップ・ドラッグでの入力、ラベルの表示などの機能を備えています。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormRatingBar(
@@ -68,7 +76,7 @@ class FormRatingBar<TValue> extends FormField<double> {
   /// );
   /// ```
   ///
-  /// ## カスタムアイコンの使用例
+  /// ## Custom Icon Usage Example カスタムアイコンの使用例
   ///
   /// ```dart
   /// FormRatingBar(
@@ -80,7 +88,7 @@ class FormRatingBar<TValue> extends FormField<double> {
   /// );
   /// ```
   ///
-  /// ## 半星表示の使用例
+  /// ## Half Star Display Usage Example 半星表示の使用例
   ///
   /// ```dart
   /// FormRatingBar(
@@ -91,7 +99,7 @@ class FormRatingBar<TValue> extends FormField<double> {
   /// );
   /// ```
   ///
-  /// ## ラベル付き表示の使用例
+  /// ## Usage Example with Label Display ラベル付き表示の使用例
   ///
   /// ```dart
   /// FormRatingBar(

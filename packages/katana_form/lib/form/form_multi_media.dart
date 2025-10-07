@@ -10,6 +10,10 @@ const kFormMultiMediaInlineHeight = 96.0;
 
 /// Form for submitting images and videos. Multiple media can be submitted.
 ///
+/// Multiple selection version of `FormMedia`. Common design can be applied with `FormStyle`.
+/// Multiple media can be selected and managed using `FormController`.
+/// It provides features such as multiple selection of images/videos, preview display, reordering, and deletion.
+///
 /// `FormMedia`の複数選択版。`FormStyle`で共通したデザインを適用可能。
 /// また`FormController`を利用して複数のメディアの選択と管理を行うことができます。
 /// 画像・動画の複数選択、プレビュー表示、並び替え、削除などの機能を備えています。
@@ -18,7 +22,7 @@ const kFormMultiMediaInlineHeight = 96.0;
 ///
 /// メディアはすべて[FormMediaValue]で管理されます。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormMultiMedia(
@@ -52,6 +56,10 @@ const kFormMultiMediaInlineHeight = 96.0;
 class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
   /// Form for submitting images and videos. Multiple media can be submitted.
   ///
+  /// Multiple selection version of `FormMedia`. Common design can be applied with `FormStyle`.
+  /// Multiple media can be selected and managed using `FormController`.
+  /// It provides features such as multiple selection of images/videos, preview display, reordering, and deletion.
+  ///
   /// `FormMedia`の複数選択版。`FormStyle`で共通したデザインを適用可能。
   /// また`FormController`を利用して複数のメディアの選択と管理を行うことができます。
   /// 画像・動画の複数選択、プレビュー表示、並び替え、削除などの機能を備えています。
@@ -60,7 +68,7 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
   ///
   /// メディアはすべて[FormMediaValue]で管理されます。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormMultiMedia(

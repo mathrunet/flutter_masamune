@@ -2,17 +2,21 @@ part of "/katana_form.dart";
 
 /// Combined with [FormTextField], it can be used to control the visibility of passwords.
 ///
+/// A form builder that can toggle whether to hide password input content.
+/// Common design can be applied with `FormStyle`, and password state management can be performed using `FormController`.
+/// It provides features such as password show/hide toggle and a toggle switch for display switching.
+///
 /// パスワード入力時の内容を隠すかどうかを切り替えることができるフォームビルダー。
 /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでパスワードの状態管理を行えます。
 /// パスワードの表示/非表示切り替え、および表示切替のトグルスイッチの機能を備えています。
 ///
-/// ## ビルダーの使用方法
+/// ## Builder Usage ビルダーの使用方法
 ///
 /// Pass [FormTextField] etc. to [builder] and pass [IconButton] etc. to [switcherBuilder].
 ///
 /// [builder]に[FormTextField]などを渡し、[switcherBuilder]には[IconButton]などを渡してください。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormPasswordBuilder(
@@ -27,7 +31,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## カスタムトグルスイッチの使用例
+/// ## Custom Toggle Switch Usage Example カスタムトグルスイッチの使用例
 ///
 /// ```dart
 /// FormPasswordBuilder(
@@ -59,17 +63,21 @@ part of "/katana_form.dart";
 class FormPasswordBuilder extends StatefulWidget {
   /// Combined with [FormTextField], it can be used to control the visibility of passwords.
   ///
+  /// A form builder that can toggle whether to hide password input content.
+  /// Common design can be applied with `FormStyle`, and password state management can be performed using `FormController`.
+  /// It provides features such as password show/hide toggle and a toggle switch for display switching.
+  ///
   /// パスワード入力時の内容を隠すかどうかを切り替えることができるフォームビルダー。
   /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでパスワードの状態管理を行えます。
   /// パスワードの表示/非表示切り替え、および表示切替のトグルスイッチの機能を備えています。
   ///
-  /// ## ビルダーの使用方法
+  /// ## Builder Usage ビルダーの使用方法
   ///
   /// Pass [FormTextField] etc. to [builder] and pass [IconButton] etc. to [switcherBuilder].
   ///
   /// [builder]に[FormTextField]などを渡し、[switcherBuilder]には[IconButton]などを渡してください。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormPasswordBuilder(
@@ -84,7 +92,7 @@ class FormPasswordBuilder extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// ## カスタムトグルスイッチの使用例
+  /// ## Custom Toggle Switch Usage Example カスタムトグルスイッチの使用例
   ///
   /// ```dart
   /// FormPasswordBuilder(

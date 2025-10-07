@@ -2,11 +2,15 @@ part of "/katana_form.dart";
 
 /// Combined with [FormTextField], it can be used to control whether or not editing is allowed.
 ///
+/// A form builder that can switch between edit mode and display mode.
+/// Depending on the state of `FormController`, you can switch between editable forms and read-only displays.
+/// It provides features such as edit, save, and cancel.
+///
 /// 編集モードと表示モードを切り替えられるフォームビルダー。
 /// `FormController`の状態に応じて、編集可能なフォームと読み取り専用の表示を切り替えることができます。
 /// 編集・保存・キャンセルなどの機能を備えています。
 ///
-/// ## ビルダーの使用方法
+/// ## Builder Usage ビルダーの使用方法
 ///
 /// Pass [FormTextField], etc. to [builder].
 ///
@@ -20,7 +24,7 @@ part of "/katana_form.dart";
 ///
 /// [ref.toggle]メソッドで編集状態を切り替えることができます。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormEditableToggleBuilder(
@@ -61,11 +65,15 @@ part of "/katana_form.dart";
 class FormEditableToggleBuilder extends StatefulWidget {
   /// Combined with [FormTextField], it can be used to control whether or not editing is allowed.
   ///
+  /// A form builder that can switch between edit mode and display mode.
+  /// Depending on the state of `FormController`, you can switch between editable forms and read-only displays.
+  /// It provides features such as edit, save, and cancel.
+  ///
   /// 編集モードと表示モードを切り替えられるフォームビルダー。
   /// `FormController`の状態に応じて、編集可能なフォームと読み取り専用の表示を切り替えることができます。
   /// 編集・保存・キャンセルなどの機能を備えています。
   ///
-  /// ## ビルダーの使用方法
+  /// ## Builder Usage ビルダーの使用方法
   ///
   /// Pass [FormTextField], etc. to [builder].
   ///
@@ -79,7 +87,7 @@ class FormEditableToggleBuilder extends StatefulWidget {
   ///
   /// [ref.toggle]メソッドで編集状態を切り替えることができます。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormEditableToggleBuilder(

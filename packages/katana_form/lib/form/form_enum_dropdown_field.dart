@@ -2,17 +2,21 @@ part of "/katana_form.dart";
 
 /// Drop-down form to select from all elements in [TEnum].
 ///
+/// A form field that allows you to select enum values from a dropdown menu.
+/// Common design can be applied with `FormStyle`, and selection state can be managed using `FormController`.
+/// It provides features such as custom labels and validation.
+///
 /// 列挙型の値をドロップダウンメニューで選択できるフォームフィールド。
 /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。
 /// カスタムラベルやバリデーションなどを備えています。
 ///
-/// ## ピッカーの指定
+/// ## Picker Specification ピッカーの指定
 ///
 /// Specify [picker] to define the selection options.
 ///
 /// [picker]を指定して選択肢を定義します。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// enum UserType {
@@ -40,7 +44,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## カスタムラベルの使用例
+/// ## Custom Label Usage Example カスタムラベルの使用例
 ///
 /// ```dart
 /// FormEnumDropdownField(
@@ -56,7 +60,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## バリデーション付きの使用例
+/// ## Usage Example with Validation バリデーション付きの使用例
 ///
 /// ```dart
 /// FormEnumDropdownField<UserType>(
@@ -81,17 +85,21 @@ class FormEnumDropdownField<TEnum extends Enum, TValue>
     extends FormField<TEnum> {
   /// Drop-down form to select from all elements in [TEnum].
   ///
+  /// A form field that allows you to select enum values from a dropdown menu.
+  /// Common design can be applied with `FormStyle`, and selection state can be managed using `FormController`.
+  /// It provides features such as custom labels and validation.
+  ///
   /// 列挙型の値をドロップダウンメニューで選択できるフォームフィールド。
   /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。
   /// カスタムラベルやバリデーションなどを備えています。
   ///
-  /// ## ピッカーの指定
+  /// ## Picker Specification ピッカーの指定
   ///
   /// Specify [picker] to define the selection options.
   ///
   /// [picker]を指定して選択肢を定義します。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// enum UserType {
@@ -119,7 +127,7 @@ class FormEnumDropdownField<TEnum extends Enum, TValue>
   /// );
   /// ```
   ///
-  /// ## カスタムラベルの使用例
+  /// ## Custom Label Usage Example カスタムラベルの使用例
   ///
   /// ```dart
   /// FormEnumDropdownField(
@@ -135,7 +143,7 @@ class FormEnumDropdownField<TEnum extends Enum, TValue>
   /// );
   /// ```
   ///
-  /// ## バリデーション付きの使用例
+  /// ## Usage Example with Validation バリデーション付きの使用例
   ///
   /// ```dart
   /// FormEnumDropdownField<UserType>(

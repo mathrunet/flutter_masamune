@@ -2,29 +2,35 @@ part of "/katana_form.dart";
 
 /// Provides a container with [FormStyle] applied.
 ///
+/// [FormStyle]を適用したコンテナを提供します。
+///
+/// A container widget for applying `FormStyle`.
+/// Padding, background color, border, shadow, etc. can be managed uniformly.
+/// In addition, arbitrary value validation can be performed.
+///
 /// `FormStyle`を適用するためのコンテナウィジェット。
 /// パディング、背景色、ボーダー、影などのスタイルを統一的に管理できます。
 /// また、任意の値のバリデーションを行うことができます。
 ///
-/// ## バリデーション機能
+/// ## Validation Function バリデーション機能
 ///
 /// You can also perform arbitrary value validation using [validator].
 ///
 /// [validator]を利用して任意の値のバリデーションを行うことができます。
 ///
-/// ## 子ウィジェットの指定
+/// ## Child Widget Specification 子ウィジェットの指定
 ///
 /// In [child], specify the widget to enclose in the container.
 ///
 /// [child]には、コンテナで囲むウィジェットを指定します。
 ///
-/// ## 有効/無効の制御
+/// ## Enable/Disable Control 有効/無効の制御
 ///
 /// If [enabled] is `false`, the design is changed to a deactivated design.
 ///
 /// [enabled]が`false`の場合、非有効化のデザインに変更されます。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormContainer(
@@ -48,29 +54,35 @@ part of "/katana_form.dart";
 class FormContainer extends StatefulWidget {
   /// Provides a container with [FormStyle] applied.
   ///
+  /// [FormStyle]を適用したコンテナを提供します。
+  ///
+  /// A container widget for applying `FormStyle`.
+  /// Padding, background color, border, shadow, etc. can be managed uniformly.
+  /// In addition, arbitrary value validation can be performed.
+  ///
   /// `FormStyle`を適用するためのコンテナウィジェット。
   /// パディング、背景色、ボーダー、影などのスタイルを統一的に管理できます。
   /// また、任意の値のバリデーションを行うことができます。
   ///
-  /// ## バリデーション機能
+  /// ## Validation Function バリデーション機能
   ///
   /// You can also perform arbitrary value validation using [validator].
   ///
   /// [validator]を利用して任意の値のバリデーションを行うことができます。
   ///
-  /// ## 子ウィジェットの指定
+  /// ## Child Widget Specification 子ウィジェットの指定
   ///
   /// In [child], specify the widget to enclose in the container.
   ///
   /// [child]には、コンテナで囲むウィジェットを指定します。
   ///
-  /// ## 有効/無効の制御
+  /// ## Enable/Disable Control 有効/無効の制御
   ///
   /// If [enabled] is `false`, the design is changed to a deactivated design.
   ///
   /// [enabled]が`false`の場合、非有効化のデザインに変更されます。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormContainer(

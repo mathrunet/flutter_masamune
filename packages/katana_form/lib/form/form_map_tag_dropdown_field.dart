@@ -2,6 +2,10 @@ part of "/katana_form.dart";
 
 /// Drop down form to select from there with [Map] as an option.
 ///
+/// A form field that allows you to select Key-Value pair Map format data from a tag-based dropdown menu.
+/// You can add, edit, or delete each element. Common design can be applied with `FormStyle`.
+/// Selection state can be managed using `FormController`.
+///
 /// Key-ValueペアのMap形式のデータをタグ付きドロップダウンメニューで選択できるフォームフィールド。
 /// 各要素を追加・編集・削除可能。`FormStyle`で共通したデザインを適用可能。
 /// また`FormController`を利用することで選択状態を管理できます。
@@ -12,7 +16,7 @@ part of "/katana_form.dart";
 /// [FormMapDropdownField]とは異なり、タグのように複数選択が可能です。
 /// また、選択肢の追加や編集、削除も可能です。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// final tags = <String, String>{
@@ -44,6 +48,10 @@ part of "/katana_form.dart";
 class FormMapTagDropdownField<TValue> extends FormField<List<String>> {
   /// Drop down form to select from there with [Map] as an option.
   ///
+  /// A form field that allows you to select Key-Value pair Map format data from a tag-based dropdown menu.
+  /// You can add, edit, or delete each element. Common design can be applied with `FormStyle`.
+  /// Selection state can be managed using `FormController`.
+  ///
   /// Key-ValueペアのMap形式のデータをタグ付きドロップダウンメニューで選択できるフォームフィールド。
   /// 各要素を追加・編集・削除可能。`FormStyle`で共通したデザインを適用可能。
   /// また`FormController`を利用することで選択状態を管理できます。
@@ -54,7 +62,7 @@ class FormMapTagDropdownField<TValue> extends FormField<List<String>> {
   /// [FormMapDropdownField]とは異なり、タグのように複数選択が可能です。
   /// また、選択肢の追加や編集、削除も可能です。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// final tags = <String, String>{

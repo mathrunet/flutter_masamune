@@ -2,11 +2,15 @@ part of "/katana_form.dart";
 
 /// Form to select from there with [Map] as an option.
 ///
+/// A form field specialized for inputting Key-Value pair Map type data.
+/// Common design can be applied with `FormStyle`, and map data input and management can be performed using `FormController`.
+/// It provides features such as custom design.
+///
 /// Key-ValueペアのMap型のデータ入力に特化したフォームフィールド。
 /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用してマップデータの入力と管理を行うことができます。
 /// カスタムデザインなどの機能を備えています。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// final countries = <String, String>{
@@ -26,7 +30,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## バリデーション付きの使用例
+/// ## Usage Example with Validation バリデーション付きの使用例
 ///
 /// ```dart
 /// FormMapModalField(
@@ -47,11 +51,15 @@ part of "/katana_form.dart";
 class FormMapModalField<TValue> extends StatefulWidget {
   /// Form to select from there with [Map] as an option.
   ///
+  /// A form field specialized for inputting Key-Value pair Map type data.
+  /// Common design can be applied with `FormStyle`, and map data input and management can be performed using `FormController`.
+  /// It provides features such as custom design.
+  ///
   /// Key-ValueペアのMap型のデータ入力に特化したフォームフィールド。
   /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用してマップデータの入力と管理を行うことができます。
   /// カスタムデザインなどの機能を備えています。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// final countries = <String, String>{
@@ -71,7 +79,7 @@ class FormMapModalField<TValue> extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// ## バリデーション付きの使用例
+  /// ## Usage Example with Validation バリデーション付きの使用例
   ///
   /// ```dart
   /// FormMapModalField(

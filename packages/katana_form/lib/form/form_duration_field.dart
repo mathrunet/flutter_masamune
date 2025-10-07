@@ -2,23 +2,27 @@ part of "/katana_form.dart";
 
 /// Form to have the duration selected.
 ///
+/// A form field for inputting duration (Duration).
+/// You can set the duration in units such as hours, minutes, and seconds, with features like range restrictions and validation.
+/// Common design can be applied with `FormStyle`, and input values can be managed using `FormController`.
+///
 /// 時間の長さ（Duration）を入力するためのフォームフィールド。
 /// 時間、分、秒などの単位で時間の長さを設定でき、範囲制限やバリデーションなどの機能を備えています。
 /// `FormStyle`で共通したデザインを適用可能で、`FormController`を利用することで入力値を管理できます。
 ///
-/// ## 配置方法
+/// ## Placement 配置方法
 ///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
-/// ## フォーム管理
+/// ## Form Management フォーム管理
 ///
 /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
 ///
 /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
 ///
-/// ## 初期値とコールバック
+/// ## Initial Value and Callback 初期値とコールバック
 ///
 /// Enter the initial value given by [FormController.value] in [initialValue].
 ///
@@ -28,7 +32,7 @@ part of "/katana_form.dart";
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
-/// ## バリデーション
+/// ## Validation バリデーション
 ///
 /// If [FormController.validate] is executed, validation and data saving are performed.
 ///
@@ -44,19 +48,19 @@ part of "/katana_form.dart";
 /// それ以外のエラーチェックは[validator]を指定することで行ないます。
 /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
 ///
-/// ## イベント処理
+/// ## Event Handling イベント処理
 ///
 /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
 ///
 /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
 ///
-/// ## ピッカーのカスタマイズ
+/// ## Picker Customization ピッカーのカスタマイズ
 ///
 /// The interval selection method can be set by specifying [picker].
 ///
 /// [picker]を指定することで間隔の選択方法を設定することが可能です。
 ///
-/// ## フィールドの状態
+/// ## Field State フィールドの状態
 ///
 /// If [enabled] is `false`, the text is deactivated.
 ///
@@ -66,7 +70,7 @@ part of "/katana_form.dart";
 ///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormDurationField(
@@ -76,7 +80,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## 範囲制限の使用例
+/// ## Range Restriction Usage Example 範囲制限の使用例
 ///
 /// ```dart
 /// FormDurationField(
@@ -92,23 +96,27 @@ part of "/katana_form.dart";
 class FormDurationField<TValue> extends StatefulWidget {
   /// Form to have the duration selected.
   ///
+  /// A form field for inputting duration (Duration).
+  /// You can set the duration in units such as hours, minutes, and seconds, with features like range restrictions and validation.
+  /// Common design can be applied with `FormStyle`, and input values can be managed using `FormController`.
+  ///
   /// 時間の長さ（Duration）を入力するためのフォームフィールド。
   /// 時間、分、秒などの単位で時間の長さを設定でき、範囲制限やバリデーションなどの機能を備えています。
   /// `FormStyle`で共通したデザインを適用可能で、`FormController`を利用することで入力値を管理できます。
   ///
-  /// ## 配置方法
+  /// ## Placement 配置方法
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
-  /// ## フォーム管理
+  /// ## Form Management フォーム管理
   ///
   /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
   ///
   /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
   ///
-  /// ## 初期値とコールバック
+  /// ## Initial Value and Callback 初期値とコールバック
   ///
   /// Enter the initial value given by [FormController.value] in [initialValue].
   ///
@@ -118,7 +126,7 @@ class FormDurationField<TValue> extends StatefulWidget {
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
-  /// ## バリデーション
+  /// ## Validation バリデーション
   ///
   /// If [FormController.validate] is executed, validation and data saving are performed.
   ///
@@ -134,19 +142,19 @@ class FormDurationField<TValue> extends StatefulWidget {
   /// それ以外のエラーチェックは[validator]を指定することで行ないます。
   /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
   ///
-  /// ## イベント処理
+  /// ## Event Handling イベント処理
   ///
   /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
   ///
   /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
   ///
-  /// ## ピッカーのカスタマイズ
+  /// ## Picker Customization ピッカーのカスタマイズ
   ///
   /// The interval selection method can be set by specifying [picker].
   ///
   /// [picker]を指定することで間隔の選択方法を設定することが可能です。
   ///
-  /// ## フィールドの状態
+  /// ## Field State フィールドの状態
   ///
   /// If [enabled] is `false`, the text is deactivated.
   ///
@@ -156,7 +164,7 @@ class FormDurationField<TValue> extends StatefulWidget {
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormDurationField(
@@ -166,7 +174,7 @@ class FormDurationField<TValue> extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// ## 範囲制限の使用例
+  /// ## Range Restriction Usage Example 範囲制限の使用例
   ///
   /// ```dart
   /// FormDurationField(

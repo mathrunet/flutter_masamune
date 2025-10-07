@@ -2,34 +2,37 @@ part of "/katana_form.dart";
 
 /// Displays the label for each item on the form.
 ///
+/// A widget for displaying form field labels.
+/// Common design can be applied with `FormStyle`. It provides features such as required marks, help text, and error message display.
+///
 /// フォームフィールドのラベルを表示するためのウィジェット。
 /// `FormStyle`で共通したデザインを適用可能。必須マーク、ヘルプテキスト、エラーメッセージなどの表示機能を備えています。
 ///
-/// ## 基本的な使い方
+/// ## Basic Usage 基本的な使い方
 ///
 /// Pass the text to be displayed to [label].
 ///
 /// [label]に表示するテキストを渡します。
 ///
-/// ## アイコンの表示
+/// ## Icon Display アイコンの表示
 ///
 /// By specifying [icon], an icon is displayed before [label].
 ///
 /// [icon]を指定することで[label]の前にアイコンが表示されます。
 ///
-/// ## 色の変更
+/// ## Color Change 色の変更
 ///
 /// You can change the color of [label] and [icon] by specifying [color].
 ///
 /// [color]を指定すると[label]と[icon]の色を変えることができます。
 ///
-/// ## プレフィックス・サフィックス
+/// ## Prefix and Suffix プレフィックス・サフィックス
 ///
 /// If [prefix] and [suffix] are specified, widgets can be placed before and after the dividing line.
 ///
 /// [prefix]と[suffix]を指定すると分断線の前後にWidgetを配置することができます。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormLabel(
@@ -37,7 +40,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## アイコン付きの使用例
+/// ## Usage Example with Icon アイコン付きの使用例
 ///
 /// ```dart
 /// FormLabel(
@@ -46,7 +49,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## ヘルプテキスト付きの使用例
+/// ## Usage Example with Help Text ヘルプテキスト付きの使用例
 ///
 /// ```dart
 /// FormLabel(
@@ -58,34 +61,37 @@ part of "/katana_form.dart";
 class FormLabel extends StatelessWidget {
   /// Displays the label for each item on the form.
   ///
+  /// A widget for displaying form field labels.
+  /// Common design can be applied with `FormStyle`. It provides features such as required marks, help text, and error message display.
+  ///
   /// フォームフィールドのラベルを表示するためのウィジェット。
   /// `FormStyle`で共通したデザインを適用可能。必須マーク、ヘルプテキスト、エラーメッセージなどの表示機能を備えています。
   ///
-  /// ## 基本的な使い方
+  /// ## Basic Usage 基本的な使い方
   ///
   /// Pass the text to be displayed to [label].
   ///
   /// [label]に表示するテキストを渡します。
   ///
-  /// ## アイコンの表示
+  /// ## Icon Display アイコンの表示
   ///
   /// By specifying [icon], an icon is displayed before [label].
   ///
   /// [icon]を指定することで[label]の前にアイコンが表示されます。
   ///
-  /// ## 色の変更
+  /// ## Color Change 色の変更
   ///
   /// You can change the color of [label] and [icon] by specifying [color].
   ///
   /// [color]を指定すると[label]と[icon]の色を変えることができます。
   ///
-  /// ## プレフィックス・サフィックス
+  /// ## Prefix and Suffix プレフィックス・サフィックス
   ///
   /// If [prefix] and [suffix] are specified, widgets can be placed before and after the dividing line.
   ///
   /// [prefix]と[suffix]を指定すると分断線の前後にWidgetを配置することができます。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormLabel(
@@ -93,7 +99,7 @@ class FormLabel extends StatelessWidget {
   /// );
   /// ```
   ///
-  /// ## アイコン付きの使用例
+  /// ## Usage Example with Icon アイコン付きの使用例
   ///
   /// ```dart
   /// FormLabel(
@@ -102,7 +108,7 @@ class FormLabel extends StatelessWidget {
   /// );
   /// ```
   ///
-  /// ## ヘルプテキスト付きの使用例
+  /// ## Usage Example with Help Text ヘルプテキスト付きの使用例
   ///
   /// ```dart
   /// FormLabel(

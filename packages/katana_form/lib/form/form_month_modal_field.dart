@@ -2,10 +2,13 @@ part of "/katana_form.dart";
 
 /// A form to have the date (year and month) selected.
 ///
+/// A form field for selecting year and month in a modal.
+/// Common design can be applied with `FormStyle`, and selection state can be managed using `FormController`.
+///
 /// 年月をモーダルで選択するためのフォームフィールド。
 /// `FormStyle`で共通したデザインを適用可能で、`FormController`を利用することで選択状態を管理できます。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormMonthModalField(
@@ -15,7 +18,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## カスタムフォーマットの使用例
+/// ## Custom Format Usage Example カスタムフォーマットの使用例
 ///
 /// ```dart
 /// FormMonthModalField(
@@ -28,10 +31,13 @@ part of "/katana_form.dart";
 class FormMonthModalField<TValue> extends StatefulWidget {
   /// A form to have the date (year and month) selected.
   ///
+  /// A form field for selecting year and month in a modal.
+  /// Common design can be applied with `FormStyle`, and selection state can be managed using `FormController`.
+  ///
   /// 年月をモーダルで選択するためのフォームフィールド。
   /// `FormStyle`で共通したデザインを適用可能で、`FormController`を利用することで選択状態を管理できます。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormMonthModalField(
@@ -41,7 +47,7 @@ class FormMonthModalField<TValue> extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// ## カスタムフォーマットの使用例
+  /// ## Custom Format Usage Example カスタムフォーマットの使用例
   ///
   /// ```dart
   /// FormMonthModalField(

@@ -14,19 +14,19 @@ part of "/katana_form.dart";
 /// バリデーション、サジェスト機能（`SuggestionConfig`による高度な入力補完）、カスタムデザイン、
 /// フォーカス制御、複数行入力、文字数制限などの機能を備えています。
 ///
-/// ## 配置方法
+/// ## Placement 配置方法
 ///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
-/// ## フォーム管理
+/// ## Form Management フォーム管理
 ///
 /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
 ///
 /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
 ///
-/// ## 初期値とコールバック
+/// ## Initial Value and Callbacks 初期値とコールバック
 ///
 /// Enter the initial value given by [FormController.value] in [initialValue].
 ///
@@ -36,7 +36,7 @@ part of "/katana_form.dart";
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
-/// ## バリデーション
+/// ## Validation バリデーション
 ///
 /// When [FormController.validate] is executed, validation and data saving are performed.
 ///
@@ -54,7 +54,7 @@ part of "/katana_form.dart";
 /// それ以外のエラーチェックは[validator]を指定することで行ないます。
 /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
 ///
-/// ## イベント処理
+/// ## Event Processing イベント処理
 ///
 /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
 ///
@@ -64,7 +64,7 @@ part of "/katana_form.dart";
 ///
 /// フォーカスが変更された場合の処理を[onFocusChanged]が実行されます。
 ///
-/// ## サジェスト機能
+/// ## Suggestion Function サジェスト機能
 ///
 /// If [suggestion] is specified, suggestions will be displayed according to what you have entered.
 /// Use [SuggestionConfig] to configure suggestion behavior, including items, display conditions, and tap actions.
@@ -72,7 +72,7 @@ part of "/katana_form.dart";
 /// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
 /// [SuggestionConfig]を使用して、サジェストの候補リスト、表示条件、タップ時の動作などを設定します。
 ///
-/// ## テキストフィールドの状態
+/// ## Text Field State テキストフィールドの状態
 ///
 /// If [enabled] is `false`, the text is deactivated.
 ///
@@ -86,7 +86,7 @@ part of "/katana_form.dart";
 ///
 /// [obscureText]が`true`になると入力された文字列が隠されます。パスワードの入力などにご利用ください。
 ///
-/// ## 入力制限
+/// ## Input Restrictions 入力制限
 ///
 /// If [inputFormatters] is specified, it is possible to restrict the characters to be entered.
 ///
@@ -96,13 +96,13 @@ part of "/katana_form.dart";
 ///
 /// [maxLength]が指定されると入力できる最大文字数が制限されます。
 ///
-/// ## プレフィックス・サフィックス
+/// ## Prefix and Suffix プレフィックス・サフィックス
 ///
 /// Use [prefix] and [suffix] to add icons, labels, or other widgets before or after the text field.
 ///
 /// [prefix]と[suffix]を使用して、テキストフィールドの前後にアイコン、ラベル、その他のウィジェットを追加できます。
 ///
-/// ## 複数行入力
+/// ## Multi-line Input 複数行入力
 ///
 /// Set [maxLines] and [minLines] to allow multi-line input.
 /// Use [expands] to make the text field expand to fill its parent.
@@ -112,7 +112,7 @@ part of "/katana_form.dart";
 /// [expands]を使用して、テキストフィールドを親のサイズに合わせて拡張できます。
 /// 注意: [obscureText]は複数行入力と併用できません。
 ///
-/// ## フォーカス制御
+/// ## Focus Control フォーカス制御
 ///
 /// Use [focusNode] to control focus programmatically.
 /// Use [selectionOnFocus] to specify the selection behavior when focused.
@@ -120,7 +120,7 @@ part of "/katana_form.dart";
 /// [focusNode]を使用してプログラム的にフォーカスを制御します。
 /// [selectionOnFocus]を使用してフォーカス時の選択動作を指定します。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormTextField(
@@ -132,7 +132,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## サジェスト付きの使用例
+/// ## With Suggestion サジェスト付きの使用例
 ///
 /// ```dart
 /// FormTextField(
@@ -147,7 +147,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## バリデーション付きの使用例
+/// ## With Validation バリデーション付きの使用例
 ///
 /// ```dart
 /// FormTextField(
@@ -166,7 +166,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## パスワード入力の使用例
+/// ## Password Input パスワード入力の使用例
 ///
 /// ```dart
 /// FormTextField(
@@ -193,19 +193,19 @@ class FormTextField<TValue> extends StatefulWidget {
   /// バリデーション、サジェスト機能（`SuggestionConfig`による高度な入力補完）、カスタムデザイン、
   /// フォーカス制御、複数行入力、文字数制限などの機能を備えています。
   ///
-  /// ## 配置方法
+  /// ## Placement 配置方法
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
-  /// ## フォーム管理
+  /// ## Form Management フォーム管理
   ///
   /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
   ///
   /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
   ///
-  /// ## 初期値とコールバック
+  /// ## Initial Value and Callbacks 初期値とコールバック
   ///
   /// Enter the initial value given by [FormController.value] in [initialValue].
   ///
@@ -215,7 +215,7 @@ class FormTextField<TValue> extends StatefulWidget {
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
-  /// ## バリデーション
+  /// ## Validation バリデーション
   ///
   /// When [FormController.validate] is executed, validation and data saving are performed.
   ///
@@ -233,7 +233,7 @@ class FormTextField<TValue> extends StatefulWidget {
   /// それ以外のエラーチェックは[validator]を指定することで行ないます。
   /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
   ///
-  /// ## イベント処理
+  /// ## Event Processing イベント処理
   ///
   /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
   ///
@@ -243,7 +243,7 @@ class FormTextField<TValue> extends StatefulWidget {
   ///
   /// フォーカスが変更された場合の処理を[onFocusChanged]が実行されます。
   ///
-  /// ## サジェスト機能
+  /// ## Suggestion Function サジェスト機能
   ///
   /// If [suggestion] is specified, suggestions will be displayed according to what you have entered.
   /// Use [SuggestionConfig] to configure suggestion behavior, including items, display conditions, and tap actions.
@@ -251,7 +251,7 @@ class FormTextField<TValue> extends StatefulWidget {
   /// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
   /// [SuggestionConfig]を使用して、サジェストの候補リスト、表示条件、タップ時の動作などを設定します。
   ///
-  /// ## テキストフィールドの状態
+  /// ## Text Field State テキストフィールドの状態
   ///
   /// If [enabled] is `false`, the text is deactivated.
   ///
@@ -265,7 +265,7 @@ class FormTextField<TValue> extends StatefulWidget {
   ///
   /// [obscureText]が`true`になると入力された文字列が隠されます。パスワードの入力などにご利用ください。
   ///
-  /// ## 入力制限
+  /// ## Input Restrictions 入力制限
   ///
   /// If [inputFormatters] is specified, it is possible to restrict the characters to be entered.
   ///
@@ -275,13 +275,13 @@ class FormTextField<TValue> extends StatefulWidget {
   ///
   /// [maxLength]が指定されると入力できる最大文字数が制限されます。
   ///
-  /// ## プレフィックス・サフィックス
+  /// ## Prefix and Suffix プレフィックス・サフィックス
   ///
   /// Use [prefix] and [suffix] to add icons, labels, or other widgets before or after the text field.
   ///
   /// [prefix]と[suffix]を使用して、テキストフィールドの前後にアイコン、ラベル、その他のウィジェットを追加できます。
   ///
-  /// ## 複数行入力
+  /// ## Multi-line Input 複数行入力
   ///
   /// Set [maxLines] and [minLines] to allow multi-line input.
   /// Use [expands] to make the text field expand to fill its parent.
@@ -291,7 +291,7 @@ class FormTextField<TValue> extends StatefulWidget {
   /// [expands]を使用して、テキストフィールドを親のサイズに合わせて拡張できます。
   /// 注意: [obscureText]は複数行入力と併用できません。
   ///
-  /// ## フォーカス制御
+  /// ## Focus Control フォーカス制御
   ///
   /// Use [focusNode] to control focus programmatically.
   /// Use [selectionOnFocus] to specify the selection behavior when focused.
@@ -299,7 +299,7 @@ class FormTextField<TValue> extends StatefulWidget {
   /// [focusNode]を使用してプログラム的にフォーカスを制御します。
   /// [selectionOnFocus]を使用してフォーカス時の選択動作を指定します。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormTextField(
@@ -311,7 +311,7 @@ class FormTextField<TValue> extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// ## サジェスト付きの使用例
+  /// ## With Suggestion サジェスト付きの使用例
   ///
   /// ```dart
   /// FormTextField(
@@ -326,7 +326,7 @@ class FormTextField<TValue> extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// ## バリデーション付きの使用例
+  /// ## With Validation バリデーション付きの使用例
   ///
   /// ```dart
   /// FormTextField(
@@ -345,7 +345,7 @@ class FormTextField<TValue> extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// ## パスワード入力の使用例
+  /// ## Password Input パスワード入力の使用例
   ///
   /// ```dart
   /// FormTextField(

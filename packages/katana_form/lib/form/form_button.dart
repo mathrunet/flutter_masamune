@@ -2,11 +2,17 @@ part of "/katana_form.dart";
 
 /// Create buttons for forms.
 ///
+/// フォーム用のボタンを作成します。
+///
+/// Masamune framework version of `ElevatedButton`, `FilledButton`, `OutlinedButton`, `TextButton`.
+/// Common design can be applied with `FormStyle`. Also, form submission can be performed in cooperation with `FormController`.
+/// Of course, it can also be used as a regular button. It has functions such as icon display and custom design.
+///
 /// `ElevatedButton`、`FilledButton`、`OutlinedButton`、`TextButton`のMasamuneフレームワーク版。
 /// `FormStyle`で共通したデザインを適用可能。また`FormController`と連携してフォームの送信等を行うことができます。
 /// 勿論通常のボタンとしても利用可能です。アイコン表示、カスタムデザインなどの機能を備えています。
 ///
-/// ## 基本的な使い方
+/// ## Basic Usage 基本的な使い方
 ///
 /// Specify the label to be displayed on the button in [label].
 ///
@@ -16,25 +22,25 @@ part of "/katana_form.dart";
 ///
 /// [onPressed]でボタンが押された場合の処理を記述できます。
 ///
-/// ## アイコンの表示
+/// ## Icon Display アイコンの表示
 ///
 /// If [icon] is specified, an icon is displayed to the left of the label.
 ///
 /// [icon]を指定した場合は、ラベルの左側にアイコンが表示されます。
 ///
-/// ## ボタンの有効/無効
+/// ## Button Enable/Disable ボタンの有効/無効
 ///
 /// If [enabled] is set to `false`, the button cannot be pressed.
 ///
 /// [enabled]を`false`にした場合ボタンが押せなくなります。
 ///
-/// ## スタイルのカスタマイズ
+/// ## Style Customization スタイルのカスタマイズ
 ///
 /// The style of the button can be changed by specifying [style].
 ///
 /// [style]を指定するとボタンのスタイルを変更することが可能です。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormButton(
@@ -50,7 +56,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## アイコン付きの使用例
+/// ## With Icon アイコン付きの使用例
 ///
 /// ```dart
 /// FormButton(
@@ -67,7 +73,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## カスタムデザインの使用例
+/// ## Custom Design カスタムデザインの使用例
 ///
 /// ```dart
 /// FormButton(
@@ -92,11 +98,17 @@ part of "/katana_form.dart";
 class FormButton extends StatelessWidget {
   /// Create buttons for forms.
   ///
+  /// フォーム用のボタンを作成します。
+  ///
+  /// Masamune framework version of `ElevatedButton`, `FilledButton`, `OutlinedButton`, `TextButton`.
+  /// Common design can be applied with `FormStyle`. Also, form submission can be performed in cooperation with `FormController`.
+  /// Of course, it can also be used as a regular button. It has functions such as icon display and custom design.
+  ///
   /// `ElevatedButton`、`FilledButton`、`OutlinedButton`、`TextButton`のMasamuneフレームワーク版。
   /// `FormStyle`で共通したデザインを適用可能。また`FormController`と連携してフォームの送信等を行うことができます。
   /// 勿論通常のボタンとしても利用可能です。アイコン表示、カスタムデザインなどの機能を備えています。
   ///
-  /// ## 基本的な使い方
+  /// ## Basic Usage 基本的な使い方
   ///
   /// Specify the label to be displayed on the button in [label].
   ///
@@ -106,25 +118,25 @@ class FormButton extends StatelessWidget {
   ///
   /// [onPressed]でボタンが押された場合の処理を記述できます。
   ///
-  /// ## アイコンの表示
+  /// ## Icon Display アイコンの表示
   ///
   /// If [icon] is specified, an icon is displayed to the left of the label.
   ///
   /// [icon]を指定した場合は、ラベルの左側にアイコンが表示されます。
   ///
-  /// ## ボタンの有効/無効
+  /// ## Button Enable/Disable ボタンの有効/無効
   ///
   /// If [enabled] is set to `false`, the button cannot be pressed.
   ///
   /// [enabled]を`false`にした場合ボタンが押せなくなります。
   ///
-  /// ## スタイルのカスタマイズ
+  /// ## Style Customization スタイルのカスタマイズ
   ///
   /// The style of the button can be changed by specifying [style].
   ///
   /// [style]を指定するとボタンのスタイルを変更することが可能です。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormButton(
@@ -140,7 +152,7 @@ class FormButton extends StatelessWidget {
   /// );
   /// ```
   ///
-  /// ## アイコン付きの使用例
+  /// ## With Icon アイコン付きの使用例
   ///
   /// ```dart
   /// FormButton(
@@ -157,7 +169,7 @@ class FormButton extends StatelessWidget {
   /// );
   /// ```
   ///
-  /// ## カスタムデザインの使用例
+  /// ## Custom Design カスタムデザインの使用例
   ///
   /// ```dart
   /// FormButton(

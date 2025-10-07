@@ -2,23 +2,29 @@ part of "/katana_form.dart";
 
 /// A form to have the date (month and day) selected.
 ///
+/// 日付（月日）を選択させるためのフォーム。
+///
+/// A form field that allows you to select a date using a modal picker.
+/// Common design can be applied with `FormStyle`. Also, date values can be managed using `FormController`.
+/// It has functions such as custom format.
+///
 /// モーダルピッカーにて日付を選択することができるフォームフィールド。
 /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで日付の値を管理可能。
 /// カスタムフォーマットなどの機能を備えています。
 ///
-/// ## 配置方法
+/// ## Placement 配置方法
 ///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
-/// ## フォーム管理
+/// ## Form Management フォーム管理
 ///
 /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
 ///
 /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
 ///
-/// ## 初期値とコールバック
+/// ## Initial Value and Callbacks 初期値とコールバック
 ///
 /// Enter the initial value given by [FormController.value] in [initialValue].
 ///
@@ -28,7 +34,7 @@ part of "/katana_form.dart";
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
-/// ## バリデーション
+/// ## Validation バリデーション
 ///
 /// If [FormController.validate] is executed, validation and data saving are performed.
 ///
@@ -44,19 +50,19 @@ part of "/katana_form.dart";
 /// それ以外のエラーチェックは[validator]を指定することで行ないます。
 /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
 ///
-/// ## イベント処理
+/// ## Event Processing イベント処理
 ///
 /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
 ///
 /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
 ///
-/// ## ピッカーのカスタマイズ
+/// ## Picker Customization ピッカーのカスタマイズ
 ///
 /// The date selection method can be set by specifying [picker].
 ///
 /// [picker]を指定することで日付の選択方法を設定することが可能です。
 ///
-/// ## フィールドの状態
+/// ## Field State フィールドの状態
 ///
 /// If [enabled] is `false`, the text is deactivated.
 ///
@@ -66,7 +72,7 @@ part of "/katana_form.dart";
 ///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormDateField(
@@ -76,7 +82,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## カスタムフォーマット付きの使用例
+/// ## With Custom Format カスタムフォーマット付きの使用例
 ///
 /// ```dart
 /// FormDateField(
@@ -87,7 +93,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## バリデーション付きの使用例
+/// ## With Validation バリデーション付きの使用例
 ///
 /// ```dart
 /// FormDateField(
@@ -108,23 +114,29 @@ part of "/katana_form.dart";
 class FormDateField<TValue> extends StatefulWidget {
   /// A form to have the date (month and day) selected.
   ///
+  /// 日付（月日）を選択させるためのフォーム。
+  ///
+  /// A form field that allows you to select a date using a modal picker.
+  /// Common design can be applied with `FormStyle`. Also, date values can be managed using `FormController`.
+  /// It has functions such as custom format.
+  ///
   /// モーダルピッカーにて日付を選択することができるフォームフィールド。
   /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで日付の値を管理可能。
   /// カスタムフォーマットなどの機能を備えています。
   ///
-  /// ## 配置方法
+  /// ## Placement 配置方法
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
-  /// ## フォーム管理
+  /// ## Form Management フォーム管理
   ///
   /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
   ///
   /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
   ///
-  /// ## 初期値とコールバック
+  /// ## Initial Value and Callbacks 初期値とコールバック
   ///
   /// Enter the initial value given by [FormController.value] in [initialValue].
   ///
@@ -134,7 +146,7 @@ class FormDateField<TValue> extends StatefulWidget {
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
-  /// ## バリデーション
+  /// ## Validation バリデーション
   ///
   /// If [FormController.validate] is executed, validation and data saving are performed.
   ///
@@ -150,19 +162,19 @@ class FormDateField<TValue> extends StatefulWidget {
   /// それ以外のエラーチェックは[validator]を指定することで行ないます。
   /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
   ///
-  /// ## イベント処理
+  /// ## Event Processing イベント処理
   ///
   /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
   ///
   /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
   ///
-  /// ## ピッカーのカスタマイズ
+  /// ## Picker Customization ピッカーのカスタマイズ
   ///
   /// The date selection method can be set by specifying [picker].
   ///
   /// [picker]を指定することで日付の選択方法を設定することが可能です。
   ///
-  /// ## フィールドの状態
+  /// ## Field State フィールドの状態
   ///
   /// If [enabled] is `false`, the text is deactivated.
   ///
@@ -172,7 +184,7 @@ class FormDateField<TValue> extends StatefulWidget {
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormDateField(
@@ -182,7 +194,7 @@ class FormDateField<TValue> extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// ## カスタムフォーマット付きの使用例
+  /// ## With Custom Format カスタムフォーマット付きの使用例
   ///
   /// ```dart
   /// FormDateField(
@@ -193,7 +205,7 @@ class FormDateField<TValue> extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// ## バリデーション付きの使用例
+  /// ## With Validation バリデーション付きの使用例
   ///
   /// ```dart
   /// FormDateField(

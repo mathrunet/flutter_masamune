@@ -5,6 +5,9 @@ const _kDefaultHeight = 196.0;
 
 /// Form for submitting images and videos. Single media can be submitted.
 ///
+/// A form field that allows you to select only one image or video.
+/// Common design can be applied with `FormStyle`, and media selection and management can be performed using `FormController`.
+///
 /// 画像や動画を1つだけ選択できるフォームフィールド。
 /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用してメディアの選択と管理を行うことができます。
 ///
@@ -12,7 +15,7 @@ const _kDefaultHeight = 196.0;
 ///
 /// メディアはすべて[FormMediaValue]で管理されます。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormMedia(
@@ -47,6 +50,9 @@ const _kDefaultHeight = 196.0;
 class FormMedia<TValue> extends FormField<FormMediaValue> {
   /// Form for submitting images and videos. Single media can be submitted.
   ///
+  /// A form field that allows you to select only one image or video.
+  /// Common design can be applied with `FormStyle`, and media selection and management can be performed using `FormController`.
+  ///
   /// 画像や動画を1つだけ選択できるフォームフィールド。
   /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用してメディアの選択と管理を行うことができます。
   ///
@@ -54,7 +60,7 @@ class FormMedia<TValue> extends FormField<FormMediaValue> {
   ///
   /// メディアはすべて[FormMediaValue]で管理されます。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormMedia(

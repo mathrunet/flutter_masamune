@@ -2,10 +2,13 @@ part of "/katana_form.dart";
 
 /// Drop down form to select from there with [Map] as an option.
 ///
+/// A form field that allows you to select Key-Value pair Map format data from a dropdown menu.
+/// Common design can be applied with `FormStyle`, and selection state can be managed using `FormController`.
+///
 /// Key-ValueペアのMap形式のデータをドロップダウンメニューで選択できるフォームフィールド。
 /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// final countries = <String, String>{
@@ -25,7 +28,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## バリデーション付きの使用例
+/// ## Usage Example with Validation バリデーション付きの使用例
 ///
 /// ```dart
 /// FormMapDropdownField(
@@ -46,10 +49,13 @@ part of "/katana_form.dart";
 class FormMapDropdownField<TValue> extends FormField<String> {
   /// Drop down form to select from there with [Map] as an option.
   ///
+  /// A form field that allows you to select Key-Value pair Map format data from a dropdown menu.
+  /// Common design can be applied with `FormStyle`, and selection state can be managed using `FormController`.
+  ///
   /// Key-ValueペアのMap形式のデータをドロップダウンメニューで選択できるフォームフィールド。
   /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// final countries = <String, String>{
@@ -69,7 +75,7 @@ class FormMapDropdownField<TValue> extends FormField<String> {
   /// );
   /// ```
   ///
-  /// ## バリデーション付きの使用例
+  /// ## Usage Example with Validation バリデーション付きの使用例
   ///
   /// ```dart
   /// FormMapDropdownField(

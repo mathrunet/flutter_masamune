@@ -7,11 +7,17 @@ const kDefaultCheckboxBorderWidth = 2.0;
 
 /// This widget is used to display a check box and save the check or not.
 ///
+/// チェックボックスを表示して、チェックの有無を保存するためのウィジェットです。
+///
+/// Masamune framework version of `Checkbox`. Common design can be applied with `FormStyle`.
+/// Also, the value of `Checkbox` can be managed using `FormController`.
+/// It has functions such as labeled checkboxes and custom designs.
+///
 /// `Checkbox`のMasamuneフレームワーク版。`FormStyle`で共通したデザインを適用可能。
 /// また`FormController`を利用することで`Checkbox`の値を管理可能。
 /// ラベル付きチェックボックスやカスタムデザインなどの機能を備えています。
 ///
-/// ## ラベルの表示
+/// ## Label Display ラベルの表示
 ///
 /// If [labelText] or [labelWidget] is specified, the checkbox is displayed with a label.
 /// Only one of [labelText] and [labelWidget] should be specified.
@@ -19,19 +25,19 @@ const kDefaultCheckboxBorderWidth = 2.0;
 /// [labelText]もしくは[labelWidget]を指定するとラベル付きでチェックボックスが表示されます。
 /// [labelText]と[labelWidget]はどちらか一方のみを指定してください。
 ///
-/// ## 配置方法
+/// ## Placement 配置方法
 ///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
-/// ## フォーム管理
+/// ## Form Management フォーム管理
 ///
 /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
 ///
 /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
 ///
-/// ## 初期値とコールバック
+/// ## Initial Value and Callbacks 初期値とコールバック
 ///
 /// Enter the initial value given by [FormController.value] in [initialValue].
 ///
@@ -41,13 +47,13 @@ const kDefaultCheckboxBorderWidth = 2.0;
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
-/// ## バリデーション
+/// ## Validation バリデーション
 ///
 /// When [FormController.validate] is executed, validation and data saving are performed.
 ///
 /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
 ///
-/// ## チェックボックスの状態
+/// ## Checkbox State チェックボックスの状態
 ///
 /// If [enabled] is `false`, the checkbox is deactivated.
 ///
@@ -57,7 +63,7 @@ const kDefaultCheckboxBorderWidth = 2.0;
 ///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、値が変更できなくなります。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormCheckbox(
@@ -67,7 +73,7 @@ const kDefaultCheckboxBorderWidth = 2.0;
 /// );
 /// ```
 ///
-/// ## ラベル付きの使用例
+/// ## With Label ラベル付きの使用例
 ///
 /// ```dart
 /// FormCheckbox(
@@ -78,7 +84,7 @@ const kDefaultCheckboxBorderWidth = 2.0;
 /// );
 /// ```
 ///
-/// ## バリデーション付きの使用例
+/// ## With Validation バリデーション付きの使用例
 ///
 /// ```dart
 /// FormCheckbox(
@@ -97,11 +103,17 @@ const kDefaultCheckboxBorderWidth = 2.0;
 class FormCheckbox<TValue> extends FormField<bool> {
   /// This widget is used to display a check box and save the check or not.
   ///
+  /// チェックボックスを表示して、チェックの有無を保存するためのウィジェットです。
+  ///
+  /// Masamune framework version of `Checkbox`. Common design can be applied with `FormStyle`.
+  /// Also, the value of `Checkbox` can be managed using `FormController`.
+  /// It has functions such as labeled checkboxes and custom designs.
+  ///
   /// `Checkbox`のMasamuneフレームワーク版。`FormStyle`で共通したデザインを適用可能。
   /// また`FormController`を利用することで`Checkbox`の値を管理可能。
   /// ラベル付きチェックボックスやカスタムデザインなどの機能を備えています。
   ///
-  /// ## ラベルの表示
+  /// ## Label Display ラベルの表示
   ///
   /// If [labelText] or [labelWidget] is specified, the checkbox is displayed with a label.
   /// Only one of [labelText] and [labelWidget] should be specified.
@@ -109,19 +121,19 @@ class FormCheckbox<TValue> extends FormField<bool> {
   /// [labelText]もしくは[labelWidget]を指定するとラベル付きでチェックボックスが表示されます。
   /// [labelText]と[labelWidget]はどちらか一方のみを指定してください。
   ///
-  /// ## 配置方法
+  /// ## Placement 配置方法
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
-  /// ## フォーム管理
+  /// ## Form Management フォーム管理
   ///
   /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
   ///
   /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
   ///
-  /// ## 初期値とコールバック
+  /// ## Initial Value and Callbacks 初期値とコールバック
   ///
   /// Enter the initial value given by [FormController.value] in [initialValue].
   ///
@@ -131,13 +143,13 @@ class FormCheckbox<TValue> extends FormField<bool> {
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
-  /// ## バリデーション
+  /// ## Validation バリデーション
   ///
   /// When [FormController.validate] is executed, validation and data saving are performed.
   ///
   /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
   ///
-  /// ## チェックボックスの状態
+  /// ## Checkbox State チェックボックスの状態
   ///
   /// If [enabled] is `false`, the checkbox is deactivated.
   ///
@@ -147,7 +159,7 @@ class FormCheckbox<TValue> extends FormField<bool> {
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、値が変更できなくなります。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormCheckbox(
@@ -157,7 +169,7 @@ class FormCheckbox<TValue> extends FormField<bool> {
   /// );
   /// ```
   ///
-  /// ## ラベル付きの使用例
+  /// ## With Label ラベル付きの使用例
   ///
   /// ```dart
   /// FormCheckbox(
@@ -168,7 +180,7 @@ class FormCheckbox<TValue> extends FormField<bool> {
   /// );
   /// ```
   ///
-  /// ## バリデーション付きの使用例
+  /// ## With Validation バリデーション付きの使用例
   ///
   /// ```dart
   /// FormCheckbox(

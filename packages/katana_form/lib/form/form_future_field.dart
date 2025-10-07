@@ -2,11 +2,15 @@ part of "/katana_form.dart";
 
 /// A form that waits for another process to complete and updates the value of the form based on that value.
 ///
+/// A form field for displaying and inputting asynchronous processing results.
+/// Common design can be applied with `FormStyle`, and asynchronous data can be managed and displayed using `FormController`.
+/// It is often used to create form fields in `Modal` or another `Page` and receive the results.
+///
 /// 非同期処理の結果を表示・入力するためのフォームフィールド。
 /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで非同期データの管理と表示を行えます。
 /// 主に`Modal`や別`Page`にフォームフィールドを作成し、その結果を受け取るために利用することが多いです。
 ///
-/// ## onTapの使用方法
+/// ## onTap Usage onTapの使用方法
 ///
 /// Use this when moving to another page and updating form values based on values entered on that page, or updating form values based on API responses.
 ///
@@ -16,13 +20,13 @@ part of "/katana_form.dart";
 ///
 /// [onTap]を指定することでタップした後のデータ取得処理を記述します。
 ///
-/// ## ビルダーの使用方法
+/// ## Builder Usage ビルダーの使用方法
 ///
 /// You can freely change the display by passing a widget with [builder].
 ///
 /// [builder]でウィジェットを渡すことで自由に表示を変更できます。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormFutureField(
@@ -38,7 +42,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## 表示テキストを変更する使用例
+/// ## Change Display Text Usage Example 表示テキストを変更する使用例
 ///
 /// ```dart
 /// FormFutureField(
@@ -57,11 +61,15 @@ part of "/katana_form.dart";
 class FormFutureField<T extends Object, TValue> extends FormField<T> {
   /// A form that waits for another process to complete and updates the value of the form based on that value.
   ///
+  /// A form field for displaying and inputting asynchronous processing results.
+  /// Common design can be applied with `FormStyle`, and asynchronous data can be managed and displayed using `FormController`.
+  /// It is often used to create form fields in `Modal` or another `Page` and receive the results.
+  ///
   /// 非同期処理の結果を表示・入力するためのフォームフィールド。
   /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで非同期データの管理と表示を行えます。
   /// 主に`Modal`や別`Page`にフォームフィールドを作成し、その結果を受け取るために利用することが多いです。
   ///
-  /// ## onTapの使用方法
+  /// ## onTap Usage onTapの使用方法
   ///
   /// Use this when moving to another page and updating form values based on values entered on that page, or updating form values based on API responses.
   ///
@@ -71,13 +79,13 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
   ///
   /// [onTap]を指定することでタップした後のデータ取得処理を記述します。
   ///
-  /// ## ビルダーの使用方法
+  /// ## Builder Usage ビルダーの使用方法
   ///
   /// You can freely change the display by passing a widget with [builder].
   ///
   /// [builder]でウィジェットを渡すことで自由に表示を変更できます。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormFutureField(
@@ -93,7 +101,7 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
   /// );
   /// ```
   ///
-  /// ## 表示テキストを変更する使用例
+  /// ## Change Display Text Usage Example 表示テキストを変更する使用例
   ///
   /// ```dart
   /// FormFutureField(

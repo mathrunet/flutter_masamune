@@ -2,10 +2,13 @@ part of "/katana_form.dart";
 
 /// A form to let you select a numerical value.
 ///
+/// A form field for selecting numerical values in a modal.
+/// Common design can be applied with `FormStyle`, and selection state can be managed using `FormController`.
+///
 /// 数値をモーダルで選択するためのフォームフィールド。
 /// `FormStyle`で共通したデザインを適用可能で、`FormController`を利用することで選択状態を管理できます。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormNumModalField(
@@ -15,7 +18,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## 範囲指定の使用例
+/// ## Range Specification Usage Example 範囲指定の使用例
 ///
 /// ```dart
 /// FormNumModalField(
@@ -32,10 +35,13 @@ part of "/katana_form.dart";
 class FormNumModalField<TValue> extends StatefulWidget {
   /// A form to let you select a numerical value.
   ///
+  /// A form field for selecting numerical values in a modal.
+  /// Common design can be applied with `FormStyle`, and selection state can be managed using `FormController`.
+  ///
   /// 数値をモーダルで選択するためのフォームフィールド。
   /// `FormStyle`で共通したデザインを適用可能で、`FormController`を利用することで選択状態を管理できます。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormNumModalField(
@@ -45,7 +51,7 @@ class FormNumModalField<TValue> extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// ## 範囲指定の使用例
+  /// ## Range Specification Usage Example 範囲指定の使用例
   ///
   /// ```dart
   /// FormNumModalField(

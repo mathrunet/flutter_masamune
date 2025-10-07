@@ -2,23 +2,27 @@ part of "/katana_form.dart";
 
 /// A builder that can add and delete forms.
 ///
+/// A form builder that can dynamically add, delete, and edit list-format data.
+/// Common design can be applied with `FormStyle`, and list state management can be performed using `FormController`.
+/// It provides features such as validation and custom design.
+///
 /// リスト形式のデータを動的に追加・削除・編集できるフォームビルダー。
 /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでリストの状態管理を行えます。
 /// バリデーション、カスタムデザインなどの機能を備えています。
 ///
-/// ## ビルダーの使用方法
+/// ## Builder Usage ビルダーの使用方法
 ///
 /// Make [builder] return each form.
 ///
 /// [builder]に各フォームを返すようにしてください。
 ///
-/// ## 追加・削除ボタンの配置
+/// ## Add and Delete Button Placement 追加・削除ボタンの配置
 ///
 /// You can specify [top] or [bottom] to place additional buttons on the form.
 ///
 /// [top]や[bottom]を指定することでフォームの追加ボタンの設置を行うことが可能です。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormListBuilder(
@@ -57,23 +61,27 @@ part of "/katana_form.dart";
 class FormListBuilder<T, TValue> extends FormField<List<T>> {
   /// A builder that can add and delete forms.
   ///
+  /// A form builder that can dynamically add, delete, and edit list-format data.
+  /// Common design can be applied with `FormStyle`, and list state management can be performed using `FormController`.
+  /// It provides features such as validation and custom design.
+  ///
   /// リスト形式のデータを動的に追加・削除・編集できるフォームビルダー。
   /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでリストの状態管理を行えます。
   /// バリデーション、カスタムデザインなどの機能を備えています。
   ///
-  /// ## ビルダーの使用方法
+  /// ## Builder Usage ビルダーの使用方法
   ///
   /// Make [builder] return each form.
   ///
   /// [builder]に各フォームを返すようにしてください。
   ///
-  /// ## 追加・削除ボタンの配置
+  /// ## Add and Delete Button Placement 追加・削除ボタンの配置
   ///
   /// You can specify [top] or [bottom] to place additional buttons on the form.
   ///
   /// [top]や[bottom]を指定することでフォームの追加ボタンの設置を行うことが可能です。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormListBuilder(

@@ -14,12 +14,19 @@ typedef ChipBuilder<T> = Widget Function(
 
 /// Form to allow text to be entered and saved separately as [Chip].
 ///
+/// テキストを入力して[Chip]として分けて保存できるようにするためのフォーム。
+///
+/// A form field that can display and select multiple options using `Chip` widget.
+/// Text input can be performed at the same time, so it is possible to create and search for new options.
+/// Ideal for tag selection and filter selection, common design can be applied with `FormStyle`.
+/// Also, the selection state can be managed using `FormController`.
+///
 /// `Chip`ウィジェットを使用して複数の選択肢を表示・選択できるフォームフィールド。
 /// テキスト入力を同時に行えるため、選択肢を新しく作ったり、検索したりすることが可能。
 /// タグ選択やフィルター選択などに最適で、`FormStyle`で共通したデザインを適用可能。
 /// また`FormController`を利用することで選択状態を管理できます。
 ///
-/// ## ビルダーの指定
+/// ## Builder Specification ビルダーの指定
 ///
 /// It can be used to create tags, etc.
 ///
@@ -29,19 +36,19 @@ typedef ChipBuilder<T> = Widget Function(
 ///
 /// [builder]を指定して、実際の[Chip]を作成します。
 ///
-/// ## 配置方法
+/// ## Placement 配置方法
 ///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
-/// ## フォーム管理
+/// ## Form Management フォーム管理
 ///
 /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
 ///
 /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
 ///
-/// ## 初期値とコールバック
+/// ## Initial Value and Callbacks 初期値とコールバック
 ///
 /// Enter the initial value given by [FormController.value] in [initialValue].
 ///
@@ -51,13 +58,13 @@ typedef ChipBuilder<T> = Widget Function(
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
-/// ## サジェスト機能
+/// ## Suggestion Function サジェスト機能
 ///
 /// If [suggestion] is specified, suggestions will be displayed according to what you have entered.
 ///
 /// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
 ///
-/// ## バリデーション
+/// ## Validation バリデーション
 ///
 /// When [FormController.validate] is executed, validation and data saving are performed.
 ///
@@ -73,7 +80,7 @@ typedef ChipBuilder<T> = Widget Function(
 /// それ以外のエラーチェックは[validator]を指定することで行ないます。
 /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
 ///
-/// ## フィールドの状態
+/// ## Field State フィールドの状態
 ///
 /// If [enabled] is `false`, the text is deactivated.
 ///
@@ -83,7 +90,7 @@ typedef ChipBuilder<T> = Widget Function(
 ///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// FormChipsField(
@@ -98,7 +105,7 @@ typedef ChipBuilder<T> = Widget Function(
 /// );
 /// ```
 ///
-/// ## サジェスト付きの使用例
+/// ## With Suggestion サジェスト付きの使用例
 ///
 /// ```dart
 /// FormChipsField(
@@ -116,12 +123,19 @@ typedef ChipBuilder<T> = Widget Function(
 class FormChipsField<TValue> extends FormField<List<String>> {
   /// Form to allow text to be entered and saved separately as [Chip].
   ///
+  /// テキストを入力して[Chip]として分けて保存できるようにするためのフォーム。
+  ///
+  /// A form field that can display and select multiple options using `Chip` widget.
+  /// Text input can be performed at the same time, so it is possible to create and search for new options.
+  /// Ideal for tag selection and filter selection, common design can be applied with `FormStyle`.
+  /// Also, the selection state can be managed using `FormController`.
+  ///
   /// `Chip`ウィジェットを使用して複数の選択肢を表示・選択できるフォームフィールド。
   /// テキスト入力を同時に行えるため、選択肢を新しく作ったり、検索したりすることが可能。
   /// タグ選択やフィルター選択などに最適で、`FormStyle`で共通したデザインを適用可能。
   /// また`FormController`を利用することで選択状態を管理できます。
   ///
-  /// ## ビルダーの指定
+  /// ## Builder Specification ビルダーの指定
   ///
   /// It can be used to create tags, etc.
   ///
@@ -131,19 +145,19 @@ class FormChipsField<TValue> extends FormField<List<String>> {
   ///
   /// [builder]を指定して、実際の[Chip]を作成します。
   ///
-  /// ## 配置方法
+  /// ## Placement 配置方法
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
-  /// ## フォーム管理
+  /// ## Form Management フォーム管理
   ///
   /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
   ///
   /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
   ///
-  /// ## 初期値とコールバック
+  /// ## Initial Value and Callbacks 初期値とコールバック
   ///
   /// Enter the initial value given by [FormController.value] in [initialValue].
   ///
@@ -153,13 +167,13 @@ class FormChipsField<TValue> extends FormField<List<String>> {
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
-  /// ## サジェスト機能
+  /// ## Suggestion Function サジェスト機能
   ///
   /// If [suggestion] is specified, suggestions will be displayed according to what you have entered.
   ///
   /// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
   ///
-  /// ## バリデーション
+  /// ## Validation バリデーション
   ///
   /// When [FormController.validate] is executed, validation and data saving are performed.
   ///
@@ -175,7 +189,7 @@ class FormChipsField<TValue> extends FormField<List<String>> {
   /// それ以外のエラーチェックは[validator]を指定することで行ないます。
   /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
   ///
-  /// ## フィールドの状態
+  /// ## Field State フィールドの状態
   ///
   /// If [enabled] is `false`, the text is deactivated.
   ///
@@ -185,7 +199,7 @@ class FormChipsField<TValue> extends FormField<List<String>> {
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// FormChipsField(
@@ -200,7 +214,7 @@ class FormChipsField<TValue> extends FormField<List<String>> {
   /// );
   /// ```
   ///
-  /// ## サジェスト付きの使用例
+  /// ## With Suggestion サジェスト付きの使用例
   ///
   /// ```dart
   /// FormChipsField(

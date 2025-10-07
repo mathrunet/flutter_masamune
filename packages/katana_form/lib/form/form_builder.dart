@@ -2,23 +2,29 @@ part of "/katana_form.dart";
 
 /// A builder that can freely change the UI within a form.
 ///
+/// フォームの中のUIを自由に変更することができるビルダー。
+///
+/// A builder for building custom forms using `FormController`.
+/// The `ref.update` method allows you to update form information,
+/// so you can build forms with buttons or forms displayed in modals.
+///
 /// `FormController`を使用して独自のフォームを構築するためのビルダー。
 /// `ref.update`メソッドでフォームの情報を更新することができるため、
 /// ボタンを並べたフォームやモーダルで表示するフォームなどを構築することができます。
 ///
-/// ## 配置方法
+/// ## Placement 配置方法
 ///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
-/// ## フォーム管理
+/// ## Form Management フォーム管理
 ///
 /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
 ///
 /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
 ///
-/// ## 初期値とコールバック
+/// ## Initial Value and Callbacks 初期値とコールバック
 ///
 /// Enter the initial value given by [FormController.value] in [initialValue].
 ///
@@ -28,13 +34,13 @@ part of "/katana_form.dart";
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
-/// ## バリデーション
+/// ## Validation バリデーション
 ///
 /// When [FormController.validate] is executed, validation and data saving are performed.
 ///
 /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
 ///
-/// ## ビルダーの使用方法
+/// ## Builder Usage ビルダーの使用方法
 ///
 /// Please return the form to [builder].
 ///
@@ -44,7 +50,7 @@ part of "/katana_form.dart";
 ///
 /// [builder]の中にある[FormBuilderRef.update]に新しい値を入れることでフォームの値を変更することが可能です。
 ///
-/// ## 基本的な使用例（ボタンリスト）
+/// ## Basic Usage Example (Button List) 基本的な使用例（ボタンリスト）
 ///
 /// ```dart
 /// FormBuilder(
@@ -73,7 +79,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## モーダルを利用した使用例
+/// ## With Modal モーダルを利用した使用例
 ///
 /// ```dart
 /// FormBuilder(
@@ -109,23 +115,29 @@ part of "/katana_form.dart";
 class FormBuilder<T, TValue> extends FormField<T> {
   /// A builder that can freely change the UI within a form.
   ///
+  /// フォームの中のUIを自由に変更することができるビルダー。
+  ///
+  /// A builder for building custom forms using `FormController`.
+  /// The `ref.update` method allows you to update form information,
+  /// so you can build forms with buttons or forms displayed in modals.
+  ///
   /// `FormController`を使用して独自のフォームを構築するためのビルダー。
   /// `ref.update`メソッドでフォームの情報を更新することができるため、
   /// ボタンを並べたフォームやモーダルで表示するフォームなどを構築することができます。
   ///
-  /// ## 配置方法
+  /// ## Placement 配置方法
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
-  /// ## フォーム管理
+  /// ## Form Management フォーム管理
   ///
   /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
   ///
   /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
   ///
-  /// ## 初期値とコールバック
+  /// ## Initial Value and Callbacks 初期値とコールバック
   ///
   /// Enter the initial value given by [FormController.value] in [initialValue].
   ///
@@ -135,13 +147,13 @@ class FormBuilder<T, TValue> extends FormField<T> {
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
-  /// ## バリデーション
+  /// ## Validation バリデーション
   ///
   /// When [FormController.validate] is executed, validation and data saving are performed.
   ///
   /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
   ///
-  /// ## ビルダーの使用方法
+  /// ## Builder Usage ビルダーの使用方法
   ///
   /// Please return the form to [builder].
   ///
@@ -151,7 +163,7 @@ class FormBuilder<T, TValue> extends FormField<T> {
   ///
   /// [builder]の中にある[FormBuilderRef.update]に新しい値を入れることでフォームの値を変更することが可能です。
   ///
-  /// ## 基本的な使用例（ボタンリスト）
+  /// ## Basic Usage Example (Button List) 基本的な使用例（ボタンリスト）
   ///
   /// ```dart
   /// FormBuilder(
@@ -180,7 +192,7 @@ class FormBuilder<T, TValue> extends FormField<T> {
   /// );
   /// ```
   ///
-  /// ## モーダルを利用した使用例
+  /// ## With Modal モーダルを利用した使用例
   ///
   /// ```dart
   /// FormBuilder(

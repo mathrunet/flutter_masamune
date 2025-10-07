@@ -2,17 +2,21 @@ part of "/katana_form.dart";
 
 /// Form to select from all elements in [TEnum].
 ///
+/// A form that allows you to select from enum options in a modal.
+/// Common design can be applied with `FormStyle`, and enum values can be managed using `FormController`.
+/// It provides features such as displaying enum values with labels and custom design.
+///
 /// モーダルで列挙型の選択肢から選択することができるフォーム。
 /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで列挙型の値を管理可能。
 /// 列挙型の値をラベル付きで表示、カスタムデザインなどの機能を備えています。
 ///
-/// ## ピッカーの指定
+/// ## Picker Specification ピッカーの指定
 ///
 /// Specify [picker] to define the selection options.
 ///
 /// [picker]を指定して選択肢を定義します。
 ///
-/// ## 基本的な使用例
+/// ## Basic Usage Example 基本的な使用例
 ///
 /// ```dart
 /// enum UserType {
@@ -37,7 +41,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## ラベル付きの使用例
+/// ## Usage Example with Labels ラベル付きの使用例
 ///
 /// ```dart
 /// FormEnumModalField(
@@ -53,7 +57,7 @@ part of "/katana_form.dart";
 /// );
 /// ```
 ///
-/// ## バリデーション付きの使用例
+/// ## Usage Example with Validation バリデーション付きの使用例
 ///
 /// ```dart
 /// FormEnumModalField(
@@ -77,17 +81,21 @@ part of "/katana_form.dart";
 class FormEnumModalField<TEnum extends Enum, TValue> extends StatefulWidget {
   /// Form to select from all elements in [TEnum].
   ///
+  /// A form that allows you to select from enum options in a modal.
+  /// Common design can be applied with `FormStyle`, and enum values can be managed using `FormController`.
+  /// It provides features such as displaying enum values with labels and custom design.
+  ///
   /// モーダルで列挙型の選択肢から選択することができるフォーム。
   /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで列挙型の値を管理可能。
   /// 列挙型の値をラベル付きで表示、カスタムデザインなどの機能を備えています。
   ///
-  /// ## ピッカーの指定
+  /// ## Picker Specification ピッカーの指定
   ///
   /// Specify [picker] to define the selection options.
   ///
   /// [picker]を指定して選択肢を定義します。
   ///
-  /// ## 基本的な使用例
+  /// ## Basic Usage Example 基本的な使用例
   ///
   /// ```dart
   /// enum UserType {
@@ -112,7 +120,7 @@ class FormEnumModalField<TEnum extends Enum, TValue> extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// ## ラベル付きの使用例
+  /// ## Usage Example with Labels ラベル付きの使用例
   ///
   /// ```dart
   /// FormEnumModalField(
@@ -128,7 +136,7 @@ class FormEnumModalField<TEnum extends Enum, TValue> extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// ## バリデーション付きの使用例
+  /// ## Usage Example with Validation バリデーション付きの使用例
   ///
   /// ```dart
   /// FormEnumModalField(
