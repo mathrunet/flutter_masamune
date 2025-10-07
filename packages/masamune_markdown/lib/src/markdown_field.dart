@@ -365,27 +365,7 @@ class _MarkdownFieldState extends State<MarkdownField>
   }
 
   String _getPlainText() {
-    final buffer = StringBuffer();
-    final fields = widget.controller.value ?? [];
-
-    for (final field in fields) {
-      for (final block in field.children) {
-        if (block is MarkdownParagraphBlockValue) {
-          for (var i = 0; i < block.children.length; i++) {
-            final line = block.children[i];
-            for (final span in line.children) {
-              buffer.write(span.value);
-            }
-            // Add newline except for the last line
-            if (i < block.children.length - 1) {
-              buffer.writeln();
-            }
-          }
-        }
-      }
-    }
-
-    return buffer.toString();
+    return widget.controller.getPlainText();
   }
 
   // TextInputClient implementation
@@ -429,7 +409,38 @@ class _MarkdownFieldState extends State<MarkdownField>
       }
 
       final replacementText = newText.substring(start, newEnd);
-      widget.controller.replaceText(start, oldEnd, replacementText);
+
+      // Check if the replacement text contains a newline
+      if (replacementText.contains("\n")) {
+        // Split by newlines and insert them one by one
+        final lines = replacementText.split("\n");
+
+        // First, delete the old text if any
+        if (oldEnd > start) {
+          widget.controller.replaceText(start, oldEnd, "");
+        }
+
+        // Insert first line at the cursor position
+        if (lines.isNotEmpty && lines.first.isNotEmpty) {
+          widget.controller.replaceText(start, start, lines.first);
+          start += lines.first.length;
+        }
+
+        // For each additional line, insert a new paragraph
+        for (var i = 1; i < lines.length; i++) {
+          widget.controller.insertNewLine(start);
+          start++; // Account for the newline character
+
+          if (lines[i].isNotEmpty) {
+            widget.controller.replaceText(start, start, lines[i]);
+            start += lines[i].length;
+          }
+        }
+      } else {
+        // Normal text replacement
+        widget.controller.replaceText(start, oldEnd, replacementText);
+      }
+
       widget.onChanged?.call(widget.controller.value ?? []);
 
       // Trigger rebuild to reflect changes
@@ -452,7 +463,16 @@ class _MarkdownFieldState extends State<MarkdownField>
   void performAction(TextInputAction action) {
     switch (action) {
       case TextInputAction.newline:
-        // TODO: implement newline
+        if (!widget.readOnly) {
+          // Insert a new paragraph at the current cursor position
+          widget.controller.insertNewLine(_selection.baseOffset);
+          // Move cursor to the next line
+          _selection =
+              TextSelection.collapsed(offset: _selection.baseOffset + 1);
+          _updateRemoteEditingValue();
+          widget.onChanged?.call(widget.controller.value ?? []);
+          setState(() {});
+        }
         break;
       case TextInputAction.done:
       case TextInputAction.go:
@@ -1005,27 +1025,7 @@ class _RenderMarkdownEditor extends RenderBox {
   }
 
   String _buildPlainText() {
-    final buffer = StringBuffer();
-    final fields = _controller.value ?? [];
-
-    for (final field in fields) {
-      for (final block in field.children) {
-        if (block is MarkdownParagraphBlockValue) {
-          for (var i = 0; i < block.children.length; i++) {
-            final line = block.children[i];
-            for (final span in line.children) {
-              buffer.write(span.value);
-            }
-            // Add newline except for the last line
-            if (i < block.children.length - 1) {
-              buffer.writeln();
-            }
-          }
-        }
-      }
-    }
-
-    return buffer.toString();
+    return _controller.getPlainText();
   }
 
   TextPainter _getTextPainter() {
