@@ -39,6 +39,11 @@ abstract class MarkdownValue {
   /// マークダウンのデータをJSONオブジェクトに変換します。
   DynamicMap toJson();
 
+  /// Convert the markdown value to a markdown string.
+  ///
+  /// マークダウンのデータをマークダウンの文字列に変換します。
+  String toMarkdown();
+
   /// The key for the type.
   ///
   /// マークダウンのデータの型のキー。
@@ -114,6 +119,17 @@ class MarkdownSpanValue extends MarkdownValue {
     );
   }
 
+  /// Create a [MarkdownSpanValue] from a markdown string.
+  ///
+  /// [markdown]から[MarkdownSpanValue]を作成します。
+  factory MarkdownSpanValue.fromMarkdown(String markdown) {
+    return MarkdownSpanValue(
+      id: uuid(),
+      value: markdown,
+      property: const MarkdownSpanProperty(),
+    );
+  }
+
   @override
   String get type => "__text_span__";
 
@@ -140,6 +156,11 @@ class MarkdownSpanValue extends MarkdownValue {
       MarkdownValue.valueKey: value,
       MarkdownValue.propertyKey: property.toJson(),
     };
+  }
+
+  @override
+  String toMarkdown() {
+    return value;
   }
 }
 
@@ -173,6 +194,26 @@ class MarkdownLineValue extends MarkdownValue {
     );
   }
 
+  /// Create a [MarkdownLineValue] from a markdown string.
+  ///
+  /// [markdown]から[MarkdownLineValue]を作成します。
+  factory MarkdownLineValue.fromMarkdown(String markdown) {
+    final tools =
+        MarkdownMasamuneAdapter.findTools<MarkdownVariableInlineTools>();
+    final children = <MarkdownSpanValue>[];
+    for (final tool in tools) {
+      final value = tool.convertFromMarkdown(markdown);
+      if (value != null) {
+        children.add(value);
+      }
+    }
+    return MarkdownLineValue(
+      id: uuid(),
+      children: children,
+      property: const MarkdownLineProperty(),
+    );
+  }
+
   @override
   String get type => "__text_line__";
 
@@ -194,6 +235,11 @@ class MarkdownLineValue extends MarkdownValue {
       MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
       MarkdownValue.propertyKey: property.toJson(),
     };
+  }
+
+  @override
+  String toMarkdown() {
+    return children.map((e) => e.toMarkdown()).join("\n");
   }
 }
 
@@ -254,6 +300,35 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
     required super.property,
   });
 
+  /// Create a [MarkdownParagraphBlockValue] from a [DynamicMap].
+  ///
+  /// [DynamicMap]から[MarkdownParagraphBlockValue]を作成します。
+  factory MarkdownParagraphBlockValue.fromJson(DynamicMap json) {
+    return MarkdownParagraphBlockValue(
+      id: json.get(MarkdownValue.idKey, ""),
+      children: json
+          .getAsList<DynamicMap>(MarkdownValue.childrenKey, [])
+          .map(MarkdownLineValue.fromJson)
+          .toList(),
+      property: MarkdownBlockProperty.fromJson(
+        json.getAsMap(MarkdownValue.propertyKey),
+      ),
+    );
+  }
+
+  /// Create a [MarkdownParagraphBlockValue] from a markdown string.
+  ///
+  /// [markdown]から[MarkdownParagraphBlockValue]を作成します。
+  factory MarkdownParagraphBlockValue.fromMarkdown(String markdown) {
+    return MarkdownParagraphBlockValue(
+      id: uuid(),
+      children: [
+        ...markdown.split("\n").map(MarkdownLineValue.fromMarkdown),
+      ],
+      property: const MarkdownBlockProperty(),
+    );
+  }
+
   @override
   String get type => "__text_block_paragraph__";
 
@@ -301,6 +376,11 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
       color: controller.style.paragraph.foregroundColor,
     );
   }
+
+  @override
+  String toMarkdown() {
+    return children.map((e) => e.toMarkdown()).join("\n");
+  }
 }
 
 /// A class for storing markdown field value.
@@ -321,12 +401,40 @@ class MarkdownFieldValue extends MarkdownValue {
   ///
   /// [DynamicMap]から[MarkdownFieldValue]を作成します。
   factory MarkdownFieldValue.fromJson(DynamicMap json) {
+    final tools =
+        MarkdownMasamuneAdapter.findTools<MarkdownBlockVariableTools>();
+    final children = <MarkdownBlockValue>[];
+    for (final tool in tools) {
+      final value = tool.convertFromJson(json);
+      if (value != null) {
+        children.add(value);
+      }
+    }
     return MarkdownFieldValue(
       id: json.get(MarkdownValue.idKey, ""),
-      // ToDo: implement
-      children: const [],
+      children: children,
       property: MarkdownFieldProperty.fromJson(
           json.getAsMap(MarkdownValue.propertyKey)),
+    );
+  }
+
+  /// Create a [MarkdownFieldValue] from a markdown string.
+  ///
+  /// [markdown]から[MarkdownFieldValue]を作成します。
+  factory MarkdownFieldValue.fromMarkdown(String markdown) {
+    final tools =
+        MarkdownMasamuneAdapter.findTools<MarkdownBlockVariableTools>();
+    final children = <MarkdownBlockValue>[];
+    for (final tool in tools) {
+      final value = tool.convertFromMarkdown(markdown);
+      if (value != null) {
+        children.add(value);
+      }
+    }
+    return MarkdownFieldValue(
+      id: uuid(),
+      children: children,
+      property: const MarkdownFieldProperty(),
     );
   }
 
@@ -351,6 +459,11 @@ class MarkdownFieldValue extends MarkdownValue {
       MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
       MarkdownValue.propertyKey: property.toJson(),
     };
+  }
+
+  @override
+  String toMarkdown() {
+    return children.map((e) => e.toMarkdown()).join("\n");
   }
 }
 
@@ -432,8 +545,8 @@ class MarkdownSpanProperty extends MarkdownProperty {
   ///
   /// マークダウンのスパンのプロパティを格納するクラス。
   const MarkdownSpanProperty({
-    required super.backgroundColor,
-    required super.foregroundColor,
+    super.backgroundColor,
+    super.foregroundColor,
   });
 
   /// Create a [MarkdownProperty] from a [DynamicMap].
@@ -468,8 +581,8 @@ class MarkdownLineProperty extends MarkdownProperty {
   ///
   /// マークダウンの１行のプロパティを格納するクラス。
   const MarkdownLineProperty({
-    required super.backgroundColor,
-    required super.foregroundColor,
+    super.backgroundColor,
+    super.foregroundColor,
   });
 
   /// Create a [MarkdownLineProperty] from a [DynamicMap].
@@ -504,8 +617,8 @@ class MarkdownBlockProperty extends MarkdownProperty {
   ///
   /// マークダウンのブロックのプロパティを格納するクラス。
   const MarkdownBlockProperty({
-    required super.backgroundColor,
-    required super.foregroundColor,
+    super.backgroundColor,
+    super.foregroundColor,
   });
 
   /// Create a [MarkdownBlockProperty] from a [DynamicMap].
@@ -541,8 +654,8 @@ class MarkdownFieldProperty extends MarkdownProperty {
   ///
   /// マークダウンのフィールドのプロパティを格納するクラス。
   const MarkdownFieldProperty({
-    required super.backgroundColor,
-    required super.foregroundColor,
+    super.backgroundColor,
+    super.foregroundColor,
   });
 
   /// Create a [MarkdownFieldProperty] from a [DynamicMap].
@@ -565,5 +678,24 @@ class MarkdownFieldProperty extends MarkdownProperty {
       MarkdownProperty.backgroundColorKey: backgroundColor?.toInt(),
       MarkdownProperty.foregroundColorKey: foregroundColor?.toInt(),
     };
+  }
+}
+
+/// Extension methods for [List<MarkdownFieldValue>].
+///
+/// [List<MarkdownFieldValue>]の拡張メソッド。
+extension MarkdownFieldValueListExtension on List<MarkdownFieldValue> {
+  /// Convert the markdown field value list to a JSON object.
+  ///
+  /// マークダウンのフィールドの値のリストをJSONオブジェクトに変換します。
+  List<DynamicMap> toJson() {
+    return map((e) => e.toJson()).toList();
+  }
+
+  /// Convert the markdown field value list to a markdown string.
+  ///
+  /// マークダウンのフィールドの値のリストをマークダウンの文字列に変換します。
+  String toMarkdown() {
+    return map((e) => e.toMarkdown()).join("\n");
   }
 }

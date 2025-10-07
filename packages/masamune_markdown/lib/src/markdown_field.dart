@@ -249,15 +249,32 @@ class MarkdownField extends StatefulWidget {
   final void Function(Offset globalPosition)? onDoubleTap;
 
   @override
-  State<MarkdownField> createState() => _MarkdownFieldState();
+  State<MarkdownField> createState() => MarkdownFieldState();
 }
 
-class _MarkdownFieldState extends State<MarkdownField>
+/// State for MarkdownField.
+///
+/// MarkdownFieldのステート。
+class MarkdownFieldState extends State<MarkdownField>
     with TickerProviderStateMixin
     implements TextInputClient, TextSelectionDelegate {
   late FocusNode _focusNode;
   late ScrollController _scrollController;
   TextInputConnection? _textInputConnection;
+
+  /// Whether to cursor in link.
+  ///
+  /// カーソルがリンク内にあるかどうか。
+  bool get cursorInLink {
+    return false;
+  }
+
+  /// Whether to select in mention link.
+  ///
+  /// メンションリンクを選択するかどうか。
+  bool get selectInMentionLink {
+    return false;
+  }
 
   // Selection state
   TextSelection _selection = const TextSelection.collapsed(offset: 0);
@@ -278,6 +295,7 @@ class _MarkdownFieldState extends State<MarkdownField>
     super.initState();
     _focusNode = widget.focusNode ?? widget.controller.focusNode;
     _scrollController = widget.scrollController ?? ScrollController();
+    widget.controller._registerField(this);
     _focusNode.addListener(_handleFocusChanged);
     widget.controller.addListener(_handleControllerChanged);
 
@@ -297,6 +315,8 @@ class _MarkdownFieldState extends State<MarkdownField>
       _focusNode.addListener(_handleFocusChanged);
     }
     if (widget.controller != oldWidget.controller) {
+      oldWidget.controller._unregisterField(this);
+      widget.controller._registerField(this);
       oldWidget.controller.removeListener(_handleControllerChanged);
       widget.controller.addListener(_handleControllerChanged);
     }
@@ -307,6 +327,7 @@ class _MarkdownFieldState extends State<MarkdownField>
     _hideContextMenu();
     _closeInputConnectionIfNeeded();
     _cursorBlinkController.dispose();
+    widget.controller._unregisterField(this);
     _focusNode.removeListener(_handleFocusChanged);
     widget.controller.removeListener(_handleControllerChanged);
     if (widget.scrollController == null) {

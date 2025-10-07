@@ -53,6 +53,16 @@ class MarkdownController extends MasamuneControllerBase<
   /// これは、markdownコントローラーのフォーカスを制御するために使用されます。
   final FocusNode focusNode = FocusNode();
 
+  void _registerField(MarkdownFieldState state) {
+    _field = state;
+  }
+
+  void _unregisterField(MarkdownFieldState state) {
+    _field = null;
+  }
+
+  MarkdownFieldState? _field;
+
   /// Replaces text in the specified range.
   ///
   /// 指定された範囲のテキストを置換します。
@@ -234,6 +244,94 @@ class MarkdownController extends MasamuneControllerBase<
     _value[0] = newField;
     notifyListeners();
   }
+
+  /// Checks if the document can be redone.
+  ///
+  /// ドキュメントがやり直し可能かどうかを確認します。
+  bool get canRedo => false;
+
+  /// Checks if the document can be undone.
+  ///
+  /// ドキュメントが元に戻し可能かどうかを確認します。
+  bool get canUndo => false;
+
+  /// Redoes the document.
+  ///
+  /// ドキュメントをやり直します。
+  void redo() {}
+
+  /// Undoes the document.
+  ///
+  /// ドキュメントを元に戻します。
+  void undo() {}
+
+  /// Checks if the block can be increased indent.
+  ///
+  /// ブロックがインデントを増やすことができるかどうかを確認します。
+  bool get canIncreaseIndent => false;
+
+  /// Checks if the block can be decreased indent.
+  ///
+  /// ブロックがインデントを減らすことができるかどうかを確認します。
+  bool get canDecreaseIndent => false;
+
+  /// Increases the indent of the block.
+  ///
+  /// ブロックのインデントを増やします。
+  void increaseIndent() {}
+
+  /// Decreases the indent of the block.
+  ///
+  /// ブロックのインデントを減らします。
+  void decreaseIndent() {}
+
+  /// Inserts a block at the specified offset.
+  ///
+  /// 指定されたオフセット位置にブロックを挿入します。
+  void insertBlock(MarkdownBlockTools tool, {int? offset}) {}
+
+  /// Exchanges a block at the specified index.
+  ///
+  /// 指定されたインデックスのブロックを交換します。
+  void exchangeBlock(MarkdownBlockTools block, {int? index}) {}
+
+  /// Changes the inline text at the specified start and end positions.
+  ///
+  /// 指定された開始位置と終了位置のインラインテキストを変更します。
+  void addInlineProperty(MarkdownInlineTools tool, {int? start, int? end}) {}
+
+  /// Removes the inline property at the specified start and end positions.
+  ///
+  /// 指定された開始位置と終了位置のインラインプロパティを削除します。
+  void removeInlineProperty(MarkdownInlineTools tool, {int? start, int? end}) {}
+
+  /// Checks if the inline property exists at the specified start and end positions.
+  ///
+  /// 指定された開始位置と終了位置のインラインプロパティが存在するかどうかを確認します。
+  bool hasInlineProperty(MarkdownInlineTools tool, {int? start, int? end}) =>
+      false;
+
+  /// Unselects the text.
+  ///
+  /// テキストの選択を解除します。
+  void unselect() {
+    notifyListeners();
+  }
+
+  /// Copies the text.
+  ///
+  /// テキストをコピーします。
+  void copy() {}
+
+  /// Cuts the text.
+  ///
+  /// テキストを切り取ります。
+  void cut() {}
+
+  /// Pastes the text.
+  ///
+  /// テキストをペーストします。
+  void paste() {}
 
   /// Inserts a new paragraph block at the specified offset.
   ///
