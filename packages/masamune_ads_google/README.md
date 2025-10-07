@@ -70,9 +70,13 @@ final masamuneAdapters = <MasamuneAdapter>[
 
 Use `GoogleBannerAd` to place banner ads in the widget tree. If `adUnitId` is omitted, the adapter's `defaultAdUnitId` is applied. Specify the size with `GoogleBannerAdSize` and optionally customize border, loading indicator, or event callbacks.
 
+Available sizes: `banner` (320×50), `largeBanner` (320×100), `mediumRectangle` (300×250), `fullBanner` (468×60), `leaderboard` (728×90), `fluid` (varies).
+
 ```dart
 GoogleBannerAd(
   size: GoogleBannerAdSize.leaderboard,
+  border: Border.all(color: Colors.grey),  // Optional border
+  indicator: CircularProgressIndicator(),  // Optional loading indicator
   onAdClicked: () => debugPrint("Banner clicked."),
   onPaidEvent: (value, currency) {
     debugPrint("Earned $value $currency.");
@@ -80,11 +84,12 @@ GoogleBannerAd(
 )
 ```
 
-Preload banner ads to reduce rendering latency.
+Preload banner ads to reduce rendering latency. Specify the ad unit ID or use the default from the adapter.
 
 ```dart
 await GoogleAdsCore.preloadBannerAd(
   size: GoogleBannerAdSize.mediumRectangle,
+  adUnitId: "ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx", // Optional
 );
 ```
 
@@ -103,24 +108,50 @@ await interstitial.show(
 );
 ```
 
-If the network fails to fill the ad inventory, a `GoogleAdsNoFillError` is thrown.
+**Error Handling**: If the ad network fails to fill the ad inventory (no ads available), a `GoogleAdsNoFillError` is thrown. Handle this error appropriately:
+
+```dart
+try {
+  await interstitial.load();
+  await interstitial.show();
+} on GoogleAdsNoFillError catch (e) {
+  debugPrint("No ad available for ${e.adUnitId}");
+  // Handle the no-fill case gracefully
+} catch (e) {
+  debugPrint("Ad error: $e");
+}
+```
 
 ### Rewarded Ads
 
-Use `GoogleAdRewarded` for video ads with rewards. Provide `onEarnedReward` to handle the reward payload.
+Use `GoogleAdRewarded` for video ads with rewards. The `onEarnedReward` callback is required and called when the user earns the reward.
 
 ```dart
 final rewarded = ref.page.controller(GoogleAdRewarded.query());
 
+await rewarded.load();  // Preload the ad
 await rewarded.show(
   onEarnedReward: (amount, type) async {
+    // Grant reward to the user
     await grantReward(amount, type);
   },
   onAdClicked: () => debugPrint("Rewarded clicked."),
 );
 ```
 
-`GoogleAdRewardedInterstitial` is also available if you need rewarded interstitial ads.
+**Rewarded Interstitial Ads**: `GoogleAdRewardedInterstitial` is also available for rewarded interstitial format. It has the same API as `GoogleAdRewarded` but displays full-screen interstitial ads with rewards:
+
+```dart
+final rewardedInterstitial = ref.page.controller(
+  GoogleAdRewardedInterstitial.query(),
+);
+
+await rewardedInterstitial.show(
+  onEarnedReward: (amount, type) async {
+    await grantReward(amount, type);
+  },
+);
+```
 
 ### Native Ads
 
@@ -136,11 +167,19 @@ GoogleNativeAd(
 
 ### Web Support
 
-The package offers no actual ad rendering on the web. Widgets return placeholders and controllers resolve immediately, enabling common code paths without runtime errors.
+The package offers no actual ad rendering on the web platform. Banner and native ad widgets return empty placeholders, while interstitial and rewarded ad controllers resolve immediately with no-op implementations. This allows you to write platform-agnostic code without runtime errors or conditional imports.
 
 ### Permissions
 
-`GoogleAdsCore.initialize()` requests App Tracking Transparency permission on iOS and initializes the Google Mobile Ads SDK. Use `openAppSettings()` from `permission_handler` (re-exported) if you need to prompt users manually.
+`GoogleAdsCore.initialize()` requests App Tracking Transparency permission on iOS and initializes the Google Mobile Ads SDK. The initialization is called automatically by `GoogleAdsMasamuneAdapter` in `onPreRunApp`, so you typically don't need to call it manually.
+
+If you need to prompt users to open app settings, use `openAppSettings()` (re-exported from `permission_handler`):
+
+```dart
+import 'package:masamune_ads_google/masamune_ads_google.dart';
+
+await openAppSettings();
+```
 
 # GitHub Sponsors
 
