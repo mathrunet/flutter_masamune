@@ -40,20 +40,38 @@
 - Register `AnimateMasamuneAdapter` in `MasamuneApp` to enable the animation features.
 
 ### Setup
-1. Add `masamune_animate` to your `pubspec.yaml`.
-2. Pass `AnimateMasamuneAdapter` through the `MasamuneApp.adapters` list. You can override settings such as the test timeout if needed.
+
+1. Add `masamune_animate` to your project.
+
+```bash
+flutter pub add masamune_animate
+```
+
+2. Register `AnimateMasamuneAdapter` in `MasamuneApp`. You can configure the test timeout if needed.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used by the app.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+  
+  const AnimateMasamuneAdapter(
+    timeoutDurationOnTest: Duration(milliseconds: 300),  // Test timeout
+  ),
+];
+```
+
+3. Use in your `main.dart`:
 
 ```dart
 void main() {
-  runApp(
-    MasamuneApp(
+  runMasamuneApp(
+    appRef: appRef,
+    masamuneAdapters: masamuneAdapters,
+    (appRef, _) => MasamuneApp(
       appRef: appRef,
-      adapters: const [
-        UniversalMasamuneAdapter(),
-        AnimateMasamuneAdapter(
-          timeoutDurationOnTest: Duration(milliseconds: 300),
-        ),
-      ],
+      home: HomePage(),
     ),
   );
 }
@@ -69,28 +87,92 @@ void main() {
 - Provide a `scenario` (async function) and call `play()` to run it; you can also enable automatic playback with `autoPlay`.
 - The controller exposes `primaryAdapter` and `isTest` so you can adjust behavior when running under tests.
 
-### Scenario Example
+### Basic Usage
+
+**Option 1: Using AnimateController (Recommended for reusable scenarios)**
 
 ```dart
-final controller = AnimateController(
-  autoPlay: true,
-  scenario: (runner) async {
-    await runner.fadeIn(duration: const Duration(milliseconds: 300));
-    await runner.wait(const Duration(milliseconds: 200));
-    await runner.moveY(
-      duration: const Duration(milliseconds: 500),
-      begin: -20,
-      end: 0,
-      curve: Curves.easeOut,
+class MyWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Create controller with scenario
+    final controller = AnimateController(
+      autoPlay: true,
+      scenario: (runner) async {
+        await runner.fadeIn(duration: const Duration(milliseconds: 300));
+        await runner.wait(const Duration(milliseconds: 200));
+        await runner.moveY(
+          duration: const Duration(milliseconds: 500),
+          begin: -20,
+          end: 0,
+          curve: Curves.easeOut,
+        );
+      },
     );
-  },
-);
 
+    return AnimateScope(
+      controller: controller,
+      child: const Text("Masamune Animate"),
+    );
+  }
+}
+```
+
+**Option 2: Using inline scenario (For simple, one-time animations)**
+
+```dart
 Widget build(BuildContext context) {
   return AnimateScope(
-    controller: controller,
-    child: const Text("Masamune Animate"),
+    autoPlay: true,
+    scenario: (runner) async {
+      await runner.fadeIn(duration: const Duration(milliseconds: 300));
+      await runner.moveX(
+        duration: const Duration(milliseconds: 500),
+        begin: -50,
+        end: 0,
+      );
+    },
+    child: const Text("Hello World"),
   );
+}
+```
+
+**Option 3: Manual playback control**
+
+```dart
+class MyWidget extends StatefulWidget {
+  @override
+  State<MyWidget> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> with TickerProviderStateMixin {
+  late final AnimateController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimateController(
+      scenario: (runner) async {
+        await runner.fadeIn(duration: const Duration(milliseconds: 300));
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        AnimateScope(
+          controller: controller,
+          child: const Text("Animated Text"),
+        ),
+        ElevatedButton(
+          onPressed: () => controller.play(),  // Manual trigger
+          child: const Text("Play Animation"),
+        ),
+      ],
+    );
+  }
 }
 ```
 

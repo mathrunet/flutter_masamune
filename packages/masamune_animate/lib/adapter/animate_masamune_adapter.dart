@@ -1,20 +1,20 @@
 part of "/masamune_animate.dart";
 
-/// Abstract class of [MasamuneAdapter] for configuring AI functions.
+/// [MasamuneAdapter] for configuring animation features.
 ///
-/// Inherit this class to set up AI functions.
+/// Register this adapter to enable scenario-based animations in the Masamune framework.
 ///
-/// AIの機能を設定するための[MasamuneAdapter]の抽象クラス。
+/// アニメーション機能を設定するための[MasamuneAdapter]。
 ///
-/// このクラスを継承してAIの機能を設定してください。
+/// このアダプターを登録することで、Masamuneフレームワークでシナリオベースのアニメーションを有効にします。
 class AnimateMasamuneAdapter extends MasamuneAdapter {
-  /// Abstract class of [MasamuneAdapter] for configuring AI functions.
+  /// [MasamuneAdapter] for configuring animation features.
   ///
-  /// Inherit this class to set up AI functions.
+  /// Register this adapter to enable scenario-based animations in the Masamune framework.
   ///
-  /// AIの機能を設定するための[MasamuneAdapter]の抽象クラス。
+  /// アニメーション機能を設定するための[MasamuneAdapter]。
   ///
-  /// このクラスを継承してAIの機能を設定してください。
+  /// このアダプターを登録することで、Masamuneフレームワークでシナリオベースのアニメーションを有効にします。
   const AnimateMasamuneAdapter({
     this.timeoutDurationOnTest = const Duration(milliseconds: 100),
   });
