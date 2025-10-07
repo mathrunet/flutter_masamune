@@ -1138,9 +1138,16 @@ class _RenderMarkdownEditor extends RenderBox {
   bool _longPressDetected = false;
   bool _doubleTapDetected = false;
 
+  // Selection handle tracking
+  Offset? _startHandlePosition;
+  Offset? _endHandlePosition;
+  bool _isDraggingStartHandle = false;
+  bool _isDraggingEndHandle = false;
+
   // Double tap tracking
   static const _doubleTapTimeout = Duration(milliseconds: 300);
   static const _longPressTimeout = Duration(milliseconds: 500);
+  static const _handleRadius = 8.0;
 
   void _handleControllerChanged() {
     _blockLayouts = []; // Clear cache when controller changes
@@ -1269,6 +1276,10 @@ class _RenderMarkdownEditor extends RenderBox {
 
     var currentTextOffset = 0;
 
+    // Reset handle positions
+    _startHandlePosition = null;
+    _endHandlePosition = null;
+
     for (final layout in layouts) {
       final blockOffset =
           offset + layout.offset + Offset(layout.padding.left, 0);
@@ -1306,8 +1317,46 @@ class _RenderMarkdownEditor extends RenderBox {
 
           final boxes = layout.painter.getBoxesForSelection(localSelection);
           final paint = Paint()..color = _selectionColor;
+
+          // Draw selection with extended vertical height (padding included)
           for (final box in boxes) {
-            canvas.drawRect(box.toRect().shift(blockOffset), paint);
+            final boxRect = box.toRect().shift(blockOffset);
+            // Extend vertically to include padding
+            final extendedRect = Rect.fromLTRB(
+              boxRect.left,
+              offset.dy + layout.offset.dy - layout.padding.top,
+              boxRect.right,
+              offset.dy +
+                  layout.offset.dy +
+                  layout.painter.height +
+                  layout.padding.bottom,
+            );
+            canvas.drawRect(extendedRect, paint);
+          }
+
+          // Calculate handle positions at the top of the selection
+          // Store positions in local coordinates (without offset)
+          // Only show start handle if this block contains the actual start of the selection
+          if (_selection.start >= blockStart && _selection.start < blockEnd) {
+            // Start handle - position at the top left of selection
+            final startOffset = layout.painter.getOffsetForCaret(
+              TextPosition(offset: localStart),
+              Rect.zero,
+            );
+            _startHandlePosition = Offset(layout.padding.left,
+                    layout.offset.dy - layout.padding.top) +
+                Offset(startOffset.dx, 0);
+          }
+          // Only show end handle if this block contains the actual end of the selection
+          if (_selection.end > blockStart && _selection.end <= blockEnd) {
+            // End handle - position at the top right of selection
+            final endOffset = layout.painter.getOffsetForCaret(
+              TextPosition(offset: localEnd),
+              Rect.zero,
+            );
+            _endHandlePosition = Offset(layout.padding.left,
+                    layout.offset.dy - layout.padding.top) +
+                Offset(endOffset.dx, 0);
           }
         }
       }
@@ -1348,6 +1397,52 @@ class _RenderMarkdownEditor extends RenderBox {
 
       currentTextOffset = blockEnd + 1; // +1 for newline between blocks
     }
+
+    // Draw selection handles
+    if (_selection.isValid && !_selection.isCollapsed) {
+      final handlePaint = Paint()
+        ..color = _cursorColor
+        ..style = PaintingStyle.fill;
+
+      // Draw start handle (add offset for drawing)
+      if (_startHandlePosition != null) {
+        _drawSelectionHandle(
+          canvas,
+          offset + _startHandlePosition!,
+          handlePaint,
+          isLeft: true,
+        );
+      }
+
+      // Draw end handle (add offset for drawing)
+      if (_endHandlePosition != null) {
+        _drawSelectionHandle(
+          canvas,
+          offset + _endHandlePosition!,
+          handlePaint,
+          isLeft: false,
+        );
+      }
+    }
+  }
+
+  void _drawSelectionHandle(
+    Canvas canvas,
+    Offset position,
+    Paint paint, {
+    required bool isLeft,
+  }) {
+    // Draw circle handle at the top
+    canvas.drawCircle(position, _handleRadius, paint);
+
+    // Draw line extending downward from handle
+    final lineStart = position;
+    final lineEnd = Offset(position.dx, position.dy + _handleRadius * 3);
+    canvas.drawLine(
+      lineStart,
+      lineEnd,
+      paint..strokeWidth = 2.0,
+    );
   }
 
   @override
@@ -1373,6 +1468,8 @@ class _RenderMarkdownEditor extends RenderBox {
     _lastTapDownPosition = null;
     _longPressDetected = false;
     _doubleTapDetected = false;
+    _isDraggingStartHandle = false;
+    _isDraggingEndHandle = false;
   }
 
   int? _getTextOffsetForPosition(Offset position) {
@@ -1402,9 +1499,30 @@ class _RenderMarkdownEditor extends RenderBox {
     final now = DateTime.now().millisecondsSinceEpoch;
     final position = globalToLocal(event.position);
 
+    // Check if tapping on selection handles
+    // Check both handles and select the closer one if both are in range
+    final startDistance = _startHandlePosition != null
+        ? (position - _startHandlePosition!).distance
+        : double.infinity;
+    final endDistance = _endHandlePosition != null
+        ? (position - _endHandlePosition!).distance
+        : double.infinity;
+
+    if (startDistance < _handleRadius * 3 || endDistance < _handleRadius * 3) {
+      // Select the closer handle
+      if (startDistance < endDistance) {
+        _isDraggingStartHandle = true;
+      } else {
+        _isDraggingEndHandle = true;
+      }
+      return;
+    }
+
     // Reset flags
     _longPressDetected = false;
     _doubleTapDetected = false;
+    _isDraggingStartHandle = false;
+    _isDraggingEndHandle = false;
 
     // Check for double tap
     if (_lastTapTime != null &&
@@ -1434,6 +1552,13 @@ class _RenderMarkdownEditor extends RenderBox {
   void _handleTapUp(PointerUpEvent event) {
     _longPressTimer?.cancel();
     _longPressTimer = null;
+
+    // Reset handle dragging flags
+    if (_isDraggingStartHandle || _isDraggingEndHandle) {
+      _isDraggingStartHandle = false;
+      _isDraggingEndHandle = false;
+      return;
+    }
 
     // If long press or double tap was detected, don't process as normal tap
     if (_longPressDetected || _doubleTapDetected) {
@@ -1563,11 +1688,44 @@ class _RenderMarkdownEditor extends RenderBox {
   }
 
   void _handleDragUpdate(PointerMoveEvent event) {
-    if (_lastTapDownPosition == null) {
+    final position = globalToLocal(event.position);
+
+    // Handle selection handle dragging
+    if (_isDraggingStartHandle || _isDraggingEndHandle) {
+      final textOffset = _getTextOffsetForPosition(position);
+
+      if (textOffset != null) {
+        if (_isDraggingStartHandle) {
+          // Update start of selection
+          final newStart = textOffset.clamp(0, _selection.end);
+          _onSelectionChanged(
+            TextSelection(
+              baseOffset: newStart,
+              extentOffset: _selection.end,
+            ),
+            SelectionChangedCause.drag,
+          );
+        } else if (_isDraggingEndHandle) {
+          // Update end of selection
+          final newEnd =
+              textOffset.clamp(_selection.start, _getPlainText().length);
+          _onSelectionChanged(
+            TextSelection(
+              baseOffset: _selection.start,
+              extentOffset: newEnd,
+            ),
+            SelectionChangedCause.drag,
+          );
+        }
+      }
+      // Force repaint to update handle positions
+      markNeedsPaint();
       return;
     }
 
-    final position = globalToLocal(event.position);
+    if (_lastTapDownPosition == null) {
+      return;
+    }
 
     // Cancel long press if moved too far
     if ((position - _lastTapDownPosition!).distance > 10) {
@@ -1601,6 +1759,10 @@ class _RenderMarkdownEditor extends RenderBox {
         );
       }
     }
+  }
+
+  String _getPlainText() {
+    return _controller.getPlainText();
   }
 }
 
