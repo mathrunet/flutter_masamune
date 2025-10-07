@@ -63,34 +63,87 @@ final masamuneAdapters = <MasamuneAdapter>[
 
 ### Send Email via Cloud Functions
 
-Use `SendGridFunctionsAction` or `SendGmailFunctionsAction` to invoke server-side logic that sends emails through SendGrid or Gmail APIs. These actions rely on `FunctionsAdapter.execute`.
+This package provides `FunctionsAction` classes to send emails through your backend. Your backend must implement the actual email sending logic using SendGrid, Gmail, or other email service providers.
+
+**SendGrid Example**:
 
 ```dart
-final functions = FirebaseFunctionsMasamuneAdapter.primary;
+import 'package:masamune_functions/masamune_functions.dart';
+import 'package:masamune_mail/masamune_mail.dart';
 
-await functions.execute(
-  SendGridFunctionsAction(
-    from: "support@example.com",
-    to: "user@example.com",
-    title: "Welcome!",
-    content: "Thank you for signing up.",
-  ),
-);
+// In your controller or page
+final functions = ref.app.functions();
+
+Future<void> sendWelcomeEmail(String userEmail) async {
+  try {
+    await functions.execute(
+      SendGridFunctionsAction(
+        from: "support@example.com",
+        to: userEmail,
+        title: "Welcome!",
+        content: "Thank you for signing up. We're excited to have you!",
+      ),
+    );
+    print("Email sent successfully");
+  } catch (e) {
+    print("Failed to send email: $e");
+  }
+}
 ```
 
-Create corresponding Cloud Functions (`send_grid`, `gmail`) that read the payload and send emails via your chosen provider.
-
-### Gmail Example
+**Gmail Example**:
 
 ```dart
 await functions.execute(
   SendGmailFunctionsAction(
     from: "noreply@example.com",
     to: "recipient@example.com",
-    title: "Report",
-    content: "Please check the attached report.",
+    title: "Monthly Report",
+    content: "Please check the attached report for this month.",
   ),
 );
+```
+
+### Backend Implementation
+
+Your Masamune Functions backend must handle the `send_grid` and `gmail` actions:
+
+**SendGrid Backend Example**:
+
+```typescript
+// Cloud Functions
+if (action === "send_grid") {
+  const { from, to, title, content } = data;
+  
+  // Use SendGrid SDK
+  await sendgrid.send({
+    to: to,
+    from: from,
+    subject: title,
+    text: content,
+  });
+  
+  return { success: true };
+}
+```
+
+**Gmail Backend Example**:
+
+```typescript
+// Cloud Functions
+if (action === "gmail") {
+  const { from, to, title, content } = data;
+  
+  // Use Gmail API
+  await gmail.users.messages.send({
+    userId: 'me',
+    requestBody: {
+      raw: createMimeMessage(from, to, title, content),
+    },
+  });
+  
+  return { success: true };
+}
 ```
 
 ### Tips

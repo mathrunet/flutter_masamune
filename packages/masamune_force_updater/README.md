@@ -30,12 +30,6 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
-
-For more information about Masamune Framework, please click here.
-
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
-
 # Masamune Force Updater
 
 ## Usage
@@ -77,13 +71,30 @@ final masamuneAdapters = <MasamuneAdapter>[
 
 ### Check for Updates
 
-Call `ForceUpdater` from your UI to evaluate update rules and display dialogs.
+Call `checkUpdate` from your UI to evaluate update rules and display dialogs. Typically, call this in your app's initialization or splash screen.
+
+**Basic Usage**:
 
 ```dart
-final updater = ref.page.controller(ForceUpdater.query());
+class SplashPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final updater = ref.page.controller(ForceUpdater.query());
+    
+    useEffect(() {
+      // Check for updates on page load
+      updater.checkUpdate(context);
+      return null;
+    }, []);
 
-await updater.checkUpdate(context);
+    return Scaffold(
+      body: Center(child: CircularProgressIndicator()),
+    );
+  }
+}
 ```
+
+**Custom Update Dialog**:
 
 Pass a custom list of `ForceUpdaterItem`s to override the default adapter configuration:
 
@@ -93,28 +104,37 @@ await updater.checkUpdate(
   items: [
     ForceUpdaterItem(
       minimumVersion: "3.0.0",
+      targetPlatforms: const [
+        ForceUpdaterPlatform.iOS,
+        ForceUpdaterPlatform.android,
+      ],
+      storeUri: Uri.parse("https://apps.apple.com/app/id123456789"),
       onShowUpdateDialog: (context, ref) async {
         final confirmed = await showDialog<bool>(
           context: context,
+          barrierDismissible: false,  // Force user to make a choice
           builder: (context) => AlertDialog(
-            title: const Text("Update required"),
-            content: const Text("A new version is available."),
+            title: const Text("Update Required"),
+            content: const Text(
+              "A new version is available. Please update to continue using the app.",
+            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: const Text("Close"),
+                child: const Text("Later"),
               ),
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: const Text("Update"),
+                child: const Text("Update Now"),
               ),
             ],
           ),
         );
+        
         if (confirmed == true) {
-          await ref.update();
+          await ref.update();  // Opens store URL
         } else {
-          await ref.quit();
+          await ref.quit();    // Exits the app
         }
       },
     ),

@@ -76,41 +76,120 @@ final masamuneAdapters = <MasamuneAdapter>[
 
 ### Show the Introduction as a Widget
 
-Embed `MasamuneIntroduction` directly in your widget tree. Customize padding, colors, and button labels as needed.
+Embed `MasamuneIntroduction` directly in your widget tree. Customize colors, button labels, and navigation.
+
+```dart
+class OnboardingPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    return Scaffold(
+      body: MasamuneIntroduction(
+        enableSkip: true,                              // Show skip button
+        activeColor: Theme.of(context).primaryColor,   // Indicator color
+        doneLabel: LocalizedValue("Get Started"),      // Done button text
+        skipLabel: LocalizedValue("Skip"),             // Skip button text
+        routeQuery: HomePage.query(),                  // Navigate on completion
+      ),
+    );
+  }
+}
+```
+
+### Use as a Page
+
+`MasamuneIntroductionPage` is a pre-built `PageScopedWidget` with routing support. Push it via the router:
+
+```dart
+// Navigate to introduction page
+context.router.push(MasamuneIntroductionPage.query());
+
+// Or with navigation after completion
+context.router.push(
+  MasamuneIntroductionPage.query(
+    routeQuery: HomePage.query(),  // Where to go when "Done" is tapped
+  ),
+);
+```
+
+### Customizing Slides
+
+**Appearance Customization**:
+
+```dart
+IntroductionItem(
+  title: LocalizedValue("Welcome"),
+  body: LocalizedValue("Get started with our app"),
+  image: AssetImage("assets/intro_1.png"),
+  background: Colors.blue.shade50,           // Slide background color
+  foregroundColor: Colors.black87,           // Text color
+  imageDecoration: BoxDecoration(            // Image styling
+    borderRadius: BorderRadius.circular(16),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black26,
+        blurRadius: 10,
+        offset: Offset(0, 4),
+      ),
+    ],
+  ),
+)
+```
+
+**Button Customization**:
 
 ```dart
 MasamuneIntroduction(
   enableSkip: true,
-  activeColor: Theme.of(context).colorScheme.primary,
   doneLabel: LocalizedValue("Get Started"),
   skipLabel: LocalizedValue("Skip"),
+  nextLabel: LocalizedValue("Next"),
+  activeColor: Colors.purple,                // Active indicator color
+  inactiveColor: Colors.grey,                // Inactive indicator color
+  buttonStyle: ElevatedButton.styleFrom(
+    backgroundColor: Colors.purple,
+    foregroundColor: Colors.white,
+  ),
 )
 ```
 
-Pass `routeQuery` to navigate to another page when the introduction completes.
+### First-Launch Detection
 
-### Use as a Page
-
-`MasamuneIntroductionPage` is a `PageScopedWidget` with a generated route query. Push it via the router to display the introduction flow.
+Show the introduction only on first app launch:
 
 ```dart
-router.push(MasamuneIntroductionPage.query());
+class App extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: _isFirstLaunch(),
+      builder: (context, snapshot) {
+        if (snapshot.data == true) {
+          return MasamuneIntroductionPage(
+            routeQuery: HomePage.query(),
+          );
+        }
+        return HomePage();
+      },
+    );
+  }
+  
+  Future<bool> _isFirstLaunch() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isFirst = prefs.getBool('first_launch') ?? true;
+    if (isFirst) {
+      await prefs.setBool('first_launch', false);
+    }
+    return isFirst;
+  }
+}
 ```
-
-Provide `routeQuery` if you want to navigate elsewhere when the user taps "Done".
-
-### Customizing Slides
-
-- Supply `background`, `foregroundColor`, or custom padding for each slide.
-- Localize `title`, `body`, and button texts with `LocalizedValue`.
-- Override `imageDecoration` to control radius or shadows on slide images.
-- Add analytics by wrapping `MasamuneIntroduction` and observing lifecycle events.
 
 ### Tips
 
-- Use feature flags to show the introduction only on first launch.
-- Combine with `SharedPreferences` or your own storage to remember completion state.
-- Add video or animations by providing custom widgets in `IntroductionItem.customBuilder` (if available in your version).
+- Use feature flags or remote config to control when to show the introduction.
+- Combine with `SharedPreferences` to remember completion state.
+- Add analytics tracking by listening to navigation events.
+- For video content, consider using `video_player` with custom slides.
 
 # GitHub Sponsors
 
