@@ -88,14 +88,56 @@ Provide the appropriate `clientId` for the platform. On Android, configure the r
 Use `Authentication` from `katana_auth` to start the Google Sign In flow.
 
 ```dart
-final auth = ref.app.controller(Authentication.query());
+class SignInPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final auth = ref.app.controller(Authentication.query());
 
-await auth.initialize();
+    // Initialize on page load
+    ref.page.on(
+      initOrUpdate: () {
+        auth.initialize();
+      },
+    );
 
-await auth.signIn(GoogleAuthQuery.signIn());
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (auth.isSignedIn)
+              Column(
+                children: [
+                  Text("Welcome!"),
+                  Text("User ID: ${auth.userId}"),
+                  Text("Email: ${auth.userEmail ?? 'N/A'}"),
+                  TextButton(
+                    onPressed: () => auth.signOut(),
+                    child: const Text("Sign Out"),
+                  ),
+                ],
+              )
+            else
+              ElevatedButton.icon(
+                icon: Icon(Icons.g_mobiledata),
+                label: const Text("Sign in with Google"),
+                onPressed: () async {
+                  try {
+                    await auth.signIn(GoogleAuthQuery.signIn());
+                  } catch (e) {
+                    print("Sign in failed: $e");
+                  }
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 ```
 
-After sign-in, the Google account information becomes available through `auth.userId`, `auth.userEmail`, and other getters.
+The `Authentication` controller notifies listeners when state changes, automatically rebuilding dependent widgets.
 
 ### Firebase Integration
 

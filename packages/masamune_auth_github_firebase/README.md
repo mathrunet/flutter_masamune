@@ -2,7 +2,7 @@
   <a href="https://mathru.net">
     <img width="240px" src="https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/.github/images/icon.png" alt="Masamune logo" style="border-radius: 32px"s><br/>
   </a>
-  <h1 align="center">Masamune Auth Github for Firebase</h1>
+  <h1 align="center">Masamune Auth GitHub for Firebase</h1>
 </p>
 
 <p align="center">
@@ -30,7 +30,7 @@
 
 ---
 
-# Masamune Auth Github for Firebase
+# Masamune Auth GitHub for Firebase
 
 ## Usage
 
@@ -83,11 +83,53 @@ final masamuneAdapters = <MasamuneAdapter>[
 Use `Authentication` from `katana_auth` to trigger GitHub sign-in. The query handles OAuth authorization and token exchange.
 
 ```dart
-final auth = ref.app.controller(Authentication.query());
+class SignInPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final auth = ref.app.controller(Authentication.query());
 
-await auth.initialize();
+    // Initialize on page load
+    ref.page.on(
+      initOrUpdate: () {
+        auth.initialize();
+      },
+    );
 
-await auth.signIn(FirebaseGithubAuthQuery.signIn());
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (auth.isSignedIn)
+              Column(
+                children: [
+                  Text("Signed in with GitHub"),
+                  Text("User ID: ${auth.userId}"),
+                  Text("Email: ${auth.userEmail ?? 'N/A'}"),
+                  TextButton(
+                    onPressed: () => auth.signOut(),
+                    child: const Text("Sign Out"),
+                  ),
+                ],
+              )
+            else
+              ElevatedButton.icon(
+                icon: Icon(Icons.code),
+                label: const Text("Sign in with GitHub"),
+                onPressed: () async {
+                  try {
+                    await auth.signIn(FirebaseGithubAuthQuery.signIn());
+                  } catch (e) {
+                    print("Sign in failed: $e");
+                  }
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 ```
 
 After completion, `auth.isSignedIn` becomes `true` and the Firebase user is authenticated.

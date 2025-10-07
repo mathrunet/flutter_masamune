@@ -90,14 +90,56 @@ final masamuneAdapters = <MasamuneAdapter>[
 Use `Authentication` from `katana_auth` to initiate the Facebook sign-in flow.
 
 ```dart
-final auth = ref.app.controller(Authentication.query());
+class SignInPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final auth = ref.app.controller(Authentication.query());
 
-await auth.initialize();
+    // Initialize on page load
+    ref.page.on(
+      initOrUpdate: () {
+        auth.initialize();
+      },
+    );
 
-await auth.signIn(FacebookAuthQuery.signIn());
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (auth.isSignedIn)
+              Column(
+                children: [
+                  Text("Welcome!"),
+                  Text("User ID: ${auth.userId}"),
+                  Text("Email: ${auth.userEmail ?? 'N/A'}"),
+                  TextButton(
+                    onPressed: () => auth.signOut(),
+                    child: const Text("Sign Out"),
+                  ),
+                ],
+              )
+            else
+              ElevatedButton.icon(
+                icon: Icon(Icons.facebook),
+                label: const Text("Sign in with Facebook"),
+                onPressed: () async {
+                  try {
+                    await auth.signIn(FacebookAuthQuery.signIn());
+                  } catch (e) {
+                    print("Sign in failed: $e");
+                  }
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 ```
 
-After sign-in, inspect `auth.isSignedIn`, `auth.userId`, `auth.userEmail`, and related getters to update your UI or business logic.
+The controller automatically notifies listeners on state changes.
 
 ### Firebase Integration
 

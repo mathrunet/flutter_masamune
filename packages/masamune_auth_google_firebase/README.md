@@ -88,11 +88,53 @@ final masamuneAdapters = <MasamuneAdapter>[
 Use `Authentication` from `katana_auth` to start the Google sign-in flow.
 
 ```dart
-final auth = ref.app.controller(Authentication.query());
+class SignInPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final auth = ref.app.controller(Authentication.query());
 
-await auth.initialize();
+    // Initialize on page load
+    ref.page.on(
+      initOrUpdate: () {
+        auth.initialize();
+      },
+    );
 
-await auth.signIn(GoogleAuthQuery.signIn());
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (auth.isSignedIn)
+              Column(
+                children: [
+                  Text("Signed in with Google"),
+                  Text("User ID: ${auth.userId}"),
+                  Text("Email: ${auth.userEmail}"),
+                  TextButton(
+                    onPressed: () => auth.signOut(),
+                    child: const Text("Sign Out"),
+                  ),
+                ],
+              )
+            else
+              ElevatedButton.icon(
+                icon: Icon(Icons.g_mobiledata),
+                label: const Text("Sign in with Google"),
+                onPressed: () async {
+                  try {
+                    await auth.signIn(GoogleAuthQuery.signIn());
+                  } catch (e) {
+                    print("Sign in failed: $e");
+                  }
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 ```
 
 After completion, Firebase Authentication holds the signed-in user and `auth.isSignedIn` becomes `true`.

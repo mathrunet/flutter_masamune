@@ -83,20 +83,68 @@ final masamuneAdapters = <MasamuneAdapter>[
 
 `AppleAuthMasamuneAdapter` prepares the native Apple sign-in flow on iOS. `FirebaseAppleAuthMasamuneAdapter` exchanges the Apple credential for a Firebase token (via Cloud Functions or the Firebase SDK).
 
-### Initialize Authentication
+### Authenticate with Apple
 
 Use `Authentication` from `katana_auth` to manage sign-in state.
 
 ```dart
-final auth = ref.app.controller(Authentication.query());
+class SignInPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final auth = ref.app.controller(Authentication.query());
 
-await auth.initialize();
+    // Initialize on page load
+    ref.page.on(
+      initOrUpdate: () {
+        auth.initialize();
+      },
+    );
 
-// Trigger Apple Sign In
-await auth.signIn(AppleAuthQuery.signIn());
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Show user info if signed in
+            if (auth.isSignedIn)
+              Column(
+                children: [
+                  Text("Welcome!"),
+                  Text("User ID: ${auth.userId}"),
+                  Text("Email: ${auth.userEmail ?? 'N/A'}"),
+                ],
+              )
+            else
+              ElevatedButton.icon(
+                icon: Icon(Icons.apple),
+                label: const Text("Sign in with Apple"),
+                onPressed: () async {
+                  try {
+                    await auth.signIn(AppleAuthQuery.signIn());
+                    print("Signed in successfully!");
+                  } catch (e) {
+                    print("Sign in failed: $e");
+                  }
+                },
+              ),
+            
+            // Sign out button
+            if (auth.isSignedIn)
+              TextButton(
+                onPressed: () async {
+                  await auth.signOut();
+                },
+                child: const Text("Sign Out"),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 ```
 
-`auth.isSignedIn`, `auth.userId`, and related getters expose the resulting user information. You can observe state changes by listening to the controller or using your preferred state management solution.
+**State Management**: The `Authentication` controller is a `ChangeNotifier`, so the UI automatically rebuilds when sign-in state changes.
 
 ### Handling Tokens and Linking
 
