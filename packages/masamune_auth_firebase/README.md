@@ -84,7 +84,7 @@ Future<void> deleteUserAccount(String uid) async {
 
 Your Masamune Functions backend should handle the `delete_user` action:
 
-```dart
+```typescript
 // In your Cloud Functions or backend
 if (action == "delete_user") {
   final userId = data["userId"];
