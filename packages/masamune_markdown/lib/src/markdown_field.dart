@@ -436,12 +436,18 @@ class _MarkdownFieldState extends State<MarkdownField>
             start += lines[i].length;
           }
         }
+
+        // Update cursor position to the end of inserted text
+        _selection = TextSelection.collapsed(offset: start);
       } else {
         // Normal text replacement
         widget.controller.replaceText(start, oldEnd, replacementText);
+        // Update cursor position
+        _selection = value.selection;
       }
 
       widget.onChanged?.call(widget.controller.value ?? []);
+      _updateRemoteEditingValue();
 
       // Trigger rebuild to reflect changes
       setState(() {});
