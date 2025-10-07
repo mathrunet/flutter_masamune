@@ -58,9 +58,7 @@ class MarkdownController extends MasamuneControllerBase<
   /// 指定された範囲のテキストを置換します。
   void replaceText(int start, int end, String text) {
     // Ensure we have a valid structure
-    if (_value.isEmpty ||
-        _value.first.children.isEmpty ||
-        _value.first.children.first is! MarkdownParagraphBlockValue) {
+    if (_value.isEmpty) {
       // Create initial structure
       final field = MarkdownFieldValue(
         id: uuid(),
@@ -103,116 +101,113 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // Update the first span
     final field = _value.first;
-    final block = field.children.first as MarkdownParagraphBlockValue;
+    final blocks = List<MarkdownBlockValue>.from(field.children);
 
-    if (block.children.isEmpty) {
-      // Create first line if needed
-      final newLine = MarkdownLineValue(
-        id: uuid(),
-        property: const MarkdownLineProperty(
-          backgroundColor: null,
-          foregroundColor: null,
-        ),
-        children: [
-          MarkdownSpanValue(
-            id: uuid(),
-            value: text,
-            property: const MarkdownSpanProperty(
-              backgroundColor: null,
-              foregroundColor: null,
-            ),
-          ),
-        ],
-      );
+    // Find which block contains the start position
+    var currentOffset = 0;
+    var targetBlockIndex = -1;
+    var localStart = start;
+    var localEnd = end;
 
-      final newBlock = MarkdownParagraphBlockValue(
-        id: block.id,
-        property: block.property,
-        children: [newLine],
-      );
+    for (var i = 0; i < blocks.length; i++) {
+      final block = blocks[i];
+      if (block is MarkdownParagraphBlockValue) {
+        final blockText = StringBuffer();
+        for (var j = 0; j < block.children.length; j++) {
+          final line = block.children[j];
+          for (final span in line.children) {
+            blockText.write(span.value);
+          }
+          if (j < block.children.length - 1) {
+            blockText.writeln();
+          }
+        }
 
-      final newField = MarkdownFieldValue(
-        id: field.id,
-        property: field.property,
-        children: [newBlock],
-      );
+        final blockLength = blockText.toString().length;
 
-      _value[0] = newField;
-      notifyListeners();
-      return;
+        if (currentOffset + blockLength >= start) {
+          // Found the target block
+          targetBlockIndex = i;
+          localStart = start - currentOffset;
+          localEnd = end - currentOffset;
+          break;
+        }
+
+        currentOffset += blockLength + 1; // +1 for newline between blocks
+      }
     }
 
-    final line = block.children.first;
-    if (line.children.isEmpty) {
-      // Create first span if needed
-      final newSpan = MarkdownSpanValue(
-        id: uuid(),
-        value: text,
-        property: const MarkdownSpanProperty(
-          backgroundColor: null,
-          foregroundColor: null,
-        ),
-      );
-
-      final newLine = MarkdownLineValue(
-        id: line.id,
-        property: line.property,
-        children: [newSpan],
-      );
-
-      final newBlock = MarkdownParagraphBlockValue(
-        id: block.id,
-        property: block.property,
-        children: [newLine],
-      );
-
-      final newField = MarkdownFieldValue(
-        id: field.id,
-        property: field.property,
-        children: [newBlock],
-      );
-
-      _value[0] = newField;
-      notifyListeners();
-      return;
+    if (targetBlockIndex == -1) {
+      // Start position is beyond all blocks, append to last block
+      targetBlockIndex = blocks.length - 1;
+      localStart = start - currentOffset;
+      localEnd = end - currentOffset;
     }
 
-    // Update existing span
-    final span = line.children.first;
-    final oldText = span.value;
+    // Update the target block
+    final targetBlock = blocks[targetBlockIndex] as MarkdownParagraphBlockValue;
+
+    // Get current text in the block
+    final blockText = StringBuffer();
+    for (var i = 0; i < targetBlock.children.length; i++) {
+      final line = targetBlock.children[i];
+      for (final span in line.children) {
+        blockText.write(span.value);
+      }
+      if (i < targetBlock.children.length - 1) {
+        blockText.writeln();
+      }
+    }
+
+    final oldText = blockText.toString();
 
     // Ensure indices are within bounds
-    final safeStart = start.clamp(0, oldText.length);
-    final safeEnd = end.clamp(0, oldText.length);
+    final safeStart = localStart.clamp(0, oldText.length);
+    final safeEnd = localEnd.clamp(0, oldText.length);
 
+    // Create new text
     final newText =
         oldText.substring(0, safeStart) + text + oldText.substring(safeEnd);
 
-    final newSpan = MarkdownSpanValue(
-      id: span.id,
-      value: newText,
-      property: span.property,
-      editable: span.editable,
-    );
-
-    final newLine = MarkdownLineValue(
-      id: line.id,
-      property: line.property,
-      children: [newSpan],
-    );
-
+    // Create updated block with new text
     final newBlock = MarkdownParagraphBlockValue(
-      id: block.id,
-      property: block.property,
-      children: [newLine],
+      id: targetBlock.id,
+      property: targetBlock.property,
+      children: [
+        MarkdownLineValue(
+          id: targetBlock.children.isNotEmpty
+              ? targetBlock.children.first.id
+              : uuid(),
+          property: const MarkdownLineProperty(
+            backgroundColor: null,
+            foregroundColor: null,
+          ),
+          children: [
+            MarkdownSpanValue(
+              id: targetBlock.children.isNotEmpty &&
+                      targetBlock.children.first.children.isNotEmpty
+                  ? targetBlock.children.first.children.first.id
+                  : uuid(),
+              value: newText,
+              property: const MarkdownSpanProperty(
+                backgroundColor: null,
+                foregroundColor: null,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
 
+    // Update blocks list
+    blocks[targetBlockIndex] = newBlock;
+
+    // Update field
     final newField = MarkdownFieldValue(
       id: field.id,
       property: field.property,
-      children: [newBlock],
+      children: blocks,
     );
 
     _value[0] = newField;
