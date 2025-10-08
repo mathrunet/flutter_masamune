@@ -70,7 +70,7 @@ final masamuneAdapters = <MasamuneAdapter>[
 
 Use `GoogleBannerAd` to place banner ads in the widget tree. If `adUnitId` is omitted, the adapter's `defaultAdUnitId` is applied. Specify the size with `GoogleBannerAdSize` and optionally customize border, loading indicator, or event callbacks.
 
-Available sizes: `banner` (320×50), `largeBanner` (320×100), `mediumRectangle` (300×250), `fullBanner` (468×60), `leaderboard` (728×90), `fluid` (varies).
+Available sizes: `banner` (320×50), `largeBanner` (320×100), `mediumRectangle` (320×250), `fullBanner` (468×60), `leaderboard` (728×90), `fluid` (varies).
 
 ```dart
 GoogleBannerAd(
