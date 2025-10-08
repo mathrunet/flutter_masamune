@@ -1569,20 +1569,35 @@ class _RenderMarkdownEditor extends RenderBox {
     for (final layout in layouts) {
       final blockOffset = layout.offset + Offset(layout.padding.left, 0);
       final blockBottom = blockOffset.dy + layout.painter.height;
+      // Define the actual text area boundaries (excluding padding)
+      final blockTop = layout.offset.dy - layout.padding.top;
+      final blockRight = blockOffset.dx + layout.painter.width;
 
       if (position.dy >= blockOffset.dy && position.dy <= blockBottom) {
-        // Position is within this block
+        // Check if position is within the horizontal text bounds
+        if (position.dx < layout.padding.left || position.dx > blockRight) {
+          // Position is in padding area horizontally, return null to deselect
+          return null;
+        }
+        // Position is within this block's text area
         final localPosition = position - blockOffset;
         final textPosition = layout.painter.getPositionForOffset(localPosition);
         return currentTextOffset + textPosition.offset;
+      } else if (position.dy >= blockTop &&
+          position.dy <
+              layout.offset.dy +
+                  layout.painter.height +
+                  layout.padding.bottom) {
+        // Position is in vertical padding area, return null to deselect
+        return null;
       }
 
       currentTextOffset +=
           layout.textLength + 1; // +1 for newline between blocks
     }
 
-    // Position is after all blocks, return end of text
-    return currentTextOffset > 0 ? currentTextOffset - 1 : 0;
+    // Position is after all blocks or in margin area, return null to deselect
+    return null;
   }
 
   void _handleTapDown(PointerDownEvent event) {
@@ -1670,10 +1685,18 @@ class _RenderMarkdownEditor extends RenderBox {
 
     final textOffset = _getTextOffsetForPosition(position);
 
+    _onTap?.call();
+
     if (textOffset != null) {
-      _onTap?.call();
+      // Tapped on text, set cursor position
       _onSelectionChanged(
         TextSelection.collapsed(offset: textOffset),
+        SelectionChangedCause.tap,
+      );
+    } else {
+      // Tapped on empty space (padding/margin), clear selection
+      _onSelectionChanged(
+        const TextSelection.collapsed(offset: 0),
         SelectionChangedCause.tap,
       );
     }
@@ -1695,9 +1718,9 @@ class _RenderMarkdownEditor extends RenderBox {
         ),
         SelectionChangedCause.doubleTap,
       );
-
-      _onDoubleTap?.call(globalPosition);
     }
+    // Call onDoubleTap callback even if tapping on empty space
+    _onDoubleTap?.call(globalPosition);
   }
 
   void _handleLongPressDetected(Offset globalPosition) {
@@ -1716,9 +1739,9 @@ class _RenderMarkdownEditor extends RenderBox {
         ),
         SelectionChangedCause.longPress,
       );
-
-      _onLongPress?.call(globalPosition);
     }
+    // Call onLongPress callback even if pressing on empty space
+    _onLongPress?.call(globalPosition);
   }
 
   TextRange _getWordBoundary(String text, int offset) {
@@ -1825,6 +1848,7 @@ class _RenderMarkdownEditor extends RenderBox {
 
     final textOffset = _getTextOffsetForPosition(position);
 
+    // Only update selection if drag is within text area
     if (textOffset != null) {
       if (_selection.isCollapsed) {
         // Start selection from tap down position
