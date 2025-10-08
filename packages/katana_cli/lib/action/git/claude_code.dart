@@ -2,6 +2,11 @@
 import "dart:io";
 
 // Project imports:
+import "package:katana_cli/ai/docs/form_usage.dart";
+import "package:katana_cli/ai/docs/katana_ui_usage.dart";
+import "package:katana_cli/ai/docs/model_field_value_usage.dart";
+import "package:katana_cli/ai/docs/plugin_usage.dart";
+import "package:katana_cli/ai/docs/universal_ui_usage.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Add AI Agent using Claude Code.
@@ -590,94 +595,15 @@ final form = ref.page.form(LoginValue.form(LoginValue(email: "", password: "")))
         - `enum_usage.md`: `Enum`の実装方法
         - `functions_usage.md`: Functions使用方法
         - `plugins/`: 各種プラグインの使用方法詳細
-            - `introduction.md`: プラグイン概要
-            - `picker.md`: ファイルピッカープラグイン
-            - `camera.md`: カメラプラグイン
-            - `location.md`: 位置情報プラグイン
-            - `google_map.md`: GoogleMapプラグイン
-            - `speech_to_text.md`: 音声認識プラグイン
-            - `text_to_speech.md`: 音声合成プラグイン
-            - `openai.md`: OpenAIプラグイン
-            - `stripe.md`: Stripeプラグイン
-            - `purchase.md`: アプリ内課金プラグイン
-            - `sendgrid.md`: SendGridプラグイン
-            - `local_notification.md`: ローカル通知プラグイン
-            - `ads.md`: 広告プラグイン
-            - `agora.md`: Agoraプラグイン
-            - `animate.md`: アニメーションプラグイン
-            - `calendar.md`: カレンダープラグイン
+${kPluginList.entries.map((e) => "            - `${e.key.toSnakeCase()}.md`: ${e.value.name}").join("\n")}
         - `form/`: フォーム関連ウィジェットの詳細使用方法
-            - `form_builder.md`: FormBuilderの使用方法
-            - `form_text_field.md`: FormTextFieldの使用方法
-            - `form_num_field.md`: FormNumFieldの使用方法
-            - `form_password_builder.md`: FormPasswordBuilderの使用方法
-            - `form_rating_bar.md`: FormRatingBarの使用方法
-            - `form_media.md`: FormMediaの使用方法
-            - `form_multi_media.md`: FormMultiMediaの使用方法
-            - `form_date_field.md`: FormDateFieldの使用方法
-            - `form_date_time_field.md`: FormDateTimeFieldの使用方法
-            - `form_date_time_range_field.md`: FormDateTimeRangeFieldの使用方法
-            - `form_month_field.md`: FormMonthFieldの使用方法
-            - `form_duration_field.md`: FormDurationFieldの使用方法
-            - `form_pin_field.md`: FormPinFieldの使用方法
-            - `form_checkbox.md`: FormCheckboxの使用方法
-            - `form_switch.md`: FormSwitchの使用方法
-            - `form_chips_field.md`: FormChipsFieldの使用方法
-            - `form_enum_dropdown_field.md`: FormEnumDropdownFieldの使用方法
-            - `form_enum_modal_field.md`: FormEnumModalFieldの使用方法
-            - `form_map_dropdown_field.md`: FormMapDropdownFieldの使用方法
-            - `form_map_modal_field.md`: FormMapModalFieldの使用方法
-            - `form_future_field.md`: FormFutureFieldの使用方法
-            - `form_button.md`: FormButtonの使用方法
-            - `form_label.md`: FormLabelの使用方法
-            - `form_style_container.md`: FormStyleContainerの使用方法
-            - `form_list_builder.md`: FormListBuilderの使用方法
-            - `form_text_editing_controller_builder.md`: FormTextEditingControllerBuilderの使用方法
-            - `form_focus_node_builder.md`: FormFocusNodeBuilderの使用方法
-            - `form_editable_toggle_builder.md`: FormEditableToggleBuilderの使用方法
+${kFormList.entries.map((e) => "            - `${e.key.toSnakeCase()}.md`: ${e.value.name}").join("\n")}
         - `katana_ui/`: KatanaUIウィジェットの詳細使用方法
-            - `square_avatar.md`: SquareAvatarの使用方法
-            - `message_box.md`: MessageBoxの使用方法
-            - `periodic_scope.md`: PeriodicScopeの使用方法
-            - `scroll_builder.md`: ScrollBuilderの使用方法
-            - `shimmer.md`: Shimmerの使用方法
-            - `indent.md`: Indentの使用方法
-            - `label.md`: Labelの使用方法
-            - `line_tile.md`: LineTileの使用方法
-            - `list_tile_group.md`: ListTileGroupの使用方法
-            - `loading_builder.md`: LoadingBuilderの使用方法
-            - `avatar_tile.md`: AvatarTileの使用方法
-            - `card_tile.md`: CardTileの使用方法
-            - `chat_tile.md`: ChatTileの使用方法
+${kKatanaUiList.entries.map((e) => "            - `${e.key.toSnakeCase()}.md`: ${e.value.name}").join("\n")}
         - `universal_ui/`: UniversalUIウィジェットの詳細使用方法
-            - `universal_scaffold.md`: UniversalScaffoldの使用方法
-            - `universal_app_bar.md`: UniversalAppBarの使用方法
-            - `universal_list_view.md`: UniversalListViewの使用方法
-            - `universal_grid_view.md`: UniversalGridViewの使用方法
-            - `universal_column.md`: UniversalColumnの使用方法
-            - `universal_container.md`: UniversalContainerの使用方法
-            - `universal_padding.md`: UniversalPaddingの使用方法
-            - `universal_edge_insets.md`: UniversalEdgeInsetsの使用方法
-            - `universal_header_tile.md`: UniversalHeaderTileの使用方法
-            - `universal_search_bar.md`: UniversalSearchBarの使用方法
-            - `universal_side_bar.md`: UniversalSideBarの使用方法
+${kUniversalUiList.entries.map((e) => "            - `${e.key.toSnakeCase()}.md`: ${e.value.name}").join("\n")}
         - `model_field_value/`: ModelFieldValue各種の詳細使用方法
-            - `model_timestamp.md`: ModelTimestampの使用方法
-            - `model_timestamp_range.md`: ModelTimestampRangeの使用方法
-            - `model_date.md`: ModelDateの使用方法
-            - `model_date_range.md`: ModelDateRangeの使用方法
-            - `model_time.md`: ModelTimeの使用方法
-            - `model_time_range.md`: ModelTimeRangeの使用方法
-            - `model_uri.md`: ModelUriの使用方法
-            - `model_image_uri.md`: ModelImageUriの使用方法
-            - `model_video_uri.md`: ModelVideoUriの使用方法
-            - `model_ref.md`: ModelRefの使用方法
-            - `model_geo_value.md`: ModelGeoValueの使用方法
-            - `model_counter.md`: ModelCounterの使用方法
-            - `model_token.md`: ModelTokenの使用方法
-            - `model_locale.md`: ModelLocaleの使用方法
-            - `model_localized_value.md`: ModelLocalizedValueの使用方法
-            - `model_search.md`: ModelSearchの使用方法
+${kModelFieldValueList.entries.map((e) => "            - `${e.key.toSnakeCase()}.md`: ${e.value.name}").join("\n")}
 - Gitのコミットは必ず`katana git commit`コマンドを用いて行うこと
     - ファイルのステージングおよびGitのコミット
         ```bash
