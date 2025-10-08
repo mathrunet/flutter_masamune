@@ -14,7 +14,8 @@ class KatanaUIAvatarTileMdCliAiCode extends KatanaUiUsageCliAiCode {
   String get name => "`AvatarTile`の利用方法";
 
   @override
-  String get description => "プロフィールなどの概要を表示するためのタイルである`AvatarTile`の利用方法";
+  String get description =>
+      "プロフィールなどの概要を表示するためのタイルである`AvatarTile`の利用方法。アバター画像、タイトル、サブタイトル、説明文を含むカスタマイズ可能なプロフィールカードレイアウトを提供。";
 
   @override
   String get globs => "*.dart";
@@ -37,12 +38,13 @@ $excerpt
 
 ## 特徴
 
-- 大きなアバター画像の表示
+- 大きなアバター画像の表示（幅/高さはタイルの高さと一致）
 - タイトル、サブタイトル、説明文の3段階の情報表示
-- カスタマイズ可能なテキストスタイル
-- 柔軟なスタイリングオプション
+- 各テキスト要素のカスタマイズ可能なテキストスタイル
+- 柔軟なスタイリングオプション（背景色、ボーダー、角丸）
 - テーマに基づいたデフォルトスタイル
-- 固定高さのレイアウト
+- 固定高さのレイアウト（デフォルト: kAvatarTileHeight）
+- アイコンとテキストの色を一括制御する前景色オプション
 
 ## 基本的な使い方
 
@@ -121,10 +123,27 @@ AvatarTile(
 );
 ```
 
+### アイコン付きタイトル
+
+```dart
+AvatarTile(
+  foregroundColor: Colors.blue,
+  title: Row(
+    children: [
+      Icon(Icons.verified, size: 20),
+      SizedBox(width: 4),
+      Text("認証済みユーザー"),
+    ],
+  ),
+  subtitle: Text("@username"),
+  description: Text("プロフィール説明文"),
+);
+```
+
 ## 注意点
 
 - デフォルトの高さは`kAvatarTileHeight`（128.0）
-- デフォルトのパディングは水平方向に16px
+- デフォルトのパディングは水平方向に16px（`EdgeInsets.symmetric(horizontal: 16)`）
 - アバター画像の幅と高さはタイルの高さと同じ
 - アバター画像と内容の間のスペースは32px
 - テキストスタイルのデフォルト値：
@@ -133,6 +152,9 @@ AvatarTile(
   - 説明文: `Theme.of(context).textTheme.bodyMedium`または14px
 - 背景色のデフォルトは`Theme.of(context).colorScheme.surface`
 - 前景色のデフォルトは`Theme.of(context).colorScheme.onSurface`
+- `foregroundColor`を指定すると、内部のアイコン（`IconTheme`）とテキスト（`DefaultTextStyle`）の色が一括で変更される
+- `titleTextStyle`、`subtitleTextStyle`、`descriptionTextStyle`で個別に色を指定した場合は、`foregroundColor`より優先される
+- `padding`はタイルの外側のマージンとして適用される（`Container`の`margin`として使用）
 
 ## 利用シーン 
 
