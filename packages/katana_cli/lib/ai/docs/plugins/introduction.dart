@@ -36,6 +36,58 @@ $excerpt
 
 ## 設定方法
 
+### katana.yamlを使用する場合(推奨)
+
+1. `katana.yaml`に下記の設定を追加。
+
+    ```yaml
+    # katana.yaml
+
+    # Describe the settings for using the introductory part of the application.
+    # アプリの導入部分を利用するための設定を記述します。
+    introduction:
+      enable: true # チュートリアルを利用する場合false -> trueに変更
+    ```
+
+2. 下記のコマンドを実行して設定を適用。
+
+    ```bash
+    katana apply
+    ```
+
+3. `lib/adapter.dart`の`masamuneAdapters`に`IntroductionMasamuneAdapter`を追加。
+
+    ```dart
+    // lib/adapter.dart
+
+    /// Masamune adapter.
+    ///
+    /// The Masamune framework plugin functions can be defined together.
+    // TODO: Add the adapters.
+    final masamuneAdapters = <MasamuneAdapter>[
+        const UniversalMasamuneAdapter(),
+
+        // チュートリアルのアダプターを追加。
+        // デフォルトのイントロダクションスライドを設定。
+        IntroductionMasamuneAdapter(
+          items: const [
+            IntroductionItem(
+              title: LocalizedValue("ようこそ"),
+              body: LocalizedValue("このアプリの機能を紹介します。"),
+              image: AssetImage("assets/images/tutorial_1.png"),
+            ),
+            IntroductionItem(
+              title: LocalizedValue("整理整頓"),
+              body: LocalizedValue("タスクを簡単に管理できます。"),
+              image: AssetImage("assets/images/tutorial_2.png"),
+            ),
+          ],
+        ),
+    ];
+    ```
+
+### 手動でパッケージを追加する場合
+
 1. パッケージをプロジェクトに追加。
 
     ```bash

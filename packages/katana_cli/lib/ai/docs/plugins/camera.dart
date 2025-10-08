@@ -36,6 +36,69 @@ $excerpt
 
 ## 設定方法
 
+### katana.yamlを使用する場合(推奨)
+
+1. `katana.yaml`に下記の設定を追加。
+
+    ```yaml
+    # katana.yaml
+
+    # Describe the settings for using the camera.
+    # カメラを利用するための設定を記述します。
+    camera:
+      enable: true # カメラを利用する場合false -> trueに変更
+
+      # Specifies whether audio is enabled on the camera.
+      # カメラで音声を有効にするかを指定します。
+      audio:
+        enable: true
+
+      # Specify permission permission messages to use the camera and microphone in IOS.
+      # IOSでカメラやマイクを利用するための権限許可メッセージを指定します。
+      permission:
+        camera:
+          en: Use the camera for video chats.
+          ja: ビデオチャット用にカメラを使用します。
+        microphone:
+          en: Use the microphone for video chats.
+          ja: ビデオチャット用にマイクを使用します。
+    ```
+
+2. 下記のコマンドを実行して設定を適用。
+
+    ```bash
+    katana apply
+    ```
+
+3. `lib/adapter.dart`の`masamuneAdapters`に`CameraMasamuneAdapter`を追加。
+
+    ```dart
+    // lib/adapter.dart
+
+    /// Masamune adapter.
+    ///
+    /// The Masamune framework plugin functions can be defined together.
+    // TODO: Add the adapters.
+    final masamuneAdapters = <MasamuneAdapter>[
+        const UniversalMasamuneAdapter(),
+
+        // カメラのアダプターを追加。
+        // モバイル向けアダプター（camera + permission_handlerを使用）
+        const MobileCameraMasamuneAdapter(
+          defaultResolutionPreset: ResolutionPreset.high,  // 解像度設定
+          defaultImageFormat: MediaFormat.jpg,             // 画像フォーマット
+          enableAudio: true,                               // 音声有効化（動画録画時）
+        ),
+
+        // テストやカメラ非対応プラットフォーム用のモックアダプター
+        // const MockCameraMasamuneAdapter(
+        //   mockImagePath: 'assets/test_image.jpg',
+        // ),
+    ];
+    ```
+
+### 手動でパッケージを追加する場合
+
 1. パッケージをプロジェクトに追加。
 
     ```bash

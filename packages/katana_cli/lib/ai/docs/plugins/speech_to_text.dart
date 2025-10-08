@@ -36,6 +36,54 @@ $excerpt
 
 ## 設定方法
 
+### katana.yamlを使用する場合(推奨)
+
+1. `katana.yaml`に下記の設定を追加。
+
+    ```yaml
+    # katana.yaml
+
+    # Describe the settings for using voice recognition.
+    # Specify the permission message to use the library in IOS in [permission].
+    # Please include `en`, `ja`, etc. and write the message in that language there.
+    # 音声認識を利用するための設定を記述します。
+    # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+    # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+    speech_to_text:
+      enable: true
+      permission:
+        en: Used to perform voice recognition.
+        ja: 音声認識を実行するために使用されます。
+    ```
+
+2. 下記のコマンドを実行して設定を適用。
+
+    ```bash
+    katana apply
+    ```
+
+3. `lib/adapter.dart`の`masamuneAdapters`に`SpeechToTextMasamuneAdapter`を追加。
+
+    ```dart
+    // lib/adapter.dart
+
+    /// Masamune adapter.
+    ///
+    /// The Masamune framework plugin functions can be defined together.
+    // TODO: Add the adapters.
+    final masamuneAdapters = <MasamuneAdapter>[
+        const UniversalMasamuneAdapter(),
+
+        // Speech-To-Textのアダプターを追加。
+        // デフォルトの言語設定を指定（必須）
+        const SpeechToTextMasamuneAdapter(
+          defaultLocale: Locale('ja', 'JP'),  // 日本語を使用
+        ),
+    ];
+    ```
+
+### 手動でパッケージを追加する場合
+
 1. パッケージをプロジェクトに追加。
 
     ```bash

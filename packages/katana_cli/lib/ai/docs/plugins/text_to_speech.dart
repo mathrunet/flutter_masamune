@@ -36,6 +36,53 @@ $excerpt
 
 ## 設定方法
 
+### katana.yamlを使用する場合(推奨)
+
+1. `katana.yaml`に下記の設定を追加。
+
+    ```yaml
+    # katana.yaml
+
+    # Describe the settings for using speech synthesis.
+    # 音声合成による発話を利用するための設定を記述します。
+    text_to_speech:
+      enable: true
+    ```
+
+2. 下記のコマンドを実行して設定を適用。
+
+    ```bash
+    katana apply
+    ```
+
+3. `lib/adapter.dart`の`masamuneAdapters`に`TextToSpeechMasamuneAdapter`を追加。
+
+    ```dart
+    // lib/adapter.dart
+
+    /// Masamune adapter.
+    ///
+    /// The Masamune framework plugin functions can be defined together.
+    // TODO: Add the adapters.
+    final masamuneAdapters = <MasamuneAdapter>[
+        const UniversalMasamuneAdapter(),
+
+        // Text-To-Speechのアダプターを追加。
+        const TextToSpeechMasamuneAdapter(
+          defaultLocale: Locale('ja', 'JP'),                         // デフォルト言語（必須）
+          defaultSpeechRate: 0.5,                                    // 話速（0.0-1.0、デフォルト: 1.0）
+          defaultVolume: 1.0,                                        // 音量（0.0-1.0、デフォルト: 1.0）
+          defaultPitch: 1.0,                                         // ピッチ（0.0-1.0、デフォルト: 1.0）
+          defaultIosAudioCategory: TextToSpeechIosAudioCategory.playback,  // iOSオーディオカテゴリ
+          defaultIosAudioCategoryOptions: [
+            TextToSpeechIosAudioCategoryOptions.mixWithOthers,       // 他のオーディオとミックス
+          ],
+        ),
+    ];
+    ```
+
+### 手動でパッケージを追加する場合
+
 1. パッケージをプロジェクトに追加。
 
     ```bash

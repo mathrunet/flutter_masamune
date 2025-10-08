@@ -38,6 +38,70 @@ SendGridやGmailなどのメールサービスプロバイダーを通じて、�
 
 ## 設定方法
 
+### katana.yamlを使用する場合(推奨)
+
+1. `katana.yaml`に下記の設定を追加。
+
+    **Gmailを使用する場合:**
+
+    ```yaml
+    # katana.yaml
+
+    # Configure Gmail sending settings.
+    # Gmailの送信設定を行います。
+    gmail:
+      # Set to `true` if you want to use Gmail to send emails.
+      # Gmailによるメール送信を利用する場合は`true`にしてください。
+      enable: true
+
+      # Gmail user ID
+      user_id: your_email@gmail.com
+
+      # Gmail user password
+      user_password: your_app_password
+    ```
+
+    **SendGridを使用する場合:**
+
+    ```yaml
+    # katana.yaml
+
+    # Configure Sendgrid sending settings.
+    # Sendgridの送信設定を行います。
+    sendgrid:
+      # Set to `true` if you want to use mail sending by Sendgrid.
+      # Sendgridによるメール送信を利用する場合は`true`にしてください。
+      enable: true
+
+      # API key for SendGrid
+      api_key: your_sendgrid_api_key
+    ```
+
+2. 下記のコマンドを実行して設定を適用。
+
+    ```bash
+    katana apply
+    ```
+
+3. `lib/adapter.dart`の`masamuneAdapters`に`MailMasamuneAdapter`を追加。
+
+    ```dart
+    // lib/adapter.dart
+
+    /// Masamune adapter.
+    ///
+    /// The Masamune framework plugin functions can be defined together.
+    // TODO: Add the adapters.
+    final masamuneAdapters = <MasamuneAdapter>[
+        const UniversalMasamuneAdapter(),
+
+        // メール送信のアダプターを追加。
+        const MailMasamuneAdapter(),
+    ];
+    ```
+
+### 手動でパッケージを追加する場合
+
 1. パッケージをプロジェクトに追加。
 
     ```bash
