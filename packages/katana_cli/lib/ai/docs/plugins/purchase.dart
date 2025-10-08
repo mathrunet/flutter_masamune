@@ -41,6 +41,120 @@ Google Play、App Storeの課金システムと連携して、サブスクリプ
 
 ## 設定方法
 
+### katana.yamlを使用する場合(推奨)
+
+1. `katana.yaml`に下記の設定を追加。
+
+    ```yaml
+    # katana.yaml
+
+    # Configure settings for store billing.
+    # ストア課金を行う場合の設定を行います。
+    purchase:
+      # Setting this to `true` will install the billing package for testing.
+      # ここを`true`にするとテスト用の課金パッケージがインストールされます。
+      enable: true # アプリ内課金を利用する場合false -> trueに変更
+
+      # Configure settings for Google Play billing.
+      # Follow the steps below to configure the settings.
+      # 1. Create a service account with permissions to GooglePlayConsole based on the URL below.
+      #    https://mathru.notion.site/Android-1d4a60948a1446d7a82c010d96417a3d?pvs=4
+      #    ※ You need to create an OAuth consent screen. Please create it from the following URL.
+      #    https://console.cloud.google.com/apis/credentials/consent
+      # 2. Set `enable` to `true`.
+      # 3. Set the topic ID for the notification to `pubsub_topic`.
+      # 4. Run `katana apply` to deploy the app and server.
+      # GooglePlayの課金を行う場合の設定を行います。
+      # 下記の手順で設定を行います。
+      # 1. 下記URLを元にGooglePlayConsoleに権限があるサービスアカウントを作成します。
+      #    https://mathru.notion.site/Android-1d4a60948a1446d7a82c010d96417a3d?pvs=4
+      #    ※OAuthの同意画面を作成する必要があります。下記のURLから作成してください。
+      #    https://console.cloud.google.com/apis/credentials/consent
+      # 2. `enable`を`true`にします。
+      # 3. 通知用のトピックIDを`pubsub_topic`に設定します。
+      # 4. `katana apply`を実行しアプリとサーバーのデプロイを行います。
+      google_play:
+        enable: true # GooglePlayの課金を利用する場合false -> trueに変更
+        pubsub_topic: purchasing
+
+      # Configure settings for AppStore billing.
+      # Follow the steps below to configure the settings.
+      # 1. Register your tax information and bank account to activate [Subscription]->[Paid Apps] in the AppStore.
+      # 2. Get it from [AppStore]->[App Info]->[Shared Secret for App] and put it in `shared_secret`.
+      # AppStoreの課金を行う場合の設定を行います。
+      # 下記の手順で設定を行います。
+      # 1. AppStoreの[契約]->[有料App]をアクティブにするように税務情報や銀行口座を登録します。
+      # 2. AppStoreの[アプリ]->[App情報]->[App用共有シークレット]から取得して`shared_secret`に記載します。
+      app_store:
+        enable: true # AppStoreの課金を利用する場合false -> trueに変更
+        shared_secret: # AppStoreの共有シークレットを記載。
+    ```
+
+2. 下記のコマンドを実行して設定を適用。
+
+    ```bash
+    katana apply
+    ```
+
+3. `lib/adapter.dart`の`masamuneAdapters`に`MobilePurchaseMasamuneAdapter`を追加。
+
+    ```dart
+    // lib/adapter.dart
+
+    import 'package:masamune_purchase_mobile/masamune_purchase_mobile.dart';
+    import 'package:katana_functions_firebase/katana_functions_firebase.dart';
+    import 'package:katana_model_firestore/katana_model_firestore.dart';
+
+    final functionsAdapter = FirebaseFunctionsAdapter(
+      options: DefaultFirebaseOptions.currentPlatform,
+      region: FirebaseRegion.asiaNortheast1,
+    );
+
+    final modelAdapter = FirestoreModelAdapter(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    /// Masamune adapter.
+    ///
+    /// The Masamune framework plugin functions can be defined together.
+    // TODO: Add the adapters.
+    final masamuneAdapters = <MasamuneAdapter>[
+        const UniversalMasamuneAdapter(),
+
+        // アプリ内課金のアダプターを追加。
+        MobilePurchaseMasamuneAdapter(
+          products: const [
+            // サブスクリプション商品
+            PurchaseProduct.subscription(
+              productId: "premium_monthly",              // App Store/Play Consoleと一致させる
+              title: LocalizedValue("プレミアム月額プラン"),
+              description: LocalizedValue("すべての機能を利用可能"),
+              period: PurchaseSubscriptionPeriod.month,
+            ),
+
+            // 非消費型(買い切り)
+            PurchaseProduct.nonConsumable(
+              productId: "lifetime_unlock",
+              title: LocalizedValue("永久アクセス"),
+            ),
+
+            // 消費型(コイン、クレジット)
+            PurchaseProduct.consumable(
+              productId: "coin_pack_100",
+              title: LocalizedValue("100コイン"),
+              amount: 100,
+            ),
+          ],
+          onRetrieveUserId: () => currentUserId,    // 現在の認証済みユーザーID
+          functionsAdapter: functionsAdapter,       // バックエンド検証用
+          modelAdapter: modelAdapter,               // 購入データ保存用
+          initializeOnBoot: true,                   // アプリ起動時に自動初期化
+        ),
+    ];
+    ```
+
+### 手動でパッケージを追加する場合
+
 1. パッケージをプロジェクトに追加。
 
     ```bash
