@@ -1372,9 +1372,6 @@ class _RenderMarkdownEditor extends RenderBox {
     // Otherwise, use the actual content height
     final height = _expands ? constraints.maxHeight : totalHeight;
 
-    debugPrint(
-        "[MarkdownField] performLayout: expands=$_expands, totalHeight=$totalHeight, constraints.maxHeight=${constraints.maxHeight}, final height=$height");
-
     size = constraints.constrain(Size(
       constraints.maxWidth,
       height,
@@ -1392,20 +1389,6 @@ class _RenderMarkdownEditor extends RenderBox {
     // Reset handle positions
     _startHandlePosition = null;
     _endHandlePosition = null;
-
-    // DEBUG: Draw red background for the entire field area to visualize tap target
-    final debugRect = Rect.fromLTWH(
-      offset.dx,
-      offset.dy,
-      size.width,
-      size.height,
-    );
-    canvas.drawRect(
-      debugRect,
-      Paint()
-        ..color = const Color(0x22FF0000) // Semi-transparent red
-        ..style = PaintingStyle.fill,
-    );
 
     for (final layout in layouts) {
       final blockOffset =
@@ -1603,26 +1586,13 @@ class _RenderMarkdownEditor extends RenderBox {
     final layouts = _blockLayouts;
     var currentTextOffset = 0;
 
-    debugPrint(
-        "[MarkdownField] _getTextOffsetForPosition: position=$position, layouts.length=${layouts.length}");
-
     for (final layout in layouts) {
       final blockOffset = layout.offset + Offset(layout.padding.left, 0);
       final blockBottom = blockOffset.dy + layout.painter.height;
       // Define the actual text area boundaries (excluding padding)
       final blockTop = layout.offset.dy - layout.padding.top;
 
-      debugPrint(
-          "[MarkdownField]   Block: offset=${layout.offset}, padding=${layout.padding}");
-      debugPrint(
-          "[MarkdownField]   blockOffset=$blockOffset, blockTop=$blockTop, blockBottom=$blockBottom");
-      debugPrint(
-          "[MarkdownField]   painter.width=${layout.painter.width}, painter.height=${layout.painter.height}");
-
       if (position.dy >= blockOffset.dy && position.dy <= blockBottom) {
-        debugPrint(
-            "[MarkdownField]   Position is in vertical range of this block");
-
         // Get the actual text width by checking where the last character is
         final textLength = layout.textLength;
         double actualTextRight = layout.padding.left;
@@ -1635,29 +1605,20 @@ class _RenderMarkdownEditor extends RenderBox {
           actualTextRight = layout.padding.left + lastCharOffset.dx;
         }
 
-        debugPrint(
-            "[MarkdownField]   actualTextRight=$actualTextRight, position.dx=${position.dx}, expands=$_expands");
-
         // Check if position is within the horizontal text bounds
         if (position.dx < layout.padding.left ||
             position.dx > actualTextRight) {
           // If expands is true, treat empty space as end of text (for full-width tap area)
           // Otherwise return null to deselect
           if (_expands) {
-            debugPrint(
-                "[MarkdownField]   Position is outside actual text bounds but expands=true - returning end of text offset ${currentTextOffset + textLength}");
             return currentTextOffset + textLength;
           } else {
-            debugPrint(
-                "[MarkdownField]   Position is outside actual text bounds - returning null");
             return null;
           }
         }
         // Position is within this block's text area
         final localPosition = position - blockOffset;
         final textPosition = layout.painter.getPositionForOffset(localPosition);
-        debugPrint(
-            "[MarkdownField]   Position is in text area - returning offset ${currentTextOffset + textPosition.offset}");
         return currentTextOffset + textPosition.offset;
       } else if (position.dy >= blockTop &&
           position.dy <
@@ -1667,12 +1628,8 @@ class _RenderMarkdownEditor extends RenderBox {
         // Position is in vertical padding area
         // If expands is true, treat as end of text
         if (_expands) {
-          debugPrint(
-              "[MarkdownField]   Position is in vertical padding area but expands=true - returning end of text offset ${currentTextOffset + layout.textLength}");
           return currentTextOffset + layout.textLength;
         } else {
-          debugPrint(
-              "[MarkdownField]   Position is in vertical padding area - returning null");
           return null;
         }
       }
@@ -1687,12 +1644,8 @@ class _RenderMarkdownEditor extends RenderBox {
     // - If expands is false: return null to deselect
     if (_expands && layouts.isNotEmpty) {
       final lastOffset = currentTextOffset > 0 ? currentTextOffset - 1 : 0;
-      debugPrint(
-          "[MarkdownField] Position is below all blocks but expands=true - returning end of text offset $lastOffset");
       return lastOffset;
     } else {
-      debugPrint(
-          "[MarkdownField] Position is below all blocks and expands=false - returning null to deselect");
       return null;
     }
   }
@@ -1700,9 +1653,6 @@ class _RenderMarkdownEditor extends RenderBox {
   void _handleTapDown(PointerDownEvent event) {
     final now = DateTime.now().millisecondsSinceEpoch;
     final position = globalToLocal(event.position);
-
-    debugPrint(
-        "[MarkdownField] _handleTapDown: event.position=${event.position}, local=$position, size=$size");
 
     // Check if tapping on selection handles
     // Check both handles and select the closer one if both are in range
@@ -1758,12 +1708,8 @@ class _RenderMarkdownEditor extends RenderBox {
     _longPressTimer?.cancel();
     _longPressTimer = null;
 
-    debugPrint(
-        "[MarkdownField] _handleTapUp: event.position=${event.position}");
-
     // Reset handle dragging flags
     if (_isDraggingStartHandle || _isDraggingEndHandle) {
-      debugPrint("[MarkdownField]   Handle dragging detected - returning");
       _isDraggingStartHandle = false;
       _isDraggingEndHandle = false;
       return;
@@ -1771,45 +1717,34 @@ class _RenderMarkdownEditor extends RenderBox {
 
     // If long press or double tap was detected, don't process as normal tap
     if (_longPressDetected || _doubleTapDetected) {
-      debugPrint(
-          "[MarkdownField]   Long press or double tap detected - returning");
       _longPressDetected = false;
       _doubleTapDetected = false;
       return;
     }
 
     if (_lastTapDownPosition == null) {
-      debugPrint("[MarkdownField]   No last tap down position - returning");
       return;
     }
 
     final position = globalToLocal(event.position);
-    debugPrint("[MarkdownField]   Local position: $position");
 
     // Check if it's a drag (moved too far from tap down position)
     if ((position - _lastTapDownPosition!).distance > 10) {
-      debugPrint("[MarkdownField]   Drag detected - returning");
       return;
     }
 
     final textOffset = _getTextOffsetForPosition(position);
-    debugPrint(
-        "[MarkdownField]   textOffset: $textOffset, current selection: $_selection");
 
     _onTap?.call();
 
     if (textOffset != null) {
       // Tapped on text, set cursor position
-      debugPrint(
-          "[MarkdownField]   Setting cursor to offset $textOffset (tapped on text)");
       _onSelectionChanged(
         TextSelection.collapsed(offset: textOffset),
         SelectionChangedCause.tap,
       );
     } else {
       // Tapped on empty space (padding/margin), clear selection
-      debugPrint(
-          "[MarkdownField]   Clearing selection (tapped on empty space)");
       _onSelectionChanged(
         const TextSelection.collapsed(offset: 0),
         SelectionChangedCause.tap,
