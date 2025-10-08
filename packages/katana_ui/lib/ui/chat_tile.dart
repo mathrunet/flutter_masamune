@@ -1,37 +1,121 @@
 part of "/katana_ui.dart";
 
-/// This widget is used to create a chat screen.
+/// A customizable chat bubble widget for messaging interfaces.
 ///
-/// The body of the chat is described in [label].
+/// This widget creates chat message bubbles with support for avatars, titles,
+/// actions, and flexible styling. Perfect for chat applications, messaging
+/// interfaces, and conversation displays.
 ///
-/// Icons can be specified for [leading] and [trailing].
+/// Features:
+/// - Left/right alignment for sent/received messages
+/// - Avatar/icon support (leading/trailing)
+/// - Optional title for sender name
+/// - Action buttons below message
+/// - Customizable styling and colors
+/// - Flexible padding and spacing
+/// - Theme-based default styling
+/// - Reverse mode for message direction
 ///
-/// By manipulating [mainAxisAlignment] and [crossAxisAlignment], you can visually change whether you are speaking for yourself or others.
+/// Example:
+/// ```dart
+/// ChatTile(
+///   Text("Hello! How are you?"),
+///   leading: CircleAvatar(
+///     child: Text("JS"),
+///   ),
+///   title: Text("John Smith"),
+///   backgroundColor: Colors.grey[100],
+///   mainAxisAlignment: MainAxisAlignment.start,
+/// )
+/// ```
 ///
-/// チャット画面を作成するためのウィジェットです。
+/// メッセージングインターフェース用のカスタマイズ可能なチャット吹き出しウィジェット。
 ///
-/// [label]にチャットの本文を記載します。
+/// このウィジェットはアバター、タイトル、アクション、柔軟なスタイリングをサポートする
+/// チャットメッセージバブルを作成します。チャットアプリケーション、メッセージング
+/// インターフェース、会話表示に最適です。
 ///
-/// [leading]や[trailing]にはアイコンなどを指定することができます。
+/// 特徴:
+/// - 送信/受信メッセージの左右配置
+/// - アバター/アイコンサポート（leading/trailing）
+/// - 送信者名のオプションタイトル
+/// - メッセージ下部のアクションボタン
+/// - カスタマイズ可能なスタイリングとカラー
+/// - 柔軟なパディングと間隔
+/// - テーマベースのデフォルトスタイリング
+/// - メッセージ方向のリバースモード
 ///
-/// [mainAxisAlignment]と[crossAxisAlignment]を操作することで自分の発言か他人の発言かを視覚的に変えることができます。
+/// 例:
+/// ```dart
+/// ChatTile(
+///   Text("こんにちは！元気ですか？"),
+///   leading: CircleAvatar(
+///     child: Text("田中"),
+///   ),
+///   title: Text("田中太郎"),
+///   backgroundColor: Colors.grey[100],
+///   mainAxisAlignment: MainAxisAlignment.start,
+/// )
+/// ```
 @immutable
 class ChatTile extends StatelessWidget {
-  /// This widget is used to create a chat screen.
+  /// A customizable chat bubble widget for messaging interfaces.
   ///
-  /// The body of the chat is described in [label].
+  /// This widget creates chat message bubbles with support for avatars, titles,
+  /// actions, and flexible styling. Perfect for chat applications, messaging
+  /// interfaces, and conversation displays.
   ///
-  /// Icons can be specified for [leading] and [trailing].
+  /// Features:
+  /// - Left/right alignment for sent/received messages
+  /// - Avatar/icon support (leading/trailing)
+  /// - Optional title for sender name
+  /// - Action buttons below message
+  /// - Customizable styling and colors
+  /// - Flexible padding and spacing
+  /// - Theme-based default styling
+  /// - Reverse mode for message direction
   ///
-  /// By manipulating [mainAxisAlignment] and [crossAxisAlignment], you can visually change whether you are speaking for yourself or others.
+  /// Example:
+  /// ```dart
+  /// ChatTile(
+  ///   Text("Hello! How are you?"),
+  ///   leading: CircleAvatar(
+  ///     child: Text("JS"),
+  ///   ),
+  ///   title: Text("John Smith"),
+  ///   backgroundColor: Colors.grey[100],
+  ///   mainAxisAlignment: MainAxisAlignment.start,
+  /// )
+  /// ```
   ///
-  /// チャット画面を作成するためのウィジェットです。
+  /// メッセージングインターフェース用のカスタマイズ可能なチャット吹き出しウィジェット。
   ///
-  /// [label]にチャットの本文を記載します。
+  /// このウィジェットはアバター、タイトル、アクション、柔軟なスタイリングをサポートする
+  /// チャットメッセージバブルを作成します。チャットアプリケーション、メッセージング
+  /// インターフェース、会話表示に最適です。
   ///
-  /// [leading]や[trailing]にはアイコンなどを指定することができます。
+  /// 特徴:
+  /// - 送信/受信メッセージの左右配置
+  /// - アバター/アイコンサポート（leading/trailing）
+  /// - 送信者名のオプションタイトル
+  /// - メッセージ下部のアクションボタン
+  /// - カスタマイズ可能なスタイリングとカラー
+  /// - 柔軟なパディングと間隔
+  /// - テーマベースのデフォルトスタイリング
+  /// - メッセージ方向のリバースモード
   ///
-  /// [mainAxisAlignment]と[crossAxisAlignment]を操作することで自分の発言か他人の発言かを視覚的に変えることができます。
+  /// 例:
+  /// ```dart
+  /// ChatTile(
+  ///   Text("こんにちは！元気ですか？"),
+  ///   leading: CircleAvatar(
+  ///     child: Text("田中"),
+  ///   ),
+  ///   title: Text("田中太郎"),
+  ///   backgroundColor: Colors.grey[100],
+  ///   mainAxisAlignment: MainAxisAlignment.start,
+  /// )
+  /// ```
   const ChatTile(
     this.label, {
     super.key,

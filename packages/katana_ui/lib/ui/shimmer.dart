@@ -1,20 +1,108 @@
 part of "/katana_ui.dart";
 
-/// Create a container to display the shimmer effect.
+/// A container widget that displays a shimmer loading effect.
 ///
-/// Used to display a shimmer effect instead of text.
+/// This widget creates a shimmer effect placeholder that can be used during
+/// loading states. Perfect for skeleton screens, loading placeholders, and
+/// content loading indicators.
 ///
-/// シマーエフェクトを表示するコンテナを作成します。
+/// Features:
+/// - Customizable shimmer animation colors
+/// - Adjustable width and height
+/// - Configurable border radius
+/// - Rectangle or circle shapes
+/// - Theme-based default colors
+/// - Optional child widget
+/// - Enable/disable shimmer effect
 ///
-/// 文字の変わりにシマーエフェクトを表示する場合に利用します。
+/// Example:
+/// ```dart
+/// ShimmerBox(
+///   width: 200,
+///   height: 20,
+///   borderRadius: BorderRadius.circular(4),
+///   baseColor: Colors.grey[300],
+///   highlightColor: Colors.grey[100],
+/// )
+/// ```
+///
+/// シマーローディングエフェクトを表示するコンテナウィジェット。
+///
+/// このウィジェットはローディング状態中に使用できるシマーエフェクトの
+/// プレースホルダーを作成します。スケルトンスクリーン、ローディングプレースホルダー、
+/// コンテンツローディングインジケータに最適です。
+///
+/// 特徴:
+/// - カスタマイズ可能なシマーアニメーションカラー
+/// - 調整可能な幅と高さ
+/// - 設定可能なボーダー半径
+/// - 矩形または円形の形状
+/// - テーマベースのデフォルトカラー
+/// - オプションの子ウィジェット
+/// - シマーエフェクトの有効/無効化
+///
+/// 例:
+/// ```dart
+/// ShimmerBox(
+///   width: 200,
+///   height: 20,
+///   borderRadius: BorderRadius.circular(4),
+///   baseColor: Colors.grey[300],
+///   highlightColor: Colors.grey[100],
+/// )
+/// ```
 class ShimmerBox extends StatelessWidget {
-  /// Create a container to display the shimmer effect.
+  /// A container widget that displays a shimmer loading effect.
   ///
-  /// Used to display a shimmer effect instead of text.
+  /// This widget creates a shimmer effect placeholder that can be used during
+  /// loading states. Perfect for skeleton screens, loading placeholders, and
+  /// content loading indicators.
   ///
-  /// シマーエフェクトを表示するコンテナを作成します。
+  /// Features:
+  /// - Customizable shimmer animation colors
+  /// - Adjustable width and height
+  /// - Configurable border radius
+  /// - Rectangle or circle shapes
+  /// - Theme-based default colors
+  /// - Optional child widget
+  /// - Enable/disable shimmer effect
   ///
-  /// 文字の変わりにシマーエフェクトを表示する場合に利用します。
+  /// Example:
+  /// ```dart
+  /// ShimmerBox(
+  ///   width: 200,
+  ///   height: 20,
+  ///   borderRadius: BorderRadius.circular(4),
+  ///   baseColor: Colors.grey[300],
+  ///   highlightColor: Colors.grey[100],
+  /// )
+  /// ```
+  ///
+  /// シマーローディングエフェクトを表示するコンテナウィジェット。
+  ///
+  /// このウィジェットはローディング状態中に使用できるシマーエフェクトの
+  /// プレースホルダーを作成します。スケルトンスクリーン、ローディングプレースホルダー、
+  /// コンテンツローディングインジケータに最適です。
+  ///
+  /// 特徴:
+  /// - カスタマイズ可能なシマーアニメーションカラー
+  /// - 調整可能な幅と高さ
+  /// - 設定可能なボーダー半径
+  /// - 矩形または円形の形状
+  /// - テーマベースのデフォルトカラー
+  /// - オプションの子ウィジェット
+  /// - シマーエフェクトの有効/無効化
+  ///
+  /// 例:
+  /// ```dart
+  /// ShimmerBox(
+  ///   width: 200,
+  ///   height: 20,
+  ///   borderRadius: BorderRadius.circular(4),
+  ///   baseColor: Colors.grey[300],
+  ///   highlightColor: Colors.grey[100],
+  /// )
+  /// ```
   const ShimmerBox({
     super.key,
     this.borderRadius,
@@ -110,13 +198,109 @@ class ShimmerBox extends StatelessWidget {
   }
 }
 
-/// Create a [ShimmerBox] effect that spans multiple lines.
+/// A multi-line shimmer effect widget for paragraph-style loading placeholders.
 ///
-/// 複数行に渡る[ShimmerBox]エフェクトを作成します。
+/// This widget creates multiple ShimmerBox instances stacked vertically to
+/// simulate multi-line text loading. Perfect for article previews, comment
+/// placeholders, and multi-line content loading states.
+///
+/// Features:
+/// - Multiple shimmer lines stacked vertically
+/// - Customizable line count
+/// - Adjustable spacing between lines
+/// - Shared shimmer effect colors across all lines
+/// - Theme-based default colors
+/// - Configurable line dimensions
+///
+/// Example:
+/// ```dart
+/// ShimmerMultiLine(
+///   lineCount: 4,
+///   lineSpace: 12,
+///   height: 16,
+///   baseColor: Colors.grey[300],
+///   highlightColor: Colors.grey[100],
+///   padding: EdgeInsets.all(16),
+/// )
+/// ```
+///
+/// 段落スタイルのローディングプレースホルダー用の複数行シマーエフェクトウィジェット。
+///
+/// このウィジェットは複数のShimmerBoxインスタンスを垂直に積み重ねて
+/// 複数行のテキストローディングをシミュレートします。記事プレビュー、コメント
+/// プレースホルダー、複数行コンテンツのローディング状態に最適です。
+///
+/// 特徴:
+/// - 垂直に積み重ねられた複数のシマーライン
+/// - カスタマイズ可能な行数
+/// - 行間の調整可能な間隔
+/// - すべての行で共有されるシマーエフェクトカラー
+/// - テーマベースのデフォルトカラー
+/// - 設定可能な行のサイズ
+///
+/// 例:
+/// ```dart
+/// ShimmerMultiLine(
+///   lineCount: 4,
+///   lineSpace: 12,
+///   height: 16,
+///   baseColor: Colors.grey[300],
+///   highlightColor: Colors.grey[100],
+///   padding: EdgeInsets.all(16),
+/// )
+/// ```
 class ShimmerMultiLine extends StatelessWidget {
-  /// Create a [ShimmerBox] effect that spans multiple lines.
+  /// A multi-line shimmer effect widget for paragraph-style loading placeholders.
   ///
-  /// 複数行に渡る[ShimmerBox]エフェクトを作成します。
+  /// This widget creates multiple ShimmerBox instances stacked vertically to
+  /// simulate multi-line text loading. Perfect for article previews, comment
+  /// placeholders, and multi-line content loading states.
+  ///
+  /// Features:
+  /// - Multiple shimmer lines stacked vertically
+  /// - Customizable line count
+  /// - Adjustable spacing between lines
+  /// - Shared shimmer effect colors across all lines
+  /// - Theme-based default colors
+  /// - Configurable line dimensions
+  ///
+  /// Example:
+  /// ```dart
+  /// ShimmerMultiLine(
+  ///   lineCount: 4,
+  ///   lineSpace: 12,
+  ///   height: 16,
+  ///   baseColor: Colors.grey[300],
+  ///   highlightColor: Colors.grey[100],
+  ///   padding: EdgeInsets.all(16),
+  /// )
+  /// ```
+  ///
+  /// 段落スタイルのローディングプレースホルダー用の複数行シマーエフェクトウィジェット。
+  ///
+  /// このウィジェットは複数のShimmerBoxインスタンスを垂直に積み重ねて
+  /// 複数行のテキストローディングをシミュレートします。記事プレビュー、コメント
+  /// プレースホルダー、複数行コンテンツのローディング状態に最適です。
+  ///
+  /// 特徴:
+  /// - 垂直に積み重ねられた複数のシマーライン
+  /// - カスタマイズ可能な行数
+  /// - 行間の調整可能な間隔
+  /// - すべての行で共有されるシマーエフェクトカラー
+  /// - テーマベースのデフォルトカラー
+  /// - 設定可能な行のサイズ
+  ///
+  /// 例:
+  /// ```dart
+  /// ShimmerMultiLine(
+  ///   lineCount: 4,
+  ///   lineSpace: 12,
+  ///   height: 16,
+  ///   baseColor: Colors.grey[300],
+  ///   highlightColor: Colors.grey[100],
+  ///   padding: EdgeInsets.all(16),
+  /// )
+  /// ```
   const ShimmerMultiLine({
     super.key,
     this.borderRadius,

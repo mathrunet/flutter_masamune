@@ -1,44 +1,144 @@
 part of "/katana_ui.dart";
 
-/// This widget can be placed on top of a [ListView] or [SingleChildScrollView] to easily add a [RefreshIndicator] or [Scrollbar].
+/// A builder widget that adds RefreshIndicator and Scrollbar to scrollable widgets.
 ///
-/// If [showScrollbarWhenDesktopOrWeb] is `true`, a mouse scrollable scrollbar will be displayed only on PC or Web.
+/// This widget simplifies adding pull-to-refresh and scrollbar functionality
+/// to ListView or SingleChildScrollView. Perfect for list views with refresh
+/// capability and desktop/web scrollbar support.
 ///
-/// If [onRefresh] is not [null], a [RefreshIndicator] will be placed and Pull to Refresh will be enabled.
+/// Features:
+/// - Easy pull-to-refresh integration
+/// - Platform-specific scrollbar (desktop/web)
+/// - Automatic ScrollController management
+/// - Custom ScrollController support
+/// - Interactive scrollbar with visibility controls
+/// - Simple builder pattern
 ///
-/// Please pass a [ListView] or [SingleChildScrollView] to [builder].
+/// Example:
+/// ```dart
+/// ScrollBuilder(
+///   onRefresh: () async {
+///     await refreshData();
+///   },
+///   showScrollbarWhenDesktopOrWeb: true,
+///   builder: (context, controller) {
+///     return ListView.builder(
+///       controller: controller,
+///       itemCount: items.length,
+///       itemBuilder: (context, index) {
+///         return ListTile(
+///           title: Text(items[index].title),
+///         );
+///       },
+///     );
+///   },
+/// )
+/// ```
 ///
-/// An internal [ScrollController] is created and passed to [builder]. If you want to specify your own [ScrollController], pass it to [controller].
+/// スクロール可能なウィジェットにRefreshIndicatorとScrollbarを追加するビルダーウィジェット。
 ///
-/// [ListView]や[SingleChildScrollView]の上に配置することで、[RefreshIndicator]や[Scrollbar]を簡単に追加できるようにするためのウィジェットです。
+/// このウィジェットはListViewやSingleChildScrollViewに
+/// プルトゥリフレッシュとスクロールバー機能を追加することを簡素化します。
+/// リフレッシュ機能とデスクトップ/Webスクロールバーサポートを備えたリストビューに最適です。
 ///
-/// [showScrollbarWhenDesktopOrWeb]を`true`にすると、PCやWebでのみマウスでドラッグ可能なスクロールバーを表示します。
+/// 特徴:
+/// - 簡単なプルトゥリフレッシュ統合
+/// - プラットフォーム固有のスクロールバー（デスクトップ/Web）
+/// - 自動ScrollController管理
+/// - カスタムScrollControllerサポート
+/// - 表示制御付きインタラクティブスクロールバー
+/// - シンプルなビルダーパターン
 ///
-/// [onRefresh]が[null]でない場合、[RefreshIndicator]を配置し、Pull to Refreshを有効にします。
-///
-/// [builder]で[ListView]や[SingleChildScrollView]を渡してください。
-///
-/// 内部で[ScrollController]が作られ、それが[builder]に渡されます。自身で[ScrollController]を指定したい場合は[controller]に渡してください。
+/// 例:
+/// ```dart
+/// ScrollBuilder(
+///   onRefresh: () async {
+///     await refreshData();
+///   },
+///   showScrollbarWhenDesktopOrWeb: true,
+///   builder: (context, controller) {
+///     return ListView.builder(
+///       controller: controller,
+///       itemCount: items.length,
+///       itemBuilder: (context, index) {
+///         return ListTile(
+///           title: Text(items[index].title),
+///         );
+///       },
+///     );
+///   },
+/// )
+/// ```
 class ScrollBuilder extends StatefulWidget {
-  /// This widget can be placed on top of a [ListView] or [SingleChildScrollView] to easily add a [RefreshIndicator] or [Scrollbar].
+  /// A builder widget that adds RefreshIndicator and Scrollbar to scrollable widgets.
   ///
-  /// If [showScrollbarWhenDesktopOrWeb] is `true`, a mouse scrollable scrollbar will be displayed only on PC or Web.
+  /// This widget simplifies adding pull-to-refresh and scrollbar functionality
+  /// to ListView or SingleChildScrollView. Perfect for list views with refresh
+  /// capability and desktop/web scrollbar support.
   ///
-  /// If [onRefresh] is not [null], a [RefreshIndicator] will be placed and Pull to Refresh will be enabled.
+  /// Features:
+  /// - Easy pull-to-refresh integration
+  /// - Platform-specific scrollbar (desktop/web)
+  /// - Automatic ScrollController management
+  /// - Custom ScrollController support
+  /// - Interactive scrollbar with visibility controls
+  /// - Simple builder pattern
   ///
-  /// Please pass a [ListView] or [SingleChildScrollView] to [builder].
+  /// Example:
+  /// ```dart
+  /// ScrollBuilder(
+  ///   onRefresh: () async {
+  ///     await refreshData();
+  ///   },
+  ///   showScrollbarWhenDesktopOrWeb: true,
+  ///   builder: (context, controller) {
+  ///     return ListView.builder(
+  ///       controller: controller,
+  ///       itemCount: items.length,
+  ///       itemBuilder: (context, index) {
+  ///         return ListTile(
+  ///           title: Text(items[index].title),
+  ///         );
+  ///       },
+  ///     );
+  ///   },
+  /// )
+  /// ```
   ///
-  /// An internal [ScrollController] is created and passed to [builder]. If you want to specify your own [ScrollController], pass it to [controller].
+  /// スクロール可能なウィジェットにRefreshIndicatorとScrollbarを追加するビルダーウィジェット。
   ///
-  /// [ListView]や[SingleChildScrollView]の上に配置することで、[RefreshIndicator]や[Scrollbar]を簡単に追加できるようにするためのウィジェットです。
+  /// このウィジェットはListViewやSingleChildScrollViewに
+  /// プルトゥリフレッシュとスクロールバー機能を追加することを簡素化します。
+  /// リフレッシュ機能とデスクトップ/Webスクロールバーサポートを備えたリストビューに最適です。
   ///
-  /// [showScrollbarWhenDesktopOrWeb]を`true`にすると、PCやWebでのみマウスでドラッグ可能なスクロールバーを表示します。
+  /// 特徴:
+  /// - 簡単なプルトゥリフレッシュ統合
+  /// - プラットフォーム固有のスクロールバー（デスクトップ/Web）
+  /// - 自動ScrollController管理
+  /// - カスタムScrollControllerサポート
+  /// - 表示制御付きインタラクティブスクロールバー
+  /// - シンプルなビルダーパターン
   ///
-  /// [onRefresh]が[null]でない場合、[RefreshIndicator]を配置し、Pull to Refreshを有効にします。
-  ///
-  /// [builder]で[ListView]や[SingleChildScrollView]を渡してください。
-  ///
-  /// 内部で[ScrollController]が作られ、それが[builder]に渡されます。自身で[ScrollController]を指定したい場合は[controller]に渡してください。
+  /// 例:
+  /// ```dart
+  /// ScrollBuilder(
+  ///   onRefresh: () async {
+  ///     await refreshData();
+  ///   },
+  ///   showScrollbarWhenDesktopOrWeb: true,
+  ///   builder: (context, controller) {
+  ///     return ListView.builder(
+  ///       controller: controller,
+  ///       itemCount: items.length,
+  ///       itemBuilder: (context, index) {
+  ///         return ListTile(
+  ///           title: Text(items[index].title),
+  ///         );
+  ///       },
+  ///     );
+  ///   },
+  /// )
+  /// ```
   const ScrollBuilder({
     required this.builder,
     super.key,

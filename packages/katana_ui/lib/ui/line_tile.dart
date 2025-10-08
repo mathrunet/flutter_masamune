@@ -1,37 +1,119 @@
 part of "/katana_ui.dart";
 
-/// Items can be listed on the left and right [ListTile].
+/// An enhanced ListTile with a text widget positioned to the right of the title.
 ///
-/// If [text] is specified, the widget can be placed to the right of [title].
+/// This widget extends ListTile by adding a [text] property that displays content
+/// to the right of the title. Perfect for key-value displays, settings rows,
+/// and form field layouts.
 ///
-/// The size can be adjusted by specifying [titleFlex] and [textFlex].
+/// Features:
+/// - Additional [text] widget alongside title
+/// - Adjustable flex ratios for title and text ([titleFlex], [textFlex])
+/// - Customizable spacing between title and text
+/// - Shimmer effect support for loading states
+/// - Full ListTile functionality inheritance
+/// - Works with ListTileGroup for grouped styling
 ///
-/// The spacing can be adjusted by specifying [space].
+/// Example:
+/// ```dart
+/// LineTile(
+///   title: const Text("Username"),
+///   text: const Text(
+///     "john_doe",
+///     style: TextStyle(color: Colors.grey),
+///   ),
+///   leading: const Icon(Icons.person),
+///   onTap: () {
+///     // Handle tap
+///   },
+/// )
+/// ```
 ///
-/// 左右に項目を記載可能な[ListTile]。
+/// タイトルの右側にテキストウィジェットを配置できる拡張ListTile。
 ///
-/// [text]を指定すると[title]の右側にウィジェットを配置できます。
+/// このウィジェットはListTileを拡張し、タイトルの右側にコンテンツを表示する
+/// [text]プロパティを追加します。キー値表示、設定行、フォームフィールドレイアウトに最適です。
 ///
-/// [titleFlex]と[textFlex]を指定してサイズを調整することが可能です。
+/// 特徴:
+/// - タイトルと並んで表示される追加の[text]ウィジェット
+/// - タイトルとテキストの調整可能なフレックス比率（[titleFlex]、[textFlex]）
+/// - タイトルとテキスト間のカスタマイズ可能な間隔
+/// - ローディング状態のシマーエフェクトサポート
+/// - ListTileの全機能を継承
+/// - グループ化されたスタイリングのためのListTileGroupと連携
 ///
-/// [space]を指定すると間隔を調整することが可能です。
+/// 例:
+/// ```dart
+/// LineTile(
+///   title: const Text("ユーザー名"),
+///   text: const Text(
+///     "john_doe",
+///     style: TextStyle(color: Colors.grey),
+///   ),
+///   leading: const Icon(Icons.person),
+///   onTap: () {
+///     // タップ処理
+///   },
+/// )
+/// ```
 @immutable
 class LineTile extends ListTile {
-  /// Items can be listed on the left and right [ListTile].
+  /// An enhanced ListTile with a text widget positioned to the right of the title.
   ///
-  /// If [text] is specified, the widget can be placed to the right of [title].
+  /// This widget extends ListTile by adding a [text] property that displays content
+  /// to the right of the title. Perfect for key-value displays, settings rows,
+  /// and form field layouts.
   ///
-  /// The size can be adjusted by specifying [titleFlex] and [textFlex].
+  /// Features:
+  /// - Additional [text] widget alongside title
+  /// - Adjustable flex ratios for title and text ([titleFlex], [textFlex])
+  /// - Customizable spacing between title and text
+  /// - Shimmer effect support for loading states
+  /// - Full ListTile functionality inheritance
+  /// - Works with ListTileGroup for grouped styling
   ///
-  /// The spacing can be adjusted by specifying [space].
+  /// Example:
+  /// ```dart
+  /// LineTile(
+  ///   title: const Text("Username"),
+  ///   text: const Text(
+  ///     "john_doe",
+  ///     style: TextStyle(color: Colors.grey),
+  ///   ),
+  ///   leading: const Icon(Icons.person),
+  ///   onTap: () {
+  ///     // Handle tap
+  ///   },
+  /// )
+  /// ```
   ///
-  /// 左右に項目を記載可能な[ListTile]。
+  /// タイトルの右側にテキストウィジェットを配置できる拡張ListTile。
   ///
-  /// [text]を指定すると[title]の右側にウィジェットを配置できます。
+  /// このウィジェットはListTileを拡張し、タイトルの右側にコンテンツを表示する
+  /// [text]プロパティを追加します。キー値表示、設定行、フォームフィールドレイアウトに最適です。
   ///
-  /// [titleFlex]と[textFlex]を指定してサイズを調整することが可能です。
+  /// 特徴:
+  /// - タイトルと並んで表示される追加の[text]ウィジェット
+  /// - タイトルとテキストの調整可能なフレックス比率（[titleFlex]、[textFlex]）
+  /// - タイトルとテキスト間のカスタマイズ可能な間隔
+  /// - ローディング状態のシマーエフェクトサポート
+  /// - ListTileの全機能を継承
+  /// - グループ化されたスタイリングのためのListTileGroupと連携
   ///
-  /// [space]を指定すると間隔を調整することが可能です。
+  /// 例:
+  /// ```dart
+  /// LineTile(
+  ///   title: const Text("ユーザー名"),
+  ///   text: const Text(
+  ///     "john_doe",
+  ///     style: TextStyle(color: Colors.grey),
+  ///   ),
+  ///   leading: const Icon(Icons.person),
+  ///   onTap: () {
+  ///     // タップ処理
+  ///   },
+  /// )
+  /// ```
   const LineTile({
     super.key,
     super.leading,

@@ -1,20 +1,130 @@
 part of "/katana_ui.dart";
 
-/// Widget to display SNS content.
+/// A widget for displaying social media-style content with profile layout.
 ///
-/// Use in conjunction with [ListTile].
+/// This widget creates a Twitter/X-style post layout with a leading avatar,
+/// title (username), subtitle (handle/timestamp), main content, and optional bottom actions.
+/// Perfect for social media feeds, comment sections, and user-generated content displays.
+///
+/// Features:
+/// - Leading widget area (typically for profile avatars)
+/// - Title and subtitle in header row (username and handle/timestamp)
+/// - Main content area with customizable padding
+/// - Optional bottom action area (like, share, comment buttons)
+/// - Customizable spacing between elements
+/// - Theme-based text and icon styling
+/// - Tap interaction support
+///
+/// Example:
+/// ```dart
+/// SnsContentTile(
+///   leading: CircleAvatar(child: Icon(Icons.person)),
+///   title: Text("Username"),
+///   subtitle: Text("@handle · 2h"),
+///   content: Text("This is the post content..."),
+///   bottom: Row(
+///     children: [
+///       IconButton(icon: Icon(Icons.favorite_border), onPressed: () {}),
+///       IconButton(icon: Icon(Icons.chat_bubble_outline), onPressed: () {}),
+///     ],
+///   ),
+/// )
+/// ```
 ///
 /// SNSのコンテンツを表示するウィジェット。
 ///
-/// [ListTile]と併用して使ってください。
+/// このウィジェットはTwitter/Xスタイルの投稿レイアウトを作成し、リーディングアバター、
+/// タイトル（ユーザー名）、サブタイトル（ハンドル/タイムスタンプ）、メインコンテンツ、
+/// オプションのボトムアクションを含みます。ソーシャルメディアフィード、コメントセクション、
+/// ユーザー生成コンテンツの表示に最適です。
+///
+/// 特徴:
+/// - リーディングウィジェットエリア（通常はプロフィールアバター用）
+/// - ヘッダー行のタイトルとサブタイトル（ユーザー名とハンドル/タイムスタンプ）
+/// - カスタマイズ可能なパディングを持つメインコンテンツエリア
+/// - オプションのボトムアクションエリア（いいね、シェア、コメントボタン）
+/// - 要素間のカスタマイズ可能なスペーシング
+/// - テーマベースのテキストとアイコンのスタイリング
+/// - タップインタラクションのサポート
+///
+/// 例:
+/// ```dart
+/// SnsContentTile(
+///   leading: CircleAvatar(child: Icon(Icons.person)),
+///   title: Text("ユーザー名"),
+///   subtitle: Text("@handle · 2時間前"),
+///   content: Text("投稿内容がここに入ります..."),
+///   bottom: Row(
+///     children: [
+///       IconButton(icon: Icon(Icons.favorite_border), onPressed: () {}),
+///       IconButton(icon: Icon(Icons.chat_bubble_outline), onPressed: () {}),
+///     ],
+///   ),
+/// )
+/// ```
 class SnsContentTile extends StatelessWidget {
-  /// Widget to display SNS content.
+  /// A widget for displaying social media-style content with profile layout.
   ///
-  /// Use in conjunction with [ListTile].
+  /// This widget creates a Twitter/X-style post layout with a leading avatar,
+  /// title (username), subtitle (handle/timestamp), main content, and optional bottom actions.
+  /// Perfect for social media feeds, comment sections, and user-generated content displays.
+  ///
+  /// Features:
+  /// - Leading widget area (typically for profile avatars)
+  /// - Title and subtitle in header row (username and handle/timestamp)
+  /// - Main content area with customizable padding
+  /// - Optional bottom action area (like, share, comment buttons)
+  /// - Customizable spacing between elements
+  /// - Theme-based text and icon styling
+  /// - Tap interaction support
+  ///
+  /// Example:
+  /// ```dart
+  /// SnsContentTile(
+  ///   leading: CircleAvatar(child: Icon(Icons.person)),
+  ///   title: Text("Username"),
+  ///   subtitle: Text("@handle · 2h"),
+  ///   content: Text("This is the post content..."),
+  ///   bottom: Row(
+  ///     children: [
+  ///       IconButton(icon: Icon(Icons.favorite_border), onPressed: () {}),
+  ///       IconButton(icon: Icon(Icons.chat_bubble_outline), onPressed: () {}),
+  ///     ],
+  ///   ),
+  /// )
+  /// ```
   ///
   /// SNSのコンテンツを表示するウィジェット。
   ///
-  /// [ListTile]と併用して使ってください。
+  /// このウィジェットはTwitter/Xスタイルの投稿レイアウトを作成し、リーディングアバター、
+  /// タイトル（ユーザー名）、サブタイトル（ハンドル/タイムスタンプ）、メインコンテンツ、
+  /// オプションのボトムアクションを含みます。ソーシャルメディアフィード、コメントセクション、
+  /// ユーザー生成コンテンツの表示に最適です。
+  ///
+  /// 特徴:
+  /// - リーディングウィジェットエリア（通常はプロフィールアバター用）
+  /// - ヘッダー行のタイトルとサブタイトル（ユーザー名とハンドル/タイムスタンプ）
+  /// - カスタマイズ可能なパディングを持つメインコンテンツエリア
+  /// - オプションのボトムアクションエリア（いいね、シェア、コメントボタン）
+  /// - 要素間のカスタマイズ可能なスペーシング
+  /// - テーマベースのテキストとアイコンのスタイリング
+  /// - タップインタラクションのサポート
+  ///
+  /// 例:
+  /// ```dart
+  /// SnsContentTile(
+  ///   leading: CircleAvatar(child: Icon(Icons.person)),
+  ///   title: Text("ユーザー名"),
+  ///   subtitle: Text("@handle · 2時間前"),
+  ///   content: Text("投稿内容がここに入ります..."),
+  ///   bottom: Row(
+  ///     children: [
+  ///       IconButton(icon: Icon(Icons.favorite_border), onPressed: () {}),
+  ///       IconButton(icon: Icon(Icons.chat_bubble_outline), onPressed: () {}),
+  ///     ],
+  ///   ),
+  /// )
+  /// ```
   const SnsContentTile({
     super.key,
     this.onTap,

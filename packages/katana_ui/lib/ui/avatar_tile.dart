@@ -5,37 +5,107 @@ part of "/katana_ui.dart";
 /// [AvatarTile]のデフォルトの高さ。
 const kAvatarTileHeight = 128.0;
 
-/// Tiles for displaying profiles and other overviews.
+/// A tile widget for displaying profile cards and user overviews.
 ///
-/// You can set a large image for [avatar].
+/// This widget provides a customizable profile card layout with an avatar image,
+/// title, subtitle, and description. Perfect for user profiles, author cards,
+/// and social media user displays.
 ///
-/// You can set large text for [title] and small text or tags for [subtitle].
+/// Features:
+/// - Large avatar image display (width/height match tile height)
+/// - Three-tier information display (title, subtitle, description)
+/// - Customizable text styles for each text element
+/// - Flexible styling options (background color, border, border radius)
+/// - Theme-based default styling
+/// - Fixed height layout (default: [kAvatarTileHeight])
 ///
-/// The [description] field allows you to set a description.
+/// Example:
+/// ```dart
+/// AvatarTile(
+///   avatar: CircleAvatar(
+///     backgroundImage: NetworkImage('https://example.com/avatar.jpg'),
+///   ),
+///   title: Text("Username"),
+///   subtitle: Text("@username"),
+///   description: Text("Profile description goes here."),
+/// )
+/// ```
 ///
 /// プロフィールなどの概要を表示するためのタイル。
 ///
-/// [avatar]に大きな画像を設定することができます。
+/// アバター画像、タイトル、サブタイトル、説明文を含むカスタマイズ可能なプロフィールカードレイアウトを提供します。
+/// ユーザープロフィール、著者カード、ソーシャルメディアのユーザー表示に最適です。
 ///
-/// [title]には大きな文字を、[subtitle]には小さな文字やタグを設定することができます。
+/// 特徴:
+/// - 大きなアバター画像の表示（幅/高さはタイルの高さと一致）
+/// - 3段階の情報表示（タイトル、サブタイトル、説明文）
+/// - 各テキスト要素のカスタマイズ可能なテキストスタイル
+/// - 柔軟なスタイリングオプション（背景色、ボーダー、角丸）
+/// - テーマベースのデフォルトスタイリング
+/// - 固定高さレイアウト（デフォルト: [kAvatarTileHeight]）
 ///
-/// [description]には説明文を設定することができます。
+/// 例:
+/// ```dart
+/// AvatarTile(
+///   avatar: CircleAvatar(
+///     backgroundImage: NetworkImage('https://example.com/avatar.jpg'),
+///   ),
+///   title: Text("ユーザー名"),
+///   subtitle: Text("@username"),
+///   description: Text("プロフィール説明文をここに記載します。"),
+/// )
+/// ```
 class AvatarTile extends StatelessWidget {
-  /// Tiles for displaying profiles and other overviews.
+  /// A tile widget for displaying profile cards and user overviews.
   ///
-  /// You can set a large image for [avatar].
+  /// This widget provides a customizable profile card layout with an avatar image,
+  /// title, subtitle, and description. Perfect for user profiles, author cards,
+  /// and social media user displays.
   ///
-  /// You can set large text for [title] and small text or tags for [subtitle].
+  /// Features:
+  /// - Large avatar image display (width/height match tile height)
+  /// - Three-tier information display (title, subtitle, description)
+  /// - Customizable text styles for each text element
+  /// - Flexible styling options (background color, border, border radius)
+  /// - Theme-based default styling
+  /// - Fixed height layout (default: [kAvatarTileHeight])
   ///
-  /// The [description] field allows you to set a description.
+  /// Example:
+  /// ```dart
+  /// AvatarTile(
+  ///   avatar: CircleAvatar(
+  ///     backgroundImage: NetworkImage('https://example.com/avatar.jpg'),
+  ///   ),
+  ///   title: Text("Username"),
+  ///   subtitle: Text("@username"),
+  ///   description: Text("Profile description goes here."),
+  /// )
+  /// ```
   ///
   /// プロフィールなどの概要を表示するためのタイル。
   ///
-  /// [avatar]に大きな画像を設定することができます。
+  /// アバター画像、タイトル、サブタイトル、説明文を含むカスタマイズ可能なプロフィールカードレイアウトを提供します。
+  /// ユーザープロフィール、著者カード、ソーシャルメディアのユーザー表示に最適です。
   ///
-  /// [title]には大きな文字を、[subtitle]には小さな文字やタグを設定することができます。
+  /// 特徴:
+  /// - 大きなアバター画像の表示（幅/高さはタイルの高さと一致）
+  /// - 3段階の情報表示（タイトル、サブタイトル、説明文）
+  /// - 各テキスト要素のカスタマイズ可能なテキストスタイル
+  /// - 柔軟なスタイリングオプション（背景色、ボーダー、角丸）
+  /// - テーマベースのデフォルトスタイリング
+  /// - 固定高さレイアウト（デフォルト: [kAvatarTileHeight]）
   ///
-  /// [description]には説明文を設定することができます。
+  /// 例:
+  /// ```dart
+  /// AvatarTile(
+  ///   avatar: CircleAvatar(
+  ///     backgroundImage: NetworkImage('https://example.com/avatar.jpg'),
+  ///   ),
+  ///   title: Text("ユーザー名"),
+  ///   subtitle: Text("@username"),
+  ///   description: Text("プロフィール説明文をここに記載します。"),
+  /// )
+  /// ```
   const AvatarTile({
     super.key,
     this.height = kAvatarTileHeight,
