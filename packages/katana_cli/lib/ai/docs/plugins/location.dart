@@ -40,6 +40,95 @@ $excerpt
 
 ## 設定方法
 
+### katana.yamlを使用する場合(推奨)
+
+1. `katana.yaml`に下記の設定を追加。
+
+    ```yaml
+    # katana.yaml
+
+    # Describe the settings for using location information.
+    #
+    # Set [enable_background] to true if you want to acquire location information even when the application enters the background.
+    # If you wish to use GoogleMap, set [google_map]->[enable] to true. Also, obtain a GoogleMap API key from the following link in advance and enter it in [google_map]->[api_key].
+    # https://console.cloud.google.com/google/maps-apis/credentials
+    #
+    # If you want to use Geocoding to obtain location information from addresses, set [geocoding]->[enable] to true. Also, please obtain an API key for Geocoding from the link below and enter it in the [geocoding]->[api_key] field.
+    # https://console.cloud.google.com/google/maps-apis/credentials
+    #
+    # Specify the permission message to use the library in IOS in [permission].
+    # Please include `en`, `ja`, etc. and write the message in that language there.
+    #
+    # 位置情報を利用するための設定を記述します。
+    #
+    # アプリがバックグラウンドに入った場合でも位置情報を取得する場合は[enable_background]をtrueにしてください。
+    # GoogleMapを利用する場合は[google_map]->[enable]をtrueにしてください。また事前に下記のリンクからGoogleMapのAPIキーを取得しておき[google_map]->[api_key]に記載してください。
+    # https://console.cloud.google.com/google/maps-apis/credentials
+    #
+    # Geocodingで住所から位置情報を取得する場合は[geocoding]->[enable]をtrueにしてください。また事前に下記のリンクからGeocoding専用のAPIキーを取得しておき[geocoding]->[api_key]に記載してください。
+    # https://console.cloud.google.com/google/maps-apis/credentials
+    #
+    # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+    # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+    location:
+      enable: true # 位置情報を利用する場合false -> trueに変更
+      enable_background: false
+      google_map:
+        enable: false
+        api_key:
+          android:
+          ios:
+          web:
+      geocoding:
+        enable: true # Geocodingを利用する場合false -> trueに変更
+        api_key: # Geocoding用のAPIキーを記載
+      permission:
+        en: Location information is used to display the map.
+        ja: マップを表示するために位置情報を利用します。
+    ```
+
+2. 下記のコマンドを実行して設定を適用。
+
+    ```bash
+    katana apply
+    ```
+
+3. `lib/adapter.dart`の`masamuneAdapters`に`MobileLocationMasamuneAdapter`を追加。
+
+    ```dart
+    // lib/adapter.dart
+
+    import 'package:masamune_location/masamune_location.dart';
+    import 'package:masamune_location_geocoding/masamune_location_geocoding.dart';
+    import 'package:katana_functions_firebase/katana_functions_firebase.dart';
+
+    final functionsAdapter = FirebaseFunctionsAdapter(
+      options: DefaultFirebaseOptions.currentPlatform,
+      region: FirebaseRegion.asiaNortheast1,
+    );
+
+    /// Masamune adapter.
+    ///
+    /// The Masamune framework plugin functions can be defined together.
+    // TODO: Add the adapters.
+    final masamuneAdapters = <MasamuneAdapter>[
+        const UniversalMasamuneAdapter(),
+
+        // 位置情報のアダプターを追加。
+        MobileLocationMasamuneAdapter(
+          requestWhenInUsePermissionOnInit: true,  // 初期化時に権限をリクエスト
+          locationAccuracy: LocationAccuracy.high, // 高精度で位置情報を取得
+        ),
+
+        // Geocoding機能を使う場合は追加。
+        GeocodingMasamuneAdapter(
+          functionsAdapter: functionsAdapter,
+        ),
+    ];
+    ```
+
+### 手動でパッケージを追加する場合
+
 1. パッケージをプロジェクトに追加。
 
     ```bash
