@@ -1,9 +1,166 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 ---
-description: Cursorを利用したAIエージェント機能用のglobal.mdc
-globs: 
-alwaysApply: true
+
+**Note for Claude Code Users**: This repository uses the Masamune Framework for Flutter development. The primary development instructions are written in Japanese below. Key points for Claude Code:
+
+## Essential Commands
+
+### Code Quality & Testing
+```bash
+# Run analyzer and linter (MUST pass before committing)
+flutter analyze && dart run custom_lint
+
+# Format code
+dart fix --apply lib && dart format . && flutter pub run import_sorter:main
+
+# Update golden test screenshots
+katana test update [ClassName1],[ClassName2],...
+
+# Run all tests
+katana test run
+```
+
+### Code Generation
+```bash
+# Watch mode for automatic code generation (run in separate terminal)
+katana code watch
+
+# Manual code generation
+katana code generate
+
+# Generate specific templates
+katana code page [PageName]        # Create page
+katana code collection [Name]      # Create collection model
+katana code document [Name]        # Create document model
+katana code controller [Name]      # Create controller
+katana code value [Name]          # Create form value
+katana code widget [Name]         # Create widget
+```
+
+### Git Operations (Use katana commands, not git directly)
+```bash
+# Commit changes
+katana git commit --message="message" [files...]
+
+# Create pull request
+katana git pull_request --target="master" --source="branch" --title="title" --body="description" [screenshots...]
+
+# Add PR comment
+katana git pull_request_comment --message="comment" [screenshots...]
+```
+
+### Monorepo Management (Melos)
+```bash
+# Bootstrap packages
+melos bootstrap
+
+# Run command across all packages
+melos run analyze
+melos run format
+melos run fix
+```
+
+## Architecture Overview
+
+### Monorepo Structure
+This is a **monorepo** managed by [Melos](https://melos.invertase.dev/) containing 80+ Flutter packages for the Masamune Framework. All packages are in `packages/` directory.
+
+### Core Packages
+- `katana_cli`: CLI tool for code generation and project management
+- `katana_model`: NoSQL database abstraction (Firestore-like structure)
+- `katana_router`: Routing with deep linking support
+- `katana_scoped`: State management similar to flutter_hooks
+- `katana_form`: Form building and validation
+- `katana_auth`: Authentication abstraction
+- `katana_storage`: File storage abstraction
+- `katana_theme`: Theme management with code generation
+- `katana_localization`: i18n using YAML files
+- `masamune`: Main package combining all features
+- `masamune_universal_ui`: Responsive UI widgets
+
+### Design Pattern
+The framework uses **code generation** extensively:
+- Templates created via `katana code [type] [name]`
+- Additional code generated via `build_runner` (freezed, json_serializable)
+- Most models, pages, controllers use generated code (`.m.dart`, `.g.dart`, `.freezed.dart` files)
+
+### Key Architectural Concepts
+
+1. **Page-Based Architecture**: Pages are created with `@PagePath` annotation and routing queries
+2. **Model-Driven Data**: All data uses Freezed models with ModelAdapter pattern for backend switching
+3. **Scoped State Management**: State managed via `ref.app` (app-wide) or `ref.page` (page-scoped)
+4. **Adapter Pattern**: Database, Auth, Storage can switch backends by changing adapters (Runtime → Firestore → Local)
+
+### Testing Requirements
+- Golden tests for UI components (screenshots in `documents/test/**/*.png`)
+- Must run `katana test update` after UI changes
+- Must run `katana test run` before committing
+- Zero errors/warnings from `flutter analyze && dart run custom_lint`
+
+## Development Workflow
+
+### IMPORTANT: Iterative Development with Validation
+When implementing features, you MUST:
+1. Implement ONE component at a time
+2. After EACH component, run: `flutter analyze && dart run custom_lint`
+3. If UI changed, run: `katana test update [ClassName]` and verify screenshot
+4. Fix any errors before continuing to next component
+5. Repeat until all components complete
+
+### Before Committing (MANDATORY)
+Execute these steps in order:
+1. `dart fix --apply lib && dart format . && flutter pub run import_sorter:main`
+2. `flutter analyze && dart run custom_lint` (must have zero errors)
+3. `katana test update [ClassNames]` (if UI components changed)
+4. `katana test run` (must pass all tests)
+5. If step 2-4 have errors, go back to step 1
+6. `katana git commit --message="msg" [files...]`
+7. `katana git pull_request` or `katana git pull_request_comment` if background task
+
+## Critical Rules
+
+1. **NEVER use `git` commands directly** - Always use `katana git` commands
+2. **NEVER skip the validation loop** - Run analyze/lint after EACH implementation step
+3. **ALWAYS use katana CLI for file generation** - Don't manually create Pages/Models/Controllers
+4. **ALWAYS commit generated files** - Include `.m.dart`, `.g.dart`, `.freezed.dart`, test images
+5. **Code in Japanese documentation** - Most detailed rules are in Japanese in this file below
+
+## File Naming Patterns
+- Pages: `lib/pages/[name].dart` → `[Name]Page` class
+- Models: `lib/models/[name].dart` → `[Name]Model` class
+- Controllers: `lib/controllers/[name].dart` → `[Name]Controller` class
+- Widgets: `lib/widgets/[name].dart` → `[Name]` class
+
+## Common Patterns
+
+### Loading Data
+```dart
+@override
+Widget build(BuildContext context, PageRef ref) {
+  final model = ref.app.model(TestModel.collection())..load();
+  // Widget rebuilds when model loads or changes
+}
+```
+
+### Using Controllers
+```dart
+final controller = ref.page.controller(TestController.query());
+// ref.page: scoped to page lifecycle
+// ref.app: scoped to app lifecycle
+```
+
+### Forms
+```dart
+final form = ref.page.form(LoginValue.form(LoginValue(email: "", password: "")));
+// Use with FormTextField, FormButton, etc.
+```
+
 ---
-# 基本ルール
+
+# 基本ルール (Japanese - Primary Documentation)
 
 - レスポンスはすべて日本語で回答してください。
 - 与えられた業務に対して`開発`か`マーケティング・企画`、`営業・広報`、`経理`のいずれかの業務に該当するかを判断し、該当する業務に対するルールを遵守してください。
