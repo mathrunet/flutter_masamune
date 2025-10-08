@@ -822,30 +822,29 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
 
   @override
   Widget build(BuildContext context) {
+    // When collapsed, return empty container to avoid overflow
+    // collapsed時はオーバーフローを避けるために空のコンテナを返す
+    if (widget.collapsed) {
+      return const SizedBox.shrink();
+    }
+
     _handledOnKeyboardStateChanged();
     final theme = Theme.of(context);
-    final double height;
-    if (widget.collapsed) {
-      // When collapsed, return 0 height to avoid overflow
-      height = 0;
-    } else {
-      var calculatedHeight = _blockMenuHeight;
-      if (_linkSetting != null) {
-        calculatedHeight += _kLinkDialogHeight;
-      } else if (_currentTool is MentionMarkdownPrimaryTools) {
-        calculatedHeight += context.mediaQuery.size.height -
-            _blockMenuHeight -
-            _kToolbarHeight -
-            _kMentionDialogSpaceHeight -
-            context.mediaQuery.viewPadding.bottom -
-            context.mediaQuery.viewPadding.top;
-        if (_blockMenuToggleDuration != null) {
-          calculatedHeight -= _blockMenuHeight;
-        }
-      } else {
-        calculatedHeight += _kToolbarHeight;
+    var height = _blockMenuHeight;
+    if (_linkSetting != null) {
+      height += _kLinkDialogHeight;
+    } else if (_currentTool is MentionMarkdownPrimaryTools) {
+      height += context.mediaQuery.size.height -
+          _blockMenuHeight -
+          _kToolbarHeight -
+          _kMentionDialogSpaceHeight -
+          context.mediaQuery.viewPadding.bottom -
+          context.mediaQuery.viewPadding.top;
+      if (_blockMenuToggleDuration != null) {
+        height -= _blockMenuHeight;
       }
-      height = calculatedHeight;
+    } else {
+      height += _kToolbarHeight;
     }
 
     final inlineTools = _currentTool is MarkdownPrimaryTools
