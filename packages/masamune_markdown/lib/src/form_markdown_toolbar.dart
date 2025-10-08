@@ -16,6 +16,8 @@ const _kBlockMenuToggleDuration = Duration(milliseconds: 200);
 /// You can insert image and video media.
 /// You can use font styles such as `bold`, `italic`, `underline`, `strike`, `link`, `code`.
 ///
+/// Set [collapsed] to `true` when the toolbar should be in collapsed state (e.g., when used with ExpandableBottomSheet).
+///
 /// Markdown用のツールバー。
 ///
 /// [MarkdownController]を渡し同じコントローラーを[FormMarkdownField]に渡してください。
@@ -25,6 +27,8 @@ const _kBlockMenuToggleDuration = Duration(milliseconds: 200);
 /// `h1`, `h2`, `h3`および引用やコードのブロックスタイルを使用することができます。
 /// 画像や映像のメディアを挿入することができます。
 /// `bold`, `italic`, `underline`, `strike`, `link`, `code`のフォントスタイルを使用することができます。
+///
+/// ツールバーを折りたたみ状態にする場合は[collapsed]を`true`に設定してください（例: ExpandableBottomSheetと併用する場合）。
 class FormMarkdownToolbar extends StatefulWidget {
   /// Markdown toolbar.
   ///
@@ -36,6 +40,8 @@ class FormMarkdownToolbar extends StatefulWidget {
   /// You can insert image and video media.
   /// You can use font styles such as `bold`, `italic`, `underline`, `strike`, `link`, `code`.
   ///
+  /// Set [collapsed] to `true` when the toolbar should be in collapsed state (e.g., when used with ExpandableBottomSheet).
+  ///
   /// Markdown用のツールバー。
   ///
   /// [MarkdownController]を渡し同じコントローラーを[FormMarkdownField]に渡してください。
@@ -45,6 +51,8 @@ class FormMarkdownToolbar extends StatefulWidget {
   /// `h1`, `h2`, `h3`および引用やコードのブロックスタイルを使用することができます。
   /// 画像や映像のメディアを挿入することができます。
   /// `bold`, `italic`, `underline`, `strike`, `link`, `code`のフォントスタイルを使用することができます。
+  ///
+  /// ツールバーを折りたたみ状態にする場合は[collapsed]を`true`に設定してください（例: ExpandableBottomSheetと併用する場合）。
   const FormMarkdownToolbar({
     required this.controller,
     this.primaryTools,
@@ -55,6 +63,7 @@ class FormMarkdownToolbar extends StatefulWidget {
     this.mentionBuilder,
     this.linkTitleHintText,
     this.linkLinkHintText,
+    this.collapsed = false,
   }) : assert(
           (mentionBuilder == null && mentionHintText == null) ||
               mentionBuilder != null,
@@ -105,6 +114,11 @@ class FormMarkdownToolbar extends StatefulWidget {
   /// メンションのビルダー。
   final List<MarkdownMention> Function(BuildContext context)? mentionBuilder;
 
+  /// Whether the toolbar is collapsed.
+  ///
+  /// ツールバーが折りたたまれているかどうか。
+  final bool collapsed;
+
   @override
   State<FormMarkdownToolbar> createState() => _FormMarkdownToolbarState();
 }
@@ -117,6 +131,8 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
   double _lastBottomInset = 0;
   Duration? _blockMenuToggleDuration;
   double? _prevBottomInset;
+  bool _hasClipboardText = false;
+  Timer? _clipboardCheckTimer;
 
   _LinkSetting? _linkSetting;
   _MentionSetting? _mentionSetting;
@@ -134,14 +150,37 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
   void initState() {
     super.initState();
     widget.controller.addListener(_handleControllerStateOnChanged);
+    _checkClipboard();
+    // Check clipboard periodically to update paste button state
+    // ペーストボタンの状態を更新するために定期的にクリップボードをチェック
+    _clipboardCheckTimer = Timer.periodic(
+      const Duration(seconds: 1),
+      (_) => _checkClipboard(),
+    );
   }
 
   @override
   void dispose() {
     widget.controller.removeListener(_handleControllerStateOnChanged);
+    _clipboardCheckTimer?.cancel();
     _linkSetting?.cancel();
     _mentionSetting?.cancel();
     super.dispose();
+  }
+
+  Future<void> _checkClipboard() async {
+    try {
+      final data = await Clipboard.getData(Clipboard.kTextPlain);
+      final hasText = data?.text?.isNotEmpty ?? false;
+      if (_hasClipboardText != hasText) {
+        setState(() {
+          _hasClipboardText = hasText;
+        });
+      }
+    } catch (e) {
+      // Clipboard access may fail on some platforms
+      // 一部のプラットフォームではクリップボードアクセスが失敗する場合がある
+    }
   }
 
   void _handledOnKeyboardStateChanged() {
@@ -170,7 +209,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
   }
 
   @override
-  bool get canPaste => false;
+  bool get canPaste => _hasClipboardText;
 
   @override
   void insertImage(Uri uri) {
@@ -317,6 +356,10 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
           _linkSetting = null;
         });
       }
+    } else {
+      // Update UI to reflect selection state changes (e.g., show/hide copy button)
+      // 選択状態の変更を反映するためにUIを更新（例: コピーボタンの表示/非表示）
+      setState(() {});
     }
     if (_currentTool is MentionMarkdownPrimaryTools &&
         _showBlockMenu &&
@@ -781,21 +824,28 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
   Widget build(BuildContext context) {
     _handledOnKeyboardStateChanged();
     final theme = Theme.of(context);
-    var height = _blockMenuHeight;
-    if (_linkSetting != null) {
-      height += _kLinkDialogHeight;
-    } else if (_currentTool is MentionMarkdownPrimaryTools) {
-      height += context.mediaQuery.size.height -
-          _blockMenuHeight -
-          _kToolbarHeight -
-          _kMentionDialogSpaceHeight -
-          context.mediaQuery.viewPadding.bottom -
-          context.mediaQuery.viewPadding.top;
-      if (_blockMenuToggleDuration != null) {
-        height -= _blockMenuHeight;
-      }
+    final double height;
+    if (widget.collapsed) {
+      // When collapsed, return 0 height to avoid overflow
+      height = 0;
     } else {
-      height += _kToolbarHeight;
+      var calculatedHeight = _blockMenuHeight;
+      if (_linkSetting != null) {
+        calculatedHeight += _kLinkDialogHeight;
+      } else if (_currentTool is MentionMarkdownPrimaryTools) {
+        calculatedHeight += context.mediaQuery.size.height -
+            _blockMenuHeight -
+            _kToolbarHeight -
+            _kMentionDialogSpaceHeight -
+            context.mediaQuery.viewPadding.bottom -
+            context.mediaQuery.viewPadding.top;
+        if (_blockMenuToggleDuration != null) {
+          calculatedHeight -= _blockMenuHeight;
+        }
+      } else {
+        calculatedHeight += _kToolbarHeight;
+      }
+      height = calculatedHeight;
     }
 
     final inlineTools = _currentTool is MarkdownPrimaryTools

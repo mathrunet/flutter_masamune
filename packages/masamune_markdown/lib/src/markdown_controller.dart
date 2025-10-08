@@ -318,20 +318,125 @@ class MarkdownController extends MasamuneControllerBase<
     notifyListeners();
   }
 
-  /// Copies the text.
+  /// Copies the selected text to clipboard.
   ///
-  /// テキストをコピーします。
-  void copy() {}
+  /// 選択されたテキストをクリップボードにコピーします。
+  Future<void> copy() async {
+    if (_field == null) {
+      return;
+    }
 
-  /// Cuts the text.
-  ///
-  /// テキストを切り取ります。
-  void cut() {}
+    final selection = _field!._selection;
+    if (!selection.isValid || selection.isCollapsed) {
+      return;
+    }
 
-  /// Pastes the text.
+    final text = getPlainText();
+    final selectedText = selection.textInside(text);
+
+    if (selectedText.isNotEmpty) {
+      await Clipboard.setData(ClipboardData(text: selectedText));
+    }
+  }
+
+  /// Cuts the selected text to clipboard and removes it.
   ///
-  /// テキストをペーストします。
-  void paste() {}
+  /// 選択されたテキストをクリップボードに切り取り、削除します。
+  Future<void> cut() async {
+    if (_field == null) {
+      return;
+    }
+
+    final selection = _field!._selection;
+    if (!selection.isValid || selection.isCollapsed) {
+      return;
+    }
+
+    final text = getPlainText();
+    final selectedText = selection.textInside(text);
+
+    if (selectedText.isNotEmpty) {
+      await Clipboard.setData(ClipboardData(text: selectedText));
+
+      // Delete the selected text
+      replaceText(selection.start, selection.end, "");
+
+      // Update selection to collapsed at start position
+      _field!._selection = TextSelection.collapsed(offset: selection.start);
+      _field!._updateRemoteEditingValue();
+    }
+  }
+
+  /// Pastes text from clipboard at the cursor position.
+  ///
+  /// クリップボードからカーソル位置にテキストをペーストします。
+  Future<void> paste() async {
+    if (_field == null) {
+      return;
+    }
+
+    final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+    if (clipboardData == null || clipboardData.text == null) {
+      return;
+    }
+
+    final text = clipboardData.text!;
+    if (text.isEmpty) {
+      return;
+    }
+
+    final selection = _field!._selection;
+    if (!selection.isValid) {
+      return;
+    }
+
+    // If there's a selection, replace it with pasted text
+    // If cursor is collapsed, insert at cursor position
+    final start = selection.start;
+    final end = selection.end;
+
+    // Check if the pasted text contains newlines
+    if (text.contains("\n")) {
+      // Split by newlines and insert them one by one
+      final lines = text.split("\n");
+
+      // First, delete the selected text if any
+      if (end > start) {
+        replaceText(start, end, "");
+      }
+
+      var currentOffset = start;
+
+      // Insert first line at the cursor position
+      if (lines.isNotEmpty && lines.first.isNotEmpty) {
+        replaceText(currentOffset, currentOffset, lines.first);
+        currentOffset += lines.first.length;
+      }
+
+      // For each additional line, insert a new paragraph
+      for (var i = 1; i < lines.length; i++) {
+        insertNewLine(currentOffset);
+        currentOffset++; // Account for the newline character
+
+        if (lines[i].isNotEmpty) {
+          replaceText(currentOffset, currentOffset, lines[i]);
+          currentOffset += lines[i].length;
+        }
+      }
+
+      // Update cursor position to the end of pasted text
+      _field!._selection = TextSelection.collapsed(offset: currentOffset);
+    } else {
+      // Normal text paste without newlines
+      replaceText(start, end, text);
+
+      // Update cursor position to the end of pasted text
+      _field!._selection = TextSelection.collapsed(offset: start + text.length);
+    }
+
+    _field!._updateRemoteEditingValue();
+    notifyListeners();
+  }
 
   /// Inserts a new paragraph block at the specified offset.
   ///
@@ -547,6 +652,17 @@ class MarkdownController extends MasamuneControllerBase<
       }
     }
     return buffer.toString();
+  }
+
+  /// Notifies listeners that the selection state has changed.
+  ///
+  /// This is useful for updating the toolbar when text selection changes.
+  ///
+  /// 選択状態が変更されたことをリスナーに通知します。
+  ///
+  /// テキスト選択が変更されたときにツールバーを更新するのに便利です。
+  void notifySelectionChanged() {
+    notifyListeners();
   }
 }
 

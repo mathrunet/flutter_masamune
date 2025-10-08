@@ -17,8 +17,8 @@ import "package:flutter/rendering.dart";
 import "package:flutter/services.dart";
 
 // Package imports:
-import "package:masamune/masamune.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import "package:masamune/masamune.dart";
 
 part "adapter/markdown_masamune_adapter.dart";
 

@@ -800,6 +800,9 @@ class MarkdownFieldState extends State<MarkdownField>
         }
 
         _updateRemoteEditingValue();
+        // Notify controller listeners so that toolbar can update based on selection state
+        // ツールバーが選択状態に基づいて更新できるようにコントローラーのリスナーに通知
+        widget.controller.notifySelectionChanged();
       },
       onTap: () {
         _hideContextMenu();
