@@ -41,6 +41,57 @@ $excerpt
 
 ## 設定方法
 
+### katana.yamlを使用する場合(推奨)
+
+1. `katana.yaml`に下記の設定を追加。
+
+    ```yaml
+    # katana.yaml
+
+    # Enable Firebase Messaging.
+    # Specify ChannelNotificationId for Android in [channel_id].
+    # Specify an image path in [android_notification_icon] to set a notification icon for Android for whiteout.
+    # Firebase Messagingを有効にします。
+    # [channel_id]にAndroid用のChannelNotificationIdを指定してください。
+    # [android_notification_icon]に画像パスを指定するとAndroid用の白抜き用の通知アイコンを設定できます。
+    messaging:
+      enable: true # ローカル通知を利用する場合false -> trueに変更
+      channel_id: default_channel # Android用のチャンネルID
+      android_notification_icon: "@mipmap/ic_launcher" # Android用の通知アイコン
+    ```
+
+2. 下記のコマンドを実行して設定を適用。
+
+    ```bash
+    katana apply
+    ```
+
+3. `lib/adapter.dart`の`masamuneAdapters`に`MobileLocalNotificationMasamuneAdapter`を追加。
+
+    ```dart
+    // lib/adapter.dart
+
+    import 'package:masamune_notification_local/masamune_notification_local.dart';
+
+    /// Masamune adapter.
+    ///
+    /// The Masamune framework plugin functions can be defined together.
+    // TODO: Add the adapters.
+    final masamuneAdapters = <MasamuneAdapter>[
+        const UniversalMasamuneAdapter(),
+
+        // ローカルPUSH通知のアダプターを追加。
+        const MobileLocalNotificationMasamuneAdapter(
+          androidNotificationIcon: "@mipmap/ic_launcher",  // 通知用のアプリアイコン
+          requestAlertPermissionOnInitialize: true,        // 初期化時にアラート権限をリクエスト
+          requestSoundPermissionOnInitialize: true,        // 音声権限をリクエスト
+          requestBadgePermissionOnInitialize: true,        // バッジ権限をリクエスト
+        ),
+    ];
+    ```
+
+### 手動でパッケージを追加する場合
+
 1. パッケージをプロジェクトに追加。
 
     ```bash

@@ -41,6 +41,64 @@ Firebase Cloud Messaging(FCM)を利用してバックエンドから端末にプ
 
 ## 設定方法
 
+### katana.yamlを使用する場合(推奨)
+
+1. `katana.yaml`に下記の設定を追加。
+
+    ```yaml
+    # katana.yaml
+
+    # Enable Firebase Messaging.
+    # Specify ChannelNotificationId for Android in [channel_id].
+    # Specify an image path in [android_notification_icon] to set a notification icon for Android for whiteout.
+    # Firebase Messagingを有効にします。
+    # [channel_id]にAndroid用のChannelNotificationIdを指定してください。
+    # [android_notification_icon]に画像パスを指定するとAndroid用の白抜き用の通知アイコンを設定できます。
+    messaging:
+      enable: true # リモート通知を利用する場合false -> trueに変更
+      channel_id: default_channel # Android用のチャンネルID
+      android_notification_icon: "@mipmap/ic_launcher" # Android用の通知アイコン
+    ```
+
+2. 下記のコマンドを実行して設定を適用。
+
+    ```bash
+    katana apply
+    ```
+
+3. `lib/adapter.dart`の`masamuneAdapters`に`FirebaseRemoteNotificationMasamuneAdapter`を追加。
+
+    ```dart
+    // lib/adapter.dart
+
+    import 'package:masamune_notification_firebase/masamune_notification_firebase.dart';
+    import 'package:katana_functions_firebase/katana_functions_firebase.dart';
+
+    final functionsAdapter = FirebaseFunctionsAdapter(
+      options: DefaultFirebaseOptions.currentPlatform,
+      region: FirebaseRegion.asiaNortheast1,
+    );
+
+    /// Masamune adapter.
+    ///
+    /// The Masamune framework plugin functions can be defined together.
+    // TODO: Add the adapters.
+    final masamuneAdapters = <MasamuneAdapter>[
+        const UniversalMasamuneAdapter(),
+
+        // リモートPUSH通知のアダプターを追加。
+        FirebaseRemoteNotificationMasamuneAdapter(
+          options: DefaultFirebaseOptions.currentPlatform,  // Firebase設定
+          functionsAdapter: functionsAdapter,                // バックエンド送信用
+          loggerAdapters: [FirebaseLoggerAdapter()],        // オプション(分析用)
+          androidChannelId: "default_channel",              // Android通知チャンネル
+          androidChannelName: "一般通知",
+        ),
+    ];
+    ```
+
+### 手動でパッケージを追加する場合
+
 1. パッケージをプロジェクトに追加。
 
     ```bash
