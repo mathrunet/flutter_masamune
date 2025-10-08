@@ -1206,6 +1206,62 @@ class _RenderMarkdownEditor extends RenderBox {
     final layouts = <_BlockLayout>[];
     var textOffset = 0;
 
+    // If there are no fields or no blocks, create a dummy empty paragraph block for cursor rendering
+    if (fields.isEmpty || fields.every((f) => f.children.isEmpty)) {
+      // Get block style from controller
+      final padding = (_controller.style.paragraph.padding ?? EdgeInsets.zero)
+          as EdgeInsets;
+      final margin =
+          (_controller.style.paragraph.margin ?? EdgeInsets.zero) as EdgeInsets;
+
+      // Build text style
+      final baseStyle = _controller.style.paragraph.textStyle ?? _style;
+      final textStyle = baseStyle.copyWith(
+        color: _controller.style.paragraph.foregroundColor ?? baseStyle.color,
+      );
+
+      // Create text painter for empty block
+      final painter = TextPainter(
+        text: TextSpan(text: "", style: textStyle),
+        textAlign: _textAlign,
+        textDirection: _textDirection,
+        textWidthBasis: _textWidthBasis,
+        textHeightBehavior: _textHeightBehavior,
+        strutStyle: _strutStyle,
+      );
+
+      // Create a dummy block for layout purposes
+      const dummyBlock = MarkdownParagraphBlockValue(
+        id: "dummy",
+        property: MarkdownBlockProperty(),
+        children: [
+          MarkdownLineValue(
+            id: "dummy-line",
+            property: MarkdownLineProperty(),
+            children: [
+              MarkdownSpanValue(
+                id: "dummy-span",
+                value: "",
+                property: MarkdownSpanProperty(),
+              ),
+            ],
+          ),
+        ],
+      );
+
+      layouts.add(_BlockLayout(
+        block: dummyBlock,
+        painter: painter,
+        textOffset: 0,
+        textLength: 0,
+        padding: padding,
+        margin: margin,
+      ));
+
+      _blockLayouts = layouts;
+      return layouts;
+    }
+
     for (final field in fields) {
       for (final block in field.children) {
         if (block is MarkdownParagraphBlockValue) {
@@ -1309,38 +1365,6 @@ class _RenderMarkdownEditor extends RenderBox {
     // Reset handle positions
     _startHandlePosition = null;
     _endHandlePosition = null;
-
-    // If there are no layouts (empty document), draw cursor at the beginning
-    if (layouts.isEmpty &&
-        _showCursor &&
-        _selection.isValid &&
-        _selection.isCollapsed) {
-      // Create a temporary text painter to get the cursor height
-      final tempPainter = TextPainter(
-        text: TextSpan(text: "", style: _style),
-        textAlign: _textAlign,
-        textDirection: _textDirection,
-      )..layout();
-
-      final cursorHeight = _cursorHeight ?? tempPainter.preferredLineHeight;
-      final cursorRect = Rect.fromLTWH(
-        offset.dx,
-        offset.dy,
-        _cursorWidth,
-        cursorHeight,
-      );
-
-      final paint = Paint()..color = _cursorColor;
-      if (_cursorRadius != null) {
-        canvas.drawRRect(
-          RRect.fromRectAndRadius(cursorRect, _cursorRadius!),
-          paint,
-        );
-      } else {
-        canvas.drawRect(cursorRect, paint);
-      }
-      return;
-    }
 
     for (final layout in layouts) {
       final blockOffset =
