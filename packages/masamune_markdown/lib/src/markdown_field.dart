@@ -689,11 +689,7 @@ class MarkdownFieldState extends State<MarkdownField>
     if (widget.readOnly) {
       return;
     }
-    final text = _selection.textInside(_getPlainText());
-    if (text.isNotEmpty) {
-      Clipboard.setData(ClipboardData(text: text));
-      // TODO: implement actual deletion
-    }
+    widget.controller.cut();
   }
 
   @override
@@ -1316,7 +1312,10 @@ class _RenderMarkdownEditor extends RenderBox {
     _endHandlePosition = null;
 
     // If there are no layouts (empty document), draw cursor at the beginning
-    if (layouts.isEmpty && _showCursor && _selection.isValid && _selection.isCollapsed) {
+    if (layouts.isEmpty &&
+        _showCursor &&
+        _selection.isValid &&
+        _selection.isCollapsed) {
       // Create a temporary text painter to get the cursor height
       final tempPainter = TextPainter(
         text: TextSpan(text: "", style: _style),

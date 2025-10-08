@@ -114,11 +114,12 @@ class MarkdownController extends MasamuneControllerBase<
     final field = _value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
-    // Find which block contains the start position
+    // Find which blocks contain the start and end positions
     var currentOffset = 0;
-    var targetBlockIndex = -1;
-    var localStart = start;
-    var localEnd = end;
+    int? startBlockIndex;
+    int? endBlockIndex;
+    var localStart = 0;
+    var localEnd = 0;
 
     for (var i = 0; i < blocks.length; i++) {
       final block = blocks[i];
@@ -135,12 +136,19 @@ class MarkdownController extends MasamuneControllerBase<
         }
 
         final blockLength = blockText.toString().length;
+        final blockStart = currentOffset;
+        final blockEnd = currentOffset + blockLength;
 
-        if (currentOffset + blockLength >= start) {
-          // Found the target block
-          targetBlockIndex = i;
-          localStart = start - currentOffset;
-          localEnd = end - currentOffset;
+        // Check if this block contains the start position
+        if (startBlockIndex == null && blockEnd >= start) {
+          startBlockIndex = i;
+          localStart = start - blockStart;
+        }
+
+        // Check if this block contains the end position
+        if (blockEnd >= end) {
+          endBlockIndex = i;
+          localEnd = end - blockStart;
           break;
         }
 
@@ -148,12 +156,96 @@ class MarkdownController extends MasamuneControllerBase<
       }
     }
 
-    if (targetBlockIndex == -1) {
-      // Start position is beyond all blocks, append to last block
-      targetBlockIndex = blocks.length - 1;
-      localStart = start - currentOffset;
-      localEnd = end - currentOffset;
+    if (startBlockIndex == null) {
+      startBlockIndex = blocks.length - 1;
+      localStart = 0;
     }
+    if (endBlockIndex == null) {
+      endBlockIndex = blocks.length - 1;
+      final lastBlock = blocks[endBlockIndex] as MarkdownParagraphBlockValue;
+      final lastBlockText = StringBuffer();
+      for (final line in lastBlock.children) {
+        for (final span in line.children) {
+          lastBlockText.write(span.value);
+        }
+      }
+      localEnd = lastBlockText.length;
+    }
+
+    // If selection spans multiple blocks, merge them
+    if (startBlockIndex != endBlockIndex) {
+      // Get text before start in start block
+      final startBlock = blocks[startBlockIndex] as MarkdownParagraphBlockValue;
+      final startBlockText = StringBuffer();
+      for (final line in startBlock.children) {
+        for (final span in line.children) {
+          startBlockText.write(span.value);
+        }
+      }
+      final textBeforeStart = startBlockText
+          .toString()
+          .substring(0, localStart.clamp(0, startBlockText.length));
+
+      // Get text after end in end block
+      final endBlock = blocks[endBlockIndex] as MarkdownParagraphBlockValue;
+      final endBlockText = StringBuffer();
+      for (final line in endBlock.children) {
+        for (final span in line.children) {
+          endBlockText.write(span.value);
+        }
+      }
+      final textAfterEnd = endBlockText
+          .toString()
+          .substring(localEnd.clamp(0, endBlockText.length));
+
+      // Merge: text before start + inserted text + text after end
+      final mergedText = textBeforeStart + text + textAfterEnd;
+
+      // Create new merged block
+      final mergedBlock = MarkdownParagraphBlockValue(
+        id: startBlock.id,
+        property: startBlock.property,
+        children: [
+          MarkdownLineValue(
+            id: uuid(),
+            property: const MarkdownLineProperty(
+              backgroundColor: null,
+              foregroundColor: null,
+            ),
+            children: [
+              MarkdownSpanValue(
+                id: uuid(),
+                value: mergedText,
+                property: const MarkdownSpanProperty(
+                  backgroundColor: null,
+                  foregroundColor: null,
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
+
+      // Remove blocks from startBlockIndex to endBlockIndex (inclusive)
+      blocks.removeRange(startBlockIndex, endBlockIndex + 1);
+
+      // Insert merged block at startBlockIndex
+      blocks.insert(startBlockIndex, mergedBlock);
+
+      // Update field
+      final newField = MarkdownFieldValue(
+        id: field.id,
+        property: field.property,
+        children: blocks,
+      );
+
+      _value[0] = newField;
+      notifyListeners();
+      return;
+    }
+
+    // Single block edit
+    final targetBlockIndex = startBlockIndex;
 
     // Update the target block
     final targetBlock = blocks[targetBlockIndex] as MarkdownParagraphBlockValue;
@@ -336,6 +428,11 @@ class MarkdownController extends MasamuneControllerBase<
 
     if (selectedText.isNotEmpty) {
       await Clipboard.setData(ClipboardData(text: selectedText));
+
+      // Unselect text after copying
+      _field!._selection = TextSelection.collapsed(offset: selection.end);
+      _field!._updateRemoteEditingValue();
+      notifyListeners();
     }
   }
 
