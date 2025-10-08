@@ -1386,24 +1386,23 @@ class _RenderMarkdownEditor extends RenderBox {
     _startHandlePosition = null;
     _endHandlePosition = null;
 
+    // DEBUG: Draw red background for the entire field area to visualize tap target
+    final debugRect = Rect.fromLTWH(
+      offset.dx,
+      offset.dy,
+      size.width,
+      size.height,
+    );
+    canvas.drawRect(
+      debugRect,
+      Paint()
+        ..color = const Color(0x22FF0000) // Semi-transparent red
+        ..style = PaintingStyle.fill,
+    );
+
     for (final layout in layouts) {
       final blockOffset =
           offset + layout.offset + Offset(layout.padding.left, 0);
-
-      // DEBUG: Draw red background for the actual text area to visualize tap target
-      final textWidth = layout.painter.width;
-      final debugRect = Rect.fromLTWH(
-        offset.dx + layout.padding.left,
-        offset.dy + layout.offset.dy,
-        textWidth,
-        layout.painter.height,
-      );
-      canvas.drawRect(
-        debugRect,
-        Paint()
-          ..color = const Color(0x22FF0000) // Semi-transparent red
-          ..style = PaintingStyle.fill,
-      );
 
       // Draw block background if any
       if (layout.block.property.backgroundColor != null) {
@@ -1675,16 +1674,18 @@ class _RenderMarkdownEditor extends RenderBox {
           layout.textLength + 1; // +1 for newline between blocks
     }
 
-    // Position is after all blocks or in margin area
-    // If expands is true, return end of text, otherwise return null to deselect
+    // Position is after all blocks (below the last text block)
+    // This is still within the editor field area, so:
+    // - If expands is true: return end of text (cursor at end)
+    // - If expands is false: return null to deselect
     if (_expands && layouts.isNotEmpty) {
       final lastOffset = currentTextOffset > 0 ? currentTextOffset - 1 : 0;
       debugPrint(
-          "[MarkdownField] Position is outside all blocks but expands=true - returning end of text offset $lastOffset");
+          "[MarkdownField] Position is below all blocks but expands=true - returning end of text offset $lastOffset");
       return lastOffset;
     } else {
       debugPrint(
-          "[MarkdownField] Position is outside all blocks - returning null");
+          "[MarkdownField] Position is below all blocks and expands=false - returning null to deselect");
       return null;
     }
   }
@@ -1692,6 +1693,9 @@ class _RenderMarkdownEditor extends RenderBox {
   void _handleTapDown(PointerDownEvent event) {
     final now = DateTime.now().millisecondsSinceEpoch;
     final position = globalToLocal(event.position);
+
+    debugPrint(
+        "[MarkdownField] _handleTapDown: event.position=${event.position}, local=$position, size=$size");
 
     // Check if tapping on selection handles
     // Check both handles and select the closer one if both are in range
