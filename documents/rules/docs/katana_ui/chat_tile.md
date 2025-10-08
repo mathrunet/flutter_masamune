@@ -8,12 +8,14 @@
 
 ## 特徴
 
-- メッセージの左右配置が可能
-- アバターやアイコンの配置が可能
-- タイトルの追加が可能
-- アクションボタンの追加が可能
-- カスタマイズ可能なスタイリング
+- メッセージの左右配置が可能（mainAxisAlignment、reverse）
+- アバターやアイコンの配置が可能（leading/trailing）
+- タイトルの追加が可能（送信者名など）
+- アクションボタンの追加が可能（actions）
+- カスタマイズ可能なスタイリング（backgroundColor、foregroundColor、elevation、borderRadius）
 - テーマに基づいたデフォルトスタイル
+- リバースモードでメッセージ方向を反転可能
+- IconThemeとDefaultTextStyleによる色の一括適用
 
 ## 基本的な使い方
 
@@ -106,16 +108,20 @@ ChatTile(
 
 ## 注意点
 
-- `label`は必須パラメータ
-- `reverse`を`true`にすると、メッセージの向きが反転する
+- `label`は必須パラメータ（メッセージ本文）
+- `reverse`を`true`にすると、メッセージの向き（leading/trailing、Row方向）が反転する
 - デフォルトの`mainAxisAlignment`は`MainAxisAlignment.start`
 - デフォルトの`crossAxisAlignment`は`CrossAxisAlignment.start`
 - デフォルトの`elevation`は0.0
 - デフォルトの`space`（アイコンとメッセージの間隔）は4.0
-- デフォルトの`padding`は上下4px
-- デフォルトの`contentPadding`は全方向16px
-- デフォルトの`borderRadius`は8.0
-- `backgroundColor`と`foregroundColor`を指定しない場合は、テーマの色が使用される
+- デフォルトの`padding`は上下4px（`EdgeInsets.symmetric(vertical: 4)`）
+- デフォルトの`contentPadding`は全方向16px（`EdgeInsets.all(16)`）
+- デフォルトの`borderRadius`は8.0（`BorderRadius.circular(8)`）
+- `backgroundColor`を指定しない場合は`Theme.of(context).colorScheme.surface`が使用される
+- `foregroundColor`を指定しない場合は`Theme.of(context).colorScheme.onSurface`が使用される
+- `foregroundColor`はIconThemeとDefaultTextStyleに適用される
+- reverseがtrueの場合、leading/trailingとRowの順序が逆になる
+- 内部構造: Padding > Row > [leading/trailing, Flexible(Container(label) + actions)]
 
 ## 利用シーン
 

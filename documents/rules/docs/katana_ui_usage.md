@@ -18,4 +18,6 @@
 | `PeriodicScope` | 一定時間ごとに自動的に再描画を行うウィジェット。タイマーやカウントダウン、定期的な更新が必要なUIに最適。 | Usage(`documents/rules/katana_ui/periodic_scope.md`) |
 | `ScrollBuilder` | ListViewやSingleChildScrollViewに簡単にRefreshIndicatorやScrollbarを追加できるウィジェット。デスクトップやWeb向けの機能も提供。 | Usage(`documents/rules/katana_ui/scroll_builder.md`) |
 | `Shimmer` | ローディング状態を表現するためのシマーエフェクトを提供するウィジェット。単一行と複数行のシマーエフェクトに対応。 | Usage(`documents/rules/katana_ui/shimmer.md`) |
-| `SquareAvatar` | `CircleAvatar`の四角版として使用可能なウィジェット。 | Usage(`documents/rules/katana_ui/square_avatar.md`) |
+| `SquareAvatar` | `CircleAvatar`の四角版として使用可能なウィジェット。角丸調整可能な四角形・角丸四角形のアバター表示を提供し、背景色と背景画像をレイヤーシステムでサポート。 | Usage(`documents/rules/katana_ui/square_avatar.md`) |
+| `SnsContentTile` | SNSのコンテンツを表示するウィジェット。プロフィールアバター、ユーザー名、ハンドル/タイムスタンプ、投稿内容、アクションボタンを含むソーシャルメディアスタイルの投稿レイアウトを提供。 | Usage(`documents/rules/katana_ui/sns_content_tile.md`) |
+| `SnsImage` | SNSスタイルのレイアウトで複数の画像を表示するウィジェット。画像枚数に応じて自動的に最適なグリッドレイアウトを適用し、タップイベントにも対応。 | Usage(`documents/rules/katana_ui/sns_image.md`) |
