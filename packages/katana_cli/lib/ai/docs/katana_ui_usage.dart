@@ -11,6 +11,8 @@ import "package:katana_cli/ai/docs/katana_ui/message_box.dart";
 import "package:katana_cli/ai/docs/katana_ui/periodic_scope.dart";
 import "package:katana_cli/ai/docs/katana_ui/scroll_builder.dart";
 import "package:katana_cli/ai/docs/katana_ui/shimmer.dart";
+import "package:katana_cli/ai/docs/katana_ui/sns_content_tile.dart";
+import "package:katana_cli/ai/docs/katana_ui/sns_image.dart";
 import "package:katana_cli/ai/docs/katana_ui/square_avatar.dart";
 import "package:katana_cli/katana_cli.dart";
 
@@ -31,6 +33,8 @@ const kKatanaUiList = {
   "ScrollBuilder": KatanaUIScrollBuilderMdCliAiCode(),
   "Shimmer": KatanaUIShimmerMdCliAiCode(),
   "SquareAvatar": KatanaUISquareAvatarMdCliAiCode(),
+  "SnsContentTile": KatanaUISnsContentTileMdCliAiCode(),
+  "SnsImage": KatanaUISnsImageMdCliAiCode(),
 };
 
 /// Contents of katana_ui_usage.md.
