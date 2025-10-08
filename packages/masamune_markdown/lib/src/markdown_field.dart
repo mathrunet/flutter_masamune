@@ -377,6 +377,8 @@ class MarkdownFieldState extends State<MarkdownField>
   void _handleFocusChanged() {
     if (_focusNode.hasFocus) {
       _openInputConnection();
+      _showCursor = true;
+      _cursorBlinkController.reset();
       _cursorBlinkController.repeat();
     } else {
       _closeInputConnectionIfNeeded();
@@ -767,12 +769,14 @@ class MarkdownFieldState extends State<MarkdownField>
         theme.textSelectionTheme.selectionColor ??
         theme.colorScheme.primary.withValues(alpha: 0.4);
 
+    final showCursor = _focusNode.hasFocus && _showCursor;
+
     Widget child = _MarkdownRenderObjectWidget(
       controller: widget.controller,
       focusNode: _focusNode,
       selection: _selection,
       composingRegion: _composingRegion,
-      showCursor: _focusNode.hasFocus && _showCursor,
+      showCursor: showCursor,
       style: defaultStyle!,
       cursorWidth: widget.cursorWidth,
       cursorHeight: widget.cursorHeight,
@@ -1310,6 +1314,35 @@ class _RenderMarkdownEditor extends RenderBox {
     // Reset handle positions
     _startHandlePosition = null;
     _endHandlePosition = null;
+
+    // If there are no layouts (empty document), draw cursor at the beginning
+    if (layouts.isEmpty && _showCursor && _selection.isValid && _selection.isCollapsed) {
+      // Create a temporary text painter to get the cursor height
+      final tempPainter = TextPainter(
+        text: TextSpan(text: "", style: _style),
+        textAlign: _textAlign,
+        textDirection: _textDirection,
+      )..layout();
+
+      final cursorHeight = _cursorHeight ?? tempPainter.preferredLineHeight;
+      final cursorRect = Rect.fromLTWH(
+        offset.dx,
+        offset.dy,
+        _cursorWidth,
+        cursorHeight,
+      );
+
+      final paint = Paint()..color = _cursorColor;
+      if (_cursorRadius != null) {
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(cursorRect, _cursorRadius!),
+          paint,
+        );
+      } else {
+        canvas.drawRect(cursorRect, paint);
+      }
+      return;
+    }
 
     for (final layout in layouts) {
       final blockOffset =
