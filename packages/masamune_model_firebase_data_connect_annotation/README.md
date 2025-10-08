@@ -55,7 +55,7 @@ flutter pub add --dev masamune_model_firebase_data_connect_builder
 
 ### @firebaseDataConnect
 
-Mark models that should generate Firebase Data Connect schemas:
+Mark models that should generate Firebase Data Connect schemas with permission settings:
 
 ```dart
 import 'package:masamune_model_firebase_data_connect_annotation/masamune_model_firebase_data_connect_annotation.dart';
@@ -64,7 +64,13 @@ import 'package:masamune_model_firebase_data_connect_annotation/masamune_model_f
 @formValue
 @immutable
 @firebaseDataConnect  // Enables Data Connect generation
-@CollectionModelPath('user')
+@CollectionModelPath(
+  'user',
+  permission: [
+    AllowReadModelPermissionQuery.allUsers(),   // All users can read
+    AllowWriteModelPermissionQuery.allUsers(),  // All users can write
+  ],
+)
 class UserModel with _$UserModel {
   const factory UserModel({
     required String name,

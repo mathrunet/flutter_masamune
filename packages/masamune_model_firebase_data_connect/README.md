@@ -53,7 +53,7 @@ flutter pub add --dev masamune_model_firebase_data_connect_builder
 
 ### Annotate Models
 
-Add `@firebaseDataConnect` to your Masamune models:
+Add `@firebaseDataConnect` and permission settings to your Masamune models:
 
 ```dart
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -69,7 +69,13 @@ part 'user.dataconnect.dart';  // Generated
 @formValue
 @immutable
 @firebaseDataConnect  // Enable Data Connect
-@CollectionModelPath('user')
+@CollectionModelPath(
+  'user',
+  permission: [
+    AllowReadModelPermissionQuery.allUsers(),   // All users can read
+    AllowWriteModelPermissionQuery.allUsers(),  // All users can write
+  ],
+)
 class UserModel with _$UserModel {
   const factory UserModel({
     required String name,

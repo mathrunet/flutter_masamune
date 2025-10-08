@@ -1,14 +1,20 @@
 // Project imports:
 import "package:katana_cli/ai/docs/plugins/ads.dart";
 import "package:katana_cli/ai/docs/plugins/agora.dart";
+import "package:katana_cli/ai/docs/plugins/algolia.dart";
 import "package:katana_cli/ai/docs/plugins/animate.dart";
+import "package:katana_cli/ai/docs/plugins/app_check.dart";
+import "package:katana_cli/ai/docs/plugins/app_review.dart";
 import "package:katana_cli/ai/docs/plugins/calendar.dart";
 import "package:katana_cli/ai/docs/plugins/camera.dart";
+import "package:katana_cli/ai/docs/plugins/data_connect.dart";
+import "package:katana_cli/ai/docs/plugins/force_updater.dart";
 import "package:katana_cli/ai/docs/plugins/generative_ai.dart";
 import "package:katana_cli/ai/docs/plugins/google_map.dart";
 import "package:katana_cli/ai/docs/plugins/introduction.dart";
 import "package:katana_cli/ai/docs/plugins/local_notification.dart";
 import "package:katana_cli/ai/docs/plugins/location.dart";
+import "package:katana_cli/ai/docs/plugins/logger.dart";
 import "package:katana_cli/ai/docs/plugins/mail.dart";
 import "package:katana_cli/ai/docs/plugins/picker.dart";
 import "package:katana_cli/ai/docs/plugins/purchase.dart";
@@ -37,6 +43,12 @@ const kPluginList = {
   "speech_to_text": PluginSpeechToTextMdCliAiCode(),
   "stripe": PluginStripeMdCliAiCode(),
   "text_to_speech": PluginTextToSpeechMdCliAiCode(),
+  "app_review": PluginAppReviewMdCliAiCode(),
+  "force_updater": PluginForceUpdaterMdCliAiCode(),
+  "app_check": PluginAppCheckMdCliAiCode(),
+  "logger": PluginLoggerMdCliAiCode(),
+  "algolia": PluginAlgoliaMdCliAiCode(),
+  "data_connect": PluginDataConnectMdCliAiCode(),
 };
 
 /// Contents of plugin_usage.md.
