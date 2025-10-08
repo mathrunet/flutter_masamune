@@ -656,22 +656,205 @@ class MarkdownController extends MasamuneControllerBase<
   /// Checks if the block can be increased indent.
   ///
   /// ブロックがインデントを増やすことができるかどうかを確認します。
-  bool get canIncreaseIndent => false;
+  bool get canIncreaseIndent {
+    if (_field == null) {
+      return false;
+    }
+
+    final selection = _field!._selection;
+    if (!selection.isValid) {
+      return false;
+    }
+
+    if (_value.isEmpty) {
+      return false;
+    }
+
+    final field = _value.first;
+    final blocks = field.children;
+
+    if (blocks.isEmpty) {
+      return false;
+    }
+
+    // Find which blocks are selected
+    final selectedBlocks = _getSelectedBlocks(selection.start, selection.end);
+    if (selectedBlocks.isEmpty) {
+      return false;
+    }
+
+    // Check if any selected block can increase indent (max indent is 5)
+    for (final blockIndex in selectedBlocks) {
+      if (blockIndex >= blocks.length) {
+        continue;
+      }
+      final block = blocks[blockIndex];
+      if (block.indent < 5) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   /// Checks if the block can be decreased indent.
   ///
   /// ブロックがインデントを減らすことができるかどうかを確認します。
-  bool get canDecreaseIndent => false;
+  bool get canDecreaseIndent {
+    if (_field == null) {
+      return false;
+    }
+
+    final selection = _field!._selection;
+    if (!selection.isValid) {
+      return false;
+    }
+
+    if (_value.isEmpty) {
+      return false;
+    }
+
+    final field = _value.first;
+    final blocks = field.children;
+
+    if (blocks.isEmpty) {
+      return false;
+    }
+
+    // Find which blocks are selected
+    final selectedBlocks = _getSelectedBlocks(selection.start, selection.end);
+    if (selectedBlocks.isEmpty) {
+      return false;
+    }
+
+    // Check if any selected block can decrease indent (min indent is 0)
+    for (final blockIndex in selectedBlocks) {
+      if (blockIndex >= blocks.length) {
+        continue;
+      }
+      final block = blocks[blockIndex];
+      if (block.indent > 0) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   /// Increases the indent of the block.
   ///
   /// ブロックのインデントを増やします。
-  void increaseIndent() {}
+  void increaseIndent() {
+    if (!canIncreaseIndent) {
+      return;
+    }
+
+    final selection = _field!._selection;
+    final field = _value.first;
+    final blocks = List<MarkdownBlockValue>.from(field.children);
+
+    // Find which blocks are selected
+    final selectedBlocks = _getSelectedBlocks(selection.start, selection.end);
+
+    // Increase indent for all selected blocks
+    for (final blockIndex in selectedBlocks) {
+      if (blockIndex < blocks.length) {
+        final block = blocks[blockIndex];
+        if (block.indent < 5) {
+          if (block is MarkdownParagraphBlockValue) {
+            blocks[blockIndex] = block.copyWith(indent: block.indent + 1);
+          }
+        }
+      }
+    }
+
+    // Update the field
+    final newField = field.copyWith(children: blocks);
+    _value[0] = newField;
+
+    notifyListeners();
+  }
 
   /// Decreases the indent of the block.
   ///
   /// ブロックのインデントを減らします。
-  void decreaseIndent() {}
+  void decreaseIndent() {
+    if (!canDecreaseIndent) {
+      return;
+    }
+
+    final selection = _field!._selection;
+    final field = _value.first;
+    final blocks = List<MarkdownBlockValue>.from(field.children);
+
+    // Find which blocks are selected
+    final selectedBlocks = _getSelectedBlocks(selection.start, selection.end);
+
+    // Decrease indent for all selected blocks
+    for (final blockIndex in selectedBlocks) {
+      if (blockIndex < blocks.length) {
+        final block = blocks[blockIndex];
+        if (block.indent > 0) {
+          if (block is MarkdownParagraphBlockValue) {
+            blocks[blockIndex] = block.copyWith(indent: block.indent - 1);
+          }
+        }
+      }
+    }
+
+    // Update the field
+    final newField = field.copyWith(children: blocks);
+    _value[0] = newField;
+
+    notifyListeners();
+  }
+
+  /// Gets the list of block indices that are within the selection range.
+  ///
+  /// 選択範囲内にあるブロックのインデックスのリストを取得します。
+  List<int> _getSelectedBlocks(int start, int end) {
+    if (_value.isEmpty) {
+      return [];
+    }
+
+    final field = _value.first;
+    final blocks = field.children;
+    final selectedBlockIndices = <int>[];
+
+    var currentOffset = 0;
+
+    for (var i = 0; i < blocks.length; i++) {
+      final block = blocks[i];
+      if (block is MarkdownParagraphBlockValue) {
+        final blockText = StringBuffer();
+        for (var j = 0; j < block.children.length; j++) {
+          final line = block.children[j];
+          for (final span in line.children) {
+            blockText.write(span.value);
+          }
+          if (j < block.children.length - 1) {
+            blockText.writeln();
+          }
+        }
+
+        final blockLength = blockText.toString().length;
+        final blockStart = currentOffset;
+        final blockEnd = currentOffset + blockLength;
+
+        // Check if this block is within the selection
+        // A block is selected if the selection overlaps with it
+        if ((start >= blockStart && start <= blockEnd) ||
+            (end >= blockStart && end <= blockEnd) ||
+            (start <= blockStart && end >= blockEnd)) {
+          selectedBlockIndices.add(i);
+        }
+
+        currentOffset += blockLength + 1; // +1 for newline between blocks
+      }
+    }
+
+    return selectedBlockIndices;
+  }
 
   /// Inserts a block at the specified offset.
   ///

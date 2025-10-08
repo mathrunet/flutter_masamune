@@ -40,6 +40,7 @@ class MarkdownStyle {
       margin: EdgeInsets.symmetric(vertical: 8),
     ),
     this.indentWidth = 16,
+    this.indentWhiteSpaceCount = 2,
   });
 
   /// Vertical spacing for paragraph.
@@ -96,6 +97,11 @@ class MarkdownStyle {
   ///
   /// インデントの幅。
   final double indentWidth;
+
+  /// Indent white space count.
+  ///
+  /// インデントの空白の数。
+  final int indentWhiteSpaceCount;
 }
 
 /// Value for markdown style.

@@ -1280,10 +1280,14 @@ class _RenderMarkdownEditor extends RenderBox {
           final text = blockText.toString();
 
           // Get block style from controller
-          final padding = (_controller.style.paragraph.padding ??
-              EdgeInsets.zero) as EdgeInsets;
+          var padding = (_controller.style.paragraph.padding ?? EdgeInsets.zero)
+              as EdgeInsets;
           final margin = (_controller.style.paragraph.margin ?? EdgeInsets.zero)
               as EdgeInsets;
+
+          // Apply indent
+          final indentWidth = block.indent * _controller.style.indentWidth;
+          padding = padding.copyWith(left: padding.left + indentWidth);
 
           // Build text style
           final baseStyle = _controller.style.paragraph.textStyle ?? _style;

@@ -67,6 +67,11 @@ abstract class MarkdownValue {
   /// マークダウンの展開状態のキー。
   static const String expandedKey = "expanded";
 
+  /// The key for the indent.
+  ///
+  /// マークダウンのインデントのキー。
+  static const String indentKey = "indent";
+
   /// Copy the markdown value with the given fields.
   ///
   /// 指定されたフィールドでマークダウンの値をコピーします。
@@ -398,6 +403,7 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
   factory MarkdownParagraphBlockValue.fromJson(DynamicMap json) {
     return MarkdownParagraphBlockValue(
       id: json.get(MarkdownValue.idKey, ""),
+      indent: json.get(MarkdownValue.indentKey, 0),
       children: json
           .getAsList<DynamicMap>(MarkdownValue.childrenKey, [])
           .map(MarkdownLineValue.fromJson)
@@ -434,6 +440,7 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
     return {
       MarkdownValue.idKey: id,
       MarkdownValue.typeKey: type,
+      MarkdownValue.indentKey: indent,
       MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
       MarkdownValue.propertyKey: property.toJson(),
     };
