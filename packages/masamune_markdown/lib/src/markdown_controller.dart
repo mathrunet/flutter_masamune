@@ -118,6 +118,7 @@ class MarkdownController extends MasamuneControllerBase<
     var currentOffset = 0;
     int? startBlockIndex;
     int? endBlockIndex;
+    int? endBlockStart;
     var localStart = 0;
     var localEnd = 0;
 
@@ -148,6 +149,7 @@ class MarkdownController extends MasamuneControllerBase<
         // Check if this block contains the end position
         if (blockEnd >= end) {
           endBlockIndex = i;
+          endBlockStart = blockStart;
           localEnd = end - blockStart;
           break;
         }
@@ -160,7 +162,7 @@ class MarkdownController extends MasamuneControllerBase<
       startBlockIndex = blocks.length - 1;
       localStart = 0;
     }
-    if (endBlockIndex == null) {
+    if (endBlockIndex == null || endBlockStart == null) {
       endBlockIndex = blocks.length - 1;
       final lastBlock = blocks[endBlockIndex] as MarkdownParagraphBlockValue;
       final lastBlockText = StringBuffer();
@@ -182,9 +184,9 @@ class MarkdownController extends MasamuneControllerBase<
           startBlockText.write(span.value);
         }
       }
-      final textBeforeStart = startBlockText
-          .toString()
-          .substring(0, localStart.clamp(0, startBlockText.length));
+      final startBlockTextStr = startBlockText.toString();
+      final safeLocalStart = localStart.clamp(0, startBlockTextStr.length);
+      final textBeforeStart = startBlockTextStr.substring(0, safeLocalStart);
 
       // Get text after end in end block
       final endBlock = blocks[endBlockIndex] as MarkdownParagraphBlockValue;
@@ -194,43 +196,79 @@ class MarkdownController extends MasamuneControllerBase<
           endBlockText.write(span.value);
         }
       }
-      final textAfterEnd = endBlockText
-          .toString()
-          .substring(localEnd.clamp(0, endBlockText.length));
+      final endBlockTextStr = endBlockText.toString();
+      final safeLocalEnd = localEnd.clamp(0, endBlockTextStr.length);
+      final textAfterEnd = endBlockTextStr.substring(safeLocalEnd);
 
       // Merge: text before start + inserted text + text after end
       final mergedText = textBeforeStart + text + textAfterEnd;
 
-      // Create new merged block
-      final mergedBlock = MarkdownParagraphBlockValue(
-        id: startBlock.id,
-        property: startBlock.property,
-        children: [
-          MarkdownLineValue(
+      // If merged text is empty, just remove the blocks without creating a new one
+      if (mergedText.isEmpty && text.isEmpty) {
+        // Remove blocks from startBlockIndex to endBlockIndex (inclusive)
+        blocks.removeRange(startBlockIndex, endBlockIndex + 1);
+
+        // If all blocks were removed, create an empty block
+        if (blocks.isEmpty) {
+          blocks.add(MarkdownParagraphBlockValue(
             id: uuid(),
-            property: const MarkdownLineProperty(
+            property: const MarkdownBlockProperty(
               backgroundColor: null,
               foregroundColor: null,
             ),
             children: [
-              MarkdownSpanValue(
+              MarkdownLineValue(
                 id: uuid(),
-                value: mergedText,
-                property: const MarkdownSpanProperty(
+                property: const MarkdownLineProperty(
                   backgroundColor: null,
                   foregroundColor: null,
                 ),
+                children: [
+                  MarkdownSpanValue(
+                    id: uuid(),
+                    value: "",
+                    property: const MarkdownSpanProperty(
+                      backgroundColor: null,
+                      foregroundColor: null,
+                    ),
+                  ),
+                ],
               ),
             ],
-          ),
-        ],
-      );
+          ));
+        }
+      } else {
+        // Create new merged block
+        final mergedBlock = MarkdownParagraphBlockValue(
+          id: startBlock.id,
+          property: startBlock.property,
+          children: [
+            MarkdownLineValue(
+              id: uuid(),
+              property: const MarkdownLineProperty(
+                backgroundColor: null,
+                foregroundColor: null,
+              ),
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: mergedText,
+                  property: const MarkdownSpanProperty(
+                    backgroundColor: null,
+                    foregroundColor: null,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
 
-      // Remove blocks from startBlockIndex to endBlockIndex (inclusive)
-      blocks.removeRange(startBlockIndex, endBlockIndex + 1);
+        // Remove blocks from startBlockIndex to endBlockIndex (inclusive)
+        blocks.removeRange(startBlockIndex, endBlockIndex + 1);
 
-      // Insert merged block at startBlockIndex
-      blocks.insert(startBlockIndex, mergedBlock);
+        // Insert merged block at startBlockIndex
+        blocks.insert(startBlockIndex, mergedBlock);
+      }
 
       // Update field
       final newField = MarkdownFieldValue(

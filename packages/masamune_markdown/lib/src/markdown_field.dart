@@ -526,9 +526,8 @@ class MarkdownFieldState extends State<MarkdownField>
         if (blockCountAfter < blockCountBefore &&
             oldEnd > start &&
             replacementText.isEmpty) {
-          // Move cursor to the end of the previous block
-          final newCursorPos = start > 0 ? start - 1 : 0;
-          _selection = TextSelection.collapsed(offset: newCursorPos);
+          // Keep cursor at start position (blocks were merged)
+          _selection = TextSelection.collapsed(offset: start);
           _composingRegion = null;
         } else {
           // Update cursor position and composing region
