@@ -2,118 +2,510 @@ part of "/masamune_universal_ui.dart";
 
 /// Create Scaffold to provide a consistent UI across web, desktop and mobile.
 ///
-/// [UniversalScaffold] can be used with [UniversalAppBar] and [UniversalListView] to create a responsive modern UI.
+/// [UniversalScaffold] is the `UniversalUI` version of [Scaffold]. It automatically transforms into appropriate layouts for desktop and mobile with responsive support.
+/// Built-in features include sidebar, loading, header/footer functionality, and automatic Sliver detection. Modal display is also supported.
+///
+/// ## Basic Usage
 ///
 /// It is basically available in the same way as [Scaffold].
 ///
-/// You can specify [UniversalAppBar], [SliverAppBar], [AppBar] or [PreferredSizeWidget] for [appBar]. If you specify a Sliver-compatible widget, the whole page will scroll Sliver-compatible.
+/// ```dart
+/// UniversalScaffold(
+///   appBar: UniversalAppBar(
+///     title: const Text("App Title"),
+///   ),
+///   body: const Center(
+///     child: Text("Content"),
+///   ),
+///   bottomNavigationBar: BottomNavigationBar(
+///     items: const [
+///       BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+///       BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+///     ],
+///     onTap: (index) { /* Handle navigation */ },
+///   ),
+/// );
+/// ```
 ///
-/// If [breakpoint] is specified, the UI will change to a mobile-oriented UI when the window size becomes smaller than the breakpoint. In this case, [sideBar] will be placed on [drawer] and the width will be maximized.
+/// ## Sidebar
+///
+/// You can create a sidebar with [sideBar]. If [breakpoint] is specified, the UI will change to a mobile-oriented UI when the window size becomes smaller than the breakpoint.
+/// In this case, [sideBar] will be placed on [drawer] and the width will be maximized.
+///
+/// ```dart
+/// UniversalScaffold(
+///   appBar: UniversalAppBar(title: const Text("App with Sidebar")),
+///   sideBar: UniversalSideBar(
+///     children: [
+///       const ListTile(leading: Icon(Icons.home), title: Text("Home")),
+///       const ListTile(leading: Icon(Icons.settings), title: Text("Settings")),
+///     ],
+///   ),
+///   body: const Center(child: Text("Main Content")),
+/// );
+/// ```
+///
+/// ## Loading
 ///
 /// If [loadingFutures] is specified, the loading widget will be displayed until the specified [Future] is completed.
-/// [loadingWidget] to change the loading widget.
+/// Use [loadingWidget] to change the loading widget.
+///
+/// ```dart
+/// UniversalScaffold(
+///   appBar: UniversalAppBar(title: const Text("App with Loading")),
+///   loadingFutures: [
+///     Future.delayed(const Duration(seconds: 2)),
+///     apiCall(),
+///   ],
+///   loadingWidget: const CircularProgressIndicator(),
+///   body: const Text("Data loaded"),
+/// );
+/// ```
+///
+/// ## Header and Footer
+///
+/// You can specify widgets to be displayed at the top and bottom of [body] with [header] and [footer].
+///
+/// ```dart
+/// UniversalScaffold(
+///   appBar: UniversalAppBar(title: const Text("App with Header/Footer")),
+///   header: Container(height: 60, color: Colors.blue[50], child: const Center(child: Text("Header"))),
+///   body: const Center(child: Text("Main Content")),
+///   footer: Container(height: 40, color: Colors.grey[100], child: const Center(child: Text("Footer"))),
+/// );
+/// ```
+///
+/// ## Modal Display
+///
+/// You can display as a modal by specifying [width], [height], [borderRadius], and [alignment].
+///
+/// ```dart
+/// @PagePath("modal", transition: TransitionQuery.centerModal)
+/// class ModalPage extends PageScopedWidget {
+///   @override
+///   Widget build(BuildContext context, PageRef ref) {
+///     return UniversalScaffold(
+///       width: 600,
+///       height: 400,
+///       borderRadius: BorderRadius.circular(12),
+///       alignment: Alignment.center,
+///       appBar: UniversalAppBar(title: const Text("Modal")),
+///       body: const Center(child: Text("Modal Content")),
+///     );
+///   }
+/// }
+/// ```
+///
+/// ## Sliver Support
+///
+/// You can specify [UniversalAppBar], [SliverAppBar], [AppBar] or [PreferredSizeWidget] for [appBar].
+/// If you specify a Sliver-compatible widget, the whole page will scroll Sliver-compatible.
+///
+/// ```dart
+/// UniversalScaffold(
+///   appBar: UniversalSliverAppBar(
+///     title: const Text("Sliver App"),
+///     expandedHeight: 200.0,
+///     background: Container(color: Colors.blue),
+///   ),
+///   body: UniversalListView(
+///     children: List.generate(50, (i) => ListTile(title: Text("Item ${i + 1}"))),
+///   ),
+/// );
+/// ```
+///
+/// ## Transition Animation
 ///
 /// Setting [waitTransition] to `true` will prevent [body] from being displayed during the transition animation, resulting in a smooth animation.
 ///
+/// ```dart
+/// UniversalScaffold(
+///   appBar: UniversalAppBar(title: const Text("Smooth Animation")),
+///   waitTransition: true,
+///   body: const ExpensiveWidget(),
+/// );
+/// ```
+///
+/// ---
+///
 /// Webとデスクトップ、モバイルで一貫したUIを提供するためのScaffoldを作成します。
 ///
-/// [UniversalScaffold]は、[UniversalAppBar]と[UniversalListView]などを使用して、UIを構築するとレスポンシブ対応なモダンUIが作成可能です。
+/// [UniversalScaffold]は[Scaffold]の`UniversalUI`版です。レスポンシブ対応でデスクトップ・モバイルで適切なレイアウトに自動変換します。
+/// サイドバー、ローディング、ヘッダー・フッター機能を内蔵し、Sliver対応も自動判定します。モーダル表示も可能です。
+///
+/// ## 基本的な利用方法
 ///
 /// 基本的には[Scaffold]と同じように利用可能です。
 ///
-/// [appBar]に[UniversalAppBar]、[SliverAppBar]、[AppBar]や[PreferredSizeWidget]を指定できます。Sliver対応のウィジェットを指定すると、ページ全体がSliver対応のスクロールになります。
+/// ```dart
+/// UniversalScaffold(
+///   appBar: UniversalAppBar(
+///     title: const Text("アプリタイトル"),
+///   ),
+///   body: const Center(
+///     child: Text("コンテンツ"),
+///   ),
+///   bottomNavigationBar: BottomNavigationBar(
+///     items: const [
+///       BottomNavigationBarItem(icon: Icon(Icons.home), label: "ホーム"),
+///       BottomNavigationBarItem(icon: Icon(Icons.settings), label: "設定"),
+///     ],
+///     onTap: (index) { /* ナビゲーション処理 */ },
+///   ),
+/// );
+/// ```
 ///
-/// [breakpoint]を指定するとそのブレークポイント以下のウインドウサイズになると、モバイル向けのUIに変化します。その際[sideBar]は[drawer]に配置されるようになり、横幅は最大化されます。
+/// ## サイドバー
+///
+/// [sideBar]でサイドバーを作成できます。[breakpoint]を指定するとそのブレークポイント以下のウインドウサイズになると、モバイル向けのUIに変化します。
+/// その際[sideBar]は[drawer]に配置されるようになり、横幅は最大化されます。
+///
+/// ```dart
+/// UniversalScaffold(
+///   appBar: UniversalAppBar(title: const Text("サイドバー付きアプリ")),
+///   sideBar: UniversalSideBar(
+///     children: [
+///       const ListTile(leading: Icon(Icons.home), title: Text("ホーム")),
+///       const ListTile(leading: Icon(Icons.settings), title: Text("設定")),
+///     ],
+///   ),
+///   body: const Center(child: Text("メインコンテンツ")),
+/// );
+/// ```
+///
+/// ## ローディング
 ///
 /// [loadingFutures]を指定すると、指定した[Future]が完了するまでローディングウィジェットを表示します。
 /// [loadingWidget]を指定すると、ローディングウィジェットを変更できます。
 ///
+/// ```dart
+/// UniversalScaffold(
+///   appBar: UniversalAppBar(title: const Text("ローディング付きアプリ")),
+///   loadingFutures: [
+///     Future.delayed(const Duration(seconds: 2)),
+///     apiCall(),
+///   ],
+///   loadingWidget: const CircularProgressIndicator(),
+///   body: const Text("データ読み込み完了"),
+/// );
+/// ```
+///
+/// ## ヘッダーとフッター
+///
+/// [header]と[footer]で[body]の上部と下部に表示するウィジェットを指定できます。
+///
+/// ```dart
+/// UniversalScaffold(
+///   appBar: UniversalAppBar(title: const Text("ヘッダー・フッター付き")),
+///   header: Container(height: 60, color: Colors.blue[50], child: const Center(child: Text("ヘッダー"))),
+///   body: const Center(child: Text("メインコンテンツ")),
+///   footer: Container(height: 40, color: Colors.grey[100], child: const Center(child: Text("フッター"))),
+/// );
+/// ```
+///
+/// ## モーダル表示
+///
+/// [width]、[height]、[borderRadius]、[alignment]を指定することでモーダルとして表示できます。
+///
+/// ```dart
+/// @PagePath("modal", transition: TransitionQuery.centerModal)
+/// class ModalPage extends PageScopedWidget {
+///   @override
+///   Widget build(BuildContext context, PageRef ref) {
+///     return UniversalScaffold(
+///       width: 600,
+///       height: 400,
+///       borderRadius: BorderRadius.circular(12),
+///       alignment: Alignment.center,
+///       appBar: UniversalAppBar(title: const Text("モーダル")),
+///       body: const Center(child: Text("モーダルコンテンツ")),
+///     );
+///   }
+/// }
+/// ```
+///
+/// ## Sliver対応
+///
+/// [appBar]に[UniversalAppBar]、[SliverAppBar]、[AppBar]や[PreferredSizeWidget]を指定できます。
+/// Sliver対応のウィジェットを指定すると、ページ全体がSliver対応のスクロールになります。
+///
+/// ```dart
+/// UniversalScaffold(
+///   appBar: UniversalSliverAppBar(
+///     title: const Text("Sliverアプリ"),
+///     expandedHeight: 200.0,
+///     background: Container(color: Colors.blue),
+///   ),
+///   body: UniversalListView(
+///     children: List.generate(50, (i) => ListTile(title: Text("アイテム ${i + 1}"))),
+///   ),
+/// );
+/// ```
+///
+/// ## トランジションアニメーション
+///
 /// [waitTransition]を`true`にするとトランジションアニメーションの間に[body]を表示しないようにすることができ、スムーズなアニメーションを実現できます。
 ///
 /// ```dart
-/// @override
-/// Widget build(BuildContext context) {
-///   return UniversalScaffold(
-///     appBar: UniversalAppBar(
-///       title: Text("UniversalViewPage"),
-///       subtitle: Text("UniversalViewPage"),
-///       titlePosition: UniversalAppBarTitlePosition.bottom,
-///       background: UniversalAppBarBackground(theme.asset.image.provider),
-///     ),
-///     body: UniversalListView(
-///       children: [
-///         ResponsiveRow(
-///           children: [
-///             ...List.generate(100, (i) {
-///               return ListTile(
-///                 tileColor: Colors.red,
-///                 title: Text((i + 1).toString()),
-///               );
-///             }).mapResponsiveCol(sm: 6, md: 4),
-///           ]
-///         ),
-///       ],
-///     ),
-///   );
-/// }
+/// UniversalScaffold(
+///   appBar: UniversalAppBar(title: const Text("スムーズアニメーション")),
+///   waitTransition: true,
+///   body: const ExpensiveWidget(),
+/// );
 /// ```
 class UniversalScaffold extends StatefulWidget {
   /// Create Scaffold to provide a consistent UI across web, desktop and mobile.
   ///
-  /// [UniversalScaffold] can be used with [UniversalAppBar] and [UniversalListView] to create a responsive modern UI.
+  /// [UniversalScaffold] is the `UniversalUI` version of [Scaffold]. It automatically transforms into appropriate layouts for desktop and mobile with responsive support.
+  /// Built-in features include sidebar, loading, header/footer functionality, and automatic Sliver detection. Modal display is also supported.
+  ///
+  /// ## Basic Usage
   ///
   /// It is basically available in the same way as [Scaffold].
   ///
-  /// You can specify [UniversalAppBar], [SliverAppBar], [AppBar] or [PreferredSizeWidget] for [appBar]. If you specify a Sliver-compatible widget, the whole page will scroll Sliver-compatible.
+  /// ```dart
+  /// UniversalScaffold(
+  ///   appBar: UniversalAppBar(
+  ///     title: const Text("App Title"),
+  ///   ),
+  ///   body: const Center(
+  ///     child: Text("Content"),
+  ///   ),
+  ///   bottomNavigationBar: BottomNavigationBar(
+  ///     items: const [
+  ///       BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+  ///       BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+  ///     ],
+  ///     onTap: (index) { /* Handle navigation */ },
+  ///   ),
+  /// );
+  /// ```
   ///
-  /// If [breakpoint] is specified, the UI will change to a mobile-oriented UI when the window size becomes smaller than the breakpoint. In this case, [sideBar] will be placed on [drawer] and the width will be maximized.
+  /// ## Sidebar
+  ///
+  /// You can create a sidebar with [sideBar]. If [breakpoint] is specified, the UI will change to a mobile-oriented UI when the window size becomes smaller than the breakpoint.
+  /// In this case, [sideBar] will be placed on [drawer] and the width will be maximized.
+  ///
+  /// ```dart
+  /// UniversalScaffold(
+  ///   appBar: UniversalAppBar(title: const Text("App with Sidebar")),
+  ///   sideBar: UniversalSideBar(
+  ///     children: [
+  ///       const ListTile(leading: Icon(Icons.home), title: Text("Home")),
+  ///       const ListTile(leading: Icon(Icons.settings), title: Text("Settings")),
+  ///     ],
+  ///   ),
+  ///   body: const Center(child: Text("Main Content")),
+  /// );
+  /// ```
+  ///
+  /// ## Loading
   ///
   /// If [loadingFutures] is specified, the loading widget will be displayed until the specified [Future] is completed.
-  /// [loadingWidget] to change the loading widget.
+  /// Use [loadingWidget] to change the loading widget.
+  ///
+  /// ```dart
+  /// UniversalScaffold(
+  ///   appBar: UniversalAppBar(title: const Text("App with Loading")),
+  ///   loadingFutures: [
+  ///     Future.delayed(const Duration(seconds: 2)),
+  ///     apiCall(),
+  ///   ],
+  ///   loadingWidget: const CircularProgressIndicator(),
+  ///   body: const Text("Data loaded"),
+  /// );
+  /// ```
+  ///
+  /// ## Header and Footer
+  ///
+  /// You can specify widgets to be displayed at the top and bottom of [body] with [header] and [footer].
+  ///
+  /// ```dart
+  /// UniversalScaffold(
+  ///   appBar: UniversalAppBar(title: const Text("App with Header/Footer")),
+  ///   header: Container(height: 60, color: Colors.blue[50], child: const Center(child: Text("Header"))),
+  ///   body: const Center(child: Text("Main Content")),
+  ///   footer: Container(height: 40, color: Colors.grey[100], child: const Center(child: Text("Footer"))),
+  /// );
+  /// ```
+  ///
+  /// ## Modal Display
+  ///
+  /// You can display as a modal by specifying [width], [height], [borderRadius], and [alignment].
+  ///
+  /// ```dart
+  /// @PagePath("modal", transition: TransitionQuery.centerModal)
+  /// class ModalPage extends PageScopedWidget {
+  ///   @override
+  ///   Widget build(BuildContext context, PageRef ref) {
+  ///     return UniversalScaffold(
+  ///       width: 600,
+  ///       height: 400,
+  ///       borderRadius: BorderRadius.circular(12),
+  ///       alignment: Alignment.center,
+  ///       appBar: UniversalAppBar(title: const Text("Modal")),
+  ///       body: const Center(child: Text("Modal Content")),
+  ///     );
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// ## Sliver Support
+  ///
+  /// You can specify [UniversalAppBar], [SliverAppBar], [AppBar] or [PreferredSizeWidget] for [appBar].
+  /// If you specify a Sliver-compatible widget, the whole page will scroll Sliver-compatible.
+  ///
+  /// ```dart
+  /// UniversalScaffold(
+  ///   appBar: UniversalSliverAppBar(
+  ///     title: const Text("Sliver App"),
+  ///     expandedHeight: 200.0,
+  ///     background: Container(color: Colors.blue),
+  ///   ),
+  ///   body: UniversalListView(
+  ///     children: List.generate(50, (i) => ListTile(title: Text("Item ${i + 1}"))),
+  ///   ),
+  /// );
+  /// ```
+  ///
+  /// ## Transition Animation
   ///
   /// Setting [waitTransition] to `true` will prevent [body] from being displayed during the transition animation, resulting in a smooth animation.
   ///
+  /// ```dart
+  /// UniversalScaffold(
+  ///   appBar: UniversalAppBar(title: const Text("Smooth Animation")),
+  ///   waitTransition: true,
+  ///   body: const ExpensiveWidget(),
+  /// );
+  /// ```
+  ///
+  /// ---
+  ///
   /// Webとデスクトップ、モバイルで一貫したUIを提供するためのScaffoldを作成します。
   ///
-  /// [UniversalScaffold]は、[UniversalAppBar]と[UniversalListView]などを使用して、UIを構築するとレスポンシブ対応なモダンUIが作成可能です。
+  /// [UniversalScaffold]は[Scaffold]の`UniversalUI`版です。レスポンシブ対応でデスクトップ・モバイルで適切なレイアウトに自動変換します。
+  /// サイドバー、ローディング、ヘッダー・フッター機能を内蔵し、Sliver対応も自動判定します。モーダル表示も可能です。
+  ///
+  /// ## 基本的な利用方法
   ///
   /// 基本的には[Scaffold]と同じように利用可能です。
   ///
-  /// [appBar]に[UniversalAppBar]、[SliverAppBar]、[AppBar]や[PreferredSizeWidget]を指定できます。Sliver対応のウィジェットを指定すると、ページ全体がSliver対応のスクロールになります。
+  /// ```dart
+  /// UniversalScaffold(
+  ///   appBar: UniversalAppBar(
+  ///     title: const Text("アプリタイトル"),
+  ///   ),
+  ///   body: const Center(
+  ///     child: Text("コンテンツ"),
+  ///   ),
+  ///   bottomNavigationBar: BottomNavigationBar(
+  ///     items: const [
+  ///       BottomNavigationBarItem(icon: Icon(Icons.home), label: "ホーム"),
+  ///       BottomNavigationBarItem(icon: Icon(Icons.settings), label: "設定"),
+  ///     ],
+  ///     onTap: (index) { /* ナビゲーション処理 */ },
+  ///   ),
+  /// );
+  /// ```
   ///
-  /// [breakpoint]を指定するとそのブレークポイント以下のウインドウサイズになると、モバイル向けのUIに変化します。その際[sideBar]は[drawer]に配置されるようになり、横幅は最大化されます。
+  /// ## サイドバー
+  ///
+  /// [sideBar]でサイドバーを作成できます。[breakpoint]を指定するとそのブレークポイント以下のウインドウサイズになると、モバイル向けのUIに変化します。
+  /// その際[sideBar]は[drawer]に配置されるようになり、横幅は最大化されます。
+  ///
+  /// ```dart
+  /// UniversalScaffold(
+  ///   appBar: UniversalAppBar(title: const Text("サイドバー付きアプリ")),
+  ///   sideBar: UniversalSideBar(
+  ///     children: [
+  ///       const ListTile(leading: Icon(Icons.home), title: Text("ホーム")),
+  ///       const ListTile(leading: Icon(Icons.settings), title: Text("設定")),
+  ///     ],
+  ///   ),
+  ///   body: const Center(child: Text("メインコンテンツ")),
+  /// );
+  /// ```
+  ///
+  /// ## ローディング
   ///
   /// [loadingFutures]を指定すると、指定した[Future]が完了するまでローディングウィジェットを表示します。
   /// [loadingWidget]を指定すると、ローディングウィジェットを変更できます。
   ///
+  /// ```dart
+  /// UniversalScaffold(
+  ///   appBar: UniversalAppBar(title: const Text("ローディング付きアプリ")),
+  ///   loadingFutures: [
+  ///     Future.delayed(const Duration(seconds: 2)),
+  ///     apiCall(),
+  ///   ],
+  ///   loadingWidget: const CircularProgressIndicator(),
+  ///   body: const Text("データ読み込み完了"),
+  /// );
+  /// ```
+  ///
+  /// ## ヘッダーとフッター
+  ///
+  /// [header]と[footer]で[body]の上部と下部に表示するウィジェットを指定できます。
+  ///
+  /// ```dart
+  /// UniversalScaffold(
+  ///   appBar: UniversalAppBar(title: const Text("ヘッダー・フッター付き")),
+  ///   header: Container(height: 60, color: Colors.blue[50], child: const Center(child: Text("ヘッダー"))),
+  ///   body: const Center(child: Text("メインコンテンツ")),
+  ///   footer: Container(height: 40, color: Colors.grey[100], child: const Center(child: Text("フッター"))),
+  /// );
+  /// ```
+  ///
+  /// ## モーダル表示
+  ///
+  /// [width]、[height]、[borderRadius]、[alignment]を指定することでモーダルとして表示できます。
+  ///
+  /// ```dart
+  /// @PagePath("modal", transition: TransitionQuery.centerModal)
+  /// class ModalPage extends PageScopedWidget {
+  ///   @override
+  ///   Widget build(BuildContext context, PageRef ref) {
+  ///     return UniversalScaffold(
+  ///       width: 600,
+  ///       height: 400,
+  ///       borderRadius: BorderRadius.circular(12),
+  ///       alignment: Alignment.center,
+  ///       appBar: UniversalAppBar(title: const Text("モーダル")),
+  ///       body: const Center(child: Text("モーダルコンテンツ")),
+  ///     );
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// ## Sliver対応
+  ///
+  /// [appBar]に[UniversalAppBar]、[SliverAppBar]、[AppBar]や[PreferredSizeWidget]を指定できます。
+  /// Sliver対応のウィジェットを指定すると、ページ全体がSliver対応のスクロールになります。
+  ///
+  /// ```dart
+  /// UniversalScaffold(
+  ///   appBar: UniversalSliverAppBar(
+  ///     title: const Text("Sliverアプリ"),
+  ///     expandedHeight: 200.0,
+  ///     background: Container(color: Colors.blue),
+  ///   ),
+  ///   body: UniversalListView(
+  ///     children: List.generate(50, (i) => ListTile(title: Text("アイテム ${i + 1}"))),
+  ///   ),
+  /// );
+  /// ```
+  ///
+  /// ## トランジションアニメーション
+  ///
   /// [waitTransition]を`true`にするとトランジションアニメーションの間に[body]を表示しないようにすることができ、スムーズなアニメーションを実現できます。
   ///
   /// ```dart
-  /// @override
-  /// Widget build(BuildContext context) {
-  ///   return UniversalScaffold(
-  ///     appBar: UniversalAppBar(
-  ///       title: Text("UniversalViewPage"),
-  ///       subtitle: Text("UniversalViewPage"),
-  ///       titlePosition: UniversalAppBarTitlePosition.bottom,
-  ///       background: UniversalAppBarBackground(theme.asset.image.provider),
-  ///     ),
-  ///     body: UniversalListView(
-  ///       children: [
-  ///         ResponsiveRow(
-  ///           children: [
-  ///             ...List.generate(100, (i) {
-  ///               return ListTile(
-  ///                 tileColor: Colors.red,
-  ///                 title: Text((i + 1).toString()),
-  ///               );
-  ///             }).mapResponsiveCol(sm: 6, md: 4),
-  ///           ]
-  ///         ),
-  ///       ],
-  ///     ),
-  ///   );
-  /// }
+  /// UniversalScaffold(
+  ///   appBar: UniversalAppBar(title: const Text("スムーズアニメーション")),
+  ///   waitTransition: true,
+  ///   body: const ExpensiveWidget(),
+  /// );
   /// ```
   const UniversalScaffold({
     super.key,
@@ -676,19 +1068,71 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
 
 /// Scope for retrieving information in [UniversalScaffold].
 ///
-/// It can be obtained at [UniversalScaffold.of].
+/// This widget provides access to [UniversalScaffold] configuration such as [breakpoint] and [sideBarWidth].
+/// It can be obtained using [UniversalScaffold.of].
+///
+/// ## Usage
+///
+/// ```dart
+/// final scope = UniversalScaffold.of(context);
+/// final breakpoint = scope?.breakpoint;
+/// final sideBarWidth = scope?.sideBarWidth ?? 0.0;
+///
+/// // Check if sidebar is visible
+/// final isSideBarVisible = breakpoint?.shouldShowSideBar(context) ?? false;
+/// ```
+///
+/// ---
 ///
 /// [UniversalScaffold]の中の情報を取得するためのスコープ。
 ///
+/// このウィジェットは[breakpoint]や[sideBarWidth]などの[UniversalScaffold]設定へのアクセスを提供します。
 /// [UniversalScaffold.of]で取得できます。
+///
+/// ## 使い方
+///
+/// ```dart
+/// final scope = UniversalScaffold.of(context);
+/// final breakpoint = scope?.breakpoint;
+/// final sideBarWidth = scope?.sideBarWidth ?? 0.0;
+///
+/// // サイドバーが表示されているかチェック
+/// final isSideBarVisible = breakpoint?.shouldShowSideBar(context) ?? false;
+/// ```
 class UniversalScaffoldScope extends InheritedWidget {
   /// Scope for retrieving information in [UniversalScaffold].
   ///
-  /// It can be obtained at [UniversalScaffold.of].
+  /// This widget provides access to [UniversalScaffold] configuration such as [breakpoint] and [sideBarWidth].
+  /// It can be obtained using [UniversalScaffold.of].
+  ///
+  /// ## Usage
+  ///
+  /// ```dart
+  /// final scope = UniversalScaffold.of(context);
+  /// final breakpoint = scope?.breakpoint;
+  /// final sideBarWidth = scope?.sideBarWidth ?? 0.0;
+  ///
+  /// // Check if sidebar is visible
+  /// final isSideBarVisible = breakpoint?.shouldShowSideBar(context) ?? false;
+  /// ```
+  ///
+  /// ---
   ///
   /// [UniversalScaffold]の中の情報を取得するためのスコープ。
   ///
+  /// このウィジェットは[breakpoint]や[sideBarWidth]などの[UniversalScaffold]設定へのアクセスを提供します。
   /// [UniversalScaffold.of]で取得できます。
+  ///
+  /// ## 使い方
+  ///
+  /// ```dart
+  /// final scope = UniversalScaffold.of(context);
+  /// final breakpoint = scope?.breakpoint;
+  /// final sideBarWidth = scope?.sideBarWidth ?? 0.0;
+  ///
+  /// // サイドバーが表示されているかチェック
+  /// final isSideBarVisible = breakpoint?.shouldShowSideBar(context) ?? false;
+  /// ```
   const UniversalScaffoldScope({
     required super.child,
     required this.breakpoint,
@@ -720,19 +1164,123 @@ class UniversalScaffoldScope extends InheritedWidget {
 
 /// This is given when generating a [Drawer] within [UniversalScaffold].
 ///
-/// Please use this option if you want to check whether the file is in the automatically generated [Drawer] in [UniversalScaffold] or not.
+/// This widget is automatically added when [UniversalScaffold] converts [sideBar] to a [Drawer] based on screen size.
+/// Use [AutoDrawerSettings.maybeOf] to check if the current widget is inside an automatically generated [Drawer].
+///
+/// ## Usage
+///
+/// ```dart
+/// @override
+/// Widget build(BuildContext context) {
+///   final isInAutoDrawer = AutoDrawerSettings.maybeOf(context) != null;
+///
+///   if (isInAutoDrawer) {
+///     // Widget is inside auto-generated drawer
+///     return ListTile(
+///       title: const Text("Menu Item"),
+///       onTap: () {
+///         Navigator.pop(context); // Close drawer
+///       },
+///     );
+///   } else {
+///     // Widget is in regular sidebar
+///     return ListTile(
+///       title: const Text("Menu Item"),
+///     );
+///   }
+/// }
+/// ```
+///
+/// ---
 ///
 /// [UniversalScaffold]内で[Drawer]を生成する際に付与されます。
 ///
-/// [UniversalScaffold]内で自動生成された[Drawer]内であるかどうかを確認したい場合ご利用ください。
+/// このウィジェットは[UniversalScaffold]が画面サイズに基づいて[sideBar]を[Drawer]に変換する際に自動的に追加されます。
+/// [AutoDrawerSettings.maybeOf]を使用して、現在のウィジェットが自動生成された[Drawer]内にあるかどうかを確認できます。
+///
+/// ## 使い方
+///
+/// ```dart
+/// @override
+/// Widget build(BuildContext context) {
+///   final isInAutoDrawer = AutoDrawerSettings.maybeOf(context) != null;
+///
+///   if (isInAutoDrawer) {
+///     // 自動生成されたドロワー内のウィジェット
+///     return ListTile(
+///       title: const Text("メニューアイテム"),
+///       onTap: () {
+///         Navigator.pop(context); // ドロワーを閉じる
+///       },
+///     );
+///   } else {
+///     // 通常のサイドバー内のウィジェット
+///     return ListTile(
+///       title: const Text("メニューアイテム"),
+///     );
+///   }
+/// }
+/// ```
 class AutoDrawerSettings extends InheritedWidget {
   /// This is given when generating a [Drawer] within [UniversalScaffold].
   ///
-  /// Please use this option if you want to check whether the file is in the automatically generated [Drawer] in [UniversalScaffold] or not.
+  /// This widget is automatically added when [UniversalScaffold] converts [sideBar] to a [Drawer] based on screen size.
+  /// Use [AutoDrawerSettings.maybeOf] to check if the current widget is inside an automatically generated [Drawer].
+  ///
+  /// ## Usage
+  ///
+  /// ```dart
+  /// @override
+  /// Widget build(BuildContext context) {
+  ///   final isInAutoDrawer = AutoDrawerSettings.maybeOf(context) != null;
+  ///
+  ///   if (isInAutoDrawer) {
+  ///     // Widget is inside auto-generated drawer
+  ///     return ListTile(
+  ///       title: const Text("Menu Item"),
+  ///       onTap: () {
+  ///         Navigator.pop(context); // Close drawer
+  ///       },
+  ///     );
+  ///   } else {
+  ///     // Widget is in regular sidebar
+  ///     return ListTile(
+  ///       title: const Text("Menu Item"),
+  ///     );
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// ---
   ///
   /// [UniversalScaffold]内で[Drawer]を生成する際に付与されます。
   ///
-  /// [UniversalScaffold]内で自動生成された[Drawer]内であるかどうかを確認したい場合ご利用ください。
+  /// このウィジェットは[UniversalScaffold]が画面サイズに基づいて[sideBar]を[Drawer]に変換する際に自動的に追加されます。
+  /// [AutoDrawerSettings.maybeOf]を使用して、現在のウィジェットが自動生成された[Drawer]内にあるかどうかを確認できます。
+  ///
+  /// ## 使い方
+  ///
+  /// ```dart
+  /// @override
+  /// Widget build(BuildContext context) {
+  ///   final isInAutoDrawer = AutoDrawerSettings.maybeOf(context) != null;
+  ///
+  ///   if (isInAutoDrawer) {
+  ///     // 自動生成されたドロワー内のウィジェット
+  ///     return ListTile(
+  ///       title: const Text("メニューアイテム"),
+  ///       onTap: () {
+  ///         Navigator.pop(context); // ドロワーを閉じる
+  ///       },
+  ///     );
+  ///   } else {
+  ///     // 通常のサイドバー内のウィジェット
+  ///     return ListTile(
+  ///       title: const Text("メニューアイテム"),
+  ///     );
+  ///   }
+  /// }
+  /// ```
   const AutoDrawerSettings({
     required super.child,
     super.key,
