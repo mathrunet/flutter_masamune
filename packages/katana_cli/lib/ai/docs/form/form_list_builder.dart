@@ -36,6 +36,40 @@ class KatanaFormListBuilderMdCliAiCode extends FormUsageCliAiCode {
 
 $excerpt
 
+## 配置方法
+
+`FormController`を使用する場合は、`FormController.key`を与えた`Form`配下に配置するか、`form`パラメータに`FormController`を渡します。
+
+```dart
+final formController = FormController();
+
+// パターン1: Formの配下に配置
+Form(
+  key: formController.key,
+  child: Column(
+    children: [
+      FormListBuilder(
+        initialValue: formController.value.tags,
+        onSaved: (value) => formController.value.copyWith(tags: value),
+        builder: (context, ref, item, index) {
+          return Text(item);
+        },
+      ),
+    ],
+  ),
+);
+
+// パターン2: formパラメータに直接渡す
+FormListBuilder(
+  form: formController,
+  initialValue: formController.value.tags,
+  onSaved: (value) => formController.value.copyWith(tags: value),
+  builder: (context, ref, item, index) {
+    return Text(item);
+  },
+);
+```
+
 ## 基本的な利用方法
 
 ```dart
@@ -316,48 +350,72 @@ FormListBuilder(
 ## パラメータ
 
 ### 必須パラメータ
-- `builder`: ビルダー関数。各アイテムのウィジェットを生成します。
+- `builder`: ビルダー関数。各アイテムのウィジェットを生成します。`BuildContext`、`FormListBuilderRef`、アイテム（型`T`）、インデックス（`int`）を受け取ります。
 
 ### オプションパラメータ
 - `form`: フォームコントローラー。フォームの状態管理を行います。定義する場合は`onSaved`パラメータも定義する必要があります。
-- `onSaved`: 保存時のコールバック。選択された値の保存処理を定義します。定義する場合は`form`パラメータも定義する必要があります。`builder`の中で定義された`Form`の`onSaved`メソッドよりも必ず前に実行されるのでリストの初期化などが行えます。
-- `onChanged`: 変更時のコールバック。選択された値の変更時の処理を定義します。
+- `onSaved`: 保存時のコールバック。リスト全体の保存処理を定義します。定義する場合は`form`パラメータも定義する必要があります。`builder`の中で定義された各要素の`Form`の`onSaved`メソッドよりも必ず前に実行されるのでリストの初期化などが行えます。
+- `onChanged`: 変更時のコールバック。リストが変更された時（追加、削除、更新）の処理を定義します。
 - `style`: フォームのスタイル。`FormStyle`を使用してデザインをカスタマイズできます。
-- `validator`: バリデーション関数。選択値の検証ルールを定義します。
-- `enabled`: 入力可否。`false`の場合、チェックボックスが無効化されます。
-- `initialValue`: 初期値。フォーム表示時の初期チェック状態を設定します。
+- `validator`: バリデーション関数。リスト全体の検証ルールを定義します（例: 最小・最大アイテム数のチェック）。
+- `enabled`: 入力可否。`false`の場合、リスト全体が無効化されます。デフォルトは`true`です。
+- `readOnly`: リストの読み取り専用化。`true`の場合、追加・削除・編集ができなくなります。デフォルトは`false`です。
+- `initialValue`: 初期値。フォーム表示時の初期リストを設定します（型`List<T>`）。
+- `keepAlive`: リストに配置された場合、スクロール時に破棄されないようにするかどうか。`true`の場合、破棄されず保持され続けます。デフォルトは`true`です。
+- `top`: リストの上部に表示するウィジェットを生成するビルダー関数。`BuildContext`と`FormListBuilderRef`を受け取ります。
+- `bottom`: リストの下部に表示するウィジェットを生成するビルダー関数。`BuildContext`と`FormListBuilderRef`を受け取ります。通常は追加ボタンの配置に使用します。
 
-- `top`: リストの上部に表示するウィジェットを設定します。
-- `bottom`: リストの下部に表示するウィジェットを設定します。
-- `readOnly`: リストの読み取り専用化を設定します。
+### `FormListBuilderRef`で利用可能なプロパティとメソッド
+- `version`: リストのバージョン番号（`int`型）。アイテムの追加・削除時にインクリメントされます。`ValueKey`に使用して要素の再構築を制御します。
+- `add(T item)`: リストの末尾にアイテムを追加します。
+- `update(int index, T item)`: 指定したインデックスのアイテムを更新します。
+- `delete(T item)`: 指定したアイテムをリストから削除します。
+- `deleteAt(int index)`: 指定したインデックスのアイテムをリストから削除します。
 
 ## 注意点
 
+- `FormController`を使用する場合は、`FormController.key`を与えた`Form`配下に配置するか、`form`パラメータに`FormController`を渡す必要があります。
 - `FormController`と組み合わせて使用することで、フォームの状態管理を行えます。
 - `FormController`を使用する場合は`onSaved`メソッドも合わせて定義してください。
+- `form`と`onSaved`はセットで使用する必要があります。どちらか一方だけを定義するとエラーになります。
 - `FormStyle`を使用することで、共通のデザインを適用できます。
-- `builder`内で`Form`を利用する場合、各要素に`index`を含めた`ValueKey`を設定して、各要素の内容を維持してください。また`FormListBuilder`の`onSaved`メソッドでリストを初期化した後、各要素の`Form`の`onSaved`メソッド内でその要素を１つずつ追加していくような実装を行ってください。また、各要素の`Form`の`onFocusChanged`や`onSubmitted`内で`ref.update`を行うことで都度更新を行うことができます。
-- `builder`内で`Form`を利用する場合、`top`や`bottom`パラメーターで要素の追加を行う場合はフォーカスを外さないとエラーが発生します。また、フォーカスを外してから要素の追加を行う場合は待ち時間を設ける必要があります。
-- `builder`内で`Form`を利用する場合、各要素の削除ボタンを押した場合はフォーカスを外さないとエラーが発生します。また、フォーカスを外してから要素の削除を行う場合は待ち時間を設ける必要があります。
+- `builder`内で各要素のフォームフィールドを配置する際、必ず`ValueKey("list_\${ref.version}_\$index")`のような一意のキーを設定してください。これにより、要素の追加・削除時に正しく再構築されます。
+- `FormListBuilder`の`onSaved`メソッドはリストの初期化に使用し、各要素の`Form`の`onSaved`メソッドで個別の要素を追加していく実装パターンが推奨されます。
+- 各要素のフォームフィールドで`onFocusChanged`や`onSubmitted`を使用して、`ref.update(index, value)`を呼び出すことで、リアルタイムでリストを更新できます。
+- **重要**: アイテムの追加（`ref.add()`）や削除（`ref.deleteAt()`）を行う前に、必ずフォーカスを解放してください（`FocusScope.of(context).unfocus()`）。
+- **重要**: フォーカスを解放した後、`await Future.delayed(const Duration(milliseconds: 100))`で待機時間を設けてからアイテムの追加・削除を実行してください。これを行わないとエラーが発生します。
+- `readOnly`が`true`の場合、追加・削除・編集は無効化されますが、表示は行われます。
+- `version`プロパティは、アイテムの追加・削除時に自動的にインクリメントされます。`update()`メソッドでは変更されません。
+- リスト内で使用する場合、`keepAlive`を`true`にすることで、スクロール時にフォームの状態が保持されます。
 
 ## ベストプラクティス
 
-1. フォームの状態管理には必ず`FormController`を使用する
-2. `FormController`を使用する場合は`onSaved`メソッドも合わせて定義する。
-3. `FormController`を使用せず、`onChanged`メソッドを使用して変更の都度処理を行う方法も利用可能。
-4. バリデーションは`validator`パラメータを使用して定義する。
-5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
-6. `builder`内で`Form`を利用する場合、各要素に`index`を含めた`ValueKey`を設定して、各要素の内容を維持してください。また`FormListBuilder`の`onSaved`メソッドでリストを初期化した後、各要素の`Form`の`onSaved`メソッド内でその要素を１つずつ追加していくような実装を行ってください。また、各要素の`Form`の`onFocusChanged`や`onSubmitted`内で`ref.update`を行うことで都度更新を行うことができます。
-7. `builder`内で`Form`を利用する場合、`top`や`bottom`パラメーターで要素の追加を行う場合はフォーカスを外さないとエラーが発生します。また、フォーカスを外してから要素の追加を行う場合は待ち時間を設ける必要があります。
-8. `builder`内で`Form`を利用する場合、各要素の削除ボタンを押した場合はフォーカスを外さないとエラーが発生します。また、フォーカスを外してから要素の削除を行う場合は待ち時間を設ける必要があります。
+1. フォームの状態管理には`FormController`を使用する
+2. `FormController`を使用する場合は、必ず`form`と`onSaved`をセットで定義する
+3. `FormController.key`を与えた`Form`配下に配置するか、`form`パラメータに`FormController`を渡すことで配置する
+4. `FormController`を使用せず、`onChanged`メソッドを使用して変更の都度処理を行う方法も利用可能
+5. バリデーションは`validator`パラメータを使用して定義する（例: 最小アイテム数、最大アイテム数のチェック）
+6. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
+7. 各要素に`ValueKey("list_\${ref.version}_\$index")`のような一意のキーを必ず設定する
+8. `FormListBuilder`の`onSaved`でリストを初期化し、各要素の`onSaved`で個別要素を追加する
+9. `onFocusChanged`や`onSubmitted`で`ref.update()`を呼び出して、リアルタイム更新を実装する
+10. アイテムの追加・削除時は、必ず`FocusScope.of(context).unfocus()`でフォーカスを解放する
+11. フォーカス解放後、`await Future.delayed(const Duration(milliseconds: 100))`で待機してから追加・削除を実行する
+12. `bottom`パラメータを使用して、リスト下部に追加ボタンを配置する
+13. リスト内で使用する場合は`keepAlive`を`true`に設定して状態を保持する（デフォルトで`true`）
 
 ## 利用シーン
 
-- 複数の連絡先情報の管理
-- TODOリストの作成
-- タグリストの編集
-- 商品リストの管理
-- フォームの動的な追加・削除
+- 複数の連絡先情報の管理（電話番号、メールアドレスの複数登録）
+- TODOリストの作成（タスクの追加・削除・編集）
+- タグリストの編集（記事やブログのタグ管理）
+- 商品リストの管理（カート内商品、注文商品の管理）
+- フォームの動的な追加・削除（質問項目、選択肢の追加）
+- 参加者リストの管理（イベント参加者、プロジェクトメンバー）
+- 画像リストの管理（複数画像のアップロード、編集）
+- スケジュールリストの管理（複数の予定管理）
+- 住所リストの管理（複数配送先の登録）
+- SNSアカウントリストの管理（複数アカウント連携）
 """;
   }
 }
