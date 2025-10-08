@@ -23,7 +23,8 @@ class PluginAdsMdCliAiCode extends PluginUsageCliAiCode {
   String get directory => "docs/plugins";
 
   @override
-  String get excerpt => "`アプリ広告`はアプリ内にGoogle Mobile Ads（AdMob）を表示する機能を提供するプラグイン。バナー広告、インタースティシャル広告、リワード広告、リワードインタースティシャル広告、ネイティブ広告に対応。";
+  String get excerpt =>
+      "`アプリ広告`はアプリ内にGoogle Mobile Ads（AdMob）を表示する機能を提供するプラグイン。バナー広告、インタースティシャル広告、リワード広告、リワードインタースティシャル広告、ネイティブ広告に対応。";
 
   @override
   String body(String baseName, String className) {

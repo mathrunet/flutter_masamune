@@ -23,7 +23,8 @@ class PluginAgoraMdCliAiCode extends PluginUsageCliAiCode {
   String get directory => "docs/plugins";
 
   @override
-  String get excerpt => "`Agora`は音声通話、ビデオ通話、クラウドレコーディング、スクリーンキャプチャ、データストリーム、カスタムビデオソースの機能を提供するプラグイン。Agora.io SDKを利用した高品質なリアルタイムコミュニケーションを実現。";
+  String get excerpt =>
+      "`Agora`は音声通話、ビデオ通話、クラウドレコーディング、スクリーンキャプチャ、データストリーム、カスタムビデオソースの機能を提供するプラグイン。Agora.io SDKを利用した高品質なリアルタイムコミュニケーションを実現。";
 
   @override
   String body(String baseName, String className) {

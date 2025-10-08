@@ -23,7 +23,8 @@ class PluginAnimateMdCliAiCode extends PluginUsageCliAiCode {
   String get directory => "docs/plugins";
 
   @override
-  String get excerpt => "`アニメーション`はシナリオベースのアニメーションを構築できるプラグイン。`AnimateScope`と`AnimateController`を使用して、フェードイン/アウト、移動、回転、スケール、カラーフィルターなどのアニメーションフローを作成。";
+  String get excerpt =>
+      "`アニメーション`はシナリオベースのアニメーションを構築できるプラグイン。`AnimateScope`と`AnimateController`を使用して、フェードイン/アウト、移動、回転、スケール、カラーフィルターなどのアニメーションフローを作成。";
 
   @override
   String body(String baseName, String className) {
