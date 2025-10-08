@@ -19,6 +19,7 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
     required this.apiKey,
     this.model = OpenaiAIModel.defaultModel,
     super.contentFilter,
+    super.defaultConfig,
   });
 
   /// API key for OpenAI.
