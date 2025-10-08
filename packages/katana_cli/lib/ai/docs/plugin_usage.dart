@@ -11,7 +11,7 @@ import "package:katana_cli/ai/docs/plugins/location.dart";
 import "package:katana_cli/ai/docs/plugins/openai.dart";
 import "package:katana_cli/ai/docs/plugins/picker.dart";
 import "package:katana_cli/ai/docs/plugins/purchase.dart";
-import "package:katana_cli/ai/docs/plugins/sendgrid.dart";
+import "package:katana_cli/ai/docs/plugins/mail.dart";
 import "package:katana_cli/ai/docs/plugins/speech_to_text.dart";
 import "package:katana_cli/ai/docs/plugins/stripe.dart";
 import "package:katana_cli/ai/docs/plugins/text_to_speech.dart";
@@ -33,7 +33,7 @@ const kPluginList = {
   "openai": PluginOpenAiMdCliAiCode(),
   "picker": PluginPickerMdCliAiCode(),
   "purchase": PluginPurchaseMdCliAiCode(),
-  "sendgrid": PluginSendgridMdCliAiCode(),
+  "mail": PluginMailMdCliAiCode(),
   "speech_to_text": PluginSpeechToTextMdCliAiCode(),
   "stripe": PluginStripeMdCliAiCode(),
   "text_to_speech": PluginTextToSpeechMdCliAiCode(),
