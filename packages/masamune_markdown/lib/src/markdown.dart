@@ -12,6 +12,7 @@ class Markdown extends StatelessWidget {
     super.key,
     this.style,
     this.expands = false,
+    this.scrollable = true,
     this.onTapLink,
   });
 
@@ -30,6 +31,11 @@ class Markdown extends StatelessWidget {
   /// マークダウンを展開します。
   final bool expands;
 
+  /// Scrollable of the markdown.
+  ///
+  /// マークダウンをスクロール可能にします。
+  final bool scrollable;
+
   /// Callback when the link is tapped.
   ///
   /// リンクがタップされた時のコールバック。
@@ -43,6 +49,7 @@ class Markdown extends StatelessWidget {
       expands: expands,
       onTapLink: onTapLink,
       readOnly: true,
+      scrollable: scrollable,
     );
   }
 }

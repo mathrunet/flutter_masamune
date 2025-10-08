@@ -19,6 +19,7 @@ class MarkdownField extends StatefulWidget {
     this.maxLines,
     this.minLines,
     this.expands = false,
+    this.scrollable = true,
     this.textAlign = TextAlign.start,
     this.textDirection,
     this.cursorWidth = 2.0,
@@ -99,6 +100,11 @@ class MarkdownField extends StatefulWidget {
   ///
   /// フィールドが親を埋めるように拡張すべきかどうか。
   final bool expands;
+
+  /// Whether the field should be scrollable.
+  ///
+  /// フィールドがスクロール可能かどうか。
+  final bool scrollable;
 
   /// Text alignment.
   ///
@@ -813,7 +819,8 @@ class MarkdownFieldState extends State<MarkdownField>
       },
     );
 
-    if (widget.scrollController != null || !widget.expands) {
+    if (widget.scrollable &&
+        (widget.scrollController != null || !widget.expands)) {
       child = SingleChildScrollView(
         controller: _scrollController,
         physics: widget.scrollPhysics,

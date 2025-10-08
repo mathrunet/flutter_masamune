@@ -129,6 +129,7 @@ class FormMarkdownField<TValue> extends FormField<String> {
     String? Function(String? value)? validator,
     TValue Function(String value)? onSaved,
     String? hintText,
+    bool scrollable = true,
     void Function(String link)? onTapLink,
     this.autofocus = false,
     VoidCallback? onTap,
@@ -181,6 +182,7 @@ class FormMarkdownField<TValue> extends FormField<String> {
                 controller: state._effectiveController,
                 focusNode: focusNode,
                 onTap: onTap,
+                scrollable: scrollable,
                 onEditingComplete: onEditingComplete,
                 onChanged: onChanged != null
                     ? (value) {
