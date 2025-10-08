@@ -1374,6 +1374,21 @@ class _RenderMarkdownEditor extends RenderBox {
       final blockOffset =
           offset + layout.offset + Offset(layout.padding.left, 0);
 
+      // DEBUG: Draw red background for the actual text area to visualize tap target
+      final textWidth = layout.painter.width;
+      final debugRect = Rect.fromLTWH(
+        offset.dx + layout.padding.left,
+        offset.dy + layout.offset.dy,
+        textWidth,
+        layout.painter.height,
+      );
+      canvas.drawRect(
+        debugRect,
+        Paint()
+          ..color = const Color(0x22FF0000) // Semi-transparent red
+          ..style = PaintingStyle.fill,
+      );
+
       // Draw block background if any
       if (layout.block.property.backgroundColor != null) {
         final blockRect = Rect.fromLTWH(
@@ -1574,23 +1589,39 @@ class _RenderMarkdownEditor extends RenderBox {
       final blockBottom = blockOffset.dy + layout.painter.height;
       // Define the actual text area boundaries (excluding padding)
       final blockTop = layout.offset.dy - layout.padding.top;
-      final blockRight = blockOffset.dx + layout.painter.width;
 
       debugPrint(
           "[MarkdownField]   Block: offset=${layout.offset}, padding=${layout.padding}");
       debugPrint(
-          "[MarkdownField]   blockOffset=$blockOffset, blockTop=$blockTop, blockBottom=$blockBottom, blockRight=$blockRight");
+          "[MarkdownField]   blockOffset=$blockOffset, blockTop=$blockTop, blockBottom=$blockBottom");
       debugPrint(
           "[MarkdownField]   painter.width=${layout.painter.width}, painter.height=${layout.painter.height}");
 
       if (position.dy >= blockOffset.dy && position.dy <= blockBottom) {
         debugPrint(
             "[MarkdownField]   Position is in vertical range of this block");
+
+        // Get the actual text width by checking where the last character is
+        final textLength = layout.textLength;
+        double actualTextRight = layout.padding.left;
+        if (textLength > 0) {
+          // Get the position of the last character
+          final lastCharOffset = layout.painter.getOffsetForCaret(
+            TextPosition(offset: textLength),
+            Rect.zero,
+          );
+          actualTextRight = layout.padding.left + lastCharOffset.dx;
+        }
+
+        debugPrint(
+            "[MarkdownField]   actualTextRight=$actualTextRight, position.dx=${position.dx}");
+
         // Check if position is within the horizontal text bounds
-        if (position.dx < layout.padding.left || position.dx > blockRight) {
-          // Position is in padding area horizontally, return null to deselect
+        if (position.dx < layout.padding.left ||
+            position.dx > actualTextRight) {
+          // Position is in padding/empty area horizontally, return null to deselect
           debugPrint(
-              "[MarkdownField]   Position is in horizontal padding area - returning null");
+              "[MarkdownField]   Position is outside actual text bounds - returning null");
           return null;
         }
         // Position is within this block's text area
