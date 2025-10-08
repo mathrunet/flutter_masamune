@@ -61,7 +61,6 @@ class Marker extends map.Marker {
       "Use zIndexInt instead. On some platforms zIndex is truncated to an int, which can lead to incorrect/unstable ordering.",
     )
     super.zIndex = 0.0,
-    super.zIndexInt = 0,
     super.onTap,
     super.onDrag,
     super.onDragStart,
@@ -112,7 +111,6 @@ class Marker extends map.Marker {
       "Use zIndexInt instead. On some platforms zIndex is truncated to an int, which can lead to incorrect/unstable ordering.",
     )
     super.zIndex = 0.0,
-    super.zIndexInt = 0,
     super.onTap,
     super.onDrag,
     super.onDragStart,
@@ -201,7 +199,6 @@ class Marker extends map.Marker {
         infoWindow: infoWindow,
         rotation: rotation,
         visible: visible,
-        zIndexInt: zIndexInt,
         onTap: onTap,
         onDrag: onDrag,
         onDragStart: onDragStart,
@@ -236,7 +233,6 @@ class Marker extends map.Marker {
         infoWindow: infoWindow,
         rotation: rotation,
         visible: visible,
-        zIndexInt: zIndexInt,
         onTap: onTap,
         onDrag: onDrag,
         onDragStart: onDragStart,
