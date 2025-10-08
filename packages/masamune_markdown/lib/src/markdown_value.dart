@@ -10,8 +10,6 @@ abstract class MarkdownValue {
   /// マークダウンのデータを格納するクラス。
   const MarkdownValue({
     required this.id,
-    this.start,
-    this.end,
   });
 
   /// The id of the painting value.
@@ -23,16 +21,6 @@ abstract class MarkdownValue {
   ///
   /// マークダウンのデータの型。
   String get type;
-
-  /// The start point of the markdown value.
-  ///
-  /// マークダウンのデータの開始点。
-  final Offset? start;
-
-  /// The end point of the markdown value.
-  ///
-  /// マークダウンのデータの終了点。
-  final Offset? end;
 
   /// Convert the markdown value to a JSON object.
   ///
@@ -79,6 +67,13 @@ abstract class MarkdownValue {
   /// マークダウンの展開状態のキー。
   static const String expandedKey = "expanded";
 
+  /// Copy the markdown value with the given fields.
+  ///
+  /// 指定されたフィールドでマークダウンの値をコピーします。
+  MarkdownValue copyWith({
+    String? id,
+  });
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) {
@@ -89,6 +84,11 @@ abstract class MarkdownValue {
 
   @override
   int get hashCode => id.hashCode ^ type.hashCode;
+
+  @override
+  String toString() {
+    return "MarkdownValue(id: $id, type: $type)";
+  }
 }
 
 /// A class for storing markdown span value.
@@ -149,6 +149,19 @@ class MarkdownSpanValue extends MarkdownValue {
   final MarkdownSpanProperty property;
 
   @override
+  MarkdownValue copyWith({
+    String? id,
+    String? value,
+    MarkdownSpanProperty? property,
+  }) {
+    return MarkdownSpanValue(
+      id: id ?? this.id,
+      value: value ?? this.value,
+      property: property ?? this.property,
+    );
+  }
+
+  @override
   DynamicMap toJson() {
     return {
       MarkdownValue.idKey: id,
@@ -161,6 +174,26 @@ class MarkdownSpanValue extends MarkdownValue {
   @override
   String toMarkdown() {
     return value;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is MarkdownSpanValue &&
+        other.id == id &&
+        other.type == type &&
+        other.value == value &&
+        other.property == property;
+  }
+
+  @override
+  int get hashCode => value.hashCode ^ property.hashCode;
+
+  @override
+  String toString() {
+    return "MarkdownSpanValue(value: $value, property: $property)";
   }
 }
 
@@ -241,6 +274,39 @@ class MarkdownLineValue extends MarkdownValue {
   String toMarkdown() {
     return children.map((e) => e.toMarkdown()).join("\n");
   }
+
+  @override
+  MarkdownValue copyWith({
+    String? id,
+    List<MarkdownSpanValue>? children,
+    MarkdownLineProperty? property,
+  }) {
+    return MarkdownLineValue(
+      id: id ?? this.id,
+      children: children ?? this.children,
+      property: property ?? this.property,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is MarkdownLineValue &&
+        other.id == id &&
+        other.type == type &&
+        children.equalsTo(other.children) &&
+        other.property == property;
+  }
+
+  @override
+  int get hashCode => children.hashCode ^ property.hashCode;
+
+  @override
+  String toString() {
+    return "MarkdownLineValue(children: $children, property: $property)";
+  }
 }
 
 /// A class for storing markdown block value.
@@ -284,6 +350,25 @@ abstract class MarkdownBlockValue extends MarkdownValue {
     BuildContext context,
     MarkdownController controller,
   );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is MarkdownBlockValue &&
+        other.id == id &&
+        other.type == type &&
+        other.property == property;
+  }
+
+  @override
+  int get hashCode => property.hashCode;
+
+  @override
+  String toString() {
+    return "MarkdownBlockValue(property: $property)";
+  }
 }
 
 /// A class for storing markdown paragraph block value.
@@ -381,6 +466,39 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
   String toMarkdown() {
     return children.map((e) => e.toMarkdown()).join("\n");
   }
+
+  @override
+  MarkdownValue copyWith({
+    String? id,
+    List<MarkdownLineValue>? children,
+    MarkdownBlockProperty? property,
+  }) {
+    return MarkdownParagraphBlockValue(
+      id: id ?? this.id,
+      children: children ?? this.children,
+      property: property ?? this.property,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is MarkdownParagraphBlockValue &&
+        other.id == id &&
+        other.type == type &&
+        children.equalsTo(other.children) &&
+        other.property == property;
+  }
+
+  @override
+  int get hashCode => children.hashCode ^ property.hashCode;
+
+  @override
+  String toString() {
+    return "MarkdownParagraphBlockValue(children: $children, property: $property)";
+  }
 }
 
 /// A class for storing markdown field value.
@@ -465,6 +583,39 @@ class MarkdownFieldValue extends MarkdownValue {
   String toMarkdown() {
     return children.map((e) => e.toMarkdown()).join("\n");
   }
+
+  @override
+  MarkdownValue copyWith({
+    String? id,
+    List<MarkdownBlockValue>? children,
+    MarkdownFieldProperty? property,
+  }) {
+    return MarkdownFieldValue(
+      id: id ?? this.id,
+      children: children ?? this.children,
+      property: property ?? this.property,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is MarkdownFieldValue &&
+        other.id == id &&
+        other.type == type &&
+        children.equalsTo(other.children) &&
+        other.property == property;
+  }
+
+  @override
+  int get hashCode => children.hashCode ^ property.hashCode;
+
+  @override
+  String toString() {
+    return "MarkdownFieldValue(children: $children, property: $property)";
+  }
 }
 
 /// A class for storing markdown property.
@@ -534,6 +685,32 @@ abstract class MarkdownProperty {
   ///
   /// マークダウンのプロパティをJSONオブジェクトに変換します。
   DynamicMap toJson();
+
+  /// Copy the markdown property with the given fields.
+  ///
+  /// 指定されたフィールドでマークダウンのプロパティをコピーします。
+  MarkdownProperty copyWith({
+    Color? backgroundColor,
+    Color? foregroundColor,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is MarkdownProperty &&
+        other.backgroundColor == backgroundColor &&
+        other.foregroundColor == foregroundColor;
+  }
+
+  @override
+  int get hashCode => backgroundColor.hashCode ^ foregroundColor.hashCode;
+
+  @override
+  String toString() {
+    return "MarkdownProperty(backgroundColor: $backgroundColor, foregroundColor: $foregroundColor)";
+  }
 }
 
 /// A class for storing markdown span property.
@@ -570,6 +747,35 @@ class MarkdownSpanProperty extends MarkdownProperty {
       MarkdownProperty.foregroundColorKey: foregroundColor?.toInt(),
     };
   }
+
+  @override
+  MarkdownProperty copyWith({
+    Color? backgroundColor,
+    Color? foregroundColor,
+  }) {
+    return MarkdownSpanProperty(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      foregroundColor: foregroundColor ?? this.foregroundColor,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is MarkdownSpanProperty &&
+        other.backgroundColor == backgroundColor &&
+        other.foregroundColor == foregroundColor;
+  }
+
+  @override
+  int get hashCode => backgroundColor.hashCode ^ foregroundColor.hashCode;
+
+  @override
+  String toString() {
+    return "MarkdownSpanProperty(backgroundColor: $backgroundColor, foregroundColor: $foregroundColor)";
+  }
 }
 
 /// A class for storing markdown 1 line property.
@@ -605,6 +811,35 @@ class MarkdownLineProperty extends MarkdownProperty {
       MarkdownProperty.backgroundColorKey: backgroundColor?.toInt(),
       MarkdownProperty.foregroundColorKey: foregroundColor?.toInt(),
     };
+  }
+
+  @override
+  MarkdownProperty copyWith({
+    Color? backgroundColor,
+    Color? foregroundColor,
+  }) {
+    return MarkdownLineProperty(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      foregroundColor: foregroundColor ?? this.foregroundColor,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is MarkdownLineProperty &&
+        other.backgroundColor == backgroundColor &&
+        other.foregroundColor == foregroundColor;
+  }
+
+  @override
+  int get hashCode => backgroundColor.hashCode ^ foregroundColor.hashCode;
+
+  @override
+  String toString() {
+    return "MarkdownLineProperty(backgroundColor: $backgroundColor, foregroundColor: $foregroundColor)";
   }
 }
 
@@ -643,6 +878,33 @@ class MarkdownBlockProperty extends MarkdownProperty {
       MarkdownProperty.foregroundColorKey: foregroundColor?.toInt(),
     };
   }
+
+  @override
+  MarkdownProperty copyWith({
+    Color? backgroundColor,
+    Color? foregroundColor,
+  }) {
+    return MarkdownBlockProperty(
+        backgroundColor: backgroundColor, foregroundColor: foregroundColor);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is MarkdownBlockProperty &&
+        other.backgroundColor == backgroundColor &&
+        other.foregroundColor == foregroundColor;
+  }
+
+  @override
+  int get hashCode => backgroundColor.hashCode ^ foregroundColor.hashCode;
+
+  @override
+  String toString() {
+    return "MarkdownBlockProperty(backgroundColor: $backgroundColor, foregroundColor: $foregroundColor)";
+  }
 }
 
 /// A class for storing markdown field property.
@@ -678,6 +940,33 @@ class MarkdownFieldProperty extends MarkdownProperty {
       MarkdownProperty.backgroundColorKey: backgroundColor?.toInt(),
       MarkdownProperty.foregroundColorKey: foregroundColor?.toInt(),
     };
+  }
+
+  @override
+  MarkdownProperty copyWith({
+    Color? backgroundColor,
+    Color? foregroundColor,
+  }) {
+    return MarkdownFieldProperty(
+        backgroundColor: backgroundColor, foregroundColor: foregroundColor);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is MarkdownFieldProperty &&
+        other.backgroundColor == backgroundColor &&
+        other.foregroundColor == foregroundColor;
+  }
+
+  @override
+  int get hashCode => backgroundColor.hashCode ^ foregroundColor.hashCode;
+
+  @override
+  String toString() {
+    return "MarkdownFieldProperty(backgroundColor: $backgroundColor, foregroundColor: $foregroundColor)";
   }
 }
 

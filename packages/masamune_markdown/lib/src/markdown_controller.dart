@@ -43,6 +43,41 @@ class MarkdownController extends MasamuneControllerBase<
 
   final List<MarkdownFieldValue> _value = [];
 
+  /// Undo history stack (stored as deep copied MarkdownFieldValue objects).
+  ///
+  /// 元に戻す履歴スタック（ディープコピーされたMarkdownFieldValueオブジェクトとして保存）。
+  final List<List<MarkdownFieldValue>> _undoStack = [];
+
+  /// Redo history stack (stored as deep copied MarkdownFieldValue objects).
+  ///
+  /// やり直す履歴スタック（ディープコピーされたMarkdownFieldValueオブジェクトとして保存）。
+  final List<List<MarkdownFieldValue>> _redoStack = [];
+
+  /// Maximum number of history entries to keep.
+  ///
+  /// 保持する履歴エントリの最大数。
+  static const int _maxHistorySize = 100;
+
+  /// Timer for debouncing history saves.
+  ///
+  /// 履歴保存のデバウンス用タイマー。
+  Timer? _historyDebounceTimer;
+
+  /// Duration to wait before saving history.
+  ///
+  /// 履歴を保存するまでの待機時間。
+  static const Duration _historyDebounceDuration = Duration(milliseconds: 500);
+
+  /// Tracks if we have pending changes to save.
+  ///
+  /// 保存待ちの変更があるかどうかを追跡します。
+  bool _hasPendingHistorySave = false;
+
+  /// Flag to prevent saving history during undo/redo operations.
+  ///
+  /// Undo/Redo操作中に履歴保存を防ぐフラグ。
+  bool _isUndoRedoInProgress = false;
+
   /// Default style for markdown.
   ///
   /// マークダウンのデフォルトのスタイル。
@@ -63,10 +98,106 @@ class MarkdownController extends MasamuneControllerBase<
 
   MarkdownFieldState? _field;
 
+  /// Creates a deep copy of the given MarkdownFieldValue list.
+  ///
+  /// 指定されたMarkdownFieldValueリストのディープコピーを作成します。
+  List<MarkdownFieldValue> _deepCopyFieldValues(
+      List<MarkdownFieldValue> fields) {
+    return fields.map((field) {
+      return field.copyWith(
+        children: field.children.map<MarkdownBlockValue>((block) {
+          if (block is MarkdownParagraphBlockValue) {
+            return block.copyWith(
+              children: block.children.map<MarkdownLineValue>((line) {
+                return line.copyWith(
+                  children: line.children.map<MarkdownSpanValue>((span) {
+                    return span.copyWith() as MarkdownSpanValue;
+                  }).toList(),
+                ) as MarkdownLineValue;
+              }).toList(),
+            ) as MarkdownBlockValue;
+          }
+          // Add other block types as needed
+          return block.copyWith() as MarkdownBlockValue;
+        }).toList(),
+      ) as MarkdownFieldValue;
+    }).toList();
+  }
+
+  /// Saves current state to undo stack immediately.
+  ///
+  /// 現在の状態を元に戻すスタックに即座に保存します。
+  void _saveToUndoStackImmediate() {
+    // Create a deep copy of current state
+    final snapshot = _deepCopyFieldValues(_value);
+
+    _undoStack.add(snapshot);
+
+    // Limit stack size
+    if (_undoStack.length > _maxHistorySize) {
+      _undoStack.removeAt(0);
+    }
+
+    // Clear redo stack when new action is performed
+    if (_redoStack.isNotEmpty) {
+      _redoStack.clear();
+    }
+    _hasPendingHistorySave = false;
+  }
+
+  /// Schedules a history save with debouncing.
+  ///
+  /// デバウンスを使用して履歴保存をスケジュールします。
+  void _scheduleHistorySave() {
+    // Cancel existing timer if any
+    _historyDebounceTimer?.cancel();
+
+    // Mark that we have pending changes
+    _hasPendingHistorySave = true;
+
+    // Schedule a new save
+    _historyDebounceTimer = Timer(_historyDebounceDuration, () {
+      if (_hasPendingHistorySave) {
+        _saveToUndoStackImmediate();
+        // Notify listeners to update UI (e.g., undo/redo button states)
+        notifyListeners();
+      }
+    });
+  }
+
+  /// Saves current state to undo stack (may be debounced).
+  ///
+  /// 現在の状態を元に戻すスタックに保存します（デバウンスされる場合があります）。
+  void _saveToUndoStack({bool immediate = false}) {
+    if (immediate) {
+      _historyDebounceTimer?.cancel();
+      _saveToUndoStackImmediate();
+    } else {
+      _scheduleHistorySave();
+    }
+  }
+
   /// Replaces text in the specified range.
   ///
   /// 指定された範囲のテキストを置換します。
   void replaceText(int start, int end, String text) {
+    // Skip history saving during undo/redo operations
+    if (!_isUndoRedoInProgress) {
+      // Save current state before modification
+      // For single character insertion/deletion, save immediately for fine-grained undo
+      final isSingleCharEdit = text.length <= 1 && (end - start) <= 1;
+
+      if (_undoStack.isEmpty) {
+        // First edit - save initial empty/current state immediately BEFORE modification
+        _saveToUndoStack(immediate: true);
+      } else if (isSingleCharEdit) {
+        // Single character edit - save immediately for fine-grained undo BEFORE modification
+        _saveToUndoStack(immediate: true);
+      } else {
+        // Multi-character edit (e.g., paste, cut) - save immediately to ensure it's captured
+        _saveToUndoStack(immediate: true);
+      }
+    }
     // Ensure we have a valid structure
     if (_value.isEmpty) {
       // Create initial structure
@@ -159,19 +290,70 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     if (startBlockIndex == null) {
-      startBlockIndex = blocks.length - 1;
-      localStart = 0;
+      if (blocks.isEmpty) {
+        startBlockIndex = 0;
+        localStart = 0;
+      } else {
+        startBlockIndex = blocks.length - 1;
+        localStart = 0;
+      }
     }
     if (endBlockIndex == null || endBlockStart == null) {
-      endBlockIndex = blocks.length - 1;
-      final lastBlock = blocks[endBlockIndex] as MarkdownParagraphBlockValue;
-      final lastBlockText = StringBuffer();
-      for (final line in lastBlock.children) {
-        for (final span in line.children) {
-          lastBlockText.write(span.value);
+      if (blocks.isEmpty) {
+        endBlockIndex = 0;
+        localEnd = 0;
+      } else {
+        endBlockIndex = blocks.length - 1;
+        final lastBlock = blocks[endBlockIndex] as MarkdownParagraphBlockValue;
+        final lastBlockText = StringBuffer();
+        for (final line in lastBlock.children) {
+          for (final span in line.children) {
+            lastBlockText.write(span.value);
+          }
         }
+        localEnd = lastBlockText.length;
       }
-      localEnd = lastBlockText.length;
+    }
+
+    // If blocks is empty, create a new block with the text
+    if (blocks.isEmpty) {
+      final newBlock = MarkdownParagraphBlockValue(
+        id: uuid(),
+        property: const MarkdownBlockProperty(
+          backgroundColor: null,
+          foregroundColor: null,
+        ),
+        children: [
+          MarkdownLineValue(
+            id: uuid(),
+            property: const MarkdownLineProperty(
+              backgroundColor: null,
+              foregroundColor: null,
+            ),
+            children: [
+              MarkdownSpanValue(
+                id: uuid(),
+                value: text,
+                property: const MarkdownSpanProperty(
+                  backgroundColor: null,
+                  foregroundColor: null,
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
+      blocks.add(newBlock);
+
+      final newField = MarkdownFieldValue(
+        id: field.id,
+        property: field.property,
+        children: blocks,
+      );
+
+      _value[0] = newField;
+      notifyListeners();
+      return;
     }
 
     // If selection spans multiple blocks, merge them
@@ -378,22 +560,98 @@ class MarkdownController extends MasamuneControllerBase<
   /// Checks if the document can be redone.
   ///
   /// ドキュメントがやり直し可能かどうかを確認します。
-  bool get canRedo => false;
+  bool get canRedo => _redoStack.isNotEmpty;
 
   /// Checks if the document can be undone.
   ///
   /// ドキュメントが元に戻し可能かどうかを確認します。
-  bool get canUndo => false;
+  bool get canUndo => _undoStack.isNotEmpty;
 
   /// Redoes the document.
   ///
   /// ドキュメントをやり直します。
-  void redo() {}
+  void redo() {
+    if (!canRedo) {
+      return;
+    }
+
+    // Set flag to prevent history saves during redo
+    _isUndoRedoInProgress = true;
+
+    try {
+      // Cancel any pending history saves
+      _historyDebounceTimer?.cancel();
+      _hasPendingHistorySave = false;
+
+      // Save current state to undo stack (deep copy)
+      final currentSnapshot = _deepCopyFieldValues(_value);
+      _undoStack.add(currentSnapshot);
+
+      // Restore from redo stack
+      final snapshot = _redoStack.removeLast();
+      _value.clear();
+      _value.addAll(snapshot);
+
+      // Update selection to end of text
+      if (_field != null) {
+        final text = getPlainText();
+        _field!._selection = TextSelection.collapsed(offset: text.length);
+        _field!._composingRegion = null; // Clear composing region
+        _field!._updateRemoteEditingValue();
+      }
+
+      notifyListeners();
+    } finally {
+      // Reset flag
+      _isUndoRedoInProgress = false;
+    }
+  }
 
   /// Undoes the document.
   ///
   /// ドキュメントを元に戻します。
-  void undo() {}
+  void undo() {
+    // If there are pending changes, save them first
+    if (_hasPendingHistorySave) {
+      _historyDebounceTimer?.cancel();
+      _saveToUndoStackImmediate();
+    }
+
+    if (!canUndo) {
+      return;
+    }
+
+    // Set flag to prevent history saves during undo
+    _isUndoRedoInProgress = true;
+
+    try {
+      // Cancel any pending history saves
+      _historyDebounceTimer?.cancel();
+      _hasPendingHistorySave = false;
+
+      // Save current state to redo stack (deep copy)
+      final currentSnapshot = _deepCopyFieldValues(_value);
+      _redoStack.add(currentSnapshot);
+
+      // Restore from undo stack
+      final snapshot = _undoStack.removeLast();
+      _value.clear();
+      _value.addAll(snapshot);
+
+      // Update selection to end of text
+      if (_field != null) {
+        final text = getPlainText();
+        _field!._selection = TextSelection.collapsed(offset: text.length);
+        _field!._composingRegion = null; // Clear composing region
+        _field!._updateRemoteEditingValue();
+      }
+
+      notifyListeners();
+    } finally {
+      // Reset flag
+      _isUndoRedoInProgress = false;
+    }
+  }
 
   /// Checks if the block can be increased indent.
   ///
@@ -493,6 +751,7 @@ class MarkdownController extends MasamuneControllerBase<
     if (selectedText.isNotEmpty) {
       await Clipboard.setData(ClipboardData(text: selectedText));
 
+      // Save current state before modification (replaceText will also save, so we skip it here)
       // Delete the selected text
       replaceText(selection.start, selection.end, "");
 
@@ -577,6 +836,9 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// 指定されたオフセット位置に新しい段落ブロックを挿入します。
   void insertNewLine(int offset) {
+    // Save current state before modification (immediate for explicit actions)
+    _saveToUndoStack(immediate: true);
+
     if (_value.isEmpty) {
       // Create initial structure with empty paragraph
       final field = MarkdownFieldValue(
@@ -798,6 +1060,19 @@ class MarkdownController extends MasamuneControllerBase<
   /// テキスト選択が変更されたときにツールバーを更新するのに便利です。
   void notifySelectionChanged() {
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    // Cancel any pending history saves
+    _historyDebounceTimer?.cancel();
+    _historyDebounceTimer = null;
+    _hasPendingHistorySave = false;
+
+    // Dispose focus node
+    focusNode.dispose();
+
+    super.dispose();
   }
 }
 
