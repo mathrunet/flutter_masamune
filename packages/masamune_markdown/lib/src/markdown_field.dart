@@ -772,6 +772,7 @@ class MarkdownFieldState extends State<MarkdownField>
       selection: _selection,
       composingRegion: _composingRegion,
       showCursor: showCursor,
+      expands: widget.expands,
       style: defaultStyle!,
       cursorWidth: widget.cursorWidth,
       cursorHeight: widget.cursorHeight,
@@ -848,6 +849,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
     required this.focusNode,
     required this.selection,
     required this.showCursor,
+    required this.expands,
     required this.style,
     required this.cursorWidth,
     required this.cursorColor,
@@ -871,6 +873,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
   final TextSelection selection;
   final TextSelection? composingRegion;
   final bool showCursor;
+  final bool expands;
   final TextStyle style;
   final double cursorWidth;
   final double? cursorHeight;
@@ -895,6 +898,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       selection: selection,
       composingRegion: composingRegion,
       showCursor: showCursor,
+      expands: expands,
       style: style,
       cursorWidth: cursorWidth,
       cursorHeight: cursorHeight,
@@ -924,6 +928,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       ..selection = selection
       ..composingRegion = composingRegion
       ..showCursor = showCursor
+      ..expands = expands
       ..style = style
       ..cursorWidth = cursorWidth
       ..cursorHeight = cursorHeight
@@ -951,6 +956,7 @@ class _RenderMarkdownEditor extends RenderBox {
     required FocusNode focusNode,
     required TextSelection selection,
     required bool showCursor,
+    required bool expands,
     required TextStyle style,
     required double cursorWidth,
     required Color cursorColor,
@@ -972,6 +978,7 @@ class _RenderMarkdownEditor extends RenderBox {
         _selection = selection,
         _composingRegion = composingRegion,
         _showCursor = showCursor,
+        _expands = expands,
         _style = style,
         _cursorWidth = cursorWidth,
         _cursorHeight = cursorHeight,
@@ -1037,6 +1044,15 @@ class _RenderMarkdownEditor extends RenderBox {
     }
     _showCursor = value;
     markNeedsPaint();
+  }
+
+  bool _expands;
+  bool get expands => _expands;
+  set expands(bool value) {
+    if (_expands == value) {
+      return;
+    }
+    _expands = value;
   }
 
   TextStyle _style;
@@ -1614,15 +1630,22 @@ class _RenderMarkdownEditor extends RenderBox {
         }
 
         debugPrint(
-            "[MarkdownField]   actualTextRight=$actualTextRight, position.dx=${position.dx}");
+            "[MarkdownField]   actualTextRight=$actualTextRight, position.dx=${position.dx}, expands=$_expands");
 
         // Check if position is within the horizontal text bounds
         if (position.dx < layout.padding.left ||
             position.dx > actualTextRight) {
-          // Position is in padding/empty area horizontally, return null to deselect
-          debugPrint(
-              "[MarkdownField]   Position is outside actual text bounds - returning null");
-          return null;
+          // If expands is true, treat empty space as end of text (for full-width tap area)
+          // Otherwise return null to deselect
+          if (_expands) {
+            debugPrint(
+                "[MarkdownField]   Position is outside actual text bounds but expands=true - returning end of text offset ${currentTextOffset + textLength}");
+            return currentTextOffset + textLength;
+          } else {
+            debugPrint(
+                "[MarkdownField]   Position is outside actual text bounds - returning null");
+            return null;
+          }
         }
         // Position is within this block's text area
         final localPosition = position - blockOffset;
@@ -1635,20 +1658,35 @@ class _RenderMarkdownEditor extends RenderBox {
               layout.offset.dy +
                   layout.painter.height +
                   layout.padding.bottom) {
-        // Position is in vertical padding area, return null to deselect
-        debugPrint(
-            "[MarkdownField]   Position is in vertical padding area - returning null");
-        return null;
+        // Position is in vertical padding area
+        // If expands is true, treat as end of text
+        if (_expands) {
+          debugPrint(
+              "[MarkdownField]   Position is in vertical padding area but expands=true - returning end of text offset ${currentTextOffset + layout.textLength}");
+          return currentTextOffset + layout.textLength;
+        } else {
+          debugPrint(
+              "[MarkdownField]   Position is in vertical padding area - returning null");
+          return null;
+        }
       }
 
       currentTextOffset +=
           layout.textLength + 1; // +1 for newline between blocks
     }
 
-    // Position is after all blocks or in margin area, return null to deselect
-    debugPrint(
-        "[MarkdownField] Position is outside all blocks - returning null");
-    return null;
+    // Position is after all blocks or in margin area
+    // If expands is true, return end of text, otherwise return null to deselect
+    if (_expands && layouts.isNotEmpty) {
+      final lastOffset = currentTextOffset > 0 ? currentTextOffset - 1 : 0;
+      debugPrint(
+          "[MarkdownField] Position is outside all blocks but expands=true - returning end of text offset $lastOffset");
+      return lastOffset;
+    } else {
+      debugPrint(
+          "[MarkdownField] Position is outside all blocks - returning null");
+      return null;
+    }
   }
 
   void _handleTapDown(PointerDownEvent event) {
