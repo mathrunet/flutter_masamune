@@ -8,6 +8,8 @@ import "package:katana_cli/ai/docs/plugins/app_review.dart";
 import "package:katana_cli/ai/docs/plugins/calendar.dart";
 import "package:katana_cli/ai/docs/plugins/camera.dart";
 import "package:katana_cli/ai/docs/plugins/data_connect.dart";
+import "package:katana_cli/ai/docs/plugins/deeplink.dart";
+import "package:katana_cli/ai/docs/plugins/firestore_rules_and_indexes_generator.dart";
 import "package:katana_cli/ai/docs/plugins/force_updater.dart";
 import "package:katana_cli/ai/docs/plugins/generative_ai.dart";
 import "package:katana_cli/ai/docs/plugins/google_map.dart";
@@ -18,6 +20,8 @@ import "package:katana_cli/ai/docs/plugins/logger.dart";
 import "package:katana_cli/ai/docs/plugins/mail.dart";
 import "package:katana_cli/ai/docs/plugins/picker.dart";
 import "package:katana_cli/ai/docs/plugins/purchase.dart";
+import "package:katana_cli/ai/docs/plugins/remote_config.dart";
+import "package:katana_cli/ai/docs/plugins/scheduler.dart";
 import "package:katana_cli/ai/docs/plugins/speech_to_text.dart";
 import "package:katana_cli/ai/docs/plugins/stripe.dart";
 import "package:katana_cli/ai/docs/plugins/text_to_speech.dart";
@@ -49,6 +53,11 @@ const kPluginList = {
   "logger": PluginLoggerMdCliAiCode(),
   "algolia": PluginAlgoliaMdCliAiCode(),
   "data_connect": PluginDataConnectMdCliAiCode(),
+  "remote_config": PluginRemoteConfigMdCliAiCode(),
+  "firestore_rules_and_indexes_generator":
+      PluginFirestoreRulesAndIndexesGeneratorMdCliAiCode(),
+  "deeplink": PluginDeeplinkMdCliAiCode(),
+  "scheduler": PluginSchedulerMdCliAiCode(),
 };
 
 /// Contents of plugin_usage.md.

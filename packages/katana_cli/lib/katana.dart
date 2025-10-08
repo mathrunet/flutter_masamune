@@ -467,11 +467,6 @@ ${showAllConfig ? """
   scheduler:
     enable: false
     time: 
-  
-  # Enable Vertex AI.
-  # Vertex AIを有効にします。
-  vertex_ai:
-    enable: false
 """ : ""}
 
 ${showAllConfig ? """
