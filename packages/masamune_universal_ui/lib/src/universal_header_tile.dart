@@ -2,27 +2,99 @@ part of "/masamune_universal_ui.dart";
 
 /// Tiles that can be used as headers for profiles, etc.
 ///
-/// Specify a title in [title].
+/// [UniversalHeaderTile] is a specialized tile widget designed for header sections in profiles and similar layouts.
+/// Supports [title], [subtitle], [description], and [actions] with customizable styling and shimmer effect for loading states.
 ///
-/// You can specify [subtitle] under [title] and [description] below it.
+/// ## Basic Usage
+///
+/// ```dart
+/// UniversalHeaderTile(
+///   title: const Text("User Name"),
+///   subtitle: const Text("Subtitle"),
+///   description: const Text("Description text"),
+///   actions: [
+///     IconButton(
+///       icon: const Icon(Icons.settings),
+///       onPressed: () {
+///         // Handle settings action
+///       },
+///     ),
+///   ],
+/// );
+/// ```
+///
+/// ---
 ///
 /// プロフィールなどのヘッダーに用いることのできるタイル。
 ///
-/// [title]にはタイトルを指定します。
+/// [UniversalHeaderTile]はプロフィールなどのヘッダーセクション用に設計された専用のタイルウィジェットです。
+/// [title]、[subtitle]、[description]、[actions]をサポートし、カスタマイズ可能なスタイリングと読み込み状態用のシマーエフェクトを提供します。
 ///
-/// [title]の下に[subtitle]を指定し、その下に[description]を指定することができます。
+/// ## 基本的な利用方法
+///
+/// ```dart
+/// UniversalHeaderTile(
+///   title: const Text("ユーザー名"),
+///   subtitle: const Text("サブタイトル"),
+///   description: const Text("説明文"),
+///   actions: [
+///     IconButton(
+///       icon: const Icon(Icons.settings),
+///       onPressed: () {
+///         // 設定アクションを処理
+///       },
+///     ),
+///   ],
+/// );
+/// ```
 class UniversalHeaderTile extends StatelessWidget {
   /// Tiles that can be used as headers for profiles, etc.
   ///
-  /// Specify a title in [title].
+  /// [UniversalHeaderTile] is a specialized tile widget designed for header sections in profiles and similar layouts.
+  /// Supports [title], [subtitle], [description], and [actions] with customizable styling and shimmer effect for loading states.
   ///
-  /// You can specify [subtitle] under [title] and [description] below it.
+  /// ## Basic Usage
+  ///
+  /// ```dart
+  /// UniversalHeaderTile(
+  ///   title: const Text("User Name"),
+  ///   subtitle: const Text("Subtitle"),
+  ///   description: const Text("Description text"),
+  ///   actions: [
+  ///     IconButton(
+  ///       icon: const Icon(Icons.settings),
+  ///       onPressed: () {
+  ///         // Handle settings action
+  ///       },
+  ///     ),
+  ///   ],
+  /// );
+  /// ```
+  ///
+  /// ---
   ///
   /// プロフィールなどのヘッダーに用いることのできるタイル。
   ///
-  /// [title]にはタイトルを指定します。
+  /// [UniversalHeaderTile]はプロフィールなどのヘッダーセクション用に設計された専用のタイルウィジェットです。
+  /// [title]、[subtitle]、[description]、[actions]をサポートし、カスタマイズ可能なスタイリングと読み込み状態用のシマーエフェクトを提供します。
   ///
-  /// [title]の下に[subtitle]を指定し、その下に[description]を指定することができます。
+  /// ## 基本的な利用方法
+  ///
+  /// ```dart
+  /// UniversalHeaderTile(
+  ///   title: const Text("ユーザー名"),
+  ///   subtitle: const Text("サブタイトル"),
+  ///   description: const Text("説明文"),
+  ///   actions: [
+  ///     IconButton(
+  ///       icon: const Icon(Icons.settings),
+  ///       onPressed: () {
+  ///         // 設定アクションを処理
+  ///       },
+  ///     ),
+  ///   ],
+  /// );
+  /// ```
   const UniversalHeaderTile({
     required this.title,
     super.key,

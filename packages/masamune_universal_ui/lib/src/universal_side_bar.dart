@@ -7,27 +7,111 @@ const kSideBarWidth = 240.0;
 
 /// Create a sidebar for Universal UI.
 ///
-/// Set to [UniversalScaffold.sidebar] in [UniversalScaffold].
+/// [UniversalSideBar] is a sidebar widget used with [UniversalScaffold]. It supports responsive padding and implements [PreferredSizeWidget].
+/// Uses ListView.builder for efficient rendering of child widgets.
 ///
-/// When a [breakpoint] is set, the sidebar padding is switched to match the width of that [Breakpoint].
+/// ## Basic Usage
+///
+/// ```dart
+/// UniversalSideBar(
+///   children: [
+///     const ListTile(
+///       leading: Icon(Icons.home),
+///       title: Text("Home"),
+///     ),
+///     const ListTile(
+///       leading: Icon(Icons.settings),
+///       title: Text("Settings"),
+///     ),
+///     const ListTile(
+///       leading: Icon(Icons.info),
+///       title: Text("Info"),
+///     ),
+///   ],
+/// );
+/// ```
+///
+/// ---
 ///
 /// Universal UI用のサイドバーを作成します。
 ///
-/// [UniversalScaffold]の[UniversalScaffold.sidebar]に設定してください。
+/// [UniversalSideBar]は[UniversalScaffold]で使用するサイドバーウィジェットです。レスポンシブパディングに対応し、[PreferredSizeWidget]を実装しています。
+/// ListView.builderで子ウィジェットを効率的に表示します。
 ///
-/// [breakpoint]を設定すると、その[Breakpoint]の横幅に合わせてサイドバーのパディングが切り替わります。
+/// ## 基本的な利用方法
+///
+/// ```dart
+/// UniversalSideBar(
+///   children: [
+///     const ListTile(
+///       leading: Icon(Icons.home),
+///       title: Text("ホーム"),
+///     ),
+///     const ListTile(
+///       leading: Icon(Icons.settings),
+///       title: Text("設定"),
+///     ),
+///     const ListTile(
+///       leading: Icon(Icons.info),
+///       title: Text("情報"),
+///     ),
+///   ],
+/// );
+/// ```
 class UniversalSideBar extends StatelessWidget implements PreferredSizeWidget {
   /// Create a sidebar for Universal UI.
   ///
-  /// Set to [UniversalScaffold.sidebar] in [UniversalScaffold].
+  /// [UniversalSideBar] is a sidebar widget used with [UniversalScaffold]. It supports responsive padding and implements [PreferredSizeWidget].
+  /// Uses ListView.builder for efficient rendering of child widgets.
   ///
-  /// When a [breakpoint] is set, the sidebar padding is switched to match the width of that [Breakpoint].
+  /// ## Basic Usage
+  ///
+  /// ```dart
+  /// UniversalSideBar(
+  ///   children: [
+  ///     const ListTile(
+  ///       leading: Icon(Icons.home),
+  ///       title: Text("Home"),
+  ///     ),
+  ///     const ListTile(
+  ///       leading: Icon(Icons.settings),
+  ///       title: Text("Settings"),
+  ///     ),
+  ///     const ListTile(
+  ///       leading: Icon(Icons.info),
+  ///       title: Text("Info"),
+  ///     ),
+  ///   ],
+  /// );
+  /// ```
+  ///
+  /// ---
   ///
   /// Universal UI用のサイドバーを作成します。
   ///
-  /// [UniversalScaffold]の[UniversalScaffold.sidebar]に設定してください。
+  /// [UniversalSideBar]は[UniversalScaffold]で使用するサイドバーウィジェットです。レスポンシブパディングに対応し、[PreferredSizeWidget]を実装しています。
+  /// ListView.builderで子ウィジェットを効率的に表示します。
   ///
-  /// [breakpoint]を設定すると、その[Breakpoint]の横幅に合わせてサイドバーのパディングが切り替わります。
+  /// ## 基本的な利用方法
+  ///
+  /// ```dart
+  /// UniversalSideBar(
+  ///   children: [
+  ///     const ListTile(
+  ///       leading: Icon(Icons.home),
+  ///       title: Text("ホーム"),
+  ///     ),
+  ///     const ListTile(
+  ///       leading: Icon(Icons.settings),
+  ///       title: Text("設定"),
+  ///     ),
+  ///     const ListTile(
+  ///       leading: Icon(Icons.info),
+  ///       title: Text("情報"),
+  ///     ),
+  ///   ],
+  /// );
+  /// ```
   UniversalSideBar({
     required this.children,
     super.key,

@@ -2,36 +2,128 @@ part of "/masamune_universal_ui.dart";
 
 /// Create a search bar.
 ///
-/// Set the callback for search to [onSearch].
+/// [UniversalSearchBar] is the `UniversalUI` version of search bar widget. It provides search functionality with mode switching and action button support.
+/// Uses [FormTextField] internally for consistent styling across the app.
 ///
-/// If you set [searchModeList], you can select a search mode. In that case, specify [searchModeLabelBuilder] to display the search mode.
+/// ## Basic Usage
 ///
-/// Other actions can be added by setting [actions].
+/// ```dart
+/// UniversalSearchBar(
+///   hintText: "Search keywords",
+///   onSearch: (text, mode) {
+///     // Handle search action
+///     print("Search text: $text");
+///   },
+///   onChanged: (text) {
+///     // Handle text changed action
+///     print("Input: $text");
+///   },
+///   searchIcon: const Icon(Icons.search),
+///   actions: [
+///     IconButton(
+///       icon: const Icon(Icons.clear),
+///       onPressed: () {
+///         // Handle clear action
+///       },
+///     ),
+///   ],
+/// );
+/// ```
+///
+/// ---
 ///
 /// 検索バーを作成します。
 ///
-/// [onSearch]に検索時のコールバックを設定します。
+/// [UniversalSearchBar]は検索バーウィジェットの`UniversalUI`版です。検索機能を提供し、検索モードの切り替えやアクションボタンの追加が可能です。
+/// 内部で[FormTextField]を使用し統一されたスタイリングを提供します。
 ///
-/// [searchModeList]を設定すると、検索モードを選択できるようになります。その場合[searchModeLabelBuilder]を指定して検索モードを表示するようにしてください。
+/// ## 基本的な利用方法
 ///
-/// [actions]を設定するとその他のアクションを追加できます。
+/// ```dart
+/// UniversalSearchBar(
+///   hintText: "検索キーワードを入力",
+///   onSearch: (text, mode) {
+///     // 検索アクションを処理
+///     print("検索テキスト: $text");
+///   },
+///   onChanged: (text) {
+///     // テキスト変更アクションを処理
+///     print("入力中: $text");
+///   },
+///   searchIcon: const Icon(Icons.search),
+///   actions: [
+///     IconButton(
+///       icon: const Icon(Icons.clear),
+///       onPressed: () {
+///         // クリアアクションを処理
+///       },
+///     ),
+///   ],
+/// );
+/// ```
 @immutable
 class UniversalSearchBar<T> extends StatefulWidget {
   /// Create a search bar.
   ///
-  /// Set the callback for search to [onSearch].
+  /// [UniversalSearchBar] is the `UniversalUI` version of search bar widget. It provides search functionality with mode switching and action button support.
+  /// Uses [FormTextField] internally for consistent styling across the app.
   ///
-  /// If you set [searchModeList], you can select a search mode. In that case, specify [searchModeLabelBuilder] to display the search mode.
+  /// ## Basic Usage
   ///
-  /// Other actions can be added by setting [actions].
+  /// ```dart
+  /// UniversalSearchBar(
+  ///   hintText: "Search keywords",
+  ///   onSearch: (text, mode) {
+  ///     // Handle search action
+  ///     print("Search text: $text");
+  ///   },
+  ///   onChanged: (text) {
+  ///     // Handle text changed action
+  ///     print("Input: $text");
+  ///   },
+  ///   searchIcon: const Icon(Icons.search),
+  ///   actions: [
+  ///     IconButton(
+  ///       icon: const Icon(Icons.clear),
+  ///       onPressed: () {
+  ///         // Handle clear action
+  ///       },
+  ///     ),
+  ///   ],
+  /// );
+  /// ```
+  ///
+  /// ---
   ///
   /// 検索バーを作成します。
   ///
-  /// [onSearch]に検索時のコールバックを設定します。
+  /// [UniversalSearchBar]は検索バーウィジェットの`UniversalUI`版です。検索機能を提供し、検索モードの切り替えやアクションボタンの追加が可能です。
+  /// 内部で[FormTextField]を使用し統一されたスタイリングを提供します。
   ///
-  /// [searchModeList]を設定すると、検索モードを選択できるようになります。その場合[searchModeLabelBuilder]を指定して検索モードを表示するようにしてください。
+  /// ## 基本的な利用方法
   ///
-  /// [actions]を設定するとその他のアクションを追加できます。
+  /// ```dart
+  /// UniversalSearchBar(
+  ///   hintText: "検索キーワードを入力",
+  ///   onSearch: (text, mode) {
+  ///     // 検索アクションを処理
+  ///     print("検索テキスト: $text");
+  ///   },
+  ///   onChanged: (text) {
+  ///     // テキスト変更アクションを処理
+  ///     print("入力中: $text");
+  ///   },
+  ///   searchIcon: const Icon(Icons.search),
+  ///   actions: [
+  ///     IconButton(
+  ///       icon: const Icon(Icons.clear),
+  ///       onPressed: () {
+  ///         // クリアアクションを処理
+  ///       },
+  ///     ),
+  ///   ],
+  /// );
+  /// ```
   const UniversalSearchBar({
     super.key,
     this.onSearch,

@@ -2,31 +2,111 @@ part of "/masamune_universal_ui.dart";
 
 /// Create a container that is responsive.
 ///
-/// It is recommended to place it directly under [UniversalScaffold.body].
-/// Otherwise, [Container] is fine.
+/// [UniversalContainer] is the `UniversalUI` version of [Container]. It provides responsive layouts for desktop and mobile with automatic width adjustment based on [UniversalScaffold.breakpoint].
+/// Supports basic Container features like [padding], [margin], and [decoration], plus responsive sizing.
 ///
-/// The maximum width is automatically set according to [UniversalScaffold.breakpoint].
+/// ## Basic Usage
+///
+/// ```dart
+/// UniversalContainer(
+///   padding: const EdgeInsets.all(16),
+///   margin: const EdgeInsets.all(8),
+///   decoration: BoxDecoration(
+///     color: Colors.white,
+///     borderRadius: BorderRadius.circular(8),
+///     boxShadow: [
+///       BoxShadow(
+///         color: Colors.black.withOpacity(0.1),
+///         blurRadius: 8,
+///         offset: const Offset(0, 2),
+///       ),
+///     ],
+///   ),
+///   child: const Text("Content"),
+/// );
+/// ```
+///
+/// ---
 ///
 /// レスポンシブに対応したコンテナを作成します。
 ///
-/// [UniversalScaffold.body]の直下に置くことをおすすめします。
-/// それ以外は[Container]で問題ございません。
+/// [UniversalContainer]は[Container]の`UniversalUI`版です。レスポンシブ対応でデスクトップ・モバイルで適切なレイアウトに変換。[UniversalScaffold.breakpoint]によって最大の横幅が自動で設定されます。
+/// [padding]、[margin]、[decoration]などの基本的なContainerの機能に加え、レスポンシブ対応のサイズ設定が可能です。
 ///
-/// [UniversalScaffold.breakpoint]に応じて最大の横幅が自動で設定されます。
+/// ## 基本的な利用方法
+///
+/// ```dart
+/// UniversalContainer(
+///   padding: const EdgeInsets.all(16),
+///   margin: const EdgeInsets.all(8),
+///   decoration: BoxDecoration(
+///     color: Colors.white,
+///     borderRadius: BorderRadius.circular(8),
+///     boxShadow: [
+///       BoxShadow(
+///         color: Colors.black.withOpacity(0.1),
+///         blurRadius: 8,
+///         offset: const Offset(0, 2),
+///       ),
+///     ],
+///   ),
+///   child: const Text("コンテンツ"),
+/// );
+/// ```
 class UniversalContainer extends StatelessWidget {
   /// Create a container that is responsive.
   ///
-  /// It is recommended to place it directly under [UniversalScaffold.body].
-  /// Otherwise, [Container] is fine.
+  /// [UniversalContainer] is the `UniversalUI` version of [Container]. It provides responsive layouts for desktop and mobile with automatic width adjustment based on [UniversalScaffold.breakpoint].
+  /// Supports basic Container features like [padding], [margin], and [decoration], plus responsive sizing.
   ///
-  /// The maximum width is automatically set according to [UniversalScaffold.breakpoint].
+  /// ## Basic Usage
+  ///
+  /// ```dart
+  /// UniversalContainer(
+  ///   padding: const EdgeInsets.all(16),
+  ///   margin: const EdgeInsets.all(8),
+  ///   decoration: BoxDecoration(
+  ///     color: Colors.white,
+  ///     borderRadius: BorderRadius.circular(8),
+  ///     boxShadow: [
+  ///       BoxShadow(
+  ///         color: Colors.black.withOpacity(0.1),
+  ///         blurRadius: 8,
+  ///         offset: const Offset(0, 2),
+  ///       ),
+  ///     ],
+  ///   ),
+  ///   child: const Text("Content"),
+  /// );
+  /// ```
+  ///
+  /// ---
   ///
   /// レスポンシブに対応したコンテナを作成します。
   ///
-  /// [UniversalScaffold.body]の直下に置くことをおすすめします。
-  /// それ以外は[Container]で問題ございません。
+  /// [UniversalContainer]は[Container]の`UniversalUI`版です。レスポンシブ対応でデスクトップ・モバイルで適切なレイアウトに変換。[UniversalScaffold.breakpoint]によって最大の横幅が自動で設定されます。
+  /// [padding]、[margin]、[decoration]などの基本的なContainerの機能に加え、レスポンシブ対応のサイズ設定が可能です。
   ///
-  /// [UniversalScaffold.breakpoint]に応じて最大の横幅が自動で設定されます。
+  /// ## 基本的な利用方法
+  ///
+  /// ```dart
+  /// UniversalContainer(
+  ///   padding: const EdgeInsets.all(16),
+  ///   margin: const EdgeInsets.all(8),
+  ///   decoration: BoxDecoration(
+  ///     color: Colors.white,
+  ///     borderRadius: BorderRadius.circular(8),
+  ///     boxShadow: [
+  ///       BoxShadow(
+  ///         color: Colors.black.withOpacity(0.1),
+  ///         blurRadius: 8,
+  ///         offset: const Offset(0, 2),
+  ///       ),
+  ///     ],
+  ///   ),
+  ///   child: const Text("コンテンツ"),
+  /// );
+  /// ```
   const UniversalContainer({
     super.key,
     this.child,
