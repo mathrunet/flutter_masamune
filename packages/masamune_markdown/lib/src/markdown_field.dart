@@ -1368,9 +1368,11 @@ class _RenderMarkdownEditor extends RenderBox {
       totalHeight += blockHeight;
     }
 
-    // If expands is true, use the maximum available height
+    // If expands is true and maxHeight is finite, use the maximum available height
     // Otherwise, use the actual content height
-    final height = _expands ? constraints.maxHeight : totalHeight;
+    final height = _expands && constraints.maxHeight.isFinite
+        ? constraints.maxHeight
+        : totalHeight;
 
     size = constraints.constrain(Size(
       constraints.maxWidth,
