@@ -8,7 +8,7 @@ import "package:katana_cli/ai/docs/plugins/google_map.dart";
 import "package:katana_cli/ai/docs/plugins/introduction.dart";
 import "package:katana_cli/ai/docs/plugins/local_notification.dart";
 import "package:katana_cli/ai/docs/plugins/location.dart";
-import "package:katana_cli/ai/docs/plugins/openai.dart";
+import "package:katana_cli/ai/docs/plugins/generative_ai.dart";
 import "package:katana_cli/ai/docs/plugins/picker.dart";
 import "package:katana_cli/ai/docs/plugins/purchase.dart";
 import "package:katana_cli/ai/docs/plugins/mail.dart";
@@ -30,7 +30,7 @@ const kPluginList = {
   "introduction": PluginIntroductionMdCliAiCode(),
   "local_notification": PluginLocalNotificationMdCliAiCode(),
   "location": PluginLocationMdCliAiCode(),
-  "openai": PluginOpenAiMdCliAiCode(),
+  "generative_ai": PluginGenerativeAiMdCliAiCode(),
   "picker": PluginPickerMdCliAiCode(),
   "purchase": PluginPurchaseMdCliAiCode(),
   "mail": PluginMailMdCliAiCode(),

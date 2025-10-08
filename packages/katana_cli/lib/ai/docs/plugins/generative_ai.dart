@@ -1,20 +1,20 @@
 // Project imports:
 import "package:katana_cli/ai/docs/plugin_usage.dart";
 
-/// Contents of openai.md.
+/// Contents of generative_ai.md.
 ///
-/// openai.mdの中身。
-class PluginOpenAiMdCliAiCode extends PluginUsageCliAiCode {
-  /// Contents of openai.md.
+/// generative_ai.mdの中身。
+class PluginGenerativeAiMdCliAiCode extends PluginUsageCliAiCode {
+  /// Contents of generative_ai.md.
   ///
-  /// openai.mdの中身。
-  const PluginOpenAiMdCliAiCode();
+  /// generative_ai.mdの中身。
+  const PluginGenerativeAiMdCliAiCode();
 
   @override
-  String get name => "ChatGPT";
+  String get name => "Generative AI";
 
   @override
-  String get description => "`ChatGPT`の利用方法";
+  String get description => "`Generative AI`の利用方法";
 
   @override
   String get globs => "*";
