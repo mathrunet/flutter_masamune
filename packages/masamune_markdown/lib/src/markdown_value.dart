@@ -149,7 +149,7 @@ class MarkdownSpanValue extends MarkdownValue {
   final MarkdownSpanProperty property;
 
   @override
-  MarkdownValue copyWith({
+  MarkdownSpanValue copyWith({
     String? id,
     String? value,
     MarkdownSpanProperty? property,
@@ -276,7 +276,7 @@ class MarkdownLineValue extends MarkdownValue {
   }
 
   @override
-  MarkdownValue copyWith({
+  MarkdownLineValue copyWith({
     String? id,
     List<MarkdownSpanValue>? children,
     MarkdownLineProperty? property,
@@ -320,7 +320,13 @@ abstract class MarkdownBlockValue extends MarkdownValue {
   const MarkdownBlockValue({
     required super.id,
     required this.property,
+    this.indent = 0,
   });
+
+  /// The indent of the markdown block value.
+  ///
+  /// マークダウンのブロックのインデント。
+  final int indent;
 
   /// The property of the markdown block value.
   ///
@@ -383,6 +389,7 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
     required super.id,
     required this.children,
     required super.property,
+    super.indent = 0,
   });
 
   /// Create a [MarkdownParagraphBlockValue] from a [DynamicMap].
@@ -468,13 +475,15 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
   }
 
   @override
-  MarkdownValue copyWith({
+  MarkdownParagraphBlockValue copyWith({
     String? id,
+    int? indent,
     List<MarkdownLineValue>? children,
     MarkdownBlockProperty? property,
   }) {
     return MarkdownParagraphBlockValue(
       id: id ?? this.id,
+      indent: indent ?? this.indent,
       children: children ?? this.children,
       property: property ?? this.property,
     );
@@ -585,7 +594,7 @@ class MarkdownFieldValue extends MarkdownValue {
   }
 
   @override
-  MarkdownValue copyWith({
+  MarkdownFieldValue copyWith({
     String? id,
     List<MarkdownBlockValue>? children,
     MarkdownFieldProperty? property,
@@ -749,7 +758,7 @@ class MarkdownSpanProperty extends MarkdownProperty {
   }
 
   @override
-  MarkdownProperty copyWith({
+  MarkdownSpanProperty copyWith({
     Color? backgroundColor,
     Color? foregroundColor,
   }) {
@@ -814,7 +823,7 @@ class MarkdownLineProperty extends MarkdownProperty {
   }
 
   @override
-  MarkdownProperty copyWith({
+  MarkdownLineProperty copyWith({
     Color? backgroundColor,
     Color? foregroundColor,
   }) {
@@ -880,7 +889,7 @@ class MarkdownBlockProperty extends MarkdownProperty {
   }
 
   @override
-  MarkdownProperty copyWith({
+  MarkdownBlockProperty copyWith({
     Color? backgroundColor,
     Color? foregroundColor,
   }) {
@@ -943,7 +952,7 @@ class MarkdownFieldProperty extends MarkdownProperty {
   }
 
   @override
-  MarkdownProperty copyWith({
+  MarkdownFieldProperty copyWith({
     Color? backgroundColor,
     Color? foregroundColor,
   }) {

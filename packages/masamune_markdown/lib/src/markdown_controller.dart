@@ -111,16 +111,16 @@ class MarkdownController extends MasamuneControllerBase<
               children: block.children.map<MarkdownLineValue>((line) {
                 return line.copyWith(
                   children: line.children.map<MarkdownSpanValue>((span) {
-                    return span.copyWith() as MarkdownSpanValue;
+                    return span.copyWith();
                   }).toList(),
-                ) as MarkdownLineValue;
+                );
               }).toList(),
             ) as MarkdownBlockValue;
           }
           // Add other block types as needed
           return block.copyWith() as MarkdownBlockValue;
         }).toList(),
-      ) as MarkdownFieldValue;
+      );
     }).toList();
   }
 
