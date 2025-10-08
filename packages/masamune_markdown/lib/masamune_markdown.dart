@@ -30,6 +30,7 @@ part "src/markdown_tools.dart";
 part "src/markdown_mention.dart";
 part "src/form_markdown_toolbar.dart";
 part "src/form_markdown_field.dart";
+part "src/markdown.dart";
 
 part "tools/primary/add_markdown_primary_tools.dart";
 part "tools/primary/exchange_markdown_primary_tools.dart";
