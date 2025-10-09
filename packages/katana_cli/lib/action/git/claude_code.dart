@@ -2,6 +2,7 @@
 import "dart:io";
 
 // Project imports:
+import "package:katana_cli/ai/agents/agents.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Add AI Agent using Claude Code.
@@ -95,6 +96,10 @@ class GitClaudeCodeCliAction extends CliCommand with CliActionMixin {
     ).generateFile("claude_code.yaml");
     label("Create CLAUDE.md");
     await const GitClaudeMarkdownCliCode().generateFile("CLAUDE.md");
+    label("Create settings.local.json");
+    await const GitClaudeSettingsCliCode().generateFile("settings.local.json");
+    label("Create agents");
+    await const AgentsAiCode().exec(context);
   }
 }
 
@@ -284,6 +289,66 @@ jobs:
                   allowed_tools: "Bash(katana:*),Bash(git:*),Bash(dart:*),Bash(flutter:*),Bash(find:*),Bash(grep:*),Bash(cat:*),Bash(head:*),Bash(cd:*),Bash(ls:*),Bash(mkdir:*),Bash(chmod:*),Task,Glob,Grep,LS,Read,Edit,MultiEdit,Write,NotebookRead,NotebookEdit,TodoRead,TodoWrite,mcp__github__add_issue_comment,mcp__github__add_pull_request_review_comment,mcp__github__create_branch,mcp__github__create_issue,mcp__github__create_or_update_file,mcp__github__create_pull_request,mcp__github__create_pull_request_review,mcp__github__create_repository,mcp__github__delete_file,mcp__github__fork_repository,mcp__github__get_code_scanning_alert,mcp__github__get_commit,mcp__github__get_file_contents,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__get_me,mcp__github__get_pull_request,mcp__github__get_pull_request_comments,mcp__github__get_pull_request_files,mcp__github__get_pull_request_reviews,mcp__github__get_pull_request_status,mcp__github__get_secret_scanning_alert,mcp__github__get_tag,mcp__github__list_branches,mcp__github__list_code_scanning_alerts,mcp__github__list_commits,mcp__github__list_issues,mcp__github__list_pull_requests,mcp__github__list_secret_scanning_alerts,mcp__github__list_tags,mcp__github__merge_pull_request,mcp__github__push_files,mcp__github__search_code,mcp__github__search_issues,mcp__github__search_repositories,mcp__github__search_users,mcp__github__update_issue,mcp__github__update_issue_comment,mcp__github__update_pull_request,mcp__github__update_pull_request_branch,mcp__github__update_pull_request_comment"
                   github_token: \${{secrets.PERSONAL_ACCESS_TOKEN || github.token}}
                   $credentials
+""";
+  }
+}
+
+/// Contents of settings.local.json.
+///
+/// settings.local.jsonの中身。
+class GitClaudeSettingsCliCode extends CliCode {
+  /// Contents of settings.local.json.
+  ///
+  /// settings.local.jsonの中身。
+  const GitClaudeSettingsCliCode();
+
+  @override
+  String get name => "settings.local";
+
+  @override
+  String get prefix => "settings.local";
+
+  @override
+  String get directory => ".claude";
+
+  @override
+  String get description =>
+      "Create settings.local.json for AI Agent using Claude Code. Claude Codeを利用したAIエージェント機能用のsettings.local.jsonを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+{
+  "permissions": {
+    "allow": [
+      "Bash(katana apply:*)",
+      "Bash(katana code:*)",
+      "Bash(flutter packages pub run build_runner build:*)",
+      "Bash(flutter clean:*)",
+      "Bash(flutter pub:*)",
+      "Bash(flutter analyze:*)",
+      "Bash(flutter test:*)",
+      "Bash(grep:*)",
+      "Bash(mv:*)",
+      "Bash(dart run:*)",
+      "Bash(katana test:*)",
+      "Bash(dart fix:*)",
+      "Bash(dart format:*)",
+      "mcp__{servername}"
+    ],
+    "deny": []
+  }
+}
 """;
   }
 }
