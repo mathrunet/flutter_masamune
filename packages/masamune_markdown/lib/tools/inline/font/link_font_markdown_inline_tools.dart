@@ -1,10 +1,13 @@
 part of "/masamune_markdown.dart";
 
+const _kLinkFontMarkdownInlineToolsType = "__markdown_inline_font_link__";
+
 /// Display the menu to link font [MarkdownTools].
 ///
 /// フォントをリンクにするメニューを表示する[MarkdownTools]。
 @immutable
-class LinkFontMarkdownInlineTools extends MarkdownInlineTools {
+class LinkFontMarkdownInlineTools
+    extends MarkdownPropertyInlineTools<LinkFontMarkdownSpanProperty> {
   /// Display the menu to link font [MarkdownTools].
   ///
   /// フォントをリンクにするメニューを表示する[MarkdownTools]。
@@ -60,5 +63,134 @@ class LinkFontMarkdownInlineTools extends MarkdownInlineTools {
   @override
   Future<void> onDeactive(BuildContext context, MarkdownToolRef ref) async {
     ref.toggleLinkDialog();
+  }
+
+  @override
+  LinkFontMarkdownSpanProperty? convertFromJson(DynamicMap json) {
+    final type = json.get(MarkdownProperty.typeKey, nullOfString);
+    if (type != id) {
+      return null;
+    }
+    return LinkFontMarkdownSpanProperty.fromJson(json);
+  }
+
+  @override
+  LinkFontMarkdownSpanProperty? convertFromMarkdown(String markdown) {
+    // TODO: implement convertFromMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  DynamicMap? convertToJson(LinkFontMarkdownSpanProperty value) {
+    if (value.type != id) {
+      return null;
+    }
+    return value.toJson();
+  }
+
+  @override
+  String? convertToMarkdown(LinkFontMarkdownSpanProperty value) {
+    // TODO: implement convertToMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  List<MarkdownProperty> addProperty(List<MarkdownProperty> properties,
+      {Object? value}) {
+    if (properties.any((e) => e.type == id)) {
+      return properties;
+    }
+    return [
+      ...properties,
+      if (value != null) LinkFontMarkdownSpanProperty(link: value.toString()),
+    ];
+  }
+
+  @override
+  List<MarkdownProperty> removeProperty(List<MarkdownProperty> properties) {
+    return properties.where((e) => e.type != id).toList();
+  }
+}
+
+/// A class for storing link font markdown span property.
+///
+/// フォントをリンクにするマークダウンのスパンのプロパティを格納するクラス。
+@immutable
+class LinkFontMarkdownSpanProperty extends MarkdownProperty {
+  /// A class for storing link font markdown span property.
+  ///
+  /// フォントをリンクにするマークダウンのスパンのプロパティを格納するクラス。
+  const LinkFontMarkdownSpanProperty({
+    required this.link,
+  });
+
+  /// Create a [LinkFontMarkdownSpanProperty] from a [DynamicMap].
+  ///
+  /// [DynamicMap]から[LinkFontMarkdownSpanProperty]を作成します。
+  factory LinkFontMarkdownSpanProperty.fromJson(DynamicMap json) {
+    return LinkFontMarkdownSpanProperty(
+      link: json.get(MarkdownProperty.linkKey, ""),
+    );
+  }
+
+  /// The link of the link font markdown span property.
+  ///
+  /// フォントをリンクにするマークダウンのスパンのプロパティのリンク。
+  final String link;
+
+  @override
+  LinkFontMarkdownSpanProperty copyWith({
+    String? link,
+  }) {
+    return LinkFontMarkdownSpanProperty(
+      link: link ?? this.link,
+    );
+  }
+
+  @override
+  String get type => _kLinkFontMarkdownInlineToolsType;
+
+  @override
+  DynamicMap toJson() {
+    return {
+      ...super.toJson(),
+      MarkdownProperty.linkKey: link,
+    };
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is LinkFontMarkdownSpanProperty &&
+        other.type == type &&
+        other.link == link;
+  }
+
+  @override
+  int get hashCode => type.hashCode ^ link.hashCode;
+
+  @override
+  String toString() {
+    return "MarkdownSpanProperty(type: $type, link: $link)";
+  }
+
+  @override
+  Color? backgroundColor(RenderContext context, MarkdownController controller,
+      Color? baseBackgroundColor) {
+    return baseBackgroundColor;
+  }
+
+  @override
+  TextStyle? textStyle(RenderContext context, MarkdownController controller,
+      TextStyle? baseTextStyle) {
+    final theme = context.theme;
+    baseTextStyle ??= const TextStyle();
+    return baseTextStyle.copyWith(
+      decoration: TextDecoration.underline,
+      color: theme.colorScheme.primary,
+      decorationColor: theme.colorScheme.primary,
+    );
   }
 }

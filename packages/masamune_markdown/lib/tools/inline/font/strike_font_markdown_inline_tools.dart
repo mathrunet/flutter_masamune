@@ -1,10 +1,13 @@
 part of "/masamune_markdown.dart";
 
+const _kStrikeFontMarkdownInlineToolsType = "__markdown_inline_font_strike__";
+
 /// Display the menu to strike font [MarkdownTools].
 ///
 /// フォントを取り消し線にするメニューを表示する[MarkdownTools]。
 @immutable
-class StrikeFontMarkdownInlineTools extends MarkdownInlineTools {
+class StrikeFontMarkdownInlineTools
+    extends MarkdownPropertyInlineTools<StrikeFontMarkdownSpanProperty> {
   /// Display the menu to strike font [MarkdownTools].
   ///
   /// フォントを取り消し線にするメニューを表示する[MarkdownTools]。
@@ -25,7 +28,7 @@ class StrikeFontMarkdownInlineTools extends MarkdownInlineTools {
   });
 
   @override
-  String get id => "__markdown_inline_font_strike__";
+  String get id => _kStrikeFontMarkdownInlineToolsType;
 
   @override
   bool shown(BuildContext context, MarkdownToolRef ref) => true;
@@ -60,5 +63,92 @@ class StrikeFontMarkdownInlineTools extends MarkdownInlineTools {
   @override
   Future<void> onDeactive(BuildContext context, MarkdownToolRef ref) async {
     ref.controller.removeInlineProperty(this);
+  }
+
+  @override
+  StrikeFontMarkdownSpanProperty? convertFromJson(DynamicMap json) {
+    final type = json.get(MarkdownProperty.typeKey, nullOfString);
+    if (type != id) {
+      return null;
+    }
+    return StrikeFontMarkdownSpanProperty.fromJson(json);
+  }
+
+  @override
+  StrikeFontMarkdownSpanProperty? convertFromMarkdown(String markdown) {
+    // TODO: implement convertFromMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  DynamicMap? convertToJson(StrikeFontMarkdownSpanProperty value) {
+    if (value.type != id) {
+      return null;
+    }
+    return {
+      MarkdownProperty.typeKey: id,
+    };
+  }
+
+  @override
+  String? convertToMarkdown(StrikeFontMarkdownSpanProperty value) {
+    // TODO: implement convertToMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  List<MarkdownProperty> addProperty(List<MarkdownProperty> properties,
+      {Object? value}) {
+    if (properties.any((e) => e.type == id)) {
+      return properties;
+    }
+    return [
+      ...properties,
+      const StrikeFontMarkdownSpanProperty(),
+    ];
+  }
+
+  @override
+  List<MarkdownProperty> removeProperty(List<MarkdownProperty> properties) {
+    return properties.where((e) => e.type != id).toList();
+  }
+}
+
+/// A class for storing strike font markdown span property.
+///
+/// フォントを取り消し線にするマークダウンのスパンのプロパティを格納するクラス。
+@immutable
+class StrikeFontMarkdownSpanProperty extends MarkdownProperty {
+  /// A class for storing strike font markdown span property.
+  ///
+  /// フォントを取り消し線にするマークダウンのスパンのプロパティを格納するクラス。
+  const StrikeFontMarkdownSpanProperty();
+
+  /// Create a [StrikeFontMarkdownSpanProperty] from a [DynamicMap].
+  ///
+  /// [DynamicMap]から[StrikeFontMarkdownSpanProperty]を作成します。
+  factory StrikeFontMarkdownSpanProperty.fromJson(DynamicMap json) {
+    return const StrikeFontMarkdownSpanProperty();
+  }
+
+  @override
+  StrikeFontMarkdownSpanProperty copyWith() {
+    return const StrikeFontMarkdownSpanProperty();
+  }
+
+  @override
+  String get type => _kStrikeFontMarkdownInlineToolsType;
+
+  @override
+  Color? backgroundColor(RenderContext context, MarkdownController controller,
+      Color? baseBackgroundColor) {
+    return baseBackgroundColor;
+  }
+
+  @override
+  TextStyle? textStyle(RenderContext context, MarkdownController controller,
+      TextStyle? baseTextStyle) {
+    baseTextStyle ??= const TextStyle();
+    return baseTextStyle.copyWith(decoration: TextDecoration.lineThrough);
   }
 }

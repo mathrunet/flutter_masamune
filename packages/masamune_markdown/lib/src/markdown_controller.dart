@@ -203,32 +203,16 @@ class MarkdownController extends MasamuneControllerBase<
       // Create initial structure
       final field = MarkdownFieldValue(
         id: uuid(),
-        property: const MarkdownFieldProperty(
-          backgroundColor: null,
-          foregroundColor: null,
-        ),
         children: [
           MarkdownParagraphBlockValue(
             id: uuid(),
-            property: const MarkdownBlockProperty(
-              backgroundColor: null,
-              foregroundColor: null,
-            ),
             children: [
               MarkdownLineValue(
                 id: uuid(),
-                property: const MarkdownLineProperty(
-                  backgroundColor: null,
-                  foregroundColor: null,
-                ),
                 children: [
                   MarkdownSpanValue(
                     id: uuid(),
                     value: text,
-                    property: const MarkdownSpanProperty(
-                      backgroundColor: null,
-                      foregroundColor: null,
-                    ),
                   ),
                 ],
               ),
@@ -319,25 +303,13 @@ class MarkdownController extends MasamuneControllerBase<
     if (blocks.isEmpty) {
       final newBlock = MarkdownParagraphBlockValue(
         id: uuid(),
-        property: const MarkdownBlockProperty(
-          backgroundColor: null,
-          foregroundColor: null,
-        ),
         children: [
           MarkdownLineValue(
             id: uuid(),
-            property: const MarkdownLineProperty(
-              backgroundColor: null,
-              foregroundColor: null,
-            ),
             children: [
               MarkdownSpanValue(
                 id: uuid(),
                 value: text,
-                property: const MarkdownSpanProperty(
-                  backgroundColor: null,
-                  foregroundColor: null,
-                ),
               ),
             ],
           ),
@@ -347,7 +319,6 @@ class MarkdownController extends MasamuneControllerBase<
 
       final newField = MarkdownFieldValue(
         id: field.id,
-        property: field.property,
         children: blocks,
       );
 
@@ -394,25 +365,13 @@ class MarkdownController extends MasamuneControllerBase<
         if (blocks.isEmpty) {
           blocks.add(MarkdownParagraphBlockValue(
             id: uuid(),
-            property: const MarkdownBlockProperty(
-              backgroundColor: null,
-              foregroundColor: null,
-            ),
             children: [
               MarkdownLineValue(
                 id: uuid(),
-                property: const MarkdownLineProperty(
-                  backgroundColor: null,
-                  foregroundColor: null,
-                ),
                 children: [
                   MarkdownSpanValue(
                     id: uuid(),
                     value: "",
-                    property: const MarkdownSpanProperty(
-                      backgroundColor: null,
-                      foregroundColor: null,
-                    ),
                   ),
                 ],
               ),
@@ -423,22 +382,13 @@ class MarkdownController extends MasamuneControllerBase<
         // Create new merged block
         final mergedBlock = MarkdownParagraphBlockValue(
           id: startBlock.id,
-          property: startBlock.property,
           children: [
             MarkdownLineValue(
               id: uuid(),
-              property: const MarkdownLineProperty(
-                backgroundColor: null,
-                foregroundColor: null,
-              ),
               children: [
                 MarkdownSpanValue(
                   id: uuid(),
                   value: mergedText,
-                  property: const MarkdownSpanProperty(
-                    backgroundColor: null,
-                    foregroundColor: null,
-                  ),
                 ),
               ],
             ),
@@ -455,7 +405,6 @@ class MarkdownController extends MasamuneControllerBase<
       // Update field
       final newField = MarkdownFieldValue(
         id: field.id,
-        property: field.property,
         children: blocks,
       );
 
@@ -500,7 +449,6 @@ class MarkdownController extends MasamuneControllerBase<
       // Update field
       final newField = MarkdownFieldValue(
         id: field.id,
-        property: field.property,
         children: blocks,
       );
 
@@ -516,16 +464,11 @@ class MarkdownController extends MasamuneControllerBase<
     // Create updated block with new text
     final newBlock = MarkdownParagraphBlockValue(
       id: targetBlock.id,
-      property: targetBlock.property,
       children: [
         MarkdownLineValue(
           id: targetBlock.children.isNotEmpty
               ? targetBlock.children.first.id
               : uuid(),
-          property: const MarkdownLineProperty(
-            backgroundColor: null,
-            foregroundColor: null,
-          ),
           children: [
             MarkdownSpanValue(
               id: targetBlock.children.isNotEmpty &&
@@ -533,10 +476,6 @@ class MarkdownController extends MasamuneControllerBase<
                   ? targetBlock.children.first.children.first.id
                   : uuid(),
               value: newText,
-              property: const MarkdownSpanProperty(
-                backgroundColor: null,
-                foregroundColor: null,
-              ),
             ),
           ],
         ),
@@ -549,7 +488,6 @@ class MarkdownController extends MasamuneControllerBase<
     // Update field
     final newField = MarkdownFieldValue(
       id: field.id,
-      property: field.property,
       children: blocks,
     );
 
@@ -869,18 +807,342 @@ class MarkdownController extends MasamuneControllerBase<
   /// Changes the inline text at the specified start and end positions.
   ///
   /// 指定された開始位置と終了位置のインラインテキストを変更します。
-  void addInlineProperty(MarkdownInlineTools tool, {int? start, int? end}) {}
+  void addInlineProperty(MarkdownPropertyInlineTools tool,
+      {int? start, int? end}) {
+    if (_field == null) {
+      return;
+    }
+
+    final selection = _field!._selection;
+    if (!selection.isValid || selection.isCollapsed) {
+      return;
+    }
+
+    final selectionStart = start ?? selection.start;
+    final selectionEnd = end ?? selection.end;
+
+    if (_value.isEmpty) {
+      return;
+    }
+
+    final field = _value.first;
+    final blocks = List<MarkdownBlockValue>.from(field.children);
+
+    // Find which blocks contain the selection
+    var currentOffset = 0;
+
+    for (var i = 0; i < blocks.length; i++) {
+      final block = blocks[i];
+      if (block is MarkdownParagraphBlockValue) {
+        final lines = List<MarkdownLineValue>.from(block.children);
+        final updatedLines = <MarkdownLineValue>[];
+
+        for (final line in lines) {
+          final spans = List<MarkdownSpanValue>.from(line.children);
+          final updatedSpans = <MarkdownSpanValue>[];
+          var lineOffset = currentOffset;
+
+          for (final span in spans) {
+            final spanStart = lineOffset;
+            final spanEnd = lineOffset + span.value.length;
+
+            // Check if this span overlaps with the selection
+            if (selectionEnd <= spanStart || selectionStart >= spanEnd) {
+              // No overlap, keep the span as is
+              updatedSpans.add(span);
+            } else {
+              // There is overlap, split the span
+              final overlapStart =
+                  selectionStart > spanStart ? selectionStart : spanStart;
+              final overlapEnd =
+                  selectionEnd < spanEnd ? selectionEnd : spanEnd;
+
+              // Before selection
+              if (spanStart < overlapStart) {
+                final beforeText =
+                    span.value.substring(0, overlapStart - spanStart);
+                updatedSpans.add(span.copyWith(
+                  id: uuid(),
+                  value: beforeText,
+                ));
+              }
+
+              // Selected part with updated property
+              final selectedText = span.value
+                  .substring(overlapStart - spanStart, overlapEnd - spanStart);
+              final updatedProperty =
+                  _applyInlineProperty(tool, span.properties);
+              updatedSpans.add(span.copyWith(
+                id: uuid(),
+                value: selectedText,
+                properties: updatedProperty,
+              ));
+
+              // After selection
+              if (spanEnd > overlapEnd) {
+                final afterText = span.value.substring(overlapEnd - spanStart);
+                updatedSpans.add(span.copyWith(
+                  id: uuid(),
+                  value: afterText,
+                ));
+              }
+            }
+
+            lineOffset += span.value.length;
+          }
+
+          // Merge consecutive spans with the same property
+          final mergedSpans = _mergeSpans(updatedSpans);
+          updatedLines.add(line.copyWith(children: mergedSpans));
+        }
+
+        blocks[i] = block.copyWith(children: updatedLines);
+        currentOffset += _getBlockTextLength(block) + 1; // +1 for newline
+      }
+    }
+
+    final newField = field.copyWith(children: blocks);
+    _value[0] = newField;
+    notifyListeners();
+  }
 
   /// Removes the inline property at the specified start and end positions.
   ///
   /// 指定された開始位置と終了位置のインラインプロパティを削除します。
-  void removeInlineProperty(MarkdownInlineTools tool, {int? start, int? end}) {}
+  void removeInlineProperty(MarkdownPropertyInlineTools tool,
+      {int? start, int? end}) {
+    if (_field == null) {
+      return;
+    }
+
+    final selection = _field!._selection;
+    if (!selection.isValid || selection.isCollapsed) {
+      return;
+    }
+
+    final selectionStart = start ?? selection.start;
+    final selectionEnd = end ?? selection.end;
+
+    if (_value.isEmpty) {
+      return;
+    }
+
+    final field = _value.first;
+    final blocks = List<MarkdownBlockValue>.from(field.children);
+
+    // Find which blocks contain the selection
+    var currentOffset = 0;
+
+    for (var i = 0; i < blocks.length; i++) {
+      final block = blocks[i];
+      if (block is MarkdownParagraphBlockValue) {
+        final lines = List<MarkdownLineValue>.from(block.children);
+        final updatedLines = <MarkdownLineValue>[];
+
+        for (final line in lines) {
+          final spans = List<MarkdownSpanValue>.from(line.children);
+          final updatedSpans = <MarkdownSpanValue>[];
+          var lineOffset = currentOffset;
+
+          for (final span in spans) {
+            final spanStart = lineOffset;
+            final spanEnd = lineOffset + span.value.length;
+
+            // Check if this span overlaps with the selection
+            if (selectionEnd <= spanStart || selectionStart >= spanEnd) {
+              // No overlap, keep the span as is
+              updatedSpans.add(span);
+            } else {
+              // There is overlap, split the span
+              final overlapStart =
+                  selectionStart > spanStart ? selectionStart : spanStart;
+              final overlapEnd =
+                  selectionEnd < spanEnd ? selectionEnd : spanEnd;
+
+              // Before selection
+              if (spanStart < overlapStart) {
+                final beforeText =
+                    span.value.substring(0, overlapStart - spanStart);
+                updatedSpans.add(span.copyWith(
+                  id: uuid(),
+                  value: beforeText,
+                ));
+              }
+
+              // Selected part with property removed
+              final selectedText = span.value
+                  .substring(overlapStart - spanStart, overlapEnd - spanStart);
+              final updatedProperty =
+                  _removeInlineProperty(tool, span.properties);
+              updatedSpans.add(span.copyWith(
+                id: uuid(),
+                value: selectedText,
+                properties: updatedProperty,
+              ));
+
+              // After selection
+              if (spanEnd > overlapEnd) {
+                final afterText = span.value.substring(overlapEnd - spanStart);
+                updatedSpans.add(span.copyWith(
+                  id: uuid(),
+                  value: afterText,
+                ));
+              }
+            }
+
+            lineOffset += span.value.length;
+          }
+
+          // Merge consecutive spans with the same property
+          final mergedSpans = _mergeSpans(updatedSpans);
+          updatedLines.add(line.copyWith(children: mergedSpans));
+        }
+
+        blocks[i] = block.copyWith(children: updatedLines);
+        currentOffset += _getBlockTextLength(block) + 1; // +1 for newline
+      }
+    }
+
+    final newField = field.copyWith(children: blocks);
+    _value[0] = newField;
+    notifyListeners();
+  }
 
   /// Checks if the inline property exists at the specified start and end positions.
   ///
   /// 指定された開始位置と終了位置のインラインプロパティが存在するかどうかを確認します。
-  bool hasInlineProperty(MarkdownInlineTools tool, {int? start, int? end}) =>
-      false;
+  bool hasInlineProperty(MarkdownPropertyInlineTools tool,
+      {int? start, int? end}) {
+    if (_field == null) {
+      return false;
+    }
+
+    final selection = _field!._selection;
+    if (!selection.isValid || selection.isCollapsed) {
+      return false;
+    }
+
+    final selectionStart = start ?? selection.start;
+    final selectionEnd = end ?? selection.end;
+
+    if (_value.isEmpty) {
+      return false;
+    }
+
+    final field = _value.first;
+    final blocks = field.children;
+
+    var currentOffset = 0;
+    var allHaveProperty = true;
+
+    for (final block in blocks) {
+      if (block is MarkdownParagraphBlockValue) {
+        for (final line in block.children) {
+          var lineOffset = currentOffset;
+
+          for (final span in line.children) {
+            final spanStart = lineOffset;
+            final spanEnd = lineOffset + span.value.length;
+
+            // Check if this span overlaps with the selection
+            if (selectionEnd > spanStart && selectionStart < spanEnd) {
+              // There is overlap, check if property exists
+              if (!_hasInlineProperty(tool, span.properties)) {
+                allHaveProperty = false;
+                break;
+              }
+            }
+
+            lineOffset += span.value.length;
+          }
+
+          if (!allHaveProperty) {
+            break;
+          }
+        }
+
+        currentOffset += _getBlockTextLength(block) + 1; // +1 for newline
+        if (!allHaveProperty) {
+          break;
+        }
+      }
+    }
+
+    return allHaveProperty;
+  }
+
+  /// Applies the inline property from the tool to the given property.
+  ///
+  /// ツールからインラインプロパティを適用します。
+  List<MarkdownProperty> _applyInlineProperty(
+    MarkdownPropertyInlineTools tool,
+    List<MarkdownProperty> properties,
+  ) {
+    return tool.addProperty(properties);
+  }
+
+  /// Removes the inline property from the tool from the given property.
+  ///
+  /// ツールからインラインプロパティを削除します。
+  List<MarkdownProperty> _removeInlineProperty(
+    MarkdownPropertyInlineTools tool,
+    List<MarkdownProperty> properties,
+  ) {
+    return tool.removeProperty(properties);
+  }
+
+  /// Checks if the given property has the inline property from the tool.
+  ///
+  /// 与えられたプロパティがツールからのインラインプロパティを持っているかどうかを確認します。
+  bool _hasInlineProperty(
+    MarkdownPropertyInlineTools tool,
+    List<MarkdownProperty> properties,
+  ) {
+    return properties.any((e) => e.type == tool.id);
+  }
+
+  /// Merges consecutive spans with the same property.
+  ///
+  /// 同じプロパティを持つ連続したスパンをマージします。
+  List<MarkdownSpanValue> _mergeSpans(List<MarkdownSpanValue> spans) {
+    if (spans.isEmpty) {
+      return spans;
+    }
+
+    final merged = <MarkdownSpanValue>[];
+    var current = spans.first;
+
+    for (var i = 1; i < spans.length; i++) {
+      final next = spans[i];
+      if (current.properties.equalsTo(next.properties)) {
+        // Merge
+        current = current.copyWith(value: current.value + next.value);
+      } else {
+        merged.add(current);
+        current = next;
+      }
+    }
+    merged.add(current);
+
+    return merged;
+  }
+
+  /// Gets the text length of a block.
+  ///
+  /// ブロックのテキストの長さを取得します。
+  int _getBlockTextLength(MarkdownParagraphBlockValue block) {
+    final blockText = StringBuffer();
+    for (var j = 0; j < block.children.length; j++) {
+      final line = block.children[j];
+      for (final span in line.children) {
+        blockText.write(span.value);
+      }
+      if (j < block.children.length - 1) {
+        blockText.writeln();
+      }
+    }
+    return blockText.toString().length;
+  }
 
   /// Unselects the text.
   ///
@@ -1026,32 +1288,16 @@ class MarkdownController extends MasamuneControllerBase<
       // Create initial structure with empty paragraph
       final field = MarkdownFieldValue(
         id: uuid(),
-        property: const MarkdownFieldProperty(
-          backgroundColor: null,
-          foregroundColor: null,
-        ),
         children: [
           MarkdownParagraphBlockValue(
             id: uuid(),
-            property: const MarkdownBlockProperty(
-              backgroundColor: null,
-              foregroundColor: null,
-            ),
             children: [
               MarkdownLineValue(
                 id: uuid(),
-                property: const MarkdownLineProperty(
-                  backgroundColor: null,
-                  foregroundColor: null,
-                ),
                 children: [
                   MarkdownSpanValue(
                     id: uuid(),
                     value: "",
-                    property: const MarkdownSpanProperty(
-                      backgroundColor: null,
-                      foregroundColor: null,
-                    ),
                   ),
                 ],
               ),
@@ -1110,25 +1356,13 @@ class MarkdownController extends MasamuneControllerBase<
       blocks.add(
         MarkdownParagraphBlockValue(
           id: uuid(),
-          property: const MarkdownBlockProperty(
-            backgroundColor: null,
-            foregroundColor: null,
-          ),
           children: [
             MarkdownLineValue(
               id: uuid(),
-              property: const MarkdownLineProperty(
-                backgroundColor: null,
-                foregroundColor: null,
-              ),
               children: [
                 MarkdownSpanValue(
                   id: uuid(),
                   value: "",
-                  property: const MarkdownSpanProperty(
-                    backgroundColor: null,
-                    foregroundColor: null,
-                  ),
                 ),
               ],
             ),
@@ -1142,22 +1376,13 @@ class MarkdownController extends MasamuneControllerBase<
       // Create block with text before cursor
       final beforeBlock = MarkdownParagraphBlockValue(
         id: oldBlock.id,
-        property: oldBlock.property,
         children: [
           MarkdownLineValue(
             id: uuid(),
-            property: const MarkdownLineProperty(
-              backgroundColor: null,
-              foregroundColor: null,
-            ),
             children: [
               MarkdownSpanValue(
                 id: uuid(),
                 value: textBeforeCursor!,
-                property: const MarkdownSpanProperty(
-                  backgroundColor: null,
-                  foregroundColor: null,
-                ),
               ),
             ],
           ),
@@ -1167,22 +1392,13 @@ class MarkdownController extends MasamuneControllerBase<
       // Create new block with text after cursor
       final afterBlock = MarkdownParagraphBlockValue(
         id: uuid(),
-        property: oldBlock.property,
         children: [
           MarkdownLineValue(
             id: uuid(),
-            property: const MarkdownLineProperty(
-              backgroundColor: null,
-              foregroundColor: null,
-            ),
             children: [
               MarkdownSpanValue(
                 id: uuid(),
                 value: textAfterCursor!,
-                property: const MarkdownSpanProperty(
-                  backgroundColor: null,
-                  foregroundColor: null,
-                ),
               ),
             ],
           ),
@@ -1197,7 +1413,6 @@ class MarkdownController extends MasamuneControllerBase<
     // Update field with new blocks
     final newField = MarkdownFieldValue(
       id: field.id,
-      property: field.property,
       children: blocks,
     );
 

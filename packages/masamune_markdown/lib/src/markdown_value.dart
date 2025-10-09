@@ -107,7 +107,7 @@ class MarkdownSpanValue extends MarkdownValue {
   const MarkdownSpanValue({
     required super.id,
     required this.value,
-    required this.property,
+    this.properties = const [],
     this.editable = true,
   });
 
@@ -115,11 +115,13 @@ class MarkdownSpanValue extends MarkdownValue {
   ///
   /// [DynamicMap]から[MarkdownSpanValue]を作成します。
   factory MarkdownSpanValue.fromJson(DynamicMap json) {
+    final properties =
+        json.getAsList<DynamicMap>(MarkdownValue.propertyKey, []);
     return MarkdownSpanValue(
       id: json.get(MarkdownValue.idKey, ""),
       value: json.get(MarkdownValue.valueKey, ""),
-      property: MarkdownSpanProperty.fromJson(
-        json.getAsMap(MarkdownValue.propertyKey),
+      properties: MarkdownProperty.fromJson(
+        properties,
       ),
     );
   }
@@ -131,7 +133,6 @@ class MarkdownSpanValue extends MarkdownValue {
     return MarkdownSpanValue(
       id: uuid(),
       value: markdown,
-      property: const MarkdownSpanProperty(),
     );
   }
 
@@ -151,18 +152,47 @@ class MarkdownSpanValue extends MarkdownValue {
   /// The property of the markdown span value.
   ///
   /// マークダウンのスパンのプロパティ。
-  final MarkdownSpanProperty property;
+  final List<MarkdownProperty> properties;
+
+  /// The text style of the markdown span value.
+  ///
+  /// マークダウンのスパンのテキストスタイル。
+  TextStyle? textStyle(
+    RenderContext context,
+    MarkdownController controller,
+    TextStyle? baseTextStyle,
+  ) {
+    for (final property in properties) {
+      baseTextStyle = property.textStyle(context, controller, baseTextStyle);
+    }
+    return baseTextStyle;
+  }
+
+  /// The background color of the markdown span value.
+  ///
+  /// マークダウンのスパンの背景色。
+  Color? backgroundColor(
+    RenderContext context,
+    MarkdownController controller,
+    Color? baseBackgroundColor,
+  ) {
+    for (final property in properties) {
+      baseBackgroundColor =
+          property.backgroundColor(context, controller, baseBackgroundColor);
+    }
+    return baseBackgroundColor;
+  }
 
   @override
   MarkdownSpanValue copyWith({
     String? id,
     String? value,
-    MarkdownSpanProperty? property,
+    List<MarkdownProperty>? properties,
   }) {
     return MarkdownSpanValue(
       id: id ?? this.id,
       value: value ?? this.value,
-      property: property ?? this.property,
+      properties: properties ?? this.properties,
     );
   }
 
@@ -172,7 +202,7 @@ class MarkdownSpanValue extends MarkdownValue {
       MarkdownValue.idKey: id,
       MarkdownValue.typeKey: type,
       MarkdownValue.valueKey: value,
-      MarkdownValue.propertyKey: property.toJson(),
+      MarkdownValue.propertyKey: properties.map((e) => e.toJson()).toList(),
     };
   }
 
@@ -190,15 +220,21 @@ class MarkdownSpanValue extends MarkdownValue {
         other.id == id &&
         other.type == type &&
         other.value == value &&
-        other.property == property;
+        other.properties.equalsTo(properties);
   }
 
   @override
-  int get hashCode => value.hashCode ^ property.hashCode;
+  int get hashCode {
+    var hash = super.hashCode ^ value.hashCode;
+    for (final property in properties) {
+      hash = hash ^ property.hashCode;
+    }
+    return hash;
+  }
 
   @override
   String toString() {
-    return "MarkdownSpanValue(value: $value, property: $property)";
+    return "MarkdownSpanValue(value: $value, properties: $properties)";
   }
 }
 
@@ -213,7 +249,6 @@ class MarkdownLineValue extends MarkdownValue {
   const MarkdownLineValue({
     required super.id,
     required this.children,
-    required this.property,
   });
 
   /// Create a [MarkdownLineValue] from a [DynamicMap].
@@ -226,9 +261,6 @@ class MarkdownLineValue extends MarkdownValue {
           .getAsList(MarkdownValue.childrenKey, [])
           .map((e) => MarkdownSpanValue.fromJson(e))
           .toList(),
-      property: MarkdownLineProperty.fromJson(
-        json.getAsMap(MarkdownValue.propertyKey),
-      ),
     );
   }
 
@@ -236,19 +268,11 @@ class MarkdownLineValue extends MarkdownValue {
   ///
   /// [markdown]から[MarkdownLineValue]を作成します。
   factory MarkdownLineValue.fromMarkdown(String markdown) {
-    final tools =
-        MarkdownMasamuneAdapter.findTools<MarkdownVariableInlineTools>();
-    final children = <MarkdownSpanValue>[];
-    for (final tool in tools) {
-      final value = tool.convertFromMarkdown(markdown);
-      if (value != null) {
-        children.add(value);
-      }
-    }
     return MarkdownLineValue(
       id: uuid(),
-      children: children,
-      property: const MarkdownLineProperty(),
+      children: [
+        ...markdown.split("\n").map(MarkdownSpanValue.fromMarkdown),
+      ],
     );
   }
 
@@ -260,18 +284,12 @@ class MarkdownLineValue extends MarkdownValue {
   /// マークダウンの１行の子要素。
   final List<MarkdownSpanValue> children;
 
-  /// The property of the markdown 1 line value.
-  ///
-  /// マークダウンの１行のプロパティ。
-  final MarkdownLineProperty property;
-
   @override
   DynamicMap toJson() {
     return {
       MarkdownValue.idKey: id,
       MarkdownValue.typeKey: type,
       MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
-      MarkdownValue.propertyKey: property.toJson(),
     };
   }
 
@@ -284,12 +302,10 @@ class MarkdownLineValue extends MarkdownValue {
   MarkdownLineValue copyWith({
     String? id,
     List<MarkdownSpanValue>? children,
-    MarkdownLineProperty? property,
   }) {
     return MarkdownLineValue(
       id: id ?? this.id,
       children: children ?? this.children,
-      property: property ?? this.property,
     );
   }
 
@@ -301,16 +317,21 @@ class MarkdownLineValue extends MarkdownValue {
     return other is MarkdownLineValue &&
         other.id == id &&
         other.type == type &&
-        children.equalsTo(other.children) &&
-        other.property == property;
+        children.equalsTo(other.children);
   }
 
   @override
-  int get hashCode => children.hashCode ^ property.hashCode;
+  int get hashCode {
+    var hash = super.hashCode;
+    for (final child in children) {
+      hash = hash ^ child.hashCode;
+    }
+    return hash;
+  }
 
   @override
   String toString() {
-    return "MarkdownLineValue(children: $children, property: $property)";
+    return "MarkdownLineValue(children: $children)";
   }
 }
 
@@ -324,7 +345,6 @@ abstract class MarkdownBlockValue extends MarkdownValue {
   /// マークダウンのブロックの値を格納するクラス。
   const MarkdownBlockValue({
     required super.id,
-    required this.property,
     this.indent = 0,
   });
 
@@ -332,11 +352,6 @@ abstract class MarkdownBlockValue extends MarkdownValue {
   ///
   /// マークダウンのブロックのインデント。
   final int indent;
-
-  /// The property of the markdown block value.
-  ///
-  /// マークダウンのブロックのプロパティ。
-  final MarkdownBlockProperty property;
 
   /// The padding of the markdown block value.
   ///
@@ -362,6 +377,14 @@ abstract class MarkdownBlockValue extends MarkdownValue {
     MarkdownController controller,
   );
 
+  /// The background color of the markdown span value.
+  ///
+  /// マークダウンのスパンの背景色。
+  Color? backgroundColor(
+    RenderContext context,
+    MarkdownController controller,
+  );
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) {
@@ -370,15 +393,15 @@ abstract class MarkdownBlockValue extends MarkdownValue {
     return other is MarkdownBlockValue &&
         other.id == id &&
         other.type == type &&
-        other.property == property;
+        other.indent == indent;
   }
 
   @override
-  int get hashCode => property.hashCode;
+  int get hashCode => super.hashCode ^ indent.hashCode;
 
   @override
   String toString() {
-    return "MarkdownBlockValue(property: $property)";
+    return "MarkdownBlockValue(indent: $indent)";
   }
 }
 
@@ -393,7 +416,6 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
   const MarkdownParagraphBlockValue({
     required super.id,
     required this.children,
-    required super.property,
     super.indent = 0,
   });
 
@@ -408,9 +430,6 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
           .getAsList<DynamicMap>(MarkdownValue.childrenKey, [])
           .map(MarkdownLineValue.fromJson)
           .toList(),
-      property: MarkdownBlockProperty.fromJson(
-        json.getAsMap(MarkdownValue.propertyKey),
-      ),
     );
   }
 
@@ -423,7 +442,6 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
       children: [
         ...markdown.split("\n").map(MarkdownLineValue.fromMarkdown),
       ],
-      property: const MarkdownBlockProperty(),
     );
   }
 
@@ -442,7 +460,6 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
       MarkdownValue.typeKey: type,
       MarkdownValue.indentKey: indent,
       MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
-      MarkdownValue.propertyKey: property.toJson(),
     };
   }
 
@@ -477,6 +494,14 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
   }
 
   @override
+  Color? backgroundColor(
+    RenderContext context,
+    MarkdownController controller,
+  ) {
+    return null;
+  }
+
+  @override
   String toMarkdown() {
     return children.map((e) => e.toMarkdown()).join("\n");
   }
@@ -486,13 +511,11 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
     String? id,
     int? indent,
     List<MarkdownLineValue>? children,
-    MarkdownBlockProperty? property,
   }) {
     return MarkdownParagraphBlockValue(
       id: id ?? this.id,
       indent: indent ?? this.indent,
       children: children ?? this.children,
-      property: property ?? this.property,
     );
   }
 
@@ -505,15 +528,21 @@ class MarkdownParagraphBlockValue extends MarkdownBlockValue {
         other.id == id &&
         other.type == type &&
         children.equalsTo(other.children) &&
-        other.property == property;
+        other.indent == indent;
   }
 
   @override
-  int get hashCode => children.hashCode ^ property.hashCode;
+  int get hashCode {
+    var hash = super.hashCode;
+    for (final child in children) {
+      hash = hash ^ child.hashCode;
+    }
+    return hash;
+  }
 
   @override
   String toString() {
-    return "MarkdownParagraphBlockValue(children: $children, property: $property)";
+    return "MarkdownParagraphBlockValue(children: $children, indent: $indent)";
   }
 }
 
@@ -528,7 +557,6 @@ class MarkdownFieldValue extends MarkdownValue {
   const MarkdownFieldValue({
     required super.id,
     required this.children,
-    required this.property,
   });
 
   /// Create a [MarkdownFieldValue] from a [DynamicMap].
@@ -547,8 +575,6 @@ class MarkdownFieldValue extends MarkdownValue {
     return MarkdownFieldValue(
       id: json.get(MarkdownValue.idKey, ""),
       children: children,
-      property: MarkdownFieldProperty.fromJson(
-          json.getAsMap(MarkdownValue.propertyKey)),
     );
   }
 
@@ -568,7 +594,6 @@ class MarkdownFieldValue extends MarkdownValue {
     return MarkdownFieldValue(
       id: uuid(),
       children: children,
-      property: const MarkdownFieldProperty(),
     );
   }
 
@@ -580,18 +605,12 @@ class MarkdownFieldValue extends MarkdownValue {
   /// マークダウンのフィールドの子要素。
   final List<MarkdownBlockValue> children;
 
-  /// The property of the markdown field value.
-  ///
-  /// マークダウンのフィールドのプロパティ。
-  final MarkdownFieldProperty property;
-
   @override
   DynamicMap toJson() {
     return {
       MarkdownValue.idKey: id,
       MarkdownValue.typeKey: type,
       MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
-      MarkdownValue.propertyKey: property.toJson(),
     };
   }
 
@@ -604,12 +623,10 @@ class MarkdownFieldValue extends MarkdownValue {
   MarkdownFieldValue copyWith({
     String? id,
     List<MarkdownBlockValue>? children,
-    MarkdownFieldProperty? property,
   }) {
     return MarkdownFieldValue(
       id: id ?? this.id,
       children: children ?? this.children,
-      property: property ?? this.property,
     );
   }
 
@@ -621,111 +638,21 @@ class MarkdownFieldValue extends MarkdownValue {
     return other is MarkdownFieldValue &&
         other.id == id &&
         other.type == type &&
-        children.equalsTo(other.children) &&
-        other.property == property;
+        children.equalsTo(other.children);
   }
 
   @override
-  int get hashCode => children.hashCode ^ property.hashCode;
-
-  @override
-  String toString() {
-    return "MarkdownFieldValue(children: $children, property: $property)";
-  }
-}
-
-/// A class for storing markdown property.
-///
-/// マークダウンのプロパティを格納するクラス。
-@immutable
-abstract class MarkdownProperty {
-  /// A class for storing markdown property.
-  ///
-  /// マークダウンのプロパティを格納するクラス。
-  const MarkdownProperty({
-    this.backgroundColor,
-    this.foregroundColor,
-  });
-
-  /// The background color of the markdown property.
-  ///
-  /// マークダウンのプロパティの背景色。
-  final Color? backgroundColor;
-
-  /// The foreground color of the markdown property.
-  ///
-  /// マークダウンのプロパティの前景色。
-  final Color? foregroundColor;
-
-  /// The key for the background color.
-  ///
-  /// マークダウンのプロパティの背景色のキー。
-  static const String backgroundColorKey = "backgroundColor";
-
-  /// The key for the foreground color.
-  ///
-  /// マークダウンのプロパティの前景色のキー。
-  static const String foregroundColorKey = "foregroundColor";
-
-  /// The key for the padding.
-  ///
-  /// マークダウンのプロパティのパディングのキー。
-  static const String paddingKey = "padding";
-
-  /// The key for the margin.
-  ///
-  /// マークダウンのプロパティのマージンのキー。
-  static const String marginKey = "margin";
-
-  /// The left key of a Markdown property.
-  ///
-  /// マークダウンのプロパティの左のキー。
-  static const String leftKey = "left";
-
-  /// The right key of a Markdown property.
-  ///
-  /// マークダウンのプロパティの右のキー。
-  static const String rightKey = "right";
-
-  /// The top key of a Markdown property.
-  ///
-  /// マークダウンのプロパティの上のキー。
-  static const String topKey = "top";
-
-  /// The bottom key of a Markdown property.
-  ///
-  /// マークダウンのプロパティの下のキー。
-  static const String bottomKey = "bottom";
-
-  /// Convert the markdown property to a JSON object.
-  ///
-  /// マークダウンのプロパティをJSONオブジェクトに変換します。
-  DynamicMap toJson();
-
-  /// Copy the markdown property with the given fields.
-  ///
-  /// 指定されたフィールドでマークダウンのプロパティをコピーします。
-  MarkdownProperty copyWith({
-    Color? backgroundColor,
-    Color? foregroundColor,
-  });
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
+  int get hashCode {
+    var hash = super.hashCode;
+    for (final child in children) {
+      hash = hash ^ child.hashCode;
     }
-    return other is MarkdownProperty &&
-        other.backgroundColor == backgroundColor &&
-        other.foregroundColor == foregroundColor;
+    return hash;
   }
 
   @override
-  int get hashCode => backgroundColor.hashCode ^ foregroundColor.hashCode;
-
-  @override
   String toString() {
-    return "MarkdownProperty(backgroundColor: $backgroundColor, foregroundColor: $foregroundColor)";
+    return "MarkdownFieldValue(children: $children)";
   }
 }
 
@@ -733,256 +660,91 @@ abstract class MarkdownProperty {
 ///
 /// マークダウンのスパンのプロパティを格納するクラス。
 @immutable
-class MarkdownSpanProperty extends MarkdownProperty {
+abstract class MarkdownProperty {
   /// A class for storing markdown span property.
   ///
   /// マークダウンのスパンのプロパティを格納するクラス。
-  const MarkdownSpanProperty({
-    super.backgroundColor,
-    super.foregroundColor,
-  });
+  const MarkdownProperty();
 
-  /// Create a [MarkdownProperty] from a [DynamicMap].
+  /// Create a [MarkdownProperty] from a [List<DynamicMap>].
   ///
-  /// [DynamicMap]から[MarkdownProperty]を作成します。
-  factory MarkdownSpanProperty.fromJson(DynamicMap json) {
-    final backgroundColor =
-        json.get(MarkdownProperty.backgroundColorKey, nullOfNum)?.toInt();
-    final foregroundColor =
-        json.get(MarkdownProperty.foregroundColorKey, nullOfNum)?.toInt();
-    return MarkdownSpanProperty(
-      backgroundColor: backgroundColor != null ? Color(backgroundColor) : null,
-      foregroundColor: foregroundColor != null ? Color(foregroundColor) : null,
-    );
+  /// [List<DynamicMap>]から[MarkdownProperty]を作成します。
+  static List<MarkdownProperty> fromJson(List<DynamicMap> json) {
+    final properties = <MarkdownProperty>[];
+    final tools =
+        MarkdownMasamuneAdapter.findTools<MarkdownPropertyInlineTools>();
+    for (final jsn in json) {
+      for (final tool in tools) {
+        final value = tool.convertFromJson(jsn);
+        if (value != null) {
+          properties.add(value);
+        }
+      }
+    }
+    return properties;
   }
 
-  @override
+  /// The type of the markdown property.
+  ///
+  /// マークダウンのプロパティの型。
+  String get type;
+
+  /// The key for the link.
+  ///
+  /// マークダウンのスパンのプロパティのリンクのキー。
+  static const String linkKey = "link";
+
+  /// The key for the type.
+  ///
+  /// マークダウンのプロパティの型のキー。
+  static const String typeKey = "type";
+
+  /// Convert the markdown property to a JSON object.
+  ///
+  /// マークダウンのプロパティをJSONオブジェクトに変換します。
   DynamicMap toJson() {
     return {
-      MarkdownProperty.backgroundColorKey: backgroundColor?.toInt(),
-      MarkdownProperty.foregroundColorKey: foregroundColor?.toInt(),
+      MarkdownProperty.typeKey: type,
     };
   }
 
-  @override
-  MarkdownSpanProperty copyWith({
-    Color? backgroundColor,
-    Color? foregroundColor,
-  }) {
-    return MarkdownSpanProperty(
-      backgroundColor: backgroundColor ?? this.backgroundColor,
-      foregroundColor: foregroundColor ?? this.foregroundColor,
-    );
-  }
+  /// Copy the markdown property with the given fields.
+  ///
+  /// 指定されたフィールドでマークダウンのプロパティをコピーします。
+  MarkdownProperty copyWith();
+
+  /// The text style of the markdown property.
+  ///
+  /// マークダウンのプロパティのテキストスタイル。
+  TextStyle? textStyle(
+    RenderContext context,
+    MarkdownController controller,
+    TextStyle? baseTextStyle,
+  );
+
+  /// The background color of the markdown property.
+  ///
+  /// マークダウンのプロパティの背景色。
+  Color? backgroundColor(
+    RenderContext context,
+    MarkdownController controller,
+    Color? baseBackgroundColor,
+  );
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) {
       return true;
     }
-    return other is MarkdownSpanProperty &&
-        other.backgroundColor == backgroundColor &&
-        other.foregroundColor == foregroundColor;
+    return other is MarkdownProperty && other.type == type;
   }
 
   @override
-  int get hashCode => backgroundColor.hashCode ^ foregroundColor.hashCode;
+  int get hashCode => type.hashCode;
 
   @override
   String toString() {
-    return "MarkdownSpanProperty(backgroundColor: $backgroundColor, foregroundColor: $foregroundColor)";
-  }
-}
-
-/// A class for storing markdown 1 line property.
-///
-/// マークダウンの１行のプロパティを格納するクラス。
-@immutable
-class MarkdownLineProperty extends MarkdownProperty {
-  /// A class for storing markdown 1 line property.
-  ///
-  /// マークダウンの１行のプロパティを格納するクラス。
-  const MarkdownLineProperty({
-    super.backgroundColor,
-    super.foregroundColor,
-  });
-
-  /// Create a [MarkdownLineProperty] from a [DynamicMap].
-  ///
-  /// [DynamicMap]から[MarkdownLineProperty]を作成します。
-  factory MarkdownLineProperty.fromJson(DynamicMap json) {
-    final backgroundColor =
-        json.get(MarkdownProperty.backgroundColorKey, nullOfNum)?.toInt();
-    final foregroundColor =
-        json.get(MarkdownProperty.foregroundColorKey, nullOfNum)?.toInt();
-    return MarkdownLineProperty(
-      backgroundColor: backgroundColor != null ? Color(backgroundColor) : null,
-      foregroundColor: foregroundColor != null ? Color(foregroundColor) : null,
-    );
-  }
-
-  @override
-  DynamicMap toJson() {
-    return {
-      MarkdownProperty.backgroundColorKey: backgroundColor?.toInt(),
-      MarkdownProperty.foregroundColorKey: foregroundColor?.toInt(),
-    };
-  }
-
-  @override
-  MarkdownLineProperty copyWith({
-    Color? backgroundColor,
-    Color? foregroundColor,
-  }) {
-    return MarkdownLineProperty(
-      backgroundColor: backgroundColor ?? this.backgroundColor,
-      foregroundColor: foregroundColor ?? this.foregroundColor,
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    return other is MarkdownLineProperty &&
-        other.backgroundColor == backgroundColor &&
-        other.foregroundColor == foregroundColor;
-  }
-
-  @override
-  int get hashCode => backgroundColor.hashCode ^ foregroundColor.hashCode;
-
-  @override
-  String toString() {
-    return "MarkdownLineProperty(backgroundColor: $backgroundColor, foregroundColor: $foregroundColor)";
-  }
-}
-
-/// A class for storing markdown block property.
-///
-/// マークダウンのブロックのプロパティを格納するクラス。
-@immutable
-class MarkdownBlockProperty extends MarkdownProperty {
-  /// A class for storing markdown block property.
-  ///
-  /// マークダウンのブロックのプロパティを格納するクラス。
-  const MarkdownBlockProperty({
-    super.backgroundColor,
-    super.foregroundColor,
-  });
-
-  /// Create a [MarkdownBlockProperty] from a [DynamicMap].
-  ///
-  /// [DynamicMap]から[MarkdownBlockProperty]を作成します。
-  factory MarkdownBlockProperty.fromJson(DynamicMap json) {
-    final backgroundColor =
-        json.get(MarkdownProperty.backgroundColorKey, nullOfNum)?.toInt();
-    final foregroundColor =
-        json.get(MarkdownProperty.foregroundColorKey, nullOfNum)?.toInt();
-
-    return MarkdownBlockProperty(
-      backgroundColor: backgroundColor != null ? Color(backgroundColor) : null,
-      foregroundColor: foregroundColor != null ? Color(foregroundColor) : null,
-    );
-  }
-
-  @override
-  DynamicMap toJson() {
-    return {
-      MarkdownProperty.backgroundColorKey: backgroundColor?.toInt(),
-      MarkdownProperty.foregroundColorKey: foregroundColor?.toInt(),
-    };
-  }
-
-  @override
-  MarkdownBlockProperty copyWith({
-    Color? backgroundColor,
-    Color? foregroundColor,
-  }) {
-    return MarkdownBlockProperty(
-        backgroundColor: backgroundColor, foregroundColor: foregroundColor);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    return other is MarkdownBlockProperty &&
-        other.backgroundColor == backgroundColor &&
-        other.foregroundColor == foregroundColor;
-  }
-
-  @override
-  int get hashCode => backgroundColor.hashCode ^ foregroundColor.hashCode;
-
-  @override
-  String toString() {
-    return "MarkdownBlockProperty(backgroundColor: $backgroundColor, foregroundColor: $foregroundColor)";
-  }
-}
-
-/// A class for storing markdown field property.
-///
-/// マークダウンのフィールドのプロパティを格納するクラス。
-@immutable
-class MarkdownFieldProperty extends MarkdownProperty {
-  /// A class for storing markdown field property.
-  ///
-  /// マークダウンのフィールドのプロパティを格納するクラス。
-  const MarkdownFieldProperty({
-    super.backgroundColor,
-    super.foregroundColor,
-  });
-
-  /// Create a [MarkdownFieldProperty] from a [DynamicMap].
-  ///
-  /// [DynamicMap]から[MarkdownFieldProperty]を作成します。
-  factory MarkdownFieldProperty.fromJson(DynamicMap json) {
-    final backgroundColor =
-        json.get(MarkdownProperty.backgroundColorKey, nullOfNum)?.toInt();
-    final foregroundColor =
-        json.get(MarkdownProperty.foregroundColorKey, nullOfNum)?.toInt();
-    return MarkdownFieldProperty(
-      backgroundColor: backgroundColor != null ? Color(backgroundColor) : null,
-      foregroundColor: foregroundColor != null ? Color(foregroundColor) : null,
-    );
-  }
-
-  @override
-  DynamicMap toJson() {
-    return {
-      MarkdownProperty.backgroundColorKey: backgroundColor?.toInt(),
-      MarkdownProperty.foregroundColorKey: foregroundColor?.toInt(),
-    };
-  }
-
-  @override
-  MarkdownFieldProperty copyWith({
-    Color? backgroundColor,
-    Color? foregroundColor,
-  }) {
-    return MarkdownFieldProperty(
-        backgroundColor: backgroundColor, foregroundColor: foregroundColor);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    return other is MarkdownFieldProperty &&
-        other.backgroundColor == backgroundColor &&
-        other.foregroundColor == foregroundColor;
-  }
-
-  @override
-  int get hashCode => backgroundColor.hashCode ^ foregroundColor.hashCode;
-
-  @override
-  String toString() {
-    return "MarkdownFieldProperty(backgroundColor: $backgroundColor, foregroundColor: $foregroundColor)";
+    return "MarkdownProperty(type: $type)";
   }
 }
 

@@ -778,6 +778,7 @@ class MarkdownFieldState extends State<MarkdownField>
       cursorHeight: widget.cursorHeight,
       cursorRadius: widget.cursorRadius,
       cursorColor: cursorColor,
+      theme: theme,
       selectionColor: selectionColor,
       textAlign: widget.textAlign,
       textDirection: widget.textDirection ?? Directionality.of(context),
@@ -854,6 +855,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
     required this.cursorWidth,
     required this.cursorColor,
     required this.selectionColor,
+    required this.theme,
     required this.textAlign,
     required this.textDirection,
     required this.textWidthBasis,
@@ -880,6 +882,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
   final Radius? cursorRadius;
   final Color cursorColor;
   final Color selectionColor;
+  final ThemeData theme;
   final TextAlign textAlign;
   final TextDirection textDirection;
   final TextWidthBasis textWidthBasis;
@@ -905,6 +908,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       cursorRadius: cursorRadius,
       cursorColor: cursorColor,
       selectionColor: selectionColor,
+      theme: theme,
       textAlign: textAlign,
       textDirection: textDirection,
       textWidthBasis: textWidthBasis,
@@ -935,6 +939,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       ..cursorRadius = cursorRadius
       ..cursorColor = cursorColor
       ..selectionColor = selectionColor
+      ..theme = theme
       ..textAlign = textAlign
       ..textDirection = textDirection
       ..textWidthBasis = textWidthBasis
@@ -950,7 +955,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
 /// RenderBox for markdown editor.
 ///
 /// Markdownエディタ用のRenderBox。
-class _RenderMarkdownEditor extends RenderBox {
+class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   _RenderMarkdownEditor({
     required MarkdownController controller,
     required FocusNode focusNode,
@@ -961,6 +966,7 @@ class _RenderMarkdownEditor extends RenderBox {
     required double cursorWidth,
     required Color cursorColor,
     required Color selectionColor,
+    required ThemeData theme,
     required TextAlign textAlign,
     required TextDirection textDirection,
     required TextWidthBasis textWidthBasis,
@@ -984,6 +990,7 @@ class _RenderMarkdownEditor extends RenderBox {
         _cursorHeight = cursorHeight,
         _cursorRadius = cursorRadius,
         _cursorColor = cursorColor,
+        _theme = theme,
         _selectionColor = selectionColor,
         _textAlign = textAlign,
         _textDirection = textDirection,
@@ -1007,7 +1014,7 @@ class _RenderMarkdownEditor extends RenderBox {
     markNeedsPaint();
   }
 
-  FocusNode _focusNode;
+  @override
   FocusNode get focusNode => _focusNode;
   set focusNode(FocusNode value) {
     if (_focusNode == value) {
@@ -1016,7 +1023,9 @@ class _RenderMarkdownEditor extends RenderBox {
     _focusNode = value;
   }
 
-  TextSelection _selection;
+  FocusNode _focusNode;
+
+  @override
   TextSelection get selection => _selection;
   set selection(TextSelection value) {
     if (_selection == value) {
@@ -1026,7 +1035,9 @@ class _RenderMarkdownEditor extends RenderBox {
     markNeedsPaint();
   }
 
-  TextSelection? _composingRegion;
+  TextSelection _selection;
+
+  @override
   TextSelection? get composingRegion => _composingRegion;
   set composingRegion(TextSelection? value) {
     if (_composingRegion == value) {
@@ -1036,7 +1047,9 @@ class _RenderMarkdownEditor extends RenderBox {
     markNeedsPaint();
   }
 
-  bool _showCursor;
+  TextSelection? _composingRegion;
+
+  @override
   bool get showCursor => _showCursor;
   set showCursor(bool value) {
     if (_showCursor == value) {
@@ -1046,7 +1059,9 @@ class _RenderMarkdownEditor extends RenderBox {
     markNeedsPaint();
   }
 
-  bool _expands;
+  bool _showCursor;
+
+  @override
   bool get expands => _expands;
   set expands(bool value) {
     if (_expands == value) {
@@ -1055,7 +1070,9 @@ class _RenderMarkdownEditor extends RenderBox {
     _expands = value;
   }
 
-  TextStyle _style;
+  bool _expands;
+
+  @override
   TextStyle get style => _style;
   set style(TextStyle value) {
     if (_style == value) {
@@ -1066,7 +1083,9 @@ class _RenderMarkdownEditor extends RenderBox {
     markNeedsLayout();
   }
 
-  double _cursorWidth;
+  TextStyle _style;
+
+  @override
   double get cursorWidth => _cursorWidth;
   set cursorWidth(double value) {
     if (_cursorWidth == value) {
@@ -1076,7 +1095,9 @@ class _RenderMarkdownEditor extends RenderBox {
     markNeedsPaint();
   }
 
-  double? _cursorHeight;
+  double _cursorWidth;
+
+  @override
   double? get cursorHeight => _cursorHeight;
   set cursorHeight(double? value) {
     if (_cursorHeight == value) {
@@ -1086,7 +1107,9 @@ class _RenderMarkdownEditor extends RenderBox {
     markNeedsPaint();
   }
 
-  Radius? _cursorRadius;
+  double? _cursorHeight;
+
+  @override
   Radius? get cursorRadius => _cursorRadius;
   set cursorRadius(Radius? value) {
     if (_cursorRadius == value) {
@@ -1096,7 +1119,9 @@ class _RenderMarkdownEditor extends RenderBox {
     markNeedsPaint();
   }
 
-  Color _cursorColor;
+  Radius? _cursorRadius;
+
+  @override
   Color get cursorColor => _cursorColor;
   set cursorColor(Color value) {
     if (_cursorColor == value) {
@@ -1106,7 +1131,9 @@ class _RenderMarkdownEditor extends RenderBox {
     markNeedsPaint();
   }
 
-  Color _selectionColor;
+  Color _cursorColor;
+
+  @override
   Color get selectionColor => _selectionColor;
   set selectionColor(Color value) {
     if (_selectionColor == value) {
@@ -1116,7 +1143,21 @@ class _RenderMarkdownEditor extends RenderBox {
     markNeedsPaint();
   }
 
-  TextAlign _textAlign;
+  Color _selectionColor;
+
+  @override
+  ThemeData get theme => _theme;
+  set theme(ThemeData value) {
+    if (_theme == value) {
+      return;
+    }
+    _theme = value;
+    markNeedsPaint();
+  }
+
+  ThemeData _theme;
+
+  @override
   TextAlign get textAlign => _textAlign;
   set textAlign(TextAlign value) {
     if (_textAlign == value) {
@@ -1126,7 +1167,9 @@ class _RenderMarkdownEditor extends RenderBox {
     markNeedsLayout();
   }
 
-  TextDirection _textDirection;
+  TextAlign _textAlign;
+
+  @override
   TextDirection get textDirection => _textDirection;
   set textDirection(TextDirection value) {
     if (_textDirection == value) {
@@ -1136,7 +1179,9 @@ class _RenderMarkdownEditor extends RenderBox {
     markNeedsLayout();
   }
 
-  TextWidthBasis _textWidthBasis;
+  TextDirection _textDirection;
+
+  @override
   TextWidthBasis get textWidthBasis => _textWidthBasis;
   set textWidthBasis(TextWidthBasis value) {
     if (_textWidthBasis == value) {
@@ -1146,7 +1191,9 @@ class _RenderMarkdownEditor extends RenderBox {
     markNeedsLayout();
   }
 
-  TextHeightBehavior? _textHeightBehavior;
+  TextWidthBasis _textWidthBasis;
+
+  @override
   TextHeightBehavior? get textHeightBehavior => _textHeightBehavior;
   set textHeightBehavior(TextHeightBehavior? value) {
     if (_textHeightBehavior == value) {
@@ -1156,7 +1203,9 @@ class _RenderMarkdownEditor extends RenderBox {
     markNeedsLayout();
   }
 
-  StrutStyle? _strutStyle;
+  TextHeightBehavior? _textHeightBehavior;
+
+  @override
   StrutStyle? get strutStyle => _strutStyle;
   set strutStyle(StrutStyle? value) {
     if (_strutStyle == value) {
@@ -1165,6 +1214,8 @@ class _RenderMarkdownEditor extends RenderBox {
     _strutStyle = value;
     markNeedsLayout();
   }
+
+  StrutStyle? _strutStyle;
 
   SelectionChangedCallback _onSelectionChanged;
 
@@ -1249,16 +1300,13 @@ class _RenderMarkdownEditor extends RenderBox {
       // Create a dummy block for layout purposes
       const dummyBlock = MarkdownParagraphBlockValue(
         id: "dummy",
-        property: MarkdownBlockProperty(),
         children: [
           MarkdownLineValue(
             id: "dummy-line",
-            property: MarkdownLineProperty(),
             children: [
               MarkdownSpanValue(
                 id: "dummy-span",
                 value: "",
-                property: MarkdownSpanProperty(),
               ),
             ],
           ),
@@ -1281,20 +1329,6 @@ class _RenderMarkdownEditor extends RenderBox {
     for (final field in fields) {
       for (final block in field.children) {
         if (block is MarkdownParagraphBlockValue) {
-          // Get block text
-          final blockText = StringBuffer();
-          for (var i = 0; i < block.children.length; i++) {
-            final line = block.children[i];
-            for (final span in line.children) {
-              blockText.write(span.value);
-            }
-            if (i < block.children.length - 1) {
-              blockText.writeln();
-            }
-          }
-
-          final text = blockText.toString();
-
           // Get block style from controller
           var padding = (_controller.style.paragraph.padding ?? EdgeInsets.zero)
               as EdgeInsets;
@@ -1305,16 +1339,35 @@ class _RenderMarkdownEditor extends RenderBox {
           final indentWidth = block.indent * _controller.style.indentWidth;
           padding = padding.copyWith(left: padding.left + indentWidth);
 
-          // Build text style
+          // Build base text style
           final baseStyle = _controller.style.paragraph.textStyle ?? _style;
-          final textStyle = baseStyle.copyWith(
+          final baseTextStyle = baseStyle.copyWith(
             color:
                 _controller.style.paragraph.foregroundColor ?? baseStyle.color,
           );
 
+          // Build TextSpan tree with individual styles for each span
+          final textSpans = <TextSpan>[];
+          var totalLength = 0;
+
+          for (var i = 0; i < block.children.length; i++) {
+            final line = block.children[i];
+            for (final span in line.children) {
+              // Apply span-specific style
+              final spanStyle =
+                  span.textStyle(this, _controller, baseTextStyle);
+              textSpans.add(TextSpan(text: span.value, style: spanStyle));
+              totalLength += span.value.length;
+            }
+            if (i < block.children.length - 1) {
+              textSpans.add(TextSpan(text: "\n", style: baseTextStyle));
+              totalLength += 1;
+            }
+          }
+
           // Create text painter for this block
           final painter = TextPainter(
-            text: TextSpan(text: text, style: textStyle),
+            text: TextSpan(children: textSpans, style: baseTextStyle),
             textAlign: _textAlign,
             textDirection: _textDirection,
             textWidthBasis: _textWidthBasis,
@@ -1326,12 +1379,12 @@ class _RenderMarkdownEditor extends RenderBox {
             block: block,
             painter: painter,
             textOffset: textOffset,
-            textLength: text.length,
+            textLength: totalLength,
             padding: padding,
             margin: margin,
           ));
 
-          textOffset += text.length + 1; // +1 for newline between blocks
+          textOffset += totalLength + 1; // +1 for newline between blocks
         }
       }
     }
@@ -1397,7 +1450,8 @@ class _RenderMarkdownEditor extends RenderBox {
           offset + layout.offset + Offset(layout.padding.left, 0);
 
       // Draw block background if any
-      if (layout.block.property.backgroundColor != null) {
+      final backgroundColor = layout.block.backgroundColor(this, controller);
+      if (backgroundColor != null) {
         final blockRect = Rect.fromLTWH(
           offset.dx,
           offset.dy + layout.offset.dy - layout.padding.top,
@@ -1406,7 +1460,7 @@ class _RenderMarkdownEditor extends RenderBox {
         );
         canvas.drawRect(
           blockRect,
-          Paint()..color = layout.block.property.backgroundColor!,
+          Paint()..color = backgroundColor,
         );
       }
 
@@ -1984,4 +2038,99 @@ class _BlockLayout {
   ///
   /// パディングとマージンを含むこのブロックの高さ。
   double height = 0;
+}
+
+/// Context for rendering.
+///
+/// レンダリングのコンテキスト。
+abstract class RenderContext {
+  /// Context for rendering.
+  ///
+  /// レンダリングのコンテキスト。
+  const RenderContext();
+
+  /// Focus node for the editor.
+  ///
+  /// エディタのフォーカスノード。
+  FocusNode get focusNode;
+
+  /// Selection for the editor.
+  ///
+  /// エディタの選択。
+  TextSelection get selection;
+
+  /// Composing region for the editor.
+  ///
+  /// エディタのコンポージングリージョン。
+  TextSelection? get composingRegion;
+
+  /// Whether to show the cursor.
+  ///
+  /// カーソルを表示するかどうか。
+  bool get showCursor;
+
+  /// Whether to expand the editor.
+  ///
+  /// エディタを展開するかどうか。
+  bool get expands;
+
+  /// Style for the editor.
+  ///
+  /// エディタのスタイル。
+  TextStyle get style;
+
+  /// Width of the cursor.
+  ///
+  /// カーソルの幅。
+  double get cursorWidth;
+
+  /// Height of the cursor.
+  ///
+  /// カーソルの高さ。
+  double? get cursorHeight;
+
+  /// Radius of the cursor.
+  ///
+  /// カーソルの半径。
+  Radius? get cursorRadius;
+
+  /// Color of the cursor.
+  ///
+  /// カーソルの色。
+  Color get cursorColor;
+
+  /// Color of the selection.
+  ///
+  /// 選択の色。
+  Color get selectionColor;
+
+  /// App theme of the editor.
+  ///
+  /// アプリのテーマ。
+  ThemeData get theme;
+
+  /// Alignment of the text.
+  ///
+  /// テキストの配置。
+  TextAlign get textAlign;
+
+  /// Direction of the text.
+  ///
+  /// テキストの方向。
+  TextDirection get textDirection;
+
+  /// Width basis of the text.
+  ///
+  /// テキストの幅の基準。
+  TextWidthBasis get textWidthBasis;
+
+  /// Height behavior of the text.
+  ///
+  /// テキストの高さの振る舞い。
+  TextHeightBehavior? get textHeightBehavior;
+
+  /// Strut style of the text.
+  ///
+  /// テキストのストライドスタイル。
+  StrutStyle? get strutStyle;
 }

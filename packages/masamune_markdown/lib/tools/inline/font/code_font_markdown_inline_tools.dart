@@ -1,10 +1,13 @@
 part of "/masamune_markdown.dart";
 
+const _kCodeFontMarkdownInlineToolsType = "__markdown_inline_font_code__";
+
 /// Display the menu to code font [MarkdownTools].
 ///
 /// フォントをコードにするメニューを表示する[MarkdownTools]。
 @immutable
-class CodeFontMarkdownInlineTools extends MarkdownInlineTools {
+class CodeFontMarkdownInlineTools
+    extends MarkdownPropertyInlineTools<CodeFontMarkdownSpanProperty> {
   /// Display the menu to code font [MarkdownTools].
   ///
   /// フォントをコードにするメニューを表示する[MarkdownTools]。
@@ -25,7 +28,7 @@ class CodeFontMarkdownInlineTools extends MarkdownInlineTools {
   });
 
   @override
-  String get id => "__markdown_inline_font_code__";
+  String get id => _kCodeFontMarkdownInlineToolsType;
 
   @override
   bool shown(BuildContext context, MarkdownToolRef ref) => true;
@@ -60,5 +63,92 @@ class CodeFontMarkdownInlineTools extends MarkdownInlineTools {
   @override
   Future<void> onDeactive(BuildContext context, MarkdownToolRef ref) async {
     ref.controller.removeInlineProperty(this);
+  }
+
+  @override
+  CodeFontMarkdownSpanProperty? convertFromJson(DynamicMap json) {
+    final type = json.get(MarkdownProperty.typeKey, nullOfString);
+    if (type != id) {
+      return null;
+    }
+    return CodeFontMarkdownSpanProperty.fromJson(json);
+  }
+
+  @override
+  CodeFontMarkdownSpanProperty? convertFromMarkdown(String markdown) {
+    // TODO: implement convertFromMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  DynamicMap? convertToJson(CodeFontMarkdownSpanProperty value) {
+    if (value.type != id) {
+      return null;
+    }
+    return {
+      MarkdownProperty.typeKey: id,
+    };
+  }
+
+  @override
+  String? convertToMarkdown(CodeFontMarkdownSpanProperty value) {
+    // TODO: implement convertToMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  List<MarkdownProperty> addProperty(List<MarkdownProperty> properties,
+      {Object? value}) {
+    if (properties.any((e) => e.type == id)) {
+      return properties;
+    }
+    return [
+      ...properties,
+      const CodeFontMarkdownSpanProperty(),
+    ];
+  }
+
+  @override
+  List<MarkdownProperty> removeProperty(List<MarkdownProperty> properties) {
+    return properties.where((e) => e.type != id).toList();
+  }
+}
+
+/// A class for storing code font markdown span property.
+///
+/// フォントをコードにするマークダウンのスパンのプロパティを格納するクラス。
+@immutable
+class CodeFontMarkdownSpanProperty extends MarkdownProperty {
+  /// A class for storing code font markdown span property.
+  ///
+  /// フォントをコードにするマークダウンのスパンのプロパティを格納するクラス。
+  const CodeFontMarkdownSpanProperty();
+
+  /// Create a [CodeFontMarkdownSpanProperty] from a [DynamicMap].
+  ///
+  /// [DynamicMap]から[CodeFontMarkdownSpanProperty]を作成します。
+  factory CodeFontMarkdownSpanProperty.fromJson(DynamicMap json) {
+    return const CodeFontMarkdownSpanProperty();
+  }
+
+  @override
+  CodeFontMarkdownSpanProperty copyWith() {
+    return const CodeFontMarkdownSpanProperty();
+  }
+
+  @override
+  String get type => _kCodeFontMarkdownInlineToolsType;
+
+  @override
+  Color? backgroundColor(RenderContext context, MarkdownController controller,
+      Color? baseBackgroundColor) {
+    final theme = context.theme;
+    return theme.colorTheme?.surface ?? theme.colorScheme.surface;
+  }
+
+  @override
+  TextStyle? textStyle(RenderContext context, MarkdownController controller,
+      TextStyle? baseTextStyle) {
+    return baseTextStyle;
   }
 }

@@ -174,38 +174,53 @@ abstract class MarkdownInlineTools extends MarkdownTools {
   Future<void> onDeactive(BuildContext context, MarkdownToolRef ref);
 }
 
-/// Base class for markdown variable inline tools.
+/// Base class for markdown property inline tools.
 ///
-/// マークダウン変数インラインツールの基底クラス。
+/// マークダウンプロパティインラインツールの基底クラス。
 @immutable
-abstract class MarkdownVariableInlineTools<TValue extends MarkdownSpanValue>
+abstract class MarkdownPropertyInlineTools<TProperty extends MarkdownProperty>
     extends MarkdownInlineTools {
-  /// Base class for markdown variable inline tools.
+  /// Base class for markdown property inline tools.
   ///
-  /// マークダウン変数インラインツールの基底クラス。
-  const MarkdownVariableInlineTools({
+  /// マークダウンプロパティインラインツールの基底クラス。
+  const MarkdownPropertyInlineTools({
     required super.config,
   });
+
+  /// Apply the inline property to the given properties.
+  ///
+  /// インラインプロパテズを適用します。
+  List<MarkdownProperty> addProperty(
+    List<MarkdownProperty> properties, {
+    Object? value,
+  });
+
+  /// Remove the inline property from the given properties.
+  ///
+  /// インラインプロパテズを削除します。
+  List<MarkdownProperty> removeProperty(
+    List<MarkdownProperty> properties,
+  );
 
   /// Convert a JSON object to a markdown span value.
   ///
   /// JSONオブジェクトをマークダウンスパン値に変換します。
-  TValue? convertFromJson(DynamicMap json);
+  TProperty? convertFromJson(DynamicMap json);
 
   /// Convert a markdown span value to a JSON object.
   ///
   /// マークダウンスパン値をJSONオブジェクトに変換します。
-  DynamicMap? convertToJson(TValue value);
+  DynamicMap? convertToJson(TProperty value);
 
   /// Convert a markdown string to a markdown span value.
   ///
   /// マークダウン文字列をマークダウンスパン値に変換します。
-  TValue? convertFromMarkdown(String markdown);
+  TProperty? convertFromMarkdown(String markdown);
 
   /// Convert a markdown span value to a markdown string.
   ///
   /// マークダウンスパン値をマークダウン文字列に変換します。
-  String? convertToMarkdown(TValue value);
+  String? convertToMarkdown(TProperty value);
 }
 
 /// Configuration class for Markdown tool label.
