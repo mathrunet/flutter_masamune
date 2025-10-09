@@ -30,6 +30,7 @@ class CodeDocsCliCommand extends CliCommand {
       await GitClaudeMarkdownCliCode(
         availabeBackground: enableClaudeCodeBackground,
       ).generateFile("CLAUDE.md");
+      await const AgentsAiCode().exec(context);
     }
   }
 }
