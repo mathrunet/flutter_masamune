@@ -17,6 +17,12 @@ class AgentsAiCode extends CliAiCodeCommand {
   const AgentsAiCode();
 
   @override
+  String get defaultDirectory => ".claude";
+
+  @override
+  bool get includeName => false;
+
+  @override
   final String description =
       "Generate Markdown code to do the agents. エージェントを生成するためのMarkdownコードを生成します。";
 

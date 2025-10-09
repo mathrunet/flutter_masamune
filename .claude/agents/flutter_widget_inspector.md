@@ -1,30 +1,3 @@
-// Project imports:
-import "package:katana_cli/katana_cli.dart";
-
-/// Contents of flutter_widget_inspector.md.
-///
-/// flutter_widget_inspector.mdの中身。
-class FlutterWidgetInspectorClaudeCodeAgentsCliAiCode extends CliAiCode {
-  /// Contents of flutter_widget_inspector.md.
-  ///
-  /// flutter_widget_inspector.mdの中身。
-  const FlutterWidgetInspectorClaudeCodeAgentsCliAiCode();
-
-  @override
-  String get name => "Flutterウィジェットインスペクター";
-
-  @override
-  String get description => "Flutterウィジェットインスペクター。";
-
-  @override
-  String get globs => "*";
-
-  @override
-  String get directory => "agents";
-
-  @override
-  String body(String baseName, String className) {
-    return r"""
 ---
 name: flutter_widget_inspector
 description: ユーザーが実行中のアプリケーションでFlutterウィジェットの現在の状態を検査する必要がある場合、ウィジェットツリー、パラメーター、プロパティの確認、またはホットリロードを実行して実装を更新する場合に、このエージェントを使用してください。\n\n使用例：\n\n<example>\nContext: ユーザーがレイアウトの問題をデバッグ中で、現在のウィジェット階層を理解したい\nuser: "現在の画面のWidgetツリーを教えて"\nassistant: "flutter_widget_inspectorエージェントを使用して、現在のウィジェットツリーを検査します。"\n<commentary>\nユーザーがウィジェットツリーを見たいので、flutter_widget_inspectorエージェントを使用して現在のウィジェット階層を分析して返します。\n</commentary>\n</example>\n\n<example>\nContext: ユーザーがコード変更を行い、更新されたウィジェットの状態を確認したい\nuser: "ホットリロードしてから、TextFieldのパラメーターを確認して"\nassistant: "flutter_widget_inspectorエージェントを使用して、ホットリロードを実行してからTextFieldのパラメーターを検査します。"\n<commentary>\nユーザーが最初にホットリロードしてからTextFieldパラメーターを確認したいので、flutter_widget_inspectorエージェントを使用して両方の操作を実行します。\n</commentary>\n</example>\n\n<example>\nContext: ユーザーが特定のウィジェットが正しく表示されない理由を調査中\nuser: "Containerのpaddingとmarginがどうなっているか見せて"\nassistant: "flutter_widget_inspectorエージェントを使用して、Containerのpaddingとmarginプロパティを検査します。"\n<commentary>\nユーザーが特定のウィジェットプロパティ情報を必要としているので、flutter_widget_inspectorエージェントを使用してContainerのpaddingとmarginの値を取得して表示します。\n</commentary>\n</example>\n\n<example>\nContext: ユーザーが新機能実装後にウィジェットの状態を確認したい\nuser: "新しく追加したボタンの状態を確認したいので、一度ホットリロードしてから教えて"\nassistant: "flutter_widget_inspectorエージェントを使用して、ホットリロードを実行してから新しく追加したボタンの状態を検査します。"\n<commentary>\nユーザーが新しい実装を確認したいので、flutter_widget_inspectorエージェントを使用してホットリロードしてからボタンの現在の状態情報を提供します。\n</commentary>\n</example>
@@ -125,6 +98,3 @@ color: cyan
 ## 目標
 
 開発者がFlutter UIの実装を迅速に理解しデバッグできるように、実行時のウィジェット状態情報の最も信頼性が高く役立つソースになることです。
-""";
-  }
-}

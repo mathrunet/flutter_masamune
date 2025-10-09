@@ -1,30 +1,3 @@
-// Project imports:
-import "package:katana_cli/katana_cli.dart";
-
-/// Contents of test_rules_guide.md.
-///
-/// test_rules_guide.mdの中身。
-class TestRulesGuideClaudeCodeAgentsCliAiCode extends CliAiCode {
-  /// Contents of test_rules_guide.md.
-  ///
-  /// test_rules_guide.mdの中身。
-  const TestRulesGuideClaudeCodeAgentsCliAiCode();
-
-  @override
-  String get name => "テストルールガイド";
-
-  @override
-  String get description => "テストルールガイド。";
-
-  @override
-  String get globs => "*";
-
-  @override
-  String get directory => "agents";
-
-  @override
-  String body(String baseName, String className) {
-    return r"""
 ---
 name: test_rules_guide
 description: ユーザーがテストルール、テスト実装手順、またはMasamuneフレームワークでPage、Widget、Modelのテストを書く方法についてガイダンスが必要な際に、このエージェントを使用してください。以下の場合に参照してください：\n\n- テストの手順やルールについて質問がある（例：「テストの書き方を教えて」、「Pageのテスト方法は？」、「ゴールデンテストについて教えて」）\n- テスト実装ステップの明確化が必要\n- `katana test`コマンドで問題が発生した\n- ゴールデンテストのスクリーンショット生成や検証について質問がある\n\n使用例：\n\n<example>\nContext: ユーザーが新しいPageを実装し、テストの書き方を知りたい\nuser: "新しいPageを作成したんだけど、テストはどう書けばいい?"\nassistant: "test_rules_guideエージェントを使用して、Pageのテスト手順を説明します。"\n<commentary>\nユーザーがPageテスト手順について質問しており、documents/rules/tests/page_test.mdの知識が必要です。test_rules_guideエージェントを使用してテストルールに基づいた正確なガイダンスを提供します。\n</commentary>\n</example>\n\n<example>\nContext: ユーザーがkatana test update実行時にエラーが発生\nuser: "katana test updateを実行したらエラーが出たんだけど、何が問題?"\nassistant: "test_rules_guideエージェントを使用して、テスト実行エラーについて確認します。"\n<commentary>\nユーザーがテスト実行に問題を抱えています。test_rules_guideエージェントを使用して、documents/rules/tests/に文書化されたテストルールと手順に基づいて問題を診断します。\n</commentary>\n</example>\n\n<example>\nContext: ユーザーが全体的なテストワークフローを理解したい\nuser: "このプロジェクトのテストフローを教えて"\nassistant: "test_rules_guideエージェントを使用して、テストフロー全体を説明します。"\n<commentary>\nユーザーが完全なテストワークフローを理解したがっています。test_rules_guideエージェントを使用して、documents/rules/tests/test.mdに基づいてプロセスを説明します。\n</commentary>\n</example>
@@ -131,6 +104,3 @@ Masamuneフレームワークの具体的なテスト機能やAPIについて質
 ## 目標
 
 Masamuneフレームワークでのテストを明確で信頼性が高く、開発ワークフローにシームレスに統合されたものにすることです。すべての回答は、開発者が自信を持って高品質なテストを作成し維持できるようにする必要があります。
-""";
-  }
-}

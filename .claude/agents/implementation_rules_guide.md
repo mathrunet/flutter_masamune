@@ -1,30 +1,3 @@
-// Project imports:
-import "package:katana_cli/katana_cli.dart";
-
-/// Contents of implementation_rules_guide.md.
-///
-/// implementation_rules_guide.mdの中身。
-class ImplementationRulesGuideClaudeCodeAgentsCliAiCode extends CliAiCode {
-  /// Contents of implementation_rules_guide.md.
-  ///
-  /// implementation_rules_guide.mdの中身。
-  const ImplementationRulesGuideClaudeCodeAgentsCliAiCode();
-
-  @override
-  String get name => "実装ルールガイド";
-
-  @override
-  String get description => "実装ルールガイド。";
-
-  @override
-  String get globs => "*";
-
-  @override
-  String get directory => "agents";
-
-  @override
-  String body(String baseName, String className) {
-    return r"""
 ---
 name: implementation_rules_guide
 description: ユーザーが実装ルール、コーディングパターン、またはMasamuneフレームワークで特定の機能を実装する方法について質問した際に、このエージェントを使用してください。以下の内容が含まれます：\n- Page、Model、Controller、Widget、その他のコンポーネントの実装方法\n- ステップバイステップの実装手順\n- 特定の実装タスクのベストプラクティス\n- documents/rules/impls/**/*.mdからの実装ルールの明確化\n\n使用例：\n<example>\nuser: "Controllerのメソッドを実装する手順を教えてください"\nassistant: "implementation_rules_guideエージェントを使用して、Controllerメソッドの実装手順を説明します。"\n<commentary>\nユーザーがControllerメソッドの実装手順について質問しており、これは実装ルールドキュメントでカバーされています。implementation_rules_guideエージェントを使用して、documents/rules/impls/controller_method_impl.mdに基づいた詳細なガイダンスを提供します。\n</commentary>\n</example>\n\n<example>\nuser: "新しいPageを作成したいのですが、どのような手順で進めればいいですか?"\nassistant: "implementation_rules_guideエージェントを使用して、Pageの作成と実装プロセスをガイドします。"\n<commentary>\nユーザーがPage作成手順のガイダンスを必要としています。implementation_rules_guideエージェントを使用して、documents/rules/impls/page_impl.mdとpage_creation.mdを参照し、包括的なステップバイステップの指示を提供します。\n</commentary>\n</example>\n\n<example>\nuser: "ModelのtoTile拡張メソッドの実装方法がわかりません"\nassistant: "implementation_rules_guideエージェントを使用して、ModelのtoTile拡張メソッドの実装を説明します。"\n<commentary>\nユーザーがModel拡張の特定の実装パターンについて質問しています。implementation_rules_guideエージェントを使用して、関連する実装ルールに基づいた詳細なガイダンスを提供します。\n</commentary>\n</example>
@@ -138,6 +111,3 @@ Masamuneフレームワークの具体的な機能やAPIについて質問され
 ## 目標
 
 確立されたパターンと手順に従うのに役立つ、文書に基づいた正確なガイダンスを提供することで、Masamuneフレームワークでの実装を可能な限り明確でエラーのないものにすることです。
-""";
-  }
-}

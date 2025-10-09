@@ -1,469 +1,316 @@
-# CLAUDE.md
+# Masamuneフレームワーク開発ガイド for Claude Code
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+このドキュメントは、Claude Code (claude.ai/code)がこのリポジトリで効率的に開発を行うための包括的なガイドラインです。
 
----
+## 🎯 最重要原則
 
-**Note for Claude Code Users**: This repository uses the Masamune Framework for Flutter development. The primary development instructions are written in Japanese below. Key points for Claude Code:
+### 1. 必ず守るべき5つの鉄則
+1. **手動でのファイル作成禁止** → 必ず`katana code`コマンドでテンプレート生成
+2. **段階的な実装とバリデーション** → 1つの実装ごとに必ず`flutter analyze && dart run custom_lint`を実行
 
-## Essential Commands
 
-### Code Quality & Testing
+### 2. 開発フローの絶対的な順序
+```
+実装 → バリデーション → 修正 → 次の実装
+```
+この順序を絶対に崩してはいけません。
+
+## 🤖 専用エージェントの活用
+
+開発の各フェーズで専門的なサポートを提供する複数のエージェントが利用可能です。
+
+### 1. Masamune Framework Helper Agent
+Masamuneフレームワークに関する詳細な質問がある場合に使用します。
+
+#### 使用するべき場面
+- フレームワーク機能の使用方法（Model、Page、Controller、Widget、Form等）
+- 実装パターンやベストプラクティス
+- プラグインの使用方法（camera、location、OpenAI、Stripe等）
+- UIコンポーネント（UniversalUI、KatanaUI、フォームウィジェット）
+- ModelFieldValueタイプとその使用方法
+- フレームワーク固有の概念や用語
+
+#### 使用例
+```
+「ModelTimestampの使い方を教えてください」
+「FormTextFieldの実装方法は？」
+「Pageの状態管理はどうやるの？」
+```
+
+### 2. Design Implementation Guide Agent
+設計書から実装への移行をサポートします。
+
+#### 使用するべき場面
+- 設計書に基づいた実装開始時
+- 既存設計からの実装アプローチの明確化
+- 実装順序やフローの確認
+
+#### 使用例
+```
+「設計書を作成したので、ユーザー認証機能の実装を始めたい」
+「ModelとControllerの実装方法がわからない」
+「次に何を実装すればいいですか？」
+```
+
+### 3. Design Rules Guide Agent
+設計書作成のガイダンスを提供します。
+
+#### 使用するべき場面
+- 各種設計書（Page、Model、Controller等）の作成方法
+- 設計書の構造とフォーマットの確認
+- 設計ルールと規約の明確化
+
+#### 使用例
+```
+「Pageの設計書を作成する手順は？」
+「Controller設計書のメソッド定義の書き方は？」
+「Model設計書でフィールドの型指定方法は？」
+```
+
+### 4. Implementation Rules Guide Agent
+実装ルールとコーディングパターンをガイドします。
+
+#### 使用するべき場面
+- 特定コンポーネントの実装手順確認
+- ステップバイステップの実装ガイダンス
+- 実装のベストプラクティス
+
+#### 使用例
+```
+「Controllerのメソッドを実装する手順を教えて」
+「新しいPageを作成する手順は？」
+「ModelのtoTile拡張メソッドの実装方法は？」
+```
+
+### 5. Test Rules Guide Agent
+テストの作成と実行をサポートします。
+
+#### 使用するべき場面
+- テストの書き方とルール
+- ゴールデンテストのスクリーンショット生成
+- `katana test`コマンドのトラブルシューティング
+
+#### 使用例
+```
+「新しいPageのテストはどう書けばいい？」
+「katana test updateでエラーが出た」
+「プロジェクトのテストフローを教えて」
+```
+
+### 6. Flutter Widget Inspector Agent
+実行中のアプリケーションのウィジェット状態を検査します。
+
+#### 使用するべき場面
+- ウィジェットツリーの確認
+- ウィジェットのプロパティ検査
+- ホットリロードの実行と状態確認
+- デバッグ時のレイアウト問題調査
+
+#### 使用例
+```
+「現在の画面のWidgetツリーを教えて」
+「Containerのpaddingとmarginを確認して」
+「ホットリロードしてからTextFieldのパラメーターを確認」
+```
+
+これらのエージェントは、開発の各段階で専門的なサポートを提供し、効率的な開発を支援します。
+
+## 🏗️ アーキテクチャ概要
+
+### 設計パターン
+1. **Page-Based Architecture**: `@PagePath`アノテーションによるページ構成
+2. **Model-Driven Data**: Freezedモデル + ModelAdapterパターン
+3. **Scoped State Management**: `ref.app`（アプリ全体） / `ref.page`（ページスコープ）
+4. **Adapter Pattern**: バックエンド切り替え可能（Runtime → Firestore → Local）
+
+### ファイル命名規則
+```
+Pages:       lib/pages/[name].dart      → [Name]Page クラス
+Models:      lib/models/[name].dart     → [Name]Model クラス
+Controllers: lib/controllers/[name].dart → [Name]Controller クラス
+Widgets:     lib/widgets/[name].dart    → [Name] クラス
+```
+
+## 📋 開発タスク別ワークフロー
+
+### 1️⃣ 新規機能追加
+
+#### 手順
+1. **テンプレート生成**
+   ```bash
+   katana code page [PageName]      # ページ作成
+   katana code collection [Name]    # コレクションモデル作成
+   katana code document [Name]      # ドキュメントモデル作成
+   katana code controller [Name]    # コントローラー作成
+   katana code widget [Name]        # ウィジェット作成
+   katana code value [Name]         # フォーム値作成
+   ```
+
+2. **実装（1コンポーネントずつ）**
+   - 実装を記述
+   - 即座にバリデーション実行:
+     ```bash
+     flutter analyze && dart run custom_lint
+     ```
+   - エラーがあれば修正して再実行
+
+3. **UI更新時のテスト**
+   ```bash
+   katana test update [ClassName1],[ClassName2]
+   ```
+   - 生成された画像を確認（`documents/test/**/*.png`）
+
+4. **次のコンポーネントへ**
+   - 2-3を繰り返す
+
+### 2️⃣ バグ修正・改修
+
+#### 手順
+1. **問題の特定と修正**
+2. **即座にバリデーション**
+   ```bash
+   flutter analyze && dart run custom_lint
+   ```
+3. **UI変更があれば画像更新**
+   ```bash
+   katana test update [影響のあるクラス名]
+   ```
+4. **全体テスト実行**
+   ```bash
+   katana test run
+   ```
+
+### 3️⃣ 完了前の必須作業
+
+#### 完全な手順（順序厳守）
 ```bash
-# Run analyzer and linter (MUST pass before committing)
-flutter analyze && dart run custom_lint
-
-# Format code
+# 1. コードフォーマット
 dart fix --apply lib && dart format . && flutter pub run import_sorter:main
 
-# Update golden test screenshots
-katana test update [ClassName1],[ClassName2],...
+# 2. バリデーション（エラー0必須）
+flutter analyze && dart run custom_lint
 
-# Run all tests
+# 3. UI更新時のみ：ゴールデンテスト更新
+katana test update [更新したクラス名]
+
+# 4. 全体テスト実行
+katana test run
+
+# 5. エラーがあれば1から再実行
+
+
+
+## 🛠️ 必須コマンドリファレンス
+
+### コード生成・監視
+```bash
+# 手動生成
+katana code generate
+```
+
+### テスト関連
+```bash
+# ゴールデンテスト更新（UI変更時必須）
+katana test update [ClassName1],[ClassName2]
+
+# 全テスト実行
 katana test run
 ```
 
-### Code Generation
-```bash
-# Watch mode for automatic code generation (run in separate terminal)
-katana code watch
+## 💡 コーディングパターン
 
-# Manual code generation
-katana code generate
-
-# Generate specific templates
-katana code page [PageName]        # Create page
-katana code collection [Name]      # Create collection model
-katana code document [Name]        # Create document model
-katana code controller [Name]      # Create controller
-katana code value [Name]          # Create form value
-katana code widget [Name]         # Create widget
-```
-
-### Git Operations (Use katana commands, not git directly)
-```bash
-# Commit changes
-katana git commit --message="message" [files...]
-
-# Create pull request
-katana git pull_request --target="master" --source="branch" --title="title" --body="description" [screenshots...]
-
-# Add PR comment
-katana git pull_request_comment --message="comment" [screenshots...]
-```
-
-### Monorepo Management (Melos)
-```bash
-# Bootstrap packages
-melos bootstrap
-
-# Run command across all packages
-melos run analyze
-melos run format
-melos run fix
-```
-
-## Architecture Overview
-
-### Monorepo Structure
-This is a **monorepo** managed by [Melos](https://melos.invertase.dev/) containing 80+ Flutter packages for the Masamune Framework. All packages are in `packages/` directory.
-
-### Core Packages
-- `katana_cli`: CLI tool for code generation and project management
-- `katana_model`: NoSQL database abstraction (Firestore-like structure)
-- `katana_router`: Routing with deep linking support
-- `katana_scoped`: State management similar to flutter_hooks
-- `katana_form`: Form building and validation
-- `katana_auth`: Authentication abstraction
-- `katana_storage`: File storage abstraction
-- `katana_theme`: Theme management with code generation
-- `katana_localization`: i18n using YAML files
-- `masamune`: Main package combining all features
-- `masamune_universal_ui`: Responsive UI widgets
-
-### Design Pattern
-The framework uses **code generation** extensively:
-- Templates created via `katana code [type] [name]`
-- Additional code generated via `build_runner` (freezed, json_serializable)
-- Most models, pages, controllers use generated code (`.m.dart`, `.g.dart`, `.freezed.dart` files)
-
-### Key Architectural Concepts
-
-1. **Page-Based Architecture**: Pages are created with `@PagePath` annotation and routing queries
-2. **Model-Driven Data**: All data uses Freezed models with ModelAdapter pattern for backend switching
-3. **Scoped State Management**: State managed via `ref.app` (app-wide) or `ref.page` (page-scoped)
-4. **Adapter Pattern**: Database, Auth, Storage can switch backends by changing adapters (Runtime → Firestore → Local)
-
-### Testing Requirements
-- Golden tests for UI components (screenshots in `documents/test/**/*.png`)
-- Must run `katana test update` after UI changes
-- Must run `katana test run` before committing
-- Zero errors/warnings from `flutter analyze && dart run custom_lint`
-
-## Development Workflow
-
-### IMPORTANT: Iterative Development with Validation
-When implementing features, you MUST:
-1. Implement ONE component at a time
-2. After EACH component, run: `flutter analyze && dart run custom_lint`
-3. If UI changed, run: `katana test update [ClassName]` and verify screenshot
-4. Fix any errors before continuing to next component
-5. Repeat until all components complete
-
-### Before Committing (MANDATORY)
-Execute these steps in order:
-1. `dart fix --apply lib && dart format . && flutter pub run import_sorter:main`
-2. `flutter analyze && dart run custom_lint` (must have zero errors)
-3. `katana test update [ClassNames]` (if UI components changed)
-4. `katana test run` (must pass all tests)
-5. If step 2-4 have errors, go back to step 1
-6. `katana git commit --message="msg" [files...]`
-7. `katana git pull_request` or `katana git pull_request_comment` if background task
-
-## Critical Rules
-
-1. **NEVER use `git` commands directly** - Always use `katana git` commands
-2. **NEVER skip the validation loop** - Run analyze/lint after EACH implementation step
-3. **ALWAYS use katana CLI for file generation** - Don't manually create Pages/Models/Controllers
-4. **ALWAYS commit generated files** - Include `.m.dart`, `.g.dart`, `.freezed.dart`, test images
-5. **Code in Japanese documentation** - Most detailed rules are in Japanese in this file below
-
-## File Naming Patterns
-- Pages: `lib/pages/[name].dart` → `[Name]Page` class
-- Models: `lib/models/[name].dart` → `[Name]Model` class
-- Controllers: `lib/controllers/[name].dart` → `[Name]Controller` class
-- Widgets: `lib/widgets/[name].dart` → `[Name]` class
-
-## Common Patterns
-
-### Loading Data
+### データ読み込み
 ```dart
 @override
 Widget build(BuildContext context, PageRef ref) {
   final model = ref.app.model(TestModel.collection())..load();
-  // Widget rebuilds when model loads or changes
+  // モデルの読み込み/変更時にWidgetが再構築される
 }
 ```
 
-### Using Controllers
+### コントローラー使用
 ```dart
 final controller = ref.page.controller(TestController.query());
-// ref.page: scoped to page lifecycle
-// ref.app: scoped to app lifecycle
+// ref.page: ページライフサイクルにスコープ
+// ref.app: アプリライフサイクルにスコープ
 ```
 
-### Forms
+### フォーム
 ```dart
 final form = ref.page.form(LoginValue.form(LoginValue(email: "", password: "")));
-// Use with FormTextField, FormButton, etc.
+// FormTextField, FormButton等と組み合わせて使用
 ```
+
+## 📚 設計書・ドキュメント構造
+
+### 設計書（`documents/rules/designs/`）
+- `design.md`: 全体設計フロー
+- `metadata_design.md`: メタデータ設計
+- `controller_design.md`: コントローラー設計
+- `model_design.md`: モデル設計
+- `plugin_design.md`: プラグイン設計
+- `theme_design.md`: テーマ設計
+- `widget_design.md`: ウィジェット設計
+- `page_design.md`: ページ設計
+
+### 実装手順（`documents/rules/impls/`）
+- `impl.md`: 実装フロー全体
+- 各コンポーネント別の詳細実装手順
+
+### テスト手順（`documents/rules/tests/`）
+- `test.md`: テスト実装フロー
+- `page_test.md`: ページテスト
+- `model_extension_test.md`: モデル拡張テスト
+- `widget_test.md`: ウィジェットテスト
+
+### 技術ドキュメント（`documents/rules/docs/`）
+- 命名規則、技術スタック、用語集
+- `katana_cli.md`: CLIコマンド詳細
+- フレームワーク各機能の使用方法
+- プラグイン別の詳細ガイド
+- フォーム関連ウィジェットの使用方法
+- UIコンポーネントの使用方法
+- ModelFieldValue各種の使用方法
+
+## ⚠️ よくあるミスと対処法
+
+### ❌ してはいけないこと
+- `git add`, `git commit`の直接実行
+- 手動でのDartファイル作成
+- バリデーションをスキップして次の実装に進む
+- 生成ファイルをコミットし忘れる
+- UI変更後にゴールデンテスト更新を忘れる
+
+### ✅ 必ずすること
+- `katana code`でのテンプレート生成
+- 1実装ごとのバリデーション実行
+
+
+## 🔍 デバッグ・トラブルシューティング
+
+### エラーが出た場合の対処順序
+1. エラーメッセージを確認
+2. 該当箇所を修正
+3. `flutter analyze && dart run custom_lint`で再確認
+4. それでも解決しない場合は`dart fix --apply lib`を試す
+
+
+
+## 🚀 効率的な開発のためのTips
+
+1. **テスト画像は必ず確認** - UIのズレを見逃さない
+2. **エラーは即座に対処** - 後回しにすると複雑化する
+3. **ドキュメントを参照** - 不明点は`documents/rules/`配下を確認
+
+
+## 🎓 学習リソース
+
+### 優先順位
+1. このドキュメント（CLAUDE.md）
+2. `documents/rules/docs/katana_cli.md` - CLIコマンド一覧
+3. `documents/rules/impls/impl.md` - 実装フロー
+4. 各種設計書・実装手順書
 
 ---
 
-# 基本ルール (Japanese - Primary Documentation)
-
-- レスポンスはすべて日本語で回答してください。
-- 与えられた業務に対して`開発`か`マーケティング・企画`、`営業・広報`、`経理`のいずれかの業務に該当するかを判断し、該当する業務に対するルールを遵守してください。
-
-## `開発`時
-
-### `開発`時の手順
-
-#### 新規アプリ開発時
-
-1. `documents/rules/designs/design.md`を参考に要件定義から各種設計書を作成。
-   - 要件定義が指示として与えられない場合は`requirements.md`を参照。
-2. 作成した各種設計書を元に`documents/rules/impls/impls.md`を参考にしながらアプリケーションの開発を実施。
-3. `documents/rules/tests/tests.md`を参考にしながら各種テストを実施。
-4. `flutter analyze && dart run custom_lint`を実行してErrorやWarningがないか確認。ErrorやWarningが発生していた場合は修正を実施して再度実行。ErrorやWarningがなくなるまで繰り返す。
-5. `katana test update`を実行してゴールデンテスト用のスクリーンショット画像を作成。
-6. `katana test run`を実行してテストが全てパスするか確認。
-7. バックグランドでの実行の場合、`katana git commit`を実行して変更をコミット。
-8. バックグランドでの実行の場合、`katana git pull_request`を実行してPRを作成、既存のPRがある場合は`katana git pull_request_comment`でコメントを追加。
-
-#### 新規機能追加時
-
-1. 要件定義から実装を実施。
-    - 実装中に`flutter analyze && dart run custom_lint`や`katana test update`を実行してエラーがないか確認しながら１つずつ実装。
-2. `flutter analyze && dart run custom_lint`を実行してErrorやWarningがないか確認。ErrorやWarningが発生していた場合は修正を実施して再度実行。ErrorやWarningがなくなるまで繰り返す。
-3. 画面の作成や変更を行った場合は`katana test update`を実行してゴールデンテスト用のスクリーンショット画像を更新。
-4. `katana test run`を実行してテストが全てパスするか確認。
-5. バックグランドでの実行の場合、`katana git commit`を実行して変更をコミット。
-6. バックグランドでの実行の場合、`katana git pull_request`を実行してPRを作成、既存のPRがある場合は`katana git pull_request_comment`でコメントを追加。
-
-#### 改修、もしくはバグ修正
-
-1. 要件から改修を実施。
-   - 実装中に`flutter analyze && dart run custom_lint`や`katana test update`を実行してエラーがないか確認しながら１つずつ実装。
-2. `flutter analyze && dart run custom_lint`を実行してErrorやWarningがないか確認。ErrorやWarningが発生していた場合は修正を実施して再度実行。ErrorやWarningがなくなるまで繰り返す。
-3. 画面の作成や変更を行った場合は`katana test update`を実行してゴールデンテスト用のスクリーンショット画像を更新。
-4. `katana test run`を実行してテストが全てパスするか確認。
-5. バックグランドでの実行の場合、`katana git commit`を実行して変更をコミット。
-6. バックグランドでの実行の場合、`katana git pull_request`を実行してPRを作成。
-
-### `開発`時全般に関わるルール
-
-- Dart言語とFlutterフレームワークで開発を行う。
-- Flutter内のフレームワークであるMasamuneフレームワークを利用。
-- 詳しいルールは下記の`documents/rules/**/*.md`を参照。
-    - `documents/rules/designs`: 設計書作成に関する手順
-        - `metadata_design.md`: MetaData設計書の作成手順
-        - `controller_design.md`: Controller設計書の作成手順
-        - `model_design.md`: Model設計書の作成手順
-        - `plugin_design.md`: プラグイン設計書の作成手順
-        - `theme_design.md`: Theme設計書の作成手順
-        - `widget_design.md`: Widget設計書の作成手順
-        - `page_design.md`: Page設計書の作成手順
-    - `documents/rules/impls`: 設計書を用いた新規実装に関する手順
-        - `impl.md`: 全体の設計書実装フロー
-        - `metadata_impl.md`: MetaData実装手順
-        - `plugin_impl.md`: プラグイン実装手順
-        - `theme_impl.md`: Theme実装手順
-        - `model_impl.md`: Model実装手順
-        - `controller_impl.md`: Controllerの一連の実装手順 
-        - `controller_creation.md`: Controllerの新規作成
-        - `controller_method_creation.md`: Controllerの各メソッドの作成手順
-        - `controller_method_impl.md`: Controllerの各メソッドの中身の実装手順
-        - `widget_impl.md`: Widget実装の一連の手順
-        - `widget_creation.md`: Widget新規作成手順
-        - `widget_logic_impl.md`: Widgetロジック実装手順
-        - `widget_ui_impl.md`: WidgetUI実装手順
-        - `page_impl.md`: Page実装の一連の手順
-        - `page_creation.md`: Page新規作成手順
-        - `page_logic_impl.md`: Pageロジック実装手順
-        - `page_ui_impl.md`: PageUI実装手順
-        - `router_impl.md`: ルーター実装手順
-        - `mock_data_impl.md`: モックデータ実装手順
-    - `documents/rules/tests`: テストの実装手順
-        - `test.md`: 全体のテスト実装フロー
-        - `page_test.md`: Pageテストの実装手順
-        - `model_extension_test.md`: ModelのtoTile拡張メソッドのテスト実装手順
-        - `widget_test.md`: Widgetテストの実装手順
-    - `documents/rules/docs`: Masamuneフレームワークを利用する上での実装上のルール
-        - `design_document.md`: 利用する設計書一覧
-        - `technology_stack.md`: 技術スタック一覧
-        - `terminology.md`: 用語・専門用語一覧
-        - `naming_convention.md`: 命名規則
-        - `katana_cli.md`: katanaコマンドの一覧と使用方法
-        - `primitive_types.md`: プリミティブタイプ一覧
-        - `flutter_types.md`: Flutter/Dartのタイプ一覧
-        - `page_types.md`: Pageタイプの一覧
-        - `model_field_value_usage.md`: ModelFieldValueの使用方法
-        - `model_usage.md`: Model使用方法
-        - `model_filter_conditions.md`: Modelのフィルター条件
-        - `plugin_usage.md`: プラグインの使用方法
-        - `form_usage.md`: フォームの使用方法
-        - `universal_ui_usage.md`: UniversalUIの使用方法
-        - `katana_ui_usage.md`: KatanaUIの使用方法
-        - `flutter_widgets.md`: Flutterウィジェット
-        - `modal_usage.md`: モーダルの使用方法
-        - `theme_usage.md`: テーマの使用方法
-        - `router_usage.md`: ルーターの使用方法
-        - `state_management_usage.md`: 状態管理の使用方法
-        - `transition_usage.md`: 画面遷移の使用方法
-        - `enum_usage.md`: `Enum`の実装方法
-        - `functions_usage.md`: Functions使用方法
-        - `plugins/`: 各種プラグインの使用方法詳細
-            - `introduction.md`: プラグイン概要
-            - `picker.md`: ファイルピッカープラグイン
-            - `camera.md`: カメラプラグイン
-            - `location.md`: 位置情報プラグイン
-            - `google_map.md`: GoogleMapプラグイン
-            - `speech_to_text.md`: 音声認識プラグイン
-            - `text_to_speech.md`: 音声合成プラグイン
-            - `openai.md`: OpenAIプラグイン
-            - `stripe.md`: Stripeプラグイン
-            - `purchase.md`: アプリ内課金プラグイン
-            - `sendgrid.md`: SendGridプラグイン
-            - `local_notification.md`: ローカル通知プラグイン
-            - `ads.md`: 広告プラグイン
-            - `agora.md`: Agoraプラグイン
-            - `animate.md`: アニメーションプラグイン
-            - `calendar.md`: カレンダープラグイン
-        - `form/`: フォーム関連ウィジェットの詳細使用方法
-            - `form_builder.md`: FormBuilderの使用方法
-            - `form_text_field.md`: FormTextFieldの使用方法
-            - `form_num_field.md`: FormNumFieldの使用方法
-            - `form_password_builder.md`: FormPasswordBuilderの使用方法
-            - `form_rating_bar.md`: FormRatingBarの使用方法
-            - `form_media.md`: FormMediaの使用方法
-            - `form_multi_media.md`: FormMultiMediaの使用方法
-            - `form_date_field.md`: FormDateFieldの使用方法
-            - `form_date_time_field.md`: FormDateTimeFieldの使用方法
-            - `form_date_time_range_field.md`: FormDateTimeRangeFieldの使用方法
-            - `form_month_field.md`: FormMonthFieldの使用方法
-            - `form_duration_field.md`: FormDurationFieldの使用方法
-            - `form_pin_field.md`: FormPinFieldの使用方法
-            - `form_checkbox.md`: FormCheckboxの使用方法
-            - `form_switch.md`: FormSwitchの使用方法
-            - `form_chips_field.md`: FormChipsFieldの使用方法
-            - `form_enum_dropdown_field.md`: FormEnumDropdownFieldの使用方法
-            - `form_enum_modal_field.md`: FormEnumModalFieldの使用方法
-            - `form_map_dropdown_field.md`: FormMapDropdownFieldの使用方法
-            - `form_map_modal_field.md`: FormMapModalFieldの使用方法
-            - `form_future_field.md`: FormFutureFieldの使用方法
-            - `form_button.md`: FormButtonの使用方法
-            - `form_label.md`: FormLabelの使用方法
-            - `form_style_container.md`: FormStyleContainerの使用方法
-            - `form_list_builder.md`: FormListBuilderの使用方法
-            - `form_text_editing_controller_builder.md`: FormTextEditingControllerBuilderの使用方法
-            - `form_focus_node_builder.md`: FormFocusNodeBuilderの使用方法
-            - `form_editable_toggle_builder.md`: FormEditableToggleBuilderの使用方法
-        - `katana_ui/`: KatanaUIウィジェットの詳細使用方法
-            - `square_avatar.md`: SquareAvatarの使用方法
-            - `message_box.md`: MessageBoxの使用方法
-            - `periodic_scope.md`: PeriodicScopeの使用方法
-            - `scroll_builder.md`: ScrollBuilderの使用方法
-            - `shimmer.md`: Shimmerの使用方法
-            - `indent.md`: Indentの使用方法
-            - `label.md`: Labelの使用方法
-            - `line_tile.md`: LineTileの使用方法
-            - `list_tile_group.md`: ListTileGroupの使用方法
-            - `loading_builder.md`: LoadingBuilderの使用方法
-            - `avatar_tile.md`: AvatarTileの使用方法
-            - `card_tile.md`: CardTileの使用方法
-            - `chat_tile.md`: ChatTileの使用方法
-        - `universal_ui/`: UniversalUIウィジェットの詳細使用方法
-            - `universal_scaffold.md`: UniversalScaffoldの使用方法
-            - `universal_app_bar.md`: UniversalAppBarの使用方法
-            - `universal_list_view.md`: UniversalListViewの使用方法
-            - `universal_grid_view.md`: UniversalGridViewの使用方法
-            - `universal_column.md`: UniversalColumnの使用方法
-            - `universal_container.md`: UniversalContainerの使用方法
-            - `universal_padding.md`: UniversalPaddingの使用方法
-            - `universal_edge_insets.md`: UniversalEdgeInsetsの使用方法
-            - `universal_header_tile.md`: UniversalHeaderTileの使用方法
-            - `universal_search_bar.md`: UniversalSearchBarの使用方法
-            - `universal_side_bar.md`: UniversalSideBarの使用方法
-        - `model_field_value/`: ModelFieldValue各種の詳細使用方法
-            - `model_timestamp.md`: ModelTimestampの使用方法
-            - `model_timestamp_range.md`: ModelTimestampRangeの使用方法
-            - `model_date.md`: ModelDateの使用方法
-            - `model_date_range.md`: ModelDateRangeの使用方法
-            - `model_time.md`: ModelTimeの使用方法
-            - `model_time_range.md`: ModelTimeRangeの使用方法
-            - `model_uri.md`: ModelUriの使用方法
-            - `model_image_uri.md`: ModelImageUriの使用方法
-            - `model_video_uri.md`: ModelVideoUriの使用方法
-            - `model_ref.md`: ModelRefの使用方法
-            - `model_geo_value.md`: ModelGeoValueの使用方法
-            - `model_counter.md`: ModelCounterの使用方法
-            - `model_token.md`: ModelTokenの使用方法
-            - `model_locale.md`: ModelLocaleの使用方法
-            - `model_localized_value.md`: ModelLocalizedValueの使用方法
-            - `model_search.md`: ModelSearchの使用方法
-- Gitのコミットは必ず`katana git commit`コマンドを用いて行うこと
-    - ファイルのステージングおよびGitのコミット
-        ```bash
-        katana git commit --message="コミットメッセージ" [コミット対象のファイル1] [コミット対象のファイル2] ...
-        ```
-- 新規PullRequestの作成は必ず`katana git pull_request`コマンドを用いて行うこと
-    - PullRequestの作成
-        ```bash
-        katana git pull_request --target="マージ先のブランチ" --source="マージ元のブランチ" --title="PullRequestのタイトル" --body="PullRequestの説明（改行は`
-`で行う）" [PullRequestの説明に加えるスクリーンショットのファイル1] [PullRequestの説明に加えるスクリーンショットのファイル2] ...
-        ```
-- 既存のPullRequestへのコメントは必ず`katana git pull_request_comment`コマンドを用いて行うこと
-    - PullRequestの作成
-        ```bash
-        katana git pull_request_comment --message="PullRequestに対するコメント（改行は`
-`で行う）" [PullRequestのコメントに加えるスクリーンショットのファイル1] [PullRequestのコメントに加えるスクリーンショットのファイル2] ...
-        ```
-    - その他、`katana`コマンドの使い方については`documents/rules/docs/katana_cli.md`に記載。
-
-### 作業実施時のルール
-
-- `Page`、`Model`、`Enum`、`Widget`、`Controller`等のDartファイルの作成は`katana`コマンドを用いて作成すること
-    - `katana`コマンドの使い方については`documents/rules/docs/katana_cli.md`に記載。
-
-- 作業実施時、下記の実施を徹底すること。
-    - 1つの実装が完了したときに毎回必ず下記のコマンドを実行してコードにErrorやWarningがないかをチェック。ErrorやWarningがある場合はそれらに対処した後、再度実行。ErrorやWarningがなくなるまで繰り返す。
-
-        ```bash
-        flutter analyze && dart run custom_lint
-        ```
-
-    - 1つの`Page`や`Widget`、`Model`の`toTile`のエクステンションの更新や作成が完了したときに毎回下記のコマンドを実行して生成された画像を読み込み、確認し、コードにErrorやWarningがないか、またUIにズレがないかをチェック。ErrorやWarning、UIにズレがある場合はそれらに対処した後、再度実行。ErrorやWarning、UIにズレがなくなるまで繰り返す。画像は`documents/test/**/*.png`に出力される。
-
-        ```bash
-        katana test update [テスト対象のクラス名],[テスト対象のクラス名],...
-        ```
-
-        - 例:
-            ```bash
-            katana test update TestPage,TestWidget,TestModel
-            ```
-
-### 作業完了後のルール
-
-- 作業実施後、コミット前に必ず下記を実施しコードの品質と安全性を保つ。
-    1. 下記のコマンドを実施してコードのフォーマットを行う。
-        ```bash
-        dart fix --apply lib && dart format . && flutter pub run import_sorter:main
-        ```
-
-    2. 下記のコマンドを実施してコードのバリデーションを行う。ErrorやWarningがあれば修正して再度実行。ErrorやWarningがなくなるまで繰り返す。
-
-        ```bash
-        flutter analyze && dart run custom_lint
-        ```
-
-    3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。ErrorやWarningがあれば修正して再度実行。ErrorやWarningがなくなるまで繰り返す。
-
-        - 各種UIが更新されているにも関わらずこのステップが実行されない場合は`katana test run`でエラーになります。
-
-        ```bash
-        katana test update [テスト対象のクラス名],[テスト対象のクラス名],...
-        ```
-
-        - 例:
-            ```bash
-            katana test update TestPage,TestWidget,TestModel
-            ```
-
-    4. 下記のコマンドを実施して全体のテストを行う。ErrorやWarningがあれば修正して再度実行。
-    ErrorやWarningがなくなるまで繰り返す。
-        ```bash
-        katana test run
-        ```
-
-    5. 1〜4のステップでErrorやWarningが発生した場合は、再度1からステップをやり直す。ErrorやWarningが無くなるまで繰り返す。
-
-    6. バックグランドで指示が与えられ動作している場合は、下記コマンドで変更をCommit&Push。クライアント側で動作している場合は終了。
-        
-        ```bash
-        katana git commit --message="コミットメッセージ" [コミット対象のファイル1] [コミット対象のファイル2] ...
-        ```
-
-        - 変更したファイルおよび下記のファイルも必ず含める。基本的には.gitignoreで除外されているファイル以外で生成・変更されたファイルはすべてコミット。
-            - `katana code **`で生成した、もしくは変更したファイル
-            - `katana code generate`で生成した、もしくは変更されたファイル
-            - `katana test update`で生成した、もしくは変更されたファイル
-    
-    7. バックグランドで指示が与えられ動作しておりPullRequestを新しく作成する場合は、下記のコマンドでPullRequestを作成。
-
-        ```bash
-        katana git pull_request --target="マージ先のブランチ" --source="マージ元のブランチ" --title="PullRequestのタイトル" --body="PullRequestの説明（改行は`\n`で行う）" [PullRequestの説明に加えるスクリーンショットのファイル1] [PullRequestの説明に加えるスクリーンショットのファイル2] ...
-        ```
-
-        - 6のコミットの中`katana test update`で生成した画像(`documents/test/**/*.png`)を「PullRequestの説明に加えるスクリーンショットのファイル」として指定する。
-
-    8. PullRequestがすでに作成されており、さらにコメントを追加したい場合は下記のコマンドを用いてコメントを追加。
-
-        ```bash
-        katana git pull_request_comment --comment="PullRequestのコメント" --target="マージ先のブランチ" --source="マージ元のブランチ" [PullRequestのコメントに加えるスクリーンショットのファイル1] [PullRequestのコメントに加えるスクリーンショットのファイル2] ...
-        ```
-
-        - 6のコミットの中`katana test update`で生成した画像(`documents/test/**/*.png`)を「PullRequestのコメントに加えるスクリーンショットのファイル」として指定する。
-
-## `マーケティング・企画`時
-
-- ルールはまだありません。
-
-## `営業・広報`時
-
-- ルールはまだありません。
-
-## `経理`時
-
-- ルールはまだありません。
+**重要**: このドキュメントは定期的に更新されます。開発開始前に最新版を確認してください。

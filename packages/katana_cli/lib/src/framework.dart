@@ -167,7 +167,20 @@ abstract class CliAiCodeCommand implements CliCommand {
   /// Abstract class for executing AI code creation.
   ///
   /// AIコード作成を実行するための抽象クラス。
-  const CliAiCodeCommand();
+  const CliAiCodeCommand({
+    this.defaultDirectory = "documents/rules",
+    this.includeName = true,
+  });
+
+  /// Defines the default directory for the AI code.
+  ///
+  /// AIコードのデフォルトディレクトリを定義します。
+  final String defaultDirectory;
+
+  /// Defines whether to include the name in the AI code.
+  ///
+  /// AIコードに名前を含めるかどうかを定義します。
+  final bool includeName;
 
   /// Defines a list of AI code.
   ///
@@ -179,7 +192,11 @@ abstract class CliAiCodeCommand implements CliCommand {
   @override
   Future<void> exec(ExecContext context) async {
     for (final entry in codes.entries) {
-      await entry.value.generateAiCode(entry.key);
+      await entry.value.generateAiCode(
+        entry.key,
+        defaultDirectory: defaultDirectory,
+        includeName: includeName,
+      );
     }
   }
 }
@@ -256,18 +273,21 @@ abstract class CliAiCode {
   Future<void> generateAiCode(
     String path, {
     String ext = "md",
+    String defaultDirectory = "documents/rules",
     String Function(String value)? filter,
+    bool includeName = true,
   }) async {
     final baseName = path.last();
     final editClassName = path.split("/").distinct().join("_").toPascalCase();
-    final dir =
-        Directory("documents/rules/${directory.isEmpty ? "" : "/$directory/"}");
+    final dir = Directory(
+        "$defaultDirectory/${directory.isEmpty ? "" : "/$directory/"}");
     if (!dir.existsSync()) {
       await dir.create(recursive: true);
     }
-    final output = "# $name\n\n${body(baseName, editClassName)}";
+    final output =
+        "${includeName ? "# $name\n\n" : ""}${body(baseName, editClassName)}";
     await File(
-            "documents/rules/${directory.isEmpty ? "" : "/$directory/"}$path.$ext")
+            "$defaultDirectory/${directory.isEmpty ? "" : "/$directory/"}$path.$ext")
         .writeAsString(filter?.call(output) ?? output);
   }
 }
