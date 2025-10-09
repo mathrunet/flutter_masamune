@@ -830,6 +830,9 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
 
     _handledOnKeyboardStateChanged();
     final theme = Theme.of(context);
+
+    // Ensure minimum height is toolbar height only when no additional content
+    // 追加コンテンツがない場合の最小高さはツールバーの高さのみ
     var height = _blockMenuHeight;
     if (_linkSetting != null) {
       height += _kLinkDialogHeight;
@@ -843,9 +846,11 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
       if (_blockMenuToggleDuration != null) {
         height -= _blockMenuHeight;
       }
-    } else {
-      height += _kToolbarHeight;
     }
+
+    // Only add toolbar height, not both toolbar and block menu height
+    // ツールバーの高さのみを追加し、ブロックメニューの高さは含めない
+    height += _kToolbarHeight;
 
     final inlineTools = _currentTool is MarkdownPrimaryTools
         ? (_currentTool as MarkdownPrimaryTools).inlineTools
