@@ -1,9 +1,11 @@
 // Project imports:
+import "package:katana_cli/ai/docs/authentication_usage.dart";
 import "package:katana_cli/ai/docs/commit.dart";
 import "package:katana_cli/ai/docs/dart_doc.dart";
 import "package:katana_cli/ai/docs/design_document.dart";
 import "package:katana_cli/ai/docs/enum_usage.dart";
 import "package:katana_cli/ai/docs/file_structure.dart";
+import "package:katana_cli/ai/docs/firebase_firestore_usage.dart";
 import "package:katana_cli/ai/docs/flutter_types.dart";
 import "package:katana_cli/ai/docs/flutter_widgets.dart";
 import "package:katana_cli/ai/docs/form_usage.dart";
@@ -22,6 +24,7 @@ import "package:katana_cli/ai/docs/pre_commit.dart";
 import "package:katana_cli/ai/docs/primitive_types.dart";
 import "package:katana_cli/ai/docs/router_usage.dart";
 import "package:katana_cli/ai/docs/state_management_usage.dart";
+import "package:katana_cli/ai/docs/storage_usage.dart";
 import "package:katana_cli/ai/docs/technology_stack.dart";
 import "package:katana_cli/ai/docs/terminology.dart";
 import "package:katana_cli/ai/docs/theme_usage.dart";
@@ -84,5 +87,9 @@ class DocsAiCode extends CliAiCodeCommand {
         "commit": const CommitMdCliAiCode(),
         "mock_data_usage": const MockDataUsageMdCliAiCode(),
         "test": const TestMdCliAiCode(),
+        "firebase_firestore_usage":
+            const FirebaseFirestoreUsageDocsMdCliAiCode(),
+        "authentication_usage": const AuthenticationUsageDocsMdCliAiCode(),
+        "storage_usage": const StorageUsageDocsMdCliAiCode(),
       };
 }
