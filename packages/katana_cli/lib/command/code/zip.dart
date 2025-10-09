@@ -48,7 +48,7 @@ class CodeZipCliCommand extends CliCommand {
         r"^test/",
         r"\.vscode/",
         r"doc/api/",
-        r".cursor/",
+        r".claude/",
         r"documents/rules/",
         r"documents/test/",
         r"CLAUDE.md$",

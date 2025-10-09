@@ -300,7 +300,14 @@ class GitClaudeMarkdownCliCode extends CliCode {
   /// Contents of CLAUDE.md.
   ///
   /// CLAUDE.mdの中身。
-  const GitClaudeMarkdownCliCode();
+  const GitClaudeMarkdownCliCode({
+    this.availabeBackground = false,
+  });
+
+  /// Whether to enable background mode.
+  ///
+  /// バックグラウンドモードを有効にするかどうか。
+  final bool availabeBackground;
 
   @override
   String get name => "CLAUDE";

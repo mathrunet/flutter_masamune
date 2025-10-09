@@ -856,14 +856,7 @@ generative_ai:
   # ClaudeCodeのための設定を行います。
   claude_code:
     enable: false
-
-  # Configure settings for the cursor.
-  # Setting `[background_mode]` to true enables Cursor's background mode.
-  # Cursorのための設定を行います。
-  # [background_mode]をtrueにすると、Cursorのバックグラウンドモードを有効にします。
-  cursor:
-    enable: false
-    background_mode: false
+    background: false
 """ : ""}
 """;
 

@@ -1,7 +1,6 @@
 // Project imports:
 import "package:katana_cli/action/ads/ads.dart";
 import "package:katana_cli/action/agora/agora.dart";
-import "package:katana_cli/action/ai/cursor.dart";
 import "package:katana_cli/action/ai/openai.dart";
 import "package:katana_cli/action/app/animate.dart";
 import "package:katana_cli/action/app/app_review.dart";
@@ -70,7 +69,6 @@ const _actions = <CliActionMixin>[
   FirebaseFirestoreCliAction(),
   GitActionCliAction(),
   GitClaudeCodeCliAction(),
-  GitCursorCliAction(),
   GitStatusCheckCliAction(),
   GitPreCommitCliAction(),
   AppOpenAICliAction(),

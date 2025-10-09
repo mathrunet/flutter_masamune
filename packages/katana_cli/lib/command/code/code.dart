@@ -7,7 +7,6 @@ import "dart:io";
 import "package:archive/archive_io.dart";
 
 // Project imports:
-import "package:katana_cli/action/ai/cursor.dart";
 import "package:katana_cli/action/git/claude_code.dart";
 import "package:katana_cli/ai/designs/designs.dart";
 import "package:katana_cli/ai/docs/docs.dart";
@@ -17,6 +16,7 @@ import "package:katana_cli/katana_cli.dart";
 import "package:katana_cli/snippet/snippet.dart";
 import "server/server.dart";
 import "view/view.dart";
+import "test/test.dart";
 
 part "collection.dart";
 part "controller.dart";
@@ -86,5 +86,6 @@ class CodeCliCommand extends CliCommandGroup {
         "log": CodeLogCliCommand(),
         "function": CodeFunctionCliCommand(),
         "localize": CodeLocalizeCliCommand(),
+        "test": CodeTestCliCommand(),
       };
 }

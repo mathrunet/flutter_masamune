@@ -1,4 +1,5 @@
 // Project imports:
+import "package:katana_cli/ai/docs/commit.dart";
 import "package:katana_cli/ai/docs/dart_doc.dart";
 import "package:katana_cli/ai/docs/design_document.dart";
 import "package:katana_cli/ai/docs/enum_usage.dart";
@@ -9,6 +10,7 @@ import "package:katana_cli/ai/docs/form_usage.dart";
 import "package:katana_cli/ai/docs/functions_usage.dart";
 import "package:katana_cli/ai/docs/katana_cli.dart";
 import "package:katana_cli/ai/docs/katana_ui_usage.dart";
+import "package:katana_cli/ai/docs/mock_data_usage.dart";
 import "package:katana_cli/ai/docs/modal_usage.dart";
 import "package:katana_cli/ai/docs/model_field_value_usage.dart";
 import "package:katana_cli/ai/docs/model_filter_conditions.dart";
@@ -25,6 +27,7 @@ import "package:katana_cli/ai/docs/terminology.dart";
 import "package:katana_cli/ai/docs/theme_usage.dart";
 import "package:katana_cli/ai/docs/transition_usage.dart";
 import "package:katana_cli/ai/docs/universal_ui_usage.dart";
+import "package:katana_cli/ai/tests/tests.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// DocsAiCode is a command that generates AI code to do the design.
@@ -78,5 +81,8 @@ class DocsAiCode extends CliAiCodeCommand {
         "functions_usage": const FunctionsUsageDocsMdCliAiCode(),
         "dart_doc": const DartDocDocsMdCliAiCode(),
         "pre_commit": const PreCommitMdCliAiCode(),
+        "commit": const CommitMdCliAiCode(),
+        "mock_data_usage": const MockDataUsageMdCliAiCode(),
+        "test": const TestMdCliAiCode(),
       };
 }
