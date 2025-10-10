@@ -1539,30 +1539,76 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       }
 
       // Draw span background decorations
-      for (final spanInfo in layout.spans) {
+      // Merge adjacent spans with the same decoration type
+      final decorationGroups = <_DecorationGroup>[];
+      BoxDecoration? currentDecoration;
+      int? groupStart;
+      int? groupEnd;
+
+      for (var i = 0; i < layout.spans.length; i++) {
+        final spanInfo = layout.spans[i];
         final decoration =
             spanInfo.span.backgroundDecoration(this, _controller, null);
-        if (decoration != null) {
-          final spanStart = spanInfo.localOffset;
-          final spanEnd = spanInfo.localOffset + spanInfo.length;
-          final spanSelection = TextSelection(
-            baseOffset: spanStart,
-            extentOffset: spanEnd,
-          );
-          final boxes = layout.painter.getBoxesForSelection(spanSelection);
-          for (final box in boxes) {
-            final boxRect = box.toRect().shift(blockOffset);
-            final paint = Paint();
-            if (decoration.color != null) {
-              paint.color = decoration.color!;
-            }
-            if (decoration.borderRadius != null) {
-              final rRect =
-                  (decoration.borderRadius as BorderRadius).toRRect(boxRect);
-              canvas.drawRRect(rRect, paint);
-            } else {
-              canvas.drawRect(boxRect, paint);
-            }
+
+        // Check if this span has a code decoration
+        final hasCodeDecoration = spanInfo.span.properties
+            .any((p) => p.type == "__markdown_inline_font_code__");
+
+        if (hasCodeDecoration && decoration != null) {
+          if (currentDecoration == null) {
+            // Start new group
+            currentDecoration = decoration;
+            groupStart = spanInfo.localOffset;
+            groupEnd = spanInfo.localOffset + spanInfo.length;
+          } else {
+            // Extend current group
+            groupEnd = spanInfo.localOffset + spanInfo.length;
+          }
+        } else {
+          // End current group if exists
+          if (currentDecoration != null && groupStart != null && groupEnd != null) {
+            decorationGroups.add(_DecorationGroup(
+              decoration: currentDecoration,
+              start: groupStart,
+              end: groupEnd,
+            ));
+            currentDecoration = null;
+            groupStart = null;
+            groupEnd = null;
+          }
+        }
+      }
+
+      // Add last group if exists
+      if (currentDecoration != null && groupStart != null && groupEnd != null) {
+        decorationGroups.add(_DecorationGroup(
+          decoration: currentDecoration,
+          start: groupStart,
+          end: groupEnd,
+        ));
+      }
+
+      // Draw merged decoration groups
+      for (final group in decorationGroups) {
+        final spanSelection = TextSelection(
+          baseOffset: group.start,
+          extentOffset: group.end,
+        );
+        final boxes = layout.painter.getBoxesForSelection(spanSelection);
+        for (final box in boxes) {
+          var boxRect = box.toRect().shift(blockOffset);
+          // Add 2px padding
+          boxRect = boxRect.inflate(2.0);
+          final paint = Paint();
+          if (group.decoration.color != null) {
+            paint.color = group.decoration.color!;
+          }
+          if (group.decoration.borderRadius != null) {
+            final rRect = (group.decoration.borderRadius as BorderRadius)
+                .toRRect(boxRect);
+            canvas.drawRRect(rRect, paint);
+          } else {
+            canvas.drawRect(boxRect, paint);
           }
         }
       }
@@ -2110,6 +2156,32 @@ class _SpanInfo {
   ///
   /// スパンテキストの長さ。
   final int length;
+}
+
+/// Information about a merged decoration group.
+///
+/// マージされた装飾グループに関する情報。
+class _DecorationGroup {
+  _DecorationGroup({
+    required this.decoration,
+    required this.start,
+    required this.end,
+  });
+
+  /// The background decoration.
+  ///
+  /// 背景装飾。
+  final BoxDecoration decoration;
+
+  /// Start offset of the group.
+  ///
+  /// グループの開始オフセット。
+  final int start;
+
+  /// End offset of the group.
+  ///
+  /// グループの終了オフセット。
+  final int end;
 }
 
 /// Context for rendering.
