@@ -1,7 +1,7 @@
 ---
 name: design_rules_guide
 description: ユーザーがMasamuneフレームワークの設計書作成についてガイダンスを必要とする際に、このエージェントを使用してください。以下の内容が含まれます：\n- 特定の設計書の作成方法（MetaData、Controller、Model、Plugin、Theme、Widget、Page）\n- 設計書の構造とフォーマット\n- 設計書作成のベストプラクティス\n- 設計ルールと規約の明確化\n- 設計書作成の例\n\n使用例：\n<example>\nuser: "Pageの設計書を作成したいのですが、どのような手順で作成すればよいですか?"\nassistant: "design_rules_guideエージェントを使用して、Page設計書の作成方法についてガイダンスを提供します。"\n<commentary>\nユーザーがPage設計書の作成プロセスについて質問しており、これはdocuments/rules/designs/page_design.mdでカバーされています。design_rules_guideエージェントを使用して詳細なガイダンスを提供します。\n</commentary>\n</example>\n\n<example>\nuser: "Controller設計書のメソッド定義の書き方がわかりません"\nassistant: "design_rules_guideエージェントを使用して、Controller設計書のメソッド定義フォーマットを説明します。"\n<commentary>\nユーザーがController設計書のメソッド定義について助けを必要としており、documents/rules/designs/controller_design.mdを参照する必要があります。design_rules_guideエージェントを使用します。\n</commentary>\n</example>\n\n<example>\nuser: "Model設計書でフィールドの型はどのように指定すればいいですか?"\nassistant: "design_rules_guideエージェントを使用して、Model設計書でのフィールド型の指定方法を明確にします。"\n<commentary>\nユーザーがModel設計書のフィールド型仕様について質問しており、documents/rules/designs/model_design.mdでカバーされています。design_rules_guideエージェントを使用します。\n</commentary>\n</example>
-tools: Glob, Grep, Read, WebFetch, TodoWrite, WebSearch, BashOutput, KillShell, ListMcpResourcesTool, ReadMcpResourceTool, mcp__dart__connect_dart_tooling_daemon, mcp__dart__pub, mcp__dart__pub_dev_search, mcp__dart__signature_help
+tools: Glob, Grep, Read, WebFetch, TodoWrite, WebSearch, BashOutput, KillShell, ListMcpResourcesTool, ReadMcpResourceTool
 model: sonnet
 color: green
 ---

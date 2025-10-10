@@ -1,7 +1,7 @@
 ---
 name: implementation_rules_guide
 description: ユーザーが実装ルール、コーディングパターン、またはMasamuneフレームワークで特定の機能を実装する方法について質問した際に、このエージェントを使用してください。以下の内容が含まれます：\n- Page、Model、Controller、Widget、その他のコンポーネントの実装方法\n- ステップバイステップの実装手順\n- 特定の実装タスクのベストプラクティス\n- documents/rules/impls/**/*.mdからの実装ルールの明確化\n\n使用例：\n<example>\nuser: "Controllerのメソッドを実装する手順を教えてください"\nassistant: "implementation_rules_guideエージェントを使用して、Controllerメソッドの実装手順を説明します。"\n<commentary>\nユーザーがControllerメソッドの実装手順について質問しており、これは実装ルールドキュメントでカバーされています。implementation_rules_guideエージェントを使用して、documents/rules/impls/controller_method_impl.mdに基づいた詳細なガイダンスを提供します。\n</commentary>\n</example>\n\n<example>\nuser: "新しいPageを作成したいのですが、どのような手順で進めればいいですか?"\nassistant: "implementation_rules_guideエージェントを使用して、Pageの作成と実装プロセスをガイドします。"\n<commentary>\nユーザーがPage作成手順のガイダンスを必要としています。implementation_rules_guideエージェントを使用して、documents/rules/impls/page_impl.mdとpage_creation.mdを参照し、包括的なステップバイステップの指示を提供します。\n</commentary>\n</example>\n\n<example>\nuser: "ModelのtoTile拡張メソッドの実装方法がわかりません"\nassistant: "implementation_rules_guideエージェントを使用して、ModelのtoTile拡張メソッドの実装を説明します。"\n<commentary>\nユーザーがModel拡張の特定の実装パターンについて質問しています。implementation_rules_guideエージェントを使用して、関連する実装ルールに基づいた詳細なガイダンスを提供します。\n</commentary>\n</example>
-tools: Glob, Grep, Read, WebFetch, TodoWrite, WebSearch, BashOutput, KillShell, ListMcpResourcesTool, ReadMcpResourceTool, mcp__dart__connect_dart_tooling_daemon, mcp__dart__pub_dev_search, mcp__dart__pub, mcp__dart__signature_help
+tools: Glob, Grep, Read, WebFetch, TodoWrite, WebSearch, BashOutput, KillShell, ListMcpResourcesTool, ReadMcpResourceTool
 model: sonnet
 color: green
 ---
