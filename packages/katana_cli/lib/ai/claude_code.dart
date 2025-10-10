@@ -3,6 +3,7 @@ import "dart:io";
 
 // Project imports:
 import "package:katana_cli/ai/agents/agents.dart";
+import "package:katana_cli/ai/mcp/mcp.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Add AI Agent using Claude Code.
@@ -100,6 +101,8 @@ class GitClaudeCodeCliAction extends CliCommand with CliActionMixin {
     await const GitClaudeSettingsCliCode().generateFile("settings.local.json");
     label("Create agents");
     await const AgentsAiCode().exec(context);
+    label("Create .mcp.json");
+    await const McpMcpCode().exec(context);
   }
 }
 

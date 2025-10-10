@@ -204,6 +204,45 @@ abstract class CliAiCodeCommand implements CliCommand {
   }
 }
 
+/// Abstract class for executing MCP code creation.
+///
+/// MCPコード作成を実行するための抽象クラス。
+abstract class CliMcpCodeCommand implements CliCommand {
+  /// Abstract class for executing MCP code creation.
+  ///
+  /// MCPコード作成を実行するための抽象クラス。
+  const CliMcpCodeCommand({
+    this.fileName = ".mcp.json",
+  });
+
+  /// Defines the file name of the MCP code.
+  ///
+  /// MCPコードのファイル名を定義します。
+  final String fileName;
+
+  /// Defines a list of AI code.
+  ///
+  /// AIコードの一覧を定義します。
+  Map<String, CliMcpCode> get mcps;
+
+  @override
+  String? get example => null;
+  @override
+  Future<void> exec(ExecContext context) async {
+    final json = <String, dynamic>{};
+    for (final entry in mcps.entries) {
+      if (!entry.value.apply(context)) {
+        continue;
+      }
+      final res = entry.value.body(context);
+      json.addAll(res);
+    }
+    await File(fileName).writeAsString(
+      jsonEncode({"mcpServers": json}),
+    );
+  }
+}
+
 /// Abstract class for creating AI code groups.
 ///
 /// AIコードグループを作成するための抽象クラス。
@@ -275,6 +314,11 @@ abstract class CliAiCode {
   /// 適用する場合`true`を返す。
   bool apply(ExecContext context) => true;
 
+  /// Generate MCP setting code.
+  ///
+  /// MCP設定コードを生成します。
+  DynamicMap? generateMcpSetting() => null;
+
   /// Generate md code in [path].
   ///
   /// You can edit the data inside with [filter].
@@ -302,6 +346,40 @@ abstract class CliAiCode {
             "$defaultDirectory/${directory.isEmpty ? "" : "/$directory/"}$path.$ext")
         .writeAsString(filter?.call(output) ?? output);
   }
+}
+
+/// Abstract class for defining MCP code.
+///
+/// MCPコードを定義するための抽象クラス。
+abstract class CliMcpCode {
+  /// Abstract class for defining MCP code.
+  ///
+  /// MCPコードを定義するための抽象クラス。
+  const CliMcpCode();
+
+  /// Define the name of the code.
+  ///
+  /// コードの名前を定義します。
+  String get name;
+
+  /// Define the description of the code.
+  ///
+  /// コードの説明を定義します。
+  String get description;
+
+  /// Defines the actual body code.
+  ///
+  /// 実際の本体コードを定義します。
+  DynamicMap body(ExecContext context);
+
+  /// Defines whether to apply this code based on the contents of [context].
+  ///
+  /// Return `true` if applicable.
+  ///
+  /// [context]の内容を元にこのコードを適用するかどうかを決定する。
+  ///
+  /// 適用する場合`true`を返す。
+  bool apply(ExecContext context) => true;
 }
 
 /// Abstract class for defining base code.

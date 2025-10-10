@@ -868,6 +868,9 @@ generative_ai:
         enable: false
       firebase:
         enable: false
+      github:
+        enable: false
+        access_token:
 """ : ""}
 """;
 

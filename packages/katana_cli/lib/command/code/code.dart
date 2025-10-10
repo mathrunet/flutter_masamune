@@ -12,6 +12,7 @@ import "package:katana_cli/ai/agents/agents.dart";
 import "package:katana_cli/ai/designs/designs.dart";
 import "package:katana_cli/ai/docs/docs.dart";
 import "package:katana_cli/ai/impls/impls.dart";
+import "package:katana_cli/ai/mcp/mcp.dart";
 import "package:katana_cli/ai/tests/tests.dart";
 import "package:katana_cli/katana_cli.dart";
 import "package:katana_cli/snippet/snippet.dart";

@@ -54,7 +54,9 @@ class AgentsAiCode extends CliAiCodeCommand {
         "masamune_plugin_guide":
             const MasamunePluginGuideClaudeCodeAgentsCliAiCode(),
         "package_finder": const PackageFinderClaudeCodeAgentsCliAiCode(),
-        "figma_to_flutter_ui": const FigmaToFlutterUiClaudeCodeAgentsCliAiCode(),
-        "image_to_flutter_ui": const ImageToFlutterUiClaudeCodeAgentsCliAiCode(),
+        "figma_to_flutter_ui":
+            const FigmaToFlutterUiClaudeCodeAgentsCliAiCode(),
+        "image_to_flutter_ui":
+            const ImageToFlutterUiClaudeCodeAgentsCliAiCode(),
       };
 }
