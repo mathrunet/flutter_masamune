@@ -7,7 +7,7 @@ import "dart:io";
 import "package:archive/archive_io.dart";
 
 // Project imports:
-import "package:katana_cli/action/git/claude_code.dart";
+import "package:katana_cli/ai/claude_code.dart";
 import "package:katana_cli/ai/agents/agents.dart";
 import "package:katana_cli/ai/designs/designs.dart";
 import "package:katana_cli/ai/docs/docs.dart";

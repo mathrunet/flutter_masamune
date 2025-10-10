@@ -192,6 +192,9 @@ abstract class CliAiCodeCommand implements CliCommand {
   @override
   Future<void> exec(ExecContext context) async {
     for (final entry in codes.entries) {
+      if (!entry.value.apply(context)) {
+        continue;
+      }
       await entry.value.generateAiCode(
         entry.key,
         defaultDirectory: defaultDirectory,
@@ -262,6 +265,15 @@ abstract class CliAiCode {
   ///
   /// 実際の本体コードを定義します。[path]に`lib`からの相対パス、[baseName]にファイル名が渡され、[className]にファイル名をパスカルケースに変換した値が渡されます。
   String body(String baseName, String className);
+
+  /// Defines whether to apply this code based on the contents of [context].
+  ///
+  /// Return `true` if applicable.
+  ///
+  /// [context]の内容を元にこのコードを適用するかどうかを決定する。
+  ///
+  /// 適用する場合`true`を返す。
+  bool apply(ExecContext context) => true;
 
   /// Generate md code in [path].
   ///

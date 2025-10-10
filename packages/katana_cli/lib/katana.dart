@@ -853,10 +853,21 @@ generative_ai:
     enable: false
   
   # Configure settings for the claude code.
+  # Settings for using MCP are configured in [mcp].
   # ClaudeCodeのための設定を行います。
+  # [mcp]には、MCPを利用するための設定を行います。
   claude_code:
     enable: false
     background: false
+    mcp:
+      dart:
+        enable: true
+      notion:
+        enable: false
+      figma:
+        enable: false
+      firebase:
+        enable: false
 """ : ""}
 """;
 
