@@ -142,13 +142,30 @@ class CodeFontMarkdownSpanProperty extends MarkdownProperty {
   @override
   Color? backgroundColor(RenderContext context, MarkdownController controller,
       Color? baseBackgroundColor) {
-    final theme = context.theme;
-    return theme.colorTheme?.surface ?? theme.colorScheme.surface;
+    return null;
   }
 
   @override
   TextStyle? textStyle(RenderContext context, MarkdownController controller,
       TextStyle? baseTextStyle) {
-    return baseTextStyle;
+    baseTextStyle ??= const TextStyle();
+    final theme = context.theme;
+    return baseTextStyle.copyWith(
+      color: theme.colorTheme?.primary ?? theme.colorScheme.primary,
+    );
+  }
+
+  @override
+  BoxDecoration? backgroundDecoration(RenderContext context,
+      MarkdownController controller, BoxDecoration? baseDecoration) {
+    final theme = context.theme;
+    final textStyle = controller.style.paragraph.textStyle ??
+        const TextStyle(fontSize: 16.0);
+    final fontSize = textStyle.fontSize ?? 16.0;
+    final borderRadius = fontSize / 8.0;
+    return BoxDecoration(
+      color: theme.colorTheme?.surface ?? theme.colorScheme.surface,
+      borderRadius: BorderRadius.circular(borderRadius),
+    );
   }
 }

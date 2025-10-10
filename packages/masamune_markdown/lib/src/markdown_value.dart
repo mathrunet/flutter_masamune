@@ -183,6 +183,24 @@ class MarkdownSpanValue extends MarkdownValue {
     return baseBackgroundColor;
   }
 
+  /// The background decoration of the markdown span value.
+  ///
+  /// マークダウンのスパンの背景装飾。
+  BoxDecoration? backgroundDecoration(
+    RenderContext context,
+    MarkdownController controller,
+    BoxDecoration? baseDecoration,
+  ) {
+    for (final property in properties) {
+      final decoration =
+          property.backgroundDecoration(context, controller, baseDecoration);
+      if (decoration != null) {
+        return decoration;
+      }
+    }
+    return baseDecoration;
+  }
+
   @override
   MarkdownSpanValue copyWith({
     String? id,
@@ -730,6 +748,17 @@ abstract class MarkdownProperty {
     MarkdownController controller,
     Color? baseBackgroundColor,
   );
+
+  /// The background decoration of the markdown property.
+  ///
+  /// マークダウンのプロパティの背景装飾。
+  BoxDecoration? backgroundDecoration(
+    RenderContext context,
+    MarkdownController controller,
+    BoxDecoration? baseDecoration,
+  ) {
+    return null;
+  }
 
   @override
   bool operator ==(Object other) {

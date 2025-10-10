@@ -1320,6 +1320,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         textLength: 0,
         padding: padding,
         margin: margin,
+        spans: const [],
       ));
 
       _blockLayouts = layouts;
@@ -1348,6 +1349,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
           // Build TextSpan tree with individual styles for each span
           final textSpans = <TextSpan>[];
+          final spanInfos = <_SpanInfo>[];
           var totalLength = 0;
 
           for (var i = 0; i < block.children.length; i++) {
@@ -1357,6 +1359,14 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
               final spanStyle =
                   span.textStyle(this, _controller, baseTextStyle);
               textSpans.add(TextSpan(text: span.value, style: spanStyle));
+
+              // Store span info
+              spanInfos.add(_SpanInfo(
+                span: span,
+                localOffset: totalLength,
+                length: span.value.length,
+              ));
+
               totalLength += span.value.length;
             }
             if (i < block.children.length - 1) {
@@ -1382,6 +1392,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
             textLength: totalLength,
             padding: padding,
             margin: margin,
+            spans: spanInfos,
           ));
 
           textOffset += totalLength + 1; // +1 for newline between blocks
@@ -1523,6 +1534,35 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
             _endHandlePosition = Offset(layout.padding.left,
                     layout.offset.dy - layout.padding.top) +
                 Offset(endOffset.dx, 0);
+          }
+        }
+      }
+
+      // Draw span background decorations
+      for (final spanInfo in layout.spans) {
+        final decoration =
+            spanInfo.span.backgroundDecoration(this, _controller, null);
+        if (decoration != null) {
+          final spanStart = spanInfo.localOffset;
+          final spanEnd = spanInfo.localOffset + spanInfo.length;
+          final spanSelection = TextSelection(
+            baseOffset: spanStart,
+            extentOffset: spanEnd,
+          );
+          final boxes = layout.painter.getBoxesForSelection(spanSelection);
+          for (final box in boxes) {
+            final boxRect = box.toRect().shift(blockOffset);
+            final paint = Paint();
+            if (decoration.color != null) {
+              paint.color = decoration.color!;
+            }
+            if (decoration.borderRadius != null) {
+              final rRect =
+                  (decoration.borderRadius as BorderRadius).toRRect(boxRect);
+              canvas.drawRRect(rRect, paint);
+            } else {
+              canvas.drawRect(boxRect, paint);
+            }
           }
         }
       }
@@ -1997,6 +2037,7 @@ class _BlockLayout {
     required this.textLength,
     required this.padding,
     required this.margin,
+    required this.spans,
   });
 
   /// The markdown block.
@@ -2029,6 +2070,11 @@ class _BlockLayout {
   /// このブロックのマージン。
   final EdgeInsets margin;
 
+  /// Spans with their local offsets and lengths.
+  ///
+  /// ローカルオフセットと長さを持つスパン。
+  final List<_SpanInfo> spans;
+
   /// Offset where this block is positioned.
   ///
   /// このブロックが配置されるオフセット。
@@ -2038,6 +2084,32 @@ class _BlockLayout {
   ///
   /// パディングとマージンを含むこのブロックの高さ。
   double height = 0;
+}
+
+/// Information about a span in a block.
+///
+/// ブロック内のスパンに関する情報。
+class _SpanInfo {
+  _SpanInfo({
+    required this.span,
+    required this.localOffset,
+    required this.length,
+  });
+
+  /// The markdown span.
+  ///
+  /// マークダウンスパン。
+  final MarkdownSpanValue span;
+
+  /// Local offset within the block.
+  ///
+  /// ブロック内のローカルオフセット。
+  final int localOffset;
+
+  /// Length of the span text.
+  ///
+  /// スパンテキストの長さ。
+  final int length;
 }
 
 /// Context for rendering.
