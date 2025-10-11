@@ -34,6 +34,8 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     super.onGenerateFunctionCallingConfig,
     super.listenMcpServerOnRunApp = false,
     super.contentFilter,
+    super.threadContentSortCallback =
+        AIMasamuneAdapter.defaultThreadContentSortCallback,
   })  : _options = options,
         _instance = ai;
 

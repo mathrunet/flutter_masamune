@@ -24,6 +24,7 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
     this.onGenerateFunctionCallingConfig,
     this.listenMcpServerOnRunApp = false,
     this.contentFilter,
+    this.threadContentSortCallback = defaultThreadContentSortCallback,
   });
 
   static McpServer? _mcpServer;
@@ -64,12 +65,24 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   /// 内容が生成される前に呼び出されます。
   final List<AIContent> Function(List<AIContent> contents)? contentFilter;
 
+  /// Called before content is generated.
+  ///
+  /// 内容が生成される前に呼び出されます。
+  final int Function(AIContent a, AIContent b)? threadContentSortCallback;
+
   /// Called when the function calling config is generated.
   ///
   /// 関数呼び出しの設定が生成されたときに呼び出されます。
   final AIFunctionCallingConfig? Function(
           AIContent response, Set<AITool> tools, int trialCount)?
       onGenerateFunctionCallingConfig;
+
+  /// The default callback for sorting thread contents.
+  ///
+  /// スレッドコンテンツをソートするためのデフォルトコールバック。
+  static int defaultThreadContentSortCallback(AIContent a, AIContent b) {
+    return a.time.compareTo(b.time);
+  }
 
   /// You can retrieve the [AIMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

@@ -20,6 +20,8 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
     this.model = OpenaiAIModel.defaultModel,
     super.contentFilter,
     super.defaultConfig,
+    super.threadContentSortCallback =
+        AIMasamuneAdapter.defaultThreadContentSortCallback,
   });
 
   /// API key for OpenAI.

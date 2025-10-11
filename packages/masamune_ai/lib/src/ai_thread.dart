@@ -196,7 +196,7 @@ class AIThread
         tools = {...tools, ..._mcpClient?.value ?? const {}};
       }
       _value.addAll(contents);
-      _value.sort((a, b) => b.time.compareTo(a.time));
+      _value.sort(adapter.threadContentSortCallback);
       notifyListeners();
       final res = await adapter.generateContent(
         contentFilter?.call(_value) ??

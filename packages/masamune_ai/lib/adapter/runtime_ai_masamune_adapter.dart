@@ -17,6 +17,8 @@ class RuntimeAIMasamuneAdapter extends AIMasamuneAdapter {
   /// テスト等でご利用ください。
   const RuntimeAIMasamuneAdapter({
     this.onGenerateContent,
+    super.threadContentSortCallback =
+        AIMasamuneAdapter.defaultThreadContentSortCallback,
   });
 
   /// Simulates AI interactions only on the runtime without actually connecting to an AI service [AIMasamuneAdapter]
