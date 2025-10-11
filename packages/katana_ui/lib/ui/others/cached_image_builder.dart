@@ -4,11 +4,11 @@ part of "others.dart";
 ///
 /// キャッシュされた画像を表示するためのウィジェット。
 @immutable
-class CachedImageWidget extends StatefulWidget {
+class CachedImageBuilder extends StatefulWidget {
   /// Cached image widget.
   ///
   /// キャッシュされた画像を表示するためのウィジェット。
-  const CachedImageWidget({
+  const CachedImageBuilder({
     required super.key,
     required this.builder,
     this.width,
@@ -42,10 +42,10 @@ class CachedImageWidget extends StatefulWidget {
   final Color? coverBackgroundColor;
 
   @override
-  State<CachedImageWidget> createState() => _CachedImageWidgetState();
+  State<CachedImageBuilder> createState() => _CachedImageBuilderState();
 }
 
-class _CachedImageWidgetState extends State<CachedImageWidget> {
+class _CachedImageBuilderState extends State<CachedImageBuilder> {
   File? _cachedImageFile;
   var _isLoading = true;
   final GlobalKey _repaintBoundaryKey = GlobalKey();
@@ -57,7 +57,7 @@ class _CachedImageWidgetState extends State<CachedImageWidget> {
   }
 
   @override
-  void didUpdateWidget(CachedImageWidget oldWidget) {
+  void didUpdateWidget(CachedImageBuilder oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Regenerate if Key has changed
     // (Usually this case does not occur because a new State instance is created when Key changes,

@@ -4,11 +4,11 @@ part of "web.dart";
 ///
 /// キャッシュされた画像を表示するためのウィジェット。
 @immutable
-class CachedImageWidget extends StatefulWidget {
+class CachedImageBuilder extends StatefulWidget {
   /// Cached image widget.
   ///
   /// キャッシュされた画像を表示するためのウィジェット。
-  const CachedImageWidget({
+  const CachedImageBuilder({
     required super.key,
     required this.builder,
     this.width,
@@ -42,10 +42,10 @@ class CachedImageWidget extends StatefulWidget {
   final Color? coverBackgroundColor;
 
   @override
-  State<CachedImageWidget> createState() => _CachedImageWidgetState();
+  State<CachedImageBuilder> createState() => _CachedImageBuilderState();
 }
 
-class _CachedImageWidgetState extends State<CachedImageWidget> {
+class _CachedImageBuilderState extends State<CachedImageBuilder> {
   @override
   Widget build(BuildContext context) {
     return widget.builder(context);

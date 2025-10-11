@@ -11,11 +11,11 @@ class KatanaUICachedImageBuilderMdCliAiCode extends KatanaUiUsageCliAiCode {
   const KatanaUICachedImageBuilderMdCliAiCode();
 
   @override
-  String get name => "`CachedImageWidget`の利用方法";
+  String get name => "`CachedImageBuilder`の利用方法";
 
   @override
   String get description =>
-      "ウィジェットを画像としてキャッシュし、高速に表示する`CachedImageWidget`の利用方法。複雑なウィジェットを事前レンダリングして再利用可能な画像として保存し、パフォーマンスを向上。";
+      "ウィジェットを画像としてキャッシュし、高速に表示する`CachedImageBuilder`の利用方法。複雑なウィジェットを事前レンダリングして再利用可能な画像として保存し、パフォーマンスを向上。";
 
   @override
   String get globs => "*.dart";
@@ -30,7 +30,7 @@ class KatanaUICachedImageBuilderMdCliAiCode extends KatanaUiUsageCliAiCode {
   @override
   String body(String baseName, String className) {
     return """
-# CachedImageWidget
+# CachedImageBuilder
 
 ## 概要
 
@@ -52,7 +52,7 @@ $excerpt
 ### シンプルなキャッシュ
 
 ```dart
-CachedImageWidget(
+CachedImageBuilder(
   key: ValueKey("my_widget_cache"),
   builder: (context) {
     return Container(
@@ -70,7 +70,7 @@ CachedImageWidget(
 ### サイズ指定とローディング表示
 
 ```dart
-CachedImageWidget(
+CachedImageBuilder(
   key: ValueKey("avatar_cache"),
   width: 100,
   height: 100,
@@ -93,7 +93,7 @@ CachedImageWidget(
 ### 複雑なウィジェットのキャッシュ
 
 ```dart
-CachedImageWidget(
+CachedImageBuilder(
   key: ValueKey("profile_card_\${userId}"),
   width: 300,
   height: 400,
@@ -115,7 +115,7 @@ CachedImageWidget(
 ### カスタムペイントのキャッシュ
 
 ```dart
-CachedImageWidget(
+CachedImageBuilder(
   key: ValueKey("chart_\${dataHash}"),
   width: 400,
   height: 300,
@@ -137,7 +137,7 @@ ListView.builder(
   itemCount: items.length,
   itemBuilder: (context, index) {
     final item = items[index];
-    return CachedImageWidget(
+    return CachedImageBuilder(
       key: ValueKey("item_\${item.id}"),
       width: 100,
       height: 100,
@@ -155,7 +155,7 @@ ListView.builder(
 
 ```dart
 // ファイル名: "user_123.png"
-CachedImageWidget(
+CachedImageBuilder(
   key: ValueKey("user_123"),
   builder: (context) => UserWidget(userId: "123"),
 );
@@ -165,7 +165,7 @@ CachedImageWidget(
 
 ```dart
 // データベースのハッシュ値などを使用
-CachedImageWidget(
+CachedImageBuilder(
   key: ValueKey("content_\${contentHash}"),
   builder: (context) => ContentWidget(data: data),
 );
@@ -175,7 +175,7 @@ CachedImageWidget(
 
 ```dart
 // UUID等のユニークIDを使用
-CachedImageWidget(
+CachedImageBuilder(
   key: ValueKey(item.uuid),
   builder: (context) => ItemWidget(item: item),
 );
@@ -187,14 +187,14 @@ CachedImageWidget(
 
 ```dart
 // ✅ 良い例: 複雑で変更頻度の低いウィジェット
-CachedImageWidget(
+CachedImageBuilder(
   key: ValueKey("static_banner"),
   builder: (context) => ComplexBannerWidget(),
 );
 
 // ❌ 悪い例: 頻繁に変更されるウィジェット
 // キャッシュの恩恵を受けられない
-CachedImageWidget(
+CachedImageBuilder(
   key: ValueKey("timer_\${DateTime.now().millisecond}"),
   builder: (context) => TimerWidget(),
 );
@@ -204,7 +204,7 @@ CachedImageWidget(
 
 ```dart
 // データが更新されたときにキーを変更
-CachedImageWidget(
+CachedImageBuilder(
   key: ValueKey("profile_\${user.id}_\${user.updatedAt}"),
   builder: (context) => UserProfileWidget(user: user),
 );
