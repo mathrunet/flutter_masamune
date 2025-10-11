@@ -235,7 +235,7 @@ class AIThread
         return [];
       }
       _value.add(res);
-      _value.sort((a, b) => b.time.compareTo(a.time));
+      _value.sort(adapter.threadContentSortCallback);
       notifyListeners();
       await res.loading;
       adapter.onGeneratedContentUsage?.call(
