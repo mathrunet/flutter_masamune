@@ -159,8 +159,8 @@ class CodeFontMarkdownSpanProperty extends MarkdownProperty {
   BoxDecoration? backgroundDecoration(RenderContext context,
       MarkdownController controller, BoxDecoration? baseDecoration) {
     final theme = context.theme;
-    final textStyle = controller.style.paragraph.textStyle ??
-        const TextStyle(fontSize: 16.0);
+    final textStyle =
+        controller.style.paragraph.textStyle ?? const TextStyle(fontSize: 16.0);
     final fontSize = textStyle.fontSize ?? 16.0;
     final borderRadius = fontSize / 8.0;
     return BoxDecoration(

@@ -309,7 +309,10 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
       });
     } else {
       setState(() {
-        _linkSetting = _LinkSetting(field: field!);
+        _linkSetting = _LinkSetting(
+          field: field!,
+          controller: controller,
+        );
         _linkSetting?.focusNode.requestFocus();
       });
     }
@@ -528,7 +531,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                 16.sx,
                 Expanded(
                   child: FormTextField(
-                    // TODO: initial value of link
+                    controller: _linkSetting?.titleController,
                     hintText: widget.linkTitleHintText,
                     style: FormStyle(
                       borderStyle: FormInputBorderStyle.outline,
@@ -540,7 +543,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                       if (value == null) {
                         return;
                       }
-                      // TODO: update link
+                      _linkSetting?.updateTitle(value);
                     },
                   ),
                 ),
@@ -548,7 +551,9 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                 IconButton(
                   onPressed: () {
                     _linkSetting?.cancel();
-                    _linkSetting = null;
+                    setState(() {
+                      _linkSetting = null;
+                    });
                   },
                   icon: const Icon(Icons.cancel_outlined),
                 ),
@@ -562,8 +567,8 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                 16.sx,
                 Expanded(
                   child: FormTextField(
+                    controller: _linkSetting?.urlController,
                     focusNode: _linkSetting?.focusNode,
-                    // TODO: initial value of link
                     hintText: widget.linkLinkHintText,
                     style: FormStyle(
                       borderStyle: FormInputBorderStyle.outline,
@@ -571,9 +576,10 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                           widget.style?.backgroundColor ??
                           theme.colorTheme?.surface,
                     ),
-                    onChanged: (value) {
-                      // TODO: update link
-                    },
+                    // Don't update link on every change, only on submit
+                    // onChanged: (value) {
+                    //   _linkSetting?.updateUrl(value);
+                    // },
                   ),
                 ),
                 8.sx,
@@ -1011,15 +1017,275 @@ abstract class MarkdownToolRef {
 class _LinkSetting {
   _LinkSetting({
     required this.field,
-  });
+    required this.controller,
+  }) {
+    // Initialize with current selected text and link URL
+    final selection = field._selection;
+    debugPrint("_LinkSetting constructor: selection=$selection");
+
+    if (selection.isValid && !selection.isCollapsed) {
+      final text = controller.getPlainText();
+      debugPrint("Plain text: '$text'");
+
+      final selectedText = selection.textInside(text);
+      debugPrint("Selected text: '$selectedText'");
+
+      titleController.text = selectedText;
+      debugPrint("Set titleController.text to: '${titleController.text}'");
+
+      // Try to find existing link property in selection
+      _currentLinkUrl = _getLinkUrlFromSelection();
+      debugPrint("Found existing link URL: '$_currentLinkUrl'");
+
+      if (_currentLinkUrl != null) {
+        urlController.text = _currentLinkUrl!;
+        debugPrint("Set urlController.text to: '${urlController.text}'");
+      }
+    } else {
+      debugPrint("Selection is invalid or collapsed");
+    }
+  }
 
   final MarkdownFieldState field;
+  final MarkdownController controller;
   final FocusNode focusNode = FocusNode();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController urlController = TextEditingController();
 
-  void submit() {}
+  String? _currentLinkUrl;
+
+  String? _getLinkUrlFromSelection() {
+    final selection = field._selection;
+    if (!selection.isValid || selection.isCollapsed) {
+      return null;
+    }
+
+    final selectionStart = selection.start;
+    final selectionEnd = selection.end;
+
+    if (controller.value?.isEmpty ?? true) {
+      return null;
+    }
+
+    final fieldValue = controller.value!.first;
+    var currentOffset = 0;
+
+    for (final block in fieldValue.children) {
+      if (block is MarkdownParagraphBlockValue) {
+        for (final line in block.children) {
+          for (final span in line.children) {
+            final spanStart = currentOffset;
+            final spanEnd = currentOffset + span.value.length;
+
+            // Check if this span overlaps with the selection
+            if (selectionEnd > spanStart && selectionStart < spanEnd) {
+              // Find link property
+              for (final property in span.properties) {
+                if (property is LinkFontMarkdownSpanProperty) {
+                  return property.link;
+                }
+              }
+            }
+
+            currentOffset += span.value.length;
+          }
+        }
+        currentOffset += 1; // newline
+      }
+    }
+
+    return null;
+  }
+
+  void updateTitle(String title) {
+    final selection = field._selection;
+    if (!selection.isValid || selection.isCollapsed) {
+      return;
+    }
+
+    // Replace selected text with new title
+    controller.replaceText(selection.start, selection.end, title);
+
+    // Update selection to new text range
+    // Note: Direct selection update method doesn't exist on MarkdownFieldState
+    // The selection will be updated by the controller's replaceText method
+    field._selection = TextSelection(
+      baseOffset: selection.start,
+      extentOffset: selection.start + title.length,
+    );
+  }
+
+  void updateUrl(String? url) {
+    _currentLinkUrl = url;
+
+    final selection = field._selection;
+    debugPrint("updateUrl called: url=$url, selection=$selection");
+
+    if (!selection.isValid || selection.isCollapsed) {
+      debugPrint("Selection invalid or collapsed, returning");
+      return;
+    }
+
+    debugPrint(
+        "Selection valid: start=${selection.start}, end=${selection.end}");
+
+    if (url == null || url.isEmpty) {
+      // Remove link property
+      debugPrint("Removing link property (empty URL)");
+      const linkTool = LinkFontMarkdownInlineTools();
+      controller.removeInlineProperty(linkTool);
+    } else {
+      // First remove any existing link property
+      debugPrint("Adding link property with URL: $url");
+      const linkTool = LinkFontMarkdownInlineTools();
+      controller.removeInlineProperty(linkTool);
+
+      // Then add new link property with URL
+      // We need to manually update the property with the URL value
+      _addLinkProperty(url, selection.start, selection.end);
+    }
+  }
+
+  void _addLinkProperty(String url, int start, int end) {
+    debugPrint("_addLinkProperty: url=$url, start=$start, end=$end");
+
+    if (controller.value?.isEmpty ?? true) {
+      debugPrint("Controller value is empty, returning");
+      return;
+    }
+
+    final field = controller.value!.first;
+    final blocks = List<MarkdownBlockValue>.from(field.children);
+
+    debugPrint("Processing ${blocks.length} blocks");
+
+    var currentOffset = 0;
+    const toolId = "__markdown_inline_font_link__";
+
+    for (var i = 0; i < blocks.length; i++) {
+      final block = blocks[i];
+      if (block is MarkdownParagraphBlockValue) {
+        final lines = List<MarkdownLineValue>.from(block.children);
+        final updatedLines = <MarkdownLineValue>[];
+
+        for (final line in lines) {
+          final spans = List<MarkdownSpanValue>.from(line.children);
+          final updatedSpans = <MarkdownSpanValue>[];
+          var lineOffset = currentOffset;
+
+          debugPrint(
+              "Processing line with ${spans.length} spans at offset $lineOffset");
+
+          for (final span in spans) {
+            final spanStart = lineOffset;
+            final spanEnd = lineOffset + span.value.length;
+
+            debugPrint(
+                "Span: '${span.value}' at [$spanStart-$spanEnd], target: [$start-$end]");
+
+            if (end <= spanStart || start >= spanEnd) {
+              debugPrint("  -> No overlap, keeping span as-is");
+              updatedSpans.add(span);
+            } else {
+              debugPrint("  -> Overlap found!");
+              final overlapStart = start > spanStart ? start : spanStart;
+              final overlapEnd = end < spanEnd ? end : spanEnd;
+
+              debugPrint("  -> Overlap range: [$overlapStart-$overlapEnd]");
+
+              if (spanStart < overlapStart) {
+                final beforeText =
+                    span.value.substring(0, overlapStart - spanStart);
+                debugPrint("  -> Adding before text: '$beforeText'");
+                updatedSpans.add(span.copyWith(
+                  id: uuid(),
+                  value: beforeText,
+                ));
+              }
+
+              final selectedText = span.value
+                  .substring(overlapStart - spanStart, overlapEnd - spanStart);
+
+              debugPrint(
+                  "  -> Adding link to text: '$selectedText' with URL: $url");
+
+              // Add link property with URL
+              final linkProperty = LinkFontMarkdownSpanProperty(link: url);
+              final newProperties = [
+                ...span.properties.where((p) => p.type != toolId),
+                linkProperty,
+              ];
+
+              debugPrint("  -> New properties count: ${newProperties.length}");
+
+              updatedSpans.add(span.copyWith(
+                id: uuid(),
+                value: selectedText,
+                properties: newProperties,
+              ));
+
+              if (spanEnd > overlapEnd) {
+                final afterText = span.value.substring(overlapEnd - spanStart);
+                debugPrint("  -> Adding after text: '$afterText'");
+                updatedSpans.add(span.copyWith(
+                  id: uuid(),
+                  value: afterText,
+                ));
+              }
+            }
+
+            lineOffset += span.value.length;
+          }
+
+          updatedLines.add(line.copyWith(children: updatedSpans));
+        }
+
+        blocks[i] = block.copyWith(children: updatedLines);
+        currentOffset += _getBlockTextLength(block) + 1;
+      }
+    }
+
+    final newField = field.copyWith(children: blocks);
+    debugPrint("Updating controller with new field");
+
+    // Update the controller value directly
+    controller.value![0] = newField;
+
+    // Force a rebuild by notifying the field
+    debugPrint("Forcing field update");
+    this.field._updateRemoteEditingValue();
+
+    debugPrint("Link property update complete");
+  }
+
+  int _getBlockTextLength(MarkdownBlockValue block) {
+    if (block is MarkdownParagraphBlockValue) {
+      var length = 0;
+      for (final line in block.children) {
+        for (final span in line.children) {
+          length += span.value.length;
+        }
+      }
+      return length;
+    }
+    return 0;
+  }
+
+  void submit() {
+    debugPrint("submit called, URL: '${urlController.text}'");
+    // Apply link if URL is not empty
+    if (urlController.text.isNotEmpty) {
+      debugPrint("URL is not empty, calling updateUrl");
+      updateUrl(urlController.text);
+    } else {
+      debugPrint("URL is empty, not applying link");
+    }
+  }
 
   void cancel() {
     focusNode.dispose();
+    titleController.dispose();
+    urlController.dispose();
   }
 }
 

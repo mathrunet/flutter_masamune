@@ -1358,7 +1358,11 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
               // Apply span-specific style
               final spanStyle =
                   span.textStyle(this, _controller, baseTextStyle);
-              textSpans.add(TextSpan(text: span.value, style: spanStyle));
+
+              textSpans.add(TextSpan(
+                text: span.value,
+                style: spanStyle,
+              ));
 
               // Store span info
               spanInfos.add(_SpanInfo(
@@ -1566,7 +1570,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           }
         } else {
           // End current group if exists
-          if (currentDecoration != null && groupStart != null && groupEnd != null) {
+          if (currentDecoration != null &&
+              groupStart != null &&
+              groupEnd != null) {
             decorationGroups.add(_DecorationGroup(
               decoration: currentDecoration,
               start: groupStart,
@@ -1846,6 +1852,73 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     });
   }
 
+  String? _getLinkAtOffset(int targetOffset) {
+    final controllerValue = _controller.value;
+    if (controllerValue == null || controllerValue.isEmpty) {
+      return null;
+    }
+
+    var currentOffset = 0;
+
+    // Traverse through MarkdownFieldValue items
+    for (final fieldValue in controllerValue) {
+      // Traverse through blocks in each MarkdownFieldValue
+      for (final blockValue in fieldValue.children) {
+        // Only handle paragraph blocks for now
+        if (blockValue is MarkdownParagraphBlockValue) {
+          final paragraphBlock = blockValue;
+          // Traverse through lines
+          for (final line in paragraphBlock.children) {
+            // Traverse through spans
+            for (final span in line.children) {
+              final spanLength = span.value.length;
+              final spanStart = currentOffset;
+              final spanEnd = currentOffset + spanLength;
+
+              // Check if target offset is within this span
+              if (targetOffset >= spanStart && targetOffset < spanEnd) {
+                // Check if this span has a link property
+                for (final property in span.properties) {
+                  if (property is LinkFontMarkdownSpanProperty) {
+                    return property.link;
+                  }
+                }
+                // Found the span but no link property
+                return null;
+              }
+
+              currentOffset += spanLength;
+            }
+
+            // Add 1 for newline between lines (if not last line)
+            currentOffset += 1;
+          }
+
+          // Add 1 for newline between blocks (if not last block)
+          currentOffset += 1;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  /// Launch URL in the default browser or appropriate application.
+  ///
+  /// URLをデフォルトのブラウザまたは適切なアプリケーションで開きます。
+  Future<void> _launchUrl(String url) async {
+    try {
+      final uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        debugPrint("Cannot launch URL: $url");
+      }
+    } catch (e) {
+      debugPrint("Error launching URL: $e");
+    }
+  }
+
   void _handleTapUp(PointerUpEvent event) {
     _longPressTimer?.cancel();
     _longPressTimer = null;
@@ -1880,6 +1953,14 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     _onTap?.call();
 
     if (textOffset != null) {
+      // Check if tapped on a link
+      final linkUrl = _getLinkAtOffset(textOffset);
+      if (linkUrl != null && linkUrl.isNotEmpty) {
+        // Tapped on a link - open URL
+        _launchUrl(linkUrl);
+        return;
+      }
+
       // Tapped on text, set cursor position
       _onSelectionChanged(
         TextSelection.collapsed(offset: textOffset),
