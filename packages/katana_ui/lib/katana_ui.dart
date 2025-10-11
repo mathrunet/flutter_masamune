@@ -21,6 +21,11 @@ import "package:shimmer/shimmer.dart" as sm;
 
 export "package:katana/katana.dart";
 
+export "ui/others/others.dart"
+    if (dart.library.io) "ui/others/others.dart"
+    if (dart.library.js) "ui/web/web.dart"
+    if (dart.library.html) "ui/web/web.dart";
+
 part "modal/modal.dart";
 part "src/extensions.dart";
 part "ui/loading_builder.dart";

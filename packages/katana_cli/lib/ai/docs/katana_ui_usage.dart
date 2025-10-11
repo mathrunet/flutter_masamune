@@ -1,5 +1,6 @@
 // Project imports:
 import "package:katana_cli/ai/docs/katana_ui/avatar_tile.dart";
+import "package:katana_cli/ai/docs/katana_ui/cached_image_builder.dart";
 import "package:katana_cli/ai/docs/katana_ui/card_tile.dart";
 import "package:katana_cli/ai/docs/katana_ui/chat_tile.dart";
 import "package:katana_cli/ai/docs/katana_ui/indent.dart";
@@ -35,6 +36,7 @@ const kKatanaUiList = {
   "SquareAvatar": KatanaUISquareAvatarMdCliAiCode(),
   "SnsContentTile": KatanaUISnsContentTileMdCliAiCode(),
   "SnsImage": KatanaUISnsImageMdCliAiCode(),
+  "CachedImageBuilder": KatanaUICachedImageBuilderMdCliAiCode(),
 };
 
 /// Contents of katana_ui_usage.md.
