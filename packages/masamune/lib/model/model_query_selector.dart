@@ -827,7 +827,11 @@ class ModelGeoValueModelQuerySelector<TQuery extends ModelQueryBase>
 @immutable
 class ModelVectorValueModelQuerySelector<TQuery extends ModelQueryBase>
     extends ModelQuerySelector<ModelVectorValue, TQuery>
-    with _NearestQuerySelectorMixin<ModelVectorValue, TQuery> {
+    with
+        _NearestQuerySelectorMixin<ModelVectorValue, TQuery>,
+        _EqualQuerySelectorMixin<ModelVectorValue, TQuery>,
+        _NotEqualQuerySelectorMixin<ModelVectorValue, TQuery>,
+        _RawQuerySelectorMixin<ModelVectorValue, TQuery> {
   /// [ModelQuerySelector] for [ModelVectorValue].
   ///
   /// [ModelVectorValue]に対する[ModelQuerySelector]。
