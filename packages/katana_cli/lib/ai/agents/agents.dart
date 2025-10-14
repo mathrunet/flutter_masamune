@@ -1,17 +1,15 @@
 // Project imports:
-import "package:katana_cli/ai/agents/design_implementation_guide.dart";
-import "package:katana_cli/ai/agents/design_rules_guide.dart";
-import "package:katana_cli/ai/agents/figma_to_flutter_ui.dart";
+import "package:katana_cli/ai/agents/initial_development_requirements_analyzer.dart";
+import "package:katana_cli/ai/agents/initial_development_implimenter.dart";
+import "package:katana_cli/ai/agents/ui_builder.dart";
 import "package:katana_cli/ai/agents/firebase_flutter_debugger.dart";
-import "package:katana_cli/ai/agents/flutter_widget_inspector.dart";
-import "package:katana_cli/ai/agents/image_to_flutter_ui.dart";
-import "package:katana_cli/ai/agents/implementation_rules_guide.dart";
-import "package:katana_cli/ai/agents/masamune_framework_helper.dart";
-import "package:katana_cli/ai/agents/masamune_plugin_guide.dart";
-import "package:katana_cli/ai/agents/notion_requirements_analyzer.dart";
-import "package:katana_cli/ai/agents/package_finder.dart";
-import "package:katana_cli/ai/agents/test_rules_guide.dart";
-import "package:katana_cli/ai/agents/text_requirements_analyzer.dart";
+import "package:katana_cli/ai/agents/enhancement_development_requirements_analyzer.dart";
+import "package:katana_cli/ai/agents/ui_debugger.dart";
+import "package:katana_cli/ai/agents/initial_development_designer.dart";
+import "package:katana_cli/ai/agents/masamune_framework_advisor.dart";
+import "package:katana_cli/ai/agents/enhancement_development_implimenter.dart";
+import "package:katana_cli/ai/agents/package_advisor.dart";
+import "package:katana_cli/ai/agents/test_runner.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// AgentsAiCode is a command that generates agents.
@@ -35,28 +33,23 @@ class AgentsAiCode extends CliAiCodeCommand {
 
   @override
   Map<String, CliAiCode> get codes => {
-        "design_rules_guide": const DesignRulesGuideClaudeCodeAgentsCliAiCode(),
-        "implementation_rules_guide":
-            const ImplementationRulesGuideClaudeCodeAgentsCliAiCode(),
-        "test_rules_guide": const TestRulesGuideClaudeCodeAgentsCliAiCode(),
-        "masamune_framework_helper":
-            const MasamuneFrameworkHelperClaudeCodeAgentsCliAiCode(),
-        "design_implementation_guide":
-            const DesignImplementationGuideClaudeCodeAgentsCliAiCode(),
-        "flutter_widget_inspector":
-            const FlutterWidgetInspectorClaudeCodeAgentsCliAiCode(),
+        "masamune_framework_advisor":
+            const MasamuneFrameworkAdvisorClaudeCodeAgentsCliAiCode(),
+        "package_advisor": const PackageAdvisorClaudeCodeAgentsCliAiCode(),
+        "initial_development_requirements_analyzer":
+            const InitialDevelopmentRequirementsAnalyzerClaudeCodeAgentsCliAiCode(),
+        "initial_development_designer":
+            const InitialDevelopmentDesignerClaudeCodeAgentsCliAiCode(),
+        "initial_development_implimenter":
+            const InitialDevelopmentImplimenterClaudeCodeAgentsCliAiCode(),
+        "enhancement_development_requirements_analyzer":
+            const EnhancementDevelopmentRequirementsAnalyzerClaudeCodeAgentsCliAiCode(),
+        "enhancement_development_implimenter":
+            const EnhancementDevelopmentImplimenterClaudeCodeAgentsCliAiCode(),
         "firebase_flutter_debugger":
             const FirebaseFlutterDebuggerClaudeCodeAgentsCliAiCode(),
-        "notion_requirements_analyzer":
-            const NotionRequirementsAnalyzerClaudeCodeAgentsCliAiCode(),
-        "text_requirements_analyzer":
-            const TextRequirementsAnalyzerClaudeCodeAgentsCliAiCode(),
-        "masamune_plugin_guide":
-            const MasamunePluginGuideClaudeCodeAgentsCliAiCode(),
-        "package_finder": const PackageFinderClaudeCodeAgentsCliAiCode(),
-        "figma_to_flutter_ui":
-            const FigmaToFlutterUiClaudeCodeAgentsCliAiCode(),
-        "image_to_flutter_ui":
-            const ImageToFlutterUiClaudeCodeAgentsCliAiCode(),
+        "ui_builder": const UiBuilderClaudeCodeAgentsCliAiCode(),
+        "ui_debugger": const UiDebuggerClaudeCodeAgentsCliAiCode(),
+        "test_runner": const TestRunnerClaudeCodeAgentsCliAiCode(),
       };
 }
