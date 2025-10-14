@@ -501,6 +501,38 @@ class CollectionModelQuery extends ModelQuery {
     ]);
   }
 
+  /// Find vectors similar to [queryVector] using vector similarity search.
+  ///
+  /// You can specify the distance measure with [measure]. The default is cosine similarity.
+  ///
+  /// Use [limitTo] to limit the number of results.
+  ///
+  /// ベクトル類似度検索を使用して[queryVector]に類似したベクトルを見つけます。
+  ///
+  /// [measure]で距離測定方法を指定できます。デフォルトはコサイン類似度です。
+  ///
+  /// [limitTo]で結果の数を制限してください。
+  CollectionModelQuery nearest(
+    String key,
+    List<double> queryVector, {
+    VectorDistanceMeasure measure = VectorDistanceMeasure.cosine,
+  }) {
+    if (queryVector.isEmpty) {
+      return this;
+    }
+    return _copyWithAddingFilter(filters: [
+      ...filters.where((e) => e.type != ModelQueryFilterType.nearest),
+      ModelQueryFilter._(
+        type: ModelQueryFilterType.nearest,
+        key: key,
+        value: VectorValue(
+          vector: queryVector,
+          measure: measure,
+        ),
+      )
+    ]);
+  }
+
   /// Sort ascending order on the elements of [key].
   ///
   /// [key]の要素に対して昇順でソートをかけます。
@@ -846,6 +878,16 @@ class ModelQuery {
     if (data.isEmpty) {
       return data;
     }
+
+    // Check for nearest filter first (vector similarity search)
+    final nearestFilter = filters.firstWhereOrNull(
+      (item) => item.type == ModelQueryFilterType.nearest,
+    );
+    if (nearestFilter != null) {
+      return _sortByVectorSimilarity(data, nearestFilter);
+    }
+
+    // Existing orderBy logic
     final order = filters.firstWhereOrNull((item) =>
         item.type == ModelQueryFilterType.orderByAsc ||
         item.type == ModelQueryFilterType.orderByDesc);
@@ -868,6 +910,49 @@ class ModelQuery {
       default:
         return data;
     }
+  }
+
+  /// Sort data by vector similarity using the nearest filter.
+  ///
+  /// ベクトル類似度を使用してデータをソートします。
+  List<MapEntry<String, DynamicMap>> _sortByVectorSimilarity(
+    List<MapEntry<String, DynamicMap>> data,
+    ModelQueryFilter filter,
+  ) {
+    final key = filter.key;
+    if (key.isEmpty) {
+      return data;
+    }
+
+    final filterValue = filter.value;
+    if (filterValue is! VectorValue) {
+      return data;
+    }
+
+    // Calculate similarity scores for each document
+    final scored = data.map((entry) {
+      final fieldValue = entry.value[key];
+      double similarity = double.negativeInfinity;
+
+      if (fieldValue is ModelVectorValue) {
+        try {
+          similarity = fieldValue.value.similarity(
+            filterValue,
+            measure: filterValue.measure,
+          );
+        } catch (e) {
+          // If dimensions don't match or other error, assign negative infinity
+          similarity = double.negativeInfinity;
+        }
+      }
+
+      return MapEntry(entry, similarity);
+    }).toList();
+
+    // Sort by similarity score (highest first)
+    scored.sort((a, b) => b.value.compareTo(a.value));
+
+    return scored.map((e) => e.key).toList();
   }
 
   /// The position where [data] enters is retrieved by searching from [sorted] according to the sort setting of [filters].
@@ -1103,6 +1188,11 @@ enum ModelQueryFilterType {
   ///
   /// 与えたGeoHashの範囲内に位置が存在するかどうかをチェックするフィルター。
   geoHash,
+
+  /// A filter that finds vectors similar to the query vector using vector similarity search.
+  ///
+  /// ベクトル類似度検索を使用してクエリベクトルに類似したベクトルを見つけるフィルター。
+  nearest,
 
   /// A filter that checks if the given text is included in the text in the data.
   ///
@@ -1605,6 +1695,10 @@ class ModelQueryFilter {
         }
         return target
             .any((e) => RegExp("^${e.geoHash}").hasMatch(source.geoHash));
+      case ModelQueryFilterType.nearest:
+        // Nearest filtering is handled in sort(), not here
+        // Return true to pass all documents through to sorting
+        return true;
       case ModelQueryFilterType.like:
         if (target is! String) {
           return false;
