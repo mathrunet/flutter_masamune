@@ -23,7 +23,7 @@ part "github_content.freezed.dart";
 @formValue
 @immutable
 @CollectionModelPath(
-    "organization/:organization_id/repository/:repository_id/branch/:branch_id/commit/:commit_id/content",
+    "organization/:organization_id/repository/:repository_id/branch/:branch_id/commit/:commit_id/path/:path_id/content",
     adapter: "GithubModelMasamuneAdapter.primary.modelAdapter")
 abstract class GithubContentModel with _$GithubContentModel {
   /// Model for managing Github contents.
@@ -61,6 +61,21 @@ abstract class GithubContentModel with _$GithubContentModel {
     }
     return utf8.decode(base64Decode(LineSplitter.split(content).join()));
   }
+
+  /// Get the path id from the path.
+  ///
+  /// ```dart
+  /// GithubContentModel.getPathId("path/to/file");
+  /// ```
+  static String getPathId([String? path]) {
+    return Uri.encodeFull("/${path?.trimString("/") ?? ""}");
+  }
+
+  /// Whether the content is a directory.
+  bool get isDirectory => type == "dir";
+
+  /// Whether the content is base64 encoded.
+  bool get isBase64 => encoding == "base64";
 
   /// Convert from JSON.
   ///
