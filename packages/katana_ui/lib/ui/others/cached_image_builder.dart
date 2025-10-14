@@ -15,8 +15,14 @@ class CachedImageBuilder extends StatefulWidget {
     this.height,
     this.showLoadingIndicator = false,
     this.coverBackgroundColor,
+    this.enabled = true,
   }) : assert(coverBackgroundColor == null || showLoadingIndicator,
             "coverBackgroundColor is only used when showLoadingIndicator is true");
+
+  /// True if caching is enabled. Default is true.
+  ///
+  /// キャッシュが有効な場合は`true`。デフォルトは`true`。
+  final bool enabled;
 
   /// Builder that returns the widget to be converted to an image.
   ///
@@ -139,7 +145,7 @@ class _CachedImageBuilderState extends State<CachedImageBuilder> {
   Widget build(BuildContext context) {
     // Display cached image if available
     final cachedFile = _cachedImageFile;
-    if (cachedFile != null && !_isLoading) {
+    if (widget.enabled && cachedFile != null && !_isLoading) {
       return Image.file(
         cachedFile,
         width: widget.width,
@@ -157,7 +163,7 @@ class _CachedImageBuilderState extends State<CachedImageBuilder> {
           child: widget.builder(context),
         ),
         // Visible loading indicator or original widget
-        if (widget.showLoadingIndicator)
+        if (widget.enabled && widget.showLoadingIndicator)
           Container(
             color: widget.coverBackgroundColor,
             width: widget.width ?? double.infinity,
