@@ -200,6 +200,12 @@ class ModelVectorValue extends ModelFieldValue<VectorValue>
   /// ベクトル埋め込みを保存するための[ModelFieldValue]。
   const factory ModelVectorValue([VectorValue? value]) = _ModelVectorValue;
 
+  /// [ModelFieldValue] for storing vector embeddings.
+  ///
+  /// ベクトル埋め込みを保存するための[ModelFieldValue]。
+  const factory ModelVectorValue.fromList(List<double> list) =
+      _ModelVectorValueFromList;
+
   /// Used to disguise the retrieval of data from the server.
   ///
   /// Use for testing purposes.
@@ -224,9 +230,9 @@ class ModelVectorValue extends ModelFieldValue<VectorValue>
           ),
     );
     if (vector.isEmpty) {
-      return const ModelVectorValue();
+      return const ModelVectorValue.fromServer();
     }
-    return ModelVectorValue(
+    return ModelVectorValue.fromServer(
       VectorValue.fromList(
         vector,
         measure: measureValue ?? VectorDistanceMeasure.cosine,
@@ -299,6 +305,23 @@ class _ModelVectorValue extends ModelVectorValue
   ]) : super._();
   const _ModelVectorValue.fromServer([VectorValue? value])
       : super._(value, ModelFieldValueSource.server);
+}
+
+@immutable
+class _ModelVectorValueFromList extends _ModelVectorValue
+    with ModelFieldValueAsMapMixin<VectorValue> {
+  const _ModelVectorValueFromList(this._vector) : super();
+
+  @override
+  VectorValue get value => VectorValue(vector: _vector);
+
+  final List<double> _vector;
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode => VectorValue(vector: _vector).hashCode;
 }
 
 /// [ModelFieldValueConverter] to enable automatic conversion of [ModelVectorValue] as [ModelFieldValue].

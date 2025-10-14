@@ -161,6 +161,8 @@ extension _InterfaceTypeExtensions on InterfaceType {
       return "${DocsModelFieldValueType.modelVideoUri.app}$nullable";
     } else if (isModelGeoValue) {
       return "${DocsModelFieldValueType.modelGeoValue.app}$nullable";
+    } else if (isModelVectorValue) {
+      return "${DocsModelFieldValueType.modelVectorValue.app}$nullable";
     } else if (isModelLocale) {
       return "${DocsModelFieldValueType.modelLocale.app}$nullable";
     } else if (isModelLocalizedValue) {

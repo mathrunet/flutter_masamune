@@ -62,6 +62,8 @@ extension on InterfaceType {
       return "${SchemaType.any.label}$nullable";
     } else if (isModelGeoValue) {
       return "${SchemaType.any.label}$nullable";
+    } else if (isModelVectorValue) {
+      return "${SchemaType.any.label}$nullable";
     } else if (isModelLocale) {
       return "${SchemaType.any.label}$nullable";
     } else if (isModelLocalizedValue) {
@@ -132,6 +134,8 @@ extension on InterfaceType {
     } else if (isModelVideoUri) {
       return "${SchemaType.any.label}$nullable";
     } else if (isModelGeoValue) {
+      return "${SchemaType.any.label}$nullable";
+    } else if (isModelVectorValue) {
       return "${SchemaType.any.label}$nullable";
     } else if (isModelLocale) {
       return "${SchemaType.any.label}$nullable";

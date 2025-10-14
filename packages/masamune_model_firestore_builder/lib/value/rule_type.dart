@@ -211,6 +211,11 @@ enum RuleModelFieldValueType {
   /// [ModelGeoValue]。
   modelGeoValue,
 
+  /// [ModelVectorValue].
+  ///
+  /// [ModelVectorValue]。
+  modelVectorValue,
+
   /// [ModelUri].
   ///
   /// [ModelUri]。
@@ -274,6 +279,8 @@ enum RuleModelFieldValueType {
         return "ModelCommand";
       case RuleModelFieldValueType.modelGeoValue:
         return "ModelGeoValue";
+      case RuleModelFieldValueType.modelVectorValue:
+        return "ModelVectorValue";
       case RuleModelFieldValueType.modelUri:
         return "ModelUri";
       case RuleModelFieldValueType.modelImageUri:
@@ -316,6 +323,8 @@ enum RuleModelFieldValueType {
         return "isString(data, field) && isMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelGeoValue:
         return "isString(data, field) && isMap(data, \"#\" + field)";
+      case RuleModelFieldValueType.modelVectorValue:
+        return "isString(data, field) && isMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelUri:
         return "isString(data, field) && isMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelImageUri:
@@ -357,6 +366,8 @@ enum RuleModelFieldValueType {
       case RuleModelFieldValueType.modelCommand:
         return "isNullableString(data, field) && isNullableMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelGeoValue:
+        return "isNullableString(data, field) && isNullableMap(data, \"#\" + field)";
+      case RuleModelFieldValueType.modelVectorValue:
         return "isNullableString(data, field) && isNullableMap(data, \"#\" + field)";
       case RuleModelFieldValueType.modelUri:
         return "isNullableString(data, field) && isNullableMap(data, \"#\" + field)";

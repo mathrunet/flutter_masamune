@@ -46,6 +46,9 @@ _TestValue _$TestValueFromJson(Map<String, dynamic> json) => _TestValue(
       geo: json['geo'] == null
           ? const ModelGeoValue()
           : ModelGeoValue.fromJson(json['geo'] as Map<String, dynamic>),
+      vector: json['vector'] == null
+          ? const ModelVectorValue()
+          : ModelVectorValue.fromJson(json['vector'] as Map<String, dynamic>),
       search: json['search'] == null
           ? const ModelSearch([])
           : ModelSearch.fromJson(json['search'] as Map<String, dynamic>),
@@ -90,6 +93,7 @@ Map<String, dynamic> _$TestValueToJson(_TestValue instance) =>
       'image': instance.image,
       'video': instance.video,
       'geo': instance.geo,
+      'vector': instance.vector,
       'search': instance.search,
       'locale': instance.locale,
       'localized': instance.localized,

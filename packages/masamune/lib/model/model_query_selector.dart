@@ -249,6 +249,32 @@ mixin _NotWhereQuerySelectorMixin<T, TQuery extends ModelQueryBase>
   }
 }
 
+mixin _NearestQuerySelectorMixin<T, TQuery extends ModelQueryBase>
+    on ModelQuerySelector<T, TQuery> {
+  /// Find vectors similar to [queryVector] using vector similarity search.
+  ///
+  /// You can specify the distance measure with [measure]. The default is cosine similarity.
+  ///
+  /// Use [limitTo] to limit the number of results.
+  ///
+  /// ベクトル類似度検索を使用して[queryVector]に類似したベクトルを見つけます。
+  ///
+  /// [measure]で距離測定方法を指定できます。デフォルトはコサイン類似度です。
+  ///
+  /// [limitTo]で結果の数を制限します。
+  TQuery nearest(
+    List<double> queryVector, {
+    VectorDistanceMeasure measure = VectorDistanceMeasure.cosine,
+  }) {
+    if (queryVector.isEmpty) {
+      return _toQuery(_modelQuery);
+    }
+    return _toQuery(
+      _modelQuery.nearest(key, queryVector, measure: measure),
+    );
+  }
+}
+
 mixin _RawQuerySelectorMixin<T, TQuery extends ModelQueryBase>
     on ModelQuerySelector<T, TQuery> {
   /// [filter] filters directly on the object itself, and [query] filters directly on the external database.
@@ -793,6 +819,23 @@ class ModelGeoValueModelQuerySelector<TQuery extends ModelQueryBase>
       ),
     );
   }
+}
+
+/// [ModelQuerySelector] for [ModelVectorValue].
+///
+/// [ModelVectorValue]に対する[ModelQuerySelector]。
+@immutable
+class ModelVectorValueModelQuerySelector<TQuery extends ModelQueryBase>
+    extends ModelQuerySelector<ModelVectorValue, TQuery>
+    with _NearestQuerySelectorMixin<ModelVectorValue, TQuery> {
+  /// [ModelQuerySelector] for [ModelVectorValue].
+  ///
+  /// [ModelVectorValue]に対する[ModelQuerySelector]。
+  const ModelVectorValueModelQuerySelector({
+    required super.key,
+    required super.toQuery,
+    required super.modelQuery,
+  });
 }
 
 /// [ModelQuerySelector] for [ModelUri].

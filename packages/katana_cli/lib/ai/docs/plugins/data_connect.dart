@@ -282,6 +282,7 @@ await doc.delete();
 - `ModelUri` / `ModelImageUri` / `ModelVideoUri`
 - `ModelRef` (参照)
 - `ModelGeoValue` (地理座標)
+- `ModelVectorValue` (ベクトル)
 - `ModelCounter` / `ModelToken`
 - `ModelLocale` / `ModelLocalizedValue`
 - その他...

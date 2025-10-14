@@ -45,4 +45,5 @@ part "converter/firebase_data_connect_model_time_converter.dart";
 part "converter/firebase_data_connect_model_timestamp_range_converter.dart";
 part "converter/firebase_data_connect_model_date_range_converter.dart";
 part "converter/firebase_data_connect_model_time_range_converter.dart";
+part "converter/firebase_data_connect_model_vector_value_converter.dart";
 part "src/firebase_data_connect_model_field_value_converter.dart";

@@ -59,6 +59,7 @@ abstract class TestValue with _$TestValue {
     @Default(ModelImageUri()) ModelImageUri image,
     @Default(ModelVideoUri()) ModelVideoUri video,
     @Default(ModelGeoValue()) ModelGeoValue geo,
+    @Default(ModelVectorValue()) ModelVectorValue vector,
     @Default(ModelSearch([])) ModelSearch search,
     @Default(ModelLocale()) ModelLocale locale,
     @Default(ModelLocalizedValue()) ModelLocalizedValue localized,
@@ -133,6 +134,7 @@ void main() {
         latitude: 35.68177834908552,
         longitude: 139.75310000426765,
       ),
+      "vector": const ModelVectorValue.fromList([1.0, 2.0, 3.0]),
       "search": const ModelSearch(["aaaa", "bbbb", "cccc"]),
     });
     expect(
@@ -166,6 +168,7 @@ void main() {
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
         ),
+        "vector": const ModelVectorValue.fromList([1.0, 2.0, 3.0]),
         "search": const ModelSearch(["aaaa", "bbbb", "cccc"]),
       },
     );
@@ -201,6 +204,7 @@ void main() {
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
         ),
+        "vector": const ModelVectorValue.fromList([1.0, 2.0, 3.0]),
         "search": const ModelSearch(["aaaa", "bbbb", "cccc"])
       },
     );
@@ -217,6 +221,7 @@ void main() {
     print((model.value!["locale"] as ModelLocale).value);
     print((model.value!["localized"] as ModelLocalizedValue).value);
     print((model.value!["geo"] as ModelGeoValue).value);
+    print((model.value!["vector"] as ModelVectorValue).value);
     print((model.value!["search"] as ModelSearch).value);
     await model.save({
       "counter": model.value?.getAsModelCounter("counter").increment(1),
@@ -247,6 +252,7 @@ void main() {
         latitude: 35.67389581850969,
         longitude: 139.75049296820384,
       ),
+      "vector": const ModelVectorValue.fromList([3.0, 4.0, 5.0]),
       "search": const ModelSearch(["ddd", "eee"]),
     });
     print((model.value!["counter"] as ModelCounter).value);
@@ -262,6 +268,7 @@ void main() {
     print((model.value!["locale"] as ModelLocale).value);
     print((model.value!["localized"] as ModelLocalizedValue).value);
     print((model.value!["geo"] as ModelGeoValue).value);
+    print((model.value!["vector"] as ModelVectorValue).value);
     print((model.value!["search"] as ModelSearch).value);
     expect(
       model.value,
@@ -294,6 +301,7 @@ void main() {
           latitude: 35.67389581850969,
           longitude: 139.75049296820384,
         ),
+        "vector": const ModelVectorValue.fromList([3.0, 4.0, 5.0]),
         "search": const ModelSearch(["ddd", "eee"]),
       },
     );
@@ -334,6 +342,7 @@ void main() {
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
         ),
+        vector: const ModelVectorValue.fromList([1.0, 2.0, 3.0]),
         locale: const ModelLocale.fromCode("ja", "JP"),
         localized: const ModelLocalizedValue.fromList([
           LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
@@ -368,6 +377,7 @@ void main() {
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
         ),
+        vector: const ModelVectorValue.fromList([1.0, 2.0, 3.0]),
         locale: const ModelLocale.fromCode("ja", "JP"),
         localized: const ModelLocalizedValue.fromList([
           LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
@@ -403,6 +413,7 @@ void main() {
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
         ),
+        vector: const ModelVectorValue.fromList([1.0, 2.0, 3.0]),
         locale: const ModelLocale.fromCode("ja", "JP"),
         localized: const ModelLocalizedValue.fromList([
           LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
@@ -436,6 +447,7 @@ void main() {
           latitude: 35.67389581850969,
           longitude: 139.75049296820384,
         ),
+        vector: const ModelVectorValue.fromList([3.0, 4.0, 5.0]),
         locale: const ModelLocale.fromCode("en", "US"),
         localized: const ModelLocalizedValue.fromList([
           LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
@@ -470,6 +482,7 @@ void main() {
           latitude: 35.67389581850969,
           longitude: 139.75049296820384,
         ),
+        vector: const ModelVectorValue.fromList([3.0, 4.0, 5.0]),
         locale: const ModelLocale.fromCode("en", "US"),
         localized: const ModelLocalizedValue.fromList([
           LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
