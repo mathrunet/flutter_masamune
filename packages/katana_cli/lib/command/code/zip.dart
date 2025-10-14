@@ -51,6 +51,7 @@ class CodeZipCliCommand extends CliCommand {
         r".claude/",
         r"documents/rules/",
         r"documents/test/",
+        r"documents/debug/",
         r"CLAUDE.md$",
         r"ios/Flutter/\.last_build_id",
         r"\.dart_tool/",
