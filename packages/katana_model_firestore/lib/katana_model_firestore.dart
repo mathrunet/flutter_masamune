@@ -40,6 +40,7 @@ part "converter/firestore_model_localized_value_converter.dart";
 part "converter/firestore_model_image_uri_converter.dart";
 part "converter/firestore_model_video_uri_converter.dart";
 part "converter/firestore_model_geo_value_converter.dart";
+part "converter/firestore_model_vector_value_converter.dart";
 part "converter/firestore_model_search_converter.dart";
 part "converter/firestore_model_ref_converter.dart";
 part "converter/firestore_null_converter.dart";
