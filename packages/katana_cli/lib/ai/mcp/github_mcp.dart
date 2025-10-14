@@ -20,9 +20,10 @@ class GithubMcpCliMcpCode extends CliMcpCode {
   bool apply(ExecContext context) {
     final claudeCode =
         context.yaml.getAsMap("generative_ai").getAsMap("claude_code");
+    final secretsGithub = context.secrets.getAsMap("github");
     final mcp = claudeCode.getAsMap("mcp");
     final github = mcp.getAsMap("github");
-    final token = github.get("access_token", "");
+    final token = secretsGithub.get("token", "");
     if (token.isEmpty) {
       return false;
     }
@@ -31,11 +32,8 @@ class GithubMcpCliMcpCode extends CliMcpCode {
 
   @override
   DynamicMap body(ExecContext context) {
-    final claudeCode =
-        context.yaml.getAsMap("generative_ai").getAsMap("claude_code");
-    final mcp = claudeCode.getAsMap("mcp");
-    final github = mcp.getAsMap("github");
-    final token = github.get("access_token", "");
+    final secretsGithub = context.secrets.getAsMap("github");
+    final token = secretsGithub.get("token", "");
     return {
       "github": {
         "type": "http",

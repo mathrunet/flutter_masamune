@@ -870,7 +870,6 @@ generative_ai:
         enable: false
       github:
         enable: false
-        access_token:
 """ : ""}
 """;
 

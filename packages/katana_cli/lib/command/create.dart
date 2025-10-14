@@ -500,8 +500,14 @@ $document
     if (!gitignores.any((e) => e.startsWith("documents/test/macos/**/*.*"))) {
       gitignores.add("documents/test/macos/**/*.*");
     }
+    if (!gitignores.any((e) => e.startsWith("documentsdebug/**/*.*"))) {
+      gitignores.add("documents/debug/**/*.*");
+    }
     if (!gitignores.any((e) => e.startsWith("test/**/failures/**/*.*"))) {
       gitignores.add("test/**/failures/**/*.*");
+    }
+    if (!gitignores.any((e) => e.startsWith(".mcp.json"))) {
+      gitignores.add(".mcp.json");
     }
     await gitignore.writeAsString(gitignores.join("\n"));
     await Future.delayed(const Duration(seconds: 5));
@@ -980,8 +986,14 @@ $document
     if (!gitignores.any((e) => e.startsWith("documents/test/macos/**/*.*"))) {
       gitignores.add("documents/test/macos/**/*.*");
     }
+    if (!gitignores.any((e) => e.startsWith("documentsdebug/**/*.*"))) {
+      gitignores.add("documents/debug/**/*.*");
+    }
     if (!gitignores.any((e) => e.startsWith("test/**/failures/**/*.*"))) {
       gitignores.add("test/**/failures/**/*.*");
+    }
+    if (!gitignores.any((e) => e.startsWith(".mcp.json"))) {
+      gitignores.add(".mcp.json");
     }
     await gitignore.writeAsString(gitignores.join("\n"));
     await Future.delayed(const Duration(seconds: 5));
