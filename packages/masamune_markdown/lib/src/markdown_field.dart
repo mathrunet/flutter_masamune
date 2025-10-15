@@ -485,12 +485,6 @@ class MarkdownFieldState extends State<MarkdownField>
     final oldText = _composingText ?? widget.controller.getPlainText();
     final newText = value.text;
 
-    // Debug: Log IME input
-    debugPrint(
-      "updateEditingValue: old='$oldText' new='$newText' "
-      "composing=${value.composing} selection=${value.selection}",
-    );
-
     // Check if we're currently composing
     final isComposing = value.composing.isValid && value.composing.start != -1;
 
@@ -506,10 +500,6 @@ class MarkdownFieldState extends State<MarkdownField>
         _composingRegion = TextSelection(
           baseOffset: value.composing.start,
           extentOffset: value.composing.end,
-        );
-
-        debugPrint(
-          "IME composing: storing text='$newText' for display only",
         );
 
         // Trigger rebuild to show composing text
@@ -534,11 +524,6 @@ class MarkdownFieldState extends State<MarkdownField>
         }
 
         final replacementText = newText.substring(start, newEnd);
-
-        debugPrint(
-          "Text diff: start=$start oldEnd=$oldEnd newEnd=$newEnd "
-          "replacement='$replacementText'",
-        );
 
         // Check if the replacement text contains a newline
         if (replacementText.contains("\n")) {
@@ -615,9 +600,6 @@ class MarkdownFieldState extends State<MarkdownField>
       if (_composingText != null &&
           (!value.composing.isValid || value.composing.start == -1)) {
         // Composition ended - commit the composing text to controller
-        debugPrint(
-          "IME confirmed: committing text='$_composingText' to controller",
-        );
 
         final textToCommit = _composingText!;
         final currentText = widget.controller.getPlainText();
@@ -2148,22 +2130,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     final position = globalToLocal(globalPosition);
     final textOffset = _getTextOffsetForPosition(position);
 
-    debugPrint(
-      "DoubleTap: position=$position textOffset=$textOffset",
-    );
-
     if (textOffset != null) {
       // Select word at position
       // Use _getPlainText() to include composing text during IME input
       final text = _getPlainText();
-      debugPrint(
-        "DoubleTap: text='$text' length=${text.length}",
-      );
 
       final wordBoundary = _getWordBoundary(text, textOffset);
-      debugPrint(
-        "DoubleTap: wordBoundary=$wordBoundary (${wordBoundary.start}-${wordBoundary.end})",
-      );
 
       _onSelectionChanged(
         TextSelection(
@@ -2172,8 +2144,6 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         ),
         SelectionChangedCause.doubleTap,
       );
-    } else {
-      debugPrint("DoubleTap: textOffset is null, cannot select");
     }
     // Call onDoubleTap callback even if tapping on empty space
     _onDoubleTap?.call(globalPosition);
@@ -2183,22 +2153,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     final position = globalToLocal(globalPosition);
     final textOffset = _getTextOffsetForPosition(position);
 
-    debugPrint(
-      "LongPress: position=$position textOffset=$textOffset",
-    );
-
     if (textOffset != null) {
       // Select word at position
       // Use _getPlainText() to include composing text during IME input
       final text = _getPlainText();
-      debugPrint(
-        "LongPress: text='$text' length=${text.length}",
-      );
 
       final wordBoundary = _getWordBoundary(text, textOffset);
-      debugPrint(
-        "LongPress: wordBoundary=$wordBoundary (${wordBoundary.start}-${wordBoundary.end})",
-      );
 
       _onSelectionChanged(
         TextSelection(
@@ -2207,8 +2167,6 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         ),
         SelectionChangedCause.longPress,
       );
-    } else {
-      debugPrint("LongPress: textOffset is null, cannot select");
     }
     // Call onLongPress callback even if pressing on empty space
     _onLongPress?.call(globalPosition);

@@ -1021,25 +1021,19 @@ class _LinkSetting {
   }) {
     // Initialize with current selected text and link URL
     final selection = field._selection;
-    debugPrint("_LinkSetting constructor: selection=$selection");
 
     if (selection.isValid && !selection.isCollapsed) {
       final text = controller.getPlainText();
-      debugPrint("Plain text: '$text'");
 
       final selectedText = selection.textInside(text);
-      debugPrint("Selected text: '$selectedText'");
 
       titleController.text = selectedText;
-      debugPrint("Set titleController.text to: '${titleController.text}'");
 
       // Try to find existing link property in selection
       _currentLinkUrl = _getLinkUrlFromSelection();
-      debugPrint("Found existing link URL: '$_currentLinkUrl'");
 
       if (_currentLinkUrl != null) {
         urlController.text = _currentLinkUrl!;
-        debugPrint("Set urlController.text to: '${urlController.text}'");
       }
     } else {
       debugPrint("Selection is invalid or collapsed");
@@ -1119,24 +1113,17 @@ class _LinkSetting {
     _currentLinkUrl = url;
 
     final selection = field._selection;
-    debugPrint("updateUrl called: url=$url, selection=$selection");
 
     if (!selection.isValid || selection.isCollapsed) {
-      debugPrint("Selection invalid or collapsed, returning");
       return;
     }
 
-    debugPrint(
-        "Selection valid: start=${selection.start}, end=${selection.end}");
-
     if (url == null || url.isEmpty) {
       // Remove link property
-      debugPrint("Removing link property (empty URL)");
       const linkTool = LinkFontMarkdownInlineTools();
       controller.removeInlineProperty(linkTool);
     } else {
       // First remove any existing link property
-      debugPrint("Adding link property with URL: $url");
       const linkTool = LinkFontMarkdownInlineTools();
       controller.removeInlineProperty(linkTool);
 
@@ -1147,20 +1134,15 @@ class _LinkSetting {
   }
 
   void _addLinkProperty(String url, int start, int end) {
-    debugPrint("_addLinkProperty: url=$url, start=$start, end=$end");
-
     if (controller.value?.isEmpty ?? true) {
-      debugPrint("Controller value is empty, returning");
       return;
     }
 
     final field = controller.value!.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
-    debugPrint("Processing ${blocks.length} blocks");
-
     var currentOffset = 0;
-    const toolId = "__markdown_inline_font_link__";
+    const toolId = _kLinkFontMarkdownInlineToolsType;
 
     for (var i = 0; i < blocks.length; i++) {
       final block = blocks[i];
@@ -1173,30 +1155,19 @@ class _LinkSetting {
           final updatedSpans = <MarkdownSpanValue>[];
           var lineOffset = currentOffset;
 
-          debugPrint(
-              "Processing line with ${spans.length} spans at offset $lineOffset");
-
           for (final span in spans) {
             final spanStart = lineOffset;
             final spanEnd = lineOffset + span.value.length;
 
-            debugPrint(
-                "Span: '${span.value}' at [$spanStart-$spanEnd], target: [$start-$end]");
-
             if (end <= spanStart || start >= spanEnd) {
-              debugPrint("  -> No overlap, keeping span as-is");
               updatedSpans.add(span);
             } else {
-              debugPrint("  -> Overlap found!");
               final overlapStart = start > spanStart ? start : spanStart;
               final overlapEnd = end < spanEnd ? end : spanEnd;
-
-              debugPrint("  -> Overlap range: [$overlapStart-$overlapEnd]");
 
               if (spanStart < overlapStart) {
                 final beforeText =
                     span.value.substring(0, overlapStart - spanStart);
-                debugPrint("  -> Adding before text: '$beforeText'");
                 updatedSpans.add(span.copyWith(
                   id: uuid(),
                   value: beforeText,
@@ -1206,17 +1177,12 @@ class _LinkSetting {
               final selectedText = span.value
                   .substring(overlapStart - spanStart, overlapEnd - spanStart);
 
-              debugPrint(
-                  "  -> Adding link to text: '$selectedText' with URL: $url");
-
               // Add link property with URL
               final linkProperty = LinkFontMarkdownSpanProperty(link: url);
               final newProperties = [
                 ...span.properties.where((p) => p.type != toolId),
                 linkProperty,
               ];
-
-              debugPrint("  -> New properties count: ${newProperties.length}");
 
               updatedSpans.add(span.copyWith(
                 id: uuid(),
@@ -1226,7 +1192,6 @@ class _LinkSetting {
 
               if (spanEnd > overlapEnd) {
                 final afterText = span.value.substring(overlapEnd - spanStart);
-                debugPrint("  -> Adding after text: '$afterText'");
                 updatedSpans.add(span.copyWith(
                   id: uuid(),
                   value: afterText,
@@ -1246,16 +1211,12 @@ class _LinkSetting {
     }
 
     final newField = field.copyWith(children: blocks);
-    debugPrint("Updating controller with new field");
 
     // Update the controller value directly
     controller.value![0] = newField;
 
     // Force a rebuild by notifying the field
-    debugPrint("Forcing field update");
     this.field._updateRemoteEditingValue();
-
-    debugPrint("Link property update complete");
   }
 
   int _getBlockTextLength(MarkdownBlockValue block) {
@@ -1272,13 +1233,9 @@ class _LinkSetting {
   }
 
   void submit() {
-    debugPrint("submit called, URL: '${urlController.text}'");
     // Apply link if URL is not empty
     if (urlController.text.isNotEmpty) {
-      debugPrint("URL is not empty, calling updateUrl");
       updateUrl(urlController.text);
-    } else {
-      debugPrint("URL is empty, not applying link");
     }
   }
 

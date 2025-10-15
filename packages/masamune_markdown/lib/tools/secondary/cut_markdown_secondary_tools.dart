@@ -51,7 +51,6 @@ class CutMarkdownSecondaryTools extends MarkdownSecondaryTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    debugPrint("CutMarkdownSecondaryTools: onTap called");
     ref.controller.cut();
     ref.controller.unselect();
   }
