@@ -959,6 +959,8 @@ class MarkdownFieldState extends State<MarkdownField>
       onDoubleTap: (globalPosition) {
         widget.onDoubleTap?.call(globalPosition);
       },
+      enabled: widget.enabled ?? true,
+      readOnly: widget.readOnly,
     );
 
     if (widget.scrollable &&
@@ -999,6 +1001,8 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
     required this.textWidthBasis,
     required this.onSelectionChanged,
     required this.onTap,
+    required this.enabled,
+    required this.readOnly,
     this.composingRegion,
     this.composingText,
     this.cursorHeight,
@@ -1032,6 +1036,8 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
   final VoidCallback? onTap;
   final void Function(Offset globalPosition)? onLongPress;
   final void Function(Offset globalPosition)? onDoubleTap;
+  final bool enabled;
+  final bool readOnly;
 
   @override
   RenderObject createRenderObject(BuildContext context) {
@@ -1059,6 +1065,8 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       onTap: onTap,
       onLongPress: onLongPress,
       onDoubleTap: onDoubleTap,
+      enabled: enabled,
+      readOnly: readOnly,
     );
   }
 
@@ -1090,7 +1098,9 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       .._onSelectionChanged = onSelectionChanged
       .._onTap = onTap
       .._onLongPress = onLongPress
-      .._onDoubleTap = onDoubleTap;
+      .._onDoubleTap = onDoubleTap
+      ..enabled = enabled
+      ..readOnly = readOnly;
   }
 }
 
@@ -1114,6 +1124,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     required TextWidthBasis textWidthBasis,
     required SelectionChangedCallback onSelectionChanged,
     required VoidCallback? onTap,
+    required bool enabled,
+    required bool readOnly,
     TextSelection? composingRegion,
     String? composingText,
     double? cursorHeight,
@@ -1144,7 +1156,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         _onSelectionChanged = onSelectionChanged,
         _onTap = onTap,
         _onLongPress = onLongPress,
-        _onDoubleTap = onDoubleTap;
+        _onDoubleTap = onDoubleTap,
+        _enabled = enabled,
+        _readOnly = readOnly;
 
   MarkdownController _controller;
   MarkdownController get controller => _controller;
@@ -1380,6 +1394,30 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   void Function(Offset globalPosition)? _onLongPress;
 
   void Function(Offset globalPosition)? _onDoubleTap;
+
+  bool _enabled;
+  bool get enabled => _enabled;
+  set enabled(bool value) {
+    if (_enabled == value) {
+      return;
+    }
+    debugPrint(
+        "🔄 MarkdownField enabled changed: $_enabled -> $value (controller.hashCode: ${_controller.hashCode})");
+    _enabled = value;
+    markNeedsPaint();
+  }
+
+  bool _readOnly;
+  bool get readOnly => _readOnly;
+  set readOnly(bool value) {
+    if (_readOnly == value) {
+      return;
+    }
+    debugPrint(
+        "🔄 MarkdownField readOnly changed: $_readOnly -> $value (controller.hashCode: ${_controller.hashCode})");
+    _readOnly = value;
+    markNeedsPaint();
+  }
 
   // Block layout information
   List<_BlockLayout> _blockLayouts = [];
@@ -2044,6 +2082,60 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     return null;
   }
 
+  /// Get the text range of a link at the given offset.
+  ///
+  /// 指定されたオフセットにあるリンクのテキスト範囲を取得します。
+  TextRange? _getLinkRangeAtOffset(int targetOffset) {
+    final controllerValue = _controller.value;
+    if (controllerValue == null || controllerValue.isEmpty) {
+      return null;
+    }
+
+    var currentOffset = 0;
+
+    // Traverse through MarkdownFieldValue items
+    for (final fieldValue in controllerValue) {
+      // Traverse through blocks in each MarkdownFieldValue
+      for (final blockValue in fieldValue.children) {
+        // Only handle paragraph blocks for now
+        if (blockValue is MarkdownParagraphBlockValue) {
+          final paragraphBlock = blockValue;
+          // Traverse through lines
+          for (final line in paragraphBlock.children) {
+            // Traverse through spans
+            for (final span in line.children) {
+              final spanLength = span.value.length;
+              final spanStart = currentOffset;
+              final spanEnd = currentOffset + spanLength;
+
+              // Check if target offset is within this span
+              if (targetOffset >= spanStart && targetOffset < spanEnd) {
+                // Check if this span has a link property
+                for (final property in span.properties) {
+                  if (property is LinkFontMarkdownSpanProperty) {
+                    return TextRange(start: spanStart, end: spanEnd);
+                  }
+                }
+                // Found the span but no link property
+                return null;
+              }
+
+              currentOffset += spanLength;
+            }
+
+            // Add 1 for newline between lines (if not last line)
+            currentOffset += 1;
+          }
+
+          // Add 1 for newline between blocks (if not last block)
+          currentOffset += 1;
+        }
+      }
+    }
+
+    return null;
+  }
+
   /// Launch URL in the default browser or appropriate application.
   ///
   /// URLをデフォルトのブラウザまたは適切なアプリケーションで開きます。
@@ -2097,8 +2189,36 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       // Check if tapped on a link
       final linkUrl = _getLinkAtOffset(textOffset);
       if (linkUrl != null && linkUrl.isNotEmpty) {
-        // Tapped on a link - open URL
-        _launchUrl(linkUrl);
+        // Determine behavior based on enabled and readOnly state
+        debugPrint(
+            "🔗 Link tapped on field (controller.hashCode: ${_controller.hashCode})");
+        debugPrint("   enabled=$_enabled, readOnly=$_readOnly");
+        debugPrint("   focusNode.hasFocus=${_focusNode.hasFocus}");
+        debugPrint("   url=$linkUrl");
+
+        if (!_enabled || _readOnly) {
+          // When disabled or read-only: open the link
+          debugPrint(
+              "   → Opening link because enabled=$_enabled or readOnly=$_readOnly");
+          _launchUrl(linkUrl);
+        } else {
+          // When enabled and not read-only: select the link text and show dialog
+          debugPrint("   → Showing link dialog");
+          final linkRange = _getLinkRangeAtOffset(textOffset);
+          if (linkRange != null) {
+            // Select the link text
+            _onSelectionChanged(
+              TextSelection(
+                baseOffset: linkRange.start,
+                extentOffset: linkRange.end,
+              ),
+              SelectionChangedCause.tap,
+            );
+
+            // Notify controller to show link dialog
+            _controller.showLinkDialog();
+          }
+        }
         return;
       }
 

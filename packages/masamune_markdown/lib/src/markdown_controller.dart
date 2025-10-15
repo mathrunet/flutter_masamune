@@ -508,7 +508,8 @@ class MarkdownController extends MasamuneControllerBase<
       final spanStart = currentPos;
       final spanEnd = currentPos + span.value.length;
 
-      debugPrint("    Processing span: '${span.value}' at pos $spanStart-$spanEnd");
+      debugPrint(
+          "    Processing span: '${span.value}' at pos $spanStart-$spanEnd");
 
       // Check if this span is affected by the replacement
       if (safeEnd < spanStart) {
@@ -529,7 +530,9 @@ class MarkdownController extends MasamuneControllerBase<
             properties: const [],
           ));
         }
-      } else if (safeStart == safeEnd && safeStart == spanStart && text.isNotEmpty) {
+      } else if (safeStart == safeEnd &&
+          safeStart == spanStart &&
+          text.isNotEmpty) {
         // Special case: inserting at the exact start of a span (e.g., paste at offset 0)
         debugPrint("      -> Inserting text before this span");
         newSpans.add(MarkdownSpanValue(
@@ -961,7 +964,7 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// 指定された開始位置と終了位置のインラインテキストを変更します。
   void addInlineProperty(MarkdownPropertyInlineTools tool,
-      {int? start, int? end}) {
+      {int? start, int? end, Object? value}) {
     if (_field == null) {
       return;
     }
@@ -1056,7 +1059,7 @@ class MarkdownController extends MasamuneControllerBase<
               final selectedText = span.value
                   .substring(overlapStart - spanStart, overlapEnd - spanStart);
               final updatedProperty =
-                  _applyInlineProperty(tool, span.properties);
+                  _applyInlineProperty(tool, span.properties, value: value);
               updatedSpans.add(span.copyWith(
                 id: uuid(),
                 value: selectedText,
@@ -1290,9 +1293,10 @@ class MarkdownController extends MasamuneControllerBase<
   /// ツールからインラインプロパティを適用します。
   List<MarkdownProperty> _applyInlineProperty(
     MarkdownPropertyInlineTools tool,
-    List<MarkdownProperty> properties,
-  ) {
-    return tool.addProperty(properties);
+    List<MarkdownProperty> properties, {
+    Object? value,
+  }) {
+    return tool.addProperty(properties, value: value);
   }
 
   /// Removes the inline property from the tool from the given property.
@@ -1787,12 +1791,34 @@ class MarkdownController extends MasamuneControllerBase<
     notifyListeners();
   }
 
+  /// Callback for when a link should be shown in a dialog.
+  ///
+  /// リンクをダイアログに表示する必要があるときのコールバック。
+  VoidCallback? _onShowLinkDialog;
+
+  /// Sets the callback for when a link dialog should be shown.
+  ///
+  /// リンクダイアログを表示する必要があるときのコールバックを設定します。
+  void setLinkDialogCallback(VoidCallback? callback) {
+    _onShowLinkDialog = callback;
+  }
+
+  /// Shows the link dialog with the given URL.
+  ///
+  /// 指定されたURLでリンクダイアログを表示します。
+  void showLinkDialog() {
+    _onShowLinkDialog?.call();
+  }
+
   @override
   void dispose() {
     // Cancel any pending history saves
     _historyDebounceTimer?.cancel();
     _historyDebounceTimer = null;
     _hasPendingHistorySave = false;
+
+    // Clear callback
+    _onShowLinkDialog = null;
 
     // Dispose focus node
     focusNode.dispose();

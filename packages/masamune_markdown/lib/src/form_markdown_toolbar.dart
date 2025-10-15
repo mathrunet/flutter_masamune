@@ -157,6 +157,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
       const Duration(seconds: 1),
       (_) => _checkClipboard(),
     );
+    widget.controller.setLinkDialogCallback(toggleLinkDialog);
   }
 
   @override
