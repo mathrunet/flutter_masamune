@@ -14,8 +14,7 @@ part of "/katana_model_firestore.dart";
 class FirestoreModelVectorValueConverter
     extends FirestoreModelFieldValueConverter {
   /// FirestoreConverter for [ModelVectorValue].
-  ///
-  /// Currently stores vectors as arrays in Firestore.
+  ///stores vectors as arrays in Firestore.
   /// When Firestore Dart SDK adds native Vector support with findNearest(),
   /// this converter should be updated to use the native Vector type.
   ///
@@ -64,14 +63,17 @@ class FirestoreModelVectorValueConverter
       if (type == this.type) {
         final fromUser = value.get(ModelVectorValue.kSourceKey, "") ==
             ModelFieldValueSource.user.name;
-        final val = value.getAsList<num>(ModelVectorValue.kVectorKey);
+        final val = value
+            .getAsList<num>(ModelVectorValue.kVectorKey)
+            .map((e) => e.toDouble())
+            .toList();
         final targetKey = "#$key";
         return {
           targetKey: {
             kTypeFieldKey: ModelVectorValue.typeString,
             _kTargetKey: key,
           },
-          if (fromUser) key: val,
+          if (fromUser) key: firestore.VectorValue(val),
         };
       }
     } else if (value is List) {
