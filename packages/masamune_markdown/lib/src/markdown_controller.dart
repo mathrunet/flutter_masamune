@@ -492,6 +492,12 @@ class MarkdownController extends MasamuneControllerBase<
     final newSpans = <MarkdownSpanValue>[];
     var currentPos = 0;
 
+    debugPrint("🔧 replaceText: Building new spans");
+    debugPrint("  oldText: '$oldText' (${oldText.length} chars)");
+    debugPrint("  newText will be: '$newText' (${newText.length} chars)");
+    debugPrint("  safeStart=$safeStart, safeEnd=$safeEnd, text='$text'");
+    debugPrint("  existingSpans.length=${existingSpans.length}");
+
     // Process existing spans and split them if necessary
     for (final span in existingSpans) {
       // Skip empty spans - they should be removed
@@ -502,23 +508,38 @@ class MarkdownController extends MasamuneControllerBase<
       final spanStart = currentPos;
       final spanEnd = currentPos + span.value.length;
 
+      debugPrint("    Processing span: '${span.value}' at pos $spanStart-$spanEnd");
+
       // Check if this span is affected by the replacement
-      if (safeEnd <= spanStart) {
+      if (safeEnd < spanStart) {
         // Span is entirely after the replacement - keep as is
+        debugPrint("      -> Span is after replacement, keeping as is");
         newSpans.add(span);
       } else if (safeStart >= spanEnd) {
         // Span is entirely before the replacement - keep as is
+        debugPrint("      -> Span is before replacement, keeping as is");
         newSpans.add(span);
 
         // If we're inserting at the end of this span, add the new text after it
         if (safeStart == spanEnd && text.isNotEmpty) {
+          debugPrint("      -> Inserting text after this span");
           newSpans.add(MarkdownSpanValue(
             id: uuid(),
             value: text,
             properties: const [],
           ));
         }
+      } else if (safeStart == safeEnd && safeStart == spanStart && text.isNotEmpty) {
+        // Special case: inserting at the exact start of a span (e.g., paste at offset 0)
+        debugPrint("      -> Inserting text before this span");
+        newSpans.add(MarkdownSpanValue(
+          id: uuid(),
+          value: text,
+          properties: const [],
+        ));
+        newSpans.add(span);
       } else {
+        debugPrint("      -> Span overlaps with replacement");
         // Span overlaps with the replacement range
         // Split into: before, replacement, after
 
@@ -553,8 +574,14 @@ class MarkdownController extends MasamuneControllerBase<
       currentPos += span.value.length;
     }
 
+    debugPrint("  After processing spans: newSpans.length=${newSpans.length}");
+    for (var i = 0; i < newSpans.length; i++) {
+      debugPrint("    newSpans[$i]: '${newSpans[i].value}'");
+    }
+
     // If replacement is at the end or in an empty block, add the text without properties
     if (newSpans.isEmpty && text.isNotEmpty) {
+      debugPrint("  Adding text to empty newSpans");
       newSpans.add(MarkdownSpanValue(
         id: uuid(),
         value: text,
@@ -939,6 +966,12 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
+    // Save current state before modification
+    if (!_isUndoRedoInProgress) {
+      debugPrint("💾 addInlineProperty: Saving to undo stack");
+      _saveToUndoStack(immediate: true);
+    }
+
     // If there's composing text, just clear it
     // The text is already in the controller, no need to replace
     if (_field!.composingText != null) {
@@ -1068,13 +1101,18 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // If there's composing text, commit it first before removing property
-    if (_field!.composingText != null) {
-      final composingText = _field!.composingText!;
-      final currentText = getPlainText();
+    // Save current state before modification
+    if (!_isUndoRedoInProgress) {
+      debugPrint("💾 removeInlineProperty: Saving to undo stack");
+      _saveToUndoStack(immediate: true);
+    }
 
-      // Commit the composing text to controller
-      replaceText(0, currentText.length, composingText);
+    // If there's composing text, just clear it
+    // The text is already in the controller, no need to replace
+    if (_field!.composingText != null) {
+      debugPrint("🎨 removeInlineProperty: clearing composing state");
+      debugPrint("  composingText: '${_field!.composingText}'");
+      debugPrint("  controller text: '${getPlainText()}'");
 
       // Clear composing state
       _field!._composingText = null;
@@ -1422,39 +1460,42 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // If there's composing text, commit it first before pasting
+    debugPrint("📋 paste() called");
+    debugPrint("  Current selection: ${_field!._selection}");
+    debugPrint("  Current text: '${getPlainText()}'");
+    debugPrint("  composingText: '${_field!.composingText ?? 'null'}'");
+
+    // If there's composing text, just clear it
+    // The text is already in the controller, no need to replace
     if (_field!.composingText != null) {
-      final composingText = _field!.composingText!;
-      final currentText = getPlainText();
-
-      // Commit the composing text to controller
-      replaceText(0, currentText.length, composingText);
-
+      debugPrint("  Clearing composing state before paste");
       // Clear composing state
       _field!._composingText = null;
       _field!._composingRegion = null;
 
-      // Update cursor to end of text
-      _field!._selection =
-          TextSelection.collapsed(offset: composingText.length);
+      // Keep the current selection
       _field!._updateRemoteEditingValue();
     }
 
     final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
 
     if (clipboardData == null || clipboardData.text == null) {
+      debugPrint("  No clipboard data");
       return;
     }
 
     final text = clipboardData.text!;
+    debugPrint("  Clipboard text: '$text'");
 
     if (text.isEmpty) {
+      debugPrint("  Clipboard text is empty");
       return;
     }
 
     final selection = _field!._selection;
 
     if (!selection.isValid) {
+      debugPrint("  Selection is invalid");
       return;
     }
 
@@ -1462,6 +1503,7 @@ class MarkdownController extends MasamuneControllerBase<
     // If cursor is collapsed, insert at cursor position
     final start = selection.start;
     final end = selection.end;
+    debugPrint("  Pasting at position $start-$end");
 
     // Check if the pasted text contains newlines
     if (text.contains("\n")) {
