@@ -303,7 +303,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
   }
 
   @override
-  void toggleLinkDialog() {
+  void toggleLinkDialog([String? initialUrl]) {
     if (_linkSetting != null) {
       setState(() {
         _linkSetting = null;
@@ -313,6 +313,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
         _linkSetting = _LinkSetting(
           field: field!,
           controller: controller,
+          initialUrl: initialUrl,
         );
         _linkSetting?.focusNode.requestFocus();
       });
@@ -551,6 +552,10 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                 8.sx,
                 IconButton(
                   onPressed: () {
+                    // Remove the link when cancel button is pressed
+                    controller.removeInlineProperty(
+                      const LinkFontMarkdownInlineTools(),
+                    );
                     _linkSetting?.cancel();
                     setState(() {
                       _linkSetting = null;
@@ -997,7 +1002,7 @@ abstract class MarkdownToolRef {
   /// Open the link dialog.
   ///
   /// リンクダイアログを開きます。
-  void toggleLinkDialog();
+  void toggleLinkDialog([String? initialUrl]);
 
   /// Get the mention builder.
   ///
@@ -1019,6 +1024,7 @@ class _LinkSetting {
   _LinkSetting({
     required this.field,
     required this.controller,
+    String? initialUrl,
   }) {
     // Initialize with current selected text and link URL
     final selection = field._selection;
@@ -1030,11 +1036,17 @@ class _LinkSetting {
 
       titleController.text = selectedText;
 
-      // Try to find existing link property in selection
-      _currentLinkUrl = _getLinkUrlFromSelection();
+      // Use initialUrl if provided, otherwise try to find existing link
+      if (initialUrl != null) {
+        _currentLinkUrl = initialUrl;
+        urlController.text = initialUrl;
+      } else {
+        // Try to find existing link property in selection
+        _currentLinkUrl = _getLinkUrlFromSelection();
 
-      if (_currentLinkUrl != null) {
-        urlController.text = _currentLinkUrl!;
+        if (_currentLinkUrl != null) {
+          urlController.text = _currentLinkUrl!;
+        }
       }
     } else {
       debugPrint("Selection is invalid or collapsed");

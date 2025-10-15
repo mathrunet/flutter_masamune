@@ -1794,20 +1794,20 @@ class MarkdownController extends MasamuneControllerBase<
   /// Callback for when a link should be shown in a dialog.
   ///
   /// リンクをダイアログに表示する必要があるときのコールバック。
-  VoidCallback? _onShowLinkDialog;
+  void Function(String url)? _onShowLinkDialog;
 
   /// Sets the callback for when a link dialog should be shown.
   ///
   /// リンクダイアログを表示する必要があるときのコールバックを設定します。
-  void setLinkDialogCallback(VoidCallback? callback) {
+  void setLinkDialogCallback(void Function(String url)? callback) {
     _onShowLinkDialog = callback;
   }
 
   /// Shows the link dialog with the given URL.
   ///
   /// 指定されたURLでリンクダイアログを表示します。
-  void showLinkDialog() {
-    _onShowLinkDialog?.call();
+  void showLinkDialog(String url) {
+    _onShowLinkDialog?.call(url);
   }
 
   @override

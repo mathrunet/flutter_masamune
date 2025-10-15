@@ -2216,7 +2216,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
             );
 
             // Notify controller to show link dialog
-            _controller.showLinkDialog();
+            _controller.showLinkDialog(linkUrl);
           }
         }
         return;
