@@ -68,7 +68,8 @@ abstract class GithubContentModel with _$GithubContentModel {
   /// GithubContentModel.getPathId("path/to/file");
   /// ```
   static String getPathId([String? path]) {
-    return Uri.encodeFull("/${path?.trimString("/") ?? ""}");
+    final encodedPath = Uri.encodeComponent("/${path?.trimString("/") ?? ""}");
+    return encodedPath;
   }
 
   /// Whether the content is a directory.

@@ -845,8 +845,8 @@ class GithubModelAdapter extends ModelAdapter {
           commitId == null) {
         throw Exception("Invalid path for content document load");
       }
-      final path = Uri.decodeFull(pathId ?? "").trimString("/");
-      final contentPath = Uri.decodeFull(contentId).trimString("/");
+      final path = Uri.decodeComponent(pathId ?? "").trimString("/");
+      final contentPath = Uri.decodeComponent(contentId).trimString("/");
       final contents = await github.repositories.getContents(
         RepositorySlug(organizationId, repositoryId),
         "$path/$contentPath",
@@ -1182,7 +1182,7 @@ class GithubModelAdapter extends ModelAdapter {
           commitId == null) {
         throw Exception("Invalid path for content collection load");
       }
-      final path = Uri.decodeFull(pathId ?? "").trimString("/");
+      final path = Uri.decodeComponent(pathId ?? "").trimString("/");
       final contents = await github.repositories.getContents(
         RepositorySlug(organizationId, repositoryId),
         path,
@@ -1451,8 +1451,8 @@ class GithubModelAdapter extends ModelAdapter {
           commitId == null) {
         throw Exception("Invalid path for content document deletion");
       }
-      final path = Uri.decodeFull(pathId ?? "").trimString("/");
-      final contentPath = Uri.decodeFull(contentId).trimString("/");
+      final path = Uri.decodeComponent(pathId ?? "").trimString("/");
+      final contentPath = Uri.decodeComponent(contentId).trimString("/");
       final model = GithubContentModel.fromJson(value);
       final fromServer = model.fromServer;
       if (!fromServer) {
@@ -1623,7 +1623,7 @@ class GithubModelAdapter extends ModelAdapter {
         path = contents.file?.path;
       }
       path ??=
-          "${Uri.decodeFull(pathId ?? "").trimString("/")}/${Uri.decodeFull(contentId).trimString("/")}";
+          "${Uri.decodeComponent(pathId ?? "").trimString("/")}/${Uri.decodeComponent(contentId).trimString("/")}";
       await github.repositories.deleteFile(
         RepositorySlug(organizationId, repositoryId),
         path,
