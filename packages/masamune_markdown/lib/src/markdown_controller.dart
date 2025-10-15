@@ -153,7 +153,8 @@ class MarkdownController extends MasamuneControllerBase<
     );
 
     // Debug: Log what we're saving
-    final currentText = getPlainText();
+    // During IME input, show composing text; otherwise show committed text
+    final currentText = _field?.composingText ?? getPlainText();
     debugPrint(
       "saveHistory: text='$currentText' cursor=$cursorPosition "
       "stackSize=${_undoStack.length + 1}",
@@ -209,6 +210,9 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// 指定された範囲のテキストを置換します。
   void replaceText(int start, int end, String text) {
+    debugPrint(
+        "replaceText: start=$start end=$end text='$text' currentLength=${getPlainText().length}");
+
     // Skip history saving during undo/redo operations
     if (!_isUndoRedoInProgress) {
       // Save current state before modification
@@ -489,10 +493,19 @@ class MarkdownController extends MasamuneControllerBase<
     final newText =
         oldText.substring(0, safeStart) + text + oldText.substring(safeEnd);
 
+    debugPrint(
+        "replaceText: oldText='$oldText' safeStart=$safeStart safeEnd=$safeEnd newText='$newText'");
+
     // Collect existing spans with their properties
     final existingSpans = <MarkdownSpanValue>[];
     for (final line in targetBlock.children) {
       existingSpans.addAll(line.children);
+    }
+
+    debugPrint("replaceText: existingSpans.length=${existingSpans.length}");
+    for (var i = 0; i < existingSpans.length; i++) {
+      debugPrint(
+          "  span[$i]: value='${existingSpans[i].value}' length=${existingSpans[i].value.length}");
     }
 
     // Build new spans based on text changes
@@ -501,6 +514,12 @@ class MarkdownController extends MasamuneControllerBase<
 
     // Process existing spans and split them if necessary
     for (final span in existingSpans) {
+      // Skip empty spans - they should be removed
+      if (span.value.isEmpty) {
+        debugPrint("    Skipping empty span");
+        continue;
+      }
+
       final spanStart = currentPos;
       final spanEnd = currentPos + span.value.length;
 
@@ -510,7 +529,22 @@ class MarkdownController extends MasamuneControllerBase<
         newSpans.add(span);
       } else if (safeStart >= spanEnd) {
         // Span is entirely before the replacement - keep as is
+        debugPrint(
+            "    Adding span before replacement: value='${span.value}' length=${span.value.length}");
         newSpans.add(span);
+
+        // If we're inserting at the end of this span, add the new text after it
+        debugPrint(
+            "    Checking insertion at end: safeStart=$safeStart spanEnd=$spanEnd text.isNotEmpty=${text.isNotEmpty}");
+        if (safeStart == spanEnd && text.isNotEmpty) {
+          debugPrint(
+              "    Inserting new text span at end: value='$text' length=${text.length}");
+          newSpans.add(MarkdownSpanValue(
+            id: uuid(),
+            value: text,
+            properties: const [],
+          ));
+        }
       } else {
         // Span overlaps with the replacement range
         // Split into: before, replacement, after
@@ -546,8 +580,16 @@ class MarkdownController extends MasamuneControllerBase<
       currentPos += span.value.length;
     }
 
+    debugPrint(
+        "replaceText: after processing, newSpans.length=${newSpans.length}");
+    for (var i = 0; i < newSpans.length; i++) {
+      debugPrint(
+          "  newSpan[$i]: value='${newSpans[i].value}' length=${newSpans[i].value.length}");
+    }
+
     // If replacement is at the end or in an empty block, add the text without properties
     if (newSpans.isEmpty && text.isNotEmpty) {
+      debugPrint("replaceText: newSpans was empty, adding text directly");
       newSpans.add(MarkdownSpanValue(
         id: uuid(),
         value: text,
@@ -557,6 +599,11 @@ class MarkdownController extends MasamuneControllerBase<
 
     // Merge consecutive spans with the same properties
     final mergedSpans = _mergeSpans(newSpans);
+    debugPrint("replaceText: mergedSpans.length=${mergedSpans.length}");
+    for (var i = 0; i < mergedSpans.length; i++) {
+      debugPrint(
+          "  mergedSpan[$i]: value='${mergedSpans[i].value}' length=${mergedSpans[i].value.length}");
+    }
 
     // Ensure we have at least one span
     final finalSpans = mergedSpans.isNotEmpty
@@ -593,6 +640,8 @@ class MarkdownController extends MasamuneControllerBase<
 
     _value[0] = newField;
     notifyListeners();
+
+    debugPrint("replaceText: completed, newLength=${getPlainText().length}");
   }
 
   /// Checks if the document can be redone.
@@ -637,7 +686,8 @@ class MarkdownController extends MasamuneControllerBase<
 
       // Restore cursor position from snapshot
       if (_field != null) {
-        final restoredPosition = snapshot.cursorPosition.clamp(0, getPlainText().length);
+        final restoredPosition =
+            snapshot.cursorPosition.clamp(0, getPlainText().length);
         _field!._selection = TextSelection.collapsed(offset: restoredPosition);
         _field!._composingRegion = null; // Clear composing region
         _field!._updateRemoteEditingValue();
@@ -674,7 +724,8 @@ class MarkdownController extends MasamuneControllerBase<
       _hasPendingHistorySave = false;
 
       // Debug: Log current state before undo
-      final currentText = getPlainText();
+      // During IME input, show composing text; otherwise show committed text
+      final currentText = _field?.composingText ?? getPlainText();
       final currentCursorPosition = _field?._selection.baseOffset ?? 0;
       debugPrint(
         "undo: BEFORE - text='$currentText' cursor=$currentCursorPosition "
@@ -945,17 +996,43 @@ class MarkdownController extends MasamuneControllerBase<
   /// 指定された開始位置と終了位置のインラインテキストを変更します。
   void addInlineProperty(MarkdownPropertyInlineTools tool,
       {int? start, int? end}) {
+    debugPrint("addInlineProperty() called");
+
     if (_field == null) {
+      debugPrint("addInlineProperty: _field is null");
       return;
     }
 
+    // If there's composing text, commit it first before applying property
+    if (_field!.composingText != null) {
+      debugPrint(
+          "addInlineProperty: committing composing text before applying property");
+      final composingText = _field!.composingText!;
+      final currentText = getPlainText();
+
+      // Commit the composing text to controller
+      replaceText(0, currentText.length, composingText);
+
+      // Clear composing state
+      _field!._composingText = null;
+      _field!._composingRegion = null;
+
+      // Keep the current selection
+      _field!._updateRemoteEditingValue();
+    }
+
     final selection = _field!._selection;
+    debugPrint("addInlineProperty: selection=$selection");
+
     if (!selection.isValid || selection.isCollapsed) {
+      debugPrint("addInlineProperty: selection is invalid or collapsed");
       return;
     }
 
     final selectionStart = start ?? selection.start;
     final selectionEnd = end ?? selection.end;
+    debugPrint(
+        "addInlineProperty: selectionStart=$selectionStart selectionEnd=$selectionEnd");
 
     if (_value.isEmpty) {
       return;
@@ -1047,17 +1124,43 @@ class MarkdownController extends MasamuneControllerBase<
   /// 指定された開始位置と終了位置のインラインプロパティを削除します。
   void removeInlineProperty(MarkdownPropertyInlineTools tool,
       {int? start, int? end}) {
+    debugPrint("removeInlineProperty() called");
+
     if (_field == null) {
+      debugPrint("removeInlineProperty: _field is null");
       return;
     }
 
+    // If there's composing text, commit it first before removing property
+    if (_field!.composingText != null) {
+      debugPrint(
+          "removeInlineProperty: committing composing text before removing property");
+      final composingText = _field!.composingText!;
+      final currentText = getPlainText();
+
+      // Commit the composing text to controller
+      replaceText(0, currentText.length, composingText);
+
+      // Clear composing state
+      _field!._composingText = null;
+      _field!._composingRegion = null;
+
+      // Keep the current selection
+      _field!._updateRemoteEditingValue();
+    }
+
     final selection = _field!._selection;
+    debugPrint("removeInlineProperty: selection=$selection");
+
     if (!selection.isValid || selection.isCollapsed) {
+      debugPrint("removeInlineProperty: selection is invalid or collapsed");
       return;
     }
 
     final selectionStart = start ?? selection.start;
     final selectionEnd = end ?? selection.end;
+    debugPrint(
+        "removeInlineProperty: selectionStart=$selectionStart selectionEnd=$selectionEnd");
 
     if (_value.isEmpty) {
       return;
@@ -1150,6 +1253,14 @@ class MarkdownController extends MasamuneControllerBase<
   bool hasInlineProperty(MarkdownPropertyInlineTools tool,
       {int? start, int? end}) {
     if (_field == null) {
+      return false;
+    }
+
+    // If there's composing text (IME input in progress), return false
+    // because properties cannot be applied to uncommitted text
+    if (_field!.composingText != null) {
+      debugPrint(
+          "hasInlineProperty: IME composing in progress, returning false");
       return false;
     }
 
@@ -1291,20 +1402,37 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// 選択されたテキストをクリップボードにコピーします。
   Future<void> copy() async {
+    debugPrint("copy() called");
+
     if (_field == null) {
+      debugPrint("copy: _field is null");
       return;
     }
 
     final selection = _field!._selection;
+    debugPrint("copy: selection=$selection");
+
     if (!selection.isValid || selection.isCollapsed) {
+      debugPrint("copy: selection is invalid or collapsed");
       return;
     }
 
-    final text = getPlainText();
+    // Get text including composing text during IME input
+    final text = _field!.composingText ?? getPlainText();
+    debugPrint("copy: text='$text' length=${text.length}");
+
+    // Validate selection range
+    if (selection.end > text.length) {
+      debugPrint("copy: selection range exceeds text length");
+      return;
+    }
+
     final selectedText = selection.textInside(text);
+    debugPrint("copy: selectedText='$selectedText'");
 
     if (selectedText.isNotEmpty) {
       await Clipboard.setData(ClipboardData(text: selectedText));
+      debugPrint("copy: copied to clipboard");
 
       // Unselect text after copying
       _field!._selection = TextSelection.collapsed(offset: selection.end);
@@ -1317,28 +1445,64 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// 選択されたテキストをクリップボードに切り取り、削除します。
   Future<void> cut() async {
+    debugPrint("cut() called");
+
     if (_field == null) {
+      debugPrint("cut: _field is null");
       return;
+    }
+
+    // If there's composing text, commit it first before cutting
+    if (_field!.composingText != null) {
+      debugPrint("cut: committing composing text before cut");
+      final composingText = _field!.composingText!;
+      final currentText = getPlainText();
+
+      // Commit the composing text to controller
+      replaceText(0, currentText.length, composingText);
+
+      // Clear composing state
+      _field!._composingText = null;
+      _field!._composingRegion = null;
+
+      // Keep the current selection
+      _field!._updateRemoteEditingValue();
     }
 
     final selection = _field!._selection;
+    debugPrint("cut: selection=$selection");
+
     if (!selection.isValid || selection.isCollapsed) {
+      debugPrint("cut: selection is invalid or collapsed");
       return;
     }
 
-    final text = getPlainText();
+    // Get text including composing text during IME input
+    final text = _field!.composingText ?? getPlainText();
+    debugPrint("cut: text='$text' length=${text.length}");
+
+    // Validate selection range
+    if (selection.end > text.length) {
+      debugPrint("cut: selection range exceeds text length");
+      return;
+    }
+
     final selectedText = selection.textInside(text);
+    debugPrint("cut: selectedText='$selectedText'");
 
     if (selectedText.isNotEmpty) {
       await Clipboard.setData(ClipboardData(text: selectedText));
+      debugPrint("cut: copied to clipboard");
 
       // Save current state before modification (replaceText will also save, so we skip it here)
       // Delete the selected text
       replaceText(selection.start, selection.end, "");
+      debugPrint("cut: deleted text");
 
       // Update selection to collapsed at start position
       _field!._selection = TextSelection.collapsed(offset: selection.start);
       _field!._updateRemoteEditingValue();
+      debugPrint("cut: completed");
     }
   }
 
@@ -1346,22 +1510,53 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// クリップボードからカーソル位置にテキストをペーストします。
   Future<void> paste() async {
+    debugPrint("paste() called");
+
     if (_field == null) {
+      debugPrint("paste: _field is null");
       return;
     }
 
+    // If there's composing text, commit it first before pasting
+    if (_field!.composingText != null) {
+      debugPrint("paste: committing composing text before paste");
+      final composingText = _field!.composingText!;
+      final currentText = getPlainText();
+
+      // Commit the composing text to controller
+      replaceText(0, currentText.length, composingText);
+
+      // Clear composing state
+      _field!._composingText = null;
+      _field!._composingRegion = null;
+
+      // Update cursor to end of text
+      _field!._selection =
+          TextSelection.collapsed(offset: composingText.length);
+      _field!._updateRemoteEditingValue();
+    }
+
     final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+    debugPrint("paste: clipboardData=$clipboardData");
+
     if (clipboardData == null || clipboardData.text == null) {
+      debugPrint("paste: clipboard is empty");
       return;
     }
 
     final text = clipboardData.text!;
+    debugPrint("paste: text='$text'");
+
     if (text.isEmpty) {
+      debugPrint("paste: text is empty");
       return;
     }
 
     final selection = _field!._selection;
+    debugPrint("paste: selection=$selection");
+
     if (!selection.isValid) {
+      debugPrint("paste: selection is invalid");
       return;
     }
 
@@ -1403,14 +1598,20 @@ class MarkdownController extends MasamuneControllerBase<
       _field!._selection = TextSelection.collapsed(offset: currentOffset);
     } else {
       // Normal text paste without newlines
+      debugPrint("paste: inserting at start=$start end=$end");
       replaceText(start, end, text);
 
       // Update cursor position to the end of pasted text
-      _field!._selection = TextSelection.collapsed(offset: start + text.length);
+      final newCursorPosition = start + text.length;
+      _field!._selection = TextSelection.collapsed(offset: newCursorPosition);
+      debugPrint("paste: updated cursor to $newCursorPosition");
     }
 
     _field!._updateRemoteEditingValue();
     notifyListeners();
+
+    final finalText = getPlainText();
+    debugPrint("paste: completed, final text='$finalText'");
   }
 
   /// Inserts a new paragraph block at the specified offset.

@@ -289,6 +289,11 @@ class MarkdownFieldState extends State<MarkdownField>
   // Keep track of composing text during IME input
   String? _composingText;
 
+  /// Returns the current composing text during IME input, or null if not composing.
+  ///
+  /// IME入力中の変換テキストを返します。変換中でない場合はnullを返します。
+  String? get composingText => _composingText;
+
   // For tracking cursor blink
   bool _showCursor = true;
   late AnimationController _cursorBlinkController;
@@ -495,6 +500,7 @@ class MarkdownFieldState extends State<MarkdownField>
       if (isComposing) {
         // During IME composing, only update _composingText for display
         // Don't update controller until composition ends
+        // This keeps IME state separate from committed text
         _composingText = newText;
         _selection = value.selection;
         _composingRegion = TextSelection(
@@ -2220,7 +2226,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     var end = offset;
 
     // Find start of word
-    while (start > 0 && start <= text.length && !_isWordBoundary(text[start - 1])) {
+    while (start > 0 &&
+        start <= text.length &&
+        !_isWordBoundary(text[start - 1])) {
       start--;
     }
 
