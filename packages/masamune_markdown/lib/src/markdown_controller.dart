@@ -1,5 +1,18 @@
 part of "/masamune_markdown.dart";
 
+/// Represents a snapshot of document state and cursor position for undo/redo.
+///
+/// Undo/Redo用のドキュメント状態とカーソル位置のスナップショット。
+class _HistorySnapshot {
+  const _HistorySnapshot({
+    required this.fieldValues,
+    required this.cursorPosition,
+  });
+
+  final List<MarkdownFieldValue> fieldValues;
+  final int cursorPosition;
+}
+
 /// Controller for [FormMarkdownField].
 ///
 /// By passing this, you can integrate with [FormMarkdownToolbar] tools.
@@ -43,15 +56,15 @@ class MarkdownController extends MasamuneControllerBase<
 
   final List<MarkdownFieldValue> _value = [];
 
-  /// Undo history stack (stored as deep copied MarkdownFieldValue objects).
+  /// Undo history stack (stored as deep copied MarkdownFieldValue objects and cursor positions).
   ///
-  /// 元に戻す履歴スタック（ディープコピーされたMarkdownFieldValueオブジェクトとして保存）。
-  final List<List<MarkdownFieldValue>> _undoStack = [];
+  /// 元に戻す履歴スタック（ディープコピーされたMarkdownFieldValueオブジェクトとカーソル位置として保存）。
+  final List<_HistorySnapshot> _undoStack = [];
 
-  /// Redo history stack (stored as deep copied MarkdownFieldValue objects).
+  /// Redo history stack (stored as deep copied MarkdownFieldValue objects and cursor positions).
   ///
-  /// やり直す履歴スタック（ディープコピーされたMarkdownFieldValueオブジェクトとして保存）。
-  final List<List<MarkdownFieldValue>> _redoStack = [];
+  /// やり直す履歴スタック（ディープコピーされたMarkdownFieldValueオブジェクトとカーソル位置として保存）。
+  final List<_HistorySnapshot> _redoStack = [];
 
   /// Maximum number of history entries to keep.
   ///
@@ -129,7 +142,22 @@ class MarkdownController extends MasamuneControllerBase<
   /// 現在の状態を元に戻すスタックに即座に保存します。
   void _saveToUndoStackImmediate() {
     // Create a deep copy of current state
-    final snapshot = _deepCopyFieldValues(_value);
+    final fieldValuesCopy = _deepCopyFieldValues(_value);
+
+    // Get current cursor position
+    final cursorPosition = _field?._selection.baseOffset ?? 0;
+
+    final snapshot = _HistorySnapshot(
+      fieldValues: fieldValuesCopy,
+      cursorPosition: cursorPosition,
+    );
+
+    // Debug: Log what we're saving
+    final currentText = getPlainText();
+    debugPrint(
+      "saveHistory: text='$currentText' cursor=$cursorPosition "
+      "stackSize=${_undoStack.length + 1}",
+    );
 
     _undoStack.add(snapshot);
 
@@ -461,7 +489,87 @@ class MarkdownController extends MasamuneControllerBase<
     final newText =
         oldText.substring(0, safeStart) + text + oldText.substring(safeEnd);
 
-    // Create updated block with new text
+    // Collect existing spans with their properties
+    final existingSpans = <MarkdownSpanValue>[];
+    for (final line in targetBlock.children) {
+      existingSpans.addAll(line.children);
+    }
+
+    // Build new spans based on text changes
+    final newSpans = <MarkdownSpanValue>[];
+    var currentPos = 0;
+
+    // Process existing spans and split them if necessary
+    for (final span in existingSpans) {
+      final spanStart = currentPos;
+      final spanEnd = currentPos + span.value.length;
+
+      // Check if this span is affected by the replacement
+      if (safeEnd <= spanStart) {
+        // Span is entirely after the replacement - keep as is
+        newSpans.add(span);
+      } else if (safeStart >= spanEnd) {
+        // Span is entirely before the replacement - keep as is
+        newSpans.add(span);
+      } else {
+        // Span overlaps with the replacement range
+        // Split into: before, replacement, after
+
+        // Before replacement (if any)
+        if (spanStart < safeStart) {
+          final beforeText = span.value.substring(0, safeStart - spanStart);
+          newSpans.add(span.copyWith(
+            id: uuid(),
+            value: beforeText,
+          ));
+        }
+
+        // Replacement text (without properties from original span)
+        if (text.isNotEmpty && safeStart >= spanStart && safeStart < spanEnd) {
+          newSpans.add(MarkdownSpanValue(
+            id: uuid(),
+            value: text,
+            properties: const [], // New text has no properties
+          ));
+        }
+
+        // After replacement (if any)
+        if (spanEnd > safeEnd) {
+          final afterText = span.value.substring(safeEnd - spanStart);
+          newSpans.add(span.copyWith(
+            id: uuid(),
+            value: afterText,
+          ));
+        }
+      }
+
+      currentPos += span.value.length;
+    }
+
+    // If replacement is at the end or in an empty block, add the text without properties
+    if (newSpans.isEmpty && text.isNotEmpty) {
+      newSpans.add(MarkdownSpanValue(
+        id: uuid(),
+        value: text,
+        properties: const [],
+      ));
+    }
+
+    // Merge consecutive spans with the same properties
+    final mergedSpans = _mergeSpans(newSpans);
+
+    // Ensure we have at least one span
+    final finalSpans = mergedSpans.isNotEmpty
+        ? mergedSpans
+        : [
+            MarkdownSpanValue(
+              id: uuid(),
+              value: newText,
+              properties: const [],
+            )
+          ];
+
+    // Create updated block with new spans
     final newBlock = MarkdownParagraphBlockValue(
       id: targetBlock.id,
       children: [
@@ -469,15 +577,7 @@ class MarkdownController extends MasamuneControllerBase<
           id: targetBlock.children.isNotEmpty
               ? targetBlock.children.first.id
               : uuid(),
-          children: [
-            MarkdownSpanValue(
-              id: targetBlock.children.isNotEmpty &&
-                      targetBlock.children.first.children.isNotEmpty
-                  ? targetBlock.children.first.children.first.id
-                  : uuid(),
-              value: newText,
-            ),
-          ],
+          children: finalSpans,
         ),
       ],
     );
@@ -521,19 +621,24 @@ class MarkdownController extends MasamuneControllerBase<
       _historyDebounceTimer?.cancel();
       _hasPendingHistorySave = false;
 
-      // Save current state to undo stack (deep copy)
-      final currentSnapshot = _deepCopyFieldValues(_value);
+      // Save current state to undo stack (deep copy with cursor position)
+      final currentFieldValuesCopy = _deepCopyFieldValues(_value);
+      final currentCursorPosition = _field?._selection.baseOffset ?? 0;
+      final currentSnapshot = _HistorySnapshot(
+        fieldValues: currentFieldValuesCopy,
+        cursorPosition: currentCursorPosition,
+      );
       _undoStack.add(currentSnapshot);
 
       // Restore from redo stack
       final snapshot = _redoStack.removeLast();
       _value.clear();
-      _value.addAll(snapshot);
+      _value.addAll(snapshot.fieldValues);
 
-      // Update selection to end of text
+      // Restore cursor position from snapshot
       if (_field != null) {
-        final text = getPlainText();
-        _field!._selection = TextSelection.collapsed(offset: text.length);
+        final restoredPosition = snapshot.cursorPosition.clamp(0, getPlainText().length);
+        _field!._selection = TextSelection.collapsed(offset: restoredPosition);
         _field!._composingRegion = null; // Clear composing region
         _field!._updateRemoteEditingValue();
       }
@@ -556,6 +661,7 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     if (!canUndo) {
+      debugPrint("undo: Cannot undo - stack is empty");
       return;
     }
 
@@ -567,19 +673,43 @@ class MarkdownController extends MasamuneControllerBase<
       _historyDebounceTimer?.cancel();
       _hasPendingHistorySave = false;
 
-      // Save current state to redo stack (deep copy)
-      final currentSnapshot = _deepCopyFieldValues(_value);
+      // Debug: Log current state before undo
+      final currentText = getPlainText();
+      final currentCursorPosition = _field?._selection.baseOffset ?? 0;
+      debugPrint(
+        "undo: BEFORE - text='$currentText' cursor=$currentCursorPosition "
+        "undoStack.length=${_undoStack.length}",
+      );
+
+      // Save current state to redo stack (deep copy with cursor position)
+      final currentFieldValuesCopy = _deepCopyFieldValues(_value);
+      final currentSnapshot = _HistorySnapshot(
+        fieldValues: currentFieldValuesCopy,
+        cursorPosition: currentCursorPosition,
+      );
       _redoStack.add(currentSnapshot);
 
       // Restore from undo stack
       final snapshot = _undoStack.removeLast();
       _value.clear();
-      _value.addAll(snapshot);
+      _value.addAll(snapshot.fieldValues);
 
-      // Update selection to end of text
+      // Debug: Log restored state
+      final restoredText = getPlainText();
+      debugPrint(
+        "undo: RESTORED - text='$restoredText' "
+        "savedCursor=${snapshot.cursorPosition}",
+      );
+
+      // Restore cursor position from snapshot
       if (_field != null) {
-        final text = getPlainText();
-        _field!._selection = TextSelection.collapsed(offset: text.length);
+        final textLength = getPlainText().length;
+        final restoredPosition = snapshot.cursorPosition.clamp(0, textLength);
+        debugPrint(
+          "undo: CURSOR - saved=${snapshot.cursorPosition} "
+          "clamped=$restoredPosition textLength=$textLength",
+        );
+        _field!._selection = TextSelection.collapsed(offset: restoredPosition);
         _field!._composingRegion = null; // Clear composing region
         _field!._updateRemoteEditingValue();
       }
@@ -687,6 +817,9 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
+    // Save current state before modification
+    _saveToUndoStack(immediate: true);
+
     final selection = _field!._selection;
     final field = _value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
@@ -720,6 +853,9 @@ class MarkdownController extends MasamuneControllerBase<
     if (!canDecreaseIndent) {
       return;
     }
+
+    // Save current state before modification
+    _saveToUndoStack(immediate: true);
 
     final selection = _field!._selection;
     final field = _value.first;
@@ -1373,34 +1509,89 @@ class MarkdownController extends MasamuneControllerBase<
       // Split the current block
       final oldBlock = blocks[blockIndex] as MarkdownParagraphBlockValue;
 
-      // Create block with text before cursor
+      // Collect existing spans
+      final existingSpans = <MarkdownSpanValue>[];
+      for (final line in oldBlock.children) {
+        existingSpans.addAll(line.children);
+      }
+
+      // Find the split position within spans
+      final beforeSpans = <MarkdownSpanValue>[];
+      final afterSpans = <MarkdownSpanValue>[];
+      var currentPos = 0;
+      final localOffset = offset - currentOffset;
+
+      for (final span in existingSpans) {
+        final spanStart = currentPos;
+        final spanEnd = currentPos + span.value.length;
+
+        if (spanEnd <= localOffset) {
+          // Span is entirely before the split - keep in before block with properties
+          beforeSpans.add(span);
+        } else if (spanStart >= localOffset) {
+          // Span is entirely after the split - move to after block without properties
+          afterSpans.add(span.copyWith(
+            id: uuid(),
+            properties: const [], // Remove properties from text after newline
+          ));
+        } else {
+          // Split the span at the cursor position
+          final beforeText = span.value.substring(0, localOffset - spanStart);
+          final afterText = span.value.substring(localOffset - spanStart);
+
+          if (beforeText.isNotEmpty) {
+            beforeSpans.add(span.copyWith(
+              id: uuid(),
+              value: beforeText,
+            ));
+          }
+
+          if (afterText.isNotEmpty) {
+            afterSpans.add(MarkdownSpanValue(
+              id: uuid(),
+              value: afterText,
+              properties: const [], // New line starts without properties
+            ));
+          }
+        }
+
+        currentPos += span.value.length;
+      }
+
+      // Ensure we have at least one span in each block
+      if (beforeSpans.isEmpty) {
+        beforeSpans.add(MarkdownSpanValue(
+          id: uuid(),
+          value: textBeforeCursor!,
+          properties: const [],
+        ));
+      }
+      if (afterSpans.isEmpty) {
+        afterSpans.add(MarkdownSpanValue(
+          id: uuid(),
+          value: textAfterCursor!,
+          properties: const [],
+        ));
+      }
+
+      // Create block with text before cursor (preserving properties)
       final beforeBlock = MarkdownParagraphBlockValue(
         id: oldBlock.id,
         children: [
           MarkdownLineValue(
             id: uuid(),
-            children: [
-              MarkdownSpanValue(
-                id: uuid(),
-                value: textBeforeCursor!,
-              ),
-            ],
+            children: beforeSpans,
           ),
         ],
       );
 
-      // Create new block with text after cursor
+      // Create new block with text after cursor (without properties)
       final afterBlock = MarkdownParagraphBlockValue(
         id: uuid(),
         children: [
           MarkdownLineValue(
             id: uuid(),
-            children: [
-              MarkdownSpanValue(
-                id: uuid(),
-                value: textAfterCursor!,
-              ),
-            ],
+            children: afterSpans,
           ),
         ],
       );

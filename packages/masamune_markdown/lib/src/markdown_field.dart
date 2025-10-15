@@ -286,8 +286,8 @@ class MarkdownFieldState extends State<MarkdownField>
   TextSelection _selection = const TextSelection.collapsed(offset: 0);
   TextSelection? _composingRegion;
 
-  // Keep track of the last text value sent to/from the text input
-  String _lastKnownText = "";
+  // Keep track of composing text during IME input
+  String? _composingText;
 
   // For tracking cursor blink
   bool _showCursor = true;
@@ -407,8 +407,6 @@ class MarkdownFieldState extends State<MarkdownField>
       );
       _textInputConnection = TextInput.attach(this, textInputConfiguration);
       _textInputConnection!.show();
-      // Initialize _lastKnownText before updating remote value
-      _lastKnownText = _getPlainText();
       _updateRemoteEditingValue();
     }
   }
@@ -429,22 +427,43 @@ class MarkdownFieldState extends State<MarkdownField>
     }
 
     final text = _getPlainText();
-    _lastKnownText = text;
+    final textLength = text.length;
+
+    // Clamp selection and composing region to valid text range
+    // Only clamp if values are actually out of bounds to preserve IME state
+    final clampedSelection = TextSelection(
+      baseOffset: _selection.baseOffset.clamp(0, textLength),
+      extentOffset: _selection.extentOffset.clamp(0, textLength),
+    );
+
+    final clampedComposing = _composingRegion != null &&
+            _composingRegion!.start <= textLength &&
+            _composingRegion!.end <= textLength
+        ? TextRange(
+            start: _composingRegion!.start,
+            end: _composingRegion!.end,
+          )
+        : (_composingRegion != null
+            ? TextRange(
+                start: _composingRegion!.start.clamp(0, textLength),
+                end: _composingRegion!.end.clamp(0, textLength),
+              )
+            : TextRange.empty);
+
     _textInputConnection!.setEditingState(
       TextEditingValue(
         text: text,
-        selection: _selection,
-        composing: _composingRegion != null
-            ? TextRange(
-                start: _composingRegion!.start,
-                end: _composingRegion!.end,
-              )
-            : TextRange.empty,
+        selection: clampedSelection,
+        composing: clampedComposing,
       ),
     );
   }
 
   String _getPlainText() {
+    // If composing text exists, use it for display during IME conversion
+    if (_composingText != null) {
+      return _composingText!;
+    }
     return widget.controller.getPlainText();
   }
 
@@ -455,118 +474,181 @@ class MarkdownFieldState extends State<MarkdownField>
       return;
     }
 
-    final oldText = _lastKnownText;
+    // Get the actual current text
+    // During IME composing, use _composingText if available
+    // Otherwise use the controller's text
+    final oldText = _composingText ?? widget.controller.getPlainText();
     final newText = value.text;
 
+    // Debug: Log IME input
+    debugPrint(
+      "updateEditingValue: old='$oldText' new='$newText' "
+      "composing=${value.composing} selection=${value.selection}",
+    );
+
+    // Check if we're currently composing
+    final isComposing = value.composing.isValid && value.composing.start != -1;
+
     if (oldText != newText) {
-      // Text changed, update controller
+      // Text changed
 
-      // Find the difference
-      var start = 0;
-      while (start < oldText.length &&
-          start < newText.length &&
-          oldText[start] == newText[start]) {
-        start++;
-      }
-
-      var oldEnd = oldText.length;
-      var newEnd = newText.length;
-      while (oldEnd > start &&
-          newEnd > start &&
-          oldText[oldEnd - 1] == newText[newEnd - 1]) {
-        oldEnd--;
-        newEnd--;
-      }
-
-      final replacementText = newText.substring(start, newEnd);
-
-      // Check if the replacement text contains a newline
-      if (replacementText.contains("\n")) {
-        // Split by newlines and insert them one by one
-        final lines = replacementText.split("\n");
-
-        // First, delete the old text if any
-        if (oldEnd > start) {
-          widget.controller.replaceText(start, oldEnd, "");
-        }
-
-        // Insert first line at the cursor position
-        if (lines.isNotEmpty && lines.first.isNotEmpty) {
-          widget.controller.replaceText(start, start, lines.first);
-          start += lines.first.length;
-        }
-
-        // For each additional line, insert a new paragraph
-        for (var i = 1; i < lines.length; i++) {
-          widget.controller.insertNewLine(start);
-          start++; // Account for the newline character
-
-          if (lines[i].isNotEmpty) {
-            widget.controller.replaceText(start, start, lines[i]);
-            start += lines[i].length;
-          }
-        }
-
-        // Update cursor position to the end of inserted text
-        _selection = TextSelection.collapsed(offset: start);
-        // Clear composing region after newline
-        _composingRegion = null;
-      } else {
-        // Check if backspace deleted a block
-        final blockCountBefore =
-            widget.controller.value?.firstOrNull?.children.length ?? 0;
-
-        // Normal text replacement
-        widget.controller.replaceText(start, oldEnd, replacementText);
-
-        final blockCountAfter =
-            widget.controller.value?.firstOrNull?.children.length ?? 0;
-
-        // If a block was deleted (backspace at empty block start)
-        if (blockCountAfter < blockCountBefore &&
-            oldEnd > start &&
-            replacementText.isEmpty) {
-          // Keep cursor at start position (blocks were merged)
-          _selection = TextSelection.collapsed(offset: start);
-          _composingRegion = null;
-        } else {
-          // Update cursor position and composing region
-          _selection = value.selection;
-
-          // Clear composing region when composing ends (start == -1)
-          if (!value.composing.isValid || value.composing.start == -1) {
-            _composingRegion = null;
-          } else {
-            _composingRegion = TextSelection(
-              baseOffset: value.composing.start,
-              extentOffset: value.composing.end,
-            );
-          }
-        }
-      }
-
-      widget.onChanged?.call(widget.controller.value ?? []);
-      _updateRemoteEditingValue();
-
-      // Trigger rebuild to reflect changes
-      setState(() {});
-    } else {
-      // Only selection or composing region changed
-      _selection = value.selection;
-
-      // Clear composing region when composing ends (start == -1)
-      if (!value.composing.isValid || value.composing.start == -1) {
-        _composingRegion = null;
-      } else {
+      if (isComposing) {
+        // During IME composing, only update _composingText for display
+        // Don't update controller until composition ends
+        _composingText = newText;
+        _selection = value.selection;
         _composingRegion = TextSelection(
           baseOffset: value.composing.start,
           extentOffset: value.composing.end,
         );
-      }
 
-      // Update remote value to sync with IME
-      _updateRemoteEditingValue();
-      setState(() {});
+        debugPrint(
+          "IME composing: storing text='$newText' for display only",
+        );
+
+        // Trigger rebuild to show composing text
+        setState(() {});
+      } else {
+        // Composition ended or normal text input - update controller
+        // Find the difference
+        var start = 0;
+        while (start < oldText.length &&
+            start < newText.length &&
+            oldText[start] == newText[start]) {
+          start++;
+        }
+
+        var oldEnd = oldText.length;
+        var newEnd = newText.length;
+        while (oldEnd > start &&
+            newEnd > start &&
+            oldText[oldEnd - 1] == newText[newEnd - 1]) {
+          oldEnd--;
+          newEnd--;
+        }
+
+        final replacementText = newText.substring(start, newEnd);
+
+        debugPrint(
+          "Text diff: start=$start oldEnd=$oldEnd newEnd=$newEnd "
+          "replacement='$replacementText'",
+        );
+
+        // Check if the replacement text contains a newline
+        if (replacementText.contains("\n")) {
+          // Split by newlines and insert them one by one
+          final lines = replacementText.split("\n");
+
+          // First, delete the old text if any
+          if (oldEnd > start) {
+            widget.controller.replaceText(start, oldEnd, "");
+          }
+
+          // Insert first line at the cursor position
+          if (lines.isNotEmpty && lines.first.isNotEmpty) {
+            widget.controller.replaceText(start, start, lines.first);
+            start += lines.first.length;
+          }
+
+          // For each additional line, insert a new paragraph
+          for (var i = 1; i < lines.length; i++) {
+            widget.controller.insertNewLine(start);
+            start++; // Account for the newline character
+
+            if (lines[i].isNotEmpty) {
+              widget.controller.replaceText(start, start, lines[i]);
+              start += lines[i].length;
+            }
+          }
+
+          // Update cursor position to the end of inserted text
+          _selection = TextSelection.collapsed(offset: start);
+          // Clear composing region after newline
+          _composingRegion = null;
+        } else {
+          // Check if backspace deleted a block
+          final blockCountBefore =
+              widget.controller.value?.firstOrNull?.children.length ?? 0;
+
+          // Normal text replacement
+          widget.controller.replaceText(start, oldEnd, replacementText);
+
+          final blockCountAfter =
+              widget.controller.value?.firstOrNull?.children.length ?? 0;
+
+          // If a block was deleted (backspace at empty block start)
+          if (blockCountAfter < blockCountBefore &&
+              oldEnd > start &&
+              replacementText.isEmpty) {
+            // Keep cursor at start position (blocks were merged)
+            _selection = TextSelection.collapsed(offset: start);
+            _composingRegion = null;
+          } else {
+            // Update cursor position and composing region
+            _selection = value.selection;
+            _composingRegion = null;
+          }
+        }
+
+        widget.onChanged?.call(widget.controller.value ?? []);
+
+        // Clear composing text after updating controller
+        _composingText = null;
+
+        // Update remote value after composing ends
+        _updateRemoteEditingValue();
+
+        // Trigger rebuild to reflect changes
+        setState(() {});
+      }
+    } else {
+      // Only selection or composing region changed
+      _selection = value.selection;
+
+      // Check if composing just ended (we had composing text, but now composition is invalid)
+      if (_composingText != null &&
+          (!value.composing.isValid || value.composing.start == -1)) {
+        // Composition ended - commit the composing text to controller
+        debugPrint(
+          "IME confirmed: committing text='$_composingText' to controller",
+        );
+
+        final textToCommit = _composingText!;
+        final currentText = widget.controller.getPlainText();
+
+        // Set cursor to start position before committing
+        // This ensures the history saves the correct cursor position (0)
+        _selection = TextSelection.collapsed(offset: currentText.length);
+
+        // Replace the entire text with the committed text
+        widget.controller.replaceText(0, currentText.length, textToCommit);
+
+        widget.onChanged?.call(widget.controller.value ?? []);
+
+        // Clear composing state
+        _composingText = null;
+        _composingRegion = null;
+
+        // Update cursor to end of committed text
+        _selection = TextSelection.collapsed(offset: textToCommit.length);
+
+        // Update remote value
+        _updateRemoteEditingValue();
+
+        setState(() {});
+      } else if (!value.composing.isValid || value.composing.start == -1) {
+        // Composing ended but we had no composing text
+        _composingRegion = null;
+        _updateRemoteEditingValue();
+        setState(() {});
+      } else {
+        // Still composing
+        _composingRegion = TextSelection(
+          baseOffset: value.composing.start,
+          extentOffset: value.composing.end,
+        );
+        setState(() {});
+      }
     }
   }
 
@@ -771,6 +853,7 @@ class MarkdownFieldState extends State<MarkdownField>
       focusNode: _focusNode,
       selection: _selection,
       composingRegion: _composingRegion,
+      composingText: _composingText,
       showCursor: showCursor,
       expands: widget.expands,
       style: defaultStyle!,
@@ -862,6 +945,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
     required this.onSelectionChanged,
     required this.onTap,
     this.composingRegion,
+    this.composingText,
     this.cursorHeight,
     this.cursorRadius,
     this.textHeightBehavior,
@@ -874,6 +958,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
   final FocusNode focusNode;
   final TextSelection selection;
   final TextSelection? composingRegion;
+  final String? composingText;
   final bool showCursor;
   final bool expands;
   final TextStyle style;
@@ -900,6 +985,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       focusNode: focusNode,
       selection: selection,
       composingRegion: composingRegion,
+      composingText: composingText,
       showCursor: showCursor,
       expands: expands,
       style: style,
@@ -931,6 +1017,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       ..focusNode = focusNode
       ..selection = selection
       ..composingRegion = composingRegion
+      ..composingText = composingText
       ..showCursor = showCursor
       ..expands = expands
       ..style = style
@@ -973,6 +1060,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     required SelectionChangedCallback onSelectionChanged,
     required VoidCallback? onTap,
     TextSelection? composingRegion,
+    String? composingText,
     double? cursorHeight,
     Radius? cursorRadius,
     TextHeightBehavior? textHeightBehavior,
@@ -983,6 +1071,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         _focusNode = focusNode,
         _selection = selection,
         _composingRegion = composingRegion,
+        _composingText = composingText,
         _showCursor = showCursor,
         _expands = expands,
         _style = style,
@@ -1048,6 +1137,18 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   TextSelection? _composingRegion;
+
+  String? get composingText => _composingText;
+  set composingText(String? value) {
+    if (_composingText == value) {
+      return;
+    }
+    _composingText = value;
+    _blockLayouts = []; // Clear cache when composing text changes
+    markNeedsLayout();
+  }
+
+  String? _composingText;
 
   @override
   bool get showCursor => _showCursor;
@@ -1267,6 +1368,68 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   List<_BlockLayout> _buildBlockLayouts() {
     if (_blockLayouts.isNotEmpty) {
       return _blockLayouts;
+    }
+
+    // If composing text exists, render it as a temporary single block
+    if (_composingText != null && _composingText!.isNotEmpty) {
+      final layouts = <_BlockLayout>[];
+
+      // Get block style from controller
+      final padding = (_controller.style.paragraph.padding ?? EdgeInsets.zero)
+          as EdgeInsets;
+      final margin =
+          (_controller.style.paragraph.margin ?? EdgeInsets.zero) as EdgeInsets;
+
+      // Build text style
+      final baseStyle = _controller.style.paragraph.textStyle ?? _style;
+      final textStyle = baseStyle.copyWith(
+        color: _controller.style.paragraph.foregroundColor ?? baseStyle.color,
+      );
+
+      // Create text painter with composing text
+      final painter = TextPainter(
+        text: TextSpan(text: _composingText, style: textStyle),
+        textAlign: _textAlign,
+        textDirection: _textDirection,
+        textWidthBasis: _textWidthBasis,
+        textHeightBehavior: _textHeightBehavior,
+        strutStyle: _strutStyle,
+      );
+
+      // Create a temporary block for composing text
+      final tempBlock = MarkdownParagraphBlockValue(
+        id: "composing",
+        children: [
+          MarkdownLineValue(
+            id: "composing-line",
+            children: [
+              MarkdownSpanValue(
+                id: "composing-span",
+                value: _composingText!,
+              ),
+            ],
+          ),
+        ],
+      );
+
+      layouts.add(_BlockLayout(
+        block: tempBlock,
+        painter: painter,
+        textOffset: 0,
+        textLength: _composingText!.length,
+        padding: padding,
+        margin: margin,
+        spans: [
+          _SpanInfo(
+            span: tempBlock.children.first.children.first,
+            localOffset: 0,
+            length: _composingText!.length,
+          ),
+        ],
+      ));
+
+      _blockLayouts = layouts;
+      return layouts;
     }
 
     final fields = _controller.value ?? [];
@@ -1979,10 +2142,22 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     final position = globalToLocal(globalPosition);
     final textOffset = _getTextOffsetForPosition(position);
 
+    debugPrint(
+      "DoubleTap: position=$position textOffset=$textOffset",
+    );
+
     if (textOffset != null) {
       // Select word at position
-      final text = _controller.getPlainText();
+      // Use _getPlainText() to include composing text during IME input
+      final text = _getPlainText();
+      debugPrint(
+        "DoubleTap: text='$text' length=${text.length}",
+      );
+
       final wordBoundary = _getWordBoundary(text, textOffset);
+      debugPrint(
+        "DoubleTap: wordBoundary=$wordBoundary (${wordBoundary.start}-${wordBoundary.end})",
+      );
 
       _onSelectionChanged(
         TextSelection(
@@ -1991,6 +2166,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         ),
         SelectionChangedCause.doubleTap,
       );
+    } else {
+      debugPrint("DoubleTap: textOffset is null, cannot select");
     }
     // Call onDoubleTap callback even if tapping on empty space
     _onDoubleTap?.call(globalPosition);
@@ -2000,10 +2177,22 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     final position = globalToLocal(globalPosition);
     final textOffset = _getTextOffsetForPosition(position);
 
+    debugPrint(
+      "LongPress: position=$position textOffset=$textOffset",
+    );
+
     if (textOffset != null) {
       // Select word at position
-      final text = _controller.getPlainText();
+      // Use _getPlainText() to include composing text during IME input
+      final text = _getPlainText();
+      debugPrint(
+        "LongPress: text='$text' length=${text.length}",
+      );
+
       final wordBoundary = _getWordBoundary(text, textOffset);
+      debugPrint(
+        "LongPress: wordBoundary=$wordBoundary (${wordBoundary.start}-${wordBoundary.end})",
+      );
 
       _onSelectionChanged(
         TextSelection(
@@ -2012,6 +2201,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         ),
         SelectionChangedCause.longPress,
       );
+    } else {
+      debugPrint("LongPress: textOffset is null, cannot select");
     }
     // Call onLongPress callback even if pressing on empty space
     _onLongPress?.call(globalPosition);
@@ -2019,11 +2210,17 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
   TextRange _getWordBoundary(String text, int offset) {
     // Word boundary detection
+
+    // Handle empty text or invalid offset
+    if (text.isEmpty || offset < 0 || offset > text.length) {
+      return TextRange.empty;
+    }
+
     var start = offset;
     var end = offset;
 
     // Find start of word
-    while (start > 0 && !_isWordBoundary(text[start - 1])) {
+    while (start > 0 && start <= text.length && !_isWordBoundary(text[start - 1])) {
       start--;
     }
 
@@ -2149,6 +2346,10 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   String _getPlainText() {
+    // If composing text exists, use it for display during IME conversion
+    if (_composingText != null && _composingText!.isNotEmpty) {
+      return _composingText!;
+    }
     return _controller.getPlainText();
   }
 }
