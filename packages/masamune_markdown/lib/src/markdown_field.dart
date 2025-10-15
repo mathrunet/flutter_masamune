@@ -465,10 +465,7 @@ class MarkdownFieldState extends State<MarkdownField>
   }
 
   String _getPlainText() {
-    // If composing text exists, use it for display during IME conversion
-    if (_composingText != null) {
-      return _composingText!;
-    }
+    // Always use controller's text, which is now updated during IME composing
     return widget.controller.getPlainText();
   }
 
@@ -492,9 +489,8 @@ class MarkdownFieldState extends State<MarkdownField>
       // Text changed
 
       if (isComposing) {
-        // During IME composing, only update _composingText for display
-        // Don't update controller until composition ends
-        // This keeps IME state separate from committed text
+        // During IME composing, update BOTH _composingText and controller
+        // This preserves block structure during IME input
         _composingText = newText;
         _selection = value.selection;
         _composingRegion = TextSelection(
@@ -502,10 +498,33 @@ class MarkdownFieldState extends State<MarkdownField>
           extentOffset: value.composing.end,
         );
 
+        // Find the difference and update controller
+        var start = 0;
+        while (start < oldText.length &&
+            start < newText.length &&
+            oldText[start] == newText[start]) {
+          start++;
+        }
+
+        var oldEnd = oldText.length;
+        var newEnd = newText.length;
+        while (oldEnd > start &&
+            newEnd > start &&
+            oldText[oldEnd - 1] == newText[newEnd - 1]) {
+          oldEnd--;
+          newEnd--;
+        }
+
+        final replacementText = newText.substring(start, newEnd);
+
+        // Update controller to maintain block structure
+        widget.controller.replaceText(start, oldEnd, replacementText);
+
         // Trigger rebuild to show composing text
         setState(() {});
       } else {
         // Composition ended or normal text input - update controller
+
         // Find the difference
         var start = 0;
         while (start < oldText.length &&
@@ -655,9 +674,15 @@ class MarkdownFieldState extends State<MarkdownField>
         if (!widget.readOnly) {
           // Insert a new paragraph at the current cursor position
           widget.controller.insertNewLine(_selection.baseOffset);
+
           // Move cursor to the next line
           _selection =
               TextSelection.collapsed(offset: _selection.baseOffset + 1);
+
+          // Clear composing state when inserting newline
+          _composingText = null;
+          _composingRegion = null;
+
           _updateRemoteEditingValue();
           widget.onChanged?.call(widget.controller.value ?? []);
           setState(() {});
@@ -1358,67 +1383,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       return _blockLayouts;
     }
 
-    // If composing text exists, render it as a temporary single block
-    if (_composingText != null && _composingText!.isNotEmpty) {
-      final layouts = <_BlockLayout>[];
-
-      // Get block style from controller
-      final padding = (_controller.style.paragraph.padding ?? EdgeInsets.zero)
-          as EdgeInsets;
-      final margin =
-          (_controller.style.paragraph.margin ?? EdgeInsets.zero) as EdgeInsets;
-
-      // Build text style
-      final baseStyle = _controller.style.paragraph.textStyle ?? _style;
-      final textStyle = baseStyle.copyWith(
-        color: _controller.style.paragraph.foregroundColor ?? baseStyle.color,
-      );
-
-      // Create text painter with composing text
-      final painter = TextPainter(
-        text: TextSpan(text: _composingText, style: textStyle),
-        textAlign: _textAlign,
-        textDirection: _textDirection,
-        textWidthBasis: _textWidthBasis,
-        textHeightBehavior: _textHeightBehavior,
-        strutStyle: _strutStyle,
-      );
-
-      // Create a temporary block for composing text
-      final tempBlock = MarkdownParagraphBlockValue(
-        id: "composing",
-        children: [
-          MarkdownLineValue(
-            id: "composing-line",
-            children: [
-              MarkdownSpanValue(
-                id: "composing-span",
-                value: _composingText!,
-              ),
-            ],
-          ),
-        ],
-      );
-
-      layouts.add(_BlockLayout(
-        block: tempBlock,
-        painter: painter,
-        textOffset: 0,
-        textLength: _composingText!.length,
-        padding: padding,
-        margin: margin,
-        spans: [
-          _SpanInfo(
-            span: tempBlock.children.first.children.first,
-            localOffset: 0,
-            length: _composingText!.length,
-          ),
-        ],
-      ));
-
-      _blockLayouts = layouts;
-      return layouts;
-    }
+    // IMPORTANT: Always use controller's block structure, even during IME composing
+    // The composing text will be rendered using the controller's structure
+    // This ensures multi-line structure is preserved during IME input
 
     final fields = _controller.value ?? [];
     final layouts = <_BlockLayout>[];
@@ -1566,9 +1533,14 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     var totalHeight = 0.0;
     final maxWidth = constraints.maxWidth;
 
-    for (final layout in layouts) {
+    for (var i = 0; i < layouts.length; i++) {
+      final layout = layouts[i];
+
       // Add margin top
       totalHeight += layout.margin.top;
+
+      // Add padding top
+      totalHeight += layout.padding.top;
 
       // Layout text painter with padding
       final contentWidth = maxWidth - layout.padding.horizontal;
@@ -1577,14 +1549,18 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         maxWidth: contentWidth,
       );
 
-      // Calculate block height with padding
+      // Store the offset where the text content starts (after padding)
+      layout.offset = Offset(0, totalHeight);
+
+      // Calculate total block height with padding
       final blockHeight = layout.painter.height +
           layout.padding.vertical +
           layout.margin.bottom;
-      layout.offset = Offset(0, totalHeight + layout.padding.top);
       layout.height = blockHeight;
 
-      totalHeight += blockHeight;
+      // Move totalHeight to the end of this block
+      totalHeight +=
+          layout.painter.height + layout.padding.bottom + layout.margin.bottom;
     }
 
     // If expands is true and maxHeight is finite, use the maximum available height
@@ -1611,13 +1587,17 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     _startHandlePosition = null;
     _endHandlePosition = null;
 
-    for (final layout in layouts) {
+    for (var i = 0; i < layouts.length; i++) {
+      final layout = layouts[i];
+
+      // layout.offset.dy points to where text content starts (after padding top)
       final blockOffset =
           offset + layout.offset + Offset(layout.padding.left, 0);
 
       // Draw block background if any
       final backgroundColor = layout.block.backgroundColor(this, controller);
       if (backgroundColor != null) {
+        // Background should cover entire block including padding
         final blockRect = Rect.fromLTWH(
           offset.dx,
           offset.dy + layout.offset.dy - layout.padding.top,
@@ -1886,9 +1866,10 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     var currentTextOffset = 0;
 
     for (final layout in layouts) {
+      // layout.offset.dy is where text content starts (after padding top)
       final blockOffset = layout.offset + Offset(layout.padding.left, 0);
       final blockBottom = blockOffset.dy + layout.painter.height;
-      // Define the actual text area boundaries (excluding padding)
+      // Block top includes the padding area above the text
       final blockTop = layout.offset.dy - layout.padding.top;
 
       if (position.dy >= blockOffset.dy && position.dy <= blockBottom) {

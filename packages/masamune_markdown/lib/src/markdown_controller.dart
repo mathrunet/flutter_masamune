@@ -939,14 +939,9 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // If there's composing text, commit it first before applying property
+    // If there's composing text, just clear it
+    // The text is already in the controller, no need to replace
     if (_field!.composingText != null) {
-      final composingText = _field!.composingText!;
-      final currentText = getPlainText();
-
-      // Commit the composing text to controller
-      replaceText(0, currentText.length, composingText);
-
       // Clear composing state
       _field!._composingText = null;
       _field!._composingRegion = null;
@@ -977,6 +972,16 @@ class MarkdownController extends MasamuneControllerBase<
     for (var i = 0; i < blocks.length; i++) {
       final block = blocks[i];
       if (block is MarkdownParagraphBlockValue) {
+        final blockStart = currentOffset;
+        final blockLength = _getBlockTextLength(block);
+        final blockEnd = blockStart + blockLength;
+
+        // Skip blocks that are entirely before or after the selection
+        if (blockEnd < selectionStart || blockStart > selectionEnd) {
+          currentOffset = blockEnd + 1; // +1 for newline between blocks
+          continue;
+        }
+
         final lines = List<MarkdownLineValue>.from(block.children);
         final updatedLines = <MarkdownLineValue>[];
 
@@ -1046,6 +1051,7 @@ class MarkdownController extends MasamuneControllerBase<
 
     final newField = field.copyWith(children: blocks);
     _value[0] = newField;
+
     notifyListeners();
   }
 
