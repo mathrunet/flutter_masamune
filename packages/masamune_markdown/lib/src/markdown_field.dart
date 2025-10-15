@@ -1672,45 +1672,34 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           final boxes = layout.painter.getBoxesForSelection(localSelection);
           final paint = Paint()..color = _selectionColor;
 
-          // Draw selection with extended vertical height (padding included)
+          // Draw selection boxes as returned by TextPainter
+          // This correctly handles text wrapping within the block
           for (final box in boxes) {
             final boxRect = box.toRect().shift(blockOffset);
-            // Extend vertically to include padding
-            final extendedRect = Rect.fromLTRB(
-              boxRect.left,
-              offset.dy + layout.offset.dy - layout.padding.top,
-              boxRect.right,
-              offset.dy +
-                  layout.offset.dy +
-                  layout.painter.height +
-                  layout.padding.bottom,
-            );
-            canvas.drawRect(extendedRect, paint);
+            canvas.drawRect(boxRect, paint);
           }
 
-          // Calculate handle positions at the top of the selection
+          // Calculate handle positions at the selection start/end
           // Store positions in local coordinates (without offset)
           // Only show start handle if this block contains the actual start of the selection
           if (_selection.start >= blockStart && _selection.start < blockEnd) {
-            // Start handle - position at the top left of selection
+            // Start handle - use actual caret position including Y coordinate
             final startOffset = layout.painter.getOffsetForCaret(
               TextPosition(offset: localStart),
               Rect.zero,
             );
-            _startHandlePosition = Offset(layout.padding.left,
-                    layout.offset.dy - layout.padding.top) +
-                Offset(startOffset.dx, 0);
+            _startHandlePosition =
+                Offset(layout.padding.left, layout.offset.dy) + startOffset;
           }
           // Only show end handle if this block contains the actual end of the selection
           if (_selection.end > blockStart && _selection.end <= blockEnd) {
-            // End handle - position at the top right of selection
+            // End handle - use actual caret position including Y coordinate
             final endOffset = layout.painter.getOffsetForCaret(
               TextPosition(offset: localEnd),
               Rect.zero,
             );
-            _endHandlePosition = Offset(layout.padding.left,
-                    layout.offset.dy - layout.padding.top) +
-                Offset(endOffset.dx, 0);
+            _endHandlePosition =
+                Offset(layout.padding.left, layout.offset.dy) + endOffset;
           }
         }
       }
@@ -1915,30 +1904,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       final blockTop = layout.offset.dy - layout.padding.top;
 
       if (position.dy >= blockOffset.dy && position.dy <= blockBottom) {
-        // Get the actual text width by checking where the last character is
-        final textLength = layout.textLength;
-        double actualTextRight = layout.padding.left;
-        if (textLength > 0) {
-          // Get the position of the last character
-          final lastCharOffset = layout.painter.getOffsetForCaret(
-            TextPosition(offset: textLength),
-            Rect.zero,
-          );
-          actualTextRight = layout.padding.left + lastCharOffset.dx;
-        }
-
-        // Check if position is within the horizontal text bounds
-        if (position.dx < layout.padding.left ||
-            position.dx > actualTextRight) {
-          // If expands is true, treat empty space as end of text (for full-width tap area)
-          // Otherwise return null to deselect
-          if (_expands) {
-            return currentTextOffset + textLength;
-          } else {
-            return null;
-          }
-        }
         // Position is within this block's text area
+        // TextPainter.getPositionForOffset handles text wrapping correctly
         final localPosition = position - blockOffset;
         final textPosition = layout.painter.getPositionForOffset(localPosition);
         return currentTextOffset + textPosition.offset;
