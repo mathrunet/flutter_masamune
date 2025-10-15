@@ -212,10 +212,12 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         responseSchema: responseSchema?._toSchema(),
       ),
       tools: [if (tools.isNotEmpty) tools._toVertexAITools(mcpFunctions)],
-      toolConfig: ToolConfig(
-        functionCallingConfig:
-            FunctionCallingConfig.any({...tools.map((e) => e.name)}),
-      ),
+      toolConfig: tools.isNotEmpty
+          ? ToolConfig(
+              functionCallingConfig:
+                  FunctionCallingConfig.any({...tools.map((e) => e.name)}),
+            )
+          : null,
       systemInstruction: systemPromptContent
           ?._toSystemPromptContent()
           ._toContents()
@@ -295,9 +297,12 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         ...contents,
         ...response._toContents(),
       ],
-      toolConfig: ToolConfig(
-        functionCallingConfig: functionCallingConfig._toFunctionCallingConfig(),
-      ),
+      toolConfig: tools.isNotEmpty
+          ? ToolConfig(
+              functionCallingConfig:
+                  functionCallingConfig._toFunctionCallingConfig(),
+            )
+          : null,
     );
     Completer<void>? functionCallCompleter;
     subscription = stream.listen(
