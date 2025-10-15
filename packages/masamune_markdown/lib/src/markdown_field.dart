@@ -466,7 +466,18 @@ class MarkdownFieldState extends State<MarkdownField>
 
   String _getPlainText() {
     // Always use controller's text, which is now updated during IME composing
-    return widget.controller.getPlainText();
+    final plainText = widget.controller.getPlainText();
+
+    // Debug: Check consistency between _composingText and controller
+    if (_composingText != null && _composingText != plainText) {
+      debugPrint("⚠️ IME/Controller inconsistency detected:");
+      debugPrint(
+          "  _composingText: '$_composingText' (${_composingText!.length} chars)");
+      debugPrint("  controller text: '$plainText' (${plainText.length} chars)");
+      debugPrint("  Stack trace: ${StackTrace.current}");
+    }
+
+    return plainText;
   }
 
   // TextInputClient implementation
@@ -491,6 +502,9 @@ class MarkdownFieldState extends State<MarkdownField>
       if (isComposing) {
         // During IME composing, update BOTH _composingText and controller
         // This preserves block structure during IME input
+        if (_composingText == null) {
+          debugPrint("🎯 IME composing started");
+        }
         _composingText = newText;
         _selection = value.selection;
         _composingRegion = TextSelection(
@@ -603,6 +617,9 @@ class MarkdownFieldState extends State<MarkdownField>
         widget.onChanged?.call(widget.controller.value ?? []);
 
         // Clear composing text after updating controller
+        if (_composingText != null) {
+          debugPrint("✅ IME composing ended and committed (text changed)");
+        }
         _composingText = null;
 
         // Update remote value after composing ends
@@ -618,31 +635,52 @@ class MarkdownFieldState extends State<MarkdownField>
       // Check if composing just ended (we had composing text, but now composition is invalid)
       if (_composingText != null &&
           (!value.composing.isValid || value.composing.start == -1)) {
-        // Composition ended - commit the composing text to controller
-
+        // Composition ended
         final textToCommit = _composingText!;
         final currentText = widget.controller.getPlainText();
 
-        // Set cursor to start position before committing
-        // This ensures the history saves the correct cursor position (0)
-        _selection = TextSelection.collapsed(offset: currentText.length);
+        // If text is already committed (textToCommit == currentText),
+        // no need to call replaceText, just clear composing state
+        if (textToCommit == currentText) {
+          // Text already matches, just clear composing state
+          debugPrint("✅ IME composing ended (text already committed)");
+          _composingText = null;
+          _composingRegion = null;
 
-        // Replace the entire text with the committed text
-        widget.controller.replaceText(0, currentText.length, textToCommit);
+          // Update cursor to end of text
+          _selection = TextSelection.collapsed(offset: textToCommit.length);
 
-        widget.onChanged?.call(widget.controller.value ?? []);
+          // Update remote value
+          _updateRemoteEditingValue();
 
-        // Clear composing state
-        _composingText = null;
-        _composingRegion = null;
+          setState(() {});
+        } else {
+          // Text doesn't match, need to commit
+          debugPrint("⚠️ IME composing ended with text mismatch:");
+          debugPrint("  textToCommit: '$textToCommit'");
+          debugPrint("  currentText: '$currentText'");
 
-        // Update cursor to end of committed text
-        _selection = TextSelection.collapsed(offset: textToCommit.length);
+          // Set cursor to start position before committing
+          // This ensures the history saves the correct cursor position (0)
+          _selection = TextSelection.collapsed(offset: currentText.length);
 
-        // Update remote value
-        _updateRemoteEditingValue();
+          // Replace the entire text with the committed text
+          widget.controller.replaceText(0, currentText.length, textToCommit);
 
-        setState(() {});
+          widget.onChanged?.call(widget.controller.value ?? []);
+
+          // Clear composing state
+          _composingText = null;
+          _composingRegion = null;
+
+          // Update cursor to end of committed text
+          _selection = TextSelection.collapsed(offset: textToCommit.length);
+
+          // Update remote value
+          _updateRemoteEditingValue();
+
+          setState(() {});
+        }
       } else if (!value.composing.isValid || value.composing.start == -1) {
         // Composing ended but we had no composing text
         _composingRegion = null;
@@ -680,6 +718,10 @@ class MarkdownFieldState extends State<MarkdownField>
               TextSelection.collapsed(offset: _selection.baseOffset + 1);
 
           // Clear composing state when inserting newline
+          if (_composingText != null) {
+            debugPrint("🔄 Newline inserted, clearing composing state");
+            debugPrint("  _composingText was: '$_composingText'");
+          }
           _composingText = null;
           _composingRegion = null;
 

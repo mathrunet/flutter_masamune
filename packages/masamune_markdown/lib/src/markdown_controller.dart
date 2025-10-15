@@ -942,6 +942,10 @@ class MarkdownController extends MasamuneControllerBase<
     // If there's composing text, just clear it
     // The text is already in the controller, no need to replace
     if (_field!.composingText != null) {
+      debugPrint("🎨 addInlineProperty: clearing composing state");
+      debugPrint("  composingText: '${_field!.composingText}'");
+      debugPrint("  controller text: '${getPlainText()}'");
+
       // Clear composing state
       _field!._composingText = null;
       _field!._composingRegion = null;
