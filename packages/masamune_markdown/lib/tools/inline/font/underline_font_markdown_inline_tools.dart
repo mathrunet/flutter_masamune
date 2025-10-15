@@ -150,6 +150,12 @@ class UnderlineFontMarkdownSpanProperty extends MarkdownProperty {
   TextStyle? textStyle(RenderContext context, MarkdownController controller,
       TextStyle? baseTextStyle) {
     baseTextStyle ??= const TextStyle();
-    return baseTextStyle.copyWith(decoration: TextDecoration.underline);
+    // Combine with existing decorations (e.g., lineThrough)
+    final existingDecorations = baseTextStyle.decoration;
+    final newDecoration = existingDecorations != null
+        ? TextDecoration.combine(
+            [existingDecorations, TextDecoration.underline])
+        : TextDecoration.underline;
+    return baseTextStyle.copyWith(decoration: newDecoration);
   }
 }

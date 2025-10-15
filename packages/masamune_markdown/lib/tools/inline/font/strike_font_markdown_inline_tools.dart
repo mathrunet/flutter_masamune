@@ -149,6 +149,12 @@ class StrikeFontMarkdownSpanProperty extends MarkdownProperty {
   TextStyle? textStyle(RenderContext context, MarkdownController controller,
       TextStyle? baseTextStyle) {
     baseTextStyle ??= const TextStyle();
-    return baseTextStyle.copyWith(decoration: TextDecoration.lineThrough);
+    // Combine with existing decorations (e.g., underline)
+    final existingDecorations = baseTextStyle.decoration;
+    final newDecoration = existingDecorations != null
+        ? TextDecoration.combine(
+            [existingDecorations, TextDecoration.lineThrough])
+        : TextDecoration.lineThrough;
+    return baseTextStyle.copyWith(decoration: newDecoration);
   }
 }
