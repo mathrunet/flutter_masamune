@@ -216,12 +216,12 @@ class MarkdownField extends StatefulWidget {
   /// Called when the user taps a link.
   ///
   /// ユーザーがリンクをタップしたときに呼ばれます。
-  final void Function(String link)? onTapLink;
+  final void Function(Uri link)? onTapLink;
 
   /// Called when the user taps a mention.
   ///
   /// ユーザーがメンションをタップしたときに呼ばれます。
-  final void Function(String mention)? onTapMention;
+  final void Function(MarkdownMention mention)? onTapMention;
 
   /// Called when the user taps outside.
   ///
@@ -1132,8 +1132,8 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
   final VoidCallback? onTap;
   final void Function(Offset globalPosition)? onLongPress;
   final void Function(Offset globalPosition)? onDoubleTap;
-  final void Function(String link)? onTapLink;
-  final void Function(String mention)? onTapMention;
+  final void Function(Uri link)? onTapLink;
+  final void Function(MarkdownMention mention)? onTapMention;
   final bool enabled;
   final bool readOnly;
 
@@ -1201,8 +1201,8 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       .._onDoubleTap = onDoubleTap
       ..enabled = enabled
       ..readOnly = readOnly
-      ..onTapLink = onTapLink
-      ..onTapMention = onTapMention;
+      .._onTapLink = onTapLink
+      .._onTapMention = onTapMention;
   }
 }
 
@@ -1236,8 +1236,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     StrutStyle? strutStyle,
     void Function(Offset globalPosition)? onLongPress,
     void Function(Offset globalPosition)? onDoubleTap,
-    void Function(String link)? onTapLink,
-    void Function(String mention)? onTapMention,
+    void Function(Uri link)? onTapLink,
+    void Function(MarkdownMention mention)? onTapMention,
   })  : _controller = controller,
         _focusNode = focusNode,
         _selection = selection,
@@ -1501,19 +1501,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
   void Function(Offset globalPosition)? _onDoubleTap;
 
-  void Function(String link)? get onTapLink => _onTapLink;
-  set onTapLink(void Function(String link)? value) {
-    _onTapLink = value;
-  }
+  void Function(Uri link)? _onTapLink;
 
-  void Function(String link)? _onTapLink;
-
-  void Function(String mention)? get onTapMention => _onTapMention;
-  set onTapMention(void Function(String mention)? value) {
-    _onTapMention = value;
-  }
-
-  void Function(String mention)? _onTapMention;
+  void Function(MarkdownMention mention)? _onTapMention;
 
   bool _enabled;
   bool get enabled => _enabled;
@@ -2396,7 +2386,11 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   ///
   /// URLをデフォルトのブラウザまたは適切なアプリケーションで開きます。
   Future<void> _launchUrl(String url) async {
-    _onTapLink?.call(url);
+    final uri = Uri.tryParse(url);
+    if (uri == null) {
+      return;
+    }
+    _onTapLink?.call(uri);
   }
 
   void _handleTapUp(PointerUpEvent event) {

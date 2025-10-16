@@ -14,6 +14,7 @@ class Markdown extends StatelessWidget {
     this.expands = false,
     this.scrollable = true,
     this.onTapLink,
+    this.onTapMention,
   });
 
   /// Value of the markdown.
@@ -39,7 +40,12 @@ class Markdown extends StatelessWidget {
   /// Callback when the link is tapped.
   ///
   /// リンクがタップされた時のコールバック。
-  final void Function(String link)? onTapLink;
+  final void Function(Uri link)? onTapLink;
+
+  /// Callback when the mention is tapped.
+  ///
+  /// メンションがタップされた時のコールバック。
+  final void Function(MarkdownMention mention)? onTapMention;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +54,7 @@ class Markdown extends StatelessWidget {
       style: style,
       expands: expands,
       onTapLink: onTapLink,
+      onTapMention: onTapMention,
       readOnly: true,
       scrollable: scrollable,
     );
