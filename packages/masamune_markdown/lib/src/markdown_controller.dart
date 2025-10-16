@@ -258,6 +258,8 @@ class MarkdownController extends MasamuneControllerBase<
     var localStart = 0;
     var localEnd = 0;
 
+    debugPrint(
+        "🔍 replaceText: Analyzing blocks (total: ${blocks.length}, start=$start, end=$end)");
     for (var i = 0; i < blocks.length; i++) {
       final block = blocks[i];
       if (block is MarkdownParagraphBlockValue) {
@@ -276,10 +278,14 @@ class MarkdownController extends MasamuneControllerBase<
         final blockStart = currentOffset;
         final blockEnd = currentOffset + blockLength;
 
+        debugPrint(
+            "   Block $i: start=$blockStart, end=$blockEnd, length=$blockLength, text='${blockText.toString().replaceAll('\n', '\\n')}'");
+
         // Check if this block contains the start position
         if (startBlockIndex == null && blockEnd >= start) {
           startBlockIndex = i;
           localStart = start - blockStart;
+          debugPrint("      → Contains start position (localStart=$localStart)");
         }
 
         // Check if this block contains the end position
@@ -287,12 +293,18 @@ class MarkdownController extends MasamuneControllerBase<
           endBlockIndex = i;
           endBlockStart = blockStart;
           localEnd = end - blockStart;
+          debugPrint(
+              "      → Contains end position (localEnd=$localEnd, endBlockStart=$endBlockStart)");
           break;
         }
 
         currentOffset += blockLength + 1; // +1 for newline between blocks
       }
     }
+    debugPrint(
+        "   Result: startBlockIndex=$startBlockIndex, endBlockIndex=$endBlockIndex");
+    debugPrint(
+        "   Check: startBlockIndex != endBlockIndex? ${startBlockIndex != endBlockIndex}");
 
     if (startBlockIndex == null) {
       if (blocks.isEmpty) {
@@ -350,6 +362,9 @@ class MarkdownController extends MasamuneControllerBase<
 
     // If selection spans multiple blocks, merge them
     if (startBlockIndex != endBlockIndex) {
+      debugPrint(
+          "🔄 Multi-block operation: startBlock=$startBlockIndex, endBlock=$endBlockIndex, text='$text'");
+
       // Get text before start in start block
       final startBlock = blocks[startBlockIndex] as MarkdownParagraphBlockValue;
       final startBlockText = StringBuffer();
@@ -374,8 +389,116 @@ class MarkdownController extends MasamuneControllerBase<
       final safeLocalEnd = localEnd.clamp(0, endBlockTextStr.length);
       final textAfterEnd = endBlockTextStr.substring(safeLocalEnd);
 
+      debugPrint(
+          "   textBeforeStart='$textBeforeStart', textAfterEnd='$textAfterEnd'");
+
+      // Calculate what the merged text would be
+      final potentialMergedText = textBeforeStart + text + textAfterEnd;
+
+      // Get the original text across both blocks for comparison
+      final originalText = StringBuffer();
+      for (var i = startBlockIndex; i <= endBlockIndex; i++) {
+        final block = blocks[i] as MarkdownParagraphBlockValue;
+        for (final line in block.children) {
+          for (final span in line.children) {
+            originalText.write(span.value);
+          }
+        }
+        if (i < endBlockIndex) {
+          originalText.write("\n"); // Add newline between blocks
+        }
+      }
+      final originalTextStr = originalText.toString();
+
+      debugPrint("   potentialMergedText='$potentialMergedText'");
+      debugPrint("   originalTextStr='$originalTextStr'");
+      debugPrint("   Are they equal? ${potentialMergedText == originalTextStr}");
+
+      // If the operation would result in the same text, don't merge blocks
+      // This happens when selection handles are dragged without actually changing text
+      if (potentialMergedText == originalTextStr) {
+        debugPrint("   → Text unchanged, keeping original block structure");
+        // Don't modify anything, just return
+        notifyListeners();
+        return;
+      }
+
+      // Check if we should keep blocks separate or merge them
+      // Keep separate if: deletion AND both blocks have content remaining
+      final shouldKeepSeparate = text.isEmpty &&
+          textBeforeStart.isNotEmpty &&
+          textAfterEnd.isNotEmpty;
+
+      if (shouldKeepSeparate) {
+        debugPrint(
+            "   → Keeping blocks separate: before='$textBeforeStart', after='$textAfterEnd'");
+
+        // Update first block with text before start
+        final updatedFirstBlock = MarkdownParagraphBlockValue(
+          id: startBlock.id,
+          children: [
+            MarkdownLineValue(
+              id: uuid(),
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: textBeforeStart,
+                  properties: const [],
+                ),
+              ],
+            ),
+          ],
+        );
+
+        // Update last block with text after end
+        final updatedLastBlock = MarkdownParagraphBlockValue(
+          id: endBlock.id,
+          children: [
+            MarkdownLineValue(
+              id: uuid(),
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: textAfterEnd,
+                  properties: const [],
+                ),
+              ],
+            ),
+          ],
+        );
+
+        // Remove all blocks in the range
+        blocks.removeRange(startBlockIndex, endBlockIndex + 1);
+
+        // Insert updated blocks
+        blocks.insert(startBlockIndex, updatedLastBlock);
+        blocks.insert(startBlockIndex, updatedFirstBlock);
+
+        final newField = MarkdownFieldValue(
+          id: field.id,
+          children: blocks,
+        );
+
+        _value[0] = newField;
+        notifyListeners();
+        return;
+      }
+
       // Merge: text before start + inserted text + text after end
-      final mergedText = textBeforeStart + text + textAfterEnd;
+      var mergedText = textBeforeStart + text + textAfterEnd;
+
+      // If we're deleting (text is empty) and the merged text ends with a newline,
+      // and there's no text after the end (we deleted everything after the newline),
+      // remove the trailing newline
+      if (text.isEmpty &&
+          textAfterEnd.isEmpty &&
+          mergedText.endsWith("\n") &&
+          mergedText.isNotEmpty) {
+        debugPrint(
+            "   → Removing trailing newline from merged text (was: ${mergedText.length} chars)");
+        mergedText = mergedText.substring(0, mergedText.length - 1);
+        debugPrint("   → New merged text: ${mergedText.length} chars");
+      }
 
       // If merged text is empty, just remove the blocks without creating a new one
       if (mergedText.isEmpty && text.isEmpty) {
@@ -479,8 +602,52 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     // Create new text
-    final newText =
+    var newText =
         oldText.substring(0, safeStart) + text + oldText.substring(safeEnd);
+
+    // Check if we need to remove a trailing newline
+    var removedTrailingNewline = false;
+    if (text.isEmpty && newText.endsWith("\n") && newText.isNotEmpty) {
+      debugPrint(
+          "   → Single block: Removing trailing newline (was: ${newText.length} chars)");
+      newText = newText.substring(0, newText.length - 1);
+      debugPrint("   → New text: ${newText.length} chars");
+      removedTrailingNewline = true;
+    }
+
+    // If we removed a trailing newline, create a simple span with the new text
+    // and skip the complex span merging logic (which would add the newline back)
+    if (removedTrailingNewline) {
+      debugPrint("   → Creating simple span from corrected text");
+      final newBlock = MarkdownParagraphBlockValue(
+        id: targetBlock.id,
+        children: [
+          MarkdownLineValue(
+            id: targetBlock.children.isNotEmpty
+                ? targetBlock.children.first.id
+                : uuid(),
+            children: [
+              MarkdownSpanValue(
+                id: uuid(),
+                value: newText,
+                properties: const [],
+              ),
+            ],
+          ),
+        ],
+      );
+
+      blocks[targetBlockIndex] = newBlock;
+
+      final newField = MarkdownFieldValue(
+        id: field.id,
+        children: blocks,
+      );
+
+      _value[0] = newField;
+      notifyListeners();
+      return;
+    }
 
     // Collect existing spans with their properties
     final existingSpans = <MarkdownSpanValue>[];

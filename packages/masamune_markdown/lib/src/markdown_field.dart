@@ -639,21 +639,54 @@ class MarkdownFieldState extends State<MarkdownField>
           final blockCountBefore =
               widget.controller.value?.firstOrNull?.children.length ?? 0;
 
+          debugPrint(
+              "📝 Before replaceText: start=$start, oldEnd=$oldEnd, replacementText='$replacementText', blockCountBefore=$blockCountBefore");
+
           // Normal text replacement
           widget.controller.replaceText(start, oldEnd, replacementText);
 
           final blockCountAfter =
               widget.controller.value?.firstOrNull?.children.length ?? 0;
 
+          debugPrint(
+              "📝 After replaceText: blockCountAfter=$blockCountAfter, value.selection=${value.selection}");
+
           // If a block was deleted (backspace at empty block start)
           if (blockCountAfter < blockCountBefore &&
               oldEnd > start &&
               replacementText.isEmpty) {
-            // Keep cursor at start position (blocks were merged)
-            _selection = TextSelection.collapsed(offset: start);
+            // Blocks were deleted/merged
+            // Check if the remaining text ends with a trailing newline (orphaned from deleted block)
+            final currentText = widget.controller.getPlainText();
+            debugPrint(
+                "   → Block deleted, currentText length=${currentText.length}, ends with newline=${currentText.endsWith('\n')}");
+
+            if (currentText.endsWith("\n") && currentText.isNotEmpty) {
+              // Remove the trailing newline
+              final newTextWithoutTrailingNewline =
+                  currentText.substring(0, currentText.length - 1);
+              debugPrint(
+                  "   → Removing trailing newline, new length=${newTextWithoutTrailingNewline.length}");
+
+              // Replace all text to remove the trailing newline
+              widget.controller.replaceText(
+                  0, currentText.length, newTextWithoutTrailingNewline);
+
+              // Position cursor at the end of the remaining text (without the newline)
+              _selection = TextSelection.collapsed(
+                  offset: newTextWithoutTrailingNewline.length);
+              debugPrint(
+                  "   → Cursor positioned at end: ${newTextWithoutTrailingNewline.length}");
+            } else {
+              // Keep cursor at start position (blocks were merged normally)
+              debugPrint("   → No trailing newline, setting cursor to start=$start");
+              _selection = TextSelection.collapsed(offset: start);
+            }
             _composingRegion = null;
           } else {
             // Update cursor position and composing region
+            debugPrint(
+                "   → No block deleted or not a deletion, using value.selection=${value.selection}");
             _selection = value.selection;
             _composingRegion = null;
           }
