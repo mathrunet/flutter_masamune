@@ -13,7 +13,7 @@ class AISchema {
     this.enumValues,
     this.items,
     this.properties,
-    this.optionalProperties,
+    this.optional = false,
   });
 
   /// Construct a schema for an object with one or more properties.
@@ -21,13 +21,13 @@ class AISchema {
   /// 一つ以上のプロパティを持つオブジェクトのスキーマ。
   const AISchema.map({
     required Map<String, AISchema> properties,
-    List<String>? optionalProperties,
+    bool optional = false,
     String? description,
     bool? nullable,
   }) : this._(
           AISchemaType.map,
           properties: properties,
-          optionalProperties: optionalProperties,
+          optional: optional,
           description: description,
           nullable: nullable,
         );
@@ -170,17 +170,27 @@ class AISchema {
   /// これが[AISchemaType.map]の場合のプロパティ。
   final Map<String, AISchema>? properties;
 
-  /// Optional Properties if this is a [AISchemaType.map].
+  /// Whether the schema is optional.
   ///
-  /// The keys from [properties] for properties that are optional if this is a
-  /// [AISchemaType.map]. Any properties that's not listed in optional will be
-  /// treated as required properties
+  /// スキーマがオプションかどうか。
+  final bool optional;
+
+  /// Whether the schema is required.
   ///
-  /// これが[AISchemaType.map]の場合のオプションのプロパティ。
+  /// スキーマが必須かどうか。
+  bool get required => !optional;
+
+  /// Required properties of the schema.
   ///
-  /// これが [AISchemaType.map] の場合はオプションのプロパティの [properties] からのキー。
-  /// オプションにリストされていないプロパティは必須プロパティとして扱われます。
-  final List<String>? optionalProperties;
+  /// スキーマの必須プロパティ。
+  List<String> get requiredProperties =>
+      properties?.where((k, v) => v.required).keys.toList() ?? [];
+
+  /// Optional properties of the schema.
+  ///
+  /// スキーマのオプションプロパティ。
+  List<String> get optionalProperties =>
+      properties?.where((k, v) => v.optional).keys.toList() ?? [];
 
   /// Convert the schema to a JSON object.
   ///
@@ -196,13 +206,13 @@ class AISchema {
       if (properties != null)
         "properties":
             properties?.map((key, value) => MapEntry(key, value.toJson())),
-      if (optionalProperties != null) "optionalProperties": optionalProperties,
+      "optional": optional,
     };
   }
 
   @override
   String toString() {
-    return "AISchema(type: $type, format: $format, description: $description, nullable: $nullable, enumValues: $enumValues, items: $items, properties: $properties, optionalProperties: $optionalProperties)";
+    return "AISchema(type: $type, format: $format, description: $description, nullable: $nullable, enumValues: $enumValues, items: $items, properties: $properties, optional: $optional)";
   }
 
   @override
@@ -220,12 +230,12 @@ class AISchema {
         enumValues == other.enumValues &&
         items == other.items &&
         properties == other.properties &&
-        optionalProperties == other.optionalProperties;
+        optional == other.optional;
   }
 
   @override
   int get hashCode {
     return Object.hash(type, format, description, nullable, enumValues, items,
-        properties, optionalProperties);
+        properties, optional);
   }
 }

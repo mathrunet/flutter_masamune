@@ -134,20 +134,18 @@ extension on AISchemaType {
 }
 
 extension on Set<AITool> {
-  Tool _toVertexAITools(List<McpFunction> functions) {
+  Tool _toVertexAITools() {
     return Tool.functionDeclarations([
       ...mapAndRemoveEmpty((tool) {
-        final function = functions.firstWhereOrNull((e) => e.name == tool.name);
-        if (function == null) {
-          return null;
-        }
+        final optionalParameters =
+            tool.parameters.where((key, value) => value.optional).keys.toList();
         return FunctionDeclaration(
           tool.name,
           tool.description,
           parameters: tool.parameters.map(
             (key, value) => MapEntry(key, value._toSchema()),
           ),
-          optionalParameters: function.optionalParameters,
+          optionalParameters: optionalParameters,
         );
       })
     ]);

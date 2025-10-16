@@ -58,12 +58,11 @@ class AIAgent
   /// スレッドのID。
   final String threadId;
 
-  /// The configuration of the thread.
+  /// The configuration of the agent.
   ///
-  /// スレッドの設定。
+  /// エージェントの設定。
   final AIConfig? config;
 
-  static McpClient? _mcpClient;
   Completer<void>? _initializeCompleter;
 
   /// Result of interaction with AI.
@@ -89,11 +88,7 @@ class AIAgent
     AIConfig? config,
     Set<AITool> tools = const {},
   }) async {
-    if (adapter.mcpClientConfig != null) {
-      _mcpClient ??= McpClient();
-      await _mcpClient?.load();
-      tools = {...tools, ..._mcpClient?.value ?? const {}};
-    }
+    tools = {...adapter.defaultTools, ...tools};
     if (adapter.isInitializedConfig(
       config: config,
       tools: tools,
@@ -192,9 +187,7 @@ class AIAgent
         config: config ?? this.config,
         tools: tools,
       );
-      if (_mcpClient != null) {
-        tools = {...tools, ..._mcpClient?.value ?? const {}};
-      }
+      tools = {...adapter.defaultTools, ...tools};
       _value.addAll(contents);
       _value.sort(adapter.threadContentSortCallback);
       notifyListeners();
@@ -207,22 +200,22 @@ class AIAgent
         includeSystemInitialContent: includeSystemInitialContent,
         onGenerateFunctionCallingConfig: onGenerateFunctionCallingConfig,
         onFunctionCall: (functionCalls) async {
-          if (_mcpClient != null) {
+          if (tools.isNotEmpty) {
             return (await Future.wait<List<AIContentFunctionResponsePart>>(
               functionCalls.map((call) async {
-                final func = adapter.mcpFunctions
-                    .firstWhereOrNull((f) => f.name == call.name);
+                final func = tools.firstWhereOrNull((f) => f.name == call.name);
                 if (func == null) {
                   throw Exception(
                     "Function ${call.name} not found",
                   );
                 }
-                if (func.clientProcess != null) {
-                  final res = await func.clientProcess!(call);
-                  return await func.generateResponse(res ?? AIContent(), call);
+                final ref =
+                    AIToolRef._(tools: tools, call: call, adapter: adapter);
+                final res = await func.process(ref);
+                if (res == null) {
+                  return [];
                 }
-                final res = await _mcpClient?.call(call.name, call.args);
-                return await func.generateResponse(res ?? AIContent(), call);
+                return await func.generateResponse(res, ref);
               }),
             ))
                 .expand((e) => e)

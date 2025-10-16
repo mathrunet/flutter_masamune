@@ -113,20 +113,12 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
   ///
   /// You can also pass settings to [config].
   ///
-  /// [tools] can specify the tools used by AI. If [McpClient] is available, the tool is loaded.
-  ///
-  /// [onGenerateFunctionCallingConfig] can pass the function calling config.
-  ///
   /// AIにコンテンツを生成してもらいます。
   ///
   /// [contents]にユーザーからのコンテンツを渡してください。
   /// [AIRole]が[AIRole.user]でない場合は例外が投げられます。
   ///
   /// [config]に設定を渡すことも可能です。
-  ///
-  /// [tools]にAIが使うツールを指定可能です。[McpClient]が利用可能の場合ツールを読み込みます。
-  ///
-  /// [onGenerateFunctionCallingConfig]に関数呼び出しの設定を渡すことも可能です。
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
     AIConfig? config,

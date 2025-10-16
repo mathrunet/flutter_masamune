@@ -22,10 +22,12 @@ class AIContent extends ChangeNotifier
     List<AIContentPart> values = const [],
     String? id,
     this.userId,
+    bool failed = false,
     bool completed = false,
   })  : _time = time ?? Clock.now(),
         id = id ?? uuid() {
     _value.addAll(values);
+    _failed = failed;
     if (!completed) {
       _completer = Completer<AIContent>();
     }
@@ -53,7 +55,7 @@ class AIContent extends ChangeNotifier
       {DateTime? time, String? id, String? userId, bool completed = false}) {
     return AIContent(
       role: AIRole.user,
-      values: [AIContentTextPart(jsonEncode(json))],
+      values: [AIContentJsonPart(json)],
       time: time,
       id: id,
       userId: userId,
@@ -303,6 +305,18 @@ class AIContent extends ChangeNotifier
     );
   }
 
+  /// Returns content with error.
+  ///
+  /// エラーを持つコンテンツを返します。
+  factory AIContent.error(Object error, [StackTrace? stackTrace]) {
+    return AIContent(
+      role: AIRole.system,
+      values: [AIContentTextPart(error.toString())],
+      failed: true,
+      completed: true,
+    );
+  }
+
   /// If the AI is in the process of responding, [Future] is returned.
   ///
   /// AIがレスポンス中の場合は[Future]を返します。
@@ -360,10 +374,25 @@ class AIContent extends ChangeNotifier
   int? get candidateTokenCount => _candidateTokenCount;
   int? _candidateTokenCount;
 
+  /// Whether the AI content is in error.
+  ///
+  /// AIの内容がエラーになっているかどうか。
+  bool get failed => _failed;
+  bool _failed = false;
+
   /// Converts the AI content to a Json-decoded Map&lt;String, dynamic&gt; object.
   ///
   /// AIの内容をJsonデコードされたMap&lt;String, dynamic&gt;オブジェクトに変換します。
   DynamicMap? toJson() {
+    if (_value.isEmpty) {
+      return null;
+    }
+    if (_value.length == 1) {
+      final first = _value.first;
+      if (first is AIContentJsonPart) {
+        return first.json;
+      }
+    }
     try {
       return (jsonDecode(toString()) as DynamicMap).cast<String, dynamic>();
       // ignore: empty_catches
@@ -466,6 +495,7 @@ class AIContent extends ChangeNotifier
     if (_completer == null) {
       return;
     }
+    _failed = true;
     _completer?.completeError(error, stackTrace);
     _completer = null;
     notifyListeners();
@@ -527,30 +557,6 @@ abstract class AIContentPart {
   ///
   /// AIの内容の一部。
   const AIContentPart();
-
-  static AIContentPart? _fromContent(Content content) {
-    if (content is mcp.TextContent) {
-      return AIContentTextPart(content.text);
-    } else if (content is mcp.ImageContent) {
-      switch (content.mimeType) {
-        case "image/jpeg":
-          return AIContentBinaryPart(
-              AIFileType.jpeg, base64Decode(content.data));
-        case "image/png":
-          return AIContentBinaryPart(
-              AIFileType.png, base64Decode(content.data));
-        case "image/webp":
-          return AIContentBinaryPart(
-              AIFileType.webp, base64Decode(content.data));
-      }
-    }
-    return null;
-  }
-
-  /// Converts the AI content part to a MCP content.
-  ///
-  /// AIの内容の一部をMCPの内容に変換します。
-  Content? toMcpContent();
 }
 
 /// The text part of the AI content.
@@ -576,11 +582,6 @@ class AIContentTextPart extends AIContentPart {
     String delimiter = "",
   }) {
     return AIContentTextPart(text + delimiter + other.text);
-  }
-
-  @override
-  Content? toMcpContent() {
-    return mcp.TextContent(text: text);
   }
 
   /// Copies the AI content text part.
@@ -609,6 +610,57 @@ class AIContentTextPart extends AIContentPart {
   int get hashCode => text.hashCode;
 }
 
+/// The json part of the AI content.
+///
+/// AIの内容のJSONの一部。
+@immutable
+class AIContentJsonPart extends AIContentPart {
+  /// The json part of the AI content.
+  ///
+  /// AIの内容のJSONの一部。
+  const AIContentJsonPart(this.json);
+
+  /// The json of the AI content.
+  ///
+  /// AIの内容のJSON。
+  final Map<String, dynamic> json;
+
+  /// Merges the AI content text part with another AI content text part.
+  ///
+  /// AIの内容のテキストの一部を別のAIの内容のテキストの一部とマージします。
+  AIContentJsonPart mergeWith(AIContentJsonPart other) {
+    return AIContentJsonPart({...json, ...other.json});
+  }
+
+  /// Copies the AI content text part.
+  ///
+  /// AIの内容のテキストの一部をコピーします。
+  AIContentJsonPart copyWith({
+    Map<String, dynamic>? json,
+  }) {
+    return AIContentJsonPart(json ?? this.json);
+  }
+
+  @override
+  String toString() {
+    return jsonEncode(json);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is AIContentJsonPart) {
+      return json.equalsTo(other.json);
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hashAll(
+        json.entries.map((e) => e.key.hashCode ^ e.value.hashCode));
+  }
+}
+
 /// The binary part of the AI content.
 ///
 /// AIの内容のバイナリの一部。
@@ -628,19 +680,6 @@ class AIContentBinaryPart extends AIContentPart {
   ///
   /// AIの内容のバイナリ。
   final Uint8List value;
-
-  @override
-  Content? toMcpContent() {
-    switch (type) {
-      case AIFileType.jpeg:
-      case AIFileType.png:
-      case AIFileType.webp:
-        return mcp.ImageContent(
-            data: base64Encode(value), mimeType: type.mimeType);
-      default:
-        return null;
-    }
-  }
 
   /// Copies the AI content binary part.
   ///
@@ -688,11 +727,6 @@ class AIContentFilePart extends AIContentPart {
   ///
   /// AIの内容のURI。
   final Uri uri;
-
-  @override
-  Content? toMcpContent() {
-    return null;
-  }
 
   /// Copies the AI content file part.
 
@@ -756,11 +790,6 @@ class AIContentFunctionCallPart extends AIContentPart {
     );
   }
 
-  @override
-  Content? toMcpContent() {
-    return null;
-  }
-
   /// Copies the AI content function call part.
   ///
   /// AIの内容の関数呼び出しの一部をコピーします。
@@ -813,11 +842,6 @@ class AIContentFunctionResponsePart extends AIContentPart {
   ///
   /// レスポンスのパラメータと値。
   final Map<String, dynamic> response;
-
-  @override
-  Content? toMcpContent() {
-    return null;
-  }
 
   /// Copies the AI content function response part.
   ///

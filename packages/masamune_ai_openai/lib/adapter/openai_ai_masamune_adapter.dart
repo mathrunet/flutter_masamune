@@ -52,6 +52,7 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
     if (_isInitialized) {
       return;
     }
+    await Future.wait(tools.map((e) => e.initialize()));
     OpenAI.apiKey = apiKey;
     _isInitialized = true;
   }

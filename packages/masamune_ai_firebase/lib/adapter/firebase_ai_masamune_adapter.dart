@@ -28,11 +28,8 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     this.windowsOptions,
     this.macosOptions,
     super.onGeneratedContentUsage,
-    super.mcpClientConfig,
-    super.mcpServerConfig,
-    super.mcpFunctions = const [],
+    super.defaultTools = const {},
     super.onGenerateFunctionCallingConfig,
-    super.listenMcpServerOnRunApp = false,
     super.contentFilter,
     super.threadContentSortCallback =
         AIMasamuneAdapter.defaultThreadContentSortCallback,
@@ -203,6 +200,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
       "systemPromptContent must be a system prompt.",
     );
     await FirebaseCore.initialize(options: options);
+    await Future.wait(tools.map((e) => e.initialize()));
     final systemPromptContent = config.systemPromptContent;
     final responseSchema = config.responseSchema;
     _generativeModel[key] = instance.generativeModel(
@@ -211,7 +209,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         responseMimeType: responseSchema != null ? "application/json" : null,
         responseSchema: responseSchema?._toSchema(),
       ),
-      tools: [if (tools.isNotEmpty) tools._toVertexAITools(mcpFunctions)],
+      tools: [if (tools.isNotEmpty) tools._toVertexAITools()],
       toolConfig: tools.isNotEmpty
           ? ToolConfig(
               functionCallingConfig:

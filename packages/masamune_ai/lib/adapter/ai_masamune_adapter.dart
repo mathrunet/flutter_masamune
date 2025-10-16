@@ -18,16 +18,11 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   const AIMasamuneAdapter({
     this.defaultConfig = const AIConfig(),
     this.onGeneratedContentUsage,
-    this.mcpServerConfig,
-    this.mcpClientConfig,
-    this.mcpFunctions = const [],
+    this.defaultTools = const {},
     this.onGenerateFunctionCallingConfig,
-    this.listenMcpServerOnRunApp = false,
     this.contentFilter,
     this.threadContentSortCallback = defaultThreadContentSortCallback,
   });
-
-  static McpServer? _mcpServer;
 
   /// The default configuration of the AI.
   ///
@@ -40,25 +35,10 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   final void Function(int promptTokenCount, int candidateTokenCount)?
       onGeneratedContentUsage;
 
-  /// The configuration of the MCP server.
+  /// Default AI tools.
   ///
-  /// MCPサーバーの設定。
-  final McpServerConfig? mcpServerConfig;
-
-  /// The configuration of the MCP client.
-  ///
-  /// MCPクライアントの設定。
-  final McpClientConfig? mcpClientConfig;
-
-  /// List of MCP server functions.
-  ///
-  /// MCPサーバーの関数一覧。
-  final List<McpFunction> mcpFunctions;
-
-  /// Whether to listen to the MCP server on [onPreRunApp].
-  ///
-  /// [onPreRunApp]でMCPサーバーを監視するかどうか。
-  final bool listenMcpServerOnRunApp;
+  /// デフォルトのAIツール一覧。
+  final Set<AITool> defaultTools;
 
   /// Called before content is generated.
   ///
@@ -121,15 +101,6 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
       adapter: this,
       child: app,
     );
-  }
-
-  @override
-  FutureOr<void> onPreRunApp(WidgetsBinding binding) async {
-    if (listenMcpServerOnRunApp && mcpServerConfig != null) {
-      _mcpServer ??= McpServer(adapter: this);
-      await _mcpServer?.listen();
-    }
-    return super.onPreRunApp(binding);
   }
 
   /// Check if the AI is initialized with the given config.
