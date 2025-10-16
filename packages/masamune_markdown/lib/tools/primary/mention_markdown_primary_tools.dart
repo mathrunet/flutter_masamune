@@ -97,9 +97,14 @@ class MentionMarkdownPrimaryTools
     if (properties.any((e) => e.type == id)) {
       return properties;
     }
+    if (value is! MarkdownMention) {
+      return [
+        ...properties,
+      ];
+    }
     return [
       ...properties,
-      if (value != null) MentionMarkdownSpanProperty(mention: value.toString()),
+      MentionMarkdownSpanProperty(mention: value),
     ];
   }
 
@@ -125,19 +130,20 @@ class MentionMarkdownSpanProperty extends MarkdownProperty {
   ///
   /// [DynamicMap]から[MentionMarkdownSpanProperty]を作成します。
   factory MentionMarkdownSpanProperty.fromJson(DynamicMap json) {
+    final mention = json.getAsMap(MarkdownProperty.mentionKey);
     return MentionMarkdownSpanProperty(
-      mention: json.get(MarkdownProperty.mentionKey, ""),
+      mention: MarkdownMention.fromJson(mention),
     );
   }
 
   /// The mention of the mention markdown span property.
   ///
   /// メンションを表示するマークダウンのスパンのプロパティのメンション。
-  final String mention;
+  final MarkdownMention mention;
 
   @override
   MentionMarkdownSpanProperty copyWith({
-    String? mention,
+    MarkdownMention? mention,
   }) {
     return MentionMarkdownSpanProperty(
       mention: mention ?? this.mention,
@@ -151,7 +157,7 @@ class MentionMarkdownSpanProperty extends MarkdownProperty {
   DynamicMap toJson() {
     return {
       ...super.toJson(),
-      MarkdownProperty.mentionKey: mention,
+      MarkdownProperty.mentionKey: mention.toJson(),
     };
   }
 
