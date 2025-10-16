@@ -145,7 +145,7 @@ class MentionMarkdownSpanProperty extends MarkdownProperty {
   }
 
   @override
-  String get type => _kLinkMarkdownInlineToolsType;
+  String get type => _kMentionMarkdownPrimaryToolsType;
 
   @override
   DynamicMap toJson() {
