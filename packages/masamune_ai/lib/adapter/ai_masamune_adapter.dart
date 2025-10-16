@@ -84,6 +84,15 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
     return a.time.compareTo(b.time);
   }
 
+  /// The default callback for sorting thread contents in reverse order.
+  ///
+  /// スレッドコンテンツを逆順でソートするためのデフォルトコールバック。
+  static int reverseThreadContentSortCallback(AIContent a, AIContent b) {
+    return b.time.compareTo(a.time);
+  }
+
+  /// The default callback for filtering thread contents.
+
   /// You can retrieve the [AIMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
   /// 最初に[MasamuneAdapterScope]で与えた[AIMasamuneAdapter]を取得することができます。
@@ -144,8 +153,8 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   /// AIの内容を生成します。
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
-    required Future<List<AIContentFunctionResponsePart>> Function(
-            List<AIContentFunctionCallPart> functionCalls)
+    Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart> functionCalls)?
         onFunctionCall,
     AIConfig? config,
     bool includeSystemInitialContent = false,

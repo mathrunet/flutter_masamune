@@ -228,8 +228,8 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   @override
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
-    required Future<List<AIContentFunctionResponsePart>> Function(
-            List<AIContentFunctionCallPart> functionCalls)
+    Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart> functionCalls)?
         onFunctionCall,
     AIConfig? config,
     Set<AITool> tools = const {},
@@ -274,10 +274,10 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     required List<Content> contents,
     required AIContent response,
     required GenerativeModel generativeModel,
-    required Future<List<AIContentFunctionResponsePart>> Function(
-            List<AIContentFunctionCallPart> functionCalls)
-        onFunctionCall,
     required int trialCount,
+    Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart> functionCalls)?
+        onFunctionCall,
     Set<AITool> tools = const {},
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
@@ -325,6 +325,53 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
             functionCallCompleter ??= Completer<void>();
             try {
               if (!response.isFunctionsCompleted) {
+                if (onFunctionCall != null) {
+                  final functionCall = response.functions
+                      .where((e) => !e.completed)
+                      .map((e) => e.call)
+                      .toList();
+                  if (functionCall.isNotEmpty) {
+                    final functionResponse = await onFunctionCall(functionCall);
+                    response.add(
+                      functionResponse,
+                      time: Clock.now(),
+                    );
+                    unawaited(
+                      _generateContent(
+                        contents: contents,
+                        response: response,
+                        tools: tools,
+                        generativeModel: generativeModel,
+                        onFunctionCall: onFunctionCall,
+                        onGenerateFunctionCallingConfig:
+                            onGenerateFunctionCallingConfig,
+                        trialCount: trialCount + 1,
+                      ),
+                    );
+                    return;
+                  }
+                }
+              }
+              response.complete(time: Clock.now());
+            } finally {
+              unawaited(subscription?.cancel());
+              subscription = null;
+              functionCallCompleter?.complete();
+              functionCallCompleter = null;
+            }
+            return;
+          }
+        }
+      },
+      onDone: () async {
+        if (functionCallCompleter != null) {
+          await functionCallCompleter?.future;
+        }
+        if (subscription != null) {
+          functionCallCompleter ??= Completer<void>();
+          try {
+            if (!response.isFunctionsCompleted) {
+              if (onFunctionCall != null) {
                 final functionCall = response.functions
                     .where((e) => !e.completed)
                     .map((e) => e.call)
@@ -349,49 +396,6 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
                   );
                   return;
                 }
-              }
-              response.complete(time: Clock.now());
-            } finally {
-              unawaited(subscription?.cancel());
-              subscription = null;
-              functionCallCompleter?.complete();
-              functionCallCompleter = null;
-            }
-            return;
-          }
-        }
-      },
-      onDone: () async {
-        if (functionCallCompleter != null) {
-          await functionCallCompleter?.future;
-        }
-        if (subscription != null) {
-          functionCallCompleter ??= Completer<void>();
-          try {
-            if (!response.isFunctionsCompleted) {
-              final functionCall = response.functions
-                  .where((e) => !e.completed)
-                  .map((e) => e.call)
-                  .toList();
-              if (functionCall.isNotEmpty) {
-                final functionResponse = await onFunctionCall(functionCall);
-                response.add(
-                  functionResponse,
-                  time: Clock.now(),
-                );
-                unawaited(
-                  _generateContent(
-                    contents: contents,
-                    response: response,
-                    tools: tools,
-                    generativeModel: generativeModel,
-                    onFunctionCall: onFunctionCall,
-                    onGenerateFunctionCallingConfig:
-                        onGenerateFunctionCallingConfig,
-                    trialCount: trialCount + 1,
-                  ),
-                );
-                return;
               }
             }
             response.complete(time: Clock.now());

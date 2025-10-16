@@ -42,8 +42,8 @@ class RuntimeAIMasamuneAdapter extends AIMasamuneAdapter {
   @override
   Future<AIContent?> generateContent(
     List<AIContent> content, {
-    required Future<List<AIContentFunctionResponsePart>> Function(
-            List<AIContentFunctionCallPart>)
+    Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart>)?
         onFunctionCall,
     AIConfig? config,
     bool includeSystemInitialContent = true,

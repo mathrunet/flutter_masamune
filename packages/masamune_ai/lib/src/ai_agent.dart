@@ -1,6 +1,6 @@
 part of "/masamune_ai.dart";
 
-/// Manage threads of interaction with the AI.
+/// Manage interaction with the AI agent.
 ///
 /// The result of the exchange can be obtained at [value].
 ///
@@ -8,16 +8,16 @@ part of "/masamune_ai.dart";
 ///
 /// Use [clear] method to clear the thread.
 ///
-/// AIとのやりとりのスレッドを管理します。
+/// AIエージェントとのやりとりを管理します。
 ///
 /// やり取りの結果は[value]で取得できます。
 ///
 /// [generateContent]メソッドでメッセージを送信します。
 ///
 /// [clear]メソッドでスレッドをクリアします。
-class AIThread
+class AIAgent
     extends MasamuneControllerBase<List<AIContent>, AIMasamuneAdapter> {
-  /// Manage threads of interaction with the AI.
+  /// Manage interaction with the AI agent.
   ///
   /// The result of the exchange can be obtained at [value].
   ///
@@ -25,14 +25,14 @@ class AIThread
   ///
   /// Use [clear] method to clear the thread.
   ///
-  /// AIとのやりとりのスレッドを管理します。
+  /// AIエージェントとのやりとりを管理します。
   ///
   /// やり取りの結果は[value]で取得できます。
   ///
   /// [generateContent]メソッドでメッセージを送信します。
   ///
   /// [clear]メソッドでスレッドをクリアします。
-  AIThread({
+  AIAgent({
     required this.threadId,
     required List<AIContent> initialContents,
     super.adapter,
@@ -51,7 +51,7 @@ class AIThread
   /// ref.app.controller(AIThread.query(parameters));    // Watch at application scope.
   /// ref.page.controller(AIThread.query(parameters));   // Watch at page scope.
   /// ```
-  static const query = _$AIThreadQuery();
+  static const query = _$AIAgentQuery();
 
   /// The ID of the thread.
   ///
@@ -63,6 +63,7 @@ class AIThread
   /// スレッドの設定。
   final AIConfig? config;
 
+  static McpClient? _mcpClient;
   Completer<void>? _initializeCompleter;
 
   /// Result of interaction with AI.
@@ -86,9 +87,16 @@ class AIThread
   /// [tools]にAIが使うツールを指定可能です。[McpClient]が利用可能の場合ツールを読み込みます。
   Future<void> initialize({
     AIConfig? config,
+    Set<AITool> tools = const {},
   }) async {
+    if (adapter.mcpClientConfig != null) {
+      _mcpClient ??= McpClient();
+      await _mcpClient?.load();
+      tools = {...tools, ..._mcpClient?.value ?? const {}};
+    }
     if (adapter.isInitializedConfig(
       config: config,
+      tools: tools,
     )) {
       return;
     }
@@ -99,6 +107,7 @@ class AIThread
     try {
       await adapter.initialize(
         config: config,
+        tools: tools,
       );
       _initializeCompleter?.complete();
       _initializeCompleter = null;
@@ -162,8 +171,12 @@ class AIThread
   Future<List<AIContent>> generateContent(
     List<AIContent> contents, {
     AIConfig? config,
+    Set<AITool> tools = const {},
     bool includeSystemInitialContent = false,
     List<AIContent> Function(List<AIContent> contents)? contentFilter,
+    AIFunctionCallingConfig? Function(
+            AIContent response, Set<AITool> tools, int trialCount)?
+        onGenerateFunctionCallingConfig,
   }) async {
     if (!contents.every((e) => e.role == AIRole.user)) {
       throw const InvalidAIRoleException();
@@ -177,7 +190,11 @@ class AIThread
       });
       await initialize(
         config: config ?? this.config,
+        tools: tools,
       );
+      if (_mcpClient != null) {
+        tools = {...tools, ..._mcpClient?.value ?? const {}};
+      }
       _value.addAll(contents);
       _value.sort(adapter.threadContentSortCallback);
       notifyListeners();
@@ -186,7 +203,33 @@ class AIThread
             adapter.contentFilter?.call(_value) ??
             _value,
         config: config ?? this.config,
+        tools: tools,
         includeSystemInitialContent: includeSystemInitialContent,
+        onGenerateFunctionCallingConfig: onGenerateFunctionCallingConfig,
+        onFunctionCall: (functionCalls) async {
+          if (_mcpClient != null) {
+            return (await Future.wait<List<AIContentFunctionResponsePart>>(
+              functionCalls.map((call) async {
+                final func = adapter.mcpFunctions
+                    .firstWhereOrNull((f) => f.name == call.name);
+                if (func == null) {
+                  throw Exception(
+                    "Function ${call.name} not found",
+                  );
+                }
+                if (func.clientProcess != null) {
+                  final res = await func.clientProcess!(call);
+                  return await func.generateResponse(res ?? AIContent(), call);
+                }
+                final res = await _mcpClient?.call(call.name, call.args);
+                return await func.generateResponse(res ?? AIContent(), call);
+              }),
+            ))
+                .expand((e) => e)
+                .toList();
+          }
+          return [];
+        },
       );
       if (res == null) {
         return [];
@@ -220,17 +263,17 @@ class AIThread
 }
 
 @immutable
-class _$AIThreadQuery {
-  const _$AIThreadQuery();
+class _$AIAgentQuery {
+  const _$AIAgentQuery();
 
   @useResult
-  _$_AIThreadQuery call({
+  _$_AIAgentQuery call({
     required String threadId,
     AIMasamuneAdapter? adapter,
     AIConfig? config,
     List<AIContent> initialContents = const [],
   }) =>
-      _$_AIThreadQuery(
+      _$_AIAgentQuery(
         threadId,
         config: config,
         adapter: adapter,
@@ -239,8 +282,8 @@ class _$AIThreadQuery {
 }
 
 @immutable
-class _$_AIThreadQuery extends ControllerQueryBase<AIThread> {
-  const _$_AIThreadQuery(
+class _$_AIAgentQuery extends ControllerQueryBase<AIThread> {
+  const _$_AIAgentQuery(
     this._name, {
     required this.initialContents,
     this.config,

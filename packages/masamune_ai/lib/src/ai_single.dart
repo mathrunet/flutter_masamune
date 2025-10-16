@@ -59,7 +59,6 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
   /// モデルの設定。
   final AIConfig? config;
 
-  static McpClient? _mcpClient;
   Completer<void>? _initializeCompleter;
 
   /// Result of interaction with AI.
@@ -82,16 +81,9 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
   /// [tools]にAIが使うツールを指定可能です。[McpClient]が利用可能の場合ツールを読み込みます。
   Future<void> initialize({
     AIConfig? config,
-    Set<AITool> tools = const {},
   }) async {
-    if (adapter.mcpClientConfig != null) {
-      _mcpClient ??= McpClient();
-      await _mcpClient?.load();
-      tools = {...tools, ..._mcpClient?.value ?? const {}};
-    }
     if (adapter.isInitializedConfig(
       config: config,
-      tools: tools,
     )) {
       return;
     }
@@ -102,7 +94,6 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
     try {
       await adapter.initialize(
         config: config,
-        tools: tools,
       );
       _initializeCompleter?.complete();
       _initializeCompleter = null;
@@ -140,52 +131,18 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
     List<AIContent> contents, {
     AIConfig? config,
     List<AIContent> Function(List<AIContent> contents)? contentFilter,
-    Set<AITool> tools = const {},
     bool includeSystemInitialContent = false,
-    AIFunctionCallingConfig? Function(
-            AIContent response, Set<AITool> tools, int trialCount)?
-        onGenerateFunctionCallingConfig,
   }) async {
     try {
       await initialize(
         config: config ?? this.config,
-        tools: tools,
       );
-      if (_mcpClient != null) {
-        tools = {...tools, ..._mcpClient?.value ?? const {}};
-      }
       final res = await adapter.generateContent(
         contentFilter?.call(contents) ??
             adapter.contentFilter?.call(contents) ??
             contents,
         config: config ?? this.config,
-        tools: tools,
         includeSystemInitialContent: includeSystemInitialContent,
-        onGenerateFunctionCallingConfig: onGenerateFunctionCallingConfig,
-        onFunctionCall: (functionCalls) async {
-          if (_mcpClient != null) {
-            return (await Future.wait<List<AIContentFunctionResponsePart>>(
-              functionCalls.map((call) async {
-                final func = adapter.mcpFunctions
-                    .firstWhereOrNull((f) => f.name == call.name);
-                if (func == null) {
-                  throw Exception(
-                    "Function ${call.name} not found",
-                  );
-                }
-                if (func.clientProcess != null) {
-                  final res = await func.clientProcess!(call);
-                  return await func.generateResponse(res ?? AIContent(), call);
-                }
-                final res = await _mcpClient?.call(call.name, call.args);
-                return await func.generateResponse(res ?? AIContent(), call);
-              }),
-            ))
-                .expand((e) => e)
-                .toList();
-          }
-          return [];
-        },
       );
       if (res == null) {
         return null;

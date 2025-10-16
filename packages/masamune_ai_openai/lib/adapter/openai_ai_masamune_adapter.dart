@@ -59,8 +59,8 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
   @override
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
-    required Future<List<AIContentFunctionResponsePart>> Function(
-            List<AIContentFunctionCallPart> functionCalls)
+    Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart> functionCalls)?
         onFunctionCall,
     AIConfig? config,
     Set<AITool> tools = const {},
@@ -102,10 +102,10 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
     required List<OpenAIChatCompletionChoiceMessageModel> contents,
     required AIContent response,
     required AIConfig config,
-    required Future<List<AIContentFunctionResponsePart>> Function(
-            List<AIContentFunctionCallPart> functionCalls)
-        onFunctionCall,
     required int trialCount,
+    Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart> functionCalls)?
+        onFunctionCall,
     Set<AITool> tools = const {},
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
