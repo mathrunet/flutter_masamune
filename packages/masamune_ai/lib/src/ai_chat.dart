@@ -1,6 +1,6 @@
 part of "/masamune_ai.dart";
 
-/// Manage threads of interaction with the AI.
+/// Manage chats with AI.
 ///
 /// The result of the exchange can be obtained at [value].
 ///
@@ -8,16 +8,34 @@ part of "/masamune_ai.dart";
 ///
 /// Use [clear] method to clear the thread.
 ///
-/// AIとのやりとりのスレッドを管理します。
+/// AIとのチャットを管理します。
 ///
 /// やり取りの結果は[value]で取得できます。
 ///
 /// [generateContent]メソッドでメッセージを送信します。
 ///
-/// [clear]メソッドでスレッドをクリアします。
-class AIThread
+/// [clear]メソッドでチャットをクリアします。
+@Deprecated("Use AIChat instead of AIThread")
+typedef AIThread = AIChat;
+
+/// Manage chats with AI.
+///
+/// The result of the exchange can be obtained at [value].
+///
+/// Use [generateContent] method to send a message to the AI.
+///
+/// Use [clear] method to clear the thread.
+///
+/// AIとのチャットを管理します。
+///
+/// やり取りの結果は[value]で取得できます。
+///
+/// [generateContent]メソッドでメッセージを送信します。
+///
+/// [clear]メソッドでチャットをクリアします。
+class AIChat
     extends MasamuneControllerBase<List<AIContent>, AIMasamuneAdapter> {
-  /// Manage threads of interaction with the AI.
+  /// Manage chats with AI.
   ///
   /// The result of the exchange can be obtained at [value].
   ///
@@ -25,14 +43,14 @@ class AIThread
   ///
   /// Use [clear] method to clear the thread.
   ///
-  /// AIとのやりとりのスレッドを管理します。
+  /// AIとのチャットを管理します。
   ///
   /// やり取りの結果は[value]で取得できます。
   ///
   /// [generateContent]メソッドでメッセージを送信します。
   ///
-  /// [clear]メソッドでスレッドをクリアします。
-  AIThread({
+  /// [clear]メソッドでチャットをクリアします。
+  AIChat({
     required this.threadId,
     required List<AIContent> initialContents,
     super.adapter,
@@ -47,11 +65,11 @@ class AIThread
   /// Query for AI.
   ///
   /// ```dart
-  /// appRef.controller(AIThread.query(parameters));     // Get from application scope.
-  /// ref.app.controller(AIThread.query(parameters));    // Watch at application scope.
-  /// ref.page.controller(AIThread.query(parameters));   // Watch at page scope.
+  /// appRef.controller(AIChat.query(parameters));     // Get from application scope.
+  /// ref.app.controller(AIChat.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(AIChat.query(parameters));   // Watch at page scope.
   /// ```
-  static const query = _$AIThreadQuery();
+  static const query = _$AIChatQuery();
 
   /// The ID of the thread.
   ///
@@ -220,17 +238,17 @@ class AIThread
 }
 
 @immutable
-class _$AIThreadQuery {
-  const _$AIThreadQuery();
+class _$AIChatQuery {
+  const _$AIChatQuery();
 
   @useResult
-  _$_AIThreadQuery call({
+  _$_AIChatQuery call({
     required String threadId,
     AIMasamuneAdapter? adapter,
     AIConfig? config,
     List<AIContent> initialContents = const [],
   }) =>
-      _$_AIThreadQuery(
+      _$_AIChatQuery(
         threadId,
         config: config,
         adapter: adapter,
@@ -239,8 +257,8 @@ class _$AIThreadQuery {
 }
 
 @immutable
-class _$_AIThreadQuery extends ControllerQueryBase<AIThread> {
-  const _$_AIThreadQuery(
+class _$_AIChatQuery extends ControllerQueryBase<AIChat> {
+  const _$_AIChatQuery(
     this._name, {
     required this.initialContents,
     this.config,
@@ -253,8 +271,8 @@ class _$_AIThreadQuery extends ControllerQueryBase<AIThread> {
   final AIMasamuneAdapter? adapter;
 
   @override
-  AIThread Function() call(Ref ref) {
-    return () => AIThread(
+  AIChat Function() call(Ref ref) {
+    return () => AIChat(
           threadId: _name,
           adapter: adapter,
           config: config,

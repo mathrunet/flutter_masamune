@@ -282,7 +282,7 @@ class _$AIAgentQuery {
 }
 
 @immutable
-class _$_AIAgentQuery extends ControllerQueryBase<AIThread> {
+class _$_AIAgentQuery extends ControllerQueryBase<AIAgent> {
   const _$_AIAgentQuery(
     this._name, {
     required this.initialContents,
@@ -296,8 +296,8 @@ class _$_AIAgentQuery extends ControllerQueryBase<AIThread> {
   final AIMasamuneAdapter? adapter;
 
   @override
-  AIThread Function() call(Ref ref) {
-    return () => AIThread(
+  AIAgent Function() call(Ref ref) {
+    return () => AIAgent(
           threadId: _name,
           adapter: adapter,
           config: config,

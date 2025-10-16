@@ -37,7 +37,7 @@ part "adapter/ai_masamune_adapter.dart";
 part "adapter/runtime_ai_masamune_adapter.dart";
 part "src/ai_content.dart";
 part "src/ai_role.dart";
-part "src/ai_thread.dart";
+part "src/ai_chat.dart";
 part "src/ai_agent.dart";
 part "src/ai_single.dart";
 part "src/invalid_ai_role_exception.dart";
