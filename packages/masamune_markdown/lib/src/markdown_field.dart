@@ -590,6 +590,51 @@ class MarkdownFieldState extends State<MarkdownField>
           // Clear composing region after newline
           _composingRegion = null;
         } else {
+          // Check if this is a backspace/delete operation at the end of a link
+          final isDeletion = replacementText.isEmpty && oldEnd > start;
+
+          // Use the new cursor position from the value, or fall back to the current selection
+          final cursorOffset = value.selection.isCollapsed
+              ? value.selection.baseOffset
+              : value.selection.end;
+
+          debugPrint(
+              "🔍 Checking deletion: isDeletion=$isDeletion, cursorOffset=$cursorOffset, _selection.isCollapsed=${_selection.isCollapsed}");
+
+          // Only check for link deletion when the cursor is collapsed (no selection)
+          // AND we haven't already selected a link range
+          if (isDeletion && value.selection.isCollapsed) {
+            // Check if cursor is at the end of a link
+            debugPrint("   Calling getLinkRangeBeforeCursor($cursorOffset)");
+            final linkRange =
+                widget.controller.getLinkRangeBeforeCursor(cursorOffset);
+            debugPrint("   Result: $linkRange");
+            if (linkRange != null) {
+              // Check if the current selection already matches the link range
+              // If so, allow deletion to proceed
+              final alreadySelected = _selection.baseOffset == linkRange.start &&
+                  _selection.extentOffset == linkRange.end;
+
+              if (!alreadySelected) {
+                // Select the entire link instead of deleting
+                debugPrint(
+                    "🔗 Backspace at end of link - selecting link range: $linkRange");
+                _selection = TextSelection(
+                  baseOffset: linkRange.start,
+                  extentOffset: linkRange.end,
+                );
+                _composingRegion = null;
+                _updateRemoteEditingValue();
+                setState(() {});
+                return; // Don't delete, just select
+              } else {
+                debugPrint("   Link already selected, allowing deletion");
+              }
+            } else {
+              debugPrint("   No link found before cursor");
+            }
+          }
+
           // Check if backspace deleted a block
           final blockCountBefore =
               widget.controller.value?.firstOrNull?.children.length ?? 0;
