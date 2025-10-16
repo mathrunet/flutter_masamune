@@ -689,8 +689,9 @@ abstract class MarkdownProperty {
   /// [List<DynamicMap>]から[MarkdownProperty]を作成します。
   static List<MarkdownProperty> fromJson(List<DynamicMap> json) {
     final properties = <MarkdownProperty>[];
-    final tools =
-        MarkdownMasamuneAdapter.findTools<MarkdownPropertyInlineTools>();
+    final tools = MarkdownMasamuneAdapter.findTools<MarkdownPropertyTools>(
+      recursive: true,
+    );
     for (final jsn in json) {
       for (final tool in tools) {
         final value = tool.convertFromJson(jsn);
@@ -711,6 +712,11 @@ abstract class MarkdownProperty {
   ///
   /// マークダウンのスパンのプロパティのリンクのキー。
   static const String linkKey = "link";
+
+  /// The key for the mention.
+  ///
+  /// マークダウンのスパンのプロパティのメンションのキー。
+  static const String mentionKey = "mention";
 
   /// The key for the type.
   ///

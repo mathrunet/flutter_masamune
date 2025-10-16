@@ -40,7 +40,7 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
       ItalicFontMarkdownInlineTools(),
       StrikeFontMarkdownInlineTools(),
       UnderlineFontMarkdownInlineTools(),
-      LinkFontMarkdownInlineTools(),
+      LinkMarkdownInlineTools(),
     ],
   });
 

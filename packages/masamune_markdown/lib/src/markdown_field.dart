@@ -612,8 +612,9 @@ class MarkdownFieldState extends State<MarkdownField>
             if (linkRange != null) {
               // Check if the current selection already matches the link range
               // If so, allow deletion to proceed
-              final alreadySelected = _selection.baseOffset == linkRange.start &&
-                  _selection.extentOffset == linkRange.end;
+              final alreadySelected =
+                  _selection.baseOffset == linkRange.start &&
+                      _selection.extentOffset == linkRange.end;
 
               if (!alreadySelected) {
                 // Select the entire link instead of deleting
@@ -679,7 +680,8 @@ class MarkdownFieldState extends State<MarkdownField>
                   "   → Cursor positioned at end: ${newTextWithoutTrailingNewline.length}");
             } else {
               // Keep cursor at start position (blocks were merged normally)
-              debugPrint("   → No trailing newline, setting cursor to start=$start");
+              debugPrint(
+                  "   → No trailing newline, setting cursor to start=$start");
               _selection = TextSelection.collapsed(offset: start);
             }
             _composingRegion = null;
@@ -2132,7 +2134,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         if (blockValue is MarkdownParagraphBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
-          debugPrint("   Paragraph block $blockIndex with ${lines.length} lines");
+          debugPrint(
+              "   Paragraph block $blockIndex with ${lines.length} lines");
           // Traverse through lines
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             final line = lines[lineIndex];
@@ -2142,14 +2145,16 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
               final spanLength = span.value.length;
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
-              debugPrint("      Span: '${span.value}' (start=$spanStart, end=$spanEnd, length=$spanLength)");
+              debugPrint(
+                  "      Span: '${span.value}' (start=$spanStart, end=$spanEnd, length=$spanLength)");
 
               // Check if target offset is within this span
               if (targetOffset >= spanStart && targetOffset < spanEnd) {
-                debugPrint("      → Target offset $targetOffset is in this span");
+                debugPrint(
+                    "      → Target offset $targetOffset is in this span");
                 // Check if this span has a link property
                 for (final property in span.properties) {
-                  if (property is LinkFontMarkdownSpanProperty) {
+                  if (property is LinkMarkdownSpanProperty) {
                     debugPrint("      → Found link: ${property.link}");
                     return property.link;
                   }
@@ -2164,17 +2169,20 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
             // Add 1 for newline only if this is not the last line in the block
             if (lineIndex < lines.length - 1) {
-              debugPrint("      Adding newline within block (currentOffset: $currentOffset -> ${currentOffset + 1})");
+              debugPrint(
+                  "      Adding newline within block (currentOffset: $currentOffset -> ${currentOffset + 1})");
               currentOffset += 1;
             }
           }
 
           // Add 1 for newline after each paragraph block (except the last one)
           if (blockIndex < blocks.length - 1) {
-            debugPrint("   Adding newline after block (currentOffset: $currentOffset -> ${currentOffset + 1})");
+            debugPrint(
+                "   Adding newline after block (currentOffset: $currentOffset -> ${currentOffset + 1})");
             currentOffset += 1;
           } else {
-            debugPrint("   Last block, no newline added (currentOffset stays: $currentOffset)");
+            debugPrint(
+                "   Last block, no newline added (currentOffset stays: $currentOffset)");
           }
         }
       }
@@ -2218,7 +2226,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
               if (targetOffset >= spanStart && targetOffset < spanEnd) {
                 // Check if this span has a link property
                 for (final property in span.properties) {
-                  if (property is LinkFontMarkdownSpanProperty) {
+                  if (property is LinkMarkdownSpanProperty) {
                     targetLinkUrl = property.link;
                     break;
                   }
@@ -2258,7 +2266,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     }
 
     // Second pass: find the full range of consecutive spans with the same link URL
-    debugPrint("   🔍 Second pass: finding full range for link: $targetLinkUrl");
+    debugPrint(
+        "   🔍 Second pass: finding full range for link: $targetLinkUrl");
     currentOffset = 0;
     for (final fieldValue in controllerValue) {
       final blocks = fieldValue.children;
@@ -2267,7 +2276,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         if (blockValue is MarkdownParagraphBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
-          debugPrint("      Paragraph block $blockIndex with ${lines.length} lines");
+          debugPrint(
+              "      Paragraph block $blockIndex with ${lines.length} lines");
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             final line = lines[lineIndex];
             debugPrint("      Line $lineIndex (currentOffset=$currentOffset):");
@@ -2275,12 +2285,13 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
               final spanLength = span.value.length;
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
-              debugPrint("         Span: '${span.value}' (start=$spanStart, end=$spanEnd)");
+              debugPrint(
+                  "         Span: '${span.value}' (start=$spanStart, end=$spanEnd)");
 
               // Check if this span has the same link URL
               var hasTargetLink = false;
               for (final property in span.properties) {
-                if (property is LinkFontMarkdownSpanProperty &&
+                if (property is LinkMarkdownSpanProperty &&
                     property.link == targetLinkUrl) {
                   hasTargetLink = true;
                   break;
@@ -2292,13 +2303,16 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
                 linkStart ??= spanStart;
                 // Don't include trailing newline in link range
                 linkEnd = spanEnd;
-                debugPrint("         → Has target link. linkStart=$linkStart, linkEnd=$linkEnd");
+                debugPrint(
+                    "         → Has target link. linkStart=$linkStart, linkEnd=$linkEnd");
               } else if (linkStart != null) {
                 // We've found the end of the consecutive link spans
                 // But only return if we've already passed the target offset
-                debugPrint("         → No target link. linkStart was $linkStart, currentOffset=$currentOffset, targetOffset=$targetOffset");
+                debugPrint(
+                    "         → No target link. linkStart was $linkStart, currentOffset=$currentOffset, targetOffset=$targetOffset");
                 if (currentOffset > targetOffset) {
-                  debugPrint("         → Returning early: TextRange(start: $linkStart, end: $linkEnd)");
+                  debugPrint(
+                      "         → Returning early: TextRange(start: $linkStart, end: $linkEnd)");
                   return TextRange(start: linkStart, end: linkEnd!);
                 }
                 // Reset for next potential link range
@@ -2310,16 +2324,19 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
             }
             // Add 1 for newline only if this is not the last line in the block
             if (lineIndex < lines.length - 1) {
-              debugPrint("         Adding newline within block (currentOffset: $currentOffset -> ${currentOffset + 1})");
+              debugPrint(
+                  "         Adding newline within block (currentOffset: $currentOffset -> ${currentOffset + 1})");
               currentOffset += 1;
             }
           }
           // Add 1 for newline after each paragraph block (except the last one)
           if (blockIndex < blocks.length - 1) {
-            debugPrint("      Adding newline after block (currentOffset: $currentOffset -> ${currentOffset + 1})");
+            debugPrint(
+                "      Adding newline after block (currentOffset: $currentOffset -> ${currentOffset + 1})");
             currentOffset += 1;
           } else {
-            debugPrint("      Last block, no newline added (currentOffset stays: $currentOffset)");
+            debugPrint(
+                "      Last block, no newline added (currentOffset stays: $currentOffset)");
           }
         }
       }
@@ -2352,7 +2369,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   void _handleTapUp(PointerUpEvent event) {
-    debugPrint("📍 _handleTapUp called (controller.hashCode: ${_controller.hashCode})");
+    debugPrint(
+        "📍 _handleTapUp called (controller.hashCode: ${_controller.hashCode})");
 
     _longPressTimer?.cancel();
     _longPressTimer = null;
@@ -2382,7 +2400,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     // Check if it's a drag (moved too far from tap down position)
     if ((position - _lastTapDownPosition!).distance > 10) {
-      debugPrint("   → Skipping: drag detected (distance: ${(position - _lastTapDownPosition!).distance})");
+      debugPrint(
+          "   → Skipping: drag detected (distance: ${(position - _lastTapDownPosition!).distance})");
       return;
     }
 
@@ -2415,7 +2434,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
             // Prevent duplicate calls within 500ms
             final now = DateTime.now().millisecondsSinceEpoch;
             if (now - _lastLinkDialogShowTime < 500) {
-              debugPrint("   → Skipping duplicate link dialog call (within 500ms)");
+              debugPrint(
+                  "   → Skipping duplicate link dialog call (within 500ms)");
               return;
             }
             _lastLinkDialogShowTime = now;

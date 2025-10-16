@@ -28,7 +28,7 @@ class FontMarkdownPrimaryTools extends MarkdownPrimaryTools {
       ItalicFontMarkdownInlineTools(),
       UnderlineFontMarkdownInlineTools(),
       StrikeFontMarkdownInlineTools(),
-      LinkFontMarkdownInlineTools(),
+      LinkMarkdownInlineTools(),
       CodeFontMarkdownInlineTools(),
     ],
   });

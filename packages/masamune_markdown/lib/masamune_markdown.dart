@@ -52,7 +52,7 @@ part "tools/inline/font/back_font_markdown_inline_tools.dart";
 part "tools/inline/font/bold_font_markdown_inline_tools.dart";
 part "tools/inline/font/code_font_markdown_inline_tools.dart";
 part "tools/inline/font/italic_font_markdown_inline_tools.dart";
-part "tools/inline/font/link_font_markdown_inline_tools.dart";
+part "tools/inline/font/link_markdown_inline_tools.dart";
 part "tools/inline/font/strike_font_markdown_inline_tools.dart";
 part "tools/inline/font/underline_font_markdown_inline_tools.dart";
 

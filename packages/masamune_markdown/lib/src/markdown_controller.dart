@@ -285,7 +285,8 @@ class MarkdownController extends MasamuneControllerBase<
         if (startBlockIndex == null && blockEnd >= start) {
           startBlockIndex = i;
           localStart = start - blockStart;
-          debugPrint("      → Contains start position (localStart=$localStart)");
+          debugPrint(
+              "      → Contains start position (localStart=$localStart)");
         }
 
         // Check if this block contains the end position
@@ -412,7 +413,8 @@ class MarkdownController extends MasamuneControllerBase<
 
       debugPrint("   potentialMergedText='$potentialMergedText'");
       debugPrint("   originalTextStr='$originalTextStr'");
-      debugPrint("   Are they equal? ${potentialMergedText == originalTextStr}");
+      debugPrint(
+          "   Are they equal? ${potentialMergedText == originalTextStr}");
 
       // If the operation would result in the same text, don't merge blocks
       // This happens when selection handles are dragged without actually changing text
@@ -425,9 +427,8 @@ class MarkdownController extends MasamuneControllerBase<
 
       // Check if we should keep blocks separate or merge them
       // Keep separate if: deletion AND both blocks have content remaining
-      final shouldKeepSeparate = text.isEmpty &&
-          textBeforeStart.isNotEmpty &&
-          textAfterEnd.isNotEmpty;
+      final shouldKeepSeparate =
+          text.isEmpty && textBeforeStart.isNotEmpty && textAfterEnd.isNotEmpty;
 
       if (shouldKeepSeparate) {
         debugPrint(
@@ -1130,7 +1131,7 @@ class MarkdownController extends MasamuneControllerBase<
   /// Changes the inline text at the specified start and end positions.
   ///
   /// 指定された開始位置と終了位置のインラインテキストを変更します。
-  void addInlineProperty(MarkdownPropertyInlineTools tool,
+  void addInlineProperty(MarkdownPropertyTools tool,
       {int? start, int? end, Object? value}) {
     if (_field == null) {
       return;
@@ -1265,7 +1266,7 @@ class MarkdownController extends MasamuneControllerBase<
   /// Removes the inline property at the specified start and end positions.
   ///
   /// 指定された開始位置と終了位置のインラインプロパティを削除します。
-  void removeInlineProperty(MarkdownPropertyInlineTools tool,
+  void removeInlineProperty(MarkdownPropertyTools tool,
       {int? start, int? end}) {
     if (_field == null) {
       return;
@@ -1389,8 +1390,7 @@ class MarkdownController extends MasamuneControllerBase<
   /// Checks if the inline property exists at the specified start and end positions.
   ///
   /// 指定された開始位置と終了位置のインラインプロパティが存在するかどうかを確認します。
-  bool hasInlineProperty(MarkdownPropertyInlineTools tool,
-      {int? start, int? end}) {
+  bool hasInlineProperty(MarkdownPropertyTools tool, {int? start, int? end}) {
     if (_field == null) {
       return false;
     }
@@ -1459,7 +1459,7 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// ツールからインラインプロパティを適用します。
   List<MarkdownProperty> _applyInlineProperty(
-    MarkdownPropertyInlineTools tool,
+    MarkdownPropertyTools tool,
     List<MarkdownProperty> properties, {
     Object? value,
   }) {
@@ -1470,7 +1470,7 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// ツールからインラインプロパティを削除します。
   List<MarkdownProperty> _removeInlineProperty(
-    MarkdownPropertyInlineTools tool,
+    MarkdownPropertyTools tool,
     List<MarkdownProperty> properties,
   ) {
     return tool.removeProperty(properties);
@@ -1480,7 +1480,7 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// 与えられたプロパティがツールからのインラインプロパティを持っているかどうかを確認します。
   bool _hasInlineProperty(
-    MarkdownPropertyInlineTools tool,
+    MarkdownPropertyTools tool,
     List<MarkdownProperty> properties,
   ) {
     return properties.any((e) => e.type == tool.id);
@@ -2024,7 +2024,7 @@ class MarkdownController extends MasamuneControllerBase<
                     "         → checkOffset $checkOffset is in this span");
                 // Check if this span has a link property
                 for (final property in span.properties) {
-                  if (property is LinkFontMarkdownSpanProperty) {
+                  if (property is LinkMarkdownSpanProperty) {
                     targetLinkUrl = property.link;
                     debugPrint("         → Found link: $targetLinkUrl");
                     break;
@@ -2086,7 +2086,7 @@ class MarkdownController extends MasamuneControllerBase<
               // Check if this span has the same link URL
               var hasTargetLink = false;
               for (final property in span.properties) {
-                if (property is LinkFontMarkdownSpanProperty &&
+                if (property is LinkMarkdownSpanProperty &&
                     property.link == targetLinkUrl) {
                   hasTargetLink = true;
                   break;

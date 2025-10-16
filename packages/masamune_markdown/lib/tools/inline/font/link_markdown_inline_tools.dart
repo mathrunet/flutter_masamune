@@ -1,26 +1,26 @@
 part of "/masamune_markdown.dart";
 
-const _kLinkFontMarkdownInlineToolsType = "__markdown_inline_font_link__";
+const _kLinkMarkdownInlineToolsType = "__markdown_inline_link__";
 
-/// Display the menu to link font [MarkdownTools].
+/// Display the menu to link text [MarkdownTools].
 ///
-/// フォントをリンクにするメニューを表示する[MarkdownTools]。
+/// テキストをリンクにするメニューを表示する[MarkdownTools]。
 @immutable
-class LinkFontMarkdownInlineTools
-    extends MarkdownPropertyInlineTools<LinkFontMarkdownSpanProperty> {
-  /// Display the menu to link font [MarkdownTools].
+class LinkMarkdownInlineTools
+    extends MarkdownPropertyInlineTools<LinkMarkdownSpanProperty> {
+  /// Display the menu to link text [MarkdownTools].
   ///
-  /// フォントをリンクにするメニューを表示する[MarkdownTools]。
-  const LinkFontMarkdownInlineTools({
+  /// テキストをリンクにするメニューを表示する[MarkdownTools]。
+  const LinkMarkdownInlineTools({
     super.config = const MarkdownToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
           Locale("ja", "JP"),
-          "フォントのリンク",
+          "テキストのリンク",
         ),
         LocalizedLocaleValue<String>(
           Locale("en", "US"),
-          "Font Link",
+          "Text Link",
         ),
       ]),
       icon: Icons.link,
@@ -28,7 +28,7 @@ class LinkFontMarkdownInlineTools
   });
 
   @override
-  String get id => "__markdown_inline_font_link__";
+  String get id => _kLinkMarkdownInlineToolsType;
 
   @override
   bool shown(BuildContext context, MarkdownToolRef ref) => true;
@@ -66,22 +66,22 @@ class LinkFontMarkdownInlineTools
   }
 
   @override
-  LinkFontMarkdownSpanProperty? convertFromJson(DynamicMap json) {
+  LinkMarkdownSpanProperty? convertFromJson(DynamicMap json) {
     final type = json.get(MarkdownProperty.typeKey, nullOfString);
     if (type != id) {
       return null;
     }
-    return LinkFontMarkdownSpanProperty.fromJson(json);
+    return LinkMarkdownSpanProperty.fromJson(json);
   }
 
   @override
-  LinkFontMarkdownSpanProperty? convertFromMarkdown(String markdown) {
+  LinkMarkdownSpanProperty? convertFromMarkdown(String markdown) {
     // TODO: implement convertFromMarkdown
     throw UnimplementedError();
   }
 
   @override
-  DynamicMap? convertToJson(LinkFontMarkdownSpanProperty value) {
+  DynamicMap? convertToJson(LinkMarkdownSpanProperty value) {
     if (value.type != id) {
       return null;
     }
@@ -89,7 +89,7 @@ class LinkFontMarkdownInlineTools
   }
 
   @override
-  String? convertToMarkdown(LinkFontMarkdownSpanProperty value) {
+  String? convertToMarkdown(LinkMarkdownSpanProperty value) {
     // TODO: implement convertToMarkdown
     throw UnimplementedError();
   }
@@ -102,7 +102,7 @@ class LinkFontMarkdownInlineTools
     }
     return [
       ...properties,
-      if (value != null) LinkFontMarkdownSpanProperty(link: value.toString()),
+      if (value != null) LinkMarkdownSpanProperty(link: value.toString()),
     ];
   }
 
@@ -112,43 +112,43 @@ class LinkFontMarkdownInlineTools
   }
 }
 
-/// A class for storing link font markdown span property.
+/// A class for storing link text markdown span property.
 ///
-/// フォントをリンクにするマークダウンのスパンのプロパティを格納するクラス。
+/// テキストをリンクにするマークダウンのスパンのプロパティを格納するクラス。
 @immutable
-class LinkFontMarkdownSpanProperty extends MarkdownProperty {
-  /// A class for storing link font markdown span property.
+class LinkMarkdownSpanProperty extends MarkdownProperty {
+  /// A class for storing link text markdown span property.
   ///
-  /// フォントをリンクにするマークダウンのスパンのプロパティを格納するクラス。
-  const LinkFontMarkdownSpanProperty({
+  /// テキストをリンクにするマークダウンのスパンのプロパティを格納するクラス。
+  const LinkMarkdownSpanProperty({
     required this.link,
   });
 
-  /// Create a [LinkFontMarkdownSpanProperty] from a [DynamicMap].
+  /// Create a [LinkMarkdownSpanProperty] from a [DynamicMap].
   ///
-  /// [DynamicMap]から[LinkFontMarkdownSpanProperty]を作成します。
-  factory LinkFontMarkdownSpanProperty.fromJson(DynamicMap json) {
-    return LinkFontMarkdownSpanProperty(
+  /// [DynamicMap]から[LinkMarkdownSpanProperty]を作成します。
+  factory LinkMarkdownSpanProperty.fromJson(DynamicMap json) {
+    return LinkMarkdownSpanProperty(
       link: json.get(MarkdownProperty.linkKey, ""),
     );
   }
 
-  /// The link of the link font markdown span property.
+  /// The link of the link text markdown span property.
   ///
-  /// フォントをリンクにするマークダウンのスパンのプロパティのリンク。
+  /// テキストをリンクにするマークダウンのスパンのプロパティのリンク。
   final String link;
 
   @override
-  LinkFontMarkdownSpanProperty copyWith({
+  LinkMarkdownSpanProperty copyWith({
     String? link,
   }) {
-    return LinkFontMarkdownSpanProperty(
+    return LinkMarkdownSpanProperty(
       link: link ?? this.link,
     );
   }
 
   @override
-  String get type => _kLinkFontMarkdownInlineToolsType;
+  String get type => _kLinkMarkdownInlineToolsType;
 
   @override
   DynamicMap toJson() {
@@ -163,7 +163,7 @@ class LinkFontMarkdownSpanProperty extends MarkdownProperty {
     if (identical(this, other)) {
       return true;
     }
-    return other is LinkFontMarkdownSpanProperty &&
+    return other is LinkMarkdownSpanProperty &&
         other.type == type &&
         other.link == link;
   }

@@ -63,6 +63,55 @@ abstract class MarkdownTools {
           id == other.id;
 }
 
+/// Base class for markdown property tools.
+///
+/// マークダウンプロパティツールの基底クラス。
+@immutable
+abstract class MarkdownPropertyTools<TProperty extends MarkdownProperty>
+    extends MarkdownTools {
+  /// Base class for markdown property tools.
+  ///
+  /// マークダウンプロパティツールの基底クラス。
+  const MarkdownPropertyTools({
+    required super.config,
+  });
+
+  /// Apply the inline property to the given properties.
+  ///
+  /// インラインプロパテズを適用します。
+  List<MarkdownProperty> addProperty(
+    List<MarkdownProperty> properties, {
+    Object? value,
+  });
+
+  /// Remove the inline property from the given properties.
+  ///
+  /// インラインプロパテズを削除します。
+  List<MarkdownProperty> removeProperty(
+    List<MarkdownProperty> properties,
+  );
+
+  /// Convert a JSON object to a markdown span value.
+  ///
+  /// JSONオブジェクトをマークダウンスパン値に変換します。
+  TProperty? convertFromJson(DynamicMap json);
+
+  /// Convert a markdown span value to a JSON object.
+  ///
+  /// マークダウンスパン値をJSONオブジェクトに変換します。
+  DynamicMap? convertToJson(TProperty value);
+
+  /// Convert a markdown string to a markdown span value.
+  ///
+  /// マークダウン文字列をマークダウンスパン値に変換します。
+  TProperty? convertFromMarkdown(String markdown);
+
+  /// Convert a markdown span value to a markdown string.
+  ///
+  /// マークダウンスパン値をマークダウン文字列に変換します。
+  String? convertToMarkdown(TProperty value);
+}
+
 /// Base class for markdown primary tools.
 ///
 /// マークダウンプライマリツールの基底クラス。
@@ -89,6 +138,20 @@ abstract class MarkdownPrimaryTools extends MarkdownTools {
   ///
   /// ツールが選択されたときにキーボードを非表示にするかどうかを確認します。
   bool get hideKeyboardOnSelected;
+}
+
+/// Base class for markdown property primary tools.
+///
+/// マークダウンプロパティプライマリツールの基底クラス。
+@immutable
+abstract class MarkdownPropertyPrimaryTools<TProperty extends MarkdownProperty>
+    extends MarkdownPrimaryTools implements MarkdownPropertyTools<TProperty> {
+  /// Base class for markdown property primary tools.
+  ///
+  /// マークダウンプロパティプライマリツールの基底クラス。
+  const MarkdownPropertyPrimaryTools({
+    required super.config,
+  });
 }
 
 /// Base class for markdown sub tools.
@@ -179,48 +242,13 @@ abstract class MarkdownInlineTools extends MarkdownTools {
 /// マークダウンプロパティインラインツールの基底クラス。
 @immutable
 abstract class MarkdownPropertyInlineTools<TProperty extends MarkdownProperty>
-    extends MarkdownInlineTools {
+    extends MarkdownInlineTools implements MarkdownPropertyTools<TProperty> {
   /// Base class for markdown property inline tools.
   ///
   /// マークダウンプロパティインラインツールの基底クラス。
   const MarkdownPropertyInlineTools({
     required super.config,
   });
-
-  /// Apply the inline property to the given properties.
-  ///
-  /// インラインプロパテズを適用します。
-  List<MarkdownProperty> addProperty(
-    List<MarkdownProperty> properties, {
-    Object? value,
-  });
-
-  /// Remove the inline property from the given properties.
-  ///
-  /// インラインプロパテズを削除します。
-  List<MarkdownProperty> removeProperty(
-    List<MarkdownProperty> properties,
-  );
-
-  /// Convert a JSON object to a markdown span value.
-  ///
-  /// JSONオブジェクトをマークダウンスパン値に変換します。
-  TProperty? convertFromJson(DynamicMap json);
-
-  /// Convert a markdown span value to a JSON object.
-  ///
-  /// マークダウンスパン値をJSONオブジェクトに変換します。
-  DynamicMap? convertToJson(TProperty value);
-
-  /// Convert a markdown string to a markdown span value.
-  ///
-  /// マークダウン文字列をマークダウンスパン値に変換します。
-  TProperty? convertFromMarkdown(String markdown);
-
-  /// Convert a markdown span value to a markdown string.
-  ///
-  /// マークダウンスパン値をマークダウン文字列に変換します。
-  String? convertToMarkdown(TProperty value);
 }
 
 /// Configuration class for Markdown tool label.

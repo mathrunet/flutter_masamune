@@ -554,7 +554,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                   onPressed: () {
                     // Remove the link when cancel button is pressed
                     controller.removeInlineProperty(
-                      const LinkFontMarkdownInlineTools(),
+                      const LinkMarkdownInlineTools(),
                     );
                     _linkSetting?.cancel();
                     setState(() {
@@ -1088,7 +1088,7 @@ class _LinkSetting {
             if (selectionEnd > spanStart && selectionStart < spanEnd) {
               // Find link property
               for (final property in span.properties) {
-                if (property is LinkFontMarkdownSpanProperty) {
+                if (property is LinkMarkdownSpanProperty) {
                   return property.link;
                 }
               }
@@ -1133,11 +1133,11 @@ class _LinkSetting {
 
     if (url == null || url.isEmpty) {
       // Remove link property
-      const linkTool = LinkFontMarkdownInlineTools();
+      const linkTool = LinkMarkdownInlineTools();
       controller.removeInlineProperty(linkTool);
     } else {
       // First remove any existing link property
-      const linkTool = LinkFontMarkdownInlineTools();
+      const linkTool = LinkMarkdownInlineTools();
       controller.removeInlineProperty(linkTool);
 
       // Then add new link property with URL
@@ -1155,7 +1155,7 @@ class _LinkSetting {
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
     var currentOffset = 0;
-    const toolId = _kLinkFontMarkdownInlineToolsType;
+    const toolId = _kLinkMarkdownInlineToolsType;
 
     for (var i = 0; i < blocks.length; i++) {
       final block = blocks[i];
@@ -1191,7 +1191,7 @@ class _LinkSetting {
                   .substring(overlapStart - spanStart, overlapEnd - spanStart);
 
               // Add link property with URL
-              final linkProperty = LinkFontMarkdownSpanProperty(link: url);
+              final linkProperty = LinkMarkdownSpanProperty(link: url);
               final newProperties = [
                 ...span.properties.where((p) => p.type != toolId),
                 linkProperty,
