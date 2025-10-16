@@ -42,6 +42,8 @@ class MarkdownField extends StatefulWidget {
     this.onSubmitted,
     this.onTap,
     this.onTapOutside,
+    this.onTapLink,
+    this.onTapMention,
     this.enabled,
     this.rendererIgnoresPointer = false,
     this.scrollPadding = const EdgeInsets.all(20.0),
@@ -210,6 +212,16 @@ class MarkdownField extends StatefulWidget {
   ///
   /// ユーザーがタップしたときに呼ばれます。
   final VoidCallback? onTap;
+
+  /// Called when the user taps a link.
+  ///
+  /// ユーザーがリンクをタップしたときに呼ばれます。
+  final void Function(String link)? onTapLink;
+
+  /// Called when the user taps a mention.
+  ///
+  /// ユーザーがメンションをタップしたときに呼ばれます。
+  final void Function(String mention)? onTapMention;
 
   /// Called when the user taps outside.
   ///
@@ -984,6 +996,8 @@ class MarkdownFieldState extends State<MarkdownField>
     final showCursor = _focusNode.hasFocus && _showCursor;
 
     Widget child = _MarkdownRenderObjectWidget(
+      onTapLink: widget.onTapLink,
+      onTapMention: widget.onTapMention,
       controller: widget.controller,
       focusNode: _focusNode,
       selection: _selection,
@@ -1091,6 +1105,8 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
     this.strutStyle,
     this.onLongPress,
     this.onDoubleTap,
+    this.onTapLink,
+    this.onTapMention,
   });
 
   final MarkdownController controller;
@@ -1116,6 +1132,8 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
   final VoidCallback? onTap;
   final void Function(Offset globalPosition)? onLongPress;
   final void Function(Offset globalPosition)? onDoubleTap;
+  final void Function(String link)? onTapLink;
+  final void Function(String mention)? onTapMention;
   final bool enabled;
   final bool readOnly;
 
@@ -1147,6 +1165,8 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       onDoubleTap: onDoubleTap,
       enabled: enabled,
       readOnly: readOnly,
+      onTapLink: onTapLink,
+      onTapMention: onTapMention,
     );
   }
 
@@ -1180,7 +1200,9 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       .._onLongPress = onLongPress
       .._onDoubleTap = onDoubleTap
       ..enabled = enabled
-      ..readOnly = readOnly;
+      ..readOnly = readOnly
+      ..onTapLink = onTapLink
+      ..onTapMention = onTapMention;
   }
 }
 
@@ -1214,6 +1236,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     StrutStyle? strutStyle,
     void Function(Offset globalPosition)? onLongPress,
     void Function(Offset globalPosition)? onDoubleTap,
+    void Function(String link)? onTapLink,
+    void Function(String mention)? onTapMention,
   })  : _controller = controller,
         _focusNode = focusNode,
         _selection = selection,
@@ -1238,7 +1262,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         _onLongPress = onLongPress,
         _onDoubleTap = onDoubleTap,
         _enabled = enabled,
-        _readOnly = readOnly;
+        _readOnly = readOnly,
+        _onTapLink = onTapLink,
+        _onTapMention = onTapMention;
 
   MarkdownController _controller;
   MarkdownController get controller => _controller;
@@ -1474,6 +1500,20 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   void Function(Offset globalPosition)? _onLongPress;
 
   void Function(Offset globalPosition)? _onDoubleTap;
+
+  void Function(String link)? get onTapLink => _onTapLink;
+  set onTapLink(void Function(String link)? value) {
+    _onTapLink = value;
+  }
+
+  void Function(String link)? _onTapLink;
+
+  void Function(String mention)? get onTapMention => _onTapMention;
+  set onTapMention(void Function(String mention)? value) {
+    _onTapMention = value;
+  }
+
+  void Function(String mention)? _onTapMention;
 
   bool _enabled;
   bool get enabled => _enabled;
@@ -2356,16 +2396,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   ///
   /// URLをデフォルトのブラウザまたは適切なアプリケーションで開きます。
   Future<void> _launchUrl(String url) async {
-    try {
-      final uri = Uri.parse(url);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      } else {
-        debugPrint("Cannot launch URL: $url");
-      }
-    } catch (e) {
-      debugPrint("Error launching URL: $e");
-    }
+    _onTapLink?.call(url);
   }
 
   void _handleTapUp(PointerUpEvent event) {

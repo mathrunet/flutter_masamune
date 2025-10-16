@@ -131,6 +131,7 @@ class FormMarkdownField<TValue> extends FormField<String> {
     String? hintText,
     bool scrollable = true,
     void Function(String link)? onTapLink,
+    void Function(String mention)? onTapMention,
     this.autofocus = false,
     VoidCallback? onTap,
     ScrollController? scrollController,
@@ -182,6 +183,8 @@ class FormMarkdownField<TValue> extends FormField<String> {
                 controller: state._effectiveController,
                 focusNode: focusNode,
                 onTap: onTap,
+                onTapLink: onTapLink,
+                onTapMention: onTapMention,
                 scrollable: scrollable,
                 onEditingComplete: onEditingComplete,
                 onChanged: onChanged != null
