@@ -1427,6 +1427,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   int? _lastTapTime;
   Timer? _longPressTimer;
   bool _longPressDetected = false;
+
+  // Track last link dialog show time to prevent duplicate calls
+  int _lastLinkDialogShowTime = 0;
   bool _doubleTapDetected = false;
 
   // Selection handle tracking
@@ -2032,8 +2035,10 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   String? _getLinkAtOffset(int targetOffset) {
+    debugPrint("🔎 _getLinkAtOffset: targetOffset=$targetOffset");
     final controllerValue = _controller.value;
     if (controllerValue == null || controllerValue.isEmpty) {
+      debugPrint("   → Controller value is null or empty");
       return null;
     }
 
@@ -2041,44 +2046,63 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     // Traverse through MarkdownFieldValue items
     for (final fieldValue in controllerValue) {
+      final blocks = fieldValue.children;
       // Traverse through blocks in each MarkdownFieldValue
-      for (final blockValue in fieldValue.children) {
+      for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+        final blockValue = blocks[blockIndex];
         // Only handle paragraph blocks for now
         if (blockValue is MarkdownParagraphBlockValue) {
           final paragraphBlock = blockValue;
+          final lines = paragraphBlock.children;
+          debugPrint("   Paragraph block $blockIndex with ${lines.length} lines");
           // Traverse through lines
-          for (final line in paragraphBlock.children) {
+          for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            final line = lines[lineIndex];
+            debugPrint("   Line $lineIndex (currentOffset=$currentOffset):");
             // Traverse through spans
             for (final span in line.children) {
               final spanLength = span.value.length;
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
+              debugPrint("      Span: '${span.value}' (start=$spanStart, end=$spanEnd, length=$spanLength)");
 
               // Check if target offset is within this span
               if (targetOffset >= spanStart && targetOffset < spanEnd) {
+                debugPrint("      → Target offset $targetOffset is in this span");
                 // Check if this span has a link property
                 for (final property in span.properties) {
                   if (property is LinkFontMarkdownSpanProperty) {
+                    debugPrint("      → Found link: ${property.link}");
                     return property.link;
                   }
                 }
                 // Found the span but no link property
+                debugPrint("      → No link property in this span");
                 return null;
               }
 
               currentOffset += spanLength;
             }
 
-            // Add 1 for newline between lines (if not last line)
-            currentOffset += 1;
+            // Add 1 for newline only if this is not the last line in the block
+            if (lineIndex < lines.length - 1) {
+              debugPrint("      Adding newline within block (currentOffset: $currentOffset -> ${currentOffset + 1})");
+              currentOffset += 1;
+            }
           }
 
-          // Add 1 for newline between blocks (if not last block)
-          currentOffset += 1;
+          // Add 1 for newline after each paragraph block (except the last one)
+          if (blockIndex < blocks.length - 1) {
+            debugPrint("   Adding newline after block (currentOffset: $currentOffset -> ${currentOffset + 1})");
+            currentOffset += 1;
+          } else {
+            debugPrint("   Last block, no newline added (currentOffset stays: $currentOffset)");
+          }
         }
       }
     }
 
+    debugPrint("   → No link found at targetOffset");
     return null;
   }
 
@@ -2086,23 +2110,27 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   ///
   /// 指定されたオフセットにあるリンクのテキスト範囲を取得します。
   TextRange? _getLinkRangeAtOffset(int targetOffset) {
+    debugPrint("🔍 _getLinkRangeAtOffset: targetOffset=$targetOffset");
     final controllerValue = _controller.value;
     if (controllerValue == null || controllerValue.isEmpty) {
       return null;
     }
 
     var currentOffset = 0;
+    String? targetLinkUrl;
+    int? linkStart;
+    int? linkEnd;
 
-    // Traverse through MarkdownFieldValue items
+    // First pass: find the link URL at target offset
     for (final fieldValue in controllerValue) {
-      // Traverse through blocks in each MarkdownFieldValue
-      for (final blockValue in fieldValue.children) {
-        // Only handle paragraph blocks for now
+      final blocks = fieldValue.children;
+      for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+        final blockValue = blocks[blockIndex];
         if (blockValue is MarkdownParagraphBlockValue) {
           final paragraphBlock = blockValue;
-          // Traverse through lines
-          for (final line in paragraphBlock.children) {
-            // Traverse through spans
+          final lines = paragraphBlock.children;
+          for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            final line = lines[lineIndex];
             for (final span in line.children) {
               final spanLength = span.value.length;
               final spanStart = currentOffset;
@@ -2113,26 +2141,119 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
                 // Check if this span has a link property
                 for (final property in span.properties) {
                   if (property is LinkFontMarkdownSpanProperty) {
-                    return TextRange(start: spanStart, end: spanEnd);
+                    targetLinkUrl = property.link;
+                    break;
                   }
                 }
-                // Found the span but no link property
-                return null;
+                if (targetLinkUrl != null) {
+                  break;
+                }
               }
 
               currentOffset += spanLength;
             }
-
-            // Add 1 for newline between lines (if not last line)
+            if (targetLinkUrl != null) {
+              break;
+            }
+            // Add 1 for newline only if this is not the last line in the block
+            if (lineIndex < lines.length - 1) {
+              currentOffset += 1;
+            }
+          }
+          if (targetLinkUrl != null) {
+            break;
+          }
+          // Add 1 for newline after each paragraph block (except the last one)
+          if (blockIndex < blocks.length - 1) {
             currentOffset += 1;
           }
+        }
+      }
+      if (targetLinkUrl != null) {
+        break;
+      }
+    }
 
-          // Add 1 for newline between blocks (if not last block)
-          currentOffset += 1;
+    // If no link found at target offset, return null
+    if (targetLinkUrl == null) {
+      return null;
+    }
+
+    // Second pass: find the full range of consecutive spans with the same link URL
+    debugPrint("   🔍 Second pass: finding full range for link: $targetLinkUrl");
+    currentOffset = 0;
+    for (final fieldValue in controllerValue) {
+      final blocks = fieldValue.children;
+      for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+        final blockValue = blocks[blockIndex];
+        if (blockValue is MarkdownParagraphBlockValue) {
+          final paragraphBlock = blockValue;
+          final lines = paragraphBlock.children;
+          debugPrint("      Paragraph block $blockIndex with ${lines.length} lines");
+          for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            final line = lines[lineIndex];
+            debugPrint("      Line $lineIndex (currentOffset=$currentOffset):");
+            for (final span in line.children) {
+              final spanLength = span.value.length;
+              final spanStart = currentOffset;
+              final spanEnd = currentOffset + spanLength;
+              debugPrint("         Span: '${span.value}' (start=$spanStart, end=$spanEnd)");
+
+              // Check if this span has the same link URL
+              var hasTargetLink = false;
+              for (final property in span.properties) {
+                if (property is LinkFontMarkdownSpanProperty &&
+                    property.link == targetLinkUrl) {
+                  hasTargetLink = true;
+                  break;
+                }
+              }
+
+              if (hasTargetLink) {
+                // Expand the link range
+                linkStart ??= spanStart;
+                // Don't include trailing newline in link range
+                linkEnd = spanEnd;
+                debugPrint("         → Has target link. linkStart=$linkStart, linkEnd=$linkEnd");
+              } else if (linkStart != null) {
+                // We've found the end of the consecutive link spans
+                // But only return if we've already passed the target offset
+                debugPrint("         → No target link. linkStart was $linkStart, currentOffset=$currentOffset, targetOffset=$targetOffset");
+                if (currentOffset > targetOffset) {
+                  debugPrint("         → Returning early: TextRange(start: $linkStart, end: $linkEnd)");
+                  return TextRange(start: linkStart, end: linkEnd!);
+                }
+                // Reset for next potential link range
+                linkStart = null;
+                linkEnd = null;
+              }
+
+              currentOffset += spanLength;
+            }
+            // Add 1 for newline only if this is not the last line in the block
+            if (lineIndex < lines.length - 1) {
+              debugPrint("         Adding newline within block (currentOffset: $currentOffset -> ${currentOffset + 1})");
+              currentOffset += 1;
+            }
+          }
+          // Add 1 for newline after each paragraph block (except the last one)
+          if (blockIndex < blocks.length - 1) {
+            debugPrint("      Adding newline after block (currentOffset: $currentOffset -> ${currentOffset + 1})");
+            currentOffset += 1;
+          } else {
+            debugPrint("      Last block, no newline added (currentOffset stays: $currentOffset)");
+          }
         }
       }
     }
 
+    // Return the range if we found one
+    if (linkStart != null && linkEnd != null) {
+      debugPrint("   → Found link range: start=$linkStart, end=$linkEnd");
+      return TextRange(start: linkStart, end: linkEnd);
+    }
+
+    debugPrint("   → No link found at targetOffset");
     return null;
   }
 
@@ -2153,11 +2274,14 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   void _handleTapUp(PointerUpEvent event) {
+    debugPrint("📍 _handleTapUp called (controller.hashCode: ${_controller.hashCode})");
+
     _longPressTimer?.cancel();
     _longPressTimer = null;
 
     // Reset handle dragging flags
     if (_isDraggingStartHandle || _isDraggingEndHandle) {
+      debugPrint("   → Skipping: handle dragging");
       _isDraggingStartHandle = false;
       _isDraggingEndHandle = false;
       return;
@@ -2165,12 +2289,14 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     // If long press or double tap was detected, don't process as normal tap
     if (_longPressDetected || _doubleTapDetected) {
+      debugPrint("   → Skipping: long press or double tap detected");
       _longPressDetected = false;
       _doubleTapDetected = false;
       return;
     }
 
     if (_lastTapDownPosition == null) {
+      debugPrint("   → Skipping: no tap down position");
       return;
     }
 
@@ -2178,10 +2304,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     // Check if it's a drag (moved too far from tap down position)
     if ((position - _lastTapDownPosition!).distance > 10) {
+      debugPrint("   → Skipping: drag detected (distance: ${(position - _lastTapDownPosition!).distance})");
       return;
     }
 
     final textOffset = _getTextOffsetForPosition(position);
+    debugPrint("   textOffset=$textOffset");
 
     _onTap?.call();
 
@@ -2206,6 +2334,14 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           debugPrint("   → Showing link dialog");
           final linkRange = _getLinkRangeAtOffset(textOffset);
           if (linkRange != null) {
+            // Prevent duplicate calls within 500ms
+            final now = DateTime.now().millisecondsSinceEpoch;
+            if (now - _lastLinkDialogShowTime < 500) {
+              debugPrint("   → Skipping duplicate link dialog call (within 500ms)");
+              return;
+            }
+            _lastLinkDialogShowTime = now;
+
             // Select the link text
             _onSelectionChanged(
               TextSelection(
@@ -2216,6 +2352,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
             );
 
             // Notify controller to show link dialog
+            debugPrint("   → Calling controller.showLinkDialog");
             _controller.showLinkDialog(linkUrl);
           }
         }
@@ -2223,12 +2360,14 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       }
 
       // Tapped on text, set cursor position
+      debugPrint("   → Setting cursor position at offset $textOffset");
       _onSelectionChanged(
         TextSelection.collapsed(offset: textOffset),
         SelectionChangedCause.tap,
       );
     } else {
       // Tapped on empty space (padding/margin), clear selection
+      debugPrint("   → Clearing selection (tapped on empty space)");
       _onSelectionChanged(
         const TextSelection.collapsed(offset: 0),
         SelectionChangedCause.tap,
