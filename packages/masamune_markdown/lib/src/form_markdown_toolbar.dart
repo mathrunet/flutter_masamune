@@ -368,7 +368,8 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     }
     if (_currentTool is MentionMarkdownPrimaryTools &&
         _showBlockMenu &&
-        (field?.cursorInLink ?? false)) {
+        ((field?.cursorInLink ?? false) ||
+            (field?.selectInMentionLink ?? false))) {
       toggleMode(const MentionMarkdownPrimaryTools());
     }
   }
@@ -400,7 +401,8 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                           theme.colorTheme?.onPrimary ??
                           theme.colorScheme.onPrimary,
                     ),
-                    onPressed: (field?.cursorInLink ?? false)
+                    onPressed: ((field?.cursorInLink ?? false) ||
+                            (field?.selectInMentionLink ?? false))
                         ? null
                         : () {
                             e.onTap(context, this);
@@ -413,7 +415,8 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
               listenable: controller,
               builder: (context, child) {
                 return IconButton(
-                  onPressed: (field?.cursorInLink ?? false)
+                  onPressed: ((field?.cursorInLink ?? false) ||
+                          (field?.selectInMentionLink ?? false))
                       ? null
                       : () {
                           e.onTap(context, this);
@@ -672,7 +675,41 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                           return GestureDetector(
                             onTap: () {
                               _mentionSetting?.focusNode.unfocus();
-                              // TODO: insert mention
+                              // Insert mention at current cursor position
+                              final selection = field?._selection;
+                              if (selection != null && selection.isCollapsed) {
+                                final cursorPosition = selection.baseOffset;
+                                // Insert mention text: @{mention.name}
+                                final mentionText = "@${mention.name}";
+
+                                // Validation: Ensure mention text doesn't contain newlines
+                                if (mentionText.contains("\n")) {
+                                  debugPrint(
+                                      "⚠️ Mention text contains newline, skipping insertion");
+                                  return;
+                                }
+
+                                // Replace any selected text or insert at cursor
+                                controller.replaceText(
+                                  cursorPosition,
+                                  cursorPosition,
+                                  mentionText,
+                                );
+                                // Add mention property
+                                controller.addInlineProperty(
+                                  const MentionMarkdownPrimaryTools(),
+                                  start: cursorPosition,
+                                  end: cursorPosition + mentionText.length,
+                                  value: mention,
+                                );
+                                // Move cursor to after the mention
+                                field!._selection = TextSelection.collapsed(
+                                  offset: cursorPosition + mentionText.length,
+                                );
+                                field!._updateRemoteEditingValue();
+                              }
+                              // Close mention mode
+                              deleteMode();
                               controller.focusNode.requestFocus();
                             },
                             child: Padding(

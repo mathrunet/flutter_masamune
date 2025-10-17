@@ -284,6 +284,11 @@ class MarkdownFieldState extends State<MarkdownField>
   ///
   /// カーソルがリンク内にあるかどうか。
   bool get cursorInLink {
+    if (_selection.isCollapsed) {
+      final cursorOffset = _selection.baseOffset;
+      final linkRange = _getLinkRangeAtOffset(cursorOffset);
+      return linkRange != null;
+    }
     return false;
   }
 
@@ -291,6 +296,11 @@ class MarkdownFieldState extends State<MarkdownField>
   ///
   /// メンションリンクを選択するかどうか。
   bool get selectInMentionLink {
+    if (_selection.isCollapsed) {
+      final cursorOffset = _selection.baseOffset;
+      final mentionRange = _getMentionRangeAtOffset(cursorOffset);
+      return mentionRange != null;
+    }
     return false;
   }
 
@@ -613,8 +623,8 @@ class MarkdownFieldState extends State<MarkdownField>
           debugPrint(
               "🔍 Checking deletion: isDeletion=$isDeletion, cursorOffset=$cursorOffset, _selection.isCollapsed=${_selection.isCollapsed}");
 
-          // Only check for link deletion when the cursor is collapsed (no selection)
-          // AND we haven't already selected a link range
+          // Only check for link/mention deletion when the cursor is collapsed (no selection)
+          // AND we haven't already selected a link/mention range
           if (isDeletion && value.selection.isCollapsed) {
             // Check if cursor is at the end of a link
             debugPrint("   Calling getLinkRangeBeforeCursor($cursorOffset)");
@@ -645,6 +655,37 @@ class MarkdownFieldState extends State<MarkdownField>
               }
             } else {
               debugPrint("   No link found before cursor");
+            }
+
+            // Check if cursor is at the end of a mention
+            debugPrint("   Calling getMentionRangeBeforeCursor($cursorOffset)");
+            final mentionRange =
+                widget.controller.getMentionRangeBeforeCursor(cursorOffset);
+            debugPrint("   Result: $mentionRange");
+            if (mentionRange != null) {
+              // Check if the current selection already matches the mention range
+              // If so, allow deletion to proceed
+              final alreadySelected =
+                  _selection.baseOffset == mentionRange.start &&
+                      _selection.extentOffset == mentionRange.end;
+
+              if (!alreadySelected) {
+                // Select the entire mention instead of deleting
+                debugPrint(
+                    "💬 Backspace at end of mention - selecting mention range: $mentionRange");
+                _selection = TextSelection(
+                  baseOffset: mentionRange.start,
+                  extentOffset: mentionRange.end,
+                );
+                _composingRegion = null;
+                _updateRemoteEditingValue();
+                setState(() {});
+                return; // Don't delete, just select
+              } else {
+                debugPrint("   Mention already selected, allowing deletion");
+              }
+            } else {
+              debugPrint("   No mention found before cursor");
             }
           }
 
@@ -1072,6 +1113,276 @@ class MarkdownFieldState extends State<MarkdownField>
       autofocus: widget.autofocus,
       child: child,
     );
+  }
+
+  /// Get the text range of a link at the given offset.
+  ///
+  /// 指定されたオフセットにあるリンクのテキスト範囲を取得します。
+  TextRange? _getLinkRangeAtOffset(int targetOffset) {
+    final controllerValue = widget.controller.value;
+    if (controllerValue == null || controllerValue.isEmpty) {
+      return null;
+    }
+
+    var currentOffset = 0;
+    String? targetLinkUrl;
+    int? linkStart;
+    int? linkEnd;
+
+    // First pass: find the link URL at target offset
+    for (final fieldValue in controllerValue) {
+      final blocks = fieldValue.children;
+      for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+        final blockValue = blocks[blockIndex];
+        if (blockValue is MarkdownParagraphBlockValue) {
+          final paragraphBlock = blockValue;
+          final lines = paragraphBlock.children;
+          for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            final line = lines[lineIndex];
+            for (final span in line.children) {
+              final spanLength = span.value.length;
+              final spanStart = currentOffset;
+              final spanEnd = currentOffset + spanLength;
+
+              // Check if target offset is within this span
+              if (targetOffset >= spanStart && targetOffset < spanEnd) {
+                // Check if this span has a link property
+                for (final property in span.properties) {
+                  if (property is LinkMarkdownSpanProperty) {
+                    targetLinkUrl = property.link;
+                    break;
+                  }
+                }
+                if (targetLinkUrl != null) {
+                  break;
+                }
+              }
+
+              currentOffset += spanLength;
+            }
+            if (targetLinkUrl != null) {
+              break;
+            }
+            // Add 1 for newline only if this is not the last line in the block
+            if (lineIndex < lines.length - 1) {
+              currentOffset += 1;
+            }
+          }
+          if (targetLinkUrl != null) {
+            break;
+          }
+          // Add 1 for newline after each paragraph block (except the last one)
+          if (blockIndex < blocks.length - 1) {
+            currentOffset += 1;
+          }
+        }
+      }
+      if (targetLinkUrl != null) {
+        break;
+      }
+    }
+
+    // If no link found at target offset, return null
+    if (targetLinkUrl == null) {
+      return null;
+    }
+
+    // Second pass: find the full range of consecutive spans with the same link URL
+    currentOffset = 0;
+    for (final fieldValue in controllerValue) {
+      final blocks = fieldValue.children;
+      for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+        final blockValue = blocks[blockIndex];
+        if (blockValue is MarkdownParagraphBlockValue) {
+          final paragraphBlock = blockValue;
+          final lines = paragraphBlock.children;
+          for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            final line = lines[lineIndex];
+            for (final span in line.children) {
+              final spanLength = span.value.length;
+              final spanStart = currentOffset;
+              final spanEnd = currentOffset + spanLength;
+
+              // Check if this span has the same link URL
+              var hasTargetLink = false;
+              for (final property in span.properties) {
+                if (property is LinkMarkdownSpanProperty &&
+                    property.link == targetLinkUrl) {
+                  hasTargetLink = true;
+                  break;
+                }
+              }
+
+              if (hasTargetLink) {
+                // Expand the link range
+                linkStart ??= spanStart;
+                linkEnd = spanEnd;
+              } else if (linkStart != null) {
+                // We've found the end of the consecutive link spans
+                if (currentOffset > targetOffset) {
+                  return TextRange(start: linkStart, end: linkEnd!);
+                }
+                // Reset for next potential link range
+                linkStart = null;
+                linkEnd = null;
+              }
+
+              currentOffset += spanLength;
+            }
+            // Add 1 for newline only if this is not the last line in the block
+            if (lineIndex < lines.length - 1) {
+              currentOffset += 1;
+            }
+          }
+          // Add 1 for newline after each paragraph block (except the last one)
+          if (blockIndex < blocks.length - 1) {
+            currentOffset += 1;
+          }
+        }
+      }
+    }
+
+    // Return the range if we found one
+    if (linkStart != null && linkEnd != null) {
+      return TextRange(start: linkStart, end: linkEnd);
+    }
+
+    return null;
+  }
+
+  /// Get the text range of a mention at the given offset.
+  ///
+  /// 指定されたオフセットにあるメンションのテキスト範囲を取得します。
+  TextRange? _getMentionRangeAtOffset(int targetOffset) {
+    final controllerValue = widget.controller.value;
+    if (controllerValue == null || controllerValue.isEmpty) {
+      return null;
+    }
+
+    var currentOffset = 0;
+    MarkdownMention? targetMention;
+    int? mentionStart;
+    int? mentionEnd;
+
+    // First pass: find the mention at target offset
+    for (final fieldValue in controllerValue) {
+      final blocks = fieldValue.children;
+      for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+        final blockValue = blocks[blockIndex];
+        if (blockValue is MarkdownParagraphBlockValue) {
+          final paragraphBlock = blockValue;
+          final lines = paragraphBlock.children;
+          for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            final line = lines[lineIndex];
+            for (final span in line.children) {
+              final spanLength = span.value.length;
+              final spanStart = currentOffset;
+              final spanEnd = currentOffset + spanLength;
+
+              // Check if target offset is within this span
+              if (targetOffset >= spanStart && targetOffset < spanEnd) {
+                // Check if this span has a mention property
+                for (final property in span.properties) {
+                  if (property is MentionMarkdownSpanProperty) {
+                    targetMention = property.mention;
+                    break;
+                  }
+                }
+                if (targetMention != null) {
+                  break;
+                }
+              }
+
+              currentOffset += spanLength;
+            }
+            if (targetMention != null) {
+              break;
+            }
+            // Add 1 for newline only if this is not the last line in the block
+            if (lineIndex < lines.length - 1) {
+              currentOffset += 1;
+            }
+          }
+          if (targetMention != null) {
+            break;
+          }
+          // Add 1 for newline after each paragraph block (except the last one)
+          if (blockIndex < blocks.length - 1) {
+            currentOffset += 1;
+          }
+        }
+      }
+      if (targetMention != null) {
+        break;
+      }
+    }
+
+    // If no mention found at target offset, return null
+    if (targetMention == null) {
+      return null;
+    }
+
+    // Second pass: find the full range of consecutive spans with the same mention
+    currentOffset = 0;
+    for (final fieldValue in controllerValue) {
+      final blocks = fieldValue.children;
+      for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+        final blockValue = blocks[blockIndex];
+        if (blockValue is MarkdownParagraphBlockValue) {
+          final paragraphBlock = blockValue;
+          final lines = paragraphBlock.children;
+          for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            final line = lines[lineIndex];
+            for (final span in line.children) {
+              final spanLength = span.value.length;
+              final spanStart = currentOffset;
+              final spanEnd = currentOffset + spanLength;
+
+              // Check if this span has the same mention
+              var hasTargetMention = false;
+              for (final property in span.properties) {
+                if (property is MentionMarkdownSpanProperty &&
+                    property.mention.id == targetMention.id) {
+                  hasTargetMention = true;
+                  break;
+                }
+              }
+
+              if (hasTargetMention) {
+                // Expand the mention range
+                mentionStart ??= spanStart;
+                mentionEnd = spanEnd;
+              } else if (mentionStart != null) {
+                // We've found the end of the consecutive mention spans
+                if (currentOffset > targetOffset) {
+                  return TextRange(start: mentionStart, end: mentionEnd!);
+                }
+                // Reset for next potential mention range
+                mentionStart = null;
+                mentionEnd = null;
+              }
+
+              currentOffset += spanLength;
+            }
+            // Add 1 for newline only if this is not the last line in the block
+            if (lineIndex < lines.length - 1) {
+              currentOffset += 1;
+            }
+          }
+          // Add 1 for newline after each paragraph block (except the last one)
+          if (blockIndex < blocks.length - 1) {
+            currentOffset += 1;
+          }
+        }
+      }
+    }
+
+    // Return the range if we found one
+    if (mentionStart != null && mentionEnd != null) {
+      return TextRange(start: mentionStart, end: mentionEnd);
+    }
+
+    return null;
   }
 }
 
@@ -2222,6 +2533,87 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     return null;
   }
 
+  /// Get the mention at the given offset.
+  ///
+  /// 指定されたオフセットにあるメンションを取得します。
+  MarkdownMention? _getMentionAtOffset(int targetOffset) {
+    debugPrint("🔎 _getMentionAtOffset: targetOffset=$targetOffset");
+    final controllerValue = _controller.value;
+    if (controllerValue == null || controllerValue.isEmpty) {
+      debugPrint("   → Controller value is null or empty");
+      return null;
+    }
+
+    var currentOffset = 0;
+
+    // Traverse through MarkdownFieldValue items
+    for (final fieldValue in controllerValue) {
+      final blocks = fieldValue.children;
+      // Traverse through blocks in each MarkdownFieldValue
+      for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+        final blockValue = blocks[blockIndex];
+        // Only handle paragraph blocks for now
+        if (blockValue is MarkdownParagraphBlockValue) {
+          final paragraphBlock = blockValue;
+          final lines = paragraphBlock.children;
+          debugPrint(
+              "   Paragraph block $blockIndex with ${lines.length} lines");
+          // Traverse through lines
+          for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            final line = lines[lineIndex];
+            debugPrint("   Line $lineIndex (currentOffset=$currentOffset):");
+            // Traverse through spans
+            for (final span in line.children) {
+              final spanLength = span.value.length;
+              final spanStart = currentOffset;
+              final spanEnd = currentOffset + spanLength;
+              debugPrint(
+                  "      Span: '${span.value}' (start=$spanStart, end=$spanEnd, length=$spanLength)");
+
+              // Check if target offset is within this span
+              if (targetOffset >= spanStart && targetOffset < spanEnd) {
+                debugPrint(
+                    "      → Target offset $targetOffset is in this span");
+                // Check if this span has a mention property
+                for (final property in span.properties) {
+                  if (property is MentionMarkdownSpanProperty) {
+                    debugPrint("      → Found mention: ${property.mention.id}");
+                    return property.mention;
+                  }
+                }
+                // Found the span but no mention property
+                debugPrint("      → No mention property in this span");
+                return null;
+              }
+
+              currentOffset += spanLength;
+            }
+
+            // Add 1 for newline only if this is not the last line in the block
+            if (lineIndex < lines.length - 1) {
+              debugPrint(
+                  "      Adding newline within block (currentOffset: $currentOffset -> ${currentOffset + 1})");
+              currentOffset += 1;
+            }
+          }
+
+          // Add 1 for newline after each paragraph block (except the last one)
+          if (blockIndex < blocks.length - 1) {
+            debugPrint(
+                "   Adding newline after block (currentOffset: $currentOffset -> ${currentOffset + 1})");
+            currentOffset += 1;
+          } else {
+            debugPrint(
+                "   Last block, no newline added (currentOffset stays: $currentOffset)");
+          }
+        }
+      }
+    }
+
+    debugPrint("   → No mention found at targetOffset");
+    return null;
+  }
+
   /// Get the text range of a link at the given offset.
   ///
   /// 指定されたオフセットにあるリンクのテキスト範囲を取得します。
@@ -2382,6 +2774,163 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     return null;
   }
 
+  /// Get the text range of a mention at the given offset.
+  ///
+  /// 指定されたオフセットにあるメンションのテキスト範囲を取得します。
+  TextRange? _getMentionRangeAtOffset(int targetOffset) {
+    debugPrint("🔍 _getMentionRangeAtOffset: targetOffset=$targetOffset");
+    final controllerValue = _controller.value;
+    if (controllerValue == null || controllerValue.isEmpty) {
+      return null;
+    }
+
+    var currentOffset = 0;
+    MarkdownMention? targetMention;
+    int? mentionStart;
+    int? mentionEnd;
+
+    // First pass: find the mention at target offset
+    for (final fieldValue in controllerValue) {
+      final blocks = fieldValue.children;
+      for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+        final blockValue = blocks[blockIndex];
+        if (blockValue is MarkdownParagraphBlockValue) {
+          final paragraphBlock = blockValue;
+          final lines = paragraphBlock.children;
+          for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            final line = lines[lineIndex];
+            for (final span in line.children) {
+              final spanLength = span.value.length;
+              final spanStart = currentOffset;
+              final spanEnd = currentOffset + spanLength;
+
+              // Check if target offset is within this span
+              if (targetOffset >= spanStart && targetOffset < spanEnd) {
+                // Check if this span has a mention property
+                for (final property in span.properties) {
+                  if (property is MentionMarkdownSpanProperty) {
+                    targetMention = property.mention;
+                    break;
+                  }
+                }
+                if (targetMention != null) {
+                  break;
+                }
+              }
+
+              currentOffset += spanLength;
+            }
+            if (targetMention != null) {
+              break;
+            }
+            // Add 1 for newline only if this is not the last line in the block
+            if (lineIndex < lines.length - 1) {
+              currentOffset += 1;
+            }
+          }
+          if (targetMention != null) {
+            break;
+          }
+          // Add 1 for newline after each paragraph block (except the last one)
+          if (blockIndex < blocks.length - 1) {
+            currentOffset += 1;
+          }
+        }
+      }
+      if (targetMention != null) {
+        break;
+      }
+    }
+
+    // If no mention found at target offset, return null
+    if (targetMention == null) {
+      return null;
+    }
+
+    // Second pass: find the full range of consecutive spans with the same mention
+    debugPrint(
+        "   🔍 Second pass: finding full range for mention: ${targetMention.id}");
+    currentOffset = 0;
+    for (final fieldValue in controllerValue) {
+      final blocks = fieldValue.children;
+      for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+        final blockValue = blocks[blockIndex];
+        if (blockValue is MarkdownParagraphBlockValue) {
+          final paragraphBlock = blockValue;
+          final lines = paragraphBlock.children;
+          debugPrint(
+              "      Paragraph block $blockIndex with ${lines.length} lines");
+          for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            final line = lines[lineIndex];
+            debugPrint("      Line $lineIndex (currentOffset=$currentOffset):");
+            for (final span in line.children) {
+              final spanLength = span.value.length;
+              final spanStart = currentOffset;
+              final spanEnd = currentOffset + spanLength;
+              debugPrint(
+                  "         Span: '${span.value}' (start=$spanStart, end=$spanEnd)");
+
+              // Check if this span has the same mention
+              var hasTargetMention = false;
+              for (final property in span.properties) {
+                if (property is MentionMarkdownSpanProperty &&
+                    property.mention.id == targetMention.id) {
+                  hasTargetMention = true;
+                  break;
+                }
+              }
+
+              if (hasTargetMention) {
+                // Expand the mention range
+                mentionStart ??= spanStart;
+                mentionEnd = spanEnd;
+                debugPrint(
+                    "         → Has target mention. mentionStart=$mentionStart, mentionEnd=$mentionEnd");
+              } else if (mentionStart != null) {
+                // We've found the end of the consecutive mention spans
+                if (currentOffset > targetOffset) {
+                  debugPrint(
+                      "         → Returning early: TextRange(start: $mentionStart, end: $mentionEnd)");
+                  return TextRange(start: mentionStart, end: mentionEnd!);
+                }
+                // Reset for next potential mention range
+                mentionStart = null;
+                mentionEnd = null;
+              }
+
+              currentOffset += spanLength;
+            }
+            // Add 1 for newline only if this is not the last line in the block
+            if (lineIndex < lines.length - 1) {
+              debugPrint(
+                  "         Adding newline within block (currentOffset: $currentOffset -> ${currentOffset + 1})");
+              currentOffset += 1;
+            }
+          }
+          // Add 1 for newline after each paragraph block (except the last one)
+          if (blockIndex < blocks.length - 1) {
+            debugPrint(
+                "      Adding newline after block (currentOffset: $currentOffset -> ${currentOffset + 1})");
+            currentOffset += 1;
+          } else {
+            debugPrint(
+                "      Last block, no newline added (currentOffset stays: $currentOffset)");
+          }
+        }
+      }
+    }
+
+    // Return the range if we found one
+    if (mentionStart != null && mentionEnd != null) {
+      debugPrint(
+          "   → Found mention range: start=$mentionStart, end=$mentionEnd");
+      return TextRange(start: mentionStart, end: mentionEnd);
+    }
+
+    debugPrint("   → No mention found at targetOffset");
+    return null;
+  }
+
   /// Launch URL in the default browser or appropriate application.
   ///
   /// URLをデフォルトのブラウザまたは適切なアプリケーションで開きます。
@@ -2478,6 +3027,32 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
             debugPrint("   → Calling controller.showLinkDialog");
             _controller.showLinkDialog(linkUrl);
           }
+        }
+        return;
+      }
+
+      // Check if tapped on a mention
+      final mention = _getMentionAtOffset(textOffset);
+      if (mention != null) {
+        debugPrint(
+            "💬 Mention tapped on field (controller.hashCode: ${_controller.hashCode})");
+        debugPrint("   enabled=$_enabled, readOnly=$_readOnly");
+        debugPrint("   focusNode.hasFocus=${_focusNode.hasFocus}");
+        debugPrint("   mention.id=${mention.id}, mention.name=${mention.name}");
+
+        final mentionRange = _getMentionRangeAtOffset(textOffset);
+        if (mentionRange != null) {
+          // Select the mention text
+          _onSelectionChanged(
+            TextSelection(
+              baseOffset: mentionRange.start,
+              extentOffset: mentionRange.end,
+            ),
+            SelectionChangedCause.tap,
+          );
+
+          // Call the onTapMention callback
+          _onTapMention?.call(mention);
         }
         return;
       }

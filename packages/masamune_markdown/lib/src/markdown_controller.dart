@@ -1160,12 +1160,21 @@ class MarkdownController extends MasamuneControllerBase<
 
     final selection = _field!._selection;
 
-    if (!selection.isValid || selection.isCollapsed) {
+    // If start and end are explicitly provided, use them
+    // Otherwise, use the current selection
+    final selectionStart = start ?? selection.start;
+    final selectionEnd = end ?? selection.end;
+
+    // If neither explicit range nor valid selection is provided, return
+    if (start == null && end == null &&
+        (!selection.isValid || selection.isCollapsed)) {
       return;
     }
 
-    final selectionStart = start ?? selection.start;
-    final selectionEnd = end ?? selection.end;
+    // If we have explicit start/end but they're equal, return
+    if (selectionStart == selectionEnd) {
+      return;
+    }
 
     if (_value.isEmpty) {
       return;
@@ -2126,6 +2135,158 @@ class MarkdownController extends MasamuneControllerBase<
     // Return the range if we found one
     if (linkStart != null && linkEnd != null) {
       return TextRange(start: linkStart, end: linkEnd);
+    }
+
+    return null;
+  }
+
+  /// Get the range of a mention immediately before the cursor.
+  ///
+  /// カーソルの直前にあるメンションの範囲を取得します。
+  TextRange? getMentionRangeBeforeCursor(int cursorOffset) {
+    debugPrint(
+        "🔎 getMentionRangeBeforeCursor: cursorOffset=$cursorOffset, _value.isEmpty=${_value.isEmpty}");
+    if (_value.isEmpty || cursorOffset <= 0) {
+      debugPrint("   → Returning null: empty value or invalid offset");
+      return null;
+    }
+
+    // Check if the position just before the cursor is inside a mention
+    final checkOffset = cursorOffset - 1;
+    debugPrint("   checkOffset=$checkOffset (cursorOffset - 1)");
+    var currentOffset = 0;
+    MarkdownMention? targetMention;
+    int? mentionStart;
+    int? mentionEnd;
+
+    // Traverse through the markdown structure
+    for (final fieldValue in _value) {
+      final blocks = fieldValue.children;
+      debugPrint("   Checking ${blocks.length} blocks");
+      for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+        final blockValue = blocks[blockIndex];
+        if (blockValue is MarkdownParagraphBlockValue) {
+          final paragraphBlock = blockValue;
+          final lines = paragraphBlock.children;
+          debugPrint("   Block $blockIndex: ${lines.length} lines");
+          for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            final line = lines[lineIndex];
+            debugPrint("      Line $lineIndex: ${line.children.length} spans");
+            for (final span in line.children) {
+              final spanLength = span.value.length;
+              final spanStart = currentOffset;
+              final spanEnd = currentOffset + spanLength;
+              debugPrint(
+                  "         Span: '${span.value}' (start=$spanStart, end=$spanEnd)");
+
+              // Check if checkOffset is within this span
+              if (checkOffset >= spanStart && checkOffset < spanEnd) {
+                debugPrint(
+                    "         → checkOffset $checkOffset is in this span");
+                // Check if this span has a mention property
+                for (final property in span.properties) {
+                  if (property is MentionMarkdownSpanProperty) {
+                    targetMention = property.mention;
+                    debugPrint("         → Found mention: ${targetMention.id}");
+                    break;
+                  }
+                }
+                if (targetMention != null) {
+                  break;
+                } else {
+                  debugPrint("         → No mention property");
+                }
+              }
+
+              currentOffset += spanLength;
+            }
+            if (targetMention != null) {
+              break;
+            }
+            // Add 1 for newline only if this is not the last line in the block
+            if (lineIndex < lines.length - 1) {
+              currentOffset += 1;
+            }
+          }
+          if (targetMention != null) {
+            break;
+          }
+          // Add 1 for newline after each paragraph block (except the last one)
+          if (blockIndex < blocks.length - 1) {
+            currentOffset += 1;
+          }
+        }
+      }
+      if (targetMention != null) {
+        break;
+      }
+    }
+
+    if (targetMention == null) {
+      debugPrint("   → No mention found at checkOffset");
+      return null;
+    }
+    debugPrint("   → Found mention ID: ${targetMention.id}");
+
+    // Second pass: find the full range of consecutive spans with the same mention
+    currentOffset = 0;
+    for (final fieldValue in _value) {
+      final blocks = fieldValue.children;
+      for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+        final blockValue = blocks[blockIndex];
+        if (blockValue is MarkdownParagraphBlockValue) {
+          final paragraphBlock = blockValue;
+          final lines = paragraphBlock.children;
+          for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            final line = lines[lineIndex];
+            for (final span in line.children) {
+              final spanLength = span.value.length;
+              final spanStart = currentOffset;
+              final spanEnd = currentOffset + spanLength;
+
+              // Check if this span has the same mention
+              var hasTargetMention = false;
+              for (final property in span.properties) {
+                if (property is MentionMarkdownSpanProperty &&
+                    property.mention.id == targetMention.id) {
+                  hasTargetMention = true;
+                  break;
+                }
+              }
+
+              if (hasTargetMention) {
+                // Expand the mention range
+                mentionStart ??= spanStart;
+                mentionEnd = spanEnd;
+              } else if (mentionStart != null) {
+                // We've found the end of the consecutive mention spans
+                // But only return if we've already passed the check offset
+                if (currentOffset > checkOffset) {
+                  return TextRange(start: mentionStart, end: mentionEnd!);
+                }
+                // Reset for next potential mention range
+                mentionStart = null;
+                mentionEnd = null;
+              }
+
+              currentOffset += spanLength;
+            }
+            // Add 1 for newline only if this is not the last line in the block
+            if (lineIndex < lines.length - 1) {
+              currentOffset += 1;
+            }
+          }
+          // Add 1 for newline after each paragraph block (except the last one)
+          if (blockIndex < blocks.length - 1) {
+            currentOffset += 1;
+          }
+        }
+      }
+    }
+
+    // Return the range if we found one
+    if (mentionStart != null && mentionEnd != null) {
+      return TextRange(start: mentionStart, end: mentionEnd);
     }
 
     return null;
