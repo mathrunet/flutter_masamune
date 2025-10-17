@@ -203,7 +203,9 @@ class AIAgent
           if (tools.isNotEmpty) {
             return (await Future.wait<List<AIContentFunctionResponsePart>>(
               functionCalls.map((call) async {
-                final func = tools.firstWhereOrNull((f) => f.name == call.name);
+                final func = tools
+                    .whereType<AIFunctionTool>()
+                    .firstWhereOrNull((f) => f.name == call.name);
                 if (func == null) {
                   throw Exception(
                     "Function ${call.name} not found",

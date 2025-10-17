@@ -82,6 +82,7 @@ class AgentAILocalTool extends AILocalTool {
     }
     return AIContent.json(
       onGenerateResults.call(res, ref),
+      references: res.expand((e) => e.references).toSet(),
     );
   }
 }

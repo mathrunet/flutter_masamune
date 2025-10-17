@@ -23,6 +23,7 @@ import "package:masamune/masamune.dart";
 
 part "adapter/ai_masamune_adapter.dart";
 part "adapter/runtime_ai_masamune_adapter.dart";
+part "src/agent_prompt_template.dart";
 part "src/ai_content.dart";
 part "src/ai_role.dart";
 part "src/ai_chat.dart";
@@ -36,5 +37,5 @@ part "src/ai_file_type.dart";
 part "src/ai_tool.dart";
 part "src/ai_function_call_config.dart";
 
+part "tools/web_search_ai_tool.dart";
 part "tools/agent_ai_local_tool.dart";
-part "tools/web_search_ai_remote_tool.dart";

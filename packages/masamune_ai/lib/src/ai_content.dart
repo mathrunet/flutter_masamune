@@ -22,11 +22,15 @@ class AIContent extends ChangeNotifier
     List<AIContentPart> values = const [],
     String? id,
     this.userId,
+    Set<AIReference>? references,
     bool failed = false,
     bool completed = false,
   })  : _time = time ?? Clock.now(),
         id = id ?? uuid() {
     _value.addAll(values);
+    if (references != null) {
+      _references.addAll(references);
+    }
     _failed = failed;
     if (!completed) {
       _completer = Completer<AIContent>();
@@ -36,14 +40,21 @@ class AIContent extends ChangeNotifier
   /// Returns content with text prompts to be submitted by the user.
   ///
   /// ユーザーが投稿するテキストプロンプトを持つコンテンツを返します。
-  factory AIContent.text(String text,
-      {DateTime? time, String? id, String? userId, bool completed = false}) {
+  factory AIContent.text(
+    String text, {
+    DateTime? time,
+    String? id,
+    String? userId,
+    Set<AIReference>? references,
+    bool completed = false,
+  }) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentTextPart(text)],
       time: time,
       id: id,
       userId: userId,
+      references: references,
       completed: completed,
     );
   }
@@ -51,14 +62,21 @@ class AIContent extends ChangeNotifier
   /// Returns content with JSON.
   ///
   /// JSONを持つコンテンツを返します。
-  factory AIContent.json(Map<String, dynamic> json,
-      {DateTime? time, String? id, String? userId, bool completed = false}) {
+  factory AIContent.json(
+    Map<String, dynamic> json, {
+    DateTime? time,
+    String? id,
+    String? userId,
+    Set<AIReference>? references,
+    bool completed = false,
+  }) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentJsonPart(json)],
       time: time,
       id: id,
       userId: userId,
+      references: references,
       completed: completed,
     );
   }
@@ -66,12 +84,14 @@ class AIContent extends ChangeNotifier
   /// Returns content with text prompts to be submitted by the model.
   ///
   /// モデルが投稿するテキストプロンプトを持つコンテンツを返します。
-  factory AIContent.model(
-      {String? text,
-      DateTime? time,
-      String? id,
-      String? userId,
-      bool completed = false}) {
+  factory AIContent.model({
+    String? text,
+    DateTime? time,
+    String? id,
+    String? userId,
+    Set<AIReference>? references,
+    bool completed = false,
+  }) {
     return AIContent(
       role: AIRole.model,
       values: [
@@ -79,6 +99,7 @@ class AIContent extends ChangeNotifier
       ],
       time: time,
       id: id,
+      references: references,
       userId: userId,
       completed: completed,
     );
@@ -98,14 +119,21 @@ class AIContent extends ChangeNotifier
   /// Returns content with text file.
   ///
   /// テキストファイルを持つコンテンツを返します。
-  factory AIContent.textFile(Uint8List data,
-      {DateTime? time, String? id, String? userId, bool completed = false}) {
+  factory AIContent.textFile(
+    Uint8List data, {
+    DateTime? time,
+    String? id,
+    String? userId,
+    Set<AIReference>? references,
+    bool completed = false,
+  }) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.txt, data)],
       time: time,
       id: id,
       userId: userId,
+      references: references,
       completed: completed,
     );
   }
@@ -113,14 +141,21 @@ class AIContent extends ChangeNotifier
   /// Returns content with PNG image.
   ///
   /// PNG画像を持つコンテンツを返します。
-  factory AIContent.png(Uint8List data,
-      {DateTime? time, String? id, String? userId, bool completed = false}) {
+  factory AIContent.png(
+    Uint8List data, {
+    DateTime? time,
+    String? id,
+    String? userId,
+    Set<AIReference>? references,
+    bool completed = false,
+  }) {
     return AIContent(
       role: AIRole.user,
       values: [AIContentBinaryPart(AIFileType.png, data)],
       time: time,
       id: id,
       userId: userId,
+      references: references,
       completed: completed,
     );
   }
@@ -134,6 +169,7 @@ class AIContent extends ChangeNotifier
     String? id,
     String? userId,
     bool completed = false,
+    Set<AIReference>? references,
   }) {
     return AIContent(
       role: AIRole.user,
@@ -141,6 +177,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      references: references,
       completed: completed,
     );
   }
@@ -153,6 +190,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    Set<AIReference>? references,
     bool completed = false,
   }) {
     return AIContent(
@@ -161,6 +199,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      references: references,
       completed: completed,
     );
   }
@@ -173,6 +212,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    Set<AIReference>? references,
     bool completed = false,
   }) {
     return AIContent(
@@ -181,6 +221,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      references: references,
       completed: completed,
     );
   }
@@ -193,6 +234,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    Set<AIReference>? references,
     bool completed = false,
   }) {
     return AIContent(
@@ -201,6 +243,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      references: references,
       completed: completed,
     );
   }
@@ -213,6 +256,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    Set<AIReference>? references,
     bool completed = false,
   }) {
     return AIContent(
@@ -221,6 +265,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      references: references,
       completed: completed,
     );
   }
@@ -233,6 +278,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    Set<AIReference>? references,
     bool completed = false,
   }) {
     return AIContent(
@@ -241,6 +287,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      references: references,
       completed: completed,
     );
   }
@@ -253,6 +300,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    Set<AIReference>? references,
     bool completed = false,
   }) {
     return AIContent(
@@ -261,6 +309,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      references: references,
       completed: completed,
     );
   }
@@ -273,6 +322,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    Set<AIReference>? references,
     bool completed = false,
   }) {
     return AIContent(
@@ -281,6 +331,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      references: references,
       completed: completed,
     );
   }
@@ -293,6 +344,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    Set<AIReference>? references,
     bool completed = false,
   }) {
     return AIContent(
@@ -301,6 +353,7 @@ class AIContent extends ChangeNotifier
       time: time,
       id: id,
       userId: userId,
+      references: references,
       completed: completed,
     );
   }
@@ -357,6 +410,12 @@ class AIContent extends ChangeNotifier
   List<AIContentFunctionPair> get functions => _functions;
   final List<AIContentFunctionPair> _functions = [];
 
+  /// The references of the AI content.
+  ///
+  /// AIの内容の参照。
+  Set<AIReference> get references => _references;
+  final Set<AIReference> _references = {};
+
   /// Whether the function calls are completed.
   ///
   /// 関数呼び出しが完了しているかどうか。
@@ -403,7 +462,11 @@ class AIContent extends ChangeNotifier
   /// Adds the AI content part.
   ///
   /// AIの内容の一部を追加します。
-  void add(List<AIContentPart> values, {DateTime? time}) {
+  void add(
+    List<AIContentPart> values, {
+    DateTime? time,
+    Set<AIReference>? references,
+  }) {
     if (_completer == null) {
       return;
     }
@@ -412,6 +475,9 @@ class AIContent extends ChangeNotifier
     }
     final merged = <AIContentPart>[];
     merged.addAll(_value);
+    if (references != null) {
+      _references.addAll(references);
+    }
 
     for (final part in values) {
       if (part is AIContentFunctionCallPart) {
@@ -460,10 +526,16 @@ class AIContent extends ChangeNotifier
   /// Sets the function response for the contents of the AI.
   ///
   /// AIの内容の関数レスポンスをセットします。
-  void response(AIContentFunctionResponsePart response) {
+  void response(
+    AIContentFunctionResponsePart response, {
+    Set<AIReference>? references,
+  }) {
     final uncompleted = _functions.lastWhereOrNull((e) => !e.completed);
     if (uncompleted == null) {
       throw Exception("No function call found.");
+    }
+    if (references != null) {
+      _references.addAll(references);
     }
     uncompleted.set(response);
   }
@@ -471,7 +543,10 @@ class AIContent extends ChangeNotifier
   /// Completes the AI content.
   ///
   /// AIの内容を完了します。
-  void complete({DateTime? time}) {
+  void complete({
+    DateTime? time,
+    Set<AIReference>? references,
+  }) {
     if (_completer == null) {
       return;
     }
@@ -481,6 +556,9 @@ class AIContent extends ChangeNotifier
     }
     if (time != null) {
       _time = time;
+    }
+    if (references != null) {
+      _references.addAll(references);
     }
     _functions.clear();
     _completer?.complete(this);
@@ -781,12 +859,14 @@ class AIContentFunctionCallPart extends AIContentPart {
   /// Converts the function call part to a function response part.
   ///
   /// 関数呼び出しの一部を関数レスポンスの一部に変換します。
-  AIContentFunctionResponsePart toResponse([
+  AIContentFunctionResponsePart toResponse({
     Map<String, dynamic> response = const {},
-  ]) {
+    AIContent? source,
+  }) {
     return AIContentFunctionResponsePart(
       name: name,
       response: {...args, ...response},
+      source: source?.copyWith(),
     );
   }
 
@@ -831,6 +911,7 @@ class AIContentFunctionResponsePart extends AIContentPart {
   const AIContentFunctionResponsePart({
     required this.name,
     this.response = const {},
+    this.source,
   });
 
   /// Name of the function that will return the response.
@@ -843,14 +924,23 @@ class AIContentFunctionResponsePart extends AIContentPart {
   /// レスポンスのパラメータと値。
   final Map<String, dynamic> response;
 
+  /// The source of the AI content function response part.
+  ///
+  /// AIの内容の関数レスポンスの一部のソース。
+  final AIContent? source;
+
   /// Copies the AI content function response part.
   ///
   /// AIの内容の関数レスポンスの一部をコピーします。
   AIContentFunctionResponsePart copyWith({
     Map<String, dynamic>? response,
+    AIContent? source,
   }) {
     return AIContentFunctionResponsePart(
-        name: name, response: response ?? this.response);
+      name: name,
+      response: response ?? this.response,
+      source: source ?? this.source,
+    );
   }
 
   @override
@@ -924,4 +1014,50 @@ class AIContentFunctionPair {
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => call.hashCode ^ response.hashCode;
+}
+
+/// The reference of the AI content.
+///
+/// AIの内容の参照。
+@immutable
+class AIReference {
+  /// The reference of the AI content.
+  ///
+  /// AIの内容の参照。
+  const AIReference({
+    this.title,
+    this.uri,
+    this.content,
+  });
+
+  /// The title of the reference.
+  ///
+  /// 参照のタイトル。
+  final String? title;
+
+  /// The URI of the reference.
+  ///
+  /// 参照のURI。
+  final Uri? uri;
+
+  /// The content of the reference.
+  ///
+  /// 参照の内容。
+  final String? content;
+
+  @override
+  String toString() {
+    return "AIReference(title: $title, uri: $uri, content: $content)";
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is AIReference) {
+      return uri == other.uri;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => uri.hashCode;
 }

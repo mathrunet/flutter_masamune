@@ -25,6 +25,33 @@ abstract class AITool {
   /// ツールのパラメーター。
   Map<String, AISchema> get parameters;
 
+  @override
+  String toString() {
+    return "Tool(name: $name, description: $description, parameters: $parameters)";
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is AITool) {
+      return name == other.name;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => name.hashCode;
+}
+
+/// A function tool for AI.
+///
+/// AIの関数ツール。
+@immutable
+abstract class AIFunctionTool extends AITool {
+  /// A function tool for AI.
+  ///
+  /// AIの関数ツール。
+  const AIFunctionTool();
+
   /// Initialize the tool.
   ///
   /// ツールを初期化します。
@@ -39,35 +66,15 @@ abstract class AITool {
   ///
   /// 関数の生成応答。
   FutureOr<List<AIContentFunctionResponsePart>> generateResponse(
-    AIContent? contents,
+    AIContent? content,
     AIToolRef ref,
   ) {
-    return [ref.call.toResponse(contents?.toJson() ?? const {})];
-  }
-
-  @override
-  String toString() {
-    return "Tool(name: $name, description: $description, parameters: $parameters)";
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (other is AITool) {
-      return name == other.name &&
-          description == other.description &&
-          parameters.equalsTo(other.parameters);
-    }
-    return false;
-  }
-
-  @override
-  int get hashCode {
-    var hash = name.hashCode;
-    hash = hash ^ description.hashCode;
-    for (final parameter in parameters.entries) {
-      hash = hash ^ parameter.key.hashCode ^ parameter.value.hashCode;
-    }
-    return hash;
+    return [
+      ref.call.toResponse(
+        response: content?.toJson() ?? const {},
+        source: content,
+      )
+    ];
   }
 }
 
@@ -75,7 +82,7 @@ abstract class AITool {
 ///
 /// AIのローカルツール。
 @immutable
-abstract class AILocalTool extends AITool {
+abstract class AILocalTool extends AIFunctionTool {
   /// A local tool for AI.
   ///
   /// AIのローカルツール。
@@ -86,7 +93,7 @@ abstract class AILocalTool extends AITool {
 ///
 /// AIのリモートツール。
 @immutable
-abstract class AIRemoteTool extends AITool {
+abstract class AIRemoteTool extends AIFunctionTool {
   /// A remote tool for AI.
   ///
   /// AIのリモートツール。

@@ -35,6 +35,7 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
     super.adapter,
     String? id,
     this.config,
+    this.enableSearch = false,
   }) : id = id ?? uuid();
 
   @override
@@ -59,6 +60,11 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
   /// モデルの設定。
   final AIConfig? config;
 
+  /// If `true`, the search is enabled.
+  ///
+  /// 検索が有効な場合は`true`に設定してください。
+  final bool enableSearch;
+
   Completer<void>? _initializeCompleter;
 
   /// Result of interaction with AI.
@@ -82,8 +88,11 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
   Future<void> initialize({
     AIConfig? config,
   }) async {
+    final tools =
+        enableSearch ? <AITool>{const WebSearchAITool()} : const <AITool>{};
     if (adapter.isInitializedConfig(
       config: config,
+      tools: tools,
     )) {
       return;
     }
@@ -94,6 +103,7 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
     try {
       await adapter.initialize(
         config: config,
+        tools: tools,
       );
       _initializeCompleter?.complete();
       _initializeCompleter = null;
@@ -125,6 +135,8 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
     List<AIContent> Function(List<AIContent> contents)? contentFilter,
     bool includeSystemInitialContent = false,
   }) async {
+    final tools =
+        enableSearch ? <AITool>{const WebSearchAITool()} : const <AITool>{};
     try {
       await initialize(
         config: config ?? this.config,
@@ -133,6 +145,7 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
         contentFilter?.call(contents) ??
             adapter.contentFilter?.call(contents) ??
             contents,
+        tools: tools,
         config: config ?? this.config,
         includeSystemInitialContent: includeSystemInitialContent,
       );

@@ -1,5 +1,25 @@
 part of "/masamune_ai_firebase.dart";
 
+extension on GroundingMetadata {
+  Set<AIReference> _toAIReferences() {
+    final res = <AIReference>{};
+    final content = searchEntryPoint?.renderedContent;
+    for (final chunk in groundingChunks) {
+      final web = chunk.web;
+      final uri = Uri.tryParse(web?.uri ?? "");
+      if (uri == null) {
+        continue;
+      }
+      res.add(AIReference(
+        title: web?.title,
+        uri: uri,
+        content: content,
+      ));
+    }
+    return res;
+  }
+}
+
 extension on Content {
   List<AIContentPart> _toAIContentParts() {
     final res = <AIContentPart>[];
@@ -137,6 +157,9 @@ extension on Set<AITool> {
   Tool _toVertexAITools() {
     return Tool.functionDeclarations([
       ...mapAndRemoveEmpty((tool) {
+        if (tool is! AIFunctionTool) {
+          return null;
+        }
         final optionalParameters =
             tool.parameters.where((key, value) => value.optional).keys.toList();
         return FunctionDeclaration(

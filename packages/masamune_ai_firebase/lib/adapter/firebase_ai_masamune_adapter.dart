@@ -200,7 +200,9 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
       "systemPromptContent must be a system prompt.",
     );
     await FirebaseCore.initialize(options: options);
-    await Future.wait(tools.map((e) => e.initialize()));
+    await Future.wait(
+      tools.whereType<AIFunctionTool>().map((e) => e.initialize()),
+    );
     final systemPromptContent = config.systemPromptContent;
     final responseSchema = config.responseSchema;
     _generativeModel[key] = instance.generativeModel(
@@ -209,7 +211,12 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         responseMimeType: responseSchema != null ? "application/json" : null,
         responseSchema: responseSchema?._toSchema(),
       ),
-      tools: [if (tools.isNotEmpty) tools._toVertexAITools()],
+      tools: [
+        if (tools.isNotEmpty) ...[
+          tools._toVertexAITools(),
+          if (tools.any((e) => e is WebSearchAITool)) Tool.googleSearch(),
+        ],
+      ],
       toolConfig: tools.isNotEmpty
           ? ToolConfig(
               functionCallingConfig:
@@ -312,9 +319,11 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         final candidates = line.candidates;
         for (final candidate in candidates) {
           final parts = candidate.content._toAIContentParts();
+          final references = candidate.groundingMetadata?._toAIReferences();
           response.add(
             parts,
             time: Clock.now(),
+            references: references,
           );
           if (functionCallCompleter != null) {
             await functionCallCompleter?.future;
@@ -333,6 +342,10 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
                     response.add(
                       functionResponse,
                       time: Clock.now(),
+                      references: functionResponse
+                          .expand(
+                              (e) => e.source?.references ?? <AIReference>{})
+                          .toSet(),
                     );
                     unawaited(
                       _generateContent(
@@ -379,6 +392,9 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
                   response.add(
                     functionResponse,
                     time: Clock.now(),
+                    references: functionResponse
+                        .expand((e) => e.source?.references ?? <AIReference>{})
+                        .toSet(),
                   );
                   unawaited(
                     _generateContent(
