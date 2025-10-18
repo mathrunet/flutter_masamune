@@ -56,6 +56,11 @@ class MarkdownController extends MasamuneControllerBase<
 
   final List<MarkdownFieldValue> _value = [];
 
+  /// Internal clipboard storage for preserving span properties.
+  ///
+  /// スパンのプロパティを保持するための内部クリップボードストレージ。
+  List<MarkdownSpanValue>? _internalClipboard;
+
   /// Undo history stack (stored as deep copied MarkdownFieldValue objects and cursor positions).
   ///
   /// 元に戻す履歴スタック（ディープコピーされたMarkdownFieldValueオブジェクトとカーソル位置として保存）。
@@ -202,6 +207,16 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// 指定された範囲のテキストを置換します。
   void replaceText(int start, int end, String text) {
+    // Early return if this is a no-op replacement (same text at same position)
+    // This prevents unnecessary span merging during selection operations
+    if (start == 0 && _value.isNotEmpty) {
+      final currentText = getPlainText();
+      if (end == currentText.length && text == currentText) {
+        debugPrint("🔍 replaceText: No-op replacement detected, skipping");
+        return;
+      }
+    }
+
     // Skip history saving during undo/redo operations
     if (!_isUndoRedoInProgress) {
       // Save current state before modification
@@ -1211,9 +1226,18 @@ class MarkdownController extends MasamuneControllerBase<
             final spanStart = lineOffset;
             final spanEnd = lineOffset + span.value.length;
 
+            // Check if this span has a mention property
+            // Mentions should not be modified by other inline properties
+            final hasMentionProperty = span.properties
+                .any((p) => p is MentionMarkdownSpanProperty);
+
             // Check if this span overlaps with the selection
             if (selectionEnd <= spanStart || selectionStart >= spanEnd) {
               // No overlap, keep the span as is
+              updatedSpans.add(span);
+            } else if (hasMentionProperty) {
+              // This span has a mention property, keep it as is
+              // Mentions cannot have other inline properties applied
               updatedSpans.add(span);
             } else {
               // There is overlap, split the span
@@ -1336,9 +1360,18 @@ class MarkdownController extends MasamuneControllerBase<
             final spanStart = lineOffset;
             final spanEnd = lineOffset + span.value.length;
 
+            // Check if this span has a mention property
+            // Mentions should not be modified by other inline properties
+            final hasMentionProperty = span.properties
+                .any((p) => p is MentionMarkdownSpanProperty);
+
             // Check if this span overlaps with the selection
             if (selectionEnd <= spanStart || selectionStart >= spanEnd) {
               // No overlap, keep the span as is
+              updatedSpans.add(span);
+            } else if (hasMentionProperty) {
+              // This span has a mention property, keep it as is
+              // Mentions cannot have other inline properties removed
               updatedSpans.add(span);
             } else {
               // There is overlap, split the span
@@ -1427,6 +1460,7 @@ class MarkdownController extends MasamuneControllerBase<
 
     var currentOffset = 0;
     var allHaveProperty = true;
+    var hasNonMentionSpan = false;
 
     for (final block in blocks) {
       if (block is MarkdownParagraphBlockValue) {
@@ -1439,10 +1473,18 @@ class MarkdownController extends MasamuneControllerBase<
 
             // Check if this span overlaps with the selection
             if (selectionEnd > spanStart && selectionStart < spanEnd) {
-              // There is overlap, check if property exists
-              if (!_hasInlineProperty(tool, span.properties)) {
-                allHaveProperty = false;
-                break;
+              // Check if this span has a mention property
+              // Mentions should be excluded from property checking
+              final hasMentionProperty = span.properties
+                  .any((p) => p is MentionMarkdownSpanProperty);
+
+              if (!hasMentionProperty) {
+                // This is a non-mention span, check if it has the property
+                hasNonMentionSpan = true;
+                if (!_hasInlineProperty(tool, span.properties)) {
+                  allHaveProperty = false;
+                  break;
+                }
               }
             }
 
@@ -1461,7 +1503,9 @@ class MarkdownController extends MasamuneControllerBase<
       }
     }
 
-    return allHaveProperty;
+    // If all spans in selection are mentions, return false
+    // Only return true if there's at least one non-mention span with the property
+    return hasNonMentionSpan && allHaveProperty;
   }
 
   /// Applies the inline property from the tool to the given property.
@@ -1545,6 +1589,59 @@ class MarkdownController extends MasamuneControllerBase<
     notifyListeners();
   }
 
+  /// Extracts spans from the selected range, preserving their properties.
+  ///
+  /// 選択範囲からスパンを抽出し、そのプロパティを保持します。
+  List<MarkdownSpanValue> _extractSpansFromSelection(int start, int end) {
+    if (_value.isEmpty) {
+      return [];
+    }
+
+    final field = _value.first;
+    final blocks = field.children;
+    final extractedSpans = <MarkdownSpanValue>[];
+
+    var currentOffset = 0;
+
+    for (final block in blocks) {
+      if (block is MarkdownParagraphBlockValue) {
+        for (final line in block.children) {
+          var lineOffset = currentOffset;
+
+          for (final span in line.children) {
+            final spanStart = lineOffset;
+            final spanEnd = lineOffset + span.value.length;
+
+            // Check if this span overlaps with the selection
+            if (end > spanStart && start < spanEnd) {
+              // Calculate the overlap
+              final overlapStart = start > spanStart ? start : spanStart;
+              final overlapEnd = end < spanEnd ? end : spanEnd;
+
+              // Extract the overlapping portion
+              final extractedText = span.value.substring(
+                overlapStart - spanStart,
+                overlapEnd - spanStart,
+              );
+
+              // Create a new span with the extracted text and same properties
+              extractedSpans.add(span.copyWith(
+                id: uuid(),
+                value: extractedText,
+              ));
+            }
+
+            lineOffset += span.value.length;
+          }
+        }
+
+        currentOffset += _getBlockTextLength(block) + 1; // +1 for newline
+      }
+    }
+
+    return extractedSpans;
+  }
+
   /// Copies the selected text to clipboard.
   ///
   /// 選択されたテキストをクリップボードにコピーします。
@@ -1570,6 +1667,10 @@ class MarkdownController extends MasamuneControllerBase<
     final selectedText = selection.textInside(text);
 
     if (selectedText.isNotEmpty) {
+      // Extract spans with their properties and store in internal clipboard
+      _internalClipboard = _extractSpansFromSelection(selection.start, selection.end);
+
+      // Also copy plain text to system clipboard for external paste
       await Clipboard.setData(ClipboardData(text: selectedText));
 
       // Unselect text after copying
@@ -1620,6 +1721,21 @@ class MarkdownController extends MasamuneControllerBase<
     final selectedText = selection.textInside(text);
 
     if (selectedText.isNotEmpty) {
+      // Extract spans with their properties and store in internal clipboard
+      // IMPORTANT: Must be done BEFORE replaceText, as replaceText may merge spans
+      _internalClipboard = _extractSpansFromSelection(selection.start, selection.end);
+      debugPrint("🔪 cut: Extracted ${_internalClipboard?.length ?? 0} spans to internal clipboard");
+      if (_internalClipboard != null) {
+        for (var i = 0; i < _internalClipboard!.length; i++) {
+          final span = _internalClipboard![i];
+          debugPrint("  span[$i]: '${span.value}' with ${span.properties.length} properties");
+          for (var prop in span.properties) {
+            debugPrint("    - ${prop.type}");
+          }
+        }
+      }
+
+      // Also copy plain text to system clipboard for external paste
       await Clipboard.setData(ClipboardData(text: selectedText));
 
       // Save current state before modification (replaceText will also save, so we skip it here)
@@ -1718,7 +1834,16 @@ class MarkdownController extends MasamuneControllerBase<
       _field!._selection = TextSelection.collapsed(offset: currentOffset);
     } else {
       // Normal text paste without newlines
-      replaceText(start, end, text);
+      // Check if we have internal clipboard data with properties
+      if (_internalClipboard != null && _internalClipboard!.isNotEmpty) {
+        debugPrint("  Using internal clipboard with ${_internalClipboard!.length} spans");
+        // Restore spans with their properties
+        _pasteSpansWithProperties(start, end, _internalClipboard!);
+      } else {
+        debugPrint("  Using plain text paste");
+        // Plain text paste (from external clipboard or no properties)
+        replaceText(start, end, text);
+      }
 
       // Update cursor position to the end of pasted text
       final newCursorPosition = start + text.length;
@@ -1726,6 +1851,129 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     _field!._updateRemoteEditingValue();
+    notifyListeners();
+  }
+
+  /// Pastes spans with their properties at the specified position.
+  ///
+  /// 指定された位置にプロパティ付きのスパンをペーストします。
+  void _pasteSpansWithProperties(
+    int start,
+    int end,
+    List<MarkdownSpanValue> spans,
+  ) {
+    if (_value.isEmpty) {
+      return;
+    }
+
+    // Save current state before modification
+    _saveToUndoStack(immediate: true);
+
+    final field = _value.first;
+    final blocks = List<MarkdownBlockValue>.from(field.children);
+
+    // Find which block contains the start position
+    var currentOffset = 0;
+    var targetBlockIndex = -1;
+    var targetLineIndex = -1;
+    var targetSpanIndex = -1;
+    var offsetInSpan = 0;
+
+    for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+      final block = blocks[blockIndex];
+      if (block is MarkdownParagraphBlockValue) {
+        final lines = List<MarkdownLineValue>.from(block.children);
+
+        for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+          final line = lines[lineIndex];
+          var lineOffset = currentOffset;
+
+          for (var spanIndex = 0; spanIndex < line.children.length; spanIndex++) {
+            final span = line.children[spanIndex];
+            final spanStart = lineOffset;
+            final spanEnd = lineOffset + span.value.length;
+
+            if (start >= spanStart && start <= spanEnd) {
+              targetBlockIndex = blockIndex;
+              targetLineIndex = lineIndex;
+              targetSpanIndex = spanIndex;
+              offsetInSpan = start - spanStart;
+              break;
+            }
+
+            lineOffset += span.value.length;
+          }
+
+          if (targetBlockIndex >= 0) {
+            break;
+          }
+        }
+
+        if (targetBlockIndex >= 0) {
+          break;
+        }
+        currentOffset += _getBlockTextLength(block) + 1;
+      }
+    }
+
+    if (targetBlockIndex < 0) {
+      debugPrint("  Could not find target position for paste");
+      return;
+    }
+
+    final block = blocks[targetBlockIndex] as MarkdownParagraphBlockValue;
+    final lines = List<MarkdownLineValue>.from(block.children);
+    final line = lines[targetLineIndex];
+    final lineSpans = List<MarkdownSpanValue>.from(line.children);
+    final targetSpan = lineSpans[targetSpanIndex];
+
+    // Delete selected text if any
+    if (end > start) {
+      replaceText(start, end, "");
+      // Need to recalculate position after deletion
+      // For simplicity, we'll just insert at start
+    }
+
+    // Split the target span at the insertion point
+    final beforeText = targetSpan.value.substring(0, offsetInSpan);
+    final afterText = targetSpan.value.substring(offsetInSpan);
+
+    // Build new spans list
+    final newSpans = <MarkdownSpanValue>[];
+
+    // Add spans before the target
+    newSpans.addAll(lineSpans.take(targetSpanIndex));
+
+    // Add the "before" part of the split span
+    if (beforeText.isNotEmpty) {
+      newSpans.add(targetSpan.copyWith(
+        id: uuid(),
+        value: beforeText,
+      ));
+    }
+
+    // Add the pasted spans
+    newSpans.addAll(spans);
+
+    // Add the "after" part of the split span
+    if (afterText.isNotEmpty) {
+      newSpans.add(targetSpan.copyWith(
+        id: uuid(),
+        value: afterText,
+      ));
+    }
+
+    // Add remaining spans after the target
+    if (targetSpanIndex + 1 < lineSpans.length) {
+      newSpans.addAll(lineSpans.skip(targetSpanIndex + 1));
+    }
+
+    // Update the line with new spans
+    lines[targetLineIndex] = line.copyWith(children: newSpans);
+    blocks[targetBlockIndex] = block.copyWith(children: lines);
+
+    final newField = field.copyWith(children: blocks);
+    _value[0] = newField;
     notifyListeners();
   }
 

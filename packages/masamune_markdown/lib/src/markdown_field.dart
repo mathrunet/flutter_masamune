@@ -626,12 +626,62 @@ class MarkdownFieldState extends State<MarkdownField>
           // Only check for link/mention deletion when the cursor is collapsed (no selection)
           // AND we haven't already selected a link/mention range
           if (isDeletion && value.selection.isCollapsed) {
-            // Check if cursor is at the end of a link
-            debugPrint("   Calling getLinkRangeBeforeCursor($cursorOffset)");
-            final linkRange =
-                widget.controller.getLinkRangeBeforeCursor(cursorOffset);
-            debugPrint("   Result: $linkRange");
-            if (linkRange != null) {
+            // First, check if the character immediately before cursor is plain text
+            // If so, skip link/mention checks and allow normal deletion
+            var isPlainTextBeforeCursor = false;
+
+            if (cursorOffset > 0) {
+              // Check if cursor is inside or at the end of a link or mention
+              final linkRange = widget.controller.getLinkRangeBeforeCursor(cursorOffset);
+              final mentionRange = widget.controller.getMentionRangeBeforeCursor(cursorOffset);
+              final totalTextLength = widget.controller.getPlainText().length;
+              final charBeforeCursor = cursorOffset - 1;
+
+              // Check if cursor is AT THE END boundary of link/mention
+              final isCursorAtEndOfLink = linkRange != null && cursorOffset == linkRange.end;
+              final isCursorAtEndOfMention = mentionRange != null && cursorOffset == mentionRange.end;
+
+              // Check if character before cursor is inside the link/mention range
+              final isCharInsideLink = linkRange != null &&
+                  charBeforeCursor >= linkRange.start &&
+                  charBeforeCursor < linkRange.end;
+              final isCharInsideMention = mentionRange != null &&
+                  charBeforeCursor >= mentionRange.start &&
+                  charBeforeCursor < mentionRange.end;
+
+              // Only check for text after cursor if cursor is at the END boundary
+              // If cursor is at the end AND there's text after, allow normal deletion
+              // If cursor is inside (not at end), always select the link/mention
+              final hasTextAfterCursor = cursorOffset < totalTextLength;
+
+              final isAtEndOfLink = isCursorAtEndOfLink &&
+                  isCharInsideLink &&
+                  !hasTextAfterCursor; // Only select if at end with no text after
+              final isAtEndOfMention = isCursorAtEndOfMention &&
+                  isCharInsideMention &&
+                  !hasTextAfterCursor; // Only select if at end with no text after
+
+              // If cursor is INSIDE (not at end) a link/mention, always select it
+              final isInsideLink = !isCursorAtEndOfLink && isCharInsideLink;
+              final isInsideMention = !isCursorAtEndOfMention && isCharInsideMention;
+
+              // Plain text only if NOT at end boundary AND NOT inside link/mention
+              isPlainTextBeforeCursor = !isAtEndOfLink && !isAtEndOfMention && !isInsideLink && !isInsideMention;
+              debugPrint("   Cursor at offset $cursorOffset: isPlainText=$isPlainTextBeforeCursor");
+              debugPrint("     isAtEndOfLink=$isAtEndOfLink, isAtEndOfMention=$isAtEndOfMention");
+              debugPrint("     isInsideLink=$isInsideLink, isInsideMention=$isInsideMention");
+              debugPrint("     hasTextAfterCursor=$hasTextAfterCursor");
+            }
+
+            // Only check for link/mention boundaries if the character before cursor
+            // is not plain text (i.e., it has link/mention properties)
+            if (!isPlainTextBeforeCursor) {
+              // Check if cursor is at the end of a link
+              debugPrint("   Calling getLinkRangeBeforeCursor($cursorOffset)");
+              final linkRange =
+                  widget.controller.getLinkRangeBeforeCursor(cursorOffset);
+              debugPrint("   Result: $linkRange");
+              if (linkRange != null) {
               // Check if the current selection already matches the link range
               // If so, allow deletion to proceed
               final alreadySelected =
@@ -686,6 +736,9 @@ class MarkdownFieldState extends State<MarkdownField>
               }
             } else {
               debugPrint("   No mention found before cursor");
+            }
+            } else {
+              debugPrint("   Plain text before cursor - allowing normal deletion");
             }
           }
 
