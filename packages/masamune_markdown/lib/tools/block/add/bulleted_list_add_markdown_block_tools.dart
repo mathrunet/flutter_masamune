@@ -52,4 +52,7 @@ class BulletedListAddMarkdownBlockTools extends MarkdownBlockTools {
     ref.controller.insertBlock(this);
     ref.deleteMode();
   }
+
+  @override
+  bool get inheritPropertyOnNewLine => true;
 }

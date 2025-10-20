@@ -253,8 +253,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
             _blockMenuToggleDuration = _kBlockMenuToggleDuration;
           }
           _showBlockMenu = false;
-          SystemChannels.textInput.invokeMethod("TextInput.show");
-          controller.focusNode.requestFocus();
+          field?.reopenInputConnection();
         } else {
           if (tool.hideKeyboardOnSelected) {
             if (_blockMenuHeight == 0) {
@@ -274,8 +273,9 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
               _blockMenuToggleDuration = _kBlockMenuToggleDuration;
             }
             _showBlockMenu = false;
-            SystemChannels.textInput.invokeMethod("TextInput.show");
-            controller.focusNode.requestFocus();
+            // Reopen input connection to ensure TextInputClient is properly connected
+            // after TextInput.hide was called when showing block menu
+            field?.reopenInputConnection();
           }
         } else {
           if (tool.hideKeyboardOnSelected) {
@@ -333,7 +333,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
       }
       _currentTool = null;
       _showBlockMenu = false;
-      SystemChannels.textInput.invokeMethod("TextInput.show");
+      field?.reopenInputConnection();
     });
   }
 

@@ -178,6 +178,11 @@ abstract class MarkdownBlockTools extends MarkdownTools {
   const MarkdownBlockTools({
     required super.config,
   });
+
+  /// Check if the property should be inherited on new line.
+  ///
+  /// プロパティが新しい行に継承されるかどうかを確認します。
+  bool get inheritPropertyOnNewLine => false;
 }
 
 /// Base class for markdown block variable tools.

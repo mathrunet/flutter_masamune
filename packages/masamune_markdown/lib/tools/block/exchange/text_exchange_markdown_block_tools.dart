@@ -52,4 +52,7 @@ class TextExchangeMarkdownBlockTools extends MarkdownBlockTools {
     ref.controller.exchangeBlock(this);
     ref.deleteMode();
   }
+
+  @override
+  bool get inheritPropertyOnNewLine => true;
 }

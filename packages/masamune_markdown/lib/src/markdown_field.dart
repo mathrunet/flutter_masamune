@@ -438,6 +438,20 @@ class MarkdownFieldState extends State<MarkdownField>
     }
   }
 
+  /// Reopens the input connection even if one already exists.
+  /// This is useful when the connection was hidden but not closed (e.g., by TextInput.hide).
+  ///
+  /// 既存の接続がある場合でも入力接続を再開します。
+  /// 接続が非表示になったが閉じられていない場合（例: TextInput.hideによる）に便利です。
+  void reopenInputConnection() {
+    debugPrint("🔄 reopenInputConnection called");
+    // Close existing connection if any
+    _closeInputConnectionIfNeeded();
+    // Open a new connection
+    _openInputConnection();
+    debugPrint("✅ Input connection reopened: _hasInputConnection=$_hasInputConnection");
+  }
+
   void _closeInputConnectionIfNeeded() {
     if (_hasInputConnection) {
       _textInputConnection!.close();
@@ -449,12 +463,16 @@ class MarkdownFieldState extends State<MarkdownField>
       _textInputConnection != null && _textInputConnection!.attached;
 
   void _updateRemoteEditingValue() {
+    debugPrint("🔄 _updateRemoteEditingValue called: _hasInputConnection=$_hasInputConnection");
     if (!_hasInputConnection) {
+      debugPrint("   ⚠️ Early return: no input connection");
       return;
     }
 
     final text = _getPlainText();
     final textLength = text.length;
+
+    debugPrint("   ✅ Processing: textLength=$textLength, selection=${_selection.start}-${_selection.end}");
 
     // Auto-adjust selection if it partially overlaps with link/mention
     // This catches selection changes from double-tap and handle drag operations
@@ -532,9 +550,11 @@ class MarkdownFieldState extends State<MarkdownField>
   ///
   /// リンクやメンションが全体として選択されるか、まったく選択されないように選択範囲を調整します。
   TextSelection _adjustSelectionForLinksAndMentions(TextSelection selection) {
-    debugPrint("🔍 _adjustSelectionForLinksAndMentions called: ${selection.start}-${selection.end}");
+    debugPrint(
+        "🔍 _adjustSelectionForLinksAndMentions called: ${selection.start}-${selection.end}");
     if (selection.isCollapsed || widget.controller.value == null) {
-      debugPrint("  → Skipping: selection is collapsed or controller value is null");
+      debugPrint(
+          "  → Skipping: selection is collapsed or controller value is null");
       return selection;
     }
 
@@ -571,7 +591,8 @@ class MarkdownFieldState extends State<MarkdownField>
 
               if (hasLinkOrMention) {
                 ranges.add(TextRange(start: spanStart, end: spanEnd));
-                debugPrint("    → Found link/mention at $spanStart-$spanEnd: '${span.value}'");
+                debugPrint(
+                    "    → Found link/mention at $spanStart-$spanEnd: '${span.value}'");
               }
 
               currentOffset += span.value.length;
@@ -587,17 +608,21 @@ class MarkdownFieldState extends State<MarkdownField>
     // Check each link/mention range
     for (final range in ranges) {
       // Check if selection partially overlaps with this range
-      final selectionOverlapsRange = selection.end > range.start && selection.start < range.end;
+      final selectionOverlapsRange =
+          selection.end > range.start && selection.start < range.end;
 
       if (selectionOverlapsRange) {
-        final isFullySelected = selection.start <= range.start && selection.end >= range.end;
+        final isFullySelected =
+            selection.start <= range.start && selection.end >= range.end;
 
         if (!isFullySelected) {
           // Partial overlap - decide whether to expand or contract
 
           // Calculate overlap amount
-          final overlapStart = selection.start > range.start ? selection.start : range.start;
-          final overlapEnd = selection.end < range.end ? selection.end : range.end;
+          final overlapStart =
+              selection.start > range.start ? selection.start : range.start;
+          final overlapEnd =
+              selection.end < range.end ? selection.end : range.end;
           final overlapLength = overlapEnd - overlapStart;
           final rangeLength = range.end - range.start;
 
@@ -631,7 +656,8 @@ class MarkdownFieldState extends State<MarkdownField>
     }
 
     if (adjusted) {
-      debugPrint("📐 Adjusted selection: ${selection.start}-${selection.end} → $adjustedStart-$adjustedEnd");
+      debugPrint(
+          "📐 Adjusted selection: ${selection.start}-${selection.end} → $adjustedStart-$adjustedEnd");
       return TextSelection(
         baseOffset: adjustedStart,
         extentOffset: adjustedEnd,
@@ -771,14 +797,18 @@ class MarkdownFieldState extends State<MarkdownField>
 
             if (cursorOffset > 0) {
               // Check if cursor is inside or at the end of a link or mention
-              final linkRange = widget.controller.getLinkRangeBeforeCursor(cursorOffset);
-              final mentionRange = widget.controller.getMentionRangeBeforeCursor(cursorOffset);
+              final linkRange =
+                  widget.controller.getLinkRangeBeforeCursor(cursorOffset);
+              final mentionRange =
+                  widget.controller.getMentionRangeBeforeCursor(cursorOffset);
               final totalTextLength = widget.controller.getPlainText().length;
               final charBeforeCursor = cursorOffset - 1;
 
               // Check if cursor is AT THE END boundary of link/mention
-              final isCursorAtEndOfLink = linkRange != null && cursorOffset == linkRange.end;
-              final isCursorAtEndOfMention = mentionRange != null && cursorOffset == mentionRange.end;
+              final isCursorAtEndOfLink =
+                  linkRange != null && cursorOffset == linkRange.end;
+              final isCursorAtEndOfMention =
+                  mentionRange != null && cursorOffset == mentionRange.end;
 
               // Check if character before cursor is inside the link/mention range
               final isCharInsideLink = linkRange != null &&
@@ -802,13 +832,20 @@ class MarkdownFieldState extends State<MarkdownField>
 
               // If cursor is INSIDE (not at end) a link/mention, always select it
               final isInsideLink = !isCursorAtEndOfLink && isCharInsideLink;
-              final isInsideMention = !isCursorAtEndOfMention && isCharInsideMention;
+              final isInsideMention =
+                  !isCursorAtEndOfMention && isCharInsideMention;
 
               // Plain text only if NOT at end boundary AND NOT inside link/mention
-              isPlainTextBeforeCursor = !isAtEndOfLink && !isAtEndOfMention && !isInsideLink && !isInsideMention;
-              debugPrint("   Cursor at offset $cursorOffset: isPlainText=$isPlainTextBeforeCursor");
-              debugPrint("     isAtEndOfLink=$isAtEndOfLink, isAtEndOfMention=$isAtEndOfMention");
-              debugPrint("     isInsideLink=$isInsideLink, isInsideMention=$isInsideMention");
+              isPlainTextBeforeCursor = !isAtEndOfLink &&
+                  !isAtEndOfMention &&
+                  !isInsideLink &&
+                  !isInsideMention;
+              debugPrint(
+                  "   Cursor at offset $cursorOffset: isPlainText=$isPlainTextBeforeCursor");
+              debugPrint(
+                  "     isAtEndOfLink=$isAtEndOfLink, isAtEndOfMention=$isAtEndOfMention");
+              debugPrint(
+                  "     isInsideLink=$isInsideLink, isInsideMention=$isInsideMention");
               debugPrint("     hasTextAfterCursor=$hasTextAfterCursor");
             }
 
@@ -821,63 +858,65 @@ class MarkdownFieldState extends State<MarkdownField>
                   widget.controller.getLinkRangeBeforeCursor(cursorOffset);
               debugPrint("   Result: $linkRange");
               if (linkRange != null) {
-              // Check if the current selection already matches the link range
-              // If so, allow deletion to proceed
-              final alreadySelected =
-                  _selection.baseOffset == linkRange.start &&
-                      _selection.extentOffset == linkRange.end;
+                // Check if the current selection already matches the link range
+                // If so, allow deletion to proceed
+                final alreadySelected =
+                    _selection.baseOffset == linkRange.start &&
+                        _selection.extentOffset == linkRange.end;
 
-              if (!alreadySelected) {
-                // Select the entire link instead of deleting
-                debugPrint(
-                    "🔗 Backspace at end of link - selecting link range: $linkRange");
-                _selection = TextSelection(
-                  baseOffset: linkRange.start,
-                  extentOffset: linkRange.end,
-                );
-                _composingRegion = null;
-                _updateRemoteEditingValue();
-                setState(() {});
-                return; // Don't delete, just select
+                if (!alreadySelected) {
+                  // Select the entire link instead of deleting
+                  debugPrint(
+                      "🔗 Backspace at end of link - selecting link range: $linkRange");
+                  _selection = TextSelection(
+                    baseOffset: linkRange.start,
+                    extentOffset: linkRange.end,
+                  );
+                  _composingRegion = null;
+                  _updateRemoteEditingValue();
+                  setState(() {});
+                  return; // Don't delete, just select
+                } else {
+                  debugPrint("   Link already selected, allowing deletion");
+                }
               } else {
-                debugPrint("   Link already selected, allowing deletion");
+                debugPrint("   No link found before cursor");
+              }
+
+              // Check if cursor is at the end of a mention
+              debugPrint(
+                  "   Calling getMentionRangeBeforeCursor($cursorOffset)");
+              final mentionRange =
+                  widget.controller.getMentionRangeBeforeCursor(cursorOffset);
+              debugPrint("   Result: $mentionRange");
+              if (mentionRange != null) {
+                // Check if the current selection already matches the mention range
+                // If so, allow deletion to proceed
+                final alreadySelected =
+                    _selection.baseOffset == mentionRange.start &&
+                        _selection.extentOffset == mentionRange.end;
+
+                if (!alreadySelected) {
+                  // Select the entire mention instead of deleting
+                  debugPrint(
+                      "💬 Backspace at end of mention - selecting mention range: $mentionRange");
+                  _selection = TextSelection(
+                    baseOffset: mentionRange.start,
+                    extentOffset: mentionRange.end,
+                  );
+                  _composingRegion = null;
+                  _updateRemoteEditingValue();
+                  setState(() {});
+                  return; // Don't delete, just select
+                } else {
+                  debugPrint("   Mention already selected, allowing deletion");
+                }
+              } else {
+                debugPrint("   No mention found before cursor");
               }
             } else {
-              debugPrint("   No link found before cursor");
-            }
-
-            // Check if cursor is at the end of a mention
-            debugPrint("   Calling getMentionRangeBeforeCursor($cursorOffset)");
-            final mentionRange =
-                widget.controller.getMentionRangeBeforeCursor(cursorOffset);
-            debugPrint("   Result: $mentionRange");
-            if (mentionRange != null) {
-              // Check if the current selection already matches the mention range
-              // If so, allow deletion to proceed
-              final alreadySelected =
-                  _selection.baseOffset == mentionRange.start &&
-                      _selection.extentOffset == mentionRange.end;
-
-              if (!alreadySelected) {
-                // Select the entire mention instead of deleting
-                debugPrint(
-                    "💬 Backspace at end of mention - selecting mention range: $mentionRange");
-                _selection = TextSelection(
-                  baseOffset: mentionRange.start,
-                  extentOffset: mentionRange.end,
-                );
-                _composingRegion = null;
-                _updateRemoteEditingValue();
-                setState(() {});
-                return; // Don't delete, just select
-              } else {
-                debugPrint("   Mention already selected, allowing deletion");
-              }
-            } else {
-              debugPrint("   No mention found before cursor");
-            }
-            } else {
-              debugPrint("   Plain text before cursor - allowing normal deletion");
+              debugPrint(
+                  "   Plain text before cursor - allowing normal deletion");
             }
           }
 
@@ -956,15 +995,18 @@ class MarkdownFieldState extends State<MarkdownField>
     } else {
       // Only selection or composing region changed
       _selection = value.selection;
-      debugPrint("📝 Selection changed: ${_selection.start}-${_selection.end}, isCollapsed=${_selection.isCollapsed}");
+      debugPrint(
+          "📝 Selection changed: ${_selection.start}-${_selection.end}, isCollapsed=${_selection.isCollapsed}");
 
       // Auto-adjust selection if it partially overlaps with link/mention
       // Links and mentions should be selected as a whole or not at all
       if (!_selection.isCollapsed) {
         debugPrint("📝 Checking for link/mention overlap adjustment...");
-        final adjustedSelection = _adjustSelectionForLinksAndMentions(_selection);
+        final adjustedSelection =
+            _adjustSelectionForLinksAndMentions(_selection);
         if (adjustedSelection != _selection) {
-          debugPrint("📝 Selection adjusted: ${_selection.start}-${_selection.end} → ${adjustedSelection.start}-${adjustedSelection.end}");
+          debugPrint(
+              "📝 Selection adjusted: ${_selection.start}-${_selection.end} → ${adjustedSelection.start}-${adjustedSelection.end}");
           _selection = adjustedSelection;
           _updateRemoteEditingValue();
         } else {
@@ -1047,9 +1089,11 @@ class MarkdownFieldState extends State<MarkdownField>
 
   @override
   void performAction(TextInputAction action) {
+    debugPrint("🎬 performAction called: action=$action, readOnly=${widget.readOnly}");
     switch (action) {
       case TextInputAction.newline:
         if (!widget.readOnly) {
+          debugPrint("⏎ Handling newline action at offset ${_selection.baseOffset}");
           // Insert a new paragraph at the current cursor position
           widget.controller.insertNewLine(_selection.baseOffset);
 
@@ -1555,10 +1599,12 @@ class MarkdownFieldState extends State<MarkdownField>
           }
 
           // Check if target offset is within this block
-          final isTargetInThisBlock = targetOffset >= blockStartOffset && targetOffset < blockEndOffset;
+          final isTargetInThisBlock =
+              targetOffset >= blockStartOffset && targetOffset < blockEndOffset;
 
           if (isTargetInThisBlock) {
-            debugPrint("    🔍 Target offset $targetOffset is in block $blockIndex (range: $blockStartOffset-$blockEndOffset)");
+            debugPrint(
+                "    🔍 Target offset $targetOffset is in block $blockIndex (range: $blockStartOffset-$blockEndOffset)");
             // Only search within this block
             var blockLocalOffset = currentOffset;
             for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
@@ -1582,10 +1628,12 @@ class MarkdownFieldState extends State<MarkdownField>
                   // Expand the mention range
                   mentionStart ??= spanStart;
                   mentionEnd = spanEnd;
-                  debugPrint("       → Expanding mention range: $mentionStart-$mentionEnd");
+                  debugPrint(
+                      "       → Expanding mention range: $mentionStart-$mentionEnd");
                 } else if (mentionStart != null) {
                   // We've found the end of the consecutive mention spans within this block
-                  debugPrint("       → Found end of mention, returning range: $mentionStart-$mentionEnd");
+                  debugPrint(
+                      "       → Found end of mention, returning range: $mentionStart-$mentionEnd");
                   return TextRange(start: mentionStart, end: mentionEnd!);
                 }
 
@@ -1598,7 +1646,8 @@ class MarkdownFieldState extends State<MarkdownField>
 
             // If we reached the end of the block and still have a mention range, return it
             if (mentionStart != null && mentionEnd != null) {
-              debugPrint("       → Reached end of block, returning range: $mentionStart-$mentionEnd");
+              debugPrint(
+                  "       → Reached end of block, returning range: $mentionStart-$mentionEnd");
               return TextRange(start: mentionStart, end: mentionEnd);
             }
           }
@@ -1849,10 +1898,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     }
     // Adjust selection if callback provided - this intercepts selection changes
     // from double-tap and handle drag operations
-    debugPrint("🎯 _RenderMarkdownEditor.selection setter: ${value.start}-${value.end}");
+    debugPrint(
+        "🎯 _RenderMarkdownEditor.selection setter: ${value.start}-${value.end}");
     final adjustedValue = _selectionAdjuster?.call(value) ?? value;
     if (adjustedValue != value) {
-      debugPrint("  → Adjusted to: ${adjustedValue.start}-${adjustedValue.end}");
+      debugPrint(
+          "  → Adjusted to: ${adjustedValue.start}-${adjustedValue.end}");
     }
     _selection = adjustedValue;
     markNeedsPaint();
@@ -2272,6 +2323,87 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           ));
 
           textOffset += totalLength + 1; // +1 for newline between blocks
+        } else if (block is MarkdownBulletedListBlockValue) {
+          // Get block style from controller
+          var padding =
+              (_controller.style.list.padding ?? EdgeInsets.zero) as EdgeInsets;
+          final margin =
+              (_controller.style.list.margin ?? EdgeInsets.zero) as EdgeInsets;
+
+          // Apply indent
+          final indentWidth = block.indent * _controller.style.indentWidth;
+          padding = padding.copyWith(left: padding.left + indentWidth);
+
+          // Add extra padding for marker
+          padding = padding.copyWith(left: padding.left + block.markerWidth);
+
+          // Build base text style
+          final baseStyle = _controller.style.list.textStyle ?? _style;
+          final baseTextStyle = baseStyle.copyWith(
+            color: _controller.style.list.foregroundColor ?? baseStyle.color,
+          );
+
+          // Build TextSpan tree with individual styles for each span
+          // NOTE: Marker is NOT included in the text content
+          final textSpans = <TextSpan>[];
+          final spanInfos = <_SpanInfo>[];
+          var totalLength = 0;
+
+          for (var i = 0; i < block.children.length; i++) {
+            final line = block.children[i];
+            for (final span in line.children) {
+              // Apply span-specific style
+              final spanStyle =
+                  span.textStyle(this, _controller, baseTextStyle);
+
+              textSpans.add(TextSpan(
+                text: span.value,
+                style: spanStyle,
+              ));
+
+              // Store span info
+              spanInfos.add(_SpanInfo(
+                span: span,
+                localOffset: totalLength,
+                length: span.value.length,
+              ));
+
+              totalLength += span.value.length;
+            }
+            if (i < block.children.length - 1) {
+              textSpans.add(TextSpan(text: "\n", style: baseTextStyle));
+              totalLength += 1;
+            }
+          }
+
+          // Create text painter for this block (without marker)
+          final painter = TextPainter(
+            text: TextSpan(children: textSpans, style: baseTextStyle),
+            textAlign: _textAlign,
+            textDirection: _textDirection,
+            textWidthBasis: _textWidthBasis,
+            textHeightBehavior: _textHeightBehavior,
+            strutStyle: _strutStyle,
+          );
+
+          // Create marker info
+          final markerInfo = _MarkerInfo(
+            symbol: "• ",
+            width: block.markerWidth,
+          );
+
+          layouts.add(_BlockLayout(
+            block: block,
+            painter: painter,
+            textOffset: textOffset,
+            textLength: totalLength,
+            padding: padding,
+            margin: margin,
+            spans: spanInfos,
+            marker: markerInfo,
+          ));
+
+          textOffset += totalLength + 1; // +1 for newline between blocks
         }
       }
     }
@@ -2493,6 +2625,30 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         }
       }
 
+      // Draw marker for list blocks (before text)
+      if (layout.marker != null) {
+        // Calculate marker position (to the left of the text)
+        final markerOffset = Offset(
+          offset.dx +
+              layout.offset.dx +
+              layout.padding.left -
+              layout.marker!.width,
+          offset.dy + layout.offset.dy,
+        );
+
+        // Get text style (use list style if available, otherwise use base style)
+        final markerStyle = _controller.style.list.textStyle ?? _style;
+
+        // Create marker painter
+        final markerPainter = TextPainter(
+          text: TextSpan(text: layout.marker!.symbol, style: markerStyle),
+          textDirection: _textDirection,
+        );
+
+        markerPainter.layout();
+        markerPainter.paint(canvas, markerOffset);
+      }
+
       // Draw text
       layout.painter.paint(canvas, blockOffset);
 
@@ -2617,6 +2773,17 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
       if (position.dy >= blockOffset.dy && position.dy <= blockBottom) {
         // Position is within this block's text area
+        // For BulletedList blocks, check if position is in the marker area
+        if (layout.marker != null) {
+          final markerLeft =
+              layout.offset.dx + layout.padding.left - layout.marker!.width;
+          final markerRight = layout.offset.dx + layout.padding.left;
+          // If clicking in the marker area, treat as beginning of text
+          if (position.dx >= markerLeft && position.dx < markerRight) {
+            return currentTextOffset;
+          }
+        }
+
         // TextPainter.getPositionForOffset handles text wrapping correctly
         final localPosition = position - blockOffset;
         final textPosition = layout.painter.getPositionForOffset(localPosition);
@@ -3124,10 +3291,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           }
 
           // Check if target offset is within this block
-          final isTargetInThisBlock = targetOffset >= blockStartOffset && targetOffset < blockEndOffset;
+          final isTargetInThisBlock =
+              targetOffset >= blockStartOffset && targetOffset < blockEndOffset;
 
           if (isTargetInThisBlock) {
-            debugPrint("    🔍 Target offset $targetOffset is in block $blockIndex (range: $blockStartOffset-$blockEndOffset)");
+            debugPrint(
+                "    🔍 Target offset $targetOffset is in block $blockIndex (range: $blockStartOffset-$blockEndOffset)");
             // Only search within this block
             var blockLocalOffset = currentOffset;
             for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
@@ -3151,10 +3320,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
                   // Expand the mention range
                   mentionStart ??= spanStart;
                   mentionEnd = spanEnd;
-                  debugPrint("       → Expanding mention range: $mentionStart-$mentionEnd");
+                  debugPrint(
+                      "       → Expanding mention range: $mentionStart-$mentionEnd");
                 } else if (mentionStart != null) {
                   // We've found the end of the consecutive mention spans within this block
-                  debugPrint("       → Found end of mention, returning range: $mentionStart-$mentionEnd");
+                  debugPrint(
+                      "       → Found end of mention, returning range: $mentionStart-$mentionEnd");
                   return TextRange(start: mentionStart, end: mentionEnd!);
                 }
 
@@ -3167,7 +3338,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
             // If we reached the end of the block and still have a mention range, return it
             if (mentionStart != null && mentionEnd != null) {
-              debugPrint("       → Reached end of block, returning range: $mentionStart-$mentionEnd");
+              debugPrint(
+                  "       → Reached end of block, returning range: $mentionStart-$mentionEnd");
               return TextRange(start: mentionStart, end: mentionEnd);
             }
           }
@@ -3540,12 +3712,13 @@ class _BlockLayout {
     required this.padding,
     required this.margin,
     required this.spans,
+    this.marker,
   });
 
   /// The markdown block.
   ///
   /// マークダウンブロック。
-  final MarkdownParagraphBlockValue block;
+  final MarkdownBlockValue block;
 
   /// Text painter for this block.
   ///
@@ -3577,6 +3750,11 @@ class _BlockLayout {
   /// ローカルオフセットと長さを持つスパン。
   final List<_SpanInfo> spans;
 
+  /// Marker information for list blocks.
+  ///
+  /// リストブロックのマーカー情報。
+  final _MarkerInfo? marker;
+
   /// Offset where this block is positioned.
   ///
   /// このブロックが配置されるオフセット。
@@ -3586,6 +3764,26 @@ class _BlockLayout {
   ///
   /// パディングとマージンを含むこのブロックの高さ。
   double height = 0;
+}
+
+/// Information about a list marker.
+///
+/// リストマーカーに関する情報。
+class _MarkerInfo {
+  _MarkerInfo({
+    required this.symbol,
+    required this.width,
+  });
+
+  /// The marker symbol (e.g., "• ").
+  ///
+  /// マーカーシンボル(例: "• ")。
+  final String symbol;
+
+  /// Width of the marker area.
+  ///
+  /// マーカー領域の幅。
+  final double width;
 }
 
 /// Information about a span in a block.
