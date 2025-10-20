@@ -88,11 +88,9 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
   Future<void> initialize({
     AIConfig? config,
   }) async {
-    final tools =
-        enableSearch ? <AITool>{const WebSearchAITool()} : const <AITool>{};
     if (adapter.isInitializedConfig(
       config: config,
-      tools: tools,
+      enableSearch: enableSearch,
     )) {
       return;
     }
@@ -103,7 +101,7 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
     try {
       await adapter.initialize(
         config: config,
-        tools: tools,
+        enableSearch: enableSearch,
       );
       _initializeCompleter?.complete();
       _initializeCompleter = null;
@@ -135,8 +133,6 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
     List<AIContent> Function(List<AIContent> contents)? contentFilter,
     bool includeSystemInitialContent = false,
   }) async {
-    final tools =
-        enableSearch ? <AITool>{const WebSearchAITool()} : const <AITool>{};
     try {
       await initialize(
         config: config ?? this.config,
@@ -145,7 +141,7 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
         contentFilter?.call(contents) ??
             adapter.contentFilter?.call(contents) ??
             contents,
-        tools: tools,
+        enableSearch: enableSearch,
         config: config ?? this.config,
         includeSystemInitialContent: includeSystemInitialContent,
       );

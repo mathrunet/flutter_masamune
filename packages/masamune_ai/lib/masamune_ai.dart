@@ -37,5 +37,6 @@ part "src/ai_file_type.dart";
 part "src/ai_tool.dart";
 part "src/ai_function_call_config.dart";
 
-part "tools/web_search_ai_tool.dart";
 part "tools/agent_ai_local_tool.dart";
+part "tools/echo_ai_local_tool.dart";
+part "tools/web_search_ai_local_tool.dart";

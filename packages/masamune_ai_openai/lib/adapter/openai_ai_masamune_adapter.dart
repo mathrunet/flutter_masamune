@@ -40,6 +40,7 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
   bool isInitializedConfig({
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
   }) {
     return _isInitialized;
   }
@@ -48,6 +49,7 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
   Future<void> initialize({
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
   }) async {
     if (_isInitialized) {
       return;
@@ -67,6 +69,7 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
         onFunctionCall,
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
     bool includeSystemInitialContent = false,
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?

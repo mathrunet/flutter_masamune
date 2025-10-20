@@ -175,6 +175,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   bool isInitializedConfig({
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
   }) {
     config ??= defaultConfig;
     final key = AIConfigKey(config: config, tools: tools);
@@ -188,6 +189,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   Future<void> initialize({
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
   }) async {
     config ??= defaultConfig;
     final key = AIConfigKey(config: config, tools: tools);
@@ -212,12 +214,15 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         responseSchema: responseSchema?._toSchema(),
       ),
       tools: [
-        if (tools.isNotEmpty) ...[
-          tools._toVertexAITools(),
-          if (tools.any((e) => e is WebSearchAITool)) Tool.googleSearch(),
-        ],
+        if (!enableSearch) ...[
+          if (tools.isNotEmpty) ...[
+            tools._toVertexAITools(),
+          ],
+        ] else ...[
+          Tool.googleSearch(),
+        ]
       ],
-      toolConfig: tools.isNotEmpty
+      toolConfig: !enableSearch && tools.isNotEmpty
           ? ToolConfig(
               functionCallingConfig:
                   FunctionCallingConfig.any({...tools.map((e) => e.name)}),
@@ -238,6 +243,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         onFunctionCall,
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
     bool includeSystemInitialContent = false,
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
@@ -266,6 +272,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         ],
         response: res,
         tools: tools,
+        enableSearch: enableSearch,
         generativeModel: generativeModel,
         onFunctionCall: onFunctionCall,
         onGenerateFunctionCallingConfig: onGenerateFunctionCallingConfig,
@@ -284,6 +291,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
             List<AIContentFunctionCallPart> functionCalls)?
         onFunctionCall,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
         onGenerateFunctionCallingConfig,
@@ -302,7 +310,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         ...contents,
         ...response._toContents(),
       ],
-      toolConfig: tools.isNotEmpty
+      toolConfig: !enableSearch && tools.isNotEmpty
           ? ToolConfig(
               functionCallingConfig:
                   functionCallingConfig._toFunctionCallingConfig(),
@@ -352,6 +360,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
                         contents: contents,
                         response: response,
                         tools: tools,
+                        enableSearch: enableSearch,
                         generativeModel: generativeModel,
                         onFunctionCall: onFunctionCall,
                         onGenerateFunctionCallingConfig:
@@ -401,6 +410,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
                       contents: contents,
                       response: response,
                       tools: tools,
+                      enableSearch: enableSearch,
                       generativeModel: generativeModel,
                       onFunctionCall: onFunctionCall,
                       onGenerateFunctionCallingConfig:

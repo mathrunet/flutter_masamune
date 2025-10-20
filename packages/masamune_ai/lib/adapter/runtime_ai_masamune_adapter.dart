@@ -32,11 +32,19 @@ class RuntimeAIMasamuneAdapter extends AIMasamuneAdapter {
       onGenerateContent;
 
   @override
-  Future<void> initialize({AIConfig? config, Set<AITool> tools = const {}}) =>
+  Future<void> initialize({
+    AIConfig? config,
+    Set<AITool> tools = const {},
+    bool enableSearch = false,
+  }) =>
       Future.value();
 
   @override
-  bool isInitializedConfig({AIConfig? config, Set<AITool> tools = const {}}) =>
+  bool isInitializedConfig({
+    AIConfig? config,
+    Set<AITool> tools = const {},
+    bool enableSearch = false,
+  }) =>
       true;
 
   @override
@@ -50,6 +58,7 @@ class RuntimeAIMasamuneAdapter extends AIMasamuneAdapter {
     AIFunctionCallingConfig? Function(AIContent, Set<AITool>, int)?
         onGenerateFunctionCallingConfig,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
   }) async {
     final res = await onGenerateContent?.call(content, config);
     res?.complete();

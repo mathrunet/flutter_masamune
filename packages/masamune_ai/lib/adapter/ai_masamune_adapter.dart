@@ -109,6 +109,7 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   bool isInitializedConfig({
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
   });
 
   /// Initialize the AI.
@@ -117,6 +118,7 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   Future<void> initialize({
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
   });
 
   /// Generate the content of the AI.
@@ -130,6 +132,7 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
     AIConfig? config,
     bool includeSystemInitialContent = false,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
         onGenerateFunctionCallingConfig,

@@ -111,11 +111,9 @@ class AIChat
   Future<void> initialize({
     AIConfig? config,
   }) async {
-    final tools =
-        enableSearch ? <AITool>{const WebSearchAITool()} : const <AITool>{};
     if (adapter.isInitializedConfig(
       config: config,
-      tools: tools,
+      enableSearch: enableSearch,
     )) {
       return;
     }
@@ -126,7 +124,7 @@ class AIChat
     try {
       await adapter.initialize(
         config: config,
-        tools: tools,
+        enableSearch: enableSearch,
       );
       _initializeCompleter?.complete();
       _initializeCompleter = null;
@@ -188,8 +186,6 @@ class AIChat
     if (!contents.every((e) => e.role == AIRole.user)) {
       throw const InvalidAIRoleException();
     }
-    final tools =
-        enableSearch ? <AITool>{const WebSearchAITool()} : const <AITool>{};
     try {
       _value.removeWhere((e) {
         if (e.value.isEmpty) {
@@ -208,7 +204,7 @@ class AIChat
             adapter.contentFilter?.call(_value) ??
             _value,
         config: config ?? this.config,
-        tools: tools,
+        enableSearch: enableSearch,
         includeSystemInitialContent: includeSystemInitialContent,
       );
       if (res == null) {
