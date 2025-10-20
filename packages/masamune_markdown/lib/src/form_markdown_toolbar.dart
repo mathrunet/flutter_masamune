@@ -689,18 +689,21 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                                   return;
                                 }
 
+                                // Insert mention text and property as atomic operation
+                                // (combine both into single undo history entry)
                                 // Replace any selected text or insert at cursor
                                 controller.replaceText(
                                   cursorPosition,
                                   cursorPosition,
                                   mentionText,
                                 );
-                                // Add mention property
+                                // Add mention property (skip history since replaceText already saved)
                                 controller.addInlineProperty(
                                   const MentionMarkdownPrimaryTools(),
                                   start: cursorPosition,
                                   end: cursorPosition + mentionText.length,
                                   value: mention,
+                                  skipHistory: true,
                                 );
                                 // Move cursor to after the mention
                                 field!._selection = TextSelection.collapsed(

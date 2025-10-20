@@ -206,7 +206,7 @@ class MarkdownController extends MasamuneControllerBase<
   /// Replaces text in the specified range.
   ///
   /// 指定された範囲のテキストを置換します。
-  void replaceText(int start, int end, String text) {
+  void replaceText(int start, int end, String text, {bool skipHistory = false}) {
     // Early return if this is a no-op replacement (same text at same position)
     // This prevents unnecessary span merging during selection operations
     if (start == 0 && _value.isNotEmpty) {
@@ -217,8 +217,8 @@ class MarkdownController extends MasamuneControllerBase<
       }
     }
 
-    // Skip history saving during undo/redo operations
-    if (!_isUndoRedoInProgress) {
+    // Skip history saving during undo/redo operations or when explicitly requested
+    if (!_isUndoRedoInProgress && !skipHistory) {
       // Save current state before modification
       // For single character insertion/deletion, save immediately for fine-grained undo
       final isSingleCharEdit = text.length <= 1 && (end - start) <= 1;
@@ -855,12 +855,12 @@ class MarkdownController extends MasamuneControllerBase<
       _value.clear();
       _value.addAll(snapshot.fieldValues);
 
-      // Restore cursor position from snapshot
+      // Restore cursor position from snapshot and clear IME state
       if (_field != null) {
         final restoredPosition =
             snapshot.cursorPosition.clamp(0, getPlainText().length);
         _field!._selection = TextSelection.collapsed(offset: restoredPosition);
-        _field!._composingRegion = null; // Clear composing region
+        _field!.clearComposingState(); // Clear IME composing state
         _field!._updateRemoteEditingValue();
       }
 
@@ -908,12 +908,12 @@ class MarkdownController extends MasamuneControllerBase<
       _value.clear();
       _value.addAll(snapshot.fieldValues);
 
-      // Restore cursor position from snapshot
+      // Restore cursor position from snapshot and clear IME state
       if (_field != null) {
         final textLength = getPlainText().length;
         final restoredPosition = snapshot.cursorPosition.clamp(0, textLength);
         _field!._selection = TextSelection.collapsed(offset: restoredPosition);
-        _field!._composingRegion = null; // Clear composing region
+        _field!.clearComposingState(); // Clear IME composing state
         _field!._updateRemoteEditingValue();
       }
 
@@ -1147,13 +1147,13 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// 指定された開始位置と終了位置のインラインテキストを変更します。
   void addInlineProperty(MarkdownPropertyTools tool,
-      {int? start, int? end, Object? value}) {
+      {int? start, int? end, Object? value, bool skipHistory = false}) {
     if (_field == null) {
       return;
     }
 
     // Save current state before modification
-    if (!_isUndoRedoInProgress) {
+    if (!_isUndoRedoInProgress && !skipHistory) {
       debugPrint("💾 addInlineProperty: Saving to undo stack");
       _saveToUndoStack(immediate: true);
     }

@@ -497,6 +497,19 @@ class MarkdownFieldState extends State<MarkdownField>
     );
   }
 
+  /// Clears the IME composing state.
+  ///
+  /// This should be called when operations like undo/redo need to
+  /// completely reset the IME state.
+  ///
+  /// IME変換状態をクリアします。
+  ///
+  /// Undo/Redoのような操作でIME状態を完全にリセットする必要がある場合に呼び出します。
+  void clearComposingState() {
+    _composingText = null;
+    _composingRegion = null;
+  }
+
   String _getPlainText() {
     // Always use controller's text, which is now updated during IME composing
     final plainText = widget.controller.getPlainText();
