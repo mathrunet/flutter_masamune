@@ -456,11 +456,22 @@ class MarkdownFieldState extends State<MarkdownField>
     final text = _getPlainText();
     final textLength = text.length;
 
+    // Auto-adjust selection if it partially overlaps with link/mention
+    // This catches selection changes from double-tap and handle drag operations
+    var adjustedSelection = _selection;
+    if (!_selection.isCollapsed) {
+      final adjusted = _adjustSelectionForLinksAndMentions(_selection);
+      if (adjusted != _selection) {
+        adjustedSelection = adjusted;
+        _selection = adjusted; // Update internal state
+      }
+    }
+
     // Clamp selection and composing region to valid text range
     // Only clamp if values are actually out of bounds to preserve IME state
     final clampedSelection = TextSelection(
-      baseOffset: _selection.baseOffset.clamp(0, textLength),
-      extentOffset: _selection.extentOffset.clamp(0, textLength),
+      baseOffset: adjustedSelection.baseOffset.clamp(0, textLength),
+      extentOffset: adjustedSelection.extentOffset.clamp(0, textLength),
     );
 
     final clampedComposing = _composingRegion != null &&
@@ -500,6 +511,121 @@ class MarkdownFieldState extends State<MarkdownField>
     }
 
     return plainText;
+  }
+
+  /// Adjusts the selection to ensure links and mentions are selected as a whole
+  /// or not at all. If the selection partially overlaps with a link or mention,
+  /// it will be expanded to include the entire link/mention or contracted to exclude it.
+  ///
+  /// リンクやメンションが全体として選択されるか、まったく選択されないように選択範囲を調整します。
+  TextSelection _adjustSelectionForLinksAndMentions(TextSelection selection) {
+    debugPrint("🔍 _adjustSelectionForLinksAndMentions called: ${selection.start}-${selection.end}");
+    if (selection.isCollapsed || widget.controller.value == null) {
+      debugPrint("  → Skipping: selection is collapsed or controller value is null");
+      return selection;
+    }
+
+    var adjustedStart = selection.start;
+    var adjustedEnd = selection.end;
+    var adjusted = false;
+
+    // Get all link and mention ranges in the document
+    final ranges = <TextRange>[];
+    debugPrint("  → Scanning for link/mention ranges...");
+
+    // Traverse through the document to find all links and mentions
+    if (widget.controller.value!.isNotEmpty) {
+      final field = widget.controller.value!.first;
+      final blocks = field.children;
+      var currentOffset = 0;
+
+      for (final block in blocks) {
+        if (block is MarkdownParagraphBlockValue) {
+          for (final line in block.children) {
+            for (final span in line.children) {
+              final spanStart = currentOffset;
+              final spanEnd = currentOffset + span.value.length;
+
+              // Check if this span has a link or mention property
+              var hasLinkOrMention = false;
+              for (final property in span.properties) {
+                if (property is LinkMarkdownSpanProperty ||
+                    property is MentionMarkdownSpanProperty) {
+                  hasLinkOrMention = true;
+                  break;
+                }
+              }
+
+              if (hasLinkOrMention) {
+                ranges.add(TextRange(start: spanStart, end: spanEnd));
+                debugPrint("    → Found link/mention at $spanStart-$spanEnd: '${span.value}'");
+              }
+
+              currentOffset += span.value.length;
+            }
+          }
+          currentOffset += 1; // newline
+        }
+      }
+    }
+
+    debugPrint("  → Found ${ranges.length} link/mention range(s)");
+
+    // Check each link/mention range
+    for (final range in ranges) {
+      // Check if selection partially overlaps with this range
+      final selectionOverlapsRange = selection.end > range.start && selection.start < range.end;
+
+      if (selectionOverlapsRange) {
+        final isFullySelected = selection.start <= range.start && selection.end >= range.end;
+
+        if (!isFullySelected) {
+          // Partial overlap - decide whether to expand or contract
+
+          // Calculate overlap amount
+          final overlapStart = selection.start > range.start ? selection.start : range.start;
+          final overlapEnd = selection.end < range.end ? selection.end : range.end;
+          final overlapLength = overlapEnd - overlapStart;
+          final rangeLength = range.end - range.start;
+
+          // If more than half is selected, expand to include the whole range
+          // Otherwise, contract to exclude it
+          if (overlapLength > rangeLength / 2) {
+            // Expand selection to include the entire link/mention
+            if (range.start < adjustedStart) {
+              adjustedStart = range.start;
+              adjusted = true;
+            }
+            if (range.end > adjustedEnd) {
+              adjustedEnd = range.end;
+              adjusted = true;
+            }
+          } else {
+            // Contract selection to exclude the link/mention
+            if (selection.start < range.end && selection.start >= range.start) {
+              // Selection starts inside the range - move start to after the range
+              adjustedStart = range.end;
+              adjusted = true;
+            }
+            if (selection.end > range.start && selection.end <= range.end) {
+              // Selection ends inside the range - move end to before the range
+              adjustedEnd = range.start;
+              adjusted = true;
+            }
+          }
+        }
+      }
+    }
+
+    if (adjusted) {
+      debugPrint("📐 Adjusted selection: ${selection.start}-${selection.end} → $adjustedStart-$adjustedEnd");
+      return TextSelection(
+        baseOffset: adjustedStart,
+        extentOffset: adjustedEnd,
+      );
+    }
+
+    return selection;
   }
 
   // TextInputClient implementation
@@ -817,6 +943,21 @@ class MarkdownFieldState extends State<MarkdownField>
     } else {
       // Only selection or composing region changed
       _selection = value.selection;
+      debugPrint("📝 Selection changed: ${_selection.start}-${_selection.end}, isCollapsed=${_selection.isCollapsed}");
+
+      // Auto-adjust selection if it partially overlaps with link/mention
+      // Links and mentions should be selected as a whole or not at all
+      if (!_selection.isCollapsed) {
+        debugPrint("📝 Checking for link/mention overlap adjustment...");
+        final adjustedSelection = _adjustSelectionForLinksAndMentions(_selection);
+        if (adjustedSelection != _selection) {
+          debugPrint("📝 Selection adjusted: ${_selection.start}-${_selection.end} → ${adjustedSelection.start}-${adjustedSelection.end}");
+          _selection = adjustedSelection;
+          _updateRemoteEditingValue();
+        } else {
+          debugPrint("📝 No adjustment needed");
+        }
+      }
 
       // Check if composing just ended (we had composing text, but now composition is invalid)
       if (_composingText != null &&
@@ -1149,6 +1290,7 @@ class MarkdownFieldState extends State<MarkdownField>
       },
       enabled: widget.enabled ?? true,
       readOnly: widget.readOnly,
+      selectionAdjuster: _adjustSelectionForLinksAndMentions,
     );
 
     if (widget.scrollable &&
@@ -1376,6 +1518,7 @@ class MarkdownFieldState extends State<MarkdownField>
     }
 
     // Second pass: find the full range of consecutive spans with the same mention
+    // BUT ONLY within the same block (mentions cannot cross block boundaries)
     currentOffset = 0;
     for (final fieldValue in controllerValue) {
       final blocks = fieldValue.children;
@@ -1384,47 +1527,73 @@ class MarkdownFieldState extends State<MarkdownField>
         if (blockValue is MarkdownParagraphBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
+          final blockStartOffset = currentOffset;
+          var blockEndOffset = currentOffset;
+
+          // Calculate block end offset
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             final line = lines[lineIndex];
             for (final span in line.children) {
-              final spanLength = span.value.length;
-              final spanStart = currentOffset;
-              final spanEnd = currentOffset + spanLength;
-
-              // Check if this span has the same mention
-              var hasTargetMention = false;
-              for (final property in span.properties) {
-                if (property is MentionMarkdownSpanProperty &&
-                    property.mention.id == targetMention.id) {
-                  hasTargetMention = true;
-                  break;
-                }
-              }
-
-              if (hasTargetMention) {
-                // Expand the mention range
-                mentionStart ??= spanStart;
-                mentionEnd = spanEnd;
-              } else if (mentionStart != null) {
-                // We've found the end of the consecutive mention spans
-                if (currentOffset > targetOffset) {
-                  return TextRange(start: mentionStart, end: mentionEnd!);
-                }
-                // Reset for next potential mention range
-                mentionStart = null;
-                mentionEnd = null;
-              }
-
-              currentOffset += spanLength;
+              blockEndOffset += span.value.length;
             }
-            // Add 1 for newline only if this is not the last line in the block
             if (lineIndex < lines.length - 1) {
-              currentOffset += 1;
+              blockEndOffset += 1; // newline within block
             }
           }
-          // Add 1 for newline after each paragraph block (except the last one)
+
+          // Check if target offset is within this block
+          final isTargetInThisBlock = targetOffset >= blockStartOffset && targetOffset < blockEndOffset;
+
+          if (isTargetInThisBlock) {
+            debugPrint("    🔍 Target offset $targetOffset is in block $blockIndex (range: $blockStartOffset-$blockEndOffset)");
+            // Only search within this block
+            var blockLocalOffset = currentOffset;
+            for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+              final line = lines[lineIndex];
+              for (final span in line.children) {
+                final spanLength = span.value.length;
+                final spanStart = blockLocalOffset;
+                final spanEnd = blockLocalOffset + spanLength;
+
+                // Check if this span has the same mention
+                var hasTargetMention = false;
+                for (final property in span.properties) {
+                  if (property is MentionMarkdownSpanProperty &&
+                      property.mention.id == targetMention.id) {
+                    hasTargetMention = true;
+                    break;
+                  }
+                }
+
+                if (hasTargetMention) {
+                  // Expand the mention range
+                  mentionStart ??= spanStart;
+                  mentionEnd = spanEnd;
+                  debugPrint("       → Expanding mention range: $mentionStart-$mentionEnd");
+                } else if (mentionStart != null) {
+                  // We've found the end of the consecutive mention spans within this block
+                  debugPrint("       → Found end of mention, returning range: $mentionStart-$mentionEnd");
+                  return TextRange(start: mentionStart, end: mentionEnd!);
+                }
+
+                blockLocalOffset += spanLength;
+              }
+              if (lineIndex < lines.length - 1) {
+                blockLocalOffset += 1;
+              }
+            }
+
+            // If we reached the end of the block and still have a mention range, return it
+            if (mentionStart != null && mentionEnd != null) {
+              debugPrint("       → Reached end of block, returning range: $mentionStart-$mentionEnd");
+              return TextRange(start: mentionStart, end: mentionEnd);
+            }
+          }
+
+          // Move to next block
+          currentOffset = blockEndOffset;
           if (blockIndex < blocks.length - 1) {
-            currentOffset += 1;
+            currentOffset += 1; // newline between blocks
           }
         }
       }
@@ -1471,6 +1640,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
     this.onDoubleTap,
     this.onTapLink,
     this.onTapMention,
+    this.selectionAdjuster,
   });
 
   final MarkdownController controller;
@@ -1500,6 +1670,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
   final void Function(MarkdownMention mention)? onTapMention;
   final bool enabled;
   final bool readOnly;
+  final TextSelection Function(TextSelection selection)? selectionAdjuster;
 
   @override
   RenderObject createRenderObject(BuildContext context) {
@@ -1531,6 +1702,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       readOnly: readOnly,
       onTapLink: onTapLink,
       onTapMention: onTapMention,
+      selectionAdjuster: selectionAdjuster,
     );
   }
 
@@ -1566,7 +1738,8 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       ..enabled = enabled
       ..readOnly = readOnly
       .._onTapLink = onTapLink
-      .._onTapMention = onTapMention;
+      .._onTapMention = onTapMention
+      .._selectionAdjuster = selectionAdjuster;
   }
 }
 
@@ -1602,6 +1775,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     void Function(Offset globalPosition)? onDoubleTap,
     void Function(Uri link)? onTapLink,
     void Function(MarkdownMention mention)? onTapMention,
+    TextSelection Function(TextSelection selection)? selectionAdjuster,
   })  : _controller = controller,
         _focusNode = focusNode,
         _selection = selection,
@@ -1628,7 +1802,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         _enabled = enabled,
         _readOnly = readOnly,
         _onTapLink = onTapLink,
-        _onTapMention = onTapMention;
+        _onTapMention = onTapMention,
+        _selectionAdjuster = selectionAdjuster;
 
   MarkdownController _controller;
   MarkdownController get controller => _controller;
@@ -1659,7 +1834,14 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     if (_selection == value) {
       return;
     }
-    _selection = value;
+    // Adjust selection if callback provided - this intercepts selection changes
+    // from double-tap and handle drag operations
+    debugPrint("🎯 _RenderMarkdownEditor.selection setter: ${value.start}-${value.end}");
+    final adjustedValue = _selectionAdjuster?.call(value) ?? value;
+    if (adjustedValue != value) {
+      debugPrint("  → Adjusted to: ${adjustedValue.start}-${adjustedValue.end}");
+    }
+    _selection = adjustedValue;
     markNeedsPaint();
   }
 
@@ -1868,6 +2050,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   void Function(Uri link)? _onTapLink;
 
   void Function(MarkdownMention mention)? _onTapMention;
+
+  TextSelection Function(TextSelection selection)? _selectionAdjuster;
 
   bool _enabled;
   bool get enabled => _enabled;
@@ -2901,6 +3085,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     }
 
     // Second pass: find the full range of consecutive spans with the same mention
+    // BUT ONLY within the same block (mentions cannot cross block boundaries)
     debugPrint(
         "   🔍 Second pass: finding full range for mention: ${targetMention.id}");
     currentOffset = 0;
@@ -2911,63 +3096,73 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         if (blockValue is MarkdownParagraphBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
-          debugPrint(
-              "      Paragraph block $blockIndex with ${lines.length} lines");
+          final blockStartOffset = currentOffset;
+          var blockEndOffset = currentOffset;
+
+          // Calculate block end offset
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             final line = lines[lineIndex];
-            debugPrint("      Line $lineIndex (currentOffset=$currentOffset):");
             for (final span in line.children) {
-              final spanLength = span.value.length;
-              final spanStart = currentOffset;
-              final spanEnd = currentOffset + spanLength;
-              debugPrint(
-                  "         Span: '${span.value}' (start=$spanStart, end=$spanEnd)");
-
-              // Check if this span has the same mention
-              var hasTargetMention = false;
-              for (final property in span.properties) {
-                if (property is MentionMarkdownSpanProperty &&
-                    property.mention.id == targetMention.id) {
-                  hasTargetMention = true;
-                  break;
-                }
-              }
-
-              if (hasTargetMention) {
-                // Expand the mention range
-                mentionStart ??= spanStart;
-                mentionEnd = spanEnd;
-                debugPrint(
-                    "         → Has target mention. mentionStart=$mentionStart, mentionEnd=$mentionEnd");
-              } else if (mentionStart != null) {
-                // We've found the end of the consecutive mention spans
-                if (currentOffset > targetOffset) {
-                  debugPrint(
-                      "         → Returning early: TextRange(start: $mentionStart, end: $mentionEnd)");
-                  return TextRange(start: mentionStart, end: mentionEnd!);
-                }
-                // Reset for next potential mention range
-                mentionStart = null;
-                mentionEnd = null;
-              }
-
-              currentOffset += spanLength;
+              blockEndOffset += span.value.length;
             }
-            // Add 1 for newline only if this is not the last line in the block
             if (lineIndex < lines.length - 1) {
-              debugPrint(
-                  "         Adding newline within block (currentOffset: $currentOffset -> ${currentOffset + 1})");
-              currentOffset += 1;
+              blockEndOffset += 1; // newline within block
             }
           }
-          // Add 1 for newline after each paragraph block (except the last one)
+
+          // Check if target offset is within this block
+          final isTargetInThisBlock = targetOffset >= blockStartOffset && targetOffset < blockEndOffset;
+
+          if (isTargetInThisBlock) {
+            debugPrint("    🔍 Target offset $targetOffset is in block $blockIndex (range: $blockStartOffset-$blockEndOffset)");
+            // Only search within this block
+            var blockLocalOffset = currentOffset;
+            for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+              final line = lines[lineIndex];
+              for (final span in line.children) {
+                final spanLength = span.value.length;
+                final spanStart = blockLocalOffset;
+                final spanEnd = blockLocalOffset + spanLength;
+
+                // Check if this span has the same mention
+                var hasTargetMention = false;
+                for (final property in span.properties) {
+                  if (property is MentionMarkdownSpanProperty &&
+                      property.mention.id == targetMention.id) {
+                    hasTargetMention = true;
+                    break;
+                  }
+                }
+
+                if (hasTargetMention) {
+                  // Expand the mention range
+                  mentionStart ??= spanStart;
+                  mentionEnd = spanEnd;
+                  debugPrint("       → Expanding mention range: $mentionStart-$mentionEnd");
+                } else if (mentionStart != null) {
+                  // We've found the end of the consecutive mention spans within this block
+                  debugPrint("       → Found end of mention, returning range: $mentionStart-$mentionEnd");
+                  return TextRange(start: mentionStart, end: mentionEnd!);
+                }
+
+                blockLocalOffset += spanLength;
+              }
+              if (lineIndex < lines.length - 1) {
+                blockLocalOffset += 1;
+              }
+            }
+
+            // If we reached the end of the block and still have a mention range, return it
+            if (mentionStart != null && mentionEnd != null) {
+              debugPrint("       → Reached end of block, returning range: $mentionStart-$mentionEnd");
+              return TextRange(start: mentionStart, end: mentionEnd);
+            }
+          }
+
+          // Move to next block
+          currentOffset = blockEndOffset;
           if (blockIndex < blocks.length - 1) {
-            debugPrint(
-                "      Adding newline after block (currentOffset: $currentOffset -> ${currentOffset + 1})");
-            currentOffset += 1;
-          } else {
-            debugPrint(
-                "      Last block, no newline added (currentOffset stays: $currentOffset)");
+            currentOffset += 1; // newline between blocks
           }
         }
       }
