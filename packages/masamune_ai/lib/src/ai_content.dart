@@ -597,6 +597,7 @@ class AIContent extends ChangeNotifier
     DateTime? time,
     String? id,
     String? userId,
+    Set<AIReference>? references,
   }) {
     return AIContent(
       role: role,
@@ -605,6 +606,7 @@ class AIContent extends ChangeNotifier
       id: id ?? this.id,
       userId: userId ?? this.userId,
       completed: _completer == null,
+      references: references ?? this.references,
     );
   }
 
