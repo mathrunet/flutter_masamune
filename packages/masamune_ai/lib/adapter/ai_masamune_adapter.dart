@@ -22,12 +22,18 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
     this.onGenerateFunctionCallingConfig,
     this.contentFilter,
     this.threadContentSortCallback = defaultThreadContentSortCallback,
+    this.vectorModelAdapter,
   });
 
   /// The default configuration of the AI.
   ///
   /// AIのデフォルト設定。
   final AIConfig defaultConfig;
+
+  /// The adapter for the vector model.
+  ///
+  /// ベクトルモデルのアダプター。
+  final ModelAdapter? vectorModelAdapter;
 
   /// Called when the content is generated.
   ///
