@@ -215,9 +215,9 @@ class _$_VectorModelCollectionQuery
         modelQuery: modelQuery,
       );
 
-  ValueModelQuerySelector<ModelVectorValue, _$_VectorModelCollectionQuery>
-      get vector => ValueModelQuerySelector<ModelVectorValue,
-              _$_VectorModelCollectionQuery>(
+  ModelVectorValueModelQuerySelector<_$_VectorModelCollectionQuery>
+      get vector =>
+          ModelVectorValueModelQuerySelector<_$_VectorModelCollectionQuery>(
             key: "vector",
             toQuery: _toQuery,
             modelQuery: modelQuery,

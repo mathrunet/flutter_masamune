@@ -224,6 +224,22 @@ class QueryConditionValue {
             ..named = true
             ..type = const Reference("List<String>?"),
         );
+      case "queryVector":
+        return Parameter(
+          (p) => p
+            ..name = "${key ?? ""}${type.toPascalCase()}"
+            ..required = true
+            ..named = true
+            ..type = const Reference("List<double>"),
+        );
+      case "measure":
+        return Parameter(
+          (p) => p
+            ..name = "${key ?? ""}${type.toPascalCase()}"
+            ..defaultTo = const Code("VectorDistanceMeasure.cosine")
+            ..named = true
+            ..type = const Reference("VectorDistanceMeasure"),
+        );
       default:
         return Parameter(
           (p) => p

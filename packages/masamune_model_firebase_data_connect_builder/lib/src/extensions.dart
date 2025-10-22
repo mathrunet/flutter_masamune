@@ -540,6 +540,8 @@ extension on String? {
         return "like";
       case "geoHash":
         return "geoHash";
+      case "nearest":
+        return "nearest";
     }
     return "";
   }

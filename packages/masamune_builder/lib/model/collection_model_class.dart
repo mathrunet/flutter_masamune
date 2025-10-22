@@ -69,6 +69,11 @@ enum CollectionQueryType {
   /// `geo`のメソッド。
   geo,
 
+  /// The method  for `nearest`.
+  ///
+  /// `nearest`のメソッド。
+  nearest,
+
   /// The method  for `orderByAsc`.
   ///
   /// `orderByAsc`のメソッド。
@@ -162,6 +167,24 @@ enum CollectionQueryType {
               ..type = const Reference("List<String>?"),
           ),
         ];
+      case CollectionQueryType.nearest:
+        return [
+          Parameter(
+            (p) => p
+              ..name = "key"
+              ..type = Reference(keyName),
+          ),
+          Parameter(
+            (p) => p
+              ..name = "queryVector"
+              ..type = const Reference("List<double>"),
+          ),
+          Parameter(
+            (p) => p
+              ..name = "measure"
+              ..type = const Reference("VectorDistanceMeasure"),
+          ),
+        ];
       case CollectionQueryType.isNull:
       case CollectionQueryType.isNotNull:
       case CollectionQueryType.orderByAsc:
@@ -206,6 +229,8 @@ enum CollectionQueryType {
         return "$name(key.name, values)";
       case CollectionQueryType.geo:
         return "$name(key.name, geoHash)";
+      case CollectionQueryType.nearest:
+        return "$name(key.name, queryVector, measure)";
       case CollectionQueryType.isNull:
       case CollectionQueryType.isNotNull:
       case CollectionQueryType.orderByAsc:
