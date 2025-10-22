@@ -78,13 +78,18 @@ class AgentStep {
   /// Creates an instance of [AgentStep].
   ///
   /// [AgentStep]のインスタンスを生成します。
-  const AgentStep({
-    required this.id,
-    required this.kind,
-    required this.message,
-    required this.time,
-    this.metadata = const {},
-  });
+  const AgentStep(
+      {required this.id,
+      required this.kind,
+      required this.time,
+      this.message,
+      this.tools,
+      this.stackTrace,
+      this.memories,
+      this.contentLength,
+      this.functionCalls
+      // this.metadata = const {},
+      });
 
   /// Unique identifier of the step.
   ///
@@ -99,114 +104,37 @@ class AgentStep {
   /// Human readable message.
   ///
   /// 表示用メッセージ。
-  final String message;
+  final String? message;
 
   /// Timestamp of the step.
   ///
   /// ステップのタイムスタンプ。
   final DateTime time;
 
-  /// Additional metadata.
+  /// Tool names used in the step.
   ///
-  /// 追加メタデータ。
-  final DynamicMap metadata;
-}
+  /// ステップで使用されたツール名。
+  final List<String>? tools;
 
-/// Memory container for [AIAgent].
-///
-/// [AIAgent]のためのメモリコンテナ。
-@immutable
-class AgentMemory {
-  /// Creates an instance of [AgentMemory].
+  /// Stack trace in case of error.
   ///
-  /// [AgentMemory]のインスタンスを生成します。
-  const AgentMemory({
-    this.entries = const [],
-    this.maxEntries = 50,
-  });
+  /// エラー時のスタックトレース。
+  final String? stackTrace;
 
-  /// Stored memory entries.
+  /// Additional memories associated with the step.
   ///
-  /// 保存されたメモリ。
-  final List<String> entries;
+  /// ステップに関連する追加のメモリ。
+  final List<String>? memories;
 
-  /// Maximum number of entries retained.
+  /// Length of the content in the step.
   ///
-  /// 保持する最大件数。
-  final int maxEntries;
+  /// ステップ内のコンテンツの長さ。
+  final int? contentLength;
 
-  /// Records a new [entry] into memory.
+  /// Function calls made during the step.
   ///
-  /// 新しい[entry]をメモリに記録します。
-  AgentMemory record(String entry) {
-    if (entry.isEmpty) {
-      return this;
-    }
-    final updated = [...entries, entry];
-    if (updated.length <= maxEntries) {
-      return AgentMemory(
-          entries: List.unmodifiable(updated), maxEntries: maxEntries);
-    }
-    final trimmed = updated.sublist(updated.length - maxEntries);
-    return AgentMemory(
-        entries: List.unmodifiable(trimmed), maxEntries: maxEntries);
-  }
-
-  /// Merges [other] memory into this instance.
-  ///
-  /// [other]のメモリを現在のメモリに統合します。
-  AgentMemory merge(AgentMemory other) {
-    final merged = [...entries, ...other.entries];
-    if (merged.length <= maxEntries) {
-      return AgentMemory(
-          entries: List.unmodifiable(merged), maxEntries: maxEntries);
-    }
-    final trimmed = merged.sublist(merged.length - maxEntries);
-    return AgentMemory(
-        entries: List.unmodifiable(trimmed), maxEntries: maxEntries);
-  }
-}
-
-/// Final result returned by [AIAgent.run].
-///
-/// [AIAgent.run] が返却する最終結果。
-@immutable
-class AgentRunResult {
-  /// Creates an instance of [AgentRunResult].
-  ///
-  /// [AgentRunResult]のインスタンスを生成します。
-  const AgentRunResult({
-    required this.status,
-    required this.responses,
-    required this.steps,
-    required this.usedTools,
-    required this.memory,
-  });
-
-  /// Final status of the run.
-  ///
-  /// 実行結果のステータス。
-  final AgentStatus status;
-
-  /// Agent responses returned to the caller.
-  ///
-  /// 返却されたエージェントの応答。
-  final List<AIContent> responses;
-
-  /// Recorded steps during the run.
-  ///
-  /// 実行中に記録されたステップ。
-  final List<AgentStep> steps;
-
-  /// Tool names used in the run.
-  ///
-  /// 実行時に利用したツール一覧。
-  final Set<String> usedTools;
-
-  /// Memory state after the run.
-  ///
-  /// 実行完了時のメモリ状態。
-  final AgentMemory memory;
+  /// ステップ中に行われた関数呼び出し。
+  final List<AIContentFunctionCallPart>? functionCalls;
 }
 
 /// Manage interaction with the AI agent.
@@ -247,12 +175,15 @@ class AIAgent
     super.adapter,
     this.config,
     this.promptTemplate,
+    this.vectorMemoryConfig,
     this.enableSearch = false,
     AgentMemory? memory,
   }) : _memory = memory ?? const AgentMemory() {
+    final promptTemplate =
+        this.promptTemplate ?? adapter.defaultAgentPromptTemplate;
     if (promptTemplate != null &&
         !initialContents.any((e) => e.role == AIRole.system)) {
-      final systemPrompt = promptTemplate!.generate();
+      final systemPrompt = promptTemplate.generate();
       _value.add(
         AIContent.system(
           [AIContent.text(systemPrompt)],
@@ -266,7 +197,7 @@ class AIAgent
           time: Clock.now(),
         ),
       );
-      _recordMemory(systemPrompt);
+      _recordMemory(systemPrompt, scheduleVector: false);
     }
     _value.addAll(initialContents);
   }
@@ -297,6 +228,11 @@ class AIAgent
   ///
   /// エージェントのプロンプトテンプレート。
   final AgentPromptTemplate? promptTemplate;
+
+  /// Configuration for vector-based memory.
+  ///
+  /// ベクトルメモリの設定。
+  final AIAgentVectorMemoryConfig? vectorMemoryConfig;
 
   /// If `true`, the search is enabled.
   ///
@@ -331,9 +267,10 @@ class AIAgent
   AgentRunResult? get lastRun => _lastRun;
   AgentRunResult? _lastRun;
 
-  static const int _maxRecordedSteps = 100;
-
   Completer<void>? _initializeCompleter;
+  Future<void>? _vectorMemoryQueue;
+  List<String> _lastInjectedMemories = const [];
+  String? _memoryContextContentId;
 
   /// Result of interaction with AI.
   ///
@@ -376,11 +313,8 @@ class AIAgent
       AgentStep(
         id: uuid(),
         kind: AgentStepKind.system,
-        message: "Initializing agent",
         time: Clock.now(),
-        metadata: {
-          "tools": tools.map((e) => e.name).toList(),
-        },
+        tools: tools.map((e) => e.name).toList(),
       ),
     );
     _notify();
@@ -401,9 +335,7 @@ class AIAgent
           kind: AgentStepKind.error,
           message: e.toString(),
           time: Clock.now(),
-          metadata: {
-            "stackTrace": stackTrace.toString(),
-          },
+          stackTrace: stackTrace.toString(),
         ),
       );
       _initializeCompleter?.completeError(e, stackTrace);
@@ -412,6 +344,11 @@ class AIAgent
     } finally {
       _initializeCompleter = null;
       _notify();
+    }
+    final vectorMemoryConfig =
+        this.vectorMemoryConfig ?? adapter.defaultAgentVectorMemoryConfig;
+    if (vectorMemoryConfig != null) {
+      unawaited(_recallVectorMemory(contents: const []));
     }
   }
 
@@ -455,15 +392,296 @@ class AIAgent
 
   void _registerStep(AgentStep step) {
     _steps.add(step);
-    if (_steps.length > _maxRecordedSteps) {
-      _steps.removeRange(0, _steps.length - _maxRecordedSteps);
+    if (_steps.length > adapter.maxAgentRecordStep) {
+      _steps.removeRange(0, _steps.length - adapter.maxAgentRecordStep);
     }
   }
 
-  void _recordMemory(String entry) {
-    final updated = _memory.record(entry);
+  void _recordMemory(String entry, {bool scheduleVector = true}) {
+    final trimmed = entry.trim();
+    if (trimmed.isEmpty) {
+      return;
+    }
+    final updated = _memory.record(trimmed);
     if (!identical(_memory, updated)) {
       _memory = updated;
+    }
+    if (scheduleVector) {
+      _scheduleVectorMemoryProcessing(trimmed);
+    }
+  }
+
+  void _scheduleVectorMemoryProcessing(String entry) {
+    final config = vectorMemoryConfig ?? adapter.defaultAgentVectorMemoryConfig;
+    if (config == null) {
+      return;
+    }
+    _vectorMemoryQueue = (_vectorMemoryQueue ?? Future.value())
+        .then(
+      (_) => _storeVectorMemory(entry),
+      onError: (_) {},
+    )
+        .catchError((error, stackTrace) {
+      debugPrint(
+        "AIAgent: Failed to store vector memory. $error\n$stackTrace",
+      );
+    });
+  }
+
+  Future<void> _storeVectorMemory(String entry) async {
+    final config = vectorMemoryConfig ?? adapter.defaultAgentVectorMemoryConfig;
+    if (config == null) {
+      return;
+    }
+    final normalized = entry.trim();
+    if (normalized.length < config.minChunkLength) {
+      return;
+    }
+    final chunks = _chunkText(normalized, config);
+    if (chunks.isEmpty) {
+      return;
+    }
+    final collection = AIMasamuneAdapter.appRef.model(
+      VectorModel.collection(
+        adapter: adapter.vectorModelAdapter,
+        agentId: threadId,
+      ),
+    );
+    final seen = <String>{};
+    for (final chunk in chunks.take(config.maxChunksPerEntry)) {
+      if (!seen.add(chunk)) {
+        continue;
+      }
+      try {
+        final embedding = await adapter.createEmbedding(chunk);
+        if (embedding == null || embedding.isEmpty) {
+          continue;
+        }
+        final document = collection.create();
+        await document.save(
+          VectorModel(
+            agentId: threadId,
+            content: chunk,
+            vector: ModelVectorValue.fromList(embedding),
+            createdAt: const ModelTimestamp.now(),
+          ),
+        );
+      } catch (error, stackTrace) {
+        debugPrint(
+          "AIAgent: Failed to save vector memory. $error\n$stackTrace",
+        );
+      }
+    }
+  }
+
+  List<String> _chunkText(String text, AIAgentVectorMemoryConfig config) {
+    final sanitized = text.replaceAll(RegExp(r"\s+"), " ").trim();
+    if (sanitized.isEmpty) {
+      return const [];
+    }
+    if (sanitized.length <= config.chunkSize) {
+      return [sanitized];
+    }
+    final chunkSize = config.chunkSize;
+    final overlap = config.safeChunkOverlap;
+    final chunks = <String>[];
+    var start = 0;
+    var safety = 0;
+    while (start < sanitized.length &&
+        chunks.length < config.maxChunksPerEntry &&
+        safety < 1000) {
+      final end = math.min(start + chunkSize, sanitized.length);
+      final chunk = sanitized.substring(start, end).trim();
+      if (chunk.length >= config.minChunkLength) {
+        chunks.add(chunk);
+      }
+      if (end >= sanitized.length) {
+        break;
+      }
+      final nextStart = end - overlap;
+      if (nextStart <= start) {
+        start = end;
+      } else {
+        start = nextStart;
+      }
+      safety++;
+    }
+    if (chunks.isEmpty && sanitized.isNotEmpty) {
+      return [sanitized];
+    }
+    return chunks;
+  }
+
+  Future<void> _recallVectorMemory({
+    required List<AIContent> contents,
+  }) async {
+    final config = vectorMemoryConfig ?? adapter.defaultAgentVectorMemoryConfig;
+    if (config == null) {
+      return;
+    }
+    final queryText = _composeQueryText(contents, config);
+    if (queryText.isEmpty) {
+      _injectMemoryPrompt(const []);
+      return;
+    }
+    List<double>? embedding;
+    try {
+      embedding = await adapter.createEmbedding(queryText);
+    } catch (error, stackTrace) {
+      debugPrint(
+        "AIAgent: Failed to create query embedding. $error\n$stackTrace",
+      );
+      embedding = null;
+    }
+    if (embedding == null || embedding.isEmpty) {
+      return;
+    }
+    final collection = AIMasamuneAdapter.appRef.model(
+      VectorModel.collection(agentId: threadId)
+          .vector
+          .nearest(
+            embedding,
+            measure: config.measure,
+          )
+          .limitTo(config.recallLimit),
+    );
+    try {
+      await collection.load();
+    } catch (error, stackTrace) {
+      debugPrint(
+        "AIAgent: Failed to load vector memories. $error\n$stackTrace",
+      );
+      return;
+    }
+    if (collection.isEmpty) {
+      _injectMemoryPrompt(const []);
+      return;
+    }
+    final memories = <String>[];
+    for (final doc in collection) {
+      if (doc.value == null) {
+        continue;
+      }
+      try {
+        final targetThreadId = doc.value?.agentId;
+        if (targetThreadId != null && targetThreadId != threadId) {
+          continue;
+        }
+        final content = doc.value?.content.trim();
+        if (content != null && content.isNotEmpty) {
+          memories.add(content);
+        }
+      } catch (error, stackTrace) {
+        debugPrint(
+          "AIAgent: Failed to parse vector memory. $error\n$stackTrace",
+        );
+      }
+    }
+    _injectMemoryPrompt(memories);
+    if (memories.isNotEmpty && !listEquals(_lastInjectedMemories, memories)) {
+      _registerStep(
+        AgentStep(
+          id: uuid(),
+          kind: AgentStepKind.system,
+          message: "Recalled ${memories.length} memory entries.",
+          time: Clock.now(),
+          memories: memories.take(config.recallLimit).toList(),
+        ),
+      );
+    }
+  }
+
+  String _composeQueryText(
+    List<AIContent> contents,
+    AIAgentVectorMemoryConfig config,
+  ) {
+    final collected = <String>[];
+    for (final content in contents) {
+      final text = _contentToPlainText(content);
+      if (text != null) {
+        collected.add(text);
+      }
+    }
+    if (collected.isEmpty) {
+      final previousUserMessages = _value.reversed
+          .where((element) => element.role == AIRole.user)
+          .map(_contentToPlainText)
+          .whereType<String>()
+          .take(3)
+          .toList()
+          .reversed;
+      collected.addAll(previousUserMessages);
+    }
+    return collected.join("\n\n").trim();
+  }
+
+  String? _contentToPlainText(AIContent content) {
+    final buffer = <String>[];
+    for (final part in content.value) {
+      if (part is AIContentTextPart) {
+        buffer.add(part.text);
+      } else if (part is AIContentJsonPart) {
+        buffer.add(jsonEncode(part.json));
+      }
+    }
+    if (buffer.isEmpty) {
+      return null;
+    }
+    final text = buffer.join("\n").trim();
+    return text.isEmpty ? null : text;
+  }
+
+  void _injectMemoryPrompt(List<String> memories) {
+    final config = vectorMemoryConfig ?? adapter.defaultAgentVectorMemoryConfig;
+    if (config == null) {
+      return;
+    }
+    final normalized = memories
+        .map((e) => e.trim())
+        .where((element) => element.isNotEmpty)
+        .toList();
+    if (listEquals(_lastInjectedMemories, normalized)) {
+      return;
+    }
+    var changed = false;
+    if (_memoryContextContentId != null) {
+      final before = _value.length;
+      _value.removeWhere((element) => element.id == _memoryContextContentId);
+      if (_value.length != before) {
+        changed = true;
+      }
+      _memoryContextContentId = null;
+    }
+    if (normalized.isEmpty) {
+      _lastInjectedMemories = const [];
+      if (changed) {
+        _notify();
+      }
+      return;
+    }
+    final prompt = config.buildMemoryPrompt(normalized);
+    if (prompt.isEmpty) {
+      _lastInjectedMemories = const [];
+      if (changed) {
+        _notify();
+      }
+      return;
+    }
+    final content = AIContent(
+      role: AIRole.system,
+      time: Clock.now().subtract(const Duration(milliseconds: 1)),
+      values: [
+        AIContentTextPart(prompt),
+      ],
+      completed: true,
+    );
+    _memoryContextContentId = content.id;
+    _value.add(content);
+    _value.sort(adapter.threadContentSortCallback);
+    _lastInjectedMemories = List.unmodifiable(normalized);
+    changed = true;
+    if (changed) {
+      _notify();
     }
   }
 
@@ -541,14 +759,13 @@ class AIAgent
           kind: AgentStepKind.user,
           message: message,
           time: Clock.now(),
-          metadata: {
-            "count": contents.length,
-          },
+          contentLength: message.length,
         ),
       );
       _recordMemory(message);
       _notify();
     }
+    await _recallVectorMemory(contents: contents);
     try {
       _value.removeWhere((e) {
         if (e.value.isEmpty) {
@@ -586,16 +803,7 @@ class AIAgent
                 kind: AgentStepKind.toolCall,
                 message: activeToolNames.join(", "),
                 time: Clock.now(),
-                metadata: {
-                  "calls": functionCalls
-                      .map(
-                        (e) => {
-                          "name": e.name,
-                          "arguments": e.args,
-                        },
-                      )
-                      .toList(),
-                },
+                functionCalls: functionCalls.clone(),
               ),
             );
             _notify();
@@ -626,9 +834,7 @@ class AIAgent
                     kind: AgentStepKind.toolResult,
                     message: res.toString(),
                     time: Clock.now(),
-                    metadata: {
-                      "tool": call.name,
-                    },
+                    tools: [call.name],
                   ),
                 );
                 _recordMemory(res.toString());
@@ -700,12 +906,10 @@ class AIAgent
           kind: AgentStepKind.error,
           message: e.toString(),
           time: Clock.now(),
-          metadata: {
-            "stackTrace": stackTrace.toString(),
-          },
+          stackTrace: stackTrace.toString(),
         ),
       );
-      _recordMemory(e.toString());
+      _recordMemory(e.toString(), scheduleVector: false);
       _lastRun = AgentRunResult(
         status: _status,
         responses: List.unmodifiable(value),
@@ -727,6 +931,9 @@ class AIAgent
     if (resetMemory) {
       _memory = const AgentMemory();
     }
+    _memoryContextContentId = null;
+    _lastInjectedMemories = const [];
+    _vectorMemoryQueue = null;
     _lastRun = null;
     _setStatus(AgentStatus.idle);
     _notify();
@@ -745,6 +952,7 @@ class _$AIAgentQuery {
     List<AIContent> initialContents = const [],
     AgentPromptTemplate? promptTemplate,
     AgentMemory? memory,
+    AIAgentVectorMemoryConfig? vectorMemoryConfig,
   }) =>
       _$_AIAgentQuery(
         threadId,
@@ -753,6 +961,7 @@ class _$AIAgentQuery {
         initialContents: initialContents,
         promptTemplate: promptTemplate,
         memory: memory,
+        vectorMemoryConfig: vectorMemoryConfig,
       );
 }
 
@@ -765,6 +974,7 @@ class _$_AIAgentQuery extends ControllerQueryBase<AIAgent> {
     this.adapter,
     this.promptTemplate,
     this.memory,
+    this.vectorMemoryConfig,
   });
 
   final String _name;
@@ -773,6 +983,7 @@ class _$_AIAgentQuery extends ControllerQueryBase<AIAgent> {
   final AIMasamuneAdapter? adapter;
   final AgentPromptTemplate? promptTemplate;
   final AgentMemory? memory;
+  final AIAgentVectorMemoryConfig? vectorMemoryConfig;
 
   @override
   AIAgent Function() call(Ref ref) {
@@ -783,6 +994,7 @@ class _$_AIAgentQuery extends ControllerQueryBase<AIAgent> {
           initialContents: initialContents,
           promptTemplate: promptTemplate,
           memory: memory,
+          vectorMemoryConfig: vectorMemoryConfig,
         );
   }
 

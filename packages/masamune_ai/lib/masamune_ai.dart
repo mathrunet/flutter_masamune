@@ -13,6 +13,7 @@ library;
 // Dart imports:
 import "dart:async";
 import "dart:convert";
+import "dart:math" as math;
 
 // Flutter imports:
 import "package:flutter/foundation.dart";
@@ -20,6 +21,7 @@ import "package:flutter/widgets.dart";
 
 // Package imports:
 import "package:masamune/masamune.dart";
+import "package:masamune_ai/models/vector.dart";
 
 part "adapter/ai_masamune_adapter.dart";
 part "adapter/runtime_ai_masamune_adapter.dart";
@@ -36,6 +38,7 @@ part "src/ai_config.dart";
 part "src/ai_file_type.dart";
 part "src/ai_tool.dart";
 part "src/ai_function_call_config.dart";
+part "src/ai_agent_memory.dart";
 
 part "tools/agent_ai_local_tool.dart";
 part "tools/echo_ai_local_tool.dart";

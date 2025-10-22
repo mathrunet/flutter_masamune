@@ -64,4 +64,19 @@ class RuntimeAIMasamuneAdapter extends AIMasamuneAdapter {
     res?.complete();
     return res;
   }
+
+  @override
+  Future<List<double>?> createEmbedding(String text) async {
+    final normalized = text.trim();
+    if (normalized.isEmpty) {
+      return null;
+    }
+    const dimension = 12;
+    final bytes = utf8.encode(normalized);
+    final result = List<double>.filled(dimension, 0);
+    for (var i = 0; i < bytes.length; i++) {
+      result[i % dimension] += bytes[i] / 255.0;
+    }
+    return result;
+  }
 }

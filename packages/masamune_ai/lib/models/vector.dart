@@ -14,13 +14,15 @@ part "vector.freezed.dart";
 @freezed
 @formValue
 @immutable
-@CollectionModelPath("vector",
+@CollectionModelPath("agent/:agent_id/vector",
     adapter: "AIMasamuneAdapter.primary.vectorModelAdapter")
 abstract class VectorModel with _$VectorModel {
   /// Value for model.
   const factory VectorModel({
+    required String agentId,
     required String content,
     required ModelVectorValue vector,
+    @Default(ModelTimestamp.now()) ModelTimestamp createdAt,
   }) = _VectorModel;
   const VectorModel._();
 

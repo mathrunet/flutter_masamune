@@ -15,7 +15,7 @@ extension on VectorModel {
   }
 }
 
-enum _$VectorModelKeys { content, vector }
+enum _$VectorModelKeys { agentId, content, vector, createdAt }
 
 class _$VectorModelDocument extends DocumentBase<VectorModel>
     with ModelRefMixin<VectorModel> {
@@ -68,12 +68,15 @@ typedef _$VectorModelMirrorCollection = _$VectorModelCollection;
 
 @immutable
 class _$VectorModelRefPath extends ModelRefPath<VectorModel> {
-  const _$VectorModelRefPath(super.uid);
+  const _$VectorModelRefPath(super.uid, {required String agentId})
+      : _agentId = agentId;
+
+  final String _agentId;
 
   @override
   DocumentModelQuery get modelQuery {
     return DocumentModelQuery(
-      "vector/${path.trimQuery().trimString("/")}",
+      "agent/$_agentId/vector/${path.trimQuery().trimString("/")}",
       adapter: adapter,
     );
   }
@@ -82,10 +85,13 @@ class _$VectorModelRefPath extends ModelRefPath<VectorModel> {
 @immutable
 class _$VectorModelInitialCollection
     extends ModelInitialCollection<VectorModel> {
-  const _$VectorModelInitialCollection(super.value);
+  const _$VectorModelInitialCollection(super.value, {required String agentId})
+      : _agentId = agentId;
+
+  final String _agentId;
 
   @override
-  String get path => "vector";
+  String get path => "agent/$_agentId/vector";
 
   @override
   DynamicMap toMap(VectorModel value) => value.rawValue;
@@ -98,13 +104,14 @@ class _$VectorModelDocumentQuery {
   @useResult
   _$_VectorModelDocumentQuery call(
     Object _id, {
+    required String agentId,
     ModelAdapter? adapter,
     bool useTestModelAdapter = true,
     ModelAccessQuery? accessQuery,
   }) {
     return _$_VectorModelDocumentQuery(
       DocumentModelQuery(
-        "vector/$_id",
+        "agent/$agentId/vector/$_id",
         adapter: adapter ?? _$VectorModelDocument.defaultModelAdapter,
         useTestModelAdapter: useTestModelAdapter,
         accessQuery:
@@ -115,7 +122,9 @@ class _$VectorModelDocumentQuery {
   }
 
   RegExp get regExp {
-    return RegExp(r"^vector/([^/]+)$".trimQuery().trimString("/"));
+    return RegExp(
+      r"^agent/([^/]+)/vector/([^/]+)$".trimQuery().trimString("/"),
+    );
   }
 
   bool hasMatchPath(String path) {
@@ -144,13 +153,14 @@ class _$VectorModelCollectionQuery {
 
   @useResult
   _$_VectorModelCollectionQuery call({
+    required String agentId,
     bool useTestModelAdapter = true,
     ModelAdapter? adapter,
     ModelAccessQuery? accessQuery,
   }) {
     return _$_VectorModelCollectionQuery(
       CollectionModelQuery(
-        "vector",
+        "agent/$agentId/vector",
         adapter: adapter ?? _$VectorModelCollection.defaultModelAdapter,
         useTestModelAdapter: useTestModelAdapter,
         accessQuery:
@@ -161,7 +171,7 @@ class _$VectorModelCollectionQuery {
   }
 
   RegExp get regExp {
-    return RegExp(r"^vector$".trimQuery().trimString("/"));
+    return RegExp(r"^agent/([^/]+)/vector$".trimQuery().trimString("/"));
   }
 
   bool hasMatchPath(String path) {
@@ -208,6 +218,13 @@ class _$_VectorModelCollectionQuery
         modelQuery: modelQuery,
       );
 
+  StringModelQuerySelector<_$_VectorModelCollectionQuery> get agentId =>
+      StringModelQuerySelector<_$_VectorModelCollectionQuery>(
+        key: "agentId",
+        toQuery: _toQuery,
+        modelQuery: modelQuery,
+      );
+
   StringModelQuerySelector<_$_VectorModelCollectionQuery> get content =>
       StringModelQuerySelector<_$_VectorModelCollectionQuery>(
         key: "content",
@@ -219,6 +236,14 @@ class _$_VectorModelCollectionQuery
       get vector =>
           ModelVectorValueModelQuerySelector<_$_VectorModelCollectionQuery>(
             key: "vector",
+            toQuery: _toQuery,
+            modelQuery: modelQuery,
+          );
+
+  ModelTimestampModelQuerySelector<_$_VectorModelCollectionQuery>
+      get createdAt =>
+          ModelTimestampModelQuerySelector<_$_VectorModelCollectionQuery>(
+            key: "createdAt",
             toQuery: _toQuery,
             modelQuery: modelQuery,
           );
