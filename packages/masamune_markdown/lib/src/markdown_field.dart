@@ -449,7 +449,8 @@ class MarkdownFieldState extends State<MarkdownField>
     _closeInputConnectionIfNeeded();
     // Open a new connection
     _openInputConnection();
-    debugPrint("✅ Input connection reopened: _hasInputConnection=$_hasInputConnection");
+    debugPrint(
+        "✅ Input connection reopened: _hasInputConnection=$_hasInputConnection");
   }
 
   void _closeInputConnectionIfNeeded() {
@@ -463,7 +464,8 @@ class MarkdownFieldState extends State<MarkdownField>
       _textInputConnection != null && _textInputConnection!.attached;
 
   void _updateRemoteEditingValue() {
-    debugPrint("🔄 _updateRemoteEditingValue called: _hasInputConnection=$_hasInputConnection");
+    debugPrint(
+        "🔄 _updateRemoteEditingValue called: _hasInputConnection=$_hasInputConnection");
     if (!_hasInputConnection) {
       debugPrint("   ⚠️ Early return: no input connection");
       return;
@@ -472,7 +474,8 @@ class MarkdownFieldState extends State<MarkdownField>
     final text = _getPlainText();
     final textLength = text.length;
 
-    debugPrint("   ✅ Processing: textLength=$textLength, selection=${_selection.start}-${_selection.end}");
+    debugPrint(
+        "   ✅ Processing: textLength=$textLength, selection=${_selection.start}-${_selection.end}");
 
     // Auto-adjust selection if it partially overlaps with link/mention
     // This catches selection changes from double-tap and handle drag operations
@@ -1089,11 +1092,13 @@ class MarkdownFieldState extends State<MarkdownField>
 
   @override
   void performAction(TextInputAction action) {
-    debugPrint("🎬 performAction called: action=$action, readOnly=${widget.readOnly}");
+    debugPrint(
+        "🎬 performAction called: action=$action, readOnly=${widget.readOnly}");
     switch (action) {
       case TextInputAction.newline:
         if (!widget.readOnly) {
-          debugPrint("⏎ Handling newline action at offset ${_selection.baseOffset}");
+          debugPrint(
+              "⏎ Handling newline action at offset ${_selection.baseOffset}");
           // Insert a new paragraph at the current cursor position
           widget.controller.insertNewLine(_selection.baseOffset);
 
@@ -2332,15 +2337,15 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
           // Apply indent
           final indentWidth = block.indent * _controller.style.indentWidth;
-          padding = padding.copyWith(left: padding.left + indentWidth);
-
-          // Add extra padding for marker
-          padding = padding.copyWith(left: padding.left + block.markerWidth);
+          padding = padding.copyWith(
+              left: padding.left + indentWidth + _controller.style.indentWidth);
 
           // Build base text style
+          final foregroundColor = _controller.style.list.foregroundColor ??
+              _theme.colorScheme.onSurface;
           final baseStyle = _controller.style.list.textStyle ?? _style;
           final baseTextStyle = baseStyle.copyWith(
-            color: _controller.style.list.foregroundColor ?? baseStyle.color,
+            color: foregroundColor,
           );
 
           // Build TextSpan tree with individual styles for each span
@@ -2386,10 +2391,42 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
             strutStyle: _strutStyle,
           );
 
-          // Create marker info
-          final markerInfo = _MarkerInfo(
-            symbol: "• ",
-            width: block.markerWidth,
+          // Create marker info with indent-based symbol
+          void Function(Canvas canvas, Offset offset)? markerSymbol;
+          final markerIndent = block.indent % 3;
+          switch (markerIndent) {
+            case 0:
+              markerSymbol = (canvas, offset) {
+                canvas.drawCircle(offset, 4, Paint()..color = foregroundColor);
+              };
+              break;
+            case 1:
+              markerSymbol = (canvas, offset) {
+                canvas.drawCircle(
+                    offset,
+                    4,
+                    Paint()
+                      ..style = PaintingStyle.stroke
+                      ..strokeWidth = 2
+                      ..color = foregroundColor);
+              };
+              break;
+            default:
+              markerSymbol = (canvas, offset) {
+                canvas.drawRect(
+                  Rect.fromCenter(
+                    center: offset,
+                    width: 8,
+                    height: 8,
+                  ),
+                  Paint()..color = foregroundColor,
+                );
+              };
+              break;
+          }
+          final markerInfo = MarkerInfo(
+            markerBuilder: markerSymbol,
+            width: _controller.style.indentWidth,
           );
 
           layouts.add(_BlockLayout(
@@ -2636,17 +2673,13 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           offset.dy + layout.offset.dy,
         );
 
-        // Get text style (use list style if available, otherwise use base style)
-        final markerStyle = _controller.style.list.textStyle ?? _style;
-
         // Create marker painter
-        final markerPainter = TextPainter(
-          text: TextSpan(text: layout.marker!.symbol, style: markerStyle),
-          textDirection: _textDirection,
+        layout.marker?.markerBuilder?.call(
+          canvas,
+          markerOffset +
+              Offset(layout.marker!.width / 3,
+                  layout.painter.preferredLineHeight / 2),
         );
-
-        markerPainter.layout();
-        markerPainter.paint(canvas, markerOffset);
       }
 
       // Draw text
@@ -3753,7 +3786,7 @@ class _BlockLayout {
   /// Marker information for list blocks.
   ///
   /// リストブロックのマーカー情報。
-  final _MarkerInfo? marker;
+  final MarkerInfo? marker;
 
   /// Offset where this block is positioned.
   ///
@@ -3769,16 +3802,24 @@ class _BlockLayout {
 /// Information about a list marker.
 ///
 /// リストマーカーに関する情報。
-class _MarkerInfo {
-  _MarkerInfo({
-    required this.symbol,
+class MarkerInfo {
+  /// Information about a list marker.
+  ///
+  /// リストマーカーに関する情報。
+  const MarkerInfo({
+    required this.markerBuilder,
     required this.width,
   });
+
+  /// Builder function to draw the marker.
+  ///
+  /// マーカーを描画するためのビルダーファンクション。
+  final void Function(Canvas canvas, Offset offset)? markerBuilder;
 
   /// The marker symbol (e.g., "• ").
   ///
   /// マーカーシンボル(例: "• ")。
-  final String symbol;
+  // final String symbol;
 
   /// Width of the marker area.
   ///

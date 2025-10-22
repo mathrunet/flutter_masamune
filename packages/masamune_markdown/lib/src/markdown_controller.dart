@@ -1160,15 +1160,18 @@ class MarkdownController extends MasamuneControllerBase<
   /// ブロックがインデントを増やすことができるかどうかを確認します。
   bool get canIncreaseIndent {
     if (_field == null) {
+      debugPrint("🔍 canIncreaseIndent: _field == null");
       return false;
     }
 
     final selection = _field!._selection;
     if (!selection.isValid) {
+      debugPrint("🔍 canIncreaseIndent: selection.isValid == false");
       return false;
     }
 
     if (_value.isEmpty) {
+      debugPrint("🔍 canIncreaseIndent: _value.isEmpty");
       return false;
     }
 
@@ -1176,12 +1179,15 @@ class MarkdownController extends MasamuneControllerBase<
     final blocks = field.children;
 
     if (blocks.isEmpty) {
+      debugPrint("🔍 canIncreaseIndent: blocks.isEmpty");
       return false;
     }
 
     // Find which blocks are selected
     final selectedBlocks = _getSelectedBlocks(selection.start, selection.end);
+    debugPrint("🔍 canIncreaseIndent: selectedBlocks=$selectedBlocks");
     if (selectedBlocks.isEmpty) {
+      debugPrint("🔍 canIncreaseIndent: selectedBlocks.isEmpty");
       return false;
     }
 
@@ -1191,11 +1197,14 @@ class MarkdownController extends MasamuneControllerBase<
         continue;
       }
       final block = blocks[blockIndex];
+      debugPrint("🔍 canIncreaseIndent: block[$blockIndex]=${block.runtimeType}, indent=${block.indent}");
       if (block.indent < 5) {
+        debugPrint("✅ canIncreaseIndent: true");
         return true;
       }
     }
 
+    debugPrint("❌ canIncreaseIndent: false (all blocks have indent >= 5)");
     return false;
   }
 
@@ -1268,6 +1277,8 @@ class MarkdownController extends MasamuneControllerBase<
         if (block.indent < 5) {
           if (block is MarkdownParagraphBlockValue) {
             blocks[blockIndex] = block.copyWith(indent: block.indent + 1);
+          } else if (block is MarkdownBulletedListBlockValue) {
+            blocks[blockIndex] = block.copyWith(indent: block.indent + 1);
           }
         }
       }
@@ -1305,6 +1316,8 @@ class MarkdownController extends MasamuneControllerBase<
         if (block.indent > 0) {
           if (block is MarkdownParagraphBlockValue) {
             blocks[blockIndex] = block.copyWith(indent: block.indent - 1);
+          } else if (block is MarkdownBulletedListBlockValue) {
+            blocks[blockIndex] = block.copyWith(indent: block.indent - 1);
           }
         }
       }
@@ -1333,14 +1346,22 @@ class MarkdownController extends MasamuneControllerBase<
 
     for (var i = 0; i < blocks.length; i++) {
       final block = blocks[i];
+      List<MarkdownLineValue>? blockChildren;
+
       if (block is MarkdownParagraphBlockValue) {
+        blockChildren = block.children;
+      } else if (block is MarkdownBulletedListBlockValue) {
+        blockChildren = block.children;
+      }
+
+      if (blockChildren != null) {
         final blockText = StringBuffer();
-        for (var j = 0; j < block.children.length; j++) {
-          final line = block.children[j];
+        for (var j = 0; j < blockChildren.length; j++) {
+          final line = blockChildren[j];
           for (final span in line.children) {
             blockText.write(span.value);
           }
-          if (j < block.children.length - 1) {
+          if (j < blockChildren.length - 1) {
             blockText.writeln();
           }
         }
@@ -1618,6 +1639,7 @@ class MarkdownController extends MasamuneControllerBase<
     final newField = field.copyWith(children: blocks);
     _value[0] = newField;
 
+    debugPrint("🔄 exchangeBlock→${newBlock.runtimeType}");
     notifyListeners();
   }
 
@@ -2717,9 +2739,10 @@ class MarkdownController extends MasamuneControllerBase<
         debugPrint("     Last block type: ${lastBlock.runtimeType}");
 
         if (lastBlock is MarkdownBulletedListBlockValue) {
-          debugPrint("  → Creating new BulletedList block (inheriting from last block)");
+          debugPrint("  → Creating new BulletedList block (inheriting from last block, indent=${lastBlock.indent})");
           newBlock = MarkdownBulletedListBlockValue(
             id: uuid(),
+            indent: lastBlock.indent, // Inherit indent level
             children: [
               MarkdownLineValue(
                 id: uuid(),
@@ -2846,7 +2869,7 @@ class MarkdownController extends MasamuneControllerBase<
         ));
       }
 
-      // Create block with text before cursor (preserving properties and block type)
+      // Create block with text before cursor (preserving properties, block type, and indent)
       final MarkdownBlockValue beforeBlock;
       if (oldBlock is MarkdownParagraphBlockValue) {
         beforeBlock = MarkdownParagraphBlockValue(
@@ -2861,6 +2884,7 @@ class MarkdownController extends MasamuneControllerBase<
       } else if (oldBlock is MarkdownBulletedListBlockValue) {
         beforeBlock = MarkdownBulletedListBlockValue(
           id: oldBlock.id,
+          indent: oldBlock.indent, // Preserve indent level
           children: [
             MarkdownLineValue(
               id: uuid(),
@@ -2882,14 +2906,15 @@ class MarkdownController extends MasamuneControllerBase<
       }
 
       // Create new block with text after cursor
-      // For BulletedList blocks, inherit the block type (inheritPropertyOnNewLine behavior)
+      // For BulletedList blocks, inherit the block type and indent level
       // For other blocks, create a paragraph
       final MarkdownBlockValue afterBlock;
       if (oldBlock is MarkdownBulletedListBlockValue) {
-        debugPrint("  → Creating new BulletedList block (inheriting block type)");
-        // Inherit BulletedList block type on new line
+        debugPrint("  → Creating new BulletedList block (inheriting block type and indent=${oldBlock.indent})");
+        // Inherit BulletedList block type and indent level on new line
         afterBlock = MarkdownBulletedListBlockValue(
           id: uuid(),
+          indent: oldBlock.indent, // Inherit indent level
           children: [
             MarkdownLineValue(
               id: uuid(),

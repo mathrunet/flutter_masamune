@@ -35,12 +35,12 @@ class IndentUpMarkdownPrimaryTools extends MarkdownPrimaryTools {
 
   @override
   bool enabled(BuildContext context, MarkdownToolRef ref) {
-    return ref.selection != null;
+    return ref.selection != null && ref.controller.canIncreaseIndent;
   }
 
   @override
   bool actived(BuildContext context, MarkdownToolRef ref) {
-    return ref.controller.canIncreaseIndent;
+    return true;
   }
 
   @override

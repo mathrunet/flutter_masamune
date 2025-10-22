@@ -576,7 +576,6 @@ class MarkdownBulletedListBlockValue extends MarkdownBlockValue {
     required super.id,
     required this.children,
     super.indent = 0,
-    this.markerWidth = 20.0,
   });
 
   /// Create a [MarkdownBulletedListBlockValue] from a [DynamicMap].
@@ -586,7 +585,6 @@ class MarkdownBulletedListBlockValue extends MarkdownBlockValue {
     return MarkdownBulletedListBlockValue(
       id: json.get(MarkdownValue.idKey, ""),
       indent: json.get(MarkdownValue.indentKey, 0),
-      markerWidth: json.get("markerWidth", 20.0),
       children: json
           .getAsList<DynamicMap>(MarkdownValue.childrenKey, [])
           .map(MarkdownLineValue.fromJson)
@@ -616,18 +614,12 @@ class MarkdownBulletedListBlockValue extends MarkdownBlockValue {
   /// マークダウンのブロックの子要素。
   final List<MarkdownLineValue> children;
 
-  /// The width of the list marker ("• ").
-  ///
-  /// リストマーカー("• ")の幅。
-  final double markerWidth;
-
   @override
   DynamicMap toJson() {
     return {
       MarkdownValue.idKey: id,
       MarkdownValue.typeKey: type,
       MarkdownValue.indentKey: indent,
-      "markerWidth": markerWidth,
       MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
     };
   }
@@ -680,13 +672,12 @@ class MarkdownBulletedListBlockValue extends MarkdownBlockValue {
     String? id,
     int? indent,
     List<MarkdownLineValue>? children,
-    double? markerWidth,
+    bool? hasMarker,
   }) {
     return MarkdownBulletedListBlockValue(
       id: id ?? this.id,
       indent: indent ?? this.indent,
       children: children ?? this.children,
-      markerWidth: markerWidth ?? this.markerWidth,
     );
   }
 
@@ -699,13 +690,12 @@ class MarkdownBulletedListBlockValue extends MarkdownBlockValue {
         other.id == id &&
         other.type == type &&
         children.equalsTo(other.children) &&
-        other.indent == indent &&
-        other.markerWidth == markerWidth;
+        other.indent == indent;
   }
 
   @override
   int get hashCode {
-    var hash = super.hashCode ^ markerWidth.hashCode;
+    var hash = super.hashCode;
     for (final child in children) {
       hash = hash ^ child.hashCode;
     }
@@ -714,7 +704,7 @@ class MarkdownBulletedListBlockValue extends MarkdownBlockValue {
 
   @override
   String toString() {
-    return "MarkdownBulletedListBlockValue(children: $children, indent: $indent, markerWidth: $markerWidth)";
+    return "MarkdownBulletedListBlockValue(children: $children, indent: $indent)";
   }
 }
 
