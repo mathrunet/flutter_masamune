@@ -96,15 +96,30 @@
           );
         }
         ```
-2. `Widget`のゴールデンテスト用の画像ファイルの生成
-    - `Widget`のテストを新しく作成した場合や`Widget`の更新を行った場合、下記のコマンドでゴールデンテスト用の画像ファイルを生成する。
-        - 新規に作成したり更新していない`Widget`の場合は画像ファイルは作成しない。
+2. `Widget`のUI確認
+    - `Widget`のテストを新しく作成した場合や`Widget`の更新を行った場合の確認方法。
 
+    ### 開発中の素早いUI確認
+    - 下記のコマンドで素早くUI確認用の画像ファイルを生成できます（推奨）。
+        ```bash
+        katana code debug [Widget名],[Widget名],...
+        ```
+        - 出力先: `documents/debugs/**/*.png`
+        - 特徴: 数秒で完了、頻繁な確認に最適
+        - 例:
+            ```bash
+            katana code debug MemoTileWidget,MemoLoaderWidget
+            ```
+
+    ### コミット前の最終確認（⚠️時間がかかる）
+    - コミット前の最終確認時のみ、下記のコマンドでゴールデンテスト用の画像ファイルを生成します。
+    - **注意**: Docker使用のため時間がかかります。完了直前に1度だけ実行してください。
         ```bash
         katana test update [Widget名],[Widget名],...
         ```
-
-        - 例
+        - 出力先: `documents/test/**/*.png`
+        - 特徴: Docker使用で時間がかかる、コミット前に1度だけ実行
+        - 例:
             ```bash
             katana test update MemoTileWidget,MemoLoaderWidget
             ```

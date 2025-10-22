@@ -21,3 +21,4 @@
 | `SquareAvatar` | `CircleAvatar`の四角版として使用可能なウィジェット。角丸調整可能な四角形・角丸四角形のアバター表示を提供し、背景色と背景画像をレイヤーシステムでサポート。 | Usage(`documents/rules/katana_ui/square_avatar.md`) |
 | `SnsContentTile` | SNSのコンテンツを表示するウィジェット。プロフィールアバター、ユーザー名、ハンドル/タイムスタンプ、投稿内容、アクションボタンを含むソーシャルメディアスタイルの投稿レイアウトを提供。 | Usage(`documents/rules/katana_ui/sns_content_tile.md`) |
 | `SnsImage` | SNSスタイルのレイアウトで複数の画像を表示するウィジェット。画像枚数に応じて自動的に最適なグリッドレイアウトを適用し、タップイベントにも対応。 | Usage(`documents/rules/katana_ui/sns_image.md`) |
+| `CachedImageBuilder` | ウィジェットを画像としてキャッシュし、高速表示。複雑なウィジェットを事前レンダリングして画像ファイルとして保存し、パフォーマンスを向上させる。 | Usage(`documents/rules/katana_ui/cached_image_builder.md`) |

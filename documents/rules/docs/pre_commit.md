@@ -14,12 +14,15 @@
         ```
 
     3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。ErrorやWarningがあれば修正して再度実行。ErrorやWarningがなくなるまで繰り返す。
+        - **重要**: このコマンドはDocker使用のため時間がかかります。コミット前に1度だけ実行してください。
+        - 開発中のUI確認には`katana code debug [クラス名]`を使用してください（素早く確認できます）。
         - 各種UIが更新されているにも関わらずこのステップが実行されない場合は`katana test run`でエラーになります。
 
         ```bash
         katana test update [テスト対象のクラス名],[テスト対象のクラス名],...
         ```
 
+        - 出力先: `documents/test/**/*.png`
         - 例:
             ```bash
             katana test update TestPage,TestWidget,TestModel
