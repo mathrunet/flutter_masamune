@@ -256,6 +256,7 @@ List<Spec> collectionModelClass(
   GoogleSpreadSheetValue googleSpreadSheetValue,
 ) {
   final searchable = model.parameters.where((e) => e.isSearchable).toList();
+  final vectorSearchable = model.parameters.where((e) => e.isVector).toList();
 
   return [
     Class(
@@ -267,7 +268,9 @@ List<Spec> collectionModelClass(
             "FilterableCollectionMixin<_\$${model.name}Document, _\$_${model.name}CollectionQuery>",
           ),
           if (searchable.isNotEmpty)
-            Reference("SearchableCollectionMixin<_\$${model.name}Document>")
+            Reference("SearchableCollectionMixin<_\$${model.name}Document>"),
+          if (vectorSearchable.isNotEmpty)
+            Reference("VectorCollectionMixin<_\$${model.name}Document>")
         ])
         ..constructors.addAll([
           Constructor(
@@ -381,7 +384,10 @@ List<Spec> collectionModelClass(
             ),
             if (searchable.isNotEmpty)
               Reference(
-                  "SearchableCollectionMixin<_\$${model.name}MirrorDocument>")
+                  "SearchableCollectionMixin<_\$${model.name}MirrorDocument>"),
+            if (vectorSearchable.isNotEmpty)
+              Reference(
+                  "VectorCollectionMixin<_\$${model.name}MirrorDocument>"),
           ])
           ..constructors.addAll([
             Constructor(

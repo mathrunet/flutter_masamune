@@ -4,9 +4,9 @@ part of "/katana_model.dart";
 ///
 /// By mixing this in with `with`, you can make documents searchable, enabling queries such as "finding elements similar to a specific string" when querying collections.
 ///
-/// Bigram data for search is stored in `[vectorValueFieldKey]`.
+/// Bigram data for search is stored in [vectorValueFieldKey].
 ///
-/// Text for the vector data to be searched is created using `[buildSearchText]`. If you want to search multiple items, combine all strings and return them as a single string.
+/// Text for the vector data to be searched is created using [buildVectorText]. If you want to search multiple items, combine all strings and return them as a single string.
 ///
 /// ドキュメントを類似度検索の対象にするためのミックスイン。
 ///
@@ -14,10 +14,10 @@ part of "/katana_model.dart";
 ///
 /// [vectorValueFieldKey]に検索用のBigramのデータを格納します。
 ///
-/// [buildSearchText]で検索対象のベクトルデータにするためのテキストを作成します。複数の項目を検索対象にしたい場合、すべての文字列を合成し１つの文字列として返してください。
+/// [buildVectorText]で検索対象のベクトルデータにするためのテキストを作成します。複数の項目を検索対象にしたい場合、すべての文字列を合成し１つの文字列として返してください。
 ///
 /// ```dart
-/// String buildSearchText(User user){
+/// String buildVectorText(User user){
 ///   return user.name + user.description;
 /// }
 /// ```
@@ -44,7 +44,7 @@ part of "/katana_model.dart";
 ///   }
 ///
 ///   @override
-///   String buildSearchText(DynamicMap value) {
+///   String buildVectorText(DynamicMap value) {
 ///     return value.get("name", "") + value.get("text", "");
 ///   }
 /// }
@@ -89,12 +89,12 @@ mixin VectorDocumentMixin<T> on DocumentBase<T> {
   /// 検索対象の文字列を作成します。複数の項目を検索対象にしたい場合、すべての文字列を合成し１つの文字列として返してください。
   ///
   /// ```dart
-  /// String buildSearchText(User user){
+  /// String buildVectorText(User user){
   ///   return user.name + user.description;
   /// }
   /// ```
   @protected
-  String buildSearchText(T value);
+  String buildVectorText(T value);
 
   @override
   @protected
@@ -108,14 +108,14 @@ mixin VectorDocumentMixin<T> on DocumentBase<T> {
       vectorValueFieldKey.isNotEmpty,
       "[vectorValueFieldKey] is empty. Please specify a non-empty string.",
     );
-    final searchText = buildSearchText(fromMap(rawData));
-    if (searchText.isEmpty) {
+    final vectorText = buildVectorText(fromMap(rawData));
+    if (vectorText.isEmpty) {
       return super.filterOnSave(rawData);
     }
     return super.filterOnSave(
       Map.unmodifiable(<String, dynamic>{
         ...rawData,
-        vectorValueFieldKey: vectorConverter.toVector(searchText),
+        vectorValueFieldKey: vectorConverter.toVector(vectorText),
       }),
     );
   }
@@ -131,12 +131,12 @@ mixin VectorDocumentMixin<T> on DocumentBase<T> {
       vectorValueFieldKey.isNotEmpty,
       "[vectorValueFieldKey] is empty. Please specify a non-empty string.",
     );
-    final searchText = buildSearchText(fromMap(map));
+    final vectorText = buildVectorText(fromMap(map));
     return await modelQuery.adapter.saveDocument(
       databaseQuery,
       Map.unmodifiable(<String, dynamic>{
         ...map,
-        vectorValueFieldKey: vectorConverter.toVector(searchText),
+        vectorValueFieldKey: vectorConverter.toVector(vectorText),
       }),
     );
   }

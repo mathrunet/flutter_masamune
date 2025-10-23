@@ -20,7 +20,7 @@ class VectorRuntimeMapDocumentModel extends DocumentBase<DynamicMap>
   DynamicMap toMap(DynamicMap value) => value;
 
   @override
-  String buildSearchText(DynamicMap value) {
+  String buildVectorText(DynamicMap value) {
     return value.get("name", "") + value.get("text", "");
   }
 }
@@ -59,7 +59,7 @@ class VectorRuntimeTestValueDocumentModel extends DocumentBase<TestValue>
   DynamicMap toMap(TestValue value) => value.toJson();
 
   @override
-  String buildSearchText(TestValue value) {
+  String buildVectorText(TestValue value) {
     return (value.name ?? "") + (value.text ?? "");
   }
 }
@@ -70,7 +70,7 @@ class VectorRuntimeTestValueRawCollectionModel
   VectorRuntimeTestValueRawCollectionModel(this.path, super.value);
 
   @override
-  String buildSearchText(TestValue value) {
+  String buildVectorText(TestValue value) {
     return (value.name ?? "") + (value.text ?? "");
   }
 

@@ -99,6 +99,10 @@ class RuleValue {
           if (param.isSearchable && !paramList.contains("isSearchable(data)")) {
             paramList.add("isSearchable(data)");
           }
+          if (param.isVector &&
+              !paramList.contains("isVectorSearchable(data)")) {
+            paramList.add("isVectorSearchable(data)");
+          }
           if (param.isJsonSerializable) {
             if (param.type.isDartCoreList || param.type.isDartCoreSet) {
               paramList.add(

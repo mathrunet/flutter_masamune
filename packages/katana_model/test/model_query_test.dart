@@ -5343,7 +5343,7 @@ void main() {
       ],
     );
     expect(
-      query.seekIndex(
+      await query.seekIndex(
         await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
@@ -5357,7 +5357,7 @@ void main() {
       2,
     );
     expect(
-      query.seekIndex(
+      await query.seekIndex(
         await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
@@ -5371,7 +5371,7 @@ void main() {
       4,
     );
     expect(
-      query.seekIndex(
+      await query.seekIndex(
         await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
@@ -5391,7 +5391,7 @@ void main() {
       ],
     );
     expect(
-      query.seekIndex(
+      await query.seekIndex(
         await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
@@ -5405,7 +5405,7 @@ void main() {
       2,
     );
     expect(
-      query.seekIndex(
+      await query.seekIndex(
         await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
@@ -5419,7 +5419,7 @@ void main() {
       0,
     );
     expect(
-      query.seekIndex(
+      await query.seekIndex(
         await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),

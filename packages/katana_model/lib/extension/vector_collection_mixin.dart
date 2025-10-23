@@ -48,7 +48,7 @@ part of "/katana_model.dart";
 ///   }
 ///
 ///   @override
-///   String buildSearchText(DynamicMap value) {
+///   String buildVectorText(DynamicMap value) {
 ///     return value.get("name", "") + value.get("text", "");
 ///   }
 /// }
@@ -98,7 +98,7 @@ mixin VectorCollectionMixin<TModel extends VectorDocumentMixin>
         ModelQueryFilter._(
           type: ModelQueryFilterType.nearest,
           key: vectorValueFieldKey,
-          value: searchText,
+          value: vectorText,
         ),
       ],
       adapter: modelQuery.adapter,
@@ -111,21 +111,21 @@ mixin VectorCollectionMixin<TModel extends VectorDocumentMixin>
   @protected
   String get vectorValueFieldKey => defaultVectorValueFieldKey;
 
-  /// Performs a similarity search within the collection using [searchText].
+  /// Performs a similarity search within the collection using [vectorText].
   ///
   /// Internally, [reload] is performed, and the search results are returned as [CollectionBase].
   ///
   /// It is not possible to filter or sort and return values using keys from [CollectionModelQuery] in conjunction with the search.
   ///
-  /// [searchText]でコレクション内の類似度検索を行います。
+  /// [vectorText]でコレクション内の類似度検索を行います。
   ///
   /// 内部で[reload]され検索結果が[CollectionBase]で返されます。
   ///
   /// 検索と併せて[CollectionModelQuery]のキーを用いたフィルタリングやソートして値を返すことはできません。
-  Future<CollectionBase<TModel>> nearest(String searchText) async {
+  Future<CollectionBase<TModel>> nearest(String vectorText) async {
     final existsFilter = _modelQuery.filters
         .firstWhereOrNull((item) => item.type == ModelQueryFilterType.nearest);
-    if (existsFilter?.value?.toString() == searchText) {
+    if (existsFilter?.value?.toString() == vectorText) {
       return this;
     }
     _databaseQuery = null;
@@ -137,7 +137,7 @@ mixin VectorCollectionMixin<TModel extends VectorDocumentMixin>
         ModelQueryFilter._(
           type: ModelQueryFilterType.nearest,
           key: vectorValueFieldKey,
-          value: searchText,
+          value: vectorText,
         ),
       ],
       adapter: modelQuery.adapter,
@@ -152,7 +152,7 @@ mixin VectorCollectionMixin<TModel extends VectorDocumentMixin>
   /// 現在検索されているテキストを取得します。
   ///
   /// 設定されていない場合は空文字として取得されます。
-  String get searchText {
+  String get vectorText {
     final existsFilter = _modelQuery.filters
         .firstWhereOrNull((item) => item.type == ModelQueryFilterType.nearest);
     return existsFilter?.value?.toString() ?? "";
