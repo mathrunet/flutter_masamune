@@ -24,6 +24,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
     this.emptyWhenThrowError = false,
     this.headers = defaultHeaders,
     this.checkError = defaultCheckError,
+    this.vectorConverter = const RuntimeVectorConverter(),
   }) : _database = database;
 
   /// Designated database. Please use for testing purposes, etc.
@@ -86,6 +87,9 @@ abstract class RestApiModelAdapter extends ModelAdapter {
   /// レスポンスがエラーの場合は空のデータを返します。
   final bool emptyWhenThrowError;
 
+  @override
+  final VectorConverter  vectorConverter;
+
   /// A function that returns the headers.
   ///
   /// ヘッダーを返します。
@@ -113,7 +117,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
       try {
         final values = await collectionBuilder.process(query, this);
         final limitValue = NoSqlDatabase.limitValue(query);
-        final entries = query.query.sort(
+        final entries = await query.query.sort(
           values
               .toList(
                 (key, value) {

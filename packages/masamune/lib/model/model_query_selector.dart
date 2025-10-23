@@ -251,26 +251,19 @@ mixin _NotWhereQuerySelectorMixin<T, TQuery extends ModelQueryBase>
 
 mixin _NearestQuerySelectorMixin<T, TQuery extends ModelQueryBase>
     on ModelQuerySelector<T, TQuery> {
-  /// Find vectors similar to [queryVector] using vector similarity search.
-  ///
-  /// You can specify the distance measure with [measure]. The default is cosine similarity.
+  /// Find vectors similar to [text] using vector similarity search and sort them by proximity.
   ///
   /// Use [limitTo] to limit the number of results.
   ///
-  /// ベクトル類似度検索を使用して[queryVector]に類似したベクトルを見つけます。
+  /// ベクトル類似度検索を使用して[text]に類似したベクトルを見つけ近い順にソートします。
   ///
-  /// [measure]で距離測定方法を指定できます。デフォルトはコサイン類似度です。
-  ///
-  /// [limitTo]で結果の数を制限します。
-  TQuery nearest(
-    List<double> queryVector, {
-    VectorDistanceMeasure measure = VectorDistanceMeasure.cosine,
-  }) {
-    if (queryVector.isEmpty) {
+  /// [limitTo]で結果の数を制限してください。
+  TQuery nearest(String? text) {
+    if (text.isEmpty) {
       return _toQuery(_modelQuery);
     }
     return _toQuery(
-      _modelQuery.nearest(key, queryVector, measure: measure),
+      _modelQuery.nearest(key, text),
     );
   }
 }

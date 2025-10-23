@@ -48,6 +48,9 @@ class AlgoliaModelAdapter extends ModelAdapter {
   /// AlgoliaのAPIキー。
   final String apiKey;
 
+  @override
+  VectorConverter get vectorConverter => const PassVectorConverter();
+
   /// A special class can be registered as a [ModelFieldValue] by passing [FirestoreModelFieldValueConverter] to [converter].
   ///
   /// [FirestoreModelFieldValueConverter]を[converter]に渡すことで特殊なクラスを[ModelFieldValue]として登録することができます。

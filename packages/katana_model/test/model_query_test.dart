@@ -5027,7 +5027,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.sort", () {
+  test("ModelQuery.sort", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5035,14 +5035,15 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         const [
           MapEntry("dddd", {"count": 10, "text": "a"}),
           MapEntry("dddd", {"count": 4, "text": "a"}),
           MapEntry("dddd", {"count": 8, "text": "a"}),
           MapEntry("dddd", {"count": 1, "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       const [
         MapEntry("dddd", {"count": 1, "text": "a"}),
         MapEntry("dddd", {"count": 4, "text": "a"}),
@@ -5057,14 +5058,15 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         const [
           MapEntry("dddd", {"count": 10, "text": "a"}),
           MapEntry("dddd", {"count": 4, "text": "a"}),
           MapEntry("dddd", {"count": 8, "text": "a"}),
           MapEntry("dddd", {"count": 1, "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       const [
         MapEntry("dddd", {"count": 10, "text": "a"}),
         MapEntry("dddd", {"count": 8, "text": "a"}),
@@ -5073,7 +5075,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.sort.ModelCounter", () {
+  test("ModelQuery.sort.ModelCounter", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5081,14 +5083,15 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         const [
           MapEntry("dddd", {"count": ModelCounter(10), "text": "a"}),
           MapEntry("dddd", {"count": ModelCounter(4), "text": "a"}),
           MapEntry("dddd", {"count": ModelCounter(8), "text": "a"}),
           MapEntry("dddd", {"count": ModelCounter(1), "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       const [
         MapEntry("dddd", {"count": ModelCounter(1), "text": "a"}),
         MapEntry("dddd", {"count": ModelCounter(4), "text": "a"}),
@@ -5103,7 +5106,7 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           MapEntry(
               "dddd", {"count": const ModelCounter(10).toJson(), "text": "a"}),
@@ -5114,7 +5117,8 @@ void main() {
           MapEntry(
               "dddd", {"count": const ModelCounter(1).toJson(), "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         MapEntry(
             "dddd", {"count": const ModelCounter(10).toJson(), "text": "a"}),
@@ -5127,7 +5131,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.sort.ModelTimestamp", () {
+  test("ModelQuery.sort.ModelTimestamp", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5135,7 +5139,7 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           MapEntry("dddd",
               {"time": ModelTimestamp(DateTime(2010, 1, 1)), "text": "a"}),
@@ -5146,7 +5150,8 @@ void main() {
           MapEntry("dddd",
               {"time": ModelTimestamp(DateTime(2001, 1, 1)), "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         MapEntry("dddd",
             {"time": ModelTimestamp(DateTime(2001, 1, 1)), "text": "a"}),
@@ -5165,7 +5170,7 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           MapEntry("dddd", {
             "time": ModelTimestamp(DateTime(2010, 1, 1)).toJson(),
@@ -5184,7 +5189,8 @@ void main() {
             "text": "a"
           }),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         MapEntry("dddd", {
           "time": ModelTimestamp(DateTime(2010, 1, 1)).toJson(),
@@ -5205,7 +5211,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.sort.ModelDate", () {
+  test("ModelQuery.sort.ModelDate", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5213,7 +5219,7 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           MapEntry(
               "dddd", {"time": ModelDate(DateTime(2010, 1, 1)), "text": "a"}),
@@ -5224,7 +5230,8 @@ void main() {
           MapEntry(
               "dddd", {"time": ModelDate(DateTime(2001, 1, 1)), "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         MapEntry(
             "dddd", {"time": ModelDate(DateTime(2001, 1, 1)), "text": "a"}),
@@ -5243,7 +5250,7 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           MapEntry("dddd",
               {"time": ModelDate(DateTime(2010, 1, 1)).toJson(), "text": "a"}),
@@ -5254,7 +5261,8 @@ void main() {
           MapEntry("dddd",
               {"time": ModelDate(DateTime(2001, 1, 1)).toJson(), "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         MapEntry("dddd",
             {"time": ModelDate(DateTime(2010, 1, 1)).toJson(), "text": "a"}),
@@ -5267,7 +5275,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.sort.ModelTime", () {
+  test("ModelQuery.sort.ModelTime", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5275,7 +5283,7 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           const MapEntry(
               "dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
@@ -5286,7 +5294,8 @@ void main() {
           const MapEntry(
               "dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         const MapEntry("dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
         const MapEntry("dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
@@ -5301,7 +5310,7 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           const MapEntry(
               "dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
@@ -5312,7 +5321,8 @@ void main() {
           const MapEntry(
               "dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         MapEntry("dddd",
             {"time": const ModelTime.time(12, 1, 3).toJson(), "text": "a"}),
@@ -5325,7 +5335,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.seekIndex", () {
+  test("ModelQuery.seekIndex", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5334,7 +5344,7 @@ void main() {
     );
     expect(
       query.seekIndex(
-        query.sort(
+        await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
             MapEntry("dddd", {"count": 4, "text": "a"}),
@@ -5348,7 +5358,7 @@ void main() {
     );
     expect(
       query.seekIndex(
-        query.sort(
+        await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
             MapEntry("dddd", {"count": 4, "text": "a"}),
@@ -5362,7 +5372,7 @@ void main() {
     );
     expect(
       query.seekIndex(
-        query.sort(
+        await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
             MapEntry("dddd", {"count": 4, "text": "a"}),
@@ -5382,7 +5392,7 @@ void main() {
     );
     expect(
       query.seekIndex(
-        query.sort(
+        await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
             MapEntry("dddd", {"count": 4, "text": "a"}),
@@ -5396,7 +5406,7 @@ void main() {
     );
     expect(
       query.seekIndex(
-        query.sort(
+        await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
             MapEntry("dddd", {"count": 4, "text": "a"}),
@@ -5410,7 +5420,7 @@ void main() {
     );
     expect(
       query.seekIndex(
-        query.sort(
+        await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
             MapEntry("dddd", {"count": 4, "text": "a"}),
@@ -5818,6 +5828,7 @@ void main() {
       const TestValue(name: "2", en: TestEnum.a),
     ]);
   });
+
   test("ModelQuery.ModelVectorValue", () {
     const vector1 = VectorValue(vector: [1.0, 2.0, 3.0]);
     const vector2 = VectorValue(vector: [4.0, 5.0, 6.0]);
@@ -5858,7 +5869,47 @@ void main() {
     expect(query.hasMatchAsObject(null), false);
     expect(query.hasMatchAsObject(const ModelVectorValue(vector1)), true);
   });
-  test("ModelQuery.sort.ModelVectorValue", () {
+  test("ModelQuery.ModelVectorValue", () {
+    const vector1 = VectorValue(vector: [1.0, 2.0, 3.0]);
+    const vector2 = VectorValue(vector: [4.0, 5.0, 6.0]);
+    const vector3 = VectorValue(vector: [1.0, 2.0, 3.0]); // Same as vector1
+    var query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(key: "vector", value: ModelVectorValue(vector1)),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector1)), true);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector2)), false);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector3)), true);
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notEqual(
+            key: "vector", value: ModelVectorValue(vector1)),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector1)), false);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector2)), true);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector3)), false);
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.isNull(key: "vector"),
+      ],
+    );
+    expect(query.hasMatchAsObject(null), true);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector1)), false);
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.isNotNull(key: "vector"),
+      ],
+    );
+    expect(query.hasMatchAsObject(null), false);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector1)), true);
+  });
+  test("ModelQuery.sort.ModelVectorValue", () async {
     // Test with different dimensions
     const shortVector = VectorValue(vector: [1.0]);
     const mediumVector1 = VectorValue(vector: [5.0, 6.0]);
@@ -5873,14 +5924,15 @@ void main() {
     );
     // Sort by vector length first, then by first element
     expect(
-      query.sort(
+      (await query.sort(
         const [
           MapEntry("dddd", {"vector": ModelVectorValue(longVector)}),
           MapEntry("dddd", {"vector": ModelVectorValue(mediumVector1)}),
           MapEntry("dddd", {"vector": ModelVectorValue(shortVector)}),
           MapEntry("dddd", {"vector": ModelVectorValue(mediumVector2)}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       const [
         MapEntry("dddd", {"vector": ModelVectorValue(shortVector)}),
         MapEntry("dddd", {"vector": ModelVectorValue(mediumVector2)}),
@@ -5896,14 +5948,15 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         const [
           MapEntry("dddd", {"vector": ModelVectorValue(shortVector)}),
           MapEntry("dddd", {"vector": ModelVectorValue(mediumVector2)}),
           MapEntry("dddd", {"vector": ModelVectorValue(longVector)}),
           MapEntry("dddd", {"vector": ModelVectorValue(mediumVector1)}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       const [
         MapEntry("dddd", {"vector": ModelVectorValue(longVector)}),
         MapEntry("dddd", {"vector": ModelVectorValue(mediumVector1)}),
@@ -5920,115 +5973,25 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           MapEntry(
               "dddd", {"vector": const ModelVectorValue(longVector).toJson()}),
           MapEntry("dddd",
               {"vector": const ModelVectorValue(mediumVector1).toJson()}),
-          MapEntry("dddd",
-              {"vector": const ModelVectorValue(shortVector).toJson()}),
+          MapEntry(
+              "dddd", {"vector": const ModelVectorValue(shortVector).toJson()}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         MapEntry(
             "dddd", {"vector": const ModelVectorValue(shortVector).toJson()}),
-        MapEntry("dddd",
-            {"vector": const ModelVectorValue(mediumVector1).toJson()}),
+        MapEntry(
+            "dddd", {"vector": const ModelVectorValue(mediumVector1).toJson()}),
         MapEntry(
             "dddd", {"vector": const ModelVectorValue(longVector).toJson()}),
       ].toString(),
     );
-  });
-  test("ModelQuery.nearest.ModelVectorValue", () {
-    // Query vector pointing in positive x direction
-    const queryVector = [1.0, 0.0, 0.0];
-
-    // Test vectors with different similarity to queryVector
-    const similarVector =
-        VectorValue(vector: [0.9, 0.1, 0.0]); // Very similar to query
-    const oppositeVector =
-        VectorValue(vector: [-1.0, 0.0, 0.0]); // Opposite direction
-    const orthogonalVector =
-        VectorValue(vector: [0.0, 1.0, 0.0]); // Perpendicular
-    const farVector =
-        VectorValue(vector: [10.0, 10.0, 10.0]); // Far but same direction
-
-    // Test cosine similarity (default)
-    final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
-    var query = CollectionModelQuery(
-      "aaaa",
-      adapter: adapter,
-    ).nearest("vector", queryVector);
-    var sorted = query.sort(
-      const [
-        MapEntry("1", {"vector": ModelVectorValue(orthogonalVector)}),
-        MapEntry("2", {"vector": ModelVectorValue(oppositeVector)}),
-        MapEntry("3", {"vector": ModelVectorValue(similarVector)}),
-        MapEntry("4", {"vector": ModelVectorValue(farVector)}),
-      ],
-    );
-    // Cosine similarity: similar(~1.0) > far(~0.7) > orthogonal(0) > opposite(-1.0)
-    expect(sorted[0].key, "3"); // similarVector (highest cosine)
-    expect(sorted[1].key, "4"); // farVector
-    expect(sorted[2].key, "1"); // orthogonalVector
-    expect(sorted[3].key, "2"); // oppositeVector (lowest cosine)
-
-    // Test euclidean distance
-    query = CollectionModelQuery(
-      "aaaa",
-      adapter: adapter,
-    ).nearest("vector", queryVector, measure: VectorDistanceMeasure.euclidean);
-    sorted = query.sort(
-      const [
-        MapEntry("1", {"vector": ModelVectorValue(farVector)}),
-        MapEntry("2", {"vector": ModelVectorValue(similarVector)}),
-        MapEntry("3", {"vector": ModelVectorValue(orthogonalVector)}),
-        MapEntry("4", {"vector": ModelVectorValue(oppositeVector)}),
-      ],
-    );
-    // Euclidean: closer vectors should be first (negated so higher = better)
-    // Distance: similar(~0.14) < orthogonal(~1.41) < opposite(2.0) < far(~16.76)
-    expect(sorted[0].key, "2"); // similarVector (closest, ~0.14)
-    expect(sorted[1].key, "3"); // orthogonalVector (~1.41)
-    expect(sorted[2].key, "4"); // oppositeVector (2.0)
-    expect(sorted[3].key, "1"); // farVector (farthest, ~16.76)
-
-    // Test dot product
-    query = CollectionModelQuery(
-      "aaaa",
-      adapter: adapter,
-    ).nearest("vector", queryVector, measure: VectorDistanceMeasure.dotProduct);
-    sorted = query.sort(
-      const [
-        MapEntry("1", {"vector": ModelVectorValue(orthogonalVector)}),
-        MapEntry("2", {"vector": ModelVectorValue(oppositeVector)}),
-        MapEntry("3", {"vector": ModelVectorValue(similarVector)}),
-        MapEntry("4", {"vector": ModelVectorValue(farVector)}),
-      ],
-    );
-    // Dot product: farVector(10.0) > similarVector(0.9) > orthogonal(0) > opposite(-1.0)
-    expect(sorted[0].key, "4"); // farVector (highest dot product)
-    expect(sorted[1].key, "3"); // similarVector
-    expect(sorted[2].key, "1"); // orthogonalVector
-    expect(sorted[3].key, "2"); // oppositeVector (negative)
-
-    // Test with dimension mismatch (should handle gracefully)
-    const mismatchVector = VectorValue(vector: [1.0, 2.0]); // 2D vector
-    query = CollectionModelQuery(
-      "aaaa",
-      adapter: adapter,
-    ).nearest("vector", queryVector); // 3D query vector
-    sorted = query.sort(
-      const [
-        MapEntry("1", {"vector": ModelVectorValue(similarVector)}),
-        MapEntry("2", {"vector": ModelVectorValue(mismatchVector)}),
-        MapEntry("3", {"vector": ModelVectorValue(orthogonalVector)}),
-      ],
-    );
-    // Dimension mismatch should be sorted last (negative infinity similarity)
-    expect(sorted[0].key, "1"); // similarVector
-    expect(sorted[1].key, "3"); // orthogonalVector
-    expect(sorted[2].key, "2"); // mismatchVector (dimension mismatch)
   });
 }

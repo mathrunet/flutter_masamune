@@ -501,23 +501,15 @@ class CollectionModelQuery extends ModelQuery {
     ]);
   }
 
-  /// Find vectors similar to [queryVector] using vector similarity search.
-  ///
-  /// You can specify the distance measure with [measure]. The default is cosine similarity.
+  /// Find vectors similar to [text] using vector similarity search and sort them by proximity.
   ///
   /// Use [limitTo] to limit the number of results.
   ///
-  /// ベクトル類似度検索を使用して[queryVector]に類似したベクトルを見つけます。
-  ///
-  /// [measure]で距離測定方法を指定できます。デフォルトはコサイン類似度です。
+  /// ベクトル類似度検索を使用して[text]に類似したベクトルを見つけ近い順にソートします。
   ///
   /// [limitTo]で結果の数を制限してください。
-  CollectionModelQuery nearest(
-    String key,
-    List<double> queryVector, {
-    VectorDistanceMeasure measure = VectorDistanceMeasure.cosine,
-  }) {
-    if (queryVector.isEmpty) {
+  CollectionModelQuery nearest(String key, String? text) {
+    if (text == null || text.isEmpty) {
       return this;
     }
     return _copyWithAddingFilter(filters: [
@@ -525,10 +517,7 @@ class CollectionModelQuery extends ModelQuery {
       ModelQueryFilter._(
         type: ModelQueryFilterType.nearest,
         key: key,
-        value: VectorValue(
-          vector: queryVector,
-          measure: measure,
-        ),
+        value: text,
       )
     ]);
   }
@@ -872,19 +861,23 @@ class ModelQuery {
   /// [data]を[filters]の設定に従ってソートします。
   ///
   /// 戻り値は[data]とは違うオブジェクトが返されます。
-  List<MapEntry<String, DynamicMap>> sort(
+  Future<List<MapEntry<String, DynamicMap>>> sort(
     List<MapEntry<String, DynamicMap>> data,
-  ) {
+  ) async {
     if (data.isEmpty) {
       return data;
     }
 
-    // Check for nearest filter first (vector similarity search)
-    final nearestFilter = filters.firstWhereOrNull(
-      (item) => item.type == ModelQueryFilterType.nearest,
-    );
-    if (nearestFilter != null) {
-      return _sortByVectorSimilarity(data, nearestFilter);
+    final nearest = filters
+        .firstWhereOrNull((item) => item.type == ModelQueryFilterType.nearest);
+    if (nearest != null) {
+      final key = nearest.key;
+      final text = nearest.value as String?;
+      if (key == null || key.isEmpty || text == null || text.isEmpty) {
+        return data;
+      }
+      final converter = adapter.vectorConverter;
+      return await converter.sortByNearest(data, key, text);
     }
 
     // Existing orderBy logic
@@ -910,49 +903,6 @@ class ModelQuery {
       default:
         return data;
     }
-  }
-
-  /// Sort data by vector similarity using the nearest filter.
-  ///
-  /// ベクトル類似度を使用してデータをソートします。
-  List<MapEntry<String, DynamicMap>> _sortByVectorSimilarity(
-    List<MapEntry<String, DynamicMap>> data,
-    ModelQueryFilter filter,
-  ) {
-    final key = filter.key;
-    if (key.isEmpty) {
-      return data;
-    }
-
-    final filterValue = filter.value;
-    if (filterValue is! VectorValue) {
-      return data;
-    }
-
-    // Calculate similarity scores for each document
-    final scored = data.map((entry) {
-      final fieldValue = entry.value[key];
-      double similarity = double.negativeInfinity;
-
-      if (fieldValue is ModelVectorValue) {
-        try {
-          similarity = fieldValue.value.similarity(
-            filterValue,
-            measure: filterValue.measure,
-          );
-        } catch (e) {
-          // If dimensions don't match or other error, assign negative infinity
-          similarity = double.negativeInfinity;
-        }
-      }
-
-      return MapEntry(entry, similarity);
-    }).toList();
-
-    // Sort by similarity score (highest first)
-    scored.sort((a, b) => b.value.compareTo(a.value));
-
-    return scored.map((e) => e.key).toList();
   }
 
   /// The position where [data] enters is retrieved by searching from [sorted] according to the sort setting of [filters].
@@ -998,13 +948,32 @@ class ModelQuery {
   ///   {"count": -1, "text": "a"},
   /// ); // 0
   /// ```
-  int? seekIndex(
+  FutureOr<int?> seekIndex(
     List<MapEntry<String, DynamicMap>> sorted,
     DynamicMap data,
-  ) {
+  ) async {
     if (data.isEmpty) {
       return null;
     }
+    final nearest = filters
+        .firstWhereOrNull((item) => item.type == ModelQueryFilterType.nearest);
+    if (nearest != null) {
+      final key = nearest.key;
+      if (key.isEmpty) {
+        return null;
+      }
+      final text = nearest.value as String?;
+      if (key == null || key.isEmpty || text == null || text.isEmpty) {
+        return null;
+      }
+      final value = data[key];
+      if (value == null) {
+        return sorted.length;
+      }
+      final converter = adapter.vectorConverter;
+      return await converter.seekIndex(sorted, data, key, text);
+    }
+
     final order = filters.firstWhereOrNull((item) =>
         item.type == ModelQueryFilterType.orderByAsc ||
         item.type == ModelQueryFilterType.orderByDesc);

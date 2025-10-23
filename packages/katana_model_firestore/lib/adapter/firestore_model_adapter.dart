@@ -66,6 +66,7 @@ class FirestoreModelAdapter extends ModelAdapter
     this.validator,
     this.onInitialize,
     this.databaseId,
+    this.vectorConverter = const RuntimeVectorConverter(),
   })  : _database = database,
         _options = options,
         _cachedRuntimeDatabase = cachedRuntimeDatabase;
@@ -102,14 +103,14 @@ class FirestoreModelAdapter extends ModelAdapter
           final map = raw.toMap(raw.value);
           database.setInitialValue(
             _path(raw.path),
-            raw.filterOnSave(map, raw.value),
+            raw.filterOnSave(map, raw.value, this),
           );
         } else if (raw is ModelInitialCollection) {
           for (final tmp in raw.value.entries) {
             final map = raw.toMap(tmp.value);
             database.setInitialValue(
               _path("${raw.path}/${tmp.key}"),
-              raw.filterOnSave(map, tmp.value),
+              raw.filterOnSave(map, tmp.value, this),
             );
           }
         }
@@ -153,6 +154,9 @@ class FirestoreModelAdapter extends ModelAdapter
   ///
   /// モックアップとして利用する際の実データ。
   final List<ModelInitialValue>? initialValue;
+
+  @override
+  final VectorConverter vectorConverter;
 
   /// A special class can be registered as a [ModelFieldValue] by passing [FirestoreModelFieldValueConverter] to [converter].
   ///

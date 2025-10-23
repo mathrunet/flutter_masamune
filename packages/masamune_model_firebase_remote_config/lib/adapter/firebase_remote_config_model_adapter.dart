@@ -162,6 +162,9 @@ class FirebaseRemoteConfigModelAdapter extends ModelAdapter {
   /// [options]が指定されている場合はこちらが優先されます。
   final FirebaseOptions? linuxOptions;
 
+  @override
+  VectorConverter get vectorConverter => const PassVectorConverter();
+
   /// Firebase Remote Config.
   ///
   /// Firebase Remote Config.

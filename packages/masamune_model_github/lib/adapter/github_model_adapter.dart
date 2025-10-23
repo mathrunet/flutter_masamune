@@ -594,6 +594,9 @@ class GithubModelAdapter extends ModelAdapter {
   /// ローカルデータベースを使用します。
   final bool useLocalDatabase;
 
+  @override
+  VectorConverter get vectorConverter => const PassVectorConverter();
+
   /// Designated database. Please use for testing purposes, etc.
   ///
   /// 指定のデータベース。テスト用途などにご利用ください。

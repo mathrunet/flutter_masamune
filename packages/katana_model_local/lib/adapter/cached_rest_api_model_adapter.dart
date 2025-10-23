@@ -22,6 +22,7 @@ abstract class CachedRestApiModelAdapter extends RestApiModelAdapter {
     super.validator,
     super.headers = RestApiModelAdapter.defaultHeaders,
     super.checkError = RestApiModelAdapter.defaultCheckError,
+    super.vectorConverter = const RuntimeVectorConverter(),
   }) : _database = database;
 
   /// Designated database. Please use for testing purposes, etc.

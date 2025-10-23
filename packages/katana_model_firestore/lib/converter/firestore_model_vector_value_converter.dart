@@ -73,7 +73,8 @@ class FirestoreModelVectorValueConverter
             kTypeFieldKey: ModelVectorValue.typeString,
             _kTargetKey: key,
           },
-          if (fromUser) key: firestore.VectorValue(val),
+          // TODO: Update to native Vector type when Firestore Dart SDK supports it.
+          if (fromUser) key: val,
         };
       }
     } else if (value is List) {
