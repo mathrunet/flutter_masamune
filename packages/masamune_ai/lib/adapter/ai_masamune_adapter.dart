@@ -186,16 +186,4 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
             AIContent response, Set<AITool> tools, int trialCount)?
         onGenerateFunctionCallingConfig,
   });
-
-  /// Create a vector embedding from [text] for memory retrieval.
-  ///
-  /// Subclasses can override this to integrate with embedding providers.
-  ///
-  /// メモリ検索のために[text]からベクトル埋め込みを生成します。
-  ///
-  /// サブクラスでオーバーライドして埋め込みプロバイダと連携してください。
-  @protected
-  Future<List<double>?> createEmbedding(String text) async {
-    return null;
-  }
 }

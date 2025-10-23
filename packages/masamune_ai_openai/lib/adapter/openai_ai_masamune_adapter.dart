@@ -18,6 +18,7 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
   const OpenaiAIMasamuneAdapter({
     required this.apiKey,
     this.model = OpenaiAIModel.defaultModel,
+    this.embeddingModel = "text-embedding-3-small",
     super.contentFilter,
     super.defaultConfig,
     super.threadContentSortCallback =
@@ -33,6 +34,11 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
   ///
   /// AIのモデル名。
   final OpenaiAIModel model;
+
+  /// Embedding model name used when vector memory is enabled.
+  ///
+  /// ベクトルメモリ使用時に利用する埋め込みモデル名。
+  final String embeddingModel;
 
   static bool _isInitialized = false;
 

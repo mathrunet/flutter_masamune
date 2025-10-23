@@ -26,7 +26,7 @@ class EchoAILocalTool extends AILocalTool {
 
   @override
   Map<String, AISchema> get parameters => {
-        "message": AISchema.string(
+        "message": const AISchema.string(
           description: "Text to echo back.",
           nullable: false,
         ),

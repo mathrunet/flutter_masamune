@@ -858,6 +858,16 @@ class AIContentFunctionCallPart extends AIContentPart {
   /// 関数のパラメータと値。
   final Map<String, dynamic> args;
 
+  /// The key for the function name.
+  ///
+  /// 関数名のキー。
+  static const nameKey = "name";
+
+  /// The key for the function arguments.
+  ///
+  /// 関数引数のキー。
+  static const argsKey = "args";
+
   /// Converts the function call part to a function response part.
   ///
   /// 関数呼び出しの一部を関数レスポンスの一部に変換します。
@@ -883,6 +893,16 @@ class AIContentFunctionCallPart extends AIContentPart {
       name: name ?? this.name,
       args: args ?? this.args,
     );
+  }
+
+  /// Converts the function call part to a Json-decoded Map&lt;String, dynamic&gt; object.
+  ///
+  /// 関数呼び出しの一部をJsonデコードされたMap&lt;String, dynamic&gt;オブジェクトに変換します。
+  Map<String, dynamic> toJson() {
+    return {
+      nameKey: name,
+      argsKey: args,
+    };
   }
 
   @override

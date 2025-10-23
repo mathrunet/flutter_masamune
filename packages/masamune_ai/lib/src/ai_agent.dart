@@ -135,6 +135,21 @@ class AgentStep {
   ///
   /// ステップ中に行われた関数呼び出し。
   final List<AIContentFunctionCallPart>? functionCalls;
+
+  /// Metadata associated with the step.
+  ///
+  /// ステップに関連するメタデータ。
+  Map<String, dynamic> get metadata {
+    return {
+      if (tools != null) "tools": tools,
+      if (stackTrace != null) "stackTrace": stackTrace,
+      if (memories != null) "memories": memories,
+      if (contentLength != null) "contentLength": contentLength,
+      if (functionCalls != null)
+        "functionCalls":
+            functionCalls?.map((e) => e.toJson()).toList(growable: false),
+    };
+  }
 }
 
 /// Manage interaction with the AI agent.
@@ -453,16 +468,11 @@ class AIAgent
         continue;
       }
       try {
-        final embedding = await adapter.createEmbedding(chunk);
-        if (embedding == null || embedding.isEmpty) {
-          continue;
-        }
         final document = collection.create();
         await document.save(
           VectorModel(
             agentId: threadId,
             content: chunk,
-            vector: ModelVectorValue.fromList(embedding),
             createdAt: const ModelTimestamp.now(),
           ),
         );
@@ -524,29 +534,11 @@ class AIAgent
       _injectMemoryPrompt(const []);
       return;
     }
-    List<double>? embedding;
-    try {
-      embedding = await adapter.createEmbedding(queryText);
-    } catch (error, stackTrace) {
-      debugPrint(
-        "AIAgent: Failed to create query embedding. $error\n$stackTrace",
-      );
-      embedding = null;
-    }
-    if (embedding == null || embedding.isEmpty) {
-      return;
-    }
     final collection = AIMasamuneAdapter.appRef.model(
-      VectorModel.collection(agentId: threadId)
-          .vector
-          .nearest(
-            embedding,
-            measure: config.measure,
-          )
-          .limitTo(config.recallLimit),
+      VectorModel.collection(agentId: threadId).limitTo(config.recallLimit),
     );
     try {
-      await collection.load();
+      await collection.nearest(queryText);
     } catch (error, stackTrace) {
       debugPrint(
         "AIAgent: Failed to load vector memories. $error\n$stackTrace",

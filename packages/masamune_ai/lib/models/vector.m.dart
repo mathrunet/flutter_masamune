@@ -15,10 +15,10 @@ extension on VectorModel {
   }
 }
 
-enum _$VectorModelKeys { agentId, content, vector, createdAt }
+enum _$VectorModelKeys { agentId, content, createdAt }
 
 class _$VectorModelDocument extends DocumentBase<VectorModel>
-    with ModelRefMixin<VectorModel> {
+    with ModelRefMixin<VectorModel>, VectorDocumentMixin<VectorModel> {
   _$VectorModelDocument(super.modelQuery, [super._value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
@@ -33,6 +33,9 @@ class _$VectorModelDocument extends DocumentBase<VectorModel>
 
   @override
   DynamicMap toMap(VectorModel value) => value.rawValue;
+
+  @override
+  String buildVectorText(VectorModel value) => value.content.toString();
 }
 
 typedef _$VectorModelMirrorDocument = _$VectorModelDocument;
@@ -40,7 +43,8 @@ typedef _$VectorModelMirrorDocument = _$VectorModelDocument;
 class _$VectorModelCollection extends CollectionBase<_$VectorModelDocument>
     with
         FilterableCollectionMixin<_$VectorModelDocument,
-            _$_VectorModelCollectionQuery> {
+            _$_VectorModelCollectionQuery>,
+        VectorCollectionMixin<_$VectorModelDocument> {
   _$VectorModelCollection(super.modelQuery, [super.value]);
 
   static const ModelAccessQuery? defaultModelAccessQuery = null;
@@ -83,8 +87,8 @@ class _$VectorModelRefPath extends ModelRefPath<VectorModel> {
 }
 
 @immutable
-class _$VectorModelInitialCollection
-    extends ModelInitialCollection<VectorModel> {
+class _$VectorModelInitialCollection extends ModelInitialCollection<VectorModel>
+    with VectorInitialCollectionMixin<VectorModel> {
   const _$VectorModelInitialCollection(super.value, {required String agentId})
       : _agentId = agentId;
 
@@ -95,6 +99,9 @@ class _$VectorModelInitialCollection
 
   @override
   DynamicMap toMap(VectorModel value) => value.rawValue;
+
+  @override
+  String buildVectorText(VectorModel value) => value.content.toString();
 }
 
 @immutable
@@ -231,14 +238,6 @@ class _$_VectorModelCollectionQuery
         toQuery: _toQuery,
         modelQuery: modelQuery,
       );
-
-  ModelVectorValueModelQuerySelector<_$_VectorModelCollectionQuery>
-      get vector =>
-          ModelVectorValueModelQuerySelector<_$_VectorModelCollectionQuery>(
-            key: "vector",
-            toQuery: _toQuery,
-            modelQuery: modelQuery,
-          );
 
   ModelTimestampModelQuerySelector<_$_VectorModelCollectionQuery>
       get createdAt =>

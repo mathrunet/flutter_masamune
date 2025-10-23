@@ -14,7 +14,7 @@ library;
 import "dart:async";
 
 // Flutter imports:
-import "package:flutter/widgets.dart";
+import "package:flutter/foundation.dart";
 
 // Package imports:
 import "package:dart_openai/dart_openai.dart";

@@ -33,6 +33,11 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     super.contentFilter,
     super.threadContentSortCallback =
         AIMasamuneAdapter.defaultThreadContentSortCallback,
+    super.vectorModelAdapter,
+    super.defaultAgentPromptTemplate,
+    super.defaultAgentVectorMemoryConfig,
+    super.maxAgentRecordStep = 100,
+    super.appRef,
   })  : _options = options,
         _instance = ai;
 
@@ -49,12 +54,17 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   /// FirebaseVertexAI instance.
   ///
   /// FirebaseVertexAIのインスタンス。
-  FirebaseAI get instance =>
-      _instance ??
-      FirebaseAI.googleAI(
-        appCheck: enableAppCheck ? FirebaseAppCheck.instance : null,
-      );
+  FirebaseAI get instance {
+    if (_instance != null) {
+      return _instance!;
+    }
+    return _googleInstance ??= FirebaseAI.googleAI(
+      appCheck: enableAppCheck ? FirebaseAppCheck.instance : null,
+    );
+  }
+
   final FirebaseAI? _instance;
+  static FirebaseAI? _googleInstance;
 
   static final Map<AIConfigKey, GenerativeModel> _generativeModel = {};
   static const _platformInfo = PlatformInfo();

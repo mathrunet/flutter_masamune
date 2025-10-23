@@ -19,6 +19,11 @@ class RuntimeAIMasamuneAdapter extends AIMasamuneAdapter {
     this.onGenerateContent,
     super.threadContentSortCallback =
         AIMasamuneAdapter.defaultThreadContentSortCallback,
+    super.vectorModelAdapter,
+    super.defaultAgentPromptTemplate,
+    super.defaultAgentVectorMemoryConfig,
+    super.maxAgentRecordStep = 100,
+    super.appRef,
   });
 
   /// Simulates AI interactions only on the runtime without actually connecting to an AI service [AIMasamuneAdapter]
@@ -63,20 +68,5 @@ class RuntimeAIMasamuneAdapter extends AIMasamuneAdapter {
     final res = await onGenerateContent?.call(content, config);
     res?.complete();
     return res;
-  }
-
-  @override
-  Future<List<double>?> createEmbedding(String text) async {
-    final normalized = text.trim();
-    if (normalized.isEmpty) {
-      return null;
-    }
-    const dimension = 12;
-    final bytes = utf8.encode(normalized);
-    final result = List<double>.filled(dimension, 0);
-    for (var i = 0; i < bytes.length; i++) {
-      result[i % dimension] += bytes[i] / 255.0;
-    }
-    return result;
   }
 }

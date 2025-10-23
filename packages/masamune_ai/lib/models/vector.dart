@@ -20,8 +20,7 @@ abstract class VectorModel with _$VectorModel {
   /// Value for model.
   const factory VectorModel({
     required String agentId,
-    required String content,
-    required ModelVectorValue vector,
+    @vectorParam required String content,
     @Default(ModelTimestamp.now()) ModelTimestamp createdAt,
   }) = _VectorModel;
   const VectorModel._();

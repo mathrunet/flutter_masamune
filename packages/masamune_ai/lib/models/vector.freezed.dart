@@ -15,8 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$VectorModel {
   String get agentId;
+  @vectorParam
   String get content;
-  ModelVectorValue get vector;
   ModelTimestamp get createdAt;
 
   /// Create a copy of VectorModel
@@ -36,19 +36,17 @@ mixin _$VectorModel {
             other is VectorModel &&
             (identical(other.agentId, agentId) || other.agentId == agentId) &&
             (identical(other.content, content) || other.content == content) &&
-            (identical(other.vector, vector) || other.vector == vector) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, agentId, content, vector, createdAt);
+  int get hashCode => Object.hash(runtimeType, agentId, content, createdAt);
 
   @override
   String toString() {
-    return 'VectorModel(agentId: $agentId, content: $content, vector: $vector, createdAt: $createdAt)';
+    return 'VectorModel(agentId: $agentId, content: $content, createdAt: $createdAt)';
   }
 }
 
@@ -59,10 +57,7 @@ abstract mixin class $VectorModelCopyWith<$Res> {
       _$VectorModelCopyWithImpl;
   @useResult
   $Res call(
-      {String agentId,
-      String content,
-      ModelVectorValue vector,
-      ModelTimestamp createdAt});
+      {String agentId, @vectorParam String content, ModelTimestamp createdAt});
 }
 
 /// @nodoc
@@ -79,7 +74,6 @@ class _$VectorModelCopyWithImpl<$Res> implements $VectorModelCopyWith<$Res> {
   $Res call({
     Object? agentId = null,
     Object? content = null,
-    Object? vector = null,
     Object? createdAt = null,
   }) {
     return _then(_self.copyWith(
@@ -91,10 +85,6 @@ class _$VectorModelCopyWithImpl<$Res> implements $VectorModelCopyWith<$Res> {
           ? _self.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      vector: null == vector
-          ? _self.vector
-          : vector // ignore: cast_nullable_to_non_nullable
-              as ModelVectorValue,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -196,7 +186,7 @@ extension VectorModelPatterns on VectorModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String agentId, String content, ModelVectorValue vector,
+    TResult Function(String agentId, @vectorParam String content,
             ModelTimestamp createdAt)?
         $default, {
     required TResult orElse(),
@@ -204,8 +194,7 @@ extension VectorModelPatterns on VectorModel {
     final _that = this;
     switch (_that) {
       case _VectorModel() when $default != null:
-        return $default(
-            _that.agentId, _that.content, _that.vector, _that.createdAt);
+        return $default(_that.agentId, _that.content, _that.createdAt);
       case _:
         return orElse();
     }
@@ -226,15 +215,14 @@ extension VectorModelPatterns on VectorModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String agentId, String content, ModelVectorValue vector,
+    TResult Function(String agentId, @vectorParam String content,
             ModelTimestamp createdAt)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _VectorModel():
-        return $default(
-            _that.agentId, _that.content, _that.vector, _that.createdAt);
+        return $default(_that.agentId, _that.content, _that.createdAt);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -254,15 +242,14 @@ extension VectorModelPatterns on VectorModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String agentId, String content, ModelVectorValue vector,
+    TResult? Function(String agentId, @vectorParam String content,
             ModelTimestamp createdAt)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _VectorModel() when $default != null:
-        return $default(
-            _that.agentId, _that.content, _that.vector, _that.createdAt);
+        return $default(_that.agentId, _that.content, _that.createdAt);
       case _:
         return null;
     }
@@ -274,8 +261,7 @@ extension VectorModelPatterns on VectorModel {
 class _VectorModel extends VectorModel {
   const _VectorModel(
       {required this.agentId,
-      required this.content,
-      required this.vector,
+      @vectorParam required this.content,
       this.createdAt = const ModelTimestamp.now()})
       : super._();
   factory _VectorModel.fromJson(Map<String, dynamic> json) =>
@@ -284,9 +270,8 @@ class _VectorModel extends VectorModel {
   @override
   final String agentId;
   @override
+  @vectorParam
   final String content;
-  @override
-  final ModelVectorValue vector;
   @override
   @JsonKey()
   final ModelTimestamp createdAt;
@@ -313,19 +298,17 @@ class _VectorModel extends VectorModel {
             other is _VectorModel &&
             (identical(other.agentId, agentId) || other.agentId == agentId) &&
             (identical(other.content, content) || other.content == content) &&
-            (identical(other.vector, vector) || other.vector == vector) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, agentId, content, vector, createdAt);
+  int get hashCode => Object.hash(runtimeType, agentId, content, createdAt);
 
   @override
   String toString() {
-    return 'VectorModel(agentId: $agentId, content: $content, vector: $vector, createdAt: $createdAt)';
+    return 'VectorModel(agentId: $agentId, content: $content, createdAt: $createdAt)';
   }
 }
 
@@ -338,10 +321,7 @@ abstract mixin class _$VectorModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String agentId,
-      String content,
-      ModelVectorValue vector,
-      ModelTimestamp createdAt});
+      {String agentId, @vectorParam String content, ModelTimestamp createdAt});
 }
 
 /// @nodoc
@@ -358,7 +338,6 @@ class __$VectorModelCopyWithImpl<$Res> implements _$VectorModelCopyWith<$Res> {
   $Res call({
     Object? agentId = null,
     Object? content = null,
-    Object? vector = null,
     Object? createdAt = null,
   }) {
     return _then(_VectorModel(
@@ -370,10 +349,6 @@ class __$VectorModelCopyWithImpl<$Res> implements _$VectorModelCopyWith<$Res> {
           ? _self.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      vector: null == vector
-          ? _self.vector
-          : vector // ignore: cast_nullable_to_non_nullable
-              as ModelVectorValue,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
