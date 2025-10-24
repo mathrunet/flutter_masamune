@@ -32,6 +32,11 @@ abstract class MarkdownValue {
   /// マークダウンのデータをマークダウンの文字列に変換します。
   String toMarkdown();
 
+  /// Convert the markdown value to a test JSON object.
+  ///
+  /// マークダウンのデータをテスト用のJSONオブジェクトに変換します。
+  DynamicMap toDebug();
+
   /// The key for the type.
   ///
   /// マークダウンのデータの型のキー。
@@ -237,6 +242,15 @@ class MarkdownSpanValue extends MarkdownValue {
   }
 
   @override
+  DynamicMap toDebug() {
+    return {
+      MarkdownValue.typeKey: type,
+      MarkdownValue.valueKey: value,
+      MarkdownValue.propertyKey: properties.map((e) => e.toDebug()).toList(),
+    };
+  }
+
+  @override
   String toMarkdown() {
     return value;
   }
@@ -311,8 +325,10 @@ class MarkdownLineValue extends MarkdownValue {
   ///
   /// [initialText]を指定した場合、最初の行に[initialText]を設定します。
   /// [initialText]が指定されていない場合、空の行を作成します。
-  factory MarkdownLineValue.createEmpty(
-      {String? initialText, List<MarkdownSpanValue>? children}) {
+  factory MarkdownLineValue.createEmpty({
+    String? initialText,
+    List<MarkdownSpanValue>? children,
+  }) {
     return MarkdownLineValue(
       id: uuid(),
       children: children ??
@@ -336,6 +352,14 @@ class MarkdownLineValue extends MarkdownValue {
       MarkdownValue.idKey: id,
       MarkdownValue.typeKey: type,
       MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
+    };
+  }
+
+  @override
+  DynamicMap toDebug() {
+    return {
+      MarkdownValue.typeKey: type,
+      MarkdownValue.childrenKey: children.map((e) => e.toDebug()).toList(),
     };
   }
 
@@ -399,8 +423,10 @@ abstract class MarkdownBlockValue extends MarkdownValue {
   ///
   /// [initialText]を指定した場合、最初のブロックに[initialText]を設定します。
   /// [initialText]が指定されていない場合、空の段落を作成します。
-  factory MarkdownBlockValue.createEmpty(
-      {String? initialText, List<MarkdownLineValue>? children}) {
+  factory MarkdownBlockValue.createEmpty({
+    String? initialText,
+    List<MarkdownLineValue>? children,
+  }) {
     return MarkdownParagraphBlockValue(
       id: uuid(),
       children: children ??
@@ -426,6 +452,23 @@ abstract class MarkdownBlockValue extends MarkdownValue {
   ///
   /// インデントが保持されるかどうかを確認します。
   bool get maintainIndent => false;
+
+  @override
+  DynamicMap toJson() {
+    return {
+      MarkdownValue.idKey: id,
+      MarkdownValue.typeKey: type,
+      MarkdownValue.indentKey: indent,
+    };
+  }
+
+  @override
+  DynamicMap toDebug() {
+    return {
+      MarkdownValue.typeKey: type,
+      MarkdownValue.indentKey: indent,
+    };
+  }
 
   /// Build the block layout.
   ///
@@ -562,6 +605,25 @@ abstract class MarkdownMultiLineBlockValue extends MarkdownBlockValue {
   List<MarkdownLineValue>? extractLines() {
     return children;
   }
+
+  @override
+  DynamicMap toJson() {
+    return {
+      MarkdownValue.idKey: id,
+      MarkdownValue.typeKey: type,
+      MarkdownValue.indentKey: indent,
+      MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
+    };
+  }
+
+  @override
+  DynamicMap toDebug() {
+    return {
+      MarkdownValue.typeKey: type,
+      MarkdownValue.indentKey: indent,
+      MarkdownValue.childrenKey: children.map((e) => e.toDebug()).toList(),
+    };
+  }
 }
 
 /// A class for storing markdown field value.
@@ -601,25 +663,14 @@ class MarkdownFieldValue extends MarkdownValue {
   ///
   /// [initialText]を指定した場合、最初の段落に[initialText]を設定します。
   /// [initialText]が指定されていない場合、空の段落を作成します。
-  factory MarkdownFieldValue.createEmpty([String? initialText]) {
+  factory MarkdownFieldValue.createEmpty(
+      {String? initialText, List<MarkdownBlockValue>? children}) {
     return MarkdownFieldValue(
       id: uuid(),
-      children: [
-        MarkdownParagraphBlockValue(
-          id: uuid(),
-          children: [
-            MarkdownLineValue(
-              id: uuid(),
-              children: [
-                MarkdownSpanValue(
-                  id: uuid(),
-                  value: initialText ?? "",
-                ),
-              ],
-            ),
+      children: children ??
+          [
+            MarkdownParagraphBlockValue.createEmpty(initialText: initialText),
           ],
-        ),
-      ],
     );
   }
 
@@ -656,6 +707,14 @@ class MarkdownFieldValue extends MarkdownValue {
       MarkdownValue.idKey: id,
       MarkdownValue.typeKey: type,
       MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
+    };
+  }
+
+  @override
+  DynamicMap toDebug() {
+    return {
+      MarkdownValue.typeKey: type,
+      MarkdownValue.childrenKey: children.map((e) => e.toDebug()).toList(),
     };
   }
 
@@ -759,6 +818,15 @@ abstract class MarkdownProperty {
     };
   }
 
+  /// Convert the markdown property to a test JSON object.
+  ///
+  /// マークダウンのプロパティをテスト用のJSONオブジェクトに変換します。
+  DynamicMap toDebug() {
+    return {
+      MarkdownProperty.typeKey: type,
+    };
+  }
+
   /// Copy the markdown property with the given fields.
   ///
   /// 指定されたフィールドでマークダウンのプロパティをコピーします。
@@ -819,6 +887,13 @@ extension MarkdownFieldValueListExtension on List<MarkdownFieldValue> {
   /// マークダウンのフィールドの値のリストをJSONオブジェクトに変換します。
   List<DynamicMap> toJson() {
     return map((e) => e.toJson()).toList();
+  }
+
+  /// Convert the markdown field value list to a test JSON object.
+  ///
+  /// マークダウンのフィールドの値のリストをテスト用のJSONオブジェクトに変換します。
+  List<DynamicMap> toDebug() {
+    return map((e) => e.toDebug()).toList();
   }
 
   /// Convert the markdown field value list to a markdown string.

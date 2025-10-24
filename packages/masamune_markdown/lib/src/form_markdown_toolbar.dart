@@ -332,13 +332,13 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
           _hasClipboardText = hasText;
         });
       }
-      _clipboardCheckCompleter!.complete();
+      _clipboardCheckCompleter?.complete();
       _clipboardCheckCompleter = null;
     } catch (e) {
-      _clipboardCheckCompleter!.completeError(e);
+      _clipboardCheckCompleter?.completeError(e);
       _clipboardCheckCompleter = null;
     } finally {
-      _clipboardCheckCompleter!.complete();
+      _clipboardCheckCompleter?.complete();
       _clipboardCheckCompleter = null;
     }
   }
@@ -436,7 +436,6 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
           e is IndentDownMarkdownPrimaryTools) {
         final enabled = e.enabled(context, this);
         final actived = e.actived(context, this);
-        debugPrint("🔧 ${e.runtimeType}: enabled=$enabled, actived=$actived");
         if (!enabled || !actived) {
           return IconButton(
             onPressed: null,

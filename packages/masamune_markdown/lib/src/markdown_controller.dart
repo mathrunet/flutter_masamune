@@ -107,7 +107,7 @@ class MarkdownController extends MasamuneControllerBase<
     // 有効な構造があることを確認
     if (_value.isEmpty) {
       // 初期構造を作成
-      final field = MarkdownFieldValue.createEmpty(text);
+      final field = MarkdownFieldValue.createEmpty(initialText: text);
       _value.clear();
       _value.add(field);
       notifyListeners();

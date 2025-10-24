@@ -61,16 +61,6 @@ class MarkdownParagraphBlockValue extends MarkdownMultiLineBlockValue {
   bool get canIndent => true;
 
   @override
-  DynamicMap toJson() {
-    return {
-      MarkdownValue.idKey: id,
-      MarkdownValue.typeKey: type,
-      MarkdownValue.indentKey: indent,
-      MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
-    };
-  }
-
-  @override
   String toMarkdown() {
     return children.map((e) => e.toMarkdown()).join("\n");
   }
