@@ -15,7 +15,7 @@ class KatanaUIMessageBoxMdCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String get description =>
-      "ユーザーに伝えるメッセージを表示するためのボックスウィジェットである`MessageBox`の利用方法";
+      "ユーザーに伝えるメッセージを表示するためのボックスウィジェットである`MessageBox`の利用方法。アイコン、メッセージ、アクションボタンを含むカスタマイズ可能な情報表示ボックスを提供。";
 
   @override
   String get globs => "*.dart";
@@ -38,10 +38,13 @@ $excerpt
 
 ## 特徴
 
-- アイコンとメッセージを横並びに表示
+- アイコン + メッセージ + アクションの横並びレイアウト
 - カスタマイズ可能なスタイリング（色、背景色、ボーダー、角丸など）
-- アクションボタンの追加が可能
+- アクションボタンの追加が可能（複数可）
 - デフォルトのアイコンとして`Icons.info_outline`を使用
+- 自動背景色生成（メインカラーの10%不透明度）
+- IconThemeとDefaultTextStyleによる色の一括適用
+- デフォルトのパディング16px、デフォルトの角丸16px
 
 ## 基本的な使い方
 
@@ -104,8 +107,15 @@ MessageBox(
 - `label`は必須パラメータ
 - `icon`を指定しない場合は`Icons.info_outline`が使用される
 - `color`を指定しない場合は`Theme.of(context).primaryColor`が使用される
-- `backgroundColor`を指定しない場合は`color.withValues(alpha: 0.1)`が使用される
+- `backgroundColor`を指定しない場合は`color.withValues(alpha: 0.1)`が自動生成される
 - `actions`は空のリストがデフォルト値
+- デフォルトのパディングは`EdgeInsets.all(16)`
+- デフォルトの角丸は`BorderRadius.circular(16)`
+- デフォルトのボーダーは`Border.all(color: color, width: 1)`
+- アイコンのサイズは固定で48px、色は`color`で指定
+- `IconTheme`と`DefaultTextStyle`により、内部のアイコンとテキストの色が`color`に設定される
+- アクションボタン間のスペースは16px
+- `textStyle`パラメータは現在の実装では使用されていない（DefaultTextStyleが優先される）
 
 ## 利用シーン
 

@@ -1,6 +1,7 @@
 part of "/masamune_builder.dart";
 
 const _searchParamChecker = TypeChecker.fromRuntime(SearchParam);
+const _vectorParamChecker = TypeChecker.fromRuntime(VectorParam);
 const _refParamChecker = TypeChecker.fromRuntime(RefParam);
 const _jsonParamChecker = TypeChecker.fromRuntime(JsonParam);
 const _jsonKeyChecker = TypeChecker.fromRuntime(JsonKey);
@@ -26,6 +27,7 @@ class ParamaterValue {
     type = element.type as InterfaceType;
     required = element.isRequired;
     isSearchable = _searchParamChecker.hasAnnotationOfExact(element);
+    isVector = _vectorParamChecker.hasAnnotationOfExact(element);
     if (_refParamChecker.hasAnnotationOfExact(element)) {
       reference = _parseReferenceValue(element, type);
     } else {
@@ -177,6 +179,11 @@ class ParamaterValue {
   ///
   /// 検索対象の場合true.
   late final bool isSearchable;
+
+  /// True if Vector search target.
+  ///
+  /// Vector検索対象の場合true.
+  late final bool isVector;
 
   /// If another document is referenced, the class name of that document is entered. If it does not reference any other document, [Null] is entered.
   ///

@@ -49,7 +49,7 @@ class CodeExchangeMarkdownBlockTools extends MarkdownBlockTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.focusedController?.formatLine(Attribute.codeBlock);
+    ref.controller.exchangeBlock(this);
     ref.deleteMode();
   }
 }

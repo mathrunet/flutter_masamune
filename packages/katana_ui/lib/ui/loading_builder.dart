@@ -1,36 +1,140 @@
 part of "/katana_ui.dart";
 
-/// Pass multiple Future/FutureOr/Null data and display [loading] or [CircularProgressIndicator] until all completions are completed.
+/// A builder widget that displays loading indicators while waiting for multiple futures.
 ///
-/// Pass the target [Future] in [futures].
+/// This widget waits for multiple Future, FutureOr, or null values to complete
+/// and displays a loading indicator until all are finished. Perfect for data
+/// loading screens, async initialization, and multi-source data fetching.
 ///
-/// In [builder], you can specify the widget to be drawn after [futures] is completed.
+/// Features:
+/// - Wait for multiple futures simultaneously
+/// - Customizable loading widget
+/// - Default centered CircularProgressIndicator
+/// - Configurable indicator color
+/// - Handles Future, FutureOr, and null values
+/// - Automatic null filtering
 ///
-/// If [indicatorColor] is specified, the color of [CircularProgressIndicator] can be changed when it is displayed when [loading] is not specified.
+/// Example:
+/// ```dart
+/// LoadingBuilder(
+///   futures: [
+///     fetchUserData(),
+///     fetchSettings(),
+///     fetchNotifications(),
+///   ],
+///   builder: (context) {
+///     return Column(
+///       children: [
+///         Text("All data loaded!"),
+///         UserDataWidget(),
+///         SettingsWidget(),
+///       ],
+///     );
+///   },
+/// )
+/// ```
 ///
-/// 複数のFuture/FutureOr/Nullデータを渡してすべての完了を完了するまで[loading]や[CircularProgressIndicator]を表示します。
+/// 複数のfutureを待機している間にローディングインジケータを表示するビルダーウィジェット。
 ///
-/// [futures]で対象となる[Future]を渡します。
+/// このウィジェットは複数のFuture、FutureOr、またはnull値が完了するのを待ち、
+/// すべてが完了するまでローディングインジケータを表示します。データローディング画面、
+/// 非同期初期化、複数ソースからのデータ取得に最適です。
 ///
-/// [builder]で[futures]が完了した後に描画するウィジェットを指定できます。
+/// 特徴:
+/// - 複数のfutureを同時に待機
+/// - カスタマイズ可能なローディングウィジェット
+/// - デフォルトの中央配置CircularProgressIndicator
+/// - 設定可能なインジケータカラー
+/// - Future、FutureOr、null値を処理
+/// - 自動的なnullフィルタリング
 ///
-/// [indicatorColor]を指定すると[loading]を指定しない場合に[CircularProgressIndicator]を表示するときにその色を変えることができます。
+/// 例:
+/// ```dart
+/// LoadingBuilder(
+///   futures: [
+///     fetchUserData(),
+///     fetchSettings(),
+///     fetchNotifications(),
+///   ],
+///   builder: (context) {
+///     return Column(
+///       children: [
+///         Text("すべてのデータが読み込まれました！"),
+///         UserDataWidget(),
+///         SettingsWidget(),
+///       ],
+///     );
+///   },
+/// )
+/// ```
 class LoadingBuilder extends StatelessWidget {
-  /// Pass multiple Future/FutureOr/Null data and display [loading] or [CircularProgressIndicator] until all completions are completed.
+  /// A builder widget that displays loading indicators while waiting for multiple futures.
   ///
-  /// Pass the target [Future] in [futures].
+  /// This widget waits for multiple Future, FutureOr, or null values to complete
+  /// and displays a loading indicator until all are finished. Perfect for data
+  /// loading screens, async initialization, and multi-source data fetching.
   ///
-  /// In [builder], you can specify the widget to be drawn after [futures] is completed.
+  /// Features:
+  /// - Wait for multiple futures simultaneously
+  /// - Customizable loading widget
+  /// - Default centered CircularProgressIndicator
+  /// - Configurable indicator color
+  /// - Handles Future, FutureOr, and null values
+  /// - Automatic null filtering
   ///
-  /// If [indicatorColor] is specified, the color of [CircularProgressIndicator] can be changed when it is displayed when [loading] is not specified.
+  /// Example:
+  /// ```dart
+  /// LoadingBuilder(
+  ///   futures: [
+  ///     fetchUserData(),
+  ///     fetchSettings(),
+  ///     fetchNotifications(),
+  ///   ],
+  ///   builder: (context) {
+  ///     return Column(
+  ///       children: [
+  ///         Text("All data loaded!"),
+  ///         UserDataWidget(),
+  ///         SettingsWidget(),
+  ///       ],
+  ///     );
+  ///   },
+  /// )
+  /// ```
   ///
-  /// 複数のFuture/FutureOr/Nullデータを渡してすべての完了を完了するまで[loading]や[CircularProgressIndicator]を表示します。
+  /// 複数のfutureを待機している間にローディングインジケータを表示するビルダーウィジェット。
   ///
-  /// [futures]で対象となる[Future]を渡します。
+  /// このウィジェットは複数のFuture、FutureOr、またはnull値が完了するのを待ち、
+  /// すべてが完了するまでローディングインジケータを表示します。データローディング画面、
+  /// 非同期初期化、複数ソースからのデータ取得に最適です。
   ///
-  /// [builder]で[futures]が完了した後に描画するウィジェットを指定できます。
+  /// 特徴:
+  /// - 複数のfutureを同時に待機
+  /// - カスタマイズ可能なローディングウィジェット
+  /// - デフォルトの中央配置CircularProgressIndicator
+  /// - 設定可能なインジケータカラー
+  /// - Future、FutureOr、null値を処理
+  /// - 自動的なnullフィルタリング
   ///
-  /// [indicatorColor]を指定すると[loading]を指定しない場合に[CircularProgressIndicator]を表示するときにその色を変えることができます。
+  /// 例:
+  /// ```dart
+  /// LoadingBuilder(
+  ///   futures: [
+  ///     fetchUserData(),
+  ///     fetchSettings(),
+  ///     fetchNotifications(),
+  ///   ],
+  ///   builder: (context) {
+  ///     return Column(
+  ///       children: [
+  ///         Text("すべてのデータが読み込まれました！"),
+  ///         UserDataWidget(),
+  ///         SettingsWidget(),
+  ///       ],
+  ///     );
+  ///   },
+  /// )
+  /// ```
   const LoadingBuilder({
     required this.futures,
     required this.builder,

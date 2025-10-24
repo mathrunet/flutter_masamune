@@ -49,7 +49,7 @@ class ToggleListAddMarkdownBlockTools extends MarkdownBlockTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.focusedController?.addFormattedLine(Attribute.checked);
+    ref.controller.insertBlock(this);
     ref.deleteMode();
   }
 }

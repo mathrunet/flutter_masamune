@@ -30,11 +30,167 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Purchase
 
-For more information about Masamune Framework, please click here.
+## Overview
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+`masamune_purchase` is the base package for in-app purchase functionality in Masamune apps. It provides:
+- Abstract purchase controllers and adapters
+- Purchase product definitions
+- Functions actions for backend validation
+- Purchase models for persisting user entitlements
+- Delegate interfaces for purchase lifecycle events
+
+**Note**: This is the base package. You'll also need concrete implementations:
+- `masamune_purchase_mobile` for Google Play / App Store (in-app purchases)
+- `masamune_purchase_stripe` for Stripe-based web payments
+
+## Usage
+
+### Installation
+
+```bash
+flutter pub add masamune_purchase
+flutter pub add masamune_purchase_mobile  # For mobile IAP
+```
+
+### Concrete Implementations
+
+This base package provides the interfaces. Use concrete implementations:
+
+**Mobile IAP** (`masamune_purchase_mobile`)
+- Provides `MobilePurchaseMasamuneAdapter`
+- Integrates with Google Play Billing and App Store
+- Supports consumable, non-consumable, and subscription products
+- See `masamune_purchase_mobile` package for setup
+
+**Stripe Payments** (`masamune_purchase_stripe`)
+- Provides `StripePurchaseMasamuneAdapter`
+- Web-based payment flows
+- See `masamune_purchase_stripe` package for setup
+
+**Runtime Adapter** (Testing)
+- `RuntimePurchaseMasamuneAdapter` - Mock purchases for testing
+
+### Purchase Product Definitions
+
+Define your products using `PurchaseProduct`:
+
+**Subscription**:
+```dart
+PurchaseProduct.subscription(
+  productId: "premium_monthly",
+  title: LocalizedValue("Premium Monthly"),
+  description: LocalizedValue("Unlock all features"),
+  period: PurchaseSubscriptionPeriod.month,
+)
+```
+
+**Non-Consumable** (one-time purchase):
+```dart
+PurchaseProduct.nonConsumable(
+  productId: "lifetime_unlock",
+  title: LocalizedValue("Lifetime Access"),
+  description: LocalizedValue("Permanent access to all features"),
+)
+```
+
+**Consumable** (coins, credits, etc.):
+```dart
+PurchaseProduct.consumable(
+  productId: "coin_pack_100",
+  title: LocalizedValue("100 Coins"),
+  description: LocalizedValue("Get 100 coins"),
+  amount: 100,
+)
+```
+
+### Purchase Models
+
+The package includes Masamune models for persisting purchase data:
+
+**PurchaseUserModel**: Store user-level entitlements
+
+```dart
+final purchaseUser = ref.app.model(
+  PurchaseUserModel.document(userId: currentUserId),
+)..load();
+
+// Check if user has premium access
+final hasPremium = purchaseUser.value?.hasPremiumAccess ?? false;
+```
+
+**PurchaseSubscriptionModel**: Store subscription state
+
+```dart
+final subscription = ref.app.model(
+  PurchaseSubscriptionModel.document(
+    userId: currentUserId,
+    subscriptionId: "premium_monthly",
+  ),
+)..load();
+
+// Check subscription status
+final isActive = subscription.value?.isActive ?? false;
+final expiresAt = subscription.value?.expiresAt;
+```
+
+### Functions Actions
+
+The package provides Functions actions for backend validation:
+
+**Android**:
+- `AndroidConsumablePurchaseFunctionsAction`
+- `AndroidNonConsumablePurchaseFunctionsAction`
+- `AndroidSubscriptionPurchaseFunctionsAction`
+
+**iOS**:
+- `IosConsumablePurchaseFunctionsAction`
+- `IosNonConsumablePurchaseFunctionsAction`
+- `IosSubscriptionPurchaseFunctionsAction`
+
+These actions send purchase receipts to your backend for validation.
+
+### Purchase Delegates
+
+Define custom logic for purchase lifecycle events:
+
+**ConsumablePurchaseDelegate**:
+```dart
+class CoinsDelegate extends ConsumablePurchaseDelegate {
+  @override
+  Future<void> onDelivered({
+    required PurchaseProduct product,
+    required double amount,
+  }) async {
+    // Credit coins to user account
+    await userRepository.addCoins(userId, amount.toInt());
+  }
+}
+```
+
+**SubscriptionPurchaseDelegate**:
+```dart
+class PremiumDelegate extends SubscriptionPurchaseDelegate {
+  @override
+  Future<void> onActivated({required PurchaseProduct product}) async {
+    // Grant premium access
+    await userRepository.setPremiumStatus(userId, true);
+  }
+  
+  @override
+  Future<void> onExpired({required PurchaseProduct product}) async {
+    // Revoke premium access
+    await userRepository.setPremiumStatus(userId, false);
+  }
+}
+```
+
+### For Implementation Details
+
+See the implementation-specific packages:
+- `masamune_purchase_mobile` - Mobile IAP (Google Play / App Store) setup and usage
+- `masamune_purchase_stripe` - Stripe payment integration
 
 # GitHub Sponsors
 

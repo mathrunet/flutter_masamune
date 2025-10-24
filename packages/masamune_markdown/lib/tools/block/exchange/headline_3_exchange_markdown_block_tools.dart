@@ -49,7 +49,7 @@ class Headline3ExchangeMarkdownBlockTools extends MarkdownBlockTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.focusedController?.formatLine(Attribute.h3);
+    ref.controller.exchangeBlock(this);
     ref.deleteMode();
   }
 }

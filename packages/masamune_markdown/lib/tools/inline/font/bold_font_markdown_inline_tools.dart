@@ -1,10 +1,13 @@
 part of "/masamune_markdown.dart";
 
+const _kBoldFontMarkdownInlineToolsType = "__markdown_inline_font_bold__";
+
 /// Display the menu to bold font [MarkdownTools].
 ///
 /// フォントを太字にするメニューを表示する[MarkdownTools]。
 @immutable
-class BoldFontMarkdownInlineTools extends MarkdownInlineTools {
+class BoldFontMarkdownInlineTools
+    extends MarkdownPropertyInlineTools<BoldFontMarkdownSpanProperty> {
   /// Display the menu to bold font [MarkdownTools].
   ///
   /// フォントを太字にするメニューを表示する[MarkdownTools]。
@@ -25,7 +28,7 @@ class BoldFontMarkdownInlineTools extends MarkdownInlineTools {
   });
 
   @override
-  String get id => "__markdown_inline_font_bold__";
+  String get id => _kBoldFontMarkdownInlineToolsType;
 
   @override
   bool shown(BuildContext context, MarkdownToolRef ref) => true;
@@ -35,7 +38,7 @@ class BoldFontMarkdownInlineTools extends MarkdownInlineTools {
 
   @override
   bool actived(BuildContext context, MarkdownToolRef ref) {
-    return ref.activeAttribute(Attribute.bold);
+    return ref.controller.hasInlineProperty(this);
   }
 
   @override
@@ -54,11 +57,98 @@ class BoldFontMarkdownInlineTools extends MarkdownInlineTools {
 
   @override
   Future<void> onActive(BuildContext context, MarkdownToolRef ref) async {
-    ref.focusedController?.formatSelection(Attribute.bold);
+    ref.controller.addInlineProperty(this);
   }
 
   @override
   Future<void> onDeactive(BuildContext context, MarkdownToolRef ref) async {
-    ref.focusedController?.removeFormatSelection(Attribute.bold);
+    ref.controller.removeInlineProperty(this);
+  }
+
+  @override
+  BoldFontMarkdownSpanProperty? convertFromJson(DynamicMap json) {
+    final type = json.get(MarkdownProperty.typeKey, nullOfString);
+    if (type != id) {
+      return null;
+    }
+    return BoldFontMarkdownSpanProperty.fromJson(json);
+  }
+
+  @override
+  BoldFontMarkdownSpanProperty? convertFromMarkdown(String markdown) {
+    // TODO: implement convertFromMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  DynamicMap? convertToJson(BoldFontMarkdownSpanProperty value) {
+    if (value.type != id) {
+      return null;
+    }
+    return {
+      MarkdownProperty.typeKey: id,
+    };
+  }
+
+  @override
+  String? convertToMarkdown(BoldFontMarkdownSpanProperty value) {
+    // TODO: implement convertToMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  List<MarkdownProperty> addProperty(List<MarkdownProperty> properties,
+      {Object? value}) {
+    if (properties.any((e) => e.type == id)) {
+      return properties;
+    }
+    return [
+      ...properties,
+      const BoldFontMarkdownSpanProperty(),
+    ];
+  }
+
+  @override
+  List<MarkdownProperty> removeProperty(List<MarkdownProperty> properties) {
+    return properties.where((e) => e.type != id).toList();
+  }
+}
+
+/// A class for storing bold font markdown span property.
+///
+/// フォントを太字にするマークダウンのスパンのプロパティを格納するクラス。
+@immutable
+class BoldFontMarkdownSpanProperty extends MarkdownProperty {
+  /// A class for storing bold font markdown span property.
+  ///
+  /// フォントを太字にするマークダウンのスパンのプロパティを格納するクラス。
+  const BoldFontMarkdownSpanProperty();
+
+  /// Create a [BoldFontMarkdownSpanProperty] from a [DynamicMap].
+  ///
+  /// [DynamicMap]から[BoldFontMarkdownSpanProperty]を作成します。
+  factory BoldFontMarkdownSpanProperty.fromJson(DynamicMap json) {
+    return const BoldFontMarkdownSpanProperty();
+  }
+
+  @override
+  BoldFontMarkdownSpanProperty copyWith() {
+    return const BoldFontMarkdownSpanProperty();
+  }
+
+  @override
+  String get type => _kBoldFontMarkdownInlineToolsType;
+
+  @override
+  Color? backgroundColor(RenderContext context, MarkdownController controller,
+      Color? baseBackgroundColor) {
+    return baseBackgroundColor;
+  }
+
+  @override
+  TextStyle? textStyle(RenderContext context, MarkdownController controller,
+      TextStyle? baseTextStyle) {
+    baseTextStyle ??= const TextStyle();
+    return baseTextStyle.copyWith(fontWeight: FontWeight.bold);
   }
 }

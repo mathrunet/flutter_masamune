@@ -35,6 +35,7 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
     super.adapter,
     String? id,
     this.config,
+    this.enableSearch = false,
   }) : id = id ?? uuid();
 
   @override
@@ -59,7 +60,11 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
   /// モデルの設定。
   final AIConfig? config;
 
-  static McpClient? _mcpClient;
+  /// If `true`, the search is enabled.
+  ///
+  /// 検索が有効な場合は`true`に設定してください。
+  final bool enableSearch;
+
   Completer<void>? _initializeCompleter;
 
   /// Result of interaction with AI.
@@ -82,16 +87,10 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
   /// [tools]にAIが使うツールを指定可能です。[McpClient]が利用可能の場合ツールを読み込みます。
   Future<void> initialize({
     AIConfig? config,
-    Set<AITool> tools = const {},
   }) async {
-    if (adapter.mcpClientConfig != null) {
-      _mcpClient ??= McpClient();
-      await _mcpClient?.load();
-      tools = {...tools, ..._mcpClient?.value ?? const {}};
-    }
     if (adapter.isInitializedConfig(
       config: config,
-      tools: tools,
+      enableSearch: enableSearch,
     )) {
       return;
     }
@@ -102,7 +101,7 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
     try {
       await adapter.initialize(
         config: config,
-        tools: tools,
+        enableSearch: enableSearch,
       );
       _initializeCompleter?.complete();
       _initializeCompleter = null;
@@ -122,70 +121,29 @@ class AISingle extends MasamuneControllerBase<AIContent?, AIMasamuneAdapter> {
   ///
   /// You can also pass settings to [config].
   ///
-  /// [tools] can specify the tools used by AI. If [McpClient] is available, the tool is loaded.
-  ///
-  /// [onGenerateFunctionCallingConfig] can pass the function calling config.
-  ///
   /// AIにコンテンツを生成してもらいます。
   ///
   /// [contents]にユーザーからのコンテンツを渡してください。
   /// [AIRole]が[AIRole.user]でない場合は例外が投げられます。
   ///
   /// [config]に設定を渡すことも可能です。
-  ///
-  /// [tools]にAIが使うツールを指定可能です。[McpClient]が利用可能の場合ツールを読み込みます。
-  ///
-  /// [onGenerateFunctionCallingConfig]に関数呼び出しの設定を渡すことも可能です。
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
     AIConfig? config,
     List<AIContent> Function(List<AIContent> contents)? contentFilter,
-    Set<AITool> tools = const {},
     bool includeSystemInitialContent = false,
-    AIFunctionCallingConfig? Function(
-            AIContent response, Set<AITool> tools, int trialCount)?
-        onGenerateFunctionCallingConfig,
   }) async {
     try {
       await initialize(
         config: config ?? this.config,
-        tools: tools,
       );
-      if (_mcpClient != null) {
-        tools = {...tools, ..._mcpClient?.value ?? const {}};
-      }
       final res = await adapter.generateContent(
         contentFilter?.call(contents) ??
             adapter.contentFilter?.call(contents) ??
             contents,
+        enableSearch: enableSearch,
         config: config ?? this.config,
-        tools: tools,
         includeSystemInitialContent: includeSystemInitialContent,
-        onGenerateFunctionCallingConfig: onGenerateFunctionCallingConfig,
-        onFunctionCall: (functionCalls) async {
-          if (_mcpClient != null) {
-            return (await Future.wait<List<AIContentFunctionResponsePart>>(
-              functionCalls.map((call) async {
-                final func = adapter.mcpFunctions
-                    .firstWhereOrNull((f) => f.name == call.name);
-                if (func == null) {
-                  throw Exception(
-                    "Function ${call.name} not found",
-                  );
-                }
-                if (func.clientProcess != null) {
-                  final res = await func.clientProcess!(call);
-                  return await func.generateResponse(res ?? AIContent(), call);
-                }
-                final res = await _mcpClient?.call(call.name, call.args);
-                return await func.generateResponse(res ?? AIContent(), call);
-              }),
-            ))
-                .expand((e) => e)
-                .toList();
-          }
-          return [];
-        },
       );
       if (res == null) {
         return null;

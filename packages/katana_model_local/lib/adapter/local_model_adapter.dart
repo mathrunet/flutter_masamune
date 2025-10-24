@@ -55,6 +55,7 @@ class LocalModelAdapter extends ModelAdapter {
     this.prefix,
     this.initialValue,
     this.validator,
+    this.vectorConverter = const RuntimeVectorConverter(),
   }) : _database = database;
 
   final NoSqlDatabase? _database;
@@ -70,14 +71,14 @@ class LocalModelAdapter extends ModelAdapter {
           final map = raw.toMap(raw.value);
           database.setInitialValue(
             _path(raw.path),
-            raw.filterOnSave(map, raw.value),
+            raw.filterOnSave(map, raw.value, this),
           );
         } else if (raw is ModelInitialCollection) {
           for (final tmp in raw.value.entries) {
             final map = raw.toMap(tmp.value);
             database.setInitialValue(
               _path("${raw.path}/${tmp.key}"),
-              raw.filterOnSave(map, tmp.value),
+              raw.filterOnSave(map, tmp.value, this),
             );
           }
         }
@@ -137,6 +138,9 @@ class LocalModelAdapter extends ModelAdapter {
   ///
   /// モックアップとして利用する際の実データ。
   final List<ModelInitialValue>? initialValue;
+
+  @override
+  final VectorConverter vectorConverter;
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {

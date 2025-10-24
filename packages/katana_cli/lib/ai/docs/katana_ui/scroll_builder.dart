@@ -15,7 +15,7 @@ class KatanaUIScrollBuilderMdCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String get description =>
-      "ListViewやSingleChildScrollViewに簡単にRefreshIndicatorやScrollbarを追加できるウィジェットである`ScrollBuilder`の利用方法";
+      "ListViewやSingleChildScrollViewに簡単にRefreshIndicatorやScrollbarを追加できるウィジェットである`ScrollBuilder`の利用方法。プルトゥリフレッシュとプラットフォーム別スクロールバー機能を提供。";
 
   @override
   String get globs => "*.dart";
@@ -38,11 +38,13 @@ $excerpt
 
 ## 特徴
 
-- Pull to Refresh機能の簡単な追加
-- デスクトップ/Web向けのインタラクティブなスクロールバー
+- Pull to Refresh機能の簡単な追加（RefreshIndicator）
+- デスクトップ/Web向けのインタラクティブなスクロールバー（Scrollbar）
 - カスタム`ScrollController`のサポート
-- プラットフォームに応じた適切な動作
+- プラットフォームに応じた適切な動作（PlatformInfoを使用）
 - シンプルなビルダーパターン
+- 自動ScrollController管理（カスタムコントローラー未指定時）
+- デスクトップ/Webでは`interactive: true`、`trackVisibility: true`、`thumbVisibility: true`のスクロールバーを表示
 
 ## 基本的な使い方
 
@@ -172,12 +174,15 @@ ScrollBuilder(
 ## 注意点
 
 - `builder`は必須パラメータ
-- `builder`には`ScrollController`が自動的に提供される
+- `builder`には`ScrollController`が自動的に提供される（`controller`未指定時は自動生成）
 - `onRefresh`を指定すると自動的に`RefreshIndicator`が追加される
+- `showScrollbarWhenDesktopOrWeb`のデフォルトは`true`
 - デスクトップ/Webでは`showScrollbarWhenDesktopOrWeb`が`true`の場合、インタラクティブなスクロールバーが表示される
 - カスタム`ScrollController`を使用する場合は`controller`パラメータで指定
-- `builder`内では必ず提供された`controller`をスクロール可能なウィジェットに設定する必要がある
+- `builder`内では必ず提供された`controller`をスクロール可能なウィジェット（ListView、SingleChildScrollViewなど）に設定する必要がある
 - スクロールバーはデスクトップ/Webプラットフォームでのみ表示される（`showScrollbarWhenDesktopOrWeb`が`true`の場合）
+- `controller`を指定しない場合、内部で自動的に`ScrollController`が生成される（`initState`で初期化）
+- ウィジェットツリーの構成は: RefreshIndicator > Scrollbar > builder の順
 
 ## 利用シーン
 

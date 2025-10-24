@@ -28,7 +28,7 @@ class CloseMarkdownSecondaryTools extends MarkdownSecondaryTools {
 
   @override
   bool enabled(BuildContext context, MarkdownToolRef ref) {
-    return ref.focusedSelection != null;
+    return ref.selection != null;
   }
 
   @override

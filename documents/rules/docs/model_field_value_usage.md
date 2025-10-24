@@ -29,4 +29,5 @@
 | `ModelDate` | 内部に`DateTime`を保持し日付を扱えるようにしながらJsonにパースしやすくしたオブジェクト。時刻は含まれず、日付のみを扱う。 | Usage(`documents/rules/model_field_value/model_date.md`) |
 | `ModelDateRange` | 内部に`DateTimeRange`を保持し日付の範囲を扱えるようにしながらJsonにパースしやすくしたオブジェクト。時刻は含まれず、日付のみを扱う。 | Usage(`documents/rules/model_field_value/model_date_range.md`) |
 | `ModelUri` | URIを扱うためのクラス。ファイルパスやURLなどのURIを保存・管理するために利用可能。 | Usage(`documents/rules/model_field_value/model_uri.md`) |
+| `ModelVectorValue` | ベクトルデータ(埋め込みベクトル)を扱うためのクラス。RAG(Retrieval-Augmented Generation)やベクトル類似度検索、セマンティック検索に利用可能。 | Usage(`documents/rules/model_field_value/model_vector_value.md`) |
 | `ModelVideoUri` | 動画のURIを扱うためのクラス。動画ファイルのパスやURLを保存・管理するために利用可能。`ModelUri`の特殊化バージョンで、動画ファイル専用の機能を提供。 | Usage(`documents/rules/model_field_value/model_video_uri.md`) |

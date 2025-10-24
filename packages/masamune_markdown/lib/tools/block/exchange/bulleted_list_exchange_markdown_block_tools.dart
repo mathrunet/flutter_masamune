@@ -49,7 +49,7 @@ class BulletedListExchangeMarkdownBlockTools extends MarkdownBlockTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.focusedController?.formatLine(Attribute.ul);
+    ref.controller.exchangeBlock(this);
     ref.deleteMode();
   }
 }

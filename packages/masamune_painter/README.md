@@ -30,11 +30,211 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Painter
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_painter
+```
+
+Run `flutter pub get` if you edit `pubspec.yaml` manually.
+
+### Register the Adapter
+
+`PainterMasamuneAdapter` configures default drawing behavior, storage paths, and media handlers. Register it before launching the app.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used in the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  PainterMasamuneAdapter(
+    enableAutosave: true,
+    storageDirectory: "painter",
+  ),
+];
+```
+
+### Basic Usage
+
+Use `PainterController` to manage drawing state and the `Painter` widget to display the canvas.
+
+```dart
+class DrawingPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final painter = ref.page.controller(PainterController.query());
+
+    // Initialize on page load
+    ref.page.on(
+      initOrUpdate: () {
+        painter.initialize();
+      },
+    );
+
+    return Scaffold(
+      appBar: AppBar(title: const Text("Painter")),
+      body: Column(
+        children: [
+          // Toolbar with drawing tools
+          FormPainterToolbar(controller: painter),
+          
+          // Main drawing canvas
+          Expanded(
+            child: Painter(controller: painter),
+          ),
+          
+          // Layer management
+          Container(
+            height: 100,
+            child: PainterLayerList(controller: painter),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+### Drawing Tools
+
+Control the painter programmatically:
+
+```dart
+// Select drawing tool
+painter.selectPrimaryTool(PainterPrimaryTool.pen);
+painter.selectPrimaryTool(PainterPrimaryTool.shape);
+painter.selectPrimaryTool(PainterPrimaryTool.text);
+
+// Change drawing properties
+painter.changeColor(Colors.blue);
+painter.changeStrokeWidth(5.0);
+
+// Undo/Redo
+painter.undo();
+painter.redo();
+```
+
+### UI Components
+
+**FormPainterToolbar**: Provides tool selection buttons
+- Primary tools: Pen, shape, text, media, select
+- Secondary tools: Copy, cut, paste
+- Inline tools: Color picker, stroke settings, font properties
+
+**PainterLayerList**: Manages layers
+- Add/remove layers
+- Change layer order
+- Toggle layer visibility
+- Rename layers
+
+### Storage and Export
+
+Save drawings as JSON or export as images:
+
+**Export as JSON**:
+
+```dart
+// Export drawing data
+final exportData = await painter.export();
+
+// Save to file (contains all layers, strokes, and settings)
+await File('path/to/drawing.json').writeAsString(
+  jsonEncode(exportData.toJson()),
+);
+
+// Import later
+final jsonData = await File('path/to/drawing.json').readAsString();
+final importData = PainterExportValue.fromJson(jsonDecode(jsonData));
+await painter.import(importData);
+```
+
+**Export as Image**:
+
+```dart
+// Render drawing to image
+final imageBytes = await painter.renderImage(
+  width: 1920,
+  height: 1080,
+  format: ImageByteFormat.png,
+);
+
+// Save to gallery or file
+await painter.saveImageToGallery(imageBytes);
+
+// Or save to file
+await File('path/to/image.png').writeAsBytes(imageBytes);
+```
+
+**Autosave**:
+
+Enable autosave in the adapter to automatically persist drawings:
+
+```dart
+PainterMasamuneAdapter(
+  enableAutosave: true,
+  autosaveInterval: Duration(seconds: 30),  // Save every 30 seconds
+  storageDirectory: "painter",
+)
+```
+
+### Advanced Features
+
+**Layer Management**:
+
+```dart
+// Add new layer
+painter.addLayer();
+
+// Remove layer
+painter.removeLayer(layerId);
+
+// Rename layer
+painter.renameLayer(layerId, "Background");
+
+// Change layer order
+painter.moveLayerUp(layerId);
+painter.moveLayerDown(layerId);
+
+// Toggle visibility
+painter.toggleLayerVisibility(layerId);
+```
+
+**Filters and Effects**:
+
+Apply filters to selected elements:
+
+```dart
+painter.selectPrimaryTool(PainterPrimaryTool.select);
+// Select an element
+painter.applyFilter(PainterFilter.blur);
+painter.applyFilter(PainterFilter.grayscale);
+```
+
+**Media Insertion**:
+
+Insert images from camera or gallery (requires `masamune_picker`):
+
+```dart
+painter.selectPrimaryTool(PainterPrimaryTool.media);
+// Opens picker to select image
+// Image is inserted as a new layer
+```
+
+### Tips
+
+- Provide onboarding hints for layer management and advanced tools
+- Persist user preferences (pen color, brush size) using shared preferences
+- Consider disabling filters on low-end devices for better performance
+- Use autosave to prevent data loss
+- Test export/import flow thoroughly for data integrity
 
 # GitHub Sponsors
 

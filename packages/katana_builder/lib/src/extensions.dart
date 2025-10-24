@@ -189,6 +189,15 @@ extension InterfaceTypeExtensions on InterfaceType {
     );
   }
 
+  /// Returns `true` for `ModelVectorValue` type.
+  ///
+  /// `ModelVectorValue`型の場合`true`を返します。
+  bool get isModelVectorValue {
+    return allThisOrSubTypes.any(
+      (e) => MasamuneType.modelVectorValue.regExp.hasMatch(e.toString()),
+    );
+  }
+
   /// Returns `true` for `ModelLocale` type.
   ///
   /// `ModelLocale`型の場合`true`を返します。

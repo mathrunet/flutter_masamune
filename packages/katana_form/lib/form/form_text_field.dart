@@ -2,131 +2,361 @@ part of "/katana_form.dart";
 
 /// Widgets for text fields for forms.
 ///
+/// フォーム用のテキストフィールド用のウィジェット。
+///
+/// Masamune framework version of `TextFormField`. A form field for text input.
+/// Common design can be applied with `FormStyle`. Also, the value of `TextFormField` can be managed using `FormController`.
+/// It has functions such as validation, suggestion function (advanced input completion by `SuggestionConfig`), custom design,
+/// focus control, multi-line input, and character count restriction.
+///
+/// `TextFormField`のMasamuneフレームワーク版。テキスト入力を行うフォームフィールド。
+/// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで`TextFormField`の値を管理可能。
+/// バリデーション、サジェスト機能（`SuggestionConfig`による高度な入力補完）、カスタムデザイン、
+/// フォーカス制御、複数行入力、文字数制限などの機能を備えています。
+///
+/// ## Placement 配置方法
+///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+///
+/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+///
+/// ## Form Management フォーム管理
 ///
 /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
 ///
+/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+///
+/// ## Initial Value and Callbacks 初期値とコールバック
+///
 /// Enter the initial value given by [FormController.value] in [initialValue].
+///
+/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
 ///
 /// Each time the content is changed, [onChanged] is executed.
 ///
+/// 内容が変更される度[onChanged]が実行されます。
+///
+/// ## Validation バリデーション
+///
 /// When [FormController.validate] is executed, validation and data saving are performed.
+///
+/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
 ///
 /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
 /// Only when [lengthErrorText] is specified, if the number of characters entered is less than [minLength], it is displayed as [lengthErrorText].
 ///
-/// Other error checking is performed by specifying [validator].
-/// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-///
-/// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
-///
-/// If [suggestion] is specified, suggestions will be displayed according to what you have entered.
-///
-/// If [onDeleteSuggestion] is specified, a delete button is displayed on the displayed suggestions, and if the button is pressed, the process is executed when the suggestion is deleted.
-///
-/// If [enabled] is `false`, the text is deactivated.
-///
-/// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
-///
-/// If [obscureText] is set to `true`, the input string will be hidden. Please use this function for inputting passwords, etc.
-///
-/// If [inputFormatters] is specified, it is possible to restrict the characters to be entered.
-///
-/// フォーム用のテキストフィールド用のウィジェット。
-///
-/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-///
-/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-///
-/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-///
-/// 内容が変更される度[onChanged]が実行されます。
-///
-/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-///
 /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
 /// [lengthErrorText]が指定されている時に限り、[minLength]より入力された文字数が少ない場合[lengthErrorText]として表示されます。
+///
+/// Other error checking is performed by specifying [validator].
+/// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
 ///
 /// それ以外のエラーチェックは[validator]を指定することで行ないます。
 /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
 ///
+/// ## Event Processing イベント処理
+///
+/// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
+///
 /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
 ///
-/// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
+/// The [onFocusChanged] process is executed when the focus is changed.
 ///
-/// [onDeleteSuggestion]が指定されている場合、表示されたサジェストに削除ボタンが表示され、ボタンが押された場合、サジェスト削除時の処理が実行されます。
+/// フォーカスが変更された場合の処理を[onFocusChanged]が実行されます。
+///
+/// ## Suggestion Function サジェスト機能
+///
+/// If [suggestion] is specified, suggestions will be displayed according to what you have entered.
+/// Use [SuggestionConfig] to configure suggestion behavior, including items, display conditions, and tap actions.
+///
+/// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
+/// [SuggestionConfig]を使用して、サジェストの候補リスト、表示条件、タップ時の動作などを設定します。
+///
+/// ## Text Field State テキストフィールドの状態
+///
+/// If [enabled] is `false`, the text is deactivated.
 ///
 /// [enabled]が`false`になるとテキストが非有効化されます。
 ///
+/// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
+///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
+///
+/// If [obscureText] is set to `true`, the input string will be hidden. Please use this function for inputting passwords, etc.
 ///
 /// [obscureText]が`true`になると入力された文字列が隠されます。パスワードの入力などにご利用ください。
 ///
+/// ## Input Restrictions 入力制限
+///
+/// If [inputFormatters] is specified, it is possible to restrict the characters to be entered.
+///
 /// [inputFormatters]が指定されると入力される文字を制限することが可能です。
+///
+/// If [maxLength] is specified, the maximum number of characters that can be entered is restricted.
+///
+/// [maxLength]が指定されると入力できる最大文字数が制限されます。
+///
+/// ## Prefix and Suffix プレフィックス・サフィックス
+///
+/// Use [prefix] and [suffix] to add icons, labels, or other widgets before or after the text field.
+///
+/// [prefix]と[suffix]を使用して、テキストフィールドの前後にアイコン、ラベル、その他のウィジェットを追加できます。
+///
+/// ## Multi-line Input 複数行入力
+///
+/// Set [maxLines] and [minLines] to allow multi-line input.
+/// Use [expands] to make the text field expand to fill its parent.
+/// Note: [obscureText] cannot be used with multi-line input.
+///
+/// [maxLines]と[minLines]を設定して複数行入力を許可します。
+/// [expands]を使用して、テキストフィールドを親のサイズに合わせて拡張できます。
+/// 注意: [obscureText]は複数行入力と併用できません。
+///
+/// ## Focus Control フォーカス制御
+///
+/// Use [focusNode] to control focus programmatically.
+/// Use [selectionOnFocus] to specify the selection behavior when focused.
+///
+/// [focusNode]を使用してプログラム的にフォーカスを制御します。
+/// [selectionOnFocus]を使用してフォーカス時の選択動作を指定します。
+///
+/// ## Basic Usage Example 基本的な使用例
+///
+/// ```dart
+/// FormTextField(
+///   form: formController,
+///   initialValue: formController.value.text,
+///   labelText: "ユーザー名",
+///   hintText: "例: yamada_taro",
+///   onSaved: (value) => formController.value.copyWith(text: value),
+/// );
+/// ```
+///
+/// ## With Suggestion サジェスト付きの使用例
+///
+/// ```dart
+/// FormTextField(
+///   form: formController,
+///   initialValue: formController.value.text,
+///   suggestion: SuggestionConfig(
+///     items: ["東京", "大阪", "名古屋", "福岡"],
+///     showOnTap: true,
+///     showOnEmpty: true,
+///   ),
+///   onSaved: (value) => formController.value.copyWith(text: value),
+/// );
+/// ```
+///
+/// ## With Validation バリデーション付きの使用例
+///
+/// ```dart
+/// FormTextField(
+///   form: formController,
+///   initialValue: formController.value.text,
+///   emptyErrorText: "必須項目です",
+///   lengthErrorText: "3文字以上入力してください",
+///   minLength: 3,
+///   validator: (value) {
+///     if (value?.contains("@") == false) {
+///       return "@を含めてください";
+///     }
+///     return null;
+///   },
+///   onSaved: (value) => formController.value.copyWith(text: value),
+/// );
+/// ```
+///
+/// ## Password Input パスワード入力の使用例
+///
+/// ```dart
+/// FormTextField(
+///   form: formController,
+///   initialValue: formController.value.password,
+///   labelText: "パスワード",
+///   obscureText: true,
+///   keyboardType: TextInputType.visiblePassword,
+///   onSaved: (value) => formController.value.copyWith(password: value),
+/// );
+/// ```
 class FormTextField<TValue> extends StatefulWidget {
   /// Widgets for text fields for forms.
   ///
+  /// フォーム用のテキストフィールド用のウィジェット。
+  ///
+  /// Masamune framework version of `TextFormField`. A form field for text input.
+  /// Common design can be applied with `FormStyle`. Also, the value of `TextFormField` can be managed using `FormController`.
+  /// It has functions such as validation, suggestion function (advanced input completion by `SuggestionConfig`), custom design,
+  /// focus control, multi-line input, and character count restriction.
+  ///
+  /// `TextFormField`のMasamuneフレームワーク版。テキスト入力を行うフォームフィールド。
+  /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで`TextFormField`の値を管理可能。
+  /// バリデーション、サジェスト機能（`SuggestionConfig`による高度な入力補完）、カスタムデザイン、
+  /// フォーカス制御、複数行入力、文字数制限などの機能を備えています。
+  ///
+  /// ## Placement 配置方法
+  ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+  ///
+  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+  ///
+  /// ## Form Management フォーム管理
   ///
   /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
   ///
+  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+  ///
+  /// ## Initial Value and Callbacks 初期値とコールバック
+  ///
   /// Enter the initial value given by [FormController.value] in [initialValue].
+  ///
+  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
   ///
   /// Each time the content is changed, [onChanged] is executed.
   ///
+  /// 内容が変更される度[onChanged]が実行されます。
+  ///
+  /// ## Validation バリデーション
+  ///
   /// When [FormController.validate] is executed, validation and data saving are performed.
+  ///
+  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
   ///
   /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
   /// Only when [lengthErrorText] is specified, if the number of characters entered is less than [minLength], it is displayed as [lengthErrorText].
   ///
-  /// Other error checking is performed by specifying [validator].
-  /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-  ///
-  /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
-  ///
-  /// If [suggestion] is specified, suggestions will be displayed according to what you have entered.
-  ///
-  /// If [onDeleteSuggestion] is specified, a delete button is displayed on the displayed suggestions, and if the button is pressed, the process is executed when the suggestion is deleted.
-  ///
-  /// If [enabled] is `false`, the text is deactivated.
-  ///
-  /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
-  ///
-  /// If [obscureText] is set to `true`, the input string will be hidden. Please use this function for inputting passwords, etc.
-  ///
-  /// If [inputFormatters] is specified, it is possible to restrict the characters to be entered.
-  ///
-  /// フォーム用のテキストフィールド用のウィジェット。
-  ///
-  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-  ///
-  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-  ///
-  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-  ///
-  /// 内容が変更される度[onChanged]が実行されます。
-  ///
-  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-  ///
   /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
   /// [lengthErrorText]が指定されている時に限り、[minLength]より入力された文字数が少ない場合[lengthErrorText]として表示されます。
+  ///
+  /// Other error checking is performed by specifying [validator].
+  /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
   ///
   /// それ以外のエラーチェックは[validator]を指定することで行ないます。
   /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
   ///
+  /// ## Event Processing イベント処理
+  ///
+  /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
+  ///
   /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
   ///
-  /// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
+  /// The [onFocusChanged] process is executed when the focus is changed.
   ///
-  /// [onDeleteSuggestion]が指定されている場合、表示されたサジェストに削除ボタンが表示され、ボタンが押された場合、サジェスト削除時の処理が実行されます。
+  /// フォーカスが変更された場合の処理を[onFocusChanged]が実行されます。
+  ///
+  /// ## Suggestion Function サジェスト機能
+  ///
+  /// If [suggestion] is specified, suggestions will be displayed according to what you have entered.
+  /// Use [SuggestionConfig] to configure suggestion behavior, including items, display conditions, and tap actions.
+  ///
+  /// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
+  /// [SuggestionConfig]を使用して、サジェストの候補リスト、表示条件、タップ時の動作などを設定します。
+  ///
+  /// ## Text Field State テキストフィールドの状態
+  ///
+  /// If [enabled] is `false`, the text is deactivated.
   ///
   /// [enabled]が`false`になるとテキストが非有効化されます。
   ///
+  /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
+  ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
+  ///
+  /// If [obscureText] is set to `true`, the input string will be hidden. Please use this function for inputting passwords, etc.
   ///
   /// [obscureText]が`true`になると入力された文字列が隠されます。パスワードの入力などにご利用ください。
   ///
+  /// ## Input Restrictions 入力制限
+  ///
+  /// If [inputFormatters] is specified, it is possible to restrict the characters to be entered.
+  ///
   /// [inputFormatters]が指定されると入力される文字を制限することが可能です。
+  ///
+  /// If [maxLength] is specified, the maximum number of characters that can be entered is restricted.
+  ///
+  /// [maxLength]が指定されると入力できる最大文字数が制限されます。
+  ///
+  /// ## Prefix and Suffix プレフィックス・サフィックス
+  ///
+  /// Use [prefix] and [suffix] to add icons, labels, or other widgets before or after the text field.
+  ///
+  /// [prefix]と[suffix]を使用して、テキストフィールドの前後にアイコン、ラベル、その他のウィジェットを追加できます。
+  ///
+  /// ## Multi-line Input 複数行入力
+  ///
+  /// Set [maxLines] and [minLines] to allow multi-line input.
+  /// Use [expands] to make the text field expand to fill its parent.
+  /// Note: [obscureText] cannot be used with multi-line input.
+  ///
+  /// [maxLines]と[minLines]を設定して複数行入力を許可します。
+  /// [expands]を使用して、テキストフィールドを親のサイズに合わせて拡張できます。
+  /// 注意: [obscureText]は複数行入力と併用できません。
+  ///
+  /// ## Focus Control フォーカス制御
+  ///
+  /// Use [focusNode] to control focus programmatically.
+  /// Use [selectionOnFocus] to specify the selection behavior when focused.
+  ///
+  /// [focusNode]を使用してプログラム的にフォーカスを制御します。
+  /// [selectionOnFocus]を使用してフォーカス時の選択動作を指定します。
+  ///
+  /// ## Basic Usage Example 基本的な使用例
+  ///
+  /// ```dart
+  /// FormTextField(
+  ///   form: formController,
+  ///   initialValue: formController.value.text,
+  ///   labelText: "ユーザー名",
+  ///   hintText: "例: yamada_taro",
+  ///   onSaved: (value) => formController.value.copyWith(text: value),
+  /// );
+  /// ```
+  ///
+  /// ## With Suggestion サジェスト付きの使用例
+  ///
+  /// ```dart
+  /// FormTextField(
+  ///   form: formController,
+  ///   initialValue: formController.value.text,
+  ///   suggestion: SuggestionConfig(
+  ///     items: ["東京", "大阪", "名古屋", "福岡"],
+  ///     showOnTap: true,
+  ///     showOnEmpty: true,
+  ///   ),
+  ///   onSaved: (value) => formController.value.copyWith(text: value),
+  /// );
+  /// ```
+  ///
+  /// ## With Validation バリデーション付きの使用例
+  ///
+  /// ```dart
+  /// FormTextField(
+  ///   form: formController,
+  ///   initialValue: formController.value.text,
+  ///   emptyErrorText: "必須項目です",
+  ///   lengthErrorText: "3文字以上入力してください",
+  ///   minLength: 3,
+  ///   validator: (value) {
+  ///     if (value?.contains("@") == false) {
+  ///       return "@を含めてください";
+  ///     }
+  ///     return null;
+  ///   },
+  ///   onSaved: (value) => formController.value.copyWith(text: value),
+  /// );
+  /// ```
+  ///
+  /// ## Password Input パスワード入力の使用例
+  ///
+  /// ```dart
+  /// FormTextField(
+  ///   form: formController,
+  ///   initialValue: formController.value.password,
+  ///   labelText: "パスワード",
+  ///   obscureText: true,
+  ///   keyboardType: TextInputType.visiblePassword,
+  ///   onSaved: (value) => formController.value.copyWith(password: value),
+  /// );
+  /// ```
   const FormTextField({
     this.form,
     super.key,

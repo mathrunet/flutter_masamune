@@ -51,6 +51,6 @@ class PasteMarkdownSecondaryTools extends MarkdownSecondaryTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.focusedController?.clipboardPaste();
+    ref.controller.paste();
   }
 }

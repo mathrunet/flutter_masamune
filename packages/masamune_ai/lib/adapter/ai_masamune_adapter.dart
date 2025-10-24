@@ -18,20 +18,36 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   const AIMasamuneAdapter({
     this.defaultConfig = const AIConfig(),
     this.onGeneratedContentUsage,
-    this.mcpServerConfig,
-    this.mcpClientConfig,
-    this.mcpFunctions = const [],
+    this.defaultTools = const {},
     this.onGenerateFunctionCallingConfig,
-    this.listenMcpServerOnRunApp = false,
     this.contentFilter,
-  });
-
-  static McpServer? _mcpServer;
+    this.threadContentSortCallback = defaultThreadContentSortCallback,
+    ModelAdapter? vectorModelAdapter,
+    this.defaultAgentPromptTemplate,
+    this.defaultAgentVectorMemoryConfig,
+    this.maxAgentRecordStep = 100,
+    AppRef? appRef,
+  })  : _appRef = appRef,
+        _vectorModelAdapter = vectorModelAdapter;
 
   /// The default configuration of the AI.
   ///
   /// AIのデフォルト設定。
   final AIConfig defaultConfig;
+
+  /// The adapter for the vector model.
+  ///
+  /// ベクトルモデルのアダプター。
+  ModelAdapter? get vectorModelAdapter {
+    if (_vectorModelAdapter != null) {
+      return _vectorModelAdapter;
+    }
+    return _sharedRuntimeModelAdapter;
+  }
+
+  static const ModelAdapter _sharedRuntimeModelAdapter = RuntimeModelAdapter();
+
+  final ModelAdapter? _vectorModelAdapter;
 
   /// Called when the content is generated.
   ///
@@ -39,30 +55,35 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   final void Function(int promptTokenCount, int candidateTokenCount)?
       onGeneratedContentUsage;
 
-  /// The configuration of the MCP server.
+  /// Default AI tools.
   ///
-  /// MCPサーバーの設定。
-  final McpServerConfig? mcpServerConfig;
-
-  /// The configuration of the MCP client.
-  ///
-  /// MCPクライアントの設定。
-  final McpClientConfig? mcpClientConfig;
-
-  /// List of MCP server functions.
-  ///
-  /// MCPサーバーの関数一覧。
-  final List<McpFunction> mcpFunctions;
-
-  /// Whether to listen to the MCP server on [onPreRunApp].
-  ///
-  /// [onPreRunApp]でMCPサーバーを監視するかどうか。
-  final bool listenMcpServerOnRunApp;
+  /// デフォルトのAIツール一覧。
+  final Set<AITool> defaultTools;
 
   /// Called before content is generated.
   ///
   /// 内容が生成される前に呼び出されます。
   final List<AIContent> Function(List<AIContent> contents)? contentFilter;
+
+  /// Called before content is generated.
+  ///
+  /// 内容が生成される前に呼び出されます。
+  final int Function(AIContent a, AIContent b)? threadContentSortCallback;
+
+  /// The prompt template for the agent.
+  ///
+  /// エージェントのプロンプトテンプレート。
+  final AgentPromptTemplate? defaultAgentPromptTemplate;
+
+  /// Configuration for vector-based memory.
+  ///
+  /// ベクトルメモリの設定。
+  final AIAgentVectorMemoryConfig? defaultAgentVectorMemoryConfig;
+
+  /// Maximum number of steps to record for the agent.
+  ///
+  /// エージェントが記録する最大ステップ数。
+  final int maxAgentRecordStep;
 
   /// Called when the function calling config is generated.
   ///
@@ -70,6 +91,36 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   final AIFunctionCallingConfig? Function(
           AIContent response, Set<AITool> tools, int trialCount)?
       onGenerateFunctionCallingConfig;
+
+  final AppRef? _appRef;
+
+  /// The [AppRef] provided when creating [AIMasamuneAdapter].
+  ///
+  /// [AIMasamuneAdapter]作成時に提供された[AppRef]。
+  static AppRef get appRef {
+    if (primary._appRef != null) {
+      return primary._appRef!;
+    }
+    return __appRef ??= AppRef();
+  }
+
+  static AppRef? __appRef;
+
+  /// The default callback for sorting thread contents.
+  ///
+  /// スレッドコンテンツをソートするためのデフォルトコールバック。
+  static int defaultThreadContentSortCallback(AIContent a, AIContent b) {
+    return a.time.compareTo(b.time);
+  }
+
+  /// The default callback for sorting thread contents in reverse order.
+  ///
+  /// スレッドコンテンツを逆順でソートするためのデフォルトコールバック。
+  static int reverseThreadContentSortCallback(AIContent a, AIContent b) {
+    return b.time.compareTo(a.time);
+  }
+
+  /// The default callback for filtering thread contents.
 
   /// You can retrieve the [AIMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
@@ -101,21 +152,13 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
     );
   }
 
-  @override
-  FutureOr<void> onPreRunApp(WidgetsBinding binding) async {
-    if (listenMcpServerOnRunApp && mcpServerConfig != null) {
-      _mcpServer ??= McpServer(adapter: this);
-      await _mcpServer?.listen();
-    }
-    return super.onPreRunApp(binding);
-  }
-
   /// Check if the AI is initialized with the given config.
   ///
   /// 与えられた設定でAIが初期化されているかどうかを確認します。
   bool isInitializedConfig({
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
   });
 
   /// Initialize the AI.
@@ -124,6 +167,7 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   Future<void> initialize({
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
   });
 
   /// Generate the content of the AI.
@@ -131,12 +175,13 @@ abstract class AIMasamuneAdapter extends MasamuneAdapter {
   /// AIの内容を生成します。
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
-    required Future<List<AIContentFunctionResponsePart>> Function(
-            List<AIContentFunctionCallPart> functionCalls)
+    Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart> functionCalls)?
         onFunctionCall,
     AIConfig? config,
     bool includeSystemInitialContent = false,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
         onGenerateFunctionCallingConfig,

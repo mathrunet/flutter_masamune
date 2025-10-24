@@ -2,99 +2,95 @@ part of "/katana_form.dart";
 
 /// Drop down form to select from there with [Map] as an option.
 ///
+/// A form field that allows you to select Key-Value pair Map format data from a tag-based dropdown menu.
+/// You can add, edit, or delete each element. Common design can be applied with `FormStyle`.
+/// Selection state can be managed using `FormController`.
+///
+/// Key-ValueペアのMap形式のデータをタグ付きドロップダウンメニューで選択できるフォームフィールド。
+/// 各要素を追加・編集・削除可能。`FormStyle`で共通したデザインを適用可能。
+/// また`FormController`を利用することで選択状態を管理できます。
+///
 /// Unlike [FormMapDropdownField], multiple selections can be made like tags.
 /// You can also add, edit, or delete choices.
-///
-/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
-///
-/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
-///
-/// Enter the initial value given by [FormController.value] in [initialValue].
-///
-/// Each time the content is changed, [onChanged] is executed.
-///
-/// If [FormController.validate] is executed, validation and data saving are performed.
-///
-/// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
-///
-/// Other error checking is performed by specifying [validator].
-/// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-///
-/// By specifying [picker], it is possible to set the selection method for [Map].
-///
-/// Deactivated when [enabled] is set to `false`.
-///
-/// [Map]を選択肢としてそこから選択するためのドロップダウンフォーム。
 ///
 /// [FormMapDropdownField]とは異なり、タグのように複数選択が可能です。
 /// また、選択肢の追加や編集、削除も可能です。
 ///
-/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+/// ## Basic Usage Example 基本的な使用例
 ///
-/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+/// ```dart
+/// final tags = <String, String>{
+///   "health": "健康",
+///   "finance": "金融",
+///   "education": "教育",
+///   "entertainment": "エンタメ",
+/// };
 ///
-/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-///
-/// 内容が変更される度[onChanged]が実行されます。
-///
-/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-///
-/// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-///
-/// それ以外のエラーチェックは[validator]を指定することで行ないます。
-/// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-///
-/// [picker]を指定することで[Map]の選択方法を設定することが可能です。
-///
-/// [enabled]が`false`になると非有効化されます。
+/// FormMapTagDropdownField(
+///   form: formController,
+///   initialValue: formController.value.selectedTags,
+///   onSaved: (value) => formController.value.copyWith(selectedTags: value),
+///   picker: FormMapTagDropdownFieldPicker(
+///     values: tags,
+///     onAdd: (entry) {
+///       tags.addEntries([entry]);
+///     },
+///     onEdit: (entry) {
+///       tags.remove(entry.key);
+///       tags.addEntries([entry]);
+///     },
+///     onDelete: (key) {
+///       tags.remove(key);
+///     },
+///   ),
+/// );
+/// ```
 class FormMapTagDropdownField<TValue> extends FormField<List<String>> {
   /// Drop down form to select from there with [Map] as an option.
+  ///
+  /// A form field that allows you to select Key-Value pair Map format data from a tag-based dropdown menu.
+  /// You can add, edit, or delete each element. Common design can be applied with `FormStyle`.
+  /// Selection state can be managed using `FormController`.
+  ///
+  /// Key-ValueペアのMap形式のデータをタグ付きドロップダウンメニューで選択できるフォームフィールド。
+  /// 各要素を追加・編集・削除可能。`FormStyle`で共通したデザインを適用可能。
+  /// また`FormController`を利用することで選択状態を管理できます。
   ///
   /// Unlike [FormMapDropdownField], multiple selections can be made like tags.
   /// You can also add, edit, or delete choices.
   ///
-  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
-  ///
-  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
-  ///
-  /// Enter the initial value given by [FormController.value] in [initialValue].
-  ///
-  /// Each time the content is changed, [onChanged] is executed.
-  ///
-  /// If [FormController.validate] is executed, validation and data saving are performed.
-  ///
-  /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
-  ///
-  /// Other error checking is performed by specifying [validator].
-  /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-  ///
-  /// By specifying [picker], it is possible to set the selection method for [Map].
-  ///
-  /// Deactivated when [enabled] is set to `false`.
-  ///
-  /// [Map]を選択肢としてそこから選択するためのドロップダウンフォーム。
-  ///
   /// [FormMapDropdownField]とは異なり、タグのように複数選択が可能です。
   /// また、選択肢の追加や編集、削除も可能です。
   ///
-  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+  /// ## Basic Usage Example 基本的な使用例
   ///
-  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+  /// ```dart
+  /// final tags = <String, String>{
+  ///   "health": "健康",
+  ///   "finance": "金融",
+  ///   "education": "教育",
+  ///   "entertainment": "エンタメ",
+  /// };
   ///
-  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-  ///
-  /// 内容が変更される度[onChanged]が実行されます。
-  ///
-  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-  ///
-  /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-  ///
-  /// それ以外のエラーチェックは[validator]を指定することで行ないます。
-  /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-  ///
-  /// [picker]を指定することで[Map]の選択方法を設定することが可能です。
-  ///
-  /// [enabled]が`false`になると非有効化されます。
+  /// FormMapTagDropdownField(
+  ///   form: formController,
+  ///   initialValue: formController.value.selectedTags,
+  ///   onSaved: (value) => formController.value.copyWith(selectedTags: value),
+  ///   picker: FormMapTagDropdownFieldPicker(
+  ///     values: tags,
+  ///     onAdd: (entry) {
+  ///       tags.addEntries([entry]);
+  ///     },
+  ///     onEdit: (entry) {
+  ///       tags.remove(entry.key);
+  ///       tags.addEntries([entry]);
+  ///     },
+  ///     onDelete: (key) {
+  ///       tags.remove(key);
+  ///     },
+  ///   ),
+  /// );
+  /// ```
   FormMapTagDropdownField({
     required this.picker,
     super.key,

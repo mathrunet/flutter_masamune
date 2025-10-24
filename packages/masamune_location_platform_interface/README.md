@@ -30,11 +30,62 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Location Platform Interface
 
-For more information about Masamune Framework, please click here.
+## Overview
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+`masamune_location_platform_interface` defines the abstract interfaces for location-related adapters in the Masamune framework. This package is primarily used by package authors implementing custom location adapters.
+
+**Note**: Most developers should use `masamune_location` instead of this package directly.
+
+## Usage
+
+This package is automatically included as a dependency when you use:
+- `masamune_location`
+- `masamune_location_background`
+- `masamune_location_geocoding`
+- `masamune_location_google`
+
+### For Package Authors
+
+If you're creating a custom location adapter, extend `LocationMasamuneAdapter`:
+
+```dart
+import 'package:masamune_location_platform_interface/masamune_location_platform_interface.dart';
+
+class MyCustomLocationAdapter extends LocationMasamuneAdapter {
+  @override
+  Future<Position> getCurrentPosition() async {
+    // Implement custom location retrieval
+  }
+
+  @override
+  Future<void> startListening({
+    double? distanceFilter,
+    Duration? timeInterval,
+  }) async {
+    // Implement continuous updates
+  }
+
+  // ... other methods
+}
+```
+
+### Provided Interfaces
+
+- `LocationMasamuneAdapter` - Abstract base class for location adapters
+- `Position` - Location data structure
+- `LocationAccuracy` - Accuracy level enum
+- `PermissionStatus` - Permission state enum
+
+## For End Users
+
+Use concrete implementations like:
+- `MobileLocationMasamuneAdapter` (from `masamune_location`)
+- `GoogleMobileLocationMasamuneAdapter` (from `masamune_location_google`)
+- `BackgroundLocationMasamuneAdapter` (from `masamune_location_background`)
+
+See the respective package documentation for usage examples.
 
 # GitHub Sponsors
 

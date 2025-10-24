@@ -35,6 +35,40 @@ class KatanaFormBuilderMdCliAiCode extends FormUsageCliAiCode {
 
 $excerpt
 
+## 配置方法
+
+`FormController`を使用する場合は、`FormController.key`を与えた`Form`配下に配置するか、`form`パラメータに`FormController`を渡します。
+
+```dart
+final formController = FormController();
+
+// パターン1: Formの配下に配置
+Form(
+  key: formController.key,
+  child: Column(
+    children: [
+      FormBuilder(
+        initialValue: formController.value.type,
+        onSaved: (value) => formController.value.copyWith(type: value),
+        builder: (context, ref, item) {
+          // ...
+        },
+      ),
+    ],
+  ),
+);
+
+// パターン2: formパラメータに直接渡す
+FormBuilder(
+  form: formController,
+  initialValue: formController.value.type,
+  onSaved: (value) => formController.value.copyWith(type: value),
+  builder: (context, ref, item) {
+    // ...
+  },
+);
+```
+
 ## 基本的な利用方法
 
 ```dart
@@ -150,8 +184,8 @@ FormBuilder(
   onSaved: (value) => formController.value.copyWith(type: value),
   initialValue: formController.value.type,
   validator: (value) {
-    if (value?.isEmpty ?? true) {
-      return "メールアドレスを入力してください";
+    if (value == null) {
+      return "ユーザータイプを選択してください";
     }
     return null;
   },
@@ -238,21 +272,28 @@ FormBuilder(
 - `validator`: バリデーション関数。選択値の検証ルールを定義します。
 - `enabled`: 入力可否。`false`の場合、フォームが無効化されます。
 - `initialValue`: 初期値。フォーム表示時の初期チェック状態を設定します。
+- `labelText`: ラベルテキスト。フォームのラベルを設定します。
+- `keepAlive`: リストに配置された場合、スクロール時に破棄されないようにするかどうか。`true`の場合、破棄されず保持され続けます。デフォルトは`true`です。
 
 ## 注意点
 
+- `FormController`を使用する場合は、`FormController.key`を与えた`Form`配下に配置するか、`form`パラメータに`FormController`を渡す必要があります。
 - `FormController`と組み合わせて使用することで、フォームの状態管理を行えます。
 - `FormController`を使用する場合は`onSaved`メソッドも合わせて定義してください。
+- `form`と`onSaved`はセットで使用する必要があります。どちらか一方だけを定義するとエラーになります。
 - `FormStyle`を使用することで、共通のデザインを適用できます。
 - ビルダー関数内で自由にフォーム作成することができます。
+- リスト内で使用する場合、`keepAlive`を`true`にすることで、スクロール時にフォームの状態が保持されます。
 
 ## ベストプラクティス
 
-1. フォームの状態管理には必ず`FormController`を使用する
-2. `FormController`を使用する場合は`onSaved`メソッドも合わせて定義する。
-3. `FormController`を使用せず、`onChanged`メソッドを使用して変更の都度処理を行う方法も利用可能。
-4. バリデーションは`validator`パラメータを使用して定義する。
-5. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
+1. フォームの状態管理には`FormController`を使用する
+2. `FormController`を使用する場合は、必ず`form`と`onSaved`をセットで定義する
+3. `FormController.key`を与えた`Form`配下に配置するか、`form`パラメータに`FormController`を渡すことで配置する
+4. `FormController`を使用せず、`onChanged`メソッドを使用して変更の都度処理を行う方法も利用可能
+5. バリデーションは`validator`パラメータを使用して定義する
+6. アプリ全体で統一したデザインを適用するために`FormStyle`を使用する
+7. リスト内で使用する場合は`keepAlive`を`true`に設定して状態を保持する（デフォルトで`true`）
 
 ## 利用シーン
 

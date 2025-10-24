@@ -151,6 +151,11 @@ enum SchemaModelFieldValueType {
   /// [ModelGeoValue]。
   modelGeoValue,
 
+  /// [ModelVectorValue].
+  ///
+  /// [ModelVectorValue]。
+  modelVectorValue,
+
   /// [ModelUri].
   ///
   /// [ModelUri]。
@@ -214,6 +219,8 @@ enum SchemaModelFieldValueType {
         return "ModelCommand";
       case SchemaModelFieldValueType.modelGeoValue:
         return "ModelGeoValue";
+      case SchemaModelFieldValueType.modelVectorValue:
+        return "ModelVectorValue";
       case SchemaModelFieldValueType.modelUri:
         return "ModelUri";
       case SchemaModelFieldValueType.modelImageUri:

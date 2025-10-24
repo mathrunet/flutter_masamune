@@ -249,6 +249,25 @@ mixin _NotWhereQuerySelectorMixin<T, TQuery extends ModelQueryBase>
   }
 }
 
+mixin _NearestQuerySelectorMixin<T, TQuery extends ModelQueryBase>
+    on ModelQuerySelector<T, TQuery> {
+  /// Find vectors similar to [text] using vector similarity search and sort them by proximity.
+  ///
+  /// Use [limitTo] to limit the number of results.
+  ///
+  /// ベクトル類似度検索を使用して[text]に類似したベクトルを見つけ近い順にソートします。
+  ///
+  /// [limitTo]で結果の数を制限してください。
+  TQuery nearest(String? text) {
+    if (text.isEmpty) {
+      return _toQuery(_modelQuery);
+    }
+    return _toQuery(
+      _modelQuery.nearest(key, text),
+    );
+  }
+}
+
 mixin _RawQuerySelectorMixin<T, TQuery extends ModelQueryBase>
     on ModelQuerySelector<T, TQuery> {
   /// [filter] filters directly on the object itself, and [query] filters directly on the external database.
@@ -793,6 +812,27 @@ class ModelGeoValueModelQuerySelector<TQuery extends ModelQueryBase>
       ),
     );
   }
+}
+
+/// [ModelQuerySelector] for [ModelVectorValue].
+///
+/// [ModelVectorValue]に対する[ModelQuerySelector]。
+@immutable
+class ModelVectorValueModelQuerySelector<TQuery extends ModelQueryBase>
+    extends ModelQuerySelector<ModelVectorValue, TQuery>
+    with
+        _NearestQuerySelectorMixin<ModelVectorValue, TQuery>,
+        _EqualQuerySelectorMixin<ModelVectorValue, TQuery>,
+        _NotEqualQuerySelectorMixin<ModelVectorValue, TQuery>,
+        _RawQuerySelectorMixin<ModelVectorValue, TQuery> {
+  /// [ModelQuerySelector] for [ModelVectorValue].
+  ///
+  /// [ModelVectorValue]に対する[ModelQuerySelector]。
+  const ModelVectorValueModelQuerySelector({
+    required super.key,
+    required super.toQuery,
+    required super.modelQuery,
+  });
 }
 
 /// [ModelQuerySelector] for [ModelUri].

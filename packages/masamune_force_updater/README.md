@@ -30,11 +30,135 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Force Updater
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_force_updater
+```
+
+Run `flutter pub get` when editing `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Define the forced update rules in `ForceUpdaterMasamuneAdapter`. Each rule is represented by a `ForceUpdaterItem` that decides whether to show an update dialog and how to handle the action.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used across the app.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  ForceUpdaterMasamuneAdapter(
+    defaultUpdates: [
+      ForceUpdaterItem(
+        minimumVersion: "2.0.0",
+        targetPlatforms: const [ForceUpdaterPlatform.iOS, ForceUpdaterPlatform.android],
+        storeUri: Uri.parse("https://example.com/store"),
+      ),
+    ],
+  ),
+];
+```
+
+`ForceUpdaterItem` accepts conditions such as minimum version, target platforms, and a custom dialog builder (`onShowUpdateDialog`).
+
+### Check for Updates
+
+Call `checkUpdate` from your UI to evaluate update rules and display dialogs. Typically, call this in your app's initialization or splash screen.
+
+**Basic Usage**:
+
+```dart
+class SplashPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final updater = ref.page.controller(ForceUpdater.query());
+    
+    // Check for updates when page is displayed
+    ref.page.on(
+      initOrUpdate: () {
+        updater.checkUpdate(context);
+      },
+    );
+
+    return Scaffold(
+      body: Center(child: CircularProgressIndicator()),
+    );
+  }
+}
+```
+
+**Custom Update Dialog**:
+
+Pass a custom list of `ForceUpdaterItem`s to override the default adapter configuration:
+
+```dart
+await updater.checkUpdate(
+  context,
+  items: [
+    ForceUpdaterItem(
+      minimumVersion: "3.0.0",
+      targetPlatforms: const [
+        ForceUpdaterPlatform.iOS,
+        ForceUpdaterPlatform.android,
+      ],
+      storeUri: Uri.parse("https://apps.apple.com/app/id123456789"),
+      onShowUpdateDialog: (context, ref) async {
+        final confirmed = await showDialog<bool>(
+          context: context,
+          barrierDismissible: false,  // Force user to make a choice
+          builder: (context) => AlertDialog(
+            title: const Text("Update Required"),
+            content: const Text(
+              "A new version is available. Please update to continue using the app.",
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text("Later"),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text("Update Now"),
+              ),
+            ],
+          ),
+        );
+        
+        if (confirmed == true) {
+          await ref.update();  // Opens store URL
+        } else {
+          await ref.quit();    // Exits the app
+        }
+      },
+    ),
+  ],
+);
+```
+
+### ForceUpdaterRef
+
+Inside `onShowUpdateDialog`, use `ForceUpdaterRef` to trigger updates or exit the app:
+
+- `ref.update()` executes the provided `onUpdate` callback (defaults to opening the store URI).
+- `ref.quit()` closes the application via `SystemNavigator.pop()`.
+
+### Version Comparison
+
+`ForceUpdaterItem` compares semantic version strings. Ensure the current app version (from `PackageInfo`) matches the format you use in rules.
+
+### Tips
+
+- Combine with remote config or Firestore to download update rules dynamically, then pass them to `checkUpdate`.
+- Localize dialog texts using `LocalizedValue<String>` or your app's localization approach.
+- Test on all target platforms to confirm store URIs and dialog behavior.
 
 # GitHub Sponsors
 

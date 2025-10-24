@@ -2,47 +2,107 @@ part of "/masamune_universal_ui.dart";
 
 /// Create [GridView] to provide a consistent UI across web, desktop, and mobile.
 ///
-/// The [UniversalAppBar] and [UniversalSliverAppBar] will automatically select and set whether to use the normal grid or the Sliver grid.
+/// [UniversalGridView] is the `UniversalUI` version of [GridView]. It automatically transforms into Sliver widgets when used with [UniversalScaffold].
+/// Supports [onRefresh] for pull-to-refresh, [onLoadNext] for infinite scrolling, and [padding]/[decoration] for styling. Responsive and automatically sets maximum width based on [UniversalScaffold.breakpoint].
 ///
-/// Otherwise, it can be used in the same way as a normal [GridView].
+/// ## Basic Usage
 ///
-/// When [onRefresh] is specified, [RefreshIndicator] is automatically set.
+/// ```dart
+/// UniversalGridView(
+///   padding: const EdgeInsets.all(16),
+///   crossAxisCount: 2,
+///   mainAxisSpacing: 16,
+///   crossAxisSpacing: 16,
+///   onRefresh: () async {
+///     // Handle refresh logic
+///   },
+///   onLoadNext: () async {
+///     // Handle load next logic
+///   },
+///   children: [
+///     // Any widget
+///   ],
+/// );
+/// ```
 ///
-/// Setting [showScrollbarWhenDesktopOrWeb] to `true` will show scrollbars on desktop and web.
-///
-/// It is responsive and the maximum width is set by [UniversalScaffold.breakpoint].
+/// ---
 ///
 /// Webとデスクトップ、モバイルで一貫したUIを提供するための[GridView]を作成します。
 ///
-/// [UniversalAppBar]、[UniversalSliverAppBar]によって通常のグリッドかSliverのグリッドかを自動で選択して設定します。
+/// [UniversalGridView]は[GridView]の`UniversalUI`版です。[UniversalScaffold]と連携しSliverウィジェットへの自動変換を行います。
+/// [onRefresh]を設定可能でグリッドの更新を可能にする。[onLoadNext]を設定可能でグリッドの追加読み込みを可能にする。[padding]や[decoration]を設定可能でグリッドの外側に余白やボーダーを設定可能。レスポンシブ対応しており[UniversalScaffold.breakpoint]によって最大の横幅が設定されます。
 ///
-/// その他は通常の[GridView]と同じように利用可能です。
+/// ## 基本的な利用方法
 ///
-/// [onRefresh]を指定すると[RefreshIndicator]を自動で設定します。
-///
-/// レスポンシブ対応しており[UniversalScaffold.breakpoint]によって最大の横幅が設定されます。
+/// ```dart
+/// UniversalGridView(
+///   padding: const EdgeInsets.all(16),
+///   crossAxisCount: 2,
+///   mainAxisSpacing: 16,
+///   crossAxisSpacing: 16,
+///   onRefresh: () async {
+///     // リフレッシュロジックを処理
+///   },
+///   onLoadNext: () async {
+///     // 追加読み込みロジックを処理
+///   },
+///   children: [
+///     // 任意のウィジェット
+///   ],
+/// );
+/// ```
 class UniversalGridView extends StatelessWidget {
   /// Create [GridView] to provide a consistent UI across web, desktop, and mobile.
   ///
-  /// The [UniversalAppBar] and [UniversalSliverAppBar] will automatically select and set whether to use the normal grid or the Sliver grid.
+  /// [UniversalGridView] is the `UniversalUI` version of [GridView]. It automatically transforms into Sliver widgets when used with [UniversalScaffold].
+  /// Supports [onRefresh] for pull-to-refresh, [onLoadNext] for infinite scrolling, and [padding]/[decoration] for styling. Responsive and automatically sets maximum width based on [UniversalScaffold.breakpoint].
   ///
-  /// Otherwise, it can be used in the same way as a normal [GridView].
+  /// ## Basic Usage
   ///
-  /// When [onRefresh] is specified, [RefreshIndicator] is automatically set.
+  /// ```dart
+  /// UniversalGridView(
+  ///   padding: const EdgeInsets.all(16),
+  ///   crossAxisCount: 2,
+  ///   mainAxisSpacing: 16,
+  ///   crossAxisSpacing: 16,
+  ///   onRefresh: () async {
+  ///     // Handle refresh logic
+  ///   },
+  ///   onLoadNext: () async {
+  ///     // Handle load next logic
+  ///   },
+  ///   children: [
+  ///     // Any widget
+  ///   ],
+  /// );
+  /// ```
   ///
-  /// Setting [showScrollbarWhenDesktopOrWeb] to `true` will show scrollbars on desktop and web.
-  ///
-  /// It is responsive and the maximum width is set by [UniversalScaffold.breakpoint].
+  /// ---
   ///
   /// Webとデスクトップ、モバイルで一貫したUIを提供するための[GridView]を作成します。
   ///
-  /// [UniversalAppBar]、[UniversalSliverAppBar]によって通常のグリッドかSliverのグリッドかを自動で選択して設定します。
+  /// [UniversalGridView]は[GridView]の`UniversalUI`版です。[UniversalScaffold]と連携しSliverウィジェットへの自動変換を行います。
+  /// [onRefresh]を設定可能でグリッドの更新を可能にする。[onLoadNext]を設定可能でグリッドの追加読み込みを可能にする。[padding]や[decoration]を設定可能でグリッドの外側に余白やボーダーを設定可能。レスポンシブ対応しており[UniversalScaffold.breakpoint]によって最大の横幅が設定されます。
   ///
-  /// その他は通常の[GridView]と同じように利用可能です。
+  /// ## 基本的な利用方法
   ///
-  /// [onRefresh]を指定すると[RefreshIndicator]を自動で設定します。
-  ///
-  /// レスポンシブ対応しており[UniversalScaffold.breakpoint]によって最大の横幅が設定されます。
+  /// ```dart
+  /// UniversalGridView(
+  ///   padding: const EdgeInsets.all(16),
+  ///   crossAxisCount: 2,
+  ///   mainAxisSpacing: 16,
+  ///   crossAxisSpacing: 16,
+  ///   onRefresh: () async {
+  ///     // リフレッシュロジックを処理
+  ///   },
+  ///   onLoadNext: () async {
+  ///     // 追加読み込みロジックを処理
+  ///   },
+  ///   children: [
+  ///     // 任意のウィジェット
+  ///   ],
+  /// );
+  /// ```
   const UniversalGridView({
     required this.children,
     super.key,

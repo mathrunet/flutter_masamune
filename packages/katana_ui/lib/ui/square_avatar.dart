@@ -1,20 +1,98 @@
 part of "/katana_ui.dart";
 
-/// Square version of [CircleAvatar].
+/// A square avatar widget that works as a rectangular alternative to CircleAvatar.
 ///
-/// Can be used in place of [CircleAvatar].
+/// This widget provides a customizable square or rounded rectangle avatar display,
+/// perfect for profile pictures, icons, and feature images where a square shape
+/// is preferred over the circular shape of CircleAvatar.
+///
+/// Features:
+/// - Adjustable corner radius (from square to rounded corners)
+/// - Background color support
+/// - Background image support with BoxFit.cover
+/// - Optional width and height specification
+/// - Layer system (background color behind image)
+///
+/// Example:
+/// ```dart
+/// SquareAvatar(
+///   backgroundImage: NetworkImage('https://example.com/avatar.jpg'),
+///   backgroundColor: Colors.grey,
+///   radius: 12.0,
+///   width: 48,
+///   height: 48,
+/// )
+/// ```
 ///
 /// 四角版の[CircleAvatar]。
 ///
-/// [CircleAvatar]の代わりに使用できます。
+/// このウィジェットは、CircleAvatarの円形の代わりに四角形や角丸四角形のアバター表示を提供します。
+/// プロフィール画像、アイコン、フィーチャー画像などで四角形が好まれる場合に最適です。
+///
+/// 特徴:
+/// - 調整可能な角丸半径（四角から角丸まで）
+/// - 背景色のサポート
+/// - BoxFit.coverによる背景画像のサポート
+/// - オプションのwidth/height指定
+/// - レイヤーシステム（画像の背後に背景色）
+///
+/// 例:
+/// ```dart
+/// SquareAvatar(
+///   backgroundImage: NetworkImage('https://example.com/avatar.jpg'),
+///   backgroundColor: Colors.grey,
+///   radius: 12.0,
+///   width: 48,
+///   height: 48,
+/// )
+/// ```
 class SquareAvatar extends StatelessWidget {
-  /// Square version of [CircleAvatar].
+  /// A square avatar widget that works as a rectangular alternative to CircleAvatar.
   ///
-  /// Can be used in place of [CircleAvatar].
+  /// This widget provides a customizable square or rounded rectangle avatar display,
+  /// perfect for profile pictures, icons, and feature images where a square shape
+  /// is preferred over the circular shape of CircleAvatar.
+  ///
+  /// Features:
+  /// - Adjustable corner radius (from square to rounded corners)
+  /// - Background color support
+  /// - Background image support with BoxFit.cover
+  /// - Optional width and height specification
+  /// - Layer system (background color behind image)
+  ///
+  /// Example:
+  /// ```dart
+  /// SquareAvatar(
+  ///   backgroundImage: NetworkImage('https://example.com/avatar.jpg'),
+  ///   backgroundColor: Colors.grey,
+  ///   radius: 12.0,
+  ///   width: 48,
+  ///   height: 48,
+  /// )
+  /// ```
   ///
   /// 四角版の[CircleAvatar]。
   ///
-  /// [CircleAvatar]の代わりに使用できます。
+  /// このウィジェットは、CircleAvatarの円形の代わりに四角形や角丸四角形のアバター表示を提供します。
+  /// プロフィール画像、アイコン、フィーチャー画像などで四角形が好まれる場合に最適です。
+  ///
+  /// 特徴:
+  /// - 調整可能な角丸半径（四角から角丸まで）
+  /// - 背景色のサポート
+  /// - BoxFit.coverによる背景画像のサポート
+  /// - オプションのwidth/height指定
+  /// - レイヤーシステム（画像の背後に背景色）
+  ///
+  /// 例:
+  /// ```dart
+  /// SquareAvatar(
+  ///   backgroundImage: NetworkImage('https://example.com/avatar.jpg'),
+  ///   backgroundColor: Colors.grey,
+  ///   radius: 12.0,
+  ///   width: 48,
+  ///   height: 48,
+  /// )
+  /// ```
   const SquareAvatar({
     super.key,
     this.radius,

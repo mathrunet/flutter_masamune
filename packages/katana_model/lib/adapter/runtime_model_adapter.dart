@@ -68,6 +68,7 @@ class RuntimeModelAdapter extends ModelAdapter {
     this.prefix,
     this.validator,
     this.networkDelay,
+    this.vectorConverter = const RuntimeVectorConverter(),
   }) : _database = database;
 
   /// Designated database. Please use for testing purposes, etc.
@@ -81,14 +82,14 @@ class RuntimeModelAdapter extends ModelAdapter {
           final map = raw.toMap(raw.value);
           database.setInitialValue(
             _path(raw.path),
-            raw.filterOnSave(map, raw.value),
+            raw.filterOnSave(map, raw.value, this),
           );
         } else if (raw is ModelInitialCollection) {
           for (final tmp in raw.value.entries) {
             final map = raw.toMap(tmp.value);
             database.setInitialValue(
               _path("${raw.path}/${tmp.key}"),
-              raw.filterOnSave(map, tmp.value),
+              raw.filterOnSave(map, tmp.value, this),
             );
           }
         }
@@ -127,6 +128,9 @@ class RuntimeModelAdapter extends ModelAdapter {
   ///
   /// 通信の遅延をシミュレートするための遅延時間。
   final Duration? networkDelay;
+
+  @override
+  final SyncedVectorConverter vectorConverter;
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {

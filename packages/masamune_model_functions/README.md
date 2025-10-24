@@ -30,11 +30,144 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Model Functions
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+1. Add the package to your project.
+
+```bash
+flutter pub add masamune_model_functions
+```
+
+### Setup
+
+2. Register the adapter with your model configuration. Supply a configured `FunctionsAdapter` that connects to your backend (e.g., Firebase Functions, Cloud Run).
+
+```dart
+// lib/main.dart
+
+import 'package:masamune_model_functions/masamune_model_functions.dart';
+import 'package:katana_functions_firebase/katana_functions_firebase.dart';
+
+final functions = FirebaseFunctionsAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  region: FirebaseRegion.asiaNortheast1,  // Your region
+);
+
+final modelAdapter = FunctionsModelAdapter(
+  functionsAdapter: functions,
+);
+
+void main() {
+  runMasamuneApp(
+    appRef: appRef,
+    modelAdapter: modelAdapter,
+    (appRef, _) => MasamuneApp(
+      appRef: appRef,
+      home: HomePage(),
+    ),
+  );
+}
+```
+
+### Basic Operations
+
+3. Execute Masamune model operations as usual. All reads and writes are proxied through your backend Functions.
+
+**Load a Collection**:
+
+```dart
+class MyPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final users = ref.app.model(UserModel.collection())..load();
+
+    return ListView.builder(
+      itemCount: users.length,
+      itemBuilder: (context, index) {
+        final user = users[index].value;
+        return ListTile(
+          title: Text(user?.name ?? ''),
+        );
+      },
+    );
+  }
+}
+```
+
+**Save a Document**:
+
+```dart
+final collection = ref.app.model(UserModel.collection());
+final newDoc = collection.create();
+await newDoc.save(
+  UserModel(
+    name: 'John Doe',
+    email: 'john@example.com',
+  ),
+);
+```
+
+### Backend Implementation
+
+Your backend must implement handlers for the following actions:
+
+- `document_model`: Handle document load/save/delete operations
+- `collection_model`: Handle collection load operations
+- `aggregate_model`: Handle aggregation queries (count, sum, etc.)
+
+**Example Cloud Functions Handler**:
+
+```typescript
+// Cloud Functions
+export const model = functions.https.onCall(async (data, context) => {
+  const { action, path, query, value } = data;
+  
+  switch (action) {
+    case "document_model":
+      // Handle document operations
+      return await handleDocument(path, value);
+      
+    case "collection_model":
+      // Handle collection queries
+      return await handleCollection(path, query);
+      
+    case "aggregate_model":
+      // Handle aggregations
+      return await handleAggregate(path, query);
+  }
+});
+```
+
+### Custom Action Names
+
+4. Customize the action names if your Functions use different identifiers:
+
+```dart
+final adapter = FunctionsModelAdapter(
+  functionsAdapter: functions,
+  documentAction: 'document_model_custom',
+  collectionAction: 'collection_model_custom',
+  aggregateAction: 'aggregate_model_custom',
+);
+```
+
+### Aggregations
+
+5. Perform aggregation queries through your backend:
+
+```dart
+final count = await ref.app.model(
+  UserModel.collection().limitTo(100),
+).aggregate(ModelAggregateQuery.count());
+
+print("Total users: $count");
+```
+
+Ensure your server action returns numeric values that can be cast to the requested type.
 
 # GitHub Sponsors
 

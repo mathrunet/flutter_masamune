@@ -313,12 +313,102 @@ AppBarのタイプに応じてSliver対応が自動判定されます：
 - `UniversalSliverAppBar`や`SliverAppBar`: Sliverスクロール
 - `UniversalAppBar`や`AppBar`: 通常のスクロール
 
+## UniversalScaffoldScopeの利用
+
+`UniversalScaffold.of(context)`で現在のブレークポイントやサイドバー幅などの情報を取得できます：
+
+```dart
+@override
+Widget build(BuildContext context, PageRef ref) {
+  final scope = UniversalScaffold.of(context);
+  final breakpoint = scope?.breakpoint;
+  final sideBarWidth = scope?.sideBarWidth ?? 0.0;
+
+  // サイドバーが表示されているかチェック
+  final isSideBarVisible = breakpoint?.shouldShowSideBar(context) ?? false;
+
+  return Container(
+    // スコープ情報を利用した実装
+  );
+}
+```
+
+## AutoDrawerSettingsの利用
+
+`UniversalScaffold`が`sideBar`を自動的に`Drawer`に変換した際に、`AutoDrawerSettings`が付与されます。
+これを使用して、ウィジェットが自動生成されたドロワー内にあるかどうかを確認できます：
+
+```dart
+@override
+Widget build(BuildContext context) {
+  final isInAutoDrawer = AutoDrawerSettings.maybeOf(context) != null;
+
+  if (isInAutoDrawer) {
+    // 自動生成されたドロワー内のウィジェット
+    return ListTile(
+      title: const Text("メニューアイテム"),
+      onTap: () {
+        Navigator.pop(context); // ドロワーを閉じる
+      },
+    );
+  } else {
+    // 通常のサイドバー内のウィジェット
+    return ListTile(
+      title: const Text("メニューアイテム"),
+    );
+  }
+}
+```
+
+## ブレークポイントの設定
+
+`breakpoint`を指定することで、画面サイズに応じたレスポンシブUIを実現できます。
+ブレークポイント以下のウィンドウサイズでは、自動的にモバイル向けUIに変化します：
+
+```dart
+UniversalScaffold(
+  breakpoint: const Breakpoint(width: 600),
+  sideBar: UniversalSideBar(
+    children: [
+      const ListTile(
+        leading: Icon(Icons.home),
+        title: Text("ホーム"),
+      ),
+    ],
+  ),
+  body: const Center(child: Text("メインコンテンツ")),
+);
+```
+
+この場合、画面幅が600px以下になると：
+- `sideBar`は自動的に`drawer`に配置される
+- サイドバーの横幅は最大化される
+
+`sideBarOnDrawerAlways`を`true`に設定すると、画面サイズに関わらずサイドバーが常にドロワーに配置されます：
+
+```dart
+UniversalScaffold(
+  sideBarOnDrawerAlways: true,
+  sideBar: UniversalSideBar(
+    children: [
+      const ListTile(
+        leading: Icon(Icons.home),
+        title: Text("ホーム"),
+      ),
+    ],
+  ),
+  body: const Center(child: Text("メインコンテンツ")),
+);
+```
+
 ## 注意点
 
 - `sideBar`はレスポンシブ対応により、画面サイズに応じて自動配置される。
+- `breakpoint`を指定すると、そのブレークポイント以下でモバイル向けUIに変化する。
 - `loadingFutures`指定時は、すべてのFutureが完了するまでローディング表示される。
 - `waitTransition`を有効にすると、画面遷移がスムーズになるが初期表示が少し遅れる。
-- モーダル表示時は`width`、`height`、`borderRadius`を適切に設定する。
-- Sliver対応は`appBar`のタイプにより自動判定される。
+- モーダル表示時は`width`、`height`、`borderRadius`、`alignment`を適切に設定する。
+- モーダル表示時に`resizeToAvoidBottomInset`を設定すると、キーボード表示時にモーダルが上に移動する。
+- Sliver対応は`appBar`のタイプにより自動判定される（UniversalSliverAppBar、SliverAppBarを使用）。
 - `header`と`footer`は`body`を囲むように配置される。
-- デスクトップでは`bottomNavigationBar`が非表示になる場合がある。
+- サイドバーが自動的にドロワーに変換された場合、`AutoDrawerSettings.maybeOf(context)`で判定できる。

@@ -1,3 +1,5 @@
+// ignore_for_file: do_not_use_environment
+
 part of "/masamune_test.dart";
 
 /// The configuration of the Masamune Test.
@@ -51,8 +53,9 @@ class MasamuneTestConfig {
       MasamuneTestDevice.tabletLandscape,
     ],
   }) async {
-    // ignore: do_not_use_environment
     const isRunningInCi = bool.fromEnvironment("CI", defaultValue: false);
+    const testFolder =
+        String.fromEnvironment("TESTDIR", defaultValue: "documents/test");
     final scopedValueContainer = ScopedValueContainer();
     final runtimeModelAdapter = _createModelAdapter(modelAdapter);
     final runtimeAuthAdapter = _createAuthAdapter(authAdapter);
@@ -101,13 +104,13 @@ class MasamuneTestConfig {
         ciGoldensConfig: CiGoldensConfig(
           filePathResolver: ciFilePathResolver ??
               (fileName, environmentName) {
-                return "${Directory.current.path}/documents/test/ci/${fileName.trimString("/")}.png";
+                return "${Directory.current.path}/${testFolder.trimString("/")}/ci/${fileName.trimString("/")}.png";
               },
         ),
         platformGoldensConfig: PlatformGoldensConfig(
           filePathResolver: platformFilePathResolver ??
               (fileName, environmentName) {
-                return "${Directory.current.path}/documents/test/${environmentName.toLowerCase()}/${fileName.trimString("/")}.png";
+                return "${Directory.current.path}/${testFolder.trimString("/")}/${environmentName.toLowerCase()}/${fileName.trimString("/")}.png";
               },
           enabled: !isRunningInCi && enablePlatformGoldensConfig,
         ),

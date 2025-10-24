@@ -2,43 +2,121 @@ part of "/katana_form.dart";
 
 /// Displays the label for each item on the form.
 ///
+/// A widget for displaying form field labels.
+/// Common design can be applied with `FormStyle`. It provides features such as required marks, help text, and error message display.
+///
+/// フォームフィールドのラベルを表示するためのウィジェット。
+/// `FormStyle`で共通したデザインを適用可能。必須マーク、ヘルプテキスト、エラーメッセージなどの表示機能を備えています。
+///
+/// ## Basic Usage 基本的な使い方
+///
 /// Pass the text to be displayed to [label].
-///
-/// By specifying [icon], an icon is displayed before [label].
-///
-/// You can change the color of [label] and [icon] by specifying [color].
-///
-/// If [prefix] and [suffix] are specified, widgets can be placed before and after the dividing line.
-///
-/// フォームの各項目のラベルを表示します。
 ///
 /// [label]に表示するテキストを渡します。
 ///
+/// ## Icon Display アイコンの表示
+///
+/// By specifying [icon], an icon is displayed before [label].
+///
 /// [icon]を指定することで[label]の前にアイコンが表示されます。
+///
+/// ## Color Change 色の変更
+///
+/// You can change the color of [label] and [icon] by specifying [color].
 ///
 /// [color]を指定すると[label]と[icon]の色を変えることができます。
 ///
+/// ## Prefix and Suffix プレフィックス・サフィックス
+///
+/// If [prefix] and [suffix] are specified, widgets can be placed before and after the dividing line.
+///
 /// [prefix]と[suffix]を指定すると分断線の前後にWidgetを配置することができます。
+///
+/// ## Basic Usage Example 基本的な使用例
+///
+/// ```dart
+/// FormLabel(
+///   "ユーザー名",
+/// );
+/// ```
+///
+/// ## Usage Example with Icon アイコン付きの使用例
+///
+/// ```dart
+/// FormLabel(
+///   "ユーザー名",
+///   icon: Icons.person,
+/// );
+/// ```
+///
+/// ## Usage Example with Help Text ヘルプテキスト付きの使用例
+///
+/// ```dart
+/// FormLabel(
+///   "ユーザー名",
+///   icon: Icons.person,
+///   notice: Text("8文字以上の英数字を入力してください"),
+/// );
+/// ```
 class FormLabel extends StatelessWidget {
   /// Displays the label for each item on the form.
   ///
+  /// A widget for displaying form field labels.
+  /// Common design can be applied with `FormStyle`. It provides features such as required marks, help text, and error message display.
+  ///
+  /// フォームフィールドのラベルを表示するためのウィジェット。
+  /// `FormStyle`で共通したデザインを適用可能。必須マーク、ヘルプテキスト、エラーメッセージなどの表示機能を備えています。
+  ///
+  /// ## Basic Usage 基本的な使い方
+  ///
   /// Pass the text to be displayed to [label].
-  ///
-  /// By specifying [icon], an icon is displayed before [label].
-  ///
-  /// You can change the color of [label] and [icon] by specifying [color].
-  ///
-  /// If [prefix] and [suffix] are specified, widgets can be placed before and after the dividing line.
-  ///
-  /// フォームの各項目のラベルを表示します。
   ///
   /// [label]に表示するテキストを渡します。
   ///
+  /// ## Icon Display アイコンの表示
+  ///
+  /// By specifying [icon], an icon is displayed before [label].
+  ///
   /// [icon]を指定することで[label]の前にアイコンが表示されます。
+  ///
+  /// ## Color Change 色の変更
+  ///
+  /// You can change the color of [label] and [icon] by specifying [color].
   ///
   /// [color]を指定すると[label]と[icon]の色を変えることができます。
   ///
+  /// ## Prefix and Suffix プレフィックス・サフィックス
+  ///
+  /// If [prefix] and [suffix] are specified, widgets can be placed before and after the dividing line.
+  ///
   /// [prefix]と[suffix]を指定すると分断線の前後にWidgetを配置することができます。
+  ///
+  /// ## Basic Usage Example 基本的な使用例
+  ///
+  /// ```dart
+  /// FormLabel(
+  ///   "ユーザー名",
+  /// );
+  /// ```
+  ///
+  /// ## Usage Example with Icon アイコン付きの使用例
+  ///
+  /// ```dart
+  /// FormLabel(
+  ///   "ユーザー名",
+  ///   icon: Icons.person,
+  /// );
+  /// ```
+  ///
+  /// ## Usage Example with Help Text ヘルプテキスト付きの使用例
+  ///
+  /// ```dart
+  /// FormLabel(
+  ///   "ユーザー名",
+  ///   icon: Icons.person,
+  ///   notice: Text("8文字以上の英数字を入力してください"),
+  /// );
+  /// ```
   const FormLabel(
     this.label, {
     super.key,

@@ -24,11 +24,11 @@ extension on ParamaterValue {
   StringBuffer applyAppSchema(StringBuffer buffer) {
     if (type.isModelRef && reference != null) {
       buffer.writeln(
-        "| ${required ? "✅" : ""} | ${_name(app: true)} | ${reference?.toAppTypeCode()} | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+        "| ${required ? "✅" : ""} | ${_name(app: true)} | ${reference?.toAppTypeCode()} | ${isSearchable || isVector ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
       );
     } else {
       buffer.writeln(
-        "| ${required ? "✅" : ""} | ${_name(app: true)} | ${type.toAppType()} | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+        "| ${required ? "✅" : ""} | ${_name(app: true)} | ${type.toAppType()} | ${isSearchable || isVector ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
       );
     }
     return buffer;
@@ -37,28 +37,28 @@ extension on ParamaterValue {
   StringBuffer applyNosqlSchema(StringBuffer buffer) {
     if (reference != null) {
       buffer.writeln(
-        "| ${required ? "✅" : ""} | ${_name(app: false)} | ${reference?.toNosqlTypeCode()} | ${isSearchable ? "✅" : ""} | ${comment?.replaceBr() ?? ""} |",
+        "| ${required ? "✅" : ""} | ${_name(app: false)} | ${reference?.toNosqlTypeCode()} | ${isSearchable || isVector ? "✅" : ""} | ${comment?.replaceBr() ?? ""} |",
       );
     } else if (isJsonSerializable) {
       if (type.isDartCoreList ||
           type.isDartCoreSet ||
           type.isDartCoreIterable) {
         buffer.writeln(
-          "| ${required ? "✅" : ""} | ${_name(app: false)} | ${DocsType.list.nosql} | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+          "| ${required ? "✅" : ""} | ${_name(app: false)} | ${DocsType.list.nosql} | ${isSearchable || isVector ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
         );
       } else {
         buffer.writeln(
-          "| ${required ? "✅" : ""} | ${_name(app: false)} | ${DocsType.map.nosql} | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+          "| ${required ? "✅" : ""} | ${_name(app: false)} | ${DocsType.map.nosql} | ${isSearchable || isVector ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
         );
       }
     } else {
       final subType = type.toNosqlSubType();
       buffer.writeln(
-        "| ${required ? "✅" : ""} | ${_name(app: false)} | ${type.toNosqlType()} | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+        "| ${required ? "✅" : ""} | ${_name(app: false)} | ${type.toNosqlType()} | ${isSearchable || isVector ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
       );
       if (subType != null) {
         buffer.writeln(
-          "| ${required ? "✅" : ""} | ${_name(app: false, prefix: "#")} | $subType | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+          "| ${required ? "✅" : ""} | ${_name(app: false, prefix: "#")} | $subType | ${isSearchable || isVector ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
         );
       }
     }
@@ -68,15 +68,15 @@ extension on ParamaterValue {
   StringBuffer applyRDBSchema(StringBuffer buffer) {
     if (reference != null) {
       buffer.writeln(
-        "| ${required ? "✅" : ""} | ${_name(app: false)} | ${reference?.toRDBTypeCode()} | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+        "| ${required ? "✅" : ""} | ${_name(app: false)} | ${reference?.toRDBTypeCode()} | ${isSearchable || isVector ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
       );
     } else if (isJsonSerializable) {
       buffer.writeln(
-        "| ${required ? "✅" : ""} | ${_name(app: false)} | json | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+        "| ${required ? "✅" : ""} | ${_name(app: false)} | json | ${isSearchable || isVector ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
       );
     } else {
       buffer.writeln(
-        "| ${required ? "✅" : ""} | ${_name(app: false)} | ${type.toRDBType()} | ${isSearchable ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
+        "| ${required ? "✅" : ""} | ${_name(app: false)} | ${type.toRDBType()} | ${isSearchable || isVector ? "✅" : ""} | ${_comment?.replaceBr() ?? ""} |",
       );
     }
     return buffer;
@@ -161,6 +161,8 @@ extension _InterfaceTypeExtensions on InterfaceType {
       return "${DocsModelFieldValueType.modelVideoUri.app}$nullable";
     } else if (isModelGeoValue) {
       return "${DocsModelFieldValueType.modelGeoValue.app}$nullable";
+    } else if (isModelVectorValue) {
+      return "${DocsModelFieldValueType.modelVectorValue.app}$nullable";
     } else if (isModelLocale) {
       return "${DocsModelFieldValueType.modelLocale.app}$nullable";
     } else if (isModelLocalizedValue) {

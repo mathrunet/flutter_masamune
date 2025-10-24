@@ -111,7 +111,6 @@ class FormMarkdownField<TValue> extends FormField<String> {
     super.key,
     this.keepAlive = true,
     bool expands = false,
-    bool scrollable = true,
     this.form,
     this.controller,
     this.style,
@@ -121,16 +120,23 @@ class FormMarkdownField<TValue> extends FormField<String> {
     TextInputAction textInputAction = TextInputAction.newline,
     bool enableInteractiveSelection = true,
     this.readOnly = false,
+    TextInputType keyboardType = TextInputType.multiline,
     TextCapitalization textCapitalization = TextCapitalization.none,
     this.onChanged,
     this.onSubmitted,
     String? emptyErrorText,
+    TextAlign textAlign = TextAlign.start,
     String? Function(String? value)? validator,
     TValue Function(String value)? onSaved,
     String? hintText,
-    void Function(String link)? onTapLink,
+    bool scrollable = true,
+    void Function(Uri link)? onTapLink,
+    void Function(MarkdownMention mention)? onTapMention,
     this.autofocus = false,
     VoidCallback? onTap,
+    ScrollController? scrollController,
+    ScrollPhysics? scrollPhysics,
+    void Function()? onEditingComplete,
   })  : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
@@ -151,43 +157,12 @@ class FormMarkdownField<TValue> extends FormField<String> {
           autovalidateMode: AutovalidateMode.disabled,
           builder: (FormFieldState<String> field) {
             final state = field as FormMarkdownFieldState<TValue>;
-            final context = state.context;
-            final theme = Theme.of(context);
-            final defaultStyles = DefaultStyles.getInstance(context);
-            final adapter =
-                MasamuneAdapterScope.of<MarkdownMasamuneAdapter>(context) ??
-                    MarkdownMasamuneAdapter.primary;
-
-            final mainTextStyle = style?.textStyle?.copyWith(
-                  color: style.color,
-                ) ??
-                theme.textTheme.bodyMedium?.copyWith(
-                  color: style?.color ?? theme.textTheme.bodyMedium?.color,
-                ) ??
-                TextStyle(
-                  color: style?.color ??
-                      theme.textTheme.bodyMedium?.color ??
-                      theme.textTheme.bodyMedium?.color,
-                );
-            final subTextStyle = style?.textStyle?.copyWith(
-                  color: style.subColor,
-                ) ??
-                TextStyle(
-                  color: style?.subColor ??
-                      style?.color?.withValues(alpha: 0.5) ??
-                      theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.5),
-                );
-            final linkTextStyle = TextStyle(
-              color: style?.activeColor ?? theme.colorScheme.primary,
-              decoration: TextDecoration.underline,
-              decorationColor: style?.activeColor ?? theme.colorScheme.primary,
-            );
-            final borderColor = style?.borderColor ?? theme.dividerColor;
 
             return FormContainer(
               form: form,
               style: style,
               enabled: enabled,
+              hintText: hintText,
               errorText: emptyErrorText,
               alignment: style?.alignment ?? Alignment.topLeft,
               contentPadding: style?.contentPadding ?? EdgeInsets.zero,
@@ -200,146 +175,35 @@ class FormMarkdownField<TValue> extends FormField<String> {
                       return validator?.call(value);
                     }
                   : null,
-              child: QuillEditor.basic(
-                key: state._quillEditorKey,
-                controller: state._controller,
-                focusNode: state._effectiveFocusNode,
-                config: QuillEditorConfig(
-                  embedBuilders: [
-                    MarkdownImageEmbed(limit: adapter.imageLimit),
-                  ],
-                  onTapDown: (details, p1) {
-                    onTap?.call();
-                    return false;
-                  },
-                  // onTapOutside: (details, p1) {
-                  //   onTap?.call();
-                  // },
-                  onKeyPressed: (event, node) {
-                    if (event.logicalKey == LogicalKeyboardKey.backspace) {
-                      if (state._controller.removeLinkOnBackspace() ||
-                          state._controller.removeBlockOnBackspace()) {
-                        return KeyEventResult.ignored;
+              child: MarkdownField(
+                enabled: enabled,
+                enableInteractiveSelection: enableInteractiveSelection,
+                readOnly: readOnly,
+                autofocus: autofocus,
+                controller: state._effectiveController,
+                focusNode: focusNode,
+                onTap: onTap,
+                onTapLink: onTapLink,
+                onTapMention: onTapMention,
+                scrollable: scrollable,
+                onEditingComplete: onEditingComplete,
+                onChanged: onChanged != null
+                    ? (value) {
+                        onChanged.call(value.toMarkdown());
                       }
-                    }
-                    return KeyEventResult.ignored;
-                  },
-                  scrollable: scrollable,
-                  autoFocus: autofocus,
-                  showCursor: !readOnly,
-                  linkActionPickerDelegate: defaultLinkActionPickerDelegate,
-                  padding: style?.contentPadding ?? EdgeInsets.zero,
-                  expands: expands,
-                  placeholder: hintText,
-                  onLaunchUrl: onTapLink,
-                  textCapitalization: textCapitalization,
-                  textInputAction: textInputAction,
-                  enableInteractiveSelection: enableInteractiveSelection,
-                  customStyles: defaultStyles.merge(
-                    DefaultStyles(
-                      color: mainTextStyle.color,
-                      link: linkTextStyle,
-                      paragraph: defaultStyles.paragraph?.copyWith(
-                        verticalSpacing: adapter.markdownStyle
-                            .paragraphVerticalSpacing._verticalSpacing,
-                      ),
-                      indent: defaultStyles.indent?.copyWith(
-                        verticalSpacing: adapter.markdownStyle
-                            .indentVerticalSpacing._verticalSpacing,
-                      ),
-                      h1: defaultStyles.h1?.copyWith(
-                        verticalSpacing: adapter
-                            .markdownStyle.h1VerticalSpacing._verticalSpacing,
-                      ),
-                      h2: defaultStyles.h2?.copyWith(
-                        verticalSpacing: adapter
-                            .markdownStyle.h2VerticalSpacing._verticalSpacing,
-                      ),
-                      h3: defaultStyles.h3?.copyWith(
-                        verticalSpacing: adapter
-                            .markdownStyle.h3VerticalSpacing._verticalSpacing,
-                      ),
-                      h4: defaultStyles.h4?.copyWith(
-                        verticalSpacing: adapter
-                            .markdownStyle.h4VerticalSpacing._verticalSpacing,
-                      ),
-                      h5: defaultStyles.h5?.copyWith(
-                        verticalSpacing: adapter
-                            .markdownStyle.h5VerticalSpacing._verticalSpacing,
-                      ),
-                      h6: defaultStyles.h6?.copyWith(
-                        verticalSpacing: adapter
-                            .markdownStyle.h6VerticalSpacing._verticalSpacing,
-                      ),
-                      inlineCode: InlineCodeStyle(
-                        style: mainTextStyle.copyWith(
-                          fontSize: mainTextStyle.fontSize! * 0.8,
-                        ),
-                        header1: defaultStyles.inlineCode?.header1,
-                        header2: defaultStyles.inlineCode?.header2,
-                        header3: defaultStyles.inlineCode?.header3,
-                        header4: defaultStyles.inlineCode?.header4,
-                        header5: defaultStyles.inlineCode?.header5,
-                        header6: defaultStyles.inlineCode?.header6,
-                        backgroundColor: style?.subBackgroundColor ??
-                            theme.colorScheme.surface,
-                        radius: const Radius.circular(4),
-                      ),
-                      code: defaultStyles.code?.copyWith(
-                        style: mainTextStyle,
-                        verticalSpacing: adapter
-                            .markdownStyle.codeVerticalSpacing._verticalSpacing,
-                        decoration: BoxDecoration(
-                          color: style?.subBackgroundColor ??
-                              theme.colorScheme.surface,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      placeHolder: defaultStyles.placeHolder?.copyWith(
-                        style: subTextStyle,
-                        verticalSpacing: adapter.markdownStyle
-                            .placeHolderVerticalSpacing._verticalSpacing,
-                      ),
-                      lists: defaultStyles.lists?.copyWith(
-                        style: mainTextStyle,
-                        verticalSpacing: adapter
-                            .markdownStyle.listVerticalSpacing._verticalSpacing,
-                        indentWidthBuilder:
-                            (block, context, count, numberPointWidthDelegate) {
-                          final res = TextBlockUtils.defaultIndentWidthBuilder(
-                              block, context, count, numberPointWidthDelegate);
-
-                          final attrs = block.style.attributes;
-                          if (attrs[Attribute.list.key] == Attribute.ul) {
-                            return HorizontalSpacing(
-                                (res.left - (mainTextStyle.fontSize ?? 14.0))
-                                    .limitLow(0),
-                                0);
-                          }
-                          return HorizontalSpacing(
-                              (res.left -
-                                      (mainTextStyle.fontSize ?? 14.0) / 2.0)
-                                  .limitLow(0),
-                              0);
-                        },
-                      ),
-                      quote: defaultStyles.quote?.copyWith(
-                        style: mainTextStyle,
-                        verticalSpacing: adapter.markdownStyle
-                            .quoteVerticalSpacing._verticalSpacing,
-                        lineSpacing: const VerticalSpacing(0, 0),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            left: BorderSide(
-                              color: borderColor,
-                              width: 4,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                    : null,
+                onSubmitted: onSubmitted != null
+                    ? (value) {
+                        onSubmitted.call(value.toMarkdown());
+                      }
+                    : null,
+                scrollController: scrollController,
+                scrollPhysics: scrollPhysics,
+                textInputAction: textInputAction,
+                expands: expands,
+                textCapitalization: textCapitalization,
+                textAlign: textAlign,
+                keyboardType: keyboardType,
               ),
             );
           },
@@ -410,14 +274,6 @@ class FormMarkdownField<TValue> extends FormField<String> {
   /// `value`に現在の値が渡されます。
   final void Function(String? value)? onSubmitted;
 
-  /// Default link action picker delegate.
-  ///
-  /// デフォルトのリンクアクションピッカーデリゲート。
-  static Future<LinkMenuAction> defaultLinkActionPickerDelegate(
-      BuildContext context, String link, Node node) async {
-    return LinkMenuAction.none;
-  }
-
   @override
   FormFieldState<String> createState() => FormMarkdownFieldState<TValue>();
 }
@@ -427,48 +283,18 @@ class FormMarkdownField<TValue> extends FormField<String> {
 /// フォーム用のMarkdownテキストフィールド用のステート。
 class FormMarkdownFieldState<TValue> extends FormFieldState<String>
     with AutomaticKeepAliveClientMixin<FormField<String>> {
-  String? _text;
-  Delta? _delta;
-
-  late final QuillController _controller = QuillController(
-    config: const QuillControllerConfig(),
-    document: Document(),
-    selection: const TextSelection.collapsed(offset: 0),
-    keepStyleOnNewLine: false,
-    readOnly: widget.readOnly,
-  );
-  final MarkdownToDelta _mdToDelta = MarkdownToDelta(
-    markdownDocument: md.Document(encodeHtml: false),
-  );
-  final DeltaToMarkdown _deltaToMd = DeltaToMarkdown();
-
-  FocusNode get _effectiveFocusNode =>
-      widget.focusNode ?? widget.controller?.focusNode ?? _focusNode!;
-  FocusNode? _focusNode;
-
   @override
   FormMarkdownField<TValue> get widget =>
       super.widget as FormMarkdownField<TValue>;
 
-  /// QuillEditorState.
-  ///
-  /// QuillEditorのステート。
-  QuillEditorState? get quillEditorState => _quillEditorKey.currentState;
-  final _quillEditorKey = GlobalKey<QuillEditorState>();
+  MarkdownController get _effectiveController {
+    if (widget.controller != null) {
+      return widget.controller!;
+    }
+    return _controller ??= MarkdownController();
+  }
 
-  /// Check if the cursor is in a link.
-  ///
-  /// カーソルがリンク内にあるかどうかをチェックします。
-  bool get cursorInLink => _cursorInLink;
-  bool _cursorInLink = false;
-  bool _selectInLink = false;
-  TextSelection? _previousSelection;
-
-  /// Check if the cursor is in a mention link.
-  ///
-  /// カーソルがメンションリンク内にあるかどうかをチェックします。
-  bool get selectInMentionLink => _selectInMentionLink;
-  bool _selectInMentionLink = false;
+  MarkdownController? _controller;
 
   @override
   bool get wantKeepAlive => widget.keepAlive;
@@ -476,41 +302,15 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
   @override
   void initState() {
     super.initState();
-    _controller.addListener(_handleOnChanged);
-    _syncQuillController(widget.initialValue);
-    if (widget.focusNode == null && widget.controller?.focusNode == null) {
-      _focusNode = FocusNode();
-    }
-    widget.controller?._registerState(this);
     widget.form?.register(this);
-    _effectiveFocusNode.addListener(_handledOnFocusChanged);
   }
 
   @override
   void didUpdateWidget(FormMarkdownField<TValue> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.controller != oldWidget.controller) {
-      oldWidget.controller?._unregisterState(this);
-      widget.controller?._registerState(this);
-    }
-    if (widget.focusNode != oldWidget.focusNode ||
-        widget.controller?.focusNode != oldWidget.controller?.focusNode) {
-      if (widget.focusNode == null &&
-          widget.controller?.focusNode == null &&
-          _focusNode != null) {
-        _focusNode = FocusNode();
-      }
-      _focusNode?.removeListener(_handledOnFocusChanged);
-      oldWidget.focusNode?.removeListener(_handledOnFocusChanged);
-      oldWidget.controller?.focusNode.removeListener(_handledOnFocusChanged);
-      _effectiveFocusNode.addListener(_handledOnFocusChanged);
-    }
     if (widget.form != oldWidget.form) {
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
-    }
-    if (widget.readOnly != oldWidget.readOnly) {
-      _controller.readOnly = widget.readOnly;
     }
     if (oldWidget.initialValue != widget.initialValue &&
         widget.initialValue != null) {
@@ -520,107 +320,8 @@ class FormMarkdownFieldState<TValue> extends FormFieldState<String>
 
   @override
   void dispose() {
-    widget.controller?._unregisterState(this);
-    _controller.removeListener(_handleOnChanged);
-    _controller.dispose();
     widget.form?.unregister(this);
-    _focusNode?.removeListener(_handledOnFocusChanged);
-    widget.focusNode?.removeListener(_handledOnFocusChanged);
-    widget.controller?.focusNode.removeListener(_handledOnFocusChanged);
-    _focusNode?.dispose();
     super.dispose();
-  }
-
-  @override
-  void didChange(String? value) {
-    super.didChange(value);
-    _syncQuillController(value);
-  }
-
-  @override
-  void reset() {
-    _syncQuillController(null);
-    super.reset();
-  }
-
-  void _handledOnFocusChanged() {
-    if (_effectiveFocusNode.hasFocus) {
-      if (mounted) {
-        widget.controller?._latestState = this;
-      }
-    }
-  }
-
-  void _syncQuillController(String? value) {
-    if (_text != value) {
-      _text = value;
-      if (value == null) {
-        _controller.document = Document();
-        _delta = _controller.document.toDelta();
-      } else {
-        _delta = _mdToDelta.convert(value);
-        if (_delta != null && _delta!.length > 0) {
-          _controller.document = Document.fromDelta(_delta!);
-        } else {
-          _controller.document = Document();
-          _delta = _controller.document.toDelta();
-        }
-      }
-    }
-  }
-
-  void _handleOnChanged() {
-    _cursorInLink = _controller
-        .getSelectionStyle()
-        .values
-        .any((e) => e.key == Attribute.link.key);
-    final delta = _controller.document.toDelta();
-    if (delta != _delta) {
-      _delta = delta;
-      _text = _deltaToMd.convert(delta);
-    }
-    if (_cursorInLink) {
-      final selection = _controller.selection;
-      if (_selectInLink && _previousSelection == selection) {
-        return;
-      }
-      _previousSelection = selection;
-      final document = _controller.document;
-      final text = document.toPlainText();
-      var index = selection.baseOffset;
-      if (index > 0) {
-        final lineStart = text.lastIndexOf("\n", index - 1) + 1;
-        var res = document.queryChild(index);
-        final node = res.node;
-        if (node is Line) {
-          for (final child in node.children) {
-            final linkAttribute = child.style.attributes[Attribute.link.key];
-            if (linkAttribute != null) {
-              final link = linkAttribute.value as String;
-              if (link.startsWith("@")) {
-                _selectInMentionLink = true;
-              }
-              _selectInLink = true;
-              final baseOffset = lineStart + child.offset;
-              final extentOffset = baseOffset + child.length;
-              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                _controller.updateSelection(
-                  TextSelection(
-                    baseOffset: baseOffset,
-                    extentOffset: extentOffset,
-                  ),
-                  ChangeSource.local,
-                );
-              });
-              return;
-            }
-          }
-        }
-      }
-    } else {
-      _selectInLink = false;
-      _selectInMentionLink = false;
-    }
   }
 
   @override

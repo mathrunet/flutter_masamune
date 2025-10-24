@@ -23,7 +23,8 @@ class PluginAgoraMdCliAiCode extends PluginUsageCliAiCode {
   String get directory => "docs/plugins";
 
   @override
-  String get excerpt => "`Agora`は音声通話、ビデオ通話、音声ストリーミング、ビデオストリーミングの機能を提供するプラグイン。";
+  String get excerpt =>
+      "`Agora`は音声通話、ビデオ通話、クラウドレコーディング、スクリーンキャプチャ、データストリーム、カスタムビデオソースの機能を提供するプラグイン。Agora.io SDKを利用した高品質なリアルタイムコミュニケーションを実現。";
 
   @override
   String body(String baseName, String className) {
@@ -83,13 +84,19 @@ $excerpt
           ja: ビデオチャットのためにマイクを利用します。 # 利用用途を言語ごとに記載。
     ```
 
-2. 下記のコマンドを実行して設定を適用。
+2. パッケージをプロジェクトに追加。
+
+    ```bash
+    flutter pub add masamune_agora
+    ```
+
+3. 下記のコマンドを実行して設定を適用。
 
     ```bash
     katana apply
     ```
 
-3. `lib/adapter.dart`の`masamuneAdapters`に`MasamuneAdapter`を追加。
+4. `lib/adapter.dart`の`masamuneAdapters`に`AgoraMasamuneAdapter`を追加。Agora認証情報、トークン発行用のバックエンド、クラウド録画用のストレージ設定を指定。
 
     ```dart
     // lib/adapter.dart
@@ -102,89 +109,239 @@ $excerpt
         const UniversalMasamuneAdapter(),
 
         // Agoraのアダプターを追加。
-        const AgoraMasamuneAdapter(),
+        AgoraMasamuneAdapter(
+          // AgoraのAppID。https://console.agora.io/projects から取得。
+          appId: "YOUR_AGORA_APP_ID",
+          // AgoraのカスタマーID。https://console.agora.io/restfulApi から取得。
+          customerId: "YOUR_CUSTOMER_ID",
+          // Agoraのカスタマーシークレット。https://console.agora.io/restfulApi から取得。
+          customerSecret: "YOUR_CUSTOMER_SECRET",
+          // トークン発行用のFunctionsアダプター（バックエンドでトークン生成が必要）
+          functionsAdapter: firebaseFunctionsMasamuneAdapter,
+          // クラウドレコーディングやスクリーンショット用のストレージ設定（オプション）
+          storageBucketConfig: const AgoraStorageBucketConfig(
+            vendor: AgoraStorageVendor.googleCloud,  // Google Cloud Storage、AWS S3など
+            bucketName: "your-bucket",
+            rootPath: "agora",                       // バケット内のフォルダパス
+            accessKey: "GOOGLE_CLOUD_ACCESS_KEY",
+            secretKey: "GOOGLE_CLOUD_SECRET_KEY",
+          ),
+          // デフォルトで接続時にクラウドレコーディングを開始する場合はtrue
+          enableRecordingByDefault: true,
+          // デフォルトで接続時にスクリーンキャプチャを開始する場合はtrue
+          enableScreenCaptureByDefault: true,
+          // トークンの有効期限（デフォルトは1時間）
+          tokenExpirationTime: Duration(hours: 1),
+        ),
     ];
     ```
 
-## 利用方法
+    **Note**:
+    - `functionsAdapter`はAgora RTCトークンを生成できるバックエンドを指す必要があります
+    - `storageBucketConfig`はレコーディングやスクリーンショットを有効にする場合に必須です
+    - 認証情報は[Agoraコンソール](https://console.agora.io/)から取得してください
+
+## トークンの発行（Functions）
+
+Agoraはチャンネルへの安全なアクセスのためにトークンが必要です。バックエンドでAgora Server SDKを使用してトークン生成を実装する必要があります。
+
+**クライアント側**: パッケージは`AgoraTokenFunctionsAction`を提供してトークンをリクエストします:
 
 ```dart
-// Agoraのコントローラーを取得。
-final agora = ref.app.controller(Agora.query());
-
-// チャンネルに参加。
-await agora.joinChannel(
-  // チャンネル名。
-  channelName: "test_channel",
-  // ユーザーID。
-  uid: 1234567890,
-  // トークン。
-  token: "your_token",
-);
-
-// ローカルのビデオを表示。
-AgoraVideoView(
-  // コントローラー。
-  controller: agora,
-  // 表示するユーザーのID。
-  uid: 1234567890,
-  // 表示モード。
-  renderMode: AgoraVideoRenderMode.hidden,
-);
-
-// リモートのビデオを表示。
-AgoraVideoView(
-  // コントローラー。
-  controller: agora,
-  // 表示するユーザーのID。
-  uid: 9876543210,
-  // 表示モード。
-  renderMode: AgoraVideoRenderMode.hidden,
-);
-
-// マイクをミュート。
-await agora.muteLocalAudioStream(true);
-
-// カメラをオフ。
-await agora.muteLocalVideoStream(true);
-
-// スピーカーをミュート。
-await agora.muteAllRemoteAudioStreams(true);
-
-// リモートのビデオをオフ。
-await agora.muteAllRemoteVideoStreams(true);
-
-// チャンネルから退出。
-await agora.leaveChannel();
-
-// クラウドレコーディングを開始。
-final recording = await agora.startCloudRecording(
-  // チャンネル名。
-  channelName: "test_channel",
-  // ユーザーID。
-  uid: 1234567890,
-  // トークン。
-  token: "your_token",
-  // 保存先のバケット名。
-  storageConfig: AgoraCloudStorageConfig(
-    // バケット名。
-    bucket: "your_bucket",
-    // アクセスキー。
-    accessKey: "your_access_key",
-    // シークレットキー。
-    secretKey: "your_secret_key",
+// 通常はAgoraController.connect()内で自動的に呼び出されます
+final response = await adapter.functionsAdapter.execute(
+  AgoraTokenFunctionsAction(
+    channelName: "demo-channel",
+    clientRole: AgoraClientRole.broadcaster,  // または AgoraClientRole.audience
+    uid: 1001,                                 // オプションのユーザーID
+    expirationTime: Duration(hours: 1),       // トークンの有効期限
   ),
 );
-
-// クラウドレコーディングを停止。
-await agora.stopCloudRecording(recording);
-
-// 画面共有を開始。
-await agora.startScreenSharing();
-
-// 画面共有を停止。
-await agora.stopScreenSharing();
+final token = response.token;
 ```
+
+**サーバー側**: バックエンド関数は以下を実行する必要があります:
+1. `agora_token`アクションをリッスン
+2. AgoraのトークンビルダーでRTCトークンを生成
+3. トークンを含むJSONマップを返す
+
+レスポンスフォーマット例:
+```json
+{
+  "token": "generated_agora_rtc_token_string"
+}
+```
+
+実装の詳細は[Agoraトークン生成ドキュメント](https://docs.agora.io/en/video-calling/develop/authentication-workflow)を参照してください。
+
+## 利用方法
+
+### Agoraチャンネルへの接続
+
+`AgoraController`をMasamuneコントローラーとして使用して接続を管理します。スコープからコントローラーを取得し、`connect`を呼び出し、終了時に`disconnect`で破棄します。
+
+```dart
+// チャンネル名を指定してコントローラーを取得
+final agora = ref.page.controller(
+  AgoraController.query("demo-channel"),
+);
+
+// チャンネルに接続
+await agora.connect(
+  userName: "broadcaster-1",
+  videoProfile: AgoraVideoProfile.size1280x720Rate30,
+  clientRole: ClientRoleType.clientRoleBroadcaster,    // または clientRoleAudience
+  channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
+  enableAudio: true,                      // 音声を有効にして開始
+  enableVideo: true,                      // ビデオを有効にして開始
+  cameraDirection: CameraDirection.cameraFront,  // フロントカメラまたはリアカメラ
+);
+
+// セッション中に音声/ビデオを動的に切り替え
+agora.enableAudio = false;  // マイクをミュート
+agora.enableVideo = false;  // カメラをオフ
+
+// フロントカメラとリアカメラを切り替え
+await agora.switchCamera();
+
+// リモート音声ストリームをミュート/ミュート解除
+agora.mute = true;
+
+// 終了時に切断
+await agora.disconnect();
+```
+
+**パーミッション**: `connect`は`AgoraPermission`を使用してマイクとカメラのパーミッションを自動的にリクエストします。手動制御の場合:
+
+```dart
+await agora.permission.request(
+  video: true,
+  audio: true,
+);
+```
+
+### ローカルおよびリモートビデオの表示
+
+`AgoraScreen`は指定された`AgoraUser`のビデオストリームをレンダリングします。`AgoraController.value`からユーザーにアクセスします。
+
+```dart
+Widget build(BuildContext context) {
+  final users = agora.value;
+  final local = users.firstWhereOrNull((user) => user.isLocalUser);
+
+  return AgoraScreen(
+    value: local,
+    useFlutterTexture: true,      // Flutterのテクスチャレンダリングを使用
+    useAndroidSurfaceView: false, // AndroidでTextureViewを使用（デフォルト）
+  );
+}
+```
+
+**複数ユーザーの表示**: すべての参加者（ローカルとリモート）を表示するには、ユーザーリストをマップします:
+
+```dart
+Widget build(BuildContext context) {
+  final users = agora.value;
+
+  return GridView.builder(
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      childAspectRatio: 16 / 9,
+    ),
+    itemCount: users.length,
+    itemBuilder: (context, index) {
+      return AgoraScreen(
+        value: users[index],
+        useFlutterTexture: true,
+      );
+    },
+  );
+}
+```
+
+### クラウドレコーディングとスクリーンショット
+
+アダプターに`storageBucketConfig`が設定されていてレコーディングが有効な場合、プログラムでレコーディングを開始/停止したり、スクリーンショットをキャプチャしたりできます。
+
+**レコーディング**: セッション全体をビデオファイルとしてキャプチャ:
+
+```dart
+await agora.startRecording();
+
+// レコーディング中...
+// レコーディングがアップロードされるURLを取得
+final recordingUrl = agora.recordURL;
+
+await agora.stopRecording();
+```
+
+**スクリーンショット**: 単一フレームを画像としてキャプチャ:
+
+```dart
+await agora.startScreenCapture();
+
+// スクリーンショットがアップロードされるURLを取得
+final screenshotUrl = agora.screenCaptureURL;
+
+await agora.stopScreenCapture();
+```
+
+**重要**: 設定したクラウドストレージ（Google Cloud Storage、AWS S3など）がAgora Cloud Recordingからのアップロードを受け入れ、必要に応じて再生を許可するCORSルールを持っていることを確認してください。
+
+### カスタムビデオソースとデータストリーム
+
+**カスタムビデオソース**: カメラの代わりに独自のビデオフレームをプッシュするためにカスタムビデオ入力を有効にします:
+
+```dart
+await agora.connect(
+  userName: "presenter",
+  enableCustomVideoSource: true,
+);
+
+// 生のビデオフレームをプッシュ（ファイルや生成コンテンツから）
+await agora.pushCustomVideo(
+  videoFrameBytes,               // フレームデータを含むUint8List
+  VideoPixelFormat.videoPixelI420, // ピクセルフォーマット
+  1280,                           // 幅
+  720,                            // 高さ
+);
+```
+
+**データストリーム**: 参加者間で任意のデータメッセージを送受信:
+
+```dart
+await agora.connect(
+  userName: "presenter",
+  onReceivedDataStream: (streamId, from, data) {
+    // リモートユーザーからの受信データを処理
+    debugPrint("Message from \${from.name}: \${utf8.decode(data)}");
+  },
+);
+
+// すべての参加者にデータメッセージを送信
+await agora.sendDataStream(
+  Uint8List.fromList(utf8.encode("hello")),
+);
+```
+
+### 音声録音
+
+接続中にローカルで音声をファイルに録音します。
+
+```dart
+await agora.startAudioRecording(
+  path.join(appDocDir.path, "session.aac"),
+  sampleRate: AudioSampleRateType.audioSampleRate48000,
+  quality: AudioRecordingQualityType.audioRecordingQualityHigh,
+);
+
+// ... 後で
+await agora.stopAudioRecording();
+```
+
+## Web対応
+
+Web実装はスタブ実装を提供するため、ランタイムエラーや条件付きインポートなしでAPIを呼び出すことができます。ただし、実際のメディアストリーミング（ビデオ/オーディオ）はブラウザでは利用できません。これにより、モバイルとWebの両方のプラットフォームをターゲットにしながら、プラットフォームに依存しないコードを書くことができます。
 """;
   }
 }

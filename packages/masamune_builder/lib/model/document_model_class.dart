@@ -11,6 +11,7 @@ List<Spec> documentModelClass(
   GoogleSpreadSheetValue googleSpreadSheetValue,
 ) {
   final searchable = model.parameters.where((e) => e.isSearchable).toList();
+  final vectorSearchable = model.parameters.where((e) => e.isVector).toList();
   final referenceable =
       model.parameters.where((e) => e.reference != null).toList();
 
@@ -23,6 +24,8 @@ List<Spec> documentModelClass(
           Reference("ModelRefMixin<${model.name}>"),
           if (searchable.isNotEmpty)
             Reference("SearchableDocumentMixin<${model.name}>"),
+          if (vectorSearchable.isNotEmpty)
+            Reference("VectorDocumentMixin<${model.name}>"),
           if (referenceable.isNotEmpty)
             Reference("ModelRefLoaderMixin<${model.name}>")
         ])
@@ -201,6 +204,30 @@ List<Spec> documentModelClass(
                   }).join(" + "),
                 ),
             ),
+          if (vectorSearchable.isNotEmpty)
+            Method(
+              (m) => m
+                ..name = "buildVectorText"
+                ..lambda = true
+                ..returns = const Reference("String")
+                ..annotations.addAll([const Reference("override")])
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "value"
+                      ..type = Reference(model.name),
+                  )
+                ])
+                ..body = Code(
+                  vectorSearchable.map((e) {
+                    if (e.type.aliasName.endsWith("?")) {
+                      return "(value.${e.name}?.toString() ?? \"\")";
+                    } else {
+                      return "value.${e.name}.toString()";
+                    }
+                  }).join(" + "),
+                ),
+            ),
           if (referenceable.isNotEmpty)
             Method(
               (m) => m
@@ -237,6 +264,8 @@ List<Spec> documentModelClass(
             Reference("ModelRefMixin<${model.name}>"),
             if (searchable.isNotEmpty)
               Reference("SearchableDocumentMixin<${model.name}>"),
+            if (vectorSearchable.isNotEmpty)
+              Reference("VectorDocumentMixin<${model.name}>"),
             if (referenceable.isNotEmpty)
               Reference("ModelRefLoaderMixin<${model.name}>")
           ])
@@ -405,6 +434,30 @@ List<Spec> documentModelClass(
                   ])
                   ..body = Code(
                     searchable.map((e) {
+                      if (e.type.aliasName.endsWith("?")) {
+                        return "(value.${e.name}?.toString() ?? \"\")";
+                      } else {
+                        return "value.${e.name}.toString()";
+                      }
+                    }).join(" + "),
+                  ),
+              ),
+            if (vectorSearchable.isNotEmpty)
+              Method(
+                (m) => m
+                  ..name = "buildVectorText"
+                  ..lambda = true
+                  ..returns = const Reference("String")
+                  ..annotations.addAll([const Reference("override")])
+                  ..requiredParameters.addAll([
+                    Parameter(
+                      (p) => p
+                        ..name = "value"
+                        ..type = Reference(model.name),
+                    )
+                  ])
+                  ..body = Code(
+                    vectorSearchable.map((e) {
                       if (e.type.aliasName.endsWith("?")) {
                         return "(value.${e.name}?.toString() ?? \"\")";
                       } else {

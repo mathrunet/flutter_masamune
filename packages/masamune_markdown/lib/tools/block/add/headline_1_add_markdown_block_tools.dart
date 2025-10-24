@@ -49,7 +49,7 @@ class Headline1AddMarkdownBlockTools extends MarkdownBlockTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.focusedController?.addFormattedLine(Attribute.h1);
+    ref.controller.insertBlock(this);
     ref.deleteMode();
   }
 }

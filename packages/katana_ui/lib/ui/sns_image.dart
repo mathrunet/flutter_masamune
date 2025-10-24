@@ -1,12 +1,134 @@
 part of "/katana_ui.dart";
 
-/// Widget to display an image with a specified size.
+/// A widget for displaying multiple images in SNS-style layouts.
 ///
-/// サイズを指定して画像を表示するウィジェット。
+/// This widget automatically arranges 1-4 images in grid layouts optimized
+/// for social media post displays. Perfect for photo galleries, social feeds,
+/// and multi-image content.
+///
+/// Features:
+/// - Automatic layout based on image count (1-4 images)
+/// - Single image: Full width display
+/// - Two images: Side-by-side layout
+/// - Three images: One large + two stacked
+/// - Four images: 2x2 grid layout
+/// - Customizable image fitting and spacing
+/// - Tap callback for each image
+/// - Configurable border radius and height
+///
+/// Example:
+/// ```dart
+/// SnsImage(
+///   images: [
+///     NetworkImage('https://example.com/photo1.jpg'),
+///     NetworkImage('https://example.com/photo2.jpg'),
+///     NetworkImage('https://example.com/photo3.jpg'),
+///   ],
+///   height: 300,
+///   borderRadius: BorderRadius.circular(12),
+///   onTap: (image) {
+///     // Handle image tap
+///     print('Image tapped');
+///   },
+/// )
+/// ```
+///
+/// SNSスタイルのレイアウトで複数の画像を表示するウィジェット。
+///
+/// ソーシャルメディアの投稿表示に最適化された、1〜4枚の画像を自動的にグリッドレイアウトで配置します。
+/// フォトギャラリー、ソーシャルフィード、複数画像コンテンツに最適です。
+///
+/// 特徴:
+/// - 画像枚数に基づく自動レイアウト（1〜4枚）
+/// - 1枚: 全幅表示
+/// - 2枚: 横並びレイアウト
+/// - 3枚: 1枚大+2枚積み重ね
+/// - 4枚: 2x2グリッドレイアウト
+/// - カスタマイズ可能な画像フィッティングと間隔
+/// - 各画像のタップコールバック
+/// - 設定可能なボーダー半径と高さ
+///
+/// 例:
+/// ```dart
+/// SnsImage(
+///   images: [
+///     NetworkImage('https://example.com/photo1.jpg'),
+///     NetworkImage('https://example.com/photo2.jpg'),
+///     NetworkImage('https://example.com/photo3.jpg'),
+///   ],
+///   height: 300,
+///   borderRadius: BorderRadius.circular(12),
+///   onTap: (image) {
+///     // 画像タップの処理
+///     print('画像がタップされました');
+///   },
+/// )
+/// ```
 class SnsImage extends StatelessWidget {
-  /// Widget to display an image with a specified size.
+  /// A widget for displaying multiple images in SNS-style layouts.
   ///
-  /// サイズを指定して画像を表示するウィジェット。
+  /// This widget automatically arranges 1-4 images in grid layouts optimized
+  /// for social media post displays. Perfect for photo galleries, social feeds,
+  /// and multi-image content.
+  ///
+  /// Features:
+  /// - Automatic layout based on image count (1-4 images)
+  /// - Single image: Full width display
+  /// - Two images: Side-by-side layout
+  /// - Three images: One large + two stacked
+  /// - Four images: 2x2 grid layout
+  /// - Customizable image fitting and spacing
+  /// - Tap callback for each image
+  /// - Configurable border radius and height
+  ///
+  /// Example:
+  /// ```dart
+  /// SnsImage(
+  ///   images: [
+  ///     NetworkImage('https://example.com/photo1.jpg'),
+  ///     NetworkImage('https://example.com/photo2.jpg'),
+  ///     NetworkImage('https://example.com/photo3.jpg'),
+  ///   ],
+  ///   height: 300,
+  ///   borderRadius: BorderRadius.circular(12),
+  ///   onTap: (image) {
+  ///     // Handle image tap
+  ///     print('Image tapped');
+  ///   },
+  /// )
+  /// ```
+  ///
+  /// SNSスタイルのレイアウトで複数の画像を表示するウィジェット。
+  ///
+  /// ソーシャルメディアの投稿表示に最適化された、1〜4枚の画像を自動的にグリッドレイアウトで配置します。
+  /// フォトギャラリー、ソーシャルフィード、複数画像コンテンツに最適です。
+  ///
+  /// 特徴:
+  /// - 画像枚数に基づく自動レイアウト（1〜4枚）
+  /// - 1枚: 全幅表示
+  /// - 2枚: 横並びレイアウト
+  /// - 3枚: 1枚大+2枚積み重ね
+  /// - 4枚: 2x2グリッドレイアウト
+  /// - カスタマイズ可能な画像フィッティングと間隔
+  /// - 各画像のタップコールバック
+  /// - 設定可能なボーダー半径と高さ
+  ///
+  /// 例:
+  /// ```dart
+  /// SnsImage(
+  ///   images: [
+  ///     NetworkImage('https://example.com/photo1.jpg'),
+  ///     NetworkImage('https://example.com/photo2.jpg'),
+  ///     NetworkImage('https://example.com/photo3.jpg'),
+  ///   ],
+  ///   height: 300,
+  ///   borderRadius: BorderRadius.circular(12),
+  ///   onTap: (image) {
+  ///     // 画像タップの処理
+  ///     print('画像がタップされました');
+  ///   },
+  /// )
+  /// ```
   const SnsImage({
     required this.images,
     super.key,

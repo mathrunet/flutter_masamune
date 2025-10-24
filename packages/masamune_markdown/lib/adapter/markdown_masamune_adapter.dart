@@ -16,7 +16,8 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 内部的には`flutter_quill`および`markdown_widget`のパッケージを利用しています。
   const MarkdownMasamuneAdapter({
-    this.markdownStyle = const MarkdownStyle(),
+    this.defaultStyle = const MarkdownStyle(),
+    this.imageLimit = 256,
     this.defaultPrimaryTools = const [
       AddMarkdownPrimaryTools(),
       FontMarkdownPrimaryTools(),
@@ -33,28 +34,111 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
       PasteMarkdownSecondaryTools(),
       CloseMarkdownSecondaryTools(),
     ],
-    this.imageLimit = 256,
+    this.defaultSelectInlineTools = const [
+      BoldFontMarkdownInlineTools(),
+      CodeFontMarkdownInlineTools(),
+      ItalicFontMarkdownInlineTools(),
+      StrikeFontMarkdownInlineTools(),
+      UnderlineFontMarkdownInlineTools(),
+      LinkMarkdownInlineTools(),
+    ],
   });
 
-  /// Primary tools for markdown.
+  /// Default primary tools for markdown.
   ///
-  /// マークダウンのプライマリーツール。
+  /// マークダウンのデフォルトのプライマリーツール。
   final List<MarkdownPrimaryTools> defaultPrimaryTools;
 
-  /// Secondary tools for markdown.
+  /// Default secondary tools for markdown.
   ///
-  /// マークダウンのセカンダリーツール。
+  /// マークダウンのデフォルトのセカンダリーツール。
   final List<MarkdownSecondaryTools> defaultSecondaryTools;
 
-  /// Style for markdown.
+  /// Default select inline tools for markdown.
   ///
-  /// マークダウンのスタイル。
-  final MarkdownStyle markdownStyle;
+  /// マークダウンのデフォルトの選択インラインツール。
+  final List<MarkdownInlineTools> defaultSelectInlineTools;
+
+  /// Default style for markdown.
+  ///
+  /// マークダウンのデフォルトのスタイル。
+  final MarkdownStyle defaultStyle;
 
   /// The limit of the image embed.
   ///
   /// 画像埋め込みのサイズ制限。
   final double imageLimit;
+
+  /// Find the markdown tool.
+  ///
+  /// マークダウンツールを取得します。
+  static List<TTool> findTools<TTool extends MarkdownTools>({
+    String? toolId,
+    bool recursive = false,
+  }) {
+    final foundTools = <TTool>[];
+    final primaryTools = _findTools<TTool>(
+      primary.defaultPrimaryTools,
+      toolId: toolId,
+      recursive: recursive,
+    );
+    if (primaryTools.isNotEmpty) {
+      foundTools.addAll(primaryTools);
+    }
+    final secondaryTool = _findTools<TTool>(
+      primary.defaultSecondaryTools,
+      toolId: toolId,
+      recursive: recursive,
+    );
+    if (secondaryTool.isNotEmpty) {
+      foundTools.addAll(secondaryTool);
+    }
+    final selectInlineTool = _findTools<TTool>(
+      primary.defaultSelectInlineTools,
+      toolId: toolId,
+      recursive: recursive,
+    );
+    if (selectInlineTool.isNotEmpty) {
+      foundTools.addAll(selectInlineTool);
+    }
+    return foundTools;
+  }
+
+  static List<TTool> _findTools<TTool extends MarkdownTools>(
+    List<MarkdownTools> tools, {
+    String? toolId,
+    bool recursive = false,
+  }) {
+    final foundTools = <TTool>[];
+    for (final tool in tools) {
+      if (tool is TTool) {
+        if (toolId == null || tool.id == toolId) {
+          foundTools.add(tool);
+        }
+      }
+      if (recursive) {
+        if (tool is MarkdownPrimaryTools) {
+          final inlineFound = _findTools<TTool>(
+            tool.inlineTools ?? [],
+            toolId: toolId,
+            recursive: true,
+          );
+          if (inlineFound.isNotEmpty) {
+            foundTools.addAll(inlineFound);
+          }
+          final blockFound = _findTools<TTool>(
+            tool.blockTools ?? [],
+            toolId: toolId,
+            recursive: true,
+          );
+          if (blockFound.isNotEmpty) {
+            foundTools.addAll(blockFound);
+          }
+        }
+      }
+    }
+    return foundTools;
+  }
 
   /// You can retrieve the [MarkdownMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

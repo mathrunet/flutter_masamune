@@ -30,11 +30,132 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune App Review
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_app_review
+```
+
+Run `flutter pub get` if you edited `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Register `AppReviewMasamuneAdapter` before launching the application. Provide the store URLs that open as fallback when in-app review dialogs are unavailable.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used by the app.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  const AppReviewMasamuneAdapter(
+    // Android: Google Play Store URL (required for Android fallback)
+    googlePlayStoreUrl: "https://play.google.com/store/apps/details?id=com.example.app",
+    
+    // iOS: App Store URL (required for iOS fallback)
+    appStoreUrl: "https://apps.apple.com/app/id0000000000",
+  ),
+];
+```
+
+3. Use in your `main.dart`:
+
+```dart
+void main() {
+  runMasamuneApp(
+    appRef: appRef,
+    masamuneAdapters: masamuneAdapters,
+    (appRef, _) => MasamuneApp(
+      appRef: appRef,
+      home: HomePage(),
+    ),
+  );
+}
+```
+
+The adapter registers itself in `MasamuneAdapterScope`, allowing access via `AppReviewMasamuneAdapter.primary`.
+
+### Request a Review
+
+Use the `AppReview` controller to trigger in-app review dialogs. If the platform cannot display the native dialog, the controller automatically falls back to launching the configured store URL.
+
+**Basic Usage**:
+
+```dart
+class MyPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final appReview = ref.page.controller(AppReview.query());
+
+    return ElevatedButton(
+      onPressed: () async {
+        await appReview.review();
+      },
+      child: const Text("Review this app"),
+    );
+  }
+}
+```
+
+**Error Handling**:
+
+`review()` throws exceptions when:
+- Review is not supported on the platform (e.g., web)
+- The store URL cannot be opened
+
+Handle exceptions for custom fallback logic:
+
+```dart
+try {
+  await appReview.review();
+} catch (e) {
+  debugPrint("Review failed: $e");
+  // Show custom message to user
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text("Could not open review dialog")),
+  );
+}
+```
+
+### Advanced Usage
+
+**Check Availability**: Check if native review is available before prompting:
+
+```dart
+import 'package:in_app_review/in_app_review.dart';
+
+if (await InAppReview.instance.isAvailable()) {
+  // Show review prompt UI
+  showDialog(...);
+} else {
+  // Direct to store URL
+  await appReview.review();
+}
+```
+
+**Direct Store URLs**: Access store URLs directly for custom link building:
+
+```dart
+final adapter = AppReviewMasamuneAdapter.primary;
+final iosUrl = adapter.appStoreUrl;
+final androidUrl = adapter.googlePlayStoreUrl;
+
+// Use in your custom UI or share dialog
+```
+
+**Analytics Integration**: Wrap review calls for tracking:
+
+```dart
+await appReview.review();
+analytics.logEvent(name: "app_review_requested");
+```
 
 # GitHub Sponsors
 

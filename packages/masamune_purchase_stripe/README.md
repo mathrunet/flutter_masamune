@@ -30,11 +30,181 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Purchase Stripe
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+1. Add the package to your project.
+
+```bash
+flutter pub add masamune_purchase_stripe
+```
+
+### Setup
+
+2. Register the Stripe purchase adapter in your Masamune configuration.
+
+```dart
+// lib/main.dart
+
+import 'package:masamune_purchase_stripe/masamune_purchase_stripe.dart';
+import 'package:katana_functions_firebase/katana_functions_firebase.dart';
+import 'package:katana_model_firestore/katana_model_firestore.dart';
+
+final functionsAdapter = FirebaseFunctionsAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  region: FirebaseRegion.asiaNortheast1,
+);
+
+final modelAdapter = const FirestoreModelAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
+
+final masamuneAdapters = <MasamuneAdapter>[
+  StripePurchaseMasamuneAdapter(
+    callbackURLSchemeOrHost: Uri.parse('yourapp://stripe'),  // For 3D Secure redirects
+    supportEmail: 'support@example.com',                     // Customer support email
+    functionsAdapter: functionsAdapter,                      // Backend integration
+    modelAdapter: modelAdapter,                              // Data persistence
+  ),
+];
+
+void main() {
+  runMasamuneApp(
+    appRef: appRef,
+    modelAdapter: modelAdapter,
+    masamuneAdapters: masamuneAdapters,
+    (appRef, _) => MasamuneApp(
+      appRef: appRef,
+      home: HomePage(),
+    ),
+  );
+}
+```
+
+### Create Stripe Customer
+
+3. Create or update a Stripe customer with payment method:
+
+```dart
+class PaymentSetupPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final functions = ref.app.functions();
+
+    return ElevatedButton(
+      onPressed: () async {
+        try {
+          // Create/update Stripe customer and payment method
+          await functions.execute(
+            StripeActionCreateCustomerAndPayment(
+              email: 'user@example.com',
+              paymentMethodId: 'pm_xxx',  // From Stripe.js or mobile SDK
+            ),
+          );
+          print("Payment method saved!");
+        } catch (e) {
+          print("Failed to save payment: $e");
+        }
+      },
+      child: const Text("Save Payment Method"),
+    );
+  }
+}
+```
+
+### Process a Purchase
+
+4. Initiate a purchase or subscription:
+
+```dart
+Future<void> purchasePremium() async {
+  final functions = ref.app.functions();
+  
+  try {
+    final result = await functions.execute(
+      StripeActionCreatePurchase(
+        amount: 1200,                           // Amount in smallest currency unit (e.g., cents)
+        currency: StripeCurrency.jpy,          // Currency
+        description: 'Premium Plan - Monthly', // Purchase description
+        metadata: {                             // Optional metadata
+          'plan': 'premium',
+          'period': 'monthly',
+        },
+      ),
+    );
+    
+    print("Purchase successful: ${result.purchaseId}");
+    // Navigate to success page
+  } on StripePaymentException catch (e) {
+    print("Payment failed: ${e.message}");
+    // Show error dialog
+  }
+}
+```
+
+### Track Purchase State
+
+5. Use the generated models to track purchases and payment status:
+
+```dart
+class PurchaseHistoryPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    // Load user's purchases
+    final purchases = ref.app.model(
+      StripePurchaseModel.collection(userId: currentUserId),
+    )..load();
+
+    return ListView.builder(
+      itemCount: purchases.length,
+      itemBuilder: (context, index) {
+        final purchase = purchases[index].value;
+        return ListTile(
+          title: Text(purchase?.description ?? ''),
+          subtitle: Text('${purchase?.amount} ${purchase?.currency}'),
+          trailing: Text(purchase?.status ?? ''),
+        );
+      },
+    );
+  }
+}
+```
+
+### Backend Implementation
+
+Your Cloud Functions must implement Stripe integration:
+
+```typescript
+// Cloud Functions
+export const stripe = functions.https.onCall(async (data, context) => {
+  const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+  
+  switch (data.action) {
+    case "create_customer_and_payment":
+      // Create Stripe customer and attach payment method
+      const customer = await stripe.customers.create({
+        email: data.email,
+      });
+      await stripe.paymentMethods.attach(data.paymentMethodId, {
+        customer: customer.id,
+      });
+      return { customerId: customer.id };
+      
+    case "create_purchase":
+      // Create payment intent
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: data.amount,
+        currency: data.currency,
+        description: data.description,
+        metadata: data.metadata,
+      });
+      return { purchaseId: paymentIntent.id };
+  }
+});
+```
 
 # GitHub Sponsors
 

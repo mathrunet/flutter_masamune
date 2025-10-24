@@ -87,6 +87,12 @@ class _MasamuneModelFirestoreBuilder extends Builder {
     );
     buffer = createFunction(
       buffer,
+      functionName: "isVectorSearchable",
+      parameters: "data",
+      body: "return isMap(data, \"@vector\");",
+    );
+    buffer = createFunction(
+      buffer,
       functionName: "isEnum",
       parameters: "data, field",
       body: "return isString(data, field);",

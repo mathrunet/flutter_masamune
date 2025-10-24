@@ -635,7 +635,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   @protected
   Future<List<TModel>> fromMap(Map<String, DynamicMap> map, int? limit) async {
     final res = <TModel>[];
-    final sorted = modelQuery.sort(List.from(map.entries));
+    final sorted = await modelQuery.sort(List.from(map.entries));
     for (final tmp in sorted) {
       final key =
           tmp.key.replaceAll("/", "").replaceAll("?", "").replaceAll("&", "");

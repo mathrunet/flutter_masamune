@@ -594,6 +594,9 @@ class GithubModelAdapter extends ModelAdapter {
   /// ローカルデータベースを使用します。
   final bool useLocalDatabase;
 
+  @override
+  VectorConverter get vectorConverter => const PassVectorConverter();
+
   /// Designated database. Please use for testing purposes, etc.
   ///
   /// 指定のデータベース。テスト用途などにご利用ください。
@@ -837,6 +840,7 @@ class GithubModelAdapter extends ModelAdapter {
       final repositoryId = match?.group(2);
       final branchId = match?.group(3);
       final commitId = match?.group(4);
+      final pathId = match?.group(5);
       final contentId = query.query.path.split("/").last;
       if (organizationId == null ||
           repositoryId == null ||
@@ -844,9 +848,11 @@ class GithubModelAdapter extends ModelAdapter {
           commitId == null) {
         throw Exception("Invalid path for content document load");
       }
+      final path = Uri.decodeComponent(pathId ?? "").trimString("/");
+      final contentPath = Uri.decodeComponent(contentId).trimString("/");
       final contents = await github.repositories.getContents(
-        RepositorySlug(organizationId, repositoryId), "", // ルートディレクトリ
-        ref: contentId,
+        RepositorySlug(organizationId, repositoryId),
+        "$path/$contentPath",
       );
       final res = contents.toGithubContentModel().toJson().toEntireJson();
       await database.syncDocument(query, res);
@@ -1172,14 +1178,17 @@ class GithubModelAdapter extends ModelAdapter {
       final repositoryId = match?.group(2);
       final branchId = match?.group(3);
       final commitId = match?.group(4);
+      final pathId = match?.group(5);
       if (organizationId == null ||
           repositoryId == null ||
           branchId == null ||
           commitId == null) {
         throw Exception("Invalid path for content collection load");
       }
+      final path = Uri.decodeComponent(pathId ?? "").trimString("/");
       final contents = await github.repositories.getContents(
-        RepositorySlug(organizationId, repositoryId), "", // ルートディレクトリ
+        RepositorySlug(organizationId, repositoryId),
+        path,
         ref: commitId,
       );
       res = contents.tree?.toMap((e) {
@@ -1437,19 +1446,23 @@ class GithubModelAdapter extends ModelAdapter {
       final repositoryId = match?.group(2);
       final branchId = match?.group(3);
       final commitId = match?.group(4);
+      final pathId = match?.group(5);
+      final contentId = query.query.path.split("/").last;
       if (organizationId == null ||
           repositoryId == null ||
           branchId == null ||
           commitId == null) {
         throw Exception("Invalid path for content document deletion");
       }
+      final path = Uri.decodeComponent(pathId ?? "").trimString("/");
+      final contentPath = Uri.decodeComponent(contentId).trimString("/");
       final model = GithubContentModel.fromJson(value);
       final fromServer = model.fromServer;
       if (!fromServer) {
         await github.repositories.createFile(
           RepositorySlug(organizationId, repositoryId),
           CreateFile(
-            path: model.path,
+            path: model.path ?? "$path/$contentPath",
             message: "chore: Create file(${model.path?.last()})",
             content: model.content,
             branch: branchId,
@@ -1464,7 +1477,7 @@ class GithubModelAdapter extends ModelAdapter {
       } else {
         await github.repositories.updateFile(
           RepositorySlug(organizationId, repositoryId),
-          model.path ?? "",
+          model.path ?? "$path/$contentPath",
           "chore: Update file(${model.path?.last()})",
           model.content ?? "",
           model.sha ?? "",
@@ -1595,6 +1608,7 @@ class GithubModelAdapter extends ModelAdapter {
       final repositoryId = match?.group(2);
       final branchId = match?.group(3);
       final commitId = match?.group(4);
+      final pathId = match?.group(5);
       final contentId = query.query.path.split("/").last;
       if (organizationId == null ||
           repositoryId == null ||
@@ -1611,9 +1625,8 @@ class GithubModelAdapter extends ModelAdapter {
         );
         path = contents.file?.path;
       }
-      if (path == null) {
-        throw Exception("Invalid path for content document deletion");
-      }
+      path ??=
+          "${Uri.decodeComponent(pathId ?? "").trimString("/")}/${Uri.decodeComponent(contentId).trimString("/")}";
       await github.repositories.deleteFile(
         RepositorySlug(organizationId, repositoryId),
         path,

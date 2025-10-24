@@ -14,7 +14,8 @@ class KatanaUIPeriodicScopeMdCliAiCode extends KatanaUiUsageCliAiCode {
   String get name => "`PeriodicScope`の利用方法";
 
   @override
-  String get description => "一定時間ごとに自動的に再描画を行うウィジェットである`PeriodicScope`の利用方法";
+  String get description =>
+      "一定時間ごとに自動的に再描画を行うウィジェットである`PeriodicScope`の利用方法。指定した間隔で自動的にウィジェットを再構築し、現在時刻をビルダーに提供。";
 
   @override
   String get globs => "*.dart";
@@ -132,11 +133,13 @@ PeriodicScope(
 ## 注意点
 
 - `duration`と`builder`は必須パラメータ
-- ウィジェットが破棄されるときに自動的にタイマーをキャンセル
+- ウィジェットが破棄されるときに自動的にタイマーをキャンセル（メモリリーク防止）
 - 更新間隔は必要以上に短くしないことを推奨（パフォーマンスに影響する可能性あり）
 - `builder`は指定した`duration`ごとに呼び出される
-- `builder`には現在時刻が`DateTime`として提供される
+- `builder`には現在時刻が`DateTime`として提供される（`Clock.now()`を使用）
 - 画面がバックグラウンドに移行してもタイマーは動作し続ける
+- 内部では`Timer.periodic`を使用して定期的に`setState()`を呼び出している
+- タイマーは`initState`で開始され、`dispose`で自動的にキャンセルされる
 
 ## 利用シーン
 

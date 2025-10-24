@@ -501,6 +501,27 @@ class CollectionModelQuery extends ModelQuery {
     ]);
   }
 
+  /// Find vectors similar to [text] using vector similarity search and sort them by proximity.
+  ///
+  /// Use [limitTo] to limit the number of results.
+  ///
+  /// ベクトル類似度検索を使用して[text]に類似したベクトルを見つけ近い順にソートします。
+  ///
+  /// [limitTo]で結果の数を制限してください。
+  CollectionModelQuery nearest(String key, String? text) {
+    if (text == null || text.isEmpty) {
+      return this;
+    }
+    return _copyWithAddingFilter(filters: [
+      ...filters.where((e) => e.type != ModelQueryFilterType.nearest),
+      ModelQueryFilter._(
+        type: ModelQueryFilterType.nearest,
+        key: key,
+        value: text,
+      )
+    ]);
+  }
+
   /// Sort ascending order on the elements of [key].
   ///
   /// [key]の要素に対して昇順でソートをかけます。
@@ -840,12 +861,26 @@ class ModelQuery {
   /// [data]を[filters]の設定に従ってソートします。
   ///
   /// 戻り値は[data]とは違うオブジェクトが返されます。
-  List<MapEntry<String, DynamicMap>> sort(
+  Future<List<MapEntry<String, DynamicMap>>> sort(
     List<MapEntry<String, DynamicMap>> data,
-  ) {
+  ) async {
     if (data.isEmpty) {
       return data;
     }
+
+    final nearest = filters
+        .firstWhereOrNull((item) => item.type == ModelQueryFilterType.nearest);
+    if (nearest != null) {
+      final key = nearest.key;
+      final text = nearest.value as String?;
+      if (key == null || key.isEmpty || text == null || text.isEmpty) {
+        return data;
+      }
+      final converter = adapter.vectorConverter;
+      return await converter.sortByNearest(data, key, text);
+    }
+
+    // Existing orderBy logic
     final order = filters.firstWhereOrNull((item) =>
         item.type == ModelQueryFilterType.orderByAsc ||
         item.type == ModelQueryFilterType.orderByDesc);
@@ -913,13 +948,32 @@ class ModelQuery {
   ///   {"count": -1, "text": "a"},
   /// ); // 0
   /// ```
-  int? seekIndex(
+  FutureOr<int?> seekIndex(
     List<MapEntry<String, DynamicMap>> sorted,
     DynamicMap data,
-  ) {
+  ) async {
     if (data.isEmpty) {
       return null;
     }
+    final nearest = filters
+        .firstWhereOrNull((item) => item.type == ModelQueryFilterType.nearest);
+    if (nearest != null) {
+      final key = nearest.key;
+      if (key.isEmpty) {
+        return null;
+      }
+      final text = nearest.value as String?;
+      if (key == null || key.isEmpty || text == null || text.isEmpty) {
+        return null;
+      }
+      final value = data[key];
+      if (value == null) {
+        return sorted.length;
+      }
+      final converter = adapter.vectorConverter;
+      return await converter.seekIndex(sorted, data, key, text);
+    }
+
     final order = filters.firstWhereOrNull((item) =>
         item.type == ModelQueryFilterType.orderByAsc ||
         item.type == ModelQueryFilterType.orderByDesc);
@@ -1103,6 +1157,11 @@ enum ModelQueryFilterType {
   ///
   /// 与えたGeoHashの範囲内に位置が存在するかどうかをチェックするフィルター。
   geoHash,
+
+  /// A filter that finds vectors similar to the query vector using vector similarity search.
+  ///
+  /// ベクトル類似度検索を使用してクエリベクトルに類似したベクトルを見つけるフィルター。
+  nearest,
 
   /// A filter that checks if the given text is included in the text in the data.
   ///
@@ -1605,6 +1664,10 @@ class ModelQueryFilter {
         }
         return target
             .any((e) => RegExp("^${e.geoHash}").hasMatch(source.geoHash));
+      case ModelQueryFilterType.nearest:
+        // Nearest filtering is handled in sort(), not here
+        // Return true to pass all documents through to sorting
+        return true;
       case ModelQueryFilterType.like:
         if (target is! String) {
           return false;

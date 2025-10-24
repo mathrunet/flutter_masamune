@@ -49,7 +49,7 @@ class QuoteAddMarkdownBlockTools extends MarkdownBlockTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.focusedController?.addFormattedLine(Attribute.blockQuote);
+    ref.controller.insertBlock(this);
     ref.deleteMode();
   }
 }

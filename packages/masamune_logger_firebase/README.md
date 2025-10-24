@@ -2,7 +2,7 @@
   <a href="https://mathru.net">
     <img width="240px" src="https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/.github/images/icon.png" alt="Masamune logo" style="border-radius: 32px"s><br/>
   </a>
-  <h1 align="center">Masamune Logger</h1>
+  <h1 align="center">Masamune Logger Firebase</h1>
 </p>
 
 <p align="center">
@@ -30,11 +30,142 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Logger Firebase
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_logger_firebase
+```
+
+Run `flutter pub get` after editing `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Set up `FirebaseLoggerMasamuneAdapter` before running the app. This adapter provides both logging (`FirebaseLoggerAdapter`) and integration with Firebase services.
+
+```dart
+// lib/adapter.dart
+
+import 'package:masamune/masamune.dart';
+import 'package:masamune_logger_firebase/masamune_logger_firebase.dart';
+
+/// Logger adapters used by the application.
+final loggerAdapters = <LoggerAdapter>[
+  const FirebaseLoggerAdapter(),  // Add Firebase logger
+];
+
+/// Masamune adapters used by the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+  
+  const FirebaseLoggerMasamuneAdapter(
+    options: DefaultFirebaseOptions.currentPlatform,  // From firebase_options.dart
+  ),
+];
+```
+
+**Key Features**:
+- Initializes Firebase automatically
+- Attaches Crashlytics error handling to `FlutterError` and `PlatformDispatcher`
+- Adds navigation observers for automatic screen tracking
+- Exposes `FirebaseAnalytics`, `FirebaseCrashlytics`, and `FirebasePerformance` instances
+
+Access the adapter via `FirebaseLoggerMasamuneAdapter.primary`.
+
+### Logging Events
+
+Use the logger API to send events to Firebase Analytics. The package provides pre-built loggable classes for common events.
+
+**Sign-In Events**:
+
+```dart
+// Get the logger from your controller or page
+final logger = LoggerAdapter.primary.first;
+
+// Log user sign-in
+await logger.send(const FirebaseAnalyticsSignInLoggable(
+  userId: "user_123",
+  providerId: "google.com",
+));
+
+// Log user registration
+await logger.send(const FirebaseAnalyticsRegisterLoggable(
+  userId: "user_456",
+));
+```
+
+**Purchase Events**:
+
+```dart
+await logger.send(const FirebaseAnalyticsPurchasedLoggable(
+  transactionId: "order-001",
+  currency: "USD",
+  price: 9.99,
+  products: [
+    FirebaseAnalyticsPurchaseProduct(
+      id: "sku-1",
+      name: "Premium Plan",
+      price: 9.99,
+      quantity: 1,
+    ),
+  ],
+));
+```
+
+**Tutorial Events**:
+
+```dart
+// Tutorial started
+await logger.send(const FirebaseAnalyticsTutorialStartLoggable());
+
+// Tutorial completed
+await logger.send(const FirebaseAnalyticsTutorialEndLoggable());
+```
+
+### Performance Monitoring
+
+Use performance traces to measure operation durations:
+
+```dart
+final logger = LoggerAdapter.primary.first;
+
+// Start a trace
+final trace = logger.trace("load_profile");
+await trace.start();
+
+// Execute the operation you want to measure
+await loadUserProfile();
+
+// Stop the trace
+await trace.stop();
+```
+
+### Crashlytics
+
+Crash reports are captured automatically when the adapter is registered. The adapter hooks into `FlutterError.onError` and `PlatformDispatcher.onError`.
+
+**Test Crashlytics Integration**:
+
+```dart
+// Force a test crash (only for testing!)
+final logger = FirebaseLoggerAdapter.primary;
+await logger.crash();
+```
+
+**Manual Error Reporting**:
+
+```dart
+try {
+  // Your code
+} catch (e, stackTrace) {
+  await FirebaseCrashlytics.instance.recordError(e, stackTrace);
+}
+```
 
 # GitHub Sponsors
 

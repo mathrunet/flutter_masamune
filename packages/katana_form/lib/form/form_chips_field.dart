@@ -14,111 +14,221 @@ typedef ChipBuilder<T> = Widget Function(
 
 /// Form to allow text to be entered and saved separately as [Chip].
 ///
+/// テキストを入力して[Chip]として分けて保存できるようにするためのフォーム。
+///
+/// A form field that can display and select multiple options using `Chip` widget.
+/// Text input can be performed at the same time, so it is possible to create and search for new options.
+/// Ideal for tag selection and filter selection, common design can be applied with `FormStyle`.
+/// Also, the selection state can be managed using `FormController`.
+///
+/// `Chip`ウィジェットを使用して複数の選択肢を表示・選択できるフォームフィールド。
+/// テキスト入力を同時に行えるため、選択肢を新しく作ったり、検索したりすることが可能。
+/// タグ選択やフィルター選択などに最適で、`FormStyle`で共通したデザインを適用可能。
+/// また`FormController`を利用することで選択状態を管理できます。
+///
+/// ## Builder Specification ビルダーの指定
+///
 /// It can be used to create tags, etc.
+///
+/// タグの作成などに利用できます。
 ///
 /// Specify [builder] to create the actual [Chip].
 ///
+/// [builder]を指定して、実際の[Chip]を作成します。
+///
+/// ## Placement 配置方法
+///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+///
+/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+///
+/// ## Form Management フォーム管理
 ///
 /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
 ///
+/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+///
+/// ## Initial Value and Callbacks 初期値とコールバック
+///
 /// Enter the initial value given by [FormController.value] in [initialValue].
+///
+/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
 ///
 /// Each time the content is changed, [onChanged] is executed.
 ///
+/// 内容が変更される度[onChanged]が実行されます。
+///
+/// ## Suggestion Function サジェスト機能
+///
 /// If [suggestion] is specified, suggestions will be displayed according to what you have entered.
+///
+/// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
+///
+/// ## Validation バリデーション
 ///
 /// When [FormController.validate] is executed, validation and data saving are performed.
 ///
+/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
+///
 /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
+///
+/// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
 ///
 /// Other error checking is performed by specifying [validator].
 /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
 ///
-/// If [enabled] is `false`, the text is deactivated.
-///
-/// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
-///
-/// テキストを入力して[Chip]として分けて保存できるようにするためのフォーム。
-///
-/// タグの作成などに利用できます。
-///
-/// [builder]を指定して、実際の[Chip]を作成します。
-///
-/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-///
-/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-///
-/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-///
-/// 内容が変更される度[onChanged]が実行されます。
-///
-/// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
-///
-/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-///
-/// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-///
 /// それ以外のエラーチェックは[validator]を指定することで行ないます。
 /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
 ///
+/// ## Field State フィールドの状態
+///
+/// If [enabled] is `false`, the text is deactivated.
+///
 /// [enabled]が`false`になるとテキストが非有効化されます。
 ///
+/// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
+///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
+///
+/// ## Basic Usage Example 基本的な使用例
+///
+/// ```dart
+/// FormChipsField(
+///   form: formController,
+///   initialValue: formController.value.selectedTags,
+///   onSaved: (value) => formController.value.copyWith(selectedTags: value),
+///   builder: (context, ref, item) {
+///     return Chip(
+///       label: Text(item),
+///     );
+///   },
+/// );
+/// ```
+///
+/// ## With Suggestion サジェスト付きの使用例
+///
+/// ```dart
+/// FormChipsField(
+///   form: formController,
+///   initialValue: formController.value.selectedTags,
+///   onSaved: (value) => formController.value.copyWith(selectedTags: value),
+///   builder: (context, ref, item) {
+///     return Chip(
+///       label: Text(item),
+///     );
+///   },
+///   suggestion: const ["開発", "デザイン", "マーケティング", "営業"],
+/// );
+/// ```
 class FormChipsField<TValue> extends FormField<List<String>> {
   /// Form to allow text to be entered and saved separately as [Chip].
   ///
+  /// テキストを入力して[Chip]として分けて保存できるようにするためのフォーム。
+  ///
+  /// A form field that can display and select multiple options using `Chip` widget.
+  /// Text input can be performed at the same time, so it is possible to create and search for new options.
+  /// Ideal for tag selection and filter selection, common design can be applied with `FormStyle`.
+  /// Also, the selection state can be managed using `FormController`.
+  ///
+  /// `Chip`ウィジェットを使用して複数の選択肢を表示・選択できるフォームフィールド。
+  /// テキスト入力を同時に行えるため、選択肢を新しく作ったり、検索したりすることが可能。
+  /// タグ選択やフィルター選択などに最適で、`FormStyle`で共通したデザインを適用可能。
+  /// また`FormController`を利用することで選択状態を管理できます。
+  ///
+  /// ## Builder Specification ビルダーの指定
+  ///
   /// It can be used to create tags, etc.
+  ///
+  /// タグの作成などに利用できます。
   ///
   /// Specify [builder] to create the actual [Chip].
   ///
+  /// [builder]を指定して、実際の[Chip]を作成します。
+  ///
+  /// ## Placement 配置方法
+  ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+  ///
+  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+  ///
+  /// ## Form Management フォーム管理
   ///
   /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
   ///
+  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+  ///
+  /// ## Initial Value and Callbacks 初期値とコールバック
+  ///
   /// Enter the initial value given by [FormController.value] in [initialValue].
+  ///
+  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
   ///
   /// Each time the content is changed, [onChanged] is executed.
   ///
+  /// 内容が変更される度[onChanged]が実行されます。
+  ///
+  /// ## Suggestion Function サジェスト機能
+  ///
   /// If [suggestion] is specified, suggestions will be displayed according to what you have entered.
+  ///
+  /// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
+  ///
+  /// ## Validation バリデーション
   ///
   /// When [FormController.validate] is executed, validation and data saving are performed.
   ///
+  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
+  ///
   /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
+  ///
+  /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
   ///
   /// Other error checking is performed by specifying [validator].
   /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
   ///
-  /// If [enabled] is `false`, the text is deactivated.
-  ///
-  /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
-  ///
-  /// テキストを入力して[Chip]として分けて保存できるようにするためのフォーム。
-  ///
-  /// タグの作成などに利用できます。
-  ///
-  /// [builder]を指定して、実際の[Chip]を作成します。
-  ///
-  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-  ///
-  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-  ///
-  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-  ///
-  /// 内容が変更される度[onChanged]が実行されます。
-  ///
-  /// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
-  ///
-  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-  ///
-  /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-  ///
   /// それ以外のエラーチェックは[validator]を指定することで行ないます。
   /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
   ///
+  /// ## Field State フィールドの状態
+  ///
+  /// If [enabled] is `false`, the text is deactivated.
+  ///
   /// [enabled]が`false`になるとテキストが非有効化されます。
   ///
+  /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
+  ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
+  ///
+  /// ## Basic Usage Example 基本的な使用例
+  ///
+  /// ```dart
+  /// FormChipsField(
+  ///   form: formController,
+  ///   initialValue: formController.value.selectedTags,
+  ///   onSaved: (value) => formController.value.copyWith(selectedTags: value),
+  ///   builder: (context, ref, item) {
+  ///     return Chip(
+  ///       label: Text(item),
+  ///     );
+  ///   },
+  /// );
+  /// ```
+  ///
+  /// ## With Suggestion サジェスト付きの使用例
+  ///
+  /// ```dart
+  /// FormChipsField(
+  ///   form: formController,
+  ///   initialValue: formController.value.selectedTags,
+  ///   onSaved: (value) => formController.value.copyWith(selectedTags: value),
+  ///   builder: (context, ref, item) {
+  ///     return Chip(
+  ///       label: Text(item),
+  ///     );
+  ///   },
+  ///   suggestion: const ["開発", "デザイン", "マーケティング", "営業"],
+  /// );
+  /// ```
   FormChipsField({
     required ChipBuilder<String> builder,
     super.key,

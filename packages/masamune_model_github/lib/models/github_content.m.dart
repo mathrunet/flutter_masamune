@@ -115,10 +115,12 @@ class _$GithubContentModelRefPath extends ModelRefPath<GithubContentModel> {
     required String repositoryId,
     required String branchId,
     required String commitId,
+    required String pathId,
   })  : _organizationId = organizationId,
         _repositoryId = repositoryId,
         _branchId = branchId,
-        _commitId = commitId;
+        _commitId = commitId,
+        _pathId = pathId;
 
   final String _organizationId;
 
@@ -128,10 +130,12 @@ class _$GithubContentModelRefPath extends ModelRefPath<GithubContentModel> {
 
   final String _commitId;
 
+  final String _pathId;
+
   @override
   DocumentModelQuery get modelQuery {
     return DocumentModelQuery(
-      "organization/$_organizationId/repository/$_repositoryId/branch/$_branchId/commit/$_commitId/content/${path.trimQuery().trimString("/")}",
+      "organization/$_organizationId/repository/$_repositoryId/branch/$_branchId/commit/$_commitId/path/$_pathId/content/${path.trimQuery().trimString("/")}",
       adapter: adapter,
     );
   }
@@ -146,10 +150,12 @@ class _$GithubContentModelInitialCollection
     required String repositoryId,
     required String branchId,
     required String commitId,
+    required String pathId,
   })  : _organizationId = organizationId,
         _repositoryId = repositoryId,
         _branchId = branchId,
-        _commitId = commitId;
+        _commitId = commitId,
+        _pathId = pathId;
 
   final String _organizationId;
 
@@ -159,9 +165,11 @@ class _$GithubContentModelInitialCollection
 
   final String _commitId;
 
+  final String _pathId;
+
   @override
   String get path =>
-      "organization/$_organizationId/repository/$_repositoryId/branch/$_branchId/commit/$_commitId/content";
+      "organization/$_organizationId/repository/$_repositoryId/branch/$_branchId/commit/$_commitId/path/$_pathId/content";
 
   @override
   DynamicMap toMap(GithubContentModel value) => value.rawValue;
@@ -178,13 +186,14 @@ class _$GithubContentModelDocumentQuery {
     required String repositoryId,
     required String branchId,
     required String commitId,
+    required String pathId,
     ModelAdapter? adapter,
     bool useTestModelAdapter = true,
     ModelAccessQuery? accessQuery,
   }) {
     return _$_GithubContentModelDocumentQuery(
       DocumentModelQuery(
-        "organization/$organizationId/repository/$repositoryId/branch/$branchId/commit/$commitId/content/$_id",
+        "organization/$organizationId/repository/$repositoryId/branch/$branchId/commit/$commitId/path/$pathId/content/$_id",
         adapter: adapter ?? _$GithubContentModelDocument.defaultModelAdapter,
         useTestModelAdapter: useTestModelAdapter,
         accessQuery:
@@ -197,7 +206,7 @@ class _$GithubContentModelDocumentQuery {
 
   RegExp get regExp {
     return RegExp(
-      r"^organization/([^/]+)/repository/([^/]+)/branch/([^/]+)/commit/([^/]+)/content/([^/]+)$"
+      r"^organization/([^/]+)/repository/([^/]+)/branch/([^/]+)/commit/([^/]+)/path/([^/]+)/content/([^/]+)$"
           .trimQuery()
           .trimString("/"),
     );
@@ -233,13 +242,14 @@ class _$GithubContentModelCollectionQuery {
     required String repositoryId,
     required String branchId,
     required String commitId,
+    required String pathId,
     bool useTestModelAdapter = true,
     ModelAdapter? adapter,
     ModelAccessQuery? accessQuery,
   }) {
     return _$_GithubContentModelCollectionQuery(
       CollectionModelQuery(
-        "organization/$organizationId/repository/$repositoryId/branch/$branchId/commit/$commitId/content",
+        "organization/$organizationId/repository/$repositoryId/branch/$branchId/commit/$commitId/path/$pathId/content",
         adapter: adapter ?? _$GithubContentModelCollection.defaultModelAdapter,
         useTestModelAdapter: useTestModelAdapter,
         accessQuery: accessQuery ??
@@ -252,7 +262,7 @@ class _$GithubContentModelCollectionQuery {
 
   RegExp get regExp {
     return RegExp(
-      r"^organization/([^/]+)/repository/([^/]+)/branch/([^/]+)/commit/([^/]+)/content$"
+      r"^organization/([^/]+)/repository/([^/]+)/branch/([^/]+)/commit/([^/]+)/path/([^/]+)/content$"
           .trimQuery()
           .trimString("/"),
     );

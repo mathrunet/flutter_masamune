@@ -15,7 +15,7 @@ class KatanaUIListTileGroupMdCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String get description =>
-      "`ListTile`や`LineTile`をグループ化して表示するためのウィジェットである`ListTileGroup`の利用方法";
+      "`ListTile`や`LineTile`をグループ化して表示するためのウィジェットである`ListTileGroup`の利用方法。複数のタイルを共有背景とオプションの区切り線でグループ化し、設定画面やメニューに最適なレイアウトを提供。";
 
   @override
   String get globs => "*.dart";
@@ -39,10 +39,12 @@ $excerpt
 ## 特徴
 
 - 複数の`ListTile`や`LineTile`をグループ化
-- タイル間に区切り線を追加可能
-- グループ全体の背景色やボーダーをカスタマイズ可能
-- マージンとパディングの調整が可能
-- 角丸の設定が可能
+- タイル間に区切り線（divider）を追加可能
+- グループ全体の背景色（tileColor）やボーダー（borderRadius）をカスタマイズ可能
+- マージン（margin）とパディング（padding）の調整が可能
+- 角丸の設定が可能（borderRadius）
+- childrenが空の場合は自動的に非表示（SizedBox.shrink()）
+- 内部で_LineTileGroupScopeを提供し、LineTileと連携
 
 ## 基本的な使い方
 
@@ -123,11 +125,14 @@ ListTileGroup(
 
 - `children`は必須パラメータ
 - `children`が空の場合は`SizedBox.shrink()`が返される
-- デフォルトのマージンは上下8px
-- デフォルトのパディングは上下8px
-- デフォルトの角丸は12px
+- デフォルトのマージンは上下8px（`EdgeInsets.symmetric(vertical: 8)`）
+- デフォルトのパディングは上下8px（`EdgeInsets.symmetric(vertical: 8)`）
+- デフォルトの角丸は12px（`BorderRadius.circular(12)`）
 - デフォルトの背景色は`Theme.of(context).colorScheme.surface`
-- `ListTileGroup`は`LineTileGroup`のエイリアス
+- `ListTileGroup`は`LineTileGroup`のエイリアス（typedefで定義）
+- dividerが指定された場合、各タイルの間に区切り線が挿入される
+- 内部では`ClipRRect`と`Container`を使用してスタイリングを実装
+- LineTile使用時、グループ内のLineTileは自動的に`VisualDensity.compact`とtransparentな背景色が適用される
 
 ## 利用シーン
 

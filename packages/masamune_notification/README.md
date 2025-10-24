@@ -30,11 +30,121 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Notification
 
-For more information about Masamune Framework, please click here.
+## Overview
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+`masamune_notification` is the base package for notification functionality in Masamune apps. It provides:
+- Abstract notification controllers (`RemoteNotification`, `LocalNotification`)
+- Notification models for scheduling and persistence
+- Functions actions for backend integration
+- Runtime adapters for testing
+
+**Note**: This is the base package. You'll also need concrete implementations:
+- `masamune_notification_firebase` for Firebase Cloud Messaging (push notifications)
+- `masamune_notification_local` for local notifications
+
+## Usage
+
+### Installation
+
+```bash
+flutter pub add masamune_notification
+flutter pub add masamune_notification_firebase  # For remote push notifications
+flutter pub add masamune_notification_local     # For local notifications
+```
+
+### Concrete Implementations
+
+This base package provides the interfaces. Use concrete implementations for actual functionality:
+
+**Firebase Cloud Messaging** (`masamune_notification_firebase`)
+- Provides `FirebaseRemoteNotificationMasamuneAdapter`
+- Handles push notifications from Firebase
+- See `masamune_notification_firebase` package for setup
+
+**Local Notifications** (`masamune_notification_local`)
+- Provides `MobileLocalNotificationMasamuneAdapter`
+- Schedules local notifications on device
+- See `masamune_notification_local` package for setup
+
+**Runtime Adapters** (Testing)
+- `RuntimeRemoteNotificationMasamuneAdapter` - Mock remote notifications
+- `RuntimeLocalNotificationMasamuneAdapter` - Mock local notifications
+
+### Notification Controllers
+
+The package provides two main controllers:
+
+**RemoteNotification Controller**:
+- Handles push notifications (requires implementation adapter)
+- Get FCM tokens
+- Subscribe to topics
+- Handle foreground/background messages
+
+**LocalNotification Controller**:
+- Schedules local notifications (requires implementation adapter)
+- Request permissions
+- Show immediate notifications
+- Cancel scheduled notifications
+
+### Notification Models
+
+**LocalNotificationScheduleModel**: Persist local notification schedules
+
+```dart
+final schedule = LocalNotificationScheduleModel(
+  localNotificationScheduleId: "reminder-1001",
+  notificationId: 1001,
+  title: "Daily Reminder",
+  body: "Don't forget to exercise!",
+  scheduledAt: DateTime.now().add(Duration(days: 1)),
+  repeatSettings: LocalNotificationRepeatSettings.daily(),
+);
+
+// Save to database
+final doc = ref.app.model(
+  LocalNotificationScheduleModel.collection(),
+).create();
+await doc.save(schedule);
+```
+
+**RemoteNotificationScheduleModel**: Schedule remote push notifications via backend
+
+```dart
+final remoteSchedule = RemoteNotificationScheduleModel(
+  remoteNotificationScheduleId: "promo-001",
+  title: "Special Offer",
+  body: "Check out our new features!",
+  scheduledAt: DateTime.now().add(Duration(hours: 2)),
+  target: NotificationTarget.topic("all-users"),
+);
+
+await remoteSchedule.save();
+```
+
+### Functions Actions
+
+**SendRemoteNotificationFunctionsAction**: Send push notifications from backend
+
+```dart
+final functions = ref.app.functions();
+
+await functions.execute(
+  SendRemoteNotificationFunctionsAction(
+    title: "Breaking News",
+    body: "Important update available.",
+    token: userToken,  // or use topic/condition
+    data: {"articleId": "abc123"},
+  ),
+);
+```
+
+### For Implementation Details
+
+See the implementation-specific packages:
+- `masamune_notification_firebase` - Firebase Cloud Messaging setup and usage
+- `masamune_notification_local` - Local notification scheduling and display
 
 # GitHub Sponsors
 

@@ -84,3 +84,12 @@
     - Dart file formatting. Dartファイルのフォーマッティングを行います。
 - `katana code zip`
     - Output the Dart code in a hardened Zip file. DartのコードをZipに固めて出力します。
+- `null`
+    - Create a Dart/Flutter test template. Dart/Flutterのテストテンプレートを作成します。
+    controller:
+        - Create a controller test template in `lib/controllers/(filepath).dart`. コントローラーのテストテンプレートを`lib/controllers/(filepath).dart`に作成します。
+    widget:
+        - Create a widget test template in `lib/widgets/(filepath).dart`. ウィジェットのテストテンプレートを`lib/widgets/(filepath).dart`に作成します。
+    page:
+        - Create a page test template in `lib/pages/(filepath).dart`. ページのテストテンプレートを`lib/pages/(filepath).dart`に作成します。
+

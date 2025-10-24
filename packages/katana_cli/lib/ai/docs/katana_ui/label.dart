@@ -14,7 +14,8 @@ class KatanaUILabelMdCliAiCode extends KatanaUiUsageCliAiCode {
   String get name => "`Label`の利用方法";
 
   @override
-  String get description => "項目のタイトルなどで使うラベルを表示するためのウィジェットである`Label`の利用方法";
+  String get description =>
+      "項目のタイトルなどで使うラベルを表示するためのウィジェットである`Label`の利用方法。アイコン、テキスト、アクションボタンを組み合わせたセクションヘッダーやラベル表示を実現。";
 
   @override
   String get globs => "*.dart";
@@ -130,10 +131,15 @@ Label(
 ## 注意点
 
 - `text`は必須パラメータ
-- デフォルトのテキストスタイルは`Theme.of(context).textTheme.titleMedium`をベースに太字で設定
-- `actions`を追加すると、アクション間に自動的に8.0のパディングが追加される
-- `leading`（アイコン）とテキストの間のデフォルトスペースは16.0
+- デフォルトのテキストスタイルは`Theme.of(context).textTheme.titleMedium`をベースに太字（`fontWeight: FontWeight.bold`）で設定
+- `textStyle`を指定した場合でも、`color`パラメータで色を上書き可能
+- `actions`を追加すると、`Spacer()`でテキストとアクションの間にスペースが挿入され、アクション間に自動的に8.0の左パディングが追加される
+- `leading`（アイコン）とテキストの間のデフォルトスペースは8.0（`leadingSpace`で変更可能）
 - テキストの色とアイコンの色は`color`パラメータで統一的に設定可能
+- アイコンのサイズのデフォルトは`textStyle?.fontSize * 1.5`
+- テキストの`height`は1.0に固定される
+- `textAlign`のデフォルトは`TextAlign.start`
+- `decoration`と`backgroundColor`の両方を指定した場合、`decoration`が優先される（Containerのデフォルト動作）
 
 ## 利用シーン
 

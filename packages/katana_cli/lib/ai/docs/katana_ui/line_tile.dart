@@ -15,7 +15,7 @@ class KatanaUILineTileMdCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String get description =>
-      "`ListTile`に`text`プロパティを追加したもの、textプロパティにWidgetを設定するとtitleの右側に表示される。";
+      "`ListTile`に`text`プロパティを追加したもの。textプロパティにWidgetを設定するとtitleの右側に表示され、キー値表示や設定画面に最適。シマーエフェクトとListTileGroupとの連携をサポート。";
 
   @override
   String get globs => "*.dart";
@@ -38,11 +38,13 @@ $excerpt
 
 ## 特徴
 
-- タイトルとテキストを横並びに配置可能
+- `ListTile`を継承し、すべてのListTile機能を利用可能
+- タイトルとテキストを横並びに配置可能（Row + Expanded/Flexible構造）
 - タイトルとテキストの比率を`titleFlex`と`textFlex`で調整可能
-- 間隔を`space`で調整可能
-- シマーエフェクトに対応（`shimmer`プロパティ）
-- `LineGroupTile`と組み合わせることで、デザイン的にグループ化された`LineTile`を横並びに配置可能
+- 間隔を`space`で調整可能（デフォルト8.0）
+- シマーエフェクトに対応（`shimmer`プロパティ、`shimmer`パッケージを使用）
+- `ListTileGroup`（`_LineTileGroupScope`）と組み合わせることで、グループ化されたデザインを実現
+- VisualDensity自動調整（ListTileGroup内ではVisualDensity.compact）
 
 ## 基本的な使い方
 
@@ -90,9 +92,15 @@ LineTile(
 
 ## 注意点
 
-- `text`プロパティは省略可能
+- `text`プロパティは省略可能（titleのみでも使用可能）
 - `ListTile`の機能をすべて継承しているため、`leading`や`trailing`なども利用可能
 - シマーエフェクトを使用する場合は、ベースカラーとハイライトカラーを適切に設定することを推奨
+- `shimmer: true`の場合、titleとtextは実際のウィジェットの代わりにシマー用のContainerが表示される
+- `titleFlex`のデフォルトは1、`textFlex`のデフォルトは1
+- titleは`Expanded`、textは`Flexible`で配置される
+- `ListTileGroup`内で使用する場合、`tileColor`と`selectedTileColor`は自動的に`Colors.transparent`に設定される
+- シマー時のsubtitleの高さは`Theme.of(context).listTileTheme.subtitleTextStyle?.fontSize`または12pxが使用される
+- 内部では`Material`でラップされており、`color: Colors.transparent`が設定されている
 
 ## 利用シーン
 

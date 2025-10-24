@@ -35,12 +35,12 @@ class UndoMarkdownPrimaryTools extends MarkdownPrimaryTools {
 
   @override
   bool enabled(BuildContext context, MarkdownToolRef ref) {
-    return ref.focusedSelection != null;
+    return ref.selection != null;
   }
 
   @override
   bool actived(BuildContext context, MarkdownToolRef ref) {
-    return ref.focusedController?.document.hasUndo ?? false;
+    return ref.controller.canUndo;
   }
 
   @override
@@ -56,6 +56,6 @@ class UndoMarkdownPrimaryTools extends MarkdownPrimaryTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.focusedController?.undo();
+    ref.controller.undo();
   }
 }

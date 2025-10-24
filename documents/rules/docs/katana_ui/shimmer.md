@@ -8,11 +8,14 @@
 
 ## 特徴
 
-- 単一行と複数行のシマーエフェクトに対応
-- カスタマイズ可能な色とスタイリング
+- 単一行（ShimmerBox）と複数行（ShimmerMultiLine）のシマーエフェクトに対応
+- カスタマイズ可能な色とスタイリング（baseColor、highlightColor）
 - テーマに基づいたデフォルトカラー
-- 柔軟なサイズ調整
-- 角丸や形状のカスタマイズが可能
+- 柔軟なサイズ調整（width、height）
+- 角丸や形状のカスタマイズが可能（borderRadius、shape）
+- 円形（BoxShape.circle）と矩形（BoxShape.rectangle）をサポート
+- エフェクトの有効/無効化オプション（enabled）
+- カスタムchildウィジェットのサポート
 
 ## 基本的な使い方
 
@@ -106,13 +109,18 @@ ShimmerBox(
 - `width`のデフォルトは`double.infinity`
 - `baseColor`のデフォルトは`Theme.of(context).colorScheme.surface`
 - `highlightColor`のデフォルトは`Theme.of(context).scaffoldBackgroundColor`
-- `borderRadius`のデフォルトは高さの1/4の角丸
+- `borderRadius`のデフォルトは高さの1/4の角丸（`BorderRadius.circular(h / 4)`）
+- `shape`が`BoxShape.circle`の場合、borderRadiusは無視される
+- `enabled`が`false`の場合、シマーエフェクトなしで`child`または通常のContainerが表示される
+- `padding`は実際には`margin`として適用される（Containerのmarginパラメータに使用）
+- 内部では`shimmer`パッケージの`Shimmer.fromColors`を使用している
 
 ### ShimmerMultiLine
 - 各行の設定は`ShimmerBox`と同じ
 - `lineCount`で行数を指定（デフォルト3行）
 - `lineSpace`で行間を指定（デフォルト8px）
-- パディングはデフォルトで0
+- パディングはデフォルトで`EdgeInsets.all(0)`
+- 内部ではColumnで複数のShimmerBoxを並べて実装
 
 ## 利用シーン
 

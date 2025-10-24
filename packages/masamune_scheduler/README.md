@@ -30,11 +30,153 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Scheduler
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_scheduler
+```
+
+Run `flutter pub get` when editing `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Configure scheduler queries alongside other Masamune adapters. The scheduler works with Functions to copy or delete documents on a schedule.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used by the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+  const FunctionsMasamuneAdapter(),
+  const ModelAdapter(),
+  const SchedulerMasamuneAdapter(),
+];
+```
+
+Ensure you have set up Masamune Models for your app because scheduler queries operate on them.
+
+### Define Schedules
+
+Use the provided schedule models to set up copy/delete operations triggered by server commands.
+
+**Copy Document Schedule**:
+
+```dart
+class ScheduledPostPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    return ElevatedButton(
+      onPressed: () async {
+        // Schedule a document copy (e.g., publish draft at specific time)
+        final schedule = ref.app.model(
+          ModelCopyDocumentSchedule.collection(),
+        ).create();
+        
+        await schedule.save(
+          ModelCopyDocumentSchedule(
+            sourceCollectionPath: "posts",
+            sourceDocumentId: "draft_123",
+            targetCollectionPath: "posts",
+            targetDocumentId: "published_123",
+            executeAt: DateTime.now().add(const Duration(hours: 1)),
+          ),
+        );
+        
+        print("Scheduled to publish in 1 hour");
+      },
+      child: const Text("Schedule Post"),
+    );
+  }
+}
+```
+
+**Delete Documents Schedule**:
+
+```dart
+// Schedule deletion of old logs
+final deleteScheduleCollection = ref.app.model(
+  ModelDeleteDocumentsSchedule.collection(),
+);
+
+final deleteSchedule = deleteScheduleCollection.create();
+await deleteSchedule.save(
+  ModelDeleteDocumentsSchedule(
+    collectionPath: "logs",
+    field: "createdAt",
+    endAt: DateTime.now().subtract(const Duration(days: 30)),  // Delete logs older than 30 days
+  ),
+);
+```
+
+### Backend Implementation
+
+Your Cloud Functions should periodically check for pending schedules and execute them:
+
+**Scheduled Function Example**:
+
+```typescript
+// Cloud Functions (runs every 5 minutes)
+export const processSchedules = functions.pubsub
+  .schedule('every 5 minutes')
+  .onRun(async (context) => {
+    const now = admin.firestore.Timestamp.now();
+    
+    // Find pending copy schedules
+    const copySchedules = await admin.firestore()
+      .collection('model_copy_document_schedule')
+      .where('executeAt', '<=', now)
+      .where('executed', '==', false)
+      .get();
+    
+    for (const doc of copySchedules.docs) {
+      const schedule = doc.data();
+      
+      // Copy document
+      const sourceDoc = await admin.firestore()
+        .collection(schedule.sourceCollectionPath)
+        .doc(schedule.sourceDocumentId)
+        .get();
+      
+      if (sourceDoc.exists) {
+        await admin.firestore()
+          .collection(schedule.targetCollectionPath)
+          .doc(schedule.targetDocumentId)
+          .set(sourceDoc.data());
+      }
+      
+      // Mark as executed
+      await doc.ref.update({ executed: true });
+    }
+    
+    // Process delete schedules similarly...
+  });
+```
+
+**Alternative: Server Command Pattern**:
+
+```dart
+// Client creates a command for the server to process
+final command = ModelServerCommandCopyDocumentSchedule(
+  scheduleId: copySchedule.id,
+);
+await command.save();
+```
+
+Your backend queries pending commands and executes them.
+
+### Tips
+
+- Combine with `katana_cli` generated models to ensure type safety.
+- Store schedule metadata in Firestore/Database for auditing.
+- Implement retries and error logging in your Functions to handle transient failures.
+- Use server timestamps (`FieldValue.serverTimestamp()`) for consistent scheduling across time zones.
 
 # GitHub Sponsors
 

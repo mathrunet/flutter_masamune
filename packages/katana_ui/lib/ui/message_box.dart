@@ -1,28 +1,124 @@
 part of "/katana_ui.dart";
 
-/// A box for displaying messages.
+/// An informational message box widget with icon, label, and optional actions.
 ///
-/// You can set a message in [label]. You can set an icon at [icon]. If not set, `Icons.info_outline` will be set.
+/// This widget creates a styled message container with an icon on the left,
+/// message content in the center, and optional action buttons on the right.
+/// Perfect for alerts, notifications, info boxes, warnings, and error messages.
 ///
-/// You can set the main color in [color] and the background color in [backgroundColor].
+/// Features:
+/// - Icon + message + actions layout
+/// - Customizable colors (main color and background)
+/// - Default icon (Icons.info_outline) when not specified
+/// - Automatic background color (10% opacity of main color)
+/// - Optional action buttons
+/// - Customizable border and border radius
+/// - Adjustable padding and margin
+///
+/// Example:
+/// ```dart
+/// MessageBox(
+///   label: Text("This is an important message"),
+///   icon: Icon(Icons.warning),
+///   color: Colors.orange,
+///   actions: [
+///     TextButton(
+///       onPressed: () {},
+///       child: Text("Dismiss"),
+///     ),
+///   ],
+/// )
+/// ```
 ///
 /// メッセージを表示するためのボックス。
 ///
-/// [label]にメッセージを設定します。[icon]にアイコンを設定できます。設定されていない場合は`Icons.info_outline`が設定されます。
+/// このウィジェットは、左側にアイコン、中央にメッセージコンテンツ、右側にオプションの
+/// アクションボタンを持つスタイル付きメッセージコンテナを作成します。
+/// アラート、通知、情報ボックス、警告、エラーメッセージに最適です。
 ///
-/// [color]にメインの色、[backgroundColor]に背景色を設定することができます。
+/// 特徴:
+/// - アイコン + メッセージ + アクションのレイアウト
+/// - カスタマイズ可能な色（メインカラーと背景）
+/// - 未指定時のデフォルトアイコン（Icons.info_outline）
+/// - 自動背景色（メインカラーの10%不透明度）
+/// - オプションのアクションボタン
+/// - カスタマイズ可能なボーダーと角丸
+/// - 調整可能なパディングとマージン
+///
+/// 例:
+/// ```dart
+/// MessageBox(
+///   label: Text("これは重要なメッセージです"),
+///   icon: Icon(Icons.warning),
+///   color: Colors.orange,
+///   actions: [
+///     TextButton(
+///       onPressed: () {},
+///       child: Text("閉じる"),
+///     ),
+///   ],
+/// )
+/// ```
 class MessageBox extends StatelessWidget {
-  /// A box for displaying messages.
+  /// An informational message box widget with icon, label, and optional actions.
   ///
-  /// You can set a message in [label]. You can set an icon at [icon]. If not set, `Icons.info_outline` will be set.
+  /// This widget creates a styled message container with an icon on the left,
+  /// message content in the center, and optional action buttons on the right.
+  /// Perfect for alerts, notifications, info boxes, warnings, and error messages.
   ///
-  /// You can set the main color in [color] and the background color in [backgroundColor].
+  /// Features:
+  /// - Icon + message + actions layout
+  /// - Customizable colors (main color and background)
+  /// - Default icon (Icons.info_outline) when not specified
+  /// - Automatic background color (10% opacity of main color)
+  /// - Optional action buttons
+  /// - Customizable border and border radius
+  /// - Adjustable padding and margin
+  ///
+  /// Example:
+  /// ```dart
+  /// MessageBox(
+  ///   label: Text("This is an important message"),
+  ///   icon: Icon(Icons.warning),
+  ///   color: Colors.orange,
+  ///   actions: [
+  ///     TextButton(
+  ///       onPressed: () {},
+  ///       child: Text("Dismiss"),
+  ///     ),
+  ///   ],
+  /// )
+  /// ```
   ///
   /// メッセージを表示するためのボックス。
   ///
-  /// [label]にメッセージを設定します。[icon]にアイコンを設定できます。設定されていない場合は`Icons.info_outline`が設定されます。
+  /// このウィジェットは、左側にアイコン、中央にメッセージコンテンツ、右側にオプションの
+  /// アクションボタンを持つスタイル付きメッセージコンテナを作成します。
+  /// アラート、通知、情報ボックス、警告、エラーメッセージに最適です。
   ///
-  /// [color]にメインの色、[backgroundColor]に背景色を設定することができます。
+  /// 特徴:
+  /// - アイコン + メッセージ + アクションのレイアウト
+  /// - カスタマイズ可能な色（メインカラーと背景）
+  /// - 未指定時のデフォルトアイコン（Icons.info_outline）
+  /// - 自動背景色（メインカラーの10%不透明度）
+  /// - オプションのアクションボタン
+  /// - カスタマイズ可能なボーダーと角丸
+  /// - 調整可能なパディングとマージン
+  ///
+  /// 例:
+  /// ```dart
+  /// MessageBox(
+  ///   label: Text("これは重要なメッセージです"),
+  ///   icon: Icon(Icons.warning),
+  ///   color: Colors.orange,
+  ///   actions: [
+  ///     TextButton(
+  ///       onPressed: () {},
+  ///       child: Text("閉じる"),
+  ///     ),
+  ///   ],
+  /// )
+  /// ```
   const MessageBox({
     required this.label,
     super.key,

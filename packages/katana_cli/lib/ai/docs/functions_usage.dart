@@ -244,6 +244,184 @@ class FunctionsUsageDocsMdCliAiCode extends CliAiCode {
             throw new functions.https.HttpsError("invalid-argument", "Invalid argument.");
         }
         ```
+
+## Dartからの`Functions`の利用方法
+
+### 基本的なセットアップ
+
+#### パッケージのインストール
+
+```bash
+# 必須
+flutter pub add katana_functions
+
+# Firebaseを使用する場合
+flutter pub add katana_functions_firebase
+```
+
+#### アプリケーションの設定
+
+`FunctionsAdapterScope`を使用してアダプターを設定します。
+
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FunctionsAdapterScope(
+      adapter: const RuntimeFunctionsAdapter(), // またはFirebaseFunctionsAdapter()
+      child: MaterialApp(
+        home: MyHomePage(),
+      ),
+    );
+  }
+}
+```
+
+### Functionsの実行方法
+
+**重要**: Masamuneフレームワークでは、`lib/main.dart`にトップレベルで`appFunction`が定義されており、アプリケーション内ではすべてこの`appFunction`を使用してFunctionsを実行します。新たに`Functions()`インスタンスを作成する必要はありません。
+
+#### 基本的な実行パターン
+
+```dart
+// appFunctionを使用してFunctionsActionを実行
+final response = await appFunction.execute(
+  TestFunctionsAction(
+    companyId: "companyId",
+    userId: "userId",
+  ),
+);
+
+// レスポンスを利用
+print(response.companyId);
+print(response.userId);
+```
+
+#### 複数のFunctionsを並列実行
+
+```dart
+// appFunctionで複数のFunctionsを並列実行
+final results = await Future.wait([
+  appFunction.execute(TestFunctionsAction(companyId: "c1", userId: "u1")),
+  appFunction.execute(TestFunctionsAction(companyId: "c2", userId: "u2")),
+]);
+
+results.forEach((response) {
+  print(response.companyId);
+});
+```
+
+#### エラーハンドリング
+
+```dart
+try {
+  final response = await appFunction.execute(
+    TestFunctionsAction(
+      companyId: "companyId",
+      userId: "userId",
+    ),
+  );
+  print(response.companyId);
+} catch (e) {
+  // サーバー側でHttpsErrorがthrowされた場合やネットワークエラーが発生した場合
+  print("Error occurred: $e");
+}
+```
+
+### Masamuneフレームワーク内での利用
+
+#### `appFunction`の定義について
+
+`lib/main.dart`にトップレベルで以下のように定義されています：
+
+```dart
+// lib/main.dart
+final appFunction = Functions();
+```
+
+このグローバルインスタンスをアプリケーション全体で共有して使用します。
+
+#### ページ内での利用例
+
+```dart
+class MyPage extends PageHook {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    return UniversalScaffold(
+      body: Center(
+        child: FormButton(
+          onPressed: () async {
+            // appFunctionを使用してFunctionsを実行
+            final response = await appFunction.execute(
+              TestFunctionsAction(
+                companyId: "companyId",
+                userId: "userId",
+              ),
+            );
+
+            // レスポンスを処理
+            print(response.companyId);
+            print(response.userId);
+          },
+          child: const Text("Execute Function"),
+        ),
+      ),
+    );
+  }
+}
+```
+
+#### Controller内での利用
+
+```dart
+class MyController extends ChangeNotifier {
+  Future<void> callFunction() async {
+    try {
+      final response = await appFunction.execute(
+        TestFunctionsAction(
+          companyId: "companyId",
+          userId: "userId",
+        ),
+      );
+
+      // レスポンスを使った処理
+      print(response.companyId);
+      notifyListeners();
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+}
+```
+
+### 利用可能なアダプター
+
+#### RuntimeFunctionsAdapter
+
+テストやモック用のアダプター。実際のサーバー通信は行いません。
+
+```dart
+final functionsAdapter = const RuntimeFunctionsAdapter();
+```
+
+#### FirebaseFunctionsAdapter
+
+Firebase Cloud Functionsと通信するアダプター。
+
+```dart
+final functionsAdapter = FirebaseFunctionsAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  region: FirebaseRegion.usCentral1,
+);
+```
+
+### 注意事項
+
+- **必ず`lib/main.dart`で定義された`appFunction`を使用してください**。新たに`Functions()`インスタンスを作成しないでください
+- サーバー側の実装は別途完了している必要があります
+- 入出力は`DynamicMap (Map<String, dynamic>)`形式を使用します
+- 通信に失敗した場合は`Exception`が返されます
+- `FunctionsAction`および`FunctionsActionResponse`は型安全な実装が可能です
 """;
   }
 }

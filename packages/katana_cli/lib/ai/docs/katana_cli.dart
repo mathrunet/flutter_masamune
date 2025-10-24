@@ -1,6 +1,7 @@
 // Project imports:
 import "package:katana_cli/command/apply.dart";
 import "package:katana_cli/command/code/server/server.dart";
+import "package:katana_cli/command/code/test/test.dart";
 import "package:katana_cli/command/code/view/view.dart";
 import "package:katana_cli/command/deploy.dart";
 import "package:katana_cli/command/doctor.dart";
@@ -48,6 +49,7 @@ const _kAvailableCommands = [
   CodeGenerateCliCommand(),
   CodeFormatCliCommand(),
   CodeZipCliCommand(),
+  CodeTestCliCommand(),
 ];
 
 /// Contents of katana_cli.md.

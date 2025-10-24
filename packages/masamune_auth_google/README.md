@@ -30,11 +30,127 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Auth Google
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+`masamune_auth_google` adds Google Sign In to the Masamune/Katana authentication stack. It is intended to work alongside:
+
+- `katana_auth` – core authentication abstractions
+- `katana_auth_firebase` – optional Firebase Authentication integration
+- `masamune_auth_google_firebase` – helper for exchanging Google credentials with Firebase
+
+### Installation
+
+Install the base packages first:
+
+```bash
+flutter pub add katana_auth
+flutter pub add katana_auth_firebase
+```
+
+Then add Google support:
+
+```bash
+flutter pub add masamune_auth_google
+flutter pub add masamune_auth_google_firebase
+```
+
+### Register Adapters
+
+Configure adapters near the root of your app so Google Sign In works across the application.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used in the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  const GoogleAuthMasamuneAdapter(
+    clientId: "YOUR_GOOGLE_CLIENT_ID",
+  ),
+  FirebaseGoogleAuthMasamuneAdapter(
+    functionsAdapter: const FunctionsMasamuneAdapter(),
+  ),
+];
+```
+
+**Note**: This package requires `katana_auth` and `katana_auth_firebase` to be installed separately. Those packages provide the core authentication infrastructure.
+
+Provide the appropriate `clientId` for the platform. On Android, configure the reversed client ID in the manifest; on iOS, update the URL types in `Info.plist`.
+
+### Authenticate Users
+
+Use `Authentication` from `katana_auth` to start the Google Sign In flow.
+
+```dart
+class SignInPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final auth = ref.app.controller(Authentication.query());
+
+    // Initialize on page load
+    ref.page.on(
+      initOrUpdate: () {
+        auth.initialize();
+      },
+    );
+
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (auth.isSignedIn)
+              Column(
+                children: [
+                  Text("Welcome!"),
+                  Text("User ID: ${auth.userId}"),
+                  Text("Email: ${auth.userEmail ?? 'N/A'}"),
+                  TextButton(
+                    onPressed: () => auth.signOut(),
+                    child: const Text("Sign Out"),
+                  ),
+                ],
+              )
+            else
+              ElevatedButton.icon(
+                icon: Icon(Icons.g_mobiledata),
+                label: const Text("Sign in with Google"),
+                onPressed: () async {
+                  try {
+                    await auth.signIn(GoogleAuthQuery.signIn());
+                  } catch (e) {
+                    print("Sign in failed: $e");
+                  }
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+The `Authentication` controller notifies listeners when state changes, automatically rebuilding dependent widgets.
+
+### Firebase Integration
+
+If you also install `masamune_auth_google_firebase`, the adapter will exchange Google credentials for Firebase tokens. Ensure your Cloud Functions endpoint (or Firebase SDK) validates the Google ID token and returns Firebase credentials.
+
+### Platform Setup
+
+- **Android:** Configure SHA-1 fingerprints in Google Cloud Console and add the generated configuration (`google-services.json`).
+- **iOS:** Add the reversed client ID to URL schemes in `Info.plist` and include the `GoogleService-Info.plist` file.
+
+### Tips
+
+- Test on real devices to ensure Google Play Services or the iOS Google Sign In flow works as expected.
+- Provide clear error messages if the user cancels the sign-in process.
+- Combine with other providers (Apple, Facebook, etc.) using `auth.link` to support multi-provider accounts.
+- Log sign-in attempts with `AuthLoggerAdapter` for analytics.
 
 # GitHub Sponsors
 

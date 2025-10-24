@@ -63,6 +63,7 @@ class AIConfigKey {
   const AIConfigKey({
     this.config,
     this.tools = const {},
+    this.enableSearch = false,
   });
 
   /// The configuration of the AI.
@@ -75,15 +76,22 @@ class AIConfigKey {
   /// AIのツール。
   final Set<AITool> tools;
 
+  /// Whether to enable search.
+  ///
+  /// 検索を有効にするかどうか。
+  final bool enableSearch;
+
   @override
   String toString() {
-    return "AIConfigKey(config: $config, tools: $tools)";
+    return "AIConfigKey(config: $config, tools: $tools, enableSearch: $enableSearch)";
   }
 
   @override
   bool operator ==(Object other) {
     if (other is AIConfigKey) {
-      return config == other.config && tools.equalsTo(other.tools);
+      return config == other.config &&
+          tools.equalsTo(other.tools) &&
+          enableSearch == other.enableSearch;
     }
     return false;
   }
@@ -94,6 +102,7 @@ class AIConfigKey {
     for (final tool in tools) {
       hash = hash ^ tool.hashCode;
     }
+    hash = hash ^ enableSearch.hashCode;
     return hash;
   }
 }

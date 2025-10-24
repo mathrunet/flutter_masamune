@@ -22,6 +22,7 @@ class FunctionsModelAdapter extends ModelAdapter {
     this.aggregateAction = "aggregate_model_firestore",
     this.databaseId,
     NoSqlDatabase? cachedRuntimeDatabase,
+    this.vectorConverter = const RuntimeVectorConverter(),
   }) : _cachedRuntimeDatabase = cachedRuntimeDatabase;
 
   /// Caches data retrieved from the specified internal database, Firestore.
@@ -63,6 +64,9 @@ class FunctionsModelAdapter extends ModelAdapter {
   ///
   /// データベースID。
   final String? databaseId;
+
+  @override
+  final VectorConverter vectorConverter;
 
   @override
   bool get availableListen => false;

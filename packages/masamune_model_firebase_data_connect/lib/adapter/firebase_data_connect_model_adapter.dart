@@ -17,6 +17,7 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
     this.linuxOptions,
     this.windowsOptions,
     this.macosOptions,
+    this.vectorConverter = const RuntimeVectorConverter(),
   })  : _options = options,
         _localDatabase = localDatabase;
 
@@ -33,14 +34,14 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
           final map = raw.toMap(raw.value);
           database.setInitialValue(
             raw.path,
-            raw.filterOnSave(map, raw.value),
+            raw.filterOnSave(map, raw.value, this),
           );
         } else if (raw is ModelInitialCollection) {
           for (final tmp in raw.value.entries) {
             final map = raw.toMap(tmp.value);
             database.setInitialValue(
               "${raw.path}/${tmp.key}",
-              raw.filterOnSave(map, tmp.value),
+              raw.filterOnSave(map, tmp.value, this),
             );
           }
         }
@@ -60,6 +61,9 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
   ///
   /// モックアップとして利用する際の実データ。
   final List<ModelInitialValue>? initialValue;
+
+  @override
+  final VectorConverter vectorConverter;
 
   /// Options for initializing Firebase.
   ///

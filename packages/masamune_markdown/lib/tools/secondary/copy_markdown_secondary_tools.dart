@@ -51,7 +51,7 @@ class CopyMarkdownSecondaryTools extends MarkdownSecondaryTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.focusedController?.clipboardSelection(true);
-    ref.focusedController?.unselect();
+    ref.controller.copy();
+    ref.controller.unselect();
   }
 }

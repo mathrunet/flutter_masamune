@@ -8,11 +8,12 @@
 
 ## 特徴
 
-- 複数の`Future`の同時待機に対応
-- カスタマイズ可能なローディング表示
-- `CircularProgressIndicator`のカラーカスタマイズ
-- `null`や`FutureOr`も含めた柔軟な待機処理
-- センタリングされたローディング表示
+- 複数の`Future`の同時待機に対応（Future.waitを使用）
+- カスタマイズ可能なローディング表示（loadingパラメータ）
+- `CircularProgressIndicator`のカラーカスタマイズ（indicatorColor）
+- `null`や`FutureOr`も含めた柔軟な待機処理（自動的にnullをフィルタリング）
+- センタリングされたデフォルトローディング表示（Center + CircularProgressIndicator）
+- FutureBuilderを使用した実装
 
 ## 基本的な使い方
 
@@ -110,13 +111,14 @@ LoadingBuilder(
 ## 注意点
 
 - `futures`と`builder`は必須パラメータ
-- `futures`リスト内の`null`値は無視される
+- `futures`リスト内の`null`値は自動的にフィルタリングされて無視される
 - `futures`リスト内の同期データ（非Future）は即座に処理される
 - デフォルトのローディング表示は中央配置の`CircularProgressIndicator`
 - `indicatorColor`は`loading`が指定されていない場合のみ有効
-- `builder`は`futures`の完了後に呼び出される
-- エラーハンドリングは`builder`内で行う必要がある
-- すべての`Future`が完了するまでローディング表示が継続する
+- `builder`は`futures`の完了後に呼び出される（FutureBuilderのbuilderパラメータに渡される）
+- エラーハンドリングは`builder`内で行う必要がある（FutureBuilderのsnapshotからエラーを取得可能）
+- すべての`Future`が完了するまでローディング表示が継続する（Future.waitで一括待機）
+- 内部では`Future.wait(futures.whereType<Future>())`を使用してnullと非Futureをフィルタリング
 
 ## 利用シーン
 

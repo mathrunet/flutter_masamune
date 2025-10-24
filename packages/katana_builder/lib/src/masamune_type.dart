@@ -74,6 +74,11 @@ enum MasamuneType {
   /// `ModelAudio`の型。
   modelGeoValue,
 
+  /// Type of `ModelVectorValue`.
+  ///
+  /// `ModelVectorValue`の型。
+  modelVectorValue,
+
   /// Type of `ModelGeo`.
   ///
   /// `ModelGeo`の型。
@@ -122,6 +127,8 @@ enum MasamuneType {
         return "ModelVideoUri";
       case MasamuneType.modelGeoValue:
         return "ModelGeoValue";
+      case MasamuneType.modelVectorValue:
+        return "ModelVectorValue";
       case MasamuneType.modelLocale:
         return "ModelLocale";
       case MasamuneType.modelLocalizedValue:
@@ -164,6 +171,8 @@ enum MasamuneType {
         return RegExp(r"^ModelVideoUri[^a-zA-Z0-9]?$");
       case MasamuneType.modelGeoValue:
         return RegExp(r"^ModelGeoValue[^a-zA-Z0-9]?$");
+      case MasamuneType.modelVectorValue:
+        return RegExp(r"^ModelVectorValue[^a-zA-Z0-9]?$");
       case MasamuneType.modelLocale:
         return RegExp(r"^ModelLocale[^a-zA-Z0-9]?$");
       case MasamuneType.modelLocalizedValue:

@@ -35,11 +35,15 @@ abstract class ModelInitialValue<T> {
   ///
   /// Each element after being [toMap] and its corresponding [value] are passed to [rawData], so rewrite [rawData] and return it.
   ///
+  /// Furthermore, the [adapter] is passed a [ModelAdapter] used for saving this data.
+  ///
   /// データが保存される際にデータをフィルタリングするためのメソッド。
   ///
   /// [rawData]に[toMap]されたあとの各要素とそれに対応する[value]が渡されるので[rawData]を書き換えて返してください。
+  ///
+  /// また、[adapter]にはこのデータを保存する際に使用される[ModelAdapter]が渡されます。
   @mustCallSuper
-  DynamicMap filterOnSave(DynamicMap rawData, T value) {
+  DynamicMap filterOnSave(DynamicMap rawData, T value, ModelAdapter adapter) {
     return rawData;
   }
 }

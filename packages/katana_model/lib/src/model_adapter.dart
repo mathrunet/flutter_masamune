@@ -78,6 +78,11 @@ abstract class ModelAdapter {
   static ModelAdapter? _primary;
   static ModelAdapter? _test;
 
+  /// Converter for vector data.
+  ///
+  /// ベクトルデータのコンバーター。
+  VectorConverter get vectorConverter;
+
   /// Pass [query] to the platform set by the adapter to retrieve the document.
   ///
   /// All return values are [DynamicMap].

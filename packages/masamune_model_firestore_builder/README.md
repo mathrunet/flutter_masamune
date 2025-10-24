@@ -30,11 +30,115 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Model Firestore Builder
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+1. Add the builder as a development dependency alongside the runtime package.
+
+```bash
+flutter pub add katana_model_firestore
+flutter pub add --dev masamune_model_firestore_builder
+flutter pub add --dev build_runner
+```
+
+### Generate Firestore Rules and Indexes
+
+2. Annotate your models with `@CollectionModelPath` and/or `@DocumentModelPath`:
+
+```dart
+// lib/models/user.dart
+
+@freezed
+@formValue
+@immutable
+@CollectionModelPath('user')
+class UserModel with _$UserModel {
+  const factory UserModel({
+    required String name,
+    @Default('') String email,
+    @Default(ModelTimestamp.now()) ModelTimestamp createdAt,
+  }) = _UserModel;
+  // ... rest of the model
+}
+```
+
+3. Run the code generator:
+
+```bash
+katana code generate
+```
+
+This generates:
+- `firebase/firestore.rules` - Security rules based on your model structure
+- `firebase/firestore.indexes.json` - Composite indexes for your queries
+
+### Generated Files
+
+**firestore.rules**: Contains security rules like:
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /user/{userId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+```
+
+**firestore.indexes.json**: Contains index definitions for complex queries:
+
+```json
+{
+  "indexes": [
+    {
+      "collectionGroup": "user",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {"fieldPath": "createdAt", "order": "DESCENDING"},
+        {"fieldPath": "name", "order": "ASCENDING"}
+      ]
+    }
+  ]
+}
+```
+
+### Deploy to Firebase
+
+4. Deploy the generated rules and indexes to your Firebase project:
+
+```bash
+# Deploy both rules and indexes
+firebase deploy --only firestore:rules,firestore:indexes
+
+# Or deploy individually
+firebase deploy --only firestore:rules
+firebase deploy --only firestore:indexes
+```
+
+### Customize Generation
+
+Configure output paths in `build.yaml`:
+
+```yaml
+targets:
+  $default:
+    builders:
+      masamune_model_firestore_builder:
+        options:
+          output_dir: "firebase"  # Default output directory
+```
+
+### Tips
+
+- Run `katana code generate` after any model changes to keep rules synchronized
+- Review generated rules before deploying to production
+- Add custom rules in the Firebase Console if needed (they won't be overwritten)
+- Use `firebase deploy --only firestore:rules` for quick rule updates during development
 
 # GitHub Sponsors
 

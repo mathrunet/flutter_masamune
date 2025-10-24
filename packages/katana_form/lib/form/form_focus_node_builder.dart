@@ -2,19 +2,105 @@ part of "/katana_form.dart";
 
 /// Builder to hold and provide [FocusNode].
 ///
+/// A builder for holding and providing focus nodes.
+/// You can manage focus state and implement processing when focus is acquired or released.
+///
+/// フォーカスノードを保持して提供するためのビルダー。
+/// フォーカス状態を管理し、フォーカスの取得・解放時の処理を実装できます。
+///
+/// ## Builder Usage ビルダーの使用方法
+///
 /// Pass [FormTextField], etc. to [builder].
 ///
-/// [FocusNode]を保持して提供するためのビルダー。
-///
 /// [builder]に[FormTextField]などを渡してください。
+///
+/// The [FocusNode] is passed to the builder's [focusNode] parameter.
+///
+/// ビルダーの[focusNode]パラメータに[FocusNode]が渡されます。
+///
+/// ## Basic Usage Example 基本的な使用例
+///
+/// ```dart
+/// FormFocusNodeBuilder(
+///   builder: (context, focusNode) {
+///     return FormTextField(
+///       form: form,
+///       focusNode: focusNode,
+///       initialValue: form.value.text,
+///       onSaved: (value) => form.value.copyWith(text: value),
+///     );
+///   },
+/// );
+/// ```
+///
+/// ## Custom Design Usage Example カスタムデザインの使用例
+///
+/// ```dart
+/// FormFocusNodeBuilder(
+///   style: const FormStyle(
+///     padding: EdgeInsets.all(16.0),
+///   ),
+///   builder: (context, focusNode) {
+///     return FormTextField(
+///       form: form,
+///       focusNode: focusNode,
+///       initialValue: form.value.text,
+///       onSaved: (value) => form.value.copyWith(text: value),
+///     );
+///   },
+/// );
+/// ```
 class FormFocusNodeBuilder extends StatefulWidget {
   /// Builder to hold and provide [FocusNode].
   ///
+  /// A builder for holding and providing focus nodes.
+  /// You can manage focus state and implement processing when focus is acquired or released.
+  ///
+  /// フォーカスノードを保持して提供するためのビルダー。
+  /// フォーカス状態を管理し、フォーカスの取得・解放時の処理を実装できます。
+  ///
+  /// ## Builder Usage ビルダーの使用方法
+  ///
   /// Pass [FormTextField], etc. to [builder].
   ///
-  /// [FocusNode]を保持して提供するためのビルダー。
-  ///
   /// [builder]に[FormTextField]などを渡してください。
+  ///
+  /// The [FocusNode] is passed to the builder's [focusNode] parameter.
+  ///
+  /// ビルダーの[focusNode]パラメータに[FocusNode]が渡されます。
+  ///
+  /// ## Basic Usage Example 基本的な使用例
+  ///
+  /// ```dart
+  /// FormFocusNodeBuilder(
+  ///   builder: (context, focusNode) {
+  ///     return FormTextField(
+  ///       form: form,
+  ///       focusNode: focusNode,
+  ///       initialValue: form.value.text,
+  ///       onSaved: (value) => form.value.copyWith(text: value),
+  ///     );
+  ///   },
+  /// );
+  /// ```
+  ///
+  /// ## Custom Design Usage Example カスタムデザインの使用例
+  ///
+  /// ```dart
+  /// FormFocusNodeBuilder(
+  ///   style: const FormStyle(
+  ///     padding: EdgeInsets.all(16.0),
+  ///   ),
+  ///   builder: (context, focusNode) {
+  ///     return FormTextField(
+  ///       form: form,
+  ///       focusNode: focusNode,
+  ///       initialValue: form.value.text,
+  ///       onSaved: (value) => form.value.copyWith(text: value),
+  ///     );
+  ///   },
+  /// );
+  /// ```
   const FormFocusNodeBuilder({
     required this.builder,
     super.key,

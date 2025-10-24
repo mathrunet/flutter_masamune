@@ -1,20 +1,114 @@
 part of "/katana_ui.dart";
 
-/// A widget that groups [ListTile] and [LineTile] for display.
+/// A container widget that groups multiple ListTile and LineTile widgets together.
 ///
-/// Specify each tile in [children].
+/// This widget creates a visually grouped list of tiles with a shared background,
+/// optional dividers between items, and customizable styling. Perfect for settings
+/// screens, menu sections, and any UI requiring grouped list items.
+///
+/// Features:
+/// - Groups multiple tiles with shared styling
+/// - Optional dividers between tiles
+/// - Customizable background color and border radius
+/// - Adjustable margin and padding
+/// - Theme-based default styling
+/// - Auto-hides when children list is empty
+///
+/// Example:
+/// ```dart
+/// LineTileGroup(
+///   divider: Divider(height: 1),
+///   borderRadius: BorderRadius.circular(16),
+///   children: [
+///     ListTile(title: Text("Item 1")),
+///     ListTile(title: Text("Item 2")),
+///     ListTile(title: Text("Item 3")),
+///   ],
+/// )
+/// ```
 ///
 /// [ListTile]や[LineTile]をグループ化して表示するウィジェット。
 ///
-/// [children]にそれぞれのタイルを指定します。
+/// このウィジェットは、共有の背景、オプションのアイテム間の区切り線、カスタマイズ可能な
+/// スタイリングを持つ、視覚的にグループ化されたタイルのリストを作成します。
+/// 設定画面、メニューセクション、グループ化されたリストアイテムを必要とする
+/// あらゆるUIに最適です。
+///
+/// 特徴:
+/// - 共有スタイリングで複数のタイルをグループ化
+/// - タイル間のオプションの区切り線
+/// - カスタマイズ可能な背景色と角丸
+/// - 調整可能なマージンとパディング
+/// - テーマベースのデフォルトスタイリング
+/// - childrenリストが空の場合は自動的に非表示
+///
+/// 例:
+/// ```dart
+/// LineTileGroup(
+///   divider: Divider(height: 1),
+///   borderRadius: BorderRadius.circular(16),
+///   children: [
+///     ListTile(title: Text("アイテム1")),
+///     ListTile(title: Text("アイテム2")),
+///     ListTile(title: Text("アイテム3")),
+///   ],
+/// )
+/// ```
 class LineTileGroup extends StatelessWidget {
-  /// A widget that groups [ListTile] and [LineTile] for display.
+  /// A container widget that groups multiple ListTile and LineTile widgets together.
   ///
-  /// Specify each tile in [children].
+  /// This widget creates a visually grouped list of tiles with a shared background,
+  /// optional dividers between items, and customizable styling. Perfect for settings
+  /// screens, menu sections, and any UI requiring grouped list items.
+  ///
+  /// Features:
+  /// - Groups multiple tiles with shared styling
+  /// - Optional dividers between tiles
+  /// - Customizable background color and border radius
+  /// - Adjustable margin and padding
+  /// - Theme-based default styling
+  /// - Auto-hides when children list is empty
+  ///
+  /// Example:
+  /// ```dart
+  /// LineTileGroup(
+  ///   divider: Divider(height: 1),
+  ///   borderRadius: BorderRadius.circular(16),
+  ///   children: [
+  ///     ListTile(title: Text("Item 1")),
+  ///     ListTile(title: Text("Item 2")),
+  ///     ListTile(title: Text("Item 3")),
+  ///   ],
+  /// )
+  /// ```
   ///
   /// [ListTile]や[LineTile]をグループ化して表示するウィジェット。
   ///
-  /// [children]にそれぞれのタイルを指定します。
+  /// このウィジェットは、共有の背景、オプションのアイテム間の区切り線、カスタマイズ可能な
+  /// スタイリングを持つ、視覚的にグループ化されたタイルのリストを作成します。
+  /// 設定画面、メニューセクション、グループ化されたリストアイテムを必要とする
+  /// あらゆるUIに最適です。
+  ///
+  /// 特徴:
+  /// - 共有スタイリングで複数のタイルをグループ化
+  /// - タイル間のオプションの区切り線
+  /// - カスタマイズ可能な背景色と角丸
+  /// - 調整可能なマージンとパディング
+  /// - テーマベースのデフォルトスタイリング
+  /// - childrenリストが空の場合は自動的に非表示
+  ///
+  /// 例:
+  /// ```dart
+  /// LineTileGroup(
+  ///   divider: Divider(height: 1),
+  ///   borderRadius: BorderRadius.circular(16),
+  ///   children: [
+  ///     ListTile(title: Text("アイテム1")),
+  ///     ListTile(title: Text("アイテム2")),
+  ///     ListTile(title: Text("アイテム3")),
+  ///   ],
+  /// )
+  /// ```
   const LineTileGroup({
     required this.children,
     super.key,

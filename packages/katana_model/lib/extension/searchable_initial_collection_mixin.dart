@@ -54,14 +54,14 @@ mixin SearchableInitialCollectionMixin<T> on ModelInitialCollection<T> {
   @override
   @protected
   @mustCallSuper
-  DynamicMap filterOnSave(DynamicMap rawData, T value) {
+  DynamicMap filterOnSave(DynamicMap rawData, T value, ModelAdapter adapter) {
     assert(
       searchValueFieldKey.isNotEmpty,
       "[searchValueFieldKey] is empty. Please specify a non-empty string.",
     );
     final searchText = buildSearchText(value);
     if (searchText.isEmpty) {
-      return super.filterOnSave(rawData, value);
+      return super.filterOnSave(rawData, value, adapter);
     }
     return super.filterOnSave(
       Map.unmodifiable({
@@ -83,6 +83,7 @@ mixin SearchableInitialCollectionMixin<T> on ModelInitialCollection<T> {
             .toMap((e) => MapEntry(e, true)),
       }),
       value,
+      adapter,
     );
   }
 }

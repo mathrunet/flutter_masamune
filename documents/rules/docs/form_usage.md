@@ -30,7 +30,7 @@
 
 | Class | Summary | Usage |
 | --- | --- | --- |
-| `FormTextField` | `TextFormField`のMasamuneフレームワーク版。テキスト入力を行うフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで`TextFormField`の値を管理可能。バリデーション、サジェスト機能、カスタムデザインなどの機能を備えています。 | Usage(`documents/rules/form/form_text_field.md`) |
+| `FormTextField` | `TextFormField`のMasamuneフレームワーク版。テキスト入力を行うフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで`TextFormField`の値を管理可能。バリデーション、サジェスト機能（`SuggestionConfig`による高度な入力補完）、カスタムデザイン、フォーカス制御、複数行入力、文字数制限などの機能を備えています。 | Usage(`documents/rules/form/form_text_field.md`) |
 | `FormPinField` | PINコード入力用のフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでPINコードの状態管理を行えます。桁数設定などの機能を備えています。 | Usage(`documents/rules/form/form_pin_field.md`) |
 | `FormChipsField` | `Chip`ウィジェットを使用して複数の選択肢を表示・選択できるフォームフィールド。テキスト入力を同時に行えるため、選択肢を新しく作ったり、検索したりすることが可能。タグ選択やフィルター選択などに最適で、`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。 | Usage(`documents/rules/form/form_chips_field.md`) |
 | `FormDateField` | モーダルピッカーにて日付を選択することができるフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで日付の値を管理可能。カスタムフォーマットなどの機能を備えています。 | Usage(`documents/rules/form/form_date_field.md`) |

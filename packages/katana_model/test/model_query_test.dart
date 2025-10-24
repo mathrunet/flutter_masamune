@@ -5027,7 +5027,7 @@ void main() {
       false,
     );
   });
-  test("ModelQuery.sort", () {
+  test("ModelQuery.sort", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5035,14 +5035,15 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         const [
           MapEntry("dddd", {"count": 10, "text": "a"}),
           MapEntry("dddd", {"count": 4, "text": "a"}),
           MapEntry("dddd", {"count": 8, "text": "a"}),
           MapEntry("dddd", {"count": 1, "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       const [
         MapEntry("dddd", {"count": 1, "text": "a"}),
         MapEntry("dddd", {"count": 4, "text": "a"}),
@@ -5057,14 +5058,15 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         const [
           MapEntry("dddd", {"count": 10, "text": "a"}),
           MapEntry("dddd", {"count": 4, "text": "a"}),
           MapEntry("dddd", {"count": 8, "text": "a"}),
           MapEntry("dddd", {"count": 1, "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       const [
         MapEntry("dddd", {"count": 10, "text": "a"}),
         MapEntry("dddd", {"count": 8, "text": "a"}),
@@ -5073,7 +5075,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.sort.ModelCounter", () {
+  test("ModelQuery.sort.ModelCounter", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5081,14 +5083,15 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         const [
           MapEntry("dddd", {"count": ModelCounter(10), "text": "a"}),
           MapEntry("dddd", {"count": ModelCounter(4), "text": "a"}),
           MapEntry("dddd", {"count": ModelCounter(8), "text": "a"}),
           MapEntry("dddd", {"count": ModelCounter(1), "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       const [
         MapEntry("dddd", {"count": ModelCounter(1), "text": "a"}),
         MapEntry("dddd", {"count": ModelCounter(4), "text": "a"}),
@@ -5103,7 +5106,7 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           MapEntry(
               "dddd", {"count": const ModelCounter(10).toJson(), "text": "a"}),
@@ -5114,7 +5117,8 @@ void main() {
           MapEntry(
               "dddd", {"count": const ModelCounter(1).toJson(), "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         MapEntry(
             "dddd", {"count": const ModelCounter(10).toJson(), "text": "a"}),
@@ -5127,7 +5131,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.sort.ModelTimestamp", () {
+  test("ModelQuery.sort.ModelTimestamp", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5135,7 +5139,7 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           MapEntry("dddd",
               {"time": ModelTimestamp(DateTime(2010, 1, 1)), "text": "a"}),
@@ -5146,7 +5150,8 @@ void main() {
           MapEntry("dddd",
               {"time": ModelTimestamp(DateTime(2001, 1, 1)), "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         MapEntry("dddd",
             {"time": ModelTimestamp(DateTime(2001, 1, 1)), "text": "a"}),
@@ -5165,7 +5170,7 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           MapEntry("dddd", {
             "time": ModelTimestamp(DateTime(2010, 1, 1)).toJson(),
@@ -5184,7 +5189,8 @@ void main() {
             "text": "a"
           }),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         MapEntry("dddd", {
           "time": ModelTimestamp(DateTime(2010, 1, 1)).toJson(),
@@ -5205,7 +5211,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.sort.ModelDate", () {
+  test("ModelQuery.sort.ModelDate", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5213,7 +5219,7 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           MapEntry(
               "dddd", {"time": ModelDate(DateTime(2010, 1, 1)), "text": "a"}),
@@ -5224,7 +5230,8 @@ void main() {
           MapEntry(
               "dddd", {"time": ModelDate(DateTime(2001, 1, 1)), "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         MapEntry(
             "dddd", {"time": ModelDate(DateTime(2001, 1, 1)), "text": "a"}),
@@ -5243,7 +5250,7 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           MapEntry("dddd",
               {"time": ModelDate(DateTime(2010, 1, 1)).toJson(), "text": "a"}),
@@ -5254,7 +5261,8 @@ void main() {
           MapEntry("dddd",
               {"time": ModelDate(DateTime(2001, 1, 1)).toJson(), "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         MapEntry("dddd",
             {"time": ModelDate(DateTime(2010, 1, 1)).toJson(), "text": "a"}),
@@ -5267,7 +5275,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.sort.ModelTime", () {
+  test("ModelQuery.sort.ModelTime", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5275,7 +5283,7 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           const MapEntry(
               "dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
@@ -5286,7 +5294,8 @@ void main() {
           const MapEntry(
               "dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         const MapEntry("dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
         const MapEntry("dddd", {"time": ModelTime.time(8, 1, 4), "text": "a"}),
@@ -5301,7 +5310,7 @@ void main() {
       ],
     );
     expect(
-      query.sort(
+      (await query.sort(
         [
           const MapEntry(
               "dddd", {"time": ModelTime.time(10, 1, 5), "text": "a"}),
@@ -5312,7 +5321,8 @@ void main() {
           const MapEntry(
               "dddd", {"time": ModelTime.time(4, 1, 2), "text": "a"}),
         ],
-      ).toString(),
+      ))
+          .toString(),
       [
         MapEntry("dddd",
             {"time": const ModelTime.time(12, 1, 3).toJson(), "text": "a"}),
@@ -5325,7 +5335,7 @@ void main() {
       ].toString(),
     );
   });
-  test("ModelQuery.seekIndex", () {
+  test("ModelQuery.seekIndex", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
@@ -5333,8 +5343,8 @@ void main() {
       ],
     );
     expect(
-      query.seekIndex(
-        query.sort(
+      await query.seekIndex(
+        await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
             MapEntry("dddd", {"count": 4, "text": "a"}),
@@ -5347,8 +5357,8 @@ void main() {
       2,
     );
     expect(
-      query.seekIndex(
-        query.sort(
+      await query.seekIndex(
+        await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
             MapEntry("dddd", {"count": 4, "text": "a"}),
@@ -5361,8 +5371,8 @@ void main() {
       4,
     );
     expect(
-      query.seekIndex(
-        query.sort(
+      await query.seekIndex(
+        await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
             MapEntry("dddd", {"count": 4, "text": "a"}),
@@ -5381,8 +5391,8 @@ void main() {
       ],
     );
     expect(
-      query.seekIndex(
-        query.sort(
+      await query.seekIndex(
+        await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
             MapEntry("dddd", {"count": 4, "text": "a"}),
@@ -5395,8 +5405,8 @@ void main() {
       2,
     );
     expect(
-      query.seekIndex(
-        query.sort(
+      await query.seekIndex(
+        await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
             MapEntry("dddd", {"count": 4, "text": "a"}),
@@ -5409,8 +5419,8 @@ void main() {
       0,
     );
     expect(
-      query.seekIndex(
-        query.sort(
+      await query.seekIndex(
+        await query.sort(
           const [
             MapEntry("dddd", {"count": 10, "text": "a"}),
             MapEntry("dddd", {"count": 4, "text": "a"}),
@@ -5817,5 +5827,171 @@ void main() {
       const TestValue(name: "1", en: TestEnum.a),
       const TestValue(name: "2", en: TestEnum.a),
     ]);
+  });
+
+  test("ModelQuery.ModelVectorValue", () {
+    const vector1 = VectorValue(vector: [1.0, 2.0, 3.0]);
+    const vector2 = VectorValue(vector: [4.0, 5.0, 6.0]);
+    const vector3 = VectorValue(vector: [1.0, 2.0, 3.0]); // Same as vector1
+    var query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(key: "vector", value: ModelVectorValue(vector1)),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector1)), true);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector2)), false);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector3)), true);
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notEqual(
+            key: "vector", value: ModelVectorValue(vector1)),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector1)), false);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector2)), true);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector3)), false);
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.isNull(key: "vector"),
+      ],
+    );
+    expect(query.hasMatchAsObject(null), true);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector1)), false);
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.isNotNull(key: "vector"),
+      ],
+    );
+    expect(query.hasMatchAsObject(null), false);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector1)), true);
+  });
+  test("ModelQuery.ModelVectorValue", () {
+    const vector1 = VectorValue(vector: [1.0, 2.0, 3.0]);
+    const vector2 = VectorValue(vector: [4.0, 5.0, 6.0]);
+    const vector3 = VectorValue(vector: [1.0, 2.0, 3.0]); // Same as vector1
+    var query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(key: "vector", value: ModelVectorValue(vector1)),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector1)), true);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector2)), false);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector3)), true);
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notEqual(
+            key: "vector", value: ModelVectorValue(vector1)),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector1)), false);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector2)), true);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector3)), false);
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.isNull(key: "vector"),
+      ],
+    );
+    expect(query.hasMatchAsObject(null), true);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector1)), false);
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.isNotNull(key: "vector"),
+      ],
+    );
+    expect(query.hasMatchAsObject(null), false);
+    expect(query.hasMatchAsObject(const ModelVectorValue(vector1)), true);
+  });
+  test("ModelQuery.sort.ModelVectorValue", () async {
+    // Test with different dimensions
+    const shortVector = VectorValue(vector: [1.0]);
+    const mediumVector1 = VectorValue(vector: [5.0, 6.0]);
+    const mediumVector2 = VectorValue(vector: [2.0, 3.0]);
+    const longVector = VectorValue(vector: [7.0, 8.0, 9.0]);
+
+    var query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.orderByAsc(key: "vector"),
+      ],
+    );
+    // Sort by vector length first, then by first element
+    expect(
+      (await query.sort(
+        const [
+          MapEntry("dddd", {"vector": ModelVectorValue(longVector)}),
+          MapEntry("dddd", {"vector": ModelVectorValue(mediumVector1)}),
+          MapEntry("dddd", {"vector": ModelVectorValue(shortVector)}),
+          MapEntry("dddd", {"vector": ModelVectorValue(mediumVector2)}),
+        ],
+      ))
+          .toString(),
+      const [
+        MapEntry("dddd", {"vector": ModelVectorValue(shortVector)}),
+        MapEntry("dddd", {"vector": ModelVectorValue(mediumVector2)}),
+        MapEntry("dddd", {"vector": ModelVectorValue(mediumVector1)}),
+        MapEntry("dddd", {"vector": ModelVectorValue(longVector)}),
+      ].toString(),
+    );
+
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.orderByDesc(key: "vector"),
+      ],
+    );
+    expect(
+      (await query.sort(
+        const [
+          MapEntry("dddd", {"vector": ModelVectorValue(shortVector)}),
+          MapEntry("dddd", {"vector": ModelVectorValue(mediumVector2)}),
+          MapEntry("dddd", {"vector": ModelVectorValue(longVector)}),
+          MapEntry("dddd", {"vector": ModelVectorValue(mediumVector1)}),
+        ],
+      ))
+          .toString(),
+      const [
+        MapEntry("dddd", {"vector": ModelVectorValue(longVector)}),
+        MapEntry("dddd", {"vector": ModelVectorValue(mediumVector1)}),
+        MapEntry("dddd", {"vector": ModelVectorValue(mediumVector2)}),
+        MapEntry("dddd", {"vector": ModelVectorValue(shortVector)}),
+      ].toString(),
+    );
+
+    // Test with toJson format
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.orderByAsc(key: "vector"),
+      ],
+    );
+    expect(
+      (await query.sort(
+        [
+          MapEntry(
+              "dddd", {"vector": const ModelVectorValue(longVector).toJson()}),
+          MapEntry("dddd",
+              {"vector": const ModelVectorValue(mediumVector1).toJson()}),
+          MapEntry(
+              "dddd", {"vector": const ModelVectorValue(shortVector).toJson()}),
+        ],
+      ))
+          .toString(),
+      [
+        MapEntry(
+            "dddd", {"vector": const ModelVectorValue(shortVector).toJson()}),
+        MapEntry(
+            "dddd", {"vector": const ModelVectorValue(mediumVector1).toJson()}),
+        MapEntry(
+            "dddd", {"vector": const ModelVectorValue(longVector).toJson()}),
+      ].toString(),
+    );
   });
 }

@@ -16,7 +16,9 @@ import "dart:math";
 import "package:flutter/widgets.dart";
 
 // Package imports:
-import "package:cloud_firestore/cloud_firestore.dart";
+import "package:cloud_firestore/cloud_firestore.dart" hide VectorValue;
+// import "package:cloud_firestore/cloud_firestore.dart" as firestore
+//     show VectorValue;
 import "package:katana_firebase/katana_firebase.dart";
 import "package:katana_model/katana_model.dart";
 import "package:katana_platform_info/katana_platform_info.dart";
@@ -40,6 +42,7 @@ part "converter/firestore_model_localized_value_converter.dart";
 part "converter/firestore_model_image_uri_converter.dart";
 part "converter/firestore_model_video_uri_converter.dart";
 part "converter/firestore_model_geo_value_converter.dart";
+part "converter/firestore_model_vector_value_converter.dart";
 part "converter/firestore_model_search_converter.dart";
 part "converter/firestore_model_ref_converter.dart";
 part "converter/firestore_null_converter.dart";

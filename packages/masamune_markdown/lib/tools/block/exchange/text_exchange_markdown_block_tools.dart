@@ -49,7 +49,10 @@ class TextExchangeMarkdownBlockTools extends MarkdownBlockTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.focusedController?.removeFormat();
+    ref.controller.exchangeBlock(this);
     ref.deleteMode();
   }
+
+  @override
+  bool get inheritPropertyOnNewLine => true;
 }

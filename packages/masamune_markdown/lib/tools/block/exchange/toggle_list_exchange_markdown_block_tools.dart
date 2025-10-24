@@ -49,7 +49,7 @@ class ToggleListExchangeMarkdownBlockTools extends MarkdownBlockTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.focusedController?.formatLine(Attribute.checked);
+    ref.controller.exchangeBlock(this);
     ref.deleteMode();
   }
 }

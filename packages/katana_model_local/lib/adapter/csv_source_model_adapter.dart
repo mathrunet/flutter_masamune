@@ -479,14 +479,14 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
           final map = raw.toMap(raw.value);
           database.setInitialValue(
             raw.path,
-            raw.filterOnSave(map, raw.value),
+            raw.filterOnSave(map, raw.value, this),
           );
         } else if (raw is ModelInitialCollection) {
           for (final tmp in raw.value.entries) {
             final map = raw.toMap(tmp.value);
             database.setInitialValue(
               "${raw.path}/${tmp.key}",
-              raw.filterOnSave(map, tmp.value),
+              raw.filterOnSave(map, tmp.value, this),
             );
           }
         }
@@ -549,6 +549,9 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
   ///
   /// HTTPとしてリクエストする際に送るリクエストメソッド。
   final String? requestMethod;
+
+  @override
+  VectorConverter get vectorConverter => const PassVectorConverter();
 
   /// CSV data [List] can be retrieved in [NoSqlDatabase] [Map].
   ///

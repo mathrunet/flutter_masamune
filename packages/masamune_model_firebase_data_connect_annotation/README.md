@@ -30,11 +30,91 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Model Firebase Data Connect Annotation
 
-For more information about Masamune Framework, please click here.
+## Overview
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+`masamune_model_firebase_data_connect_annotation` provides annotations for code generation with Firebase Data Connect. This is a companion package that works with the builder and runtime packages.
+
+**Package Roles**:
+- `masamune_model_firebase_data_connect_annotation` (this package) - Provides annotations
+- `masamune_model_firebase_data_connect_builder` - Generates GraphQL schemas and adapters
+- `masamune_model_firebase_data_connect` - Runtime adapter implementation
+
+## Usage
+
+This package is automatically included when you use the full Firebase Data Connect stack. Install all three packages:
+
+```bash
+flutter pub add masamune_model_firebase_data_connect
+flutter pub add masamune_model_firebase_data_connect_annotation
+flutter pub add --dev masamune_model_firebase_data_connect_builder
+```
+
+## Annotations
+
+### @firebaseDataConnect
+
+Mark models that should generate Firebase Data Connect schemas with permission settings:
+
+```dart
+import 'package:masamune_model_firebase_data_connect_annotation/masamune_model_firebase_data_connect_annotation.dart';
+
+@freezed
+@formValue
+@immutable
+@firebaseDataConnect  // Enables Data Connect generation
+@CollectionModelPath(
+  'user',
+  permission: [
+    AllowReadModelPermissionQuery.allUsers(),   // All users can read
+    AllowWriteModelPermissionQuery.allUsers(),  // All users can write
+  ],
+)
+class UserModel with _$UserModel {
+  const factory UserModel({
+    required String name,
+    @Default('') String email,
+  }) = _UserModel;
+  // ... rest of model
+}
+```
+
+### @FirebaseDataConnectAdapter
+
+Configure custom adapter settings:
+
+```dart
+@FirebaseDataConnectAdapter(
+  connector: "my-connector",     // Connector name
+  service: "my-service",         // Service name
+  location: "us-central1",       // Cloud location
+  outputDirectory: "firebase/dataconnect",  // Output path
+)
+@firebaseDataConnect
+@CollectionModelPath('post')
+class PostModel with _$PostModel {
+  // ... model definition
+}
+```
+
+## Code Generation
+
+After annotating your models, run:
+
+```bash
+katana code generate
+```
+
+This generates:
+- GraphQL schema files (`.gql`)
+- Query and mutation definitions
+- `connector.yaml` configuration
+- `*.dataconnect.dart` adapter implementations
+
+## For Full Documentation
+
+See the complete Firebase Data Connect integration guide in the `masamune_model_firebase_data_connect` package.
 
 # GitHub Sponsors
 

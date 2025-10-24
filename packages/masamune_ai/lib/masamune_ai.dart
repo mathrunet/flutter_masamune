@@ -13,6 +13,7 @@ library;
 // Dart imports:
 import "dart:async";
 import "dart:convert";
+import "dart:math" as math;
 
 // Flutter imports:
 import "package:flutter/foundation.dart";
@@ -20,33 +21,25 @@ import "package:flutter/widgets.dart";
 
 // Package imports:
 import "package:masamune/masamune.dart";
-import "package:mcp_dart/mcp_dart.dart" as mcp;
-import "package:mcp_dart/src/shared/transport.dart" show Transport;
-import "package:mcp_dart/src/types.dart" show Content;
-
-export "package:mcp_dart/src/shared/transport.dart" show Transport;
-export "package:mcp_dart/mcp_dart.dart"
-    show SseServerTransport, StdioServerTransport, StdioClientTransport;
-
-import "src/others/others.dart"
-    if (dart.library.io) "src/others/others.dart"
-    if (dart.library.js) "src/web/web.dart"
-    if (dart.library.html) "src/web/web.dart";
+import "package:masamune_ai/models/vector.dart";
 
 part "adapter/ai_masamune_adapter.dart";
 part "adapter/runtime_ai_masamune_adapter.dart";
+part "src/agent_prompt_template.dart";
 part "src/ai_content.dart";
 part "src/ai_role.dart";
-part "src/ai_thread.dart";
+part "src/ai_chat.dart";
+part "src/ai_agent.dart";
 part "src/ai_single.dart";
 part "src/invalid_ai_role_exception.dart";
 part "src/ai_schema.dart";
 part "src/ai_schema_type.dart";
 part "src/ai_config.dart";
 part "src/ai_file_type.dart";
-part "src/mcp_function.dart";
-part "src/mcp_client.dart";
 part "src/ai_tool.dart";
-part "src/local_transport.dart";
 part "src/ai_function_call_config.dart";
-part "src/mcp_server_config.dart";
+part "src/ai_agent_memory.dart";
+
+part "tools/agent_ai_local_tool.dart";
+part "tools/echo_ai_local_tool.dart";
+part "tools/web_search_ai_local_tool.dart";

@@ -467,11 +467,6 @@ ${showAllConfig ? """
   scheduler:
     enable: false
     time: 
-  
-  # Enable Vertex AI.
-  # Vertex AIを有効にします。
-  vertex_ai:
-    enable: false
 """ : ""}
 
 ${showAllConfig ? """
@@ -858,17 +853,23 @@ generative_ai:
     enable: false
   
   # Configure settings for the claude code.
+  # Settings for using MCP are configured in [mcp].
   # ClaudeCodeのための設定を行います。
+  # [mcp]には、MCPを利用するための設定を行います。
   claude_code:
     enable: false
-
-  # Configure settings for the cursor.
-  # Setting `[background_mode]` to true enables Cursor's background mode.
-  # Cursorのための設定を行います。
-  # [background_mode]をtrueにすると、Cursorのバックグラウンドモードを有効にします。
-  cursor:
-    enable: false
-    background_mode: false
+    background: false
+    mcp:
+      dart:
+        enable: true
+      notion:
+        enable: false
+      figma:
+        enable: false
+      firebase:
+        enable: false
+      github:
+        enable: false
 """ : ""}
 """;
 

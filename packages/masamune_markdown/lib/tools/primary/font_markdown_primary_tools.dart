@@ -28,7 +28,7 @@ class FontMarkdownPrimaryTools extends MarkdownPrimaryTools {
       ItalicFontMarkdownInlineTools(),
       UnderlineFontMarkdownInlineTools(),
       StrikeFontMarkdownInlineTools(),
-      LinkFontMarkdownInlineTools(),
+      LinkMarkdownInlineTools(),
       CodeFontMarkdownInlineTools(),
     ],
   });
@@ -49,10 +49,10 @@ class FontMarkdownPrimaryTools extends MarkdownPrimaryTools {
 
   @override
   bool enabled(BuildContext context, MarkdownToolRef ref) {
-    if (ref.focuedState?.selectInMentionLink ?? false) {
+    if (ref.field?.selectInMentionLink ?? false) {
       return false;
     }
-    return ref.focusedSelection != null;
+    return ref.selection != null;
   }
 
   @override

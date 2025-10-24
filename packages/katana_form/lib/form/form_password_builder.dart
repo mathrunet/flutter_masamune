@@ -2,19 +2,125 @@ part of "/katana_form.dart";
 
 /// Combined with [FormTextField], it can be used to control the visibility of passwords.
 ///
+/// A form builder that can toggle whether to hide password input content.
+/// Common design can be applied with `FormStyle`, and password state management can be performed using `FormController`.
+/// It provides features such as password show/hide toggle and a toggle switch for display switching.
+///
+/// パスワード入力時の内容を隠すかどうかを切り替えることができるフォームビルダー。
+/// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでパスワードの状態管理を行えます。
+/// パスワードの表示/非表示切り替え、および表示切替のトグルスイッチの機能を備えています。
+///
+/// ## Builder Usage ビルダーの使用方法
+///
 /// Pass [FormTextField] etc. to [builder] and pass [IconButton] etc. to [switcherBuilder].
 ///
-/// [FormTextField]と組み合わせることで、パスワードの可視化の制御を行うことができます。
-///
 /// [builder]に[FormTextField]などを渡し、[switcherBuilder]には[IconButton]などを渡してください。
+///
+/// ## Basic Usage Example 基本的な使用例
+///
+/// ```dart
+/// FormPasswordBuilder(
+///   builder: (context, obscure) {
+///     return FormTextField(
+///       form: formController,
+///       initialValue: formController.value.password,
+///       obscureText: obscure,
+///       onSaved: (value) => formController.value.copyWith(password: value),
+///     );
+///   },
+/// );
+/// ```
+///
+/// ## Custom Toggle Switch Usage Example カスタムトグルスイッチの使用例
+///
+/// ```dart
+/// FormPasswordBuilder(
+///   builder: (context, obscure) {
+///     return FormTextField(
+///       form: formController,
+///       initialValue: formController.value.password,
+///       obscureText: obscure,
+///       onSaved: (value) => formController.value.copyWith(password: value),
+///     );
+///   },
+///   switchBuilder: (context, obscure, onSwitch) {
+///     return Positioned.fill(
+///       right: 16,
+///       child: Align(
+///         alignment: Alignment.centerRight,
+///         child: IconButton(
+///           icon: Icon(
+///             obscure ? Icons.visibility : Icons.visibility_off,
+///           ),
+///           onPressed: onSwitch,
+///           color: Colors.blue,
+///         ),
+///       ),
+///     );
+///   },
+/// );
+/// ```
 class FormPasswordBuilder extends StatefulWidget {
   /// Combined with [FormTextField], it can be used to control the visibility of passwords.
   ///
+  /// A form builder that can toggle whether to hide password input content.
+  /// Common design can be applied with `FormStyle`, and password state management can be performed using `FormController`.
+  /// It provides features such as password show/hide toggle and a toggle switch for display switching.
+  ///
+  /// パスワード入力時の内容を隠すかどうかを切り替えることができるフォームビルダー。
+  /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでパスワードの状態管理を行えます。
+  /// パスワードの表示/非表示切り替え、および表示切替のトグルスイッチの機能を備えています。
+  ///
+  /// ## Builder Usage ビルダーの使用方法
+  ///
   /// Pass [FormTextField] etc. to [builder] and pass [IconButton] etc. to [switcherBuilder].
   ///
-  /// [FormTextField]と組み合わせることで、パスワードの可視化の制御を行うことができます。
-  ///
   /// [builder]に[FormTextField]などを渡し、[switcherBuilder]には[IconButton]などを渡してください。
+  ///
+  /// ## Basic Usage Example 基本的な使用例
+  ///
+  /// ```dart
+  /// FormPasswordBuilder(
+  ///   builder: (context, obscure) {
+  ///     return FormTextField(
+  ///       form: formController,
+  ///       initialValue: formController.value.password,
+  ///       obscureText: obscure,
+  ///       onSaved: (value) => formController.value.copyWith(password: value),
+  ///     );
+  ///   },
+  /// );
+  /// ```
+  ///
+  /// ## Custom Toggle Switch Usage Example カスタムトグルスイッチの使用例
+  ///
+  /// ```dart
+  /// FormPasswordBuilder(
+  ///   builder: (context, obscure) {
+  ///     return FormTextField(
+  ///       form: formController,
+  ///       initialValue: formController.value.password,
+  ///       obscureText: obscure,
+  ///       onSaved: (value) => formController.value.copyWith(password: value),
+  ///     );
+  ///   },
+  ///   switchBuilder: (context, obscure, onSwitch) {
+  ///     return Positioned.fill(
+  ///       right: 16,
+  ///       child: Align(
+  ///         alignment: Alignment.centerRight,
+  ///         child: IconButton(
+  ///           icon: Icon(
+  ///             obscure ? Icons.visibility : Icons.visibility_off,
+  ///           ),
+  ///           onPressed: onSwitch,
+  ///           color: Colors.blue,
+  ///         ),
+  ///       ),
+  ///     );
+  ///   },
+  /// );
+  /// ```
   const FormPasswordBuilder({
     required this.builder,
     super.key,

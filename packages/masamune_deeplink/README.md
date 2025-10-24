@@ -30,11 +30,130 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Deeplink
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_deeplink
+```
+
+Run `flutter pub get` when editing `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Add `DeepLinkMasamuneAdapter` to your adapter list. Configure supported URI schemes in your platform projects (iOS `Info.plist`, Android `AndroidManifest.xml`).
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used by the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  DeepLinkMasamuneAdapter(
+    enableLogging: true,
+    loggerAdapters: [FirebaseLoggerAdapter()],
+  ),
+];
+```
+
+### Handle Deep Links
+
+Use the `Deeplink` controller to listen for incoming URIs and route users accordingly.
+
+```dart
+final deeplink = ref.app.controller(Deeplink.query());
+
+deeplink.addListener(() {
+  final uri = deeplink.value;
+  if (uri == null) {
+    return;
+  }
+  // Navigate to the appropriate page based on the URI
+  router.pushNamed(uri.path, queryParameters: uri.queryParameters);
+});
+
+// Start listening for deep links
+await deeplink.listen();
+```
+
+### Initial Link vs. Stream
+
+- `deeplink.value` holds the latest URI received.
+- The initial link (used to launch the app) is automatically handled when you call `listen()`.
+- New links received while the app is running trigger the `addListener` callback automatically.
+
+### Logging
+
+Enable logging to track deep link events for analytics:
+
+```dart
+DeeplinkMasamuneAdapter(
+  enableLogging: true,
+  loggerAdapters: [FirebaseLoggerAdapter()],  // Or your custom logger
+)
+```
+
+The adapter captures `DeeplinkLoggerEvent` with details about received links.
+
+### Advanced Usage
+
+**Custom Link Handling**:
+
+```dart
+await deeplink.listen(
+  onLink: (uri, onOpenedApp) async {
+    if (onOpenedApp) {
+      // Link was used to open the app (cold start)
+      print("App opened with: $uri");
+    } else {
+      // Link received while app was running
+      print("Received while running: $uri");
+    }
+    // Perform custom routing or validation
+    await handleCustomRoute(uri);
+  },
+);
+```
+
+### Platform Configuration
+
+**iOS (Info.plist)**:
+
+```xml
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>myapp</string>
+    </array>
+  </dict>
+</array>
+```
+
+**Android (AndroidManifest.xml)**:
+
+```xml
+<intent-filter>
+  <action android:name="android.intent.action.VIEW" />
+  <category android:name="android.intent.category.DEFAULT" />
+  <category android:name="android.intent.category.BROWSABLE" />
+  <data android:scheme="myapp" />
+</intent-filter>
+```
+
+### Tips
+
+- Configure universal links (iOS) / app links (Android) to support both custom schemes and HTTPS URLs.
+- Always validate incoming URIs before navigation to prevent security issues.
+- Combine with Masamune Router for type-safe route generation.
+- Test deep links on both cold start (app not running) and warm state (app in background) scenarios.
 
 # GitHub Sponsors
 

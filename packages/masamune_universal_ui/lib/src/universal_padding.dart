@@ -2,19 +2,63 @@ part of "/masamune_universal_ui.dart";
 
 /// A widget that adds padding to its child.
 ///
-/// Available instead of [Padding].
+/// [UniversalPadding] is the `UniversalUI` version of [Padding]. It provides responsive padding with automatic calculation for desktop and mobile.
+/// Automatically adjusts padding based on breakpoint and supports center-aligned layouts.
+///
+/// ## Basic Usage
+///
+/// ```dart
+/// UniversalPadding(
+///   padding: const EdgeInsets.all(16),
+///   child: const Text("Content"),
+/// );
+/// ```
+///
+/// ---
 ///
 /// 子ウィジェットにパディングを追加するウィジェット。
 ///
-/// [Padding]の代わりに利用可能です。
+/// [UniversalPadding]は[Padding]の`UniversalUI`版です。レスポンシブ対応でデスクトップ・モバイルで適切なパディングを自動計算。
+/// ブレークポイントに応じてパディングを調整し、中央寄せレイアウトを実現します。
+///
+/// ## 基本的な利用方法
+///
+/// ```dart
+/// UniversalPadding(
+///   padding: const EdgeInsets.all(16),
+///   child: const Text("コンテンツ"),
+/// );
+/// ```
 class UniversalPadding extends StatelessWidget {
   /// A widget that adds padding to its child.
   ///
-  /// Available instead of [Padding].
+  /// [UniversalPadding] is the `UniversalUI` version of [Padding]. It provides responsive padding with automatic calculation for desktop and mobile.
+  /// Automatically adjusts padding based on breakpoint and supports center-aligned layouts.
+  ///
+  /// ## Basic Usage
+  ///
+  /// ```dart
+  /// UniversalPadding(
+  ///   padding: const EdgeInsets.all(16),
+  ///   child: const Text("Content"),
+  /// );
+  /// ```
+  ///
+  /// ---
   ///
   /// 子ウィジェットにパディングを追加するウィジェット。
   ///
-  /// [Padding]の代わりに利用可能です。
+  /// [UniversalPadding]は[Padding]の`UniversalUI`版です。レスポンシブ対応でデスクトップ・モバイルで適切なパディングを自動計算。
+  /// ブレークポイントに応じてパディングを調整し、中央寄せレイアウトを実現します。
+  ///
+  /// ## 基本的な利用方法
+  ///
+  /// ```dart
+  /// UniversalPadding(
+  ///   padding: const EdgeInsets.all(16),
+  ///   child: const Text("コンテンツ"),
+  /// );
+  /// ```
   const UniversalPadding({
     required this.child,
     super.key,

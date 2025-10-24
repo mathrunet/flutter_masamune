@@ -2,51 +2,195 @@ part of "/katana_form.dart";
 
 /// Create buttons for forms.
 ///
-/// Specify the label to be displayed on the button in [label].
-///
-/// The [onPressed] allows you to describe the process when the button is pressed.
-///
-/// If [icon] is specified, an icon is displayed to the left of the label.
-///
-/// If [enabled] is set to `false`, the button cannot be pressed.
-///
-/// The style of the button can be changed by specifying [style].
-///
 /// フォーム用のボタンを作成します。
+///
+/// Masamune framework version of `ElevatedButton`, `FilledButton`, `OutlinedButton`, `TextButton`.
+/// Common design can be applied with `FormStyle`. Also, form submission can be performed in cooperation with `FormController`.
+/// Of course, it can also be used as a regular button. It has functions such as icon display and custom design.
+///
+/// `ElevatedButton`、`FilledButton`、`OutlinedButton`、`TextButton`のMasamuneフレームワーク版。
+/// `FormStyle`で共通したデザインを適用可能。また`FormController`と連携してフォームの送信等を行うことができます。
+/// 勿論通常のボタンとしても利用可能です。アイコン表示、カスタムデザインなどの機能を備えています。
+///
+/// ## Basic Usage 基本的な使い方
+///
+/// Specify the label to be displayed on the button in [label].
 ///
 /// [label]にボタンに表示するラベルを指定します。
 ///
+/// The [onPressed] allows you to describe the process when the button is pressed.
+///
 /// [onPressed]でボタンが押された場合の処理を記述できます。
+///
+/// ## Icon Display アイコンの表示
+///
+/// If [icon] is specified, an icon is displayed to the left of the label.
 ///
 /// [icon]を指定した場合は、ラベルの左側にアイコンが表示されます。
 ///
+/// ## Button Enable/Disable ボタンの有効/無効
+///
+/// If [enabled] is set to `false`, the button cannot be pressed.
+///
 /// [enabled]を`false`にした場合ボタンが押せなくなります。
 ///
+/// ## Style Customization スタイルのカスタマイズ
+///
+/// The style of the button can be changed by specifying [style].
+///
 /// [style]を指定するとボタンのスタイルを変更することが可能です。
+///
+/// ## Basic Usage Example 基本的な使用例
+///
+/// ```dart
+/// FormButton(
+///   "保存",
+///   onPressed: () async {
+///     final value = formController.validate();
+///     if (value == null) {
+///       return;
+///     }
+///     final document = appRef.model(AnyModel.collection()).create();
+///     await document.save(value);
+///   },
+/// );
+/// ```
+///
+/// ## With Icon アイコン付きの使用例
+///
+/// ```dart
+/// FormButton(
+///   "保存",
+///   icon: Icon(Icons.save),
+///   onPressed: () async {
+///     final value = formController.validate();
+///     if (value == null) {
+///       return;
+///     }
+///     final document = appRef.model(AnyModel.collection()).create();
+///     await document.save(value);
+///   },
+/// );
+/// ```
+///
+/// ## Custom Design カスタムデザインの使用例
+///
+/// ```dart
+/// FormButton(
+///   "保存",
+///   icon: Icon(Icons.save),
+///   style: const FormStyle(
+///     padding: EdgeInsets.all(16.0),
+///     borderRadius: BorderRadius.all(Radius.circular(8.0)),
+///     backgroundColor: Colors.blue,
+///     color: Colors.white,
+///   ),
+///   onPressed: () async {
+///     final value = formController.validate();
+///     if (value == null) {
+///       return;
+///     }
+///     final document = appRef.model(AnyModel.collection()).create();
+///     await document.save(value);
+///   },
+/// );
+/// ```
 class FormButton extends StatelessWidget {
   /// Create buttons for forms.
   ///
-  /// Specify the label to be displayed on the button in [label].
-  ///
-  /// The [onPressed] allows you to describe the process when the button is pressed.
-  ///
-  /// If [icon] is specified, an icon is displayed to the left of the label.
-  ///
-  /// If [enabled] is set to `false`, the button cannot be pressed.
-  ///
-  /// The style of the button can be changed by specifying [style].
-  ///
   /// フォーム用のボタンを作成します。
+  ///
+  /// Masamune framework version of `ElevatedButton`, `FilledButton`, `OutlinedButton`, `TextButton`.
+  /// Common design can be applied with `FormStyle`. Also, form submission can be performed in cooperation with `FormController`.
+  /// Of course, it can also be used as a regular button. It has functions such as icon display and custom design.
+  ///
+  /// `ElevatedButton`、`FilledButton`、`OutlinedButton`、`TextButton`のMasamuneフレームワーク版。
+  /// `FormStyle`で共通したデザインを適用可能。また`FormController`と連携してフォームの送信等を行うことができます。
+  /// 勿論通常のボタンとしても利用可能です。アイコン表示、カスタムデザインなどの機能を備えています。
+  ///
+  /// ## Basic Usage 基本的な使い方
+  ///
+  /// Specify the label to be displayed on the button in [label].
   ///
   /// [label]にボタンに表示するラベルを指定します。
   ///
+  /// The [onPressed] allows you to describe the process when the button is pressed.
+  ///
   /// [onPressed]でボタンが押された場合の処理を記述できます。
+  ///
+  /// ## Icon Display アイコンの表示
+  ///
+  /// If [icon] is specified, an icon is displayed to the left of the label.
   ///
   /// [icon]を指定した場合は、ラベルの左側にアイコンが表示されます。
   ///
+  /// ## Button Enable/Disable ボタンの有効/無効
+  ///
+  /// If [enabled] is set to `false`, the button cannot be pressed.
+  ///
   /// [enabled]を`false`にした場合ボタンが押せなくなります。
   ///
+  /// ## Style Customization スタイルのカスタマイズ
+  ///
+  /// The style of the button can be changed by specifying [style].
+  ///
   /// [style]を指定するとボタンのスタイルを変更することが可能です。
+  ///
+  /// ## Basic Usage Example 基本的な使用例
+  ///
+  /// ```dart
+  /// FormButton(
+  ///   "保存",
+  ///   onPressed: () async {
+  ///     final value = formController.validate();
+  ///     if (value == null) {
+  ///       return;
+  ///     }
+  ///     final document = appRef.model(AnyModel.collection()).create();
+  ///     await document.save(value);
+  ///   },
+  /// );
+  /// ```
+  ///
+  /// ## With Icon アイコン付きの使用例
+  ///
+  /// ```dart
+  /// FormButton(
+  ///   "保存",
+  ///   icon: Icon(Icons.save),
+  ///   onPressed: () async {
+  ///     final value = formController.validate();
+  ///     if (value == null) {
+  ///       return;
+  ///     }
+  ///     final document = appRef.model(AnyModel.collection()).create();
+  ///     await document.save(value);
+  ///   },
+  /// );
+  /// ```
+  ///
+  /// ## Custom Design カスタムデザインの使用例
+  ///
+  /// ```dart
+  /// FormButton(
+  ///   "保存",
+  ///   icon: Icon(Icons.save),
+  ///   style: const FormStyle(
+  ///     padding: EdgeInsets.all(16.0),
+  ///     borderRadius: BorderRadius.all(Radius.circular(8.0)),
+  ///     backgroundColor: Colors.blue,
+  ///     color: Colors.white,
+  ///   ),
+  ///   onPressed: () async {
+  ///     final value = formController.validate();
+  ///     if (value == null) {
+  ///       return;
+  ///     }
+  ///     final document = appRef.model(AnyModel.collection()).create();
+  ///     await document.save(value);
+  ///   },
+  /// );
+  /// ```
   const FormButton(
     this.label, {
     super.key,

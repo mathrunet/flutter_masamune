@@ -49,7 +49,10 @@ class BulletedListAddMarkdownBlockTools extends MarkdownBlockTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.focusedController?.addFormattedLine(Attribute.ul);
+    ref.controller.insertBlock(this);
     ref.deleteMode();
   }
+
+  @override
+  bool get inheritPropertyOnNewLine => true;
 }

@@ -63,6 +63,55 @@ abstract class MarkdownTools {
           id == other.id;
 }
 
+/// Base class for markdown property tools.
+///
+/// マークダウンプロパティツールの基底クラス。
+@immutable
+abstract class MarkdownPropertyTools<TProperty extends MarkdownProperty>
+    extends MarkdownTools {
+  /// Base class for markdown property tools.
+  ///
+  /// マークダウンプロパティツールの基底クラス。
+  const MarkdownPropertyTools({
+    required super.config,
+  });
+
+  /// Apply the inline property to the given properties.
+  ///
+  /// インラインプロパテズを適用します。
+  List<MarkdownProperty> addProperty(
+    List<MarkdownProperty> properties, {
+    Object? value,
+  });
+
+  /// Remove the inline property from the given properties.
+  ///
+  /// インラインプロパテズを削除します。
+  List<MarkdownProperty> removeProperty(
+    List<MarkdownProperty> properties,
+  );
+
+  /// Convert a JSON object to a markdown span value.
+  ///
+  /// JSONオブジェクトをマークダウンスパン値に変換します。
+  TProperty? convertFromJson(DynamicMap json);
+
+  /// Convert a markdown span value to a JSON object.
+  ///
+  /// マークダウンスパン値をJSONオブジェクトに変換します。
+  DynamicMap? convertToJson(TProperty value);
+
+  /// Convert a markdown string to a markdown span value.
+  ///
+  /// マークダウン文字列をマークダウンスパン値に変換します。
+  TProperty? convertFromMarkdown(String markdown);
+
+  /// Convert a markdown span value to a markdown string.
+  ///
+  /// マークダウンスパン値をマークダウン文字列に変換します。
+  String? convertToMarkdown(TProperty value);
+}
+
 /// Base class for markdown primary tools.
 ///
 /// マークダウンプライマリツールの基底クラス。
@@ -91,6 +140,20 @@ abstract class MarkdownPrimaryTools extends MarkdownTools {
   bool get hideKeyboardOnSelected;
 }
 
+/// Base class for markdown property primary tools.
+///
+/// マークダウンプロパティプライマリツールの基底クラス。
+@immutable
+abstract class MarkdownPropertyPrimaryTools<TProperty extends MarkdownProperty>
+    extends MarkdownPrimaryTools implements MarkdownPropertyTools<TProperty> {
+  /// Base class for markdown property primary tools.
+  ///
+  /// マークダウンプロパティプライマリツールの基底クラス。
+  const MarkdownPropertyPrimaryTools({
+    required super.config,
+  });
+}
+
 /// Base class for markdown sub tools.
 ///
 /// マークダウンサブツールの基底クラス。
@@ -115,6 +178,45 @@ abstract class MarkdownBlockTools extends MarkdownTools {
   const MarkdownBlockTools({
     required super.config,
   });
+
+  /// Check if the property should be inherited on new line.
+  ///
+  /// プロパティが新しい行に継承されるかどうかを確認します。
+  bool get inheritPropertyOnNewLine => false;
+}
+
+/// Base class for markdown block variable tools.
+///
+/// マークダウンブロック変数ツールの基底クラス。
+@immutable
+abstract class MarkdownBlockVariableTools<TValue extends MarkdownBlockValue>
+    extends MarkdownBlockTools {
+  /// Base class for markdown block variable tools.
+  ///
+  /// マークダウンブロック変数ツールの基底クラス。
+  const MarkdownBlockVariableTools({
+    required super.config,
+  });
+
+  /// Convert a JSON object to a markdown block value.
+  ///
+  /// JSONオブジェクトをマークダウンブロック値に変換します。
+  TValue? convertFromJson(DynamicMap json);
+
+  /// Convert a markdown block value to a JSON object.
+  ///
+  /// マークダウンブロック値をJSONオブジェクトに変換します。
+  DynamicMap? convertToJson(TValue value);
+
+  /// Convert a markdown string to a markdown block value.
+  ///
+  /// マークダウン文字列をマークダウンブロック値に変換します。
+  TValue? convertFromMarkdown(String markdown);
+
+  /// Convert a markdown block value to a markdown string.
+  ///
+  /// マークダウンブロック値をマークダウン文字列に変換します。
+  String? convertToMarkdown(TValue value);
 }
 
 /// Base class for markdown inline tools.
@@ -138,6 +240,20 @@ abstract class MarkdownInlineTools extends MarkdownTools {
   ///
   /// ツールを非アクティブにします。
   Future<void> onDeactive(BuildContext context, MarkdownToolRef ref);
+}
+
+/// Base class for markdown property inline tools.
+///
+/// マークダウンプロパティインラインツールの基底クラス。
+@immutable
+abstract class MarkdownPropertyInlineTools<TProperty extends MarkdownProperty>
+    extends MarkdownInlineTools implements MarkdownPropertyTools<TProperty> {
+  /// Base class for markdown property inline tools.
+  ///
+  /// マークダウンプロパティインラインツールの基底クラス。
+  const MarkdownPropertyInlineTools({
+    required super.config,
+  });
 }
 
 /// Configuration class for Markdown tool label.

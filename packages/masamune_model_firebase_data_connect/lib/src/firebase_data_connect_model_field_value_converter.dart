@@ -44,6 +44,7 @@ abstract class FirebaseDataConnectModelFieldValueConverter {
     FirebaseDataConnectModelSearchConverter(),
     FirebaseDataConnectModelTokenConverter(),
     FirebaseDataConnectModelGeoValueConverter(),
+    FirebaseDataConnectModelVectorValueConverter(),
     FirebaseDataConnectModelRefConverter(),
     FirebaseDataConnectEnumConverter(),
     FirebaseDataConnectNullConverter(),

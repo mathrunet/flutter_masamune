@@ -9,6 +9,7 @@ import "package:katana_cli/katana_cli.dart";
 part "update.dart";
 part "run.dart";
 part "debug.dart";
+part "coverage.dart";
 
 /// Providing test commands.
 ///
@@ -27,6 +28,7 @@ class TestCliCommand extends CliCommandGroup {
         "update": TestUpdateCliCommand(),
         "run": TestRunCliCommand(),
         "debug": TestDebugCliCommand(),
+        "coverage": TestCoverageCliCommand(),
       };
 }
 

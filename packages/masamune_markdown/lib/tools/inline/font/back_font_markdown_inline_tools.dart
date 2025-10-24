@@ -52,13 +52,13 @@ class BackFontMarkdownInlineTools extends MarkdownInlineTools {
 
   @override
   Future<void> onActive(BuildContext context, MarkdownToolRef ref) async {
-    ref.focusedController?.unselect();
+    ref.controller.unselect();
     ref.deleteMode();
   }
 
   @override
   Future<void> onDeactive(BuildContext context, MarkdownToolRef ref) async {
-    ref.focusedController?.unselect();
+    ref.controller.unselect();
     ref.deleteMode();
   }
 }

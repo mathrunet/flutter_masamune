@@ -2,87 +2,97 @@ part of "/katana_form.dart";
 
 /// Drop down form to select from there with [Map] as an option.
 ///
-/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+/// A form field that allows you to select Key-Value pair Map format data from a dropdown menu.
+/// Common design can be applied with `FormStyle`, and selection state can be managed using `FormController`.
 ///
-/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+/// Key-ValueペアのMap形式のデータをドロップダウンメニューで選択できるフォームフィールド。
+/// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。
 ///
-/// Enter the initial value given by [FormController.value] in [initialValue].
+/// ## Basic Usage Example 基本的な使用例
 ///
-/// Each time the content is changed, [onChanged] is executed.
+/// ```dart
+/// final countries = <String, String>{
+///   "ja": "日本語",
+///   "en": "English",
+///   "es": "Español",
+///   "fr": "Français",
+/// };
 ///
-/// If [FormController.validate] is executed, validation and data saving are performed.
+/// FormMapDropdownField(
+///   form: formController,
+///   initialValue: formController.value.selectedLanguage,
+///   onSaved: (value) => formController.value.copyWith(selectedLanguage: value),
+///   picker: FormMapDropdownFieldPicker(
+///     values: countries,
+///   ),
+/// );
+/// ```
 ///
-/// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
+/// ## Usage Example with Validation バリデーション付きの使用例
 ///
-/// Other error checking is performed by specifying [validator].
-/// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-///
-/// By specifying [picker], it is possible to set the selection method for [Map].
-///
-/// Deactivated when [enabled] is set to `false`.
-///
-/// [Map]を選択肢としてそこから選択するためのドロップダウンフォーム。
-///
-/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-///
-/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-///
-/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-///
-/// 内容が変更される度[onChanged]が実行されます。
-///
-/// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-///
-/// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-///
-/// それ以外のエラーチェックは[validator]を指定することで行ないます。
-/// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-///
-/// [picker]を指定することで[Map]の選択方法を設定することが可能です。
-///
-/// [enabled]が`false`になると非有効化されます。
+/// ```dart
+/// FormMapDropdownField(
+///   form: formController,
+///   initialValue: formController.value.selectedLanguage,
+///   onSaved: (value) => formController.value.copyWith(selectedLanguage: value),
+///   validator: (value) {
+///     if (value == null) {
+///       return "地域を選択してください";
+///     }
+///     return null;
+///   },
+///   picker: FormMapDropdownFieldPicker(
+///     values: countries,
+///   ),
+/// );
+/// ```
 class FormMapDropdownField<TValue> extends FormField<String> {
   /// Drop down form to select from there with [Map] as an option.
   ///
-  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+  /// A form field that allows you to select Key-Value pair Map format data from a dropdown menu.
+  /// Common design can be applied with `FormStyle`, and selection state can be managed using `FormController`.
   ///
-  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+  /// Key-ValueペアのMap形式のデータをドロップダウンメニューで選択できるフォームフィールド。
+  /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで選択状態を管理できます。
   ///
-  /// Enter the initial value given by [FormController.value] in [initialValue].
+  /// ## Basic Usage Example 基本的な使用例
   ///
-  /// Each time the content is changed, [onChanged] is executed.
+  /// ```dart
+  /// final countries = <String, String>{
+  ///   "ja": "日本語",
+  ///   "en": "English",
+  ///   "es": "Español",
+  ///   "fr": "Français",
+  /// };
   ///
-  /// If [FormController.validate] is executed, validation and data saving are performed.
+  /// FormMapDropdownField(
+  ///   form: formController,
+  ///   initialValue: formController.value.selectedLanguage,
+  ///   onSaved: (value) => formController.value.copyWith(selectedLanguage: value),
+  ///   picker: FormMapDropdownFieldPicker(
+  ///     values: countries,
+  ///   ),
+  /// );
+  /// ```
   ///
-  /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
+  /// ## Usage Example with Validation バリデーション付きの使用例
   ///
-  /// Other error checking is performed by specifying [validator].
-  /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-  ///
-  /// By specifying [picker], it is possible to set the selection method for [Map].
-  ///
-  /// Deactivated when [enabled] is set to `false`.
-  ///
-  /// [Map]を選択肢としてそこから選択するためのドロップダウンフォーム。
-  ///
-  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
-  ///
-  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
-  ///
-  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
-  ///
-  /// 内容が変更される度[onChanged]が実行されます。
-  ///
-  /// [FormController.validate]が実行された場合、バリデーションとデータの保存を行ないます。
-  ///
-  /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
-  ///
-  /// それ以外のエラーチェックは[validator]を指定することで行ないます。
-  /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-  ///
-  /// [picker]を指定することで[Map]の選択方法を設定することが可能です。
-  ///
-  /// [enabled]が`false`になると非有効化されます。
+  /// ```dart
+  /// FormMapDropdownField(
+  ///   form: formController,
+  ///   initialValue: formController.value.selectedLanguage,
+  ///   onSaved: (value) => formController.value.copyWith(selectedLanguage: value),
+  ///   validator: (value) {
+  ///     if (value == null) {
+  ///       return "地域を選択してください";
+  ///     }
+  ///     return null;
+  ///   },
+  ///   picker: FormMapDropdownFieldPicker(
+  ///     values: countries,
+  ///   ),
+  /// );
+  /// ```
   FormMapDropdownField({
     required this.picker,
     this.form,

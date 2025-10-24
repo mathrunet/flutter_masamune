@@ -1,28 +1,136 @@
 part of "/katana_ui.dart";
 
-/// Widget for displaying labels used for item titles, etc.
+/// A customizable label widget for displaying section headers and titles.
 ///
-/// Icons can be displayed in [text] and [leading] to give easy-to-understand labels.
+/// This widget provides a flexible label component with support for icons,
+/// text styling, and action buttons. Perfect for section headers, category
+/// labels, and form field labels.
 ///
-/// Labels can also be decorated by adding [backgroundColor] and [decoration].
+/// Features:
+/// - Optional leading icon/widget
+/// - Customizable text styling
+/// - Background color and decoration support
+/// - Action buttons on the right side
+/// - Flexible alignment and padding
+/// - Theme-based default styling
+/// - Adjustable icon size and spacing
 ///
-/// 項目のタイトルなどで使うラベルを表示するためのウィジェット。
+/// Example:
+/// ```dart
+/// Label(
+///   "Section Title",
+///   leading: const Icon(Icons.settings),
+///   backgroundColor: Colors.blue.withOpacity(0.1),
+///   padding: const EdgeInsets.all(16),
+///   actions: [
+///     IconButton(
+///       icon: const Icon(Icons.add),
+///       onPressed: () {
+///         // Handle action
+///       },
+///     ),
+///   ],
+/// )
+/// ```
 ///
-/// [text]と[leading]にアイコンを表示することでわかりやすいラベルを付与することができます。
+/// セクションヘッダーやタイトルを表示するためのカスタマイズ可能なラベルウィジェット。
 ///
-/// また、[backgroundColor]や[decoration]を追加することでラベルを装飾することが可能です。
+/// アイコン、テキストスタイリング、アクションボタンのサポートを備えた
+/// 柔軟なラベルコンポーネントを提供します。セクションヘッダー、カテゴリラベル、
+/// フォームフィールドラベルに最適です。
+///
+/// 特徴:
+/// - オプションのリーディングアイコン/ウィジェット
+/// - カスタマイズ可能なテキストスタイリング
+/// - 背景色と装飾のサポート
+/// - 右側のアクションボタン
+/// - 柔軟な配置とパディング
+/// - テーマベースのデフォルトスタイリング
+/// - 調整可能なアイコンサイズと間隔
+///
+/// 例:
+/// ```dart
+/// Label(
+///   "セクションタイトル",
+///   leading: const Icon(Icons.settings),
+///   backgroundColor: Colors.blue.withOpacity(0.1),
+///   padding: const EdgeInsets.all(16),
+///   actions: [
+///     IconButton(
+///       icon: const Icon(Icons.add),
+///       onPressed: () {
+///         // アクション処理
+///       },
+///     ),
+///   ],
+/// )
+/// ```
 class Label extends StatelessWidget {
-  /// Widget for displaying labels used for item titles, etc.
+  /// A customizable label widget for displaying section headers and titles.
   ///
-  /// Icons can be displayed in [text] and [leading] to give easy-to-understand labels.
+  /// This widget provides a flexible label component with support for icons,
+  /// text styling, and action buttons. Perfect for section headers, category
+  /// labels, and form field labels.
   ///
-  /// Labels can also be decorated by adding [backgroundColor] and [decoration].
+  /// Features:
+  /// - Optional leading icon/widget
+  /// - Customizable text styling
+  /// - Background color and decoration support
+  /// - Action buttons on the right side
+  /// - Flexible alignment and padding
+  /// - Theme-based default styling
+  /// - Adjustable icon size and spacing
   ///
-  /// 項目のタイトルなどで使うラベルを表示するためのウィジェット。
+  /// Example:
+  /// ```dart
+  /// Label(
+  ///   "Section Title",
+  ///   leading: const Icon(Icons.settings),
+  ///   backgroundColor: Colors.blue.withOpacity(0.1),
+  ///   padding: const EdgeInsets.all(16),
+  ///   actions: [
+  ///     IconButton(
+  ///       icon: const Icon(Icons.add),
+  ///       onPressed: () {
+  ///         // Handle action
+  ///       },
+  ///     ),
+  ///   ],
+  /// )
+  /// ```
   ///
-  /// [text]と[leading]にアイコンを表示することでわかりやすいラベルを付与することができます。
+  /// セクションヘッダーやタイトルを表示するためのカスタマイズ可能なラベルウィジェット。
   ///
-  /// また、[backgroundColor]や[decoration]を追加することでラベルを装飾することが可能です。
+  /// アイコン、テキストスタイリング、アクションボタンのサポートを備えた
+  /// 柔軟なラベルコンポーネントを提供します。セクションヘッダー、カテゴリラベル、
+  /// フォームフィールドラベルに最適です。
+  ///
+  /// 特徴:
+  /// - オプションのリーディングアイコン/ウィジェット
+  /// - カスタマイズ可能なテキストスタイリング
+  /// - 背景色と装飾のサポート
+  /// - 右側のアクションボタン
+  /// - 柔軟な配置とパディング
+  /// - テーマベースのデフォルトスタイリング
+  /// - 調整可能なアイコンサイズと間隔
+  ///
+  /// 例:
+  /// ```dart
+  /// Label(
+  ///   "セクションタイトル",
+  ///   leading: const Icon(Icons.settings),
+  ///   backgroundColor: Colors.blue.withOpacity(0.1),
+  ///   padding: const EdgeInsets.all(16),
+  ///   actions: [
+  ///     IconButton(
+  ///       icon: const Icon(Icons.add),
+  ///       onPressed: () {
+  ///         // アクション処理
+  ///       },
+  ///     ),
+  ///   ],
+  /// )
+  /// ```
   const Label(
     this.text, {
     super.key,

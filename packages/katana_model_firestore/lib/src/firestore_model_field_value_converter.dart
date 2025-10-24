@@ -34,6 +34,7 @@ abstract class FirestoreModelFieldValueConverter {
     FirestoreModelSearchConverter(),
     FirestoreModelTokenConverter(),
     FirestoreModelGeoValueConverter(),
+    FirestoreModelVectorValueConverter(),
     FirestoreModelRefConverter(),
     FirestoreEnumConverter(),
     FirestoreNullConverter(),
@@ -362,6 +363,11 @@ abstract class FirestoreModelFieldValueConverter {
           descending: true,
         );
         break;
+      case ModelQueryFilterType.nearest:
+        throw UnimplementedError(
+          "Firestore vector search (findNearest) is not yet available in Dart SDK. "
+          "Use RuntimeModelAdapter or LocalModelAdapter for vector search.",
+        );
       case ModelQueryFilterType.limit:
         final val = filter.value;
         if (val is! num) {

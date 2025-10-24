@@ -1,60 +1,112 @@
 part of "/katana_ui.dart";
 
-/// A widget for setting padding between elements in a [Column] or [ListView].
+/// A padded column widget that simplifies vertical layouts with consistent padding.
 ///
-/// As is, multiple elements can be included with [children], which improves the overall look.
+/// This widget combines Padding and Column into a single convenient component,
+/// making it easy to create vertically arranged layouts with consistent spacing.
+/// Perfect for forms, settings screens, and any vertical list of content.
 ///
-/// You can set the padding with [padding].
+/// Features:
+/// - Combines Padding and Column in one widget
+/// - Configurable cross-axis alignment
+/// - Configurable main-axis alignment
+/// - Adjustable main-axis size
+/// - Vertical direction control
+/// - Cleaner code compared to nested Padding + Column
 ///
-/// You can set how to place the child elements along the cross axis with [crossAxisAlignment].
-///
-/// You can set how to place the child elements along the main axis with [mainAxisAlignment].
-///
-/// You can set how much space to take along the main axis with [mainAxisSize].
-///
-/// You can set the direction along the main axis to use with [verticalDirection].
+/// Example:
+/// ```dart
+/// Indent(
+///   padding: EdgeInsets.all(16),
+///   crossAxisAlignment: CrossAxisAlignment.stretch,
+///   children: [
+///     Text("First item"),
+///     Text("Second item"),
+///     ElevatedButton(onPressed: () {}, child: Text("Button")),
+///   ],
+/// )
+/// ```
 ///
 /// [Column]や[ListView]の中で、要素の間にパディングを設定するためのウィジェット。
 ///
-/// そのまま、[children]で複数の要素を含めることができるので、全体的な見栄えがよくなります。
+/// このウィジェットはPaddingとColumnを1つの便利なコンポーネントに統合し、
+/// 一貫したスペーシングで垂直に配置されたレイアウトを簡単に作成できます。
+/// フォーム、設定画面、あらゆる縦方向のコンテンツリストに最適です。
 ///
-/// [padding]でパディングを設定できます。
+/// 特徴:
+/// - PaddingとColumnを1つのウィジェットに統合
+/// - 設定可能なクロス軸の配置
+/// - 設定可能なメイン軸の配置
+/// - 調整可能なメイン軸のサイズ
+/// - 垂直方向の制御
+/// - Padding + Columnのネストよりもクリーンなコード
 ///
-/// [crossAxisAlignment]で、子要素をクロス軸方向にどのように配置するかを設定できます。
-///
-/// [mainAxisAlignment]で、子要素をメイン軸方向にどのように配置するかを設定できます。
-///
-/// [mainAxisSize]で、メイン軸方向にどれだけのスペースを取るかを設定できます。
-///
-/// [verticalDirection]で、メイン軸方向として使用する方向を設定できます。
+/// 例:
+/// ```dart
+/// Indent(
+///   padding: EdgeInsets.all(16),
+///   crossAxisAlignment: CrossAxisAlignment.stretch,
+///   children: [
+///     Text("最初の項目"),
+///     Text("2番目の項目"),
+///     ElevatedButton(onPressed: () {}, child: Text("ボタン")),
+///   ],
+/// )
+/// ```
 class Indent extends StatelessWidget {
-  /// A widget for setting padding between elements in a [Column] or [ListView].
+  /// A padded column widget that simplifies vertical layouts with consistent padding.
   ///
-  /// As is, multiple elements can be included with [children], which improves the overall look.
+  /// This widget combines Padding and Column into a single convenient component,
+  /// making it easy to create vertically arranged layouts with consistent spacing.
+  /// Perfect for forms, settings screens, and any vertical list of content.
   ///
-  /// You can set the padding with [padding].
+  /// Features:
+  /// - Combines Padding and Column in one widget
+  /// - Configurable cross-axis alignment
+  /// - Configurable main-axis alignment
+  /// - Adjustable main-axis size
+  /// - Vertical direction control
+  /// - Cleaner code compared to nested Padding + Column
   ///
-  /// You can set how to place the child elements along the cross axis with [crossAxisAlignment].
-  ///
-  /// You can set how to place the child elements along the main axis with [mainAxisAlignment].
-  ///
-  /// You can set how much space to take along the main axis with [mainAxisSize].
-  ///
-  /// You can set the direction along the main axis to use with [verticalDirection].
+  /// Example:
+  /// ```dart
+  /// Indent(
+  ///   padding: EdgeInsets.all(16),
+  ///   crossAxisAlignment: CrossAxisAlignment.stretch,
+  ///   children: [
+  ///     Text("First item"),
+  ///     Text("Second item"),
+  ///     ElevatedButton(onPressed: () {}, child: Text("Button")),
+  ///   ],
+  /// )
+  /// ```
   ///
   /// [Column]や[ListView]の中で、要素の間にパディングを設定するためのウィジェット。
   ///
-  /// そのまま、[children]で複数の要素を含めることができるので、全体的な見栄えがよくなります。
+  /// このウィジェットはPaddingとColumnを1つの便利なコンポーネントに統合し、
+  /// 一貫したスペーシングで垂直に配置されたレイアウトを簡単に作成できます。
+  /// フォーム、設定画面、あらゆる縦方向のコンテンツリストに最適です。
   ///
-  /// [padding]でパディングを設定できます。
+  /// 特徴:
+  /// - PaddingとColumnを1つのウィジェットに統合
+  /// - 設定可能なクロス軸の配置
+  /// - 設定可能なメイン軸の配置
+  /// - 調整可能なメイン軸のサイズ
+  /// - 垂直方向の制御
+  /// - Padding + Columnのネストよりもクリーンなコード
   ///
-  /// [crossAxisAlignment]で、子要素をクロス軸方向にどのように配置するかを設定できます。
-  ///
-  /// [mainAxisAlignment]で、子要素をメイン軸方向にどのように配置するかを設定できます。
-  ///
-  /// [mainAxisSize]で、メイン軸方向にどれだけのスペースを取るかを設定できます。
-  ///
-  /// [verticalDirection]で、メイン軸方向として使用する方向を設定できます。
+  /// 例:
+  /// ```dart
+  /// Indent(
+  ///   padding: EdgeInsets.all(16),
+  ///   crossAxisAlignment: CrossAxisAlignment.stretch,
+  ///   children: [
+  ///     Text("最初の項目"),
+  ///     Text("2番目の項目"),
+  ///     ElevatedButton(onPressed: () {}, child: Text("ボタン")),
+  ///   ],
+  /// )
+  /// ```
   const Indent({
     required this.children,
     required this.padding,

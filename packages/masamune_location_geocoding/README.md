@@ -30,11 +30,148 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Location Geocoding
 
-For more information about Masamune Framework, please click here.
+## Overview
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+`masamune_location_geocoding` provides geocoding and reverse geocoding functionality for Masamune apps via Cloud Functions. Convert between coordinates and addresses.
+
+**Note**: Requires `masamune_location` for core location functionality.
+
+## Usage
+
+### Installation
+
+```bash
+flutter pub add masamune_location
+flutter pub add masamune_location_geocoding
+```
+
+### Register the Adapter
+
+Configure `GeocodingMasamuneAdapter` with a Functions adapter for backend integration.
+
+```dart
+// lib/adapter.dart
+
+import 'package:masamune_location_geocoding/masamune_location_geocoding.dart';
+import 'package:katana_functions_firebase/katana_functions_firebase.dart';
+
+final functionsAdapter = FirebaseFunctionsAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  region: FirebaseRegion.asiaNortheast1,
+);
+
+/// Masamune adapters used in the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  GeocodingMasamuneAdapter(
+    functionsAdapter: functionsAdapter,
+  ),
+];
+```
+
+### Reverse Geocoding (Coordinates → Address)
+
+Convert latitude/longitude to a human-readable address:
+
+```dart
+class GeocodingPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final geocoding = GeocodingMasamuneAdapter.primary;
+
+    return ElevatedButton(
+      onPressed: () async {
+        try {
+          final address = await geocoding.fromLatLng(
+            latitude: 35.6812,
+            longitude: 139.7671,
+          );
+          
+          print("Address: $address");
+          // e.g., "Tokyo Station, Tokyo, Japan"
+        } catch (e) {
+          print("Geocoding failed: $e");
+        }
+      },
+      child: const Text("Get Address"),
+    );
+  }
+}
+```
+
+### Geocoding (Address → Coordinates)
+
+Convert an address to latitude/longitude:
+
+```dart
+final coordinates = await geocoding.fromAddress("Tokyo Station, Japan");
+
+print("Lat: ${coordinates.latitude}, Lng: ${coordinates.longitude}");
+```
+
+### Backend Implementation
+
+Your Cloud Functions must implement the geocoding actions using an external API (e.g., Google Maps Geocoding API):
+
+```typescript
+// Cloud Functions
+import * as functions from 'firebase-functions';
+import axios from 'axios';
+
+export const geocoding = functions.https.onCall(async (data, context) => {
+  const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
+  
+  if (data.action === "geocoding") {
+    const { latitude, longitude, address } = data;
+    
+    if (latitude && longitude) {
+      // Reverse geocoding (coordinates -> address)
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json`,
+        {
+          params: {
+            latlng: `${latitude},${longitude}`,
+            key: GOOGLE_MAPS_API_KEY,
+          },
+        }
+      );
+      
+      return {
+        address: response.data.results[0]?.formatted_address,
+      };
+    }
+    
+    if (address) {
+      // Geocoding (address -> coordinates)
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json`,
+        {
+          params: {
+            address: address,
+            key: GOOGLE_MAPS_API_KEY,
+          },
+        }
+      );
+      
+      const location = response.data.results[0]?.geometry?.location;
+      return {
+        latitude: location.lat,
+        longitude: location.lng,
+      };
+    }
+  }
+});
+```
+
+### Tips
+
+- Store Google Maps API key securely using environment variables
+- Implement rate limiting in your backend to prevent API quota exhaustion
+- Cache frequently requested addresses to reduce API calls
+- Handle errors gracefully when geocoding fails (e.g., invalid address)
 
 # GitHub Sponsors
 

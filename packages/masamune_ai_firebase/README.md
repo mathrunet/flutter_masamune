@@ -30,11 +30,212 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune AI Firebase
 
-For more information about Masamune Framework, please click here.
+## Overview
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+- `masamune_ai_firebase` provides Firebase Vertex AI / Gemini integration for the Masamune AI framework.
+- Extends `masamune_ai` with `FirebaseAIMasamuneAdapter` for Firebase-powered generative AI.
+- Supports Gemini 2.0 Flash and other Firebase AI models.
+- Includes automatic function-calling support via Vertex AI when using MCP tools.
+- Optionally enables Firebase App Check for secure API access.
+
+## Setup
+
+1. Add the package to your project.
+
+```bash
+flutter pub add masamune_ai
+flutter pub add masamune_ai_firebase
+```
+
+2. Initialize Firebase and register `FirebaseAIMasamuneAdapter` in `MasamuneApp`.
+
+```dart
+import "package:masamune_ai_firebase/masamune_ai_firebase.dart";
+
+void main() {
+  runApp(
+    MasamuneApp(
+      appRef: appRef,
+      adapters: const [
+        FirebaseAIMasamuneAdapter(
+          options: DefaultFirebaseOptions.currentPlatform,  // Firebase config
+          model: FirebaseAIModel.gemini20Flash,             // AI model
+          enableAppCheck: true,                              // Optional: Enable App Check
+          defaultConfig: AIConfig(
+            systemPromptContent: AIContent.system([
+              AIContent.model(text: "You are a helpful assistant."),
+            ]),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+```
+
+## FirebaseAIMasamuneAdapter Configuration
+
+### Required Parameters
+
+- `options` (`FirebaseOptions`): Firebase project configuration from `firebase_options.dart`
+- `model` (`FirebaseAIModel`): The Gemini model to use (see Available Models section)
+
+### Optional Parameters
+
+- `defaultConfig` (`AIConfig`): Default system prompt and response schema
+- `enableAppCheck` (`bool`): Enable Firebase App Check for API security (default: `false`)
+- `contentFilter`: Preprocess messages before sending to the AI
+- `onGenerateFunctionCallingConfig`: Control function-calling retry logic
+- `mcpServerConfig`, `mcpClientConfig`, `mcpFunctions`: MCP tool integration settings
+
+## Available Models
+
+The `FirebaseAIModel` enum provides the following Gemini models:
+
+```dart
+FirebaseAIModel.gemini20Flash         // Gemini 2.0 Flash (default)
+FirebaseAIModel.gemini15Flash         // Gemini 1.5 Flash
+FirebaseAIModel.gemini15FlashLatest   // Gemini 1.5 Flash (latest version)
+FirebaseAIModel.gemini15Flash8B       // Gemini 1.5 Flash 8B (lightweight)
+FirebaseAIModel.gemini15Pro           // Gemini 1.5 Pro
+FirebaseAIModel.gemini15ProLatest     // Gemini 1.5 Pro (latest version)
+```
+
+## Key Features
+
+### Automatic Initialization
+
+The adapter automatically initializes Firebase and caches `GenerativeModel` instances per `AIConfigKey` (config + tools combination). Call `initialize()` once before generating content:
+
+```dart
+final adapter = FirebaseAIMasamuneAdapter.primary;
+await adapter.initialize();
+```
+
+### Function Calling Support
+
+When MCP tools are provided via `AIThread` or `AISingle`, they are automatically converted to Vertex AI function declarations:
+
+```dart
+final thread = ref.app.controller(
+  AIThread.query(
+    threadId: "chat-1",
+    tools: {weatherTool},  // Automatically converted to Vertex AI functions
+  ),
+);
+```
+
+Control function-calling behavior with `onGenerateFunctionCallingConfig`:
+
+```dart
+FirebaseAIMasamuneAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  model: FirebaseAIModel.gemini20Flash,
+  onGenerateFunctionCallingConfig: (attempt) => AIGenerateFunctionCallingConfig(
+    maxRetries: 3,
+    forceExecution: attempt > 0,
+  ),
+)
+```
+
+### App Check Integration
+
+Enable Firebase App Check for additional API security:
+
+```dart
+FirebaseAIMasamuneAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  model: FirebaseAIModel.gemini20Flash,
+  enableAppCheck: true,  // Requires Firebase App Check setup
+)
+```
+
+## Usage with AIThread and AISingle
+
+For conversation management and content generation, use `AIThread` (multi-turn) and `AISingle` (single-turn) controllers from the `masamune_ai` package:
+
+```dart
+// Multi-turn conversation
+final thread = ref.app.controller(
+  AIThread.query(
+    threadId: "chat-1",
+    initialContents: [AIContent.text("Hello!")],
+  ),
+);
+
+await thread.generateContent([
+  AIContent.text("Tell me about Firebase Gemini API"),
+]);
+
+// Single-turn interaction
+final single = ref.app.controller(AISingle.query());
+final result = await single.generateContent([
+  AIContent.text("Summarize this"),
+]);
+```
+
+## Complete Example
+
+```dart
+import "package:masamune_ai/masamune_ai.dart";
+import "package:masamune_ai_firebase/masamune_ai_firebase.dart";
+
+void main() {
+  runApp(
+    MasamuneApp(
+      appRef: appRef,
+      adapters: const [
+        FirebaseAIMasamuneAdapter(
+          options: DefaultFirebaseOptions.currentPlatform,
+          model: FirebaseAIModel.gemini20Flash,
+          defaultConfig: AIConfig(
+            systemPromptContent: AIContent.system([
+              AIContent.model(text: "You are a helpful AI assistant."),
+            ]),
+          ),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
+}
+
+class MyApp extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final thread = ref.app.controller(
+      AIThread.query(threadId: "main-chat"),
+    );
+
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: thread.value.length,
+        itemBuilder: (context, index) {
+          final content = thread.value[index];
+          return ListTile(
+            title: Text(content.role.name),
+            subtitle: Text(content.text),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await thread.generateContent([
+            AIContent.text("Hello, Gemini!"),
+          ]);
+        },
+        child: Icon(Icons.send),
+      ),
+    );
+  }
+}
+```
+
+## Additional Resources
+
+For detailed information on `AIThread`, `AISingle`, `AIContent`, `AITool`, and MCP integration, refer to the [`masamune_ai` package documentation](https://pub.dev/packages/masamune_ai).
 
 # GitHub Sponsors
 

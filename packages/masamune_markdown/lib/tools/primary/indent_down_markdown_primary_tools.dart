@@ -35,12 +35,12 @@ class IndentDownMarkdownPrimaryTools extends MarkdownPrimaryTools {
 
   @override
   bool enabled(BuildContext context, MarkdownToolRef ref) {
-    return ref.focusedSelection != null;
+    return ref.selection != null && ref.controller.canDecreaseIndent;
   }
 
   @override
   bool actived(BuildContext context, MarkdownToolRef ref) {
-    return ref.focusedController?.canDecreaseIndent() ?? false;
+    return true;
   }
 
   @override
@@ -56,6 +56,6 @@ class IndentDownMarkdownPrimaryTools extends MarkdownPrimaryTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.focusedController?.indentSelection(false);
+    ref.controller.decreaseIndent();
   }
 }

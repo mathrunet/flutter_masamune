@@ -15,7 +15,7 @@ class KatanaUICardTileMdCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String get description =>
-      "カードウィジェットの上に画像やテキストを重ねて表示するためのウィジェットである`CardTile`の利用方法";
+      "カードウィジェットの上に画像やテキストを重ねて表示するためのウィジェットである`CardTile`の利用方法。Material DesignのCardとListTileを組み合わせ、フィーチャー画像/ウィジェット、タイトル、サブタイトル、アクションを含むリッチなカードレイアウトを提供。";
 
   @override
   String get globs => "*.dart";
@@ -38,12 +38,14 @@ $excerpt
 
 ## 特徴
 
-- フィーチャー画像/ウィジェットの表示
-- カスタマイズ可能なカードデザイン
-- タップ可能なインタラクション
-- 柔軟なレイアウトオプション
+- ListTileの上にフィーチャー画像/ウィジェット（feature）を表示
+- カスタマイズ可能なカードデザイン（elevation、shape、colors）
+- タップ可能なインタラクション（onTap）
+- 柔軟なレイアウトオプション（width、height、fit）
 - テーマに基づいたデフォルトスタイル
-- 追加のボトムコンテンツのサポート
+- 追加のボトムコンテンツのサポート（bottom）
+- Material CardとListTileの組み合わせ
+- サイズ指定時にfeatureがExpandedとして配置される
 
 ## 基本的な使い方
 
@@ -173,11 +175,16 @@ CardTile(
 - `backgroundColor`を指定しない場合は`Theme.of(context).colorScheme.surface`が使用される
 - `textColor`を指定しない場合は`Theme.of(context).colorScheme.onSurface`が使用される
 - `iconColor`を指定しない場合は`Theme.of(context).colorScheme.onSurface`が使用される
-- `margin`はカード全体の外側のマージン
+- `margin`はカード全体の外側のマージン（Cardのmarginパラメータ）
 - `contentPadding`は`ListTile`部分の内側のパディング
 - `bottom`ウィジェットは`ListTile`の下に配置される
 - `borderOnForeground`は常に`true`で、境界線は前面に描画される
 - `clipBehavior`は`Clip.antiAliasWithSaveLayer`で固定
+- `fit`はfeatureウィジェットのBoxFitを指定（デフォルト: BoxFit.cover）
+- `featureColor`はfeature領域の背景色
+- heightが指定されている場合、Columnの構造: feature (Expanded) + ListTile + bottom
+- heightが指定されていない場合、Columnの構造: feature + ListTile + bottom
+- InkWellでラップされており、タップ時のリップルエフェクトが表示される
 
 ## 利用シーン
 

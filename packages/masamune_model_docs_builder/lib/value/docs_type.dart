@@ -210,6 +210,11 @@ enum DocsModelFieldValueType {
   /// [ModelGeoValue]。
   modelGeoValue,
 
+  /// [ModelVectorValue].
+  ///
+  /// [ModelVectorValue]。
+  modelVectorValue,
+
   /// [ModelUri].
   ///
   /// [ModelUri]。
@@ -273,6 +278,8 @@ enum DocsModelFieldValueType {
         return "ModelCommand";
       case DocsModelFieldValueType.modelGeoValue:
         return "ModelGeoValue";
+      case DocsModelFieldValueType.modelVectorValue:
+        return "ModelVectorValue";
       case DocsModelFieldValueType.modelUri:
         return "ModelUri";
       case DocsModelFieldValueType.modelImageUri:
@@ -315,6 +322,8 @@ enum DocsModelFieldValueType {
         return "string";
       case DocsModelFieldValueType.modelGeoValue:
         return "geo";
+      case DocsModelFieldValueType.modelVectorValue:
+        return "vector";
       case DocsModelFieldValueType.modelUri:
         return "string";
       case DocsModelFieldValueType.modelImageUri:
@@ -357,6 +366,8 @@ enum DocsModelFieldValueType {
         return "map";
       case DocsModelFieldValueType.modelGeoValue:
         return "map";
+      case DocsModelFieldValueType.modelVectorValue:
+        return "map";
       case DocsModelFieldValueType.modelUri:
         return "map";
       case DocsModelFieldValueType.modelImageUri:
@@ -398,6 +409,8 @@ enum DocsModelFieldValueType {
       case DocsModelFieldValueType.modelCommand:
         return "json";
       case DocsModelFieldValueType.modelGeoValue:
+        return "json";
+      case DocsModelFieldValueType.modelVectorValue:
         return "json";
       case DocsModelFieldValueType.modelUri:
         return "json";

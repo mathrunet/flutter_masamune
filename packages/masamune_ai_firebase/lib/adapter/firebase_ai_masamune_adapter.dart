@@ -28,12 +28,16 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     this.windowsOptions,
     this.macosOptions,
     super.onGeneratedContentUsage,
-    super.mcpClientConfig,
-    super.mcpServerConfig,
-    super.mcpFunctions = const [],
+    super.defaultTools = const {},
     super.onGenerateFunctionCallingConfig,
-    super.listenMcpServerOnRunApp = false,
     super.contentFilter,
+    super.threadContentSortCallback =
+        AIMasamuneAdapter.defaultThreadContentSortCallback,
+    super.vectorModelAdapter,
+    super.defaultAgentPromptTemplate,
+    super.defaultAgentVectorMemoryConfig,
+    super.maxAgentRecordStep = 100,
+    super.appRef,
   })  : _options = options,
         _instance = ai;
 
@@ -50,12 +54,17 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   /// FirebaseVertexAI instance.
   ///
   /// FirebaseVertexAIのインスタンス。
-  FirebaseAI get instance =>
-      _instance ??
-      FirebaseAI.googleAI(
-        appCheck: enableAppCheck ? FirebaseAppCheck.instance : null,
-      );
+  FirebaseAI get instance {
+    if (_instance != null) {
+      return _instance!;
+    }
+    return _googleInstance ??= FirebaseAI.googleAI(
+      appCheck: enableAppCheck ? FirebaseAppCheck.instance : null,
+    );
+  }
+
   final FirebaseAI? _instance;
+  static FirebaseAI? _googleInstance;
 
   static final Map<AIConfigKey, GenerativeModel> _generativeModel = {};
   static const _platformInfo = PlatformInfo();
@@ -176,6 +185,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   bool isInitializedConfig({
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
   }) {
     config ??= defaultConfig;
     final key = AIConfigKey(config: config, tools: tools);
@@ -189,6 +199,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   Future<void> initialize({
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
   }) async {
     config ??= defaultConfig;
     final key = AIConfigKey(config: config, tools: tools);
@@ -201,6 +212,9 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
       "systemPromptContent must be a system prompt.",
     );
     await FirebaseCore.initialize(options: options);
+    await Future.wait(
+      tools.whereType<AIFunctionTool>().map((e) => e.initialize()),
+    );
     final systemPromptContent = config.systemPromptContent;
     final responseSchema = config.responseSchema;
     _generativeModel[key] = instance.generativeModel(
@@ -209,11 +223,21 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         responseMimeType: responseSchema != null ? "application/json" : null,
         responseSchema: responseSchema?._toSchema(),
       ),
-      tools: [if (tools.isNotEmpty) tools._toVertexAITools(mcpFunctions)],
-      toolConfig: ToolConfig(
-        functionCallingConfig:
-            FunctionCallingConfig.any({...tools.map((e) => e.name)}),
-      ),
+      tools: [
+        if (!enableSearch) ...[
+          if (tools.isNotEmpty) ...[
+            tools._toVertexAITools(),
+          ],
+        ] else ...[
+          Tool.googleSearch(),
+        ]
+      ],
+      toolConfig: !enableSearch && tools.isNotEmpty
+          ? ToolConfig(
+              functionCallingConfig:
+                  FunctionCallingConfig.any({...tools.map((e) => e.name)}),
+            )
+          : null,
       systemInstruction: systemPromptContent
           ?._toSystemPromptContent()
           ._toContents()
@@ -224,11 +248,12 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   @override
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
-    required Future<List<AIContentFunctionResponsePart>> Function(
-            List<AIContentFunctionCallPart> functionCalls)
+    Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart> functionCalls)?
         onFunctionCall,
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
     bool includeSystemInitialContent = false,
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
@@ -257,6 +282,7 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         ],
         response: res,
         tools: tools,
+        enableSearch: enableSearch,
         generativeModel: generativeModel,
         onFunctionCall: onFunctionCall,
         onGenerateFunctionCallingConfig: onGenerateFunctionCallingConfig,
@@ -270,11 +296,12 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     required List<Content> contents,
     required AIContent response,
     required GenerativeModel generativeModel,
-    required Future<List<AIContentFunctionResponsePart>> Function(
-            List<AIContentFunctionCallPart> functionCalls)
-        onFunctionCall,
     required int trialCount,
+    Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart> functionCalls)?
+        onFunctionCall,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
         onGenerateFunctionCallingConfig,
@@ -293,9 +320,12 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         ...contents,
         ...response._toContents(),
       ],
-      toolConfig: ToolConfig(
-        functionCallingConfig: functionCallingConfig._toFunctionCallingConfig(),
-      ),
+      toolConfig: !enableSearch && tools.isNotEmpty
+          ? ToolConfig(
+              functionCallingConfig:
+                  functionCallingConfig._toFunctionCallingConfig(),
+            )
+          : null,
     );
     Completer<void>? functionCallCompleter;
     subscription = stream.listen(
@@ -307,9 +337,11 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
         final candidates = line.candidates;
         for (final candidate in candidates) {
           final parts = candidate.content._toAIContentParts();
+          final references = candidate.groundingMetadata?._toAIReferences();
           response.add(
             parts,
             time: Clock.now(),
+            references: references,
           );
           if (functionCallCompleter != null) {
             await functionCallCompleter?.future;
@@ -318,29 +350,36 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
             functionCallCompleter ??= Completer<void>();
             try {
               if (!response.isFunctionsCompleted) {
-                final functionCall = response.functions
-                    .where((e) => !e.completed)
-                    .map((e) => e.call)
-                    .toList();
-                if (functionCall.isNotEmpty) {
-                  final functionResponse = await onFunctionCall(functionCall);
-                  response.add(
-                    functionResponse,
-                    time: Clock.now(),
-                  );
-                  unawaited(
-                    _generateContent(
-                      contents: contents,
-                      response: response,
-                      tools: tools,
-                      generativeModel: generativeModel,
-                      onFunctionCall: onFunctionCall,
-                      onGenerateFunctionCallingConfig:
-                          onGenerateFunctionCallingConfig,
-                      trialCount: trialCount + 1,
-                    ),
-                  );
-                  return;
+                if (onFunctionCall != null) {
+                  final functionCall = response.functions
+                      .where((e) => !e.completed)
+                      .map((e) => e.call)
+                      .toList();
+                  if (functionCall.isNotEmpty) {
+                    final functionResponse = await onFunctionCall(functionCall);
+                    response.add(
+                      functionResponse,
+                      time: Clock.now(),
+                      references: functionResponse
+                          .expand(
+                              (e) => e.source?.references ?? <AIReference>{})
+                          .toSet(),
+                    );
+                    unawaited(
+                      _generateContent(
+                        contents: contents,
+                        response: response,
+                        tools: tools,
+                        enableSearch: enableSearch,
+                        generativeModel: generativeModel,
+                        onFunctionCall: onFunctionCall,
+                        onGenerateFunctionCallingConfig:
+                            onGenerateFunctionCallingConfig,
+                        trialCount: trialCount + 1,
+                      ),
+                    );
+                    return;
+                  }
                 }
               }
               response.complete(time: Clock.now());
@@ -362,29 +401,35 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
           functionCallCompleter ??= Completer<void>();
           try {
             if (!response.isFunctionsCompleted) {
-              final functionCall = response.functions
-                  .where((e) => !e.completed)
-                  .map((e) => e.call)
-                  .toList();
-              if (functionCall.isNotEmpty) {
-                final functionResponse = await onFunctionCall(functionCall);
-                response.add(
-                  functionResponse,
-                  time: Clock.now(),
-                );
-                unawaited(
-                  _generateContent(
-                    contents: contents,
-                    response: response,
-                    tools: tools,
-                    generativeModel: generativeModel,
-                    onFunctionCall: onFunctionCall,
-                    onGenerateFunctionCallingConfig:
-                        onGenerateFunctionCallingConfig,
-                    trialCount: trialCount + 1,
-                  ),
-                );
-                return;
+              if (onFunctionCall != null) {
+                final functionCall = response.functions
+                    .where((e) => !e.completed)
+                    .map((e) => e.call)
+                    .toList();
+                if (functionCall.isNotEmpty) {
+                  final functionResponse = await onFunctionCall(functionCall);
+                  response.add(
+                    functionResponse,
+                    time: Clock.now(),
+                    references: functionResponse
+                        .expand((e) => e.source?.references ?? <AIReference>{})
+                        .toSet(),
+                  );
+                  unawaited(
+                    _generateContent(
+                      contents: contents,
+                      response: response,
+                      tools: tools,
+                      enableSearch: enableSearch,
+                      generativeModel: generativeModel,
+                      onFunctionCall: onFunctionCall,
+                      onGenerateFunctionCallingConfig:
+                          onGenerateFunctionCallingConfig,
+                      trialCount: trialCount + 1,
+                    ),
+                  );
+                  return;
+                }
               }
             }
             response.complete(time: Clock.now());

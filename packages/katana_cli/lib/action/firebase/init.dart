@@ -25,6 +25,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
 
   @override
   bool checkEnabled(ExecContext context) {
+    final generativeAi = context.yaml.getAsMap("generative_ai");
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
     final firestore = firebase.getAsMap("firestore").get("enable", false);
@@ -37,7 +38,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final hosting = firebase.getAsMap("hosting").get("enable", false);
     final messaging = firebase.getAsMap("messaging").get("enable", false);
     final appCheck = firebase.getAsMap("app_check").get("enable", false);
-    final vertexAi = firebase.getAsMap("vertex_ai").get("enable", false);
+    final gemini = generativeAi.getAsMap("gemini").get("enable", false);
     final remoteConfig =
         firebase.getAsMap("remote_config").get("enable", false);
     return projectId.isNotEmpty &&
@@ -51,7 +52,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             messaging ||
             remoteConfig ||
             appCheck ||
-            vertexAi);
+            gemini);
   }
 
   @override

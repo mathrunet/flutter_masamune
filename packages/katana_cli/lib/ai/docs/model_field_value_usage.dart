@@ -14,6 +14,7 @@ import "package:katana_cli/ai/docs/model_field_value/model_timestamp.dart";
 import "package:katana_cli/ai/docs/model_field_value/model_timestamp_range.dart";
 import "package:katana_cli/ai/docs/model_field_value/model_token.dart";
 import "package:katana_cli/ai/docs/model_field_value/model_uri.dart";
+import "package:katana_cli/ai/docs/model_field_value/model_vector_value.dart";
 import "package:katana_cli/ai/docs/model_field_value/model_video_uri.dart";
 import "package:katana_cli/katana_cli.dart";
 
@@ -36,6 +37,7 @@ const kModelFieldValueList = {
   "ModelDate": ModelFieldValueModelDateMdCliAiCode(),
   "ModelDateRange": ModelFieldValueModelDateRangeMdCliAiCode(),
   "ModelUri": ModelFieldValueModelUriMdCliAiCode(),
+  "ModelVectorValue": ModelFieldValueModelVectorValueMdCliAiCode(),
   "ModelVideoUri": ModelFieldValueModelVideoUriMdCliAiCode(),
 };
 

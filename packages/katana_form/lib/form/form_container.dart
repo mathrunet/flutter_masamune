@@ -2,36 +2,106 @@ part of "/katana_form.dart";
 
 /// Provides a container with [FormStyle] applied.
 ///
+/// [FormStyle]を適用したコンテナを提供します。
+///
+/// A container widget for applying `FormStyle`.
+/// Padding, background color, border, shadow, etc. can be managed uniformly.
+/// In addition, arbitrary value validation can be performed.
+///
+/// `FormStyle`を適用するためのコンテナウィジェット。
+/// パディング、背景色、ボーダー、影などのスタイルを統一的に管理できます。
+/// また、任意の値のバリデーションを行うことができます。
+///
+/// ## Validation Function バリデーション機能
+///
 /// You can also perform arbitrary value validation using [validator].
+///
+/// [validator]を利用して任意の値のバリデーションを行うことができます。
+///
+/// ## Child Widget Specification 子ウィジェットの指定
 ///
 /// In [child], specify the widget to enclose in the container.
 ///
-/// If [enabled] is `false`, the design is changed to a deactivated design.
-///
-/// [FormStyle]を適用したコンテナを提供します。
-///
-/// また、[validator]を利用して任意の値のバリデーションを行うことができます。
-///
 /// [child]には、コンテナで囲むウィジェットを指定します。
 ///
+/// ## Enable/Disable Control 有効/無効の制御
+///
+/// If [enabled] is `false`, the design is changed to a deactivated design.
+///
 /// [enabled]が`false`の場合、非有効化のデザインに変更されます。
+///
+/// ## Basic Usage Example 基本的な使用例
+///
+/// ```dart
+/// FormContainer(
+///   style: const FormStyle(
+///     padding: EdgeInsets.all(24.0),
+///     margin: EdgeInsets.symmetric(horizontal: 16.0),
+///     backgroundColor: Colors.white,
+///     borderRadius: BorderRadius.all(Radius.circular(12.0)),
+///     elevation: 4.0,
+///   ),
+///   child: Column(
+///     children: [
+///       FormTextField(...),
+///       FormPasswordBuilder(...),
+///       FormRatingBar(...),
+///     ],
+///   ),
+/// );
+/// ```
 @immutable
 class FormContainer extends StatefulWidget {
   /// Provides a container with [FormStyle] applied.
   ///
+  /// [FormStyle]を適用したコンテナを提供します。
+  ///
+  /// A container widget for applying `FormStyle`.
+  /// Padding, background color, border, shadow, etc. can be managed uniformly.
+  /// In addition, arbitrary value validation can be performed.
+  ///
+  /// `FormStyle`を適用するためのコンテナウィジェット。
+  /// パディング、背景色、ボーダー、影などのスタイルを統一的に管理できます。
+  /// また、任意の値のバリデーションを行うことができます。
+  ///
+  /// ## Validation Function バリデーション機能
+  ///
   /// You can also perform arbitrary value validation using [validator].
+  ///
+  /// [validator]を利用して任意の値のバリデーションを行うことができます。
+  ///
+  /// ## Child Widget Specification 子ウィジェットの指定
   ///
   /// In [child], specify the widget to enclose in the container.
   ///
-  /// If [enabled] is `false`, the design is changed to a deactivated design.
-  ///
-  /// [FormStyle]を適用したコンテナを提供します。
-  ///
-  /// また、[validator]を利用して任意の値のバリデーションを行うことができます。
-  ///
   /// [child]には、コンテナで囲むウィジェットを指定します。
   ///
+  /// ## Enable/Disable Control 有効/無効の制御
+  ///
+  /// If [enabled] is `false`, the design is changed to a deactivated design.
+  ///
   /// [enabled]が`false`の場合、非有効化のデザインに変更されます。
+  ///
+  /// ## Basic Usage Example 基本的な使用例
+  ///
+  /// ```dart
+  /// FormContainer(
+  ///   style: const FormStyle(
+  ///     padding: EdgeInsets.all(24.0),
+  ///     margin: EdgeInsets.symmetric(horizontal: 16.0),
+  ///     backgroundColor: Colors.white,
+  ///     borderRadius: BorderRadius.all(Radius.circular(12.0)),
+  ///     elevation: 4.0,
+  ///   ),
+  ///   child: Column(
+  ///     children: [
+  ///       FormTextField(...),
+  ///       FormPasswordBuilder(...),
+  ///       FormRatingBar(...),
+  ///     ],
+  ///   ),
+  /// );
+  /// ```
   const FormContainer({
     this.form,
     super.key,

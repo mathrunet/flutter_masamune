@@ -19,6 +19,9 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
     required this.apiKey,
     this.model = OpenaiAIModel.defaultModel,
     super.contentFilter,
+    super.defaultConfig,
+    super.threadContentSortCallback =
+        AIMasamuneAdapter.defaultThreadContentSortCallback,
   });
 
   /// API key for OpenAI.
@@ -37,6 +40,7 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
   bool isInitializedConfig({
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
   }) {
     return _isInitialized;
   }
@@ -45,10 +49,14 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
   Future<void> initialize({
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
   }) async {
     if (_isInitialized) {
       return;
     }
+    await Future.wait(
+      tools.whereType<AIFunctionTool>().map((e) => e.initialize()),
+    );
     OpenAI.apiKey = apiKey;
     _isInitialized = true;
   }
@@ -56,11 +64,12 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
   @override
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
-    required Future<List<AIContentFunctionResponsePart>> Function(
-            List<AIContentFunctionCallPart> functionCalls)
+    Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart> functionCalls)?
         onFunctionCall,
     AIConfig? config,
     Set<AITool> tools = const {},
+    bool enableSearch = false,
     bool includeSystemInitialContent = false,
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?
@@ -99,10 +108,10 @@ class OpenaiAIMasamuneAdapter extends AIMasamuneAdapter {
     required List<OpenAIChatCompletionChoiceMessageModel> contents,
     required AIContent response,
     required AIConfig config,
-    required Future<List<AIContentFunctionResponsePart>> Function(
-            List<AIContentFunctionCallPart> functionCalls)
-        onFunctionCall,
     required int trialCount,
+    Future<List<AIContentFunctionResponsePart>> Function(
+            List<AIContentFunctionCallPart> functionCalls)?
+        onFunctionCall,
     Set<AITool> tools = const {},
     AIFunctionCallingConfig? Function(
             AIContent response, Set<AITool> tools, int trialCount)?

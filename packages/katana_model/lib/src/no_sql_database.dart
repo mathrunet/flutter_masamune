@@ -440,7 +440,7 @@ class NoSqlDatabase {
       return Map<String, DynamicMap>.fromEntries(converted);
     }
     final limitValue = NoSqlDatabase.limitValue(query);
-    final entries = query.query.sort(
+    final entries = await query.query.sort(
       converted
           .where(
             (element) => query.query.hasMatchAsMap(element.value),
@@ -521,7 +521,7 @@ class NoSqlDatabase {
     final limitValue = query.query.filters
         .firstWhereOrNull((e) => e.type == ModelQueryFilterType.limit)
         ?.value as int?;
-    final entries = query.query.sort(
+    final entries = await query.query.sort(
       newValue
           .toList(
             (key, value) {
@@ -751,7 +751,7 @@ class NoSqlDatabase {
     if (isAdd == null) {
       return;
     }
-    notifyDocuments(
+    await notifyDocuments(
       trimPath,
       paths.last,
       value,
@@ -818,7 +818,7 @@ class NoSqlDatabase {
       }
     }
     data._deleteFromPath(paths, 0);
-    notifyDocuments(
+    await notifyDocuments(
       trimPath,
       paths.last,
       {},
@@ -892,7 +892,7 @@ class NoSqlDatabase {
         {...fromValue, _kAliasFromKey: from.query.path},
       );
       if (isAdd != null) {
-        notifyDocuments(
+        await notifyDocuments(
           trimToPath,
           toPaths.last,
           fromValue,
@@ -912,7 +912,7 @@ class NoSqlDatabase {
         {_kAliasToKey: to.query.path},
       );
       if (isAdd != null) {
-        notifyDocuments(
+        await notifyDocuments(
           trimFromPath,
           fromPaths.last,
           {},
@@ -995,7 +995,7 @@ class NoSqlDatabase {
       final value = data._readFromPath(paths, 0);
       if (value is! Map) {
         // Removed.
-        notifyDocuments(
+        await notifyDocuments(
           trimPath,
           paths.last,
           {},
@@ -1004,7 +1004,7 @@ class NoSqlDatabase {
         );
       } else {
         // Modified.
-        notifyDocuments(
+        await notifyDocuments(
           trimPath,
           paths.last,
           value.cast<String, dynamic>(),
@@ -1043,7 +1043,7 @@ class NoSqlDatabase {
         }
         // Added.
         final paths = path.split("/");
-        notifyDocuments(
+        await notifyDocuments(
           path,
           paths.last,
           e.value.cast<String, dynamic>(),
@@ -1066,13 +1066,13 @@ class NoSqlDatabase {
   /// 変更後の値を[value]に渡し、変更ステータスを[status]に渡します。
   ///
   /// 変更時に渡された[ModelAdapterDocumentQuery]を[query]にそのまま渡してください。
-  void notifyDocuments(
+  Future<void> notifyDocuments(
     String documentPath,
     String documentId,
     DynamicMap value,
     ModelUpdateNotificationStatus status,
     ModelAdapterDocumentQuery query,
-  ) {
+  ) async {
     final collectionPath = documentPath.parentPath();
     final collectionGroupPath = collectionPath.last();
     if (_documentListeners.containsKey(documentPath)) {
@@ -1101,7 +1101,7 @@ class NoSqlDatabase {
               continue;
             }
             final newIndex =
-                element.query.seekIndex(entries, value) ?? entries.length;
+                await element.query.seekIndex(entries, value) ?? entries.length;
             _collectionEntries[element.origin] = entries
               ..insert(newIndex, MapEntry(documentId, value));
             element.callback?.call(
@@ -1126,7 +1126,8 @@ class NoSqlDatabase {
 
               if (oldIndex < 0) {
                 final newIndex =
-                    element.query.seekIndex(entries, value) ?? entries.length;
+                    await element.query.seekIndex(entries, value) ??
+                        entries.length;
                 _collectionEntries[element.origin] = entries
                   ..insert(newIndex, MapEntry(documentId, value));
                 element.callback?.call(
@@ -1144,7 +1145,7 @@ class NoSqlDatabase {
                 );
               } else {
                 var newIndex =
-                    element.query.seekIndex(entries, value) ?? oldIndex;
+                    await element.query.seekIndex(entries, value) ?? oldIndex;
                 if (oldIndex < newIndex) {
                   newIndex = newIndex - 1;
                 }
@@ -1223,7 +1224,7 @@ class NoSqlDatabase {
               continue;
             }
             final newIndex =
-                element.query.seekIndex(entries, value) ?? entries.length;
+                await element.query.seekIndex(entries, value) ?? entries.length;
             _collectionGroupEntries[element.origin] = entries
               ..insert(newIndex, MapEntry(documentId, value));
             element.callback?.call(
@@ -1248,7 +1249,8 @@ class NoSqlDatabase {
 
               if (oldIndex < 0) {
                 final newIndex =
-                    element.query.seekIndex(entries, value) ?? entries.length;
+                    await element.query.seekIndex(entries, value) ??
+                        entries.length;
                 _collectionGroupEntries[element.origin] = entries
                   ..insert(newIndex, MapEntry(documentId, value));
                 element.callback?.call(
@@ -1266,7 +1268,7 @@ class NoSqlDatabase {
                 );
               } else {
                 var newIndex =
-                    element.query.seekIndex(entries, value) ?? oldIndex;
+                    await element.query.seekIndex(entries, value) ?? oldIndex;
                 if (oldIndex < newIndex) {
                   newIndex = newIndex - 1;
                 }

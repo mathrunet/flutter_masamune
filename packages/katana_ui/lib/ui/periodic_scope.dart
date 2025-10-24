@@ -1,20 +1,110 @@
 part of "/katana_ui.dart";
 
-/// This widget repeatedly redraws at regular intervals.
+/// A widget that automatically rebuilds at regular intervals.
 ///
-/// Draw [builder] at every interval of [duration].
+/// This widget provides periodic UI updates perfect for timers, countdowns,
+/// clocks, and any content that needs regular refreshing. It provides the
+/// current DateTime to the builder on each rebuild.
 ///
-/// 一定時間ごとに繰り返して再描画するウィジェットです。
+/// Features:
+/// - Automatic periodic rebuilds at specified intervals
+/// - Current DateTime provided to builder
+/// - Proper timer cleanup to prevent memory leaks
+/// - Simple builder pattern
+/// - Customizable update interval
+/// - Automatic disposal when widget is removed
 ///
-/// [duration]の間隔ごとに[builder]を描画します。
+/// Example:
+/// ```dart
+/// PeriodicScope(
+///   duration: const Duration(seconds: 1),
+///   builder: (context, now) {
+///     return Text(
+///       '${now.hour}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}',
+///       style: Theme.of(context).textTheme.headlineMedium,
+///     );
+///   },
+/// )
+/// ```
+///
+/// 一定間隔で自動的に再構築されるウィジェット。
+///
+/// タイマー、カウントダウン、時計、定期的な更新が必要なコンテンツに最適な、
+/// 定期的なUI更新を提供します。各再構築時に現在のDateTimeをビルダーに提供します。
+///
+/// 特徴:
+/// - 指定された間隔での自動的な定期再構築
+/// - ビルダーに現在のDateTimeを提供
+/// - メモリリークを防ぐための適切なタイマークリーンアップ
+/// - シンプルなビルダーパターン
+/// - カスタマイズ可能な更新間隔
+/// - ウィジェット削除時の自動破棄
+///
+/// 例:
+/// ```dart
+/// PeriodicScope(
+///   duration: const Duration(seconds: 1),
+///   builder: (context, now) {
+///     return Text(
+///       '${now.hour}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}',
+///       style: Theme.of(context).textTheme.headlineMedium,
+///     );
+///   },
+/// )
+/// ```
 class PeriodicScope extends StatefulWidget {
-  /// This widget repeatedly redraws at regular intervals.
+  /// A widget that automatically rebuilds at regular intervals.
   ///
-  /// Draw [builder] at every interval of [duration].
+  /// This widget provides periodic UI updates perfect for timers, countdowns,
+  /// clocks, and any content that needs regular refreshing. It provides the
+  /// current DateTime to the builder on each rebuild.
   ///
-  /// 一定時間ごとに繰り返して再描画するウィジェットです。
+  /// Features:
+  /// - Automatic periodic rebuilds at specified intervals
+  /// - Current DateTime provided to builder
+  /// - Proper timer cleanup to prevent memory leaks
+  /// - Simple builder pattern
+  /// - Customizable update interval
+  /// - Automatic disposal when widget is removed
   ///
-  /// [duration]の間隔ごとに[builder]を描画します。
+  /// Example:
+  /// ```dart
+  /// PeriodicScope(
+  ///   duration: const Duration(seconds: 1),
+  ///   builder: (context, now) {
+  ///     return Text(
+  ///       '${now.hour}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}',
+  ///       style: Theme.of(context).textTheme.headlineMedium,
+  ///     );
+  ///   },
+  /// )
+  /// ```
+  ///
+  /// 一定間隔で自動的に再構築されるウィジェット。
+  ///
+  /// タイマー、カウントダウン、時計、定期的な更新が必要なコンテンツに最適な、
+  /// 定期的なUI更新を提供します。各再構築時に現在のDateTimeをビルダーに提供します。
+  ///
+  /// 特徴:
+  /// - 指定された間隔での自動的な定期再構築
+  /// - ビルダーに現在のDateTimeを提供
+  /// - メモリリークを防ぐための適切なタイマークリーンアップ
+  /// - シンプルなビルダーパターン
+  /// - カスタマイズ可能な更新間隔
+  /// - ウィジェット削除時の自動破棄
+  ///
+  /// 例:
+  /// ```dart
+  /// PeriodicScope(
+  ///   duration: const Duration(seconds: 1),
+  ///   builder: (context, now) {
+  ///     return Text(
+  ///       '${now.hour}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}',
+  ///       style: Theme.of(context).textTheme.headlineMedium,
+  ///     );
+  ///   },
+  /// )
+  /// ```
   const PeriodicScope({
     required this.duration,
     required this.builder,

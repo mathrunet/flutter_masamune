@@ -47,6 +47,7 @@ List<Spec> collectionModelQueryClass(
   GoogleSpreadSheetValue googleSpreadSheetValue,
 ) {
   final searchable = model.parameters.where((e) => e.isSearchable).toList();
+  final vectorSearchable = model.parameters.where((e) => e.isVector).toList();
 
   return [
     Class(
@@ -118,6 +119,8 @@ List<Spec> collectionModelQueryClass(
         ..mixins.addAll([
           if (searchable.isNotEmpty)
             Reference("SearchableInitialCollectionMixin<${model.name}>"),
+          if (vectorSearchable.isNotEmpty)
+            Reference("VectorInitialCollectionMixin<${model.name}>"),
         ])
         ..constructors.addAll([
           Constructor(
@@ -205,6 +208,30 @@ List<Spec> collectionModelQueryClass(
                 ])
                 ..body = Code(
                   searchable.map((e) {
+                    if (e.type.aliasName.endsWith("?")) {
+                      return "(value.${e.name}?.toString() ?? \"\")";
+                    } else {
+                      return "value.${e.name}.toString()";
+                    }
+                  }).join(" + "),
+                ),
+            ),
+          if (vectorSearchable.isNotEmpty)
+            Method(
+              (m) => m
+                ..name = "buildVectorText"
+                ..lambda = true
+                ..returns = const Reference("String")
+                ..annotations.addAll([const Reference("override")])
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "value"
+                      ..type = Reference(model.name),
+                  )
+                ])
+                ..body = Code(
+                  vectorSearchable.map((e) {
                     if (e.type.aliasName.endsWith("?")) {
                       return "(value.${e.name}?.toString() ?? \"\")";
                     } else {
@@ -689,6 +716,8 @@ List<Spec> collectionModelQueryClass(
           ..mixins.addAll([
             if (searchable.isNotEmpty)
               Reference("SearchableInitialCollectionMixin<${model.name}>"),
+            if (vectorSearchable.isNotEmpty)
+              Reference("VectorInitialCollectionMixin<${model.name}>"),
           ])
           ..constructors.addAll([
             Constructor(
@@ -776,6 +805,30 @@ List<Spec> collectionModelQueryClass(
                   ])
                   ..body = Code(
                     searchable.map((e) {
+                      if (e.type.aliasName.endsWith("?")) {
+                        return "(value.${e.name}?.toString() ?? \"\")";
+                      } else {
+                        return "value.${e.name}.toString()";
+                      }
+                    }).join(" + "),
+                  ),
+              ),
+            if (vectorSearchable.isNotEmpty)
+              Method(
+                (m) => m
+                  ..name = "buildVectorText"
+                  ..lambda = true
+                  ..returns = const Reference("String")
+                  ..annotations.addAll([const Reference("override")])
+                  ..requiredParameters.addAll([
+                    Parameter(
+                      (p) => p
+                        ..name = "value"
+                        ..type = Reference(model.name),
+                    )
+                  ])
+                  ..body = Code(
+                    vectorSearchable.map((e) {
                       if (e.type.aliasName.endsWith("?")) {
                         return "(value.${e.name}?.toString() ?? \"\")";
                       } else {

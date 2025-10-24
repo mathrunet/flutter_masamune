@@ -69,6 +69,11 @@ enum CollectionQueryType {
   /// `geo`のメソッド。
   geo,
 
+  /// The method  for `nearest`.
+  ///
+  /// `nearest`のメソッド。
+  nearest,
+
   /// The method  for `orderByAsc`.
   ///
   /// `orderByAsc`のメソッド。
@@ -162,6 +167,24 @@ enum CollectionQueryType {
               ..type = const Reference("List<String>?"),
           ),
         ];
+      case CollectionQueryType.nearest:
+        return [
+          Parameter(
+            (p) => p
+              ..name = "key"
+              ..type = Reference(keyName),
+          ),
+          Parameter(
+            (p) => p
+              ..name = "queryVector"
+              ..type = const Reference("List<double>"),
+          ),
+          Parameter(
+            (p) => p
+              ..name = "measure"
+              ..type = const Reference("VectorDistanceMeasure"),
+          ),
+        ];
       case CollectionQueryType.isNull:
       case CollectionQueryType.isNotNull:
       case CollectionQueryType.orderByAsc:
@@ -206,6 +229,8 @@ enum CollectionQueryType {
         return "$name(key.name, values)";
       case CollectionQueryType.geo:
         return "$name(key.name, geoHash)";
+      case CollectionQueryType.nearest:
+        return "$name(key.name, queryVector, measure)";
       case CollectionQueryType.isNull:
       case CollectionQueryType.isNotNull:
       case CollectionQueryType.orderByAsc:
@@ -231,6 +256,7 @@ List<Spec> collectionModelClass(
   GoogleSpreadSheetValue googleSpreadSheetValue,
 ) {
   final searchable = model.parameters.where((e) => e.isSearchable).toList();
+  final vectorSearchable = model.parameters.where((e) => e.isVector).toList();
 
   return [
     Class(
@@ -242,7 +268,9 @@ List<Spec> collectionModelClass(
             "FilterableCollectionMixin<_\$${model.name}Document, _\$_${model.name}CollectionQuery>",
           ),
           if (searchable.isNotEmpty)
-            Reference("SearchableCollectionMixin<_\$${model.name}Document>")
+            Reference("SearchableCollectionMixin<_\$${model.name}Document>"),
+          if (vectorSearchable.isNotEmpty)
+            Reference("VectorCollectionMixin<_\$${model.name}Document>")
         ])
         ..constructors.addAll([
           Constructor(
@@ -356,7 +384,10 @@ List<Spec> collectionModelClass(
             ),
             if (searchable.isNotEmpty)
               Reference(
-                  "SearchableCollectionMixin<_\$${model.name}MirrorDocument>")
+                  "SearchableCollectionMixin<_\$${model.name}MirrorDocument>"),
+            if (vectorSearchable.isNotEmpty)
+              Reference(
+                  "VectorCollectionMixin<_\$${model.name}MirrorDocument>"),
           ])
           ..constructors.addAll([
             Constructor(

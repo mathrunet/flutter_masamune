@@ -2,31 +2,115 @@ part of "/masamune_universal_ui.dart";
 
 /// Create responsive columns.
 ///
-/// It is recommended to place it directly under [UniversalScaffold.body].
-/// Otherwise, [Column] is fine.
+/// [UniversalColumn] is the `UniversalUI` version of [Column]. It provides responsive layouts for desktop and mobile with automatic width adjustment based on [UniversalScaffold.breakpoint].
+/// Supports basic Column features like [mainAxisAlignment] and [crossAxisAlignment], plus [padding] and [decoration].
 ///
-/// The maximum width is automatically set according to [UniversalScaffold.breakpoint].
+/// ## Basic Usage
+///
+/// ```dart
+/// UniversalColumn(
+///   padding: const EdgeInsets.all(16),
+///   mainAxisAlignment: MainAxisAlignment.center,
+///   crossAxisAlignment: CrossAxisAlignment.start,
+///   children: [
+///     const Text("Text 1"),
+///     const SizedBox(height: 16),
+///     const Text("Text 2"),
+///     const SizedBox(height: 16),
+///     ElevatedButton(
+///       onPressed: () {
+///         // Handle button action
+///       },
+///       child: const Text("Button"),
+///     ),
+///   ],
+/// );
+/// ```
+///
+/// ---
 ///
 /// レスポンシブに対応したカラムを作成します。
 ///
-/// [UniversalScaffold.body]の直下に置くことをおすすめします。
-/// それ以外は[Column]で問題ございません。
+/// [UniversalColumn]は[Column]の`UniversalUI`版です。レスポンシブ対応でデスクトップ・モバイルで適切なレイアウトに変換。[UniversalScaffold.breakpoint]によって最大の横幅が自動で設定されます。
+/// [mainAxisAlignment]、[crossAxisAlignment]などの基本的なColumnの機能に加え、[padding]や[decoration]を設定可能です。
 ///
-/// [UniversalScaffold.breakpoint]に応じて最大の横幅が自動で設定されます。
+/// ## 基本的な利用方法
+///
+/// ```dart
+/// UniversalColumn(
+///   padding: const EdgeInsets.all(16),
+///   mainAxisAlignment: MainAxisAlignment.center,
+///   crossAxisAlignment: CrossAxisAlignment.start,
+///   children: [
+///     const Text("テキスト1"),
+///     const SizedBox(height: 16),
+///     const Text("テキスト2"),
+///     const SizedBox(height: 16),
+///     ElevatedButton(
+///       onPressed: () {
+///         // ボタンアクションを処理
+///       },
+///       child: const Text("ボタン"),
+///     ),
+///   ],
+/// );
+/// ```
 class UniversalColumn extends StatelessWidget {
   /// Create responsive columns.
   ///
-  /// It is recommended to place it directly under [UniversalScaffold.body].
-  /// Otherwise, [Column] is fine.
+  /// [UniversalColumn] is the `UniversalUI` version of [Column]. It provides responsive layouts for desktop and mobile with automatic width adjustment based on [UniversalScaffold.breakpoint].
+  /// Supports basic Column features like [mainAxisAlignment] and [crossAxisAlignment], plus [padding] and [decoration].
   ///
-  /// The maximum width is automatically set according to [UniversalScaffold.breakpoint].
+  /// ## Basic Usage
+  ///
+  /// ```dart
+  /// UniversalColumn(
+  ///   padding: const EdgeInsets.all(16),
+  ///   mainAxisAlignment: MainAxisAlignment.center,
+  ///   crossAxisAlignment: CrossAxisAlignment.start,
+  ///   children: [
+  ///     const Text("Text 1"),
+  ///     const SizedBox(height: 16),
+  ///     const Text("Text 2"),
+  ///     const SizedBox(height: 16),
+  ///     ElevatedButton(
+  ///       onPressed: () {
+  ///         // Handle button action
+  ///       },
+  ///       child: const Text("Button"),
+  ///     ),
+  ///   ],
+  /// );
+  /// ```
+  ///
+  /// ---
   ///
   /// レスポンシブに対応したカラムを作成します。
   ///
-  /// [UniversalScaffold.body]の直下に置くことをおすすめします。
-  /// それ以外は[Column]で問題ございません。
+  /// [UniversalColumn]は[Column]の`UniversalUI`版です。レスポンシブ対応でデスクトップ・モバイルで適切なレイアウトに変換。[UniversalScaffold.breakpoint]によって最大の横幅が自動で設定されます。
+  /// [mainAxisAlignment]、[crossAxisAlignment]などの基本的なColumnの機能に加え、[padding]や[decoration]を設定可能です。
   ///
-  /// [UniversalScaffold.breakpoint]に応じて最大の横幅が自動で設定されます。
+  /// ## 基本的な利用方法
+  ///
+  /// ```dart
+  /// UniversalColumn(
+  ///   padding: const EdgeInsets.all(16),
+  ///   mainAxisAlignment: MainAxisAlignment.center,
+  ///   crossAxisAlignment: CrossAxisAlignment.start,
+  ///   children: [
+  ///     const Text("テキスト1"),
+  ///     const SizedBox(height: 16),
+  ///     const Text("テキスト2"),
+  ///     const SizedBox(height: 16),
+  ///     ElevatedButton(
+  ///       onPressed: () {
+  ///         // ボタンアクションを処理
+  ///       },
+  ///       child: const Text("ボタン"),
+  ///     ),
+  ///   ],
+  /// );
+  /// ```
   const UniversalColumn({
     required this.children,
     super.key,

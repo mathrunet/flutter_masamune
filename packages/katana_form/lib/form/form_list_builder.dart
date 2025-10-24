@@ -2,43 +2,121 @@ part of "/katana_form.dart";
 
 /// A builder that can add and delete forms.
 ///
+/// A form builder that can dynamically add, delete, and edit list-format data.
+/// Common design can be applied with `FormStyle`, and list state management can be performed using `FormController`.
+/// It provides features such as validation and custom design.
+///
+/// リスト形式のデータを動的に追加・削除・編集できるフォームビルダー。
+/// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでリストの状態管理を行えます。
+/// バリデーション、カスタムデザインなどの機能を備えています。
+///
+/// ## Builder Usage ビルダーの使用方法
+///
 /// Make [builder] return each form.
-///
-/// You can specify [top] or [bottom] to place additional buttons on the form.
-///
-/// If [form] is specified, the timing when [onSaved] is executed is before the timing when [onSaved] of the form inside [builder] is executed, so it is possible to initialize the array.
-///
-/// Set the initial data by specifying [initialValue].
-///
-/// フォームの追加削除を行うことができるビルダー。
 ///
 /// [builder]に各フォームを返すようにしてください。
 ///
+/// ## Add and Delete Button Placement 追加・削除ボタンの配置
+///
+/// You can specify [top] or [bottom] to place additional buttons on the form.
+///
 /// [top]や[bottom]を指定することでフォームの追加ボタンの設置を行うことが可能です。
 ///
-/// [form]を指定した場合、[onSaved]が実行されるタイミングが[builder]の中身のフォームの[onSaved]が実行されるタイミングの前になるので、配列の初期化を行ったりが可能です。
+/// ## Basic Usage Example 基本的な使用例
 ///
-/// [initialValue]を指定して初期のデータを設定してください。
+/// ```dart
+/// FormListBuilder(
+///   form: formController,
+///   initialValue: formController.value.selection,
+///   onSaved: (value) {
+///     final newList = List<AnyModel>.from(formController.value);
+///     newList[index] = newList[index].copyWith(selection: []);
+///     return newList;
+///   },
+///   builder: (context, ref, item, index) {
+///     return FormTextField(
+///       form: formController,
+///       key: ValueKey("selection_\${ref.version}_\$index"),
+///       hintText: "選択肢\${index + 1}",
+///       initialValue: item,
+///       onFocusChanged: (value, focus) {
+///         if (!focus) {
+///           ref.update(index, value ?? item);
+///         }
+///       },
+///       onSubmitted: (value) {
+///         ref.update(index, value ?? item);
+///       },
+///       onSaved: (value) {
+///         final newList = List<AnyModel>.from(formController.value);
+///         newList[index] = newList[index].copyWith(
+///           selection: [...newList[index].selection, value],
+///         );
+///         return newList;
+///       },
+///     );
+///   },
+/// );
+/// ```
 class FormListBuilder<T, TValue> extends FormField<List<T>> {
   /// A builder that can add and delete forms.
   ///
+  /// A form builder that can dynamically add, delete, and edit list-format data.
+  /// Common design can be applied with `FormStyle`, and list state management can be performed using `FormController`.
+  /// It provides features such as validation and custom design.
+  ///
+  /// リスト形式のデータを動的に追加・削除・編集できるフォームビルダー。
+  /// `FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでリストの状態管理を行えます。
+  /// バリデーション、カスタムデザインなどの機能を備えています。
+  ///
+  /// ## Builder Usage ビルダーの使用方法
+  ///
   /// Make [builder] return each form.
-  ///
-  /// You can specify [top] or [bottom] to place additional buttons on the form.
-  ///
-  /// If [form] is specified, the timing when [onSaved] is executed is before the timing when [onSaved] of the form inside [builder] is executed, so it is possible to initialize the array.
-  ///
-  /// Set the initial data by specifying [initialValue].
-  ///
-  /// フォームの追加削除を行うことができるビルダー。
   ///
   /// [builder]に各フォームを返すようにしてください。
   ///
+  /// ## Add and Delete Button Placement 追加・削除ボタンの配置
+  ///
+  /// You can specify [top] or [bottom] to place additional buttons on the form.
+  ///
   /// [top]や[bottom]を指定することでフォームの追加ボタンの設置を行うことが可能です。
   ///
-  /// [form]を指定した場合、[onSaved]が実行されるタイミングが[builder]の中身のフォームの[onSaved]が実行されるタイミングの前になるので、配列の初期化を行ったりが可能です。
+  /// ## Basic Usage Example 基本的な使用例
   ///
-  /// [initialValue]を指定して初期のデータを設定してください。
+  /// ```dart
+  /// FormListBuilder(
+  ///   form: formController,
+  ///   initialValue: formController.value.selection,
+  ///   onSaved: (value) {
+  ///     final newList = List<AnyModel>.from(formController.value);
+  ///     newList[index] = newList[index].copyWith(selection: []);
+  ///     return newList;
+  ///   },
+  ///   builder: (context, ref, item, index) {
+  ///     return FormTextField(
+  ///       form: formController,
+  ///       key: ValueKey("selection_\${ref.version}_\$index"),
+  ///       hintText: "選択肢\${index + 1}",
+  ///       initialValue: item,
+  ///       onFocusChanged: (value, focus) {
+  ///         if (!focus) {
+  ///           ref.update(index, value ?? item);
+  ///         }
+  ///       },
+  ///       onSubmitted: (value) {
+  ///         ref.update(index, value ?? item);
+  ///       },
+  ///       onSaved: (value) {
+  ///         final newList = List<AnyModel>.from(formController.value);
+  ///         newList[index] = newList[index].copyWith(
+  ///           selection: [...newList[index].selection, value],
+  ///         );
+  ///         return newList;
+  ///       },
+  ///     );
+  ///   },
+  /// );
+  /// ```
   FormListBuilder({
     required Widget Function(
       BuildContext context,

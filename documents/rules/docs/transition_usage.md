@@ -1,4 +1,4 @@
-# Router`による`Page`遷移時のトランジション利用方法
+# `Router`による`Page`遷移時のトランジション利用方法
 
 `Router`の利用(`documents/rules/docs/router_usage.md`)時に`Page`遷移時のトランジションを下記のように設定することが可能。
 

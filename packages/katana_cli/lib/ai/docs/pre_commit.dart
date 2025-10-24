@@ -39,12 +39,15 @@ class PreCommitMdCliAiCode extends CliAiCode {
         ```
 
     3. `Page`や`Widget`、`Model`の`toTile`のエクステンションの更新が行われていた場合は、下記のコマンドを実施してゴールデンテスト用の画像を更新する。ErrorやWarningがあれば修正して再度実行。ErrorやWarningがなくなるまで繰り返す。
+        - **重要**: このコマンドはDocker使用のため時間がかかります。コミット前に1度だけ実行してください。
+        - 開発中のUI確認には`katana code debug [クラス名]`を使用してください（素早く確認できます）。
         - 各種UIが更新されているにも関わらずこのステップが実行されない場合は`katana test run`でエラーになります。
 
         ```bash
         katana test update [テスト対象のクラス名],[テスト対象のクラス名],...
         ```
 
+        - 出力先: `documents/test/**/*.png`
         - 例:
             ```bash
             katana test update TestPage,TestWidget,TestModel
@@ -56,33 +59,6 @@ class PreCommitMdCliAiCode extends CliAiCode {
         ```
 
     5. 1〜4のステップでエラーやWarningが発生した場合は、再度1からステップをやり直す。エラーやWarningがなくなるまで繰り返す。
-
-    6. 下記コマンドで変更をCommit&Push。
-        
-        ```bash
-        katana git commit --message="コミットメッセージ" [コミット対象のファイル1] [コミット対象のファイル2] ...
-        ```
-
-        - 変更したファイルおよび下記のファイルも必ず含める。基本的には.gitignoreで除外されているファイル以外で生成・変更されたファイルはすべてコミット。
-            - `katana code **`で生成した、もしくは変更したファイル
-            - `katana code generate`で生成した、もしくは変更されたファイル
-            - `katana test update`で生成した、もしくは変更されたファイル
-    
-    7. PullRequestを新しく作成するは下記のコマンドでPullRequestを作成。
-
-        ```bash
-        katana git pull_request --target="マージ先のブランチ" --source="マージ元のブランチ" --title="PullRequestのタイトル" --body="PullRequestの説明（改行は`\\n`で行う）" [PullRequestの説明に加えるスクリーンショットのファイル1] [PullRequestの説明に加えるスクリーンショットのファイル2] ...
-        ```
-
-        - 6のコミットの中`katana test update`で生成した画像(`documents/test/**/*.png`)を「PullRequestの説明に加えるスクリーンショットのファイル」として指定する。
-
-    8. PullRequestがすでに作成されており、さらにコメントを追加したい場合は下記のコマンドを用いてコメントを追加。
-
-        ```bash
-        katana git pull_request_comment --comment="PullRequestのコメント" --target="マージ先のブランチ" --source="マージ元のブランチ" [PullRequestのコメントに加えるスクリーンショットのファイル1] [PullRequestのコメントに加えるスクリーンショットのファイル2] ...
-        ```
-
-        - 6のコミットの中`katana test update`で生成した画像(`documents/test/**/*.png`)を「PullRequestのコメントに加えるスクリーンショットのファイル」として指定する。
 """;
   }
 }

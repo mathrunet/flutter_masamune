@@ -30,11 +30,149 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Model Firestore
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+1. Add the package to your project.
+
+```bash
+flutter pub add masamune_model_firestore
+```
+
+### Model Definition
+
+2. Define your models using standard Masamune annotations. Use `katana code collection` or `katana code document` to generate model templates.
+
+```dart
+// lib/models/user.dart
+
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:masamune/masamune.dart';
+
+part 'user.m.dart';
+part 'user.g.dart';
+part 'user.freezed.dart';
+
+@freezed
+@formValue
+@immutable
+@CollectionModelPath('user')
+class UserModel with _$UserModel {
+  const factory UserModel({
+    @Default('') String name,
+    @Default('') String email,
+    @Default(ModelTimestamp.now()) ModelTimestamp createdAt,
+  }) = _UserModel;
+
+  const UserModel._();
+
+  factory UserModel.fromJson(Map<String, Object?> json) => _$UserModelFromJson(json);
+
+  static const document = _$UserModelDocumentQuery();
+  static const collection = _$UserModelCollectionQuery();
+  static const form = _$UserModelFormQuery();
+}
+```
+
+3. Generate the code with:
+
+```bash
+katana code generate
+```
+
+### Adapter Configuration
+
+4. Choose an adapter that fits your caching strategy and register it in your app:
+
+**CachedFirestoreModelAdapter** (With local cache):
+
+```dart
+// lib/main.dart
+
+import 'package:masamune_model_firestore/masamune_model_firestore.dart';
+
+final modelAdapter = CachedFirestoreModelAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
+
+void main() {
+  runMasamuneApp(
+    appRef: appRef,
+    modelAdapter: modelAdapter,
+    (appRef, _) => MasamuneApp(
+      appRef: appRef,
+      home: HomePage(),
+    ),
+  );
+}
+```
+
+**CachedListenableFirestoreModelAdapter** (With real-time updates):
+
+```dart
+final modelAdapter = CachedListenableFirestoreModelAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  listenOnlyWhenWatching: true,  // Listen only when document/collection is watched
+);
+```
+
+### Basic Operations
+
+**Load a Collection**:
+
+```dart
+final collection = ref.app.model(UserModel.collection())..load();
+
+// Access users
+for (final doc in collection) {
+  print("User: ${doc.value?.name}");
+}
+```
+
+**Load a Document**:
+
+```dart
+final document = ref.app.model(UserModel.document("user_id"))..load();
+print("Name: ${document.value?.name}");
+```
+
+**Create/Update**:
+
+```dart
+final collection = ref.app.model(UserModel.collection());
+final newDoc = collection.create();
+await newDoc.save(
+  UserModel(
+    name: "John Doe",
+    email: "john@example.com",
+  ),
+);
+```
+
+**Delete**:
+
+```dart
+await document.delete();
+```
+
+### Filtering and Pagination
+
+Use generated filter methods for querying:
+
+```dart
+final users = ref.app.model(
+  UserModel.collection()
+    .name.equal("John")
+    .createdAt.greaterThan(ModelTimestamp.now().subtract(Duration(days: 7)))
+    .limitTo(20),
+)..load();
+
+// Load next page
+await users.next();
+```
 
 # GitHub Sponsors
 

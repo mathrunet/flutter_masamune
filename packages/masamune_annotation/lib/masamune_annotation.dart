@@ -23,3 +23,4 @@ part "src/google_spread_sheet_data_source.dart";
 part "src/model_database_query.dart";
 part "src/model_permission_query.dart";
 part "src/param_comment.dart";
+part "src/vector_param.dart";

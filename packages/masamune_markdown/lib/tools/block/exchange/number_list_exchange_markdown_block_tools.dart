@@ -49,7 +49,7 @@ class NumberListExchangeMarkdownBlockTools extends MarkdownBlockTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.focusedController?.formatLine(Attribute.ol);
+    ref.controller.exchangeBlock(this);
     ref.deleteMode();
   }
 }

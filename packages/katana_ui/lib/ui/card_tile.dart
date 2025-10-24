@@ -1,20 +1,108 @@
 part of "/katana_ui.dart";
 
-/// A widget for displaying an image or text over a card widget.
+/// A customizable card widget that overlays images or widgets with ListTile content.
 ///
-/// Use in conjunction with [ListTile].
+/// This widget combines the Material Design Card with a ListTile, allowing you to create
+/// rich card layouts with featured images/widgets, titles, subtitles, and actions.
+/// Perfect for blog posts, news articles, media items, and social media content.
+///
+/// Features:
+/// - Feature image/widget display above ListTile
+/// - Fully customizable card styling (colors, elevation, shadows, shapes)
+/// - Tap interaction support
+/// - Optional leading/trailing icons and widgets
+/// - Additional bottom content area
+/// - Theme-based default styling
+/// - Flexible sizing options
+///
+/// Example:
+/// ```dart
+/// CardTile(
+///   feature: Image.network('https://example.com/image.jpg'),
+///   title: Text("Card Title"),
+///   subtitle: Text("Card description"),
+///   onTap: () => print("Card tapped"),
+///   height: 300,
+/// )
+/// ```
 ///
 /// カードウィジェットの上に画像やテキストを重ねて表示するためのウィジェット。
 ///
-/// [ListTile]と併用して使ってください。
+/// このウィジェットはMaterial DesignのCardとListTileを組み合わせ、フィーチャー画像/ウィジェット、
+/// タイトル、サブタイトル、アクションを含むリッチなカードレイアウトを作成できます。
+/// ブログ記事、ニュース記事、メディアアイテム、ソーシャルメディアコンテンツに最適です。
+///
+/// 特徴:
+/// - ListTileの上にフィーチャー画像/ウィジェットを表示
+/// - 完全にカスタマイズ可能なカードスタイリング（色、エレベーション、影、形状）
+/// - タップインタラクションのサポート
+/// - オプションのleading/trailingアイコンとウィジェット
+/// - 追加のボトムコンテンツエリア
+/// - テーマベースのデフォルトスタイリング
+/// - 柔軟なサイズ指定オプション
+///
+/// 例:
+/// ```dart
+/// CardTile(
+///   feature: Image.network('https://example.com/image.jpg'),
+///   title: Text("カードタイトル"),
+///   subtitle: Text("カードの説明"),
+///   onTap: () => print("カードがタップされました"),
+///   height: 300,
+/// )
+/// ```
 class CardTile extends StatelessWidget {
-  /// A widget for displaying an image or text over a card widget.
+  /// A customizable card widget that overlays images or widgets with ListTile content.
   ///
-  /// Use in conjunction with [ListTile].
+  /// This widget combines the Material Design Card with a ListTile, allowing you to create
+  /// rich card layouts with featured images/widgets, titles, subtitles, and actions.
+  /// Perfect for blog posts, news articles, media items, and social media content.
+  ///
+  /// Features:
+  /// - Feature image/widget display above ListTile
+  /// - Fully customizable card styling (colors, elevation, shadows, shapes)
+  /// - Tap interaction support
+  /// - Optional leading/trailing icons and widgets
+  /// - Additional bottom content area
+  /// - Theme-based default styling
+  /// - Flexible sizing options
+  ///
+  /// Example:
+  /// ```dart
+  /// CardTile(
+  ///   feature: Image.network('https://example.com/image.jpg'),
+  ///   title: Text("Card Title"),
+  ///   subtitle: Text("Card description"),
+  ///   onTap: () => print("Card tapped"),
+  ///   height: 300,
+  /// )
+  /// ```
   ///
   /// カードウィジェットの上に画像やテキストを重ねて表示するためのウィジェット。
   ///
-  /// [ListTile]と併用して使ってください。
+  /// このウィジェットはMaterial DesignのCardとListTileを組み合わせ、フィーチャー画像/ウィジェット、
+  /// タイトル、サブタイトル、アクションを含むリッチなカードレイアウトを作成できます。
+  /// ブログ記事、ニュース記事、メディアアイテム、ソーシャルメディアコンテンツに最適です。
+  ///
+  /// 特徴:
+  /// - ListTileの上にフィーチャー画像/ウィジェットを表示
+  /// - 完全にカスタマイズ可能なカードスタイリング（色、エレベーション、影、形状）
+  /// - タップインタラクションのサポート
+  /// - オプションのleading/trailingアイコンとウィジェット
+  /// - 追加のボトムコンテンツエリア
+  /// - テーマベースのデフォルトスタイリング
+  /// - 柔軟なサイズ指定オプション
+  ///
+  /// 例:
+  /// ```dart
+  /// CardTile(
+  ///   feature: Image.network('https://example.com/image.jpg'),
+  ///   title: Text("カードタイトル"),
+  ///   subtitle: Text("カードの説明"),
+  ///   onTap: () => print("カードがタップされました"),
+  ///   height: 300,
+  /// )
+  /// ```
   const CardTile({
     super.key,
     this.onTap,

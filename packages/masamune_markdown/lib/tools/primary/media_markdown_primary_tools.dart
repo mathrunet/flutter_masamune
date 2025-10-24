@@ -9,7 +9,7 @@ class MediaMarkdownPrimaryTools extends MarkdownPrimaryTools {
   ///
   /// メディアを追加するメニューを表示する[MarkdownTools]。
   const MediaMarkdownPrimaryTools({
-    required this.tools,
+    required List<MarkdownBlockTools> tools,
     super.config = const MarkdownToolLabelConfig(
       title: LocalizedValue<String>([
         LocalizedLocaleValue<String>(
@@ -23,12 +23,13 @@ class MediaMarkdownPrimaryTools extends MarkdownPrimaryTools {
       ]),
       icon: Icons.image,
     ),
-  });
+  }) : blockTools = tools;
 
   /// Tools for adding media.
   ///
   /// メディアを追加するツール。
-  final List<MarkdownBlockTools> tools;
+  @override
+  final List<MarkdownBlockTools> blockTools;
 
   @override
   String get id => "__markdown_media_add__";
@@ -41,7 +42,7 @@ class MediaMarkdownPrimaryTools extends MarkdownPrimaryTools {
 
   @override
   bool enabled(BuildContext context, MarkdownToolRef ref) {
-    return ref.focusedSelection != null;
+    return ref.selection != null;
   }
 
   @override
@@ -62,7 +63,4 @@ class MediaMarkdownPrimaryTools extends MarkdownPrimaryTools {
   void onTap(BuildContext context, MarkdownToolRef ref) {
     ref.toggleMode(this);
   }
-
-  @override
-  List<MarkdownBlockTools> get blockTools => tools;
 }

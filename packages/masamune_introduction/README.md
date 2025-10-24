@@ -30,11 +30,166 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Introduction
 
-For more information about Masamune Framework, please click here.
+## Usage
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+### Installation
+
+Add the package to your project.
+
+```bash
+flutter pub add masamune_introduction
+```
+
+Run `flutter pub get` if you edit `pubspec.yaml` manually.
+
+### Register the Adapter
+
+Configure default introduction pages with `IntroductionMasamuneAdapter`. Each `IntroductionItem` defines the title, body, image, and optional actions.
+
+```dart
+// lib/adapter.dart
+
+/// Masamune adapters used in the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  IntroductionMasamuneAdapter(
+    items: const [
+      IntroductionItem(
+        title: LocalizedValue("Welcome"),
+        body: LocalizedValue("Discover the features of our app."),
+        image: AssetImage("assets/images/tutorial_1.png"),
+      ),
+      IntroductionItem(
+        title: LocalizedValue("Stay organized"),
+        body: LocalizedValue("Keep track of your tasks effortlessly."),
+        image: AssetImage("assets/images/tutorial_2.png"),
+      ),
+    ],
+  ),
+];
+```
+
+`IntroductionMasamuneAdapter.primary` grants access to the configured items at runtime.
+
+### Show the Introduction as a Widget
+
+Embed `MasamuneIntroduction` directly in your widget tree. Customize colors, button labels, and navigation.
+
+```dart
+class OnboardingPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    return Scaffold(
+      body: MasamuneIntroduction(
+        enableSkip: true,                              // Show skip button
+        activeColor: Theme.of(context).primaryColor,   // Indicator color
+        doneLabel: LocalizedValue("Get Started"),      // Done button text
+        skipLabel: LocalizedValue("Skip"),             // Skip button text
+        routeQuery: HomePage.query(),                  // Navigate on completion
+      ),
+    );
+  }
+}
+```
+
+### Use as a Page
+
+`MasamuneIntroductionPage` is a pre-built `PageScopedWidget` with routing support. Push it via the router:
+
+```dart
+// Navigate to introduction page
+context.router.push(MasamuneIntroductionPage.query());
+
+// Or with navigation after completion
+context.router.push(
+  MasamuneIntroductionPage.query(
+    routeQuery: HomePage.query(),  // Where to go when "Done" is tapped
+  ),
+);
+```
+
+### Customizing Slides
+
+**Appearance Customization**:
+
+```dart
+IntroductionItem(
+  title: LocalizedValue("Welcome"),
+  body: LocalizedValue("Get started with our app"),
+  image: AssetImage("assets/intro_1.png"),
+  background: Colors.blue.shade50,           // Slide background color
+  foregroundColor: Colors.black87,           // Text color
+  imageDecoration: BoxDecoration(            // Image styling
+    borderRadius: BorderRadius.circular(16),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black26,
+        blurRadius: 10,
+        offset: Offset(0, 4),
+      ),
+    ],
+  ),
+)
+```
+
+**Button Customization**:
+
+```dart
+MasamuneIntroduction(
+  enableSkip: true,
+  doneLabel: LocalizedValue("Get Started"),
+  skipLabel: LocalizedValue("Skip"),
+  nextLabel: LocalizedValue("Next"),
+  activeColor: Colors.purple,                // Active indicator color
+  inactiveColor: Colors.grey,                // Inactive indicator color
+  buttonStyle: ElevatedButton.styleFrom(
+    backgroundColor: Colors.purple,
+    foregroundColor: Colors.white,
+  ),
+)
+```
+
+### First-Launch Detection
+
+Show the introduction only on first app launch:
+
+```dart
+class App extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: _isFirstLaunch(),
+      builder: (context, snapshot) {
+        if (snapshot.data == true) {
+          return MasamuneIntroductionPage(
+            routeQuery: HomePage.query(),
+          );
+        }
+        return HomePage();
+      },
+    );
+  }
+  
+  Future<bool> _isFirstLaunch() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isFirst = prefs.getBool('first_launch') ?? true;
+    if (isFirst) {
+      await prefs.setBool('first_launch', false);
+    }
+    return isFirst;
+  }
+}
+```
+
+### Tips
+
+- Use feature flags or remote config to control when to show the introduction.
+- Combine with `SharedPreferences` to remember completion state.
+- Add analytics tracking by listening to navigation events.
+- For video content, consider using `video_player` with custom slides.
 
 # GitHub Sponsors
 

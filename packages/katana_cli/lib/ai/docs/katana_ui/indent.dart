@@ -15,7 +15,7 @@ class KatanaUIIndentMdCliAiCode extends KatanaUiUsageCliAiCode {
 
   @override
   String get description =>
-      "要素間にパディングを設定しながら複数の要素を縦に配置するためのウィジェットである`Indent`の利用方法";
+      "要素間にパディングを設定しながら複数の要素を縦に配置するためのウィジェットである`Indent`の利用方法。PaddingとColumnを1つのウィジェットに統合し、クリーンなコードで縦方向のレイアウトを実現。";
 
   @override
   String get globs => "*.dart";
@@ -38,11 +38,13 @@ $excerpt
 
 ## 特徴
 
+- PaddingとColumnを1つのウィジェットに統合
 - 要素間のパディングを簡単に設定可能
 - `Column`のような垂直方向のレイアウトを提供
-- クロス軸とメイン軸の配置をカスタマイズ可能
-- 垂直方向の配置を制御可能
-- メインサイズの調整が可能
+- クロス軸（crossAxisAlignment）とメイン軸（mainAxisAlignment）の配置をカスタマイズ可能
+- 垂直方向（verticalDirection）の配置を制御可能
+- メインサイズ（mainAxisSize）の調整が可能
+- ネストされたPadding + Columnよりもクリーンなコード
 
 ## 基本的な使い方
 

@@ -11,7 +11,7 @@ class TransitionUsageMdCliAiCode extends CliAiCode {
   const TransitionUsageMdCliAiCode();
 
   @override
-  String get name => "Router`による`Page`遷移時のトランジション利用方法";
+  String get name => "`Router`による`Page`遷移時のトランジション利用方法";
 
   @override
   String get description => "`Router`による`Page`遷移時のトランジション利用方法";

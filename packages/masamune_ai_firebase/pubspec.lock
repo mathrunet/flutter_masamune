@@ -13,10 +13,10 @@ packages:
     dependency: transitive
     description:
       name: _flutterfire_internals
-      sha256: a5788040810bd84400bc209913fbc40f388cded7cdf95ee2f5d2bff7e38d5241
+      sha256: f871a7d1b686bea1f13722aa51ab31554d05c81f47054d6de48cc8c45153508b
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.58"
+    version: "1.3.63"
   analyzer:
     dependency: transitive
     description:
@@ -85,26 +85,26 @@ packages:
     dependency: transitive
     description:
       name: cloud_firestore
-      sha256: "39be8bf17e55d1211d8e2142ba1551bbcf30e272fe90adb36d54a9b1ae97bd30"
+      sha256: ea3fe98eaf0c3b675ab2a242d98430518da60f89d5cc9774df7b2d9110aaf160
       url: "https://pub.dev"
     source: hosted
-    version: "5.6.11"
+    version: "6.0.3"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
-      sha256: a8a1ce4f8da07225b8fe37ee3eeff3bde019e0607bab93329091f5491ee2f62f
+      sha256: b5592862c451ebfd229b430907b6feb2082333d6e5a61d0eafd547c2afc6f68e
       url: "https://pub.dev"
     source: hosted
-    version: "6.6.11"
+    version: "7.0.3"
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
-      sha256: a3c0c5913860abfa0c9af68e245feb24d51ffebf07910780efc0d01ac463dc92
+      sha256: eca0337985e0eedcef8a3e5380950af01c0853951b6b8427e7909115d81d7b9c
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.11"
+    version: "5.0.3"
   collection:
     dependency: transitive
     description:
@@ -181,82 +181,82 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_ai
-      sha256: fa8ea3ad4a7446a317d42f43aa6b15ef43b12d29ba68ba7c92fea496f02404e4
+      sha256: "97b6a6d642f2f0ef1b19a1ebbe294d8e3d04fbcd092e4d4be77f21713b91e5c1"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "3.4.0"
   firebase_app_check:
     dependency: "direct main"
     description:
       name: firebase_app_check
-      sha256: be2a494f6c82c2a344ef4aca8dea197df7cc90132ec7c6d37c7a562fe497fcda
+      sha256: cba9987ae8f3263c7a0ee778a49b8811df526344eb4ea4fd01f570a14e38f3de
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.2+9"
+    version: "0.4.1+1"
   firebase_app_check_platform_interface:
     dependency: transitive
     description:
       name: firebase_app_check_platform_interface
-      sha256: ab0ee47778d18ebfb95e7a6458469f915c5da55db593bc3aa58347903fa49969
+      sha256: "3943857956ab1c7c4425050c72fecf51ac743d2291b12b5bc580e9a32aa419fb"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.1+9"
+    version: "0.2.1+1"
   firebase_app_check_web:
     dependency: transitive
     description:
       name: firebase_app_check_web
-      sha256: be17e04e53a4fea7ba10c27cd28d422fb919a4a5fafb101416730e37c68ba417
+      sha256: "3b51c73ee1bbdbf5c6fcdfb999c6e884ec61f892c74076e60c44ff8048b443e3"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0+13"
+    version: "0.2.1+1"
   firebase_auth:
     dependency: transitive
     description:
       name: firebase_auth
-      sha256: f5b640f664aae71774b398ed765740c1b5d34a339f4c4975d4dde61d59a623f6
+      sha256: "3150a56fc0f20b4b926e1343bfdca3acb591a0aa1c95bae5426353f384085352"
       url: "https://pub.dev"
     source: hosted
-    version: "5.6.2"
+    version: "6.1.1"
   firebase_auth_platform_interface:
     dependency: transitive
     description:
       name: firebase_auth_platform_interface
-      sha256: "62199aeda6a688cbdefbcbbac53ede71be3ac8807cec00a8066d444797a08806"
+      sha256: "7bc50c0d74dd8f4c72d7840ae64ea7b638f203d089e5c4a90a157b2f2ead1963"
       url: "https://pub.dev"
     source: hosted
-    version: "7.7.2"
+    version: "8.1.3"
   firebase_auth_web:
     dependency: transitive
     description:
       name: firebase_auth_web
-      sha256: caaf29b7eb9d212dcec36d2eaa66504c5bd523fe844302833680c9df8460fbc0
+      sha256: "351dcb82bc542e21a426cd97ffcc40d7232981dafc3fd89a6c932876a09240e1"
       url: "https://pub.dev"
     source: hosted
-    version: "5.15.2"
+    version: "6.0.4"
   firebase_core:
     dependency: "direct main"
     description:
       name: firebase_core
-      sha256: c6e8a6bf883d8ddd0dec39be90872daca65beaa6f4cff0051ed3b16c56b82e9f
+      sha256: "132e1c311bc41e7d387b575df0aacdf24efbf4930365eb61042be5bde3978f03"
       url: "https://pub.dev"
     source: hosted
-    version: "3.15.1"
+    version: "4.2.0"
   firebase_core_platform_interface:
     dependency: transitive
     description:
       name: firebase_core_platform_interface
-      sha256: "5dbc900677dcbe5873d22ad7fbd64b047750124f1f9b7ebe2a33b9ddccc838eb"
+      sha256: cccb4f572325dc14904c02fcc7db6323ad62ba02536833dddb5c02cac7341c64
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0"
+    version: "6.0.2"
   firebase_core_web:
     dependency: transitive
     description:
       name: firebase_core_web
-      sha256: "0ed0dc292e8f9ac50992e2394e9d336a0275b6ae400d64163fdf0a8a8b556c37"
+      sha256: ecde2def458292404a4fcd3731ee4992fd631a0ec359d2d67c33baa8da5ec8ae
       url: "https://pub.dev"
     source: hosted
-    version: "2.24.1"
+    version: "3.2.0"
   fixnum:
     dependency: transitive
     description:
@@ -270,6 +270,70 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_inappwebview:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview
+      sha256: "80092d13d3e29b6227e25b67973c67c7210bd5e35c4b747ca908e31eb71a46d5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.5"
+  flutter_inappwebview_android:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_android
+      sha256: "62557c15a5c2db5d195cb3892aab74fcaec266d7b86d59a6f0027abd672cddba"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.3"
+  flutter_inappwebview_internal_annotations:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_internal_annotations
+      sha256: "787171d43f8af67864740b6f04166c13190aa74a1468a1f1f1e9ee5b90c359cd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
+  flutter_inappwebview_ios:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_ios
+      sha256: "5818cf9b26cf0cbb0f62ff50772217d41ea8d3d9cc00279c45f8aabaa1b4025d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
+  flutter_inappwebview_macos:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_macos
+      sha256: c1fbb86af1a3738e3541364d7d1866315ffb0468a1a77e34198c9be571287da1
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
+  flutter_inappwebview_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_platform_interface
+      sha256: cf5323e194096b6ede7a1ca808c3e0a078e4b33cc3f6338977d75b4024ba2500
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.0+1"
+  flutter_inappwebview_web:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_web
+      sha256: "55f89c83b0a0d3b7893306b3bb545ba4770a4df018204917148ebb42dc14a598"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
+  flutter_inappwebview_windows:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_windows
+      sha256: "8b4d3a46078a2cdc636c4a3d10d10f2a16882f6be607962dbfff8874d1642055"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -304,6 +368,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  freezed_annotation:
+    dependency: transitive
+    description:
+      name: freezed_annotation
+      sha256: "7294967ff0a6d98638e7acb774aac3af2550777accd8149c90af5b014e6d44d8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -376,125 +448,133 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.2"
+  json_annotation:
+    dependency: transitive
+    description:
+      name: json_annotation
+      sha256: "1ce844379ca14835a50d2f019a3099f419082cfdd231cd86a142af94dd5c6bb1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.9.0"
   katana:
     dependency: "direct main"
     description:
       path: "../katana"
       relative: true
     source: path
-    version: "3.1.5"
+    version: "3.2.1"
   katana_auth:
     dependency: "direct overridden"
     description:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "3.0.8"
+    version: "3.0.10"
   katana_firebase:
     dependency: "direct main"
     description:
       path: "../katana_firebase"
       relative: true
     source: path
-    version: "3.0.7"
+    version: "3.0.9"
   katana_form:
     dependency: "direct overridden"
     description:
       path: "../katana_form"
       relative: true
     source: path
-    version: "3.1.9"
+    version: "3.1.14"
   katana_functions:
     dependency: "direct overridden"
     description:
       path: "../katana_functions"
       relative: true
     source: path
-    version: "3.0.6"
+    version: "3.0.8"
   katana_indicator:
     dependency: "direct overridden"
     description:
       path: "../katana_indicator"
       relative: true
     source: path
-    version: "3.0.6"
+    version: "3.0.8"
   katana_localization:
     dependency: "direct overridden"
     description:
       path: "../katana_localization"
       relative: true
     source: path
-    version: "3.0.10"
+    version: "3.0.12"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_localization_annotation"
       relative: true
     source: path
-    version: "3.1.4"
+    version: "3.1.6"
   katana_logger:
     dependency: "direct overridden"
     description:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "3.0.8"
+    version: "3.0.10"
   katana_model:
     dependency: "direct overridden"
     description:
       path: "../katana_model"
       relative: true
     source: path
-    version: "3.2.4"
+    version: "3.3.6"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "3.1.11"
+    version: "3.1.18"
   katana_platform_info:
     dependency: "direct overridden"
     description:
       path: "../katana_platform_info"
       relative: true
     source: path
-    version: "3.1.2"
+    version: "3.1.4"
   katana_router:
     dependency: "direct overridden"
     description:
       path: "../katana_router"
       relative: true
     source: path
-    version: "3.1.8"
+    version: "3.1.10"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "3.0.6"
+    version: "3.0.8"
   katana_scoped:
     dependency: "direct overridden"
     description:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "3.0.8"
+    version: "3.0.11"
   katana_shorten:
     dependency: "direct overridden"
     description:
       path: "../katana_shorten"
       relative: true
     source: path
-    version: "3.0.6"
+    version: "3.0.8"
   katana_storage:
     dependency: "direct overridden"
     description:
       path: "../katana_storage"
       relative: true
     source: path
-    version: "3.0.6"
+    version: "3.0.8"
   katana_test:
     dependency: "direct dev"
     description:
@@ -508,45 +588,45 @@ packages:
       path: "../katana_theme"
       relative: true
     source: path
-    version: "3.0.9"
+    version: "3.0.11"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_theme_annotation"
       relative: true
     source: path
-    version: "3.0.6"
+    version: "3.0.8"
   katana_ui:
     dependency: "direct overridden"
     description:
       path: "../katana_ui"
       relative: true
     source: path
-    version: "3.1.0"
+    version: "3.1.4"
   leak_tracker:
     dependency: transitive
     description:
       name: leak_tracker
-      sha256: "6bb818ecbdffe216e81182c2f0714a2e62b593f4a4f13098713ff1685dfb6ab0"
+      sha256: "33e2e26bdd85a0112ec15400c8cbffea70d0f9c3407491f672a2fad47915e2de"
       url: "https://pub.dev"
     source: hosted
-    version: "10.0.9"
+    version: "11.0.2"
   leak_tracker_flutter_testing:
     dependency: transitive
     description:
       name: leak_tracker_flutter_testing
-      sha256: f8b613e7e6a13ec79cfdc0e97638fddb3ab848452eff057653abd3edba760573
+      sha256: "1dbc140bb5a23c75ea9c4811222756104fbcd1a27173f0c34ca01e16bea473c1"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.9"
+    version: "3.0.10"
   leak_tracker_testing:
     dependency: transitive
     description:
       name: leak_tracker_testing
-      sha256: "6ba465d5d76e67ddf503e1161d1f4a6bc42306f9d66ca1e8f079a47290fb06d3"
+      sha256: "8d5a2d49f4a66b49744b23b018848400d23e54caf9463f4eb20df3eb8acb2eb1"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   lints:
     dependency: transitive
     description:
@@ -569,21 +649,21 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "3.3.5"
+    version: "3.3.14"
   masamune_ai:
     dependency: "direct main"
     description:
       path: "../masamune_ai"
       relative: true
     source: path
-    version: "3.0.20"
+    version: "3.0.31"
   masamune_annotation:
     dependency: "direct overridden"
     description:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "3.0.8"
+    version: "3.0.10"
   matcher:
     dependency: transitive
     description:
@@ -953,26 +1033,26 @@ packages:
     dependency: "direct dev"
     description:
       name: test
-      sha256: "301b213cd241ca982e9ba50266bd3f5bd1ea33f1455554c5abb85d1be0e2d87e"
+      sha256: "65e29d831719be0591f7b3b1a32a3cda258ec98c58c7b25f7b84241bc31215bb"
       url: "https://pub.dev"
     source: hosted
-    version: "1.25.15"
+    version: "1.26.2"
   test_api:
     dependency: transitive
     description:
       name: test_api
-      sha256: fb31f383e2ee25fbbfe06b40fe21e1e458d14080e3c67e7ba0acfde4df4e0bbd
+      sha256: "522f00f556e73044315fa4585ec3270f1808a4b186c936e612cab0b565ff1e00"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.4"
+    version: "0.7.6"
   test_core:
     dependency: transitive
     description:
       name: test_core
-      sha256: "84d17c3486c8dfdbe5e12a50c8ae176d15e2a771b96909a9442b40173649ccaa"
+      sha256: "80bf5a02b60af04b09e14f6fe68b921aad119493e26e490deaca5993fef1b05a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.8"
+    version: "0.6.11"
   tint:
     dependency: transitive
     description:
@@ -1033,10 +1113,10 @@ packages:
     dependency: transitive
     description:
       name: vector_math
-      sha256: "80b3257d1492ce4d091729e3a67a60407d227c27241d6927be0130c98e741803"
+      sha256: d530bd74fea330e6e364cda7a85019c434070188383e1cd8d9777ee586914c5b
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.4"
+    version: "2.2.0"
   vm_service:
     dependency: transitive
     description:

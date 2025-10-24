@@ -15,43 +15,151 @@ const kDefaultUnderBottomHeight = 40.0;
 
 /// Create an AppBar to provide a consistent UI across web, desktop, and mobile.
 ///
-/// [UniversalScaffold] can be used with [UniversalAppBar] and [UniversalListView] to create a responsive modern UI.
+/// [UniversalAppBar] is the `UniversalUI` version of [AppBar]. It automatically transforms into Sliver widgets when used with [UniversalScaffold] and provides responsive layouts for desktop and mobile.
+/// Supports all basic AppBar features like [leading], [title], [actions], and allows adding widgets to [bottom].
 ///
-/// Basically, it is used in the same way as [AppBar].
+/// ## Basic Usage
 ///
-/// It is responsive, and [title] moves according to the set screen size by [breakpoint] of [UniversalScaffold].
+/// ```dart
+/// UniversalAppBar(
+///   leading: IconButton(
+///     icon: const Icon(Icons.menu),
+///     onPressed: () {
+///       // Handle menu action
+///     },
+///   ),
+///   title: const Text("App Title"),
+///   actions: [
+///     IconButton(
+///       icon: const Icon(Icons.settings),
+///       onPressed: () {
+///         // Handle settings action
+///       },
+///     ),
+///   ],
+///   bottom: const PreferredSize(
+///     preferredSize: Size.fromHeight(48),
+///     child: TabBar(
+///       tabs: [
+///         Tab(text: "Tab 1"),
+///         Tab(text: "Tab 2"),
+///       ],
+///     ),
+///   ),
+/// );
+/// ```
 ///
-/// By specifying [subtitle], a subtitle can be displayed below [title].
+/// ---
 ///
 /// Webとデスクトップ、モバイルで一貫したUIを提供するためのAppBarを作成します。
 ///
-/// [UniversalScaffold]は、[UniversalAppBar]と[UniversalListView]などを使用して、UIを構築するとレスポンシブ対応なモダンUIが作成可能です。
+/// [UniversalAppBar]は[AppBar]の`UniversalUI`版です。[UniversalScaffold]と連携しSliverウィジェットへの自動変換を行い、デスクトップ・モバイルで適切なレイアウトに変換します。
+/// [leading]、[title]、[actions]などの基本的なAppBarの機能に加え、[bottom]にウィジェットを追加可能です。
 ///
-/// 基本的には[AppBar]と同じように使用します。
+/// ## 基本的な利用方法
 ///
-/// レスポンシブ対応しており、[UniversalScaffold]の[breakpoint]によって、設定された画面サイズに応じて、[title]が移動します。
-///
-/// [subtitle]を指定することで、[title]の下にサブタイトルを表示することができます。
+/// ```dart
+/// UniversalAppBar(
+///   leading: IconButton(
+///     icon: const Icon(Icons.menu),
+///     onPressed: () {
+///       // メニューアクションを処理
+///     },
+///   ),
+///   title: const Text("アプリタイトル"),
+///   actions: [
+///     IconButton(
+///       icon: const Icon(Icons.settings),
+///       onPressed: () {
+///         // 設定アクションを処理
+///       },
+///     ),
+///   ],
+///   bottom: const PreferredSize(
+///     preferredSize: Size.fromHeight(48),
+///     child: TabBar(
+///       tabs: [
+///         Tab(text: "タブ1"),
+///         Tab(text: "タブ2"),
+///       ],
+///     ),
+///   ),
+/// );
+/// ```
 class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
   /// Create an AppBar to provide a consistent UI across web, desktop, and mobile.
   ///
-  /// [UniversalScaffold] can be used with [UniversalAppBar] and [UniversalListView] to create a responsive modern UI.
+  /// [UniversalAppBar] is the `UniversalUI` version of [AppBar]. It automatically transforms into Sliver widgets when used with [UniversalScaffold] and provides responsive layouts for desktop and mobile.
+  /// Supports all basic AppBar features like [leading], [title], [actions], and allows adding widgets to [bottom].
   ///
-  /// Basically, it is used in the same way as [AppBar].
+  /// ## Basic Usage
   ///
-  /// It is responsive, and [title] moves according to the set screen size by [breakpoint] of [UniversalScaffold].
+  /// ```dart
+  /// UniversalAppBar(
+  ///   leading: IconButton(
+  ///     icon: const Icon(Icons.menu),
+  ///     onPressed: () {
+  ///       // Handle menu action
+  ///     },
+  ///   ),
+  ///   title: const Text("App Title"),
+  ///   actions: [
+  ///     IconButton(
+  ///       icon: const Icon(Icons.settings),
+  ///       onPressed: () {
+  ///         // Handle settings action
+  ///       },
+  ///     ),
+  ///   ],
+  ///   bottom: const PreferredSize(
+  ///     preferredSize: Size.fromHeight(48),
+  ///     child: TabBar(
+  ///       tabs: [
+  ///         Tab(text: "Tab 1"),
+  ///         Tab(text: "Tab 2"),
+  ///       ],
+  ///     ),
+  ///   ),
+  /// );
+  /// ```
   ///
-  /// By specifying [subtitle], a subtitle can be displayed below [title].
+  /// ---
   ///
   /// Webとデスクトップ、モバイルで一貫したUIを提供するためのAppBarを作成します。
   ///
-  /// [UniversalScaffold]は、[UniversalAppBar]と[UniversalListView]などを使用して、UIを構築するとレスポンシブ対応なモダンUIが作成可能です。
+  /// [UniversalAppBar]は[AppBar]の`UniversalUI`版です。[UniversalScaffold]と連携しSliverウィジェットへの自動変換を行い、デスクトップ・モバイルで適切なレイアウトに変換します。
+  /// [leading]、[title]、[actions]などの基本的なAppBarの機能に加え、[bottom]にウィジェットを追加可能です。
   ///
-  /// 基本的には[AppBar]と同じように使用します。
+  /// ## 基本的な利用方法
   ///
-  /// レスポンシブ対応しており、[UniversalScaffold]の[breakpoint]によって、設定された画面サイズに応じて、[title]が移動します。
-  ///
-  /// [subtitle]を指定することで、[title]の下にサブタイトルを表示することができます。
+  /// ```dart
+  /// UniversalAppBar(
+  ///   leading: IconButton(
+  ///     icon: const Icon(Icons.menu),
+  ///     onPressed: () {
+  ///       // メニューアクションを処理
+  ///     },
+  ///   ),
+  ///   title: const Text("アプリタイトル"),
+  ///   actions: [
+  ///     IconButton(
+  ///       icon: const Icon(Icons.settings),
+  ///       onPressed: () {
+  ///         // 設定アクションを処理
+  ///       },
+  ///     ),
+  ///   ],
+  ///   bottom: const PreferredSize(
+  ///     preferredSize: Size.fromHeight(48),
+  ///     child: TabBar(
+  ///       tabs: [
+  ///         Tab(text: "タブ1"),
+  ///         Tab(text: "タブ2"),
+  ///       ],
+  ///     ),
+  ///   ),
+  /// );
+  /// ```
   const UniversalAppBar({
     super.key,
     this.leading,

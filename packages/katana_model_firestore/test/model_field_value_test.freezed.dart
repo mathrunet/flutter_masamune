@@ -26,6 +26,7 @@ mixin _$TestValue {
   ModelImageUri get image;
   ModelVideoUri get video;
   ModelGeoValue get geo;
+  ModelVectorValue get vector;
   ModelSearch get search;
   ModelLocale get locale;
   ModelLocalizedValue get localized;
@@ -64,6 +65,7 @@ mixin _$TestValue {
             (identical(other.image, image) || other.image == image) &&
             (identical(other.video, video) || other.video == video) &&
             (identical(other.geo, geo) || other.geo == geo) &&
+            (identical(other.vector, vector) || other.vector == vector) &&
             (identical(other.search, search) || other.search == search) &&
             (identical(other.locale, locale) || other.locale == locale) &&
             (identical(other.localized, localized) ||
@@ -78,30 +80,32 @@ mixin _$TestValue {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      dateTime,
-      date,
-      time,
-      timeRange,
-      timestampRange,
-      dateRange,
-      counter,
-      uri,
-      image,
-      video,
-      geo,
-      search,
-      locale,
-      localized,
-      const DeepCollectionEquality().hash(videoMap),
-      const DeepCollectionEquality().hash(imageList),
-      const DeepCollectionEquality().hash(localizedMap),
-      const DeepCollectionEquality().hash(localizedList));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        dateTime,
+        date,
+        time,
+        timeRange,
+        timestampRange,
+        dateRange,
+        counter,
+        uri,
+        image,
+        video,
+        geo,
+        vector,
+        search,
+        locale,
+        localized,
+        const DeepCollectionEquality().hash(videoMap),
+        const DeepCollectionEquality().hash(imageList),
+        const DeepCollectionEquality().hash(localizedMap),
+        const DeepCollectionEquality().hash(localizedList)
+      ]);
 
   @override
   String toString() {
-    return 'TestValue(dateTime: $dateTime, date: $date, time: $time, timeRange: $timeRange, timestampRange: $timestampRange, dateRange: $dateRange, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, search: $search, locale: $locale, localized: $localized, videoMap: $videoMap, imageList: $imageList, localizedMap: $localizedMap, localizedList: $localizedList)';
+    return 'TestValue(dateTime: $dateTime, date: $date, time: $time, timeRange: $timeRange, timestampRange: $timestampRange, dateRange: $dateRange, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, vector: $vector, search: $search, locale: $locale, localized: $localized, videoMap: $videoMap, imageList: $imageList, localizedMap: $localizedMap, localizedList: $localizedList)';
   }
 }
 
@@ -122,6 +126,7 @@ abstract mixin class $TestValueCopyWith<$Res> {
       ModelImageUri image,
       ModelVideoUri video,
       ModelGeoValue geo,
+      ModelVectorValue vector,
       ModelSearch search,
       ModelLocale locale,
       ModelLocalizedValue localized,
@@ -154,6 +159,7 @@ class _$TestValueCopyWithImpl<$Res> implements $TestValueCopyWith<$Res> {
     Object? image = null,
     Object? video = null,
     Object? geo = null,
+    Object? vector = null,
     Object? search = null,
     Object? locale = null,
     Object? localized = null,
@@ -207,6 +213,10 @@ class _$TestValueCopyWithImpl<$Res> implements $TestValueCopyWith<$Res> {
           ? _self.geo
           : geo // ignore: cast_nullable_to_non_nullable
               as ModelGeoValue,
+      vector: null == vector
+          ? _self.vector
+          : vector // ignore: cast_nullable_to_non_nullable
+              as ModelVectorValue,
       search: null == search
           ? _self.search
           : search // ignore: cast_nullable_to_non_nullable
@@ -258,6 +268,7 @@ class _TestValue implements TestValue {
       this.image = const ModelImageUri(),
       this.video = const ModelVideoUri(),
       this.geo = const ModelGeoValue(),
+      this.vector = const ModelVectorValue(),
       this.search = const ModelSearch([]),
       this.locale = const ModelLocale(),
       this.localized = const ModelLocalizedValue(),
@@ -305,6 +316,9 @@ class _TestValue implements TestValue {
   @override
   @JsonKey()
   final ModelGeoValue geo;
+  @override
+  @JsonKey()
+  final ModelVectorValue vector;
   @override
   @JsonKey()
   final ModelSearch search;
@@ -385,6 +399,7 @@ class _TestValue implements TestValue {
             (identical(other.image, image) || other.image == image) &&
             (identical(other.video, video) || other.video == video) &&
             (identical(other.geo, geo) || other.geo == geo) &&
+            (identical(other.vector, vector) || other.vector == vector) &&
             (identical(other.search, search) || other.search == search) &&
             (identical(other.locale, locale) || other.locale == locale) &&
             (identical(other.localized, localized) ||
@@ -400,30 +415,32 @@ class _TestValue implements TestValue {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      dateTime,
-      date,
-      time,
-      timeRange,
-      timestampRange,
-      dateRange,
-      counter,
-      uri,
-      image,
-      video,
-      geo,
-      search,
-      locale,
-      localized,
-      const DeepCollectionEquality().hash(_videoMap),
-      const DeepCollectionEquality().hash(_imageList),
-      const DeepCollectionEquality().hash(_localizedMap),
-      const DeepCollectionEquality().hash(_localizedList));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        dateTime,
+        date,
+        time,
+        timeRange,
+        timestampRange,
+        dateRange,
+        counter,
+        uri,
+        image,
+        video,
+        geo,
+        vector,
+        search,
+        locale,
+        localized,
+        const DeepCollectionEquality().hash(_videoMap),
+        const DeepCollectionEquality().hash(_imageList),
+        const DeepCollectionEquality().hash(_localizedMap),
+        const DeepCollectionEquality().hash(_localizedList)
+      ]);
 
   @override
   String toString() {
-    return 'TestValue(dateTime: $dateTime, date: $date, time: $time, timeRange: $timeRange, timestampRange: $timestampRange, dateRange: $dateRange, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, search: $search, locale: $locale, localized: $localized, videoMap: $videoMap, imageList: $imageList, localizedMap: $localizedMap, localizedList: $localizedList)';
+    return 'TestValue(dateTime: $dateTime, date: $date, time: $time, timeRange: $timeRange, timestampRange: $timestampRange, dateRange: $dateRange, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, vector: $vector, search: $search, locale: $locale, localized: $localized, videoMap: $videoMap, imageList: $imageList, localizedMap: $localizedMap, localizedList: $localizedList)';
   }
 }
 
@@ -447,6 +464,7 @@ abstract mixin class _$TestValueCopyWith<$Res>
       ModelImageUri image,
       ModelVideoUri video,
       ModelGeoValue geo,
+      ModelVectorValue vector,
       ModelSearch search,
       ModelLocale locale,
       ModelLocalizedValue localized,
@@ -479,6 +497,7 @@ class __$TestValueCopyWithImpl<$Res> implements _$TestValueCopyWith<$Res> {
     Object? image = null,
     Object? video = null,
     Object? geo = null,
+    Object? vector = null,
     Object? search = null,
     Object? locale = null,
     Object? localized = null,
@@ -532,6 +551,10 @@ class __$TestValueCopyWithImpl<$Res> implements _$TestValueCopyWith<$Res> {
           ? _self.geo
           : geo // ignore: cast_nullable_to_non_nullable
               as ModelGeoValue,
+      vector: null == vector
+          ? _self.vector
+          : vector // ignore: cast_nullable_to_non_nullable
+              as ModelVectorValue,
       search: null == search
           ? _self.search
           : search // ignore: cast_nullable_to_non_nullable

@@ -54,6 +54,8 @@ extension on InterfaceType {
       return "is$nullable${RuleModelFieldValueType.modelVideoUri.label}";
     } else if (isModelGeoValue) {
       return "is$nullable${RuleModelFieldValueType.modelGeoValue.label}";
+    } else if (isModelVectorValue) {
+      return "is$nullable${RuleModelFieldValueType.modelVectorValue.label}";
     } else if (isModelLocale) {
       return "is$nullable${RuleModelFieldValueType.modelLocale.label}";
     } else if (isModelLocalizedValue) {

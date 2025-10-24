@@ -30,11 +30,120 @@
 
 ---
 
-Plug-in packages that add functionality to the Masamune Framework.
+# Masamune Location Background
 
-For more information about Masamune Framework, please click here.
+## Overview
 
-[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+`masamune_location_background` enables background location tracking for Masamune apps. Continue receiving location updates even when the app is in the background or terminated.
+
+**Note**: Requires `masamune_location` for core location functionality.
+
+## Usage
+
+### Installation
+
+```bash
+flutter pub add masamune_location
+flutter pub add masamune_location_background
+```
+
+### Register the Adapter
+
+Configure `BackgroundLocationMasamuneAdapter` to enable background tracking.
+
+```dart
+// lib/adapter.dart
+
+import 'package:masamune_location_background/masamune_location_background.dart';
+
+/// Masamune adapters used in the application.
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+
+  BackgroundLocationMasamuneAdapter(
+    androidNotificationSettings: BackgroundLocationAndroidNotificationSettings(
+      channelId: "location_tracking",
+      channelName: "Location Tracking",
+      notificationTitle: "Tracking your location",
+      notificationText: "Location updates are enabled",
+    ),
+    requestWhenInUsePermissionOnInit: true,
+    locationAccuracy: LocationAccuracy.high,
+  ),
+];
+```
+
+### Start Background Tracking
+
+Use `BackgroundLocation` controller to manage background location updates:
+
+```dart
+class TrackingPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final backgroundLocation = ref.app.controller(
+      BackgroundLocation.query(),
+    );
+
+    return ElevatedButton(
+      onPressed: () async {
+        // Start background tracking
+        await backgroundLocation.start(
+          distanceFilter: 100,  // Update every 100 meters
+          timeInterval: Duration(minutes: 5),  // Or every 5 minutes
+          onLocationUpdate: (position) {
+            // Handle location update
+            print("Background update: ${position.latitude}, ${position.longitude}");
+            
+            // Save to database, send to server, etc.
+          },
+        );
+      },
+      child: const Text("Start Tracking"),
+    );
+  }
+}
+```
+
+### Stop Background Tracking
+
+```dart
+await backgroundLocation.stop();
+```
+
+### Platform Configuration
+
+**Android**: Background location requires a foreground service notification.
+
+```xml
+<!-- AndroidManifest.xml -->
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+```
+
+**iOS**: Add background modes and location usage descriptions.
+
+```xml
+<!-- Info.plist -->
+<key>UIBackgroundModes</key>
+<array>
+    <string>location</string>
+</array>
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>We need your location for tracking</string>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>We need your location</string>
+```
+
+### Tips
+
+- Request "Always" permission for background tracking
+- Be transparent with users about why background tracking is needed
+- Minimize battery impact by adjusting distance/time filters
+- Consider stopping tracking when battery is low
+- Test thoroughly on real devices in various scenarios
 
 # GitHub Sponsors
 
