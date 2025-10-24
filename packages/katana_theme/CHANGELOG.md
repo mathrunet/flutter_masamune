@@ -1,3 +1,7 @@
+## 3.0.12
+
+ - **FIX**: Made the memory cache accessible. ([5ddb2395](https://github.com/mathrunet/flutter_masamune/commit/5ddb2395f42ff69e5b5003b0f9edc22957cd96eb))
+
 ## 3.0.11
 
  - Update a dependency to the latest release.

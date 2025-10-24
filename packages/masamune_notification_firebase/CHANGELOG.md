@@ -1,3 +1,8 @@
+## 3.0.30
+
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
 ## 3.0.29
 
  - Update a dependency to the latest release.

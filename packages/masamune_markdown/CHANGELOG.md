@@ -1,3 +1,21 @@
+## 3.3.0
+
+ - **FIX**: Simultaneous display of underline and strikethrough. ([9c0ec9bd](https://github.com/mathrunet/flutter_masamune/commit/9c0ec9bd457dd63415441bf73fbf764357803a52))
+ - **FIX**: expandsがtrueでも制約が有限の場合のみmaxHeightを使用. ([77e43c67](https://github.com/mathrunet/flutter_masamune/commit/77e43c6700f444b3c3576186d648f25673f539d3))
+ - **FIX**: expandsがtrueの場合にフィールド全体の高さを使用. ([df889072](https://github.com/mathrunet/flutter_masamune/commit/df8890725b3e3735b5a8016c0f8e05d0ac3f9b2f))
+ - **FIX**: 実際のテキスト幅で選択解除を判定するように修正. ([a17d5fdf](https://github.com/mathrunet/flutter_masamune/commit/a17d5fdf816d107837659a8c90014a705ee408f3))
+ - **FIX**: マークダウンエディタの選択解除バグを修正. ([2e8e1843](https://github.com/mathrunet/flutter_masamune/commit/2e8e1843ec389bf57ca5d0f32ce5a1a24f7c65f5))
+ - **FIX**: IME変換確定時のcomposingRegion処理を修正して漢字変換を正常化. ([64410317](https://github.com/mathrunet/flutter_masamune/commit/6441031709f43617288083274d792f6d98f72c75))
+ - **FIX**: IME変換時の差分計算を修正して漢字変換を正しく反映. ([0a5e00a2](https://github.com/mathrunet/flutter_masamune/commit/0a5e00a2593702a9934f9e78375078fb2e5e5f31))
+ - **FIX**: IME漢字変換の確定処理を修正. ([27ab6556](https://github.com/mathrunet/flutter_masamune/commit/27ab65564b853fb3da68dc382823c93f52181b27))
+ - **FIX**: replaceTextメソッドを複数ブロック対応に修正. ([f783219e](https://github.com/mathrunet/flutter_masamune/commit/f783219ed0d37fe99aa342209959826fc9878cf4))
+ - **FIX**: 改行時のカーソル位置更新とテキスト入力位置の修正. ([3e03bd84](https://github.com/mathrunet/flutter_masamune/commit/3e03bd841ad119f3c299a5cc080590073f0dd926))
+ - **FIX**: PaintingContextをBuildContextにキャストしようとするエラーを修正. ([cd5ab2e6](https://github.com/mathrunet/flutter_masamune/commit/cd5ab2e6cf8586d3bb429c6f668a409e7b001cf6))
+ - **FEAT**: expandsがtrueの場合にフィールド全体をタップ可能にする. ([8139af1d](https://github.com/mathrunet/flutter_masamune/commit/8139af1d412e640e0cd977812793ed8a7e3eefdb))
+ - **FEAT**: 空のブロックでバックスペース時にブロックを削除する機能を追加. ([665ad525](https://github.com/mathrunet/flutter_masamune/commit/665ad5258ecaf409ca63459b53c5b2def8155ef0))
+ - **FEAT**: MarkdownFieldでブロック単位のレンダリングとスタイル適用を実装. ([c382ec49](https://github.com/mathrunet/flutter_masamune/commit/c382ec492ebc7205e6f174467cb3379af06895df))
+ - **FEAT**: MarkdownFieldで改行時に新しいMarkdownParagraphBlockValueを生成するように変更. ([98ed5458](https://github.com/mathrunet/flutter_masamune/commit/98ed5458e1aa08130ea9ac8b0f811577b53df756))
+
 ## 3.2.10
 
  - Update a dependency to the latest release.

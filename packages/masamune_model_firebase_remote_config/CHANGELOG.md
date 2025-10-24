@@ -1,3 +1,9 @@
+## 3.1.0
+
+ - **FIX**: Firebase related updates. ([b720263c](https://github.com/mathrunet/flutter_masamune/commit/b720263c45ebf126f8da3e93131b96c391c56d59))
+ - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
 ## 3.0.28
 
  - Update a dependency to the latest release.

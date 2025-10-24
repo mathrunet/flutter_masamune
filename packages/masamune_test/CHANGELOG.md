@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**: Added image output functionality for debugging. ([5bed5d2e](https://github.com/mathrunet/flutter_masamune/commit/5bed5d2e41a193b2ebf9166b81040e4274abef51))
+
 ## 3.1.24
 
  - Update a dependency to the latest release.

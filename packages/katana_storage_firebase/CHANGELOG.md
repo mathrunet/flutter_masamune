@@ -1,3 +1,8 @@
+## 3.0.11
+
+ - **FIX**: Firebase related updates. ([b720263c](https://github.com/mathrunet/flutter_masamune/commit/b720263c45ebf126f8da3e93131b96c391c56d59))
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+
 ## 3.0.10
 
  - **FIX**: Fixed because PlatformInfo was not used. ([b52de4be](https://github.com/mathrunet/flutter_masamune/commit/b52de4be85939aa060e4ad645c8386864fe6c074))

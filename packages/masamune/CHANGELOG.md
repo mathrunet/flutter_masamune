@@ -1,3 +1,8 @@
+## 3.4.0
+
+ - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))
+ - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))
+
 ## 3.3.14
 
  - Update a dependency to the latest release.

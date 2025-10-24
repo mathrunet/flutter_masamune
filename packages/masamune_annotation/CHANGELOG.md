@@ -1,3 +1,7 @@
+## 3.0.11
+
+ - **FIX**: Build configuration for Vector. ([350ea67e](https://github.com/mathrunet/flutter_masamune/commit/350ea67ec68d87df8fcf3070f1eae7ff108a5fdf))
+
 ## 3.0.10
 
  - Update a dependency to the latest release.

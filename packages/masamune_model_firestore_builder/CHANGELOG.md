@@ -1,3 +1,9 @@
+## 3.1.0
+
+ - **FIX**: Build configuration for Vector. ([350ea67e](https://github.com/mathrunet/flutter_masamune/commit/350ea67ec68d87df8fcf3070f1eae7ff108a5fdf))
+ - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
 ## 3.0.16
 
  - Update a dependency to the latest release.

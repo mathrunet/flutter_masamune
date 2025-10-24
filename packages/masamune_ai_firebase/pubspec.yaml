@@ -15,9 +15,9 @@ dependencies:
     sdk: flutter
     
   katana: ^3.2.1
-  masamune: ^3.3.14
+  masamune: ^3.4.0
   masamune_ai: ^3.0.31
-  katana_firebase: ^3.0.9
+  katana_firebase: ^3.0.10
   firebase_core: ^4.2.0
   firebase_ai: ^3.4.0
   firebase_app_check: ^0.4.1

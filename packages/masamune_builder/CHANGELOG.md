@@ -1,3 +1,8 @@
+## 3.0.17
+
+ - **FIX**: Build configuration for Vector. ([350ea67e](https://github.com/mathrunet/flutter_masamune/commit/350ea67ec68d87df8fcf3070f1eae7ff108a5fdf))
+ - **FIX**: Firebase related updates. ([b720263c](https://github.com/mathrunet/flutter_masamune/commit/b720263c45ebf126f8da3e93131b96c391c56d59))
+
 ## 3.0.16
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))
+
 ## 3.1.18
 
  - Update a dependency to the latest release.

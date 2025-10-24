@@ -1,3 +1,7 @@
+## 3.0.10
+
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+
 ## 3.0.9
 
  - Update a dependency to the latest release.

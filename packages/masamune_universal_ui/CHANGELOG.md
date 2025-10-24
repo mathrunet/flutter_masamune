@@ -1,3 +1,8 @@
+## 3.1.28
+
+ - **DOCS**: Revision of various documents. ([589635de](https://github.com/mathrunet/flutter_masamune/commit/589635deb5f85a9a9a291cc8d004b31a2c0d37eb))
+ - **DOCS**: Comment revision. ([d21c2ab6](https://github.com/mathrunet/flutter_masamune/commit/d21c2ab6d47c285ca9e2388c90f03096a1798f00))
+
 ## 3.1.27
 
  - Update a dependency to the latest release.

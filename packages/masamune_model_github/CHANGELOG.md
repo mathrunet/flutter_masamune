@@ -1,3 +1,11 @@
+## 3.3.0
+
+ - **FIX**: The encoding was failing, so I fixed it. ([84ad687b](https://github.com/mathrunet/flutter_masamune/commit/84ad687b708999f153c579dbcb90b98c72111edf))
+ - **FIX**: Add the concept of a path to Content. ([a362b67f](https://github.com/mathrunet/flutter_masamune/commit/a362b67f1c78c5d087e60eaef27f6b974b3b1eec))
+ - **FIX**: The issue includes a PR, so it needs fixing. ([fd8e28db](https://github.com/mathrunet/flutter_masamune/commit/fd8e28dbb6b3d2e83e8ea785d48607be18103e55))
+ - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
 ## 3.2.9
 
  - Update a dependency to the latest release.

@@ -1,3 +1,11 @@
+## 3.2.0
+
+ - **FIX**: Add an enabled flag to CachedImageBuilder. ([4bff63f6](https://github.com/mathrunet/flutter_masamune/commit/4bff63f647030d4053691a678e594b0608201186))
+ - **FIX**: Corrected widget name mismatch. ([75a6c3a6](https://github.com/mathrunet/flutter_masamune/commit/75a6c3a6d9e65dfadf5cba82d7d58a580eab721e))
+ - **FIX**: Enabled `barrierDismissible` to be specified. ([1d7d7676](https://github.com/mathrunet/flutter_masamune/commit/1d7d7676299f4a17dd266b773045c99ee64bc669))
+ - **FEAT**: Add CachedImageBuilder. ([9792aaf4](https://github.com/mathrunet/flutter_masamune/commit/9792aaf4e2c30285c0481877214ae2480bd3380b))
+ - **DOCS**: Edit katana_ui's comments. ([538b0a29](https://github.com/mathrunet/flutter_masamune/commit/538b0a29600e7cd2fd98da5a6473b94170cbe1cc))
+
 ## 3.1.4
 
  - **FIX**: Fix: Circle cannot use `borderRadius`. ([d04ceb3a](https://github.com/mathrunet/flutter_masamune/commit/d04ceb3a163c509983ec8b28a9e046dc6245c3ae))

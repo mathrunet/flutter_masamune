@@ -1,3 +1,7 @@
+## 3.1.0
+
+ - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))
+
 ## 3.0.9
 
  - Update a dependency to the latest release.

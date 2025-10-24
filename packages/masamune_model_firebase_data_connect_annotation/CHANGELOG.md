@@ -1,3 +1,8 @@
+## 3.0.11
+
+ - **DOCS**: Add plugin documentation. ([df27bd6b](https://github.com/mathrunet/flutter_masamune/commit/df27bd6b84aad3224f12012880a26dbf2ec5cd73))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
 ## 3.0.10
 
  - Update a dependency to the latest release.

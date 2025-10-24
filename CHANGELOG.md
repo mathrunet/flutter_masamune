@@ -3,6 +3,455 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-10-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth_firebase` - `v3.1.8`](#katana_auth_firebase---v318)
+ - [`katana_builder` - `v3.1.0`](#katana_builder---v310)
+ - [`katana_cli` - `v3.8.0`](#katana_cli---v380)
+ - [`katana_firebase` - `v3.0.10`](#katana_firebase---v3010)
+ - [`katana_form` - `v3.1.15`](#katana_form---v3115)
+ - [`katana_functions_firebase` - `v3.0.10`](#katana_functions_firebase---v3010)
+ - [`katana_model` - `v3.4.0`](#katana_model---v340)
+ - [`katana_model_firestore` - `v3.2.0`](#katana_model_firestore---v320)
+ - [`katana_model_local` - `v3.2.0`](#katana_model_local---v320)
+ - [`katana_storage_firebase` - `v3.0.11`](#katana_storage_firebase---v3011)
+ - [`katana_theme` - `v3.0.12`](#katana_theme---v3012)
+ - [`katana_ui` - `v3.2.0`](#katana_ui---v320)
+ - [`masamune` - `v3.4.0`](#masamune---v340)
+ - [`masamune_ads_google` - `v3.0.29`](#masamune_ads_google---v3029)
+ - [`masamune_agora` - `v3.0.29`](#masamune_agora---v3029)
+ - [`masamune_animate` - `v3.0.29`](#masamune_animate---v3029)
+ - [`masamune_annotation` - `v3.0.11`](#masamune_annotation---v3011)
+ - [`masamune_app_review` - `v3.0.29`](#masamune_app_review---v3029)
+ - [`masamune_auth_apple` - `v3.0.29`](#masamune_auth_apple---v3029)
+ - [`masamune_auth_apple_firebase` - `v3.0.29`](#masamune_auth_apple_firebase---v3029)
+ - [`masamune_auth_facebook` - `v3.0.29`](#masamune_auth_facebook---v3029)
+ - [`masamune_auth_firebase` - `v3.0.29`](#masamune_auth_firebase---v3029)
+ - [`masamune_auth_github_firebase` - `v3.3.11`](#masamune_auth_github_firebase---v3311)
+ - [`masamune_auth_google` - `v3.0.29`](#masamune_auth_google---v3029)
+ - [`masamune_auth_google_firebase` - `v3.0.29`](#masamune_auth_google_firebase---v3029)
+ - [`masamune_builder` - `v3.0.17`](#masamune_builder---v3017)
+ - [`masamune_calendar` - `v3.0.29`](#masamune_calendar---v3029)
+ - [`masamune_camera` - `v3.2.18`](#masamune_camera---v3218)
+ - [`masamune_deeplink` - `v3.0.29`](#masamune_deeplink---v3029)
+ - [`masamune_firebase_app_check` - `v3.0.29`](#masamune_firebase_app_check---v3029)
+ - [`masamune_force_updater` - `v3.0.29`](#masamune_force_updater---v3029)
+ - [`masamune_introduction` - `v3.3.20`](#masamune_introduction---v3320)
+ - [`masamune_location` - `v3.0.29`](#masamune_location---v3029)
+ - [`masamune_location_geocoding` - `v3.0.29`](#masamune_location_geocoding---v3029)
+ - [`masamune_location_google` - `v3.0.29`](#masamune_location_google---v3029)
+ - [`masamune_logger_firebase` - `v3.0.28`](#masamune_logger_firebase---v3028)
+ - [`masamune_mail` - `v3.0.29`](#masamune_mail---v3029)
+ - [`masamune_markdown` - `v3.3.0`](#masamune_markdown---v330)
+ - [`masamune_model_algolia` - `v3.1.0`](#masamune_model_algolia---v310)
+ - [`masamune_model_docs_builder` - `v3.1.0`](#masamune_model_docs_builder---v310)
+ - [`masamune_model_firebase_data_connect` - `v3.1.0`](#masamune_model_firebase_data_connect---v310)
+ - [`masamune_model_firebase_data_connect_annotation` - `v3.0.11`](#masamune_model_firebase_data_connect_annotation---v3011)
+ - [`masamune_model_firebase_data_connect_builder` - `v3.1.0`](#masamune_model_firebase_data_connect_builder---v310)
+ - [`masamune_model_firebase_remote_config` - `v3.1.0`](#masamune_model_firebase_remote_config---v310)
+ - [`masamune_model_firestore` - `v3.0.29`](#masamune_model_firestore---v3029)
+ - [`masamune_model_firestore_builder` - `v3.1.0`](#masamune_model_firestore_builder---v310)
+ - [`masamune_model_functions` - `v3.3.0`](#masamune_model_functions---v330)
+ - [`masamune_model_github` - `v3.3.0`](#masamune_model_github---v330)
+ - [`masamune_notification` - `v3.1.4`](#masamune_notification---v314)
+ - [`masamune_notification_firebase` - `v3.0.30`](#masamune_notification_firebase---v3030)
+ - [`masamune_notification_local` - `v3.0.30`](#masamune_notification_local---v3030)
+ - [`masamune_painter` - `v3.2.0`](#masamune_painter---v320)
+ - [`masamune_picker` - `v3.1.13`](#masamune_picker---v3113)
+ - [`masamune_purchase` - `v3.0.32`](#masamune_purchase---v3032)
+ - [`masamune_purchase_mobile` - `v3.0.32`](#masamune_purchase_mobile---v3032)
+ - [`masamune_purchase_stripe` - `v3.6.59`](#masamune_purchase_stripe---v3659)
+ - [`masamune_scheduler` - `v3.0.29`](#masamune_scheduler---v3029)
+ - [`masamune_speech_to_text` - `v3.0.29`](#masamune_speech_to_text---v3029)
+ - [`masamune_storage_functions` - `v3.1.5`](#masamune_storage_functions---v315)
+ - [`masamune_test` - `v3.2.0`](#masamune_test---v320)
+ - [`masamune_text_to_speech` - `v3.0.29`](#masamune_text_to_speech---v3029)
+ - [`masamune_universal_ui` - `v3.1.28`](#masamune_universal_ui---v3128)
+ - [`katana_localization_builder` - `v3.1.11`](#katana_localization_builder---v3111)
+ - [`katana_router_builder` - `v3.0.12`](#katana_router_builder---v3012)
+ - [`katana_theme_builder` - `v3.0.12`](#katana_theme_builder---v3012)
+ - [`masamune_location_platform_interface` - `v3.0.29`](#masamune_location_platform_interface---v3029)
+ - [`masamune_location_background` - `v3.0.29`](#masamune_location_background---v3029)
+ - [`masamune_util` - `v3.0.29`](#masamune_util---v3029)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_localization_builder` - `v3.1.11`
+ - `katana_router_builder` - `v3.0.12`
+ - `katana_theme_builder` - `v3.0.12`
+ - `masamune_location_platform_interface` - `v3.0.29`
+ - `masamune_location_background` - `v3.0.29`
+ - `masamune_util` - `v3.0.29`
+
+---
+
+#### `katana_auth_firebase` - `v3.1.8`
+
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+
+#### `katana_builder` - `v3.1.0`
+
+ - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))
+
+#### `katana_cli` - `v3.8.0`
+
+ - **FIX**: I decided to create settings.local.json. ([59994a8f](https://github.com/mathrunet/flutter_masamune/commit/59994a8f8b7659183d23fada14aa71982ea9cadb))
+ - **FIX**: Add translation. ([75634eb6](https://github.com/mathrunet/flutter_masamune/commit/75634eb65ec83ca309c6ccd538e6b12d3b468bd5))
+ - **FIX**: Add documentation for ModelVectorValue. ([c35b8dee](https://github.com/mathrunet/flutter_masamune/commit/c35b8deebe34ad034e5fa047a622d2569e97608c))
+ - **FIX**: MCPのシークレットの取扱を修正. ([40fd36b3](https://github.com/mathrunet/flutter_masamune/commit/40fd36b34715946d57acbf5126f6068cc42c3c81))
+ - **FIX**: Corrected widget name mismatch. ([75a6c3a6](https://github.com/mathrunet/flutter_masamune/commit/75a6c3a6d9e65dfadf5cba82d7d58a580eab721e))
+ - **FIX**: Correct the error caused by the line break. ([c5d0d2b8](https://github.com/mathrunet/flutter_masamune/commit/c5d0d2b886ca598c8077ac4c249507eb38b58031))
+ - **FIX**: Add documentation for ClaudeCode. ([11d25e18](https://github.com/mathrunet/flutter_masamune/commit/11d25e18123fd7f3d51ce26ea2fe8b8eb8871d81))
+ - **FEAT**: Added image output functionality for debugging. ([5bed5d2e](https://github.com/mathrunet/flutter_masamune/commit/5bed5d2e41a193b2ebf9166b81040e4274abef51))
+ - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))
+ - **FEAT**: Change the agent's mechanism. ([46975042](https://github.com/mathrunet/flutter_masamune/commit/469750427e87725185d1f07de1111a7ae1298c25))
+ - **FEAT**: Add CachedImageBuilder. ([9792aaf4](https://github.com/mathrunet/flutter_masamune/commit/9792aaf4e2c30285c0481877214ae2480bd3380b))
+ - **FEAT**: Add MCP server. ([a863c8b8](https://github.com/mathrunet/flutter_masamune/commit/a863c8b8528cfc567eb4053d66fbf1e7368592de))
+ - **DOCS**: Add missing documentation. ([4bec9334](https://github.com/mathrunet/flutter_masamune/commit/4bec93342be14a7545085a6dda48b4c750b7ee9b))
+ - **DOCS**: Document update. ([bd9ffd55](https://github.com/mathrunet/flutter_masamune/commit/bd9ffd552ac424b2f0a5b442310cff55ec9da182))
+ - **DOCS**: Update agent documentation. ([edc514ee](https://github.com/mathrunet/flutter_masamune/commit/edc514ee6957a567012366854628de986b560053))
+ - **DOCS**: ClaudeCode correction. ([0efe0f55](https://github.com/mathrunet/flutter_masamune/commit/0efe0f554dc5e7b3b8f8ab7bd2eee9cac392fa82))
+ - **DOCS**: Update various documents. ([72ffd663](https://github.com/mathrunet/flutter_masamune/commit/72ffd663b6760a2df8e7cb991118da18c3393be2))
+ - **DOCS**: Automate ClaudeCode documentation. ([73979840](https://github.com/mathrunet/flutter_masamune/commit/73979840237e48866a451a6c326b2f86ea5019c4))
+ - **DOCS**: Add the remaining plugins. ([280a850d](https://github.com/mathrunet/flutter_masamune/commit/280a850d6c67d95dc1f0475a13ca93b51064b8c4))
+ - **DOCS**: Additional plugins. ([ebc97535](https://github.com/mathrunet/flutter_masamune/commit/ebc97535c13a52a0429715b8ba7bb9282641b705))
+ - **DOCS**: Add plugin documentation. ([df27bd6b](https://github.com/mathrunet/flutter_masamune/commit/df27bd6b84aad3224f12012880a26dbf2ec5cd73))
+ - **DOCS**: Existing document maintenance completed. ([a6764ffd](https://github.com/mathrunet/flutter_masamune/commit/a6764ffd8177f677ad0fede3b98cd2fcdd59ce7c))
+ - **DOCS**: Add katana.yaml configuration to notification documentation. ([3b5730c7](https://github.com/mathrunet/flutter_masamune/commit/3b5730c7c6e04e89860023947743489f7d6a2825))
+ - **DOCS**: Add katana.yaml configuration to location and google_map documentation. ([460bcd67](https://github.com/mathrunet/flutter_masamune/commit/460bcd6788b163dfde75b6c2c0ee342a1768b7f9))
+ - **DOCS**: Add katana.yaml configuration to plugin documentation files. ([ddae25a9](https://github.com/mathrunet/flutter_masamune/commit/ddae25a9b754401e91bb633f867b59221bb2662e))
+ - **DOCS**: Further develop rules for AI. ([7492096a](https://github.com/mathrunet/flutter_masamune/commit/7492096a68db3b69ec59c17032935e9e6c9c3683))
+ - **DOCS**: Update purchase plugin documentation. ([989a0cc2](https://github.com/mathrunet/flutter_masamune/commit/989a0cc271da0e9b7164d6a12efa01db1c87871d))
+ - **DOCS**: Update location and google_map plugin documentation. ([055b0adb](https://github.com/mathrunet/flutter_masamune/commit/055b0adb1b8a00cdc96e32dd42459c6d5bcbb52a))
+ - **DOCS**: Add remote notification plugin documentation. ([afd98117](https://github.com/mathrunet/flutter_masamune/commit/afd9811762d9fbfe39edab4187d84d71470cfce0))
+ - **DOCS**: Plugin documentation maintenance. ([fbad27dc](https://github.com/mathrunet/flutter_masamune/commit/fbad27dc8347acd3c95b84ce654fd03efc18d754))
+ - **DOCS**: Add plugin documentation. ([7d4ef248](https://github.com/mathrunet/flutter_masamune/commit/7d4ef24846878750afe3d9a97779c6491bd27a39))
+ - **DOCS**: Documentation. ([7123b178](https://github.com/mathrunet/flutter_masamune/commit/7123b1786a526dc48870ed42e972add441230d26))
+ - **DOCS**: Add missing class. ([66e60263](https://github.com/mathrunet/flutter_masamune/commit/66e60263373740b43f721e1573b3db4dc7ca6ad0))
+ - **DOCS**: Organize the katana_ui documentation. ([11b26164](https://github.com/mathrunet/flutter_masamune/commit/11b26164bdf412159b1de7315844981c991d922f))
+ - **DOCS**: Add multiple agents. ([8fba423b](https://github.com/mathrunet/flutter_masamune/commit/8fba423bd692f19596c57ba55399970010dc6878))
+ - **DOCS**: Addendum to the form documentation. ([af10830b](https://github.com/mathrunet/flutter_masamune/commit/af10830b63c6c5ffc48df30bda3901d713beb198))
+ - **DOCS**: Change the comment for FormTextField. ([2829328c](https://github.com/mathrunet/flutter_masamune/commit/2829328c1f922bf642f5f5f6576f2deaff4be37f))
+ - **DOCS**: Apply various agent settings to other agents. ([1de38ba4](https://github.com/mathrunet/flutter_masamune/commit/1de38ba45382cdb07c29b557545eef6d55bccb5f))
+ - **DOCS**: Add katana.yaml configuration to purchase documentation. ([0ba5ee12](https://github.com/mathrunet/flutter_masamune/commit/0ba5ee12ac6c2b06aee458d59ff1c5da0bcd538d))
+
+#### `katana_firebase` - `v3.0.10`
+
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+
+#### `katana_form` - `v3.1.15`
+
+ - **DOCS**: Update Comments. ([f922359b](https://github.com/mathrunet/flutter_masamune/commit/f922359b2d7148346a1b6e4c3b1b3fc632e6d928))
+ - **DOCS**: Change the comment for FormTextField. ([2829328c](https://github.com/mathrunet/flutter_masamune/commit/2829328c1f922bf642f5f5f6576f2deaff4be37f))
+
+#### `katana_functions_firebase` - `v3.0.10`
+
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+
+#### `katana_model` - `v3.4.0`
+
+ - **FIX**: Build configuration for Vector. ([350ea67e](https://github.com/mathrunet/flutter_masamune/commit/350ea67ec68d87df8fcf3070f1eae7ff108a5fdf))
+ - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))
+ - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))
+ - **FEAT**: Add ModelVectorValue. ([df3c1249](https://github.com/mathrunet/flutter_masamune/commit/df3c12491c553313481032b2d3d6c6b69cf1a3aa))
+
+#### `katana_model_firestore` - `v3.2.0`
+
+ - **FIX**: Firebase related updates. ([b720263c](https://github.com/mathrunet/flutter_masamune/commit/b720263c45ebf126f8da3e93131b96c391c56d59))
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+ - **FIX**: Fixed due to overlapping VectoValue values. ([f062d93d](https://github.com/mathrunet/flutter_masamune/commit/f062d93d6eeb4d39f0c3078f1e335a513e84cb55))
+ - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))
+ - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))
+
+#### `katana_model_local` - `v3.2.0`
+
+ - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))
+
+#### `katana_storage_firebase` - `v3.0.11`
+
+ - **FIX**: Firebase related updates. ([b720263c](https://github.com/mathrunet/flutter_masamune/commit/b720263c45ebf126f8da3e93131b96c391c56d59))
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+
+#### `katana_theme` - `v3.0.12`
+
+ - **FIX**: Made the memory cache accessible. ([5ddb2395](https://github.com/mathrunet/flutter_masamune/commit/5ddb2395f42ff69e5b5003b0f9edc22957cd96eb))
+
+#### `katana_ui` - `v3.2.0`
+
+ - **FIX**: Add an enabled flag to CachedImageBuilder. ([4bff63f6](https://github.com/mathrunet/flutter_masamune/commit/4bff63f647030d4053691a678e594b0608201186))
+ - **FIX**: Corrected widget name mismatch. ([75a6c3a6](https://github.com/mathrunet/flutter_masamune/commit/75a6c3a6d9e65dfadf5cba82d7d58a580eab721e))
+ - **FIX**: Enabled `barrierDismissible` to be specified. ([1d7d7676](https://github.com/mathrunet/flutter_masamune/commit/1d7d7676299f4a17dd266b773045c99ee64bc669))
+ - **FEAT**: Add CachedImageBuilder. ([9792aaf4](https://github.com/mathrunet/flutter_masamune/commit/9792aaf4e2c30285c0481877214ae2480bd3380b))
+ - **DOCS**: Edit katana_ui's comments. ([538b0a29](https://github.com/mathrunet/flutter_masamune/commit/538b0a29600e7cd2fd98da5a6473b94170cbe1cc))
+
+#### `masamune` - `v3.4.0`
+
+ - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))
+ - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))
+
+#### `masamune_ads_google` - `v3.0.29`
+
+ - **DOCS**: Add plugin documentation. ([7d4ef248](https://github.com/mathrunet/flutter_masamune/commit/7d4ef24846878750afe3d9a97779c6491bd27a39))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_agora` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_animate` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_annotation` - `v3.0.11`
+
+ - **FIX**: Build configuration for Vector. ([350ea67e](https://github.com/mathrunet/flutter_masamune/commit/350ea67ec68d87df8fcf3070f1eae7ff108a5fdf))
+
+#### `masamune_app_review` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_auth_apple` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_auth_apple_firebase` - `v3.0.29`
+
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_auth_facebook` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_auth_firebase` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_auth_github_firebase` - `v3.3.11`
+
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_auth_google` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_auth_google_firebase` - `v3.0.29`
+
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_builder` - `v3.0.17`
+
+ - **FIX**: Build configuration for Vector. ([350ea67e](https://github.com/mathrunet/flutter_masamune/commit/350ea67ec68d87df8fcf3070f1eae7ff108a5fdf))
+ - **FIX**: Firebase related updates. ([b720263c](https://github.com/mathrunet/flutter_masamune/commit/b720263c45ebf126f8da3e93131b96c391c56d59))
+
+#### `masamune_calendar` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_camera` - `v3.2.18`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_deeplink` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_firebase_app_check` - `v3.0.29`
+
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_force_updater` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_introduction` - `v3.3.20`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_location` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_location_geocoding` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_location_google` - `v3.0.29`
+
+ - **FIX**: Fixed an error. ([85a8514b](https://github.com/mathrunet/flutter_masamune/commit/85a8514b0801f1a16f54ba28f3ed1737ddb4e758))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_logger_firebase` - `v3.0.28`
+
+ - **FIX**: Firebase related updates. ([b720263c](https://github.com/mathrunet/flutter_masamune/commit/b720263c45ebf126f8da3e93131b96c391c56d59))
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_mail` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_markdown` - `v3.3.0`
+
+ - **FIX**: Simultaneous display of underline and strikethrough. ([9c0ec9bd](https://github.com/mathrunet/flutter_masamune/commit/9c0ec9bd457dd63415441bf73fbf764357803a52))
+ - **FIX**: expandsがtrueでも制約が有限の場合のみmaxHeightを使用. ([77e43c67](https://github.com/mathrunet/flutter_masamune/commit/77e43c6700f444b3c3576186d648f25673f539d3))
+ - **FIX**: expandsがtrueの場合にフィールド全体の高さを使用. ([df889072](https://github.com/mathrunet/flutter_masamune/commit/df8890725b3e3735b5a8016c0f8e05d0ac3f9b2f))
+ - **FIX**: 実際のテキスト幅で選択解除を判定するように修正. ([a17d5fdf](https://github.com/mathrunet/flutter_masamune/commit/a17d5fdf816d107837659a8c90014a705ee408f3))
+ - **FIX**: マークダウンエディタの選択解除バグを修正. ([2e8e1843](https://github.com/mathrunet/flutter_masamune/commit/2e8e1843ec389bf57ca5d0f32ce5a1a24f7c65f5))
+ - **FIX**: IME変換確定時のcomposingRegion処理を修正して漢字変換を正常化. ([64410317](https://github.com/mathrunet/flutter_masamune/commit/6441031709f43617288083274d792f6d98f72c75))
+ - **FIX**: IME変換時の差分計算を修正して漢字変換を正しく反映. ([0a5e00a2](https://github.com/mathrunet/flutter_masamune/commit/0a5e00a2593702a9934f9e78375078fb2e5e5f31))
+ - **FIX**: IME漢字変換の確定処理を修正. ([27ab6556](https://github.com/mathrunet/flutter_masamune/commit/27ab65564b853fb3da68dc382823c93f52181b27))
+ - **FIX**: replaceTextメソッドを複数ブロック対応に修正. ([f783219e](https://github.com/mathrunet/flutter_masamune/commit/f783219ed0d37fe99aa342209959826fc9878cf4))
+ - **FIX**: 改行時のカーソル位置更新とテキスト入力位置の修正. ([3e03bd84](https://github.com/mathrunet/flutter_masamune/commit/3e03bd841ad119f3c299a5cc080590073f0dd926))
+ - **FIX**: PaintingContextをBuildContextにキャストしようとするエラーを修正. ([cd5ab2e6](https://github.com/mathrunet/flutter_masamune/commit/cd5ab2e6cf8586d3bb429c6f668a409e7b001cf6))
+ - **FEAT**: expandsがtrueの場合にフィールド全体をタップ可能にする. ([8139af1d](https://github.com/mathrunet/flutter_masamune/commit/8139af1d412e640e0cd977812793ed8a7e3eefdb))
+ - **FEAT**: 空のブロックでバックスペース時にブロックを削除する機能を追加. ([665ad525](https://github.com/mathrunet/flutter_masamune/commit/665ad5258ecaf409ca63459b53c5b2def8155ef0))
+ - **FEAT**: MarkdownFieldでブロック単位のレンダリングとスタイル適用を実装. ([c382ec49](https://github.com/mathrunet/flutter_masamune/commit/c382ec492ebc7205e6f174467cb3379af06895df))
+ - **FEAT**: MarkdownFieldで改行時に新しいMarkdownParagraphBlockValueを生成するように変更. ([98ed5458](https://github.com/mathrunet/flutter_masamune/commit/98ed5458e1aa08130ea9ac8b0f811577b53df756))
+
+#### `masamune_model_algolia` - `v3.1.0`
+
+ - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_model_docs_builder` - `v3.1.0`
+
+ - **FIX**: Build configuration for Vector. ([350ea67e](https://github.com/mathrunet/flutter_masamune/commit/350ea67ec68d87df8fcf3070f1eae7ff108a5fdf))
+ - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_model_firebase_data_connect` - `v3.1.0`
+
+ - **FIX**: Firebase related updates. ([b720263c](https://github.com/mathrunet/flutter_masamune/commit/b720263c45ebf126f8da3e93131b96c391c56d59))
+ - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))
+ - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))
+ - **DOCS**: Add plugin documentation. ([df27bd6b](https://github.com/mathrunet/flutter_masamune/commit/df27bd6b84aad3224f12012880a26dbf2ec5cd73))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_model_firebase_data_connect_annotation` - `v3.0.11`
+
+ - **DOCS**: Add plugin documentation. ([df27bd6b](https://github.com/mathrunet/flutter_masamune/commit/df27bd6b84aad3224f12012880a26dbf2ec5cd73))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_model_firebase_data_connect_builder` - `v3.1.0`
+
+ - **FIX**: Firebase related updates. ([b720263c](https://github.com/mathrunet/flutter_masamune/commit/b720263c45ebf126f8da3e93131b96c391c56d59))
+ - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))
+ - **DOCS**: Add plugin documentation. ([df27bd6b](https://github.com/mathrunet/flutter_masamune/commit/df27bd6b84aad3224f12012880a26dbf2ec5cd73))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_model_firebase_remote_config` - `v3.1.0`
+
+ - **FIX**: Firebase related updates. ([b720263c](https://github.com/mathrunet/flutter_masamune/commit/b720263c45ebf126f8da3e93131b96c391c56d59))
+ - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_model_firestore` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_model_firestore_builder` - `v3.1.0`
+
+ - **FIX**: Build configuration for Vector. ([350ea67e](https://github.com/mathrunet/flutter_masamune/commit/350ea67ec68d87df8fcf3070f1eae7ff108a5fdf))
+ - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_model_functions` - `v3.3.0`
+
+ - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_model_github` - `v3.3.0`
+
+ - **FIX**: The encoding was failing, so I fixed it. ([84ad687b](https://github.com/mathrunet/flutter_masamune/commit/84ad687b708999f153c579dbcb90b98c72111edf))
+ - **FIX**: Add the concept of a path to Content. ([a362b67f](https://github.com/mathrunet/flutter_masamune/commit/a362b67f1c78c5d087e60eaef27f6b974b3b1eec))
+ - **FIX**: The issue includes a PR, so it needs fixing. ([fd8e28db](https://github.com/mathrunet/flutter_masamune/commit/fd8e28dbb6b3d2e83e8ea785d48607be18103e55))
+ - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_notification` - `v3.1.4`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_notification_firebase` - `v3.0.30`
+
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_notification_local` - `v3.0.30`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_painter` - `v3.2.0`
+
+ - **REFACTOR**: Refactoring. ([8989138c](https://github.com/mathrunet/flutter_masamune/commit/8989138cda02245934f5c2e88fad916742691c18))
+ - **FIX**: Failed to rename child element. ([72479ad6](https://github.com/mathrunet/flutter_masamune/commit/72479ad66d1c740f8f149058f7d38333986c10ad))
+ - **FIX**: PainterInlinePrimaryTools間で切り替える際にBlockToolが消える問題を修正. ([6b2bef0e](https://github.com/mathrunet/flutter_masamune/commit/6b2bef0e733ffe8fb1859bb05044be578c1db44a))
+ - **FIX**: PainterInlinePrimaryToolsの切り替え時に前のツールに戻ってしまう問題を修正. ([7375de14](https://github.com/mathrunet/flutter_masamune/commit/7375de1497f0986d383764020a30aa1d27dfd935))
+ - **FIX**: 複数選択時に選択範囲内の他のオブジェクトをクリックしても選択が維持されるように修正. ([a1201baa](https://github.com/mathrunet/flutter_masamune/commit/a1201baa280cb833037a57a4af77c17bac6870eb))
+ - **FIX**: 複数選択時の選択範囲判定にマージンを追加. ([ae3e8aeb](https://github.com/mathrunet/flutter_masamune/commit/ae3e8aebe2b77f363ae8f474e842f9f4a002d9dc))
+ - **FIX**: Fix the error. ([0ba0e59f](https://github.com/mathrunet/flutter_masamune/commit/0ba0e59f267747b598e361ff2a6c6553fd8fd619))
+ - **FEAT**: Add image selection and insertion functionality to Painter. ([eaa097a0](https://github.com/mathrunet/flutter_masamune/commit/eaa097a0f4953185344ce7cb8af0d22319bdbbc6))
+ - **FEAT**(painter): 複数選択機能を実装. ([d351b941](https://github.com/mathrunet/flutter_masamune/commit/d351b941bc1662897ca852e085a1412097d84e18))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_picker` - `v3.1.13`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_purchase` - `v3.0.32`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_purchase_mobile` - `v3.0.32`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_purchase_stripe` - `v3.6.59`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_scheduler` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_speech_to_text` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_storage_functions` - `v3.1.5`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_test` - `v3.2.0`
+
+ - **FEAT**: Added image output functionality for debugging. ([5bed5d2e](https://github.com/mathrunet/flutter_masamune/commit/5bed5d2e41a193b2ebf9166b81040e4274abef51))
+
+#### `masamune_text_to_speech` - `v3.0.29`
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_universal_ui` - `v3.1.28`
+
+ - **DOCS**: Revision of various documents. ([589635de](https://github.com/mathrunet/flutter_masamune/commit/589635deb5f85a9a9a291cc8d004b31a2c0d37eb))
+ - **DOCS**: Comment revision. ([d21c2ab6](https://github.com/mathrunet/flutter_masamune/commit/d21c2ab6d47c285ca9e2388c90f03096a1798f00))
+
+
 ## 2025-09-24
 
 ### Changes

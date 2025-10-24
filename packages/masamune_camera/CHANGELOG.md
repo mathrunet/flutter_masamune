@@ -1,3 +1,7 @@
+## 3.2.18
+
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
 ## 3.2.17
 
  - Update a dependency to the latest release.

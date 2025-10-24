@@ -16,7 +16,7 @@ dependencies:
     
   katana: ^3.2.1
   katana_storage: ^3.0.8
-  masamune: ^3.3.14
+  masamune: ^3.4.0
   masamune_ai: ^3.0.31
   dart_openai: ^5.1.0
 dev_dependencies:

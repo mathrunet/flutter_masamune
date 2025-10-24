@@ -1,3 +1,8 @@
+## 3.0.29
+
+ - **FIX**: Fixed an error. ([85a8514b](https://github.com/mathrunet/flutter_masamune/commit/85a8514b0801f1a16f54ba28f3ed1737ddb4e758))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
 ## 3.0.28
 
  - Update a dependency to the latest release.

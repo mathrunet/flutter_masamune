@@ -1,3 +1,10 @@
+## 3.4.0
+
+ - **FIX**: Build configuration for Vector. ([350ea67e](https://github.com/mathrunet/flutter_masamune/commit/350ea67ec68d87df8fcf3070f1eae7ff108a5fdf))
+ - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))
+ - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))
+ - **FEAT**: Add ModelVectorValue. ([df3c1249](https://github.com/mathrunet/flutter_masamune/commit/df3c12491c553313481032b2d3d6c6b69cf1a3aa))
+
 ## 3.3.6
 
  - **FIX**: Fix: `onSave` is not executed when creating an alias. ([d0f62b67](https://github.com/mathrunet/flutter_masamune/commit/d0f62b671c25dc9bebc6441cb5012e2dd795e948))

@@ -1,6 +1,6 @@
 name: masamune_firebase_app_check
 description: Plug-in to make Firebase App Check available on Masamune Framework.
-version: 3.0.28
+version: 3.0.29
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_firebase_app_check
 
@@ -13,8 +13,8 @@ dependencies:
     sdk: flutter
     
   katana: ^3.2.1
-  masamune: ^3.3.14
-  katana_firebase: ^3.0.9
+  masamune: ^3.4.0
+  katana_firebase: ^3.0.10
   firebase_core: ^4.2.0
   firebase_app_check: ^0.4.1
 dev_dependencies:

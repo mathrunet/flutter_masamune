@@ -1,3 +1,10 @@
+## 3.1.0
+
+ - **FIX**: Firebase related updates. ([b720263c](https://github.com/mathrunet/flutter_masamune/commit/b720263c45ebf126f8da3e93131b96c391c56d59))
+ - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))
+ - **DOCS**: Add plugin documentation. ([df27bd6b](https://github.com/mathrunet/flutter_masamune/commit/df27bd6b84aad3224f12012880a26dbf2ec5cd73))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
 ## 3.0.16
 
  - Update a dependency to the latest release.
