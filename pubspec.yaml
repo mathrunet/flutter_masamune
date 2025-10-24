@@ -5,3 +5,4 @@ environment:
 
 dev_dependencies:
   melos: ^6.2.0
+  masamune_lints: ^3.0.0
